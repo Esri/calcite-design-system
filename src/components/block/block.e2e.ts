@@ -1,6 +1,6 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { CSS, SLOTS, TEXT } from "./resources";
-import { accessible, defaults, disabled, hidden, renders, slots } from "../../tests/commonTests";
+import { accessible, defaults, disabled, hidden, renders, slots, t9n } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 
 describe("calcite-block", () => {
@@ -17,14 +17,6 @@ describe("calcite-block", () => {
       {
         propertyName: "headingLevel",
         defaultValue: undefined
-      },
-      {
-        propertyName: "intlLoading",
-        defaultValue: TEXT.loading
-      },
-      {
-        propertyName: "intlOptions",
-        defaultValue: TEXT.options
       },
       {
         propertyName: "open",
@@ -246,4 +238,6 @@ describe("calcite-block", () => {
       expect(collapsibleIcon).toBeNull();
     });
   });
+
+  it("supports translation", () => t9n("calcite-block"));
 });

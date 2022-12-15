@@ -18,13 +18,13 @@ export default {
 export const simple = (): string => html`
   <calcite-modal
     ${boolean("open", true)}
-    color="${select("color", { blue: "blue", red: "red", none: "" }, "")}"
+    kind="${select("kind", ["brand", "danger", "info", "success", "warning"], "")}"
     background-color="${select("background-color", ["white", "grey"], "white")}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
     width="${select("width", ["s", "m", "l"], "s")}"
     ${boolean("fullscreen", false)}
     ${boolean("docked", false)}
-    ${boolean("disable-escape", false)}
+    ${boolean("escape-disabled", false)}
     intl-close="${text("intl-close", "Close")}"
   >
     <h3 slot="header">Small Modal</h3>
@@ -44,13 +44,13 @@ export const darkThemeRTLCustomSize_TestOnly = (): string => html`
     class="calcite-theme-dark"
     dir="rtl"
     ${boolean("open", true)}
-    color="${select("color", { blue: "blue", red: "red", none: "" }, "")}"
+    kind="${select("kind", ["brand", "danger", "info", "success", "warning"], "")}"
     background-color="${select("background-color", ["white", "grey"], "white")}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
     width="${number("width", 300)}"
     ${boolean("fullscreen", false)}
     ${boolean("docked", false)}
-    ${boolean("disable-escape", false)}
+    ${boolean("escape-disabled", false)}
     intl-close="${text("intl-close", "Close")}"
   >
     <h3 slot="header">Small Modal</h3>

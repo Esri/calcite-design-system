@@ -18,8 +18,8 @@ export default {
 export const titleMessageLink = (): string => html`
 <calcite-alert
 ${boolean("icon", true)}
-${boolean("auto-dismiss", false)}
-auto-dismiss-duration="${select("auto-dismiss-duration", ["fast", "medium", "slow"], "medium")}"
+${boolean("auto-close", false)}
+auto-close-duration="${select("auto-close-duration", ["fast", "medium", "slow"], "medium")}"
 placement="${select("placement", ["bottom-start", "bottom", "bottom-end", "top-start", "top", "top-end"], "bottom")}"
 ${boolean("open", true)}
 scale="${select("scale", ["s", "m", "l"], "m")}"
@@ -37,8 +37,8 @@ titleMessageLink.storyName = "Title, message, link";
 export const titleMessage = (): string => html`
   <calcite-alert
     ${boolean("icon", true)}
-    ${boolean("auto-dismiss", false)}
-    auto-dismiss-duration="${select("auto-dismiss-duration", ["fast", "medium", "slow"], "medium")}"
+    ${boolean("auto-close", false)}
+    auto-close-duration="${select("auto-close-duration", ["fast", "medium", "slow"], "medium")}"
     placement="${select(
       "placement",
       ["bottom-start", "bottom", "bottom-end", "top-start", "top", "top-end"],
@@ -58,8 +58,8 @@ titleMessage.storyName = "Title, message";
 export const messageLink = (): string => html`
   <calcite-alert
     ${boolean("icon", true)}
-    ${boolean("auto-dismiss", false)}
-    auto-dismiss-duration="${select("auto-dismiss-duration", ["fast", "medium", "slow"], "medium")}"
+    ${boolean("auto-close", false)}
+    auto-close-duration="${select("auto-close-duration", ["fast", "medium", "slow"], "medium")}"
     placement="${select(
       "placement",
       ["bottom-start", "bottom", "bottom-end", "top-start", "top", "top-end"],
@@ -79,8 +79,8 @@ messageLink.storyName = "Message, link";
 export const message = (): string => html`
   <calcite-alert
     ${boolean("icon", true)}
-    ${boolean("auto-dismiss", false)}
-    auto-dismiss-duration="${select("auto-dismiss-duration", ["fast", "medium", "slow"], "medium")}"
+    ${boolean("auto-close", false)}
+    auto-close-duration="${select("auto-close-duration", ["fast", "medium", "slow"], "medium")}"
     placement="${select(
       "placement",
       ["bottom-start", "bottom", "bottom-end", "top-start", "top", "top-end"],
@@ -97,8 +97,8 @@ export const message = (): string => html`
 export const customIcon = (): string => html`
   <calcite-alert
     icon="${select("icon", iconNames, iconNames[0])}"
-    ${boolean("auto-dismiss", false)}
-    auto-dismiss-duration="${select("auto-dismiss-duration", ["fast", "medium", "slow"], "medium")}"
+    ${boolean("auto-close", false)}
+    auto-close-duration="${select("auto-close-duration", ["fast", "medium", "slow"], "medium")}"
     placement="${select(
       "placement",
       ["bottom-start", "bottom", "bottom-end", "top-start", "top", "top-end"],
@@ -164,8 +164,8 @@ export const darkThemeRTL_TestOnly = (): string => html`
   <calcite-alert
     class="calcite-theme-dark"
     ${boolean("icon", true)}
-    ${boolean("auto-dismiss", false)}
-    auto-dismiss-duration="${select("auto-dismiss-duration", ["fast", "medium", "slow"], "medium")}"
+    ${boolean("auto-close", false)}
+    auto-close-duration="${select("auto-close-duration", ["fast", "medium", "slow"], "medium")}"
     placement="${select(
       "placement",
       ["bottom-start", "bottom", "bottom-end", "top-start", "top", "top-end"],
@@ -222,13 +222,13 @@ export const actionsEndQueued_TestOnly = (): string => html`
   </script>
 `;
 
-export const autoDismissableRetainsCloseButton_TestOnly = (): string => html`
+export const autoClosableeRetainsCloseButton_TestOnly = (): string => html`
   <style>
     :root {
       --calcite-duration-factor: 0;
     }
   </style>
-  <calcite-alert auto-dismiss auto-dismiss-duration="medium" open scale="m" color="blue">
+  <calcite-alert auto-close auto-close-duration="medium" open scale="m" color="blue">
     <div slot="title">Here's a general bit of information</div>
     <div slot="message">Some kind of contextually relevant content</div>
     <calcite-link slot="link" title="my action" role="presentation"> Take action </calcite-link>

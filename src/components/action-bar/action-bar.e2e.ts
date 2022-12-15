@@ -1,5 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, defaults, focusable, hidden, reflects, renders, slots } from "../../tests/commonTests";
+import { accessible, defaults, focusable, hidden, reflects, renders, slots, t9n } from "../../tests/commonTests";
 import { CSS, SLOTS } from "./resources";
 import { overflowActionsDebounceInMs } from "./utils";
 import { html } from "../../../support/formatting";
@@ -382,4 +382,6 @@ describe("calcite-action-bar", () => {
       expect(await page.findAll(slottedActionsSelector)).toHaveLength(2);
     });
   });
+
+  it("supports translation", () => t9n("calcite-action-bar"));
 });

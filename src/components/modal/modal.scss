@@ -310,28 +310,38 @@ slot[name="primary"] {
     }
 
     .close {
-      border-start-end-radius: var(--calcite-border-radius);
     }
   }
 }
 
 /**
- * Colors
+ * Kinds
  */
-:host([color="red"]) {
-  .modal {
-    @apply border-color-danger;
-  }
+:host([kind="brand"]) .modal {
+  @apply border-color-brand;
 }
 
-:host([color="blue"]) {
-  .modal {
-    @apply border-color-info;
-  }
+:host([kind="danger"]) .modal {
+  @apply border-color-danger;
 }
 
-:host([color="red"]),
-:host([color="blue"]) {
+:host([kind="info"]) .modal {
+  @apply border-color-info;
+}
+
+:host([kind="success"]) .modal {
+  @apply border-color-success;
+}
+
+:host([kind="warning"]) .modal {
+  @apply border-color-warning;
+}
+
+:host([kind="brand"]),
+:host([kind="danger"]),
+:host([kind="info"]),
+:host([kind="success"]),
+:host([kind="warning"]) {
   .modal {
     @apply border-0 border-t-4 border-solid;
   }

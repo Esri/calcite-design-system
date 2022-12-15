@@ -1,4 +1,4 @@
-import { accessible, disabled, labelable, renders, hidden } from "../../tests/commonTests";
+import { accessible, disabled, labelable, renders, hidden, t9n } from "../../tests/commonTests";
 import { E2EPage } from "@stencil/core/testing";
 import { newE2EPage } from "@stencil/core/testing";
 import { CSS } from "./resources";
@@ -388,4 +388,6 @@ describe("calcite-inline-editable", () => {
       });
     });
   });
+
+  it("supports translation", () => t9n("calcite-inline-editable"));
 });

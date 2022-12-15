@@ -33,6 +33,7 @@ import {
   numberStringFormatter,
   updateEffectiveLocale
 } from "../../utils/locale";
+import { Messages } from "../time-picker/assets/time-picker/t9n";
 import { numberKeys } from "../../utils/key";
 import {
   setUpLoadableComponent,
@@ -103,41 +104,10 @@ export class InputTimePicker
     }
   }
 
-  /** Accessible name for the component's hour input. */
-  @Prop() intlHour: string;
-
-  /** Accessible name for the component's hour down button. */
-  @Prop() intlHourDown: string;
-
-  /** Accessible name for the component's hour up button. */
-  @Prop() intlHourUp: string;
-
-  /** Accessible name for the component's meridiem (am/pm) input. */
-  @Prop() intlMeridiem: string;
-
-  /** Accessible name for the component's meridiem (am/pm) down button. */
-  @Prop() intlMeridiemDown: string;
-
-  /** Accessible name for the component's meridiem (am/pm) up button. */
-  @Prop() intlMeridiemUp: string;
-
-  /** Accessible name for the component's minute input. */
-  @Prop() intlMinute: string;
-
-  /** Accessible name for the component's minute down button. */
-  @Prop() intlMinuteDown: string;
-
-  /** Accessible name for the component's minute up button. */
-  @Prop() intlMinuteUp: string;
-
-  /** Accessible name for the component's second input. */
-  @Prop() intlSecond: string;
-
-  /** Accessible name for the component's second down button. */
-  @Prop() intlSecondDown: string;
-
-  /** Accessible name for the component's second up button. */
-  @Prop() intlSecondUp: string;
+  /**
+   * Use this property to override individual strings used by the component.
+   */
+  @Prop() messagesOverrides: Partial<Messages>;
 
   /**
    * BCP 47 language tag for desired language and country format.
@@ -551,7 +521,7 @@ export class InputTimePicker
           />
         </div>
         <calcite-popover
-          disableFocusTrap={true}
+          focusTrapDisabled={true}
           id={popoverId}
           label="Time Picker"
           open={this.open}
@@ -562,18 +532,8 @@ export class InputTimePicker
           triggerDisabled={true}
         >
           <calcite-time-picker
-            intlHour={this.intlHour}
-            intlHourDown={this.intlHourDown}
-            intlHourUp={this.intlHourUp}
-            intlMeridiem={this.intlMeridiem}
-            intlMeridiemDown={this.intlMeridiemDown}
-            intlMeridiemUp={this.intlMeridiemUp}
-            intlMinute={this.intlMinute}
-            intlMinuteDown={this.intlMinuteDown}
-            intlMinuteUp={this.intlMinuteUp}
-            intlSecond={this.intlSecond}
-            intlSecondDown={this.intlSecondDown}
-            intlSecondUp={this.intlSecondUp}
+            lang={this.effectiveLocale}
+            messageOverrides={this.messagesOverrides}
             numberingSystem={this.numberingSystem}
             onCalciteInternalTimePickerChange={this.timePickerChangeHandler}
             ref={this.setCalciteTimePickerEl}

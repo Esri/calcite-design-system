@@ -7,11 +7,12 @@ import {
   labelable,
   floatingUIOwner,
   formAssociated,
-  disabled
+  disabled,
+  t9n
 } from "../../tests/commonTests";
 
 import { html } from "../../../support/formatting";
-import { TEXT, CSS } from "./resources";
+import { CSS } from "./resources";
 
 describe("calcite-combobox", () => {
   it("renders", async () => renders("calcite-combobox", { display: "block" }));
@@ -20,10 +21,6 @@ describe("calcite-combobox", () => {
       {
         propertyName: "overlayPositioning",
         defaultValue: "absolute"
-      },
-      {
-        propertyName: "intlRemoveTag",
-        defaultValue: TEXT.removeTag
       },
       {
         propertyName: "flipPlacements",
@@ -120,7 +117,7 @@ describe("calcite-combobox", () => {
     expect(await items[2].isVisible()).toBe(true);
     expect(await items[3].isVisible()).toBe(true);
 
-    expect(await filterEventSpy.lastEvent.detail.visibleItems.length).toBe(4);
+    expect((await combobox.getProperty("filteredItems")).length).toBe(4);
 
     await input.press("i");
     await page.waitForChanges();
@@ -131,7 +128,7 @@ describe("calcite-combobox", () => {
     expect(await items[2].isVisible()).toBe(false);
     expect(await items[3].isVisible()).toBe(true);
 
-    expect(await filterEventSpy.lastEvent.detail.visibleItems.length).toBe(3);
+    expect((await combobox.getProperty("filteredItems")).length).toBe(3);
 
     await input.press("n");
     await page.waitForChanges();
@@ -142,7 +139,7 @@ describe("calcite-combobox", () => {
     expect(await items[2].isVisible()).toBe(false);
     expect(await items[3].isVisible()).toBe(false);
 
-    expect(await filterEventSpy.lastEvent.detail.visibleItems.length).toBe(2);
+    expect((await combobox.getProperty("filteredItems")).length).toBe(2);
   });
 
   it("should control max items displayed", async () => {
@@ -421,18 +418,18 @@ describe("calcite-combobox", () => {
       expect(await cbox.getProperty("open")).toBe(false);
     });
 
-    it("should honor calciteComboboxChipDismiss", async () => {
+    it("should honor calciteComboboxChipClose", async () => {
       const page = await newE2EPage({
         html: `<calcite-combobox>
         <calcite-combobox-item value="one" selected text-label="one"></calcite-combobox-item>
       </calcite-combobox>`
       });
 
-      const eventSpy = await page.spyOnEvent("calciteComboboxChipDismiss", "window");
+      const eventSpy = await page.spyOnEvent("calciteComboboxChipClose", "window");
 
       const chip = await page.find("calcite-combobox >>> calcite-chip");
 
-      chip.triggerEvent("calciteChipDismiss");
+      chip.triggerEvent("calciteChipClose");
 
       await page.waitForChanges();
 
@@ -450,7 +447,6 @@ describe("calcite-combobox", () => {
           </calcite-combobox>
         `
       );
-      const eventSpy = await page.spyOnEvent("calciteComboboxChange");
       const input = await page.find("calcite-combobox >>> input");
 
       await input.click();
@@ -463,7 +459,10 @@ describe("calcite-combobox", () => {
       const label = await page.find("calcite-combobox >>> .label");
 
       expect(label.textContent).toBe("K");
-      expect(eventSpy.lastEvent.detail.selectedItems.length).toBe(1);
+
+      const combobox = await page.find("calcite-combobox");
+
+      expect((await combobox.getProperty("selectedItems")).length).toBe(1);
       expect(await item.getProperty("selected")).toBe(true);
     });
 
@@ -478,7 +477,7 @@ describe("calcite-combobox", () => {
           </calcite-combobox>
         `
       );
-      const eventSpy = await page.spyOnEvent("calciteComboboxChange");
+      const combobox = await page.find("calcite-combobox");
       const input = await page.find("calcite-combobox >>> input");
 
       await input.click();
@@ -492,7 +491,7 @@ describe("calcite-combobox", () => {
       const label = await page.find("calcite-combobox >>> .label");
 
       expect(label.textContent).toBe("K");
-      expect(eventSpy.lastEvent.detail.selectedItems.length).toBe(1);
+      expect((await combobox.getProperty("selectedItems")).length).toBe(1);
       expect(await item1.getProperty("selected")).toBe(false);
       expect(await item2.getProperty("selected")).toBe(true);
     });
@@ -508,7 +507,7 @@ describe("calcite-combobox", () => {
           </calcite-combobox>
         `
       );
-      const eventSpy = await page.spyOnEvent("calciteComboboxChange");
+      const combobox = await page.find("calcite-combobox");
       const input = await page.find("calcite-combobox >>> input");
 
       await input.click();
@@ -522,7 +521,7 @@ describe("calcite-combobox", () => {
       const item3 = await page.find("calcite-combobox-item:last-child");
       const chips = await page.findAll("calcite-combobox >>> calcite-chip");
 
-      expect(eventSpy.lastEvent.detail.selectedItems.length).toBe(3);
+      expect((await combobox.getProperty("selectedItems")).length).toBe(3);
       expect(chips[2].textContent).toBe("K");
       expect(await item1.getProperty("selected")).toBe(true);
       expect(await item2.getProperty("selected")).toBe(true);
@@ -772,8 +771,10 @@ describe("calcite-combobox", () => {
       await two.click();
       await event;
 
+      const combobox = await page.find("calcite-combobox");
+
       expect(eventSpy).toHaveReceivedEventTimes(1);
-      expect(eventSpy.lastEvent.detail.selectedItems.length).toBe(1);
+      expect((await combobox.getProperty("selectedItems")).length).toBe(1);
     });
 
     it("should have 2 selectedItems when not in single select", async () => {
@@ -800,7 +801,7 @@ describe("calcite-combobox", () => {
       await event;
 
       expect(eventSpy).toHaveReceivedEventTimes(1);
-      expect(eventSpy.lastEvent.detail.selectedItems.length).toBe(2);
+      expect((await element.getProperty("selectedItems")).length).toBe(2);
     });
   });
 
@@ -1264,6 +1265,8 @@ describe("calcite-combobox", () => {
 
     expect(await inputEl.getProperty("value")).toBe("Blue");
   });
+
+  it("supports translation", () => t9n("calcite-combobox"));
 
   it("should not focus on the combobox when items are programmatically selected", async () => {
     const page = await newE2EPage();
