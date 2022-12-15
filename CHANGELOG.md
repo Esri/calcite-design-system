@@ -9,6 +9,159 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ### ⚠ BREAKING CHANGES
 
+- **chip,card,combobox,date-picker,flow,flow-item,filter, input-date-picker:** Removed deprecated intl\* & accessible label properties.
+
+* card:
+
+- Removed the property` intlLoading` , use `messsageOverrides.loading`
+  instead.
+- Removed the property `intlSelect` use `messageOverrides.select`
+  instead.
+- Removed the property `intlDeselect` use `messageOverrides.deselect`
+  instead.
+
+* chip:
+
+- Removed the property `dismissLabel` , use
+  `messsageOverrides.dismissLabel ` instead.
+
+* color-picker:
+  - Removed the property `intlB` , use `messsageOverrides.b` instead.
+
+- Removed the property `intlBlue` , use `messsageOverrides.blue`
+  instead.
+- Removed the property `intlDeleteColor` , use
+  `messsageOverrides.deleteColor` instead.
+  - Removed the property `intlG` , use `messsageOverrides.g` instead.
+- Removed the property `intlGreen` , use `messsageOverrides.green`
+  instead.
+  - Removed the property `intlH` , use `messsageOverrides.h` instead.
+- Removed the property `intlHsv` , use `messsageOverrides.hsv` instead.
+- Removed the property `intlHex` , use `messsageOverrides.hex` instead.
+- Removed the property `intlHue` , use `messsageOverrides.hue` instead.
+- Removed the property `intlNoColor` , use `messsageOverrides.noColor`
+  instead.
+  - Removed the property `intlR` , use `messsageOverrides.r` instead.
+- Removed the property `intlRed` , use `messsageOverrides.red` instead.
+- Removed the property `intlRgb` , use `messsageOverrides.rgb` instead.
+  - Removed the property `intlS` , use `messsageOverrides.s` instead.
+- Removed the property `intlSaturation` , use
+  `messsageOverrides.saturation` instead.
+- Removed the property `intlSaveColor` , use
+  `messsageOverrides.saveColor` instead.
+- Removed the property `intlSaved` , use `messsageOverrides.saved`
+  instead.
+  - Removed the property `intlV` , use `messsageOverrides.v` instead.
+- Removed the property `intlValue` , use `messsageOverrides.value`
+  instead.
+
+* combobox:
+
+- Removed the property `intlRemoveTag` , use
+  `messsageOverrides.removeTag` instead.
+
+* date-picker
+
+- Removed the property `intlNextMonth`, use `messageOverrides.nextMonth`
+  instead.
+- Removed the property `intlPrevMonth`, use `messageOverrides.prevMonth`
+  instead.
+- Removed the property `intlYear`, use `messageOverrides.year` instead.
+
+* flow-item:
+
+- Removed the property `intlBack` , use `messsageOverrides.back`
+  instead.
+- Removed the property `intlClose`, use `messageOverrides.close`
+  instead.
+- Removed the property `intlOptions` , use `messsageOverrides.options`
+  instead.
+
+* filter:
+
+- Removed the property `intlClear`, use `messsageOverrides.clear`
+  instead.
+- Removed the property `intlLabel`, use `messageOverrides.label`
+  instead.
+
+* input-date-picker:
+
+- Removed the property `intlNextMonth`, use `messageOverrides.nextMonth`
+  instead.
+- Removed the property `intlPrevMonth`, use `messageOverrides.prevMonth`
+  instead.
+- Removed the property `intlYear`, use `messageOverrides.year` instead.
+- **action,action-bar,action-group,action-pad,alert,block-section,block,button:** Removed deprecated `intl*` properties , use
+  `messageOverrides` property instead.
+
+* action:
+
+- Removed the property `intlLoading` , use `messsageOverrides.loading`
+  instead.
+- Removed the property `intlIndicator`, use `messageOverrides.indicator`
+  instead.
+
+* action-bar:
+
+- Removed the property `intlExpand` , use `messsageOverrides.expand`
+  instead.
+- Removed the property `intlCollapse`, use `messageOverrides.collapse`
+  instead.
+
+* action-group:
+
+- Removed the property `intlMore` , use `messsageOverrides.more`
+  instead.
+
+* action-pad:
+
+- Removed the property `intlExpand` , use `messsageOverrides.expand`
+  instead.
+- Removed the property `intlCollapse`, use `messageOverrides.collapse`
+  instead.
+
+* alert:
+
+- Removed the property `intlClose`, use `messageOverrides.close`
+  instead.
+
+* block:
+
+- Removed the property `intlExpand` , use `messsageOverrides.expand`
+  instead.
+- Removed the property `intlCollapse`, use `messageOverrides.collapse`
+  instead.
+- Removed the property `intlLoading` , use `messsageOverrides.loading`
+  instead.
+- Removed the property `intlOptions`, use `messageOverrides.options`
+  instead.
+
+* block-section:
+
+- Removed the property `intlExpand` , use `messsageOverrides.expand`
+  instead.
+- Removed the property `intlCollapse`, use `messageOverrides.collapse`
+  instead.
+
+* button:
+
+- Removed the property `intlLoading` , use `messsageOverrides.loading`
+  instead.
+
+Signed-off-by: dependabot[bot] <support@github.com>
+Co-authored-by: JC Franco <jfranco@esri.com>
+Co-authored-by: Ben Elan <benelan@users.noreply.github.com>
+Co-authored-by: jona7150 <jturpin@esri.com>
+Co-authored-by: Ben Elan <belan@esri.com>
+Co-authored-by: Calcite Admin <calcite-admin@esri.com>
+Co-authored-by: jcfranco <jcfranco@users.noreply.github.com>
+Co-authored-by: Kitty Hurley <khurley@esri.com>
+Co-authored-by: dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com>
+Co-authored-by: Eliza Khachatryan <eli97736@esri.com>
+Co-authored-by: github-actions[bot] <github-actions[bot]@users.noreply.github.com>
+Co-authored-by: Matt Driscoll <mdriscoll@esri.com>
+Co-authored-by: Alison Stump <alisonailea@users.noreply.github.com>
+
 - **popover, dropdown, modal, pick-list-item, value-list-item:** Renamed `disable*` properties.
 
 * Dropdown
