@@ -9,143 +9,220 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ### ⚠ BREAKING CHANGES
 
-- **chip,card,combobox,date-picker,flow,flow-item,filter, input-date-picker:** Removed deprecated intl\* & accessible label properties.
+- **scrim,rating,time-picker,input-time-picker,value-list:** Removed deprecated intl\* & accessible label properties.
 
-* card:
+* rating:
 
-- Removed the property` intlLoading` , use `messsageOverrides.loading`
+- Removed the property `intlStars` , use `messsageOverrides.stars`
   instead.
-- Removed the property `intlSelect` use `messageOverrides.select`
-  instead.
-- Removed the property `intlDeselect` use `messageOverrides.deselect`
+- Removed the property `intlRating` , use `messsageOverrides.rating`
   instead.
 
-* chip:
+* scrim:
 
-- Removed the property `dismissLabel` , use
+- Removed the property `intlLoading` , use `messsageOverrides.loading`
+  instead.
+
+* time-picker:
+
+- Removed the property `intlHour`, use `messsageOverrides.hour` instead.
+- Removed the property `intlHourDown`, use `messsageOverrides.hourDown`
+  instead.
+- Removed the property `intlHourUp`, use `messsageOverrides.hourUp`
+  instead.
+- Removed the property `intlMeridiem`, use `messsageOverrides.meridiem`
+  instead.
+- Removed the property `intlMeridiemDown`, use
+  `messsageOverrides.meridiemDown` instead.
+- Removed the property `intlMeridiemUp`, use
+  `messsageOverrides.meridiemUp` instead.
+- Removed the property `intlMinute`, use `messsageOverrides.minute`
+  instead.
+- Removed the property `intlMinuteUp`, use `messsageOverrides.minuteUp`
+  instead.
+- Removed the property `intlMinuteDown`, use
+  `messsageOverrides.minuteDown` instead.
+- Removed the property `intlSecond`, use `messsageOverrides.second`
+  instead.
+- Removed the property `intlSecondUp`, use `messsageOverrides.secondUp`
+  instead.
+- Removed the property `intlSecondDown`, use
+  `messsageOverrides.secondDown` instead.
+
+* input-time-picker:
+
+- Removed the property `intlHour`, use `messsageOverrides.hour` instead.
+- Removed the property `intlHourDown`, use `messsageOverrides.hourDown`
+  instead.
+- Removed the property `intlHourUp`, use `messsageOverrides.hourUp`
+  instead.
+- Removed the property `intlMeridiem`, use `messsageOverrides.meridiem`
+  instead.
+- Removed the property `intlMeridiemDown`, use
+  `messsageOverrides.meridiemDown` instead.
+- Removed the property `intlMeridiemUp`, use
+  `messsageOverrides.meridiemUp` instead.
+- Removed the property `intlMinute`, use `messsageOverrides.minute`
+  instead.
+- Removed the property `intlMinuteUp`, use `messsageOverrides.minuteUp`
+  instead.
+- Removed the property `intlMinuteDown`, use
+  `messsageOverrides.minuteDown` instead.
+- Removed the property `intlSecond`, use `messsageOverrides.second`
+  instead.
+- Removed the property `intlSecondUp`, use `messsageOverrides.secondUp`
+  instead.
+- Removed the property `intlSecondDown`, use
+  `messsageOverrides.secondDown` instead.
+
+* value-list:
+
+- Removed the property `intlDragHandleActive` , use
+  `messsageOverrides.dragHandleActive` instead.
+- Removed the property `intlDragHandleChange` , use
+  `messsageOverrides.dragHandleChange` instead.
+- Removed the property `intlDragHandleCommit` , use
+  `messsageOverrides.dragHandleCommit` instead.
+- Removed the property `intlDragHandleIdle` , use
+  `messsageOverrides.dragHandleIdle` instead.
+
+* **chip,card,combobox,date-picker,flow,flow-item,filter, input-date-picker:** Removed deprecated intl\* & accessible label properties.
+
+- card:
+
+* Removed the property` intlLoading` , use `messsageOverrides.loading`
+  instead.
+* Removed the property `intlSelect` use `messageOverrides.select`
+  instead.
+* Removed the property `intlDeselect` use `messageOverrides.deselect`
+  instead.
+
+- chip:
+
+* Removed the property `dismissLabel` , use
   `messsageOverrides.dismissLabel ` instead.
 
-* color-picker:
+- color-picker:
   - Removed the property `intlB` , use `messsageOverrides.b` instead.
 
-- Removed the property `intlBlue` , use `messsageOverrides.blue`
+* Removed the property `intlBlue` , use `messsageOverrides.blue`
   instead.
-- Removed the property `intlDeleteColor` , use
+* Removed the property `intlDeleteColor` , use
   `messsageOverrides.deleteColor` instead.
   - Removed the property `intlG` , use `messsageOverrides.g` instead.
-- Removed the property `intlGreen` , use `messsageOverrides.green`
+* Removed the property `intlGreen` , use `messsageOverrides.green`
   instead.
   - Removed the property `intlH` , use `messsageOverrides.h` instead.
-- Removed the property `intlHsv` , use `messsageOverrides.hsv` instead.
-- Removed the property `intlHex` , use `messsageOverrides.hex` instead.
-- Removed the property `intlHue` , use `messsageOverrides.hue` instead.
-- Removed the property `intlNoColor` , use `messsageOverrides.noColor`
+* Removed the property `intlHsv` , use `messsageOverrides.hsv` instead.
+* Removed the property `intlHex` , use `messsageOverrides.hex` instead.
+* Removed the property `intlHue` , use `messsageOverrides.hue` instead.
+* Removed the property `intlNoColor` , use `messsageOverrides.noColor`
   instead.
   - Removed the property `intlR` , use `messsageOverrides.r` instead.
-- Removed the property `intlRed` , use `messsageOverrides.red` instead.
-- Removed the property `intlRgb` , use `messsageOverrides.rgb` instead.
+* Removed the property `intlRed` , use `messsageOverrides.red` instead.
+* Removed the property `intlRgb` , use `messsageOverrides.rgb` instead.
   - Removed the property `intlS` , use `messsageOverrides.s` instead.
-- Removed the property `intlSaturation` , use
+* Removed the property `intlSaturation` , use
   `messsageOverrides.saturation` instead.
-- Removed the property `intlSaveColor` , use
+* Removed the property `intlSaveColor` , use
   `messsageOverrides.saveColor` instead.
-- Removed the property `intlSaved` , use `messsageOverrides.saved`
+* Removed the property `intlSaved` , use `messsageOverrides.saved`
   instead.
   - Removed the property `intlV` , use `messsageOverrides.v` instead.
-- Removed the property `intlValue` , use `messsageOverrides.value`
+* Removed the property `intlValue` , use `messsageOverrides.value`
   instead.
 
-* combobox:
+- combobox:
 
-- Removed the property `intlRemoveTag` , use
+* Removed the property `intlRemoveTag` , use
   `messsageOverrides.removeTag` instead.
 
-* date-picker
+- date-picker
 
-- Removed the property `intlNextMonth`, use `messageOverrides.nextMonth`
+* Removed the property `intlNextMonth`, use `messageOverrides.nextMonth`
   instead.
-- Removed the property `intlPrevMonth`, use `messageOverrides.prevMonth`
+* Removed the property `intlPrevMonth`, use `messageOverrides.prevMonth`
   instead.
-- Removed the property `intlYear`, use `messageOverrides.year` instead.
+* Removed the property `intlYear`, use `messageOverrides.year` instead.
 
-* flow-item:
+- flow-item:
 
-- Removed the property `intlBack` , use `messsageOverrides.back`
+* Removed the property `intlBack` , use `messsageOverrides.back`
   instead.
-- Removed the property `intlClose`, use `messageOverrides.close`
+* Removed the property `intlClose`, use `messageOverrides.close`
   instead.
-- Removed the property `intlOptions` , use `messsageOverrides.options`
-  instead.
-
-* filter:
-
-- Removed the property `intlClear`, use `messsageOverrides.clear`
-  instead.
-- Removed the property `intlLabel`, use `messageOverrides.label`
+* Removed the property `intlOptions` , use `messsageOverrides.options`
   instead.
 
-* input-date-picker:
+- filter:
 
-- Removed the property `intlNextMonth`, use `messageOverrides.nextMonth`
+* Removed the property `intlClear`, use `messsageOverrides.clear`
   instead.
-- Removed the property `intlPrevMonth`, use `messageOverrides.prevMonth`
+* Removed the property `intlLabel`, use `messageOverrides.label`
   instead.
-- Removed the property `intlYear`, use `messageOverrides.year` instead.
-- **action,action-bar,action-group,action-pad,alert,block-section,block,button:** Removed deprecated `intl*` properties , use
+
+- input-date-picker:
+
+* Removed the property `intlNextMonth`, use `messageOverrides.nextMonth`
+  instead.
+* Removed the property `intlPrevMonth`, use `messageOverrides.prevMonth`
+  instead.
+* Removed the property `intlYear`, use `messageOverrides.year` instead.
+* **action,action-bar,action-group,action-pad,alert,block-section,block,button:** Removed deprecated `intl*` properties , use
   `messageOverrides` property instead.
 
-* action:
+- action:
 
-- Removed the property `intlLoading` , use `messsageOverrides.loading`
+* Removed the property `intlLoading` , use `messsageOverrides.loading`
   instead.
-- Removed the property `intlIndicator`, use `messageOverrides.indicator`
-  instead.
-
-* action-bar:
-
-- Removed the property `intlExpand` , use `messsageOverrides.expand`
-  instead.
-- Removed the property `intlCollapse`, use `messageOverrides.collapse`
+* Removed the property `intlIndicator`, use `messageOverrides.indicator`
   instead.
 
-* action-group:
+- action-bar:
 
-- Removed the property `intlMore` , use `messsageOverrides.more`
+* Removed the property `intlExpand` , use `messsageOverrides.expand`
+  instead.
+* Removed the property `intlCollapse`, use `messageOverrides.collapse`
   instead.
 
-* action-pad:
+- action-group:
 
-- Removed the property `intlExpand` , use `messsageOverrides.expand`
-  instead.
-- Removed the property `intlCollapse`, use `messageOverrides.collapse`
+* Removed the property `intlMore` , use `messsageOverrides.more`
   instead.
 
-* alert:
+- action-pad:
 
-- Removed the property `intlClose`, use `messageOverrides.close`
+* Removed the property `intlExpand` , use `messsageOverrides.expand`
+  instead.
+* Removed the property `intlCollapse`, use `messageOverrides.collapse`
   instead.
 
-* block:
+- alert:
 
-- Removed the property `intlExpand` , use `messsageOverrides.expand`
-  instead.
-- Removed the property `intlCollapse`, use `messageOverrides.collapse`
-  instead.
-- Removed the property `intlLoading` , use `messsageOverrides.loading`
-  instead.
-- Removed the property `intlOptions`, use `messageOverrides.options`
+* Removed the property `intlClose`, use `messageOverrides.close`
   instead.
 
-* block-section:
+- block:
 
-- Removed the property `intlExpand` , use `messsageOverrides.expand`
+* Removed the property `intlExpand` , use `messsageOverrides.expand`
   instead.
-- Removed the property `intlCollapse`, use `messageOverrides.collapse`
+* Removed the property `intlCollapse`, use `messageOverrides.collapse`
+  instead.
+* Removed the property `intlLoading` , use `messsageOverrides.loading`
+  instead.
+* Removed the property `intlOptions`, use `messageOverrides.options`
   instead.
 
-* button:
+- block-section:
 
-- Removed the property `intlLoading` , use `messsageOverrides.loading`
+* Removed the property `intlExpand` , use `messsageOverrides.expand`
+  instead.
+* Removed the property `intlCollapse`, use `messageOverrides.collapse`
+  instead.
+
+- button:
+
+* Removed the property `intlLoading` , use `messsageOverrides.loading`
   instead.
 
 Signed-off-by: dependabot[bot] <support@github.com>
