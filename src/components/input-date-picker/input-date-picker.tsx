@@ -73,7 +73,9 @@ import {
 @Component({
   tag: "calcite-input-date-picker",
   styleUrl: "input-date-picker.scss",
-  shadow: true
+  shadow: {
+    delegatesFocus: true
+  }
 })
 export class InputDatePicker
   implements
@@ -386,8 +388,7 @@ export class InputDatePicker
   @Method()
   async setFocus(): Promise<void> {
     await componentLoaded(this);
-
-    this.startInput?.setFocus();
+    this.el.focus();
   }
 
   /**
