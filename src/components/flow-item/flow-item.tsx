@@ -8,14 +8,24 @@ import {
   Method,
   Event,
   EventEmitter,
-  State
+  State,
+  Watch
 } from "@stencil/core";
 import { getElementDir } from "../../utils/dom";
 import { HeadingLevel } from "../functional/Heading";
 import { Scale } from "../interfaces";
-import { CSS, ICONS, TEXT, SLOTS } from "./resources";
+import { CSS, ICONS, SLOTS } from "./resources";
 import { SLOTS as PANEL_SLOTS } from "../panel/resources";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
+import {
+  connectMessages,
+  disconnectMessages,
+  setUpMessages,
+  T9nComponent,
+  updateMessages
+} from "../../utils/t9n";
+import { Messages } from "./assets/flow-item/t9n";
 import {
   setUpLoadableComponent,
   setComponentLoaded,
@@ -36,9 +46,12 @@ import {
 @Component({
   tag: "calcite-flow-item",
   styleUrl: "flow-item.scss",
-  shadow: true
+  shadow: true,
+  assetsDirs: ["assets"]
 })
-export class FlowItem implements InteractiveComponent, LoadableComponent {
+export class FlowItem
+  implements InteractiveComponent, LoadableComponent, LocalizedComponent, T9nComponent
+{
   // --------------------------------------------------------------------------
   //
   //  Properties
@@ -81,6 +94,8 @@ export class FlowItem implements InteractiveComponent, LoadableComponent {
 
   /**
    * When `showBackButton` is `true`, the accessible name for the component's back button.
+   *
+   * @deprecated use `calcite-flow-item` instead.
    */
   @Prop() intlBack: string;
 
@@ -91,6 +106,8 @@ export class FlowItem implements InteractiveComponent, LoadableComponent {
 
   /**
    * Accessible name for the component's actions menu.
+   *
+   * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`
    */
   @Prop() intlOptions: string;
 
@@ -105,6 +122,27 @@ export class FlowItem implements InteractiveComponent, LoadableComponent {
   @Prop({ reflect: true }) menuOpen = false;
 
   /**
+   * Use this property to override individual strings used by the component.
+   */
+  @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
+
+  @Watch("intlBack")
+  @Watch("intlClose")
+  @Watch("intlOptions")
+  @Watch("messageOverrides")
+  onMessagesChange(): void {
+    /* wired up by t9n util */
+  }
+
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @internal
+   */
+  @Prop({ mutable: true }) messages: Messages;
+
+  /**
+   * When true, displays a back button in the header.
    * When `true`, displays a back button in the component's header.
    */
   @Prop({ reflect: true }) showBackButton = false;
@@ -120,12 +158,23 @@ export class FlowItem implements InteractiveComponent, LoadableComponent {
   //
   //--------------------------------------------------------------------------
 
-  componentWillLoad(): void {
+  connectedCallback(): void {
+    connectLocalized(this);
+    connectMessages(this);
+  }
+
+  async componentWillLoad(): Promise<void> {
+    await setUpMessages(this);
     setUpLoadableComponent(this);
   }
 
   componentDidRender(): void {
     updateHostInteraction(this);
+  }
+
+  disconnectedCallback(): void {
+    disconnectLocalized(this);
+    disconnectMessages(this);
   }
 
   componentDidLoad(): void {
@@ -165,6 +214,15 @@ export class FlowItem implements InteractiveComponent, LoadableComponent {
 
   @State()
   backButtonEl: HTMLCalciteActionElement;
+
+  @State() defaultMessages: Messages;
+
+  @State() effectiveLocale = "";
+
+  @Watch("effectiveLocale")
+  effectiveLocaleChange(): void {
+    updateMessages(this, this.effectiveLocale);
+  }
 
   // --------------------------------------------------------------------------
   //
@@ -233,10 +291,6 @@ export class FlowItem implements InteractiveComponent, LoadableComponent {
     this.containerEl = node;
   };
 
-  getBackLabel = (): string => {
-    return this.intlBack || TEXT.back;
-  };
-
   // --------------------------------------------------------------------------
   //
   //  Render Methods
@@ -247,8 +301,8 @@ export class FlowItem implements InteractiveComponent, LoadableComponent {
     const { el } = this;
 
     const rtl = getElementDir(el) === "rtl";
-    const { showBackButton, backButtonClick } = this;
-    const label = this.getBackLabel();
+    const { showBackButton, backButtonClick, messages } = this;
+    const label = messages.back;
     const icon = rtl ? ICONS.backRight : ICONS.backLeft;
 
     return showBackButton ? (
@@ -275,14 +329,13 @@ export class FlowItem implements InteractiveComponent, LoadableComponent {
       heading,
       headingLevel,
       heightScale,
-      intlClose,
-      intlOptions,
       loading,
       menuOpen,
+      messages,
       widthScale,
       backButtonEl
     } = this;
-    const label = this.getBackLabel();
+    const label = messages.back;
     return (
       <Host>
         <calcite-panel
@@ -293,10 +346,9 @@ export class FlowItem implements InteractiveComponent, LoadableComponent {
           heading={heading}
           headingLevel={headingLevel}
           heightScale={heightScale}
-          intlClose={intlClose}
-          intlOptions={intlOptions}
           loading={loading}
           menuOpen={menuOpen}
+          messageOverrides={messages}
           onCalcitePanelClose={this.handlePanelClose}
           onCalcitePanelScroll={this.handlePanelScroll}
           ref={this.setContainerRef}

@@ -16,7 +16,7 @@
 Customize the modal by passing your content into multiple named slots: `header` (title-area of the modal), `content` (main body of the modal), and up to three modal actions: primary, secondary, and back. Notice below we use the `aria-labelledby` attribute, relating it to the title of the modal. In order to ensure good accessibility, it's recommended that you use either an `aria-label` or `aria-labelledby` attribute so screen readers can infer what the subject matter of your modal is.
 
 ```html
-<calcite-modal aria-labelledby="modal-title" active>
+<calcite-modal aria-labelledby="modal-title" open>
   <h3 slot="header" id="modal-title">Title of the modal</h3>
   <div slot="content">The actual content of the modal</div>
   <calcite-button slot="back" color="neutral" appearance="outline" icon="chevron-left" width="full">
@@ -29,12 +29,12 @@ Customize the modal by passing your content into multiple named slots: `header` 
 
 ### Open
 
-To open a modal, add the `active` prop. Once the opening animation is complete, the `calciteModalOpen` event will be fired.
+To open a modal, add the `open` prop. Once the opening animation is complete, the `calciteModalOpen` event will be fired.
 
 To close the modal, simply remove the attribute. This will run your before close method (if provided, see below) and fire the `calciteModalClose` event after the animation and teardown is complete.
 
 ```html
-<calcite-modal active></calcite-modal>
+<calcite-modal open></calcite-modal>
 ```
 
 ### Reacting-before-close
@@ -55,23 +55,23 @@ modal.beforeClose = beforeClose;
 
 ## Properties
 
-| Property              | Attribute               | Description                                                                                                                                                          | Type                                 | Default                   |
-| --------------------- | ----------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------ | ------------------------- |
-| `active`              | `active`                | <span style="color:red">**[DEPRECATED]**</span> use `open` instead.<br/><br/>When `true`, the component is active.                                                   | `boolean`                            | `false`                   |
-| `backgroundColor`     | `background-color`      | Sets the background color of the component's content.                                                                                                                | `"grey" \| "white"`                  | `"white"`                 |
-| `beforeClose`         | --                      | Passes a function to run before the component closes.                                                                                                                | `(el: HTMLElement) => Promise<void>` | `() => Promise.resolve()` |
-| `color`               | `color`                 | Adds a color bar to the top of component for visual impact. Use color to add importance to destructive or workflow dialogs.                                          | `"blue" \| "red"`                    | `undefined`               |
-| `disableCloseButton`  | `disable-close-button`  | When `true`, disables the component's close button.                                                                                                                  | `boolean`                            | `false`                   |
-| `disableEscape`       | `disable-escape`        | When `true`, disables the default close on escape behavior.                                                                                                          | `boolean`                            | `false`                   |
-| `disableFocusTrap`    | `disable-focus-trap`    | When `true`, prevents focus trapping.                                                                                                                                | `boolean`                            | `false`                   |
-| `disableOutsideClose` | `disable-outside-close` | When `true`, disables the closing of the component when clicked outside.                                                                                             | `boolean`                            | `false`                   |
-| `docked`              | `docked`                | When `true`, prevents the component from expanding to the entire screen on mobile devices.                                                                           | `boolean`                            | `undefined`               |
-| `fullscreen`          | `fullscreen`            | Sets the component to always be fullscreen (overrides `width`).                                                                                                      | `boolean`                            | `undefined`               |
-| `intlClose`           | `intl-close`            | Accessible name for the component's close button.                                                                                                                    | `string`                             | `TEXT.close`              |
-| `noPadding`           | `no-padding`            | <span style="color:red">**[DEPRECATED]**</span> Use `--calcite-modal-padding` CSS variable instead.<br/><br/>When `true`, disables spacing to the content area slot. | `boolean`                            | `false`                   |
-| `open`                | `open`                  | When `true`, displays and positions the component.                                                                                                                   | `boolean`                            | `false`                   |
-| `scale`               | `scale`                 | Specifies the size of the component.                                                                                                                                 | `"l" \| "m" \| "s"`                  | `"m"`                     |
-| `width`               | `width`                 | Specifies the width of the component. Can use scale sizes or pass a number (displays in pixels).                                                                     | `"l" \| "m" \| "s" \| number`        | `"m"`                     |
+| Property               | Attribute                | Description                                                                                                                                                          | Type                                 | Default                   |
+| ---------------------- | ------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------ | ------------------------- |
+| `active`               | `active`                 | <span style="color:red">**[DEPRECATED]**</span> use `open` instead.<br/><br/>When `true`, the component is active.                                                   | `boolean`                            | `false`                   |
+| `backgroundColor`      | `background-color`       | Sets the background color of the component's content.                                                                                                                | `"grey" \| "white"`                  | `"white"`                 |
+| `beforeClose`          | --                       | Passes a function to run before the component closes.                                                                                                                | `(el: HTMLElement) => Promise<void>` | `() => Promise.resolve()` |
+| `color`                | `color`                  | Adds a color bar to the top of component for visual impact. Use color to add importance to destructive or workflow dialogs.                                          | `"blue" \| "red"`                    | `undefined`               |
+| `closeButtonDisabled`  | `close-button-disabled`  | When `true`, disables the component's close button.                                                                                                                  | `boolean`                            | `false`                   |
+| `escapeDisabled`       | `escape-disabled`        | When `true`, disables the default close on escape behavior.                                                                                                          | `boolean`                            | `false`                   |
+| `focusTrapDisabled`    | `focus-trap-disabled`    | When `true`, prevents focus trapping.                                                                                                                                | `boolean`                            | `false`                   |
+| `outsideCloseDisabled` | `outside-close-disabled` | When `true`, disables the closing of the component when clicked outside.                                                                                             | `boolean`                            | `false`                   |
+| `docked`               | `docked`                 | When `true`, prevents the component from expanding to the entire screen on mobile devices.                                                                           | `boolean`                            | `undefined`               |
+| `fullscreen`           | `fullscreen`             | Sets the component to always be fullscreen (overrides `width`).                                                                                                      | `boolean`                            | `undefined`               |
+| `intlClose`            | `intl-close`             | Accessible name for the component's close button.                                                                                                                    | `string`                             | `TEXT.close`              |
+| `noPadding`            | `no-padding`             | <span style="color:red">**[DEPRECATED]**</span> Use `--calcite-modal-padding` CSS variable instead.<br/><br/>When `true`, disables spacing to the content area slot. | `boolean`                            | `false`                   |
+| `open`                 | `open`                   | When `true`, displays and positions the component.                                                                                                                   | `boolean`                            | `false`                   |
+| `scale`                | `scale`                  | Specifies the size of the component.                                                                                                                                 | `"l" \| "m" \| "s"`                  | `"m"`                     |
+| `width`                | `width`                  | Specifies the width of the component. Can use scale sizes or pass a number (displays in pixels).                                                                     | `"l" \| "m" \| "s" \| number`        | `"m"`                     |
 
 ## Events
 

@@ -264,7 +264,7 @@ export function setUpItems<T extends Lists>(
   items.forEach((item) => {
     item.icon = this.getIconType();
     if (!this.multiple) {
-      item.disableDeselect = true;
+      item.deselectDisabled = true;
       toggleSingleSelectItemTabbing(item, false);
     }
     if (item.selected) {

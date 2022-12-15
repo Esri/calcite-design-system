@@ -20,7 +20,7 @@ import {
   setRequestedIcon
 } from "../../utils/dom";
 
-import { CSS, SLOTS, TEXT } from "./resources";
+import { CSS, SLOTS } from "./resources";
 import { InputPlacement, NumberNudgeDirection, SetValueOrigin } from "../input/interfaces";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
 import {
@@ -34,16 +34,24 @@ import {
   NumberingSystem,
   numberStringFormatter,
   defaultNumberingSystem,
-  LocalizedComponent,
   disconnectLocalized,
-  connectLocalized
+  connectLocalized,
+  LocalizedComponent
 } from "../../utils/locale";
 import { numberKeys } from "../../utils/key";
 import { isValidNumber, parseNumberString, sanitizeNumberString } from "../../utils/number";
-import { CSS_UTILITY, TEXT as COMMON_TEXT } from "../../utils/resources";
+import { CSS_UTILITY } from "../../utils/resources";
 import { decimalPlaces } from "../../utils/math";
 import { createObserver } from "../../utils/observers";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import {
+  connectMessages,
+  disconnectMessages,
+  setUpMessages,
+  T9nComponent,
+  updateMessages
+} from "../../utils/t9n";
+import { Messages } from "./assets/input-number/t9n";
 import {
   setUpLoadableComponent,
   setComponentLoaded,
@@ -57,7 +65,8 @@ import {
 @Component({
   tag: "calcite-input-number",
   styleUrl: "input-number.scss",
-  shadow: true
+  shadow: true,
+  assetsDirs: ["assets"]
 })
 export class InputNumber
   implements
@@ -65,6 +74,7 @@ export class InputNumber
     FormComponent,
     InteractiveComponent,
     LocalizedComponent,
+    T9nComponent,
     LoadableComponent
 {
   //--------------------------------------------------------------------------
@@ -127,15 +137,18 @@ export class InputNumber
 
   /**
    * A text label that will appear on the clear button for screen readers.
+   *
+   * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`.
    */
   @Prop() intlClear: string;
 
   /**
    * Accessible name that will appear while loading.
    *
+   * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`.
    * @default "Loading"
    */
-  @Prop() intlLoading: string = COMMON_TEXT.loading;
+  @Prop() intlLoading?: string;
 
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @Prop({ reflect: true }) iconFlipRtl = false;
@@ -276,6 +289,25 @@ export class InputNumber
   /** The component's value. */
   @Prop({ mutable: true }) value = "";
 
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @internal
+   */
+  @Prop({ mutable: true }) messages: Messages;
+
+  /**
+   * Use this property to override individual strings used by the component.
+   */
+  @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
+
+  @Watch("intlClear")
+  @Watch("intlLoading")
+  @Watch("messageOverrides")
+  onMessagesChange(): void {
+    /* wired up by t9n util */
+  }
+
   @Watch("value")
   valueWatcher(newValue: string, previousValue: string): void {
     if (!this.userChangedValue) {
@@ -349,12 +381,15 @@ export class InputNumber
 
   @Watch("effectiveLocale")
   effectiveLocaleWatcher(locale: string): void {
+    updateMessages(this, this.effectiveLocale);
     numberStringFormatter.numberFormatOptions = {
       locale,
       numberingSystem: this.numberingSystem,
       useGrouping: false
     };
   }
+
+  @State() defaultMessages: Messages;
 
   @State() localizedValue: string;
 
@@ -366,7 +401,7 @@ export class InputNumber
 
   connectedCallback(): void {
     connectLocalized(this);
-
+    connectMessages(this);
     this.scale = getElementProp(this.el, "scale", this.scale);
     this.inlineEditableEl = this.el.closest("calcite-inline-editable");
     if (this.inlineEditableEl) {
@@ -396,17 +431,18 @@ export class InputNumber
     disconnectLabel(this);
     disconnectForm(this);
     disconnectLocalized(this);
+    disconnectMessages(this);
 
     this.mutationObserver?.disconnect();
     this.el.removeEventListener("calciteInternalHiddenInputChange", this.hiddenInputChangeHandler);
   }
 
-  componentWillLoad(): void {
+  async componentWillLoad(): Promise<void> {
     setUpLoadableComponent(this);
-
     this.maxString = this.max?.toString();
     this.minString = this.min?.toString();
     this.requestedIcon = setRequestedIcon({}, this.icon, "number");
+    await setUpMessages(this);
   }
 
   componentShouldUpdate(newValue: string, oldValue: string, property: string): boolean {
@@ -836,13 +872,13 @@ export class InputNumber
     const dir = getElementDir(this.el);
     const loader = (
       <div class={CSS.loader}>
-        <calcite-progress label={this.intlLoading} type="indeterminate" />
+        <calcite-progress label={this.messages.loading} type="indeterminate" />
       </div>
     );
 
     const inputClearButton = (
       <button
-        aria-label={this.intlClear || TEXT.clear}
+        aria-label={this.messages.clear}
         class={CSS.clearButton}
         disabled={this.disabled || this.readOnly}
         onClick={this.clearInputValue}

@@ -42,7 +42,7 @@ import { isActivationKey } from "../../utils/key";
 
 /**
  * @slot - A slot for adding `calcite-dropdown-group` components. Every `calcite-dropdown-item` must have a parent `calcite-dropdown-group`, even if the `groupTitle` property is not set.
- * @slot dropdown-trigger - A slot for the element that triggers the `calcite-dropdown`.
+ * @slot trigger - A slot for the element that triggers the `calcite-dropdown`.
  */
 @Component({
   tag: "calcite-dropdown",
@@ -93,7 +93,7 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent, Float
    * If the `selectionMode` of the selected `calcite-dropdown-item`'s containing `calcite-dropdown-group` is `"none"`, the component will always close.
    *
    */
-  @Prop({ reflect: true }) disableCloseOnSelect = false;
+  @Prop({ reflect: true }) closeOnSelectDisabled = false;
 
   /**
    * When `true`, interaction is prevented and the component is displayed with lower opacity.
@@ -214,7 +214,7 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent, Float
     return (
       <Host>
         <div
-          class="calcite-dropdown-trigger-container"
+          class="calcite-trigger-container"
           id={`${guid}-menubutton`}
           onClick={this.openCalciteDropdown}
           onKeyDown={this.keyDownHandler}
@@ -384,7 +384,7 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent, Float
       item: event.detail.requestedDropdownItem
     });
     if (
-      !this.disableCloseOnSelect ||
+      !this.closeOnSelectDisabled ||
       event.detail.requestedDropdownGroup.selectionMode === "none"
     ) {
       this.closeCalciteDropdown();

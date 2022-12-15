@@ -6,11 +6,11 @@ import {
   h,
   Method,
   Prop,
+  State,
   VNode,
   Watch
 } from "@stencil/core";
-
-import { CSS, SLOTS, TEXT } from "./resources";
+import { CSS, SLOTS } from "./resources";
 import { Scale, Width } from "../interfaces";
 import { StatusColor, StatusIcons } from "../alert/interfaces";
 import { getSlotted, setRequestedIcon } from "../../utils/dom";
@@ -19,6 +19,15 @@ import {
   connectConditionalSlotComponent,
   disconnectConditionalSlotComponent
 } from "../../utils/conditionalSlot";
+import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
+import {
+  connectMessages,
+  disconnectMessages,
+  setUpMessages,
+  T9nComponent,
+  updateMessages
+} from "../../utils/t9n";
+import { Messages } from "./assets/notice/t9n";
 import {
   setUpLoadableComponent,
   setComponentLoaded,
@@ -43,9 +52,12 @@ import {
 @Component({
   tag: "calcite-notice",
   styleUrl: "notice.scss",
-  shadow: true
+  shadow: true,
+  assetsDirs: ["assets"]
 })
-export class Notice implements ConditionalSlotComponent, LoadableComponent {
+export class Notice
+  implements ConditionalSlotComponent, LoadableComponent, T9nComponent, LocalizedComponent
+{
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -112,14 +124,33 @@ export class Notice implements ConditionalSlotComponent, LoadableComponent {
    * Accessible name for the close button.
    *
    * @default "Close"
+   * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`.
    */
-  @Prop({ reflect: false }) intlClose: string = TEXT.close;
+  @Prop({ reflect: false }) intlClose: string;
 
   /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";
 
   /** Specifies the width of the component. */
   @Prop({ reflect: true }) width: Width = "auto";
+
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @internal
+   */
+  @Prop({ mutable: true }) messages: Messages;
+
+  /**
+   * Use this property to override individual strings used by the component.
+   */
+  @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
+
+  @Watch("intlClose")
+  @Watch("messageOverrides")
+  onMessagesChange(): void {
+    /* wired up by t9n util */
+  }
 
   @Watch("icon")
   @Watch("color")
@@ -135,6 +166,9 @@ export class Notice implements ConditionalSlotComponent, LoadableComponent {
 
   connectedCallback(): void {
     connectConditionalSlotComponent(this);
+    connectLocalized(this);
+    connectMessages(this);
+
     const isOpen = this.active || this.open;
 
     if (isOpen) {
@@ -151,11 +185,14 @@ export class Notice implements ConditionalSlotComponent, LoadableComponent {
 
   disconnectedCallback(): void {
     disconnectConditionalSlotComponent(this);
+    disconnectLocalized(this);
+    disconnectMessages(this);
   }
 
-  componentWillLoad(): void {
+  async componentWillLoad(): Promise<void> {
     setUpLoadableComponent(this);
     this.requestedIcon = setRequestedIcon(StatusIcons, this.icon, this.color);
+    await setUpMessages(this);
   }
 
   componentDidLoad(): void {
@@ -166,7 +203,7 @@ export class Notice implements ConditionalSlotComponent, LoadableComponent {
     const { el } = this;
     const closeButton = (
       <button
-        aria-label={this.intlClose}
+        aria-label={this.messages.close}
         class={CSS.close}
         onClick={this.close}
         ref={(el) => (this.closeButton = el)}
@@ -255,4 +292,13 @@ export class Notice implements ConditionalSlotComponent, LoadableComponent {
 
   /** The computed icon to render. */
   private requestedIcon?: string;
+
+  @State() effectiveLocale: string;
+
+  @Watch("effectiveLocale")
+  effectiveLocaleChange(): void {
+    updateMessages(this, this.effectiveLocale);
+  }
+
+  @State() defaultMessages: Messages;
 }
