@@ -176,20 +176,6 @@ export class InputDatePicker
   /** The component's value as a full date object. */
   @Prop({ mutable: true }) valueAsDate: Date | Date[];
 
-  /**
-   * The component's start date as a full date object.
-   *
-   * @deprecated use `valueAsDate` instead.
-   */
-  @Prop({ mutable: true }) startAsDate: Date;
-
-  /**
-   * The component's end date as a full date object.
-   *
-   * @deprecated use `valueAsDate` instead.
-   */
-  @Prop({ mutable: true }) endAsDate: Date;
-
   /** Specifies the earliest allowed date as a full date object. */
   @Prop({ mutable: true }) minAsDate: Date;
 
@@ -549,7 +535,6 @@ export class InputDatePicker
                 <calcite-date-picker
                   activeDate={this.datePickerActiveDate}
                   activeRange={this.focusedInput}
-                  endAsDate={this.endAsDate}
                   headingLevel={this.headingLevel}
                   max={this.max}
                   maxAsDate={this.maxAsDate}
@@ -562,7 +547,6 @@ export class InputDatePicker
                   proximitySelectionDisabled={this.proximitySelectionDisabled}
                   range={this.range}
                   scale={this.scale}
-                  startAsDate={this.startAsDate}
                   tabIndex={0}
                   valueAsDate={this.valueAsDate}
                 />
@@ -621,6 +605,10 @@ export class InputDatePicker
   formEl: HTMLFormElement;
 
   defaultValue: InputDatePicker["value"];
+
+  @State() startAsDate: Date;
+
+  @State() endAsDate: Date;
 
   @State() datePickerActiveDate: Date;
 
