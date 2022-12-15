@@ -102,7 +102,6 @@ describe("calcite-radio-group", () => {
 
     await first.click();
     expect(eventSpy).toHaveReceivedEventTimes(1);
-    expect(eventSpy).toHaveReceivedEventDetail("1");
     expect(await getSelectedItemValue(page)).toBe("1");
 
     // does not emit from programmatic changes
@@ -113,7 +112,6 @@ describe("calcite-radio-group", () => {
 
     await second.click();
     expect(eventSpy).toHaveReceivedEventTimes(2);
-    expect(eventSpy).toHaveReceivedEventDetail("2");
     expect(await getSelectedItemValue(page)).toBe("2");
   });
 

@@ -250,7 +250,7 @@ export class RadioGroup
   //--------------------------------------------------------------------------
 
   /** Fires when the selected option changes, where the event detail is the new value. */
-  @Event({ cancelable: false }) calciteRadioGroupChange: EventEmitter<string>;
+  @Event({ cancelable: false }) calciteRadioGroupChange: EventEmitter<void>;
 
   // --------------------------------------------------------------------------
   //
@@ -313,7 +313,7 @@ export class RadioGroup
         match = item;
 
         if (emit) {
-          this.calciteRadioGroupChange.emit(match.value);
+          this.calciteRadioGroupChange.emit();
         }
       }
     });
