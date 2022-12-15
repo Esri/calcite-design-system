@@ -230,7 +230,12 @@ export class Chip
 
   render(): VNode {
     const iconEl = (
-      <calcite-icon class={CSS.chipIcon} flipRtl={this.iconFlipRtl} icon={this.icon} scale="s" />
+      <calcite-icon
+        class={CSS.chipIcon}
+        flipRtl={this.iconFlipRtl}
+        icon={this.icon}
+        scale={this.scale === "l" ? "m" : "s"}
+      />
     );
 
     const closeButton = (
@@ -241,7 +246,11 @@ export class Chip
         onClick={this.closeClickHandler}
         ref={(el) => (this.closeButton = el)}
       >
-        <calcite-icon class={CSS.closeIcon} icon={ICONS.close} scale="s" />
+        <calcite-icon
+          class={CSS.closeIcon}
+          icon={ICONS.close}
+          scale={this.scale === "l" ? "m" : "s"}
+        />
       </button>
     );
 
