@@ -160,7 +160,7 @@ export class Pagination implements LocalizedComponent, LocalizedComponent, T9nCo
    *
    * @see [PaginationDetail](https://github.com/Esri/calcite-components/blob/master/src/components/pagination/pagination.tsx#L23)
    */
-  @Event({ cancelable: false }) calcitePaginationChange: EventEmitter<PaginationDetail>;
+  @Event({ cancelable: false }) calcitePaginationChange: EventEmitter<void>;
 
   // --------------------------------------------------------------------------
   //
@@ -231,13 +231,7 @@ export class Pagination implements LocalizedComponent, LocalizedComponent, T9nCo
   }
 
   private emitUpdate() {
-    const changePayload = {
-      start: this.start,
-      total: this.total,
-      num: this.num
-    };
-
-    this.calcitePaginationChange.emit(changePayload);
+    this.calcitePaginationChange.emit();
   }
 
   //--------------------------------------------------------------------------
