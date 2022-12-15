@@ -9,6 +9,54 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ### ⚠ BREAKING CHANGES
 
+- **scrim,rating,time-picker,input-time-picker,value-list:** Removed deprecated `intl\*` & accessible label properties.
+
+- **rating:**
+
+  - Removed the property `intlStars` , use `messsageOverrides.stars` instead.
+  - Removed the property `intlRating` , use `messsageOverrides.rating` instead.
+
+- **scrim:**
+
+  - Removed the property `intlLoading` , use `messsageOverrides.loading` instead.
+
+- **time-picker:**
+
+  - Removed the property `intlHour`, use `messsageOverrides.hour` instead.
+  - Removed the property `intlHourDown`, use `messsageOverrides.hourDown` instead.
+  - Removed the property `intlHourUp`, use `messsageOverrides.hourUp` instead.
+  - Removed the property `intlMeridiem`, use `messsageOverrides.meridiem` instead.
+  - Removed the property `intlMeridiemDown`, use `messsageOverrides.meridiemDown` instead.
+  - Removed the property `intlMeridiemUp`, use `messsageOverrides.meridiemUp` instead.
+  - Removed the property `intlMinute`, use `messsageOverrides.minute` instead.
+  - Removed the property `intlMinuteUp`, use `messsageOverrides.minuteUp` instead.
+  - Removed the property `intlMinuteDown`, use `messsageOverrides.minuteDown` instead.
+  - Removed the property `intlSecond`, use `messsageOverrides.second` instead.
+  - Removed the property `intlSecondUp`, use `messsageOverrides.secondUp` instead.
+  - Removed the property `intlSecondDown`, use `messsageOverrides.secondDown` instead.
+
+- **input-time-picker:**
+
+  - Removed the property `intlHour`, use `messsageOverrides.hour` instead.
+  - Removed the property `intlHourDown`, use `messsageOverrides.hourDown` instead.
+  - Removed the property `intlHourUp`, use `messsageOverrides.hourUp` instead.
+  - Removed the property `intlMeridiem`, use `messsageOverrides.meridiem` instead.
+  - Removed the property `intlMeridiemDown`, use`messsageOverrides.meridiemDown` instead.
+  - Removed the property `intlMeridiemUp`, use `messsageOverrides.meridiemUp` instead.
+  - Removed the property `intlMinute`, use `messsageOverrides.minute` instead.
+  - Removed the property `intlMinuteUp`, use `messsageOverrides.minuteUp` instead.
+  - Removed the property `intlMinuteDown`, use `messsageOverrides.minuteDown` instead.
+  - Removed the property `intlSecond`, use `messsageOverrides.second` instead.
+  - Removed the property `intlSecondUp`, use `messsageOverrides.secondUp` instead.
+  - Removed the property `intlSecondDown`, use `messsageOverrides.secondDown` instead.
+
+- **value-list:**
+
+  - Removed the property `intlDragHandleActive`, use `messsageOverrides.dragHandleActive` instead.
+  - Removed the property `intlDragHandleChange`, use `messsageOverrides.dragHandleChange` instead.
+  - Removed the property `intlDragHandleCommit`, use `messsageOverrides.dragHandleCommit` instead.
+  - Removed the property `intlDragHandleIdle`, use `messsageOverrides.dragHandleIdle` instead.
+
 - **chip,card,combobox,date-picker,flow,flow-item,filter, input-date-picker:** Removed deprecated `intl\*` & accessible label properties.
 
 - **card**:

@@ -20,9 +20,6 @@ export const simple = (): string => html`
       ${boolean("editing-enabled", false, "InlineEditable") && "editing-enabled"}
       ${boolean("loading", false, "InlineEditable") && "loading"}
       ${boolean("disabled", false, "InlineEditable") && "disabled"}
-      intl-cancel-editing="${text("intl-cancel-editing", "Cancelar", "InlineEditable")}"
-      intl-enable-editing="${text("intl-enable-editing", "Haga clic para editar", "InlineEditable")}"
-      intl-confirm-changes="${text("intl-confirm-changes", "Guardar", "InlineEditable")}"
     >
       <calcite-input
         alignment="${select("alignment", ["start", "end"], "start", "Input")}"
@@ -51,9 +48,6 @@ export const darkThemeRTL_TestOnly = (): string => html`
         ${boolean("editing-enabled", false, "InlineEditable") && "editing-enabled"}
         ${boolean("loading", false, "InlineEditable") && "loading"}
         ${boolean("disabled", false, "InlineEditable") && "disabled"}
-        intl-cancel-editing="${text("intl-cancel-editing", "Cancelar", "InlineEditable")}"
-        intl-enable-editing="${text("intl-enable-editing", "Haga clic para editar", "InlineEditable")}"
-        intl-confirm-changes="${text("intl-confirm-changes", "Guardar", "InlineEditable")}"
       >
         <calcite-input
           alignment="${select("alignment", ["start", "end"], "start", "Input")}"
