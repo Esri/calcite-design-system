@@ -3,6 +3,7 @@ import { accessible, defaults, focusable, reflects, renders, hidden } from "../.
 import { CSS } from "./resources";
 import { TEXT } from "../color-picker/resources";
 import { selectText } from "../../tests/utils";
+import { normalizeHex, isValidHex, canConvertToHexa } from "../color-picker/utils";
 
 describe("calcite-color-picker-hex-input", () => {
   it("renders", () => renders("calcite-color-picker-hex-input", { display: "block" }));
