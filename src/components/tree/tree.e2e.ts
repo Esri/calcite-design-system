@@ -340,19 +340,19 @@ describe("calcite-tree", () => {
 
         await item1.click();
 
-        expect(tree.getProperty("selectedItems")).toHaveLength(1);
+        expect(await tree.getProperty("selectedItems")).toHaveLength(1);
 
         await item2.click();
 
-        expect(tree.getProperty("selectedItems")).toHaveLength(3);
+        expect(await tree.getProperty("selectedItems")).toHaveLength(3);
 
         await item3.click();
 
-        expect(tree.getProperty("selectedItems")).toHaveLength(3);
+        expect(await tree.getProperty("selectedItems")).toHaveLength(3);
 
         await item4.click();
 
-        expect(tree.getProperty("selectedItems")).toHaveLength(2);
+        expect(await tree.getProperty("selectedItems")).toHaveLength(2);
       });
     });
 
@@ -407,12 +407,12 @@ describe("calcite-tree", () => {
 
         await item1.click();
         expect(selectEventSpy).toHaveReceivedEventTimes(1);
-        expect(tree.getProperty("selectedItems")).toHaveLength(1);
+        expect(await tree.getProperty("selectedItems")).toHaveLength(1);
         expect(await page.findAll("calcite-tree-item[selected]")).toHaveLength(0);
 
         await item2.click();
         expect(selectEventSpy).toHaveReceivedEventTimes(2);
-        expect(tree.getProperty("selectedItems")).toHaveLength(1);
+        expect(await tree.getProperty("selectedItems")).toHaveLength(1);
         expect(await page.findAll("calcite-tree-item[selected]")).toHaveLength(0);
       });
     });
