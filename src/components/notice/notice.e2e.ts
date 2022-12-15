@@ -35,7 +35,7 @@ describe("calcite-notice", () => {
     const element = await page.find("calcite-notice");
     const close = await page.find(`calcite-notice >>> .${CSS.close}`);
     const icon = await page.find(`calcite-notice >>> .${CSS.icon}`);
-    expect(element).toEqualAttribute("color", "blue");
+    expect(element).toEqualAttribute("kind", "brand");
     expect(close).toBeNull();
     expect(icon).toBeNull();
   });
@@ -43,7 +43,7 @@ describe("calcite-notice", () => {
   it("renders requested props when valid props are provided", async () => {
     const page = await newE2EPage();
     await page.setContent(`
-    <calcite-notice color="yellow" closable>
+    <calcite-notice kind="warning" closable>
     ${noticeContent}
     </calcite-notice>`);
 
@@ -51,7 +51,7 @@ describe("calcite-notice", () => {
     const close = await page.find(`calcite-notice >>> .${CSS.close}`);
     const icon = await page.find(`calcite-notice >>> .${CSS.icon}`);
 
-    expect(element).toEqualAttribute("color", "yellow");
+    expect(element).toEqualAttribute("kind", "warning");
     expect(close).not.toBeNull();
     expect(icon).toBeNull();
   });
