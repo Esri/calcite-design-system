@@ -374,12 +374,6 @@ export class InputDatePicker
   //  Events
   //
   //--------------------------------------------------------------------------
-  /**
-   * Fires when a user changes the date.
-   *
-   * @deprecated use `calciteInputDatePickerChange` instead.
-   */
-  @Event({ cancelable: false }) calciteDatePickerChange: EventEmitter<Date>;
 
   /**
    * Fires when a user changes the date range.
@@ -1011,9 +1005,8 @@ export class InputDatePicker
     this.value = newValue || "";
 
     const changeEvent = this.calciteInputDatePickerChange.emit();
-    const deprecatedDatePickerChangeEvent = this.calciteDatePickerChange.emit(value as Date);
 
-    if (changeEvent.defaultPrevented || deprecatedDatePickerChangeEvent.defaultPrevented) {
+    if (changeEvent.defaultPrevented) {
       this.value = oldValue;
       this.setInputValue(oldValue as string);
     }
