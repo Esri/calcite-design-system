@@ -11,7 +11,7 @@
           "type": "color"
         },
         "md": {
-          "value": "$semantic.font.default.bold.-1h",
+          "value": "$semantic.font.default.medium.0h",
           "type": "typography"
         }
       },
@@ -25,7 +25,7 @@
           "type": "color"
         },
         "md": {
-          "value": "$semantic.font.default.bold.-1h",
+          "value": "$semantic.font.default.regular.-1h",
           "type": "typography"
         }
       }
@@ -54,7 +54,7 @@
     },
     "border-radius": {
       "md": {
-        "value": "$core.border.border-radius.5",
+        "value": "$core.border.border-radius.none",
         "type": "borderRadius"
       }
     },
@@ -88,6 +88,40 @@
           "value": "$semantic.ui.color.border.2.dark",
           "type": "color"
         }
+      }
+    },
+    "default": {
+      "space-between": {
+        "md": {
+          "value": "{core.spacing.3}",
+          "type": "spacing"
+        }
+      },
+      "space-around": {
+        "md": {
+          "value": "{core.spacing.7}",
+          "type": "spacing"
+        }
+      }
+    },
+    "selected": {
+      "space-between": {
+        "md": {
+          "value": "{core.spacing.3}",
+          "type": "spacing"
+        }
+      },
+      "space-around": {
+        "md": {
+          "value": "{core.spacing.none}",
+          "type": "spacing"
+        }
+      }
+    },
+    "border-width": {
+      "md": {
+        "value": "{core.border.border-width.0}",
+        "type": "borderWidth"
       }
     }
   }
