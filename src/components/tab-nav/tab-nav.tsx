@@ -234,9 +234,7 @@ export class TabNav {
     event.preventDefault();
   }
 
-  @Listen("calciteTabsActivate") activateTabHandler(
-    event: CustomEvent<TabChangeEventDetail>
-  ): void {
+  @Listen("calciteTabsActivate") activateTabHandler(event: CustomEvent<void>): void {
     this.calciteTabChange.emit();
 
     event.stopPropagation();
