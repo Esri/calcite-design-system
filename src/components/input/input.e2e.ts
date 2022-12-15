@@ -15,7 +15,6 @@ import { letterKeys, numberKeys } from "../../utils/key";
 import { locales, numberStringFormatter } from "../../utils/locale";
 import { getElementXY } from "../../tests/utils";
 import { KeyInput } from "puppeteer";
-import { TEXT } from "./resources";
 
 describe("calcite-input", () => {
   const delayFor2UpdatesInMs = 200;
@@ -697,7 +696,7 @@ describe("calcite-input", () => {
     await page.setContent(html`<calcite-input clearable value="John Doe"></calcite-input>`);
     const clearButton = await page.find("calcite-input >>> .clear-button");
     expect(clearButton).not.toBe(null);
-    expect(clearButton.getAttribute("aria-label")).toBe(TEXT.clear);
+    expect(clearButton.getAttribute("aria-label")).toBe("Clear value");
   });
 
   it("does not render clear button when clearable is requested and value is not populated", async () => {

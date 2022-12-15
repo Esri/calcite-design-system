@@ -80,101 +80,6 @@ export class TimePicker
   //
   //--------------------------------------------------------------------------
 
-  /**
-   * Accessible name for the component's hour input.
-   *
-   * @default "Hour"
-   * @deprecated - translations are now built-in, if you need to override a string, please use `messageOverrides`
-   */
-  @Prop() intlHour: string;
-
-  /**
-   * Accessible name for the component's hour down button.
-   *
-   * @default "Decrease hour"
-   * @deprecated - translations are now built-in, if you need to override a string, please use `messageOverrides`
-   */
-  @Prop() intlHourDown: string;
-
-  /**
-   * Accessible name for the component's hour up button.
-   *
-   * @default "Increase hour"
-   * @deprecated - translations are now built-in, if you need to override a string, please use `messageOverrides`
-   */
-  @Prop() intlHourUp: string;
-
-  /**
-   * Accessible name for the component's meridiem (AM/PM) input.
-   *
-   * @default "AM/PM"
-   * @deprecated - translations are now built-in, if you need to override a string, please use `messageOverrides`
-   */
-  @Prop() intlMeridiem: string;
-
-  /**
-   * Accessible name for the component's meridiem (AM/PM) down button.
-   *
-   * @default "Decrease AM/PM"
-   * @deprecated - translations are now built-in, if you need to override a string, please use `messageOverrides`
-   */
-  @Prop() intlMeridiemDown: string;
-
-  /**
-   * Accessible name for the component's meridiem (AM/PM) up button.
-   *
-   * @default "Increase AM/PM"
-   * @deprecated - translations are now built-in, if you need to override a string, please use `messageOverrides`
-   */
-  @Prop() intlMeridiemUp: string;
-
-  /**
-   * Accessible name for the component's minute input.
-   *
-   * @default "Minute"
-   * @deprecated - translations are now built-in, if you need to override a string, please use `messageOverrides`
-   */
-  @Prop() intlMinute: string;
-
-  /**
-   * Accessible name for the component's minute down button.
-   *
-   * @default "Decrease minute"
-   * @deprecated - translations are now built-in, if you need to override a string, please use `messageOverrides`
-   */
-  @Prop() intlMinuteDown: string;
-
-  /**
-   * Accessible name for the component's minute up button.
-   *
-   * @default "Increase minute"
-   * @deprecated - translations are now built-in, if you need to override a string, please use `messageOverrides`
-   */
-  @Prop() intlMinuteUp: string;
-
-  /**
-   * Accessible name for the component's second input.
-   *
-   * @default "Second"
-   * @deprecated - translations are now built-in, if you need to override a string, please use `messageOverrides`
-   */
-  @Prop() intlSecond: string;
-
-  /**
-   * Accessible name for the component's second down button.
-   *
-   * @default "Decrease second"
-   */
-  @Prop() intlSecondDown: string;
-
-  /**
-   * Accessible name for the component's second up button.
-   *
-   * @default "Increase second"
-   * @deprecated - translations are now built-in, if you need to override a string, please use `messageOverrides`
-   */
-  @Prop() intlSecondUp: string;
-
   /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";
 
@@ -207,18 +112,6 @@ export class TimePicker
    */
   @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
 
-  @Watch("intlHour")
-  @Watch("intlHourDown")
-  @Watch("intlHourUp")
-  @Watch("intlMeridiem")
-  @Watch("intlMeridiemDown")
-  @Watch("intlMeridiemUp")
-  @Watch("intlMinute")
-  @Watch("intlMinuteDown")
-  @Watch("intlMinuteUp")
-  @Watch("intlSecond")
-  @Watch("intlSecondDown")
-  @Watch("intlSecondUp")
   @Watch("messageOverrides")
   onMessagesChange(): void {
     /* wired up by t9n util */
