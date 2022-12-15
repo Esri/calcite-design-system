@@ -157,8 +157,6 @@ export class Pagination implements LocalizedComponent, LocalizedComponent, T9nCo
 
   /**
    * Emits when the selected page changes.
-   *
-   * @see [PaginationDetail](https://github.com/Esri/calcite-components/blob/master/src/components/pagination/pagination.tsx#L23)
    */
   @Event({ cancelable: false }) calcitePaginationChange: EventEmitter<void>;
 
