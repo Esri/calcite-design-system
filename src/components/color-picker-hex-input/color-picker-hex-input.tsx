@@ -41,6 +41,13 @@ export class ColorPickerHexInput implements LoadableComponent {
 
   @Element() el: HTMLCalciteColorPickerHexInputElement;
 
+  /**
+   * Specifies accessible label for `calcite-input`.
+   *
+   * @readonly
+   */
+  @Prop() hexLabel: string;
+
   //--------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -210,12 +217,11 @@ export class ColorPickerHexInput implements LoadableComponent {
   render(): VNode {
     const { value } = this;
     const hexInputValue = this.formatForInternalInput(value);
-
     return (
       <div class={CSS.container}>
         <calcite-input
           class={CSS.input}
-          label={"hex"}
+          label={this.hexLabel}
           maxLength={6}
           numberingSystem={this.numberingSystem}
           onCalciteInputChange={this.onInputChange}
