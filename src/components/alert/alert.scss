@@ -323,3 +323,11 @@ $alertDurations: "fast" 6000ms, "medium" 10000ms, "slow" 14000ms;
     @apply w-full opacity-100;
   }
 }
+
+/**
+ * Conditional styles for when Alert is slotted in Shell
+ */
+
+.container.slotted-in-shell {
+  position: absolute;
+}
