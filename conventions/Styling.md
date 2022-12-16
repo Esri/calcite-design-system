@@ -30,47 +30,6 @@ Add a class to handle the logic in the component class.
 }
 ```
 
-## Color
-
-If a component has multiple color themes (for example Blue, Red, Green, and Yellow) representing various state implement a `color` prop and reflect it to an attributes.
-
-```tsx
-enum Colors {
-  red = "red",
-  blue = "blue",
-  green = "green",
-  yellow = "yellow",
-}
-
-export class Component {
-
-// ...
-
-@Prop({ reflect: true }) color: Colors = 'blue'
-
-// ...
-```
-
-You can then use the `:host()` selector to define your custom colors:
-
-```scss
-:host([color="blue"]) {
-  .something {
-    // make it blue
-  }
-}
-
-:host([color="red"]) {
-  .something {
-    // make it red
-  }
-}
-```
-
-**Discussed In**:
-
-- https://github.com/Esri/calcite-components/pull/24/files/3446c89010e3ef0421803d68d627aba2e7c4bfa0#r289427838
-
 ## Light Theme/Dark Theme
 
 In the [global CSS file](https://github.com/Esri/calcite-components/blob/master/src/assets/styles/global.scss), we specify the values of each color for both light and dark theme. This enables theming to be inherited throughout a component tree. Consider this valid example:
