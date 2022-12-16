@@ -356,9 +356,9 @@ export const focusElementInGroup = (elements: Element[], elCurrent: Element, des
   const currentIndex = elements.indexOf(elCurrent);
   const isFirstItem = currentIndex === 0;
   const isLastItem = currentIndex === elements.length - 1;
-  console.log(elements, elCurrent, destination);
   destination =
     destination === "prev" && isFirstItem ? "last" : destination === "next" && isLastItem ? "first" : destination;
+
   let focusTarget;
 
   switch (destination) {
