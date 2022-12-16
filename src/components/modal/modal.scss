@@ -5,6 +5,7 @@
  *
  * @prop --calcite-modal-content-padding: Specifies the padding of the modal `content` slot.
  * @prop --calcite-scrim-background: The component's semi-transparent background color.
+ * @prop --calcite-modal-content-background: Specifies the background color of content placed in the `content` slot.
  */
 
 :host {
@@ -178,8 +179,9 @@
  * Content area
  */
 .content {
-  @apply bg-foreground-1 relative box-border block h-full overflow-auto p-0;
+  @apply relative box-border block h-full overflow-auto p-0;
   max-block-size: calc(100vh - 12rem);
+  background-color: var(--calcite-modal-content-background, theme("colors.background.foreground.1"));
   padding-block: var(--calcite-modal-content-padding, var(--calcite-modal-padding-internal));
   padding-inline: var(--calcite-modal-content-padding, var(--calcite-modal-padding-internal));
 }
@@ -190,10 +192,6 @@
 
 @include slotted("content", "*") {
   font-size: var(--calcite-modal-context-text-internal);
-}
-
-:host([background-color="grey"]) .content {
-  @apply bg-background;
 }
 
 /**
