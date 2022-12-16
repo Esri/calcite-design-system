@@ -479,20 +479,6 @@ export class DatePicker implements LocalizedComponent, T9nComponent {
   }
 
   /**
-   * Update date instance of end if valid
-   *
-   * @param endDate
-   * @param emit
-   */
-  private setEndAsDate(endDate: Date, emit?: boolean): void {
-    this.endAsDate = endDate ? setEndOfDay(endDate) : endDate;
-    this.mostRecentRangeValue = this.endAsDate;
-    if (emit) {
-      this.calciteDatePickerRangeChange.emit();
-    }
-  }
-
-  /**
    * Reset active date and close
    */
   reset = (): void => {
@@ -515,7 +501,9 @@ export class DatePicker implements LocalizedComponent, T9nComponent {
   };
 
   private setEndDate(date: Date): void {
-    this.setEndAsDate(date, true);
+    this.endAsDate = date ? setEndOfDay(date) : date;
+    this.mostRecentRangeValue = this.endAsDate;
+    this.calciteDatePickerRangeChange.emit();
     this.activeEndDate = date || null;
   }
 
