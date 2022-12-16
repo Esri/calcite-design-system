@@ -1,6 +1,7 @@
+/* eslint-disable jest/no-focused-tests */
 import { newE2EPage } from "@stencil/core/testing";
 import { CSS, TEXT } from "./resources";
-import { accessible, defaults, renders, hidden } from "../../tests/commonTests";
+import { accessible, defaults, renders, hidden, t9n } from "../../tests/commonTests";
 
 describe("calcite-tip-manager", () => {
   it("renders", async () => renders("calcite-tip-manager", { display: "block" }));
@@ -220,7 +221,7 @@ describe("calcite-tip-manager", () => {
     });
   });
 
-  it("should set headingLevel of tip", async () => {
+  it.only("should set headingLevel of tip", async () => {
     const page = await newE2EPage();
 
     await page.setContent(
@@ -239,4 +240,6 @@ describe("calcite-tip-manager", () => {
 
     expect(heading.tagName).toEqual("H2");
   });
+
+  it("supports translations", () => t9n("calcite-tip-manager"));
 });
