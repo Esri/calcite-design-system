@@ -18,20 +18,19 @@ export default {
 export const simple = (): string => html`
   <calcite-modal
     ${boolean("open", true)}
-    color="${select("color", { blue: "blue", red: "red", none: "" }, "")}"
+    kind="${select("kind", ["brand", "danger", "info", "success", "warning"], "")}"
     background-color="${select("background-color", ["white", "grey"], "white")}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
     width="${select("width", ["s", "m", "l"], "s")}"
     ${boolean("fullscreen", false)}
     ${boolean("docked", false)}
-    ${boolean("disable-escape", false)}
-    intl-close="${text("intl-close", "Close")}"
+    ${boolean("escape-disabled", false)}
   >
     <h3 slot="header">Small Modal</h3>
     <div slot="content">
       <p>The small modal is perfect for short confirmation dialogs or very compact interfaces with few elements.</p>
     </div>
-    <calcite-button slot="back" color="neutral" appearance="outline" icon="chevron-left" width="full"
+    <calcite-button slot="back" kind="neutral" appearance="outline" icon="chevron-left" width="full"
       >Back</calcite-button
     >
     <calcite-button slot="secondary" width="full" appearance="outline">Cancel</calcite-button>
@@ -44,14 +43,13 @@ export const darkThemeRTLCustomSize_TestOnly = (): string => html`
     class="calcite-theme-dark"
     dir="rtl"
     ${boolean("open", true)}
-    color="${select("color", { blue: "blue", red: "red", none: "" }, "")}"
+    kind="${select("kind", ["brand", "danger", "info", "success", "warning"], "")}"
     background-color="${select("background-color", ["white", "grey"], "white")}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
     width="${number("width", 300)}"
     ${boolean("fullscreen", false)}
     ${boolean("docked", false)}
-    ${boolean("disable-escape", false)}
-    intl-close="${text("intl-close", "Close")}"
+    ${boolean("escape-disabled", false)}
   >
     <h3 slot="header">Small Modal</h3>
     <div slot="content">
@@ -60,7 +58,7 @@ export const darkThemeRTLCustomSize_TestOnly = (): string => html`
         customize the size using the width attribute.
       </p>
     </div>
-    <calcite-button slot="back" color="neutral" appearance="outline" icon="chevron-left" width="full"
+    <calcite-button slot="back" kind="neutral" appearance="outline" icon="chevron-left" width="full"
       >Back</calcite-button
     >
     <calcite-button slot="secondary" width="full" appearance="outline">Cancel</calcite-button>
@@ -82,7 +80,7 @@ export const withTooltips_TestOnly = (): string => html`
       et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
       commodo consequat.
     </div>
-    <calcite-button id="back-button-modal" slot="back" color="neutral" icon="chevron-left" width="full"
+    <calcite-button id="back-button-modal" slot="back" kind="neutral" icon="chevron-left" width="full"
       >Back
     </calcite-button>
     <calcite-button slot="secondary" width="full" appearance="outline">Cancel</calcite-button>

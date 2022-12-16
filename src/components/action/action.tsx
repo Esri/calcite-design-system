@@ -1,12 +1,31 @@
-import { Component, Element, Host, Method, Prop, h, forceUpdate, VNode } from "@stencil/core";
-
+import {
+  Component,
+  Element,
+  Host,
+  Method,
+  Prop,
+  h,
+  forceUpdate,
+  VNode,
+  Watch,
+  State,
+  Build
+} from "@stencil/core";
 import { Alignment, Appearance, Scale } from "../interfaces";
-
-import { CSS, TEXT, SLOTS } from "./resources";
+import { CSS, SLOTS } from "./resources";
 import { guid } from "../../utils/guid";
 import { createObserver } from "../../utils/observers";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import { toAriaBoolean } from "../../utils/dom";
+import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
+import { Messages } from "./assets/action/t9n";
+import {
+  connectMessages,
+  disconnectMessages,
+  setUpMessages,
+  T9nComponent,
+  updateMessages
+} from "../../utils/t9n";
 import {
   setUpLoadableComponent,
   setComponentLoaded,
@@ -20,9 +39,12 @@ import {
 @Component({
   tag: "calcite-action",
   styleUrl: "action.scss",
-  shadow: true
+  shadow: true,
+  assetsDirs: ["assets"]
 })
-export class Action implements InteractiveComponent, LoadableComponent {
+export class Action
+  implements InteractiveComponent, LocalizedComponent, T9nComponent, LoadableComponent
+{
   // --------------------------------------------------------------------------
   //
   //  Properties
@@ -55,24 +77,13 @@ export class Action implements InteractiveComponent, LoadableComponent {
   /** Specifies an icon to display. */
   @Prop() icon: string;
 
+  /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
+  @Prop({ reflect: true }) iconFlipRtl = false;
+
   /**
    * When `true`, displays a visual indicator.
    */
   @Prop({ reflect: true }) indicator = false;
-
-  /**
-   * When `indicator` is `true`, specifies the accessible context of the `indicator`.
-   *
-   * @default "Indicator present"
-   */
-  @Prop() intlIndicator: string = TEXT.indicator;
-
-  /**
-   * Specifies the text label to display while loading.
-   *
-   * @default "Loading"
-   */
-  @Prop() intlLoading: string = TEXT.loading;
 
   /**
    * Specifies the label of the component. If no label is provided, the label inherits what's provided for the `text` prop.
@@ -99,6 +110,23 @@ export class Action implements InteractiveComponent, LoadableComponent {
    */
   @Prop({ reflect: true }) textEnabled = false;
 
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @internal
+   */
+  @Prop({ mutable: true }) messages: Messages;
+
+  /**
+   * Use this property to override individual strings used by the component.
+   */
+  @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
+
+  @Watch("messageOverrides")
+  onMessagesChange(): void {
+    /* wired up by t9n util */
+  }
+
   // --------------------------------------------------------------------------
   //
   //  Private Properties
@@ -110,6 +138,15 @@ export class Action implements InteractiveComponent, LoadableComponent {
   buttonEl: HTMLButtonElement;
 
   mutationObserver = createObserver("mutation", () => forceUpdate(this));
+
+  @State() effectiveLocale = "";
+
+  @Watch("effectiveLocale")
+  effectiveLocaleChange(): void {
+    updateMessages(this, this.effectiveLocale);
+  }
+
+  @State() defaultMessages: Messages;
 
   guid = `calcite-action-${guid()}`;
 
@@ -124,11 +161,16 @@ export class Action implements InteractiveComponent, LoadableComponent {
   // --------------------------------------------------------------------------
 
   connectedCallback(): void {
+    connectLocalized(this);
+    connectMessages(this);
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
   }
 
-  componentWillLoad(): void {
+  async componentWillLoad(): Promise<void> {
     setUpLoadableComponent(this);
+    if (Build.isBrowser) {
+      await setUpMessages(this);
+    }
   }
 
   componentDidLoad(): void {
@@ -136,6 +178,8 @@ export class Action implements InteractiveComponent, LoadableComponent {
   }
 
   disconnectedCallback(): void {
+    disconnectLocalized(this);
+    disconnectMessages(this);
     this.mutationObserver?.disconnect();
   }
 
@@ -179,7 +223,7 @@ export class Action implements InteractiveComponent, LoadableComponent {
   }
 
   renderIndicatorText(): VNode {
-    const { indicator, intlIndicator, indicatorId, buttonId } = this;
+    const { indicator, messages, indicatorId, buttonId } = this;
     return (
       <div
         aria-labelledby={buttonId}
@@ -188,19 +232,21 @@ export class Action implements InteractiveComponent, LoadableComponent {
         id={indicatorId}
         role="region"
       >
-        {indicator ? intlIndicator : null}
+        {indicator ? messages.indicator : null}
       </div>
     );
   }
 
   renderIconContainer(): VNode {
-    const { loading, icon, scale, el, intlLoading } = this;
+    const { loading, icon, scale, el, iconFlipRtl } = this;
     const iconScale = scale === "l" ? "m" : "s";
     const loaderScale = scale === "l" ? "l" : "m";
     const calciteLoaderNode = loading ? (
-      <calcite-loader inline label={intlLoading} scale={loaderScale} />
+      <calcite-loader inline label={this.messages.loading} scale={loaderScale} />
     ) : null;
-    const calciteIconNode = icon ? <calcite-icon icon={icon} scale={iconScale} /> : null;
+    const calciteIconNode = icon ? (
+      <calcite-icon flipRtl={iconFlipRtl} icon={icon} scale={iconScale} />
+    ) : null;
     const iconNode = calciteLoaderNode || calciteIconNode;
     const hasIconToDisplay = iconNode || el.children?.length;
 
@@ -235,10 +281,9 @@ export class Action implements InteractiveComponent, LoadableComponent {
       indicator,
       indicatorId,
       buttonId,
-      intlIndicator
+      messages
     } = this;
-
-    const ariaLabel = `${label || text}${indicator ? ` (${intlIndicator})` : ""}`;
+    const ariaLabel = `${label || text}${indicator ? ` (${messages.indicator})` : ""}`;
 
     const buttonClasses = {
       [CSS.button]: true,

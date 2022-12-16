@@ -1,5 +1,3 @@
-export type ChipColor = "brand" | "neutral" | "inverse";
-
 export interface ItemKeyEvent {
   parent: HTMLCalciteChipGroupElement;
   item: KeyboardEvent;

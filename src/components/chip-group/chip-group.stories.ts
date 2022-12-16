@@ -1,5 +1,5 @@
 import { select } from "@storybook/addon-knobs";
-import { boolean, storyFilters } from "../../../.storybook/helpers";
+import { storyFilters } from "../../../.storybook/helpers";
 import { themesDarkDefault } from "../../../.storybook/utils";
 import readme from "./readme.md";
 import { html } from "../../../support/formatting";

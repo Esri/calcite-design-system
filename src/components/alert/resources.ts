@@ -1,7 +1,3 @@
-export const TEXT = {
-  intlClose: "Close"
-};
-
 export const DURATIONS = {
   slow: 14000,
   medium: 10000,

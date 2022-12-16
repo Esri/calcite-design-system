@@ -7,23 +7,37 @@ import {
   Element,
   VNode,
   Method,
-  Listen
+  Listen,
+  Build,
+  State,
+  Watch
 } from "@stencil/core";
-import { getElementProp, getSlotted, toAriaBoolean } from "../../utils/dom";
-import { CSS, TEXT, SLOTS, ICONS } from "./resources";
-import { ChipColor, ItemKeyEvent, RegistryEntry, RequestedItem } from "./interfaces";
-import { Appearance, DeprecatedEventPayload, Scale } from "../interfaces";
+import { getElementProp, toAriaBoolean } from "../../utils/dom";
+import { CSS, SLOTS, ICONS } from "./resources";
+import { ItemKeyEvent, RegistryEntry, RequestedItem } from "./interfaces";
+import { Appearance, DeprecatedEventPayload, Kind, Scale } from "../interfaces";
 import {
   ConditionalSlotComponent,
   connectConditionalSlotComponent,
   disconnectConditionalSlotComponent
 } from "../../utils/conditionalSlot";
+import { Messages } from "./assets/chip/t9n";
+import {
+  connectMessages,
+  disconnectMessages,
+  setUpMessages,
+  T9nComponent,
+  updateMessages
+} from "../../utils/t9n";
+import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 import {
   setUpLoadableComponent,
   setComponentLoaded,
   LoadableComponent,
   componentLoaded
 } from "../../utils/loadable";
+import { createObserver } from "../../utils/observers";
+import { slotChangeHasAssignedElement } from "../../utils/dom";
 
 /**
  * @slot - A slot for adding text.
@@ -32,9 +46,12 @@ import {
 @Component({
   tag: "calcite-chip",
   styleUrl: "chip.scss",
-  shadow: true
+  shadow: true,
+  assetsDirs: ["assets"]
 })
-export class Chip implements ConditionalSlotComponent, LoadableComponent {
+export class Chip
+  implements ConditionalSlotComponent, LoadableComponent, LocalizedComponent, T9nComponent
+{
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -50,20 +67,14 @@ export class Chip implements ConditionalSlotComponent, LoadableComponent {
   //--------------------------------------------------------------------------
 
   /** Specifies the appearance style of the component. */
-  @Prop({ reflect: true }) appearance: Extract<"solid" | "transparent", Appearance> = "solid";
+  @Prop({ reflect: true }) appearance: Extract<"outline" | "outline-fill" | "solid", Appearance> =
+    "solid";
 
-  /** specify the color of the chip */
-  @Prop({ reflect: true }) color: ChipColor = "neutral";
+  /** Specifies the kind of the component (will apply to border and background if applicable). */
+  @Prop({ reflect: true }) kind: Extract<"brand" | "inverse" | "neutral", Kind> = "neutral";
 
   /** When `true`, a close button is added to the component. */
   @Prop({ reflect: true, mutable: true }) closable = false;
-
-  /**
-   * Accessible name for the component's close button.
-   *
-   * @default "Close"
-   */
-  @Prop() dismissLabel: string = TEXT.close;
 
   /** Specifies an icon to display. */
   @Prop({ reflect: true }) icon: string;
@@ -86,15 +97,48 @@ export class Chip implements ConditionalSlotComponent, LoadableComponent {
   /** Is the chip selected  */
   @Prop({ reflect: true, mutable: true }) selected = false;
 
-  // --------------------------------------------------------------------------
-  //
-  //  Private Properties
-  //
-  // --------------------------------------------------------------------------
+  /**
+   * Use this property to override individual strings used by the component.
+   */
+  @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
 
-  private containerEl: HTMLDivElement;
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @internal
+   */
+  @Prop({ mutable: true }) messages: Messages;
+
+  @Watch("messageOverrides")
+  onMessagesChange(): void {
+    /* wired up by t9n util */
+  }
+
+  //--------------------------------------------------------------------------
+  //
+  //  Private Properties / State
+  //
+  //--------------------------------------------------------------------------
+  @State() defaultMessages: Messages;
+
+  @State() effectiveLocale: string;
+
+  @Watch("effectiveLocale")
+  effectiveLocaleChange(): void {
+    updateMessages(this, this.effectiveLocale);
+  }
+
+  private mutationObserver = createObserver("mutation", () => this.updateHasContent());
 
   private closeButton: HTMLButtonElement;
+
+  /** determine if there is slotted content for styling purposes */
+  @State() private hasContent = false;
+
+  /** determine if there is slotted image for styling purposes */
+  @State() private hasImage = false;
+
+  private containerEl: HTMLDivElement;
 
   /** the containing accordion element */
   private parent: HTMLCalciteChipGroupElement;
@@ -144,10 +188,9 @@ export class Chip implements ConditionalSlotComponent, LoadableComponent {
     this.parent = this.el.parentElement as HTMLCalciteChipGroupElement;
     this.selectionMode = getElementProp(this.el, "selection-mode", "none");
     connectConditionalSlotComponent(this);
-  }
-
-  componentWillLoad(): void {
-    setUpLoadableComponent(this);
+    connectLocalized(this);
+    connectMessages(this);
+    this.setupTextContentObserver();
   }
 
   componentDidLoad(): void {
@@ -161,6 +204,16 @@ export class Chip implements ConditionalSlotComponent, LoadableComponent {
 
   disconnectedCallback(): void {
     disconnectConditionalSlotComponent(this);
+    disconnectLocalized(this);
+    disconnectMessages(this);
+  }
+
+  async componentWillLoad(): Promise<void> {
+    setUpLoadableComponent(this);
+    if (Build.isBrowser) {
+      await setUpMessages(this);
+      this.updateHasContent();
+    }
   }
   //--------------------------------------------------------------------------
   //
@@ -222,21 +275,49 @@ export class Chip implements ConditionalSlotComponent, LoadableComponent {
 
   // --------------------------------------------------------------------------
   //
+  //  Events
+  //
+  // --------------------------------------------------------------------------
+
+  /**
+   * Fires when the close button is clicked.
+   */
+  @Event({ cancelable: false }) calciteChipClose: EventEmitter<void>;
+
+  // --------------------------------------------------------------------------
+  //
   //  Private Methods
   //
   // --------------------------------------------------------------------------
 
   private closeHandler = (): void => {
+    // event.preventDefault();
+    this.calciteChipClose.emit();
     this.closed = true;
     this.selected = false;
     this.itemSelectHandler();
-    this.calciteChipDismiss.emit(this.el);
     event.stopPropagation();
   };
 
   private getItemPosition(): number {
     return Array.prototype.indexOf.call(this.parent.querySelectorAll("calcite-chip"), this.el);
   }
+
+  private updateHasContent() {
+    const slottedContent = this.el.textContent.trim().length > 0 || this.el.childNodes.length > 0;
+    this.hasContent =
+      this.el.childNodes.length > 0 && this.el.childNodes[0]?.nodeName === "#text"
+        ? this.el.textContent?.trim().length > 0
+        : slottedContent;
+  }
+
+  private setupTextContentObserver() {
+    this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
+  }
+
+  private handleSlotImageChange = (event: Event): void => {
+    this.hasImage = slotChangeHasAssignedElement(event);
+  };
 
   private itemSelectHandler = (): void => {
     // q - expected to not interact when "none" ?
@@ -271,6 +352,14 @@ export class Chip implements ConditionalSlotComponent, LoadableComponent {
   //
   //--------------------------------------------------------------------------
 
+  renderChipImage(): VNode {
+    return (
+      <div class={CSS.imageContainer} key="image">
+        <slot name={SLOTS.image} onSlotchange={this.handleSlotImageChange} />
+      </div>
+    );
+  }
+
   renderSelectionIcon(): VNode {
     const icon =
       this.selectionMode === "multiple" && this.selected
@@ -291,12 +380,16 @@ export class Chip implements ConditionalSlotComponent, LoadableComponent {
   renderCloseButton(): VNode {
     return (
       <button
-        aria-label={this.dismissLabel}
+        aria-label={this.messages.dismissLabel}
         class={CSS.close}
-        onClick={() => this.closeHandler()}
+        onClick={this.closeHandler}
         ref={(el) => (this.closeButton = el)}
       >
-        <calcite-icon class={CSS.closeIcon} icon={ICONS.close} scale="s" />
+        <calcite-icon
+          class={CSS.closeIcon}
+          icon={ICONS.close}
+          scale={this.scale === "l" ? "m" : "s"}
+        />
       </button>
     );
   }
@@ -316,8 +409,6 @@ export class Chip implements ConditionalSlotComponent, LoadableComponent {
   }
 
   render(): VNode {
-    const hasImageSlot = getSlotted(this.el, SLOTS.image);
-
     let aria = {};
     switch (this.selectionMode) {
       case "single":
@@ -340,13 +431,17 @@ export class Chip implements ConditionalSlotComponent, LoadableComponent {
     return (
       <div
         {...aria}
-        class={`container ${this.selectable ? "cursor-pointer" : ""}`}
+        class={{
+          [CSS.container]: true,
+          [CSS.contentSlotted]: this.hasContent,
+          [CSS.imageSlotted]: this.hasImage
+        }}
         onClick={this.itemSelectHandler}
         ref={(el) => (this.containerEl = el)}
         tabIndex={0}
       >
         {this.selectable && this.selectionMode !== "none" && this.renderSelectionIcon()}
-        {hasImageSlot && this.renderImageSlot()}
+        {this.renderChipImage()}
         {this.icon && this.renderIcon()}
         <span class={CSS.title}>
           <slot />

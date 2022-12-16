@@ -1,5 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, renders, slots, hidden } from "../../tests/commonTests";
+import { accessible, renders, slots, hidden, t9n } from "../../tests/commonTests";
 
 import { CSS, SLOTS } from "./resources";
 
@@ -12,27 +12,53 @@ describe("calcite-chip", () => {
 
   it("has slots", () => slots("calcite-chip", SLOTS));
 
+  it("should emit event after the close button is clicked", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<calcite-chip closable>cheetos</calcite-chip>`);
+
+    const eventSpy = await page.spyOnEvent("calciteChipClose", "window");
+
+    const closeButton = await page.find(`calcite-chip >>> .${CSS.close}`);
+
+    await closeButton.click();
+
+    expect(eventSpy).toHaveReceivedEvent();
+  });
+
   it("renders default props when none are provided", async () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-chip>Chip content</calcite-chip>`);
+
     const element = await page.find("calcite-chip");
     expect(element).toEqualAttribute("appearance", "solid");
-    expect(element).toEqualAttribute("color", "neutral");
+    expect(element).toEqualAttribute("kind", "neutral");
     expect(element).toEqualAttribute("scale", "m");
   });
 
   it("renders requested props when valid props are provided", async () => {
     const page = await newE2EPage();
-    await page.setContent(`<calcite-chip appearance="clear" color="brand" scale="l">Chip content</calcite-chip>`);
+    await page.setContent(`<calcite-chip appearance="outline" kind="brand" scale="l">Chip content</calcite-chip>`);
+
     const element = await page.find("calcite-chip");
-    expect(element).toEqualAttribute("appearance", "clear");
-    expect(element).toEqualAttribute("color", "brand");
+    expect(element).toEqualAttribute("appearance", "outline");
+    expect(element).toEqualAttribute("kind", "brand");
+    expect(element).toEqualAttribute("scale", "l");
+  });
+
+  it("renders outline-fill chip when appearance='outline-fill'", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<calcite-chip appearance="outline-fill" kind="brand" scale="l">Chip content</calcite-chip>`);
+
+    const element = await page.find("calcite-chip");
+    expect(element).toEqualAttribute("appearance", "outline-fill");
+    expect(element).toEqualAttribute("kind", "brand");
     expect(element).toEqualAttribute("scale", "l");
   });
 
   it("renders a close button when requested", async () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-chip closable>Chip content</calcite-chip>`);
+
     const close = await page.find("calcite-chip >>> button.close");
     expect(close).not.toBeNull();
   });
@@ -40,19 +66,9 @@ describe("calcite-chip", () => {
   it("does not render a close button when not requested", async () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-chip>Chip content</calcite-chip>`);
+
     const close = await page.find("calcite-chip >>> button.close");
     expect(close).toBeNull();
-  });
-
-  it("should emit event after the close button is clicked", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<calcite-chip closable>cheetos</calcite-chip>`);
-    const element = await page.find("calcite-chip");
-    const eventSpy = await element.spyOnEvent("calciteChipDismiss");
-    const closeButton = await page.find(`calcite-chip >>> .${CSS.close}`);
-    await closeButton.click();
-    await page.waitForChanges();
-    expect(eventSpy).toHaveReceivedEvent();
   });
 
   describe("CSS properties for light/dark themes", () => {
@@ -60,8 +76,8 @@ describe("calcite-chip", () => {
       <calcite-chip
         class="layers"
         icon="layer"
-        appearance="transparent"
-        color="green"
+        appearance="solid"
+        kind="neutral"
         closable
       >
         Layers
@@ -155,4 +171,6 @@ describe("calcite-chip", () => {
       expect(await chipEl.isVisible()).toBe(false);
     });
   });
+
+  it("supports translation", () => t9n("calcite-chip"));
 });

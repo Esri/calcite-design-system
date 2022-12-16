@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Proposed Chip / Chip Group Updates</title>
+    <style>
+      .parent {
+        display: flex;
+        width: 100%;
+        align-items: center;
+        padding: 35px 0;
+      }
+
+      .child {
+        flex: 0 0 15%;
+        margin: 25px;
+        color: var(--calcite-ui-text-3);
+        font-family: var(--calcite-sans-family);
+        font-size: var(--calcite-font-size-0);
+        font-weight: var(--calcite-font-weight-medium);
+      }
+
+      .child:first-child {
+        flex: 0 0 25%;
+      }
+
+      .parent .child {
+        text-align: right;
+      }
+
+      .parent .child:not(:first-of-type) {
+        text-align: center;
+      }
+
+      .icon-search calcite-chip {
+        --calcite-ui-brand: #974dff;
+        --calcite-ui-text-1: var(--calcite-ui-text-1);
+      }
+
+      .icon-search calcite-chip[selected] {
+        --calcite-ui-icon-color: #974dff;
+      }
+
+      .themed-children calcite-chip:first-of-type {
+        --calcite-ui-brand: var(--calcite-ui-danger);
+        --calcite-ui-text-1: var(--calcite-ui-danger);
+        --calcite-ui-border-1: var(--calcite-ui-danger);
+        --calcite-ui-foreground-1: rgba(255, 0, 0, 0.15);
+      }
+
+      .themed-children calcite-chip:nth-of-type(2) {
+        --calcite-ui-brand: var(--calcite-ui-success);
+        --calcite-ui-text-1: var(--calcite-ui-success);
+        --calcite-ui-border-1: var(--calcite-ui-success);
+        --calcite-ui-foreground-1: rgba(0, 128, 0, 0.15);
+      }
+
+      .themed-children calcite-chip:nth-of-type(3) {
+        --calcite-ui-brand: var(--calcite-ui-info);
+        --calcite-ui-text-1: var(--calcite-ui-info);
+        --calcite-ui-border-1: var(--calcite-ui-info);
+        --calcite-ui-foreground-1: rgba(0, 0, 255, 0.15);
+      }
+
+      .themed-children calcite-chip:nth-of-type(4) {
+        --calcite-ui-brand: orange;
+        --calcite-ui-text-1: orange;
+        --calcite-ui-border-1: orange;
+        --calcite-ui-foreground-1: rgba(255, 165, 0, 0.15);
+      }
+
+      .themed-children calcite-chip:nth-of-type(5) {
+        --calcite-ui-brand: purple;
+        --calcite-ui-text-1: purple;
+        --calcite-ui-border-1: purple;
+        --calcite-ui-foreground-1: rgba(128, 0, 128, 0.15);
+      }
+
+      .themed-children calcite-chip:nth-of-type(6) {
+        --calcite-ui-brand: pink;
+        --calcite-ui-text-1: pink;
+        --calcite-ui-foreground-1: rgba(255, 192, 203, 0.15);
+      }
+
+      .themed-children calcite-chip:nth-of-type(7) {
+        --calcite-ui-brand: teal;
+        --calcite-ui-text-1: teal;
+        --calcite-ui-foreground-1: rgba(0, 128, 128, 0.15);
+      }
+
+      .themed-children-card calcite-chip:first-of-type {
+        --calcite-ui-foreground-2: rgb(222 239 220);
+        --calcite-ui-text-1: var(--calcite-ui-success);
+        --calcite-ui-icon-color: var(--calcite-ui-success);
+      }
+
+      .themed-children-card calcite-chip:nth-of-type(2) {
+        --calcite-ui-foreground-2: rgb(221 238 249);
+        --calcite-ui-text-1: var(--calcite-ui-info);
+        --calcite-ui-icon-color: var(--calcite-ui-info);
+      }
+
+      .themed-children-card calcite-chip:nth-of-type(3) {
+        --calcite-ui-foreground-2: rgb(221 238 249);
+        --calcite-ui-text-1: var(--calcite-ui-info);
+        --calcite-ui-icon-color: var(--calcite-ui-info);
+      }
+
+      hr {
+        margin: 60px 0;
+        border-top: 1px solid var(--calcite-ui-border-2);
+      }
+
+      h2 {
+        margin: 80px auto 40px;
+        font-size: 22px;
+        text-align: center;
+        max-width: 50%;
+        font-weight: 500;
+      }
+    </style>
+    <script src="_assets/head.js"></script>
+  </head>
+
+  <body>
+    <demo-dom-swapper>
+      <!-- Header -->
+      <div class="child">
+        <h2>Chip group and selection mode examples</h2>
+      </div>
+      <div class="child">
+        <h2>Examples - selection modes with <code>chip-group</code> and <code>chip selectable</code></h2>
+      </div>
+      <!-- Neutral (default) -->
+      <div class="parent">
+        <div class="child">None</div>
+        <calcite-chip-group>
+          <calcite-chip selectable appearance="outline-fill" kind="inverse" value="calcite chip"
+            >Great idea!</calcite-chip
+          >
+          <calcite-chip selectable appearance="outline-fill" kind="inverse" value="calcite chip"
+            >No chance, Ed
+          </calcite-chip>
+          <calcite-chip selectable appearance="outline-fill" kind="inverse" value="calcite chip"
+            >I'm on PTO</calcite-chip
+          >
+        </calcite-chip-group>
+      </div>
+
+      <!-- Inverse-->
+      <div class="parent">
+        <div class="child">Single</div>
+        <calcite-chip-group selection-mode="single">
+          <calcite-chip selectable kind="inverse" value="calcite chip">Research</calcite-chip>
+          <calcite-chip selectable kind="inverse" value="calcite chip">Findings</calcite-chip>
+          <calcite-chip selectable selected kind="inverse" value="calcite chip">Hypothesis</calcite-chip>
+          <calcite-chip selectable kind="inverse" value="calcite chip">Supplies</calcite-chip>
+          <calcite-chip selectable kind="inverse" value="calcite chip">Employees</calcite-chip>
+        </calcite-chip-group>
+      </div>
+
+      <!-- Inverse-->
+      <div class="parent">
+        <div class="child">Single-persist</div>
+        <calcite-chip-group selection-mode="single-persist">
+          <calcite-chip kind="brand" selectable value="calcite chip">Research</calcite-chip>
+          <calcite-chip kind="brand" selectable value="calcite chip">Findings</calcite-chip>
+          <calcite-chip kind="brand" selectable selected value="calcite chip">Hypothesis</calcite-chip>
+          <calcite-chip kind="brand" selectable value="calcite chip">Supplies</calcite-chip>
+        </calcite-chip-group>
+      </div>
+
+      <!-- Brand -->
+      <div class="parent">
+        <div class="child">Multiple</div>
+        <calcite-chip-group selection-mode="multiple">
+          <calcite-chip selectable value="calcite chip">Research </calcite-chip>
+          <calcite-chip selectable selected value="calcite chip">Findings </calcite-chip>
+          <calcite-chip selectable selected value="calcite chip">Hypothesis </calcite-chip>
+          <calcite-chip selectable value="calcite chip">Supplies</calcite-chip>
+          <calcite-chip selectable value="calcite chip">Employees</calcite-chip>
+        </calcite-chip-group>
+      </div>
+      <div class="parent">
+        <div class="child">Multiple with theming</div>
+
+        <calcite-chip-group class="themed-children" selection-mode="multiple">
+          <calcite-chip kind="brand" selectable appearance="outline-fill" kind="inverse" value="calcite chip">
+            Biome A
+          </calcite-chip>
+          <calcite-chip kind="brand" selectable selected appearance="outline-fill" kind="inverse" value="calcite chip"
+            >Biome B
+          </calcite-chip>
+          <calcite-chip kind="brand" selectable selected appearance="outline-fill" kind="inverse" value="calcite chip"
+            >Biome C
+          </calcite-chip>
+          <calcite-chip kind="brand" selectable appearance="outline-fill" kind="inverse" value="calcite chip">
+            Biome D
+          </calcite-chip>
+          <calcite-chip kind="brand" selectable appearance="outline-fill" kind="inverse" value="calcite chip">
+            Biome E
+          </calcite-chip>
+        </calcite-chip-group>
+      </div>
+      <!-- Brand -->
+      <div class="parent">
+        <div class="child">Multiple with closable, icon</div>
+
+        <calcite-chip-group selection-mode="multiple" class="">
+          <calcite-chip icon="file-csv" closable appearance="outline-fill" selectable value="calcite chip">
+            CSV
+          </calcite-chip>
+          <calcite-chip icon="file-excel" closable appearance="outline-fill" selectable selected value="calcite chip"
+            >Excel
+          </calcite-chip>
+          <calcite-chip icon="file-kml" closable appearance="outline-fill" selectable selected value="calcite chip">
+            KML
+          </calcite-chip>
+          <calcite-chip icon="file-text" closable appearance="outline-fill" selectable value="calcite chip">
+            Text
+          </calcite-chip>
+          <calcite-chip icon="file-pdf" closable appearance="outline-fill" selectable value="calcite chip">
+            PDF
+          </calcite-chip>
+        </calcite-chip-group>
+      </div>
+      <div class="parent">
+        <div class="child">Multiple with closable, icon</div>
+
+        <calcite-chip-group class="themed-children" selection-mode="multiple" class="">
+          <calcite-chip icon="file-csv" closable appearance="outline" selectable value="calcite chip">
+            CSV
+          </calcite-chip>
+          <calcite-chip icon="file-excel" closable appearance="outline" selectable selected value="calcite chip"
+            >Excel
+          </calcite-chip>
+          <calcite-chip icon="file-kml" closable appearance="outline" selectable selected value="calcite chip">
+            KML
+          </calcite-chip>
+          <calcite-chip icon="file-text" closable appearance="outline" selectable value="calcite chip">
+            Text
+          </calcite-chip>
+          <calcite-chip icon="file-pdf" closable appearance="outline" selectable value="calcite chip">
+            PDF
+          </calcite-chip>
+        </calcite-chip-group>
+      </div>
+      <hr />
+      <!-- A horizontal line -->
+      <!-- Header -->
+      <div class="child">
+        <h2>All combinations</h2>
+      </div>
+
+      <!-- Examples -->
+      <div class="parent">
+        <div class="child">Group - no selection - navigation</div>
+        <calcite-chip-group scale="s">
+          <calcite-chip scale="s" appearance="outline-fill" value="calcite chip">Text only</calcite-chip>
+          <calcite-chip scale="s" appearance="outline-fill" value="calcite chip" closable>Text closable</calcite-chip>
+          <calcite-chip scale="s" appearance="outline-fill" value="calcite chip" icon="layer"></calcite-chip>
+          <calcite-chip scale="s" appearance="outline-fill" value="calcite chip" icon="layer" closable></calcite-chip>
+          <calcite-chip scale="s" appearance="outline-fill" value="calcite chip">
+            <calcite-avatar slot="image" username="MJ"></calcite-avatar>Icon and text
+          </calcite-chip>
+          <calcite-chip scale="s" appearance="outline-fill" icon="layer" value="calcite chip"
+            >Image and text</calcite-chip
+          >
+          <calcite-chip scale="s" appearance="outline-fill" value="calcite chip" icon="layer">
+            <calcite-avatar slot="image" username="MJ"></calcite-avatar>Icon and text
+          </calcite-chip>
+          <calcite-chip scale="s" appearance="outline-fill" value="calcite chip" icon="layer" closable>
+            <calcite-avatar slot="image" username="MJ"></calcite-avatar>Icon and text
+          </calcite-chip>
+        </calcite-chip-group>
+      </div>
+
+      <div class="parent">
+        <div class="child">All combinations</div>
+        <calcite-chip-group>
+          <calcite-chip appearance="outline-fill" value="calcite chip">Text only</calcite-chip>
+          <calcite-chip appearance="outline-fill" value="calcite chip" closable>Text closable</calcite-chip>
+          <calcite-chip appearance="outline-fill" value="calcite chip" icon="layer"></calcite-chip>
+          <calcite-chip appearance="outline-fill" value="calcite chip" icon="layer" closable></calcite-chip>
+          <calcite-chip appearance="outline-fill" value="calcite chip">
+            <calcite-avatar slot="image" username="MJ"></calcite-avatar>Icon and text
+          </calcite-chip>
+          <calcite-chip appearance="outline-fill" icon="layer" value="calcite chip">Image and text</calcite-chip>
+          <calcite-chip appearance="outline-fill" value="calcite chip" icon="layer">
+            <calcite-avatar slot="image" username="MJ"></calcite-avatar>Icon and text
+          </calcite-chip>
+          <calcite-chip appearance="outline-fill" value="calcite chip" icon="layer" closable>
+            <calcite-avatar slot="image" username="MJ"></calcite-avatar>Icon and text
+          </calcite-chip>
+        </calcite-chip-group>
+      </div>
+
+      <div class="parent">
+        <div class="child">All combinations</div>
+        <calcite-chip-group scale="l">
+          <calcite-chip scale="l" appearance="outline-fill" value="calcite chip">Text only</calcite-chip>
+          <calcite-chip scale="l" appearance="outline-fill" value="calcite chip" closable>Text closable</calcite-chip>
+          <calcite-chip scale="l" appearance="outline-fill" value="calcite chip" icon="layer"></calcite-chip>
+          <calcite-chip scale="l" appearance="outline-fill" value="calcite chip" icon="layer" closable></calcite-chip>
+          <calcite-chip scale="l" appearance="outline-fill" value="calcite chip">
+            <calcite-avatar slot="image" username="MJ"></calcite-avatar>Icon and text
+          </calcite-chip>
+          <calcite-chip scale="l" appearance="outline-fill" icon="layer" value="calcite chip"
+            >Image and text</calcite-chip
+          >
+          <calcite-chip scale="l" appearance="outline-fill" value="calcite chip" icon="layer">
+            <calcite-avatar slot="image" username="MJ"></calcite-avatar>Icon and text
+          </calcite-chip>
+          <calcite-chip scale="l" appearance="outline-fill" value="calcite chip" icon="layer" closable>
+            <calcite-avatar slot="image" username="MJ"></calcite-avatar>Icon and text
+          </calcite-chip>
+        </calcite-chip-group>
+      </div>
+
+      <div class="parent">
+        <div class="child">All combinations + multiple selectable s</div>
+        <calcite-chip-group scale="s" selection-mode="multiple">
+          <calcite-chip selectable scale="s" appearance="outline-fill" value="calcite chip">Text only</calcite-chip>
+          <calcite-chip selectable scale="s" appearance="outline-fill" value="calcite chip" closable
+            >Text closable
+          </calcite-chip>
+          <calcite-chip selectable scale="s" appearance="outline-fill" value="calcite chip" icon="layer"></calcite-chip>
+          <calcite-chip selectable scale="s" appearance="outline-fill" value="calcite chip" icon="layer" closable>
+          </calcite-chip>
+          <calcite-chip selectable scale="s" appearance="outline-fill" value="calcite chip">
+            <calcite-avatar slot="image" username="MJ"></calcite-avatar>Icon and text
+          </calcite-chip>
+          <calcite-chip selectable scale="s" appearance="outline-fill" icon="layer" value="calcite chip"
+            >Image and text
+          </calcite-chip>
+          <calcite-chip selectable scale="s" appearance="outline-fill" value="calcite chip" icon="layer">
+            <calcite-avatar slot="image" username="MJ"></calcite-avatar>Icon and text
+          </calcite-chip>
+          <calcite-chip selectable scale="s" appearance="outline-fill" value="calcite chip" icon="layer" closable>
+            <calcite-avatar slot="image" username="MJ"></calcite-avatar>Icon and text
+          </calcite-chip>
+        </calcite-chip-group>
+      </div>
+
+      <div class="parent">
+        <div class="child">All combinations + multiple selectable m</div>
+        <calcite-chip-group selection-mode="multiple">
+          <calcite-chip selectable appearance="outline-fill" value="calcite chip">Text only</calcite-chip>
+          <calcite-chip selectable appearance="outline-fill" value="calcite chip" closable>Text closable</calcite-chip>
+          <calcite-chip selectable appearance="outline-fill" value="calcite chip" icon="layer"></calcite-chip>
+          <calcite-chip selectable appearance="outline-fill" value="calcite chip" icon="layer" closable></calcite-chip>
+          <calcite-chip selectable appearance="outline-fill" value="calcite chip">
+            <calcite-avatar slot="image" username="MJ"></calcite-avatar>Icon and text
+          </calcite-chip>
+          <calcite-chip selectable appearance="outline-fill" icon="layer" value="calcite chip"
+            >Image and text</calcite-chip
+          >
+          <calcite-chip selectable appearance="outline-fill" value="calcite chip" icon="layer">
+            <calcite-avatar slot="image" username="MJ"></calcite-avatar>Icon and text
+          </calcite-chip>
+          <calcite-chip selectable appearance="outline-fill" value="calcite chip" icon="layer" closable>
+            <calcite-avatar slot="image" username="MJ"></calcite-avatar>Icon and text
+          </calcite-chip>
+        </calcite-chip-group>
+      </div>
+
+      <div class="parent">
+        <div class="child">All combinations + multiple selectable l</div>
+        <calcite-chip-group scale="l" selection-mode="multiple">
+          <calcite-chip selectable scale="l" appearance="outline-fill" value="calcite chip">Text only</calcite-chip>
+          <calcite-chip selectable scale="l" appearance="outline-fill" value="calcite chip" closable
+            >Text closable
+          </calcite-chip>
+          <calcite-chip selectable scale="l" appearance="outline-fill" value="calcite chip" icon="layer"></calcite-chip>
+          <calcite-chip selectable scale="l" appearance="outline-fill" value="calcite chip" icon="layer" closable>
+          </calcite-chip>
+          <calcite-chip selectable scale="l" appearance="outline-fill" value="calcite chip">
+            <calcite-avatar slot="image" username="MJ"></calcite-avatar>Icon and text
+          </calcite-chip>
+          <calcite-chip selectable scale="l" appearance="outline-fill" icon="layer" value="calcite chip"
+            >Image and text
+          </calcite-chip>
+          <calcite-chip selectable scale="l" appearance="outline-fill" value="calcite chip" icon="layer">
+            <calcite-avatar slot="image" username="MJ"></calcite-avatar>Icon and text
+          </calcite-chip>
+          <calcite-chip selectable scale="l" appearance="outline-fill" value="calcite chip" icon="layer" closable>
+            <calcite-avatar slot="image" username="MJ"></calcite-avatar>Icon and text
+          </calcite-chip>
+        </calcite-chip-group>
+      </div>
+      <hr />
+
+      <!-- A horizontal line -->
+      <!-- Header -->
+      <div class="child">
+        <h2>Add chip group for spacing and keyboard navigability</h2>
+      </div>
+      <!-- Neutral (default) -->
+      <div class="parent">
+        <div class="child">S</div>
+
+        <calcite-chip-group scale="s">
+          <calcite-chip appearance="outline-fill" kind="inverse" scale="s" value="calcite chip" closable
+            >Research
+          </calcite-chip>
+          <calcite-chip appearance="outline-fill" kind="inverse" scale="s" value="calcite chip" closable
+            >Findings
+          </calcite-chip>
+          <calcite-chip appearance="outline-fill" kind="inverse" scale="s" value="calcite chip" closable
+            >Hypothesis
+          </calcite-chip>
+        </calcite-chip-group>
+        <div class="child">S</div>
+
+        <calcite-chip-group scale="s">
+          <calcite-chip kind="brand" scale="s" value="calcite chip">Authoritative </calcite-chip>
+          <calcite-chip kind="brand" scale="s" value="calcite chip">Ideal </calcite-chip>
+          <calcite-chip kind="brand" scale="s" value="calcite chip">Refreshing </calcite-chip>
+          <calcite-chip kind="brand" scale="s" value="calcite chip">Energetic </calcite-chip>
+        </calcite-chip-group>
+      </div>
+
+      <!-- Inverse-->
+      <div class="parent">
+        <div class="child">M</div>
+        <calcite-chip-group>
+          <calcite-chip appearance="outline-fill" kind="inverse" value="calcite chip" closable>Research</calcite-chip>
+          <calcite-chip appearance="outline-fill" kind="inverse" value="calcite chip" closable>Findings</calcite-chip>
+          <calcite-chip appearance="outline-fill" kind="inverse" value="calcite chip" closable>Hypothesis</calcite-chip>
+          <calcite-chip appearance="outline-fill" kind="inverse" value="calcite chip" closable>Energetic</calcite-chip>
+        </calcite-chip-group>
+        <div class="child">M</div>
+        <calcite-chip-group>
+          <calcite-chip kind="brand" value="calcite chip">Authoritative </calcite-chip>
+          <calcite-chip kind="brand" value="calcite chip">Ideal </calcite-chip>
+          <calcite-chip kind="brand" value="calcite chip">Refreshing </calcite-chip>
+        </calcite-chip-group>
+      </div>
+      <!-- Brand -->
+      <div class="parent">
+        <div class="child">L</div>
+        <calcite-chip-group scale="l">
+          <calcite-chip appearance="outline-fill" kind="inverse" scale="l" value="calcite chip" closable
+            >Research
+          </calcite-chip>
+          <calcite-chip appearance="outline-fill" kind="inverse" scale="l" value="calcite chip" closable
+            >Findings
+          </calcite-chip>
+          <calcite-chip appearance="outline-fill" kind="inverse" scale="l" value="calcite chip" closable
+            >Hypothesis
+          </calcite-chip>
+        </calcite-chip-group>
+        <div class="child">L</div>
+        <calcite-chip-group scale="l">
+          <calcite-chip kind="brand" scale="l" value="calcite chip">Authoritative </calcite-chip>
+          <calcite-chip kind="brand" scale="l" value="calcite chip">Ideal </calcite-chip>
+          <calcite-chip kind="brand" scale="l" value="calcite chip">Refreshing </calcite-chip>
+          <calcite-chip kind="brand" scale="l" value="calcite chip">Energetic </calcite-chip>
+        </calcite-chip-group>
+      </div>
+
+      <hr />
+      <div class="child">
+        <h2>Managed with external control - example</h2>
+      </div>
+      <calcite-panel class="icon-search" style="width: 400px; margin: 0 auto">
+        <calcite-block heading="Choose categories" description="An example of theming" open>
+          <calcite-action id="reset-action-1" icon="reset" slot="control"></calcite-action>
+          <calcite-chip-group scale="s" selection-mode="multiple" id="chip-group-1">
+            <calcite-chip scale="s" selectable value="calcite chip">Arrow </calcite-chip>
+            <calcite-chip scale="s" selectable value="calcite chip">Brand </calcite-chip>
+            <calcite-chip scale="s" selectable value="calcite chip">Charts and Graphs </calcite-chip>
+            <calcite-chip scale="s" selectable value="calcite chip">Directions </calcite-chip>
+            <calcite-chip scale="s" selectable value="calcite chip">Files </calcite-chip>
+            <calcite-chip scale="s" selectable value="calcite chip">Forms </calcite-chip>
+            <calcite-chip scale="s" selectable value="calcite chip">Generic </calcite-chip>
+            <calcite-chip scale="s" selectable value="calcite chip">GIS </calcite-chip>
+            <calcite-chip scale="s" selectable value="calcite chip">Layers </calcite-chip>
+            <calcite-chip scale="s" selectable value="calcite chip">Lists </calcite-chip>
+            <calcite-chip scale="s" selectable value="calcite chip">Media </calcite-chip>
+            <calcite-chip scale="s" selectable value="calcite chip">Numbers </calcite-chip>
+            <calcite-chip scale="s" selectable value="calcite chip">Objects </calcite-chip>
+          </calcite-chip-group>
+        </calcite-block>
+      </calcite-panel>
+      <calcite-panel style="width: 400px; max-width: 80%; margin: 0 auto">
+        <calcite-block heading="Choose categories" description="Unthemed" open>
+          <calcite-action id="reset-action-2" icon="reset" slot="control"></calcite-action>
+          <calcite-chip-group scale="s" selection-mode="multiple" id="chip-group-2">
+            <calcite-chip scale="s" selectable value="calcite chip">Arrow </calcite-chip>
+            <calcite-chip scale="s" selectable value="calcite chip">Brand </calcite-chip>
+            <calcite-chip scale="s" selectable value="calcite chip">Charts and Graphs </calcite-chip>
+            <calcite-chip scale="s" selectable value="calcite chip">Directions </calcite-chip>
+            <calcite-chip scale="s" selectable value="calcite chip">Files </calcite-chip>
+            <calcite-chip scale="s" selectable value="calcite chip">Forms </calcite-chip>
+            <calcite-chip scale="s" selectable value="calcite chip">Generic </calcite-chip>
+            <calcite-chip scale="s" selectable value="calcite chip">GIS </calcite-chip>
+            <calcite-chip scale="s" selectable value="calcite chip">Layers </calcite-chip>
+            <calcite-chip scale="s" selectable value="calcite chip">Lists </calcite-chip>
+            <calcite-chip scale="s" selectable value="calcite chip">Media </calcite-chip>
+            <calcite-chip scale="s" selectable value="calcite chip">Numbers </calcite-chip>
+            <calcite-chip scale="s" selectable value="calcite chip">Objects </calcite-chip>
+          </calcite-chip-group>
+        </calcite-block>
+      </calcite-panel>
+      <hr />
+    </demo-dom-swapper>
+    <script>
+      document.getElementById("reset-action-1").addEventListener("click", function () {
+        const chipGroup = document.getElementById("chip-group-1");
+        const chips = chipGroup.querySelectorAll("calcite-chip");
+        [...chips].map((item) => {
+          item.selected = false;
+        });
+      });
+      document.getElementById("reset-action-2").addEventListener("click", function () {
+        const chipGroup = document.getElementById("chip-group-2");
+        const chips = chipGroup.querySelectorAll("calcite-chip");
+        [...chips].map((item) => {
+          item.selected = false;
+        });
+      });
+    </script>
+  </body>
+</html>

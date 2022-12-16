@@ -255,7 +255,7 @@
   }
 }
 
-:host([auto-dismiss]) > .alert-queue-count {
+:host([auto-close]) > .alert-queue-count {
   border-inline-end: 0px solid transparent;
 }
 
@@ -283,19 +283,19 @@
   @apply flex self-stretch;
 }
 
-$alertColors: "blue" var(--calcite-ui-info), "red" var(--calcite-ui-danger), "yellow" var(--calcite-ui-warning),
-  "green" var(--calcite-ui-success);
+$alertKinds: "brand" var(--calcite-ui-brand), "info" var(--calcite-ui-info), "danger" var(--calcite-ui-danger),
+  "success" var(--calcite-ui-success), "warning" var(--calcite-ui-warning);
 
-@each $alertColor in $alertColors {
-  $name: nth($alertColor, 1);
-  $color: nth($alertColor, 2);
+@each $alertKind in $alertKinds {
+  $name: nth($alertKind, 1);
+  $kind: nth($alertKind, 2);
 
-  :host([color="#{$name}"]) {
+  :host([kind="#{$name}"]) {
     .container {
-      border-block-start-color: $color;
+      border-block-start-color: $kind;
 
       & .alert-icon {
-        color: $color;
+        color: $kind;
       }
     }
   }
@@ -307,10 +307,10 @@ $alertDurations: "fast" 6000ms, "medium" 10000ms, "slow" 14000ms;
   $name: nth($alertDuration, 1);
   $duration: nth($alertDuration, 2);
 
-  :host([auto-dismiss-duration="#{$name}"]) .alert-dismiss-progress:after {
+  :host([auto-close-duration="#{$name}"]) .alert-dismiss-progress:after {
     animation: dismissProgress $duration ease-out;
   }
-  :host(:hover[auto-dismiss-duration="#{$name}"]) .alert-dismiss-progress:after {
+  :host(:hover[auto-close-duration="#{$name}"]) .alert-dismiss-progress:after {
     animation-play-state: paused;
   }
 }

@@ -7,36 +7,20 @@ export function getScreenReaderText(
   status: DragStatus,
   valueList: ValueList<HTMLCalciteValueListItemElement>
 ): string {
-  const { items, intlDragHandleIdle, intlDragHandleActive, intlDragHandleChange, intlDragHandleCommit } = valueList;
+  const { items, messages } = valueList;
 
   const total = items.length;
   const position = getItemIndex(valueList, item) + 1;
+  const template =
+    status === "idle"
+      ? messages.dragHandleIdle
+      : status === "active"
+      ? messages.dragHandleActive
+      : status === "change"
+      ? messages.dragHandleChange
+      : messages.dragHandleCommit;
 
-  if (status === "idle") {
-    const idleText = intlDragHandleIdle
-      ? replacePlaceholders(intlDragHandleIdle, item.label, position, total)
-      : `${item.label}, press space and use arrow keys to reorder content. Current position ${position} of ${total}.`;
-
-    return idleText;
-  } else if (status === "active") {
-    const activeText = intlDragHandleActive
-      ? replacePlaceholders(intlDragHandleActive, item.label, position, total)
-      : `Reordering ${item.label}, current position ${position} of ${total}.`;
-
-    return activeText;
-  } else if (status === "change") {
-    const changeText = intlDragHandleChange
-      ? replacePlaceholders(intlDragHandleChange, item.label, position, total)
-      : `${item.label}, new position ${position} of ${total}. Press space to confirm.`;
-
-    return changeText;
-  } else {
-    const commitText = intlDragHandleCommit
-      ? replacePlaceholders(intlDragHandleCommit, item.label, position, total)
-      : `${item.label}, current position ${position} of ${total}.`;
-
-    return commitText;
-  }
+  return replacePlaceholders(template, item.label, position, total);
 }
 
 export function getHandleAndItemElement(event: KeyboardEvent | FocusEvent): {
@@ -58,6 +42,6 @@ export function getHandleAndItemElement(event: KeyboardEvent | FocusEvent): {
 
 export function replacePlaceholders(text: string, label: string, position: number, total: number): string {
   const replacePosition = text.replace("${position}", position.toString());
-  const replaceLabel = replacePosition.replace("${item.label}", label);
+  const replaceLabel = replacePosition.replace("${itemLabel}", label);
   return replaceLabel.replace("${total}", total.toString());
 }

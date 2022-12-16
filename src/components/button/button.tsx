@@ -1,13 +1,22 @@
 import "form-request-submit-polyfill/form-request-submit-polyfill";
 import { Component, Element, h, Method, Prop, Build, State, VNode, Watch } from "@stencil/core";
-import { CSS, TEXT } from "./resources";
+import { CSS } from "./resources";
 import { closestElementCrossShadowBoundary } from "../../utils/dom";
-import { ButtonAlignment, ButtonAppearance, ButtonColor } from "./interfaces";
-import { FlipContext, Scale, Width } from "../interfaces";
+import { ButtonAlignment } from "./interfaces";
+import { Appearance, FlipContext, Kind, Scale, Width } from "../interfaces";
 import { LabelableComponent, connectLabel, disconnectLabel, getLabelText } from "../../utils/label";
 import { createObserver } from "../../utils/observers";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import { submitForm, resetForm, FormOwner } from "../../utils/form";
+import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
+import {
+  connectMessages,
+  disconnectMessages,
+  setUpMessages,
+  T9nComponent,
+  updateMessages
+} from "../../utils/t9n";
+import { Messages } from "./assets/button/t9n";
 import {
   setUpLoadableComponent,
   setComponentLoaded,
@@ -22,10 +31,17 @@ import {
 @Component({
   tag: "calcite-button",
   styleUrl: "button.scss",
-  shadow: true
+  shadow: true,
+  assetsDirs: ["assets"]
 })
 export class Button
-  implements LabelableComponent, InteractiveComponent, FormOwner, LoadableComponent
+  implements
+    LabelableComponent,
+    InteractiveComponent,
+    FormOwner,
+    LoadableComponent,
+    LocalizedComponent,
+    T9nComponent
 {
   //--------------------------------------------------------------------------
   //
@@ -45,13 +61,17 @@ export class Button
   @Prop({ reflect: true }) alignment: ButtonAlignment = "center";
 
   /** Specifies the appearance style of the component. */
-  @Prop({ reflect: true }) appearance: ButtonAppearance = "solid";
+  @Prop({ reflect: true }) appearance: Extract<
+    "outline" | "outline-fill" | "solid" | "transparent",
+    Appearance
+  > = "solid";
 
   /** Accessible name for the component. */
   @Prop() label: string;
 
-  /** Specifies the color of the component. */
-  @Prop({ reflect: true }) color: ButtonColor = "blue";
+  /** Specifies the kind of the component (will apply to border and background if applicable). */
+  @Prop({ reflect: true }) kind: Extract<"brand" | "danger" | "inverse" | "neutral", Kind> =
+    "brand";
 
   /**  When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @Prop({ reflect: true }) disabled = false;
@@ -71,13 +91,6 @@ export class Button
   @Prop({ reflect: true }) iconStart: string;
 
   /**
-   * Accessible name when the component is loading.
-   *
-   * @default "Loading"
-   */
-  @Prop() intlLoading: string = TEXT.loading;
-
-  /**
    * When `true`, a busy indicator is displayed and interaction is disabled.
    */
   @Prop({ reflect: true }) loading = false;
@@ -91,13 +104,6 @@ export class Button
    * @mdn [rel](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/rel)
    */
   @Prop({ reflect: true }) rel: string;
-
-  /**
-   * The form ID to associate with the component.
-   *
-   * @deprecated – The property is no longer needed if the component is placed inside a form.
-   */
-  @Prop() form: string;
 
   /** When `true`, adds a round style to the component. */
   @Prop({ reflect: true }) round = false;
@@ -125,6 +131,18 @@ export class Button
   /** Specifies the width of the component. */
   @Prop({ reflect: true }) width: Width = "auto";
 
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @internal
+   */
+  @Prop({ mutable: true }) messages: Messages;
+
+  /**
+   * Use this property to override individual strings used by the component.
+   */
+  @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
+
   @Watch("loading")
   loadingChanged(newValue: boolean, oldValue: boolean): void {
     if (!!newValue && !oldValue) {
@@ -137,33 +155,39 @@ export class Button
     }
   }
 
+  @Watch("messageOverrides")
+  onMessagesChange(): void {
+    /** referred in t9n util */
+  }
+
   //--------------------------------------------------------------------------
   //
   //  Lifecycle
   //
   //--------------------------------------------------------------------------
 
-  connectedCallback(): void {
+  async connectedCallback(): Promise<void> {
+    connectLocalized(this);
+    connectMessages(this);
     this.hasLoader = this.loading;
     this.setupTextContentObserver();
     connectLabel(this);
-    this.formEl = closestElementCrossShadowBoundary<HTMLFormElement>(
-      this.el,
-      this.form ? `#${this.form}` : "form"
-    );
+    this.formEl = closestElementCrossShadowBoundary<HTMLFormElement>(this.el, "form");
   }
 
   disconnectedCallback(): void {
     this.mutationObserver?.disconnect();
     disconnectLabel(this);
+    disconnectLocalized(this);
+    disconnectMessages(this);
     this.formEl = null;
   }
 
-  componentWillLoad(): void {
+  async componentWillLoad(): Promise<void> {
     setUpLoadableComponent(this);
-
     if (Build.isBrowser) {
       this.updateHasContent();
+      await setUpMessages(this);
     }
   }
 
@@ -183,7 +207,7 @@ export class Button
         <calcite-loader
           class={this.loading ? CSS.loadingIn : CSS.loadingOut}
           inline
-          label={this.intlLoading}
+          label={this.messages.loading}
           scale={this.scale === "l" ? "m" : "s"}
         />
       </div>
@@ -277,6 +301,15 @@ export class Button
 
   /** determine if loader present for styling purposes */
   @State() private hasLoader = false;
+
+  @State() effectiveLocale = "";
+
+  @Watch("effectiveLocale")
+  effectiveLocaleChange(): void {
+    updateMessages(this, this.effectiveLocale);
+  }
+
+  @State() defaultMessages: Messages;
 
   private updateHasContent() {
     const slottedContent = this.el.textContent.trim().length > 0 || this.el.childNodes.length > 0;

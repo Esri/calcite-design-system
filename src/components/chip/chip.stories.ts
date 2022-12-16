@@ -17,8 +17,8 @@ export const simple = (): string => html`
   <div style="background-color:white;padding:100px">
     <calcite-chip
       scale="${select("scale", ["s", "m", "l"], "m")}"
-      appearance="${select("appearance", ["solid", "clear", "outline"], "solid")}"
-      color="${select("color", ["neutral", "brand", "inverse"], "neutral")}"
+      appearance="${select("appearance", ["outline", "outline-fill", "solid"], "solid")}"
+      kind="${select("kind", ["brand", "inverse", "neutral"], "neutral")}"
       ${boolean("closable", false)}
       ${boolean("selectable", false)}
       ${boolean("selected", false)}
@@ -32,8 +32,8 @@ export const withIcon = (): string => html`
     <calcite-chip
       icon="${select("icon", iconNames, iconNames[0])}"
       scale="${select("scale", ["s", "m", "l"], "m")}"
-      appearance="${select("appearance", ["solid", "clear", "outline"], "solid")}"
-      color="${select("color", ["neutral", "brand", "inverse"], "neutral")}"
+      appearance="${select("appearance", ["outline", "outline-fill", "solid"], "solid")}"
+      kind="${select("kind", ["brand", "inverse", "neutral"], "neutral")}"
       ${boolean("closable", false)}
       ${boolean("selectable", false)}
       ${boolean("selected", false)}
@@ -47,8 +47,8 @@ export const withImage = (): string => html`
   <div style="background-color:white;padding:100px">
     <calcite-chip
       scale="${select("scale", ["s", "m", "l"], "m")}"
-      appearance="${select("appearance", ["solid", "clear", "outline"], "solid")}"
-      color="${select("color", ["neutral", "brand", "inverse"], "neutral")}"
+      appearance="${select("appearance", ["outline", "outline-fill", "solid"], "solid")}"
+      kind="${select("kind", ["brand", "inverse", "neutral"], "neutral")}"
       ${boolean("closable", false)}
       ${boolean("selectable", false)}
       ${boolean("selected", false)}
@@ -66,8 +66,8 @@ export const withAvatar = (): string => {
     <div style="background-color:white;padding:100px">
       <calcite-chip
         scale="${scale}"
-        appearance="${select("appearance", ["solid", "clear", "outline"], "solid")}"
-        color="${select("color", ["neutral", "brand", "inverse"], "neutral")}"
+        appearance="${select("appearance", ["outline", "outline-fill", "solid"], "solid")}"
+        kind="${select("kind", ["brand", "inverse", "neutral"], "neutral")}"
         ${boolean("closable", false)}
         ${boolean("selectable", false)}
         ${boolean("selected", false)}
@@ -92,8 +92,8 @@ export const darkThemeRTL_TestOnly = (): string => html`
     <calcite-chip
       class="calcite-theme-dark"
       scale="${select("scale", ["s", "m", "l"], "m")}"
-      appearance="${select("appearance", ["solid", "clear", "outline"], "solid")}"
-      color="${select("color", ["neutral", "brand", "inverse"], "neutral")}"
+      appearance="${select("appearance", ["outline", "outline-fill", "solid"], "solid")}"
+      kind="${select("kind", ["brand", "inverse", "neutral"], "neutral")}"
       ${boolean("closable", false)}
       ${boolean("selectable", false)}
       ${boolean("selected", false)}

@@ -1,5 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, defaults, focusable, hidden, reflects, renders, slots } from "../../tests/commonTests";
+import { accessible, defaults, focusable, hidden, reflects, renders, slots, t9n } from "../../tests/commonTests";
 import { CSS, SLOTS } from "./resources";
 import { html } from "../../../support/formatting";
 
@@ -192,8 +192,7 @@ describe("calcite-action-pad", () => {
         </calcite-action-pad>
       `,
       {
-        focusId: "expand-toggle",
-        focusTargetSelector: "calcite-action-pad"
+        focusTargetSelector: "calcite-action"
       }
     ));
 
@@ -251,4 +250,6 @@ describe("calcite-action-pad", () => {
 
     expect(await button.getProperty("scale")).toBe("l");
   });
+
+  it("supports translation", () => t9n("calcite-action-pad"));
 });
