@@ -16,7 +16,6 @@ import { Scale } from "../interfaces";
 import { LabelableComponent, connectLabel, disconnectLabel } from "../../utils/label";
 import { connectForm, disconnectForm, FormComponent, HiddenFormInputSlot } from "../../utils/form";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
-import { isActivationKey } from "../../utils/key";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 import {
   connectMessages,
@@ -356,7 +355,7 @@ export class Rating
       switch (key) {
         case "Enter":
         case " ":
-          this.value = this.value === inputVal ? 0 : inputVal;
+          this.value = !this.required && this.value === inputVal ? 0 : inputVal;
           break;
         case "ArrowLeft":
           this.value = inputVal - 1;
@@ -374,7 +373,9 @@ export class Rating
           break;
       }
     } else {
-      if (numberKey >= 0 && numberKey <= this.max) {
+      if (!this.required && numberKey >= 0 && numberKey <= this.max) {
+        this.value = numberKey;
+      } else if (this.required && numberKey > 0 && numberKey <= this.max) {
         this.value = numberKey;
       }
     }
@@ -403,7 +404,7 @@ export class Rating
     this.focusValue = null;
     this.hoverValue = null;
     this.emit = true;
-    this.value = this.value === inputVal ? 0 : inputVal;
+    this.value = !this.required && this.value === inputVal ? 0 : inputVal;
   };
 
   //--------------------------------------------------------------------------
