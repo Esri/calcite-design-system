@@ -91,3 +91,33 @@ export const darkThemeRTL_TestOnly = (): string =>
     tipContent
   );
 darkThemeRTL_TestOnly.parameters = { themes: themesDarkDefault };
+
+export const hebrewLocale_TestOnly = (): string => html`<calcite-tip-manager heading-level="1" lang="he">
+  <calcite-tip id="one" heading="test"><p>no pre-selected attribute</p></calcite-tip>
+</calcite-tip-manager>`;
+
+export const norwegianLocale_TestOnly = (): string =>
+  html`<calcite-tip-manager lang="nb"
+    ><calcite-tip><p>basic render</p></calcite-tip></calcite-tip-manager
+  >`;
+
+export const FrenchLocale_TestOnly = (): string =>
+  html`<calcite-tip-manager lang="fr"
+    ><calcite-tip><p>basic render</p></calcite-tip></calcite-tip-manager
+  >`;
+
+export const hongKongLocale_TestOnly = (): string =>
+  html`<calcite-tip-manager lang="zh-HK"
+    ><calcite-tip><p>basic render</p></calcite-tip></calcite-tip-manager
+  >`;
+
+export const ukranianLocaleWithTipGroup_TestOnly = (): string => html`<calcite-tip-manager>
+<calcite-tip-group group-title="Tip Manager heading">
+    <calcite-tip heading="Example tip title">
+    <calcite-tip><p>basic render</p></calcite-tip>
+</calcite-tip-group>
+</calcite-tip-manager>`;
+
+export const bosnianLocale_TestOnly = (): string => html`<calcite-tip-manager heading-level="1" lang="bs">
+  <calcite-tip id="one" heading="test"><p>no pre-selected attribute</p></calcite-tip>
+</calcite-tip-manager>`;
