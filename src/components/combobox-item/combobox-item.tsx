@@ -15,7 +15,7 @@ import { CSS } from "./resources";
 import { guid } from "../../utils/guid";
 import { ComboboxChildElement } from "../combobox/interfaces";
 import { getAncestors, getDepth } from "../combobox/utils";
-import { DeprecatedEventPayload, Scale } from "../interfaces";
+import { Scale } from "../interfaces";
 import {
   connectConditionalSlotComponent,
   disconnectConditionalSlotComponent,
@@ -58,9 +58,12 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
   /** Specifies an icon to display. */
   @Prop({ reflect: true }) icon: string;
 
+  /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
+  @Prop({ reflect: true }) iconFlipRtl = false;
+
   @Watch("selected")
   selectedWatchHandler(): void {
-    this.calciteComboboxItemChange.emit(this.el);
+    this.calciteComboboxItemChange.emit();
   }
 
   /** The component's text. */
@@ -115,9 +118,8 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
   /**
    * Emits whenever the component is selected or unselected.
    *
-   * **Note:**: The event's payload is deprecated, please use the event's `target`/`currentTarget` instead
    */
-  @Event({ cancelable: false }) calciteComboboxItemChange: EventEmitter<DeprecatedEventPayload>;
+  @Event({ cancelable: false }) calciteComboboxItemChange: EventEmitter<void>;
 
   // --------------------------------------------------------------------------
   //
@@ -157,7 +159,7 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
   // --------------------------------------------------------------------------
 
   renderIcon(isSingle: boolean): VNode {
-    const { icon, disabled, selected } = this;
+    const { icon, disabled, selected, iconFlipRtl } = this;
     const level = `${CSS.icon}--indent`;
     const defaultIcon = isSingle ? "dot" : "check";
     const iconPath = disabled ? "circle-disallowed" : defaultIcon;
@@ -178,6 +180,7 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
           [CSS.iconActive]: icon && selected,
           [level]: true
         }}
+        flipRtl={iconFlipRtl}
         icon={icon || iconPath}
         scale="s"
       />

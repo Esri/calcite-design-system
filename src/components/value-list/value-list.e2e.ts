@@ -1,6 +1,6 @@
 import { E2EPage, newE2EPage } from "@stencil/core/testing";
 import { CSS, ICON_TYPES } from "./resources";
-import { accessible, hidden, renders } from "../../tests/commonTests";
+import { accessible, hidden, renders, t9n } from "../../tests/commonTests";
 import {
   selectionAndDeselection,
   filterBehavior,
@@ -24,6 +24,8 @@ describe("calcite-value-list", () => {
         <calcite-value-list-item label="Sample" value="one"></calcite-value-list-item>
       </calcite-value-list>
     `));
+
+  it("supports translations", () => t9n("calcite-value-list"));
 
   it("should not display screen reader only text when drag-enabled", async () => {
     const page = await newE2EPage({});

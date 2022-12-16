@@ -39,7 +39,3 @@ export const SLOTS = {
   secondary: "secondary",
   primary: "primary"
 };
-
-export const TEXT = {
-  close: "Close"
-};

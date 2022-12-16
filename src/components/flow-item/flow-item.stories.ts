@@ -9,7 +9,6 @@ import {
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import readme from "./readme.md";
 import { SLOTS } from "./resources";
-import { TEXT as PANEL_TEXT } from "../panel/resources";
 import { html } from "../../../support/formatting";
 import { storyFilters } from "../../../.storybook/helpers";
 
@@ -65,18 +64,6 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
           delete this.build;
           return this;
         }
-      },
-      {
-        name: "intl-close",
-        commit(): Attribute {
-          this.value = text(
-            "intlClose",
-            /* reusing `calcite-panel`'s value due to the current implementation */
-            PANEL_TEXT.close
-          );
-          delete this.build;
-          return this;
-        }
       }
     ],
     exceptions
@@ -111,7 +98,7 @@ const contentHTML = html`
 `;
 
 const footerHTML = html`
-  <calcite-button slot="${SLOTS.footer}" width="half" appearance="clear">Naw.</calcite-button>
+  <calcite-button slot="${SLOTS.footer}" width="half" appearance="outline">Naw.</calcite-button>
   <calcite-button slot="${SLOTS.footer}" width="half">Yeah!</calcite-button>
 `;
 

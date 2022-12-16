@@ -15,9 +15,3 @@ export const SLOTS = {
   footerLeading: "footer-leading",
   footerTrailing: "footer-trailing"
 };
-
-export const TEXT = {
-  select: "Select",
-  deselect: "Deselect",
-  loading: "Loading"
-};

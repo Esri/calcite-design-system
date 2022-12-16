@@ -4,22 +4,21 @@
 
 ## Properties
 
-| Property        | Attribute     | Description                                                                                                                                                                                                                                 | Type                | Default     |
-| --------------- | ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------- | ----------- |
-| `disabled`      | `disabled`    | When `true`, interaction is prevented and the component is displayed with lower opacity.                                                                                                                                                    | `boolean`           | `false`     |
-| `filteredItems` | --            | The component's resulting items after filtering.                                                                                                                                                                                            | `object[]`          | `[]`        |
-| `intlClear`     | `intl-clear`  | Accessible name for the component's clear button.                                                                                                                                                                                           | `string`            | `undefined` |
-| `intlLabel`     | `intl-label`  | Accessible name for the component.                                                                                                                                                                                                          | `string`            | `undefined` |
-| `items`         | --            | Defines the items to filter. The component uses the values as the starting point, and returns items that contain the string entered in the input, using a partial match and recursive search. This property is needed to conduct filtering. | `object[]`          | `[]`        |
-| `placeholder`   | `placeholder` | Specifies placeholder text for the input element.                                                                                                                                                                                           | `string`            | `undefined` |
-| `scale`         | `scale`       | Specifies the size of the component.                                                                                                                                                                                                        | `"l" \| "m" \| "s"` | `"m"`       |
-| `value`         | `value`       | The component's value.                                                                                                                                                                                                                      | `string`            | `""`        |
+| Property           | Attribute           | Description                                                                                                                                                                                                                                 | Type                | Default     |
+| ------------------ | ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------- | ----------- |
+| `disabled`         | `disabled`          | When `true`, interaction is prevented and the component is displayed with lower opacity.                                                                                                                                                    | `boolean`           | `false`     |
+| `filteredItems`    | --                  | The component's resulting items after filtering.                                                                                                                                                                                            | `object[]`          | `[]`        |
+| `items`            | --                  | Defines the items to filter. The component uses the values as the starting point, and returns items that contain the string entered in the input, using a partial match and recursive search. This property is needed to conduct filtering. | `object[]`          | `[]`        |
+| `messageOverrides` | `message-overrides` | Use this property to override individual strings used by the component.                                                                                                                                                                     | `Messages`          | `undefined` |
+| `placeholder`      | `placeholder`       | Specifies placeholder text for the input element.                                                                                                                                                                                           | `string`            | `undefined` |
+| `scale`            | `scale`             | Specifies the size of the component.                                                                                                                                                                                                        | `"l" \| "m" \| "s"` | `"m"`       |
+| `value`            | `value`             | The component's value.                                                                                                                                                                                                                      | `string`            | `""`        |
 
 ## Events
 
-| Event                 | Description                              | Type                |
-| --------------------- | ---------------------------------------- | ------------------- |
-| `calciteFilterChange` | Fires when the component's text changes. | `CustomEvent<void>` |
+| Event                 | Description                                    | Type                |
+| --------------------- | ---------------------------------------------- | ------------------- |
+| `calciteFilterChange` | This event fires when the filter text changes. | `CustomEvent<void>` |
 
 ## Methods
 

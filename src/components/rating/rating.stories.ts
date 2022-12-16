@@ -21,8 +21,6 @@ export const simple = (): string => html`
     count="${number("count", 10)}"
     ${boolean("read-only", false)}
     ${boolean("disabled", false)}
-    intl-rating="${text("intl-rating", "Rating")}"
-    intl-stars="${text("intl-rating", "Stars: ${num}")}"
   ></calcite-rating>
 `;
 
@@ -37,8 +35,6 @@ export const darkThemeRTL_TestOnly = (): string => html`
     count="${number("count", 10)}"
     ${boolean("read-only", false)}
     ${boolean("disabled", false)}
-    intl-rating="${text("intl-rating", "Rating")}"
-    intl-stars="${text("intl-rating", "Stars: ${num}")}"
   ></calcite-rating>
 `;
 

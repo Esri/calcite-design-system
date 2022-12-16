@@ -9,63 +9,511 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ### ⚠ BREAKING CHANGES
 
-- **label:** The default display for label is now `flex` instead of
+- **chip:** Renamed `color` property and updated values, and
+  updated `appearance` values.
+
+* Renamed the property `color`, use `kind` instead.
+* Updated the accepted values of `kind` to `brand`, `inverse`, and
+  `neutral` (default).
+* Updated the accepted values of `appearance` to , `outline`,
+  `outline-fill` and `solid` (default).
+
+- **button, fab, split-button:** Removed deprecated properties and values.
+
+* `button`: Removed the property `form`, this property is no longer
+  needed if the component is placed inside a form.
+* `button`, `fab`, `split-button`: Renamed the property `color`, use
+  `kind` instead.
+* `button`, `fab`, `split-button`: Updated the accepted values of `kind`
+  to `brand` (default), `danger`, `inverse`, and `neutral`.
+* `button`, `split-button`: Updated the accepted values of `appearance`
+  to `outline`, `outline-fill` and `solid` (default).
+* `fab`: Updated the accepted values of `appearance` to `outline-fill`
+  and `solid` (default).
+
+* Removed the `focusId` parameter from `action-bar` and
+  `action-pad`'s `setFocus` method
+
+- **action-bar, action-pad:** Removed `focusId` paramter `setFocus`
+  method, focus is delegated to the first focusable element.
+
+- **notice:** Removed deprecated properties.
+
+Removed the property `active`, use `open` instead.
+Removed the property `dimissible`, use `closable` property instead.
+
+- **modal,notice,pagination,panel,pick-list-item,popover:** Removed deprecated intl\* & accessible label properties.
+
+* modal:
+
+- Removed the property `intlClose` , use `messsageOverrides.close`
+  instead.
+
+* notice:
+
+- Removed the property `intlClose` , use `messsageOverrides.close`
+  instead.
+
+* pagination:
+
+- Removed the property `textLabelNext` , use `messsageOverrides.next`
+  instead.
+- Removed the property `textLabelPrevious` , use
+  `messsageOverrides.previous` instead.
+
+* panel:
+
+- Removed the property `intlClose` , use `messsageOverrides.close`
+  instead.
+- Removed the property `intlOptions`, use `messsageOverrides.options`
+  instead.
+
+* pick-list-item:
+
+- Removed the property `intlRemove` , use `messsageOverrides.remove`
+  instead.
+
+* popover:
+
+- Removed the property `intlClose` , use `messsageOverrides.close`
+  instead.
+- **chip,combobox-item:** Removed deprecated event payload.
+
+* Removed the `event.detail` property on the event `calciteChipDismiss`,
+  use `event.target` instead.
+* Removed the `event.detail` property on the event
+  `calciteComboboxChipDismiss`, use `event.target` instead.
+
+- **radio-group:** Removed `event.detail` payload from events.
+
+* Removed the `event.detail` property on the event
+  `calciteRadioGroupChange`, use `event.target` instead.
+
+- **date-picker-month, date-picker-month-header:** Removed events.
+
+* Removed the event `calciteDatePickerSelect` on
+  `CalciteDatePickerMonthHeader`
+* Removed the event `calciteDatePickerSelect` on
+  `CalciteDatePickerMonth`
+* Removed the event `calciteDatePickerActiveDateChange` on
+  `CalciteDatePickerMonth`
+
+- **alert, notice:** Renamed `color` properties and updated values.
+
+* Renamed the property `color`, use `kind` instead.
+* Updated the accepted values of `kind` to `brand`, `danger`, `info`,
+  `success`, and `warning`.
+
+* **modal:** Renamed `color` property and updated values.
+
+- Renamed the property `color`, use `kind` instead.
+- Updated the accepted values of `kind` to `brand`, `danger`, `info`,
+  `success`, and `warning`.
+
+- **tab-nav, tab-title:** Removed `event.detail` payload from events.
+
+* TabNav
+* Removed the `event.detail` property on the event `calciteTabChange`,
+  use `event.target` instead.
+* TabTitle
+* Removed the `event.detail` property on the event
+  `calciteTabsActivate`, use `event.target` instead.
+
+- **tree:** Removed `event.detail` payload from events and added
+  `selectedItems` property.
+
+* Added property `selectedItems`.
+* Removed the `event.detail` property on the event `calciteTreeSelect`,
+  use `event.target` instead.
+
+* **pagination:** Removed `event.detail` payload from events.
+
+  - Removed the `event.detail` property on the event
+    `calcitePaginationChange`, use `event.target` instead.
+
+* **dropdown:** Removed `event.detail` payload from events.
+
+  - Removed the `event.detail` property on the event
+    `calciteDropdownSelect`, use `event.target` instead.
+
+* **rating:** Removed `event.detail` payload from events.
+
+  - Removed the `event.detail` property on the event
+    `calciteRatingChange`, use `event.target` instead.
+
+* **inline-editable,input,input-text,input-number:** Removed deprecated `intl\*` & accessible label properties.
+
+* **inline-editable:**
+
+  - Removed the property` intlEnableEditing`, use `messsageOverrides.enableEditing` instead.
+  - Removed the property `intlCancelEditing`, use `messageOverrides.cancelEditing` instead.
+  - Removed the property `intlConfirmChanges`, use `messageOverrides.confirmChanges` instead.
+
+* **input-number:**
+
+  - Removed the property `intlClear`, use `messsageOverrides.clear` instead.
+  - Removed the property `intlLoading`, use `messsageOverrides.loading` instead.
+
+* **input-text:**
+
+  - Removed the property `intlClear`, use `messsageOverrides.clear` instead.
+  - Removed the property `intlLoading`, use `messsageOverrides.loading` instead.
+
+* **input:**
+
+  - Removed the property `intlClear`, use `messsageOverrides.clear` instead.
+  - Removed the property `intlLoading`, use `messsageOverrides.loading` instead.
+
+* **scrim,rating,time-picker,input-time-picker,value-list:** Removed deprecated `intl\*` & accessible label properties.
+
+* **rating:**
+
+  - Removed the property `intlStars` , use `messsageOverrides.stars` instead.
+  - Removed the property `intlRating` , use `messsageOverrides.rating` instead.
+
+* **scrim:**
+
+  - Removed the property `intlLoading` , use `messsageOverrides.loading` instead.
+
+* **time-picker:**
+
+  - Removed the property `intlHour`, use `messsageOverrides.hour` instead.
+  - Removed the property `intlHourDown`, use `messsageOverrides.hourDown` instead.
+  - Removed the property `intlHourUp`, use `messsageOverrides.hourUp` instead.
+  - Removed the property `intlMeridiem`, use `messsageOverrides.meridiem` instead.
+  - Removed the property `intlMeridiemDown`, use `messsageOverrides.meridiemDown` instead.
+  - Removed the property `intlMeridiemUp`, use `messsageOverrides.meridiemUp` instead.
+  - Removed the property `intlMinute`, use `messsageOverrides.minute` instead.
+  - Removed the property `intlMinuteUp`, use `messsageOverrides.minuteUp` instead.
+  - Removed the property `intlMinuteDown`, use `messsageOverrides.minuteDown` instead.
+  - Removed the property `intlSecond`, use `messsageOverrides.second` instead.
+  - Removed the property `intlSecondUp`, use `messsageOverrides.secondUp` instead.
+  - Removed the property `intlSecondDown`, use `messsageOverrides.secondDown` instead.
+
+* **input-time-picker:**
+
+  - Removed the property `intlHour`, use `messsageOverrides.hour` instead.
+  - Removed the property `intlHourDown`, use `messsageOverrides.hourDown` instead.
+  - Removed the property `intlHourUp`, use `messsageOverrides.hourUp` instead.
+  - Removed the property `intlMeridiem`, use `messsageOverrides.meridiem` instead.
+  - Removed the property `intlMeridiemDown`, use`messsageOverrides.meridiemDown` instead.
+  - Removed the property `intlMeridiemUp`, use `messsageOverrides.meridiemUp` instead.
+  - Removed the property `intlMinute`, use `messsageOverrides.minute` instead.
+  - Removed the property `intlMinuteUp`, use `messsageOverrides.minuteUp` instead.
+  - Removed the property `intlMinuteDown`, use `messsageOverrides.minuteDown` instead.
+  - Removed the property `intlSecond`, use `messsageOverrides.second` instead.
+  - Removed the property `intlSecondUp`, use `messsageOverrides.secondUp` instead.
+  - Removed the property `intlSecondDown`, use `messsageOverrides.secondDown` instead.
+
+* **value-list:**
+
+  - Removed the property `intlDragHandleActive`, use `messsageOverrides.dragHandleActive` instead.
+  - Removed the property `intlDragHandleChange`, use `messsageOverrides.dragHandleChange` instead.
+  - Removed the property `intlDragHandleCommit`, use `messsageOverrides.dragHandleCommit` instead.
+  - Removed the property `intlDragHandleIdle`, use `messsageOverrides.dragHandleIdle` instead.
+
+* **chip,card,combobox,date-picker,flow,flow-item,filter, input-date-picker:** Removed deprecated `intl\*` & accessible label properties.
+
+* **card**:
+
+  - Removed the property `intlLoading` , use `messsageOverrides.loading`
+    instead.
+  - Removed the property `intlSelect` use `messageOverrides.select`
+    instead.
+  - Removed the property `intlDeselect` use `messageOverrides.deselect`
+    instead.
+
+* **chip**:
+
+  - Removed the property `dismissLabel` , use
+    `messsageOverrides.dismissLabel ` instead.
+
+* **color-picker:**
+
+  - Removed the property `intlB` , use `messsageOverrides.b` instead.
+  - Removed the property `intlBlue` , use `messsageOverrides.blue`
+    instead.
+  - Removed the property `intlDeleteColor` , use
+    `messsageOverrides.deleteColor` instead.
+  - Removed the property `intlG` , use `messsageOverrides.g` instead.
+  - Removed the property `intlGreen` , use `messsageOverrides.green`
+    instead.
+  - Removed the property `intlH` , use `messsageOverrides.h` instead.
+  - Removed the property `intlHsv` , use `messsageOverrides.hsv` instead.
+  - Removed the property `intlHex` , use `messsageOverrides.hex` instead.
+  - Removed the property `intlHue` , use `messsageOverrides.hue` instead.
+  - Removed the property `intlNoColor` , use `messsageOverrides.noColor`
+    instead.
+  - Removed the property `intlR` , use `messsageOverrides.r` instead.
+  - Removed the property `intlRed` , use `messsageOverrides.red` instead.
+  - Removed the property `intlRgb` , use `messsageOverrides.rgb` instead.
+  - Removed the property `intlS` , use `messsageOverrides.s` instead.
+  - Removed the property `intlSaturation` , use
+    `messsageOverrides.saturation` instead.
+  - Removed the property `intlSaveColor` , use
+    `messsageOverrides.saveColor` instead.
+  - Removed the property `intlSaved` , use `messsageOverrides.saved`
+    instead.
+  - Removed the property `intlV` , use `messsageOverrides.v` instead.
+  - Removed the property `intlValue` , use `messsageOverrides.value`
+    instead.
+
+* **combobox:**
+
+  - Removed the property `intlRemoveTag` , use
+    `messsageOverrides.removeTag` instead.
+
+* **date-picker:**
+
+  - Removed the property `intlNextMonth`, use `messageOverrides.nextMonth`
+    instead.
+  - Removed the property `intlPrevMonth`, use `messageOverrides.prevMonth`
+    instead.
+  - Removed the property `intlYear`, use `messageOverrides.year` instead.
+
+* **flow-item:**
+
+  - Removed the property `intlBack` , use `messsageOverrides.back`
+    instead.
+  - Removed the property `intlClose`, use `messageOverrides.close`
+    instead.
+  - Removed the property `intlOptions` , use `messsageOverrides.options`
+    instead.
+
+* **filter:**
+
+  - Removed the property `intlClear`, use `messsageOverrides.clear`
+    instead.
+  - Removed the property `intlLabel`, use `messageOverrides.label`
+    instead.
+
+* **input-date-picker:**
+
+  - Removed the property `intlNextMonth`, use `messageOverrides.nextMonth`
+    instead.
+  - Removed the property `intlPrevMonth`, use `messageOverrides.prevMonth`
+    instead.
+  - Removed the property `intlYear`, use `messageOverrides.year` instead.
+
+* **action,action-bar,action-group,action-pad,alert,block-section,block,button:** Removed deprecated `intl*` properties , use
+  `messageOverrides` property instead.
+
+* **action:**
+
+  - Removed the property `intlLoading` , use `messsageOverrides.loading`
+    instead.
+  - Removed the property `intlIndicator`, use `messageOverrides.indicator`
+    instead.
+
+* **action-bar:**
+
+  - Removed the property `intlExpand` , use `messsageOverrides.expand`
+    instead.
+  - Removed the property `intlCollapse`, use `messageOverrides.collapse`
+    instead.
+
+* **action-group:**
+
+  - Removed the property `intlMore` , use `messsageOverrides.more`
+    instead.
+
+* **action-pad**:
+
+  - Removed the property `intlExpand` , use `messsageOverrides.expand`
+    instead.
+  - Removed the property `intlCollapse`, use `messageOverrides.collapse`
+    instead.
+
+* **alert**:
+
+  - Removed the property `intlClose`, use `messageOverrides.close`
+    instead.
+
+* **block**:
+
+  - Removed the property `intlExpand` , use `messsageOverrides.expand`
+    instead.
+  - Removed the property `intlCollapse`, use `messageOverrides.collapse`
+    instead.
+  - Removed the property `intlLoading` , use `messsageOverrides.loading`
+    instead.
+  - Removed the property `intlOptions`, use `messageOverrides.options`
+    instead.
+
+* **block-section:**
+
+  - Removed the property `intlExpand` , use `messsageOverrides.expand`
+    instead.
+  - Removed the property `intlCollapse`, use `messageOverrides.collapse`
+    instead.
+
+* **button:**
+
+  - Removed the property `intlLoading` , use `messsageOverrides.loading`
+    instead.
+
+* **popover, dropdown, modal, pick-list-item, value-list-item:** Renamed `disable*` properties.
+
+* **dropdown:**
+
+  - Renamed the property `disableCloseOnSelect`, use
+    `closeOnSelectDisabled` instead.
+
+* **modal:**
+
+  - Renamed the property `disableCloseButton`, use `closeButtonDisabled`
+    instead.
+  - Renamed the property `disableFocusTrap`, use `focusTrapDisabled`
+    instead.
+  - Renamed the property `disableOutsideClose`, use `outsideCloseDisabled`
+    instead.
+  - Renamed the property `disableEscape`, use `escapeDisabled` instead.
+
+* **pick-list-item:**
+
+  - Renamed the property `disableDeselect`, use `deselectDisabled`
+    instead.
+
+* **popover:**
+
+  - Renamed the property `disableFlip`, use `flipDisabled` instead.
+  - Renamed the property `disableFocusTrap`, use `focusTrapDisabled`
+    instead.
+  - Renamed the property `disablePointer`, use `pointerDisabled` instead.
+
+* **value-list-item:**
+
+  - Renamed the property `disableDeselect`, use `deselectDisabled`
+    instead.
+
+* **input-date-picker:** Removed the `calciteDatePickerChange` event, use
+  `calciteInputDatePickerChange` instead.
+
+* **date-picker:** Removed the `start` and `end` properties, set `value`
+  as an array with the start as the first value and the end as the second
+  value instead.
+
+* **combobox:** Renamed event.
+
+  - Renamed the event `calciteComboboxChipDismiss`, use
+    `calciteComboboxChipClose` instead.
+
+* **alert:** Renamed properties.
+
+  - Renamed the property `autoDismiss`, use `autoClose` instead.
+  - Renamed the property `autoDismissDuration`, use `autoCloseDuration`
+    instead.
+
+* **combobox:** Removed `event.detail` payload from events and added
+  properties `selectedItems` and `filteredItems`.
+
+  - Removed the `event.detail` property on the event
+    `calciteComboboxChange`, use `event.target.selectedItems` instead.
+  - Removed the `event.detail` property on the event
+    `calciteComboboxFilterChange`, use `event.target.filteredItems` or
+    `event.target.value` instead.
+
+* **chip:** Renamed event.
+
+  - Renamed the event `calciteChipDismiss`, use `calciteChipClose`
+    instead.
+
+* **tip:** Renamed property.
+
+  - Renamed the property `nonDismissible`, use `closeDisabled` instead.
+
+* **date-picker:** Removed `event.detail` payload from events.
+
+  - Removed the `event.detail` property on the event
+    `calciteDatePickerChange`, use `event.target` instead.
+  - Removed the `event.detail` property on the event
+    `calciteDatePickerRangeChange`, use `event.target` instead.
+
+* **modal:** Removed deprecated properties and method.
+
+  - Removed the property `active`, use `open` instead.
+  - Removed the property noPadding, use `--calcite-modal-padding` CSS
+    property instead.
+  - Removed the method `focusElement`, use `setFocus` method instead.
+  - Removed the CSS property ` --calcite-modal-content-text`.
+  - Removed the CSS property `--calcite-modal-padding-large`.
+  - Removed the CSS property `--calcite-modal-title-text`.
+
+* **pagination:** Removed deprecated event.
+
+  - Removed the event `calcitePaginationUpdate` event, use
+    `calcitePaginationChange` event instead.
+
+* **loader:** Removed deprecated properties.
+
+  - Removed the property `active`, use global attribute `hidden` instead.
+  - Removed the property `noPadding`, use `--calcite-loader-padding` CSS
+    property instead.
+
+* **label:** The default display for label is now `flex` instead of
   `inline`.
 
-* Use `--calcite-label-margin-bottom` CSS variable to disable space when
-  in `layout` is `inline`.
+  - Use `--calcite-label-margin-bottom` CSS variable to disable space when
+    in `layout` is `inline`.
 
-- **tabs:** Removed slot.
+* **tabs:** Removed slot.
 
-* Removed the slot `tab-nav`, use `title-group` instead.
+  - Removed the slot `tab-nav`, use `title-group` instead.
 
-- **dropdown:** Removed slot.
+* **dropdown:** Removed slot.
 
-* Removed the slot `dropdown-trigger`, use `trigger` instead.
-
-- **action-menu:** Removed event.
-
-* Removed the event `calciteActionMenuOpenChange`, use
-  `calciteActionMenuOpen` instead.
-
-- **combobox,combobox-item:** Removed deprecated properties, events, and event
-  payload.
-
-calcite-combobox :
-
-- Removed the property `active`, use `open` instead.
-- Removed the event`calciteLookupChange`,use `calciteComboboxChange`
-  event instead.
-- Removed the payload information from the
-  event`calciteComboboxChipDismiss`, use the `value` property on the
-  component to determine the removed value instead.
-
-calcite-combobox-item:
-
-- Removed the property `constant`, use `filterDisable` instead.
+  - Removed the slot `dropdown-trigger`, use `trigger` instead.
 
 * **action-menu:** Removed event.
 
-- Removed the event `calciteActionMenuOpenChange`, use
-  `calciteActionMenuOpen` instead.
+  - Removed the event `calciteActionMenuOpenChange`, use
+    `calciteActionMenuOpen` instead.
 
-- **input-message:** removed deprecated `calcite-input-message` properties
+* **combobox:** Removed deprecated properties, events, and event
+  payload.
 
-* Removed `active` property, use the global `hidden` attribute instead.
-* Removed `type` property, "floating" is no longer supported.
+  - Removed the property `active`, use `open` instead.
+  - Removed the event`calciteLookupChange`, use `calciteComboboxChange`
+    event instead.
+  - Removed the payload information from the event
+    `calciteComboboxChipDismiss`, use the `value` property on the
+    component to determine the removed value instead.
 
-- **input-text:** remove deprecated event payload
+* **combobox-item:** Removed deprecated property.
 
-* Removed `calciteInputTextInput` event payload, use the event's
-  `target`/`currentTarget` instead.
+  - Removed the property `constant`, use `filterDisable` instead.
 
-* **input-date-picker,date-picker:** Removed the `locale` property, use `lang` instead.
+* **action-menu:** Removed event.
 
-- **input-date-picker:** Removed the `active` property, use `open` instead.
+  - Removed the event `calciteActionMenuOpenChange`, use
+    `calciteActionMenuOpen` instead.
 
-* **input-time-picker:** Removed the `active` property, use `open` instead.
+* **input-message:** removed deprecated properties
 
-- **time-picker:** Removed the `locale` property, use `lang` instead.
+  - Removed `active` property, use the global `hidden` attribute instead.
+  - Removed `type` property, "floating" is no longer supported.
+
+* **input-text:** remove deprecated event payload
+
+  - Removed `calciteInputTextInput` event payload, use the event's
+    `target`/`currentTarget` instead.
+
+* **date-picker:** Removed deprecated properties
+
+  - Removed the `locale` property, use `lang` instead.
+
+* **input-date-picker:** Removed deprecated properties
+
+  - Removed the `active` property, use `open` instead.
+  - Removed the `locale` property, use `lang` instead.
+
+* **input-time-picker:** Removed deprecated property
+
+  - Removed the `active` property, use `open` instead.
+
+* **time-picker:** Removed deprecated property
+
+  Removed the `locale` property, use `lang` instead.
 
 * **input:** remove deprecated properties and event payload.
 
@@ -73,11 +521,11 @@ calcite-combobox-item:
   - Removed `locale` property, use `lang` instead.
   - Removed `calciteInputInput`'s `el`/`value` event payload properties, use the event's `target`/`currentTarget` instead.
 
-- **handle:** Removed deprecated event payload property on `calciteHandleNudge`.
+* **handle:** Removed deprecated event payload property on `calciteHandleNudge`.
 
   - Removed the `event.detail.handle` property on the event `calciteHandleNudge`, use `event.target` instead.
 
-- **tabs, tab-nav, tab-title, tab:** Removed deprecated properties and values.
+* **tabs, tab-nav, tab-title, tab:** Removed deprecated properties and values.
 
   - Removed the property `active` from `calcite-tab-title`, use `selected`
     instead.
@@ -88,7 +536,7 @@ calcite-combobox-item:
   - Removed the `below` value from the `position` property on
     `calcite-tabs`, use `bottom` instead.
 
-- **switch:** Removed deprecated `switched` property and
+* **switch:** Removed deprecated `switched` property and
   `calciteSwitchChange` event payload.
 
   - Removed the property `switched`, use `checked` instead.
@@ -101,7 +549,7 @@ calcite-combobox-item:
   - Removed `calciteInputNumberInput` event payload properties, use the
     event's `target`/`currentTarget` instead.
 
-- **label:** Removed deprecated properties.
+* **label:** Removed deprecated properties.
 
   - Removed the property `status`, set the `status` property on the
     component the label is bound to instead.
@@ -110,64 +558,64 @@ calcite-combobox-item:
   - Removed the property `disableSpacing`, use the CSS variable
     `--calcite-label-margin-bottom` instead.
 
-- **stepper-item:** Removed deprecated properties.
+* **stepper-item:** Removed deprecated properties.
 
   - Removed the property `active`, use `selected` instead.
   - Removed the property `itemTitle`, use `heading` instead.
   - Removed the property `itemSubtitle`, use `description` instead.
 
-- **radio-group-item:** Removed deprecated properties.
+* **radio-group-item:** Removed deprecated properties.
 
   - Removed the property `icon`, use either `iconStart` or `iconEnd`
     instead.
   - Removed the property `iconPosition`, use either `iconStart` or
     `iconEnd` instead.
 
-- **split-button:** Removed the `event.detail` payload from the events
+* **split-button:** Removed the `event.detail` payload from the events
   `calciteSplitButtonPrimaryClick` and `calciteSplitButtonSecondaryClick`.
   Use separate mouse event listeners to get information about `click`
   events.
 
-- **slider:** Removed deprecated event.
+* **slider:** Removed deprecated event.
 
   - Removed the event `calciteSliderUpdate`, use `calciteSliderInput`
     instead.
 
-- **dropdown, dropdown-item:** Removed deprecated properties.
+* **dropdown, dropdown-item:** Removed deprecated properties.
 
   - Removed the property `active` on `calcite-dropdown-item`, use
     `selected` instead.
   - Removed the property `active`, on `calcite-dropdown`, use `open`
     instead.
 
-- **tree:** Removed the `inputEnabled` property.
+* **tree:** Removed the `inputEnabled` property.
 
   - Removed the property `inputEnabled`, use `selectionMode="ancestors"`
     instead.
 
-- **chip:** Removed the `dismissible` property and the `clear`
+* **chip:** Removed the `dismissible` property and the `clear`
   value for the `appearance` property.
 
   - Removed the property `dismissible`, use `closable` instead.
   - Use the value `transparent` instead of `clear` for `appearance`
     property.
 
-- **action-menu:** Removed the `event.detail` value from the
+* **action-menu:** Removed the `event.detail` value from the
   `calciteActionMenuOpenChange` event on the `action-menu` component.
 
   - When listening to `calciteActionMenuOpenChange`, use the `open`
     property on the `event.target` instead of `event.detail`.
 
-- **block:** Removed the `summary` and `disablePadding` properties.
+* **block:** Removed the `summary` and `disablePadding` properties.
 
   - Removed the property `summary`, use `description` instead.
   - Removed the property `disablePadding`, use the CSS variable
     `--calcite-block-padding` instead.
 
-- **popover-manager:** Removed the `calcite-popover-manager` component. This
+* **popover-manager:** Removed the `calcite-popover-manager` component. This
   component is no longer necessary for `calcite-popover`s.
 
-- **accordion-item:** Removed the properties `active`, `itemTitle`,
+* **accordion-item:** Removed the properties `active`, `itemTitle`,
   `itemSubtitle`, and `icon`.
 
   - Removed the property `active`, use `expanded` instead.
@@ -175,7 +623,7 @@ calcite-combobox-item:
   - Removed the property `itemSubtitle`, use `description` instead.
   - Removed the property `icon`, use `iconStart` or `iconEnd` instead.
 
-- **panel:** Removed deprecated events and properties.
+* **panel:** Removed deprecated events and properties.
 
   - Removed the property `dismissed`, use `closed` instead.
   - Removed the property `dismissible`, use `closable` instead.
@@ -193,14 +641,14 @@ calcite-combobox-item:
   - Removed the event `calcitePanelBackClick`, use the `calcite-flow-item`
     component instead.
 
-- **popover:** Removed the `closeButton` and `dismissible` properties.
+* **popover:** Removed the `closeButton` and `dismissible` properties.
 
   - Removed the property `closeButton`, use `closable` instead.
   - Removed the property `dismissible`, use `closable` instead.
 
-- **tooltip-manager:** Removed the `calcite-tooltip-manager` component. This
+* **tooltip-manager:** Removed the `calcite-tooltip-manager` component. This
   component is no longer necessary for `calcite-tooltip`s.
-- **alert:** Removed the deprecated `active` property.
+* **alert:** Removed the deprecated `active` property.
 
   - Removed the property `active`, use `open` instead.
 
@@ -213,22 +661,22 @@ calcite-combobox-item:
   - **list, list-item, list-item-group:** Removed the `headingLevel` and `nonInteractive`
     properties.
 
-  - `headingLevel ` property on the `list` and `list-item-group` is no
+  - `headingLevel` property on the `list` and `list-item-group` is no
     longer necessary.
   - `nonInteractive` property on the `list-item` is no longer necessary.
 
-- **shell:** Removed the `primary-panel` and `contextual-panel`
+* **shell:** Removed the `primary-panel` and `contextual-panel`
   slots.
 
   - Removed the slot `primary-panel`, use `panel-start` instead.
   - Removed the slot `contextual-panel`, use `panel-end` instead.
 
-- **shell-panel:** Removed the `calciteShellPanelToggle` event.
+* **shell-panel:** Removed the `calciteShellPanelToggle` event.
 
   - Use a `ResizeObserver` on the component to listen for changes to its
     size. (https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserver)
 
-- **flow, flow-item:** Removed the `calciteFlowItemBackClick` event and
+* **flow, flow-item:** Removed the `calciteFlowItemBackClick` event and
   support for slotting `calcite-panel`s.
 
   - Removed support for slotting `calcite-panel` components, use the
@@ -236,17 +684,17 @@ calcite-combobox-item:
   - Removed the event `calciteFlowItemBackClick`, use
     `calciteFlowItemBack` instead.
 
-- **tip-manager:** Removed the `calciteTipManagerToggle` event, use
+* **tip-manager:** Removed the `calciteTipManagerToggle` event, use
   `calciteTipManagerClose` instead.
 
-- **action:** Removed the `calciteActionClick` event and the `clear`
+* **action:** Removed the `calciteActionClick` event and the `clear`
   value for the `appearance` property.
 
   - Listen to the `click` event instead of `calciteActionClick.
   - Use the value `transparent` instead of `clear` for the property
     `appearance`.
 
-- **list, list-item, list-item-group:** To know when `calcite-list-item` content is selected, listen to the event `calciteListItemSelect` instead of `click`.
+* **list, list-item, list-item-group:** To know when `calcite-list-item` content is selected, listen to the event `calciteListItemSelect` instead of `click`.
 
   - `List`
     - Adds `label` property to specify an accessible name for the component.
@@ -264,59 +712,63 @@ calcite-combobox-item:
     - Adds `open` property to show child components.
     - Deprecates `nonInteractive` property.
 
-- **calcite-loader, calcite-input-message:** use hidden native global attribute to toggle visibility on the components instead of the deprecated active prop.
-- **block, date-picker, list-item-group, panel, pick-list-group, popover, tip, tip-manager:** Sets internal heading HTML element to be a div by default. If users would like to retain an internal H1-H6 HTML element, they will need to set the headingLevel property on the component. Users already setting the headingLevel property are not affected. ([#5728](https://github.com/Esri/calcite-components/pull/5728)) ([38ca639](https://github.com/Esri/calcite-components/commit/38ca639010b8bd1d1fe32c9cf9b54dfc38cf9877)), closes [5099](https://github.com/Esri/calcite-components/issues/5099)
+* **calcite-loader, calcite-input-message:** use hidden native global attribute to toggle visibility on the components instead of the deprecated active prop.
+* **block, date-picker, list-item-group, panel, pick-list-group, popover, tip, tip-manager:** Sets internal heading HTML element to be a div by default. If users would like to retain an internal H1-H6 HTML element, they will need to set the headingLevel property on the component. Users already setting the headingLevel property are not affected. ([#5728](https://github.com/Esri/calcite-components/pull/5728)) ([38ca639](https://github.com/Esri/calcite-components/commit/38ca639010b8bd1d1fe32c9cf9b54dfc38cf9877)), closes [5099](https://github.com/Esri/calcite-components/issues/5099)
 
 ### Features
 
+- add iconFlipRtl prop to all components with a convenience icon prop [#5496](https://github.com/Esri/calcite-components/issues/5496) ([#5878](https://github.com/Esri/calcite-components/issues/5878)) ([30a080b](https://github.com/Esri/calcite-components/commit/30a080b81d20163eba7e65e481ba3701b2bd39a1))
+
+* add built-in translations ([#5471](https://github.com/Esri/calcite-components/issues/5471)) ([d754b29](https://github.com/Esri/calcite-components/commit/d754b29467d40f8081eb7793fb13c1b4de9f7ebf)), closes [#4961](https://github.com/Esri/calcite-components/issues/4961)
+
 - **dropdown-item:** Add `calciteDropdownItemSelect` event ([#6015](https://github.com/Esri/calcite-components/issues/6015)) ([b565ac9](https://github.com/Esri/calcite-components/commit/b565ac97e0d8b63527767fa10a75dce78d7f5a4b)), closes [#5940](https://github.com/Esri/calcite-components/issues/5940) [#5940](https://github.com/Esri/calcite-components/issues/5940)
 
-* **input, input-number, input-text:** add inputMode and enterKeyHint properties ([#5976](https://github.com/Esri/calcite-components/issues/5976)) ([d567a9f](https://github.com/Esri/calcite-components/commit/d567a9fde5b3619f308133555ba0bae20ca85168)), closes [#5917](https://github.com/Esri/calcite-components/issues/5917)
+- **input, input-number, input-text:** add inputMode and enterKeyHint properties ([#5976](https://github.com/Esri/calcite-components/issues/5976)) ([d567a9f](https://github.com/Esri/calcite-components/commit/d567a9fde5b3619f308133555ba0bae20ca85168)), closes [#5917](https://github.com/Esri/calcite-components/issues/5917)
 
 - **action:** add built-in translation support for indicator text ([#5895](https://github.com/Esri/calcite-components/issues/5895)) ([704db6d](https://github.com/Esri/calcite-components/commit/704db6dfbe3a875fbd5b20c9b0eb0975aca24258)), closes [#4813](https://github.com/Esri/calcite-components/issues/4813)
 
-* **list-item:** Add content slot for specialized content ([#5876](https://github.com/Esri/calcite-components/issues/5876)) ([a510773](https://github.com/Esri/calcite-components/commit/a510773ba87994010e84184f7709c84ce40f2d2c)), closes [#3032](https://github.com/Esri/calcite-components/issues/3032) [#3032](https://github.com/Esri/calcite-components/issues/3032)
+- **list-item:** Add content slot for specialized content ([#5876](https://github.com/Esri/calcite-components/issues/5876)) ([a510773](https://github.com/Esri/calcite-components/commit/a510773ba87994010e84184f7709c84ce40f2d2c)), closes [#3032](https://github.com/Esri/calcite-components/issues/3032) [#3032](https://github.com/Esri/calcite-components/issues/3032)
 
 - **textarea:** add default message bundle ([#5870](https://github.com/Esri/calcite-components/issues/5870)) ([c7a8495](https://github.com/Esri/calcite-components/commit/c7a84955b4f3cd09dbf7315ea59e0edaa7be2a6c)), closes [#863](https://github.com/Esri/calcite-components/issues/863)
 
-* **input, input-text, input-number:** add attributes autocomplete, accept, multiple, pattern ([#5807](https://github.com/Esri/calcite-components/issues/5807)) ([feb4fce](https://github.com/Esri/calcite-components/commit/feb4fce9528920041d836446ef437f0f1c0e8ce2)), closes [#4079](https://github.com/Esri/calcite-components/issues/4079)
+- **input, input-text, input-number:** add attributes autocomplete, accept, multiple, pattern ([#5807](https://github.com/Esri/calcite-components/issues/5807)) ([feb4fce](https://github.com/Esri/calcite-components/commit/feb4fce9528920041d836446ef437f0f1c0e8ce2)), closes [#4079](https://github.com/Esri/calcite-components/issues/4079)
 
-* **alert:** support actions-end ([#5750](https://github.com/Esri/calcite-components/issues/5750)) ([2447e16](https://github.com/Esri/calcite-components/commit/2447e167eb731f3a59775a5692530137bf9a70fd))
-* **list, list-item, list-item-group:** Adds support for selecting and filtering list items. Improves accessibility by using aria "treegrid" role. ([#4527](https://github.com/Esri/calcite-components/issues/4527)) ([f489c57](https://github.com/Esri/calcite-components/commit/f489c57095ec21df1f427176d2d635675eea95d3))
-* **pick-list, value-list:** Add calciteListFilter event, filteredItems prop, filterText prop and filteredData prop. ([#5681](https://github.com/Esri/calcite-components/issues/5681)) ([943d208](https://github.com/Esri/calcite-components/commit/943d2088b7cf447a12ebcd0babab145f543538a2)), closes [#4333](https://github.com/Esri/calcite-components/issues/4333)
-* **popover:** Add focus-trap to popover and disableFocusTrap property. ([#5725](https://github.com/Esri/calcite-components/issues/5725)) ([a8ef353](https://github.com/Esri/calcite-components/commit/a8ef353bc031630b373f2bdd1bdc1cafd7e35be9)), closes [#2133](https://github.com/Esri/calcite-components/issues/2133)
-* **popover:** Escape key should close open popovers. ([#5726](https://github.com/Esri/calcite-components/issues/5726)) ([2e2621d](https://github.com/Esri/calcite-components/commit/2e2621d57c4701f7a7e84f74d801c543ad4f45c0))
-* **tabs:** Add support for navigating with Home and End keys ([#5727](https://github.com/Esri/calcite-components/issues/5727)) ([823c429](https://github.com/Esri/calcite-components/commit/823c429439ec9f8cd1d6a1ff2aedf0b2da9c741b)), closes [#5661](https://github.com/Esri/calcite-components/issues/5661)
-* **tooltip:** Add tooltip open, close, beforeOpen, and beforeClose events ([#5772](https://github.com/Esri/calcite-components/issues/5772)) ([64b5675](https://github.com/Esri/calcite-components/commit/64b56751d68f69d31ea943415f5d0d08bae634cc)), closes [#5734](https://github.com/Esri/calcite-components/issues/5734)
+- **alert:** support actions-end ([#5750](https://github.com/Esri/calcite-components/issues/5750)) ([2447e16](https://github.com/Esri/calcite-components/commit/2447e167eb731f3a59775a5692530137bf9a70fd))
+- **list, list-item, list-item-group:** Adds support for selecting and filtering list items. Improves accessibility by using aria "treegrid" role. ([#4527](https://github.com/Esri/calcite-components/issues/4527)) ([f489c57](https://github.com/Esri/calcite-components/commit/f489c57095ec21df1f427176d2d635675eea95d3))
+- **pick-list, value-list:** Add calciteListFilter event, filteredItems prop, filterText prop and filteredData prop. ([#5681](https://github.com/Esri/calcite-components/issues/5681)) ([943d208](https://github.com/Esri/calcite-components/commit/943d2088b7cf447a12ebcd0babab145f543538a2)), closes [#4333](https://github.com/Esri/calcite-components/issues/4333)
+- **popover:** Add focus-trap to popover and disableFocusTrap property. ([#5725](https://github.com/Esri/calcite-components/issues/5725)) ([a8ef353](https://github.com/Esri/calcite-components/commit/a8ef353bc031630b373f2bdd1bdc1cafd7e35be9)), closes [#2133](https://github.com/Esri/calcite-components/issues/2133)
+- **popover:** Escape key should close open popovers. ([#5726](https://github.com/Esri/calcite-components/issues/5726)) ([2e2621d](https://github.com/Esri/calcite-components/commit/2e2621d57c4701f7a7e84f74d801c543ad4f45c0))
+- **tabs:** Add support for navigating with Home and End keys ([#5727](https://github.com/Esri/calcite-components/issues/5727)) ([823c429](https://github.com/Esri/calcite-components/commit/823c429439ec9f8cd1d6a1ff2aedf0b2da9c741b)), closes [#5661](https://github.com/Esri/calcite-components/issues/5661)
+- **tooltip:** Add tooltip open, close, beforeOpen, and beforeClose events ([#5772](https://github.com/Esri/calcite-components/issues/5772)) ([64b5675](https://github.com/Esri/calcite-components/commit/64b56751d68f69d31ea943415f5d0d08bae634cc)), closes [#5734](https://github.com/Esri/calcite-components/issues/5734)
 
 ### Bug Fixes
 
 - **loader:** Do not modify display when inline ([#6013](https://github.com/Esri/calcite-components/issues/6013)) ([2d91c89](https://github.com/Esri/calcite-components/commit/2d91c89778fd71f9492d3caad0750f779488d2cf)), closes [#5900](https://github.com/Esri/calcite-components/issues/5900) [#5900](https://github.com/Esri/calcite-components/issues/5900)
 
-* **popover, modal:** deactivate focus trap on outside click ([#5994](https://github.com/Esri/calcite-components/issues/5994)) ([2a66134](https://github.com/Esri/calcite-components/commit/2a661343f1ee9fc9afda347990f40d33ad41295d)), closes [#5993](https://github.com/Esri/calcite-components/issues/5993)
+- **popover, modal:** deactivate focus trap on outside click ([#5994](https://github.com/Esri/calcite-components/issues/5994)) ([2a66134](https://github.com/Esri/calcite-components/commit/2a661343f1ee9fc9afda347990f40d33ad41295d)), closes [#5993](https://github.com/Esri/calcite-components/issues/5993)
 
 - **loader:** no longer animates when reduced motion is enabled ([#5981](https://github.com/Esri/calcite-components/issues/5981)) ([4d994e5](https://github.com/Esri/calcite-components/commit/4d994e5f845b828df8f37b61923fc5cceed3819a)), closes [#3489](https://github.com/Esri/calcite-components/issues/3489)
 
-* **modal, popover:** Add `disableFocusTrap` property to toggle focus trapping. ([#5965](https://github.com/Esri/calcite-components/issues/5965)) ([7ee9e16](https://github.com/Esri/calcite-components/commit/7ee9e16fbc5a12c82f85a5e2fb07c0d1137d03ce))
+- **modal, popover:** Add `disableFocusTrap` property to toggle focus trapping. ([#5965](https://github.com/Esri/calcite-components/issues/5965)) ([7ee9e16](https://github.com/Esri/calcite-components/commit/7ee9e16fbc5a12c82f85a5e2fb07c0d1137d03ce))
 
 - **input, input-number, input-text:** Fix infinite loop crashing browser. [#5882](https://github.com/Esri/calcite-components/issues/5882) ([#5961](https://github.com/Esri/calcite-components/issues/5961)) ([190cfac](https://github.com/Esri/calcite-components/commit/190cfac2dbdc0c312ebf396d66894a07ae7086b9))
 
-* **alert:** auto-dismissible retains close button and dismisses timer while a user is hovering over ([#5872](https://github.com/Esri/calcite-components/issues/5872)) ([274b104](https://github.com/Esri/calcite-components/commit/274b10477f6aaf822d3cf2894b7848e36b36b057)), closes [#3338](https://github.com/Esri/calcite-components/issues/3338)
+- **alert:** auto-dismissible retains close button and dismisses timer while a user is hovering over ([#5872](https://github.com/Esri/calcite-components/issues/5872)) ([274b104](https://github.com/Esri/calcite-components/commit/274b10477f6aaf822d3cf2894b7848e36b36b057)), closes [#3338](https://github.com/Esri/calcite-components/issues/3338)
 
 - **action:** Add screen reader support for `active` and `indicator` props ([#5875](https://github.com/Esri/calcite-components/issues/5875)) ([b6bcfa0](https://github.com/Esri/calcite-components/commit/b6bcfa03c9a20ae156634b14b2d8dd2834f29c40)), closes [#4813](https://github.com/Esri/calcite-components/issues/4813) [#4813](https://github.com/Esri/calcite-components/issues/4813)
 - **block:** Fix content spacing. [#5898](https://github.com/Esri/calcite-components/issues/5898) ([#5918](https://github.com/Esri/calcite-components/issues/5918)) ([f32ddaa](https://github.com/Esri/calcite-components/commit/f32ddaad88060cbeff60f87499a26560adeee66a))
 
-* **flow:** Allow nested flows. ([#5897](https://github.com/Esri/calcite-components/issues/5897)) ([214e3be](https://github.com/Esri/calcite-components/commit/214e3be13fbac955a8a67543f8b067789a722f52)), closes [#5896](https://github.com/Esri/calcite-components/issues/5896)
-* **list, list-item:** Fix focus behavior when clicking on an item ([#5901](https://github.com/Esri/calcite-components/issues/5901)) ([552e28f](https://github.com/Esri/calcite-components/commit/552e28f0107b0a492901790b59d34f178ce08619)), closes [#5899](https://github.com/Esri/calcite-components/issues/5899)
-* **modal:** OpenCloseComponent emits when setting `--calcite-duration-factor` to 0 ([#5326](https://github.com/Esri/calcite-components/issues/5326)) ([ff19420](https://github.com/Esri/calcite-components/commit/ff19420bbfc1a78277dfdefaea04498bf8f17a08)), closes [#5206](https://github.com/Esri/calcite-components/issues/5206)
+- **flow:** Allow nested flows. ([#5897](https://github.com/Esri/calcite-components/issues/5897)) ([214e3be](https://github.com/Esri/calcite-components/commit/214e3be13fbac955a8a67543f8b067789a722f52)), closes [#5896](https://github.com/Esri/calcite-components/issues/5896)
+- **list, list-item:** Fix focus behavior when clicking on an item ([#5901](https://github.com/Esri/calcite-components/issues/5901)) ([552e28f](https://github.com/Esri/calcite-components/commit/552e28f0107b0a492901790b59d34f178ce08619)), closes [#5899](https://github.com/Esri/calcite-components/issues/5899)
+- **modal:** OpenCloseComponent emits when setting `--calcite-duration-factor` to 0 ([#5326](https://github.com/Esri/calcite-components/issues/5326)) ([ff19420](https://github.com/Esri/calcite-components/commit/ff19420bbfc1a78277dfdefaea04498bf8f17a08)), closes [#5206](https://github.com/Esri/calcite-components/issues/5206)
 
 - **tooltip:** Prevent tooltip from appearing above modal overlay ([#5873](https://github.com/Esri/calcite-components/issues/5873)) ([f7a5de2](https://github.com/Esri/calcite-components/commit/f7a5de25f8ca2aa9f84d2c99039e93248f8ef144)), closes [#5388](https://github.com/Esri/calcite-components/issues/5388) [#5388](https://github.com/Esri/calcite-components/issues/5388)
 
-* **list-item:** Add hover styling ([#5891](https://github.com/Esri/calcite-components/issues/5891)) ([063d6e9](https://github.com/Esri/calcite-components/commit/063d6e955eddb82a5b3ea2e93eca3aa03feef2ae)), closes [#5880](https://github.com/Esri/calcite-components/issues/5880)
+- **list-item:** Add hover styling ([#5891](https://github.com/Esri/calcite-components/issues/5891)) ([063d6e9](https://github.com/Esri/calcite-components/commit/063d6e955eddb82a5b3ea2e93eca3aa03feef2ae)), closes [#5880](https://github.com/Esri/calcite-components/issues/5880)
 
 - **input-time-picker, input-date-picker:** internal pickers update when changing locales ([#5887](https://github.com/Esri/calcite-components/issues/5887)) ([9c2dc42](https://github.com/Esri/calcite-components/commit/9c2dc42e581b6399b909d41ce6ae5b77ffa12831)), closes [#5855](https://github.com/Esri/calcite-components/issues/5855)
 
-* **modal:** restore deprecated scrim background css property ([#5868](https://github.com/Esri/calcite-components/issues/5868)) ([7717127](https://github.com/Esri/calcite-components/commit/7717127fd25510126ad7d2b3def2c9d00753d60f)), closes [#5866](https://github.com/Esri/calcite-components/issues/5866)
+- **modal:** restore deprecated scrim background css property ([#5868](https://github.com/Esri/calcite-components/issues/5868)) ([7717127](https://github.com/Esri/calcite-components/commit/7717127fd25510126ad7d2b3def2c9d00753d60f)), closes [#5866](https://github.com/Esri/calcite-components/issues/5866)
 
 - **alert:** placement of link consistent with notice ([#5852](https://github.com/Esri/calcite-components/issues/5852)) ([56e35ab](https://github.com/Esri/calcite-components/commit/56e35ab3e07c9562d83eee04559a1e8b15662b3d)), closes [#5254](https://github.com/Esri/calcite-components/issues/5254)
 

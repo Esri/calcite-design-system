@@ -913,13 +913,20 @@ export async function floatingUIOwner(
  * Helper to test t9n component setup
  *
  * @param {TagOrHTML|TagAndPage} componentSetup - A component tag, html, or an object with e2e page and tag for setting up a test
+ * @param intlProps
+ * @param additionalMessages
  */
-export async function t9n(componentSetup: TagOrHTML | TagAndPage): Promise<void> {
+export async function t9n(
+  componentSetup: TagOrHTML | TagAndPage,
+  intlProps = true,
+  additionalMessages?: string[]
+): Promise<void> {
   const { page, tag } = await getTagAndPage(componentSetup);
   const component = await page.find(tag);
 
   await assertDefaultMessages();
-  await assertIntlPropAsOverrides();
+  intlProps ? await assertIntlPropAsOverrides() : await assertAdditionalMessagesAsOverrides();
+
   await assertOverrides();
   await assertLangSwitch();
 
@@ -977,28 +984,59 @@ export async function t9n(componentSetup: TagOrHTML | TagAndPage): Promise<void>
   }
 
   async function assertLangSwitch(): Promise<void> {
-    await page.evaluate(() => {
-      const orig = window.fetch;
-      window.fetch = async function (input, init) {
-        if (typeof input === "string" && input.endsWith("messages_es.json")) {
-          const dummyMessages = {};
-          window.fetch = orig;
-          return new Response(new Blob([JSON.stringify(dummyMessages, null, 2)], { type: "application/json" }));
-        }
+    const enMessages = await getCurrentMessages();
+    const fakeBundleIdentifier = "__fake__";
+    await page.evaluate(
+      (enMessages, fakeBundleIdentifier) => {
+        const orig = window.fetch;
+        window.fetch = async function (input, init) {
+          if (typeof input === "string" && input.endsWith("messages_es.json")) {
+            const fakeEsMessages = {
+              ...enMessages, // reuse real message bundle in case component rendering depends on strings
 
-        return orig.call(input, init);
-      };
-    });
+              [fakeBundleIdentifier]: true // we inject a fake identifier for assertion-purposes
+            };
+            window.fetch = orig;
+            return new Response(new Blob([JSON.stringify(fakeEsMessages, null, 2)], { type: "application/json" }));
+          }
+
+          return orig.call(input, init);
+        };
+      },
+      enMessages,
+      fakeBundleIdentifier
+    );
 
     component.setAttribute("lang", "es");
     await page.waitForChanges();
     await page.waitForTimeout(3000);
     const esMessages = await getCurrentMessages();
 
-    expect(esMessages).toEqual({});
+    expect(esMessages).toHaveProperty(fakeBundleIdentifier);
 
     // reset test changes
     component.removeAttribute("lang");
     await page.waitForChanges();
+  }
+
+  // util method for components which do not follow `intl` pattern of defining messages.
+  async function assertAdditionalMessagesAsOverrides(): Promise<void> {
+    if (additionalMessages.length > 0) {
+      const props: Partial<MessageBundle> = {};
+
+      for (const prop of additionalMessages) {
+        const index = `${additionalMessages.indexOf(prop)}`;
+        props[prop] = index;
+        component.setProperty(prop, index);
+        await page.waitForChanges();
+      }
+      expect(props).toEqual(await getCurrentMessages());
+
+      // reset test changes
+      for (const prop of additionalMessages) {
+        component.setProperty(prop, undefined);
+        await page.waitForChanges();
+      }
+    }
   }
 }

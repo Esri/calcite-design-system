@@ -59,7 +59,7 @@ export class ValueListItem
   /**
    * @internal
    */
-  @Prop() disableDeselect = false;
+  @Prop() deselectDisabled = false;
 
   /**
    * When `true`, prevents the content of the component from user interaction.
@@ -77,6 +77,9 @@ export class ValueListItem
    * @see [ICON_TYPES](https://github.com/Esri/calcite-components/blob/master/src/components/pick-list/resources.ts#L5)
    */
   @Prop({ reflect: true }) icon?: ICON_TYPES | null = null;
+
+  /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
+  @Prop({ reflect: true }) iconFlipRtl = false;
 
   /**
    * Label and accessible name for the component. Appears next to the icon.
@@ -232,7 +235,7 @@ export class ValueListItem
   }
 
   renderHandle(): VNode {
-    const { icon } = this;
+    const { icon, iconFlipRtl } = this;
     if (icon === ICON_TYPES.grip) {
       return (
         <span
@@ -246,7 +249,7 @@ export class ValueListItem
           role="button"
           tabindex="0"
         >
-          <calcite-icon icon={ICONS.drag} scale="s" />
+          <calcite-icon flipRtl={iconFlipRtl} icon={ICONS.drag} scale="s" />
         </span>
       );
     }
@@ -258,7 +261,7 @@ export class ValueListItem
         {this.renderHandle()}
         <calcite-pick-list-item
           description={this.description}
-          disableDeselect={this.disableDeselect}
+          deselectDisabled={this.deselectDisabled}
           disabled={this.disabled}
           label={this.label}
           metadata={this.metadata}

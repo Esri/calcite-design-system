@@ -7,10 +7,11 @@ import {
   h,
   Method,
   Prop,
+  State,
   VNode,
   Watch
 } from "@stencil/core";
-import { CSS, ICONS, SLOTS, TEXT } from "./resources";
+import { CSS, ICONS, SLOTS } from "./resources";
 import { ICON_TYPES } from "../pick-list/resources";
 import { getSlotted, toAriaBoolean } from "../../utils/dom";
 import {
@@ -19,6 +20,15 @@ import {
   disconnectConditionalSlotComponent
 } from "../../utils/conditionalSlot";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import { connectLocalized, disconnectLocalized } from "../../utils/locale";
+import {
+  connectMessages,
+  disconnectMessages,
+  setUpMessages,
+  T9nComponent,
+  updateMessages
+} from "../../utils/t9n";
+import { Messages } from "./assets/pick-list-item/t9n";
 import {
   setUpLoadableComponent,
   setComponentLoaded,
@@ -33,10 +43,11 @@ import {
 @Component({
   tag: "calcite-pick-list-item",
   styleUrl: "pick-list-item.scss",
-  shadow: true
+  shadow: true,
+  assetsDirs: ["assets"]
 })
 export class PickListItem
-  implements ConditionalSlotComponent, InteractiveComponent, LoadableComponent
+  implements ConditionalSlotComponent, InteractiveComponent, LoadableComponent, T9nComponent
 {
   // --------------------------------------------------------------------------
   //
@@ -62,7 +73,7 @@ export class PickListItem
   /**
    * When `false`, the component cannot be deselected by user interaction.
    */
-  @Prop({ reflect: true }) disableDeselect = false;
+  @Prop({ reflect: true }) deselectDisabled = false;
 
   /**
    * @internal
@@ -76,6 +87,9 @@ export class PickListItem
    */
   @Prop({ reflect: true }) icon: ICON_TYPES | null = null;
 
+  /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
+  @Prop({ reflect: true }) iconFlipRtl = false;
+
   /**
    * Label and accessible name for the component. Appears next to the icon.
    */
@@ -84,6 +98,24 @@ export class PickListItem
   @Watch("label")
   labelWatchHandler(): void {
     this.calciteInternalListItemPropsChange.emit();
+  }
+
+  /**
+   * Use this property to override individual strings used by the component.
+   */
+  @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
+
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @internal
+   */
+  @Prop({ mutable: true }) messages: Messages;
+
+  @Watch("defaultMessages")
+  @Watch("messageOverrides")
+  onMessagesChange(): void {
+    /* wired up by t9n util */
   }
 
   /**
@@ -119,13 +151,6 @@ export class PickListItem
   }
 
   /**
-   * When `removable` is `true`, the accessible name for the component's remove button.
-   *
-   * @default "Remove"
-   */
-  @Prop({ reflect: true }) intlRemove = TEXT.remove;
-
-  /**
    * The component's value.
    */
   @Prop() value!: any;
@@ -147,6 +172,15 @@ export class PickListItem
 
   shiftPressed: boolean;
 
+  @State() defaultMessages: Messages;
+
+  @State() effectiveLocale = "";
+
+  @Watch("effectiveLocale")
+  effectiveLocaleChange(): void {
+    updateMessages(this, this.effectiveLocale);
+  }
+
   // --------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -154,10 +188,13 @@ export class PickListItem
   // --------------------------------------------------------------------------
 
   connectedCallback(): void {
+    connectLocalized(this);
+    connectMessages(this);
     connectConditionalSlotComponent(this);
   }
 
-  componentWillLoad(): void {
+  async componentWillLoad(): Promise<void> {
+    await setUpMessages(this);
     setUpLoadableComponent(this);
   }
 
@@ -166,6 +203,8 @@ export class PickListItem
   }
 
   disconnectedCallback(): void {
+    disconnectLocalized(this);
+    disconnectMessages(this);
     disconnectConditionalSlotComponent(this);
   }
 
@@ -243,7 +282,7 @@ export class PickListItem
   // --------------------------------------------------------------------------
 
   pickListClickHandler = (event: MouseEvent): void => {
-    if (this.disabled || (this.disableDeselect && this.selected) || this.nonInteractive) {
+    if (this.disabled || (this.deselectDisabled && this.selected) || this.nonInteractive) {
       return;
     }
 
@@ -254,7 +293,7 @@ export class PickListItem
   pickListKeyDownHandler = (event: KeyboardEvent): void => {
     if (event.key === " ") {
       event.preventDefault();
-      if ((this.disableDeselect && this.selected) || this.nonInteractive) {
+      if ((this.deselectDisabled && this.selected) || this.nonInteractive) {
         return;
       }
       this.selected = !this.selected;
@@ -272,7 +311,7 @@ export class PickListItem
   // --------------------------------------------------------------------------
 
   renderIcon(): VNode {
-    const { icon } = this;
+    const { icon, iconFlipRtl } = this;
 
     if (!icon) {
       return null;
@@ -286,7 +325,9 @@ export class PickListItem
         }}
         onClick={this.pickListClickHandler}
       >
-        {icon === ICON_TYPES.square ? <calcite-icon icon={ICONS.checked} scale="s" /> : null}
+        {icon === ICON_TYPES.square ? (
+          <calcite-icon flipRtl={iconFlipRtl} icon={ICONS.checked} scale="s" />
+        ) : null}
       </span>
     );
   }
@@ -298,7 +339,7 @@ export class PickListItem
         icon={ICONS.remove}
         onClick={this.removeClickHandler}
         slot={SLOTS.actionsEnd}
-        text={this.intlRemove}
+        text={this.messages.remove}
       />
     ) : null;
   }

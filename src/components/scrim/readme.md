@@ -36,10 +36,10 @@
 
 ## Properties
 
-| Property      | Attribute      | Description                                    | Type      | Default        |
-| ------------- | -------------- | ---------------------------------------------- | --------- | -------------- |
-| `intlLoading` | `intl-loading` | Accessible name when the component is loading. | `string`  | `TEXT.loading` |
-| `loading`     | `loading`      | When `true`, a busy indicator is displayed.    | `boolean` | `false`        |
+| Property           | Attribute           | Description                                                             | Type       | Default     |
+| ------------------ | ------------------- | ----------------------------------------------------------------------- | ---------- | ----------- |
+| `loading`          | `loading`           | /\*\* When `true`, a busy indicator is displayed.                       | `boolean`  | `false`     |
+| `messageOverrides` | `message-overrides` | Use this property to override individual strings used by the component. | `Messages` | `undefined` |
 
 ## Slots
 
