@@ -42,9 +42,7 @@ export class ColorPickerHexInput implements LoadableComponent {
   @Element() el: HTMLCalciteColorPickerHexInputElement;
 
   /**
-   * Specifies accessible label for `calcite-input`.
-   *
-   * @readonly
+   * Specifies accessible label for the input field.
    */
   @Prop() hexLabel = "Hex";
 
