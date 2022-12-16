@@ -79,7 +79,7 @@ Renders a group of `calcite-action`s contained in a `calcite-action-group`. Acti
 
 ## Methods
 
-### `setFocus(focusId?: "expand-toggle") => Promise<void>`
+### `setFocus() => Promise<void>`
 
 Sets focus on the component.
 

@@ -743,6 +743,10 @@ Removed the property `dimissible`, use `closable` property instead.
 
 ### Bug Fixes
 
+- **combobox:** Fix error when typing a custom value ([#6071](https://github.com/Esri/calcite-components/issues/6071)) ([246de97](https://github.com/Esri/calcite-components/commit/246de9751f4baf2f26734fa08c379c4715b711dd)), closes [#5109](https://github.com/Esri/calcite-components/issues/5109) [#5109](https://github.com/Esri/calcite-components/issues/5109)
+
+* **rating:** 5312 improve user interface ([#5948](https://github.com/Esri/calcite-components/issues/5948)) ([a9724dd](https://github.com/Esri/calcite-components/commit/a9724dd471a69391b3c6e6d25e0f255b41b1ff74)), closes [#5312](https://github.com/Esri/calcite-components/issues/5312)
+
 - **loader:** Do not modify display when inline ([#6013](https://github.com/Esri/calcite-components/issues/6013)) ([2d91c89](https://github.com/Esri/calcite-components/commit/2d91c89778fd71f9492d3caad0750f779488d2cf)), closes [#5900](https://github.com/Esri/calcite-components/issues/5900) [#5900](https://github.com/Esri/calcite-components/issues/5900)
 
 - **popover, modal:** deactivate focus trap on outside click ([#5994](https://github.com/Esri/calcite-components/issues/5994)) ([2a66134](https://github.com/Esri/calcite-components/commit/2a661343f1ee9fc9afda347990f40d33ad41295d)), closes [#5993](https://github.com/Esri/calcite-components/issues/5993)

@@ -13,8 +13,8 @@ import {
 } from "@stencil/core";
 
 import Color from "color";
-import { ColorAppearance, ColorMode, ColorValue, InternalColor } from "./interfaces";
-import { Scale } from "../interfaces";
+import { ColorMode, ColorValue, InternalColor } from "./interfaces";
+import { Appearance, Scale } from "../interfaces";
 import {
   CSS,
   DEFAULT_COLOR,
@@ -85,10 +85,8 @@ export class ColorPicker
 
   /**
    * Specifies the appearance style of the component -
-   *
-   * `"solid"` (containing border) or `"minimal"` (no containing border).
    */
-  @Prop({ reflect: true }) appearance: ColorAppearance = "solid";
+  @Prop({ reflect: true }) appearance: Extract<"minimal" | "solid", Appearance> = "solid";
 
   /**
    * Internal prop for advanced use-cases.
