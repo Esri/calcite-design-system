@@ -365,7 +365,7 @@ export class DatePicker implements LocalizedComponent, T9nComponent {
   };
 
   monthHoverChange = (event: CustomEvent<Date>): void => {
-    if (!this.startAsDate) {
+    if (!this.range) {
       this.hoverRange = undefined;
       return;
     }
