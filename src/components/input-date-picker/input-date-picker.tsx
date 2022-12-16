@@ -128,7 +128,6 @@ export class InputDatePicker
       let newValueAsDate;
       if (Array.isArray(newValue)) {
         newValueAsDate = getValueAsDateRange(newValue);
-        this.end = newValue[1];
       } else if (newValue) {
         newValueAsDate = dateFromISO(newValue);
       } else {
@@ -267,13 +266,6 @@ export class InputDatePicker
    * @internal
    */
   @Prop({ reflect: true }) required = false;
-
-  /**
-   * The component's end date.
-   *
-   * @deprecated use `value` instead.
-   */
-  @Prop({ mutable: true, reflect: true }) end: string;
 
   /**
    * Determines the type of positioning to use for the overlaid content.
@@ -419,7 +411,6 @@ export class InputDatePicker
     open && this.openHandler(open);
     if (Array.isArray(this.value)) {
       this.valueAsDate = getValueAsDateRange(this.value);
-      this.end = this.value[1];
     } else if (this.value) {
       try {
         this.valueAsDate = dateFromISO(this.value);
@@ -427,13 +418,8 @@ export class InputDatePicker
         this.warnAboutInvalidValue(this.value);
         this.value = "";
       }
-      this.end = "";
     } else if (this.range && this.valueAsDate) {
       this.setRangeValue(this.valueAsDate as Date[]);
-    }
-
-    if (this.end) {
-      this.endAsDate = setEndOfDay(dateFromISO(this.end));
     }
 
     if (this.min) {
@@ -795,11 +781,6 @@ export class InputDatePicker
     this.setReferenceEl();
   };
 
-  @Watch("end")
-  endWatcher(end: string): void {
-    this.endAsDate = end ? setEndOfDay(dateFromISO(end)) : dateFromISO(end);
-  }
-
   @Watch("effectiveLocale")
   private async loadLocaleData(): Promise<void> {
     if (!Build.isBrowser) {
@@ -869,7 +850,11 @@ export class InputDatePicker
       this.maxAsDate
     );
     const endDate = this.range
-      ? dateFromRange(this.endAsDate, this.minAsDate, this.maxAsDate)
+      ? dateFromRange(
+          (Array.isArray(this.valueAsDate) && this.valueAsDate[1]) || undefined,
+          this.minAsDate,
+          this.maxAsDate
+        )
       : null;
 
     const localizedDate =
@@ -912,7 +897,6 @@ export class InputDatePicker
     this.userChangedValue = true;
     this.value = newValue;
     this.valueAsDate = newValue ? getValueAsDateRange(newValue) : undefined;
-    this.end = newEndDateISO;
 
     const eventDetail = {
       startDate: newStartDate as Date,
