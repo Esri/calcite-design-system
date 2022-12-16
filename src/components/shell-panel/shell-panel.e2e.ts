@@ -1,7 +1,7 @@
 import { E2EElement, newE2EPage } from "@stencil/core/testing";
 
 import { CSS, SLOTS } from "./resources";
-import { accessible, defaults, hidden, renders, slots } from "../../tests/commonTests";
+import { accessible, defaults, hidden, renders, slots, t9n } from "../../tests/commonTests";
 import { getElementXY } from "../../tests/utils";
 
 describe("calcite-shell-panel", () => {
@@ -18,10 +18,6 @@ describe("calcite-shell-panel", () => {
       {
         propertyName: "resizable",
         defaultValue: false
-      },
-      {
-        propertyName: "intlResize",
-        defaultValue: "Resize"
       }
     ]));
 
@@ -386,4 +382,6 @@ describe("calcite-shell-panel", () => {
     await page.waitForChanges();
     expect(await page.evaluate((selector) => document.activeElement.matches(selector), "calcite-action")).toBe(true);
   });
+
+  it("supports translations", () => t9n("calcite-shell-panel"));
 });
