@@ -138,8 +138,6 @@ export class Switch
 
   /**
    * Fires when the `checked` value has changed.
-   *
-   * **Note:** The event payload is deprecated, use the component's `checked` property instead.
    */
   @Event({ cancelable: false }) calciteSwitchChange: EventEmitter<void>;
 
