@@ -46,7 +46,7 @@ export class ColorPickerHexInput implements LoadableComponent {
    *
    * @readonly
    */
-  @Prop() hexLabel: string;
+  @Prop() hexLabel = "Hex";
 
   //--------------------------------------------------------------------------
   //
