@@ -62,14 +62,6 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
   @Prop({ reflect: true }) position: Position;
 
   /**
-   * Accessible name for the resize separator.
-   *
-   * @default "Resize"
-   * @deprecated
-   */
-  @Prop() intlResize: string;
-
-  /**
    * When `true` and not `detached`, the component's content area is resizable.
    */
   @Prop({ reflect: true }) resizable = false;
@@ -86,7 +78,6 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
    */
   @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
 
-  @Watch("intlResize")
   @Watch("messageOverrides")
   onMessagesChange(): void {
     /* wired up by t9n util */
