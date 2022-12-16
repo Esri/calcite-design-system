@@ -13,6 +13,13 @@
       "component/label": "disabled",
       "component/tooltip": "disabled",
       "component/input-time": "disabled"
+      "component/link": "disabled",
+      "component/progress": "disabled",
+      "component/pagination": "disabled",
+      "component/tile": "disabled",
+      "component/button": "disabled",
+      "component/split-button": "disabled",
+      "component/FAB": "disabled"
     },
     "$figmaStyleReferences": {}
   },
@@ -30,6 +37,13 @@
       "component/label": "disabled",
       "component/tooltip": "disabled",
       "component/input-time": "disabled"
+      "component/link": "disabled",
+      "component/progress": "disabled",
+      "component/pagination": "disabled",
+      "component/tile": "disabled",
+      "component/button": "disabled",
+      "component/split-button": "disabled",
+      "component/FAB": "disabled"
     },
     "$figmaStyleReferences": {}
   },
@@ -53,6 +67,13 @@
       "component/rating": "source",
       "component/tooltip": "source",
       "component/input-time": "disabled"
+      "component/link": "source",
+      "component/progress": "source",
+      "component/pagination": "source",
+      "component/tile": "source",
+      "component/button": "source",
+      "component/split-button": "disabled",
+      "component/FAB": "disabled"
     },
     "$figmaStyleReferences": {
       "color.brand.default": "S:b28244f76fae4e504bbfa18bb30e111e02a00461,",
@@ -135,6 +156,13 @@
       "component/rating": "source",
       "component/tooltip": "source",
       "component/input-time": "disabled"
+      "component/link": "source",
+      "component/progress": "source",
+      "component/pagination": "source",
+      "component/tile": "source",
+      "component/button": "source",
+      "component/split-button": "disabled",
+      "component/FAB": "disabled"
     },
     "$figmaStyleReferences": {
       "color.brand.default": "S:4ae7e0e0a08b9109fef0b6c2cb45185a3b711de8,",
@@ -221,6 +249,13 @@
       "component/tooltip": "enabled",
       "component/input-time": "enabled",
       "component/[template-comp-name]": "enabled"
+      "component/link": "enabled",
+      "component/progress": "enabled",
+      "component/pagination": "enabled",
+      "component/tile": "enabled",
+      "component/button": "enabled",
+      "component/split-button": "enabled",
+      "component/FAB": "enabled"
     },
     "$figmaStyleReferences": {
       "semantic.ui.color.brand.default.light": "S:959c4907a32cb62f2227db1c3fb7a88c3eedcbb9,",

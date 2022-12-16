@@ -231,7 +231,7 @@
         "value": "$semantic.ui.color.text.3.dark",
         "type": "color"
       },
-      "space-around": {
+      "space-arround": {
         "sm": {
           "value": "$core.spacing.1",
           "type": "spacing"
@@ -300,7 +300,7 @@
         }
       }
     },
-    "comp-size": {
+    "comp-height": {
       "sm": {
         "value": "$core.sizing.9",
         "type": "sizing"
@@ -314,7 +314,7 @@
         "type": "sizing"
       }
     },
-    "space-around": {
+    "space-arround": {
       "sm": {
         "value": "$core.spacing.3",
         "type": "spacing"
@@ -343,8 +343,10 @@
       }
     },
     "border-width": {
-      "value": "$core.border.border-width.0",
-      "type": "borderWidth"
+      "standard": {
+        "value": "$core.border.border-width.0",
+        "type": "borderWidth"
+      }
     }
   }
 }

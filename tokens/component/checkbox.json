@@ -25,6 +25,15 @@
       },
       "lg": {
         "value": "$core.spacing.3",
+        "value": "$core.sizing.1",
+        "type": "spacing"
+      },
+      "md": {
+        "value": "$core.sizing.3",
+        "type": "spacing"
+      },
+      "lg": {
+        "value": "$core.sizing.3",
         "type": "spacing"
       }
     },

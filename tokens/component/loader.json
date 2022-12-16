@@ -9,7 +9,7 @@
         "value": "$semantic.ui.color.text.1.dark",
         "type": "color"
       },
-      "standard": {
+      "text": {
         "value": "$semantic.font.wrap.regular.-2",
         "type": "typography"
       },
