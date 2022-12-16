@@ -238,3 +238,7 @@ slot[name="actions-end"]::slotted(*),
     color: var(--calcite-ui-brand);
   }
 }
+
+.icon-start {
+  margin-inline: theme("margin.2");
+}

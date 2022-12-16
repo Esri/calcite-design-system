@@ -123,7 +123,7 @@ const treeItemsWithSlottedDropdownsAndIconStart = html` <calcite-tree-item
     <a>Child 3</a>
     ${slottedDropdown}
     <calcite-tree slot="children" expanded>
-      <calcite-tree-item>
+      <calcite-tree-item icon-start="${select("icon-start", iconNames, "palette")}">
         <a>Grandchild 1</a>
       </calcite-tree-item>
       <calcite-tree-item expanded>
@@ -159,7 +159,10 @@ export const actionsEndDropdownsAndIconStart_TestOnly = (): string => html`<calc
   ${treeItemsWithSlottedDropdownsAndIconStart}
 </calcite-tree>`;
 
-export const actionsEndDropdownsAndIconStart = (): string => html`<calcite-tree style="width: 350px">
+export const actionsEndDropdownsAndIconStart = (): string => html`<calcite-tree
+  style="width: 350px"
+  scale="${select("scale", ["s", "m", "l"], "m")}"
+>
   ${treeItemsWithSlottedDropdownsAndIconStart}
 </calcite-tree>`;
 

@@ -251,7 +251,7 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
     );
     const iconStartEl = (
       <calcite-icon
-        class="calcite-tab-title--icon icon-start"
+        class={{ [CSS.tabTitle]: true, [CSS.iconStart]: true }}
         flipRtl={this.iconFlipRtl === "start" || this.iconFlipRtl === "both"}
         icon={this.iconStart}
         scale="s"
