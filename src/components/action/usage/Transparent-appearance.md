@@ -1,4 +1,4 @@
-Renders a `calcite-action` that has a clear background.
+Renders a `calcite-action` that is transparent.
 
 ```html
 <calcite-action appearance="transparent" text="Layers" icon="layers"></calcite-action>

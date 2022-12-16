@@ -16,8 +16,8 @@ export const simple = (): string => html`
   <div style="width:70vw;">
     <calcite-split-button
       active
-      appearance="${select("appearance", ["solid", "outline", "clear", "transparent"], "solid")}"
-      color="${select("color", ["blue", "red", "neutral", "inverse"], "blue")}"
+      appearance="${select("appearance", ["solid", "outline", "outline-fill", "transparent"], "solid")}"
+      kind="${select("kind", ["brand", "danger", "inverse", "neutral"], "brand")}"
       scale="${select("size", ["s", "m", "l"], "m")}"
       width="${select("width", ["auto", "half", "full"], "auto")}"
       ${boolean("loading", false)}
@@ -40,7 +40,8 @@ export const simple = (): string => html`
 export const iconEnd_TestOnly = (): string => html`
   <div style="width:70vw;">
     <calcite-split-button
-      color="${select("color", ["blue", "red", "neutral", "inverse"], "blue")}"
+      appearance="${select("appearance", ["solid", "outline", "outline-fill", "transparent"], "solid")}"
+      kind="${select("kind", ["brand", "danger", "inverse", "neutral"], "brand")}"
       scale="${select("size", ["s", "m", "l"], "m")}"
       width="${select("width", ["auto", "half", "full"], "auto")}"
       ${boolean("loading", false)}
@@ -63,7 +64,8 @@ export const iconEnd_TestOnly = (): string => html`
 export const iconStartAndIconEnd = (): string => html`
   <div style="width:70vw;">
     <calcite-split-button
-      color="${select("color", ["blue", "red", "neutral", "inverse"], "blue")}"
+      appearance="${select("appearance", ["solid", "outline", "outline-fill", "transparent"], "solid")}"
+      kind="${select("kind", ["brand", "danger", "inverse", "neutral"], "brand")}"
       scale="${select("size", ["s", "m", "l"], "m")}"
       width="${select("width", ["auto", "half", "full"], "auto")}"
       ${boolean("loading", false)}
@@ -87,8 +89,8 @@ export const iconStartAndIconEnd = (): string => html`
 export const darkThemeRTL_TestOnly = (): string => html`
   <div style="width:70vw;">
     <calcite-split-button
-      appearance="${select("appearance", ["solid", "outline", "clear", "transparent"], "solid")}"
-      color="${select("color", ["blue", "red", "neutral", "inverse"], "blue")}"
+      appearance="${select("appearance", ["solid", "outline", "outline-fill", "transparent"], "solid")}"
+      kind="${select("kind", ["brand", "danger", "inverse", "neutral"], "brand")}"
       scale="${select("size", ["s", "m", "l"], "m")}"
       width="${select("width", ["auto", "half", "full"], "auto")}"
       ${boolean("loading", false)}

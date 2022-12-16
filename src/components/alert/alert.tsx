@@ -111,6 +111,9 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
    */
   @Prop({ reflect: true }) icon: string | boolean;
 
+  /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
+  @Prop({ reflect: true }) iconFlipRtl = false;
+
   /** Specifies an accessible name for the component. */
   @Prop() label!: string;
 
@@ -225,7 +228,7 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
       </div>
     );
 
-    const { open, autoClose, label, placement, queued, requestedIcon } = this;
+    const { open, autoClose, label, placement, queued, requestedIcon, iconFlipRtl } = this;
     const role = autoClose ? "alert" : "alertdialog";
     const hidden = !open;
 
@@ -256,7 +259,11 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
         >
           {requestedIcon ? (
             <div class="alert-icon">
-              <calcite-icon icon={requestedIcon} scale={this.scale === "l" ? "m" : "s"} />
+              <calcite-icon
+                flipRtl={iconFlipRtl}
+                icon={requestedIcon}
+                scale={this.scale === "l" ? "m" : "s"}
+              />
             </div>
           ) : null}
           <div class="alert-content">

@@ -9,13 +9,35 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ### ⚠ BREAKING CHANGES
 
-- Removed the `focusId` parameter from `action-bar` and
+- **chip:** Renamed `color` property and updated values, and
+  updated `appearance` values.
+
+* Renamed the property `color`, use `kind` instead.
+* Updated the accepted values of `kind` to `brand`, `inverse`, and
+  `neutral` (default).
+* Updated the accepted values of `appearance` to , `outline`,
+  `outline-fill` and `solid` (default).
+
+- **button, fab, split-button:** Removed deprecated properties and values.
+
+* `button`: Removed the property `form`, this property is no longer
+  needed if the component is placed inside a form.
+* `button`, `fab`, `split-button`: Renamed the property `color`, use
+  `kind` instead.
+* `button`, `fab`, `split-button`: Updated the accepted values of `kind`
+  to `brand` (default), `danger`, `inverse`, and `neutral`.
+* `button`, `split-button`: Updated the accepted values of `appearance`
+  to `outline`, `outline-fill` and `solid` (default).
+* `fab`: Updated the accepted values of `appearance` to `outline-fill`
+  and `solid` (default).
+
+* Removed the `focusId` parameter from `action-bar` and
   `action-pad`'s `setFocus` method
 
-* **action-bar, action-pad:** Removed `focusId` paramter `setFocus`
+- **action-bar, action-pad:** Removed `focusId` paramter `setFocus`
   method, focus is delegated to the first focusable element.
 
-* **notice:** Removed deprecated properties.
+- **notice:** Removed deprecated properties.
 
 Removed the property `active`, use `open` instead.
 Removed the property `dimissible`, use `closable` property instead.
@@ -695,27 +717,29 @@ Removed the property `dimissible`, use `closable` property instead.
 
 ### Features
 
-- add built-in translations ([#5471](https://github.com/Esri/calcite-components/issues/5471)) ([d754b29](https://github.com/Esri/calcite-components/commit/d754b29467d40f8081eb7793fb13c1b4de9f7ebf)), closes [#4961](https://github.com/Esri/calcite-components/issues/4961)
+- add iconFlipRtl prop to all components with a convenience icon prop [#5496](https://github.com/Esri/calcite-components/issues/5496) ([#5878](https://github.com/Esri/calcite-components/issues/5878)) ([30a080b](https://github.com/Esri/calcite-components/commit/30a080b81d20163eba7e65e481ba3701b2bd39a1))
 
-* **dropdown-item:** Add `calciteDropdownItemSelect` event ([#6015](https://github.com/Esri/calcite-components/issues/6015)) ([b565ac9](https://github.com/Esri/calcite-components/commit/b565ac97e0d8b63527767fa10a75dce78d7f5a4b)), closes [#5940](https://github.com/Esri/calcite-components/issues/5940) [#5940](https://github.com/Esri/calcite-components/issues/5940)
+* add built-in translations ([#5471](https://github.com/Esri/calcite-components/issues/5471)) ([d754b29](https://github.com/Esri/calcite-components/commit/d754b29467d40f8081eb7793fb13c1b4de9f7ebf)), closes [#4961](https://github.com/Esri/calcite-components/issues/4961)
 
-* **input, input-number, input-text:** add inputMode and enterKeyHint properties ([#5976](https://github.com/Esri/calcite-components/issues/5976)) ([d567a9f](https://github.com/Esri/calcite-components/commit/d567a9fde5b3619f308133555ba0bae20ca85168)), closes [#5917](https://github.com/Esri/calcite-components/issues/5917)
+- **dropdown-item:** Add `calciteDropdownItemSelect` event ([#6015](https://github.com/Esri/calcite-components/issues/6015)) ([b565ac9](https://github.com/Esri/calcite-components/commit/b565ac97e0d8b63527767fa10a75dce78d7f5a4b)), closes [#5940](https://github.com/Esri/calcite-components/issues/5940) [#5940](https://github.com/Esri/calcite-components/issues/5940)
 
-* **action:** add built-in translation support for indicator text ([#5895](https://github.com/Esri/calcite-components/issues/5895)) ([704db6d](https://github.com/Esri/calcite-components/commit/704db6dfbe3a875fbd5b20c9b0eb0975aca24258)), closes [#4813](https://github.com/Esri/calcite-components/issues/4813)
+- **input, input-number, input-text:** add inputMode and enterKeyHint properties ([#5976](https://github.com/Esri/calcite-components/issues/5976)) ([d567a9f](https://github.com/Esri/calcite-components/commit/d567a9fde5b3619f308133555ba0bae20ca85168)), closes [#5917](https://github.com/Esri/calcite-components/issues/5917)
 
-* **list-item:** Add content slot for specialized content ([#5876](https://github.com/Esri/calcite-components/issues/5876)) ([a510773](https://github.com/Esri/calcite-components/commit/a510773ba87994010e84184f7709c84ce40f2d2c)), closes [#3032](https://github.com/Esri/calcite-components/issues/3032) [#3032](https://github.com/Esri/calcite-components/issues/3032)
+- **action:** add built-in translation support for indicator text ([#5895](https://github.com/Esri/calcite-components/issues/5895)) ([704db6d](https://github.com/Esri/calcite-components/commit/704db6dfbe3a875fbd5b20c9b0eb0975aca24258)), closes [#4813](https://github.com/Esri/calcite-components/issues/4813)
 
-* **textarea:** add default message bundle ([#5870](https://github.com/Esri/calcite-components/issues/5870)) ([c7a8495](https://github.com/Esri/calcite-components/commit/c7a84955b4f3cd09dbf7315ea59e0edaa7be2a6c)), closes [#863](https://github.com/Esri/calcite-components/issues/863)
+- **list-item:** Add content slot for specialized content ([#5876](https://github.com/Esri/calcite-components/issues/5876)) ([a510773](https://github.com/Esri/calcite-components/commit/a510773ba87994010e84184f7709c84ce40f2d2c)), closes [#3032](https://github.com/Esri/calcite-components/issues/3032) [#3032](https://github.com/Esri/calcite-components/issues/3032)
 
-* **input, input-text, input-number:** add attributes autocomplete, accept, multiple, pattern ([#5807](https://github.com/Esri/calcite-components/issues/5807)) ([feb4fce](https://github.com/Esri/calcite-components/commit/feb4fce9528920041d836446ef437f0f1c0e8ce2)), closes [#4079](https://github.com/Esri/calcite-components/issues/4079)
+- **textarea:** add default message bundle ([#5870](https://github.com/Esri/calcite-components/issues/5870)) ([c7a8495](https://github.com/Esri/calcite-components/commit/c7a84955b4f3cd09dbf7315ea59e0edaa7be2a6c)), closes [#863](https://github.com/Esri/calcite-components/issues/863)
 
-* **alert:** support actions-end ([#5750](https://github.com/Esri/calcite-components/issues/5750)) ([2447e16](https://github.com/Esri/calcite-components/commit/2447e167eb731f3a59775a5692530137bf9a70fd))
-* **list, list-item, list-item-group:** Adds support for selecting and filtering list items. Improves accessibility by using aria "treegrid" role. ([#4527](https://github.com/Esri/calcite-components/issues/4527)) ([f489c57](https://github.com/Esri/calcite-components/commit/f489c57095ec21df1f427176d2d635675eea95d3))
-* **pick-list, value-list:** Add calciteListFilter event, filteredItems prop, filterText prop and filteredData prop. ([#5681](https://github.com/Esri/calcite-components/issues/5681)) ([943d208](https://github.com/Esri/calcite-components/commit/943d2088b7cf447a12ebcd0babab145f543538a2)), closes [#4333](https://github.com/Esri/calcite-components/issues/4333)
-* **popover:** Add focus-trap to popover and disableFocusTrap property. ([#5725](https://github.com/Esri/calcite-components/issues/5725)) ([a8ef353](https://github.com/Esri/calcite-components/commit/a8ef353bc031630b373f2bdd1bdc1cafd7e35be9)), closes [#2133](https://github.com/Esri/calcite-components/issues/2133)
-* **popover:** Escape key should close open popovers. ([#5726](https://github.com/Esri/calcite-components/issues/5726)) ([2e2621d](https://github.com/Esri/calcite-components/commit/2e2621d57c4701f7a7e84f74d801c543ad4f45c0))
-* **tabs:** Add support for navigating with Home and End keys ([#5727](https://github.com/Esri/calcite-components/issues/5727)) ([823c429](https://github.com/Esri/calcite-components/commit/823c429439ec9f8cd1d6a1ff2aedf0b2da9c741b)), closes [#5661](https://github.com/Esri/calcite-components/issues/5661)
-* **tooltip:** Add tooltip open, close, beforeOpen, and beforeClose events ([#5772](https://github.com/Esri/calcite-components/issues/5772)) ([64b5675](https://github.com/Esri/calcite-components/commit/64b56751d68f69d31ea943415f5d0d08bae634cc)), closes [#5734](https://github.com/Esri/calcite-components/issues/5734)
+- **input, input-text, input-number:** add attributes autocomplete, accept, multiple, pattern ([#5807](https://github.com/Esri/calcite-components/issues/5807)) ([feb4fce](https://github.com/Esri/calcite-components/commit/feb4fce9528920041d836446ef437f0f1c0e8ce2)), closes [#4079](https://github.com/Esri/calcite-components/issues/4079)
+
+- **alert:** support actions-end ([#5750](https://github.com/Esri/calcite-components/issues/5750)) ([2447e16](https://github.com/Esri/calcite-components/commit/2447e167eb731f3a59775a5692530137bf9a70fd))
+- **list, list-item, list-item-group:** Adds support for selecting and filtering list items. Improves accessibility by using aria "treegrid" role. ([#4527](https://github.com/Esri/calcite-components/issues/4527)) ([f489c57](https://github.com/Esri/calcite-components/commit/f489c57095ec21df1f427176d2d635675eea95d3))
+- **pick-list, value-list:** Add calciteListFilter event, filteredItems prop, filterText prop and filteredData prop. ([#5681](https://github.com/Esri/calcite-components/issues/5681)) ([943d208](https://github.com/Esri/calcite-components/commit/943d2088b7cf447a12ebcd0babab145f543538a2)), closes [#4333](https://github.com/Esri/calcite-components/issues/4333)
+- **popover:** Add focus-trap to popover and disableFocusTrap property. ([#5725](https://github.com/Esri/calcite-components/issues/5725)) ([a8ef353](https://github.com/Esri/calcite-components/commit/a8ef353bc031630b373f2bdd1bdc1cafd7e35be9)), closes [#2133](https://github.com/Esri/calcite-components/issues/2133)
+- **popover:** Escape key should close open popovers. ([#5726](https://github.com/Esri/calcite-components/issues/5726)) ([2e2621d](https://github.com/Esri/calcite-components/commit/2e2621d57c4701f7a7e84f74d801c543ad4f45c0))
+- **tabs:** Add support for navigating with Home and End keys ([#5727](https://github.com/Esri/calcite-components/issues/5727)) ([823c429](https://github.com/Esri/calcite-components/commit/823c429439ec9f8cd1d6a1ff2aedf0b2da9c741b)), closes [#5661](https://github.com/Esri/calcite-components/issues/5661)
+- **tooltip:** Add tooltip open, close, beforeOpen, and beforeClose events ([#5772](https://github.com/Esri/calcite-components/issues/5772)) ([64b5675](https://github.com/Esri/calcite-components/commit/64b56751d68f69d31ea943415f5d0d08bae634cc)), closes [#5734](https://github.com/Esri/calcite-components/issues/5734)
 
 ### Bug Fixes
 

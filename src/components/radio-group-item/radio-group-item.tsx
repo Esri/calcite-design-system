@@ -10,8 +10,7 @@ import {
   VNode
 } from "@stencil/core";
 import { getElementProp, toAriaBoolean } from "../../utils/dom";
-import { RadioAppearance } from "../radio-group/interfaces";
-import { Layout, Scale } from "../interfaces";
+import { Appearance, Layout, Scale } from "../interfaces";
 import { SLOTS, CSS } from "./resources";
 
 @Component({
@@ -61,7 +60,11 @@ export class RadioGroupItem {
   render(): VNode {
     const { checked, value } = this;
     const scale: Scale = getElementProp(this.el, "scale", "m");
-    const appearance: RadioAppearance = getElementProp(this.el, "appearance", "solid");
+    const appearance: Extract<"outline" | "solid", Appearance> = getElementProp(
+      this.el,
+      "appearance",
+      "solid"
+    );
     const layout: Layout = getElementProp(this.el, "layout", "horizontal");
 
     const iconStartEl = this.iconStart ? (

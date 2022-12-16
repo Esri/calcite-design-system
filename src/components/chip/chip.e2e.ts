@@ -31,27 +31,27 @@ describe("calcite-chip", () => {
 
     const element = await page.find("calcite-chip");
     expect(element).toEqualAttribute("appearance", "solid");
-    expect(element).toEqualAttribute("color", "grey");
+    expect(element).toEqualAttribute("kind", "neutral");
     expect(element).toEqualAttribute("scale", "m");
   });
 
   it("renders requested props when valid props are provided", async () => {
     const page = await newE2EPage();
-    await page.setContent(`<calcite-chip appearance="transparent" color="blue" scale="l">Chip content</calcite-chip>`);
+    await page.setContent(`<calcite-chip appearance="outline" kind="brand" scale="l">Chip content</calcite-chip>`);
 
     const element = await page.find("calcite-chip");
-    expect(element).toEqualAttribute("appearance", "transparent");
-    expect(element).toEqualAttribute("color", "blue");
+    expect(element).toEqualAttribute("appearance", "outline");
+    expect(element).toEqualAttribute("kind", "brand");
     expect(element).toEqualAttribute("scale", "l");
   });
 
-  it("renders transparent chip when appearance='transparent'", async () => {
+  it("renders outline-fill chip when appearance='outline-fill'", async () => {
     const page = await newE2EPage();
-    await page.setContent(`<calcite-chip appearance="transparent" color="blue" scale="l">Chip content</calcite-chip>`);
+    await page.setContent(`<calcite-chip appearance="outline-fill" kind="brand" scale="l">Chip content</calcite-chip>`);
 
     const element = await page.find("calcite-chip");
-    expect(element).toEqualAttribute("appearance", "transparent");
-    expect(element).toEqualAttribute("color", "blue");
+    expect(element).toEqualAttribute("appearance", "outline-fill");
+    expect(element).toEqualAttribute("kind", "brand");
     expect(element).toEqualAttribute("scale", "l");
   });
 
@@ -76,8 +76,8 @@ describe("calcite-chip", () => {
       <calcite-chip
         class="layers"
         icon="layer"
-        appearance="transparent"
-        color="green"
+        appearance="solid"
+        kind="neutral"
         closable
       >
         Layers
