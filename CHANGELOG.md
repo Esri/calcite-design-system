@@ -9,21 +9,26 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ### ⚠ BREAKING CHANGES
 
-- **modal:** Removed `backgroundColor` property.
+- **shell-panel:** Removed deprecated `intlResize` property.
 
-* Removed the property `backgroundColor`, use the CSS variable
+* Removed the property `intlResize`, use `messagesOverrides.resize`
+  instead.
+
+* **modal:** Removed `backgroundColor` property.
+
+- Removed the property `backgroundColor`, use the CSS variable
   `--calcite-modal-content-background` instead.
 
-* **modal:** Removed `--calcite-modal-padding` CSS variable.
+- **modal:** Removed `--calcite-modal-padding` CSS variable.
 
-- Removed the `--calcite-modal-padding` CSS variable, use the
+* Removed the `--calcite-modal-padding` CSS variable, use the
   `--calcite-modal-content-padding` CSS variable instead.
 
-- **color-picker-hex-input:** removed `intl` properties.
+* **color-picker-hex-input:** removed `intl` properties.
 
-* Removed, `intlHex` property, aria-label of color-picker-hex-input is
+- Removed, `intlHex` property, aria-label of color-picker-hex-input is
   set to `hex` by default.
-* Removed ,`intlNoColor` property.
+- Removed ,`intlNoColor` property.
 
 _note: color-picker-hex-input is `internal` component._
 
