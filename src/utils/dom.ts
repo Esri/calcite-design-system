@@ -348,32 +348,33 @@ export function isPrimaryPointerButton(event: PointerEvent): boolean {
 Focus helpers for keyboard navigation
  *
  * @param elements : An array of elements
- * @param elCurrent : The current element
- * @param destination : "next" | "prev" | "first" | "last"
+ * @param currentElement : The current element
+ * @param destination :  "first" | "last" |"next" | "previous"
  */
 
-export const focusElementInGroup = (elements: Element[], elCurrent: Element, destination: string): void => {
-  const currentIndex = elements.indexOf(elCurrent);
+export const focusElementInGroup = (elements: Element[], currentElement: Element, destination: string): Element => {
+  const currentIndex = elements.indexOf(currentElement);
   const isFirstItem = currentIndex === 0;
   const isLastItem = currentIndex === elements.length - 1;
   destination =
-    destination === "prev" && isFirstItem ? "last" : destination === "next" && isLastItem ? "first" : destination;
+    destination === "previous" && isFirstItem ? "last" : destination === "next" && isLastItem ? "first" : destination;
 
   let focusTarget;
-
   switch (destination) {
-    case "next":
-      focusTarget = elements[currentIndex + 1] || elements[0];
-      break;
-    case "prev":
-      focusTarget = elements[currentIndex - 1] || elements[elements.length - 1];
-      break;
     case "first":
       focusTarget = elements[0];
       break;
     case "last":
       focusTarget = elements[elements.length - 1];
       break;
+    case "next":
+      focusTarget = elements[currentIndex + 1] || elements[0];
+      break;
+    case "previous":
+      focusTarget = elements[currentIndex - 1] || elements[elements.length - 1];
+      break;
   }
+
   focusElement(focusTarget);
+  return focusTarget;
 };

@@ -193,7 +193,7 @@ export class TabNav {
 
   @Listen("calciteInternalTabsFocusPrevious")
   focusPreviousTabHandler(event: CustomEvent): void {
-    this.handleTabFocus(event, event.target as HTMLCalciteTabTitleElement, "prev");
+    this.handleTabFocus(event, event.target as HTMLCalciteTabTitleElement, "previous");
   }
 
   @Listen("calciteInternalTabsFocusNext")

@@ -124,7 +124,7 @@ export class Stepper {
         break;
       case "ArrowUp":
       case "ArrowLeft":
-        focusElementInGroup(this.enabledItems, itemToFocus, "prev");
+        focusElementInGroup(this.enabledItems, itemToFocus, "previous");
         break;
       case "Home":
         focusElementInGroup(this.enabledItems, itemToFocus, "first");

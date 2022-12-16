@@ -363,7 +363,7 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent, Float
         focusElementInGroup(this.items, target, "next");
         break;
       case "ArrowUp":
-        focusElementInGroup(this.items, target, "prev");
+        focusElementInGroup(this.items, target, "previous");
         break;
       case "Home":
         focusElementInGroup(this.items, target, "first");
