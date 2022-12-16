@@ -9,11 +9,16 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ### ⚠ BREAKING CHANGES
 
-- **color-picker-hex-input:** removed `intl` properties.
+- **modal:** Removed `--calcite-modal-padding` CSS variable.
 
-* Removed, `intlHex` property, aria-label of color-picker-hex-input is
+* Removed the `--calcite-modal-padding` CSS variable, use the
+  `--calcite-modal-content-padding` CSS variable instead.
+
+* **color-picker-hex-input:** removed `intl` properties.
+
+- Removed, `intlHex` property, aria-label of color-picker-hex-input is
   set to `hex` by default.
-* Removed ,`intlNoColor` property.
+- Removed ,`intlNoColor` property.
 
 _note: color-picker-hex-input is `internal` component._
 
