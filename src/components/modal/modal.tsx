@@ -14,7 +14,6 @@ import {
 } from "@stencil/core";
 import { ensureId, focusElement, getSlotted } from "../../utils/dom";
 import { Kind, Scale } from "../interfaces";
-import { ModalBackgroundColor } from "./interfaces";
 import { CSS, ICONS, SLOTS } from "./resources";
 import { createObserver } from "../../utils/observers";
 import {
@@ -128,9 +127,6 @@ export class Modal
 
   /** Specifies the kind of the component (will apply to top border). */
   @Prop({ reflect: true }) kind: Kind;
-
-  /** Sets the background color of the component's content. */
-  @Prop({ reflect: true }) backgroundColor: ModalBackgroundColor = "white";
 
   /**
    * Made into a prop for testing purposes only

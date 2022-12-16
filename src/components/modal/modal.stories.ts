@@ -1,4 +1,4 @@
-import { select, text, number } from "@storybook/addon-knobs";
+import { select, number } from "@storybook/addon-knobs";
 import { boolean, storyFilters } from "../../../.storybook/helpers";
 import { themesDarkDefault } from "../../../.storybook/utils";
 import readme from "./readme.md";
@@ -19,7 +19,6 @@ export const simple = (): string => html`
   <calcite-modal
     ${boolean("open", true)}
     kind="${select("kind", ["brand", "danger", "info", "success", "warning"], "")}"
-    background-color="${select("background-color", ["white", "grey"], "white")}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
     width="${select("width", ["s", "m", "l"], "s")}"
     ${boolean("fullscreen", false)}
@@ -44,7 +43,6 @@ export const darkThemeRTLCustomSize_TestOnly = (): string => html`
     dir="rtl"
     ${boolean("open", true)}
     kind="${select("kind", ["brand", "danger", "info", "success", "warning"], "")}"
-    background-color="${select("background-color", ["white", "grey"], "white")}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
     width="${number("width", 300)}"
     ${boolean("fullscreen", false)}
@@ -87,4 +85,21 @@ export const withTooltips_TestOnly = (): string => html`
     <calcite-button slot="primary" width="full">Save</calcite-button>
   </calcite-modal>
   <calcite-tooltip open label="Back" reference-element="back-button-modal">Back</calcite-tooltip>
+`;
+
+export const withCSSVars_TestOnly = (): string => html`
+  <button id="button">Open</button>
+  <calcite-modal open aria-labelledby="modal-title" id="modal" style="--calcite-modal-content-background: #ddd;">
+    <div slot="header" id="modal-title">Modal title</div>
+    <div slot="content">
+      Modal content lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
+      et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+      commodo consequat.
+    </div>
+    <calcite-button id="back-button-modal" slot="back" kind="neutral" icon="chevron-left" width="full"
+      >Back
+    </calcite-button>
+    <calcite-button slot="secondary" width="full" appearance="outline">Cancel</calcite-button>
+    <calcite-button slot="primary" width="full">Save</calcite-button>
+  </calcite-modal>
 `;
