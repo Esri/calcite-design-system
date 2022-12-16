@@ -128,8 +128,6 @@ export class InputDatePicker
       let newValueAsDate;
       if (Array.isArray(newValue)) {
         newValueAsDate = getValueAsDateRange(newValue);
-        this.start = newValue[0];
-        this.end = newValue[1];
       } else if (newValue) {
         newValueAsDate = dateFromISO(newValue);
       } else {
@@ -177,20 +175,6 @@ export class InputDatePicker
 
   /** The component's value as a full date object. */
   @Prop({ mutable: true }) valueAsDate: Date | Date[];
-
-  /**
-   * The component's start date as a full date object.
-   *
-   * @deprecated use `valueAsDate` instead.
-   */
-  @Prop({ mutable: true }) startAsDate: Date;
-
-  /**
-   * The component's end date as a full date object.
-   *
-   * @deprecated use `valueAsDate` instead.
-   */
-  @Prop({ mutable: true }) endAsDate: Date;
 
   /** Specifies the earliest allowed date as a full date object. */
   @Prop({ mutable: true }) minAsDate: Date;
@@ -268,20 +252,6 @@ export class InputDatePicker
    * @internal
    */
   @Prop({ reflect: true }) required = false;
-
-  /**
-   * The component's start date.
-   *
-   * @deprecated use `value` instead.
-   */
-  @Prop({ mutable: true, reflect: true }) start: string;
-
-  /**
-   * The component's end date.
-   *
-   * @deprecated use `value` instead.
-   */
-  @Prop({ mutable: true, reflect: true }) end: string;
 
   /**
    * Determines the type of positioning to use for the overlaid content.
@@ -427,8 +397,6 @@ export class InputDatePicker
     open && this.openHandler(open);
     if (Array.isArray(this.value)) {
       this.valueAsDate = getValueAsDateRange(this.value);
-      this.start = this.value[0];
-      this.end = this.value[1];
     } else if (this.value) {
       try {
         this.valueAsDate = dateFromISO(this.value);
@@ -436,18 +404,8 @@ export class InputDatePicker
         this.warnAboutInvalidValue(this.value);
         this.value = "";
       }
-      this.start = "";
-      this.end = "";
     } else if (this.range && this.valueAsDate) {
       this.setRangeValue(this.valueAsDate as Date[]);
-    }
-
-    if (this.start) {
-      this.startAsDate = dateFromISO(this.start);
-    }
-
-    if (this.end) {
-      this.endAsDate = setEndOfDay(dateFromISO(this.end));
     }
 
     if (this.min) {
@@ -550,7 +508,6 @@ export class InputDatePicker
                 <calcite-date-picker
                   activeDate={this.datePickerActiveDate}
                   activeRange={this.focusedInput}
-                  endAsDate={this.endAsDate}
                   headingLevel={this.headingLevel}
                   max={this.max}
                   maxAsDate={this.maxAsDate}
@@ -563,7 +520,6 @@ export class InputDatePicker
                   proximitySelectionDisabled={this.proximitySelectionDisabled}
                   range={this.range}
                   scale={this.scale}
-                  startAsDate={this.startAsDate}
                   tabIndex={0}
                   valueAsDate={this.valueAsDate}
                 />
@@ -809,16 +765,6 @@ export class InputDatePicker
     this.setReferenceEl();
   };
 
-  @Watch("start")
-  startWatcher(start: string): void {
-    this.startAsDate = dateFromISO(start);
-  }
-
-  @Watch("end")
-  endWatcher(end: string): void {
-    this.endAsDate = end ? setEndOfDay(dateFromISO(end)) : dateFromISO(end);
-  }
-
   @Watch("effectiveLocale")
   private async loadLocaleData(): Promise<void> {
     if (!Build.isBrowser) {
@@ -849,21 +795,15 @@ export class InputDatePicker
   };
 
   private shouldFocusRangeStart(): boolean {
-    return !!(
-      this.endAsDate &&
-      !this.startAsDate &&
-      this.focusedInput === "end" &&
-      this.startInput
-    );
+    const startValue = this.value[0] || undefined;
+    const endValue = this.value[1] || undefined;
+    return !!(endValue && !startValue && this.focusedInput === "end" && this.startInput);
   }
 
   private shouldFocusRangeEnd(): boolean {
-    return !!(
-      this.startAsDate &&
-      !this.endAsDate &&
-      this.focusedInput === "start" &&
-      this.endInput
-    );
+    const startValue = this.value[0] || undefined;
+    const endValue = this.value[1] || undefined;
+    return !!(startValue && !endValue && this.focusedInput === "start" && this.endInput);
   }
 
   private handleDateRangeChange = (event: CustomEvent<void>): void => {
@@ -887,12 +827,18 @@ export class InputDatePicker
 
   private localizeInputValues(): void {
     const date = dateFromRange(
-      this.range ? this.startAsDate : this.valueAsDate,
+      (this.range
+        ? (Array.isArray(this.valueAsDate) && this.valueAsDate[0]) || undefined
+        : this.valueAsDate) as Date,
       this.minAsDate,
       this.maxAsDate
     );
     const endDate = this.range
-      ? dateFromRange(this.endAsDate, this.minAsDate, this.maxAsDate)
+      ? dateFromRange(
+          (Array.isArray(this.valueAsDate) && this.valueAsDate[1]) || undefined,
+          this.minAsDate,
+          this.maxAsDate
+        )
       : null;
 
     const localizedDate =
@@ -935,8 +881,6 @@ export class InputDatePicker
     this.userChangedValue = true;
     this.value = newValue;
     this.valueAsDate = newValue ? getValueAsDateRange(newValue) : undefined;
-    this.start = newStartDateISO;
-    this.end = newEndDateISO;
 
     const eventDetail = {
       startDate: newStartDate as Date,
