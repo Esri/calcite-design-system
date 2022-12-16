@@ -9,35 +9,43 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ### ⚠ BREAKING CHANGES
 
-- **chip:** Renamed `color` property and updated values, and
+- **input-date-picker:** Removed the `start`, `end`, `startAsDate`, and
+  `endAsDate` properties.
+
+* Removed the property `start`, use `value` instead.
+* Removed the property `end`, use `value` instead.
+* Removed the property `startAsDate`, use `valueAsDate` instead.
+* Removed the property `endAsDate`, use `valueAsDate` instead.
+
+* **chip:** Renamed `color` property and updated values, and
   updated `appearance` values.
 
-* Renamed the property `color`, use `kind` instead.
-* Updated the accepted values of `kind` to `brand`, `inverse`, and
+- Renamed the property `color`, use `kind` instead.
+- Updated the accepted values of `kind` to `brand`, `inverse`, and
   `neutral` (default).
-* Updated the accepted values of `appearance` to , `outline`,
+- Updated the accepted values of `appearance` to , `outline`,
   `outline-fill` and `solid` (default).
 
-- **button, fab, split-button:** Removed deprecated properties and values.
+* **button, fab, split-button:** Removed deprecated properties and values.
 
-* `button`: Removed the property `form`, this property is no longer
+- `button`: Removed the property `form`, this property is no longer
   needed if the component is placed inside a form.
-* `button`, `fab`, `split-button`: Renamed the property `color`, use
+- `button`, `fab`, `split-button`: Renamed the property `color`, use
   `kind` instead.
-* `button`, `fab`, `split-button`: Updated the accepted values of `kind`
+- `button`, `fab`, `split-button`: Updated the accepted values of `kind`
   to `brand` (default), `danger`, `inverse`, and `neutral`.
-* `button`, `split-button`: Updated the accepted values of `appearance`
+- `button`, `split-button`: Updated the accepted values of `appearance`
   to `outline`, `outline-fill` and `solid` (default).
-* `fab`: Updated the accepted values of `appearance` to `outline-fill`
+- `fab`: Updated the accepted values of `appearance` to `outline-fill`
   and `solid` (default).
 
-* Removed the `focusId` parameter from `action-bar` and
+- Removed the `focusId` parameter from `action-bar` and
   `action-pad`'s `setFocus` method
 
-- **action-bar, action-pad:** Removed `focusId` paramter `setFocus`
+* **action-bar, action-pad:** Removed `focusId` paramter `setFocus`
   method, focus is delegated to the first focusable element.
 
-- **notice:** Removed deprecated properties.
+* **notice:** Removed deprecated properties.
 
 Removed the property `active`, use `open` instead.
 Removed the property `dimissible`, use `closable` property instead.
