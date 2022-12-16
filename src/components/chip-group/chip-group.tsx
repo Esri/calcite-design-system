@@ -133,9 +133,9 @@ export class ChipGroup implements InteractiveComponent {
     event.stopPropagation();
   }
 
-  @Listen("calciteChipDismiss")
+  @Listen("calciteChipClose")
   calciteChipListener(event: CustomEvent): void {
-    const item = event.detail;
+    const item = event.target;
     let updatedItems = [];
     if (this.items.includes(item)) {
       updatedItems = this.items.filter((el) => el !== item);

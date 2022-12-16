@@ -225,7 +225,7 @@ export class Chip
       (event as any).path.includes(this.closeButton) &&
       (event.key === " " || event.key === "Enter")
     ) {
-      this.closeHandler(event);
+      this.closeHandler();
     }
     if (event.target === this.el) {
       switch (event.key) {
@@ -277,12 +277,11 @@ export class Chip
   //
   // --------------------------------------------------------------------------
 
-  private closeHandler = (event): void => {
-    this.calciteChipClose.emit();
+  private closeHandler = (): void => {
     this.closed = true;
     this.selected = false;
     this.itemSelectHandler();
-    event.stopPropagation();
+    this.calciteChipClose.emit();
   };
 
   private getItemPosition(): number {
@@ -368,7 +367,7 @@ export class Chip
       <button
         aria-label={this.messages.dismissLabel}
         class={CSS.close}
-        onClick={(event) => this.closeHandler(event)}
+        onClick={this.closeHandler}
         ref={(el) => (this.closeButton = el)}
       >
         <calcite-icon
