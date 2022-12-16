@@ -128,7 +128,6 @@ export class InputDatePicker
       let newValueAsDate;
       if (Array.isArray(newValue)) {
         newValueAsDate = getValueAsDateRange(newValue);
-        this.start = newValue[0];
         this.end = newValue[1];
       } else if (newValue) {
         newValueAsDate = dateFromISO(newValue);
@@ -268,13 +267,6 @@ export class InputDatePicker
    * @internal
    */
   @Prop({ reflect: true }) required = false;
-
-  /**
-   * The component's start date.
-   *
-   * @deprecated use `value` instead.
-   */
-  @Prop({ mutable: true, reflect: true }) start: string;
 
   /**
    * The component's end date.
@@ -803,11 +795,6 @@ export class InputDatePicker
     this.setReferenceEl();
   };
 
-  @Watch("start")
-  startWatcher(start: string): void {
-    this.startAsDate = dateFromISO(start);
-  }
-
   @Watch("end")
   endWatcher(end: string): void {
     this.endAsDate = end ? setEndOfDay(dateFromISO(end)) : dateFromISO(end);
@@ -875,7 +862,9 @@ export class InputDatePicker
 
   private localizeInputValues(): void {
     const date = dateFromRange(
-      this.range ? this.startAsDate : this.valueAsDate,
+      (this.range
+        ? (Array.isArray(this.valueAsDate) && this.valueAsDate[0]) || undefined
+        : this.valueAsDate) as Date,
       this.minAsDate,
       this.maxAsDate
     );
