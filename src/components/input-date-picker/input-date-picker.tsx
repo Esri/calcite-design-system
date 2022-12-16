@@ -427,7 +427,6 @@ export class InputDatePicker
     open && this.openHandler(open);
     if (Array.isArray(this.value)) {
       this.valueAsDate = getValueAsDateRange(this.value);
-      this.start = this.value[0];
       this.end = this.value[1];
     } else if (this.value) {
       try {
@@ -436,14 +435,9 @@ export class InputDatePicker
         this.warnAboutInvalidValue(this.value);
         this.value = "";
       }
-      this.start = "";
       this.end = "";
     } else if (this.range && this.valueAsDate) {
       this.setRangeValue(this.valueAsDate as Date[]);
-    }
-
-    if (this.start) {
-      this.startAsDate = dateFromISO(this.start);
     }
 
     if (this.end) {
@@ -935,7 +929,6 @@ export class InputDatePicker
     this.userChangedValue = true;
     this.value = newValue;
     this.valueAsDate = newValue ? getValueAsDateRange(newValue) : undefined;
-    this.start = newStartDateISO;
     this.end = newEndDateISO;
 
     const eventDetail = {
