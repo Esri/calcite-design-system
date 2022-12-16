@@ -13,8 +13,7 @@ import {
   Watch
 } from "@stencil/core";
 import { ensureId, getSlotted } from "../../utils/dom";
-import { Scale } from "../interfaces";
-import { ModalBackgroundColor } from "./interfaces";
+import { Kind, Scale } from "../interfaces";
 import { CSS, ICONS, SLOTS } from "./resources";
 import { createObserver } from "../../utils/observers";
 import {
@@ -93,37 +92,30 @@ export class Modal
   beforeClose: (el: HTMLElement) => Promise<void> = () => Promise.resolve();
 
   /** When `true`, disables the component's close button. */
-  @Prop({ reflect: true }) disableCloseButton = false;
+  @Prop({ reflect: true }) closeButtonDisabled = false;
 
   /**
    * When `true`, prevents focus trapping.
    */
-  @Prop({ reflect: true }) disableFocusTrap = false;
+  @Prop({ reflect: true }) focusTrapDisabled = false;
 
-  @Watch("disableFocusTrap")
-  handleDisableFocusTrap(disableFocusTrap: boolean): void {
+  @Watch("focusTrapDisabled")
+  handlefocusTrapDisabled(focusTrapDisabled: boolean): void {
     if (!this.open) {
       return;
     }
 
-    disableFocusTrap ? deactivateFocusTrap(this) : activateFocusTrap(this);
+    focusTrapDisabled ? deactivateFocusTrap(this) : activateFocusTrap(this);
   }
 
   /** When `true`, disables the closing of the component when clicked outside. */
-  @Prop({ reflect: true }) disableOutsideClose = false;
-
-  /**
-   * Accessible name for the component's close button.
-   *
-   * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`.
-   */
-  @Prop() intlClose: string;
+  @Prop({ reflect: true }) outsideCloseDisabled = false;
 
   /** When `true`, prevents the component from expanding to the entire screen on mobile devices. */
   @Prop({ reflect: true }) docked: boolean;
 
   /** When `true`, disables the default close on escape behavior. */
-  @Prop({ reflect: true }) disableEscape = false;
+  @Prop({ reflect: true }) escapeDisabled = false;
 
   /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";
@@ -134,14 +126,8 @@ export class Modal
   /** Sets the component to always be fullscreen (overrides `width`). */
   @Prop({ reflect: true }) fullscreen: boolean;
 
-  /**
-   * Adds a color bar to the top of component for visual impact.
-   * Use color to add importance to destructive or workflow dialogs.
-   */
-  @Prop({ reflect: true }) color: "red" | "blue";
-
-  /** Sets the background color of the component's content. */
-  @Prop({ reflect: true }) backgroundColor: ModalBackgroundColor = "white";
+  /** Specifies the kind of the component (will apply to top border). */
+  @Prop({ reflect: true }) kind: Kind;
 
   /**
    * Made into a prop for testing purposes only
@@ -155,11 +141,18 @@ export class Modal
    */
   @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
 
-  @Watch("intlClose")
   @Watch("messageOverrides")
   onMessagesChange(): void {
     /* wired up by t9n util */
   }
+
+  /**
+   * This internal property, managed by a containing calcite-shell, is used
+   * to inform the component if special configuration or styles are needed
+   *
+   * @internal
+   */
+  @Prop({ mutable: true }) slottedInShell: boolean;
 
   //--------------------------------------------------------------------------
   //
@@ -196,6 +189,7 @@ export class Modal
     deactivateFocusTrap(this);
     disconnectLocalized(this);
     disconnectMessages(this);
+    this.slottedInShell = false;
   }
 
   render(): VNode {
@@ -206,31 +200,33 @@ export class Modal
         aria-modal="true"
         role="dialog"
       >
-        <calcite-scrim class={CSS.scrim} onClick={this.handleOutsideClose} />
-        {this.renderStyle()}
-        <div
-          class={{
-            [CSS.modal]: true,
-            [CSS.modalOpen]: this.isOpen
-          }}
-          ref={this.setTransitionEl}
-        >
-          <div class={CSS.header}>
-            {this.renderCloseButton()}
-            <header class={CSS.title}>
-              <slot name={CSS.header} />
-            </header>
-          </div>
+        <div class={{ [CSS.container]: true, [CSS.slottedInShell]: this.slottedInShell }}>
+          <calcite-scrim class={CSS.scrim} onClick={this.handleOutsideClose} />
+          {this.renderStyle()}
           <div
             class={{
-              content: true,
-              "content--no-footer": !this.hasFooter
+              [CSS.modal]: true,
+              [CSS.modalOpen]: this.isOpen
             }}
-            ref={(el) => (this.modalContent = el)}
+            ref={this.setTransitionEl}
           >
-            <slot name={SLOTS.content} />
+            <div class={CSS.header}>
+              {this.renderCloseButton()}
+              <header class={CSS.title}>
+                <slot name={CSS.header} />
+              </header>
+            </div>
+            <div
+              class={{
+                content: true,
+                "content--no-footer": !this.hasFooter
+              }}
+              ref={(el) => (this.modalContent = el)}
+            >
+              <slot name={SLOTS.content} />
+            </div>
+            {this.renderFooter()}
           </div>
-          {this.renderFooter()}
         </div>
       </Host>
     );
@@ -253,7 +249,7 @@ export class Modal
   }
 
   renderCloseButton(): VNode {
-    return !this.disableCloseButton ? (
+    return !this.closeButtonDisabled ? (
       <button
         aria-label={this.messages.close}
         class={CSS.close}
@@ -351,7 +347,7 @@ export class Modal
 
   @Listen("keydown", { target: "window" })
   handleEscape(event: KeyboardEvent): void {
-    if (this.open && !this.disableEscape && event.key === "Escape" && !event.defaultPrevented) {
+    if (this.open && !this.escapeDisabled && event.key === "Escape" && !event.defaultPrevented) {
       this.close();
       event.preventDefault();
     }
@@ -469,11 +465,13 @@ export class Modal
     this.titleId = ensureId(titleEl);
     this.contentId = ensureId(contentEl);
 
-    document.documentElement.classList.add(CSS.overflowHidden);
+    if (!this.slottedInShell) {
+      document.documentElement.classList.add(CSS.overflowHidden);
+    }
   }
 
   handleOutsideClose = (): void => {
-    if (this.disableOutsideClose) {
+    if (this.outsideCloseDisabled) {
       return;
     }
 

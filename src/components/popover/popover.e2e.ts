@@ -73,11 +73,11 @@ describe("calcite-popover", () => {
         defaultValue: false
       },
       {
-        propertyName: "disableFlip",
+        propertyName: "flipDisabled",
         defaultValue: false
       },
       {
-        propertyName: "disablePointer",
+        propertyName: "pointerDisabled",
         defaultValue: false
       },
       {

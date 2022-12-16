@@ -38,7 +38,9 @@ import {
  */
 @Component({
   tag: "calcite-inline-editable",
-  shadow: true,
+  shadow: {
+    delegatesFocus: true
+  },
   styleUrl: "inline-editable.scss",
   assetsDirs: ["assets"]
 })
@@ -97,30 +99,6 @@ export class InlineEditable
   /** When `true` and `editingEnabled` is `true`, displays save and cancel controls on the component. */
   @Prop({ reflect: true }) controls = false;
 
-  /**
-   * Accessible name for the component's enable editing button.
-   *
-   * @default "Click to edit"
-   * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`.
-   */
-  @Prop({ reflect: true }) intlEnableEditing: string;
-
-  /**
-   * Accessible name for the component's cancel editing button.
-   *
-   * @default "Cancel"
-   * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`.
-   */
-  @Prop({ reflect: true }) intlCancelEditing: string;
-
-  /**
-   * Accessible name for the component's confirm edits button.
-   *
-   * @default "Save"
-   * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`.
-   */
-  @Prop({ reflect: true }) intlConfirmChanges: string;
-
   /** Specifies the size of the component. Defaults to the scale of the wrapped `calcite-input` or the scale of the closest wrapping component with a set scale. */
   @Prop({ reflect: true, mutable: true }) scale: Scale;
 
@@ -139,9 +117,6 @@ export class InlineEditable
    */
   @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
 
-  @Watch("intlCancelEditing")
-  @Watch("intlConfirmChanges")
-  @Watch("intlEnableEditing")
   @Watch("messageOverrides")
   onMessagesChange(): void {
     /* wired up by t9n util */
@@ -195,9 +170,9 @@ export class InlineEditable
           <calcite-button
             appearance="transparent"
             class={CSS.enableEditingButton}
-            color="neutral"
             disabled={this.disabled}
             iconStart="pencil"
+            kind="neutral"
             label={this.messages.enableEditing}
             onClick={this.enableEditingHandler}
             ref={(el) => (this.enableEditingButton = el)}
@@ -213,9 +188,9 @@ export class InlineEditable
               <calcite-button
                 appearance="transparent"
                 class={CSS.cancelEditingButton}
-                color="neutral"
                 disabled={this.disabled}
                 iconStart="x"
+                kind="neutral"
                 label={this.messages.cancelEditing}
                 onClick={this.cancelEditingHandler}
                 ref={(el) => (this.cancelEditingButton = el)}
@@ -226,9 +201,9 @@ export class InlineEditable
             <calcite-button
               appearance="solid"
               class={CSS.confirmChangesButton}
-              color="blue"
               disabled={this.disabled}
               iconStart="check"
+              kind="brand"
               label={this.messages.confirmChanges}
               loading={this.loading}
               onClick={this.confirmChangesHandler}
@@ -318,11 +293,7 @@ export class InlineEditable
   async setFocus(): Promise<void> {
     await componentLoaded(this);
 
-    if (this.editingEnabled) {
-      this.inputElement?.setFocus();
-    } else {
-      this.enableEditingButton?.setFocus();
-    }
+    this.el?.focus();
   }
 
   //--------------------------------------------------------------------------

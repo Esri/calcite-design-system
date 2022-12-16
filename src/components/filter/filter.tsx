@@ -14,7 +14,6 @@ import {
 import { debounce } from "lodash-es";
 import { CSS, DEBOUNCE_TIMEOUT, ICONS } from "./resources";
 import { Scale } from "../interfaces";
-import { focusElement } from "../../utils/dom";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import { filter } from "../../utils/filter";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
@@ -36,7 +35,9 @@ import {
 @Component({
   tag: "calcite-filter",
   styleUrl: "filter.scss",
-  shadow: true,
+  shadow: {
+    delegatesFocus: true
+  },
   assetsDirs: ["assets"]
 })
 export class Filter
@@ -76,20 +77,6 @@ export class Filter
   @Prop({ mutable: true }) filteredItems: object[] = [];
 
   /**
-   * A text label that will appear on the clear button.
-   *
-   * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`.
-   */
-  @Prop() intlClear: string;
-
-  /**
-   * Accessible name for the component.
-   *
-   * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`.
-   */
-  @Prop() intlLabel: string;
-
-  /**
    * Specifies placeholder text for the input element.
    */
   @Prop() placeholder: string;
@@ -116,8 +103,6 @@ export class Filter
    */
   @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
 
-  @Watch("intlClear")
-  @Watch("intlLabel")
   @Watch("messageOverrides")
   onMessagesChange(): void {
     /* wired up by t9n util */
@@ -200,7 +185,7 @@ export class Filter
   async setFocus(): Promise<void> {
     await componentLoaded(this);
 
-    focusElement(this.textInput);
+    this.el?.focus();
   }
 
   // --------------------------------------------------------------------------
@@ -263,7 +248,7 @@ export class Filter
               clearable={true}
               disabled={disabled}
               icon={ICONS.search}
-              intlClear={this.messages.clear}
+              messageOverrides={{ clear: this.messages.clear }}
               onCalciteInputInput={this.inputHandler}
               onKeyDown={this.keyDownHandler}
               placeholder={this.placeholder}

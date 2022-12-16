@@ -13,8 +13,8 @@ import {
 } from "@stencil/core";
 
 import Color from "color";
-import { ColorAppearance, ColorMode, ColorValue, InternalColor } from "./interfaces";
-import { Scale } from "../interfaces";
+import { ColorMode, ColorValue, InternalColor } from "./interfaces";
+import { Appearance, Scale } from "../interfaces";
 import {
   CSS,
   DEFAULT_COLOR,
@@ -23,7 +23,7 @@ import {
   HSV_LIMITS,
   RGB_LIMITS
 } from "./resources";
-import { Direction, focusElement, getElementDir, isPrimaryPointerButton } from "../../utils/dom";
+import { Direction, getElementDir, isPrimaryPointerButton } from "../../utils/dom";
 import { colorEqual, CSSColorMode, Format, normalizeHex, parseMode, SupportedMode } from "./utils";
 import { throttle } from "lodash-es";
 
@@ -54,7 +54,9 @@ const defaultFormat = "auto";
 @Component({
   tag: "calcite-color-picker",
   styleUrl: "color-picker.scss",
-  shadow: true,
+  shadow: {
+    delegatesFocus: true
+  },
   assetsDirs: ["assets"]
 })
 export class ColorPicker
@@ -83,10 +85,8 @@ export class ColorPicker
 
   /**
    * Specifies the appearance style of the component -
-   *
-   * `"solid"` (containing border) or `"minimal"` (no containing border).
    */
-  @Prop({ reflect: true }) appearance: ColorAppearance = "solid";
+  @Prop({ reflect: true }) appearance: Extract<"minimal" | "solid", Appearance> = "solid";
 
   /**
    * Internal prop for advanced use-cases.
@@ -131,140 +131,6 @@ export class ColorPicker
   /** When `true`, hides the saved colors section. */
   @Prop({ reflect: true }) hideSaved = false;
 
-  /**
-   * Accessible name for the RGB section's blue channel.
-   *
-   * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`
-   */
-  @Prop() intlB: string;
-
-  /**
-   * Accessible name for the RGB section's blue channel description.
-   *
-   * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`
-   */
-  @Prop() intlBlue: string;
-
-  /**
-   * Accessible name for the delete color button.
-   *
-   * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`
-   */
-  @Prop() intlDeleteColor: string;
-
-  /**
-   * Accessible name for the RGB section's green channel.
-   *
-   * @default "G"
-   * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`
-   */
-  @Prop() intlG: string;
-
-  /**
-   * Accessible name for the RGB section's green channel description.
-   *
-   * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`
-   */
-  @Prop() intlGreen: string;
-
-  /**
-   * Accessible name for the HSV section's hue channel.
-   *
-   * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`
-   */
-  @Prop() intlH: string;
-
-  /**
-   * Accessible name for the HSV mode.
-   *
-   * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`
-   */
-  @Prop() intlHsv: string;
-
-  /**
-   * Accessible name for the Hex input.
-   *
-   * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`
-   */
-  @Prop() intlHex: string;
-
-  /**
-   * Accessible name for the HSV section's hue channel description.
-   *
-   * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`
-   */
-  @Prop() intlHue: string;
-
-  /**
-   * Accessible name for the Hex input when there is no color selected.
-   *
-   * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`
-   */
-  @Prop() intlNoColor: string;
-
-  /**
-   * Accessible name for the RGB section's red channel.
-   *
-   * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`
-   */
-  @Prop() intlR: string;
-
-  /**
-   * Accessible name for the RGB section's red channel description.
-   *
-   * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`
-   */
-  @Prop() intlRed: string;
-
-  /**
-   * Accessible name for the RGB mode.
-   *
-   * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`
-   */
-  @Prop() intlRgb: string;
-
-  /**
-   * Accessible name for the HSV section's saturation channel.
-   *
-   * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`
-   */
-  @Prop() intlS: string;
-
-  /**
-   * Accessible name for the HSV section's saturation channel description.
-   *
-   * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`
-   */
-  @Prop() intlSaturation: string;
-
-  /**
-   * Accessible name for the save color button.
-   *
-   * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`
-   */
-  @Prop() intlSaveColor: string;
-
-  /**
-   * Accessible name for the saved colors section.
-   *
-   * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`
-   */
-  @Prop() intlSaved: string;
-
-  /**
-   * Accessible name for the HSV section's value channel.
-   *
-   * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`
-   */
-  @Prop() intlV: string;
-
-  /**
-   * Accessible name for the HSV section's value channel description.
-   *
-   * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`
-   */
-  @Prop() intlValue: string;
-
   /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";
 
@@ -282,26 +148,6 @@ export class ColorPicker
    */
   @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
 
-  @Watch("intlG")
-  @Watch("intlB")
-  @Watch("intlV")
-  @Watch("intlBlue")
-  @Watch("intlDeleteColor")
-  @Watch("intlGreen")
-  @Watch("intlH")
-  @Watch("intlHsv")
-  @Watch("intlHex")
-  @Watch("intlHue")
-  @Watch("intlNoColor")
-  @Watch("intlR")
-  @Watch("intlRed")
-  @Watch("intlRgb")
-  @Watch("intlS")
-  @Watch("intlSaturation")
-  @Watch("intlSaveColor")
-  @Watch("intlSaved")
-  @Watch("intlV")
-  @Watch("intlValue")
   @Watch("messageOverrides")
   onMessagesChange(): void {
     /* wired up by t9n util */
@@ -795,8 +641,7 @@ export class ColorPicker
   @Method()
   async setFocus(): Promise<void> {
     await componentLoaded(this);
-
-    return focusElement(this.colorFieldScopeNode);
+    this.el.focus();
   }
 
   //--------------------------------------------------------------------------
@@ -940,6 +785,7 @@ export class ColorPicker
                 <calcite-color-picker-hex-input
                   allowEmpty={allowEmpty}
                   class={CSS.control}
+                  hexLabel={messages.hex}
                   numberingSystem={this.numberingSystem}
                   onCalciteColorPickerHexInputChange={this.handleHexInputChange}
                   scale={hexInputScale}
@@ -973,9 +819,9 @@ export class ColorPicker
                 <calcite-button
                   appearance="transparent"
                   class={CSS.deleteColor}
-                  color="neutral"
                   disabled={noColor}
                   iconStart="minus"
+                  kind="neutral"
                   label={messages.deleteColor}
                   onClick={this.deleteColor}
                   scale={hexInputScale}
@@ -984,9 +830,9 @@ export class ColorPicker
                 <calcite-button
                   appearance="transparent"
                   class={CSS.saveColor}
-                  color="neutral"
                   disabled={noColor}
                   iconStart="plus"
+                  kind="neutral"
                   label={messages.saveColor}
                   onClick={this.saveColor}
                   scale={hexInputScale}

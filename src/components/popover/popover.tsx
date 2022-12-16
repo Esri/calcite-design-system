@@ -102,26 +102,26 @@ export class Popover
   /**
    * When `true`, prevents flipping the component's placement when overlapping its `referenceElement`.
    */
-  @Prop({ reflect: true }) disableFlip = false;
+  @Prop({ reflect: true }) flipDisabled = false;
 
   /**
    * When `true`, prevents focus trapping.
    */
-  @Prop({ reflect: true }) disableFocusTrap = false;
+  @Prop({ reflect: true }) focusTrapDisabled = false;
 
-  @Watch("disableFocusTrap")
-  handleDisableFocusTrap(disableFocusTrap: boolean): void {
+  @Watch("focusTrapDisabled")
+  handlefocusTrapDisabled(focusTrapDisabled: boolean): void {
     if (!this.open) {
       return;
     }
 
-    disableFocusTrap ? deactivateFocusTrap(this) : activateFocusTrap(this);
+    focusTrapDisabled ? deactivateFocusTrap(this) : activateFocusTrap(this);
   }
 
   /**
    * When `true`, removes the caret pointer.
    */
-  @Prop({ reflect: true }) disablePointer = false;
+  @Prop({ reflect: true }) pointerDisabled = false;
 
   /**
    * Defines the available placements that can be used when a flip occurs.
@@ -144,13 +144,6 @@ export class Popover
    */
   @Prop({ reflect: true }) headingLevel: HeadingLevel;
 
-  /**
-   * Accessible name for the component's close button.
-   *
-   * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`
-   */
-  @Prop() intlClose: string;
-
   /** Accessible name for the component. */
   @Prop() label!: string;
 
@@ -159,7 +152,6 @@ export class Popover
    */
   @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
 
-  @Watch("intlClose")
   @Watch("messageOverrides")
   onMessagesChange(): void {
     /* wired up by t9n util */
@@ -366,7 +358,7 @@ export class Popover
       effectiveReferenceElement,
       placement,
       overlayPositioning,
-      disableFlip,
+      flipDisabled,
       filteredFlipPlacements,
       offsetDistance,
       offsetSkidding,
@@ -379,11 +371,11 @@ export class Popover
         referenceEl: effectiveReferenceElement,
         overlayPositioning,
         placement,
-        disableFlip,
+        flipDisabled,
         flipPlacements: filteredFlipPlacements,
         offsetDistance,
         offsetSkidding,
-        includeArrow: !this.disablePointer,
+        includeArrow: !this.pointerDisabled,
         arrowEl,
         type: "popover"
       },
@@ -575,10 +567,10 @@ export class Popover
   }
 
   render(): VNode {
-    const { effectiveReferenceElement, heading, label, open, disablePointer } = this;
+    const { effectiveReferenceElement, heading, label, open, pointerDisabled } = this;
     const displayed = effectiveReferenceElement && open;
     const hidden = !displayed;
-    const arrowNode = !disablePointer ? <div class={CSS.arrow} ref={this.storeArrowEl} /> : null;
+    const arrowNode = !pointerDisabled ? <div class={CSS.arrow} ref={this.storeArrowEl} /> : null;
 
     return (
       <Host

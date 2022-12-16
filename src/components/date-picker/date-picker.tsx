@@ -42,7 +42,9 @@ import {
   assetsDirs: ["assets"],
   tag: "calcite-date-picker",
   styleUrl: "date-picker.scss",
-  shadow: true
+  shadow: {
+    delegatesFocus: true
+  }
 })
 export class DatePicker implements LocalizedComponent, T9nComponent {
   //--------------------------------------------------------------------------
@@ -143,30 +145,6 @@ export class DatePicker implements LocalizedComponent, T9nComponent {
   }
 
   /**
-   * Accessible name for the component's previous month button.
-   *
-   * @default "Previous month"
-   * @deprecated - translations are now built-in, if you need to override a string, please use `messageOverrides`
-   */
-  @Prop() intlPrevMonth?: string;
-
-  /**
-   * Accessible name for the component's next month button.
-   *
-   * @default "Next month"
-   * @deprecated - translations are now built-in, if you need to override a string, please use `messageOverrides`
-   */
-  @Prop() intlNextMonth?: string;
-
-  /**
-   * Accessible name for the component's year input.
-   *
-   * @default "Year"
-   * @deprecated - translations are now built-in, if you need to override a string, please use `messageOverrides`
-   */
-  @Prop() intlYear?: string;
-
-  /**
    * Specifies the Unicode numeral system used by the component for localization. This property cannot be dynamically changed.
    *
    */
@@ -193,9 +171,6 @@ export class DatePicker implements LocalizedComponent, T9nComponent {
    */
   @Prop({ mutable: true }) messages: Messages;
 
-  @Watch("intlNextMonth")
-  @Watch("intlPrevMonth")
-  @Watch("intlYear")
   @Watch("messageOverrides")
   onMessagesChange(): void {
     /* wired up by t9n util */
@@ -482,7 +457,7 @@ export class DatePicker implements LocalizedComponent, T9nComponent {
           max={maxDate}
           messages={this.messages}
           min={minDate}
-          onCalciteDatePickerSelect={this.monthHeaderSelectChange}
+          onCalciteInternalDatePickerSelect={this.monthHeaderSelectChange}
           scale={this.scale}
           selectedDate={this.activeRange === "end" ? endDate : date || new Date()}
         />,
@@ -493,10 +468,10 @@ export class DatePicker implements LocalizedComponent, T9nComponent {
           localeData={this.localeData}
           max={maxDate}
           min={minDate}
-          onCalciteDatePickerActiveDateChange={this.monthActiveDateChange}
-          onCalciteDatePickerSelect={this.monthDateChange}
+          onCalciteInternalDatePickerActiveDateChange={this.monthActiveDateChange}
           onCalciteInternalDatePickerHover={this.monthHoverChange}
           onCalciteInternalDatePickerMouseOut={this.monthMouseOutChange}
+          onCalciteInternalDatePickerSelect={this.monthDateChange}
           scale={this.scale}
           selectedDate={this.activeRange === "end" ? endDate : date}
           startDate={this.range ? date : undefined}

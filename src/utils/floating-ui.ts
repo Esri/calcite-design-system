@@ -191,7 +191,7 @@ export const FloatingCSS = {
 
 function getMiddleware({
   placement,
-  disableFlip,
+  flipDisabled,
   flipPlacements,
   offsetDistance,
   offsetSkidding,
@@ -199,7 +199,7 @@ function getMiddleware({
   type
 }: {
   placement: LogicalPlacement;
-  disableFlip?: boolean;
+  flipDisabled?: boolean;
   flipPlacements?: EffectivePlacement[];
   offsetDistance?: number;
   offsetSkidding?: number;
@@ -230,7 +230,7 @@ function getMiddleware({
       middleware.push(
         autoPlacement({ alignment: placement === "auto-start" ? "start" : placement === "auto-end" ? "end" : null })
       );
-    } else if (!disableFlip) {
+    } else if (!flipDisabled) {
       middleware.push(flip(flipPlacements ? { fallbackPlacements: flipPlacements } : {}));
     }
 
@@ -287,7 +287,7 @@ export function getEffectivePlacement(floatingEl: HTMLElement, placement: Logica
  * @param options.floatingEl
  * @param options.overlayPositioning
  * @param options.placement
- * @param options.disableFlip
+ * @param options.flipDisabled
  * @param options.flipPlacements
  * @param options.offsetDistance
  * @param options.offsetSkidding
@@ -322,7 +322,7 @@ const debouncedReposition = debounce(positionFloatingUI, repositionDebounceTimeo
  * @param root0.floatingEl
  * @param root0.overlayPositioning
  * @param root0.placement
- * @param root0.disableFlip
+ * @param root0.flipDisabled
  * @param root0.flipPlacements
  * @param root0.offsetDistance
  * @param root0.offsetSkidding
@@ -335,7 +335,7 @@ export async function positionFloatingUI({
   floatingEl,
   overlayPositioning = "absolute",
   placement,
-  disableFlip,
+  flipDisabled,
   flipPlacements,
   offsetDistance,
   offsetSkidding,
@@ -347,9 +347,8 @@ export async function positionFloatingUI({
   floatingEl: HTMLElement;
   overlayPositioning: Strategy;
   placement: LogicalPlacement;
-  disableFlip?: boolean;
+  flipDisabled?: boolean;
   flipPlacements?: EffectivePlacement[];
-
   offsetDistance?: number;
   offsetSkidding?: number;
   arrowEl?: HTMLElement;
@@ -376,7 +375,7 @@ export async function positionFloatingUI({
         : getEffectivePlacement(floatingEl, placement),
     middleware: getMiddleware({
       placement,
-      disableFlip,
+      flipDisabled,
       flipPlacements,
       offsetDistance,
       offsetSkidding,

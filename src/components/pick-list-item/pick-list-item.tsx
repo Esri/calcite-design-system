@@ -75,7 +75,7 @@ export class PickListItem
   /**
    * When `false`, the component cannot be deselected by user interaction.
    */
-  @Prop({ reflect: true }) disableDeselect = false;
+  @Prop({ reflect: true }) deselectDisabled = false;
 
   /**
    * @internal
@@ -88,6 +88,9 @@ export class PickListItem
    * @see [ICON_TYPES](https://github.com/Esri/calcite-components/blob/master/src/components/pick-list/resources.ts#L5)
    */
   @Prop({ reflect: true }) icon: ICON_TYPES | null = null;
+
+  /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
+  @Prop({ reflect: true }) iconFlipRtl = false;
 
   /**
    * Label and accessible name for the component. Appears next to the icon.
@@ -111,7 +114,6 @@ export class PickListItem
    */
   @Prop({ mutable: true }) messages: Messages;
 
-  @Watch("intlRemove")
   @Watch("defaultMessages")
   @Watch("messageOverrides")
   onMessagesChange(): void {
@@ -149,13 +151,6 @@ export class PickListItem
 
     this.shiftPressed = false;
   }
-
-  /**
-   * When `removable` is `true`, the accessible name for the component's remove button.
-   *
-   * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`
-   */
-  @Prop({ reflect: true }) intlRemove: string;
 
   /**
    * The component's value.
@@ -287,7 +282,7 @@ export class PickListItem
   // --------------------------------------------------------------------------
 
   pickListClickHandler = (event: MouseEvent): void => {
-    if (this.disabled || (this.disableDeselect && this.selected) || this.nonInteractive) {
+    if (this.disabled || (this.deselectDisabled && this.selected) || this.nonInteractive) {
       return;
     }
 
@@ -298,7 +293,7 @@ export class PickListItem
   pickListKeyDownHandler = (event: KeyboardEvent): void => {
     if (event.key === " ") {
       event.preventDefault();
-      if ((this.disableDeselect && this.selected) || this.nonInteractive) {
+      if ((this.deselectDisabled && this.selected) || this.nonInteractive) {
         return;
       }
       this.selected = !this.selected;
@@ -316,7 +311,7 @@ export class PickListItem
   // --------------------------------------------------------------------------
 
   renderIcon(): VNode {
-    const { icon } = this;
+    const { icon, iconFlipRtl } = this;
 
     if (!icon) {
       return null;
@@ -330,7 +325,9 @@ export class PickListItem
         }}
         onClick={this.pickListClickHandler}
       >
-        {icon === ICON_TYPES.square ? <calcite-icon icon={ICONS.checked} scale="s" /> : null}
+        {icon === ICON_TYPES.square ? (
+          <calcite-icon flipRtl={iconFlipRtl} icon={ICONS.checked} scale="s" />
+        ) : null}
       </span>
     );
   }

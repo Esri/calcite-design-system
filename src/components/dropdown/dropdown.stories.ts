@@ -25,7 +25,7 @@ export const simple = (): string => html`
     scale="${select("scale", ["s", "m", "l"], "m")}"
     width="${select("width", ["s", "m", "l"], "m")}"
     type="${select("type", ["click", "hover"], "click")}"
-    ${boolean("disable-close-on-select", false)}
+    ${boolean("close-on-select-disabled", false)}
     ${boolean("disabled", false)}
   >
     <calcite-button slot="trigger">Open Dropdown</calcite-button>
@@ -46,7 +46,7 @@ export const simpleAutoWidth = (): string => html`
     placement="${select("placement", menuPlacements, defaultMenuPlacement)}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
     type="${select("type", ["click", "hover"], "click")}"
-    ${boolean("disable-close-on-select", false)}
+    ${boolean("close-on-select-disabled", false)}
     ${boolean("disabled", false)}
   >
     <calcite-button slot="trigger">Open Dropdown</calcite-button>
@@ -70,7 +70,7 @@ export const simpleFullWidth = (): string => html`
       scale="${select("scale", ["s", "m", "l"], "m")}"
       width="${select("width", ["s", "m", "l"], "m")}"
       type="${select("type", ["click", "hover"], "click")}"
-      ${boolean("disable-close-on-select", false)}
+      ${boolean("close-on-select-disabled", false)}
       ${boolean("disabled", false)}
     >
       <calcite-button width="full" slot="trigger">Open Dropdown</calcite-button>
@@ -93,7 +93,7 @@ export const withIcons = (): string => html`
     scale="${select("scale", ["s", "m", "l"], "m")}"
     width="${select("width", ["s", "m", "l"], "m")}"
     type="${select("type", ["click", "hover"], "click")}"
-    ${boolean("disable-close-on-select", false)}
+    ${boolean("close-on-select-disabled", false)}
     ${boolean("disabled", false)}
   >
     <calcite-button slot="trigger">Open Dropdown</calcite-button>
@@ -131,7 +131,7 @@ export const groupsAndSelectionModes = (): string => html`
     scale="${select("scale", ["s", "m", "l"], "m")}"
     width="${select("width", ["s", "m", "l"], "m")}"
     type="${select("type", ["click", "hover"], "click")}"
-    ${boolean("disable-close-on-select", false)}
+    ${boolean("close-on-select-disabled", false)}
     ${boolean("disabled", false)}
   >
     <calcite-button slot="trigger">Open Dropdown</calcite-button>
@@ -159,7 +159,7 @@ export const itemsAsLinks = (): string => html`
     scale="${select("scale", ["s", "m", "l"], "m")}"
     width="${select("width", ["s", "m", "l"], "m")}"
     type="${select("type", ["click", "hover"], "click")}"
-    ${boolean("disable-close-on-select", false)}
+    ${boolean("close-on-select-disabled", false)}
     ${boolean("disabled", false)}
   >
     <calcite-button slot="trigger">Open Dropdown</calcite-button>
@@ -197,7 +197,7 @@ export const darkThemeRTL_TestOnly = (): string => html`
     scale="${select("scale", ["s", "m", "l"], "m")}"
     width="${select("width", ["s", "m", "l"], "m")}"
     type="${select("type", ["click", "hover"], "click")}"
-    ${boolean("disable-close-on-select", false)}
+    ${boolean("close-on-select-disabled", false)}
     ${boolean("disabled", false)}
   >
     <calcite-button slot="trigger">Open Dropdown</calcite-button>
@@ -232,7 +232,7 @@ export const itemsAsLinksDarkTheme = (): string => html`
     scale="${select("scale", ["s", "m", "l"], "m")}"
     width="${select("width", ["s", "m", "l"], "m")}"
     type="${select("type", ["click", "hover"], "click")}"
-    ${boolean("disable-close-on-select", false)}
+    ${boolean("close-on-select-disabled", false)}
     ${boolean("disabled", false)}
   >
     <calcite-button slot="trigger">Open Dropdown</calcite-button>
@@ -271,7 +271,7 @@ export const scrollingAfterCertainItems_TestOnly = (): string => html`
     scale="${select("scale", ["s", "m", "l"], "m")}"
     width="${select("width", ["s", "m", "l"], "m")}"
     type="${select("type", ["click", "hover"], "click")}"
-    ${boolean("disable-close-on-select", false)}
+    ${boolean("close-on-select-disabled", false)}
     ${boolean("disabled", false)}
   >
     <calcite-button slot="trigger">Open Dropdown</calcite-button>
@@ -398,7 +398,7 @@ export const alignedCenter_TestOnly = (): string => html`
       scale="${select("scale", ["s", "m", "l"], "m")}"
       width="${select("width", ["s", "m", "l"], "m")}"
       type="${select("type", ["click", "hover"], "click")}"
-      ${boolean("disable-close-on-select", false)}
+      ${boolean("close-on-select-disabled", false)}
       ${boolean("disabled", false)}
     >
       <calcite-button slot="trigger">Open Dropdown</calcite-button>
@@ -427,7 +427,7 @@ export const alignedCenterRTL_TestOnly = (): string => html`
       scale="${select("scale", ["s", "m", "l"], "m")}"
       width="${select("width", ["s", "m", "l"], "m")}"
       type="${select("type", ["click", "hover"], "click")}"
-      ${boolean("disable-close-on-select", false)}
+      ${boolean("close-on-select-disabled", false)}
       ${boolean("disabled", false)}
     >
       <calcite-button slot="trigger">Open Dropdown</calcite-button>

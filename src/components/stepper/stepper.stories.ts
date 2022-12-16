@@ -27,7 +27,7 @@ export const simple = (): string => html`
       description="${text("description-1", "Add members without sending invitations")}"
       complete
     >
-      <calcite-notice active width="full"><div slot="message">Step 1 Content Goes Here</div></calcite-notice>
+      <calcite-notice open width="full"><div slot="message">Step 1 Content Goes Here</div></calcite-notice>
     </calcite-stepper-item>
     <calcite-stepper-item
       heading="${text("heading-2", "Compile member list")}"
@@ -35,21 +35,21 @@ export const simple = (): string => html`
       complete
       error
     >
-      <calcite-notice active width="full"><div slot="message">Step 2 Content Goes Here</div></calcite-notice>
+      <calcite-notice open width="full"><div slot="message">Step 2 Content Goes Here</div></calcite-notice>
     </calcite-stepper-item>
     <calcite-stepper-item
       heading="${text("heading-3", "Set member properties")}"
       description="${text("description-3", "")}"
       selected
     >
-      <calcite-notice active width="full"><div slot="message">Step 3 Content Goes Here</div></calcite-notice>
+      <calcite-notice open width="full"><div slot="message">Step 3 Content Goes Here</div></calcite-notice>
     </calcite-stepper-item>
     <calcite-stepper-item
       heading="${text("heading-4", "Confirm and complete")}"
       description="${text("description-4", "Disabled example")}"
       disabled
     >
-      <calcite-notice active width="full"><div slot="message">Step 4 Content Goes Here</div></calcite-notice>
+      <calcite-notice open width="full"><div slot="message">Step 4 Content Goes Here</div></calcite-notice>
     </calcite-stepper-item>
   </calcite-stepper>
   <h1>No Content</h1>
@@ -103,7 +103,7 @@ export const darkThemeRTL_TestOnly = (): string => html`
       description="${text("description-1", "Add members without sending invitations")}"
       complete
     >
-      <calcite-notice active width="full"><div slot=message">Step 1 Content Goes Here</div></calcite-notice>
+      <calcite-notice open width="full"><div slot=message">Step 1 Content Goes Here</div></calcite-notice>
     </calcite-stepper-item>
     <calcite-stepper-item
       heading="${text("heading-2", "Compile member list")}"
@@ -111,21 +111,21 @@ export const darkThemeRTL_TestOnly = (): string => html`
       complete
       error
     >
-      <calcite-notice active width="full"><div slot="message">Step 2 Content Goes Here</div></calcite-notice>
+      <calcite-notice open width="full"><div slot="message">Step 2 Content Goes Here</div></calcite-notice>
     </calcite-stepper-item>
     <calcite-stepper-item
       heading="${text("heading-3", "Set member properties")}"
       description="${text("description-3", "")}"
       selected
     >
-      <calcite-notice active width="full"><div slot="message">Step 3 Content Goes Here</div></calcite-notice>
+      <calcite-notice open width="full"><div slot="message">Step 3 Content Goes Here</div></calcite-notice>
     </calcite-stepper-item>
     <calcite-stepper-item
       heading="${text("heading-4", "Confirm and complete")}"
       description="${text("description-4", "Disabled example")}"
       disabled
     >
-      <calcite-notice active width="full"><div slot="message">Step 4 Content Goes Here</div></calcite-notice>
+      <calcite-notice open width="full"><div slot="message">Step 4 Content Goes Here</div></calcite-notice>
     </calcite-stepper-item>
   </calcite-stepper>
 </div>
@@ -135,22 +135,22 @@ darkThemeRTL_TestOnly.parameters = { themes: themesDarkDefault };
 
 export const overriddenWidth_TestOnly = (): string => html` <calcite-stepper numbered style="width: 50vw">
   <calcite-stepper-item heading="Choose method" description="Add members without sending invitations" complete>
-    <calcite-notice active width="full">
+    <calcite-notice open width="full">
       <div slot="message">Step 1 Content Goes Here</div>
     </calcite-notice>
   </calcite-stepper-item>
   <calcite-stepper-item heading="Compile member list" complete error>
-    <calcite-notice active width="full">
+    <calcite-notice open width="full">
       <div slot="message">Step 2 Content Goes Here</div>
     </calcite-notice>
   </calcite-stepper-item>
   <calcite-stepper-item heading="Set member properties" description="" selected>
-    <calcite-notice active width="full">
+    <calcite-notice open width="full">
       <div slot="message">Step 3 Content Goes Here</div>
     </calcite-notice>
   </calcite-stepper-item>
   <calcite-stepper-item heading="Confirm and complete" description="Disabled example" disabled="">
-    <calcite-notice active width="full">
+    <calcite-notice open width="full">
       <div slot="message">Step 4 Content Goes Here</div>
     </calcite-notice>
   </calcite-stepper-item>
@@ -171,22 +171,22 @@ export const arabicNumberingSystem_TestOnly = (): string => html` <calcite-stepp
   scale="s"
 >
   <calcite-stepper-item heading="الخطوةالاولى" complete>
-    <calcite-notice active width="full">
+    <calcite-notice open width="full">
       <div slot="message">الخطوة الأولى للمحتوى هنا</div>
     </calcite-notice>
   </calcite-stepper-item>
   <calcite-stepper-item heading="الخطوة الثانية" complete>
-    <calcite-notice active width="full">
+    <calcite-notice open width="full">
       <div slot="message">الخطوة الثانية للمحتوى هنا</div>
     </calcite-notice>
   </calcite-stepper-item>
   <calcite-stepper-item heading="الخطوة الثالثة" description="بعض النصوص الفرعية" selected>
-    <calcite-notice active width="full">
+    <calcite-notice open width="full">
       <div slot="message">الخطوة الثالثة المحتوى يذهب هنا</div>
     </calcite-notice>
   </calcite-stepper-item>
   <calcite-stepper-item heading="الخطوة الرابعة">
-    <calcite-notice active width="full">
+    <calcite-notice open width="full">
       <div slot="message">الخطوة الرابعة المحتوى يذهب هنا</div>
     </calcite-notice>
   </calcite-stepper-item>

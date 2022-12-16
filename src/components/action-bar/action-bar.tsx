@@ -12,7 +12,7 @@ import {
 } from "@stencil/core";
 import { Position, Scale, Layout } from "../interfaces";
 import { ExpandToggle, toggleChildActionText } from "../functional/ExpandToggle";
-import { CSS, SLOTS, TEXT } from "./resources";
+import { CSS, SLOTS } from "./resources";
 import { getSlotted } from "../../utils/dom";
 import {
   geActionDimensions,
@@ -45,9 +45,12 @@ import {
   styleUrl: "action-bar.scss",
   shadow: {
     delegatesFocus: true
-  }
+  },
+  assetsDirs: ["assets"]
 })
-export class ActionBar implements ConditionalSlotComponent, LoadableComponent {
+export class ActionBar
+  implements ConditionalSlotComponent, LoadableComponent, LocalizedComponent, T9nComponent
+{
   // --------------------------------------------------------------------------
   //
   //  Properties
@@ -76,16 +79,6 @@ export class ActionBar implements ConditionalSlotComponent, LoadableComponent {
   }
 
   /**
-   * Specifies the label of the expand icon when the component is collapsed.
-   */
-  @Prop() intlExpand: string;
-
-  /**
-   * Specifies the label of the collapse icon when the component is expanded.
-   */
-  @Prop() intlCollapse: string;
-
-  /**
    *  The layout direction of the actions.
    */
   @Prop({ reflect: true }) layout: Extract<"horizontal" | "vertical", Layout> = "vertical";
@@ -111,6 +104,23 @@ export class ActionBar implements ConditionalSlotComponent, LoadableComponent {
    * Specifies the size of the expand `calcite-action`.
    */
   @Prop({ reflect: true }) scale: Scale;
+
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @internal
+   */
+  @Prop({ mutable: true }) messages: Messages;
+
+  /**
+   * Use this property to override individual strings used by the component.
+   */
+  @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
+
+  @Watch("messageOverrides")
+  onMessagesChange(): void {
+    /* wired up by t9n util */
+  }
 
   // --------------------------------------------------------------------------
   //
@@ -284,28 +294,16 @@ export class ActionBar implements ConditionalSlotComponent, LoadableComponent {
   // --------------------------------------------------------------------------
 
   renderBottomActionGroup(): VNode {
-    const {
-      expanded,
-      expandDisabled,
-      intlExpand,
-      intlCollapse,
-      el,
-      position,
-      toggleExpand,
-      scale,
-      layout
-    } = this;
+    const { expanded, expandDisabled, el, position, toggleExpand, scale, layout, messages } = this;
 
     const tooltip = getSlotted(el, SLOTS.expandTooltip) as HTMLCalciteTooltipElement;
-    const expandLabel = intlExpand || TEXT.expand;
-    const collapseLabel = intlCollapse || TEXT.collapse;
 
     const expandToggleNode = !expandDisabled ? (
       <ExpandToggle
         el={el}
         expanded={expanded}
-        intlCollapse={collapseLabel}
-        intlExpand={expandLabel}
+        intlCollapse={messages.collapse}
+        intlExpand={messages.expand}
         position={position}
         ref={this.setExpandToggleRef}
         scale={scale}

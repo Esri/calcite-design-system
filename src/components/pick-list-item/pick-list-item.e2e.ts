@@ -85,9 +85,9 @@ describe("calcite-pick-list-item", () => {
     expect(properties.get("shiftPressed")._remoteObject.value).toBe(false);
   });
 
-  it("prevents deselection when disableDeselect is true", async () => {
+  it("prevents deselection when deselectDisabled is true", async () => {
     const page = await newE2EPage({
-      html: `<calcite-pick-list-item label="test" value="example" disable-deselect selected></calcite-pick-list-item>`
+      html: `<calcite-pick-list-item label="test" value="example" deselect-disabled selected></calcite-pick-list-item>`
     });
     const item = await page.find("calcite-pick-list-item");
 
@@ -139,10 +139,10 @@ describe("calcite-pick-list-item", () => {
     await page.setContent(
       html`
         <calcite-pick-list style="width: 400px">
-          <calcite-pick-list-item label="apple" value="apple" icon="circle" intl-remove="Remove">
+          <calcite-pick-list-item label="apple" value="apple" icon="circle">
             <calcite-action slot="actions-end" icon="information"></calcite-action>
           </calcite-pick-list-item>
-          <calcite-pick-list-item label="mango" value="mango" selected="" icon="circle" intl-remove="Remove">
+          <calcite-pick-list-item label="mango" value="mango" selected="" icon="circle">
             <calcite-action slot="actions-end" icon="information"></calcite-action>
           </calcite-pick-list-item>
         </calcite-pick-list>
