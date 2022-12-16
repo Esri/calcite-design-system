@@ -15,7 +15,7 @@ import {
 import { getElementProp, toAriaBoolean } from "../../utils/dom";
 import { CSS, SLOTS, ICONS } from "./resources";
 import { ItemKeyEvent, RegistryEntry, RequestedItem } from "./interfaces";
-import { Appearance, DeprecatedEventPayload, Kind, Scale } from "../interfaces";
+import { Appearance, Kind, Scale } from "../interfaces";
 import {
   ConditionalSlotComponent,
   connectConditionalSlotComponent,
@@ -156,11 +156,9 @@ export class Chip
   // --------------------------------------------------------------------------
 
   /**
-   * Fires when the dismiss button is clicked.
-   *
-   * **Note:**: The `el` event payload props is deprecated, please use the event's `target`/`currentTarget` instead.
+   * Fires when the close button is clicked.
    */
-  @Event({ cancelable: false }) calciteChipDismiss: EventEmitter<DeprecatedEventPayload>;
+  @Event({ cancelable: false }) calciteChipClose: EventEmitter<void>;
 
   /**
    *
@@ -227,7 +225,7 @@ export class Chip
       (event as any).path.includes(this.closeButton) &&
       (event.key === " " || event.key === "Enter")
     ) {
-      this.closeHandler();
+      this.closeHandler(event);
     }
     if (event.target === this.el) {
       switch (event.key) {
@@ -275,23 +273,11 @@ export class Chip
 
   // --------------------------------------------------------------------------
   //
-  //  Events
-  //
-  // --------------------------------------------------------------------------
-
-  /**
-   * Fires when the close button is clicked.
-   */
-  @Event({ cancelable: false }) calciteChipClose: EventEmitter<void>;
-
-  // --------------------------------------------------------------------------
-  //
   //  Private Methods
   //
   // --------------------------------------------------------------------------
 
-  private closeHandler = (): void => {
-    // event.preventDefault();
+  private closeHandler = (event): void => {
     this.calciteChipClose.emit();
     this.closed = true;
     this.selected = false;
@@ -382,7 +368,7 @@ export class Chip
       <button
         aria-label={this.messages.dismissLabel}
         class={CSS.close}
-        onClick={this.closeHandler}
+        onClick={(event) => this.closeHandler(event)}
         ref={(el) => (this.closeButton = el)}
       >
         <calcite-icon
