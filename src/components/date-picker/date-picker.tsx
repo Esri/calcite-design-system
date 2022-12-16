@@ -512,18 +512,21 @@ export class DatePicker implements LocalizedComponent, T9nComponent {
    * Reset active date and close
    */
   reset = (): void => {
+    const { valueAsDate } = this;
     if (
-      !Array.isArray(this.valueAsDate) &&
-      this.valueAsDate &&
-      this.valueAsDate?.getTime() !== this.activeDate?.getTime()
+      !Array.isArray(valueAsDate) &&
+      valueAsDate &&
+      valueAsDate?.getTime() !== this.activeDate?.getTime()
     ) {
-      this.activeDate = new Date(this.valueAsDate);
+      this.activeDate = new Date(valueAsDate);
     }
-    if (this.startAsDate && this.startAsDate?.getTime() !== this.activeStartDate?.getTime()) {
-      this.activeStartDate = new Date(this.startAsDate);
-    }
-    if (this.endAsDate && this.endAsDate?.getTime() !== this.activeEndDate?.getTime()) {
-      this.activeEndDate = new Date(this.endAsDate);
+    if (Array.isArray(valueAsDate)) {
+      if (valueAsDate[0] && valueAsDate[0]?.getTime() !== this.activeStartDate?.getTime()) {
+        this.activeStartDate = new Date(valueAsDate[0]);
+      }
+      if (valueAsDate[1] && valueAsDate[1]?.getTime() !== this.activeEndDate?.getTime()) {
+        this.activeEndDate = new Date(valueAsDate[1]);
+      }
     }
   };
 
