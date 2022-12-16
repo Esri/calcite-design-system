@@ -18,7 +18,7 @@ import {
 import { CSS_UTILITY } from "../../utils/resources";
 import { SLOTS, CSS } from "./resources";
 import { FlipContext, Position } from "../interfaces";
-import { ItemKeyEvent, RegistryEntry, RequestedItem } from "./interfaces";
+import { RegistryEntry, RequestedItem } from "./interfaces";
 
 /**
  * @slot - A slot for adding custom content, including nested `calcite-accordion-item`s.
@@ -66,11 +66,6 @@ export class AccordionItem implements ConditionalSlotComponent {
   //  Events
   //
   //--------------------------------------------------------------------------
-
-  /**
-   * @internal
-   */
-  @Event({ cancelable: false }) calciteInternalAccordionItemKeyEvent: EventEmitter<ItemKeyEvent>;
 
   /**
    * @internal
@@ -222,16 +217,6 @@ export class AccordionItem implements ConditionalSlotComponent {
         case " ":
         case "Enter":
           this.emitRequestedItem();
-          event.preventDefault();
-          break;
-        case "ArrowUp":
-        case "ArrowDown":
-        case "Home":
-        case "End":
-          this.calciteInternalAccordionItemKeyEvent.emit({
-            parent: this.parent,
-            item: event
-          });
           event.preventDefault();
           break;
       }

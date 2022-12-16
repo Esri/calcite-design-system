@@ -343,3 +343,38 @@ export function slotChangeGetAssignedElements(event: Event): Element[] {
 export function isPrimaryPointerButton(event: PointerEvent): boolean {
   return !!(event.isPrimary && event.button === 0);
 }
+
+/**
+Focus helpers for keyboard navigation
+ *
+ * @param elements : An array of elements
+ * @param elCurrent : The current element
+ * @param destination : "next" | "prev" | "first" | "last"
+ */
+
+export const focusElementInGroup = (elements: Element[], elCurrent: Element, destination: string): void => {
+  const currentIndex = elements.indexOf(elCurrent);
+  const isFirstItem = currentIndex === 0;
+  const isLastItem = currentIndex === elements.length - 1;
+  console.log(elements, elCurrent, destination);
+  destination =
+    destination === "prev" && isFirstItem ? "last" : destination === "next" && isLastItem ? "first" : destination;
+  let focusTarget;
+
+  switch (destination) {
+    case "next":
+      focusTarget = elements[currentIndex + 1] || elements[0];
+      break;
+    case "prev":
+      focusTarget = elements[currentIndex - 1] || elements[elements.length - 1];
+      break;
+    case "first":
+      focusTarget = elements[0];
+      break;
+    case "last":
+      focusTarget = elements[elements.length - 1];
+      break;
+  }
+  console.log(focusTarget);
+  focusElement(focusTarget);
+};
