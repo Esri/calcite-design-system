@@ -26,7 +26,10 @@ export class Accordion {
   //--------------------------------------------------------------------------
 
   /** Specifies the appearance of the component. */
-  @Prop({ reflect: true }) appearance: Extract<"minimal" | "solid", Appearance> = "solid";
+  @Prop({ reflect: true }) appearance: Extract<
+    "default" | "minimal" | "solid" | "transparent",
+    Appearance
+  > = "solid";
 
   /** Specifies the placement of the icon in the header. */
   @Prop({ reflect: true }) iconPosition: Position = "end";

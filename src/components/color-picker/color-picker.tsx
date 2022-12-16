@@ -13,7 +13,7 @@ import {
 } from "@stencil/core";
 
 import Color from "color";
-import { ColorAppearance, ColorMode, ColorValue, InternalColor } from "./interfaces";
+import { ColorMode, ColorValue, InternalColor } from "./interfaces";
 import { Appearance, Scale } from "../interfaces";
 import {
   CSS,
