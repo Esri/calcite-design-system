@@ -17,7 +17,7 @@ import {
 } from "../../utils/conditionalSlot";
 import { CSS_UTILITY } from "../../utils/resources";
 import { SLOTS, CSS } from "./resources";
-import { Position, Scale } from "../interfaces";
+import { FlipContext, Position, Scale } from "../interfaces";
 import { ItemKeyEvent, RegistryEntry, RequestedItem } from "./interfaces";
 
 /**
@@ -51,6 +51,9 @@ export class AccordionItem implements ConditionalSlotComponent {
 
   /** Specifies heading text for the component. */
   @Prop() heading: string;
+
+  /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
+  @Prop({ reflect: true }) iconFlipRtl: FlipContext;
 
   /** Specifies an icon to display at the start of the component. */
   @Prop({ reflect: true }) iconStart: string;
@@ -141,10 +144,12 @@ export class AccordionItem implements ConditionalSlotComponent {
   iconScaleAdjustment: Scale = this.scale === "l" ? "m" : "s";
 
   render(): VNode {
+    const { iconFlipRtl } = this;
     const dir = getElementDir(this.el);
     const iconStartEl = this.iconStart ? (
       <calcite-icon
         class={CSS.iconStart}
+        flipRtl={iconFlipRtl === "both" || iconFlipRtl === "start"}
         icon={this.iconStart}
         key="icon-start"
         scale={this.iconScaleAdjustment}
@@ -153,7 +158,7 @@ export class AccordionItem implements ConditionalSlotComponent {
     const iconEndEl = this.iconEnd ? (
       <calcite-icon
         class={CSS.iconEnd}
-        icon={this.iconEnd}
+        flipRtl={iconFlipRtl === "both" || iconFlipRtl === "end"}
         key="icon-end"
         scale={this.iconScaleAdjustment}
       />

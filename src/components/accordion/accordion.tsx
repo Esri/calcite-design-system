@@ -9,8 +9,8 @@ import {
   VNode,
   Watch
 } from "@stencil/core";
-import { AccordionAppearance, AccordionSelectionMode, RequestedItem } from "./interfaces";
-import { Position, Scale } from "../interfaces";
+import { AccordionSelectionMode, RequestedItem } from "./interfaces";
+import { Appearance, Position, Scale } from "../interfaces";
 import { createObserver } from "../../utils/observers";
 
 /**
@@ -37,7 +37,10 @@ export class Accordion {
   //--------------------------------------------------------------------------
 
   /** Specifies the appearance of the component. */
-  @Prop({ reflect: true }) appearance: AccordionAppearance = "solid";
+  @Prop({ reflect: true }) appearance: Extract<
+    "default" | "minimal" | "solid" | "transparent",
+    Appearance
+  > = "solid";
 
   /** Specifies the placement of the icon in the header. */
   @Prop({ reflect: true }) iconPosition: Position = "end";
@@ -229,11 +232,8 @@ export class Accordion {
     items.sort((a, b) => a.position - b.position).map((a) => a.item);
 
   private passPropsToAccordionItems = (): void => {
-    const accordionItems = this.el.querySelectorAll("calcite-accordion-item");
-    if (accordionItems.length > 0) {
-      accordionItems.forEach((accordionItem) => {
-        accordionItem.scale = this.scale;
-      });
-    }
+    Array.from(this.el.querySelectorAll("calcite-accordion-item")).forEach(
+      (accordionItem) => (accordionItem.scale = this.scale)
+    );
   };
 }
