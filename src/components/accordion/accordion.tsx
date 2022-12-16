@@ -1,6 +1,6 @@
 import { Component, Element, Event, EventEmitter, h, Listen, Prop, VNode } from "@stencil/core";
-import { AccordionAppearance, AccordionSelectionMode, RequestedItem } from "./interfaces";
-import { Position, Scale } from "../interfaces";
+import { AccordionSelectionMode, RequestedItem } from "./interfaces";
+import { Appearance, Position, Scale } from "../interfaces";
 
 /**
  * @slot - A slot for adding `calcite-accordion-item`s. `calcite-accordion` cannot be nested, however `calcite-accordion-item`s can.
@@ -26,7 +26,10 @@ export class Accordion {
   //--------------------------------------------------------------------------
 
   /** Specifies the appearance of the component. */
-  @Prop({ reflect: true }) appearance: AccordionAppearance = "solid";
+  @Prop({ reflect: true }) appearance: Extract<
+    "default" | "minimal" | "solid" | "transparent",
+    Appearance
+  > = "solid";
 
   /** Specifies the placement of the icon in the header. */
   @Prop({ reflect: true }) iconPosition: Position = "end";

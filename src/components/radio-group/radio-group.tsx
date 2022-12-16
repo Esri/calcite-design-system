@@ -14,7 +14,7 @@ import {
 } from "@stencil/core";
 
 import { getElementDir } from "../../utils/dom";
-import { Layout, Scale, Width } from "../interfaces";
+import { Appearance, Layout, Scale, Width } from "../interfaces";
 import { connectLabel, disconnectLabel, LabelableComponent } from "../../utils/label";
 import {
   afterConnectDefaultValueSet,
@@ -23,7 +23,6 @@ import {
   FormComponent,
   HiddenFormInputSlot
 } from "../../utils/form";
-import { RadioAppearance } from "./interfaces";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import {
   setUpLoadableComponent,
@@ -58,7 +57,7 @@ export class RadioGroup
   //--------------------------------------------------------------------------
 
   /** Specifies the appearance style of the component. */
-  @Prop({ reflect: true }) appearance: RadioAppearance = "solid";
+  @Prop({ reflect: true }) appearance: Extract<"minimal" | "solid", Appearance> = "solid";
 
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @Prop({ reflect: true }) disabled = false;

@@ -76,13 +76,13 @@ You can combine groups in a single dropdown, with varying selection modes:
 
 ## Events
 
-| Event                        | Description                                                                                              | Type                     |
-| ---------------------------- | -------------------------------------------------------------------------------------------------------- | ------------------------ |
-| `calciteDropdownBeforeClose` | Fires when the component is requested to be closed and before the closing transition begins.             | `CustomEvent<void>`      |
-| `calciteDropdownBeforeOpen`  | Fires when the component is added to the DOM but not rendered, and before the opening transition begins. | `CustomEvent<void>`      |
-| `calciteDropdownClose`       | Fires when the component is closed and animation is complete.                                            | `CustomEvent<void>`      |
-| `calciteDropdownOpen`        | Fires when the component is open and animation is complete.                                              | `CustomEvent<void>`      |
-| `calciteDropdownSelect`      | Fires when a `calcite-dropdown-item`'s selection changes.                                                | `CustomEvent<Selection>` |
+| Event                        | Description                                                                                              | Type                |
+| ---------------------------- | -------------------------------------------------------------------------------------------------------- | ------------------- |
+| `calciteDropdownBeforeClose` | Fires when the component is requested to be closed and before the closing transition begins.             | `CustomEvent<void>` |
+| `calciteDropdownBeforeOpen`  | Fires when the component is added to the DOM but not rendered, and before the opening transition begins. | `CustomEvent<void>` |
+| `calciteDropdownClose`       | Fires when the component is closed and animation is complete.                                            | `CustomEvent<void>` |
+| `calciteDropdownOpen`        | Fires when the component is open and animation is complete.                                              | `CustomEvent<void>` |
+| `calciteDropdownSelect`      | Fires when a `calcite-dropdown-item`'s selection changes.                                                | `CustomEvent<void>` |
 
 ## Methods
 
