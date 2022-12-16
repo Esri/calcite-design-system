@@ -111,20 +111,6 @@ export class InputTimePicker
    */
   @Prop() messagesOverrides: Partial<Messages>;
 
-  /**
-   * BCP 47 language tag for desired language and country format.
-   *
-   * @internal
-   * @deprecated set the global `lang` attribute on the element instead.
-   * @mdn [lang](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/lang)
-   */
-  @Prop({ mutable: true }) locale: string;
-
-  @Watch("locale")
-  localeChanged(): void {
-    updateEffectiveLocale(this);
-  }
-
   /** Specifies the name of the component on form submission. */
   @Prop() name: string;
 
