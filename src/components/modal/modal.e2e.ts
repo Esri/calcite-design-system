@@ -450,7 +450,19 @@ describe("calcite-modal accessibility checks", () => {
     expect(documentClass).toEqual(true);
   });
 
-  it("correctly removes overflow class on document when open", async () => {
+  it("correctly does not add overflow class on document when open and slotted in shell modals slot", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<calcite-shell><calcite-modal slot="modals"></calcite-modal></calcite-shell>`);
+    const modal = await page.find("calcite-modal");
+    await modal.setProperty("open", true);
+    await page.waitForChanges();
+    const documentClass = await page.evaluate(() => {
+      return document.documentElement.classList.contains("overflow-hidden");
+    });
+    expect(documentClass).toEqual(false);
+  });
+
+  it("correctly removes overflow class on document once closed", async () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-modal></calcite-modal>`);
     const modal = await page.find("calcite-modal");
