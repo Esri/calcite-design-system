@@ -1003,6 +1003,11 @@ export class Combobox
 
   private scrollToActiveItem = (): void => {
     const activeItem = this.filteredItems[this.activeItemIndex];
+
+    if (!activeItem) {
+      return;
+    }
+
     const height = this.calculateSingleItemHeight(activeItem);
     const { offsetHeight, scrollTop } = this.listContainerEl;
     if (offsetHeight + scrollTop < activeItem.offsetTop + height) {
