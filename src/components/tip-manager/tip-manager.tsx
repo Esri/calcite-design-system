@@ -103,8 +103,9 @@ export class TipManager {
   @State() effectiveLocale = "";
 
   @Watch("effectiveLocale")
-  effectiveLocaleChange(): void {
-    updateMessages(this, this.effectiveLocale);
+  async effectiveLocaleChange(): Promise<void> {
+    await updateMessages(this, this.effectiveLocale);
+    this.updateGroupTitle();
   }
 
   // --------------------------------------------------------------------------
@@ -122,6 +123,7 @@ export class TipManager {
 
   async componentWillLoad(): Promise<void> {
     await setUpMessages(this);
+    this.updateGroupTitle();
   }
 
   disconnectedCallback(): void {
@@ -184,7 +186,6 @@ export class TipManager {
       tip.closeDisabled = true;
     });
     this.showSelectedTip();
-    this.updateGroupTitle();
   }
 
   hideTipManager = (): void => {
@@ -201,9 +202,11 @@ export class TipManager {
   }
 
   updateGroupTitle(): void {
-    const selectedTip = this.tips[this.selectedIndex];
-    const tipParent = selectedTip.closest("calcite-tip-group");
-    this.groupTitle = tipParent?.groupTitle || this.messages.defaultGroupTitle;
+    if (this.tips) {
+      const selectedTip = this.tips[this.selectedIndex];
+      const tipParent = selectedTip.closest("calcite-tip-group");
+      this.groupTitle = tipParent?.groupTitle || this.messages?.defaultGroupTitle;
+    }
   }
 
   previousClicked = (): void => {

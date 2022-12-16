@@ -173,7 +173,6 @@ export class Tip implements ConditionalSlotComponent, LocalizedComponent, T9nCom
 
   renderDismissButton(): VNode {
     const { closeDisabled, hideTip } = this;
-    console.log("messages", this.messages);
     return !closeDisabled ? (
       <calcite-action
         class={CSS.close}

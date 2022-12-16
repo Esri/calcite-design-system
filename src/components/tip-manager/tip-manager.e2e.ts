@@ -1,4 +1,3 @@
-/* eslint-disable jest/no-focused-tests */
 import { newE2EPage } from "@stencil/core/testing";
 import { CSS, TEXT } from "./resources";
 import { accessible, defaults, renders, hidden, t9n } from "../../tests/commonTests";
@@ -221,7 +220,7 @@ describe("calcite-tip-manager", () => {
     });
   });
 
-  it.only("should set headingLevel of tip", async () => {
+  it("should set headingLevel of tip", async () => {
     const page = await newE2EPage();
 
     await page.setContent(
