@@ -579,10 +579,6 @@ export class InputDatePicker
 
   defaultValue: InputDatePicker["value"];
 
-  @State() startAsDate: Date;
-
-  @State() endAsDate: Date;
-
   @State() datePickerActiveDate: Date;
 
   @State() effectiveLocale = "";
