@@ -238,7 +238,7 @@
   }
 }
 
-:host([color="blue"]) {
+:host([kind="brand"]) {
   button,
   a {
     @apply text-color-inverse bg-brand;
@@ -254,7 +254,7 @@
     }
   }
 }
-:host([color="red"]) {
+:host([kind="danger"]) {
   button,
   a {
     @apply text-color-inverse bg-danger;
@@ -270,7 +270,7 @@
     }
   }
 }
-:host([color="neutral"]) {
+:host([kind="neutral"]) {
   button,
   a {
     @apply text-color-1 bg-foreground-3;
@@ -286,7 +286,7 @@
     }
   }
 }
-:host([color="inverse"]) {
+:host([kind="inverse"]) {
   button,
   a {
     @apply text-color-inverse;
@@ -304,14 +304,14 @@
   }
 }
 // outline
-:host([appearance="outline"]) {
+:host([appearance="outline-fill"]) {
   button,
   a {
     @apply bg-foreground-1 border border-solid;
     box-shadow: inset 0 0 0 1px transparent;
   }
 }
-:host([appearance="outline"][color="blue"]) {
+:host([appearance="outline-fill"][kind="brand"]) {
   button,
   a {
     @apply border-color-brand bg-foreground-1;
@@ -336,7 +336,7 @@
     }
   }
 }
-:host([appearance="outline"][color="red"]) {
+:host([appearance="outline-fill"][kind="danger"]) {
   button,
   a {
     @apply border-color-danger bg-foreground-1;
@@ -361,7 +361,7 @@
     }
   }
 }
-:host([appearance="outline"][color="neutral"]) {
+:host([appearance="outline-fill"][kind="neutral"]) {
   button,
   a {
     @apply text-color-1 bg-foreground-1;
@@ -380,7 +380,7 @@
     }
   }
 }
-:host([appearance="outline"][color="inverse"]) {
+:host([appearance="outline-fill"][kind="inverse"]) {
   button,
   a {
     @apply text-color-1 bg-foreground-1;
@@ -402,17 +402,14 @@
     }
   }
 }
-// clear is deprecated. use minimal instead
-:host([appearance="clear"]),
-:host([appearance="minimal"]) {
+:host([appearance="outline"]) {
   button,
   a {
     @apply border border-solid bg-transparent;
     box-shadow: inset 0 0 0 1px transparent;
   }
 }
-:host([appearance="clear"][color="blue"]),
-:host([appearance="minimal"][color="blue"]) {
+:host([appearance="outline"][kind="brand"]) {
   button,
   a {
     @apply border-color-brand bg-transparent;
@@ -437,8 +434,7 @@
     }
   }
 }
-:host([appearance="clear"][color="red"]),
-:host([appearance="minimal"][color="red"]) {
+:host([appearance="outline"][kind="danger"]) {
   button,
   a {
     @apply border-color-danger bg-transparent;
@@ -463,8 +459,7 @@
     }
   }
 }
-:host([appearance="clear"][color="neutral"]),
-:host([appearance="minimal"][color="neutral"]) {
+:host([appearance="outline"][kind="neutral"]) {
   button,
   a {
     @apply text-color-1  bg-transparent;
@@ -483,8 +478,7 @@
     }
   }
 }
-:host([appearance="clear"][color="inverse"]),
-:host([appearance="minimal"][color="inverse"]) {
+:host([appearance="outline"][kind="inverse"]) {
   button,
   a {
     @apply text-color-1  bg-transparent;
@@ -507,16 +501,14 @@
   }
 }
 
-:host([appearance="outline"][split-child="primary"]) button,
-:host([appearance="clear"][split-child="primary"]) button,
-:host([appearance="minimal"][split-child="primary"]) button {
+:host([appearance="outline-fill"][split-child="primary"]) button,
+:host([appearance="outline"][split-child="primary"]) button {
   border-inline-end-width: 0;
   border-inline-start-width: theme("borderWidth.DEFAULT");
 }
 
-:host([appearance="outline"][split-child="secondary"]) button,
-:host([appearance="clear"][split-child="secondary"]) button,
-:host([appearance="minimal"][split-child="secondary"]) button {
+:host([appearance="outline-fill"][split-child="secondary"]) button,
+:host([appearance="outline"][split-child="secondary"]) button {
   border-inline-start-width: 0;
   border-inline-end-width: theme("borderWidth.DEFAULT");
 }
@@ -535,7 +527,7 @@
     }
   }
 }
-:host([appearance="transparent"][color="blue"]) {
+:host([appearance="transparent"][kind="brand"]) {
   button,
   a {
     color: theme("colors.brand");
@@ -554,7 +546,7 @@
   }
 }
 
-:host([appearance="transparent"][color="red"]) {
+:host([appearance="transparent"][kind="danger"]) {
   button,
   a {
     color: theme("colors.danger");
@@ -573,7 +565,7 @@
   }
 }
 
-:host([appearance="transparent"][color="neutral"]:not(.cancel-editing-button)) {
+:host([appearance="transparent"][kind="neutral"]:not(.cancel-editing-button)) {
   button,
   a,
   calcite-loader {
@@ -581,7 +573,7 @@
   }
 }
 
-:host([appearance="transparent"][color="neutral"].cancel-editing-button) {
+:host([appearance="transparent"][kind="neutral"].cancel-editing-button) {
   button {
     @apply text-color-3
       border-t-color-input
@@ -600,7 +592,7 @@
   }
 }
 
-:host([appearance="transparent"][color="neutral"].enable-editing-button) {
+:host([appearance="transparent"][kind="neutral"].enable-editing-button) {
   button {
     @apply bg-transparent;
   }
@@ -616,7 +608,7 @@
   }
 }
 
-:host([appearance="transparent"][color="inverse"]) {
+:host([appearance="transparent"][kind="inverse"]) {
   button,
   a,
   calcite-loader {

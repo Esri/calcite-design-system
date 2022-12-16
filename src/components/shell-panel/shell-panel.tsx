@@ -1,5 +1,5 @@
-import { Component, Element, Prop, h, VNode, State, forceUpdate } from "@stencil/core";
-import { CSS, SLOTS, TEXT } from "./resources";
+import { Component, Element, Prop, h, VNode, State, forceUpdate, Watch } from "@stencil/core";
+import { CSS, SLOTS } from "./resources";
 import { Position, Scale } from "../interfaces";
 import { getSlotted, getElementDir, isPrimaryPointerButton } from "../../utils/dom";
 import { clamp } from "../../utils/math";
@@ -8,6 +8,15 @@ import {
   connectConditionalSlotComponent,
   disconnectConditionalSlotComponent
 } from "../../utils/conditionalSlot";
+import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
+import {
+  connectMessages,
+  disconnectMessages,
+  setUpMessages,
+  T9nComponent,
+  updateMessages
+} from "../../utils/t9n";
+import { Messages } from "./assets/shell-panel/t9n";
 
 /**
  * @slot - A slot for adding content to the component.
@@ -16,9 +25,10 @@ import {
 @Component({
   tag: "calcite-shell-panel",
   styleUrl: "shell-panel.scss",
-  shadow: true
+  shadow: true,
+  assetsDirs: ["assets"]
 })
-export class ShellPanel implements ConditionalSlotComponent {
+export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent, T9nComponent {
   // --------------------------------------------------------------------------
   //
   //  Properties
@@ -55,14 +65,32 @@ export class ShellPanel implements ConditionalSlotComponent {
    * Accessible name for the resize separator.
    *
    * @default "Resize"
+   * @deprecated
    */
-  @Prop() intlResize = TEXT.resize;
+  @Prop() intlResize: string;
 
   /**
    * When `true` and not `detached`, the component's content area is resizable.
    */
   @Prop({ reflect: true }) resizable = false;
 
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @internal
+   */
+  @Prop({ mutable: true }) messages: Messages;
+
+  /**
+   * Use this property to override individual strings used by the component.
+   */
+  @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
+
+  @Watch("intlResize")
+  @Watch("messageOverrides")
+  onMessagesChange(): void {
+    /* wired up by t9n util */
+  }
   //--------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -71,11 +99,19 @@ export class ShellPanel implements ConditionalSlotComponent {
 
   connectedCallback(): void {
     connectConditionalSlotComponent(this);
+    connectLocalized(this);
+    connectMessages(this);
+  }
+
+  async componentWillLoad(): Promise<void> {
+    await setUpMessages(this);
   }
 
   disconnectedCallback(): void {
     disconnectConditionalSlotComponent(this);
     this.disconnectSeparator();
+    disconnectLocalized(this);
+    disconnectMessages(this);
   }
 
   componentDidLoad(): void {
@@ -108,6 +144,15 @@ export class ShellPanel implements ConditionalSlotComponent {
 
   stepMultiplier = 10;
 
+  @State() defaultMessages: Messages;
+
+  @State() effectiveLocale = "";
+
+  @Watch("effectiveLocale")
+  effectiveLocaleChange(): void {
+    updateMessages(this, this.effectiveLocale);
+  }
+
   // --------------------------------------------------------------------------
   //
   //  Render Methods
@@ -134,7 +179,6 @@ export class ShellPanel implements ConditionalSlotComponent {
       contentWidth,
       contentWidthMax,
       contentWidthMin,
-      intlResize,
       resizable
     } = this;
 
@@ -157,7 +201,7 @@ export class ShellPanel implements ConditionalSlotComponent {
 
     const separatorNode = allowResizing ? (
       <div
-        aria-label={intlResize}
+        aria-label={this.messages.resize}
         aria-orientation="horizontal"
         aria-valuemax={contentWidthMax}
         aria-valuemin={contentWidthMin}

@@ -13,7 +13,7 @@ import {
 } from "@stencil/core";
 import { Layout, Position, Scale } from "../interfaces";
 import { ExpandToggle, toggleChildActionText } from "../functional/ExpandToggle";
-import { focusElement, getSlotted } from "../../utils/dom";
+import { getSlotted } from "../../utils/dom";
 import { CSS, SLOTS } from "./resources";
 import {
   ConditionalSlotComponent,
@@ -43,7 +43,9 @@ import {
 @Component({
   tag: "calcite-action-pad",
   styleUrl: "action-pad.scss",
-  shadow: true,
+  shadow: {
+    delegatesFocus: true
+  },
   assetsDirs: ["assets"]
 })
 export class ActionPad
@@ -76,20 +78,6 @@ export class ActionPad
   @Prop({ reflect: true }) layout: Layout = "vertical";
 
   /**
-   * Specifies the label of the expand icon when the component is collapsed.
-   *
-   * @deprecated - translations are now built-in, if you need to override a string, please use `messageOverrides`
-   */
-  @Prop() intlExpand: string;
-
-  /**
-   * Specifies the label of the collapse icon when the component is expanded.
-   *
-   * @deprecated - translations are now built-in, if you need to override a string, please use `messageOverrides`
-   */
-  @Prop() intlCollapse: string;
-
-  /**
    * Arranges the component depending on the element's `dir` property.
    */
   @Prop({ reflect: true }) position: Position;
@@ -111,8 +99,6 @@ export class ActionPad
    */
   @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
 
-  @Watch("intlCollapse")
-  @Watch("intlExpand")
   @Watch("messageOverrides")
   onMessagesChange(): void {
     /* wired up by t9n util */
@@ -185,17 +171,10 @@ export class ActionPad
 
   /**
    * Sets focus on the component.
-   *
-   * @param focusId
    */
   @Method()
-  async setFocus(focusId?: "expand-toggle"): Promise<void> {
+  async setFocus(): Promise<void> {
     await componentLoaded(this);
-
-    if (focusId === "expand-toggle") {
-      await focusElement(this.expandToggleEl);
-      return;
-    }
 
     this.el?.focus();
   }

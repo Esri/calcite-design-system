@@ -136,21 +136,6 @@ export class Input
    */
   @Prop({ reflect: true }) icon: string | boolean;
 
-  /**
-   * Accessible name for the component's clear button.
-   *
-   * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`.
-   */
-  @Prop() intlClear: string;
-
-  /**
-   * Accessible name when the component is loading.
-   *
-   * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`.
-   * @default "Loading"
-   */
-  @Prop() intlLoading?: string;
-
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @Prop({ reflect: true }) iconFlipRtl = false;
 
@@ -352,8 +337,6 @@ export class Input
    */
   @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
 
-  @Watch("intlClear")
-  @Watch("intlLoading")
   @Watch("messageOverrides")
   onMessagesChange(): void {
     /* wired up by t9n util */

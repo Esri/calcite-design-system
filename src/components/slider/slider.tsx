@@ -53,7 +53,9 @@ function isRange(value: number | number[]): value is number[] {
 @Component({
   tag: "calcite-slider",
   styleUrl: "slider.scss",
-  shadow: true
+  shadow: {
+    delegatesFocus: true
+  }
 })
 export class Slider
   implements

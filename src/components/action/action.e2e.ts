@@ -1,6 +1,6 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { accessible, disabled, hidden, renders, slots, t9n, defaults } from "../../tests/commonTests";
-import { CSS, SLOTS, TEXT } from "./resources";
+import { CSS, SLOTS } from "./resources";
 
 describe("calcite-action", () => {
   it("has property defaults", async () =>
@@ -136,7 +136,7 @@ describe("calcite-action", () => {
     await page.setContent(`<calcite-action indicator text="hello world"></calcite-action>`);
 
     const button = await page.find(`calcite-action >>> .${CSS.button}`);
-    expect(button.getAttribute("aria-label")).toBe(`hello world (${TEXT.indicator})`);
+    expect(button.getAttribute("aria-label")).toBe(`hello world (Indicator present)`);
   });
 
   it("should have label", async () => {
@@ -192,6 +192,6 @@ describe("calcite-action", () => {
 
     expect(liveRegion.getAttribute("aria-live")).toBe("polite");
     expect(liveRegion.getAttribute("role")).toBe("region");
-    expect(liveRegion.textContent).toBe(TEXT.indicator);
+    expect(liveRegion.textContent).toBe("Indicator present");
   });
 });

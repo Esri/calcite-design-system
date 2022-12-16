@@ -80,8 +80,10 @@ export class DatePickerMonthHeader {
   //--------------------------------------------------------------------------
   /**
    *  Changes to active date
+   *
+   * @internal
    */
-  @Event({ cancelable: false }) calciteDatePickerSelect: EventEmitter<Date>;
+  @Event({ cancelable: false }) calciteInternalDatePickerSelect: EventEmitter<Date>;
 
   //--------------------------------------------------------------------------
   //
@@ -291,7 +293,7 @@ export class DatePickerMonthHeader {
    */
   private handleArrowClick = (event: MouseEvent | KeyboardEvent, date: Date): void => {
     event.preventDefault();
-    this.calciteDatePickerSelect.emit(date);
+    this.calciteInternalDatePickerSelect.emit(date);
   };
 
   private getInRangeDate({
@@ -338,7 +340,7 @@ export class DatePickerMonthHeader {
 
     // if you've supplied a year and it's in range, update active date
     if (inRangeDate) {
-      this.calciteDatePickerSelect.emit(inRangeDate);
+      this.calciteInternalDatePickerSelect.emit(inRangeDate);
     }
 
     if (commit) {

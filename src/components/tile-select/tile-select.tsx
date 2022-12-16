@@ -69,6 +69,9 @@ export class TileSelect implements InteractiveComponent, LoadableComponent {
   /** Specifies an icon to display. */
   @Prop({ reflect: true }) icon: string;
 
+  /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
+  @Prop({ reflect: true }) iconFlipRtl = false;
+
   /** Specifies the name of the component on form submission. */
   @Prop({ reflect: true }) name;
 
@@ -291,7 +294,8 @@ export class TileSelect implements InteractiveComponent, LoadableComponent {
       icon,
       inputAlignment,
       inputEnabled,
-      width
+      width,
+      iconFlipRtl
     } = this;
     return (
       <div
@@ -320,6 +324,7 @@ export class TileSelect implements InteractiveComponent, LoadableComponent {
           embed
           heading={heading}
           icon={icon}
+          iconFlipRtl={iconFlipRtl}
         />
         <slot />
       </div>

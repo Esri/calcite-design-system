@@ -14,7 +14,7 @@ import {
 import { Position, Scale, Layout } from "../interfaces";
 import { ExpandToggle, toggleChildActionText } from "../functional/ExpandToggle";
 import { CSS, SLOTS } from "./resources";
-import { getSlotted, focusElement } from "../../utils/dom";
+import { getSlotted } from "../../utils/dom";
 import {
   geActionDimensions,
   getOverflowCount,
@@ -53,7 +53,9 @@ import {
 @Component({
   tag: "calcite-action-bar",
   styleUrl: "action-bar.scss",
-  shadow: true,
+  shadow: {
+    delegatesFocus: true
+  },
   assetsDirs: ["assets"]
 })
 export class ActionBar
@@ -85,20 +87,6 @@ export class ActionBar
     toggleChildActionText({ parent: this.el, expanded });
     this.conditionallyOverflowActions();
   }
-
-  /**
-   * Specifies the label of the expand icon when the component is collapsed.
-   *
-   * @deprecated - translations are now built-in, if you need to override a string, please use `messageOverrides`
-   */
-  @Prop() intlExpand: string;
-
-  /**
-   * Specifies the label of the collapse icon when the component is expanded.
-   *
-   * @deprecated - translations are now built-in, if you need to override a string, please use `messageOverrides`
-   */
-  @Prop() intlCollapse: string;
 
   /**
    *  The layout direction of the actions.
@@ -139,8 +127,6 @@ export class ActionBar
    */
   @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
 
-  @Watch("intlCollapse")
-  @Watch("intlExpand")
   @Watch("messageOverrides")
   onMessagesChange(): void {
     /* wired up by t9n util */
@@ -243,17 +229,10 @@ export class ActionBar
 
   /**
    * Sets focus on the component.
-   *
-   * @param focusId
    */
   @Method()
-  async setFocus(focusId?: "expand-toggle"): Promise<void> {
+  async setFocus(): Promise<void> {
     await componentLoaded(this);
-
-    if (focusId === "expand-toggle") {
-      await focusElement(this.expandToggleEl);
-      return;
-    }
 
     this.el?.focus();
   }
@@ -348,7 +327,6 @@ export class ActionBar
       <ExpandToggle
         el={el}
         expanded={expanded}
-        // rename intl properties for 1.0
         intlCollapse={messages.collapse}
         intlExpand={messages.expand}
         position={position}
