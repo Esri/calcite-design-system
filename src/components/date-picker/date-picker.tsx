@@ -369,6 +369,7 @@ export class DatePicker implements LocalizedComponent, T9nComponent {
       this.hoverRange = undefined;
       return;
     }
+    // console.log("monthHoverChange", this.valueAsDate, this.startAsDate);
     const date = new Date(event.detail);
     this.hoverRange = {
       focused: this.activeRange || "start",
@@ -478,20 +479,6 @@ export class DatePicker implements LocalizedComponent, T9nComponent {
   }
 
   /**
-   * Update date instance of start if valid
-   *
-   * @param startDate
-   * @param emit
-   */
-  private setStartAsDate(startDate: Date, emit?: boolean): void {
-    this.startAsDate = startDate;
-    this.mostRecentRangeValue = this.startAsDate;
-    if (emit) {
-      this.calciteDatePickerRangeChange.emit();
-    }
-  }
-
-  /**
    * Update date instance of end if valid
    *
    * @param endDate
@@ -533,7 +520,9 @@ export class DatePicker implements LocalizedComponent, T9nComponent {
   }
 
   private setStartDate(date: Date): void {
-    this.setStartAsDate(date, true);
+    this.startAsDate = date;
+    this.mostRecentRangeValue = this.startAsDate;
+    this.calciteDatePickerRangeChange.emit();
     this.activeStartDate = date || null;
   }
 
