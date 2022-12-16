@@ -141,6 +141,8 @@ export class ChipGroup implements InteractiveComponent {
       updatedItems = this.items.filter((el) => el !== item);
       if (this.itemIndex(item) > 0) {
         this.focusPrevItem(item);
+      } else if (this.itemIndex(item) === 0) {
+        this.focusNextItem(item);
       } else {
         this.focusFirstItem();
       }
