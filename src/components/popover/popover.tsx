@@ -32,8 +32,7 @@ import {
   FocusTrap,
   connectFocusTrap,
   activateFocusTrap,
-  deactivateFocusTrap,
-  focusFirstTabbable
+  deactivateFocusTrap
 } from "../../utils/focusTrapComponent";
 
 import { guid } from "../../utils/guid";
@@ -72,7 +71,9 @@ const manager = new PopoverManager();
 @Component({
   tag: "calcite-popover",
   styleUrl: "popover.scss",
-  shadow: true,
+  shadow: {
+    delegatesFocus: true
+  },
   assetsDirs: ["assets"]
 })
 export class Popover
@@ -384,23 +385,15 @@ export class Popover
 
   /**
    * Sets focus on the component.
-   *
-   * @param focusId
    */
   @Method()
-  async setFocus(focusId?: "close-button"): Promise<void> {
+  async setFocus(): Promise<void> {
     await componentLoaded(this);
-
     const { closeButtonEl } = this;
-
-    if (focusId === "close-button" && closeButtonEl) {
+    if (closeButtonEl) {
       forceUpdate(closeButtonEl);
-      closeButtonEl.setFocus();
-
-      return;
     }
-
-    focusFirstTabbable(this);
+    this.el.focus();
   }
 
   /**

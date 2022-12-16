@@ -80,12 +80,12 @@ describe("calcite-panel", () => {
     </calcite-panel>
     `));
 
-  it("should focus on close button )", async () =>
+  it("closable - focuses first focusable element", async () =>
     focusable(`<calcite-panel closable>test</calcite-panel>`, {
-      shadowFocusTargetSelector: "calcite-action"
+      shadowFocusTargetSelector: "article"
     }));
 
-  it("should focus on container", async () =>
+  it("focuses first focusable element", async () =>
     focusable(`<calcite-panel>test</calcite-panel>`, {
       shadowFocusTargetSelector: "article"
     }));

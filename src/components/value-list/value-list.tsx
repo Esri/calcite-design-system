@@ -14,7 +14,6 @@ import {
 } from "@stencil/core";
 import { CSS, ICON_TYPES } from "./resources";
 import {
-  ListFocusId,
   calciteListFocusOutHandler,
   calciteListItemChangeHandler,
   calciteInternalListItemValueChangeHandler,
@@ -32,7 +31,6 @@ import {
   mutationObserverCallback,
   removeItem,
   selectSiblings,
-  setFocus,
   setUpItems,
   moveItemIndex
 } from "../pick-list/shared-list-logic";
@@ -63,7 +61,9 @@ import {
 @Component({
   tag: "calcite-value-list",
   styleUrl: "value-list.scss",
-  shadow: true,
+  shadow: {
+    delegatesFocus: true
+  },
   assetsDirs: ["assets"]
 })
 export class ValueList<
@@ -413,14 +413,13 @@ export class ValueList<
 
   /**
    * Sets focus on the component.
-   *
-   * @param focusId
    */
   @Method()
-  async setFocus(focusId?: ListFocusId): Promise<void> {
+  async setFocus(): Promise<void> {
     await componentLoaded(this);
 
-    return setFocus.call(this, focusId);
+    this.el.focus();
+    // return setFocus.call(this);
   }
 
   // --------------------------------------------------------------------------

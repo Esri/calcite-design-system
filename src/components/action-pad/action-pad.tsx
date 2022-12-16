@@ -175,7 +175,6 @@ export class ActionPad
   @Method()
   async setFocus(): Promise<void> {
     await componentLoaded(this);
-
     this.el?.focus();
   }
 
