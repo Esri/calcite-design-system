@@ -67,7 +67,7 @@ const treeItemsWithIcons = html`
 `;
 
 const slottedDropdown = html`
-  <calcite-dropdown slot="actions-end" open>
+  <calcite-dropdown slot="actions-end" id="slottedDropdown">
     <calcite-action slot="trigger" icon="ellipsis"></calcite-action>
     <calcite-dropdown-group group-title="Settings" selection-mode="multi">
       <calcite-dropdown-item>Group elements</calcite-dropdown-item>
@@ -75,10 +75,20 @@ const slottedDropdown = html`
     <calcite-dropdown-group group-title="Display mode" selection-mode="single">
       <calcite-dropdown-item selected>Row</calcite-dropdown-item>
       <calcite-dropdown-item>Column</calcite-dropdown-item>
-      <calcite-dropdown-item>Tabs</calcite-dropdown-item>
     </calcite-dropdown-group>
   </calcite-dropdown>
 `;
+
+const slottedDropdownOpen = html`<calcite-dropdown slot="actions-end" id="slottedDropdown" open>
+  <calcite-action slot="trigger" icon="ellipsis"></calcite-action>
+  <calcite-dropdown-group group-title="Settings" selection-mode="multi">
+    <calcite-dropdown-item>Group elements</calcite-dropdown-item>
+  </calcite-dropdown-group>
+  <calcite-dropdown-group group-title="Display mode" selection-mode="single">
+    <calcite-dropdown-item selected>Row</calcite-dropdown-item>
+    <calcite-dropdown-item>Column</calcite-dropdown-item>
+  </calcite-dropdown-group>
+</calcite-dropdown>`;
 
 const treeItemsWithSlottedDropdownsAndIconStart = html` <calcite-tree-item
     icon-start="${select("icon-start", iconNames, "palette")}"
@@ -103,7 +113,7 @@ const treeItemsWithSlottedDropdownsAndIconStart = html` <calcite-tree-item
           </calcite-tree-item>
           <calcite-tree-item expanded>
             <a>Great-Grandchild 2</a>
-            ${slottedDropdown} ${slottedDropdown}
+            ${slottedDropdown} ${slottedDropdownOpen}
           </calcite-tree-item>
         </calcite-tree>
       </calcite-tree-item>
