@@ -145,6 +145,14 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
     /* wired up by t9n util */
   }
 
+  /**
+   * This internal property, managed by a containing calcite-shell, is used
+   * to inform the component if special configuration or styles are needed
+   *
+   * @internal
+   */
+  @Prop({ mutable: true }) slottedInShell: boolean;
+
   @Watch("icon")
   @Watch("kind")
   updateRequestedIcon(): void {
@@ -195,6 +203,7 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
     disconnectOpenCloseComponent(this);
     disconnectLocalized(this);
     disconnectMessages(this);
+    this.slottedInShell = false;
   }
 
   render(): VNode {
@@ -251,7 +260,8 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
           class={{
             container: true,
             queued,
-            [placement]: true
+            [placement]: true,
+            [CSS.slottedInShell]: this.slottedInShell
           }}
           onPointerOut={this.autoClose && this.autoCloseTimeoutId ? this.handleMouseLeave : null}
           onPointerOver={this.autoClose && this.autoCloseTimeoutId ? this.handleMouseOver : null}

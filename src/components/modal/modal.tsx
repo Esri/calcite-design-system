@@ -145,6 +145,14 @@ export class Modal
     /* wired up by t9n util */
   }
 
+  /**
+   * This internal property, managed by a containing calcite-shell, is used
+   * to inform the component if special configuration or styles are needed
+   *
+   * @internal
+   */
+  @Prop({ mutable: true }) slottedInShell: boolean;
+
   //--------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -180,6 +188,7 @@ export class Modal
     deactivateFocusTrap(this);
     disconnectLocalized(this);
     disconnectMessages(this);
+    this.slottedInShell = false;
   }
 
   render(): VNode {
@@ -190,31 +199,33 @@ export class Modal
         aria-modal="true"
         role="dialog"
       >
-        <calcite-scrim class={CSS.scrim} onClick={this.handleOutsideClose} />
-        {this.renderStyle()}
-        <div
-          class={{
-            [CSS.modal]: true,
-            [CSS.modalOpen]: this.isOpen
-          }}
-          ref={this.setTransitionEl}
-        >
-          <div class={CSS.header}>
-            {this.renderCloseButton()}
-            <header class={CSS.title}>
-              <slot name={CSS.header} />
-            </header>
-          </div>
+        <div class={{ [CSS.container]: true, [CSS.slottedInShell]: this.slottedInShell }}>
+          <calcite-scrim class={CSS.scrim} onClick={this.handleOutsideClose} />
+          {this.renderStyle()}
           <div
             class={{
-              content: true,
-              "content--no-footer": !this.hasFooter
+              [CSS.modal]: true,
+              [CSS.modalOpen]: this.isOpen
             }}
-            ref={(el) => (this.modalContent = el)}
+            ref={this.setTransitionEl}
           >
-            <slot name={SLOTS.content} />
+            <div class={CSS.header}>
+              {this.renderCloseButton()}
+              <header class={CSS.title}>
+                <slot name={CSS.header} />
+              </header>
+            </div>
+            <div
+              class={{
+                content: true,
+                "content--no-footer": !this.hasFooter
+              }}
+              ref={(el) => (this.modalContent = el)}
+            >
+              <slot name={SLOTS.content} />
+            </div>
+            {this.renderFooter()}
           </div>
-          {this.renderFooter()}
         </div>
       </Host>
     );
@@ -465,7 +476,9 @@ export class Modal
     this.titleId = ensureId(titleEl);
     this.contentId = ensureId(contentEl);
 
-    document.documentElement.classList.add(CSS.overflowHidden);
+    if (!this.slottedInShell) {
+      document.documentElement.classList.add(CSS.overflowHidden);
+    }
   }
 
   handleOutsideClose = (): void => {
