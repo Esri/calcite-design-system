@@ -3,8 +3,9 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-modal-padding:Specifies the padding of the modal.
+ * @prop --calcite-modal-content-padding: Specifies the padding of the modal `content` slot.
  * @prop --calcite-scrim-background: The component's semi-transparent background color.
+ * @prop --calcite-modal-content-background: Specifies the background color of content placed in the `content` slot.
  */
 
 :host {
@@ -30,10 +31,6 @@
 }
 
 :host([scale="s"]) {
-  --calcite-modal-padding: theme("spacing.3");
-  --calcite-modal-padding-large: theme("spacing.4");
-  --calcite-modal-title-text: theme("fontSize.1h");
-  --calcite-modal-content-text: theme("fontSize.n1");
   --calcite-modal-padding-internal: theme("spacing.3");
   --calcite-modal-padding-large-internal: theme("spacing.4");
   --calcite-modal-title-text-internal: theme("fontSize.1h");
@@ -41,10 +38,6 @@
 }
 
 :host([scale="m"]) {
-  --calcite-modal-padding: theme("spacing.4");
-  --calcite-modal-padding-large: theme("spacing.5");
-  --calcite-modal-title-text: theme("fontSize.2h");
-  --calcite-modal-content-text: theme("fontSize.0");
   --calcite-modal-padding-internal: theme("spacing.4");
   --calcite-modal-padding-large-internal: theme("spacing.5");
   --calcite-modal-title-text-internal: theme("fontSize.2h");
@@ -52,10 +45,6 @@
 }
 
 :host([scale="l"]) {
-  --calcite-modal-padding: theme("spacing.5");
-  --calcite-modal-padding-large: theme("spacing.6");
-  --calcite-modal-title-text: theme("fontSize.3h");
-  --calcite-modal-content-text: theme("fontSize.1");
   --calcite-modal-padding-internal: theme("spacing.5");
   --calcite-modal-padding-large-internal: theme("spacing.6");
   --calcite-modal-title-text-internal: theme("fontSize.3h");
@@ -157,8 +146,8 @@
     border-none
     bg-transparent;
   border-start-end-radius: theme("borderRadius.DEFAULT");
-  padding-block: var(--calcite-modal-padding, var(--calcite-modal-padding-internal));
-  padding-inline: var(--calcite-modal-padding, var(--calcite-modal-padding-internal));
+  padding-block: var(--calcite-modal-padding-internal);
+  padding-inline: var(--calcite-modal-padding-internal);
   flex: 0 0 auto;
   calcite-icon {
     @apply pointer-events-none;
@@ -177,22 +166,24 @@
 .title {
   @apply order-1 flex min-w-0 items-center;
   flex: 1 1 auto;
-  padding-block: var(--calcite-modal-padding, var(--calcite-model-padding-internal));
-  padding-inline: var(--calcite-modal-padding-large, var(--calcite-modal-padding-large-internal));
+  padding-block: var(--calcite-modal-padding-internal);
+  padding-inline: var(--calcite-modal-padding-large-internal);
 }
 
 @include slotted("header", "*") {
   @apply text-color-1 m-0 font-normal;
-  font-size: var(--calcite-modal-title-text, var(--calcite-modal-title-text-internal));
+  font-size: var(--calcite-modal-title-text-internal);
 }
 
 /**
  * Content area
  */
 .content {
-  @apply bg-foreground-1 relative box-border block h-full overflow-auto p-0;
+  @apply relative box-border block h-full overflow-auto p-0;
   max-block-size: calc(100vh - 12rem);
-  padding: var(--calcite-modal-padding);
+  background-color: var(--calcite-modal-content-background, theme("colors.background.foreground.1"));
+  padding-block: var(--calcite-modal-content-padding, var(--calcite-modal-padding-internal));
+  padding-inline: var(--calcite-modal-content-padding, var(--calcite-modal-padding-internal));
 }
 
 .content--no-footer {
@@ -200,11 +191,7 @@
 }
 
 @include slotted("content", "*") {
-  font-size: var(--calcite-modal-content-text, var(--calcite-modal-context-text-internal));
-}
-
-:host([background-color="grey"]) .content {
-  @apply bg-background;
+  font-size: var(--calcite-modal-context-text-internal);
 }
 
 /**
@@ -224,8 +211,8 @@
     border-solid
     z-header;
   flex: 0 0 auto;
-  padding-block: var(--calcite-modal-padding, var(--calcite-modal-padding-internal));
-  padding-inline: var(--calcite-modal-padding-large, var(--calcite-modal-padding-large-internal));
+  padding-block: var(--calcite-modal-padding-internal);
+  padding-inline: var(--calcite-modal-padding-large-internal);
 }
 
 .footer--hide-back .back,
