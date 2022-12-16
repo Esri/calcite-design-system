@@ -180,7 +180,6 @@
 .content {
   @apply bg-foreground-1 relative box-border block h-full overflow-auto p-0;
   max-block-size: calc(100vh - 12rem);
-  padding-block: var(--calcite-modal-content-padding, ; padding-inline: var(--calcite-modal-padding-internal));
 }
 
 .content--no-footer {
