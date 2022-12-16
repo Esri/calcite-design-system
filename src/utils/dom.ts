@@ -375,6 +375,5 @@ export const focusElementInGroup = (elements: Element[], elCurrent: Element, des
       focusTarget = elements[elements.length - 1];
       break;
   }
-  console.log(focusTarget);
   focusElement(focusTarget);
 };
