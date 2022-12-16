@@ -8,6 +8,13 @@
  */
 
 :host {
+  @apply absolute flex inset-0 opacity-0 z-overlay;
+  visibility: hidden !important;
+  transition: visibility 0ms linear var(--calcite-internal-animation-timing-slow),
+    opacity var(--calcite-internal-animation-timing-slow) $easing-function;
+}
+
+.container {
   @apply text-color-2
     fixed
     inset-0
@@ -106,6 +113,12 @@
   @apply opacity-100;
   visibility: visible !important;
   transition-delay: 0ms;
+}
+
+:host([open]) .container {
+  @apply opacity-100;
+  visibility: visible !important;
+  transition-delay: 0ms;
   .modal--open {
     @apply pointer-events-auto visible opacity-100;
     transition: transform var(--calcite-internal-animation-timing-slow) $easing-function, visibility 0ms linear,
@@ -190,10 +203,8 @@
   font-size: var(--calcite-modal-content-text, var(--calcite-modal-context-text-internal));
 }
 
-:host([background-color="grey"]) {
-  .content {
-    @apply bg-background;
-  }
+:host([background-color="grey"]) .content {
+  @apply bg-background;
 }
 
 /**
@@ -239,10 +250,8 @@ slot[name="primary"] {
  * Sizes
  */
 @mixin modal-size($size, $width) {
-  :host([width="#{$size}"]) {
-    .modal {
-      max-inline-size: $width;
-    }
+  :host([width="#{$size}"]) .modal {
+    max-inline-size: $width;
   }
   @media screen and (max-width: $width + 2 * $baseline) {
     :host([width="#{$size}"]) {
@@ -254,7 +263,7 @@ slot[name="primary"] {
         max-block-size: unset;
       }
     }
-    :host([width="#{$size}"][docked]) {
+    :host([width="#{$size}"][docked]) .container {
       @apply items-end;
     }
   }
@@ -272,7 +281,6 @@ slot[name="primary"] {
  * Fullscreen
  */
 :host([fullscreen]) {
-  background-color: transparent;
   .modal {
     @apply m-0 h-full max-h-full w-full max-w-full;
     --calcite-modal-hidden-position: translate3D(0, 20px, 0) scale(0.95);
@@ -372,5 +380,17 @@ slot[name="primary"] {
   .back,
   .secondary {
     @apply m-0 mb-1;
+  }
+}
+
+/**
+ * Conditional styles for when Modal is slotted in Shell
+ */
+
+.container.slotted-in-shell {
+  position: absolute;
+  pointer-events: auto;
+  calcite-scrim {
+    position: absolute;
   }
 }

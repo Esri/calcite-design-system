@@ -748,6 +748,10 @@ export class Combobox
   }
 
   private calculateSingleItemHeight(item: ComboboxChildElement): number {
+    if (!item) {
+      return;
+    }
+
     let height = item.offsetHeight;
     // if item has children items, don't count their height twice
     const children = Array.from(item.querySelectorAll<ComboboxChildElement>(ComboboxChildSelector));
@@ -1003,6 +1007,11 @@ export class Combobox
 
   private scrollToActiveItem = (): void => {
     const activeItem = this.filteredItems[this.activeItemIndex];
+
+    if (!activeItem) {
+      return;
+    }
+
     const height = this.calculateSingleItemHeight(activeItem);
     const { offsetHeight, scrollTop } = this.listContainerEl;
     if (offsetHeight + scrollTop < activeItem.offsetTop + height) {
