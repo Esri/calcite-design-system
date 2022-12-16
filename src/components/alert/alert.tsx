@@ -145,6 +145,14 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
     /* wired up by t9n util */
   }
 
+  /**
+   * This internal property, managed by a containing calcite-shell, is used
+   * to inform the component if special configuration or styles are needed
+   *
+   * @internal
+   */
+  @Prop({ mutable: true }) slottedInShell: boolean;
+
   @Watch("icon")
   @Watch("kind")
   updateRequestedIcon(): void {
@@ -177,8 +185,6 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
       this.calciteInternalAlertRegister.emit();
     }
     connectOpenCloseComponent(this);
-    this.isSlottedInShell =
-      this.el.slot === "alerts" && this.el.parentElement.nodeName === "CALCITE-SHELL";
   }
 
   async componentWillLoad(): Promise<void> {
@@ -254,7 +260,7 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
             container: true,
             queued,
             [placement]: true,
-            [CSS.slottedInShell]: this.isSlottedInShell
+            [CSS.slottedInShell]: this.slottedInShell
           }}
           onPointerOut={this.autoClose && this.autoCloseTimeoutId ? this.handleMouseLeave : null}
           onPointerOver={this.autoClose && this.autoCloseTimeoutId ? this.handleMouseOver : null}
@@ -405,8 +411,6 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
   openTransitionProp = "opacity";
 
   transitionEl: HTMLDivElement;
-
-  private isSlottedInShell = false;
 
   //--------------------------------------------------------------------------
   //

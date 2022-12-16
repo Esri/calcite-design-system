@@ -149,6 +149,14 @@ export class Modal
     /* wired up by t9n util */
   }
 
+  /**
+   * This internal property, managed by a containing calcite-shell, is used
+   * to inform the component if special configuration or styles are needed
+   *
+   * @internal
+   */
+  @Prop({ mutable: true }) slottedInShell: boolean;
+
   //--------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -175,8 +183,6 @@ export class Modal
     connectConditionalSlotComponent(this);
     connectLocalized(this);
     connectMessages(this);
-    this.isSlottedInShell =
-      this.el.slot === "modal" && this.el.parentElement.nodeName === "CALCITE-SHELL";
   }
 
   disconnectedCallback(): void {
@@ -196,7 +202,7 @@ export class Modal
         aria-modal="true"
         role="dialog"
       >
-        <div class={{ [CSS.container]: true, [CSS.slottedInShell]: this.isSlottedInShell }}>
+        <div class={{ [CSS.container]: true, [CSS.slottedInShell]: this.slottedInShell }}>
           <calcite-scrim class={CSS.scrim} onClick={this.handleOutsideClose} />
           {this.renderStyle()}
           <div
@@ -334,8 +340,6 @@ export class Modal
   }
 
   @State() defaultMessages: Messages;
-
-  private isSlottedInShell = false;
 
   //--------------------------------------------------------------------------
   //
@@ -475,7 +479,7 @@ export class Modal
     this.titleId = ensureId(titleEl);
     this.contentId = ensureId(contentEl);
 
-    if (!this.isSlottedInShell) {
+    if (!this.slottedInShell) {
       document.documentElement.classList.add(CSS.overflowHidden);
     }
   }

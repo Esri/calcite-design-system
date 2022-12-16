@@ -1,6 +1,6 @@
 import { Component, Element, Prop, h, VNode, Fragment, State } from "@stencil/core";
 import { CSS, SLOTS } from "./resources";
-import { slotChangeHasAssignedElement } from "../../utils/dom";
+import { slotChangeGetAssignedElements, slotChangeHasAssignedElement } from "../../utils/dom";
 import {
   ConditionalSlotComponent,
   connectConditionalSlotComponent,
@@ -81,10 +81,20 @@ export class Shell implements ConditionalSlotComponent {
 
   handleAlertsSlotChange = (event: Event): void => {
     this.hasAlerts = !!slotChangeHasAssignedElement(event);
+    slotChangeGetAssignedElements(event)?.map((el) => {
+      if (el.nodeName === "CALCITE-ALERT") {
+        (el as HTMLCalciteAlertElement).slottedInShell = true;
+      }
+    });
   };
 
   handleModalSlotChange = (event: Event): void => {
     this.hasModal = !!slotChangeHasAssignedElement(event);
+    slotChangeGetAssignedElements(event)?.map((el) => {
+      if (el.nodeName === "CALCITE-MODAL") {
+        (el as HTMLCalciteModalElement).slottedInShell = true;
+      }
+    });
   };
 
   // --------------------------------------------------------------------------
