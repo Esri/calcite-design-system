@@ -28,7 +28,9 @@ import { Messages } from "./assets/action-group/t9n";
 @Component({
   tag: "calcite-action-group",
   styleUrl: "action-group.scss",
-  shadow: true,
+  shadow: {
+    delegatesFocus: true
+  },
   assetsDirs: ["assets"]
 })
 export class ActionGroup implements ConditionalSlotComponent, LocalizedComponent, T9nComponent {

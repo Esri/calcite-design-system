@@ -13,8 +13,8 @@ import {
 } from "@stencil/core";
 
 import Color from "color";
-import { ColorAppearance, ColorMode, ColorValue, InternalColor } from "./interfaces";
-import { Scale } from "../interfaces";
+import { ColorMode, ColorValue, InternalColor } from "./interfaces";
+import { Appearance, Scale } from "../interfaces";
 import {
   CSS,
   DEFAULT_COLOR,
@@ -23,7 +23,7 @@ import {
   HSV_LIMITS,
   RGB_LIMITS
 } from "./resources";
-import { Direction, focusElement, getElementDir, isPrimaryPointerButton } from "../../utils/dom";
+import { Direction, getElementDir, isPrimaryPointerButton } from "../../utils/dom";
 import { colorEqual, CSSColorMode, Format, normalizeHex, parseMode, SupportedMode } from "./utils";
 import { throttle } from "lodash-es";
 
@@ -54,7 +54,9 @@ const defaultFormat = "auto";
 @Component({
   tag: "calcite-color-picker",
   styleUrl: "color-picker.scss",
-  shadow: true,
+  shadow: {
+    delegatesFocus: true
+  },
   assetsDirs: ["assets"]
 })
 export class ColorPicker
@@ -83,10 +85,8 @@ export class ColorPicker
 
   /**
    * Specifies the appearance style of the component -
-   *
-   * `"solid"` (containing border) or `"minimal"` (no containing border).
    */
-  @Prop({ reflect: true }) appearance: ColorAppearance = "solid";
+  @Prop({ reflect: true }) appearance: Extract<"minimal" | "solid", Appearance> = "solid";
 
   /**
    * Internal prop for advanced use-cases.
@@ -641,8 +641,7 @@ export class ColorPicker
   @Method()
   async setFocus(): Promise<void> {
     await componentLoaded(this);
-
-    return focusElement(this.colorFieldScopeNode);
+    this.el.focus();
   }
 
   //--------------------------------------------------------------------------
@@ -786,6 +785,7 @@ export class ColorPicker
                 <calcite-color-picker-hex-input
                   allowEmpty={allowEmpty}
                   class={CSS.control}
+                  hexLabel={messages.hex}
                   numberingSystem={this.numberingSystem}
                   onCalciteColorPickerHexInputChange={this.handleHexInputChange}
                   scale={hexInputScale}
@@ -819,9 +819,9 @@ export class ColorPicker
                 <calcite-button
                   appearance="transparent"
                   class={CSS.deleteColor}
-                  color="neutral"
                   disabled={noColor}
                   iconStart="minus"
+                  kind="neutral"
                   label={messages.deleteColor}
                   onClick={this.deleteColor}
                   scale={hexInputScale}
@@ -830,9 +830,9 @@ export class ColorPicker
                 <calcite-button
                   appearance="transparent"
                   class={CSS.saveColor}
-                  color="neutral"
                   disabled={noColor}
                   iconStart="plus"
+                  kind="neutral"
                   label={messages.saveColor}
                   onClick={this.saveColor}
                   scale={hexInputScale}

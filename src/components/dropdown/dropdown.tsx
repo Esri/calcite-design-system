@@ -47,7 +47,9 @@ import { isActivationKey } from "../../utils/key";
 @Component({
   tag: "calcite-dropdown",
   styleUrl: "dropdown.scss",
-  shadow: true
+  shadow: {
+    delegatesFocus: true
+  }
 })
 export class Dropdown implements InteractiveComponent, OpenCloseComponent, FloatingUIComponent {
   //--------------------------------------------------------------------------
