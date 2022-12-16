@@ -273,7 +273,7 @@ const mutationObserver = createObserver("mutation", (records) => {
     const el = record.target as HTMLElement;
 
     connectedComponents.forEach((component) => {
-      const hasOverridingLocale = !!component.el.lang;
+      const hasOverridingLocale = !component.el.lang;
       const inUnrelatedSubtree = !containsCrossShadowBoundary(el, component.el);
 
       if (hasOverridingLocale || inUnrelatedSubtree) {
