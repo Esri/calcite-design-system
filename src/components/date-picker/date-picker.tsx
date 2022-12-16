@@ -365,23 +365,20 @@ export class DatePicker implements LocalizedComponent, T9nComponent {
   };
 
   monthHoverChange = (event: CustomEvent<Date>): void => {
-    const { valueAsDate } = this;
-    if (Array.isArray(valueAsDate) && !valueAsDate[0]) {
+    if (!this.startAsDate) {
       this.hoverRange = undefined;
       return;
     }
     const date = new Date(event.detail);
-    const start = Array.isArray(valueAsDate) && valueAsDate[0];
-    const end = Array.isArray(valueAsDate) && valueAsDate[1];
     this.hoverRange = {
       focused: this.activeRange || "start",
-      start,
-      end
+      start: this.startAsDate,
+      end: this.endAsDate
     };
     if (!this.proximitySelectionDisabled) {
-      if (end) {
-        const startDiff = getDaysDiff(date, start);
-        const endDiff = getDaysDiff(date, end);
+      if (this.endAsDate) {
+        const startDiff = getDaysDiff(date, this.startAsDate);
+        const endDiff = getDaysDiff(date, this.endAsDate);
         if (endDiff > 0) {
           this.hoverRange.end = date;
           this.hoverRange.focused = "end";
@@ -396,11 +393,11 @@ export class DatePicker implements LocalizedComponent, T9nComponent {
           this.hoverRange.focused = "end";
         }
       } else {
-        if (date < start) {
+        if (date < this.startAsDate) {
           this.hoverRange = {
             focused: "start",
             start: date,
-            end: start
+            end: this.startAsDate
           };
         } else {
           this.hoverRange.end = date;
@@ -408,12 +405,12 @@ export class DatePicker implements LocalizedComponent, T9nComponent {
         }
       }
     } else {
-      if (!end) {
-        if (date < start) {
+      if (!this.endAsDate) {
+        if (date < this.startAsDate) {
           this.hoverRange = {
             focused: "start",
             start: date,
-            end: start
+            end: this.startAsDate
           };
         } else {
           this.hoverRange.end = date;
