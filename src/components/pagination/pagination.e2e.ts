@@ -114,13 +114,6 @@ describe("calcite-pagination", () => {
       const page = await newE2EPage();
       await page.setContent(`<calcite-pagination start="1" total="36" num="10"></calcite-pagination>`);
       const toggleSpy = await page.spyOnEvent("calcitePaginationChange");
-
-      await page.evaluate(() => {
-        document.addEventListener("calcitePaginationChange", (event: CustomEvent): void => {
-          (window as any).eventDetail = event.detail;
-        });
-      });
-
       const pages = await page.findAll("calcite-pagination >>> .page");
       await pages[1].click();
       await page.waitForChanges();
@@ -128,20 +121,6 @@ describe("calcite-pagination", () => {
       let selectedPage = await page.find(`calcite-pagination >>> .${CSS.page}.${CSS.selected}`);
       expect(selectedPage.innerText).toBe("2");
       expect(toggleSpy).toHaveReceivedEventTimes(1);
-
-      const eventDetail: any = await page.evaluateHandle(() => {
-        const detail = (window as any).eventDetail;
-        return {
-          num: detail.num,
-          start: detail.start,
-          total: detail.total
-        };
-      });
-      const properties = await eventDetail.getProperties();
-      expect(eventDetail).toBeDefined();
-      expect(properties.get("num")._remoteObject.value).toBe(10);
-      expect(properties.get("start")._remoteObject.value).toBe(11);
-      expect(properties.get("total")._remoteObject.value).toBe(36);
 
       await pages[2].click();
       await page.waitForChanges();

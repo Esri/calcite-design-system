@@ -113,21 +113,6 @@ export class InputText
    */
   @Prop({ reflect: true }) icon: string | boolean;
 
-  /**
-   * A text label that will appear on the clear button for screen readers.
-   *
-   * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`.
-   */
-  @Prop() intlClear: string;
-
-  /**
-   * Accessible name that will appear while loading.
-   *
-   * @default "Loading"
-   * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`.
-   */
-  @Prop() intlLoading?: string;
-
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @Prop({ reflect: true }) iconFlipRtl = false;
 
@@ -239,8 +224,6 @@ export class InputText
    */
   @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
 
-  @Watch("intlClear")
-  @Watch("intlLoading")
   @Watch("messageOverrides")
   onMessagesChange(): void {
     /* wired up by t9n util */

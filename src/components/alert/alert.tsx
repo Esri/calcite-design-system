@@ -19,8 +19,9 @@ import {
   slotChangeHasAssignedElement
 } from "../../utils/dom";
 import { CSS, DURATIONS, SLOTS } from "./resources";
-import { Scale } from "../interfaces";
-import { AlertDuration, AlertPlacement, StatusColor, StatusIcons, Sync } from "./interfaces";
+import { Kind, Scale } from "../interfaces";
+import { KindIcons } from "../resources";
+import { AlertDuration, Sync } from "./interfaces";
 import {
   OpenCloseComponent,
   connectOpenCloseComponent,
@@ -46,6 +47,7 @@ import {
   LoadableComponent,
   componentLoaded
 } from "../../utils/loadable";
+import { MenuPlacement } from "../../utils/floating-ui";
 
 /**
  * Alerts are meant to provide a way to communicate urgent or important information to users, frequently as a result of an action they took in your app. Alerts are positioned
@@ -100,14 +102,17 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
   /** Specifies the duration before the component automatically closes (only use with `autoClose`). */
   @Prop({ reflect: true }) autoCloseDuration: AlertDuration = this.autoClose ? "medium" : null;
 
-  /** Specifies the color for the component (will apply to top border and icon). */
-  @Prop({ reflect: true }) color: StatusColor = "blue";
+  /** Specifies the kind of the component (will apply to top border and icon). */
+  @Prop({ reflect: true }) kind: Kind = "brand";
 
   /**
    * When `true`, shows a default recommended icon. Alternatively,
    * pass a Calcite UI Icon name to display a specific icon.
    */
   @Prop({ reflect: true }) icon: string | boolean;
+
+  /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
+  @Prop({ reflect: true }) iconFlipRtl = false;
 
   /** Specifies an accessible name for the component. */
   @Prop() label!: string;
@@ -118,7 +123,7 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
   @Prop({ reflect: true }) numberingSystem: NumberingSystem;
 
   /** Specifies the placement of the component */
-  @Prop({ reflect: true }) placement: AlertPlacement = "bottom";
+  @Prop({ reflect: true }) placement: MenuPlacement = "bottom";
 
   /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";
@@ -141,9 +146,9 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
   }
 
   @Watch("icon")
-  @Watch("color")
+  @Watch("kind")
   updateRequestedIcon(): void {
-    this.requestedIcon = setRequestedIcon(StatusIcons, this.icon, this.color);
+    this.requestedIcon = setRequestedIcon(KindIcons, this.icon, this.kind);
   }
 
   @Watch("autoCloseDuration")
@@ -176,7 +181,7 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
 
   async componentWillLoad(): Promise<void> {
     setUpLoadableComponent(this);
-    this.requestedIcon = setRequestedIcon(StatusIcons, this.icon, this.color);
+    this.requestedIcon = setRequestedIcon(KindIcons, this.icon, this.kind);
     await setUpMessages(this);
   }
 
@@ -223,7 +228,7 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
       </div>
     );
 
-    const { open, autoClose, label, placement, queued, requestedIcon } = this;
+    const { open, autoClose, label, placement, queued, requestedIcon, iconFlipRtl } = this;
     const role = autoClose ? "alert" : "alertdialog";
     const hidden = !open;
 
@@ -254,7 +259,11 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
         >
           {requestedIcon ? (
             <div class="alert-icon">
-              <calcite-icon icon={requestedIcon} scale={this.scale === "l" ? "m" : "s"} />
+              <calcite-icon
+                flipRtl={iconFlipRtl}
+                icon={requestedIcon}
+                scale={this.scale === "l" ? "m" : "s"}
+              />
             </div>
           ) : null}
           <div class="alert-content">

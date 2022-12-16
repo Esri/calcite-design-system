@@ -42,7 +42,9 @@ import {
   assetsDirs: ["assets"],
   tag: "calcite-date-picker",
   styleUrl: "date-picker.scss",
-  shadow: true
+  shadow: {
+    delegatesFocus: true
+  }
 })
 export class DatePicker implements LocalizedComponent, T9nComponent {
   //--------------------------------------------------------------------------
@@ -455,7 +457,7 @@ export class DatePicker implements LocalizedComponent, T9nComponent {
           max={maxDate}
           messages={this.messages}
           min={minDate}
-          onCalciteDatePickerSelect={this.monthHeaderSelectChange}
+          onCalciteInternalDatePickerSelect={this.monthHeaderSelectChange}
           scale={this.scale}
           selectedDate={this.activeRange === "end" ? endDate : date || new Date()}
         />,
@@ -466,10 +468,10 @@ export class DatePicker implements LocalizedComponent, T9nComponent {
           localeData={this.localeData}
           max={maxDate}
           min={minDate}
-          onCalciteDatePickerActiveDateChange={this.monthActiveDateChange}
-          onCalciteDatePickerSelect={this.monthDateChange}
+          onCalciteInternalDatePickerActiveDateChange={this.monthActiveDateChange}
           onCalciteInternalDatePickerHover={this.monthHoverChange}
           onCalciteInternalDatePickerMouseOut={this.monthMouseOutChange}
+          onCalciteInternalDatePickerSelect={this.monthDateChange}
           scale={this.scale}
           selectedDate={this.activeRange === "end" ? endDate : date}
           startDate={this.range ? date : undefined}

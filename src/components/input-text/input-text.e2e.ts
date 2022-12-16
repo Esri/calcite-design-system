@@ -11,7 +11,6 @@ import {
   t9n
 } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
-import { TEXT } from "./resources";
 
 describe("calcite-input-text", () => {
   it("is labelable", async () => labelable("calcite-input-text"));
@@ -167,7 +166,7 @@ describe("calcite-input-text", () => {
     await page.setContent(html`<calcite-input-text clearable value="John Doe"></calcite-input-text>`);
     const clearButton = await page.find("calcite-input-text >>> .clear-button");
     expect(clearButton).not.toBe(null);
-    expect(clearButton.getAttribute("aria-label")).toBe(TEXT.clear);
+    expect(clearButton.getAttribute("aria-label")).toBe("Clear value");
   });
 
   it("does not render clear button when clearable is requested and value is not populated", async () => {

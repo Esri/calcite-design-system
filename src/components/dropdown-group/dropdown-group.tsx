@@ -20,7 +20,9 @@ import { CSS } from "./resources";
 @Component({
   tag: "calcite-dropdown-group",
   styleUrl: "dropdown-group.scss",
-  shadow: true
+  shadow: {
+    delegatesFocus: true
+  }
 })
 export class DropdownGroup {
   //--------------------------------------------------------------------------

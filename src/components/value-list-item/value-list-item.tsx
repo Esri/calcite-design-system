@@ -78,6 +78,9 @@ export class ValueListItem
    */
   @Prop({ reflect: true }) icon?: ICON_TYPES | null = null;
 
+  /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
+  @Prop({ reflect: true }) iconFlipRtl = false;
+
   /**
    * Label and accessible name for the component. Appears next to the icon.
    */
@@ -232,7 +235,7 @@ export class ValueListItem
   }
 
   renderHandle(): VNode {
-    const { icon } = this;
+    const { icon, iconFlipRtl } = this;
     if (icon === ICON_TYPES.grip) {
       return (
         <span
@@ -246,7 +249,7 @@ export class ValueListItem
           role="button"
           tabindex="0"
         >
-          <calcite-icon icon={ICONS.drag} scale="s" />
+          <calcite-icon flipRtl={iconFlipRtl} icon={ICONS.drag} scale="s" />
         </span>
       );
     }

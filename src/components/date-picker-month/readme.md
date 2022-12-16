@@ -15,13 +15,6 @@
 | `selectedDate` | --        | Already selected date.                                | `Date`              | `undefined`  |
 | `startDate`    | --        | Start date currently active.                          | `Date`              | `undefined`  |
 
-## Events
-
-| Event                               | Description                               | Type                |
-| ----------------------------------- | ----------------------------------------- | ------------------- |
-| `calciteDatePickerActiveDateChange` | Active date for the user keyboard access. | `CustomEvent<Date>` |
-| `calciteDatePickerSelect`           | Event emitted when user selects the date. | `CustomEvent<Date>` |
-
 ## Dependencies
 
 ### Used by

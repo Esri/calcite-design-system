@@ -92,20 +92,6 @@ export class Panel
   @Prop({ reflect: true }) loading = false;
 
   /**
-   * Accessible name for the component's close button. The close button will only be shown when `closeable` is `true`.
-   *
-   * @deprecated use `calcite-flow-item` instead.
-   */
-  @Prop() intlClose: string;
-
-  /**
-   * Accessible name for the component's actions menu.
-   *
-   * @deprecated use `calcite-flow-item` instead.
-   */
-  @Prop() intlOptions: string;
-
-  /**
    * The component header text.
    */
   @Prop() heading: string;
@@ -130,8 +116,6 @@ export class Panel
    */
   @Prop({ mutable: true }) messages: Messages;
 
-  @Watch("intlClose")
-  @Watch("intlOptions")
   @Watch("messageOverrides")
   onMessagesChange(): void {
     /* wired up by t9n util */

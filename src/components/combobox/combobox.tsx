@@ -148,6 +148,9 @@ export class Combobox
   /** Specifies the placeholder icon for the input. */
   @Prop({ reflect: true }) placeholderIcon: string;
 
+  /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
+  @Prop({ reflect: true }) placeholderIconFlipRtl = false;
+
   /** Specifies the maximum number of `calcite-combobox-item`s (including nested children) to display before displaying a scrollbar. */
   @Prop({ reflect: true }) maxItems = 0;
 
@@ -745,6 +748,10 @@ export class Combobox
   }
 
   private calculateSingleItemHeight(item: ComboboxChildElement): number {
+    if (!item) {
+      return;
+    }
+
     let height = item.offsetHeight;
     // if item has children items, don't count their height twice
     const children = Array.from(item.querySelectorAll<ComboboxChildElement>(ComboboxChildSelector));
@@ -1000,6 +1007,11 @@ export class Combobox
 
   private scrollToActiveItem = (): void => {
     const activeItem = this.filteredItems[this.activeItemIndex];
+
+    if (!activeItem) {
+      return;
+    }
+
     const height = this.calculateSingleItemHeight(activeItem);
     const { offsetHeight, scrollTop } = this.listContainerEl;
     if (offsetHeight + scrollTop < activeItem.offsetTop + height) {
@@ -1066,6 +1078,7 @@ export class Combobox
           class={chipClasses}
           closable
           icon={item.icon}
+          iconFlipRtl={item.iconFlipRtl}
           id={item.guid ? `${chipUidPrefix}${item.guid}` : null}
           key={item.textLabel}
           messageOverrides={{ dismissLabel: messages.removeTag }}
@@ -1169,7 +1182,7 @@ export class Combobox
   }
 
   renderIconStart(): VNode {
-    const { selectedItems, placeholderIcon, selectionMode } = this;
+    const { selectedItems, placeholderIcon, selectionMode, placeholderIconFlipRtl } = this;
     const selectedItem = selectedItems[0];
     const selectedIcon = selectedItem?.icon;
     const singleSelectionMode = selectionMode === "single";
@@ -1184,6 +1197,7 @@ export class Combobox
         <span class="icon-start">
           <calcite-icon
             class="selected-icon"
+            flipRtl={this.open && selectedItem ? selectedItem.iconFlipRtl : placeholderIconFlipRtl}
             icon={!this.open && selectedItem ? selectedIcon : placeholderIcon}
             scale="s"
           />
