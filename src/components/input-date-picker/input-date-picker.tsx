@@ -843,21 +843,15 @@ export class InputDatePicker
   };
 
   private shouldFocusRangeStart(): boolean {
-    return !!(
-      this.endAsDate &&
-      !this.startAsDate &&
-      this.focusedInput === "end" &&
-      this.startInput
-    );
+    const startValue = this.value[0] || undefined;
+    const endValue = this.value[1] || undefined;
+    return !!(endValue && !startValue && this.focusedInput === "end" && this.startInput);
   }
 
   private shouldFocusRangeEnd(): boolean {
-    return !!(
-      this.startAsDate &&
-      !this.endAsDate &&
-      this.focusedInput === "start" &&
-      this.endInput
-    );
+    const startValue = this.value[0] || undefined;
+    const endValue = this.value[1] || undefined;
+    return !!(startValue && !endValue && this.focusedInput === "start" && this.endInput);
   }
 
   private handleDateRangeChange = (event: CustomEvent<void>): void => {
