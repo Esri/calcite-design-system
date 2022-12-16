@@ -3,12 +3,11 @@ import {
   Element,
   Event,
   EventEmitter,
-  FunctionalComponent,
   h,
-  Host,
   Method,
   Prop,
   State,
+  Host,
   Watch
 } from "@stencil/core";
 import { guid } from "../../utils/guid";
@@ -31,17 +30,8 @@ import {
   LoadableComponent,
   componentLoaded
 } from "../../utils/loadable";
-import { Star, StarIconProps } from "./interfaces";
-
-const StarIcon: FunctionalComponent<StarIconProps> = ({ full, scale, partial }) => (
-  <calcite-icon
-    {...{
-      class: partial ? undefined : "icon",
-      icon: full ? "star-f" : "star",
-      scale
-    }}
-  />
-);
+import { StarIcon } from "./function/star";
+import { Star } from "./interfaces";
 
 @Component({
   tag: "calcite-rating",
@@ -72,38 +62,14 @@ export class Rating
   //
   // --------------------------------------------------------------------------
 
-  /** Specifies the size of the component. */
-  @Prop({ reflect: true }) scale: Scale = "m";
-
-  /** The component's value. */
-  @Prop({ reflect: true, mutable: true }) value = 0;
-
-  @Watch("value")
-  handleValueUpdate(newValue: number): void {
-    if (this.emit) {
-      this.calciteRatingChange.emit({ value: newValue });
-    }
-
-    this.emit = false;
-  }
-
-  /** When `true`, the component's value can be read, but cannot be modified. */
-  @Prop({ reflect: true }) readOnly = false;
-
-  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
-  @Prop({ reflect: true }) disabled = false;
-
-  /** When `true`, and if available, displays the `average` and/or `count` data summary in a `calcite-chip`. */
-  @Prop({ reflect: true }) showChip = false;
+  /** Specifies a cumulative average from previous ratings to display. */
+  @Prop({ reflect: true }) average: number;
 
   /** Specifies the number of previous ratings to display. */
   @Prop({ reflect: true }) count: number;
 
-  /** Specifies a cumulative average from previous ratings to display. */
-  @Prop({ reflect: true }) average: number;
-
-  /** Specifies the name of the component on form submission. */
-  @Prop({ reflect: true }) name: string;
+  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  @Prop({ reflect: true }) disabled = false;
 
   /**
    * Made into a prop for testing purposes only
@@ -117,6 +83,17 @@ export class Rating
    */
   @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
 
+  @Watch("messageOverrides")
+  onMessagesChange(): void {
+    /* wired up by t9n util */
+  }
+
+  /** Specifies the name of the component on form submission. */
+  @Prop({ reflect: true }) name: string;
+
+  /** When `true`, the component's value can be read, but cannot be modified. */
+  @Prop({ reflect: true }) readOnly = false;
+
   /**
    * When `true`, the component must have a value in order for the form to submit.
    *
@@ -124,10 +101,57 @@ export class Rating
    */
   @Prop({ reflect: true }) required = false;
 
-  @Watch("messageOverrides")
-  onMessagesChange(): void {
-    /* wired up by t9n util */
+  /** Specifies the size of the component. */
+  @Prop({ reflect: true }) scale: Scale = "m";
+
+  /** When `true`, and if available, displays the `average` and/or `count` data summary in a `calcite-chip`. */
+  @Prop({ reflect: true }) showChip = false;
+
+  /** The component's value. */
+  @Prop({ reflect: true, mutable: true }) value = 0;
+
+  @Watch("value")
+  handleValueUpdate(newValue: number): void {
+    this.hoverValue = newValue;
+    this.focusValue = newValue;
+    if (this.emit) {
+      this.calciteRatingChange.emit();
+    }
+
+    this.emit = false;
   }
+
+  //--------------------------------------------------------------------------
+  //
+  //  Events
+  //
+  //--------------------------------------------------------------------------
+
+  /**
+   * Fires when the component's value changes.
+   */
+  @Event({ cancelable: false }) calciteRatingChange: EventEmitter<void>;
+
+  //--------------------------------------------------------------------------
+  //
+  //  Static
+  //
+  //--------------------------------------------------------------------------
+
+  @State() effectiveLocale = "";
+
+  @Watch("effectiveLocale")
+  effectiveLocaleChange(): void {
+    updateMessages(this, this.effectiveLocale);
+  }
+
+  @State() defaultMessages: Messages;
+
+  @State() hoverValue: number;
+
+  @State() focusValue: number;
+
+  @State() hasFocus: boolean;
 
   //--------------------------------------------------------------------------
   //
@@ -201,23 +225,6 @@ export class Rating
     updateHostInteraction(this);
   }
 
-  //--------------------------------------------------------------------------
-  //
-  //  Events
-  //
-  //--------------------------------------------------------------------------
-
-  /**
-   * Fires when the component's value changes.
-   */
-  @Event({ cancelable: false }) calciteRatingChange: EventEmitter<{ value: number }>;
-
-  // --------------------------------------------------------------------------
-  //
-  //  Render Methods
-  //
-  // --------------------------------------------------------------------------
-
   render() {
     return (
       <Host
@@ -282,7 +289,7 @@ export class Rating
                       </div>
                     )}
                     <span class="visually-hidden">
-                      {this.intlStars.replace("${num}", `${value}`)}
+                      {this.messages.stars.replace("${num}", `${value}`)}
                     </span>
                   </label>
                 );
@@ -417,6 +424,7 @@ export class Rating
   @Method()
   async setFocus(): Promise<void> {
     await componentLoaded(this);
+
     this.inputFocusRef?.focus();
   }
 
@@ -425,13 +433,6 @@ export class Rating
   //  Private State / Properties
   //
   // --------------------------------------------------------------------------
-  private emit = false;
-
-  private max = 5;
-
-  private starsMap: Star[];
-
-  private isKeyboardInteraction = true;
 
   labelEl: HTMLCalciteLabelElement;
 
@@ -439,24 +440,17 @@ export class Rating
 
   defaultValue: Rating["value"];
 
-  @State() effectiveLocale = "";
-
-  @Watch("effectiveLocale")
-  effectiveLocaleChange(): void {
-    updateMessages(this, this.effectiveLocale);
-  }
-
-  @State() defaultMessages: Messages;
-
-  @State() hoverValue: number;
-
-  @State() focusValue: number;
-
-  @State() hasFocus: boolean;
+  private emit = false;
 
   private guid = `calcite-ratings-${guid()}`;
 
+  private inputRefs: HTMLInputElement[];
+
   private inputFocusRef: HTMLInputElement;
 
-  private inputRefs: HTMLInputElement[];
+  private isKeyboardInteraction = true;
+
+  private max = 5;
+
+  private starsMap: Star[];
 }
