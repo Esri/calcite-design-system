@@ -14,5 +14,5 @@ export const SLOTS = {
   header: "header",
   footer: "footer",
   alerts: "alerts",
-  modal: "modal"
+  modals: "modals"
 };

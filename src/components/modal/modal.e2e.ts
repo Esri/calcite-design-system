@@ -450,9 +450,9 @@ describe("calcite-modal accessibility checks", () => {
     expect(documentClass).toEqual(true);
   });
 
-  it("correctly does not add overflow class on document when open and slotted in shell modal slot", async () => {
+  it("correctly does not add overflow class on document when open and slotted in shell modals slot", async () => {
     const page = await newE2EPage();
-    await page.setContent(`<calcite-shell><calcite-modal slot="modal"></calcite-modal></calcite-shell>`);
+    await page.setContent(`<calcite-shell><calcite-modal slot="modals"></calcite-modal></calcite-shell>`);
     const modal = await page.find("calcite-modal");
     await modal.setProperty("open", true);
     await page.waitForChanges();

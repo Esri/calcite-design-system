@@ -542,7 +542,7 @@ export const slottedModalAndAlert = (): string => html` <main>
     "
   >
     <div class="gnav" slot="header">Header Example</div>
-    <calcite-modal open slot="modal" docked><span slot="header">Modal slotted in Shell</span></calcite-modal>
+    <calcite-modal open slot="modals" docked><span slot="header">Modal slotted in Shell</span></calcite-modal>
     <calcite-alert open slot="alerts" placement="top-end"
       ><span slot="title">Alert slotted in Shell</span>
     </calcite-alert>

@@ -14,8 +14,8 @@ import {
  * @slot panel-start - A slot for adding the starting `calcite-shell-panel`.
  * @slot panel-end - A slot for adding the ending `calcite-shell-panel`.
  * @slot center-row - A slot for adding content to the center row.
- * @slot modal - A slot for adding a `calcite-modal`. When placed in this slot, the modal position will be constrained to the extent of the shell.
- * @slot alerts - A slot for adding one or more `calcite-alert`. When placed in this slot, the alert position will be constrained to the extent of the shell.
+ * @slot modal - A slot for adding `calcite-modal` components. When placed in this slot, the modal position will be constrained to the extent of the shell.
+ * @slot alerts - A slot for adding `calcite-alert` components. When placed in this slot, the alert position will be constrained to the extent of the shell.
  */
 
 @Component({
@@ -49,7 +49,7 @@ export class Shell implements ConditionalSlotComponent {
 
   @State() hasAlerts = false;
 
-  @State() hasModal = false;
+  @State() hasModals = false;
 
   // --------------------------------------------------------------------------
   //
@@ -88,8 +88,8 @@ export class Shell implements ConditionalSlotComponent {
     });
   };
 
-  handleModalSlotChange = (event: Event): void => {
-    this.hasModal = !!slotChangeHasAssignedElement(event);
+  handleModalsSlotChange = (event: Event): void => {
+    this.hasModals = !!slotChangeHasAssignedElement(event);
     slotChangeGetAssignedElements(event)?.map((el) => {
       if (el.nodeName === "CALCITE-MODAL") {
         (el as HTMLCalciteModalElement).slottedInShell = true;
@@ -127,10 +127,10 @@ export class Shell implements ConditionalSlotComponent {
     );
   }
 
-  renderModal(): VNode {
+  renderModals(): VNode {
     return (
-      <div hidden={!this.hasModal}>
-        <slot key="modal" name={SLOTS.modal} onSlotchange={this.handleModalSlotChange} />
+      <div hidden={!this.hasModals}>
+        <slot key="modals" name={SLOTS.modals} onSlotchange={this.handleModalsSlotChange} />
       </div>
     );
   }
@@ -177,7 +177,7 @@ export class Shell implements ConditionalSlotComponent {
     return (
       <div class={CSS.positionedSlotWrapper}>
         {this.renderAlerts()}
-        {this.renderModal()}
+        {this.renderModals()}
       </div>
     );
   }

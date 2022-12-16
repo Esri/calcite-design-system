@@ -203,6 +203,7 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
     disconnectOpenCloseComponent(this);
     disconnectLocalized(this);
     disconnectMessages(this);
+    this.slottedInShell = false;
   }
 
   render(): VNode {

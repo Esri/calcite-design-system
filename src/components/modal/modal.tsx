@@ -192,6 +192,7 @@ export class Modal
     deactivateFocusTrap(this);
     disconnectLocalized(this);
     disconnectMessages(this);
+    this.slottedInShell = false;
   }
 
   render(): VNode {
