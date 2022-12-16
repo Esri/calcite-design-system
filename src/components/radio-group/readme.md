@@ -19,7 +19,7 @@
 
 | Property       | Attribute       | Description                                                                              | Type                                   | Default        |
 | -------------- | --------------- | ---------------------------------------------------------------------------------------- | -------------------------------------- | -------------- |
-| `appearance`   | `appearance`    | Specifies the appearance style of the component.                                         | `"outline" \| "solid"`                 | `"solid"`      |
+| `appearance`   | `appearance`    | Specifies the appearance style of the component.                                         | `"minimal" \| "solid"`                 | `"solid"`      |
 | `disabled`     | `disabled`      | When `true`, interaction is prevented and the component is displayed with lower opacity. | `boolean`                              | `false`        |
 | `layout`       | `layout`        | Defines the layout of the component.                                                     | `"grid" \| "horizontal" \| "vertical"` | `"horizontal"` |
 | `name`         | `name`          | Specifies the name of the component on form submission.                                  | `string`                               | `undefined`    |
@@ -30,9 +30,9 @@
 
 ## Events
 
-| Event                     | Description                                                                      | Type                  |
-| ------------------------- | -------------------------------------------------------------------------------- | --------------------- |
-| `calciteRadioGroupChange` | Fires when the selected option changes, where the event detail is the new value. | `CustomEvent<string>` |
+| Event                     | Description                                                                      | Type                |
+| ------------------------- | -------------------------------------------------------------------------------- | ------------------- |
+| `calciteRadioGroupChange` | Fires when the selected option changes, where the event detail is the new value. | `CustomEvent<void>` |
 
 ## Methods
 
