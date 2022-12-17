@@ -95,20 +95,6 @@ export class DatePicker implements LocalizedComponent, T9nComponent {
     }
   }
 
-  /**
-   * Specifies the selected start date as a full date object.
-   *
-   * @deprecated use `valueAsDate` instead.
-   */
-  @Prop({ mutable: true }) startAsDate: Date;
-
-  /**
-   * Specifies the selected end date as a full date object.
-   *
-   * @deprecated use `valueAsDate` instead.
-   */
-  @Prop({ mutable: true }) endAsDate: Date;
-
   /** Specifies the earliest allowed date as a full date object (`new Date("yyyy-mm-dd")`). */
   @Prop({ mutable: true }) minAsDate: Date;
 
@@ -202,6 +188,10 @@ export class DatePicker implements LocalizedComponent, T9nComponent {
    * Active end date.
    */
   @State() activeEndDate: Date;
+
+  @State() startAsDate: Date;
+
+  @State() endAsDate: Date;
 
   // --------------------------------------------------------------------------
   //
