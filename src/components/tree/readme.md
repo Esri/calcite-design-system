@@ -26,12 +26,12 @@
 
 ## Properties
 
-| Property        | Attribute        | Description                                    | Type                                                                                          | Default    |
-| --------------- | ---------------- | ---------------------------------------------- | --------------------------------------------------------------------------------------------- | ---------- |
-| `lines`         | `lines`          | Displays indentation guide lines.              | `boolean`                                                                                     | `false`    |
-| `scale`         | `scale`          | Specifies the size of the component.           | `"l" \| "m" \| "s"`                                                                           | `"m"`      |
-| `selectedItems` | --               | Specifies the component's selected items.      | `HTMLCalciteTreeItemElement[]`                                                                | `[]`       |
-| `selectionMode` | `selection-mode` | Customize how the component's selection works. | `"ancestors" \| "children" \| "multi" \| "multichildren" \| "multiple" \| "none" \| "single"` | `"single"` |
+| Property        | Attribute        | Description                                    | Type                                                                               | Default    |
+| --------------- | ---------------- | ---------------------------------------------- | ---------------------------------------------------------------------------------- | ---------- |
+| `lines`         | `lines`          | Displays indentation guide lines.              | `boolean`                                                                          | `false`    |
+| `scale`         | `scale`          | Specifies the size of the component.           | `"l" \| "m" \| "s"`                                                                | `"m"`      |
+| `selectedItems` | --               | Specifies the component's selected items.      | `HTMLCalciteTreeItemElement[]`                                                     | `[]`       |
+| `selectionMode` | `selection-mode` | Customize how the component's selection works. | `"ancestors" \| "children" \| "multichildren" \| "multiple" \| "none" \| "single"` | `"single"` |
 
 ## Events
 
