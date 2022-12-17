@@ -273,10 +273,9 @@ const mutationObserver = createObserver("mutation", (records) => {
     const el = record.target as HTMLElement;
 
     connectedComponents.forEach((component) => {
-      const hasOverridingLocale = !!(component.locale && !component.el.lang);
       const inUnrelatedSubtree = !containsCrossShadowBoundary(el, component.el);
 
-      if (hasOverridingLocale || inUnrelatedSubtree) {
+      if (inUnrelatedSubtree) {
         return;
       }
 
@@ -305,7 +304,6 @@ const mutationObserver = createObserver("mutation", (records) => {
 function getLocale(component: LocalizedComponent): string {
   return (
     component.el.lang ||
-    component.locale ||
     closestElementCrossShadowBoundary<HTMLElement>(component.el, "[lang]")?.lang ||
     document.documentElement.lang ||
     defaultLocale
