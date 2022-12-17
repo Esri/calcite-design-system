@@ -9,6 +9,16 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ### ⚠ BREAKING CHANGES
 
+- **shell-panel:** Removed deprecated `intlResize` property.
+
+* Removed the property `intlResize`, use `messagesOverrides.resize`
+  instead.
+
+* **modal:** Removed `backgroundColor` property.
+
+- Removed the property `backgroundColor`, use the CSS variable
+  `--calcite-modal-content-background` instead.
+
 - **modal:** Removed `--calcite-modal-padding` CSS variable.
 
 * Removed the `--calcite-modal-padding` CSS variable, use the
@@ -737,6 +747,10 @@ Removed the property `dimissible`, use `closable` property instead.
 * **block, date-picker, list-item-group, panel, pick-list-group, popover, tip, tip-manager:** Sets internal heading HTML element to be a div by default. If users would like to retain an internal H1-H6 HTML element, they will need to set the headingLevel property on the component. Users already setting the headingLevel property are not affected. ([#5728](https://github.com/Esri/calcite-components/pull/5728)) ([38ca639](https://github.com/Esri/calcite-components/commit/38ca639010b8bd1d1fe32c9cf9b54dfc38cf9877)), closes [5099](https://github.com/Esri/calcite-components/issues/5099)
 
 ### Features
+
+- **shell-panel:** add built-in translations ([#6079](https://github.com/Esri/calcite-components/issues/6079)) ([1c7ff2b](https://github.com/Esri/calcite-components/commit/1c7ff2b232bf19c160602371d96af253e0cf5a66)), closes [#6066](https://github.com/Esri/calcite-components/issues/6066)
+
+* **tip,tip-manager:** add built-in translations ([#6074](https://github.com/Esri/calcite-components/issues/6074)) ([683cf07](https://github.com/Esri/calcite-components/commit/683cf07a916e6e9aa93fea8b7a2869fa0c531667)), closes [#6066](https://github.com/Esri/calcite-components/issues/6066)
 
 - **shell:** Add slots for Modal and Alert ([#5983](https://github.com/Esri/calcite-components/issues/5983)) ([d824bf7](https://github.com/Esri/calcite-components/commit/d824bf74cbda49c9796e090c04d0f7db0d772f8b))
 

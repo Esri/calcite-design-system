@@ -58,15 +58,15 @@ Type: `Promise<void>`
 
 ### Depends on
 
-- [calcite-icon](../icon)
 - [calcite-chip](../chip)
+- [calcite-icon](../icon)
 
 ### Graph
 
 ```mermaid
 graph TD;
-  calcite-rating --> calcite-icon
   calcite-rating --> calcite-chip
+  calcite-rating --> calcite-icon
   calcite-chip --> calcite-icon
   style calcite-rating fill:#f9f,stroke:#333,stroke-width:4px
 ```
