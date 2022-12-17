@@ -29,8 +29,8 @@ import {
   updateAfterClose
 } from "../../utils/floating-ui";
 import { guid } from "../../utils/guid";
-import { Scale } from "../interfaces";
-import { ComboboxSelectionMode, ComboboxChildElement } from "./interfaces";
+import { Scale, SelectionMode } from "../interfaces";
+import { ComboboxChildElement } from "./interfaces";
 import { ComboboxChildSelector, ComboboxItem, ComboboxItemGroup } from "./resources";
 import { getItemAncestors, getItemChildren, hasActiveChildren } from "./utils";
 import { LabelableComponent, connectLabel, disconnectLabel, getLabelText } from "../../utils/label";
@@ -193,7 +193,10 @@ export class Combobox
    * - single: only one selection)
    * - ancestors: like multiple, but show ancestors of selected items as selected, only deepest children shown in chips
    */
-  @Prop({ reflect: true }) selectionMode: ComboboxSelectionMode = "multi";
+  @Prop({ reflect: true }) selectionMode: Extract<
+    "single" | "ancestors" | "multiple",
+    SelectionMode
+  > = "multiple";
 
   /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";
@@ -748,6 +751,10 @@ export class Combobox
   }
 
   private calculateSingleItemHeight(item: ComboboxChildElement): number {
+    if (!item) {
+      return;
+    }
+
     let height = item.offsetHeight;
     // if item has children items, don't count their height twice
     const children = Array.from(item.querySelectorAll<ComboboxChildElement>(ComboboxChildSelector));
@@ -1003,6 +1010,11 @@ export class Combobox
 
   private scrollToActiveItem = (): void => {
     const activeItem = this.filteredItems[this.activeItemIndex];
+
+    if (!activeItem) {
+      return;
+    }
+
     const height = this.calculateSingleItemHeight(activeItem);
     const { offsetHeight, scrollTop } = this.listContainerEl;
     if (offsetHeight + scrollTop < activeItem.offsetTop + height) {
