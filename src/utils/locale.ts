@@ -202,6 +202,16 @@ export interface LocalizedComponent {
   el: HTMLElement;
 
   /**
+   * BCP 47 language tag for desired language and country format
+   *
+   * **Note**: this prop was added exclusively for backwards-compatibility
+   *
+   * @deprecated set the global `lang` attribute on the element instead.
+   * @mdn [lang](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/lang)
+   */
+  locale?: string;
+
+  /**
    * Used to store the effective locale to avoid multiple lookups.
    *
    * This is an internal property and should:
@@ -273,7 +283,7 @@ const mutationObserver = createObserver("mutation", (records) => {
     const el = record.target as HTMLElement;
 
     connectedComponents.forEach((component) => {
-      const hasOverridingLocale = !component.el.lang;
+      const hasOverridingLocale = !!(component.locale && !component.el.lang);
       const inUnrelatedSubtree = !containsCrossShadowBoundary(el, component.el);
 
       if (hasOverridingLocale || inUnrelatedSubtree) {
@@ -305,6 +315,7 @@ const mutationObserver = createObserver("mutation", (records) => {
 function getLocale(component: LocalizedComponent): string {
   return (
     component.el.lang ||
+    component.locale ||
     closestElementCrossShadowBoundary<HTMLElement>(component.el, "[lang]")?.lang ||
     document.documentElement.lang ||
     defaultLocale
