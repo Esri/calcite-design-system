@@ -507,16 +507,16 @@ describe("calcite-modal accessibility checks", () => {
     });
     const scrimStyles = await page.evaluate(() => {
       const scrim = document.querySelector("calcite-modal").shadowRoot.querySelector(".scrim");
-      return window.getComputedStyle(scrim).getPropertyValue("--calcite-scrim-background").trim();
+      return window.getComputedStyle(scrim).getPropertyValue("--calcite-scrim-background");
     });
-    expect(scrimStyles).toEqual("rgba(0, 0, 0, 0.85)");
+    expect(scrimStyles).toEqual(" rgba(0, 0, 0, 0.85)");
   });
 
   it("when modal css override set, scrim should adhere to requested color", async () => {
     const overrideStyle = "rgba(160, 20, 10, 0.5)";
     const page = await newE2EPage({
       html: `
-      <calcite-modal aria-labelledby="modal-title" open style="--calcite-modal-scrim-background: ${overrideStyle}">
+      <calcite-modal aria-labelledby="modal-title" open style="--calcite-modal-scrim-background:${overrideStyle}">
         <h3 slot="header" id="modal-title">Title of the modal</h3>
         <div slot="content">The actual content of the modal</div>
         <calcite-button slot="back" kind="neutral" appearance="outline" icon="chevron-left" width="full">
@@ -529,7 +529,7 @@ describe("calcite-modal accessibility checks", () => {
     });
     const scrimStyles = await page.evaluate(() => {
       const scrim = document.querySelector("calcite-modal").shadowRoot.querySelector(".scrim");
-      return window.getComputedStyle(scrim).getPropertyValue("--calcite-scrim-background").trim();
+      return window.getComputedStyle(scrim).getPropertyValue("--calcite-scrim-background");
     });
     expect(scrimStyles).toEqual(overrideStyle);
   });
