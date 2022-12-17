@@ -102,13 +102,6 @@ export class DatePicker implements LocalizedComponent, T9nComponent {
   }
 
   /**
-   * Specifies the selected start date as a full date object.
-   *
-   * @deprecated use `valueAsDate` instead.
-   */
-  @Prop({ mutable: true }) startAsDate: Date;
-
-  /**
    * Specifies the selected end date as a full date object.
    *
    * @deprecated use `valueAsDate` instead.
@@ -369,17 +362,21 @@ export class DatePicker implements LocalizedComponent, T9nComponent {
       this.hoverRange = undefined;
       return;
     }
-    // console.log("monthHoverChange", this.valueAsDate, this.startAsDate);
+
+    const { valueAsDate } = this;
+    const start = Array.isArray(valueAsDate) && valueAsDate[0];
+    const end = Array.isArray(valueAsDate) && valueAsDate[1];
+
     const date = new Date(event.detail);
     this.hoverRange = {
       focused: this.activeRange || "start",
-      start: this.startAsDate,
-      end: this.endAsDate
+      start,
+      end
     };
     if (!this.proximitySelectionDisabled) {
-      if (this.endAsDate) {
-        const startDiff = getDaysDiff(date, this.startAsDate);
-        const endDiff = getDaysDiff(date, this.endAsDate);
+      if (end) {
+        const startDiff = getDaysDiff(date, start);
+        const endDiff = getDaysDiff(date, end);
         if (endDiff > 0) {
           this.hoverRange.end = date;
           this.hoverRange.focused = "end";
@@ -394,11 +391,11 @@ export class DatePicker implements LocalizedComponent, T9nComponent {
           this.hoverRange.focused = "end";
         }
       } else {
-        if (date < this.startAsDate) {
+        if (date < start) {
           this.hoverRange = {
             focused: "start",
             start: date,
-            end: this.startAsDate
+            end: start
           };
         } else {
           this.hoverRange.end = date;
@@ -406,12 +403,12 @@ export class DatePicker implements LocalizedComponent, T9nComponent {
         }
       }
     } else {
-      if (!this.endAsDate) {
-        if (date < this.startAsDate) {
+      if (!end) {
+        if (date < start) {
           this.hoverRange = {
             focused: "start",
             start: date,
-            end: this.startAsDate
+            end: start
           };
         } else {
           this.hoverRange.end = date;
@@ -500,16 +497,26 @@ export class DatePicker implements LocalizedComponent, T9nComponent {
     }
   };
 
+  private getEndDate(): Date {
+    return (Array.isArray(this.valueAsDate) && this.valueAsDate[1]) || undefined;
+  }
+
   private setEndDate(date: Date): void {
-    this.endAsDate = date ? setEndOfDay(date) : date;
-    this.mostRecentRangeValue = this.endAsDate;
+    const newEndDate = date ? setEndOfDay(date) : date;
+    this.endAsDate = newEndDate;
+    this.valueAsDate = [this.getStartDate(), date];
+    this.mostRecentRangeValue = newEndDate;
     this.calciteDatePickerRangeChange.emit();
     this.activeEndDate = date || null;
   }
 
+  private getStartDate(): Date {
+    return Array.isArray(this.valueAsDate) && this.valueAsDate[0];
+  }
+
   private setStartDate(date: Date): void {
-    this.startAsDate = date;
-    this.mostRecentRangeValue = this.startAsDate;
+    this.valueAsDate = [date, this.getEndDate()];
+    this.mostRecentRangeValue = date;
     this.calciteDatePickerRangeChange.emit();
     this.activeStartDate = date || null;
   }
@@ -535,16 +542,19 @@ export class DatePicker implements LocalizedComponent, T9nComponent {
       return;
     }
 
-    if (!this.startAsDate || (!this.endAsDate && date < this.startAsDate)) {
-      if (this.startAsDate) {
-        this.setEndDate(new Date(this.startAsDate));
+    const start = this.getStartDate();
+    const end = this.getEndDate();
+
+    if (!start || (!end && date < start)) {
+      if (start) {
+        this.setEndDate(new Date(start));
       }
       if (this.activeRange == "end") {
         this.setEndDate(date);
       } else {
         this.setStartDate(date);
       }
-    } else if (!this.endAsDate) {
+    } else if (!end) {
       this.setEndDate(date);
     } else {
       if (!this.proximitySelectionDisabled) {
@@ -555,8 +565,8 @@ export class DatePicker implements LocalizedComponent, T9nComponent {
             this.setStartDate(date);
           }
         } else {
-          const startDiff = getDaysDiff(date, this.startAsDate);
-          const endDiff = getDaysDiff(date, this.endAsDate);
+          const startDiff = getDaysDiff(date, start);
+          const endDiff = getDaysDiff(date, end);
           if (endDiff === 0 || startDiff < 0) {
             this.setStartDate(date);
           } else if (startDiff === 0 || endDiff < 0) {
