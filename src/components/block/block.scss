@@ -1,3 +1,11 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-block-padding: Specifies the padding of the block `default` slot.
+ */
+
 :host {
   @extend %component-host;
   @extend %component-spacing;
