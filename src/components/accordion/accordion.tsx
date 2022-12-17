@@ -95,41 +95,6 @@ export class Accordion {
   //
   //--------------------------------------------------------------------------
 
-  @Listen("calciteInternalAccordionItemKeyEvent")
-  calciteInternalAccordionItemKeyEvent(event: CustomEvent): void {
-    const item = event.detail.item;
-    const parent = event.detail.parent as HTMLCalciteAccordionElement;
-    if (this.el === parent) {
-      const { key } = item;
-      const itemToFocus = event.target;
-      const isFirstItem = this.itemIndex(itemToFocus) === 0;
-      const isLastItem = this.itemIndex(itemToFocus) === this.items.length - 1;
-      switch (key) {
-        case "ArrowDown":
-          if (isLastItem) {
-            this.focusFirstItem();
-          } else {
-            this.focusNextItem(itemToFocus);
-          }
-          break;
-        case "ArrowUp":
-          if (isFirstItem) {
-            this.focusLastItem();
-          } else {
-            this.focusPrevItem(itemToFocus);
-          }
-          break;
-        case "Home":
-          this.focusFirstItem();
-          break;
-        case "End":
-          this.focusLastItem();
-          break;
-      }
-    }
-    event.stopPropagation();
-  }
-
   @Listen("calciteInternalAccordionItemRegister")
   registerCalciteAccordionItem(event: CustomEvent): void {
     const item = {
@@ -172,37 +137,6 @@ export class Accordion {
   //  Private Methods
   //
   //--------------------------------------------------------------------------
-
-  private focusFirstItem() {
-    const firstItem = this.items[0];
-    this.focusElement(firstItem);
-  }
-
-  private focusLastItem() {
-    const lastItem = this.items[this.items.length - 1];
-    this.focusElement(lastItem);
-  }
-
-  private focusNextItem(el): void {
-    const index = this.itemIndex(el);
-    const nextItem = this.items[index + 1] || this.items[0];
-    this.focusElement(nextItem);
-  }
-
-  private focusPrevItem(el): void {
-    const index = this.itemIndex(el);
-    const prevItem = this.items[index - 1] || this.items[this.items.length - 1];
-    this.focusElement(prevItem);
-  }
-
-  private itemIndex(el): number {
-    return this.items.indexOf(el);
-  }
-
-  private focusElement(item) {
-    const target = item as HTMLCalciteAccordionItemElement;
-    target?.focus();
-  }
 
   private sortItems = (items: any[]): any[] =>
     items.sort((a, b) => a.position - b.position).map((a) => a.item);
