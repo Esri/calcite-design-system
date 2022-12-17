@@ -9,6 +9,7 @@ import {
   Event,
   Host
 } from "@stencil/core";
+import { focusElementInGroup } from "../../utils/dom";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import { Scale } from "../interfaces";
 import { RequestedItem, SelectedItems } from "./interfaces";
@@ -105,28 +106,19 @@ export class ChipGroup implements InteractiveComponent {
     if (this.el === parent) {
       const { key } = item;
       const itemToFocus = event.target;
-      const isFirstItem = this.itemIndex(itemToFocus) === 0;
-      const isLastItem = this.itemIndex(itemToFocus) - 1 === this.items.length - 1;
+
       switch (key) {
         case "ArrowRight":
-          if (isLastItem) {
-            this.focusFirstItem();
-          } else {
-            this.focusNextItem(itemToFocus);
-          }
+          focusElementInGroup(this.items, itemToFocus as HTMLCalciteChipElement, "next");
           break;
         case "ArrowLeft":
-          if (isFirstItem) {
-            this.focusLastItem();
-          } else {
-            this.focusPrevItem(itemToFocus);
-          }
+          focusElementInGroup(this.items, itemToFocus as HTMLCalciteChipElement, "previous");
           break;
         case "Home":
-          this.focusFirstItem();
+          focusElementInGroup(this.items, itemToFocus as HTMLCalciteChipElement, "first");
           break;
         case "End":
-          this.focusLastItem();
+          focusElementInGroup(this.items, itemToFocus as HTMLCalciteChipElement, "last");
           break;
       }
     }
@@ -139,12 +131,12 @@ export class ChipGroup implements InteractiveComponent {
     let updatedItems = [];
     if (this.items.includes(item)) {
       updatedItems = this.items.filter((el) => el !== item);
-      if (this.itemIndex(item) > 0) {
-        this.focusPrevItem(item);
-      } else if (this.itemIndex(item) === 0) {
-        this.focusNextItem(item);
+      if (this.items.indexOf(item) > 0) {
+        focusElementInGroup(this.items, item as HTMLCalciteChipElement, "previous");
+      } else if (this.items.indexOf(item) === 0) {
+        focusElementInGroup(this.items, item as HTMLCalciteChipElement, "next");
       } else {
-        this.focusFirstItem();
+        focusElementInGroup(this.items, item as HTMLCalciteChipElement, "first");
       }
     }
     this.items = updatedItems;
@@ -181,37 +173,6 @@ export class ChipGroup implements InteractiveComponent {
   //  Private Methods
   //
   //--------------------------------------------------------------------------
-
-  private focusFirstItem() {
-    const firstItem = this.items[0];
-    this.focusElement(firstItem);
-  }
-
-  private focusLastItem() {
-    const lastItem = this.items[this.items.length - 1];
-    this.focusElement(lastItem);
-  }
-
-  private focusNextItem(el): void {
-    const index = this.itemIndex(el);
-    const nextItem = this.items[index + 1] || this.items[0];
-    this.focusElement(nextItem);
-  }
-
-  private focusPrevItem(el): void {
-    const index = this.itemIndex(el);
-    const prevItem = this.items[index - 1] || this.items[this.items.length - 1];
-    this.focusElement(prevItem);
-  }
-
-  private itemIndex(el): number {
-    return this.items.indexOf(el);
-  }
-
-  private focusElement(item) {
-    const target = item as HTMLCalciteChipElement;
-    target.setFocus();
-  }
 
   private sortItems = (items: any[]): any[] =>
     items.sort((a, b) => a.position - b.position).map((a) => a.item);
