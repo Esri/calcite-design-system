@@ -366,7 +366,7 @@ export class ColorPicker
 
   private handleChannelInput = (event: CustomEvent): void => {
     const input = event.currentTarget as HTMLCalciteInputElement;
-    const internalInput = event.detail.nativeEvent.target as HTMLInputElement;
+    const internalInput = input?.shadowRoot.querySelector("input") as HTMLInputElement;
     const channelIndex = Number(input.getAttribute("data-channel-index"));
 
     const limit =
