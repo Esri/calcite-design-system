@@ -386,7 +386,7 @@ describe("calcite-input-date-picker", () => {
 
   it("should return endDate time as 23:59:999 when end value is typed", async () => {
     const page = await newE2EPage();
-    await page.setContent(html` <calcite-input-date-picker layout="horizontal" range />`);
+    await page.setContent(html` <calcite-input-date-picker layout="horizontal" range></calcite-input-date-picker>`);
 
     const datepickerEl = await page.find("calcite-input-date-picker");
     await page.waitForChanges();
