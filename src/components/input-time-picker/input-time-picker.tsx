@@ -30,8 +30,7 @@ import {
   disconnectLocalized,
   LocalizedComponent,
   NumberingSystem,
-  numberStringFormatter,
-  updateEffectiveLocale
+  numberStringFormatter
 } from "../../utils/locale";
 import { Messages } from "../time-picker/assets/time-picker/t9n";
 import { numberKeys } from "../../utils/key";
