@@ -407,7 +407,7 @@ describe("calcite-input-date-picker", () => {
     await page.keyboard.press("Enter");
     await page.waitForChanges();
 
-    expect(await datepickerEl.getProperty("valueAsDate")).toBe(["", "2022-08-30"]);
+    expect(await datepickerEl.getProperty("valueAsDate")).toEqual(["", "2022-08-30"]);
   });
 
   it("should update this.value and input value when valueAsDate is set", async () => {
@@ -507,6 +507,6 @@ describe("calcite-input-date-picker", () => {
     await page.keyboard.press("Enter");
     await page.waitForChanges();
 
-    expect(await datepickerEl.getProperty("value")).toBe(["2022-08-15", "2022-08-20"]);
+    expect(await datepickerEl.getProperty("value")).toEqual(["2022-08-15", "2022-08-20"]);
   });
 });
