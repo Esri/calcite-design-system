@@ -200,7 +200,7 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
   }
 
   render(): VNode {
-    const isSingleSelect = getElementProp(this.el, "selection-mode", "multi") === "single";
+    const isSingleSelect = getElementProp(this.el, "selection-mode", "multiple") === "single";
     const classes = {
       [CSS.label]: true,
       [CSS.selected]: this.selected,

@@ -29,7 +29,7 @@ describe("calcite-accordion", () => {
     expect(element).toEqualAttribute("appearance", "solid");
     expect(element).toEqualAttribute("icon-position", "end");
     expect(element).toEqualAttribute("scale", "m");
-    expect(element).toEqualAttribute("selection-mode", "multi");
+    expect(element).toEqualAttribute("selection-mode", "multiple");
     expect(element).toEqualAttribute("icon-type", "chevron");
   });
 
@@ -98,7 +98,7 @@ describe("calcite-accordion", () => {
     ${accordionContent}
     </calcite-accordion>`);
     const element = await page.find("calcite-accordion");
-    expect(element).toEqualAttribute("selection-mode", "multi");
+    expect(element).toEqualAttribute("selection-mode", "multiple");
     const item1 = await element.find("calcite-accordion-item[id='1']");
     const item2 = await element.find("calcite-accordion-item[id='2']");
     const item3 = await element.find("calcite-accordion-item[id='3']");

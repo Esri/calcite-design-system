@@ -1,7 +1,7 @@
 import { Component, Element, Event, EventEmitter, h, Listen, Prop, VNode } from "@stencil/core";
-import { AccordionSelectionMode, RequestedItem } from "./interfaces";
+import { RequestedItem } from "./interfaces";
 import { Appearance, Position, Scale } from "../interfaces";
-
+import { SelectionMode } from "../interfaces";
 /**
  * @slot - A slot for adding `calcite-accordion-item`s. `calcite-accordion` cannot be nested, however `calcite-accordion-item`s can.
  */
@@ -44,7 +44,10 @@ export class Accordion {
    * Specifies the selection mode - `"multiple"` (allow any number of open items), `"single"` (allow one open item),
    * or `"single-persist"` (allow and require one open item).
    */
-  @Prop({ reflect: true }) selectionMode: AccordionSelectionMode = "multi";
+  @Prop({ reflect: true }) selectionMode: Extract<
+    "single" | "single-persist" | "multiple",
+    SelectionMode
+  > = "multiple";
 
   //--------------------------------------------------------------------------
   //

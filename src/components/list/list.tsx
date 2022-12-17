@@ -11,9 +11,9 @@ import {
   Event,
   EventEmitter
 } from "@stencil/core";
-import { CSS, debounceTimeout, SelectionAppearance, SelectionMode } from "./resources";
+import { CSS, debounceTimeout, SelectionAppearance } from "./resources";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
-
+import { SelectionMode } from "../interfaces";
 import { createObserver } from "../../utils/observers";
 import { getListItemChildren, updateListItemChildren } from "../list-item/utils";
 import { toAriaBoolean } from "../../utils/dom";
@@ -113,7 +113,8 @@ export class List implements InteractiveComponent, LoadableComponent {
   /**
    * Specifies the selection mode - `"multiple"` (allow any number of selected items), `"single"` (allows and require one selected item), `"none"` (no selected items).
    */
-  @Prop({ reflect: true }) selectionMode: SelectionMode = "none";
+  @Prop({ reflect: true }) selectionMode: Extract<"none" | "multiple" | "single", SelectionMode> =
+    "none";
 
   /**
    * Specifies the selection appearance - `"icon"` (displays a checkmark or dot) or `"border"` (displays a border).
