@@ -170,6 +170,7 @@ export class DropdownItem implements LoadableComponent {
         href={this.href}
         ref={(el) => (this.childLink = el)}
         rel={this.rel}
+        tabIndex={-1}
         target={this.target}
       >
         {slottedContent}
