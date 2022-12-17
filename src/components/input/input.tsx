@@ -560,6 +560,18 @@ export class Input
       this.childEl?.select();
     }
   }
+
+  // TODO: refactor so we don't need to sync the internals in color-picker
+  // https://github.com/Esri/calcite-components/issues/6100
+  /** @internal */
+  @Method()
+  async internalSyncChildElValue(): Promise<void> {
+    if (this.type === "number") {
+      this.childNumberEl.value = this.value;
+    } else {
+      this.childEl.value = this.value;
+    }
+  }
   //--------------------------------------------------------------------------
   //
   //  Private Methods
