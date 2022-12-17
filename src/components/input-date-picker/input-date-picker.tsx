@@ -19,7 +19,6 @@ import {
   inRange,
   dateFromISO,
   dateToISO,
-  setEndOfDay,
   dateFromLocalizedString,
   datePartsFromLocalizedString
 } from "../../utils/date";
@@ -46,7 +45,6 @@ import {
   reposition,
   updateAfterClose
 } from "../../utils/floating-ui";
-import { DateRangeChange } from "../date-picker/interfaces";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import { toAriaBoolean } from "../../utils/dom";
 import {
@@ -322,14 +320,6 @@ export class InputDatePicker
   //  Events
   //
   //--------------------------------------------------------------------------
-
-  /**
-   * Fires when a user changes the date range.
-   *
-   * @see [DateRangeChange](https://github.com/Esri/calcite-components/blob/master/src/components/date-picker/interfaces.ts#L1)
-   * @deprecated use `calciteInputDatePickerChange` instead.
-   */
-  @Event({ cancelable: false }) calciteDatePickerRangeChange: EventEmitter<DateRangeChange>;
 
   /**
    * Fires when the component's value changes.
@@ -882,18 +872,9 @@ export class InputDatePicker
     this.value = newValue;
     this.valueAsDate = newValue ? getValueAsDateRange(newValue) : undefined;
 
-    const eventDetail = {
-      startDate: newStartDate as Date,
-      endDate: newEndDate ? (setEndOfDay(newEndDate) as Date) : null
-    };
-
     const changeEvent = this.calciteInputDatePickerChange.emit();
-    const rangeChangeEvent = this.calciteDatePickerRangeChange.emit(eventDetail);
 
-    if (
-      (changeEvent && changeEvent.defaultPrevented) ||
-      (rangeChangeEvent && rangeChangeEvent.defaultPrevented)
-    ) {
+    if (changeEvent && changeEvent.defaultPrevented) {
       this.value = oldValue;
       if (oldValueIsArray) {
         this.setInputValue(oldValue[0], "start");

@@ -104,7 +104,7 @@ describe("calcite-input-date-picker", () => {
       await page.setContent(`<calcite-input-date-picker range></calcite-input-date-picker>`);
       const element = await page.find("calcite-input-date-picker");
       const changeEvent = await page.spyOnEvent("calciteInputDatePickerChange");
-      const deprecatedChangeEvent = await page.spyOnEvent("calciteDatePickerRangeChange");
+      const deprecatedChangeEvent = await page.spyOnEvent("calciteInputDatePickerRangeChange");
       element.setProperty("value", ["2023-03-07", "2023-03-08"]);
       await page.waitForChanges();
       expect(changeEvent).toHaveReceivedEventTimes(0);
@@ -120,7 +120,7 @@ describe("calcite-input-date-picker", () => {
       await page.setContent("<calcite-input-date-picker range></calcite-input-date-picker>");
       const input = await page.find("calcite-input-date-picker");
       const changeEvent = await page.spyOnEvent("calciteInputDatePickerChange");
-      const deprecatedChangeEvent = await page.spyOnEvent("calciteDatePickerRangeChange");
+      const deprecatedChangeEvent = await page.spyOnEvent("calciteInputDatePickerRangeChange");
 
       await input.callMethod("setFocus");
       await page.waitForChanges();
@@ -195,7 +195,7 @@ describe("calcite-input-date-picker", () => {
       await page.setContent("<calcite-input-date-picker></calcite-input-date-picker>");
       const inputDatePicker = await page.find("calcite-input-date-picker");
       const changeEvent = await page.spyOnEvent("calciteInputDatePickerChange");
-      const deprecatedChangeEvent = await page.spyOnEvent("calciteDatePickerRangeChange");
+      const deprecatedChangeEvent = await page.spyOnEvent("calciteInputDatePickerRangeChange");
 
       await inputDatePicker.callMethod("setFocus");
       await page.waitForChanges();
@@ -413,7 +413,7 @@ describe("calcite-input-date-picker", () => {
     await page.setContent(html` <calcite-input-date-picker layout="horizontal" range />`);
 
     const datepickerEl = await page.find("calcite-input-date-picker");
-    const eventSpy = await datepickerEl.spyOnEvent("calciteDatePickerRangeChange");
+    const eventSpy = await datepickerEl.spyOnEvent("calciteInputDatePickerRangeChange");
     await page.waitForChanges();
 
     await page.keyboard.press("Tab");
@@ -506,7 +506,7 @@ describe("calcite-input-date-picker", () => {
 
     const datepickerEl = await page.find("calcite-input-date-picker");
     datepickerEl.setProperty("value", ["2022-08-10", "2022-08-20"]);
-    const eventSpy = await datepickerEl.spyOnEvent("calciteDatePickerRangeChange");
+    const eventSpy = await datepickerEl.spyOnEvent("calciteInputDatePickerRangeChange");
 
     await page.keyboard.press("Tab");
     await page.waitForChanges();
