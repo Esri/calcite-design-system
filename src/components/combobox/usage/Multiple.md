@@ -1,5 +1,5 @@
 ```html
-<calcite-combobox label="Mulit selection-mode combobox" selection-mode="multi">
+<calcite-combobox label="Mulit selection-mode combobox" selection-mode="multiple">
   <calcite-combobox-item value="Trees" text-label="Trees">
     <calcite-combobox-item
       value="CommercialDamageAssessment - Damage to Commercial Buildings & Damage to Commercial Buildings"

@@ -14,9 +14,9 @@ import {
 import { SLOTS, CSS, ICONS } from "./resources";
 import { getElementDir, slotChangeHasAssignedElement, toAriaBoolean } from "../../utils/dom";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
-
 import { getDepth, getListItemChildren, updateListItemChildren } from "./utils";
-import { SelectionAppearance, SelectionMode } from "../list/resources";
+import { SelectionAppearance } from "../list/resources";
+import { SelectionMode } from "../interfaces";
 
 const focusMap = new Map<HTMLCalciteListElement, number>();
 
@@ -124,7 +124,8 @@ export class ListItem implements InteractiveComponent, LoadableComponent {
    *
    * @internal
    */
-  @Prop({ mutable: true }) selectionMode: SelectionMode = null;
+  @Prop({ mutable: true }) selectionMode: Extract<"none" | "multiple" | "single", SelectionMode> =
+    null;
 
   /**
    * Specifies the selection appearance - `"icon"` (displays a checkmark or dot) or `"border"` (displays a border).
