@@ -226,22 +226,22 @@ export class TimePicker
     switch (this.activeEl) {
       case this.hourEl:
         if (key === "ArrowRight") {
-          this.setFocus("minute");
+          this.focusPart("minute");
           event.preventDefault();
         }
         break;
       case this.minuteEl:
         switch (key) {
           case "ArrowLeft":
-            this.setFocus("hour");
+            this.focusPart("hour");
             event.preventDefault();
             break;
           case "ArrowRight":
             if (this.step !== 60) {
-              this.setFocus("second");
+              this.focusPart("second");
               event.preventDefault();
             } else if (this.hourCycle === "12") {
-              this.setFocus("meridiem");
+              this.focusPart("meridiem");
               event.preventDefault();
             }
             break;
@@ -250,12 +250,12 @@ export class TimePicker
       case this.secondEl:
         switch (key) {
           case "ArrowLeft":
-            this.setFocus("minute");
+            this.focusPart("minute");
             event.preventDefault();
             break;
           case "ArrowRight":
             if (this.hourCycle === "12") {
-              this.setFocus("meridiem");
+              this.focusPart("meridiem");
               event.preventDefault();
             }
             break;
@@ -265,10 +265,10 @@ export class TimePicker
         switch (key) {
           case "ArrowLeft":
             if (this.step !== 60) {
-              this.setFocus("second");
+              this.focusPart("second");
               event.preventDefault();
             } else {
-              this.setFocus("minute");
+              this.focusPart("minute");
               event.preventDefault();
             }
             break;
@@ -285,14 +285,12 @@ export class TimePicker
 
   /**
    * Sets focus on the component.
-   *
-   * @param target
    */
   @Method()
-  async setFocus(target: TimePart): Promise<void> {
+  async setFocus(): Promise<void> {
     await componentLoaded(this);
 
-    this[`${target || "hour"}El`]?.focus();
+    this.el?.focus();
   }
 
   // --------------------------------------------------------------------------
@@ -300,6 +298,12 @@ export class TimePicker
   //  Private Methods
   //
   // --------------------------------------------------------------------------
+
+  private async focusPart(target: TimePart): Promise<void> {
+    await componentLoaded(this);
+
+    this[`${target || "hour"}El`]?.focus();
+  }
 
   private buttonActivated(event: KeyboardEvent): boolean {
     const { key } = event;

@@ -19,7 +19,7 @@ Customize the modal by passing your content into multiple named slots: `header` 
 <calcite-modal aria-labelledby="modal-title" open>
   <h3 slot="header" id="modal-title">Title of the modal</h3>
   <div slot="content">The actual content of the modal</div>
-  <calcite-button slot="back" color="neutral" appearance="outline" icon="chevron-left" width="full">
+  <calcite-button slot="back" kind="neutral" appearance="outline" icon="chevron-left" width="full">
     Back
   </calcite-button>
   <calcite-button slot="secondary" width="full" appearance="outline"> Cancel </calcite-button>
@@ -57,7 +57,6 @@ modal.beforeClose = beforeClose;
 
 | Property               | Attribute                | Description                                                                                      | Type                                                                                | Default                   |
 | ---------------------- | ------------------------ | ------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------- | ------------------------- |
-| `backgroundColor`      | `background-color`       | Sets the background color of the component's content.                                            | `"grey" \| "white"`                                                                 | `"white"`                 |
 | `beforeClose`          | --                       | Passes a function to run before the component closes.                                            | `(el: HTMLElement) => Promise<void>`                                                | `() => Promise.resolve()` |
 | `closeButtonDisabled`  | `close-button-disabled`  | When `true`, disables the component's close button.                                              | `boolean`                                                                           | `false`                   |
 | `docked`               | `docked`                 | When `true`, prevents the component from expanding to the entire screen on mobile devices.       | `boolean`                                                                           | `undefined`               |
@@ -113,10 +112,11 @@ Type: `Promise<void>`
 
 ## CSS Custom Properties
 
-| Name                         | Description                                        |
-| ---------------------------- | -------------------------------------------------- |
-| `--calcite-modal-padding`    | Specifies the padding of the modal.                |
-| `--calcite-scrim-background` | The component's semi-transparent background color. |
+| Name                                 | Description                                                             |
+| ------------------------------------ | ----------------------------------------------------------------------- |
+| `--calcite-modal-content-background` | Specifies the background color of content placed in the `content` slot. |
+| `--calcite-modal-content-padding`    | Specifies the padding of the modal `content` slot.                      |
+| `--calcite-scrim-background`         | The component's semi-transparent background color.                      |
 
 ## Dependencies
 
