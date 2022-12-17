@@ -11,7 +11,6 @@ import {
   VNode
 } from "@stencil/core";
 import { TreeItemSelectDetail } from "./interfaces";
-import { TreeSelectionMode } from "../tree/interfaces";
 import {
   nodeListToArray,
   getElementDir,
@@ -20,7 +19,7 @@ import {
   toAriaBoolean
 } from "../../utils/dom";
 
-import { Scale } from "../interfaces";
+import { Scale, SelectionMode } from "../interfaces";
 import { CSS, SLOTS, ICONS } from "./resources";
 import { CSS_UTILITY } from "../../utils/resources";
 import {
@@ -105,14 +104,12 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
   /**
    * @internal
    */
-  @Prop({ mutable: true, reflect: true }) selectionMode: TreeSelectionMode;
+  @Prop({ mutable: true, reflect: true }) selectionMode: SelectionMode;
 
   @Watch("selectionMode")
   getselectionMode(): void {
     this.isSelectionMultiLike =
-      this.selectionMode === "multiple" ||
-      this.selectionMode === "multi" ||
-      this.selectionMode === "multichildren";
+      this.selectionMode === "multiple" || this.selectionMode === "multichildren";
   }
 
   //--------------------------------------------------------------------------
@@ -179,9 +176,7 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
     const rtl = getElementDir(this.el) === "rtl";
     const showBulletPoint = this.selectionMode === "single" || this.selectionMode === "children";
     const showCheckmark =
-      this.selectionMode === "multi" ||
-      this.selectionMode === "multiple" ||
-      this.selectionMode === "multichildren";
+      this.selectionMode === "multiple" || this.selectionMode === "multichildren";
     const showBlank = this.selectionMode === "none" && !this.hasChildren;
     const chevron = this.hasChildren ? (
       <calcite-icon
