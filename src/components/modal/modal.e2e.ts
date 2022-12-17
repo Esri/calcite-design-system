@@ -509,7 +509,7 @@ describe("calcite-modal accessibility checks", () => {
       const scrim = document.querySelector("calcite-modal").shadowRoot.querySelector(".scrim");
       return window.getComputedStyle(scrim).getPropertyValue("--calcite-scrim-background");
     });
-    expect(scrimStyles).toEqual(" rgba(0, 0, 0, 0.85)");
+    expect(scrimStyles.trim()).toEqual("rgba(0, 0, 0, 0.85)");
   });
 
   it("when modal css override set, scrim should adhere to requested color", async () => {
