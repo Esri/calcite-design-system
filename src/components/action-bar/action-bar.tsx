@@ -8,7 +8,8 @@ import {
   Watch,
   h,
   VNode,
-  Method
+  Method,
+  State
 } from "@stencil/core";
 import { Position, Scale, Layout } from "../interfaces";
 import { ExpandToggle, toggleChildActionText } from "../functional/ExpandToggle";
@@ -28,6 +29,15 @@ import {
   disconnectConditionalSlotComponent,
   ConditionalSlotComponent
 } from "../../utils/conditionalSlot";
+import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
+import {
+  connectMessages,
+  disconnectMessages,
+  setUpMessages,
+  T9nComponent,
+  updateMessages
+} from "../../utils/t9n";
+import { Messages } from "./assets/action-bar/t9n";
 import {
   setUpLoadableComponent,
   setComponentLoaded,
@@ -151,15 +161,20 @@ export class ActionBar
 
   expandToggleEl: HTMLCalciteActionElement;
 
+  @State() effectiveLocale: string;
+
+  @Watch("effectiveLocale")
+  effectiveLocaleChange(): void {
+    updateMessages(this, this.effectiveLocale);
+  }
+
+  @State() defaultMessages: Messages;
+
   // --------------------------------------------------------------------------
   //
   //  Lifecycle
   //
   // --------------------------------------------------------------------------
-
-  componentWillLoad(): void {
-    setUpLoadableComponent(this);
-  }
 
   componentDidLoad(): void {
     setComponentLoaded(this);
@@ -169,6 +184,8 @@ export class ActionBar
   connectedCallback(): void {
     const { el, expanded } = this;
 
+    connectLocalized(this);
+    connectMessages(this);
     toggleChildActionText({ parent: el, expanded });
 
     this.mutationObserver?.observe(el, { childList: true, subtree: true });
@@ -181,10 +198,17 @@ export class ActionBar
     connectConditionalSlotComponent(this);
   }
 
+  async componentWillLoad(): Promise<void> {
+    setUpLoadableComponent(this);
+    await setUpMessages(this);
+  }
+
   disconnectedCallback(): void {
     this.mutationObserver?.disconnect();
     this.resizeObserver?.disconnect();
     disconnectConditionalSlotComponent(this);
+    disconnectLocalized(this);
+    disconnectMessages(this);
   }
 
   // --------------------------------------------------------------------------
@@ -209,6 +233,7 @@ export class ActionBar
   @Method()
   async setFocus(): Promise<void> {
     await componentLoaded(this);
+
     this.el?.focus();
   }
 
@@ -218,7 +243,7 @@ export class ActionBar
   //
   // --------------------------------------------------------------------------
 
-  actionMenuOpenChangeHandler = (event: CustomEvent<void>): void => {
+  actionMenuOpenHandler = (event: CustomEvent<void>): void => {
     if ((event.target as HTMLCalciteActionGroupElement).menuOpen) {
       const composedPath = event.composedPath();
       Array.from(this.el.querySelectorAll("calcite-action-group")).forEach((group) => {
@@ -323,7 +348,7 @@ export class ActionBar
 
   render(): VNode {
     return (
-      <Host onCalciteActionMenuOpenChange={this.actionMenuOpenChangeHandler}>
+      <Host onCalciteActionMenuOpen={this.actionMenuOpenHandler}>
         <slot />
         {this.renderBottomActionGroup()}
       </Host>
