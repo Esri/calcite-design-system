@@ -11,7 +11,6 @@ import {
 import { html } from "../../../support/formatting";
 import { CSS } from "./resources";
 import { CSS as MONTH_HEADER_CSS } from "../date-picker-month-header/resources";
-import { dateFromISO, setEndOfDay } from "../../utils/date";
 import englishTranslations from "../date-picker/assets/date-picker/nls/en.json";
 import arabicTranslations from "../date-picker/assets/date-picker/nls/ar.json";
 
@@ -104,15 +103,12 @@ describe("calcite-input-date-picker", () => {
       await page.setContent(`<calcite-input-date-picker range></calcite-input-date-picker>`);
       const element = await page.find("calcite-input-date-picker");
       const changeEvent = await page.spyOnEvent("calciteInputDatePickerChange");
-      const deprecatedChangeEvent = await page.spyOnEvent("calciteInputDatePickerRangeChange");
       element.setProperty("value", ["2023-03-07", "2023-03-08"]);
       await page.waitForChanges();
       expect(changeEvent).toHaveReceivedEventTimes(0);
-      expect(deprecatedChangeEvent).toHaveReceivedEventTimes(0);
       element.setProperty("value", ["", ""]);
       await page.waitForChanges();
       expect(changeEvent).toHaveReceivedEventTimes(0);
-      expect(deprecatedChangeEvent).toHaveReceivedEventTimes(0);
     });
 
     it("emits when value is committed for date range", async () => {
@@ -120,7 +116,6 @@ describe("calcite-input-date-picker", () => {
       await page.setContent("<calcite-input-date-picker range></calcite-input-date-picker>");
       const input = await page.find("calcite-input-date-picker");
       const changeEvent = await page.spyOnEvent("calciteInputDatePickerChange");
-      const deprecatedChangeEvent = await page.spyOnEvent("calciteInputDatePickerRangeChange");
 
       await input.callMethod("setFocus");
       await page.waitForChanges();
@@ -135,39 +130,26 @@ describe("calcite-input-date-picker", () => {
 
       const inputtedStartDate = "1/1/2020";
       const expectedStartDateComponentValue = "2020-01-01";
-      const expectedStartDateISO = dateFromISO(expectedStartDateComponentValue).toISOString();
 
       const inputtedEndDate = "2/2/2020";
       const expectedEndDateComponentValue = "2020-02-02";
-      const expectedEndDateISO = setEndOfDay(dateFromISO(expectedEndDateComponentValue)).toISOString();
 
       await page.keyboard.type(inputtedStartDate);
       await page.keyboard.press("Enter");
       await page.waitForChanges();
 
-      let expectedEventDetail = { startDate: expectedStartDateISO, endDate: null };
-
       expect(await input.getProperty("value")).toEqual([expectedStartDateComponentValue, ""]);
       expect(changeEvent).toHaveReceivedEventTimes(1);
-      expect(deprecatedChangeEvent).toHaveReceivedEventTimes(1);
-      expect(deprecatedChangeEvent).toHaveReceivedEventDetail(expectedEventDetail);
 
       await page.keyboard.type(inputtedEndDate);
       await page.keyboard.press("Enter");
       await page.waitForChanges();
-
-      expectedEventDetail = {
-        startDate: expectedStartDateISO,
-        endDate: expectedEndDateISO
-      };
 
       expect(await input.getProperty("value")).toEqual([
         expectedStartDateComponentValue,
         expectedEndDateComponentValue
       ]);
       expect(changeEvent).toHaveReceivedEventTimes(2);
-      expect(deprecatedChangeEvent).toHaveReceivedEventTimes(2);
-      expect(deprecatedChangeEvent).toHaveReceivedEventDetail(expectedEventDetail);
 
       await page.keyboard.press("Backspace");
       await page.keyboard.press("Backspace");
@@ -182,12 +164,8 @@ describe("calcite-input-date-picker", () => {
       await page.keyboard.press("Enter");
       await page.waitForChanges();
 
-      expectedEventDetail = { startDate: expectedStartDateISO, endDate: null };
-
       expect(await input.getProperty("value")).toEqual([expectedStartDateComponentValue, ""]);
       expect(changeEvent).toHaveReceivedEventTimes(3);
-      expect(deprecatedChangeEvent).toHaveReceivedEventTimes(3);
-      expect(deprecatedChangeEvent).toHaveReceivedEventDetail(expectedEventDetail);
     });
 
     it("doesn't emit change event and doesn't clear input when an invalid date is entered in input (allows free form typing)", async () => {
@@ -195,7 +173,6 @@ describe("calcite-input-date-picker", () => {
       await page.setContent("<calcite-input-date-picker></calcite-input-date-picker>");
       const inputDatePicker = await page.find("calcite-input-date-picker");
       const changeEvent = await page.spyOnEvent("calciteInputDatePickerChange");
-      const deprecatedChangeEvent = await page.spyOnEvent("calciteInputDatePickerRangeChange");
 
       await inputDatePicker.callMethod("setFocus");
       await page.waitForChanges();
@@ -204,7 +181,6 @@ describe("calcite-input-date-picker", () => {
       await page.waitForChanges();
 
       expect(changeEvent).toHaveReceivedEventTimes(0);
-      expect(deprecatedChangeEvent).toHaveReceivedEventTimes(0);
 
       const inputValue = await page.evaluate(() => {
         const inputDatePicker = document.querySelector("calcite-input-date-picker");
@@ -413,7 +389,6 @@ describe("calcite-input-date-picker", () => {
     await page.setContent(html` <calcite-input-date-picker layout="horizontal" range />`);
 
     const datepickerEl = await page.find("calcite-input-date-picker");
-    const eventSpy = await datepickerEl.spyOnEvent("calciteInputDatePickerRangeChange");
     await page.waitForChanges();
 
     await page.keyboard.press("Tab");
@@ -432,10 +407,7 @@ describe("calcite-input-date-picker", () => {
     await page.keyboard.press("Enter");
     await page.waitForChanges();
 
-    expect(eventSpy).toHaveReceivedEventDetail({
-      startDate: null,
-      endDate: new Date(2022, 7, 30, 23, 59, 59, 999).toISOString()
-    });
+    expect(datepickerEl.getProperty("value")).toBe([null, new Date(2022, 7, 30, 23, 59, 59, 999).toISOString()]);
   });
 
   it("should update this.value and input value when valueAsDate is set", async () => {
@@ -506,7 +478,6 @@ describe("calcite-input-date-picker", () => {
 
     const datepickerEl = await page.find("calcite-input-date-picker");
     datepickerEl.setProperty("value", ["2022-08-10", "2022-08-20"]);
-    const eventSpy = await datepickerEl.spyOnEvent("calciteInputDatePickerRangeChange");
 
     await page.keyboard.press("Tab");
     await page.waitForChanges();
@@ -535,9 +506,9 @@ describe("calcite-input-date-picker", () => {
     await page.keyboard.press("Enter");
     await page.waitForChanges();
 
-    expect(eventSpy).toHaveReceivedEventDetail({
-      startDate: new Date(2022, 7, 15).toISOString(),
-      endDate: new Date(2022, 7, 20, 23, 59, 59, 999).toISOString()
-    });
+    expect(datepickerEl.getProperty("value")).toBe([
+      new Date(2022, 7, 15).toISOString(),
+      new Date(2022, 7, 20, 23, 59, 59, 999).toISOString()
+    ]);
   });
 });
