@@ -9,6 +9,37 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ### ⚠ BREAKING CHANGES
 
+- **input:** remove deprecated event payload
+
+* Removed the `nativeEvent` payload property which was being used
+  internally.
+
+- **radio-group:** - Removed `minimal` appearance value, use `outline` instead.
+- **input-date-picker:** remove deprecated event
+
+* Removed `calciteDatePickerRangeChange` event, use
+  `calciteInputDatePickerChange` instead.
+
+- **date-picker:** Removed `endAsDate` and `startAsDate` properties, use
+  `valueAsDate` instead
+
+* Removed `endAsDate` and `startAsDate` properties, use `valueAsDate`
+  instead
+
+- **time-picker:** remove `target` parameter from `setFocus()`
+
+* Removed `target` parameter from `setFocus()`, focus will be delegated
+  to the first focusable element instead.
+
+- **input-time-picker:** Removed deprecated `locale` property.
+
+* Removed the property `locale`, use `lang` instead.
+
+- **accordion, combobox, dropdown, list, tree:** Removes `multi` value of `selection-mode`.
+
+Removes the `multi` value for `selection-mode` property, use `multiple`
+instead.
+
 - **shell-panel:** Removed deprecated `intlResize` property.
 
 * Removed the property `intlResize`, use `messagesOverrides.resize`
