@@ -1,4 +1,4 @@
-import { newE2EPage } from "@stencil/core/testing";
+import { newE2EPage, E2EElement } from "@stencil/core/testing";
 import { accessible, renders, hidden } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { CSS } from "../accordion-item/resources";
@@ -47,23 +47,58 @@ describe("calcite-accordion", () => {
     expect(element).toEqualAttribute("icon-type", "caret");
   });
 
-  it("renders icon if requested", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`
-    <calcite-accordion appearance="minimal" icon-position="start"  scale="l" selection-mode="single-persist" icon-type="caret">
-    <calcite-accordion-item heading="Accordion Title 1" icon-start="car" id="1">Accordion Item Content
-    </calcite-accordion-item>
-    <calcite-accordion-item heading="Accordion Title 1" id="2" expanded>Accordion Item Content
-    </calcite-accordion-item>
-    <calcite-accordion-item heading="Accordion Title 3" icon-start="car" id="3">Accordion Item Content
-    </calcite-accordion-item>
-    </calcite-accordion>`);
-    const icon1 = await page.find(`calcite-accordion-item[id='1'] >>> .${CSS.iconStart}`);
-    const icon2 = await page.find(`calcite-accordion-item[id='2'] >>> .${CSS.iconStart}`);
-    const icon3 = await page.find(`calcite-accordion-item[id='3'] >>> .${CSS.iconStart}`);
-    expect(icon1).not.toBe(null);
-    expect(icon2).toBe(null);
-    expect(icon3).not.toBe(null);
+  describe("icon behavior", () => {
+    let page: E2EPage;
+    const scale = { l: "l", m: "m", s: "s" };
+    const accordionItemContent = html`<calcite-accordion-item icon-start="car" id="1"></calcite-accordion-item>
+      <calcite-accordion-item id="2"></calcite-accordion-item>
+      <calcite-accordion-item icon-start="car" id="3"></calcite-accordion-item>`;
+
+    beforeEach(async () => {
+      page = await newE2EPage();
+      await page.setContent(html`<calcite-accordion scale="l"> ${accordionItemContent} </calcite-accordion>`);
+      await page.waitForChanges();
+    });
+
+    it("renders icon if requested", async () => {
+      const icon1: E2EElement = await page.find(`calcite-accordion-item[id='1'] >>> .${CSS.iconStart}`);
+      const icon2: E2EElement = await page.find(`calcite-accordion-item[id='2'] >>> .${CSS.iconStart}`);
+      const icon3: E2EElement = await page.find(`calcite-accordion-item[id='3'] >>> .${CSS.iconStart}`);
+      expect(icon1).not.toBe(null);
+      expect(icon2).toBe(null);
+      expect(icon3).not.toBe(null);
+    });
+
+    it("renders m scale icon for l scale accordion-item", async () => {
+      const item1: E2EElement = await page.find(`calcite-accordion-item[id='1']`);
+      expect(await item1.getProperty("scale")).toBe(scale.l);
+      const icon1: E2EElement = await page.find(`calcite-accordion-item[id='1'] >>> .${CSS.iconStart}`);
+      expect(await icon1.getProperty("scale")).toBe(scale.m);
+    });
+
+    it("renders corresponding scale on accordion-item when parent scale changes, icon scale not affected", async () => {
+      const accordion: E2EElement = await page.find("calcite-accordion");
+      await accordion.setProperty("scale", scale.s);
+      await page.waitForChanges();
+
+      const item1: E2EElement = await page.find(`calcite-accordion-item[id='1']`);
+      expect(await item1.getProperty("scale")).toEqual(scale.s);
+
+      const icon1: E2EElement = await page.find(`calcite-accordion-item[id='1'] >>> .${CSS.iconStart}`);
+      expect(await icon1.getProperty("scale")).toEqual(scale.m);
+    });
+
+    it("renders expected scale icon on child when scale is set on child level (no parent override)", async () => {
+      const accordion: E2EElement = await page.find("calcite-accordion");
+      await accordion.getProperty("scale", scale.l);
+
+      const item1: E2EElement = await page.find(`calcite-accordion-item[id='1']`);
+      await item1.setProperty("scale", scale.m);
+      await page.waitForChanges();
+
+      expect(await accordion.getProperty("scale")).toEqual(scale.l);
+      expect(await item1.getProperty("scale")).toEqual(scale.m);
+    });
   });
 
   it("renders expanded item based on attribute in dom", async () => {
