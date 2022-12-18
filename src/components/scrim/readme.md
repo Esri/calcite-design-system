@@ -47,6 +47,12 @@
 | ---- | ---------------------------------------------------------------- |
 |      | A slot for adding custom content, primarily loading information. |
 
+## CSS Custom Properties
+
+| Name                         | Description                                  |
+| ---------------------------- | -------------------------------------------- |
+| `--calcite-scrim-background` | Specifies the background color of the scrim. |
+
 ## Dependencies
 
 ### Used by
