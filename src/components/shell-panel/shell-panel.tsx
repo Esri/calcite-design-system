@@ -16,7 +16,7 @@ import {
   T9nComponent,
   updateMessages
 } from "../../utils/t9n";
-import { Messages } from "./assets/shell-panel/t9n";
+import { ShellPanelMessages } from "./assets/shell-panel/t9n";
 
 /**
  * @slot - A slot for adding content to the component.
@@ -71,12 +71,12 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
    *
    * @internal
    */
-  @Prop({ mutable: true }) messages: Messages;
+  @Prop({ mutable: true }) messages: ShellPanelMessages;
 
   /**
    * Use this property to override individual strings used by the component.
    */
-  @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
+  @Prop({ mutable: true }) messageOverrides: Partial<ShellPanelMessages>;
 
   @Watch("messageOverrides")
   onMessagesChange(): void {
@@ -135,7 +135,7 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
 
   stepMultiplier = 10;
 
-  @State() defaultMessages: Messages;
+  @State() defaultMessages: ShellPanelMessages;
 
   @State() effectiveLocale = "";
 

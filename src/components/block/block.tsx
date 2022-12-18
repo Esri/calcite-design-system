@@ -29,7 +29,7 @@ import {
   updateMessages
 } from "../../utils/t9n";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
-import { Messages } from "./assets/block/t9n";
+import { BlockMessages } from "./assets/block/t9n";
 
 /**
  * @slot - A slot for adding content to the component.
@@ -102,12 +102,12 @@ export class Block
    *
    * @internal
    */
-  @Prop({ mutable: true }) messages: Messages;
+  @Prop({ mutable: true }) messages: BlockMessages;
 
   /**
    * Use this property to override individual strings used by the component.
    */
-  @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
+  @Prop({ mutable: true }) messageOverrides: Partial<BlockMessages>;
 
   @Watch("messageOverrides")
   onMessagesChange(): void {
@@ -131,7 +131,7 @@ export class Block
     updateMessages(this, this.effectiveLocale);
   }
 
-  @State() defaultMessages: Messages;
+  @State() defaultMessages: BlockMessages;
 
   // --------------------------------------------------------------------------
   //

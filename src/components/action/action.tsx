@@ -18,7 +18,7 @@ import { createObserver } from "../../utils/observers";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import { toAriaBoolean } from "../../utils/dom";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
-import { Messages } from "./assets/action/t9n";
+import { ActionMessages } from "./assets/action/t9n";
 import {
   connectMessages,
   disconnectMessages,
@@ -115,12 +115,12 @@ export class Action
    *
    * @internal
    */
-  @Prop({ mutable: true }) messages: Messages;
+  @Prop({ mutable: true }) messages: ActionMessages;
 
   /**
    * Use this property to override individual strings used by the component.
    */
-  @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
+  @Prop({ mutable: true }) messageOverrides: Partial<ActionMessages>;
 
   @Watch("messageOverrides")
   onMessagesChange(): void {
@@ -146,7 +146,7 @@ export class Action
     updateMessages(this, this.effectiveLocale);
   }
 
-  @State() defaultMessages: Messages;
+  @State() defaultMessages: ActionMessages;
 
   guid = `calcite-action-${guid()}`;
 

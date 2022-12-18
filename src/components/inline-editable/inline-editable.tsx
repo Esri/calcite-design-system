@@ -25,7 +25,7 @@ import {
   T9nComponent,
   updateMessages
 } from "../../utils/t9n";
-import { Messages } from "./assets/inline-editable/t9n";
+import { InlineEditableMessages } from "./assets/inline-editable/t9n";
 import {
   setUpLoadableComponent,
   setComponentLoaded,
@@ -110,12 +110,12 @@ export class InlineEditable
    *
    * @internal
    */
-  @Prop({ mutable: true }) messages: Messages;
+  @Prop({ mutable: true }) messages: InlineEditableMessages;
 
   /**
    * Use this property to override individual strings used by the component.
    */
-  @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
+  @Prop({ mutable: true }) messageOverrides: Partial<InlineEditableMessages>;
 
   @Watch("messageOverrides")
   onMessagesChange(): void {
@@ -274,7 +274,7 @@ export class InlineEditable
 
   mutationObserver = createObserver("mutation", () => this.mutationObserverCallback());
 
-  @State() defaultMessages: Messages;
+  @State() defaultMessages: InlineEditableMessages;
 
   @State() effectiveLocale: string;
 

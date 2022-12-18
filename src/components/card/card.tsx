@@ -25,7 +25,7 @@ import {
   T9nComponent,
   updateMessages
 } from "../../utils/t9n";
-import { Messages } from "./assets/card/t9n";
+import { CardMessages } from "./assets/card/t9n";
 
 /**
  * Cards do not include a grid or bounding container
@@ -79,12 +79,12 @@ export class Card implements ConditionalSlotComponent, LocalizedComponent, T9nCo
    *
    * @internal
    */
-  @Prop({ mutable: true }) messages: Messages;
+  @Prop({ mutable: true }) messages: CardMessages;
 
   /**
    * Use this property to override individual strings used by the component.
    */
-  @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
+  @Prop({ mutable: true }) messageOverrides: Partial<CardMessages>;
 
   @Watch("messageOverrides")
   onMessagesChange(): void {
@@ -158,7 +158,7 @@ export class Card implements ConditionalSlotComponent, LocalizedComponent, T9nCo
     updateMessages(this, this.effectiveLocale);
   }
 
-  @State() defaultMessages: Messages;
+  @State() defaultMessages: CardMessages;
 
   //--------------------------------------------------------------------------
   //

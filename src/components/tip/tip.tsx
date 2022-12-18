@@ -26,7 +26,7 @@ import {
   T9nComponent,
   updateMessages
 } from "../../utils/t9n";
-import { Messages } from "./assets/tip/t9n";
+import { TipMessages } from "./assets/tip/t9n";
 
 /**
  * @slot - A slot for adding text and a hyperlink.
@@ -76,12 +76,12 @@ export class Tip implements ConditionalSlotComponent, LocalizedComponent, T9nCom
    *
    * @internal
    */
-  @Prop({ mutable: true }) messages: Messages;
+  @Prop({ mutable: true }) messages: TipMessages;
 
   /**
    * Use this property to override individual strings used by the component.
    */
-  @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
+  @Prop({ mutable: true }) messageOverrides: Partial<TipMessages>;
 
   @Watch("messageOverrides")
   onMessagesChange(): void {
@@ -96,7 +96,7 @@ export class Tip implements ConditionalSlotComponent, LocalizedComponent, T9nCom
 
   @Element() el: HTMLCalciteTipElement;
 
-  @State() defaultMessages: Messages;
+  @State() defaultMessages: TipMessages;
 
   @State() effectiveLocale = "";
 

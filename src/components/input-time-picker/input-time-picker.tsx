@@ -32,7 +32,7 @@ import {
   NumberingSystem,
   numberStringFormatter
 } from "../../utils/locale";
-import { Messages } from "../time-picker/assets/time-picker/t9n";
+import { TimePickerMessages } from "../time-picker/assets/time-picker/t9n";
 import { numberKeys } from "../../utils/key";
 import {
   setUpLoadableComponent,
@@ -108,7 +108,7 @@ export class InputTimePicker
   /**
    * Use this property to override individual strings used by the component.
    */
-  @Prop() messagesOverrides: Partial<Messages>;
+  @Prop() messagesOverrides: Partial<TimePickerMessages>;
 
   /** Specifies the name of the component on form submission. */
   @Prop() name: string;

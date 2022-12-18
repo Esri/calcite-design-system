@@ -52,7 +52,7 @@ import {
   connectOpenCloseComponent,
   disconnectOpenCloseComponent
 } from "../../utils/openCloseComponent";
-import { Messages } from "../date-picker/assets/date-picker/t9n";
+import { DatePickerMessages } from "../date-picker/assets/date-picker/t9n";
 import {
   connectLocalized,
   disconnectLocalized,
@@ -278,7 +278,7 @@ export class InputDatePicker
   /**
    * Use this property to override individual strings used by the component.
    */
-  @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
+  @Prop({ mutable: true }) messageOverrides: Partial<DatePickerMessages>;
 
   //--------------------------------------------------------------------------
   //
