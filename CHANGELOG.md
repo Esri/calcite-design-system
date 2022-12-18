@@ -11,182 +11,180 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 - **input:** remove deprecated event payload
 
-* Removed the `nativeEvent` payload property which was being used
-  internally.
+  - Removed the `nativeEvent` payload property which was being used
+    internally.
 
 - **radio-group:** - Removed `minimal` appearance value, use `outline` instead.
 - **input-date-picker:** remove deprecated event
 
-* Removed `calciteDatePickerRangeChange` event, use
-  `calciteInputDatePickerChange` instead.
+  - Removed `calciteDatePickerRangeChange` event, use
+    `calciteInputDatePickerChange` instead.
 
 - **date-picker:** Removed `endAsDate` and `startAsDate` properties, use
   `valueAsDate` instead
 
-* Removed `endAsDate` and `startAsDate` properties, use `valueAsDate`
-  instead
+  - Removed `endAsDate` and `startAsDate` properties, use `valueAsDate`
+    instead
 
 - **time-picker:** remove `target` parameter from `setFocus()`
 
-* Removed `target` parameter from `setFocus()`, focus will be delegated
-  to the first focusable element instead.
+  - Removed `target` parameter from `setFocus()`, focus will be delegated
+    to the first focusable element instead.
 
 - **input-time-picker:** Removed deprecated `locale` property.
 
-* Removed the property `locale`, use `lang` instead.
+  - Removed the property `locale`, use `lang` instead.
 
 - **accordion, combobox, dropdown, list, tree:** Removes `multi` value of `selection-mode`.
 
-Removes the `multi` value for `selection-mode` property, use `multiple`
-instead.
+  - Removed the `multi` value for `selection-mode` property, use `multiple`
+    instead.
 
 - **shell-panel:** Removed deprecated `intlResize` property.
 
-* Removed the property `intlResize`, use `messagesOverrides.resize`
-  instead.
+  - Removed the property `intlResize`, use `messagesOverrides.resize`
+    instead.
 
 * **modal:** Removed `backgroundColor` property.
 
-- Removed the property `backgroundColor`, use the CSS variable
-  `--calcite-modal-content-background` instead.
+  - Removed the property `backgroundColor`, use the CSS variable
+    `--calcite-modal-content-background` instead.
 
 - **modal:** Removed `--calcite-modal-padding` CSS variable.
 
-* Removed the `--calcite-modal-padding` CSS variable, use the
-  `--calcite-modal-content-padding` CSS variable instead.
+  - Removed the `--calcite-modal-padding` CSS variable, use the
+    `--calcite-modal-content-padding` CSS variable instead.
 
 * **color-picker-hex-input:** removed `intl` properties.
 
-- Removed, `intlHex` property, aria-label of color-picker-hex-input is
-  set to `hex` by default.
-- Removed ,`intlNoColor` property.
+  - Removed, `intlHex` property, aria-label of color-picker-hex-input is
+    set to `hex` by default.
+  - Removed ,`intlNoColor` property.
 
-_note: color-picker-hex-input is `internal` component._
+  _note: color-picker-hex-input is `internal` component._
 
 - **input-date-picker:** Removed the `start`, `end`, `startAsDate`, and
   `endAsDate` properties.
 
-* Removed the property `start`, use `value` instead.
-* Removed the property `end`, use `value` instead.
-* Removed the property `startAsDate`, use `valueAsDate` instead.
-* Removed the property `endAsDate`, use `valueAsDate` instead.
+  - Removed the property `start`, use `value` instead.
+  - Removed the property `end`, use `value` instead.
+  - Removed the property `startAsDate`, use `valueAsDate` instead.
+  - Removed the property `endAsDate`, use `valueAsDate` instead.
 
 * **chip:** Renamed `color` property and updated values, and
   updated `appearance` values.
 
-- Renamed the property `color`, use `kind` instead.
-- Updated the accepted values of `kind` to `brand`, `inverse`, and
-  `neutral` (default).
-- Updated the accepted values of `appearance` to , `outline`,
-  `outline-fill` and `solid` (default).
+  - Renamed the property `color`, use `kind` instead.
+  - Updated the accepted values of `kind` to `brand`, `inverse`, and
+    `neutral` (default).
+  - Updated the accepted values of `appearance` to , `outline`,
+    `outline-fill` and `solid` (default).
 
 * **button, fab, split-button:** Removed deprecated properties and values.
 
-- `button`: Removed the property `form`, this property is no longer
-  needed if the component is placed inside a form.
-- `button`, `fab`, `split-button`: Renamed the property `color`, use
-  `kind` instead.
-- `button`, `fab`, `split-button`: Updated the accepted values of `kind`
-  to `brand` (default), `danger`, `inverse`, and `neutral`.
-- `button`, `split-button`: Updated the accepted values of `appearance`
-  to `outline`, `outline-fill` and `solid` (default).
-- `fab`: Updated the accepted values of `appearance` to `outline-fill`
-  and `solid` (default).
-
-- Removed the `focusId` parameter from `action-bar` and
-  `action-pad`'s `setFocus` method
+  - `button`: Removed the property `form`, this property is no longer
+    needed if the component is placed inside a form.
+  - `button`, `fab`, `split-button`: Renamed the property `color`, use
+    `kind` instead.
+  - `button`, `fab`, `split-button`: Updated the accepted values of `kind`
+    to `brand` (default), `danger`, `inverse`, and `neutral`.
+  - `button`, `split-button`: Updated the accepted values of `appearance`
+    to `outline`, `outline-fill` and `solid` (default).
+  - `fab`: Updated the accepted values of `appearance` to `outline-fill`
+    and `solid` (default).
 
 * **action-bar, action-pad:** Removed `focusId` paramter `setFocus`
   method, focus is delegated to the first focusable element.
 
 * **notice:** Removed deprecated properties.
 
-Removed the property `active`, use `open` instead.
-Removed the property `dimissible`, use `closable` property instead.
+  - Removed the property `active`, use `open` instead.
+  - Removed the property `dimissible`, use `closable` property instead.
 
 - **modal,notice,pagination,panel,pick-list-item,popover:** Removed deprecated intl\* & accessible label properties.
 
-* modal:
+  - modal:
 
-- Removed the property `intlClose` , use `messsageOverrides.close`
-  instead.
+    - Removed the property `intlClose` , use `messsageOverrides.close`
+      instead.
 
-* notice:
+  - notice:
 
-- Removed the property `intlClose` , use `messsageOverrides.close`
-  instead.
+    - Removed the property `intlClose` , use `messsageOverrides.close`
+      instead.
 
-* pagination:
+  - pagination:
 
-- Removed the property `textLabelNext` , use `messsageOverrides.next`
-  instead.
-- Removed the property `textLabelPrevious` , use
-  `messsageOverrides.previous` instead.
+    - Removed the property `textLabelNext` , use `messsageOverrides.next`
+      instead.
+    - Removed the property `textLabelPrevious` , use
+      `messsageOverrides.previous` instead.
 
-* panel:
+  - panel:
 
-- Removed the property `intlClose` , use `messsageOverrides.close`
-  instead.
-- Removed the property `intlOptions`, use `messsageOverrides.options`
-  instead.
+    - Removed the property `intlClose` , use `messsageOverrides.close`
+      instead.
+    - Removed the property `intlOptions`, use `messsageOverrides.options`
+      instead.
 
-* pick-list-item:
+  - pick-list-item:
 
-- Removed the property `intlRemove` , use `messsageOverrides.remove`
-  instead.
+    - Removed the property `intlRemove` , use `messsageOverrides.remove`
+      instead.
 
-* popover:
+  - popover:
 
-- Removed the property `intlClose` , use `messsageOverrides.close`
-  instead.
+    - Removed the property `intlClose` , use `messsageOverrides.close`
+      instead.
+
 - **chip,combobox-item:** Removed deprecated event payload.
 
-* Removed the `event.detail` property on the event `calciteChipDismiss`,
-  use `event.target` instead.
-* Removed the `event.detail` property on the event
-  `calciteComboboxChipDismiss`, use `event.target` instead.
+  - Removed the `event.detail` property on the event `calciteChipDismiss`,
+    use `event.target` instead.
+  - Removed the `event.detail` property on the event
+    `calciteComboboxChipDismiss`, use `event.target` instead.
 
 - **radio-group:** Removed `event.detail` payload from events.
 
-* Removed the `event.detail` property on the event
-  `calciteRadioGroupChange`, use `event.target` instead.
+  - Removed the `event.detail` property on the event
+    `calciteRadioGroupChange`, use `event.target` instead.
 
 - **date-picker-month, date-picker-month-header:** Removed events.
 
-* Removed the event `calciteDatePickerSelect` on
-  `CalciteDatePickerMonthHeader`
-* Removed the event `calciteDatePickerSelect` on
-  `CalciteDatePickerMonth`
-* Removed the event `calciteDatePickerActiveDateChange` on
-  `CalciteDatePickerMonth`
+  - Removed the event `calciteDatePickerSelect` on
+    `CalciteDatePickerMonthHeader`
+  - Removed the event `calciteDatePickerSelect` on
+    `CalciteDatePickerMonth`
+  - Removed the event `calciteDatePickerActiveDateChange` on
+    `CalciteDatePickerMonth`
 
 - **alert, notice:** Renamed `color` properties and updated values.
 
-* Renamed the property `color`, use `kind` instead.
-* Updated the accepted values of `kind` to `brand`, `danger`, `info`,
-  `success`, and `warning`.
+  - Renamed the property `color`, use `kind` instead.
+  - Updated the accepted values of `kind` to `brand`, `danger`, `info`,
+    `success`, and `warning`.
 
 * **modal:** Renamed `color` property and updated values.
 
-- Renamed the property `color`, use `kind` instead.
-- Updated the accepted values of `kind` to `brand`, `danger`, `info`,
-  `success`, and `warning`.
+  - Renamed the property `color`, use `kind` instead.
+  - Updated the accepted values of `kind` to `brand`, `danger`, `info`,
+    `success`, and `warning`.
 
 - **tab-nav, tab-title:** Removed `event.detail` payload from events.
 
-* TabNav
-* Removed the `event.detail` property on the event `calciteTabChange`,
-  use `event.target` instead.
-* TabTitle
-* Removed the `event.detail` property on the event
-  `calciteTabsActivate`, use `event.target` instead.
+  - TabNav
+    - Removed the `event.detail` property on the event `calciteTabChange`,
+      use `event.target` instead.
+  - TabTitle
+    - Removed the `event.detail` property on the event
+      `calciteTabsActivate`, use `event.target` instead.
 
 - **tree:** Removed `event.detail` payload from events and added
   `selectedItems` property.
 
-* Added property `selectedItems`.
-* Removed the `event.detail` property on the event `calciteTreeSelect`,
-  use `event.target` instead.
+  - Added property `selectedItems`.
+  - Removed the `event.detail` property on the event `calciteTreeSelect`,
+    use `event.target` instead.
 
 * **pagination:** Removed `event.detail` payload from events.
 
