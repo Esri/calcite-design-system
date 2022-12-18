@@ -33,7 +33,7 @@ import {
   T9nComponent,
   updateMessages
 } from "../../utils/t9n";
-import { Messages } from "./assets/panel/t9n";
+import { PanelMessages } from "./assets/panel/t9n";
 
 /**
  * @slot - A slot for adding custom content.
@@ -107,14 +107,14 @@ export class Panel
   /**
    * Use this property to override individual strings used by the component.
    */
-  @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
+  @Prop({ mutable: true }) messageOverrides: Partial<PanelMessages>;
 
   /**
    * Made into a prop for testing purposes only
    *
    * @internal
    */
-  @Prop({ mutable: true }) messages: Messages;
+  @Prop({ mutable: true }) messages: PanelMessages;
 
   @Watch("messageOverrides")
   onMessagesChange(): void {
@@ -183,7 +183,7 @@ export class Panel
 
   @State() hasFab = false;
 
-  @State() defaultMessages: Messages;
+  @State() defaultMessages: PanelMessages;
 
   @State() effectiveLocale = "";
 

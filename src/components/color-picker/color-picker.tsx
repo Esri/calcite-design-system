@@ -29,7 +29,7 @@ import { throttle } from "lodash-es";
 
 import { clamp } from "../../utils/math";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
-import { Messages } from "./assets/color-picker/t9n";
+import { ColorPickerMessages } from "./assets/color-picker/t9n";
 import { isActivationKey } from "../../utils/key";
 import {
   connectMessages,
@@ -146,7 +146,7 @@ export class ColorPicker
   /**
    * Use this property to override individual strings used by the component.
    */
-  @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
+  @Prop({ mutable: true }) messageOverrides: Partial<ColorPickerMessages>;
 
   @Watch("messageOverrides")
   onMessagesChange(): void {
@@ -240,7 +240,7 @@ export class ColorPicker
 
   private sliderThumbState: "idle" | "hover" | "drag" = "idle";
 
-  @State() defaultMessages: Messages;
+  @State() defaultMessages: ColorPickerMessages;
 
   @State() colorFieldAndSliderInteractive = false;
 
@@ -262,7 +262,7 @@ export class ColorPicker
    *
    * @internal
    */
-  @Prop({ mutable: true }) messages: Messages;
+  @Prop({ mutable: true }) messages: ColorPickerMessages;
 
   @State() savedColors: string[] = [];
 
