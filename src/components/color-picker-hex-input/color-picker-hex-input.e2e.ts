@@ -2,7 +2,6 @@ import { E2EElement, E2EPage, newE2EPage } from "@stencil/core/testing";
 import { accessible, defaults, focusable, reflects, renders, hidden } from "../../tests/commonTests";
 import { isValidHex, normalizeHex } from "../color-picker/utils";
 import { CSS } from "./resources";
-import { TEXT } from "../color-picker/resources";
 import { selectText } from "../../tests/utils";
 
 describe("calcite-color-picker-hex-input", () => {
@@ -21,14 +20,6 @@ describe("calcite-color-picker-hex-input", () => {
       {
         propertyName: "allowEmpty",
         defaultValue: false
-      },
-      {
-        propertyName: "intlHex",
-        defaultValue: TEXT.hex
-      },
-      {
-        propertyName: "intlNoColor",
-        defaultValue: TEXT.noColor
       },
       {
         propertyName: "value",

@@ -57,7 +57,7 @@ export class RadioGroup
   //--------------------------------------------------------------------------
 
   /** Specifies the appearance style of the component. */
-  @Prop({ reflect: true }) appearance: Extract<"minimal" | "solid", Appearance> = "solid";
+  @Prop({ reflect: true }) appearance: Extract<"outline" | "solid", Appearance> = "solid";
 
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @Prop({ reflect: true }) disabled = false;

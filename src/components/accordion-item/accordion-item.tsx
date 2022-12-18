@@ -18,7 +18,7 @@ import {
 import { CSS_UTILITY } from "../../utils/resources";
 import { SLOTS, CSS } from "./resources";
 import { FlipContext, Position, Scale } from "../interfaces";
-import { ItemKeyEvent, RegistryEntry, RequestedItem } from "./interfaces";
+import { RegistryEntry, RequestedItem } from "./interfaces";
 
 /**
  * @slot - A slot for adding custom content, including nested `calcite-accordion-item`s.
@@ -73,11 +73,6 @@ export class AccordionItem implements ConditionalSlotComponent {
   /**
    * @internal
    */
-  @Event({ cancelable: false }) calciteInternalAccordionItemKeyEvent: EventEmitter<ItemKeyEvent>;
-
-  /**
-   * @internal
-   */
   @Event({ cancelable: false }) calciteInternalAccordionItemSelect: EventEmitter<RequestedItem>;
 
   /**
@@ -98,7 +93,7 @@ export class AccordionItem implements ConditionalSlotComponent {
 
   connectedCallback(): void {
     this.parent = this.el.parentElement as HTMLCalciteAccordionElement;
-    this.selectionMode = getElementProp(this.el, "selection-mode", "multi");
+    this.selectionMode = getElementProp(this.el, "selection-mode", "multiple");
     this.iconType = getElementProp(this.el, "icon-type", "chevron");
     this.iconPosition = getElementProp(this.el, "icon-position", this.iconPosition);
 
@@ -228,16 +223,6 @@ export class AccordionItem implements ConditionalSlotComponent {
           this.emitRequestedItem();
           event.preventDefault();
           break;
-        case "ArrowUp":
-        case "ArrowDown":
-        case "Home":
-        case "End":
-          this.calciteInternalAccordionItemKeyEvent.emit({
-            parent: this.parent,
-            item: event
-          });
-          event.preventDefault();
-          break;
       }
     }
   }
@@ -287,7 +272,6 @@ export class AccordionItem implements ConditionalSlotComponent {
 
   private determineActiveItem(): void {
     switch (this.selectionMode) {
-      case "multi":
       case "multiple":
         if (this.el === this.requestedAccordionItem) {
           this.expanded = !this.expanded;
