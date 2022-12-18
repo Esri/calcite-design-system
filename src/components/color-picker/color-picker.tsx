@@ -366,7 +366,6 @@ export class ColorPicker
 
   private handleChannelInput = (event: CustomEvent): void => {
     const input = event.currentTarget as HTMLCalciteInputElement;
-    const internalInput = event.detail.nativeEvent.target as HTMLInputElement;
     const channelIndex = Number(input.getAttribute("data-channel-index"));
 
     const limit =
@@ -386,7 +385,10 @@ export class ColorPicker
     }
 
     input.value = inputValue;
-    internalInput.value = inputValue;
+
+    // TODO: refactor calcite-input so we don't need to sync the internals
+    // https://github.com/Esri/calcite-components/issues/6100
+    input.internalSyncChildElValue();
   };
 
   // using @Listen as a workaround for VDOM listener not firing
