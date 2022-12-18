@@ -84,6 +84,12 @@ Renders a header and icon with the icon.
 | `"header-menu-actions"` | A slot for adding an overflow menu with `calcite-action`s inside a dropdown. |
 | `"icon"`                | A slot for adding a leading header icon with `calcite-icon`.                 |
 
+## CSS Custom Properties
+
+| Name                      | Description                                        |
+| ------------------------- | -------------------------------------------------- |
+| `--calcite-block-padding` | Specifies the padding of the block `default` slot. |
+
 ## Dependencies
 
 ### Depends on
