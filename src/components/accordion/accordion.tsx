@@ -169,8 +169,10 @@ export class Accordion {
     items.sort((a, b) => a.position - b.position).map((a) => a.item);
 
   private passPropsToAccordionItems = (): void => {
-    Array.from(
-      this.el.querySelectorAll("calcite-accordion-item") as HTMLCalciteAccordionItemElement[]
+    (
+      Array.from(
+        this.el.querySelectorAll("calcite-accordion-item") as any
+      ) as HTMLCalciteAccordionItemElement[]
     ).forEach((accordionItem) => (accordionItem.scale = this.scale));
   };
 }
