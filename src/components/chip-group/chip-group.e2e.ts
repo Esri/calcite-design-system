@@ -1,5 +1,6 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { accessible, renders, hidden } from "../../tests/commonTests";
+import { CSS as CHIPCSS } from "../chip/resources";
 
 describe("calcite-chip-group", () => {
   it("renders", async () =>
@@ -191,39 +192,114 @@ describe("calcite-chip-group", () => {
 
     await chip1.click();
     await page.waitForChanges();
-    await chip1.click();
-    await page.waitForChanges();
 
     await page.keyboard.press("ArrowRight");
     await page.waitForChanges();
-    await expect(document.activeElement).toEqual(chip2);
+
+    expect(await page.evaluate(() => document.activeElement.id)).toEqual(chip2.id);
     await page.keyboard.press("ArrowRight");
+
     await page.waitForChanges();
-    await expect(document.activeElement).toEqual(chip3);
+    expect(await page.evaluate(() => document.activeElement.id)).toEqual(chip3.id);
+
     await page.keyboard.press("End");
     await page.waitForChanges();
-    expect(document.activeElement).toEqual(chip5);
+    expect(await page.evaluate(() => document.activeElement.id)).toEqual(chip5.id);
+
     await page.keyboard.press("ArrowLeft");
     await page.waitForChanges();
-    expect(document.activeElement).toEqual(chip4);
+    expect(await page.evaluate(() => document.activeElement.id)).toEqual(chip4.id);
+
     await page.keyboard.press("Home");
     await page.waitForChanges();
-    expect(document.activeElement).toEqual(chip1);
+    expect(await page.evaluate(() => document.activeElement.id)).toEqual(chip1.id);
+
     await page.keyboard.press("ArrowLeft");
     await page.waitForChanges();
-    expect(document.activeElement).toEqual(chip5);
+    expect(await page.evaluate(() => document.activeElement.id)).toEqual(chip5.id);
+
     await page.keyboard.press("ArrowRight");
     await page.waitForChanges();
-    expect(document.activeElement).toEqual(chip1);
+    expect(await page.evaluate(() => document.activeElement.id)).toEqual(chip1.id);
   });
 
-  // when item is dismissed, expect event to not have that item
-  // use keyboard to navigate
-  // after closing, use keyboard to navigate
-  // after using click on close button to dismiss button, focus is on previous item
-  // after closing using click, removed from selected items (how to check event detail against e2e element?)
-  /*
-  const closeButton = await page.find("#chip-2 >>> button");
-  await modal.setProperty("active", true);
-  */
+  it("when chips are selectable, and a chip is focused, using tab will focus the close button", async () => {
+    const page = await newE2EPage();
+    await page.setContent(
+      `<calcite-chip-group selection-mode="single">
+      <calcite-chip closable id="chip-1"></calcite-chip>
+      <calcite-chip closable id="chip-2"></calcite-chip>
+      <calcite-chip closable id="chip-3"></calcite-chip>
+      <calcite-chip closable id="chip-4"></calcite-chip>
+      <calcite-chip closable id="chip-5"></calcite-chip>
+      </calcite-chip-group>`
+    );
+
+    const chip1 = await page.find("#chip-1");
+    const chip2 = await page.find("#chip-2");
+    const chip3 = await page.find("#chip-3");
+    const chip4 = await page.find("#chip-4");
+
+    await page.keyboard.press("Tab");
+    await page.waitForChanges();
+    expect(await page.evaluate(() => document.activeElement.id)).toEqual(chip1.id);
+
+    await page.keyboard.press("Tab");
+    await page.waitForChanges();
+    expect(await page.$eval(`#${chip1.id}`, (el) => el.shadowRoot.activeElement.className)).toEqual(CHIPCSS.close);
+
+    await page.keyboard.press("Tab");
+    await page.waitForChanges();
+    expect(await page.evaluate(() => document.activeElement.id)).toEqual(chip2.id);
+
+    await page.keyboard.press("Tab");
+    await page.waitForChanges();
+    expect(await page.$eval(`#${chip2.id}`, (el) => el.shadowRoot.activeElement.className)).toEqual(CHIPCSS.close);
+
+    await page.keyboard.press("ArrowRight");
+    await page.waitForChanges();
+    expect(await page.evaluate(() => document.activeElement.id)).toEqual(chip3.id);
+
+    await page.keyboard.press("ArrowRight");
+    await page.waitForChanges();
+    expect(await page.evaluate(() => document.activeElement.id)).toEqual(chip4.id);
+
+    await page.keyboard.press("Tab");
+    await page.waitForChanges();
+    expect(await page.$eval(`#${chip4.id}`, (el) => el.shadowRoot.activeElement.className)).toEqual(CHIPCSS.close);
+  });
+
+  it("when closing a chip, focus the previous chip, or if the first chip is closed, focus the 'next first chip'", async () => {
+    const page = await newE2EPage();
+    await page.setContent(
+      `<calcite-chip-group selection-mode="single">
+      <calcite-chip closable id="chip-1"></calcite-chip>
+      <calcite-chip closable id="chip-2"></calcite-chip>
+      <calcite-chip closable id="chip-3"></calcite-chip>
+      <calcite-chip closable id="chip-4"></calcite-chip>
+      <calcite-chip closable id="chip-5"></calcite-chip>
+      </calcite-chip-group>`
+    );
+
+    const chip1 = await page.find("#chip-1");
+    const chip2 = await page.find("#chip-2");
+    const chip3 = await page.find("#chip-3");
+    const chip4 = await page.find("#chip-4");
+    const chip5 = await page.find("#chip-5");
+    const closeButton1 = await page.find(`#${chip1.id} >>> .${CHIPCSS.close}`);
+    const closeButton3 = await page.find(`#${chip3.id} >>> .${CHIPCSS.close}`);
+    const closeButton5 = await page.find(`#${chip5.id} >>> .${CHIPCSS.close}`);
+
+    await closeButton3.click();
+    await page.waitForChanges();
+    expect(await page.evaluate(() => document.activeElement.id)).toEqual(chip2.id);
+
+    await closeButton1.click();
+    await page.waitForChanges();
+    expect(await page.evaluate(() => document.activeElement.id)).toEqual(chip2.id);
+
+    await closeButton5.click();
+    await page.waitForChanges();
+    expect(await page.evaluate(() => document.activeElement.id)).toEqual(chip4.id);
+  });
 });

@@ -25,6 +25,16 @@ describe("calcite-chip", () => {
     expect(eventSpy).toHaveReceivedEvent();
   });
 
+  it("should receive focus when clicked clicked", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<calcite-chip id="chip-1">cheetos</calcite-chip>`);
+
+    const chip1 = await page.find("#chip-1");
+    await chip1.click();
+    await page.waitForChanges();
+    expect(await page.evaluate(() => document.activeElement.id)).toEqual(chip1.id);
+  });
+
   it("renders default props when none are provided", async () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-chip>Chip content</calcite-chip>`);
