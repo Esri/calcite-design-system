@@ -12,7 +12,12 @@ import {
   Watch
 } from "@stencil/core";
 import { TabChangeEventDetail } from "../tab/interfaces";
-import { getElementDir, filterDirectChildren, focusElementInGroup } from "../../utils/dom";
+import {
+  getElementDir,
+  filterDirectChildren,
+  focusElementInGroup,
+  FocusElementInGroupDestination
+} from "../../utils/dom";
 import { TabID, TabLayout } from "../tabs/interfaces";
 import { TabPosition } from "../tabs/interfaces";
 import { Scale } from "../interfaces";
@@ -309,7 +314,7 @@ export class TabNav {
   handleTabFocus = (
     event: CustomEvent,
     el: HTMLCalciteTabTitleElement,
-    destination: string
+    destination: FocusElementInGroupDestination
   ): void => {
     focusElementInGroup(this.enabledTabTitles, el, destination);
 

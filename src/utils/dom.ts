@@ -345,14 +345,21 @@ export function isPrimaryPointerButton(event: PointerEvent): boolean {
 }
 
 /**
-Focus helpers for keyboard navigation
+ * This helper sets focus on and returns a destination element from within a group of provided elements.
  *
- * @param elements : An array of elements
- * @param currentElement : The current element
- * @param destination :  "first" | "last" |"next" | "previous"
+ * @param elements An array of elements
+ * @param currentElement The current element
+ * @param destination The target destination element to focus
+ * @returns {Element} The focused element
  */
 
-export const focusElementInGroup = (elements: Element[], currentElement: Element, destination: string): Element => {
+export type FocusElementInGroupDestination = "first" | "last" | "next" | "previous";
+
+export const focusElementInGroup = (
+  elements: Element[],
+  currentElement: Element,
+  destination: FocusElementInGroupDestination
+): Element => {
   const currentIndex = elements.indexOf(currentElement);
   const isFirstItem = currentIndex === 0;
   const isLastItem = currentIndex === elements.length - 1;
