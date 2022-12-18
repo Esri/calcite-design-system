@@ -50,14 +50,13 @@
 
 ## Events
 
-| Event                               | Description                                                                                                                                    | Type                           |
-| ----------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------ |
-| `calciteDatePickerRangeChange`      | <span style="color:red">**[DEPRECATED]**</span> use `calciteInputDatePickerChange` instead.<br/><br/>Fires when a user changes the date range. | `CustomEvent<DateRangeChange>` |
-| `calciteInputDatePickerBeforeClose` | Fires when the component is requested to be closed and before the closing transition begins.                                                   | `CustomEvent<void>`            |
-| `calciteInputDatePickerBeforeOpen`  | Fires when the component is added to the DOM but not rendered, and before the opening transition begins.                                       | `CustomEvent<void>`            |
-| `calciteInputDatePickerChange`      | Fires when the component's value changes.                                                                                                      | `CustomEvent<void>`            |
-| `calciteInputDatePickerClose`       | Fires when the component is closed and animation is complete.                                                                                  | `CustomEvent<void>`            |
-| `calciteInputDatePickerOpen`        | Fires when the component is open and animation is complete.                                                                                    | `CustomEvent<void>`            |
+| Event                               | Description                                                                                              | Type                |
+| ----------------------------------- | -------------------------------------------------------------------------------------------------------- | ------------------- |
+| `calciteInputDatePickerBeforeClose` | Fires when the component is requested to be closed and before the closing transition begins.             | `CustomEvent<void>` |
+| `calciteInputDatePickerBeforeOpen`  | Fires when the component is added to the DOM but not rendered, and before the opening transition begins. | `CustomEvent<void>` |
+| `calciteInputDatePickerChange`      | Fires when the component's value changes.                                                                | `CustomEvent<void>` |
+| `calciteInputDatePickerClose`       | Fires when the component is closed and animation is complete.                                            | `CustomEvent<void>` |
+| `calciteInputDatePickerOpen`        | Fires when the component is open and animation is complete.                                              | `CustomEvent<void>` |
 
 ## Methods
 
