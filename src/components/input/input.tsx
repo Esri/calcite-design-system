@@ -1,4 +1,4 @@
-import { DeprecatedEventPayload, Scale, Status } from "../interfaces";
+import { Scale, Status } from "../interfaces";
 import {
   Component,
   Element,
@@ -412,7 +412,7 @@ export class Input
   /** the computed icon to render */
   private requestedIcon?: string;
 
-  private nudgeNumberValueIntervalId;
+  private nudgeNumberValueIntervalId: number;
 
   mutationObserver = createObserver("mutation", () => this.setDisabledAction());
 
@@ -523,13 +523,10 @@ export class Input
    */
   @Event({ cancelable: false }) calciteInternalInputBlur: EventEmitter<void>;
 
-  // TODO: refactor color-picker to not use the deprecated
-  // nativeEvent payload property in handleChannelInput()
   /**
    * Fires each time a new `value` is typed.
-   * NOTE: `nativeEvent` payload property is deprecated
    */
-  @Event({ cancelable: true }) calciteInputInput: EventEmitter<DeprecatedEventPayload>;
+  @Event({ cancelable: true }) calciteInputInput: EventEmitter<void>;
 
   /**
    * Fires each time a new `value` is typed and committed.
@@ -561,6 +558,18 @@ export class Input
       this.childNumberEl?.select();
     } else {
       this.childEl?.select();
+    }
+  }
+
+  // TODO: refactor so we don't need to sync the internals in color-picker
+  // https://github.com/Esri/calcite-components/issues/6100
+  /** @internal */
+  @Method()
+  async internalSyncChildElValue(): Promise<void> {
+    if (this.type === "number") {
+      this.childNumberEl.value = this.value;
+    } else {
+      this.childEl.value = this.value;
     }
   }
   //--------------------------------------------------------------------------
@@ -855,11 +864,11 @@ export class Input
     event.stopPropagation();
   };
 
-  private setChildElRef = (el) => {
+  private setChildElRef = (el: HTMLInputElement | HTMLTextAreaElement) => {
     this.childEl = el;
   };
 
-  private setChildNumberElRef = (el) => {
+  private setChildNumberElRef = (el: HTMLInputElement) => {
     this.childNumberEl = el;
   };
 
@@ -954,9 +963,7 @@ export class Input
     this.previousValueOrigin = origin;
 
     if (nativeEvent) {
-      const calciteInputInputEvent = this.calciteInputInput.emit({
-        nativeEvent
-      });
+      const calciteInputInputEvent = this.calciteInputInput.emit();
       if (calciteInputInputEvent.defaultPrevented) {
         this.value = this.previousValue;
         this.localizedValue =
