@@ -116,7 +116,7 @@ Type: `Promise<void>`
 | ------------------------------------ | ----------------------------------------------------------------------- |
 | `--calcite-modal-content-background` | Specifies the background color of content placed in the `content` slot. |
 | `--calcite-modal-content-padding`    | Specifies the padding of the modal `content` slot.                      |
-| `--calcite-scrim-background`         | The component's semi-transparent background color.                      |
+| `--calcite-modal-scrim-background`   | Specifies the background color of the modal scrim.                      |
 
 ## Dependencies
 

@@ -14,7 +14,7 @@
 
 ## Methods
 
-### `setFocus(target: TimePart) => Promise<void>`
+### `setFocus() => Promise<void>`
 
 Sets focus on the component.
 
