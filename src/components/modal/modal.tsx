@@ -45,7 +45,7 @@ import {
   T9nComponent,
   updateMessages
 } from "../../utils/t9n";
-import { Messages } from "./assets/modal/t9n";
+import { ModalMessages } from "./assets/modal/t9n";
 
 /**
  * @slot header - A slot for adding header text.
@@ -133,12 +133,12 @@ export class Modal
    *
    * @internal
    */
-  @Prop({ mutable: true }) messages: Messages;
+  @Prop({ mutable: true }) messages: ModalMessages;
 
   /**
    * Use this property to override individual strings used by the component.
    */
-  @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
+  @Prop({ mutable: true }) messageOverrides: Partial<ModalMessages>;
 
   @Watch("messageOverrides")
   onMessagesChange(): void {
@@ -336,7 +336,7 @@ export class Modal
     updateMessages(this, this.effectiveLocale);
   }
 
-  @State() defaultMessages: Messages;
+  @State() defaultMessages: ModalMessages;
 
   //--------------------------------------------------------------------------
   //

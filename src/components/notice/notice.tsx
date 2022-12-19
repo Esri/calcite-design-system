@@ -27,7 +27,7 @@ import {
   T9nComponent,
   updateMessages
 } from "../../utils/t9n";
-import { Messages } from "./assets/notice/t9n";
+import { NoticeMessages } from "./assets/notice/t9n";
 import {
   setUpLoadableComponent,
   setComponentLoaded,
@@ -100,12 +100,12 @@ export class Notice
    *
    * @internal
    */
-  @Prop({ mutable: true }) messages: Messages;
+  @Prop({ mutable: true }) messages: NoticeMessages;
 
   /**
    * Use this property to override individual strings used by the component.
    */
-  @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
+  @Prop({ mutable: true }) messageOverrides: Partial<NoticeMessages>;
 
   @Watch("messageOverrides")
   onMessagesChange(): void {
@@ -251,5 +251,5 @@ export class Notice
     updateMessages(this, this.effectiveLocale);
   }
 
-  @State() defaultMessages: Messages;
+  @State() defaultMessages: NoticeMessages;
 }

@@ -58,7 +58,7 @@ import {
   updateMessages
 } from "../../utils/t9n";
 import { connectLocalized, disconnectLocalized } from "../../utils/locale";
-import { Messages } from "./assets/combobox/t9n";
+import { ComboboxMessages } from "./assets/combobox/t9n";
 import {
   setUpLoadableComponent,
   setComponentLoaded,
@@ -229,12 +229,12 @@ export class Combobox
    *
    * @internal
    */
-  @Prop({ mutable: true }) messages: Messages;
+  @Prop({ mutable: true }) messages: ComboboxMessages;
 
   /**
    * Use this property to override individual strings used by the component.
    */
-  @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
+  @Prop({ mutable: true }) messageOverrides: Partial<ComboboxMessages>;
 
   @Watch("messageOverrides")
   onMessagesChange(): void {
@@ -465,7 +465,7 @@ export class Combobox
     updateMessages(this, this.effectiveLocale);
   }
 
-  @State() defaultMessages: Messages;
+  @State() defaultMessages: ComboboxMessages;
 
   textInput: HTMLInputElement = null;
 
