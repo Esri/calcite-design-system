@@ -60,7 +60,7 @@ export class RadioGroupItem {
   render(): VNode {
     const { checked, value } = this;
     const scale: Scale = getElementProp(this.el, "scale", "m");
-    const appearance: Extract<"outline" | "solid", Appearance> = getElementProp(
+    const appearance: Extract<"outline" | "outline-fill" | "solid", Appearance> = getElementProp(
       this.el,
       "appearance",
       "solid"
@@ -95,7 +95,8 @@ export class RadioGroupItem {
             "label--scale-m": scale === "m",
             "label--scale-l": scale === "l",
             "label--horizontal": layout === "horizontal",
-            "label--outline": appearance === "outline"
+            "label--outline": appearance === "outline",
+            "label--outline-fill": appearance === "outline-fill"
           }}
         >
           {this.iconStart ? iconStartEl : null}

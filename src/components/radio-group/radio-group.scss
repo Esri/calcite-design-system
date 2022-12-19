@@ -5,6 +5,10 @@
   outline-offset: -1px;
 }
 
+:host([appearance="outline"]) {
+  @apply bg-transparent;
+}
+
 @include disabled();
 
 :host([layout="vertical"]) {
