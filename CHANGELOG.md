@@ -101,38 +101,36 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
   - Removed the property `active`, use `open` instead.
   - Removed the property `dimissible`, use `closable` property instead.
 
-- **modal,notice,pagination,panel,pick-list-item,popover:** Removed deprecated intl\* & accessible label properties.
-
-  - modal:
+  - **modal**: Removed deprecated `intl\*` & accessible label properties.
 
     - Removed the property `intlClose` , use `messsageOverrides.close`
       instead.
 
-  - notice:
+  - **notice**: Removed deprecated `intl\*` & accessible label properties.
 
     - Removed the property `intlClose` , use `messsageOverrides.close`
       instead.
 
-  - pagination:
+  - **pagination**: Removed deprecated `intl\*` & accessible label properties.
 
     - Removed the property `textLabelNext` , use `messsageOverrides.next`
       instead.
     - Removed the property `textLabelPrevious` , use
       `messsageOverrides.previous` instead.
 
-  - panel:
+  - **panel**: Removed deprecated `intl\*` & accessible label properties.
 
     - Removed the property `intlClose` , use `messsageOverrides.close`
       instead.
     - Removed the property `intlOptions`, use `messsageOverrides.options`
       instead.
 
-  - pick-list-item:
+  - **pick-list-item**: Removed deprecated `intl\*` & accessible label properties.
 
     - Removed the property `intlRemove` , use `messsageOverrides.remove`
       instead.
 
-  - popover:
+  - **popover**: Removed deprecated `intl\*` & accessible label properties.
 
     - Removed the property `intlClose` , use `messsageOverrides.close`
       instead.
@@ -170,14 +168,13 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
   - Updated the accepted values of `kind` to `brand`, `danger`, `info`,
     `success`, and `warning`.
 
-- **tab-nav, tab-title:** Removed `event.detail` payload from events.
+- **tab-nav**: Removed `event.detail` payload from events.
+  - Removed the `event.detail` property on the event `calciteTabChange`,
+    use `event.target` instead.
+- **tab-title**: Removed `event.detail` payload from events.
 
-  - TabNav
-    - Removed the `event.detail` property on the event `calciteTabChange`,
-      use `event.target` instead.
-  - TabTitle
-    - Removed the `event.detail` property on the event
-      `calciteTabsActivate`, use `event.target` instead.
+  - Removed the `event.detail` property on the event
+    `calciteTabsActivate`, use `event.target` instead.
 
 - **tree:** Removed `event.detail` payload from events and added
   `selectedItems` property.
