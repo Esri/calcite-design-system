@@ -37,10 +37,6 @@ describe("calcite-action-menu", () => {
         defaultValue: undefined
       },
       {
-        propertyName: "intlOptions",
-        defaultValue: undefined
-      },
-      {
         propertyName: "open",
         defaultValue: false
       },
