@@ -7,7 +7,8 @@ import {
   Host,
   Listen,
   Prop,
-  VNode
+  VNode,
+  Watch
 } from "@stencil/core";
 import { getElementDir, getElementProp, getSlotted, toAriaBoolean } from "../../utils/dom";
 import {
@@ -61,8 +62,17 @@ export class AccordionItem implements ConditionalSlotComponent {
   /** Specifies an icon to display at the end of the component. */
   @Prop({ reflect: true }) iconEnd: string;
 
-  /** Specifies the size of the component inherited from the `accordion`. */
+  /**
+   * Specifies the size of the component inherited from the `accordion`.
+   *
+   * @internal
+   */
   @Prop({ reflect: true }) scale: Scale = "m";
+
+  @Watch("scale")
+  onScaleChange(): void {
+    this.internalIconScale = this.scale === "l" ? "m" : "s";
+  }
 
   //--------------------------------------------------------------------------
   //
@@ -136,8 +146,6 @@ export class AccordionItem implements ConditionalSlotComponent {
     ) : null;
   }
 
-  iconScaleAdjustment: Scale = this.scale === "l" ? "m" : "s";
-
   render(): VNode {
     const { iconFlipRtl } = this;
     const dir = getElementDir(this.el);
@@ -147,7 +155,7 @@ export class AccordionItem implements ConditionalSlotComponent {
         flipRtl={iconFlipRtl === "both" || iconFlipRtl === "start"}
         icon={this.iconStart}
         key="icon-start"
-        scale={this.iconScaleAdjustment}
+        scale={this.internalIconScale}
       />
     ) : null;
     const iconEndEl = this.iconEnd ? (
@@ -155,7 +163,7 @@ export class AccordionItem implements ConditionalSlotComponent {
         class={CSS.iconEnd}
         flipRtl={iconFlipRtl === "both" || iconFlipRtl === "end"}
         key="icon-end"
-        scale={this.iconScaleAdjustment}
+        scale={this.internalIconScale}
       />
     ) : null;
     const { description } = this;
@@ -195,7 +203,7 @@ export class AccordionItem implements ConditionalSlotComponent {
                     ? "minus"
                     : "plus"
                 }
-                scale={this.iconScaleAdjustment}
+                scale={this.internalIconScale}
               />
             </div>
             {this.renderActionsEnd()}
@@ -261,6 +269,9 @@ export class AccordionItem implements ConditionalSlotComponent {
 
   /** what icon type does the parent accordion specify */
   private iconType: string;
+
+  /** size of the component to be inherited from the `accordion` */
+  private internalIconScale: Scale;
 
   /** handle clicks on item header */
   private itemHeaderClickHandler = (): void => this.emitRequestedItem();

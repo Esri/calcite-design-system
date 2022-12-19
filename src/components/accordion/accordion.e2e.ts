@@ -1,4 +1,4 @@
-import { newE2EPage, E2EElement } from "@stencil/core/testing";
+import { E2EElement, E2EPage, newE2EPage } from "@stencil/core/testing";
 import { accessible, renders, hidden } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { CSS } from "../accordion-item/resources";
@@ -90,7 +90,7 @@ describe("calcite-accordion", () => {
 
     it("renders expected scale icon on child when scale is set on child level (no parent override)", async () => {
       const accordion: E2EElement = await page.find("calcite-accordion");
-      await accordion.getProperty("scale", scale.l);
+      expect(await icon1.getProperty("scale")).toEqual(scale.l);
 
       const item1: E2EElement = await page.find(`calcite-accordion-item[id='1']`);
       await item1.setProperty("scale", scale.m);
