@@ -174,8 +174,6 @@ export class DatePicker implements LocalizedComponent, T9nComponent {
 
   /**
    * Emits when a user changes the component's date `range`. For components without `range` use `calciteDatePickerChange`.
-   *
-   * @see [DateRangeChange](https://github.com/Esri/calcite-components/blob/master/src/components/date-picker/interfaces.ts#L1)
    */
   @Event({ cancelable: false }) calciteDatePickerRangeChange: EventEmitter<void>;
 
