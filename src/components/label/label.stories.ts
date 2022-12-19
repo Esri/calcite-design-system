@@ -1,7 +1,7 @@
 import { themesDarkDefault } from "../../../.storybook/utils";
 import readme from "./readme.md";
 import { html } from "../../../support/formatting";
-import { createSteps, stepStory, storyFilters } from "../../../.storybook/helpers";
+import { storyFilters } from "../../../.storybook/helpers";
 export default {
   title: "Components/Label",
   parameters: {
@@ -144,14 +144,6 @@ export const darkThemeRTL_TestOnly = (): string => html`
 
 darkThemeRTL_TestOnly.parameters = { themes: themesDarkDefault };
 
-export const toggleSwitchWithLabel_TestOnly = stepStory(
-  (): string => html`<calcite-label layout="inline">
-    Toggle theme
-    <calcite-switch id="theme-switch"></calcite-switch>
-  </calcite-label>`,
-  createSteps("calcite-label").click("calcite-label").snapshot("Toggle switch with label")
-);
-
 export const spacingWithLabel_TestOnly = (): string => html`
   <style>
     .css-var {
@@ -163,8 +155,8 @@ export const spacingWithLabel_TestOnly = (): string => html`
     css variable to 0.
     <calcite-input></calcite-input>
   </calcite-label>
-  <calcite-label disable-spacing class="css-var">
-    I should still not have a bottom margin because I'm using the disable-spacing prop.
+  <calcite-label class="css-var">
+    I should still not have a bottom margin because I'm using the CSS variable.
     <calcite-input></calcite-input>
   </calcite-label>
   <calcite-label>
@@ -175,12 +167,12 @@ export const spacingWithLabel_TestOnly = (): string => html`
     I should also have a bottom margin
     <calcite-input></calcite-input>
   </calcite-label>
-  <calcite-label disable-spacing>
-    I should not have a bottom margin because I have disable-spacing set.
+  <calcite-label class="css-var">
+    I should not have a bottom margin because I have the CSS variable set.
     <calcite-input></calcite-input>
   </calcite-label>
-  <calcite-label disable-spacing>
-    I should not have a bottom margin because I have disable-spacing set.
+  <calcite-label class="css-var">
+    I should not have a bottom margin because I have the CSS variable set.
     <calcite-input></calcite-input>
   </calcite-label>
 `;

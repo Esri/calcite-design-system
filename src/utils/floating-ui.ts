@@ -69,7 +69,7 @@ type UIType = "menu" | "tooltip" | "popover";
 export type OverlayPositioning = Strategy;
 
 /**
- * Placements that change based on element direction.
+ * Variation Placements change based on element direction.
  *
  * These variation placements will automatically flip "left"/"right" depending on LTR/RTL direction.
  *
@@ -77,17 +77,15 @@ export type OverlayPositioning = Strategy;
  *
  * see: https://github.com/floating-ui/floating-ui/issues/1563 and https://github.com/floating-ui/floating-ui/discussions/1549
  */
-type VariationPlacement = "leading-start" | "leading" | "leading-end" | "trailing-end" | "trailing" | "trailing-start";
 
-type AutoPlacement = "auto" | "auto-start" | "auto-end";
-
-export type LogicalPlacement = AutoPlacement | Placement | VariationPlacement;
 export type EffectivePlacement = Placement;
 
-export const placements: LogicalPlacement[] = [
+export const placements = [
+  // auto placements
   "auto",
   "auto-start",
   "auto-end",
+  // placements
   "top",
   "top-start",
   "top-end",
@@ -100,13 +98,16 @@ export const placements: LogicalPlacement[] = [
   "left",
   "left-start",
   "left-end",
+  // variation placements
   "leading-start",
   "leading",
   "leading-end",
   "trailing-end",
   "trailing",
   "trailing-start"
-];
+] as const;
+
+export type LogicalPlacement = typeof placements[number];
 
 export const effectivePlacements: EffectivePlacement[] = [
   "top",
@@ -190,7 +191,7 @@ export const FloatingCSS = {
 
 function getMiddleware({
   placement,
-  disableFlip,
+  flipDisabled,
   flipPlacements,
   offsetDistance,
   offsetSkidding,
@@ -198,7 +199,7 @@ function getMiddleware({
   type
 }: {
   placement: LogicalPlacement;
-  disableFlip?: boolean;
+  flipDisabled?: boolean;
   flipPlacements?: EffectivePlacement[];
   offsetDistance?: number;
   offsetSkidding?: number;
@@ -229,7 +230,7 @@ function getMiddleware({
       middleware.push(
         autoPlacement({ alignment: placement === "auto-start" ? "start" : placement === "auto-end" ? "end" : null })
       );
-    } else if (!disableFlip) {
+    } else if (!flipDisabled) {
       middleware.push(flip(flipPlacements ? { fallbackPlacements: flipPlacements } : {}));
     }
 
@@ -286,7 +287,7 @@ export function getEffectivePlacement(floatingEl: HTMLElement, placement: Logica
  * @param options.floatingEl
  * @param options.overlayPositioning
  * @param options.placement
- * @param options.disableFlip
+ * @param options.flipDisabled
  * @param options.flipPlacements
  * @param options.offsetDistance
  * @param options.offsetSkidding
@@ -321,7 +322,7 @@ const debouncedReposition = debounce(positionFloatingUI, repositionDebounceTimeo
  * @param root0.floatingEl
  * @param root0.overlayPositioning
  * @param root0.placement
- * @param root0.disableFlip
+ * @param root0.flipDisabled
  * @param root0.flipPlacements
  * @param root0.offsetDistance
  * @param root0.offsetSkidding
@@ -334,7 +335,7 @@ export async function positionFloatingUI({
   floatingEl,
   overlayPositioning = "absolute",
   placement,
-  disableFlip,
+  flipDisabled,
   flipPlacements,
   offsetDistance,
   offsetSkidding,
@@ -346,9 +347,8 @@ export async function positionFloatingUI({
   floatingEl: HTMLElement;
   overlayPositioning: Strategy;
   placement: LogicalPlacement;
-  disableFlip?: boolean;
+  flipDisabled?: boolean;
   flipPlacements?: EffectivePlacement[];
-
   offsetDistance?: number;
   offsetSkidding?: number;
   arrowEl?: HTMLElement;
@@ -375,7 +375,7 @@ export async function positionFloatingUI({
         : getEffectivePlacement(floatingEl, placement),
     middleware: getMiddleware({
       placement,
-      disableFlip,
+      flipDisabled,
       flipPlacements,
       offsetDistance,
       offsetSkidding,

@@ -97,6 +97,7 @@ export class Icon {
         role={semantic ? "img" : null}
       >
         <svg
+          aria-hidden="true"
           class={{
             [CSS.flipRtl]: dir === "rtl" && flipRtl,
             svg: true

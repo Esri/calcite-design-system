@@ -28,38 +28,11 @@ function throwMessageFetchError(): never {
   throw new Error("could not fetch component message bundle");
 }
 
-/**
- * This util helps preserve existing intlProp usage when they have not been replaced by overrides.
- *
- * @param component
- */
-export function overridesFromIntlProps(component: T9nComponent): MessageBundle {
-  const { el } = component;
-  const overrides = {};
-
-  Object.keys(el.constructor.prototype)
-    .filter((prop) => prop.startsWith("intl"))
-    .forEach((prop) => {
-      const assignedValue = el[prop];
-      if (assignedValue) {
-        let mappedProp = prop.replace("intl", "");
-        mappedProp = `${mappedProp[0].toLowerCase()}${mappedProp.slice(1)}`;
-        overrides[mappedProp] = assignedValue;
-      }
-    });
-
-  return overrides;
-}
-
 function mergeMessages(component: T9nComponent): void {
   component.messages = {
     ...component.defaultMessages,
-    ...getEffectiveMessageOverrides(component)
+    ...component.messageOverrides
   };
-}
-
-function getEffectiveMessageOverrides(component: T9nComponent): MessageBundle {
-  return component.messageOverrides ?? overridesFromIntlProps(component);
 }
 
 /**
@@ -77,7 +50,7 @@ async function fetchMessages(component: T9nComponent, lang: string): Promise<Mes
   const tag = el.tagName.toLowerCase();
   const componentName = tag.replace("calcite-", "");
 
-  return getMessageBundle(getSupportedLocale(lang), componentName);
+  return getMessageBundle(getSupportedLocale(lang, "t9n"), componentName);
 }
 
 /**
@@ -93,6 +66,7 @@ async function fetchMessages(component: T9nComponent, lang: string): Promise<Mes
  */
 export async function updateMessages(component: T9nComponent, lang: string): Promise<void> {
   component.defaultMessages = await fetchMessages(component, lang);
+  mergeMessages(component);
 }
 
 /**
@@ -133,14 +107,12 @@ export interface T9nComponent extends LocalizedComponent {
   /**
    * This property holds all messages used by the component's rendering.
    *
-   * This prop should use the `@State` decorator.
+   * This prop should use the `@Prop` decorator. It uses `@Prop` decorator for testing purpose only.
    */
   messages: MessageBundle;
 
   /**
    * This property holds the component's default messages.
-   *
-   * This prop should use the `@State` decorator.
    */
   defaultMessages: MessageBundle;
 
@@ -154,11 +126,8 @@ export interface T9nComponent extends LocalizedComponent {
   /**
    * This private method ensures messages are kept in sync.
    *
-   * This method should be empty and configured to watch for changes on `defaultMessages`, `messageOverrides` and any associated Intl prop.
+   * This method should be empty and configured to watch for changes on  `messageOverrides` property.
    *
-   * @Watch("intlMyPropA")
-   * @Watch("intlMyPropZ")
-   * @Watch("defaultMessages")
    * @Watch("messageOverrides")
    * onMessagesChange(): void {
    *  \/* wired up by t9n util *\/

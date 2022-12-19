@@ -1,6 +1,6 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { CSS, SLOTS, TEXT } from "./resources";
-import { accessible, defaults, disabled, hidden, renders, slots } from "../../tests/commonTests";
+import { accessible, defaults, disabled, hidden, renders, slots, t9n } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 
 describe("calcite-block", () => {
@@ -17,14 +17,6 @@ describe("calcite-block", () => {
       {
         propertyName: "headingLevel",
         defaultValue: undefined
-      },
-      {
-        propertyName: "intlLoading",
-        defaultValue: TEXT.loading
-      },
-      {
-        propertyName: "intlOptions",
-        defaultValue: TEXT.options
       },
       {
         propertyName: "open",
@@ -246,4 +238,38 @@ describe("calcite-block", () => {
       expect(collapsibleIcon).toBeNull();
     });
   });
+  it("should allow the CSS custom property to be overridden when applied to :root", async () => {
+    const overrideStyle = "0px";
+    const page = await newE2EPage();
+    await page.setContent(
+      `<style>
+        :root {
+          --calcite-block-padding: ${overrideStyle}
+        }
+      </style>
+      <calcite-block heading="test-heading" collapsible style="--calcite-block-padding: ${overrideStyle}" open>
+        <calcite-action text="test" icon="banana" slot="${SLOTS.headerMenuActions}"></calcite-action>
+       </calcite-block>`
+    );
+    const content = await page.find(`calcite-block >>> .${CSS.content}`);
+    const contentStyles = await content.getComputedStyle();
+    const contentPadding = await contentStyles.getPropertyValue("padding");
+    expect(contentPadding).toEqual(overrideStyle);
+  });
+
+  it("should allow the CSS custom property to be overridden when applied to element", async () => {
+    const overrideStyle = "0px";
+    const page = await newE2EPage();
+    await page.setContent(
+      `<calcite-block heading="test-heading" collapsible style="--calcite-block-padding: ${overrideStyle}" open>
+          <calcite-action text="test" icon="banana" slot="${SLOTS.headerMenuActions}"></calcite-action>
+        </calcite-block>`
+    );
+    const content = await page.find(`calcite-block >>> .${CSS.content}`);
+    const contentStyles = await content.getComputedStyle();
+    const contentPadding = await contentStyles.getPropertyValue("padding");
+    expect(contentPadding).toEqual(overrideStyle);
+  });
+
+  it("supports translation", () => t9n("calcite-block"));
 });

@@ -11,8 +11,7 @@ import {
 } from "@stencil/core";
 import { focusElement, getRootNode, nodeListToArray } from "../../utils/dom";
 import { TreeItemSelectDetail } from "../tree-item/interfaces";
-import { TreeSelectDetail, TreeSelectionMode } from "./interfaces";
-import { Scale } from "../interfaces";
+import { Scale, SelectionMode } from "../interfaces";
 import { getEnabledSiblingItem } from "./utils";
 
 /**
@@ -53,9 +52,15 @@ export class Tree {
    * Customize how the component's selection works.
    *
    * @default "single"
-   * @see [TreeSelectionMode](https://github.com/Esri/calcite-components/blob/master/src/components/tree/interfaces.ts#L5)
    */
-  @Prop({ mutable: true, reflect: true }) selectionMode: TreeSelectionMode = "single";
+  @Prop({ mutable: true, reflect: true }) selectionMode: SelectionMode = "single";
+
+  /**
+   * Specifies the component's selected items.
+   *
+   * @readonly
+   */
+  @Prop({ mutable: true }) selectedItems: HTMLCalciteTreeItemElement[] = [];
 
   //--------------------------------------------------------------------------
   //
@@ -78,9 +83,7 @@ export class Tree {
           this.child
             ? undefined
             : (
-                this.selectionMode === "multi" ||
-                this.selectionMode === "multiple" ||
-                this.selectionMode === "multichildren"
+                this.selectionMode === "multiple" || this.selectionMode === "multichildren"
               ).toString()
         }
         role={!this.child ? "tree" : undefined}
@@ -158,18 +161,14 @@ export class Tree {
     const shouldModifyToCurrentSelection =
       !isNoneSelectionMode &&
       event.detail.modifyCurrentSelection &&
-      (this.selectionMode === "multi" ||
-        this.selectionMode === "multiple" ||
-        this.selectionMode === "multichildren");
+      (this.selectionMode === "multiple" || this.selectionMode === "multichildren");
 
     const shouldSelectChildren =
       this.selectionMode === "multichildren" || this.selectionMode === "children";
 
     const shouldClearCurrentSelection =
       !shouldModifyToCurrentSelection &&
-      (((this.selectionMode === "single" ||
-        this.selectionMode === "multi" ||
-        this.selectionMode === "multiple") &&
+      (((this.selectionMode === "single" || this.selectionMode === "multiple") &&
         childItems.length <= 0) ||
         this.selectionMode === "children" ||
         this.selectionMode === "multichildren");
@@ -228,13 +227,13 @@ export class Tree {
       }
     }
 
-    const selected = isNoneSelectionMode
+    this.selectedItems = isNoneSelectionMode
       ? [target]
       : (nodeListToArray(this.el.querySelectorAll("calcite-tree-item")).filter(
           (i) => i.selected
         ) as HTMLCalciteTreeItemElement[]);
 
-    this.calciteTreeSelect.emit({ selected });
+    this.calciteTreeSelect.emit();
 
     event.stopPropagation();
   }
@@ -373,13 +372,11 @@ export class Tree {
       ancestor.selected = !indeterminate;
     });
 
-    this.calciteTreeSelect.emit({
-      selected: (
-        nodeListToArray(
-          this.el.querySelectorAll("calcite-tree-item")
-        ) as HTMLCalciteTreeItemElement[]
-      ).filter((i) => i.selected)
-    });
+    this.selectedItems = (
+      nodeListToArray(this.el.querySelectorAll("calcite-tree-item")) as HTMLCalciteTreeItemElement[]
+    ).filter((i) => i.selected);
+
+    this.calciteTreeSelect.emit();
   }
   //--------------------------------------------------------------------------
   //
@@ -388,11 +385,9 @@ export class Tree {
   //--------------------------------------------------------------------------
 
   /**
-   * Fires when the user selects/deselects `calcite-tree-items`. An object including an array of selected items will be passed in the event's `detail` property.
-   *
-   * @see [TreeSelectDetail](https://github.com/Esri/calcite-components/blob/master/src/components/tree/interfaces.ts#L1)
+   * Fires when the user selects/deselects `calcite-tree-items`.
    */
-  @Event({ cancelable: false }) calciteTreeSelect: EventEmitter<TreeSelectDetail>;
+  @Event({ cancelable: false }) calciteTreeSelect: EventEmitter<void>;
 
   // --------------------------------------------------------------------------
   //

@@ -15,13 +15,14 @@ import { ItemKeyboardEvent } from "../dropdown/interfaces";
 
 import { FlipContext } from "../interfaces";
 import { CSS } from "./resources";
-import { RequestedItem, SelectionMode } from "../dropdown-group/interfaces";
+import { RequestedItem } from "../dropdown-group/interfaces";
 import {
   setUpLoadableComponent,
   setComponentLoaded,
   LoadableComponent,
   componentLoaded
 } from "../../utils/loadable";
+import { SelectionMode } from "../interfaces";
 
 /**
  * @slot - A slot for adding text.
@@ -79,6 +80,9 @@ export class DropdownItem implements LoadableComponent {
   //  Events
   //
   //--------------------------------------------------------------------------
+
+  /** Fires when the component is selected. */
+  @Event({ cancelable: false }) calciteDropdownItemSelect: EventEmitter<void>;
 
   /**
    * @internal
@@ -166,6 +170,7 @@ export class DropdownItem implements LoadableComponent {
         href={this.href}
         ref={(el) => (this.childLink = el)}
         rel={this.rel}
+        tabIndex={-1}
         target={this.target}
       >
         {slottedContent}
@@ -176,7 +181,7 @@ export class DropdownItem implements LoadableComponent {
       ? null
       : this.selectionMode === "single"
       ? "menuitemradio"
-      : this.selectionMode === "multiple" || this.selectionMode === "multi"
+      : this.selectionMode === "multiple"
       ? "menuitemcheckbox"
       : "menuitem";
 
@@ -191,8 +196,7 @@ export class DropdownItem implements LoadableComponent {
             [CSS.containerSmall]: scale === "s",
             [CSS.containerMedium]: scale === "m",
             [CSS.containerLarge]: scale === "l",
-            [CSS.containerMulti]:
-              this.selectionMode === "multiple" || this.selectionMode === "multi",
+            [CSS.containerMulti]: this.selectionMode === "multiple",
             [CSS.containerSingle]: this.selectionMode === "single",
             [CSS.containerNone]: this.selectionMode === "none"
           }}
@@ -200,11 +204,7 @@ export class DropdownItem implements LoadableComponent {
           {this.selectionMode !== "none" ? (
             <calcite-icon
               class="dropdown-item-icon"
-              icon={
-                this.selectionMode === "multiple" || this.selectionMode === "multi"
-                  ? "check"
-                  : "bullet-point"
-              }
+              icon={this.selectionMode === "multiple" ? "check" : "bullet-point"}
               scale="s"
             />
           ) : null}
@@ -280,7 +280,7 @@ export class DropdownItem implements LoadableComponent {
   private requestedDropdownItem: HTMLCalciteDropdownItemElement;
 
   /** what selection mode is the parent dropdown group in */
-  private selectionMode: SelectionMode;
+  private selectionMode: Extract<"none" | "single" | "multiple", SelectionMode>;
 
   /** if href is requested, track the rendered child link*/
   private childLink: HTMLAnchorElement;
@@ -301,7 +301,6 @@ export class DropdownItem implements LoadableComponent {
 
   private determineActiveItem(): void {
     switch (this.selectionMode) {
-      case "multi":
       case "multiple":
         if (this.el === this.requestedDropdownItem) {
           this.selected = !this.selected;
@@ -323,6 +322,7 @@ export class DropdownItem implements LoadableComponent {
   }
 
   private emitRequestedItem(): void {
+    this.calciteDropdownItemSelect.emit();
     this.calciteInternalDropdownItemSelect.emit({
       requestedDropdownItem: this.el,
       requestedDropdownGroup: this.parentDropdownGroupEl

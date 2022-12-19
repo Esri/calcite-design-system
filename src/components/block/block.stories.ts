@@ -85,22 +85,6 @@ const createBlockAttributes: (options?: { exceptions: string[] }) => Attributes 
           delete this.build;
           return this;
         }
-      },
-      {
-        name: "intl-collapse",
-        commit(): Attribute {
-          this.value = text("intlCollapse", "Collapse", group);
-          delete this.build;
-          return this;
-        }
-      },
-      {
-        name: "intl-expand",
-        commit(): Attribute {
-          this.value = text("intlExpand", "Expand", group);
-          delete this.build;
-          return this;
-        }
       }
     ],
     exceptions
@@ -123,14 +107,6 @@ const createSectionAttributes: () => Attributes = () => {
     {
       name: "toggle-display",
       value: select("toggleDisplay", toggleDisplayOptions, toggleDisplayOptions[0], group)
-    },
-    {
-      name: "intl-collapse",
-      value: text("intlCollapse", "Collapse", group)
-    },
-    {
-      name: "intl-expand",
-      value: text("intlExpand", "Expand", group)
     }
   ];
 };
@@ -213,3 +189,10 @@ export const contentCanTakeFullHeight_TestOnly = (): string =>
   html`<calcite-block open heading="Heading" description="description" style="height: 250px">
     <div style="background: red; height: 100%;">should take full width of the content area</div>
   </calcite-block>`;
+
+export const contentSpacing_TestOnly = (): string =>
+  html`
+    <calcite-block heading="Block heading" open>
+      <div>Some text that has padding built in</div>
+    </calcite-block>
+  `;

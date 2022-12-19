@@ -9,7 +9,7 @@ import {
 import colorReadme from "./readme.md";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { html } from "../../../support/formatting";
-import { createSteps, stepStory, storyFilters } from "../../../.storybook/helpers";
+import { storyFilters } from "../../../.storybook/helpers";
 
 export default {
   title: "Components/Controls/ColorPicker",
@@ -99,9 +99,14 @@ export const thumbsOnEdgeDoNotOverflowContainer_TestOnly = (): string => html`<d
 export const thumbsOnEdgeDoNotSnapToFrontOfContainer_TestOnly = (): string =>
   html`<calcite-color-picker value="#824142"></calcite-color-picker>`;
 
-export const colorFieldAndHueSliderAreResizedAfterScaleChange_TestOnly = stepStory(
-  (): string => html` <calcite-color-picker scale="m"></calcite-color-picker>`,
-  createSteps("calcite-color-picker")
-    .executeScript(`document.querySelector("calcite-color-picker").scale = "s"`)
-    .snapshot("Color field and hue slider are resized after scale change")
-);
+export const ArabicLocale_TestOnly = (): string => html` <calcite-color-picker lang="ar"></calcite-color-picker> `;
+
+export const NorwegianLocale_TestOnly = (): string => html` <calcite-color-picker lang="no"></calcite-color-picker> `;
+
+export const SpanishLocale_TestOnly = (): string => html` <calcite-color-picker lang="es"></calcite-color-picker> `;
+
+export const JapaneseLocale_TestOnly = (): string => html` <calcite-color-picker lang="ja"></calcite-color-picker> `;
+
+export const RussianLocale_TestOnly = (): string => html` <calcite-color-picker lang="ru"></calcite-color-picker> `;
+
+export const ThaiLocale_TestOnly = (): string => html` <calcite-color-picker lang="th"></calcite-color-picker> `;
