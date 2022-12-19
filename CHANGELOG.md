@@ -65,9 +65,9 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
   - Removed the event `calciteFlowItemBackClick`, use
     `calciteFlowItemBack` instead.
 
-* **inline-editable,input,input-text,input-number:** Removed deprecated `intl\*` & accessible label properties.
+- **inline-editable,input,input-text,input-number:** Removed deprecated `intl\*` & accessible label properties.
 
-  - **list, list-item, list-item-group:** To know when `calcite-list-item` content is selected, listen to the event `calciteListItemSelect` instead of `click`.
+- **list, list-item, list-item-group:** To know when `calcite-list-item` content is selected, listen to the event `calciteListItemSelect` instead of `click`.
 
   - `headingLevel` property on the `list` and `list-item-group` are no
     longer necessary.
@@ -458,25 +458,23 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
     - Removed the property `intlClose`, use `messsageOverrides.close`
       instead.
 
-  - **pagination**:
+- **pagination**:
 
-    - Removed the property `textLabelNext` , use `messsageOverrides.next`
-      instead.
-    - Removed the property `textLabelPrevious` , use
-      `messsageOverrides.previous` instead.
-
+  - Removed the property `textLabelNext` , use `messsageOverrides.next`
+    instead.
+  - Removed the property `textLabelPrevious` , use
+    `messsageOverrides.previous` instead.
   - Removed the event `calcitePaginationUpdate` event, use
     `calcitePaginationChange` event instead.
   - Removed the `event.detail` property on the event
     `calcitePaginationChange`, use `event.target` instead.
 
-  - **panel**:
+- **panel**:
 
-    - Removed the property `intlClose` , use `messsageOverrides.close`
-      instead.
-    - Removed the property `intlOptions`, use `messsageOverrides.options`
-      instead.
-
+  - Removed the property `intlClose` , use `messsageOverrides.close`
+    instead.
+  - Removed the property `intlOptions`, use `messsageOverrides.options`
+    instead.
   - Removed the property `dismissed`, use `closed` instead.
   - Removed the property `dismissible`, use `closable` instead.
   - Removed the property `summary`, use `description` instead.
@@ -493,15 +491,14 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
   - Removed the event `calcitePanelBackClick`, use the `calcite-flow-item`
     component instead.
 
-  - **pick-list-item**:
+- **pick-list-item**:
 
-    - Removed the property `intlRemove`, use `messsageOverrides.remove`
-      instead.
-
+  - Removed the property `intlRemove`, use `messsageOverrides.remove`
+    instead.
   - Renamed the property `disableDeselect`, use `deselectDisabled`
     instead.
 
-  - **popover**:
+- **popover**:
 
   - Removed the property `intlClose` , use `messsageOverrides.close`
     instead.
