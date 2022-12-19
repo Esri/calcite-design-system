@@ -430,8 +430,8 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
     `--calcite-modal-content-background` instead.
   - Removed the `--calcite-modal-padding` CSS variable, use the
     `--calcite-modal-content-padding` CSS variable instead.
-    - Removed the property `intlClose`, use `messsageOverrides.close`
-      instead.
+  - Removed the property `intlClose`, use `messsageOverrides.close`
+    instead.
   - Renamed the property `color`, use `kind` instead.
   - Updated the accepted values of `kind` to `brand`, `danger`, `info`,
     `success`, and `warning`.
@@ -454,9 +454,8 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
   - Removed the property `active`, use `open` instead.
   - Removed the property `dimissible`, use `closable` property instead.
-
-    - Removed the property `intlClose`, use `messsageOverrides.close`
-      instead.
+  - Removed the property `intlClose`, use `messsageOverrides.close`
+    instead.
 
 - **pagination**:
 
