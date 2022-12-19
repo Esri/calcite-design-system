@@ -14,7 +14,7 @@ import { CSS, ICONS } from "./resources";
 import { getElementDir, toAriaBoolean } from "../../utils/dom";
 import { HeadingLevel, Heading } from "../functional/Heading";
 import { createObserver } from "../../utils/observers";
-import { Messages } from "./assets/tip-manager/t9n";
+import { TipManagerMessages } from "./assets/tip-manager/t9n";
 import {
   connectMessages,
   disconnectMessages,
@@ -58,12 +58,12 @@ export class TipManager {
    *
    * @internal
    */
-  @Prop({ mutable: true }) messages: Messages;
+  @Prop({ mutable: true }) messages: TipManagerMessages;
 
   /**
    * Use this property to override individual strings used by the component.
    */
-  @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
+  @Prop({ mutable: true }) messageOverrides: Partial<TipManagerMessages>;
 
   @Watch("messageOverrides")
   onMessagesChange(): void {
@@ -98,7 +98,7 @@ export class TipManager {
 
   container: HTMLDivElement;
 
-  @State() defaultMessages: Messages;
+  @State() defaultMessages: TipManagerMessages;
 
   @State() effectiveLocale = "";
 

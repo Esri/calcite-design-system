@@ -23,7 +23,7 @@ import {
   T9nComponent,
   updateMessages
 } from "../../utils/t9n";
-import { Messages } from "./assets/rating/t9n";
+import { RatingMessages } from "./assets/rating/t9n";
 import {
   setUpLoadableComponent,
   setComponentLoaded,
@@ -76,12 +76,12 @@ export class Rating
    *
    * @internal
    */
-  @Prop({ mutable: true }) messages: Messages;
+  @Prop({ mutable: true }) messages: RatingMessages;
 
   /**
    * Use this property to override individual strings used by the component.
    */
-  @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
+  @Prop({ mutable: true }) messageOverrides: Partial<RatingMessages>;
 
   @Watch("messageOverrides")
   onMessagesChange(): void {
@@ -145,7 +145,7 @@ export class Rating
     updateMessages(this, this.effectiveLocale);
   }
 
-  @State() defaultMessages: Messages;
+  @State() defaultMessages: RatingMessages;
 
   @State() hoverValue: number;
 

@@ -37,7 +37,7 @@ import {
   LocalizedComponent,
   NumberingSystem
 } from "../../utils/locale";
-import { Messages } from "./assets/time-picker/t9n";
+import { TimePickerMessages } from "./assets/time-picker/t9n";
 import {
   connectMessages,
   disconnectMessages,
@@ -107,12 +107,12 @@ export class TimePicker
    *
    * @internal
    */
-  @Prop({ mutable: true }) messages: Messages;
+  @Prop({ mutable: true }) messages: TimePickerMessages;
 
   /**
    * Use this property to override individual strings used by the component.
    */
-  @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
+  @Prop({ mutable: true }) messageOverrides: Partial<TimePickerMessages>;
 
   @Watch("messageOverrides")
   onMessagesChange(): void {
@@ -176,7 +176,7 @@ export class TimePicker
 
   @State() showSecond: boolean = this.step < 60;
 
-  @State() defaultMessages: Messages;
+  @State() defaultMessages: TimePickerMessages;
 
   //--------------------------------------------------------------------------
   //

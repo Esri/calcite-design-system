@@ -7,7 +7,14 @@ export type Kind = "brand" | "danger" | "info" | "inverse" | "neutral" | "warnin
 export type Layout = "horizontal" | "vertical" | "grid";
 export type LogicalFlowPosition = "inline-start" | "inline-end" | "block-start" | "block-end";
 export type Position = "start" | "end";
-export type SelectionMode = "single" | "none" | "children" | "multichildren" | "ancestors" | "multiple";
+export type SelectionMode =
+  | "single"
+  | "none"
+  | "children"
+  | "single-persist"
+  | "multichildren"
+  | "ancestors"
+  | "multiple";
 export type Scale = "s" | "m" | "l";
 export type Status = "invalid" | "valid" | "idle";
 export type ThemeClass = "calcite-theme-light" | "calcite-theme-dark" | "calcite-theme-auto";

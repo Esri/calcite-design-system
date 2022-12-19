@@ -55,7 +55,7 @@ import {
   T9nComponent,
   updateMessages
 } from "../../utils/t9n";
-import { Messages } from "./assets/popover/t9n";
+import { PopoverMessages } from "./assets/popover/t9n";
 
 import {
   setUpLoadableComponent,
@@ -149,7 +149,7 @@ export class Popover
   /**
    * Use this property to override individual strings used by the component.
    */
-  @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
+  @Prop({ mutable: true }) messageOverrides: Partial<PopoverMessages>;
 
   @Watch("messageOverrides")
   onMessagesChange(): void {
@@ -161,7 +161,7 @@ export class Popover
    *
    * @internal
    */
-  @Prop({ mutable: true }) messages: Messages;
+  @Prop({ mutable: true }) messages: PopoverMessages;
 
   /**
    * Offsets the position of the popover away from the `referenceElement`.
@@ -266,7 +266,7 @@ export class Popover
 
   @State() effectiveReferenceElement: ReferenceElement;
 
-  @State() defaultMessages: Messages;
+  @State() defaultMessages: PopoverMessages;
 
   arrowEl: HTMLDivElement;
 
