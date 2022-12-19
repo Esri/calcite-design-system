@@ -169,8 +169,10 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
     `success`, and `warning`.
 
 - **tab-nav**: Removed `event.detail` payload from events.
+
   - Removed the `event.detail` property on the event `calciteTabChange`,
     use `event.target` instead.
+
 - **tab-title**: Removed `event.detail` payload from events.
 
   - Removed the `event.detail` property on the event
