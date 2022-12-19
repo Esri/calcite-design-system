@@ -120,8 +120,6 @@ export class Chip
   //
   // --------------------------------------------------------------------------
 
-  @Element() el: HTMLCalciteChipElement;
-
   @State() defaultMessages: ChipMessages;
 
   @State() effectiveLocale: string;
