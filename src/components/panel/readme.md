@@ -78,7 +78,7 @@ Renders a panel with a header and a footer.
 | `heightScale`      | `height-scale`      | Specifies the maximum height of the component.                                           | `"l" \| "m" \| "s"`          | `undefined` |
 | `loading`          | `loading`           | When `true`, a busy indicator is displayed.                                              | `boolean`                    | `false`     |
 | `menuOpen`         | `menu-open`         | When `true`, the action menu items in the `header-menu-actions` slot are open.           | `boolean`                    | `false`     |
-| `messageOverrides` | `message-overrides` | Use this property to override individual strings used by the component.                  | `Messages`                   | `undefined` |
+| `messageOverrides` | `message-overrides` | Use this property to override individual strings used by the component.                  | `PanelMessages`              | `undefined` |
 | `widthScale`       | `width-scale`       | Specifies the width of the component.                                                    | `"l" \| "m" \| "s"`          | `undefined` |
 
 ## Events
