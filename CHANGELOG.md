@@ -310,7 +310,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 * **dropdown:**
 
   - Removed the `event.detail` property on the event
-    `calciteDropdownSelect`, use `event.target` instead.
+    `calciteDropdownSelect`, use `event.target` instead. To get the selected `dropdown-item`, use the `calciteDropdownItemSelect` event.
   - Renamed the property `disableCloseOnSelect`, use
     `closeOnSelectDisabled` instead.
   - Removed the slot `dropdown-trigger`, use `trigger` instead.
@@ -645,7 +645,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 - Add built-in translations ([#5471](https://github.com/Esri/calcite-components/issues/5471)) ([d754b29](https://github.com/Esri/calcite-components/commit/d754b29467d40f8081eb7793fb13c1b4de9f7ebf)), closes [#4961](https://github.com/Esri/calcite-components/issues/4961)
 
-* **dropdown-item:** Add `calciteDropdownItemSelect` event ([#6015](https://github.com/Esri/calcite-components/issues/6015)) ([b565ac9](https://github.com/Esri/calcite-components/commit/b565ac97e0d8b63527767fa10a75dce78d7f5a4b)), closes [#5940](https://github.com/Esri/calcite-components/issues/5940) [#5940](https://github.com/Esri/calcite-components/issues/5940)
+* **dropdown-item:** Adds the `calciteDropdownItemSelect` event on any parent element to listen for items when selected ([#6015](https://github.com/Esri/calcite-components/issues/6015)) ([b565ac9](https://github.com/Esri/calcite-components/commit/b565ac97e0d8b63527767fa10a75dce78d7f5a4b)), closes [#5940](https://github.com/Esri/calcite-components/issues/5940) [#5940](https://github.com/Esri/calcite-components/issues/5940)
 
 * **input, input-number, input-text:** Add inputMode and enterKeyHint properties ([#5976](https://github.com/Esri/calcite-components/issues/5976)) ([d567a9f](https://github.com/Esri/calcite-components/commit/d567a9fde5b3619f308133555ba0bae20ca85168)), closes [#5917](https://github.com/Esri/calcite-components/issues/5917)
 
