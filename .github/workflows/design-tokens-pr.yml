@@ -18,7 +18,7 @@ jobs:
               owner,
               repo,
               head: '${{ github.ref_name }}',
-              base: 'feature/design-tokens',
+              base: 'master',
               body: [
                 'auto-generated: FigmaTokens PR',
                 '',
