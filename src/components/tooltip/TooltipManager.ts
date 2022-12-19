@@ -1,6 +1,7 @@
+import { debounce } from "lodash-es";
 import { isPrimaryPointerButton } from "../../utils/dom";
 import { ReferenceElement } from "../../utils/floating-ui";
-import { TOOLTIP_DELAY_MS } from "./resources";
+import { TOOLTIP_DELAY_MS, TOOLTIP_POINTER_DEBOUNCE_MS } from "./resources";
 
 export default class TooltipManager {
   // --------------------------------------------------------------------------
@@ -70,12 +71,8 @@ export default class TooltipManager {
     }
   };
 
-  private mouseEnterShow = (event: PointerEvent): void => {
-    this.hoverEvent(event, true);
-  };
-
-  private mouseLeaveHide = (event: PointerEvent): void => {
-    this.hoverEvent(event, false);
+  private pointerMove = (event: PointerEvent): void => {
+    this.hoverEvent(event.composedPath());
   };
 
   private clickHandler = (event: PointerEvent): void => {
@@ -103,8 +100,7 @@ export default class TooltipManager {
 
   private addListeners(): void {
     document.addEventListener("keydown", this.keyDownHandler);
-    document.addEventListener("pointerover", this.mouseEnterShow, { capture: true });
-    document.addEventListener("pointerout", this.mouseLeaveHide, { capture: true });
+    document.addEventListener("pointermove", this.pointerMove, { capture: true });
     document.addEventListener("pointerdown", this.clickHandler, { capture: true });
     document.addEventListener("focusin", this.focusShow, { capture: true });
     document.addEventListener("focusout", this.blurHide, { capture: true });
@@ -112,8 +108,7 @@ export default class TooltipManager {
 
   private removeListeners(): void {
     document.removeEventListener("keydown", this.keyDownHandler);
-    document.removeEventListener("pointerover", this.mouseEnterShow, { capture: true });
-    document.removeEventListener("pointerout", this.mouseLeaveHide, { capture: true });
+    document.removeEventListener("pointermove", this.pointerMove, { capture: true });
     document.removeEventListener("pointerdown", this.clickHandler, { capture: true });
     document.removeEventListener("focusin", this.focusShow, { capture: true });
     document.removeEventListener("focusout", this.blurHide, { capture: true });
@@ -176,32 +171,22 @@ export default class TooltipManager {
     hoverTimeouts.set(tooltip, timeoutId);
   }
 
-  private activeTooltipHover(event: PointerEvent): void {
+  private hoverEvent = debounce((composedPath: EventTarget[]): void => {
     const { activeTooltipEl, hoverTimeouts } = this;
-    const { type } = event;
 
-    if (!activeTooltipEl) {
+    if (activeTooltipEl && composedPath.includes(activeTooltipEl)) {
+      this.clearHoverTimeout(activeTooltipEl);
       return;
     }
 
-    if (type === "pointerover" && event.composedPath().includes(activeTooltipEl)) {
-      this.clearHoverTimeout(activeTooltipEl);
-    } else if (type === "pointerout" && !hoverTimeouts.has(activeTooltipEl)) {
+    const tooltip = this.queryTooltip(composedPath);
+
+    if (tooltip) {
+      this.hoverTooltip(tooltip, true);
+    } else if (activeTooltipEl && !hoverTimeouts.has(activeTooltipEl)) {
       this.hoverTooltip(activeTooltipEl, false);
     }
-  }
-
-  private hoverEvent(event: PointerEvent, value: boolean): void {
-    const tooltip = this.queryTooltip(event.composedPath());
-
-    this.activeTooltipHover(event);
-
-    if (!tooltip) {
-      return;
-    }
-
-    this.hoverTooltip(tooltip, value);
-  }
+  }, TOOLTIP_POINTER_DEBOUNCE_MS);
 
   private focusEvent(event: FocusEvent, value: boolean): void {
     const tooltip = this.queryTooltip(event.composedPath());
