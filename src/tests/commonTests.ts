@@ -913,8 +913,6 @@ export async function floatingUIOwner(
  * Helper to test t9n component setup
  *
  * @param {TagOrHTML|TagAndPage} componentSetup - A component tag, html, or an object with e2e page and tag for setting up a test
- * @param intlProps
- * @param additionalMessages
  */
 export async function t9n(componentSetup: TagOrHTML | TagAndPage): Promise<void> {
   const { page, tag } = await getTagAndPage(componentSetup);
