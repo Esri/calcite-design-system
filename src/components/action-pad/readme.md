@@ -55,7 +55,7 @@ Renders a group of `calcite-action`s contained in a `calcite-action-group`. Acti
 | `expandDisabled`   | `expand-disabled`   | When `true`, the expand-toggling behavior is disabled.                  | `boolean`                              | `false`      |
 | `expanded`         | `expanded`          | When `true`, the component is expanded.                                 | `boolean`                              | `false`      |
 | `layout`           | `layout`            | Indicates the layout of the component.                                  | `"grid" \| "horizontal" \| "vertical"` | `"vertical"` |
-| `messageOverrides` | `message-overrides` | Use this property to override individual strings used by the component. | `Messages`                             | `undefined`  |
+| `messageOverrides` | `message-overrides` | Use this property to override individual strings used by the component. | `ActionPadMessages`                    | `undefined`  |
 | `position`         | `position`          | Arranges the component depending on the element's `dir` property.       | `"end" \| "start"`                     | `undefined`  |
 | `scale`            | `scale`             | Specifies the size of the expand `calcite-action`.                      | `"l" \| "m" \| "s"`                    | `undefined`  |
 

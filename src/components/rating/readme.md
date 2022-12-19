@@ -25,7 +25,7 @@
 | `average`          | `average`           | Specifies a cumulative average from previous ratings to display.                                       | `number`            | `undefined` |
 | `count`            | `count`             | Specifies the number of previous ratings to display.                                                   | `number`            | `undefined` |
 | `disabled`         | `disabled`          | When `true`, interaction is prevented and the component is displayed with lower opacity.               | `boolean`           | `false`     |
-| `messageOverrides` | `message-overrides` | Use this property to override individual strings used by the component.                                | `Messages`          | `undefined` |
+| `messageOverrides` | `message-overrides` | Use this property to override individual strings used by the component.                                | `RatingMessages`    | `undefined` |
 | `name`             | `name`              | Specifies the name of the component on form submission.                                                | `string`            | `undefined` |
 | `readOnly`         | `read-only`         | When `true`, the component's value can be read, but cannot be modified.                                | `boolean`           | `false`     |
 | `scale`            | `scale`             | Specifies the size of the component.                                                                   | `"l" \| "m" \| "s"` | `"m"`       |
