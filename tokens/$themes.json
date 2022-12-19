@@ -12,6 +12,7 @@
       "brand/dark": "disabled",
       "component/label": "disabled",
       "component/tooltip": "disabled",
+      "component/input-time": "disabled"
       "component/link": "disabled",
       "component/progress": "disabled",
       "component/pagination": "disabled",
@@ -35,6 +36,7 @@
       "brand/dark": "enabled",
       "component/label": "disabled",
       "component/tooltip": "disabled",
+      "component/input-time": "disabled"
       "component/link": "disabled",
       "component/progress": "disabled",
       "component/pagination": "disabled",
@@ -64,6 +66,7 @@
       "component/radio": "source",
       "component/rating": "source",
       "component/tooltip": "source",
+      "component/input-time": "disabled"
       "component/link": "source",
       "component/progress": "source",
       "component/pagination": "source",
@@ -152,6 +155,7 @@
       "component/radio": "source",
       "component/rating": "source",
       "component/tooltip": "source",
+      "component/input-time": "disabled"
       "component/link": "source",
       "component/progress": "source",
       "component/pagination": "source",
@@ -243,6 +247,8 @@
       "component/rating": "enabled",
       "component/label": "enabled",
       "component/tooltip": "enabled",
+      "component/input-time": "enabled",
+      "component/[template-comp-name]": "enabled"
       "component/link": "enabled",
       "component/progress": "enabled",
       "component/pagination": "enabled",

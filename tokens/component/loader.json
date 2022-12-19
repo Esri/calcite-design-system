@@ -89,7 +89,7 @@
           "type": "spacing"
         }
       },
-      "space-arround": {
+      "space-around": {
         "sm": {
           "value": "$core.spacing.2",
           "type": "spacing"

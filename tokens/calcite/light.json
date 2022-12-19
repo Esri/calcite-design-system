@@ -329,7 +329,7 @@
       },
       "label": {
         "font": {
-          "value": "$pagination.font.active.light",
+          "value": "$label.font.light",
           "type": "color"
         }
       },

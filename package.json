@@ -1,9 +1,15 @@
 {
-  "name": "@esri/calcite-styles",
+  "name": "@esri/calcite-design-tokens",
   "version": "0.1.0",
-  "description": "Shared Tailwind CSS Configuration for Esri's Calcite Design System",
-  "homepage": "https://github.com/Esri/calcite-styles",
-  "main": "tailwind.config.js",
+  "description": "Esri's Calcite Design System Tokens",
+  "homepage": "https://github.com/Esri/calcite-design-tokens",
+  "keywords": [
+    "Calcite",
+    "Calcite Design System",
+    "design tokens",
+    "tokens"
+  ],
+  "main": "dist/index.js",
   "repository": {
     "type": "git",
     "url": "git://github.com/Esri/calcite-styles.git"
@@ -13,44 +19,39 @@
   },
   "contributors": [
     {
-      "name": "Julio Ochoa",
-      "email": "jochoa@esri.com"
+      "name": "Ali Stump",
+      "email": "astump@esri.com"
     },
     {
-      "name": "Adam Tirella",
-      "email": "atirella@esri.com"
+      "name": "Erik Harper-Dicianno",
+      "email": "eharperdicianno@esri.com"
     },
     {
-      "name": "Paul Pederson",
-      "email": "ppederson@esri.com"
+      "name": "Bruno Aires",
+      "email": "baires@esri.com"
+    },
+    {
+      "name": "Jacques Keet",
+      "email": "jkeet@esri.com"
+    },
+    {
+      "name": "Manuela Costa",
+      "email": "mcosta@esri.com"
     }
   ],
   "license": "SEE LICENSE IN README.md",
   "bugs": {
-    "url": "https://github.com/esri/calcite-styles/issues"
-  },
-  "files": [
-    "dist/"
-  ],
-  "dependencies": {
-    "tailwindcss": "^1.7.2"
-  },
-  "devDependencies": {
-    "@storybook/storybook-deployer": "^2.8.7",
-    "autoprefixer": "^9.8.6",
-    "concurrently": "^6.0.0",
-    "cross-env": "^7.0.3",
-    "cssnano": "^4.1.10",
-    "gh-release": "3.5.0",
-    "live-server": "^1.2.1",
-    "postcss-cli": "^7.1.1"
+    "url": "https://github.com/esri/calcite-design-tokens/issues"
   },
   "scripts": {
-    "release": "gh-release",
-    "start": "cross-env NODE_ENV=development concurrently \"postcss tailwind.css -o docs/tailwind.css --watch\"  \"live-server ./docs\" ",
-    "docs": "cross-env NODE_ENV=production concurrently \"postcss tailwind.css -o docs/tailwind.css --config ./docs/postcss.config.js\"",
-    "dist": "cross-env NODE_ENV=production postcss tailwind.css -o dist/tailwind.css",
-    "gh-pages": "npm run docs && storybook-to-ghpages --existing-output-dir=docs",
-    "postgh-pages": "git checkout -- docs"
+    "test": "echo 'No Tests yet, what are you doing?'",
+    "build": "npm run build:transformer && npm run build:sd",
+    "build:sd": "style-dictionary build",
+    "build:transformer": "token-transformer tokens sd-tokens/output.json",
+    "release": "echo 'release is still TBD. Please message Ali Stump or Erik Harper-Dicianno for more information."
+  },
+  "devDependencies": {
+    "style-dictionary": "^3.7.1",
+    "token-transformer": "^0.0.27"
   }
 }

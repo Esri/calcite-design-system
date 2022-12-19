@@ -4,6 +4,8 @@
     "semantic",
     "component/avatar",
     "component/checkbox",
+    "component/input-time",
+    "component/[template-comp-name]",
     "component/button",
     "component/chip",
     "component/FAB",
