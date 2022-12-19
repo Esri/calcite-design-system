@@ -24,7 +24,7 @@ import {
   T9nComponent,
   updateMessages
 } from "../../utils/t9n";
-import { Messages } from "./assets/filter/t9n";
+import { FilterMessages } from "./assets/filter/t9n";
 import {
   setUpLoadableComponent,
   setComponentLoaded,
@@ -96,12 +96,12 @@ export class Filter
    *
    * @internal
    */
-  @Prop({ mutable: true }) messages: Messages;
+  @Prop({ mutable: true }) messages: FilterMessages;
 
   /**
    * Use this property to override individual strings used by the component.
    */
-  @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
+  @Prop({ mutable: true }) messageOverrides: Partial<FilterMessages>;
 
   @Watch("messageOverrides")
   onMessagesChange(): void {
@@ -130,7 +130,7 @@ export class Filter
     updateMessages(this, this.effectiveLocale);
   }
 
-  @State() defaultMessages: Messages;
+  @State() defaultMessages: FilterMessages;
 
   // --------------------------------------------------------------------------
   //

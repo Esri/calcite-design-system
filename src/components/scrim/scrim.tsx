@@ -8,7 +8,7 @@ import {
   T9nComponent,
   updateMessages
 } from "../../utils/t9n";
-import { Messages } from "./assets/scrim/t9n";
+import { ScrimMessages } from "./assets/scrim/t9n";
 
 /**
  * @slot - A slot for adding custom content, primarily loading information.
@@ -38,12 +38,12 @@ export class Scrim implements LocalizedComponent, T9nComponent {
    *
    * @internal
    */
-  @Prop({ mutable: true }) messages: Messages;
+  @Prop({ mutable: true }) messages: ScrimMessages;
 
   /**
    * Use this property to override individual strings used by the component.
    */
-  @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
+  @Prop({ mutable: true }) messageOverrides: Partial<ScrimMessages>;
 
   @Watch("messageOverrides")
   onMessagesChange(): void {
@@ -64,7 +64,7 @@ export class Scrim implements LocalizedComponent, T9nComponent {
   //
   // --------------------------------------------------------------------------
 
-  @State() defaultMessages: Messages;
+  @State() defaultMessages: ScrimMessages;
 
   @State() effectiveLocale = "";
 

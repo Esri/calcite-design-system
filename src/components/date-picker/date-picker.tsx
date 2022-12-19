@@ -21,7 +21,7 @@ import {
   setEndOfDay
 } from "../../utils/date";
 import { HeadingLevel } from "../functional/Heading";
-import { Messages } from "./assets/date-picker/t9n";
+import { DatePickerMessages } from "./assets/date-picker/t9n";
 import {
   connectMessages,
   disconnectMessages,
@@ -148,14 +148,14 @@ export class DatePicker implements LocalizedComponent, T9nComponent {
   /**
    * Use this property to override individual strings used by the component.
    */
-  @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
+  @Prop({ mutable: true }) messageOverrides: Partial<DatePickerMessages>;
 
   /**
    * Made into a prop for testing purposes only
    *
    * @internal
    */
-  @Prop({ mutable: true }) messages: Messages;
+  @Prop({ mutable: true }) messages: DatePickerMessages;
 
   @Watch("messageOverrides")
   onMessagesChange(): void {
@@ -285,7 +285,7 @@ export class DatePicker implements LocalizedComponent, T9nComponent {
     updateMessages(this, this.effectiveLocale);
   }
 
-  @State() defaultMessages: Messages;
+  @State() defaultMessages: DatePickerMessages;
 
   @State() private localeData: DateLocaleData;
 

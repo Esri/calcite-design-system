@@ -21,7 +21,7 @@ import {
   connectConditionalSlotComponent,
   disconnectConditionalSlotComponent
 } from "../../utils/conditionalSlot";
-import { Messages } from "./assets/chip/t9n";
+import { ChipMessages } from "./assets/chip/t9n";
 import {
   connectMessages,
   disconnectMessages,
@@ -100,14 +100,14 @@ export class Chip
   /**
    * Use this property to override individual strings used by the component.
    */
-  @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
+  @Prop({ mutable: true }) messageOverrides: Partial<ChipMessages>;
 
   /**
    * Made into a prop for testing purposes only
    *
    * @internal
    */
-  @Prop({ mutable: true }) messages: Messages;
+  @Prop({ mutable: true }) messages: ChipMessages;
 
   @Watch("messageOverrides")
   onMessagesChange(): void {
@@ -118,8 +118,11 @@ export class Chip
   //
   //  Private Properties / State
   //
-  //--------------------------------------------------------------------------
-  @State() defaultMessages: Messages;
+  // --------------------------------------------------------------------------
+
+  @Element() el: HTMLCalciteChipElement;
+
+  @State() defaultMessages: ChipMessages;
 
   @State() effectiveLocale: string;
 

@@ -28,7 +28,7 @@ import {
   T9nComponent,
   updateMessages
 } from "../../utils/t9n";
-import { Messages } from "./assets/action-pad/t9n";
+import { ActionPadMessages } from "./assets/action-pad/t9n";
 import {
   setUpLoadableComponent,
   setComponentLoaded,
@@ -92,12 +92,12 @@ export class ActionPad
    *
    * @internal
    */
-  @Prop({ mutable: true }) messages: Messages;
+  @Prop({ mutable: true }) messages: ActionPadMessages;
 
   /**
    * Use this property to override individual strings used by the component.
    */
-  @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
+  @Prop({ mutable: true }) messageOverrides: Partial<ActionPadMessages>;
 
   @Watch("messageOverrides")
   onMessagesChange(): void {
@@ -132,7 +132,7 @@ export class ActionPad
     updateMessages(this, this.effectiveLocale);
   }
 
-  @State() defaultMessages: Messages;
+  @State() defaultMessages: ActionPadMessages;
 
   // --------------------------------------------------------------------------
   //
