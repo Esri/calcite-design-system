@@ -419,7 +419,7 @@ describe("calcite-radio-button-group", () => {
     `);
 
     const getSelectedItemValue = async (): Promise<string> => {
-      return await page.evaluate((): Promise<string> => {
+      return await page.evaluate((): string => {
         return document.querySelector("calcite-radio-button-group")?.selectedItem?.value || "";
       });
     };
