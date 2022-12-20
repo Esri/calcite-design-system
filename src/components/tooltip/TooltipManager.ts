@@ -16,6 +16,8 @@ export default class TooltipManager {
 
   private clickedTooltip: HTMLCalciteTooltipElement;
 
+  private closedClickedTooltip: HTMLCalciteTooltipElement;
+
   private activeTooltipEl: HTMLCalciteTooltipElement;
 
   private registeredElementCount = 0;
@@ -85,6 +87,7 @@ export default class TooltipManager {
     this.clickedTooltip = clickedTooltip;
 
     if (clickedTooltip?.closeOnClick) {
+      this.closedClickedTooltip = clickedTooltip;
       this.toggleTooltip(clickedTooltip, false);
       this.clearHoverTimeout(clickedTooltip);
     }
@@ -172,7 +175,7 @@ export default class TooltipManager {
   }
 
   private hoverEvent = debounce((composedPath: EventTarget[]): void => {
-    const { activeTooltipEl, hoverTimeouts } = this;
+    const { activeTooltipEl, hoverTimeouts, closedClickedTooltip } = this;
 
     if (activeTooltipEl && composedPath.includes(activeTooltipEl)) {
       this.clearHoverTimeout(activeTooltipEl);
@@ -181,7 +184,9 @@ export default class TooltipManager {
 
     const tooltip = this.queryTooltip(composedPath);
 
-    if (tooltip) {
+    if (closedClickedTooltip && tooltip === closedClickedTooltip) {
+      this.closedClickedTooltip = null;
+    } else if (tooltip) {
       this.hoverTooltip(tooltip, true);
     } else if (activeTooltipEl && !hoverTimeouts.has(activeTooltipEl)) {
       this.hoverTooltip(activeTooltipEl, false);
@@ -193,6 +198,7 @@ export default class TooltipManager {
 
     if (!tooltip || tooltip === this.clickedTooltip) {
       this.clickedTooltip = null;
+      this.closedClickedTooltip = null;
       return;
     }
 
