@@ -1,7 +1,6 @@
-import { debounce } from "lodash-es";
 import { isPrimaryPointerButton } from "../../utils/dom";
 import { ReferenceElement } from "../../utils/floating-ui";
-import { TOOLTIP_DELAY_MS, TOOLTIP_POINTER_DEBOUNCE_MS } from "./resources";
+import { TOOLTIP_DELAY_MS } from "./resources";
 
 export default class TooltipManager {
   // --------------------------------------------------------------------------
@@ -15,8 +14,6 @@ export default class TooltipManager {
   private hoverTimeouts: WeakMap<HTMLCalciteTooltipElement, number> = new WeakMap();
 
   private clickedTooltip: HTMLCalciteTooltipElement;
-
-  private closedClickedTooltip: HTMLCalciteTooltipElement;
 
   private activeTooltipEl: HTMLCalciteTooltipElement;
 
@@ -87,7 +84,6 @@ export default class TooltipManager {
     this.clickedTooltip = clickedTooltip;
 
     if (clickedTooltip?.closeOnClick) {
-      this.closedClickedTooltip = clickedTooltip;
       this.toggleTooltip(clickedTooltip, false);
       this.clearHoverTimeout(clickedTooltip);
     }
@@ -174,8 +170,8 @@ export default class TooltipManager {
     hoverTimeouts.set(tooltip, timeoutId);
   }
 
-  private hoverEvent = debounce((composedPath: EventTarget[]): void => {
-    const { activeTooltipEl, hoverTimeouts, closedClickedTooltip } = this;
+  private hoverEvent = (composedPath: EventTarget[]): void => {
+    const { activeTooltipEl, hoverTimeouts } = this;
 
     if (activeTooltipEl && composedPath.includes(activeTooltipEl)) {
       this.clearHoverTimeout(activeTooltipEl);
@@ -184,21 +180,18 @@ export default class TooltipManager {
 
     const tooltip = this.queryTooltip(composedPath);
 
-    if (closedClickedTooltip && tooltip === closedClickedTooltip) {
-      this.closedClickedTooltip = null;
-    } else if (tooltip) {
+    if (tooltip) {
       this.hoverTooltip(tooltip, true);
     } else if (activeTooltipEl && !hoverTimeouts.has(activeTooltipEl)) {
       this.hoverTooltip(activeTooltipEl, false);
     }
-  }, TOOLTIP_POINTER_DEBOUNCE_MS);
+  };
 
   private focusEvent(event: FocusEvent, value: boolean): void {
     const tooltip = this.queryTooltip(event.composedPath());
 
     if (!tooltip || tooltip === this.clickedTooltip) {
       this.clickedTooltip = null;
-      this.closedClickedTooltip = null;
       return;
     }
 
