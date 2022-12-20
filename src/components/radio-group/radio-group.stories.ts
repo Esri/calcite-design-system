@@ -16,7 +16,7 @@ export default {
 export const simple = (): string => html`
   <calcite-radio-group
     layout="${select("layout", ["horizontal", "vertical"], "horizontal")}"
-    appearance="${select("appearance", ["solid", "outline"], "solid")}"
+    appearance="${select("appearance", ["solid", "outline", "outline-fill"], "solid")}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
     width="${select("width", ["auto", "full"], "auto")}"
     ${boolean("disabled", false)}
@@ -34,7 +34,7 @@ export const fullWidthWithIcons = (): string => html`
       My great radio group
       <calcite-radio-group
         layout="${select("layout", ["horizontal", "vertical"], "horizontal")}"
-        appearance="${select("appearance", ["solid", "outline"], "solid")}"
+        appearance="${select("appearance", ["solid", "outline", "outline-fill"], "solid")}"
         width="${select("width", ["auto", "full"], "full")}"
         ${boolean("disabled", false)}
       >
@@ -51,7 +51,7 @@ export const darkThemeRTL_TestOnly = (): string => html`
     class="calcite-theme-dark"
     dir="rtl"
     layout="${select("layout", ["horizontal", "vertical"], "horizontal")}"
-    appearance="${select("appearance", ["solid", "outline"], "solid")}"
+    appearance="${select("appearance", ["solid", "outline", "outline-fill"], "solid")}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
     width="${select("width", ["auto", "full"], "auto")}"
     ${boolean("disabled", false)}

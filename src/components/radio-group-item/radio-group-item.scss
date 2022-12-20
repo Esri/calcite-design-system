@@ -60,10 +60,15 @@
   color: theme("backgroundColor.background");
 }
 
-:host([checked]) .label--outline {
-  @apply bg-transparent border-color-brand;
+:host([checked]) .label--outline,
+:host([checked]) .label--outline-fill {
+  @apply bg-foreground-1 border-color-brand;
   box-shadow: inset 0 0 0 1px theme("backgroundColor.brand");
   color: theme("backgroundColor.brand");
+}
+
+:host([checked]) .label--outline {
+  @apply bg-transparent;
 }
 
 ::slotted(input) {
@@ -74,7 +79,8 @@
   :host([checked]) label {
     background-color: highlight;
   }
-  :host([checked]) .label--outline {
+  :host([checked]) .label--outline,
+  :host([checked]) .label--outline-fill {
     @apply outline-none;
   }
   :host([checked]) label:not([class~="label--outline"]) .radio-group-item-icon {
