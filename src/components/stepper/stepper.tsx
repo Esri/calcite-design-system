@@ -158,6 +158,7 @@ export class Stepper {
 
     if (typeof position === "number") {
       this.currentPosition = position;
+      this.selectedItem = event.target as HTMLCalciteStepperItemElement;
     }
 
     this.calciteInternalStepperItemChange.emit({
@@ -166,8 +167,7 @@ export class Stepper {
   }
 
   @Listen("calciteInternalUserRequestedStepperItemSelect")
-  handleUserRequestedStepperItemSelect(event: CustomEvent<StepperItemChangeEventDetail>): void {
-    this.selectedItem = event.target as HTMLCalciteStepperItemElement;
+  handleUserRequestedStepperItemSelect(): void {
     this.calciteStepperItemChange.emit();
   }
 
