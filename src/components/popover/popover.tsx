@@ -531,7 +531,7 @@ export class Popover
   renderCloseButton(): VNode {
     const { messages, closable } = this;
     return closable ? (
-      <div class={CSS.closeButtonContainer}>
+      <div class={CSS.closeButtonContainer} key="close-button-container">
         <calcite-action
           class={CSS.closeButton}
           onClick={this.hide}
@@ -554,7 +554,7 @@ export class Popover
     ) : null;
 
     return headingNode ? (
-      <div class={CSS.header}>
+      <div class={CSS.header} key="header">
         {headingNode}
         {this.renderCloseButton()}
       </div>
