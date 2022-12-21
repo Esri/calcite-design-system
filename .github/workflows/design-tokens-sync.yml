@@ -1,32 +1,62 @@
 name: Sync designer branches with main
 on: 
   pull_request:
-    branches: [master]
+    branches: [main]
     types: [closed]
 jobs:
-  sync-branches:
+  update-designer-branches:
     runs-on: ubuntu-latest
     if: github.event.pull_request.merged == true
     timeout-minutes: 2    
     steps:
+      - name: Get Designer Branches
+        uses: actions/github-script@v6
+          with:
+            script: |
+              const { repo, owner } = context.repo;
+              const branches = await github.rest.repos.listBranches({ owner, repo });
+              const designerBranches = branches.filter((b) => {
+                return b.name.includes('designer/')
+              });
+              core.exportVariable("GIT_DESIGNER_BRANCHES", designerBranches);
+      
+      - name: Check if PR exists
+        id: check
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          for branch in "${GIT_DESIGNER_BRANCHES[@]}"
+          do
+            echo "[$branch]"
+            prs=$(gh pr list \
+                --repo "$GITHUB_REPOSITORY" \
+                --json baseRefName,headRefName \
+                --jq '
+                    map(select(.baseRefName == "main" and .headRefName == ${branch}))
+                    | length
+                ')
+              if ((prs > 0)); then
+                  echo ${GIT_DESIGNER_BRANCHES[@]/$branch}
+              fi
+          done
+    
       - name: Create Pull Requests
         uses: actions/github-script@v6
+        if: "${#GIT_DESIGNER_BRANCHES[@]}" -gt "0"
+        env:
+          MERGE_LABELS: 'automated-tokens-pr'
         with:
           script: |
             const { repo, owner } = context.repo;
-            const branches = await github.rest.repos.listBranches({ owner, repo });
-            const designerBranches = branches.filter((b) => {
-              return b.name.includes('designer/')
-            });
-            const automergeLabel = 'automated-tokens-pr';
+            const designerBranches = process.env.GIT_DESIGNER_BRANCHES;
 
             for (const branch of designerBranches) {
               const newPR = await github.rest.pulls.create({
-                title: 'chore(automerge): Design Token Updates',
+                title: 'chore(automerge): ${{ github.ref_name }} from main',
                 owner,
                 repo,
                 head: '${{ github.ref_name }}',
-                base: 'master',
+                base: 'main',
                 body: [
                   'auto-generated: FigmaTokens PR',
                   '',
@@ -40,8 +70,8 @@ jobs:
               });
 
               const labels = updatedIssueInformation.data.labels.map(label => label.name);
-              if(!labels.includes(automergeLabel)) {
-                labels.push(automergeLabel)
+              if(!labels.includes($MERGE_LABELS)) {
+                labels.push($MERGE_LABELS)
               }
 
               await github.rest.issues.update({
