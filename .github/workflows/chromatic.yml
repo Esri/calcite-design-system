@@ -50,6 +50,7 @@ jobs:
         with:
           projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
           exitOnceUploaded: true
+          autoAcceptChanges: master
         env:
           STORYBOOK_SCREENSHOT_TEST_BUILD: true
           CHROMATIC_DIFF_THRESHOLD: ${{ secrets.CHROMATIC_DIFF_THRESHOLD }}

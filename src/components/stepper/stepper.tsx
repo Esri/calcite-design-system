@@ -52,6 +52,13 @@ export class Stepper {
    */
   @Prop({ reflect: true }) numberingSystem?: NumberingSystem;
 
+  /**
+   * Specifies the component's selected item.
+   *
+   * @readonly
+   */
+  @Prop({ mutable: true }) selectedItem: HTMLCalciteStepperItemElement = null;
+
   /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";
 
@@ -66,7 +73,7 @@ export class Stepper {
    *
    */
   @Event({ cancelable: false })
-  calciteStepperItemChange: EventEmitter<StepperItemChangeEventDetail>;
+  calciteStepperItemChange: EventEmitter<void>;
 
   /**
    * Fires when the active `calcite-stepper-item` changes.
@@ -151,6 +158,7 @@ export class Stepper {
 
     if (typeof position === "number") {
       this.currentPosition = position;
+      this.selectedItem = event.target as HTMLCalciteStepperItemElement;
     }
 
     this.calciteInternalStepperItemChange.emit({
@@ -159,12 +167,8 @@ export class Stepper {
   }
 
   @Listen("calciteInternalUserRequestedStepperItemSelect")
-  handleUserRequestedStepperItemSelect(event: CustomEvent<StepperItemChangeEventDetail>): void {
-    const { position } = event.detail;
-
-    this.calciteStepperItemChange.emit({
-      position
-    });
+  handleUserRequestedStepperItemSelect(): void {
+    this.calciteStepperItemChange.emit();
   }
 
   //--------------------------------------------------------------------------
