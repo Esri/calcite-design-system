@@ -27,7 +27,8 @@ import {
   FocusTrap,
   connectFocusTrap,
   activateFocusTrap,
-  deactivateFocusTrap
+  deactivateFocusTrap,
+  updateFocusTrapElements
 } from "../../utils/focusTrapComponent";
 import {
   setUpLoadableComponent,
@@ -384,6 +385,14 @@ export class Modal
   async setFocus(): Promise<void> {
     await componentLoaded(this);
     focusFirstTabbable(this.focusTrapEl);
+  }
+
+  /**
+   * Updates the element(s) that are used within the focus-trap of the component.
+   */
+  @Method()
+  async updateFocusTrapElements(): Promise<void> {
+    updateFocusTrapElements(this);
   }
 
   /**

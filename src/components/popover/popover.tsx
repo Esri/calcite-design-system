@@ -32,7 +32,8 @@ import {
   FocusTrap,
   connectFocusTrap,
   activateFocusTrap,
-  deactivateFocusTrap
+  deactivateFocusTrap,
+  updateFocusTrapElements
 } from "../../utils/focusTrapComponent";
 
 import { guid } from "../../utils/guid";
@@ -399,6 +400,14 @@ export class Popover
   @Method()
   async toggle(value = !this.open): Promise<void> {
     this.open = value;
+  }
+
+  /**
+   * Updates the element(s) that are used within the focus-trap of the component.
+   */
+  @Method()
+  async updateFocusTrapElements(): Promise<void> {
+    updateFocusTrapElements(this);
   }
 
   // --------------------------------------------------------------------------
