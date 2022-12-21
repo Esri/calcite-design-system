@@ -387,7 +387,7 @@ export class Popover
   @Method()
   async setFocus(): Promise<void> {
     await componentLoaded(this);
-    forceUpdate(this.closeButtonEl);
+    forceUpdate(this);
     focusFirstTabbable(this.focusTrapEl);
   }
 
