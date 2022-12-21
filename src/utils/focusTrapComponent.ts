@@ -31,6 +31,11 @@ export interface FocusTrapComponent {
    * The focus trap element.
    */
   focusTrapEl: HTMLElement;
+
+  /**
+   * Method to update the element(s) that are used within the FocusTrap component.
+   */
+  updateFocusTrapElements: () => Promise<void>;
 }
 
 export type FocusTrap = _FocusTrap;
@@ -94,4 +99,20 @@ export function deactivateFocusTrap(component: FocusTrapComponent): void {
  */
 export function focusFirstTabbable(component: FocusTrapComponent): void {
   tabbable(component.focusTrapEl, tabbableOptions)[0]?.focus();
+}
+
+/**
+ * Helper to update the element(s) that are used within the FocusTrap component.
+ *
+ * @param {FocusTrapComponent} component The FocusTrap component.
+ * @example
+ * const modal = document.querySelector("calcite-modal");
+ * const input = document.createElement("calcite-input");
+ * content.appendChild(input);
+ * await input.componentOnReady();
+ * await modal.updateFocusTrapElements();
+ * requestAnimationFrame(() => input.setFocus());
+ */
+export function updateFocusTrapElements(component: FocusTrapComponent): void {
+  component.focusTrap?.updateContainerElements(component.focusTrapEl);
 }
