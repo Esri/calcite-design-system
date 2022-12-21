@@ -3,6 +3,7 @@ on:
   pull_request:
     branches: [main]
     types: [closed]
+
 jobs:
   update-designer-branches:
     runs-on: ubuntu-latest
@@ -11,14 +12,14 @@ jobs:
     steps:
       - name: Get Designer Branches
         uses: actions/github-script@v6
-          with:
-            script: |
-              const { repo, owner } = context.repo;
-              const branches = await github.rest.repos.listBranches({ owner, repo });
-              const designerBranches = branches.filter((b) => {
-                return b.name.includes('designer/')
-              });
-              core.exportVariable("GIT_DESIGNER_BRANCHES", designerBranches);
+        with:
+          script: |
+            const { repo, owner } = context.repo;
+            const branches = await github.rest.repos.listBranches({ owner, repo });
+            const designerBranches = branches.filter((b) => {
+              return b.name.includes('designer/')
+            });
+            core.exportVariable("GIT_DESIGNER_BRANCHES", designerBranches);
       
       - name: Check if PR exists
         id: check
