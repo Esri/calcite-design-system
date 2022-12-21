@@ -12,7 +12,7 @@ import {
   VNode,
   Watch
 } from "@stencil/core";
-import { ensureId, focusElement, focusFirstTabbable, getSlotted } from "../../utils/dom";
+import { ensureId, focusFirstTabbable, getSlotted } from "../../utils/dom";
 import { Kind, Scale } from "../interfaces";
 import { CSS, ICONS, SLOTS } from "./resources";
 import { createObserver } from "../../utils/observers";
