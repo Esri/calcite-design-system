@@ -16,12 +16,7 @@ import { ItemKeyboardEvent } from "../dropdown/interfaces";
 import { FlipContext } from "../interfaces";
 import { CSS } from "./resources";
 import { RequestedItem } from "../dropdown-group/interfaces";
-import {
-  setUpLoadableComponent,
-  setComponentLoaded,
-  LoadableComponent,
-  componentLoaded
-} from "../../utils/loadable";
+import { componentLoaded } from "../../utils/loadable";
 import { SelectionMode } from "../interfaces";
 
 /**
@@ -32,7 +27,7 @@ import { SelectionMode } from "../interfaces";
   styleUrl: "dropdown-item.scss",
   shadow: true
 })
-export class DropdownItem implements LoadableComponent {
+export class DropdownItem {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -104,9 +99,9 @@ export class DropdownItem implements LoadableComponent {
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
-    await componentLoaded(this);
-
-    this.el?.focus();
+    const { el } = this;
+    await componentLoaded(el);
+    el.focus();
   }
 
   //--------------------------------------------------------------------------
@@ -116,12 +111,7 @@ export class DropdownItem implements LoadableComponent {
   //--------------------------------------------------------------------------
 
   componentWillLoad(): void {
-    setUpLoadableComponent(this);
     this.initialize();
-  }
-
-  componentDidLoad(): void {
-    setComponentLoaded(this);
   }
 
   connectedCallback(): void {

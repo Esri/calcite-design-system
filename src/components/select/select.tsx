@@ -24,12 +24,7 @@ import {
 import { CSS } from "./resources";
 import { createObserver } from "../../utils/observers";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
-import {
-  setUpLoadableComponent,
-  setComponentLoaded,
-  LoadableComponent,
-  componentLoaded
-} from "../../utils/loadable";
+import { componentLoaded } from "../../utils/loadable";
 
 type OptionOrGroup = HTMLCalciteOptionElement | HTMLCalciteOptionGroupElement;
 type NativeOptionOrGroup = HTMLOptionElement | HTMLOptGroupElement;
@@ -52,9 +47,7 @@ function isOptionGroup(
   styleUrl: "select.scss",
   shadow: true
 })
-export class Select
-  implements LabelableComponent, FormComponent, InteractiveComponent, LoadableComponent
-{
+export class Select implements LabelableComponent, FormComponent, InteractiveComponent {
   //--------------------------------------------------------------------------
   //
   //  Properties
@@ -159,12 +152,7 @@ export class Select
     disconnectForm(this);
   }
 
-  componentWillLoad(): void {
-    setUpLoadableComponent(this);
-  }
-
   componentDidLoad(): void {
-    setComponentLoaded(this);
     afterConnectDefaultValueSet(this, this.selectedOption?.value ?? "");
   }
 
@@ -181,7 +169,7 @@ export class Select
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
-    await componentLoaded(this);
+    await componentLoaded(this.el);
 
     focusElement(this.selectEl);
   }

@@ -58,12 +58,7 @@ import {
 } from "../../utils/t9n";
 import { PopoverMessages } from "./assets/popover/t9n";
 
-import {
-  setUpLoadableComponent,
-  setComponentLoaded,
-  LoadableComponent,
-  componentLoaded
-} from "../../utils/loadable";
+import { componentLoaded } from "../../utils/loadable";
 
 const manager = new PopoverManager();
 
@@ -81,7 +76,6 @@ export class Popover
     FloatingUIComponent,
     OpenCloseComponent,
     FocusTrapComponent,
-    LoadableComponent,
     LocalizedComponent,
     T9nComponent
 {
@@ -301,11 +295,9 @@ export class Popover
 
   async componentWillLoad(): Promise<void> {
     await setUpMessages(this);
-    setUpLoadableComponent(this);
   }
 
   componentDidLoad(): void {
-    setComponentLoaded(this);
     if (this.referenceElement && !this.effectiveReferenceElement) {
       this.setUpReferenceElement();
     }
@@ -390,7 +382,7 @@ export class Popover
    */
   @Method()
   async setFocus(focusId?: "close-button"): Promise<void> {
-    await componentLoaded(this);
+    await componentLoaded(this.el);
 
     const { closeButtonEl } = this;
 

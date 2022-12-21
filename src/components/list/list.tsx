@@ -23,12 +23,7 @@ import { MAX_COLUMNS } from "../list-item/resources";
 
 const listItemSelector = "calcite-list-item";
 
-import {
-  setUpLoadableComponent,
-  setComponentLoaded,
-  LoadableComponent,
-  componentLoaded
-} from "../../utils/loadable";
+import { componentLoaded } from "../../utils/loadable";
 
 /**
  * A general purpose list that enables users to construct list items that conform to Calcite styling.
@@ -40,7 +35,7 @@ import {
   styleUrl: "list.scss",
   shadow: true
 })
-export class List implements InteractiveComponent, LoadableComponent {
+export class List implements InteractiveComponent {
   // --------------------------------------------------------------------------
   //
   //  Properties
@@ -191,16 +186,11 @@ export class List implements InteractiveComponent, LoadableComponent {
     this.mutationObserver?.disconnect();
   }
 
-  componentWillLoad(): void {
-    setUpLoadableComponent(this);
-  }
-
   componentDidRender(): void {
     updateHostInteraction(this);
   }
 
   componentDidLoad(): void {
-    setComponentLoaded(this);
     const { filterEl } = this;
     const filteredItems = filterEl?.filteredItems as ItemData;
 
@@ -238,7 +228,7 @@ export class List implements InteractiveComponent, LoadableComponent {
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
-    await componentLoaded(this);
+    await componentLoaded(this.el);
     this.enabledListItems.find((listItem) => listItem.active)?.setFocus();
   }
 

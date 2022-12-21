@@ -18,12 +18,7 @@ import { HeadingLevel, Heading } from "../functional/Heading";
 import { SLOTS as ACTION_MENU_SLOTS } from "../action-menu/resources";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import { createObserver } from "../../utils/observers";
-import {
-  setUpLoadableComponent,
-  setComponentLoaded,
-  LoadableComponent,
-  componentLoaded
-} from "../../utils/loadable";
+import { componentLoaded } from "../../utils/loadable";
 
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 import {
@@ -51,9 +46,7 @@ import { PanelMessages } from "./assets/panel/t9n";
   shadow: true,
   assetsDirs: ["assets"]
 })
-export class Panel
-  implements InteractiveComponent, LoadableComponent, LocalizedComponent, T9nComponent
-{
+export class Panel implements InteractiveComponent, LocalizedComponent, T9nComponent {
   // --------------------------------------------------------------------------
   //
   //  Properties
@@ -133,12 +126,7 @@ export class Panel
   }
 
   async componentWillLoad(): Promise<void> {
-    setUpLoadableComponent(this);
     await setUpMessages(this);
-  }
-
-  componentDidLoad(): void {
-    setComponentLoaded(this);
   }
 
   componentDidRender(): void {
@@ -215,7 +203,9 @@ export class Panel
   // --------------------------------------------------------------------------
 
   resizeHandler = (): void => {
-    const { panelScrollEl } = this;
+    const { panelScrollEl, el } = this;
+
+    el.componentOnReady;
 
     if (
       !panelScrollEl ||
@@ -325,7 +315,7 @@ export class Panel
    */
   @Method()
   async setFocus(focusId?: "back-button" | "dismiss-button"): Promise<void> {
-    await componentLoaded(this);
+    await componentLoaded(this.el);
 
     const { backButtonEl, closeButtonEl, containerEl } = this;
 

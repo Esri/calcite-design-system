@@ -31,12 +31,7 @@ import {
   focusFirstTabbable,
   updateFocusTrapElements
 } from "../../utils/focusTrapComponent";
-import {
-  setUpLoadableComponent,
-  setComponentLoaded,
-  LoadableComponent,
-  componentLoaded
-} from "../../utils/loadable";
+import { componentLoaded } from "../../utils/loadable";
 
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 import {
@@ -67,7 +62,6 @@ export class Modal
     ConditionalSlotComponent,
     OpenCloseComponent,
     FocusTrapComponent,
-    LoadableComponent,
     LocalizedComponent,
     T9nComponent
 {
@@ -162,16 +156,12 @@ export class Modal
 
   async componentWillLoad(): Promise<void> {
     await setUpMessages(this);
-    setUpLoadableComponent(this);
+
     // when modal initially renders, if active was set we need to open as watcher doesn't fire
     if (this.open) {
       onToggleOpenCloseComponent(this);
       requestAnimationFrame(() => this.openModal());
     }
-  }
-
-  componentDidLoad(): void {
-    setComponentLoaded(this);
   }
 
   connectedCallback(): void {
@@ -386,7 +376,7 @@ export class Modal
    */
   @Method()
   async setFocus(focusId?: "close-button"): Promise<void> {
-    await componentLoaded(this);
+    await componentLoaded(this.el);
 
     const { closeButtonEl } = this;
 

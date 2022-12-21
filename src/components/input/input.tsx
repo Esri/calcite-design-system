@@ -53,12 +53,7 @@ import {
   updateMessages
 } from "../../utils/t9n";
 import { InputMessages } from "./assets/input/t9n";
-import {
-  setUpLoadableComponent,
-  setComponentLoaded,
-  LoadableComponent,
-  componentLoaded
-} from "../../utils/loadable";
+import { componentLoaded } from "../../utils/loadable";
 
 /**
  * @slot action - A slot for positioning a `calcite-button` next to the component.
@@ -75,8 +70,7 @@ export class Input
     FormComponent,
     InteractiveComponent,
     T9nComponent,
-    LocalizedComponent,
-    LoadableComponent
+    LocalizedComponent
 {
   //--------------------------------------------------------------------------
   //
@@ -480,16 +474,11 @@ export class Input
   }
 
   async componentWillLoad(): Promise<void> {
-    setUpLoadableComponent(this);
     this.childElType = this.type === "textarea" ? "textarea" : "input";
     this.maxString = this.max?.toString();
     this.minString = this.min?.toString();
     this.requestedIcon = setRequestedIcon(INPUT_TYPE_ICONS, this.icon, this.type);
     await setUpMessages(this);
-  }
-
-  componentDidLoad(): void {
-    setComponentLoaded(this);
   }
 
   componentShouldUpdate(newValue: string, oldValue: string, property: string): boolean {
@@ -542,7 +531,7 @@ export class Input
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
-    await componentLoaded(this);
+    await componentLoaded(this.el);
 
     if (this.type === "number") {
       this.childNumberEl?.focus();

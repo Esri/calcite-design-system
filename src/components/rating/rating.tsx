@@ -24,12 +24,7 @@ import {
   updateMessages
 } from "../../utils/t9n";
 import { RatingMessages } from "./assets/rating/t9n";
-import {
-  setUpLoadableComponent,
-  setComponentLoaded,
-  LoadableComponent,
-  componentLoaded
-} from "../../utils/loadable";
+import { componentLoaded } from "../../utils/loadable";
 import { StarIcon } from "./function/star";
 import { Star } from "./interfaces";
 
@@ -44,7 +39,6 @@ export class Rating
     LabelableComponent,
     FormComponent,
     InteractiveComponent,
-    LoadableComponent,
     LocalizedComponent,
     T9nComponent
 {
@@ -168,7 +162,7 @@ export class Rating
 
   async componentWillLoad(): Promise<void> {
     await setUpMessages(this);
-    setUpLoadableComponent(this);
+
     this.inputRefs = Array(this.max);
   }
 
@@ -208,10 +202,6 @@ export class Rating
         value
       };
     });
-  }
-
-  componentDidLoad(): void {
-    setComponentLoaded(this);
   }
 
   disconnectedCallback(): void {
@@ -423,7 +413,7 @@ export class Rating
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
-    await componentLoaded(this);
+    await componentLoaded(this.el);
 
     this.inputFocusRef?.focus();
   }

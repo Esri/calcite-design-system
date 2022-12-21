@@ -34,12 +34,7 @@ import {
 } from "../../utils/locale";
 import { TimePickerMessages } from "../time-picker/assets/time-picker/t9n";
 import { numberKeys } from "../../utils/key";
-import {
-  setUpLoadableComponent,
-  setComponentLoaded,
-  LoadableComponent,
-  componentLoaded
-} from "../../utils/loadable";
+import { componentLoaded } from "../../utils/loadable";
 
 @Component({
   tag: "calcite-input-time-picker",
@@ -54,8 +49,7 @@ export class InputTimePicker
     FormComponent,
     InteractiveComponent,
     FloatingUIComponent,
-    LocalizedComponent,
-    LoadableComponent
+    LocalizedComponent
 {
   //--------------------------------------------------------------------------
   //
@@ -318,9 +312,9 @@ export class InputTimePicker
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
-    await componentLoaded(this);
-
-    this.el.focus();
+    const { el } = this;
+    await componentLoaded(el);
+    el.focus();
   }
 
   /**
@@ -457,12 +451,7 @@ export class InputTimePicker
     connectForm(this);
   }
 
-  componentWillLoad(): void {
-    setUpLoadableComponent(this);
-  }
-
   componentDidLoad() {
-    setComponentLoaded(this);
     this.setInputValue(this.localizedValue);
   }
 

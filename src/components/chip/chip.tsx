@@ -28,12 +28,7 @@ import {
   updateMessages
 } from "../../utils/t9n";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
-import {
-  setUpLoadableComponent,
-  setComponentLoaded,
-  LoadableComponent,
-  componentLoaded
-} from "../../utils/loadable";
+import { componentLoaded } from "../../utils/loadable";
 import { createObserver } from "../../utils/observers";
 import { slotChangeHasAssignedElement } from "../../utils/dom";
 
@@ -47,9 +42,7 @@ import { slotChangeHasAssignedElement } from "../../utils/dom";
   shadow: true,
   assetsDirs: ["assets"]
 })
-export class Chip
-  implements ConditionalSlotComponent, LoadableComponent, LocalizedComponent, T9nComponent
-{
+export class Chip implements ConditionalSlotComponent, LocalizedComponent, T9nComponent {
   //--------------------------------------------------------------------------
   //
   //  Public Properties
@@ -128,10 +121,6 @@ export class Chip
     this.setupTextContentObserver();
   }
 
-  componentDidLoad(): void {
-    setComponentLoaded(this);
-  }
-
   disconnectedCallback(): void {
     disconnectConditionalSlotComponent(this);
     disconnectLocalized(this);
@@ -139,7 +128,6 @@ export class Chip
   }
 
   async componentWillLoad(): Promise<void> {
-    setUpLoadableComponent(this);
     if (Build.isBrowser) {
       await setUpMessages(this);
       this.updateHasContent();
@@ -154,8 +142,7 @@ export class Chip
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
-    await componentLoaded(this);
-
+    await componentLoaded(this.el);
     this.closeButton?.focus();
   }
 

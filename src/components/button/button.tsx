@@ -17,12 +17,7 @@ import {
   updateMessages
 } from "../../utils/t9n";
 import { ButtonMessages } from "./assets/button/t9n";
-import {
-  setUpLoadableComponent,
-  setComponentLoaded,
-  LoadableComponent,
-  componentLoaded
-} from "../../utils/loadable";
+import { componentLoaded } from "../../utils/loadable";
 
 /** Passing a 'href' will render an anchor link, instead of a button. Role will be set to link, or button, depending on this. */
 /** It is the consumers responsibility to add aria information, rel, target, for links, and any button attributes for form submission */
@@ -35,13 +30,7 @@ import {
   assetsDirs: ["assets"]
 })
 export class Button
-  implements
-    LabelableComponent,
-    InteractiveComponent,
-    FormOwner,
-    LoadableComponent,
-    LocalizedComponent,
-    T9nComponent
+  implements LabelableComponent, InteractiveComponent, FormOwner, LocalizedComponent, T9nComponent
 {
   //--------------------------------------------------------------------------
   //
@@ -184,15 +173,10 @@ export class Button
   }
 
   async componentWillLoad(): Promise<void> {
-    setUpLoadableComponent(this);
     if (Build.isBrowser) {
       this.updateHasContent();
       await setUpMessages(this);
     }
-  }
-
-  componentDidLoad(): void {
-    setComponentLoaded(this);
   }
 
   componentDidRender(): void {
@@ -275,7 +259,7 @@ export class Button
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
-    await componentLoaded(this);
+    await componentLoaded(this.el);
 
     this.childEl?.focus();
   }

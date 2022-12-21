@@ -38,12 +38,7 @@ import {
   updateMessages
 } from "../../utils/t9n";
 import { ActionBarMessages } from "./assets/action-bar/t9n";
-import {
-  setUpLoadableComponent,
-  setComponentLoaded,
-  LoadableComponent,
-  componentLoaded
-} from "../../utils/loadable";
+import { componentLoaded } from "../../utils/loadable";
 
 /**
  * @slot - A slot for adding `calcite-action`s that will appear at the top of the action bar.
@@ -58,9 +53,7 @@ import {
   },
   assetsDirs: ["assets"]
 })
-export class ActionBar
-  implements ConditionalSlotComponent, LoadableComponent, LocalizedComponent, T9nComponent
-{
+export class ActionBar implements ConditionalSlotComponent, LocalizedComponent, T9nComponent {
   // --------------------------------------------------------------------------
   //
   //  Properties
@@ -177,7 +170,6 @@ export class ActionBar
   // --------------------------------------------------------------------------
 
   componentDidLoad(): void {
-    setComponentLoaded(this);
     this.conditionallyOverflowActions();
   }
 
@@ -199,7 +191,6 @@ export class ActionBar
   }
 
   async componentWillLoad(): Promise<void> {
-    setUpLoadableComponent(this);
     await setUpMessages(this);
   }
 
@@ -232,9 +223,9 @@ export class ActionBar
    */
   @Method()
   async setFocus(): Promise<void> {
-    await componentLoaded(this);
-
-    this.el?.focus();
+    const { el } = this;
+    await componentLoaded(el);
+    el.focus();
   }
 
   // --------------------------------------------------------------------------

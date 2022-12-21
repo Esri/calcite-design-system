@@ -22,12 +22,7 @@ const focusMap = new Map<HTMLCalciteListElement, number>();
 
 const listSelector = "calcite-list";
 
-import {
-  setUpLoadableComponent,
-  setComponentLoaded,
-  LoadableComponent,
-  componentLoaded
-} from "../../utils/loadable";
+import { componentLoaded } from "../../utils/loadable";
 
 /**
  * @slot - A slot for adding `calcite-list-item` and `calcite-list-item-group` elements.
@@ -42,7 +37,7 @@ import {
   styleUrl: "list-item.scss",
   shadow: true
 })
-export class ListItem implements InteractiveComponent, LoadableComponent {
+export class ListItem implements InteractiveComponent {
   // --------------------------------------------------------------------------
   //
   //  Properties
@@ -205,14 +200,6 @@ export class ListItem implements InteractiveComponent, LoadableComponent {
     this.setSelectionDefaults();
   }
 
-  componentWillLoad(): void {
-    setUpLoadableComponent(this);
-  }
-
-  componentDidLoad(): void {
-    setComponentLoaded(this);
-  }
-
   componentDidRender(): void {
     updateHostInteraction(this, "managed");
   }
@@ -226,7 +213,7 @@ export class ListItem implements InteractiveComponent, LoadableComponent {
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
-    await componentLoaded(this);
+    await componentLoaded(this.el);
     const { containerEl, contentEl, actionsStartEl, actionsEndEl, parentListEl } = this;
     const focusIndex = focusMap.get(parentListEl);
 

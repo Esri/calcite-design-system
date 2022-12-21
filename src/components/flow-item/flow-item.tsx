@@ -26,12 +26,7 @@ import {
   updateMessages
 } from "../../utils/t9n";
 import { FlowItemMessages } from "./assets/flow-item/t9n";
-import {
-  setUpLoadableComponent,
-  setComponentLoaded,
-  LoadableComponent,
-  componentLoaded
-} from "../../utils/loadable";
+import { componentLoaded } from "../../utils/loadable";
 
 /**
  * @slot - A slot for adding custom content.
@@ -49,9 +44,7 @@ import {
   shadow: true,
   assetsDirs: ["assets"]
 })
-export class FlowItem
-  implements InteractiveComponent, LoadableComponent, LocalizedComponent, T9nComponent
-{
+export class FlowItem implements InteractiveComponent, LocalizedComponent, T9nComponent {
   // --------------------------------------------------------------------------
   //
   //  Properties
@@ -143,7 +136,6 @@ export class FlowItem
 
   async componentWillLoad(): Promise<void> {
     await setUpMessages(this);
-    setUpLoadableComponent(this);
   }
 
   componentDidRender(): void {
@@ -153,10 +145,6 @@ export class FlowItem
   disconnectedCallback(): void {
     disconnectLocalized(this);
     disconnectMessages(this);
-  }
-
-  componentDidLoad(): void {
-    setComponentLoaded(this);
   }
 
   // --------------------------------------------------------------------------
@@ -213,7 +201,7 @@ export class FlowItem
    */
   @Method()
   async setFocus(): Promise<void> {
-    await componentLoaded(this);
+    await componentLoaded(this.el);
 
     const { backButtonEl, containerEl } = this;
 

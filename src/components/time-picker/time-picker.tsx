@@ -46,12 +46,7 @@ import {
   updateMessages
 } from "../../utils/t9n";
 
-import {
-  setUpLoadableComponent,
-  setComponentLoaded,
-  LoadableComponent,
-  componentLoaded
-} from "../../utils/loadable";
+import { componentLoaded } from "../../utils/loadable";
 
 function capitalize(str: string): string {
   return str.charAt(0).toUpperCase() + str.slice(1);
@@ -65,9 +60,7 @@ function capitalize(str: string): string {
   },
   assetsDirs: ["assets"]
 })
-export class TimePicker
-  implements LocalizedComponent, LoadableComponent, LocalizedComponent, T9nComponent
-{
+export class TimePicker implements LocalizedComponent, LocalizedComponent, T9nComponent {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -288,9 +281,9 @@ export class TimePicker
    */
   @Method()
   async setFocus(): Promise<void> {
-    await componentLoaded(this);
-
-    this.el?.focus();
+    const { el } = this;
+    await componentLoaded(el);
+    el.focus();
   }
 
   // --------------------------------------------------------------------------
@@ -300,7 +293,7 @@ export class TimePicker
   // --------------------------------------------------------------------------
 
   private async focusPart(target: TimePart): Promise<void> {
-    await componentLoaded(this);
+    await componentLoaded(this.el);
 
     this[`${target || "hour"}El`]?.focus();
   }
@@ -719,12 +712,7 @@ export class TimePicker
   }
 
   async componentWillLoad(): Promise<void> {
-    setUpLoadableComponent(this);
     await setUpMessages(this);
-  }
-
-  componentDidLoad(): void {
-    setComponentLoaded(this);
   }
 
   disconnectedCallback(): void {

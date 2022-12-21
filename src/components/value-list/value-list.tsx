@@ -49,12 +49,7 @@ import {
   updateMessages
 } from "../../utils/t9n";
 import { ValueListMessages } from "./assets/value-list/t9n";
-import {
-  setUpLoadableComponent,
-  setComponentLoaded,
-  LoadableComponent,
-  componentLoaded
-} from "../../utils/loadable";
+import { componentLoaded } from "../../utils/loadable";
 
 /**
  * @slot - A slot for adding `calcite-value-list-item` elements. List items are displayed as a vertical list.
@@ -68,7 +63,7 @@ import {
 })
 export class ValueList<
   ItemElement extends HTMLCalciteValueListItemElement = HTMLCalciteValueListItemElement
-> implements InteractiveComponent, LoadableComponent, LocalizedComponent, T9nComponent
+> implements InteractiveComponent, LocalizedComponent, T9nComponent
 {
   // --------------------------------------------------------------------------
   //
@@ -208,12 +203,10 @@ export class ValueList<
   }
 
   async componentWillLoad(): Promise<void> {
-    setUpLoadableComponent(this);
     await setUpMessages(this);
   }
 
   componentDidLoad(): void {
-    setComponentLoaded(this);
     this.setUpDragAndDrop();
     handleInitialFilter.call(this);
   }
@@ -418,7 +411,7 @@ export class ValueList<
    */
   @Method()
   async setFocus(focusId?: ListFocusId): Promise<void> {
-    await componentLoaded(this);
+    await componentLoaded(this.el);
 
     return setFocus.call(this, focusId);
   }

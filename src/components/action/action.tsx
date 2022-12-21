@@ -26,12 +26,7 @@ import {
   T9nComponent,
   updateMessages
 } from "../../utils/t9n";
-import {
-  setUpLoadableComponent,
-  setComponentLoaded,
-  LoadableComponent,
-  componentLoaded
-} from "../../utils/loadable";
+import { componentLoaded } from "../../utils/loadable";
 
 /**
  * @slot - A slot for adding a `calcite-icon`.
@@ -42,9 +37,7 @@ import {
   shadow: true,
   assetsDirs: ["assets"]
 })
-export class Action
-  implements InteractiveComponent, LocalizedComponent, T9nComponent, LoadableComponent
-{
+export class Action implements InteractiveComponent, LocalizedComponent, T9nComponent {
   // --------------------------------------------------------------------------
   //
   //  Properties
@@ -167,14 +160,9 @@ export class Action
   }
 
   async componentWillLoad(): Promise<void> {
-    setUpLoadableComponent(this);
     if (Build.isBrowser) {
       await setUpMessages(this);
     }
-  }
-
-  componentDidLoad(): void {
-    setComponentLoaded(this);
   }
 
   disconnectedCallback(): void {
@@ -196,8 +184,7 @@ export class Action
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
-    await componentLoaded(this);
-
+    await componentLoaded(this.el);
     this.buttonEl?.focus();
   }
 

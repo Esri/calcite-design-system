@@ -1,12 +1,7 @@
 import { Component, Element, Event, EventEmitter, Method, Prop, h, VNode } from "@stencil/core";
 import { toAriaBoolean } from "../../utils/dom";
 import { CSS, ICONS } from "./resources";
-import {
-  setUpLoadableComponent,
-  setComponentLoaded,
-  LoadableComponent,
-  componentLoaded
-} from "../../utils/loadable";
+import { componentLoaded } from "../../utils/loadable";
 import { HandleNudge } from "./interfaces";
 
 @Component({
@@ -14,7 +9,7 @@ import { HandleNudge } from "./interfaces";
   styleUrl: "handle.scss",
   shadow: true
 })
-export class Handle implements LoadableComponent {
+export class Handle {
   // --------------------------------------------------------------------------
   //
   //  Properties
@@ -36,14 +31,6 @@ export class Handle implements LoadableComponent {
   //  Lifecycle
   //
   //--------------------------------------------------------------------------
-
-  componentWillLoad(): void {
-    setUpLoadableComponent(this);
-  }
-
-  componentDidLoad(): void {
-    setComponentLoaded(this);
-  }
 
   // --------------------------------------------------------------------------
   //
@@ -75,8 +62,7 @@ export class Handle implements LoadableComponent {
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
-    await componentLoaded(this);
-
+    await componentLoaded(this.el);
     this.handleButton?.focus();
   }
 

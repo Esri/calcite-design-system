@@ -26,12 +26,7 @@ import {
   updateMessages
 } from "../../utils/t9n";
 import { InlineEditableMessages } from "./assets/inline-editable/t9n";
-import {
-  setUpLoadableComponent,
-  setComponentLoaded,
-  LoadableComponent,
-  componentLoaded
-} from "../../utils/loadable";
+import { componentLoaded } from "../../utils/loadable";
 
 /**
  * @slot - A slot for adding a `calcite-input`.
@@ -45,12 +40,7 @@ import {
   assetsDirs: ["assets"]
 })
 export class InlineEditable
-  implements
-    InteractiveComponent,
-    LabelableComponent,
-    LoadableComponent,
-    LocalizedComponent,
-    T9nComponent
+  implements InteractiveComponent, LabelableComponent, LocalizedComponent, T9nComponent
 {
   //--------------------------------------------------------------------------
   //
@@ -137,12 +127,7 @@ export class InlineEditable
   }
 
   async componentWillLoad(): Promise<void> {
-    setUpLoadableComponent(this);
     await setUpMessages(this);
-  }
-
-  componentDidLoad(): void {
-    setComponentLoaded(this);
   }
 
   disconnectedCallback() {
@@ -291,9 +276,9 @@ export class InlineEditable
 
   @Method()
   async setFocus(): Promise<void> {
-    await componentLoaded(this);
-
-    this.el?.focus();
+    const { el } = this;
+    await componentLoaded(el);
+    el.focus();
   }
 
   //--------------------------------------------------------------------------

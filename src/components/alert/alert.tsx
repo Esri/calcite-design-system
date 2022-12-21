@@ -41,12 +41,7 @@ import {
   updateMessages
 } from "../../utils/t9n";
 import { AlertMessages } from "./assets/alert/t9n";
-import {
-  setUpLoadableComponent,
-  setComponentLoaded,
-  LoadableComponent,
-  componentLoaded
-} from "../../utils/loadable";
+import { componentLoaded } from "../../utils/loadable";
 import { MenuPlacement } from "../../utils/floating-ui";
 
 /**
@@ -67,7 +62,7 @@ import { MenuPlacement } from "../../utils/floating-ui";
   shadow: true,
   assetsDirs: ["assets"]
 })
-export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponent {
+export class Alert implements OpenCloseComponent, T9nComponent {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -188,13 +183,8 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
   }
 
   async componentWillLoad(): Promise<void> {
-    setUpLoadableComponent(this);
     this.requestedIcon = setRequestedIcon(KindIcons, this.icon, this.kind);
     await setUpMessages(this);
-  }
-
-  componentDidLoad(): void {
-    setComponentLoaded(this);
   }
 
   disconnectedCallback(): void {
@@ -355,9 +345,10 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
-    await componentLoaded(this);
+    const { el } = this;
+    await componentLoaded(el);
 
-    const alertLinkEl: HTMLCalciteLinkElement = getSlotted(this.el, { selector: "calcite-link" });
+    const alertLinkEl: HTMLCalciteLinkElement = getSlotted(el, { selector: "calcite-link" });
 
     if (!this.closeButton && !alertLinkEl) {
       return;

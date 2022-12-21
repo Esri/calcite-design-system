@@ -1,25 +1,21 @@
 import { waitForAnimationFrame } from "../tests/utils";
-import { setUpLoadableComponent, setComponentLoaded, componentLoaded } from "./loadable";
+import { componentLoaded } from "./loadable";
 
 describe("loadable", () => {
   it("should honor loadable component lifecyce", async () => {
-    const fakeComponent: any = {};
+    const el = document.createElement("div");
+
+    (el as any).componentOnReady = async () => undefined;
 
     const afterLoad = jest.fn();
-    componentLoaded(fakeComponent)?.then(afterLoad);
+    componentLoaded(el as any)?.then(afterLoad);
 
     await waitForAnimationFrame();
     expect(afterLoad).not.toHaveBeenCalled();
 
-    setUpLoadableComponent(fakeComponent);
-    await waitForAnimationFrame();
-    expect(afterLoad).not.toHaveBeenCalled();
+    (el as any).componentOnReady();
 
-    setComponentLoaded(fakeComponent);
-    await waitForAnimationFrame();
-    expect(afterLoad).not.toHaveBeenCalled();
-
-    componentLoaded(fakeComponent).then(afterLoad);
+    componentLoaded(el as any).then(afterLoad);
     await waitForAnimationFrame();
     expect(afterLoad).toHaveBeenCalledTimes(1);
   });

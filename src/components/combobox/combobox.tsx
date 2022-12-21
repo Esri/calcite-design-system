@@ -59,12 +59,7 @@ import {
 } from "../../utils/t9n";
 import { connectLocalized, disconnectLocalized } from "../../utils/locale";
 import { ComboboxMessages } from "./assets/combobox/t9n";
-import {
-  setUpLoadableComponent,
-  setComponentLoaded,
-  LoadableComponent,
-  componentLoaded
-} from "../../utils/loadable";
+import { componentLoaded } from "../../utils/loadable";
 
 interface ItemData {
   label: string;
@@ -96,8 +91,7 @@ export class Combobox
     InteractiveComponent,
     OpenCloseComponent,
     FloatingUIComponent,
-    T9nComponent,
-    LoadableComponent
+    T9nComponent
 {
   //--------------------------------------------------------------------------
   //
@@ -327,8 +321,7 @@ export class Combobox
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
-    await componentLoaded(this);
-
+    await componentLoaded(this.el);
     this.textInput?.focus();
     this.activeChipIndex = -1;
     this.activeItemIndex = -1;
@@ -389,7 +382,6 @@ export class Combobox
   }
 
   async componentWillLoad(): Promise<void> {
-    setUpLoadableComponent(this);
     this.updateItems();
     await setUpMessages(this);
   }
@@ -397,7 +389,6 @@ export class Combobox
   componentDidLoad(): void {
     afterConnectDefaultValueSet(this, this.getValue());
     this.reposition(true);
-    setComponentLoaded(this);
   }
 
   componentDidRender(): void {

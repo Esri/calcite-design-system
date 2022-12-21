@@ -25,12 +25,7 @@ import {
   updateMessages
 } from "../../utils/t9n";
 import { FilterMessages } from "./assets/filter/t9n";
-import {
-  setUpLoadableComponent,
-  setComponentLoaded,
-  LoadableComponent,
-  componentLoaded
-} from "../../utils/loadable";
+import { componentLoaded } from "../../utils/loadable";
 
 @Component({
   tag: "calcite-filter",
@@ -40,9 +35,7 @@ import {
   },
   assetsDirs: ["assets"]
 })
-export class Filter
-  implements InteractiveComponent, LoadableComponent, LocalizedComponent, T9nComponent
-{
+export class Filter implements InteractiveComponent, LocalizedComponent, T9nComponent {
   // --------------------------------------------------------------------------
   //
   //  Properties
@@ -150,7 +143,6 @@ export class Filter
   //--------------------------------------------------------------------------
 
   async componentWillLoad(): Promise<void> {
-    setUpLoadableComponent(this);
     this.updateFiltered(filter(this.items, this.value));
     this.filter(this.value);
     await setUpMessages(this);
@@ -170,10 +162,6 @@ export class Filter
     disconnectMessages(this);
   }
 
-  componentDidLoad(): void {
-    setComponentLoaded(this);
-  }
-
   // --------------------------------------------------------------------------
   //
   //  Public Methods
@@ -183,9 +171,9 @@ export class Filter
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
-    await componentLoaded(this);
-
-    this.el?.focus();
+    const { el } = this;
+    await componentLoaded(el);
+    el.focus();
   }
 
   // --------------------------------------------------------------------------

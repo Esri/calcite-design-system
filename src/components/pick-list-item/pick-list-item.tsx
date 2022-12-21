@@ -29,12 +29,7 @@ import {
   updateMessages
 } from "../../utils/t9n";
 import { PickListItemMessages } from "./assets/pick-list-item/t9n";
-import {
-  setUpLoadableComponent,
-  setComponentLoaded,
-  LoadableComponent,
-  componentLoaded
-} from "../../utils/loadable";
+import { componentLoaded } from "../../utils/loadable";
 
 /**
  * @slot actions-end - A slot for adding `calcite-action`s or content to the end side of the component.
@@ -46,9 +41,7 @@ import {
   shadow: true,
   assetsDirs: ["assets"]
 })
-export class PickListItem
-  implements ConditionalSlotComponent, InteractiveComponent, LoadableComponent, T9nComponent
-{
+export class PickListItem implements ConditionalSlotComponent, InteractiveComponent, T9nComponent {
   // --------------------------------------------------------------------------
   //
   //  Properties
@@ -195,11 +188,6 @@ export class PickListItem
 
   async componentWillLoad(): Promise<void> {
     await setUpMessages(this);
-    setUpLoadableComponent(this);
-  }
-
-  componentDidLoad(): void {
-    setComponentLoaded(this);
   }
 
   disconnectedCallback(): void {
@@ -270,8 +258,7 @@ export class PickListItem
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
-    await componentLoaded(this);
-
+    await componentLoaded(this.el);
     this.focusEl?.focus();
   }
 

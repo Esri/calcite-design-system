@@ -35,12 +35,7 @@ import {
   updateMessages
 } from "../../utils/t9n";
 import { InputTextMessages } from "./assets/input-text/t9n";
-import {
-  setUpLoadableComponent,
-  setComponentLoaded,
-  LoadableComponent,
-  componentLoaded
-} from "../../utils/loadable";
+import { componentLoaded } from "../../utils/loadable";
 
 /**
  * @slot action - A slot for positioning a button next to the component.
@@ -56,7 +51,6 @@ export class InputText
     LabelableComponent,
     FormComponent,
     InteractiveComponent,
-    LoadableComponent,
     LocalizedComponent,
     T9nComponent
 {
@@ -325,13 +319,8 @@ export class InputText
   }
 
   async componentWillLoad(): Promise<void> {
-    setUpLoadableComponent(this);
     this.requestedIcon = setRequestedIcon({}, this.icon, "text");
     await setUpMessages(this);
-  }
-
-  componentDidLoad(): void {
-    setComponentLoaded(this);
   }
 
   componentDidRender(): void {
@@ -376,8 +365,7 @@ export class InputText
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
-    await componentLoaded(this);
-
+    await componentLoaded(this.el);
     this.childEl?.focus();
   }
 

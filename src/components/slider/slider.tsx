@@ -36,12 +36,7 @@ import {
   NumberingSystem
 } from "../../utils/locale";
 import { CSS } from "./resources";
-import {
-  setUpLoadableComponent,
-  setComponentLoaded,
-  LoadableComponent,
-  componentLoaded
-} from "../../utils/loadable";
+import { componentLoaded } from "../../utils/loadable";
 
 type ActiveSliderProperty = "minValue" | "maxValue" | "value" | "minMaxValue";
 type SetValueProperty = Exclude<ActiveSliderProperty, "minMaxValue">;
@@ -58,12 +53,7 @@ function isRange(value: number | number[]): value is number[] {
   }
 })
 export class Slider
-  implements
-    LabelableComponent,
-    FormComponent,
-    InteractiveComponent,
-    LocalizedComponent,
-    LoadableComponent
+  implements LabelableComponent, FormComponent, InteractiveComponent, LocalizedComponent
 {
   //--------------------------------------------------------------------------
   //
@@ -206,7 +196,6 @@ export class Slider
   }
 
   componentWillLoad(): void {
-    setUpLoadableComponent(this);
     this.tickValues = this.generateTickValues();
     if (!isRange(this.value)) {
       this.value = this.clamp(this.value);
@@ -218,10 +207,6 @@ export class Slider
     if (this.histogram) {
       this.hasHistogram = true;
     }
-  }
-
-  componentDidLoad(): void {
-    setComponentLoaded(this);
   }
 
   componentDidRender(): void {
@@ -911,7 +896,7 @@ export class Slider
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
-    await componentLoaded(this);
+    await componentLoaded(this.el);
 
     const handle = this.minHandle ? this.minHandle : this.maxHandle;
     handle?.focus();

@@ -40,12 +40,7 @@ import {
 } from "../../utils/t9n";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 import { NumberingSystem } from "../../utils/locale";
-import {
-  setUpLoadableComponent,
-  setComponentLoaded,
-  LoadableComponent,
-  componentLoaded
-} from "../../utils/loadable";
+import { componentLoaded } from "../../utils/loadable";
 
 const throttleFor60FpsInMs = 16;
 const defaultValue = normalizeHex(DEFAULT_COLOR.hex());
@@ -59,9 +54,7 @@ const defaultFormat = "auto";
   },
   assetsDirs: ["assets"]
 })
-export class ColorPicker
-  implements InteractiveComponent, LoadableComponent, LocalizedComponent, T9nComponent
-{
+export class ColorPicker implements InteractiveComponent, LocalizedComponent, T9nComponent {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -642,8 +635,9 @@ export class ColorPicker
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
-    await componentLoaded(this);
-    this.el.focus();
+    const { el } = this;
+    await componentLoaded(el);
+    el.focus();
   }
 
   //--------------------------------------------------------------------------
@@ -653,8 +647,6 @@ export class ColorPicker
   //--------------------------------------------------------------------------
 
   async componentWillLoad(): Promise<void> {
-    setUpLoadableComponent(this);
-
     const { allowEmpty, color, format, value } = this;
 
     const willSetNoColor = allowEmpty && !value;
@@ -684,10 +676,6 @@ export class ColorPicker
   connectedCallback(): void {
     connectLocalized(this);
     connectMessages(this);
-  }
-
-  componentDidLoad(): void {
-    setComponentLoaded(this);
   }
 
   disconnectedCallback(): void {
