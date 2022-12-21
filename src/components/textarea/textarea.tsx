@@ -263,6 +263,8 @@ export class Textarea
   @State() leadingSlotHasElement: boolean;
 
   resizeObserver = createObserver("resize", () => {
+    this.el.style.height = "auto";
+    this.el.style.width = "auto";
     if (this.footer) {
       return this.setFooterWidth();
     }
