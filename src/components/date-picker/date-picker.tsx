@@ -483,10 +483,18 @@ export class DatePicker implements LocalizedComponent, T9nComponent {
       this.activeDate = new Date(valueAsDate);
     }
     if (Array.isArray(valueAsDate)) {
-      if (valueAsDate[0] && valueAsDate[0]?.getTime() !== this.activeStartDate?.getTime()) {
+      if (
+        valueAsDate[0] &&
+        valueAsDate[0]?.getTime() !==
+          (this.activeStartDate instanceof Date && this.activeStartDate?.getTime())
+      ) {
         this.activeStartDate = new Date(valueAsDate[0]);
       }
-      if (valueAsDate[1] && valueAsDate[1]?.getTime() !== this.activeEndDate?.getTime()) {
+      if (
+        valueAsDate[1] &&
+        valueAsDate[1]?.getTime() !==
+          (this.activeStartDate instanceof Date && this.activeEndDate?.getTime())
+      ) {
         this.activeEndDate = new Date(valueAsDate[1]);
       }
     }
