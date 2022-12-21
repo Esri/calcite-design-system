@@ -187,7 +187,7 @@ interface FocusableOptions {
   /**
    * use this to pass an ID to setFocus()
    *
-   * @deprecated
+   * @deprecated components should no longer use a focusId parameter for setFocus()
    */
   focusId?: string;
 
