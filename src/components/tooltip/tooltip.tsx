@@ -1,9 +1,19 @@
-import { Component, Element, Host, Method, Prop, State, Watch, h, VNode } from "@stencil/core";
+import {
+  Component,
+  Element,
+  Host,
+  Method,
+  Prop,
+  State,
+  Watch,
+  h,
+  VNode,
+  Event,
+  EventEmitter
+} from "@stencil/core";
 import { CSS, ARIA_DESCRIBED_BY } from "./resources";
 import { guid } from "../../utils/guid";
 import {
-  positionFloatingUI,
-  FloatingCSS,
   OverlayPositioning,
   FloatingUIComponent,
   connectFloatingUI,
@@ -11,12 +21,18 @@ import {
   LogicalPlacement,
   defaultOffsetDistance,
   ReferenceElement,
-  repositionDebounceTimeout
+  reposition,
+  FloatingCSS,
+  updateAfterClose
 } from "../../utils/floating-ui";
 import { queryElementRoots, toAriaBoolean } from "../../utils/dom";
+import {
+  OpenCloseComponent,
+  connectOpenCloseComponent,
+  disconnectOpenCloseComponent
+} from "../../utils/openCloseComponent";
 
 import TooltipManager from "./TooltipManager";
-import { debounce } from "lodash-es";
 
 const manager = new TooltipManager();
 
@@ -28,7 +44,7 @@ const manager = new TooltipManager();
   styleUrl: "tooltip.scss",
   shadow: true
 })
-export class Tooltip implements FloatingUIComponent {
+export class Tooltip implements FloatingUIComponent, OpenCloseComponent {
   // --------------------------------------------------------------------------
   //
   //  Properties
@@ -50,7 +66,7 @@ export class Tooltip implements FloatingUIComponent {
 
   @Watch("offsetDistance")
   offsetDistanceOffsetHandler(): void {
-    this.debouncedReposition();
+    this.reposition(true);
   }
 
   /**
@@ -60,46 +76,54 @@ export class Tooltip implements FloatingUIComponent {
 
   @Watch("offsetSkidding")
   offsetSkiddingHandler(): void {
-    this.debouncedReposition();
+    this.reposition(true);
   }
 
   /**
-   * When true, the component is open.
+   * When `true`, the component is open.
    */
   @Prop({ reflect: true }) open = false;
 
   @Watch("open")
-  openHandler(): void {
-    this.debouncedReposition();
+  openHandler(value: boolean): void {
+    if (value) {
+      this.reposition(true);
+    } else {
+      updateAfterClose(this.el);
+    }
   }
 
   /**
    * Determines the type of positioning to use for the overlaid content.
    *
-   * Using the "absolute" value will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout. The "fixed" value should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is "fixed".
+   * Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.
+   *
+   * The `"fixed"` value should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
    *
    */
   @Prop({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
 
   @Watch("overlayPositioning")
   overlayPositioningHandler(): void {
-    this.debouncedReposition();
+    this.reposition(true);
   }
 
   /**
    * Determines where the component will be positioned relative to the `referenceElement`.
-   *
-   * @see [LogicalPlacement](https://github.com/Esri/calcite-components/blob/master/src/utils/floating-ui.ts#L25)
    */
   @Prop({ reflect: true }) placement: LogicalPlacement = "auto";
 
   @Watch("placement")
   placementHandler(): void {
-    this.debouncedReposition();
+    this.reposition(true);
   }
 
   /**
-   * The `referenceElement` to position the component according to its "placement" value. Setting to the `HTMLElement` is preferred so the component does not need to query the DOM for the `referenceElement`. However, a string ID of the reference element can be used.
+   * The `referenceElement` to position the component according to its `"placement"` value.
+   *
+   * Setting to the `HTMLElement` is preferred so the component does not need to query the DOM for the `referenceElement`.
+   *
+   * However, a string ID of the reference element can be used.
    */
   @Prop() referenceElement: ReferenceElement | string;
 
@@ -124,6 +148,10 @@ export class Tooltip implements FloatingUIComponent {
 
   hasLoaded = false;
 
+  openTransitionProp = "opacity";
+
+  transitionEl: HTMLDivElement;
+
   // --------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -131,6 +159,7 @@ export class Tooltip implements FloatingUIComponent {
   // --------------------------------------------------------------------------
 
   connectedCallback(): void {
+    connectOpenCloseComponent(this);
     this.setUpReferenceElement(this.hasLoaded);
   }
 
@@ -138,14 +167,33 @@ export class Tooltip implements FloatingUIComponent {
     if (this.referenceElement && !this.effectiveReferenceElement) {
       this.setUpReferenceElement();
     }
-    this.debouncedReposition();
+    this.reposition(true);
     this.hasLoaded = true;
   }
 
   disconnectedCallback(): void {
     this.removeReferences();
     disconnectFloatingUI(this, this.effectiveReferenceElement, this.el);
+    disconnectOpenCloseComponent(this);
   }
+
+  //--------------------------------------------------------------------------
+  //
+  //  Events
+  //
+  //--------------------------------------------------------------------------
+
+  /** Fires when the component is requested to be closed and before the closing transition begins. */
+  @Event({ cancelable: false }) calciteTooltipBeforeClose: EventEmitter<void>;
+
+  /** Fires when the component is closed and animation is complete. */
+  @Event({ cancelable: false }) calciteTooltipClose: EventEmitter<void>;
+
+  /** Fires when the component is added to the DOM but not rendered, and before the opening transition begins. */
+  @Event({ cancelable: false }) calciteTooltipBeforeOpen: EventEmitter<void>;
+
+  /** Fires when the component is open and animation is complete. */
+  @Event({ cancelable: false }) calciteTooltipOpen: EventEmitter<void>;
 
   // --------------------------------------------------------------------------
   //
@@ -153,9 +201,13 @@ export class Tooltip implements FloatingUIComponent {
   //
   // --------------------------------------------------------------------------
 
-  /** Updates the position of the component. */
+  /**
+   * Updates the position of the component.
+   *
+   * @param delayed
+   */
   @Method()
-  async reposition(): Promise<void> {
+  async reposition(delayed = false): Promise<void> {
     const {
       el,
       effectiveReferenceElement,
@@ -166,16 +218,21 @@ export class Tooltip implements FloatingUIComponent {
       arrowEl
     } = this;
 
-    return positionFloatingUI({
-      floatingEl: el,
-      referenceEl: effectiveReferenceElement,
-      overlayPositioning,
-      placement,
-      offsetDistance,
-      offsetSkidding,
-      arrowEl,
-      type: "tooltip"
-    });
+    return reposition(
+      this,
+      {
+        floatingEl: el,
+        referenceEl: effectiveReferenceElement,
+        overlayPositioning,
+        placement,
+        offsetDistance,
+        offsetSkidding,
+        includeArrow: true,
+        arrowEl,
+        type: "tooltip"
+      },
+      delayed
+    );
   }
 
   // --------------------------------------------------------------------------
@@ -184,7 +241,26 @@ export class Tooltip implements FloatingUIComponent {
   //
   // --------------------------------------------------------------------------
 
-  debouncedReposition = debounce(() => this.reposition(), repositionDebounceTimeout);
+  onBeforeOpen(): void {
+    this.calciteTooltipBeforeOpen.emit();
+  }
+
+  onOpen(): void {
+    this.calciteTooltipOpen.emit();
+  }
+
+  onBeforeClose(): void {
+    this.calciteTooltipBeforeClose.emit();
+  }
+
+  onClose(): void {
+    this.calciteTooltipClose.emit();
+  }
+
+  private setTransitionEl = (el): void => {
+    this.transitionEl = el;
+    connectOpenCloseComponent(this);
+  };
 
   setUpReferenceElement = (warn = true): void => {
     this.removeReferences();
@@ -270,6 +346,7 @@ export class Tooltip implements FloatingUIComponent {
             [FloatingCSS.animation]: true,
             [FloatingCSS.animationActive]: displayed
           }}
+          ref={this.setTransitionEl}
         >
           <div class={CSS.arrow} ref={(arrowEl) => (this.arrowEl = arrowEl)} />
           <div class={CSS.container}>

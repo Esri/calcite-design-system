@@ -45,45 +45,30 @@ export class TabTitle implements InteractiveComponent {
   //--------------------------------------------------------------------------
 
   /**
-   * When true, the component and its respective `calcite-tab` contents are selected.
-   *
-   * Only one tab can be selected within the `calcite-tabs` parent.
-   *
-   * @deprecated Use "selected" instead.
-   */
-  @Prop({ reflect: true, mutable: true }) active = false;
-
-  @Watch("active")
-  activeHandler(value: boolean): void {
-    this.selected = value;
-  }
-
-  /**
-   * When true, the component and its respective `calcite-tab` contents are selected.
+   * When `true`, the component and its respective `calcite-tab` contents are selected.
    *
    * Only one tab can be selected within the `calcite-tabs` parent.
    */
   @Prop({ reflect: true, mutable: true }) selected = false;
 
   @Watch("selected")
-  selectedHandler(value: boolean): void {
-    this.active = value;
+  selectedHandler(): void {
     if (this.selected) {
       this.emitActiveTab(false);
     }
   }
 
-  /** When true, interaction is prevented and the component is displayed with lower opacity.  */
+  /** When `true`, interaction is prevented and the component is displayed with lower opacity.  */
   @Prop({ reflect: true }) disabled = false;
 
-  /** Specifies an icon to display at the end of the component - accepts Calcite UI icon names.  */
-  @Prop({ reflect: true }) iconEnd?: string;
+  /** Specifies an icon to display at the end of the component. */
+  @Prop({ reflect: true }) iconEnd: string;
 
-  /** When true, the icon will be flipped when the element direction is right-to-left ("rtl"). */
-  @Prop({ reflect: true }) iconFlipRtl?: FlipContext;
+  /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
+  @Prop({ reflect: true }) iconFlipRtl: FlipContext;
 
-  /** Specifies an icon to display at the start of the component - accepts Calcite UI icon names.  */
-  @Prop({ reflect: true }) iconStart?: string;
+  /** Specifies an icon to display at the start of the component. */
+  @Prop({ reflect: true }) iconStart: string;
 
   /**
    * @internal
@@ -110,7 +95,7 @@ export class TabTitle implements InteractiveComponent {
    *
    * When specified, use the same value on the `calcite-tab`.
    */
-  @Prop({ reflect: true }) tab?: string;
+  @Prop({ reflect: true }) tab: string;
 
   //--------------------------------------------------------------------------
   //
@@ -119,14 +104,6 @@ export class TabTitle implements InteractiveComponent {
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
-    const { selected, active } = this;
-
-    if (selected) {
-      this.active = selected;
-    } else if (active) {
-      this.activeHandler(active);
-    }
-
     this.setupTextContentObserver();
     this.parentTabNavEl = this.el.closest("calcite-tab-nav");
     this.parentTabsEl = this.el.closest("calcite-tabs");
@@ -276,6 +253,14 @@ export class TabTitle implements InteractiveComponent {
           this.calciteInternalTabsFocusNext.emit();
         }
         break;
+      case "Home":
+        event.preventDefault();
+        this.calciteInternalTabsFocusFirst.emit();
+        break;
+      case "End":
+        event.preventDefault();
+        this.calciteInternalTabsFocusLast.emit();
+        break;
     }
   }
 
@@ -286,11 +271,9 @@ export class TabTitle implements InteractiveComponent {
   //--------------------------------------------------------------------------
 
   /**
-   * Fires when a `calcite-tab` is selected. Emits the "tab" property, or the index position.
-   *
-   * @see [TabChangeEventDetail](https://github.com/Esri/calcite-components/blob/master/src/components/tab/interfaces.ts#L1)
+   * Fires when a `calcite-tab` is selected. Emits the `tab` property, or the index position.
    */
-  @Event({ cancelable: false }) calciteTabsActivate: EventEmitter<TabChangeEventDetail>;
+  @Event({ cancelable: false }) calciteTabsActivate: EventEmitter<void>;
 
   /**
    * Fires when a `calcite-tab` is selected (`event.details`).
@@ -309,6 +292,16 @@ export class TabTitle implements InteractiveComponent {
    * @internal
    */
   @Event({ cancelable: false }) calciteInternalTabsFocusPrevious: EventEmitter<void>;
+
+  /**
+   * @internal
+   */
+  @Event({ cancelable: false }) calciteInternalTabsFocusFirst: EventEmitter<void>;
+
+  /**
+   * @internal
+   */
+  @Event({ cancelable: false }) calciteInternalTabsFocusLast: EventEmitter<void>;
 
   /**
    * @internal
@@ -397,7 +390,7 @@ export class TabTitle implements InteractiveComponent {
     this.calciteInternalTabsActivate.emit(payload);
 
     if (userTriggered) {
-      this.calciteTabsActivate.emit(payload);
+      this.calciteTabsActivate.emit();
     }
   }
 

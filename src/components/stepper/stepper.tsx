@@ -12,7 +12,8 @@ import {
 
 import { Layout, Scale } from "../interfaces";
 import { StepperItemChangeEventDetail, StepperItemKeyEventDetail } from "./interfaces";
-import { focusElement } from "../../utils/dom";
+import { NumberingSystem } from "../../utils/locale";
+import { focusElementInGroup } from "../../utils/dom";
 
 /**
  * @slot - A slot for adding `calcite-stepper-item`s.
@@ -37,14 +38,19 @@ export class Stepper {
   //
   //--------------------------------------------------------------------------
 
-  /** When true, displays a status icon in the `calcite-stepper-item` heading. */
+  /** When `true`, displays a status icon in the `calcite-stepper-item` heading. */
   @Prop({ reflect: true }) icon = false;
 
   /** Defines the layout of the component. */
   @Prop({ reflect: true }) layout: Extract<"horizontal" | "vertical", Layout> = "horizontal";
 
-  /** When true, displays the step number in the `calcite-stepper-item` heading. */
+  /** When `true`, displays the step number in the `calcite-stepper-item` heading. */
   @Prop({ reflect: true }) numbered = false;
+
+  /**
+   * Specifies the Unicode numeral system used by the component for localization.
+   */
+  @Prop({ reflect: true }) numberingSystem?: NumberingSystem;
 
   /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";
@@ -110,30 +116,21 @@ export class Stepper {
   calciteInternalStepperItemKeyEvent(event: CustomEvent<StepperItemKeyEventDetail>): void {
     const item = event.detail.item;
     const itemToFocus = event.target as HTMLCalciteStepperItemElement;
-    const isFirstItem = this.itemIndex(itemToFocus) === 0;
-    const isLastItem = this.itemIndex(itemToFocus) === this.enabledItems.length - 1;
+
     switch (item.key) {
       case "ArrowDown":
       case "ArrowRight":
-        if (isLastItem) {
-          this.focusFirstItem();
-        } else {
-          this.focusNextItem(itemToFocus);
-        }
+        focusElementInGroup(this.enabledItems, itemToFocus, "next");
         break;
       case "ArrowUp":
       case "ArrowLeft":
-        if (isFirstItem) {
-          this.focusLastItem();
-        } else {
-          this.focusPrevItem(itemToFocus);
-        }
+        focusElementInGroup(this.enabledItems, itemToFocus, "previous");
         break;
       case "Home":
-        this.focusFirstItem();
+        focusElementInGroup(this.enabledItems, itemToFocus, "first");
         break;
       case "End":
-        this.focusLastItem();
+        focusElementInGroup(this.enabledItems, itemToFocus, "last");
         break;
     }
     event.stopPropagation();
@@ -283,33 +280,6 @@ export class Stepper {
     this.calciteInternalStepperItemChange.emit({
       position
     });
-  }
-
-  private focusFirstItem(): void {
-    const firstItem = this.enabledItems[0];
-    focusElement(firstItem);
-  }
-
-  private focusLastItem(): void {
-    const lastItem = this.enabledItems[this.enabledItems.length - 1];
-    focusElement(lastItem);
-  }
-
-  private focusNextItem(el: HTMLCalciteStepperItemElement): void {
-    const index = this.itemIndex(el);
-    const nextItem = this.enabledItems[index + 1] || this.enabledItems[0];
-    focusElement(nextItem);
-  }
-
-  private focusPrevItem(el: HTMLCalciteStepperItemElement): void {
-    const index = this.itemIndex(el);
-    const prevItem =
-      this.enabledItems[index - 1] || this.enabledItems[this.enabledItems.length - 1];
-    focusElement(prevItem);
-  }
-
-  private itemIndex(el: HTMLCalciteStepperItemElement): number {
-    return this.enabledItems.indexOf(el);
   }
 
   private sortItems(): HTMLCalciteStepperItemElement[] {

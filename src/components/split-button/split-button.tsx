@@ -1,7 +1,7 @@
 import { Component, Element, Event, EventEmitter, h, Prop, VNode, Watch } from "@stencil/core";
 import { CSS } from "./resources";
-import { ButtonAppearance, ButtonColor, DropdownIconType } from "../button/interfaces";
-import { DeprecatedEventPayload, FlipContext, Scale, Width } from "../interfaces";
+import { DropdownIconType } from "../button/interfaces";
+import { Appearance, FlipContext, Kind, Scale, Width } from "../interfaces";
 import { OverlayPositioning } from "../../utils/floating-ui";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 
@@ -11,18 +11,24 @@ import { InteractiveComponent, updateHostInteraction } from "../../utils/interac
 @Component({
   tag: "calcite-split-button",
   styleUrl: "split-button.scss",
-  shadow: true
+  shadow: {
+    delegatesFocus: true
+  }
 })
 export class SplitButton implements InteractiveComponent {
   @Element() el: HTMLCalciteSplitButtonElement;
 
   /** Specifies the appearance style of the component. */
-  @Prop({ reflect: true }) appearance: ButtonAppearance = "solid";
+  @Prop({ reflect: true }) appearance: Extract<
+    "outline" | "outline-fill" | "solid" | "transparent",
+    Appearance
+  > = "solid";
 
-  /** Specifies the color of the component. */
-  @Prop({ reflect: true }) color: ButtonColor = "blue";
+  /** Specifies the kind of the component (will apply to border and background if applicable). */
+  @Prop({ reflect: true }) kind: Extract<"brand" | "danger" | "inverse" | "neutral", Kind> =
+    "brand";
 
-  /** When true, interaction is prevented and the component is displayed with lower opacity. */
+  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @Prop({ reflect: true }) disabled = false;
 
   @Watch("disabled")
@@ -33,7 +39,7 @@ export class SplitButton implements InteractiveComponent {
   }
 
   /**
-   * When true, the component is active.
+   * When `true`, the component is active.
    *
    * @internal
    */
@@ -50,32 +56,34 @@ export class SplitButton implements InteractiveComponent {
   @Prop({ reflect: true }) dropdownIconType: DropdownIconType = "chevron";
 
   /** Accessible name for the dropdown menu. */
-  @Prop({ reflect: true }) dropdownLabel?: string;
+  @Prop({ reflect: true }) dropdownLabel: string;
 
   /**
-    When true, a busy indicator is displayed on the primary button.
+    When `true`, a busy indicator is displayed on the primary button.
    */
   @Prop({ reflect: true }) loading = false;
 
   /**
    * Determines the type of positioning to use for the overlaid content.
    *
-   * Using the "absolute" value will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout. The "fixed" value should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is "fixed".
+   * Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.
+   *
+   * `"fixed"` should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
    *
    */
   @Prop({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
 
-  /** Specifies an icon to display at the end of the primary button - accepts Calcite UI icon names. */
-  @Prop({ reflect: true }) primaryIconEnd?: string;
+  /** Specifies an icon to display at the end of the primary button. */
+  @Prop({ reflect: true }) primaryIconEnd: string;
 
-  /**  When true, the primary button icon will be flipped when the element direction is right-to-left ("rtl"). */
-  @Prop({ reflect: true }) primaryIconFlipRtl?: FlipContext;
+  /**  When `true`, the primary button icon will be flipped when the element direction is right-to-left (`"rtl"`). */
+  @Prop({ reflect: true }) primaryIconFlipRtl: FlipContext;
 
-  /** Specifies an icon to display at the start of the primary button - accepts Calcite UI icon names.  */
-  @Prop({ reflect: true }) primaryIconStart?: string;
+  /** Specifies an icon to display at the start of the primary button. */
+  @Prop({ reflect: true }) primaryIconStart: string;
 
   /** Accessible name for the primary button. */
-  @Prop({ reflect: true }) primaryLabel?: string;
+  @Prop({ reflect: true }) primaryLabel: string;
 
   /** Text displayed in the primary button. */
   @Prop({ reflect: true }) primaryText: string;
@@ -88,19 +96,15 @@ export class SplitButton implements InteractiveComponent {
 
   /**
    * Fires when the primary button is clicked.
-   *
-   * **Note:** The event payload is deprecated, use separate mouse event listeners to get info about click.
    */
   @Event({ cancelable: false })
-  calciteSplitButtonPrimaryClick: EventEmitter<DeprecatedEventPayload>;
+  calciteSplitButtonPrimaryClick: EventEmitter<void>;
 
   /**
    * Fires when the dropdown menu is clicked.
-   *
-   * **Note:** The event payload is deprecated, use separate mouse event listeners to get info about click.
    */
   @Event({ cancelable: false })
-  calciteSplitButtonSecondaryClick: EventEmitter<DeprecatedEventPayload>;
+  calciteSplitButtonSecondaryClick: EventEmitter<void>;
 
   //--------------------------------------------------------------------------
   //
@@ -125,11 +129,11 @@ export class SplitButton implements InteractiveComponent {
       <div class={widthClasses}>
         <calcite-button
           appearance={this.appearance}
-          color={this.color}
           disabled={this.disabled}
           icon-end={this.primaryIconEnd ? this.primaryIconEnd : null}
           icon-start={this.primaryIconStart ? this.primaryIconStart : null}
           iconFlipRtl={this.primaryIconFlipRtl ? this.primaryIconFlipRtl : null}
+          kind={this.kind}
           label={this.primaryLabel}
           loading={this.loading}
           onClick={this.calciteSplitButtonPrimaryClickHandler}
@@ -144,9 +148,9 @@ export class SplitButton implements InteractiveComponent {
           <div class={CSS.divider} />
         </div>
         <calcite-dropdown
-          active={this.active}
           disabled={this.disabled}
           onClick={this.calciteSplitButtonSecondaryClickHandler}
+          open={this.active}
           overlayPositioning={this.overlayPositioning}
           placement="bottom-end"
           scale={this.scale}
@@ -154,12 +158,12 @@ export class SplitButton implements InteractiveComponent {
         >
           <calcite-button
             appearance={this.appearance}
-            color={this.color}
             disabled={this.disabled}
             icon-start={this.dropdownIcon}
+            kind={this.kind}
             label={this.dropdownLabel}
             scale={this.scale}
-            slot="dropdown-trigger"
+            slot="trigger"
             splitChild={"secondary"}
             type="button"
           />
@@ -169,11 +173,11 @@ export class SplitButton implements InteractiveComponent {
     );
   }
 
-  private calciteSplitButtonPrimaryClickHandler = (event: MouseEvent): CustomEvent =>
-    this.calciteSplitButtonPrimaryClick.emit(event);
+  private calciteSplitButtonPrimaryClickHandler = (): CustomEvent =>
+    this.calciteSplitButtonPrimaryClick.emit();
 
-  private calciteSplitButtonSecondaryClickHandler = (event: MouseEvent): CustomEvent =>
-    this.calciteSplitButtonSecondaryClick.emit(event);
+  private calciteSplitButtonSecondaryClickHandler = (): CustomEvent =>
+    this.calciteSplitButtonSecondaryClick.emit();
 
   private get dropdownIcon(): string {
     return this.dropdownIconType === "chevron"

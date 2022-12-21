@@ -8,9 +8,7 @@ export const CSS = {
   loadingIn: "loading-in",
   loadingOut: "loading-out",
   iconStartEmpty: "icon-start-empty",
-  iconEndEmpty: "icon-end-empty"
-};
-
-export const TEXT = {
-  loading: "Loading"
+  iconEndEmpty: "icon-end-empty",
+  buttonPadding: "button-padding",
+  buttonPaddingShrunk: "button-padding--shrunk"
 };

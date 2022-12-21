@@ -1,4 +1,4 @@
-import { DeprecatedEventPayload, Scale, Status } from "../interfaces";
+import { Scale, Status } from "../interfaces";
 import {
   Component,
   Element,
@@ -12,10 +12,16 @@ import {
   VNode,
   Watch
 } from "@stencil/core";
-import { getElementDir, getElementProp, getSlotted, setRequestedIcon } from "../../utils/dom";
+import {
+  getElementDir,
+  getElementProp,
+  getSlotted,
+  isPrimaryPointerButton,
+  setRequestedIcon
+} from "../../utils/dom";
 
-import { CSS, INPUT_TYPE_ICONS, SLOTS, TEXT } from "./resources";
-import { InputPlacement } from "./interfaces";
+import { CSS, INPUT_TYPE_ICONS, SLOTS } from "./resources";
+import { InputPlacement, NumberNudgeDirection, SetValueOrigin } from "./interfaces";
 import { Position } from "../interfaces";
 import { LabelableComponent, connectLabel, disconnectLabel, getLabelText } from "../../utils/label";
 import {
@@ -26,29 +32,52 @@ import {
   submitForm
 } from "../../utils/form";
 import {
-  getDecimalSeparator,
-  delocalizeNumberString,
-  localizeNumberString
+  NumberingSystem,
+  defaultNumberingSystem,
+  numberStringFormatter,
+  disconnectLocalized,
+  LocalizedComponent,
+  connectLocalized
 } from "../../utils/locale";
 import { numberKeys } from "../../utils/key";
 import { isValidNumber, parseNumberString, sanitizeNumberString } from "../../utils/number";
-import { CSS_UTILITY, TEXT as COMMON_TEXT } from "../../utils/resources";
+import { CSS_UTILITY } from "../../utils/resources";
 import { decimalPlaces } from "../../utils/math";
 import { createObserver } from "../../utils/observers";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
-
-type NumberNudgeDirection = "up" | "down";
-type SetValueOrigin = "initial" | "connected" | "user" | "reset" | "direct";
+import {
+  connectMessages,
+  disconnectMessages,
+  setUpMessages,
+  T9nComponent,
+  updateMessages
+} from "../../utils/t9n";
+import { InputMessages } from "./assets/input/t9n";
+import {
+  setUpLoadableComponent,
+  setComponentLoaded,
+  LoadableComponent,
+  componentLoaded
+} from "../../utils/loadable";
 
 /**
- * @slot action - A slot for positioning a button next to the component.
+ * @slot action - A slot for positioning a `calcite-button` next to the component.
  */
 @Component({
   tag: "calcite-input",
   styleUrl: "input.scss",
-  shadow: true
+  shadow: true,
+  assetsDirs: ["assets"]
 })
-export class Input implements LabelableComponent, FormComponent, InteractiveComponent {
+export class Input
+  implements
+    LabelableComponent,
+    FormComponent,
+    InteractiveComponent,
+    T9nComponent,
+    LocalizedComponent,
+    LoadableComponent
+{
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -67,19 +96,19 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
   @Prop({ reflect: true }) alignment: Position = "start";
 
   /**
-   * When true, the component is focused on page load.
+   * When `true`, the component is focused on page load.
    *
    * @mdn [autofocus](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/autofocus)
    */
   @Prop({ reflect: true }) autofocus = false;
 
   /**
-   * When true, a clear button is displayed when the component has a value. The clear button shows by default for "search", "time", and "date" types, and will not display for the "textarea" type.
+   * When `true`, a clear button is displayed when the component has a value. The clear button shows by default for `"search"`, `"time"`, and `"date"` types, and will not display for the `"textarea"` type.
    */
   @Prop({ reflect: true }) clearable = false;
 
   /**
-   * When true, interaction is prevented and the component is displayed with lower opacity.
+   * When `true`, interaction is prevented and the component is displayed with lower opacity.
    *
    * @mdn [disabled](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/disabled)
    */
@@ -91,55 +120,39 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
   }
 
   /**
-   * When true, number values are displayed with the locale's group separator.
+   * When `true`, number values are displayed with a group separator corresponding to the language and country format.
    */
   @Prop({ reflect: true }) groupSeparator = false;
 
   /**
-   * When true, the component will not be visible.
+   * When `true`, the component will not be visible.
    *
    * @mdn [hidden](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/hidden)
    */
   @Prop({ reflect: true }) hidden = false;
 
   /**
-   * When true, shows a default recommended icon. Alternatively, pass a Calcite UI Icon name to display a specific icon.
+   * When `true`, shows a default recommended icon. Alternatively, pass a Calcite UI Icon name to display a specific icon.
    */
   @Prop({ reflect: true }) icon: string | boolean;
 
-  /**
-   * A text label that will appear on the clear button for screen readers.
-   */
-  @Prop() intlClear?: string;
-
-  /**
-   * Accessible name that will appear while loading.
-   *
-   * @default "Loading"
-   */
-  @Prop() intlLoading?: string = COMMON_TEXT.loading;
-
-  /** When true, the icon is flipped in RTL. */
+  /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @Prop({ reflect: true }) iconFlipRtl = false;
 
-  /** Accessible name for the component's button or hyperlink. */
-  @Prop() label?: string;
+  /** Accessible name for the component. */
+  @Prop() label: string;
 
-  /** When true, the component is in the loading state and `calcite-progress` is displayed. */
+  /** When `true`, a busy indicator is displayed. */
   @Prop({ reflect: true }) loading = false;
-
-  /** Specifies the BCP 47 language tag for the desired language and country format. */
-  @Prop() locale: string = document.documentElement.lang || "en";
 
   /**
    * Specifies the Unicode numeral system used by the component for localization.
    *
-   * @mdn [numberingSystem](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/Locale/numberingSystem)
    */
-  @Prop({ reflect: true }) numberingSystem?: string;
+  @Prop({ reflect: true }) numberingSystem: NumberingSystem;
 
   /**
-   * Toggles locale formatting for numbers.
+   * When `true`, uses locale formatting for numbers.
    *
    * @internal
    */
@@ -150,7 +163,7 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
    *
    * @mdn [max](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#max)
    */
-  @Prop({ reflect: true }) max?: number;
+  @Prop({ reflect: true }) max: number;
 
   /** watcher to update number-to-string for max */
   @Watch("max")
@@ -159,11 +172,11 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
   }
 
   /**
-   * Specifies the minimum value for type "number".
+   * Specifies the minimum value for `type="number"`.
    *
    * @mdn [min](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#min)
    */
-  @Prop({ reflect: true }) min?: number;
+  @Prop({ reflect: true }) min: number;
 
   /** watcher to update number-to-string for min */
   @Watch("min")
@@ -174,33 +187,26 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
   /**
    * Specifies the maximum length of text for the component's value.
    *
-   * @deprecated use maxLength instead
-   */
-  @Prop({ reflect: true }) maxlength?: number;
-
-  /**
-   * Specifies the maximum length of text for the component's value.
-   *
    * @mdn [maxlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#maxlength)
    */
-  @Prop({ reflect: true }) maxLength?: number;
+  @Prop({ reflect: true }) maxLength: number;
 
   /**
    * Specifies the minimum length of text for the component's value.
    *
    * @mdn [minlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#minlength)
    */
-  @Prop({ reflect: true }) minLength?: number;
+  @Prop({ reflect: true }) minLength: number;
 
   /**
-   * Specifies the name of the component.
+   * Specifies the name of the component on form submission.
    *
    * @mdn [name](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#name)
    */
   @Prop({ reflect: true }) name: string;
 
-  /** Specifies the placement of the buttons for type "number". */
-  @Prop({ reflect: true }) numberButtonType?: InputPlacement = "vertical";
+  /** Specifies the placement of the buttons for `type="number"`. */
+  @Prop({ reflect: true }) numberButtonType: InputPlacement = "vertical";
 
   /**
    * Specifies placeholder text for the component.
@@ -210,16 +216,16 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
   @Prop() placeholder: string;
 
   /** Adds text to the start of the component. */
-  @Prop() prefixText?: string;
+  @Prop() prefixText: string;
 
   /**
-   * When true, the value cannot be modified.
+   * When `true`, the component's value can be read, but cannot be modified.
    *
    * @mdn [readOnly](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/readonly)
    */
   @Prop({ reflect: true }) readOnly = false;
 
-  /** When true, the component must have a value in order for the form to submit. */
+  /** When `true`, the component must have a value in order for the form to submit. */
   @Prop({ reflect: true }) required = false;
 
   /** Specifies the size of the component. */
@@ -229,14 +235,64 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
   @Prop({ mutable: true, reflect: true }) status: Status = "idle";
 
   /**
-   * Specifies the granularity that the component's value must adhere to.
+   * Specifies the granularity the component's value must adhere to.
    *
    * @mdn [step](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/step)
    */
-  @Prop({ reflect: true }) step?: number | "any";
+  @Prop({ reflect: true }) step: number | "any";
 
-  /** Adds text to the end of the component.  */
-  @Prop() suffixText?: string;
+  /**
+   * Specifies the type of content to autocomplete, for use in forms.
+   * Read the native attribute's documentation on MDN for more info.
+   *
+   * @mdn [step](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete)
+   */
+  @Prop() autocomplete: string;
+
+  /**
+   * Specifies a regex pattern the component's `value` must match for validation.
+   * Read the native attribute's documentation on MDN for more info.
+   *
+   * @mdn [step](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/pattern)
+   */
+  @Prop() pattern: string;
+
+  /**
+   * Specifies a comma separated list of unique file type specifiers for limiting accepted file types.
+   * This property only has an effect when `type` is "file".
+   * Read the native attribute's documentation on MDN for more info.
+   *
+   * @mdn [step](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/pattern)
+   */
+  @Prop() accept: string;
+
+  /**
+   * When `true`, the component can accept more than one value.
+   * This property only has an effect when `type` is "email" or "file".
+   * Read the native attribute's documentation on MDN for more info.
+   *
+   * @mdn [step](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/multiple)
+   */
+  @Prop() multiple = false;
+
+  /**
+   * Specifies the type of content to help devices display an appropriate virtual keyboard.
+   * Read the native attribute's documentation on MDN for more info.
+   *
+   * @mdn [step](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/inputmode)
+   */
+  @Prop() inputMode = "text";
+
+  /**
+   * Specifies the action label or icon for the Enter key on virtual keyboards.
+   * Read the native attribute's documentation on MDN for more info.
+   *
+   * @mdn [step](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/enterkeyhint)
+   */
+  @Prop() enterKeyHint: string;
+
+  /** Adds text to the end of the component. */
+  @Prop() suffixText: string;
 
   /**
    * @internal
@@ -246,7 +302,7 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
   /**
    * Specifies the component type.
    *
-   * Note that the following types add type-specific icons by default: "date", "email", "password", "search", "tel", "time".
+   * Note that the following `type`s add type-specific icons by default: `"date"`, `"email"`, `"password"`, `"search"`, `"tel"`, `"time"`.
    */
   @Prop({ reflect: true }) type:
     | "color"
@@ -268,6 +324,23 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
 
   /** The component's value. */
   @Prop({ mutable: true }) value = "";
+
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @internal
+   */
+  @Prop({ mutable: true }) messages: InputMessages;
+
+  /**
+   * Use this property to override individual strings used by the component.
+   */
+  @Prop({ mutable: true }) messageOverrides: Partial<InputMessages>;
+
+  @Watch("messageOverrides")
+  onMessagesChange(): void {
+    /* wired up by t9n util */
+  }
 
   @Watch("value")
   valueWatcher(newValue: string, previousValue: string): void {
@@ -339,7 +412,7 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
   /** the computed icon to render */
   private requestedIcon?: string;
 
-  private nudgeNumberValueIntervalId;
+  private nudgeNumberValueIntervalId: number;
 
   mutationObserver = createObserver("mutation", () => this.setDisabledAction());
 
@@ -351,6 +424,15 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
   //
   //--------------------------------------------------------------------------
 
+  @State() effectiveLocale = "";
+
+  @Watch("effectiveLocale")
+  effectiveLocaleChange(): void {
+    updateMessages(this, this.effectiveLocale);
+  }
+
+  @State() defaultMessages: InputMessages;
+
   @State() localizedValue: string;
 
   //--------------------------------------------------------------------------
@@ -360,12 +442,18 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
+    connectLocalized(this);
+    connectMessages(this);
+
     this.scale = getElementProp(this.el, "scale", this.scale);
     this.status = getElementProp(this.el, "status", this.status);
     this.inlineEditableEl = this.el.closest("calcite-inline-editable");
     if (this.inlineEditableEl) {
       this.editingEnabled = this.inlineEditableEl.editingEnabled || false;
     }
+    connectLabel(this);
+    connectForm(this);
+
     this.setPreviousEmittedValue(this.value);
     this.setPreviousValue(this.value);
     if (this.type === "number") {
@@ -375,8 +463,7 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
         value: isValidNumber(this.value) ? this.value : ""
       });
     }
-    connectLabel(this);
-    connectForm(this);
+
     this.mutationObserver?.observe(this.el, { childList: true });
     this.setDisabledAction();
     this.el.addEventListener("calciteInternalHiddenInputChange", this.hiddenInputChangeHandler);
@@ -385,15 +472,24 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
   disconnectedCallback(): void {
     disconnectLabel(this);
     disconnectForm(this);
+    disconnectLocalized(this);
+    disconnectMessages(this);
+
     this.mutationObserver?.disconnect();
     this.el.removeEventListener("calciteInternalHiddenInputChange", this.hiddenInputChangeHandler);
   }
 
-  componentWillLoad(): void {
+  async componentWillLoad(): Promise<void> {
+    setUpLoadableComponent(this);
     this.childElType = this.type === "textarea" ? "textarea" : "input";
     this.maxString = this.max?.toString();
     this.minString = this.min?.toString();
     this.requestedIcon = setRequestedIcon(INPUT_TYPE_ICONS, this.icon, this.type);
+    await setUpMessages(this);
+  }
+
+  componentDidLoad(): void {
+    setComponentLoaded(this);
   }
 
   componentShouldUpdate(newValue: string, oldValue: string, property: string): boolean {
@@ -428,14 +524,12 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
   @Event({ cancelable: false }) calciteInternalInputBlur: EventEmitter<void>;
 
   /**
-   * Fires each time a new value is typed.
-   *
-   * **Note:**: The `el` and `value` event payload props are deprecated, please use the event's target/currentTarget instead
+   * Fires each time a new `value` is typed.
    */
-  @Event({ cancelable: true }) calciteInputInput: EventEmitter<DeprecatedEventPayload>;
+  @Event({ cancelable: true }) calciteInputInput: EventEmitter<void>;
 
   /**
-   * Fires each time a new value is typed and committed.
+   * Fires each time a new `value` is typed and committed.
    */
   @Event({ cancelable: false }) calciteInputChange: EventEmitter<void>;
 
@@ -448,6 +542,8 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
+    await componentLoaded(this);
+
     if (this.type === "number") {
       this.childNumberEl?.focus();
     } else {
@@ -462,6 +558,18 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
       this.childNumberEl?.select();
     } else {
       this.childEl?.select();
+    }
+  }
+
+  // TODO: refactor so we don't need to sync the internals in color-picker
+  // https://github.com/Esri/calcite-components/issues/6100
+  /** @internal */
+  @Method()
+  async internalSyncChildElValue(): Promise<void> {
+    if (this.type === "number") {
+      this.childNumberEl.value = this.value;
+    } else {
+      this.childEl.value = this.value;
     }
   }
   //--------------------------------------------------------------------------
@@ -539,11 +647,14 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
     this.emitChangeIfUserModified();
   };
 
-  private inputFocusHandler = (event: FocusEvent): void => {
+  private clickHandler = (event: MouseEvent): void => {
     const slottedActionEl = getSlotted(this.el, "action");
     if (event.target !== slottedActionEl) {
       this.setFocus();
     }
+  };
+
+  private inputFocusHandler = (): void => {
     this.calciteInternalInputFocus.emit();
   };
 
@@ -572,7 +683,12 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
       return;
     }
     const value = (nativeEvent.target as HTMLInputElement).value;
-    const delocalizedValue = delocalizeNumberString(value, this.locale);
+    numberStringFormatter.numberFormatOptions = {
+      locale: this.effectiveLocale,
+      numberingSystem: this.numberingSystem,
+      useGrouping: this.groupSeparator
+    };
+    const delocalizedValue = numberStringFormatter.delocalize(value);
     if (nativeEvent.inputType === "insertFromPaste") {
       if (!isValidNumber(delocalizedValue)) {
         nativeEvent.preventDefault();
@@ -626,12 +742,16 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
       }
       return;
     }
-    const decimalSeparator = getDecimalSeparator(this.locale);
-    if (event.key === decimalSeparator) {
+    numberStringFormatter.numberFormatOptions = {
+      locale: this.effectiveLocale,
+      numberingSystem: this.numberingSystem,
+      useGrouping: this.groupSeparator
+    };
+    if (event.key === numberStringFormatter.decimal) {
       if (!this.value && !this.childNumberEl.value) {
         return;
       }
-      if (this.value && this.childNumberEl.value.indexOf(decimalSeparator) === -1) {
+      if (this.value && this.childNumberEl.value.indexOf(numberStringFormatter.decimal) === -1) {
         return;
       }
     }
@@ -688,6 +808,10 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
   };
 
   private numberButtonPointerDownHandler = (event: PointerEvent): void => {
+    if (!isPrimaryPointerButton(event)) {
+      return;
+    }
+
     event.preventDefault();
     const direction = (event.target as HTMLDivElement).dataset.adjustment as NumberNudgeDirection;
     if (!this.disabled) {
@@ -740,11 +864,11 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
     event.stopPropagation();
   };
 
-  private setChildElRef = (el) => {
+  private setChildElRef = (el: HTMLInputElement | HTMLTextAreaElement) => {
     this.childEl = el;
   };
 
-  private setChildNumberElRef = (el) => {
+  private setChildNumberElRef = (el: HTMLInputElement) => {
     this.childNumberEl = el;
   };
 
@@ -801,50 +925,51 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
     previousValue?: string;
     value: string;
   }): void => {
-    const previousLocalizedValue =
-      this.type === "number"
-        ? localizeNumberString(
-            this.previousValue,
-            this.locale,
-            this.groupSeparator,
-            this.numberingSystem
-          )
-        : "";
-    const sanitizedValue = this.type === "number" ? sanitizeNumberString(value) : value;
-    const newValue =
-      this.type === "number" && value && !sanitizedValue
-        ? isValidNumber(this.previousValue)
-          ? this.previousValue
-          : ""
-        : sanitizedValue;
-    const newLocalizedValue =
-      this.type === "number"
-        ? localizeNumberString(newValue, this.locale, this.groupSeparator, this.numberingSystem)
-        : "";
+    numberStringFormatter.numberFormatOptions = {
+      locale: this.effectiveLocale,
+      numberingSystem: this.numberingSystem,
+      useGrouping: this.groupSeparator
+    };
+
+    if (this.type === "number") {
+      const delocalizedValue =
+        (this.numberingSystem && this.numberingSystem !== "latn") ||
+        defaultNumberingSystem !== "latn"
+          ? numberStringFormatter.delocalize(value)
+          : value;
+
+      const sanitizedValue = sanitizeNumberString(delocalizedValue);
+
+      const newValue =
+        (value && !sanitizedValue) || [".", "-"].includes(sanitizedValue)
+          ? isValidNumber(this.previousValue)
+            ? this.previousValue
+            : ""
+          : sanitizedValue;
+
+      const newLocalizedValue = numberStringFormatter.localize(newValue);
+
+      this.localizedValue = newLocalizedValue;
+      this.userChangedValue = origin === "user" && this.value !== newValue;
+      this.value = newValue;
+      origin === "direct" && this.setInputValue(newLocalizedValue);
+    } else {
+      this.userChangedValue = origin === "user" && this.value !== value;
+      this.value = value;
+      origin === "direct" && this.setInputValue(value);
+    }
 
     this.setPreviousValue(previousValue || this.value);
     this.previousValueOrigin = origin;
-    this.userChangedValue = origin === "user" && this.value !== newValue;
-    this.value = newValue;
-
-    if (this.type === "number") {
-      this.localizedValue = newLocalizedValue;
-    }
-
-    if (origin === "direct") {
-      this.setInputValue(this.type === "number" ? newLocalizedValue : newValue);
-    }
 
     if (nativeEvent) {
-      const calciteInputInputEvent = this.calciteInputInput.emit({
-        element: this.childEl,
-        nativeEvent,
-        value: this.value
-      });
-
+      const calciteInputInputEvent = this.calciteInputInput.emit();
       if (calciteInputInputEvent.defaultPrevented) {
         this.value = this.previousValue;
-        this.localizedValue = previousLocalizedValue;
+        this.localizedValue =
+          this.type === "number"
+            ? numberStringFormatter.localize(this.previousValue)
+            : this.previousValue;
       } else if (committing) {
         this.emitChangeIfUserModified();
       }
@@ -871,13 +996,13 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
     const dir = getElementDir(this.el);
     const loader = (
       <div class={CSS.loader}>
-        <calcite-progress label={this.intlLoading} type="indeterminate" />
+        <calcite-progress label={this.messages.loading} type="indeterminate" />
       </div>
     );
 
     const inputClearButton = (
       <button
-        aria-label={this.intlClear || TEXT.clear}
+        aria-label={this.messages.clear}
         class={CSS.clearButton}
         disabled={this.disabled || this.readOnly}
         onClick={this.clearInputValue}
@@ -950,21 +1075,25 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
     const localeNumberInput =
       this.type === "number" ? (
         <input
+          accept={this.accept}
           aria-label={getLabelText(this)}
+          autocomplete={this.autocomplete}
           autofocus={this.autofocus ? true : null}
           defaultValue={this.defaultValue}
           disabled={this.disabled ? true : null}
-          enterKeyHint={this.el.enterKeyHint}
-          inputMode={this.el.inputMode}
+          enterKeyHint={this.enterKeyHint}
+          inputMode={this.inputMode}
           key="localized-input"
           maxLength={this.maxLength}
           minLength={this.minLength}
+          multiple={this.multiple}
           name={undefined}
           onBlur={this.inputBlurHandler}
           onFocus={this.inputFocusHandler}
           onInput={this.inputNumberInputHandler}
           onKeyDown={this.inputNumberKeyDownHandler}
           onKeyUp={this.inputKeyUpHandler}
+          pattern={this.pattern}
           placeholder={this.placeholder || ""}
           readOnly={this.readOnly}
           ref={this.setChildNumberElRef}
@@ -977,7 +1106,9 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
       this.type !== "number"
         ? [
             <this.childElType
+              accept={this.accept}
               aria-label={getLabelText(this)}
+              autocomplete={this.autocomplete}
               autofocus={this.autofocus ? true : null}
               class={{
                 [CSS.editingEnabled]: this.editingEnabled,
@@ -985,18 +1116,20 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
               }}
               defaultValue={this.defaultValue}
               disabled={this.disabled ? true : null}
-              enterKeyHint={this.el.enterKeyHint}
-              inputMode={this.el.inputMode}
+              enterKeyHint={this.enterKeyHint}
+              inputMode={this.inputMode}
               max={this.maxString}
               maxLength={this.maxLength}
               min={this.minString}
               minLength={this.minLength}
+              multiple={this.multiple}
               name={this.name}
               onBlur={this.inputBlurHandler}
               onFocus={this.inputFocusHandler}
               onInput={this.inputInputHandler}
               onKeyDown={this.inputKeyDownHandler}
               onKeyUp={this.inputKeyUpHandler}
+              pattern={this.pattern}
               placeholder={this.placeholder || ""}
               readOnly={this.readOnly}
               ref={this.setChildElRef}
@@ -1017,7 +1150,7 @@ export class Input implements LabelableComponent, FormComponent, InteractiveComp
         : null;
 
     return (
-      <Host onClick={this.inputFocusHandler} onKeyDown={this.keyDownHandler}>
+      <Host onClick={this.clickHandler} onKeyDown={this.keyDownHandler}>
         <div class={{ [CSS.inputWrapper]: true, [CSS_UTILITY.rtl]: dir === "rtl" }}>
           {this.type === "number" && this.numberButtonType === "horizontal" && !this.readOnly
             ? numberButtonsHorizontalDown

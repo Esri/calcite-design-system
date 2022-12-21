@@ -29,10 +29,6 @@
     overflow-hidden;
 }
 
-.main--reversed {
-  @apply flex-row-reverse;
-}
-
 .content {
   @apply flex
     h-full
@@ -96,4 +92,11 @@ slot[name="center-row"]::slotted(calcite-shell-center-row:not([detached])) {
   z-toast;
   inset-block-end: theme("spacing.2");
   inset-inline: var(--calcite-shell-tip-spacing);
+}
+
+// positioning logic for expected slotted components
+.position-wrapper {
+  position: absolute;
+  pointer-events: none;
+  inset: 0;
 }

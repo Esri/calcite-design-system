@@ -16,7 +16,7 @@ export default {
 export const simple = (): string => html`
   <calcite-radio-group
     layout="${select("layout", ["horizontal", "vertical"], "horizontal")}"
-    appearance="${select("appearance", ["solid", "outline"], "solid")}"
+    appearance="${select("appearance", ["solid", "outline", "outline-fill"], "solid")}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
     width="${select("width", ["auto", "full"], "auto")}"
     ${boolean("disabled", false)}
@@ -34,13 +34,13 @@ export const fullWidthWithIcons = (): string => html`
       My great radio group
       <calcite-radio-group
         layout="${select("layout", ["horizontal", "vertical"], "horizontal")}"
-        appearance="${select("appearance", ["solid", "outline"], "solid")}"
+        appearance="${select("appearance", ["solid", "outline", "outline-fill"], "solid")}"
         width="${select("width", ["auto", "full"], "full")}"
         ${boolean("disabled", false)}
       >
-        <calcite-radio-group-item icon="car" value="car" checked>Car</calcite-radio-group-item>
-        <calcite-radio-group-item icon="plane" value="plane">Plane</calcite-radio-group-item>
-        <calcite-radio-group-item icon="biking" value="bicycle">Bicycle</calcite-radio-group-item>
+        <calcite-radio-group-item icon-start="car" value="car" checked>Car</calcite-radio-group-item>
+        <calcite-radio-group-item icon-start="plane" value="plane">Plane</calcite-radio-group-item>
+        <calcite-radio-group-item icon-start="biking" value="bicycle">Bicycle</calcite-radio-group-item>
       </calcite-radio-group>
     </calcite-label>
   </div>
@@ -51,7 +51,7 @@ export const darkThemeRTL_TestOnly = (): string => html`
     class="calcite-theme-dark"
     dir="rtl"
     layout="${select("layout", ["horizontal", "vertical"], "horizontal")}"
-    appearance="${select("appearance", ["solid", "outline"], "solid")}"
+    appearance="${select("appearance", ["solid", "outline", "outline-fill"], "solid")}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
     width="${select("width", ["auto", "full"], "auto")}"
     ${boolean("disabled", false)}
@@ -73,14 +73,8 @@ export const disabled_TestOnly = (): string => html`<calcite-radio-group disable
 </calcite-radio-group>`;
 
 export const WithIconStartAndEnd = (): string => html` <calcite-radio-group scale="s">
-  <calcite-radio-group-item icon-start="car" icon-end="car" value="car" checked icon="plane" icon-positon="end"
-    >Car</calcite-radio-group-item
-  >
-  <calcite-radio-group-item icon-end="plane" value="plane" icon="banana" icon-positon="start"
-    >Plane</calcite-radio-group-item
-  >
-  <calcite-radio-group-item icon-start="biking" icon-end="biking" value="bicycle" icon="car" icon-positon="start"
-    >Bicycle</calcite-radio-group-item
-  >
+  <calcite-radio-group-item icon-start="car" icon-end="car" value="car" checked>Car</calcite-radio-group-item>
+  <calcite-radio-group-item icon-start="plane" icon-end="plane" value="plane">Plane</calcite-radio-group-item>
+  <calcite-radio-group-item icon-start="biking" icon-end="biking" value="bicycle">Bicycle</calcite-radio-group-item>
   <calcite-radio-group-item value="nothing">Nothing</calcite-radio-group-item>
 </calcite-radio-group>`;

@@ -28,13 +28,12 @@ export class Tabs {
   //--------------------------------------------------------------------------
 
   /**
-   * Specifies the layout of the `calcite-tab-nav`, justifying the `calcite-tab-title`s to the start ("inline"), or across and centered ("center").
+   * Specifies the layout of the `calcite-tab-nav`, justifying the `calcite-tab-title`s to the start (`"inline"`), or across and centered (`"center"`).
    */
   @Prop({ reflect: true }) layout: TabLayout = "inline";
 
   /**
-   * Specifies the position of the component in relation to the `calcite-tab`s. The "above" and "below" values are deprecated.
-   *
+   * Specifies the position of the component in relation to the `calcite-tab`s.
    */
   @Prop({ reflect: true }) position: TabPosition = "top";
 
@@ -44,7 +43,7 @@ export class Tabs {
   @Prop({ reflect: true }) scale: Scale = "m";
 
   /**
-   * When true and layout is set to "inline", the component will display with a folder style menu.
+   * When `true`, the component will display with a folder style menu.
    */
   @Prop({ reflect: true, mutable: true }) bordered = false;
 
@@ -54,16 +53,10 @@ export class Tabs {
   //
   //--------------------------------------------------------------------------
 
-  connectedCallback(): void {
-    if (this.layout === "center") {
-      this.bordered = false;
-    }
-  }
-
   render(): VNode {
     return (
       <Fragment>
-        <slot name={SLOTS.tabNav} />
+        <slot name={SLOTS.titleGroup} />
         <section>
           <slot />
         </section>

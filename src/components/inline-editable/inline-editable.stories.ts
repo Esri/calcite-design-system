@@ -20,9 +20,6 @@ export const simple = (): string => html`
       ${boolean("editing-enabled", false, "InlineEditable") && "editing-enabled"}
       ${boolean("loading", false, "InlineEditable") && "loading"}
       ${boolean("disabled", false, "InlineEditable") && "disabled"}
-      intl-cancel-editing="${text("intl-cancel-editing", "Cancelar", "InlineEditable")}"
-      intl-enable-editing="${text("intl-enable-editing", "Haga clic para editar", "InlineEditable")}"
-      intl-confirm-changes="${text("intl-confirm-changes", "Guardar", "InlineEditable")}"
     >
       <calcite-input
         alignment="${select("alignment", ["start", "end"], "start", "Input")}"
@@ -51,9 +48,6 @@ export const darkThemeRTL_TestOnly = (): string => html`
         ${boolean("editing-enabled", false, "InlineEditable") && "editing-enabled"}
         ${boolean("loading", false, "InlineEditable") && "loading"}
         ${boolean("disabled", false, "InlineEditable") && "disabled"}
-        intl-cancel-editing="${text("intl-cancel-editing", "Cancelar", "InlineEditable")}"
-        intl-enable-editing="${text("intl-enable-editing", "Haga clic para editar", "InlineEditable")}"
-        intl-confirm-changes="${text("intl-confirm-changes", "Guardar", "InlineEditable")}"
       >
         <calcite-input
           alignment="${select("alignment", ["start", "end"], "start", "Input")}"
@@ -62,7 +56,6 @@ export const darkThemeRTL_TestOnly = (): string => html`
         </calcite-input>
       </calcite-inline-editable>
       <calcite-input-message
-        ${boolean("active", false, "InputMessage") && "active"}
         ${boolean("icon", false, "InputMessage") && "icon"}
         status="${select("status", ["idle", "valid", "invalid"], "idle", "InputMessage")}"
       >
@@ -72,3 +65,12 @@ export const darkThemeRTL_TestOnly = (): string => html`
   </div>
 `;
 darkThemeRTL_TestOnly.parameters = { themes: themesDarkDefault };
+
+export const longValue_TestOnly = (): string => html`<div style="width: 300px;">
+  <calcite-inline-editable>
+    <calcite-input
+      value="A flower, sometimes known as a bloom or blossom, is the reproductive structure found in flowering plants (plants of the division Angiospermae)."
+      placeholder="My placeholder"
+    ></calcite-input>
+  </calcite-inline-editable>
+</div>`;

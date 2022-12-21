@@ -64,7 +64,7 @@
                 Actionbar
             </div> -->
               <calcite-action-bar slot="action-bar">
-                <calcite-tooltip slot="expand-tooltip" label="tooltip" disable-pointer>Add layers</calcite-tooltip>
+                <calcite-tooltip slot="expand-tooltip" label="tooltip" pointer-disabled>Add layers</calcite-tooltip>
                 <calcite-action-group>
                   <calcite-action text="Layer properties" icon="sliders-horizontal"> </calcite-action>
                   <calcite-action text="Styles" icon="shapes"> </calcite-action>
@@ -91,12 +91,12 @@
                 </calcite-action-group>
               </calcite-action-bar>
               <calcite-flow>
-                <calcite-panel heading="Flow 01">
+                <calcite-flow-item heading="Flow 01">
                   <div class="padded-content">Flow 01 content<br />Padding is fake.</div>
-                </calcite-panel>
-                <calcite-panel heading="Flow 02">
+                </calcite-flow-item>
+                <calcite-flow-item heading="Flow 02">
                   <div class="padded-content">Flow 02 content<br />Padding is fake.</div>
-                </calcite-panel>
+                </calcite-flow-item>
               </calcite-flow>
             </calcite-shell-panel>
             <div class="gnav" slot="header">

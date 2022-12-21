@@ -1,6 +1,4 @@
 export const CSS = {
-  heading: "heading",
-  container: "container"
+  container: "container",
+  heading: "heading"
 };
-
-export const HEADING_LEVEL = 3;

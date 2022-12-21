@@ -1,4 +1,14 @@
-import { getElementProp, getSlotted, setRequestedIcon, ensureId, getThemeName, toAriaBoolean } from "./dom";
+import {
+  getElementProp,
+  getSlotted,
+  setRequestedIcon,
+  ensureId,
+  getThemeName,
+  toAriaBoolean,
+  isPrimaryPointerButton,
+  slotChangeGetAssignedElements,
+  slotChangeHasAssignedElement
+} from "./dom";
 import { guidPattern } from "./guid.spec";
 import { html } from "../../support/formatting";
 import { ThemeName } from "../../src/components/interfaces";
@@ -360,6 +370,51 @@ describe("dom", () => {
       expect(toAriaBoolean(false)).toBe("false");
       expect(toAriaBoolean(null)).toBe("false");
       expect(toAriaBoolean(undefined)).toBe("false");
+    });
+  });
+
+  describe("isPrimaryPointerButton()", () => {
+    it("handles pointer events", () => {
+      expect(isPrimaryPointerButton({ button: 0, isPrimary: true } as PointerEvent)).toBe(true);
+      expect(isPrimaryPointerButton({ button: 1, isPrimary: true } as PointerEvent)).toBe(false);
+      expect(isPrimaryPointerButton({ button: 0, isPrimary: false } as PointerEvent)).toBe(false);
+      expect(isPrimaryPointerButton({} as PointerEvent)).toBe(false);
+    });
+  });
+
+  describe("slotChangeGetAssignedElements()", () => {
+    it("handles slotted elements", () => {
+      const target = document.createElement("slot");
+      target.assignedElements = () => [document.createElement("div"), document.createElement("div")];
+      const event = new Event("onSlotchange");
+      target.dispatchEvent(event);
+      expect(slotChangeGetAssignedElements(event)).toHaveLength(2);
+    });
+
+    it("handles no slotted elements", () => {
+      const target = document.createElement("slot");
+      target.assignedElements = () => [];
+      const event = new Event("onSlotchange");
+      target.dispatchEvent(event);
+      expect(slotChangeGetAssignedElements(event)).toHaveLength(0);
+    });
+  });
+
+  describe("slotChangeHasAssignedElement()", () => {
+    it("handles slotted elements", () => {
+      const target = document.createElement("slot");
+      target.assignedElements = () => [document.createElement("div"), document.createElement("div")];
+      const event = new Event("onSlotchange");
+      target.dispatchEvent(event);
+      expect(slotChangeHasAssignedElement(event)).toBe(true);
+    });
+
+    it("handles no slotted elements", () => {
+      const target = document.createElement("slot");
+      target.assignedElements = () => [];
+      const event = new Event("onSlotchange");
+      target.dispatchEvent(event);
+      expect(slotChangeHasAssignedElement(event)).toBe(false);
     });
   });
 });

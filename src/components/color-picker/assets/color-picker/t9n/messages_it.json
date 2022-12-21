@@ -1,0 +1,21 @@
+{
+  "b": "B",
+  "blue": "Blu",
+  "deleteColor": "Elimina colore",
+  "g": "G",
+  "green": "Verde",
+  "h": "H",
+  "hsv": "HSV",
+  "hex": "Hex",
+  "hue": "Hue",
+  "noColor": "Nessun colore",
+  "r": "R",
+  "red": "Rosso",
+  "rgb": "RGB",
+  "s": "S",
+  "saturation": "Saturazione",
+  "saveColor": "Salva colore",
+  "saved": "Salvato",
+  "v": "V",
+  "value": "Valore"
+}

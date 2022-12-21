@@ -50,15 +50,14 @@ Renders a group of `calcite-action`s contained in a `calcite-action-group`. Acti
 
 ## Properties
 
-| Property         | Attribute         | Description                                                              | Type                                   | Default      |
-| ---------------- | ----------------- | ------------------------------------------------------------------------ | -------------------------------------- | ------------ |
-| `expandDisabled` | `expand-disabled` | When true, the expand-toggling behavior is disabled.                     | `boolean`                              | `false`      |
-| `expanded`       | `expanded`        | When true, the component is expanded.                                    | `boolean`                              | `false`      |
-| `intlCollapse`   | `intl-collapse`   | Specifies the label of the collapse icon when the component is expanded. | `string`                               | `undefined`  |
-| `intlExpand`     | `intl-expand`     | Specifies the label of the expand icon when the component is collapsed.  | `string`                               | `undefined`  |
-| `layout`         | `layout`          | Indicates the layout of the component.                                   | `"grid" \| "horizontal" \| "vertical"` | `"vertical"` |
-| `position`       | `position`        | Arranges the component depending on the element's `dir` property.        | `"end" \| "start"`                     | `undefined`  |
-| `scale`          | `scale`           | Specifies the size of the expand `calcite-action`.                       | `"l" \| "m" \| "s"`                    | `undefined`  |
+| Property           | Attribute           | Description                                                             | Type                                   | Default      |
+| ------------------ | ------------------- | ----------------------------------------------------------------------- | -------------------------------------- | ------------ |
+| `expandDisabled`   | `expand-disabled`   | When `true`, the expand-toggling behavior is disabled.                  | `boolean`                              | `false`      |
+| `expanded`         | `expanded`          | When `true`, the component is expanded.                                 | `boolean`                              | `false`      |
+| `layout`           | `layout`            | Indicates the layout of the component.                                  | `"grid" \| "horizontal" \| "vertical"` | `"vertical"` |
+| `messageOverrides` | `message-overrides` | Use this property to override individual strings used by the component. | `ActionPadMessages`                    | `undefined`  |
+| `position`         | `position`          | Arranges the component depending on the element's `dir` property.       | `"end" \| "start"`                     | `undefined`  |
+| `scale`            | `scale`             | Specifies the size of the expand `calcite-action`.                      | `"l" \| "m" \| "s"`                    | `undefined`  |
 
 ## Events
 
@@ -68,7 +67,7 @@ Renders a group of `calcite-action`s contained in a `calcite-action-group`. Acti
 
 ## Methods
 
-### `setFocus(focusId?: "expand-toggle") => Promise<void>`
+### `setFocus() => Promise<void>`
 
 Sets focus on the component.
 

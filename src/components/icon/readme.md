@@ -20,18 +20,18 @@ To use a custom color for the icon fill, you can add a class to the `calcite-ico
 
 ## Properties
 
-| Property    | Attribute    | Description                                                                                                                         | Type                | Default     |
-| ----------- | ------------ | ----------------------------------------------------------------------------------------------------------------------------------- | ------------------- | ----------- |
-| `flipRtl`   | `flip-rtl`   | When true, the icon will be flipped when the element direction is 'rtl'.                                                            | `boolean`           | `false`     |
-| `icon`      | `icon`       | The name of the icon to display. The value of this property must match the icon name from https://esri.github.io/calcite-ui-icons/. | `string`            | `null`      |
-| `scale`     | `scale`      | Icon scale.                                                                                                                         | `"l" \| "m" \| "s"` | `"m"`       |
-| `textLabel` | `text-label` | The icon label. It is recommended to set this value if your icon is semantic.                                                       | `string`            | `undefined` |
+| Property    | Attribute    | Description                                                                                      | Type                | Default     |
+| ----------- | ------------ | ------------------------------------------------------------------------------------------------ | ------------------- | ----------- |
+| `flipRtl`   | `flip-rtl`   | When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).     | `boolean`           | `false`     |
+| `icon`      | `icon`       | Displays a specific icon.                                                                        | `string`            | `null`      |
+| `scale`     | `scale`      | Specifies the size of the component.                                                             | `"l" \| "m" \| "s"` | `"m"`       |
+| `textLabel` | `text-label` | Accessible name for the component. It is recommended to set this value if your icon is semantic. | `string`            | `undefined` |
 
 ## CSS Custom Properties
 
 | Name                      | Description                                        |
 | ------------------------- | -------------------------------------------------- |
-| `--calcite-ui-icon-color` | the color of the icon. Defaults to 'currentColor'. |
+| `--calcite-ui-icon-color` | The component's color. Defaults to `currentColor`. |
 
 ## Dependencies
 
@@ -56,6 +56,7 @@ To use a custom color for the icon fill, you can add a class to the `calcite-ico
 - [calcite-input-number](../input-number)
 - [calcite-input-text](../input-text)
 - [calcite-link](../link)
+- [calcite-list-item](../list-item)
 - [calcite-modal](../modal)
 - [calcite-notice](../notice)
 - [calcite-pagination](../pagination)
@@ -95,6 +96,7 @@ graph TD;
   calcite-input-number --> calcite-icon
   calcite-input-text --> calcite-icon
   calcite-link --> calcite-icon
+  calcite-list-item --> calcite-icon
   calcite-modal --> calcite-icon
   calcite-notice --> calcite-icon
   calcite-pagination --> calcite-icon

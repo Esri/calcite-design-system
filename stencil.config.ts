@@ -2,14 +2,13 @@ import { Config } from "@stencil/core";
 import { postcss } from "@stencil/postcss";
 import { sass } from "@stencil/sass";
 import autoprefixer from "autoprefixer";
-import tailwindcss from "tailwindcss";
+import tailwindcss, { Config as TailwindConfig } from "tailwindcss";
 import tailwindConfig from "./tailwind.config";
 import { generatePreactTypes } from "./support/preact";
 import stylelint from "stylelint";
 import { version } from "./package.json";
 
 export const create: () => Config = () => ({
-  buildEs5: "prod",
   namespace: "calcite",
   bundles: [
     { components: ["calcite-accordion", "calcite-accordion-item"] },
@@ -52,7 +51,7 @@ export const create: () => Config = () => ({
     { components: ["calcite-fab"] },
     { components: ["calcite-flow"] },
     { components: ["calcite-panel"] },
-    { components: ["calcite-popover", "calcite-popover-manager"] },
+    { components: ["calcite-popover"] },
     { components: ["calcite-progress"] },
     { components: ["calcite-pick-list", "calcite-pick-list-group", "calcite-pick-list-item"] },
     { components: ["calcite-radio-button"] },
@@ -71,13 +70,12 @@ export const create: () => Config = () => ({
     { components: ["calcite-tip", "calcite-tip-group", "calcite-tip-manager"] },
     { components: ["calcite-tile"] },
     { components: ["calcite-tile-select-group", "calcite-tile-select"] },
-    { components: ["calcite-tooltip", "calcite-tooltip-manager"] },
+    { components: ["calcite-tooltip"] },
     { components: ["calcite-tree", "calcite-tree-item"] },
     { components: ["calcite-value-list", "calcite-value-list-item"] }
   ],
   outputTargets: [
     { type: "dist-hydrate-script" },
-    { type: "dist-custom-elements-bundle" },
     { type: "dist-custom-elements", autoDefineCustomElements: true },
     { type: "dist" },
     { type: "docs-readme" },
@@ -104,7 +102,7 @@ export const create: () => Config = () => ({
     }),
     postcss({
       plugins: [
-        tailwindcss(tailwindConfig),
+        tailwindcss(tailwindConfig as any as TailwindConfig),
         autoprefixer(),
         stylelint({
           configFile: ".stylelintrc-postcss.json",
@@ -115,7 +113,8 @@ export const create: () => Config = () => ({
   ],
   testing: {
     moduleNameMapper: {
-      "^/assets/(.*)$": "<rootDir>/src/tests/iconPathDataStub.ts"
+      "^/assets/(.*)$": "<rootDir>/src/tests/iconPathDataStub.ts",
+      "^lodash-es$": "lodash"
     },
     setupFilesAfterEnv: ["<rootDir>/src/tests/setupTests.ts"]
   },

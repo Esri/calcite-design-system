@@ -3,9 +3,7 @@ import { withDirection } from "storybook-rtl-addon";
 import { Theme } from "storybook-addon-themes/dist/models/Theme";
 
 declare global {
-  interface Window {
-    __screener_storybook__: any;
-  }
+  interface Window {}
 }
 
 const themeBodyClassDecorator = (Story: () => any, context: any) => {
@@ -16,7 +14,7 @@ const themeBodyClassDecorator = (Story: () => any, context: any) => {
     if (Array.isArray(theme.class)) {
       theme.class.forEach((className) => document.body.classList.toggle(className, isDefault));
     } else {
-      document.body.classList.toggle(theme.class, isDefault);
+      theme.class && document.body.classList.toggle(theme.class, isDefault);
     }
   });
 
@@ -53,5 +51,9 @@ export const parameters = {
     storySort: {
       order: ["Overview", "Components", "App Components"]
     }
+  },
+  chromatic: {
+    // https://www.chromatic.com/docs/threshold
+    diffThreshold: Number(process.env.CHROMATIC_DIFF_THRESHOLD) || 0.15
   }
 };

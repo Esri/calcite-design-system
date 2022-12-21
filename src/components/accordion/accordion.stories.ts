@@ -3,9 +3,9 @@ import {
   Attributes,
   filterComponentAttributes,
   createComponentHTML as create,
-  themesDarkDefault,
-  placeholderImage
+  themesDarkDefault
 } from "../../../.storybook/utils";
+import { placeholderImage } from "../../../.storybook/placeholderImage";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { iconNames, storyFilters } from "../../../.storybook/helpers";
 import { select, text } from "@storybook/addon-knobs";
@@ -56,7 +56,7 @@ const createAccordionAttributes: (options?: { exceptions: string[] }) => Attribu
       {
         name: "selection-mode",
         commit(): Attribute {
-          this.value = select("selection-mode", ["multi", "single", "single-persist"], "multi", group);
+          this.value = select("selection-mode", ["single", "single-persist", "multiple"], "multiple", group);
           delete this.build;
           return this;
         }
@@ -67,11 +67,10 @@ const createAccordionAttributes: (options?: { exceptions: string[] }) => Attribu
 };
 
 const createAccordionItemAttributes: (options?: {
-  icon?: boolean;
   group?: string;
   iconEnd?: string;
   iconStart?: string;
-}) => Attributes = ({ icon, group, iconStart, iconEnd }) => {
+}) => Attributes = ({ group, iconStart, iconEnd }) => {
   const groupTitle = group ? group : "";
   const defaultAttributes = [
     {
@@ -81,13 +80,6 @@ const createAccordionItemAttributes: (options?: {
     {
       name: "description",
       value: text("description", "Description", groupTitle)
-    }
-  ];
-
-  const iconAttribute = [
-    {
-      name: "icon",
-      value: select("icon", iconNames, iconNames[0], groupTitle)
     }
   ];
 
@@ -109,8 +101,6 @@ const createAccordionItemAttributes: (options?: {
     return iconStartAttribute.concat(defaultAttributes, iconEndAttribute);
   } else if (iconStart || iconEnd) {
     return iconStart ? iconStartAttribute.concat(defaultAttributes) : iconEndAttribute.concat(defaultAttributes);
-  } else if (icon) {
-    return iconAttribute.concat(defaultAttributes);
   }
 
   return defaultAttributes;
@@ -173,22 +163,22 @@ export const icon_NoTest = (): string =>
     html`
       ${create(
         "calcite-accordion-item",
-        createAccordionItemAttributes({ icon: true, group: "accordion-item-1" }),
+        createAccordionItemAttributes({ iconStart: true, group: "accordion-item-1" }),
         accordionItemContent
       )}
       ${create(
         "calcite-accordion-item",
-        createAccordionItemAttributes({ icon: true, group: "accordion-item-2" }),
+        createAccordionItemAttributes({ iconStart: true, group: "accordion-item-2" }),
         accordionItemContent
       )}
       ${create(
         "calcite-accordion-item",
-        createAccordionItemAttributes({ icon: true, group: "accordion-item-3" }),
+        createAccordionItemAttributes({ iconStart: true, group: "accordion-item-3" }),
         accordionItemContent
       )}
       ${create(
         "calcite-accordion-item",
-        createAccordionItemAttributes({ icon: true, group: "accordion-item-4" }).concat({
+        createAccordionItemAttributes({ iconStart: true, group: "accordion-item-4" }).concat({
           name: "expanded",
           value: true
         }),
@@ -196,6 +186,10 @@ export const icon_NoTest = (): string =>
       )}
     `
   );
+
+icon_NoTest.parameters = {
+  chromatic: { disableSnapshot: true }
+};
 
 export const withActions = (): string => html`
   <calcite-accordion scale="s">
@@ -236,22 +230,22 @@ export const darkThemeRTL_TestOnly = (): string =>
     html`
       ${create(
         "calcite-accordion-item",
-        createAccordionItemAttributes({ icon: true, group: "accordion-item-1" }),
+        createAccordionItemAttributes({ iconStart: true, group: "accordion-item-1" }),
         accordionItemContent
       )}
       ${create(
         "calcite-accordion-item",
-        createAccordionItemAttributes({ icon: true, group: "accordion-item-2" }),
+        createAccordionItemAttributes({ iconStart: true, group: "accordion-item-2" }),
         accordionItemContent
       )}
       ${create(
         "calcite-accordion-item",
-        createAccordionItemAttributes({ icon: true, group: "accordion-item-3" }),
+        createAccordionItemAttributes({ iconStart: true, group: "accordion-item-3" }),
         accordionItemContent
       )}
       ${create(
         "calcite-accordion-item",
-        createAccordionItemAttributes({ icon: true, group: "accordion-item-4" }).concat({
+        createAccordionItemAttributes({ iconStart: true, group: "accordion-item-4" }).concat({
           name: "expanded",
           value: true
         }),

@@ -1,15 +1,15 @@
 import { boolean, select, text } from "@storybook/addon-knobs";
-import { placeholderImage, themesDarkDefault } from "../../../.storybook/utils";
+import { placeholderImage } from "../../../.storybook/placeholderImage";
 import { html } from "../../../support/formatting";
 import readme from "./readme.md";
 import {
   Attribute,
-  filterComponentAttributes,
   Attributes,
+  filterComponentAttributes,
+  themesDarkDefault,
   createComponentHTML as create
 } from "../../../.storybook/utils";
 import { storyFilters } from "../../../.storybook/helpers";
-import { TEXT } from "./resources";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 
 export default {
@@ -44,30 +44,6 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
         name: "selectable",
         commit(): Attribute {
           this.value = boolean("selectable", false);
-          delete this.build;
-          return this;
-        }
-      },
-      {
-        name: "intl-loading",
-        commit(): Attribute {
-          this.value = text("intl-loading", TEXT.loading);
-          delete this.build;
-          return this;
-        }
-      },
-      {
-        name: "intl-select",
-        commit(): Attribute {
-          this.value = text("intl-select", TEXT.select);
-          delete this.build;
-          return this;
-        }
-      },
-      {
-        name: "intl-deselect",
-        commit(): Attribute {
-          this.value = text("intl-deselect", TEXT.deselect);
           delete this.build;
           return this;
         }
@@ -113,9 +89,9 @@ const thumbnailHtml = html`<img
 
 const footerTrailingButtonsHtml = html`
   <div slot="footer-trailing">
-    <calcite-button id="card-icon-test-6" scale="s" appearance="transparent" color="neutral" icon-start="circle">
+    <calcite-button id="card-icon-test-6" scale="s" appearance="transparent" kind="neutral" icon-start="circle">
     </calcite-button>
-    <calcite-button id="card-icon-test-7" scale="s" appearance="transparent" color="neutral" icon-start="circle">
+    <calcite-button id="card-icon-test-7" scale="s" appearance="transparent" kind="neutral" icon-start="circle">
     </calcite-button>
   </div>
 `;
@@ -147,6 +123,9 @@ export const simpleWithFooterTextButtonTooltip_NoTest = (): string => html`
   </div>
   ${tooltipHtml}
 `;
+simpleWithFooterTextButtonTooltip_NoTest.parameters = {
+  chromatic: { disableSnapshot: true }
+};
 
 export const thumbnail = (): string => html`
   <div style="width:260px">
@@ -169,20 +148,20 @@ export const thumbnail = (): string => html`
         </div>
         <calcite-button
           slot="footer-leading"
-          color="neutral"
+          kind="neutral"
           scale="s"
           id="card-icon-test-1"
           icon-start="circle"
         ></calcite-button>
         <div slot="footer-trailing">
-          <calcite-button scale="s" color="neutral" id="card-icon-test-2" icon-start="circle"></calcite-button>
-          <calcite-button scale="s" color="neutral" id="card-icon-test-3" icon-start="circle"></calcite-button>
+          <calcite-button scale="s" kind="neutral" id="card-icon-test-2" icon-start="circle"></calcite-button>
+          <calcite-button scale="s" kind="neutral" id="card-icon-test-3" icon-start="circle"></calcite-button>
           <calcite-dropdown type="hover">
             <calcite-button
               id="card-icon-test-5"
-              slot="dropdown-trigger"
+              slot="trigger"
               scale="s"
-              color="neutral"
+              kind="neutral"
               icon-start="circle"
             ></calcite-button>
             <calcite-dropdown-group selection-mode="none">
@@ -226,13 +205,28 @@ export const thumbnailRounded = (): string => html`
       </div>
       <calcite-button
         slot="footer-leading"
-        color="neutral"
+        kind="neutral"
         scale="s"
         id="card-icon-test-1"
         icon-start="circle"
       ></calcite-button>
     </calcite-card>
   </div>
+`;
+
+export const headerDoesNotOverlapWithCheckbox_TestOnly = (): string => html`
+  <calcite-card selectable style="width:260px">
+    <h3 slot="title">Pokem ipsum dolor sit amet Skitty Hoothoot</h3>
+    <span slot="subtitle"
+      >Pika-pi Soul Badge Zoroark Starly Spoink Diglett Rotom. Water Kyogre Hitmontop Rampardos</span
+    >
+    <p>
+      Team Rocket Whimsicott Snover Duskull Servine Kakuna Bellsprout. Scratch Shelgon Oddish Hitmonchan Quagsire Earth
+      Badge Leaf Green. Pika-pi Bonsly Rare Candy Seadra blast off at the speed of light Shellos Kirlia. Celadon City
+      Seviper Omanyte Espeon Body Slam Victini Darumaka. Normal Krookodile Junichi Masuda Machoke Body Slam Zigzagoon to
+      protect the world from devastation.
+    </p>
+  </calcite-card>
 `;
 
 export const darkThemeRTL_TestOnly = (): string => html`

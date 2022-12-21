@@ -7,11 +7,10 @@ import {
   Host,
   Method,
   Prop,
-  VNode,
-  Watch
+  VNode
 } from "@stencil/core";
 import { focusElement, toAriaBoolean } from "../../utils/dom";
-import { DeprecatedEventPayload, Scale } from "../interfaces";
+import { Scale } from "../interfaces";
 import { LabelableComponent, connectLabel, disconnectLabel, getLabelText } from "../../utils/label";
 import {
   connectForm,
@@ -21,13 +20,21 @@ import {
 } from "../../utils/form";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import { isActivationKey } from "../../utils/key";
+import {
+  setUpLoadableComponent,
+  setComponentLoaded,
+  LoadableComponent,
+  componentLoaded
+} from "../../utils/loadable";
 
 @Component({
   tag: "calcite-switch",
   styleUrl: "switch.scss",
   shadow: true
 })
-export class Switch implements LabelableComponent, CheckableFormComponent, InteractiveComponent {
+export class Switch
+  implements LabelableComponent, CheckableFormComponent, InteractiveComponent, LoadableComponent
+{
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -42,11 +49,11 @@ export class Switch implements LabelableComponent, CheckableFormComponent, Inter
   //
   //--------------------------------------------------------------------------
 
-  /** When true, interaction is prevented and the component is displayed with lower opacity. */
+  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @Prop({ reflect: true }) disabled = false;
 
   /** Accessible name for the component. */
-  @Prop() label?: string;
+  @Prop() label: string;
 
   /** Specifies the name of the component on form submission. */
   @Prop({ reflect: true }) name: string;
@@ -54,19 +61,7 @@ export class Switch implements LabelableComponent, CheckableFormComponent, Inter
   /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";
 
-  /**
-   * When true, the component is checked.
-   *
-   * @deprecated use "checked" instead.
-   */
-  @Prop({ mutable: true, reflect: true }) switched = false;
-
-  @Watch("switched")
-  switchedWatcher(switched: boolean): void {
-    this.checked = switched;
-  }
-
-  /** When true, the component is checked. */
+  /** When `true`, the component is checked. */
   @Prop({ reflect: true, mutable: true }) checked = false;
 
   /** The component's value. */
@@ -97,6 +92,8 @@ export class Switch implements LabelableComponent, CheckableFormComponent, Inter
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
+    await componentLoaded(this);
+
     focusElement(this.switchEl);
   }
 
@@ -122,9 +119,7 @@ export class Switch implements LabelableComponent, CheckableFormComponent, Inter
 
   private toggle(): void {
     this.checked = !this.checked;
-    this.calciteSwitchChange.emit({
-      switched: this.checked
-    });
+    this.calciteSwitchChange.emit();
   }
 
   private clickHandler = (): void => {
@@ -142,11 +137,9 @@ export class Switch implements LabelableComponent, CheckableFormComponent, Inter
   //--------------------------------------------------------------------------
 
   /**
-   * Fires when the checked value has changed.
-   *
-   * **Note:** The event payload is deprecated, use the component's "checked" property instead.
+   * Fires when the `checked` value has changed.
    */
-  @Event({ cancelable: false }) calciteSwitchChange: EventEmitter<DeprecatedEventPayload>;
+  @Event({ cancelable: false }) calciteSwitchChange: EventEmitter<void>;
 
   //--------------------------------------------------------------------------
   //
@@ -155,15 +148,16 @@ export class Switch implements LabelableComponent, CheckableFormComponent, Inter
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
-    const initiallyChecked = this.checked || this.switched;
-
-    if (initiallyChecked) {
-      // if either prop is set, we ensure both are synced initially
-      this.switched = this.checked = initiallyChecked;
-    }
-
     connectLabel(this);
     connectForm(this);
+  }
+
+  componentWillLoad(): void {
+    setUpLoadableComponent(this);
+  }
+
+  componentDidLoad(): void {
+    setComponentLoaded(this);
   }
 
   disconnectedCallback(): void {

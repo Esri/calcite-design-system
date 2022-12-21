@@ -63,10 +63,10 @@
     inset-block-start: theme("spacing.6");
     @apply bg-foreground-1
       absolute
-      left-0
       z-default
       mx-px
       px-2.5;
+    inset-inline-start: 0;
   }
 }
 
@@ -89,10 +89,10 @@
 }
 
 .menu-container {
+  --calcite-floating-ui-z-index: theme("zIndex.dropdown");
   @include floatingUIContainer();
   @include floatingUIWrapper();
-  @apply invisible
-    pointer-events-none;
+  @apply invisible;
 }
 
 @include floatingUIElemAnim(".menu-container");

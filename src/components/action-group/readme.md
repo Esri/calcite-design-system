@@ -6,14 +6,14 @@ The `calcite-action-group` is a wrapper for multiple `calcite-action`s and house
 
 ## Properties
 
-| Property   | Attribute   | Description                                            | Type                                   | Default      |
-| ---------- | ----------- | ------------------------------------------------------ | -------------------------------------- | ------------ |
-| `columns`  | `columns`   | Indicates number of columns.                           | `1 \| 2 \| 3 \| 4 \| 5 \| 6`           | `undefined`  |
-| `expanded` | `expanded`  | When true, the component is expanded.                  | `boolean`                              | `false`      |
-| `intlMore` | `intl-more` | Specifies a text string for the `calcite-action-menu`. | `string`                               | `undefined`  |
-| `layout`   | `layout`    | Indicates the layout of the component.                 | `"grid" \| "horizontal" \| "vertical"` | `"vertical"` |
-| `menuOpen` | `menu-open` | When true, the `calcite-action-menu` is open.          | `boolean`                              | `false`      |
-| `scale`    | `scale`     | Specifies the size of the `calcite-action-menu`.       | `"l" \| "m" \| "s"`                    | `undefined`  |
+| Property           | Attribute           | Description                                                             | Type                                   | Default      |
+| ------------------ | ------------------- | ----------------------------------------------------------------------- | -------------------------------------- | ------------ |
+| `columns`          | `columns`           | Indicates number of columns.                                            | `1 \| 2 \| 3 \| 4 \| 5 \| 6`           | `undefined`  |
+| `expanded`         | `expanded`          | When `true`, the component is expanded.                                 | `boolean`                              | `false`      |
+| `layout`           | `layout`            | Indicates the layout of the component.                                  | `"grid" \| "horizontal" \| "vertical"` | `"vertical"` |
+| `menuOpen`         | `menu-open`         | When `true`, the `calcite-action-menu` is open.                         | `boolean`                              | `false`      |
+| `messageOverrides` | `message-overrides` | Use this property to override individual strings used by the component. | `ActionGroupMessages`                  | `undefined`  |
+| `scale`            | `scale`             | Specifies the size of the `calcite-action-menu`.                        | `"l" \| "m" \| "s"`                    | `undefined`  |
 
 ## Slots
 
@@ -25,9 +25,9 @@ The `calcite-action-group` is a wrapper for multiple `calcite-action`s and house
 
 ## CSS Custom Properties
 
-| Name                             | Description                                                                |
-| -------------------------------- | -------------------------------------------------------------------------- |
-| `--calcite-action-group-columns` | Sets number of grid-template-columns when the `layout` property is "grid". |
+| Name                             | Description                                                                  |
+| -------------------------------- | ---------------------------------------------------------------------------- |
+| `--calcite-action-group-columns` | Sets number of grid-template-columns when the `layout` property is `"grid"`. |
 
 ## Dependencies
 

@@ -13,24 +13,39 @@ import {
 } from "@stencil/core";
 
 import Color from "color";
-import { ColorAppearance, ColorMode, ColorValue, InternalColor } from "./interfaces";
-import { Scale } from "../interfaces";
+import { ColorMode, ColorValue, InternalColor } from "./interfaces";
+import { Appearance, Scale } from "../interfaces";
 import {
   CSS,
   DEFAULT_COLOR,
   DEFAULT_STORAGE_KEY_PREFIX,
   DIMENSIONS,
   HSV_LIMITS,
-  RGB_LIMITS,
-  TEXT
+  RGB_LIMITS
 } from "./resources";
-import { Direction, focusElement, getElementDir } from "../../utils/dom";
+import { Direction, getElementDir, isPrimaryPointerButton } from "../../utils/dom";
 import { colorEqual, CSSColorMode, Format, normalizeHex, parseMode, SupportedMode } from "./utils";
 import { throttle } from "lodash-es";
 
 import { clamp } from "../../utils/math";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import { ColorPickerMessages } from "./assets/color-picker/t9n";
 import { isActivationKey } from "../../utils/key";
+import {
+  connectMessages,
+  disconnectMessages,
+  setUpMessages,
+  T9nComponent,
+  updateMessages
+} from "../../utils/t9n";
+import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
+import { NumberingSystem } from "../../utils/locale";
+import {
+  setUpLoadableComponent,
+  setComponentLoaded,
+  LoadableComponent,
+  componentLoaded
+} from "../../utils/loadable";
 
 const throttleFor60FpsInMs = 16;
 const defaultValue = normalizeHex(DEFAULT_COLOR.hex());
@@ -39,9 +54,14 @@ const defaultFormat = "auto";
 @Component({
   tag: "calcite-color-picker",
   styleUrl: "color-picker.scss",
-  shadow: true
+  shadow: {
+    delegatesFocus: true
+  },
+  assetsDirs: ["assets"]
 })
-export class ColorPicker implements InteractiveComponent {
+export class ColorPicker
+  implements InteractiveComponent, LoadableComponent, LocalizedComponent, T9nComponent
+{
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -57,14 +77,16 @@ export class ColorPicker implements InteractiveComponent {
   //--------------------------------------------------------------------------
 
   /**
-   * When false, empty color (null) will be allowed as a value. Otherwise, a color value is always enforced by the component.
+   * When `false`, an empty color (`null`) will be allowed as a `value`. Otherwise, a color value is enforced on the component.
    *
-   * When true, clearing the input and blurring will restore the last valid color set. When false, it will set it to empty.
+   * When `true`, a color value is enforced, and clearing the input or blurring will restore the last valid `value`. When `false`, an empty color (`null`) will be allowed as a `value`.
    */
   @Prop({ reflect: true }) allowEmpty = false;
 
-  /** specify the appearance - solid (containing border), or minimal (no containing border) */
-  @Prop({ reflect: true }) appearance: ColorAppearance = "solid";
+  /**
+   * Specifies the appearance style of the component -
+   */
+  @Prop({ reflect: true }) appearance: Extract<"minimal" | "solid", Appearance> = "solid";
 
   /**
    * Internal prop for advanced use-cases.
@@ -81,14 +103,14 @@ export class ColorPicker implements InteractiveComponent {
   }
 
   /**
-   * When true, disabled prevents user interaction.
+   * When `true`, interaction is prevented and the component is displayed with lower opacity.
    */
   @Prop({ reflect: true }) disabled = false;
 
   /**
-   * The format of the value property.
+   * The format of `value`.
    *
-   * When "auto", the format will be inferred from `value` when set.
+   * When `"auto"`, the format will be inferred from `value` when set.
    *
    * @default "auto"
    */
@@ -100,151 +122,16 @@ export class ColorPicker implements InteractiveComponent {
     this.internalColorSet(this.color, false, "internal");
   }
 
-  /** When true, hides the hex input */
+  /** When `true`, hides the Hex input. */
   @Prop({ reflect: true }) hideHex = false;
 
-  /** When true, hides the RGB/HSV channel inputs */
+  /** When `true`, hides the RGB/HSV channel inputs. */
   @Prop({ reflect: true }) hideChannels = false;
 
-  /** When true, hides the saved colors section */
+  /** When `true`, hides the saved colors section. */
   @Prop({ reflect: true }) hideSaved = false;
 
-  /**
-   * Label used for the blue channel
-   *
-   * @default "B"
-   */
-  @Prop() intlB = TEXT.b;
-
-  /**
-   * Label used for the blue channel description
-   *
-   * @default "Blue"
-   */
-  @Prop() intlBlue = TEXT.blue;
-
-  /**
-   * Label used for the delete color button.
-   *
-   * @default "Delete color"
-   */
-  @Prop() intlDeleteColor = TEXT.deleteColor;
-
-  /**
-   * Label used for the green channel
-   *
-   * @default "G"
-   */
-  @Prop() intlG = TEXT.g;
-
-  /**
-   * Label used for the green channel description
-   *
-   * @default "Green"
-   */
-  @Prop() intlGreen = TEXT.green;
-
-  /**
-   * Label used for the hue channel
-   *
-   * @default "H"
-   */
-  @Prop() intlH = TEXT.h;
-
-  /**
-   * Label used for the HSV mode
-   *
-   * @default "HSV"
-   */
-  @Prop() intlHsv = TEXT.hsv;
-
-  /**
-   * Label used for the hex input
-   *
-   * @default "Hex"
-   */
-  @Prop() intlHex = TEXT.hex;
-
-  /**
-   * Label used for the hue channel description
-   *
-   * @default "Hue"
-   */
-  @Prop() intlHue = TEXT.hue;
-
-  /**
-   * Label used for the hex input when there is no color selected.
-   *
-   * @default "No color"
-   */
-  @Prop() intlNoColor = TEXT.noColor;
-
-  /**
-   * Label used for the red channel
-   *
-   * @default "R"
-   */
-  @Prop() intlR = TEXT.r;
-
-  /**
-   * Label used for the red channel description
-   *
-   * @default "Red"
-   */
-  @Prop() intlRed = TEXT.red;
-
-  /**
-   * Label used for the RGB mode
-   *
-   * @default "RGB"
-   */
-  @Prop() intlRgb = TEXT.rgb;
-
-  /**
-   * Label used for the saturation channel
-   *
-   * @default "S"
-   */
-  @Prop() intlS = TEXT.s;
-
-  /**
-   * Label used for the saturation channel description
-   *
-   * @default "Saturation"
-   */
-  @Prop() intlSaturation = TEXT.saturation;
-
-  /**
-   * Label used for the save color button.
-   *
-   * @default "Save color"
-   */
-  @Prop() intlSaveColor = TEXT.saveColor;
-
-  /**
-   * Label used for the saved colors section
-   *
-   * @default "Saved"
-   */
-  @Prop() intlSaved = TEXT.saved;
-
-  /**
-   * Label used for the value channel
-   *
-   * @default "V"
-   */
-  @Prop() intlV = TEXT.v;
-
-  /**
-   * Label used for the
-   *
-   * @default "Value"
-   */
-  @Prop() intlValue = TEXT.value;
-
-  /**
-   * The scale of the color picker.
-   */
+  /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";
 
   @Watch("scale")
@@ -253,23 +140,29 @@ export class ColorPicker implements InteractiveComponent {
     this.updateCanvasSize(this.fieldAndSliderRenderingContext?.canvas);
   }
 
-  /**
-   * Storage ID for colors.
-   */
+  /** Specifies the storage ID for colors. */
   @Prop({ reflect: true }) storageId: string;
 
-  /** standard UniCode numeral system tag for localization */
-  @Prop({ reflect: true }) numberingSystem?: string;
+  /**
+   * Use this property to override individual strings used by the component.
+   */
+  @Prop({ mutable: true }) messageOverrides: Partial<ColorPickerMessages>;
+
+  @Watch("messageOverrides")
+  onMessagesChange(): void {
+    /* wired up by t9n util */
+  }
+
+  /** Specifies the Unicode numeral system used by the component for localization. */
+  @Prop({ reflect: true }) numberingSystem: NumberingSystem;
 
   /**
-   * The color value.
-   *
-   * This value can be either a {@link https://developer.mozilla.org/en-US/docs/Web/CSS/color|CSS string}
-   * a RGB, HSL or HSV object.
+   * The component's value, where the value can be a CSS color string, or a RGB, HSL or HSV object.
    *
    * The type will be preserved as the color is updated.
    *
    * @default "#007ac2"
+   * @see [CSS Color](https://developer.mozilla.org/en-US/docs/Web/CSS/color)
    * @see [ColorValue](https://github.com/Esri/calcite-components/blob/master/src/components/color-picker/interfaces.ts#L10)
    */
   @Prop({ mutable: true }) value: ColorValue | null = defaultValue;
@@ -347,6 +240,8 @@ export class ColorPicker implements InteractiveComponent {
 
   private sliderThumbState: "idle" | "hover" | "drag" = "idle";
 
+  @State() defaultMessages: ColorPickerMessages;
+
   @State() colorFieldAndSliderInteractive = false;
 
   @State() channelMode: ColorMode = "rgb";
@@ -354,6 +249,20 @@ export class ColorPicker implements InteractiveComponent {
   @State() channels: [number, number, number] = this.toChannels(DEFAULT_COLOR);
 
   @State() dimensions = DIMENSIONS.m;
+
+  @State() effectiveLocale = "";
+
+  @Watch("effectiveLocale")
+  effectiveLocaleChange(): void {
+    updateMessages(this, this.effectiveLocale);
+  }
+
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @internal
+   */
+  @Prop({ mutable: true }) messages: ColorPickerMessages;
 
   @State() savedColors: string[] = [];
 
@@ -381,7 +290,7 @@ export class ColorPicker implements InteractiveComponent {
   /**
    * Fires as the color value changes.
    *
-   * This is similar to the change event with the exception of dragging. When dragging the color field or hue slider thumb, this event fires as the thumb is moved.
+   * Similar to the `calciteColorPickerChange` event with the exception of dragging. When dragging the color field or hue slider thumb, this event fires as the thumb is moved.
    */
   @Event({ cancelable: false }) calciteColorPickerInput: EventEmitter<void>;
 
@@ -457,7 +366,6 @@ export class ColorPicker implements InteractiveComponent {
 
   private handleChannelInput = (event: CustomEvent): void => {
     const input = event.currentTarget as HTMLCalciteInputElement;
-    const internalInput = event.detail.nativeEvent.target as HTMLInputElement;
     const channelIndex = Number(input.getAttribute("data-channel-index"));
 
     const limit =
@@ -477,7 +385,10 @@ export class ColorPicker implements InteractiveComponent {
     }
 
     input.value = inputValue;
-    internalInput.value = inputValue;
+
+    // TODO: refactor calcite-input so we don't need to sync the internals
+    // https://github.com/Esri/calcite-components/issues/6100
+    input.internalSyncChildElValue();
   };
 
   // using @Listen as a workaround for VDOM listener not firing
@@ -550,6 +461,10 @@ export class ColorPicker implements InteractiveComponent {
   };
 
   private handleColorFieldAndSliderPointerDown = (event: PointerEvent): void => {
+    if (!isPrimaryPointerButton(event)) {
+      return;
+    }
+
     const { offsetX, offsetY } = event;
     const region = this.getCanvasRegion(offsetY);
 
@@ -573,7 +488,11 @@ export class ColorPicker implements InteractiveComponent {
       this.fieldAndSliderRenderingContext.canvas.getBoundingClientRect();
   };
 
-  private globalPointerUpHandler = (): void => {
+  private globalPointerUpHandler = (event: PointerEvent): void => {
+    if (!isPrimaryPointerButton(event)) {
+      return;
+    }
+
     const previouslyDragging = this.sliderThumbState === "drag" || this.hueThumbState === "drag";
 
     this.hueThumbState = "idle";
@@ -723,7 +642,8 @@ export class ColorPicker implements InteractiveComponent {
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
-    return focusElement(this.colorFieldScopeNode);
+    await componentLoaded(this);
+    this.el.focus();
   }
 
   //--------------------------------------------------------------------------
@@ -732,7 +652,9 @@ export class ColorPicker implements InteractiveComponent {
   //
   //--------------------------------------------------------------------------
 
-  componentWillLoad(): void {
+  async componentWillLoad(): Promise<void> {
+    setUpLoadableComponent(this);
+
     const { allowEmpty, color, format, value } = this;
 
     const willSetNoColor = allowEmpty && !value;
@@ -755,11 +677,24 @@ export class ColorPicker implements InteractiveComponent {
     if (this.storageId && localStorage.getItem(storageKey)) {
       this.savedColors = JSON.parse(localStorage.getItem(storageKey));
     }
+
+    await setUpMessages(this);
+  }
+
+  connectedCallback(): void {
+    connectLocalized(this);
+    connectMessages(this);
+  }
+
+  componentDidLoad(): void {
+    setComponentLoaded(this);
   }
 
   disconnectedCallback(): void {
     document.removeEventListener("pointermove", this.globalPointerMoveHandler);
     document.removeEventListener("pointerup", this.globalPointerUpHandler);
+    disconnectLocalized(this);
+    disconnectMessages(this);
   }
 
   componentDidRender(): void {
@@ -773,19 +708,8 @@ export class ColorPicker implements InteractiveComponent {
   //--------------------------------------------------------------------------
 
   render(): VNode {
-    const {
-      allowEmpty,
-      color,
-      intlDeleteColor,
-      hideHex,
-      hideChannels,
-      hideSaved,
-      intlHex,
-      intlSaved,
-      intlSaveColor,
-      savedColors,
-      scale
-    } = this;
+    const { allowEmpty, color, messages, hideHex, hideChannels, hideSaved, savedColors, scale } =
+      this;
     const selectedColorInHex = color ? color.hex() : null;
     const hexInputScale = scale === "l" ? "m" : "s";
     const {
@@ -819,7 +743,7 @@ export class ColorPicker implements InteractiveComponent {
             ref={this.initColorFieldAndSlider}
           />
           <div
-            aria-label={vertical ? this.intlValue : this.intlSaturation}
+            aria-label={vertical ? messages.value : messages.saturation}
             aria-valuemax={vertical ? HSV_LIMITS.v : HSV_LIMITS.s}
             aria-valuemin="0"
             aria-valuenow={(vertical ? color?.saturationv() : color?.value()) || "0"}
@@ -831,7 +755,7 @@ export class ColorPicker implements InteractiveComponent {
             tabindex="0"
           />
           <div
-            aria-label={this.intlHue}
+            aria-label={messages.hue}
             aria-valuemax={HSV_LIMITS.h}
             aria-valuemin="0"
             aria-valuenow={color?.round().hue() || DEFAULT_COLOR.round().hue()}
@@ -858,11 +782,12 @@ export class ColorPicker implements InteractiveComponent {
                     [CSS.headerHex]: true
                   }}
                 >
-                  {intlHex}
+                  {messages.hex}
                 </span>
                 <calcite-color-picker-hex-input
                   allowEmpty={allowEmpty}
                   class={CSS.control}
+                  hexLabel={messages.hex}
                   numberingSystem={this.numberingSystem}
                   onCalciteColorPickerHexInputChange={this.handleHexInputChange}
                   scale={hexInputScale}
@@ -878,7 +803,7 @@ export class ColorPicker implements InteractiveComponent {
                 }}
                 scale={hexInputScale}
               >
-                <calcite-tab-nav slot="tab-nav">
+                <calcite-tab-nav slot="title-group">
                   {this.renderChannelsTabTitle("rgb")}
                   {this.renderChannelsTabTitle("hsv")}
                 </calcite-tab-nav>
@@ -891,15 +816,15 @@ export class ColorPicker implements InteractiveComponent {
         {hideSaved ? null : (
           <div class={{ [CSS.savedColorsSection]: true, [CSS.section]: true }}>
             <div class={CSS.header}>
-              <label>{intlSaved}</label>
+              <label>{messages.saved}</label>
               <div class={CSS.savedColorsButtons}>
                 <calcite-button
                   appearance="transparent"
                   class={CSS.deleteColor}
-                  color="neutral"
                   disabled={noColor}
                   iconStart="minus"
-                  label={intlDeleteColor}
+                  kind="neutral"
+                  label={messages.deleteColor}
                   onClick={this.deleteColor}
                   scale={hexInputScale}
                   type="button"
@@ -907,10 +832,10 @@ export class ColorPicker implements InteractiveComponent {
                 <calcite-button
                   appearance="transparent"
                   class={CSS.saveColor}
-                  color="neutral"
                   disabled={noColor}
                   iconStart="plus"
-                  label={intlSaveColor}
+                  kind="neutral"
+                  label={messages.saveColor}
                   onClick={this.saveColor}
                   scale={hexInputScale}
                   type="button"
@@ -950,17 +875,17 @@ export class ColorPicker implements InteractiveComponent {
   };
 
   private renderChannelsTabTitle = (channelMode: this["channelMode"]): VNode => {
-    const { channelMode: activeChannelMode, intlRgb, intlHsv } = this;
-    const active = channelMode === activeChannelMode;
-    const label = channelMode === "rgb" ? intlRgb : intlHsv;
+    const { channelMode: activeChannelMode, messages } = this;
+    const selected = channelMode === activeChannelMode;
+    const label = channelMode === "rgb" ? messages.rgb : messages.hsv;
 
     return (
       <calcite-tab-title
-        active={active}
         class={CSS.colorMode}
         data-color-mode={channelMode}
         key={channelMode}
         onCalciteTabsActivate={this.handleTabActivate}
+        selected={selected}
       >
         {label}
       </calcite-tab-title>
@@ -968,33 +893,19 @@ export class ColorPicker implements InteractiveComponent {
   };
 
   private renderChannelsTab = (channelMode: this["channelMode"]): VNode => {
-    const {
-      channelMode: activeChannelMode,
-      channels,
-      intlB,
-      intlBlue,
-      intlG,
-      intlGreen,
-      intlH,
-      intlHue,
-      intlR,
-      intlRed,
-      intlS,
-      intlSaturation,
-      intlV,
-      intlValue
-    } = this;
-
-    const active = channelMode === activeChannelMode;
+    const { channelMode: activeChannelMode, channels, messages } = this;
+    const selected = channelMode === activeChannelMode;
     const isRgb = channelMode === "rgb";
-    const channelLabels = isRgb ? [intlR, intlG, intlB] : [intlH, intlS, intlV];
+    const channelLabels = isRgb
+      ? [messages.r, messages.g, messages.b]
+      : [messages.h, messages.s, messages.v];
     const channelAriaLabels = isRgb
-      ? [intlRed, intlGreen, intlBlue]
-      : [intlHue, intlSaturation, intlValue];
+      ? [messages.red, messages.green, messages.blue]
+      : [messages.hue, messages.saturation, messages.value];
     const direction = getElementDir(this.el);
 
     return (
-      <calcite-tab active={active} class={CSS.control} key={channelMode}>
+      <calcite-tab class={CSS.control} key={channelMode} selected={selected}>
         {/* channel order should not be mirrored */}
         <div class={CSS.channels} dir="ltr">
           {channels.map((channel, index) =>
@@ -1024,6 +935,7 @@ export class ColorPicker implements InteractiveComponent {
       data-channel-index={index}
       dir={direction}
       label={ariaLabel}
+      lang={this.effectiveLocale}
       numberButtonType="none"
       numberingSystem={this.numberingSystem}
       onCalciteInputChange={this.handleChannelChange}

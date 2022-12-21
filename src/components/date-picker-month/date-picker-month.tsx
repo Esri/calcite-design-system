@@ -45,13 +45,13 @@ export class DatePickerMonth {
   /** End date currently active  */
   @Prop() endDate?: Date;
 
-  /** Minimum date of the calendar below which is disabled.*/
+  /** Specifies the earliest allowed date (`"yyyy-mm-dd"`). */
   @Prop() min: Date;
 
-  /** Maximum date of the calendar above which is disabled.*/
+  /** Specifies the latest allowed date (`"yyyy-mm-dd"`). */
   @Prop() max: Date;
 
-  /** specify the scale of the date picker */
+  /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale;
 
   /**
@@ -72,8 +72,10 @@ export class DatePickerMonth {
 
   /**
    * Event emitted when user selects the date.
+   *
+   * @internal
    */
-  @Event({ cancelable: false }) calciteDatePickerSelect: EventEmitter<Date>;
+  @Event({ cancelable: false }) calciteInternalDatePickerSelect: EventEmitter<Date>;
 
   /**
    * Event emitted when user hovers the date.
@@ -84,8 +86,10 @@ export class DatePickerMonth {
 
   /**
    * Active date for the user keyboard access.
+   *
+   * @internal
    */
-  @Event({ cancelable: false }) calciteDatePickerActiveDateChange: EventEmitter<Date>;
+  @Event({ cancelable: false }) calciteInternalDatePickerActiveDateChange: EventEmitter<Date>;
 
   /**
    * @internal
@@ -159,7 +163,7 @@ export class DatePickerMonth {
     this.activeFocus = false;
   };
 
-  @Listen("mouseout")
+  @Listen("pointerout")
   mouseoutHandler(): void {
     this.calciteInternalDatePickerMouseOut.emit();
   }
@@ -241,7 +245,9 @@ export class DatePickerMonth {
   private addMonths(step: number) {
     const nextDate = new Date(this.activeDate);
     nextDate.setMonth(this.activeDate.getMonth() + step);
-    this.calciteDatePickerActiveDateChange.emit(dateFromRange(nextDate, this.min, this.max));
+    this.calciteInternalDatePickerActiveDateChange.emit(
+      dateFromRange(nextDate, this.min, this.max)
+    );
     this.activeFocus = true;
   }
 
@@ -253,7 +259,9 @@ export class DatePickerMonth {
   private addDays(step = 0) {
     const nextDate = new Date(this.activeDate);
     nextDate.setDate(this.activeDate.getDate() + step);
-    this.calciteDatePickerActiveDateChange.emit(dateFromRange(nextDate, this.min, this.max));
+    this.calciteInternalDatePickerActiveDateChange.emit(
+      dateFromRange(nextDate, this.min, this.max)
+    );
     this.activeFocus = true;
   }
 
@@ -376,7 +384,7 @@ export class DatePickerMonth {
 
   daySelect = (event: CustomEvent): void => {
     const target = event.target as HTMLCalciteDatePickerDayElement;
-    this.calciteDatePickerSelect.emit(target.value);
+    this.calciteInternalDatePickerSelect.emit(target.value);
   };
 
   /**
@@ -415,7 +423,6 @@ export class DatePickerMonth {
         endOfRange={this.isEndOfRange(date)}
         highlighted={this.betweenSelectedRange(date)}
         key={date.toDateString()}
-        localeData={this.localeData}
         onCalciteDaySelect={this.daySelect}
         onCalciteInternalDayHover={this.dayHover}
         range={!!this.startDate && !!this.endDate && !sameDate(this.startDate, this.endDate)}

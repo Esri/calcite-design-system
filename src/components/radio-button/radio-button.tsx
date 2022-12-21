@@ -24,6 +24,12 @@ import {
 import { CSS } from "./resources";
 import { getRoundRobinIndex } from "../../utils/array";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import {
+  setUpLoadableComponent,
+  setComponentLoaded,
+  LoadableComponent,
+  componentLoaded
+} from "../../utils/loadable";
 
 @Component({
   tag: "calcite-radio-button",
@@ -31,7 +37,7 @@ import { InteractiveComponent, updateHostInteraction } from "../../utils/interac
   shadow: true
 })
 export class RadioButton
-  implements LabelableComponent, CheckableFormComponent, InteractiveComponent
+  implements LabelableComponent, CheckableFormComponent, InteractiveComponent, LoadableComponent
 {
   //--------------------------------------------------------------------------
   //
@@ -47,7 +53,7 @@ export class RadioButton
   //
   //--------------------------------------------------------------------------
 
-  /** When true, the component is checked. */
+  /** When `true`, the component is checked. */
   @Prop({ mutable: true, reflect: true }) checked = false;
 
   @Watch("checked")
@@ -59,7 +65,7 @@ export class RadioButton
     this.calciteInternalRadioButtonCheckedChange.emit();
   }
 
-  /** When true, interaction is prevented and the component is displayed with lower opacity. */
+  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @Prop({ reflect: true }) disabled = false;
 
   /**
@@ -69,10 +75,10 @@ export class RadioButton
    */
   @Prop({ mutable: true, reflect: true }) focused = false;
 
-  /** The id attribute of the component. When omitted, a globally unique identifier is used. */
+  /** The `id` of the component. When omitted, a globally unique identifier is used. */
   @Prop({ reflect: true, mutable: true }) guid: string;
 
-  /** When true, the component is not displayed and is not focusable or checkable. */
+  /** When `true`, the component is not displayed and is not focusable or checkable. */
   @Prop({ reflect: true }) hidden = false;
 
   /**
@@ -97,7 +103,7 @@ export class RadioButton
     this.checkLastRadioButton();
   }
 
-  /** When true, the component must have a value selected from the `calcite-radio-button-group` on form submission. */
+  /** When `true`, the component must have a value selected from the `calcite-radio-button-group` in order for the form to submit. */
   @Prop({ reflect: true }) required = false;
 
   /** Specifies the size of the component inherited from the `calcite-radio-button-group`. */
@@ -133,6 +139,8 @@ export class RadioButton
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
+    await componentLoaded(this);
+
     if (!this.disabled) {
       focusElement(this.containerEl);
     }
@@ -266,7 +274,7 @@ export class RadioButton
    * Fires only when the radio button is checked.  This behavior is identical to the native HTML input element.
    * Since this event does not fire when the radio button is unchecked, it's not recommended to attach a listener for this event
    * directly on the element, but instead either attach it to a node that contains all of the radio buttons in the group
-   * or use the calciteRadioButtonGroupChange event if using this with calcite-radio-button-group.
+   * or use the `calciteRadioButtonGroupChange` event if using this with `calcite-radio-button-group`.
    */
   @Event({ cancelable: false }) calciteRadioButtonChange: EventEmitter<void>;
 
@@ -291,12 +299,12 @@ export class RadioButton
   //
   //--------------------------------------------------------------------------
 
-  @Listen("mouseenter")
+  @Listen("pointerenter")
   mouseenter(): void {
     this.hovered = true;
   }
 
-  @Listen("mouseleave")
+  @Listen("pointerleave")
   mouseleave(): void {
     this.hovered = false;
   }
@@ -390,7 +398,13 @@ export class RadioButton
     connectForm(this);
   }
 
+  componentWillLoad(): void {
+    setUpLoadableComponent(this);
+  }
+
   componentDidLoad(): void {
+    setComponentLoaded(this);
+
     if (this.focused && !this.disabled) {
       this.setFocus();
     }

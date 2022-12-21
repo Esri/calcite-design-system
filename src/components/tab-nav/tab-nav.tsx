@@ -12,7 +12,12 @@ import {
   Watch
 } from "@stencil/core";
 import { TabChangeEventDetail } from "../tab/interfaces";
-import { getElementDir, filterDirectChildren } from "../../utils/dom";
+import {
+  getElementDir,
+  filterDirectChildren,
+  focusElementInGroup,
+  FocusElementInGroupDestination
+} from "../../utils/dom";
 import { TabID, TabLayout } from "../tabs/interfaces";
 import { TabPosition } from "../tabs/interfaces";
 import { Scale } from "../interfaces";
@@ -146,7 +151,7 @@ export class TabNav {
     // if every tab title is active select the first tab.
     if (
       this.tabTitles.length &&
-      this.tabTitles.every((title) => !title.active) &&
+      this.tabTitles.every((title) => !title.selected) &&
       !this.selectedTab
     ) {
       this.tabTitles[0].getTabIdentifier().then((tab) => {
@@ -193,34 +198,22 @@ export class TabNav {
 
   @Listen("calciteInternalTabsFocusPrevious")
   focusPreviousTabHandler(event: CustomEvent): void {
-    const currentIndex = this.getIndexOfTabTitle(
-      event.target as HTMLCalciteTabTitleElement,
-      this.enabledTabTitles
-    );
-
-    const previousTab =
-      this.enabledTabTitles[currentIndex - 1] ||
-      this.enabledTabTitles[this.enabledTabTitles.length - 1];
-
-    previousTab?.focus();
-
-    event.stopPropagation();
-    event.preventDefault();
+    this.handleTabFocus(event, event.target as HTMLCalciteTabTitleElement, "previous");
   }
 
   @Listen("calciteInternalTabsFocusNext")
   focusNextTabHandler(event: CustomEvent): void {
-    const currentIndex = this.getIndexOfTabTitle(
-      event.target as HTMLCalciteTabTitleElement,
-      this.enabledTabTitles
-    );
+    this.handleTabFocus(event, event.target as HTMLCalciteTabTitleElement, "next");
+  }
 
-    const nextTab = this.enabledTabTitles[currentIndex + 1] || this.enabledTabTitles[0];
+  @Listen("calciteInternalTabsFocusFirst")
+  focusFirstTabHandler(event: CustomEvent): void {
+    this.handleTabFocus(event, event.target as HTMLCalciteTabTitleElement, "first");
+  }
 
-    nextTab?.focus();
-
-    event.stopPropagation();
-    event.preventDefault();
+  @Listen("calciteInternalTabsFocusLast")
+  focusLastTabHandler(event: CustomEvent): void {
+    this.handleTabFocus(event, event.target as HTMLCalciteTabTitleElement, "last");
   }
 
   @Listen("calciteInternalTabsActivate")
@@ -232,12 +225,8 @@ export class TabNav {
     event.preventDefault();
   }
 
-  @Listen("calciteTabsActivate") activateTabHandler(
-    event: CustomEvent<TabChangeEventDetail>
-  ): void {
-    this.calciteTabChange.emit({
-      tab: this.selectedTab
-    });
+  @Listen("calciteTabsActivate") activateTabHandler(event: CustomEvent<void>): void {
+    this.calciteTabChange.emit();
 
     event.stopPropagation();
     event.preventDefault();
@@ -250,7 +239,7 @@ export class TabNav {
    */
   @Listen("calciteInternalTabTitleRegister")
   updateTabTitles(event: CustomEvent<TabID>): void {
-    if ((event.target as HTMLCalciteTabTitleElement).active) {
+    if ((event.target as HTMLCalciteTabTitleElement).selected) {
       this.selectedTab = event.detail;
     }
   }
@@ -281,10 +270,8 @@ export class TabNav {
 
   /**
    * Emits when the selected `calcite-tab` changes.
-   *
-   * @see [TabChangeEventDetail](https://github.com/Esri/calcite-components/blob/master/src/components/tab/interfaces.ts#L1)
    */
-  @Event({ cancelable: false }) calciteTabChange: EventEmitter<TabChangeEventDetail>;
+  @Event({ cancelable: false }) calciteTabChange: EventEmitter<void>;
 
   /**
    * @internal
@@ -323,6 +310,17 @@ export class TabNav {
   //  Private Methods
   //
   //--------------------------------------------------------------------------
+
+  handleTabFocus = (
+    event: CustomEvent,
+    el: HTMLCalciteTabTitleElement,
+    destination: FocusElementInGroupDestination
+  ): void => {
+    focusElementInGroup(this.enabledTabTitles, el, destination);
+
+    event.stopPropagation();
+    event.preventDefault();
+  };
 
   handleContainerScroll = (): void => {
     // remove active indicator transition duration while container is scrolling to prevent wobble

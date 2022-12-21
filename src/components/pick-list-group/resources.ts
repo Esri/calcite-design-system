@@ -7,5 +7,3 @@ export const CSS = {
 export const SLOTS = {
   parentItem: "parent-item"
 };
-
-export const HEADING_LEVEL = 3;

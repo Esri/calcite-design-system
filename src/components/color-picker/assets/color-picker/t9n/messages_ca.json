@@ -1,0 +1,21 @@
+{
+  "b": "B",
+  "blue": "Blau",
+  "deleteColor": "Suprimeix el color",
+  "g": "V",
+  "green": "Verd",
+  "h": "T",
+  "hsv": "HSV",
+  "hex": "Hexadecimal",
+  "hue": "Hue",
+  "noColor": "Cap color",
+  "r": "R",
+  "red": "Vermell",
+  "rgb": "RGB",
+  "s": "S",
+  "saturation": "Saturació",
+  "saveColor": "Desa el color",
+  "saved": "Desat",
+  "v": "D",
+  "value": "Valor"
+}

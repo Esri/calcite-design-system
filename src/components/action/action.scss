@@ -3,7 +3,7 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-action-indicator-color: optionally specify the color of the action indicator
+ * @prop --calcite-action-indicator-color: Specifies the color of the component's indicator.
  */
 
 :host {
@@ -145,8 +145,6 @@
   @apply bg-foreground-1;
 }
 
-//clear is deprecated. use transparent
-:host([appearance="clear"]) .button,
 :host([appearance="transparent"]) .button {
   @apply bg-transparent
     transition-shadow
@@ -154,25 +152,18 @@
     ease-in-out;
 }
 
-:host([appearance="clear"]) .button:hover,
-:host([appearance="clear"]) .button:focus,
 :host([appearance="transparent"]) .button:hover,
 :host([appearance="transparent"]) .button:focus {
   @apply bg-transparent;
   box-shadow: 0 0 0 2px theme("borderColor.color.1") inset;
 }
 
-:host([active][appearance="clear"]) .button,
-:host([active][appearance="clear"]) .button:hover,
-:host([active][appearance="clear"]) .button:focus,
 :host([active][appearance="transparent"]) .button,
 :host([active][appearance="transparent"]) .button:hover,
 :host([active][appearance="transparent"]) .button:focus {
   @apply text-color-1 fill-color-1 bg-foreground-3;
 }
 
-:host([appearance="clear"][loading]) .button,
-:host([appearance="clear"][disabled]) .button,
 :host([appearance="transparent"][loading]) .button,
 :host([appearance="transparent"][disabled]) .button {
   @apply bg-transparent;
@@ -245,4 +236,8 @@
 
 :host([indicator][active]) .button::after {
   border-color: theme("colors.background.foreground.3");
+}
+
+.indicator-text {
+  @apply sr-only;
 }

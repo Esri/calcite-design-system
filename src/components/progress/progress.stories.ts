@@ -1,4 +1,4 @@
-import { select, number, text, boolean } from "@storybook/addon-knobs";
+import { select, number, text } from "@storybook/addon-knobs";
 
 import { themesDarkDefault } from "../../../.storybook/utils";
 import readme from "./readme.md";
@@ -26,7 +26,7 @@ export const darkThemeRTL_TestOnly = (): string => html`
     class="calcite-theme-dark"
     type="${select("type", { determinate: "determinate", indeterminate: "indeterminate" }, "indeterminate")}"
     value="${number("value", 0.2, { range: true, min: 0, max: 1, step: 0.01 })}"
-    text="${text("text", "")}"
+    text="${text("text", "% Complete (optional text)")}"
   ></calcite-progress>
 `;
 

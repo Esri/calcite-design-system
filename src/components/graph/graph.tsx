@@ -71,6 +71,7 @@ export class Graph {
     if (!data || data.length === 0) {
       return (
         <svg
+          aria-hidden="true"
           class="svg"
           height={height}
           preserveAspectRatio="none"
@@ -100,6 +101,7 @@ export class Graph {
     const fill = colorStops ? `url(#linear-gradient-${id})` : undefined;
     return (
       <svg
+        aria-hidden="true"
         class="svg"
         height={height}
         preserveAspectRatio="none"

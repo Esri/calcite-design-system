@@ -8,16 +8,26 @@ import {
   Method,
   VNode,
   Fragment,
-  State
+  State,
+  Watch
 } from "@stencil/core";
 import { Scale } from "../interfaces";
 import {
-  GlobalAttrComponent,
-  unwatchGlobalAttributes,
-  watchGlobalAttributes
-} from "../../utils/globalAttributes";
-import { localizeNumberString } from "../../utils/locale";
-import { CSS, TEXT } from "./resources";
+  connectLocalized,
+  disconnectLocalized,
+  LocalizedComponent,
+  numberStringFormatter,
+  NumberingSystem
+} from "../../utils/locale";
+import { CSS } from "./resources";
+import { PaginationMessages } from "./assets/pagination/t9n";
+import {
+  connectMessages,
+  disconnectMessages,
+  setUpMessages,
+  T9nComponent,
+  updateMessages
+} from "../../utils/t9n";
 
 const maxPagesDisplayed = 5;
 export interface PaginationDetail {
@@ -29,9 +39,12 @@ export interface PaginationDetail {
 @Component({
   tag: "calcite-pagination",
   styleUrl: "pagination.scss",
-  shadow: true
+  shadow: {
+    delegatesFocus: true
+  },
+  assetsDirs: ["assets"]
 })
-export class Pagination implements GlobalAttrComponent {
+export class Pagination implements LocalizedComponent, LocalizedComponent, T9nComponent {
   //--------------------------------------------------------------------------
   //
   //  Public Properties
@@ -39,39 +52,33 @@ export class Pagination implements GlobalAttrComponent {
   //--------------------------------------------------------------------------
 
   /**
-   * When true, number values are displayed with a group separator corresponding to the language and country format.
+   * When `true`, number values are displayed with a group separator corresponding to the language and country format.
    */
   @Prop({ reflect: true }) groupSeparator = false;
+
+  /**
+   * Use this property to override individual strings used by the component.
+   */
+  @Prop({ mutable: true }) messageOverrides: Partial<PaginationMessages>;
+
+  @Watch("messageOverrides")
+  onMessagesChange(): void {
+    /* wired up by t9n util */
+  }
 
   /** Specifies the number of items per page. */
   @Prop({ reflect: true }) num = 20;
 
   /**
    * Specifies the Unicode numeral system used by the component for localization.
-   *
-   * @mdn [numberingSystem](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/Locale/numberingSystem)
    */
-  @Prop() numberingSystem?: string;
+  @Prop() numberingSystem: NumberingSystem;
 
   /** Specifies the starting item number. */
   @Prop({ mutable: true, reflect: true }) start = 1;
 
   /** Specifies the total number of items. */
   @Prop({ reflect: true }) total = 0;
-
-  /**
-   * Accessible name for the component's next button.
-   *
-   * @default "Next"
-   */
-  @Prop() textLabelNext: string = TEXT.nextLabel;
-
-  /**
-   * Accessible name for the component's previous button.
-   *
-   * @default "Previous"
-   */
-  @Prop() textLabelPrevious: string = TEXT.previousLabel;
 
   /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";
@@ -88,7 +95,31 @@ export class Pagination implements GlobalAttrComponent {
   //  State
   //
   //--------------------------------------------------------------------------
-  @State() globalAttributes = {};
+
+  @State() defaultMessages: PaginationMessages;
+
+  @State() effectiveLocale = "";
+
+  @Watch("effectiveLocale")
+  effectiveLocaleChange(): void {
+    updateMessages(this, this.effectiveLocale);
+  }
+
+  @Watch("effectiveLocale")
+  effectiveLocaleWatcher(): void {
+    numberStringFormatter.numberFormatOptions = {
+      locale: this.effectiveLocale,
+      numberingSystem: this.numberingSystem,
+      useGrouping: this.groupSeparator
+    };
+  }
+
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @internal
+   */
+  @Prop({ mutable: true }) messages: PaginationMessages;
 
   //--------------------------------------------------------------------------
   //
@@ -98,17 +129,8 @@ export class Pagination implements GlobalAttrComponent {
 
   /**
    * Emits when the selected page changes.
-   *
-   * @deprecated use calcitePaginationChange instead
    */
-  @Event({ cancelable: false }) calcitePaginationUpdate: EventEmitter<PaginationDetail>;
-
-  /**
-   * Emits when the selected page changes.
-   *
-   * @see [PaginationDetail](https://github.com/Esri/calcite-components/blob/master/src/components/pagination/pagination.tsx#L23)
-   */
-  @Event({ cancelable: false }) calcitePaginationChange: EventEmitter<PaginationDetail>;
+  @Event({ cancelable: false }) calcitePaginationChange: EventEmitter<void>;
 
   // --------------------------------------------------------------------------
   //
@@ -117,11 +139,17 @@ export class Pagination implements GlobalAttrComponent {
   // --------------------------------------------------------------------------
 
   connectedCallback(): void {
-    watchGlobalAttributes(this, ["lang"]);
+    connectLocalized(this);
+    connectMessages(this);
+  }
+
+  async componentWillLoad(): Promise<void> {
+    await setUpMessages(this);
   }
 
   disconnectedCallback(): void {
-    unwatchGlobalAttributes(this);
+    disconnectLocalized(this);
+    disconnectMessages(this);
   }
 
   // --------------------------------------------------------------------------
@@ -131,12 +159,14 @@ export class Pagination implements GlobalAttrComponent {
   // --------------------------------------------------------------------------
 
   /** Go to the next page of results. */
-  @Method() async nextPage(): Promise<void> {
+  @Method()
+  async nextPage(): Promise<void> {
     this.start = Math.min(this.getLastStart(), this.start + this.num);
   }
 
   /** Go to the previous page of results. */
-  @Method() async previousPage(): Promise<void> {
+  @Method()
+  async previousPage(): Promise<void> {
     this.start = Math.max(1, this.start - this.num);
   }
 
@@ -171,27 +201,8 @@ export class Pagination implements GlobalAttrComponent {
   }
 
   private emitUpdate() {
-    const changePayload = {
-      start: this.start,
-      total: this.total,
-      num: this.num
-    };
-
-    this.calcitePaginationChange.emit(changePayload);
-    this.calcitePaginationUpdate.emit(changePayload);
+    this.calcitePaginationChange.emit();
   }
-
-  /**
-   * Returns a string representing the localized label value based on groupSeparator prop being on or off.
-   *
-   * @param value
-   */
-  private determineGroupSeparator = (value): string => {
-    const lang = this.globalAttributes["lang"] || document.documentElement.lang || "en";
-    return this.groupSeparator
-      ? localizeNumberString(value.toString(), lang, this.groupSeparator, this.numberingSystem)
-      : value;
-  };
 
   //--------------------------------------------------------------------------
   //
@@ -236,7 +247,13 @@ export class Pagination implements GlobalAttrComponent {
 
   renderPage(start: number): VNode {
     const page = Math.floor(start / this.num) + (this.num === 1 ? 0 : 1);
-    const displayedPage = this.determineGroupSeparator(page);
+    numberStringFormatter.numberFormatOptions = {
+      locale: this.effectiveLocale,
+      numberingSystem: this.numberingSystem,
+      useGrouping: this.groupSeparator
+    };
+
+    const displayedPage = numberStringFormatter.localize(page.toString());
 
     return (
       <button
@@ -273,7 +290,7 @@ export class Pagination implements GlobalAttrComponent {
     return (
       <Fragment>
         <button
-          aria-label={this.textLabelPrevious}
+          aria-label={this.messages.previous}
           class={{
             [CSS.previous]: true,
             [CSS.disabled]: prevDisabled
@@ -289,7 +306,7 @@ export class Pagination implements GlobalAttrComponent {
         {this.renderRightEllipsis()}
         {this.renderPage(this.getLastStart())}
         <button
-          aria-label={this.textLabelNext}
+          aria-label={this.messages.next}
           class={{
             [CSS.next]: true,
             [CSS.disabled]: nextDisabled

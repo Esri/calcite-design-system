@@ -25,7 +25,7 @@ export class ShellCenterRow implements ConditionalSlotComponent {
   // --------------------------------------------------------------------------
 
   /**
-   * When true, the content area displays like a floating panel.
+   * When `true`, the content area displays like a floating panel.
    */
   @Prop({ reflect: true }) detached = false;
 
@@ -35,7 +35,7 @@ export class ShellCenterRow implements ConditionalSlotComponent {
   @Prop({ reflect: true }) heightScale: Scale = "s";
 
   /**
-   * Specifies the component's position. Will be flipped when the element direction is right-to-left ("rtl").
+   * Specifies the component's position. Will be flipped when the element direction is right-to-left (`"rtl"`).
    */
   @Prop({ reflect: true }) position: Position = "end";
 

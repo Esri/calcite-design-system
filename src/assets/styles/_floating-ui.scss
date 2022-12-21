@@ -2,17 +2,16 @@ $floating-ui-transform-bottom: translateY(-5px);
 $floating-ui-transform-top: translateY(5px);
 $floating-ui-transform-left: translateX(5px);
 $floating-ui-transform-right: translateX(-5px);
-$floating-ui-default-z-index: 900;
 
 :root {
   --calcite-floating-ui-transition: var(--calcite-animation-timing);
+  --calcite-floating-ui-z-index: theme("zIndex.dropdown");
 }
 
 @mixin floatingUIAnim {
   .calcite-floating-ui-anim {
     position: relative;
     transition: var(--calcite-floating-ui-transition);
-    visibility: hidden;
     transition-property: transform, visibility, opacity;
     opacity: 0;
     box-shadow: $shadow-2;
@@ -22,7 +21,6 @@ $floating-ui-default-z-index: 900;
 
 @mixin floatingUIAnimActive {
   opacity: 1;
-  visibility: visible;
   transform: translate(0);
 }
 
@@ -76,32 +74,23 @@ $floating-ui-default-z-index: 900;
   }
 }
 
-@mixin floatingUIContainer($zIndex: $floating-ui-default-z-index) {
+@mixin floatingUIContainer() {
   display: block;
   position: absolute;
-  z-index: $zIndex;
-  transform: scale(0);
+  z-index: var(--calcite-floating-ui-z-index);
 }
 
 @mixin floatingUIWrapper {
   visibility: hidden;
-  pointer-events: none;
-  inline-size: 0;
-  block-size: 0;
-  overflow: hidden;
 }
 
 @mixin floatingUIWrapperActive {
-  pointer-events: initial;
   visibility: visible;
-  inline-size: unset;
-  block-size: unset;
-  overflow: unset;
 }
 
-@mixin floatingUIHost($zIndex: $floating-ui-default-z-index) {
+@mixin floatingUIHost() {
   :host {
-    @include floatingUIContainer($zIndex);
+    @include floatingUIContainer();
   }
 
   @include floatingUIHostAnim();
@@ -136,13 +125,17 @@ $pointer_offset: -$pointer_size * 0.5;
     inset-block-start: $pointer_offset;
   }
 
+  :host([data-placement^="right"]) .arrow,
   :host([data-placement^="left"]) .arrow {
     direction: ltr;
+    text-align: start;
+  }
+
+  :host([data-placement^="left"]) .arrow {
     inset-inline-end: $pointer_offset;
   }
 
   :host([data-placement^="right"]) .arrow {
-    direction: ltr;
     inset-inline-start: $pointer_offset;
   }
 }

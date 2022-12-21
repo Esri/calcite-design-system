@@ -7,7 +7,7 @@ import { themesDarkDefault } from "../../../.storybook/utils";
 
 const contentHTML = `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua`;
 
-const referenceElementHTML = `Ut enim ad minim veniam, quis <calcite-button appearance="transparent" color="neutral" title="Reference element" id="reference-element">nostrud exercitation</calcite-button> ullamco laboris nisi ut aliquip ex ea commodo consequat.`;
+const referenceElementHTML = `Ut enim ad minim veniam, quis <calcite-button appearance="transparent" kind="neutral" title="Reference element" id="reference-element">nostrud exercitation</calcite-button> ullamco laboris nisi ut aliquip ex ea commodo consequat.`;
 
 export default {
   title: "Components/Tooltip",
@@ -65,3 +65,10 @@ export const darkThemeRTL_TestOnly = (): string => html`
 `;
 
 darkThemeRTL_TestOnly.parameters = { themes: themesDarkDefault };
+
+export const rightAligned_TestOnly = (): string => html`<div style="text-align: right">
+  <a href="#" id="tooltip-button">Hover for Tooltip</a>
+  <calcite-tooltip open label="Example label" reference-element="tooltip-button">
+    <span>Tooltip content lorem ipsum</span>
+  </calcite-tooltip>
+</div>`;

@@ -20,6 +20,8 @@ import {
   deselectRemovedItems,
   getItemData,
   handleFilter,
+  handleFilterEvent,
+  handleInitialFilter,
   calciteListFocusOutHandler,
   initialize,
   initializeObserver,
@@ -35,6 +37,12 @@ import List from "./shared-list-render";
 import { HeadingLevel } from "../functional/Heading";
 import { createObserver } from "../../utils/observers";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import {
+  setUpLoadableComponent,
+  setComponentLoaded,
+  LoadableComponent,
+  componentLoaded
+} from "../../utils/loadable";
 
 /**
  * @slot - A slot for adding `calcite-pick-list-item` or `calcite-pick-list-group` elements. Items are displayed as a vertical list.
@@ -47,7 +55,7 @@ import { InteractiveComponent, updateHostInteraction } from "../../utils/interac
 })
 export class PickList<
   ItemElement extends HTMLCalcitePickListItemElement = HTMLCalcitePickListItemElement
-> implements InteractiveComponent
+> implements InteractiveComponent, LoadableComponent
 {
   // --------------------------------------------------------------------------
   //
@@ -56,12 +64,26 @@ export class PickList<
   // --------------------------------------------------------------------------
 
   /**
-   * When true, interaction is prevented and the component is displayed with lower opacity.
+   * When `true`, interaction is prevented and the component is displayed with lower opacity.
    */
   @Prop({ reflect: true }) disabled = false;
 
   /**
-   * When true, an input appears at the top of the list that can be used by end users to filter items in the list.
+   * **read-only** The currently filtered items
+   *
+   * @readonly
+   */
+  @Prop({ mutable: true }) filteredItems: HTMLCalcitePickListItemElement[] = [];
+
+  /**
+   * **read-only** The currently filtered items
+   *
+   * @readonly
+   */
+  @Prop({ mutable: true }) filteredData: ItemData = [];
+
+  /**
+   * When `true`, an input appears at the top of the list that can be used by end users to filter items in the list.
    */
   @Prop({ reflect: true }) filterEnabled = false;
 
@@ -71,25 +93,30 @@ export class PickList<
   @Prop({ reflect: true }) filterPlaceholder: string;
 
   /**
+   * Text for the filter input field.
+   */
+  @Prop({ reflect: true, mutable: true }) filterText: string;
+
+  /**
    * Specifies the number at which section headings should start.
    */
   @Prop({ reflect: true }) headingLevel: HeadingLevel;
 
   /**
-   * When true, a busy indicator is displayed.
+   * When `true`, a busy indicator is displayed.
    */
   @Prop({ reflect: true }) loading = false;
 
   /**
    * Similar to standard radio buttons and checkboxes.
-   * When true, a user can select multiple `calcite-pick-list-item`s at a time.
-   * When false, only a single `calcite-pick-list-item` can be selected at a time,
+   * When `true`, a user can select multiple `calcite-pick-list-item`s at a time.
+   * When `false`, only a single `calcite-pick-list-item` can be selected at a time,
    * and a new selection will deselect previous selections.
    */
   @Prop({ reflect: true }) multiple = false;
 
   /**
-   * When true and single-selection is enabled, the selection changes when navigating `calcite-pick-list-item`s via keyboard.
+   * When `true` and single selection is enabled, the selection changes when navigating `calcite-pick-list-item`s via keyboard.
    */
   @Prop({ reflect: true }) selectionFollowsFocus = false;
 
@@ -113,6 +140,8 @@ export class PickList<
 
   emitCalciteListChange: () => void;
 
+  emitCalciteListFilter: () => void;
+
   filterEl: HTMLCalciteFilterElement;
 
   // --------------------------------------------------------------------------
@@ -128,6 +157,15 @@ export class PickList<
 
   disconnectedCallback(): void {
     cleanUpObserver.call(this);
+  }
+
+  componentWillLoad(): void {
+    setUpLoadableComponent(this);
+  }
+
+  componentDidLoad(): void {
+    setComponentLoaded(this);
+    handleInitialFilter.call(this);
   }
 
   componentDidRender(): void {
@@ -146,6 +184,11 @@ export class PickList<
   @Event({ cancelable: false }) calciteListChange: EventEmitter<
     Map<string, HTMLCalcitePickListItemElement>
   >;
+
+  /**
+   * Emits when a filter has changed.
+   */
+  @Event({ cancelable: false }) calciteListFilter: EventEmitter<void>;
 
   @Listen("calciteListItemRemove")
   calciteListItemRemoveHandler(event: CustomEvent<void>): void {
@@ -194,6 +237,10 @@ export class PickList<
     this.filterEl = el;
   };
 
+  setFilteredItems = (filteredItems: any[]): void => {
+    this.filteredItems = filteredItems;
+  };
+
   deselectRemovedItems = deselectRemovedItems.bind(this);
 
   deselectSiblingItems = deselectSiblingItems.bind(this);
@@ -201,6 +248,8 @@ export class PickList<
   selectSiblings = selectSiblings.bind(this);
 
   handleFilter = handleFilter.bind(this);
+
+  handleFilterEvent = handleFilterEvent.bind(this);
 
   getItemData = getItemData.bind(this);
 
@@ -225,6 +274,8 @@ export class PickList<
    */
   @Method()
   async setFocus(focusId?: ListFocusId): Promise<void> {
+    await componentLoaded(this);
+
     return setFocus.call(this, focusId);
   }
 

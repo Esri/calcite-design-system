@@ -1,22 +1,22 @@
 import {
   Component,
   Element,
-  Host,
-  VNode,
-  h,
-  Prop,
-  Listen,
   Event,
   EventEmitter,
+  h,
+  Host,
+  Listen,
   Method,
-  Watch,
-  State
+  Prop,
+  State,
+  VNode,
+  Watch
 } from "@stencil/core";
 import { guid } from "../../utils/guid";
 import { formatTimeString, isValidTime, localizeTimeString } from "../../utils/time";
 import { Scale } from "../interfaces";
 import { FloatingUIComponent, LogicalPlacement, OverlayPositioning } from "../../utils/floating-ui";
-import { LabelableComponent, connectLabel, disconnectLabel, getLabelText } from "../../utils/label";
+import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
 import {
   connectForm,
   disconnectForm,
@@ -25,14 +25,37 @@ import {
   submitForm
 } from "../../utils/form";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import {
+  connectLocalized,
+  disconnectLocalized,
+  LocalizedComponent,
+  NumberingSystem,
+  numberStringFormatter
+} from "../../utils/locale";
+import { TimePickerMessages } from "../time-picker/assets/time-picker/t9n";
+import { numberKeys } from "../../utils/key";
+import {
+  setUpLoadableComponent,
+  setComponentLoaded,
+  LoadableComponent,
+  componentLoaded
+} from "../../utils/loadable";
 
 @Component({
   tag: "calcite-input-time-picker",
   styleUrl: "input-time-picker.scss",
-  shadow: true
+  shadow: {
+    delegatesFocus: true
+  }
 })
 export class InputTimePicker
-  implements LabelableComponent, FormComponent, InteractiveComponent, FloatingUIComponent
+  implements
+    LabelableComponent,
+    FormComponent,
+    InteractiveComponent,
+    FloatingUIComponent,
+    LocalizedComponent,
+    LoadableComponent
 {
   //--------------------------------------------------------------------------
   //
@@ -48,38 +71,27 @@ export class InputTimePicker
   //
   //--------------------------------------------------------------------------
 
-  /**
-   * The active state of the time input
-   *
-   * @deprecated Use open instead.
-   */
-  @Prop({ reflect: true, mutable: true }) active = false;
-
-  @Watch("active")
-  activeHandler(value: boolean): void {
-    this.open = value;
-  }
-
-  /** When true, displays the `calcite-time-picker` component.*/
+  /** When `true`, displays the `calcite-time-picker` component. */
 
   @Prop({ reflect: true, mutable: true }) open = false;
 
   @Watch("open")
   openHandler(value: boolean): void {
-    this.active = value;
     if (this.disabled || this.readOnly) {
       this.open = false;
       return;
     }
 
-    this.reposition();
+    if (value) {
+      this.reposition(true);
+    }
   }
 
-  /** The disabled state of the time input */
+  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @Prop({ reflect: true }) disabled = false;
 
   /**
-   * When true, still focusable but controls are gone and the value cannot be modified.
+   * When `true`, the component's value can be read, but controls are not accessible and the value cannot be modified.
    *
    * @mdn [readOnly](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/readonly)
    */
@@ -93,87 +105,48 @@ export class InputTimePicker
     }
   }
 
-  /** aria-label for the hour input */
-  @Prop() intlHour?: string;
-
-  /** aria-label for the hour down button */
-  @Prop() intlHourDown?: string;
-
-  /** aria-label for the hour up button */
-  @Prop() intlHourUp?: string;
-
-  /** aria-label for the meridiem (am/pm) input */
-  @Prop() intlMeridiem?: string;
-
-  /** aria-label for the meridiem (am/pm) down button */
-  @Prop() intlMeridiemDown?: string;
-
-  /** aria-label for the meridiem (am/pm) up button */
-  @Prop() intlMeridiemUp?: string;
-
-  /** aria-label for the minute input */
-  @Prop() intlMinute?: string;
-
-  /** aria-label for the minute down button */
-  @Prop() intlMinuteDown?: string;
-
-  /** aria-label for the minute up button */
-  @Prop() intlMinuteUp?: string;
-
-  /** aria-label for the second input */
-  @Prop() intlSecond?: string;
-
-  /** aria-label for the second down button */
-  @Prop() intlSecondDown?: string;
-
-  /** aria-label for the second up button */
-  @Prop() intlSecondUp?: string;
-
   /**
-   * BCP 47 language tag for desired language and country format
-   *
-   * @internal
+   * Use this property to override individual strings used by the component.
    */
-  @Prop({ attribute: "lang", mutable: true }) locale: string =
-    document.documentElement.lang || navigator.language || "en";
+  @Prop() messagesOverrides: Partial<TimePickerMessages>;
 
-  @Watch("locale")
-  localeWatcher(newLocale: string): void {
-    this.setInputValue(localizeTimeString(this.value, newLocale, this.shouldIncludeSeconds()));
-  }
-
-  /** The name of the time input */
-  @Prop({ reflect: true }) name: string;
+  /** Specifies the name of the component on form submission. */
+  @Prop() name: string;
 
   /**
-   * When true, makes the component required for form-submission.
+   * Specifies the Unicode numeral system used by the component for localization.
+   */
+  @Prop() numberingSystem: NumberingSystem;
+
+  /**
+   * When `true`, the component must have a value in order for the form to submit.
    *
    * @internal
    */
   @Prop({ reflect: true }) required = false;
 
-  /** The scale (size) of the time input */
+  /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";
 
   /**
    * Determines the type of positioning to use for the overlaid content.
    *
-   * Using the "absolute" value will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout. The "fixed" value should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is "fixed".
+   * Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.
+   *
+   * `"fixed"` should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
    *
    */
   @Prop() overlayPositioning: OverlayPositioning = "absolute";
 
   /**
    * Determines where the popover will be positioned relative to the input.
-   *
-   * @see [LogicalPlacement](https://github.com/Esri/calcite-components/blob/master/src/utils/floating-ui.ts#L25)
    */
   @Prop({ reflect: true }) placement: LogicalPlacement = "auto";
 
-  /** number (seconds) that specifies the granularity that the value must adhere to */
-  @Prop({ reflect: true }) step = 60;
+  /** Specifies the granularity the component's `value` must adhere to (in seconds). */
+  @Prop() step = 60;
 
-  /** The selected time in UTC (always 24-hour format) */
+  /** The component's value in UTC (always 24-hour format). */
   @Prop({ mutable: true }) value: string = null;
 
   @Watch("value")
@@ -215,6 +188,20 @@ export class InputTimePicker
   //
   //--------------------------------------------------------------------------
 
+  @State() effectiveLocale = "";
+
+  @Watch("effectiveLocale")
+  effectiveLocaleWatcher(): void {
+    this.setInputValue(
+      localizeTimeString({
+        value: this.value,
+        locale: this.effectiveLocale,
+        numberingSystem: this.numberingSystem,
+        includeSeconds: this.shouldIncludeSeconds()
+      })
+    );
+  }
+
   @State() localizedValue: string;
 
   //--------------------------------------------------------------------------
@@ -237,14 +224,25 @@ export class InputTimePicker
   private calciteInternalInputBlurHandler = (): void => {
     this.open = false;
     const shouldIncludeSeconds = this.shouldIncludeSeconds();
+    const { effectiveLocale: locale, numberingSystem, value, calciteInputEl } = this;
 
-    const localizedInputValue = localizeTimeString(
-      this.calciteInputEl.value,
-      this.locale,
-      shouldIncludeSeconds
-    );
+    numberStringFormatter.numberFormatOptions = {
+      locale,
+      numberingSystem,
+      useGrouping: false
+    };
+
+    const delocalizedValue = numberStringFormatter.delocalize(calciteInputEl.value);
+
+    const localizedInputValue = localizeTimeString({
+      value: delocalizedValue,
+      includeSeconds: shouldIncludeSeconds,
+      locale,
+      numberingSystem
+    });
     this.setInputValue(
-      localizedInputValue || localizeTimeString(this.value, this.locale, shouldIncludeSeconds)
+      localizedInputValue ||
+        localizeTimeString({ value, locale, numberingSystem, includeSeconds: shouldIncludeSeconds })
     );
   };
 
@@ -257,7 +255,27 @@ export class InputTimePicker
 
   private calciteInputInputHandler = (event: CustomEvent): void => {
     const target = event.target as HTMLCalciteTimePickerElement;
-    this.setValue({ value: target.value });
+
+    numberStringFormatter.numberFormatOptions = {
+      locale: this.effectiveLocale,
+      numberingSystem: this.numberingSystem,
+      useGrouping: false
+    };
+
+    const delocalizedValue = numberStringFormatter.delocalize(target.value);
+    this.setValue({ value: delocalizedValue });
+
+    // only translate the numerals until blur
+    const localizedValue = delocalizedValue
+      .split("")
+      .map((char) =>
+        numberKeys.includes(char)
+          ? numberStringFormatter.numberFormatter.format(Number(char))
+          : char
+      )
+      .join("");
+
+    this.setInputValue(localizedValue);
   };
 
   @Listen("click")
@@ -300,13 +318,19 @@ export class InputTimePicker
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
-    this.calciteInputEl?.setFocus();
+    await componentLoaded(this);
+
+    this.el.focus();
   }
 
-  /** Updates the position of the component. */
+  /**
+   * Updates the position of the component.
+   *
+   * @param delayed
+   */
   @Method()
-  async reposition(): Promise<void> {
-    this.popoverEl?.reposition();
+  async reposition(delayed = false): Promise<void> {
+    this.popoverEl?.reposition(delayed);
   }
 
   // --------------------------------------------------------------------------
@@ -370,11 +394,12 @@ export class InputTimePicker
   }): void => {
     const previousValue = this.value;
     const newValue = formatTimeString(value);
-    const newLocalizedValue = localizeTimeString(
-      newValue,
-      this.locale,
-      this.shouldIncludeSeconds()
-    );
+    const newLocalizedValue = localizeTimeString({
+      value: newValue,
+      locale: this.effectiveLocale,
+      numberingSystem: this.numberingSystem,
+      includeSeconds: this.shouldIncludeSeconds()
+    });
     this.internalValueChange = origin !== "external" && origin !== "loading";
 
     const shouldEmit =
@@ -422,27 +447,29 @@ export class InputTimePicker
   //--------------------------------------------------------------------------
 
   connectedCallback() {
-    const { active, open } = this;
+    connectLocalized(this);
+
     if (this.value) {
       this.setValue({ value: isValidTime(this.value) ? this.value : undefined, origin: "loading" });
     }
+
     connectLabel(this);
     connectForm(this);
+  }
 
-    if (open) {
-      this.active = open;
-    } else if (active) {
-      this.open = active;
-    }
+  componentWillLoad(): void {
+    setUpLoadableComponent(this);
   }
 
   componentDidLoad() {
+    setComponentLoaded(this);
     this.setInputValue(this.localizedValue);
   }
 
   disconnectedCallback() {
     disconnectLabel(this);
     disconnectForm(this);
+    disconnectLocalized(this);
   }
 
   componentDidRender(): void {
@@ -481,6 +508,7 @@ export class InputTimePicker
           />
         </div>
         <calcite-popover
+          focusTrapDisabled={true}
           id={popoverId}
           label="Time Picker"
           open={this.open}
@@ -491,19 +519,9 @@ export class InputTimePicker
           triggerDisabled={true}
         >
           <calcite-time-picker
-            intlHour={this.intlHour}
-            intlHourDown={this.intlHourDown}
-            intlHourUp={this.intlHourUp}
-            intlMeridiem={this.intlMeridiem}
-            intlMeridiemDown={this.intlMeridiemDown}
-            intlMeridiemUp={this.intlMeridiemUp}
-            intlMinute={this.intlMinute}
-            intlMinuteDown={this.intlMinuteDown}
-            intlMinuteUp={this.intlMinuteUp}
-            intlSecond={this.intlSecond}
-            intlSecondDown={this.intlSecondDown}
-            intlSecondUp={this.intlSecondUp}
-            lang={this.locale}
+            lang={this.effectiveLocale}
+            messageOverrides={this.messagesOverrides}
+            numberingSystem={this.numberingSystem}
             onCalciteInternalTimePickerChange={this.timePickerChangeHandler}
             ref={this.setCalciteTimePickerEl}
             scale={this.scale}

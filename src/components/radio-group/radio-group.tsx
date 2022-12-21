@@ -14,7 +14,7 @@ import {
 } from "@stencil/core";
 
 import { getElementDir } from "../../utils/dom";
-import { Layout, Scale, Width } from "../interfaces";
+import { Appearance, Layout, Scale, Width } from "../interfaces";
 import { connectLabel, disconnectLabel, LabelableComponent } from "../../utils/label";
 import {
   afterConnectDefaultValueSet,
@@ -23,8 +23,13 @@ import {
   FormComponent,
   HiddenFormInputSlot
 } from "../../utils/form";
-import { RadioAppearance } from "./interfaces";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import {
+  setUpLoadableComponent,
+  setComponentLoaded,
+  LoadableComponent,
+  componentLoaded
+} from "../../utils/loadable";
 
 /**
  * @slot - A slot for adding `calcite-radio-group-item`s.
@@ -34,7 +39,9 @@ import { InteractiveComponent, updateHostInteraction } from "../../utils/interac
   styleUrl: "radio-group.scss",
   shadow: true
 })
-export class RadioGroup implements LabelableComponent, FormComponent, InteractiveComponent {
+export class RadioGroup
+  implements LabelableComponent, FormComponent, InteractiveComponent, LoadableComponent
+{
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -50,13 +57,14 @@ export class RadioGroup implements LabelableComponent, FormComponent, Interactiv
   //--------------------------------------------------------------------------
 
   /** Specifies the appearance style of the component. */
-  @Prop({ reflect: true }) appearance: RadioAppearance = "solid";
+  @Prop({ reflect: true }) appearance: Extract<"outline" | "outline-fill" | "solid", Appearance> =
+    "solid";
 
-  /** When true, interaction is prevented and the component is displayed with lower opacity. */
+  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @Prop({ reflect: true }) disabled = false;
 
   /**
-   * When true, the component must have a value on form submission.
+   * When `true`, the component must have a value in order for the form to submit.
    *
    * @internal
    */
@@ -73,7 +81,7 @@ export class RadioGroup implements LabelableComponent, FormComponent, Interactiv
   /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";
 
-  /** The component's "selectedItem" value. */
+  /** The component's `selectedItem` value. */
   @Prop({ mutable: true }) value: string = null;
 
   @Watch("value")
@@ -120,6 +128,8 @@ export class RadioGroup implements LabelableComponent, FormComponent, Interactiv
   //--------------------------------------------------------------------------
 
   componentWillLoad(): void {
+    setUpLoadableComponent(this);
+
     const items = this.getItems();
     const lastChecked = Array.from(items)
       .filter((item) => item.checked)
@@ -134,6 +144,7 @@ export class RadioGroup implements LabelableComponent, FormComponent, Interactiv
 
   componentDidLoad(): void {
     afterConnectDefaultValueSet(this, this.value);
+    setComponentLoaded(this);
   }
 
   connectedCallback(): void {
@@ -239,7 +250,7 @@ export class RadioGroup implements LabelableComponent, FormComponent, Interactiv
   //--------------------------------------------------------------------------
 
   /** Fires when the selected option changes, where the event detail is the new value. */
-  @Event({ cancelable: false }) calciteRadioGroupChange: EventEmitter<string>;
+  @Event({ cancelable: false }) calciteRadioGroupChange: EventEmitter<void>;
 
   // --------------------------------------------------------------------------
   //
@@ -250,6 +261,8 @@ export class RadioGroup implements LabelableComponent, FormComponent, Interactiv
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
+    await componentLoaded(this);
+
     (this.selectedItem || this.getItems()[0])?.focus();
   }
 
@@ -300,7 +313,7 @@ export class RadioGroup implements LabelableComponent, FormComponent, Interactiv
         match = item;
 
         if (emit) {
-          this.calciteRadioGroupChange.emit(match.value);
+          this.calciteRadioGroupChange.emit();
         }
       }
     });

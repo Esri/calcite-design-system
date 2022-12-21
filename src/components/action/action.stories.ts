@@ -42,7 +42,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
       {
         name: "appearance",
         commit(): Attribute {
-          this.value = select("appearance", ["solid", "clear"], "solid");
+          this.value = select("appearance", ["solid", "transparent"], "solid");
           delete this.build;
           return this;
         }
@@ -160,14 +160,14 @@ export const disabledAndCompactAndTextOnly_TestOnly = (): string =>
     )}
   </div>`;
 
-export const activeAndAppearanceClear_TestOnly = (): string =>
+export const activeAndAppearanceTransparent_TestOnly = (): string =>
   html`<div>
     ${create(
       "calcite-action",
       createAttributes({ exceptions: ["icon", "appearance", "active"] }).concat([
         { name: "active", value: true },
         { name: "icon", value: "banana" },
-        { name: "appearance", value: "clear" }
+        { name: "appearance", value: "transparent" }
       ])
     )}
   </div>`;
@@ -203,7 +203,7 @@ export const arabicLocale_TestOnly = (): string => html`
     dir="rtl"
     icon="banana"
     lang="ar"
-    locale="ar-EG"
+    lang="ar-EG"
     text="لكن لا بد أن أوضح لك أن كل"
     text-enabled
   ></calcite-action>

@@ -1,7 +1,7 @@
 import { E2EElement, newE2EPage } from "@stencil/core/testing";
 
 import { CSS, SLOTS } from "./resources";
-import { accessible, defaults, hidden, renders, slots } from "../../tests/commonTests";
+import { accessible, defaults, hidden, renders, slots, t9n } from "../../tests/commonTests";
 import { getElementXY } from "../../tests/utils";
 
 describe("calcite-shell-panel", () => {
@@ -18,10 +18,6 @@ describe("calcite-shell-panel", () => {
       {
         propertyName: "resizable",
         defaultValue: false
-      },
-      {
-        propertyName: "intlResize",
-        defaultValue: "Resize"
       }
     ]));
 
@@ -73,24 +69,6 @@ describe("calcite-shell-panel", () => {
     const isVisible = await element.isVisible();
 
     expect(isVisible).toBe(false);
-  });
-
-  it("collapsed change should fire event", async () => {
-    const page = await newE2EPage();
-
-    await page.setContent(
-      '<calcite-shell-panel><div slot="action-bar">bar</div><div>content</div></calcite-shell-panel>'
-    );
-
-    const element = await page.find(`calcite-shell-panel`);
-
-    const eventSpy = await page.spyOnEvent("calciteShellPanelToggle", "window");
-
-    element.setProperty("collapsed", true);
-
-    await page.waitForChanges();
-
-    expect(eventSpy).toHaveReceivedEvent();
   });
 
   it("start position property should have action slot first", async () => {
@@ -404,4 +382,6 @@ describe("calcite-shell-panel", () => {
     await page.waitForChanges();
     expect(await page.evaluate((selector) => document.activeElement.matches(selector), "calcite-action")).toBe(true);
   });
+
+  it("supports translations", () => t9n("calcite-shell-panel"));
 });

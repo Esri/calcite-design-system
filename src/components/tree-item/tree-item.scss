@@ -6,6 +6,7 @@
 }
 
 @include calciteHydratedHidden();
+@include disabled();
 
 :host([scale="s"]) {
   @apply text-n2h;
@@ -85,7 +86,7 @@
 :host {
   @apply focus-base;
 }
-:host(:focus) {
+:host(:focus:not([disabled])) {
   @apply focus-inset outline-none;
 }
 
@@ -132,7 +133,7 @@
 
 .node-container:hover,
 :host([selected]) .node-container:hover,
-:host(:focus) .node-container {
+:host(:focus:not([disabled])) .node-container {
   .checkmark,
   .bullet-point {
     @apply opacity-100;
@@ -196,10 +197,10 @@
   }
 }
 
-// dropdown selected (for children, multi-children selected parents)
+// dropdown selected (for children, multichildren selected parents)
 :host([has-children][selected]) > .node-container {
   &[data-selection-mode="children"],
-  &[data-selection-mode="multi-children"] {
+  &[data-selection-mode="multichildren"] {
     color: var(--calcite-ui-brand);
   }
 }

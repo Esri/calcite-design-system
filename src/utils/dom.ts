@@ -118,6 +118,37 @@ export function closestElementCrossShadowBoundary<T extends Element = Element>(
   return closestFrom(element);
 }
 
+/**
+ * This utility helps invoke a callback as it traverses a node and its ancestors until reaching the root document.
+ *
+ * Returning early or undefined in `onVisit` will continue traversing up the DOM tree. Otherwise, traversal will halt with the returned value as the result of the function
+ *
+ * @param element
+ * @param onVisit
+ */
+export function walkUpAncestry<T = any>(element: Element, onVisit: (node: Node) => T): T {
+  return visit(element, onVisit);
+}
+
+function visit<T = any>(node: Node, onVisit: (node: Node) => T): T {
+  if (!node) {
+    return;
+  }
+
+  const result = onVisit(node);
+  if (result !== undefined) {
+    return result;
+  }
+
+  const { parentNode } = node;
+
+  return visit(parentNode instanceof ShadowRoot ? parentNode.host : parentNode, onVisit);
+}
+
+export function containsCrossShadowBoundary(element: Element, maybeDescendant: Element): boolean {
+  return !!walkUpAncestry(maybeDescendant, (node) => (node === element ? true : undefined));
+}
+
 export interface FocusableElement extends HTMLElement {
   setFocus?: () => Promise<void>;
 }
@@ -143,6 +174,18 @@ interface GetSlottedOptions {
 
 const defaultSlotSelector = ":not([slot])";
 
+/**
+ * Gets slotted elements for a named slot.
+ *
+ * @param element
+ * @param slotName
+ * @param options
+ * @deprecated Use `onSlotchange` event instead.
+ *
+ * ```
+ * <slot onSlotchange={(event) => this.myElements = slotChangeGetAssignedElements(event)} />}
+ * ```
+ */
 export function getSlotted<T extends Element = Element>(
   element: Element,
   slotName: string | string[] | (GetSlottedOptions & { all: true }),
@@ -258,3 +301,87 @@ export function intersects(rect1: DOMRect, rect2: DOMRect): boolean {
 export function toAriaBoolean(value: boolean): string {
   return Boolean(value).toString();
 }
+
+/**
+ * This helper returns `true` if the target `slot` element from the `onSlotchange` event has an assigned element.
+ *
+ * ```
+ * <slot onSlotchange={(event) => this.mySlotHasElement = slotChangeHasAssignedElement(event)} />}
+ * ```
+ *
+ * @param event
+ * @returns {boolean} Whether the slot has any assigned elements.
+ */
+export function slotChangeHasAssignedElement(event: Event): boolean {
+  return !!slotChangeGetAssignedElements(event).length;
+}
+
+/**
+ * This helper returns the assigned elements on a `slot` element from the `onSlotchange` event.
+ *
+ * ```
+ * <slot onSlotchange={(event) => this.mySlotElements = slotChangeGetAssignedElements(event)} />}
+ * ```
+ *
+ * @param event
+ * @returns {boolean} Whether the slot has any assigned elements.
+ */
+export function slotChangeGetAssignedElements(event: Event): Element[] {
+  return (event.target as HTMLSlotElement).assignedElements({
+    flatten: true
+  });
+}
+
+/**
+ * This helper returns true if the pointer event fired from the primary button of the device.
+ *
+ * See https://www.w3.org/TR/pointerevents/#the-button-property.
+ *
+ * @param event
+ * @returns {boolean}
+ */
+export function isPrimaryPointerButton(event: PointerEvent): boolean {
+  return !!(event.isPrimary && event.button === 0);
+}
+
+/**
+ * This helper sets focus on and returns a destination element from within a group of provided elements.
+ *
+ * @param elements An array of elements
+ * @param currentElement The current element
+ * @param destination The target destination element to focus
+ * @returns {Element} The focused element
+ */
+
+export type FocusElementInGroupDestination = "first" | "last" | "next" | "previous";
+
+export const focusElementInGroup = (
+  elements: Element[],
+  currentElement: Element,
+  destination: FocusElementInGroupDestination
+): Element => {
+  const currentIndex = elements.indexOf(currentElement);
+  const isFirstItem = currentIndex === 0;
+  const isLastItem = currentIndex === elements.length - 1;
+  destination =
+    destination === "previous" && isFirstItem ? "last" : destination === "next" && isLastItem ? "first" : destination;
+
+  let focusTarget;
+  switch (destination) {
+    case "first":
+      focusTarget = elements[0];
+      break;
+    case "last":
+      focusTarget = elements[elements.length - 1];
+      break;
+    case "next":
+      focusTarget = elements[currentIndex + 1] || elements[0];
+      break;
+    case "previous":
+      focusTarget = elements[currentIndex - 1] || elements[elements.length - 1];
+      break;
+  }
+
+  focusElement(focusTarget);
+  return focusTarget;
+};
