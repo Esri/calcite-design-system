@@ -175,7 +175,235 @@
       },
       "checkbox": {
         "font": {
-          "value": "$avatar.font.light",
+          "value": "$checkbox.font.light",
+          "type": "color"
+        },
+        "background": {
+          "default": {
+            "value": "$checkbox.background.default.light",
+            "type": "color"
+          },
+          "selected": {
+            "value": "$checkbox.background.selected.light",
+            "type": "color"
+          }
+        },
+        "icon": {
+          "value": "$checkbox.icon.light",
+          "type": "color"
+        },
+        "border": {
+          "value": "$checkbox.border.light",
+          "type": "color"
+        }
+      },
+      "radio": {
+        "font": {
+          "value": "$radio.font.light",
+          "type": "color"
+        },
+        "background": {
+          "value": "$radio.background.light",
+          "type": "color"
+        },
+        "border": {
+          "unchecked": {
+            "value": "$radio.border.unchecked.light",
+            "type": "color"
+          },
+          "checked": {
+            "value": "$radio.border.checked.light",
+            "type": "color"
+          }
+        }
+      },
+      "chip": {
+        "font": {
+          "clear": {
+            "value": "$chip.font.clear.light",
+            "type": "color"
+          },
+          "solid": {
+            "grey": {
+              "value": "$chip.font.solid.grey.light",
+              "type": "color"
+            },
+            "blue": {
+              "value": "$chip.font.solid.blue.light",
+              "type": "color"
+            },
+            "red": {
+              "value": "$chip.font.solid.red.light",
+              "type": "color"
+            },
+            "yellow": {
+              "value": "$chip.font.solid.yellow.light",
+              "type": "color"
+            },
+            "green": {
+              "value": "$chip.font.solid.green.light",
+              "type": "color"
+            }
+          }
+        },
+        "icon": {
+          "clear": {
+            "value": "$chip.icon.clear.light",
+            "type": "color"
+          },
+          "solid": {
+            "grey": {
+              "value": "$chip.icon.solid.grey.light",
+              "type": "color"
+            },
+            "blue": {
+              "value": "$chip.icon.solid.blue.light",
+              "type": "color"
+            },
+            "red": {
+              "value": "$chip.icon.solid.red.light",
+              "type": "color"
+            },
+            "yellow": {
+              "value": "$chip.icon.solid.yellow.light",
+              "type": "color"
+            },
+            "green": {
+              "value": "$chip.icon.solid.green.light",
+              "type": "color"
+            }
+          }
+        },
+        "closable-icon": {
+          "value": "$chip.closable-icon.light",
+          "type": "color"
+        },
+        "background": {
+          "solid": {
+            "grey": {
+              "value": "$chip.background.solid.grey.light",
+              "type": "color"
+            },
+            "blue": {
+              "value": "$chip.background.solid.blue.light",
+              "type": "color"
+            },
+            "red": {
+              "value": "$chip.background.solid.red.light",
+              "type": "color"
+            },
+            "yellow": {
+              "value": "$chip.background.solid.yellow.light",
+              "type": "color"
+            },
+            "green": {
+              "value": "$chip.background.solid.green.light",
+              "type": "color"
+            }
+          }
+        },
+        "border": {
+          "clear": {
+            "grey": {
+              "value": "$chip.border.clear.grey.light",
+              "type": "color"
+            },
+            "blue": {
+              "value": "$chip.border.clear.blue.light",
+              "type": "color"
+            },
+            "red": {
+              "value": "$chip.border.clear.red.light",
+              "type": "color"
+            },
+            "yellow": {
+              "value": "$chip.border.clear.yellow.light",
+              "type": "color"
+            },
+            "green": {
+              "value": "$chip.border.clear.green.light",
+              "type": "color"
+            }
+          }
+        }
+      },
+      "label": {
+        "font": {
+          "value": "$label.font.light",
+          "type": "color"
+        }
+      },
+      "loader": {
+        "font": {
+          "value": "$loader.font.light",
+          "type": "color"
+        },
+        "default": {
+          "foreground": {
+            "value": "$loader.default.foreground.light",
+            "type": "color"
+          }
+        },
+        "inline": {
+          "foreground": {
+            "indeterminate": {
+              "value": "$loader.inline.foreground.indeterminate.light",
+              "type": "color"
+            },
+            "determinate": {
+              "value": "$loader.inline.foreground.determinate.light",
+              "type": "color"
+            }
+          }
+        }
+      },
+      "rating": {
+        "star": {
+          "background": {
+            "default": {
+              "value": "$rating.star.background.default.light",
+              "type": "color"
+            },
+            "active": {
+              "value": "$rating.star.background.active.light",
+              "type": "color"
+            },
+            "average": {
+              "value": "$rating.star.background.average.light",
+              "type": "color"
+            }
+          }
+        },
+        "chip": {
+          "value-text": {
+            "font": {
+              "value": "$rating.chip.value-text.font.light",
+              "type": "color"
+            }
+          },
+          "count": {
+            "font": {
+              "value": "$rating.chip.count.font.light",
+              "type": "color"
+            }
+          },
+          "foreground": {
+            "value": "$rating.chip.foreground.light",
+            "type": "color"
+          }
+        }
+      },
+      "tooltip": {
+        "foreground": {
+          "value": "$tooltip.foreground.light",
+          "type": "color"
+        },
+        "border": {
+          "value": "$tooltip.border.light",
+          "type": "color"
+        },
+        "font": {
+          "value": "$tooltip.font.light",
           "type": "color"
         }
       }

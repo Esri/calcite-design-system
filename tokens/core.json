@@ -38,6 +38,10 @@
           "value": "Medium",
           "type": "fontWeights"
         },
+        "medium-italic": {
+          "value": "Medium Italic",
+          "type": "fontWeights"
+        },
         "demi": {
           "value": "Demi",
           "type": "fontWeights"
@@ -321,6 +325,10 @@
           "type": "borderWidth"
         },
         "3": {
+          "value": "6px",
+          "type": "borderWidth"
+        },
+        "4": {
           "value": "8px",
           "type": "borderWidth"
         },
