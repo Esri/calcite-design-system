@@ -26,29 +26,17 @@ export class InputMessage {
   //
   //--------------------------------------------------------------------------
 
-  /**
-   * When `true`, the component is active.
-   *
-   * @deprecated use global `hidden` attribute instead.
-   * @mdn [hidden](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/hidden)
-   */
-  @Prop({ reflect: true }) active = false;
-
   /** Specifies an icon to display. */
   @Prop({ reflect: true }) icon: boolean | string;
+
+  /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
+  @Prop({ reflect: true }) iconFlipRtl = false;
 
   /** Specifies the size of the component. */
   @Prop({ reflect: true, mutable: true }) scale: Scale = "m";
 
   /** Specifies the status of the input field, which determines message and icons. */
   @Prop({ reflect: true, mutable: true }) status: Status = "idle";
-
-  /**
-   * Specifies the appearance of a slotted message - `"default"` (displayed under the component), or `"floating"` (positioned absolutely under the component).
-   *
-   * @deprecated The `"floating"` type is no longer supported.
-   */
-  @Prop({ reflect: true }) type: "default";
 
   @Watch("status")
   @Watch("icon")
@@ -68,7 +56,7 @@ export class InputMessage {
   }
 
   render(): VNode {
-    const hidden = !this.active;
+    const hidden = this.el.hidden;
     return (
       <Host calcite-hydrated-hidden={hidden}>
         {this.renderIcon(this.requestedIcon)}
@@ -94,7 +82,14 @@ export class InputMessage {
 
   private renderIcon(iconName: string): VNode {
     if (iconName) {
-      return <calcite-icon class="calcite-input-message-icon" icon={iconName} scale="s" />;
+      return (
+        <calcite-icon
+          class="calcite-input-message-icon"
+          flipRtl={this.iconFlipRtl}
+          icon={iconName}
+          scale="s"
+        />
+      );
     }
   }
 }

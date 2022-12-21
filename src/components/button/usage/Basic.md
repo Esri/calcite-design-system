@@ -1,3 +1,3 @@
 ```html
-<calcite-button icon-start="plus" color="red">Go!</calcite-button>
+<calcite-button icon-start="plus">Go!</calcite-button>
 ```

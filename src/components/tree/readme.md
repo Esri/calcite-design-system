@@ -26,17 +26,18 @@
 
 ## Properties
 
-| Property        | Attribute        | Description                                    | Type                                                                                          | Default    |
-| --------------- | ---------------- | ---------------------------------------------- | --------------------------------------------------------------------------------------------- | ---------- |
-| `lines`         | `lines`          | Displays indentation guide lines.              | `boolean`                                                                                     | `false`    |
-| `scale`         | `scale`          | Specifies the size of the component.           | `"l" \| "m" \| "s"`                                                                           | `"m"`      |
-| `selectionMode` | `selection-mode` | Customize how the component's selection works. | `"ancestors" \| "children" \| "multi" \| "multichildren" \| "multiple" \| "none" \| "single"` | `"single"` |
+| Property        | Attribute        | Description                                    | Type                                                                                                   | Default    |
+| --------------- | ---------------- | ---------------------------------------------- | ------------------------------------------------------------------------------------------------------ | ---------- |
+| `lines`         | `lines`          | Displays indentation guide lines.              | `boolean`                                                                                              | `false`    |
+| `scale`         | `scale`          | Specifies the size of the component.           | `"l" \| "m" \| "s"`                                                                                    | `"m"`      |
+| `selectedItems` | --               | Specifies the component's selected items.      | `HTMLCalciteTreeItemElement[]`                                                                         | `[]`       |
+| `selectionMode` | `selection-mode` | Customize how the component's selection works. | `"ancestors" \| "children" \| "multichildren" \| "multiple" \| "none" \| "single" \| "single-persist"` | `"single"` |
 
 ## Events
 
-| Event               | Description                                                                                                                                                 | Type                            |
-| ------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------- |
-| `calciteTreeSelect` | Fires when the user selects/deselects `calcite-tree-items`. An object including an array of selected items will be passed in the event's `detail` property. | `CustomEvent<TreeSelectDetail>` |
+| Event               | Description                                                 | Type                |
+| ------------------- | ----------------------------------------------------------- | ------------------- |
+| `calciteTreeSelect` | Fires when the user selects/deselects `calcite-tree-items`. | `CustomEvent<void>` |
 
 ## Slots
 

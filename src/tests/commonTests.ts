@@ -919,7 +919,7 @@ export async function t9n(componentSetup: TagOrHTML | TagAndPage): Promise<void>
   const component = await page.find(tag);
 
   await assertDefaultMessages();
-  await assertIntlPropAsOverrides();
+
   await assertOverrides();
   await assertLangSwitch();
 
@@ -929,33 +929,6 @@ export async function t9n(componentSetup: TagOrHTML | TagAndPage): Promise<void>
 
   async function assertDefaultMessages(): Promise<void> {
     expect(await getCurrentMessages()).toBeDefined();
-  }
-
-  async function assertIntlPropAsOverrides(): Promise<void> {
-    const intlProps = await page.$eval(tag, (component: HTMLElement) =>
-      Object.keys(component.constructor.prototype).filter((prop) => prop.startsWith("intl"))
-    );
-
-    if (intlProps.length > 0) {
-      const props: Partial<MessageBundle> = {};
-
-      for (const prop of intlProps) {
-        const index = intlProps.indexOf(prop);
-        const mappedPropName = prop.replace("intl", "");
-        props[mappedPropName[0].toLowerCase() + mappedPropName.slice(1)] = `${index}`;
-
-        component.setProperty(prop, `${index}`);
-        await page.waitForChanges();
-      }
-
-      expect(props).toEqual(await getCurrentMessages());
-
-      // reset test changes
-      for (const prop of intlProps) {
-        component.setProperty(prop, undefined);
-        await page.waitForChanges();
-      }
-    }
   }
 
   async function assertOverrides(): Promise<void> {
@@ -977,25 +950,35 @@ export async function t9n(componentSetup: TagOrHTML | TagAndPage): Promise<void>
   }
 
   async function assertLangSwitch(): Promise<void> {
-    await page.evaluate(() => {
-      const orig = window.fetch;
-      window.fetch = async function (input, init) {
-        if (typeof input === "string" && input.endsWith("messages_es.json")) {
-          const dummyMessages = {};
-          window.fetch = orig;
-          return new Response(new Blob([JSON.stringify(dummyMessages, null, 2)], { type: "application/json" }));
-        }
+    const enMessages = await getCurrentMessages();
+    const fakeBundleIdentifier = "__fake__";
+    await page.evaluate(
+      (enMessages, fakeBundleIdentifier) => {
+        const orig = window.fetch;
+        window.fetch = async function (input, init) {
+          if (typeof input === "string" && input.endsWith("messages_es.json")) {
+            const fakeEsMessages = {
+              ...enMessages, // reuse real message bundle in case component rendering depends on strings
 
-        return orig.call(input, init);
-      };
-    });
+              [fakeBundleIdentifier]: true // we inject a fake identifier for assertion-purposes
+            };
+            window.fetch = orig;
+            return new Response(new Blob([JSON.stringify(fakeEsMessages, null, 2)], { type: "application/json" }));
+          }
+
+          return orig.call(input, init);
+        };
+      },
+      enMessages,
+      fakeBundleIdentifier
+    );
 
     component.setAttribute("lang", "es");
     await page.waitForChanges();
     await page.waitForTimeout(3000);
     const esMessages = await getCurrentMessages();
 
-    expect(esMessages).toEqual({});
+    expect(esMessages).toHaveProperty(fakeBundleIdentifier);
 
     // reset test changes
     component.removeAttribute("lang");

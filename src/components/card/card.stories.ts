@@ -10,7 +10,6 @@ import {
   createComponentHTML as create
 } from "../../../.storybook/utils";
 import { storyFilters } from "../../../.storybook/helpers";
-import { TEXT } from "./resources";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 
 export default {
@@ -45,30 +44,6 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
         name: "selectable",
         commit(): Attribute {
           this.value = boolean("selectable", false);
-          delete this.build;
-          return this;
-        }
-      },
-      {
-        name: "intl-loading",
-        commit(): Attribute {
-          this.value = text("intl-loading", TEXT.loading);
-          delete this.build;
-          return this;
-        }
-      },
-      {
-        name: "intl-select",
-        commit(): Attribute {
-          this.value = text("intl-select", TEXT.select);
-          delete this.build;
-          return this;
-        }
-      },
-      {
-        name: "intl-deselect",
-        commit(): Attribute {
-          this.value = text("intl-deselect", TEXT.deselect);
           delete this.build;
           return this;
         }
@@ -114,9 +89,9 @@ const thumbnailHtml = html`<img
 
 const footerTrailingButtonsHtml = html`
   <div slot="footer-trailing">
-    <calcite-button id="card-icon-test-6" scale="s" appearance="transparent" color="neutral" icon-start="circle">
+    <calcite-button id="card-icon-test-6" scale="s" appearance="transparent" kind="neutral" icon-start="circle">
     </calcite-button>
-    <calcite-button id="card-icon-test-7" scale="s" appearance="transparent" color="neutral" icon-start="circle">
+    <calcite-button id="card-icon-test-7" scale="s" appearance="transparent" kind="neutral" icon-start="circle">
     </calcite-button>
   </div>
 `;
@@ -173,20 +148,20 @@ export const thumbnail = (): string => html`
         </div>
         <calcite-button
           slot="footer-leading"
-          color="neutral"
+          kind="neutral"
           scale="s"
           id="card-icon-test-1"
           icon-start="circle"
         ></calcite-button>
         <div slot="footer-trailing">
-          <calcite-button scale="s" color="neutral" id="card-icon-test-2" icon-start="circle"></calcite-button>
-          <calcite-button scale="s" color="neutral" id="card-icon-test-3" icon-start="circle"></calcite-button>
+          <calcite-button scale="s" kind="neutral" id="card-icon-test-2" icon-start="circle"></calcite-button>
+          <calcite-button scale="s" kind="neutral" id="card-icon-test-3" icon-start="circle"></calcite-button>
           <calcite-dropdown type="hover">
             <calcite-button
               id="card-icon-test-5"
-              slot="dropdown-trigger"
+              slot="trigger"
               scale="s"
-              color="neutral"
+              kind="neutral"
               icon-start="circle"
             ></calcite-button>
             <calcite-dropdown-group selection-mode="none">
@@ -230,7 +205,7 @@ export const thumbnailRounded = (): string => html`
       </div>
       <calcite-button
         slot="footer-leading"
-        color="neutral"
+        kind="neutral"
         scale="s"
         id="card-icon-test-1"
         icon-start="circle"

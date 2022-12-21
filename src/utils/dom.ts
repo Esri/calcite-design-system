@@ -343,3 +343,45 @@ export function slotChangeGetAssignedElements(event: Event): Element[] {
 export function isPrimaryPointerButton(event: PointerEvent): boolean {
   return !!(event.isPrimary && event.button === 0);
 }
+
+/**
+ * This helper sets focus on and returns a destination element from within a group of provided elements.
+ *
+ * @param elements An array of elements
+ * @param currentElement The current element
+ * @param destination The target destination element to focus
+ * @returns {Element} The focused element
+ */
+
+export type FocusElementInGroupDestination = "first" | "last" | "next" | "previous";
+
+export const focusElementInGroup = (
+  elements: Element[],
+  currentElement: Element,
+  destination: FocusElementInGroupDestination
+): Element => {
+  const currentIndex = elements.indexOf(currentElement);
+  const isFirstItem = currentIndex === 0;
+  const isLastItem = currentIndex === elements.length - 1;
+  destination =
+    destination === "previous" && isFirstItem ? "last" : destination === "next" && isLastItem ? "first" : destination;
+
+  let focusTarget;
+  switch (destination) {
+    case "first":
+      focusTarget = elements[0];
+      break;
+    case "last":
+      focusTarget = elements[elements.length - 1];
+      break;
+    case "next":
+      focusTarget = elements[currentIndex + 1] || elements[0];
+      break;
+    case "previous":
+      focusTarget = elements[currentIndex - 1] || elements[elements.length - 1];
+      break;
+  }
+
+  focusElement(focusTarget);
+  return focusTarget;
+};

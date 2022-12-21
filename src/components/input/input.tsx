@@ -1,4 +1,4 @@
-import { DeprecatedEventPayload, Scale, Status } from "../interfaces";
+import { Scale, Status } from "../interfaces";
 import {
   Component,
   Element,
@@ -20,8 +20,8 @@ import {
   setRequestedIcon
 } from "../../utils/dom";
 
-import { CSS, INPUT_TYPE_ICONS, SLOTS, TEXT } from "./resources";
-import { InputPlacement } from "./interfaces";
+import { CSS, INPUT_TYPE_ICONS, SLOTS } from "./resources";
+import { InputPlacement, NumberNudgeDirection, SetValueOrigin } from "./interfaces";
 import { Position } from "../interfaces";
 import { LabelableComponent, connectLabel, disconnectLabel, getLabelText } from "../../utils/label";
 import {
@@ -35,16 +35,24 @@ import {
   NumberingSystem,
   defaultNumberingSystem,
   numberStringFormatter,
-  LocalizedComponent,
   disconnectLocalized,
+  LocalizedComponent,
   connectLocalized
 } from "../../utils/locale";
 import { numberKeys } from "../../utils/key";
 import { isValidNumber, parseNumberString, sanitizeNumberString } from "../../utils/number";
-import { CSS_UTILITY, TEXT as COMMON_TEXT } from "../../utils/resources";
+import { CSS_UTILITY } from "../../utils/resources";
 import { decimalPlaces } from "../../utils/math";
 import { createObserver } from "../../utils/observers";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import {
+  connectMessages,
+  disconnectMessages,
+  setUpMessages,
+  T9nComponent,
+  updateMessages
+} from "../../utils/t9n";
+import { InputMessages } from "./assets/input/t9n";
 import {
   setUpLoadableComponent,
   setComponentLoaded,
@@ -52,22 +60,21 @@ import {
   componentLoaded
 } from "../../utils/loadable";
 
-type NumberNudgeDirection = "up" | "down";
-type SetValueOrigin = "initial" | "connected" | "user" | "reset" | "direct";
-
 /**
  * @slot action - A slot for positioning a `calcite-button` next to the component.
  */
 @Component({
   tag: "calcite-input",
   styleUrl: "input.scss",
-  shadow: true
+  shadow: true,
+  assetsDirs: ["assets"]
 })
 export class Input
   implements
     LabelableComponent,
     FormComponent,
     InteractiveComponent,
+    T9nComponent,
     LocalizedComponent,
     LoadableComponent
 {
@@ -128,18 +135,6 @@ export class Input
    * When `true`, shows a default recommended icon. Alternatively, pass a Calcite UI Icon name to display a specific icon.
    */
   @Prop({ reflect: true }) icon: string | boolean;
-
-  /**
-   * Accessible name for the component's clear button.
-   */
-  @Prop() intlClear: string;
-
-  /**
-   * Accessible name when the component is loading.
-   *
-   * @default "Loading"
-   */
-  @Prop() intlLoading: string = COMMON_TEXT.loading;
 
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @Prop({ reflect: true }) iconFlipRtl = false;
@@ -280,6 +275,22 @@ export class Input
    */
   @Prop() multiple = false;
 
+  /**
+   * Specifies the type of content to help devices display an appropriate virtual keyboard.
+   * Read the native attribute's documentation on MDN for more info.
+   *
+   * @mdn [step](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/inputmode)
+   */
+  @Prop() inputMode = "text";
+
+  /**
+   * Specifies the action label or icon for the Enter key on virtual keyboards.
+   * Read the native attribute's documentation on MDN for more info.
+   *
+   * @mdn [step](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/enterkeyhint)
+   */
+  @Prop() enterKeyHint: string;
+
   /** Adds text to the end of the component. */
   @Prop() suffixText: string;
 
@@ -313,6 +324,23 @@ export class Input
 
   /** The component's value. */
   @Prop({ mutable: true }) value = "";
+
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @internal
+   */
+  @Prop({ mutable: true }) messages: InputMessages;
+
+  /**
+   * Use this property to override individual strings used by the component.
+   */
+  @Prop({ mutable: true }) messageOverrides: Partial<InputMessages>;
+
+  @Watch("messageOverrides")
+  onMessagesChange(): void {
+    /* wired up by t9n util */
+  }
 
   @Watch("value")
   valueWatcher(newValue: string, previousValue: string): void {
@@ -384,7 +412,7 @@ export class Input
   /** the computed icon to render */
   private requestedIcon?: string;
 
-  private nudgeNumberValueIntervalId;
+  private nudgeNumberValueIntervalId: number;
 
   mutationObserver = createObserver("mutation", () => this.setDisabledAction());
 
@@ -398,6 +426,13 @@ export class Input
 
   @State() effectiveLocale = "";
 
+  @Watch("effectiveLocale")
+  effectiveLocaleChange(): void {
+    updateMessages(this, this.effectiveLocale);
+  }
+
+  @State() defaultMessages: InputMessages;
+
   @State() localizedValue: string;
 
   //--------------------------------------------------------------------------
@@ -408,6 +443,7 @@ export class Input
 
   connectedCallback(): void {
     connectLocalized(this);
+    connectMessages(this);
 
     this.scale = getElementProp(this.el, "scale", this.scale);
     this.status = getElementProp(this.el, "status", this.status);
@@ -437,17 +473,19 @@ export class Input
     disconnectLabel(this);
     disconnectForm(this);
     disconnectLocalized(this);
+    disconnectMessages(this);
 
     this.mutationObserver?.disconnect();
     this.el.removeEventListener("calciteInternalHiddenInputChange", this.hiddenInputChangeHandler);
   }
 
-  componentWillLoad(): void {
+  async componentWillLoad(): Promise<void> {
     setUpLoadableComponent(this);
     this.childElType = this.type === "textarea" ? "textarea" : "input";
     this.maxString = this.max?.toString();
     this.minString = this.min?.toString();
     this.requestedIcon = setRequestedIcon(INPUT_TYPE_ICONS, this.icon, this.type);
+    await setUpMessages(this);
   }
 
   componentDidLoad(): void {
@@ -485,13 +523,10 @@ export class Input
    */
   @Event({ cancelable: false }) calciteInternalInputBlur: EventEmitter<void>;
 
-  // TODO: refactor color-picker to not use the deprecated
-  // nativeEvent payload property in handleChannelInput()
   /**
    * Fires each time a new `value` is typed.
-   * NOTE: `nativeEvent` payload property is deprecated
    */
-  @Event({ cancelable: true }) calciteInputInput: EventEmitter<DeprecatedEventPayload>;
+  @Event({ cancelable: true }) calciteInputInput: EventEmitter<void>;
 
   /**
    * Fires each time a new `value` is typed and committed.
@@ -523,6 +558,18 @@ export class Input
       this.childNumberEl?.select();
     } else {
       this.childEl?.select();
+    }
+  }
+
+  // TODO: refactor so we don't need to sync the internals in color-picker
+  // https://github.com/Esri/calcite-components/issues/6100
+  /** @internal */
+  @Method()
+  async internalSyncChildElValue(): Promise<void> {
+    if (this.type === "number") {
+      this.childNumberEl.value = this.value;
+    } else {
+      this.childEl.value = this.value;
     }
   }
   //--------------------------------------------------------------------------
@@ -600,11 +647,14 @@ export class Input
     this.emitChangeIfUserModified();
   };
 
-  private inputFocusHandler = (event: FocusEvent): void => {
+  private clickHandler = (event: MouseEvent): void => {
     const slottedActionEl = getSlotted(this.el, "action");
     if (event.target !== slottedActionEl) {
       this.setFocus();
     }
+  };
+
+  private inputFocusHandler = (): void => {
     this.calciteInternalInputFocus.emit();
   };
 
@@ -814,11 +864,11 @@ export class Input
     event.stopPropagation();
   };
 
-  private setChildElRef = (el) => {
+  private setChildElRef = (el: HTMLInputElement | HTMLTextAreaElement) => {
     this.childEl = el;
   };
 
-  private setChildNumberElRef = (el) => {
+  private setChildNumberElRef = (el: HTMLInputElement) => {
     this.childNumberEl = el;
   };
 
@@ -913,9 +963,7 @@ export class Input
     this.previousValueOrigin = origin;
 
     if (nativeEvent) {
-      const calciteInputInputEvent = this.calciteInputInput.emit({
-        nativeEvent
-      });
+      const calciteInputInputEvent = this.calciteInputInput.emit();
       if (calciteInputInputEvent.defaultPrevented) {
         this.value = this.previousValue;
         this.localizedValue =
@@ -948,13 +996,13 @@ export class Input
     const dir = getElementDir(this.el);
     const loader = (
       <div class={CSS.loader}>
-        <calcite-progress label={this.intlLoading} type="indeterminate" />
+        <calcite-progress label={this.messages.loading} type="indeterminate" />
       </div>
     );
 
     const inputClearButton = (
       <button
-        aria-label={this.intlClear || TEXT.clear}
+        aria-label={this.messages.clear}
         class={CSS.clearButton}
         disabled={this.disabled || this.readOnly}
         onClick={this.clearInputValue}
@@ -1033,8 +1081,8 @@ export class Input
           autofocus={this.autofocus ? true : null}
           defaultValue={this.defaultValue}
           disabled={this.disabled ? true : null}
-          enterKeyHint={this.el.enterKeyHint}
-          inputMode={this.el.inputMode}
+          enterKeyHint={this.enterKeyHint}
+          inputMode={this.inputMode}
           key="localized-input"
           maxLength={this.maxLength}
           minLength={this.minLength}
@@ -1068,8 +1116,8 @@ export class Input
               }}
               defaultValue={this.defaultValue}
               disabled={this.disabled ? true : null}
-              enterKeyHint={this.el.enterKeyHint}
-              inputMode={this.el.inputMode}
+              enterKeyHint={this.enterKeyHint}
+              inputMode={this.inputMode}
               max={this.maxString}
               maxLength={this.maxLength}
               min={this.minString}
@@ -1102,7 +1150,7 @@ export class Input
         : null;
 
     return (
-      <Host onClick={this.inputFocusHandler} onKeyDown={this.keyDownHandler}>
+      <Host onClick={this.clickHandler} onKeyDown={this.keyDownHandler}>
         <div class={{ [CSS.inputWrapper]: true, [CSS_UTILITY.rtl]: dir === "rtl" }}>
           {this.type === "number" && this.numberButtonType === "horizontal" && !this.readOnly
             ? numberButtonsHorizontalDown

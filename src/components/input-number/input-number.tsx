@@ -20,8 +20,8 @@ import {
   setRequestedIcon
 } from "../../utils/dom";
 
-import { CSS, SLOTS, TEXT } from "./resources";
-import { InputPlacement } from "./interfaces";
+import { CSS, SLOTS } from "./resources";
+import { InputPlacement, NumberNudgeDirection, SetValueOrigin } from "../input/interfaces";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
 import {
   connectForm,
@@ -34,16 +34,24 @@ import {
   NumberingSystem,
   numberStringFormatter,
   defaultNumberingSystem,
-  LocalizedComponent,
   disconnectLocalized,
-  connectLocalized
+  connectLocalized,
+  LocalizedComponent
 } from "../../utils/locale";
 import { numberKeys } from "../../utils/key";
 import { isValidNumber, parseNumberString, sanitizeNumberString } from "../../utils/number";
-import { CSS_UTILITY, TEXT as COMMON_TEXT } from "../../utils/resources";
+import { CSS_UTILITY } from "../../utils/resources";
 import { decimalPlaces } from "../../utils/math";
 import { createObserver } from "../../utils/observers";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import {
+  connectMessages,
+  disconnectMessages,
+  setUpMessages,
+  T9nComponent,
+  updateMessages
+} from "../../utils/t9n";
+import { InputNumberMessages } from "./assets/input-number/t9n";
 import {
   setUpLoadableComponent,
   setComponentLoaded,
@@ -51,16 +59,14 @@ import {
   componentLoaded
 } from "../../utils/loadable";
 
-type NumberNudgeDirection = "up" | "down";
-type setNumberValueOrigin = "initial" | "connected" | "user" | "reset" | "direct";
-
 /**
  * @slot action - A slot for positioning a button next to the component.
  */
 @Component({
   tag: "calcite-input-number",
   styleUrl: "input-number.scss",
-  shadow: true
+  shadow: true,
+  assetsDirs: ["assets"]
 })
 export class InputNumber
   implements
@@ -68,6 +74,7 @@ export class InputNumber
     FormComponent,
     InteractiveComponent,
     LocalizedComponent,
+    T9nComponent,
     LoadableComponent
 {
   //--------------------------------------------------------------------------
@@ -127,18 +134,6 @@ export class InputNumber
    * When `true`, shows a default recommended icon. Alternatively, pass a Calcite UI Icon name to display a specific icon.
    */
   @Prop({ reflect: true }) icon: string | boolean;
-
-  /**
-   * A text label that will appear on the clear button for screen readers.
-   */
-  @Prop() intlClear: string;
-
-  /**
-   * Accessible name that will appear while loading.
-   *
-   * @default "Loading"
-   */
-  @Prop() intlLoading: string = COMMON_TEXT.loading;
 
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @Prop({ reflect: true }) iconFlipRtl = false;
@@ -252,6 +247,22 @@ export class InputNumber
    */
   @Prop() autocomplete: string;
 
+  /**
+   * Specifies the type of content to help devices display an appropriate virtual keyboard.
+   * Read the native attribute's documentation on MDN for more info.
+   *
+   * @mdn [step](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/inputmode)
+   */
+  @Prop() inputMode = "decimal";
+
+  /**
+   * Specifies the action label or icon for the Enter key on virtual keyboards.
+   * Read the native attribute's documentation on MDN for more info.
+   *
+   * @mdn [step](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/enterkeyhint)
+   */
+  @Prop() enterKeyHint: string;
+
   /** Adds text to the end of the component.  */
   @Prop() suffixText: string;
 
@@ -262,6 +273,23 @@ export class InputNumber
 
   /** The component's value. */
   @Prop({ mutable: true }) value = "";
+
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @internal
+   */
+  @Prop({ mutable: true }) messages: InputNumberMessages;
+
+  /**
+   * Use this property to override individual strings used by the component.
+   */
+  @Prop({ mutable: true }) messageOverrides: Partial<InputNumberMessages>;
+
+  @Watch("messageOverrides")
+  onMessagesChange(): void {
+    /* wired up by t9n util */
+  }
 
   @Watch("value")
   valueWatcher(newValue: string, previousValue: string): void {
@@ -315,7 +343,7 @@ export class InputNumber
 
   private previousValue: string;
 
-  private previousValueOrigin: setNumberValueOrigin = "initial";
+  private previousValueOrigin: SetValueOrigin = "initial";
 
   /** the computed icon to render */
   private requestedIcon?: string;
@@ -336,12 +364,15 @@ export class InputNumber
 
   @Watch("effectiveLocale")
   effectiveLocaleWatcher(locale: string): void {
+    updateMessages(this, this.effectiveLocale);
     numberStringFormatter.numberFormatOptions = {
       locale,
       numberingSystem: this.numberingSystem,
       useGrouping: false
     };
   }
+
+  @State() defaultMessages: InputNumberMessages;
 
   @State() localizedValue: string;
 
@@ -353,7 +384,7 @@ export class InputNumber
 
   connectedCallback(): void {
     connectLocalized(this);
-
+    connectMessages(this);
     this.scale = getElementProp(this.el, "scale", this.scale);
     this.inlineEditableEl = this.el.closest("calcite-inline-editable");
     if (this.inlineEditableEl) {
@@ -383,17 +414,18 @@ export class InputNumber
     disconnectLabel(this);
     disconnectForm(this);
     disconnectLocalized(this);
+    disconnectMessages(this);
 
     this.mutationObserver?.disconnect();
     this.el.removeEventListener("calciteInternalHiddenInputChange", this.hiddenInputChangeHandler);
   }
 
-  componentWillLoad(): void {
+  async componentWillLoad(): Promise<void> {
     setUpLoadableComponent(this);
-
     this.maxString = this.max?.toString();
     this.minString = this.min?.toString();
     this.requestedIcon = setRequestedIcon({}, this.icon, "number");
+    await setUpMessages(this);
   }
 
   componentShouldUpdate(newValue: string, oldValue: string, property: string): boolean {
@@ -531,11 +563,14 @@ export class InputNumber
     this.emitChangeIfUserModified();
   };
 
-  private inputNumberFocusHandler = (event: FocusEvent): void => {
+  private clickHandler = (event: MouseEvent): void => {
     const slottedActionEl = getSlotted(this.el, "action");
     if (event.target !== slottedActionEl) {
       this.setFocus();
     }
+  };
+
+  private inputNumberFocusHandler = (): void => {
     this.calciteInternalInputNumberFocus.emit();
   };
 
@@ -751,7 +786,7 @@ export class InputNumber
   }: {
     committing?: boolean;
     nativeEvent?: MouseEvent | KeyboardEvent | InputEvent;
-    origin: setNumberValueOrigin;
+    origin: SetValueOrigin;
     previousValue?: string;
     value: string;
   }): void => {
@@ -820,13 +855,13 @@ export class InputNumber
     const dir = getElementDir(this.el);
     const loader = (
       <div class={CSS.loader}>
-        <calcite-progress label={this.intlLoading} type="indeterminate" />
+        <calcite-progress label={this.messages.loading} type="indeterminate" />
       </div>
     );
 
     const inputClearButton = (
       <button
-        aria-label={this.intlClear || TEXT.clear}
+        aria-label={this.messages.clear}
         class={CSS.clearButton}
         disabled={this.disabled || this.readOnly}
         onClick={this.clearInputValue}
@@ -903,8 +938,8 @@ export class InputNumber
         autofocus={this.autofocus ? true : null}
         defaultValue={this.defaultValue}
         disabled={this.disabled ? true : null}
-        enterKeyHint={this.el.enterKeyHint}
-        inputMode={this.el.inputMode}
+        enterKeyHint={this.enterKeyHint}
+        inputMode={this.inputMode}
         key="localized-input"
         maxLength={this.maxLength}
         minLength={this.minLength}
@@ -923,7 +958,7 @@ export class InputNumber
     );
 
     return (
-      <Host onClick={this.inputNumberFocusHandler} onKeyDown={this.keyDownHandler}>
+      <Host onClick={this.clickHandler} onKeyDown={this.keyDownHandler}>
         <div class={{ [CSS.inputWrapper]: true, [CSS_UTILITY.rtl]: dir === "rtl" }}>
           {this.numberButtonType === "horizontal" && !this.readOnly
             ? numberButtonsHorizontalDown

@@ -26,7 +26,6 @@ import { CSS } from "./resources";
 import { Scale } from "../interfaces";
 import { RGB, RGBA } from "../color-picker/interfaces";
 import { focusElement } from "../../utils/dom";
-import { TEXT } from "../color-picker/resources";
 import { NumberingSystem } from "../../utils/locale";
 import {
   setUpLoadableComponent,
@@ -50,6 +49,11 @@ export class ColorPickerHexInput implements LoadableComponent {
   //--------------------------------------------------------------------------
 
   @Element() el: HTMLCalciteColorPickerHexInputElement;
+
+  /**
+   * Specifies accessible label for the input field.
+   */
+  @Prop() hexLabel = "Hex";
 
   //--------------------------------------------------------------------------
   //
@@ -100,21 +104,6 @@ export class ColorPickerHexInput implements LoadableComponent {
    * When true, the input will process and display hex characters for the alpha channel.
    */
   @Prop() alphaEnabled = false;
-
-  /**
-   * Label used for the hex input.
-   * Accessible name for the Hex input.
-   *
-   * @default "Hex"
-   */
-  @Prop() intlHex = TEXT.hex;
-
-  /**
-   * Accessible name for the Hex input when there is no color selected.
-   *
-   * @default "No color"
-   */
-  @Prop() intlNoColor = TEXT.noColor;
 
   /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";
@@ -256,15 +245,14 @@ export class ColorPickerHexInput implements LoadableComponent {
   //--------------------------------------------------------------------------
 
   render(): VNode {
-    const { alphaEnabled, intlHex, value } = this;
+    const { value } = this;
     const hexInputValue = this.formatForInternalInput(value);
-
     return (
       <div class={CSS.container}>
         <calcite-input
           class={CSS.input}
-          label={intlHex}
-          maxLength={alphaEnabled ? 8 : 6}
+          label={this.hexLabel}
+          maxLength={this.alphaEnabled ? 8 : 6}
           numberingSystem={this.numberingSystem}
           onCalciteInputChange={this.onInputChange}
           onCalciteInternalInputBlur={this.onCalciteInternalInputBlur}

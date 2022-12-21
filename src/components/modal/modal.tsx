@@ -13,9 +13,8 @@ import {
   Watch
 } from "@stencil/core";
 import { ensureId, focusElement, getSlotted } from "../../utils/dom";
-import { Scale } from "../interfaces";
-import { ModalBackgroundColor } from "./interfaces";
-import { CSS, ICONS, SLOTS, TEXT } from "./resources";
+import { Kind, Scale } from "../interfaces";
+import { CSS, ICONS, SLOTS } from "./resources";
 import { createObserver } from "../../utils/observers";
 import {
   ConditionalSlotComponent,
@@ -28,7 +27,8 @@ import {
   FocusTrap,
   connectFocusTrap,
   activateFocusTrap,
-  deactivateFocusTrap
+  deactivateFocusTrap,
+  focusFirstTabbable
 } from "../../utils/focusTrapComponent";
 import {
   setUpLoadableComponent,
@@ -36,6 +36,16 @@ import {
   LoadableComponent,
   componentLoaded
 } from "../../utils/loadable";
+
+import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
+import {
+  connectMessages,
+  disconnectMessages,
+  setUpMessages,
+  T9nComponent,
+  updateMessages
+} from "../../utils/t9n";
+import { ModalMessages } from "./assets/modal/t9n";
 
 /**
  * @slot header - A slot for adding header text.
@@ -48,10 +58,17 @@ import {
 @Component({
   tag: "calcite-modal",
   styleUrl: "modal.scss",
-  shadow: true
+  shadow: true,
+  assetsDirs: ["assets"]
 })
 export class Modal
-  implements ConditionalSlotComponent, OpenCloseComponent, FocusTrapComponent, LoadableComponent
+  implements
+    ConditionalSlotComponent,
+    OpenCloseComponent,
+    FocusTrapComponent,
+    LoadableComponent,
+    LocalizedComponent,
+    T9nComponent
 {
   //--------------------------------------------------------------------------
   //
@@ -66,13 +83,6 @@ export class Modal
   //
   //--------------------------------------------------------------------------
 
-  /**
-   * When `true`, the component is active.
-   *
-   * @deprecated use `open` instead.
-   */
-  @Prop({ mutable: true, reflect: true }) active = false;
-
   /** When `true`, displays and positions the component.  */
   @Prop({ mutable: true, reflect: true }) open = false;
 
@@ -81,19 +91,30 @@ export class Modal
   beforeClose: (el: HTMLElement) => Promise<void> = () => Promise.resolve();
 
   /** When `true`, disables the component's close button. */
-  @Prop({ reflect: true }) disableCloseButton = false;
+  @Prop({ reflect: true }) closeButtonDisabled = false;
+
+  /**
+   * When `true`, prevents focus trapping.
+   */
+  @Prop({ reflect: true }) focusTrapDisabled = false;
+
+  @Watch("focusTrapDisabled")
+  handlefocusTrapDisabled(focusTrapDisabled: boolean): void {
+    if (!this.open) {
+      return;
+    }
+
+    focusTrapDisabled ? deactivateFocusTrap(this) : activateFocusTrap(this);
+  }
 
   /** When `true`, disables the closing of the component when clicked outside. */
-  @Prop({ reflect: true }) disableOutsideClose = false;
-
-  /** Accessible name for the component's close button. */
-  @Prop() intlClose = TEXT.close;
+  @Prop({ reflect: true }) outsideCloseDisabled = false;
 
   /** When `true`, prevents the component from expanding to the entire screen on mobile devices. */
   @Prop({ reflect: true }) docked: boolean;
 
   /** When `true`, disables the default close on escape behavior. */
-  @Prop({ reflect: true }) disableEscape = false;
+  @Prop({ reflect: true }) escapeDisabled = false;
 
   /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";
@@ -104,21 +125,33 @@ export class Modal
   /** Sets the component to always be fullscreen (overrides `width`). */
   @Prop({ reflect: true }) fullscreen: boolean;
 
-  /**
-   * Adds a color bar to the top of component for visual impact.
-   * Use color to add importance to destructive or workflow dialogs.
-   */
-  @Prop({ reflect: true }) color: "red" | "blue";
-
-  /** Sets the background color of the component's content. */
-  @Prop({ reflect: true }) backgroundColor: ModalBackgroundColor = "white";
+  /** Specifies the kind of the component (will apply to top border). */
+  @Prop({ reflect: true }) kind: Kind;
 
   /**
-   * When `true`, disables spacing to the content area slot.
+   * Made into a prop for testing purposes only
    *
-   * @deprecated  Use `--calcite-modal-padding` CSS variable instead.
+   * @internal
    */
-  @Prop({ reflect: true }) noPadding = false;
+  @Prop({ mutable: true }) messages: ModalMessages;
+
+  /**
+   * Use this property to override individual strings used by the component.
+   */
+  @Prop({ mutable: true }) messageOverrides: Partial<ModalMessages>;
+
+  @Watch("messageOverrides")
+  onMessagesChange(): void {
+    /* wired up by t9n util */
+  }
+
+  /**
+   * This internal property, managed by a containing calcite-shell, is used
+   * to inform the component if special configuration or styles are needed
+   *
+   * @internal
+   */
+  @Prop({ mutable: true }) slottedInShell: boolean;
 
   //--------------------------------------------------------------------------
   //
@@ -126,7 +159,8 @@ export class Modal
   //
   //--------------------------------------------------------------------------
 
-  componentWillLoad(): void {
+  async componentWillLoad(): Promise<void> {
+    await setUpMessages(this);
     setUpLoadableComponent(this);
     // when modal initially renders, if active was set we need to open as watcher doesn't fire
     if (this.open) {
@@ -143,12 +177,8 @@ export class Modal
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
     this.updateFooterVisibility();
     connectConditionalSlotComponent(this);
-    if (this.open) {
-      this.active = this.open;
-    }
-    if (this.active) {
-      this.activeHandler(this.active);
-    }
+    connectLocalized(this);
+    connectMessages(this);
   }
 
   disconnectedCallback(): void {
@@ -156,6 +186,9 @@ export class Modal
     this.mutationObserver?.disconnect();
     disconnectConditionalSlotComponent(this);
     deactivateFocusTrap(this);
+    disconnectLocalized(this);
+    disconnectMessages(this);
+    this.slottedInShell = false;
   }
 
   render(): VNode {
@@ -166,32 +199,33 @@ export class Modal
         aria-modal="true"
         role="dialog"
       >
-        <calcite-scrim class={CSS.scrim} onClick={this.handleOutsideClose} />
-        {this.renderStyle()}
-        <div
-          class={{
-            [CSS.modal]: true,
-            [CSS.modalOpen]: this.isOpen
-          }}
-          ref={this.setTransitionEl}
-        >
-          <div class={CSS.header}>
-            {this.renderCloseButton()}
-            <header class={CSS.title}>
-              <slot name={CSS.header} />
-            </header>
-          </div>
+        <div class={{ [CSS.container]: true, [CSS.slottedInShell]: this.slottedInShell }}>
+          <calcite-scrim class={CSS.scrim} onClick={this.handleOutsideClose} />
+          {this.renderStyle()}
           <div
             class={{
-              content: true,
-              "content--spaced": !this.noPadding,
-              "content--no-footer": !this.hasFooter
+              [CSS.modal]: true,
+              [CSS.modalOpen]: this.isOpen
             }}
-            ref={(el) => (this.modalContent = el)}
+            ref={this.setTransitionEl}
           >
-            <slot name={SLOTS.content} />
+            <div class={CSS.header}>
+              {this.renderCloseButton()}
+              <header class={CSS.title}>
+                <slot name={CSS.header} />
+              </header>
+            </div>
+            <div
+              class={{
+                content: true,
+                "content--no-footer": !this.hasFooter
+              }}
+              ref={(el) => (this.modalContent = el)}
+            >
+              <slot name={SLOTS.content} />
+            </div>
+            {this.renderFooter()}
           </div>
-          {this.renderFooter()}
         </div>
       </Host>
     );
@@ -214,14 +248,14 @@ export class Modal
   }
 
   renderCloseButton(): VNode {
-    return !this.disableCloseButton ? (
+    return !this.closeButtonDisabled ? (
       <button
-        aria-label={this.intlClose}
+        aria-label={this.messages.close}
         class={CSS.close}
         key="button"
         onClick={this.close}
         ref={(el) => (this.closeButtonEl = el)}
-        title={this.intlClose}
+        title={this.messages.close}
       >
         <calcite-icon
           icon={ICONS.close}
@@ -262,21 +296,9 @@ export class Modal
 
   //--------------------------------------------------------------------------
   //
-  //  Variables
+  //  Private Properties/ State
   //
   //--------------------------------------------------------------------------
-  @State() hasFooter = true;
-
-  closeButtonEl: HTMLButtonElement;
-
-  contentId: string;
-
-  /**
-   * We use internal variable to make sure initially open modal can transition from closed state when rendered
-   *
-   * @private
-   */
-  @State() isOpen = false;
 
   modalContent: HTMLDivElement;
 
@@ -294,6 +316,28 @@ export class Modal
 
   focusTrapEl: HTMLDivElement;
 
+  closeButtonEl: HTMLButtonElement;
+
+  contentId: string;
+
+  @State() hasFooter = true;
+
+  /**
+   * We use internal variable to make sure initially open modal can transition from closed state when rendered
+   *
+   * @private
+   */
+  @State() isOpen = false;
+
+  @State() effectiveLocale: string;
+
+  @Watch("effectiveLocale")
+  effectiveLocaleChange(): void {
+    updateMessages(this, this.effectiveLocale);
+  }
+
+  @State() defaultMessages: ModalMessages;
+
   //--------------------------------------------------------------------------
   //
   //  Event Listeners
@@ -302,7 +346,7 @@ export class Modal
 
   @Listen("keydown", { target: "window" })
   handleEscape(event: KeyboardEvent): void {
-    if (this.open && !this.disableEscape && event.key === "Escape" && !event.defaultPrevented) {
+    if (this.open && !this.escapeDisabled && event.key === "Escape" && !event.defaultPrevented) {
       this.close();
       event.preventDefault();
     }
@@ -330,20 +374,6 @@ export class Modal
   //  Public Methods
   //
   //--------------------------------------------------------------------------
-  /**
-   * Focus the first interactive element.
-   *
-   * @param el
-   * @deprecated use `setFocus` instead.
-   */
-  @Method()
-  async focusElement(el?: HTMLElement): Promise<void> {
-    if (el) {
-      el.focus();
-    }
-
-    return this.setFocus();
-  }
 
   /**
    * Sets focus on the component.
@@ -363,7 +393,7 @@ export class Modal
       return focusElement(closeButtonEl);
     }
 
-    activateFocusTrap(this);
+    focusFirstTabbable(this);
   }
 
   /**
@@ -404,6 +434,7 @@ export class Modal
   onOpen(): void {
     this.transitionEl.classList.remove(CSS.openingIdle, CSS.openingActive);
     this.calciteModalOpen.emit();
+    activateFocusTrap(this);
   }
 
   onBeforeClose(): void {
@@ -417,14 +448,8 @@ export class Modal
     deactivateFocusTrap(this);
   }
 
-  @Watch("active")
-  activeHandler(value: boolean): void {
-    this.open = value;
-  }
-
   @Watch("open")
   async toggleModal(value: boolean): Promise<void> {
-    this.active = value;
     onToggleOpenCloseComponent(this);
     if (value) {
       this.transitionEl?.classList.add(CSS.openingIdle);
@@ -451,11 +476,13 @@ export class Modal
     this.titleId = ensureId(titleEl);
     this.contentId = ensureId(contentEl);
 
-    document.documentElement.classList.add(CSS.overflowHidden);
+    if (!this.slottedInShell) {
+      document.documentElement.classList.add(CSS.overflowHidden);
+    }
   }
 
   handleOutsideClose = (): void => {
-    if (this.disableOutsideClose) {
+    if (this.outsideCloseDisabled) {
       return;
     }
 

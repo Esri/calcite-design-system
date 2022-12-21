@@ -27,9 +27,9 @@ When tab-nav is the only parent, tab-title can inherit its `scale` and `position
 
 ## Events
 
-| Event              | Description                                    | Type                                |
-| ------------------ | ---------------------------------------------- | ----------------------------------- |
-| `calciteTabChange` | Emits when the selected `calcite-tab` changes. | `CustomEvent<TabChangeEventDetail>` |
+| Event              | Description                                    | Type                |
+| ------------------ | ---------------------------------------------- | ------------------- |
+| `calciteTabChange` | Emits when the selected `calcite-tab` changes. | `CustomEvent<void>` |
 
 ## Slots
 
