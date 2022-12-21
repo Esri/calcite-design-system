@@ -48,12 +48,13 @@ jobs:
           MERGE_LABELS: 'automated-tokens-pr'
         with:
           script: |
-            const { repo, owner } = context.repo;
+            const owner = github.event.pull_request.head.repo.owner.login;
+            const repo = github.event.pull_request.head.repo
             const designerBranches = process.env.GIT_DESIGNER_BRANCHES;
 
             for (const branch of designerBranches) {
               const newPR = await github.rest.pulls.create({
-                title: 'chore(automerge): ${{ github.ref_name }} from main',
+                title: 'chore(auto-merge): ${{ github.ref_name }} from main',
                 owner,
                 repo,
                 head: '${{ github.ref_name }}',
