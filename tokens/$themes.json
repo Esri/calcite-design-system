@@ -12,7 +12,14 @@
       "brand/dark": "disabled",
       "component/label": "disabled",
       "component/tooltip": "disabled",
-      "component/input-time": "disabled"
+      "component/input-time": "disabled",
+      "component/switch": "disabled",
+      "component/input-message": "disabled",
+      "component/accordion-item": "disabled",
+      "component/alert": "disabled",
+      "component/accordion": "disabled",
+      "component/accordion_backup": "disabled",
+      "component/tip": "disabled"
     },
     "$figmaStyleReferences": {}
   },
@@ -29,7 +36,14 @@
       "brand/dark": "enabled",
       "component/label": "disabled",
       "component/tooltip": "disabled",
-      "component/input-time": "disabled"
+      "component/input-time": "disabled",
+      "component/switch": "disabled",
+      "component/input-message": "disabled",
+      "component/accordion-item": "disabled",
+      "component/alert": "disabled",
+      "component/accordion": "disabled",
+      "component/accordion_backup": "disabled",
+      "component/tip": "disabled"
     },
     "$figmaStyleReferences": {}
   },
@@ -52,7 +66,14 @@
       "component/radio": "source",
       "component/rating": "source",
       "component/tooltip": "source",
-      "component/input-time": "disabled"
+      "component/input-time": "disabled",
+      "component/switch": "disabled",
+      "component/input-message": "disabled",
+      "component/accordion-item": "disabled",
+      "component/alert": "disabled",
+      "component/accordion": "disabled",
+      "component/accordion_backup": "disabled",
+      "component/tip": "disabled"
     },
     "$figmaStyleReferences": {
       "color.brand.default": "S:b28244f76fae4e504bbfa18bb30e111e02a00461,",
@@ -134,7 +155,14 @@
       "component/radio": "source",
       "component/rating": "source",
       "component/tooltip": "source",
-      "component/input-time": "disabled"
+      "component/input-time": "disabled",
+      "component/switch": "disabled",
+      "component/input-message": "disabled",
+      "component/accordion-item": "disabled",
+      "component/alert": "disabled",
+      "component/accordion": "disabled",
+      "component/accordion_backup": "disabled",
+      "component/tip": "disabled"
     },
     "$figmaStyleReferences": {
       "color.brand.default": "S:4ae7e0e0a08b9109fef0b6c2cb45185a3b711de8,",
@@ -221,6 +249,13 @@
       "component/tooltip": "enabled",
       "component/input-time": "enabled",
       "component/[template-comp-name]": "enabled"
+      "component/switch": "enabled",
+      "component/input-message": "enabled",
+      "component/accordion-item": "enabled",
+      "component/alert": "enabled",
+      "component/accordion": "enabled",
+      "component/accordion_backup": "disabled",
+      "component/tip": "enabled"
     },
     "$figmaStyleReferences": {
       "semantic.ui.color.brand.default.light": "S:959c4907a32cb62f2227db1c3fb7a88c3eedcbb9,",

@@ -2,20 +2,27 @@
   "tokenSetOrder": [
     "core",
     "semantic",
+    "component/accordion-item",
+    "component/accordion",
+    "component/alert",
     "component/avatar",
     "component/checkbox",
     "component/chip",
+    "component/input-message",
     "component/input-time",
     "component/label",
     "component/loader",
     "component/radio",
     "component/rating",
+    "component/tip",
     "component/tooltip",
-    "component/[template-comp-name]",
+    "component/switch",
     "calcite/light",
     "calcite/dark",
     "brand/global",
     "brand/light",
-    "brand/dark"
+    "brand/dark",
+    "component/[template-comp-name]",
+    "component/accordion_backup"
   ]
 }

@@ -1,6 +1,6 @@
 {
   "tooltip": {
-    "space-around": {
+    "space-arround": {
       "top-bottom": {
         "value": "$core.spacing.5",
         "type": "spacing"
