@@ -32,8 +32,29 @@
         "type": "color"
       }
     },
+    "border": {
+      "light": {
+        "value": "$semantic.ui.color.border.1.light",
+        "type": "color"
+      },
+      "dark": {
+        "value": "$semantic.ui.color.border.1.dark",
+        "type": "color"
+      }
+    },
     "background": {
       "default": {
+        "light": {
+          "value": "$semantic.ui.color.background.light",
+          "type": "color"
+        },
+        "dark": {
+          "value": "$semantic.ui.color.background.dark",
+          "type": "color"
+        }
+      }
+    },
+    "foreground": {
         "light": {
           "value": "$semantic.ui.color.foreground.2.light",
           "type": "color"
@@ -56,6 +77,20 @@
       "lg": {
         "value": "$core.border.border-radius.6",
         "type": "borderRadius"
+      }
+    },
+    "border-width": {
+      "sm": {
+        "value": "$core.border.border-width.1",
+        "type": "borderWidth"
+      },
+      "md": {
+        "value": "$core.border.border-width.2",
+        "type": "borderWidth"
+      },
+      "lg": {
+        "value": "$core.border.border-width.4",
+        "type": "borderWidth"
       }
     },
     "comp-size": {
@@ -84,6 +119,59 @@
       "lg": {
         "value": "$core.sizing.11",
         "type": "sizing"
+      }
+    },
+    "space-between": {
+      "sm": {
+        "value": "$core.spacing.9",
+        "type": "spacing"
+      },
+      "md": {
+        "value": "$core.spacing.11",
+        "type": "spacing"
+      },
+      "lg": {
+        "value": "$core.spacing.14",
+        "type": "spacing"
+      }
+    },
+    "space-around": {
+      "sm": {
+        "value": "$core.spacing.7",
+        "type": "spacing"
+      },
+      "md": {
+        "value": "$core.spacing.9",
+        "type": "spacing"
+      },
+      "lg": {
+        "value": "$core.spacing.11",
+        "type": "spacing"
+      }
+    },
+    "[specific-element]": {
+      "font": {
+        "sm": {
+          "value": {
+            "typography": "$[comp-name].font.sm",
+            "fontWeights": "$core.font.font-weight.medium-italic"
+          },
+          "type": "composition"
+        },
+        "md": {
+          "value": {
+            "typography": "$[comp-name].font.md",
+            "fontWeights": "$core.font.font-weight.medium-italic"
+          },
+          "type": "composition"
+        },
+        "lg": {
+          "value": {
+            "typography": "$[comp-name].font.lg",
+            "fontWeights": "$core.font.font-weight.medium-italic"
+          },
+          "type": "composition"
+        }
       }
     }
   }

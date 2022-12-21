@@ -102,7 +102,7 @@
     },
     "space-around": {
       "standard": {
-        "value": "$core.sizing.5",
+        "value": "$core.spacing.5",
         "type": "spacing"
       }
     }
