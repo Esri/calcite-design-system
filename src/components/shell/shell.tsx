@@ -14,7 +14,7 @@ import {
  * @slot panel-start - A slot for adding the starting `calcite-shell-panel`.
  * @slot panel-end - A slot for adding the ending `calcite-shell-panel`.
  * @slot center-row - A slot for adding content to the center row.
- * @slot modal - A slot for adding `calcite-modal` components. When placed in this slot, the modal position will be constrained to the extent of the shell.
+ * @slot modals - A slot for adding `calcite-modal` components. When placed in this slot, the modal position will be constrained to the extent of the shell.
  * @slot alerts - A slot for adding `calcite-alert` components. When placed in this slot, the alert position will be constrained to the extent of the shell.
  */
 

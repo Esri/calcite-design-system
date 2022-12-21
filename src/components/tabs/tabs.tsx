@@ -5,7 +5,7 @@ import { SLOTS } from "./resources";
 
 /**
  * @slot - A slot for adding `calcite-tab`s.
- * @slot tab-nav - A slot for adding a `calcite-tab-nav`.
+ * @slot title-group - A slot for adding a `calcite-tab-nav`.
  */
 @Component({
   tag: "calcite-tabs",
