@@ -1,4 +1,4 @@
 {
-  "invalid": "Š_Invalid_______________č",
-  "overLimit": "Š_Character limit exceeded_________________________č"
+  "invalid": "Neveljavno",
+  "overLimit": "Presežena je omejitev znakov"
 }

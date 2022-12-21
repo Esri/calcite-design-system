@@ -1,4 +1,4 @@
 {
-  "invalid": "須_Invalid_______________鷗",
-  "overLimit": "須_Character limit exceeded_________________________鷗"
+  "invalid": "無効",
+  "overLimit": "文字制限を超えています"
 }

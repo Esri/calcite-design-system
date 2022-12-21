@@ -1,4 +1,4 @@
 {
-  "invalid": "ø_Invalid_______________å",
-  "overLimit": "ø_Character limit exceeded_________________________å"
+  "invalid": "Ugyldig",
+  "overLimit": "Grænsen for antallet af tegn er overskredet"
 }

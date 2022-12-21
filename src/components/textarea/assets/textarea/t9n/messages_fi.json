@@ -1,4 +1,4 @@
 {
-  "invalid": "Å_Invalid_______________ö",
-  "overLimit": "Å_Character limit exceeded_________________________ö"
+  "invalid": "Virheellinen",
+  "overLimit": "Merkkien määrä ylitetty"
 }

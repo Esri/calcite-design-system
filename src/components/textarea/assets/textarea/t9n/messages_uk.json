@@ -1,4 +1,4 @@
 {
-  "invalid": "ґ_Invalid_______________Ї",
-  "overLimit": "ґ_Character limit exceeded_________________________Ї"
+  "invalid": "Неприпустимий",
+  "overLimit": "Перевищено обмеження кількості символів"
 }

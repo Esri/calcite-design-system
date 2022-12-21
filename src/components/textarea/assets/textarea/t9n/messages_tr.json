@@ -1,4 +1,4 @@
 {
-  "invalid": "ı_Invalid_______________İ",
-  "overLimit": "ı_Character limit exceeded_________________________İ"
+  "invalid": "Geçersiz",
+  "overLimit": "Karakter sınırı aşıldı"
 }

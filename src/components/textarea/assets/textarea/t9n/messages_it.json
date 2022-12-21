@@ -1,4 +1,4 @@
 {
-  "invalid": "é_Invalid_______________È",
-  "overLimit": "é_Character limit exceeded_________________________È"
+  "invalid": "Non valido",
+  "overLimit": "Limite di caratteri superato"
 }

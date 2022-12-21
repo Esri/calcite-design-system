@@ -1,4 +1,4 @@
 {
-  "invalid": "Ř_Invalid_______________ů",
-  "overLimit": "Ř_Character limit exceeded_________________________ů"
+  "invalid": "Neplatný",
+  "overLimit": "Překročen limit počtu znaků"
 }

@@ -1,4 +1,4 @@
 {
-  "invalid": "Đ_Invalid_______________ớ",
-  "overLimit": "Đ_Character limit exceeded_________________________ớ"
+  "invalid": "Μη έγκυρο",
+  "overLimit": "Υπέρβαση ορίου χαρακτήρων"
 }

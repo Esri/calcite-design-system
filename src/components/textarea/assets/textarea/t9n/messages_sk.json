@@ -1,4 +1,4 @@
 {
-  "invalid": "ĺ_Invalid_______________ľ",
-  "overLimit": "ĺ_Character limit exceeded_________________________ľ"
+  "invalid": "Neplatné",
+  "overLimit": "Bol prekročený limit počtu znakov"
 }

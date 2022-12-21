@@ -1,4 +1,4 @@
 {
-  "invalid": "ก้_Invalid_______________ษฺ",
-  "overLimit": "ก้_Character limit exceeded_________________________ษฺ"
+  "invalid": "ไม่ถูกต้อง",
+  "overLimit": "เกินขีดจำกัดอักขระ"
 }

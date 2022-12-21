@@ -1,4 +1,4 @@
 {
-  "invalid": "ng_Invalid_______________ny",
-  "overLimit": "ng_Character limit exceeded_________________________ny"
+  "invalid": "Tidak valid",
+  "overLimit": "Batas karakter terlampaui"
 }

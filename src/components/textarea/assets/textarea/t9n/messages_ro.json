@@ -1,4 +1,4 @@
 {
-  "invalid": "Ă_Invalid_______________ș",
-  "overLimit": "Ă_Character limit exceeded_________________________ș"
+  "invalid": "Nevalid",
+  "overLimit": "Limită de caractere depășită"
 }

@@ -1,4 +1,4 @@
 {
-  "invalid": "Ж_Invalid_______________Я",
-  "overLimit": "Ж_Character limit exceeded_________________________Я"
+  "invalid": "Недопустимый",
+  "overLimit": "Превышен лимит символов"
 }

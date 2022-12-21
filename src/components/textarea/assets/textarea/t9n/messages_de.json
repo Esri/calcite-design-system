@@ -1,4 +1,4 @@
 {
-  "invalid": "ä_Invalid_______________Ü",
-  "overLimit": "ä_Character limit exceeded_________________________Ü"
+  "invalid": "Ungültig",
+  "overLimit": "Zeichenlimit wurde überschritten"
 }

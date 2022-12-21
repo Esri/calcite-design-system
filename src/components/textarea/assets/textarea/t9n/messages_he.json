@@ -1,4 +1,4 @@
 {
-  "invalid": "כן_Invalid_______________ש",
-  "overLimit": "כן_Character limit exceeded_________________________ש"
+  "invalid": "לא תקין",
+  "overLimit": "חריגה ממגבלת מספר התווים"
 }
