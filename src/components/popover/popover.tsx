@@ -32,12 +32,11 @@ import {
   FocusTrap,
   connectFocusTrap,
   activateFocusTrap,
-  deactivateFocusTrap,
-  focusFirstTabbable
+  deactivateFocusTrap
 } from "../../utils/focusTrapComponent";
 
 import { guid } from "../../utils/guid";
-import { queryElementRoots, toAriaBoolean } from "../../utils/dom";
+import { focusFirstTabbable, queryElementRoots, toAriaBoolean } from "../../utils/dom";
 import {
   OpenCloseComponent,
   connectOpenCloseComponent,
@@ -384,23 +383,11 @@ export class Popover
 
   /**
    * Sets focus on the component.
-   *
-   * @param focusId
    */
   @Method()
-  async setFocus(focusId?: "close-button"): Promise<void> {
+  async setFocus(): Promise<void> {
     await componentLoaded(this);
-
-    const { closeButtonEl } = this;
-
-    if (focusId === "close-button" && closeButtonEl) {
-      forceUpdate(closeButtonEl);
-      closeButtonEl.setFocus();
-
-      return;
-    }
-
-    focusFirstTabbable(this);
+    focusFirstTabbable(this.focusTrapEl);
   }
 
   /**
