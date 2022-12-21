@@ -14,7 +14,8 @@ jobs:
         uses: actions/github-script@v6
         with:
           script: |
-            const { repo, owner } = context.repo;
+            const owner = github.event.pull_request.head.repo.owner.login;
+            const repo = github.event.pull_request.head.repo
             const branches = await github.rest.repos.listBranches({ owner, repo });
             const designerBranches = branches.filter((b) => {
               return b.name.includes('designer/')
