@@ -40,8 +40,7 @@ jobs:
               if ((prs > 0)); then
                   echo ${GIT_DESIGNER_BRANCHES[@]/$branch}
               fi
-          done
-    
+          done;
       - name: Create Pull Requests
         uses: actions/github-script@v6
         if: "${#GIT_DESIGNER_BRANCHES[@]}" -gt "0"
