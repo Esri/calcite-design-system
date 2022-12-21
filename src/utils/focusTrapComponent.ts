@@ -105,6 +105,13 @@ export function focusFirstTabbable(component: FocusTrapComponent): void {
  * Helper to update the element(s) that are used within the FocusTrap component.
  *
  * @param {FocusTrapComponent} component The FocusTrap component.
+ * @example
+ * const modal = document.querySelector("calcite-modal");
+ * const input = document.createElement("calcite-input");
+ * content.appendChild(input);
+ * await input.componentOnReady();
+ * await modal.updateFocusTrapElements();
+ * requestAnimationFrame(() => input.setFocus());
  */
 export function updateFocusTrapElements(component: FocusTrapComponent): void {
   component.focusTrap?.updateContainerElements(component.focusTrapEl);
