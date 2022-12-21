@@ -20,7 +20,7 @@ import {
   NumberingSystem
 } from "../../utils/locale";
 import { CSS } from "./resources";
-import { Messages } from "./assets/pagination/t9n";
+import { PaginationMessages } from "./assets/pagination/t9n";
 import {
   connectMessages,
   disconnectMessages,
@@ -59,7 +59,7 @@ export class Pagination implements LocalizedComponent, LocalizedComponent, T9nCo
   /**
    * Use this property to override individual strings used by the component.
    */
-  @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
+  @Prop({ mutable: true }) messageOverrides: Partial<PaginationMessages>;
 
   @Watch("messageOverrides")
   onMessagesChange(): void {
@@ -96,7 +96,7 @@ export class Pagination implements LocalizedComponent, LocalizedComponent, T9nCo
   //
   //--------------------------------------------------------------------------
 
-  @State() defaultMessages: Messages;
+  @State() defaultMessages: PaginationMessages;
 
   @State() effectiveLocale = "";
 
@@ -119,7 +119,7 @@ export class Pagination implements LocalizedComponent, LocalizedComponent, T9nCo
    *
    * @internal
    */
-  @Prop({ mutable: true }) messages: Messages;
+  @Prop({ mutable: true }) messages: PaginationMessages;
 
   //--------------------------------------------------------------------------
   //

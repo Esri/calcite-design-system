@@ -28,7 +28,7 @@ import {
   T9nComponent,
   updateMessages
 } from "../../utils/t9n";
-import { Messages } from "./assets/pick-list-item/t9n";
+import { PickListItemMessages } from "./assets/pick-list-item/t9n";
 import {
   setUpLoadableComponent,
   setComponentLoaded,
@@ -103,14 +103,14 @@ export class PickListItem
   /**
    * Use this property to override individual strings used by the component.
    */
-  @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
+  @Prop({ mutable: true }) messageOverrides: Partial<PickListItemMessages>;
 
   /**
    * Made into a prop for testing purposes only
    *
    * @internal
    */
-  @Prop({ mutable: true }) messages: Messages;
+  @Prop({ mutable: true }) messages: PickListItemMessages;
 
   @Watch("defaultMessages")
   @Watch("messageOverrides")
@@ -172,7 +172,7 @@ export class PickListItem
 
   shiftPressed: boolean;
 
-  @State() defaultMessages: Messages;
+  @State() defaultMessages: PickListItemMessages;
 
   @State() effectiveLocale = "";
 

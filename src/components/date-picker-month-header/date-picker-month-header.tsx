@@ -19,7 +19,7 @@ import { BUDDHIST_CALENDAR_YEAR_OFFSET, CSS, ICON } from "./resources";
 import { isActivationKey } from "../../utils/key";
 import { numberStringFormatter } from "../../utils/locale";
 import { closestElementCrossShadowBoundary } from "../../utils/dom";
-import { Messages } from "../date-picker/assets/date-picker/t9n";
+import { DatePickerMessages } from "../date-picker/assets/date-picker/t9n";
 
 @Component({
   tag: "calcite-date-picker-month-header",
@@ -71,7 +71,7 @@ export class DatePickerMonthHeader {
    * @internal
    * @readonly
    */
-  @Prop({ mutable: true }) messages: Messages;
+  @Prop({ mutable: true }) messages: DatePickerMessages;
 
   //--------------------------------------------------------------------------
   //

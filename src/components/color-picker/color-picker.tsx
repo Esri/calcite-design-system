@@ -29,7 +29,7 @@ import { throttle } from "lodash-es";
 
 import { clamp } from "../../utils/math";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
-import { Messages } from "./assets/color-picker/t9n";
+import { ColorPickerMessages } from "./assets/color-picker/t9n";
 import { isActivationKey } from "../../utils/key";
 import {
   connectMessages,
@@ -146,7 +146,7 @@ export class ColorPicker
   /**
    * Use this property to override individual strings used by the component.
    */
-  @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
+  @Prop({ mutable: true }) messageOverrides: Partial<ColorPickerMessages>;
 
   @Watch("messageOverrides")
   onMessagesChange(): void {
@@ -240,7 +240,7 @@ export class ColorPicker
 
   private sliderThumbState: "idle" | "hover" | "drag" = "idle";
 
-  @State() defaultMessages: Messages;
+  @State() defaultMessages: ColorPickerMessages;
 
   @State() colorFieldAndSliderInteractive = false;
 
@@ -262,7 +262,7 @@ export class ColorPicker
    *
    * @internal
    */
-  @Prop({ mutable: true }) messages: Messages;
+  @Prop({ mutable: true }) messages: ColorPickerMessages;
 
   @State() savedColors: string[] = [];
 
@@ -366,7 +366,6 @@ export class ColorPicker
 
   private handleChannelInput = (event: CustomEvent): void => {
     const input = event.currentTarget as HTMLCalciteInputElement;
-    const internalInput = event.detail.nativeEvent.target as HTMLInputElement;
     const channelIndex = Number(input.getAttribute("data-channel-index"));
 
     const limit =
@@ -386,7 +385,10 @@ export class ColorPicker
     }
 
     input.value = inputValue;
-    internalInput.value = inputValue;
+
+    // TODO: refactor calcite-input so we don't need to sync the internals
+    // https://github.com/Esri/calcite-components/issues/6100
+    input.internalSyncChildElValue();
   };
 
   // using @Listen as a workaround for VDOM listener not firing
@@ -785,6 +787,7 @@ export class ColorPicker
                 <calcite-color-picker-hex-input
                   allowEmpty={allowEmpty}
                   class={CSS.control}
+                  hexLabel={messages.hex}
                   numberingSystem={this.numberingSystem}
                   onCalciteColorPickerHexInputChange={this.handleHexInputChange}
                   scale={hexInputScale}

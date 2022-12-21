@@ -50,9 +50,14 @@ describe("calcite-time-picker", () => {
       { propertyName: "step", defaultValue: 60 }
     ]));
 
-  it("should focus the first input when setFocus is called", async () =>
+  it("should focus the first focusable element when setFocus is called (ltr)", async () =>
     focusable(`calcite-time-picker`, {
-      shadowFocusTargetSelector: `.${CSS.hour}`
+      shadowFocusTargetSelector: `.${CSS.buttonHourUp}`
+    }));
+
+  it("should focus the first focusable element when setFocus is called (rtl)", async () =>
+    focusable(`<calcite-time-picker dir="rtl" lang="ar"></calcite-time-picker>`, {
+      shadowFocusTargetSelector: `.${CSS.buttonHourUp}`
     }));
 
   it("value displays correctly when value is programmatically changed", async () => {

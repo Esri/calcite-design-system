@@ -30,10 +30,9 @@ import {
   disconnectLocalized,
   LocalizedComponent,
   NumberingSystem,
-  numberStringFormatter,
-  updateEffectiveLocale
+  numberStringFormatter
 } from "../../utils/locale";
-import { Messages } from "../time-picker/assets/time-picker/t9n";
+import { TimePickerMessages } from "../time-picker/assets/time-picker/t9n";
 import { numberKeys } from "../../utils/key";
 import {
   setUpLoadableComponent,
@@ -109,21 +108,7 @@ export class InputTimePicker
   /**
    * Use this property to override individual strings used by the component.
    */
-  @Prop() messagesOverrides: Partial<Messages>;
-
-  /**
-   * BCP 47 language tag for desired language and country format.
-   *
-   * @internal
-   * @deprecated set the global `lang` attribute on the element instead.
-   * @mdn [lang](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/lang)
-   */
-  @Prop({ mutable: true }) locale: string;
-
-  @Watch("locale")
-  localeChanged(): void {
-    updateEffectiveLocale(this);
-  }
+  @Prop() messagesOverrides: Partial<TimePickerMessages>;
 
   /** Specifies the name of the component on form submission. */
   @Prop() name: string;

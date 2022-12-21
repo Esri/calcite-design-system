@@ -14,7 +14,6 @@ import {
 } from "@stencil/core";
 import { ensureId, focusElement, getSlotted } from "../../utils/dom";
 import { Kind, Scale } from "../interfaces";
-import { ModalBackgroundColor } from "./interfaces";
 import { CSS, ICONS, SLOTS } from "./resources";
 import { createObserver } from "../../utils/observers";
 import {
@@ -29,7 +28,8 @@ import {
   connectFocusTrap,
   activateFocusTrap,
   deactivateFocusTrap,
-  focusFirstTabbable
+  focusFirstTabbable,
+  updateFocusTrapElements
 } from "../../utils/focusTrapComponent";
 import {
   setUpLoadableComponent,
@@ -46,7 +46,7 @@ import {
   T9nComponent,
   updateMessages
 } from "../../utils/t9n";
-import { Messages } from "./assets/modal/t9n";
+import { ModalMessages } from "./assets/modal/t9n";
 
 /**
  * @slot header - A slot for adding header text.
@@ -129,25 +129,30 @@ export class Modal
   /** Specifies the kind of the component (will apply to top border). */
   @Prop({ reflect: true }) kind: Kind;
 
-  /** Sets the background color of the component's content. */
-  @Prop({ reflect: true }) backgroundColor: ModalBackgroundColor = "white";
-
   /**
    * Made into a prop for testing purposes only
    *
    * @internal
    */
-  @Prop({ mutable: true }) messages: Messages;
+  @Prop({ mutable: true }) messages: ModalMessages;
 
   /**
    * Use this property to override individual strings used by the component.
    */
-  @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
+  @Prop({ mutable: true }) messageOverrides: Partial<ModalMessages>;
 
   @Watch("messageOverrides")
   onMessagesChange(): void {
     /* wired up by t9n util */
   }
+
+  /**
+   * This internal property, managed by a containing calcite-shell, is used
+   * to inform the component if special configuration or styles are needed
+   *
+   * @internal
+   */
+  @Prop({ mutable: true }) slottedInShell: boolean;
 
   //--------------------------------------------------------------------------
   //
@@ -184,6 +189,7 @@ export class Modal
     deactivateFocusTrap(this);
     disconnectLocalized(this);
     disconnectMessages(this);
+    this.slottedInShell = false;
   }
 
   render(): VNode {
@@ -194,31 +200,33 @@ export class Modal
         aria-modal="true"
         role="dialog"
       >
-        <calcite-scrim class={CSS.scrim} onClick={this.handleOutsideClose} />
-        {this.renderStyle()}
-        <div
-          class={{
-            [CSS.modal]: true,
-            [CSS.modalOpen]: this.isOpen
-          }}
-          ref={this.setTransitionEl}
-        >
-          <div class={CSS.header}>
-            {this.renderCloseButton()}
-            <header class={CSS.title}>
-              <slot name={CSS.header} />
-            </header>
-          </div>
+        <div class={{ [CSS.container]: true, [CSS.slottedInShell]: this.slottedInShell }}>
+          <calcite-scrim class={CSS.scrim} onClick={this.handleOutsideClose} />
+          {this.renderStyle()}
           <div
             class={{
-              content: true,
-              "content--no-footer": !this.hasFooter
+              [CSS.modal]: true,
+              [CSS.modalOpen]: this.isOpen
             }}
-            ref={(el) => (this.modalContent = el)}
+            ref={this.setTransitionEl}
           >
-            <slot name={SLOTS.content} />
+            <div class={CSS.header}>
+              {this.renderCloseButton()}
+              <header class={CSS.title}>
+                <slot name={CSS.header} />
+              </header>
+            </div>
+            <div
+              class={{
+                content: true,
+                "content--no-footer": !this.hasFooter
+              }}
+              ref={(el) => (this.modalContent = el)}
+            >
+              <slot name={SLOTS.content} />
+            </div>
+            {this.renderFooter()}
           </div>
-          {this.renderFooter()}
         </div>
       </Host>
     );
@@ -329,7 +337,7 @@ export class Modal
     updateMessages(this, this.effectiveLocale);
   }
 
-  @State() defaultMessages: Messages;
+  @State() defaultMessages: ModalMessages;
 
   //--------------------------------------------------------------------------
   //
@@ -387,6 +395,14 @@ export class Modal
     }
 
     focusFirstTabbable(this);
+  }
+
+  /**
+   * Updates the element(s) that are used within the focus-trap of the component.
+   */
+  @Method()
+  async updateFocusTrapElements(): Promise<void> {
+    updateFocusTrapElements(this);
   }
 
   /**
@@ -469,7 +485,9 @@ export class Modal
     this.titleId = ensureId(titleEl);
     this.contentId = ensureId(contentEl);
 
-    document.documentElement.classList.add(CSS.overflowHidden);
+    if (!this.slottedInShell) {
+      document.documentElement.classList.add(CSS.overflowHidden);
+    }
   }
 
   handleOutsideClose = (): void => {

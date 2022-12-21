@@ -33,7 +33,8 @@ import {
   connectFocusTrap,
   activateFocusTrap,
   deactivateFocusTrap,
-  focusFirstTabbable
+  focusFirstTabbable,
+  updateFocusTrapElements
 } from "../../utils/focusTrapComponent";
 
 import { guid } from "../../utils/guid";
@@ -55,7 +56,7 @@ import {
   T9nComponent,
   updateMessages
 } from "../../utils/t9n";
-import { Messages } from "./assets/popover/t9n";
+import { PopoverMessages } from "./assets/popover/t9n";
 
 import {
   setUpLoadableComponent,
@@ -149,7 +150,7 @@ export class Popover
   /**
    * Use this property to override individual strings used by the component.
    */
-  @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
+  @Prop({ mutable: true }) messageOverrides: Partial<PopoverMessages>;
 
   @Watch("messageOverrides")
   onMessagesChange(): void {
@@ -161,7 +162,7 @@ export class Popover
    *
    * @internal
    */
-  @Prop({ mutable: true }) messages: Messages;
+  @Prop({ mutable: true }) messages: PopoverMessages;
 
   /**
    * Offsets the position of the popover away from the `referenceElement`.
@@ -266,7 +267,7 @@ export class Popover
 
   @State() effectiveReferenceElement: ReferenceElement;
 
-  @State() defaultMessages: Messages;
+  @State() defaultMessages: PopoverMessages;
 
   arrowEl: HTMLDivElement;
 
@@ -411,6 +412,14 @@ export class Popover
   @Method()
   async toggle(value = !this.open): Promise<void> {
     this.open = value;
+  }
+
+  /**
+   * Updates the element(s) that are used within the focus-trap of the component.
+   */
+  @Method()
+  async updateFocusTrapElements(): Promise<void> {
+    updateFocusTrapElements(this);
   }
 
   // --------------------------------------------------------------------------

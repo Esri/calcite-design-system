@@ -29,8 +29,8 @@ import {
   updateAfterClose
 } from "../../utils/floating-ui";
 import { guid } from "../../utils/guid";
-import { Scale } from "../interfaces";
-import { ComboboxSelectionMode, ComboboxChildElement } from "./interfaces";
+import { Scale, SelectionMode } from "../interfaces";
+import { ComboboxChildElement } from "./interfaces";
 import { ComboboxChildSelector, ComboboxItem, ComboboxItemGroup } from "./resources";
 import { getItemAncestors, getItemChildren, hasActiveChildren } from "./utils";
 import { LabelableComponent, connectLabel, disconnectLabel, getLabelText } from "../../utils/label";
@@ -58,7 +58,7 @@ import {
   updateMessages
 } from "../../utils/t9n";
 import { connectLocalized, disconnectLocalized } from "../../utils/locale";
-import { Messages } from "./assets/combobox/t9n";
+import { ComboboxMessages } from "./assets/combobox/t9n";
 import {
   setUpLoadableComponent,
   setComponentLoaded,
@@ -193,7 +193,10 @@ export class Combobox
    * - single: only one selection)
    * - ancestors: like multiple, but show ancestors of selected items as selected, only deepest children shown in chips
    */
-  @Prop({ reflect: true }) selectionMode: ComboboxSelectionMode = "multi";
+  @Prop({ reflect: true }) selectionMode: Extract<
+    "single" | "ancestors" | "multiple",
+    SelectionMode
+  > = "multiple";
 
   /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";
@@ -226,12 +229,12 @@ export class Combobox
    *
    * @internal
    */
-  @Prop({ mutable: true }) messages: Messages;
+  @Prop({ mutable: true }) messages: ComboboxMessages;
 
   /**
    * Use this property to override individual strings used by the component.
    */
-  @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
+  @Prop({ mutable: true }) messageOverrides: Partial<ComboboxMessages>;
 
   @Watch("messageOverrides")
   onMessagesChange(): void {
@@ -462,7 +465,7 @@ export class Combobox
     updateMessages(this, this.effectiveLocale);
   }
 
-  @State() defaultMessages: Messages;
+  @State() defaultMessages: ComboboxMessages;
 
   textInput: HTMLInputElement = null;
 

@@ -51,7 +51,7 @@ import {
   T9nComponent,
   updateMessages
 } from "../../utils/t9n";
-import { Messages } from "./assets/input-number/t9n";
+import { InputNumberMessages } from "./assets/input-number/t9n";
 import {
   setUpLoadableComponent,
   setComponentLoaded,
@@ -279,12 +279,12 @@ export class InputNumber
    *
    * @internal
    */
-  @Prop({ mutable: true }) messages: Messages;
+  @Prop({ mutable: true }) messages: InputNumberMessages;
 
   /**
    * Use this property to override individual strings used by the component.
    */
-  @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
+  @Prop({ mutable: true }) messageOverrides: Partial<InputNumberMessages>;
 
   @Watch("messageOverrides")
   onMessagesChange(): void {
@@ -372,7 +372,7 @@ export class InputNumber
     };
   }
 
-  @State() defaultMessages: Messages;
+  @State() defaultMessages: InputNumberMessages;
 
   @State() localizedValue: string;
 

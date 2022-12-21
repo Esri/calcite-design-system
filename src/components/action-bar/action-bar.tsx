@@ -37,7 +37,7 @@ import {
   T9nComponent,
   updateMessages
 } from "../../utils/t9n";
-import { Messages } from "./assets/action-bar/t9n";
+import { ActionBarMessages } from "./assets/action-bar/t9n";
 import {
   setUpLoadableComponent,
   setComponentLoaded,
@@ -120,12 +120,12 @@ export class ActionBar
    *
    * @internal
    */
-  @Prop({ mutable: true }) messages: Messages;
+  @Prop({ mutable: true }) messages: ActionBarMessages;
 
   /**
    * Use this property to override individual strings used by the component.
    */
-  @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
+  @Prop({ mutable: true }) messageOverrides: Partial<ActionBarMessages>;
 
   @Watch("messageOverrides")
   onMessagesChange(): void {
@@ -168,7 +168,7 @@ export class ActionBar
     updateMessages(this, this.effectiveLocale);
   }
 
-  @State() defaultMessages: Messages;
+  @State() defaultMessages: ActionBarMessages;
 
   // --------------------------------------------------------------------------
   //

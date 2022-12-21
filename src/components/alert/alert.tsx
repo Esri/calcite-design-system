@@ -40,7 +40,7 @@ import {
   T9nComponent,
   updateMessages
 } from "../../utils/t9n";
-import { Messages } from "./assets/alert/t9n";
+import { AlertMessages } from "./assets/alert/t9n";
 import {
   setUpLoadableComponent,
   setComponentLoaded,
@@ -133,17 +133,25 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
    *
    * @internal
    */
-  @Prop({ mutable: true }) messages: Messages;
+  @Prop({ mutable: true }) messages: AlertMessages;
 
   /**
    * Use this property to override individual strings used by the component.
    */
-  @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
+  @Prop({ mutable: true }) messageOverrides: Partial<AlertMessages>;
 
   @Watch("messageOverrides")
   onMessagesChange(): void {
     /* wired up by t9n util */
   }
+
+  /**
+   * This internal property, managed by a containing calcite-shell, is used
+   * to inform the component if special configuration or styles are needed
+   *
+   * @internal
+   */
+  @Prop({ mutable: true }) slottedInShell: boolean;
 
   @Watch("icon")
   @Watch("kind")
@@ -195,6 +203,7 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
     disconnectOpenCloseComponent(this);
     disconnectLocalized(this);
     disconnectMessages(this);
+    this.slottedInShell = false;
   }
 
   render(): VNode {
@@ -251,7 +260,8 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
           class={{
             container: true,
             queued,
-            [placement]: true
+            [placement]: true,
+            [CSS.slottedInShell]: this.slottedInShell
           }}
           onPointerOut={this.autoClose && this.autoCloseTimeoutId ? this.handleMouseLeave : null}
           onPointerOver={this.autoClose && this.autoCloseTimeoutId ? this.handleMouseOver : null}
@@ -371,7 +381,7 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
     updateMessages(this, this.effectiveLocale);
   }
 
-  @State() defaultMessages: Messages;
+  @State() defaultMessages: AlertMessages;
 
   @State() hasEndActions = false;
 

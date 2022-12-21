@@ -24,7 +24,7 @@ import {
   T9nComponent,
   updateMessages
 } from "../../utils/t9n";
-import { Messages } from "./assets/block-section/t9n";
+import { BlockSectionMessages } from "./assets/block-section/t9n";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 
 /**
@@ -72,12 +72,12 @@ export class BlockSection implements LocalizedComponent, T9nComponent {
    *
    * @internal
    */
-  @Prop({ mutable: true }) messages: Messages;
+  @Prop({ mutable: true }) messages: BlockSectionMessages;
 
   /**
    * Use this property to override individual strings used by the component.
    */
-  @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
+  @Prop({ mutable: true }) messageOverrides: Partial<BlockSectionMessages>;
 
   @Watch("messageOverrides")
   onMessagesChange(): void {
@@ -101,7 +101,7 @@ export class BlockSection implements LocalizedComponent, T9nComponent {
     updateMessages(this, this.effectiveLocale);
   }
 
-  @State() defaultMessages: Messages;
+  @State() defaultMessages: BlockSectionMessages;
 
   // --------------------------------------------------------------------------
   //
