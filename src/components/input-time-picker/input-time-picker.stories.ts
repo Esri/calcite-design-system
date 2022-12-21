@@ -32,7 +32,7 @@ export const darkThemeRTL_TestOnly = (): string => html`
   <calcite-input-time-picker
     ${boolean("disabled", false)}
     ${boolean("hidden", false)}
-    class="calcite-theme-dark"
+    class="calcite-mode-dark"
     name="${text("name", "dark")}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
     step="${number("step", 1)}"

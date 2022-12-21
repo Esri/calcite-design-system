@@ -71,7 +71,7 @@ describe("calcite-chip", () => {
     expect(close).toBeNull();
   });
 
-  describe("CSS properties for light/dark themes", () => {
+  describe("CSS properties for light/dark mode", () => {
     const chipSnippet = `
       <calcite-chip
         class="layers"
@@ -104,7 +104,7 @@ describe("calcite-chip", () => {
     });
 
     describe("when theme attribute is not provided", () => {
-      it("should render chip pseudo classes with default values tied to light theme", async () => {
+      it("should render chip pseudo classes with default values tied to mode theme", async () => {
         page = await newE2EPage({ html: chipSnippet });
         chipCloseButton = await page.find("calcite-chip >>> button");
         await chipCloseButton.focus();
@@ -120,9 +120,9 @@ describe("calcite-chip", () => {
     });
 
     describe("when theme attribute is dark", () => {
-      it("should render button pseudo classes with value tied to dark theme", async () => {
+      it("should render button pseudo classes with value tied to dark mode", async () => {
         page = await newE2EPage({
-          html: `<div class="calcite-theme-dark">${chipSnippet}</div>`
+          html: `<div class="calcite-mode-dark">${chipSnippet}</div>`
         });
         chipCloseButton = await page.find("calcite-chip >>> button");
         await chipCloseButton.focus();
@@ -162,7 +162,7 @@ describe("calcite-chip", () => {
 
     it("should not render chip when closed set to true", async () => {
       const page = await newE2EPage();
-      await page.setContent(`<div class="calcite-theme-dark">${chipSnippet}</div>`);
+      await page.setContent(`<div class="calcite-mode-dark">${chipSnippet}</div>`);
 
       const chipEl = await page.find(`calcite-chip`);
       chipEl.setAttribute("closed", true);

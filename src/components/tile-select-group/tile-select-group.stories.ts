@@ -86,7 +86,7 @@ export const darkThemeRTL_TestOnly = (): string => html`
   <calcite-tile-select-group
     layout="${select("layout", ["horizontal", "vertical"], "horizontal", "Tile Select Group")}"
     dir="${select("dir", ["ltr", "rtl"], "rtl", "Tile Select Group")}"
-    class="calcite-theme-dark"
+    class="calcite-mode-dark"
   >
     ${tileSelectsHTML()}
   </calcite-tile-select-group>

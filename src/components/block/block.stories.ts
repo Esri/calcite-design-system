@@ -168,7 +168,7 @@ export const darkThemeRTL_TestOnly = (): string =>
     createBlockAttributes({ exceptions: ["dir"] }).concat(
       {
         name: "class",
-        value: "calcite-theme-dark"
+        value: "calcite-mode-dark"
       },
       { name: "dir", value: "rtl" }
     ),

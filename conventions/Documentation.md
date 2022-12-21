@@ -57,7 +57,7 @@ export default {
 export const simple = (): string => html`<my-component demo-prop="${boolean("demo-prop", true)}"></my-component>`;
 
 export const darkThemeRTL_TestOnly = (): string =>
-  html`<my-component demo-prop dir="rtl" class="calcite-theme-dark"></my-component>`;
+  html`<my-component demo-prop dir="rtl" class="calcite-mode-dark"></my-component>`;
 
 darkThemeRTL_TestOnly.parameters = { themes: themesDarkDefault };
 ```
@@ -103,7 +103,7 @@ export default {
 - Stories that are only meant for testing should use the `_TestOnly` suffix, which ensures it is only used for the screenshot test build. For example, if a snapshot with specific properties is needed for testing, it wouldn't need to be included in the playground where knobs can be used to display the state in the `simple` story.
 - Stories that are not meant for testing should use the `_NoTest` suffix, which ensures it is only used for the internal playground build. For example, stories that requires interaction not supported by the screenshot test environment, such as changing knobs.
 - The `simple` story and any other significant configuration should have a matching `darkThemeRTL_TestOnly` story
-  - In order to reduce snapshot count, dark theme and RTL visual tests have been combined
+  - In order to reduce snapshot count, dark mode and RTL visual tests have been combined
 
 ### Using utilities
 

@@ -256,7 +256,7 @@ export const richContentFilterEnabled = (): string => html`
 `;
 
 export const darkThemeRTL_TestOnly = (): string => html`
-  <calcite-list class="calcite-theme-dark" dir="rtl" ${knobsHTML()}>
+  <calcite-list class="calcite-mode-dark" dir="rtl" ${knobsHTML()}>
     <calcite-list-item label="Princess Bubblegum" description="Ruler of The Candy Kingdom">
       <calcite-action icon="drag" label="drag" scale="s" slot="actions-start"></calcite-action>
       <calcite-icon scale="l" icon="effects" slot="content-start"></calcite-icon>

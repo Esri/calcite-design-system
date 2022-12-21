@@ -166,7 +166,7 @@ export const darkThemeRTL_TestOnly = (): string => html`
     }
   </style>
   <calcite-alert
-    class="calcite-theme-dark"
+    class="calcite-mode-dark"
     ${boolean("icon", true)}
     ${boolean("auto-close", false)}
     auto-close-duration="${select("auto-close-duration", ["fast", "medium", "slow"], "medium")}"

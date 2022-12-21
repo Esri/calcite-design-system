@@ -82,7 +82,7 @@ export const overriddenIconColor = (): string =>
 export const darkThemeRTL_TestOnly = (): string => html`
   <div style="background-color:#2b2b2b;padding:100px" dir="rtl">
     <calcite-chip
-      class="calcite-theme-dark"
+      class="calcite-mode-dark"
       scale="${select("scale", ["s", "m", "l"], "m")}"
       appearance="${select("appearance", ["outline", "outline-fill", "solid"], "solid")}"
       kind="${select("kind", ["brand", "inverse", "neutral"], "neutral")}"

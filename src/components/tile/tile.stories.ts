@@ -53,7 +53,7 @@ export const darkThemeRTL_TestOnly = (): string => html`
     ${boolean("hidden", false)}
     href="${text("href", "#")}"
     icon="${select("icon", iconNames, "layer")}"
-    class="calcite-theme-dark"
+    class="calcite-mode-dark"
     dir="rtl"
   >
   </calcite-tile>

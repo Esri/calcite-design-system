@@ -192,7 +192,7 @@ export const darkThemeRTL_TestOnly = (): string => html`
   <calcite-dropdown
     dir="rtl"
     open
-    class="calcite-theme-dark"
+    class="calcite-mode-dark"
     placement="${select("placement", menuPlacements, defaultMenuPlacement)}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
     width="${select("width", ["s", "m", "l"], "m")}"
@@ -227,7 +227,7 @@ darkThemeRTL_TestOnly.parameters = { themes: themesDarkDefault };
 export const itemsAsLinksDarkTheme = (): string => html`
   <calcite-dropdown
     open
-    class="calcite-theme-dark"
+    class="calcite-mode-dark"
     placement="${select("placement", menuPlacements, defaultMenuPlacement)}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
     width="${select("width", ["s", "m", "l"], "m")}"

@@ -26,7 +26,7 @@ export const simple = (): string => html`
 
 export const darkThemeRTL_TestOnly = (): string => html`
   <calcite-rating
-    class="calcite-theme-dark"
+    class="calcite-mode-dark"
     dir="rtl"
     scale="${select("scale", ["s", "m", "l"], "m")}"
     value="${number("value", 2)}"

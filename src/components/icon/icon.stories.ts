@@ -21,7 +21,7 @@ export const simple = (): string => html`
 
 export const darkThemeRTL_TestOnly = (): string => html`
   <calcite-icon
-    class="calcite-theme-dark"
+    class="calcite-mode-dark"
     dir="rtl"
     icon="${select("icon", iconNames, sampleIcon)}"
     ${boolean("flip-rtl", true)}

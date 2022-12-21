@@ -63,7 +63,7 @@ export const darkThemeRTL_TestOnly = (): string =>
     "calcite-tip",
     createAttributes({ exceptions: ["dir", "class"] }).concat([
       { name: "dir", value: "rtl" },
-      { name: "class", value: "calcite-theme-dark" }
+      { name: "class", value: "calcite-mode-dark" }
     ]),
     html
   );

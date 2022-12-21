@@ -24,7 +24,7 @@ export const simple = (): string => html`
 
 export const darkThemeRTL_TestOnly = (): string => html`
   <calcite-switch
-    class="calcite-theme-dark"
+    class="calcite-mode-dark"
     name="setting"
     value="enabled"
     ${boolean("checked", true)}

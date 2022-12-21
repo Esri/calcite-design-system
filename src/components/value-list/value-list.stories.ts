@@ -126,7 +126,7 @@ export const darkThemeRTL_TestOnly = (): string => html`
     "calcite-value-list",
     createAttributes({ exceptions: ["dir", "class"] }).concat([
       { name: "dir", value: "rtl" },
-      { name: "class", value: "calcite-theme-dark" }
+      { name: "class", value: "calcite-mode-dark" }
     ]),
     html`
       <calcite-value-list-item label="Dogs" description="Man's best friend" value="dogs">

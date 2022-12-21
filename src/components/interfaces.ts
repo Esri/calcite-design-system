@@ -17,6 +17,6 @@ export type SelectionMode =
   | "multiple";
 export type Scale = "s" | "m" | "l";
 export type Status = "invalid" | "valid" | "idle";
-export type ThemeClass = "calcite-theme-light" | "calcite-theme-dark" | "calcite-theme-auto";
+export type ThemeClass = "calcite-mode-light" | "calcite-mode-dark" | "calcite-mode-auto";
 export type ThemeName = "light" | "dark" | "auto";
 export type Width = "auto" | "half" | "full";

@@ -57,7 +57,7 @@ export const range = (): string => html`
 
 export const darkThemeMirroredRange_TestOnly = (): string => html`
   <calcite-slider
-    class="calcite-theme-dark"
+    class="calcite-mode-dark"
     mirrored
     min="${number("min", 0)}"
     min-label="${text("min-label", "Temperature, lower bound")}"
@@ -237,7 +237,7 @@ export const darkThemeHistogramRTL_TestOnly = (): HTMLCalciteSliderElement => {
   slider.snap = booleanFn("snap", false);
   slider.scale = select("scale", ["s", "m", "l"], "m");
   slider.style.minWidth = "60vw";
-  slider.className = "calcite-theme-dark";
+  slider.className = "calcite-mode-dark";
   return slider;
 };
 

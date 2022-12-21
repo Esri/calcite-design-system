@@ -72,7 +72,7 @@ export const darkThemeRTL_TestOnly = (): HTMLDivElement => {
   div.style.width = `${number("width", 300)}px`;
   div.style.height = `${number("height", 100)}px`;
   div.dir = "rtl";
-  div.classList.add("calcite-theme-dark");
+  div.classList.add("calcite-mode-dark");
   const graph = document.createElement("calcite-graph") as HTMLCalciteGraphElement;
   graph.min = number("min", 0);
   graph.max = number("max", 100);

@@ -81,7 +81,7 @@ export const disabled_TestOnly = (): string => html`<calcite-color-picker disabl
 export const darkThemeRTL_TestOnly = (): string =>
   create("calcite-color-picker", [
     ...createColorAttributes({ exceptions: ["dir"] }).concat({ name: "dir", value: "rtl" }),
-    { name: "class", value: "calcite-theme-dark" },
+    { name: "class", value: "calcite-mode-dark" },
     {
       name: "value",
       value: text("value", "#b33f33")

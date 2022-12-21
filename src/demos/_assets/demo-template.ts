@@ -3,7 +3,7 @@ const toggleDir = (): void => {
 };
 
 const toggleTheme = (): void => {
-  document.body.classList.toggle("calcite-theme-dark");
+  document.body.classList.toggle("calcite-mode-dark");
 };
 
 const toggleDom = (event: CustomEvent<void>): void => {

@@ -139,7 +139,7 @@ export const darkThemeRTL_TestOnly = (): string =>
       "calcite-date-picker",
       createAttributes({ exceptions: ["class", "dir"] }).concat([
         { name: "dir", value: "rtl" },
-        { name: "class", value: "calcite-theme-dark" }
+        { name: "class", value: "calcite-mode-dark" }
       ])
     )}
   </div>`;

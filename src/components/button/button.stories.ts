@@ -139,7 +139,7 @@ export const sideBySide_TestOnly = (): string => html`
 
 export const darkThemeRTL_TestOnly = (): string => html`
   <calcite-button
-    class="calcite-theme-dark"
+    class="calcite-mode-dark"
     dir="rtl"
     appearance="${select("appearance", ["solid", "outline", "outline-fill", "transparent"], "solid")}"
     kind="${select("kind", ["brand", "danger", "inverse", "neutral"], "brand")}"

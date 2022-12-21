@@ -244,7 +244,7 @@ describe("calcite-link", () => {
     });
   });
 
-  describe("CSS properties for light/dark themes", () => {
+  describe("CSS properties for light/dark mode", () => {
     const linkHtml = `
       <h3>
         A link <calcite-link href="#" title="in the middle with an icon" icon-start='launch'>
@@ -267,7 +267,7 @@ describe("calcite-link", () => {
     });
 
     describe("when theme attribute is not provided", () => {
-      it("should render link background with default value tied to light theme", async () => {
+      it("should render link background with default value tied to mode theme", async () => {
         page = await newE2EPage({ html: linkHtml });
         link = await page.find("calcite-link >>> a");
         linkStyles = await link.getComputedStyle();
@@ -279,9 +279,9 @@ describe("calcite-link", () => {
     });
 
     describe("when theme attribute is dark", () => {
-      it("should render link background with value tied to dark theme", async () => {
+      it("should render link background with value tied to dark mode", async () => {
         page = await newE2EPage({
-          html: `<article class="calcite-theme-dark">${linkHtml}</article>`
+          html: `<article class="calcite-mode-dark">${linkHtml}</article>`
         });
         link = await page.find("calcite-link >>> a");
         linkStyles = await link.getComputedStyle();

@@ -39,7 +39,7 @@ export const simple = (): string => html`
 
 export const darkThemeRTLCustomSize_TestOnly = (): string => html`
   <calcite-modal
-    class="calcite-theme-dark"
+    class="calcite-mode-dark"
     dir="rtl"
     ${boolean("open", true)}
     kind="${select("kind", ["brand", "danger", "info", "success", "warning"], "")}"

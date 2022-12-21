@@ -99,7 +99,7 @@ export const darkThemeRTL_TestOnly = (): string =>
       },
       {
         name: "class",
-        value: "calcite-theme-dark"
+        value: "calcite-mode-dark"
       }
     ]),
     html`

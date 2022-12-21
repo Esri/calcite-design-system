@@ -38,7 +38,7 @@ export const missingThumbnail = (): string => html`
 export const darkThemeRTL_TestOnly = (): string => html`
   <calcite-avatar
     dir="rtl"
-    class="calcite-theme-dark"
+    class="calcite-mode-dark"
     scale="${select("scale", ["s", "m", "l"], "m")}"
     full-name="${text("full-name", "John Doe")}"
     username="${text("username", "jdoe")}"

@@ -91,7 +91,7 @@ export const simple = (): string => html`
 export const darkThemeRTL_TestOnly = (): string => html`
 <div dir="rtl">
   <calcite-stepper
-  class="calcite-theme-dark"
+  class="calcite-mode-dark"
     scale="${select("scale", ["s", "m", "l"], "m")}"
     layout="${select("layout", ["horizontal", "vertical"], "horizontal")}"
     scale="${select("scale", ["s", "m", "l"], "m")}"

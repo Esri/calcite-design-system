@@ -79,7 +79,7 @@ export const darkThemeRTL_TestOnly = (): string => html`
   <div style="width:600px;max-width:100%;text-align:center;">
     <calcite-notice
       dir="rtl"
-      class="calcite-theme-dark"
+      class="calcite-mode-dark"
       ${boolean("icon", true)}
       ${boolean("open", true)}
       ${boolean("closable", false)}

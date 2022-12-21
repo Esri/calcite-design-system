@@ -220,7 +220,7 @@ export const darkThemeRTL_TestOnly = (): string =>
     createAccordionAttributes({ exceptions: ["class", "dir"] }).concat(
       {
         name: "class",
-        value: "calcite-theme-dark"
+        value: "calcite-mode-dark"
       },
       {
         name: "dir",

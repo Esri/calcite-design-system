@@ -28,7 +28,7 @@ export const simple = (): string => html`
 `;
 
 export const darkThemeFrenchLocale_TestOnly = (): string => html`<calcite-pagination
-  class="calcite-theme-dark"
+  class="calcite-mode-dark"
   start="1"
   lang="fr"
   group-separator

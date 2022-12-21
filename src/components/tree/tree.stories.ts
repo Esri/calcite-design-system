@@ -70,7 +70,7 @@ export const selectionModeNone = (): string => html`<calcite-tree
 
 export const darkThemeRTL_TestOnly = (): string => html`
   <calcite-tree
-    class="calcite-theme-dark"
+    class="calcite-mode-dark"
     dir="rtl"
     ${boolean("lines", false)}
     selection-mode="${select("selection-mode", selectionModes, "single")}"

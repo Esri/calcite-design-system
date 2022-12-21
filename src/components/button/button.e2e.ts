@@ -414,7 +414,7 @@ describe("calcite-button", () => {
     expect(elementAsButton).not.toHaveClass(CSS.contentSlotted);
   });
 
-  describe("CSS properties for light/dark themes", () => {
+  describe("CSS properties for light/dark mode", () => {
     const buttonSnippet = `
       <calcite-button
         class="layers"
@@ -447,7 +447,7 @@ describe("calcite-button", () => {
     });
 
     describe("when theme attribute is not provided", () => {
-      it("should render button pseudo classes with default values tied to light theme", async () => {
+      it("should render button pseudo classes with default values tied to light mode", async () => {
         page = await newE2EPage({ html: buttonSnippet });
         buttonEl = await page.find("calcite-button >>> button");
         await buttonEl.focus();
@@ -463,9 +463,9 @@ describe("calcite-button", () => {
     });
 
     describe("when theme attribute is dark", () => {
-      it("should render button pseudo classes with value tied to dark theme", async () => {
+      it("should render button pseudo classes with value tied to dark mode", async () => {
         page = await newE2EPage({
-          html: `<div class="calcite-theme-dark">${buttonSnippet}</div>`
+          html: `<div class="calcite-mode-dark">${buttonSnippet}</div>`
         });
         buttonEl = await page.find("calcite-button >>> button");
         await buttonEl.focus();

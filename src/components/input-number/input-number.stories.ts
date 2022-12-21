@@ -86,7 +86,7 @@ export const withSlottedAction = (): string => html`
 export const darkThemeRTL_TestOnly = (): string => html`
   <div dir="rtl" style="width:300px;max-width:100%;text-align:center;">
     <calcite-label
-      class="calcite-theme-dark"
+      class="calcite-mode-dark"
       status="${select("status", ["idle", "valid", "invalid"], "idle")}"
       for="input-dark-theme"
     >

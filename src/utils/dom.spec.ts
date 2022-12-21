@@ -329,8 +329,8 @@ describe("dom", () => {
 
     it("finds the closest theme if set (light)", () => {
       document.body.innerHTML = html`
-        <div class="calcite-theme-dark">
-          <div class="calcite-theme-light">
+        <div class="calcite-mode-dark">
+          <div class="calcite-mode-light">
             <themed-element></themed-element>
           </div>
         </div>
@@ -340,8 +340,8 @@ describe("dom", () => {
 
     it("finds the closest theme if set (dark)", () => {
       document.body.innerHTML = html`
-        <div class="calcite-theme-light">
-          <div class="calcite-theme-dark">
+        <div class="calcite-mode-light">
+          <div class="calcite-mode-dark">
             <themed-element></themed-element>
           </div>
         </div>

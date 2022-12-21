@@ -104,7 +104,7 @@ const actionBarEndContentHTML = html`
 `;
 
 const actionBarStartHTML = html`
-  <calcite-action-bar class="calcite-theme-dark" slot="action-bar"> ${actionBarStartContentHTML} </calcite-action-bar>
+  <calcite-action-bar class="calcite-mode-dark" slot="action-bar"> ${actionBarStartContentHTML} </calcite-action-bar>
 `;
 
 const actionBarEndHTML = html`
@@ -316,7 +316,7 @@ export const darkThemeRTL_TestOnly = (): string =>
     "calcite-shell",
     createAttributes({ exceptions: ["dir", "class"] }).concat(
       { name: "dir", value: "rtl" },
-      { name: "class", value: "calcite-theme-dark" }
+      { name: "class", value: "calcite-mode-dark" }
     ),
     html`
       ${headerHTML}

@@ -51,7 +51,7 @@ export const darkThemeRTL_TestOnly = (): string => html`
   <div style="width: 400px;">
     ${referenceElementHTML}
     <calcite-tooltip
-      class="calcite-theme-dark"
+      class="calcite-mode-dark"
       dir="rtl"
       reference-element="reference-element"
       placement="${select("placement", placements, "auto")}"

@@ -19,7 +19,7 @@ export default {
 export const simpleDarkThemeRTL_TestOnly = (): string => html`
   <calcite-tabs
     dir="rtl"
-    class="calcite-theme-dark"
+    class="calcite-mode-dark"
     layout="${select("layout", ["inline", "center"], "inline")}"
     position="${select("position", ["top", "bottom"], "top")}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
@@ -65,7 +65,7 @@ export const borderedDarkThemeRTL_TestOnly = (): string => html`
     scale="${select("scale", ["s", "m", "l"], "m")}"
     bordered
     dir="rtl"
-    class="calcite-theme-dark"
+    class="calcite-mode-dark"
   >
     <calcite-tab-nav slot="title-group">
       <calcite-tab-title tab="tab1">Tab 1 Title</calcite-tab-title>

@@ -97,7 +97,7 @@ export const iconStartAndIconEnd = (): string => html`
 
 export const darkThemeRTL_TestOnly = (): string => html`
   <div
-    class="calcite-theme-dark"
+    class="calcite-mode-dark"
     dir="rtl"
     style="color: white; font-size: ${select(
       "containing font size",
@@ -106,7 +106,7 @@ export const darkThemeRTL_TestOnly = (): string => html`
     )}px; font-weight: ${select("containing font weight", ["300", "400", "500", "700"], "400")};"
   >
     Some wrapping text
-    <calcite-link class="calcite-theme-dark" href="${text("href", "")}" ${boolean("disabled", false)}
+    <calcite-link class="calcite-mode-dark" href="${text("href", "")}" ${boolean("disabled", false)}
       >${text("text", "link text here")}</calcite-link
     >
     around the link

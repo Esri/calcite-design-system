@@ -65,7 +65,7 @@ export const darkThemeRTL_TestOnly = (): string => html` <style>
       ${boolean("open", true)}
       text-close="${text("text-close", "Close")}"
       dir="${select("dir", ["ltr", "rtl"], "rtl")}"
-      class="calcite-theme-dark"
+      class="calcite-mode-dark"
     >
       ${contentHTML}
     </calcite-popover>

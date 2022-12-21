@@ -194,7 +194,7 @@ describe("calcite-alert", () => {
     expect(container).toHaveClass("top-end");
   });
 
-  describe("CSS properties for light/dark themes", () => {
+  describe("CSS properties for light/dark modes", () => {
     const alertSnippet = `
       <calcite-alert
         icon="i2DExplore"
@@ -232,7 +232,7 @@ describe("calcite-alert", () => {
     });
 
     describe("when theme attribute is not provided", () => {
-      it("should render alert dismiss progress bar with default value tied to light theme", async () => {
+      it("should render alert dismiss progress bar with default value tied to light mode", async () => {
         page = await newE2EPage({ html: alertSnippet });
         await page.waitForTimeout(animationDurationInMs);
         alertDismissProgressBar = await page.find("calcite-alert[open] >>> .alert-dismiss-progress");
@@ -242,9 +242,9 @@ describe("calcite-alert", () => {
     });
 
     describe("when theme attribute is dark", () => {
-      it("should render alert dismiss progress bar with value tied to dark theme", async () => {
+      it("should render alert dismiss progress bar with value tied to dark mode", async () => {
         page = await newE2EPage({
-          html: `<div class="calcite-theme-dark">${alertSnippet}</div>`
+          html: `<div class="calcite-mode-dark">${alertSnippet}</div>`
         });
         await page.waitForTimeout(animationDurationInMs);
         alertDismissProgressBar = await page.find("calcite-alert[open] >>> .alert-dismiss-progress");

@@ -215,7 +215,7 @@ export const darkThemeRTL_TestOnly = (): string =>
       "calcite-action",
       createAttributes({ exceptions: ["icon", "class", "dir"] }).concat([
         { name: "icon", value: "banana" },
-        { name: "class", value: "calcite-theme-dark" },
+        { name: "class", value: "calcite-mode-dark" },
         { name: "dir", value: "rtl" }
       ])
     )}

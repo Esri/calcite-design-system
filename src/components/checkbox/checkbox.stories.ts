@@ -33,7 +33,7 @@ export const simple = (): string => html`
 export const disabled_TestOnly = (): string => html`<calcite-checkbox checked disabled></calcite-checkbox>`;
 
 export const darkThemeRTL_TestOnly = (): string => html`
-  <calcite-label dir="rtl" layout="inline" class="calcite-theme-dark">
+  <calcite-label dir="rtl" layout="inline" class="calcite-mode-dark">
     <calcite-checkbox
       ${boolean("checked", true)}
       ${boolean("disabled", false)}

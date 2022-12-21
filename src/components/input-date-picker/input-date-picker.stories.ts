@@ -76,7 +76,7 @@ export const laoNumberingSystem_TestOnly = (): string => html`
 export const darkThemeRTL_TestOnly = (): string => html`
   <div style="width: 400px">
     <calcite-input-date-picker
-      class="calcite-theme-dark"
+      class="calcite-mode-dark"
       dir="rtl"
       value="2020-12-12"
     ></calcite-input-date-picker
