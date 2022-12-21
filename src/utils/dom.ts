@@ -175,7 +175,7 @@ export async function focusElement(el: FocusableElement): Promise<void> {
  * @param {HTMLElement} element The html element containing tabbable elements.
  */
 export function focusFirstTabbable(element: HTMLElement): void {
-  tabbable(element, tabbableOptions)[0]?.focus();
+  (tabbable(element, tabbableOptions)[0] || element).focus();
 }
 
 interface GetSlottedOptions {
