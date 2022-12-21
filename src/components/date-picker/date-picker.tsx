@@ -101,13 +101,6 @@ export class DatePicker implements LocalizedComponent, T9nComponent {
     }
   }
 
-  /**
-   * Specifies the selected end date as a full date object.
-   *
-   * @deprecated use `valueAsDate` instead.
-   */
-  @Prop({ mutable: true }) endAsDate: Date;
-
   /** Specifies the earliest allowed date as a full date object (`new Date("yyyy-mm-dd")`). */
   @Prop({ mutable: true }) minAsDate: Date;
 
@@ -503,7 +496,6 @@ export class DatePicker implements LocalizedComponent, T9nComponent {
 
   private setEndDate(date: Date): void {
     const newEndDate = date ? setEndOfDay(date) : date;
-    this.endAsDate = newEndDate;
     this.valueAsDate = [this.getStartDate(), date];
     this.mostRecentRangeValue = newEndDate;
     this.calciteDatePickerRangeChange.emit();
@@ -579,7 +571,6 @@ export class DatePicker implements LocalizedComponent, T9nComponent {
         }
       } else {
         this.setStartDate(date);
-        this.endAsDate = this.activeEndDate = undefined;
       }
     }
     this.calciteDatePickerChange.emit();
