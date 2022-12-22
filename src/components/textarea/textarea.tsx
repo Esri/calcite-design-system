@@ -14,7 +14,7 @@ import {
 import { connectForm, disconnectForm, FormComponent, HiddenFormInputSlot } from "../../utils/form";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
 import { slotChangeGetAssignedElements } from "../../utils/dom";
-import { CSS, ERROR_MESSAGES, SLOTS } from "./resources";
+import { CSS, SLOTS } from "./resources";
 import {
   connectLocalized,
   disconnectLocalized,
@@ -29,6 +29,14 @@ import {
   setComponentLoaded,
   setUpLoadableComponent
 } from "../../utils/loadable";
+import {
+  connectMessages,
+  disconnectMessages,
+  setUpMessages,
+  T9nComponent,
+  updateMessages
+} from "../../utils/t9n";
+import { TextareaMessages } from "./assets/textarea/t9n";
 
 /**
  * @slot - A slot for adding text.
@@ -38,10 +46,11 @@ import {
 @Component({
   tag: "calcite-textarea",
   styleUrl: "textarea.scss",
-  shadow: true
+  shadow: true,
+  assetsDirs: ["assets"]
 })
 export class Textarea
-  implements FormComponent, LabelableComponent, LocalizedComponent, LoadableComponent
+  implements FormComponent, LabelableComponent, LocalizedComponent, LoadableComponent, T9nComponent
 {
   //--------------------------------------------------------------------------
   //
@@ -115,9 +124,27 @@ export class Textarea
    */
   @Prop() numberingSystem: NumberingSystem;
 
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @internal
+   */
+  @Prop({ mutable: true }) messages: TextareaMessages;
+
+  /**
+   * Use this property to override individual strings used by the component.
+   */
+  @Prop({ mutable: true }) messageOverrides: Partial<TextareaMessages>;
+
+  @Watch("messageOverrides")
+  onMessagesChange(): void {
+    /* wired up by t9n util */
+  }
+
   @Watch("disabled")
   disabledHandler(value: boolean): void {
-    this.disableSlottedElementsPointerEvents(value);
+    this.disablePointerEvents(value, this.leadingSlotElements);
+    this.disablePointerEvents(value, this.trailingSlotElements);
   }
 
   //--------------------------------------------------------------------------
@@ -144,14 +171,13 @@ export class Textarea
   connectedCallback(): void {
     connectLabel(this);
     connectForm(this);
-    if (this.disabled) {
-      this.disableSlottedElementsPointerEvents(this.disabled);
-    }
     connectLocalized(this);
+    connectMessages(this);
   }
 
-  componentWillLoad(): void {
+  async componentWillLoad(): Promise<void> {
     setUpLoadableComponent(this);
+    await setUpMessages(this);
   }
 
   componentDidLoad(): void {
@@ -162,6 +188,7 @@ export class Textarea
     disconnectLabel(this);
     disconnectForm(this);
     disconnectLocalized(this);
+    disconnectMessages(this);
     this.resizeObserver?.disconnect();
   }
 
@@ -256,7 +283,7 @@ export class Textarea
 
   footerEl: HTMLElement;
 
-  @State() effectiveLocale: string;
+  @State() effectiveLocale = "";
 
   @State() trailingSlotElements: Element[];
 
@@ -269,6 +296,13 @@ export class Textarea
       return this.setFooterWidth();
     }
   });
+
+  @Watch("effectiveLocale")
+  effectiveLocaleChange(): void {
+    updateMessages(this, this.effectiveLocale);
+  }
+
+  @State() defaultMessages: TextareaMessages;
 
   //--------------------------------------------------------------------------
   //
@@ -295,10 +329,16 @@ export class Textarea
 
   footerTrailingSlotChangeHandler = (event: Event): void => {
     this.trailingSlotElements = slotChangeGetAssignedElements(event);
+    if (this.disabled) {
+      this.disablePointerEvents(this.disabled, this.trailingSlotElements);
+    }
   };
 
   footerLeadingSlotChangeHandler = (event: Event): void => {
     this.leadingSlotElements = slotChangeGetAssignedElements(event);
+    if (this.disabled) {
+      this.disablePointerEvents(this.disabled, this.leadingSlotElements);
+    }
   };
 
   contentSlotChangeHandler = (): void => {
@@ -332,11 +372,6 @@ export class Textarea
     return numberStringFormatter.localize(this.value?.length.toString());
   }
 
-  disableSlottedElementsPointerEvents(disabled: boolean): void {
-    this.disablePointerEvents(disabled, this.leadingSlotElements);
-    this.disablePointerEvents(disabled, this.trailingSlotElements);
-  }
-
   disablePointerEvents(disabled: boolean, slottedElements: Element[]): void {
     if (!!slottedElements?.length) {
       slottedElements.forEach((el: HTMLElement) => {
@@ -348,10 +383,10 @@ export class Textarea
   syncHiddenFormInput(input: HTMLInputElement): void {
     input.setCustomValidity("");
     if (this.value?.length > this.maxlength) {
-      input.setCustomValidity(ERROR_MESSAGES.overLimit);
+      input.setCustomValidity(this.messages.overLimit);
     }
     if (this.invalid) {
-      input.setCustomValidity(ERROR_MESSAGES.invalid);
+      input.setCustomValidity(this.messages.invalid);
     }
   }
 

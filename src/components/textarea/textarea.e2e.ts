@@ -7,7 +7,8 @@ import {
   hidden,
   HYDRATED_ATTR,
   labelable,
-  reflects
+  reflects,
+  t9n
 } from "../../tests/commonTests";
 import { CSS } from "./resources";
 
@@ -176,8 +177,8 @@ describe("calcite-textarea", () => {
 
     const element = await page.find("calcite-button");
     await page.waitForChanges();
-    expect(element).toHaveAttribute("disabled");
-    expect(element.getAttribute("aria-disabled")).toBe("true");
+
+    expect((await element.getComputedStyle()).pointerEvents).toBe("none");
   });
 
   it("should have invalid class when user set's invalid property", async () => {
@@ -232,4 +233,6 @@ describe("calcite-textarea", () => {
       expect(element).toHaveClass(CSS.resizeDisabledY);
     });
   });
+
+  it("supports translations", () => t9n("calcite-textarea"));
 });

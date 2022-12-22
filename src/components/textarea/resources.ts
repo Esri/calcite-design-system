@@ -16,8 +16,3 @@ export const SLOTS = {
   footerLeading: "footer-leading",
   footerTrailing: "footer-trailing"
 };
-
-export const ERROR_MESSAGES = {
-  overLimit: "Over the character limit",
-  invalid: "Invalid"
-};
