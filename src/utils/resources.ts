@@ -4,7 +4,7 @@ export const autoMode = "calcite-mode-auto";
 export const darkMode = "calcite-mode-dark";
 const lightMode = "calcite-mode-light";
 
-interface Theme {
+interface Mode {
   name: ModeName;
   className: ModeClass;
 }
