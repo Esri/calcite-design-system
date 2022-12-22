@@ -33,12 +33,11 @@ import {
   connectFocusTrap,
   activateFocusTrap,
   deactivateFocusTrap,
-  focusFirstTabbable,
   updateFocusTrapElements
 } from "../../utils/focusTrapComponent";
 
 import { guid } from "../../utils/guid";
-import { queryElementRoots, toAriaBoolean } from "../../utils/dom";
+import { focusFirstTabbable, queryElementRoots, toAriaBoolean } from "../../utils/dom";
 import {
   OpenCloseComponent,
   connectOpenCloseComponent,
@@ -377,23 +376,13 @@ export class Popover
 
   /**
    * Sets focus on the component.
-   *
-   * @param focusId
    */
   @Method()
-  async setFocus(focusId?: "close-button"): Promise<void> {
-    await componentLoaded(this.el);
-
-    const { closeButtonEl } = this;
-
-    if (focusId === "close-button" && closeButtonEl) {
-      forceUpdate(closeButtonEl);
-      closeButtonEl.setFocus();
-
-      return;
-    }
-
-    focusFirstTabbable(this);
+  async setFocus(): Promise<void> {
+    const { el } = this;
+    await componentLoaded(el);
+    forceUpdate(el);
+    focusFirstTabbable(this.focusTrapEl);
   }
 
   /**
@@ -544,7 +533,7 @@ export class Popover
   renderCloseButton(): VNode {
     const { messages, closable } = this;
     return closable ? (
-      <div class={CSS.closeButtonContainer}>
+      <div class={CSS.closeButtonContainer} key={CSS.closeButtonContainer}>
         <calcite-action
           class={CSS.closeButton}
           onClick={this.hide}
@@ -567,7 +556,7 @@ export class Popover
     ) : null;
 
     return headingNode ? (
-      <div class={CSS.header}>
+      <div class={CSS.header} key={CSS.header}>
         {headingNode}
         {this.renderCloseButton()}
       </div>

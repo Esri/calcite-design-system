@@ -57,6 +57,13 @@ export class TabNav {
   @Prop({ reflect: true }) syncId: string;
 
   /**
+   * Specifies the component's selected tab-title.
+   *
+   * @readonly
+   */
+  @Prop({ mutable: true }) selectedTitle: HTMLCalciteTabTitleElement = null;
+
+  /**
    * @internal
    */
   @Prop({ reflect: true, mutable: true }) scale: Scale = "m";
@@ -86,25 +93,25 @@ export class TabNav {
    */
   @Prop({ mutable: true }) indicatorWidth: number;
 
-  @Watch("selectedTab")
-  async selectedTabChanged(): Promise<void> {
+  @Watch("selectedTabId")
+  async selectedTabIdChanged(): Promise<void> {
     if (
       localStorage &&
       this.storageId &&
-      this.selectedTab !== undefined &&
-      this.selectedTab !== null
+      this.selectedTabId !== undefined &&
+      this.selectedTabId !== null
     ) {
-      localStorage.setItem(`calcite-tab-nav-${this.storageId}`, JSON.stringify(this.selectedTab));
+      localStorage.setItem(`calcite-tab-nav-${this.storageId}`, JSON.stringify(this.selectedTabId));
     }
 
     this.calciteInternalTabChange.emit({
-      tab: this.selectedTab
+      tab: this.selectedTabId
     });
 
-    this.selectedTabEl = await this.getTabTitleById(this.selectedTab);
+    this.selectedTitle = await this.getTabTitleById(this.selectedTabId);
   }
 
-  @Watch("selectedTabEl") selectedTabElChanged(): void {
+  @Watch("selectedTitle") selectedTitleChanged(): void {
     this.updateOffsetPosition();
     this.updateActiveWidth();
     // reset the animation time on tab selection
@@ -130,7 +137,7 @@ export class TabNav {
     const storageKey = `calcite-tab-nav-${this.storageId}`;
     if (localStorage && this.storageId && localStorage.getItem(storageKey)) {
       const storedTab = JSON.parse(localStorage.getItem(storageKey));
-      this.selectedTab = storedTab;
+      this.selectedTabId = storedTab;
     }
   }
 
@@ -142,7 +149,7 @@ export class TabNav {
     this.scale = parentTabsEl?.scale;
     this.bordered = parentTabsEl?.bordered;
     // fix issue with active tab-title not lining up with blue indicator
-    if (this.selectedTabEl) {
+    if (this.selectedTitle) {
       this.updateOffsetPosition();
     }
   }
@@ -152,7 +159,7 @@ export class TabNav {
     if (
       this.tabTitles.length &&
       this.tabTitles.every((title) => !title.selected) &&
-      !this.selectedTab
+      !this.selectedTabId
     ) {
       this.tabTitles[0].getTabIdentifier().then((tab) => {
         this.calciteInternalTabChange.emit({
@@ -218,7 +225,7 @@ export class TabNav {
 
   @Listen("calciteInternalTabsActivate")
   internalActivateTabHandler(event: CustomEvent<TabChangeEventDetail>): void {
-    this.selectedTab = event.detail.tab
+    this.selectedTabId = event.detail.tab
       ? event.detail.tab
       : this.getIndexOfTabTitle(event.target as HTMLCalciteTabTitleElement);
     event.stopPropagation();
@@ -240,7 +247,7 @@ export class TabNav {
   @Listen("calciteInternalTabTitleRegister")
   updateTabTitles(event: CustomEvent<TabID>): void {
     if ((event.target as HTMLCalciteTabTitleElement).selected) {
-      this.selectedTab = event.detail;
+      this.selectedTabId = event.detail;
     }
   }
 
@@ -250,9 +257,9 @@ export class TabNav {
       this.syncId &&
       event.target !== this.el &&
       (event.target as HTMLCalciteTabNavElement).syncId === this.syncId &&
-      this.selectedTab !== event.detail.tab
+      this.selectedTabId !== event.detail.tab
     ) {
-      this.selectedTab = event.detail.tab;
+      this.selectedTabId = event.detail.tab;
     }
     event.stopPropagation();
   }
@@ -284,9 +291,7 @@ export class TabNav {
   //
   //--------------------------------------------------------------------------
 
-  @State() selectedTab: TabID;
-
-  @State() selectedTabEl: HTMLCalciteTabTitleElement;
+  @State() selectedTabId: TabID;
 
   parentTabsEl: HTMLCalciteTabsElement;
 
@@ -331,15 +336,15 @@ export class TabNav {
   updateOffsetPosition(): void {
     const dir = getElementDir(this.el);
     const navWidth = this.activeIndicatorContainerEl?.offsetWidth;
-    const tabLeft = this.selectedTabEl?.offsetLeft;
-    const tabWidth = this.selectedTabEl?.offsetWidth;
+    const tabLeft = this.selectedTitle?.offsetLeft;
+    const tabWidth = this.selectedTitle?.offsetWidth;
     const offsetRight = navWidth - (tabLeft + tabWidth);
     this.indicatorOffset =
       dir !== "rtl" ? tabLeft - this.tabNavEl?.scrollLeft : offsetRight + this.tabNavEl?.scrollLeft;
   }
 
   updateActiveWidth(): void {
-    this.indicatorWidth = this.selectedTabEl?.offsetWidth;
+    this.indicatorWidth = this.selectedTitle?.offsetWidth;
   }
 
   getIndexOfTabTitle(el: HTMLCalciteTabTitleElement, tabTitles = this.tabTitles): number {

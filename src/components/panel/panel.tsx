@@ -12,7 +12,7 @@ import {
   Watch
 } from "@stencil/core";
 import { CSS, ICONS, SLOTS } from "./resources";
-import { toAriaBoolean } from "../../utils/dom";
+import { focusFirstTabbable, toAriaBoolean } from "../../utils/dom";
 import { Scale } from "../interfaces";
 import { HeadingLevel, Heading } from "../functional/Heading";
 import { SLOTS as ACTION_MENU_SLOTS } from "../action-menu/resources";
@@ -310,36 +310,11 @@ export class Panel implements InteractiveComponent, LocalizedComponent, T9nCompo
 
   /**
    * Sets focus on the component.
-   *
-   * @param focusId
    */
   @Method()
-  async setFocus(focusId?: "back-button" | "dismiss-button"): Promise<void> {
+  async setFocus(): Promise<void> {
     await componentLoaded(this.el);
-
-    const { backButtonEl, closeButtonEl, containerEl } = this;
-
-    if (focusId === "back-button") {
-      backButtonEl?.setFocus();
-      return;
-    }
-
-    if (focusId === "dismiss-button") {
-      closeButtonEl?.setFocus();
-      return;
-    }
-
-    if (backButtonEl) {
-      backButtonEl.setFocus();
-      return;
-    }
-
-    if (closeButtonEl) {
-      closeButtonEl.setFocus();
-      return;
-    }
-
-    containerEl?.focus();
+    focusFirstTabbable(this.containerEl);
   }
 
   /**
