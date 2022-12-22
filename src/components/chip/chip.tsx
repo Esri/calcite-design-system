@@ -110,7 +110,7 @@ export class Chip
     SelectionMode
   > = "none";
 
-  /** Is the chip selected  */
+  /** When true, the component is selected.  */
   @Prop({ reflect: true, mutable: true }) selected = false;
 
   /**
@@ -167,12 +167,12 @@ export class Chip
   // --------------------------------------------------------------------------
 
   /**
-   * Fires when the close button is clicked.
+   * Fires when the component's close button is selected.
    */
   @Event({ cancelable: false }) calciteChipClose: EventEmitter<void>;
 
   /**
-   * Fires when the selected state of the chip changes due to user interaction.
+   * Fires when the selected state of the component changes.
    */
   @Event({ cancelable: false }) calciteChipSelect: EventEmitter<void>;
 

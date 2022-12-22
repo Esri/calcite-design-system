@@ -16,7 +16,7 @@ import { createObserver } from "../../utils/observers";
 import { Scale, SelectionMode } from "../interfaces";
 
 /**
- * @slot - A slot for adding one or more `calcite-chip`.
+ * @slot - A slot for adding one or more `calcite-chip`s.
  */
 @Component({
   tag: "calcite-chip-group",
@@ -89,7 +89,7 @@ export class ChipGroup implements InteractiveComponent {
   calciteChipInternalSelectionChange: EventEmitter<HTMLCalciteChipElement>;
 
   /**
-   * emitted when the selected items change
+   * Emits when the component's selection changes.
    */
   @Event({ cancelable: false }) calciteChipGroupSelectChange: EventEmitter<void>;
 
