@@ -12,10 +12,9 @@ import {
   State,
   Watch
 } from "@stencil/core";
-import { getElementProp, toAriaBoolean } from "../../utils/dom";
+import { toAriaBoolean } from "../../utils/dom";
 import { CSS, SLOTS, ICONS } from "./resources";
-import { ItemKeyEvent, RegistryEntry, RequestedItem } from "./interfaces";
-import { Appearance, Kind, Scale } from "../interfaces";
+import { Appearance, Kind, Scale, SelectionMode } from "../interfaces";
 import {
   ConditionalSlotComponent,
   connectConditionalSlotComponent,
@@ -91,8 +90,25 @@ export class Chip
   /** When `true`, hides the component. */
   @Prop({ reflect: true, mutable: true }) closed = false;
 
-  /** Is the chip selectable  */
-  @Prop({ reflect: true, mutable: true }) selectable = false;
+  /**
+   * This internal property, managed by a containing `calcite-chip-group`, is
+   * conditionally set based on the `selectionMode` of the parent
+   *
+   * @internal
+   */
+  // eslint-disable-next-line @esri/calcite-components/strict-boolean-attributes
+  @Prop({ reflect: true, mutable: true }) selectable = true;
+
+  /**
+   * This internal property, managed by a containing `calcite-chip-group`, is
+   * conditionally set based on the `selectionMode` of the parent
+   *
+   * @internal
+   */
+  @Prop({ mutable: true }) selectionMode: Extract<
+    "multiple" | "single" | "single-persist" | "none",
+    SelectionMode
+  > = "none";
 
   /** Is the chip selected  */
   @Prop({ reflect: true, mutable: true }) selected = false;
@@ -144,12 +160,6 @@ export class Chip
   /** the containing accordion element */
   private parent: HTMLCalciteChipGroupElement;
 
-  /** position within parent */
-  private itemPosition: number;
-
-  /** what selection mode is the parent accordion in */
-  private selectionMode: string;
-
   // --------------------------------------------------------------------------
   //
   //  Events
@@ -162,20 +172,14 @@ export class Chip
   @Event({ cancelable: false }) calciteChipClose: EventEmitter<void>;
 
   /**
-   *
-   * @internal
+   * Fires when the selected state of the chip changes due to user interaction.
    */
-  @Event({ cancelable: false }) calciteInternalChipRegister: EventEmitter<RegistryEntry>;
+  @Event({ cancelable: false }) calciteChipSelect: EventEmitter<void>;
 
   /**
    * @internal
    */
-  @Event({ cancelable: false }) calciteInternalChipKeyEvent: EventEmitter<ItemKeyEvent>;
-
-  /**
-   * @internal
-   */
-  @Event({ cancelable: false }) calciteInternalChipSelect: EventEmitter<RequestedItem>;
+  @Event({ cancelable: false }) calciteInternalChipKeyEvent: EventEmitter<KeyboardEvent>;
 
   // --------------------------------------------------------------------------
   //
@@ -185,7 +189,6 @@ export class Chip
 
   connectedCallback(): void {
     this.parent = this.el.parentElement as HTMLCalciteChipGroupElement;
-    this.selectionMode = getElementProp(this.el, "selection-mode", "none");
     connectConditionalSlotComponent(this);
     connectLocalized(this);
     connectMessages(this);
@@ -194,11 +197,6 @@ export class Chip
 
   componentDidLoad(): void {
     setComponentLoaded(this);
-    this.itemPosition = this.getItemPosition();
-    this.calciteInternalChipRegister.emit({
-      parent: this.parent,
-      position: this.itemPosition
-    });
   }
 
   disconnectedCallback(): void {
@@ -239,10 +237,7 @@ export class Chip
         case "ArrowLeft":
         case "Home":
         case "End":
-          this.calciteInternalChipKeyEvent.emit({
-            parent: this.parent,
-            item: event
-          });
+          this.calciteInternalChipKeyEvent.emit(event);
           event.preventDefault();
           break;
       }
@@ -250,11 +245,11 @@ export class Chip
   }
 
   @Listen("calciteChipInternalSelectionChange", { target: "body" })
-  updateActiveItemOnChange(event: CustomEvent): void {
-    if (this.el.parentNode !== event.detail.requestedChip.parentNode) {
+  internalSelectionChangeListener(event: CustomEvent): void {
+    if (!event.detail.parentNode.contains(this.el)) {
       return;
     }
-    this.determineActiveItem(event.detail.requestedChip);
+    this.determineActiveItem(event.detail);
     event.stopPropagation();
   }
 
@@ -268,7 +263,6 @@ export class Chip
   @Method()
   async setFocus(): Promise<void> {
     await componentLoaded(this);
-
     this.containerEl?.focus();
   }
 
@@ -279,15 +273,10 @@ export class Chip
   // --------------------------------------------------------------------------
 
   private closeHandler = (): void => {
-    this.closed = true;
-    this.selected = false;
-    this.itemSelectHandler();
     this.calciteChipClose.emit();
+    this.selected = false;
+    this.closed = true;
   };
-
-  private getItemPosition(): number {
-    return Array.prototype.indexOf.call(this.parent.querySelectorAll("calcite-chip"), this.el);
-  }
 
   private updateHasContent() {
     const slottedContent = this.el.textContent.trim().length > 0 || this.el.childNodes.length > 0;
@@ -306,11 +295,8 @@ export class Chip
   };
 
   private itemSelectHandler = (): void => {
-    // q - expected to not interact when "none" ?
     if (this.selectionMode !== "none") {
-      this.calciteInternalChipSelect.emit({
-        requestedChip: this.el as HTMLCalciteChipElement
-      });
+      this.calciteChipSelect.emit();
     }
   };
 
@@ -358,7 +344,11 @@ export class Chip
       <div
         class={`select-icon ${this.selectionMode === "multiple" || this.selected ? "active" : ""}`}
       >
-        <calcite-icon class={CSS.chipIcon} icon={icon} scale={this.scale === "l" ? "m" : "s"} />
+        <calcite-icon
+          class={CSS.chipIcon}
+          icon={icon ? icon : undefined}
+          scale={this.scale === "l" ? "m" : "s"}
+        />
       </div>
     );
   }
@@ -401,14 +391,14 @@ export class Chip
       case "single-persist":
         aria = {
           "aria-checked": toAriaBoolean(this.selected),
-          "aria-labelledby": this.parent,
+          "aria-labelledby": this.parent.id || "chip group temp",
           role: "radio"
         };
         break;
       case "multiple":
         aria = {
           "aria-checked": toAriaBoolean(this.selected),
-          "aria-labelledby": this.parent,
+          "aria-labelledby": this.parent.id || "chip group temp",
           role: "checkbox"
         };
         break;

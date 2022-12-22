@@ -20,7 +20,6 @@ export const simple = (): string => html`
       appearance="${select("appearance", ["outline", "outline-fill", "solid"], "solid")}"
       kind="${select("kind", ["brand", "inverse", "neutral"], "neutral")}"
       ${boolean("closable", false)}
-      ${boolean("selectable", false)}
       ${boolean("selected", false)}
       >My great chip</calcite-chip
     >
@@ -35,7 +34,6 @@ export const withIcon = (): string => html`
       appearance="${select("appearance", ["outline", "outline-fill", "solid"], "solid")}"
       kind="${select("kind", ["brand", "inverse", "neutral"], "neutral")}"
       ${boolean("closable", false)}
-      ${boolean("selectable", false)}
       ${boolean("selected", false)}
     >
       My great chip</calcite-chip
@@ -50,7 +48,6 @@ export const withImage = (): string => html`
       appearance="${select("appearance", ["outline", "outline-fill", "solid"], "solid")}"
       kind="${select("kind", ["brand", "inverse", "neutral"], "neutral")}"
       ${boolean("closable", false)}
-      ${boolean("selectable", false)}
       ${boolean("selected", false)}
     >
       <img alt="" slot="image" src="${placeholderImage({ width: 50, height: 50 })}" />
@@ -69,7 +66,6 @@ export const withAvatar = (): string => {
         appearance="${select("appearance", ["outline", "outline-fill", "solid"], "solid")}"
         kind="${select("kind", ["brand", "inverse", "neutral"], "neutral")}"
         ${boolean("closable", false)}
-        ${boolean("selectable", false)}
         ${boolean("selected", false)}
       >
         <calcite-avatar
@@ -95,7 +91,6 @@ export const darkThemeRTL_TestOnly = (): string => html`
       appearance="${select("appearance", ["outline", "outline-fill", "solid"], "solid")}"
       kind="${select("kind", ["brand", "inverse", "neutral"], "neutral")}"
       ${boolean("closable", false)}
-      ${boolean("selectable", false)}
       ${boolean("selected", false)}
       >My great chip</calcite-chip
     >

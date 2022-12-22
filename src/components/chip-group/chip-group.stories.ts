@@ -18,10 +18,10 @@ export const simple = (): string => html`
       selection-mode="${select("selection-mode", ["single", "single-persist", "multi", "none"], "multi")}"
       scale="${select("scale", ["s", "m", "l"], "m")}"
     >
-      <calcite-chip selectable>My great chip</calcite-chip>
-      <calcite-chip selectable>My great chip</calcite-chip>
-      <calcite-chip selectable>My great chip</calcite-chip>
-      <calcite-chip selectable>My great chip</calcite-chip>
+      <calcite-chip>My great chip</calcite-chip>
+      <calcite-chip>My great chip</calcite-chip>
+      <calcite-chip>My great chip</calcite-chip>
+      <calcite-chip>My great chip</calcite-chip>
     </calcite-chip-group>
   </div>
 `;
@@ -32,10 +32,10 @@ export const darkThemeRTL_TestOnly = (): string => html`
       selection-mode="${select("selection-mode", ["single", "single-persist", "multi", "none"], "multi")}"
       scale="${select("scale", ["s", "m", "l"], "m")}"
     >
-      <calcite-chip selectable>My great chip</calcite-chip>
-      <calcite-chip selectable>My great chip</calcite-chip>
-      <calcite-chip selectable>My great chip</calcite-chip>
-      <calcite-chip selectable>My great chip</calcite-chip>
+      <calcite-chip>My great chip</calcite-chip>
+      <calcite-chip>My great chip</calcite-chip>
+      <calcite-chip>My great chip</calcite-chip>
+      <calcite-chip>My great chip</calcite-chip>
     </calcite-chip-group>
   </div>
 `;

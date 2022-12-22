@@ -183,4 +183,60 @@ describe("calcite-chip", () => {
   });
 
   it("supports translation", () => t9n("calcite-chip"));
+  /*
+  it("has `selectable` property programmatically assigned when in a selection-mode='multiple' chip group parent", async () => {
+    const page = await newE2EPage();
+    await page.setContent(
+      `<calcite-chip-group selection-mode="multiple">
+      <calcite-chip id="chip-1"></calcite-chip><calcite-chip id="chip-2"></calcite-chip></calcite-chip-group>`
+    );
+
+    await page.waitForChanges();
+    const chip1 = await page.find("#chip-1");
+    const chip2 = await page.find("#chip-2");
+    expect(chip1).toHaveAttribute("selectable");
+    expect(chip2).toHaveAttribute("selectable");
+  });
+
+  it("has `selectable` property programmatically assigned when in a selection-mode='single' chip group parent", async () => {
+    const page = await newE2EPage();
+    await page.setContent(
+      `<calcite-chip-group selection-mode="single">
+      <calcite-chip id="chip-1"></calcite-chip><calcite-chip id="chip-2"></calcite-chip></calcite-chip-group>`
+    );
+
+    await page.waitForChanges();
+    const chip1 = await page.find("#chip-1");
+    const chip2 = await page.find("#chip-2");
+    expect(chip1).toHaveAttribute("selectable");
+    expect(chip2).toHaveAttribute("selectable");
+  });
+
+  it("has `selectable` property programmatically assigned when in a selection-mode='single-persist' chip group parent", async () => {
+    const page = await newE2EPage();
+    await page.setContent(
+      `<calcite-chip-group selection-mode="single-persist">
+      <calcite-chip id="chip-1"></calcite-chip><calcite-chip id="chip-2"></calcite-chip></calcite-chip-group>`
+    );
+
+    await page.waitForChanges();
+    const chip1 = await page.find("#chip-1");
+    const chip2 = await page.find("#chip-2");
+    expect(chip1).toHaveAttribute("selectable");
+    expect(chip2).toHaveAttribute("selectable");
+  });
+
+  it("has does not have `selectable` property programmatically assigned when in a selection-mode='none' (default) chip group parent", async () => {
+    const page = await newE2EPage();
+    await page.setContent(
+      `<calcite-chip-group><calcite-chip id="chip-1"></calcite-chip><calcite-chip id="chip-2"></calcite-chip></calcite-chip-group>`
+    );
+
+    await page.waitForChanges();
+    const chip1 = await page.find("#chip-1");
+    const chip2 = await page.find("#chip-2");
+    expect(chip1).not.toHaveAttribute("selectable");
+    expect(chip2).not.toHaveAttribute("selectable");
+  });
+  */
 });
