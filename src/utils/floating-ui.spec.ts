@@ -15,9 +15,9 @@ import {
   repositionDebounceTimeout,
   updateAfterClose
 } from "./floating-ui";
-import { waitForAnimationFrame } from "../tests/utils";
 
 import * as floatingUIDOM from "@floating-ui/dom";
+import { waitForAnimationFrame } from "./dom";
 
 (floatingUIDOM as any).computePosition = async (_: HTMLElement, floatingEl: HTMLElement) => {
   floatingEl.style.transform = "some value";

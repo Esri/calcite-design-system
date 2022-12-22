@@ -238,16 +238,6 @@ export async function visualizeMouseCursor(page: E2EPage): Promise<void> {
 }
 
 /**
- * Tells the browser that you wish to perform an animation.
- * https://developer.mozilla.org/en-US/docs/Web/API/window/requestAnimationFrame
- *
- * @returns {Promise<void>}
- */
-export async function waitForAnimationFrame(): Promise<void> {
-  return new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
-}
-
-/**
  * Creates an E2E page for tests that need to create and set up elements programmatically.
  *
  * @returns {Promise<E2EPage>} an e2e page

@@ -1,7 +1,7 @@
 import { GlobalAttrComponent, unwatchGlobalAttributes, watchGlobalAttributes } from "./globalAttributes";
 import { JSDOM } from "jsdom";
 import { Build } from "@stencil/core";
-import { waitForAnimationFrame } from "../tests/utils";
+import { waitForAnimationFrame } from "./dom";
 
 describe("globalAttributes", () => {
   const originalIsBrowser = Build.isBrowser;

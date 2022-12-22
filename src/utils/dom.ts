@@ -401,6 +401,16 @@ export const focusElementInGroup = (
 };
 
 /**
+ * Tells the browser that you wish to perform an animation.
+ * https://developer.mozilla.org/en-US/docs/Web/API/window/requestAnimationFrame
+ *
+ * @returns {Promise<void>}
+ */
+export async function waitForAnimationFrame(): Promise<void> {
+  return new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
+}
+
+/**
  * This helper util can be used to ensure a component is ready.
  *
  * A component developer can await this method before proceeding with any logic that requires a component to be ready first.
@@ -416,9 +426,10 @@ export const focusElementInGroup = (
  * ```
  *
  * @param {HTMLStencilElement} el the stencil component element.
- * @returns {Promise<HTMLStencilElement>}
+ * @returns {Promise<void>}
  */
 
-export function componentReady(el: HTMLStencilElement): Promise<HTMLStencilElement> {
-  return componentReady(el);
+export async function componentReady(el: HTMLStencilElement): Promise<void> {
+  await componentReady(el);
+  return waitForAnimationFrame();
 }
