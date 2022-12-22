@@ -406,7 +406,7 @@ export const focusElementInGroup = (
  *
  * @returns {Promise<void>}
  */
-export function waitForAnimationFrame(): Promise<void> {
+export async function waitForAnimationFrame(): Promise<void> {
   return new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
 }
 
