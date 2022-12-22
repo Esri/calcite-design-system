@@ -30,7 +30,7 @@ import {
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 
 import { createObserver } from "../../utils/observers";
-import { slotChangeHasAssignedElement } from "../../utils/dom";
+import { componentReady, slotChangeHasAssignedElement } from "../../utils/dom";
 
 /**
  * @slot - A slot for adding text.
@@ -142,7 +142,7 @@ export class Chip implements ConditionalSlotComponent, LocalizedComponent, T9nCo
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
-    await this.el.componentOnReady();
+    await componentReady(this.el);
     this.closeButton?.focus();
   }
 

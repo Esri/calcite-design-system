@@ -14,7 +14,7 @@ import {
 import { Position, Scale, Layout } from "../interfaces";
 import { ExpandToggle, toggleChildActionText } from "../functional/ExpandToggle";
 import { CSS, SLOTS } from "./resources";
-import { getSlotted } from "../../utils/dom";
+import { componentReady, getSlotted } from "../../utils/dom";
 import {
   geActionDimensions,
   getOverflowCount,
@@ -223,7 +223,7 @@ export class ActionBar implements ConditionalSlotComponent, LocalizedComponent, 
   @Method()
   async setFocus(): Promise<void> {
     const { el } = this;
-    await el.componentOnReady();
+    await componentReady(el);
     el.focus();
   }
 

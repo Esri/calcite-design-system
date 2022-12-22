@@ -12,7 +12,12 @@ import {
   State
 } from "@stencil/core";
 import { SLOTS, CSS, ICONS } from "./resources";
-import { getElementDir, slotChangeHasAssignedElement, toAriaBoolean } from "../../utils/dom";
+import {
+  componentReady,
+  getElementDir,
+  slotChangeHasAssignedElement,
+  toAriaBoolean
+} from "../../utils/dom";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import { getDepth, getListItemChildren, updateListItemChildren } from "./utils";
 import { SelectionAppearance } from "../list/resources";
@@ -211,7 +216,7 @@ export class ListItem implements InteractiveComponent {
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
-    await this.el.componentOnReady();
+    await componentReady(this.el);
     const { containerEl, contentEl, actionsStartEl, actionsEndEl, parentListEl } = this;
     const focusIndex = focusMap.get(parentListEl);
 

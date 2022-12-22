@@ -13,7 +13,7 @@ import {
 } from "@stencil/core";
 import { Layout, Position, Scale } from "../interfaces";
 import { ExpandToggle, toggleChildActionText } from "../functional/ExpandToggle";
-import { getSlotted } from "../../utils/dom";
+import { componentReady, getSlotted } from "../../utils/dom";
 import { CSS, SLOTS } from "./resources";
 import {
   ConditionalSlotComponent,
@@ -162,7 +162,7 @@ export class ActionPad implements ConditionalSlotComponent, LocalizedComponent, 
   @Method()
   async setFocus(): Promise<void> {
     const { el } = this;
-    await el.componentOnReady();
+    await componentReady(el);
     el.focus();
   }
 

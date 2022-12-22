@@ -12,7 +12,7 @@ import {
   VNode,
   Watch
 } from "@stencil/core";
-import { getElementProp, toAriaBoolean } from "../../utils/dom";
+import { componentReady, getElementProp, toAriaBoolean } from "../../utils/dom";
 import { Layout, Scale } from "../interfaces";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import {
@@ -251,7 +251,7 @@ export class StepperItem implements InteractiveComponent, LocalizedComponent {
 
   @Method()
   async setFocus(): Promise<void> {
-    await this.el.componentOnReady();
+    await componentReady(this.el);
     (this.layout === "vertical" ? this.el : this.headerEl)?.focus();
   }
 

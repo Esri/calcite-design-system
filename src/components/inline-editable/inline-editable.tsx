@@ -11,7 +11,7 @@ import {
   VNode,
   Watch
 } from "@stencil/core";
-import { getElementProp, getSlotted } from "../../utils/dom";
+import { componentReady, getElementProp, getSlotted } from "../../utils/dom";
 import { Scale } from "../interfaces";
 import { CSS } from "./resources";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
@@ -276,7 +276,7 @@ export class InlineEditable
   @Method()
   async setFocus(): Promise<void> {
     const { el } = this;
-    await el.componentOnReady();
+    await componentReady(el);
     el.focus();
   }
 

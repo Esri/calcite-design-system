@@ -12,7 +12,7 @@ import {
   VNode,
   Watch
 } from "@stencil/core";
-import { ensureId, focusFirstTabbable, getSlotted } from "../../utils/dom";
+import { componentReady, ensureId, focusFirstTabbable, getSlotted } from "../../utils/dom";
 import { Kind, Scale } from "../interfaces";
 import { CSS, ICONS, SLOTS } from "./resources";
 import { createObserver } from "../../utils/observers";
@@ -372,7 +372,7 @@ export class Modal
    */
   @Method()
   async setFocus(): Promise<void> {
-    await this.el.componentOnReady();
+    await componentReady(this.el);
     focusFirstTabbable(this.focusTrapEl);
   }
 

@@ -13,7 +13,7 @@ import {
 } from "@stencil/core";
 import { CSS, ICONS, SLOTS } from "./resources";
 import { ICON_TYPES } from "../pick-list/resources";
-import { getSlotted, toAriaBoolean } from "../../utils/dom";
+import { componentReady, getSlotted, toAriaBoolean } from "../../utils/dom";
 import {
   ConditionalSlotComponent,
   connectConditionalSlotComponent,
@@ -257,7 +257,7 @@ export class PickListItem implements ConditionalSlotComponent, InteractiveCompon
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
-    await this.el.componentOnReady();
+    await componentReady(this.el);
     this.focusEl?.focus();
   }
 

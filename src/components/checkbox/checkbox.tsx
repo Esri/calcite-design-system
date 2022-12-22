@@ -15,7 +15,7 @@ import { CheckableFormComponent, HiddenFormInputSlot } from "../../utils/form";
 import { LabelableComponent, connectLabel, disconnectLabel, getLabelText } from "../../utils/label";
 import { connectForm, disconnectForm } from "../../utils/form";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
-import { toAriaBoolean } from "../../utils/dom";
+import { componentReady, toAriaBoolean } from "../../utils/dom";
 import { isActivationKey } from "../../utils/key";
 
 @Component({
@@ -115,7 +115,7 @@ export class Checkbox implements LabelableComponent, CheckableFormComponent, Int
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
-    await this.el.componentOnReady();
+    await componentReady(this.el);
     this.toggleEl?.focus();
   }
 

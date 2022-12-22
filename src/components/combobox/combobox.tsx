@@ -44,7 +44,7 @@ import {
 } from "../../utils/form";
 import { createObserver } from "../../utils/observers";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
-import { isPrimaryPointerButton, toAriaBoolean } from "../../utils/dom";
+import { componentReady, isPrimaryPointerButton, toAriaBoolean } from "../../utils/dom";
 import {
   OpenCloseComponent,
   connectOpenCloseComponent,
@@ -320,7 +320,7 @@ export class Combobox
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
-    await this.el.componentOnReady();
+    await componentReady(this.el);
     this.textInput?.focus();
     this.activeChipIndex = -1;
     this.activeItemIndex = -1;

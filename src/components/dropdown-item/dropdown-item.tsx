@@ -10,7 +10,7 @@ import {
   Prop,
   VNode
 } from "@stencil/core";
-import { getElementProp, toAriaBoolean } from "../../utils/dom";
+import { componentReady, getElementProp, toAriaBoolean } from "../../utils/dom";
 import { ItemKeyboardEvent } from "../dropdown/interfaces";
 
 import { FlipContext } from "../interfaces";
@@ -100,7 +100,7 @@ export class DropdownItem {
   @Method()
   async setFocus(): Promise<void> {
     const { el } = this;
-    await el.componentOnReady();
+    await componentReady(el);
     el.focus();
   }
 

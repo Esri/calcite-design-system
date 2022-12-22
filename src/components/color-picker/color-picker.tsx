@@ -23,7 +23,7 @@ import {
   HSV_LIMITS,
   RGB_LIMITS
 } from "./resources";
-import { Direction, getElementDir, isPrimaryPointerButton } from "../../utils/dom";
+import { componentReady, Direction, getElementDir, isPrimaryPointerButton } from "../../utils/dom";
 import { colorEqual, CSSColorMode, Format, normalizeHex, parseMode, SupportedMode } from "./utils";
 import { throttle } from "lodash-es";
 
@@ -635,7 +635,7 @@ export class ColorPicker implements InteractiveComponent, LocalizedComponent, T9
   @Method()
   async setFocus(): Promise<void> {
     const { el } = this;
-    await el.componentOnReady();
+    await componentReady(el);
     el.focus();
   }
 

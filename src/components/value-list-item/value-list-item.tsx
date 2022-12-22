@@ -14,7 +14,7 @@ import { ICON_TYPES } from "../pick-list/resources";
 import { guid } from "../../utils/guid";
 import { CSS, SLOTS as PICK_LIST_SLOTS } from "../pick-list-item/resources";
 import { ICONS, SLOTS } from "./resources";
-import { getSlotted } from "../../utils/dom";
+import { componentReady, getSlotted } from "../../utils/dom";
 import {
   ConditionalSlotComponent,
   connectConditionalSlotComponent,
@@ -148,7 +148,7 @@ export class ValueListItem implements ConditionalSlotComponent, InteractiveCompo
   /** Set focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
-    await this.el.componentOnReady();
+    await componentReady(this.el);
     await this.pickListItem?.setFocus();
   }
 

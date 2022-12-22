@@ -12,7 +12,7 @@ import {
   Watch
 } from "@stencil/core";
 import { guid } from "../../utils/guid";
-import { focusElement, getElementDir, toAriaBoolean } from "../../utils/dom";
+import { componentReady, focusElement, getElementDir, toAriaBoolean } from "../../utils/dom";
 import { Scale } from "../interfaces";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
 import {
@@ -133,7 +133,7 @@ export class RadioButton
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
-    await this.el.componentOnReady();
+    await componentReady(this.el);
     if (!this.disabled) {
       await focusElement(this.containerEl);
     }

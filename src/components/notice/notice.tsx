@@ -13,7 +13,7 @@ import {
 import { CSS, SLOTS } from "./resources";
 import { Kind, Scale, Width } from "../interfaces";
 import { KindIcons } from "../resources";
-import { getSlotted, setRequestedIcon } from "../../utils/dom";
+import { componentReady, getSlotted, setRequestedIcon } from "../../utils/dom";
 import {
   ConditionalSlotComponent,
   connectConditionalSlotComponent,
@@ -195,7 +195,7 @@ export class Notice implements ConditionalSlotComponent, T9nComponent, Localized
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
-    await this.el.componentOnReady();
+    await componentReady(this.el);
 
     const noticeLinkEl = this.el.querySelector("calcite-link");
 

@@ -1,7 +1,7 @@
 import { Component, Element, Method, Prop, h, VNode } from "@stencil/core";
 import { Appearance, Kind, Scale } from "../interfaces";
 import { CSS, ICONS } from "./resources";
-import { focusElement } from "../../utils/dom";
+import { componentReady, focusElement } from "../../utils/dom";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 
 @Component({
@@ -96,7 +96,7 @@ export class Fab implements InteractiveComponent {
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
-    await this.el.componentOnReady();
+    await componentReady(this.el);
     await focusElement(this.buttonEl);
   }
 

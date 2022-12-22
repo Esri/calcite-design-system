@@ -1,5 +1,5 @@
 import { Component, Element, h, Host, Listen, Method, Prop, VNode } from "@stencil/core";
-import { focusElement, getElementDir } from "../../utils/dom";
+import { componentReady, focusElement, getElementDir } from "../../utils/dom";
 import { FlipContext } from "../interfaces";
 import { CSS_UTILITY } from "../../utils/resources";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
@@ -141,7 +141,7 @@ export class Link implements InteractiveComponent {
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
-    await this.el.componentOnReady();
+    await componentReady(this.el);
     await focusElement(this.childEl);
   }
 

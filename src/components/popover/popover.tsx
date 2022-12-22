@@ -37,7 +37,12 @@ import {
 } from "../../utils/focusTrapComponent";
 
 import { guid } from "../../utils/guid";
-import { focusFirstTabbable, queryElementRoots, toAriaBoolean } from "../../utils/dom";
+import {
+  componentReady,
+  focusFirstTabbable,
+  queryElementRoots,
+  toAriaBoolean
+} from "../../utils/dom";
 import {
   OpenCloseComponent,
   connectOpenCloseComponent,
@@ -378,7 +383,7 @@ export class Popover
   @Method()
   async setFocus(): Promise<void> {
     const { el } = this;
-    await el.componentOnReady();
+    await componentReady(el);
     forceUpdate(el);
     focusFirstTabbable(this.focusTrapEl);
   }

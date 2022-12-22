@@ -12,7 +12,7 @@ import {
   Watch
 } from "@stencil/core";
 import { CSS, ICONS, SLOTS } from "./resources";
-import { focusFirstTabbable, toAriaBoolean } from "../../utils/dom";
+import { componentReady, focusFirstTabbable, toAriaBoolean } from "../../utils/dom";
 import { Scale } from "../interfaces";
 import { HeadingLevel, Heading } from "../functional/Heading";
 import { SLOTS as ACTION_MENU_SLOTS } from "../action-menu/resources";
@@ -310,7 +310,7 @@ export class Panel implements InteractiveComponent, LocalizedComponent, T9nCompo
    */
   @Method()
   async setFocus(): Promise<void> {
-    await this.el.componentOnReady();
+    await componentReady(this.el);
     focusFirstTabbable(this.containerEl);
   }
 

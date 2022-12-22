@@ -11,7 +11,12 @@ import {
   State
 } from "@stencil/core";
 import { CSS, SLOTS, ICONS } from "./resources";
-import { focusElement, isPrimaryPointerButton, toAriaBoolean } from "../../utils/dom";
+import {
+  componentReady,
+  focusElement,
+  isPrimaryPointerButton,
+  toAriaBoolean
+} from "../../utils/dom";
 import { Fragment, VNode } from "@stencil/core/internal";
 import { getRoundRobinIndex } from "../../utils/array";
 import { guid } from "../../utils/guid";
@@ -171,7 +176,7 @@ export class ActionMenu {
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
-    await this.el.componentOnReady();
+    await componentReady(this.el);
     await focusElement(this.menuButtonEl);
   }
 

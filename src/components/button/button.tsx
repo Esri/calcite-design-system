@@ -1,7 +1,7 @@
 import "form-request-submit-polyfill/form-request-submit-polyfill";
 import { Component, Element, h, Method, Prop, Build, State, VNode, Watch } from "@stencil/core";
 import { CSS } from "./resources";
-import { closestElementCrossShadowBoundary } from "../../utils/dom";
+import { closestElementCrossShadowBoundary, componentReady } from "../../utils/dom";
 import { ButtonAlignment } from "./interfaces";
 import { Appearance, FlipContext, Kind, Scale, Width } from "../interfaces";
 import { LabelableComponent, connectLabel, disconnectLabel, getLabelText } from "../../utils/label";
@@ -258,7 +258,7 @@ export class Button
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
-    await this.el.componentOnReady();
+    await componentReady(this.el);
     this.childEl?.focus();
   }
 

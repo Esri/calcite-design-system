@@ -11,7 +11,13 @@ import {
   VNode,
   Watch
 } from "@stencil/core";
-import { getElementDir, getElementProp, getSlotted, setRequestedIcon } from "../../utils/dom";
+import {
+  componentReady,
+  getElementDir,
+  getElementProp,
+  getSlotted,
+  setRequestedIcon
+} from "../../utils/dom";
 import { CSS, SLOTS } from "./resources";
 import { Position, Scale, Status } from "../interfaces";
 import { SetValueOrigin } from "../input/interfaces";
@@ -364,7 +370,7 @@ export class InputText
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
-    await this.el.componentOnReady();
+    await componentReady(this.el);
     this.childEl?.focus();
   }
 

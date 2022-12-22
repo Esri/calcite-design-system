@@ -13,7 +13,7 @@ import {
   Watch
 } from "@stencil/core";
 
-import { getElementDir } from "../../utils/dom";
+import { componentReady, getElementDir } from "../../utils/dom";
 import { Appearance, Layout, Scale, Width } from "../interfaces";
 import { connectLabel, disconnectLabel, LabelableComponent } from "../../utils/label";
 import {
@@ -250,7 +250,7 @@ export class RadioGroup implements LabelableComponent, FormComponent, Interactiv
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
-    await this.el.componentOnReady();
+    await componentReady(this.el);
     (this.selectedItem || this.getItems()[0])?.focus();
   }
 

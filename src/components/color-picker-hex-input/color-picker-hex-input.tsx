@@ -16,7 +16,7 @@ import Color from "color";
 import { CSS } from "./resources";
 import { Scale } from "../interfaces";
 import { RGB } from "../color-picker/interfaces";
-import { focusElement } from "../../utils/dom";
+import { componentReady, focusElement } from "../../utils/dom";
 import { NumberingSystem } from "../../utils/locale";
 
 const DEFAULT_COLOR = Color();
@@ -238,7 +238,7 @@ export class ColorPickerHexInput {
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
-    await this.el.componentOnReady();
+    await componentReady(this.el);
     await focusElement(this.inputNode);
   }
 

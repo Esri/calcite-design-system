@@ -16,7 +16,7 @@ import { InteractiveComponent, updateHostInteraction } from "../../utils/interac
 import { SelectionMode } from "../interfaces";
 import { createObserver } from "../../utils/observers";
 import { getListItemChildren, updateListItemChildren } from "../list-item/utils";
-import { toAriaBoolean } from "../../utils/dom";
+import { componentReady, toAriaBoolean } from "../../utils/dom";
 import { debounce } from "lodash-es";
 import { ItemData } from "../list-item/interfaces";
 import { MAX_COLUMNS } from "../list-item/resources";
@@ -226,7 +226,7 @@ export class List implements InteractiveComponent {
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
-    await this.el.componentOnReady();
+    await componentReady(this.el);
     await this.enabledListItems.find((listItem) => listItem.active)?.setFocus();
   }
 

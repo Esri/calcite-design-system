@@ -13,6 +13,7 @@ import {
   Watch
 } from "@stencil/core";
 import {
+  componentReady,
   getElementDir,
   getElementProp,
   getSlotted,
@@ -466,7 +467,7 @@ export class InputNumber
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
-    await this.el.componentOnReady();
+    await componentReady(this.el);
     this.childNumberEl?.focus();
   }
 

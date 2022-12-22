@@ -11,7 +11,7 @@ import {
   State,
   Watch
 } from "@stencil/core";
-import { getElementDir } from "../../utils/dom";
+import { componentReady, getElementDir } from "../../utils/dom";
 import { HeadingLevel } from "../functional/Heading";
 import { Scale } from "../interfaces";
 import { CSS, ICONS, SLOTS } from "./resources";
@@ -200,7 +200,7 @@ export class FlowItem implements InteractiveComponent, LocalizedComponent, T9nCo
    */
   @Method()
   async setFocus(): Promise<void> {
-    await this.el.componentOnReady();
+    await componentReady(this.el);
 
     const { backButtonEl, containerEl } = this;
 

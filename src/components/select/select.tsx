@@ -11,7 +11,7 @@ import {
   VNode,
   Watch
 } from "@stencil/core";
-import { focusElement } from "../../utils/dom";
+import { componentReady, focusElement } from "../../utils/dom";
 import { Scale, Width } from "../interfaces";
 import { LabelableComponent, connectLabel, disconnectLabel } from "../../utils/label";
 import {
@@ -168,7 +168,7 @@ export class Select implements LabelableComponent, FormComponent, InteractiveCom
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
-    await this.el.componentOnReady();
+    await componentReady(this.el);
     await focusElement(this.selectEl);
   }
 

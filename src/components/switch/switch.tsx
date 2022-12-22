@@ -9,7 +9,7 @@ import {
   Prop,
   VNode
 } from "@stencil/core";
-import { focusElement, toAriaBoolean } from "../../utils/dom";
+import { componentReady, focusElement, toAriaBoolean } from "../../utils/dom";
 import { Scale } from "../interfaces";
 import { LabelableComponent, connectLabel, disconnectLabel, getLabelText } from "../../utils/label";
 import {
@@ -84,7 +84,7 @@ export class Switch implements LabelableComponent, CheckableFormComponent, Inter
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
-    await this.el.componentOnReady();
+    await componentReady(this.el);
     await focusElement(this.switchEl);
   }
 

@@ -27,6 +27,7 @@ import { RatingMessages } from "./assets/rating/t9n";
 
 import { StarIcon } from "./function/star";
 import { Star } from "./interfaces";
+import { componentReady } from "../../utils/dom";
 
 @Component({
   tag: "calcite-rating",
@@ -413,7 +414,7 @@ export class Rating
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
-    await this.el.componentOnReady();
+    await componentReady(this.el);
     this.inputFocusRef?.focus();
   }
 

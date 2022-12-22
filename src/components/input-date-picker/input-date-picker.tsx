@@ -46,7 +46,7 @@ import {
   updateAfterClose
 } from "../../utils/floating-ui";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
-import { toAriaBoolean } from "../../utils/dom";
+import { componentReady, toAriaBoolean } from "../../utils/dom";
 import {
   OpenCloseComponent,
   connectOpenCloseComponent,
@@ -341,7 +341,7 @@ export class InputDatePicker
   @Method()
   async setFocus(): Promise<void> {
     const { el } = this;
-    await el.componentOnReady();
+    await componentReady(el);
     el.focus();
   }
 

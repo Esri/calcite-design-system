@@ -16,7 +16,7 @@ import { CSS, SLOTS } from "./resources";
 import { guid } from "../../utils/guid";
 import { createObserver } from "../../utils/observers";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
-import { toAriaBoolean } from "../../utils/dom";
+import { componentReady, toAriaBoolean } from "../../utils/dom";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 import { ActionMessages } from "./assets/action/t9n";
 import {
@@ -183,7 +183,7 @@ export class Action implements InteractiveComponent, LocalizedComponent, T9nComp
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
-    await this.el.componentOnReady();
+    await componentReady(this.el);
     this.buttonEl?.focus();
   }
 

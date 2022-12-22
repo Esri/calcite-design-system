@@ -15,7 +15,7 @@ import {
 import { guid } from "../../utils/guid";
 
 import { ColorStop, DataSeries } from "../graph/interfaces";
-import { intersects, isPrimaryPointerButton } from "../../utils/dom";
+import { componentReady, intersects, isPrimaryPointerButton } from "../../utils/dom";
 import { clamp, decimalPlaces } from "../../utils/math";
 import { Scale } from "../interfaces";
 import { LabelableComponent, connectLabel, disconnectLabel } from "../../utils/label";
@@ -895,7 +895,7 @@ export class Slider
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
-    await this.el.componentOnReady();
+    await componentReady(this.el);
     const handle = this.minHandle ? this.minHandle : this.maxHandle;
     handle?.focus();
   }

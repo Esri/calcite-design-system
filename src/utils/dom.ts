@@ -1,6 +1,7 @@
 import { CSS_UTILITY } from "./resources";
 import { guid } from "./guid";
 import { tabbable } from "tabbable";
+import { HTMLStencilElement } from "@stencil/core/internal";
 
 export const tabbableOptions = {
   getShadowRoot: true
@@ -398,3 +399,26 @@ export const focusElementInGroup = (
   focusElement(focusTarget);
   return focusTarget;
 };
+
+/**
+ * This helper util can be used to ensure a component is ready.
+ *
+ * A component developer can await this method before proceeding with any logic that requires a component to be ready first.
+ *
+ * See: https://github.com/ionic-team/stencil/blob/main/src/runtime/readme.md#lifecycle-process
+ *
+ * ```
+ * async setFocus(): Promise<void> {
+ *   const { el } = this;
+ *   await componentReady(el);
+ *   el.focus();
+ * }
+ * ```
+ *
+ * @param {HTMLStencilElement} el the stencil component element.
+ * @returns {Promise<HTMLStencilElement>}
+ */
+
+export function componentReady(el: HTMLStencilElement): Promise<HTMLStencilElement> {
+  return componentReady(el);
+}

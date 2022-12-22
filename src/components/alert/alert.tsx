@@ -16,7 +16,8 @@ import {
   getSlotted,
   setRequestedIcon,
   toAriaBoolean,
-  slotChangeHasAssignedElement
+  slotChangeHasAssignedElement,
+  componentReady
 } from "../../utils/dom";
 import { CSS, DURATIONS, SLOTS } from "./resources";
 import { Kind, Scale } from "../interfaces";
@@ -346,7 +347,7 @@ export class Alert implements OpenCloseComponent, T9nComponent {
   @Method()
   async setFocus(): Promise<void> {
     const { el } = this;
-    await el.componentOnReady();
+    await componentReady(el);
 
     const alertLinkEl: HTMLCalciteLinkElement = getSlotted(el, { selector: "calcite-link" });
 
