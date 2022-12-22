@@ -1,4 +1,3 @@
-import { waitForAnimationFrame } from "../tests/utils";
 import { componentLoaded } from "./loadable";
 
 describe("loadable", () => {
@@ -10,13 +9,11 @@ describe("loadable", () => {
     const afterLoad = jest.fn();
     componentLoaded(el as any)?.then(afterLoad);
 
-    await waitForAnimationFrame();
     expect(afterLoad).not.toHaveBeenCalled();
 
     (el as any).componentOnReady();
 
     componentLoaded(el as any).then(afterLoad);
-    await waitForAnimationFrame();
     expect(afterLoad).toHaveBeenCalledTimes(1);
   });
 });
