@@ -41,6 +41,9 @@ export class ChipGroup implements InteractiveComponent {
   /** When true, interaction is prevented and the component is displayed with lower opacity. */
   @Prop({ reflect: true }) disabled = false;
 
+  /** Accessible name for the component. */
+  @Prop() label!: string;
+
   /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";
 
@@ -180,17 +183,12 @@ export class ChipGroup implements InteractiveComponent {
   //--------------------------------------------------------------------------
 
   render(): VNode {
-    let role = undefined;
-    switch (this.selectionMode) {
-      case "single":
-      case "single-persist":
-        role = "radiogroup";
-        break;
-    }
+    const role =
+      this.selectionMode === "none" || this.selectionMode === "multiple" ? "group" : "radiogroup";
 
     return (
       <Host>
-        <div class="container" role={role}>
+        <div aria-label={this.label} class="container" role={role}>
           <slot onSlotchange={this.updateItems} />
         </div>
       </Host>

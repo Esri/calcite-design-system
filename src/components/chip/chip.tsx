@@ -391,14 +391,14 @@ export class Chip
       case "single-persist":
         aria = {
           "aria-checked": toAriaBoolean(this.selected),
-          "aria-labelledby": this.parent.id || "chip group temp",
+          "aria-labelledby": this.parent.label,
           role: "radio"
         };
         break;
       case "multiple":
         aria = {
           "aria-checked": toAriaBoolean(this.selected),
-          "aria-labelledby": this.parent.id || "chip group temp",
+          "aria-labelledby": this.parent.label,
           role: "checkbox"
         };
         break;
