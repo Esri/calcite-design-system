@@ -202,9 +202,7 @@ export class Panel implements InteractiveComponent, LocalizedComponent, T9nCompo
   // --------------------------------------------------------------------------
 
   resizeHandler = (): void => {
-    const { panelScrollEl, el } = this;
-
-    el.componentOnReady;
+    const { panelScrollEl } = this;
 
     if (
       !panelScrollEl ||
