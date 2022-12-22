@@ -271,7 +271,7 @@ export class TabTitle implements InteractiveComponent {
   //--------------------------------------------------------------------------
 
   /**
-   * Fires when a `calcite-tab` is selected. Emits the `tab` property, or the index position.
+   * Fires when a `calcite-tab` is selected.
    */
   @Event({ cancelable: false }) calciteTabsActivate: EventEmitter<void>;
 

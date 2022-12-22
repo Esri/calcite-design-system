@@ -12,7 +12,7 @@ import {
   VNode,
   Watch
 } from "@stencil/core";
-import { ensureId, focusElement, getSlotted } from "../../utils/dom";
+import { ensureId, focusFirstTabbable, getSlotted } from "../../utils/dom";
 import { Kind, Scale } from "../interfaces";
 import { CSS, ICONS, SLOTS } from "./resources";
 import { createObserver } from "../../utils/observers";
@@ -28,7 +28,7 @@ import {
   connectFocusTrap,
   activateFocusTrap,
   deactivateFocusTrap,
-  focusFirstTabbable
+  updateFocusTrapElements
 } from "../../utils/focusTrapComponent";
 import {
   setUpLoadableComponent,
@@ -380,20 +380,19 @@ export class Modal
    *
    * By default, tries to focus on focusable content. If there is none, it will focus on the close button.
    * To focus on the close button, use the `close-button` focus ID.
-   *
-   * @param focusId
    */
   @Method()
-  async setFocus(focusId?: "close-button"): Promise<void> {
+  async setFocus(): Promise<void> {
     await componentLoaded(this);
+    focusFirstTabbable(this.focusTrapEl);
+  }
 
-    const { closeButtonEl } = this;
-
-    if (closeButtonEl && focusId === "close-button") {
-      return focusElement(closeButtonEl);
-    }
-
-    focusFirstTabbable(this);
+  /**
+   * Updates the element(s) that are used within the focus-trap of the component.
+   */
+  @Method()
+  async updateFocusTrapElements(): Promise<void> {
+    updateFocusTrapElements(this);
   }
 
   /**
