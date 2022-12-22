@@ -61,7 +61,7 @@ export class TabNav {
    *
    * @readonly
    */
-  @Prop({ mutable: true }) selectedTabTitle: HTMLCalciteTabTitleElement = null;
+  @Prop({ mutable: true }) selectedTitle: HTMLCalciteTabTitleElement = null;
 
   /**
    * @internal
@@ -108,10 +108,10 @@ export class TabNav {
       tab: this.selectedTabId
     });
 
-    this.selectedTabTitle = await this.getTabTitleById(this.selectedTabId);
+    this.selectedTitle = await this.getTabTitleById(this.selectedTabId);
   }
 
-  @Watch("selectedTabTitle") selectedTabTitleChanged(): void {
+  @Watch("selectedTitle") selectedTitleChanged(): void {
     this.updateOffsetPosition();
     this.updateActiveWidth();
     // reset the animation time on tab selection
@@ -149,7 +149,7 @@ export class TabNav {
     this.scale = parentTabsEl?.scale;
     this.bordered = parentTabsEl?.bordered;
     // fix issue with active tab-title not lining up with blue indicator
-    if (this.selectedTabTitle) {
+    if (this.selectedTitle) {
       this.updateOffsetPosition();
     }
   }
@@ -336,15 +336,15 @@ export class TabNav {
   updateOffsetPosition(): void {
     const dir = getElementDir(this.el);
     const navWidth = this.activeIndicatorContainerEl?.offsetWidth;
-    const tabLeft = this.selectedTabTitle?.offsetLeft;
-    const tabWidth = this.selectedTabTitle?.offsetWidth;
+    const tabLeft = this.selectedTitle?.offsetLeft;
+    const tabWidth = this.selectedTitle?.offsetWidth;
     const offsetRight = navWidth - (tabLeft + tabWidth);
     this.indicatorOffset =
       dir !== "rtl" ? tabLeft - this.tabNavEl?.scrollLeft : offsetRight + this.tabNavEl?.scrollLeft;
   }
 
   updateActiveWidth(): void {
-    this.indicatorWidth = this.selectedTabTitle?.offsetWidth;
+    this.indicatorWidth = this.selectedTitle?.offsetWidth;
   }
 
   getIndexOfTabTitle(el: HTMLCalciteTabTitleElement, tabTitles = this.tabTitles): number {
