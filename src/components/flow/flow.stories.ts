@@ -42,18 +42,6 @@ const createFlowItemAttributes: (group: string) => Attributes = (group) => {
     {
       name: "description",
       value: text("description", "Description", group)
-    },
-    {
-      name: "intl-back",
-      value: text("intlBack", TEXT.back, group)
-    },
-    {
-      name: "intl-open",
-      value: text("intlOpen", TEXT.open, group)
-    },
-    {
-      name: "intl-close",
-      value: text("intlClose", TEXT.close, group)
     }
   ];
 };
@@ -83,7 +71,7 @@ const menuActionsHTML = html`
 `;
 
 const footerActionsHTML = html`
-  <calcite-button slot="${SLOTS.footerActions}" width="half" appearance="clear">Cancel</calcite-button>
+  <calcite-button slot="${SLOTS.footerActions}" width="half" appearance="outline">Cancel</calcite-button>
   <calcite-button slot="${SLOTS.footerActions}" width="half">Save</button>
 `;
 

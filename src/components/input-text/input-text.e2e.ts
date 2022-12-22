@@ -7,10 +7,10 @@ import {
   labelable,
   reflects,
   renders,
-  hidden
+  hidden,
+  t9n
 } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
-import { TEXT } from "./resources";
 
 describe("calcite-input-text", () => {
   it("is labelable", async () => labelable("calcite-input-text"));
@@ -60,15 +60,14 @@ describe("calcite-input-text", () => {
   it("inherits requested props when from wrapping calcite-label when props are provided", async () => {
     const page = await newE2EPage();
     await page.setContent(html`
-      <calcite-label status="invalid" scale="s">
+      <calcite-label scale="s">
         Label text
         <calcite-input-text></calcite-input-text>
       </calcite-label>
     `);
 
-    const deprecatedLabelStatusElement = await page.find("calcite-input-text");
-    expect(await deprecatedLabelStatusElement.getProperty("status")).toEqual("invalid");
-    expect(await deprecatedLabelStatusElement.getProperty("scale")).toEqual("s");
+    const inputTextElement = await page.find("calcite-input-text");
+    expect(await inputTextElement.getProperty("scale")).toEqual("s");
   });
 
   it("renders an icon when explicit Calcite UI is requested, and is a type without a default icon", async () => {
@@ -167,7 +166,7 @@ describe("calcite-input-text", () => {
     await page.setContent(html`<calcite-input-text clearable value="John Doe"></calcite-input-text>`);
     const clearButton = await page.find("calcite-input-text >>> .clear-button");
     expect(clearButton).not.toBe(null);
-    expect(clearButton.getAttribute("aria-label")).toBe(TEXT.clear);
+    expect(clearButton.getAttribute("aria-label")).toBe("Clear value");
   });
 
   it("does not render clear button when clearable is requested and value is not populated", async () => {
@@ -371,4 +370,6 @@ describe("calcite-input-text", () => {
   });
 
   it("is form-associated", () => formAssociated("calcite-input-text", { testValue: "test", submitsOnEnter: true }));
+
+  it("supports translation", () => t9n("calcite-input-text"));
 });

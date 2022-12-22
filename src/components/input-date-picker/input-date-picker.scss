@@ -89,6 +89,7 @@
 }
 
 .menu-container {
+  --calcite-floating-ui-z-index: theme("zIndex.dropdown");
   @include floatingUIContainer();
   @include floatingUIWrapper();
   @apply invisible;

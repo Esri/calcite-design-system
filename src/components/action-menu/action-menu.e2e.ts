@@ -37,10 +37,6 @@ describe("calcite-action-menu", () => {
         defaultValue: undefined
       },
       {
-        propertyName: "intlOptions",
-        defaultValue: undefined
-      },
-      {
         propertyName: "open",
         defaultValue: false
       },
@@ -74,7 +70,7 @@ describe("calcite-action-menu", () => {
       }
     ]));
 
-  it("should emit 'calciteActionMenuOpenChange' event", async () => {
+  it("should emit 'calciteActionMenuOpen' event", async () => {
     const page = await newE2EPage({
       html: `<calcite-action-menu>
       <calcite-action text="Add" icon="plus"></calcite-action>
@@ -83,7 +79,7 @@ describe("calcite-action-menu", () => {
 
     await page.waitForChanges();
 
-    const clickSpy = await page.spyOnEvent("calciteActionMenuOpenChange");
+    const clickSpy = await page.spyOnEvent("calciteActionMenuOpen");
 
     const actionMenu = await page.find("calcite-action-menu");
 

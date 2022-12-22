@@ -47,7 +47,7 @@ describe("calcite-tooltip", () => {
       }
     ]));
 
-  it("should have zIndex of 999", async () => {
+  it("should have zIndex of 901", async () => {
     const page = await newE2EPage();
 
     await page.setContent(
@@ -62,7 +62,7 @@ describe("calcite-tooltip", () => {
 
     const style = await tooltip.getComputedStyle();
 
-    expect(style.zIndex).toBe("999");
+    expect(style.zIndex).toBe("901");
   });
 
   it("tooltip positions when referenceElement is set", async () => {
@@ -228,7 +228,7 @@ describe("calcite-tooltip", () => {
     expect(content.textContent).toBe("hi");
   });
 
-  it("should honor tooltips on pointerover/pointerout", async () => {
+  it("should honor tooltips on pointermove", async () => {
     const page = await newE2EPage();
 
     await page.setContent(
@@ -449,7 +449,7 @@ describe("calcite-tooltip", () => {
     expect(await hoverTip.getProperty("open")).toBe(false);
 
     await page.$eval("#hoverRef", (elm: HTMLElement) => {
-      elm.dispatchEvent(new Event("pointerover"));
+      elm.dispatchEvent(new Event("pointermove"));
     });
 
     await page.waitForTimeout(TOOLTIP_DELAY_MS);
@@ -506,7 +506,7 @@ describe("calcite-tooltip", () => {
     expect(await hoverTip.getProperty("open")).toBe(false);
 
     await page.$eval("#hoverRef", (elm: HTMLElement) => {
-      elm.dispatchEvent(new Event("pointerover"));
+      elm.dispatchEvent(new Event("pointermove"));
     });
 
     await page.waitForTimeout(TOOLTIP_DELAY_MS);

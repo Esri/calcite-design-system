@@ -12,16 +12,19 @@
         padding: 0 2rem;
         align-items: center;
       }
+
       article {
         min-height: 8rem;
         display: flex;
         align-items: center;
       }
+
       pre {
         margin-bottom: 0;
       }
     </style>
   </head>
+
   <body>
     <demo-dom-swapper>
       <main>
@@ -40,7 +43,7 @@
             };
           </script>
           <calcite-button
-            color="red"
+            kind="danger"
             onclick="document.querySelectorAll('calcite-notice').forEach(node => node.active = false)"
           >
             Reset

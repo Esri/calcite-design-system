@@ -100,9 +100,7 @@ export class Flow {
 
     const newItems: HTMLCalciteFlowItemElement[] = Array.from(
       el.querySelectorAll("calcite-flow-item")
-    ).filter(
-      (flowItem) => !flowItem.matches("calcite-flow-item calcite-flow-item")
-    ) as HTMLCalciteFlowItemElement[];
+    ).filter((flowItem) => flowItem.closest("calcite-flow") === el) as HTMLCalciteFlowItemElement[];
 
     const oldItemCount = items.length;
     const newItemCount = newItems.length;

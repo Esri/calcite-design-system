@@ -9,10 +9,10 @@ Displays a contextual message to a user. Allows the passing of content, links, e
 ### Basic
 
 ```html
-<calcite-label status="“invalid”">
+<calcite-label>
   My great label
-  <calcite-input placeholder="“Enter" your information”></calcite-input>
-  <calcite-input-message active
+  <calcite-input status="invalid" placeholder="“Enter" your information”></calcite-input>
+  <calcite-input-message status="invalid"
     >That's not going to work out.
     <calcite-button appearance="inline" href="">Learn more</calcite-button></calcite-input-message
   >
@@ -21,13 +21,12 @@ Displays a contextual message to a user. Allows the passing of content, links, e
 
 ## Properties
 
-| Property | Attribute | Description                                                                                                                                                                                                                                                      | Type                             | Default     |
-| -------- | --------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------- | ----------- |
-| `active` | `active`  | <span style="color:red">**[DEPRECATED]**</span> use global `hidden` attribute instead.<br/><br/>When `true`, the component is active.                                                                                                                            | `boolean`                        | `false`     |
-| `icon`   | `icon`    | Specifies an icon to display.                                                                                                                                                                                                                                    | `boolean \| string`              | `undefined` |
-| `scale`  | `scale`   | Specifies the size of the component.                                                                                                                                                                                                                             | `"l" \| "m" \| "s"`              | `"m"`       |
-| `status` | `status`  | Specifies the status of the input field, which determines message and icons.                                                                                                                                                                                     | `"idle" \| "invalid" \| "valid"` | `"idle"`    |
-| `type`   | `type`    | <span style="color:red">**[DEPRECATED]**</span> The `"floating"` type is no longer supported.<br/><br/>Specifies the appearance of a slotted message - `"default"` (displayed under the component), or `"floating"` (positioned absolutely under the component). | `"default"`                      | `undefined` |
+| Property      | Attribute       | Description                                                                                  | Type                             | Default     |
+| ------------- | --------------- | -------------------------------------------------------------------------------------------- | -------------------------------- | ----------- |
+| `icon`        | `icon`          | Specifies an icon to display.                                                                | `boolean \| string`              | `undefined` |
+| `iconFlipRtl` | `icon-flip-rtl` | When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). | `boolean`                        | `false`     |
+| `scale`       | `scale`         | Specifies the size of the component.                                                         | `"l" \| "m" \| "s"`              | `"m"`       |
+| `status`      | `status`        | Specifies the status of the input field, which determines message and icons.                 | `"idle" \| "invalid" \| "valid"` | `"idle"`    |
 
 ## Slots
 
