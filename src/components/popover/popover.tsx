@@ -388,7 +388,7 @@ export class Popover
   @Method()
   async setFocus(): Promise<void> {
     await componentLoaded(this);
-    forceUpdate(this);
+    forceUpdate(this.el);
     focusFirstTabbable(this.focusTrapEl);
   }
 
@@ -540,7 +540,7 @@ export class Popover
   renderCloseButton(): VNode {
     const { messages, closable } = this;
     return closable ? (
-      <div class={CSS.closeButtonContainer} key="close-button-container">
+      <div class={CSS.closeButtonContainer} key={CSS.closeButtonContainer}>
         <calcite-action
           class={CSS.closeButton}
           onClick={this.hide}
@@ -563,7 +563,7 @@ export class Popover
     ) : null;
 
     return headingNode ? (
-      <div class={CSS.header} key="header">
+      <div class={CSS.header} key={CSS.header}>
         {headingNode}
         {this.renderCloseButton()}
       </div>
