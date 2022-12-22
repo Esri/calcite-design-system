@@ -1,6 +1,6 @@
 import { select } from "@storybook/addon-knobs";
 import { boolean, iconNames, storyFilters } from "../../../.storybook/helpers";
-import { themesDarkDefault } from "../../../.storybook/utils";
+import { modesDarkDefault } from "../../../.storybook/utils";
 import readme from "./readme.md";
 import { html } from "../../../support/formatting";
 
@@ -159,7 +159,7 @@ queue_NoTest.parameters = {
   chromatic: { disableSnapshot: true }
 };
 
-export const darkThemeRTL_TestOnly = (): string => html`
+export const darkModeRTL_TestOnly = (): string => html`
   <style>
     :root {
       --calcite-duration-factor: 0;
@@ -185,7 +185,7 @@ export const darkThemeRTL_TestOnly = (): string => html`
   </calcite-alert>
 `;
 
-darkThemeRTL_TestOnly.parameters = { themes: themesDarkDefault };
+darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
 
 export const actionsEndNoQueue_TestOnly = (): string => html`
   <style>

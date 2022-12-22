@@ -4,7 +4,7 @@ import {
   createComponentHTML as create,
   Attribute,
   filterComponentAttributes,
-  themesDarkDefault
+  modesDarkDefault
 } from "../../../.storybook/utils";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import readme from "./readme.md";
@@ -145,7 +145,7 @@ export const disabledWithStyledSlot_TestOnly = (): string => html`
   </calcite-flow-item>
 `;
 
-export const darkThemeRTL_TestOnly = (): string =>
+export const darkModeRTL_TestOnly = (): string =>
   create(
     "calcite-flow-item",
     createAttributes({ exceptions: ["dir", "class"] }).concat([
@@ -161,7 +161,7 @@ export const darkThemeRTL_TestOnly = (): string =>
     flowItemContent
   );
 
-darkThemeRTL_TestOnly.parameters = { themes: themesDarkDefault };
+darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
 
 export const noDoubleScrollbars_TestOnly = (): string => html`
   <style>

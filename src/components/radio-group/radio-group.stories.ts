@@ -1,6 +1,6 @@
 import { select } from "@storybook/addon-knobs";
 import { boolean, storyFilters } from "../../../.storybook/helpers";
-import { themesDarkDefault } from "../../../.storybook/utils";
+import { modesDarkDefault } from "../../../.storybook/utils";
 import readme1 from "./readme.md";
 import readme2 from "../radio-group-item/readme.md";
 import { html } from "../../../support/formatting";
@@ -46,7 +46,7 @@ export const fullWidthWithIcons = (): string => html`
   </div>
 `;
 
-export const darkThemeRTL_TestOnly = (): string => html`
+export const darkModeRTL_TestOnly = (): string => html`
   <calcite-radio-group
     class="calcite-mode-dark"
     dir="rtl"
@@ -63,7 +63,7 @@ export const darkThemeRTL_TestOnly = (): string => html`
   </calcite-radio-group>
 `;
 
-darkThemeRTL_TestOnly.parameters = { themes: themesDarkDefault };
+darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
 
 export const disabled_TestOnly = (): string => html`<calcite-radio-group disabled>
   <calcite-radio-group-item value="react" checked>React</calcite-radio-group-item>

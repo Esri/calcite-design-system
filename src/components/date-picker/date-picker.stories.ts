@@ -5,7 +5,7 @@ import {
   filterComponentAttributes,
   Attributes,
   createComponentHTML as create,
-  themesDarkDefault
+  modesDarkDefault
 } from "../../../.storybook/utils";
 import readme from "./readme.md";
 import { html } from "../../../support/formatting";
@@ -133,7 +133,7 @@ export const rangeRTL_TestOnly = (): string =>
     )}
   </div>`;
 
-export const darkThemeRTL_TestOnly = (): string =>
+export const darkModeRTL_TestOnly = (): string =>
   html`<div style="width: 400px">
     ${create(
       "calcite-date-picker",
@@ -144,7 +144,7 @@ export const darkThemeRTL_TestOnly = (): string =>
     )}
   </div>`;
 
-darkThemeRTL_TestOnly.parameters = { themes: themesDarkDefault };
+darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
 
 export const bgLang_TestOnly = (): string =>
   html`<div style="width: 400px">

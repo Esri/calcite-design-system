@@ -23,10 +23,10 @@ export function nodeListToArray<T extends Element>(nodeList: HTMLCollectionOf<T>
 
 export type Direction = "ltr" | "rtl";
 
-export function getThemeName(el: HTMLElement): "light" | "dark" {
+export function getModeName(el: HTMLElement): "light" | "dark" {
   const closestElWithTheme = closestElementCrossShadowBoundary(
     el,
-    `.${CSS_UTILITY.darkTheme}, .${CSS_UTILITY.lightTheme}`
+    `.${CSS_UTILITY.darkMode}, .${CSS_UTILITY.lightMode}`
   );
   return closestElWithTheme?.classList.contains("calcite-mode-dark") ? "dark" : "light";
 }

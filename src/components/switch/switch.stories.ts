@@ -2,7 +2,7 @@ import { select } from "@storybook/addon-knobs";
 import { boolean, storyFilters } from "../../../.storybook/helpers";
 import readme from "./readme.md";
 import { html } from "../../../support/formatting";
-import { themesDarkDefault } from "../../../.storybook/utils";
+import { modesDarkDefault } from "../../../.storybook/utils";
 
 export default {
   title: "Components/Controls/Switch",
@@ -22,7 +22,7 @@ export const simple = (): string => html`
   ></calcite-switch>
 `;
 
-export const darkThemeRTL_TestOnly = (): string => html`
+export const darkModeRTL_TestOnly = (): string => html`
   <calcite-switch
     class="calcite-mode-dark"
     name="setting"
@@ -32,6 +32,6 @@ export const darkThemeRTL_TestOnly = (): string => html`
   ></calcite-switch>
 `;
 
-darkThemeRTL_TestOnly.parameters = { themes: themesDarkDefault };
+darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
 
 export const disabled_TestOnly = (): string => html`<calcite-switch disabled checked></calcite-switch>`;

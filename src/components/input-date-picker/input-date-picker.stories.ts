@@ -1,5 +1,5 @@
 import { boolean, select, text } from "@storybook/addon-knobs";
-import { themesDarkDefault } from "../../../.storybook/utils";
+import { modesDarkDefault } from "../../../.storybook/utils";
 import readme from "./readme.md";
 import { html } from "../../../support/formatting";
 import { locales } from "../../utils/locale";
@@ -73,7 +73,7 @@ export const laoNumberingSystem_TestOnly = (): string => html`
     ></calcite-input-date-picker
   </div>`;
 
-export const darkThemeRTL_TestOnly = (): string => html`
+export const darkModeRTL_TestOnly = (): string => html`
   <div style="width: 400px">
     <calcite-input-date-picker
       class="calcite-mode-dark"
@@ -82,4 +82,4 @@ export const darkThemeRTL_TestOnly = (): string => html`
     ></calcite-input-date-picker
   </div>
 `;
-darkThemeRTL_TestOnly.parameters = { themes: themesDarkDefault };
+darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };

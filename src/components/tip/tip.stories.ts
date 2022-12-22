@@ -4,7 +4,7 @@ import {
   filterComponentAttributes,
   Attributes,
   createComponentHTML as create,
-  themesDarkDefault
+  modesDarkDefault
 } from "../../../.storybook/utils";
 import readme from "./readme.md";
 import groupReadme from "../tip-group/readme.md";
@@ -58,7 +58,7 @@ const html = `<img slot="thumbnail" src="${placeholderImage({
 
 export const simple = (): string => create("calcite-tip", createAttributes(), html);
 
-export const darkThemeRTL_TestOnly = (): string =>
+export const darkModeRTL_TestOnly = (): string =>
   create(
     "calcite-tip",
     createAttributes({ exceptions: ["dir", "class"] }).concat([
@@ -67,4 +67,4 @@ export const darkThemeRTL_TestOnly = (): string =>
     ]),
     html
   );
-darkThemeRTL_TestOnly.parameters = { themes: themesDarkDefault };
+darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };

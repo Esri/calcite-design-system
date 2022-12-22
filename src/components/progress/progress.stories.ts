@@ -1,6 +1,6 @@
 import { select, number, text } from "@storybook/addon-knobs";
 
-import { themesDarkDefault } from "../../../.storybook/utils";
+import { modesDarkDefault } from "../../../.storybook/utils";
 import readme from "./readme.md";
 import { html } from "../../../support/formatting";
 import { storyFilters } from "../../../.storybook/helpers";
@@ -21,7 +21,7 @@ export const simple = (): string => html`
   ></calcite-progress>
 `;
 
-export const darkThemeRTL_TestOnly = (): string => html`
+export const darkModeRTL_TestOnly = (): string => html`
   <calcite-progress
     class="calcite-mode-dark"
     type="${select("type", { determinate: "determinate", indeterminate: "indeterminate" }, "indeterminate")}"
@@ -30,4 +30,4 @@ export const darkThemeRTL_TestOnly = (): string => html`
   ></calcite-progress>
 `;
 
-darkThemeRTL_TestOnly.parameters = { themes: themesDarkDefault };
+darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };

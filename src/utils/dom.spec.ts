@@ -3,7 +3,7 @@ import {
   getSlotted,
   setRequestedIcon,
   ensureId,
-  getThemeName,
+  getModeName,
   toAriaBoolean,
   isPrimaryPointerButton,
   slotChangeGetAssignedElements,
@@ -11,7 +11,7 @@ import {
 } from "./dom";
 import { guidPattern } from "./guid.spec";
 import { html } from "../../support/formatting";
-import { ThemeName } from "../../src/components/interfaces";
+import { ModeName } from "../../src/components/interfaces";
 
 describe("dom", () => {
   describe("getElementProp()", () => {
@@ -301,12 +301,12 @@ describe("dom", () => {
     });
   });
 
-  describe("getThemeName()", () => {
+  describe("getModeName()", () => {
     interface ThemedElement extends HTMLElement {
-      foundThemeName: ThemeName;
+      foundModeName: ModeName;
     }
     function getTestComponentTheme(): string {
-      return document.body.querySelector<ThemedElement>("themed-element").foundThemeName;
+      return document.body.querySelector<ThemedElement>("themed-element").foundModeName;
     }
     function defineTestComponents(): void {
       class ThemedElement extends HTMLElement {
@@ -315,10 +315,10 @@ describe("dom", () => {
           this.attachShadow({ mode: "open" });
         }
 
-        foundThemeName = null;
+        foundModeName = null;
 
         connectedCallback(): void {
-          this.foundThemeName = getThemeName(this);
+          this.foundModeName = getModeName(this);
         }
       }
       customElements.define("themed-element", ThemedElement);

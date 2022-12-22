@@ -1,4 +1,4 @@
-import { themesDarkDefault } from "../../../.storybook/utils";
+import { modesDarkDefault } from "../../../.storybook/utils";
 import readme from "./readme.md";
 import { html } from "../../../support/formatting";
 import { storyFilters } from "../../../.storybook/helpers";
@@ -80,7 +80,7 @@ export const simple = (): string => html`
   </div>
 `;
 
-export const darkThemeRTL_TestOnly = (): string => html`
+export const darkModeRTL_TestOnly = (): string => html`
   <div style="width:300px;max-width:100%;text-align:center;" class="calcite-mode-dark" dir="rtl">
     <calcite-label class="calcite-mode-dark">
       Default label wrapping a switch
@@ -142,7 +142,7 @@ export const darkThemeRTL_TestOnly = (): string => html`
   </div>
 `;
 
-darkThemeRTL_TestOnly.parameters = { themes: themesDarkDefault };
+darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
 
 export const spacingWithLabel_TestOnly = (): string => html`
   <style>

@@ -4,7 +4,7 @@ import {
   Attributes,
   createComponentHTML as create,
   filterComponentAttributes,
-  themesDarkDefault
+  modesDarkDefault
 } from "../../../.storybook/utils";
 import readme from "./readme.md";
 import { ATTRIBUTES } from "../../../.storybook/resources";
@@ -96,7 +96,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
 export const simple = (): string => create("calcite-fab", createAttributes());
 export const disabled_TestOnly = (): string => html`<calcite-fab disabled icon="plus"></calcite-fab>`;
 
-export const darkThemeRTL_TestOnly = (): string =>
+export const darkModeRTL_TestOnly = (): string =>
   create(
     "calcite-fab",
     createAttributes({ exceptions: ["dir", "class"] }).concat([
@@ -111,4 +111,4 @@ export const darkThemeRTL_TestOnly = (): string =>
     ])
   );
 
-darkThemeRTL_TestOnly.parameters = { themes: themesDarkDefault };
+darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };

@@ -6,7 +6,7 @@ import {
   Attribute,
   Attributes,
   filterComponentAttributes,
-  themesDarkDefault,
+  modesDarkDefault,
   createComponentHTML as create
 } from "../../../.storybook/utils";
 import { storyFilters } from "../../../.storybook/helpers";
@@ -229,10 +229,10 @@ export const headerDoesNotOverlapWithCheckbox_TestOnly = (): string => html`
   </calcite-card>
 `;
 
-export const darkThemeRTL_TestOnly = (): string => html`
+export const darkModeRTL_TestOnly = (): string => html`
   <div dir="rtl" style="width:260px;">
     <calcite-card>${thumbnailHtml}${titleHtml}${footerLeadingTextHtml}${footerTrailingButtonsHtml}</calcite-card>
   </div>
 `;
 
-darkThemeRTL_TestOnly.parameters = { themes: themesDarkDefault };
+darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
