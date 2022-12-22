@@ -89,12 +89,20 @@ Sets the scroll top of the component's content.
 
 Type: `Promise<void>`
 
-### `setFocus(focusId?: "close-button") => Promise<void>`
+### `setFocus() => Promise<void>`
 
 Sets focus on the component.
 
 By default, tries to focus on focusable content. If there is none, it will focus on the close button.
 To focus on the close button, use the `close-button` focus ID.
+
+#### Returns
+
+Type: `Promise<void>`
+
+### `updateFocusTrapElements() => Promise<void>`
+
+Updates the element(s) that are used within the focus-trap of the component.
 
 #### Returns
 
