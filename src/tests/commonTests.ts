@@ -184,7 +184,11 @@ export async function hidden(componentTagOrHTML: TagOrHTML): Promise<void> {
 }
 
 interface FocusableOptions {
-  /** use this to pass an ID to setFocus() */
+  /**
+   * use this to pass an ID to setFocus()
+   *
+   * @deprecated components should no longer use a focusId parameter for setFocus()
+   */
   focusId?: string;
 
   /**

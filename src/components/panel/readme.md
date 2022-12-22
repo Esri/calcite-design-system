@@ -98,7 +98,7 @@ Scrolls the component's content to a specified set of coordinates.
 
 Type: `Promise<void>`
 
-### `setFocus(focusId?: "back-button" | "dismiss-button") => Promise<void>`
+### `setFocus() => Promise<void>`
 
 Sets focus on the component.
 

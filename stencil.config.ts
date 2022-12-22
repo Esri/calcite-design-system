@@ -80,6 +80,10 @@ export const create: () => Config = () => ({
     { type: "dist" },
     { type: "docs-readme" },
     { type: "docs-json", file: "./dist/extras/docs-json.json" },
+    {
+      type: "docs-vscode",
+      file: "./dist/extras/vscode-data.json"
+    },
     { type: "custom", name: "preact", generator: generatePreactTypes },
     {
       type: "www",
