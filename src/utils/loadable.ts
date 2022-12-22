@@ -20,5 +20,4 @@ import { HTMLStencilElement } from "@stencil/core/internal";
  */
 export async function componentLoaded(el: HTMLStencilElement): Promise<void> {
   await el.componentOnReady();
-  await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
 }

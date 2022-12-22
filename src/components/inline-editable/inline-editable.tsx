@@ -316,10 +316,10 @@ export class InlineEditable
     return this.editingEnabled && this.controls;
   }
 
-  private enableEditing = () => {
+  private enableEditing = async () => {
     this.valuePriorToEditing = this.inputElement?.value;
     this.editingEnabled = true;
-    this.inputElement?.setFocus();
+    await this.inputElement?.setFocus();
     this.calciteInternalInlineEditableEnableEditingChange.emit();
   };
 
@@ -327,12 +327,12 @@ export class InlineEditable
     this.editingEnabled = false;
   };
 
-  private cancelEditing = () => {
+  private cancelEditing = async () => {
     if (this.inputElement) {
       this.inputElement.value = this.valuePriorToEditing;
     }
     this.disableEditing();
-    this.enableEditingButton.setFocus();
+    await this.enableEditingButton.setFocus();
     if (!this.editingEnabled && !!this.shouldEmitCancel) {
       this.calciteInlineEditableEditCancel.emit();
     }
@@ -388,7 +388,7 @@ export class InlineEditable
         this.loading = true;
         await this.afterConfirm();
         this.disableEditing();
-        this.enableEditingButton.setFocus();
+        await this.enableEditingButton.setFocus();
       }
     } catch (error) {
     } finally {
