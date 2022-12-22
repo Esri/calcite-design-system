@@ -317,7 +317,6 @@ describe("calcite-modal accessibility checks", () => {
     const createModalHTML = (contentHTML?: string, attrs?: string) =>
       `<calcite-modal open ${attrs}>${contentHTML}</calcite-modal>`;
 
-    const closeButtonFocusId = "close-button";
     const closeButtonTargetSelector = ".close";
     const focusableContentTargetClass = "test";
 
@@ -326,19 +325,12 @@ describe("calcite-modal accessibility checks", () => {
 
     it("focuses close button by default", async () =>
       focusable(createModalHTML(focusableContentHTML), {
-        focusId: closeButtonFocusId,
         shadowFocusTargetSelector: closeButtonTargetSelector
       }));
 
     it("focuses content if there is no close button", async () =>
       focusable(createModalHTML(focusableContentHTML, "close-button-disabled"), {
         focusTargetSelector: `.${focusableContentTargetClass}`
-      }));
-
-    it.skip("can focus close button directly", async () =>
-      focusable(createModalHTML(focusableContentHTML), {
-        focusId: closeButtonFocusId,
-        shadowFocusTargetSelector: closeButtonTargetSelector
       }));
   });
 
