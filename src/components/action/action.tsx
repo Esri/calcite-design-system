@@ -26,7 +26,6 @@ import {
   T9nComponent,
   updateMessages
 } from "../../utils/t9n";
-import { componentLoaded } from "../../utils/loadable";
 
 /**
  * @slot - A slot for adding a `calcite-icon`.
@@ -184,7 +183,7 @@ export class Action implements InteractiveComponent, LocalizedComponent, T9nComp
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
-    await componentLoaded(this.el);
+    await this.el.componentOnReady();
     this.buttonEl?.focus();
   }
 

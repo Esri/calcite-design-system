@@ -18,7 +18,6 @@ import { HeadingLevel, Heading } from "../functional/Heading";
 import { SLOTS as ACTION_MENU_SLOTS } from "../action-menu/resources";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import { createObserver } from "../../utils/observers";
-import { componentLoaded } from "../../utils/loadable";
 
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 import {
@@ -313,7 +312,7 @@ export class Panel implements InteractiveComponent, LocalizedComponent, T9nCompo
    */
   @Method()
   async setFocus(): Promise<void> {
-    await componentLoaded(this.el);
+    await this.el.componentOnReady();
     focusFirstTabbable(this.containerEl);
   }
 

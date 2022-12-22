@@ -46,8 +46,6 @@ import {
   updateMessages
 } from "../../utils/t9n";
 
-import { componentLoaded } from "../../utils/loadable";
-
 function capitalize(str: string): string {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
@@ -282,7 +280,7 @@ export class TimePicker implements LocalizedComponent, LocalizedComponent, T9nCo
   @Method()
   async setFocus(): Promise<void> {
     const { el } = this;
-    await componentLoaded(el);
+    await el.componentOnReady();
     el.focus();
   }
 
@@ -293,7 +291,7 @@ export class TimePicker implements LocalizedComponent, LocalizedComponent, T9nCo
   // --------------------------------------------------------------------------
 
   private async focusPart(target: TimePart): Promise<void> {
-    await componentLoaded(this.el);
+    await this.el.componentOnReady();
 
     this[`${target || "hour"}El`]?.focus();
   }

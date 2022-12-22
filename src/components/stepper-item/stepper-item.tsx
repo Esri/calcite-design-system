@@ -26,7 +26,6 @@ import {
   disconnectLocalized,
   connectLocalized
 } from "../../utils/locale";
-import { componentLoaded } from "../../utils/loadable";
 
 /**
  * @slot - A slot for adding custom content.
@@ -252,7 +251,7 @@ export class StepperItem implements InteractiveComponent, LocalizedComponent {
 
   @Method()
   async setFocus(): Promise<void> {
-    await componentLoaded(this.el);
+    await this.el.componentOnReady();
     (this.layout === "vertical" ? this.el : this.headerEl)?.focus();
   }
 

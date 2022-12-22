@@ -26,7 +26,6 @@ import {
   updateMessages
 } from "../../utils/t9n";
 import { InlineEditableMessages } from "./assets/inline-editable/t9n";
-import { componentLoaded } from "../../utils/loadable";
 
 /**
  * @slot - A slot for adding a `calcite-input`.
@@ -277,7 +276,7 @@ export class InlineEditable
   @Method()
   async setFocus(): Promise<void> {
     const { el } = this;
-    await componentLoaded(el);
+    await el.componentOnReady();
     el.focus();
   }
 

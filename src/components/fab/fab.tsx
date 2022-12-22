@@ -3,7 +3,6 @@ import { Appearance, Kind, Scale } from "../interfaces";
 import { CSS, ICONS } from "./resources";
 import { focusElement } from "../../utils/dom";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
-import { componentLoaded } from "../../utils/loadable";
 
 @Component({
   tag: "calcite-fab",
@@ -97,7 +96,7 @@ export class Fab implements InteractiveComponent {
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
-    await componentLoaded(this.el);
+    await this.el.componentOnReady();
     await focusElement(this.buttonEl);
   }
 

@@ -38,7 +38,6 @@ import {
   updateMessages
 } from "../../utils/t9n";
 import { ActionBarMessages } from "./assets/action-bar/t9n";
-import { componentLoaded } from "../../utils/loadable";
 
 /**
  * @slot - A slot for adding `calcite-action`s that will appear at the top of the action bar.
@@ -224,7 +223,7 @@ export class ActionBar implements ConditionalSlotComponent, LocalizedComponent, 
   @Method()
   async setFocus(): Promise<void> {
     const { el } = this;
-    await componentLoaded(el);
+    await el.componentOnReady();
     el.focus();
   }
 

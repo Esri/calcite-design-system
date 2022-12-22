@@ -24,7 +24,6 @@ import {
 import { CSS } from "./resources";
 import { createObserver } from "../../utils/observers";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
-import { componentLoaded } from "../../utils/loadable";
 
 type OptionOrGroup = HTMLCalciteOptionElement | HTMLCalciteOptionGroupElement;
 type NativeOptionOrGroup = HTMLOptionElement | HTMLOptGroupElement;
@@ -169,7 +168,7 @@ export class Select implements LabelableComponent, FormComponent, InteractiveCom
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
-    await componentLoaded(this.el);
+    await this.el.componentOnReady();
     await focusElement(this.selectEl);
   }
 

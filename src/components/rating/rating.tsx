@@ -24,7 +24,7 @@ import {
   updateMessages
 } from "../../utils/t9n";
 import { RatingMessages } from "./assets/rating/t9n";
-import { componentLoaded } from "../../utils/loadable";
+
 import { StarIcon } from "./function/star";
 import { Star } from "./interfaces";
 
@@ -413,7 +413,7 @@ export class Rating
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
-    await componentLoaded(this.el);
+    await this.el.componentOnReady();
     this.inputFocusRef?.focus();
   }
 

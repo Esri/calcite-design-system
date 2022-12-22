@@ -21,7 +21,6 @@ import {
   disconnectConditionalSlotComponent
 } from "../../utils/conditionalSlot";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
-import { componentLoaded } from "../../utils/loadable";
 
 /**
  * @slot actions-end - A slot for adding actions or content to the end side of the component.
@@ -149,7 +148,7 @@ export class ValueListItem implements ConditionalSlotComponent, InteractiveCompo
   /** Set focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
-    await componentLoaded(this.el);
+    await this.el.componentOnReady();
     await this.pickListItem?.setFocus();
   }
 

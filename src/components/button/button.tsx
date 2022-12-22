@@ -17,7 +17,6 @@ import {
   updateMessages
 } from "../../utils/t9n";
 import { ButtonMessages } from "./assets/button/t9n";
-import { componentLoaded } from "../../utils/loadable";
 
 /** Passing a 'href' will render an anchor link, instead of a button. Role will be set to link, or button, depending on this. */
 /** It is the consumers responsibility to add aria information, rel, target, for links, and any button attributes for form submission */
@@ -259,7 +258,7 @@ export class Button
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
-    await componentLoaded(this.el);
+    await this.el.componentOnReady();
     this.childEl?.focus();
   }
 

@@ -18,7 +18,6 @@ import { guid } from "../../utils/guid";
 import { Scale } from "../interfaces";
 import { LogicalPlacement, EffectivePlacement, OverlayPositioning } from "../../utils/floating-ui";
 import { isActivationKey } from "../../utils/key";
-import { componentLoaded } from "../../utils/loadable";
 
 const SUPPORTED_MENU_NAV_KEYS = ["ArrowUp", "ArrowDown", "End", "Home"];
 
@@ -172,7 +171,7 @@ export class ActionMenu {
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
-    await componentLoaded(this.el);
+    await this.el.componentOnReady();
     await focusElement(this.menuButtonEl);
   }
 

@@ -57,8 +57,6 @@ import {
 } from "../../utils/t9n";
 import { PopoverMessages } from "./assets/popover/t9n";
 
-import { componentLoaded } from "../../utils/loadable";
-
 const manager = new PopoverManager();
 
 /**
@@ -380,7 +378,7 @@ export class Popover
   @Method()
   async setFocus(): Promise<void> {
     const { el } = this;
-    await componentLoaded(el);
+    await el.componentOnReady();
     forceUpdate(el);
     focusFirstTabbable(this.focusTrapEl);
   }

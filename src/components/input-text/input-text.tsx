@@ -35,7 +35,6 @@ import {
   updateMessages
 } from "../../utils/t9n";
 import { InputTextMessages } from "./assets/input-text/t9n";
-import { componentLoaded } from "../../utils/loadable";
 
 /**
  * @slot action - A slot for positioning a button next to the component.
@@ -365,7 +364,7 @@ export class InputText
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
-    await componentLoaded(this.el);
+    await this.el.componentOnReady();
     this.childEl?.focus();
   }
 

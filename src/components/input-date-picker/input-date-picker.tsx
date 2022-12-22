@@ -61,7 +61,6 @@ import {
   numberStringFormatter
 } from "../../utils/locale";
 import { numberKeys } from "../../utils/key";
-import { componentLoaded } from "../../utils/loadable";
 
 @Component({
   tag: "calcite-input-date-picker",
@@ -342,7 +341,7 @@ export class InputDatePicker
   @Method()
   async setFocus(): Promise<void> {
     const { el } = this;
-    await componentLoaded(el);
+    await el.componentOnReady();
     el.focus();
   }
 

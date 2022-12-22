@@ -53,7 +53,6 @@ import {
   updateMessages
 } from "../../utils/t9n";
 import { InputMessages } from "./assets/input/t9n";
-import { componentLoaded } from "../../utils/loadable";
 
 /**
  * @slot action - A slot for positioning a `calcite-button` next to the component.
@@ -531,7 +530,7 @@ export class Input
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
-    await componentLoaded(this.el);
+    await this.el.componentOnReady();
 
     if (this.type === "number") {
       this.childNumberEl?.focus();

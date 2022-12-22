@@ -34,7 +34,6 @@ import {
 } from "../../utils/locale";
 import { TimePickerMessages } from "../time-picker/assets/time-picker/t9n";
 import { numberKeys } from "../../utils/key";
-import { componentLoaded } from "../../utils/loadable";
 
 @Component({
   tag: "calcite-input-time-picker",
@@ -313,7 +312,7 @@ export class InputTimePicker
   @Method()
   async setFocus(): Promise<void> {
     const { el } = this;
-    await componentLoaded(el);
+    await el.componentOnReady();
     el.focus();
   }
 

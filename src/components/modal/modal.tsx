@@ -30,7 +30,6 @@ import {
   deactivateFocusTrap,
   updateFocusTrapElements
 } from "../../utils/focusTrapComponent";
-import { componentLoaded } from "../../utils/loadable";
 
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 import {
@@ -373,7 +372,7 @@ export class Modal
    */
   @Method()
   async setFocus(): Promise<void> {
-    await componentLoaded(this.el);
+    await this.el.componentOnReady();
     focusFirstTabbable(this.focusTrapEl);
   }
 

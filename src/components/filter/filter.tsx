@@ -25,7 +25,6 @@ import {
   updateMessages
 } from "../../utils/t9n";
 import { FilterMessages } from "./assets/filter/t9n";
-import { componentLoaded } from "../../utils/loadable";
 
 @Component({
   tag: "calcite-filter",
@@ -172,7 +171,7 @@ export class Filter implements InteractiveComponent, LocalizedComponent, T9nComp
   @Method()
   async setFocus(): Promise<void> {
     const { el } = this;
-    await componentLoaded(el);
+    await el.componentOnReady();
     el.focus();
   }
 

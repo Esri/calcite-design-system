@@ -59,7 +59,6 @@ import {
 } from "../../utils/t9n";
 import { connectLocalized, disconnectLocalized } from "../../utils/locale";
 import { ComboboxMessages } from "./assets/combobox/t9n";
-import { componentLoaded } from "../../utils/loadable";
 
 interface ItemData {
   label: string;
@@ -321,7 +320,7 @@ export class Combobox
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
-    await componentLoaded(this.el);
+    await this.el.componentOnReady();
     this.textInput?.focus();
     this.activeChipIndex = -1;
     this.activeItemIndex = -1;

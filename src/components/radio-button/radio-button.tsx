@@ -24,7 +24,6 @@ import {
 import { CSS } from "./resources";
 import { getRoundRobinIndex } from "../../utils/array";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
-import { componentLoaded } from "../../utils/loadable";
 
 @Component({
   tag: "calcite-radio-button",
@@ -134,7 +133,7 @@ export class RadioButton
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
-    await componentLoaded(this.el);
+    await this.el.componentOnReady();
     if (!this.disabled) {
       await focusElement(this.containerEl);
     }

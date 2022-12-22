@@ -24,7 +24,6 @@ import {
   HiddenFormInputSlot
 } from "../../utils/form";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
-import { componentLoaded } from "../../utils/loadable";
 
 /**
  * @slot - A slot for adding `calcite-radio-group-item`s.
@@ -251,7 +250,7 @@ export class RadioGroup implements LabelableComponent, FormComponent, Interactiv
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
-    await componentLoaded(this.el);
+    await this.el.componentOnReady();
     (this.selectedItem || this.getItems()[0])?.focus();
   }
 

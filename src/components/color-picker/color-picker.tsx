@@ -40,7 +40,6 @@ import {
 } from "../../utils/t9n";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 import { NumberingSystem } from "../../utils/locale";
-import { componentLoaded } from "../../utils/loadable";
 
 const throttleFor60FpsInMs = 16;
 const defaultValue = normalizeHex(DEFAULT_COLOR.hex());
@@ -636,7 +635,7 @@ export class ColorPicker implements InteractiveComponent, LocalizedComponent, T9
   @Method()
   async setFocus(): Promise<void> {
     const { el } = this;
-    await componentLoaded(el);
+    await el.componentOnReady();
     el.focus();
   }
 

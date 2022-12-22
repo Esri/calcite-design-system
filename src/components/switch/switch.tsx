@@ -20,7 +20,6 @@ import {
 } from "../../utils/form";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import { isActivationKey } from "../../utils/key";
-import { componentLoaded } from "../../utils/loadable";
 
 @Component({
   tag: "calcite-switch",
@@ -85,7 +84,7 @@ export class Switch implements LabelableComponent, CheckableFormComponent, Inter
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
-    await componentLoaded(this.el);
+    await this.el.componentOnReady();
     await focusElement(this.switchEl);
   }
 

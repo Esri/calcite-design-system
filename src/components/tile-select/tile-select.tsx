@@ -16,7 +16,6 @@ import { TileSelectType } from "./interfaces";
 import { guid } from "../../utils/guid";
 import { CSS } from "./resources";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
-import { componentLoaded } from "../../utils/loadable";
 
 /**
  * @slot - A slot for adding custom content.
@@ -137,7 +136,7 @@ export class TileSelect implements InteractiveComponent {
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
-    await componentLoaded(this.el);
+    await this.el.componentOnReady();
     await this.input?.setFocus();
   }
 

@@ -17,7 +17,6 @@ import { connectForm, disconnectForm } from "../../utils/form";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import { toAriaBoolean } from "../../utils/dom";
 import { isActivationKey } from "../../utils/key";
-import { componentLoaded } from "../../utils/loadable";
 
 @Component({
   tag: "calcite-checkbox",
@@ -116,7 +115,7 @@ export class Checkbox implements LabelableComponent, CheckableFormComponent, Int
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
-    await componentLoaded(this.el);
+    await this.el.componentOnReady();
     this.toggleEl?.focus();
   }
 

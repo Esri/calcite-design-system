@@ -41,7 +41,7 @@ import {
   updateMessages
 } from "../../utils/t9n";
 import { AlertMessages } from "./assets/alert/t9n";
-import { componentLoaded } from "../../utils/loadable";
+
 import { MenuPlacement } from "../../utils/floating-ui";
 
 /**
@@ -346,7 +346,7 @@ export class Alert implements OpenCloseComponent, T9nComponent {
   @Method()
   async setFocus(): Promise<void> {
     const { el } = this;
-    await componentLoaded(el);
+    await el.componentOnReady();
 
     const alertLinkEl: HTMLCalciteLinkElement = getSlotted(el, { selector: "calcite-link" });
 

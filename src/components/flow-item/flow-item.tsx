@@ -26,7 +26,6 @@ import {
   updateMessages
 } from "../../utils/t9n";
 import { FlowItemMessages } from "./assets/flow-item/t9n";
-import { componentLoaded } from "../../utils/loadable";
 
 /**
  * @slot - A slot for adding custom content.
@@ -201,7 +200,7 @@ export class FlowItem implements InteractiveComponent, LocalizedComponent, T9nCo
    */
   @Method()
   async setFocus(): Promise<void> {
-    await componentLoaded(this.el);
+    await this.el.componentOnReady();
 
     const { backButtonEl, containerEl } = this;
 

@@ -23,8 +23,6 @@ import { MAX_COLUMNS } from "../list-item/resources";
 
 const listItemSelector = "calcite-list-item";
 
-import { componentLoaded } from "../../utils/loadable";
-
 /**
  * A general purpose list that enables users to construct list items that conform to Calcite styling.
  *
@@ -228,7 +226,7 @@ export class List implements InteractiveComponent {
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
-    await componentLoaded(this.el);
+    await this.el.componentOnReady();
     await this.enabledListItems.find((listItem) => listItem.active)?.setFocus();
   }
 

@@ -3,7 +3,6 @@ import { focusElement, getElementDir } from "../../utils/dom";
 import { FlipContext } from "../interfaces";
 import { CSS_UTILITY } from "../../utils/resources";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
-import { componentLoaded } from "../../utils/loadable";
 
 /** Any attributes placed on <calcite-link> component will propagate to the rendered child */
 /** Passing a 'href' will render an anchor link, instead of a span. Role will be set to link, or link, depending on this. */
@@ -142,7 +141,7 @@ export class Link implements InteractiveComponent {
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
-    await componentLoaded(this.el);
+    await this.el.componentOnReady();
     await focusElement(this.childEl);
   }
 

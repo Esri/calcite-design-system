@@ -36,7 +36,6 @@ import {
   NumberingSystem
 } from "../../utils/locale";
 import { CSS } from "./resources";
-import { componentLoaded } from "../../utils/loadable";
 
 type ActiveSliderProperty = "minValue" | "maxValue" | "value" | "minMaxValue";
 type SetValueProperty = Exclude<ActiveSliderProperty, "minMaxValue">;
@@ -896,7 +895,7 @@ export class Slider
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
-    await componentLoaded(this.el);
+    await this.el.componentOnReady();
     const handle = this.minHandle ? this.minHandle : this.maxHandle;
     handle?.focus();
   }

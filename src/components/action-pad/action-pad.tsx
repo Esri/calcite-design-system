@@ -29,7 +29,6 @@ import {
   updateMessages
 } from "../../utils/t9n";
 import { ActionPadMessages } from "./assets/action-pad/t9n";
-import { componentLoaded } from "../../utils/loadable";
 
 /**
  * @slot - A slot for adding `calcite-action`s to the component.
@@ -163,7 +162,7 @@ export class ActionPad implements ConditionalSlotComponent, LocalizedComponent, 
   @Method()
   async setFocus(): Promise<void> {
     const { el } = this;
-    await componentLoaded(el);
+    await el.componentOnReady();
     el.focus();
   }
 

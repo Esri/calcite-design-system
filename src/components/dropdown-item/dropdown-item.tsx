@@ -16,7 +16,7 @@ import { ItemKeyboardEvent } from "../dropdown/interfaces";
 import { FlipContext } from "../interfaces";
 import { CSS } from "./resources";
 import { RequestedItem } from "../dropdown-group/interfaces";
-import { componentLoaded } from "../../utils/loadable";
+
 import { SelectionMode } from "../interfaces";
 
 /**
@@ -100,7 +100,7 @@ export class DropdownItem {
   @Method()
   async setFocus(): Promise<void> {
     const { el } = this;
-    await componentLoaded(el);
+    await el.componentOnReady();
     el.focus();
   }
 

@@ -1,7 +1,7 @@
 import { Component, Element, Event, EventEmitter, Method, Prop, h, VNode } from "@stencil/core";
 import { toAriaBoolean } from "../../utils/dom";
 import { CSS, ICONS } from "./resources";
-import { componentLoaded } from "../../utils/loadable";
+
 import { HandleNudge } from "./interfaces";
 
 @Component({
@@ -62,7 +62,7 @@ export class Handle {
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
-    await componentLoaded(this.el);
+    await this.el.componentOnReady();
     this.handleButton?.focus();
   }
 

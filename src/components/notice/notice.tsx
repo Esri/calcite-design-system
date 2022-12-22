@@ -28,7 +28,6 @@ import {
   updateMessages
 } from "../../utils/t9n";
 import { NoticeMessages } from "./assets/notice/t9n";
-import { componentLoaded } from "../../utils/loadable";
 
 /**
  * Notices are intended to be used to present users with important-but-not-crucial contextual tips or copy. Because
@@ -196,7 +195,7 @@ export class Notice implements ConditionalSlotComponent, T9nComponent, Localized
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
-    await componentLoaded(this.el);
+    await this.el.componentOnReady();
 
     const noticeLinkEl = this.el.querySelector("calcite-link");
 

@@ -49,7 +49,6 @@ import {
   updateMessages
 } from "../../utils/t9n";
 import { ValueListMessages } from "./assets/value-list/t9n";
-import { componentLoaded } from "../../utils/loadable";
 
 /**
  * @slot - A slot for adding `calcite-value-list-item` elements. List items are displayed as a vertical list.
@@ -411,7 +410,7 @@ export class ValueList<
    */
   @Method()
   async setFocus(focusId?: ListFocusId): Promise<void> {
-    await componentLoaded(this.el);
+    await this.el.componentOnReady();
 
     return setFocus.call(this, focusId);
   }
