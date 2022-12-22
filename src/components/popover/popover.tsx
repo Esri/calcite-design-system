@@ -393,16 +393,6 @@ export class Popover
   }
 
   /**
-   * Toggles the component's open property.
-   *
-   * @param value
-   */
-  @Method()
-  async toggle(value = !this.open): Promise<void> {
-    this.open = value;
-  }
-
-  /**
    * Updates the element(s) that are used within the focus-trap of the component.
    */
   @Method()
