@@ -431,5 +431,5 @@ export function waitForAnimationFrame(): Promise<void> {
 
 export async function componentReady(el: HTMLStencilElement): Promise<void> {
   await componentReady(el);
-  return waitForAnimationFrame();
+  await waitForAnimationFrame();
 }
