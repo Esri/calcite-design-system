@@ -167,7 +167,7 @@ export class Textarea
 
   render(): VNode {
     const hasFooter =
-      !!this.leadingSlotElements.length || !!this.trailingSlotElements.length || !!this.maxlength;
+      !!this.leadingSlotElements?.length || !!this.trailingSlotElements?.length || !!this.maxlength;
     return (
       <Host>
         <textarea
@@ -183,7 +183,7 @@ export class Textarea
             [CSS.readonly]: this.readonly,
             [CSS.textareaInvalid]: this.invalid,
             [CSS.footerSlotted]:
-              !!this.trailingSlotElements.length && !!this.leadingSlotElements.length,
+              !!this.trailingSlotElements?.length && !!this.leadingSlotElements?.length,
             [CSS.borderColor]: !hasFooter
           }}
           cols={this.cols}
@@ -338,7 +338,7 @@ export class Textarea
   }
 
   disablePointerEvents(disabled: boolean, slottedElements: Element[]): void {
-    if (!!slottedElements.length) {
+    if (!!slottedElements?.length) {
       slottedElements.forEach((el: HTMLElement) => {
         el.style.pointerEvents = disabled ? "none" : "auto";
       });
