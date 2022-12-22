@@ -93,7 +93,7 @@ export function deactivateFocusTrap(component: FocusTrapComponent): void {
  * content.appendChild(input);
  * await input.componentOnReady();
  * await modal.updateFocusTrapElements();
- * requestAnimationFrame(() => input.setFocus());
+ * input.setFocus();
  */
 export function updateFocusTrapElements(component: FocusTrapComponent): void {
   component.focusTrap?.updateContainerElements(component.focusTrapEl);
