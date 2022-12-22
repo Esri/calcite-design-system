@@ -170,8 +170,7 @@ export class Select implements LabelableComponent, FormComponent, InteractiveCom
   @Method()
   async setFocus(): Promise<void> {
     await componentLoaded(this.el);
-
-    focusElement(this.selectEl);
+    await focusElement(this.selectEl);
   }
 
   //--------------------------------------------------------------------------

@@ -468,7 +468,6 @@ export class InputNumber
   @Method()
   async setFocus(): Promise<void> {
     await componentLoaded(this.el);
-
     this.childNumberEl?.focus();
   }
 

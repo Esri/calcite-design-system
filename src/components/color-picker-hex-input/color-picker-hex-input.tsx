@@ -240,8 +240,7 @@ export class ColorPickerHexInput {
   @Method()
   async setFocus(): Promise<void> {
     await componentLoaded(this.el);
-
-    focusElement(this.inputNode);
+    await focusElement(this.inputNode);
   }
 
   //--------------------------------------------------------------------------

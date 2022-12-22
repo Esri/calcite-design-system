@@ -138,7 +138,7 @@ export class TileSelect implements InteractiveComponent {
   @Method()
   async setFocus(): Promise<void> {
     await componentLoaded(this.el);
-    this.input?.setFocus();
+    await this.input?.setFocus();
   }
 
   //--------------------------------------------------------------------------

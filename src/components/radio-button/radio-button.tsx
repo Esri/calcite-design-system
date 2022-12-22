@@ -136,7 +136,7 @@ export class RadioButton
   async setFocus(): Promise<void> {
     await componentLoaded(this.el);
     if (!this.disabled) {
-      focusElement(this.containerEl);
+      await focusElement(this.containerEl);
     }
   }
 

@@ -253,7 +253,6 @@ export class StepperItem implements InteractiveComponent, LocalizedComponent {
   @Method()
   async setFocus(): Promise<void> {
     await componentLoaded(this.el);
-
     (this.layout === "vertical" ? this.el : this.headerEl)?.focus();
   }
 

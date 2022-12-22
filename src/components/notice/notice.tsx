@@ -204,7 +204,7 @@ export class Notice implements ConditionalSlotComponent, T9nComponent, Localized
       return;
     }
     if (noticeLinkEl) {
-      noticeLinkEl.setFocus();
+      await noticeLinkEl.setFocus();
     } else if (this.closeButton) {
       this.closeButton.focus();
     }

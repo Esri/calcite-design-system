@@ -260,7 +260,6 @@ export class Button
   @Method()
   async setFocus(): Promise<void> {
     await componentLoaded(this.el);
-
     this.childEl?.focus();
   }
 

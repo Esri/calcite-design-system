@@ -206,11 +206,11 @@ export class FlowItem implements InteractiveComponent, LocalizedComponent, T9nCo
     const { backButtonEl, containerEl } = this;
 
     if (backButtonEl) {
-      backButtonEl.setFocus();
+      await backButtonEl.setFocus();
       return;
     }
 
-    containerEl?.setFocus();
+    await containerEl?.setFocus();
   }
 
   /**

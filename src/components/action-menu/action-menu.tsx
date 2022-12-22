@@ -173,7 +173,7 @@ export class ActionMenu {
   @Method()
   async setFocus(): Promise<void> {
     await componentLoaded(this.el);
-    focusElement(this.menuButtonEl);
+    await focusElement(this.menuButtonEl);
   }
 
   // --------------------------------------------------------------------------

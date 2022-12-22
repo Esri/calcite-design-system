@@ -229,7 +229,7 @@ export class List implements InteractiveComponent {
   @Method()
   async setFocus(): Promise<void> {
     await componentLoaded(this.el);
-    this.enabledListItems.find((listItem) => listItem.active)?.setFocus();
+    await this.enabledListItems.find((listItem) => listItem.active)?.setFocus();
   }
 
   // --------------------------------------------------------------------------

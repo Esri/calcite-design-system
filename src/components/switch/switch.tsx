@@ -86,8 +86,7 @@ export class Switch implements LabelableComponent, CheckableFormComponent, Inter
   @Method()
   async setFocus(): Promise<void> {
     await componentLoaded(this.el);
-
-    focusElement(this.switchEl);
+    await focusElement(this.switchEl);
   }
 
   //--------------------------------------------------------------------------

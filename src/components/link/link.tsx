@@ -143,7 +143,7 @@ export class Link implements InteractiveComponent {
   @Method()
   async setFocus(): Promise<void> {
     await componentLoaded(this.el);
-    focusElement(this.childEl);
+    await focusElement(this.childEl);
   }
 
   //--------------------------------------------------------------------------

@@ -98,7 +98,7 @@ export class Fab implements InteractiveComponent {
   @Method()
   async setFocus(): Promise<void> {
     await componentLoaded(this.el);
-    focusElement(this.buttonEl);
+    await focusElement(this.buttonEl);
   }
 
   // --------------------------------------------------------------------------

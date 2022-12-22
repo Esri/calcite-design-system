@@ -414,7 +414,6 @@ export class Rating
   @Method()
   async setFocus(): Promise<void> {
     await componentLoaded(this.el);
-
     this.inputFocusRef?.focus();
   }
 

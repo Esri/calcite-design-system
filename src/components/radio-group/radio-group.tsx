@@ -252,7 +252,6 @@ export class RadioGroup implements LabelableComponent, FormComponent, Interactiv
   @Method()
   async setFocus(): Promise<void> {
     await componentLoaded(this.el);
-
     (this.selectedItem || this.getItems()[0])?.focus();
   }
 

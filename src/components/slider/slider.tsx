@@ -897,7 +897,6 @@ export class Slider
   @Method()
   async setFocus(): Promise<void> {
     await componentLoaded(this.el);
-
     const handle = this.minHandle ? this.minHandle : this.maxHandle;
     handle?.focus();
   }

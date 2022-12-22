@@ -353,7 +353,7 @@ export class Alert implements OpenCloseComponent, T9nComponent {
     if (!this.closeButton && !alertLinkEl) {
       return;
     } else if (alertLinkEl) {
-      alertLinkEl.setFocus();
+      await alertLinkEl.setFocus();
     } else if (this.closeButton) {
       this.closeButton.focus();
     }

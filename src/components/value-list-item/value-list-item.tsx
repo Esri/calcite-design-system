@@ -150,8 +150,7 @@ export class ValueListItem implements ConditionalSlotComponent, InteractiveCompo
   @Method()
   async setFocus(): Promise<void> {
     await componentLoaded(this.el);
-
-    this.pickListItem?.setFocus();
+    await this.pickListItem?.setFocus();
   }
 
   // --------------------------------------------------------------------------
