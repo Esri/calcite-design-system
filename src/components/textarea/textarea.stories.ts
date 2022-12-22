@@ -12,7 +12,7 @@ export default {
 };
 
 export const simple = (): string => html`
-  <div style="width:300px;max-width:100%;text-align:center;">
+  <div style="width:300px;text-align:center;">
     <calcite-textarea
       scale="${select("scale", ["s", "m", "l"], "m")}"
       placeholder="${text("placeholder", "Add Notes")}"
