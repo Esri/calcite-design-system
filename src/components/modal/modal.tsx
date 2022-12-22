@@ -119,10 +119,10 @@ export class Modal
   /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";
 
-  /** Specifies the width of the component. Can use scale sizes or pass a number (displays in pixels). */
-  @Prop({ reflect: true }) width: Scale | number = "m";
+  /** Specifies the width of the component. */
+  @Prop({ reflect: true }) width: Scale = "m";
 
-  /** Sets the component to always be fullscreen (overrides `width`). */
+  /** Sets the component to always be fullscreen (overrides `width` and `--calcite-modal-width` / `--calcite-modal-height`). */
   @Prop({ reflect: true }) fullscreen: boolean;
 
   /** Specifies the kind of the component (will apply to top border). */
@@ -201,7 +201,6 @@ export class Modal
       >
         <div class={{ [CSS.container]: true, [CSS.slottedInShell]: this.slottedInShell }}>
           <calcite-scrim class={CSS.scrim} onClick={this.handleOutsideClose} />
-          {this.renderStyle()}
           <div
             class={{
               [CSS.modal]: true,
@@ -264,33 +263,6 @@ export class Modal
           }
         />
       </button>
-    ) : null;
-  }
-
-  renderStyle(): VNode {
-    const hasCustomWidth = !isNaN(parseInt(`${this.width}`));
-    return hasCustomWidth ? (
-      <style>
-        {`
-        .${CSS.modal} {
-          max-width: ${this.width}px !important;
-        }
-        @media screen and (max-width: ${this.width}px) {
-          .${CSS.modal} {
-            height: 100% !important;
-            max-height: 100% !important;
-            width: 100% !important;
-            max-width: 100% !important;
-            margin: 0 !important;
-            border-radius: 0 !important;
-          }
-          .content {
-            flex: 1 1 auto !important;
-            max-height: unset !important;
-          }
-        }
-      `}
-      </style>
     ) : null;
   }
 

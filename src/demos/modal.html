@@ -918,16 +918,43 @@
         **************************************************
        -->
         <div class="child">
-          <calcite-modal class="js-modal-custom-width" width="500">
+          <calcite-modal
+            class="js-modal-custom-width"
+            style="--calcite-modal-width: 500px; --calcite-modal-height: 600px"
+          >
             <h3 slot="header">Modal title</h3>
             <div slot="content">
-              <p>This modal will be 500 pixels wide on larger screens and become fullscreen below that.</p>
+              <p>
+                This modal will be 500 pixels wide and 600px tall on larger screens and become fullscreen below that.
+              </p>
             </div>
             <calcite-button slot="secondary" width="full" appearance="outline">Cancel</calcite-button>
           </calcite-modal>
 
           <calcite-button onClick="openModal('.js-modal-custom-width')" appearance="outline" scale="s">
-            Custom width
+            Custom width and height via css var
+          </calcite-button>
+        </div>
+
+        <!--
+      **************************************************
+      * CUSTOM WIDTH distance from edge
+      **************************************************
+      -->
+        <div class="child">
+          <calcite-modal
+            class="js-modal-custom-width-2"
+            style="--calcite-modal-width: calc(100% - 2em); --calcite-modal-height: calc(100% - 2em)"
+          >
+            <h3 slot="header">Modal title</h3>
+            <div slot="content">
+              <p>Will be calc(100%-2em) height and width</p>
+            </div>
+            <calcite-button slot="secondary" width="full" appearance="outline">Cancel</calcite-button>
+          </calcite-modal>
+
+          <calcite-button onClick="openModal('.js-modal-custom-width-2')" appearance="outline" scale="s">
+            Custom width and height distance from edge
           </calcite-button>
         </div>
 
@@ -937,8 +964,12 @@
         **************************************************
       -->
         <div class="child">
-          <calcite-modal class="js-modal-grey-background" fullscreen background-color="grey">
-            <h3 slot="header">Grey Background</h3>
+          <calcite-modal
+            class="js-modal-custom-background"
+            fullscreen
+            style="--calcite-modal-content-background: var(--calcite-ui-background)"
+          >
+            <h3 slot="header">Ui Background css overriding --calcite-modal-content-background</h3>
             <div slot="content">
               <p>
                 By using the backgroundColor attribute, you can create a modal with a light grey background rather than
@@ -996,8 +1027,8 @@
             <calcite-button scale="m" slot="primary" width="full">Save</calcite-button>
           </calcite-modal>
 
-          <calcite-button onClick="openModal('.js-modal-grey-background')" appearance="outline" scale="s">
-            Grey background
+          <calcite-button onClick="openModal('.js-modal-custom-background')" appearance="outline" scale="s">
+            Custom background via css var
           </calcite-button>
         </div>
       </div>
