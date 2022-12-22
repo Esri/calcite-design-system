@@ -13,7 +13,7 @@ import {
 } from "@stencil/core";
 import { connectForm, disconnectForm, FormComponent, HiddenFormInputSlot } from "../../utils/form";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
-import { getSlotted, slotChangeHasAssignedElement } from "../../utils/dom";
+import { slotChangeGetAssignedElements } from "../../utils/dom";
 import { CSS, ERROR_MESSAGES, SLOTS } from "./resources";
 import {
   connectLocalized,
@@ -117,9 +117,7 @@ export class Textarea
 
   @Watch("disabled")
   disabledHandler(value: boolean): void {
-    if (value) {
-      this.disableSlottedElements(value);
-    }
+    this.disableSlottedElementsPointerEvents(value);
   }
 
   //--------------------------------------------------------------------------
@@ -147,7 +145,7 @@ export class Textarea
     connectLabel(this);
     connectForm(this);
     if (this.disabled) {
-      this.disableSlottedElements(this.disabled);
+      this.disableSlottedElementsPointerEvents(this.disabled);
     }
     connectLocalized(this);
   }
@@ -168,7 +166,8 @@ export class Textarea
   }
 
   render(): VNode {
-    const hasFooter = this.leadingSlotHasElement || this.trailingSlotHasElement || !!this.maxlength;
+    const hasFooter =
+      !!this.leadingSlotElements.length || !!this.trailingSlotElements.length || !!this.maxlength;
     return (
       <Host>
         <textarea
@@ -183,7 +182,8 @@ export class Textarea
             [CSS.resizeDisabledY]: this.verticalResizeDisabled,
             [CSS.readonly]: this.readonly,
             [CSS.textareaInvalid]: this.invalid,
-            [CSS.footerSlotted]: this.trailingSlotHasElement && this.leadingSlotHasElement,
+            [CSS.footerSlotted]:
+              !!this.trailingSlotElements.length && !!this.leadingSlotElements.length,
             [CSS.borderColor]: !hasFooter
           }}
           cols={this.cols}
@@ -258,9 +258,9 @@ export class Textarea
 
   @State() effectiveLocale: string;
 
-  @State() trailingSlotHasElement: boolean;
+  @State() trailingSlotElements: Element[];
 
-  @State() leadingSlotHasElement: boolean;
+  @State() leadingSlotElements: Element[];
 
   resizeObserver = createObserver("resize", () => {
     this.el.style.height = "auto";
@@ -294,11 +294,11 @@ export class Textarea
   };
 
   footerTrailingSlotChangeHandler = (event: Event): void => {
-    this.trailingSlotHasElement = slotChangeHasAssignedElement(event);
+    this.trailingSlotElements = slotChangeGetAssignedElements(event);
   };
 
   footerLeadingSlotChangeHandler = (event: Event): void => {
-    this.leadingSlotHasElement = slotChangeHasAssignedElement(event);
+    this.leadingSlotElements = slotChangeGetAssignedElements(event);
   };
 
   contentSlotChangeHandler = (): void => {
@@ -332,11 +332,17 @@ export class Textarea
     return numberStringFormatter.localize(this.value?.length.toString());
   }
 
-  disableSlottedElements(disabled: boolean): void {
-    const slottedEl = getSlotted(this.el, [SLOTS.footerLeading, SLOTS.footerTrailing], {
-      all: true
-    });
-    slottedEl.forEach((el) => (el["disabled"] = disabled));
+  disableSlottedElementsPointerEvents(disabled: boolean): void {
+    this.disablePointerEvents(disabled, this.leadingSlotElements);
+    this.disablePointerEvents(disabled, this.trailingSlotElements);
+  }
+
+  disablePointerEvents(disabled: boolean, slottedElements: Element[]): void {
+    if (!!slottedElements.length) {
+      slottedElements.forEach((el: HTMLElement) => {
+        el.style.pointerEvents = disabled ? "none" : "auto";
+      });
+    }
   }
 
   syncHiddenFormInput(input: HTMLInputElement): void {
