@@ -2,16 +2,17 @@ import { componentLoaded } from "./loadable";
 
 describe("loadable", () => {
   it("should honor loadable component lifecyce", async () => {
-    const el = document.createElement("div");
-
-    (el as any).componentOnReady = async () => undefined;
+    const el = {
+      componentOnReady: async () => undefined
+    };
 
     const afterLoad = jest.fn();
     componentLoaded(el as any)?.then(afterLoad);
 
     expect(afterLoad).not.toHaveBeenCalled();
 
-    (el as any).componentOnReady();
+    await el.componentOnReady();
+    await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
 
     componentLoaded(el as any).then(afterLoad);
     expect(afterLoad).toHaveBeenCalledTimes(1);
