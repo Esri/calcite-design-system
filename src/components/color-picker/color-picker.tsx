@@ -13,16 +13,8 @@ import {
 } from "@stencil/core";
 
 import Color from "color";
-import {
-  ColorAppearance,
-  ColorMode,
-  ColorValue,
-  HSLA,
-  HSVA,
-  InternalColor,
-  RGBA
-} from "./interfaces";
-import { Scale } from "../interfaces";
+import { ColorMode, ColorValue, HSLA, HSVA, InternalColor, RGBA } from "./interfaces";
+import { Appearance, Scale } from "../interfaces";
 import {
   CSS,
   DEFAULT_COLOR,
@@ -32,7 +24,7 @@ import {
   RGB_LIMITS
 } from "./resources";
 
-import { Direction, focusElement, getElementDir, isPrimaryPointerButton } from "../../utils/dom";
+import { Direction, getElementDir, isPrimaryPointerButton } from "../../utils/dom";
 import {
   alphaCompatible,
   alphaToOpacity,
