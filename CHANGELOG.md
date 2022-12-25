@@ -571,7 +571,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 - **tab-nav**:
 
   - Removed the `event.detail` property on the event `calciteTabChange`,
-    use `event.target` instead.
+    use `event.target` and the `selectedTitle` property instead.
 
 - **tab-title**:
 
