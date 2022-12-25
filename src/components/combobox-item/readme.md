@@ -23,17 +23,6 @@
 | --------------------------- | ------------------------------------------------------- | ------------------- |
 | `calciteComboboxItemChange` | Emits whenever the component is selected or unselected. | `CustomEvent<void>` |
 
-## Methods
-
-### `toggleSelected(coerce?: boolean) => Promise<void>`
-
-Used to toggle the selection state. By default this won't trigger an event.
-The first argument allows the value to be coerced, rather than swapping values.
-
-#### Returns
-
-Type: `Promise<void>`
-
 ## Slots
 
 | Slot | Description                                        |
