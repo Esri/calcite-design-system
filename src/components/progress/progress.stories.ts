@@ -29,7 +29,7 @@ export const darkThemeRTL_TestOnly = (): string => html`
   </style>
   <calcite-progress
     class="calcite-theme-dark"
-    type="determinate""
+    type="determinate"
     value="0.2"
     text="% Complete (optional text)"
   ></calcite-progress>

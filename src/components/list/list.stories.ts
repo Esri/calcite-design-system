@@ -191,7 +191,7 @@ export const startAndEndContentSlots = (): string => html`<calcite-list ${knobsH
     <calcite-icon icon="user" scale="m" slot="content-start"></calcite-icon>
     <span slot="content-start">Some value or something and a <b>thing</b>.</span>
     <div slot="content-end" style="display: flex; justify-content: flex-end">
-      <calcite-chip class="list-chip" icon="bell" scale="s">Help!</calcite-chip>
+      <calcite-chip class="list-chip" icon="bell" scale="s">Halp!</calcite-chip>
     </div>
   </calcite-list-item>
 </calcite-list> `;
