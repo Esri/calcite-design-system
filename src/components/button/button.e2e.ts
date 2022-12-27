@@ -446,7 +446,7 @@ describe("calcite-button", () => {
       expect(buttonStyles.active).toEqual("rgba(1, 20, 44, 0.1");
     });
 
-    describe("when theme attribute is not provided", () => {
+    describe("when mode attribute is not provided", () => {
       it("should render button pseudo classes with default values tied to light mode", async () => {
         page = await newE2EPage({ html: buttonSnippet });
         buttonEl = await page.find("calcite-button >>> button");
@@ -462,7 +462,7 @@ describe("calcite-button", () => {
       });
     });
 
-    describe("when theme attribute is dark", () => {
+    describe("when mode attribute is dark", () => {
       it("should render button pseudo classes with value tied to dark mode", async () => {
         page = await newE2EPage({
           html: `<div class="calcite-mode-dark">${buttonSnippet}</div>`

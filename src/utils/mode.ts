@@ -1,7 +1,7 @@
 import { autoMode, darkMode } from "./resources";
 
 /**
- * Emits when the theme is dynamically toggled between light and dark on <body> or in OS preferences.
+ * Emits when the mode is dynamically toggled between light and dark on <body> or in OS preferences.
  */
 export function initModeChangeEvent(): void {
   const { classList } = document.body;
@@ -10,12 +10,12 @@ export function initModeChangeEvent(): void {
   const getTheme = (): string =>
     classList.contains(darkMode) || (classList.contains(autoMode) && prefersDark) ? "dark" : "light";
 
-  const emitModeChange = (theme: string) =>
-    document.body.dispatchEvent(new CustomEvent("calciteModeChange", { bubbles: true, detail: { theme } }));
+  const emitModeChange = (mode: string) =>
+    document.body.dispatchEvent(new CustomEvent("calciteModeChange", { bubbles: true, detail: { mode } }));
 
-  const modeChangeHandler = (newTheme: string): void => {
-    currentTheme !== newTheme && emitModeChange(newTheme);
-    currentTheme = newTheme;
+  const modeChangeHandler = (newMode: string): void => {
+    currentTheme !== newMode && emitModeChange(newMode);
+    currentTheme = newMode;
   };
 
   let currentTheme = getTheme();
@@ -23,12 +23,12 @@ export function initModeChangeEvent(): void {
   // emits event on page load
   emitModeChange(currentTheme);
 
-  // emits event when changing OS theme preferences
+  // emits event when changing OS mode preferences
   window
     .matchMedia("(prefers-color-scheme: dark)")
     .addEventListener("change", (event) => modeChangeHandler(event.matches ? "dark" : "light"));
 
-  // emits event when toggling between theme classes on <body>
+  // emits event when toggling between mode classes on <body>
   new MutationObserver(() => modeChangeHandler(getTheme())).observe(document.body, {
     attributes: true,
     attributeFilter: ["class"]

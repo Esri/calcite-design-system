@@ -16,7 +16,7 @@ export default {
   ...storyFilters()
 };
 
-export const simpledarkModeRTL_TestOnly = (): string => html`
+export const simpleDarkModeRTL_TestOnly = (): string => html`
   <calcite-tabs
     dir="rtl"
     class="calcite-mode-dark"
@@ -36,7 +36,7 @@ export const simpledarkModeRTL_TestOnly = (): string => html`
     <calcite-tab><p>Tab 4 Content</p></calcite-tab>
   </calcite-tabs>
 `;
-simpledarkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
+simpleDarkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
 
 export const bordered = (): string => html`
   <calcite-tabs
@@ -58,7 +58,7 @@ export const bordered = (): string => html`
   </calcite-tabs>
 `;
 
-export const bordereddarkModeRTL_TestOnly = (): string => html`
+export const borderedDarkModeRTL_TestOnly = (): string => html`
   <calcite-tabs
     layout="inline"
     position="${select("position", ["top", "bottom"], "top")}"
@@ -79,7 +79,7 @@ export const bordereddarkModeRTL_TestOnly = (): string => html`
     <calcite-tab tab="tab4" selected>Tab 4 Content</calcite-tab>
   </calcite-tabs>
 `;
-bordereddarkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
+borderedDarkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
 
 const selectedIcon = iconNames[0];
 

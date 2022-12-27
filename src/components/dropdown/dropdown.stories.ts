@@ -224,7 +224,7 @@ export const darkModeRTL_TestOnly = (): string => html`
 
 darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
 
-export const itemsAsLinksdarkMode = (): string => html`
+export const itemsAsLinksDarkMode = (): string => html`
   <calcite-dropdown
     open
     class="calcite-mode-dark"
@@ -256,7 +256,7 @@ export const itemsAsLinksdarkMode = (): string => html`
   </calcite-dropdown>
 `;
 
-itemsAsLinksdarkMode.parameters = { modes: modesDarkDefault };
+itemsAsLinksDarkMode.parameters = { modes: modesDarkDefault };
 
 export const scrollingAfterCertainItems_TestOnly = (): string => html`
   <style>

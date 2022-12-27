@@ -28,11 +28,11 @@ export function nodeListToArray<T extends Element>(nodeList: HTMLCollectionOf<T>
 export type Direction = "ltr" | "rtl";
 
 export function getModeName(el: HTMLElement): "light" | "dark" {
-  const closestElWithTheme = closestElementCrossShadowBoundary(
+  const closestElWithMode = closestElementCrossShadowBoundary(
     el,
     `.${CSS_UTILITY.darkMode}, .${CSS_UTILITY.lightMode}`
   );
-  return closestElWithTheme?.classList.contains("calcite-mode-dark") ? "dark" : "light";
+  return closestElWithMode?.classList.contains("calcite-mode-dark") ? "dark" : "light";
 }
 
 export function getElementDir(el: HTMLElement): Direction {

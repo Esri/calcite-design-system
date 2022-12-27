@@ -88,11 +88,11 @@ export const darkModeRTL_TestOnly = (): string => html`
     <calcite-label
       class="calcite-mode-dark"
       status="${select("status", ["idle", "valid", "invalid"], "idle")}"
-      for="input-dark-theme"
+      for="input-dark-mode"
     >
       ${text("label text", "My great label")}
       <calcite-input-number
-        id="input-dark-theme"
+        id="input-dark-mode"
         status="${select("status", ["idle", "invalid", "valid"], "idle")}"
         alignment="${select("alignment", ["start", "end"], "start")}"
         number-button-type="${select("number-button-type", ["none", "horizontal", "vertical"], "horizontal")}"
