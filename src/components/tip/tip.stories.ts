@@ -8,7 +8,6 @@ import {
 } from "../../../.storybook/utils";
 import readme from "./readme.md";
 import groupReadme from "../tip-group/readme.md";
-import { TEXT } from "./resources";
 import { placeholderImage } from "../../../.storybook/placeholderImage";
 import { storyFilters } from "../../../.storybook/helpers";
 
@@ -43,14 +42,6 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
         name: "heading",
         commit(): Attribute {
           this.value = text("heading", "My Tip");
-          delete this.build;
-          return this;
-        }
-      },
-      {
-        name: "intl-close",
-        commit(): Attribute {
-          this.value = text("intlClose", TEXT.close);
           delete this.build;
           return this;
         }

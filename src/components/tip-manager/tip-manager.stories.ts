@@ -1,4 +1,4 @@
-import { boolean, text } from "@storybook/addon-knobs";
+import { boolean } from "@storybook/addon-knobs";
 import {
   Attribute,
   filterComponentAttributes,
@@ -7,7 +7,6 @@ import {
   themesDarkDefault
 } from "../../../.storybook/utils";
 import readme from "./readme.md";
-import { TEXT } from "./resources";
 import { html } from "../../../support/formatting";
 import { placeholderImage } from "../../../.storybook/placeholderImage";
 import { storyFilters } from "../../../.storybook/helpers";
@@ -27,47 +26,6 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
         name: "closed",
         commit(): Attribute {
           this.value = boolean("closed", false);
-          delete this.build;
-          return this;
-        }
-      },
-
-      {
-        name: "intl-close",
-        commit(): Attribute {
-          this.value = text("intlClose", TEXT.close);
-          delete this.build;
-          return this;
-        }
-      },
-      {
-        name: "intl-default-title",
-        commit(): Attribute {
-          this.value = text("intlDefaultTitle", TEXT.defaultGroupTitle);
-          delete this.build;
-          return this;
-        }
-      },
-      {
-        name: "intl-pagination-label",
-        commit(): Attribute {
-          this.value = text("intlPaginationLabel", TEXT.defaultPaginationLabel);
-          delete this.build;
-          return this;
-        }
-      },
-      {
-        name: "intl-next",
-        commit(): Attribute {
-          this.value = text("intlNext", TEXT.next);
-          delete this.build;
-          return this;
-        }
-      },
-      {
-        name: "intl-previous",
-        commit(): Attribute {
-          this.value = text("intlPrevious", TEXT.previous);
           delete this.build;
           return this;
         }
@@ -133,3 +91,33 @@ export const darkThemeRTL_TestOnly = (): string =>
     tipContent
   );
 darkThemeRTL_TestOnly.parameters = { themes: themesDarkDefault };
+
+export const hebrewLocale_TestOnly = (): string => html`<calcite-tip-manager heading-level="1" lang="he">
+  <calcite-tip id="one" heading="test"><p>no pre-selected attribute</p></calcite-tip>
+</calcite-tip-manager>`;
+
+export const norwegianLocale_TestOnly = (): string =>
+  html`<calcite-tip-manager lang="nb"
+    ><calcite-tip><p>basic render</p></calcite-tip></calcite-tip-manager
+  >`;
+
+export const FrenchLocale_TestOnly = (): string =>
+  html`<calcite-tip-manager lang="fr"
+    ><calcite-tip><p>basic render</p></calcite-tip></calcite-tip-manager
+  >`;
+
+export const hongKongLocale_TestOnly = (): string =>
+  html`<calcite-tip-manager lang="zh-HK"
+    ><calcite-tip><p>basic render</p></calcite-tip></calcite-tip-manager
+  >`;
+
+export const ukranianLocaleWithTipGroup_TestOnly = (): string => html`<calcite-tip-manager>
+<calcite-tip-group group-title="Tip Manager heading">
+    <calcite-tip heading="Example tip title">
+    <calcite-tip><p>basic render</p></calcite-tip>
+</calcite-tip-group>
+</calcite-tip-manager>`;
+
+export const bosnianLocale_TestOnly = (): string => html`<calcite-tip-manager heading-level="1" lang="bs">
+  <calcite-tip id="one" heading="test"><p>no pre-selected attribute</p></calcite-tip>
+</calcite-tip-manager>`;

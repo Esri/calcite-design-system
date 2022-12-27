@@ -17,9 +17,9 @@ The tab-title is the link that switches between panes in [calcite-tabs](../tabs)
 
 ## Events
 
-| Event                 | Description                                                                              | Type                |
-| --------------------- | ---------------------------------------------------------------------------------------- | ------------------- |
-| `calciteTabsActivate` | Fires when a `calcite-tab` is selected. Emits the `tab` property, or the index position. | `CustomEvent<void>` |
+| Event                 | Description                             | Type                |
+| --------------------- | --------------------------------------- | ------------------- |
+| `calciteTabsActivate` | Fires when a `calcite-tab` is selected. | `CustomEvent<void>` |
 
 ## Methods
 

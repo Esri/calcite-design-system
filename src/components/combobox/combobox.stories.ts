@@ -19,7 +19,7 @@ export const simple = (): string => html`
       label="demo combobox"
       placeholder="${text("placeholder", "placeholder")}"
       label="${text("label (for screen readers)", "demo")}"
-      selection-mode="${select("selection-mode", ["multi", "single", "ancestors", "multiple"], "multiple")}"
+      selection-mode="${select("selection-mode", ["multiple", "single", "ancestors"], "multiple")}"
       scale="${select("scale", ["s", "m", "l"], "m")}"
       ${boolean("disabled", false)}
       ${boolean("allow-custom-values", false)}
@@ -51,7 +51,7 @@ export const single = (): string => html`
   <div style="width:150px;max-width:100%;background-color:white;padding:100px">
     <calcite-combobox
       label="demo combobox"
-      selection-mode="${select("selection-mode", ["multi", "single", "ancestors", "multiple"], "single")}"
+      selection-mode="${select("selection-mode", ["multiple", "single", "ancestors"], "single")}"
       placeholder="${text("placeholder", "placeholder")}"
       label="${text("label (for screen readers)", "demo")}"
       scale="${select("scale", ["s", "m", "l"], "m")}"
@@ -81,7 +81,7 @@ export const multiple = (): string => html`
       label="demo combobox"
       placeholder="${text("placeholder", "placeholder")}"
       label="${text("label (for screen readers)", "demo")}"
-      selection-mode="${select("selection-mode", ["multi", "single", "ancestors", "multiple"], "multiple")}"
+      selection-mode="${select("selection-mode", ["multiple", "single", "ancestors"], "multiple")}"
       scale="${select("scale", ["s", "m", "l"], "m")}"
       ${boolean("disabled", false)}
       ${boolean("allow-custom-values", false)}
@@ -107,7 +107,7 @@ export const nestedItems = (): string => html`
     <calcite-combobox
       open
       label="demo combobox"
-      selection-mode="${select("selection-mode", ["multi", "single", "ancestors", "multiple"], "multiple")}"
+      selection-mode="${select("selection-mode", ["multiple", "single", "ancestors"], "multiple")}"
       placeholder="${text("placeholder", "placeholder")}"
       label="${text("label (for screen readers)", "demo")}"
       scale="${select("scale", ["s", "m", "l"], "m")}"
@@ -222,7 +222,7 @@ export const flipPositioning_TestOnly = (): string => html`
       max-items="${number("max-items", 6)}"
       placeholder="${text("placeholder", "placeholder")}"
       label="${text("label (for screen readers)", "demo")}"
-      selection-mode="${select("selection-mode", ["multi", "single", "ancestors"], "multi")}"
+      selection-mode="${select("selection-mode", ["multiple", "single", "ancestors"], "multiple")}"
       scale="${select("scale", ["s", "m", "l"], "m")}"
       ${boolean("disabled", false)}
       ${boolean("allow-custom-values", false)}
@@ -257,7 +257,7 @@ export const darkThemeRTL_TestOnly = (): string => html`
   <div style="width:400px;max-width:100%;padding:100px">
     <calcite-combobox
       label="demo combobox"
-      selection-mode="${select("selection-mode", ["multi", "single", "ancestors"], "multi")}"
+      selection-mode="${select("selection-mode", ["multiple", "single", "ancestors"], "multiple")}"
       class="calcite-theme-dark"
       placeholder="${text("placeholder", "placeholder")}"
       label="${text("label (for screen readers)", "demo")}"

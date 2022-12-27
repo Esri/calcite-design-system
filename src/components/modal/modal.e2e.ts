@@ -317,7 +317,6 @@ describe("calcite-modal accessibility checks", () => {
     const createModalHTML = (contentHTML?: string, attrs?: string) =>
       `<calcite-modal open ${attrs}>${contentHTML}</calcite-modal>`;
 
-    const closeButtonFocusId = "close-button";
     const closeButtonTargetSelector = ".close";
     const focusableContentTargetClass = "test";
 
@@ -326,19 +325,12 @@ describe("calcite-modal accessibility checks", () => {
 
     it("focuses close button by default", async () =>
       focusable(createModalHTML(focusableContentHTML), {
-        focusId: closeButtonFocusId,
         shadowFocusTargetSelector: closeButtonTargetSelector
       }));
 
     it("focuses content if there is no close button", async () =>
       focusable(createModalHTML(focusableContentHTML, "close-button-disabled"), {
         focusTargetSelector: `.${focusableContentTargetClass}`
-      }));
-
-    it.skip("can focus close button directly", async () =>
-      focusable(createModalHTML(focusableContentHTML), {
-        focusId: closeButtonFocusId,
-        shadowFocusTargetSelector: closeButtonTargetSelector
       }));
   });
 
@@ -491,10 +483,10 @@ describe("calcite-modal accessibility checks", () => {
     expect(footer).toBeFalsy();
   });
 
-  it("should render calcite-scrim with dark background color", async () => {
+  it("should render calcite-scrim with default background color", async () => {
     const page = await newE2EPage({
       html: `
-      <calcite-modal aria-labelledby="modal-title" is-active>
+      <calcite-modal aria-labelledby="modal-title" open>
         <h3 slot="header" id="modal-title">Title of the modal</h3>
         <div slot="content">The actual content of the modal</div>
         <calcite-button slot="back" kind="neutral" appearance="outline" icon="chevron-left" width="full">
@@ -509,7 +501,29 @@ describe("calcite-modal accessibility checks", () => {
       const scrim = document.querySelector("calcite-modal").shadowRoot.querySelector(".scrim");
       return window.getComputedStyle(scrim).getPropertyValue("--calcite-scrim-background");
     });
-    expect(scrimStyles).toEqual("rgba(0, 0, 0, 0.75)");
+    expect(scrimStyles.trim()).toEqual("rgba(0, 0, 0, 0.85)");
+  });
+
+  it("when modal css override set, scrim should adhere to requested color", async () => {
+    const overrideStyle = "rgba(160, 20, 10, 0.5)";
+    const page = await newE2EPage({
+      html: `
+      <calcite-modal aria-labelledby="modal-title" open style="--calcite-modal-scrim-background:${overrideStyle}">
+        <h3 slot="header" id="modal-title">Title of the modal</h3>
+        <div slot="content">The actual content of the modal</div>
+        <calcite-button slot="back" kind="neutral" appearance="outline" icon="chevron-left" width="full">
+          Back
+        </calcite-button>
+        <calcite-button slot="secondary" width="full" appearance="outline"> Cancel </calcite-button>
+        <calcite-button slot="primary" width="full"> Save </calcite-button>
+      </calcite-modal>
+      `
+    });
+    const scrimStyles = await page.evaluate(() => {
+      const scrim = document.querySelector("calcite-modal").shadowRoot.querySelector(".scrim");
+      return window.getComputedStyle(scrim).getPropertyValue("--calcite-scrim-background");
+    });
+    expect(scrimStyles).toEqual(overrideStyle);
   });
 
   it("correctly reflects the scale of the modal on the close button icon", async () => {

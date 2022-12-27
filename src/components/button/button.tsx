@@ -16,7 +16,7 @@ import {
   T9nComponent,
   updateMessages
 } from "../../utils/t9n";
-import { Messages } from "./assets/button/t9n";
+import { ButtonMessages } from "./assets/button/t9n";
 import {
   setUpLoadableComponent,
   setComponentLoaded,
@@ -136,12 +136,12 @@ export class Button
    *
    * @internal
    */
-  @Prop({ mutable: true }) messages: Messages;
+  @Prop({ mutable: true }) messages: ButtonMessages;
 
   /**
    * Use this property to override individual strings used by the component.
    */
-  @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
+  @Prop({ mutable: true }) messageOverrides: Partial<ButtonMessages>;
 
   @Watch("loading")
   loadingChanged(newValue: boolean, oldValue: boolean): void {
@@ -309,7 +309,7 @@ export class Button
     updateMessages(this, this.effectiveLocale);
   }
 
-  @State() defaultMessages: Messages;
+  @State() defaultMessages: ButtonMessages;
 
   private updateHasContent() {
     const slottedContent = this.el.textContent.trim().length > 0 || this.el.childNodes.length > 0;

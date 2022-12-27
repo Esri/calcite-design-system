@@ -58,7 +58,7 @@ describe("calcite-scrim", () => {
     expect(clickSpy).toHaveReceivedEventTimes(0);
   });
 
-  it("does allow clickss inside default node", async () => {
+  it("does allow clicks inside default node", async () => {
     const page = await newE2EPage();
 
     await page.setContent(`
@@ -142,12 +142,30 @@ describe("calcite-scrim", () => {
       });
     });
 
-    it("should allow the CSS custom property to be overridden", async () => {
+    it("should allow the CSS custom property to be overridden when applied to :root", async () => {
       const overrideStyle = "rgb(128, 0, 128)";
       page = await newE2EPage({
         html: `
         <style>
           :root {
+            --calcite-scrim-background: ${overrideStyle};
+          }
+        </style>
+        ${scrimSnippet}
+        `
+      });
+      scrim = await page.find("calcite-scrim >>> .scrim");
+      scrimStyles = await scrim.getComputedStyle();
+      scrimBgStyle = await scrimStyles.getPropertyValue("background-color");
+      expect(scrimBgStyle).toEqual(overrideStyle);
+    });
+
+    it("should allow the CSS custom property to be overridden when applied to element", async () => {
+      const overrideStyle = "rgb(128, 0, 128)";
+      page = await newE2EPage({
+        html: `
+        <style>
+          calcite-scrim {
             --calcite-scrim-background: ${overrideStyle};
           }
         </style>

@@ -16,7 +16,7 @@
 | `heightScale`      | `height-scale`      | Specifies the maximum height of the component.                                                                  | `"l" \| "m" \| "s"`          | `undefined` |
 | `loading`          | `loading`           | When `true`, a busy indicator is displayed.                                                                     | `boolean`                    | `false`     |
 | `menuOpen`         | `menu-open`         | When `true`, the action menu items in the `header-menu-actions` slot are open.                                  | `boolean`                    | `false`     |
-| `messageOverrides` | `message-overrides` | Use this property to override individual strings used by the component.                                         | `Messages`                   | `undefined` |
+| `messageOverrides` | `message-overrides` | Use this property to override individual strings used by the component.                                         | `FlowItemMessages`           | `undefined` |
 | `showBackButton`   | `show-back-button`  | When true, displays a back button in the header. When `true`, displays a back button in the component's header. | `boolean`                    | `false`     |
 | `widthScale`       | `width-scale`       | Specifies the width of the component.                                                                           | `"l" \| "m" \| "s"`          | `undefined` |
 

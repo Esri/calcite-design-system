@@ -19,7 +19,7 @@ Customize the modal by passing your content into multiple named slots: `header` 
 <calcite-modal aria-labelledby="modal-title" open>
   <h3 slot="header" id="modal-title">Title of the modal</h3>
   <div slot="content">The actual content of the modal</div>
-  <calcite-button slot="back" color="neutral" appearance="outline" icon="chevron-left" width="full">
+  <calcite-button slot="back" kind="neutral" appearance="outline" icon="chevron-left" width="full">
     Back
   </calcite-button>
   <calcite-button slot="secondary" width="full" appearance="outline"> Cancel </calcite-button>
@@ -57,7 +57,6 @@ modal.beforeClose = beforeClose;
 
 | Property               | Attribute                | Description                                                                                      | Type                                                                                | Default                   |
 | ---------------------- | ------------------------ | ------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------- | ------------------------- |
-| `backgroundColor`      | `background-color`       | Sets the background color of the component's content.                                            | `"grey" \| "white"`                                                                 | `"white"`                 |
 | `beforeClose`          | --                       | Passes a function to run before the component closes.                                            | `(el: HTMLElement) => Promise<void>`                                                | `() => Promise.resolve()` |
 | `closeButtonDisabled`  | `close-button-disabled`  | When `true`, disables the component's close button.                                              | `boolean`                                                                           | `false`                   |
 | `docked`               | `docked`                 | When `true`, prevents the component from expanding to the entire screen on mobile devices.       | `boolean`                                                                           | `undefined`               |
@@ -65,7 +64,7 @@ modal.beforeClose = beforeClose;
 | `focusTrapDisabled`    | `focus-trap-disabled`    | When `true`, prevents focus trapping.                                                            | `boolean`                                                                           | `false`                   |
 | `fullscreen`           | `fullscreen`             | Sets the component to always be fullscreen (overrides `width`).                                  | `boolean`                                                                           | `undefined`               |
 | `kind`                 | `kind`                   | Specifies the kind of the component (will apply to top border).                                  | `"brand" \| "danger" \| "info" \| "inverse" \| "neutral" \| "success" \| "warning"` | `undefined`               |
-| `messageOverrides`     | `message-overrides`      | Use this property to override individual strings used by the component.                          | `Messages`                                                                          | `undefined`               |
+| `messageOverrides`     | `message-overrides`      | Use this property to override individual strings used by the component.                          | `ModalMessages`                                                                     | `undefined`               |
 | `open`                 | `open`                   | When `true`, displays and positions the component.                                               | `boolean`                                                                           | `false`                   |
 | `outsideCloseDisabled` | `outside-close-disabled` | When `true`, disables the closing of the component when clicked outside.                         | `boolean`                                                                           | `false`                   |
 | `scale`                | `scale`                  | Specifies the size of the component.                                                             | `"l" \| "m" \| "s"`                                                                 | `"m"`                     |
@@ -90,12 +89,20 @@ Sets the scroll top of the component's content.
 
 Type: `Promise<void>`
 
-### `setFocus(focusId?: "close-button") => Promise<void>`
+### `setFocus() => Promise<void>`
 
 Sets focus on the component.
 
 By default, tries to focus on focusable content. If there is none, it will focus on the close button.
 To focus on the close button, use the `close-button` focus ID.
+
+#### Returns
+
+Type: `Promise<void>`
+
+### `updateFocusTrapElements() => Promise<void>`
+
+Updates the element(s) that are used within the focus-trap of the component.
 
 #### Returns
 
@@ -113,10 +120,11 @@ Type: `Promise<void>`
 
 ## CSS Custom Properties
 
-| Name                         | Description                                        |
-| ---------------------------- | -------------------------------------------------- |
-| `--calcite-modal-padding`    | Specifies the padding of the modal.                |
-| `--calcite-scrim-background` | The component's semi-transparent background color. |
+| Name                                 | Description                                                             |
+| ------------------------------------ | ----------------------------------------------------------------------- |
+| `--calcite-modal-content-background` | Specifies the background color of content placed in the `content` slot. |
+| `--calcite-modal-content-padding`    | Specifies the padding of the modal `content` slot.                      |
+| `--calcite-modal-scrim-background`   | Specifies the background color of the modal scrim.                      |
 
 ## Dependencies
 

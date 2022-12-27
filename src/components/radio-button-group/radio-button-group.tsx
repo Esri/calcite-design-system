@@ -68,6 +68,13 @@ export class RadioButtonGroup {
   /** When `true`, the component must have a value in order for the form to submit. */
   @Prop({ reflect: true }) required = false;
 
+  /**
+   * Specifies the component's selected item.
+   *
+   * @readonly
+   */
+  @Prop({ mutable: true }) selectedItem: HTMLCalciteRadioButtonElement = null;
+
   /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";
 
@@ -107,6 +114,7 @@ export class RadioButtonGroup {
 
   private passPropsToRadioButtons = (): void => {
     const radioButtons = this.el.querySelectorAll("calcite-radio-button");
+    this.selectedItem = Array.from(radioButtons).find((radioButton) => radioButton.checked) || null;
     if (radioButtons.length > 0) {
       radioButtons.forEach((radioButton) => {
         radioButton.disabled = this.disabled || radioButton.disabled;
@@ -127,7 +135,7 @@ export class RadioButtonGroup {
   /**
    * Fires when the component has changed.
    */
-  @Event({ cancelable: false }) calciteRadioButtonGroupChange: EventEmitter<any>;
+  @Event({ cancelable: false }) calciteRadioButtonGroupChange: EventEmitter<void>;
 
   //--------------------------------------------------------------------------
   //
@@ -137,7 +145,8 @@ export class RadioButtonGroup {
 
   @Listen("calciteRadioButtonChange")
   radioButtonChangeHandler(event: CustomEvent): void {
-    this.calciteRadioButtonGroupChange.emit((event.target as HTMLCalciteRadioButtonElement).value);
+    this.selectedItem = event.target as HTMLCalciteRadioButtonElement;
+    this.calciteRadioButtonGroupChange.emit();
   }
 
   // --------------------------------------------------------------------------

@@ -48,7 +48,7 @@ import {
   T9nComponent,
   updateMessages
 } from "../../utils/t9n";
-import { Messages } from "./assets/value-list/t9n";
+import { ValueListMessages } from "./assets/value-list/t9n";
 import {
   setUpLoadableComponent,
   setComponentLoaded,
@@ -143,7 +143,7 @@ export class ValueList<
   /**
    * Use this property to override individual strings used by the component.
    */
-  @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
+  @Prop({ mutable: true }) messageOverrides: Partial<ValueListMessages>;
 
   @Watch("messageOverrides")
   onMessagesChange(): void {
@@ -155,7 +155,7 @@ export class ValueList<
    *
    * @internal
    */
-  @Prop({ mutable: true }) messages: Messages;
+  @Prop({ mutable: true }) messages: ValueListMessages;
 
   // --------------------------------------------------------------------------
   //
@@ -165,7 +165,7 @@ export class ValueList<
 
   @State() dataForFilter: ItemData = [];
 
-  @State() defaultMessages: Messages;
+  @State() defaultMessages: ValueListMessages;
 
   @State() effectiveLocale = "";
 
