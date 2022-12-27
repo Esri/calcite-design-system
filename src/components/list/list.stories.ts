@@ -119,6 +119,10 @@ export const nestedItems = (): string => html`
   </calcite-list>
 `;
 
+nestedItems.parameters = {
+  chromatic: { diffThreshold: 1 }
+};
+
 export const groupedItems = (): string => html`
   <calcite-list ${knobsHTML()}>
     <calcite-list-item-group heading="Nested">
@@ -160,6 +164,10 @@ export const groupedItems = (): string => html`
   </calcite-list>
 `;
 
+groupedItems.parameters = {
+  chromatic: { diffThreshold: 1 }
+};
+
 export const startAndEndContentSlots = (): string => html`<calcite-list ${knobsHTML()}>
   <calcite-list-item>
     <calcite-action slot="actions-end" icon="ellipsis"> </calcite-action>
@@ -183,7 +191,7 @@ export const startAndEndContentSlots = (): string => html`<calcite-list ${knobsH
     <calcite-icon icon="user" scale="m" slot="content-start"></calcite-icon>
     <span slot="content-start">Some value or something and a <b>thing</b>.</span>
     <div slot="content-end" style="display: flex; justify-content: flex-end">
-      <calcite-chip class="list-chip" icon="bell" scale="s">Halp!</calcite-chip>
+      <calcite-chip class="list-chip" icon="bell" scale="s">Help!</calcite-chip>
     </div>
   </calcite-list-item>
 </calcite-list> `;
