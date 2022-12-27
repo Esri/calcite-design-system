@@ -203,7 +203,9 @@ export class BlockSection implements LocalizedComponent, T9nComponent {
           title={toggleLabel}
         >
           <div class={CSS.toggleSwitchContent}>
-            <span class={CSS.toggleSwitchText}>{text}</span>
+            <span class={CSS.toggleSwitchText} part="header">
+              {text}
+            </span>
           </div>
           <calcite-switch checked={open} label={toggleLabel} scale="s" tabIndex={-1} />
           {this.renderStatusIcon()}
@@ -221,7 +223,9 @@ export class BlockSection implements LocalizedComponent, T9nComponent {
           onClick={this.toggleSection}
         >
           <calcite-icon icon={arrowIcon} scale="s" />
-          <span class={CSS.sectionHeaderText}>{text}</span>
+          <span class={CSS.sectionHeaderText} part="header">
+            {text}
+          </span>
           {this.renderStatusIcon()}
         </button>
       );

@@ -33,6 +33,12 @@
         margin: 25px 0;
         border-top: 1px solid var(--calcite-ui-border-2);
       }
+
+      #block-section-title--button::part(header),
+      #block-section-title--switch::part(header) {
+        font-style: italic;
+        font-weight: 700;
+      }
     </style>
   </head>
 
@@ -204,6 +210,41 @@
 
         <div class="child">
           <calcite-block heading="Who dis?" summary="seriously! who dis?" drag-handle></calcite-block>
+        </div>
+      </div>
+
+      <hr />
+
+      <!-- with title styling -->
+      <div class="parent">
+        <div class="child right-aligned-text">with title styling--button</div>
+        <div class="child">
+          <calcite-block-section
+            id="block-section-title--button"
+            text="block-section w/ button & styled heading"
+            toggle-display="button"
+          >
+            <calcite-input
+              icon="form-field"
+              placeholder="This is an input field... enter something here"
+            ></calcite-input>
+          </calcite-block-section>
+        </div>
+      </div>
+
+      <div class="parent">
+        <div class="child right-aligned-text">with title styling--switch</div>
+        <div class="child">
+          <calcite-block-section
+            id="block-section-title--switch"
+            text="block-section w/ switch & styled heading"
+            toggle-display="switch"
+          >
+            <calcite-input
+              icon="form-field"
+              placeholder="This is an input field... enter something here"
+            ></calcite-input>
+          </calcite-block-section>
         </div>
       </div>
     </demo-dom-swapper>
