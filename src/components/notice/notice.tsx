@@ -76,7 +76,10 @@ export class Notice
   @Prop({ reflect: true, mutable: true }) open = false;
 
   /** Specifies the kind of the component (will apply to top border and icon). */
-  @Prop({ reflect: true }) kind: Kind = "brand";
+  @Prop({ reflect: true }) kind: Extract<
+    "brand" | "danger" | "info" | "success" | "warning",
+    Kind
+  > = "brand";
 
   /** When `true`, a close button is added to the component. */
   @Prop({ reflect: true }) closable = false;
