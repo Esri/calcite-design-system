@@ -103,7 +103,10 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
   @Prop({ reflect: true }) autoCloseDuration: AlertDuration = this.autoClose ? "medium" : null;
 
   /** Specifies the kind of the component (will apply to top border and icon). */
-  @Prop({ reflect: true }) kind: Kind = "brand";
+  @Prop({ reflect: true }) kind: Extract<
+    "brand" | "danger" | "info" | "success" | "warning",
+    Kind
+  > = "brand";
 
   /**
    * When `true`, shows a default recommended icon. Alternatively,
