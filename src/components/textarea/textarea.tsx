@@ -291,7 +291,7 @@ export class Textarea
 
   resizeObserver = createObserver("resize", () => {
     if (this.footer) {
-      return this.setFooterWidth();
+      this.setFooterWidth();
     }
     this.setAutoHeightAndWidth();
   });
