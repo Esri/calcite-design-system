@@ -19,7 +19,7 @@ import {
 import { ShellPanelMessages } from "./assets/shell-panel/t9n";
 
 /**
- * @slot - A slot for adding content to the component.
+ * @slot - A slot for adding custom content.
  * @slot action-bar - A slot for adding a `calcite-action-bar` to the component.
  */
 @Component({
