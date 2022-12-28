@@ -22,11 +22,16 @@ export const simple = (): string => html`
 `;
 
 export const darkThemeRTL_TestOnly = (): string => html`
+  <style>
+    :root {
+      --calcite-duration-factor: 0;
+    }
+  </style>
   <calcite-progress
     class="calcite-theme-dark"
-    type="${select("type", { determinate: "determinate", indeterminate: "indeterminate" }, "indeterminate")}"
-    value="${number("value", 0.2, { range: true, min: 0, max: 1, step: 0.01 })}"
-    text="${text("text", "% Complete (optional text)")}"
+    type="determinate"
+    value="0.2"
+    text="% Complete (optional text)"
   ></calcite-progress>
 `;
 
