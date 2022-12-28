@@ -452,6 +452,7 @@ export class InputDatePicker
       locale: effectiveLocale,
       useGrouping: false
     };
+
     return (
       <Host onBlur={this.deactivate} onKeyDown={this.keyDownHandler} role="application">
         {this.localeData && (
@@ -766,6 +767,7 @@ export class InputDatePicker
       useGrouping: false
     };
     this.localeData = await getLocaleData(this.effectiveLocale);
+    this.localizeInputValues();
   }
 
   /**
