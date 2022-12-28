@@ -124,7 +124,7 @@ export class FlowItem
    *
    * @internal
    */
-  @Prop({ reflect: true }) showBackButton = false;
+  @Prop() showBackButton = false;
 
   /**
    * Specifies the width of the component.
