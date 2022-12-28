@@ -106,7 +106,7 @@
     "@types/sortablejs": "1.15.0",
     "@types/standard-version": "7.0.1",
     "@types/yargs": "17.0.17",
-    "@typescript-eslint/eslint-plugin": "5.47.0",
+    "@typescript-eslint/eslint-plugin": "5.47.1",
     "@typescript-eslint/parser": "5.47.1",
     "@whitespace/storybook-addon-html": "5.0.0",
     "autoprefixer": "10.4.13",
