@@ -45,8 +45,8 @@ import {
 /**
  * @slot title - A slot for adding the title.
  * @slot message - A slot for adding the message.
- * @slot link - A slot for adding actions to take, such as: undo, try again, link to page, etc.
- * @slot actions-end - A slot for adding actions to the end of the component. It is recommended to use two or less actions.
+ * @slot link - A slot for adding a `calcite-action` to take, such as: "undo", "try again", "link to page", etc.
+ * @slot actions-end - A slot for adding `calcite-action`s to the end of the component. It is recommended to use two or less actions.
  */
 
 @Component({

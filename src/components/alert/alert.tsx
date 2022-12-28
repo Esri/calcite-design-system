@@ -58,7 +58,7 @@ import { MenuPlacement } from "../../utils/floating-ui";
  * @slot title - A slot for adding a title to the component.
  * @slot message - A slot for adding main text to the component.
  * @slot link - A slot for adding a `calcite-action` to take from the component such as: "undo", "try again", "link to page", etc.
- * @slot actions-end - A slot for adding actions to the end of the component. It is recommended to use two or fewer actions.
+ * @slot actions-end - A slot for adding `calcite-action`s to the end of the component. It is recommended to use two or fewer actions.
  */
 
 @Component({
