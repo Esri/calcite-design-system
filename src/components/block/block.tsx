@@ -32,10 +32,10 @@ import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../..
 import { BlockMessages } from "./assets/block/t9n";
 
 /**
- * @slot - A slot for adding content to the component.
+ * @slot - A slot for adding custom content.
  * @slot icon - A slot for adding a leading header icon with `calcite-icon`.
  * @slot control - A slot for adding a single HTML input element in a header.
- * @slot header-menu-actions - A slot for adding an overflow menu with `calcite-action`s inside a dropdown.
+ * @slot header-menu-actions - A slot for adding an overflow menu with `calcite-action`s inside a dropdown menu.
  */
 @Component({
   tag: "calcite-block",

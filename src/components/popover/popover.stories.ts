@@ -96,6 +96,10 @@ export const nested = (): string => html`
   </div>
 `;
 
+nested.parameters = {
+  chromatic: { delay: 1500 }
+};
+
 export const flipPlacements_TestOnly = (): string => html`
   <style>
     :root {

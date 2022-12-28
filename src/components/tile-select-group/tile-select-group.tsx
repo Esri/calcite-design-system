@@ -3,7 +3,7 @@ import { TileSelectGroupLayout } from "./interfaces";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 
 /**
- * @slot - A slot for adding `calcite-tile-select`s.
+ * @slot - A slot for adding `calcite-tile-select` elements.
  */
 @Component({
   tag: "calcite-tile-select-group",

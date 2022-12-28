@@ -119,6 +119,10 @@ export const nestedItems = (): string => html`
   </calcite-list>
 `;
 
+nestedItems.parameters = {
+  chromatic: { diffThreshold: 1 }
+};
+
 export const groupedItems = (): string => html`
   <calcite-list ${knobsHTML()}>
     <calcite-list-item-group heading="Nested">
@@ -159,6 +163,10 @@ export const groupedItems = (): string => html`
     </calcite-list-item-group>
   </calcite-list>
 `;
+
+groupedItems.parameters = {
+  chromatic: { diffThreshold: 1 }
+};
 
 export const startAndEndContentSlots = (): string => html`<calcite-list ${knobsHTML()}>
   <calcite-list-item>

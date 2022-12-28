@@ -48,3 +48,7 @@ export const arabicNumberingSystemAndRTL_TestOnly = (): string => html`<calcite-
   num="10"
 >
 </calcite-pagination>`;
+
+arabicNumberingSystemAndRTL_TestOnly.parameters = {
+  chromatic: { diffThreshold: 1 }
+};

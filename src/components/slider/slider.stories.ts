@@ -95,6 +95,10 @@ export const rangeLabeledTicks_TestOnly = (): string => html`
   ></calcite-slider>
 `;
 
+rangeLabeledTicks_TestOnly.parameters = {
+  chromatic: { diffThreshold: 1 }
+};
+
 export const rangeLabeledTicksOverlappingAtMax_TestOnly = (): string => html`
   <calcite-slider
     min="${number("min", 5)}"
@@ -110,6 +114,10 @@ export const rangeLabeledTicksOverlappingAtMax_TestOnly = (): string => html`
     ${boolean("snap", true)}
   ></calcite-slider>
 `;
+
+rangeLabeledTicksOverlappingAtMax_TestOnly.parameters = {
+  chromatic: { diffThreshold: 1 }
+};
 
 export const rangeLabeledTicksOverlappingAtMin_TestOnly = (): string => html`
   <calcite-slider
@@ -127,6 +135,10 @@ export const rangeLabeledTicksOverlappingAtMin_TestOnly = (): string => html`
   ></calcite-slider>
 `;
 
+rangeLabeledTicksOverlappingAtMin_TestOnly.parameters = {
+  chromatic: { diffThreshold: 1 }
+};
+
 export const rangeLabeledTicksEdgePositioningAtMax_TestOnly = (): string => html`
   <calcite-slider
     min="${number("min", 5)}"
@@ -143,6 +155,10 @@ export const rangeLabeledTicksEdgePositioningAtMax_TestOnly = (): string => html
   ></calcite-slider>
 `;
 
+rangeLabeledTicksEdgePositioningAtMax_TestOnly.parameters = {
+  chromatic: { diffThreshold: 1 }
+};
+
 export const rangeLabeledTicksEdgePositioningAtMin_TestOnly = (): string => html`
   <calcite-slider
     min="${number("min", 5)}"
@@ -158,6 +174,10 @@ export const rangeLabeledTicksEdgePositioningAtMin_TestOnly = (): string => html
     ${boolean("snap", true)}
   ></calcite-slider>
 `;
+
+rangeLabeledTicksEdgePositioningAtMin_TestOnly.parameters = {
+  chromatic: { diffThreshold: 1 }
+};
 
 export const Histogram = (): HTMLCalciteSliderElement => {
   const slider = document.createElement("calcite-slider") as HTMLCalciteSliderElement;

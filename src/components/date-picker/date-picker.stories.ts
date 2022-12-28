@@ -225,6 +225,10 @@ export const arabLangNumberingSystem_TestOnly = (): string =>
     )}
   </div>`;
 
+arabLangNumberingSystem_TestOnly.parameters = {
+  chromatic: { diffThreshold: 1 }
+};
+
 export const thaiLangNumberingSystem_TestOnly = (): string =>
   html`<div style="width: 400px">
     ${create(
