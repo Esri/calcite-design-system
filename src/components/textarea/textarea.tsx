@@ -290,10 +290,11 @@ export class Textarea
   @State() leadingSlotElements: Element[];
 
   resizeObserver = createObserver("resize", () => {
-    if (this.footer) {
-      this.setFooterWidth();
+    const { left, right } = this.textareaEl.getBoundingClientRect();
+    if (this.footer && this.footerEl) {
+      this.footerEl.style.width = `${left - right}px`;
     }
-    this.setAutoHeightAndWidth();
+    this.setHeightAndWidthToAuto(left - right);
   });
 
   @Watch("effectiveLocale")
@@ -389,17 +390,9 @@ export class Textarea
     }
   }
 
-  setFooterWidth(): void {
-    const { left, right } = this.textareaEl.getBoundingClientRect();
-    if (this.footerEl) {
-      this.footerEl.style.width = `${right - left}px`;
-    }
-  }
-
-  setAutoHeightAndWidth(): void {
-    const { left, right } = this.textareaEl.getBoundingClientRect();
-    const elRect = this.el.getBoundingClientRect();
-    if (left - right !== elRect.left - elRect.right) {
+  setHeightAndWidthToAuto(textareaElWidth: number): void {
+    const { left, right } = this.el.getBoundingClientRect();
+    if (textareaElWidth !== left - right) {
       this.el.style.height = "auto";
       this.el.style.width = "auto";
     }
