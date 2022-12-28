@@ -9,13 +9,51 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ### ⚠ BREAKING CHANGES
 
-- **pagination:** Remove css variable
+- **modal, panel, popover**: Removed `focusId` parameter from `setFocus` methods.
+  When the `setFocus` method is called the first focusable element will be
+  focused.
 
-* Removes `--calcite-pagination-spacing` css variable
+- **combobox-item:**
+
+  - Removed `toggleSelected` method, use the `selected` property instead.
+
+- **date-picker:**
+
+  - Removed the property `startAsDate`, use `valueAsDate` instead.
+  - Removed the property `endAsDate`, use `valueAsDate` instead.
+
+- **pagination:**
+
+  - Removed the `--calcite-pagination-spacing` css variable
+
+- **popover:**
+
+  - Removed the `toggle` method, use the `open` property instead.
+
+- **radio-button-group:**
+
+  - Added property `selectedItem`.
+  - Removed the `event.detail` property on the event
+    `calciteRadioButtonGroupChange`, use `event.target` and the property
+    `selectedItem` instead.
+
+- **stepper:**
+
+  - Added property `selectedItem`.
+  - Removed the `event.detail` property on the event
+    `calciteStepperItemChange`, use `event.target` and the property
+    `selectedItem` instead.
+
+### Features
+
+- **tab-nav:** Add `selectedTitle` property ([#6149](https://github.com/Esri/calcite-components/issues/6149)) ([e48096c](https://github.com/Esri/calcite-components/commit/e48096cf361d0efb292849e10040f6f0e61f8bbc))
+- **popover, modal:** Add the ability to update focus trap elements after initialization ([#6141](https://github.com/Esri/calcite-components/issues/6141)) ([806ca32](https://github.com/Esri/calcite-components/commit/806ca32788d2960df97ad18efcb731633f133fcb))
 
 ### Bug Fixes
 
 - **date-picker:** modify weekStart value for ar locale ([#6154](https://github.com/Esri/calcite-components/issues/6154)) ([f9fe230](https://github.com/Esri/calcite-components/commit/f9fe230ba07d4c581993efacff04303700c07106))
+- **time-picker:** high contrast visibility of outlines in focus and hover states ([#6129](https://github.com/Esri/calcite-components/issues/6129)) ([90ddff1](https://github.com/Esri/calcite-components/commit/90ddff10b712758bd4c60b8279b45e4c9997748d))
+- **tooltip:** Fix hover logic for elements within shadowRoot. ([#6119](https://github.com/Esri/calcite-components/issues/6119)) ([f490e5e](https://github.com/Esri/calcite-components/commit/f490e5ee0a4ae75f0e3b727f4ce0f7925bc8e53c))
 
 <!--@unreleased-section-end-->
 
