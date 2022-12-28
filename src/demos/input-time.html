@@ -80,16 +80,6 @@
           >Large Label
           <calcite-input-time scale="l" step="1" value="23:59"></calcite-input-time>
         </calcite-label>
-
-        <calcite-label scale="l">time basic</calcite-label>
-        <calcite-time-picker scale="s" value="23:59"></calcite-time-picker>
-        <calcite-time-picker scale="m" value="23:59"></calcite-time-picker>
-        <calcite-time-picker scale="l" value="23:59"></calcite-time-picker>
-
-        <calcite-label scale="l">time seconds</calcite-label>
-        <calcite-time-picker scale="s" step="1" value="23:59:59"></calcite-time-picker>
-        <calcite-time-picker scale="m" step="1" value="23:59:59"></calcite-time-picker>
-        <calcite-time-picker scale="l" step="1" value="23:59:59"></calcite-time-picker>
       </main>
     </div>
 
@@ -103,13 +93,11 @@
         const tileSelectGroup = document.querySelector("calcite-tile-select-group");
         await tileSelectGroup.componentOnReady();
         const inputTimeEls = Array.from(document.querySelectorAll("calcite-input-time"));
-        const timePickerEls = Array.from(document.querySelectorAll("calcite-time-picker"));
         document.addEventListener("calciteInputTimeChange", (event) => {
           console.log("calciteInputTimeChange", event.target.value);
         });
         document.addEventListener("calciteTileSelectChange", (event) => {
           inputTimeEls.forEach((inputTimeEl) => (inputTimeEl.locale = event.target.value));
-          timePickerEls.forEach((timePickerEl) => (timePickerEl.locale = event.target.value));
         });
         locales.forEach(({ locale, name }) => {
           let localeEl = document.createElement("calcite-tile-select");
@@ -125,7 +113,6 @@
           mutations.forEach((mutation) => {
             if (mutation.type == "attributes" && mutation.attributeName === "dir") {
               inputTimeEls.forEach((inputTimeEl) => inputTimeEl.setAttribute("dir", htmlEl.getAttribute("dir")));
-              timePickerEls.forEach((timePickerEl) => timePickerEl.setAttribute("dir", htmlEl.getAttribute("dir")));
             }
           });
         });
