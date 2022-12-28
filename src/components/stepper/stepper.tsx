@@ -16,7 +16,7 @@ import { NumberingSystem } from "../../utils/locale";
 import { focusElementInGroup } from "../../utils/dom";
 
 /**
- * @slot - A slot for adding `calcite-stepper-item`s.
+ * @slot - A slot for adding `calcite-stepper-item` elements.
  */
 @Component({
   tag: "calcite-stepper",
