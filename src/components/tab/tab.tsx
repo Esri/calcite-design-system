@@ -17,7 +17,7 @@ import { nodeListToArray } from "../../utils/dom";
 import { Scale } from "../interfaces";
 
 /**
- * @slot - A slot for adding content to the component.
+ * @slot - A slot for adding custom content.
  */
 @Component({
   tag: "calcite-tab",
