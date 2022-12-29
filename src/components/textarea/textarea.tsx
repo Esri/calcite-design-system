@@ -374,12 +374,13 @@ export class Textarea
   }
 
   resizeObserver = createObserver("resize", () => {
-    const { width: textareaWidth } = this.textareaEl.getBoundingClientRect();
-    const { width: elWidth } = this.el.getBoundingClientRect();
+    const { width: textareaWidth, height: textareaHeight } =
+      this.textareaEl.getBoundingClientRect();
+    const { width: elWidth, height: elHeight } = this.el.getBoundingClientRect();
     if (this.footer && this.footerEl) {
       this.footerEl.style.width = `${textareaWidth}px`;
     }
-    if (textareaWidth && elWidth !== textareaWidth) {
+    if (textareaWidth && (elWidth !== textareaWidth || elHeight !== textareaHeight)) {
       this.setHeightAndWidthToAuto();
     }
   });
@@ -397,9 +398,9 @@ export class Textarea
   setHeightAndWidthToAuto(): void {
     window.clearTimeout();
     window.setTimeout(() => {
-      this.el.style.height = "auto";
-      this.el.style.width = "auto";
-    }, 150);
+      this.verticalResizeDisabled || (this.el.style.height = "auto");
+      this.horizantalResizeDisabled || (this.el.style.width = "auto");
+    }, 200);
   }
 
   setTextareaEl = (el: HTMLTextAreaElement): void => {
