@@ -84,9 +84,9 @@ Type: `Promise<void>`
 
 ## Slots
 
-| Slot | Description                                |
-| ---- | ------------------------------------------ |
-|      | A slot for adding `calcite-stepper-item`s. |
+| Slot | Description                                        |
+| ---- | -------------------------------------------------- |
+|      | A slot for adding `calcite-stepper-item` elements. |
 
 ---
 

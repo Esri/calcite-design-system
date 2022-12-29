@@ -61,12 +61,6 @@ Go to the previous page of results.
 
 Type: `Promise<void>`
 
-## CSS Custom Properties
-
-| Name                           | Description                                        |
-| ------------------------------ | -------------------------------------------------- |
-| `--calcite-pagination-spacing` | The amount of padding around each pagination item. |
-
 ## Dependencies
 
 ### Depends on
