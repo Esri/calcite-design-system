@@ -333,6 +333,38 @@ describe("calcite-input-number", () => {
       expect(await input.getProperty("value")).toBe(`${finalNudgedValue * 0.01}`);
     });
 
+    it("decrements to max when value is higher", async () => {
+      await page.setContent(html`<calcite-input-number max="10" value="20"></calcite-input-number>`);
+
+      const element = await page.find("calcite-input-number");
+      const numberHorizontalItemDown = await page.find(
+        "calcite-input-number >>> .number-button-item[data-adjustment='down']"
+      );
+
+      await numberHorizontalItemDown.click();
+      await page.waitForChanges();
+      expect(await element.getProperty("value")).toBe("10");
+      await numberHorizontalItemDown.click();
+      await page.waitForChanges();
+      expect(await element.getProperty("value")).toBe("9");
+    });
+
+    it("increments to min when value is lower", async () => {
+      await page.setContent(html`<calcite-input-number min="20" value="11"></calcite-input-number>`);
+
+      const element = await page.find("calcite-input-number");
+      const numberHorizontalItemDown = await page.find(
+        "calcite-input-number >>> .number-button-item[data-adjustment='down']"
+      );
+
+      await numberHorizontalItemDown.click();
+      await page.waitForChanges();
+      expect(await element.getProperty("value")).toBe("20");
+      await numberHorizontalItemDown.click();
+      await page.waitForChanges();
+      expect(await element.getProperty("value")).toBe("20");
+    });
+
     it("correctly increments and decrements value by one when any is set for step", async () => {
       await page.setContent(html`<calcite-input-number step="any" value="5.5"></calcite-input-number>`);
 
