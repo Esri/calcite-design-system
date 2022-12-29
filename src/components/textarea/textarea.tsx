@@ -396,10 +396,10 @@ export class Textarea
 
   setHeightAndWidthToAuto(): void {
     window.clearTimeout();
-    // window.setTimeout(() => {
-    this.el.style.height = "auto";
-    this.el.style.width = "auto";
-    // }, 0);
+    window.setTimeout(() => {
+      this.el.style.height = "auto";
+      this.el.style.width = "auto";
+    }, 150);
   }
 
   setTextareaEl = (el: HTMLTextAreaElement): void => {
