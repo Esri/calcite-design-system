@@ -8,7 +8,7 @@ import {
 } from "../../utils/conditionalSlot";
 
 /**
- * @slot - A slot for adding content to the component. This content will appear between any leading and trailing panels added to the component, such as a map.
+ * @slot - A slot for adding custom content. This content will appear between any leading and trailing panels added to the component, such as a map.
  * @slot header - A slot for adding header content. This content will be positioned at the top of the component.
  * @slot footer - A slot for adding footer content. This content will be positioned at the bottom of the component.
  * @slot panel-start - A slot for adding the starting `calcite-shell-panel`.

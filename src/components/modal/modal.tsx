@@ -126,7 +126,7 @@ export class Modal
   @Prop({ reflect: true }) fullscreen: boolean;
 
   /** Specifies the kind of the component (will apply to top border). */
-  @Prop({ reflect: true }) kind: Kind;
+  @Prop({ reflect: true }) kind: Extract<"brand" | "danger" | "info" | "success" | "warning", Kind>;
 
   /**
    * Made into a prop for testing purposes only
