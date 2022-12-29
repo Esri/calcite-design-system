@@ -914,17 +914,21 @@ export class InputDatePicker
 
   private warnAboutInvalidValue(value: string): void {
     console.warn(
-      `The specified value "${value}" does not conform to the required format, "yyyy-MM-dd".`
+      `The specified value "${value}" does not conform to the required format, "YYYY-MM-DD".`
     );
   }
+
+  private commonDateSeparators = [".", "-", "/"];
 
   private formatNumerals = (value: string): string =>
     value
       ? value
           .split("")
           .map((char: string) =>
-            numberKeys.includes(char)
-              ? numberStringFormatter.numberFormatter.format(Number(char))
+            this.commonDateSeparators?.includes(char)
+              ? this.localeData?.separator
+              : numberKeys?.includes(char)
+              ? numberStringFormatter?.numberFormatter?.format(Number(char))
               : char
           )
           .join("")
