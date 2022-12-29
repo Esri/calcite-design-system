@@ -190,6 +190,7 @@ export class Textarea
     disconnectLocalized(this);
     disconnectMessages(this);
     this.resizeObserver?.disconnect();
+    window.clearTimeout();
   }
 
   render(): VNode {
@@ -289,14 +290,6 @@ export class Textarea
 
   @State() leadingSlotElements: Element[];
 
-  resizeObserver = createObserver("resize", () => {
-    const { left, right } = this.textareaEl.getBoundingClientRect();
-    if (this.footer && this.footerEl) {
-      this.footerEl.style.width = `${left - right}px`;
-    }
-    this.setHeightAndWidthToAuto(left - right);
-  });
-
   @Watch("effectiveLocale")
   effectiveLocaleChange(): void {
     updateMessages(this, this.effectiveLocale);
@@ -380,6 +373,17 @@ export class Textarea
     }
   }
 
+  resizeObserver = createObserver("resize", () => {
+    const { width: textareaWidth } = this.textareaEl.getBoundingClientRect();
+    const { width: elWidth } = this.el.getBoundingClientRect();
+    if (this.footer && this.footerEl) {
+      this.footerEl.style.width = `${textareaWidth}px`;
+    }
+    if (textareaWidth && elWidth !== textareaWidth) {
+      this.setHeightAndWidthToAuto();
+    }
+  });
+
   syncHiddenFormInput(input: HTMLInputElement): void {
     input.setCustomValidity("");
     if (this.value?.length > this.maxlength) {
@@ -390,16 +394,16 @@ export class Textarea
     }
   }
 
-  setHeightAndWidthToAuto(textareaElWidth: number): void {
-    const { left, right } = this.el.getBoundingClientRect();
-    if (textareaElWidth !== left - right) {
-      this.el.style.height = "auto";
-      this.el.style.width = "auto";
-    }
+  setHeightAndWidthToAuto(): void {
+    window.clearTimeout();
+    // window.setTimeout(() => {
+    this.el.style.height = "auto";
+    this.el.style.width = "auto";
+    // }, 0);
   }
 
   setTextareaEl = (el: HTMLTextAreaElement): void => {
     this.textareaEl = el;
-    this.resizeObserver.observe(el);
+    this.resizeObserver.observe(el, { box: "content-box" });
   };
 }
