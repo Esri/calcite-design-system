@@ -2,11 +2,6 @@ import { newE2EPage } from "@stencil/core/testing";
 import { accessible, renders, hidden } from "../../tests/commonTests";
 import { CSS as CHIPCSS } from "../chip/resources";
 
-// todo tests
-// shift tab goes to closable previous button element
-// using enter and space selects and unselects
-// selected in dom on load populated selectedItems
-
 describe("calcite-chip-group", () => {
   it("renders", async () =>
     renders("<calcite-chip-group><calcite-chip></calcite-chip><calcite-chip></calcite-chip></calcite-chip-group>", {
@@ -16,31 +11,33 @@ describe("calcite-chip-group", () => {
   it("honors hidden attribute", async () => hidden("calcite-chip-group"));
 
   it("is accessible in selection mode none (default)", async () => {
-    accessible(`<calcite-chip-group><calcite-chip></calcite-chip><calcite-chip></calcite-chip></calcite-chip-group>`);
+    accessible(
+      `<calcite-chip-group label="test-label"><calcite-chip></calcite-chip><calcite-chip></calcite-chip></calcite-chip-group>`
+    );
   });
 
   it("is accessible in selection mode single", async () => {
     accessible(
-      `<calcite-chip-group selection-mode="single"><calcite-chip></calcite-chip><calcite-chip></calcite-chip></calcite-chip-group>`
+      `<calcite-chip-group label="test-label" selection-mode="single"><calcite-chip></calcite-chip><calcite-chip></calcite-chip></calcite-chip-group>`
     );
   });
 
   it("is accessible in selection mode single-persist", async () => {
     accessible(
-      `<calcite-chip-group selection-mode="single-persist"><calcite-chip></calcite-chip><calcite-chip></calcite-chip></calcite-chip-group>`
+      `<calcite-chip-group label="test-label" selection-mode="single-persist"><calcite-chip></calcite-chip><calcite-chip></calcite-chip></calcite-chip-group>`
     );
   });
 
   it("is accessible in selection mode multiple", async () => {
     accessible(
-      `<calcite-chip-group selection-mode="multiple"><calcite-chip></calcite-chip><calcite-chip></calcite-chip></calcite-chip-group>`
+      `<calcite-chip-group label="test-label" selection-mode="multiple"><calcite-chip></calcite-chip><calcite-chip></calcite-chip></calcite-chip-group>`
     );
   });
 
   it("selection mode single allows one or no chips to be selected", async () => {
     const page = await newE2EPage();
     await page.setContent(
-      `<calcite-chip-group selection-mode="single">
+      `<calcite-chip-group label="test-label" selection-mode="single">
       <calcite-chip id="chip-1"></calcite-chip>
       <calcite-chip id="chip-2"></calcite-chip>
       </calcite-chip-group>`
@@ -91,7 +88,7 @@ describe("calcite-chip-group", () => {
   it("selection mode single-persist allows one chip to be selected", async () => {
     const page = await newE2EPage();
     await page.setContent(
-      `<calcite-chip-group selection-mode="single-persist">
+      `<calcite-chip-group label="test-label" selection-mode="single-persist">
       <calcite-chip selected id="chip-1"></calcite-chip>
       <calcite-chip id="chip-2"></calcite-chip>
       </calcite-chip-group>`
@@ -130,7 +127,7 @@ describe("calcite-chip-group", () => {
   it("selection mode multiple allows none, one, or multiple to be selected", async () => {
     const page = await newE2EPage();
     await page.setContent(
-      `<calcite-chip-group selection-mode="multiple">
+      `<calcite-chip-group label="test-label" selection-mode="multiple">
       <calcite-chip id="chip-1"></calcite-chip>
       <calcite-chip id="chip-2"></calcite-chip>
       <calcite-chip id="chip-3"></calcite-chip>
@@ -199,7 +196,7 @@ describe("calcite-chip-group", () => {
   it("selection mode none (default) allows no chip to be selected", async () => {
     const page = await newE2EPage();
     await page.setContent(
-      `<calcite-chip-group>
+      `<calcite-chip-group label="test-label">
       <calcite-chip id="chip-1"></calcite-chip>
       <calcite-chip id="chip-2"></calcite-chip>
       </calcite-chip-group>`
@@ -238,7 +235,7 @@ describe("calcite-chip-group", () => {
   it("navigation with keyboard works as expected", async () => {
     const page = await newE2EPage();
     await page.setContent(
-      `<calcite-chip-group selection-mode="single">
+      `<calcite-chip-group label="test-label" selection-mode="single">
       <calcite-chip id="chip-1"></calcite-chip>
       <calcite-chip id="chip-2"></calcite-chip>
       <calcite-chip id="chip-3"></calcite-chip>
@@ -289,7 +286,7 @@ describe("calcite-chip-group", () => {
   it("when chips are selectable, and a chip is focused, using tab will focus the close button", async () => {
     const page = await newE2EPage();
     await page.setContent(
-      `<calcite-chip-group selection-mode="single">
+      `<calcite-chip-group label="test-label" selection-mode="single">
       <calcite-chip closable id="chip-1"></calcite-chip>
       <calcite-chip closable id="chip-2"></calcite-chip>
       <calcite-chip closable id="chip-3"></calcite-chip>
@@ -335,7 +332,7 @@ describe("calcite-chip-group", () => {
   it("when closing a chip, focus the previous chip, or if the first chip is closed, focus the 'next first chip'", async () => {
     const page = await newE2EPage();
     await page.setContent(
-      `<calcite-chip-group selection-mode="single">
+      `<calcite-chip-group label="test-label" selection-mode="single">
       <calcite-chip closable id="chip-1"></calcite-chip>
       <calcite-chip closable id="chip-2"></calcite-chip>
       <calcite-chip closable id="chip-3"></calcite-chip>
@@ -364,5 +361,22 @@ describe("calcite-chip-group", () => {
     await closeButton5.click();
     await page.waitForChanges();
     expect(await page.evaluate(() => document.activeElement.id)).toEqual(chip4.id);
+  });
+
+  it("selectedItems property is correctly populated at load when property is in DOM", async () => {
+    const page = await newE2EPage();
+    await page.setContent(
+      `<calcite-chip-group label="test-label" selection-mode="multiple">
+      <calcite-chip closable id="chip-1"></calcite-chip>
+      <calcite-chip closable id="chip-2"></calcite-chip>
+      <calcite-chip closable id="chip-3"></calcite-chip>
+      <calcite-chip closable selected id="chip-4"></calcite-chip>
+      <calcite-chip closable selected id="chip-5"></calcite-chip>
+      </calcite-chip-group>`
+    );
+
+    const element = await page.find("calcite-chip-group");
+    await page.waitForChanges();
+    expect(await element.getProperty("selectedItems")).toEqual([]);
   });
 });

@@ -37,6 +37,7 @@ import {
 } from "../../utils/loadable";
 import { createObserver } from "../../utils/observers";
 import { slotChangeHasAssignedElement } from "../../utils/dom";
+import { isActivationKey } from "../../utils/key";
 
 /**
  * @slot - A slot for adding text.
@@ -96,8 +97,7 @@ export class Chip
    *
    * @internal
    */
-  // eslint-disable-next-line @esri/calcite-components/strict-boolean-attributes
-  @Prop({ reflect: true, mutable: true }) selectable = true;
+  @Prop({ reflect: true, mutable: true }) selectable = false;
 
   /**
    * This internal property, managed by a containing `calcite-chip-group`, is
@@ -145,10 +145,6 @@ export class Chip
     updateMessages(this, this.effectiveLocale);
   }
 
-  private mutationObserver = createObserver("mutation", () => this.updateHasContent());
-
-  private closeButton: HTMLButtonElement;
-
   /** determine if there is slotted content for styling purposes */
   @State() private hasContent = false;
 
@@ -157,8 +153,12 @@ export class Chip
 
   private containerEl: HTMLDivElement;
 
-  /** the containing accordion element */
+  /** the containing chip group element */
   private parent: HTMLCalciteChipGroupElement;
+
+  private mutationObserver = createObserver("mutation", () => this.updateHasContent());
+
+  private closeButton: HTMLButtonElement;
 
   // --------------------------------------------------------------------------
   //
@@ -220,10 +220,7 @@ export class Chip
 
   @Listen("keydown", { capture: true })
   keyDownHandler(event: KeyboardEvent): void {
-    if (
-      (event as any).path.includes(this.closeButton) &&
-      (event.key === " " || event.key === "Enter")
-    ) {
+    if ((event as any).path.includes(this.closeButton) && isActivationKey(event.key)) {
       this.closeHandler();
     }
     if (event.target === this.el) {
@@ -246,7 +243,7 @@ export class Chip
 
   @Listen("calciteChipInternalSelectionChange", { target: "body" })
   internalSelectionChangeListener(event: CustomEvent): void {
-    if (!event.detail.parentNode.contains(this.el)) {
+    if (event.target !== this.parent) {
       return;
     }
     this.determineActiveItem(event.detail);

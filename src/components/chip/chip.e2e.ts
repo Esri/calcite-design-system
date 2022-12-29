@@ -183,7 +183,7 @@ describe("calcite-chip", () => {
   });
 
   it("supports translation", () => t9n("calcite-chip"));
-  /*
+
   it("has `selectable` property programmatically assigned when in a selection-mode='multiple' chip group parent", async () => {
     const page = await newE2EPage();
     await page.setContent(
@@ -238,5 +238,4 @@ describe("calcite-chip", () => {
     expect(chip1).not.toHaveAttribute("selectable");
     expect(chip2).not.toHaveAttribute("selectable");
   });
-  */
 });

@@ -118,7 +118,7 @@ export class ChipGroup implements InteractiveComponent {
 
   @Listen("calciteInternalChipKeyEvent")
   calciteInternalChipKeyEvent(event: CustomEvent): void {
-    if (this.el === event.detail.target.parentElement) {
+    if (event.composedPath().includes(this.el)) {
       switch (event.detail.key) {
         case "ArrowRight":
           focusElementInGroup(this.items, event.detail.target, "next");
