@@ -20,7 +20,8 @@ import {
   dateFromISO,
   dateToISO,
   dateFromLocalizedString,
-  datePartsFromLocalizedString
+  datePartsFromLocalizedString,
+  dateSeparators
 } from "../../utils/date";
 import { HeadingLevel } from "../functional/Heading";
 import { CSS } from "./resources";
@@ -918,14 +919,12 @@ export class InputDatePicker
     );
   }
 
-  private commonDateSeparators = [".", "-", "/"];
-
   private formatNumerals = (value: string): string =>
     value
       ? value
           .split("")
           .map((char: string) =>
-            this.commonDateSeparators?.includes(char)
+            dateSeparators?.includes(char)
               ? this.localeData?.separator
               : numberKeys?.includes(char)
               ? numberStringFormatter?.numberFormatter?.format(Number(char))

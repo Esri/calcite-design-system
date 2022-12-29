@@ -1,11 +1,26 @@
 import { DateLocaleData } from "../components/date-picker/utils";
-import { numberStringFormatter } from "./locale";
+import { numberStringFormatter, locales } from "./locale";
 
 export interface HoverRange {
   focused: "end" | "start";
   start: Date;
   end: Date;
 }
+
+const getUniqueDateSeparators = () => {
+  const uniqueDateSeparators = new Set();
+  const dummyDate = new Date(2020, 4, 20);
+  locales.forEach((locale) => {
+    const dateTimeFormat = new Intl.DateTimeFormat(locale, { year: "numeric", month: "numeric", day: "numeric" });
+
+    const parts = dateTimeFormat.formatToParts(dummyDate);
+    const separator = parts.filter((part) => part.type === "literal")[0]?.value;
+    uniqueDateSeparators.add(separator);
+  });
+  return [...uniqueDateSeparators];
+};
+
+export const dateSeparators = getUniqueDateSeparators();
 
 /**
  * Check if date is within a min and max
@@ -199,7 +214,7 @@ export function parseDateString(
   const { day, month, year } = datePartsFromLocalizedString(string, localeData);
   return {
     day: parseInt(day),
-    month: parseInt(month) - 1, // this subtracts by 1 because the month in the Date contructor is zero-based https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/getMonth
+    month: parseInt(month) - 1, // this subtracts by 1 because the month in the Date constructor is zero-based https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/getMonth
     year: parseInt(year)
   };
 }
