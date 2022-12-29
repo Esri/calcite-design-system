@@ -379,10 +379,16 @@ export class Textarea
     const { width: textareaWidth, height: textareaHeight } =
       this.textareaEl.getBoundingClientRect();
     const { width: elWidth, height: elHeight } = this.el.getBoundingClientRect();
+    const footerHeight = this.footerEl?.getBoundingClientRect().height;
+
     if (this.footer && this.footerEl) {
       this.footerEl.style.width = `${textareaWidth}px`;
     }
-    if (textareaWidth && (elWidth !== textareaWidth || elHeight !== textareaHeight)) {
+
+    if (
+      textareaWidth &&
+      (elWidth !== textareaWidth || elHeight !== textareaHeight + (footerHeight || 0))
+    ) {
       this.setHeightAndWidthToAuto();
     }
   });
@@ -398,15 +404,14 @@ export class Textarea
   }
 
   setHeightAndWidthToAuto(): void {
-    window.clearTimeout(this.timeOutId);
     this.timeOutId = window.setTimeout(() => {
       this.verticalResizeDisabled || (this.el.style.height = "auto");
       this.horizantalResizeDisabled || (this.el.style.width = "auto");
-    }, 150);
+    }, 100);
   }
 
   setTextareaEl = (el: HTMLTextAreaElement): void => {
     this.textareaEl = el;
-    this.resizeObserver.observe(el, { box: "content-box" });
+    this.resizeObserver.observe(el);
   };
 }
