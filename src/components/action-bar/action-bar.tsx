@@ -40,9 +40,9 @@ import {
 import { ActionBarMessages } from "./assets/action-bar/t9n";
 
 /**
- * @slot - A slot for adding `calcite-action`s that will appear at the top of the action bar.
- * @slot bottom-actions - A slot for adding `calcite-action`s that will appear at the bottom of the action bar, above the collapse/expand button.
- * @slot expand-tooltip - Used to set the tooltip for the expand toggle.
+ * @slot - A slot for adding `calcite-action`s that will appear at the top of the component.
+ * @slot bottom-actions - A slot for adding `calcite-action`s that will appear at the bottom of the component, above the collapse/expand button.
+ * @slot expand-tooltip - A slot to set the `calcite-tooltip` for the expand toggle.
  */
 @Component({
   tag: "calcite-action-bar",

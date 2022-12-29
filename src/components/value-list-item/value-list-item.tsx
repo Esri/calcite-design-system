@@ -23,8 +23,8 @@ import {
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 
 /**
- * @slot actions-end - A slot for adding actions or content to the end side of the component.
- * @slot actions-start - A slot for adding actions or content to the start side of the component.
+ * @slot actions-end - A slot for adding `calcite-action`s or content to the end side of the component.
+ * @slot actions-start - A slot for adding `calcite-action`s or content to the start side of the component.
  */
 @Component({
   tag: "calcite-value-list-item",

@@ -46,10 +46,10 @@ Type: `Promise<void>`
 
 ## Slots
 
-| Slot              | Description                                                              |
-| ----------------- | ------------------------------------------------------------------------ |
-| `"actions-end"`   | A slot for adding actions or content to the end side of the component.   |
-| `"actions-start"` | A slot for adding actions or content to the start side of the component. |
+| Slot              | Description                                                                        |
+| ----------------- | ---------------------------------------------------------------------------------- |
+| `"actions-end"`   | A slot for adding `calcite-action`s or content to the end side of the component.   |
+| `"actions-start"` | A slot for adding `calcite-action`s or content to the start side of the component. |
 
 ## Dependencies
 

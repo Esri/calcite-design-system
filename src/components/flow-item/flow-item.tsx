@@ -112,10 +112,11 @@ export class FlowItem implements InteractiveComponent, LocalizedComponent, T9nCo
   @Prop({ mutable: true }) messages: FlowItemMessages;
 
   /**
-   * When true, displays a back button in the header.
    * When `true`, displays a back button in the component's header.
+   *
+   * @internal
    */
-  @Prop({ reflect: true }) showBackButton = false;
+  @Prop() showBackButton = false;
 
   /**
    * Specifies the width of the component.

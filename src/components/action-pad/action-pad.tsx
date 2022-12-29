@@ -32,7 +32,7 @@ import { ActionPadMessages } from "./assets/action-pad/t9n";
 
 /**
  * @slot - A slot for adding `calcite-action`s to the component.
- * @slot expand-tooltip - Used to set the `calcite-tooltip` for the expand toggle.
+ * @slot expand-tooltip - A slot to set the `calcite-tooltip` for the expand toggle.
  */
 @Component({
   tag: "calcite-action-pad",
