@@ -7,6 +7,7 @@ import { GlobalTestProps, skipAnimations } from "./utils";
 import { hiddenFormInputSlotName } from "../utils/form";
 import { html } from "../../support/formatting";
 import { MessageBundle } from "../utils/t9n";
+import { waitForAnimationFrame } from "../utils/dom";
 
 expect.extend(toHaveNoViolations);
 
@@ -260,7 +261,7 @@ export async function slots(
         }
 
         component.append(el);
-        await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
+        await waitForAnimationFrame();
       }
 
       for (let i = 0; i < slotNames.length; i++) {
