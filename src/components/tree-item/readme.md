@@ -16,7 +16,7 @@
 
 | Slot         | Description                                       |
 | ------------ | ------------------------------------------------- |
-|              | A slot for adding the component's content.        |
+|              | A slot for adding text.                           |
 | `"children"` | A slot for adding nested `calcite-tree` elements. |
 
 ## Dependencies

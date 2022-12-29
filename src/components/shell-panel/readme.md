@@ -92,7 +92,7 @@ Add `calcite-match-height` to a wrapping element to ensure proper height, scroll
 
 | Slot           | Description                                                |
 | -------------- | ---------------------------------------------------------- |
-|                | A slot for adding content to the component.                |
+|                | A slot for adding custom content.                          |
 | `"action-bar"` | A slot for adding a `calcite-action-bar` to the component. |
 
 ---
