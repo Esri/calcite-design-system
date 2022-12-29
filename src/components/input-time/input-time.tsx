@@ -222,12 +222,12 @@ export class InputTime implements LabelableComponent, FormComponent, Interactive
   @Event() calciteInternalInputTimeBlur: EventEmitter<void>;
 
   /**
-   * Fires when the time value is changed as a result of user input.
+   * Fires when the time value is committed.
    */
   @Event() calciteInputTimeChange: EventEmitter<string>;
 
   /**
-   * Fires each time the user inputs but has not committed changes.
+   * Fires each time the user changes the value but has not committed changes.
    */
   @Event() calciteInputTimeInput: EventEmitter<string>;
 
@@ -255,6 +255,7 @@ export class InputTime implements LabelableComponent, FormComponent, Interactive
   @Listen("keydown")
   keyDownHandler({ defaultPrevented, key }: KeyboardEvent): void {
     if (key === "Enter" && !defaultPrevented && !this.disabled) {
+      this.calciteInputTimeChange.emit();
       submitForm(this);
       return;
     }
@@ -587,7 +588,7 @@ export class InputTime implements LabelableComponent, FormComponent, Interactive
 
     this.userChangedValue = context === "user";
 
-    const shouldEmit = this.userChangedValue && formattedNewValue !== this.previousValue;
+    const valueChanged = this.userChangedValue && formattedNewValue !== this.previousValue;
 
     this.value = formattedNewValue;
 
@@ -608,12 +609,12 @@ export class InputTime implements LabelableComponent, FormComponent, Interactive
       this.meridiemOrder = this.getMeridiemOrder(formatParts);
     }
 
-    if (shouldEmit) {
+    if (valueChanged) {
       this.previousValue = oldValue;
 
-      const changeEvent = this.calciteInputTimeChange.emit();
+      const inputEvent = this.calciteInputTimeInput.emit();
 
-      if (changeEvent.defaultPrevented) {
+      if (inputEvent.defaultPrevented) {
         this.userChangedValue = false;
         this.value = oldValue;
         this.previousValue = oldValue;
@@ -665,7 +666,8 @@ export class InputTime implements LabelableComponent, FormComponent, Interactive
         newValue: `${this.hour}:${this.minute}:${showSeconds ? this.second : "00"}`
       });
     } else {
-      // TODO: Ensure change event fires when the value is null.  We'll have to reconcile setValuePart and setValue to determine which one or both will delegate change events.
+      // TODO: Ensure change event fires when the value is null.
+      // We'll have to reconcile setValuePart and setValue to determine which one or both will delegate change events.
       this.value = null;
     }
     this.localizedMeridiem = this.value

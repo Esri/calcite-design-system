@@ -196,30 +196,46 @@ describe("calcite-input-time", () => {
     expect(await secondEl.getProperty("textContent")).toEqualText(localizedSecond);
   });
 
-  it("appropriately triggers calciteInputTimeChange event when the user types a value", async () => {
+  it("appropriately triggers input and change events", async () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-input-time step="1"></calcite-input-time>`);
 
     const inputTime = await page.find("calcite-input-time");
+    const inputEvent = await inputTime.spyOnEvent("calciteInputTimeInput");
     const changeEvent = await inputTime.spyOnEvent("calciteInputTimeChange");
-
-    expect(changeEvent).toHaveReceivedEventTimes(0);
 
     await page.keyboard.press("Tab");
     await page.keyboard.press("1");
+    await page.waitForChanges();
+
+    expect(inputEvent).toHaveReceivedEventTimes(0);
+    expect(changeEvent).toHaveReceivedEventTimes(0);
+
     await page.keyboard.press("Tab");
     await page.keyboard.press("2");
-
     await page.waitForChanges();
 
+    expect(inputEvent).toHaveReceivedEventTimes(1);
+    expect(changeEvent).toHaveReceivedEventTimes(0);
+
+    await page.keyboard.press("Tab");
+    await page.keyboard.press("3");
+    await page.waitForChanges();
+
+    expect(inputEvent).toHaveReceivedEventTimes(2);
+    expect(changeEvent).toHaveReceivedEventTimes(0);
+
+    await page.keyboard.press("Enter");
+    await page.waitForChanges();
+
+    expect(inputEvent).toHaveReceivedEventTimes(2);
     expect(changeEvent).toHaveReceivedEventTimes(1);
 
-    await page.keyboard.press(":");
-    await page.keyboard.press("3");
-
+    await page.keyboard.press("Enter");
     await page.waitForChanges();
 
-    expect(changeEvent).toHaveReceivedEventTimes(2);
+    expect(inputEvent).toHaveReceivedEventTimes(2);
+    expect(changeEvent).toHaveReceivedEventTimes(1);
   });
 
   it("formats valid typed time value appropriately on blur", async () => {
