@@ -77,10 +77,10 @@ Type: `Promise<void>`
 
 ## Slots
 
-| Slot               | Description                                              |
-| ------------------ | -------------------------------------------------------- |
-|                    | A slot for adding `calcite-action`s to the component.    |
-| `"expand-tooltip"` | Used to set the `calcite-tooltip` for the expand toggle. |
+| Slot               | Description                                                |
+| ------------------ | ---------------------------------------------------------- |
+|                    | A slot for adding `calcite-action`s to the component.      |
+| `"expand-tooltip"` | A slot to set the `calcite-tooltip` for the expand toggle. |
 
 ## CSS Custom Properties
 
