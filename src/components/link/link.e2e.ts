@@ -266,8 +266,8 @@ describe("calcite-link", () => {
       expect(linkUnderlineStyle).toEqual("red");
     });
 
-    describe("when theme attribute is not provided", () => {
-      it("should render link background with default value tied to mode theme", async () => {
+    describe("when mode attribute is not provided", () => {
+      it("should render link background with default value tied to mode", async () => {
         page = await newE2EPage({ html: linkHtml });
         link = await page.find("calcite-link >>> a");
         linkStyles = await link.getComputedStyle();
@@ -278,7 +278,7 @@ describe("calcite-link", () => {
       });
     });
 
-    describe("when theme attribute is dark", () => {
+    describe("when mode attribute is dark", () => {
       it("should render link background with value tied to dark mode", async () => {
         page = await newE2EPage({
           html: `<article class="calcite-mode-dark">${linkHtml}</article>`

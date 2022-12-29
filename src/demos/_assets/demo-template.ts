@@ -2,7 +2,7 @@ const toggleDir = (): void => {
   document.dir = document.dir === "rtl" ? "ltr" : "rtl";
 };
 
-const toggleTheme = (): void => {
+const toggleMode = (): void => {
   document.body.classList.toggle("calcite-mode-dark");
 };
 
@@ -25,7 +25,7 @@ const loadDemoToggles = () => {
     demoHeading.textContent = document.title;
   }
   document.getElementById("toggle-dir")?.addEventListener("calciteSwitchChange", toggleDir);
-  document.getElementById("toggle-theme")?.addEventListener("calciteSwitchChange", toggleTheme);
+  document.getElementById("toggle-mode")?.addEventListener("calciteSwitchChange", toggleMode);
   document.getElementById("toggle-dom")?.addEventListener("calciteSwitchChange", toggleDom);
 };
 

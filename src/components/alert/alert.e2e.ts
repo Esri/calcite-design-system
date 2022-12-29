@@ -231,7 +231,7 @@ describe("calcite-alert", () => {
       expect(progressBarStyles).toEqual("white");
     });
 
-    describe("when theme attribute is not provided", () => {
+    describe("when mode attribute is not provided", () => {
       it("should render alert dismiss progress bar with default value tied to light mode", async () => {
         page = await newE2EPage({ html: alertSnippet });
         await page.waitForTimeout(animationDurationInMs);
@@ -241,7 +241,7 @@ describe("calcite-alert", () => {
       });
     });
 
-    describe("when theme attribute is dark", () => {
+    describe("when mode attribute is dark", () => {
       it("should render alert dismiss progress bar with value tied to dark mode", async () => {
         page = await newE2EPage({
           html: `<div class="calcite-mode-dark">${alertSnippet}</div>`

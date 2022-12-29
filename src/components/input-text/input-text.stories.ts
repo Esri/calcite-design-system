@@ -77,7 +77,7 @@ export const withSlottedAction = (): string => html`
 export const darkModeRTL_TestOnly = (): string => html`
   <div style="width:300px;max-width:100%;text-align:center;">
     <calcite-input-text
-      id="input-dark-theme"
+      id="input-dark-mode"
       status="${select("status", ["idle", "invalid", "valid"], "idle")}"
       alignment="${select("alignment", ["start", "end"], "start")}"
       prefix-text="${text("prefix-text", "")}"

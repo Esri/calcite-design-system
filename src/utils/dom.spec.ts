@@ -302,14 +302,14 @@ describe("dom", () => {
   });
 
   describe("getModeName()", () => {
-    interface ThemedElement extends HTMLElement {
+    interface ModeElement extends HTMLElement {
       foundModeName: ModeName;
     }
-    function getTestComponentTheme(): string {
-      return document.body.querySelector<ThemedElement>("themed-element").foundModeName;
+    function getTestComponentMode(): string {
+      return document.body.querySelector<ModeElement>("mode-element").foundModeName;
     }
     function defineTestComponents(): void {
-      class ThemedElement extends HTMLElement {
+      class ModeElement extends HTMLElement {
         constructor() {
           super();
           this.attachShadow({ mode: "open" });
@@ -321,43 +321,43 @@ describe("dom", () => {
           this.foundModeName = getModeName(this);
         }
       }
-      customElements.define("themed-element", ThemedElement);
+      customElements.define("mode-element", ModeElement);
     }
     beforeEach(() => {
       defineTestComponents();
     });
 
-    it("finds the closest theme if set (light)", () => {
+    it("finds the closest mode if set (light)", () => {
       document.body.innerHTML = html`
         <div class="calcite-mode-dark">
           <div class="calcite-mode-light">
-            <themed-element></themed-element>
+            <mode-element></mode-element>
           </div>
         </div>
       `;
-      expect(getTestComponentTheme()).toBe("light");
+      expect(getTestComponentMode()).toBe("light");
     });
 
-    it("finds the closest theme if set (dark)", () => {
+    it("finds the closest mode if set (dark)", () => {
       document.body.innerHTML = html`
         <div class="calcite-mode-light">
           <div class="calcite-mode-dark">
-            <themed-element></themed-element>
+            <mode-element></mode-element>
           </div>
         </div>
       `;
-      expect(getTestComponentTheme()).toBe("dark");
+      expect(getTestComponentMode()).toBe("dark");
     });
 
-    it("sets to default (light) if no theme is set", () => {
+    it("sets to default (light) if no mode is set", () => {
       document.body.innerHTML = html`
         <div>
           <div>
-            <themed-element></themed-element>
+            <mode-element></mode-element>
           </div>
         </div>
       `;
-      expect(getTestComponentTheme()).toBe("light");
+      expect(getTestComponentMode()).toBe("light");
     });
   });
 

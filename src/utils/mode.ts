@@ -7,21 +7,21 @@ export function initModeChangeEvent(): void {
   const { classList } = document.body;
   const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
 
-  const getTheme = (): string =>
+  const getMode = (): string =>
     classList.contains(darkMode) || (classList.contains(autoMode) && prefersDark) ? "dark" : "light";
 
   const emitModeChange = (mode: string) =>
     document.body.dispatchEvent(new CustomEvent("calciteModeChange", { bubbles: true, detail: { mode } }));
 
   const modeChangeHandler = (newMode: string): void => {
-    currentTheme !== newMode && emitModeChange(newMode);
-    currentTheme = newMode;
+    currentMode !== newMode && emitModeChange(newMode);
+    currentMode = newMode;
   };
 
-  let currentTheme = getTheme();
+  let currentMode = getMode();
 
   // emits event on page load
-  emitModeChange(currentTheme);
+  emitModeChange(currentMode);
 
   // emits event when changing OS mode preferences
   window
@@ -29,7 +29,7 @@ export function initModeChangeEvent(): void {
     .addEventListener("change", (event) => modeChangeHandler(event.matches ? "dark" : "light"));
 
   // emits event when toggling between mode classes on <body>
-  new MutationObserver(() => modeChangeHandler(getTheme())).observe(document.body, {
+  new MutationObserver(() => modeChangeHandler(getMode())).observe(document.body, {
     attributes: true,
     attributeFilter: ["class"]
   });

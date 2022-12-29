@@ -103,8 +103,8 @@ describe("calcite-chip", () => {
       expect(chipStyles.active).toEqual("rgba(4, 10, 4, 0.31");
     });
 
-    describe("when theme attribute is not provided", () => {
-      it("should render chip pseudo classes with default values tied to mode theme", async () => {
+    describe("when mode attribute is not provided", () => {
+      it("should render chip pseudo classes with default values tied to mode", async () => {
         page = await newE2EPage({ html: chipSnippet });
         chipCloseButton = await page.find("calcite-chip >>> button");
         await chipCloseButton.focus();
@@ -119,7 +119,7 @@ describe("calcite-chip", () => {
       });
     });
 
-    describe("when theme attribute is dark", () => {
+    describe("when mode attribute is dark", () => {
       it("should render button pseudo classes with value tied to dark mode", async () => {
         page = await newE2EPage({
           html: `<div class="calcite-mode-dark">${chipSnippet}</div>`
