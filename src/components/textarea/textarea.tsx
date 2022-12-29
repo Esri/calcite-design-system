@@ -14,7 +14,7 @@ import {
 import { connectForm, disconnectForm, FormComponent, HiddenFormInputSlot } from "../../utils/form";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
 import { slotChangeGetAssignedElements } from "../../utils/dom";
-import { CSS, SLOTS } from "./resources";
+import { CSS, SLOTS, RESIZE_TIMEOUT } from "./resources";
 import {
   connectLocalized,
   disconnectLocalized,
@@ -43,6 +43,7 @@ import { TextareaMessages } from "./assets/textarea/t9n";
  * @slot footer-leading - A slot for adding a leading footer.
  * @slot footer-trailing - A slot for adding a trailing footer.
  */
+
 @Component({
   tag: "calcite-textarea",
   styleUrl: "textarea.scss",
@@ -404,10 +405,11 @@ export class Textarea
   }
 
   setHeightAndWidthToAuto(): void {
+    // timeout is added to avoid flashing of textarea when resizing.
     this.timeOutId = window.setTimeout(() => {
       this.verticalResizeDisabled || (this.el.style.height = "auto");
       this.horizantalResizeDisabled || (this.el.style.width = "auto");
-    }, 100);
+    }, RESIZE_TIMEOUT);
   }
 
   setTextareaEl = (el: HTMLTextAreaElement): void => {

@@ -9,7 +9,9 @@ textarea {
   border-color-input  
   border
   font-sans
-  w-full h-full;
+  w-full 
+  h-full
+  m-0;
   min-inline-size: theme("spacing.48");
   border-block-end: 1px solid var(--calcite-ui-border-3);
   &:focus {

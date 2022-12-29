@@ -16,3 +16,5 @@ export const SLOTS = {
   footerLeading: "footer-leading",
   footerTrailing: "footer-trailing"
 };
+
+export const RESIZE_TIMEOUT = 100;
