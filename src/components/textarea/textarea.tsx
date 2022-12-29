@@ -190,7 +190,7 @@ export class Textarea
     disconnectLocalized(this);
     disconnectMessages(this);
     this.resizeObserver?.disconnect();
-    window.clearTimeout();
+    window.clearTimeout(this.timeOutId);
   }
 
   render(): VNode {
@@ -297,6 +297,8 @@ export class Textarea
 
   @State() defaultMessages: TextareaMessages;
 
+  timeOutId: number;
+
   //--------------------------------------------------------------------------
   //
   //  Private Methods
@@ -396,8 +398,8 @@ export class Textarea
   }
 
   setHeightAndWidthToAuto(): void {
-    window.clearTimeout();
-    window.setTimeout(() => {
+    window.clearTimeout(this.timeOutId);
+    this.timeOutId = window.setTimeout(() => {
       this.verticalResizeDisabled || (this.el.style.height = "auto");
       this.horizantalResizeDisabled || (this.el.style.width = "auto");
     }, 200);
