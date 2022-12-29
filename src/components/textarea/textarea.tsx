@@ -402,7 +402,7 @@ export class Textarea
     this.timeOutId = window.setTimeout(() => {
       this.verticalResizeDisabled || (this.el.style.height = "auto");
       this.horizantalResizeDisabled || (this.el.style.width = "auto");
-    }, 200);
+    }, 150);
   }
 
   setTextareaEl = (el: HTMLTextAreaElement): void => {
