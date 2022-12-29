@@ -77,12 +77,12 @@ Renders a header and icon with the icon.
 
 ## Slots
 
-| Slot                    | Description                                                                  |
-| ----------------------- | ---------------------------------------------------------------------------- |
-|                         | A slot for adding content to the component.                                  |
-| `"control"`             | A slot for adding a single HTML input element in a header.                   |
-| `"header-menu-actions"` | A slot for adding an overflow menu with `calcite-action`s inside a dropdown. |
-| `"icon"`                | A slot for adding a leading header icon with `calcite-icon`.                 |
+| Slot                    | Description                                                                       |
+| ----------------------- | --------------------------------------------------------------------------------- |
+|                         | A slot for adding custom content.                                                 |
+| `"control"`             | A slot for adding a single HTML input element in a header.                        |
+| `"header-menu-actions"` | A slot for adding an overflow menu with `calcite-action`s inside a dropdown menu. |
+| `"icon"`                | A slot for adding a leading header icon with `calcite-icon`.                      |
 
 ## CSS Custom Properties
 
