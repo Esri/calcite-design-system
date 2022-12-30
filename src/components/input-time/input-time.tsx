@@ -247,6 +247,7 @@ export class InputTime implements LabelableComponent, FormComponent, Interactive
   @Listen("blur")
   blurHandler(): void {
     this.calciteInternalInputTimeBlur.emit();
+    this.emitChangeIfUserModified();
   }
 
   @Listen("focus")

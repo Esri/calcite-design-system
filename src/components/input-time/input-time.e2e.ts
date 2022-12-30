@@ -196,7 +196,7 @@ describe("calcite-input-time", () => {
     expect(await secondEl.getProperty("textContent")).toEqualText(localizedSecond);
   });
 
-  it("appropriately triggers input and change events", async () => {
+  it("Fires input event when a complete value is entered and change event when enter key is pressed", async () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-input-time step="1"></calcite-input-time>`);
 
@@ -232,6 +232,58 @@ describe("calcite-input-time", () => {
     expect(changeEvent).toHaveReceivedEventTimes(1);
 
     await page.keyboard.press("Enter");
+    await page.waitForChanges();
+
+    expect(inputEvent).toHaveReceivedEventTimes(2);
+    expect(changeEvent).toHaveReceivedEventTimes(1);
+
+    await page.keyboard.press("Enter");
+    await page.waitForChanges();
+
+    expect(inputEvent).toHaveReceivedEventTimes(2);
+    expect(changeEvent).toHaveReceivedEventTimes(1);
+  });
+
+  it("Fires change event on blur", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<calcite-input-time step="1"></calcite-input-time>`);
+
+    const inputTime = await page.find("calcite-input-time");
+    const inputEvent = await inputTime.spyOnEvent("calciteInputTimeInput");
+    const changeEvent = await inputTime.spyOnEvent("calciteInputTimeChange");
+
+    await page.keyboard.press("Tab");
+    await page.keyboard.press("1");
+    await page.waitForChanges();
+
+    expect(inputEvent).toHaveReceivedEventTimes(0);
+    expect(changeEvent).toHaveReceivedEventTimes(0);
+
+    await page.keyboard.press("Tab");
+    await page.keyboard.press("2");
+    await page.waitForChanges();
+
+    expect(inputEvent).toHaveReceivedEventTimes(1);
+    expect(changeEvent).toHaveReceivedEventTimes(0);
+
+    await page.keyboard.press("Tab");
+    await page.keyboard.press("3");
+    await page.waitForChanges();
+
+    expect(inputEvent).toHaveReceivedEventTimes(2);
+    expect(changeEvent).toHaveReceivedEventTimes(0);
+
+    await page.keyboard.press("Tab");
+    await page.keyboard.press("Tab");
+    await page.waitForChanges();
+
+    expect(inputEvent).toHaveReceivedEventTimes(2);
+    expect(changeEvent).toHaveReceivedEventTimes(1);
+
+    await page.keyboard.down("Shift");
+    await page.keyboard.press("Tab");
+    await page.keyboard.up("Shift");
+    await page.keyboard.press("Tab");
     await page.waitForChanges();
 
     expect(inputEvent).toHaveReceivedEventTimes(2);
