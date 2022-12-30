@@ -11,9 +11,6 @@ import {
 import { html } from "../../../support/formatting";
 import { CSS } from "./resources";
 import { CSS as MONTH_HEADER_CSS } from "../date-picker-month-header/resources";
-import englishTranslations from "../date-picker/assets/date-picker/nls/en.json";
-import arabicTranslations from "../date-picker/assets/date-picker/nls/ar.json";
-
 const animationDurationInMs = 200;
 
 describe("calcite-input-date-picker", () => {
@@ -231,14 +228,19 @@ describe("calcite-input-date-picker", () => {
     expect(await calendar.isVisible()).toBe(true);
   });
 
-  it("syncs lang changes to internal date-picker", async () => {
-    const lang = "en";
-    const newLang = "ar";
-    const month = 4;
+  it("syncs lang changes to internal date-picker and input", async () => {
+    const lang = "it-CH";
+    const newLang = "nl";
+    const year = "2020";
+    const month = "4";
+    const day = "19";
+
+    const langTranslations = await import(`../date-picker/assets/date-picker/nls/${lang}.json`);
+    const newLangTranslations = await import(`../date-picker/assets/date-picker/nls/${newLang}.json`);
 
     const page = await newE2EPage();
     await page.setContent(
-      `<calcite-input-date-picker lang=${lang} value="2020-${month}-19"></calcite-input-date-picker>`
+      `<calcite-input-date-picker lang=${lang} value="${year}-${month}-${day}"></calcite-input-date-picker>`
     );
     const inputDatePicker = await page.find("calcite-input-date-picker");
 
@@ -253,10 +255,27 @@ describe("calcite-input-date-picker", () => {
         MONTH_HEADER_CSS
       );
 
-    expect(await getLocalizedMonth()).toEqual(englishTranslations.months.wide[month - 1]);
+    const getLocalizedInputValue = async () =>
+      await page.evaluate(
+        async () =>
+          document
+            .querySelector("calcite-input-date-picker")
+            .shadowRoot.querySelector("calcite-input")
+            .shadowRoot.querySelector("input").value
+      );
+
+    expect(await getLocalizedMonth()).toEqual(langTranslations.months.wide[Number(month) - 1]);
+    expect(await getLocalizedInputValue()).toBe(
+      langTranslations.placeholder.replace("DD", day).replace("MM", month).replace("YYYY", year)
+    );
+
     inputDatePicker.setProperty("lang", newLang);
     await page.waitForChanges();
-    expect(await getLocalizedMonth()).toEqual(arabicTranslations.months.wide[month - 1]);
+
+    expect(await getLocalizedMonth()).toEqual(newLangTranslations.months.wide[Number(month) - 1]);
+    expect(await getLocalizedInputValue()).toBe(
+      newLangTranslations.placeholder.replace("DD", day).replace("MM", month).replace("YYYY", year)
+    );
   });
 
   it("allows clicking a date in the calendar popup", async () => {
