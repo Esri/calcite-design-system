@@ -172,9 +172,11 @@ export class InputTime implements LabelableComponent, FormComponent, Interactive
 
   private minuteEl: HTMLSpanElement;
 
-  private secondEl: HTMLSpanElement;
+  private previousEmittedValue: string;
 
   private previousValue: string = null;
+
+  private secondEl: HTMLSpanElement;
 
   private userChangedValue = false;
 
@@ -255,7 +257,7 @@ export class InputTime implements LabelableComponent, FormComponent, Interactive
   @Listen("keydown")
   keyDownHandler({ defaultPrevented, key }: KeyboardEvent): void {
     if (key === "Enter" && !defaultPrevented && !this.disabled) {
-      this.calciteInputTimeChange.emit();
+      this.emitChangeIfUserModified();
       submitForm(this);
       return;
     }
@@ -355,6 +357,13 @@ export class InputTime implements LabelableComponent, FormComponent, Interactive
 
   private decrementSecond = (): void => {
     this.decrementMinuteOrSecond("second");
+  };
+
+  private emitChangeIfUserModified = (): void => {
+    if (this.value !== this.previousEmittedValue) {
+      this.calciteInputTimeChange.emit();
+    }
+    this.previousEmittedValue = this.value;
   };
 
   private getMeridiemOrder(formatParts: Intl.DateTimeFormatPart[]): number {
@@ -688,6 +697,7 @@ export class InputTime implements LabelableComponent, FormComponent, Interactive
   connectedCallback() {
     this.setValue({ newValue: this.value, context: "connected" });
     this.hourCycle = getLocaleHourCycle(this.locale);
+    this.previousEmittedValue = this.value;
     connectLabel(this);
     connectForm(this);
   }

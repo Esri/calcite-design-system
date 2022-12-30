@@ -252,7 +252,7 @@ describe("calcite-input-time", () => {
     expect(await inputTime.getProperty("value")).toBe("02:03:04");
   });
 
-  it("resets to previous value when default event behavior is prevented", async () => {
+  it("resets to previous value when the calciteInputTimeInput event's default behavior is prevented", async () => {
     const page = await newE2EPage({
       html: `<calcite-input-time value="14:59"></calcite-input-time>`
     });
@@ -260,7 +260,7 @@ describe("calcite-input-time", () => {
 
     await page.evaluate(() => {
       const inputTime = document.querySelector("calcite-input-time");
-      inputTime.addEventListener("calciteInputTimeChange", (event) => {
+      inputTime.addEventListener("calciteInputTimeInput", (event) => {
         event.preventDefault();
       });
     });
