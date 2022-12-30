@@ -68,16 +68,16 @@ export class Textarea
   //--------------------------------------------------------------------------
 
   /** When `true`, focuses the `textarea` element on page render. */
-  @Prop({ reflect: true }) autofocus: boolean;
+  @Prop({ reflect: true }) autofocus = false;
 
   /** When `true`, disables the component. */
-  @Prop({ reflect: true }) disabled: boolean;
+  @Prop({ reflect: true }) disabled = false;
 
   /** Specifies the placeholder text for the input. */
-  @Prop({ reflect: true }) placeholder: string;
+  @Prop() placeholder: string;
 
   /** Whne `true`, the component's value can be read, but cannot be modified.  */
-  @Prop({ reflect: true }) readonly: boolean;
+  @Prop({ reflect: true }) readonly = false;
 
   /** Specifies number or rows allowed. */
   @Prop({ reflect: true }) rows: number;
@@ -86,7 +86,7 @@ export class Textarea
   @Prop({ reflect: true }) cols: number;
 
   /** Specifies maximum number of characters allowed. */
-  @Prop({ reflect: true }) maxlength: number;
+  @Prop() maxlength: number;
 
   /** Specifies name of the component  */
   @Prop({ reflect: true }) name: string;
@@ -100,23 +100,20 @@ export class Textarea
   /** The component's value. */
   @Prop({ mutable: true }) value: string;
 
-  /** When `true` , footer will be added to the component. */
-  @Prop({ reflect: true }) footer = false;
-
   /** When `true`, disables the resizing handle. */
-  @Prop({ reflect: true }) resizeDisabled: boolean;
+  @Prop({ reflect: true }) resizeDisabled = false;
 
   /** When `true`, disables resizing textarea horizantally. */
-  @Prop({ reflect: true }) horizantalResizeDisabled: boolean;
+  @Prop({ reflect: true }) horizantalResizeDisabled = false;
 
   /** When `true`, disables resizing textarea vertically. */
-  @Prop({ reflect: true }) verticalResizeDisabled: boolean;
+  @Prop({ reflect: true }) verticalResizeDisabled = false;
 
   /** When `true`, marks this component as required in form. */
-  @Prop({ reflect: true }) required: boolean;
+  @Prop({ reflect: true }) required = false;
 
   /** The label of the component */
-  @Prop({ reflect: true }) label: string;
+  @Prop() label: string;
 
   /** When true, the `textarea` will be marked as invalid. */
   @Prop({ reflect: true }) invalid = false;
@@ -192,7 +189,6 @@ export class Textarea
     disconnectLocalized(this);
     disconnectMessages(this);
     this.resizeObserver?.disconnect();
-    window.clearTimeout(this.timeOutId);
   }
 
   render(): VNode {
@@ -233,7 +229,7 @@ export class Textarea
         <span class="content">
           <slot onSlotchange={this.contentSlotChangeHandler} />
         </span>
-        {this.footer && (
+        {
           <footer
             class={{
               [CSS.footer]: true,
@@ -247,7 +243,7 @@ export class Textarea
             {this.renderCharacterLimit()}
             <slot name={SLOTS.footerTrailing} onSlotchange={this.footerLeadingSlotChangeHandler} />
           </footer>
-        )}
+        }
         <HiddenFormInputSlot component={this} />
       </Host>
     );
@@ -300,8 +296,6 @@ export class Textarea
 
   @State() defaultMessages: TextareaMessages;
 
-  timeOutId: number;
-
   //--------------------------------------------------------------------------
   //
   //  Private Methods
@@ -341,12 +335,7 @@ export class Textarea
 
   contentSlotChangeHandler = (): void => {
     if (!this.value) {
-      const nodes = this.el.childNodes;
-      nodes.forEach((el) => {
-        if (el.nodeName === "#text") {
-          this.value = el.nodeValue.trim();
-        }
-      });
+      this.value = this.el.textContent.trim();
     }
   };
 
@@ -384,7 +373,7 @@ export class Textarea
     const { width: elWidth, height: elHeight } = this.el.getBoundingClientRect();
     const footerHeight = this.footerEl?.getBoundingClientRect().height;
 
-    if (this.footer && this.footerEl) {
+    if (this.footerEl) {
       this.footerEl.style.width = `${textareaWidth}px`;
     }
 

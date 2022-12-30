@@ -16,7 +16,6 @@ export const simple = (): string => html`
     <calcite-textarea
       scale="${select("scale", ["s", "m", "l"], "m")}"
       placeholder="${text("placeholder", "Add Notes")}"
-      ${boolean("footer", false)}
       ${boolean("disabled", false)}
       cols="${number("cols", 20)}"
       rows="${number("rows", 2)}"
@@ -36,7 +35,6 @@ export const withSlottedElements = (): string => html`<div style="width:300px;ma
 <calcite-textarea
 scale="${select("scale", ["s", "m", "l"], "m")}"
 placeholder="${text("placeholder", "Add Notes")}"
-${boolean("footer", true)}
 maxlength="${number("maxlength", 50)}"
 >
 <calcite-button  slot="${text("slot", "footer-leading")}">RESET</calcite-button>

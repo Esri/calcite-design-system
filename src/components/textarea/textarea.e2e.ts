@@ -65,7 +65,7 @@ describe("calcite-textarea", () => {
   it("is accessible", async () => {
     const page = await newE2EPage();
     await page.setContent(
-      `<calcite-label>add notes<calcite-textarea maxlength="50" footer required name="something" form="myform"> </calcite-textarea></calcite-label>`
+      `<calcite-label>add notes<calcite-textarea maxlength="50"  required name="something" form="myform"> </calcite-textarea></calcite-label>`
     );
     await accessible("calcite-textarea", page);
   });
@@ -172,7 +172,7 @@ describe("calcite-textarea", () => {
   it("should be disable slotted elements when disabled", async () => {
     const page = await newE2EPage();
     await page.setContent(
-      `<calcite-textarea footer disabled><calcite-button slot="footer-trailing">CLEAR</calcite-button></calcite-textarea>`
+      `<calcite-textarea  disabled><calcite-button slot="footer-trailing">CLEAR</calcite-button></calcite-textarea>`
     );
 
     const element = await page.find("calcite-button");
@@ -193,7 +193,7 @@ describe("calcite-textarea", () => {
 
   it("should have footer-slotted class when slotted at both trailing and leading", async () => {
     const page = await newE2EPage();
-    await page.setContent(`<calcite-textarea footer>
+    await page.setContent(`<calcite-textarea >
     <calcite-button slot="footer-trailing">CLEAR</calcite-button>
     <calcite-button slot="footer-leading">RESET</calcite-button></calcite-textarea>`);
 
