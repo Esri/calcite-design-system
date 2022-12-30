@@ -1,17 +1,17 @@
 :host {
-  @apply flex flex-col;
+  @apply inline-block;
 }
 
 textarea {
-  @apply text-color-1 relative
+  @apply text-color-1 relative block
   bg-foreground-1 
   box-border
   border-color-input  
   border
   font-sans
   w-full 
-  h-full
   m-0;
+
   min-inline-size: theme("spacing.48");
   border-block-end: 1px solid var(--calcite-ui-border-3);
   &:focus {
@@ -29,7 +29,7 @@ textarea {
 }
 
 .footer {
-  @apply flex bg-foreground-1
+  @apply block bg-foreground-1 
   box-border
   border-color-input
   border
@@ -61,6 +61,7 @@ textarea {
   textarea {
     @apply py-1 px-2;
     min-block-size: theme("spacing.16");
+    block-size: calc(100% - 1.75rem);
   }
   .footer {
     @apply py-1 px-2 h-7;
@@ -85,6 +86,7 @@ textarea {
   textarea {
     @apply py-2 px-3;
     min-block-size: theme("spacing.20");
+    block-size: calc(100% - 2.25rem);
   }
   .footer {
     @apply py-2 px-3 h-9;
@@ -110,6 +112,7 @@ textarea {
   textarea {
     @apply py-3 px-4;
     min-block-size: theme("spacing.24");
+    block-size: calc(100% - 2.75rem);
   }
   .footer {
     @apply py-3 px-4 h-11;

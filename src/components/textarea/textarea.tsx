@@ -37,6 +37,7 @@ import {
   updateMessages
 } from "../../utils/t9n";
 import { TextareaMessages } from "./assets/textarea/t9n";
+import { throttle } from "lodash-es";
 
 /**
  * @slot - A slot for adding text.
@@ -387,7 +388,7 @@ export class Textarea
     }
 
     if (
-      textareaWidth &&
+      (!!textareaWidth || !!textareaHeight) &&
       (elWidth !== textareaWidth || elHeight !== textareaHeight + (footerHeight || 0))
     ) {
       this.setHeightAndWidthToAuto();
@@ -404,13 +405,14 @@ export class Textarea
     }
   }
 
-  setHeightAndWidthToAuto(): void {
-    // timeout is added to avoid flashing of textarea when resizing.
-    this.timeOutId = window.setTimeout(() => {
+  setHeightAndWidthToAuto = throttle(
+    (): void => {
       this.verticalResizeDisabled || (this.el.style.height = "auto");
       this.horizantalResizeDisabled || (this.el.style.width = "auto");
-    }, RESIZE_TIMEOUT);
-  }
+    },
+    RESIZE_TIMEOUT,
+    { leading: false, trailing: true }
+  );
 
   setTextareaEl = (el: HTMLTextAreaElement): void => {
     this.textareaEl = el;
