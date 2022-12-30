@@ -9,7 +9,8 @@ export const CSS = {
   textareaInvalid: "textarea--invalid",
   footerSlotted: "footer-slotted",
   borderColor: "border--color",
-  hide: "hide"
+  hide: "hide",
+  blocksizeFull: "block-size--full"
 };
 
 export const SLOTS = {

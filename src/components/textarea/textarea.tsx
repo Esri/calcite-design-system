@@ -214,7 +214,8 @@ export class Textarea
             [CSS.textareaInvalid]: this.invalid,
             [CSS.footerSlotted]:
               !!this.trailingSlotElements?.length && !!this.leadingSlotElements?.length,
-            [CSS.borderColor]: !hasFooter
+            [CSS.borderColor]: !hasFooter,
+            [CSS.blocksizeFull]: !hasFooter
           }}
           cols={this.cols}
           disabled={this.disabled}

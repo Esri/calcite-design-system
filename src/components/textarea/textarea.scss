@@ -11,7 +11,6 @@ textarea {
   font-sans
   w-full 
   m-0;
-
   min-inline-size: theme("spacing.48");
   border-block-end: 1px solid var(--calcite-ui-border-3);
   &:focus {
@@ -29,7 +28,7 @@ textarea {
 }
 
 .footer {
-  @apply block bg-foreground-1 
+  @apply flex bg-foreground-1 
   box-border
   border-color-input
   border
@@ -151,6 +150,10 @@ textarea {
   &:focus {
     @apply border-b-2;
   }
+}
+
+:host textarea.block-size--full {
+  @apply h-full;
 }
 
 .content,
