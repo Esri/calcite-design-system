@@ -7,9 +7,57 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ## Unreleased
 
+### ⚠ BREAKING CHANGES
+
+- **modal, panel, popover**: Removed `focusId` parameter from `setFocus` methods.
+  When the `setFocus` method is called the first focusable element will be
+  focused.
+
+- **combobox-item:**
+
+  - Removed `toggleSelected` method, use the `selected` property instead.
+
+- **date-picker:**
+
+  - Removed the property `startAsDate`, use `valueAsDate` instead.
+  - Removed the property `endAsDate`, use `valueAsDate` instead.
+
+- **pagination:**
+
+  - Removed the `--calcite-pagination-spacing` css variable
+
+- **popover:**
+
+  - Removed the `toggle` method, use the `open` property instead.
+
+- **radio-button-group:**
+
+  - Added property `selectedItem`.
+  - Removed the `event.detail` property on the event
+    `calciteRadioButtonGroupChange`, use `event.target` and the property
+    `selectedItem` instead.
+
+- **stepper:**
+
+  - Added property `selectedItem`.
+  - Removed the `event.detail` property on the event
+    `calciteStepperItemChange`, use `event.target` and the property
+    `selectedItem` instead.
+
+### Features
+
+- **tab-nav:** Add `selectedTitle` property ([#6149](https://github.com/Esri/calcite-components/issues/6149)) ([e48096c](https://github.com/Esri/calcite-components/commit/e48096cf361d0efb292849e10040f6f0e61f8bbc))
+- **popover, modal:** Add the ability to update focus trap elements after initialization ([#6141](https://github.com/Esri/calcite-components/issues/6141)) ([806ca32](https://github.com/Esri/calcite-components/commit/806ca32788d2960df97ad18efcb731633f133fcb))
+
 ### Bug Fixes
 
+- **modal:** close button does not change header height ([#6205](https://github.com/Esri/calcite-components/issues/6205)) ([f1d73a8](https://github.com/Esri/calcite-components/commit/f1d73a8c92678f3429fe2ac7215a15cf45c87692)), closes [#1707](https://github.com/Esri/calcite-components/issues/1707) [#5210](https://github.com/Esri/calcite-components/issues/5210)
+
+* **input-date-picker:** update input value when changing locale ([#6197](https://github.com/Esri/calcite-components/issues/6197)) ([65478be](https://github.com/Esri/calcite-components/commit/65478be957a20cc4bbc36d52c166c132467e57e4)), closes [#5886](https://github.com/Esri/calcite-components/issues/5886) [#5969](https://github.com/Esri/calcite-components/issues/5969)
+
 - **date-picker:** modify weekStart value for ar locale ([#6154](https://github.com/Esri/calcite-components/issues/6154)) ([f9fe230](https://github.com/Esri/calcite-components/commit/f9fe230ba07d4c581993efacff04303700c07106))
+- **time-picker:** high contrast visibility of outlines in focus and hover states ([#6129](https://github.com/Esri/calcite-components/issues/6129)) ([90ddff1](https://github.com/Esri/calcite-components/commit/90ddff10b712758bd4c60b8279b45e4c9997748d))
+- **tooltip:** Fix hover logic for elements within shadowRoot. ([#6119](https://github.com/Esri/calcite-components/issues/6119)) ([f490e5e](https://github.com/Esri/calcite-components/commit/f490e5ee0a4ae75f0e3b727f4ce0f7925bc8e53c))
 
 <!--@unreleased-section-end-->
 

@@ -89,11 +89,11 @@ Type: `Promise<void>`
 
 ## Slots
 
-| Slot               | Description                                                                                                             |
-| ------------------ | ----------------------------------------------------------------------------------------------------------------------- |
-|                    | A slot for adding `calcite-action`s that will appear at the top of the action bar.                                      |
-| `"bottom-actions"` | A slot for adding `calcite-action`s that will appear at the bottom of the action bar, above the collapse/expand button. |
-| `"expand-tooltip"` | Used to set the tooltip for the expand toggle.                                                                          |
+| Slot               | Description                                                                                                            |
+| ------------------ | ---------------------------------------------------------------------------------------------------------------------- |
+|                    | A slot for adding `calcite-action`s that will appear at the top of the component.                                      |
+| `"bottom-actions"` | A slot for adding `calcite-action`s that will appear at the bottom of the component, above the collapse/expand button. |
+| `"expand-tooltip"` | A slot to set the `calcite-tooltip` for the expand toggle.                                                             |
 
 ## CSS Custom Properties
 

@@ -27,8 +27,6 @@ export class Scrim implements LocalizedComponent, T9nComponent {
   // --------------------------------------------------------------------------
 
   /**
-   
-  /**
    * When `true`, a busy indicator is displayed.
    */
   @Prop({ reflect: true }) loading = false;
