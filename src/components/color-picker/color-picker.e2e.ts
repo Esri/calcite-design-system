@@ -4,7 +4,6 @@ import { E2EElement, E2EPage, EventSpy, newE2EPage } from "@stencil/core/testing
 import { ColorValue } from "./interfaces";
 import SpyInstance = jest.SpyInstance;
 import { GlobalTestProps, selectText, getElementXY } from "../../tests/utils";
-import { waitForAnimationFrame } from "../../utils/dom";
 describe("calcite-color-picker", () => {
   let consoleSpy: SpyInstance;
 
@@ -646,7 +645,7 @@ describe("calcite-color-picker", () => {
         picker.value = color;
         document.body.append(picker);
 
-        await waitForAnimationFrame();
+        await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
       }, initialColor);
 
       expect(await getInternalColorAsHex(page)).toBe(initialColor);

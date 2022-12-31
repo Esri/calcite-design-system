@@ -1,7 +1,6 @@
 import { E2EPage, newE2EPage } from "@stencil/core/testing";
 import { renders, hidden } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
-import { waitForAnimationFrame } from "../../utils/dom";
 
 // todo test the automatic setting of first item to selected
 describe("calcite-stepper", () => {
@@ -419,10 +418,10 @@ describe("calcite-stepper", () => {
 
           const wrapper = document.querySelector(wrapperName);
 
-          await waitForAnimationFrame();
+          await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
           wrapper.shadowRoot.querySelector<HTMLElement>("#item-2").click();
           wrapper.shadowRoot.querySelector<HTMLElement>("#next").click();
-          await waitForAnimationFrame();
+          await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
 
           return wrapper.shadowRoot.querySelector("calcite-stepper-item[selected]").id;
         },

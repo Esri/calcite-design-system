@@ -1,7 +1,6 @@
 import { E2EPage, newE2EPage } from "@stencil/core/testing";
 import { disabled, focusable, formAssociated, labelable, renders, hidden } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
-import { waitForAnimationFrame } from "../../utils/dom";
 
 describe("calcite-radio-group", () => {
   it("renders", () => renders("calcite-radio-group", { display: "flex" }));
@@ -135,13 +134,13 @@ describe("calcite-radio-group", () => {
       let [first, second] = Array.from(document.querySelectorAll("calcite-radio-group-item"));
 
       first.checked = true;
-      await waitForAnimationFrame();
+      await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
 
       second.click();
-      await waitForAnimationFrame();
+      await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
 
       radioGroup.remove();
-      await waitForAnimationFrame();
+      await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
 
       document.body.innerHTML = `
       <calcite-radio-group>
@@ -153,10 +152,10 @@ describe("calcite-radio-group", () => {
       [first, second] = Array.from(document.querySelectorAll("calcite-radio-group-item"));
 
       second.checked = true;
-      await waitForAnimationFrame();
+      await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
 
       first.click();
-      await waitForAnimationFrame();
+      await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
 
       return calls;
     });

@@ -1,7 +1,6 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { accessible, renders, defaults, hidden } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
-import { waitForAnimationFrame } from "../../utils/dom";
 
 describe("calcite-tabs", () => {
   const tabsContent = `
@@ -252,8 +251,8 @@ describe("calcite-tabs", () => {
 
         const wrapper = document.querySelector(wrapperName);
         wrapper.shadowRoot.querySelector<HTMLElement>("#title-2").click();
-        await waitForAnimationFrame();
-        await waitForAnimationFrame();
+        await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
+        await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
 
         const titleTab = wrapper.shadowRoot.querySelector("calcite-tab-title[selected]").id;
         const contentTab = wrapper.shadowRoot.querySelector("calcite-tab[selected]").id;
