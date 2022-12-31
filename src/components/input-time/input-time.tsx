@@ -598,7 +598,7 @@ export class InputTime implements LabelableComponent, FormComponent, Interactive
 
     this.userChangedValue = context === "user";
 
-    const valueChanged = this.userChangedValue && formattedNewValue !== this.previousValue;
+    const valueChanged = this.userChangedValue && formattedNewValue !== oldValue;
 
     this.value = formattedNewValue;
 
@@ -676,9 +676,9 @@ export class InputTime implements LabelableComponent, FormComponent, Interactive
         newValue: `${this.hour}:${this.minute}:${showSeconds ? this.second : "00"}`
       });
     } else {
-      // TODO: Ensure change event fires when the value is null.
-      // We'll have to reconcile setValuePart and setValue to determine which one or both will delegate change events.
-      this.value = null;
+      if (this.value) {
+        this.setValue({ newValue: null });
+      }
     }
     this.localizedMeridiem = this.value
       ? localizeTimeStringToParts({ value: this.value, locale })?.localizedMeridiem || null

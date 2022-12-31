@@ -290,6 +290,40 @@ describe("calcite-input-time", () => {
     expect(changeEvent).toHaveReceivedEventTimes(1);
   });
 
+  it("Fires input event when value is cleared and change event when Enter is pressed", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<calcite-input-time step="1" value="1:2:3"></calcite-input-time>`);
+
+    const inputTime = await page.find("calcite-input-time");
+    const inputEvent = await inputTime.spyOnEvent("calciteInputTimeInput");
+    const changeEvent = await inputTime.spyOnEvent("calciteInputTimeChange");
+
+    await page.keyboard.press("Tab");
+    await page.keyboard.press("Delete");
+    await page.waitForChanges();
+
+    expect(inputEvent).toHaveReceivedEventTimes(1);
+    expect(changeEvent).toHaveReceivedEventTimes(0);
+
+    await page.keyboard.press("Enter");
+    await page.waitForChanges();
+
+    expect(inputEvent).toHaveReceivedEventTimes(1);
+    expect(changeEvent).toHaveReceivedEventTimes(1);
+
+    await page.keyboard.press("Enter");
+    await page.waitForChanges();
+
+    expect(inputEvent).toHaveReceivedEventTimes(1);
+    expect(changeEvent).toHaveReceivedEventTimes(1);
+
+    await page.keyboard.press("Enter");
+    await page.waitForChanges();
+
+    expect(inputEvent).toHaveReceivedEventTimes(1);
+    expect(changeEvent).toHaveReceivedEventTimes(1);
+  });
+
   it("resets to previous value when the calciteInputTimeInput event's default behavior is prevented", async () => {
     const page = await newE2EPage({
       html: `<calcite-input-time value="14:59"></calcite-input-time>`
