@@ -526,9 +526,10 @@ export class InputNumber
     const adjustment = direction === "up" ? 1 : -1;
     const nudgedValue = inputVal + inputStep * adjustment;
     const finalValue =
-      (typeof inputMin === "number" && !isNaN(inputMin) && nudgedValue < inputMin) ||
-      (typeof inputMax === "number" && !isNaN(inputMax) && nudgedValue > inputMax)
-        ? inputVal
+      typeof inputMin === "number" && !isNaN(inputMin) && nudgedValue < inputMin
+        ? inputMin
+        : typeof inputMax === "number" && !isNaN(inputMax) && nudgedValue > inputMax
+        ? inputMax
         : nudgedValue;
 
     const inputValPlaces = decimalPlaces(inputVal);
