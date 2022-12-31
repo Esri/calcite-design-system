@@ -290,20 +290,6 @@ describe("calcite-input-time", () => {
     expect(changeEvent).toHaveReceivedEventTimes(1);
   });
 
-  it("formats valid typed time value appropriately on blur", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<calcite-input-time step="1"></calcite-input-time><input>`);
-
-    const inputTime = await page.find("calcite-input-time");
-
-    await page.keyboard.press("Tab");
-    await page.keyboard.type("2:3:4");
-    await page.keyboard.press("Tab");
-    await page.waitForChanges();
-
-    expect(await inputTime.getProperty("value")).toBe("02:03:04");
-  });
-
   it("resets to previous value when the calciteInputTimeInput event's default behavior is prevented", async () => {
     const page = await newE2EPage({
       html: `<calcite-input-time value="14:59"></calcite-input-time>`
@@ -327,13 +313,13 @@ describe("calcite-input-time", () => {
     expect(await inputTime.getProperty("value")).toBe("14:59");
   });
 
-  it("sets initial value to undefined when it is not a valid time value", async () => {
+  it("sets initial value to null when it is not a valid time value", async () => {
     const page = await newE2EPage({
       html: `<calcite-input-time value="invalid"></calcite-input-time>`
     });
     const inputTime = await page.find("calcite-input-time");
 
-    expect(await inputTime.getProperty("value")).toBeUndefined();
+    expect(await inputTime.getProperty("value")).toBeNull();
   });
 
   it("is form-associated", () => formAssociated("calcite-input-time", { testValue: "03:23", submitsOnEnter: true }));
