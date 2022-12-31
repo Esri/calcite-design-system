@@ -48,10 +48,6 @@
     p-0;
 }
 
-.content-container--selectable {
-  @apply cursor-pointer;
-}
-
 tr,
 td {
   @apply focus-base;
