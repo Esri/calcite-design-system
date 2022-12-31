@@ -129,18 +129,20 @@ describe("calcite-radio-group", () => {
 
       const radioGroup = document.querySelector("calcite-radio-group");
 
+      const waitForFrame = async () => await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
+
       document.addEventListener("calciteRadioGroupChange", () => calls++);
 
       let [first, second] = Array.from(document.querySelectorAll("calcite-radio-group-item"));
 
       first.checked = true;
-      await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
+      await waitForFrame();
 
       second.click();
-      await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
+      await waitForFrame();
 
       radioGroup.remove();
-      await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
+      await waitForFrame();
 
       document.body.innerHTML = `
       <calcite-radio-group>
@@ -152,10 +154,10 @@ describe("calcite-radio-group", () => {
       [first, second] = Array.from(document.querySelectorAll("calcite-radio-group-item"));
 
       second.checked = true;
-      await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
+      await waitForFrame();
 
       first.click();
-      await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
+      await waitForFrame();
 
       return calls;
     });
