@@ -268,7 +268,7 @@ export class PickList<
   }
 
   /**
-   * Sets focus on the component.
+   * Sets focus on the component's first focusable element.
    *
    * @param focusId
    */
