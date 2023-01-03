@@ -14,8 +14,8 @@ import { Appearance, Layout, Scale } from "../interfaces";
 import { SLOTS, CSS } from "./resources";
 
 @Component({
-  tag: "calcite-radio-group-item",
-  styleUrl: "radio-group-item.scss",
+  tag: "calcite-segmented-control-item",
+  styleUrl: "segmented-control-item.scss",
   shadow: true
 })
 export class RadioGroupItem {
@@ -26,7 +26,7 @@ export class RadioGroupItem {
   //--------------------------------------------------------------------------
 
   @Element()
-  el: HTMLCalciteRadioGroupItemElement;
+  el: HTMLCalciteSegmentedControlItemElement;
 
   //--------------------------------------------------------------------------
   //
@@ -69,7 +69,7 @@ export class RadioGroupItem {
 
     const iconStartEl = this.iconStart ? (
       <calcite-icon
-        class={CSS.radioGroupItemIcon}
+        class={CSS.segmentedControlItemIcon}
         flipRtl={this.iconFlipRtl}
         icon={this.iconStart}
         key="icon-start"
@@ -79,7 +79,7 @@ export class RadioGroupItem {
 
     const iconEndEl = this.iconEnd ? (
       <calcite-icon
-        class={CSS.radioGroupItemIcon}
+        class={CSS.segmentedControlItemIcon}
         flipRtl={this.iconFlipRtl}
         icon={this.iconEnd}
         key="icon-end"

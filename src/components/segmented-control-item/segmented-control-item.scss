@@ -83,38 +83,38 @@
   :host([checked]) .label--outline-fill {
     @apply outline-none;
   }
-  :host([checked]) label:not([class~="label--outline"]) .radio-group-item-icon {
+  :host([checked]) label:not([class~="label--outline"]) .segmented-control-item-icon {
     color: highlightText;
   }
 }
 
 // icon
-.radio-group-item-icon {
+.segmented-control-item-icon {
   @apply relative
     m-0
     inline-flex;
   line-height: inherit;
 }
 
-:host([icon-start]) .label--scale-s .radio-group-item-icon {
+:host([icon-start]) .label--scale-s .segmented-control-item-icon {
   margin-inline-end: theme("margin.2");
 }
 
-:host([icon-end]) .label--scale-s .radio-group-item-icon {
+:host([icon-end]) .label--scale-s .segmented-control-item-icon {
   margin-inline-start: theme("margin.2");
 }
 
-:host([icon-start]) .label--scale-m .radio-group-item-icon {
+:host([icon-start]) .label--scale-m .segmented-control-item-icon {
   margin-inline-end: theme("margin.3");
 }
 
-:host([icon-end]) .label--scale-m .radio-group-item-icon {
+:host([icon-end]) .label--scale-m .segmented-control-item-icon {
   margin-inline-start: theme("margin.3");
 }
 
-:host([icon-start]) .label--scale-l .radio-group-item-icon {
+:host([icon-start]) .label--scale-l .segmented-control-item-icon {
   margin-inline-end: theme("margin.4");
 }
-:host([icon-end]) .label--scale-l .radio-group-item-icon {
+:host([icon-end]) .label--scale-l .segmented-control-item-icon {
   margin-inline-start: theme("margin.4");
 }
