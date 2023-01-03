@@ -208,7 +208,7 @@ export class Notice
   //
   //--------------------------------------------------------------------------
 
-  /** Sets focus on the component. */
+  /** Sets focus on the component's first focusable element. */
   @Method()
   async setFocus(): Promise<void> {
     await componentLoaded(this);
