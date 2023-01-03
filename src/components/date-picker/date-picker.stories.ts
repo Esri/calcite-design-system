@@ -128,13 +128,13 @@ const selectRangeString = html`
     weekDays.querySelector("calcite-date-picker-day:last-child").selected = true;
   </script>
 `;
-export const range = (): string =>
+export const range_TestOnly = (): string =>
   html`<div style="width: 400px">
       <calcite-date-picker scale="m" range></calcite-date-picker>
     </div>
     ${selectRangeString}`;
 
-export const rangeRTL = (): string =>
+export const rangeRTL_TestOnly = (): string =>
   html`<div style="width: 400px">
       <calcite-date-picker dir="RTL" scale="m" range></calcite-date-picker>
     </div>
