@@ -121,16 +121,14 @@ export const range = (): string =>
     )}
   </div>`;
 
+export const range_TestOnly = (): string =>
+  html`<div style="width: 400px">
+    <calcite-date-picker scale="m" range min="2022-02-02" max="2022-02-22"></calcite-date-picker>
+  </div>`;
+
 export const rangeRTL_TestOnly = (): string =>
   html`<div style="width: 400px">
-    ${create(
-      "calcite-date-picker",
-      createAttributes({ exceptions: ["min", "range", "dir"] }).concat([
-        { name: "dir", value: "rtl" },
-        { name: "min", value: "2016-08-09" },
-        { name: "range", value: "true" }
-      ])
-    )}
+    <calcite-date-picker dir="RTL" scale="m" range min="2022-02-02" max="2022-02-22"></calcite-date-picker>
   </div>`;
 
 export const darkThemeRTL_TestOnly = (): string =>
