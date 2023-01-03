@@ -14,12 +14,12 @@ textarea {
   min-inline-size: theme("spacing.48");
   border-block-end: 1px solid var(--calcite-ui-border-3);
   &:focus {
-    @apply outline-none border-color-brand border-2 border-solid border-b-2;
+    @apply focus-inset;
   }
   &.textarea--invalid {
     @apply border-color-danger border border-solid border-b;
     &:focus {
-      @apply border-color-danger border-2 border-solid;
+      @apply focus-inset-danger;
     }
   }
   &.footer-slotted {

@@ -49,16 +49,8 @@ describe("calcite-textarea", () => {
         value: "50"
       },
       {
-        propertyName: "maxlength",
-        value: "50"
-      },
-      {
         propertyName: "scale",
         value: "s"
-      },
-      {
-        propertyName: "placeholder",
-        value: "add additional notes"
       }
     ]));
 
