@@ -36,14 +36,15 @@ class DomSwapper extends HTMLElement {
    * @param context
    */
   moveTo(context: DomContext): void {
-    if (context === "light") {
+    if (context === "light" && this.shadowRoot?.children) {
       this.append(...Array.from(this.shadowRoot.children).filter((node) => node !== this._slot));
       this._context = "light";
     } else {
       if (!this._headStyles) {
         this._headStyles = this.recreateDemoStyle();
       }
-      this.shadowRoot.append(...this._headStyles, ...this.shadowRoot.querySelector("slot").assignedNodes());
+      const slot = this.shadowRoot?.querySelector("slot");
+      slot && this.shadowRoot?.append(...this._headStyles, ...slot.assignedNodes());
       this._context = "shadow";
     }
   }

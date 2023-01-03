@@ -355,7 +355,7 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
   //
   //--------------------------------------------------------------------------
 
-  /** Sets focus on the component. */
+  /** Sets focus on the component's "close" button (the first focusable item). */
   @Method()
   async setFocus(): Promise<void> {
     await componentLoaded(this);
