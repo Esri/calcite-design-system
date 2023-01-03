@@ -55,14 +55,13 @@
       }
     },
     "foreground": {
-        "light": {
-          "value": "$semantic.ui.color.foreground.2.light",
-          "type": "color"
-        },
-        "dark": {
-          "value": "$semantic.ui.color.foreground.2.dark",
-          "type": "color"
-        }
+      "light": {
+        "value": "$semantic.ui.color.foreground.2.light",
+        "type": "color"
+      },
+      "dark": {
+        "value": "$semantic.ui.color.foreground.2.dark",
+        "type": "color"
       }
     },
     "border-radius": {

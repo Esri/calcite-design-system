@@ -5,21 +5,8 @@
     "selectedTokenSets": {
       "core": "source",
       "semantic": "source",
-      "calcite/light": "disabled",
-      "calcite/dark": "disabled",
       "brand/global": "enabled",
-      "brand/light": "enabled",
-      "brand/dark": "disabled",
-      "component/label": "disabled",
-      "component/tooltip": "disabled",
-      "component/input-time": "disabled",
-      "component/switch": "disabled",
-      "component/input-message": "disabled",
-      "component/accordion-item": "disabled",
-      "component/alert": "disabled",
-      "component/accordion": "disabled",
-      "component/accordion_backup": "disabled",
-      "component/tip": "disabled"
+      "brand/light": "enabled"
     },
     "$figmaStyleReferences": {}
   },
@@ -29,21 +16,8 @@
     "selectedTokenSets": {
       "core": "source",
       "semantic": "source",
-      "calcite/light": "disabled",
-      "calcite/dark": "disabled",
       "brand/global": "enabled",
-      "brand/light": "disabled",
-      "brand/dark": "enabled",
-      "component/label": "disabled",
-      "component/tooltip": "disabled",
-      "component/input-time": "disabled",
-      "component/switch": "disabled",
-      "component/input-message": "disabled",
-      "component/accordion-item": "disabled",
-      "component/alert": "disabled",
-      "component/accordion": "disabled",
-      "component/accordion_backup": "disabled",
-      "component/tip": "disabled"
+      "brand/dark": "enabled"
     },
     "$figmaStyleReferences": {}
   },
@@ -53,11 +27,7 @@
     "selectedTokenSets": {
       "core": "source",
       "semantic": "source",
-      "brand/light": "disabled",
-      "brand/dark": "disabled",
-      "calcite/light": "disabled",
       "calcite/dark": "enabled",
-      "brand/global": "disabled",
       "component/label": "source",
       "component/avatar": "source",
       "component/checkbox": "source",
@@ -65,15 +35,7 @@
       "component/loader": "source",
       "component/radio": "source",
       "component/rating": "source",
-      "component/tooltip": "source",
-      "component/input-time": "disabled",
-      "component/switch": "disabled",
-      "component/input-message": "disabled",
-      "component/accordion-item": "disabled",
-      "component/alert": "disabled",
-      "component/accordion": "disabled",
-      "component/accordion_backup": "disabled",
-      "component/tip": "disabled"
+      "component/tooltip": "source"
     },
     "$figmaStyleReferences": {
       "color.brand.default": "S:b28244f76fae4e504bbfa18bb30e111e02a00461,",
@@ -142,11 +104,7 @@
     "selectedTokenSets": {
       "core": "source",
       "semantic": "source",
-      "brand/light": "disabled",
-      "brand/dark": "disabled",
       "calcite/light": "enabled",
-      "calcite/dark": "disabled",
-      "brand/global": "disabled",
       "component/label": "source",
       "component/avatar": "source",
       "component/checkbox": "source",
@@ -154,15 +112,7 @@
       "component/loader": "source",
       "component/radio": "source",
       "component/rating": "source",
-      "component/tooltip": "source",
-      "component/input-time": "disabled",
-      "component/switch": "disabled",
-      "component/input-message": "disabled",
-      "component/accordion-item": "disabled",
-      "component/alert": "disabled",
-      "component/accordion": "disabled",
-      "component/accordion_backup": "disabled",
-      "component/tip": "disabled"
+      "component/tooltip": "source"
     },
     "$figmaStyleReferences": {
       "color.brand.default": "S:4ae7e0e0a08b9109fef0b6c2cb45185a3b711de8,",
@@ -234,11 +184,6 @@
     "selectedTokenSets": {
       "core": "enabled",
       "semantic": "enabled",
-      "brand/light": "disabled",
-      "brand/dark": "disabled",
-      "calcite/light": "disabled",
-      "calcite/dark": "disabled",
-      "brand/global": "disabled",
       "component/avatar": "enabled",
       "component/checkbox": "enabled",
       "component/chip": "enabled",
@@ -248,13 +193,12 @@
       "component/label": "enabled",
       "component/tooltip": "enabled",
       "component/input-time": "enabled",
-      "component/[template-comp-name]": "enabled"
+      "component/[template-comp-name]": "enabled",
       "component/switch": "enabled",
       "component/input-message": "enabled",
       "component/accordion-item": "enabled",
       "component/alert": "enabled",
       "component/accordion": "enabled",
-      "component/accordion_backup": "disabled",
       "component/tip": "enabled"
     },
     "$figmaStyleReferences": {
