@@ -240,8 +240,8 @@ export class Textarea
             ref={(el) => (this.footerEl = el as HTMLElement)}
           >
             <slot name={SLOTS.footerLeading} onSlotchange={this.footerTrailingSlotChangeHandler} />
-            {this.renderCharacterLimit()}
             <slot name={SLOTS.footerTrailing} onSlotchange={this.footerLeadingSlotChangeHandler} />
+            {this.renderCharacterLimit()}
           </footer>
         }
         <HiddenFormInputSlot component={this} />
