@@ -121,15 +121,24 @@ export const range = (): string =>
     )}
   </div>`;
 
-export const range_TestOnly = (): string =>
+const selectRangeString = html`
+  <script>
+    let weekDays = document.querySelector(".week-days");
+    weekDays.querySelector("calcite-date-picker-day:first-child").selected = true;
+    weekDays.querySelector("calcite-date-picker-day:last-child").selected = true;
+  </script>
+`;
+export const range = (): string =>
   html`<div style="width: 400px">
-    <calcite-date-picker scale="m" range min="2022-02-02" max="2022-02-22"></calcite-date-picker>
-  </div>`;
+      <calcite-date-picker scale="m" range></calcite-date-picker>
+    </div>
+    ${selectRangeString}`;
 
-export const rangeRTL_TestOnly = (): string =>
+export const rangeRTL = (): string =>
   html`<div style="width: 400px">
-    <calcite-date-picker dir="RTL" scale="m" range min="2022-02-02" max="2022-02-22"></calcite-date-picker>
-  </div>`;
+      <calcite-date-picker dir="RTL" scale="m" range></calcite-date-picker>
+    </div>
+    ${selectRangeString}`;
 
 export const darkThemeRTL_TestOnly = (): string =>
   html`<div style="width: 400px">
