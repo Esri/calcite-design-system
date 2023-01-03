@@ -151,7 +151,7 @@ export class Chip
   //
   //--------------------------------------------------------------------------
 
-  /** Sets focus on the component. */
+  /** When `closable` is `true`, sets focus on the component's "close" button (the first focusable item). */
   @Method()
   async setFocus(): Promise<void> {
     await componentLoaded(this);
