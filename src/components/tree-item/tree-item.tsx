@@ -131,7 +131,6 @@ export class TreeItem
    */
   onBeforeOpen(): void {
     this.transitionEl.style.transform = "scaleY(1)";
-    this.calciteInternalTreeItemBeforeExpanded.emit();
   }
 
   /**
@@ -139,14 +138,13 @@ export class TreeItem
    */
   onOpen(): void {
     this.transitionEl.style.transform = "none";
-    this.calciteInternalTreeItemExpanded.emit();
   }
 
   /**
    * Defines method for `beforeClose` event handler:
    */
   onBeforeClose(): void {
-    this.calciteInternalTreeItemBeforeCollapsed.emit();
+    // pattern needs to be defined on how we emit events for components without `open` prop.
   }
 
   /**
@@ -154,7 +152,6 @@ export class TreeItem
    */
   onClose(): void {
     this.transitionEl.style.transform = "scaleY(0)";
-    this.calciteInternalTreeItemCollapsed.emit();
   }
 
   //--------------------------------------------------------------------------

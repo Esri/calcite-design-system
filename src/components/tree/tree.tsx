@@ -303,26 +303,6 @@ export class Tree {
     }
   }
 
-  // @Listen("calciteInternalTreeItemBeforeExpanded")
-  // beforeExpandHandler(): void {
-  //   this.calciteTreeBeforeExpanded.emit();
-  // }
-
-  // @Listen("calciteInternalTreeItemExpanded")
-  // expandHandler(): void {
-  //   this.calciteTreeExpanded.emit();
-  // }
-
-  // @Listen("calciteInternalTreeItemBeforeCollapsed")
-  // beforeCloseHandler(): void {
-  //   this.calciteTreeBeforeCollapsed.emit();
-  // }
-
-  // @Listen("calciteInternalTreeItemCollapsed")
-  // closeHandler(): void {
-  //   this.calciteTreeCollapsed.emit();
-  // }
-
   updateAncestorTree(event: CustomEvent<TreeItemSelectDetail>): void {
     const item = event.target as HTMLCalciteTreeItemElement;
 
@@ -408,18 +388,6 @@ export class Tree {
    * Fires when the user selects/deselects `calcite-tree-items`.
    */
   @Event({ cancelable: false }) calciteTreeSelect: EventEmitter<void>;
-
-  // /** Fires when the component is requested to be collapsed and before the closing transition begins. */
-  // @Event({ cancelable: false }) calciteTreeBeforeCollapsed: EventEmitter<void>;
-
-  // /** Fires when the component is collapsed and animation is complete. */
-  // @Event({ cancelable: false }) calciteTreeCollapsed: EventEmitter<void>;
-
-  // /** Fires when the component is added to the DOM but not rendered, and before expanding transition begins. */
-  // @Event({ cancelable: false }) calciteTreeBeforeExpanded: EventEmitter<void>;
-
-  // /** Fires when the component is expanded and animation is complete. */
-  // @Event({ cancelable: false }) calciteTreeExpanded: EventEmitter<void>;
 
   // --------------------------------------------------------------------------
   //
