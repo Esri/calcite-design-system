@@ -602,17 +602,19 @@ export class InputTime implements LabelableComponent, FormComponent, Interactive
 
     this.value = formattedNewValue;
 
-    this.hour = hour;
-    this.localizedHour = localizedHour;
-    this.localizedHourSuffix = getLocaleHourSuffix(this.locale);
-    this.minute = minute;
-    this.localizedMinute = localizedMinute;
-    this.localizedMinuteSuffix = getLocaleMinuteSuffix(this.locale);
-    this.second = second;
-    this.localizedSecond = localizedSecond;
-    this.localizedSecondSuffix = getLocaleSecondSuffix(this.locale);
+    if (context !== "user") {
+      this.hour = hour;
+      this.localizedHour = localizedHour;
+      this.localizedHourSuffix = getLocaleHourSuffix(this.locale);
 
-    if (localizedMeridiem) {
+      this.minute = minute;
+      this.localizedMinute = localizedMinute;
+      this.localizedMinuteSuffix = getLocaleMinuteSuffix(this.locale);
+
+      this.second = second;
+      this.localizedSecond = localizedSecond;
+      this.localizedSecondSuffix = getLocaleSecondSuffix(this.locale);
+
       this.meridiem = getMeridiem(this.hour);
       this.localizedMeridiem = localizedMeridiem;
       const formatParts = getTimeParts({ value: newValue, locale: this.locale });
