@@ -27,12 +27,9 @@ import {
   connectConditionalSlotComponent,
   disconnectConditionalSlotComponent
 } from "../../utils/conditionalSlot";
-import {
-  connectOpenCloseComponent,
-  disconnectOpenCloseComponent,
-  OpenCloseComponent
-} from "../../utils/openCloseComponent";
+
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
 
 /**
  * @slot - A slot for adding text.
@@ -74,7 +71,7 @@ export class TreeItem
   @Watch("expanded")
   expandedHandler(newValue: boolean): void {
     this.updateParentIsExpanded(this.el, newValue);
-    this.transitionEl.style.transform = "scaleY(1)";
+    onToggleOpenCloseComponent(this);
   }
 
   /**
@@ -120,7 +117,7 @@ export class TreeItem
       this.selectionMode === "multiple" || this.selectionMode === "multichildren";
   }
 
-  openTransitionProp = "transform";
+  openTransitionProp = "opacity";
 
   transitionProp = "expanded";
 
@@ -133,6 +130,7 @@ export class TreeItem
    * Defines method for `beforeOpen` event handler.
    */
   onBeforeOpen(): void {
+    this.transitionEl.style.transform = "scaleY(1)";
     this.calciteInternalTreeItemBeforeExpanded.emit();
   }
 
@@ -148,7 +146,7 @@ export class TreeItem
    * Defines method for `beforeClose` event handler:
    */
   onBeforeClose(): void {
-    this.calciteInternalTreeItemBeforeClose.emit();
+    this.calciteInternalTreeItemBeforeCollapsed.emit();
   }
 
   /**
@@ -156,7 +154,7 @@ export class TreeItem
    */
   onClose(): void {
     this.transitionEl.style.transform = "scaleY(0)";
-    this.calciteInternalTreeItemClose.emit();
+    this.calciteInternalTreeItemCollapsed.emit();
   }
 
   //--------------------------------------------------------------------------
@@ -172,12 +170,10 @@ export class TreeItem
       this.updateParentIsExpanded(this.parentTreeItem, expanded);
     }
     connectConditionalSlotComponent(this);
-    connectOpenCloseComponent(this);
   }
 
   disconnectedCallback(): void {
     disconnectConditionalSlotComponent(this);
-    disconnectOpenCloseComponent(this);
   }
 
   componentWillRender(): void {
@@ -202,6 +198,12 @@ export class TreeItem
         parentTree = nextParentTree;
         this.depth = this.depth + 1;
       }
+    }
+  }
+
+  componentWillLoad(): void {
+    if (this.expanded) {
+      onToggleOpenCloseComponent(this);
     }
   }
 
@@ -313,7 +315,6 @@ export class TreeItem
 
   setTransitionEl(el: HTMLDivElement): void {
     this.transitionEl = el;
-    connectOpenCloseComponent(this);
   }
 
   //--------------------------------------------------------------------------
@@ -421,12 +422,13 @@ export class TreeItem
    * @internal
    */
   @Event({ cancelable: false, composed: true })
-  calciteInternalTreeItemBeforeClose: EventEmitter<void>;
+  calciteInternalTreeItemBeforeCollapsed: EventEmitter<void>;
 
   /**
    * @internal
    */
-  @Event({ cancelable: false, composed: true }) calciteInternalTreeItemClose: EventEmitter<void>;
+  @Event({ cancelable: false, composed: true })
+  calciteInternalTreeItemCollapsed: EventEmitter<void>;
 
   /**
    * @internal
