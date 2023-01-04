@@ -35,7 +35,7 @@ import {
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 
 /**
- * @slot - A slot for adding the component's content.
+ * @slot - A slot for adding text.
  * @slot children - A slot for adding nested `calcite-tree` elements.
  */
 @Component({

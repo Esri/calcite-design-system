@@ -22,9 +22,9 @@ The `calcite-block-section` component is a child element of `calcite-block`. Sec
 
 ## Slots
 
-| Slot | Description                                 |
-| ---- | ------------------------------------------- |
-|      | A slot for adding content to the component. |
+| Slot | Description                       |
+| ---- | --------------------------------- |
+|      | A slot for adding custom content. |
 
 ## Dependencies
 
