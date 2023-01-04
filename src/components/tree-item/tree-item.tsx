@@ -71,7 +71,7 @@ export class TreeItem
   @Watch("expanded")
   expandedHandler(newValue: boolean): void {
     this.updateParentIsExpanded(this.el, newValue);
-    onToggleOpenCloseComponent(this);
+    onToggleOpenCloseComponent(this, true);
   }
 
   /**
@@ -203,7 +203,7 @@ export class TreeItem
 
   componentWillLoad(): void {
     if (this.expanded) {
-      onToggleOpenCloseComponent(this);
+      onToggleOpenCloseComponent(this, true);
     }
   }
 
