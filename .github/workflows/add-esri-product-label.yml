@@ -58,15 +58,14 @@ jobs:
 
               /** remove any existing product label(s) */
               const existingProductLabels = currentLabels
-                .filter((l) => /Issues logged by/.test(l.description))
-                .map((l) => l.name)
+                .filter((l) => /Issues logged by/.test(l.description) && l.name !== product)
                 .forEach(
-                  async (name) =>
+                  async (l) =>
                     await github.rest.issues.removeLabel({
                       issue_number,
                       owner,
                       repo,
-                      name,
+                      name: l.name,
                     })
                 );
 
