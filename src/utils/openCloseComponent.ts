@@ -122,7 +122,7 @@ export function connectOpenCloseComponent(component: OpenCloseComponent): void {
   disconnectOpenCloseComponent(component);
   if (component.transitionEl) {
     const boundOnTransitionStart: (event: TransitionEvent) => void = transitionStart.bind(component);
-    const boundOnTransitionEnd: (event: PageTransitionEventInit) => void = transitionEnd.bind(component);
+    const boundOnTransitionEnd: (event: TransitionEvent) => void = transitionEnd.bind(component);
 
     componentToTransitionListeners.set(component, [
       component.transitionEl,

@@ -18,7 +18,6 @@ import {
   getSlotted,
   toAriaBoolean
 } from "../../utils/dom";
-
 import { Scale, SelectionMode } from "../interfaces";
 import { CSS, SLOTS, ICONS } from "./resources";
 import { CSS_UTILITY } from "../../utils/resources";
@@ -27,7 +26,6 @@ import {
   connectConditionalSlotComponent,
   disconnectConditionalSlotComponent
 } from "../../utils/conditionalSlot";
-
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
 
@@ -414,29 +412,6 @@ export class TreeItem
    * @internal
    */
   @Event({ cancelable: false }) calciteInternalTreeItemSelect: EventEmitter<TreeItemSelectDetail>;
-
-  /**
-   * @internal
-   */
-  @Event({ cancelable: false, composed: true })
-  calciteInternalTreeItemBeforeCollapsed: EventEmitter<void>;
-
-  /**
-   * @internal
-   */
-  @Event({ cancelable: false, composed: true })
-  calciteInternalTreeItemCollapsed: EventEmitter<void>;
-
-  /**
-   * @internal
-   */
-  @Event({ cancelable: false, composed: true })
-  calciteInternalTreeItemBeforeExpanded: EventEmitter<void>;
-
-  /**
-   * @internal
-   */
-  @Event({ cancelable: false, composed: true }) calciteInternalTreeItemExpanded: EventEmitter<void>;
 
   //--------------------------------------------------------------------------
   //
