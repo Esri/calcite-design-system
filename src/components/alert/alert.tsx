@@ -168,7 +168,7 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
       window.clearTimeout(this.autoCloseTimeoutId);
       this.autoCloseTimeoutId = window.setTimeout(
         () => this.closeAlert(),
-        DURATIONS[this.autoCloseDuration] - (Date.now() - this.initialOpenTime)
+        DURATIONS[this.autoCloseDuration]
       );
     }
   }
@@ -436,6 +436,7 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
     if (this.queue?.[0] === this.el) {
       this.openAlert();
       if (this.autoClose && !this.autoCloseTimeoutId) {
+        this.initialOpenTime = Date.now();
         this.autoCloseTimeoutId = window.setTimeout(
           () => this.closeAlert(),
           DURATIONS[this.autoCloseDuration]
@@ -476,7 +477,6 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
   private openAlert(): void {
     window.clearTimeout(this.queueTimeout);
     this.queueTimeout = window.setTimeout(() => (this.queued = false), 300);
-    this.initialOpenTime = Date.now();
   }
 
   private actionsEndSlotChangeHandler = (event: Event): void => {
