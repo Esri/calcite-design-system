@@ -436,6 +436,82 @@
           "value": "$accordion-item.border.light",
           "type": "color"
         }
+      },
+      "input-message": {
+        "font": {
+          "value": "$input-message.font.light",
+          "type": "color"
+        },
+        "icon": {
+          "idle": {
+            "value": "$input-message.icon.idle.light",
+            "type": "color"
+          },
+          "invalid": {
+            "value": "$semantic.ui.color.danger.default.light",
+            "type": "color"
+          },
+          "valid": {
+            "value": "$semantic.ui.color.success.default.light",
+            "type": "color"
+          }
+        }
+      },
+      "alert": {
+        "font": {
+          "title": {
+            "value": "$alert.font.title.light",
+            "type": "color"
+          },
+          "message": {
+            "value": "$alert.font.message.light",
+            "type": "color"
+          }
+        },
+        "background": {
+          "value": "$alert.background.light",
+          "type": "color"
+        },
+        "border": {
+          "value": "$alert.border.light",
+          "type": "color"
+        },
+        "icon": {
+          "blue": {
+            "value": "$alert.icon.blue.light",
+            "type": "color"
+          },
+          "green": {
+            "value": "$alert.icon.green.light",
+            "type": "color"
+          },
+          "yellow": {
+            "value": "$alert.icon.yellow.light",
+            "type": "color"
+          },
+          "red": {
+            "value": "$alert.icon.red.light",
+            "type": "color"
+          }
+        },
+        "highlight": {
+          "blue": {
+            "value": "$alert.highlight.blue.light",
+            "type": "color"
+          },
+          "green": {
+            "value": "$alert.highlight.green.light",
+            "type": "color"
+          },
+          "yellow": {
+            "value": "$alert.highlight.yellow.light",
+            "type": "color"
+          },
+          "red": {
+            "value": "$alert.highlight.red.light",
+            "type": "color"
+          }
+        }
       }
     }
   }

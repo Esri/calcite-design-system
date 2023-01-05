@@ -1,17 +1,15 @@
 {
   "alert": {
-    "title": {
-      "light": {
-        "value": "$semantic.ui.color.text.1.light",
-        "type": "color"
-      },
-      "dark": {
-        "value": "$semantic.ui.color.text.1.dark",
-        "type": "color"
-      }
-    },
     "font": {
       "title": {
+        "light": {
+          "value": "$semantic.ui.color.text.1.light",
+          "type": "color"
+        },
+        "dark": {
+          "value": "$semantic.ui.color.text.1.dark",
+          "type": "color"
+        },
         "sm": {
           "value": "$semantic.font.default.bold.-1h",
           "type": "typography"
@@ -37,17 +35,15 @@
         "lg": {
           "value": "$semantic.font.default.bold.0h",
           "type": "typography"
+        },
+        "light": {
+          "value": "$semantic.ui.color.text.3.light",
+          "type": "color"
+        },
+        "dark": {
+          "value": "$semantic.ui.color.text.3.dark",
+          "type": "color"
         }
-      }
-    },
-    "message": {
-      "light": {
-        "value": "$semantic.ui.color.text.3.light",
-        "type": "color"
-      },
-      "dark": {
-        "value": "$semantic.ui.color.text.3.dark",
-        "type": "color"
       }
     },
     "background": {

@@ -436,6 +436,26 @@
           "value": "$accordion-item.border.dark",
           "type": "color"
         }
+      },
+      "input-message": {
+        "font": {
+          "value": "$input-message.font.dark",
+          "type": "color"
+        },
+        "icon": {
+          "idle": {
+            "value": "$input-message.icon.idle.dark",
+            "type": "color"
+          },
+          "invalid": {
+            "value": "$input-message.icon.invalid.dark",
+            "type": "color"
+          },
+          "valid": {
+            "value": "$input-message.icon.valid.dark",
+            "type": "color"
+          }
+        }
       }
     }
   }
