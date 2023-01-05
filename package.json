@@ -129,7 +129,7 @@
     "eslint-plugin-unicorn": "45.0.2",
     "gh-release": "6.0.4",
     "git-semver-tags": "4.1.1",
-    "husky": "8.0.2",
+    "husky": "8.0.3",
     "jest": "27.4.5",
     "jest-axe": "7.0.0",
     "jest-cli": "27.4.5",
