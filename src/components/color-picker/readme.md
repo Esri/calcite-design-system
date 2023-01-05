@@ -46,7 +46,7 @@ For a minimal design, you can hide unused color formats and options:
 
 ### `setFocus() => Promise<void>`
 
-Sets focus on the component.
+Sets focus on the component's first focusable element.
 
 #### Returns
 

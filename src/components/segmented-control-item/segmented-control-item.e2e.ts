@@ -1,15 +1,15 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { renders, hidden } from "../../tests/commonTests";
 
-describe("calcite-radio-group-item", () => {
-  it("renders", () => renders("calcite-radio-group-item", { display: "flex" }));
+describe("calcite-segmented-control-item", () => {
+  it("renders", () => renders("calcite-segmented-control-item", { display: "flex" }));
 
-  it("honors hidden attribute", async () => hidden("calcite-radio-group-item"));
+  it("honors hidden attribute", async () => hidden("calcite-segmented-control-item"));
 
   it("is un-checked by default", async () => {
     const page = await newE2EPage();
-    await page.setContent("<calcite-radio-group-item value='test-value'></calcite-radio-group-item>");
-    const element = await page.find("calcite-radio-group-item");
+    await page.setContent("<calcite-segmented-control-item value='test-value'></calcite-segmented-control-item>");
+    const element = await page.find("calcite-segmented-control-item");
 
     const checked = await element.getProperty("checked");
     expect(checked).toBe(false);
@@ -17,8 +17,10 @@ describe("calcite-radio-group-item", () => {
 
   it("supports value, label and checked", async () => {
     const page = await newE2EPage();
-    await page.setContent("<calcite-radio-group-item value='test-value' checked>test-label</calcite-radio-group-item>");
-    const element = await page.find("calcite-radio-group-item");
+    await page.setContent(
+      "<calcite-segmented-control-item value='test-value' checked>test-label</calcite-segmented-control-item>"
+    );
+    const element = await page.find("calcite-segmented-control-item");
 
     expect(element).toEqualText("test-label");
 
@@ -31,33 +33,35 @@ describe("calcite-radio-group-item", () => {
 
   it("uses value as fallback label", async () => {
     const page = await newE2EPage();
-    await page.setContent("<calcite-radio-group-item value='test-value' checked></calcite-radio-group-item>");
+    await page.setContent(
+      "<calcite-segmented-control-item value='test-value' checked></calcite-segmented-control-item>"
+    );
 
-    const label = await page.find("calcite-radio-group-item >>> label");
+    const label = await page.find("calcite-segmented-control-item >>> label");
     expect(label).toEqualText("test-value");
   });
 
   it("renders icon at start if requested", async () => {
     const page = await newE2EPage();
     await page.setContent(`
-    <calcite-radio-group-item icon-start="car">Content</calcite-accordion-item>`);
-    const icon = await page.find("calcite-radio-group-item >>> .radio-group-item-icon");
+    <calcite-segmented-control-item icon-start="car">Content</calcite-accordion-item>`);
+    const icon = await page.find("calcite-segmented-control-item >>> .segmented-control-item-icon");
     expect(icon).not.toBe(null);
   });
 
   it("does not render icon if not requested", async () => {
     const page = await newE2EPage();
     await page.setContent(`
-    <calcite-radio-group-item>Content</calcite-accordion-item>`);
-    const icon = await page.find("calcite-radio-group-item >>> .radio-group-item-icon");
+    <calcite-segmented-control-item>Content</calcite-accordion-item>`);
+    const icon = await page.find("calcite-segmented-control-item >>> .segmented-control-item-icon");
     expect(icon).toBe(null);
   });
 
   describe("WAI-ARIA Roles, States, and Properties", () => {
     it(`has a role of 'radio'`, async () => {
       const page = await newE2EPage();
-      await page.setContent("<calcite-radio-group-item></calcite-radio-group-item>");
-      const element = await page.find("calcite-radio-group-item");
+      await page.setContent("<calcite-segmented-control-item></calcite-segmented-control-item>");
+      const element = await page.find("calcite-segmented-control-item");
 
       const role = element.getAttribute("role");
 
@@ -66,8 +70,8 @@ describe("calcite-radio-group-item", () => {
 
     it(`updates 'aria-checked' based on 'checked' property`, async () => {
       const page = await newE2EPage();
-      await page.setContent("<calcite-radio-group-item></calcite-radio-group-item>");
-      const element = await page.find("calcite-radio-group-item");
+      await page.setContent("<calcite-segmented-control-item></calcite-segmented-control-item>");
+      const element = await page.find("calcite-segmented-control-item");
 
       let ariaChecked = element.getAttribute("aria-checked");
 
@@ -90,17 +94,17 @@ describe("calcite-radio-group-item", () => {
 
     it("content/value is wrapped by label", async () => {
       const page = await newE2EPage();
-      await page.setContent("<calcite-radio-group-item></calcite-radio-group-item>");
-      const defaultSlot = await page.find("calcite-radio-group-item >>> label slot");
+      await page.setContent("<calcite-segmented-control-item></calcite-segmented-control-item>");
+      const defaultSlot = await page.find("calcite-segmented-control-item >>> label slot");
 
       expect(defaultSlot).toBeDefined();
     });
 
     it("renders default prop values", async () => {
       const page = await newE2EPage();
-      await page.setContent("<calcite-radio-group-item></calcite-radio-group-item>");
+      await page.setContent("<calcite-segmented-control-item></calcite-segmented-control-item>");
 
-      const element = await page.find("calcite-radio-group-item");
+      const element = await page.find("calcite-segmented-control-item");
       expect(element).not.toHaveAttribute("checked");
       expect(element).not.toHaveAttribute("icon-flip-rtl");
       expect(element).not.toHaveAttribute("value");

@@ -104,7 +104,7 @@ export class List implements InteractiveComponent, LoadableComponent {
   @Prop() openable = false;
 
   /**
-   * **read-only** The currently selected items
+   * The currently selected items.
    *
    * @readonly
    */

@@ -79,7 +79,7 @@ Type: `Promise<Map<string, HTMLCalciteValueListItemElement>>`
 
 ### `setFocus(focusId?: ListFocusId) => Promise<void>`
 
-Sets focus on the component.
+Sets focus on the component's first focusable element.
 
 #### Returns
 
