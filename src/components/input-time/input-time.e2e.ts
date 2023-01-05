@@ -68,7 +68,7 @@ describe("calcite-input-time", () => {
     expect(await component.getProperty("value")).toBeNull();
   });
 
-  it("programmatically changing the value reflects in the UI for da lang (24-hour with period delimiter)", async () => {
+  it("directly changing the value reflects in the UI for da lang (24-hour with period delimiter)", async () => {
     const lang = "da";
     const page = await newE2EPage({
       html: `<calcite-input-time lang="${lang}"" step="1"></calcite-input-time>`
@@ -98,7 +98,7 @@ describe("calcite-input-time", () => {
     expect(await secondEl.getProperty("textContent")).toEqualText(localizedSecond);
   });
 
-  it("programmatically changing the value reflects in the UI for da lang (24-hour with period delimiter) when default value is present", async () => {
+  it("directly changing the value reflects in the UI for da lang (24-hour with period delimiter) when default value is present", async () => {
     const lang = "da";
     const defaultHour = "14";
     const defaultMinute = "59";
@@ -132,7 +132,7 @@ describe("calcite-input-time", () => {
     expect(await secondEl.getProperty("textContent")).toEqualText(localizedSecond);
   });
 
-  it("programmatically changing the value reflects in the UI for en lang (12-hour)", async () => {
+  it("directly changing the value reflects in the UI for en lang (12-hour)", async () => {
     const lang = "en";
     const page = await newE2EPage({
       html: `<calcite-input-time lang=${lang} step="1"></calcite-input-time>`
@@ -162,7 +162,7 @@ describe("calcite-input-time", () => {
     expect(await secondEl.getProperty("textContent")).toEqualText(localizedSecond);
   });
 
-  it("programmatically changing the value reflects in the UI for en lang (12-hour) when a default value is present", async () => {
+  it("directly changing the value reflects in the UI for en lang (12-hour) when a default value is present", async () => {
     const lang = "en";
     const defaultHour = "14";
     const defaultMinute = "59";

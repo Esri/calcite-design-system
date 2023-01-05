@@ -174,7 +174,7 @@ export class InputTime implements LabelableComponent, FormComponent, Interactive
 
   private previousEmittedValue: string;
 
-  private previousValue: string = null;
+  private previousValue: string;
 
   private secondEl: HTMLSpanElement;
 
@@ -630,7 +630,6 @@ export class InputTime implements LabelableComponent, FormComponent, Interactive
         this.userChangedValue = false;
         this.value = oldValue;
         this.previousValue = oldValue;
-        // TODO: reset localized values here when the change event's default behavior is prevented
       } else {
         this.previousValue = formattedNewValue;
       }
