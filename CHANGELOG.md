@@ -11,13 +11,11 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 - **panel, shell-panel, flow-item:** Update available css variables
 
-* Removes `heightScale` and `widthScale` properties from Panel and Flow
-  Item
-* Removes css variables for Panel - the component will now fill
-  available width of parent component.
-* Documents public css variables for Shell Panel.
-
-Co-authored-by: Ben Elan <belan@esri.com>
+  - Removes `heightScale` and `widthScale` properties from Panel and Flow
+    Item.
+  - Removes css variables for Panel - the component will now fill
+    available width of parent component.
+  - Documents public css variables for Shell Panel.
 
 - **modal, panel, popover**: Removed `focusId` parameter from `setFocus` methods.
   When the `setFocus` method is called the first focusable element will be
