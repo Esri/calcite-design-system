@@ -56,6 +56,8 @@ There is no need to set a theme or scale on the `<calcite-inline-editable>` comp
 
 ### `setFocus() => Promise<void>`
 
+Sets focus on the component.
+
 #### Returns
 
 Type: `Promise<void>`
