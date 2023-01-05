@@ -2090,29 +2090,29 @@
           </calcite-label>
           <calcite-label layout="inline">
             <span> Change scale: </span>
-            <calcite-radio-group id="scale-group">
-              <calcite-radio-group-item value="s">s</calcite-radio-group-item>
-              <calcite-radio-group-item value="m" checked>m</calcite-radio-group-item>
-              <calcite-radio-group-item value="l">l</calcite-radio-group-item>
-            </calcite-radio-group>
+            <calcite-segmented-control id="scale-group">
+              <calcite-segmented-control-item value="s">s</calcite-segmented-control-item>
+              <calcite-segmented-control-item value="m" checked>m</calcite-segmented-control-item>
+              <calcite-segmented-control-item value="l">l</calcite-segmented-control-item>
+            </calcite-segmented-control>
           </calcite-label>
           <calcite-label layout="inline">
             <span> Change appearance: </span>
-            <calcite-radio-group id="appearance-group">
-              <calcite-radio-group-item value="solid" checked>solid</calcite-radio-group-item>
-              <calcite-radio-group-item value="outline">outline</calcite-radio-group-item>
-              <calcite-radio-group-item value="outline-fill">outline-fill</calcite-radio-group-item>
-              <calcite-radio-group-item value="transparent">transparent</calcite-radio-group-item>
-            </calcite-radio-group>
+            <calcite-segmented-control id="appearance-group">
+              <calcite-segmented-control-item value="solid" checked>solid</calcite-segmented-control-item>
+              <calcite-segmented-control-item value="outline">outline</calcite-segmented-control-item>
+              <calcite-segmented-control-item value="outline-fill">outline-fill</calcite-segmented-control-item>
+              <calcite-segmented-control-item value="transparent">transparent</calcite-segmented-control-item>
+            </calcite-segmented-control>
           </calcite-label>
           <calcite-label layout="inline">
             <span> Change kind: </span>
-            <calcite-radio-group id="kind-group">
-              <calcite-radio-group-item value="brand">brand</calcite-radio-group-item>
-              <calcite-radio-group-item value="neutral">neutral</calcite-radio-group-item>
-              <calcite-radio-group-item value="inverse">inverse</calcite-radio-group-item>
-              <calcite-radio-group-item value="danger" checked>danger</calcite-radio-group-item>
-            </calcite-radio-group>
+            <calcite-segmented-control id="kind-group">
+              <calcite-segmented-control-item value="brand">brand</calcite-segmented-control-item>
+              <calcite-segmented-control-item value="neutral">neutral</calcite-segmented-control-item>
+              <calcite-segmented-control-item value="inverse">inverse</calcite-segmented-control-item>
+              <calcite-segmented-control-item value="danger" checked>danger</calcite-segmented-control-item>
+            </calcite-segmented-control>
           </calcite-label>
           <script>
             const loadingSwitch = document.querySelector("#loading-switch");
