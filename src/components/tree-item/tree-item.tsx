@@ -18,7 +18,6 @@ import {
   getSlotted,
   toAriaBoolean
 } from "../../utils/dom";
-
 import { Scale, SelectionMode } from "../interfaces";
 import { CSS, SLOTS, ICONS } from "./resources";
 import { CSS_UTILITY } from "../../utils/resources";
@@ -28,6 +27,7 @@ import {
   disconnectConditionalSlotComponent
 } from "../../utils/conditionalSlot";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
 
 /**
  * @slot - A slot for adding text.
@@ -38,7 +38,9 @@ import { InteractiveComponent, updateHostInteraction } from "../../utils/interac
   styleUrl: "tree-item.scss",
   shadow: true
 })
-export class TreeItem implements ConditionalSlotComponent, InteractiveComponent {
+export class TreeItem
+  implements ConditionalSlotComponent, InteractiveComponent, OpenCloseComponent
+{
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -67,6 +69,7 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
   @Watch("expanded")
   expandedHandler(newValue: boolean): void {
     this.updateParentIsExpanded(this.el, newValue);
+    onToggleOpenCloseComponent(this, true);
   }
 
   /**
@@ -112,6 +115,43 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
       this.selectionMode === "multiple" || this.selectionMode === "multichildren";
   }
 
+  openTransitionProp = "opacity";
+
+  transitionProp = "expanded";
+
+  /**
+   * Specifies element that the transition is allowed to emit on.
+   */
+  transitionEl: HTMLDivElement;
+
+  /**
+   * Defines method for `beforeOpen` event handler.
+   */
+  onBeforeOpen(): void {
+    this.transitionEl.style.transform = "scaleY(1)";
+  }
+
+  /**
+   * Defines method for `open` event handler:
+   */
+  onOpen(): void {
+    this.transitionEl.style.transform = "none";
+  }
+
+  /**
+   * Defines method for `beforeClose` event handler:
+   */
+  onBeforeClose(): void {
+    // pattern needs to be defined on how we emit events for components without `open` prop.
+  }
+
+  /**
+   * Defines method for `close` event handler:
+   */
+  onClose(): void {
+    this.transitionEl.style.transform = "scaleY(0)";
+  }
+
   //--------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -153,6 +193,12 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
         parentTree = nextParentTree;
         this.depth = this.depth + 1;
       }
+    }
+  }
+
+  componentWillLoad(): void {
+    if (this.expanded) {
+      onToggleOpenCloseComponent(this, true);
     }
   }
 
@@ -253,13 +299,17 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
           }}
           data-test-id="calcite-tree-children"
           onClick={this.childrenClickHandler}
-          ref={(el) => (this.childrenSlotWrapper = el as HTMLElement)}
+          ref={(el) => this.setTransitionEl(el)}
           role={this.hasChildren ? "group" : undefined}
         >
           <slot name={SLOTS.children} />
         </div>
       </Host>
     );
+  }
+
+  setTransitionEl(el: HTMLDivElement): void {
+    this.transitionEl = el;
   }
 
   //--------------------------------------------------------------------------
