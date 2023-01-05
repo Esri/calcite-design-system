@@ -9,21 +9,19 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ### ⚠ BREAKING CHANGES
 
-- **radio-group, radio-group-item:** Renames radio group components
+- **radio-group, radio-group-item:** Renames radio group components.
 
-* `calcite-radio-group` has been renamed to `calcite-segmented-control`
-* `calcite-radio-group-item` has been renamed to
-  `calcite-segmented-control-item`
+  - `calcite-radio-group` has been renamed to `calcite-segmented-control`.
+  - `calcite-radio-group-item` has been renamed to
+    `calcite-segmented-control-item`.
 
-* **panel, shell-panel, flow-item:** Update available css variables
+- **panel, shell-panel, flow-item:** Update available css variables.
 
-- Removes `heightScale` and `widthScale` properties from Panel and Flow
-  Item
-- Removes css variables for Panel - the component will now fill
-  available width of parent component.
-- Documents public css variables for Shell Panel.
-
-Co-authored-by: Ben Elan <belan@esri.com>
+  - Removes `heightScale` and `widthScale` properties from Panel and Flow
+    Item.
+  - Removes css variables for Panel - the component will now fill
+    available width of parent component.
+  - Documents public css variables for Shell Panel.
 
 - **modal, panel, popover**: Removed `focusId` parameter from `setFocus` methods.
   When the `setFocus` method is called the first focusable element will be
