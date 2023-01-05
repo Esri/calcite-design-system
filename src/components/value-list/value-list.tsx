@@ -87,14 +87,14 @@ export class ValueList<
   @Prop({ reflect: true }) dragEnabled = false;
 
   /**
-   * **read-only** The currently filtered items
+   * The currently filtered items.
    *
    * @readonly
    */
   @Prop({ mutable: true }) filteredItems: HTMLCalciteValueListItemElement[] = [];
 
   /**
-   * **read-only** The currently filtered items
+   * The currently filtered data.
    *
    * @readonly
    */
