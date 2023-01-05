@@ -88,7 +88,7 @@ export const OverflowingSubtree_TestOnly = (): string =>
         <calcite-tree slot="children">
           <calcite-tree-item>
             <span class="title">Layer 2.1</span>
-            <calcite-dropdown placement="bottom-trailing" id="trigger">
+            <calcite-dropdown placement="bottom-trailing">
               <calcite-button
                 appearance="transparent"
                 color="neutral"
@@ -105,17 +105,13 @@ export const OverflowingSubtree_TestOnly = (): string =>
       </calcite-tree-item>
       <calcite-tree-item>
         <span class="title">Layer 3</span>
-        <calcite-dropdown placement="bottom-trailing">
-          <calcite-button
-            appearance="transparent"
-            color="neutral"
-            icon-start="ellipsis"
-            slot="trigger"
-          ></calcite-button>
-        </calcite-dropdown>
       </calcite-tree-item>
     </calcite-tree>
     <script>
-      const dorpdownTriggerEl = document.querySelector("calcite-button#trigger");
-      dorpdownTriggerEl.click();
+      window.addEventListener("load", () => {
+        setTimeout(() => {
+          const dorpdownTriggerEl = document.querySelector("calcite-button#trigger");
+          dorpdownTriggerEl.click();
+        }, 150);
+      });
     </script>`;
