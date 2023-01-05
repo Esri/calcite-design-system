@@ -17,12 +17,12 @@ export const simple = (): string => html`
       <calcite-switch></calcite-switch>
     </calcite-label>
     <calcite-label>
-      Default label wrapping a radio group
-      <calcite-radio-group>
-        <calcite-radio-group-item value="react" checked>React</calcite-radio-group-item>
-        <calcite-radio-group-item value="ember">Ember</calcite-radio-group-item>
-        <calcite-radio-group-item value="angular">Angular</calcite-radio-group-item>
-      </calcite-radio-group>
+      Default label wrapping a segmented control
+      <calcite-segmented-control>
+        <calcite-segmented-control-item value="react" checked>React</calcite-segmented-control-item>
+        <calcite-segmented-control-item value="ember">Ember</calcite-segmented-control-item>
+        <calcite-segmented-control-item value="angular">Angular</calcite-segmented-control-item>
+      </calcite-segmented-control>
     </calcite-label>
     <calcite-label layout="inline">
       Text leading inline
@@ -87,12 +87,12 @@ export const darkThemeRTL_TestOnly = (): string => html`
       <calcite-switch></calcite-switch>
     </calcite-label>
     <calcite-label class="calcite-theme-dark">
-      Default label wrapping a radio group
-      <calcite-radio-group>
-        <calcite-radio-group-item value="react" checked>React</calcite-radio-group-item>
-        <calcite-radio-group-item value="ember">Ember</calcite-radio-group-item>
-        <calcite-radio-group-item value="angular">Angular</calcite-radio-group-item>
-      </calcite-radio-group>
+      Default label wrapping a segmented control
+      <calcite-segmented-control>
+        <calcite-segmented-control-item value="react" checked>React</calcite-segmented-control-item>
+        <calcite-segmented-control-item value="ember">Ember</calcite-segmented-control-item>
+        <calcite-segmented-control-item value="angular">Angular</calcite-segmented-control-item>
+      </calcite-segmented-control>
     </calcite-label>
     <calcite-label class="calcite-theme-dark" layout="inline">
       Text leading inline

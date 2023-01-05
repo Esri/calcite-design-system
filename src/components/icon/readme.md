@@ -62,7 +62,7 @@ To use a custom color for the icon fill, you can add a class to the `calcite-ico
 - [calcite-pagination](../pagination)
 - [calcite-pick-list-item](../pick-list-item)
 - [calcite-popover](../popover)
-- [calcite-radio-group-item](../radio-group-item)
+- [calcite-segmented-control-item](../segmented-control-item)
 - [calcite-rating](../rating)
 - [calcite-select](../select)
 - [calcite-stepper-item](../stepper-item)
@@ -102,7 +102,7 @@ graph TD;
   calcite-pagination --> calcite-icon
   calcite-pick-list-item --> calcite-icon
   calcite-popover --> calcite-icon
-  calcite-radio-group-item --> calcite-icon
+  calcite-segmented-control-item --> calcite-icon
   calcite-rating --> calcite-icon
   calcite-select --> calcite-icon
   calcite-stepper-item --> calcite-icon

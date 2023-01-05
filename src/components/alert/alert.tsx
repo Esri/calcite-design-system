@@ -168,7 +168,7 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
       window.clearTimeout(this.autoCloseTimeoutId);
       this.autoCloseTimeoutId = window.setTimeout(
         () => this.closeAlert(),
-        DURATIONS[this.autoCloseDuration] - (Date.now() - this.trackTimer)
+        DURATIONS[this.autoCloseDuration]
       );
     }
   }
@@ -266,8 +266,8 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
             [placement]: true,
             [CSS.slottedInShell]: this.slottedInShell
           }}
-          onPointerOut={this.autoClose && this.autoCloseTimeoutId ? this.handleMouseLeave : null}
-          onPointerOver={this.autoClose && this.autoCloseTimeoutId ? this.handleMouseOver : null}
+          onPointerEnter={this.autoClose && this.autoCloseTimeoutId ? this.handleMouseOver : null}
+          onPointerLeave={this.autoClose && this.autoCloseTimeoutId ? this.handleMouseLeave : null}
           ref={this.setTransitionEl}
         >
           {requestedIcon ? (
@@ -404,9 +404,13 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
 
   private queueTimeout: number;
 
-  private trackTimer: number;
+  private initialOpenTime: number;
 
-  private remainingPausedTimeout = 0;
+  private lastMouseOverBegin: number;
+
+  private totalOpenTime = 0;
+
+  private totalHoverTime = 0;
 
   /** the computed icon to render */
   /* @internal */
@@ -432,7 +436,7 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
     if (this.queue?.[0] === this.el) {
       this.openAlert();
       if (this.autoClose && !this.autoCloseTimeoutId) {
-        this.trackTimer = Date.now();
+        this.initialOpenTime = Date.now();
         this.autoCloseTimeoutId = window.setTimeout(
           () => this.closeAlert(),
           DURATIONS[this.autoCloseDuration]
@@ -481,13 +485,15 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
 
   private handleMouseOver = (): void => {
     window.clearTimeout(this.autoCloseTimeoutId);
-    this.remainingPausedTimeout = DURATIONS[this.autoCloseDuration] - Date.now() - this.trackTimer;
+    this.totalOpenTime = Date.now() - this.initialOpenTime;
+    this.lastMouseOverBegin = Date.now();
   };
 
   private handleMouseLeave = (): void => {
-    this.autoCloseTimeoutId = window.setTimeout(
-      () => this.closeAlert(),
-      this.remainingPausedTimeout
-    );
+    const hoverDuration = Date.now() - this.lastMouseOverBegin;
+    const timeRemaining =
+      DURATIONS[this.autoCloseDuration] - this.totalOpenTime + this.totalHoverTime;
+    this.totalHoverTime = this.totalHoverTime ? hoverDuration + this.totalHoverTime : hoverDuration;
+    this.autoCloseTimeoutId = window.setTimeout(() => this.closeAlert(), timeRemaining);
   };
 }
