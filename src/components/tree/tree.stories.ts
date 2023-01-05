@@ -81,7 +81,7 @@ export const darkThemeRTL_TestOnly = (): string => html`
 `;
 darkThemeRTL_TestOnly.parameters = { themes: themesDarkDefault };
 
-export const OverflowingSubtree_TestOnly = (): string =>
+export const OverflowingSubtree = (): string =>
   html` <calcite-tree>
       <calcite-tree-item expanded id="two">
         Layer 2
@@ -112,6 +112,6 @@ export const OverflowingSubtree_TestOnly = (): string =>
         setTimeout(() => {
           const dorpdownTriggerEl = document.querySelector("calcite-button#trigger");
           dorpdownTriggerEl.click();
-        }, 150);
+        }, 1000);
       });
     </script>`;
