@@ -13,11 +13,9 @@
 | `disabled`         | `disabled`          | When `true`, interaction is prevented and the component is displayed with lower opacity.      | `boolean`                    | `false`     |
 | `heading`          | `heading`           | The component header text.                                                                    | `string`                     | `undefined` |
 | `headingLevel`     | `heading-level`     | Specifies the number at which section headings should start.                                  | `1 \| 2 \| 3 \| 4 \| 5 \| 6` | `undefined` |
-| `heightScale`      | `height-scale`      | Specifies the maximum height of the component.                                                | `"l" \| "m" \| "s"`          | `undefined` |
 | `loading`          | `loading`           | When `true`, a busy indicator is displayed.                                                   | `boolean`                    | `false`     |
 | `menuOpen`         | `menu-open`         | When `true`, the action menu items in the `header-menu-actions` slot are open.                | `boolean`                    | `false`     |
 | `messageOverrides` | `message-overrides` | Use this property to override individual strings used by the component.                       | `FlowItemMessages`           | `undefined` |
-| `widthScale`       | `width-scale`       | Specifies the width of the component.                                                         | `"l" \| "m" \| "s"`          | `undefined` |
 
 ## Events
 
