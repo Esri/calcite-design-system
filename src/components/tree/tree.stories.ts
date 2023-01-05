@@ -44,7 +44,10 @@ const treeItems = `
 export default {
   title: "Components/Tree",
   parameters: {
-    notes: [readme, treeItemReadme]
+    notes: [readme, treeItemReadme],
+    chromatic: {
+      delay: 1000
+    }
   },
   ...storyFilters()
 };
