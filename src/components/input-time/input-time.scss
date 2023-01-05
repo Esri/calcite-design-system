@@ -18,6 +18,10 @@
       border-solid
       relative;
 
+    &:focus-within {
+      box-shadow: inset 0 0 0 1px var(--calcite-ui-brand);
+    }
+
     calcite-icon {
       @apply absolute text-color-3;
     }
@@ -27,7 +31,7 @@
       &:focus,
       &:hover:focus {
         @apply outline-none;
-        box-shadow: inset 0 0 0 2px var(--calcite-ui-brand);
+        background-color: var(--calcite-ui-text-highlight);
       }
     }
 
