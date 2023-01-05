@@ -25,16 +25,16 @@ You can programmatically focus the close button of a `dismissible` `calcite-noti
 
 ## Properties
 
-| Property           | Attribute           | Description                                                                                                           | Type                                                                                | Default     |
-| ------------------ | ------------------- | --------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- | ----------- |
-| `closable`         | `closable`          | When `true`, a close button is added to the component.                                                                | `boolean`                                                                           | `false`     |
-| `icon`             | `icon`              | When `true`, shows a default recommended icon. Alternatively, pass a Calcite UI Icon name to display a specific icon. | `boolean \| string`                                                                 | `undefined` |
-| `iconFlipRtl`      | `icon-flip-rtl`     | When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).                          | `boolean`                                                                           | `false`     |
-| `kind`             | `kind`              | Specifies the kind of the component (will apply to top border and icon).                                              | `"brand" \| "danger" \| "info" \| "inverse" \| "neutral" \| "success" \| "warning"` | `"brand"`   |
-| `messageOverrides` | `message-overrides` | Use this property to override individual strings used by the component.                                               | `NoticeMessages`                                                                    | `undefined` |
-| `open`             | `open`              | When `true`, the component is visible.                                                                                | `boolean`                                                                           | `false`     |
-| `scale`            | `scale`             | Specifies the size of the component.                                                                                  | `"l" \| "m" \| "s"`                                                                 | `"m"`       |
-| `width`            | `width`             | Specifies the width of the component.                                                                                 | `"auto" \| "full" \| "half"`                                                        | `"auto"`    |
+| Property           | Attribute           | Description                                                                                                           | Type                                                      | Default     |
+| ------------------ | ------------------- | --------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------- | ----------- |
+| `closable`         | `closable`          | When `true`, a close button is added to the component.                                                                | `boolean`                                                 | `false`     |
+| `icon`             | `icon`              | When `true`, shows a default recommended icon. Alternatively, pass a Calcite UI Icon name to display a specific icon. | `boolean \| string`                                       | `undefined` |
+| `iconFlipRtl`      | `icon-flip-rtl`     | When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).                          | `boolean`                                                 | `false`     |
+| `kind`             | `kind`              | Specifies the kind of the component (will apply to top border and icon).                                              | `"brand" \| "danger" \| "info" \| "success" \| "warning"` | `"brand"`   |
+| `messageOverrides` | `message-overrides` | Use this property to override individual strings used by the component.                                               | `NoticeMessages`                                          | `undefined` |
+| `open`             | `open`              | When `true`, the component is visible.                                                                                | `boolean`                                                 | `false`     |
+| `scale`            | `scale`             | Specifies the size of the component.                                                                                  | `"l" \| "m" \| "s"`                                       | `"m"`       |
+| `width`            | `width`             | Specifies the width of the component.                                                                                 | `"auto" \| "full" \| "half"`                              | `"auto"`    |
 
 ## Events
 
@@ -55,12 +55,12 @@ Type: `Promise<void>`
 
 ## Slots
 
-| Slot            | Description                                                                                          |
-| --------------- | ---------------------------------------------------------------------------------------------------- |
-| `"actions-end"` | A slot for adding actions to the end of the component. It is recommended to use two or less actions. |
-| `"link"`        | A slot for adding actions to take, such as: undo, try again, link to page, etc.                      |
-| `"message"`     | A slot for adding the message.                                                                       |
-| `"title"`       | A slot for adding the title.                                                                         |
+| Slot            | Description                                                                                                    |
+| --------------- | -------------------------------------------------------------------------------------------------------------- |
+| `"actions-end"` | A slot for adding `calcite-action`s to the end of the component. It is recommended to use two or less actions. |
+| `"link"`        | A slot for adding a `calcite-action` to take, such as: "undo", "try again", "link to page", etc.               |
+| `"message"`     | A slot for adding the message.                                                                                 |
+| `"title"`       | A slot for adding the title.                                                                                   |
 
 ## CSS Custom Properties
 

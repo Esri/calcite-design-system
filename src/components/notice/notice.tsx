@@ -45,8 +45,8 @@ import {
 /**
  * @slot title - A slot for adding the title.
  * @slot message - A slot for adding the message.
- * @slot link - A slot for adding actions to take, such as: undo, try again, link to page, etc.
- * @slot actions-end - A slot for adding actions to the end of the component. It is recommended to use two or less actions.
+ * @slot link - A slot for adding a `calcite-action` to take, such as: "undo", "try again", "link to page", etc.
+ * @slot actions-end - A slot for adding `calcite-action`s to the end of the component. It is recommended to use two or less actions.
  */
 
 @Component({
@@ -76,7 +76,10 @@ export class Notice
   @Prop({ reflect: true, mutable: true }) open = false;
 
   /** Specifies the kind of the component (will apply to top border and icon). */
-  @Prop({ reflect: true }) kind: Kind = "brand";
+  @Prop({ reflect: true }) kind: Extract<
+    "brand" | "danger" | "info" | "success" | "warning",
+    Kind
+  > = "brand";
 
   /** When `true`, a close button is added to the component. */
   @Prop({ reflect: true }) closable = false;
@@ -205,7 +208,7 @@ export class Notice
   //
   //--------------------------------------------------------------------------
 
-  /** Sets focus on the component. */
+  /** Sets focus on the component's first focusable element. */
   @Method()
   async setFocus(): Promise<void> {
     await componentLoaded(this);

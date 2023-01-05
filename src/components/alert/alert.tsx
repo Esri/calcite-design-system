@@ -58,7 +58,7 @@ import { MenuPlacement } from "../../utils/floating-ui";
  * @slot title - A slot for adding a title to the component.
  * @slot message - A slot for adding main text to the component.
  * @slot link - A slot for adding a `calcite-action` to take from the component such as: "undo", "try again", "link to page", etc.
- * @slot actions-end - A slot for adding actions to the end of the component. It is recommended to use two or fewer actions.
+ * @slot actions-end - A slot for adding `calcite-action`s to the end of the component. It is recommended to use two or fewer actions.
  */
 
 @Component({
@@ -103,7 +103,10 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
   @Prop({ reflect: true }) autoCloseDuration: AlertDuration = this.autoClose ? "medium" : null;
 
   /** Specifies the kind of the component (will apply to top border and icon). */
-  @Prop({ reflect: true }) kind: Kind = "brand";
+  @Prop({ reflect: true }) kind: Extract<
+    "brand" | "danger" | "info" | "success" | "warning",
+    Kind
+  > = "brand";
 
   /**
    * When `true`, shows a default recommended icon. Alternatively,
@@ -352,7 +355,7 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
   //
   //--------------------------------------------------------------------------
 
-  /** Sets focus on the component. */
+  /** Sets focus on the component's "close" button (the first focusable item). */
   @Method()
   async setFocus(): Promise<void> {
     await componentLoaded(this);

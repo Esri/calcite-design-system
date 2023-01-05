@@ -376,10 +376,8 @@ export class Modal
   //--------------------------------------------------------------------------
 
   /**
-   * Sets focus on the component.
+   * Sets focus on the component's "close" button (the first focusable item).
    *
-   * By default, tries to focus on focusable content. If there is none, it will focus on the close button.
-   * To focus on the close button, use the `close-button` focus ID.
    */
   @Method()
   async setFocus(): Promise<void> {

@@ -13,7 +13,6 @@ import {
 } from "@stencil/core";
 import { getElementDir } from "../../utils/dom";
 import { HeadingLevel } from "../functional/Heading";
-import { Scale } from "../interfaces";
 import { CSS, ICONS, SLOTS } from "./resources";
 import { SLOTS as PANEL_SLOTS } from "../panel/resources";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
@@ -88,11 +87,6 @@ export class FlowItem
   @Prop({ reflect: true }) headingLevel: HeadingLevel;
 
   /**
-   * Specifies the maximum height of the component.
-   */
-  @Prop({ reflect: true }) heightScale: Scale;
-
-  /**
    * When `true`, a busy indicator is displayed.
    */
   @Prop({ reflect: true }) loading = false;
@@ -120,15 +114,11 @@ export class FlowItem
   @Prop({ mutable: true }) messages: FlowItemMessages;
 
   /**
-   * When true, displays a back button in the header.
    * When `true`, displays a back button in the component's header.
+   *
+   * @internal
    */
-  @Prop({ reflect: true }) showBackButton = false;
-
-  /**
-   * Specifies the width of the component.
-   */
-  @Prop({ reflect: true }) widthScale: Scale;
+  @Prop() showBackButton = false;
 
   //--------------------------------------------------------------------------
   //
@@ -306,11 +296,9 @@ export class FlowItem
       disabled,
       heading,
       headingLevel,
-      heightScale,
       loading,
       menuOpen,
       messages,
-      widthScale,
       backButtonEl
     } = this;
     const label = messages.back;
@@ -323,14 +311,12 @@ export class FlowItem
           disabled={disabled}
           heading={heading}
           headingLevel={headingLevel}
-          heightScale={heightScale}
           loading={loading}
           menuOpen={menuOpen}
           messageOverrides={messages}
           onCalcitePanelClose={this.handlePanelClose}
           onCalcitePanelScroll={this.handlePanelScroll}
           ref={this.setContainerRef}
-          widthScale={widthScale}
         >
           {this.renderBackButton()}
           <slot name={SLOTS.headerActionsStart} slot={PANEL_SLOTS.headerActionsStart} />

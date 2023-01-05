@@ -28,7 +28,7 @@ import { BlockSectionMessages } from "./assets/block-section/t9n";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 
 /**
- * @slot - A slot for adding content to the component.
+ * @slot - A slot for adding custom content.
  */
 @Component({
   tag: "calcite-block-section",

@@ -452,6 +452,7 @@ export class InputDatePicker
       locale: effectiveLocale,
       useGrouping: false
     };
+
     return (
       <Host onBlur={this.deactivate} onKeyDown={this.keyDownHandler} role="application">
         {this.localeData && (
@@ -766,6 +767,7 @@ export class InputDatePicker
       useGrouping: false
     };
     this.localeData = await getLocaleData(this.effectiveLocale);
+    this.localizeInputValues();
   }
 
   /**
@@ -912,17 +914,21 @@ export class InputDatePicker
 
   private warnAboutInvalidValue(value: string): void {
     console.warn(
-      `The specified value "${value}" does not conform to the required format, "yyyy-MM-dd".`
+      `The specified value "${value}" does not conform to the required format, "YYYY-MM-DD".`
     );
   }
+
+  private commonDateSeparators = [".", "-", "/"];
 
   private formatNumerals = (value: string): string =>
     value
       ? value
           .split("")
           .map((char: string) =>
-            numberKeys.includes(char)
-              ? numberStringFormatter.numberFormatter.format(Number(char))
+            this.commonDateSeparators?.includes(char)
+              ? this.localeData?.separator
+              : numberKeys?.includes(char)
+              ? numberStringFormatter?.numberFormatter?.format(Number(char))
               : char
           )
           .join("")
