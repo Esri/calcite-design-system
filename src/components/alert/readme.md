@@ -45,7 +45,7 @@ A single instance of an alert. Multiple alerts will aggregate in a queue.
 
 ### `setFocus() => Promise<void>`
 
-Sets focus on the component.
+Sets focus on the component's "close" button (the first focusable item).
 
 #### Returns
 

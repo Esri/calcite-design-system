@@ -9,15 +9,19 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ### ⚠ BREAKING CHANGES
 
-- **panel, shell-panel, flow-item:** Update available css variables
+- **radio-group, radio-group-item:** Renames radio group components.
 
-* Removes `heightScale` and `widthScale` properties from Panel and Flow
-  Item
-* Removes css variables for Panel - the component will now fill
-  available width of parent component.
-* Documents public css variables for Shell Panel.
+  - `calcite-radio-group` has been renamed to `calcite-segmented-control`.
+  - `calcite-radio-group-item` has been renamed to
+    `calcite-segmented-control-item`.
 
-Co-authored-by: Ben Elan <belan@esri.com>
+- **panel, shell-panel, flow-item:** Update available css variables.
+
+  - Removes `heightScale` and `widthScale` properties from Panel and Flow
+    Item.
+  - Removes css variables for Panel - the component will now fill
+    available width of parent component.
+  - Documents public css variables for Shell Panel.
 
 - **modal, panel, popover**: Removed `focusId` parameter from `setFocus` methods.
   When the `setFocus` method is called the first focusable element will be
@@ -60,6 +64,10 @@ Co-authored-by: Ben Elan <belan@esri.com>
 - **popover, modal:** Add the ability to update focus trap elements after initialization ([#6141](https://github.com/Esri/calcite-components/issues/6141)) ([806ca32](https://github.com/Esri/calcite-components/commit/806ca32788d2960df97ad18efcb731633f133fcb))
 
 ### Bug Fixes
+
+- **list-item:** use pointer cursor when selection mode is none ([#6213](https://github.com/Esri/calcite-components/issues/6213)) ([6b43b91](https://github.com/Esri/calcite-components/commit/6b43b916a1ee3908635ab0b682d7a2d209545b22)), closes [#6123](https://github.com/Esri/calcite-components/issues/6123)
+
+* **alert:** Correctly dismiss after hovering ([#6228](https://github.com/Esri/calcite-components/issues/6228)) ([66dd692](https://github.com/Esri/calcite-components/commit/66dd692d6030b2e6957603101a78f728ff31c6e2)), closes [#6222](https://github.com/Esri/calcite-components/issues/6222)
 
 - **input, input-number:** increment/decrement to the min/max when value is below/above ([#6207](https://github.com/Esri/calcite-components/issues/6207)) ([d9eb215](https://github.com/Esri/calcite-components/commit/d9eb215f423f68dfa67d9a69b38d7328a8580b86)), closes [#6201](https://github.com/Esri/calcite-components/issues/6201)
 
