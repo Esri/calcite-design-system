@@ -60,6 +60,8 @@ import {
  * @slot - A slot for adding `calcite-value-list-item` elements. List items are displayed as a vertical list.
  * @slot menu-actions - A slot for adding a button and menu combination for performing actions, such as sorting.
  */
+
+/** @deprecated Use the `list` component instead. */
 @Component({
   tag: "calcite-value-list",
   styleUrl: "value-list.scss",
@@ -87,14 +89,14 @@ export class ValueList<
   @Prop({ reflect: true }) dragEnabled = false;
 
   /**
-   * **read-only** The currently filtered items
+   * The currently filtered items.
    *
    * @readonly
    */
   @Prop({ mutable: true }) filteredItems: HTMLCalciteValueListItemElement[] = [];
 
   /**
-   * **read-only** The currently filtered items
+   * The currently filtered data.
    *
    * @readonly
    */

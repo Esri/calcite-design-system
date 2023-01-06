@@ -1,4 +1,4 @@
-# calcite-radio-group-item
+# calcite-segmented-control-item
 
 <!-- Auto Generated Below -->
 
@@ -22,8 +22,8 @@
 
 ```mermaid
 graph TD;
-  calcite-radio-group-item --> calcite-icon
-  style calcite-radio-group-item fill:#f9f,stroke:#333,stroke-width:4px
+  calcite-segmented-control-item --> calcite-icon
+  style calcite-segmented-control-item fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
 ---

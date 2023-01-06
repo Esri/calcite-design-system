@@ -146,8 +146,8 @@ describe("calcite-shell-panel", () => {
     expect(detachedElement).not.toBeNull();
   });
 
-  it("should update width based on the multipier CSS variable", async () => {
-    const multipier = 2;
+  it("should update width based on the requested CSS variable override", async () => {
+    const override = "678px";
 
     const page = await newE2EPage();
 
@@ -159,15 +159,13 @@ describe("calcite-shell-panel", () => {
 
     await page.waitForChanges();
 
-    const content = await page.find(`calcite-shell-panel >>> .${CSS.content}`);
-    const style = await content.getComputedStyle();
-    const widthDefault = parseFloat(style["width"]);
-
     const page2 = await newE2EPage();
     await page2.setContent(`
       <style>
         :root {
-          --calcite-panel-width-multiplier: ${multipier};
+          --calcite-shell-panel-min-width: ${override};
+          --calcite-shell-panel-max-width: ${override};
+          --calcite-shell-panel-width: ${override};
         }
       </style>
       <calcite-shell-panel>
@@ -181,7 +179,7 @@ describe("calcite-shell-panel", () => {
     const style2 = await content2.getComputedStyle();
     const width2 = parseFloat(style2["width"]);
 
-    expect(width2).toEqual(widthDefault * multipier);
+    expect(`${width2}px`).toEqual(override);
   });
 
   it("calcite-panel should render at the same height as the content__body.", async () => {

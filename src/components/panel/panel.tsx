@@ -13,7 +13,6 @@ import {
 } from "@stencil/core";
 import { CSS, ICONS, SLOTS } from "./resources";
 import { focusFirstTabbable, toAriaBoolean } from "../../utils/dom";
-import { Scale } from "../interfaces";
 import { HeadingLevel, Heading } from "../functional/Heading";
 import { SLOTS as ACTION_MENU_SLOTS } from "../action-menu/resources";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
@@ -75,16 +74,6 @@ export class Panel
    * Specifies the number at which section headings should start.
    */
   @Prop({ reflect: true }) headingLevel: HeadingLevel;
-
-  /**
-   * Specifies the maximum height of the component.
-   */
-  @Prop({ reflect: true }) heightScale: Scale;
-
-  /**
-   * Specifies the width of the component.
-   */
-  @Prop({ reflect: true }) widthScale: Scale;
 
   /**
    * When `true`, a busy indicator is displayed.

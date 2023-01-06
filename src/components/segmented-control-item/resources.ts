@@ -3,5 +3,5 @@ export const SLOTS = {
 };
 
 export const CSS = {
-  radioGroupItemIcon: "radio-group-item-icon"
+  segmentedControlItemIcon: "segmented-control-item-icon"
 };

@@ -112,7 +112,7 @@
   transform-origin: top; // keep the top of the element in the same place. this is optional.
 
   :host([expanded]) > & {
-    transform: scaleY(1);
+    @apply overflow-visible;
     opacity: 1;
     block-size: auto;
   }
