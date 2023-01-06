@@ -43,6 +43,7 @@ import { numberKeys } from "../../utils/key";
 import { isValidNumber, parseNumberString, sanitizeNumberString } from "../../utils/number";
 import { CSS_UTILITY } from "../../utils/resources";
 import { decimalPlaces } from "../../utils/math";
+import { createObserver } from "../../utils/observers";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import {
   connectMessages,
@@ -114,8 +115,8 @@ export class Input
   @Prop({ reflect: true }) disabled = false;
 
   @Watch("disabled")
-  disabledWatcher(_: boolean, previousValue: boolean): void {
-    this.setDisabledAction(previousValue);
+  disabledWatcher(): void {
+    this.setDisabledAction();
   }
 
   /**
@@ -413,6 +414,8 @@ export class Input
 
   private nudgeNumberValueIntervalId: number;
 
+  mutationObserver = createObserver("mutation", () => this.setDisabledAction());
+
   private userChangedValue = false;
 
   //--------------------------------------------------------------------------
@@ -428,7 +431,7 @@ export class Input
     updateMessages(this, this.effectiveLocale);
   }
 
-  @State() slottedActionElDisabledInternally: false;
+  @State() slottedActionElDisabledInternally = false;
 
   @State() defaultMessages: InputMessages;
 
@@ -463,6 +466,8 @@ export class Input
       });
     }
 
+    this.mutationObserver?.observe(this.el, { childList: true });
+
     this.setDisabledAction();
     this.el.addEventListener("calciteInternalHiddenInputChange", this.hiddenInputChangeHandler);
   }
@@ -473,6 +478,7 @@ export class Input
     disconnectLocalized(this);
     disconnectMessages(this);
 
+    this.mutationObserver?.disconnect();
     this.el.removeEventListener("calciteInternalHiddenInputChange", this.hiddenInputChangeHandler);
   }
 
@@ -870,16 +876,22 @@ export class Input
     this.childNumberEl = el;
   };
 
-  private setDisabledAction(previousValue = false): void {
+  private setDisabledAction(): void {
     const slottedActionEl = getSlotted(this.el, "action");
 
     if (!slottedActionEl) {
       return;
     }
 
-    this.disabled
-      ? slottedActionEl.setAttribute("disabled", "")
-      : previousValue === true && slottedActionEl.removeAttribute("disabled");
+    if (this.disabled) {
+      if (slottedActionEl.getAttribute("disabled")) {
+        this.slottedActionElDisabledInternally = true;
+      }
+      slottedActionEl.setAttribute("disabled", "");
+    } else if (this.slottedActionElDisabledInternally) {
+      slottedActionEl.removeAttribute("disabled");
+      this.slottedActionElDisabledInternally = false;
+    }
   }
 
   private setInputValue = (newInputValue: string): void => {

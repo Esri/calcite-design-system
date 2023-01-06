@@ -1661,16 +1661,16 @@ describe("calcite-input", () => {
     await typeNumberValue(page, "3");
     await page.waitForChanges();
     expect(await input.getProperty("value")).toBe("13");
-    expect(await button.getProperty("disabled")).toBeFalsy();
+    expect(await button.getProperty("disabled")).toBeTruthy();
     expect(await input.getProperty("disabled")).toBeFalsy();
 
-    await button.setProperty("disabled", true);
+    await button.setProperty("disabled", false);
     await page.waitForChanges();
     await input.callMethod("setFocus");
     await typeNumberValue(page, "4");
     await page.waitForChanges();
     expect(await input.getProperty("value")).toBe("134");
-    expect(await button.getProperty("disabled")).toBeTruthy();
+    expect(await button.getProperty("disabled")).toBeFalsy();
     expect(await input.getProperty("disabled")).toBeFalsy();
   });
 
