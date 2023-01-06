@@ -67,61 +67,74 @@ export class Textarea
   //
   //--------------------------------------------------------------------------
 
-  /** When `true`, focuses the `textarea` element on page render. */
+  /**
+   * When `true`, the component is focused on page load.
+   *
+   * @mdn [autofocus](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/autofocus)
+   */
   @Prop({ reflect: true }) autofocus = false;
 
-  /** When `true`, disables the component. */
+  /**
+   * When `true`, interaction is prevented and the component is displayed with lower opacity.
+   *
+   * @mdn [disabled](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/disabled)
+   */
   @Prop({ reflect: true }) disabled = false;
 
-  /** Specifies the placeholder text for the input. */
+  /** Specifies the placeholder text for the component. */
   @Prop() placeholder: string;
 
   /** Whne `true`, the component's value can be read, but cannot be modified.  */
   @Prop({ reflect: true }) readonly = false;
 
-  /** Specifies number or rows allowed. */
+  /** Specifies the number or rows allowed. */
   @Prop({ reflect: true }) rows: number;
 
-  /** Specifies number or columns allowed. */
+  /** Specifies the number or columns allowed. */
   @Prop({ reflect: true }) cols: number;
 
-  /** Specifies maximum number of characters allowed. */
+  /** Specifies the maximum number of characters allowed. */
   @Prop() maxlength: number;
 
-  /** Specifies name of the component  */
+  /** Specifies the name of the component  */
   @Prop({ reflect: true }) name: string;
 
-  /** Specifies the size of `textarea` component. */
+  /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: "l" | "m" | "s" = "m";
 
-  /** Specifies wrapping mechanism for the text.  */
+  /** Specifies the wrapping mechanism for the text.*/
   @Prop({ reflect: true }) wrap: "soft" | "hard" = "soft";
 
   /** The component's value. */
   @Prop({ mutable: true }) value: string;
 
-  /** When `true`, disables the resizing handle. */
+  /** When `true`, disables horizantally and vertically resizing the component.*/
   @Prop({ reflect: true }) resizeDisabled = false;
 
-  /** When `true`, disables resizing textarea horizantally. */
+  /** When `true`, disables horizantally resizing the component. */
   @Prop({ reflect: true }) horizantalResizeDisabled = false;
 
-  /** When `true`, disables resizing textarea vertically. */
+  /** When `true`, disables vertically resizing the component. */
   @Prop({ reflect: true }) verticalResizeDisabled = false;
 
-  /** When `true`, marks this component as required in form. */
+  /** When `true`, the component must have a value in order for the form to submit.*/
   @Prop({ reflect: true }) required = false;
 
-  /** The label of the component */
+  /** Accessible name for the component. */
   @Prop() label: string;
 
-  /** When true, the `textarea` will be marked as invalid. */
+  /** When `true`, the component will be marked as invalid. */
   @Prop({ reflect: true }) invalid = false;
 
   /**
    * Specifies the Unicode numeral system used by the component for localization.
    */
   @Prop() numberingSystem: NumberingSystem;
+
+  /**
+   * When `true`, number values are displayed with a group separator corresponding to the language and country format.
+   */
+  @Prop({ reflect: true }) groupSeparator = false;
 
   /**
    * Made into a prop for testing purposes only
@@ -255,7 +268,7 @@ export class Textarea
   //
   //--------------------------------------------------------------------------
 
-  /** Set's focus on the `textarea`. */
+  /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
     await componentLoaded(this);
@@ -335,7 +348,12 @@ export class Textarea
 
   contentSlotChangeHandler = (): void => {
     if (!this.value) {
-      this.value = this.el.textContent.trim();
+      const nodes = this.el.childNodes;
+      nodes.forEach((el) => {
+        if (el.nodeName === "#text") {
+          this.value = el.nodeValue.trim();
+        }
+      });
     }
   };
 
@@ -354,7 +372,9 @@ export class Textarea
   getLocalizedCharacterLength(): string {
     numberStringFormatter.numberFormatOptions = {
       locale: this.effectiveLocale,
-      numberingSystem: this.numberingSystem
+      numberingSystem: this.numberingSystem,
+      signDisplay: "never",
+      useGrouping: this.groupSeparator
     };
     return numberStringFormatter.localize(this.value?.length.toString());
   }
