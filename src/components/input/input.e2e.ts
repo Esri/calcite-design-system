@@ -1630,6 +1630,50 @@ describe("calcite-input", () => {
     });
   });
 
+  it("allows disabling slotted action", async () => {
+    const page = await newE2EPage();
+    await page.setContent(
+      `<calcite-input><calcite-button slot="action" disabled>Action</calcite-button></calcite-input>`
+    );
+
+    const input = await page.find("calcite-input");
+    const button = await page.find("calcite-button");
+
+    await input.callMethod("setFocus");
+    await typeNumberValue(page, "1");
+    await page.waitForChanges();
+    expect(await input.getProperty("value")).toBe("1");
+    expect(await button.getProperty("disabled")).toBeTruthy();
+    expect(await input.getProperty("disabled")).toBeFalsy();
+
+    await input.setProperty("disabled", true);
+    await input.callMethod("setFocus");
+    await page.waitForChanges();
+    await typeNumberValue(page, "2");
+    await page.waitForChanges();
+    expect(await input.getProperty("value")).toBe("1");
+    expect(await button.getProperty("disabled")).toBeTruthy();
+    expect(await input.getProperty("disabled")).toBeTruthy();
+
+    await input.setProperty("disabled", false);
+    await page.waitForChanges();
+    await input.callMethod("setFocus");
+    await typeNumberValue(page, "3");
+    await page.waitForChanges();
+    expect(await input.getProperty("value")).toBe("13");
+    expect(await button.getProperty("disabled")).toBeFalsy();
+    expect(await input.getProperty("disabled")).toBeFalsy();
+
+    await button.setProperty("disabled", true);
+    await page.waitForChanges();
+    await input.callMethod("setFocus");
+    await typeNumberValue(page, "4");
+    await page.waitForChanges();
+    expect(await input.getProperty("value")).toBe("134");
+    expect(await button.getProperty("disabled")).toBeTruthy();
+    expect(await input.getProperty("disabled")).toBeFalsy();
+  });
+
   describe("is form-associated", () => {
     it("supports type=text", () => formAssociated("calcite-input", { testValue: "test", submitsOnEnter: true }));
     it("supports type=number", () =>

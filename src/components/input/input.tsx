@@ -43,7 +43,6 @@ import { numberKeys } from "../../utils/key";
 import { isValidNumber, parseNumberString, sanitizeNumberString } from "../../utils/number";
 import { CSS_UTILITY } from "../../utils/resources";
 import { decimalPlaces } from "../../utils/math";
-import { createObserver } from "../../utils/observers";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import {
   connectMessages,
@@ -115,8 +114,8 @@ export class Input
   @Prop({ reflect: true }) disabled = false;
 
   @Watch("disabled")
-  disabledWatcher(): void {
-    this.setDisabledAction();
+  disabledWatcher(_: boolean, previousValue: boolean): void {
+    this.setDisabledAction(previousValue);
   }
 
   /**
@@ -414,8 +413,6 @@ export class Input
 
   private nudgeNumberValueIntervalId: number;
 
-  mutationObserver = createObserver("mutation", () => this.setDisabledAction());
-
   private userChangedValue = false;
 
   //--------------------------------------------------------------------------
@@ -430,6 +427,8 @@ export class Input
   effectiveLocaleChange(): void {
     updateMessages(this, this.effectiveLocale);
   }
+
+  @State() slottedActionElDisabledInternally: false;
 
   @State() defaultMessages: InputMessages;
 
@@ -464,7 +463,6 @@ export class Input
       });
     }
 
-    this.mutationObserver?.observe(this.el, { childList: true });
     this.setDisabledAction();
     this.el.addEventListener("calciteInternalHiddenInputChange", this.hiddenInputChangeHandler);
   }
@@ -475,7 +473,6 @@ export class Input
     disconnectLocalized(this);
     disconnectMessages(this);
 
-    this.mutationObserver?.disconnect();
     this.el.removeEventListener("calciteInternalHiddenInputChange", this.hiddenInputChangeHandler);
   }
 
@@ -873,7 +870,7 @@ export class Input
     this.childNumberEl = el;
   };
 
-  private setDisabledAction(): void {
+  private setDisabledAction(previousValue = false): void {
     const slottedActionEl = getSlotted(this.el, "action");
 
     if (!slottedActionEl) {
@@ -882,7 +879,7 @@ export class Input
 
     this.disabled
       ? slottedActionEl.setAttribute("disabled", "")
-      : slottedActionEl.removeAttribute("disabled");
+      : previousValue === true && slottedActionEl.removeAttribute("disabled");
   }
 
   private setInputValue = (newInputValue: string): void => {
