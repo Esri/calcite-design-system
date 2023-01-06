@@ -9,13 +9,15 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ### ⚠ BREAKING CHANGES
 
-- **radio-group, radio-group-item:** Renames radio group components.
+- **segmented-control:** - Updates `segmented-control` event to `calciteSegmentedControlChange`
+
+* **radio-group, radio-group-item:** Renames radio group components.
 
   - `calcite-radio-group` has been renamed to `calcite-segmented-control`.
   - `calcite-radio-group-item` has been renamed to
     `calcite-segmented-control-item`.
 
-- **panel, shell-panel, flow-item:** Update available css variables.
+* **panel, shell-panel, flow-item:** Update available css variables.
 
   - Removes `heightScale` and `widthScale` properties from Panel and Flow
     Item.
@@ -23,35 +25,35 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
     available width of parent component.
   - Documents public css variables for Shell Panel.
 
-- **modal, panel, popover**: Removed `focusId` parameter from `setFocus` methods.
+* **modal, panel, popover**: Removed `focusId` parameter from `setFocus` methods.
   When the `setFocus` method is called the first focusable element will be
   focused.
 
-- **combobox-item:**
+* **combobox-item:**
 
   - Removed `toggleSelected` method, use the `selected` property instead.
 
-- **date-picker:**
+* **date-picker:**
 
   - Removed the property `startAsDate`, use `valueAsDate` instead.
   - Removed the property `endAsDate`, use `valueAsDate` instead.
 
-- **pagination:**
+* **pagination:**
 
   - Removed the `--calcite-pagination-spacing` css variable
 
-- **popover:**
+* **popover:**
 
   - Removed the `toggle` method, use the `open` property instead.
 
-- **radio-button-group:**
+* **radio-button-group:**
 
   - Added property `selectedItem`.
   - Removed the `event.detail` property on the event
     `calciteRadioButtonGroupChange`, use `event.target` and the property
     `selectedItem` instead.
 
-- **stepper:**
+* **stepper:**
 
   - Added property `selectedItem`.
   - Removed the `event.detail` property on the event
