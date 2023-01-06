@@ -14,8 +14,8 @@ export const CSS = {
 };
 
 export const SLOTS = {
-  footerLeading: "footer-leading",
-  footerTrailing: "footer-trailing"
+  footerStart: "footer-start",
+  footerEnd: "footer-end"
 };
 
 export const RESIZE_TIMEOUT = 100;

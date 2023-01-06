@@ -13,7 +13,7 @@ import {
 } from "@stencil/core";
 import { connectForm, disconnectForm, FormComponent, HiddenFormInputSlot } from "../../utils/form";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
-import { slotChangeGetAssignedElements } from "../../utils/dom";
+import { slotChangeGetAssignedElements, toAriaBoolean } from "../../utils/dom";
 import { CSS, SLOTS, RESIZE_TIMEOUT } from "./resources";
 import {
   connectLocalized,
@@ -42,8 +42,8 @@ import { InteractiveComponent, updateHostInteraction } from "../../utils/interac
 
 /**
  * @slot - A slot for adding text.
- * @slot footer-leading - A slot for adding a leading footer.
- * @slot footer-trailing - A slot for adding a trailing footer.
+ * @slot footer-start - A slot for adding a leading footer.
+ * @slot footer-end - A slot for adding a trailing footer.
  */
 
 @Component({
@@ -130,8 +130,8 @@ export class Textarea
   /** Accessible name for the component. */
   @Prop() label: string;
 
-  /** When `true`, the component will be marked as invalid. */
-  @Prop({ reflect: true }) invalid = false;
+  // /** When `true`, the component will be marked as invalid. */
+  // @Prop({ reflect: true }) invalid = false;
 
   /**
    * Specifies the Unicode numeral system used by the component for localization.
@@ -218,10 +218,11 @@ export class Textarea
   render(): VNode {
     const hasFooter =
       !!this.leadingSlotElements?.length || !!this.trailingSlotElements?.length || !!this.maxlength;
+
     return (
       <Host>
         <textarea
-          aria-invalid={this.invalid}
+          aria-invalid={toAriaBoolean(this.value?.length > this.maxlength)}
           aria-label={getLabelText(this)}
           autofocus={this.autofocus}
           class={{
@@ -230,7 +231,7 @@ export class Textarea
             [CSS.resizeDisabledX]: this.horizantalResizeDisabled,
             [CSS.resizeDisabledY]: this.verticalResizeDisabled,
             [CSS.readonly]: this.readonly,
-            [CSS.textareaInvalid]: this.invalid,
+            [CSS.textareaInvalid]: this.value?.length > this.maxlength,
             [CSS.footerSlotted]:
               !!this.trailingSlotElements?.length && !!this.leadingSlotElements?.length,
             [CSS.borderColor]: !hasFooter,
@@ -262,8 +263,8 @@ export class Textarea
             key={CSS.footer}
             ref={(el) => (this.footerEl = el as HTMLElement)}
           >
-            <slot name={SLOTS.footerLeading} onSlotchange={this.footerTrailingSlotChangeHandler} />
-            <slot name={SLOTS.footerTrailing} onSlotchange={this.footerLeadingSlotChangeHandler} />
+            <slot name={SLOTS.footerStart} onSlotchange={this.footerTrailingSlotChangeHandler} />
+            <slot name={SLOTS.footerEnd} onSlotchange={this.footerLeadingSlotChangeHandler} />
             {this.renderCharacterLimit()}
           </footer>
         }
@@ -419,9 +420,6 @@ export class Textarea
     input.setCustomValidity("");
     if (this.value?.length > this.maxlength) {
       input.setCustomValidity(this.messages.overLimit);
-    }
-    if (this.invalid) {
-      input.setCustomValidity(this.messages.invalid);
     }
   }
 
