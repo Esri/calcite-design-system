@@ -2125,19 +2125,19 @@
                   button.toggleAttribute("loading");
                 });
               });
-              scaleRadios.addEventListener("calciteRadioGroupChange", (e) => {
+              scaleRadios.addEventListener("calciteSegmentedControlChange", (e) => {
                 document.querySelectorAll(".loading-transition").forEach((button) => {
-                  button.setAttribute("scale", e.detail);
+                  button.setAttribute("scale", e.target.selectedItem.value);
                 });
               });
-              appearanceRadios.addEventListener("calciteRadioGroupChange", (e) => {
+              appearanceRadios.addEventListener("calciteSegmentedControlChange", (e) => {
                 document.querySelectorAll(".loading-transition").forEach((button) => {
-                  button.setAttribute("appearance", e.detail);
+                  button.setAttribute("appearance", e.target.selectedItem.value);
                 });
               });
-              kindRadios.addEventListener("calciteRadioGroupChange", (e) => {
+              kindRadios.addEventListener("calciteSegmentedControlChange", (e) => {
                 document.querySelectorAll(".loading-transition").forEach((button) => {
-                  button.setAttribute("kind", e.detail);
+                  button.setAttribute("kind", e.target.selectedItem.value);
                 });
               });
             };
