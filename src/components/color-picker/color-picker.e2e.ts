@@ -1904,7 +1904,6 @@ describe("calcite-color-picker", () => {
           });
 
           it("allows modifying color via hex, RGB, HSV, opacity inputs", async () => {
-            // TODO: this one seems broken? " Jest worker encountered 4 child process exceptions, exceeding retry limit"
             const page = await newE2EPage();
             await page.setContent("<calcite-color-picker alpha-enabled value='#ffff'></calcite-color-picker>");
             const picker = await page.find("calcite-color-picker");
@@ -1936,13 +1935,13 @@ describe("calcite-color-picker", () => {
             expect(await picker.getProperty("value")).toBe("#0b7373ff");
 
             // TODO: Setting a number value on this specific input throws an error.
-            // const opacityInput = await page.find(`calcite-color-picker >>> .${CSS.opacityInput}`);
-            // await opacityInput.callMethod("setFocus");
-            // await selectText(opacityInput);
-            // await opacityInput.type("123", { delay: 500 });
-            // await page.keyboard.press("Enter");
-            // await page.waitForChanges();
-            // expect(await picker.getProperty("value")).toBe("#0b737300");
+            const opacityInput = await page.find(`calcite-color-picker >>> .${CSS.opacityInput}`);
+            await opacityInput.callMethod("setFocus");
+            await selectText(opacityInput);
+            await page.keyboard.type("0");
+            await page.keyboard.press("Enter");
+            await page.waitForChanges();
+            expect(await picker.getProperty("value")).toBe("#0b737300");
 
             const opacitySlider = await page.find(`calcite-color-picker >>> .${CSS.opacitySlider}`);
             await opacitySlider.click();
@@ -2044,8 +2043,9 @@ describe("calcite-color-picker", () => {
             const opacitySlider = await page.find(`calcite-color-picker >>> .${CSS.opacitySlider}`);
             const opacityInput = await page.find(`calcite-color-picker >>> .${CSS.opacityInput}`);
 
-            expect(await opacitySlider.getProperty("value")).toBe(100); // cannot unset slider value
-            expect(await opacityInput.getProperty("value")).toBe("");
+            // cannot unset opacity
+            expect(await opacitySlider.getProperty("value")).toBe(100);
+            expect(await opacityInput.getProperty("value")).toBe("100");
           });
 
           describe("clearing color via supporting inputs", () => {
@@ -2403,29 +2403,25 @@ describe("calcite-color-picker", () => {
       expect(() => assertUnsupportedValueMessage(null, "auto")).toThrow();
     });
 
-    // TODO: this does not work. Sections can not be disabled
-    // describe.skip("disabled sections", () => {
-    //   it("should disable hex", async () => {
-    //     const page = await newE2EPage();
-    //     await page.setContent(`<calcite-color-picker hexDisabled></calcite-color-picker>`);
-    //     const hexInput = await page.find(`calcite-color-picker >>> .${CSS.hexOptions}`);
-    //     expect(hexInput).toBeNull();
-    //   });
+    describe("disabled sections", () => {
+      it("should disable hex", async () => {
+        const page = await newE2EPage({ html: `<calcite-color-picker hex-disabled></calcite-color-picker>` });
+        const hexInput = await page.find(`calcite-color-picker >>> .${CSS.hexOptions}`);
+        expect(hexInput).toBeNull();
+      });
 
-    //   it("should disable channels", async () => {
-    //     const page = await newE2EPage();
-    //     await page.setContent(`<calcite-color-picker channelsDisabled></calcite-color-picker>`);
-    //     const hexInput = await page.find(`calcite-color-picker >>> .${CSS.hexOptions}`);
-    //     expect(hexInput).toBeNull();
-    //   });
+      it("should disable channels", async () => {
+        const page = await newE2EPage({ html: `<calcite-color-picker channels-disabled></calcite-color-picker>` });
+        const channelInput = await page.find(`calcite-color-picker >>> .${CSS.channel}`);
+        expect(channelInput).toBeNull();
+      });
 
-    //   it("should disable saved colors", async () => {
-    //     const page = await newE2EPage();
-    //     await page.setContent(`<calcite-color-picker savedDisabled></calcite-color-picker>`);
-    //     const hexInput = await page.find(`calcite-color-picker >>> .${CSS.hexOptions}`);
-    //     expect(hexInput).toBeNull();
-    //   });
-    // });
+      it("should disable saved colors", async () => {
+        const page = await newE2EPage({ html: `<calcite-color-picker saved-disabled></calcite-color-picker>` });
+        const saved = await page.find(`calcite-color-picker >>> .${CSS.savedColors}`);
+        expect(saved).toBeNull();
+      });
+    });
 
     describe("scope keyboard interaction", () => {
       it("allows editing color field via keyboard", async () => {

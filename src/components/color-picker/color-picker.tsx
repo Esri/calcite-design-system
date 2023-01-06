@@ -974,10 +974,7 @@ export class ColorPicker
   }
 
   private renderOpacitySection(): VNode {
-    const { color, previousColor } = this;
-    const sliderOpacity = alphaToOpacity((color ? color : previousColor).alpha()); // slider keeps previous alpha when null
-    const inputOpacity = color ? alphaToOpacity(color.alpha()).toString() : undefined;
-
+    const colorValue = alphaToOpacity((this.color ? this.color : this.previousColor).alpha());
     return (
       <div class={CSS.hexOptions} key="opacity">
         <span
@@ -996,7 +993,7 @@ export class ColorPicker
             min={0}
             onCalciteSliderInput={this.handleOpacitySliderInput}
             step={1}
-            value={sliderOpacity}
+            value={colorValue}
           />
           <calcite-input
             aria-label={this.messages.opacity}
@@ -1010,7 +1007,7 @@ export class ColorPicker
             step={1}
             suffixText="%"
             type="number"
-            value={inputOpacity}
+            value={colorValue.toString()}
           />
         </div>
       </div>
