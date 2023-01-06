@@ -431,11 +431,11 @@ export class Input
     updateMessages(this, this.effectiveLocale);
   }
 
-  @State() slottedActionElDisabledInternally = false;
-
   @State() defaultMessages: InputMessages;
 
   @State() localizedValue: string;
+
+  @State() slottedActionElDisabledInternally = false;
 
   //--------------------------------------------------------------------------
   //

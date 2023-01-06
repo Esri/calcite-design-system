@@ -1407,6 +1407,49 @@ describe("calcite-input-number", () => {
     });
   });
 
+  it("allows disabling slotted action", async () => {
+    const page = await newE2EPage();
+    await page.setContent(
+      `<calcite-input-number><calcite-button slot="action" disabled>Action</calcite-button></calcite-input-number>`
+    );
+
+    const input = await page.find("calcite-input-number");
+    const button = await page.find("calcite-button");
+
+    await input.callMethod("setFocus");
+    await typeNumberValue(page, "1");
+    await page.waitForChanges();
+    expect(await input.getProperty("value")).toBe("1");
+    expect(await button.getProperty("disabled")).toBeTruthy();
+    expect(await input.getProperty("disabled")).toBeFalsy();
+
+    await input.setProperty("disabled", true);
+    await input.callMethod("setFocus");
+    await page.waitForChanges();
+    await typeNumberValue(page, "2");
+    await page.waitForChanges();
+    expect(await input.getProperty("value")).toBe("1");
+    expect(await button.getProperty("disabled")).toBeTruthy();
+    expect(await input.getProperty("disabled")).toBeTruthy();
+
+    await input.setProperty("disabled", false);
+    await page.waitForChanges();
+    await input.callMethod("setFocus");
+    await typeNumberValue(page, "3");
+    await page.waitForChanges();
+    expect(await input.getProperty("value")).toBe("13");
+    expect(await button.getProperty("disabled")).toBeTruthy();
+    expect(await input.getProperty("disabled")).toBeFalsy();
+
+    await button.setProperty("disabled", false);
+    await page.waitForChanges();
+    await input.callMethod("setFocus");
+    await typeNumberValue(page, "4");
+    await page.waitForChanges();
+    expect(await input.getProperty("value")).toBe("134");
+    expect(await button.getProperty("disabled")).toBeFalsy();
+    expect(await input.getProperty("disabled")).toBeFalsy();
+  });
   it("is form-associated", () =>
     formAssociated("<calcite-input-number></calcite-input-number>", {
       testValue: 5,
