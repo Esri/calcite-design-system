@@ -759,7 +759,7 @@ export class InputNumber
     }
 
     if (this.disabled) {
-      if (slottedActionEl.getAttribute("disabled")) {
+      if (slottedActionEl.getAttribute("disabled") == null) {
         this.slottedActionElDisabledInternally = true;
       }
       slottedActionEl.setAttribute("disabled", "");

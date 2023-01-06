@@ -1449,7 +1449,17 @@ describe("calcite-input-number", () => {
     expect(await input.getProperty("value")).toBe("134");
     expect(await button.getProperty("disabled")).toBeFalsy();
     expect(await input.getProperty("disabled")).toBeFalsy();
+
+    await input.setProperty("disabled", true);
+    await page.waitForChanges();
+    await input.callMethod("setFocus");
+    await page.keyboard.type("5");
+    await page.waitForChanges();
+    expect(await input.getProperty("value")).toBe("134");
+    expect(await button.getProperty("disabled")).toBeTruthy();
+    expect(await input.getProperty("disabled")).toBeTruthy();
   });
+
   it("is form-associated", () =>
     formAssociated("<calcite-input-number></calcite-input-number>", {
       testValue: 5,
