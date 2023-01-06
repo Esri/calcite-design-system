@@ -2,6 +2,7 @@ import { newE2EPage } from "@stencil/core/testing";
 import {
   accessible,
   defaults,
+  disabled,
   focusable,
   formAssociated,
   hidden,
@@ -37,6 +38,8 @@ describe("calcite-textarea", () => {
   it("honors hidden attribute", () => hidden("calcite-textarea"));
 
   it("is labelable", () => labelable("calcite-textarea"));
+
+  it("can be disabled", () => disabled("calcite-textarea"));
 
   it("reflects", async () =>
     reflects("calcite-textarea", [
@@ -161,7 +164,7 @@ describe("calcite-textarea", () => {
     expect(await element.getProperty("value")).toBe("rocky mountains");
   });
 
-  it("should be disable slotted elements when disabled", async () => {
+  it("should disable slotted elements when disabled", async () => {
     const page = await newE2EPage();
     await page.setContent(
       `<calcite-textarea  disabled><calcite-button slot="footer-trailing">CLEAR</calcite-button></calcite-textarea>`
@@ -173,7 +176,7 @@ describe("calcite-textarea", () => {
     expect((await element.getComputedStyle()).pointerEvents).toBe("none");
   });
 
-  it("should have invalid class when user set's invalid property", async () => {
+  it("should have invalid class when user sets invalid property", async () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-textarea invalid></calcite-textarea>`);
 

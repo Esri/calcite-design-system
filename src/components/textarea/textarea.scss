@@ -160,3 +160,5 @@ textarea {
 .hide {
   @apply hidden;
 }
+
+@include disabled();

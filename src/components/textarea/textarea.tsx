@@ -38,6 +38,7 @@ import {
 } from "../../utils/t9n";
 import { TextareaMessages } from "./assets/textarea/t9n";
 import { throttle } from "lodash-es";
+import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 
 /**
  * @slot - A slot for adding text.
@@ -52,7 +53,13 @@ import { throttle } from "lodash-es";
   assetsDirs: ["assets"]
 })
 export class Textarea
-  implements FormComponent, LabelableComponent, LocalizedComponent, LoadableComponent, T9nComponent
+  implements
+    FormComponent,
+    LabelableComponent,
+    LocalizedComponent,
+    LoadableComponent,
+    T9nComponent,
+    InteractiveComponent
 {
   //--------------------------------------------------------------------------
   //
@@ -196,6 +203,10 @@ export class Textarea
     setComponentLoaded(this);
   }
 
+  componentDidRender(): void {
+    updateHostInteraction(this);
+  }
+
   disconnectedCallback(): void {
     disconnectLabel(this);
     disconnectForm(this);
@@ -210,7 +221,6 @@ export class Textarea
     return (
       <Host>
         <textarea
-          aria-disabled={this.disabled}
           aria-invalid={this.invalid}
           aria-label={getLabelText(this)}
           autofocus={this.autofocus}
