@@ -2126,7 +2126,6 @@
                 });
               });
               scaleRadios.addEventListener("calciteSegmentedControlChange", (e) => {
-                console.log(e);
                 document.querySelectorAll(".loading-transition").forEach((button) => {
                   button.setAttribute("scale", e.target.selectedItem.value);
                 });
