@@ -159,27 +159,6 @@ export class ColorPicker
   /** When true, hides the hex input */
   @Prop() hexDisabled = false;
 
-  /**
-   * When `true`, hides the Hex input.
-   *
-   * @deprecated use `hexDisabled` instead
-   */
-  @Prop({ reflect: true }) hideHex = false;
-
-  /**
-   * When `true`, hides the RGB/HSV channel inputs.
-   *
-   * @deprecated use `channelsDisabled` instead
-   */
-  @Prop({ reflect: true }) hideChannels = false;
-
-  /**
-   * When `true`, hides the saved colors section.
-   *
-   * @deprecated use `savedDisabled` instead
-   */
-  @Prop({ reflect: true }) hideSaved = false;
-
   /** When true, hides the saved colors section */
   @Prop({ reflect: true }) savedDisabled = false;
 
