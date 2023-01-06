@@ -39,7 +39,7 @@ import {
   styleUrl: "segmented-control.scss",
   shadow: true
 })
-export class RadioGroup
+export class SegmentedControl
   implements LabelableComponent, FormComponent, InteractiveComponent, LoadableComponent
 {
   //--------------------------------------------------------------------------
@@ -182,7 +182,7 @@ export class RadioGroup
     }
   };
 
-  @Listen("calciteInternalRadioGroupItemChange")
+  @Listen("calciteInternalSegmentedControlItemChange")
   protected handleSelected(event: Event): void {
     event.preventDefault();
     this.selectItem(event.target as HTMLCalciteSegmentedControlItemElement);
@@ -250,7 +250,7 @@ export class RadioGroup
   //--------------------------------------------------------------------------
 
   /** Fires when the selected option changes, where the event detail is the new value. */
-  @Event({ cancelable: false }) calciteRadioGroupChange: EventEmitter<void>;
+  @Event({ cancelable: false }) calciteSegmentedControlChange: EventEmitter<void>;
 
   // --------------------------------------------------------------------------
   //
@@ -276,7 +276,7 @@ export class RadioGroup
 
   formEl: HTMLFormElement;
 
-  defaultValue: RadioGroup["value"];
+  defaultValue: SegmentedControl["value"];
 
   //--------------------------------------------------------------------------
   //
@@ -313,7 +313,7 @@ export class RadioGroup
         match = item;
 
         if (emit) {
-          this.calciteRadioGroupChange.emit();
+          this.calciteSegmentedControlChange.emit();
         }
       }
     });

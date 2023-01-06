@@ -12,7 +12,12 @@ export interface OpenCloseComponent {
   /**
    * When true, the component opens.
    */
-  open: boolean;
+  open?: boolean;
+
+  /**
+   *  Specifies the name of transitionProp.
+   */
+  transitionProp?: string;
 
   /**
    * Specifies property on which active transition is watched for.
@@ -66,8 +71,9 @@ function transitionEnd(event: TransitionEvent): void {
  * Used to emit (before)open/close events both for when the opacity transition is present and when there is none (transition-duration is set to 0).
  *
  * @param component
+ * @param nonOpenCloseComponent
  */
-export function onToggleOpenCloseComponent(component: OpenCloseComponent): void {
+export function onToggleOpenCloseComponent(component: OpenCloseComponent, nonOpenCloseComponent = false): void {
   readTask((): void => {
     if (component.transitionEl) {
       const allTransitionPropsArray = getComputedStyle(component.transitionEl).transition.split(" ");
@@ -76,20 +82,28 @@ export function onToggleOpenCloseComponent(component: OpenCloseComponent): void 
       );
       const transitionDuration = allTransitionPropsArray[openTransitionPropIndex + 1];
       if (transitionDuration === "0s") {
-        component.open ? component.onBeforeOpen() : component.onBeforeClose();
-        component.open ? component.onOpen() : component.onClose();
+        (nonOpenCloseComponent ? component[component.transitionProp] : component.open)
+          ? component.onBeforeOpen()
+          : component.onBeforeClose();
+        (nonOpenCloseComponent ? component[component.transitionProp] : component.open)
+          ? component.onOpen()
+          : component.onClose();
       } else {
         component.transitionEl.addEventListener(
           "transitionstart",
           () => {
-            component.open ? component.onBeforeOpen() : component.onBeforeClose();
+            (nonOpenCloseComponent ? component[component.transitionProp] : component.open)
+              ? component.onBeforeOpen()
+              : component.onBeforeClose();
           },
           { once: true }
         );
         component.transitionEl.addEventListener(
           "transitionend",
           () => {
-            component.open ? component.onOpen() : component.onClose();
+            (nonOpenCloseComponent ? component[component.transitionProp] : component.open)
+              ? component.onOpen()
+              : component.onClose();
           },
           { once: true }
         );
@@ -99,6 +113,8 @@ export function onToggleOpenCloseComponent(component: OpenCloseComponent): void 
 }
 /**
  * Helper to keep track of transition listeners on setTransitionEl and connectedCallback on OpenCloseComponent components.
+ *
+ * For component which do not have open prop, use `onToggleOpenCloseComponent` implementation.
  *
  * @param component
  */

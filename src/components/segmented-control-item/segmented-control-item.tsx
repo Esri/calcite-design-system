@@ -18,7 +18,7 @@ import { SLOTS, CSS } from "./resources";
   styleUrl: "segmented-control-item.scss",
   shadow: true
 })
-export class RadioGroupItem {
+export class SegmentedControlItem {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -39,7 +39,7 @@ export class RadioGroupItem {
 
   @Watch("checked")
   protected handleCheckedChange(): void {
-    this.calciteInternalRadioGroupItemChange.emit();
+    this.calciteInternalSegmentedControlItemChange.emit();
   }
 
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
@@ -120,5 +120,5 @@ export class RadioGroupItem {
    * @internal
    */
   @Event({ cancelable: false })
-  calciteInternalRadioGroupItemChange: EventEmitter<void>;
+  calciteInternalSegmentedControlItemChange: EventEmitter<void>;
 }
