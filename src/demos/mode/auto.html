@@ -15,8 +15,8 @@
       };
     </script>
     <script src="https://js.arcgis.com/4.23/"></script>
-    <link disabled id="jsapi-theme-dark" rel="stylesheet" href="https://js.arcgis.com/4.23/esri/themes/dark/main.css" />
-    <link id="jsapi-theme-light" rel="stylesheet" href="https://js.arcgis.com/4.23/esri/themes/light/main.css" />
+    <link disabled id="jsapi-mode-dark" rel="stylesheet" href="https://js.arcgis.com/4.23/esri/themes/dark/main.css" />
+    <link id="jsapi-mode-light" rel="stylesheet" href="https://js.arcgis.com/4.23/esri/themes/light/main.css" />
     <style>
       html,
       body,
@@ -63,10 +63,10 @@
 
           view.ui.move("zoom", "bottom-right");
 
-          // Theme switch
-          document.getElementById("toggle-theme").addEventListener("click", (event) => {
-            const dark = document.getElementById("jsapi-theme-dark");
-            const light = document.getElementById("jsapi-theme-light");
+          // mode switch
+          document.getElementById("toggle-mode").addEventListener("click", (event) => {
+            const dark = document.getElementById("jsapi-mode-dark");
+            const light = document.getElementById("jsapi-mode-light");
             dark.toggleAttribute("disabled");
             light.toggleAttribute("disabled");
             customWebMap.basemap = dark.hasAttribute("disabled") ? "gray-vector" : "dark-gray-vector";

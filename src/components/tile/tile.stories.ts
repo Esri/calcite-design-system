@@ -1,6 +1,6 @@
 import { select, text } from "@storybook/addon-knobs";
 import { iconNames, boolean, storyFilters } from "../../../.storybook/helpers";
-import { themesDarkDefault } from "../../../.storybook/utils";
+import { modesDarkDefault } from "../../../.storybook/utils";
 import readme from "./readme.md";
 import { html } from "../../../support/formatting";
 
@@ -41,7 +41,7 @@ export const largeTile = (): string => html`
   </calcite-tile>
 `;
 
-export const darkThemeRTL_TestOnly = (): string => html`
+export const darkModeRTL_TestOnly = (): string => html`
   <calcite-tile
     ${boolean("active", false)}
     description="${text(
@@ -53,12 +53,12 @@ export const darkThemeRTL_TestOnly = (): string => html`
     ${boolean("hidden", false)}
     href="${text("href", "#")}"
     icon="${select("icon", iconNames, "layer")}"
-    class="calcite-theme-dark"
+    class="calcite-mode-dark"
     dir="rtl"
   >
   </calcite-tile>
 `;
-darkThemeRTL_TestOnly.parameters = { themes: themesDarkDefault };
+darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
 
 export const contentStartRTL_TestOnly = (): string => html`
   <calcite-tile

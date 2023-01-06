@@ -1,6 +1,6 @@
 import { number, select } from "@storybook/addon-knobs";
 import { boolean, storyFilters } from "../../../.storybook/helpers";
-import { themesDarkDefault } from "../../../.storybook/utils";
+import { modesDarkDefault } from "../../../.storybook/utils";
 import readme1 from "./readme.md";
 import readme2 from "../dropdown-group/readme.md";
 import readme3 from "../dropdown-item/readme.md";
@@ -183,7 +183,7 @@ export const itemsAsLinks = (): string => html`
   </calcite-dropdown>
 `;
 
-export const darkThemeRTL_TestOnly = (): string => html`
+export const darkModeRTL_TestOnly = (): string => html`
   <style>
     :root {
       --calcite-duration-factor: 0;
@@ -192,7 +192,7 @@ export const darkThemeRTL_TestOnly = (): string => html`
   <calcite-dropdown
     dir="rtl"
     open
-    class="calcite-theme-dark"
+    class="calcite-mode-dark"
     placement="${select("placement", menuPlacements, defaultMenuPlacement)}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
     width="${select("width", ["s", "m", "l"], "m")}"
@@ -222,12 +222,12 @@ export const darkThemeRTL_TestOnly = (): string => html`
   </calcite-dropdown>
 `;
 
-darkThemeRTL_TestOnly.parameters = { themes: themesDarkDefault };
+darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
 
-export const itemsAsLinksDarkTheme = (): string => html`
+export const itemsAsLinksDarkMode = (): string => html`
   <calcite-dropdown
     open
-    class="calcite-theme-dark"
+    class="calcite-mode-dark"
     placement="${select("placement", menuPlacements, defaultMenuPlacement)}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
     width="${select("width", ["s", "m", "l"], "m")}"
@@ -256,7 +256,7 @@ export const itemsAsLinksDarkTheme = (): string => html`
   </calcite-dropdown>
 `;
 
-itemsAsLinksDarkTheme.parameters = { themes: themesDarkDefault };
+itemsAsLinksDarkMode.parameters = { modes: modesDarkDefault };
 
 export const scrollingAfterCertainItems_TestOnly = (): string => html`
   <style>
