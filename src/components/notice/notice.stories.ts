@@ -1,6 +1,6 @@
 import { select } from "@storybook/addon-knobs";
 import { boolean, iconNames, storyFilters } from "../../../.storybook/helpers";
-import { themesDarkDefault } from "../../../.storybook/utils";
+import { modesDarkDefault } from "../../../.storybook/utils";
 import readme from "./readme.md";
 import { html } from "../../../support/formatting";
 
@@ -75,11 +75,11 @@ export const withAction = (): string => html`
   </div>
 `;
 
-export const darkThemeRTL_TestOnly = (): string => html`
+export const darkModeRTL_TestOnly = (): string => html`
   <div style="width:600px;max-width:100%;text-align:center;">
     <calcite-notice
       dir="rtl"
-      class="calcite-theme-dark"
+      class="calcite-mode-dark"
       ${boolean("icon", true)}
       ${boolean("open", true)}
       ${boolean("closable", false)}
@@ -93,4 +93,4 @@ export const darkThemeRTL_TestOnly = (): string => html`
   </div>
 `;
 
-darkThemeRTL_TestOnly.parameters = { themes: themesDarkDefault };
+darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };

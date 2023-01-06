@@ -1,6 +1,6 @@
 import { text, number, array, boolean as booleanFn, select } from "@storybook/addon-knobs";
 import { boolean, storyFilters } from "../../../.storybook/helpers";
-import { themesDarkDefault } from "../../../.storybook/utils";
+import { modesDarkDefault } from "../../../.storybook/utils";
 import readme from "./readme.md";
 import { html } from "../../../support/formatting";
 
@@ -55,9 +55,9 @@ export const range = (): string => html`
   ></calcite-slider>
 `;
 
-export const darkThemeMirroredRange_TestOnly = (): string => html`
+export const darkModeMirroredRange_TestOnly = (): string => html`
   <calcite-slider
-    class="calcite-theme-dark"
+    class="calcite-mode-dark"
     mirrored
     min="${number("min", 0)}"
     min-label="${text("min-label", "Temperature, lower bound")}"
@@ -75,8 +75,8 @@ export const darkThemeMirroredRange_TestOnly = (): string => html`
   ></calcite-slider>
 `;
 
-darkThemeMirroredRange_TestOnly.story = {
-  parameters: { themes: themesDarkDefault }
+darkModeMirroredRange_TestOnly.story = {
+  parameters: { modes: modesDarkDefault }
 };
 
 export const rangeLabeledTicks_TestOnly = (): string => html`
@@ -236,7 +236,7 @@ export const HistogramWithColors = (): HTMLCalciteSliderElement => {
   return slider;
 };
 
-export const darkThemeHistogramRTL_TestOnly = (): HTMLCalciteSliderElement => {
+export const darkModeHistogramRTL_TestOnly = (): HTMLCalciteSliderElement => {
   const slider = document.createElement("calcite-slider") as HTMLCalciteSliderElement;
   slider.min = number("min", 0);
   slider.minValue = number("min-value", 25);
@@ -257,11 +257,11 @@ export const darkThemeHistogramRTL_TestOnly = (): HTMLCalciteSliderElement => {
   slider.snap = booleanFn("snap", false);
   slider.scale = select("scale", ["s", "m", "l"], "m");
   slider.style.minWidth = "60vw";
-  slider.className = "calcite-theme-dark";
+  slider.className = "calcite-mode-dark";
   return slider;
 };
 
-darkThemeHistogramRTL_TestOnly.parameters = { themes: themesDarkDefault };
+darkModeHistogramRTL_TestOnly.parameters = { modes: modesDarkDefault };
 
 export const disabled_TestOnly = (): string => html`<calcite-slider disabled value="5"></calcite-slider>`;
 

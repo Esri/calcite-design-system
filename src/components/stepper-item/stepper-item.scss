@@ -135,7 +135,7 @@
 @include disabled();
 
 :host([complete]) .container {
-  // todo dark theme
+  // todo dark mode
   border-color: rgba($h-bb-060, 0.5);
   & .stepper-item-icon {
     color: theme("backgroundColor.brand");
