@@ -811,16 +811,7 @@ export class ColorPicker
   //--------------------------------------------------------------------------
 
   render(): VNode {
-    const {
-      alphaEnabled,
-      allowEmpty,
-      channelsDisabled,
-      color,
-      hexDisabled,
-      savedColors,
-      savedDisabled,
-      scale
-    } = this;
+    const { alphaEnabled, allowEmpty, color, savedColors, scale } = this;
     const selectedColorInHex = color ? hexify(color, alphaEnabled) : null;
     const hexInputScale = scale === "l" ? "m" : "s";
     const {
@@ -839,9 +830,6 @@ export class ColorPicker
     const hueLeft = hueScopeLeft ?? (colorFieldWidth * DEFAULT_COLOR.hue()) / HSV_LIMITS.h;
     const noColor = color === null;
     const vertical = scopeOrientation === "vertical";
-    const noHex = hexDisabled;
-    const noChannels = channelsDisabled;
-    const noSaved = savedDisabled;
 
     return (
       <div class={CSS.container}>
@@ -882,7 +870,7 @@ export class ColorPicker
             tabindex="0"
           />
         </div>
-        {noHex && noChannels ? null : (
+        {this.hexDisabled && this.channelsDisabled ? null : (
           <div
             class={{
               [CSS.controlSection]: true,
@@ -890,7 +878,7 @@ export class ColorPicker
             }}
           >
             <div class={CSS.hexAndChannelsGroup}>
-              {noHex ? null : (
+              {this.hexDisabled ? null : (
                 <div class={CSS.hexOptions}>
                   <span
                     class={{
@@ -932,7 +920,7 @@ export class ColorPicker
             {this.alphaEnabled ? this.renderOpacitySection() : null}
           </div>
         )}
-        {noSaved ? null : (
+        {this.savedDisabled ? null : (
           <div class={{ [CSS.savedColorsSection]: true, [CSS.section]: true }}>
             <div class={CSS.header}>
               <label>{this.messages.saved}</label>
