@@ -95,6 +95,15 @@ Add `calcite-match-height` to a wrapping element to ensure proper height, scroll
 |                | A slot for adding custom content.                          |
 | `"action-bar"` | A slot for adding a `calcite-action-bar` to the component. |
 
+## CSS Custom Properties
+
+| Name                                        | Description                                                  |
+| ------------------------------------------- | ------------------------------------------------------------ |
+| `--calcite-shell-panel-detached-max-height` | The maximum height of the component when `detached` is true. |
+| `--calcite-shell-panel-max-width`           | The maximum width of the component.                          |
+| `--calcite-shell-panel-min-width`           | The minimum width of the component.                          |
+| `--calcite-shell-panel-width`               | The width of the component.                                  |
+
 ---
 
 _Built with [StencilJS](https://stenciljs.com/)_

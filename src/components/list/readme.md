@@ -146,7 +146,7 @@ A general purpose list that enables users to construct list items that conform t
 
 ### `setFocus() => Promise<void>`
 
-Sets focus on the component.
+Sets focus on the component's first focusable element.
 
 #### Returns
 

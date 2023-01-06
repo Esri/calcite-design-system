@@ -40,6 +40,8 @@ import {
  * @slot actions-end - A slot for adding `calcite-action`s or content to the end side of the component.
  * @slot actions-start - A slot for adding `calcite-action`s or content to the start side of the component.
  */
+
+/** @deprecated Use the `list` component instead. */
 @Component({
   tag: "calcite-pick-list-item",
   styleUrl: "pick-list-item.scss",

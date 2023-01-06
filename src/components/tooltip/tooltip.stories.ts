@@ -7,7 +7,7 @@ import { themesDarkDefault } from "../../../.storybook/utils";
 
 const contentHTML = `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua`;
 
-const referenceElementHTML = `Ut enim ad minim veniam, quis <calcite-button appearance="transparent" kind="neutral" title="Reference element" id="reference-element">nostrud exercitation</calcite-button> ullamco laboris nisi ut aliquip ex ea commodo consequat.`;
+const referenceElementHTML = `Ut enim ad minim veniam, quis <calcite-button appearance="transparent" kind="neutral" id="reference-element">nostrud exercitation</calcite-button> ullamco laboris nisi ut aliquip ex ea commodo consequat.`;
 
 export default {
   title: "Components/Tooltip",
@@ -27,7 +27,7 @@ export const simple = (): string => html`
       offset-skidding="${number("offset-skidding", 0)}"
       ${boolean("open", false)}
     >
-      ${contentHTML}
+      <span> ${contentHTML} </span>
     </calcite-tooltip>
   </div>
 `;
@@ -42,7 +42,7 @@ export const open_TestOnly = (): string => html`
       offset-skidding="${number("offset-skidding", 0)}"
       ${boolean("open", true)}
     >
-      ${contentHTML}
+      <span> ${contentHTML} </span>
     </calcite-tooltip>
   </div>
 `;
@@ -59,7 +59,7 @@ export const darkThemeRTL_TestOnly = (): string => html`
       offset-skidding="${number("offset-skidding", 0)}"
       ${boolean("open", false)}
     >
-      ${contentHTML}
+      <span> ${contentHTML} </span>
     </calcite-tooltip>
   </div>
 `;
