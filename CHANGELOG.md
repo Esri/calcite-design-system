@@ -11,11 +11,9 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 - **styles:** Use "mode" nomenclature instead of "theme"
 
-* `.calcite-theme-auto`, `.calcite-theme-dark`, and
-  `.calcite-theme-light` CSS classes have been replaced with
-  `.calcite-mode-auto`, `.calcite-mode-dark`, and `.calcite-mode-light `
-
-Co-authored-by: Ben Elan <belan@esri.com>
+  - `.calcite-theme-auto`, `.calcite-theme-dark`, and
+    `.calcite-theme-light` CSS classes have been replaced with
+    `.calcite-mode-auto`, `.calcite-mode-dark`, and `.calcite-mode-light `
 
 - **segmented-control:** - Updates `segmented-control` event to `calciteSegmentedControlChange`
 
