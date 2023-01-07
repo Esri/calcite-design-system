@@ -382,8 +382,8 @@ describe("calcite-input-text", () => {
     await page.keyboard.type("1");
     await page.waitForChanges();
     expect(await input.getProperty("value")).toBe("1");
-    expect(await button.getProperty("disabled")).toBeTruthy();
-    expect(await input.getProperty("disabled")).toBeFalsy();
+    expect(await button.getProperty("disabled")).toBe(true);
+    expect(await input.getProperty("disabled")).toBe(false);
 
     await input.setProperty("disabled", true);
     await input.callMethod("setFocus");
@@ -391,8 +391,8 @@ describe("calcite-input-text", () => {
     await page.keyboard.type("2");
     await page.waitForChanges();
     expect(await input.getProperty("value")).toBe("1");
-    expect(await button.getProperty("disabled")).toBeTruthy();
-    expect(await input.getProperty("disabled")).toBeTruthy();
+    expect(await button.getProperty("disabled")).toBe(true);
+    expect(await input.getProperty("disabled")).toBe(true);
 
     await input.setProperty("disabled", false);
     await page.waitForChanges();
@@ -400,8 +400,8 @@ describe("calcite-input-text", () => {
     await page.keyboard.type("3");
     await page.waitForChanges();
     expect(await input.getProperty("value")).toBe("13");
-    expect(await button.getProperty("disabled")).toBeTruthy();
-    expect(await input.getProperty("disabled")).toBeFalsy();
+    expect(await button.getProperty("disabled")).toBe(true);
+    expect(await input.getProperty("disabled")).toBe(false);
 
     await button.setProperty("disabled", false);
     await page.waitForChanges();
@@ -409,8 +409,8 @@ describe("calcite-input-text", () => {
     await page.keyboard.type("4");
     await page.waitForChanges();
     expect(await input.getProperty("value")).toBe("134");
-    expect(await button.getProperty("disabled")).toBeFalsy();
-    expect(await input.getProperty("disabled")).toBeFalsy();
+    expect(await button.getProperty("disabled")).toBe(false);
+    expect(await input.getProperty("disabled")).toBe(false);
 
     await input.setProperty("disabled", true);
     await page.waitForChanges();
@@ -418,8 +418,8 @@ describe("calcite-input-text", () => {
     await page.keyboard.type("5");
     await page.waitForChanges();
     expect(await input.getProperty("value")).toBe("134");
-    expect(await button.getProperty("disabled")).toBeTruthy();
-    expect(await input.getProperty("disabled")).toBeTruthy();
+    expect(await button.getProperty("disabled")).toBe(true);
+    expect(await input.getProperty("disabled")).toBe(true);
   });
 
   it("is form-associated", () => formAssociated("calcite-input-text", { testValue: "test", submitsOnEnter: true }));

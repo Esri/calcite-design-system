@@ -1640,47 +1640,47 @@ describe("calcite-input", () => {
     const button = await page.find("calcite-button");
 
     await input.callMethod("setFocus");
-    await typeNumberValue(page, "1");
+    await page.keyboard.type("1");
     await page.waitForChanges();
     expect(await input.getProperty("value")).toBe("1");
-    expect(await button.getProperty("disabled")).toBeTruthy();
-    expect(await input.getProperty("disabled")).toBeFalsy();
+    expect(await button.getProperty("disabled")).toBe(true);
+    expect(await input.getProperty("disabled")).toBe(false);
 
     await input.setProperty("disabled", true);
     await input.callMethod("setFocus");
     await page.waitForChanges();
-    await typeNumberValue(page, "2");
+    await page.keyboard.type("2");
     await page.waitForChanges();
     expect(await input.getProperty("value")).toBe("1");
-    expect(await button.getProperty("disabled")).toBeTruthy();
-    expect(await input.getProperty("disabled")).toBeTruthy();
+    expect(await button.getProperty("disabled")).toBe(true);
+    expect(await input.getProperty("disabled")).toBe(true);
 
     await input.setProperty("disabled", false);
     await page.waitForChanges();
     await input.callMethod("setFocus");
-    await typeNumberValue(page, "3");
+    await page.keyboard.type("3");
     await page.waitForChanges();
     expect(await input.getProperty("value")).toBe("13");
-    expect(await button.getProperty("disabled")).toBeTruthy();
-    expect(await input.getProperty("disabled")).toBeFalsy();
+    expect(await button.getProperty("disabled")).toBe(true);
+    expect(await input.getProperty("disabled")).toBe(false);
 
     await button.setProperty("disabled", false);
     await page.waitForChanges();
     await input.callMethod("setFocus");
-    await typeNumberValue(page, "4");
+    await page.keyboard.type("4");
     await page.waitForChanges();
     expect(await input.getProperty("value")).toBe("134");
-    expect(await button.getProperty("disabled")).toBeFalsy();
-    expect(await input.getProperty("disabled")).toBeFalsy();
+    expect(await button.getProperty("disabled")).toBe(false);
+    expect(await input.getProperty("disabled")).toBe(false);
 
     await input.setProperty("disabled", true);
     await page.waitForChanges();
     await input.callMethod("setFocus");
-    await typeNumberValue(page, "5");
+    await page.keyboard.type("5");
     await page.waitForChanges();
     expect(await input.getProperty("value")).toBe("134");
-    expect(await button.getProperty("disabled")).toBeTruthy();
-    expect(await input.getProperty("disabled")).toBeTruthy();
+    expect(await button.getProperty("disabled")).toBe(true);
+    expect(await input.getProperty("disabled")).toBe(true);
   });
 
   describe("is form-associated", () => {
