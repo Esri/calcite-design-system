@@ -1,6 +1,6 @@
 import { select, optionsKnob } from "@storybook/addon-knobs";
 import { iconNames, storyFilters } from "../../../.storybook/helpers";
-import { themesDarkDefault } from "../../../.storybook/utils";
+import { modesDarkDefault } from "../../../.storybook/utils";
 import { placeholderImage } from "../../../.storybook/placeholderImage";
 import readme1 from "./readme.md";
 import readme2 from "../tab/readme.md";
@@ -16,10 +16,10 @@ export default {
   ...storyFilters()
 };
 
-export const simpleDarkThemeRTL_TestOnly = (): string => html`
+export const simpleDarkModeRTL_TestOnly = (): string => html`
   <calcite-tabs
     dir="rtl"
-    class="calcite-theme-dark"
+    class="calcite-mode-dark"
     layout="${select("layout", ["inline", "center"], "inline")}"
     position="${select("position", ["top", "bottom"], "top")}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
@@ -36,7 +36,7 @@ export const simpleDarkThemeRTL_TestOnly = (): string => html`
     <calcite-tab><p>Tab 4 Content</p></calcite-tab>
   </calcite-tabs>
 `;
-simpleDarkThemeRTL_TestOnly.parameters = { themes: themesDarkDefault };
+simpleDarkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
 
 export const bordered = (): string => html`
   <calcite-tabs
@@ -58,14 +58,14 @@ export const bordered = (): string => html`
   </calcite-tabs>
 `;
 
-export const borderedDarkThemeRTL_TestOnly = (): string => html`
+export const borderedDarkModeRTL_TestOnly = (): string => html`
   <calcite-tabs
     layout="inline"
     position="${select("position", ["top", "bottom"], "top")}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
     bordered
     dir="rtl"
-    class="calcite-theme-dark"
+    class="calcite-mode-dark"
   >
     <calcite-tab-nav slot="title-group">
       <calcite-tab-title tab="tab1">Tab 1 Title</calcite-tab-title>
@@ -79,7 +79,7 @@ export const borderedDarkThemeRTL_TestOnly = (): string => html`
     <calcite-tab tab="tab4" selected>Tab 4 Content</calcite-tab>
   </calcite-tabs>
 `;
-borderedDarkThemeRTL_TestOnly.parameters = { themes: themesDarkDefault };
+borderedDarkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
 
 const selectedIcon = iconNames[0];
 

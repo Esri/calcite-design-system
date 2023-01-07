@@ -1,4 +1,4 @@
-import { themesDarkDefault } from "../../../.storybook/utils";
+import { modesDarkDefault } from "../../../.storybook/utils";
 import { placeholderImage } from "../../../.storybook/placeholderImage";
 import readme from "./readme.md";
 import itemReadme from "../list-item/readme.md";
@@ -263,8 +263,8 @@ export const richContentFilterEnabled = (): string => html`
   </calcite-list>
 `;
 
-export const darkThemeRTL_TestOnly = (): string => html`
-  <calcite-list class="calcite-theme-dark" dir="rtl" ${knobsHTML()}>
+export const darkModeRTL_TestOnly = (): string => html`
+  <calcite-list class="calcite-mode-dark" dir="rtl" ${knobsHTML()}>
     <calcite-list-item label="Princess Bubblegum" description="Ruler of The Candy Kingdom">
       <calcite-action icon="drag" label="drag" scale="s" slot="actions-start"></calcite-action>
       <calcite-icon scale="l" icon="effects" slot="content-start"></calcite-icon>
@@ -297,7 +297,7 @@ export const darkThemeRTL_TestOnly = (): string => html`
   </calcite-list>
 `;
 
-darkThemeRTL_TestOnly.parameters = { themes: themesDarkDefault };
+darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
 
 export const disabled_TestOnly = (): string => html`<calcite-list disabled>
   <calcite-list-item

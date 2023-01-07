@@ -1,6 +1,6 @@
 import { select } from "@storybook/addon-knobs";
 import { boolean, storyFilters } from "../../../.storybook/helpers";
-import { themesDarkDefault } from "../../../.storybook/utils";
+import { modesDarkDefault } from "../../../.storybook/utils";
 import readme from "./readme.md";
 import treeItemReadme from "../tree-item/readme.md";
 import { html } from "../../../support/formatting";
@@ -71,9 +71,9 @@ export const selectionModeNone = (): string => html`<calcite-tree
   ${treeItems}
 </calcite-tree>`;
 
-export const darkThemeRTL_TestOnly = (): string => html`
+export const darkModeRTL_TestOnly = (): string => html`
   <calcite-tree
-    class="calcite-theme-dark"
+    class="calcite-mode-dark"
     dir="rtl"
     ${boolean("lines", false)}
     selection-mode="${select("selection-mode", selectionModes, "single")}"
@@ -82,7 +82,7 @@ export const darkThemeRTL_TestOnly = (): string => html`
     ${treeItems}
   </calcite-tree>
 `;
-darkThemeRTL_TestOnly.parameters = { themes: themesDarkDefault };
+darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
 
 export const OverflowingSubtree = (): string =>
   html`<div style="width:400px">

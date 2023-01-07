@@ -4,7 +4,7 @@ import {
   Attribute,
   filterComponentAttributes,
   createComponentHTML as create,
-  themesDarkDefault
+  modesDarkDefault
 } from "../../../.storybook/utils";
 import readme from "./readme.md";
 import { ATTRIBUTES } from "../../../.storybook/resources";
@@ -122,7 +122,7 @@ export const withDefinedWidths = (): string =>
     </calcite-action-bar>
   `;
 
-export const darkThemeRTL_TestOnly = (): string =>
+export const darkModeRTL_TestOnly = (): string =>
   create(
     "calcite-action-bar",
     createAttributes({ exceptions: ["dir", "class"] }).concat([
@@ -132,7 +132,7 @@ export const darkThemeRTL_TestOnly = (): string =>
       },
       {
         name: "class",
-        value: "calcite-theme-dark"
+        value: "calcite-mode-dark"
       }
     ]),
     html`
@@ -146,7 +146,7 @@ export const darkThemeRTL_TestOnly = (): string =>
     `
   );
 
-darkThemeRTL_TestOnly.parameters = { themes: themesDarkDefault };
+darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
 
 export const withTooltip_NoTest = (): string =>
   create(
