@@ -9,13 +9,21 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ### ⚠ BREAKING CHANGES
 
-- **radio-group, radio-group-item:** Renames radio group components.
+- **styles:** Use "mode" nomenclature instead of "theme"
+
+  - `.calcite-theme-auto`, `.calcite-theme-dark`, and
+    `.calcite-theme-light` CSS classes have been replaced with
+    `.calcite-mode-auto`, `.calcite-mode-dark`, and `.calcite-mode-light `
+
+- **segmented-control:** - Updates `segmented-control` event to `calciteSegmentedControlChange`
+
+* **radio-group, radio-group-item:** Renames radio group components.
 
   - `calcite-radio-group` has been renamed to `calcite-segmented-control`.
   - `calcite-radio-group-item` has been renamed to
     `calcite-segmented-control-item`.
 
-- **panel, shell-panel, flow-item:** Update available css variables.
+* **panel, shell-panel, flow-item:** Update available css variables.
 
   - Removes `heightScale` and `widthScale` properties from Panel and Flow
     Item.
@@ -23,35 +31,35 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
     available width of parent component.
   - Documents public css variables for Shell Panel.
 
-- **modal, panel, popover**: Removed `focusId` parameter from `setFocus` methods.
+* **modal, panel, popover**: Removed `focusId` parameter from `setFocus` methods.
   When the `setFocus` method is called the first focusable element will be
   focused.
 
-- **combobox-item:**
+* **combobox-item:**
 
   - Removed `toggleSelected` method, use the `selected` property instead.
 
-- **date-picker:**
+* **date-picker:**
 
   - Removed the property `startAsDate`, use `valueAsDate` instead.
   - Removed the property `endAsDate`, use `valueAsDate` instead.
 
-- **pagination:**
+* **pagination:**
 
   - Removed the `--calcite-pagination-spacing` css variable
 
-- **popover:**
+* **popover:**
 
   - Removed the `toggle` method, use the `open` property instead.
 
-- **radio-button-group:**
+* **radio-button-group:**
 
   - Added property `selectedItem`.
   - Removed the `event.detail` property on the event
     `calciteRadioButtonGroupChange`, use `event.target` and the property
     `selectedItem` instead.
 
-- **stepper:**
+* **stepper:**
 
   - Added property `selectedItem`.
   - Removed the `event.detail` property on the event
@@ -64,6 +72,10 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 - **popover, modal:** Add the ability to update focus trap elements after initialization ([#6141](https://github.com/Esri/calcite-components/issues/6141)) ([806ca32](https://github.com/Esri/calcite-components/commit/806ca32788d2960df97ad18efcb731633f133fcb))
 
 ### Bug Fixes
+
+- **input, input-number:** nudge buttons increment/decrement once per interaction ([#6240](https://github.com/Esri/calcite-components/issues/6240)) ([fd10ac5](https://github.com/Esri/calcite-components/commit/fd10ac5976e00c30b9acbbe9ea19b2ab284eac6d)), closes [#5785](https://github.com/Esri/calcite-components/issues/5785)
+
+* **tree-item:** overflow slotted elements are no longer hidden ([#5261](https://github.com/Esri/calcite-components/issues/5261)) ([4aa1f7e](https://github.com/Esri/calcite-components/commit/4aa1f7eaa437f7bf25c5bbced8559b41944e32fb)), closes [#5168](https://github.com/Esri/calcite-components/issues/5168)
 
 - **list-item:** use pointer cursor when selection mode is none ([#6213](https://github.com/Esri/calcite-components/issues/6213)) ([6b43b91](https://github.com/Esri/calcite-components/commit/6b43b916a1ee3908635ab0b682d7a2d209545b22)), closes [#6123](https://github.com/Esri/calcite-components/issues/6123)
 

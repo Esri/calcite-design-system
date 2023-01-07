@@ -3,7 +3,7 @@ import {
   filterComponentAttributes,
   Attributes,
   createComponentHTML as create,
-  themesDarkDefault
+  modesDarkDefault
 } from "../../../.storybook/utils";
 import { placeholderImage } from "../../../.storybook/placeholderImage";
 import { ATTRIBUTES } from "../../../.storybook/resources";
@@ -104,7 +104,7 @@ const actionBarEndContentHTML = html`
 `;
 
 const actionBarStartHTML = html`
-  <calcite-action-bar class="calcite-theme-dark" slot="action-bar"> ${actionBarStartContentHTML} </calcite-action-bar>
+  <calcite-action-bar class="calcite-mode-dark" slot="action-bar"> ${actionBarStartContentHTML} </calcite-action-bar>
 `;
 
 const actionBarEndHTML = html`
@@ -311,12 +311,12 @@ export const simple = (): string =>
     `
   );
 
-export const darkThemeRTL_TestOnly = (): string =>
+export const darkModeRTL_TestOnly = (): string =>
   create(
     "calcite-shell",
     createAttributes({ exceptions: ["dir", "class"] }).concat(
       { name: "dir", value: "rtl" },
-      { name: "class", value: "calcite-theme-dark" }
+      { name: "class", value: "calcite-mode-dark" }
     ),
     html`
       ${headerHTML}
@@ -328,7 +328,7 @@ export const darkThemeRTL_TestOnly = (): string =>
     `
   );
 
-darkThemeRTL_TestOnly.parameters = { themes: themesDarkDefault };
+darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
 
 export const closedPanels = (): string => html`<calcite-shell content-behind>
   <calcite-shell-panel slot="panel-start" detached>

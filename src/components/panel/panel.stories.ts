@@ -4,7 +4,7 @@ import {
   createComponentHTML as create,
   Attribute,
   filterComponentAttributes,
-  themesDarkDefault
+  modesDarkDefault
 } from "../../../.storybook/utils";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import readme from "./readme.md";
@@ -145,7 +145,7 @@ export const disabledWithStyledSlot_TestOnly = (): string => html`
   </calcite-panel>
 `;
 
-export const darkThemeRTL_TestOnly = (): string =>
+export const darkModeRTL_TestOnly = (): string =>
   create(
     "calcite-panel",
     createAttributes({ exceptions: ["dir", "class"] }).concat([
@@ -155,10 +155,10 @@ export const darkThemeRTL_TestOnly = (): string =>
       },
       {
         name: "class",
-        value: "calcite-theme-dark"
+        value: "calcite-mode-dark"
       }
     ]),
     panelContent
   );
 
-darkThemeRTL_TestOnly.parameters = { themes: themesDarkDefault };
+darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
