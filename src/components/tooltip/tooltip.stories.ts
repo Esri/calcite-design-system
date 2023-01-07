@@ -3,7 +3,7 @@ import readme from "./readme.md";
 import { html } from "../../../support/formatting";
 import { boolean, storyFilters } from "../../../.storybook/helpers";
 import { placements } from "../../utils/floating-ui";
-import { themesDarkDefault } from "../../../.storybook/utils";
+import { modesDarkDefault } from "../../../.storybook/utils";
 
 const contentHTML = `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua`;
 
@@ -47,11 +47,11 @@ export const open_TestOnly = (): string => html`
   </div>
 `;
 
-export const darkThemeRTL_TestOnly = (): string => html`
+export const darkModeRTL_TestOnly = (): string => html`
   <div style="width: 400px;">
     ${referenceElementHTML}
     <calcite-tooltip
-      class="calcite-theme-dark"
+      class="calcite-mode-dark"
       dir="rtl"
       reference-element="reference-element"
       placement="${select("placement", placements, "auto")}"
@@ -64,7 +64,7 @@ export const darkThemeRTL_TestOnly = (): string => html`
   </div>
 `;
 
-darkThemeRTL_TestOnly.parameters = { themes: themesDarkDefault };
+darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
 
 export const rightAligned_TestOnly = (): string => html`<div style="text-align: right">
   <a href="#" id="tooltip-button">Hover for Tooltip</a>

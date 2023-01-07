@@ -1,6 +1,6 @@
 import { select } from "@storybook/addon-knobs";
 import { iconNames, boolean, storyFilters } from "../../../.storybook/helpers";
-import { themesDarkDefault } from "../../../.storybook/utils";
+import { modesDarkDefault } from "../../../.storybook/utils";
 import { placeholderImage } from "../../../.storybook/placeholderImage";
 import readme from "./readme.md";
 import { html } from "../../../support/formatting";
@@ -79,10 +79,10 @@ export const withAvatar = (): string => {
 export const overriddenIconColor = (): string =>
   html`<calcite-chip icon="banana" style="--calcite-ui-icon-color: #ac9f42" closable>Banana</calcite-chip>`;
 
-export const darkThemeRTL_TestOnly = (): string => html`
+export const darkModeRTL_TestOnly = (): string => html`
   <div style="background-color:#2b2b2b;padding:100px" dir="rtl">
     <calcite-chip
-      class="calcite-theme-dark"
+      class="calcite-mode-dark"
       scale="${select("scale", ["s", "m", "l"], "m")}"
       appearance="${select("appearance", ["outline", "outline-fill", "solid"], "solid")}"
       kind="${select("kind", ["brand", "inverse", "neutral"], "neutral")}"
@@ -92,4 +92,4 @@ export const darkThemeRTL_TestOnly = (): string => html`
   </div>
 `;
 
-darkThemeRTL_TestOnly.parameters = { themes: themesDarkDefault };
+darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };

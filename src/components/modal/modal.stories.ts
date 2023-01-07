@@ -1,6 +1,6 @@
 import { select, number } from "@storybook/addon-knobs";
 import { boolean, storyFilters } from "../../../.storybook/helpers";
-import { themesDarkDefault } from "../../../.storybook/utils";
+import { modesDarkDefault } from "../../../.storybook/utils";
 import readme from "./readme.md";
 import { html } from "../../../support/formatting";
 
@@ -37,9 +37,9 @@ export const simple = (): string => html`
   </calcite-modal>
 `;
 
-export const darkThemeRTLCustomSize_TestOnly = (): string => html`
+export const darkModeRTLCustomSize_TestOnly = (): string => html`
   <calcite-modal
-    class="calcite-theme-dark"
+    class="calcite-mode-dark"
     dir="rtl"
     ${boolean("open", true)}
     kind="${select("kind", ["brand", "danger", "info", "success", "warning"], "")}"
@@ -64,7 +64,7 @@ export const darkThemeRTLCustomSize_TestOnly = (): string => html`
   </calcite-modal>
 `;
 
-darkThemeRTLCustomSize_TestOnly.parameters = { themes: themesDarkDefault };
+darkModeRTLCustomSize_TestOnly.parameters = { modes: modesDarkDefault };
 
 export const withTooltips_TestOnly = (): string => html`
   <button id="button">Open</button>

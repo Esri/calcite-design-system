@@ -1,6 +1,6 @@
 import { select, text } from "@storybook/addon-knobs";
 import { boolean, storyFilters } from "../../../.storybook/helpers";
-import { themesDarkDefault } from "../../../.storybook/utils";
+import { modesDarkDefault } from "../../../.storybook/utils";
 import readme1 from "./readme.md";
 import readme2 from "../stepper-item/readme.md";
 import { html } from "../../../support/formatting";
@@ -88,10 +88,10 @@ export const simple = (): string => html`
   </calcite-stepper>
 `;
 
-export const darkThemeRTL_TestOnly = (): string => html`
+export const darkModeRTL_TestOnly = (): string => html`
 <div dir="rtl">
   <calcite-stepper
-  class="calcite-theme-dark"
+  class="calcite-mode-dark"
     scale="${select("scale", ["s", "m", "l"], "m")}"
     layout="${select("layout", ["horizontal", "vertical"], "horizontal")}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
@@ -131,7 +131,7 @@ export const darkThemeRTL_TestOnly = (): string => html`
 </div>
 `;
 
-darkThemeRTL_TestOnly.parameters = { themes: themesDarkDefault };
+darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
 
 export const overriddenWidth_TestOnly = (): string => html` <calcite-stepper numbered style="width: 50vw">
   <calcite-stepper-item heading="Choose method" description="Add members without sending invitations" complete>
