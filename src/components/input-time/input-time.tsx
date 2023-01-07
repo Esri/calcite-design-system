@@ -43,6 +43,12 @@ import {
   getTimeParts
 } from "../../utils/time";
 import { CSS, TEXT } from "./resources";
+import { NumberingSystem } from "../../utils/locale";
+import {
+  LoadableComponent,
+  setComponentLoaded,
+  setUpLoadableComponent
+} from "../../utils/loadable";
 
 function capitalize(str: string): string {
   return str.charAt(0).toUpperCase() + str.slice(1);
@@ -53,7 +59,9 @@ function capitalize(str: string): string {
   styleUrl: "input-time.scss",
   shadow: true
 })
-export class InputTime implements LabelableComponent, FormComponent, InteractiveComponent {
+export class InputTime
+  implements LabelableComponent, FormComponent, InteractiveComponent, LoadableComponent
+{
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -118,6 +126,11 @@ export class InputTime implements LabelableComponent, FormComponent, Interactive
 
   /** The name of the time input */
   @Prop() name: string;
+
+  /**
+   * Specifies the Unicode numeral system used by the component for localization.
+   */
+  @Prop({ reflect: true }) numberingSystem: NumberingSystem;
 
   /**
    * When true, still focusable but controls are gone and the value cannot be modified.
@@ -696,7 +709,7 @@ export class InputTime implements LabelableComponent, FormComponent, Interactive
   //
   // --------------------------------------------------------------------------
 
-  connectedCallback() {
+  connectedCallback(): void {
     this.setValue({ newValue: this.value, context: "connected" });
     this.hourCycle = getLocaleHourCycle(this.locale);
     this.previousEmittedValue = this.value;
@@ -704,11 +717,19 @@ export class InputTime implements LabelableComponent, FormComponent, Interactive
     connectForm(this);
   }
 
+  componentWillLoad(): void {
+    setUpLoadableComponent(this);
+  }
+
+  componentDidLoad(): void {
+    setComponentLoaded(this);
+  }
+
   componentDidRender(): void {
     updateHostInteraction(this);
   }
 
-  disconnectedCallback() {
+  disconnectedCallback(): void {
     disconnectLabel(this);
     disconnectForm(this);
   }
