@@ -330,15 +330,27 @@ export const withIconStartAndEnd_TestOnly = (): string =>
   );
 
 export const mediumIconForLargeAccordionItem_TestOnly = (): string => html`
-  <calcite-accordion scale="l">
-    <calcite-accordion-item heading="Accordion Item No Icon" scale="l" />
-    <calcite-accordion-item heading="Accordion Item IconStart" icon-start="car" scale="l" />
-    <calcite-accordion-item heading="Accordion Item IconStart/End" icon-start="plane" icon-end="plane" scale="l" />
+  <calcite-accordion scale="l" style="width: 400px">
+    <calcite-accordion-item heading="Accordion Item" scale="l"></calcite-accordion-item>
+    <calcite-accordion-item
+      heading="Accordion Item IconStart/End"
+      icon-start="plane"
+      icon-end="plane"
+      scale="l"
+    ></calcite-accordion-item>
+    <calcite-accordion-item heading="Accordion Item" scale="l" description="A great subtitle"></calcite-accordion-item>
+    <calcite-accordion-item
+      heading="Accordion Item IconStart/End"
+      icon-start="plane"
+      icon-end="plane"
+      scale="l"
+      description="A great subtitle"
+    ></calcite-accordion-item>
     <calcite-accordion-item
       heading="Accordion Item IconStart/End with a potentially two line title"
       icon-start="banana"
       icon-end="banana"
       scale="l"
-    />
+    ></calcite-accordion-item>
   </calcite-accordion>
 `;
