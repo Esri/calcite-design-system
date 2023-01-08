@@ -17,7 +17,7 @@ import {
 } from "../../utils/conditionalSlot";
 import { CSS_UTILITY } from "../../utils/resources";
 import { SLOTS, CSS } from "./resources";
-import { FlipContext, Position } from "../interfaces";
+import { FlipContext, Position, Scale } from "../interfaces";
 import { RegistryEntry, RequestedItem } from "./interfaces";
 
 /**
@@ -43,14 +43,14 @@ export class AccordionItem implements ConditionalSlotComponent {
   //
   //--------------------------------------------------------------------------
 
+  /** Specifies a description for the component. */
+  @Prop() description: string;
+
   /** When `true`, the component is expanded. */
   @Prop({ reflect: true, mutable: true }) expanded = false;
 
   /** Specifies heading text for the component. */
   @Prop() heading: string;
-
-  /** Specifies a description for the component. */
-  @Prop() description: string;
 
   /** Specifies an icon to display at the start of the component. */
   @Prop({ reflect: true }) iconStart: string;
@@ -60,6 +60,9 @@ export class AccordionItem implements ConditionalSlotComponent {
 
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @Prop({ reflect: true }) iconFlipRtl: FlipContext;
+
+  /** Specifies the scale of the accordion-item, defaults to m */
+  @Prop({ reflect: true }) scale: Scale = "m";
 
   //--------------------------------------------------------------------------
   //
@@ -142,7 +145,7 @@ export class AccordionItem implements ConditionalSlotComponent {
         flipRtl={iconFlipRtl === "both" || iconFlipRtl === "start"}
         icon={this.iconStart}
         key="icon-start"
-        scale="s"
+        scale={this.scale === "l" ? "m" : "s"}
       />
     ) : null;
     const iconEndEl = this.iconEnd ? (
@@ -151,7 +154,7 @@ export class AccordionItem implements ConditionalSlotComponent {
         flipRtl={iconFlipRtl === "both" || iconFlipRtl === "end"}
         icon={this.iconEnd}
         key="icon-end"
-        scale="s"
+        scale={this.scale === "l" ? "m" : "s"}
       />
     ) : null;
     const { description } = this;
@@ -191,7 +194,7 @@ export class AccordionItem implements ConditionalSlotComponent {
                     ? "minus"
                     : "plus"
                 }
-                scale="s"
+                scale={this.scale === "l" ? "m" : "s"}
               />
             </div>
             {this.renderActionsEnd()}
@@ -260,6 +263,7 @@ export class AccordionItem implements ConditionalSlotComponent {
 
   /** handle clicks on item header */
   private itemHeaderClickHandler = (): void => this.emitRequestedItem();
+
   //--------------------------------------------------------------------------
   //
   //  Private Methods
