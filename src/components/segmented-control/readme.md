@@ -30,9 +30,9 @@
 
 ## Events
 
-| Event                     | Description                                                                      | Type                |
-| ------------------------- | -------------------------------------------------------------------------------- | ------------------- |
-| `calciteRadioGroupChange` | Fires when the selected option changes, where the event detail is the new value. | `CustomEvent<void>` |
+| Event                           | Description                                                                      | Type                |
+| ------------------------------- | -------------------------------------------------------------------------------- | ------------------- |
+| `calciteSegmentedControlChange` | Fires when the selected option changes, where the event detail is the new value. | `CustomEvent<void>` |
 
 ## Methods
 
