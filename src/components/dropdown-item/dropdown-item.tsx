@@ -158,7 +158,7 @@ export class DropdownItem implements LoadableComponent {
         class="dropdown-item-icon-start"
         flipRtl={this.iconFlipRtl === "start" || this.iconFlipRtl === "both"}
         icon={this.iconStart}
-        scale={this.scale === "l" ? "m" : "s"}
+        scale={scale === "l" ? "m" : "s"}
       />
     );
     const contentNode = (
@@ -171,7 +171,7 @@ export class DropdownItem implements LoadableComponent {
         class="dropdown-item-icon-end"
         flipRtl={this.iconFlipRtl === "end" || this.iconFlipRtl === "both"}
         icon={this.iconEnd}
-        scale={this.scale === "l" ? "m" : "s"}
+        scale={scale === "l" ? "m" : "s"}
       />
     );
 
@@ -228,7 +228,7 @@ export class DropdownItem implements LoadableComponent {
             <calcite-icon
               class="dropdown-item-icon"
               icon={this.selectionMode === "multiple" ? "check" : "bullet-point"}
-              scale={this.scale === "l" ? "m" : "s"}
+              scale={scale === "l" ? "m" : "s"}
             />
           ) : null}
           {contentEl}
