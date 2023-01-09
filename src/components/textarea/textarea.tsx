@@ -406,6 +406,9 @@ export class Textarea
 
     if (this.footerEl) {
       this.footerEl.style.width = `${textareaWidth}px`;
+      if (footerHeight > 0) {
+        this.textareaEl.style.height = `${elHeight - footerHeight}px`;
+      }
     }
 
     if (
