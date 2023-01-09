@@ -9,11 +9,8 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ### ⚠ BREAKING CHANGES
 
-- **card:** rename footer-leading and footer-trailing slots to
-  footer-start and footer-end
-
-* Removed `footer-leading` and `footer-trailing` slots, use
-  `footer-start` and `footer-end` instead
+- **card:**: Removed `footer-leading` and `footer-trailing` slots, use
+  `footer-start` and `footer-end` instead.
 
 * **styles:** Use "mode" nomenclature instead of "theme"
 
@@ -21,7 +18,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
     `.calcite-theme-light` CSS classes have been replaced with
     `.calcite-mode-auto`, `.calcite-mode-dark`, and `.calcite-mode-light `
 
-* **segmented-control:** - Updates `segmented-control` event to `calciteSegmentedControlChange`
+* **segmented-control:** Updates `segmented-control` event to `calciteSegmentedControlChange`.
 
 - **radio-group, radio-group-item:** Renames radio group components.
 
