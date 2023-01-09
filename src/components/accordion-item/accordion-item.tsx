@@ -93,6 +93,7 @@ export class AccordionItem implements ConditionalSlotComponent {
     this.selectionMode = getElementProp(this.el, "selection-mode", "multiple");
     this.iconType = getElementProp(this.el, "icon-type", "chevron");
     this.iconPosition = getElementProp(this.el, "icon-position", this.iconPosition);
+    this.scale = getElementProp(this.el, "scale", this.scale);
 
     connectConditionalSlotComponent(this);
   }
