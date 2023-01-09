@@ -13,7 +13,7 @@ import {
 import { getElementProp, toAriaBoolean } from "../../utils/dom";
 import { ItemKeyboardEvent } from "../dropdown/interfaces";
 
-import { FlipContext } from "../interfaces";
+import { FlipContext, Scale, SelectionMode } from "../interfaces";
 import { CSS } from "./resources";
 import { RequestedItem } from "../dropdown-group/interfaces";
 import {
@@ -22,7 +22,6 @@ import {
   LoadableComponent,
   componentLoaded
 } from "../../utils/loadable";
-import { SelectionMode } from "../interfaces";
 
 /**
  * @slot - A slot for adding text.
@@ -47,8 +46,12 @@ export class DropdownItem implements LoadableComponent {
   //
   //--------------------------------------------------------------------------
 
-  /** When `true`, the component is selected. */
-  @Prop({ reflect: true, mutable: true }) selected = false;
+  /**
+   *  Specifies the URL of the linked resource, which can be set as an absolute or relative path.
+   *
+   * Determines if the component will render as an anchor.
+   */
+  @Prop({ reflect: true }) href: string;
 
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @Prop({ reflect: true }) iconFlipRtl: FlipContext;
@@ -59,18 +62,14 @@ export class DropdownItem implements LoadableComponent {
   /** Specifies an icon to display at the end of the component. */
   @Prop({ reflect: true }) iconEnd: string;
 
-  /**
-   *  Specifies the URL of the linked resource, which can be set as an absolute or relative path.
-   *
-   * Determines if the component will render as an anchor.
-   */
-  @Prop({ reflect: true }) href: string;
-
   /** Accessible name for the component. */
   @Prop() label: string;
 
   /** Specifies the relationship to the linked document defined in `href`. */
   @Prop({ reflect: true }) rel: string;
+
+  /** When `true`, the component is selected. */
+  @Prop({ reflect: true, mutable: true }) selected = false;
 
   /** Specifies the frame or window to open the linked document. */
   @Prop({ reflect: true }) target: string;
@@ -111,6 +110,30 @@ export class DropdownItem implements LoadableComponent {
 
   //--------------------------------------------------------------------------
   //
+  //  Private State/Props
+  //
+  //--------------------------------------------------------------------------
+
+  /** if href is requested, track the rendered child link*/
+  private childLink: HTMLAnchorElement;
+
+  /** id of containing group */
+  private parentDropdownGroupEl: HTMLCalciteDropdownGroupElement;
+
+  /** requested group */
+  private requestedDropdownGroup: HTMLCalciteDropdownGroupElement;
+
+  /** requested item */
+  private requestedDropdownItem: HTMLCalciteDropdownItemElement;
+
+  /** what selection mode is the parent dropdown group in */
+  private selectionMode: Extract<"none" | "single" | "multiple", SelectionMode>;
+
+  /** Specifies the scale of dropdown-item controlled by the parent, defaults to m */
+  scale: Scale = "m";
+
+  //--------------------------------------------------------------------------
+  //
   //  Lifecycle
   //
   //--------------------------------------------------------------------------
@@ -129,13 +152,13 @@ export class DropdownItem implements LoadableComponent {
   }
 
   render(): VNode {
-    const scale = getElementProp(this.el, "scale", "m");
+    const scale = getElementProp(this.el, "scale", this.scale);
     const iconStartEl = (
       <calcite-icon
         class="dropdown-item-icon-start"
         flipRtl={this.iconFlipRtl === "start" || this.iconFlipRtl === "both"}
         icon={this.iconStart}
-        scale="s"
+        scale={this.scale === "l" ? "m" : "s"}
       />
     );
     const contentNode = (
@@ -148,7 +171,7 @@ export class DropdownItem implements LoadableComponent {
         class="dropdown-item-icon-end"
         flipRtl={this.iconFlipRtl === "end" || this.iconFlipRtl === "both"}
         icon={this.iconEnd}
-        scale="s"
+        scale={this.scale === "l" ? "m" : "s"}
       />
     );
 
@@ -205,7 +228,7 @@ export class DropdownItem implements LoadableComponent {
             <calcite-icon
               class="dropdown-item-icon"
               icon={this.selectionMode === "multiple" ? "check" : "bullet-point"}
-              scale="s"
+              scale={this.scale === "l" ? "m" : "s"}
             />
           ) : null}
           {contentEl}
@@ -263,27 +286,6 @@ export class DropdownItem implements LoadableComponent {
     }
     event.stopPropagation();
   }
-
-  //--------------------------------------------------------------------------
-  //
-  //  Private State/Props
-  //
-  //--------------------------------------------------------------------------
-
-  /** id of containing group */
-  private parentDropdownGroupEl: HTMLCalciteDropdownGroupElement;
-
-  /** requested group */
-  private requestedDropdownGroup: HTMLCalciteDropdownGroupElement;
-
-  /** requested item */
-  private requestedDropdownItem: HTMLCalciteDropdownItemElement;
-
-  /** what selection mode is the parent dropdown group in */
-  private selectionMode: Extract<"none" | "single" | "multiple", SelectionMode>;
-
-  /** if href is requested, track the rendered child link*/
-  private childLink: HTMLAnchorElement;
 
   //--------------------------------------------------------------------------
   //
