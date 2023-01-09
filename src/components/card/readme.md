@@ -35,14 +35,14 @@
 
 ## Slots
 
-| Slot                | Description                                      |
-| ------------------- | ------------------------------------------------ |
-|                     | A slot for adding subheader/description content. |
-| `"footer-leading"`  | A slot for adding a leading footer.              |
-| `"footer-trailing"` | A slot for adding a trailing footer.             |
-| `"subtitle"`        | A slot for adding a subtitle or short summary.   |
-| `"thumbnail"`       | A slot for adding a thumbnail to the component.  |
-| `"title"`           | A slot for adding a title.                       |
+| Slot             | Description                                      |
+| ---------------- | ------------------------------------------------ |
+|                  | A slot for adding subheader/description content. |
+| `"footer-start"` | A slot for adding a leading footer.              |
+| `"footer-end"`   | A slot for adding a trailing footer.             |
+| `"subtitle"`     | A slot for adding a subtitle or short summary.   |
+| `"thumbnail"`    | A slot for adding a thumbnail to the component.  |
+| `"title"`        | A slot for adding a title.                       |
 
 ## Dependencies
 

@@ -9,21 +9,24 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ### ⚠ BREAKING CHANGES
 
-- **styles:** Use "mode" nomenclature instead of "theme"
+- **card:**: Removed `footer-leading` and `footer-trailing` slots, use
+  `footer-start` and `footer-end` instead.
+
+* **styles:** Use "mode" nomenclature instead of "theme"
 
   - `.calcite-theme-auto`, `.calcite-theme-dark`, and
     `.calcite-theme-light` CSS classes have been replaced with
     `.calcite-mode-auto`, `.calcite-mode-dark`, and `.calcite-mode-light `
 
-- **segmented-control:** - Updates `segmented-control` event to `calciteSegmentedControlChange`
+* **segmented-control:** Updates `segmented-control` event to `calciteSegmentedControlChange`.
 
-* **radio-group, radio-group-item:** Renames radio group components.
+- **radio-group, radio-group-item:** Renames radio group components.
 
   - `calcite-radio-group` has been renamed to `calcite-segmented-control`.
   - `calcite-radio-group-item` has been renamed to
     `calcite-segmented-control-item`.
 
-* **panel, shell-panel, flow-item:** Update available css variables.
+- **panel, shell-panel, flow-item:** Update available css variables.
 
   - Removes `heightScale` and `widthScale` properties from Panel and Flow
     Item.
@@ -31,35 +34,35 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
     available width of parent component.
   - Documents public css variables for Shell Panel.
 
-* **modal, panel, popover**: Removed `focusId` parameter from `setFocus` methods.
+- **modal, panel, popover**: Removed `focusId` parameter from `setFocus` methods.
   When the `setFocus` method is called the first focusable element will be
   focused.
 
-* **combobox-item:**
+- **combobox-item:**
 
   - Removed `toggleSelected` method, use the `selected` property instead.
 
-* **date-picker:**
+- **date-picker:**
 
   - Removed the property `startAsDate`, use `valueAsDate` instead.
   - Removed the property `endAsDate`, use `valueAsDate` instead.
 
-* **pagination:**
+- **pagination:**
 
   - Removed the `--calcite-pagination-spacing` css variable
 
-* **popover:**
+- **popover:**
 
   - Removed the `toggle` method, use the `open` property instead.
 
-* **radio-button-group:**
+- **radio-button-group:**
 
   - Added property `selectedItem`.
   - Removed the `event.detail` property on the event
     `calciteRadioButtonGroupChange`, use `event.target` and the property
     `selectedItem` instead.
 
-* **stepper:**
+- **stepper:**
 
   - Added property `selectedItem`.
   - Removed the `event.detail` property on the event
@@ -68,8 +71,10 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ### Features
 
-- **tab-nav:** Add `selectedTitle` property ([#6149](https://github.com/Esri/calcite-components/issues/6149)) ([e48096c](https://github.com/Esri/calcite-components/commit/e48096cf361d0efb292849e10040f6f0e61f8bbc))
-- **popover, modal:** Add the ability to update focus trap elements after initialization ([#6141](https://github.com/Esri/calcite-components/issues/6141)) ([806ca32](https://github.com/Esri/calcite-components/commit/806ca32788d2960df97ad18efcb731633f133fcb))
+- **panel:** Allow Panel to fill height of parent ([#6256](https://github.com/Esri/calcite-components/issues/6256)) ([f556efc](https://github.com/Esri/calcite-components/commit/f556efc8ee8c02da7fb73208bc8fde0f28ef88d3))
+
+* **tab-nav:** Add `selectedTitle` property ([#6149](https://github.com/Esri/calcite-components/issues/6149)) ([e48096c](https://github.com/Esri/calcite-components/commit/e48096cf361d0efb292849e10040f6f0e61f8bbc))
+* **popover, modal:** Add the ability to update focus trap elements after initialization ([#6141](https://github.com/Esri/calcite-components/issues/6141)) ([806ca32](https://github.com/Esri/calcite-components/commit/806ca32788d2960df97ad18efcb731633f133fcb))
 
 ### Bug Fixes
 
