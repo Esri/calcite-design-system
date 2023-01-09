@@ -50,7 +50,7 @@ export class DropdownItem implements LoadableComponent {
   /** When `true`, the component is selected. */
   @Prop({ reflect: true, mutable: true }) selected = false;
 
-  /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
+  /** Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`). */
   @Prop({ reflect: true }) iconFlipRtl: FlipContext;
 
   /** Specifies an icon to display at the start of the component. */
