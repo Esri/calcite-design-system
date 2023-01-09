@@ -240,6 +240,18 @@ export class AccordionItem implements ConditionalSlotComponent {
   //
   //--------------------------------------------------------------------------
 
+  /** the containing accordion element */
+  private parent: HTMLCalciteAccordionElement;
+
+  /** position within parent */
+  private itemPosition: number;
+
+  /** the latest requested item */
+  private requestedAccordionItem: HTMLCalciteAccordionItemElement;
+
+  /** what selection mode is the parent accordion in */
+  private selectionMode: string;
+
   /** what icon position does the parent accordion specify */
   private iconPosition: Position = "end";
 
@@ -249,20 +261,8 @@ export class AccordionItem implements ConditionalSlotComponent {
   /** handle clicks on item header */
   private itemHeaderClickHandler = (): void => this.emitRequestedItem();
 
-  /** position within parent */
-  private itemPosition: number;
-
-  /** the containing accordion element */
-  private parent: HTMLCalciteAccordionElement;
-
-  /** the latest requested item */
-  private requestedAccordionItem: HTMLCalciteAccordionItemElement;
-
   /** Specifies the scale of the `accordion-item` controlled by the parent, defaults to m */
   scale: Scale = "m";
-
-  /** what selection mode is the parent accordion in */
-  private selectionMode: string;
 
   //--------------------------------------------------------------------------
   //
