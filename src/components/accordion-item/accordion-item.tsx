@@ -43,14 +43,14 @@ export class AccordionItem implements ConditionalSlotComponent {
   //
   //--------------------------------------------------------------------------
 
-  /** Specifies a description for the component. */
-  @Prop() description: string;
-
   /** When `true`, the component is expanded. */
   @Prop({ reflect: true, mutable: true }) expanded = false;
 
   /** Specifies heading text for the component. */
   @Prop() heading: string;
+
+  /** Specifies a description for the component. */
+  @Prop() description: string;
 
   /** Specifies an icon to display at the start of the component. */
   @Prop({ reflect: true }) iconStart: string;
