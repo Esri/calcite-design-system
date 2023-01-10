@@ -751,9 +751,10 @@ export class InputTime
         <div
           class={{
             [CSS.container]: true,
+            [CSS.readonly]: this.readonly,
+            [CSS[`scale-${this.scale}`]]: true,
             [CSS.showMeridiem]: showMeridiem,
-            [CSS.showSecond]: this.showSecond,
-            [CSS[`scale-${this.scale}`]]: true
+            [CSS.showSecond]: this.showSecond
           }}
           dir="ltr"
         >
@@ -765,9 +766,9 @@ export class InputTime
             aria-valuenow={(hourIsNumber && parseInt(this.hour)) || "0"}
             aria-valuetext={this.hour}
             class={{
-              [CSS.input]: true,
+              [CSS.empty]: !Boolean(this.localizedHour),
               [CSS.hour]: true,
-              [CSS.empty]: !Boolean(this.localizedHour)
+              [CSS.input]: true
             }}
             onFocus={this.timePartFocusHandler}
             onKeyDown={this.hourKeyDownHandler}
@@ -785,9 +786,9 @@ export class InputTime
             aria-valuenow={(minuteIsNumber && parseInt(this.minute)) || "0"}
             aria-valuetext={this.minute}
             class={{
+              [CSS.empty]: !Boolean(this.localizedMinute),
               [CSS.input]: true,
-              [CSS.minute]: true,
-              [CSS.empty]: !Boolean(this.localizedMinute)
+              [CSS.minute]: true
             }}
             onFocus={this.timePartFocusHandler}
             onKeyDown={this.minuteKeyDownHandler}
@@ -806,9 +807,9 @@ export class InputTime
               aria-valuenow={(secondIsNumber && parseInt(this.second)) || "0"}
               aria-valuetext={this.second}
               class={{
+                [CSS.empty]: !Boolean(this.localizedSecond),
                 [CSS.input]: true,
-                [CSS.second]: true,
-                [CSS.empty]: !Boolean(this.localizedSecond)
+                [CSS.second]: true
               }}
               onFocus={this.timePartFocusHandler}
               onKeyDown={this.secondKeyDownHandler}
@@ -830,10 +831,10 @@ export class InputTime
               aria-valuenow={(this.meridiem === "PM" && "2") || "1"}
               aria-valuetext={this.meridiem}
               class={{
+                [CSS.empty]: !Boolean(this.localizedMeridiem),
                 [CSS.input]: true,
                 [CSS.meridiem]: true,
-                [CSS.meridiemStart]: this.meridiemOrder === 0,
-                [CSS.empty]: !Boolean(this.localizedMeridiem)
+                [CSS.meridiemStart]: this.meridiemOrder === 0
               }}
               onFocus={this.timePartFocusHandler}
               onKeyDown={this.meridiemKeyDownHandler}

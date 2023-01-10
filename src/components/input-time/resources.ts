@@ -1,19 +1,20 @@
 export const CSS = {
-  delimiter: "delimiter",
-  hour: "hour",
   clockIcon: "clock-icon",
+  container: "container",
+  delimiter: "delimiter",
+  empty: "empty",
+  hour: "hour",
   input: "input",
   meridiem: "meridiem",
+  meridiemStart: "meridiem--start",
   minute: "minute",
+  readonly: "readonly",
+  "scale-l": "scale-l",
+  "scale-m": "scale-m",
+  "scale-s": "scale-s",
   second: "second",
   showMeridiem: "show-meridiem",
-  showSecond: "show-second",
-  "scale-s": "scale-s",
-  "scale-m": "scale-m",
-  "scale-l": "scale-l",
-  container: "container",
-  meridiemStart: "meridiem--start",
-  empty: "empty"
+  showSecond: "show-second"
 };
 
 export const TEXT = {
