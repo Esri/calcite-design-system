@@ -196,8 +196,8 @@ export class Textarea
 
   @Watch("disabled")
   disabledHandler(value: boolean): void {
-    this.disablePointerEvents(value, this.leadingSlotElements);
-    this.disablePointerEvents(value, this.trailingSlotElements);
+    this.disablePointerEvents(value, this.startSlotElements);
+    this.disablePointerEvents(value, this.endSlotElements);
   }
 
   //--------------------------------------------------------------------------
@@ -251,7 +251,7 @@ export class Textarea
 
   render(): VNode {
     const hasFooter =
-      !!this.leadingSlotElements?.length || !!this.trailingSlotElements?.length || !!this.maxlength;
+      !!this.startSlotElements?.length || !!this.endSlotElements?.length || !!this.maxlength;
 
     return (
       <Host>
@@ -266,8 +266,7 @@ export class Textarea
             [CSS.resizeDisabledY]: this.verticalResizeDisabled,
             [CSS.readonly]: this.readonly,
             [CSS.textareaInvalid]: this.value?.length > this.maxlength,
-            [CSS.footerSlotted]:
-              !!this.trailingSlotElements?.length && !!this.leadingSlotElements?.length,
+            [CSS.footerSlotted]: !!this.endSlotElements?.length && !!this.startSlotElements?.length,
             [CSS.borderColor]: !hasFooter,
             [CSS.blocksizeFull]: !hasFooter
           }}
@@ -343,9 +342,9 @@ export class Textarea
 
   @State() effectiveLocale = "";
 
-  @State() trailingSlotElements: Element[];
+  @State() endSlotElements: Element[];
 
-  @State() leadingSlotElements: Element[];
+  @State() startSlotElements: Element[];
 
   @Watch("effectiveLocale")
   effectiveLocaleChange(): void {
@@ -378,16 +377,16 @@ export class Textarea
   };
 
   footerEndSlotChangeHandler = (event: Event): void => {
-    this.trailingSlotElements = slotChangeGetAssignedElements(event);
+    this.endSlotElements = slotChangeGetAssignedElements(event);
     if (this.disabled) {
-      this.disablePointerEvents(this.disabled, this.trailingSlotElements);
+      this.disablePointerEvents(this.disabled, this.endSlotElements);
     }
   };
 
   footerStartSlotChangeHandler = (event: Event): void => {
-    this.leadingSlotElements = slotChangeGetAssignedElements(event);
+    this.startSlotElements = slotChangeGetAssignedElements(event);
     if (this.disabled) {
-      this.disablePointerEvents(this.disabled, this.leadingSlotElements);
+      this.disablePointerEvents(this.disabled, this.startSlotElements);
     }
   };
 
