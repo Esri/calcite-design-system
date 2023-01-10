@@ -15,17 +15,17 @@
   @apply flex-col items-start self-start;
 }
 
-// radio group width for full
+// segmented control width for full
 
 :host([width="full"]) {
   @apply w-full;
   min-inline-size: fit-content;
-  ::slotted(calcite-radio-group-item) {
+  ::slotted(calcite-segmented-control-item) {
     @apply flex-auto;
   }
 }
 
-:host([width="full"][layout="vertical"]) ::slotted(calcite-radio-group-item) {
+:host([width="full"][layout="vertical"]) ::slotted(calcite-segmented-control-item) {
   @apply justify-start;
 }
 

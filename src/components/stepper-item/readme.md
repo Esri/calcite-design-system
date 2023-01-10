@@ -20,6 +20,8 @@ individual `calcite-stepper-item` item
 
 ### `setFocus() => Promise<void>`
 
+Sets focus on the component.
+
 #### Returns
 
 Type: `Promise<void>`

@@ -69,7 +69,7 @@ Renders a group of `calcite-action`s contained in a `calcite-action-group`. Acti
 
 ### `setFocus() => Promise<void>`
 
-Sets focus on the component.
+Sets focus on the component's first focusable element.
 
 #### Returns
 
@@ -77,10 +77,10 @@ Type: `Promise<void>`
 
 ## Slots
 
-| Slot               | Description                                              |
-| ------------------ | -------------------------------------------------------- |
-|                    | A slot for adding `calcite-action`s to the component.    |
-| `"expand-tooltip"` | Used to set the `calcite-tooltip` for the expand toggle. |
+| Slot               | Description                                                |
+| ------------------ | ---------------------------------------------------------- |
+|                    | A slot for adding `calcite-action`s to the component.      |
+| `"expand-tooltip"` | A slot to set the `calcite-tooltip` for the expand toggle. |
 
 ## CSS Custom Properties
 

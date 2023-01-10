@@ -55,20 +55,20 @@ modal.beforeClose = beforeClose;
 
 ## Properties
 
-| Property               | Attribute                | Description                                                                                      | Type                                                                                | Default                   |
-| ---------------------- | ------------------------ | ------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------- | ------------------------- |
-| `beforeClose`          | --                       | Passes a function to run before the component closes.                                            | `(el: HTMLElement) => Promise<void>`                                                | `() => Promise.resolve()` |
-| `closeButtonDisabled`  | `close-button-disabled`  | When `true`, disables the component's close button.                                              | `boolean`                                                                           | `false`                   |
-| `docked`               | `docked`                 | When `true`, prevents the component from expanding to the entire screen on mobile devices.       | `boolean`                                                                           | `undefined`               |
-| `escapeDisabled`       | `escape-disabled`        | When `true`, disables the default close on escape behavior.                                      | `boolean`                                                                           | `false`                   |
-| `focusTrapDisabled`    | `focus-trap-disabled`    | When `true`, prevents focus trapping.                                                            | `boolean`                                                                           | `false`                   |
-| `fullscreen`           | `fullscreen`             | Sets the component to always be fullscreen (overrides `width`).                                  | `boolean`                                                                           | `undefined`               |
-| `kind`                 | `kind`                   | Specifies the kind of the component (will apply to top border).                                  | `"brand" \| "danger" \| "info" \| "inverse" \| "neutral" \| "success" \| "warning"` | `undefined`               |
-| `messageOverrides`     | `message-overrides`      | Use this property to override individual strings used by the component.                          | `ModalMessages`                                                                     | `undefined`               |
-| `open`                 | `open`                   | When `true`, displays and positions the component.                                               | `boolean`                                                                           | `false`                   |
-| `outsideCloseDisabled` | `outside-close-disabled` | When `true`, disables the closing of the component when clicked outside.                         | `boolean`                                                                           | `false`                   |
-| `scale`                | `scale`                  | Specifies the size of the component.                                                             | `"l" \| "m" \| "s"`                                                                 | `"m"`                     |
-| `width`                | `width`                  | Specifies the width of the component. Can use scale sizes or pass a number (displays in pixels). | `"l" \| "m" \| "s" \| number`                                                       | `"m"`                     |
+| Property               | Attribute                | Description                                                                                      | Type                                                      | Default                   |
+| ---------------------- | ------------------------ | ------------------------------------------------------------------------------------------------ | --------------------------------------------------------- | ------------------------- |
+| `beforeClose`          | --                       | Passes a function to run before the component closes.                                            | `(el: HTMLElement) => Promise<void>`                      | `() => Promise.resolve()` |
+| `closeButtonDisabled`  | `close-button-disabled`  | When `true`, disables the component's close button.                                              | `boolean`                                                 | `false`                   |
+| `docked`               | `docked`                 | When `true`, prevents the component from expanding to the entire screen on mobile devices.       | `boolean`                                                 | `undefined`               |
+| `escapeDisabled`       | `escape-disabled`        | When `true`, disables the default close on escape behavior.                                      | `boolean`                                                 | `false`                   |
+| `focusTrapDisabled`    | `focus-trap-disabled`    | When `true`, prevents focus trapping.                                                            | `boolean`                                                 | `false`                   |
+| `fullscreen`           | `fullscreen`             | Sets the component to always be fullscreen (overrides `width`).                                  | `boolean`                                                 | `undefined`               |
+| `kind`                 | `kind`                   | Specifies the kind of the component (will apply to top border).                                  | `"brand" \| "danger" \| "info" \| "success" \| "warning"` | `undefined`               |
+| `messageOverrides`     | `message-overrides`      | Use this property to override individual strings used by the component.                          | `ModalMessages`                                           | `undefined`               |
+| `open`                 | `open`                   | When `true`, displays and positions the component.                                               | `boolean`                                                 | `false`                   |
+| `outsideCloseDisabled` | `outside-close-disabled` | When `true`, disables the closing of the component when clicked outside.                         | `boolean`                                                 | `false`                   |
+| `scale`                | `scale`                  | Specifies the size of the component.                                                             | `"l" \| "m" \| "s"`                                       | `"m"`                     |
+| `width`                | `width`                  | Specifies the width of the component. Can use scale sizes or pass a number (displays in pixels). | `"l" \| "m" \| "s" \| number`                             | `"m"`                     |
 
 ## Events
 
@@ -91,10 +91,7 @@ Type: `Promise<void>`
 
 ### `setFocus() => Promise<void>`
 
-Sets focus on the component.
-
-By default, tries to focus on focusable content. If there is none, it will focus on the close button.
-To focus on the close button, use the `close-button` focus ID.
+Sets focus on the component's "close" button (the first focusable item).
 
 #### Returns
 

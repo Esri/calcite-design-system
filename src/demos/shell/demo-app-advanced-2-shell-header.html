@@ -74,7 +74,7 @@
                 ><span> Shell Floating Panel Content </span>
               </calcite-panel>
 
-              <calcite-action-bar slot="action-bar" class="calcite-theme-dark">
+              <calcite-action-bar slot="action-bar" class="calcite-mode-dark">
                 <calcite-action-group>
                   <calcite-action text="Add">
                     <calcite-icon icon="plus" scale="s"></calcite-icon>
@@ -250,7 +250,7 @@
       </main>
     </demo-dom-swapper>
     <script>
-      document.addEventListener("calciteThemeChange", (e) => console.log(e.detail.theme));
+      document.addEventListener("calciteModeChange", (e) => console.log(e.detail.theme));
     </script>
   </body>
 </html>

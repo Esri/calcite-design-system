@@ -435,6 +435,8 @@ export class Input
 
   @State() localizedValue: string;
 
+  @State() slottedActionElDisabledInternally = false;
+
   //--------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -465,6 +467,7 @@ export class Input
     }
 
     this.mutationObserver?.observe(this.el, { childList: true });
+
     this.setDisabledAction();
     this.el.addEventListener("calciteInternalHiddenInputChange", this.hiddenInputChangeHandler);
   }
@@ -610,9 +613,10 @@ export class Input
     const adjustment = direction === "up" ? 1 : -1;
     const nudgedValue = inputVal + inputStep * adjustment;
     const finalValue =
-      (typeof inputMin === "number" && !isNaN(inputMin) && nudgedValue < inputMin) ||
-      (typeof inputMax === "number" && !isNaN(inputMax) && nudgedValue > inputMax)
-        ? inputVal
+      typeof inputMin === "number" && !isNaN(inputMin) && nudgedValue < inputMin
+        ? inputMin
+        : typeof inputMax === "number" && !isNaN(inputMax) && nudgedValue > inputMax
+        ? inputMax
         : nudgedValue;
 
     const inputValPlaces = decimalPlaces(inputVal);
@@ -785,7 +789,7 @@ export class Input
 
     const inputMax = this.maxString ? parseFloat(this.maxString) : null;
     const inputMin = this.minString ? parseFloat(this.minString) : null;
-    const valueNudgeDelayInMs = 100;
+    const valueNudgeDelayInMs = 150;
 
     this.incrementOrDecrementNumberValue(direction, inputMax, inputMin, nativeEvent);
 
@@ -879,9 +883,15 @@ export class Input
       return;
     }
 
-    this.disabled
-      ? slottedActionEl.setAttribute("disabled", "")
-      : slottedActionEl.removeAttribute("disabled");
+    if (this.disabled) {
+      if (slottedActionEl.getAttribute("disabled") == null) {
+        this.slottedActionElDisabledInternally = true;
+      }
+      slottedActionEl.setAttribute("disabled", "");
+    } else if (this.slottedActionElDisabledInternally) {
+      slottedActionEl.removeAttribute("disabled");
+      this.slottedActionElDisabledInternally = false;
+    }
   }
 
   private setInputValue = (newInputValue: string): void => {

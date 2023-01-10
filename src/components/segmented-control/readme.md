@@ -1,4 +1,4 @@
-# calcite-radio-group
+# calcite-segmented-control
 
 <!-- Auto Generated Below -->
 
@@ -7,12 +7,12 @@
 ### Basic
 
 ```html
-<calcite-radio-group layout="horizontal" appearance="solid" scale="m" width="auto">
-  <calcite-radio-group-item value="apple" checked>Apple</calcite-radio-group-item>
-  <calcite-radio-group-item value="mango">Mango</calcite-radio-group-item>
-  <calcite-radio-group-item value="tomato">Tomato</calcite-radio-group-item>
-  <calcite-radio-group-item value="banana">Banana</calcite-radio-group-item>
-</calcite-radio-group>
+<calcite-segmented-control layout="horizontal" appearance="solid" scale="m" width="auto">
+  <calcite-segmented-control-item value="apple" checked>Apple</calcite-segmented-control-item>
+  <calcite-segmented-control-item value="mango">Mango</calcite-segmented-control-item>
+  <calcite-segmented-control-item value="tomato">Tomato</calcite-segmented-control-item>
+  <calcite-segmented-control-item value="banana">Banana</calcite-segmented-control-item>
+</calcite-segmented-control>
 ```
 
 ## Properties
@@ -24,15 +24,15 @@
 | `layout`       | `layout`        | Defines the layout of the component.                                                     | `"grid" \| "horizontal" \| "vertical"`   | `"horizontal"` |
 | `name`         | `name`          | Specifies the name of the component on form submission.                                  | `string`                                 | `undefined`    |
 | `scale`        | `scale`         | Specifies the size of the component.                                                     | `"l" \| "m" \| "s"`                      | `"m"`          |
-| `selectedItem` | `selected-item` | The component's selected item `HTMLElement`.                                             | `HTMLCalciteRadioGroupItemElement`       | `undefined`    |
+| `selectedItem` | `selected-item` | The component's selected item `HTMLElement`.                                             | `HTMLCalciteSegmentedControlItemElement` | `undefined`    |
 | `value`        | `value`         | The component's `selectedItem` value.                                                    | `string`                                 | `null`         |
 | `width`        | `width`         | Specifies the width of the component.                                                    | `"auto" \| "full"`                       | `"auto"`       |
 
 ## Events
 
-| Event                     | Description                                                                      | Type                |
-| ------------------------- | -------------------------------------------------------------------------------- | ------------------- |
-| `calciteRadioGroupChange` | Fires when the selected option changes, where the event detail is the new value. | `CustomEvent<void>` |
+| Event                           | Description                                                                      | Type                |
+| ------------------------------- | -------------------------------------------------------------------------------- | ------------------- |
+| `calciteSegmentedControlChange` | Fires when the selected option changes, where the event detail is the new value. | `CustomEvent<void>` |
 
 ## Methods
 
@@ -46,9 +46,9 @@ Type: `Promise<void>`
 
 ## Slots
 
-| Slot | Description                                    |
-| ---- | ---------------------------------------------- |
-|      | A slot for adding `calcite-radio-group-item`s. |
+| Slot | Description                                          |
+| ---- | ---------------------------------------------------- |
+|      | A slot for adding `calcite-segmented-control-item`s. |
 
 ---
 

@@ -38,7 +38,7 @@ import {
 
 /**
  * @slot - A slot for adding `calcite-action`s to the component.
- * @slot expand-tooltip - Used to set the `calcite-tooltip` for the expand toggle.
+ * @slot expand-tooltip - A slot to set the `calcite-tooltip` for the expand toggle.
  */
 @Component({
   tag: "calcite-action-pad",
@@ -170,7 +170,7 @@ export class ActionPad
   // --------------------------------------------------------------------------
 
   /**
-   * Sets focus on the component.
+   * Sets focus on the component's first focusable element.
    */
   @Method()
   async setFocus(): Promise<void> {
