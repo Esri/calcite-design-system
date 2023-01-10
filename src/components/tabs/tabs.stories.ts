@@ -194,3 +194,13 @@ export const TabChilrenWithPercentageHeights = (): string => html`
     </calcite-tab>
   </calcite-tabs>
 `;
+
+export const mediumIconForLargeTabTitle_TestOnly = (): string => html`
+  <calcite-tabs scale="l">
+    <calcite-tab-nav slot="title-group">
+      <calcite-tab-title>Tab 1 Title</calcite-tab-title>
+      <calcite-tab-title icon-start="arrow-left" selected>Tab 2 Title</calcite-tab-title>
+      <calcite-tab-title icon-start="arrow-left" icon-end="arrow-right">Tab 3 Title</calcite-tab-title>
+    </calcite-tab-nav>
+  </calcite-tabs>
+`;

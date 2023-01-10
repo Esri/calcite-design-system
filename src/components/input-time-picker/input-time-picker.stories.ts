@@ -83,3 +83,6 @@ export const arabicLocaleNumberingSystem_TestOnly = (): string => html`
   >
   </calcite-input-time-picker>
 `;
+
+export const mediumIconForLargeInputTimePicker_TestOnly = (): string =>
+  html`<calcite-input icon type="time" step="1" value="01:02" scale="l"></calcite-input>`;

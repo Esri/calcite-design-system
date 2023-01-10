@@ -83,3 +83,13 @@ export const darkModeRTL_TestOnly = (): string => html`
   </div>
 `;
 darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
+
+export const mediumIconForLargeInputDatePicker_TestOnly = (): string => html`
+  <calcite-input-date-picker
+    scale="l"
+    start="2020-12-12"
+    end="2020-12-16"
+    range=""
+    layout="horizontal"
+  ></calcite-input-date-picker>
+`;
