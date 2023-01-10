@@ -46,12 +46,8 @@ export class DropdownItem implements LoadableComponent {
   //
   //--------------------------------------------------------------------------
 
-  /**
-   *  Specifies the URL of the linked resource, which can be set as an absolute or relative path.
-   *
-   * Determines if the component will render as an anchor.
-   */
-  @Prop({ reflect: true }) href: string;
+  /** When `true`, the component is selected. */
+  @Prop({ reflect: true, mutable: true }) selected = false;
 
   /** Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`). */
   @Prop({ reflect: true }) iconFlipRtl: FlipContext;
@@ -62,14 +58,18 @@ export class DropdownItem implements LoadableComponent {
   /** Specifies an icon to display at the end of the component. */
   @Prop({ reflect: true }) iconEnd: string;
 
+  /**
+   *  Specifies the URL of the linked resource, which can be set as an absolute or relative path.
+   *
+   * Determines if the component will render as an anchor.
+   */
+  @Prop({ reflect: true }) href: string;
+
   /** Accessible name for the component. */
   @Prop() label: string;
 
   /** Specifies the relationship to the linked document defined in `href`. */
   @Prop({ reflect: true }) rel: string;
-
-  /** When `true`, the component is selected. */
-  @Prop({ reflect: true, mutable: true }) selected = false;
 
   /** Specifies the frame or window to open the linked document. */
   @Prop({ reflect: true }) target: string;
@@ -107,30 +107,6 @@ export class DropdownItem implements LoadableComponent {
 
     this.el?.focus();
   }
-
-  //--------------------------------------------------------------------------
-  //
-  //  Private State/Props
-  //
-  //--------------------------------------------------------------------------
-
-  /** if href is requested, track the rendered child link*/
-  private childLink: HTMLAnchorElement;
-
-  /** id of containing group */
-  private parentDropdownGroupEl: HTMLCalciteDropdownGroupElement;
-
-  /** requested group */
-  private requestedDropdownGroup: HTMLCalciteDropdownGroupElement;
-
-  /** requested item */
-  private requestedDropdownItem: HTMLCalciteDropdownItemElement;
-
-  /** what selection mode is the parent dropdown group in */
-  private selectionMode: Extract<"none" | "single" | "multiple", SelectionMode>;
-
-  /** Specifies the scale of dropdown-item controlled by the parent, defaults to m */
-  scale: Scale = "m";
 
   //--------------------------------------------------------------------------
   //
@@ -286,6 +262,30 @@ export class DropdownItem implements LoadableComponent {
     }
     event.stopPropagation();
   }
+
+  //--------------------------------------------------------------------------
+  //
+  //  Private State/Props
+  //
+  //--------------------------------------------------------------------------
+
+  /** id of containing group */
+  private parentDropdownGroupEl: HTMLCalciteDropdownGroupElement;
+
+  /** requested group */
+  private requestedDropdownGroup: HTMLCalciteDropdownGroupElement;
+
+  /** requested item */
+  private requestedDropdownItem: HTMLCalciteDropdownItemElement;
+
+  /** what selection mode is the parent dropdown group in */
+  private selectionMode: Extract<"none" | "single" | "multiple", SelectionMode>;
+
+  /** if href is requested, track the rendered child link*/
+  private childLink: HTMLAnchorElement;
+
+  /** Specifies the scale of dropdown-item controlled by the parent, defaults to m */
+  scale: Scale = "m";
 
   //--------------------------------------------------------------------------
   //
