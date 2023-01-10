@@ -151,7 +151,7 @@ export class TabTitle implements InteractiveComponent {
         class="calcite-tab-title--icon icon-start"
         flipRtl={this.iconFlipRtl === "start" || this.iconFlipRtl === "both"}
         icon={this.iconStart}
-        scale="s"
+        scale={this.scale === "l" ? "m" : "s"}
       />
     );
 
@@ -160,7 +160,7 @@ export class TabTitle implements InteractiveComponent {
         class="calcite-tab-title--icon icon-end"
         flipRtl={this.iconFlipRtl === "end" || this.iconFlipRtl === "both"}
         icon={this.iconEnd}
-        scale="s"
+        scale={this.scale === "l" ? "m" : "s"}
       />
     );
 
