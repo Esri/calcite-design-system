@@ -14,8 +14,6 @@ import {
 } from "@stencil/core";
 
 import { getElementDir } from "../../utils/dom";
-import { Appearance, Layout, Scale, Width } from "../interfaces";
-import { connectLabel, disconnectLabel, LabelableComponent } from "../../utils/label";
 import {
   afterConnectDefaultValueSet,
   connectForm,
@@ -24,12 +22,14 @@ import {
   HiddenFormInputSlot
 } from "../../utils/form";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import { connectLabel, disconnectLabel, LabelableComponent } from "../../utils/label";
 import {
-  setUpLoadableComponent,
-  setComponentLoaded,
+  componentLoaded,
   LoadableComponent,
-  componentLoaded
+  setComponentLoaded,
+  setUpLoadableComponent
 } from "../../utils/loadable";
+import { Appearance, Layout, Scale, Width } from "../interfaces";
 
 /**
  * @slot - A slot for adding `calcite-segmented-control-item`s.

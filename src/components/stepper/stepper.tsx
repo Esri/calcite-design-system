@@ -10,10 +10,10 @@ import {
   VNode
 } from "@stencil/core";
 
+import { focusElementInGroup } from "../../utils/dom";
+import { NumberingSystem } from "../../utils/locale";
 import { Layout, Scale } from "../interfaces";
 import { StepperItemChangeEventDetail, StepperItemKeyEventDetail } from "./interfaces";
-import { NumberingSystem } from "../../utils/locale";
-import { focusElementInGroup } from "../../utils/dom";
 
 /**
  * @slot - A slot for adding `calcite-stepper-item` elements.

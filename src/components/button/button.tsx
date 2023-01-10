@@ -1,14 +1,17 @@
+import { Build, Component, Element, h, Method, Prop, State, VNode, Watch } from "@stencil/core";
 import "form-request-submit-polyfill/form-request-submit-polyfill";
-import { Component, Element, h, Method, Prop, Build, State, VNode, Watch } from "@stencil/core";
-import { CSS } from "./resources";
 import { closestElementCrossShadowBoundary } from "../../utils/dom";
-import { ButtonAlignment } from "./interfaces";
-import { Appearance, FlipContext, Kind, Scale, Width } from "../interfaces";
-import { LabelableComponent, connectLabel, disconnectLabel, getLabelText } from "../../utils/label";
-import { createObserver } from "../../utils/observers";
+import { FormOwner, resetForm, submitForm } from "../../utils/form";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
-import { submitForm, resetForm, FormOwner } from "../../utils/form";
+import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
+import {
+  componentLoaded,
+  LoadableComponent,
+  setComponentLoaded,
+  setUpLoadableComponent
+} from "../../utils/loadable";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
+import { createObserver } from "../../utils/observers";
 import {
   connectMessages,
   disconnectMessages,
@@ -16,13 +19,10 @@ import {
   T9nComponent,
   updateMessages
 } from "../../utils/t9n";
+import { Appearance, FlipContext, Kind, Scale, Width } from "../interfaces";
 import { ButtonMessages } from "./assets/button/t9n";
-import {
-  setUpLoadableComponent,
-  setComponentLoaded,
-  LoadableComponent,
-  componentLoaded
-} from "../../utils/loadable";
+import { ButtonAlignment } from "./interfaces";
+import { CSS } from "./resources";
 
 /** Passing a 'href' will render an anchor link, instead of a button. Role will be set to link, or button, depending on this. */
 /** It is the consumers responsibility to add aria information, rel, target, for links, and any button attributes for form submission */

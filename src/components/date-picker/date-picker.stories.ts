@@ -1,17 +1,17 @@
-import { select, text, boolean } from "@storybook/addon-knobs";
+import { boolean, select, text } from "@storybook/addon-knobs";
 
-import {
-  Attribute,
-  filterComponentAttributes,
-  Attributes,
-  createComponentHTML as create,
-  modesDarkDefault
-} from "../../../.storybook/utils";
-import readme from "./readme.md";
-import { html } from "../../../support/formatting";
-import { locales } from "../../utils/locale";
 import { storyFilters } from "../../../.storybook/helpers";
 import { ATTRIBUTES } from "../../../.storybook/resources";
+import {
+  Attribute,
+  Attributes,
+  createComponentHTML as create,
+  filterComponentAttributes,
+  modesDarkDefault
+} from "../../../.storybook/utils";
+import { html } from "../../../support/formatting";
+import { locales } from "../../utils/locale";
+import readme from "./readme.md";
 const { scale } = ATTRIBUTES;
 
 export default {

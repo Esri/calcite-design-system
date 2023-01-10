@@ -3,46 +3,46 @@ import {
   Element,
   Event,
   EventEmitter,
+  h,
   Listen,
   Method,
   Prop,
   State,
-  h,
   VNode
 } from "@stencil/core";
+import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import {
+  componentLoaded,
+  LoadableComponent,
+  setComponentLoaded,
+  setUpLoadableComponent
+} from "../../utils/loadable";
+import { createObserver } from "../../utils/observers";
+import { HeadingLevel } from "../functional/Heading";
 import { ICON_TYPES } from "./resources";
 import {
-  ListFocusId,
-  calciteListItemChangeHandler,
   calciteInternalListItemValueChangeHandler,
+  calciteListFocusOutHandler,
+  calciteListItemChangeHandler,
   cleanUpObserver,
-  deselectSiblingItems,
   deselectRemovedItems,
+  deselectSiblingItems,
   getItemData,
   handleFilter,
   handleFilterEvent,
   handleInitialFilter,
-  calciteListFocusOutHandler,
   initialize,
   initializeObserver,
-  mutationObserverCallback,
-  selectSiblings,
-  setUpItems,
-  keyDownHandler,
-  setFocus,
   ItemData,
-  removeItem
+  keyDownHandler,
+  ListFocusId,
+  mutationObserverCallback,
+  removeItem,
+  selectSiblings,
+  setFocus,
+  setUpItems
 } from "./shared-list-logic";
 import List from "./shared-list-render";
-import { HeadingLevel } from "../functional/Heading";
-import { createObserver } from "../../utils/observers";
-import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
-import {
-  setUpLoadableComponent,
-  setComponentLoaded,
-  LoadableComponent,
-  componentLoaded
-} from "../../utils/loadable";
 
 /**
  * @slot - A slot for adding `calcite-pick-list-item` or `calcite-pick-list-group` elements. Items are displayed as a vertical list.

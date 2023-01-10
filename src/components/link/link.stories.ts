@@ -1,9 +1,9 @@
-import { text, select } from "@storybook/addon-knobs";
+import { select, text } from "@storybook/addon-knobs";
 import { boolean, storyFilters } from "../../../.storybook/helpers";
 import { modesDarkDefault } from "../../../.storybook/utils";
 import * as icons from "../../../node_modules/@esri/calcite-ui-icons";
-import readme from "./readme.md";
 import { html } from "../../../support/formatting";
+import readme from "./readme.md";
 
 // we can get all unique icon names from all size 16 non-filled icons.
 const iconNames = Object.keys(icons)

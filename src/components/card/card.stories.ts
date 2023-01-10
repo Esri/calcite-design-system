@@ -115,11 +115,7 @@ export const simpleWithFooterButton = (): string => html`
 
 export const simpleWithFooterTextButtonTooltip_NoTest = (): string => html`
   <div style="width:260px">
-    ${create(
-      "calcite-card",
-      createAttributes(),
-      html`${titleHtml}${footerStartTextHtml}${footerEndButtonsHtml}`
-    )}
+    ${create("calcite-card", createAttributes(), html`${titleHtml}${footerStartTextHtml}${footerEndButtonsHtml}`)}
   </div>
   ${tooltipHtml}
 `;

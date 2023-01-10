@@ -1,8 +1,8 @@
 import { E2EElement, newE2EPage } from "@stencil/core/testing";
 
-import { CSS, SLOTS } from "./resources";
 import { accessible, defaults, hidden, renders, slots, t9n } from "../../tests/commonTests";
 import { getElementXY } from "../../tests/utils";
+import { CSS, SLOTS } from "./resources";
 
 describe("calcite-shell-panel", () => {
   it("renders", async () => renders("calcite-shell-panel", { display: "flex" }));

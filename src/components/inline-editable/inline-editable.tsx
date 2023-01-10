@@ -12,12 +12,16 @@ import {
   Watch
 } from "@stencil/core";
 import { getElementProp, getSlotted } from "../../utils/dom";
-import { Scale } from "../interfaces";
-import { CSS } from "./resources";
-import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
-import { createObserver } from "../../utils/observers";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
+import {
+  componentLoaded,
+  LoadableComponent,
+  setComponentLoaded,
+  setUpLoadableComponent
+} from "../../utils/loadable";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
+import { createObserver } from "../../utils/observers";
 import {
   connectMessages,
   disconnectMessages,
@@ -25,13 +29,9 @@ import {
   T9nComponent,
   updateMessages
 } from "../../utils/t9n";
+import { Scale } from "../interfaces";
 import { InlineEditableMessages } from "./assets/inline-editable/t9n";
-import {
-  setUpLoadableComponent,
-  setComponentLoaded,
-  LoadableComponent,
-  componentLoaded
-} from "../../utils/loadable";
+import { CSS } from "./resources";
 
 /**
  * @slot - A slot for adding a `calcite-input`.

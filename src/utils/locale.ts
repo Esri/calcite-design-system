@@ -1,6 +1,6 @@
+import { closestElementCrossShadowBoundary, containsCrossShadowBoundary } from "./dom";
 import { BigDecimal, isValidNumber, sanitizeExponentialNumberString } from "./number";
 import { createObserver } from "./observers";
-import { closestElementCrossShadowBoundary, containsCrossShadowBoundary } from "./dom";
 
 export const defaultLocale = "en";
 

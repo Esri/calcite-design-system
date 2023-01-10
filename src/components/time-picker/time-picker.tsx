@@ -11,10 +11,23 @@ import {
   VNode,
   Watch
 } from "@stencil/core";
-import { Scale } from "../interfaces";
 import { isActivationKey, numberKeys } from "../../utils/key";
 import { isValidNumber } from "../../utils/number";
+import { Scale } from "../interfaces";
 
+import {
+  connectLocalized,
+  disconnectLocalized,
+  LocalizedComponent,
+  NumberingSystem
+} from "../../utils/locale";
+import {
+  connectMessages,
+  disconnectMessages,
+  setUpMessages,
+  T9nComponent,
+  updateMessages
+} from "../../utils/t9n";
 import {
   formatTimePart,
   getLocaleHourCycle,
@@ -30,27 +43,14 @@ import {
   parseTimeString,
   TimePart
 } from "../../utils/time";
-import { CSS } from "./resources";
-import {
-  connectLocalized,
-  disconnectLocalized,
-  LocalizedComponent,
-  NumberingSystem
-} from "../../utils/locale";
 import { TimePickerMessages } from "./assets/time-picker/t9n";
-import {
-  connectMessages,
-  disconnectMessages,
-  setUpMessages,
-  T9nComponent,
-  updateMessages
-} from "../../utils/t9n";
+import { CSS } from "./resources";
 
 import {
-  setUpLoadableComponent,
-  setComponentLoaded,
+  componentLoaded,
   LoadableComponent,
-  componentLoaded
+  setComponentLoaded,
+  setUpLoadableComponent
 } from "../../utils/loadable";
 
 function capitalize(str: string): string {

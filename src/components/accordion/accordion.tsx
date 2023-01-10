@@ -1,7 +1,6 @@
 import { Component, Element, Event, EventEmitter, h, Listen, Prop, VNode } from "@stencil/core";
+import { Appearance, Position, Scale, SelectionMode } from "../interfaces";
 import { RequestedItem } from "./interfaces";
-import { Appearance, Position, Scale } from "../interfaces";
-import { SelectionMode } from "../interfaces";
 /**
  * @slot - A slot for adding `calcite-accordion-item`s. `calcite-accordion` cannot be nested, however `calcite-accordion-item`s can.
  */
