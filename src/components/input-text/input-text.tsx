@@ -289,6 +289,8 @@ export class InputText
 
   @State() defaultMessages: InputTextMessages;
 
+  @State() slottedActionElDisabledInternally = false;
+
   //--------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -508,9 +510,15 @@ export class InputText
       return;
     }
 
-    this.disabled
-      ? slottedActionEl.setAttribute("disabled", "")
-      : slottedActionEl.removeAttribute("disabled");
+    if (this.disabled) {
+      if (slottedActionEl.getAttribute("disabled") == null) {
+        this.slottedActionElDisabledInternally = true;
+      }
+      slottedActionEl.setAttribute("disabled", "");
+    } else if (this.slottedActionElDisabledInternally) {
+      slottedActionEl.removeAttribute("disabled");
+      this.slottedActionElDisabledInternally = false;
+    }
   }
 
   private setInputValue = (newInputValue: string): void => {
