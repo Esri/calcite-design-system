@@ -294,10 +294,12 @@ export class Textarea
               [CSS.hide]: !hasFooter
             }}
             key={CSS.footer}
-            ref={(el) => (this.footerEl = el as HTMLElement)}
+            ref={this.setFooterEl}
           >
-            <slot name={SLOTS.footerStart} onSlotchange={this.footerStartSlotChangeHandler} />
-            <slot name={SLOTS.footerEnd} onSlotchange={this.footerEndSlotChangeHandler} />
+            <div class="slot-container">
+              <slot name={SLOTS.footerStart} onSlotchange={this.footerStartSlotChangeHandler} />
+              <slot name={SLOTS.footerEnd} onSlotchange={this.footerEndSlotChangeHandler} />
+            </div>
             {this.renderCharacterLimit()}
           </footer>
         }
@@ -420,7 +422,7 @@ export class Textarea
       signDisplay: "never",
       useGrouping: this.groupSeparator
     };
-    return numberStringFormatter.localize(this.value?.length.toString());
+    return numberStringFormatter.localize(this.value ? this.value.length.toString() : "0");
   }
 
   disablePointerEvents(disabled: boolean, slottedElements: Element[]): void {
@@ -431,22 +433,28 @@ export class Textarea
     }
   }
 
-  resizeObserver = createObserver("resize", () => {
+  resizeObserver = createObserver("resize", (entries) => {
     const { width: textareaWidth, height: textareaHeight } =
       this.textareaEl.getBoundingClientRect();
     const { width: elWidth, height: elHeight } = this.el.getBoundingClientRect();
     const footerHeight = this.footerEl?.getBoundingClientRect().height;
-
-    if (this.footerEl) {
-      this.footerEl.style.width = `${textareaWidth}px`;
-      if (footerHeight > 0) {
-        this.textareaEl.style.height = `${elHeight - footerHeight}px`;
+    entries.forEach((entry) => {
+      if (entry.target === this.footerEl) {
+        if (footerHeight > 0) {
+          textareaHeight + footerHeight != elHeight
+            ? (this.textareaEl.style.height = `${elHeight - footerHeight}px`)
+            : this.resizeObserver.unobserve(this.footerEl);
+        }
       }
+    });
+
+    if (this.footerEl && footerHeight > 0) {
+      this.footerEl.style.width = `${textareaWidth}px`;
     }
 
     if (
-      (!!textareaWidth || !!textareaHeight) &&
-      (elWidth !== textareaWidth || elHeight !== textareaHeight + (footerHeight || 0))
+      elWidth !== textareaWidth ||
+      elHeight !== this.textareaEl.getBoundingClientRect().height + (footerHeight || 0)
     ) {
       this.setHeightAndWidthToAuto();
     }
@@ -470,6 +478,11 @@ export class Textarea
 
   setTextareaEl = (el: HTMLTextAreaElement): void => {
     this.textareaEl = el;
+    this.resizeObserver.observe(el);
+  };
+
+  setFooterEl = (el: HTMLTextAreaElement): void => {
+    this.footerEl = el;
     this.resizeObserver.observe(el);
   };
 }
