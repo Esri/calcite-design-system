@@ -14,7 +14,7 @@ import {
 
 import Color from "color";
 import { ColorMode, ColorValue, InternalColor } from "./interfaces";
-import { Appearance, Scale } from "../interfaces";
+import { Scale } from "../interfaces";
 import {
   CSS,
   DEFAULT_COLOR,
@@ -82,11 +82,6 @@ export class ColorPicker
    * When `true`, a color value is enforced, and clearing the input or blurring will restore the last valid `value`. When `false`, an empty color (`null`) will be allowed as a `value`.
    */
   @Prop({ reflect: true }) allowEmpty = false;
-
-  /**
-   * Specifies the appearance style of the component -
-   */
-  @Prop({ reflect: true }) appearance: Extract<"minimal" | "solid", Appearance> = "solid";
 
   /**
    * Internal prop for advanced use-cases.
