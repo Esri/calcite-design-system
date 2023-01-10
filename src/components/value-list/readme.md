@@ -4,6 +4,8 @@
 
 <!-- Auto Generated Below -->
 
+> **[DEPRECATED]** Use the `list` component instead.
+
 ## Usage
 
 ### Basic
@@ -51,8 +53,8 @@ Renders a value list with drag and drop capability between the items.
 | `filterEnabled`         | `filter-enabled`          | When `true`, an input appears at the top of the component that can be used by end users to filter list items.                                                                                                                                                           | `boolean`                                                                                     | `false`     |
 | `filterPlaceholder`     | `filter-placeholder`      | Placeholder text for the filter's input field.                                                                                                                                                                                                                          | `string`                                                                                      | `undefined` |
 | `filterText`            | `filter-text`             | Text for the filter input field.                                                                                                                                                                                                                                        | `string`                                                                                      | `undefined` |
-| `filteredData`          | --                        | **read-only** The currently filtered items                                                                                                                                                                                                                              | `{ label: string; description: string; metadata: Record<string, unknown>; value: string; }[]` | `[]`        |
-| `filteredItems`         | --                        | **read-only** The currently filtered items                                                                                                                                                                                                                              | `HTMLCalciteValueListItemElement[]`                                                           | `[]`        |
+| `filteredData`          | --                        | The currently filtered data.                                                                                                                                                                                                                                            | `{ label: string; description: string; metadata: Record<string, unknown>; value: string; }[]` | `[]`        |
+| `filteredItems`         | --                        | The currently filtered items.                                                                                                                                                                                                                                           | `HTMLCalciteValueListItemElement[]`                                                           | `[]`        |
 | `group`                 | `group`                   | The component's group identifier. To drag elements from one list into another, both lists must have the same group value.                                                                                                                                               | `string`                                                                                      | `undefined` |
 | `loading`               | `loading`                 | When `true`, a busy indicator is displayed.                                                                                                                                                                                                                             | `boolean`                                                                                     | `false`     |
 | `messageOverrides`      | `message-overrides`       | Use this property to override individual strings used by the component.                                                                                                                                                                                                 | `ValueListMessages`                                                                           | `undefined` |
@@ -84,13 +86,6 @@ Sets focus on the component's first focusable element.
 #### Returns
 
 Type: `Promise<void>`
-
-## Slots
-
-| Slot             | Description                                                                                        |
-| ---------------- | -------------------------------------------------------------------------------------------------- |
-|                  | A slot for adding `calcite-value-list-item` elements. List items are displayed as a vertical list. |
-| `"menu-actions"` | A slot for adding a button and menu combination for performing actions, such as sorting.           |
 
 ## Dependencies
 
