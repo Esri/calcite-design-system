@@ -4,6 +4,8 @@
 
 <!-- Auto Generated Below -->
 
+> **[DEPRECATED]** Use the `list` component instead.
+
 ## Properties
 
 | Property             | Attribute         | Description                                                                                    | Type                                                        | Default     |
@@ -43,13 +45,6 @@ The first argument allows the value to be coerced, rather than swapping values.
 #### Returns
 
 Type: `Promise<void>`
-
-## Slots
-
-| Slot              | Description                                                                        |
-| ----------------- | ---------------------------------------------------------------------------------- |
-| `"actions-end"`   | A slot for adding `calcite-action`s or content to the end side of the component.   |
-| `"actions-start"` | A slot for adding `calcite-action`s or content to the start side of the component. |
 
 ## Dependencies
 
