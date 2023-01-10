@@ -10,8 +10,8 @@ import {
   VNode
 } from "@stencil/core";
 import { focusElement, getRootNode, nodeListToArray } from "../../utils/dom";
-import { TreeItemSelectDetail } from "../tree-item/interfaces";
 import { Scale, SelectionMode } from "../interfaces";
+import { TreeItemSelectDetail } from "../tree-item/interfaces";
 import { getEnabledSiblingItem } from "./utils";
 
 /**

@@ -1,4 +1,4 @@
-import { Component, h, Prop, VNode, Element, EventEmitter, Event, Watch } from "@stencil/core";
+import { Component, Element, Event, EventEmitter, h, Prop, VNode, Watch } from "@stencil/core";
 import { createObserver } from "../../utils/observers";
 
 @Component({

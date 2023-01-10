@@ -1,6 +1,6 @@
-import { InputData, jsonInputForTargetLanguage, quicktype } from "quicktype-core";
-import { format } from "prettier";
 import globby from "globby";
+import { format } from "prettier";
+import { InputData, jsonInputForTargetLanguage, quicktype } from "quicktype-core";
 
 (async () => {
   const {

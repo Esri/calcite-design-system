@@ -1,9 +1,9 @@
 import { newE2EPage } from "@stencil/core/testing";
 
-import { CSS } from "./resources";
-import { CSS as ITEM_CSS } from "../flow-item/resources";
-import { accessible, hidden, renders } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
+import { accessible, hidden, renders } from "../../tests/commonTests";
+import { CSS as ITEM_CSS } from "../flow-item/resources";
+import { CSS } from "./resources";
 
 describe("calcite-flow", () => {
   it("renders", async () => renders("calcite-flow", { display: "flex" }));

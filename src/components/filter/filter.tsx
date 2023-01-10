@@ -12,10 +12,14 @@ import {
   Watch
 } from "@stencil/core";
 import { debounce } from "lodash-es";
-import { CSS, DEBOUNCE_TIMEOUT, ICONS } from "./resources";
-import { Scale } from "../interfaces";
-import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import { filter } from "../../utils/filter";
+import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import {
+  componentLoaded,
+  LoadableComponent,
+  setComponentLoaded,
+  setUpLoadableComponent
+} from "../../utils/loadable";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 import {
   connectMessages,
@@ -24,13 +28,9 @@ import {
   T9nComponent,
   updateMessages
 } from "../../utils/t9n";
+import { Scale } from "../interfaces";
 import { FilterMessages } from "./assets/filter/t9n";
-import {
-  setUpLoadableComponent,
-  setComponentLoaded,
-  LoadableComponent,
-  componentLoaded
-} from "../../utils/loadable";
+import { CSS, DEBOUNCE_TIMEOUT, ICONS } from "./resources";
 
 @Component({
   tag: "calcite-filter",

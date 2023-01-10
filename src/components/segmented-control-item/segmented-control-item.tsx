@@ -1,17 +1,17 @@
 import {
   Component,
-  h,
-  Prop,
   Element,
   Event,
   EventEmitter,
+  h,
   Host,
-  Watch,
-  VNode
+  Prop,
+  VNode,
+  Watch
 } from "@stencil/core";
 import { getElementProp, toAriaBoolean } from "../../utils/dom";
 import { Appearance, Layout, Scale } from "../interfaces";
-import { SLOTS, CSS } from "./resources";
+import { CSS, SLOTS } from "./resources";
 
 @Component({
   tag: "calcite-segmented-control-item",

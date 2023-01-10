@@ -3,24 +3,24 @@ import {
   Element,
   Event,
   EventEmitter,
+  h,
   Host,
   Prop,
-  h,
-  Watch,
-  VNode
+  VNode,
+  Watch
 } from "@stencil/core";
+import {
+  ConditionalSlotComponent,
+  connectConditionalSlotComponent,
+  disconnectConditionalSlotComponent
+} from "../../utils/conditionalSlot";
 import { getElementProp, getSlotted } from "../../utils/dom";
-import { CSS } from "./resources";
 import { guid } from "../../utils/guid";
+import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import { ComboboxChildElement } from "../combobox/interfaces";
 import { getAncestors, getDepth } from "../combobox/utils";
 import { Scale } from "../interfaces";
-import {
-  connectConditionalSlotComponent,
-  disconnectConditionalSlotComponent,
-  ConditionalSlotComponent
-} from "../../utils/conditionalSlot";
-import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import { CSS } from "./resources";
 
 /**
  * @slot - A slot for adding nested `calcite-combobox-item`s.

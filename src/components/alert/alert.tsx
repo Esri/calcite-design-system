@@ -15,18 +15,16 @@ import {
 import {
   getSlotted,
   setRequestedIcon,
-  toAriaBoolean,
-  slotChangeHasAssignedElement
+  slotChangeHasAssignedElement,
+  toAriaBoolean
 } from "../../utils/dom";
-import { CSS, DURATIONS, SLOTS } from "./resources";
-import { Kind, Scale } from "../interfaces";
-import { KindIcons } from "../resources";
-import { AlertDuration, Sync } from "./interfaces";
+import { MenuPlacement } from "../../utils/floating-ui";
 import {
-  OpenCloseComponent,
-  connectOpenCloseComponent,
-  disconnectOpenCloseComponent
-} from "../../utils/openCloseComponent";
+  componentLoaded,
+  LoadableComponent,
+  setComponentLoaded,
+  setUpLoadableComponent
+} from "../../utils/loadable";
 import {
   connectLocalized,
   disconnectLocalized,
@@ -34,20 +32,22 @@ import {
   numberStringFormatter
 } from "../../utils/locale";
 import {
+  connectOpenCloseComponent,
+  disconnectOpenCloseComponent,
+  OpenCloseComponent
+} from "../../utils/openCloseComponent";
+import {
   connectMessages,
   disconnectMessages,
   setUpMessages,
   T9nComponent,
   updateMessages
 } from "../../utils/t9n";
+import { Kind, Scale } from "../interfaces";
+import { KindIcons } from "../resources";
 import { AlertMessages } from "./assets/alert/t9n";
-import {
-  setUpLoadableComponent,
-  setComponentLoaded,
-  LoadableComponent,
-  componentLoaded
-} from "../../utils/loadable";
-import { MenuPlacement } from "../../utils/floating-ui";
+import { AlertDuration, Sync } from "./interfaces";
+import { CSS, DURATIONS, SLOTS } from "./resources";
 
 /**
  * Alerts are meant to provide a way to communicate urgent or important information to users, frequently as a result of an action they took in your app. Alerts are positioned

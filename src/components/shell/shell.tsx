@@ -1,11 +1,11 @@
-import { Component, Element, Prop, h, VNode, Fragment, State } from "@stencil/core";
-import { CSS, SLOTS } from "./resources";
-import { slotChangeGetAssignedElements, slotChangeHasAssignedElement } from "../../utils/dom";
+import { Component, Element, Fragment, h, Prop, State, VNode } from "@stencil/core";
 import {
   ConditionalSlotComponent,
   connectConditionalSlotComponent,
   disconnectConditionalSlotComponent
 } from "../../utils/conditionalSlot";
+import { slotChangeGetAssignedElements, slotChangeHasAssignedElement } from "../../utils/dom";
+import { CSS, SLOTS } from "./resources";
 
 /**
  * @slot - A slot for adding custom content. This content will appear between any leading and trailing panels added to the component, such as a map.

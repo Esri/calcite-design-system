@@ -1,17 +1,17 @@
 import { boolean, select } from "@storybook/addon-knobs";
-import {
-  filterComponentAttributes,
-  Attributes,
-  createComponentHTML as create,
-  modesDarkDefault
-} from "../../../.storybook/utils";
+import { storyFilters } from "../../../.storybook/helpers";
 import { placeholderImage } from "../../../.storybook/placeholderImage";
 import { ATTRIBUTES } from "../../../.storybook/resources";
-import readme from "./readme.md";
-import panelReadme from "../shell-panel/readme.md";
-import centerRowReadme from "../shell-center-row/readme.md";
+import {
+  Attributes,
+  createComponentHTML as create,
+  filterComponentAttributes,
+  modesDarkDefault
+} from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
-import { storyFilters } from "../../../.storybook/helpers";
+import centerRowReadme from "../shell-center-row/readme.md";
+import panelReadme from "../shell-panel/readme.md";
+import readme from "./readme.md";
 
 export default {
   title: "Components/Shell",
