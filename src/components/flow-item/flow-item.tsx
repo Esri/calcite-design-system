@@ -1,21 +1,24 @@
 import {
   Component,
   Element,
-  Prop,
-  h,
-  VNode,
-  Host,
-  Method,
   Event,
   EventEmitter,
+  h,
+  Host,
+  Method,
+  Prop,
   State,
+  VNode,
   Watch
 } from "@stencil/core";
 import { getElementDir } from "../../utils/dom";
-import { HeadingLevel } from "../functional/Heading";
-import { CSS, ICONS, SLOTS } from "./resources";
-import { SLOTS as PANEL_SLOTS } from "../panel/resources";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import {
+  componentLoaded,
+  LoadableComponent,
+  setComponentLoaded,
+  setUpLoadableComponent
+} from "../../utils/loadable";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 import {
   connectMessages,
@@ -24,13 +27,10 @@ import {
   T9nComponent,
   updateMessages
 } from "../../utils/t9n";
+import { HeadingLevel } from "../functional/Heading";
+import { SLOTS as PANEL_SLOTS } from "../panel/resources";
 import { FlowItemMessages } from "./assets/flow-item/t9n";
-import {
-  setUpLoadableComponent,
-  setComponentLoaded,
-  LoadableComponent,
-  componentLoaded
-} from "../../utils/loadable";
+import { CSS, ICONS, SLOTS } from "./resources";
 
 /**
  * @slot - A slot for adding custom content.

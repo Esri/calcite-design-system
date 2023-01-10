@@ -1,9 +1,9 @@
 import { select } from "@storybook/addon-knobs";
 import { boolean, storyFilters } from "../../../.storybook/helpers";
 import { themesDarkDefault } from "../../../.storybook/utils";
-import readme1 from "./readme.md";
-import readme2 from "../segmented-control-item/readme.md";
 import { html } from "../../../support/formatting";
+import readme2 from "../segmented-control-item/readme.md";
+import readme1 from "./readme.md";
 
 export default {
   title: "Components/Controls/Radio/Segmented Control",

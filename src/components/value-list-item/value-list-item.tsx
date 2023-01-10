@@ -10,23 +10,23 @@ import {
   Prop,
   VNode
 } from "@stencil/core";
-import { ICON_TYPES } from "../pick-list/resources";
-import { guid } from "../../utils/guid";
-import { CSS, SLOTS as PICK_LIST_SLOTS } from "../pick-list-item/resources";
-import { ICONS, SLOTS } from "./resources";
-import { getSlotted } from "../../utils/dom";
 import {
   ConditionalSlotComponent,
   connectConditionalSlotComponent,
   disconnectConditionalSlotComponent
 } from "../../utils/conditionalSlot";
+import { getSlotted } from "../../utils/dom";
+import { guid } from "../../utils/guid";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import {
-  setUpLoadableComponent,
-  setComponentLoaded,
+  componentLoaded,
   LoadableComponent,
-  componentLoaded
+  setComponentLoaded,
+  setUpLoadableComponent
 } from "../../utils/loadable";
+import { CSS, SLOTS as PICK_LIST_SLOTS } from "../pick-list-item/resources";
+import { ICON_TYPES } from "../pick-list/resources";
+import { ICONS, SLOTS } from "./resources";
 
 /**
  * @slot actions-end - A slot for adding `calcite-action`s or content to the end side of the component.
