@@ -3,7 +3,7 @@ import {
   Attributes,
   filterComponentAttributes,
   createComponentHTML as create,
-  themesDarkDefault
+  modesDarkDefault
 } from "../../../.storybook/utils";
 import { placeholderImage } from "../../../.storybook/placeholderImage";
 import { ATTRIBUTES } from "../../../.storybook/resources";
@@ -214,13 +214,13 @@ export const withActions = (): string => html`
   </calcite-accordion>
 `;
 
-export const darkThemeRTL_TestOnly = (): string =>
+export const darkModeRTL_TestOnly = (): string =>
   create(
     "calcite-accordion",
     createAccordionAttributes({ exceptions: ["class", "dir"] }).concat(
       {
         name: "class",
-        value: "calcite-theme-dark"
+        value: "calcite-mode-dark"
       },
       {
         name: "dir",
@@ -254,7 +254,7 @@ export const darkThemeRTL_TestOnly = (): string =>
     `
   );
 
-darkThemeRTL_TestOnly.parameters = { themes: themesDarkDefault };
+darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
 
 export const transparentAppearance_TestOnly = (): string =>
   create(

@@ -1,6 +1,10 @@
 import { CSS_UTILITY } from "./resources";
 import { guid } from "./guid";
+import { tabbable } from "tabbable";
 
+export const tabbableOptions = {
+  getShadowRoot: true
+};
 /**
  * This helper will guarantee an ID on the provided element.
  *
@@ -23,12 +27,12 @@ export function nodeListToArray<T extends Element>(nodeList: HTMLCollectionOf<T>
 
 export type Direction = "ltr" | "rtl";
 
-export function getThemeName(el: HTMLElement): "light" | "dark" {
-  const closestElWithTheme = closestElementCrossShadowBoundary(
+export function getModeName(el: HTMLElement): "light" | "dark" {
+  const closestElWithMode = closestElementCrossShadowBoundary(
     el,
-    `.${CSS_UTILITY.darkTheme}, .${CSS_UTILITY.lightTheme}`
+    `.${CSS_UTILITY.darkMode}, .${CSS_UTILITY.lightMode}`
   );
-  return closestElWithTheme?.classList.contains("calcite-theme-dark") ? "dark" : "light";
+  return closestElWithMode?.classList.contains("calcite-mode-dark") ? "dark" : "light";
 }
 
 export function getElementDir(el: HTMLElement): Direction {
@@ -163,6 +167,15 @@ export async function focusElement(el: FocusableElement): Promise<void> {
   }
 
   return isCalciteFocusable(el) ? el.setFocus() : el.focus();
+}
+
+/**
+ * Helper to focus the first tabbable element.
+ *
+ * @param {HTMLElement} element The html element containing tabbable elements.
+ */
+export function focusFirstTabbable(element: HTMLElement): void {
+  (tabbable(element, tabbableOptions)[0] || element).focus();
 }
 
 interface GetSlottedOptions {

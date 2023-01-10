@@ -83,17 +83,17 @@ Updates the position of the component.
 
 Type: `Promise<void>`
 
-### `setFocus(focusId?: "close-button") => Promise<void>`
+### `setFocus() => Promise<void>`
 
-Sets focus on the component.
+Sets focus on the component's first focusable element.
 
 #### Returns
 
 Type: `Promise<void>`
 
-### `toggle(value?: boolean) => Promise<void>`
+### `updateFocusTrapElements() => Promise<void>`
 
-Toggles the component's open property.
+Updates the element(s) that are used within the focus-trap of the component.
 
 #### Returns
 

@@ -96,7 +96,7 @@ describe("calcite-scrim", () => {
     expect(contentNode).not.toBeNull();
   });
 
-  describe("CSS properties for light/dark themes", () => {
+  describe("CSS properties for light/dark modes", () => {
     const scrimSnippet = `
     <div style="position: relative; width: 200px; height: 200px; overflow: auto;">
       <calcite-scrim>
@@ -120,8 +120,8 @@ describe("calcite-scrim", () => {
       expect(scrimBgStyle).toEqual("green");
     });
 
-    describe("when theme attribute is not provided", () => {
-      it("should render scrim background with default value tied to light theme", async () => {
+    describe("when mode attribute is not provided", () => {
+      it("should render scrim background with default value tied to mode", async () => {
         page = await newE2EPage({ html: scrimSnippet });
         scrim = await page.find("calcite-scrim >>> .scrim");
         scrimStyles = await scrim.getComputedStyle();
@@ -130,10 +130,10 @@ describe("calcite-scrim", () => {
       });
     });
 
-    describe("when theme attribute is dark", () => {
-      it("should render scrim background with value tied to dark theme", async () => {
+    describe("when mode attribute is dark", () => {
+      it("should render scrim background with value tied to dark mode", async () => {
         page = await newE2EPage({
-          html: `<div class="calcite-theme-dark">${scrimSnippet}</div>`
+          html: `<div class="calcite-mode-dark">${scrimSnippet}</div>`
         });
         scrim = await page.find("calcite-scrim >>> .scrim");
         scrimStyles = await scrim.getComputedStyle();

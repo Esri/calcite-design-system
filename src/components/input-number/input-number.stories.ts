@@ -1,6 +1,6 @@
 import { select, text, number } from "@storybook/addon-knobs";
 import { boolean, iconNames, storyFilters } from "../../../.storybook/helpers";
-import { themesDarkDefault } from "../../../.storybook/utils";
+import { modesDarkDefault } from "../../../.storybook/utils";
 import readme from "./readme.md";
 import { html } from "../../../support/formatting";
 
@@ -83,16 +83,16 @@ export const withSlottedAction = (): string => html`
   </div>
 `;
 
-export const darkThemeRTL_TestOnly = (): string => html`
+export const darkModeRTL_TestOnly = (): string => html`
   <div dir="rtl" style="width:300px;max-width:100%;text-align:center;">
     <calcite-label
-      class="calcite-theme-dark"
+      class="calcite-mode-dark"
       status="${select("status", ["idle", "valid", "invalid"], "idle")}"
-      for="input-dark-theme"
+      for="input-dark-mode"
     >
       ${text("label text", "My great label")}
       <calcite-input-number
-        id="input-dark-theme"
+        id="input-dark-mode"
         status="${select("status", ["idle", "invalid", "valid"], "idle")}"
         alignment="${select("alignment", ["start", "end"], "start")}"
         number-button-type="${select("number-button-type", ["none", "horizontal", "vertical"], "horizontal")}"
@@ -114,7 +114,7 @@ export const darkThemeRTL_TestOnly = (): string => html`
     </calcite-label>
   </div>
 `;
-darkThemeRTL_TestOnly.parameters = { themes: themesDarkDefault };
+darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
 
 export const hebrewNumberingSystem_TestOnly = (): string =>
   html`<calcite-input-number lang="ar-EG" numbering-system="hebr" value="123456"></calcite-input-number>`;

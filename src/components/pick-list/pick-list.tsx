@@ -48,6 +48,8 @@ import {
  * @slot - A slot for adding `calcite-pick-list-item` or `calcite-pick-list-group` elements. Items are displayed as a vertical list.
  * @slot menu-actions - A slot for adding a button and menu combination for performing actions, such as sorting.
  */
+
+/** @deprecated Use the `list` component instead. */
 @Component({
   tag: "calcite-pick-list",
   styleUrl: "pick-list.scss",
@@ -69,14 +71,14 @@ export class PickList<
   @Prop({ reflect: true }) disabled = false;
 
   /**
-   * **read-only** The currently filtered items
+   * The currently filtered items.
    *
    * @readonly
    */
   @Prop({ mutable: true }) filteredItems: HTMLCalcitePickListItemElement[] = [];
 
   /**
-   * **read-only** The currently filtered items
+   * The currently filtered data.
    *
    * @readonly
    */
@@ -268,7 +270,7 @@ export class PickList<
   }
 
   /**
-   * Sets focus on the component.
+   * Sets focus on the component's first focusable element.
    *
    * @param focusId
    */
