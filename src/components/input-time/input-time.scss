@@ -4,6 +4,7 @@
 
   .container {
     @apply flex
+      p-1
       items-center
       text-color-1
       bg-foreground-1
@@ -27,7 +28,10 @@
     }
 
     .input {
-      @apply p-1;
+      @apply flex items-center justify-center h-full min-w-max;
+      &.empty {
+        @apply w-4;
+      }
       &:focus,
       &:hover:focus {
         @apply outline-none;
@@ -35,23 +39,30 @@
       }
     }
 
+    .meridiem {
+      margin-inline-start: theme("padding.1");
+    }
+
     &.scale-s {
-      @apply text-n2h h-6 px-2;
+      @apply text-n2h h-6;
       padding-inline-start: theme("padding.8");
+      padding-inline-end: theme("padding.2");
       .clock-icon {
         inset-inline-start: theme("spacing.2");
       }
     }
     &.scale-m {
-      @apply text-n1h h-8 px-3;
+      @apply text-n1h h-8;
       padding-inline-start: theme("padding.10");
+      padding-inline-end: theme("padding.3");
       .clock-icon {
         inset-inline-start: theme("spacing.3");
       }
     }
     &.scale-l {
-      @apply text-0h h-11 px-4;
+      @apply text-0h h-11;
       padding-inline-start: theme("padding.12");
+      padding-inline-end: theme("padding.4");
       .clock-icon {
         inset-inline-start: theme("spacing.4");
       }

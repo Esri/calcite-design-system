@@ -12,7 +12,8 @@ export const CSS = {
   "scale-m": "scale-m",
   "scale-l": "scale-l",
   container: "container",
-  meridiemStart: "meridiem--start"
+  meridiemStart: "meridiem--start",
+  empty: "empty"
 };
 
 export const TEXT = {

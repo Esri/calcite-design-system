@@ -745,6 +745,7 @@ export class InputTime
     const minuteIsNumber = isValidNumber(this.minute);
     const secondIsNumber = isValidNumber(this.second);
     const showMeridiem = this.hourCycle === "12";
+    const emptyValue = "--";
     return (
       <Host>
         <div
@@ -765,7 +766,8 @@ export class InputTime
             aria-valuetext={this.hour}
             class={{
               [CSS.input]: true,
-              [CSS.hour]: true
+              [CSS.hour]: true,
+              [CSS.empty]: !Boolean(this.localizedHour)
             }}
             onFocus={this.timePartFocusHandler}
             onKeyDown={this.hourKeyDownHandler}
@@ -773,7 +775,7 @@ export class InputTime
             role="spinbutton"
             tabIndex={0}
           >
-            {this.localizedHour || "--"}
+            {this.localizedHour || emptyValue}
           </span>
           <span class={CSS.delimiter}>{this.localizedHourSuffix}</span>
           <span
@@ -784,7 +786,8 @@ export class InputTime
             aria-valuetext={this.minute}
             class={{
               [CSS.input]: true,
-              [CSS.minute]: true
+              [CSS.minute]: true,
+              [CSS.empty]: !Boolean(this.localizedMinute)
             }}
             onFocus={this.timePartFocusHandler}
             onKeyDown={this.minuteKeyDownHandler}
@@ -792,7 +795,7 @@ export class InputTime
             role="spinbutton"
             tabIndex={0}
           >
-            {this.localizedMinute || "--"}
+            {this.localizedMinute || emptyValue}
           </span>
           {this.showSecond && <span class={CSS.delimiter}>{this.localizedMinuteSuffix}</span>}
           {this.showSecond && (
@@ -804,7 +807,8 @@ export class InputTime
               aria-valuetext={this.second}
               class={{
                 [CSS.input]: true,
-                [CSS.second]: true
+                [CSS.second]: true,
+                [CSS.empty]: !Boolean(this.localizedSecond)
               }}
               onFocus={this.timePartFocusHandler}
               onKeyDown={this.secondKeyDownHandler}
@@ -812,7 +816,7 @@ export class InputTime
               role="spinbutton"
               tabIndex={0}
             >
-              {this.localizedSecond || "--"}
+              {this.localizedSecond || emptyValue}
             </span>
           )}
           {this.localizedSecondSuffix && (
@@ -828,7 +832,8 @@ export class InputTime
               class={{
                 [CSS.input]: true,
                 [CSS.meridiem]: true,
-                [CSS.meridiemStart]: this.meridiemOrder === 0
+                [CSS.meridiemStart]: this.meridiemOrder === 0,
+                [CSS.empty]: !Boolean(this.localizedMeridiem)
               }}
               onFocus={this.timePartFocusHandler}
               onKeyDown={this.meridiemKeyDownHandler}
@@ -836,7 +841,7 @@ export class InputTime
               role="spinbutton"
               tabIndex={0}
             >
-              {this.localizedMeridiem || "--"}
+              {this.localizedMeridiem || emptyValue}
             </span>
           )}
         </div>
