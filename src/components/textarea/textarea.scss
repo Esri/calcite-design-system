@@ -65,10 +65,10 @@ textarea {
     @apply py-1 px-2;
     max-block-size: 100%;
   }
-  @include slotted("footer-leading", "*") {
+  @include slotted("footer-start", "*") {
     @apply pr-2;
   }
-  @include slotted("footer-trailing", "*") {
+  @include slotted("footer-end", "*") {
     @apply pl-2;
   }
 }
@@ -89,10 +89,10 @@ textarea {
     @apply py-2 px-3;
     min-block-size: 2.25rem;
   }
-  @include slotted("footer-leading", "*") {
+  @include slotted("footer-start", "*") {
     @apply pr-3;
   }
-  @include slotted("footer-trailing", "*") {
+  @include slotted("footer-end", "*") {
     @apply pl-3;
   }
 }
@@ -114,10 +114,10 @@ textarea {
     @apply py-3 px-4;
     min-block-size: 2.75rem;
   }
-  @include slotted("footer-leading", "*") {
+  @include slotted("footer-start", "*") {
     @apply pr-4;
   }
-  @include slotted("footer-trailing", "*") {
+  @include slotted("footer-end", "*") {
     @apply pl-4;
   }
 }

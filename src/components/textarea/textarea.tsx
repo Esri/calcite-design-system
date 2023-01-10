@@ -88,28 +88,56 @@ export class Textarea
    */
   @Prop({ reflect: true }) disabled = false;
 
-  /** Specifies the placeholder text for the component. */
+  /**
+   * Specifies the placeholder text for the component.
+   *
+   * @mdn [placeholder](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea#attr-placeholder)
+   */
   @Prop() placeholder: string;
 
-  /** Whne `true`, the component's value can be read, but cannot be modified.  */
+  /**
+   * When `true`, the component's value can be read, but cannot be modified.
+   *
+   * @mdn [readOnly](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/readonly)
+   */
   @Prop({ reflect: true }) readonly = false;
 
-  /** Specifies the number or rows allowed. */
+  /**
+   * Specifies the number or rows allowed.
+   *
+   * @mdn [rows](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea#attr-rows)
+   */
   @Prop({ reflect: true }) rows: number;
 
-  /** Specifies the number or columns allowed. */
+  /**
+   * Specifies the number or columns allowed.
+   *
+   * @mdn [cols](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea#attr-cols)
+   */
   @Prop({ reflect: true }) cols: number;
 
-  /** Specifies the maximum number of characters allowed. */
+  /**
+   * Specifies the maximum number of characters allowed.
+   *
+   * @mdn [maxlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea#attr-maxlength)
+   */
   @Prop() maxlength: number;
 
-  /** Specifies the name of the component  */
+  /**
+   * Specifies the name of the component
+   *
+   * @mdn [name](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea#attr-name)
+   */
   @Prop({ reflect: true }) name: string;
 
   /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: "l" | "m" | "s" = "m";
 
-  /** Specifies the wrapping mechanism for the text.*/
+  /**
+   * Specifies the wrapping mechanism for the text.
+   *
+   * @mdn [wrap](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea#attr-wrap)
+   */
   @Prop({ reflect: true }) wrap: "soft" | "hard" = "soft";
 
   /** The component's value. */
@@ -124,10 +152,16 @@ export class Textarea
   /** When `true`, disables vertically resizing the component. */
   @Prop({ reflect: true }) verticalResizeDisabled = false;
 
-  /** When `true`, the component must have a value in order for the form to submit.*/
+  /**
+   * When `true`, the component must have a value in order for the form to submit.
+   *
+   * @mdn [required]https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/required
+   */
   @Prop({ reflect: true }) required = false;
 
-  /** Accessible name for the component. */
+  /**
+   * Accessible name for the component.
+   */
   @Prop() label: string;
 
   // /** When `true`, the component will be marked as invalid. */
@@ -263,8 +297,8 @@ export class Textarea
             key={CSS.footer}
             ref={(el) => (this.footerEl = el as HTMLElement)}
           >
-            <slot name={SLOTS.footerStart} onSlotchange={this.footerTrailingSlotChangeHandler} />
-            <slot name={SLOTS.footerEnd} onSlotchange={this.footerLeadingSlotChangeHandler} />
+            <slot name={SLOTS.footerStart} onSlotchange={this.footerStartSlotChangeHandler} />
+            <slot name={SLOTS.footerEnd} onSlotchange={this.footerEndSlotChangeHandler} />
             {this.renderCharacterLimit()}
           </footer>
         }
@@ -343,14 +377,14 @@ export class Textarea
     this.calciteTextareaChange.emit();
   };
 
-  footerTrailingSlotChangeHandler = (event: Event): void => {
+  footerEndSlotChangeHandler = (event: Event): void => {
     this.trailingSlotElements = slotChangeGetAssignedElements(event);
     if (this.disabled) {
       this.disablePointerEvents(this.disabled, this.trailingSlotElements);
     }
   };
 
-  footerLeadingSlotChangeHandler = (event: Event): void => {
+  footerStartSlotChangeHandler = (event: Event): void => {
     this.leadingSlotElements = slotChangeGetAssignedElements(event);
     if (this.disabled) {
       this.disablePointerEvents(this.disabled, this.leadingSlotElements);
