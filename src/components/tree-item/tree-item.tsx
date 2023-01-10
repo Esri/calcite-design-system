@@ -1,33 +1,33 @@
 import {
   Component,
   Element,
-  Prop,
-  Host,
   Event,
   EventEmitter,
-  Listen,
-  Watch,
   h,
-  VNode
+  Host,
+  Listen,
+  Prop,
+  VNode,
+  Watch
 } from "@stencil/core";
-import { TreeItemSelectDetail } from "./interfaces";
-import {
-  nodeListToArray,
-  getElementDir,
-  filterDirectChildren,
-  getSlotted,
-  toAriaBoolean
-} from "../../utils/dom";
-import { Scale, SelectionMode } from "../interfaces";
-import { CSS, SLOTS, ICONS } from "./resources";
-import { CSS_UTILITY } from "../../utils/resources";
 import {
   ConditionalSlotComponent,
   connectConditionalSlotComponent,
   disconnectConditionalSlotComponent
 } from "../../utils/conditionalSlot";
+import {
+  filterDirectChildren,
+  getElementDir,
+  getSlotted,
+  nodeListToArray,
+  toAriaBoolean
+} from "../../utils/dom";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
+import { CSS_UTILITY } from "../../utils/resources";
+import { Scale, SelectionMode } from "../interfaces";
+import { TreeItemSelectDetail } from "./interfaces";
+import { CSS, ICONS, SLOTS } from "./resources";
 
 /**
  * @slot - A slot for adding text.

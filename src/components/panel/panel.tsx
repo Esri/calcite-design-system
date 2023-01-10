@@ -3,26 +3,26 @@ import {
   Element,
   Event,
   EventEmitter,
+  Fragment,
+  h,
   Method,
   Prop,
-  h,
-  VNode,
-  Fragment,
   State,
+  VNode,
   Watch
 } from "@stencil/core";
-import { CSS, ICONS, SLOTS } from "./resources";
 import { focusFirstTabbable, toAriaBoolean } from "../../utils/dom";
-import { HeadingLevel, Heading } from "../functional/Heading";
-import { SLOTS as ACTION_MENU_SLOTS } from "../action-menu/resources";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
-import { createObserver } from "../../utils/observers";
 import {
-  setUpLoadableComponent,
-  setComponentLoaded,
+  componentLoaded,
   LoadableComponent,
-  componentLoaded
+  setComponentLoaded,
+  setUpLoadableComponent
 } from "../../utils/loadable";
+import { createObserver } from "../../utils/observers";
+import { SLOTS as ACTION_MENU_SLOTS } from "../action-menu/resources";
+import { Heading, HeadingLevel } from "../functional/Heading";
+import { CSS, ICONS, SLOTS } from "./resources";
 
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 import {

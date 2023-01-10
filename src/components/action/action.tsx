@@ -1,24 +1,27 @@
 import {
+  Build,
   Component,
   Element,
+  forceUpdate,
+  h,
   Host,
   Method,
   Prop,
-  h,
-  forceUpdate,
-  VNode,
-  Watch,
   State,
-  Build
+  VNode,
+  Watch
 } from "@stencil/core";
-import { Alignment, Appearance, Scale } from "../interfaces";
-import { CSS, SLOTS } from "./resources";
-import { guid } from "../../utils/guid";
-import { createObserver } from "../../utils/observers";
-import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import { toAriaBoolean } from "../../utils/dom";
+import { guid } from "../../utils/guid";
+import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import {
+  componentLoaded,
+  LoadableComponent,
+  setComponentLoaded,
+  setUpLoadableComponent
+} from "../../utils/loadable";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
-import { ActionMessages } from "./assets/action/t9n";
+import { createObserver } from "../../utils/observers";
 import {
   connectMessages,
   disconnectMessages,
@@ -26,12 +29,9 @@ import {
   T9nComponent,
   updateMessages
 } from "../../utils/t9n";
-import {
-  setUpLoadableComponent,
-  setComponentLoaded,
-  LoadableComponent,
-  componentLoaded
-} from "../../utils/loadable";
+import { Alignment, Appearance, Scale } from "../interfaces";
+import { ActionMessages } from "./assets/action/t9n";
+import { CSS, SLOTS } from "./resources";
 
 /**
  * @slot - A slot for adding a `calcite-icon`.

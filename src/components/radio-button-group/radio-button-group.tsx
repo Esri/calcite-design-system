@@ -1,14 +1,14 @@
 import {
   Component,
-  Host,
-  h,
   Element,
-  Prop,
-  Watch,
-  VNode,
   Event,
   EventEmitter,
-  Listen
+  h,
+  Host,
+  Listen,
+  Prop,
+  VNode,
+  Watch
 } from "@stencil/core";
 import { createObserver } from "../../utils/observers";
 import { Layout, Scale } from "../interfaces";

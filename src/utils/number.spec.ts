@@ -1,5 +1,5 @@
+import { locales, numberStringFormatter } from "./locale";
 import { BigDecimal, isValidNumber, parseNumberString, sanitizeNumberString } from "./number";
-import { numberStringFormatter, locales } from "./locale";
 
 describe("isValidNumber", () => {
   it("returns false for string values that can't compute to a number", () => {
