@@ -181,6 +181,7 @@ export class Modal
     this.updateFooterVisibility();
     this.updateSizeCssVars();
     connectConditionalSlotComponent(this);
+
     connectLocalized(this);
     connectMessages(this);
   }
@@ -196,55 +197,42 @@ export class Modal
   }
 
   renderStyle(): VNode {
-    return !this.fullscreen && !this.docked ? (
-      <style>
-        {`.${CSS.modal} {
-          width: ${this.cssVarWidth ? this.cssVarWidth : "initial"} !important;
-          height: ${this.cssVarHeight ? this.cssVarHeight : "initial"} !important;
-        }
-        @media screen and (max-width: ${this.cssVarWidth}) {
-          .${CSS.modal} {
-            height: 100% !important;
-            max-height: 100% !important;
-            width: 100% !important;
-            max-width: 100% !important;
-            min-width: 100% !important;
-            margin: 0 !important;
-            border-radius: 0 !important;
-          }
-          .content {
-            flex: 1 1 auto !important;
-            max-height: unset !important;
-          }
-        }
-      `}
-      </style>
-    ) : !this.fullscreen && this.docked ? (
-      <style>
-        {`.${CSS.modal} {
-            width: ${this.cssVarWidth ? this.cssVarWidth : "inherit"} !important;
-            width: ${this.cssVarWidth ? this.cssVarWidth : "inherit"} !important;
-            max-width: ${this.cssVarWidth ? this.cssVarWidth : "inherit"} !important;
-            min-width: ${this.cssVarWidth ? this.cssVarWidth : "inherit"} !important;
-            height: ${this.cssVarHeight ? this.cssVarHeight : "initial"} !important;
-          }
-          .content {
-            flex: 1 1 auto !important;
-          }
-           @media screen and (max-width: ${this.cssVarWidth}) {
-          .${CSS.modal} {
-            width: 100% !important;
-            max-width: 100% !important;
-            min-width: 100% !important;
-            margin: 0 !important;
-            height: ${this.cssVarHeight ? this.cssVarHeight : "100%"} !important;
-          }
-          .container {
-            align-items: flex-end;
-          }
-        }`}
-      </style>
-    ) : null;
+    if (!this.fullscreen && (this.cssWidth || this.cssHeight)) {
+      return (
+        <style>
+          {`.${CSS.container} {
+              ${this.docked && this.cssWidth ? `align-items: center !important;` : ""}
+            }
+            .${CSS.modal} {
+              ${this.docked && this.cssWidth ? `inline-size: ${this.cssWidth} !important;` : ""}
+              ${this.docked && this.cssWidth ? `max-inline-size: ${this.cssWidth} !important;` : ""}
+              ${this.docked && this.cssHeight ? `block-size: ${this.cssHeight} !important;` : ""}
+              ${this.docked ? `border-radius: var(--calcite-border-radius) !important;` : ""}
+            }
+
+            @media screen and (max-width: ${this.cssWidth}) {
+              .${CSS.container} {
+                ${this.docked ? `align-items: flex-end !important;` : ""}
+              }
+              .${CSS.modal} {
+                max-block-size: 100% !important;
+                inline-size: 100% !important;
+                max-inline-size: 100% !important;
+                min-inline-size: 100% !important;
+                margin: 0 !important;
+                ${!this.docked ? `block-size: 100% !important;` : ""}
+                ${!this.docked ? `border-radius: 0 !important;` : ""}
+                ${
+                  this.docked
+                    ? `border-radius: var(--calcite-border-radius) var(--calcite-border-radius) 0 0 !important;`
+                    : ""
+                }
+              }
+            }
+          `}
+        </style>
+      );
+    }
   }
 
   render(): VNode {
@@ -278,8 +266,8 @@ export class Modal
             </div>
             <div
               class={{
-                content: true,
-                "content--no-footer": !this.hasFooter
+                [CSS.content]: true,
+                [CSS.contentNoFooter]: !this.hasFooter
               }}
               ref={(el) => (this.modalContent = el)}
             >
@@ -360,9 +348,11 @@ export class Modal
 
   contentId: string;
 
-  @State() cssVarWidth: string | number;
+  @State() modalSlottedWidth: number;
 
-  @State() cssVarHeight: string | number;
+  @State() cssWidth: string | number;
+
+  @State() cssHeight: string | number;
 
   @State() hasFooter = true;
 
@@ -548,7 +538,7 @@ export class Modal
   };
 
   private updateSizeCssVars = (): void => {
-    this.cssVarWidth = getComputedStyle(this.el).getPropertyValue("--calcite-modal-width");
-    this.cssVarHeight = getComputedStyle(this.el).getPropertyValue("--calcite-modal-height");
+    this.cssWidth = getComputedStyle(this.el).getPropertyValue("--calcite-modal-width");
+    this.cssHeight = getComputedStyle(this.el).getPropertyValue("--calcite-modal-height");
   };
 }
