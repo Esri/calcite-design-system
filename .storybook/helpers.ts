@@ -1,8 +1,8 @@
 import * as icons from "@esri/calcite-ui-icons";
 import { boolean as booleanKnob } from "@storybook/addon-knobs";
-import { MODES } from "../src/utils/resources";
-import { ModeName } from "../src/components/interfaces";
 import { Parameters } from "@storybook/api";
+import { ModeName } from "../src/components/interfaces";
+import { MODES } from "../src/utils/resources";
 
 // we can get all unique icon names from all size 16 non-filled icons.
 export const iconNames = Object.keys(icons)

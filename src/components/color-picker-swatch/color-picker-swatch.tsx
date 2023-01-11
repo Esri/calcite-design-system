@@ -1,7 +1,5 @@
 import { Component, Element, h, Prop, VNode, Watch } from "@stencil/core";
 import Color from "color";
-import { COLORS, CSS } from "./resources";
-import { Scale } from "../interfaces";
 import { getModeName } from "../../utils/dom";
 import { hexify } from "../color-picker/utils";
 

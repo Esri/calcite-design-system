@@ -43,10 +43,21 @@ import {
 } from "./utils";
 import { throttle } from "lodash-es";
 
-import { clamp } from "../../utils/math";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
-import { ColorPickerMessages } from "./assets/color-picker/t9n";
 import { isActivationKey } from "../../utils/key";
+import {
+  componentLoaded,
+  LoadableComponent,
+  setComponentLoaded,
+  setUpLoadableComponent
+} from "../../utils/loadable";
+import {
+  connectLocalized,
+  disconnectLocalized,
+  LocalizedComponent,
+  NumberingSystem
+} from "../../utils/locale";
+import { clamp } from "../../utils/math";
 import {
   connectMessages,
   disconnectMessages,
@@ -54,14 +65,7 @@ import {
   T9nComponent,
   updateMessages
 } from "../../utils/t9n";
-import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
-import { NumberingSystem } from "../../utils/locale";
-import {
-  setUpLoadableComponent,
-  setComponentLoaded,
-  LoadableComponent,
-  componentLoaded
-} from "../../utils/loadable";
+import { ColorPickerMessages } from "./assets/color-picker/t9n";
 
 const throttleFor60FpsInMs = 16;
 

@@ -1,6 +1,6 @@
 import { E2EPage, newE2EPage } from "@stencil/core/testing";
-import { disabled, focusable, formAssociated, labelable, renders, hidden } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
+import { disabled, focusable, formAssociated, hidden, labelable, renders } from "../../tests/commonTests";
 
 describe("calcite-segmented-control", () => {
   it("renders", () => renders("calcite-segmented-control", { display: "flex" }));

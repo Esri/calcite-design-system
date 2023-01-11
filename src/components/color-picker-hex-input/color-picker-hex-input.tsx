@@ -11,6 +11,8 @@ import {
   VNode,
   Watch
 } from "@stencil/core";
+
+import Color from "color";
 import {
   hexify,
   normalizeAlpha,
@@ -21,18 +23,17 @@ import {
   rgbToHex,
   canConvertToHexa
 } from "../color-picker/utils";
-import Color from "color";
-import { CSS } from "./resources";
-import { Scale } from "../interfaces";
-import { RGB, RGBA } from "../color-picker/interfaces";
 import { focusElement } from "../../utils/dom";
-import { NumberingSystem } from "../../utils/locale";
 import {
-  setUpLoadableComponent,
-  setComponentLoaded,
+  componentLoaded,
   LoadableComponent,
-  componentLoaded
+  setComponentLoaded,
+  setUpLoadableComponent
 } from "../../utils/loadable";
+import { NumberingSystem } from "../../utils/locale";
+import { RGB, RGBA } from "../color-picker/interfaces";
+import { Scale } from "../interfaces";
+import { CSS } from "./resources";
 
 const DEFAULT_COLOR = Color();
 

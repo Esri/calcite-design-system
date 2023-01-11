@@ -1,17 +1,17 @@
+import { ModeName } from "../../src/components/interfaces";
+import { html } from "../../support/formatting";
 import {
-  getElementProp,
-  getSlotted,
-  setRequestedIcon,
   ensureId,
+  getElementProp,
   getModeName,
-  toAriaBoolean,
+  getSlotted,
   isPrimaryPointerButton,
+  setRequestedIcon,
   slotChangeGetAssignedElements,
-  slotChangeHasAssignedElement
+  slotChangeHasAssignedElement,
+  toAriaBoolean
 } from "./dom";
 import { guidPattern } from "./guid.spec";
-import { html } from "../../support/formatting";
-import { ModeName } from "../../src/components/interfaces";
 
 describe("dom", () => {
   describe("getElementProp()", () => {

@@ -10,10 +10,9 @@ import {
   VNode
 } from "@stencil/core";
 import { getElementProp } from "../../utils/dom";
+import { Scale, SelectionMode } from "../interfaces";
 import { RequestedItem } from "./interfaces";
-import { Scale } from "../interfaces";
 import { CSS } from "./resources";
-import { SelectionMode } from "../interfaces";
 /**
  * @slot - A slot for adding `calcite-dropdown-item`s.
  */

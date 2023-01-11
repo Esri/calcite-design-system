@@ -1,25 +1,25 @@
 import {
   Component,
   Element,
-  Prop,
   Event,
-  h,
   EventEmitter,
-  VNode,
+  Fragment,
+  h,
+  Prop,
   State,
-  Watch,
-  Fragment
+  VNode,
+  Watch
 } from "@stencil/core";
-import { dateFromRange, nextMonth, prevMonth, getOrder } from "../../utils/date";
+import { dateFromRange, getOrder, nextMonth, prevMonth } from "../../utils/date";
 
-import { DateLocaleData } from "../date-picker/utils";
-import { Scale } from "../interfaces";
-import { HeadingLevel, Heading } from "../functional/Heading";
-import { BUDDHIST_CALENDAR_YEAR_OFFSET, CSS, ICON } from "./resources";
+import { closestElementCrossShadowBoundary } from "../../utils/dom";
 import { isActivationKey } from "../../utils/key";
 import { numberStringFormatter } from "../../utils/locale";
-import { closestElementCrossShadowBoundary } from "../../utils/dom";
 import { DatePickerMessages } from "../date-picker/assets/date-picker/t9n";
+import { DateLocaleData } from "../date-picker/utils";
+import { Heading, HeadingLevel } from "../functional/Heading";
+import { Scale } from "../interfaces";
+import { BUDDHIST_CALENDAR_YEAR_OFFSET, CSS, ICON } from "./resources";
 
 @Component({
   tag: "calcite-date-picker-month-header",
