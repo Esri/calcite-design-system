@@ -232,11 +232,6 @@ export class InputTime
   //--------------------------------------------------------------------------
 
   /**
-   * @internal
-   */
-  @Event() calciteInternalInputTimeBlur: EventEmitter<void>;
-
-  /**
    * Fires when the time value is committed.
    */
   @Event() calciteInputTimeChange: EventEmitter<string>;
@@ -245,6 +240,11 @@ export class InputTime
    * Fires each time the user changes the value but has not committed changes.
    */
   @Event() calciteInputTimeInput: EventEmitter<string>;
+
+  /**
+   * @internal
+   */
+  @Event() calciteInternalInputTimeBlur: EventEmitter<void>;
 
   /**
    * @internal
@@ -259,8 +259,27 @@ export class InputTime
 
   @Listen("blur")
   blurHandler(): void {
+    this.activeEl = undefined;
     this.calciteInternalInputTimeBlur.emit();
     this.emitChangeIfUserModified();
+  }
+
+  @Listen("click")
+  clickHandler(event: MouseEvent): void {
+    const composedEventPath = event.composedPath();
+    if (composedEventPath.includes(this.hourEl)) {
+      return;
+    }
+    if (composedEventPath.includes(this.minuteEl)) {
+      return;
+    }
+    if (composedEventPath.includes(this.secondEl)) {
+      return;
+    }
+    if (composedEventPath.includes(this.meridiemEl)) {
+      return;
+    }
+    this.setFocus();
   }
 
   @Listen("focus")
