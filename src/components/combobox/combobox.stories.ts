@@ -414,3 +414,18 @@ export const optionListMinWidthMatchesInputWhenOverlayPositioningIsFixed_TestOnl
     </calcite-combobox>
   </div>
 `;
+
+export const mediumIconForLargeComoboboxItem_TestOnly = (): string => html`
+  <calcite-combobox open scale="l">
+    <calcite-combobox-item
+      icon="altitude"
+      value="altitude"
+      text-label="Altitude"
+      selected
+      scale="l"
+    ></calcite-combobox-item>
+    <calcite-combobox-item icon="article" value="article" text-label="Article" scale="l"></calcite-combobox-item>
+    <calcite-combobox-item value="altitude" text-label="Altitude" scale="l"></calcite-combobox-item>
+    <calcite-combobox-item value="article" text-label="Article" scale="l"></calcite-combobox-item>
+  </calcite-combobox>
+`;

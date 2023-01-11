@@ -1,15 +1,15 @@
 import { boolean } from "@storybook/addon-knobs";
+import { storyFilters } from "../../../.storybook/helpers";
 import {
   Attribute,
-  filterComponentAttributes,
   Attributes,
   createComponentHTML as create,
+  filterComponentAttributes,
   modesDarkDefault
 } from "../../../.storybook/utils";
-import readme from "./readme.md";
-import itemReadme from "../value-list-item/readme.md";
 import { html } from "../../../support/formatting";
-import { storyFilters } from "../../../.storybook/helpers";
+import itemReadme from "../value-list-item/readme.md";
+import readme from "./readme.md";
 
 export default {
   title: "Components/Value List",

@@ -3,24 +3,21 @@ import {
   Element,
   Event,
   EventEmitter,
-  h,
-  Prop,
-  Method,
-  VNode,
   Fragment,
+  h,
+  Method,
+  Prop,
   State,
+  VNode,
   Watch
 } from "@stencil/core";
-import { Scale } from "../interfaces";
 import {
   connectLocalized,
   disconnectLocalized,
   LocalizedComponent,
-  numberStringFormatter,
-  NumberingSystem
+  NumberingSystem,
+  numberStringFormatter
 } from "../../utils/locale";
-import { CSS } from "./resources";
-import { PaginationMessages } from "./assets/pagination/t9n";
 import {
   connectMessages,
   disconnectMessages,
@@ -28,6 +25,9 @@ import {
   T9nComponent,
   updateMessages
 } from "../../utils/t9n";
+import { Scale } from "../interfaces";
+import { PaginationMessages } from "./assets/pagination/t9n";
+import { CSS } from "./resources";
 
 const maxPagesDisplayed = 5;
 export interface PaginationDetail {

@@ -1,30 +1,40 @@
 import {
+  Build,
   Component,
-  h,
-  Prop,
   Element,
-  Host,
-  State,
-  Listen,
-  Watch,
-  VNode,
-  Method,
   Event,
   EventEmitter,
-  Build
+  h,
+  Host,
+  Listen,
+  Method,
+  Prop,
+  State,
+  VNode,
+  Watch
 } from "@stencil/core";
-import { getLocaleData, DateLocaleData, getValueAsDateRange } from "../date-picker/utils";
 import {
-  dateFromRange,
-  inRange,
   dateFromISO,
-  dateToISO,
   dateFromLocalizedString,
-  datePartsFromLocalizedString
+  dateFromRange,
+  datePartsFromLocalizedString,
+  dateToISO,
+  inRange
 } from "../../utils/date";
-import { HeadingLevel } from "../functional/Heading";
-import { CSS } from "./resources";
-import { LabelableComponent, connectLabel, disconnectLabel, getLabelText } from "../../utils/label";
+import { toAriaBoolean } from "../../utils/dom";
+import {
+  connectFloatingUI,
+  defaultMenuPlacement,
+  disconnectFloatingUI,
+  EffectivePlacement,
+  filterComputedPlacements,
+  FloatingCSS,
+  FloatingUIComponent,
+  MenuPlacement,
+  OverlayPositioning,
+  reposition,
+  updateAfterClose
+} from "../../utils/floating-ui";
 import {
   connectForm,
   disconnectForm,
@@ -32,27 +42,15 @@ import {
   HiddenFormInputSlot,
   submitForm
 } from "../../utils/form";
-import {
-  FloatingCSS,
-  OverlayPositioning,
-  FloatingUIComponent,
-  connectFloatingUI,
-  disconnectFloatingUI,
-  EffectivePlacement,
-  MenuPlacement,
-  defaultMenuPlacement,
-  filterComputedPlacements,
-  reposition,
-  updateAfterClose
-} from "../../utils/floating-ui";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
-import { toAriaBoolean } from "../../utils/dom";
+import { numberKeys } from "../../utils/key";
+import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
 import {
-  OpenCloseComponent,
-  connectOpenCloseComponent,
-  disconnectOpenCloseComponent
-} from "../../utils/openCloseComponent";
-import { DatePickerMessages } from "../date-picker/assets/date-picker/t9n";
+  componentLoaded,
+  LoadableComponent,
+  setComponentLoaded,
+  setUpLoadableComponent
+} from "../../utils/loadable";
 import {
   connectLocalized,
   disconnectLocalized,
@@ -60,13 +58,15 @@ import {
   NumberingSystem,
   numberStringFormatter
 } from "../../utils/locale";
-import { numberKeys } from "../../utils/key";
 import {
-  setUpLoadableComponent,
-  setComponentLoaded,
-  LoadableComponent,
-  componentLoaded
-} from "../../utils/loadable";
+  connectOpenCloseComponent,
+  disconnectOpenCloseComponent,
+  OpenCloseComponent
+} from "../../utils/openCloseComponent";
+import { DatePickerMessages } from "../date-picker/assets/date-picker/t9n";
+import { DateLocaleData, getLocaleData, getValueAsDateRange } from "../date-picker/utils";
+import { HeadingLevel } from "../functional/Heading";
+import { CSS } from "./resources";
 
 @Component({
   tag: "calcite-input-date-picker",

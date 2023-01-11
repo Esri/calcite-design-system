@@ -11,25 +11,25 @@ import {
   VNode,
   Watch
 } from "@stencil/core";
-import { guid } from "../../utils/guid";
+import { getRoundRobinIndex } from "../../utils/array";
 import { focusElement, getElementDir, toAriaBoolean } from "../../utils/dom";
-import { Scale } from "../interfaces";
-import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
 import {
-  HiddenFormInputSlot,
+  CheckableFormComponent,
   connectForm,
   disconnectForm,
-  CheckableFormComponent
+  HiddenFormInputSlot
 } from "../../utils/form";
-import { CSS } from "./resources";
-import { getRoundRobinIndex } from "../../utils/array";
+import { guid } from "../../utils/guid";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
 import {
-  setUpLoadableComponent,
-  setComponentLoaded,
+  componentLoaded,
   LoadableComponent,
-  componentLoaded
+  setComponentLoaded,
+  setUpLoadableComponent
 } from "../../utils/loadable";
+import { Scale } from "../interfaces";
+import { CSS } from "./resources";
 
 @Component({
   tag: "calcite-radio-button",

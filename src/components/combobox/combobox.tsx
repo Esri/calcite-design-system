@@ -1,39 +1,34 @@
 import {
   Component,
-  h,
-  Prop,
-  State,
-  Listen,
+  Element,
   Event,
   EventEmitter,
-  Element,
-  VNode,
+  h,
+  Host,
+  Listen,
   Method,
-  Watch,
-  Host
+  Prop,
+  State,
+  VNode,
+  Watch
 } from "@stencil/core";
-import { filter } from "../../utils/filter";
 import { debounce } from "lodash-es";
+import { filter } from "../../utils/filter";
 
+import { isPrimaryPointerButton, toAriaBoolean } from "../../utils/dom";
 import {
-  FloatingCSS,
-  OverlayPositioning,
-  FloatingUIComponent,
   connectFloatingUI,
-  disconnectFloatingUI,
-  LogicalPlacement,
-  EffectivePlacement,
   defaultMenuPlacement,
+  disconnectFloatingUI,
+  EffectivePlacement,
   filterComputedPlacements,
+  FloatingCSS,
+  FloatingUIComponent,
+  LogicalPlacement,
+  OverlayPositioning,
   reposition,
   updateAfterClose
 } from "../../utils/floating-ui";
-import { guid } from "../../utils/guid";
-import { Scale, SelectionMode } from "../interfaces";
-import { ComboboxChildElement } from "./interfaces";
-import { ComboboxChildSelector, ComboboxItem, ComboboxItemGroup } from "./resources";
-import { getItemAncestors, getItemChildren, hasActiveChildren } from "./utils";
-import { LabelableComponent, connectLabel, disconnectLabel, getLabelText } from "../../utils/label";
 import {
   afterConnectDefaultValueSet,
   connectForm,
@@ -42,13 +37,21 @@ import {
   HiddenFormInputSlot,
   submitForm
 } from "../../utils/form";
-import { createObserver } from "../../utils/observers";
+import { guid } from "../../utils/guid";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
-import { isPrimaryPointerButton, toAriaBoolean } from "../../utils/dom";
+import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
 import {
-  OpenCloseComponent,
+  componentLoaded,
+  LoadableComponent,
+  setComponentLoaded,
+  setUpLoadableComponent
+} from "../../utils/loadable";
+import { connectLocalized, disconnectLocalized } from "../../utils/locale";
+import { createObserver } from "../../utils/observers";
+import {
   connectOpenCloseComponent,
-  disconnectOpenCloseComponent
+  disconnectOpenCloseComponent,
+  OpenCloseComponent
 } from "../../utils/openCloseComponent";
 import {
   connectMessages,
@@ -57,14 +60,11 @@ import {
   T9nComponent,
   updateMessages
 } from "../../utils/t9n";
-import { connectLocalized, disconnectLocalized } from "../../utils/locale";
+import { Scale, SelectionMode } from "../interfaces";
 import { ComboboxMessages } from "./assets/combobox/t9n";
-import {
-  setUpLoadableComponent,
-  setComponentLoaded,
-  LoadableComponent,
-  componentLoaded
-} from "../../utils/loadable";
+import { ComboboxChildElement } from "./interfaces";
+import { ComboboxChildSelector, ComboboxItem, ComboboxItemGroup } from "./resources";
+import { getItemAncestors, getItemChildren, hasActiveChildren } from "./utils";
 
 interface ItemData {
   label: string;

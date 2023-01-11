@@ -3,33 +3,29 @@ import {
   Element,
   Event,
   EventEmitter,
-  Host,
-  Prop,
-  Watch,
   h,
-  VNode,
+  Host,
   Method,
-  State
+  Prop,
+  State,
+  VNode,
+  Watch
 } from "@stencil/core";
-import { Position, Scale, Layout } from "../interfaces";
-import { ExpandToggle, toggleChildActionText } from "../functional/ExpandToggle";
-import { CSS, SLOTS } from "./resources";
-import { getSlotted } from "../../utils/dom";
-import {
-  geActionDimensions,
-  getOverflowCount,
-  overflowActions,
-  queryActions,
-  overflowActionsDebounceInMs
-} from "./utils";
-import { createObserver } from "../../utils/observers";
 import { debounce } from "lodash-es";
 import {
+  ConditionalSlotComponent,
   connectConditionalSlotComponent,
-  disconnectConditionalSlotComponent,
-  ConditionalSlotComponent
+  disconnectConditionalSlotComponent
 } from "../../utils/conditionalSlot";
+import { getSlotted } from "../../utils/dom";
+import {
+  componentLoaded,
+  LoadableComponent,
+  setComponentLoaded,
+  setUpLoadableComponent
+} from "../../utils/loadable";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
+import { createObserver } from "../../utils/observers";
 import {
   connectMessages,
   disconnectMessages,
@@ -37,13 +33,17 @@ import {
   T9nComponent,
   updateMessages
 } from "../../utils/t9n";
+import { ExpandToggle, toggleChildActionText } from "../functional/ExpandToggle";
+import { Layout, Position, Scale } from "../interfaces";
 import { ActionBarMessages } from "./assets/action-bar/t9n";
+import { CSS, SLOTS } from "./resources";
 import {
-  setUpLoadableComponent,
-  setComponentLoaded,
-  LoadableComponent,
-  componentLoaded
-} from "../../utils/loadable";
+  geActionDimensions,
+  getOverflowCount,
+  overflowActions,
+  overflowActionsDebounceInMs,
+  queryActions
+} from "./utils";
 
 /**
  * @slot - A slot for adding `calcite-action`s that will appear at the top of the component.

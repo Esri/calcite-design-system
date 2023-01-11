@@ -1,12 +1,12 @@
-import { Component, Element, Prop, h, VNode, Fragment } from "@stencil/core";
-import { CSS, SLOTS } from "./resources";
-import { getSlotted } from "../../utils/dom";
-import { HeadingLevel, Heading, constrainHeadingLevel } from "../functional/Heading";
+import { Component, Element, Fragment, h, Prop, VNode } from "@stencil/core";
 import {
   ConditionalSlotComponent,
   connectConditionalSlotComponent,
   disconnectConditionalSlotComponent
 } from "../../utils/conditionalSlot";
+import { getSlotted } from "../../utils/dom";
+import { constrainHeadingLevel, Heading, HeadingLevel } from "../functional/Heading";
+import { CSS, SLOTS } from "./resources";
 
 /**
  * @slot - A slot for adding `calcite-pick-list-item` elements.

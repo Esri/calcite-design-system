@@ -1,4 +1,4 @@
-import { Point, DataSeries, Graph, TranslateOptions, Translator, Extent } from "../graph/interfaces";
+import { DataSeries, Extent, Graph, Point, TranslateOptions, Translator } from "../graph/interfaces";
 
 /**
  * Calculate slope of the tangents

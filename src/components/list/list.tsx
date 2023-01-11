@@ -1,33 +1,33 @@
 import {
   Component,
   Element,
-  h,
-  VNode,
-  Prop,
-  Method,
-  Listen,
-  Watch,
-  State,
   Event,
-  EventEmitter
+  EventEmitter,
+  h,
+  Listen,
+  Method,
+  Prop,
+  State,
+  VNode,
+  Watch
 } from "@stencil/core";
-import { CSS, debounceTimeout, SelectionAppearance } from "./resources";
-import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
-import { SelectionMode } from "../interfaces";
-import { createObserver } from "../../utils/observers";
-import { getListItemChildren, updateListItemChildren } from "../list-item/utils";
-import { toAriaBoolean } from "../../utils/dom";
 import { debounce } from "lodash-es";
+import { toAriaBoolean } from "../../utils/dom";
+import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import { createObserver } from "../../utils/observers";
+import { SelectionMode } from "../interfaces";
 import { ItemData } from "../list-item/interfaces";
 import { MAX_COLUMNS } from "../list-item/resources";
+import { getListItemChildren, updateListItemChildren } from "../list-item/utils";
+import { CSS, debounceTimeout, SelectionAppearance } from "./resources";
 
 const listItemSelector = "calcite-list-item";
 
 import {
-  setUpLoadableComponent,
-  setComponentLoaded,
+  componentLoaded,
   LoadableComponent,
-  componentLoaded
+  setComponentLoaded,
+  setUpLoadableComponent
 } from "../../utils/loadable";
 
 /**

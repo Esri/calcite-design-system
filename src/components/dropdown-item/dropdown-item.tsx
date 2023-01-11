@@ -13,16 +13,15 @@ import {
 import { getElementProp, toAriaBoolean } from "../../utils/dom";
 import { ItemKeyboardEvent } from "../dropdown/interfaces";
 
-import { FlipContext } from "../interfaces";
-import { CSS } from "./resources";
-import { RequestedItem } from "../dropdown-group/interfaces";
 import {
-  setUpLoadableComponent,
-  setComponentLoaded,
+  componentLoaded,
   LoadableComponent,
-  componentLoaded
+  setComponentLoaded,
+  setUpLoadableComponent
 } from "../../utils/loadable";
-import { SelectionMode } from "../interfaces";
+import { RequestedItem } from "../dropdown-group/interfaces";
+import { FlipContext, SelectionMode } from "../interfaces";
+import { CSS } from "./resources";
 
 /**
  * @slot - A slot for adding text.
