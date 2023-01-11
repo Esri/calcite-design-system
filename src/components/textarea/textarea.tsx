@@ -239,6 +239,7 @@ export class Textarea
 
   componentDidRender(): void {
     updateHostInteraction(this);
+    this.setTextareaHeight();
   }
 
   disconnectedCallback(): void {
@@ -294,7 +295,7 @@ export class Textarea
               [CSS.hide]: !hasFooter
             }}
             key={CSS.footer}
-            ref={this.setFooterEl}
+            ref={(el) => (this.footerEl = el as HTMLElement)}
           >
             <div class="slot-container">
               <slot name={SLOTS.footerStart} onSlotchange={this.footerStartSlotChangeHandler} />
@@ -433,29 +434,14 @@ export class Textarea
     }
   }
 
-  resizeObserver = createObserver("resize", (entries) => {
-    const { width: textareaWidth, height: textareaHeight } =
-      this.textareaEl.getBoundingClientRect();
-    const { width: elWidth, height: elHeight } = this.el.getBoundingClientRect();
-    const footerHeight = this.footerEl?.getBoundingClientRect().height;
-    entries.forEach((entry) => {
-      if (entry.target === this.footerEl) {
-        if (footerHeight > 0) {
-          textareaHeight + footerHeight != elHeight
-            ? (this.textareaEl.style.height = `${elHeight - footerHeight}px`)
-            : this.resizeObserver.unobserve(this.footerEl);
-        }
-      }
-    });
-
-    if (this.footerEl && footerHeight > 0) {
+  resizeObserver = createObserver("resize", () => {
+    const { textareaHeight, textareaWidth, elHeight, elWidth, footerHeight, footerWidth } =
+      this.getHeightandWidthOfElements();
+    if (footerWidth > 0 && footerWidth !== textareaWidth) {
       this.footerEl.style.width = `${textareaWidth}px`;
     }
-
-    if (
-      elWidth !== textareaWidth ||
-      elHeight !== this.textareaEl.getBoundingClientRect().height + (footerHeight || 0)
-    ) {
+    console.log();
+    if (elWidth !== textareaWidth || elHeight !== textareaHeight + (footerHeight || 0)) {
       this.setHeightAndWidthToAuto();
     }
   });
@@ -481,8 +467,33 @@ export class Textarea
     this.resizeObserver.observe(el);
   };
 
-  setFooterEl = (el: HTMLTextAreaElement): void => {
-    this.footerEl = el;
-    this.resizeObserver.observe(el);
-  };
+  setTextareaHeight(): void {
+    const { textareaHeight, elHeight, footerHeight } = this.getHeightandWidthOfElements();
+    if (footerHeight > 0 && textareaHeight + footerHeight != elHeight) {
+      this.textareaEl.style.height = `${elHeight - footerHeight}px`;
+    }
+  }
+
+  getHeightandWidthOfElements(): {
+    textareaHeight: number;
+    textareaWidth: number;
+    elHeight: number;
+    elWidth: number;
+    footerHeight: number;
+    footerWidth: number;
+  } {
+    const { height: textareaHeight, width: textareaWidth } =
+      this.textareaEl.getBoundingClientRect();
+    const { height: elHeight, width: elWidth } = this.el.getBoundingClientRect();
+    const { height: footerHeight, width: footerWidth } = this.footerEl?.getBoundingClientRect();
+
+    return {
+      textareaHeight,
+      textareaWidth,
+      elHeight,
+      elWidth,
+      footerHeight,
+      footerWidth
+    };
+  }
 }
