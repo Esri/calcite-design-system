@@ -1,12 +1,14 @@
 export const CSS = {
   actionsEnd: "actions-end",
-  bulletPointIcon: "bullet-point",
   checkboxLabel: "checkbox-label",
   checkbox: "checkbox",
-  checkmarkIcon: "checkmark",
   chevron: "chevron",
+  nodeContainer: "node-container",
   childrenContainer: "children-container",
-  nodeContainer: "node-container"
+  bulletPointIcon: "bullet-point",
+  checkmarkIcon: "checkmark",
+  tabTitle: "calcite-tab-title--icon",
+  iconStart: "icon-start"
 };
 
 export const SLOTS = {

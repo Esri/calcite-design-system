@@ -7,9 +7,11 @@ import {
   Host,
   Listen,
   Prop,
+  State,
   VNode,
   Watch
 } from "@stencil/core";
+import { slotChangeHasAssignedElement } from "../../utils/dom";
 import {
   ConditionalSlotComponent,
   connectConditionalSlotComponent,
@@ -25,7 +27,7 @@ import {
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
 import { CSS_UTILITY } from "../../utils/resources";
-import { Scale, SelectionMode } from "../interfaces";
+import { FlipContext, Scale, SelectionMode } from "../interfaces";
 import { TreeItemSelectDetail } from "./interfaces";
 import { CSS, ICONS, SLOTS } from "./resources";
 

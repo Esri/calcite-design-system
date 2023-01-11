@@ -24,6 +24,10 @@
       margin-inline: theme("margin.1");
     }
   }
+  .icon-start,
+  .icon-end {
+    margin-inline: theme("margin.1");
+  }
 }
 
 :host([scale="m"]) {
@@ -38,6 +42,10 @@
       margin-inline: theme("margin.2");
     }
   }
+  .icon-start,
+  .icon-end {
+    margin-inline: theme("margin.2");
+  }
 }
 
 :host([scale="l"]) {
@@ -51,6 +59,10 @@
     .bullet-point {
       margin-inline: theme("margin.3");
     }
+  }
+  .icon-start,
+  .icon-end {
+    margin-inline: theme("margin.3");
   }
 }
 
@@ -237,8 +249,4 @@ slot[name="actions-end"]::slotted(*),
   .bullet-point {
     color: var(--calcite-ui-brand);
   }
-}
-
-.icon-start {
-  margin-inline: theme("margin.2");
 }
