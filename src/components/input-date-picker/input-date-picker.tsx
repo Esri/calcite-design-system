@@ -1,31 +1,40 @@
 import {
+  Build,
   Component,
-  h,
-  Prop,
   Element,
-  Host,
-  State,
-  Listen,
-  Watch,
-  VNode,
-  Method,
   Event,
   EventEmitter,
-  Build
+  h,
+  Host,
+  Listen,
+  Method,
+  Prop,
+  State,
+  VNode,
+  Watch
 } from "@stencil/core";
-import { getLocaleData, DateLocaleData, getValueAsDateRange } from "../date-picker/utils";
 import {
-  dateFromRange,
-  inRange,
   dateFromISO,
-  dateToISO,
-  setEndOfDay,
   dateFromLocalizedString,
-  datePartsFromLocalizedString
+  dateFromRange,
+  datePartsFromLocalizedString,
+  dateToISO,
+  inRange
 } from "../../utils/date";
-import { HeadingLevel } from "../functional/Heading";
-import { CSS } from "./resources";
-import { LabelableComponent, connectLabel, disconnectLabel, getLabelText } from "../../utils/label";
+import { toAriaBoolean } from "../../utils/dom";
+import {
+  connectFloatingUI,
+  defaultMenuPlacement,
+  disconnectFloatingUI,
+  EffectivePlacement,
+  filterComputedPlacements,
+  FloatingCSS,
+  FloatingUIComponent,
+  MenuPlacement,
+  OverlayPositioning,
+  reposition,
+  updateAfterClose
+} from "../../utils/floating-ui";
 import {
   connectForm,
   disconnectForm,
@@ -33,28 +42,15 @@ import {
   HiddenFormInputSlot,
   submitForm
 } from "../../utils/form";
-import {
-  FloatingCSS,
-  OverlayPositioning,
-  FloatingUIComponent,
-  connectFloatingUI,
-  disconnectFloatingUI,
-  EffectivePlacement,
-  MenuPlacement,
-  defaultMenuPlacement,
-  filterComputedPlacements,
-  reposition,
-  updateAfterClose
-} from "../../utils/floating-ui";
-import { DateRangeChange } from "../date-picker/interfaces";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
-import { toAriaBoolean } from "../../utils/dom";
+import { numberKeys } from "../../utils/key";
+import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
 import {
-  OpenCloseComponent,
-  connectOpenCloseComponent,
-  disconnectOpenCloseComponent
-} from "../../utils/openCloseComponent";
-import { Messages } from "../date-picker/assets/date-picker/t9n";
+  componentLoaded,
+  LoadableComponent,
+  setComponentLoaded,
+  setUpLoadableComponent
+} from "../../utils/loadable";
 import {
   connectLocalized,
   disconnectLocalized,
@@ -62,13 +58,15 @@ import {
   NumberingSystem,
   numberStringFormatter
 } from "../../utils/locale";
-import { numberKeys } from "../../utils/key";
 import {
-  setUpLoadableComponent,
-  setComponentLoaded,
-  LoadableComponent,
-  componentLoaded
-} from "../../utils/loadable";
+  connectOpenCloseComponent,
+  disconnectOpenCloseComponent,
+  OpenCloseComponent
+} from "../../utils/openCloseComponent";
+import { DatePickerMessages } from "../date-picker/assets/date-picker/t9n";
+import { DateLocaleData, getLocaleData, getValueAsDateRange } from "../date-picker/utils";
+import { HeadingLevel } from "../functional/Heading";
+import { CSS } from "./resources";
 
 @Component({
   tag: "calcite-input-date-picker",
@@ -280,7 +278,7 @@ export class InputDatePicker
   /**
    * Use this property to override individual strings used by the component.
    */
-  @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
+  @Prop({ mutable: true }) messageOverrides: Partial<DatePickerMessages>;
 
   //--------------------------------------------------------------------------
   //
@@ -322,14 +320,6 @@ export class InputDatePicker
   //  Events
   //
   //--------------------------------------------------------------------------
-
-  /**
-   * Fires when a user changes the date range.
-   *
-   * @see [DateRangeChange](https://github.com/Esri/calcite-components/blob/master/src/components/date-picker/interfaces.ts#L1)
-   * @deprecated use `calciteInputDatePickerChange` instead.
-   */
-  @Event({ cancelable: false }) calciteDatePickerRangeChange: EventEmitter<DateRangeChange>;
 
   /**
    * Fires when the component's value changes.
@@ -462,6 +452,7 @@ export class InputDatePicker
       locale: effectiveLocale,
       useGrouping: false
     };
+
     return (
       <Host onBlur={this.deactivate} onKeyDown={this.keyDownHandler} role="application">
         {this.localeData && (
@@ -776,6 +767,7 @@ export class InputDatePicker
       useGrouping: false
     };
     this.localeData = await getLocaleData(this.effectiveLocale);
+    this.localizeInputValues();
   }
 
   /**
@@ -882,18 +874,9 @@ export class InputDatePicker
     this.value = newValue;
     this.valueAsDate = newValue ? getValueAsDateRange(newValue) : undefined;
 
-    const eventDetail = {
-      startDate: newStartDate as Date,
-      endDate: newEndDate ? (setEndOfDay(newEndDate) as Date) : null
-    };
-
     const changeEvent = this.calciteInputDatePickerChange.emit();
-    const rangeChangeEvent = this.calciteDatePickerRangeChange.emit(eventDetail);
 
-    if (
-      (changeEvent && changeEvent.defaultPrevented) ||
-      (rangeChangeEvent && rangeChangeEvent.defaultPrevented)
-    ) {
+    if (changeEvent && changeEvent.defaultPrevented) {
       this.value = oldValue;
       if (oldValueIsArray) {
         this.setInputValue(oldValue[0], "start");
@@ -931,17 +914,21 @@ export class InputDatePicker
 
   private warnAboutInvalidValue(value: string): void {
     console.warn(
-      `The specified value "${value}" does not conform to the required format, "yyyy-MM-dd".`
+      `The specified value "${value}" does not conform to the required format, "YYYY-MM-DD".`
     );
   }
+
+  private commonDateSeparators = [".", "-", "/"];
 
   private formatNumerals = (value: string): string =>
     value
       ? value
           .split("")
           .map((char: string) =>
-            numberKeys.includes(char)
-              ? numberStringFormatter.numberFormatter.format(Number(char))
+            this.commonDateSeparators?.includes(char)
+              ? this.localeData?.separator
+              : numberKeys?.includes(char)
+              ? numberStringFormatter?.numberFormatter?.format(Number(char))
               : char
           )
           .join("")

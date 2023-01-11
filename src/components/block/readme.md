@@ -65,7 +65,7 @@ Renders a header and icon with the icon.
 | `heading` _(required)_ | `heading`           | The component header text.                                                               | `string`                         | `undefined` |
 | `headingLevel`         | `heading-level`     | Specifies the number at which section headings should start.                             | `1 \| 2 \| 3 \| 4 \| 5 \| 6`     | `undefined` |
 | `loading`              | `loading`           | When `true`, a busy indicator is displayed.                                              | `boolean`                        | `false`     |
-| `messageOverrides`     | `message-overrides` | Use this property to override individual strings used by the component.                  | `Messages`                       | `undefined` |
+| `messageOverrides`     | `message-overrides` | Use this property to override individual strings used by the component.                  | `BlockMessages`                  | `undefined` |
 | `open`                 | `open`              | When `true`, expands the component and its contents.                                     | `boolean`                        | `false`     |
 | `status`               | `status`            | Displays a status-related indicator icon.                                                | `"idle" \| "invalid" \| "valid"` | `undefined` |
 
@@ -77,12 +77,18 @@ Renders a header and icon with the icon.
 
 ## Slots
 
-| Slot                    | Description                                                                  |
-| ----------------------- | ---------------------------------------------------------------------------- |
-|                         | A slot for adding content to the component.                                  |
-| `"control"`             | A slot for adding a single HTML input element in a header.                   |
-| `"header-menu-actions"` | A slot for adding an overflow menu with `calcite-action`s inside a dropdown. |
-| `"icon"`                | A slot for adding a leading header icon with `calcite-icon`.                 |
+| Slot                    | Description                                                                       |
+| ----------------------- | --------------------------------------------------------------------------------- |
+|                         | A slot for adding custom content.                                                 |
+| `"control"`             | A slot for adding a single HTML input element in a header.                        |
+| `"header-menu-actions"` | A slot for adding an overflow menu with `calcite-action`s inside a dropdown menu. |
+| `"icon"`                | A slot for adding a leading header icon with `calcite-icon`.                      |
+
+## CSS Custom Properties
+
+| Name                      | Description                                        |
+| ------------------------- | -------------------------------------------------- |
+| `--calcite-block-padding` | Specifies the padding of the block `default` slot. |
 
 ## Dependencies
 

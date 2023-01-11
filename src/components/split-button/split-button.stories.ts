@@ -1,6 +1,6 @@
 import { text, select } from "@storybook/addon-knobs";
 import { iconNames, boolean, storyFilters } from "../../../.storybook/helpers";
-import { themesDarkDefault } from "../../../.storybook/utils";
+import { modesDarkDefault } from "../../../.storybook/utils";
 import readme from "./readme.md";
 import { html } from "../../../support/formatting";
 
@@ -86,7 +86,7 @@ export const iconStartAndIconEnd = (): string => html`
   </div>
 `;
 
-export const darkThemeRTL_TestOnly = (): string => html`
+export const darkModeRTL_TestOnly = (): string => html`
   <div style="width:70vw;">
     <calcite-split-button
       appearance="${select("appearance", ["solid", "outline", "outline-fill", "transparent"], "solid")}"
@@ -99,7 +99,7 @@ export const darkThemeRTL_TestOnly = (): string => html`
       primary-text="${text("primary-text", "Primary Option")}"
       dropdown-label="${text("dropdown-label", "Additional Options")}"
       dropdown-icon-type="${select("dropdown-icon-type", ["chevron", "caret", "ellipsis", "overflow"], "chevron")}"
-      class="calcite-theme-dark"
+      class="calcite-mode-dark"
     >
       <calcite-dropdown-group selection-mode="none">
         <calcite-dropdown-item>Option 2</calcite-dropdown-item>
@@ -110,7 +110,7 @@ export const darkThemeRTL_TestOnly = (): string => html`
   </div>
 `;
 
-darkThemeRTL_TestOnly.parameters = { themes: themesDarkDefault };
+darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
 
 export const disabled_TestOnly = (): string => html`<calcite-split-button disabled>
   <calcite-dropdown-group selection-mode="none">

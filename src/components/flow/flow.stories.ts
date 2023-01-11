@@ -1,10 +1,10 @@
 import { boolean, text } from "@storybook/addon-knobs";
-import { filterComponentAttributes, Attributes, createComponentHTML as create } from "../../../.storybook/utils";
-import readme from "./readme.md";
-import itemReadme from "../panel/readme.md";
-import { SLOTS, TEXT } from "../panel/resources";
-import { html } from "../../../support/formatting";
 import { storyFilters } from "../../../.storybook/helpers";
+import { Attributes, createComponentHTML as create, filterComponentAttributes } from "../../../.storybook/utils";
+import { html } from "../../../support/formatting";
+import itemReadme from "../panel/readme.md";
+import { SLOTS } from "../panel/resources";
+import readme from "./readme.md";
 
 export default {
   title: "Components/Flow",
@@ -147,13 +147,13 @@ export const simple = (): string =>
     ${create("calcite-flow-item", createFlowItemAttributes("Flow Item 2"), createItemHTML(item2HTML))}`
   );
 
-export const darkThemeRTL_TestOnly = (): string =>
+export const darkModeRTL_TestOnly = (): string =>
   create(
     "calcite-flow",
     createAttributes({ exceptions: ["dir"] }).concat(
       {
         name: "class",
-        value: "calcite-theme-dark"
+        value: "calcite-mode-dark"
       },
       { name: "dir", value: "rtl" }
     ),

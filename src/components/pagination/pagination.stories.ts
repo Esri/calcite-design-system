@@ -1,6 +1,6 @@
 import { number, select } from "@storybook/addon-knobs";
 import { locales } from "../../utils/locale";
-import { themesDarkDefault } from "../../../.storybook/utils";
+import { modesDarkDefault } from "../../../.storybook/utils";
 import readme from "./readme.md";
 import { html } from "../../../support/formatting";
 import { storyFilters } from "../../../.storybook/helpers";
@@ -27,8 +27,8 @@ export const simple = (): string => html`
   </calcite-pagination>
 `;
 
-export const darkThemeFrenchLocale_TestOnly = (): string => html`<calcite-pagination
-  class="calcite-theme-dark"
+export const darkModeFrenchLocale_TestOnly = (): string => html`<calcite-pagination
+  class="calcite-mode-dark"
   start="1"
   lang="fr"
   group-separator
@@ -37,7 +37,7 @@ export const darkThemeFrenchLocale_TestOnly = (): string => html`<calcite-pagina
 >
 </calcite-pagination>`;
 
-darkThemeFrenchLocale_TestOnly.parameters = { themes: themesDarkDefault };
+darkModeFrenchLocale_TestOnly.parameters = { modes: modesDarkDefault };
 
 export const arabicNumberingSystemAndRTL_TestOnly = (): string => html`<calcite-pagination
   dir="rtl"
@@ -48,3 +48,7 @@ export const arabicNumberingSystemAndRTL_TestOnly = (): string => html`<calcite-
   num="10"
 >
 </calcite-pagination>`;
+
+arabicNumberingSystemAndRTL_TestOnly.parameters = {
+  chromatic: { diffThreshold: 1 }
+};

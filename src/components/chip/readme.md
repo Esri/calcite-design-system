@@ -20,7 +20,7 @@
 | `icon`               | `icon`              | Specifies an icon to display.                                                                | `string`                                 | `undefined` |
 | `iconFlipRtl`        | `icon-flip-rtl`     | When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). | `boolean`                                | `false`     |
 | `kind`               | `kind`              | Specifies the kind of the component (will apply to border and background if applicable).     | `"brand" \| "inverse" \| "neutral"`      | `"neutral"` |
-| `messageOverrides`   | `message-overrides` | Use this property to override individual strings used by the component.                      | `Messages`                               | `undefined` |
+| `messageOverrides`   | `message-overrides` | Use this property to override individual strings used by the component.                      | `ChipMessages`                           | `undefined` |
 | `scale`              | `scale`             | Specifies the size of the component.                                                         | `"l" \| "m" \| "s"`                      | `"m"`       |
 | `value` _(required)_ | `value`             | The component's value.                                                                       | `any`                                    | `undefined` |
 
@@ -34,7 +34,7 @@
 
 ### `setFocus() => Promise<void>`
 
-Sets focus on the component.
+When `closable` is `true`, sets focus on the component's "close" button (the first focusable item).
 
 #### Returns
 

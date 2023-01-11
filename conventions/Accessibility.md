@@ -237,3 +237,13 @@ Calcite Components leverages the [W3C Accessibility Standards](https://www.w3.or
 </div>
 
 </fieldset>
+
+## Renderring SVG elements within components
+
+SVGs are visual elements. When rendering them in a component, assess if the SVG has semantic meaning that needs to be described.
+
+If the SVG has no semantic meaning or the semantic meaning is described elsewhere, make sure to set `aria-hidden="true"` on it so that screen readers can ignore it.
+
+If the SVG has some semantic meaning that needs to be described to an end user, set the role to `img` and ensure that it has an `aria-label` or `aria-lablledby`.
+
+More information can be found here: https://www.deque.com/blog/creating-accessible-svgs/

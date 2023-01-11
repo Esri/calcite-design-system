@@ -4,7 +4,7 @@ import { boolean, storyFilters } from "../../../.storybook/helpers";
 import { placements } from "../../utils/floating-ui";
 import readme from "./readme.md";
 import { defaultPopoverPlacement } from "../popover/resources";
-import { themesDarkDefault } from "../../../.storybook/utils";
+import { modesDarkDefault } from "../../../.storybook/utils";
 
 const contentHTML = `
 <div style="width: 300px; padding:12px 16px;">
@@ -47,7 +47,7 @@ export const simple = (): string => html`
   </div>
 `;
 
-export const darkThemeRTL_TestOnly = (): string => html` <style>
+export const darkModeRTL_TestOnly = (): string => html` <style>
     :root {
       --calcite-duration-factor: 0;
     }
@@ -65,13 +65,13 @@ export const darkThemeRTL_TestOnly = (): string => html` <style>
       ${boolean("open", true)}
       text-close="${text("text-close", "Close")}"
       dir="${select("dir", ["ltr", "rtl"], "rtl")}"
-      class="calcite-theme-dark"
+      class="calcite-mode-dark"
     >
       ${contentHTML}
     </calcite-popover>
   </div>`;
 
-darkThemeRTL_TestOnly.parameters = { themes: themesDarkDefault };
+darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
 
 export const nested = (): string => html`
   <div style="width: 400px;">
@@ -95,6 +95,10 @@ export const nested = (): string => html`
     </calcite-popover>
   </div>
 `;
+
+nested.parameters = {
+  chromatic: { delay: 1500 }
+};
 
 export const flipPlacements_TestOnly = (): string => html`
   <style>

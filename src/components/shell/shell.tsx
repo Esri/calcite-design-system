@@ -1,20 +1,20 @@
-import { Component, Element, Prop, h, VNode, Fragment, State } from "@stencil/core";
-import { CSS, SLOTS } from "./resources";
-import { slotChangeGetAssignedElements, slotChangeHasAssignedElement } from "../../utils/dom";
+import { Component, Element, Fragment, h, Prop, State, VNode } from "@stencil/core";
 import {
   ConditionalSlotComponent,
   connectConditionalSlotComponent,
   disconnectConditionalSlotComponent
 } from "../../utils/conditionalSlot";
+import { slotChangeGetAssignedElements, slotChangeHasAssignedElement } from "../../utils/dom";
+import { CSS, SLOTS } from "./resources";
 
 /**
- * @slot - A slot for adding content to the component. This content will appear between any leading and trailing panels added to the component, such as a map.
+ * @slot - A slot for adding custom content. This content will appear between any leading and trailing panels added to the component, such as a map.
  * @slot header - A slot for adding header content. This content will be positioned at the top of the component.
  * @slot footer - A slot for adding footer content. This content will be positioned at the bottom of the component.
  * @slot panel-start - A slot for adding the starting `calcite-shell-panel`.
  * @slot panel-end - A slot for adding the ending `calcite-shell-panel`.
  * @slot center-row - A slot for adding content to the center row.
- * @slot modal - A slot for adding `calcite-modal` components. When placed in this slot, the modal position will be constrained to the extent of the shell.
+ * @slot modals - A slot for adding `calcite-modal` components. When placed in this slot, the modal position will be constrained to the extent of the shell.
  * @slot alerts - A slot for adding `calcite-alert` components. When placed in this slot, the alert position will be constrained to the extent of the shell.
  */
 

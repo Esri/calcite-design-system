@@ -4,21 +4,18 @@
 
 ## Properties
 
-| Property           | Attribute           | Description                                                                                                     | Type                         | Default     |
-| ------------------ | ------------------- | --------------------------------------------------------------------------------------------------------------- | ---------------------------- | ----------- |
-| `beforeBack`       | --                  | When provided, the method will be called before it is removed from its parent `calcite-flow`.                   | `() => Promise<void>`        | `undefined` |
-| `closable`         | `closable`          | When `true`, displays a close button in the trailing side of the component's header.                            | `boolean`                    | `false`     |
-| `closed`           | `closed`            | When `true`, the component will be hidden.                                                                      | `boolean`                    | `false`     |
-| `description`      | `description`       | A description for the component.                                                                                | `string`                     | `undefined` |
-| `disabled`         | `disabled`          | When `true`, interaction is prevented and the component is displayed with lower opacity.                        | `boolean`                    | `false`     |
-| `heading`          | `heading`           | The component header text.                                                                                      | `string`                     | `undefined` |
-| `headingLevel`     | `heading-level`     | Specifies the number at which section headings should start.                                                    | `1 \| 2 \| 3 \| 4 \| 5 \| 6` | `undefined` |
-| `heightScale`      | `height-scale`      | Specifies the maximum height of the component.                                                                  | `"l" \| "m" \| "s"`          | `undefined` |
-| `loading`          | `loading`           | When `true`, a busy indicator is displayed.                                                                     | `boolean`                    | `false`     |
-| `menuOpen`         | `menu-open`         | When `true`, the action menu items in the `header-menu-actions` slot are open.                                  | `boolean`                    | `false`     |
-| `messageOverrides` | `message-overrides` | Use this property to override individual strings used by the component.                                         | `Messages`                   | `undefined` |
-| `showBackButton`   | `show-back-button`  | When true, displays a back button in the header. When `true`, displays a back button in the component's header. | `boolean`                    | `false`     |
-| `widthScale`       | `width-scale`       | Specifies the width of the component.                                                                           | `"l" \| "m" \| "s"`          | `undefined` |
+| Property           | Attribute           | Description                                                                                   | Type                         | Default     |
+| ------------------ | ------------------- | --------------------------------------------------------------------------------------------- | ---------------------------- | ----------- |
+| `beforeBack`       | --                  | When provided, the method will be called before it is removed from its parent `calcite-flow`. | `() => Promise<void>`        | `undefined` |
+| `closable`         | `closable`          | When `true`, displays a close button in the trailing side of the component's header.          | `boolean`                    | `false`     |
+| `closed`           | `closed`            | When `true`, the component will be hidden.                                                    | `boolean`                    | `false`     |
+| `description`      | `description`       | A description for the component.                                                              | `string`                     | `undefined` |
+| `disabled`         | `disabled`          | When `true`, interaction is prevented and the component is displayed with lower opacity.      | `boolean`                    | `false`     |
+| `heading`          | `heading`           | The component header text.                                                                    | `string`                     | `undefined` |
+| `headingLevel`     | `heading-level`     | Specifies the number at which section headings should start.                                  | `1 \| 2 \| 3 \| 4 \| 5 \| 6` | `undefined` |
+| `loading`          | `loading`           | When `true`, a busy indicator is displayed.                                                   | `boolean`                    | `false`     |
+| `menuOpen`         | `menu-open`         | When `true`, the action menu items in the `header-menu-actions` slot are open.                | `boolean`                    | `false`     |
+| `messageOverrides` | `message-overrides` | Use this property to override individual strings used by the component.                       | `FlowItemMessages`           | `undefined` |
 
 ## Events
 

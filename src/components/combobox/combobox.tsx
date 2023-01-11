@@ -1,39 +1,34 @@
 import {
   Component,
-  h,
-  Prop,
-  State,
-  Listen,
+  Element,
   Event,
   EventEmitter,
-  Element,
-  VNode,
+  h,
+  Host,
+  Listen,
   Method,
-  Watch,
-  Host
+  Prop,
+  State,
+  VNode,
+  Watch
 } from "@stencil/core";
-import { filter } from "../../utils/filter";
 import { debounce } from "lodash-es";
+import { filter } from "../../utils/filter";
 
+import { isPrimaryPointerButton, toAriaBoolean } from "../../utils/dom";
 import {
-  FloatingCSS,
-  OverlayPositioning,
-  FloatingUIComponent,
   connectFloatingUI,
-  disconnectFloatingUI,
-  LogicalPlacement,
-  EffectivePlacement,
   defaultMenuPlacement,
+  disconnectFloatingUI,
+  EffectivePlacement,
   filterComputedPlacements,
+  FloatingCSS,
+  FloatingUIComponent,
+  LogicalPlacement,
+  OverlayPositioning,
   reposition,
   updateAfterClose
 } from "../../utils/floating-ui";
-import { guid } from "../../utils/guid";
-import { Scale } from "../interfaces";
-import { ComboboxSelectionMode, ComboboxChildElement } from "./interfaces";
-import { ComboboxChildSelector, ComboboxItem, ComboboxItemGroup } from "./resources";
-import { getItemAncestors, getItemChildren, hasActiveChildren } from "./utils";
-import { LabelableComponent, connectLabel, disconnectLabel, getLabelText } from "../../utils/label";
 import {
   afterConnectDefaultValueSet,
   connectForm,
@@ -42,13 +37,21 @@ import {
   HiddenFormInputSlot,
   submitForm
 } from "../../utils/form";
-import { createObserver } from "../../utils/observers";
+import { guid } from "../../utils/guid";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
-import { isPrimaryPointerButton, toAriaBoolean } from "../../utils/dom";
+import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
 import {
-  OpenCloseComponent,
+  componentLoaded,
+  LoadableComponent,
+  setComponentLoaded,
+  setUpLoadableComponent
+} from "../../utils/loadable";
+import { connectLocalized, disconnectLocalized } from "../../utils/locale";
+import { createObserver } from "../../utils/observers";
+import {
   connectOpenCloseComponent,
-  disconnectOpenCloseComponent
+  disconnectOpenCloseComponent,
+  OpenCloseComponent
 } from "../../utils/openCloseComponent";
 import {
   connectMessages,
@@ -57,14 +60,11 @@ import {
   T9nComponent,
   updateMessages
 } from "../../utils/t9n";
-import { connectLocalized, disconnectLocalized } from "../../utils/locale";
-import { Messages } from "./assets/combobox/t9n";
-import {
-  setUpLoadableComponent,
-  setComponentLoaded,
-  LoadableComponent,
-  componentLoaded
-} from "../../utils/loadable";
+import { Scale, SelectionMode } from "../interfaces";
+import { ComboboxMessages } from "./assets/combobox/t9n";
+import { ComboboxChildElement } from "./interfaces";
+import { ComboboxChildSelector, ComboboxItem, ComboboxItemGroup } from "./resources";
+import { getItemAncestors, getItemChildren, hasActiveChildren } from "./utils";
 
 interface ItemData {
   label: string;
@@ -193,7 +193,10 @@ export class Combobox
    * - single: only one selection)
    * - ancestors: like multiple, but show ancestors of selected items as selected, only deepest children shown in chips
    */
-  @Prop({ reflect: true }) selectionMode: ComboboxSelectionMode = "multi";
+  @Prop({ reflect: true }) selectionMode: Extract<
+    "single" | "ancestors" | "multiple",
+    SelectionMode
+  > = "multiple";
 
   /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";
@@ -226,12 +229,12 @@ export class Combobox
    *
    * @internal
    */
-  @Prop({ mutable: true }) messages: Messages;
+  @Prop({ mutable: true }) messages: ComboboxMessages;
 
   /**
    * Use this property to override individual strings used by the component.
    */
-  @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
+  @Prop({ mutable: true }) messageOverrides: Partial<ComboboxMessages>;
 
   @Watch("messageOverrides")
   onMessagesChange(): void {
@@ -462,7 +465,7 @@ export class Combobox
     updateMessages(this, this.effectiveLocale);
   }
 
-  @State() defaultMessages: Messages;
+  @State() defaultMessages: ComboboxMessages;
 
   textInput: HTMLInputElement = null;
 

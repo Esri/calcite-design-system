@@ -1289,7 +1289,8 @@ describe("calcite-combobox", () => {
     </calcite-combobox>`);
     const item = await page.find("calcite-combobox-item");
 
-    await item.callMethod("toggleSelected");
+    item.setProperty("selected", true);
+    await page.waitForChanges();
     const focusedId = await page.evaluate(() => {
       const el = document.activeElement;
       return el.id;

@@ -1,6 +1,6 @@
 import { text, select } from "@storybook/addon-knobs";
 import { iconNames, boolean, storyFilters } from "../../../.storybook/helpers";
-import { themesDarkDefault } from "../../../.storybook/utils";
+import { modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import readme from "./readme.md";
 
@@ -137,9 +137,9 @@ export const sideBySide_TestOnly = (): string => html`
   </div>
 `;
 
-export const darkThemeRTL_TestOnly = (): string => html`
+export const darkModeRTL_TestOnly = (): string => html`
   <calcite-button
-    class="calcite-theme-dark"
+    class="calcite-mode-dark"
     dir="rtl"
     appearance="${select("appearance", ["solid", "outline", "outline-fill", "transparent"], "solid")}"
     kind="${select("kind", ["brand", "danger", "inverse", "neutral"], "brand")}"
@@ -155,4 +155,4 @@ export const darkThemeRTL_TestOnly = (): string => html`
   </calcite-button>
 `;
 
-darkThemeRTL_TestOnly.parameters = { themes: themesDarkDefault };
+darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };

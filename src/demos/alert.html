@@ -894,24 +894,26 @@
           <div class="second-container-margin">
             <!-- updates the placement of the alert -->
             <p>Alert placement</p>
-            <calcite-radio-group width="full" layout="vertical">
-              <calcite-radio-group-item value="bottom-start" onclick="updatePlacement('bottom-start');">
-                bottom-start</calcite-radio-group-item
+            <calcite-segmented-control width="full" layout="vertical">
+              <calcite-segmented-control-item value="bottom-start" onclick="updatePlacement('bottom-start');">
+                bottom-start</calcite-segmented-control-item
               >
-              <calcite-radio-group-item value="bottom (default)" onclick="updatePlacement('bottom');" checked>
-                bottom (default)</calcite-radio-group-item
+              <calcite-segmented-control-item value="bottom (default)" onclick="updatePlacement('bottom');" checked>
+                bottom (default)</calcite-segmented-control-item
               >
-              <calcite-radio-group-item value="bottom-end" onclick="updatePlacement('bottom-end');">
+              <calcite-segmented-control-item value="bottom-end" onclick="updatePlacement('bottom-end');">
                 bottom-end
-              </calcite-radio-group-item>
-              <calcite-radio-group-item value="top-start" onclick="updatePlacement('top-start');">
+              </calcite-segmented-control-item>
+              <calcite-segmented-control-item value="top-start" onclick="updatePlacement('top-start');">
                 top-start
-              </calcite-radio-group-item>
-              <calcite-radio-group-item value="top" onclick="updatePlacement('top');"> top </calcite-radio-group-item>
-              <calcite-radio-group-item value="top-end" onclick="updatePlacement('top-end');">
+              </calcite-segmented-control-item>
+              <calcite-segmented-control-item value="top" onclick="updatePlacement('top');">
+                top
+              </calcite-segmented-control-item>
+              <calcite-segmented-control-item value="top-end" onclick="updatePlacement('top-end');">
                 top-end
-              </calcite-radio-group-item>
-            </calcite-radio-group>
+              </calcite-segmented-control-item>
+            </calcite-segmented-control>
             <script>
               const updatePlacement = (placement) => {
                 const openAlerts = document.querySelectorAll("calcite-alert");
@@ -923,13 +925,17 @@
           <div class="second-container-margin">
             <!-- updates the speed of the autoclose progress bar i.e. fast, medium, slow -->
             <p>auto-close speed</p>
-            <calcite-radio-group width="full">
-              <calcite-radio-group-item value="Fast" onclick="autocloseSpeed('fast');">Fast</calcite-radio-group-item>
-              <calcite-radio-group-item value="Medium" onclick="autocloseSpeed('medium');" checked
+            <calcite-segmented-control width="full">
+              <calcite-segmented-control-item value="Fast" onclick="autocloseSpeed('fast');"
+                >Fast</calcite-segmented-control-item
+              >
+              <calcite-segmented-control-item value="Medium" onclick="autocloseSpeed('medium');" checked
                 >Medium
-              </calcite-radio-group-item>
-              <calcite-radio-group-item value="Slow" onclick="autocloseSpeed('slow');">Slow</calcite-radio-group-item>
-            </calcite-radio-group>
+              </calcite-segmented-control-item>
+              <calcite-segmented-control-item value="Slow" onclick="autocloseSpeed('slow');"
+                >Slow</calcite-segmented-control-item
+              >
+            </calcite-segmented-control>
             <script>
               const autocloseSpeed = (speed) => {
                 const openAlerts = document.querySelectorAll("calcite-alert[auto-close][open]");

@@ -1,9 +1,9 @@
 import { Component, Element, Event, EventEmitter, h, Prop, VNode, Watch } from "@stencil/core";
-import { CSS } from "./resources";
-import { DropdownIconType } from "../button/interfaces";
-import { Appearance, FlipContext, Kind, Scale, Width } from "../interfaces";
 import { OverlayPositioning } from "../../utils/floating-ui";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import { DropdownIconType } from "../button/interfaces";
+import { Appearance, FlipContext, Kind, Scale, Width } from "../interfaces";
+import { CSS } from "./resources";
 
 /**
  * @slot - A slot for adding `calcite-dropdown` content.
@@ -76,7 +76,7 @@ export class SplitButton implements InteractiveComponent {
   /** Specifies an icon to display at the end of the primary button. */
   @Prop({ reflect: true }) primaryIconEnd: string;
 
-  /**  When `true`, the primary button icon will be flipped when the element direction is right-to-left (`"rtl"`). */
+  /**  Displays the `primaryIconStart` and/or `primaryIconEnd` as flipped when the element direction is right-to-left (`"rtl"`). */
   @Prop({ reflect: true }) primaryIconFlipRtl: FlipContext;
 
   /** Specifies an icon to display at the start of the primary button. */

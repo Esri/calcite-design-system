@@ -1,6 +1,6 @@
 import { newE2EPage } from "@stencil/core/testing";
+import { accessible, defaults, hidden, renders, t9n } from "../../tests/commonTests";
 import { CSS, TEXT } from "./resources";
-import { accessible, defaults, renders, hidden } from "../../tests/commonTests";
 
 describe("calcite-tip-manager", () => {
   it("renders", async () => renders("calcite-tip-manager", { display: "block" }));
@@ -239,4 +239,6 @@ describe("calcite-tip-manager", () => {
 
     expect(heading.tagName).toEqual("H2");
   });
+
+  it("supports translations", () => t9n("calcite-tip-manager"));
 });

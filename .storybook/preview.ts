@@ -1,27 +1,27 @@
-import { themes, globalDocsPage, parseReadme } from "./utils";
+import { Theme as Mode } from "storybook-addon-themes/dist/models/Theme";
 import { withDirection } from "storybook-rtl-addon";
-import { Theme } from "storybook-addon-themes/dist/models/Theme";
+import { globalDocsPage, modes, parseReadme } from "./utils";
 
 declare global {
   interface Window {}
 }
 
-const themeBodyClassDecorator = (Story: () => any, context: any) => {
-  const themes = context.parameters.themes;
+const modeBodyClassDecorator = (Story: () => any, context: any) => {
+  const modes = context.parameters.modes;
 
-  themes?.list?.forEach((theme: Theme) => {
-    const isDefault = theme.name === themes.default;
-    if (Array.isArray(theme.class)) {
-      theme.class.forEach((className) => document.body.classList.toggle(className, isDefault));
+  modes?.list?.forEach((mode: Mode) => {
+    const isDefault = mode.name === modes.default;
+    if (Array.isArray(mode.class)) {
+      mode.class.forEach((className) => document.body.classList.toggle(className, isDefault));
     } else {
-      theme.class && document.body.classList.toggle(theme.class, isDefault);
+      mode.class && document.body.classList.toggle(mode.class, isDefault);
     }
   });
 
   return Story();
 };
 
-export const decorators = [withDirection, themeBodyClassDecorator];
+export const decorators = [withDirection, modeBodyClassDecorator];
 export const parameters = {
   a11y: {
     element: "#root",
@@ -29,7 +29,7 @@ export const parameters = {
     options: {},
     manual: false
   },
-  themes,
+  modes,
   docs: {
     extractComponentDescription: (_component, { notes }) => {
       if (notes) {

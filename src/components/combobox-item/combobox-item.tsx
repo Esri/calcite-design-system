@@ -3,25 +3,24 @@ import {
   Element,
   Event,
   EventEmitter,
-  Host,
-  Method,
-  Prop,
   h,
-  Watch,
-  VNode
+  Host,
+  Prop,
+  VNode,
+  Watch
 } from "@stencil/core";
+import {
+  ConditionalSlotComponent,
+  connectConditionalSlotComponent,
+  disconnectConditionalSlotComponent
+} from "../../utils/conditionalSlot";
 import { getElementProp, getSlotted } from "../../utils/dom";
-import { CSS } from "./resources";
 import { guid } from "../../utils/guid";
+import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import { ComboboxChildElement } from "../combobox/interfaces";
 import { getAncestors, getDepth } from "../combobox/utils";
 import { Scale } from "../interfaces";
-import {
-  connectConditionalSlotComponent,
-  disconnectConditionalSlotComponent,
-  ConditionalSlotComponent
-} from "../../utils/conditionalSlot";
-import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import { CSS } from "./resources";
 
 /**
  * @slot - A slot for adding nested `calcite-combobox-item`s.
@@ -123,29 +122,16 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
 
   // --------------------------------------------------------------------------
   //
-  //  Public Methods
+  //  Private Methods
   //
   // --------------------------------------------------------------------------
 
-  /**
-   * Used to toggle the selection state. By default this won't trigger an event.
-   * The first argument allows the value to be coerced, rather than swapping values.
-   *
-   * @param coerce
-   */
-  @Method()
-  async toggleSelected(coerce?: boolean): Promise<void> {
+  toggleSelected(coerce?: boolean): Promise<void> {
     if (this.disabled) {
       return;
     }
     this.selected = typeof coerce === "boolean" ? coerce : !this.selected;
   }
-
-  // --------------------------------------------------------------------------
-  //
-  //  Private Methods
-  //
-  // --------------------------------------------------------------------------
 
   itemClickHandler = (event: MouseEvent): void => {
     event.preventDefault();
@@ -200,7 +186,7 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
   }
 
   render(): VNode {
-    const isSingleSelect = getElementProp(this.el, "selection-mode", "multi") === "single";
+    const isSingleSelect = getElementProp(this.el, "selection-mode", "multiple") === "single";
     const classes = {
       [CSS.label]: true,
       [CSS.selected]: this.selected,

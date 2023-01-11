@@ -13,8 +13,10 @@ import {
 } from "@stencil/core";
 
 import Color from "color";
-import { ColorMode, ColorValue, InternalColor } from "./interfaces";
+import { throttle } from "lodash-es";
+import { Direction, getElementDir, isPrimaryPointerButton } from "../../utils/dom";
 import { Appearance, Scale } from "../interfaces";
+import { ColorMode, ColorValue, InternalColor } from "./interfaces";
 import {
   CSS,
   DEFAULT_COLOR,
@@ -23,14 +25,23 @@ import {
   HSV_LIMITS,
   RGB_LIMITS
 } from "./resources";
-import { Direction, getElementDir, isPrimaryPointerButton } from "../../utils/dom";
 import { colorEqual, CSSColorMode, Format, normalizeHex, parseMode, SupportedMode } from "./utils";
-import { throttle } from "lodash-es";
 
-import { clamp } from "../../utils/math";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
-import { Messages } from "./assets/color-picker/t9n";
 import { isActivationKey } from "../../utils/key";
+import {
+  componentLoaded,
+  LoadableComponent,
+  setComponentLoaded,
+  setUpLoadableComponent
+} from "../../utils/loadable";
+import {
+  connectLocalized,
+  disconnectLocalized,
+  LocalizedComponent,
+  NumberingSystem
+} from "../../utils/locale";
+import { clamp } from "../../utils/math";
 import {
   connectMessages,
   disconnectMessages,
@@ -38,14 +49,7 @@ import {
   T9nComponent,
   updateMessages
 } from "../../utils/t9n";
-import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
-import { NumberingSystem } from "../../utils/locale";
-import {
-  setUpLoadableComponent,
-  setComponentLoaded,
-  LoadableComponent,
-  componentLoaded
-} from "../../utils/loadable";
+import { ColorPickerMessages } from "./assets/color-picker/t9n";
 
 const throttleFor60FpsInMs = 16;
 const defaultValue = normalizeHex(DEFAULT_COLOR.hex());
@@ -146,7 +150,7 @@ export class ColorPicker
   /**
    * Use this property to override individual strings used by the component.
    */
-  @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
+  @Prop({ mutable: true }) messageOverrides: Partial<ColorPickerMessages>;
 
   @Watch("messageOverrides")
   onMessagesChange(): void {
@@ -240,7 +244,7 @@ export class ColorPicker
 
   private sliderThumbState: "idle" | "hover" | "drag" = "idle";
 
-  @State() defaultMessages: Messages;
+  @State() defaultMessages: ColorPickerMessages;
 
   @State() colorFieldAndSliderInteractive = false;
 
@@ -262,7 +266,7 @@ export class ColorPicker
    *
    * @internal
    */
-  @Prop({ mutable: true }) messages: Messages;
+  @Prop({ mutable: true }) messages: ColorPickerMessages;
 
   @State() savedColors: string[] = [];
 
@@ -366,7 +370,6 @@ export class ColorPicker
 
   private handleChannelInput = (event: CustomEvent): void => {
     const input = event.currentTarget as HTMLCalciteInputElement;
-    const internalInput = event.detail.nativeEvent.target as HTMLInputElement;
     const channelIndex = Number(input.getAttribute("data-channel-index"));
 
     const limit =
@@ -386,7 +389,10 @@ export class ColorPicker
     }
 
     input.value = inputValue;
-    internalInput.value = inputValue;
+
+    // TODO: refactor calcite-input so we don't need to sync the internals
+    // https://github.com/Esri/calcite-components/issues/6100
+    input.internalSyncChildElValue();
   };
 
   // using @Listen as a workaround for VDOM listener not firing
@@ -637,7 +643,7 @@ export class ColorPicker
   //
   //--------------------------------------------------------------------------
 
-  /** Sets focus on the component. */
+  /** Sets focus on the component's first focusable element. */
   @Method()
   async setFocus(): Promise<void> {
     await componentLoaded(this);

@@ -1,9 +1,9 @@
-import { PickList } from "./pick-list";
-import { ValueList } from "../value-list/value-list";
 import { debounce } from "lodash-es";
-import { focusElement, getSlotted } from "../../utils/dom";
 import { getRoundRobinIndex } from "../../utils/array";
+import { focusElement, getSlotted } from "../../utils/dom";
 import { SLOTS } from "../pick-list-group/resources";
+import { ValueList } from "../value-list/value-list";
+import { PickList } from "./pick-list";
 
 type Lists = PickList | ValueList;
 type ListItemElement<T> = T extends PickList ? HTMLCalcitePickListItemElement : HTMLCalciteValueListItemElement;

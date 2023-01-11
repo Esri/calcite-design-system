@@ -12,31 +12,30 @@ import {
   VNode,
   Watch
 } from "@stencil/core";
-import { ensureId, focusElement, getSlotted } from "../../utils/dom";
-import { Kind, Scale } from "../interfaces";
-import { ModalBackgroundColor } from "./interfaces";
-import { CSS, ICONS, SLOTS } from "./resources";
-import { createObserver } from "../../utils/observers";
 import {
   ConditionalSlotComponent,
   connectConditionalSlotComponent,
   disconnectConditionalSlotComponent
 } from "../../utils/conditionalSlot";
-import { OpenCloseComponent, onToggleOpenCloseComponent } from "../../utils/openCloseComponent";
+import { ensureId, focusFirstTabbable, getSlotted } from "../../utils/dom";
 import {
-  FocusTrapComponent,
-  FocusTrap,
-  connectFocusTrap,
   activateFocusTrap,
+  connectFocusTrap,
   deactivateFocusTrap,
-  focusFirstTabbable
+  FocusTrap,
+  FocusTrapComponent,
+  updateFocusTrapElements
 } from "../../utils/focusTrapComponent";
 import {
-  setUpLoadableComponent,
-  setComponentLoaded,
+  componentLoaded,
   LoadableComponent,
-  componentLoaded
+  setComponentLoaded,
+  setUpLoadableComponent
 } from "../../utils/loadable";
+import { createObserver } from "../../utils/observers";
+import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
+import { Kind, Scale } from "../interfaces";
+import { CSS, ICONS, SLOTS } from "./resources";
 
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 import {
@@ -46,7 +45,7 @@ import {
   T9nComponent,
   updateMessages
 } from "../../utils/t9n";
-import { Messages } from "./assets/modal/t9n";
+import { ModalMessages } from "./assets/modal/t9n";
 
 /**
  * @slot header - A slot for adding header text.
@@ -127,22 +126,19 @@ export class Modal
   @Prop({ reflect: true }) fullscreen: boolean;
 
   /** Specifies the kind of the component (will apply to top border). */
-  @Prop({ reflect: true }) kind: Kind;
-
-  /** Sets the background color of the component's content. */
-  @Prop({ reflect: true }) backgroundColor: ModalBackgroundColor = "white";
+  @Prop({ reflect: true }) kind: Extract<"brand" | "danger" | "info" | "success" | "warning", Kind>;
 
   /**
    * Made into a prop for testing purposes only
    *
    * @internal
    */
-  @Prop({ mutable: true }) messages: Messages;
+  @Prop({ mutable: true }) messages: ModalMessages;
 
   /**
    * Use this property to override individual strings used by the component.
    */
-  @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
+  @Prop({ mutable: true }) messageOverrides: Partial<ModalMessages>;
 
   @Watch("messageOverrides")
   onMessagesChange(): void {
@@ -340,7 +336,7 @@ export class Modal
     updateMessages(this, this.effectiveLocale);
   }
 
-  @State() defaultMessages: Messages;
+  @State() defaultMessages: ModalMessages;
 
   //--------------------------------------------------------------------------
   //
@@ -380,24 +376,21 @@ export class Modal
   //--------------------------------------------------------------------------
 
   /**
-   * Sets focus on the component.
+   * Sets focus on the component's "close" button (the first focusable item).
    *
-   * By default, tries to focus on focusable content. If there is none, it will focus on the close button.
-   * To focus on the close button, use the `close-button` focus ID.
-   *
-   * @param focusId
    */
   @Method()
-  async setFocus(focusId?: "close-button"): Promise<void> {
+  async setFocus(): Promise<void> {
     await componentLoaded(this);
+    focusFirstTabbable(this.focusTrapEl);
+  }
 
-    const { closeButtonEl } = this;
-
-    if (closeButtonEl && focusId === "close-button") {
-      return focusElement(closeButtonEl);
-    }
-
-    focusFirstTabbable(this);
+  /**
+   * Updates the element(s) that are used within the focus-trap of the component.
+   */
+  @Method()
+  async updateFocusTrapElements(): Promise<void> {
+    updateFocusTrapElements(this);
   }
 
   /**

@@ -1,24 +1,27 @@
 import {
+  Build,
   Component,
   Element,
+  forceUpdate,
+  h,
   Host,
   Method,
   Prop,
-  h,
-  forceUpdate,
-  VNode,
-  Watch,
   State,
-  Build
+  VNode,
+  Watch
 } from "@stencil/core";
-import { Alignment, Appearance, Scale } from "../interfaces";
-import { CSS, SLOTS } from "./resources";
-import { guid } from "../../utils/guid";
-import { createObserver } from "../../utils/observers";
-import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import { toAriaBoolean } from "../../utils/dom";
+import { guid } from "../../utils/guid";
+import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import {
+  componentLoaded,
+  LoadableComponent,
+  setComponentLoaded,
+  setUpLoadableComponent
+} from "../../utils/loadable";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
-import { Messages } from "./assets/action/t9n";
+import { createObserver } from "../../utils/observers";
 import {
   connectMessages,
   disconnectMessages,
@@ -26,12 +29,9 @@ import {
   T9nComponent,
   updateMessages
 } from "../../utils/t9n";
-import {
-  setUpLoadableComponent,
-  setComponentLoaded,
-  LoadableComponent,
-  componentLoaded
-} from "../../utils/loadable";
+import { Alignment, Appearance, Scale } from "../interfaces";
+import { ActionMessages } from "./assets/action/t9n";
+import { CSS, SLOTS } from "./resources";
 
 /**
  * @slot - A slot for adding a `calcite-icon`.
@@ -115,12 +115,12 @@ export class Action
    *
    * @internal
    */
-  @Prop({ mutable: true }) messages: Messages;
+  @Prop({ mutable: true }) messages: ActionMessages;
 
   /**
    * Use this property to override individual strings used by the component.
    */
-  @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
+  @Prop({ mutable: true }) messageOverrides: Partial<ActionMessages>;
 
   @Watch("messageOverrides")
   onMessagesChange(): void {
@@ -146,7 +146,7 @@ export class Action
     updateMessages(this, this.effectiveLocale);
   }
 
-  @State() defaultMessages: Messages;
+  @State() defaultMessages: ActionMessages;
 
   guid = `calcite-action-${guid()}`;
 

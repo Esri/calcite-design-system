@@ -3,33 +3,29 @@ import {
   Element,
   Event,
   EventEmitter,
-  Host,
-  Prop,
-  Watch,
   h,
-  VNode,
+  Host,
   Method,
-  State
+  Prop,
+  State,
+  VNode,
+  Watch
 } from "@stencil/core";
-import { Position, Scale, Layout } from "../interfaces";
-import { ExpandToggle, toggleChildActionText } from "../functional/ExpandToggle";
-import { CSS, SLOTS } from "./resources";
-import { getSlotted } from "../../utils/dom";
-import {
-  geActionDimensions,
-  getOverflowCount,
-  overflowActions,
-  queryActions,
-  overflowActionsDebounceInMs
-} from "./utils";
-import { createObserver } from "../../utils/observers";
 import { debounce } from "lodash-es";
 import {
+  ConditionalSlotComponent,
   connectConditionalSlotComponent,
-  disconnectConditionalSlotComponent,
-  ConditionalSlotComponent
+  disconnectConditionalSlotComponent
 } from "../../utils/conditionalSlot";
+import { getSlotted } from "../../utils/dom";
+import {
+  componentLoaded,
+  LoadableComponent,
+  setComponentLoaded,
+  setUpLoadableComponent
+} from "../../utils/loadable";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
+import { createObserver } from "../../utils/observers";
 import {
   connectMessages,
   disconnectMessages,
@@ -37,18 +33,22 @@ import {
   T9nComponent,
   updateMessages
 } from "../../utils/t9n";
-import { Messages } from "./assets/action-bar/t9n";
+import { ExpandToggle, toggleChildActionText } from "../functional/ExpandToggle";
+import { Layout, Position, Scale } from "../interfaces";
+import { ActionBarMessages } from "./assets/action-bar/t9n";
+import { CSS, SLOTS } from "./resources";
 import {
-  setUpLoadableComponent,
-  setComponentLoaded,
-  LoadableComponent,
-  componentLoaded
-} from "../../utils/loadable";
+  geActionDimensions,
+  getOverflowCount,
+  overflowActions,
+  overflowActionsDebounceInMs,
+  queryActions
+} from "./utils";
 
 /**
- * @slot - A slot for adding `calcite-action`s that will appear at the top of the action bar.
- * @slot bottom-actions - A slot for adding `calcite-action`s that will appear at the bottom of the action bar, above the collapse/expand button.
- * @slot expand-tooltip - Used to set the tooltip for the expand toggle.
+ * @slot - A slot for adding `calcite-action`s that will appear at the top of the component.
+ * @slot bottom-actions - A slot for adding `calcite-action`s that will appear at the bottom of the component, above the collapse/expand button.
+ * @slot expand-tooltip - A slot to set the `calcite-tooltip` for the expand toggle.
  */
 @Component({
   tag: "calcite-action-bar",
@@ -120,12 +120,12 @@ export class ActionBar
    *
    * @internal
    */
-  @Prop({ mutable: true }) messages: Messages;
+  @Prop({ mutable: true }) messages: ActionBarMessages;
 
   /**
    * Use this property to override individual strings used by the component.
    */
-  @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
+  @Prop({ mutable: true }) messageOverrides: Partial<ActionBarMessages>;
 
   @Watch("messageOverrides")
   onMessagesChange(): void {
@@ -168,7 +168,7 @@ export class ActionBar
     updateMessages(this, this.effectiveLocale);
   }
 
-  @State() defaultMessages: Messages;
+  @State() defaultMessages: ActionBarMessages;
 
   // --------------------------------------------------------------------------
   //
@@ -228,7 +228,7 @@ export class ActionBar
   }
 
   /**
-   * Sets focus on the component.
+   * Sets focus on the component's first focusable element.
    */
   @Method()
   async setFocus(): Promise<void> {

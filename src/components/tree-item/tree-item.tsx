@@ -3,37 +3,34 @@ import {
   Element,
   Event,
   EventEmitter,
+  h,
   Host,
   Listen,
   Prop,
-  State,
-  Watch,
-  h,
-  VNode
+  VNode,
+  Watch
 } from "@stencil/core";
-import { TreeItemSelectDetail } from "./interfaces";
-import { TreeSelectionMode } from "../tree/interfaces";
-import {
-  filterDirectChildren,
-  getElementDir,
-  getSlotted,
-  nodeListToArray,
-  slotChangeHasAssignedElement,
-  toAriaBoolean
-} from "../../utils/dom";
-
-import { FlipContext, Scale } from "../interfaces";
-import { CSS, SLOTS, ICONS } from "./resources";
-import { CSS_UTILITY } from "../../utils/resources";
 import {
   ConditionalSlotComponent,
   connectConditionalSlotComponent,
   disconnectConditionalSlotComponent
 } from "../../utils/conditionalSlot";
+import {
+  filterDirectChildren,
+  getElementDir,
+  getSlotted,
+  nodeListToArray,
+  toAriaBoolean
+} from "../../utils/dom";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
+import { CSS_UTILITY } from "../../utils/resources";
+import { Scale, SelectionMode } from "../interfaces";
+import { TreeItemSelectDetail } from "./interfaces";
+import { CSS, ICONS, SLOTS } from "./resources";
 
 /**
- * @slot - A slot for adding the component's content.
+ * @slot - A slot for adding text.
  * @slot children - A slot for adding nested `calcite-tree` elements.
  * @slot actions-end - A slot for adding actions to the end of the component. It is recommended to use two or fewer actions.
  */
@@ -42,7 +39,9 @@ import { InteractiveComponent, updateHostInteraction } from "../../utils/interac
   styleUrl: "tree-item.scss",
   shadow: true
 })
-export class TreeItem implements ConditionalSlotComponent, InteractiveComponent {
+export class TreeItem
+  implements ConditionalSlotComponent, InteractiveComponent, OpenCloseComponent
+{
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -77,6 +76,7 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
   @Watch("expanded")
   expandedHandler(newValue: boolean): void {
     this.updateParentIsExpanded(this.el, newValue);
+    onToggleOpenCloseComponent(this, true);
   }
 
   /**
@@ -114,14 +114,49 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
   /**
    * @internal
    */
-  @Prop({ mutable: true, reflect: true }) selectionMode: TreeSelectionMode;
+  @Prop({ mutable: true, reflect: true }) selectionMode: SelectionMode;
 
   @Watch("selectionMode")
   getselectionMode(): void {
     this.isSelectionMultiLike =
-      this.selectionMode === "multiple" ||
-      this.selectionMode === "multi" ||
-      this.selectionMode === "multichildren";
+      this.selectionMode === "multiple" || this.selectionMode === "multichildren";
+  }
+
+  openTransitionProp = "opacity";
+
+  transitionProp = "expanded";
+
+  /**
+   * Specifies element that the transition is allowed to emit on.
+   */
+  transitionEl: HTMLDivElement;
+
+  /**
+   * Defines method for `beforeOpen` event handler.
+   */
+  onBeforeOpen(): void {
+    this.transitionEl.style.transform = "scaleY(1)";
+  }
+
+  /**
+   * Defines method for `open` event handler:
+   */
+  onOpen(): void {
+    this.transitionEl.style.transform = "none";
+  }
+
+  /**
+   * Defines method for `beforeClose` event handler:
+   */
+  onBeforeClose(): void {
+    // pattern needs to be defined on how we emit events for components without `open` prop.
+  }
+
+  /**
+   * Defines method for `close` event handler:
+   */
+  onClose(): void {
+    this.transitionEl.style.transform = "scaleY(0)";
   }
 
   //--------------------------------------------------------------------------
@@ -168,6 +203,12 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
     }
   }
 
+  componentWillLoad(): void {
+    if (this.expanded) {
+      onToggleOpenCloseComponent(this, true);
+    }
+  }
+
   componentDidLoad(): void {
     this.updateAncestorTree();
   }
@@ -188,9 +229,7 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
     const rtl = getElementDir(this.el) === "rtl";
     const showBulletPoint = this.selectionMode === "single" || this.selectionMode === "children";
     const showCheckmark =
-      this.selectionMode === "multi" ||
-      this.selectionMode === "multiple" ||
-      this.selectionMode === "multichildren";
+      this.selectionMode === "multiple" || this.selectionMode === "multichildren";
     const showBlank = this.selectionMode === "none" && !this.hasChildren;
 
     const chevron = this.hasChildren ? (
@@ -289,13 +328,17 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
           }}
           data-test-id="calcite-tree-children"
           onClick={this.childrenClickHandler}
-          ref={(el) => (this.childrenSlotWrapper = el as HTMLElement)}
+          ref={(el) => this.setTransitionEl(el)}
           role={this.hasChildren ? "group" : undefined}
         >
           <slot name={SLOTS.children} />
         </div>
       </Host>
     );
+  }
+
+  setTransitionEl(el: HTMLDivElement): void {
+    this.transitionEl = el;
   }
 
   //--------------------------------------------------------------------------

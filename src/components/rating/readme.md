@@ -7,15 +7,7 @@
 ### Basic
 
 ```html
-<calcite-rating
-  show-chip
-  scale="m"
-  value="0"
-  average="4.4"
-  count="10"
-  intl-rating="Rating"
-  intl-stars="Rating"
-></calcite-rating>
+<calcite-rating show-chip scale="m" value="0" average="4.4" count="10"></calcite-rating>
 ```
 
 ## Properties
@@ -25,7 +17,7 @@
 | `average`          | `average`           | Specifies a cumulative average from previous ratings to display.                                       | `number`            | `undefined` |
 | `count`            | `count`             | Specifies the number of previous ratings to display.                                                   | `number`            | `undefined` |
 | `disabled`         | `disabled`          | When `true`, interaction is prevented and the component is displayed with lower opacity.               | `boolean`           | `false`     |
-| `messageOverrides` | `message-overrides` | Use this property to override individual strings used by the component.                                | `Messages`          | `undefined` |
+| `messageOverrides` | `message-overrides` | Use this property to override individual strings used by the component.                                | `RatingMessages`    | `undefined` |
 | `name`             | `name`              | Specifies the name of the component on form submission.                                                | `string`            | `undefined` |
 | `readOnly`         | `read-only`         | When `true`, the component's value can be read, but cannot be modified.                                | `boolean`           | `false`     |
 | `scale`            | `scale`             | Specifies the size of the component.                                                                   | `"l" \| "m" \| "s"` | `"m"`       |
@@ -58,15 +50,15 @@ Type: `Promise<void>`
 
 ### Depends on
 
-- [calcite-icon](../icon)
 - [calcite-chip](../chip)
+- [calcite-icon](../icon)
 
 ### Graph
 
 ```mermaid
 graph TD;
-  calcite-rating --> calcite-icon
   calcite-rating --> calcite-chip
+  calcite-rating --> calcite-icon
   calcite-chip --> calcite-icon
   style calcite-rating fill:#f9f,stroke:#333,stroke-width:4px
 ```
