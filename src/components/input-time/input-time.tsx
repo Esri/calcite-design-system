@@ -187,7 +187,7 @@ export class InputTime
 
   private previousEmittedValue: string;
 
-  private previousValue: string;
+  previousValue: string;
 
   private secondEl: HTMLSpanElement;
 
