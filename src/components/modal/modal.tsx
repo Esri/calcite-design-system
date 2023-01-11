@@ -288,7 +288,6 @@ export class Modal
               block-size: ${this.cssHeight ? this.cssHeight : "auto"} !important;
               ${this.cssWidth ? `inline-size: ${this.cssWidth} !important;` : ""}
               ${this.cssWidth ? `max-inline-size: ${this.cssWidth} !important;` : ""}
-              ${this.cssHeight ? `max-block-size: ${this.cssHeight} !important;` : ""}
               ${this.docked ? `border-radius: var(--calcite-border-radius) !important;` : ""}
             }
             @media screen and (max-width: ${this.cssWidth}) {
