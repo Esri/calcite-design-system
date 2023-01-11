@@ -1,16 +1,16 @@
 import { boolean, select, text } from "@storybook/addon-knobs";
+import { storyFilters } from "../../../.storybook/helpers";
+import { ATTRIBUTES } from "../../../.storybook/resources";
 import {
+  Attribute,
   Attributes,
   createComponentHTML as create,
-  Attribute,
   filterComponentAttributes,
   modesDarkDefault
 } from "../../../.storybook/utils";
-import { ATTRIBUTES } from "../../../.storybook/resources";
+import { html } from "../../../support/formatting";
 import readme from "./readme.md";
 import { SLOTS } from "./resources";
-import { html } from "../../../support/formatting";
-import { storyFilters } from "../../../.storybook/helpers";
 
 export default {
   title: "Components/Panel",

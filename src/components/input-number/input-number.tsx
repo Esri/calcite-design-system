@@ -1,4 +1,3 @@
-import { Position, Scale, Status } from "../interfaces";
 import {
   Component,
   Element,
@@ -19,10 +18,8 @@ import {
   isPrimaryPointerButton,
   setRequestedIcon
 } from "../../utils/dom";
+import { Position, Scale, Status } from "../interfaces";
 
-import { CSS, SLOTS } from "./resources";
-import { InputPlacement, NumberNudgeDirection, SetValueOrigin } from "../input/interfaces";
-import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
 import {
   connectForm,
   disconnectForm,
@@ -30,20 +27,27 @@ import {
   HiddenFormInputSlot,
   submitForm
 } from "../../utils/form";
+import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import { numberKeys } from "../../utils/key";
+import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
 import {
-  NumberingSystem,
-  numberStringFormatter,
+  componentLoaded,
+  LoadableComponent,
+  setComponentLoaded,
+  setUpLoadableComponent
+} from "../../utils/loadable";
+import {
+  connectLocalized,
   defaultNumberingSystem,
   disconnectLocalized,
-  connectLocalized,
-  LocalizedComponent
+  LocalizedComponent,
+  NumberingSystem,
+  numberStringFormatter
 } from "../../utils/locale";
-import { numberKeys } from "../../utils/key";
-import { isValidNumber, parseNumberString, sanitizeNumberString } from "../../utils/number";
-import { CSS_UTILITY } from "../../utils/resources";
 import { decimalPlaces } from "../../utils/math";
+import { isValidNumber, parseNumberString, sanitizeNumberString } from "../../utils/number";
 import { createObserver } from "../../utils/observers";
-import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import { CSS_UTILITY } from "../../utils/resources";
 import {
   connectMessages,
   disconnectMessages,
@@ -51,13 +55,9 @@ import {
   T9nComponent,
   updateMessages
 } from "../../utils/t9n";
+import { InputPlacement, NumberNudgeDirection, SetValueOrigin } from "../input/interfaces";
 import { InputNumberMessages } from "./assets/input-number/t9n";
-import {
-  setUpLoadableComponent,
-  setComponentLoaded,
-  LoadableComponent,
-  componentLoaded
-} from "../../utils/loadable";
+import { CSS, SLOTS } from "./resources";
 
 /**
  * @slot action - A slot for positioning a button next to the component.
@@ -376,6 +376,8 @@ export class InputNumber
 
   @State() localizedValue: string;
 
+  @State() slottedActionElDisabledInternally = false;
+
   //--------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -684,7 +686,7 @@ export class InputNumber
 
     const inputMax = this.maxString ? parseFloat(this.maxString) : null;
     const inputMin = this.minString ? parseFloat(this.minString) : null;
-    const valueNudgeDelayInMs = 100;
+    const valueNudgeDelayInMs = 150;
 
     this.incrementOrDecrementNumberValue(direction, inputMax, inputMin, nativeEvent);
 
@@ -756,9 +758,15 @@ export class InputNumber
       return;
     }
 
-    this.disabled
-      ? slottedActionEl.setAttribute("disabled", "")
-      : slottedActionEl.removeAttribute("disabled");
+    if (this.disabled) {
+      if (slottedActionEl.getAttribute("disabled") == null) {
+        this.slottedActionElDisabledInternally = true;
+      }
+      slottedActionEl.setAttribute("disabled", "");
+    } else if (this.slottedActionElDisabledInternally) {
+      slottedActionEl.removeAttribute("disabled");
+      this.slottedActionElDisabledInternally = false;
+    }
   }
 
   private setInputNumberValue = (newInputValue: string): void => {

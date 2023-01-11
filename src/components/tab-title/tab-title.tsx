@@ -13,13 +13,13 @@ import {
   VNode,
   Watch
 } from "@stencil/core";
-import { TabChangeEventDetail } from "../tab/interfaces";
-import { guid } from "../../utils/guid";
 import { getElementDir, getElementProp, toAriaBoolean } from "../../utils/dom";
-import { TabID, TabLayout, TabPosition } from "../tabs/interfaces";
-import { FlipContext, Scale } from "../interfaces";
-import { createObserver } from "../../utils/observers";
+import { guid } from "../../utils/guid";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import { createObserver } from "../../utils/observers";
+import { FlipContext, Scale } from "../interfaces";
+import { TabChangeEventDetail } from "../tab/interfaces";
+import { TabID, TabLayout, TabPosition } from "../tabs/interfaces";
 
 /**
  * @slot - A slot for adding text.
@@ -64,7 +64,7 @@ export class TabTitle implements InteractiveComponent {
   /** Specifies an icon to display at the end of the component. */
   @Prop({ reflect: true }) iconEnd: string;
 
-  /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
+  /** Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`). */
   @Prop({ reflect: true }) iconFlipRtl: FlipContext;
 
   /** Specifies an icon to display at the start of the component. */

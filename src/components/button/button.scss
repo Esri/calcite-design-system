@@ -463,7 +463,7 @@
   button,
   a {
     @apply text-color-1  bg-transparent;
-    border-color: theme("backgroundColor.foreground.3");
+    border-color: theme("borderColor.color.1");
     &:hover {
       box-shadow: inset 0 0 0 1px var(--calcite-ui-foreground-3);
     }

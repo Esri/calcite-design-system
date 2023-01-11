@@ -1,15 +1,15 @@
-import { boolean, select, text } from "@storybook/addon-knobs";
+import { boolean, select } from "@storybook/addon-knobs";
+import { storyFilters } from "../../../.storybook/helpers";
+import { ATTRIBUTES } from "../../../.storybook/resources";
 import {
-  Attributes,
   Attribute,
-  filterComponentAttributes,
+  Attributes,
   createComponentHTML as create,
+  filterComponentAttributes,
   modesDarkDefault
 } from "../../../.storybook/utils";
-import readme from "./readme.md";
-import { ATTRIBUTES } from "../../../.storybook/resources";
 import { html } from "../../../support/formatting";
-import { storyFilters } from "../../../.storybook/helpers";
+import readme from "./readme.md";
 
 export default {
   title: "Components/Action Bar",

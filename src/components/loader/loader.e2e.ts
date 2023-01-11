@@ -1,5 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { renders, hidden } from "../../tests/commonTests";
+import { hidden, renders } from "../../tests/commonTests";
 
 describe("calcite-loader", () => {
   it("renders", async () => {

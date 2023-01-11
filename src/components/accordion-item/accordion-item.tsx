@@ -9,16 +9,16 @@ import {
   Prop,
   VNode
 } from "@stencil/core";
-import { getElementDir, getElementProp, getSlotted, toAriaBoolean } from "../../utils/dom";
 import {
+  ConditionalSlotComponent,
   connectConditionalSlotComponent,
-  disconnectConditionalSlotComponent,
-  ConditionalSlotComponent
+  disconnectConditionalSlotComponent
 } from "../../utils/conditionalSlot";
+import { getElementDir, getElementProp, getSlotted, toAriaBoolean } from "../../utils/dom";
 import { CSS_UTILITY } from "../../utils/resources";
-import { SLOTS, CSS } from "./resources";
 import { FlipContext, Position } from "../interfaces";
 import { RegistryEntry, RequestedItem } from "./interfaces";
+import { CSS, SLOTS } from "./resources";
 
 /**
  * @slot - A slot for adding custom content, including nested `calcite-accordion-item`s.
@@ -58,7 +58,7 @@ export class AccordionItem implements ConditionalSlotComponent {
   /** Specifies an icon to display at the end of the component. */
   @Prop({ reflect: true }) iconEnd: string;
 
-  /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
+  /** Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`). */
   @Prop({ reflect: true }) iconFlipRtl: FlipContext;
 
   //--------------------------------------------------------------------------

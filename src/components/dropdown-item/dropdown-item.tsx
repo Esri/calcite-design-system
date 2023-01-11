@@ -13,16 +13,15 @@ import {
 import { getElementProp, toAriaBoolean } from "../../utils/dom";
 import { ItemKeyboardEvent } from "../dropdown/interfaces";
 
-import { FlipContext } from "../interfaces";
-import { CSS } from "./resources";
-import { RequestedItem } from "../dropdown-group/interfaces";
 import {
-  setUpLoadableComponent,
-  setComponentLoaded,
+  componentLoaded,
   LoadableComponent,
-  componentLoaded
+  setComponentLoaded,
+  setUpLoadableComponent
 } from "../../utils/loadable";
-import { SelectionMode } from "../interfaces";
+import { RequestedItem } from "../dropdown-group/interfaces";
+import { FlipContext, SelectionMode } from "../interfaces";
+import { CSS } from "./resources";
 
 /**
  * @slot - A slot for adding text.
@@ -50,7 +49,7 @@ export class DropdownItem implements LoadableComponent {
   /** When `true`, the component is selected. */
   @Prop({ reflect: true, mutable: true }) selected = false;
 
-  /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
+  /** Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`). */
   @Prop({ reflect: true }) iconFlipRtl: FlipContext;
 
   /** Specifies an icon to display at the start of the component. */

@@ -1,21 +1,21 @@
 import {
   Component,
   Element,
-  Prop,
-  Host,
   Event,
   EventEmitter,
-  Listen,
   h,
+  Host,
+  Listen,
+  Prop,
   VNode
 } from "@stencil/core";
 
 import { closestElementCrossShadowBoundary, getElementDir } from "../../utils/dom";
-import { Scale } from "../interfaces";
-import { CSS_UTILITY } from "../../utils/resources";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import { isActivationKey } from "../../utils/key";
 import { numberStringFormatter } from "../../utils/locale";
+import { CSS_UTILITY } from "../../utils/resources";
+import { Scale } from "../interfaces";
 
 @Component({
   tag: "calcite-date-picker-day",
