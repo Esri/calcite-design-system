@@ -103,7 +103,6 @@ export class Modal
     if (!this.open) {
       return;
     }
-
     focusTrapDisabled ? deactivateFocusTrap(this) : activateFocusTrap(this);
   }
 
@@ -174,8 +173,13 @@ export class Modal
   }
 
   connectedCallback(): void {
-    this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
+    this.mutationObserver?.observe(this.el, {
+      childList: true,
+      subtree: true,
+      attributeFilter: ["style"]
+    });
     this.updateFooterVisibility();
+    this.updateSizeCssVars();
     connectConditionalSlotComponent(this);
     connectLocalized(this);
     connectMessages(this);
@@ -191,6 +195,58 @@ export class Modal
     this.slottedInShell = false;
   }
 
+  renderStyle(): VNode {
+    return !this.fullscreen && !this.docked ? (
+      <style>
+        {`.${CSS.modal} {
+          width: ${this.cssVarWidth ? this.cssVarWidth : "initial"} !important;
+          height: ${this.cssVarHeight ? this.cssVarHeight : "initial"} !important;
+        }
+        @media screen and (max-width: ${this.cssVarWidth}) {
+          .${CSS.modal} {
+            height: 100% !important;
+            max-height: 100% !important;
+            width: 100% !important;
+            max-width: 100% !important;
+            min-width: 100% !important;
+            margin: 0 !important;
+            border-radius: 0 !important;
+          }
+          .content {
+            flex: 1 1 auto !important;
+            max-height: unset !important;
+          }
+        }
+      `}
+      </style>
+    ) : !this.fullscreen && this.docked ? (
+      <style>
+        {`.${CSS.modal} {
+            width: ${this.cssVarWidth ? this.cssVarWidth : "inherit"} !important;
+            width: ${this.cssVarWidth ? this.cssVarWidth : "inherit"} !important;
+            max-width: ${this.cssVarWidth ? this.cssVarWidth : "inherit"} !important;
+            min-width: ${this.cssVarWidth ? this.cssVarWidth : "inherit"} !important;
+            height: ${this.cssVarHeight ? this.cssVarHeight : "initial"} !important;
+          }
+          .content {
+            flex: 1 1 auto !important;
+          }
+           @media screen and (max-width: ${this.cssVarWidth}) {
+          .${CSS.modal} {
+            width: 100% !important;
+            max-width: 100% !important;
+            min-width: 100% !important;
+            margin: 0 !important;
+            height: ${this.cssVarHeight ? this.cssVarHeight : "100%"} !important;
+          }
+          .container {
+            align-items: flex-end;
+          }
+        }`}
+      </style>
+    ) : null;
+  }
+
   render(): VNode {
     return (
       <Host
@@ -199,8 +255,14 @@ export class Modal
         aria-modal="true"
         role="dialog"
       >
-        <div class={{ [CSS.container]: true, [CSS.slottedInShell]: this.slottedInShell }}>
+        <div
+          class={{
+            [CSS.container]: true,
+            [CSS.slottedInShell]: this.slottedInShell
+          }}
+        >
           <calcite-scrim class={CSS.scrim} onClick={this.handleOutsideClose} />
+          {this.renderStyle()}
           <div
             class={{
               [CSS.modal]: true,
@@ -274,9 +336,15 @@ export class Modal
 
   modalContent: HTMLDivElement;
 
-  private mutationObserver: MutationObserver = createObserver("mutation", () =>
-    this.updateFooterVisibility()
-  );
+  private mutationObserver: MutationObserver = createObserver("mutation", (mutations) => {
+    mutations.map((mutation) => {
+      if (mutation.type === "attributes") {
+        this.updateSizeCssVars();
+      } else {
+        this.updateFooterVisibility();
+      }
+    });
+  });
 
   titleId: string;
 
@@ -291,6 +359,10 @@ export class Modal
   closeButtonEl: HTMLButtonElement;
 
   contentId: string;
+
+  @State() cssVarWidth: string | number;
+
+  @State() cssVarHeight: string | number;
 
   @State() hasFooter = true;
 
@@ -473,5 +545,10 @@ export class Modal
 
   private updateFooterVisibility = (): void => {
     this.hasFooter = !!getSlotted(this.el, [SLOTS.back, SLOTS.primary, SLOTS.secondary]);
+  };
+
+  private updateSizeCssVars = (): void => {
+    this.cssVarWidth = getComputedStyle(this.el).getPropertyValue("--calcite-modal-width");
+    this.cssVarHeight = getComputedStyle(this.el).getPropertyValue("--calcite-modal-height");
   };
 }

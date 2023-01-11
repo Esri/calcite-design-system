@@ -6,8 +6,8 @@
  * @prop --calcite-modal-content-background: Specifies the background color of content placed in the `content` slot.
  * @prop --calcite-modal-content-padding: Specifies the padding of the modal `content` slot.
  * @prop --calcite-modal-scrim-background: Specifies the background color of the modal scrim.
- * @prop --calcite-modal-width: Specifies a width of the modal. Will never exceed the width of the viewport. Does not apply when `fullscreen` is true.
- * @prop --calcite-modal-height: Specifies a height of the modal. Will never exceed the height of the viewport. Does not apply when `fullscreen` is true.
+ * @prop --calcite-modal-width: Specifies a width of the modal, using `px`, `em`, `rem`, or `vw`. Will never exceed the width of the viewport. Will not apply if `fullscreen` if set.
+ * @prop --calcite-modal-height: Specifies a height of the modal, using `px`, `em`, `rem`, or `vh`. Will never exceed the height of the viewport. Will not apply if `fullscreen` if set.
  *
  */
 
@@ -117,8 +117,8 @@
     @apply pointer-events-auto visible opacity-100;
     transition: transform var(--calcite-internal-animation-timing-slow) $easing-function, visibility 0ms linear,
       opacity var(--calcite-internal-animation-timing-slow) $easing-function,
-      max-inline-size var(--calcite-internal-animation-timing-slow) $easing-function,
-      max-block-size var(--calcite-internal-animation-timing-slow) $easing-function;
+      inline-size var(--calcite-internal-animation-timing-slow) $easing-function,
+      block-size var(--calcite-internal-animation-timing-slow) $easing-function;
     transition-delay: 0ms;
   }
 }
@@ -244,12 +244,13 @@ slot[name="primary"] {
   :host([width="#{$size}"]) .modal {
     @apply max-h-full max-w-full;
     inline-size: var(--calcite-modal-width, $width);
-    block-size: var(--calcite-modal-height);
+    block-size: var(--calcite-modal-height, auto);
   }
+
   @media screen and (max-width: $width + 2 * $baseline) {
     :host([width="#{$size}"]) {
       .modal {
-        @apply m-0 h-full max-h-full w-full max-w-full rounded-none;
+        @apply m-0 h-full max-h-full w-full max-w-full;
       }
       .content {
         flex: 1 1 auto;
@@ -258,6 +259,10 @@ slot[name="primary"] {
     }
     :host([width="#{$size}"][docked]) .container {
       @apply items-end;
+    }
+    :host([width="#{$size}"][docked]) .modal {
+      @apply h-full max-h-full min-w-full;
+      border-radius: var(--calcite-border-radius) var(--calcite-border-radius) 0 0;
     }
   }
 }
@@ -275,7 +280,7 @@ slot[name="primary"] {
  */
 :host([fullscreen]) {
   .modal {
-    @apply m-0  max-h-full max-w-full h-full w-full;
+    @apply m-0  max-h-full max-w-full h-full w-full rounded-none;
     --calcite-modal-hidden-position: translate3D(0, 20px, 0) scale(0.95);
     --calcite-modal-shown-position: translate3D(0, 0, 0) scale(1);
   }
@@ -304,11 +309,6 @@ slot[name="primary"] {
   .content {
     @apply h-auto;
     flex: 1 1 auto;
-  }
-  @media screen and (max-width: $viewport-medium) {
-    .modal {
-      border-radius: var(--calcite-border-radius) var(--calcite-border-radius) 0 0;
-    }
   }
 }
 
