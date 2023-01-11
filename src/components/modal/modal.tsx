@@ -285,10 +285,11 @@ export class Modal
               ${this.docked && this.cssWidth ? `align-items: center !important;` : ""}
             }
             .${CSS.modal} {
-              ${this.docked && this.cssWidth ? `inline-size: ${this.cssWidth} !important;` : ""}
-              ${this.docked && this.cssWidth ? `max-inline-size: ${this.cssWidth} !important;` : ""}
-              ${this.docked && this.cssHeight ? `block-size: ${this.cssHeight} !important;` : ""}
+              ${this.cssWidth ? `inline-size: ${this.cssWidth} !important;` : ""}
+              ${this.cssWidth ? `max-inline-size: ${this.cssWidth} !important;` : ""}
+              ${this.cssHeight ? `block-size: ${this.cssHeight} !important;` : ""}
               ${this.docked ? `border-radius: var(--calcite-border-radius) !important;` : ""}
+
             }
 
             @media screen and (max-width: ${this.cssWidth}) {
