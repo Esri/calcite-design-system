@@ -9,20 +9,24 @@ import {
   Prop,
   VNode
 } from "@stencil/core";
-import { guid } from "../../utils/guid";
-import { Scale } from "../interfaces";
-import { CheckableFormComponent, HiddenFormInputSlot } from "../../utils/form";
-import { LabelableComponent, connectLabel, disconnectLabel, getLabelText } from "../../utils/label";
-import { connectForm, disconnectForm } from "../../utils/form";
-import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import { toAriaBoolean } from "../../utils/dom";
-import { isActivationKey } from "../../utils/key";
 import {
-  setUpLoadableComponent,
-  setComponentLoaded,
+  CheckableFormComponent,
+  connectForm,
+  disconnectForm,
+  HiddenFormInputSlot
+} from "../../utils/form";
+import { guid } from "../../utils/guid";
+import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import { isActivationKey } from "../../utils/key";
+import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
+import {
+  componentLoaded,
   LoadableComponent,
-  componentLoaded
+  setComponentLoaded,
+  setUpLoadableComponent
 } from "../../utils/loadable";
+import { Scale } from "../interfaces";
 
 @Component({
   tag: "calcite-checkbox",

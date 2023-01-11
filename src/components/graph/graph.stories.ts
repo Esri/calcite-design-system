@@ -1,7 +1,7 @@
 import { number } from "@storybook/addon-knobs";
+import { storyFilters } from "../../../.storybook/helpers";
 import { modesDarkDefault } from "../../../.storybook/utils";
 import readme from "./readme.md";
-import { storyFilters } from "../../../.storybook/helpers";
 
 export default {
   title: "Components/Controls/Slider/support/Graph",

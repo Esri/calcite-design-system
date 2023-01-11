@@ -1,6 +1,5 @@
-import { FocusTrap as _FocusTrap, Options as FocusTrapOptions, createFocusTrap } from "focus-trap";
-import { FocusableElement, focusElement } from "./dom";
-import { tabbableOptions } from "./dom";
+import { createFocusTrap, FocusTrap as _FocusTrap, Options as FocusTrapOptions } from "focus-trap";
+import { FocusableElement, focusElement, tabbableOptions } from "./dom";
 
 const trapStack: _FocusTrap[] = [];
 

@@ -12,30 +12,30 @@ import {
   VNode,
   Watch
 } from "@stencil/core";
-import { ensureId, focusFirstTabbable, getSlotted } from "../../utils/dom";
-import { Kind, Scale } from "../interfaces";
-import { CSS, ICONS, SLOTS } from "./resources";
-import { createObserver } from "../../utils/observers";
 import {
   ConditionalSlotComponent,
   connectConditionalSlotComponent,
   disconnectConditionalSlotComponent
 } from "../../utils/conditionalSlot";
-import { OpenCloseComponent, onToggleOpenCloseComponent } from "../../utils/openCloseComponent";
+import { ensureId, focusFirstTabbable, getSlotted } from "../../utils/dom";
 import {
-  FocusTrapComponent,
-  FocusTrap,
-  connectFocusTrap,
   activateFocusTrap,
+  connectFocusTrap,
   deactivateFocusTrap,
+  FocusTrap,
+  FocusTrapComponent,
   updateFocusTrapElements
 } from "../../utils/focusTrapComponent";
 import {
-  setUpLoadableComponent,
-  setComponentLoaded,
+  componentLoaded,
   LoadableComponent,
-  componentLoaded
+  setComponentLoaded,
+  setUpLoadableComponent
 } from "../../utils/loadable";
+import { createObserver } from "../../utils/observers";
+import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
+import { Kind, Scale } from "../interfaces";
+import { CSS, ICONS, SLOTS } from "./resources";
 
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 import {

@@ -1,6 +1,6 @@
-import { Component, Element, Event, h, Prop, EventEmitter, VNode, Host } from "@stencil/core";
+import { Component, Element, Event, EventEmitter, h, Host, Prop, VNode } from "@stencil/core";
+import { labelConnectedEvent, labelDisconnectedEvent } from "../../utils/label";
 import { Alignment, Scale } from "../interfaces";
-import { labelDisconnectedEvent, labelConnectedEvent } from "../../utils/label";
 import { CSS } from "./resources";
 
 /**
