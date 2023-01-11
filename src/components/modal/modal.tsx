@@ -103,6 +103,7 @@ export class Modal
     if (!this.open) {
       return;
     }
+
     focusTrapDisabled ? deactivateFocusTrap(this) : activateFocusTrap(this);
   }
 
@@ -181,7 +182,6 @@ export class Modal
     this.updateFooterVisibility();
     this.updateSizeCssVars();
     connectConditionalSlotComponent(this);
-
     connectLocalized(this);
     connectMessages(this);
   }
@@ -194,45 +194,6 @@ export class Modal
     disconnectLocalized(this);
     disconnectMessages(this);
     this.slottedInShell = false;
-  }
-
-  renderStyle(): VNode {
-    if (!this.fullscreen && (this.cssWidth || this.cssHeight)) {
-      return (
-        <style>
-          {`.${CSS.container} {
-              ${this.docked && this.cssWidth ? `align-items: center !important;` : ""}
-            }
-            .${CSS.modal} {
-              ${this.docked && this.cssWidth ? `inline-size: ${this.cssWidth} !important;` : ""}
-              ${this.docked && this.cssWidth ? `max-inline-size: ${this.cssWidth} !important;` : ""}
-              ${this.docked && this.cssHeight ? `block-size: ${this.cssHeight} !important;` : ""}
-              ${this.docked ? `border-radius: var(--calcite-border-radius) !important;` : ""}
-            }
-
-            @media screen and (max-width: ${this.cssWidth}) {
-              .${CSS.container} {
-                ${this.docked ? `align-items: flex-end !important;` : ""}
-              }
-              .${CSS.modal} {
-                max-block-size: 100% !important;
-                inline-size: 100% !important;
-                max-inline-size: 100% !important;
-                min-inline-size: 100% !important;
-                margin: 0 !important;
-                ${!this.docked ? `block-size: 100% !important;` : ""}
-                ${!this.docked ? `border-radius: 0 !important;` : ""}
-                ${
-                  this.docked
-                    ? `border-radius: var(--calcite-border-radius) var(--calcite-border-radius) 0 0 !important;`
-                    : ""
-                }
-              }
-            }
-          `}
-        </style>
-      );
-    }
   }
 
   render(): VNode {
@@ -314,6 +275,45 @@ export class Modal
         />
       </button>
     ) : null;
+  }
+
+  renderStyle(): VNode {
+    if (!this.fullscreen && (this.cssWidth || this.cssHeight)) {
+      return (
+        <style>
+          {`.${CSS.container} {
+              ${this.docked && this.cssWidth ? `align-items: center !important;` : ""}
+            }
+            .${CSS.modal} {
+              ${this.docked && this.cssWidth ? `inline-size: ${this.cssWidth} !important;` : ""}
+              ${this.docked && this.cssWidth ? `max-inline-size: ${this.cssWidth} !important;` : ""}
+              ${this.docked && this.cssHeight ? `block-size: ${this.cssHeight} !important;` : ""}
+              ${this.docked ? `border-radius: var(--calcite-border-radius) !important;` : ""}
+            }
+
+            @media screen and (max-width: ${this.cssWidth}) {
+              .${CSS.container} {
+                ${this.docked ? `align-items: flex-end !important;` : ""}
+              }
+              .${CSS.modal} {
+                max-block-size: 100% !important;
+                inline-size: 100% !important;
+                max-inline-size: 100% !important;
+                min-inline-size: 100% !important;
+                margin: 0 !important;
+                ${!this.docked ? `block-size: 100% !important;` : ""}
+                ${!this.docked ? `border-radius: 0 !important;` : ""}
+                ${
+                  this.docked
+                    ? `border-radius: var(--calcite-border-radius) var(--calcite-border-radius) 0 0 !important;`
+                    : ""
+                }
+              }
+            }
+          `}
+        </style>
+      );
+    }
   }
 
   //--------------------------------------------------------------------------
