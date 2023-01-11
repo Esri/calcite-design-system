@@ -60,7 +60,7 @@ describe("calcite-textarea", () => {
   it("is accessible", async () => {
     const page = await newE2EPage();
     await page.setContent(
-      `<calcite-label>add notes<calcite-textarea maxlength="50"  required name="something" form="myform"> </calcite-textarea></calcite-label>`
+      `<calcite-label>add notes<calcite-textarea max-length="50"  required name="something" > </calcite-textarea></calcite-label>`
     );
     await accessible("calcite-textarea", page);
   });
@@ -147,12 +147,12 @@ describe("calcite-textarea", () => {
     expect(inputEventSpy).not.toHaveReceivedEvent();
   });
 
-  it("should be able to enter characters beyond maxlength", async () => {
+  it("should be able to enter characters beyond max-length", async () => {
     const page = await newE2EPage();
     await page.setContent("<calcite-textarea></calcite-textarea>");
 
     const element = await page.find("calcite-textarea");
-    element.setAttribute("maxlength", 5);
+    element.setAttribute("max-length", 5);
     await page.waitForChanges();
 
     await page.keyboard.press("Tab");

@@ -121,7 +121,7 @@ export class Textarea
    *
    * @mdn [maxlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea#attr-maxlength)
    */
-  @Prop() maxlength: number;
+  @Prop({ reflect: true }) maxLength: number;
 
   /**
    * Specifies the name of the component
@@ -252,12 +252,12 @@ export class Textarea
 
   render(): VNode {
     const hasFooter =
-      !!this.startSlotElements?.length || !!this.endSlotElements?.length || !!this.maxlength;
+      !!this.startSlotElements?.length || !!this.endSlotElements?.length || !!this.maxLength;
 
     return (
       <Host>
         <textarea
-          aria-invalid={toAriaBoolean(this.value?.length > this.maxlength)}
+          aria-invalid={toAriaBoolean(this.value?.length > this.maxLength)}
           aria-label={getLabelText(this)}
           autofocus={this.autofocus}
           class={{
@@ -266,7 +266,7 @@ export class Textarea
             [CSS.resizeDisabledX]: this.horizantalResizeDisabled,
             [CSS.resizeDisabledY]: this.verticalResizeDisabled,
             [CSS.readonly]: this.readonly,
-            [CSS.textareaInvalid]: this.value?.length > this.maxlength,
+            [CSS.textareaInvalid]: this.value?.length > this.maxLength,
             [CSS.footerSlotted]: !!this.endSlotElements?.length && !!this.startSlotElements?.length,
             [CSS.borderColor]: !hasFooter,
             [CSS.blocksizeFull]: !hasFooter
@@ -405,13 +405,13 @@ export class Textarea
   };
 
   renderCharacterLimit = (): VNode => {
-    return this.maxlength ? (
+    return this.maxLength ? (
       <span class={CSS.characterLimit}>
-        <span class={{ [CSS.characterOverlimit]: this.value?.length > this.maxlength }}>
+        <span class={{ [CSS.characterOverlimit]: this.value?.length > this.maxLength }}>
           {this.getLocalizedCharacterLength()}
         </span>
         {"/"}
-        {numberStringFormatter.localize(this.maxlength.toString())}
+        {numberStringFormatter.localize(this.maxLength.toString())}
       </span>
     ) : null;
   };
@@ -440,7 +440,6 @@ export class Textarea
     if (footerWidth > 0 && footerWidth !== textareaWidth) {
       this.footerEl.style.width = `${textareaWidth}px`;
     }
-    console.log();
     if (elWidth !== textareaWidth || elHeight !== textareaHeight + (footerHeight || 0)) {
       this.setHeightAndWidthToAuto();
     }
@@ -448,7 +447,7 @@ export class Textarea
 
   syncHiddenFormInput(input: HTMLInputElement): void {
     input.setCustomValidity("");
-    if (this.value?.length > this.maxlength) {
+    if (this.value?.length > this.maxLength) {
       input.setCustomValidity(this.messages.overLimit);
     }
   }

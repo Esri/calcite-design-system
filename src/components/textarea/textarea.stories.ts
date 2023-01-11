@@ -40,7 +40,7 @@ export const darkModeRTL_TestOnly = (): string => html`
 export const withSlottedElements = (): string => html`<div style="width:300px;max-width:100%;">
 <calcite-textarea
 placeholder="${text("placeholder", "Add Notes")}"
-maxlength="${number("maxlength", 50)}"
+max-length="${number("max-length", 50)}"
 scale="${select("scale", ["s", "m", "l"], "m")}"
  placeholder="${text("placeholder", "Add Notes")}"
 ${boolean("disabled", false)}
@@ -61,7 +61,7 @@ name="${text("name", "")}"
 
 export const withSlottedElementsDarkModeRTL_TestOnly = (): string => html`<div style="width:300px;max-width:100%;">
 <calcite-textarea
-maxlength="50"
+max-length="50"
 placeholder= "Add Notes"
 >
 <calcite-button  slot="${text("slot", "footer-start")}">RESET</calcite-button>
@@ -99,14 +99,14 @@ export const withLabel_TestOnly = (): string => html`<div style="width:300px;max
 </div>`;
 
 export const groupSeparator_TestOnly = (): string => html`<div style="width:300px;text-align:center;">
-  <calcite-textarea value="Rocky Mountains National Park" lang="fr" maxlength="123456" group-separator>
+  <calcite-textarea value="Rocky Mountains National Park" lang="fr" max-length="123456" group-separator>
   </calcite-textarea>
 </div>`;
 
 export const exceedingMaxlength_TestOnly = (): string => html`<div style="width:300px;max-width:100%;">
 <calcite-textarea
 value="Rocky Mountains National Park"
-maxlength="10"
+max-length="10"
 >
 </caclite-textarea>
 </div>`;
