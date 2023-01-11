@@ -9,31 +9,17 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ### ⚠ BREAKING CHANGES
 
-- **accordion:** removed "minimal" and "default" values for
-  `calcite-accordion`'s `appearance` property.
-
-* Removed `"default"` value for the `appearance` property, use `"solid"`
-  instead.
-* Removed `"minimal"` value for the `appearance` property.
-
-* **card:**: Removed `footer-leading` and `footer-trailing` slots, use
-  `footer-start` and `footer-end` instead.
-
 - **styles:** Use "mode" nomenclature instead of "theme"
 
   - `.calcite-theme-auto`, `.calcite-theme-dark`, and
     `.calcite-theme-light` CSS classes have been replaced with
     `.calcite-mode-auto`, `.calcite-mode-dark`, and `.calcite-mode-light `
 
-- **segmented-control:** Updates `segmented-control` event to `calciteSegmentedControlChange`.
+- **modal, panel, popover**: Removed `focusId` parameter from `setFocus` methods.
+  When the `setFocus` method is called the first focusable element will be
+  focused.
 
-* **radio-group, radio-group-item:** Renames radio group components.
-
-  - `calcite-radio-group` has been renamed to `calcite-segmented-control`.
-  - `calcite-radio-group-item` has been renamed to
-    `calcite-segmented-control-item`.
-
-* **panel, shell-panel, flow-item:** Update available css variables.
+- **panel, shell-panel, flow-item:** Update available css variables.
 
   - Removes `heightScale` and `widthScale` properties from Panel and Flow
     Item.
@@ -41,35 +27,50 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
     available width of parent component.
   - Documents public css variables for Shell Panel.
 
-* **modal, panel, popover**: Removed `focusId` parameter from `setFocus` methods.
-  When the `setFocus` method is called the first focusable element will be
-  focused.
+- **accordion:**
 
-* **combobox-item:**
+  - Removed `"default"` value for the `appearance` property, use `"solid"`
+    instead.
+  - Removed `"minimal"` value for the `appearance` property.
+
+- **card:**
+
+  - Removed `footer-leading` and `footer-trailing` slots, use
+    `footer-start` and `footer-end` instead.
+
+- **combobox-item:**
 
   - Removed `toggleSelected` method, use the `selected` property instead.
 
-* **date-picker:**
+- **date-picker:**
 
   - Removed the property `startAsDate`, use `valueAsDate` instead.
   - Removed the property `endAsDate`, use `valueAsDate` instead.
 
-* **pagination:**
+- **pagination:**
 
   - Removed the `--calcite-pagination-spacing` css variable
 
-* **popover:**
+- **popover:**
 
   - Removed the `toggle` method, use the `open` property instead.
 
-* **radio-button-group:**
+- **radio-button-group:**
 
   - Added property `selectedItem`.
   - Removed the `event.detail` property on the event
     `calciteRadioButtonGroupChange`, use `event.target` and the property
     `selectedItem` instead.
 
-* **stepper:**
+- **radio-group, radio-group-item:** Renames components.
+
+  - `calcite-radio-group` has been renamed to `calcite-segmented-control`.
+  - `calcite-radio-group-item` has been renamed to
+    `calcite-segmented-control-item`.
+
+- **segmented-control:** Updates `segmented-control` event to `calciteSegmentedControlChange`.
+
+- **stepper:**
 
   - Added property `selectedItem`.
   - Removed the `event.detail` property on the event
@@ -80,33 +81,36 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 - **panel:** Allow Panel to fill height of parent ([#6256](https://github.com/Esri/calcite-components/issues/6256)) ([f556efc](https://github.com/Esri/calcite-components/commit/f556efc8ee8c02da7fb73208bc8fde0f28ef88d3))
 
-* **tab-nav:** Add `selectedTitle` property ([#6149](https://github.com/Esri/calcite-components/issues/6149)) ([e48096c](https://github.com/Esri/calcite-components/commit/e48096cf361d0efb292849e10040f6f0e61f8bbc))
-* **popover, modal:** Add the ability to update focus trap elements after initialization ([#6141](https://github.com/Esri/calcite-components/issues/6141)) ([806ca32](https://github.com/Esri/calcite-components/commit/806ca32788d2960df97ad18efcb731633f133fcb))
+- **tab-nav:** Add `selectedTitle` property ([#6149](https://github.com/Esri/calcite-components/issues/6149)) ([e48096c](https://github.com/Esri/calcite-components/commit/e48096cf361d0efb292849e10040f6f0e61f8bbc))
+
+- **popover, modal:** Add the ability to update focus trap elements after initialization ([#6141](https://github.com/Esri/calcite-components/issues/6141)) ([806ca32](https://github.com/Esri/calcite-components/commit/806ca32788d2960df97ad18efcb731633f133fcb))
 
 ### Bug Fixes
 
 - **combobox-item:** bumping the scale of icon to M when parent combobox is scale L ([#6253](https://github.com/Esri/calcite-components/issues/6253)) ([051cb3f](https://github.com/Esri/calcite-components/commit/051cb3f498b2f43339aa2d973dcd257098d84fd6)), closes [#5698](https://github.com/Esri/calcite-components/issues/5698)
 
-* **button:** neutral and outline button now has correct border color ([#6269](https://github.com/Esri/calcite-components/issues/6269)) ([24e6d32](https://github.com/Esri/calcite-components/commit/24e6d3268855bd5f00f04b5c52bc62c8cb6724e0)), closes [#5331](https://github.com/Esri/calcite-components/issues/5331)
+- **button:** neutral and outline button now has correct border color ([#6269](https://github.com/Esri/calcite-components/issues/6269)) ([24e6d32](https://github.com/Esri/calcite-components/commit/24e6d3268855bd5f00f04b5c52bc62c8cb6724e0)), closes [#5331](https://github.com/Esri/calcite-components/issues/5331)
 
 - **input, input-number, input-text:** allow slotted action to be independently disabled ([#6250](https://github.com/Esri/calcite-components/issues/6250)) ([8197c18](https://github.com/Esri/calcite-components/commit/8197c185c1fb23ebc5e7b0ff3bb6594c445d8736)), closes [#6241](https://github.com/Esri/calcite-components/issues/6241)
 
-* **input, input-number:** nudge buttons increment/decrement once per interaction ([#6240](https://github.com/Esri/calcite-components/issues/6240)) ([fd10ac5](https://github.com/Esri/calcite-components/commit/fd10ac5976e00c30b9acbbe9ea19b2ab284eac6d)), closes [#5785](https://github.com/Esri/calcite-components/issues/5785)
+- **input, input-number:** nudge buttons increment/decrement once per interaction ([#6240](https://github.com/Esri/calcite-components/issues/6240)) ([fd10ac5](https://github.com/Esri/calcite-components/commit/fd10ac5976e00c30b9acbbe9ea19b2ab284eac6d)), closes [#5785](https://github.com/Esri/calcite-components/issues/5785)
 
 - **tree-item:** overflow slotted elements are no longer hidden ([#5261](https://github.com/Esri/calcite-components/issues/5261)) ([4aa1f7e](https://github.com/Esri/calcite-components/commit/4aa1f7eaa437f7bf25c5bbced8559b41944e32fb)), closes [#5168](https://github.com/Esri/calcite-components/issues/5168)
 
-* **list-item:** use pointer cursor when selection mode is none ([#6213](https://github.com/Esri/calcite-components/issues/6213)) ([6b43b91](https://github.com/Esri/calcite-components/commit/6b43b916a1ee3908635ab0b682d7a2d209545b22)), closes [#6123](https://github.com/Esri/calcite-components/issues/6123)
+- **list-item:** use pointer cursor when selection mode is none ([#6213](https://github.com/Esri/calcite-components/issues/6213)) ([6b43b91](https://github.com/Esri/calcite-components/commit/6b43b916a1ee3908635ab0b682d7a2d209545b22)), closes [#6123](https://github.com/Esri/calcite-components/issues/6123)
 
 - **alert:** Correctly dismiss after hovering ([#6228](https://github.com/Esri/calcite-components/issues/6228)) ([66dd692](https://github.com/Esri/calcite-components/commit/66dd692d6030b2e6957603101a78f728ff31c6e2)), closes [#6222](https://github.com/Esri/calcite-components/issues/6222)
 
-* **input, input-number:** increment/decrement to the min/max when value is below/above ([#6207](https://github.com/Esri/calcite-components/issues/6207)) ([d9eb215](https://github.com/Esri/calcite-components/commit/d9eb215f423f68dfa67d9a69b38d7328a8580b86)), closes [#6201](https://github.com/Esri/calcite-components/issues/6201)
+- **input, input-number:** increment/decrement to the min/max when value is below/above ([#6207](https://github.com/Esri/calcite-components/issues/6207)) ([d9eb215](https://github.com/Esri/calcite-components/commit/d9eb215f423f68dfa67d9a69b38d7328a8580b86)), closes [#6201](https://github.com/Esri/calcite-components/issues/6201)
 
 - **modal:** close button does not change header height ([#6205](https://github.com/Esri/calcite-components/issues/6205)) ([f1d73a8](https://github.com/Esri/calcite-components/commit/f1d73a8c92678f3429fe2ac7215a15cf45c87692)), closes [#1707](https://github.com/Esri/calcite-components/issues/1707) [#5210](https://github.com/Esri/calcite-components/issues/5210)
 
-* **input-date-picker:** update input value when changing locale ([#6197](https://github.com/Esri/calcite-components/issues/6197)) ([65478be](https://github.com/Esri/calcite-components/commit/65478be957a20cc4bbc36d52c166c132467e57e4)), closes [#5886](https://github.com/Esri/calcite-components/issues/5886) [#5969](https://github.com/Esri/calcite-components/issues/5969)
+- **input-date-picker:** update input value when changing locale ([#6197](https://github.com/Esri/calcite-components/issues/6197)) ([65478be](https://github.com/Esri/calcite-components/commit/65478be957a20cc4bbc36d52c166c132467e57e4)), closes [#5886](https://github.com/Esri/calcite-components/issues/5886) [#5969](https://github.com/Esri/calcite-components/issues/5969)
 
 - **date-picker:** modify weekStart value for ar locale ([#6154](https://github.com/Esri/calcite-components/issues/6154)) ([f9fe230](https://github.com/Esri/calcite-components/commit/f9fe230ba07d4c581993efacff04303700c07106))
+
 - **time-picker:** high contrast visibility of outlines in focus and hover states ([#6129](https://github.com/Esri/calcite-components/issues/6129)) ([90ddff1](https://github.com/Esri/calcite-components/commit/90ddff10b712758bd4c60b8279b45e4c9997748d))
+
 - **tooltip:** Fix hover logic for elements within shadowRoot. ([#6119](https://github.com/Esri/calcite-components/issues/6119)) ([f490e5e](https://github.com/Esri/calcite-components/commit/f490e5ee0a4ae75f0e3b727f4ce0f7925bc8e53c))
 
 <!--@unreleased-section-end-->
