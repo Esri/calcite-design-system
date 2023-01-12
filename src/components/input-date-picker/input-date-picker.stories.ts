@@ -64,7 +64,7 @@ export const flipPlacements_TestOnly = (): string => html`
   </script>
 `;
 
-export const laoNumberingSystemAndMediumIconForLargeInput = (): string => html`
+export const laoNumberingSystemAndMediumIconForLargeInput_TestOnly = (): string => html`
   <div style="width: 400px">
     <calcite-input-date-picker
       open
