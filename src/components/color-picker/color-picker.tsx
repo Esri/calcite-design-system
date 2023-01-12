@@ -15,7 +15,7 @@ import {
 import Color from "color";
 import { throttle } from "lodash-es";
 import { Direction, getElementDir, isPrimaryPointerButton } from "../../utils/dom";
-import { Appearance, Scale } from "../interfaces";
+import { Scale } from "../interfaces";
 import { ColorMode, ColorValue, InternalColor } from "./interfaces";
 import {
   CSS,
