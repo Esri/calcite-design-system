@@ -9,6 +9,13 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ### ⚠ BREAKING CHANGES
 
+- **color-picker:** removed `appearance` property
+
+* Removed `appearance` property, use `--calcite-ui-border-1:
+transparent` to remove the border instead of the `"minimal"` value
+
+Co-authored-by: Kitty Hurley <khurley@esri.com>
+
 - **input-time-picker:** Removed event payload information.
 
 * Removed the event payload from `calciteInputTimePickerChange` event.
