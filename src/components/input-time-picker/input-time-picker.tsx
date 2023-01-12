@@ -213,7 +213,7 @@ export class InputTimePicker
   /**
    * Fires when the time value is changed as a result of user input.
    */
-  @Event({ cancelable: true }) calciteInputTimePickerChange: EventEmitter<string>;
+  @Event({ cancelable: true }) calciteInputTimePickerChange: EventEmitter<void>;
 
   //--------------------------------------------------------------------------
   //
