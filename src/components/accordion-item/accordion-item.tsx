@@ -19,7 +19,6 @@ import { CSS_UTILITY } from "../../utils/resources";
 import { SLOTS, CSS } from "./resources";
 import { FlipContext, Position, Scale } from "../interfaces";
 import { RegistryEntry, RequestedItem } from "./interfaces";
-import { CSS, SLOTS } from "./resources";
 
 /**
  * @slot - A slot for adding custom content, including nested `calcite-accordion-item`s.
