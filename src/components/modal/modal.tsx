@@ -343,8 +343,6 @@ export class Modal
 
   contentId: string;
 
-  @State() modalSlottedWidth: number;
-
   @State() cssWidth: string | number;
 
   @State() cssHeight: string | number;
