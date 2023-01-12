@@ -73,10 +73,6 @@ const treeItemsWithSlottedDropdownsAndIconStart = html`
             <a>Great-Grandchild 1</a>
             ${slottedDropdown}
           </calcite-tree-item>
-          <calcite-tree-item expanded>
-            <a>Great-Grandchild 2</a>
-            ${slottedDropdown} ${slottedDropdown}
-          </calcite-tree-item>
         </calcite-tree>
       </calcite-tree-item>
     </calcite-tree>

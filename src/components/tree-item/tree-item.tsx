@@ -11,7 +11,7 @@ import {
   VNode,
   Watch
 } from "@stencil/core";
-import { slotChangeHasAssignedElement } from "../../utils/dom";
+import { getElementProp, slotChangeHasAssignedElement } from "../../utils/dom";
 import {
   ConditionalSlotComponent,
   connectConditionalSlotComponent,
@@ -102,11 +102,6 @@ export class TreeItem
   @Prop({ reflect: true, mutable: true }) lines: boolean;
 
   /**
-   * @internal
-   */
-  @Prop({ reflect: true, mutable: true }) scale: Scale;
-
-  /**
    * In ancestor selection mode, show as indeterminate when only some children are selected.
    *
    * @internal
@@ -169,6 +164,7 @@ export class TreeItem
 
   connectedCallback(): void {
     this.parentTreeItem = this.el.parentElement?.closest("calcite-tree-item");
+    this.scale = getElementProp(this.el, "scale", this.scale);
     if (this.parentTreeItem) {
       const { expanded } = this.parentTreeItem;
       this.updateParentIsExpanded(this.parentTreeItem, expanded);
@@ -190,7 +186,6 @@ export class TreeItem
     }
 
     this.selectionMode = parentTree.selectionMode;
-    this.scale = parentTree.scale || "m";
     this.lines = parentTree.lines;
 
     let nextParentTree;
@@ -226,6 +221,9 @@ export class TreeItem
   //--------------------------------------------------------------------------
 
   private isSelectionMultiLike: boolean;
+
+  /** Specifies the scale of the tree-item controlled by parent, defaults to m */
+  scale: Scale = "m";
 
   render(): VNode {
     const rtl = getElementDir(this.el) === "rtl";
@@ -295,7 +293,7 @@ export class TreeItem
         class={{ [CSS.tabTitle]: true, [CSS.iconStart]: true }}
         flipRtl={this.iconFlipRtl === "start" || this.iconFlipRtl === "both"}
         icon={this.iconStart}
-        scale="s"
+        scale={this.scale === "l" ? "m" : "s"}
       />
     );
 
