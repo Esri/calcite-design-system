@@ -174,11 +174,8 @@ export class Modal
   }
 
   connectedCallback(): void {
-    this.mutationObserver?.observe(this.el, {
-      childList: true,
-      subtree: true,
-      attributeFilter: ["style"]
-    });
+    this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
+    this.cssVarObserver?.observe(this.el, { attributeFilter: ["style"] });
     this.updateFooterVisibility();
     this.updateSizeCssVars();
     connectConditionalSlotComponent(this);
@@ -189,6 +186,7 @@ export class Modal
   disconnectedCallback(): void {
     this.removeOverflowHiddenClass();
     this.mutationObserver?.disconnect();
+    this.cssVarObserver?.disconnect();
     disconnectConditionalSlotComponent(this);
     deactivateFocusTrap(this);
     disconnectLocalized(this);
@@ -278,6 +276,7 @@ export class Modal
   }
 
   renderStyle(): VNode {
+    console.log("i've changed");
     if (!this.fullscreen && (this.cssWidth || this.cssHeight)) {
       return (
         <style>
@@ -323,14 +322,12 @@ export class Modal
 
   modalContent: HTMLDivElement;
 
-  private mutationObserver: MutationObserver = createObserver("mutation", (mutations) => {
-    mutations.map((mutation) => {
-      if (mutation.type === "attributes") {
-        this.updateSizeCssVars();
-      } else {
-        this.updateFooterVisibility();
-      }
-    });
+  private mutationObserver: MutationObserver = createObserver("mutation", () => {
+    this.updateFooterVisibility();
+  });
+
+  private cssVarObserver: MutationObserver = createObserver("mutation", () => {
+    this.updateSizeCssVars();
   });
 
   titleId: string;
