@@ -1,12 +1,12 @@
-import { select, optionsKnob } from "@storybook/addon-knobs";
+import { optionsKnob, select } from "@storybook/addon-knobs";
 import { iconNames, storyFilters } from "../../../.storybook/helpers";
-import { modesDarkDefault } from "../../../.storybook/utils";
 import { placeholderImage } from "../../../.storybook/placeholderImage";
-import readme1 from "./readme.md";
-import readme2 from "../tab/readme.md";
+import { modesDarkDefault } from "../../../.storybook/utils";
+import { html } from "../../../support/formatting";
 import readme3 from "../tab-nav/readme.md";
 import readme4 from "../tab-title/readme.md";
-import { html } from "../../../support/formatting";
+import readme2 from "../tab/readme.md";
+import readme1 from "./readme.md";
 
 export default {
   title: "Components/Tabs",

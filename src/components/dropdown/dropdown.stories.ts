@@ -1,11 +1,11 @@
 import { number, select } from "@storybook/addon-knobs";
 import { boolean, storyFilters } from "../../../.storybook/helpers";
 import { modesDarkDefault } from "../../../.storybook/utils";
-import readme1 from "./readme.md";
+import { html } from "../../../support/formatting";
+import { defaultMenuPlacement, menuPlacements } from "../../utils/floating-ui";
 import readme2 from "../dropdown-group/readme.md";
 import readme3 from "../dropdown-item/readme.md";
-import { defaultMenuPlacement, menuPlacements } from "../../utils/floating-ui";
-import { html } from "../../../support/formatting";
+import readme1 from "./readme.md";
 
 export default {
   title: "Components/Buttons/Dropdown",

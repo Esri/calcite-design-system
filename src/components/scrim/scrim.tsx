@@ -1,5 +1,4 @@
-import { Component, Element, Prop, h, VNode, Watch, State } from "@stencil/core";
-import { CSS } from "./resources";
+import { Component, Element, h, Prop, State, VNode, Watch } from "@stencil/core";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 import {
   connectMessages,
@@ -9,6 +8,7 @@ import {
   updateMessages
 } from "../../utils/t9n";
 import { ScrimMessages } from "./assets/scrim/t9n";
+import { CSS } from "./resources";
 
 /**
  * @slot - A slot for adding custom content, primarily loading information.

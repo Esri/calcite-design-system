@@ -1,14 +1,12 @@
-import { Component, Element, Prop, h, VNode, State, forceUpdate, Watch } from "@stencil/core";
-import { CSS, SLOTS } from "./resources";
-import { Position, Scale } from "../interfaces";
-import { getSlotted, getElementDir, isPrimaryPointerButton } from "../../utils/dom";
-import { clamp } from "../../utils/math";
+import { Component, Element, forceUpdate, h, Prop, State, VNode, Watch } from "@stencil/core";
 import {
   ConditionalSlotComponent,
   connectConditionalSlotComponent,
   disconnectConditionalSlotComponent
 } from "../../utils/conditionalSlot";
+import { getElementDir, getSlotted, isPrimaryPointerButton } from "../../utils/dom";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
+import { clamp } from "../../utils/math";
 import {
   connectMessages,
   disconnectMessages,
@@ -16,7 +14,9 @@ import {
   T9nComponent,
   updateMessages
 } from "../../utils/t9n";
+import { Position, Scale } from "../interfaces";
 import { ShellPanelMessages } from "./assets/shell-panel/t9n";
+import { CSS, SLOTS } from "./resources";
 
 /**
  * @slot - A slot for adding custom content.

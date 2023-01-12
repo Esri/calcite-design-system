@@ -1,8 +1,8 @@
 import { Component, Element, h, Prop, VNode, Watch } from "@stencil/core";
 import Color from "color";
-import { COLORS, CSS } from "./resources";
-import { Scale } from "../interfaces";
 import { getModeName } from "../../utils/dom";
+import { Scale } from "../interfaces";
+import { COLORS, CSS } from "./resources";
 
 @Component({
   tag: "calcite-color-picker-swatch",

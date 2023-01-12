@@ -1,9 +1,9 @@
 import { E2EPage, newE2EPage } from "@stencil/core/testing";
-import { accessible, defaults, disabled, floatingUIOwner, renders, hidden } from "../../tests/commonTests";
 import dedent from "dedent";
 import { html } from "../../../support/formatting";
-import { CSS } from "./resources";
+import { accessible, defaults, disabled, floatingUIOwner, hidden, renders } from "../../tests/commonTests";
 import { GlobalTestProps } from "../../tests/utils";
+import { CSS } from "./resources";
 
 describe("calcite-dropdown", () => {
   it("renders", () =>

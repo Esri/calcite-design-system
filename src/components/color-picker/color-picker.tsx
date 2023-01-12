@@ -13,8 +13,10 @@ import {
 } from "@stencil/core";
 
 import Color from "color";
-import { ColorMode, ColorValue, InternalColor } from "./interfaces";
+import { throttle } from "lodash-es";
+import { Direction, getElementDir, isPrimaryPointerButton } from "../../utils/dom";
 import { Appearance, Scale } from "../interfaces";
+import { ColorMode, ColorValue, InternalColor } from "./interfaces";
 import {
   CSS,
   DEFAULT_COLOR,
@@ -23,14 +25,23 @@ import {
   HSV_LIMITS,
   RGB_LIMITS
 } from "./resources";
-import { Direction, getElementDir, isPrimaryPointerButton } from "../../utils/dom";
 import { colorEqual, CSSColorMode, Format, normalizeHex, parseMode, SupportedMode } from "./utils";
-import { throttle } from "lodash-es";
 
-import { clamp } from "../../utils/math";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
-import { ColorPickerMessages } from "./assets/color-picker/t9n";
 import { isActivationKey } from "../../utils/key";
+import {
+  componentLoaded,
+  LoadableComponent,
+  setComponentLoaded,
+  setUpLoadableComponent
+} from "../../utils/loadable";
+import {
+  connectLocalized,
+  disconnectLocalized,
+  LocalizedComponent,
+  NumberingSystem
+} from "../../utils/locale";
+import { clamp } from "../../utils/math";
 import {
   connectMessages,
   disconnectMessages,
@@ -38,14 +49,7 @@ import {
   T9nComponent,
   updateMessages
 } from "../../utils/t9n";
-import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
-import { NumberingSystem } from "../../utils/locale";
-import {
-  setUpLoadableComponent,
-  setComponentLoaded,
-  LoadableComponent,
-  componentLoaded
-} from "../../utils/loadable";
+import { ColorPickerMessages } from "./assets/color-picker/t9n";
 
 const throttleFor60FpsInMs = 16;
 const defaultValue = normalizeHex(DEFAULT_COLOR.hex());

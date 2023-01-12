@@ -1,6 +1,6 @@
 import { newE2EPage } from "@stencil/core/testing";
+import { accessible, defaults, hidden, renders, t9n } from "../../tests/commonTests";
 import { CSS, TEXT } from "./resources";
-import { accessible, defaults, renders, hidden, t9n } from "../../tests/commonTests";
 
 describe("calcite-tip-manager", () => {
   it("renders", async () => renders("calcite-tip-manager", { display: "block" }));

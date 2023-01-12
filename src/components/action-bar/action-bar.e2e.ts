@@ -1,8 +1,8 @@
 import { newE2EPage } from "@stencil/core/testing";
+import { html } from "../../../support/formatting";
 import { accessible, defaults, focusable, hidden, reflects, renders, slots, t9n } from "../../tests/commonTests";
 import { CSS, SLOTS } from "./resources";
 import { overflowActionsDebounceInMs } from "./utils";
-import { html } from "../../../support/formatting";
 
 describe("calcite-action-bar", () => {
   it("renders", async () => renders("calcite-action-bar", { display: "inline-flex" }));

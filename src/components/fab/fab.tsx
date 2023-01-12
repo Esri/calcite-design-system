@@ -1,14 +1,14 @@
-import { Component, Element, Method, Prop, h, VNode } from "@stencil/core";
-import { Appearance, Kind, Scale } from "../interfaces";
-import { CSS, ICONS } from "./resources";
+import { Component, Element, h, Method, Prop, VNode } from "@stencil/core";
 import { focusElement } from "../../utils/dom";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import {
-  setUpLoadableComponent,
-  setComponentLoaded,
+  componentLoaded,
   LoadableComponent,
-  componentLoaded
+  setComponentLoaded,
+  setUpLoadableComponent
 } from "../../utils/loadable";
+import { Appearance, Kind, Scale } from "../interfaces";
+import { CSS, ICONS } from "./resources";
 
 @Component({
   tag: "calcite-fab",
