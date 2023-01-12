@@ -276,7 +276,6 @@ export class Modal
   }
 
   renderStyle(): VNode {
-    console.log("i've changed");
     if (!this.fullscreen && (this.cssWidth || this.cssHeight)) {
       return (
         <style>
