@@ -155,8 +155,10 @@ export const darkModeRTL_TestOnly = (): string => html`
 `;
 darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
 
-export const hebrewNumberingSystem_TestOnly = (): string =>
-  html` <calcite-input type="number" lang="ar-EG" numbering-system="hebr" value="123456"></calcite-input>`;
+export const hebrewNumberingSystemWithInputMessageMediumIconForLargeScale_TestOnly = (): string => html`
+  <calcite-input type="number" lang="ar-EG" numbering-system="hebr" value="123456" scale="l"></calcite-input>
+  <calcite-input-message status="idle" scale="l" icon> Info message </calcite-input-message>
+`;
 
 export const arabicLocaleWithLatinNumberingSystem_TestOnly = (): string =>
   html` <calcite-input type="number" lang="ar-EG" value="123456"></calcite-input>`;

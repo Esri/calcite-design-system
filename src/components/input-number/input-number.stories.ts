@@ -116,8 +116,8 @@ export const darkModeRTL_TestOnly = (): string => html`
 `;
 darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
 
-export const hebrewNumberingSystem_TestOnly = (): string =>
-  html`<calcite-input-number lang="ar-EG" numbering-system="hebr" value="123456"></calcite-input-number>`;
+export const hebrewNumberingSystemAndMediumIconForLargeInput_TestOnly = (): string =>
+  html`<calcite-input-number lang="ar-EG" numbering-system="hebr" value="123456" scale="l"></calcite-input-number>`;
 
 export const arabicLocaleWithLatinNumberingSystem_TestOnly = (): string =>
   html`<calcite-input-number lang="ar-EG" numbering-system="latn" value="123456"></calcite-input-number>`;
