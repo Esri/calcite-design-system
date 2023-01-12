@@ -45,10 +45,6 @@ describe("calcite-color-picker", () => {
   it("reflects", async () =>
     reflects("calcite-color-picker", [
       {
-        propertyName: "appearance",
-        value: "minimal"
-      },
-      {
         propertyName: "scale",
         value: "m"
       }
@@ -61,10 +57,6 @@ describe("calcite-color-picker", () => {
       {
         propertyName: "allowEmpty",
         defaultValue: false
-      },
-      {
-        propertyName: "appearance",
-        defaultValue: "solid"
       },
       {
         propertyName: "format",

@@ -1,16 +1,16 @@
 import { newE2EPage } from "@stencil/core/testing";
+import { html } from "../../../support/formatting";
 import {
   defaults,
   disabled,
   focusable,
   formAssociated,
+  hidden,
   labelable,
   reflects,
   renders,
-  hidden,
   t9n
 } from "../../tests/commonTests";
-import { html } from "../../../support/formatting";
 
 describe("calcite-input-text", () => {
   it("is labelable", async () => labelable("calcite-input-text"));

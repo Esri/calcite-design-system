@@ -9,14 +9,12 @@ import {
   VNode,
   Watch
 } from "@stencil/core";
-import { getSlotted, toAriaBoolean } from "../../utils/dom";
-import { CSS, SLOTS } from "./resources";
-import { LogicalFlowPosition } from "../interfaces";
 import {
+  ConditionalSlotComponent,
   connectConditionalSlotComponent,
-  disconnectConditionalSlotComponent,
-  ConditionalSlotComponent
+  disconnectConditionalSlotComponent
 } from "../../utils/conditionalSlot";
+import { getSlotted, toAriaBoolean } from "../../utils/dom";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 import {
   connectMessages,
@@ -25,7 +23,9 @@ import {
   T9nComponent,
   updateMessages
 } from "../../utils/t9n";
+import { LogicalFlowPosition } from "../interfaces";
 import { CardMessages } from "./assets/card/t9n";
+import { CSS, SLOTS } from "./resources";
 
 /**
  * Cards do not include a grid or bounding container

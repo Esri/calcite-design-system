@@ -1,11 +1,10 @@
 import {
+  Build,
   Component,
-  h,
-  Prop,
+  Element,
   Event,
   EventEmitter,
-  Element,
-  VNode,
+  h,
   Method,
   Listen,
   Build,
@@ -20,7 +19,16 @@ import {
   connectConditionalSlotComponent,
   disconnectConditionalSlotComponent
 } from "../../utils/conditionalSlot";
-import { ChipMessages } from "./assets/chip/t9n";
+import { slotChangeHasAssignedElement } from "../../utils/dom";
+import { guid } from "../../utils/guid";
+import {
+  componentLoaded,
+  LoadableComponent,
+  setComponentLoaded,
+  setUpLoadableComponent
+} from "../../utils/loadable";
+import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
+import { createObserver } from "../../utils/observers";
 import {
   connectMessages,
   disconnectMessages,

@@ -156,3 +156,6 @@ export const darkModeRTL_TestOnly = (): string => html`
 `;
 
 darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
+
+export const outlineNeutralBorderColor_TestOnly = (): string =>
+  html`<calcite-button appearance="outline" kind="neutral">Test</calcite-button>`;

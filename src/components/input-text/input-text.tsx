@@ -12,10 +12,6 @@ import {
   Watch
 } from "@stencil/core";
 import { getElementDir, getElementProp, getSlotted, setRequestedIcon } from "../../utils/dom";
-import { CSS, SLOTS } from "./resources";
-import { Position, Scale, Status } from "../interfaces";
-import { SetValueOrigin } from "../input/interfaces";
-import { LabelableComponent, connectLabel, disconnectLabel, getLabelText } from "../../utils/label";
 import {
   connectForm,
   disconnectForm,
@@ -23,10 +19,17 @@ import {
   HiddenFormInputSlot,
   submitForm
 } from "../../utils/form";
-import { CSS_UTILITY } from "../../utils/resources";
-import { createObserver } from "../../utils/observers";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
+import {
+  componentLoaded,
+  LoadableComponent,
+  setComponentLoaded,
+  setUpLoadableComponent
+} from "../../utils/loadable";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
+import { createObserver } from "../../utils/observers";
+import { CSS_UTILITY } from "../../utils/resources";
 import {
   connectMessages,
   disconnectMessages,
@@ -34,13 +37,10 @@ import {
   T9nComponent,
   updateMessages
 } from "../../utils/t9n";
+import { SetValueOrigin } from "../input/interfaces";
+import { Position, Scale, Status } from "../interfaces";
 import { InputTextMessages } from "./assets/input-text/t9n";
-import {
-  setUpLoadableComponent,
-  setComponentLoaded,
-  LoadableComponent,
-  componentLoaded
-} from "../../utils/loadable";
+import { CSS, SLOTS } from "./resources";
 
 /**
  * @slot action - A slot for positioning a button next to the component.

@@ -1,9 +1,9 @@
 import { select } from "@storybook/addon-knobs";
 import { boolean, storyFilters } from "../../../.storybook/helpers";
 import { modesDarkDefault } from "../../../.storybook/utils";
-import readme from "./readme.md";
-import treeItemReadme from "../tree-item/readme.md";
 import { html } from "../../../support/formatting";
+import treeItemReadme from "../tree-item/readme.md";
+import readme from "./readme.md";
 
 const treeItems = `
   <calcite-tree-item>
