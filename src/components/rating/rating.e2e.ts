@@ -1,12 +1,12 @@
 import { newE2EPage } from "@stencil/core/testing";
 import {
-  renders,
   accessible,
-  focusable,
-  labelable,
-  formAssociated,
   disabled,
+  focusable,
+  formAssociated,
   hidden,
+  labelable,
+  renders,
   t9n
 } from "../../tests/commonTests";
 

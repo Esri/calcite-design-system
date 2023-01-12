@@ -3,21 +3,19 @@ import {
   Element,
   Event,
   EventEmitter,
-  Prop,
-  h,
-  VNode,
   Fragment,
-  Watch,
-  State
+  h,
+  Prop,
+  State,
+  VNode,
+  Watch
 } from "@stencil/core";
-import { CSS, ICONS, SLOTS } from "./resources";
-import { getSlotted } from "../../utils/dom";
-import { HeadingLevel, Heading, constrainHeadingLevel } from "../functional/Heading";
 import {
   ConditionalSlotComponent,
   connectConditionalSlotComponent,
   disconnectConditionalSlotComponent
 } from "../../utils/conditionalSlot";
+import { getSlotted } from "../../utils/dom";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 import {
   connectMessages,
@@ -26,7 +24,9 @@ import {
   T9nComponent,
   updateMessages
 } from "../../utils/t9n";
+import { constrainHeadingLevel, Heading, HeadingLevel } from "../functional/Heading";
 import { TipMessages } from "./assets/tip/t9n";
+import { CSS, ICONS, SLOTS } from "./resources";
 
 /**
  * @slot - A slot for adding text and a hyperlink.

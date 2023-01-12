@@ -1,8 +1,8 @@
-import { text, number, array, boolean as booleanFn, select } from "@storybook/addon-knobs";
+import { array, boolean as booleanFn, number, select, text } from "@storybook/addon-knobs";
 import { boolean, storyFilters } from "../../../.storybook/helpers";
 import { modesDarkDefault } from "../../../.storybook/utils";
-import readme from "./readme.md";
 import { html } from "../../../support/formatting";
+import readme from "./readme.md";
 
 export default {
   title: "Components/Controls/Slider",

@@ -10,17 +10,15 @@ import {
   VNode,
   Watch
 } from "@stencil/core";
-import { CSS, ICONS, SLOTS } from "./resources";
-import { getSlotted, toAriaBoolean } from "../../utils/dom";
-import { Heading, HeadingLevel } from "../functional/Heading";
-import { Status } from "../interfaces";
 import {
   ConditionalSlotComponent,
   connectConditionalSlotComponent,
   disconnectConditionalSlotComponent
 } from "../../utils/conditionalSlot";
-import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import { getSlotted, toAriaBoolean } from "../../utils/dom";
 import { guid } from "../../utils/guid";
+import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 import {
   connectMessages,
   disconnectMessages,
@@ -28,8 +26,10 @@ import {
   T9nComponent,
   updateMessages
 } from "../../utils/t9n";
-import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
+import { Heading, HeadingLevel } from "../functional/Heading";
+import { Status } from "../interfaces";
 import { BlockMessages } from "./assets/block/t9n";
+import { CSS, ICONS, SLOTS } from "./resources";
 
 /**
  * @slot - A slot for adding custom content.

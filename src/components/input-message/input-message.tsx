@@ -1,4 +1,4 @@
-import { Component, Element, Host, h, Prop, VNode, Watch } from "@stencil/core";
+import { Component, Element, h, Host, Prop, VNode, Watch } from "@stencil/core";
 import { getElementProp, setRequestedIcon } from "../../utils/dom";
 import { Scale, Status } from "../interfaces";
 import { StatusIconDefaults } from "./interfaces";

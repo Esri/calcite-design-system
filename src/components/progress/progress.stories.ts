@@ -1,9 +1,9 @@
-import { select, number, text } from "@storybook/addon-knobs";
+import { number, select, text } from "@storybook/addon-knobs";
 
-import { modesDarkDefault } from "../../../.storybook/utils";
-import readme from "./readme.md";
-import { html } from "../../../support/formatting";
 import { storyFilters } from "../../../.storybook/helpers";
+import { modesDarkDefault } from "../../../.storybook/utils";
+import { html } from "../../../support/formatting";
+import readme from "./readme.md";
 
 export default {
   title: "Components/Progress",

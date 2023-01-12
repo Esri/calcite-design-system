@@ -4,17 +4,22 @@ import {
   Event,
   EventEmitter,
   h,
+  Host,
   Method,
   Prop,
   State,
-  Host,
   Watch
 } from "@stencil/core";
-import { guid } from "../../utils/guid";
-import { Scale } from "../interfaces";
-import { LabelableComponent, connectLabel, disconnectLabel } from "../../utils/label";
 import { connectForm, disconnectForm, FormComponent, HiddenFormInputSlot } from "../../utils/form";
+import { guid } from "../../utils/guid";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import { connectLabel, disconnectLabel, LabelableComponent } from "../../utils/label";
+import {
+  componentLoaded,
+  LoadableComponent,
+  setComponentLoaded,
+  setUpLoadableComponent
+} from "../../utils/loadable";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 import {
   connectMessages,
@@ -23,13 +28,8 @@ import {
   T9nComponent,
   updateMessages
 } from "../../utils/t9n";
+import { Scale } from "../interfaces";
 import { RatingMessages } from "./assets/rating/t9n";
-import {
-  setUpLoadableComponent,
-  setComponentLoaded,
-  LoadableComponent,
-  componentLoaded
-} from "../../utils/loadable";
 import { StarIcon } from "./function/star";
 import { Star } from "./interfaces";
 
