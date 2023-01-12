@@ -16,9 +16,9 @@ import {
 } from "../../utils/conditionalSlot";
 import { getElementDir, getElementProp, getSlotted, toAriaBoolean } from "../../utils/dom";
 import { CSS_UTILITY } from "../../utils/resources";
-import { FlipContext, Position } from "../interfaces";
+import { SLOTS, CSS } from "./resources";
+import { FlipContext, Position, Scale } from "../interfaces";
 import { RegistryEntry, RequestedItem } from "./interfaces";
-import { CSS, SLOTS } from "./resources";
 
 /**
  * @slot - A slot for adding custom content, including nested `calcite-accordion-item`s.
@@ -93,6 +93,7 @@ export class AccordionItem implements ConditionalSlotComponent {
     this.selectionMode = getElementProp(this.el, "selection-mode", "multiple");
     this.iconType = getElementProp(this.el, "icon-type", "chevron");
     this.iconPosition = getElementProp(this.el, "icon-position", this.iconPosition);
+    this.scale = getElementProp(this.el, "scale", this.scale);
 
     connectConditionalSlotComponent(this);
   }
@@ -142,7 +143,7 @@ export class AccordionItem implements ConditionalSlotComponent {
         flipRtl={iconFlipRtl === "both" || iconFlipRtl === "start"}
         icon={this.iconStart}
         key="icon-start"
-        scale="s"
+        scale={this.scale === "l" ? "m" : "s"}
       />
     ) : null;
     const iconEndEl = this.iconEnd ? (
@@ -151,7 +152,7 @@ export class AccordionItem implements ConditionalSlotComponent {
         flipRtl={iconFlipRtl === "both" || iconFlipRtl === "end"}
         icon={this.iconEnd}
         key="icon-end"
-        scale="s"
+        scale={this.scale === "l" ? "m" : "s"}
       />
     ) : null;
     const { description } = this;
@@ -191,7 +192,7 @@ export class AccordionItem implements ConditionalSlotComponent {
                     ? "minus"
                     : "plus"
                 }
-                scale="s"
+                scale={this.scale === "l" ? "m" : "s"}
               />
             </div>
             {this.renderActionsEnd()}
@@ -260,6 +261,10 @@ export class AccordionItem implements ConditionalSlotComponent {
 
   /** handle clicks on item header */
   private itemHeaderClickHandler = (): void => this.emitRequestedItem();
+
+  /** Specifies the scale of the `accordion-item` controlled by the parent, defaults to m */
+  scale: Scale = "m";
+
   //--------------------------------------------------------------------------
   //
   //  Private Methods
