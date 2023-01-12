@@ -1,17 +1,17 @@
 import { E2EPage, newE2EPage } from "@stencil/core/testing";
-import { CSS, ICON_TYPES } from "./resources";
-import { accessible, hidden, renders, t9n } from "../../tests/commonTests";
-import {
-  selectionAndDeselection,
-  filterBehavior,
-  loadingState,
-  keyboardNavigation,
-  itemRemoval,
-  focusing,
-  disabling
-} from "../pick-list/shared-list-tests";
-import { dragAndDrop } from "../../tests/utils";
 import { html } from "../../../support/formatting";
+import { accessible, hidden, renders, t9n } from "../../tests/commonTests";
+import { dragAndDrop } from "../../tests/utils";
+import {
+  disabling,
+  filterBehavior,
+  focusing,
+  itemRemoval,
+  keyboardNavigation,
+  loadingState,
+  selectionAndDeselection
+} from "../pick-list/shared-list-tests";
+import { CSS, ICON_TYPES } from "./resources";
 
 describe("calcite-value-list", () => {
   it("renders", () => renders("calcite-value-list", { display: "flex" }));

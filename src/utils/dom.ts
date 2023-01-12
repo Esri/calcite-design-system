@@ -1,6 +1,6 @@
-import { CSS_UTILITY } from "./resources";
-import { guid } from "./guid";
 import { tabbable } from "tabbable";
+import { guid } from "./guid";
+import { CSS_UTILITY } from "./resources";
 
 export const tabbableOptions = {
   getShadowRoot: true

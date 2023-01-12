@@ -3,25 +3,25 @@ import {
   Element,
   Event,
   EventEmitter,
+  h,
   Method,
   Prop,
   State,
-  Watch,
-  h,
-  VNode
+  VNode,
+  Watch
 } from "@stencil/core";
-import { CSS, ICONS } from "./resources";
 import { getElementDir, toAriaBoolean } from "../../utils/dom";
-import { HeadingLevel, Heading } from "../functional/Heading";
+import { connectLocalized, disconnectLocalized } from "../../utils/locale";
 import { createObserver } from "../../utils/observers";
-import { TipManagerMessages } from "./assets/tip-manager/t9n";
 import {
   connectMessages,
   disconnectMessages,
   setUpMessages,
   updateMessages
 } from "../../utils/t9n";
-import { connectLocalized, disconnectLocalized } from "../../utils/locale";
+import { Heading, HeadingLevel } from "../functional/Heading";
+import { TipManagerMessages } from "./assets/tip-manager/t9n";
+import { CSS, ICONS } from "./resources";
 
 /**
  * @slot - A slot for adding `calcite-tip`s.
