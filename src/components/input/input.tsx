@@ -326,6 +326,13 @@ export class Input
   @Prop({ mutable: true }) value = "";
 
   /**
+   * Contains the component's list of files when `type` is `"file"`.
+   *
+   * @mdn https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement/files
+   */
+  @Prop({ mutable: true }) files: FileList;
+
+  /**
    * Made into a prop for testing purposes only
    *
    * @internal
@@ -344,6 +351,10 @@ export class Input
 
   @Watch("value")
   valueWatcher(newValue: string, previousValue: string): void {
+    if (this.type === "file") {
+      this.files = (this.childEl as HTMLInputElement).files;
+    }
+
     if (!this.userChangedValue) {
       this.setValue({
         origin: "direct",
