@@ -86,6 +86,7 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
 
   isNested: boolean;
 
+  /** Specifies the scale of the combobox-item controlled by parent, defaults to m */
   scale: Scale = "m";
 
   // --------------------------------------------------------------------------
@@ -168,7 +169,7 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
         }}
         flipRtl={iconFlipRtl}
         icon={icon || iconPath}
-        scale="s"
+        scale={this.scale === "l" ? "m" : "s"}
       />
     );
   }
