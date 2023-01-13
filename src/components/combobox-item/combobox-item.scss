@@ -1,6 +1,6 @@
 .scale--s {
   @apply text-n2h;
-  --calcite-combobox-item-spacing-unit-l: theme("spacing.2");
+  --calcite-combobox-item-spacing-unit-l: theme("spacing.4");
   --calcite-combobox-item-spacing-unit-s: theme("spacing.1");
   --calcite-combobox-item-spacing-indent: theme("spacing.2");
   --calcite-combobox-item-selector-icon-spacing: theme("spacing.4");
@@ -8,15 +8,14 @@
 
 .scale--m {
   @apply text-n1h;
-  --calcite-combobox-item-spacing-unit-l: theme("spacing.3");
+  --calcite-combobox-item-spacing-unit-l: theme("spacing.4");
   --calcite-combobox-item-spacing-unit-s: theme("spacing.2");
   --calcite-combobox-item-spacing-indent: theme("spacing.3");
-  --calcite-combobox-item-selector-icon-spacing: theme("spacing.4");
 }
 
 .scale--l {
   @apply text-0h;
-  --calcite-combobox-item-spacing-unit-l: theme("spacing.4");
+  --calcite-combobox-item-spacing-unit-l: theme("spacing.6");
   --calcite-combobox-item-spacing-unit-s: theme("spacing.3");
   --calcite-combobox-item-spacing-indent: theme("spacing.4");
   --calcite-combobox-item-selector-icon-spacing: theme("spacing.6");
@@ -102,6 +101,7 @@ ul:focus {
 
 .icon--custom {
   margin-block-start: -1px;
+  padding-inline-start: var(--calcite-combobox-item-spacing-unit-l);
   @apply text-color-3;
 }
 

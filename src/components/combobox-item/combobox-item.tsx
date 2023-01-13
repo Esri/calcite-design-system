@@ -145,12 +145,35 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
   //
   // --------------------------------------------------------------------------
 
-  renderIcon(isSingle: boolean): VNode {
-    const { icon, disabled, selected, iconFlipRtl } = this;
-    const level = `${CSS.icon}--indent`;
-    const defaultIcon = isSingle ? "dot" : "check";
-    const iconPath = disabled ? "circle-disallowed" : defaultIcon;
-    const showDot = isSingle && !icon && !disabled;
+  renderIcon(
+    icon: string,
+    level: string,
+    selected: boolean,
+    iconFlipRtl: boolean,
+    iconPath: string
+  ): VNode {
+    return icon ? (
+      <calcite-icon
+        class={{
+          [CSS.icon]: !icon,
+          [CSS.custom]: !!icon,
+          [CSS.iconActive]: icon && selected,
+          [level]: true
+        }}
+        flipRtl={iconFlipRtl}
+        icon={icon || iconPath}
+        scale={this.scale === "l" ? "m" : "s"}
+      />
+    ) : null;
+  }
+
+  renderSelectIndicator(
+    showDot: boolean,
+    level: string,
+    selected: boolean,
+    iconFlipRtl: boolean,
+    iconPath: string
+  ): VNode {
     return showDot ? (
       <span
         class={{
@@ -162,13 +185,12 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
     ) : (
       <calcite-icon
         class={{
-          [CSS.icon]: !icon,
-          [CSS.custom]: !!icon,
-          [CSS.iconActive]: icon && selected,
+          [CSS.icon]: true,
+          [CSS.iconActive]: selected,
           [level]: true
         }}
         flipRtl={iconFlipRtl}
-        icon={icon || iconPath}
+        icon={iconPath}
         scale={this.scale === "l" ? "m" : "s"}
       />
     );
@@ -187,7 +209,13 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
   }
 
   render(): VNode {
+    const { disabled, selected, iconFlipRtl, icon } = this;
     const isSingleSelect = getElementProp(this.el, "selection-mode", "multiple") === "single";
+    const level = `${CSS.icon}--indent`;
+    const showDot = isSingleSelect && !disabled;
+    const defaultIcon = isSingleSelect ? "dot" : "check";
+    const iconPath = disabled ? "circle-disallowed" : defaultIcon;
+
     const classes = {
       [CSS.label]: true,
       [CSS.selected]: this.selected,
@@ -203,8 +231,15 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
           style={{ "--calcite-combobox-item-spacing-indent-multiplier": `${depth}` }}
         >
           <li class={classes} id={this.guid} onClick={this.itemClickHandler}>
-            {this.renderIcon(isSingleSelect)}
-            <span class={CSS.title}>{this.textLabel}</span>
+            {this.renderSelectIndicator(showDot, level, selected, iconFlipRtl, iconPath)}
+            {this.renderIcon(icon, level, selected, iconFlipRtl, iconPath)}
+            <span
+              class={{
+                [CSS.title]: true
+              }}
+            >
+              {this.textLabel}
+            </span>
           </li>
           {this.renderChildren()}
         </div>
