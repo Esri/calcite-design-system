@@ -19,7 +19,7 @@ import { InteractiveComponent, updateHostInteraction } from "../../utils/interac
 import { createObserver } from "../../utils/observers";
 import { FlipContext, Scale } from "../interfaces";
 import { TabChangeEventDetail } from "../tab/interfaces";
-import { CSS } from "../tab-title/resources";
+import { CSS } from "./resources";
 import { TabID, TabLayout, TabPosition } from "../tabs/interfaces";
 
 /**
@@ -149,7 +149,7 @@ export class TabTitle implements InteractiveComponent {
 
     const iconStartEl = (
       <calcite-icon
-        class={(CSS.titleIcon, CSS.iconStart)}
+        class={{ [CSS.titleIcon]: true, [CSS.iconStart]: true }}
         flipRtl={this.iconFlipRtl === "start" || this.iconFlipRtl === "both"}
         icon={this.iconStart}
         scale={this.scale === "l" ? "m" : "s"}
@@ -158,7 +158,7 @@ export class TabTitle implements InteractiveComponent {
 
     const iconEndEl = (
       <calcite-icon
-        class={(CSS.titleIcon, CSS.iconStart)}
+        class={{ [CSS.titleIcon]: true, [CSS.iconEnd]: true }}
         flipRtl={this.iconFlipRtl === "end" || this.iconFlipRtl === "both"}
         icon={this.iconEnd}
         scale={this.scale === "l" ? "m" : "s"}
@@ -175,8 +175,8 @@ export class TabTitle implements InteractiveComponent {
       >
         <div
           class={{
-            [CSS.container]: true,
-            [CSS.iconPresent]: this.iconStart || this.iconEnd ? iconStartEl : null,
+            container: true,
+            [CSS.iconPresent]: this.iconStart || this.iconEnd ? true : null,
             [CSS.containerHasText]: this.hasText
           }}
           ref={(el) => this.resizeObserver?.observe(el)}
