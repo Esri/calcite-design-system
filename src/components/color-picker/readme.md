@@ -7,15 +7,7 @@
 ### Basic
 
 ```html
-<calcite-color-picker dir="ltr" scale="m" value="#b33f33" appearance="default"></calcite-color-picker>
-```
-
-### Minimal
-
-For a minimal design, you can hide unused color formats and options:
-
-```html
-<calcite-color-picker appearance="minimal" value="" allow-empty hide-saved hide-channels></calcite-color-picker>
+<calcite-color-picker dir="ltr" scale="m" value="#b33f33"></calcite-color-picker>
 ```
 
 ## Properties
@@ -23,7 +15,6 @@ For a minimal design, you can hide unused color formats and options:
 | Property           | Attribute           | Description                                                                                                                                                                                                                                                                                                    | Type                                                                                                                                                                                                                                    | Default         |
 | ------------------ | ------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------- |
 | `allowEmpty`       | `allow-empty`       | When `false`, an empty color (`null`) will be allowed as a `value`. Otherwise, a color value is enforced on the component. When `true`, a color value is enforced, and clearing the input or blurring will restore the last valid `value`. When `false`, an empty color (`null`) will be allowed as a `value`. | `boolean`                                                                                                                                                                                                                               | `false`         |
-| `appearance`       | `appearance`        | Specifies the appearance style of the component -                                                                                                                                                                                                                                                              | `"minimal" \| "solid"`                                                                                                                                                                                                                  | `"solid"`       |
 | `disabled`         | `disabled`          | When `true`, interaction is prevented and the component is displayed with lower opacity.                                                                                                                                                                                                                       | `boolean`                                                                                                                                                                                                                               | `false`         |
 | `format`           | `format`            | The format of `value`. When `"auto"`, the format will be inferred from `value` when set.                                                                                                                                                                                                                       | `"auto" \| "hex" \| "hexa" \| "hsl" \| "hsl-css" \| "hsla" \| "hsla-css" \| "hsv" \| "hsva" \| "rgb" \| "rgb-css" \| "rgba" \| "rgba-css"`                                                                                              | `defaultFormat` |
 | `hideChannels`     | `hide-channels`     | When `true`, hides the RGB/HSV channel inputs.                                                                                                                                                                                                                                                                 | `boolean`                                                                                                                                                                                                                               | `false`         |
