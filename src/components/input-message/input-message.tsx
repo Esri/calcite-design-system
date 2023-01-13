@@ -87,7 +87,7 @@ export class InputMessage {
           class="calcite-input-message-icon"
           flipRtl={this.iconFlipRtl}
           icon={iconName}
-          scale={this.scale === "l" ? "m" : "s"}
+          scale="s"
         />
       );
     }
