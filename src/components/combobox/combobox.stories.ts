@@ -433,13 +433,7 @@ export const mediumIconForLargeComoboboxItem_TestOnly = (): string => html`
 export const withSelectorIndicatorAndIcons_TestOnly = (): string => html`
   <calcite-combobox placeholder="How much energy do you have?" selection-mode="single" open scale="m">
     <calcite-combobox-item value="Meh" text-label="Meh" scale="l"> </calcite-combobox-item>
-    <calcite-combobox-item
-      value="Good"
-      text-label="A good amount"
-      icon="battery-2"
-      scale="l"
-      selected
-    ></calcite-combobox-item>
+    <calcite-combobox-item value="Good" text-label="A good amount" icon="battery-2" scale="l"></calcite-combobox-item>
     <calcite-combobox-item value="Ready" text-label="Ready to go!" icon="battery-4" scale="l"></calcite-combobox-item>
     <calcite-combobox-item value="Empty" text-label="None" scale="l" selected> </calcite-combobox-item>
   </calcite-combobox>
