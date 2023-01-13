@@ -37,17 +37,17 @@ export const simple = (): string => html`
   </calcite-modal>
 `;
 
-export const darkModeRTLCustomSize_TestOnly = (): string => html`
+export const darkModeRTLCustomSizeCSSVars_TestOnly = (): string => html`
   <calcite-modal
     class="calcite-mode-dark"
     dir="rtl"
     ${boolean("open", true)}
     kind="${select("kind", ["brand", "danger", "info", "success", "warning"], "")}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
-    width="${number("width", 300)}"
     ${boolean("fullscreen", false)}
     ${boolean("docked", false)}
     ${boolean("escape-disabled", false)}
+    style="--calcite-modal-height: 500px; --calcite-modal-width: 600px;"
   >
     <h3 slot="header">Small Modal</h3>
     <div slot="content">
@@ -64,7 +64,7 @@ export const darkModeRTLCustomSize_TestOnly = (): string => html`
   </calcite-modal>
 `;
 
-darkModeRTLCustomSize_TestOnly.parameters = { modes: modesDarkDefault };
+darkModeRTLCustomSizeCSSVars_TestOnly.parameters = { modes: modesDarkDefault };
 
 export const withTooltips_TestOnly = (): string => html`
   <button id="button">Open</button>
