@@ -34,9 +34,9 @@
 
 ## Events
 
-| Event                          | Description                                                     | Type                  |
-| ------------------------------ | --------------------------------------------------------------- | --------------------- |
-| `calciteInputTimePickerChange` | Fires when the time value is changed as a result of user input. | `CustomEvent<string>` |
+| Event                          | Description                                                     | Type                |
+| ------------------------------ | --------------------------------------------------------------- | ------------------- |
+| `calciteInputTimePickerChange` | Fires when the time value is changed as a result of user input. | `CustomEvent<void>` |
 
 ## Methods
 
