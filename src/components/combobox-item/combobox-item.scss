@@ -3,6 +3,7 @@
   --calcite-combobox-item-spacing-unit-l: theme("spacing.2");
   --calcite-combobox-item-spacing-unit-s: theme("spacing.1");
   --calcite-combobox-item-spacing-indent: theme("spacing.2");
+  --calcite-combobox-item-selector-icon-spacing: theme("spacing.4");
 }
 
 .scale--m {
@@ -10,6 +11,7 @@
   --calcite-combobox-item-spacing-unit-l: theme("spacing.3");
   --calcite-combobox-item-spacing-unit-s: theme("spacing.2");
   --calcite-combobox-item-spacing-indent: theme("spacing.3");
+  --calcite-combobox-item-selector-icon-spacing: theme("spacing.4");
 }
 
 .scale--l {
@@ -17,6 +19,7 @@
   --calcite-combobox-item-spacing-unit-l: theme("spacing.4");
   --calcite-combobox-item-spacing-unit-s: theme("spacing.3");
   --calcite-combobox-item-spacing-indent: theme("spacing.4");
+  --calcite-combobox-item-selector-icon-spacing: theme("spacing.6");
 }
 
 .container {
@@ -107,8 +110,8 @@ ul:focus {
 }
 
 .icon--dot {
-  @apply flex justify-end;
-  min-inline-size: var(--calcite-combobox-item-spacing-unit-l);
+  @apply flex justify-center;
+  min-inline-size: var(--calcite-combobox-item-selector-icon-spacing);
 }
 
 .icon--dot:before {
