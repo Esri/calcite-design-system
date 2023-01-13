@@ -496,19 +496,19 @@
         },
         "highlight": {
           "blue": {
-            "value": "$alert.icon.blue.dark",
+            "value": "$alert.highlight.blue.dark",
             "type": "color"
           },
           "green": {
-            "value": "$alert.icon.green.dark",
+            "value": "$alert.highlight.green.dark",
             "type": "color"
           },
           "yellow": {
-            "value": "$alert.icon.yellow.dark",
+            "value": "$alert.highlight.yellow.light",
             "type": "color"
           },
           "red": {
-            "value": "$alert.icon.red.dark",
+            "value": "$alert.highlight.red.light",
             "type": "color"
           }
         }
