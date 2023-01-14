@@ -9,6 +9,16 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ### ⚠ BREAKING CHANGES
 
+- **modal:** Updates accepted `width` values, adds css variables for
+  width and height.
+
+* The `width` property no longer accepts a custom width. Accepted values
+  are `s`, `m`, `l`.
+* Adds `--calcite-modal-width` and `--calcite-modal-height` css
+  variables.
+
+Co-authored-by: Ben Elan <belan@esri.com>
+
 - **color-picker:** removed `appearance` property
 
 * Removed `appearance` property, use `--calcite-ui-border-1:
@@ -89,6 +99,10 @@ Co-authored-by: Kitty Hurley <khurley@esri.com>
     `selectedItem` instead.
 
 ### Features
+
+- **modal:** Updates accepted `width` values, adds css variables for width and height ([#6166](https://github.com/Esri/calcite-components/issues/6166)) ([de11401](https://github.com/Esri/calcite-components/commit/de11401acf69cc7c3c0ef3362975af3c5365b618))
+
+* **date-picker:** Update border color ([#6273](https://github.com/Esri/calcite-components/issues/6273)) ([1bdb9c1](https://github.com/Esri/calcite-components/commit/1bdb9c11b52a2f5de06d963def7d2e469343ea07))
 
 - **panel:** Allow Panel to fill height of parent ([#6256](https://github.com/Esri/calcite-components/issues/6256)) ([f556efc](https://github.com/Esri/calcite-components/commit/f556efc8ee8c02da7fb73208bc8fde0f28ef88d3))
 
