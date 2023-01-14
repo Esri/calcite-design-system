@@ -326,11 +326,11 @@ export class Input
   @Prop({ mutable: true }) value = "";
 
   /**
-   * Contains the component's list of files when `type` is `"file"`.
+   * When `type` is `"file"`, specifies the component's selected files.
    *
    * @mdn https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement/files
    */
-  @Prop({ mutable: true }) files: FileList;
+  @Prop() files: FileList | undefined;
 
   /**
    * Made into a prop for testing purposes only
