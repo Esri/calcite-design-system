@@ -519,12 +519,16 @@ export class InputDatePicker
 
             {this.range && this.layout === "horizontal" && (
               <div class="horizontal-arrow-container">
-                <calcite-icon flipRtl={true} icon="arrow-right" scale="s" />
+                <calcite-icon
+                  flipRtl={true}
+                  icon="arrow-right"
+                  scale={this.scale === "l" ? "m" : "s"}
+                />
               </div>
             )}
             {this.range && this.layout === "vertical" && this.scale !== "s" && (
               <div class="vertical-arrow-container">
-                <calcite-icon icon="arrow-down" scale="s" />
+                <calcite-icon icon="arrow-down" scale={this.scale === "l" ? "m" : "s"} />
               </div>
             )}
             {this.range && (
