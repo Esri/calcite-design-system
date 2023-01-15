@@ -64,14 +64,21 @@ export const flipPlacements_TestOnly = (): string => html`
   </script>
 `;
 
-export const laoNumberingSystem_TestOnly = (): string => html`
+export const laoNumberingSystemAndMediumIconForLargeInput_TestOnly = (): string => html`
   <div style="width: 400px">
     <calcite-input-date-picker
+      open
       value="1/1/1"
       lang="zh-CN"
       numbering-system="laoo"
-    ></calcite-input-date-picker
-  </div>`;
+      scale="l"
+      start="2020-12-12"
+      end="2020-12-16"
+      range=""
+      layout="horizontal"
+    ></calcite-input-date-picker>
+  </div>
+`;
 
 export const darkModeRTL_TestOnly = (): string => html`
   <div style="width: 400px">
