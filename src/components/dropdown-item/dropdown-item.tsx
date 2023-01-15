@@ -130,20 +130,20 @@ export class DropdownItem implements LoadableComponent {
     const scale = getElementProp(this.el, "scale", this.scale);
     const iconStartEl = (
       <calcite-icon
-        class="dropdown-item-icon-start"
+        class={CSS.iconStart}
         flipRtl={this.iconFlipRtl === "start" || this.iconFlipRtl === "both"}
         icon={this.iconStart}
         scale={scale === "l" ? "m" : "s"}
       />
     );
     const contentNode = (
-      <span class="dropdown-item-content">
+      <span class={CSS.itemContent}>
         <slot />
       </span>
     );
     const iconEndEl = (
       <calcite-icon
-        class="dropdown-item-icon-end"
+        class={CSS.iconEnd}
         flipRtl={this.iconFlipRtl === "end" || this.iconFlipRtl === "both"}
         icon={this.iconEnd}
         scale={scale === "l" ? "m" : "s"}
@@ -154,7 +154,7 @@ export class DropdownItem implements LoadableComponent {
       this.iconStart && this.iconEnd
         ? [iconStartEl, contentNode, iconEndEl]
         : this.iconStart
-        ? [iconStartEl, <slot />]
+        ? [iconStartEl, contentNode]
         : this.iconEnd
         ? [contentNode, iconEndEl]
         : contentNode;
@@ -164,7 +164,7 @@ export class DropdownItem implements LoadableComponent {
     ) : (
       <a
         aria-label={this.label}
-        class="dropdown-link"
+        class={CSS.link}
         href={this.href}
         ref={(el) => (this.childLink = el)}
         rel={this.rel}
@@ -201,7 +201,7 @@ export class DropdownItem implements LoadableComponent {
         >
           {this.selectionMode !== "none" ? (
             <calcite-icon
-              class="dropdown-item-icon"
+              class={CSS.icon}
               icon={this.selectionMode === "multiple" ? "check" : "bullet-point"}
               scale={scale === "l" ? "m" : "s"}
             />

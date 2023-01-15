@@ -485,7 +485,7 @@ export const mediumIconForLargeDropdownItem_TestOnly = (): string => html`
   <calcite-dropdown scale="l" width="m" open>
     <calcite-dropdown-group group-title="View">
       <calcite-dropdown-item scale="l">Table</calcite-dropdown-item>
-      <calcite-dropdown-item icon-start="list-bullet" scale="l" active>List</calcite-dropdown-item>
+      <calcite-dropdown-item icon-start="grid" scale="l">Grid</calcite-dropdown-item>
       <calcite-dropdown-item icon-start="grid" icon-end="grid" scale="l">Grid</calcite-dropdown-item>
     </calcite-dropdown-group>
   </calcite-dropdown>
