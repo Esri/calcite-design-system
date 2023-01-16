@@ -48,7 +48,7 @@
     },
     "background": {
       "light": {
-        "value": "$semantic.ui.color.foreground.2.light",
+        "value": "$semantic.ui.color.foreground.1.light",
         "type": "color"
       },
       "dark": {
