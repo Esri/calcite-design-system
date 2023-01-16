@@ -512,6 +512,36 @@
             "type": "color"
           }
         }
+      },
+      "tip": {
+        "font": {
+          "heading": {
+            "value": "$tip.font.heading.light",
+            "type": "color"
+          },
+          "description": {
+            "value": "$tip.font.description.light",
+            "type": "color"
+          }
+        },
+        "icon": {
+          "value": "$tip.icon.light",
+          "type": "color"
+        },
+        "background": {
+          "default": {
+            "light": {
+              "value": "$tip.background.default.light",
+              "type": "color"
+            }
+          }
+        },
+        "border": {
+          "default": {
+            "value": "$tip.border.default.light",
+            "type": "color"
+          }
+        }
       }
     }
   }
