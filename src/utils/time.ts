@@ -1,5 +1,5 @@
-import { isValidNumber } from "./number";
 import { getSupportedLocale, getSupportedNumberingSystem, NumberingSystem } from "./locale";
+import { isValidNumber } from "./number";
 export type HourCycle = "12" | "24";
 
 export interface LocalizedTime {

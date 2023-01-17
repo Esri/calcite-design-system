@@ -1,5 +1,5 @@
 import { select, boolean } from "@storybook/addon-knobs";
-import { themesDarkDefault } from "../../../.storybook/utils";
+import { modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import readme from "./readme.md";
 import { storyFilters } from "../../../.storybook/helpers";
@@ -82,13 +82,13 @@ export const disabled_TestOnly = (): string => html`
   </calcite-tile-select-group>
 `;
 
-export const darkThemeRTL_TestOnly = (): string => html`
+export const darkModeRTL_TestOnly = (): string => html`
   <calcite-tile-select-group
     layout="${select("layout", ["horizontal", "vertical"], "horizontal", "Tile Select Group")}"
     dir="${select("dir", ["ltr", "rtl"], "rtl", "Tile Select Group")}"
-    class="calcite-theme-dark"
+    class="calcite-mode-dark"
   >
     ${tileSelectsHTML()}
   </calcite-tile-select-group>
 `;
-darkThemeRTL_TestOnly.parameters = { themes: themesDarkDefault };
+darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };

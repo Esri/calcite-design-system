@@ -1,17 +1,17 @@
-import { select, text, boolean } from "@storybook/addon-knobs";
+import { boolean, select, text } from "@storybook/addon-knobs";
 
-import {
-  Attribute,
-  filterComponentAttributes,
-  Attributes,
-  createComponentHTML as create,
-  themesDarkDefault
-} from "../../../.storybook/utils";
-import readme from "./readme.md";
-import { html } from "../../../support/formatting";
-import { locales } from "../../utils/locale";
 import { storyFilters } from "../../../.storybook/helpers";
 import { ATTRIBUTES } from "../../../.storybook/resources";
+import {
+  Attribute,
+  Attributes,
+  createComponentHTML as create,
+  filterComponentAttributes,
+  modesDarkDefault
+} from "../../../.storybook/utils";
+import { html } from "../../../support/formatting";
+import { locales } from "../../utils/locale";
+import readme from "./readme.md";
 const { scale } = ATTRIBUTES;
 
 export default {
@@ -133,18 +133,18 @@ export const rangeRTL_TestOnly = (): string =>
     )}
   </div>`;
 
-export const darkThemeRTL_TestOnly = (): string =>
+export const darkModeRTL_TestOnly = (): string =>
   html`<div style="width: 400px">
     ${create(
       "calcite-date-picker",
       createAttributes({ exceptions: ["class", "dir"] }).concat([
         { name: "dir", value: "rtl" },
-        { name: "class", value: "calcite-theme-dark" }
+        { name: "class", value: "calcite-mode-dark" }
       ])
     )}
   </div>`;
 
-darkThemeRTL_TestOnly.parameters = { themes: themesDarkDefault };
+darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
 
 export const bgLang_TestOnly = (): string =>
   html`<div style="width: 400px">

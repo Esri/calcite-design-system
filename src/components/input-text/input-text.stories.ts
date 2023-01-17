@@ -1,8 +1,8 @@
 import { select, text } from "@storybook/addon-knobs";
 import { boolean, iconNames, storyFilters } from "../../../.storybook/helpers";
-import { themesDarkDefault } from "../../../.storybook/utils";
-import readme from "./readme.md";
+import { modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
+import readme from "./readme.md";
 
 export default {
   title: "Components/Controls/Input Text",
@@ -74,10 +74,10 @@ export const withSlottedAction = (): string => html`
   </div>
 `;
 
-export const darkThemeRTL_TestOnly = (): string => html`
+export const darkModeRTL_TestOnly = (): string => html`
   <div style="width:300px;max-width:100%;text-align:center;">
     <calcite-input-text
-      id="input-dark-theme"
+      id="input-dark-mode"
       status="${select("status", ["idle", "invalid", "valid"], "idle")}"
       alignment="${select("alignment", ["start", "end"], "start")}"
       prefix-text="${text("prefix-text", "")}"
@@ -94,4 +94,18 @@ export const darkThemeRTL_TestOnly = (): string => html`
     >
   </div>
 `;
-darkThemeRTL_TestOnly.parameters = { themes: themesDarkDefault };
+darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
+
+export const mediumIconForLargeScaleStyling_TestOnly = (): string => html`
+  <calcite-label scale="l">
+    Input Label
+    <calcite-input-text placeholder="Placeholder" scale="l"></calcite-input-text>
+    <calcite-input-text
+      placeholder="Placeholder"
+      scale="l"
+      icon="search"
+      clearable
+      value="sample input to show x"
+    ></calcite-input-text>
+  </calcite-label>
+`;

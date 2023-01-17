@@ -1,6 +1,6 @@
 import { select, text } from "@storybook/addon-knobs";
 import { boolean, storyFilters } from "../../../.storybook/helpers";
-import { themesDarkDefault } from "../../../.storybook/utils";
+import { modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import readme from "./readme.md";
 
@@ -32,8 +32,8 @@ export const simple = (): string => html`
 
 export const disabled_TestOnly = (): string => html`<calcite-checkbox checked disabled></calcite-checkbox>`;
 
-export const darkThemeRTL_TestOnly = (): string => html`
-  <calcite-label dir="rtl" layout="inline" class="calcite-theme-dark">
+export const darkModeRTL_TestOnly = (): string => html`
+  <calcite-label dir="rtl" layout="inline" class="calcite-mode-dark">
     <calcite-checkbox
       ${boolean("checked", true)}
       ${boolean("disabled", false)}
@@ -44,4 +44,4 @@ export const darkThemeRTL_TestOnly = (): string => html`
   </calcite-label>
 `;
 
-darkThemeRTL_TestOnly.parameters = { themes: themesDarkDefault };
+darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };

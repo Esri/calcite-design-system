@@ -20,30 +20,30 @@ import {
   toAriaBoolean
 } from "../../utils/dom";
 import {
-  FloatingCSS,
-  OverlayPositioning,
-  FloatingUIComponent,
   connectFloatingUI,
+  defaultMenuPlacement,
   disconnectFloatingUI,
   EffectivePlacement,
-  MenuPlacement,
-  defaultMenuPlacement,
   filterComputedPlacements,
+  FloatingCSS,
+  FloatingUIComponent,
+  MenuPlacement,
+  OverlayPositioning,
   reposition,
   updateAfterClose
 } from "../../utils/floating-ui";
+import { guid } from "../../utils/guid";
+import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import { isActivationKey } from "../../utils/key";
+import { createObserver } from "../../utils/observers";
+import {
+  connectOpenCloseComponent,
+  disconnectOpenCloseComponent,
+  OpenCloseComponent
+} from "../../utils/openCloseComponent";
+import { RequestedItem } from "../dropdown-group/interfaces";
 import { Scale } from "../interfaces";
 import { SLOTS } from "./resources";
-import { createObserver } from "../../utils/observers";
-import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
-import {
-  OpenCloseComponent,
-  connectOpenCloseComponent,
-  disconnectOpenCloseComponent
-} from "../../utils/openCloseComponent";
-import { guid } from "../../utils/guid";
-import { RequestedItem } from "../dropdown-group/interfaces";
-import { isActivationKey } from "../../utils/key";
 
 /**
  * @slot - A slot for adding `calcite-dropdown-group` elements. Every `calcite-dropdown-item` must have a parent `calcite-dropdown-group`, even if the `groupTitle` property is not set.

@@ -1,17 +1,17 @@
 import { boolean, select } from "@storybook/addon-knobs";
-import {
-  filterComponentAttributes,
-  Attributes,
-  createComponentHTML as create,
-  themesDarkDefault
-} from "../../../.storybook/utils";
+import { storyFilters } from "../../../.storybook/helpers";
 import { placeholderImage } from "../../../.storybook/placeholderImage";
 import { ATTRIBUTES } from "../../../.storybook/resources";
-import readme from "./readme.md";
-import panelReadme from "../shell-panel/readme.md";
-import centerRowReadme from "../shell-center-row/readme.md";
+import {
+  Attributes,
+  createComponentHTML as create,
+  filterComponentAttributes,
+  modesDarkDefault
+} from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
-import { storyFilters } from "../../../.storybook/helpers";
+import centerRowReadme from "../shell-center-row/readme.md";
+import panelReadme from "../shell-panel/readme.md";
+import readme from "./readme.md";
 
 export default {
   title: "Components/Shell",
@@ -104,7 +104,7 @@ const actionBarEndContentHTML = html`
 `;
 
 const actionBarStartHTML = html`
-  <calcite-action-bar class="calcite-theme-dark" slot="action-bar"> ${actionBarStartContentHTML} </calcite-action-bar>
+  <calcite-action-bar class="calcite-mode-dark" slot="action-bar"> ${actionBarStartContentHTML} </calcite-action-bar>
 `;
 
 const actionBarEndHTML = html`
@@ -311,12 +311,12 @@ export const simple = (): string =>
     `
   );
 
-export const darkThemeRTL_TestOnly = (): string =>
+export const darkModeRTL_TestOnly = (): string =>
   create(
     "calcite-shell",
     createAttributes({ exceptions: ["dir", "class"] }).concat(
       { name: "dir", value: "rtl" },
-      { name: "class", value: "calcite-theme-dark" }
+      { name: "class", value: "calcite-mode-dark" }
     ),
     html`
       ${headerHTML}
@@ -328,7 +328,7 @@ export const darkThemeRTL_TestOnly = (): string =>
     `
   );
 
-darkThemeRTL_TestOnly.parameters = { themes: themesDarkDefault };
+darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
 
 export const closedPanels = (): string => html`<calcite-shell content-behind>
   <calcite-shell-panel slot="panel-start" detached>

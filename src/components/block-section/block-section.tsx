@@ -3,20 +3,18 @@ import {
   Element,
   Event,
   EventEmitter,
-  Prop,
   h,
-  VNode,
   Host,
-  Watch,
-  State
+  Prop,
+  State,
+  VNode,
+  Watch
 } from "@stencil/core";
 
 import { getElementDir, toAriaBoolean } from "../../utils/dom";
-import { CSS, ICONS } from "./resources";
-import { BlockSectionToggleDisplay } from "./interfaces";
-import { Status } from "../interfaces";
 import { guid } from "../../utils/guid";
 import { isActivationKey } from "../../utils/key";
+import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 import {
   connectMessages,
   disconnectMessages,
@@ -24,8 +22,10 @@ import {
   T9nComponent,
   updateMessages
 } from "../../utils/t9n";
+import { Status } from "../interfaces";
 import { BlockSectionMessages } from "./assets/block-section/t9n";
-import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
+import { BlockSectionToggleDisplay } from "./interfaces";
+import { CSS, ICONS } from "./resources";
 
 /**
  * @slot - A slot for adding custom content.

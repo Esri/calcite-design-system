@@ -11,15 +11,19 @@ import {
   VNode,
   Watch
 } from "@stencil/core";
-import { CSS, ICONS, SLOTS } from "./resources";
-import { ICON_TYPES } from "../pick-list/resources";
-import { getSlotted, toAriaBoolean } from "../../utils/dom";
 import {
   ConditionalSlotComponent,
   connectConditionalSlotComponent,
   disconnectConditionalSlotComponent
 } from "../../utils/conditionalSlot";
+import { getSlotted, toAriaBoolean } from "../../utils/dom";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import {
+  componentLoaded,
+  LoadableComponent,
+  setComponentLoaded,
+  setUpLoadableComponent
+} from "../../utils/loadable";
 import { connectLocalized, disconnectLocalized } from "../../utils/locale";
 import {
   connectMessages,
@@ -28,18 +32,16 @@ import {
   T9nComponent,
   updateMessages
 } from "../../utils/t9n";
+import { ICON_TYPES } from "../pick-list/resources";
 import { PickListItemMessages } from "./assets/pick-list-item/t9n";
-import {
-  setUpLoadableComponent,
-  setComponentLoaded,
-  LoadableComponent,
-  componentLoaded
-} from "../../utils/loadable";
+import { CSS, ICONS, SLOTS } from "./resources";
 
 /**
  * @slot actions-end - A slot for adding `calcite-action`s or content to the end side of the component.
  * @slot actions-start - A slot for adding `calcite-action`s or content to the start side of the component.
  */
+
+/** @deprecated Use the `list` component instead. */
 @Component({
   tag: "calcite-pick-list-item",
   styleUrl: "pick-list-item.scss",

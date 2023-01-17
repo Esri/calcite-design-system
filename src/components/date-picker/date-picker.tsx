@@ -1,35 +1,24 @@
 import {
+  Build,
   Component,
-  h,
-  Prop,
-  Event,
   Element,
-  Host,
-  State,
+  Event,
   EventEmitter,
-  Watch,
+  h,
+  Host,
+  Prop,
+  State,
   VNode,
-  Build
+  Watch
 } from "@stencil/core";
-import { getLocaleData, DateLocaleData, getValueAsDateRange } from "./utils";
 import {
-  dateFromRange,
   dateFromISO,
+  dateFromRange,
   dateToISO,
   getDaysDiff,
   HoverRange,
   setEndOfDay
 } from "../../utils/date";
-import { HeadingLevel } from "../functional/Heading";
-import { DatePickerMessages } from "./assets/date-picker/t9n";
-import {
-  connectMessages,
-  disconnectMessages,
-  setUpMessages,
-  T9nComponent,
-  updateMessages
-} from "../../utils/t9n";
-import { HEADING_LEVEL } from "./resources";
 import {
   connectLocalized,
   disconnectLocalized,
@@ -37,6 +26,17 @@ import {
   NumberingSystem,
   numberStringFormatter
 } from "../../utils/locale";
+import {
+  connectMessages,
+  disconnectMessages,
+  setUpMessages,
+  T9nComponent,
+  updateMessages
+} from "../../utils/t9n";
+import { HeadingLevel } from "../functional/Heading";
+import { DatePickerMessages } from "./assets/date-picker/t9n";
+import { HEADING_LEVEL } from "./resources";
+import { DateLocaleData, getLocaleData, getValueAsDateRange } from "./utils";
 
 @Component({
   assetsDirs: ["assets"],

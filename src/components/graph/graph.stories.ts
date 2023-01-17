@@ -1,7 +1,7 @@
 import { number } from "@storybook/addon-knobs";
-import { themesDarkDefault } from "../../../.storybook/utils";
-import readme from "./readme.md";
 import { storyFilters } from "../../../.storybook/helpers";
+import { modesDarkDefault } from "../../../.storybook/utils";
+import readme from "./readme.md";
 
 export default {
   title: "Components/Controls/Slider/support/Graph",
@@ -67,12 +67,12 @@ export const withColorStops = (): HTMLDivElement => {
   return div;
 };
 
-export const darkThemeRTL_TestOnly = (): HTMLDivElement => {
+export const darkModeRTL_TestOnly = (): HTMLDivElement => {
   const div = document.createElement("div");
   div.style.width = `${number("width", 300)}px`;
   div.style.height = `${number("height", 100)}px`;
   div.dir = "rtl";
-  div.classList.add("calcite-theme-dark");
+  div.classList.add("calcite-mode-dark");
   const graph = document.createElement("calcite-graph") as HTMLCalciteGraphElement;
   graph.min = number("min", 0);
   graph.max = number("max", 100);
@@ -84,4 +84,4 @@ export const darkThemeRTL_TestOnly = (): HTMLDivElement => {
   return div;
 };
 
-darkThemeRTL_TestOnly.parameters = { themes: themesDarkDefault };
+darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };

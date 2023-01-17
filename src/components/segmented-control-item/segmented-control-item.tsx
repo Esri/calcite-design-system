@@ -1,24 +1,24 @@
 import {
   Component,
-  h,
-  Prop,
   Element,
   Event,
   EventEmitter,
+  h,
   Host,
-  Watch,
-  VNode
+  Prop,
+  VNode,
+  Watch
 } from "@stencil/core";
 import { getElementProp, toAriaBoolean } from "../../utils/dom";
 import { Appearance, Layout, Scale } from "../interfaces";
-import { SLOTS, CSS } from "./resources";
+import { CSS, SLOTS } from "./resources";
 
 @Component({
-  tag: "calcite-radio-group-item",
-  styleUrl: "radio-group-item.scss",
+  tag: "calcite-segmented-control-item",
+  styleUrl: "segmented-control-item.scss",
   shadow: true
 })
-export class RadioGroupItem {
+export class SegmentedControlItem {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -26,7 +26,7 @@ export class RadioGroupItem {
   //--------------------------------------------------------------------------
 
   @Element()
-  el: HTMLCalciteRadioGroupItemElement;
+  el: HTMLCalciteSegmentedControlItemElement;
 
   //--------------------------------------------------------------------------
   //
@@ -39,7 +39,7 @@ export class RadioGroupItem {
 
   @Watch("checked")
   protected handleCheckedChange(): void {
-    this.calciteInternalRadioGroupItemChange.emit();
+    this.calciteInternalSegmentedControlItemChange.emit();
   }
 
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
@@ -69,7 +69,7 @@ export class RadioGroupItem {
 
     const iconStartEl = this.iconStart ? (
       <calcite-icon
-        class={CSS.radioGroupItemIcon}
+        class={CSS.segmentedControlItemIcon}
         flipRtl={this.iconFlipRtl}
         icon={this.iconStart}
         key="icon-start"
@@ -79,7 +79,7 @@ export class RadioGroupItem {
 
     const iconEndEl = this.iconEnd ? (
       <calcite-icon
-        class={CSS.radioGroupItemIcon}
+        class={CSS.segmentedControlItemIcon}
         flipRtl={this.iconFlipRtl}
         icon={this.iconEnd}
         key="icon-end"
@@ -120,5 +120,5 @@ export class RadioGroupItem {
    * @internal
    */
   @Event({ cancelable: false })
-  calciteInternalRadioGroupItemChange: EventEmitter<void>;
+  calciteInternalSegmentedControlItemChange: EventEmitter<void>;
 }

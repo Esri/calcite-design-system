@@ -1,6 +1,6 @@
 import { select, number, text } from "@storybook/addon-knobs";
 import { boolean, storyFilters } from "../../../.storybook/helpers";
-import { themesDarkDefault } from "../../../.storybook/utils";
+import { modesDarkDefault } from "../../../.storybook/utils";
 import readme1 from "./readme.md";
 import readme2 from "../combobox-item/readme.md";
 import { html } from "../../../support/formatting";
@@ -253,12 +253,12 @@ flipPositioning_TestOnly.parameters = {
   layout: "fullscreen"
 };
 
-export const darkThemeRTL_TestOnly = (): string => html`
+export const darkModeRTL_TestOnly = (): string => html`
   <div style="width:400px;max-width:100%;padding:100px">
     <calcite-combobox
       label="demo combobox"
       selection-mode="${select("selection-mode", ["multiple", "single", "ancestors"], "multiple")}"
-      class="calcite-theme-dark"
+      class="calcite-mode-dark"
       placeholder="${text("placeholder", "placeholder")}"
       label="${text("label (for screen readers)", "demo")}"
       scale="${select("scale", ["s", "m", "l"], "m")}"
@@ -287,7 +287,7 @@ export const darkThemeRTL_TestOnly = (): string => html`
     </calcite-combobox>
   </div>
 `;
-darkThemeRTL_TestOnly.parameters = { themes: themesDarkDefault };
+darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
 
 export const singleLongLabel_TestOnly = (): string => html`
   <calcite-combobox open selection-mode="single" allow-custom-values>
@@ -413,4 +413,19 @@ export const optionListMinWidthMatchesInputWhenOverlayPositioningIsFixed_TestOnl
       <calcite-combobox-item value="Rivers" text-label="Rivers" aria-hidden="true"></calcite-combobox-item>
     </calcite-combobox>
   </div>
+`;
+
+export const mediumIconForLargeComoboboxItem_TestOnly = (): string => html`
+  <calcite-combobox open scale="l">
+    <calcite-combobox-item
+      icon="altitude"
+      value="altitude"
+      text-label="Altitude"
+      selected
+      scale="l"
+    ></calcite-combobox-item>
+    <calcite-combobox-item icon="article" value="article" text-label="Article" scale="l"></calcite-combobox-item>
+    <calcite-combobox-item value="altitude" text-label="Altitude" scale="l"></calcite-combobox-item>
+    <calcite-combobox-item value="article" text-label="Article" scale="l"></calcite-combobox-item>
+  </calcite-combobox>
 `;

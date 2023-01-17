@@ -110,13 +110,13 @@ export const Template = () =>
           </div>
         </calcite-notice>
         <calcite-label>
-          Radio Group
-          <calcite-radio-group>
-            <calcite-radio-group-item value="react" checked>React</calcite-radio-group-item>
-            <calcite-radio-group-item value="ember">Ember</calcite-radio-group-item>
-            <calcite-radio-group-item value="angular">Angular</calcite-radio-group-item>
-            <calcite-radio-group-item value="vue">Vue</calcite-radio-group-item>
-          </calcite-radio-group>
+          Segmented Control
+          <calcite-segmented-control>
+            <calcite-segmented-control-item value="react" checked>React</calcite-segmented-control-item>
+            <calcite-segmented-control-item value="ember">Ember</calcite-segmented-control-item>
+            <calcite-segmented-control-item value="angular">Angular</calcite-segmented-control-item>
+            <calcite-segmented-control-item value="vue">Vue</calcite-segmented-control-item>
+          </calcite-segmented-control>
         </calcite-label>
         <calcite-icon icon="3d-glasses"></calcite-icon>
       </div>
@@ -130,8 +130,8 @@ export const Template = () =>
               src="${placeholderImage({ width: 260, height: 160 })}"
             />
             <h3 slot="title">Selectable card</h3>
-            <calcite-link slot="footer-leading">Lead füt</calcite-link>
-            <calcite-link slot="footer-trailing">Trail füt</calcite-link>
+            <calcite-link slot="footer-start">Lead füt</calcite-link>
+            <calcite-link slot="footer-end">Trail füt</calcite-link>
           </calcite-card>
         </div>
         <div>

@@ -1,4 +1,3 @@
-import { Scale, Status } from "../interfaces";
 import {
   Component,
   Element,
@@ -19,11 +18,8 @@ import {
   isPrimaryPointerButton,
   setRequestedIcon
 } from "../../utils/dom";
+import { Scale, Status } from "../interfaces";
 
-import { CSS, INPUT_TYPE_ICONS, SLOTS } from "./resources";
-import { InputPlacement, NumberNudgeDirection, SetValueOrigin } from "./interfaces";
-import { Position } from "../interfaces";
-import { LabelableComponent, connectLabel, disconnectLabel, getLabelText } from "../../utils/label";
 import {
   connectForm,
   disconnectForm,
@@ -31,20 +27,27 @@ import {
   HiddenFormInputSlot,
   submitForm
 } from "../../utils/form";
+import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import { numberKeys } from "../../utils/key";
+import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
 import {
-  NumberingSystem,
+  componentLoaded,
+  LoadableComponent,
+  setComponentLoaded,
+  setUpLoadableComponent
+} from "../../utils/loadable";
+import {
+  connectLocalized,
   defaultNumberingSystem,
-  numberStringFormatter,
   disconnectLocalized,
   LocalizedComponent,
-  connectLocalized
+  NumberingSystem,
+  numberStringFormatter
 } from "../../utils/locale";
-import { numberKeys } from "../../utils/key";
-import { isValidNumber, parseNumberString, sanitizeNumberString } from "../../utils/number";
-import { CSS_UTILITY } from "../../utils/resources";
 import { decimalPlaces } from "../../utils/math";
+import { isValidNumber, parseNumberString, sanitizeNumberString } from "../../utils/number";
 import { createObserver } from "../../utils/observers";
-import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import { CSS_UTILITY } from "../../utils/resources";
 import {
   connectMessages,
   disconnectMessages,
@@ -52,13 +55,10 @@ import {
   T9nComponent,
   updateMessages
 } from "../../utils/t9n";
+import { Position } from "../interfaces";
 import { InputMessages } from "./assets/input/t9n";
-import {
-  setUpLoadableComponent,
-  setComponentLoaded,
-  LoadableComponent,
-  componentLoaded
-} from "../../utils/loadable";
+import { InputPlacement, NumberNudgeDirection, SetValueOrigin } from "./interfaces";
+import { CSS, INPUT_TYPE_ICONS, SLOTS } from "./resources";
 
 /**
  * @slot action - A slot for positioning a `calcite-button` next to the component.
@@ -435,6 +435,8 @@ export class Input
 
   @State() localizedValue: string;
 
+  @State() slottedActionElDisabledInternally = false;
+
   //--------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -465,6 +467,7 @@ export class Input
     }
 
     this.mutationObserver?.observe(this.el, { childList: true });
+
     this.setDisabledAction();
     this.el.addEventListener("calciteInternalHiddenInputChange", this.hiddenInputChangeHandler);
   }
@@ -786,7 +789,7 @@ export class Input
 
     const inputMax = this.maxString ? parseFloat(this.maxString) : null;
     const inputMin = this.minString ? parseFloat(this.minString) : null;
-    const valueNudgeDelayInMs = 100;
+    const valueNudgeDelayInMs = 150;
 
     this.incrementOrDecrementNumberValue(direction, inputMax, inputMin, nativeEvent);
 
@@ -880,9 +883,15 @@ export class Input
       return;
     }
 
-    this.disabled
-      ? slottedActionEl.setAttribute("disabled", "")
-      : slottedActionEl.removeAttribute("disabled");
+    if (this.disabled) {
+      if (slottedActionEl.getAttribute("disabled") == null) {
+        this.slottedActionElDisabledInternally = true;
+      }
+      slottedActionEl.setAttribute("disabled", "");
+    } else if (this.slottedActionElDisabledInternally) {
+      slottedActionEl.removeAttribute("disabled");
+      this.slottedActionElDisabledInternally = false;
+    }
   }
 
   private setInputValue = (newInputValue: string): void => {
@@ -1010,7 +1019,7 @@ export class Input
         tabIndex={-1}
         type="button"
       >
-        <calcite-icon icon="x" scale="s" />
+        <calcite-icon icon="x" scale={this.scale === "l" ? "m" : "s"} />
       </button>
     );
     const iconEl = (
@@ -1018,7 +1027,7 @@ export class Input
         class={CSS.inputIcon}
         flipRtl={this.iconFlipRtl}
         icon={this.requestedIcon}
-        scale="s"
+        scale={this.scale === "l" ? "m" : "s"}
       />
     );
 
@@ -1039,7 +1048,7 @@ export class Input
         tabIndex={-1}
         type="button"
       >
-        <calcite-icon icon="chevron-up" scale="s" />
+        <calcite-icon icon="chevron-up" scale={this.scale === "l" ? "m" : "s"} />
       </button>
     );
 
@@ -1058,7 +1067,7 @@ export class Input
         tabIndex={-1}
         type="button"
       >
-        <calcite-icon icon="chevron-down" scale="s" />
+        <calcite-icon icon="chevron-down" scale={this.scale === "l" ? "m" : "s"} />
       </button>
     );
 
@@ -1144,7 +1153,7 @@ export class Input
             />,
             this.isTextarea ? (
               <div class={CSS.resizeIconWrapper}>
-                <calcite-icon icon="chevron-down" scale="s" />
+                <calcite-icon icon="chevron-down" scale={this.scale === "l" ? "m" : "s"} />
               </div>
             ) : null
           ]

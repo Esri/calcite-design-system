@@ -81,7 +81,7 @@ Renders a group of `calcite-action`s contained in a `calcite-action-group`. Acti
 
 ### `setFocus() => Promise<void>`
 
-Sets focus on the component.
+Sets focus on the component's first focusable element.
 
 #### Returns
 
