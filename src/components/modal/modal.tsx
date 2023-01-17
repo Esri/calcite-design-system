@@ -119,10 +119,10 @@ export class Modal
   /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";
 
-  /** Specifies the width of the component. Can use scale sizes or pass a number (displays in pixels). */
-  @Prop({ reflect: true }) width: Scale | number = "m";
+  /** Specifies the width of the component. */
+  @Prop({ reflect: true }) width: Scale = "m";
 
-  /** Sets the component to always be fullscreen (overrides `width`). */
+  /** Sets the component to always be fullscreen (overrides `width` and `--calcite-modal-width` / `--calcite-modal-height`). */
   @Prop({ reflect: true }) fullscreen: boolean;
 
   /** Specifies the kind of the component (will apply to top border). */
@@ -175,7 +175,9 @@ export class Modal
 
   connectedCallback(): void {
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
+    this.cssVarObserver?.observe(this.el, { attributeFilter: ["style"] });
     this.updateFooterVisibility();
+    this.updateSizeCssVars();
     connectConditionalSlotComponent(this);
     connectLocalized(this);
     connectMessages(this);
@@ -184,6 +186,7 @@ export class Modal
   disconnectedCallback(): void {
     this.removeOverflowHiddenClass();
     this.mutationObserver?.disconnect();
+    this.cssVarObserver?.disconnect();
     disconnectConditionalSlotComponent(this);
     deactivateFocusTrap(this);
     disconnectLocalized(this);
@@ -199,7 +202,12 @@ export class Modal
         aria-modal="true"
         role="dialog"
       >
-        <div class={{ [CSS.container]: true, [CSS.slottedInShell]: this.slottedInShell }}>
+        <div
+          class={{
+            [CSS.container]: true,
+            [CSS.slottedInShell]: this.slottedInShell
+          }}
+        >
           <calcite-scrim class={CSS.scrim} onClick={this.handleOutsideClose} />
           {this.renderStyle()}
           <div
@@ -217,8 +225,8 @@ export class Modal
             </div>
             <div
               class={{
-                content: true,
-                "content--no-footer": !this.hasFooter
+                [CSS.content]: true,
+                [CSS.contentNoFooter]: !this.hasFooter
               }}
               ref={(el) => (this.modalContent = el)}
             >
@@ -268,30 +276,41 @@ export class Modal
   }
 
   renderStyle(): VNode {
-    const hasCustomWidth = !isNaN(parseInt(`${this.width}`));
-    return hasCustomWidth ? (
-      <style>
-        {`
-        .${CSS.modal} {
-          max-width: ${this.width}px !important;
-        }
-        @media screen and (max-width: ${this.width}px) {
-          .${CSS.modal} {
-            height: 100% !important;
-            max-height: 100% !important;
-            width: 100% !important;
-            max-width: 100% !important;
-            margin: 0 !important;
-            border-radius: 0 !important;
-          }
-          .content {
-            flex: 1 1 auto !important;
-            max-height: unset !important;
-          }
-        }
-      `}
-      </style>
-    ) : null;
+    if (!this.fullscreen && (this.cssWidth || this.cssHeight)) {
+      return (
+        <style>
+          {`.${CSS.container} {
+              ${this.docked && this.cssWidth ? `align-items: center !important;` : ""}
+            }
+            .${CSS.modal} {
+              block-size: ${this.cssHeight ? this.cssHeight : "auto"} !important;
+              ${this.cssWidth ? `inline-size: ${this.cssWidth} !important;` : ""}
+              ${this.cssWidth ? `max-inline-size: ${this.cssWidth} !important;` : ""}
+              ${this.docked ? `border-radius: var(--calcite-border-radius) !important;` : ""}
+            }
+            @media screen and (max-width: ${this.cssWidth}) {
+              .${CSS.container} {
+                ${this.docked ? `align-items: flex-end !important;` : ""}
+              }
+              .${CSS.modal} {
+                max-block-size: 100% !important;
+                inline-size: 100% !important;
+                max-inline-size: 100% !important;
+                min-inline-size: 100% !important;
+                margin: 0 !important;
+                ${!this.docked ? `block-size: 100% !important;` : ""}
+                ${!this.docked ? `border-radius: 0 !important;` : ""}
+                ${
+                  this.docked
+                    ? `border-radius: var(--calcite-border-radius) var(--calcite-border-radius) 0 0 !important;`
+                    : ""
+                }
+              }
+            }
+          `}
+        </style>
+      );
+    }
   }
 
   //--------------------------------------------------------------------------
@@ -302,9 +321,13 @@ export class Modal
 
   modalContent: HTMLDivElement;
 
-  private mutationObserver: MutationObserver = createObserver("mutation", () =>
-    this.updateFooterVisibility()
-  );
+  private mutationObserver: MutationObserver = createObserver("mutation", () => {
+    this.updateFooterVisibility();
+  });
+
+  private cssVarObserver: MutationObserver = createObserver("mutation", () => {
+    this.updateSizeCssVars();
+  });
 
   titleId: string;
 
@@ -319,6 +342,10 @@ export class Modal
   closeButtonEl: HTMLButtonElement;
 
   contentId: string;
+
+  @State() cssWidth: string | number;
+
+  @State() cssHeight: string | number;
 
   @State() hasFooter = true;
 
@@ -501,5 +528,10 @@ export class Modal
 
   private updateFooterVisibility = (): void => {
     this.hasFooter = !!getSlotted(this.el, [SLOTS.back, SLOTS.primary, SLOTS.secondary]);
+  };
+
+  private updateSizeCssVars = (): void => {
+    this.cssWidth = getComputedStyle(this.el).getPropertyValue("--calcite-modal-width");
+    this.cssHeight = getComputedStyle(this.el).getPropertyValue("--calcite-modal-height");
   };
 }
