@@ -448,11 +448,11 @@
             "type": "color"
           },
           "invalid": {
-            "value": "$semantic.ui.color.danger.default.light",
+            "value": "$input-message.icon.invalid.light",
             "type": "color"
           },
           "valid": {
-            "value": "$semantic.ui.color.success.default.light",
+            "value": "$input-message.icon.valid.light",
             "type": "color"
           }
         }
