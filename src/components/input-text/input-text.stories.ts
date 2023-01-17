@@ -95,3 +95,17 @@ export const darkModeRTL_TestOnly = (): string => html`
   </div>
 `;
 darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
+
+export const mediumIconForLargeScaleStyling_TestOnly = (): string => html`
+  <calcite-label scale="l">
+    Input Label
+    <calcite-input-text placeholder="Placeholder" scale="l"></calcite-input-text>
+    <calcite-input-text
+      placeholder="Placeholder"
+      scale="l"
+      icon="search"
+      clearable
+      value="sample input to show x"
+    ></calcite-input-text>
+  </calcite-label>
+`;
