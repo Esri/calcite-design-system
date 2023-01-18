@@ -9,40 +9,17 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ### ⚠ BREAKING CHANGES
 
-- **tip:** Rename `dismissed` prop to `closed.
-
-* **modal:** Updates accepted `width` values, adds css variables for
-  width and height.
-
-- The `width` property no longer accepts a custom width. Accepted values
-  are `s`, `m`, `l`.
-- Adds `--calcite-modal-width` and `--calcite-modal-height` css
-  variables.
-
-Co-authored-by: Ben Elan <belan@esri.com>
-
-- **color-picker:** removed `appearance` property
-
-* Removed `appearance` property, use `--calcite-ui-border-1:
-transparent` to remove the border instead of the `"minimal"` value
-
-Co-authored-by: Kitty Hurley <khurley@esri.com>
-
-- **input-time-picker:** Removed event payload information.
-
-* Removed the event payload from `calciteInputTimePickerChange` event.
-
-* **styles:** Use "mode" nomenclature instead of "theme"
+- **styles:** Use "mode" nomenclature instead of "theme"
 
   - `.calcite-theme-auto`, `.calcite-theme-dark`, and
     `.calcite-theme-light` CSS classes have been replaced with
     `.calcite-mode-auto`, `.calcite-mode-dark`, and `.calcite-mode-light `
 
-* **modal, panel, popover**: Removed `focusId` parameter from `setFocus` methods.
+- **modal, panel, popover**: Removed `focusId` parameter from `setFocus` methods.
   When the `setFocus` method is called the first focusable element will be
   focused.
 
-* **panel, shell-panel, flow-item:** Update available css variables.
+- **panel, shell-panel, flow-item:** Update available css variables.
 
   - Removes `heightScale` and `widthScale` properties from Panel and Flow
     Item.
@@ -50,55 +27,77 @@ Co-authored-by: Kitty Hurley <khurley@esri.com>
     available width of parent component.
   - Documents public css variables for Shell Panel.
 
-* **accordion:**
+- **accordion:**
 
   - Removed `"default"` value for the `appearance` property, use `"solid"`
     instead.
   - Removed `"minimal"` value for the `appearance` property.
 
-* **card:**
+- **card:**
 
   - Removed `footer-leading` and `footer-trailing` slots, use
     `footer-start` and `footer-end` instead.
 
-* **combobox-item:**
+* **color-picker:**
+
+  - Removed `appearance` property, use `--calcite-ui-border-1:transparent`
+    to remove the border instead of the `"minimal"` value
+
+- **combobox-item:**
 
   - Removed `toggleSelected` method, use the `selected` property instead.
 
-* **date-picker:**
+- **date-picker:**
 
   - Removed the property `startAsDate`, use `valueAsDate` instead.
   - Removed the property `endAsDate`, use `valueAsDate` instead.
 
-* **pagination:**
+* **input-time-picker:**
+
+  - Removed the event payload from `calciteInputTimePickerChange` event.
+
+* **modal:**
+
+  - The `width` property no longer accepts a custom width. Accepted values
+    are `s`, `m`, `l`.
+  - Adds `--calcite-modal-width` and `--calcite-modal-height` css
+    variables.
+
+- **pagination:**
 
   - Removed the `--calcite-pagination-spacing` css variable
 
-* **popover:**
+- **popover:**
 
   - Removed the `toggle` method, use the `open` property instead.
 
-* **radio-button-group:**
+- **radio-button-group:**
 
   - Added property `selectedItem`.
   - Removed the `event.detail` property on the event
     `calciteRadioButtonGroupChange`, use `event.target` and the property
     `selectedItem` instead.
 
-* **radio-group, radio-group-item:** Renames components.
+- **radio-group, radio-group-item:** Renames components.
 
   - `calcite-radio-group` has been renamed to `calcite-segmented-control`.
   - `calcite-radio-group-item` has been renamed to
     `calcite-segmented-control-item`.
 
-* **segmented-control:** Updates `segmented-control` event to `calciteSegmentedControlChange`.
+- **segmented-control:**
 
-* **stepper:**
+  - Updates `segmented-control` event to `calciteSegmentedControlChange`.
+
+- **stepper:**
 
   - Added property `selectedItem`.
   - Removed the `event.detail` property on the event
     `calciteStepperItemChange`, use `event.target` and the property
     `selectedItem` instead.
+
+* **tip:**
+
+  - Rename `dismissed` prop to `closed.
 
 ### Features
 
