@@ -74,6 +74,7 @@ export class TreeItem
 
   /**
    * @internal
+   * @description Expanded state of the parent.
    */
   @Prop() parentExpanded = false;
 
@@ -115,13 +116,13 @@ export class TreeItem
       this.selectionMode === "multiple" || this.selectionMode === "multichildren";
   }
 
+  // Specifies property on which transition for expand/collapse is watched for.
   openTransitionProp = "opacity";
 
+  // In lieu of the open prop takes the component's alternative prop to implement the openCloseComponent util.
   transitionProp = "expanded";
 
-  /**
-   * Specifies element that the transition is allowed to emit on.
-   */
+  // Specifies element that the transition is allowed to emit on.
   transitionEl: HTMLDivElement;
 
   /**
@@ -197,8 +198,10 @@ export class TreeItem
   }
 
   componentWillLoad(): void {
+    // When tree-item initially renders, if expanded was set we need to update the parent to expand as the watcher doesn't fire.
     if (this.expanded) {
       onToggleOpenCloseComponent(this, true);
+      requestAnimationFrame(() => this.updateParentIsExpanded(this.el, newValue));
     }
   }
 
@@ -299,17 +302,13 @@ export class TreeItem
           }}
           data-test-id="calcite-tree-children"
           onClick={this.childrenClickHandler}
-          ref={(el) => this.setTransitionEl(el)}
+          ref={this.setTransitionEl}
           role={this.hasChildren ? "group" : undefined}
         >
           <slot name={SLOTS.children} />
         </div>
       </Host>
     );
-  }
-
-  setTransitionEl(el: HTMLDivElement): void {
-    this.transitionEl = el;
   }
 
   //--------------------------------------------------------------------------
@@ -456,5 +455,9 @@ export class TreeItem
       ancestors.forEach((item) => (item.indeterminate = true));
       return;
     }
+  };
+
+  private setTransitionEl = (el: HTMLDivElement): void => {
+    this.transitionEl = el;
   };
 }

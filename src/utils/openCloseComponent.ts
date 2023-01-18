@@ -15,7 +15,7 @@ export interface OpenCloseComponent {
   open?: boolean;
 
   /**
-   *  Specifies the name of transitionProp.
+   * In lieu of the open prop takes the component's alternative prop (eg. expanded). When true, the component opens.
    */
   transitionProp?: string;
 
