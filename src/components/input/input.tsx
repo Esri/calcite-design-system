@@ -936,6 +936,7 @@ export class Input
       };
 
       const sanitizedValue = sanitizeNumberString(
+        // no need to delocalize a string that ia already in latn numerals
         (this.numberingSystem && this.numberingSystem !== "latn") ||
           defaultNumberingSystem !== "latn"
           ? numberStringFormatter.delocalize(value)
@@ -955,7 +956,9 @@ export class Input
       this.setPreviousValue(previousValue || this.value);
       this.previousValueOrigin = origin;
       this.userChangedValue = origin === "user" && this.value !== newValue;
-      this.value = newValue;
+      // don't sanitize the start of negative/decimal numbers, but
+      // don't set value to an invalid number
+      this.value = ["-", "."].includes(newValue) ? "" : newValue;
       origin === "direct" && this.setInputValue(newLocalizedValue);
     } else {
       this.setPreviousValue(previousValue || this.value);
