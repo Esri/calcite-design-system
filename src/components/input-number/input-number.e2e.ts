@@ -916,8 +916,8 @@ describe("calcite-input-number", () => {
 
   it("allows negative numbers after clearing value with an empty string", async () => {
     const page = await newE2EPage();
-    await page.setContent(html`<calcite-input type="number" value="1"></calcite-input>`);
-    const input = await page.find("calcite-input");
+    await page.setContent(html`<calcite-input-number value="1"></calcite-input-number>`);
+    const input = await page.find("calcite-input-number");
     input.setProperty("value", "");
     await page.waitForChanges();
     expect(await input.getProperty("value")).toBe("");
