@@ -819,25 +819,19 @@ export class InputNumber
         : sanitizedValue;
 
     const newLocalizedValue = numberStringFormatter.localize(newValue);
+    this.localizedValue = newLocalizedValue;
 
     this.setPreviousNumberValue(previousValue || this.value);
     this.previousValueOrigin = origin;
     this.userChangedValue = origin === "user" && this.value !== newValue;
     this.value = newValue;
-
-    this.localizedValue = newLocalizedValue;
-
-    if (origin === "direct") {
-      this.setInputNumberValue(newLocalizedValue);
-    }
+    origin === "direct" && this.setInputNumberValue(newLocalizedValue);
 
     if (nativeEvent) {
       const calciteInputNumberInputEvent = this.calciteInputNumberInput.emit();
-
       if (calciteInputNumberInputEvent.defaultPrevented) {
-        const previousLocalizedValue = numberStringFormatter.localize(this.previousValue);
         this.value = this.previousValue;
-        this.localizedValue = previousLocalizedValue;
+        this.localizedValue = numberStringFormatter.localize(this.previousValue);
       } else if (committing) {
         this.emitChangeIfUserModified();
       }
