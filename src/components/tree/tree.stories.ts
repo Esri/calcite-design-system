@@ -115,6 +115,12 @@ export const simple = (): string => html`
   </calcite-tree>
 `;
 
+export const selectionModeNone = (): string => html`
+  <calcite-tree ${boolean("lines", false)} selection-mode="${select("selection-mode", selectionModes, "none")}"
+    >${treeItems}</calcite-tree
+  >
+`;
+
 export const actionsEndDropdownsAndIconStart = (): string => html`<calcite-tree
   style="width: 350px"
   scale="${select("scale", ["s", "m", "l"], "m")}"

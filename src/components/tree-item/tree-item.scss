@@ -23,10 +23,10 @@
     .bullet-point {
       margin-inline: theme("margin.1");
     }
-  }
-  .icon-start,
-  .icon-end {
-    margin-inline: theme("margin.1");
+    &.icon-start,
+    &.icon-end {
+      margin-inline: theme("margin.1");
+    }
   }
 }
 
@@ -41,10 +41,10 @@
     .bullet-point {
       margin-inline: theme("margin.2");
     }
-  }
-  .icon-start,
-  .icon-end {
-    margin-inline: theme("margin.2");
+    &.icon-start,
+    &.icon-end {
+      margin-inline: theme("margin.2");
+    }
   }
 }
 
@@ -59,10 +59,10 @@
     .bullet-point {
       margin-inline: theme("margin.3");
     }
-  }
-  .icon-start,
-  .icon-end {
-    margin-inline: theme("margin.3");
+    &.icon-start,
+    &.icon-end {
+      margin-inline: theme("margin.3");
+    }
   }
 }
 
