@@ -9,6 +9,7 @@ import {
   Prop,
   VNode
 } from "@stencil/core";
+import { dateToISO } from "../../utils/date";
 
 import { closestElementCrossShadowBoundary, getElementDir } from "../../utils/dom";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
@@ -127,6 +128,7 @@ export class DatePickerDay implements InteractiveComponent {
   }
 
   render(): VNode {
+    const dayId = dateToISO(this.value).replaceAll("-", "");
     if (this.parentDatePickerEl) {
       const { numberingSystem, lang: locale } = this.parentDatePickerEl;
 
@@ -139,7 +141,7 @@ export class DatePickerDay implements InteractiveComponent {
     const formattedDay = numberStringFormatter.localize(String(this.day));
     const dir = getElementDir(this.el);
     return (
-      <Host onClick={this.onClick} onKeyDown={this.keyDownHandler} role="gridcell">
+      <Host id={dayId} onClick={this.onClick} onKeyDown={this.keyDownHandler} role="gridcell">
         <div class={{ "day-v-wrapper": true, [CSS_UTILITY.rtl]: dir === "rtl" }}>
           <div class="day-wrapper">
             <span class="day">
