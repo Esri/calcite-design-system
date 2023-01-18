@@ -98,20 +98,19 @@
 ::slotted(a) {
   @apply w-full no-underline;
 }
+
 // focus styles
 :host {
   @apply focus-base;
-}
-:host(:focus:not([disabled])) {
-  @apply focus-inset outline-none;
+  &:focus,
+  &:active {
+    @apply focus-inset outline-none;
+  }
 }
 
 slot[name="actions-end"]::slotted(*),
 .actions-end {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  overflow: visible;
+  @apply flex self-stretch flex-row items-center overflow-visible;
 }
 
 .checkbox {

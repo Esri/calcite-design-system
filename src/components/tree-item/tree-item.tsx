@@ -241,7 +241,7 @@ export class TreeItem
         data-test-id="icon"
         icon={ICONS.chevronRight}
         onClick={this.iconClickHandler}
-        scale="s"
+        scale={this.scale === "l" ? "m" : "s"}
       />
     ) : null;
     const defaultSlotNode: VNode = <slot key="default-slot" />;
@@ -275,7 +275,7 @@ export class TreeItem
           [CSS_UTILITY.rtl]: rtl
         }}
         icon={selectedIcon}
-        scale="s"
+        scale={this.scale === "l" ? "m" : "s"}
       />
     ) : null;
 
