@@ -863,9 +863,9 @@ export class InputDatePicker
     const oldValueIsArray = Array.isArray(oldValue);
     const valueIsArray = Array.isArray(value);
 
-    const newStartDate = valueIsArray ? value[0] : "";
+    const newStartDate = valueIsArray ? value[0] : null;
     const newStartDateISO = valueIsArray ? dateToISO(newStartDate) : "";
-    const newEndDate = valueIsArray ? value[1] : "";
+    const newEndDate = valueIsArray ? value[1] : null;
     const newEndDateISO = valueIsArray ? dateToISO(newEndDate) : "";
 
     const newValue = newStartDateISO || newEndDateISO ? [newStartDateISO, newEndDateISO] : "";

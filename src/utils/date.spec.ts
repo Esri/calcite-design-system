@@ -75,8 +75,8 @@ describe("dateFromISO", () => {
 
 describe("dateToISO", () => {
   it("returns empty string from bad input", () => {
-    expect(dateToISO("")).toEqual("");
-    expect(dateToISO("asdflkjasdhoui")).toEqual("");
+    expect(dateToISO("" as any)).toEqual("");
+    expect(dateToISO("asdflkjasdhoui" as any)).toEqual("");
   });
   it("correctly returns string in simplified ISO format (YYYY-MM-DD)", () => {
     const date = new Date(2011, 10, 29);
