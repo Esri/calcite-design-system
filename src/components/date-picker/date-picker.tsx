@@ -505,8 +505,10 @@ export class DatePicker implements LocalizedComponent, T9nComponent {
   }
 
   private setEndDate(date: Date): void {
+    const startDate = this.getStartDate();
     const newEndDate = date ? setEndOfDay(date) : date;
-    this.valueAsDate = [this.getStartDate(), date];
+    this.value = [dateToISO(startDate), dateToISO(date)];
+    this.valueAsDate = [startDate, date];
     this.mostRecentRangeValue = newEndDate;
     this.calciteDatePickerRangeChange.emit();
     this.activeEndDate = date || null;
@@ -517,7 +519,9 @@ export class DatePicker implements LocalizedComponent, T9nComponent {
   }
 
   private setStartDate(date: Date): void {
-    this.valueAsDate = [date, this.getEndDate()];
+    const endDate = this.getEndDate();
+    this.value = [dateToISO(date), dateToISO(endDate)];
+    this.valueAsDate = [date, endDate];
     this.mostRecentRangeValue = date;
     this.calciteDatePickerRangeChange.emit();
     this.activeStartDate = date || null;
