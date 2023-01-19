@@ -431,10 +431,19 @@ export const mediumIconForLargeComoboboxItem_TestOnly = (): string => html`
 `;
 
 export const withSelectorIndicatorAndIcons_TestOnly = (): string => html`
-  <calcite-combobox placeholder="How much energy do you have?" selection-mode="single" open scale="m">
-    <calcite-combobox-item value="Meh" text-label="Meh" scale="l"> </calcite-combobox-item>
-    <calcite-combobox-item value="Good" text-label="A good amount" icon="battery-2" scale="l"></calcite-combobox-item>
-    <calcite-combobox-item value="Ready" text-label="Ready to go!" icon="battery-4" scale="l"></calcite-combobox-item>
-    <calcite-combobox-item value="Empty" text-label="None" scale="l" selected> </calcite-combobox-item>
+  <calcite-combobox label="test" placeholder="select folder" selection-mode="multiple" open>
+    <calcite-combobox-item text-label="Folder 1" icon="folder" selected>
+      <calcite-combobox-item text-label="Sub Folder 1" icon="folder" selected>
+        <calcite-combobox-item text-label="Sub Folder 2 " icon="folder" selected></calcite-combobox-item>
+      </calcite-combobox-item>
+    </calcite-combobox-item>
+    <calcite-combobox-item text-label="Folder 2" icon="folder"></calcite-combobox-item>
+    <calcite-combobox-item text-label="Folder 3" icon="folder"></calcite-combobox-item>
+    <calcite-combobox-item text-label="Folder 4"></calcite-combobox-item>
+    <calcite-combobox-item-group label="Files">
+      <calcite-combobox-item text-label="File 1" icon="file" selected>
+        <calcite-combobox-item text-label="file 2" icon="file" selected></calcite-combobox-item>
+      </calcite-combobox-item>
+    </calcite-combobox-item-group>
   </calcite-combobox>
 `;

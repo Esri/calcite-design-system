@@ -54,6 +54,5 @@
     border-b
     font-bold;
   padding-block: var(--calcite-combobox-item-spacing-unit-l);
-  padding-inline: 0;
-  margin-inline: var(--calcite-combobox-item-spacing-unit-s);
+  padding-inline: var(--calcite-combobox-item-spacing-unit-s);
 }
