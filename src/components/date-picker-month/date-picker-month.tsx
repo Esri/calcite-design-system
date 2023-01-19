@@ -1,15 +1,15 @@
 import {
   Component,
   Element,
-  Prop,
-  Host,
   Event,
   EventEmitter,
   h,
+  Host,
   Listen,
+  Prop,
   VNode
 } from "@stencil/core";
-import { inRange, sameDate, dateFromRange, HoverRange } from "../../utils/date";
+import { dateFromRange, HoverRange, inRange, sameDate } from "../../utils/date";
 import { DateLocaleData } from "../date-picker/utils";
 import { Scale } from "../interfaces";
 

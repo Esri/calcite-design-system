@@ -14,8 +14,6 @@ import {
 } from "@stencil/core";
 
 import { getElementDir } from "../../utils/dom";
-import { Appearance, Layout, Scale, Width } from "../interfaces";
-import { connectLabel, disconnectLabel, LabelableComponent } from "../../utils/label";
 import {
   afterConnectDefaultValueSet,
   connectForm,
@@ -24,22 +22,24 @@ import {
   HiddenFormInputSlot
 } from "../../utils/form";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import { connectLabel, disconnectLabel, LabelableComponent } from "../../utils/label";
 import {
-  setUpLoadableComponent,
-  setComponentLoaded,
+  componentLoaded,
   LoadableComponent,
-  componentLoaded
+  setComponentLoaded,
+  setUpLoadableComponent
 } from "../../utils/loadable";
+import { Appearance, Layout, Scale, Width } from "../interfaces";
 
 /**
- * @slot - A slot for adding `calcite-radio-group-item`s.
+ * @slot - A slot for adding `calcite-segmented-control-item`s.
  */
 @Component({
-  tag: "calcite-radio-group",
-  styleUrl: "radio-group.scss",
+  tag: "calcite-segmented-control",
+  styleUrl: "segmented-control.scss",
   shadow: true
 })
-export class RadioGroup
+export class SegmentedControl
   implements LabelableComponent, FormComponent, InteractiveComponent, LoadableComponent
 {
   //--------------------------------------------------------------------------
@@ -48,7 +48,7 @@ export class RadioGroup
   //
   //--------------------------------------------------------------------------
 
-  @Element() el: HTMLCalciteRadioGroupElement;
+  @Element() el: HTMLCalciteSegmentedControlElement;
 
   //--------------------------------------------------------------------------
   //
@@ -95,10 +95,10 @@ export class RadioGroup
    *
    * @readonly
    */
-  @Prop({ mutable: true }) selectedItem: HTMLCalciteRadioGroupItemElement;
+  @Prop({ mutable: true }) selectedItem: HTMLCalciteSegmentedControlItemElement;
 
   @Watch("selectedItem")
-  protected handleSelectedItemChange<T extends HTMLCalciteRadioGroupItemElement>(
+  protected handleSelectedItemChange<T extends HTMLCalciteSegmentedControlItemElement>(
     newItem: T,
     oldItem: T
   ): void {
@@ -177,15 +177,15 @@ export class RadioGroup
   //--------------------------------------------------------------------------
 
   protected handleClick = (event: MouseEvent): void => {
-    if ((event.target as HTMLElement).localName === "calcite-radio-group-item") {
-      this.selectItem(event.target as HTMLCalciteRadioGroupItemElement, true);
+    if ((event.target as HTMLElement).localName === "calcite-segmented-control-item") {
+      this.selectItem(event.target as HTMLCalciteSegmentedControlItemElement, true);
     }
   };
 
-  @Listen("calciteInternalRadioGroupItemChange")
+  @Listen("calciteInternalSegmentedControlItemChange")
   protected handleSelected(event: Event): void {
     event.preventDefault();
-    this.selectItem(event.target as HTMLCalciteRadioGroupItemElement);
+    this.selectItem(event.target as HTMLCalciteSegmentedControlItemElement);
     event.stopPropagation();
   }
 
@@ -236,7 +236,7 @@ export class RadioGroup
         return;
       case " ":
         event.preventDefault();
-        this.selectItem(event.target as HTMLCalciteRadioGroupItemElement, true);
+        this.selectItem(event.target as HTMLCalciteSegmentedControlItemElement, true);
         return;
       default:
         return;
@@ -250,7 +250,7 @@ export class RadioGroup
   //--------------------------------------------------------------------------
 
   /** Fires when the selected option changes, where the event detail is the new value. */
-  @Event({ cancelable: false }) calciteRadioGroupChange: EventEmitter<void>;
+  @Event({ cancelable: false }) calciteSegmentedControlChange: EventEmitter<void>;
 
   // --------------------------------------------------------------------------
   //
@@ -276,7 +276,7 @@ export class RadioGroup
 
   formEl: HTMLFormElement;
 
-  defaultValue: RadioGroup["value"];
+  defaultValue: SegmentedControl["value"];
 
   //--------------------------------------------------------------------------
   //
@@ -288,17 +288,17 @@ export class RadioGroup
     this.setFocus();
   }
 
-  private getItems(): NodeListOf<HTMLCalciteRadioGroupItemElement> {
-    return this.el.querySelectorAll("calcite-radio-group-item");
+  private getItems(): NodeListOf<HTMLCalciteSegmentedControlItemElement> {
+    return this.el.querySelectorAll("calcite-segmented-control-item");
   }
 
-  private selectItem(selected: HTMLCalciteRadioGroupItemElement, emit = false): void {
+  private selectItem(selected: HTMLCalciteSegmentedControlItemElement, emit = false): void {
     if (selected === this.selectedItem) {
       return;
     }
 
     const items = this.getItems();
-    let match: HTMLCalciteRadioGroupItemElement = null;
+    let match: HTMLCalciteSegmentedControlItemElement = null;
 
     items.forEach((item) => {
       const matches = item.value === selected.value;
@@ -313,7 +313,7 @@ export class RadioGroup
         match = item;
 
         if (emit) {
-          this.calciteRadioGroupChange.emit();
+          this.calciteSegmentedControlChange.emit();
         }
       }
     });

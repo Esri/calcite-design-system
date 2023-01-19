@@ -15,18 +15,16 @@ import {
 import {
   getSlotted,
   setRequestedIcon,
-  toAriaBoolean,
-  slotChangeHasAssignedElement
+  slotChangeHasAssignedElement,
+  toAriaBoolean
 } from "../../utils/dom";
-import { CSS, DURATIONS, SLOTS } from "./resources";
-import { Kind, Scale } from "../interfaces";
-import { KindIcons } from "../resources";
-import { AlertDuration, Sync } from "./interfaces";
+import { MenuPlacement } from "../../utils/floating-ui";
 import {
-  OpenCloseComponent,
-  connectOpenCloseComponent,
-  disconnectOpenCloseComponent
-} from "../../utils/openCloseComponent";
+  componentLoaded,
+  LoadableComponent,
+  setComponentLoaded,
+  setUpLoadableComponent
+} from "../../utils/loadable";
 import {
   connectLocalized,
   disconnectLocalized,
@@ -34,20 +32,22 @@ import {
   numberStringFormatter
 } from "../../utils/locale";
 import {
+  connectOpenCloseComponent,
+  disconnectOpenCloseComponent,
+  OpenCloseComponent
+} from "../../utils/openCloseComponent";
+import {
   connectMessages,
   disconnectMessages,
   setUpMessages,
   T9nComponent,
   updateMessages
 } from "../../utils/t9n";
+import { Kind, Scale } from "../interfaces";
+import { KindIcons } from "../resources";
 import { AlertMessages } from "./assets/alert/t9n";
-import {
-  setUpLoadableComponent,
-  setComponentLoaded,
-  LoadableComponent,
-  componentLoaded
-} from "../../utils/loadable";
-import { MenuPlacement } from "../../utils/floating-ui";
+import { AlertDuration, Sync } from "./interfaces";
+import { CSS, DURATIONS, SLOTS } from "./resources";
 
 /**
  * Alerts are meant to provide a way to communicate urgent or important information to users, frequently as a result of an action they took in your app. Alerts are positioned
@@ -168,7 +168,7 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
       window.clearTimeout(this.autoCloseTimeoutId);
       this.autoCloseTimeoutId = window.setTimeout(
         () => this.closeAlert(),
-        DURATIONS[this.autoCloseDuration] - (Date.now() - this.trackTimer)
+        DURATIONS[this.autoCloseDuration]
       );
     }
   }
@@ -266,8 +266,8 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
             [placement]: true,
             [CSS.slottedInShell]: this.slottedInShell
           }}
-          onPointerOut={this.autoClose && this.autoCloseTimeoutId ? this.handleMouseLeave : null}
-          onPointerOver={this.autoClose && this.autoCloseTimeoutId ? this.handleMouseOver : null}
+          onPointerEnter={this.autoClose && this.autoCloseTimeoutId ? this.handleMouseOver : null}
+          onPointerLeave={this.autoClose && this.autoCloseTimeoutId ? this.handleMouseLeave : null}
           ref={this.setTransitionEl}
         >
           {requestedIcon ? (
@@ -355,7 +355,7 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
   //
   //--------------------------------------------------------------------------
 
-  /** Sets focus on the component. */
+  /** Sets focus on the component's "close" button (the first focusable item). */
   @Method()
   async setFocus(): Promise<void> {
     await componentLoaded(this);
@@ -404,9 +404,13 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
 
   private queueTimeout: number;
 
-  private trackTimer: number;
+  private initialOpenTime: number;
 
-  private remainingPausedTimeout = 0;
+  private lastMouseOverBegin: number;
+
+  private totalOpenTime = 0;
+
+  private totalHoverTime = 0;
 
   /** the computed icon to render */
   /* @internal */
@@ -432,7 +436,7 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
     if (this.queue?.[0] === this.el) {
       this.openAlert();
       if (this.autoClose && !this.autoCloseTimeoutId) {
-        this.trackTimer = Date.now();
+        this.initialOpenTime = Date.now();
         this.autoCloseTimeoutId = window.setTimeout(
           () => this.closeAlert(),
           DURATIONS[this.autoCloseDuration]
@@ -481,13 +485,15 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
 
   private handleMouseOver = (): void => {
     window.clearTimeout(this.autoCloseTimeoutId);
-    this.remainingPausedTimeout = DURATIONS[this.autoCloseDuration] - Date.now() - this.trackTimer;
+    this.totalOpenTime = Date.now() - this.initialOpenTime;
+    this.lastMouseOverBegin = Date.now();
   };
 
   private handleMouseLeave = (): void => {
-    this.autoCloseTimeoutId = window.setTimeout(
-      () => this.closeAlert(),
-      this.remainingPausedTimeout
-    );
+    const hoverDuration = Date.now() - this.lastMouseOverBegin;
+    const timeRemaining =
+      DURATIONS[this.autoCloseDuration] - this.totalOpenTime + this.totalHoverTime;
+    this.totalHoverTime = this.totalHoverTime ? hoverDuration + this.totalHoverTime : hoverDuration;
+    this.autoCloseTimeoutId = window.setTimeout(() => this.closeAlert(), timeRemaining);
   };
 }

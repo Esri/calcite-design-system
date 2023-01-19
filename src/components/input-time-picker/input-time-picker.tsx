@@ -12,11 +12,7 @@ import {
   VNode,
   Watch
 } from "@stencil/core";
-import { guid } from "../../utils/guid";
-import { formatTimeString, isValidTime, localizeTimeString } from "../../utils/time";
-import { Scale } from "../interfaces";
 import { FloatingUIComponent, LogicalPlacement, OverlayPositioning } from "../../utils/floating-ui";
-import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
 import {
   connectForm,
   disconnectForm,
@@ -24,7 +20,16 @@ import {
   HiddenFormInputSlot,
   submitForm
 } from "../../utils/form";
+import { guid } from "../../utils/guid";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import { numberKeys } from "../../utils/key";
+import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
+import {
+  componentLoaded,
+  LoadableComponent,
+  setComponentLoaded,
+  setUpLoadableComponent
+} from "../../utils/loadable";
 import {
   connectLocalized,
   disconnectLocalized,
@@ -32,14 +37,9 @@ import {
   NumberingSystem,
   numberStringFormatter
 } from "../../utils/locale";
+import { formatTimeString, isValidTime, localizeTimeString } from "../../utils/time";
+import { Scale } from "../interfaces";
 import { TimePickerMessages } from "../time-picker/assets/time-picker/t9n";
-import { numberKeys } from "../../utils/key";
-import {
-  setUpLoadableComponent,
-  setComponentLoaded,
-  LoadableComponent,
-  componentLoaded
-} from "../../utils/loadable";
 
 @Component({
   tag: "calcite-input-time-picker",
@@ -213,7 +213,7 @@ export class InputTimePicker
   /**
    * Fires when the time value is changed as a result of user input.
    */
-  @Event({ cancelable: true }) calciteInputTimePickerChange: EventEmitter<string>;
+  @Event({ cancelable: true }) calciteInputTimePickerChange: EventEmitter<void>;
 
   //--------------------------------------------------------------------------
   //

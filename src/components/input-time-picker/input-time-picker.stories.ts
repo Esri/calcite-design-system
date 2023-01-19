@@ -1,6 +1,6 @@
 import { number, select, text } from "@storybook/addon-knobs";
 import { boolean, storyFilters } from "../../../.storybook/helpers";
-import { themesDarkDefault } from "../../../.storybook/utils";
+import { modesDarkDefault } from "../../../.storybook/utils";
 import readme from "./readme.md";
 import { html } from "../../../support/formatting";
 import { defaultMenuPlacement, menuPlacements } from "../../utils/floating-ui";
@@ -26,13 +26,14 @@ export const simple = (): string => html`
   </calcite-input-time-picker>
 `;
 
-export const disabled_TestOnly = (): string => html`<calcite-input-time-picker disabled></calcite-input-time-picker>`;
+export const disabled_TestOnly = (): string =>
+  html`<calcite-input-time-picker disabled scale="l" icon step="1" value="01:02"></calcite-input-time-picker>`;
 
-export const darkThemeRTL_TestOnly = (): string => html`
+export const darkModeRTL_TestOnly = (): string => html`
   <calcite-input-time-picker
     ${boolean("disabled", false)}
     ${boolean("hidden", false)}
-    class="calcite-theme-dark"
+    class="calcite-mode-dark"
     name="${text("name", "dark")}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
     step="${number("step", 1)}"
@@ -41,7 +42,7 @@ export const darkThemeRTL_TestOnly = (): string => html`
   </calcite-input-time-picker>
 `;
 
-darkThemeRTL_TestOnly.parameters = { themes: themesDarkDefault };
+darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
 
 export const open_TestOnly = (): string => html`
   <calcite-input-time-picker

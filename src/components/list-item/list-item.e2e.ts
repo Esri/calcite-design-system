@@ -1,6 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { hidden, renders, focusable, slots, disabled } from "../../tests/commonTests";
-import { defaults } from "../../tests/commonTests";
+import { defaults, disabled, focusable, hidden, renders, slots } from "../../tests/commonTests";
 import { CSS, SLOTS } from "./resources";
 
 describe("calcite-list-item", () => {

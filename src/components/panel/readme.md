@@ -75,11 +75,9 @@ Renders a panel with a header and a footer.
 | `disabled`         | `disabled`          | When `true`, interaction is prevented and the component is displayed with lower opacity. | `boolean`                    | `false`     |
 | `heading`          | `heading`           | The component header text.                                                               | `string`                     | `undefined` |
 | `headingLevel`     | `heading-level`     | Specifies the number at which section headings should start.                             | `1 \| 2 \| 3 \| 4 \| 5 \| 6` | `undefined` |
-| `heightScale`      | `height-scale`      | Specifies the maximum height of the component.                                           | `"l" \| "m" \| "s"`          | `undefined` |
 | `loading`          | `loading`           | When `true`, a busy indicator is displayed.                                              | `boolean`                    | `false`     |
 | `menuOpen`         | `menu-open`         | When `true`, the action menu items in the `header-menu-actions` slot are open.           | `boolean`                    | `false`     |
 | `messageOverrides` | `message-overrides` | Use this property to override individual strings used by the component.                  | `PanelMessages`              | `undefined` |
-| `widthScale`       | `width-scale`       | Specifies the width of the component.                                                    | `"l" \| "m" \| "s"`          | `undefined` |
 
 ## Events
 
@@ -100,7 +98,7 @@ Type: `Promise<void>`
 
 ### `setFocus() => Promise<void>`
 
-Sets focus on the component.
+Sets focus on the component's first focusable element.
 
 #### Returns
 
@@ -118,14 +116,6 @@ Type: `Promise<void>`
 | `"header-actions-start"` | A slot for adding actions or content to the start side of the header.            |
 | `"header-content"`       | A slot for adding custom content to the header.                                  |
 | `"header-menu-actions"`  | A slot for adding an overflow menu with actions inside a `calcite-dropdown`.     |
-
-## CSS Custom Properties
-
-| Name                         | Description                          |
-| ---------------------------- | ------------------------------------ |
-| `--calcite-panel-max-height` | The maximum height of the component. |
-| `--calcite-panel-max-width`  | The maximum width of the component.  |
-| `--calcite-panel-min-width`  | The minimum width of the component.  |
 
 ## Dependencies
 

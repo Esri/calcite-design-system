@@ -1,5 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, defaults, focusable, renders, hidden, t9n } from "../../tests/commonTests";
+import { accessible, defaults, focusable, hidden, renders, t9n } from "../../tests/commonTests";
 import { formatTimePart } from "../../utils/time";
 import { CSS } from "./resources";
 

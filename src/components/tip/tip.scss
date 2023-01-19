@@ -20,8 +20,8 @@
   @apply w-full p-4;
 }
 
-:host([dismissed]),
-:host([dismissed]) .container {
+:host([closed]),
+:host([closed]) .container {
   @apply hidden;
 }
 

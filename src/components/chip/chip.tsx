@@ -1,25 +1,31 @@
 import {
+  Build,
   Component,
-  h,
-  Prop,
+  Element,
   Event,
   EventEmitter,
-  Element,
-  VNode,
+  h,
   Method,
-  Watch,
+  Prop,
   State,
-  Build
+  VNode,
+  Watch
 } from "@stencil/core";
-import { guid } from "../../utils/guid";
-import { CSS, SLOTS, ICONS } from "./resources";
-import { Appearance, Kind, Scale } from "../interfaces";
 import {
   ConditionalSlotComponent,
   connectConditionalSlotComponent,
   disconnectConditionalSlotComponent
 } from "../../utils/conditionalSlot";
-import { ChipMessages } from "./assets/chip/t9n";
+import { slotChangeHasAssignedElement } from "../../utils/dom";
+import { guid } from "../../utils/guid";
+import {
+  componentLoaded,
+  LoadableComponent,
+  setComponentLoaded,
+  setUpLoadableComponent
+} from "../../utils/loadable";
+import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
+import { createObserver } from "../../utils/observers";
 import {
   connectMessages,
   disconnectMessages,
@@ -27,15 +33,9 @@ import {
   T9nComponent,
   updateMessages
 } from "../../utils/t9n";
-import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
-import {
-  setUpLoadableComponent,
-  setComponentLoaded,
-  LoadableComponent,
-  componentLoaded
-} from "../../utils/loadable";
-import { createObserver } from "../../utils/observers";
-import { slotChangeHasAssignedElement } from "../../utils/dom";
+import { Appearance, Kind, Scale } from "../interfaces";
+import { ChipMessages } from "./assets/chip/t9n";
+import { CSS, ICONS, SLOTS } from "./resources";
 
 /**
  * @slot - A slot for adding text.
@@ -151,7 +151,7 @@ export class Chip
   //
   //--------------------------------------------------------------------------
 
-  /** Sets focus on the component. */
+  /** When `closable` is `true`, sets focus on the component's "close" button (the first focusable item). */
   @Method()
   async setFocus(): Promise<void> {
     await componentLoaded(this);

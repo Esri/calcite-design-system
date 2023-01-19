@@ -3,23 +3,26 @@ import {
   Element,
   Event,
   EventEmitter,
-  Host,
-  Prop,
-  Watch,
   h,
-  VNode,
+  Host,
   Method,
-  State
+  Prop,
+  State,
+  VNode,
+  Watch
 } from "@stencil/core";
-import { Layout, Position, Scale } from "../interfaces";
-import { ExpandToggle, toggleChildActionText } from "../functional/ExpandToggle";
-import { getSlotted } from "../../utils/dom";
-import { CSS, SLOTS } from "./resources";
 import {
   ConditionalSlotComponent,
   connectConditionalSlotComponent,
   disconnectConditionalSlotComponent
 } from "../../utils/conditionalSlot";
+import { getSlotted } from "../../utils/dom";
+import {
+  componentLoaded,
+  LoadableComponent,
+  setComponentLoaded,
+  setUpLoadableComponent
+} from "../../utils/loadable";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 import {
   connectMessages,
@@ -28,13 +31,10 @@ import {
   T9nComponent,
   updateMessages
 } from "../../utils/t9n";
+import { ExpandToggle, toggleChildActionText } from "../functional/ExpandToggle";
+import { Layout, Position, Scale } from "../interfaces";
 import { ActionPadMessages } from "./assets/action-pad/t9n";
-import {
-  setUpLoadableComponent,
-  setComponentLoaded,
-  LoadableComponent,
-  componentLoaded
-} from "../../utils/loadable";
+import { CSS, SLOTS } from "./resources";
 
 /**
  * @slot - A slot for adding `calcite-action`s to the component.
@@ -170,7 +170,7 @@ export class ActionPad
   // --------------------------------------------------------------------------
 
   /**
-   * Sets focus on the component.
+   * Sets focus on the component's first focusable element.
    */
   @Method()
   async setFocus(): Promise<void> {

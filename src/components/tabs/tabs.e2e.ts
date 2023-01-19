@@ -1,6 +1,6 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, renders, defaults, hidden } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
+import { accessible, defaults, hidden, renders } from "../../tests/commonTests";
 
 describe("calcite-tabs", () => {
   const tabsContent = `

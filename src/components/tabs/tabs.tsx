@@ -1,6 +1,6 @@
-import { Component, Prop, h, Element, Listen, State, VNode, Fragment } from "@stencil/core";
-import { TabLayout, TabPosition } from "./interfaces";
+import { Component, Element, Fragment, h, Listen, Prop, State, VNode } from "@stencil/core";
 import { Scale } from "../interfaces";
+import { TabLayout, TabPosition } from "./interfaces";
 import { SLOTS } from "./resources";
 
 /**

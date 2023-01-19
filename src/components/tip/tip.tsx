@@ -3,21 +3,19 @@ import {
   Element,
   Event,
   EventEmitter,
-  Prop,
-  h,
-  VNode,
   Fragment,
-  Watch,
-  State
+  h,
+  Prop,
+  State,
+  VNode,
+  Watch
 } from "@stencil/core";
-import { CSS, ICONS, SLOTS } from "./resources";
-import { getSlotted } from "../../utils/dom";
-import { HeadingLevel, Heading, constrainHeadingLevel } from "../functional/Heading";
 import {
   ConditionalSlotComponent,
   connectConditionalSlotComponent,
   disconnectConditionalSlotComponent
 } from "../../utils/conditionalSlot";
+import { getSlotted } from "../../utils/dom";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 import {
   connectMessages,
@@ -26,7 +24,9 @@ import {
   T9nComponent,
   updateMessages
 } from "../../utils/t9n";
+import { constrainHeadingLevel, Heading, HeadingLevel } from "../functional/Heading";
 import { TipMessages } from "./assets/tip/t9n";
+import { CSS, ICONS, SLOTS } from "./resources";
 
 /**
  * @slot - A slot for adding text and a hyperlink.
@@ -47,7 +47,7 @@ export class Tip implements ConditionalSlotComponent, LocalizedComponent, T9nCom
   /**
    * When `true`, the component does not display.
    */
-  @Prop({ reflect: true, mutable: true }) dismissed = false;
+  @Prop({ reflect: true, mutable: true }) closed = false;
 
   /**
    * When `true`, the close button is not present on the component.
@@ -134,7 +134,7 @@ export class Tip implements ConditionalSlotComponent, LocalizedComponent, T9nCom
   // --------------------------------------------------------------------------
 
   /**
-   * Emits when the component has been dismissed.
+   * Emits when the component has been closed.
    */
   @Event({ cancelable: false }) calciteTipDismiss: EventEmitter<void>;
 
@@ -145,7 +145,7 @@ export class Tip implements ConditionalSlotComponent, LocalizedComponent, T9nCom
   // --------------------------------------------------------------------------
 
   hideTip = (): void => {
-    this.dismissed = true;
+    this.closed = true;
 
     this.calciteTipDismiss.emit();
   };

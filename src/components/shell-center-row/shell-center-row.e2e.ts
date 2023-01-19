@@ -1,7 +1,7 @@
 import { newE2EPage } from "@stencil/core/testing";
 
-import { CSS, SLOTS } from "./resources";
 import { accessible, defaults, hidden, renders, slots } from "../../tests/commonTests";
+import { CSS, SLOTS } from "./resources";
 
 describe("calcite-shell-center-row", () => {
   it("renders", async () => renders("calcite-shell-center-row", { display: "flex" }));

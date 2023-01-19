@@ -1,8 +1,8 @@
 import { select, text } from "@storybook/addon-knobs";
 import { boolean, storyFilters } from "../../../.storybook/helpers";
-import { themesDarkDefault } from "../../../.storybook/utils";
-import readme from "./readme.md";
+import { modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
+import readme from "./readme.md";
 
 export default {
   title: "Components/Controls/Radio/Radio Button",
@@ -27,8 +27,8 @@ export const simple = (): string => html`
   </calcite-label>
 `;
 
-export const darkThemeRTL_TestOnly = (): string => html`
-  <calcite-label layout="inline" class="calcite-theme-dark" dir="rtl">
+export const darkModeRTL_TestOnly = (): string => html`
+  <calcite-label layout="inline" class="calcite-mode-dark" dir="rtl">
     <calcite-radio-button
       ${boolean("checked", false)}
       ${boolean("disabled", false)}
@@ -43,6 +43,6 @@ export const darkThemeRTL_TestOnly = (): string => html`
   </calcite-label>
 `;
 
-darkThemeRTL_TestOnly.parameters = { themes: themesDarkDefault };
+darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
 
 export const disabled_TestOnly = (): string => html`<calcite-radio-button checked disabled></calcite-radio-button>`;
