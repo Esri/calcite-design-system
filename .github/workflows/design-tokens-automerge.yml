@@ -15,5 +15,5 @@ jobs:
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
           MERGE_LABELS: "automated-tokens-pr"
           MERGE_METHOD: "squash"
-          MERGE_COMMIT_MESSAGE: "chore(automatic): automerge from ${{github.base_ref}}"
+          MERGE_COMMIT_MESSAGE: "chore(automatic): auto-merge from ${{github.base_ref}}"
           MERGE_REQUIRED_APPROVALS: "0"
