@@ -277,10 +277,16 @@ export class DatePickerMonth {
     const date = lastDate.getDate();
     const day = lastDate.getDay();
     const days = [];
-    if (day - 6 === startOfWeek) {
+
+    if (day === (startOfWeek + 6) % 7) {
       return days;
     }
-    for (let i = lastDate.getDay() - startOfWeek; i >= 0; i--) {
+
+    if (day === startOfWeek) {
+      return [date];
+    }
+
+    for (let i = (7 + day - startOfWeek) % 7; i >= 0; i--) {
       days.push(date - i);
     }
     return days;
