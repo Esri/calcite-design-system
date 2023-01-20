@@ -19,7 +19,7 @@ export default {
 export const simple = (): string => html`
   <calcite-pagination
     scale="${select("scale", ["s", "m", "l"], "m")}"
-    start-item-index="${number("start-item-index", 1)}"
+    start-item="${number("start-item", 1)}"
     lang="${select("lang", locales, "en")}"
     total-items="${number("total-items", 123456789)}"
     page-size="${number("page-size", 10)}"
@@ -29,7 +29,7 @@ export const simple = (): string => html`
 
 export const darkModeFrenchLocale_TestOnly = (): string => html`<calcite-pagination
   class="calcite-mode-dark"
-  start-item-index="1"
+  start-item="1"
   lang="fr"
   group-separator
   total-items="123456789"
@@ -42,7 +42,7 @@ darkModeFrenchLocale_TestOnly.parameters = { modes: modesDarkDefault };
 export const arabicNumberingSystemAndRTL_TestOnly = (): string => html`<calcite-pagination
   dir="rtl"
   page-sizebering-system="arab"
-  start-item-index="1"
+  start-item="1"
   lang="fr"
   total-items="123456789"
   page-size="10"

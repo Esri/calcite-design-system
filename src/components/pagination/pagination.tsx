@@ -33,7 +33,7 @@ const maxPagesDisplayed = 5;
 export interface PaginationDetail {
   start: number;
   totalItems: number;
-  startItemIndex: number;
+  startItem: number;
 }
 
 @Component({
@@ -75,7 +75,7 @@ export class Pagination implements LocalizedComponent, LocalizedComponent, T9nCo
   @Prop() numberingSystem: NumberingSystem;
 
   /** Specifies the starting item number. */
-  @Prop({ mutable: true, reflect: true }) startItemIndex = 1;
+  @Prop({ mutable: true, reflect: true }) startItem = 1;
 
   /** Specifies the total number of items. */
   @Prop({ reflect: true }) totalItems = 0;
@@ -161,13 +161,13 @@ export class Pagination implements LocalizedComponent, LocalizedComponent, T9nCo
   /** Go to the next page of results. */
   @Method()
   async nextPage(): Promise<void> {
-    this.startItemIndex = Math.min(this.getLastStart(), this.startItemIndex + this.pageSize);
+    this.startItem = Math.min(this.getLastStart(), this.startItem + this.pageSize);
   }
 
   /** Go to the previous page of results. */
   @Method()
   async previousPage(): Promise<void> {
-    this.startItemIndex = Math.max(1, this.startItemIndex - this.pageSize);
+    this.startItem = Math.max(1, this.startItem - this.pageSize);
   }
 
   // --------------------------------------------------------------------------
@@ -196,11 +196,11 @@ export class Pagination implements LocalizedComponent, LocalizedComponent, T9nCo
   };
 
   private showLeftEllipsis() {
-    return Math.floor(this.startItemIndex / this.pageSize) > 3;
+    return Math.floor(this.startItem / this.pageSize) > 3;
   }
 
   private showRightEllipsis() {
-    return (this.totalItems - this.startItemIndex) / this.pageSize > 3;
+    return (this.totalItems - this.startItem) / this.pageSize > 3;
   }
 
   private emitUpdate() {
@@ -224,17 +224,17 @@ export class Pagination implements LocalizedComponent, LocalizedComponent, T9nCo
       end = lastStart - this.pageSize;
     } else {
       // if we're within max pages of page 1
-      if (this.startItemIndex / this.pageSize < maxPagesDisplayed - 1) {
+      if (this.startItem / this.pageSize < maxPagesDisplayed - 1) {
         nextStart = 1 + this.pageSize;
         end = 1 + 4 * this.pageSize;
       } else {
         // if we're within max pages of last page
-        if (this.startItemIndex + 3 * this.pageSize >= this.totalItems) {
+        if (this.startItem + 3 * this.pageSize >= this.totalItems) {
           nextStart = lastStart - 4 * this.pageSize;
           end = lastStart - this.pageSize;
         } else {
-          nextStart = this.startItemIndex - this.pageSize;
-          end = this.startItemIndex + this.pageSize;
+          nextStart = this.startItem - this.pageSize;
+          end = this.startItem + this.pageSize;
         }
       }
     }
@@ -262,10 +262,10 @@ export class Pagination implements LocalizedComponent, LocalizedComponent, T9nCo
       <button
         class={{
           [CSS.page]: true,
-          [CSS.selected]: start === this.startItemIndex
+          [CSS.selected]: start === this.startItem
         }}
         onClick={() => {
-          this.startItemIndex = start;
+          this.startItem = start;
           this.emitUpdate();
         }}
       >
@@ -287,12 +287,10 @@ export class Pagination implements LocalizedComponent, LocalizedComponent, T9nCo
   }
 
   render(): VNode {
-    const { totalItems, pageSize, startItemIndex } = this;
-    const prevDisabled = pageSize === 1 ? startItemIndex <= pageSize : startItemIndex < pageSize;
+    const { totalItems, pageSize, startItem } = this;
+    const prevDisabled = pageSize === 1 ? startItem <= pageSize : startItem < pageSize;
     const nextDisabled =
-      pageSize === 1
-        ? startItemIndex + pageSize > totalItems
-        : startItemIndex + pageSize > totalItems;
+      pageSize === 1 ? startItem + pageSize > totalItems : startItem + pageSize > totalItems;
     return (
       <Fragment>
         <button
