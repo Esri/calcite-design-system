@@ -1069,7 +1069,7 @@ describe("calcite-dropdown", () => {
       filterInput.value = "nums";
     });
 
-    expect(dropdownContentHeight.height).toBe("64px");
+    expect(dropdownContentHeight.height).toBe("72px");
   });
 
   it("owns a floating-ui", () =>

@@ -480,3 +480,13 @@ export const flipPlacements_TestOnly = (): string => html`
     document.querySelector(".my-dropdown").flipPlacements = ["right"];
   </script>
 `;
+
+export const mediumIconForLargeDropdownItem_TestOnly = (): string => html`
+  <calcite-dropdown scale="l" width="m" open>
+    <calcite-dropdown-group group-title="View">
+      <calcite-dropdown-item scale="l">Table</calcite-dropdown-item>
+      <calcite-dropdown-item icon-start="grid" scale="l">Grid</calcite-dropdown-item>
+      <calcite-dropdown-item icon-start="grid" icon-end="grid" scale="l">Grid</calcite-dropdown-item>
+    </calcite-dropdown-group>
+  </calcite-dropdown>
+`;
