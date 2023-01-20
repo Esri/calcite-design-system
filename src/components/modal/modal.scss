@@ -8,6 +8,7 @@
  * @prop --calcite-modal-scrim-background: Specifies the background color of the modal scrim.
  * @prop --calcite-modal-width: Specifies a width of the modal, using `px`, `em`, `rem`, `vw`, or `%`. Will never exceed the width of the viewport. Will not apply if `fullscreen` if set.
  * @prop --calcite-modal-height: Specifies a height of the modal, using `px`, `em`, `rem`, `vh`, or `%`. Will never exceed the height of the viewport. Will not apply if `fullscreen` if set.
+ * @prop --calcite-duration-factor: Specifies the duration factor for transitions. Default value is 1.
  *
  */
 

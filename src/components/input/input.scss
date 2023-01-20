@@ -1,3 +1,11 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-duration-factor: Specifies the duration factor for transitions. Default value is 1.
+ */
+
 :host {
   @apply block;
 }
