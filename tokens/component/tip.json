@@ -58,20 +58,6 @@
         "type": "borderRadius"
       }
     },
-    "comp-size": {
-      "sm": {
-        "value": "$core.sizing.9",
-        "type": "sizing"
-      },
-      "md": {
-        "value": "$core.sizing.11",
-        "type": "sizing"
-      },
-      "lg": {
-        "value": "$core.sizing.14",
-        "type": "sizing"
-      }
-    },
     "icon-size": {
       "md": {
         "value": "$core.sizing.9",

@@ -436,6 +436,82 @@
           "value": "$accordion-item.border.dark",
           "type": "color"
         }
+      },
+      "input-message": {
+        "font": {
+          "value": "$input-message.font.dark",
+          "type": "color"
+        },
+        "icon": {
+          "idle": {
+            "value": "$input-message.icon.idle.dark",
+            "type": "color"
+          },
+          "invalid": {
+            "value": "$input-message.icon.invalid.dark",
+            "type": "color"
+          },
+          "valid": {
+            "value": "$input-message.icon.valid.dark",
+            "type": "color"
+          }
+        }
+      },
+      "alert": {
+        "font": {
+          "title": {
+            "value": "$alert.font.title.dark",
+            "type": "color"
+          },
+          "message": {
+            "value": "$alert.font.message.dark",
+            "type": "color"
+          }
+        },
+        "background": {
+          "value": "$alert.background.dark",
+          "type": "color"
+        },
+        "border": {
+          "value": "$alert.border.dark",
+          "type": "color"
+        },
+        "icon": {
+          "blue": {
+            "value": "$alert.icon.blue.dark",
+            "type": "color"
+          },
+          "green": {
+            "value": "$alert.icon.green.dark",
+            "type": "color"
+          },
+          "yellow": {
+            "value": "$alert.icon.yellow.dark",
+            "type": "color"
+          },
+          "red": {
+            "value": "$alert.icon.red.dark",
+            "type": "color"
+          }
+        },
+        "highlight": {
+          "blue": {
+            "value": "$alert.icon.blue.dark",
+            "type": "color"
+          },
+          "green": {
+            "value": "$alert.icon.green.dark",
+            "type": "color"
+          },
+          "yellow": {
+            "value": "$alert.icon.yellow.dark",
+            "type": "color"
+          },
+          "red": {
+            "value": "$alert.icon.red.dark",
+            "type": "color"
+          }
+        }
       }
     }
   }

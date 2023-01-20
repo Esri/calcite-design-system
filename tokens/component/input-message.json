@@ -10,15 +10,15 @@
         "type": "color"
       },
       "sm": {
-        "value": "$semantic.font.default.bold.-3h",
+        "value": "$semantic.font.default.medium.-3h",
         "type": "typography"
       },
       "md": {
-        "value": "$semantic.font.default.bold.-2h",
+        "value": "$semantic.font.default.medium.-2h",
         "type": "typography"
       },
       "lg": {
-        "value": "$semantic.font.default.bold.-1h",
+        "value": "$semantic.font.default.medium.-1h",
         "type": "typography"
       }
     },
@@ -52,20 +52,6 @@
           "value": "$semantic.ui.color.success.default.dark",
           "type": "color"
         }
-      }
-    },
-    "comp-size": {
-      "sm": {
-        "value": "$core.sizing.9",
-        "type": "sizing"
-      },
-      "md": {
-        "value": "$core.sizing.11",
-        "type": "sizing"
-      },
-      "lg": {
-        "value": "$core.sizing.14",
-        "type": "sizing"
       }
     },
     "icon-size": {
