@@ -1,12 +1,12 @@
 import { Component, Element, Fragment, h, Prop, VNode } from "@stencil/core";
-import { SLOTS } from "./resources";
-import { getSlotted } from "../../utils/dom";
 import {
   ConditionalSlotComponent,
   connectConditionalSlotComponent,
   disconnectConditionalSlotComponent
 } from "../../utils/conditionalSlot";
+import { getSlotted } from "../../utils/dom";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import { SLOTS } from "./resources";
 
 /**
  * @slot content-start - A slot for adding non-actionable elements before the component's content.

@@ -1,12 +1,12 @@
-import { select, optionsKnob } from "@storybook/addon-knobs";
+import { optionsKnob, select } from "@storybook/addon-knobs";
 import { iconNames, storyFilters } from "../../../.storybook/helpers";
-import { modesDarkDefault } from "../../../.storybook/utils";
 import { placeholderImage } from "../../../.storybook/placeholderImage";
-import readme1 from "./readme.md";
-import readme2 from "../tab/readme.md";
+import { modesDarkDefault } from "../../../.storybook/utils";
+import { html } from "../../../support/formatting";
 import readme3 from "../tab-nav/readme.md";
 import readme4 from "../tab-title/readme.md";
-import { html } from "../../../support/formatting";
+import readme2 from "../tab/readme.md";
+import readme1 from "./readme.md";
 
 export default {
   title: "Components/Tabs",
@@ -150,39 +150,19 @@ export const justTabNav = (): string => html`
   </calcite-tab-nav>
 `;
 
-export const disabledTabs_TestOnly = (): string => {
-  const disabledLabel = "Disabled Tabs";
-  const disabledValuesObj = {
-    Tab1: "tab1",
-    Tab2: "tab2",
-    Tab3: "tab3"
-  };
-  const defaultValue = "tab2";
-  const optionsKnobSelections = optionsKnob(
-    disabledLabel,
-    disabledValuesObj,
-    defaultValue,
-    { display: "multi-select" },
-    "DISABLED-TABS"
-  );
-  const tab1disabled = optionsKnobSelections.includes(disabledValuesObj.Tab1);
-  const tab2disabled = optionsKnobSelections.includes(disabledValuesObj.Tab2);
-  const tab3disabled = optionsKnobSelections.includes(disabledValuesObj.Tab3);
+export const disabledTabsAndMediumIconsForLargeTabsTitle_TestOnly = (): string => html`
+  <calcite-tabs scale="l">
+    <calcite-tab-nav slot="title-group">
+      <calcite-tab-title selected>Tab 1 Title</calcite-tab-title>
+      <calcite-tab-title disabled icon-start="arrow-left">Tab 2 Title</calcite-tab-title>
+      <calcite-tab-title disabled icon-start="arrow-left" icon-end="arrow-right">Tab 3 Title</calcite-tab-title>
+    </calcite-tab-nav>
 
-  return `
-      <calcite-tabs>
-        <calcite-tab-nav slot="title-group">
-          <calcite-tab-title selected ${tab1disabled ? "disabled" : ""}>Tab 1 Title</calcite-tab-title>
-          <calcite-tab-title ${tab2disabled ? "disabled" : ""}>Tab 2 Title</calcite-tab-title>
-          <calcite-tab-title ${tab3disabled ? "disabled" : ""}>Tab 3 Title</calcite-tab-title>
-        </calcite-tab-nav>
-
-        <calcite-tab selected><p>Tab 1 Content</p></calcite-tab>
-        <calcite-tab><p>Tab 2 Content</p></calcite-tab>
-        <calcite-tab><p>Tab 3 Content</p></calcite-tab>
-      </calcite-tabs>
-    `;
-};
+    <calcite-tab><p>Tab 1 Content</p></calcite-tab>
+    <calcite-tab><p>Tab 2 Content</p></calcite-tab>
+    <calcite-tab><p>Tab 3 Content</p></calcite-tab>
+  </calcite-tabs>
+`;
 
 export const TabChilrenWithPercentageHeights = (): string => html`
   <calcite-tabs style="height: 250px;">

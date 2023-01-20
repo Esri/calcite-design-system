@@ -10,15 +10,18 @@ import {
   VNode,
   Watch
 } from "@stencil/core";
-import { CSS, SLOTS } from "./resources";
-import { Kind, Scale, Width } from "../interfaces";
-import { KindIcons } from "../resources";
-import { getSlotted, setRequestedIcon } from "../../utils/dom";
 import {
   ConditionalSlotComponent,
   connectConditionalSlotComponent,
   disconnectConditionalSlotComponent
 } from "../../utils/conditionalSlot";
+import { getSlotted, setRequestedIcon } from "../../utils/dom";
+import {
+  componentLoaded,
+  LoadableComponent,
+  setComponentLoaded,
+  setUpLoadableComponent
+} from "../../utils/loadable";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 import {
   connectMessages,
@@ -27,13 +30,10 @@ import {
   T9nComponent,
   updateMessages
 } from "../../utils/t9n";
+import { Kind, Scale, Width } from "../interfaces";
+import { KindIcons } from "../resources";
 import { NoticeMessages } from "./assets/notice/t9n";
-import {
-  setUpLoadableComponent,
-  setComponentLoaded,
-  LoadableComponent,
-  componentLoaded
-} from "../../utils/loadable";
+import { CSS, SLOTS } from "./resources";
 
 /**
  * Notices are intended to be used to present users with important-but-not-crucial contextual tips or copy. Because

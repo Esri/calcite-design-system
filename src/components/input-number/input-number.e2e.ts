@@ -1,20 +1,20 @@
 import { E2EPage, newE2EPage } from "@stencil/core/testing";
+import { KeyInput } from "puppeteer";
+import { html } from "../../../support/formatting";
 import {
   defaults,
   disabled,
   focusable,
   formAssociated,
+  hidden,
   labelable,
   reflects,
   renders,
-  hidden,
   t9n
 } from "../../tests/commonTests";
-import { html } from "../../../support/formatting";
+import { getElementXY } from "../../tests/utils";
 import { letterKeys, numberKeys } from "../../utils/key";
 import { locales, numberStringFormatter } from "../../utils/locale";
-import { getElementXY } from "../../tests/utils";
-import { KeyInput } from "puppeteer";
 
 describe("calcite-input-number", () => {
   const delayFor2UpdatesInMs = 200;

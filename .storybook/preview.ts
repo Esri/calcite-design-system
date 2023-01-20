@@ -1,6 +1,6 @@
-import { modes, globalDocsPage, parseReadme } from "./utils";
-import { withDirection } from "storybook-rtl-addon";
 import { Theme as Mode } from "storybook-addon-themes/dist/models/Theme";
+import { withDirection } from "storybook-rtl-addon";
+import { globalDocsPage, modes, parseReadme } from "./utils";
 
 declare global {
   interface Window {}

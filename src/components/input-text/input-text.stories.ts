@@ -1,8 +1,8 @@
 import { select, text } from "@storybook/addon-knobs";
 import { boolean, iconNames, storyFilters } from "../../../.storybook/helpers";
 import { modesDarkDefault } from "../../../.storybook/utils";
-import readme from "./readme.md";
 import { html } from "../../../support/formatting";
+import readme from "./readme.md";
 
 export default {
   title: "Components/Controls/Input Text",
@@ -95,3 +95,17 @@ export const darkModeRTL_TestOnly = (): string => html`
   </div>
 `;
 darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
+
+export const mediumIconForLargeScaleStyling_TestOnly = (): string => html`
+  <calcite-label scale="l">
+    Input Label
+    <calcite-input-text placeholder="Placeholder" scale="l"></calcite-input-text>
+    <calcite-input-text
+      placeholder="Placeholder"
+      scale="l"
+      icon="search"
+      clearable
+      value="sample input to show x"
+    ></calcite-input-text>
+  </calcite-label>
+`;

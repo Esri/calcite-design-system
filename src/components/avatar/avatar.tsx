@@ -1,8 +1,8 @@
 import { Component, Element, h, Prop, State } from "@stencil/core";
+import { getModeName } from "../../utils/dom";
 import { isValidHex } from "../color-picker/utils";
 import { Scale } from "../interfaces";
 import { hexToHue, stringToHex } from "./utils";
-import { getModeName } from "../../utils/dom";
 
 @Component({
   tag: "calcite-avatar",

@@ -12,17 +12,15 @@ import {
 } from "@stencil/core";
 import { getElementProp, toAriaBoolean } from "../../utils/dom";
 import { ItemKeyboardEvent } from "../dropdown/interfaces";
-
-import { FlipContext } from "../interfaces";
-import { CSS } from "./resources";
 import { RequestedItem } from "../dropdown-group/interfaces";
+import { FlipContext, Scale, SelectionMode } from "../interfaces";
+import { CSS } from "./resources";
 import {
-  setUpLoadableComponent,
-  setComponentLoaded,
+  componentLoaded,
   LoadableComponent,
-  componentLoaded
+  setComponentLoaded,
+  setUpLoadableComponent
 } from "../../utils/loadable";
-import { SelectionMode } from "../interfaces";
 
 /**
  * @slot - A slot for adding text.
@@ -129,26 +127,26 @@ export class DropdownItem implements LoadableComponent {
   }
 
   render(): VNode {
-    const scale = getElementProp(this.el, "scale", "m");
+    const scale = getElementProp(this.el, "scale", this.scale);
     const iconStartEl = (
       <calcite-icon
-        class="dropdown-item-icon-start"
+        class={CSS.iconStart}
         flipRtl={this.iconFlipRtl === "start" || this.iconFlipRtl === "both"}
         icon={this.iconStart}
-        scale="s"
+        scale={scale === "l" ? "m" : "s"}
       />
     );
     const contentNode = (
-      <span class="dropdown-item-content">
+      <span class={CSS.itemContent}>
         <slot />
       </span>
     );
     const iconEndEl = (
       <calcite-icon
-        class="dropdown-item-icon-end"
+        class={CSS.iconEnd}
         flipRtl={this.iconFlipRtl === "end" || this.iconFlipRtl === "both"}
         icon={this.iconEnd}
-        scale="s"
+        scale={scale === "l" ? "m" : "s"}
       />
     );
 
@@ -156,7 +154,7 @@ export class DropdownItem implements LoadableComponent {
       this.iconStart && this.iconEnd
         ? [iconStartEl, contentNode, iconEndEl]
         : this.iconStart
-        ? [iconStartEl, <slot />]
+        ? [iconStartEl, contentNode]
         : this.iconEnd
         ? [contentNode, iconEndEl]
         : contentNode;
@@ -166,7 +164,7 @@ export class DropdownItem implements LoadableComponent {
     ) : (
       <a
         aria-label={this.label}
-        class="dropdown-link"
+        class={CSS.link}
         href={this.href}
         ref={(el) => (this.childLink = el)}
         rel={this.rel}
@@ -203,9 +201,9 @@ export class DropdownItem implements LoadableComponent {
         >
           {this.selectionMode !== "none" ? (
             <calcite-icon
-              class="dropdown-item-icon"
+              class={CSS.icon}
               icon={this.selectionMode === "multiple" ? "check" : "bullet-point"}
-              scale="s"
+              scale={scale === "l" ? "m" : "s"}
             />
           ) : null}
           {contentEl}
@@ -284,6 +282,9 @@ export class DropdownItem implements LoadableComponent {
 
   /** if href is requested, track the rendered child link*/
   private childLink: HTMLAnchorElement;
+
+  /** Specifies the scale of dropdown-item controlled by the parent, defaults to m */
+  scale: Scale = "m";
 
   //--------------------------------------------------------------------------
   //

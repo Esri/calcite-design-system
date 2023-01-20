@@ -1,11 +1,11 @@
 import { number, select } from "@storybook/addon-knobs";
 import { boolean, storyFilters } from "../../../.storybook/helpers";
 import { modesDarkDefault } from "../../../.storybook/utils";
-import readme1 from "./readme.md";
+import { html } from "../../../support/formatting";
+import { defaultMenuPlacement, menuPlacements } from "../../utils/floating-ui";
 import readme2 from "../dropdown-group/readme.md";
 import readme3 from "../dropdown-item/readme.md";
-import { defaultMenuPlacement, menuPlacements } from "../../utils/floating-ui";
-import { html } from "../../../support/formatting";
+import readme1 from "./readme.md";
 
 export default {
   title: "Components/Buttons/Dropdown",
@@ -479,4 +479,14 @@ export const flipPlacements_TestOnly = (): string => html`
   <script>
     document.querySelector(".my-dropdown").flipPlacements = ["right"];
   </script>
+`;
+
+export const mediumIconForLargeDropdownItem_TestOnly = (): string => html`
+  <calcite-dropdown scale="l" width="m" open>
+    <calcite-dropdown-group group-title="View">
+      <calcite-dropdown-item scale="l">Table</calcite-dropdown-item>
+      <calcite-dropdown-item icon-start="grid" scale="l">Grid</calcite-dropdown-item>
+      <calcite-dropdown-item icon-start="grid" icon-end="grid" scale="l">Grid</calcite-dropdown-item>
+    </calcite-dropdown-group>
+  </calcite-dropdown>
 `;

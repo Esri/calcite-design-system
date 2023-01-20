@@ -11,6 +11,8 @@ export const CSS = {
   primary: "primary",
   overflowHidden: "overflow-hidden",
   container: "container",
+  content: "content",
+  contentNoFooter: "content--no-footer",
   slottedInShell: "slotted-in-shell",
 
   // these classes help apply the animation in phases to only set transform on open/close

@@ -4,49 +4,48 @@ import {
   Event,
   EventEmitter,
   forceUpdate,
+  h,
   Host,
   Method,
   Prop,
   State,
-  Watch,
-  h,
-  VNode
+  VNode,
+  Watch
 } from "@stencil/core";
-import { CSS, ARIA_CONTROLS, ARIA_EXPANDED, defaultPopoverPlacement } from "./resources";
 import {
-  FloatingCSS,
-  OverlayPositioning,
-  FloatingUIComponent,
   connectFloatingUI,
-  disconnectFloatingUI,
-  LogicalPlacement,
-  EffectivePlacement,
   defaultOffsetDistance,
+  disconnectFloatingUI,
+  EffectivePlacement,
   filterComputedPlacements,
+  FloatingCSS,
+  FloatingUIComponent,
+  LogicalPlacement,
+  OverlayPositioning,
   ReferenceElement,
   reposition,
   updateAfterClose
 } from "../../utils/floating-ui";
 import {
-  FocusTrapComponent,
-  FocusTrap,
-  connectFocusTrap,
   activateFocusTrap,
+  connectFocusTrap,
   deactivateFocusTrap,
+  FocusTrap,
+  FocusTrapComponent,
   updateFocusTrapElements
 } from "../../utils/focusTrapComponent";
+import { ARIA_CONTROLS, ARIA_EXPANDED, CSS, defaultPopoverPlacement } from "./resources";
 
-import { guid } from "../../utils/guid";
 import { focusFirstTabbable, queryElementRoots, toAriaBoolean } from "../../utils/dom";
+import { guid } from "../../utils/guid";
 import {
-  OpenCloseComponent,
   connectOpenCloseComponent,
-  disconnectOpenCloseComponent
+  disconnectOpenCloseComponent,
+  OpenCloseComponent
 } from "../../utils/openCloseComponent";
-import { HeadingLevel, Heading } from "../functional/Heading";
+import { Heading, HeadingLevel } from "../functional/Heading";
 import { Scale } from "../interfaces";
 
-import PopoverManager from "./PopoverManager";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 import {
   connectMessages,
@@ -56,12 +55,13 @@ import {
   updateMessages
 } from "../../utils/t9n";
 import { PopoverMessages } from "./assets/popover/t9n";
+import PopoverManager from "./PopoverManager";
 
 import {
-  setUpLoadableComponent,
-  setComponentLoaded,
+  componentLoaded,
   LoadableComponent,
-  componentLoaded
+  setComponentLoaded,
+  setUpLoadableComponent
 } from "../../utils/loadable";
 
 const manager = new PopoverManager();

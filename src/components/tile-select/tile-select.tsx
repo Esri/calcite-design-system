@@ -4,24 +4,24 @@ import {
   Event,
   EventEmitter,
   h,
-  Prop,
   Listen,
-  VNode,
-  Watch,
+  Method,
+  Prop,
   State,
-  Method
+  VNode,
+  Watch
 } from "@stencil/core";
-import { Alignment, Width } from "../interfaces";
-import { TileSelectType } from "./interfaces";
 import { guid } from "../../utils/guid";
-import { CSS } from "./resources";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import {
-  setUpLoadableComponent,
-  setComponentLoaded,
+  componentLoaded,
   LoadableComponent,
-  componentLoaded
+  setComponentLoaded,
+  setUpLoadableComponent
 } from "../../utils/loadable";
+import { Alignment, Width } from "../interfaces";
+import { TileSelectType } from "./interfaces";
+import { CSS } from "./resources";
 
 /**
  * @slot - A slot for adding custom content.
