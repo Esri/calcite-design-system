@@ -8,6 +8,7 @@
     "component/avatar",
     "component/checkbox",
     "component/chip",
+    "component/color-picker",
     "component/input-message",
     "component/input-time",
     "component/label",
@@ -17,12 +18,12 @@
     "component/tip",
     "component/tooltip",
     "component/switch",
+    "component/[template-comp-name]",
+    "component/accordion_backup",
     "calcite/light",
     "calcite/dark",
     "brand/global",
     "brand/light",
-    "brand/dark",
-    "component/[template-comp-name]",
-    "component/accordion_backup"
+    "brand/dark"
   ]
 }

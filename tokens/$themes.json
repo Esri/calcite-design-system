@@ -199,7 +199,8 @@
       "component/accordion-item": "enabled",
       "component/alert": "enabled",
       "component/accordion": "enabled",
-      "component/tip": "enabled"
+      "component/tip": "enabled",
+      "component/color-picker": "enabled"
     },
     "$figmaStyleReferences": {
       "semantic.ui.color.brand.default.light": "S:959c4907a32cb62f2227db1c3fb7a88c3eedcbb9,",
