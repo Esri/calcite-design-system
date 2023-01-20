@@ -209,7 +209,7 @@
 }
 
 :host([highlighted]:not([active]:focus)) .day {
-  @apply text-color-1 rounded-full;
+  @apply text-color-1;
 }
 
 :host([range-hover]:not([selected])) {
