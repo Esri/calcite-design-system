@@ -126,10 +126,7 @@ export function datePartsFromLocalizedString(
  *
  * @param date
  */
-export function dateToISO(date?: Date | string): string {
-  if (typeof date === "string") {
-    return date;
-  }
+export function dateToISO(date?: Date): string {
   if (date instanceof Date) {
     return new Date(date.getTime() - date.getTimezoneOffset() * 60000).toISOString().split("T")[0];
   }
