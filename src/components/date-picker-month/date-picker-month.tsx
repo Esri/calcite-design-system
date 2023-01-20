@@ -13,6 +13,8 @@ import { dateFromRange, HoverRange, inRange, sameDate } from "../../utils/date";
 import { DateLocaleData } from "../date-picker/utils";
 import { Scale } from "../interfaces";
 
+const DAYS_PER_WEEK = 7;
+const DAYS_MAXIMUM_INDEX = 6;
 @Component({
   tag: "calcite-date-picker-month",
   styleUrl: "date-picker-month.scss",
@@ -278,7 +280,7 @@ export class DatePickerMonth {
     const day = lastDate.getDay();
     const days = [];
 
-    if (day === (startOfWeek + 6) % 7) {
+    if (day === (startOfWeek + DAYS_MAXIMUM_INDEX) % DAYS_PER_WEEK) {
       return days;
     }
 
@@ -286,7 +288,7 @@ export class DatePickerMonth {
       return [date];
     }
 
-    for (let i = (7 + day - startOfWeek) % 7; i >= 0; i--) {
+    for (let i = (DAYS_PER_WEEK + day - startOfWeek) % DAYS_PER_WEEK; i >= 0; i--) {
       days.push(date - i);
     }
     return days;
@@ -317,10 +319,10 @@ export class DatePickerMonth {
   private getNextMonthDays(month: number, year: number, startOfWeek: number): number[] {
     const endDay = new Date(year, month + 1, 0).getDay();
     const days = [];
-    if (endDay === (startOfWeek + 6) % 7) {
+    if (endDay === (startOfWeek + DAYS_MAXIMUM_INDEX) % DAYS_PER_WEEK) {
       return days;
     }
-    for (let i = 0; i < (6 - (endDay - startOfWeek)) % 7; i++) {
+    for (let i = 0; i < (DAYS_MAXIMUM_INDEX - (endDay - startOfWeek)) % DAYS_PER_WEEK; i++) {
       days.push(i + 1);
     }
     return days;
