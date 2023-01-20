@@ -198,7 +198,7 @@ export class TreeItem
 
   componentWillLoad(): void {
     if (this.expanded) {
-      onToggleOpenCloseComponent(this, true);
+      onToggleOpenCloseComponent(this, true, true);
     }
   }
 

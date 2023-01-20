@@ -72,8 +72,13 @@ function transitionEnd(event: TransitionEvent): void {
  *
  * @param component
  * @param nonOpenCloseComponent
+ * @param initialRender
  */
-export function onToggleOpenCloseComponent(component: OpenCloseComponent, nonOpenCloseComponent = false): void {
+export function onToggleOpenCloseComponent(
+  component: OpenCloseComponent,
+  nonOpenCloseComponent = false,
+  initialRender = false
+): void {
   readTask((): void => {
     if (component.transitionEl) {
       const allTransitionPropsArray = getComputedStyle(component.transitionEl).transition.split(" ");
@@ -81,7 +86,7 @@ export function onToggleOpenCloseComponent(component: OpenCloseComponent, nonOpe
         (item) => item === component.openTransitionProp
       );
       const transitionDuration = allTransitionPropsArray[openTransitionPropIndex + 1];
-      if (transitionDuration === "0s") {
+      if (transitionDuration === "0s" || initialRender) {
         (nonOpenCloseComponent ? component[component.transitionProp] : component.open)
           ? component.onBeforeOpen()
           : component.onBeforeClose();
