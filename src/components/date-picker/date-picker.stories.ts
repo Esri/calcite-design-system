@@ -203,17 +203,6 @@ export const britishLang_TestOnly = (): string =>
     )}
   </div>`;
 
-export const arabicLang_TestOnly = (): string =>
-  html`<div style="width: 400px">
-    ${create(
-      "calcite-date-picker",
-      createAttributes({ exceptions: ["lang", "value"] }).concat([
-        { name: "lang", value: "ar" },
-        { name: "value", value: "2022-08-11" }
-      ])
-    )}
-  </div>`;
-
 export const chineseLang_TestOnly = (): string =>
   html`<div style="width: 400px">
     ${create(
@@ -231,7 +220,8 @@ export const arabLangNumberingSystem_TestOnly = (): string =>
       "calcite-date-picker",
       createAttributes({ exceptions: ["lang", "numberingSystem"] }).concat([
         { name: "lang", value: "ar" },
-        { name: "numbering-system", value: "arab" }
+        { name: "numbering-system", value: "arab" },
+        { name: "value", value: "2022-08-11" }
       ])
     )}
   </div>`;
