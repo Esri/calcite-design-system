@@ -854,18 +854,18 @@ export class InputDatePicker
     inputEl.value = newValue;
   };
 
-  private setRangeValue = (value: Date[] | string): void => {
+  private setRangeValue = (valueAsDate: Date[]): void => {
     if (!this.range) {
       return;
     }
 
     const { value: oldValue } = this;
     const oldValueIsArray = Array.isArray(oldValue);
-    const valueIsArray = Array.isArray(value);
+    const valueIsArray = Array.isArray(valueAsDate);
 
-    const newStartDate = valueIsArray ? value[0] : "";
+    const newStartDate = valueIsArray ? valueAsDate[0] : null;
     const newStartDateISO = valueIsArray ? dateToISO(newStartDate) : "";
-    const newEndDate = valueIsArray ? value[1] : "";
+    const newEndDate = valueIsArray ? valueAsDate[1] : null;
     const newEndDateISO = valueIsArray ? dateToISO(newEndDate) : "";
 
     const newValue = newStartDateISO || newEndDateISO ? [newStartDateISO, newEndDateISO] : "";
