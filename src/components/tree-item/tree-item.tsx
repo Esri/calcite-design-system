@@ -7,6 +7,7 @@ import {
   Host,
   Listen,
   Prop,
+  State,
   VNode,
   Watch
 } from "@stencil/core";
@@ -70,6 +71,7 @@ export class TreeItem
   expandedHandler(newValue: boolean): void {
     this.updateParentIsExpanded(this.el, newValue);
     onToggleOpenCloseComponent(this, true);
+    this.treeItemNeverExpanded = false;
   }
 
   /**
@@ -198,7 +200,8 @@ export class TreeItem
 
   componentWillLoad(): void {
     if (this.expanded) {
-      onToggleOpenCloseComponent(this, true, true);
+      onToggleOpenCloseComponent(this, true);
+      requestAnimationFrame(() => (this.treeItemNeverExpanded = false));
     }
   }
 
@@ -271,38 +274,41 @@ export class TreeItem
     ) : null;
 
     const hidden = !(this.parentExpanded || this.depth === 1);
+    const isExpanded = this.treeItemNeverExpanded ? false : this.expanded;
 
     return (
       <Host
-        aria-expanded={this.hasChildren ? toAriaBoolean(this.expanded) : undefined}
+        aria-expanded={this.hasChildren ? toAriaBoolean(isExpanded) : undefined}
         aria-hidden={toAriaBoolean(hidden)}
         aria-selected={this.selected ? "true" : showCheckmark ? "false" : undefined}
         calcite-hydrated-hidden={hidden}
         role="treeitem"
       >
-        <div
-          class={{
-            [CSS.nodeContainer]: true,
-            [CSS_UTILITY.rtl]: rtl
-          }}
-          data-selection-mode={this.selectionMode}
-          ref={(el) => (this.defaultSlotWrapper = el as HTMLElement)}
-        >
-          {chevron}
-          {itemIndicator}
-          {checkbox ? checkbox : defaultSlotNode}
-        </div>
-        <div
-          class={{
-            [CSS.childrenContainer]: true,
-            [CSS_UTILITY.rtl]: rtl
-          }}
-          data-test-id="calcite-tree-children"
-          onClick={this.childrenClickHandler}
-          ref={(el) => this.setTransitionEl(el)}
-          role={this.hasChildren ? "group" : undefined}
-        >
-          <slot name={SLOTS.children} />
+        <div class={{ [CSS.treeItemExpanded]: isExpanded }}>
+          <div
+            class={{
+              [CSS.nodeContainer]: true,
+              [CSS_UTILITY.rtl]: rtl
+            }}
+            data-selection-mode={this.selectionMode}
+            ref={(el) => (this.defaultSlotWrapper = el as HTMLElement)}
+          >
+            {chevron}
+            {itemIndicator}
+            {checkbox ? checkbox : defaultSlotNode}
+          </div>
+          <div
+            class={{
+              [CSS.childrenContainer]: true,
+              [CSS_UTILITY.rtl]: rtl
+            }}
+            data-test-id="calcite-tree-children"
+            onClick={this.childrenClickHandler}
+            ref={(el) => this.setTransitionEl(el)}
+            role={this.hasChildren ? "group" : undefined}
+          >
+            <slot name={SLOTS.children} />
+          </div>
         </div>
       </Host>
     );
@@ -424,6 +430,14 @@ export class TreeItem
   //  Private State/Props
   //
   //--------------------------------------------------------------------------
+
+  /**
+   * Used to make sure initially expanded tree-item can properly
+   * transition and emit events from closed state when rendered.
+   *
+   * @private
+   */
+  @State() treeItemNeverExpanded = true;
 
   childrenSlotWrapper!: HTMLElement;
 

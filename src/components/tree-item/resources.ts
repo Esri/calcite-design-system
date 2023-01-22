@@ -5,7 +5,8 @@ export const CSS = {
   nodeContainer: "node-container",
   childrenContainer: "children-container",
   bulletPointIcon: "bullet-point",
-  checkmarkIcon: "checkmark"
+  checkmarkIcon: "checkmark",
+  treeItemExpanded: "tree-item--expanded"
 };
 
 export const SLOTS = {
