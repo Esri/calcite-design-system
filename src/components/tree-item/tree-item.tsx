@@ -71,7 +71,6 @@ export class TreeItem
   expandedHandler(newValue: boolean): void {
     this.updateParentIsExpanded(this.el, newValue);
     onToggleOpenCloseComponent(this, true);
-    this.treeItemNeverExpanded = false;
   }
 
   /**
@@ -201,8 +200,8 @@ export class TreeItem
   componentWillLoad(): void {
     if (this.expanded) {
       onToggleOpenCloseComponent(this, true);
-      requestAnimationFrame(() => (this.treeItemNeverExpanded = false));
     }
+    requestAnimationFrame(() => (this.transitionListenersAddedOnInitialLoad = true));
   }
 
   componentDidLoad(): void {
@@ -274,7 +273,7 @@ export class TreeItem
     ) : null;
 
     const hidden = !(this.parentExpanded || this.depth === 1);
-    const isExpanded = this.treeItemNeverExpanded ? false : this.expanded;
+    const isExpanded = this.transitionListenersAddedOnInitialLoad ? this.expanded : false;
 
     return (
       <Host
@@ -437,7 +436,7 @@ export class TreeItem
    *
    * @private
    */
-  @State() treeItemNeverExpanded = true;
+  @State() transitionListenersAddedOnInitialLoad = false;
 
   childrenSlotWrapper!: HTMLElement;
 
