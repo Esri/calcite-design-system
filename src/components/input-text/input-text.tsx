@@ -139,6 +139,8 @@ export class InputText
   /**
    * Specifies the name of the component.
    *
+   * Required to pass the component's `value` on form submission.
+   *
    * @mdn [name](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#name)
    */
   @Prop({ reflect: true }) name: string;

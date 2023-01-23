@@ -199,7 +199,9 @@ export class Input
   @Prop({ reflect: true }) minLength: number;
 
   /**
-   * Specifies the name of the component on form submission.
+   * Specifies the name of the component.
+   *
+   * Required to pass the component's `value` on form submission.
    *
    * @mdn [name](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#name)
    */
@@ -235,7 +237,7 @@ export class Input
   @Prop({ mutable: true, reflect: true }) status: Status = "idle";
 
   /**
-   * Specifies the granularity the component's value must adhere to.
+   * Specifies the granularity the component's `value` must adhere to.
    *
    * @mdn [step](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/step)
    */
