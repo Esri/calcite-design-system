@@ -159,7 +159,11 @@ export class Combobox
     this.setMaxScrollerHeight();
   }
 
-  /** Specifies the name of the component on form submission. */
+  /**
+   * Specifies the name of the component.
+   *
+   * Required to pass the component's `value` on form submission.
+   */
   @Prop({ reflect: true }) name: string;
 
   /** When `true`, allows entry of custom values, which are not in the original set of items. */
