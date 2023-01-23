@@ -512,6 +512,28 @@
             "type": "color"
           }
         }
+      },
+      "color-picker": {
+        "font": {
+          "label": {
+            "value": "$color-picker.font.label.dark",
+            "type": "color"
+          }
+        },
+        "icon": {
+          "value": "$color-picker.icon.dark",
+          "type": "color"
+        },
+        "border": {
+          "value": "$color-picker.border.dark",
+          "type": "color"
+        },
+        "background": {
+          "default": {
+            "value": "$color-picker.background.default.dark",
+            "type": "color"
+          }
+        }
       }
     }
   }
