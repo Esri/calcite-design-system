@@ -201,7 +201,7 @@ export class TreeItem
     if (this.expanded) {
       onToggleOpenCloseComponent(this, true);
     }
-    requestAnimationFrame(() => (this.transitionListenersAddedOnInitialLoad = true));
+    requestAnimationFrame(() => (this.updateAfterInitialRender = true));
   }
 
   componentDidLoad(): void {
@@ -273,7 +273,7 @@ export class TreeItem
     ) : null;
 
     const hidden = !(this.parentExpanded || this.depth === 1);
-    const isExpanded = this.transitionListenersAddedOnInitialLoad ? this.expanded : false;
+    const isExpanded = this.updateAfterInitialRender && this.expanded;
 
     return (
       <Host
@@ -283,7 +283,7 @@ export class TreeItem
         calcite-hydrated-hidden={hidden}
         role="treeitem"
       >
-        <div class={{ [CSS.treeItemExpanded]: isExpanded }}>
+        <div class={{ [CSS.itemExpanded]: isExpanded }}>
           <div
             class={{
               [CSS.nodeContainer]: true,
@@ -436,7 +436,7 @@ export class TreeItem
    *
    * @private
    */
-  @State() transitionListenersAddedOnInitialLoad = false;
+  @State() updateAfterInitialRender = false;
 
   childrenSlotWrapper!: HTMLElement;
 
