@@ -107,11 +107,11 @@
           "type": "spacing"
         },
         "md": {
-          "value": "$core.spacing.auto",
+          "value": "auto",
           "type": "spacing"
         },
         "lg": {
-          "value": "$core.spacing.auto",
+          "value": "auto",
           "type": "spacing"
         }
       }
