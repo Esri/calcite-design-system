@@ -1074,9 +1074,12 @@ describe("calcite-input", () => {
       const page = await newE2EPage();
       await page.setContent(html`<calcite-input type="number" value="1"></calcite-input>`);
       const input = await page.find("calcite-input");
+
       input.setProperty("value", "");
       await page.waitForChanges();
       expect(await input.getProperty("value")).toBe("");
+
+      await input.callMethod("setFocus");
       await typeNumberValue(page, "-123");
       await page.waitForChanges();
       expect(await input.getProperty("value")).toBe("-123");
