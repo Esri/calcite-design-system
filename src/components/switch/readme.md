@@ -14,14 +14,14 @@
 
 ## Properties
 
-| Property   | Attribute  | Description                                                                              | Type                | Default     |
-| ---------- | ---------- | ---------------------------------------------------------------------------------------- | ------------------- | ----------- |
-| `checked`  | `checked`  | When `true`, the component is checked.                                                   | `boolean`           | `false`     |
-| `disabled` | `disabled` | When `true`, interaction is prevented and the component is displayed with lower opacity. | `boolean`           | `false`     |
-| `label`    | `label`    | Accessible name for the component.                                                       | `string`            | `undefined` |
-| `name`     | `name`     | Specifies the name of the component on form submission.                                  | `string`            | `undefined` |
-| `scale`    | `scale`    | Specifies the size of the component.                                                     | `"l" \| "m" \| "s"` | `"m"`       |
-| `value`    | `value`    | The component's value.                                                                   | `any`               | `undefined` |
+| Property   | Attribute  | Description                                                                                       | Type                | Default     |
+| ---------- | ---------- | ------------------------------------------------------------------------------------------------- | ------------------- | ----------- |
+| `checked`  | `checked`  | When `true`, the component is checked.                                                            | `boolean`           | `false`     |
+| `disabled` | `disabled` | When `true`, interaction is prevented and the component is displayed with lower opacity.          | `boolean`           | `false`     |
+| `label`    | `label`    | Accessible name for the component.                                                                | `string`            | `undefined` |
+| `name`     | `name`     | Specifies the name of the component. Required to pass the component's `value` on form submission. | `string`            | `undefined` |
+| `scale`    | `scale`    | Specifies the size of the component.                                                              | `"l" \| "m" \| "s"` | `"m"`       |
+| `value`    | `value`    | The component's value.                                                                            | `any`               | `undefined` |
 
 ## Events
 
