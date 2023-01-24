@@ -127,7 +127,7 @@ There are a few ways to add event listeners within our components:
     * event name is not type checked
 2. JSX event listener props
     * automatically cleaned up by component lifecycle
-    * cannot specify event listener options (some events may have an matching capture prop)
+    * cannot specify event listener options (some events may have a matching capture prop)
     * provides event type information
     * event name is type checked
 3. `addListener`
