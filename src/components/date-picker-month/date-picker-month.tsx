@@ -15,6 +15,7 @@ import { Scale } from "../interfaces";
 
 const DAYS_PER_WEEK = 7;
 const DAYS_MAXIMUM_INDEX = 6;
+
 @Component({
   tag: "calcite-date-picker-month",
   styleUrl: "date-picker-month.scss",
@@ -184,7 +185,7 @@ export class DatePickerMonth {
       this.scale === "s" ? narrow || short || abbreviated : short || abbreviated || narrow;
     const adjustedWeekDays = [...weekDays.slice(startOfWeek, 7), ...weekDays.slice(0, startOfWeek)];
     const curMonDays = this.getCurrentMonthDays(month, year);
-    const prevMonDays = this.getPrevMonthdays(month, year, startOfWeek);
+    const prevMonDays = this.getPreviousMonthDays(month, year, startOfWeek);
     const nextMonDays = this.getNextMonthDays(month, year, startOfWeek);
     const days = [
       ...prevMonDays.map((day) => {
@@ -274,21 +275,21 @@ export class DatePickerMonth {
    * @param year
    * @param startOfWeek
    */
-  private getPrevMonthdays(month: number, year: number, startOfWeek: number): number[] {
+  private getPreviousMonthDays(month: number, year: number, startOfWeek: number): number[] {
     const lastDate = new Date(year, month, 0);
     const date = lastDate.getDate();
-    const day = lastDate.getDay();
+    const startDay = lastDate.getDay();
     const days = [];
 
-    if (day === (startOfWeek + DAYS_MAXIMUM_INDEX) % DAYS_PER_WEEK) {
+    if (startDay === (startOfWeek + DAYS_MAXIMUM_INDEX) % DAYS_PER_WEEK) {
       return days;
     }
 
-    if (day === startOfWeek) {
+    if (startDay === startOfWeek) {
       return [date];
     }
 
-    for (let i = (DAYS_PER_WEEK + day - startOfWeek) % DAYS_PER_WEEK; i >= 0; i--) {
+    for (let i = (DAYS_PER_WEEK + startDay - startOfWeek) % DAYS_PER_WEEK; i >= 0; i--) {
       days.push(date - i);
     }
     return days;
