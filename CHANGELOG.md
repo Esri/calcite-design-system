@@ -118,47 +118,49 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ### Bug Fixes
 
-- **tree:** expanded item renders correctly on initial load ([#6320](https://github.com/Esri/calcite-components/issues/6320)) ([ac8b517](https://github.com/Esri/calcite-components/commit/ac8b51731aaafdef24922a5fc6f6b82beb3478bb)), closes [#6284](https://github.com/Esri/calcite-components/issues/6284)
+- **input, input-number:** correctly handle '-' and '.' values when sanitizing number ([#6306](https://github.com/Esri/calcite-components/issues/6306)) ([6533366](https://github.com/Esri/calcite-components/commit/65333660001c98e078ac35548c7c92db706306d7)), closes [#6270](https://github.com/Esri/calcite-components/issues/6270)
 
-* **date-picker:** display correct day for first day of month in `ar` locale ([#6309](https://github.com/Esri/calcite-components/issues/6309)) ([ea190a7](https://github.com/Esri/calcite-components/commit/ea190a7c12994e24acb96ee7b9cab42f17d446cd)), closes [#6182](https://github.com/Esri/calcite-components/issues/6182)
+* **tree:** expanded item renders correctly on initial load ([#6320](https://github.com/Esri/calcite-components/issues/6320)) ([ac8b517](https://github.com/Esri/calcite-components/commit/ac8b51731aaafdef24922a5fc6f6b82beb3478bb)), closes [#6284](https://github.com/Esri/calcite-components/issues/6284)
 
-- **combobox-item:** adds selector indicator for item's with icon. ([#6282](https://github.com/Esri/calcite-components/issues/6282)) ([e4bdfaf](https://github.com/Esri/calcite-components/commit/e4bdfafbaccd6a7d529cfab0aa3e5bd63ebc6df0)), closes [#6287](https://github.com/Esri/calcite-components/issues/6287)
+- **date-picker:** display correct day for first day of month in `ar` locale ([#6309](https://github.com/Esri/calcite-components/issues/6309)) ([ea190a7](https://github.com/Esri/calcite-components/commit/ea190a7c12994e24acb96ee7b9cab42f17d446cd)), closes [#6182](https://github.com/Esri/calcite-components/issues/6182)
 
-* **date-picker:** end-range is now rounded and has the correct box-shadow ([#6216](https://github.com/Esri/calcite-components/issues/6216)) ([ed30588](https://github.com/Esri/calcite-components/commit/ed305889912dbc6643e2d956956b8539581e6c6f)), closes [#5544](https://github.com/Esri/calcite-components/issues/5544)
+* **combobox-item:** adds selector indicator for item's with icon. ([#6282](https://github.com/Esri/calcite-components/issues/6282)) ([e4bdfaf](https://github.com/Esri/calcite-components/commit/e4bdfafbaccd6a7d529cfab0aa3e5bd63ebc6df0)), closes [#6287](https://github.com/Esri/calcite-components/issues/6287)
 
-- **date-picker:** range value property updates correctly ([#6289](https://github.com/Esri/calcite-components/issues/6289)) ([7ff1c7d](https://github.com/Esri/calcite-components/commit/7ff1c7d88d7075416556cc6a53957750f96d618a))
+- **date-picker:** end-range is now rounded and has the correct box-shadow ([#6216](https://github.com/Esri/calcite-components/issues/6216)) ([ed30588](https://github.com/Esri/calcite-components/commit/ed305889912dbc6643e2d956956b8539581e6c6f)), closes [#5544](https://github.com/Esri/calcite-components/issues/5544)
 
-* **dropdown-item:** bumping the scale of icon to M when parent dropdown is scale L ([#6254](https://github.com/Esri/calcite-components/issues/6254)) ([8957e8d](https://github.com/Esri/calcite-components/commit/8957e8d3aa22862ef4c1535d4928dc0ace965d9d)), closes [#5698](https://github.com/Esri/calcite-components/issues/5698)
+* **date-picker:** range value property updates correctly ([#6289](https://github.com/Esri/calcite-components/issues/6289)) ([7ff1c7d](https://github.com/Esri/calcite-components/commit/7ff1c7d88d7075416556cc6a53957750f96d618a))
 
-- **tab, tabs, tab-title, input, input-number, input-text, input-date-picker, input-time-picker:** bumping the scale of icon to M when parent is scale L ([#6267](https://github.com/Esri/calcite-components/issues/6267)) ([e8edf6b](https://github.com/Esri/calcite-components/commit/e8edf6b666a585330b2b7c00a7dfde8449bc54f8)), closes [#5698](https://github.com/Esri/calcite-components/issues/5698)
+- **dropdown-item:** bumping the scale of icon to M when parent dropdown is scale L ([#6254](https://github.com/Esri/calcite-components/issues/6254)) ([8957e8d](https://github.com/Esri/calcite-components/commit/8957e8d3aa22862ef4c1535d4928dc0ace965d9d)), closes [#5698](https://github.com/Esri/calcite-components/issues/5698)
 
-* **accordion-item:** bumping the scale of icon to M when parent accordion is scale L ([#6252](https://github.com/Esri/calcite-components/issues/6252)) ([a6bb7da](https://github.com/Esri/calcite-components/commit/a6bb7da936014b0f5514dea8951ff6cde0d7a604)), closes [#5698](https://github.com/Esri/calcite-components/issues/5698)
+* **tab, tabs, tab-title, input, input-number, input-text, input-date-picker, input-time-picker:** bumping the scale of icon to M when parent is scale L ([#6267](https://github.com/Esri/calcite-components/issues/6267)) ([e8edf6b](https://github.com/Esri/calcite-components/commit/e8edf6b666a585330b2b7c00a7dfde8449bc54f8)), closes [#5698](https://github.com/Esri/calcite-components/issues/5698)
 
-- **combobox-item:** bumping the scale of icon to M when parent combobox is scale L ([#6253](https://github.com/Esri/calcite-components/issues/6253)) ([051cb3f](https://github.com/Esri/calcite-components/commit/051cb3f498b2f43339aa2d973dcd257098d84fd6)), closes [#5698](https://github.com/Esri/calcite-components/issues/5698)
+- **accordion-item:** bumping the scale of icon to M when parent accordion is scale L ([#6252](https://github.com/Esri/calcite-components/issues/6252)) ([a6bb7da](https://github.com/Esri/calcite-components/commit/a6bb7da936014b0f5514dea8951ff6cde0d7a604)), closes [#5698](https://github.com/Esri/calcite-components/issues/5698)
 
-- **button:** neutral and outline button now has correct border color ([#6269](https://github.com/Esri/calcite-components/issues/6269)) ([24e6d32](https://github.com/Esri/calcite-components/commit/24e6d3268855bd5f00f04b5c52bc62c8cb6724e0)), closes [#5331](https://github.com/Esri/calcite-components/issues/5331)
+* **combobox-item:** bumping the scale of icon to M when parent combobox is scale L ([#6253](https://github.com/Esri/calcite-components/issues/6253)) ([051cb3f](https://github.com/Esri/calcite-components/commit/051cb3f498b2f43339aa2d973dcd257098d84fd6)), closes [#5698](https://github.com/Esri/calcite-components/issues/5698)
 
-- **input, input-number, input-text:** allow slotted action to be independently disabled ([#6250](https://github.com/Esri/calcite-components/issues/6250)) ([8197c18](https://github.com/Esri/calcite-components/commit/8197c185c1fb23ebc5e7b0ff3bb6594c445d8736)), closes [#6241](https://github.com/Esri/calcite-components/issues/6241)
+* **button:** neutral and outline button now has correct border color ([#6269](https://github.com/Esri/calcite-components/issues/6269)) ([24e6d32](https://github.com/Esri/calcite-components/commit/24e6d3268855bd5f00f04b5c52bc62c8cb6724e0)), closes [#5331](https://github.com/Esri/calcite-components/issues/5331)
 
-- **input, input-number:** nudge buttons increment/decrement once per interaction ([#6240](https://github.com/Esri/calcite-components/issues/6240)) ([fd10ac5](https://github.com/Esri/calcite-components/commit/fd10ac5976e00c30b9acbbe9ea19b2ab284eac6d)), closes [#5785](https://github.com/Esri/calcite-components/issues/5785)
+* **input, input-number, input-text:** allow slotted action to be independently disabled ([#6250](https://github.com/Esri/calcite-components/issues/6250)) ([8197c18](https://github.com/Esri/calcite-components/commit/8197c185c1fb23ebc5e7b0ff3bb6594c445d8736)), closes [#6241](https://github.com/Esri/calcite-components/issues/6241)
 
-- **tree-item:** overflow slotted elements are no longer hidden ([#5261](https://github.com/Esri/calcite-components/issues/5261)) ([4aa1f7e](https://github.com/Esri/calcite-components/commit/4aa1f7eaa437f7bf25c5bbced8559b41944e32fb)), closes [#5168](https://github.com/Esri/calcite-components/issues/5168)
+* **input, input-number:** nudge buttons increment/decrement once per interaction ([#6240](https://github.com/Esri/calcite-components/issues/6240)) ([fd10ac5](https://github.com/Esri/calcite-components/commit/fd10ac5976e00c30b9acbbe9ea19b2ab284eac6d)), closes [#5785](https://github.com/Esri/calcite-components/issues/5785)
 
-- **list-item:** use pointer cursor when selection mode is none ([#6213](https://github.com/Esri/calcite-components/issues/6213)) ([6b43b91](https://github.com/Esri/calcite-components/commit/6b43b916a1ee3908635ab0b682d7a2d209545b22)), closes [#6123](https://github.com/Esri/calcite-components/issues/6123)
+* **tree-item:** overflow slotted elements are no longer hidden ([#5261](https://github.com/Esri/calcite-components/issues/5261)) ([4aa1f7e](https://github.com/Esri/calcite-components/commit/4aa1f7eaa437f7bf25c5bbced8559b41944e32fb)), closes [#5168](https://github.com/Esri/calcite-components/issues/5168)
 
-- **alert:** Correctly dismiss after hovering ([#6228](https://github.com/Esri/calcite-components/issues/6228)) ([66dd692](https://github.com/Esri/calcite-components/commit/66dd692d6030b2e6957603101a78f728ff31c6e2)), closes [#6222](https://github.com/Esri/calcite-components/issues/6222)
+* **list-item:** use pointer cursor when selection mode is none ([#6213](https://github.com/Esri/calcite-components/issues/6213)) ([6b43b91](https://github.com/Esri/calcite-components/commit/6b43b916a1ee3908635ab0b682d7a2d209545b22)), closes [#6123](https://github.com/Esri/calcite-components/issues/6123)
 
-- **input, input-number:** increment/decrement to the min/max when value is below/above ([#6207](https://github.com/Esri/calcite-components/issues/6207)) ([d9eb215](https://github.com/Esri/calcite-components/commit/d9eb215f423f68dfa67d9a69b38d7328a8580b86)), closes [#6201](https://github.com/Esri/calcite-components/issues/6201)
+* **alert:** Correctly dismiss after hovering ([#6228](https://github.com/Esri/calcite-components/issues/6228)) ([66dd692](https://github.com/Esri/calcite-components/commit/66dd692d6030b2e6957603101a78f728ff31c6e2)), closes [#6222](https://github.com/Esri/calcite-components/issues/6222)
 
-- **modal:** close button does not change header height ([#6205](https://github.com/Esri/calcite-components/issues/6205)) ([f1d73a8](https://github.com/Esri/calcite-components/commit/f1d73a8c92678f3429fe2ac7215a15cf45c87692)), closes [#1707](https://github.com/Esri/calcite-components/issues/1707) [#5210](https://github.com/Esri/calcite-components/issues/5210)
+* **input, input-number:** increment/decrement to the min/max when value is below/above ([#6207](https://github.com/Esri/calcite-components/issues/6207)) ([d9eb215](https://github.com/Esri/calcite-components/commit/d9eb215f423f68dfa67d9a69b38d7328a8580b86)), closes [#6201](https://github.com/Esri/calcite-components/issues/6201)
 
-- **input-date-picker:** update input value when changing locale ([#6197](https://github.com/Esri/calcite-components/issues/6197)) ([65478be](https://github.com/Esri/calcite-components/commit/65478be957a20cc4bbc36d52c166c132467e57e4)), closes [#5886](https://github.com/Esri/calcite-components/issues/5886) [#5969](https://github.com/Esri/calcite-components/issues/5969)
+* **modal:** close button does not change header height ([#6205](https://github.com/Esri/calcite-components/issues/6205)) ([f1d73a8](https://github.com/Esri/calcite-components/commit/f1d73a8c92678f3429fe2ac7215a15cf45c87692)), closes [#1707](https://github.com/Esri/calcite-components/issues/1707) [#5210](https://github.com/Esri/calcite-components/issues/5210)
 
-- **date-picker:** modify weekStart value for ar locale ([#6154](https://github.com/Esri/calcite-components/issues/6154)) ([f9fe230](https://github.com/Esri/calcite-components/commit/f9fe230ba07d4c581993efacff04303700c07106))
+* **input-date-picker:** update input value when changing locale ([#6197](https://github.com/Esri/calcite-components/issues/6197)) ([65478be](https://github.com/Esri/calcite-components/commit/65478be957a20cc4bbc36d52c166c132467e57e4)), closes [#5886](https://github.com/Esri/calcite-components/issues/5886) [#5969](https://github.com/Esri/calcite-components/issues/5969)
 
-- **time-picker:** high contrast visibility of outlines in focus and hover states ([#6129](https://github.com/Esri/calcite-components/issues/6129)) ([90ddff1](https://github.com/Esri/calcite-components/commit/90ddff10b712758bd4c60b8279b45e4c9997748d))
+* **date-picker:** modify weekStart value for ar locale ([#6154](https://github.com/Esri/calcite-components/issues/6154)) ([f9fe230](https://github.com/Esri/calcite-components/commit/f9fe230ba07d4c581993efacff04303700c07106))
 
-- **tooltip:** Fix hover logic for elements within shadowRoot. ([#6119](https://github.com/Esri/calcite-components/issues/6119)) ([f490e5e](https://github.com/Esri/calcite-components/commit/f490e5ee0a4ae75f0e3b727f4ce0f7925bc8e53c))
+* **time-picker:** high contrast visibility of outlines in focus and hover states ([#6129](https://github.com/Esri/calcite-components/issues/6129)) ([90ddff1](https://github.com/Esri/calcite-components/commit/90ddff10b712758bd4c60b8279b45e4c9997748d))
+
+* **tooltip:** Fix hover logic for elements within shadowRoot. ([#6119](https://github.com/Esri/calcite-components/issues/6119)) ([f490e5e](https://github.com/Esri/calcite-components/commit/f490e5ee0a4ae75f0e3b727f4ce0f7925bc8e53c))
 
 <!--@unreleased-section-end-->
 
