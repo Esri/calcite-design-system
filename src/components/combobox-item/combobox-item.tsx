@@ -151,10 +151,11 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
         class={{
           [CSS.custom]: !!this.icon,
           [CSS.iconActive]: this.icon && this.selected,
-          [`${CSS.icon}--indent`]: true
+          [CSS.iconIndent]: true
         }}
         flipRtl={this.iconFlipRtl}
         icon={this.icon || iconPath}
+        key="icon"
         scale={this.scale === "l" ? "m" : "s"}
       />
     ) : null;
@@ -166,7 +167,7 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
         class={{
           [CSS.icon]: true,
           [CSS.dot]: true,
-          [`${CSS.icon}--indent`]: true
+          [CSS.iconIndent]: true
         }}
       />
     ) : (
@@ -174,10 +175,11 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
         class={{
           [CSS.icon]: true,
           [CSS.iconActive]: this.selected,
-          [`${CSS.icon}--indent`]: true
+          [CSS.iconIndent]: true
         }}
         flipRtl={this.iconFlipRtl}
         icon={iconPath}
+        key="indicator"
         scale={this.scale === "l" ? "m" : "s"}
       />
     );
