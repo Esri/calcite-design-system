@@ -9,23 +9,17 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ### ⚠ BREAKING CHANGES
 
-- **pagination:** Rename properties.
-
-* Removed the property `num`, use `pageSize` instead.
-* Removed the property `total`, use `totalItems` instead.
-* Removed the property `start`, use `startItem` instead.
-
-* **styles:** Use "mode" nomenclature instead of "theme"
+- **styles:** Use "mode" nomenclature instead of "theme"
 
   - `.calcite-theme-auto`, `.calcite-theme-dark`, and
     `.calcite-theme-light` CSS classes have been replaced with
     `.calcite-mode-auto`, `.calcite-mode-dark`, and `.calcite-mode-light `
 
-* **modal, panel, popover**: Removed `focusId` parameter from `setFocus` methods.
+- **modal, panel, popover**: Removed `focusId` parameter from `setFocus` methods.
   When the `setFocus` method is called the first focusable element will be
   focused.
 
-* **panel, shell-panel, flow-item:** Update available css variables.
+- **panel, shell-panel, flow-item:** Update available css variables.
 
   - Removes `heightScale` and `widthScale` properties from Panel and Flow
     Item.
@@ -33,75 +27,78 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
     available width of parent component.
   - Documents public css variables for Shell Panel.
 
-* **accordion:**
+- **accordion:**
 
   - Removed `"default"` value for the `appearance` property, use `"solid"`
     instead.
   - Removed `"minimal"` value for the `appearance` property.
 
-* **card:**
+- **card:**
 
   - Removed `footer-leading` and `footer-trailing` slots, use
     `footer-start` and `footer-end` instead.
 
-- **color-picker:**
+* **color-picker:**
 
   - Removed `appearance` property, use `--calcite-ui-border-1:transparent`
     to remove the border instead of the `"minimal"` value
 
-* **combobox-item:**
+- **combobox-item:**
 
   - Removed `toggleSelected` method, use the `selected` property instead.
 
-* **date-picker:**
+- **date-picker:**
 
   - Removed the property `startAsDate`, use `valueAsDate` instead.
   - Removed the property `endAsDate`, use `valueAsDate` instead.
 
-- **input-time-picker:**
+* **input-time-picker:**
 
   - Removed the event payload from `calciteInputTimePickerChange` event.
 
-- **modal:**
+* **modal:**
 
   - The `width` property no longer accepts a custom width. Accepted values
     are `s`, `m`, `l`.
   - Adds `--calcite-modal-width` and `--calcite-modal-height` css
     variables.
 
-* **pagination:**
+- **pagination:**
 
   - Removed the `--calcite-pagination-spacing` css variable
+  - Removed the property `num`, use `pageSize` instead
+  - Removed the property `total`, use `totalItems` instead
+  - Removed the property `start`, use `startItem` instead
 
-* **popover:**
+- **popover:**
 
   - Removed the `toggle` method, use the `open` property instead.
 
-* **radio-button-group:**
+- **radio-button-group:**
 
   - Added property `selectedItem`.
   - Removed the `event.detail` property on the event
     `calciteRadioButtonGroupChange`, use `event.target` and the property
     `selectedItem` instead.
 
-* **radio-group, radio-group-item:** Renames components.
+- **radio-group, radio-group-item:** Renames components.
 
   - `calcite-radio-group` has been renamed to `calcite-segmented-control`.
   - `calcite-radio-group-item` has been renamed to
     `calcite-segmented-control-item`.
 
-* **segmented-control:**
+- **segmented-control:**
 
   - Updates `segmented-control` event to `calciteSegmentedControlChange`.
 
-* **stepper:**
+- **stepper:**
 
   - Added property `selectedItem`.
   - Removed the `event.detail` property on the event
     `calciteStepperItemChange`, use `event.target` and the property
     `selectedItem` instead.
 
-- **tip:**
+* **tip:**
 
   - Rename `dismissed` prop to `closed.
 
