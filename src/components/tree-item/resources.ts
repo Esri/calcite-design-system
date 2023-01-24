@@ -7,7 +7,6 @@ export const CSS = {
   childrenContainer: "children-container",
   bulletPointIcon: "bullet-point",
   checkmarkIcon: "checkmark",
-  tabTitle: "calcite-tab-title--icon",
   iconStart: "icon-start"
 };
 

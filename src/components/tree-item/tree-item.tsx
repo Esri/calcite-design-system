@@ -290,9 +290,10 @@ export class TreeItem
         onSlotchange={this.actionsEndSlotChangeHandler}
       />
     );
+
     const iconStartEl = (
       <calcite-icon
-        class={{ [CSS.tabTitle]: true, [CSS.iconStart]: true }}
+        class={CSS.iconStart}
         flipRtl={this.iconFlipRtl === "start" || this.iconFlipRtl === "both"}
         icon={this.iconStart}
         scale={this.scale === "l" ? "m" : "s"}
