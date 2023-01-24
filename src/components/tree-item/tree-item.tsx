@@ -7,9 +7,11 @@ import {
   Host,
   Listen,
   Prop,
+  State,
   VNode,
   Watch
 } from "@stencil/core";
+import { slotChangeHasAssignedElement } from "../../utils/dom";
 import {
   ConditionalSlotComponent,
   connectConditionalSlotComponent,
@@ -25,13 +27,14 @@ import {
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
 import { CSS_UTILITY } from "../../utils/resources";
-import { Scale, SelectionMode } from "../interfaces";
+import { FlipContext, Scale, SelectionMode } from "../interfaces";
 import { TreeItemSelectDetail } from "./interfaces";
 import { CSS, ICONS, SLOTS } from "./resources";
 
 /**
  * @slot - A slot for adding text.
  * @slot children - A slot for adding nested `calcite-tree` elements.
+ * @slot actions-end - A slot for adding actions to the end of the component. It is recommended to use two or fewer actions.
  */
 @Component({
   tag: "calcite-tree-item",
@@ -60,11 +63,17 @@ export class TreeItem
    */
   @Prop({ reflect: true }) disabled = false;
 
-  /** When `true`, the component is selected. */
-  @Prop({ mutable: true, reflect: true }) selected = false;
-
   /** When `true`, the component is expanded. */
   @Prop({ mutable: true, reflect: true }) expanded = false;
+
+  /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
+  @Prop({ reflect: true }) iconFlipRtl: FlipContext;
+
+  /** Specifies an icon to display at the start of the component. */
+  @Prop({ reflect: true }) iconStart: string;
+
+  /** When `true`, the component is selected. */
+  @Prop({ mutable: true, reflect: true }) selected = false;
 
   @Watch("expanded")
   expandedHandler(newValue: boolean): void {
@@ -224,6 +233,7 @@ export class TreeItem
     const showCheckmark =
       this.selectionMode === "multiple" || this.selectionMode === "multichildren";
     const showBlank = this.selectionMode === "none" && !this.hasChildren;
+
     const chevron = this.hasChildren ? (
       <calcite-icon
         class={{
@@ -233,10 +243,11 @@ export class TreeItem
         data-test-id="icon"
         icon={ICONS.chevronRight}
         onClick={this.iconClickHandler}
-        scale="s"
+        scale={this.scale === "l" ? "m" : "s"}
       />
     ) : null;
     const defaultSlotNode: VNode = <slot key="default-slot" />;
+
     const checkbox =
       this.selectionMode === "ancestors" ? (
         <label class={CSS.checkboxLabel} key="checkbox-label">
@@ -266,11 +277,28 @@ export class TreeItem
           [CSS_UTILITY.rtl]: rtl
         }}
         icon={selectedIcon}
-        scale="s"
+        scale={this.scale === "l" ? "m" : "s"}
       />
     ) : null;
 
     const hidden = !(this.parentExpanded || this.depth === 1);
+    const { hasEndActions } = this;
+    const slotNode = (
+      <slot
+        key="actionsEndSlot"
+        name={SLOTS.actionsEnd}
+        onSlotchange={this.actionsEndSlotChangeHandler}
+      />
+    );
+
+    const iconStartEl = (
+      <calcite-icon
+        class={CSS.iconStart}
+        flipRtl={this.iconFlipRtl === "start" || this.iconFlipRtl === "both"}
+        icon={this.iconStart}
+        scale={this.scale === "l" ? "m" : "s"}
+      />
+    );
 
     return (
       <Host
@@ -290,7 +318,11 @@ export class TreeItem
         >
           {chevron}
           {itemIndicator}
+          {this.iconStart ? iconStartEl : null}
           {checkbox ? checkbox : defaultSlotNode}
+          <div class={CSS.actionsEnd} hidden={!hasEndActions}>
+            {slotNode}
+          </div>
         </div>
         <div
           class={{
@@ -431,6 +463,8 @@ export class TreeItem
 
   private parentTreeItem?: HTMLCalciteTreeItemElement;
 
+  @State() hasEndActions = false;
+
   //--------------------------------------------------------------------------
   //
   //  Private Methods
@@ -456,5 +490,9 @@ export class TreeItem
       ancestors.forEach((item) => (item.indeterminate = true));
       return;
     }
+  };
+
+  private actionsEndSlotChangeHandler = (event: Event): void => {
+    this.hasEndActions = slotChangeHasAssignedElement(event);
   };
 }

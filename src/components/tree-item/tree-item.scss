@@ -5,6 +5,10 @@
     cursor-pointer;
 }
 
+[hidden] {
+  @apply hidden;
+}
+
 @include calciteHydratedHidden();
 @include disabled();
 
@@ -17,6 +21,10 @@
     .chevron,
     .checkmark,
     .bullet-point {
+      margin-inline: theme("margin.1");
+    }
+    .icon-start,
+    .actions-end {
       margin-inline: theme("margin.1");
     }
   }
@@ -33,6 +41,10 @@
     .bullet-point {
       margin-inline: theme("margin.2");
     }
+    .icon-start,
+    .actions-end {
+      margin-inline: theme("margin.2");
+    }
   }
 }
 
@@ -45,6 +57,10 @@
     .chevron,
     .checkmark,
     .bullet-point {
+      margin-inline: theme("margin.3");
+    }
+    .icon-start,
+    .actions-end {
       margin-inline: theme("margin.3");
     }
   }
@@ -82,12 +98,19 @@
 ::slotted(a) {
   @apply w-full no-underline;
 }
+
 // focus styles
 :host {
   @apply focus-base;
+  &:focus,
+  &:active {
+    @apply focus-inset outline-none;
+  }
 }
-:host(:focus:not([disabled])) {
-  @apply focus-inset outline-none;
+
+slot[name="actions-end"]::slotted(*),
+.actions-end {
+  @apply flex self-stretch flex-row items-center overflow-visible;
 }
 
 .checkbox {
@@ -103,14 +126,13 @@
 }
 
 .children-container {
-  @apply relative h-0 overflow-hidden;
+  @apply h-0;
   margin-inline-start: theme("margin.5");
   transform: scaleY(0);
   opacity: 0;
   transition: var(--calcite-animation-timing) $easing-function, opacity var(--calcite-animation-timing) $easing-function,
     all var(--calcite-animation-timing) ease-in-out; // note that we're transitioning transform, not height!
   transform-origin: top; // keep the top of the element in the same place. this is optional.
-
   :host([expanded]) > & {
     @apply overflow-visible;
     opacity: 1;
