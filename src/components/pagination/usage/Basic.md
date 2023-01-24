@@ -12,5 +12,5 @@ For example, after querying the search API, you'll get back a response similar t
 ```
 
 ```html
-<calcite-pagination start="1" num="100" total="2021"></calcite-pagination>
+<calcite-pagination start-item="1" page-size="100" total-items="2021"></calcite-pagination>
 ```
