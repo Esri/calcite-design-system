@@ -104,7 +104,7 @@
 
 .children-container {
   @apply relative h-0 overflow-hidden;
-  margin-inline-start: theme("margin.3");
+  margin-inline-start: theme("margin.5");
   transform: scaleY(0);
   opacity: 0;
   transition: var(--calcite-animation-timing) $easing-function, opacity var(--calcite-animation-timing) $easing-function,
