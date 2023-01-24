@@ -921,7 +921,7 @@ describe("calcite-input-number", () => {
     input.setProperty("value", "");
     await page.waitForChanges();
     expect(await input.getProperty("value")).toBe("");
-    typeNumberValue(page, "-123");
+    await typeNumberValue(page, "-123");
     await page.waitForChanges();
     expect(await input.getProperty("value")).toBe("-123");
   });
