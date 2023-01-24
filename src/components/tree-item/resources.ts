@@ -7,6 +7,7 @@ export const CSS = {
   childrenContainer: "children-container",
   bulletPointIcon: "bullet-point",
   checkmarkIcon: "checkmark",
+  itemExpanded: "item--expanded",
   iconStart: "icon-start"
 };
 
