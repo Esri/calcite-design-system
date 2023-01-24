@@ -116,6 +116,28 @@ class CompositeOrParentComponent {
 
 Pointer events should be used in favor of mouse events to maximize device compatibility.
 
+### Event listeners
+
+There are a few ways to add event listeners within our components:
+
+1. `@Listen` decorator
+    * automatically cleaned up by component lifecycle
+    * can easily specify [different event listener options](https://stenciljs.com/docs/events#listen-decorator)
+    * does not provide event type information
+    * event name is not type checked
+2. JSX event listener props
+    * automatically cleaned up by component lifecycle
+    * cannot specify event listener options (some events may have a matching capture prop)
+    * provides event type information
+    * event name is type checked
+3. `addListener`
+    * not removed by the component lifecycle, so the listener needs to be explicitly removed to prevent memory leaks
+    * provides total flexibility regarding event listener options
+    * provides event type information
+    * event name is not type checked
+
+1 and 2 should be used whenever possible (which one you use will depend on convenience). 3 should only be used whenever 1 and 2 are not possible or ideal.
+
 ## Properties
 
 Private/internal properties should be annotated accordingly to avoid exposing them in the doc and/or API. You can do this by using the `@private`/`@internal` [JSDoc](https://jsdoc.app/) tags.
