@@ -78,7 +78,7 @@
         "type": "sizing"
       },
       "md": {
-        "value": "$core.sizing.8",
+        "value": "$core.sizing.9",
         "type": "sizing"
       },
       "lg": {
@@ -140,7 +140,7 @@
         "type": "spacing"
       },
       "lg": {
-        "value": "$core.spacing.11",
+        "value": "$core.spacing.7",
         "type": "spacing"
       }
     },
