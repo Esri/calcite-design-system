@@ -20,17 +20,17 @@
   const packagePath = quote([normalize(`${__dirname}/../package.json`)]);
 
   // git sanity checks to prevent unapproved changes from making it into a release
-  // if ((await exec("git rev-parse --abbrev-ref HEAD")).stdout.trim() !== "master") {
-  //   throw new Error("The master branch must be checked out before releasing.");
-  // }
-  // if (
-  //   (await exec("git rev-parse master")).stdout.trim() !== (await exec("git rev-parse origin/master")).stdout.trim()
-  // ) {
-  //   throw new Error("The master branch must be in sync with origin before releasing.");
-  // }
-  // if ((await exec("git status --porcelain=v1")).stdout.trim()) {
-  //   throw new Error("There cannot be any uncommitted changes before releasing.");
-  // }
+  if ((await exec("git rev-parse --abbrev-ref HEAD")).stdout.trim() !== "master") {
+    throw new Error("The master branch must be checked out before releasing.");
+  }
+  if (
+    (await exec("git rev-parse master")).stdout.trim() !== (await exec("git rev-parse origin/master")).stdout.trim()
+  ) {
+    throw new Error("The master branch must be in sync with origin before releasing.");
+  }
+  if ((await exec("git status --porcelain=v1")).stdout.trim()) {
+    throw new Error("There cannot be any uncommitted changes before releasing.");
+  }
 
   // deepen the history when fetching tags due to shallow clone
   await exec("git fetch --deepen=250 --tags");
