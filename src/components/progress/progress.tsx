@@ -15,7 +15,7 @@ export class Progress {
    */
   @Prop({ reflect: true }) type: "indeterminate" | "determinate" = "determinate";
 
-  /** The component's progress value, with a range of 0.0 - 1.0. */
+  /** When `type` is `"determinate"`, the component's progress value with a range of 0.0 - 1.0. */
   @Prop() value = 0;
 
   /** Accessible name for the component. */
