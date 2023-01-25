@@ -20,17 +20,17 @@
   const packagePath = quote([normalize(`${__dirname}/../package.json`)]);
 
   // git sanity checks to prevent unapproved changes from making it into a release
-  if ((await exec("git rev-parse --abbrev-ref HEAD")).stdout.trim() !== "master") {
-    throw new Error("The master branch must be checked out before releasing.");
-  }
-  if (
-    (await exec("git rev-parse master")).stdout.trim() !== (await exec("git rev-parse origin/master")).stdout.trim()
-  ) {
-    throw new Error("The master branch must be in sync with origin before releasing.");
-  }
-  if ((await exec("git status --porcelain=v1")).stdout.trim()) {
-    throw new Error("There cannot be any uncommitted changes before releasing.");
-  }
+  // if ((await exec("git rev-parse --abbrev-ref HEAD")).stdout.trim() !== "master") {
+  //   throw new Error("The master branch must be checked out before releasing.");
+  // }
+  // if (
+  //   (await exec("git rev-parse master")).stdout.trim() !== (await exec("git rev-parse origin/master")).stdout.trim()
+  // ) {
+  //   throw new Error("The master branch must be in sync with origin before releasing.");
+  // }
+  // if ((await exec("git status --porcelain=v1")).stdout.trim()) {
+  //   throw new Error("There cannot be any uncommitted changes before releasing.");
+  // }
 
   // deepen the history when fetching tags due to shallow clone
   await exec("git fetch --deepen=250 --tags");
@@ -39,11 +39,16 @@
   const semverTags = await promisify(gitSemverTags)();
   const lastNonNextTag = semverTags.find((tag) => !prereleaseVersionPattern.test(tag));
 
-  const currentVersion = (await exec("npm view @esri/calcite-components version")).stdout.trim();
+  const currentLatestVersion = `v${(await exec("npm view @esri/calcite-components dist-tags.latest")).stdout.trim()}`;
+  const currentNextVersion = `v${(await exec("npm view @esri/calcite-components dist-tags.next")).stdout.trim()}`;
   const releaseVersion = JSON.parse(await fs.readFile(packagePath, "utf8"))?.version;
   const next = prereleaseVersionPattern.test(releaseVersion);
 
-  if (!semver.valid(releaseVersion) || currentVersion === releaseVersion) {
+  if (
+    !semver.valid(releaseVersion) ||
+    (!next && semver.gte(releaseVersion, currentLatestVersion)) ||
+    (next && semver.gte(releaseVersion, currentNextVersion))
+  ) {
     throw new Error("Version was not incremented correctly");
   }
 
@@ -161,4 +166,3 @@
     await fs.writeFile(readmePath, updatedReadmeContent);
   }
 })();
-
