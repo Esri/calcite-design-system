@@ -45,7 +45,7 @@ body:
     attributes:
       label: Reproduction Version
       description: The latest version that reproduces the issue.
-      placeholder: beta.2
+      placeholder: 1.0.4
     validations:
       required: true
   - type: textarea
@@ -64,7 +64,7 @@ body:
     attributes:
       label: Regression?
       description: Please provide the last working version if the issue is a regression.
-      placeholder: beta.1
+      placeholder: 1.0.0-beta.99
     validations:
       required: false
   - type: textarea
