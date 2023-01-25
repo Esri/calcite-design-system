@@ -2,7 +2,6 @@
   const childProcess = await import("child_process");
   const { promisify } = await import("util");
   const { promises: fs } = await import("fs");
-  const { default: gitSemverTags } = await import("git-semver-tags");
   const { default: semver } = await import("semver");
   const { dirname, normalize } = await import("path");
   const prettier = await import("prettier");
@@ -36,11 +35,9 @@
   await exec("git fetch --deepen=250 --tags");
 
   const prereleaseVersionPattern = /-next\.\d+$/;
-  const semverTags = await promisify(gitSemverTags)();
-  const lastNonNextTag = semverTags.find((tag) => !prereleaseVersionPattern.test(tag));
 
-  const currentLatestVersion = `v${(await exec("npm view @esri/calcite-components dist-tags.latest")).stdout.trim()}`;
-  const currentNextVersion = `v${(await exec("npm view @esri/calcite-components dist-tags.next")).stdout.trim()}`;
+  const currentLatestVersion = (await exec("npm view @esri/calcite-components dist-tags.latest")).stdout.trim();
+  const currentNextVersion = (await exec("npm view @esri/calcite-components dist-tags.next")).stdout.trim();
   const releaseVersion = JSON.parse(await fs.readFile(packagePath, "utf8"))?.version;
   const next = prereleaseVersionPattern.test(releaseVersion);
 
@@ -74,7 +71,7 @@
     const changelogContent: string = await fs.readFile(changelogPath, { encoding: "utf8" });
     const date = new Date();
     const adjustedDate = new Date(date.getTime() - date.getTimezoneOffset() * 60 * 1000).toISOString().split("T")[0];
-    const versionHeader = `## [${version}](https://github.com/Esri/calcite-components/compare/${lastNonNextTag}...${version}) (${adjustedDate})`;
+    const versionHeader = `## [v${version}](https://github.com/Esri/calcite-components/compare/v${currentLatestVersion}...v${version}) (${adjustedDate})`;
     const unreleasedSectionPatternStart = new RegExp(`${unreleasedSectionTokenStart}.*## Unreleased`, "s");
     const updatedChangelogContent = `${header}${versionHeader}\n${changelogContent
       .replace(header, "")
