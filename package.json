@@ -62,7 +62,8 @@
     "util:check-squash-mergeable-branch": "ts-node --esm support/checkSquashMergeableBranch.ts",
     "util:push-tags": "git push --atomic --follow-tags origin master",
     "util:sync-t9n-en-bundles": "ts-node --esm support/syncEnT9nBundles.ts",
-    "util:test-types": "tsc --esModuleInterop dist/types/**/*.d.ts dist/components/*.d.ts && ! grep -rnw 'dist/types' -e '<reference types='"
+    "util:test-types": "tsc --esModuleInterop dist/types/**/*.d.ts dist/components/*.d.ts && ! grep -rnw 'dist/types' -e '<reference types=' && npm run util:clean-js-files",
+    "util:clean-js-files": "find src .storybook support -name '*.js' | xargs rm -rf && find . -maxdepth 1 -name '*.js' | xargs rm -rf"
   },
   "repository": {
     "type": "git",
