@@ -103,4 +103,4 @@ The Esri color palette can be found [here](https://esri.github.io/calcite-colors
 
 **Discussed In**:
 
-- https://github.com/Esri/calcite-components/issues/507
+- <https://github.com/Esri/calcite-components/issues/507>

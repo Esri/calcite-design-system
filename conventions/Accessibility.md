@@ -246,4 +246,4 @@ If the SVG has no semantic meaning or the semantic meaning is described elsewher
 
 If the SVG has some semantic meaning that needs to be described to an end user, set the role to `img` and ensure that it has an `aria-label` or `aria-lablledby`.
 
-More information can be found here: https://www.deque.com/blog/creating-accessible-svgs/
+More information can be found here: <https://www.deque.com/blog/creating-accessible-svgs/>
