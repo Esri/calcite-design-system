@@ -64,6 +64,10 @@
     "util:sync-t9n-en-bundles": "ts-node --esm support/syncEnT9nBundles.ts",
     "util:test-types": "tsc --esModuleInterop dist/types/**/*.d.ts dist/components/*.d.ts && ! grep -rnw 'dist/types' -e '<reference types='"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Esri/calcite-components.git"
+  },
   "dependencies": {
     "@floating-ui/dom": "1.1.0",
     "@stencil/core": "2.20.0",
