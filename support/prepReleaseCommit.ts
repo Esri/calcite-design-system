@@ -43,8 +43,8 @@
 
   if (
     !semver.valid(releaseVersion) ||
-    (!next && semver.gte(releaseVersion, currentLatestVersion)) ||
-    (next && semver.gte(releaseVersion, currentNextVersion))
+    (!next && semver.gte(currentLatestVersion, releaseVersion)) ||
+    (next && semver.gte(currentNextVersion, releaseVersion))
   ) {
     throw new Error("Version was not incremented correctly");
   }
