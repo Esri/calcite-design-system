@@ -225,7 +225,7 @@ This builds a nice symmetry between the styling and the public API of a componen
 
 If a component needs assets, they should be placed under a `assets/<component-name>` subdirectory. For example,
 
-```
+```text
 my-component/
   assets/
     my-component/

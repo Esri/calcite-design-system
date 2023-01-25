@@ -2,7 +2,7 @@
 
 Typically, components allow users to supply text values via slots and attributes, but there are cases where components need to take additional steps to support internationalization.
 
-### Formatting
+## Formatting
 
 Formatting of values, such as numbers and dates, for display should use the [`Intl` APIs](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl).
 
@@ -65,6 +65,6 @@ In the future it will likely become necessary to provide string translations for
 
 Until we implement a `lang` facility and set up translations for all components, we have been allowing a small number of strings to be passed in as properties. Properties that represent translated strings should have the syntax: `text-label-x`, where `x` is the name for the string. For example, when providing a string from "Close", use the property name `text-label-close`. In the component, these properties should default to their English equivalent (this is useful for non-localized apps):
 
-```
+```tsx
 @Prop() textLabelClose: string = 'Close';
 ```
