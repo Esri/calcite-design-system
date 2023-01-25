@@ -1,6 +1,7 @@
 import { isPrimaryPointerButton } from "../../utils/dom";
 import { ReferenceElement } from "../../utils/floating-ui";
 import { TOOLTIP_DELAY_MS } from "./resources";
+import { getEffectiveReferenceElement } from "./utils";
 
 export default class TooltipManager {
   // --------------------------------------------------------------------------
@@ -60,12 +61,18 @@ export default class TooltipManager {
   };
 
   private keyDownHandler = (event: KeyboardEvent): void => {
-    if (event.key === "Escape") {
+    if (event.key === "Escape" && !event.defaultPrevented) {
       const { activeTooltipEl } = this;
 
-      if (activeTooltipEl) {
+      if (activeTooltipEl && activeTooltipEl.open) {
         this.clearHoverTimeout();
         this.toggleTooltip(activeTooltipEl, false);
+
+        const referenceElement = getEffectiveReferenceElement(activeTooltipEl);
+
+        if (referenceElement instanceof Element && referenceElement.contains(event.target as HTMLElement)) {
+          event.preventDefault();
+        }
       }
     }
   };
