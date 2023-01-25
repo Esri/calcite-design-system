@@ -186,4 +186,17 @@ describe("calcite-tab-nav", () => {
     await page.keyboard.press("Home");
     expect(await page.evaluate(() => document.activeElement.id)).toBe("tab1");
   });
+
+  it("does not throw when placed within panel (#6310)", async () => {
+    async function runTest() {
+      const page = await newE2EPage();
+      await page.setContent(html`<calcite-panel>
+        this is the minimal HTML to reproduce this issue
+        <calcite-tab-nav></calcite-tab-nav>
+      </calcite-panel>`);
+      await page.waitForChanges();
+    }
+
+    await expect(runTest()).resolves.toBeUndefined();
+  });
 });
