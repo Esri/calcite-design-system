@@ -40,7 +40,7 @@ export const darkModeFrenchLocaleAndLargeScaleGetsMediumChevron_TestOnly = (): s
   </calcite-pagination>
 `;
 
-darkModeFrenchLocale_TestOnly.parameters = { modes: modesDarkDefault };
+darkModeFrenchLocaleAndLargeScaleGetsMediumChevron_TestOnly.parameters = { modes: modesDarkDefault };
 
 export const arabicNumberingSystemAndRTL_TestOnly = (): string => html`<calcite-pagination
   dir="rtl"
