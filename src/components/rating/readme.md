@@ -18,7 +18,7 @@
 | `count`            | `count`             | Specifies the number of previous ratings to display.                                                   | `number`            | `undefined` |
 | `disabled`         | `disabled`          | When `true`, interaction is prevented and the component is displayed with lower opacity.               | `boolean`           | `false`     |
 | `messageOverrides` | `message-overrides` | Use this property to override individual strings used by the component.                                | `RatingMessages`    | `undefined` |
-| `name`             | `name`              | Specifies the name of the component on form submission.                                                | `string`            | `undefined` |
+| `name`             | `name`              | Specifies the name of the component. Required to pass the component's `value` on form submission.      | `string`            | `undefined` |
 | `readOnly`         | `read-only`         | When `true`, the component's value can be read, but cannot be modified.                                | `boolean`           | `false`     |
 | `scale`            | `scale`             | Specifies the size of the component.                                                                   | `"l" \| "m" \| "s"` | `"m"`       |
 | `showChip`         | `show-chip`         | When `true`, and if available, displays the `average` and/or `count` data summary in a `calcite-chip`. | `boolean`           | `false`     |
