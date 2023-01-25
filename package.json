@@ -38,7 +38,7 @@
     "prepublishOnly": "ts-node --esm ./support/prepublish.ts",
     "release:docs": "npm run docs && storybook-to-ghpages --existing-output-dir=docs",
     "release:next": "npm ci && npm test && npm run util:deploy-next",
-    "release:prepare": "npm ci && npm test && ts-node --esm support/prepReleaseCommit.ts && npm run build",
+    "release:prepare": "npm ci && npm test && standard-version --no-verify && ts-node --esm support/prepReleaseCommit.ts && npm run build",
     "release:publish": "npm run util:test-types && npm run util:push-tags && npm publish && ts-node --esm ./support/releaseToGitHub.ts",
     "start": "concurrently --kill-others --raw \"tsc --project ./tsconfig-demos.json --watch\" \"npm run build:watch-dev -- --serve\" \"ts-node --esm ./support/cleanOnProcessExit.ts --path ./src/demos/**/*.js \"",
     "test": "npm run build && npm run test:existing-build",
@@ -57,12 +57,24 @@
     "util:patch-esm-resolution": "ts-node --esm support/patchESMResolution.ts",
     "util:patch-tree-shaking": "ts-node --esm support/patchTreeShaking.ts",
     "util:prep-build-reqs": "npm run util:copy-icons && npm run util:generate-t9n-types",
-    "util:prep-next": "ts-node --esm support/prepReleaseCommit.ts --next && npm run build",
+    "util:prep-next": "standard-version --no-verify --prerelease next && npm run build",
     "util:publish-next": "npm run util:test-types && npm publish --tag next && npm run util:push-tags",
     "util:check-squash-mergeable-branch": "ts-node --esm support/checkSquashMergeableBranch.ts",
     "util:push-tags": "git push --atomic --follow-tags origin master",
     "util:sync-t9n-en-bundles": "ts-node --esm support/syncEnT9nBundles.ts",
     "util:test-types": "tsc --esModuleInterop dist/types/**/*.d.ts dist/components/*.d.ts && ! grep -rnw 'dist/types' -e '<reference types='"
+  },
+  "standard-version": {
+    "commitAll": true,
+    "noVerify": true,
+    "releaseCommitMessageFormat": "{{currentTag}}",
+    "skip": {
+      "changelog": true
+    },
+    "scripts": {
+      "precommit": "ts-node --esm ./support/prepReleaseCommit.ts"
+    },
+    "header": "# Changelog\n\nThis document maintains a list of released versions and changes introduced by them.\nThis project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html)\n\n"
   },
   "repository": {
     "type": "git",
