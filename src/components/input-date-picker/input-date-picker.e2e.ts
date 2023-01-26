@@ -252,6 +252,9 @@ describe("calcite-input-date-picker", () => {
       await page.keyboard.type("2");
       await page.waitForChanges();
 
+      // NOTE: This asserted value was copied from the received value in a test failure caused by
+      // typing these same values into the test file using an Arabic input source on macOS.
+      // Make sure to preserve this value when refactoring instead of typing these characters from scratch.
       expect(await getInputValue()).toBe("١‏‏/٢");
 
       await page.keyboard.type("/");
