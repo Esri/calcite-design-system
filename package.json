@@ -57,7 +57,7 @@
     "util:patch-esm-resolution": "ts-node --esm support/patchESMResolution.ts",
     "util:patch-tree-shaking": "ts-node --esm support/patchTreeShaking.ts",
     "util:prep-build-reqs": "npm run util:copy-icons && npm run util:generate-t9n-types",
-    "util:prep-next": "[ -z \"$(git status --porcelain=v1)\" && standard-version --prerelease next && npm run build",
+    "util:prep-next": "[ -z \"$(git status --porcelain=v1)\" ] && standard-version --prerelease next && npm run build",
     "util:publish-next": "npm run util:test-types && npm publish --tag next && npm run util:push-tags",
     "util:check-squash-mergeable-branch": "ts-node --esm support/checkSquashMergeableBranch.ts",
     "util:push-tags": "git push --atomic origin master \"$(git describe --tags --abbrev=0)\"",
