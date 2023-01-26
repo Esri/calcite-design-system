@@ -252,7 +252,7 @@ describe("calcite-input-date-picker", () => {
       await page.keyboard.type("2");
       await page.waitForChanges();
 
-      expect(await getInputValue()).toBe("٢/١");
+      expect(await getInputValue()).toBe("١‏‏/٢");
 
       await page.keyboard.type("/");
       await page.waitForChanges();
