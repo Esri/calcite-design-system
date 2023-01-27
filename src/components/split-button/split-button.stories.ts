@@ -119,3 +119,7 @@ export const disabled_TestOnly = (): string => html`<calcite-split-button disabl
     <calcite-dropdown-item>Option 4</calcite-dropdown-item>
   </calcite-dropdown-group>
 </calcite-split-button>`;
+
+export const transparentWithInverseKind_TestOnly = (): string =>
+  html`<calcite-split-button scale="s" primary-text="Button" appearance="transparent" kind="inverse">
+  </calcite-split-button>`;
