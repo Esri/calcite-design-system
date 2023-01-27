@@ -1,14 +1,18 @@
 export const CSS = {
+  actionsEnd: "actions-end",
   checkboxLabel: "checkbox-label",
   checkbox: "checkbox",
   chevron: "chevron",
   nodeContainer: "node-container",
   childrenContainer: "children-container",
   bulletPointIcon: "bullet-point",
-  checkmarkIcon: "checkmark"
+  checkmarkIcon: "checkmark",
+  itemExpanded: "item--expanded",
+  iconStart: "icon-start"
 };
 
 export const SLOTS = {
+  actionsEnd: "actions-end",
   children: "children"
 };
 

@@ -30,7 +30,7 @@ export function getDepth(element: HTMLElement): number {
   }
 
   const result = document.evaluate(
-    "ancestor::calcite-combobox-item | ancestor::calcite-combobox-item-group",
+    "ancestor::calcite-combobox-item",
     element,
     null,
     XPathResult.UNORDERED_NODE_SNAPSHOT_TYPE,

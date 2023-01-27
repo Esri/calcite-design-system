@@ -429,3 +429,21 @@ export const mediumIconForLargeComoboboxItem_TestOnly = (): string => html`
     <calcite-combobox-item value="article" text-label="Article" scale="l"></calcite-combobox-item>
   </calcite-combobox>
 `;
+
+export const withSelectorIndicatorAndIcons_TestOnly = (): string => html`
+  <calcite-combobox label="test" placeholder="select folder" selection-mode="multiple" open>
+    <calcite-combobox-item text-label="Folder 1" icon="folder" selected>
+      <calcite-combobox-item text-label="Sub Folder 1" icon="folder" selected>
+        <calcite-combobox-item text-label="Sub Folder 2 " icon="folder" selected></calcite-combobox-item>
+      </calcite-combobox-item>
+    </calcite-combobox-item>
+    <calcite-combobox-item text-label="Folder 2" icon="folder"></calcite-combobox-item>
+    <calcite-combobox-item text-label="Folder 3" icon="folder"></calcite-combobox-item>
+    <calcite-combobox-item text-label="Folder 4"></calcite-combobox-item>
+    <calcite-combobox-item-group label="Files">
+      <calcite-combobox-item text-label="File 1" icon="file" selected>
+        <calcite-combobox-item text-label="file 2" icon="file" selected></calcite-combobox-item>
+      </calcite-combobox-item>
+    </calcite-combobox-item-group>
+  </calcite-combobox>
+`;
