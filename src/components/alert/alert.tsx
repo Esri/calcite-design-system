@@ -398,7 +398,7 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
   @State() queued = false;
 
   /** the close button element */
-  private closeButton?: HTMLButtonElement;
+  private closeButton: HTMLButtonElement;
 
   private autoCloseTimeoutId: number = null;
 

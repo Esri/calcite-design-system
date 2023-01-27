@@ -226,15 +226,19 @@ export const actionsEndQueued_TestOnly = (): string => html`
   </script>
 `;
 
-export const autoClosableeRetainsCloseButton_TestOnly = (): string => html`
+export const autoClosableRetainsCloseButtonAndRadius_TestOnly = (): string => html`
   <style>
     :root {
       --calcite-duration-factor: 0;
     }
   </style>
   <calcite-alert auto-close auto-close-duration="medium" open scale="m" kind="info">
-    <div slot="title">Here's a general bit of information</div>
-    <div slot="message">Some kind of contextually relevant content</div>
-    <calcite-link slot="link" title="my action" role="presentation"> Take action </calcite-link>
+    <div slot="message">Demo of an auto-close alert that retains the close button.</div>
+  </calcite-alert>
+  <calcite-alert open scale="m">
+    <div slot="title">Demo of an alert without an icon to show radius applied all around.</div>
+  </calcite-alert>
+  <calcite-alert open scale="m" icon>
+    <div slot="title">Demo of an alert with an icon to show radius applied all around.</div>
   </calcite-alert>
 `;
