@@ -238,16 +238,3 @@ export const autoClosableRetainsCloseButton_TestOnly = (): string => html`
     <calcite-link slot="link" title="my link">My Link</calcite-link>
   </calcite-alert>
 `;
-
-export const radius_TestOnly = (): string => html`
-  <calcite-alert open scale="m" placement="top">
-    <div slot="title">Demo of an alert without an icon to show working radius applied all around.</div>
-    <div slot="message">Do you really want to proceed?</div>
-    <calcite-link slot="link" title="my link">My Link</calcite-link>
-  </calcite-alert>
-  <calcite-alert open scale="m" icon placement="bottom" placement="bottom">
-    <div slot="title">Demo of an alert with an icon to show radius applied all around.</div>
-    <div slot="message">Do you really want to proceed?</div>
-    <calcite-link slot="link" title="my link">My Link</calcite-link>
-  </calcite-alert>
-`;
