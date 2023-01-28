@@ -174,7 +174,7 @@ When submitting a pull request, please use one of the following formats for your
 
 For pull requests associated with an existing issue:
 
-```
+```text
 <username>/<issue-id><issue-description>
 johndoe/15-update-modal
 johndoe/update-modal-15
@@ -182,12 +182,12 @@ johndoe/update-modal-15
 
 For pull requests without an associated issue:
 
-```
+```text
 <username>/<issue-description>
 johndoe/modal-styling
 ```
 
-```
+```text
 <username>/<type-of-pr><issue-description>
 johndoe/docs/update-modal-docs
 johndoe/feature/add-something-to-modal
@@ -204,7 +204,7 @@ This project follows [conventional commits](https://www.conventionalcommits.org/
 
 Commit messages for breaking changes should use both the header (`!`) and body (`BREAKING CHANGE:`) syntax:
 
-```
+```text
 <type>!: <descriptive summary>
 
 <optional info>

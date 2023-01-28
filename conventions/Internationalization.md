@@ -2,7 +2,7 @@
 
 Typically, components allow users to supply text values via slots and attributes, but there are cases where components need to take additional steps to support internationalization.
 
-### Formatting
+## Formatting
 
 Formatting of values, such as numbers and dates, for display should use the [`Intl` APIs](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl).
 
@@ -29,7 +29,7 @@ The following section covers how to add built-in translation support to componen
 
 This pattern enables components to support built-in translations. In order to support this, a component must:
 
-1. Add the following translation bundles as component assets under a `t9n` folder (please refer to https://github.com/Esri/calcite-components/blob/master/conventions/README.md#assets for additional info on assets)
+1. Add the following translation bundles as component assets under a `t9n` folder (please refer to <https://github.com/Esri/calcite-components/blob/master/conventions/README.md#assets> for additional info on assets)
    1. `messages.json` – main bundle
    2. `messages_en.json` – locale-specific bundle (kept in sync with main one via scripts)
 2. Implement the `T9nComponent` interface
@@ -60,11 +60,11 @@ This pattern enables components to support built-in translations. In order to su
 
 In the future it will likely become necessary to provide string translations for components. An example would be the `aria-label` for the `<calcite-modal>` close button. Initial research looks promising and we could likely implement one of these approaches and set a `lang` for each component.
 
-- https://medium.com/stencil-tricks/implementing-internationalisation-i18n-with-stencil-5e6559554117 and https://codesandbox.io/s/43pmx55vo9
-- https://github.com/ionic-team/ionic-stencil-conference-app/issues/69
+- <https://medium.com/stencil-tricks/implementing-internationalisation-i18n-with-stencil-5e6559554117> and <https://codesandbox.io/s/43pmx55vo9>
+- <https://github.com/ionic-team/ionic-stencil-conference-app/issues/69>
 
 Until we implement a `lang` facility and set up translations for all components, we have been allowing a small number of strings to be passed in as properties. Properties that represent translated strings should have the syntax: `text-label-x`, where `x` is the name for the string. For example, when providing a string from "Close", use the property name `text-label-close`. In the component, these properties should default to their English equivalent (this is useful for non-localized apps):
 
-```
+```tsx
 @Prop() textLabelClose: string = 'Close';
 ```

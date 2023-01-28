@@ -2,7 +2,7 @@
 
 The `calcite-shell` component is used for application layout management. It is a container for the view as well as other calcite components like `calcite-shell-panel` and `calcite-tip-manager`.
 
-_note: calcite-shell supports tablet as the smallest screen size_
+**Note:** `calcite-shell` supports tablet as the smallest screen size.
 
 <!-- Auto Generated Below -->
 
