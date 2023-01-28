@@ -126,7 +126,7 @@ slot[name="actions-end"]::slotted(*),
 }
 
 .children-container {
-  @apply h-0;
+  @apply relative h-0 overflow-hidden;
   margin-inline-start: theme("margin.5");
   transform: scaleY(0);
   opacity: 0;
