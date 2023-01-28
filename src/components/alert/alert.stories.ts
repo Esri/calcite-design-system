@@ -233,8 +233,8 @@ export const autoClosableRetainsCloseButton_TestOnly = (): string => html`
     }
   </style>
   <calcite-alert auto-close auto-close-duration="medium" open scale="m" kind="info">
-    <div slot="Title">Demo of an auto-close alert that retains the close button.</div>
-    <div slot="message">Do you really want to proceed?</div>
-    <calcite-link slot="link" title="my link">My Link</calcite-link>
+    <div slot="title">Here's a general bit of information</div>
+    <div slot="message">Some kind of contextually relevant content</div>
+    <calcite-link slot="link" title="my action" role="presentation"> Take action </calcite-link>
   </calcite-alert>
 `;
