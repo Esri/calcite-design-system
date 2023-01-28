@@ -20,7 +20,7 @@ The `calcite-progress` component is used to show progress on some async task to 
 | `reversed` | `reversed` | When `true` and for `"indeterminate"` progress bars, reverses the animation direction.              | `boolean`                          | `false`         |
 | `text`     | `text`     | Text that displays under the component's indicator.                                                 | `string`                           | `undefined`     |
 | `type`     | `type`     | Specifies the component type. Use `"indeterminate"` if finding actual progress value is impossible. | `"determinate" \| "indeterminate"` | `"determinate"` |
-| `value`    | `value`    | The component's progress value, with a range of 0.0 - 1.0.                                          | `number`                           | `0`             |
+| `value`    | `value`    | When `type` is `"determinate"`, the component's progress value with a range of 0.0 - 1.0.           | `number`                           | `0`             |
 
 ## Dependencies
 
