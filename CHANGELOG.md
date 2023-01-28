@@ -3,6 +3,21 @@
 This document maintains a list of released versions and changes introduced by them.
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
+<!--@unreleased-section-start-->
+
+## Unreleased
+
+### Bug Fixes
+
+- **alert:** ensure `border-radius` is consistent for prescribed `slots` ([#6368](https://github.com/Esri/calcite-components/issues/6368)) ([cfe5699](https://github.com/Esri/calcite-components/commit/cfe56994cf42b4176c2e6fd1aa3ac098aaf26198)), closes [#6348](https://github.com/Esri/calcite-components/issues/6348)
+
+* **input-date-picker:** input renders numbers in the specified numbering system ([#6360](https://github.com/Esri/calcite-components/issues/6360)) ([b74c37f](https://github.com/Esri/calcite-components/commit/b74c37f43139f8a4b8961a6c9c1b79bdbca3236f))
+* **split-button:** no longer displays divider for transparent with inverse kind ([#6350](https://github.com/Esri/calcite-components/issues/6350)) ([11bc2e8](https://github.com/Esri/calcite-components/commit/11bc2e878c1a966b95f9810d1d4d15447e302bdb)), closes [#6332](https://github.com/Esri/calcite-components/issues/6332)
+
+- **popover:** fix heading padding for m and l scales ([#6341](https://github.com/Esri/calcite-components/issues/6341)) ([6153db9](https://github.com/Esri/calcite-components/commit/6153db98e50152980052f08ec0eeb1a60941cadf)), closes [#5803](https://github.com/Esri/calcite-components/issues/5803)
+
+<!--@unreleased-section-end-->
+
 ## [v1.0.3](https://github.com/Esri/calcite-components/compare/v1.0.0-beta.99...v1.0.3) (2023-01-24)
 
 ### ⚠ BREAKING CHANGES

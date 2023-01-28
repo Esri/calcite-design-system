@@ -191,8 +191,7 @@
   min-inline-size: 0;
   padding-block: var(--calcite-alert-spacing-token-small);
   padding-inline: 0 var(--calcite-alert-spacing-token-small);
-  border-end-start-radius: var(--calcite-border-radius);
-  border-end-end-radius: var(--calcite-border-radius);
+  border-radius: var(--calcite-border-radius);
 
   &:first-of-type:not(:only-child) {
     padding-inline-start: var(--calcite-alert-spacing-token-large);
@@ -209,6 +208,8 @@
     items-center
     self-stretch
     py-0;
+  border-start-start-radius: var(--calcite-border-radius);
+  border-end-start-radius: var(--calcite-border-radius);
 }
 
 .alert-close {
@@ -222,6 +223,7 @@
     py-0
     outline-none;
   border-end-end-radius: var(--calcite-border-radius);
+  border-start-end-radius: var(--calcite-border-radius);
 
   &:hover,
   &:focus {
