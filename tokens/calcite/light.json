@@ -605,6 +605,12 @@
             "range": {
               "value": "$date-picker.background.date.range.light",
               "type": "color"
+            },
+            "active": {
+              "light": {
+                "value": "$date-picker.background.date.active.light",
+                "type": "color"
+              }
             }
           }
         }

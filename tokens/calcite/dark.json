@@ -534,6 +534,54 @@
             "type": "color"
           }
         }
+      },
+      "date-picker": {
+        "font": {
+          "date": {
+            "value": "$date-picker.font.date.dark",
+            "type": "color"
+          },
+          "day": {
+            "value": "$date-picker.font.day.dark",
+            "type": "color"
+          },
+          "month": {
+            "value": "$date-picker.font.month.dark",
+            "type": "color"
+          }
+        },
+        "icon": {
+          "value": "$date-picker.icon.dark",
+          "type": "color"
+        },
+        "border": {
+          "value": "$date-picker.border.dark",
+          "type": "color"
+        },
+        "date": {
+          "active": {
+            "border": {
+              "value": "$date-picker.date.active.border.dark",
+              "type": "color"
+            }
+          }
+        },
+        "background": {
+          "default": {
+            "value": "$date-picker.background.default.dark",
+            "type": "color"
+          },
+          "date": {
+            "range": {
+              "value": "$date-picker.background.date.range.dark",
+              "type": "color"
+            },
+            "active": {
+              "value": "$date-picker.background.date.active.dark",
+              "type": "color"
+            }
+          }
+        }
       }
     }
   }
