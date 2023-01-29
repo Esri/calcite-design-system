@@ -548,6 +548,18 @@
           "month": {
             "value": "$date-picker.font.month.dark",
             "type": "color"
+          },
+          "range": {
+            "date": {
+              "value": "$date-picker.font.range.date.dark",
+              "type": "color"
+            }
+          },
+          "selected": {
+            "date": {
+              "value": "$date-picker.font.selected.date.dark",
+              "type": "color"
+            }
           }
         },
         "icon": {
@@ -578,6 +590,16 @@
             },
             "active": {
               "value": "$date-picker.background.date.active.dark",
+              "type": "color"
+            }
+          }
+        }
+      },
+      "$date-picker": {
+        "font": {
+          "active": {
+            "date": {
+              "value": "$date-picker.font.active.date.dark",
               "type": "color"
             }
           }

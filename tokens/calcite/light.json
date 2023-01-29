@@ -571,13 +571,31 @@
             "value": "$date-picker.font.date.light",
             "type": "color"
           },
+          "range": {
+            "date": {
+              "value": "$date-picker.font.range.date.light",
+              "type": "color"
+            }
+          },
           "day": {
-            "value": "$date-picker.font.day.light",
+            "value": "{date-picker.font.day.light}",
             "type": "color"
           },
           "month": {
             "value": "$date-picker.font.month.light",
             "type": "color"
+          },
+          "selected": {
+            "date": {
+              "value": "$date-picker.font.selected.date.light",
+              "type": "color"
+            }
+          },
+          "active": {
+            "date": {
+              "value": "$date-picker.font.active.date.light",
+              "type": "color"
+            }
           }
         },
         "icon": {

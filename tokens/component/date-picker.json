@@ -66,6 +66,42 @@
           "value": "$semantic.font.default.medium.1h",
           "type": "typography"
         }
+      },
+      "range": {
+        "date": {
+          "light": {
+            "value": "$semantic.ui.color.text.1.light",
+            "type": "color"
+          },
+          "dark": {
+            "value": "$semantic.ui.color.text.1.dark",
+            "type": "color"
+          }
+        }
+      },
+      "selected": {
+        "date": {
+          "light": {
+            "value": "$semantic.ui.color.text.1.dark",
+            "type": "color"
+          },
+          "dark": {
+            "value": "$semantic.ui.color.text.1.light",
+            "type": "color"
+          }
+        }
+      },
+      "active": {
+        "date": {
+          "light": {
+            "value": "$semantic.ui.color.text.1.dark",
+            "type": "color"
+          },
+          "dark": {
+            "value": "$semantic.ui.color.text.1.dark",
+            "type": "color"
+          }
+        }
       }
     },
     "icon": {
