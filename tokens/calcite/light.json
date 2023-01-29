@@ -564,6 +564,50 @@
             "type": "color"
           }
         }
+      },
+      "date-picker": {
+        "font": {
+          "date": {
+            "value": "$date-picker.font.date.light",
+            "type": "color"
+          },
+          "day": {
+            "value": "$date-picker.font.day.light",
+            "type": "color"
+          },
+          "month": {
+            "value": "$date-picker.font.month.light",
+            "type": "color"
+          }
+        },
+        "icon": {
+          "value": "$date-picker.icon.light",
+          "type": "color"
+        },
+        "border": {
+          "value": "$date-picker.border.light",
+          "type": "color"
+        },
+        "date": {
+          "active": {
+            "border": {
+              "value": "$date-picker.date.active.border.light",
+              "type": "color"
+            }
+          }
+        },
+        "background": {
+          "default": {
+            "value": "$date-picker.background.default.light",
+            "type": "color"
+          },
+          "date": {
+            "range": {
+              "value": "$date-picker.background.date.range.light",
+              "type": "color"
+            }
+          }
+        }
       }
     }
   }
