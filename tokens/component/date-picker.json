@@ -145,7 +145,7 @@
     "date": {
       "space-between": {
         "sm": {
-          "value": "$core.spacing.9",
+          "value": "$core.spacing.none",
           "type": "spacing"
         },
         "md": {
@@ -153,7 +153,7 @@
           "type": "spacing"
         },
         "lg": {
-          "value": "$core.spacing.14",
+          "value": "$core.spacing.none",
           "type": "spacing"
         }
       },
@@ -168,21 +168,21 @@
             "type": "spacing"
           },
           "lg": {
-            "value": "$core.spacing.11",
+            "value": "$core.spacing.2",
             "type": "spacing"
           }
         },
         "top-bottom": {
           "sm": {
-            "value": "$core.spacing.2",
+            "value": "$core.spacing.0",
             "type": "spacing"
           },
           "md": {
-            "value": "$core.spacing.2",
+            "value": "$core.spacing.0",
             "type": "spacing"
           },
           "lg": {
-            "value": "$core.spacing.11",
+            "value": "$core.spacing.none",
             "type": "spacing"
           }
         }
@@ -216,7 +216,7 @@
     "day": {
       "space-between": {
         "sm": {
-          "value": "$core.spacing.9",
+          "value": "$core.spacing.none",
           "type": "spacing"
         },
         "md": {
@@ -224,13 +224,13 @@
           "type": "spacing"
         },
         "lg": {
-          "value": "$core.spacing.14",
+          "value": "$core.spacing.none",
           "type": "spacing"
         }
       },
       "space-around": {
         "sm": {
-          "value": "$core.spacing.7",
+          "value": "$core.spacing.1",
           "type": "spacing"
         },
         "md": {
@@ -238,7 +238,7 @@
           "type": "spacing"
         },
         "lg": {
-          "value": "$core.spacing.11",
+          "value": "$core.spacing.1",
           "type": "spacing"
         }
       }
@@ -246,7 +246,7 @@
     "month": {
       "space-between": {
         "sm": {
-          "value": "$core.spacing.9",
+          "value": "$core.spacing.none",
           "type": "spacing"
         },
         "md": {
@@ -254,13 +254,13 @@
           "type": "spacing"
         },
         "lg": {
-          "value": "$core.spacing.14",
+          "value": "$core.spacing.none",
           "type": "spacing"
         }
       },
       "space-around": {
         "sm": {
-          "value": "$core.spacing.7",
+          "value": "$core.spacing.3",
           "type": "spacing"
         },
         "md": {
@@ -268,7 +268,7 @@
           "type": "spacing"
         },
         "lg": {
-          "value": "$core.spacing.11",
+          "value": "$core.spacing.4",
           "type": "spacing"
         }
       }
