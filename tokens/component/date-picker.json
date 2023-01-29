@@ -236,7 +236,7 @@
             "type": "spacing"
           },
           "md": {
-            "value": "$core.spacing.0",
+            "value": "$core.spacing.none",
             "type": "spacing"
           },
           "lg": {
