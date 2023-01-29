@@ -1424,13 +1424,13 @@
               "type": "color"
             }
           },
-          "3": {
+          "current": {
             "light": {
-              "value": "$core.color.neutral.blk-020",
+              "value": "$core.color.palette.high-saturation.blue.h-bb-010",
               "type": "color"
             },
             "dark": {
-              "value": "$core.color.neutral.blk-220",
+              "value": "#214155",
               "type": "color"
             }
           }

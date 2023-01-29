@@ -98,6 +98,28 @@
           "value": "$semantic.ui.color.foreground.1.dark",
           "type": "color"
         }
+      },
+      "date": {
+        "active": {
+          "light": {
+            "value": "$semantic.ui.color.brand.default.light",
+            "type": "color"
+          },
+          "dark": {
+            "value": "$semantic.ui.color.brand.default.dark",
+            "type": "color"
+          }
+        },
+        "range": {
+          "light": {
+            "value": "$semantic.ui.color.foreground.current.light",
+            "type": "color"
+          },
+          "dark": {
+            "value": "$semantic.ui.color.foreground.current.dark",
+            "type": "color"
+          }
+        }
       }
     },
     "border-radius": {
