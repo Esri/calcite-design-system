@@ -586,11 +586,9 @@ describe("calcite-stepper", () => {
       >
     </calcite-stepper>
 
-    <calcite-stepper numbered numbering-system="arab" lang="ar" dir="rtl" scale="s">
+    <calcite-stepper numbered numbering-system="arab" lang="ar" dir="rtl" >
       <calcite-stepper-item heading="الخطوةالاولى" complete>
-        <calcite-notice open width="full">
-          <div slot="message">الخطوة الأولى للمحتوى هنا</div>
-        </calcite-notice>
+       الخطوة الأولى للمحتوى هنا
     </calcite-stepper>`);
     const [stepper1, stepper2] = await page.findAll("calcite-stepper");
     expect(stepper2.getAttribute("numbering-system")).toEqual("arab");
