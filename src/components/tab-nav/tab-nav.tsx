@@ -303,6 +303,10 @@ export class TabNav {
   animationActiveDuration = 0.3;
 
   resizeObserver = createObserver("resize", () => {
+    if (!this.activeIndicatorEl) {
+      return;
+    }
+
     // remove active indicator transition duration during resize to prevent wobble
     this.activeIndicatorEl.style.transitionDuration = "0s";
     this.updateActiveWidth();
