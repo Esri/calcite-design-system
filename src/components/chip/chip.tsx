@@ -159,8 +159,6 @@ export class Chip
 
   private mutationObserver = createObserver("mutation", () => this.updateHasContent());
 
-  private closeButton: HTMLButtonElement;
-
   // --------------------------------------------------------------------------
   //
   //  Events
@@ -362,7 +360,6 @@ export class Chip
         class={CSS.close}
         onClick={this.closeHandler}
         onKeyDown={this.closeButtonKeyDownHandler}
-        ref={(el) => (this.closeButton = el)}
       >
         <calcite-icon
           class={CSS.closeIcon}
