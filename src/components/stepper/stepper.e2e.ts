@@ -577,4 +577,32 @@ describe("calcite-stepper", () => {
       });
     });
   });
+
+  it("should render correct numbering-system with multiple stepper component", async () => {
+    const page = await newE2EPage();
+    await page.setContent(html`<calcite-stepper numbered>
+      <calcite-stepper-item heading="Add info" description="Subtitle lorem ipsum" complete id="step-one"
+        >Step 1 Content here lorem ipsum</calcite-stepper-item
+      >
+    </calcite-stepper>
+
+    <calcite-stepper numbered numbering-system="arab" lang="ar" dir="rtl" scale="s">
+      <calcite-stepper-item heading="الخطوةالاولى" complete>
+        <calcite-notice open width="full">
+          <div slot="message">الخطوة الأولى للمحتوى هنا</div>
+        </calcite-notice>
+    </calcite-stepper>`);
+    const [stepper1, stepper2] = await page.findAll("calcite-stepper");
+    expect(stepper2.getAttribute("numbering-system")).toEqual("arab");
+
+    await stepper1.click();
+    await page.waitForChanges();
+    await stepper2.click();
+    await page.waitForChanges();
+    await stepper1.click();
+    await page.waitForChanges();
+
+    const stepper1Number = await page.find("calcite-stepper-item[id='step-one'] >>> .stepper-item-number");
+    expect(stepper1Number.textContent).toBe("1.");
+  });
 });
