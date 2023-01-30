@@ -5,9 +5,6 @@
     "component/accordion-item",
     "component/accordion",
     "component/alert",
-    "component/accordion-item",
-    "component/accordion",
-    "component/alert",
     "component/avatar",
     "component/checkbox",
     "component/chip",
@@ -30,8 +27,6 @@
     "calcite/dark",
     "brand/global",
     "brand/light",
-    "brand/dark",
-    "component/[template-comp-name]",
-    "component/accordion_backup"
+    "brand/dark"
   ]
 }
