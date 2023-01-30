@@ -22,16 +22,6 @@
         "type": "typography"
       }
     },
-    "icon": {
-      "light": {
-        "value": "$semantic.ui.color.text.3.light",
-        "type": "color"
-      },
-      "dark": {
-        "value": "$semantic.ui.color.text.3.dark",
-        "type": "color"
-      }
-    },
     "border": {
       "light": {
         "value": "$semantic.ui.color.border.1.light",
