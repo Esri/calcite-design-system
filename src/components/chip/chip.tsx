@@ -5,10 +5,11 @@ import {
   Event,
   EventEmitter,
   h,
-  Method,
   Listen,
-  Build,
+  Method,
+  Prop,
   State,
+  VNode,
   Watch
 } from "@stencil/core";
 import { toAriaBoolean } from "../../utils/dom";
@@ -20,15 +21,13 @@ import {
   disconnectConditionalSlotComponent
 } from "../../utils/conditionalSlot";
 import { slotChangeHasAssignedElement } from "../../utils/dom";
-import { guid } from "../../utils/guid";
 import {
   componentLoaded,
   LoadableComponent,
   setComponentLoaded,
   setUpLoadableComponent
 } from "../../utils/loadable";
-import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
-import { createObserver } from "../../utils/observers";
+
 import {
   connectMessages,
   disconnectMessages,
@@ -37,15 +36,9 @@ import {
   updateMessages
 } from "../../utils/t9n";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
-import {
-  setUpLoadableComponent,
-  setComponentLoaded,
-  LoadableComponent,
-  componentLoaded
-} from "../../utils/loadable";
 import { createObserver } from "../../utils/observers";
-import { slotChangeHasAssignedElement } from "../../utils/dom";
 import { isActivationKey } from "../../utils/key";
+import { ChipMessages } from "./assets/chip/t9n";
 
 /**
  * @slot - A slot for adding text.
@@ -228,9 +221,6 @@ export class Chip
 
   @Listen("keydown", { capture: true })
   keyDownHandler(event: KeyboardEvent): void {
-    if ((event as any).path.includes(this.closeButton) && isActivationKey(event.key)) {
-      this.closeHandler();
-    }
     if (event.target === this.el) {
       switch (event.key) {
         case " ":
@@ -281,6 +271,13 @@ export class Chip
     this.calciteChipClose.emit();
     this.selected = false;
     this.closed = true;
+  };
+
+  private closeButtonKeyDownHandler = (event: KeyboardEvent): void => {
+    if (isActivationKey(event.key)) {
+      event.preventDefault();
+      this.closeHandler();
+    }
   };
 
   private updateHasContent() {
@@ -364,6 +361,7 @@ export class Chip
         aria-label={this.messages.dismissLabel}
         class={CSS.close}
         onClick={this.closeHandler}
+        onKeyDown={this.closeButtonKeyDownHandler}
         ref={(el) => (this.closeButton = el)}
       >
         <calcite-icon
