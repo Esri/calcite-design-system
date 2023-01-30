@@ -1,5 +1,32 @@
 {
   "tokenSetOrder": [
-    "global"
+    "core",
+    "semantic",
+    "component/accordion-item",
+    "component/accordion",
+    "component/alert",
+    "component/avatar",
+    "component/checkbox",
+    "component/chip",
+    "component/color-picker",
+    "component/input-message",
+    "component/input-time",
+    "component/date-picker",
+    "component/label",
+    "component/loader",
+    "component/radio",
+    "component/rating",
+    "component/tip",
+    "component/tooltip",
+    "component/switch",
+    "component/[template-comp-name]",
+    "component/select",
+    "component/dropdown",
+    "component/accordion_backup",
+    "calcite/light",
+    "calcite/dark",
+    "brand/global",
+    "brand/light",
+    "brand/dark"
   ]
 }
