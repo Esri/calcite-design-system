@@ -212,16 +212,15 @@ export async function focusable(componentTagOrHTML: TagOrHTML, options?: Focusab
   const page = await simplePageSetup(componentTagOrHTML);
   const tag = getTag(componentTagOrHTML);
   const element = await page.find(tag);
-  const focusTargetSelector = options?.focusTargetSelector || tag;
   await element.callMethod("componentOnReady");
-  // await customElements.whenDefined(tag);
+  const focusTargetSelector = options?.focusTargetSelector || tag;
   await element.callMethod("setFocus", options?.focusId); // assumes element is FocusableElement
 
   if (options?.shadowFocusTargetSelector) {
     expect(
       await page.$eval(
         tag,
-        (element: HTMLElement, selector: string) => element.shadowRoot.activeElement.matches(selector),
+        (element: HTMLElement, selector: string) => element.shadowRoot.activeElement?.matches(selector),
         options?.shadowFocusTargetSelector
       )
     ).toBe(true);
@@ -230,7 +229,7 @@ export async function focusable(componentTagOrHTML: TagOrHTML, options?: Focusab
   // wait for next frame before checking focus
   await page.waitForTimeout(0);
 
-  expect(await page.evaluate((selector) => document.activeElement.matches(selector), focusTargetSelector)).toBe(true);
+  expect(await page.evaluate((selector) => document.activeElement?.matches(selector), focusTargetSelector)).toBe(true);
 }
 
 /**
