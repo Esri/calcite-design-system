@@ -9,6 +9,10 @@
   @apply hidden;
 }
 
+.node-actions-container {
+  @apply flex;
+}
+
 @include calciteHydratedHidden();
 @include disabled();
 
@@ -23,10 +27,13 @@
     .bullet-point {
       margin-inline: theme("margin.1");
     }
-    .icon-start,
-    .actions-end {
-      margin-inline: theme("margin.1");
+    .icon-start {
+      margin-inline: theme("margin.3");
     }
+  }
+  .actions-end {
+    @apply inline-flex;
+    margin-inline: theme("margin.1");
   }
 }
 
@@ -41,10 +48,13 @@
     .bullet-point {
       margin-inline: theme("margin.2");
     }
-    .icon-start,
-    .actions-end {
-      margin-inline: theme("margin.2");
+    .icon-start {
+      margin-inline: theme("margin.3");
     }
+  }
+  .actions-end {
+    @apply inline-flex;
+    margin-inline: theme("margin.2");
   }
 }
 
@@ -59,10 +69,13 @@
     .bullet-point {
       margin-inline: theme("margin.3");
     }
-    .icon-start,
-    .actions-end {
+    .icon-start {
       margin-inline: theme("margin.3");
     }
+  }
+  .actions-end {
+    @apply inline-flex;
+    margin-inline: theme("margin.3");
   }
 }
 
@@ -108,8 +121,7 @@
   }
 }
 
-slot[name="actions-end"]::slotted(*),
-.actions-end {
+slot[name="actions-end"]::slotted(*) {
   @apply flex self-stretch flex-row items-center overflow-visible;
 }
 
