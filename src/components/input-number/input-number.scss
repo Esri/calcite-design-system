@@ -137,15 +137,15 @@
 
 // position placeholder/value text in relation to icons
 
-:host([icon][scale="s"]) input {
+:host([icon]:not([icon=""])[scale="s"]) input {
   padding-inline-start: theme("padding.8");
 }
 
-:host([icon][scale="m"]) input {
+:host([icon]:not([icon=""])[scale="m"]) input {
   padding-inline-start: theme("padding.10");
 }
 
-:host([icon][scale="l"]) input {
+:host([icon]:not([icon=""])[scale="l"]) input {
   padding-inline-start: theme("padding.14");
 }
 
