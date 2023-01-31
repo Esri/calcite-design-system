@@ -229,8 +229,8 @@ export class StepperItem implements InteractiveComponent, LocalizedComponent, Lo
               <span class="stepper-item-description">{this.description}</span>
             </div>
           </div>
-          <div class="stepper-item-content">
-            <slot />
+          <div class="stepper-item-content" ref={(el) => (this.containerEl = el)}>
+            <slot onSlotchange={this.contentSlotChangeHandler}> </slot>
           </div>
         </div>
       </Host>
@@ -281,6 +281,8 @@ export class StepperItem implements InteractiveComponent, LocalizedComponent, Lo
 
   /** the parent stepper component */
   private parentStepperEl: HTMLCalciteStepperElement;
+
+  private containerEl: HTMLDivElement;
 
   //--------------------------------------------------------------------------
   //
@@ -372,4 +374,13 @@ export class StepperItem implements InteractiveComponent, LocalizedComponent, Lo
       this.el
     );
   }
+
+  private contentSlotChangeHandler = (): void => {
+    const nodes = this.el.childNodes;
+    nodes.forEach((el) => {
+      if (el.nodeName === "#text" && el.nodeValue.trim() && this.layout === "vertical") {
+        this.containerEl.style.marginBlockEnd = `var(--calcite-stepper-item-spacing-unit-l)`;
+      }
+    });
+  };
 }
