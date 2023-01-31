@@ -199,7 +199,6 @@ export class ValueListItem
 
   handleKeyDown = (event: KeyboardEvent): void => {
     if (event.key === " ") {
-      event.preventDefault();
       this.handleActivated = !this.handleActivated;
     }
   };

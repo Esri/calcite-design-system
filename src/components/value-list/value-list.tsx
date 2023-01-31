@@ -356,6 +356,8 @@ export class ValueList<
       this.updateScreenReaderText(getScreenReaderText(item, "commit", this));
     }
 
+    event.preventDefault();
+
     if (!handle || !item.handleActivated) {
       keyDownHandler.call(this, event);
       return;
@@ -370,8 +372,6 @@ export class ValueList<
     if ((event.key !== "ArrowUp" && event.key !== "ArrowDown") || items.length <= 1) {
       return;
     }
-
-    event.preventDefault();
 
     const { el } = this;
     const nextIndex = moveItemIndex(this, item, event.key === "ArrowUp" ? "up" : "down");
