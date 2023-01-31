@@ -1,37 +1,41 @@
 import {
-  Build,
-  Component,
-  Element,
-  Event,
-  EventEmitter,
-  h,
-  Host,
-  Prop,
-  State,
-  VNode,
-  Watch
+    Build,
+    Component,
+    Element,
+    Event,
+    EventEmitter, h,
+    Host, Method, Prop,
+    State,
+    VNode,
+    Watch
 } from "@stencil/core";
 import {
-  dateFromISO,
-  dateFromRange,
-  dateToISO,
-  getDaysDiff,
-  HoverRange,
-  setEndOfDay
+    dateFromISO,
+    dateFromRange,
+    dateToISO,
+    getDaysDiff,
+    HoverRange,
+    setEndOfDay
 } from "../../utils/date";
 import {
-  connectLocalized,
-  disconnectLocalized,
-  LocalizedComponent,
-  NumberingSystem,
-  numberStringFormatter
+    componentLoaded,
+    LoadableComponent,
+    setComponentLoaded,
+    setUpLoadableComponent
+} from "../../utils/loadable";
+import {
+    connectLocalized,
+    disconnectLocalized,
+    LocalizedComponent,
+    NumberingSystem,
+    numberStringFormatter
 } from "../../utils/locale";
 import {
-  connectMessages,
-  disconnectMessages,
-  setUpMessages,
-  T9nComponent,
-  updateMessages
+    connectMessages,
+    disconnectMessages,
+    setUpMessages,
+    T9nComponent,
+    updateMessages
 } from "../../utils/t9n";
 import { HeadingLevel } from "../functional/Heading";
 import { DatePickerMessages } from "./assets/date-picker/t9n";
@@ -46,7 +50,7 @@ import { DateLocaleData, getLocaleData, getValueAsDateRange } from "./utils";
     delegatesFocus: true
   }
 })
-export class DatePicker implements LocalizedComponent, T9nComponent {
+export class DatePicker implements LocalizedComponent, LoadableComponent, T9nComponent {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -188,6 +192,19 @@ export class DatePicker implements LocalizedComponent, T9nComponent {
 
   @State() endAsDate: Date;
 
+  //--------------------------------------------------------------------------
+  //
+  //  Public Methods
+  //
+  //--------------------------------------------------------------------------
+
+  /** Sets focus on the component's first focusable element. */
+  @Method()
+  async setFocus(): Promise<void> {
+    await componentLoaded(this);
+    this.el.focus();
+  }
+
   // --------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -218,10 +235,15 @@ export class DatePicker implements LocalizedComponent, T9nComponent {
   }
 
   async componentWillLoad(): Promise<void> {
+    setUpLoadableComponent(this);
     await this.loadLocaleData();
     this.onMinChanged(this.min);
     this.onMaxChanged(this.max);
     await setUpMessages(this);
+  }
+
+  componentDidLoad(): void {
+    setComponentLoaded(this);
   }
 
   render(): VNode {

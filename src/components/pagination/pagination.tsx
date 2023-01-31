@@ -1,29 +1,35 @@
 import {
-  Component,
-  Element,
-  Event,
-  EventEmitter,
-  Fragment,
-  h,
-  Method,
-  Prop,
-  State,
-  VNode,
-  Watch
+    Component,
+    Element,
+    Event,
+    EventEmitter,
+    Fragment,
+    h,
+    Method,
+    Prop,
+    State,
+    VNode,
+    Watch
 } from "@stencil/core";
 import {
-  connectLocalized,
-  disconnectLocalized,
-  LocalizedComponent,
-  NumberingSystem,
-  numberStringFormatter
+    componentLoaded,
+    LoadableComponent,
+    setComponentLoaded,
+    setUpLoadableComponent
+} from "../../utils/loadable";
+import {
+    connectLocalized,
+    disconnectLocalized,
+    LocalizedComponent,
+    NumberingSystem,
+    numberStringFormatter
 } from "../../utils/locale";
 import {
-  connectMessages,
-  disconnectMessages,
-  setUpMessages,
-  T9nComponent,
-  updateMessages
+    connectMessages,
+    disconnectMessages,
+    setUpMessages,
+    T9nComponent,
+    updateMessages
 } from "../../utils/t9n";
 import { Scale } from "../interfaces";
 import { PaginationMessages } from "./assets/pagination/t9n";
@@ -44,7 +50,9 @@ export interface PaginationDetail {
   },
   assetsDirs: ["assets"]
 })
-export class Pagination implements LocalizedComponent, LocalizedComponent, T9nComponent {
+export class Pagination
+  implements LocalizedComponent, LocalizedComponent, LoadableComponent, T9nComponent
+{
   //--------------------------------------------------------------------------
   //
   //  Public Properties
@@ -145,6 +153,11 @@ export class Pagination implements LocalizedComponent, LocalizedComponent, T9nCo
 
   async componentWillLoad(): Promise<void> {
     await setUpMessages(this);
+    setUpLoadableComponent(this);
+  }
+
+  componentDidLoad(): void {
+    setComponentLoaded(this);
   }
 
   disconnectedCallback(): void {
@@ -157,6 +170,13 @@ export class Pagination implements LocalizedComponent, LocalizedComponent, T9nCo
   //  Public Methods
   //
   // --------------------------------------------------------------------------
+
+  /** Sets focus on the component's first focusable element. */
+  @Method()
+  async setFocus(): Promise<void> {
+    await componentLoaded(this);
+    this.el.focus();
+  }
 
   /** Go to the next page of results. */
   @Method()
