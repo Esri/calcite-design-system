@@ -251,7 +251,7 @@ slot[name="actions-end"]::slotted(*) {
     transform: rotate(180deg);
   }
 
-  .item--expanded > .node-container > & {
+  .item--expanded .node-container > & {
     transform: rotate(90deg);
   }
 }
