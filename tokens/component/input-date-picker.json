@@ -1,25 +1,65 @@
 {
   "input-date-picker": {
     "font": {
-      "light": {
-        "value": "$semantic.ui.color.text.3.light",
-        "type": "color"
+      "placeholder": {
+        "light": {
+          "value": "$semantic.ui.color.text.1.light",
+          "type": "color"
+        },
+        "dark": {
+          "value": "$semantic.ui.color.text.1.dark",
+          "type": "color"
+        }
       },
-      "dark": {
-        "value": "$semantic.ui.color.text.3.dark",
-        "type": "color"
+      "placeholder-value": {
+        "sm": {
+          "value": "$semantic.font.default.bold.-3h",
+          "type": "typography"
+        },
+        "md": {
+          "value": "$semantic.font.default.regular.-1h",
+          "type": "typography"
+        },
+        "lg": {
+          "value": "$semantic.font.default.bold.0h",
+          "type": "typography"
+        }
       },
-      "sm": {
-        "value": "$semantic.font.default.bold.-3h",
-        "type": "typography"
+      "label": {
+        "light": {
+          "value": "$semantic.ui.color.text.1.light",
+          "type": "color"
+        },
+        "dark": {
+          "value": "$semantic.ui.color.text.1.dark",
+          "type": "color"
+        },
+        "sm": {
+          "value": "$semantic.font.default.bold.-3h",
+          "type": "typography"
+        },
+        "md": {
+          "value": "$semantic.font.default.bold.-1h",
+          "type": "typography"
+        },
+        "lg": {
+          "value": "$semantic.font.default.bold.0h",
+          "type": "typography"
+        }
       },
-      "md": {
-        "value": "$semantic.font.default.bold.-1h",
-        "type": "typography"
-      },
-      "lg": {
-        "value": "$semantic.font.default.bold.0h",
-        "type": "typography"
+      "read-only": {
+        "sm": {
+          "value": "$semantic.font.default.bold.-3h",
+          "type": "typography"
+        },
+        "md": {
+          "value": "$semantic.font.default.bold.-1h",
+          "type": "typography"
+        },
+        "lg": {
+          "value": "$semantic.font.default.bold.0h",
+          "type": "typography"
+        }
       }
     },
     "icon": {
@@ -34,16 +74,26 @@
     },
     "border": {
       "light": {
-        "value": "$semantic.ui.color.border.1.light",
+        "value": "$semantic.ui.color.border.input.light",
         "type": "color"
       },
       "dark": {
-        "value": "$semantic.ui.color.border.1.dark",
+        "value": "$semantic.ui.color.border.input.dark",
         "type": "color"
       }
     },
     "background": {
       "default": {
+        "light": {
+          "value": "$semantic.ui.color.foreground.1.light",
+          "type": "color"
+        },
+        "dark": {
+          "value": "$semantic.ui.color.foreground.1.dark",
+          "type": "color"
+        }
+      },
+      "arrow": {
         "light": {
           "value": "$semantic.ui.color.background.light",
           "type": "color"
@@ -66,29 +116,29 @@
     },
     "border-radius": {
       "sm": {
-        "value": "$core.border.border-radius.4",
+        "value": "$core.border.border-radius.none",
         "type": "borderRadius"
       },
       "md": {
-        "value": "$core.border.border-radius.5",
+        "value": "$core.border.border-radius.none",
         "type": "borderRadius"
       },
       "lg": {
-        "value": "$core.border.border-radius.6",
+        "value": "$core.border.border-radius.none",
         "type": "borderRadius"
       }
     },
     "border-width": {
       "sm": {
-        "value": "$core.border.border-width.1",
+        "value": "$core.border.border-width.0",
         "type": "borderWidth"
       },
       "md": {
-        "value": "$core.border.border-width.2",
+        "value": "$core.border.border-width.0",
         "type": "borderWidth"
       },
       "lg": {
-        "value": "$core.border.border-width.4",
+        "value": "$core.border.border-width.0",
         "type": "borderWidth"
       }
     },
@@ -187,6 +237,14 @@
       "lg": {
         "value": "$core.sizing.7",
         "type": "sizing"
+      }
+    },
+    "opacity": {
+      "placeholder": {
+        "light": {
+          "value": "{core.opacity.50}",
+          "type": "opacity"
+        }
       }
     }
   }
