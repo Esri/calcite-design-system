@@ -62,7 +62,7 @@
   @apply text-0h;
 
   .node-container {
-    --calcite-tree-padding-y: theme("padding.3");
+    --calcite-tree-padding-y: theme("padding[2.5]");
     .checkbox,
     .chevron,
     .checkmark,
