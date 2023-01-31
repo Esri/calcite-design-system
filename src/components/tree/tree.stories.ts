@@ -142,12 +142,9 @@ export const withLines_TestOnly = (): string => html`
   </calcite-tree>
 `;
 
-export const actionsEndDropdownsAndIconStart_TestOnly = (): string => html`<calcite-tree
-  style="width: 350px"
-  scale="${select("scale", ["s", "m", "l"], "m")}"
->
-  ${treeItemsWithSlottedDropdownsAndIconStart}
-</calcite-tree>`;
+export const actionsEndDropdownsAndIconStart_TestOnly = (): string => html`
+  <calcite-tree style="width: 350px" scale="l"> ${treeItemsWithSlottedDropdownsAndIconStart} </calcite-tree>
+`;
 
 export const darkModeRTL_TestOnly = (): string => html`
   <calcite-tree
