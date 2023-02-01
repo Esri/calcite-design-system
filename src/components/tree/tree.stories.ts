@@ -204,7 +204,7 @@ export const withLines_TestOnly = (): string => html`
   </calcite-tree>
 `;
 
-export const iconStartAndActionsEnd = (): string => html`
+export const iconStartAndActionsEnd_TestOnly = (): string => html`
   <div style="width: 650px">
     <calcite-tree style="margin: 80px" scale="l"> ${iconStartAndActionsEndSlottedDefaults} </calcite-tree>
     <calcite-tree style="margin: 80px" scale="m"> ${slottedSmallAction} </calcite-tree>
