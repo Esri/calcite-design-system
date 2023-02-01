@@ -1,7 +1,7 @@
 {
   "input-date-picker": {
     "font": {
-      "placeholder": {
+      "placeholder-value": {
         "light": {
           "value": "$semantic.ui.color.text.1.light",
           "type": "color"
@@ -9,11 +9,9 @@
         "dark": {
           "value": "$semantic.ui.color.text.1.dark",
           "type": "color"
-        }
-      },
-      "placeholder-value": {
+        },
         "sm": {
-          "value": "$semantic.font.default.bold.-3h",
+          "value": "$semantic.font.default.regular.-2h",
           "type": "typography"
         },
         "md": {
@@ -21,7 +19,7 @@
           "type": "typography"
         },
         "lg": {
-          "value": "$semantic.font.default.bold.0h",
+          "value": "$semantic.font.default.regular.0h",
           "type": "typography"
         }
       },
@@ -35,29 +33,29 @@
           "type": "color"
         },
         "sm": {
-          "value": "$semantic.font.default.bold.-3h",
+          "value": "$semantic.font.default.regular.-2h",
           "type": "typography"
         },
         "md": {
-          "value": "$semantic.font.default.bold.-1h",
+          "value": "$semantic.font.default.regular.-1h",
           "type": "typography"
         },
         "lg": {
-          "value": "$semantic.font.default.bold.0h",
+          "value": "$semantic.font.default.regular.0h",
           "type": "typography"
         }
       },
       "read-only": {
         "sm": {
-          "value": "$semantic.font.default.bold.-3h",
+          "value": "$semantic.font.default.medium.-2h",
           "type": "typography"
         },
         "md": {
-          "value": "$semantic.font.default.bold.-1h",
+          "value": "$semantic.font.default.medium.-1h",
           "type": "typography"
         },
         "lg": {
-          "value": "$semantic.font.default.bold.0h",
+          "value": "$semantic.font.default.medium.0h",
           "type": "typography"
         }
       }
@@ -102,16 +100,6 @@
           "value": "$semantic.ui.color.background.dark",
           "type": "color"
         }
-      }
-    },
-    "foreground": {
-      "light": {
-        "value": "$semantic.ui.color.foreground.2.light",
-        "type": "color"
-      },
-      "dark": {
-        "value": "$semantic.ui.color.foreground.2.dark",
-        "type": "color"
       }
     },
     "border-radius": {

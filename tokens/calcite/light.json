@@ -632,6 +632,36 @@
             }
           }
         }
+      },
+      "input-date-picker": {
+        "font": {
+          "placeholder-value": {
+            "value": "$input-date-picker.font.placeholder-value.light",
+            "type": "color"
+          },
+          "label": {
+            "value": "$input-date-picker.font.label.light",
+            "type": "color"
+          }
+        },
+        "icon": {
+          "value": "$input-date-picker.icon.light",
+          "type": "color"
+        },
+        "border": {
+          "value": "$input-date-picker.border.light",
+          "type": "color"
+        },
+        "background": {
+          "default": {
+            "value": "$input-date-picker.background.default.light",
+            "type": "color"
+          },
+          "arrow": {
+            "value": "$input-date-picker.background.arrow.light",
+            "type": "color"
+          }
+        }
       }
     }
   }

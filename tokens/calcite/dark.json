@@ -560,6 +560,12 @@
               "value": "$date-picker.font.selected.date.dark",
               "type": "color"
             }
+          },
+          "active": {
+            "date": {
+              "value": "$date-picker.font.active.date.dark",
+              "type": "color"
+            }
           }
         },
         "icon": {
@@ -595,13 +601,33 @@
           }
         }
       },
-      "$date-picker": {
+      "input-date-picker": {
         "font": {
-          "active": {
-            "date": {
-              "value": "$date-picker.font.active.date.dark",
-              "type": "color"
-            }
+          "placeholder-value": {
+            "value": "$input-date-picker.font.placeholder-value.dark",
+            "type": "color"
+          },
+          "label": {
+            "value": "$input-date-picker.font.label.dark",
+            "type": "color"
+          }
+        },
+        "icon": {
+          "value": "$input-date-picker.icon.dark",
+          "type": "color"
+        },
+        "border": {
+          "value": "$input-date-picker.border.dark",
+          "type": "color"
+        },
+        "background": {
+          "default": {
+            "value": "$input-date-picker.background.default.dark",
+            "type": "color"
+          },
+          "arrow": {
+            "value": "$input-date-picker.background.arrow.dark",
+            "type": "color"
           }
         }
       }
