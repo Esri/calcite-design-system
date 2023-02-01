@@ -191,3 +191,9 @@ export const arabicNumberingSystem_TestOnly = (): string => html` <calcite-stepp
     </calcite-notice>
   </calcite-stepper-item>
 </calcite-stepper>`;
+
+export const verticalLayout_TestOnly = (): string => html`<calcite-stepper layout="vertical">
+  <calcite-stepper-item heading="Choose method" description="Add members without sending invitations"
+    >Step 1 Content Goes Here</calcite-stepper-item
+  >
+</calcite-stepper>`;
