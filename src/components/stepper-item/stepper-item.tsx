@@ -272,8 +272,6 @@ export class StepperItem implements InteractiveComponent, LocalizedComponent, Lo
   /** the parent stepper component */
   private parentStepperEl: HTMLCalciteStepperElement;
 
-  private containerEl: HTMLDivElement;
-
   //--------------------------------------------------------------------------
   //
   //  Private Methods
