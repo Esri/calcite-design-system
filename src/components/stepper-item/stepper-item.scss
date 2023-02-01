@@ -231,10 +231,8 @@
 :host([layout="vertical"][selected]) .container {
   @apply border-color-brand;
 
-  & .stepper-item-content {
-    & ::slotted(:last-child) {
-      margin-block-end: var(--calcite-stepper-item-spacing-unit-l);
-    }
+  & .stepper-item-content:not(:empty) {
+    margin-block-end: var(--calcite-stepper-item-spacing-unit-l);
   }
 }
 :host([layout="vertical"]:hover:not([disabled]):not([selected])) .container,
