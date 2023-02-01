@@ -1,24 +1,24 @@
 import { Component, Element, Fragment, h, Method, Prop, State, VNode, Watch } from "@stencil/core";
 import { CalciteActionMenuCustomEvent } from "../../components";
 import {
-    ConditionalSlotComponent,
-    connectConditionalSlotComponent,
-    disconnectConditionalSlotComponent
+  ConditionalSlotComponent,
+  connectConditionalSlotComponent,
+  disconnectConditionalSlotComponent
 } from "../../utils/conditionalSlot";
 import { getSlotted } from "../../utils/dom";
 import {
-    componentLoaded,
-    LoadableComponent,
-    setComponentLoaded,
-    setUpLoadableComponent
+  componentLoaded,
+  LoadableComponent,
+  setComponentLoaded,
+  setUpLoadableComponent
 } from "../../utils/loadable";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 import {
-    connectMessages,
-    disconnectMessages,
-    setUpMessages,
-    T9nComponent,
-    updateMessages
+  connectMessages,
+  disconnectMessages,
+  setUpMessages,
+  T9nComponent,
+  updateMessages
 } from "../../utils/t9n";
 import { SLOTS as ACTION_MENU_SLOTS } from "../action-menu/resources";
 import { Columns, Layout, Scale } from "../interfaces";

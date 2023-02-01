@@ -1,7 +1,7 @@
-import { newE2EPage, E2EElement, E2EPage } from "@stencil/core/testing";
-import { focusable, accessible, hidden, renders, t9n } from "../../tests/commonTests";
-import { CSS } from "./resources";
+import { E2EElement, E2EPage, newE2EPage } from "@stencil/core/testing";
 import { html } from "../../../support/formatting";
+import { accessible, focusable, hidden, renders, t9n } from "../../tests/commonTests";
+import { CSS } from "./resources";
 
 describe("calcite-pagination", () => {
   it("renders", async () => renders("calcite-pagination", { display: "flex" }));

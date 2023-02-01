@@ -1,12 +1,12 @@
 import { E2EElement, E2EPage, newE2EPage } from "@stencil/core/testing";
-import { JSX } from "../components";
-import { toHaveNoViolations } from "jest-axe";
 import axe from "axe-core";
+import { toHaveNoViolations } from "jest-axe";
 import { config } from "../../stencil.config";
-import { GlobalTestProps, skipAnimations } from "./utils";
-import { hiddenFormInputSlotName } from "../utils/form";
 import { html } from "../../support/formatting";
+import { JSX } from "../components";
+import { hiddenFormInputSlotName } from "../utils/form";
 import { MessageBundle } from "../utils/t9n";
+import { GlobalTestProps, skipAnimations } from "./utils";
 
 expect.extend(toHaveNoViolations);
 
@@ -212,8 +212,8 @@ export async function focusable(componentTagOrHTML: TagOrHTML, options?: Focusab
   const page = await simplePageSetup(componentTagOrHTML);
   const tag = getTag(componentTagOrHTML);
   const element = await page.find(tag);
-  await element.callMethod("componentOnReady");
   const focusTargetSelector = options?.focusTargetSelector || tag;
+  await element.callMethod("componentOnReady");
   await element.callMethod("setFocus", options?.focusId); // assumes element is FocusableElement
 
   if (options?.shadowFocusTargetSelector) {

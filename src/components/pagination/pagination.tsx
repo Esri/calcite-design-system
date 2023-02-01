@@ -1,35 +1,35 @@
 import {
-    Component,
-    Element,
-    Event,
-    EventEmitter,
-    Fragment,
-    h,
-    Method,
-    Prop,
-    State,
-    VNode,
-    Watch
+  Component,
+  Element,
+  Event,
+  EventEmitter,
+  Fragment,
+  h,
+  Method,
+  Prop,
+  State,
+  VNode,
+  Watch
 } from "@stencil/core";
 import {
-    componentLoaded,
-    LoadableComponent,
-    setComponentLoaded,
-    setUpLoadableComponent
+  componentLoaded,
+  LoadableComponent,
+  setComponentLoaded,
+  setUpLoadableComponent
 } from "../../utils/loadable";
 import {
-    connectLocalized,
-    disconnectLocalized,
-    LocalizedComponent,
-    NumberingSystem,
-    numberStringFormatter
+  connectLocalized,
+  disconnectLocalized,
+  LocalizedComponent,
+  NumberingSystem,
+  numberStringFormatter
 } from "../../utils/locale";
 import {
-    connectMessages,
-    disconnectMessages,
-    setUpMessages,
-    T9nComponent,
-    updateMessages
+  connectMessages,
+  disconnectMessages,
+  setUpMessages,
+  T9nComponent,
+  updateMessages
 } from "../../utils/t9n";
 import { Scale } from "../interfaces";
 import { PaginationMessages } from "./assets/pagination/t9n";

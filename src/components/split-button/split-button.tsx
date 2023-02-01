@@ -1,11 +1,21 @@
-import { Component, Element, Event, EventEmitter, h, Method, Prop, VNode, Watch } from "@stencil/core";
+import {
+  Component,
+  Element,
+  Event,
+  EventEmitter,
+  h,
+  Method,
+  Prop,
+  VNode,
+  Watch
+} from "@stencil/core";
 import { OverlayPositioning } from "../../utils/floating-ui";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import {
-    componentLoaded,
-    LoadableComponent,
-    setComponentLoaded,
-    setUpLoadableComponent
+  componentLoaded,
+  LoadableComponent,
+  setComponentLoaded,
+  setUpLoadableComponent
 } from "../../utils/loadable";
 import { DropdownIconType } from "../button/interfaces";
 import { Appearance, FlipContext, Kind, Scale, Width } from "../interfaces";

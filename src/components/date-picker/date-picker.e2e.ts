@@ -1,6 +1,6 @@
 import { E2EPage, newE2EPage } from "@stencil/core/testing";
 import { html } from "../../../support/formatting";
-import { focusable, defaults, hidden, renders, t9n } from "../../tests/commonTests";
+import { defaults, focusable, hidden, renders, t9n } from "../../tests/commonTests";
 import { skipAnimations } from "../../tests/utils";
 import { formatTimePart } from "../../utils/time";
 
@@ -17,10 +17,10 @@ describe("calcite-date-picker", () => {
       }
     ]));
 
-    it("focusable", async () =>
-      focusable("<calcite-date-picker></calcite-date-picker>", {
-       shadowFocusTargetSelector: 'calcite-date-picker-month-header'
-      }));
+  it("focusable", async () =>
+    focusable("<calcite-date-picker></calcite-date-picker>", {
+      shadowFocusTargetSelector: "calcite-date-picker-month-header"
+    }));
 
   const animationDurationInMs = 200;
 

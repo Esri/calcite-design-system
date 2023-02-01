@@ -1,51 +1,51 @@
 import {
-    Component,
-    Element,
-    Event,
-    EventEmitter,
-    h,
-    Host,
-    Listen,
-    Method,
-    Prop,
-    VNode,
-    Watch
+  Component,
+  Element,
+  Event,
+  EventEmitter,
+  h,
+  Host,
+  Listen,
+  Method,
+  Prop,
+  VNode,
+  Watch
 } from "@stencil/core";
 import { ItemKeyboardEvent } from "./interfaces";
 
 import {
-    focusElement,
-    focusElementInGroup,
-    isPrimaryPointerButton,
-    toAriaBoolean
+  focusElement,
+  focusElementInGroup,
+  isPrimaryPointerButton,
+  toAriaBoolean
 } from "../../utils/dom";
 import {
-    connectFloatingUI,
-    defaultMenuPlacement,
-    disconnectFloatingUI,
-    EffectivePlacement,
-    filterComputedPlacements,
-    FloatingCSS,
-    FloatingUIComponent,
-    MenuPlacement,
-    OverlayPositioning,
-    reposition,
-    updateAfterClose
+  connectFloatingUI,
+  defaultMenuPlacement,
+  disconnectFloatingUI,
+  EffectivePlacement,
+  filterComputedPlacements,
+  FloatingCSS,
+  FloatingUIComponent,
+  MenuPlacement,
+  OverlayPositioning,
+  reposition,
+  updateAfterClose
 } from "../../utils/floating-ui";
 import { guid } from "../../utils/guid";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import { isActivationKey } from "../../utils/key";
 import {
-    componentLoaded,
-    LoadableComponent,
-    setComponentLoaded,
-    setUpLoadableComponent
+  componentLoaded,
+  LoadableComponent,
+  setComponentLoaded,
+  setUpLoadableComponent
 } from "../../utils/loadable";
 import { createObserver } from "../../utils/observers";
 import {
-    connectOpenCloseComponent,
-    disconnectOpenCloseComponent,
-    OpenCloseComponent
+  connectOpenCloseComponent,
+  disconnectOpenCloseComponent,
+  OpenCloseComponent
 } from "../../utils/openCloseComponent";
 import { RequestedItem } from "../dropdown-group/interfaces";
 import { Scale } from "../interfaces";
