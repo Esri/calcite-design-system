@@ -660,6 +660,10 @@
           "arrow": {
             "value": "$input-date-picker.background.arrow.light",
             "type": "color"
+          },
+          "read-only": {
+            "value": "$input-date-picker.background.read-only.light",
+            "type": "color"
           }
         }
       }

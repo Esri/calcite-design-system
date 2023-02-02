@@ -100,6 +100,16 @@
           "value": "$semantic.ui.color.background.dark",
           "type": "color"
         }
+      },
+      "read-only": {
+        "light": {
+          "value": "$semantic.ui.color.background.light",
+          "type": "color"
+        },
+        "dark": {
+          "value": "$semantic.ui.color.background.dark",
+          "type": "color"
+        }
       }
     },
     "border-radius": {

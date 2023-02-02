@@ -628,6 +628,10 @@
           "arrow": {
             "value": "$input-date-picker.background.arrow.dark",
             "type": "color"
+          },
+          "read-only": {
+            "value": "$input-date-picker.background.read-only.dark",
+            "type": "color"
           }
         }
       }
