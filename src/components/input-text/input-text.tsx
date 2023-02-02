@@ -109,7 +109,7 @@ export class InputText
   @Prop({ reflect: true }) hidden = false;
 
   /**
-   * Pass a Calcite UI Icon name to display a specific icon.
+   * When `true`, shows a default recommended icon. Alternatively, pass a Calcite UI Icon name to display a specific icon.
    */
   @Prop({ reflect: true }) icon: string;
 
