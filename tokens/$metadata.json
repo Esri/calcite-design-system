@@ -10,6 +10,7 @@
     "component/chip",
     "component/color-picker",
     "component/input-date-picker",
+    "component/input-datetime-local",
     "component/input-message",
     "component/input-time",
     "component/date-picker",
