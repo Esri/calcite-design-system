@@ -111,7 +111,7 @@ export class InputText
   /**
    * When `true`, shows a default recommended icon. Alternatively, pass a Calcite UI Icon name to display a specific icon.
    */
-  @Prop({ reflect: true }) icon: string;
+  @Prop({ reflect: true }) icon: string | boolean;
 
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @Prop({ reflect: true }) iconFlipRtl = false;
