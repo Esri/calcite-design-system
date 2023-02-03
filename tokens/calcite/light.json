@@ -666,6 +666,46 @@
             "type": "color"
           }
         }
+      },
+      "input-datetime-local": {
+        "font": {
+          "placeholder-value": {
+            "value": "$input-datetime-local.font.placeholder-value.light",
+            "type": "color"
+          },
+          "label": {
+            "value": "$input-datetime-local.font.label.light",
+            "type": "color"
+          }
+        },
+        "icon": {
+          "value": "$input-datetime-local.icon.light",
+          "type": "color"
+        },
+        "background": {
+          "default": {
+            "value": "$input-datetime-local.background.default.light",
+            "type": "color"
+          },
+          "prefix-sufix": {
+            "value": "$input-datetime-local.background.prefix-suffix.light",
+            "type": "color"
+          },
+          "read-only": {
+            "value": "$input-datetime-local.background.read-only.light",
+            "type": "color"
+          }
+        },
+        "border": {
+          "default": {
+            "value": "$input-datetime-local.border.default.light",
+            "type": "color"
+          },
+          "invalid": {
+            "value": "$input-datetime-local.border.invalid.light",
+            "type": "color"
+          }
+        }
       }
     }
   }
