@@ -411,15 +411,17 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
           this.hoverRange.focused = "end";
         }
       } else {
-        if (date < start) {
-          this.hoverRange = {
-            focused: "start",
-            start: date,
-            end: start
-          };
-        } else {
-          this.hoverRange.end = date;
-          this.hoverRange.focused = "end";
+        if (start) {
+          if (date < start) {
+            this.hoverRange = {
+              focused: "start",
+              start: date,
+              end: start
+            };
+          } else {
+            this.hoverRange.end = date;
+            this.hoverRange.focused = "end";
+          }
         }
       }
     } else {
