@@ -10,7 +10,7 @@
 }
 
 .node-actions-container {
-  @apply flex;
+  @apply overflow-hidden flex justify-between;
 }
 
 @include calciteHydratedHidden();
@@ -19,63 +19,69 @@
 :host([scale="s"]) {
   @apply text-n2h;
 
-  .node-container {
-    --calcite-tree-padding-y: theme("padding.1");
-    .checkbox,
-    .chevron,
-    .checkmark,
-    .bullet-point {
-      margin-inline: theme("margin.1");
+  .node-actions-container {
+    @apply h-6;
+    .node-container {
+      --calcite-tree-padding-y: theme("padding.1");
+      .checkbox,
+      .chevron,
+      .checkmark,
+      .bullet-point {
+        margin-inline: theme("margin.1");
+      }
+      .icon-start {
+        margin-inline: theme("margin.3");
+      }
     }
-    .icon-start {
-      margin-inline: theme("margin.3");
+    .actions-end {
+      @apply inline-flex;
     }
-  }
-  .actions-end {
-    @apply inline-flex;
-    margin-inline: theme("margin.1");
   }
 }
 
 :host([scale="m"]) {
   @apply text-n1h;
 
-  .node-container {
-    --calcite-tree-padding-y: theme("padding.2");
-    .checkbox,
-    .chevron,
-    .checkmark,
-    .bullet-point {
-      margin-inline: theme("margin.2");
+  .node-actions-container {
+    @apply h-8;
+    .node-container {
+      --calcite-tree-padding-y: theme("padding.2");
+      .checkbox,
+      .chevron,
+      .checkmark,
+      .bullet-point {
+        margin-inline: theme("margin.2");
+      }
+      .icon-start {
+        margin-inline: theme("margin.3");
+      }
     }
-    .icon-start {
-      margin-inline: theme("margin.3");
+    .actions-end {
+      @apply inline-flex;
     }
-  }
-  .actions-end {
-    @apply inline-flex;
-    margin-inline: theme("margin.2");
   }
 }
 
 :host([scale="l"]) {
   @apply text-0h;
 
-  .node-container {
-    --calcite-tree-padding-y: theme("padding[2.5]");
-    .checkbox,
-    .chevron,
-    .checkmark,
-    .bullet-point {
-      margin-inline: theme("margin.3");
+  .node-actions-container {
+    @apply h-11;
+    .node-container {
+      --calcite-tree-padding-y: theme("padding[2.5]");
+      .checkbox,
+      .chevron,
+      .checkmark,
+      .bullet-point {
+        margin-inline: theme("margin.3");
+      }
+      .icon-start {
+        margin-inline: theme("margin.3");
+      }
     }
-    .icon-start {
-      margin-inline: theme("margin.3");
+    .actions-end {
+      @apply inline-flex;
     }
-  }
-  .actions-end {
-    @apply inline-flex;
-    margin-inline: theme("margin.3");
   }
 }
 
