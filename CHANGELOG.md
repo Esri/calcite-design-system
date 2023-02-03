@@ -13,6 +13,8 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ### Bug Fixes
 
+- **date-picker:** days previous to the currently hovered day when no range value exists display correctly with no hover styles ([#6369](https://github.com/Esri/calcite-components/issues/6369)) ([ebdcc25](https://github.com/Esri/calcite-components/commit/ebdcc2573e439fa4826bc07a0c86bda1bfeafcce))
+
 - **stepper-item:** no longer refer numberingSystem from neighbor stepper component ([#6380](https://github.com/Esri/calcite-components/issues/6380)) ([c647fe3](https://github.com/Esri/calcite-components/commit/c647fe38718fe8823ac2d45d6ef792559fbe4beb)), closes [#6331](https://github.com/Esri/calcite-components/issues/6331)
 
 - **tabs:** fix error when tabs is resized before initial render ([#6342](https://github.com/Esri/calcite-components/issues/6342)) ([a2ba64e](https://github.com/Esri/calcite-components/commit/a2ba64e0711c2505d6cd1129842608f8d5a70470)), closes [#6310](https://github.com/Esri/calcite-components/issues/6310)
