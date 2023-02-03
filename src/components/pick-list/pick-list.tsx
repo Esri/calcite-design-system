@@ -49,7 +49,7 @@ import List from "./shared-list-render";
  * @slot menu-actions - A slot for adding a button and menu combination for performing actions, such as sorting.
  */
 
-/** @futureBreaking Use the `list` component instead. */
+/** @futureBreaking Deprecated in 1.0.3. Use the `list` component instead. */
 @Component({
   tag: "calcite-pick-list",
   styleUrl: "pick-list.scss",
