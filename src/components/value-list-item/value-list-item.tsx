@@ -33,7 +33,7 @@ import { ICONS, SLOTS } from "./resources";
  * @slot actions-start - A slot for adding `calcite-action`s or content to the start side of the component.
  */
 
-/** @deprecated Use the `list` component instead. */
+/** @futureBreaking Use the `list` component instead. */
 @Component({
   tag: "calcite-value-list-item",
   styleUrl: "value-list-item.scss",

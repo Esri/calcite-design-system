@@ -12,7 +12,7 @@ import { CSS, SLOTS } from "./resources";
  * @slot - A slot for adding `calcite-pick-list-item` elements.
  */
 
-/** @deprecated Use the `list` component instead. */
+/** @futureBreaking Use the `list` component instead. */
 @Component({
   tag: "calcite-pick-list-group",
   styleUrl: "pick-list-group.scss",
