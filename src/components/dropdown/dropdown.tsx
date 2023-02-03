@@ -35,6 +35,12 @@ import {
 import { guid } from "../../utils/guid";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import { isActivationKey } from "../../utils/key";
+import {
+  componentLoaded,
+  LoadableComponent,
+  setComponentLoaded,
+  setUpLoadableComponent
+} from "../../utils/loadable";
 import { createObserver } from "../../utils/observers";
 import {
   connectOpenCloseComponent,
@@ -56,7 +62,9 @@ import { SLOTS } from "./resources";
     delegatesFocus: true
   }
 })
-export class Dropdown implements InteractiveComponent, OpenCloseComponent, FloatingUIComponent {
+export class Dropdown
+  implements InteractiveComponent, LoadableComponent, OpenCloseComponent, FloatingUIComponent
+{
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -187,6 +195,19 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent, Float
 
   //--------------------------------------------------------------------------
   //
+  //  Public Methods
+  //
+  //--------------------------------------------------------------------------
+
+  /** Sets focus on the component's first focusable element. */
+  @Method()
+  async setFocus(): Promise<void> {
+    await componentLoaded(this);
+    this.el.focus();
+  }
+
+  //--------------------------------------------------------------------------
+  //
   //  Lifecycle
   //
   //--------------------------------------------------------------------------
@@ -201,7 +222,12 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent, Float
     connectOpenCloseComponent(this);
   }
 
+  componentWillLoad(): void {
+    setUpLoadableComponent(this);
+  }
+
   componentDidLoad(): void {
+    setComponentLoaded(this);
     this.reposition(true);
   }
 
