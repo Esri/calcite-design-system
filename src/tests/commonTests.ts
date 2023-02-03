@@ -550,7 +550,7 @@ export async function formAssociated(componentTagOrHtml: TagOrHTML, options: For
   async function assertValueSubmissionType(): Promise<void> {
     const inputType = options.inputType ?? "text";
 
-    const hiddenFormInputType = page.evaluate(
+    const hiddenFormInputType = await page.evaluate(
       async (inputName: string, hiddenFormInputSlotName: string): Promise<string> => {
         const hiddenFormInput = document.querySelector<HTMLInputElement>(
           `[name="${inputName}"] input[slot=${hiddenFormInputSlotName}]`
