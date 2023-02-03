@@ -214,6 +214,7 @@ describe("calcite-date-picker", () => {
     const date = await page.find("calcite-date-picker");
     const changedEvent = await page.spyOnEvent("calciteDatePickerChange");
     date.setProperty("value", "2001-10-28");
+    await page.waitForChanges();
     expect(changedEvent).toHaveReceivedEventTimes(0);
   });
 
