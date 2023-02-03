@@ -27,9 +27,6 @@
   ) {
     throw new Error("The master branch must be in sync with origin before releasing.");
   }
-  if ((await exec("git status --porcelain=v1")).stdout.trim()) {
-    throw new Error("There cannot be any uncommitted changes before releasing.");
-  }
 
   // deepen the history when fetching tags due to shallow clone
   await exec("git fetch --deepen=250 --tags");

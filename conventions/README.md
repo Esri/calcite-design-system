@@ -48,7 +48,7 @@ All public events should be documented with [JSDoc](https://jsdoc.app/).
 Event names should be treated like global variables since they can collide with any other event names and global variables. As such follow these guidelines when naming events.
 
 - Name events list `Component + Event name` for example the `change` event on `<calcite-tabs>` should be named `calciteTabsChange`.
-- Always prefix event names with `calcite` and never use an event name used by existing DOM standards https://developer.mozilla.org/en-US/docs/Web/Events.
+- Always prefix event names with `calcite` and never use an event name used by existing DOM standards <https://developer.mozilla.org/en-US/docs/Web/Events>.
 - For example:
   - Bad: `change`
   - Good: `calciteTabChange`
@@ -57,7 +57,7 @@ Event names should be treated like global variables since they can collide with 
 
 **Discussed In:**
 
-- https://github.com/Esri/calcite-components/pull/24/files/3446c89010e3ef0421803d68d627aba2e7c4bfa0#r289430227
+- <https://github.com/Esri/calcite-components/pull/24/files/3446c89010e3ef0421803d68d627aba2e7c4bfa0#r289430227>
 
 ### Private/Internal Events
 
@@ -216,16 +216,16 @@ Modifier classes on the "block" (host element) can often be written by reflectin
 
 This builds a nice symmetry between the styling and the public API of a component.
 
-- https://github.com/ArcGIS/calcite-components/issues/28
-- https://github.com/ArcGIS/calcite-components/pull/24#discussion_r287462934
-- https://github.com/ArcGIS/calcite-components/pull/24#issuecomment-495788683
-- https://github.com/ArcGIS/calcite-components/pull/24#issuecomment-497962263
+- <https://github.com/ArcGIS/calcite-components/issues/28>
+- <https://github.com/ArcGIS/calcite-components/pull/24#discussion_r287462934>
+- <https://github.com/ArcGIS/calcite-components/pull/24#issuecomment-495788683>
+- <https://github.com/ArcGIS/calcite-components/pull/24#issuecomment-497962263>
 
 ## assets
 
 If a component needs assets, they should be placed under a `assets/<component-name>` subdirectory. For example,
 
-```
+```text
 my-component/
   assets/
     my-component/

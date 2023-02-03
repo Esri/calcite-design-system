@@ -17,9 +17,9 @@ Calcite Components is still in its early stages. You can help most by:
 
 If you aren't familiar with the basics of Web Components and Shadow DOM, please read through some of the following resources before contributing:
 
-- [Google - Custom Elements v1: Reusable Web Components ](https://developers.google.com/web/fundamentals/web-components/customelements)
-- [Google - Shadow DOM v1: Self-Contained Web Components ](https://developers.google.com/web/fundamentals/web-components/shadowdom)
-- [CSS Tricks - An Introduction to Web Components ](https://css-tricks.com/an-introduction-to-web-components/)
+- [Google - Custom Elements v1: Reusable Web Components](https://developers.google.com/web/fundamentals/web-components/customelements)
+- [Google - Shadow DOM v1: Self-Contained Web Components](https://developers.google.com/web/fundamentals/web-components/shadowdom)
+- [CSS Tricks - An Introduction to Web Components](https://css-tricks.com/an-introduction-to-web-components/)
 
 ## Before filing an issue
 
@@ -97,12 +97,14 @@ An installation of Node is required for development. If you don't have Node inst
 
 We also recommend installing the following extensions in your editor of choice: TypeScript, TailwindCSS, ESLint, Stylelint, and Prettier. If you use VS Code, you will see a pop up in the bottom right corner prompting you to install or view the workspaces's recommended extensions. Here are instructions for manually installing the extensions in a variety of editors:
 
-- https://tailwindcss.com/docs/intellisense
-- https://eslint.org/docs/latest/user-guide/integrations
-- https://stylelint.io/user-guide/integrations/editor
-- https://prettier.io/docs/en/editors.html
+- <https://tailwindcss.com/docs/intellisense>
+- <https://eslint.org/docs/latest/user-guide/integrations>
+- <https://stylelint.io/user-guide/integrations/editor>
+- <https://prettier.io/docs/en/editors.html>
 
 If your IDE supports the [Language Server Protocol (LSP) specification](https://microsoft.github.io/language-server-protocol/) but isn't mentioned in the links above, ask Ben for help getting set up.
+
+**NOTE:** If you are on Windows, we strongly recommend using the Bash emulation that ships with [Git for Windows](https://gitforwindows.org/). Or better yet, use [Ubuntu in WSL](https://ubuntu.com/wsl)! Otherwise, keep in mind that some of the scripts used by maintainers (such as for releasing) likely won't work in Command Prompt or PowerShell. However, please log an issue if scripts used for normal development (start/test/build/etc) don't work in your Windows environment.
 
 ## Starting the demos
 
@@ -172,7 +174,7 @@ When submitting a pull request, please use one of the following formats for your
 
 For pull requests associated with an existing issue:
 
-```
+```text
 <username>/<issue-id><issue-description>
 johndoe/15-update-modal
 johndoe/update-modal-15
@@ -180,12 +182,12 @@ johndoe/update-modal-15
 
 For pull requests without an associated issue:
 
-```
+```text
 <username>/<issue-description>
 johndoe/modal-styling
 ```
 
-```
+```text
 <username>/<type-of-pr><issue-description>
 johndoe/docs/update-modal-docs
 johndoe/feature/add-something-to-modal
@@ -202,7 +204,7 @@ This project follows [conventional commits](https://www.conventionalcommits.org/
 
 Commit messages for breaking changes should use both the header (`!`) and body (`BREAKING CHANGE:`) syntax:
 
-```
+```text
 <type>!: <descriptive summary>
 
 <optional info>

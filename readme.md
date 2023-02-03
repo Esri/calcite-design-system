@@ -15,12 +15,12 @@ The most common approach for loading Calcite Components is to use the version ho
 ```html
 <script
   type="module"
-  src="https://unpkg.com/@esri/calcite-components@1.0.0-beta.99/dist/calcite/calcite.esm.js"
+  src="https://unpkg.com/@esri/calcite-components@1.0.3/dist/calcite/calcite.esm.js"
 ></script>
 <link
   rel="stylesheet"
   type="text/css"
-  href="https://unpkg.com/@esri/calcite-components@1.0.0-beta.99/dist/calcite/calcite.css"
+  href="https://unpkg.com/@esri/calcite-components@1.0.3/dist/calcite/calcite.css"
 />
 ```
 
@@ -150,13 +150,13 @@ We welcome contributions to this project. See [CONTRIBUTING.md](./CONTRIBUTING.m
 
 ## License
 
-COPYRIGHT © 2020 Esri
+COPYRIGHT © 2023 Esri
 
 All rights reserved under the copyright laws of the United States and applicable international laws, treaties, and conventions.
 
 This material is licensed for use under the Esri Master License Agreement (MLA), and is bound by the terms of that agreement. You may redistribute and use this code without modification, provided you adhere to the terms of the MLA and include this copyright notice.
 
-See use restrictions at http://www.esri.com/legal/pdfs/mla_e204_e300/english
+See use restrictions at <http://www.esri.com/legal/pdfs/mla_e204_e300/english>
 
 For additional information, contact: Environmental Systems Research Institute, Inc. Attn: Contracts and Legal Services Department 380 New York Street Redlands, California, USA 92373 USA
 
