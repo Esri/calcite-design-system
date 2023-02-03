@@ -67,20 +67,7 @@ const slottedDefaultDropdown = html`
   </calcite-dropdown>
 `;
 
-const slottedDefaultDropdownSmallAction = html`
-  <calcite-dropdown slot="actions-end" id="slottedDefaultDropdown">
-    <calcite-action slot="trigger" icon="ellipsis" scale="s"></calcite-action>
-    <calcite-dropdown-group group-title="Settings" selection-mode="multi">
-      <calcite-dropdown-item>Group elements</calcite-dropdown-item>
-    </calcite-dropdown-group>
-    <calcite-dropdown-group group-title="Display mode" selection-mode="single">
-      <calcite-dropdown-item selected>Row</calcite-dropdown-item>
-      <calcite-dropdown-item>Column</calcite-dropdown-item>
-    </calcite-dropdown-group>
-  </calcite-dropdown>
-`;
-
-const slottedSmallDropdownSmallAction = html`
+const slottedSmallDropdown = html`
   <calcite-dropdown slot="actions-end" id="slottedDefaultDropdown" scale="s">
     <calcite-action slot="trigger" icon="ellipsis" scale="s"></calcite-action>
     <calcite-dropdown-group group-title="Settings" selection-mode="multi">
@@ -93,7 +80,7 @@ const slottedSmallDropdownSmallAction = html`
   </calcite-dropdown>
 `;
 
-const iconStartLargeActionAndActionsEnd = html`
+const iconStartLargeActionsEnd = html`
   <calcite-tree-item icon-start="${select("icon-start", iconNames, "palette")}" expanded>
     <a>Child 1</a>
     ${slottedLargeDropdown} ${slottedLargeDropdown}
@@ -127,7 +114,7 @@ const iconStartLargeActionAndActionsEnd = html`
   </calcite-tree-item>
 `;
 
-const slottedSmallAction = html`
+const slottedDefaultActionsEnd = html`
   <calcite-tree-item icon-start="palette" expanded>
     <a>Child 1</a>
   </calcite-tree-item>
@@ -139,7 +126,7 @@ const slottedSmallAction = html`
         <calcite-tree slot="children" expanded>
           <calcite-tree-item icon-start="palette" expanded>
             <a>Great-Grandchild 1</a>
-            ${slottedDefaultDropdownSmallAction}${slottedDefaultDropdownSmallAction}
+            ${slottedDefaultDropdown}${slottedDefaultDropdown}
           </calcite-tree-item>
         </calcite-tree>
       </calcite-tree-item>
@@ -147,7 +134,7 @@ const slottedSmallAction = html`
   </calcite-tree-item>
 `;
 
-const slottedSmallActionsEndAndAction = html`
+const slottedSmallActionsEnd = html`
   <calcite-tree-item icon-start="palette" expanded>
     <a>Child 1</a>
   </calcite-tree-item>
@@ -159,7 +146,7 @@ const slottedSmallActionsEndAndAction = html`
         <calcite-tree slot="children" expanded>
           <calcite-tree-item icon-start="palette" expanded>
             <a>Great-Grandchild 1</a>
-            ${slottedSmallDropdownSmallAction}${slottedSmallDropdownSmallAction}
+            ${slottedSmallDropdown}${slottedSmallDropdown}
           </calcite-tree-item>
         </calcite-tree>
       </calcite-tree-item>
@@ -219,9 +206,9 @@ export const withLines_TestOnly = (): string => html`
 
 export const iconStartAndActionsEnd = (): string => html`
   <div style="width: 650px">
-    <calcite-tree style="margin: 80px" scale="l"> ${iconStartLargeActionAndActionsEnd} </calcite-tree>
-    <calcite-tree style="margin: 80px" scale="m"> ${slottedSmallAction} </calcite-tree>
-    <calcite-tree style="margin: 80px" scale="s"> ${slottedSmallActionsEndAndAction} </calcite-tree>
+    <calcite-tree style="margin: 80px" scale="l"> ${iconStartLargeActionsEnd} </calcite-tree>
+    <calcite-tree style="margin: 80px" scale="m"> ${slottedDefaultActionsEnd} </calcite-tree>
+    <calcite-tree style="margin: 80px" scale="s"> ${slottedSmallActionsEnd} </calcite-tree>
   </div>
 `;
 
