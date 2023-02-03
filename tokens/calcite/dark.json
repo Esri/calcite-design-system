@@ -634,6 +634,46 @@
             "type": "color"
           }
         }
+      },
+      "input-datetime-local": {
+        "font": {
+          "placeholder-value": {
+            "value": "$input-datetime-local.font.placeholder-value.dark",
+            "type": "color"
+          },
+          "label": {
+            "value": "$input-datetime-local.font.label.dark",
+            "type": "color"
+          }
+        },
+        "icon": {
+          "value": "$input-datetime-local.icon.dark",
+          "type": "color"
+        },
+        "background": {
+          "default": {
+            "value": "$input-datetime-local.background.default.dark",
+            "type": "color"
+          },
+          "prefix-sufix": {
+            "value": "$input-datetime-local.background.prefix-suffix.dark",
+            "type": "color"
+          },
+          "read-only": {
+            "value": "$input-datetime-local.background.read-only.dark",
+            "type": "color"
+          }
+        },
+        "border": {
+          "default": {
+            "value": "$input-datetime-local.border.default.dark",
+            "type": "color"
+          },
+          "invalid": {
+            "value": "$input-datetime-local.border.invalid.dark",
+            "type": "color"
+          }
+        }
       }
     }
   }
