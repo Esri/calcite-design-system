@@ -133,7 +133,7 @@ export class InputNumber
   /**
    * Specifies an icon to display.
    *
-   * @future-breaking Remove boolean type as it is not supported.
+   * @futureBreaking Remove boolean type as it is not supported.
    */
   @Prop({ reflect: true }) icon: string | boolean;
 
