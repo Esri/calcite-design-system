@@ -1,0 +1,112 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-nav-width: Specifies the width of the component.
+ */
+
+:host {
+  $viewport-medium: 1040px;
+  // todo container border
+}
+
+.nav-container {
+  @apply flex
+    w-full;
+  flex-direction: column;
+  background-color: var(--calcite-ui-foreground-1);
+  margin-block: 0;
+  margin-inline: auto;
+  border-block-end: 1px solid var(--calcite-ui-border-3);
+}
+.nav-primary {
+  @apply h-16;
+}
+.nav-secondary {
+  @apply h-12;
+}
+.nav-tertiary {
+  @apply h-10;
+}
+
+.nav-container-content {
+  margin-block: 0;
+  margin-inline: auto;
+  @apply flex
+    w-full h-full;
+  inline-size: var(--calcite-nav-width, 100%);
+  max-inline-size: 100%;
+}
+
+slot[name] {
+  @apply flex flex-row;
+}
+slot[name="progress"],
+slot[name="progress"] calcite-progress {
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline: 0;
+}
+slot[name="primary-menu-end"],
+slot[name="secondary-menu-end"],
+slot[name="tertiary-menu-end"] {
+  @apply ml-auto;
+}
+
+slot[name="primary-actions-start"]::slotted(*),
+slot[name="primary-actions-end"]::slotted(*),
+slot[name="secondary-actions-start"]::slotted(*),
+slot[name="secondary-actions-end"]::slotted(*),
+slot[name="tertiary-actions-start"]::slotted(*),
+slot[name="tertiary-actions-end"]::slotted(*) {
+  @apply flex flex-row items-center;
+}
+
+slot[name="primary-actions-start"],
+slot[name="secondary-actions-start"],
+slot[name="tertiary-actions-start"] {
+  @apply mr-auto;
+}
+
+slot[name="primary-actions-end"],
+slot[name="secondary-actions-end"],
+slot[name="tertiary-actions-end"],
+slot[name="logo"] ~ slot[name="user"],
+slot[name="user"]:only-child {
+  @apply ml-auto;
+}
+
+slot[name="primary-menu-center"] {
+  @apply ml-auto mr-auto;
+}
+
+// todo menu center
+slot[name="primary-actions-end"] ~ slot[name="primary-menu-end"],
+slot[name="secondary-actions-end"] ~ slot[name="secondary-menu-end"],
+slot[name="tertiary-actions-end"] ~ slot[name="tertiary-menu-end"],
+slot[name="primary-menu-start"] ~ slot[name="primary-actions-start"],
+slot[name="secondary-menu-start"] ~ slot[name="secondary-actions-start"],
+slot[name="tertiary-menu-start"] ~ slot[name="tertiary-actions-start"],
+slot[name="primary-menu-center"] ~ slot[name="primary-actions-end"],
+slot[name="primary-menu-center"] ~ slot[name="primary-menu-end"],
+slot[name="primary-menu-center"] ~ slot[name="user"],
+slot[name="primary-menu-end"] ~ slot[name="user"],
+slot[name="primary-actions-end"] ~ slot[name="user"] {
+  margin: 0;
+}
+
+// temp hiding
+/*
+slot[name="primary-menu-center"],
+slot[name="primary-menu-start"],
+slot[name="primary-menu-end"],
+slot[name="secondary-menu-start"],
+slot[name="secondary-menu-end"],
+slot[name="tertiary-menu-start"],
+slot[name="tertiary-menu-end"] {
+  @media only screen and (max-width: $viewport-medium) {
+    @apply hidden;
+  }
+}
+*/

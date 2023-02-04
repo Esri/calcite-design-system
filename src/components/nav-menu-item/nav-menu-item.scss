@@ -1,0 +1,146 @@
+// theme variables
+// light theme
+
+:host {
+  @apply flex
+  items-center 
+  relative 
+  h-full 
+  box-border 
+  focus-base;
+
+  &:hover > calcite-action {
+    border-inline-start-color: var(-calcite-ui-border-3);
+  }
+  --calcite-nav-menu-item-font-weight: 500;
+}
+:host([layout="vertical"]) {
+  display: flex;
+  flex-direction: row;
+  @apply h-auto;
+  & calcite-action {
+    display: inline-flex;
+    flex-shrink: 0;
+    margin-inline-start: auto;
+    block-size: 100%;
+  }
+}
+:host([layout="vertical"]) a {
+  display: flex;
+  inline-size: 100%;
+  @apply py-4;
+  justify-content: flex-start;
+  border-block-end: 0;
+  border-inline-end: 4px solid transparent;
+}
+:host(:active) a {
+  @apply text-color-1;
+}
+
+:host([active]) a {
+  border-color: var(--calcite-ui-brand);
+}
+:host([active][layout="vertical"]) a {
+  background-color: var(--calcite-ui-foreground-2);
+}
+:host a {
+  @apply flex
+  h-full
+  items-center
+  relative
+  justify-center
+  cursor-pointer 
+  px-4 
+  outline-none
+  text-0
+  transition-default 
+  text-color-2 box-border;
+  text-decoration: none;
+  font-weight: var(--calcite-nav-menu-item-font-weight);
+  border-block-end: 2px solid transparent;
+
+  & span {
+    display: inline-flex;
+  }
+}
+
+.editable-content {
+  display: flex;
+  flex-direction: row;
+  calcite-input {
+    inline-size: 300px;
+    margin-inline-start: 12px;
+  }
+}
+
+:host([text-enabled]) a .icon-start {
+  @apply mr-3;
+}
+
+:host([text-enabled]) a .icon-end {
+  @apply ml-3;
+}
+:host([breadcrumb]) a {
+  @apply pr-3;
+}
+:host([breadcrumb]) a .icon-breadcrumb {
+  @apply pl-3 mr-0;
+  --calcite-ui-icon-color: var(--calcite-ui-text-3);
+}
+:host a .icon-dropdown {
+  @apply pl-3 mr-0 ml-auto;
+  --calcite-ui-icon-color: var(--calcite-ui-text-3);
+}
+:host(:hover) {
+  @apply bg-foreground-2 text-color-2;
+}
+
+:host(:focus) {
+  @apply bg-foreground-2 text-color-2 focus-inset;
+}
+
+:host(:active) {
+  @apply text-color-1;
+}
+:host([active]) {
+  @apply text-color-1;
+  border-color: var(--calcite-ui-brand);
+  --calcite-ui-icon-color: var(--calcite-ui-brand);
+}
+
+//  TEMP DROPDOWN
+.dropdown-menu-items {
+  border-radius: 0 0 4px 4px;
+  border: 1px solid var(--calcite-ui-border-3);
+  position: absolute;
+  background: var(--calcite-ui-foreground-1);
+  z-index: 9;
+  inset-block-start: 100%;
+  block-size: auto;
+  flex-direction: column;
+  min-inline-size: 100%;
+  inline-size: max-content;
+  display: none;
+  transition: all ease-in-out 0.25s;
+  overflow: visible;
+  box-shadow: $shadow-2;
+  &.open {
+    display: block;
+  }
+
+  // vertical has indent and color bg change - horizontal parent is to right
+  &.nested {
+    z-index: 9;
+    position: absolute;
+    transform: translateX(calc(100% - 2px));
+    inset-block-start: 0%;
+  }
+}
+
+.dropdown-with-href-toggle {
+  border-inline-start: 1px solid transparent;
+  z-index: 0;
+  &:hover {
+    border-inline-start-color: var(--calcite-ui-border-3);
+  }
+}

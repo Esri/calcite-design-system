@@ -1,0 +1,57 @@
+:host {
+  @apply inline-flex outline-none;
+  & a {
+    @apply flex m-0
+  items-center
+  justify-center
+  cursor-pointer transition-default focus-base no-underline;
+    // match nav item to center text
+    border-block-end: 2px solid transparent;
+  }
+  & img {
+    @apply flex h-7 m-0;
+  }
+}
+
+:host(:hover) a,
+:host(:focus) a {
+  @apply bg-foreground-2;
+}
+:host(:focus) a {
+  @apply focus-inset;
+}
+:host(:active) a {
+  @apply bg-foreground-3;
+}
+img {
+  @apply px-4 pl-4;
+}
+img ~ .text-container {
+  @apply pl-0;
+}
+:host(:active) a {
+  @apply text-color-1;
+}
+:host([active]) a {
+  z-index: 9;
+
+  @apply text-color-1;
+  border-color: var(--calcite-ui-brand);
+  --calcite-ui-icon-color: var(--calcite-ui-brand);
+}
+.text-container {
+  @apply flex;
+  flex-direction: column;
+  text-align: start;
+  @apply px-4;
+}
+
+.logo-text {
+  @apply text-0 ml-0 mt-1
+  font-bold 
+  text-color-1;
+}
+
+.logo-subtext {
+  @apply text-color-2;
+}

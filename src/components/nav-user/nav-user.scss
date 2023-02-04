@@ -1,0 +1,55 @@
+.user-details {
+  @apply flex 
+  relative 
+  h-full 
+  outline-none
+  items-center
+  cursor-pointer 
+  text-0
+  transition-default 
+  focus-base  
+  text-color-2 box-border;
+  align-self: center;
+  & calcite-avatar {
+    @apply px-4;
+  }
+  // temp
+  block-size: 64px;
+}
+
+.user-details:hover {
+  @apply bg-foreground-2 text-color-2;
+}
+.user-details:focus {
+  @apply bg-foreground-2 text-color-2 focus-inset;
+}
+
+.user-details:active {
+  @apply bg-foreground-3;
+}
+.user-details[active] {
+  @apply bg-foreground-1 text-color-1;
+}
+
+.container {
+  @apply flex flex-row content-center;
+}
+.user-text {
+  @apply flex flex-col content-center pr-4 pl-2;
+}
+
+span.user-name,
+span.user-organization {
+  display: inline-flex;
+  align-self: end;
+}
+
+span.user-name {
+  font-weight: 500;
+  color: var(--calcite-nav-text-color);
+}
+
+span.user-organization {
+  color: var(--calcite-ui-text-3);
+  @include font-size(-3);
+}
