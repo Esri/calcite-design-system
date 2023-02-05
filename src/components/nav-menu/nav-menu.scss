@@ -1,3 +1,9 @@
 :host {
   @apply inline-flex items-center;
 }
+
+:host([layout="vertical"]) {
+  display: flex;
+  flex-direction: column;
+  inline-size: 100%;
+}

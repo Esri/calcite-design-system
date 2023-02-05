@@ -47,9 +47,10 @@ img ~ .text-container {
 }
 
 .logo-text {
-  @apply text-0 ml-0 mt-1
-  font-bold 
+  @apply text-0 ml-0
   text-color-1;
+  font-weight: 500;
+  margin-block-start: 2px;
 }
 
 .logo-subtext {

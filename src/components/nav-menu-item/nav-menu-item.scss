@@ -1,6 +1,8 @@
 // theme variables
 // light theme
 
+// redo all of this
+
 :host {
   @apply flex
   items-center 
@@ -8,22 +10,27 @@
   h-full 
   box-border 
   focus-base;
-
   &:hover > calcite-action {
     border-inline-start-color: var(-calcite-ui-border-3);
   }
-  --calcite-nav-menu-item-font-weight: 500;
+  --calcite-nav-menu-item-font-weight: 400;
 }
+
+.container,
+.item-content {
+  inline-size: 100%;
+  min-inline-size: 100%;
+  display: flex;
+  flex-direction: row;
+  block-size: 100%;
+  align-items: stretch;
+}
+
 :host([layout="vertical"]) {
   display: flex;
   flex-direction: row;
   @apply h-auto;
-  & calcite-action {
-    display: inline-flex;
-    flex-shrink: 0;
-    margin-inline-start: auto;
-    block-size: 100%;
-  }
+  inline-size: 100%;
 }
 :host([layout="vertical"]) a {
   display: flex;
@@ -37,11 +44,16 @@
   @apply text-color-1;
 }
 
+:host(:hover) calcite-action {
+  @apply text-color-1;
+  --calcite-ui-foreground-1: var(--calcite-ui-foreground-2);
+  border-inline-start: 1px solid var(--calcite-ui-border-3);
+}
+
 :host([active]) a {
   border-color: var(--calcite-ui-brand);
 }
 :host([active][layout="vertical"]) a {
-  background-color: var(--calcite-ui-foreground-2);
 }
 :host a {
   @apply flex
@@ -53,11 +65,11 @@
   px-4 
   outline-none
   text-0
-  transition-default 
   text-color-2 box-border;
   text-decoration: none;
   font-weight: var(--calcite-nav-menu-item-font-weight);
   border-block-end: 2px solid transparent;
+  padding-block-start: 2px;
 
   & span {
     display: inline-flex;
@@ -67,10 +79,7 @@
 .editable-content {
   display: flex;
   flex-direction: row;
-  calcite-input {
-    inline-size: 300px;
-    margin-inline-start: 12px;
-  }
+  margin-inline-start: 12px;
 }
 
 :host([text-enabled]) a .icon-start {
@@ -79,6 +88,16 @@
 
 :host([text-enabled]) a .icon-end {
   @apply ml-3;
+}
+.text-container span:focus {
+  outline: none;
+  font-weight: 500;
+}
+.icon-link-when-dropdown {
+  position: relative;
+  inset-block-start: 3px;
+  margin-inline-start: 12px;
+  color: var(--calcite-ui-border-input);
 }
 :host([breadcrumb]) a {
   @apply pr-3;
@@ -90,22 +109,39 @@
 :host a .icon-dropdown {
   @apply pl-3 mr-0 ml-auto;
   --calcite-ui-icon-color: var(--calcite-ui-text-3);
+  // align with action for now
+  inset-inline-start: 4px;
+  position: relative;
 }
-:host(:hover) {
-  @apply bg-foreground-2 text-color-2;
+:host calcite-action {
+  block-size: auto;
+  border-inline-start: 1px solid var(--calcite-ui-foreground-1);
+}
+a {
+  @apply bg-foreground-1;
 }
 
-:host(:focus) {
+:host(:hover) a,
+a:hover {
+  @apply bg-foreground-2 text-color-2;
+}
+.container:hover .dropdown-with-href-toggle {
+  @apply bg-foreground-2;
+}
+
+:host(:focus) a {
   @apply bg-foreground-2 text-color-2 focus-inset;
 }
 
-:host(:active) {
+a:active {
   @apply text-color-1;
 }
-:host([active]) {
+:host([active]) a {
   @apply text-color-1;
   border-color: var(--calcite-ui-brand);
-  --calcite-ui-icon-color: var(--calcite-ui-brand);
+  & .icon {
+    --calcite-ui-icon-color: var(--calcite-ui-brand);
+  }
 }
 
 //  TEMP DROPDOWN
@@ -115,7 +151,6 @@
   position: absolute;
   background: var(--calcite-ui-foreground-1);
   z-index: 9;
-  inset-block-start: 100%;
   block-size: auto;
   flex-direction: column;
   min-inline-size: 100%;
@@ -123,6 +158,8 @@
   display: none;
   transition: all ease-in-out 0.25s;
   overflow: visible;
+  inset-block-start: 100%;
+
   box-shadow: $shadow-2;
   &.open {
     display: block;
@@ -131,16 +168,63 @@
   // vertical has indent and color bg change - horizontal parent is to right
   &.nested {
     z-index: 9;
+    inset-block-start: 0%;
+    border-radius: 4px;
     position: absolute;
     transform: translateX(calc(100% - 2px));
-    inset-block-start: 0%;
   }
 }
 
-.dropdown-with-href-toggle {
-  border-inline-start: 1px solid transparent;
-  z-index: 0;
-  &:hover {
-    border-inline-start-color: var(--calcite-ui-border-3);
+.nav-item-vertical {
+  position: relative;
+  flex-direction: column;
+  border-block-end: 0;
+}
+
+.container.nav-item-vertical-parent {
+  flex-direction: column;
+  block-size: unset;
+  display: block;
+}
+.nav-item-vertical-parent {
+  flex-direction: column;
+}
+
+.is-vertical-dropdown-type.dropdown-menu-items {
+  flex-direction: column;
+  position: relative;
+  block-size: auto;
+  block-size: 100%;
+  border-radius: 0;
+  box-shadow: none;
+  inset-block-start: 0;
+  transform: none;
+
+  &.nested {
+    transform: none;
+    position: relative;
+    border-radius: 0;
+
+    box-shadow: none;
+    border: none;
+    & ::slotted(calcite-nav-menu-item) {
+      padding-inline-start: 28px;
+      inline-size: 100%;
+    }
   }
+  &:last-of-type {
+    border-block-end: 1px solid var(--calcite-ui-border-3);
+    border-block-start: 1px solid var(--calcite-ui-border-3);
+  }
+}
+.dropdown-menu-items.is-rtl.nested {
+  transform: translateX(calc(-100% + 2px));
+}
+
+.is-vertical-dropdown-type.dropdown-menu-items.is-rtl.nested {
+  transform: none;
+}
+
+.dropdown-with-href-toggle {
+  z-index: 0;
 }
