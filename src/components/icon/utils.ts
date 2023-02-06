@@ -69,8 +69,7 @@ export function normalizeIconName(name: string): string {
   if (kebabCased) {
     const firstNonDigitInPartPattern = /[a-z]/i;
 
-    name = name
-      .split("-")
+    name = parts
       .map((part, partIndex) => {
         return part.replace(firstNonDigitInPartPattern, function replacer(match, offset) {
           const isFirstCharInName = partIndex === 0 && offset === 0;
