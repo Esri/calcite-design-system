@@ -1257,6 +1257,69 @@
             </calcite-flow>
           </calcite-shell-panel>
         </calcite-shell>
+        <div class="text-box">
+          <h2><code>"current page title in secondary with dropdown of other items"</code></h2>
+          <h3 id="calcite-nav-menu-item-slots"><code>example</code></h3>
+          <h4>
+            this is a commonly seen ui pattern - the main nav is appended to a hamburger menu (for now, user create with
+            "sheet" and panel / flow)
+          </h4>
+        </div>
+        <calcite-shell style="width: 60vw; margin: 0 auto">
+          <calcite-nav slot="header" style="--calcite-ui-brand: #bf390f; --calcite-nav-width: 70vw">
+            <calcite-nav-logo text-enabled text="Walt's Chips" slot="logo" src="../assets/images/acme-logo.svg">
+            </calcite-nav-logo>
+            <calcite-nav-menu slot="primary-menu-end">
+              <calcite-nav-menu-item text-enabled text="Sign in"></calcite-nav-menu-item>
+            </calcite-nav-menu>
+            <calcite-action slot="primary-actions-end" icon="search" scale="l" text="Search"></calcite-action>
+            <calcite-nav-menu slot="secondary-menu-start">
+              <calcite-nav-menu-item text="Parent" breadcrumb text-enabled> </calcite-nav-menu-item>
+              <calcite-nav-menu-item text="Current page" text-enabled> </calcite-nav-menu-item>
+            </calcite-nav-menu>
+            <calcite-nav-menu slot="secondary-menu-end">
+              <calcite-nav-menu-item text="Potatoes">
+                <calcite-nav-menu-item slot="menu-item-dropdown" text="Chips" text-enabled></calcite-nav-menu-item>
+                <calcite-nav-menu-item slot="menu-item-dropdown" text="Employees" text-enabled></calcite-nav-menu-item>
+                <calcite-nav-menu-item
+                  slot="menu-item-dropdown"
+                  active
+                  text="Suppliers"
+                  text-enabled
+                ></calcite-nav-menu-item>
+              </calcite-nav-menu-item>
+            </calcite-nav-menu>
+          </calcite-nav>
+        </calcite-shell>
+        <div class="text-box">
+          <h2><code>"full width trigger for dropdown menu" - need to flex</code></h2>
+          <h3 id="calcite-nav-menu-item-slots"><code>example</code></h3>
+          <h4>this is a commonly seen ui pattern - arcgis online example - full width item dropdown</h4>
+          <h4>this needs a "display title" and a full width flex</h4>
+        </div>
+        <calcite-shell style="width: 60vw; margin: 0 auto">
+          <calcite-nav slot="header" style="--calcite-ui-brand: #bf390f; --calcite-nav-width: 70vw">
+            <calcite-nav-logo text-enabled text="Walt's Chips" slot="logo" src="../assets/images/acme-logo.svg">
+            </calcite-nav-logo>
+            <calcite-nav-menu slot="primary-menu-end">
+              <calcite-nav-menu-item text-enabled text="Sign in"></calcite-nav-menu-item>
+            </calcite-nav-menu>
+            <calcite-action slot="primary-actions-end" icon="search" scale="l" text="Search"></calcite-action>
+
+            <calcite-nav-menu slot="secondary-menu-start" layout="vertical" style="width:100%; !important">
+              <calcite-nav-menu-item text="Potatoes" text-enabled>
+                <calcite-nav-menu-item slot="menu-item-dropdown" text="Chips" text-enabled></calcite-nav-menu-item>
+                <calcite-nav-menu-item slot="menu-item-dropdown" text="Employees" text-enabled></calcite-nav-menu-item>
+                <calcite-nav-menu-item
+                  slot="menu-item-dropdown"
+                  active
+                  text="Suppliers"
+                  text-enabled
+                ></calcite-nav-menu-item>
+              </calcite-nav-menu-item>
+            </calcite-nav-menu>
+          </calcite-nav>
+        </calcite-shell>
         <div id="calcite-nav-menu-item" class="text-box">
           <h2><code>calcite-nav-menu-item</code></h2>
           <h3 id="calcite-nav-menu-item-slots"><code>slots</code></h3>

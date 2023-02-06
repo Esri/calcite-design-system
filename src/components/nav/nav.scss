@@ -53,6 +53,16 @@ slot[name="secondary-menu-end"],
 slot[name="tertiary-menu-end"] {
   @apply ml-auto;
 }
+// support the full width example
+slot[name="primary-menu-start"]:only-child :first-child,
+slot[name="secondary-menu-start"]:only-child :first-child,
+slot[name="tertiary-menu-start"]:only-child :first-child,
+slot[name="primary-menu-end"]:only-child :first-child,
+slot[name="secondary-menu-end"]:only-child :first-child,
+slot[name="tertiary-menu-end"]:only-child :first-child {
+  inline-size: 100%;
+  border: 2px solid red !important;
+}
 
 slot[name="primary-actions-start"]::slotted(*),
 slot[name="primary-actions-end"]::slotted(*),
