@@ -11,6 +11,7 @@
     "component/color-picker",
     "component/input-date-picker",
     "component/input-datetime-local",
+    "component/input-email",
     "component/input-message",
     "component/input-time",
     "component/date-picker",

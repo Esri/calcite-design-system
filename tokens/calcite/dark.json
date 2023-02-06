@@ -674,6 +674,46 @@
             "type": "color"
           }
         }
+      },
+      "input-email": {
+        "font": {
+          "placeholder-value": {
+            "value": "$input-email.font.placeholder-value.dark",
+            "type": "color"
+          },
+          "label": {
+            "value": "$input-email.font.label.dark",
+            "type": "color"
+          }
+        },
+        "icon": {
+          "value": "$input-email.icon.dark",
+          "type": "color"
+        },
+        "background": {
+          "default": {
+            "value": "$input-email.background.default.dark",
+            "type": "color"
+          },
+          "prefix-sufix": {
+            "value": "$input-email.background.prefix-suffix.dark",
+            "type": "color"
+          },
+          "read-only": {
+            "value": "$input-email.background.read-only.dark",
+            "type": "color"
+          }
+        },
+        "border": {
+          "default": {
+            "value": "$input-email.border.default.dark",
+            "type": "color"
+          },
+          "invalid": {
+            "value": "$input-email.border.invalid.dark",
+            "type": "color"
+          }
+        }
       }
     }
   }

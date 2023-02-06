@@ -706,6 +706,46 @@
             "type": "color"
           }
         }
+      },
+      "input-email": {
+        "font": {
+          "placeholder-value": {
+            "value": "$input-email.font.placeholder-value.light",
+            "type": "color"
+          },
+          "label": {
+            "value": "$input-email.font.label.light",
+            "type": "color"
+          }
+        },
+        "icon": {
+          "value": "$input-email.icon.light",
+          "type": "color"
+        },
+        "background": {
+          "default": {
+            "value": "$input-email.background.default.light",
+            "type": "color"
+          },
+          "prefix-sufix": {
+            "value": "$input-email.background.prefix-suffix.light",
+            "type": "color"
+          },
+          "read-only": {
+            "value": "$input-email.background.read-only.light",
+            "type": "color"
+          }
+        },
+        "border": {
+          "default": {
+            "value": "$input-email.border.default.light",
+            "type": "color"
+          },
+          "invalid": {
+            "value": "$input-email.border.invalid.light",
+            "type": "color"
+          }
+        }
       }
     }
   }
