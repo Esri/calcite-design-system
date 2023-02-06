@@ -104,7 +104,7 @@
   @apply focus-base;
 }
 
-:host(:focus:not([disabled])) {
+:host(:focus) {
   @apply focus-inset outline-none;
 }
 
