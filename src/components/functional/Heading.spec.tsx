@@ -1,4 +1,4 @@
-import { Component, h } from "@stencil/core";
+import { h } from "@stencil/core";
 import { newSpecPage } from "@stencil/core/testing";
 import { constrainHeadingLevel, Heading } from "./Heading";
 
@@ -13,13 +13,10 @@ describe("constrainHeadingLevel", () => {
   });
 });
 
-@Component({ tag: "dummy-component" })
-class Dummy {}
-
 describe("Heading", () => {
   it("should render", async () => {
     const page = await newSpecPage({
-      components: [Dummy], // Required so we are feeding it a Dummy component
+      components: [],
       template: () => (
         <Heading class="test" level={1}>
           My Heading
@@ -32,7 +29,7 @@ describe("Heading", () => {
 
   it("should render a div", async () => {
     const page = await newSpecPage({
-      components: [Dummy], // Required so we are feeding it a Dummy component
+      components: [],
       template: () => <Heading class="test">My Heading</Heading>
     });
 
