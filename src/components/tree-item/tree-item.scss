@@ -102,10 +102,10 @@
 // focus styles
 :host {
   @apply focus-base;
-  &:focus,
-  &:active {
-    @apply focus-inset outline-none;
-  }
+}
+
+:host(:focus:not([disabled])) {
+  @apply focus-inset outline-none;
 }
 
 slot[name="actions-end"]::slotted(*),
