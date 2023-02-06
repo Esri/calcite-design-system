@@ -251,7 +251,7 @@ export class SegmentedControl
   //
   //--------------------------------------------------------------------------
 
-  /** Fires when the selected option changes, where the event detail is the new value. */
+  /** Fires when the `calcite-segmented-control-item` changes. */
   @Event({ cancelable: false }) calciteSegmentedControlChange: EventEmitter<void>;
 
   // --------------------------------------------------------------------------
