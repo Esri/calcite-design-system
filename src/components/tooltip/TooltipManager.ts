@@ -126,7 +126,7 @@ export default class TooltipManager {
   };
 
   private addListeners(): void {
-    document.addEventListener("keydown", this.keyDownHandler);
+    document.addEventListener("keydown", this.keyDownHandler, { capture: true });
     document.addEventListener("pointermove", this.pointerMoveHandler, { capture: true });
     document.addEventListener("pointerdown", this.pointerDownHandler, { capture: true });
     document.addEventListener("focusin", this.focusInHandler, { capture: true });
@@ -134,7 +134,7 @@ export default class TooltipManager {
   }
 
   private removeListeners(): void {
-    document.removeEventListener("keydown", this.keyDownHandler);
+    document.removeEventListener("keydown", this.keyDownHandler, { capture: true });
     document.removeEventListener("pointermove", this.pointerMoveHandler, { capture: true });
     document.removeEventListener("pointerdown", this.pointerDownHandler, { capture: true });
     document.removeEventListener("focusin", this.focusInHandler, { capture: true });
