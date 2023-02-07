@@ -41,13 +41,13 @@ export function connectFocusTrap(component: FocusTrapComponent): void {
   if (!focusTrapEl) {
     return;
   }
-
-  if (focusTrapEl.tabIndex == null) {
-    focusTrapEl.tabIndex = -1;
-  }
+  console.log(focusTrapEl.ownerDocument);
+  focusTrapEl.setAttribute("tabindex", "-1");
 
   const focusTrapOptions: FocusTrapOptions = {
-    clickOutsideDeactivates: true,
+    clickOutsideDeactivates: (event: MouseEvent | TouchEvent) => {
+      return !event.composedPath().find((el) => (el as HTMLElement) === focusTrapEl);
+    },
     document: focusTrapEl.ownerDocument,
     escapeDeactivates: false,
     fallbackFocus: focusTrapEl,
