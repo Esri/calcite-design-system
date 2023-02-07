@@ -343,7 +343,7 @@ export class InputNumber
 
   private maxString?: string;
 
-  private previousEmittedValue: string;
+  private previousCommittedValue: string;
 
   private previousValue: string;
 
@@ -399,7 +399,7 @@ export class InputNumber
     connectLabel(this);
     connectForm(this);
 
-    this.setPreviousEmittedNumberValue(this.value);
+    this.setPreviousCommittedNumberValue(this.value);
     this.setPreviousNumberValue(this.value);
 
     this.warnAboutInvalidNumberValue(this.value);
@@ -559,10 +559,9 @@ export class InputNumber
   };
 
   private emitChangeIfUserModified = (): void => {
-    if (this.previousValueOrigin === "user" && this.value !== this.previousEmittedValue) {
+    if (this.previousValueOrigin === "user" && this.value !== this.previousCommittedValue) {
       this.calciteInputNumberChange.emit();
     }
-    this.previousEmittedValue = this.value;
   };
 
   private inputNumberBlurHandler = () => {
@@ -641,7 +640,11 @@ export class InputNumber
     const isShiftTabEvent = event.shiftKey && event.key === "Tab";
     if (supportedKeys.includes(event.key) && (!event.shiftKey || isShiftTabEvent)) {
       if (event.key === "Enter") {
-        this.emitChangeIfUserModified();
+        this.setNumberValue({
+          committing: true,
+          origin: "user",
+          value: this.value
+        });
       }
       return;
     }
@@ -780,9 +783,9 @@ export class InputNumber
     this.childNumberEl.value = newInputValue;
   };
 
-  private setPreviousEmittedNumberValue = (newPreviousEmittedValue: string): void => {
-    this.previousEmittedValue = isValidNumber(newPreviousEmittedValue)
-      ? newPreviousEmittedValue
+  private setPreviousCommittedNumberValue = (newPreviousCommittedValue: string): void => {
+    this.previousCommittedValue = isValidNumber(newPreviousCommittedValue)
+      ? newPreviousCommittedValue
       : "";
   };
 
@@ -840,6 +843,7 @@ export class InputNumber
         this.value = this.previousValue;
         this.localizedValue = numberStringFormatter.localize(this.previousValue);
       } else if (committing) {
+        this.setPreviousCommittedNumberValue(this.value);
         this.emitChangeIfUserModified();
       }
     }

@@ -405,7 +405,7 @@ export class Input
 
   private maxString?: string;
 
-  private previousEmittedValue: string;
+  private previousCommittedValue: string;
 
   private previousValue: string;
 
@@ -458,8 +458,9 @@ export class Input
     connectLabel(this);
     connectForm(this);
 
-    this.setPreviousEmittedValue(this.value);
+    this.setPreviousCommittedValue(this.value);
     this.setPreviousValue(this.value);
+
     if (this.type === "number") {
       this.warnAboutInvalidNumberValue(this.value);
       this.setValue({
@@ -642,10 +643,9 @@ export class Input
   };
 
   private emitChangeIfUserModified = (): void => {
-    if (this.previousValueOrigin === "user" && this.value !== this.previousEmittedValue) {
+    if (this.previousValueOrigin === "user" && this.value !== this.previousCommittedValue) {
       this.calciteInputChange.emit();
     }
-    this.previousEmittedValue = this.value;
   };
 
   private inputBlurHandler = () => {
@@ -680,7 +680,11 @@ export class Input
       return;
     }
     if (event.key === "Enter") {
-      this.emitChangeIfUserModified();
+      this.setValue({
+        committing: true,
+        origin: "user",
+        value: this.value
+      });
     }
   };
 
@@ -744,7 +748,11 @@ export class Input
     const isShiftTabEvent = event.shiftKey && event.key === "Tab";
     if (supportedKeys.includes(event.key) && (!event.shiftKey || isShiftTabEvent)) {
       if (event.key === "Enter") {
-        this.emitChangeIfUserModified();
+        this.setValue({
+          committing: true,
+          origin: "user",
+          value: this.value
+        });
       }
       return;
     }
@@ -898,13 +906,13 @@ export class Input
     this[`child${this.type === "number" ? "Number" : ""}El`].value = newInputValue;
   };
 
-  private setPreviousEmittedValue = (newPreviousEmittedValue: string): void => {
-    this.previousEmittedValue =
+  private setPreviousCommittedValue = (newPreviousCommittedValue: string): void => {
+    this.previousCommittedValue =
       this.type === "number"
-        ? isValidNumber(newPreviousEmittedValue)
-          ? newPreviousEmittedValue
+        ? isValidNumber(newPreviousCommittedValue)
+          ? newPreviousCommittedValue
           : ""
-        : newPreviousEmittedValue;
+        : newPreviousCommittedValue;
   };
 
   private setPreviousValue = (newPreviousValue: string): void => {
@@ -979,6 +987,7 @@ export class Input
             ? numberStringFormatter.localize(this.previousValue)
             : this.previousValue;
       } else if (committing) {
+        this.setPreviousCommittedValue(this.value);
         this.emitChangeIfUserModified();
       }
     }

@@ -271,7 +271,7 @@ export class InputText
     return this.clearable && this.value.length > 0;
   }
 
-  private previousEmittedValue: string;
+  private previousCommittedValue: string;
 
   private previousValue: string;
 
@@ -310,7 +310,7 @@ export class InputText
     if (this.inlineEditableEl) {
       this.editingEnabled = this.inlineEditableEl.editingEnabled || false;
     }
-    this.setPreviousEmittedValue(this.value);
+    this.setPreviousCommittedValue(this.value);
     this.setPreviousValue(this.value);
 
     connectLabel(this);
@@ -427,10 +427,10 @@ export class InputText
   };
 
   private emitChangeIfUserModified = (): void => {
-    if (this.previousValueOrigin === "user" && this.value !== this.previousEmittedValue) {
+    if (this.previousValueOrigin === "user" && this.value !== this.previousCommittedValue) {
       this.calciteInputTextChange.emit();
     }
-    this.previousEmittedValue = this.value;
+    this.previousCommittedValue = this.value;
   };
 
   private inputTextBlurHandler = () => {
@@ -472,7 +472,11 @@ export class InputText
       return;
     }
     if (event.key === "Enter") {
-      this.emitChangeIfUserModified();
+      this.setValue({
+        committing: true,
+        origin: "user",
+        value: this.value
+      });
     }
   };
 
@@ -532,8 +536,8 @@ export class InputText
     this.childEl.value = newInputValue;
   };
 
-  private setPreviousEmittedValue = (newPreviousEmittedValue: string): void => {
-    this.previousEmittedValue = newPreviousEmittedValue;
+  private setPreviousCommittedValue = (newPreviousCommittedValue: string): void => {
+    this.previousCommittedValue = newPreviousCommittedValue;
   };
 
   private setPreviousValue = (newPreviousValue: string): void => {
