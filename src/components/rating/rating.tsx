@@ -88,7 +88,11 @@ export class Rating
     /* wired up by t9n util */
   }
 
-  /** Specifies the name of the component on form submission. */
+  /**
+   * Specifies the name of the component.
+   *
+   * Required to pass the component's `value` on form submission.
+   */
   @Prop({ reflect: true }) name: string;
 
   /** When `true`, the component's value can be read, but cannot be modified. */

@@ -914,13 +914,19 @@ describe("calcite-input-number", () => {
     expect(await input.getProperty("value")).toBe("1.005");
   });
 
-  it("allows clearing value with an empty string", async () => {
+  it("allows negative numbers after clearing value with an empty string", async () => {
     const page = await newE2EPage();
     await page.setContent(html`<calcite-input-number value="1"></calcite-input-number>`);
     const input = await page.find("calcite-input-number");
+
     input.setProperty("value", "");
     await page.waitForChanges();
     expect(await input.getProperty("value")).toBe("");
+
+    await input.callMethod("setFocus");
+    await typeNumberValue(page, "-123");
+    await page.waitForChanges();
+    expect(await input.getProperty("value")).toBe("-123");
   });
 
   describe("number locale support", () => {

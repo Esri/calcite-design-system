@@ -73,7 +73,9 @@ export class Select
   @Prop() label!: string;
 
   /**
-   * Specifies the name of the component on form submission.
+   * Specifies the name of the component.
+   *
+   * Required to pass the component's `value` on form submission.
    */
   @Prop({ reflect: true }) name: string;
 
@@ -352,7 +354,7 @@ export class Select
   renderChevron(): VNode {
     return (
       <div class={CSS.iconContainer}>
-        <calcite-icon class={CSS.icon} icon="chevron-down" scale="s" />
+        <calcite-icon class={CSS.icon} icon="chevron-down" scale={this.scale === "l" ? "m" : "s"} />
       </div>
     );
   }

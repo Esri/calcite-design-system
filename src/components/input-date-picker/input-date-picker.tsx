@@ -221,7 +221,9 @@ export class InputDatePicker
   }
 
   /**
-   * Specifies the name of the component on form submission.
+   * Specifies the name of the component.
+   *
+   * Required to pass the component's `value` on form submission.
    */
   @Prop({ reflect: true }) name: string;
 
@@ -298,6 +300,11 @@ export class InputDatePicker
   private calciteInternalInputInputHandler = (event: CustomEvent<any>): void => {
     const target = event.target as HTMLCalciteInputElement;
     const value = target.value;
+    const parsedValue = this.parseNumerals(value);
+    const formattedValue = this.formatNumerals(parsedValue);
+
+    target.value = formattedValue;
+
     const { year } = datePartsFromLocalizedString(value, this.localeData);
 
     if (year && year.length < 4) {
@@ -854,18 +861,18 @@ export class InputDatePicker
     inputEl.value = newValue;
   };
 
-  private setRangeValue = (value: Date[] | string): void => {
+  private setRangeValue = (valueAsDate: Date[]): void => {
     if (!this.range) {
       return;
     }
 
     const { value: oldValue } = this;
     const oldValueIsArray = Array.isArray(oldValue);
-    const valueIsArray = Array.isArray(value);
+    const valueIsArray = Array.isArray(valueAsDate);
 
-    const newStartDate = valueIsArray ? value[0] : "";
+    const newStartDate = valueIsArray ? valueAsDate[0] : null;
     const newStartDateISO = valueIsArray ? dateToISO(newStartDate) : "";
-    const newEndDate = valueIsArray ? value[1] : "";
+    const newEndDate = valueIsArray ? valueAsDate[1] : null;
     const newEndDateISO = valueIsArray ? dateToISO(newEndDate) : "";
 
     const newValue = newStartDateISO || newEndDateISO ? [newStartDateISO, newEndDateISO] : "";
@@ -934,6 +941,16 @@ export class InputDatePicker
               : numberKeys?.includes(char)
               ? numberStringFormatter?.numberFormatter?.format(Number(char))
               : char
+          )
+          .join("")
+      : "";
+
+  private parseNumerals = (value: string): string =>
+    value
+      ? value
+          .split("")
+          .map((char: string) =>
+            numberKeys.includes(char) ? numberStringFormatter.delocalize(char) : char
           )
           .join("")
       : "";

@@ -199,7 +199,9 @@ export class Input
   @Prop({ reflect: true }) minLength: number;
 
   /**
-   * Specifies the name of the component on form submission.
+   * Specifies the name of the component.
+   *
+   * Required to pass the component's `value` on form submission.
    *
    * @mdn [name](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#name)
    */
@@ -235,7 +237,7 @@ export class Input
   @Prop({ mutable: true, reflect: true }) status: Status = "idle";
 
   /**
-   * Specifies the granularity the component's value must adhere to.
+   * Specifies the granularity the component's `value` must adhere to.
    *
    * @mdn [step](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/step)
    */
@@ -851,16 +853,8 @@ export class Input
 
   hiddenInputChangeHandler = (event: Event): void => {
     if ((event.target as HTMLInputElement).name === this.name) {
-      const hiddenInputValue = (event.target as HTMLInputElement).value;
-      const value =
-        this.type === "number"
-          ? isValidNumber(hiddenInputValue)
-            ? hiddenInputValue
-            : ""
-          : hiddenInputValue;
-
       this.setValue({
-        value,
+        value: (event.target as HTMLInputElement).value,
         origin: "direct"
       });
     }
@@ -934,42 +928,46 @@ export class Input
     previousValue?: string;
     value: string;
   }): void => {
-    numberStringFormatter.numberFormatOptions = {
-      locale: this.effectiveLocale,
-      numberingSystem: this.numberingSystem,
-      useGrouping: this.groupSeparator
-    };
-
     if (this.type === "number") {
-      const delocalizedValue =
-        (this.numberingSystem && this.numberingSystem !== "latn") ||
-        defaultNumberingSystem !== "latn"
-          ? numberStringFormatter.delocalize(value)
-          : value;
+      numberStringFormatter.numberFormatOptions = {
+        locale: this.effectiveLocale,
+        numberingSystem: this.numberingSystem,
+        useGrouping: this.groupSeparator,
+        signDisplay: "never"
+      };
 
-      const sanitizedValue = sanitizeNumberString(delocalizedValue);
+      const sanitizedValue = sanitizeNumberString(
+        // no need to delocalize a string that ia already in latn numerals
+        (this.numberingSystem && this.numberingSystem !== "latn") ||
+          defaultNumberingSystem !== "latn"
+          ? numberStringFormatter.delocalize(value)
+          : value
+      );
 
       const newValue =
-        (value && !sanitizedValue) || [".", "-"].includes(sanitizedValue)
+        value && !sanitizedValue
           ? isValidNumber(this.previousValue)
             ? this.previousValue
             : ""
           : sanitizedValue;
 
       const newLocalizedValue = numberStringFormatter.localize(newValue);
-
       this.localizedValue = newLocalizedValue;
+
+      this.setPreviousValue(previousValue || this.value);
+      this.previousValueOrigin = origin;
       this.userChangedValue = origin === "user" && this.value !== newValue;
-      this.value = newValue;
+      // don't sanitize the start of negative/decimal numbers, but
+      // don't set value to an invalid number
+      this.value = ["-", "."].includes(newValue) ? "" : newValue;
       origin === "direct" && this.setInputValue(newLocalizedValue);
     } else {
+      this.setPreviousValue(previousValue || this.value);
+      this.previousValueOrigin = origin;
       this.userChangedValue = origin === "user" && this.value !== value;
       this.value = value;
       origin === "direct" && this.setInputValue(value);
     }
-
-    this.setPreviousValue(previousValue || this.value);
-    this.previousValueOrigin = origin;
 
     if (nativeEvent) {
       const calciteInputInputEvent = this.calciteInputInput.emit();

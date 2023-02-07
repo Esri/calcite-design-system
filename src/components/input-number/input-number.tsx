@@ -131,7 +131,9 @@ export class InputNumber
   @Prop({ reflect: true }) hidden = false;
 
   /**
-   * When `true`, shows a default recommended icon. Alternatively, pass a Calcite UI Icon name to display a specific icon.
+   * Specifies an icon to display.
+   *
+   * @futureBreaking Remove boolean type as it is not supported.
    */
   @Prop({ reflect: true }) icon: string | boolean;
 
@@ -198,6 +200,8 @@ export class InputNumber
 
   /**
    * Specifies the name of the component.
+   *
+   * Required to pass the component's `value` on form submission.
    *
    * @mdn [name](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#name)
    */
@@ -806,6 +810,7 @@ export class InputNumber
     };
 
     const sanitizedValue = sanitizeNumberString(
+      // no need to delocalize a string that ia already in latn numerals
       (this.numberingSystem && this.numberingSystem !== "latn") || defaultNumberingSystem !== "latn"
         ? numberStringFormatter.delocalize(value)
         : value
@@ -819,25 +824,21 @@ export class InputNumber
         : sanitizedValue;
 
     const newLocalizedValue = numberStringFormatter.localize(newValue);
+    this.localizedValue = newLocalizedValue;
 
     this.setPreviousNumberValue(previousValue || this.value);
     this.previousValueOrigin = origin;
     this.userChangedValue = origin === "user" && this.value !== newValue;
-    this.value = newValue;
-
-    this.localizedValue = newLocalizedValue;
-
-    if (origin === "direct") {
-      this.setInputNumberValue(newLocalizedValue);
-    }
+    // don't sanitize the start of negative/decimal numbers, but
+    // don't set value to an invalid number
+    this.value = ["-", "."].includes(newValue) ? "" : newValue;
+    origin === "direct" && this.setInputNumberValue(newLocalizedValue);
 
     if (nativeEvent) {
       const calciteInputNumberInputEvent = this.calciteInputNumberInput.emit();
-
       if (calciteInputNumberInputEvent.defaultPrevented) {
-        const previousLocalizedValue = numberStringFormatter.localize(this.previousValue);
         this.value = this.previousValue;
-        this.localizedValue = previousLocalizedValue;
+        this.localizedValue = numberStringFormatter.localize(this.previousValue);
       } else if (committing) {
         this.emitChangeIfUserModified();
       }

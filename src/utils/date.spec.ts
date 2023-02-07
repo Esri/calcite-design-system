@@ -1,5 +1,15 @@
 import { DateLocaleData } from "../components/date-picker/utils";
-import { dateFromISO, dateFromRange, getOrder, inRange, nextMonth, parseDateString, prevMonth, sameDate } from "./date";
+import {
+  dateFromISO,
+  dateFromRange,
+  dateToISO,
+  getOrder,
+  inRange,
+  nextMonth,
+  parseDateString,
+  prevMonth,
+  sameDate
+} from "./date";
 
 import arabic from "../components/date-picker/assets/date-picker/nls/ar.json";
 import english from "../components/date-picker/assets/date-picker/nls/en.json";
@@ -60,6 +70,23 @@ describe("dateFromISO", () => {
   it("defaults to first of any missing units", () => {
     expect(dateFromISO("2011-11").getTime()).toEqual(new Date(2011, 10, 1).getTime());
     expect(dateFromISO("2011").getTime()).toEqual(new Date(2011, 0, 1).getTime());
+  });
+});
+
+describe("dateToISO", () => {
+  it("returns empty string from bad input", () => {
+    expect(dateToISO("" as any)).toEqual("");
+    expect(dateToISO("asdflkjasdhoui" as any)).toEqual("");
+  });
+  it("correctly returns string in simplified ISO format (YYYY-MM-DD)", () => {
+    const date = new Date(2011, 10, 29);
+    const expectedValue = "2011-11-29";
+    expect(dateToISO(date)).toEqual(expectedValue);
+  });
+  it("correctly returns zero-padded month and day values when less than 10", () => {
+    const date = new Date(2011, 2, 5);
+    const expectedValue = "2011-03-05";
+    expect(dateToISO(date)).toEqual(expectedValue);
   });
 });
 
