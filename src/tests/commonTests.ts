@@ -607,7 +607,13 @@ export async function formAssociated(componentTagOrHtml: TagOrHTML, options: For
       component.setProperty("required", true);
       component.setProperty("value", null);
       await page.waitForChanges();
-      expect(await submitAndGetValue()).toBeUndefined();
+      expect(await submitAndGetValue()).toBe(
+        options.inputType === "color"
+          ? // `input[type="color"]` will set its value to #000000 when set to an invalid value
+            // see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/color#value
+            "#000000"
+          : undefined
+      );
 
       component.setProperty("required", false);
       component.setProperty("value", options.testValue);
