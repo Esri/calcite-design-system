@@ -50,6 +50,7 @@ export function connectFocusTrap(component: FocusTrapComponent): void {
     clickOutsideDeactivates: (event: MouseEvent | TouchEvent) => {
       return !event.composedPath().find((el) => (el as HTMLElement) === focusTrapEl);
     },
+    allowOutsideClick: true,
     document: focusTrapEl.ownerDocument,
     escapeDeactivates: false,
     fallbackFocus: focusTrapEl,
