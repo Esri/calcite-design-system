@@ -6,7 +6,7 @@
     "changelog": true
   },
   "scripts": {
-    "precommit": "ts-node --esm ./support/prepReleaseCommit.ts"
+    "precommit": "ts-node --esm ./support/prepReleaseCommit.ts && npm run lint:md && git add readme.md CHANGELOG.md"
   },
   "header": "# Changelog\n\nThis document maintains a list of released versions and changes introduced by them.\nThis project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html)\n\n"
 }

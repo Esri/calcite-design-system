@@ -37,11 +37,10 @@ import { PickListItemMessages } from "./assets/pick-list-item/t9n";
 import { CSS, ICONS, SLOTS } from "./resources";
 
 /**
+ * @deprecated Use the `list` component instead.
  * @slot actions-end - A slot for adding `calcite-action`s or content to the end side of the component.
  * @slot actions-start - A slot for adding `calcite-action`s or content to the start side of the component.
  */
-
-/** @deprecated Use the `list` component instead. */
 @Component({
   tag: "calcite-pick-list-item",
   styleUrl: "pick-list-item.scss",

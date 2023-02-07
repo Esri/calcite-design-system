@@ -131,7 +131,9 @@ export class InputNumber
   @Prop({ reflect: true }) hidden = false;
 
   /**
-   * When `true`, shows a default recommended icon. Alternatively, pass a Calcite UI Icon name to display a specific icon.
+   * Specifies an icon to display.
+   *
+   * @futureBreaking Remove boolean type as it is not supported.
    */
   @Prop({ reflect: true }) icon: string | boolean;
 
@@ -808,7 +810,7 @@ export class InputNumber
     };
 
     const sanitizedValue = sanitizeNumberString(
-        // no need to delocalize a string that ia already in latn numerals
+      // no need to delocalize a string that ia already in latn numerals
       (this.numberingSystem && this.numberingSystem !== "latn") || defaultNumberingSystem !== "latn"
         ? numberStringFormatter.delocalize(value)
         : value

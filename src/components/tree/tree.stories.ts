@@ -121,6 +121,27 @@ export const selectionModeNone = (): string => html`
   >
 `;
 
+export const withLines_TestOnly = (): string => html`
+  <calcite-tree lines>
+    <calcite-tree-item> Child 1 </calcite-tree-item>
+    <calcite-tree-item expanded>
+      Child 2
+      <calcite-tree slot="children">
+        <calcite-tree-item> Grandchild 1 </calcite-tree-item>
+        <calcite-tree-item> Grandchild 2 </calcite-tree-item>
+        <calcite-tree-item expanded>
+          Grandchild 3
+          <calcite-tree slot="children">
+            <calcite-tree-item> Great-Grandchild 1 </calcite-tree-item>
+            <calcite-tree-item> Great-Grandchild 2 </calcite-tree-item>
+            <calcite-tree-item> Great-Grandchild 3 </calcite-tree-item>
+          </calcite-tree>
+        </calcite-tree-item>
+      </calcite-tree>
+    </calcite-tree-item>
+  </calcite-tree>
+`;
+
 export const actionsEndDropdownsAndIconStart_TestOnly = (): string => html`<calcite-tree
   style="width: 350px"
   scale="${select("scale", ["s", "m", "l"], "m")}"
