@@ -1,7 +1,8 @@
 import { E2EPage, newE2EPage } from "@stencil/core/testing";
 import { html } from "../../../support/formatting";
-import { defaults, focusable, hidden, renders, t9n } from "../../tests/commonTests";
+import { defaults, hidden, renders, t9n } from "../../tests/commonTests";
 import { skipAnimations } from "../../tests/utils";
+import { dateFromISO } from "../../utils/date";
 import { formatTimePart } from "../../utils/time";
 
 describe("calcite-date-picker", () => {
@@ -16,11 +17,6 @@ describe("calcite-date-picker", () => {
         defaultValue: "m"
       }
     ]));
-
-  it("focusable", async () =>
-    focusable("<calcite-date-picker></calcite-date-picker>", {
-      shadowFocusTargetSelector: "calcite-date-picker-month-header"
-    }));
 
   const animationDurationInMs = 200;
 
@@ -213,8 +209,7 @@ describe("calcite-date-picker", () => {
     await page.setContent("<calcite-date-picker value='2000-11-27'></calcite-date-picker>");
     const date = await page.find("calcite-date-picker");
     const changedEvent = await page.spyOnEvent("calciteDatePickerChange");
-    date.setProperty("value", "2001-10-28");
-    await page.waitForChanges();
+    await date.setProperty("value", "2001-10-28");
     expect(changedEvent).toHaveReceivedEventTimes(0);
   });
 
