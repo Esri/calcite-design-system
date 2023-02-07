@@ -41,8 +41,10 @@ export function connectFocusTrap(component: FocusTrapComponent): void {
   if (!focusTrapEl) {
     return;
   }
-  console.log(focusTrapEl.ownerDocument);
-  focusTrapEl.setAttribute("tabindex", "-1");
+
+  if (focusTrapEl.tabIndex === null) {
+    focusTrapEl.setAttribute("tabindex", "-1");
+  }
 
   const focusTrapOptions: FocusTrapOptions = {
     clickOutsideDeactivates: (event: MouseEvent | TouchEvent) => {
