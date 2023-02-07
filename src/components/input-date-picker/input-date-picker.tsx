@@ -300,6 +300,11 @@ export class InputDatePicker
   private calciteInternalInputInputHandler = (event: CustomEvent<any>): void => {
     const target = event.target as HTMLCalciteInputElement;
     const value = target.value;
+    const parsedValue = this.parseNumerals(value);
+    const formattedValue = this.formatNumerals(parsedValue);
+
+    target.value = formattedValue;
+
     const { year } = datePartsFromLocalizedString(value, this.localeData);
 
     if (year && year.length < 4) {
@@ -936,6 +941,16 @@ export class InputDatePicker
               : numberKeys?.includes(char)
               ? numberStringFormatter?.numberFormatter?.format(Number(char))
               : char
+          )
+          .join("")
+      : "";
+
+  private parseNumerals = (value: string): string =>
+    value
+      ? value
+          .split("")
+          .map((char: string) =>
+            numberKeys.includes(char) ? numberStringFormatter.delocalize(char) : char
           )
           .join("")
       : "";
