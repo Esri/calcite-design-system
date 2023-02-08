@@ -70,9 +70,6 @@
     "jest/no-export": "warn",
     "jsdoc/check-tag-names": "off",
     "jsdoc/require-jsdoc": "off",
-    "jsdoc/require-param-description": "off",
-    "jsdoc/require-param-type": "off",
-    "jsdoc/require-returns": "off",
     "lines-between-class-members": ["error", "always"],
     "no-eval": "error",
     "no-implied-eval": "error",
@@ -137,6 +134,10 @@
   "settings": {
     "react": {
       "pragma": "h"
+    },
+    "jsdoc": {
+      "ignoreInternal": true,
+      "ignorePrivate": true
     }
   }
 }
