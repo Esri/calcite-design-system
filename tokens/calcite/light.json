@@ -746,6 +746,86 @@
             "type": "color"
           }
         }
+      },
+      "input-file": {
+        "font": {
+          "placeholder-value": {
+            "value": "$input-file.font.placeholder-value.light",
+            "type": "color"
+          },
+          "label": {
+            "value": "$input-file.font.label.light",
+            "type": "color"
+          }
+        },
+        "icon": {
+          "value": "$input-file.icon.light",
+          "type": "color"
+        },
+        "background": {
+          "default": {
+            "value": "$input-file.background.default.light",
+            "type": "color"
+          },
+          "prefix-sufix": {
+            "value": "$input-file.background.prefix-suffix.light",
+            "type": "color"
+          },
+          "read-only": {
+            "value": "$input-file.background.read-only.light",
+            "type": "color"
+          }
+        },
+        "border": {
+          "default": {
+            "value": "$input-file.border.default.light",
+            "type": "color"
+          },
+          "invalid": {
+            "value": "$input-file.border.invalid.light",
+            "type": "color"
+          }
+        }
+      },
+      "input-month": {
+        "font": {
+          "placeholder-value": {
+            "value": "$input-month.font.placeholder-value.light",
+            "type": "color"
+          },
+          "label": {
+            "value": "$input-month.font.label.light",
+            "type": "color"
+          }
+        },
+        "icon": {
+          "value": "$input-month.icon.light",
+          "type": "color"
+        },
+        "background": {
+          "default": {
+            "value": "$input-month.background.default.light",
+            "type": "color"
+          },
+          "prefix-sufix": {
+            "value": "$input-month.background.prefix-suffix.light",
+            "type": "color"
+          },
+          "read-only": {
+            "value": "$input-month.background.read-only.light",
+            "type": "color"
+          }
+        },
+        "border": {
+          "default": {
+            "value": "$input-month.border.default.light",
+            "type": "color"
+          },
+          "invalid": {
+            "value": "$input-month.border.invalid.light",
+            "type": "color"
+          }
+        }
       }
     }
   }

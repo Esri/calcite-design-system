@@ -12,6 +12,8 @@
     "component/input-date-picker",
     "component/input-datetime-local",
     "component/input-email",
+    "component/input-file",
+    "component/input-month",
     "component/input-message",
     "component/input-time",
     "component/date-picker",
