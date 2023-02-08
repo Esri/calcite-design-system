@@ -107,6 +107,10 @@ export class Switch
   //
   //--------------------------------------------------------------------------
 
+  syncHiddenFormInput(input: HTMLInputElement): void {
+    input.type = "checkbox";
+  }
+
   keyDownHandler = (event: KeyboardEvent): void => {
     if (!this.disabled && isActivationKey(event.key)) {
       this.toggle();
