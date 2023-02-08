@@ -7,10 +7,6 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ## Unreleased
 
-### Features
-
-- **pagination, split-button, dropdown, date-picker) action-group:** add setFocus method ([#6405](https://github.com/Esri/calcite-components/issues/6405)) ([ceaf532](https://github.com/Esri/calcite-components/commit/ceaf5320bd0f9fdeff4f4a7180e4a718c9743031)), closes [#5147](https://github.com/Esri/calcite-components/issues/5147) [/github.com/Esri/calcite-components/issues/5147#issuecomment-1355194965](https://github.com/Esri//github.com/Esri/calcite-components/issues/5147/issues/issuecomment-1355194965)
-
 ### Bug Fixes
 
 - **date-picker:** days previous to the currently hovered day when no range value exists display correctly with no hover styles ([#6369](https://github.com/Esri/calcite-components/issues/6369)) ([ebdcc25](https://github.com/Esri/calcite-components/commit/ebdcc2573e439fa4826bc07a0c86bda1bfeafcce))
