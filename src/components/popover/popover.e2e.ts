@@ -735,8 +735,8 @@ describe("calcite-popover", () => {
       }));
   });
 
-  // refer to https://github.com/Esri/calcite-components/issues/5993 for context
   it("should focus input element in the page with popover when user click", async () => {
+    // refer to https://github.com/Esri/calcite-components/issues/5993 for context
     const page = await newE2EPage();
     await page.setContent(html` <calcite-shell content-behind>
         <calcite-shell-panel slot="panel-end">
