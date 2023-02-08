@@ -4,31 +4,31 @@ import { accessible, defaults, hidden, floatingUIOwner, renders } from "../../te
 import { html } from "../../../support/formatting";
 import { GlobalTestProps } from "../../tests/utils";
 
-type CanceledEscapeKeyPressTestWindow = GlobalTestProps<{
-  escapeKeyCanceled: boolean;
-}>;
-
-/**
- * Helps assert the canceled Esc key press when closing tooltips
- * Must be called before the tooltip is closed via keyboard.
- */
-async function setUpEscapeKeyCancelListener(page: E2EPage): Promise<void> {
-  await page.evaluate(() => {
-    document.addEventListener(
-      "keydown",
-      (event) => {
-        (window as CanceledEscapeKeyPressTestWindow).escapeKeyCanceled = event.defaultPrevented;
-      },
-      { once: true }
-    );
-  });
-}
-
-async function assertEscapeKeyCanceled(page: E2EPage): Promise<void> {
-  expect(await page.evaluate(() => (window as CanceledEscapeKeyPressTestWindow).escapeKeyCanceled)).toBe(true);
-}
-
 describe("calcite-tooltip", () => {
+  type CanceledEscapeKeyPressTestWindow = GlobalTestProps<{
+    escapeKeyCanceled: boolean;
+  }>;
+
+  /**
+   * Helps assert the canceled Esc key press when closing tooltips
+   * Must be called before the tooltip is closed via keyboard.
+   */
+  async function setUpEscapeKeyCancelListener(page: E2EPage): Promise<void> {
+    await page.evaluate(() => {
+      document.addEventListener(
+        "keydown",
+        (event) => {
+          (window as CanceledEscapeKeyPressTestWindow).escapeKeyCanceled = event.defaultPrevented;
+        },
+        { once: true }
+      );
+    });
+  }
+
+  async function assertEscapeKeyCanceled(page: E2EPage): Promise<void> {
+    expect(await page.evaluate(() => (window as CanceledEscapeKeyPressTestWindow).escapeKeyCanceled)).toBe(true);
+  }
+
   it("renders", async () => {
     await renders(`calcite-tooltip`, { visible: false, display: "block" });
     await renders(`<calcite-tooltip open reference-element="ref"></calcite-tooltip><div id="ref">😄</div>`, {
