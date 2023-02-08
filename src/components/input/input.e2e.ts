@@ -1689,10 +1689,65 @@ describe("calcite-input", () => {
     expect(await input.getProperty("disabled")).toBe(true);
   });
 
-  describe("is form-associated", () => {
-    it("supports type=text", () => formAssociated("calcite-input", { testValue: "test", submitsOnEnter: true }));
-    it("supports type=number", () =>
-      formAssociated("<calcite-input type='number'></calcite-input>", { testValue: 5, submitsOnEnter: true }));
+  it("is form-associated", async () => {
+    const supportedSubmissionTypes = [
+      {
+        type: "color",
+        value: "#abcdef"
+      },
+      {
+        type: "date",
+        value: "2018-07-22"
+      },
+      {
+        type: "datetime-local",
+        value: "2018-06-12T19:30"
+      },
+      {
+        type: "email",
+        value: "test@test.com"
+      },
+      {
+        type: "month",
+        value: "2018-05"
+      },
+      {
+        type: "number",
+        value: "1337"
+      },
+      {
+        type: "tel",
+        value: "1234567890"
+      },
+      {
+        type: "text",
+        value: "test"
+      },
+      {
+        type: "password",
+        value: "password"
+      },
+      {
+        type: "time",
+        value: "01:00"
+      },
+      {
+        type: "url",
+        value: "http://www.example.com"
+      },
+      {
+        type: "week",
+        value: "2018-W26"
+      }
+    ];
+
+    for (const { type, value } of supportedSubmissionTypes) {
+      await formAssociated(`<calcite-input type="${type}"></calcite-input>`, {
+        testValue: value,
+        submitsOnEnter: true,
+        inputType: type
+      });
+    }
   });
 
   it("supports translation", () => t9n("calcite-input"));

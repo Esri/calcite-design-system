@@ -1467,9 +1467,10 @@ describe("calcite-input-number", () => {
   });
 
   it("is form-associated", () =>
-    formAssociated("<calcite-input-number></calcite-input-number>", {
+    formAssociated("calcite-input-number", {
       testValue: 5,
-      submitsOnEnter: true
+      submitsOnEnter: true,
+      inputType: "number"
     }));
 
   it("supports translation", () => t9n("calcite-input-number"));

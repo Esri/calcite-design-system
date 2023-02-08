@@ -833,13 +833,14 @@ export class Input
   }
 
   syncHiddenFormInput(input: HTMLInputElement): void {
-    if (this.type === "number") {
-      input.type = "number";
+    const { type } = this;
+
+    input.type = type;
+
+    if (type === "number") {
       input.min = this.min?.toString(10) ?? "";
       input.max = this.max?.toString(10) ?? "";
-    } else if (this.type === "text") {
-      input.type = "text";
-
+    } else if (type === "text") {
       if (this.minLength != null) {
         input.minLength = this.minLength;
       }
@@ -847,8 +848,6 @@ export class Input
       if (this.maxLength != null) {
         input.maxLength = this.maxLength;
       }
-    } else if (this.type === "password") {
-      input.type = "password";
     }
   }
 
