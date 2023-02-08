@@ -826,6 +826,46 @@
             "type": "color"
           }
         }
+      },
+      "input-number": {
+        "font": {
+          "placeholder-value": {
+            "value": "$input-number.font.placeholder-value.light",
+            "type": "color"
+          },
+          "label": {
+            "value": "$input-number.font.label.light",
+            "type": "color"
+          }
+        },
+        "icon": {
+          "value": "$input-number.icon.light",
+          "type": "color"
+        },
+        "background": {
+          "default": {
+            "value": "$input-number.background.default.light",
+            "type": "color"
+          },
+          "prefix-sufix": {
+            "value": "$input-number.background.prefix-suffix.light",
+            "type": "color"
+          },
+          "read-only": {
+            "value": "$input-number.background.read-only.light",
+            "type": "color"
+          }
+        },
+        "border": {
+          "default": {
+            "value": "$input-number.border.default.light",
+            "type": "color"
+          },
+          "invalid": {
+            "value": "$input-number.border.invalid.light",
+            "type": "color"
+          }
+        }
       }
     }
   }
