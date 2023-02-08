@@ -42,7 +42,9 @@ export function connectFocusTrap(component: FocusTrapComponent): void {
     return;
   }
 
-  focusTrapEl.setAttribute("tabindex", "-1");
+  if (focusTrapEl.tabIndex === null) {
+    focusTrapEl.setAttribute("tabindex", "-1");
+  }
 
   const focusTrapOptions: FocusTrapOptions = {
     allowOutsideClick: true,
