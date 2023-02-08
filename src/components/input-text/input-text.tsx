@@ -429,8 +429,8 @@ export class InputText
   private emitChangeIfUserModified = (): void => {
     if (this.previousValueOrigin === "user" && this.value !== this.previousEmittedValue) {
       this.calciteInputTextChange.emit();
+      this.setPreviousEmittedValue(this.value);
     }
-    this.previousEmittedValue = this.value;
   };
 
   private inputTextBlurHandler = () => {
@@ -532,12 +532,12 @@ export class InputText
     this.childEl.value = newInputValue;
   };
 
-  private setPreviousEmittedValue = (newPreviousEmittedValue: string): void => {
-    this.previousEmittedValue = newPreviousEmittedValue;
+  private setPreviousEmittedValue = (value: string): void => {
+    this.previousEmittedValue = value;
   };
 
-  private setPreviousValue = (newPreviousValue: string): void => {
-    this.previousValue = newPreviousValue;
+  private setPreviousValue = (value: string): void => {
+    this.previousValue = value;
   };
 
   private setValue = ({
@@ -553,13 +553,14 @@ export class InputText
     previousValue?: string;
     value: string;
   }): void => {
-    this.setPreviousValue(previousValue || this.value);
+    this.setPreviousValue(previousValue ?? this.value);
     this.previousValueOrigin = origin;
     this.userChangedValue = origin === "user" && value !== this.value;
     this.value = value;
 
     if (origin === "direct") {
       this.setInputValue(value);
+      this.setPreviousEmittedValue(value);
     }
 
     if (nativeEvent) {

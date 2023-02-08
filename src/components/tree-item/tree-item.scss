@@ -121,6 +121,10 @@
 // focus styles
 :host {
   @apply focus-base;
+  &:focus,
+  &:active {
+    @apply focus-inset outline-none;
+  }
 }
 
 :host(:focus:not([disabled])) {
