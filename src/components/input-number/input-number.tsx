@@ -343,7 +343,7 @@ export class InputNumber
 
   private maxString?: string;
 
-  private previousCommittedValue: string;
+  private previousEmittedNumberValue: string;
 
   private previousValue: string;
 
@@ -399,7 +399,7 @@ export class InputNumber
     connectLabel(this);
     connectForm(this);
 
-    this.setPreviousCommittedNumberValue(this.value);
+    this.setPreviousEmittedNumberValue(this.value);
     this.setPreviousNumberValue(this.value);
 
     this.warnAboutInvalidNumberValue(this.value);
@@ -559,8 +559,9 @@ export class InputNumber
   };
 
   private emitChangeIfUserModified = (): void => {
-    if (this.previousValueOrigin === "user" && this.value !== this.previousCommittedValue) {
+    if (this.previousValueOrigin === "user" && this.value !== this.previousEmittedNumberValue) {
       this.calciteInputNumberChange.emit();
+      this.setPreviousEmittedNumberValue(this.value);
     }
   };
 
@@ -783,14 +784,16 @@ export class InputNumber
     this.childNumberEl.value = newInputValue;
   };
 
-  private setPreviousCommittedNumberValue = (newPreviousCommittedValue: string): void => {
-    this.previousCommittedValue = isValidNumber(newPreviousCommittedValue)
-      ? newPreviousCommittedValue
-      : "";
+  private setPreviousEmittedNumberValue = (value: string): void => {
+    this.previousEmittedNumberValue = this.normalizeValue(value);
   };
 
-  private setPreviousNumberValue = (newPreviousValue: string): void => {
-    this.previousValue = isValidNumber(newPreviousValue) ? newPreviousValue : "";
+  private normalizeValue(value: string): string {
+    return isValidNumber(value) ? value : "";
+  }
+
+  private setPreviousNumberValue = (value: string): void => {
+    this.previousValue = this.normalizeValue(value);
   };
 
   private setNumberValue = ({
@@ -835,7 +838,11 @@ export class InputNumber
     // don't sanitize the start of negative/decimal numbers, but
     // don't set value to an invalid number
     this.value = ["-", "."].includes(newValue) ? "" : newValue;
-    origin === "direct" && this.setInputNumberValue(newLocalizedValue);
+
+    if (origin === "direct") {
+      this.setInputNumberValue(newLocalizedValue);
+      this.setPreviousEmittedNumberValue(newLocalizedValue);
+    }
 
     if (nativeEvent) {
       const calciteInputNumberInputEvent = this.calciteInputNumberInput.emit();
@@ -843,7 +850,6 @@ export class InputNumber
         this.value = this.previousValue;
         this.localizedValue = numberStringFormatter.localize(this.previousValue);
       } else if (committing) {
-        this.setPreviousCommittedNumberValue(this.value);
         this.emitChangeIfUserModified();
       }
     }
