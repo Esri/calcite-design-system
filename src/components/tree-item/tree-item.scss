@@ -9,6 +9,8 @@
   @apply hidden;
 }
 
+// Revisit: We don't normally clip actions to accommodate component heights, it’s inconsistent with how we normally handle slots.
+// This also results in clipping the top/bottom of the blue focus outline.
 .node-actions-container {
   @apply overflow-hidden flex justify-between;
 }
@@ -66,9 +68,9 @@
   @apply text-0h;
 
   .node-actions-container {
-    @apply h-11;
+    @apply h-12;
     .node-container {
-      --calcite-tree-padding-y: theme("padding[2.5]");
+      --calcite-tree-padding-y: theme("padding.3");
       .checkbox,
       .chevron,
       .checkmark,
