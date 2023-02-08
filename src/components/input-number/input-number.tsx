@@ -832,7 +832,7 @@ export class InputNumber
     const newLocalizedValue = numberStringFormatter.localize(newValue);
     this.localizedValue = newLocalizedValue;
 
-    this.setPreviousNumberValue(previousValue || this.value);
+    this.setPreviousNumberValue(previousValue ?? this.value);
     this.previousValueOrigin = origin;
     this.userChangedValue = origin === "user" && this.value !== newValue;
     // don't sanitize the start of negative/decimal numbers, but

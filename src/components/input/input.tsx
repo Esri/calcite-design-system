@@ -681,11 +681,7 @@ export class Input
       return;
     }
     if (event.key === "Enter") {
-      this.setValue({
-        committing: true,
-        origin: "user",
-        value: this.value
-      });
+      this.emitChangeIfUserModified();
     }
   };
 
@@ -749,11 +745,7 @@ export class Input
     const isShiftTabEvent = event.shiftKey && event.key === "Tab";
     if (supportedKeys.includes(event.key) && (!event.shiftKey || isShiftTabEvent)) {
       if (event.key === "Enter") {
-        this.setValue({
-          committing: true,
-          origin: "user",
-          value: this.value
-        });
+        this.emitChangeIfUserModified();
       }
       return;
     }

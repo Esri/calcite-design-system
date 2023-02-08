@@ -472,11 +472,7 @@ export class InputText
       return;
     }
     if (event.key === "Enter") {
-      this.setValue({
-        committing: true,
-        origin: "user",
-        value: this.value
-      });
+      this.emitChangeIfUserModified();
     }
   };
 
@@ -536,12 +532,12 @@ export class InputText
     this.childEl.value = newInputValue;
   };
 
-  private setPreviousEmittedValue = (newPreviousCommittedValue: string): void => {
-    this.previousEmittedValue = newPreviousCommittedValue;
+  private setPreviousEmittedValue = (value: string): void => {
+    this.previousEmittedValue = value;
   };
 
-  private setPreviousValue = (newPreviousValue: string): void => {
-    this.previousValue = newPreviousValue;
+  private setPreviousValue = (value: string): void => {
+    this.previousValue = value;
   };
 
   private setValue = ({
@@ -557,7 +553,7 @@ export class InputText
     previousValue?: string;
     value: string;
   }): void => {
-    this.setPreviousValue(previousValue || this.value);
+    this.setPreviousValue(previousValue ?? this.value);
     this.previousValueOrigin = origin;
     this.userChangedValue = origin === "user" && value !== this.value;
     this.value = value;
