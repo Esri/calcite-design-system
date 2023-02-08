@@ -43,9 +43,9 @@ async function patchFloatingUiForNonChromiumBrowsers(): Promise<void> {
     // ⚠️ browser-sniffing is not a best practice and should be avoided ⚠️
     /firefox|safari/i.test(getUAString())
   ) {
-    const { getOffsetParent } = await import("./floating-ui/nonChromiumPlatformUtils");
+    const { composedOffsetParent } = await import("./floating-ui/nonChromiumPlatformUtils");
 
-    platform.getOffsetParent = getOffsetParent;
+    platform.getOffsetParent = (element) => platform.getOffsetParent(element, composedOffsetParent);
   }
 }
 
