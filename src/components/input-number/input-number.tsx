@@ -641,11 +641,7 @@ export class InputNumber
     const isShiftTabEvent = event.shiftKey && event.key === "Tab";
     if (supportedKeys.includes(event.key) && (!event.shiftKey || isShiftTabEvent)) {
       if (event.key === "Enter") {
-        this.setNumberValue({
-          committing: true,
-          origin: "user",
-          value: this.value
-        });
+        this.emitChangeIfUserModified();
       }
       return;
     }
