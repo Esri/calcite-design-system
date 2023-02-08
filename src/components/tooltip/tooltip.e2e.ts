@@ -25,8 +25,8 @@ describe("calcite-tooltip", () => {
     });
   }
 
-  async function assertEscapeKeyCanceled(page: E2EPage): Promise<void> {
-    expect(await page.evaluate(() => (window as CanceledEscapeKeyPressTestWindow).escapeKeyCanceled)).toBe(true);
+  async function assertEscapeKeyCanceled(page: E2EPage, expected: boolean): Promise<void> {
+    expect(await page.evaluate(() => (window as CanceledEscapeKeyPressTestWindow).escapeKeyCanceled)).toBe(expected);
   }
 
   it("renders", async () => {
@@ -382,7 +382,7 @@ describe("calcite-tooltip", () => {
     await page.waitForChanges();
 
     expect(await tooltip.getProperty("open")).toBe(false);
-    await assertEscapeKeyCanceled(page);
+    await assertEscapeKeyCanceled(page, true);
   });
 
   it("should honor hovered tooltip closing with ESC key", async () => {
@@ -417,7 +417,7 @@ describe("calcite-tooltip", () => {
     await page.waitForChanges();
 
     expect(await tooltip.getProperty("open")).toBe(false);
-    await assertEscapeKeyCanceled(page);
+    await assertEscapeKeyCanceled(page, false);
   });
 
   it("should honor hovered and focused tooltip closing with ESC key", async () => {
@@ -454,7 +454,7 @@ describe("calcite-tooltip", () => {
     await page.waitForChanges();
 
     expect(await tooltip.getProperty("open")).toBe(false);
-    await assertEscapeKeyCanceled(page);
+    await assertEscapeKeyCanceled(page, true);
   });
 
   it("should only open the last focused tooltip", async () => {
