@@ -224,10 +224,6 @@ export class Slider
     }
   }
 
-  componentDidLoad(): void {
-    setComponentLoaded(this);
-  }
-
   componentDidRender(): void {
     if (this.labelHandles) {
       this.adjustHostObscuredHandleLabel("value");
@@ -247,6 +243,7 @@ export class Slider
     this.maxHandle.style.transform = `translate(var(--calcite-slider-thumb-x-offset),-${
       handleY - this.trackEl.getBoundingClientRect().y + handleWidth / 2
     }px)`;
+    setComponentLoaded(this);
   }
 
   render(): VNode {
@@ -958,10 +955,8 @@ export class Slider
 
   private handleEl: HTMLDivElement;
 
-  @State() private activeProp: ActiveSliderProperty = "value";
-
   @State() effectiveLocale = "";
-  
+
   @State() private minMaxValueRange: number = null;
 
   @State() private minValueDragRange: number = null;
