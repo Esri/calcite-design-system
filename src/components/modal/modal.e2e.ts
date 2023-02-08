@@ -389,11 +389,7 @@ describe("calcite-modal accessibility checks", () => {
         <calcite-modal aria-labelledby="modal-title" close-button-disabled open>
           <div slot="header" id="modal-title">Modal title</div>
           <div slot="content">
-            <p>
-              Modal content lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-              labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-              aliquip ex ea commodo consequat.
-            </p>
+            <p>Modal content.</p>
             <calcite-button icon-start="plus" id="plus" round></calcite-button>
           </div>
           <calcite-button slot="back" color="neutral" width="full">Back</calcite-button>
