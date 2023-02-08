@@ -1,4 +1,4 @@
-import { optionsKnob, select } from "@storybook/addon-knobs";
+import { select } from "@storybook/addon-knobs";
 import { iconNames, storyFilters } from "../../../.storybook/helpers";
 import { placeholderImage } from "../../../.storybook/placeholderImage";
 import { modesDarkDefault } from "../../../.storybook/utils";
@@ -174,3 +174,6 @@ export const TabChilrenWithPercentageHeights = (): string => html`
     </calcite-tab>
   </calcite-tabs>
 `;
+TabChilrenWithPercentageHeights.parameters = {
+  chromatic: { delay: 1000 }
+};
