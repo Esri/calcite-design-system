@@ -156,6 +156,10 @@ export class RadioButton
   //
   //--------------------------------------------------------------------------
 
+  syncHiddenFormInput(input: HTMLInputElement): void {
+    input.type = "radio";
+  }
+
   selectItem = (items: HTMLCalciteRadioButtonElement[], selectedIndex: number): void => {
     items[selectedIndex].click();
   };

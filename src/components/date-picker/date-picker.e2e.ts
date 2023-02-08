@@ -2,7 +2,6 @@ import { E2EPage, newE2EPage } from "@stencil/core/testing";
 import { html } from "../../../support/formatting";
 import { defaults, hidden, renders, t9n } from "../../tests/commonTests";
 import { skipAnimations } from "../../tests/utils";
-import { dateFromISO } from "../../utils/date";
 import { formatTimePart } from "../../utils/time";
 
 describe("calcite-date-picker", () => {
