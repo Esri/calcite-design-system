@@ -1,25 +1,30 @@
 import {
   Component,
-  h,
   Element,
   Event,
   EventEmitter,
+  h,
   Listen,
-  Prop,
-  Watch,
   Method,
-  State
+  Prop,
+  State,
+  Watch
 } from "@stencil/core";
-import { CSS, SLOTS, ICONS } from "./resources";
-import { focusElement, toAriaBoolean } from "../../utils/dom";
 import { Fragment, VNode } from "@stencil/core/internal";
 import { getRoundRobinIndex } from "../../utils/array";
+import { focusElement, isPrimaryPointerButton, toAriaBoolean } from "../../utils/dom";
+import { EffectivePlacement, LogicalPlacement, OverlayPositioning } from "../../utils/floating-ui";
 import { guid } from "../../utils/guid";
-import { DeprecatedEventPayload, Scale } from "../interfaces";
-import { LogicalPlacement, EffectivePlacement, OverlayPositioning } from "../../utils/floating-ui";
 import { isActivationKey } from "../../utils/key";
+import {
+  componentLoaded,
+  LoadableComponent,
+  setComponentLoaded,
+  setUpLoadableComponent
+} from "../../utils/loadable";
+import { Scale } from "../interfaces";
+import { CSS, ICONS, SLOTS } from "./resources";
 
-const SUPPORTED_BUTTON_NAV_KEYS = ["ArrowUp", "ArrowDown"];
 const SUPPORTED_MENU_NAV_KEYS = ["ArrowUp", "ArrowDown", "End", "Home"];
 
 /**
@@ -32,12 +37,20 @@ const SUPPORTED_MENU_NAV_KEYS = ["ArrowUp", "ArrowDown", "End", "Home"];
   styleUrl: "action-menu.scss",
   shadow: true
 })
-export class ActionMenu {
+export class ActionMenu implements LoadableComponent {
   // --------------------------------------------------------------------------
   //
   //  Lifecycle
   //
   // --------------------------------------------------------------------------
+
+  componentWillLoad(): void {
+    setUpLoadableComponent(this);
+  }
+
+  componentDidLoad(): void {
+    setComponentLoaded(this);
+  }
 
   disconnectedCallback(): void {
     this.disconnectMenuButtonEl();
@@ -50,7 +63,7 @@ export class ActionMenu {
   // --------------------------------------------------------------------------
 
   /**
-   * When true, the component is expanded.
+   * When `true`, the component is expanded.
    */
   @Prop({ reflect: true }) expanded = false;
 
@@ -63,7 +76,7 @@ export class ActionMenu {
   /**
    * Defines the available placements that can be used when a flip occurs.
    */
-  @Prop() flipPlacements?: EffectivePlacement[];
+  @Prop() flipPlacements: EffectivePlacement[];
 
   /**
    *  Specifies the text string for the component.
@@ -71,7 +84,7 @@ export class ActionMenu {
   @Prop() label!: string;
 
   /**
-   * When true, the component is open.
+   * When `true`, the component is open.
    */
   @Prop({ reflect: true, mutable: true }) open = false;
 
@@ -81,7 +94,7 @@ export class ActionMenu {
     if (this.menuButtonEl) {
       this.menuButtonEl.active = open;
     }
-    this.calciteActionMenuOpenChange.emit(open);
+    this.calciteActionMenuOpen.emit();
 
     this.setTooltipReferenceElement();
   }
@@ -97,8 +110,6 @@ export class ActionMenu {
 
   /**
    * Determines where the component will be positioned relative to the `referenceElement`.
-   *
-   * @see [LogicalPlacement](https://github.com/Esri/calcite-components/blob/master/src/utils/floating-ui.ts#L25)
    */
   @Prop({ reflect: true }) placement: LogicalPlacement = "auto";
 
@@ -114,14 +125,17 @@ export class ActionMenu {
   // --------------------------------------------------------------------------
 
   /**
-   * Emits when the `open` property has changed.
+   * Emits when the `open` property is toggled.
    *
-   * **Note:**: The event payload is deprecated, please use the `open` property on the component instead
    */
-  @Event({ cancelable: false }) calciteActionMenuOpenChange: EventEmitter<DeprecatedEventPayload>;
+  @Event({ cancelable: false }) calciteActionMenuOpen: EventEmitter<void>;
 
   @Listen("pointerdown", { target: "window" })
-  closeCalciteActionMenuOnClick(event: Event): void {
+  closeCalciteActionMenuOnClick(event: PointerEvent): void {
+    if (!isPrimaryPointerButton(event)) {
+      return;
+    }
+
     const composedPath = event.composedPath();
 
     if (composedPath.includes(this.el)) {
@@ -171,6 +185,8 @@ export class ActionMenu {
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
+    await componentLoaded(this);
+
     focusElement(this.menuButtonEl);
   }
 
@@ -283,13 +299,14 @@ export class ActionMenu {
 
     return (
       <calcite-popover
-        disablePointer
         flipPlacements={flipPlacements}
+        focusTrapDisabled={true}
         label={label}
         offsetDistance={0}
         open={open}
         overlayPositioning={overlayPositioning}
         placement={placement}
+        pointerDisabled={true}
         referenceElement={menuButtonEl}
       >
         <div
@@ -298,7 +315,6 @@ export class ActionMenu {
           class={CSS.menu}
           id={menuId}
           onClick={this.handleCalciteActionClick}
-          onKeyDown={this.menuActionsContainerKeyDown}
           role="menu"
           tabIndex={-1}
         >
@@ -329,7 +345,11 @@ export class ActionMenu {
     this.setFocus();
   };
 
-  menuButtonClick = (): void => {
+  menuButtonClick = (event: PointerEvent): void => {
+    if (!isPrimaryPointerButton(event)) {
+      return;
+    }
+
     this.toggleOpen();
   };
 
@@ -386,7 +406,7 @@ export class ActionMenu {
 
   menuButtonKeyDown = (event: KeyboardEvent): void => {
     const { key } = event;
-    const { actionElements } = this;
+    const { actionElements, activeMenuItemIndex, open } = this;
 
     if (!actionElements.length) {
       return;
@@ -394,33 +414,18 @@ export class ActionMenu {
 
     if (isActivationKey(key)) {
       event.preventDefault();
-      this.toggleOpen();
-      return;
+
+      if (!open) {
+        this.toggleOpen();
+        return;
+      }
+
+      const action = actionElements[activeMenuItemIndex];
+      action ? action.click() : this.toggleOpen(false);
     }
-
-    if (!this.isValidKey(key, SUPPORTED_BUTTON_NAV_KEYS)) {
-      return;
-    }
-
-    event.preventDefault();
-
-    this.toggleOpen(true);
-    this.handleActionNavigation(key, actionElements);
-  };
-
-  menuActionsContainerKeyDown = (event: KeyboardEvent): void => {
-    const { key } = event;
-    const { actionElements, activeMenuItemIndex } = this;
 
     if (key === "Tab") {
       this.open = false;
-      return;
-    }
-
-    if (isActivationKey(key)) {
-      event.preventDefault();
-      const action = actionElements[activeMenuItemIndex];
-      action ? action.click() : this.toggleOpen(false);
       return;
     }
 
@@ -430,23 +435,33 @@ export class ActionMenu {
       return;
     }
 
-    if (!actionElements.length) {
-      return;
-    }
-
-    if (this.isValidKey(key, SUPPORTED_MENU_NAV_KEYS)) {
-      event.preventDefault();
-    }
-
-    this.handleActionNavigation(key, actionElements);
+    this.handleActionNavigation(event, key, actionElements);
   };
 
-  handleActionNavigation = (key: string, actions: HTMLCalciteActionElement[]): void => {
-    if (!this.open) {
+  handleActionNavigation = (
+    event: KeyboardEvent,
+    key: string,
+    actions: HTMLCalciteActionElement[]
+  ): void => {
+    if (!this.isValidKey(key, SUPPORTED_MENU_NAV_KEYS)) {
       return;
     }
 
-    const currentIndex = this.activeMenuItemIndex;
+    event.preventDefault();
+
+    if (!this.open) {
+      this.toggleOpen();
+
+      if (key === "Home" || key === "ArrowDown") {
+        this.activeMenuItemIndex = 0;
+      }
+
+      if (key === "End" || key === "ArrowUp") {
+        this.activeMenuItemIndex = actions.length - 1;
+      }
+
+      return;
+    }
 
     if (key === "Home") {
       this.activeMenuItemIndex = 0;
@@ -455,6 +470,8 @@ export class ActionMenu {
     if (key === "End") {
       this.activeMenuItemIndex = actions.length - 1;
     }
+
+    const currentIndex = this.activeMenuItemIndex;
 
     if (key === "ArrowUp") {
       this.activeMenuItemIndex = getRoundRobinIndex(Math.max(currentIndex - 1, -1), actions.length);

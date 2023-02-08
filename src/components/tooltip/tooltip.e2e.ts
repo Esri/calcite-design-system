@@ -1,9 +1,34 @@
-import { newE2EPage } from "@stencil/core/testing";
+import { E2EPage, newE2EPage } from "@stencil/core/testing";
 import { TOOLTIP_DELAY_MS } from "../tooltip/resources";
 import { accessible, defaults, hidden, floatingUIOwner, renders } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
+import { GlobalTestProps } from "../../tests/utils";
 
 describe("calcite-tooltip", () => {
+  type CanceledEscapeKeyPressTestWindow = GlobalTestProps<{
+    escapeKeyCanceled: boolean;
+  }>;
+
+  /**
+   * Helps assert the canceled Esc key press when closing tooltips
+   * Must be called before the tooltip is closed via keyboard.
+   */
+  async function setUpEscapeKeyCancelListener(page: E2EPage): Promise<void> {
+    await page.evaluate(() => {
+      document.addEventListener(
+        "keydown",
+        (event) => {
+          (window as CanceledEscapeKeyPressTestWindow).escapeKeyCanceled = event.defaultPrevented;
+        },
+        { once: true }
+      );
+    });
+  }
+
+  async function assertEscapeKeyCanceled(page: E2EPage, expected: boolean): Promise<void> {
+    expect(await page.evaluate(() => (window as CanceledEscapeKeyPressTestWindow).escapeKeyCanceled)).toBe(expected);
+  }
+
   it("renders", async () => {
     await renders(`calcite-tooltip`, { visible: false, display: "block" });
     await renders(`<calcite-tooltip open reference-element="ref"></calcite-tooltip><div id="ref">😄</div>`, {
@@ -47,7 +72,7 @@ describe("calcite-tooltip", () => {
       }
     ]));
 
-  it("should have zIndex of 999", async () => {
+  it("should have zIndex of 901", async () => {
     const page = await newE2EPage();
 
     await page.setContent(
@@ -62,31 +87,30 @@ describe("calcite-tooltip", () => {
 
     const style = await tooltip.getComputedStyle();
 
-    expect(style.zIndex).toBe("999");
+    expect(style.zIndex).toBe("901");
   });
 
   it("tooltip positions when referenceElement is set", async () => {
     const page = await newE2EPage();
-
-    await page.setContent(`<calcite-tooltip open></calcite-tooltip><div>referenceElement</div>`);
-
+    await page.setContent(
+      html`<calcite-tooltip open></calcite-tooltip>
+        <div id="ref">referenceElement</div>`
+    );
     const element = await page.find("calcite-tooltip");
 
     let computedStyle: CSSStyleDeclaration = await element.getComputedStyle();
 
-    expect(computedStyle.transform).toBe("matrix(0, 0, 0, 0, 0, 0)");
+    expect(computedStyle.transform).toBe("none");
 
-    await page.$eval("calcite-tooltip", (elm: any) => {
-      const referenceElement = document.createElement("div");
-      document.body.appendChild(referenceElement);
-      elm.referenceElement = referenceElement;
+    await page.$eval("calcite-tooltip", (el: HTMLCalciteTooltipElement): void => {
+      const referenceElement = document.getElementById("ref");
+      el.referenceElement = referenceElement;
     });
-
     await page.waitForChanges();
 
     computedStyle = await element.getComputedStyle();
 
-    expect(computedStyle.transform).not.toBe("matrix(0, 0, 0, 0, 0, 0)");
+    expect(computedStyle.transform).not.toBe("none");
   });
 
   it("open tooltip should be visible", async () => {
@@ -229,7 +253,7 @@ describe("calcite-tooltip", () => {
     expect(content.textContent).toBe("hi");
   });
 
-  it("should honor tooltips on pointerover/pointerout", async () => {
+  it("should honor tooltips on pointermove", async () => {
     const page = await newE2EPage();
 
     await page.setContent(
@@ -352,11 +376,13 @@ describe("calcite-tooltip", () => {
 
     expect(await tooltip.getProperty("open")).toBe(true);
 
+    await setUpEscapeKeyCancelListener(page);
     await referenceElement.press("Escape");
 
     await page.waitForChanges();
 
     expect(await tooltip.getProperty("open")).toBe(false);
+    await assertEscapeKeyCanceled(page, true);
   });
 
   it("should honor hovered tooltip closing with ESC key", async () => {
@@ -385,11 +411,13 @@ describe("calcite-tooltip", () => {
 
     expect(await tooltip.getProperty("open")).toBe(true);
 
+    await setUpEscapeKeyCancelListener(page);
     await page.keyboard.press("Escape");
 
     await page.waitForChanges();
 
     expect(await tooltip.getProperty("open")).toBe(false);
+    await assertEscapeKeyCanceled(page, false);
   });
 
   it("should honor hovered and focused tooltip closing with ESC key", async () => {
@@ -420,11 +448,13 @@ describe("calcite-tooltip", () => {
 
     expect(await tooltip.getProperty("open")).toBe(true);
 
+    await setUpEscapeKeyCancelListener(page);
     await page.keyboard.press("Escape");
 
     await page.waitForChanges();
 
     expect(await tooltip.getProperty("open")).toBe(false);
+    await assertEscapeKeyCanceled(page, true);
   });
 
   it("should only open the last focused tooltip", async () => {
@@ -450,7 +480,7 @@ describe("calcite-tooltip", () => {
     expect(await hoverTip.getProperty("open")).toBe(false);
 
     await page.$eval("#hoverRef", (elm: HTMLElement) => {
-      elm.dispatchEvent(new Event("pointerover"));
+      elm.dispatchEvent(new Event("pointermove"));
     });
 
     await page.waitForTimeout(TOOLTIP_DELAY_MS);
@@ -507,7 +537,7 @@ describe("calcite-tooltip", () => {
     expect(await hoverTip.getProperty("open")).toBe(false);
 
     await page.$eval("#hoverRef", (elm: HTMLElement) => {
-      elm.dispatchEvent(new Event("pointerover"));
+      elm.dispatchEvent(new Event("pointermove"));
     });
 
     await page.waitForTimeout(TOOLTIP_DELAY_MS);
@@ -562,6 +592,33 @@ describe("calcite-tooltip", () => {
     expect(await tooltip.getProperty("open")).toBe(false);
   });
 
+  it("should close tooltip when closeOnClick is true and referenceElement is clicked quickly", async () => {
+    const page = await newE2EPage();
+
+    await page.setContent(
+      html`
+        <calcite-tooltip reference-element="ref" close-on-click>Content</calcite-tooltip>
+        <button id="ref">Button</button>
+      `
+    );
+
+    const tooltip = await page.find("calcite-tooltip");
+
+    expect(await tooltip.getProperty("open")).toBe(false);
+
+    const referenceElement = await page.find("#ref");
+
+    await referenceElement.hover();
+
+    await referenceElement.click();
+
+    await page.waitForTimeout(TOOLTIP_DELAY_MS);
+
+    await page.waitForChanges();
+
+    expect(await tooltip.getProperty("open")).toBe(false);
+  });
+
   it("should still function when disconnected and reconnected", async () => {
     const page = await newE2EPage();
 
@@ -599,5 +656,63 @@ describe("calcite-tooltip", () => {
     await page.waitForChanges();
 
     expect(await tooltip.isVisible()).toBe(true);
+  });
+
+  it("should emit open and beforeOpen events", async () => {
+    const page = await newE2EPage();
+    await page.setContent(
+      `<calcite-tooltip placement="auto" reference-element="ref">content</calcite-tooltip><div id="ref">referenceElement</div>`
+    );
+    const tooltip = await page.find("calcite-tooltip");
+
+    const openEvent = await tooltip.spyOnEvent("calciteTooltipOpen");
+    const beforeOpenEvent = await tooltip.spyOnEvent("calciteTooltipBeforeOpen");
+
+    expect(openEvent).toHaveReceivedEventTimes(0);
+    expect(beforeOpenEvent).toHaveReceivedEventTimes(0);
+
+    const tooltipOpenEvent = page.waitForEvent("calciteTooltipOpen");
+    const tooltipBeforeOpenEvent = page.waitForEvent("calciteTooltipBeforeOpen");
+
+    tooltip.setProperty("open", true);
+    await page.waitForChanges();
+
+    await tooltipOpenEvent;
+    await tooltipBeforeOpenEvent;
+
+    expect(openEvent).toHaveReceivedEventTimes(1);
+    expect(beforeOpenEvent).toHaveReceivedEventTimes(1);
+  });
+
+  it("should emit close and beforeClose events", async () => {
+    const page = await newE2EPage();
+
+    await page.setContent(
+      `<calcite-tooltip placement="auto" reference-element="ref" open>content</calcite-tooltip><div id="ref">referenceElement</div>`
+    );
+
+    await page.waitForChanges();
+
+    const tooltip = await page.find("calcite-tooltip");
+
+    const closeEvent = await tooltip.spyOnEvent("calciteTooltipClose");
+    const beforeCloseEvent = await tooltip.spyOnEvent("calciteTooltipBeforeClose");
+
+    expect(closeEvent).toHaveReceivedEventTimes(0);
+    expect(beforeCloseEvent).toHaveReceivedEventTimes(0);
+
+    const tooltipCloseEvent = page.waitForEvent("calciteTooltipClose");
+    const tooltipBeforeCloseEvent = page.waitForEvent("calciteTooltipBeforeClose");
+
+    await page.evaluate(() => {
+      const tooltip = document.querySelector("calcite-tooltip");
+      tooltip.open = false;
+    });
+
+    await tooltipBeforeCloseEvent;
+    await tooltipCloseEvent;
+
+    expect(closeEvent).toHaveReceivedEventTimes(1);
+    expect(beforeCloseEvent).toHaveReceivedEventTimes(1);
   });
 });

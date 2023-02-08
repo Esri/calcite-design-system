@@ -1,4 +1,16 @@
-@include floatingUIHost(999);
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-tooltip-z-index: Sets the z-index value for the component.
+ */
+
+:host {
+  --calcite-floating-ui-z-index: var(--calcite-tooltip-z-index, theme("zIndex.tooltip"));
+}
+
+@include floatingUIHost();
 @include floatingUIArrow();
 
 .container {

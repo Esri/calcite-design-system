@@ -17,7 +17,7 @@ const logicalFlowPositionOptions: LogicalFlowPosition[] = ["inline-start", "inli
 const positionOptions: Position[] = ["start", "end"];
 const scaleOptions: Scale[] = ["s", "m", "l"];
 const alignmentOptions: Alignment[] = ["start", "center", "end"];
-const appearanceOptions: Appearance[] = ["solid", "clear", "outline"];
+const appearanceOptions: Appearance[] = ["solid", "transparent", "outline"];
 
 export const ATTRIBUTES: CommonAttributes = {
   alignment: {

@@ -1,6 +1,6 @@
 import { getAssetPath } from "@stencil/core";
 import { dateFromISO } from "../../utils/date";
-import { locales } from "../../utils/locale";
+import { getSupportedLocale } from "../../utils/locale";
 
 /**
  * Translation resource data structure
@@ -28,30 +28,6 @@ export interface DateLocaleData {
   year?: {
     suffix: string;
   };
-}
-
-/**
- * Get supported locale code from raw user input
- * Exported for testing purposes.
- *
- * @param lang
- * @private
- */
-function getSupportedLocale(lang = "") {
-  if (locales.indexOf(lang) > -1) {
-    return lang;
-  }
-
-  lang = lang.toLowerCase();
-
-  if (lang.includes("-")) {
-    lang = lang.replace(/(\w+)-(\w+)/, (_match, language, region) => `${language}-${region.toUpperCase()}`);
-
-    if (!locales.includes(lang)) {
-      lang = lang.split("-")[0];
-    }
-  }
-  return locales.includes(lang) ? lang : "en";
 }
 
 /**

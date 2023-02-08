@@ -6,8 +6,3 @@ export const SLOTS = {
   bottomActions: "bottom-actions",
   expandTooltip: "expand-tooltip"
 };
-
-export const TEXT = {
-  expand: "Expand",
-  collapse: "Collapse"
-};

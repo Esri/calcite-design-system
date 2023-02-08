@@ -1,44 +1,49 @@
 import {
   Component,
   Element,
-  Prop,
-  Host,
   Event,
   EventEmitter,
-  Listen,
-  Watch,
   h,
-  VNode
+  Host,
+  Listen,
+  Prop,
+  State,
+  VNode,
+  Watch
 } from "@stencil/core";
-import { TreeItemSelectDetail } from "./interfaces";
-import { TreeSelectionMode } from "../tree/interfaces";
-import {
-  nodeListToArray,
-  getElementDir,
-  filterDirectChildren,
-  getSlotted,
-  toAriaBoolean
-} from "../../utils/dom";
-
-import { Scale } from "../interfaces";
-import { CSS, SLOTS, ICONS } from "./resources";
-import { CSS_UTILITY } from "../../utils/resources";
+import { slotChangeHasAssignedElement } from "../../utils/dom";
 import {
   ConditionalSlotComponent,
   connectConditionalSlotComponent,
   disconnectConditionalSlotComponent
 } from "../../utils/conditionalSlot";
+import {
+  filterDirectChildren,
+  getElementDir,
+  getSlotted,
+  nodeListToArray,
+  toAriaBoolean
+} from "../../utils/dom";
+import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
+import { CSS_UTILITY } from "../../utils/resources";
+import { FlipContext, Scale, SelectionMode } from "../interfaces";
+import { TreeItemSelectDetail } from "./interfaces";
+import { CSS, ICONS, SLOTS } from "./resources";
 
 /**
- * @slot - A slot for adding the component's content.
+ * @slot - A slot for adding text.
  * @slot children - A slot for adding nested `calcite-tree` elements.
+ * @slot actions-end - A slot for adding actions to the end of the component. It is recommended to use two or fewer actions.
  */
 @Component({
   tag: "calcite-tree-item",
   styleUrl: "tree-item.scss",
   shadow: true
 })
-export class TreeItem implements ConditionalSlotComponent {
+export class TreeItem
+  implements ConditionalSlotComponent, InteractiveComponent, OpenCloseComponent
+{
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -53,15 +58,27 @@ export class TreeItem implements ConditionalSlotComponent {
   //
   //--------------------------------------------------------------------------
 
-  /** When true, the component is selected. */
-  @Prop({ mutable: true, reflect: true }) selected = false;
+  /**
+   * When `true`, interaction is prevented and the component is displayed with lower opacity.
+   */
+  @Prop({ reflect: true }) disabled = false;
 
-  /** When true, the component is expanded. */
+  /** When `true`, the component is expanded. */
   @Prop({ mutable: true, reflect: true }) expanded = false;
+
+  /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
+  @Prop({ reflect: true }) iconFlipRtl: FlipContext;
+
+  /** Specifies an icon to display at the start of the component. */
+  @Prop({ reflect: true }) iconStart: string;
+
+  /** When `true`, the component is selected. */
+  @Prop({ mutable: true, reflect: true }) selected = false;
 
   @Watch("expanded")
   expandedHandler(newValue: boolean): void {
     this.updateParentIsExpanded(this.el, newValue);
+    onToggleOpenCloseComponent(this, true);
   }
 
   /**
@@ -85,14 +102,6 @@ export class TreeItem implements ConditionalSlotComponent {
   @Prop({ reflect: true, mutable: true }) lines: boolean;
 
   /**
-   * Displays checkboxes (set on parent).
-   *
-   * @internal
-   * @deprecated Use `selectionMode="ancestors"` for checkbox input.
-   */
-  @Prop() inputEnabled: boolean;
-
-  /**
    * @internal
    */
   @Prop({ reflect: true, mutable: true }) scale: Scale;
@@ -107,13 +116,49 @@ export class TreeItem implements ConditionalSlotComponent {
   /**
    * @internal
    */
-  @Prop({ mutable: true, reflect: true }) selectionMode: TreeSelectionMode;
+  @Prop({ mutable: true, reflect: true }) selectionMode: SelectionMode;
 
   @Watch("selectionMode")
   getselectionMode(): void {
     this.isSelectionMultiLike =
-      this.selectionMode === TreeSelectionMode.Multi ||
-      this.selectionMode === TreeSelectionMode.MultiChildren;
+      this.selectionMode === "multiple" || this.selectionMode === "multichildren";
+  }
+
+  openTransitionProp = "opacity";
+
+  transitionProp = "expanded";
+
+  /**
+   * Specifies element that the transition is allowed to emit on.
+   */
+  transitionEl: HTMLDivElement;
+
+  /**
+   * Defines method for `beforeOpen` event handler.
+   */
+  onBeforeOpen(): void {
+    this.transitionEl.style.transform = "scaleY(1)";
+  }
+
+  /**
+   * Defines method for `open` event handler:
+   */
+  onOpen(): void {
+    this.transitionEl.style.transform = "none";
+  }
+
+  /**
+   * Defines method for `beforeClose` event handler:
+   */
+  onBeforeClose(): void {
+    // pattern needs to be defined on how we emit events for components without `open` prop.
+  }
+
+  /**
+   * Defines method for `close` event handler:
+   */
+  onClose(): void {
+    this.transitionEl.style.transform = "scaleY(0)";
   }
 
   //--------------------------------------------------------------------------
@@ -123,7 +168,7 @@ export class TreeItem implements ConditionalSlotComponent {
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
-    this.parentTreeItem = this.el.parentElement.closest("calcite-tree-item");
+    this.parentTreeItem = this.el.parentElement?.closest("calcite-tree-item");
     if (this.parentTreeItem) {
       const { expanded } = this.parentTreeItem;
       this.updateParentIsExpanded(this.parentTreeItem, expanded);
@@ -138,7 +183,6 @@ export class TreeItem implements ConditionalSlotComponent {
   componentWillRender(): void {
     this.hasChildren = !!this.el.querySelector("calcite-tree");
     this.depth = 0;
-
     let parentTree = this.el.closest("calcite-tree");
 
     if (!parentTree) {
@@ -151,7 +195,7 @@ export class TreeItem implements ConditionalSlotComponent {
 
     let nextParentTree;
     while (parentTree) {
-      nextParentTree = parentTree.parentElement.closest("calcite-tree");
+      nextParentTree = parentTree.parentElement?.closest("calcite-tree");
       if (nextParentTree === parentTree) {
         break;
       } else {
@@ -161,8 +205,19 @@ export class TreeItem implements ConditionalSlotComponent {
     }
   }
 
+  componentWillLoad(): void {
+    if (this.expanded) {
+      onToggleOpenCloseComponent(this, true);
+    }
+    requestAnimationFrame(() => (this.updateAfterInitialRender = true));
+  }
+
   componentDidLoad(): void {
     this.updateAncestorTree();
+  }
+
+  componentDidRender(): void {
+    updateHostInteraction(this, () => this.parentExpanded || this.depth === 1);
   }
 
   //--------------------------------------------------------------------------
@@ -175,13 +230,11 @@ export class TreeItem implements ConditionalSlotComponent {
 
   render(): VNode {
     const rtl = getElementDir(this.el) === "rtl";
-    const showBulletPoint =
-      this.selectionMode === TreeSelectionMode.Single ||
-      this.selectionMode === TreeSelectionMode.Children;
+    const showBulletPoint = this.selectionMode === "single" || this.selectionMode === "children";
     const showCheckmark =
-      this.selectionMode === TreeSelectionMode.Multi ||
-      this.selectionMode === TreeSelectionMode.MultiChildren;
-    const showBlank = this.selectionMode === TreeSelectionMode.None && !this.hasChildren;
+      this.selectionMode === "multiple" || this.selectionMode === "multichildren";
+    const showBlank = this.selectionMode === "none" && !this.hasChildren;
+
     const chevron = this.hasChildren ? (
       <calcite-icon
         class={{
@@ -191,12 +244,13 @@ export class TreeItem implements ConditionalSlotComponent {
         data-test-id="icon"
         icon={ICONS.chevronRight}
         onClick={this.iconClickHandler}
-        scale="s"
+        scale={this.scale === "l" ? "m" : "s"}
       />
     ) : null;
     const defaultSlotNode: VNode = <slot key="default-slot" />;
+
     const checkbox =
-      this.selectionMode === TreeSelectionMode.Ancestors ? (
+      this.selectionMode === "ancestors" ? (
         <label class={CSS.checkboxLabel} key="checkbox-label">
           <calcite-checkbox
             checked={this.selected}
@@ -224,47 +278,74 @@ export class TreeItem implements ConditionalSlotComponent {
           [CSS_UTILITY.rtl]: rtl
         }}
         icon={selectedIcon}
-        scale="s"
+        scale={this.scale === "l" ? "m" : "s"}
       />
     ) : null;
 
     const hidden = !(this.parentExpanded || this.depth === 1);
+    const isExpanded = this.updateAfterInitialRender && this.expanded;
+    const { hasEndActions } = this;
+    const slotNode = (
+      <slot
+        key="actionsEndSlot"
+        name={SLOTS.actionsEnd}
+        onSlotchange={this.actionsEndSlotChangeHandler}
+      />
+    );
+
+    const iconStartEl = (
+      <calcite-icon
+        class={CSS.iconStart}
+        flipRtl={this.iconFlipRtl === "start" || this.iconFlipRtl === "both"}
+        icon={this.iconStart}
+        scale={this.scale === "l" ? "m" : "s"}
+      />
+    );
 
     return (
       <Host
-        aria-expanded={this.hasChildren ? toAriaBoolean(this.expanded) : undefined}
+        aria-expanded={this.hasChildren ? toAriaBoolean(isExpanded) : undefined}
         aria-hidden={toAriaBoolean(hidden)}
         aria-selected={this.selected ? "true" : showCheckmark ? "false" : undefined}
         calcite-hydrated-hidden={hidden}
         role="treeitem"
-        tabindex={this.parentExpanded || this.depth === 1 ? "0" : "-1"}
       >
-        <div
-          class={{
-            [CSS.nodeContainer]: true,
-            [CSS_UTILITY.rtl]: rtl
-          }}
-          data-selection-mode={this.selectionMode}
-          ref={(el) => (this.defaultSlotWrapper = el as HTMLElement)}
-        >
-          {chevron}
-          {itemIndicator}
-          {checkbox ? checkbox : defaultSlotNode}
-        </div>
-        <div
-          class={{
-            [CSS.childrenContainer]: true,
-            [CSS_UTILITY.rtl]: rtl
-          }}
-          data-test-id="calcite-tree-children"
-          onClick={this.childrenClickHandler}
-          ref={(el) => (this.childrenSlotWrapper = el as HTMLElement)}
-          role={this.hasChildren ? "group" : undefined}
-        >
-          <slot name={SLOTS.children} />
+        <div class={{ [CSS.itemExpanded]: isExpanded }}>
+          <div
+            class={{
+              [CSS.nodeContainer]: true,
+              [CSS_UTILITY.rtl]: rtl
+            }}
+            data-selection-mode={this.selectionMode}
+            ref={(el) => (this.defaultSlotWrapper = el as HTMLElement)}
+          >
+            {chevron}
+            {itemIndicator}
+            {this.iconStart ? iconStartEl : null}
+            {checkbox ? checkbox : defaultSlotNode}
+            <div class={CSS.actionsEnd} hidden={!hasEndActions}>
+              {slotNode}
+            </div>
+          </div>
+          <div
+            class={{
+              [CSS.childrenContainer]: true,
+              [CSS_UTILITY.rtl]: rtl
+            }}
+            data-test-id="calcite-tree-children"
+            onClick={this.childrenClickHandler}
+            ref={(el) => this.setTransitionEl(el)}
+            role={this.hasChildren ? "group" : undefined}
+          >
+            <slot name={SLOTS.children} />
+          </div>
         </div>
       </Host>
     );
+  }
+
+  setTransitionEl(el: HTMLDivElement): void {
+    this.transitionEl = el;
   }
 
   //--------------------------------------------------------------------------
@@ -283,8 +364,7 @@ export class TreeItem implements ConditionalSlotComponent {
       window.open(link.href, target);
     }
     this.calciteInternalTreeItemSelect.emit({
-      modifyCurrentSelection:
-        this.selectionMode === TreeSelectionMode.Ancestors || this.isSelectionMultiLike,
+      modifyCurrentSelection: this.selectionMode === "ancestors" || this.isSelectionMultiLike,
       forceToggle: false
     });
   }
@@ -302,6 +382,9 @@ export class TreeItem implements ConditionalSlotComponent {
 
     switch (event.key) {
       case " ":
+        if (this.selectionMode === "none") {
+          return;
+        }
         this.calciteInternalTreeItemSelect.emit({
           modifyCurrentSelection: this.isSelectionMultiLike,
           forceToggle: false
@@ -309,6 +392,9 @@ export class TreeItem implements ConditionalSlotComponent {
         event.preventDefault();
         break;
       case "Enter":
+        if (this.selectionMode === "none") {
+          return;
+        }
         // activates a node, i.e., performs its default action. For parent nodes, one possible default action is to open or close the node. In single-select trees where selection does not follow focus (see note below), the default action is typically to select the focused node.
         const link = nodeListToArray(this.el.children).find((el) =>
           el.matches("a")
@@ -375,11 +461,21 @@ export class TreeItem implements ConditionalSlotComponent {
   //
   //--------------------------------------------------------------------------
 
+  /**
+   * Used to make sure initially expanded tree-item can properly
+   * transition and emit events from closed state when rendered.
+   *
+   * @private
+   */
+  @State() updateAfterInitialRender = false;
+
   childrenSlotWrapper!: HTMLElement;
 
   defaultSlotWrapper!: HTMLElement;
 
   private parentTreeItem?: HTMLCalciteTreeItemElement;
+
+  @State() hasEndActions = false;
 
   //--------------------------------------------------------------------------
   //
@@ -396,15 +492,19 @@ export class TreeItem implements ConditionalSlotComponent {
   };
 
   private updateAncestorTree = (): void => {
-    if (this.selected && this.selectionMode === TreeSelectionMode.Ancestors) {
+    if (this.selected && this.selectionMode === "ancestors") {
       const ancestors: HTMLCalciteTreeItemElement[] = [];
       let parent = this.parentTreeItem;
       while (parent) {
         ancestors.push(parent);
-        parent = parent.parentElement.closest("calcite-tree-item");
+        parent = parent.parentElement?.closest("calcite-tree-item");
       }
       ancestors.forEach((item) => (item.indeterminate = true));
       return;
     }
+  };
+
+  private actionsEndSlotChangeHandler = (event: Event): void => {
+    this.hasEndActions = slotChangeHasAssignedElement(event);
   };
 }

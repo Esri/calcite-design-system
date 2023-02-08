@@ -33,11 +33,4 @@ export const SLOTS = {
   footerActions: "footer-actions"
 };
 
-export const TEXT = {
-  back: "Back",
-  close: "Close",
-  open: "Open",
-  options: "Options"
-};
-
 export const HEADING_LEVEL = 3;

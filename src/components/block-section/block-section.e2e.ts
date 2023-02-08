@@ -1,5 +1,5 @@
 import { CSS, TEXT } from "./resources";
-import { accessible, defaults, hidden, reflects, renders } from "../../tests/commonTests";
+import { accessible, defaults, hidden, reflects, renders, t9n } from "../../tests/commonTests";
 import { E2EPage, newE2EPage } from "@stencil/core/testing";
 
 describe("calcite-block-section", () => {
@@ -26,6 +26,8 @@ describe("calcite-block-section", () => {
         defaultValue: "button"
       }
     ]));
+
+  it("supports translation", () => t9n("calcite-block-section"));
 
   describe("toggle-display = 'switch'", () => {
     describe("accessibility", () => {

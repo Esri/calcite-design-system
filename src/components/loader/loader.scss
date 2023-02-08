@@ -3,9 +3,10 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-loader-font-size: When type is "determinate", the font size of the loading percentage.
+ * @prop --calcite-loader-font-size: Specifies the font size of the loading percentage when type is `"determinate"`.
  * @prop --calcite-loader-size: The width and height of a non-inline loader.
- * @prop --calcite-loader-size-inline: The width and height of an inline loader.
+ * @prop --calcite-loader-size-inline: The width and height of an inline loader
+ * @prop --calcite-loader-padding : Specifies the padding of the loader.
  */
 
 $stroke-width: 3;
@@ -48,10 +49,6 @@ $loader-circumference: ($loader-scale - (2 * $stroke-width)) * 3.14159;
 }
 
 :host {
-  @apply hidden;
-}
-
-:host([active]) {
   @apply flex;
 }
 
@@ -83,7 +80,8 @@ $loader-circumference: ($loader-scale - (2 * $stroke-width)) * 3.14159;
 }
 
 .loader__svg {
-  @apply absolute top-0 left-0 origin-center overflow-visible;
+  @apply absolute top-0 origin-center overflow-visible;
+  inset-inline-start: 0;
   inline-size: var(--calcite-loader-size);
   block-size: var(--calcite-loader-size);
   animation-iteration-count: infinite;
@@ -125,12 +123,9 @@ $loader-circumference: ($loader-scale - (2 * $stroke-width)) * 3.14159;
   vertical-align: calc(var(--calcite-loader-size-inline) * -1 * 0.2);
 }
 
-:host([active][inline]) {
-  @apply inline-block;
-}
-
 :host([inline]) .loader__svgs {
-  @apply top-0 left-0 m-0;
+  @apply top-0 m-0;
+  inset-inline-start: 0;
   inline-size: var(--calcite-loader-size-inline);
   block-size: var(--calcite-loader-size-inline);
 }

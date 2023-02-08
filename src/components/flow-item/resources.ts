@@ -7,10 +7,6 @@ export const ICONS = {
   backRight: "chevron-right"
 };
 
-export const TEXT = {
-  back: "Back"
-};
-
 export const SLOTS = {
   headerActionsStart: "header-actions-start",
   headerActionsEnd: "header-actions-end",

@@ -1,13 +1,18 @@
-import { text, number, array, boolean as booleanFn, select } from "@storybook/addon-knobs";
+import { array, boolean as booleanFn, number, select, text } from "@storybook/addon-knobs";
 import { boolean, storyFilters } from "../../../.storybook/helpers";
-import { themesDarkDefault } from "../../../.storybook/utils";
-import readme from "./readme.md";
+import { modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
+import readme from "./readme.md";
 
 export default {
   title: "Components/Controls/Slider",
   parameters: {
-    notes: readme
+    notes: readme,
+    chromatic: {
+      // https://www.chromatic.com/docs/threshold
+      diffThreshold: Number(process.env.CHROMATIC_DIFF_THRESHOLD) || 0.3,
+      delay: 500
+    }
   },
   ...storyFilters()
 };
@@ -50,9 +55,9 @@ export const range = (): string => html`
   ></calcite-slider>
 `;
 
-export const darkThemeMirroredRange_TestOnly = (): string => html`
+export const darkModeMirroredRange_TestOnly = (): string => html`
   <calcite-slider
-    class="calcite-theme-dark"
+    class="calcite-mode-dark"
     mirrored
     min="${number("min", 0)}"
     min-label="${text("min-label", "Temperature, lower bound")}"
@@ -70,8 +75,8 @@ export const darkThemeMirroredRange_TestOnly = (): string => html`
   ></calcite-slider>
 `;
 
-darkThemeMirroredRange_TestOnly.story = {
-  parameters: { themes: themesDarkDefault }
+darkModeMirroredRange_TestOnly.story = {
+  parameters: { modes: modesDarkDefault }
 };
 
 export const rangeLabeledTicks_TestOnly = (): string => html`
@@ -90,6 +95,10 @@ export const rangeLabeledTicks_TestOnly = (): string => html`
   ></calcite-slider>
 `;
 
+rangeLabeledTicks_TestOnly.parameters = {
+  chromatic: { diffThreshold: 1 }
+};
+
 export const rangeLabeledTicksOverlappingAtMax_TestOnly = (): string => html`
   <calcite-slider
     min="${number("min", 5)}"
@@ -105,6 +114,10 @@ export const rangeLabeledTicksOverlappingAtMax_TestOnly = (): string => html`
     ${boolean("snap", true)}
   ></calcite-slider>
 `;
+
+rangeLabeledTicksOverlappingAtMax_TestOnly.parameters = {
+  chromatic: { diffThreshold: 1 }
+};
 
 export const rangeLabeledTicksOverlappingAtMin_TestOnly = (): string => html`
   <calcite-slider
@@ -122,6 +135,10 @@ export const rangeLabeledTicksOverlappingAtMin_TestOnly = (): string => html`
   ></calcite-slider>
 `;
 
+rangeLabeledTicksOverlappingAtMin_TestOnly.parameters = {
+  chromatic: { diffThreshold: 1 }
+};
+
 export const rangeLabeledTicksEdgePositioningAtMax_TestOnly = (): string => html`
   <calcite-slider
     min="${number("min", 5)}"
@@ -137,6 +154,10 @@ export const rangeLabeledTicksEdgePositioningAtMax_TestOnly = (): string => html
     ${boolean("snap", true)}
   ></calcite-slider>
 `;
+
+rangeLabeledTicksEdgePositioningAtMax_TestOnly.parameters = {
+  chromatic: { diffThreshold: 1 }
+};
 
 export const rangeLabeledTicksEdgePositioningAtMin_TestOnly = (): string => html`
   <calcite-slider
@@ -154,8 +175,12 @@ export const rangeLabeledTicksEdgePositioningAtMin_TestOnly = (): string => html
   ></calcite-slider>
 `;
 
+rangeLabeledTicksEdgePositioningAtMin_TestOnly.parameters = {
+  chromatic: { diffThreshold: 1 }
+};
+
 export const Histogram = (): HTMLCalciteSliderElement => {
-  const slider = document.createElement("calcite-slider");
+  const slider = document.createElement("calcite-slider") as HTMLCalciteSliderElement;
   slider.min = number("min", -100);
   slider.minValue = number("min-value", -33.32);
   slider.max = number("max", 100);
@@ -169,9 +194,9 @@ export const Histogram = (): HTMLCalciteSliderElement => {
       [20, 55],
       [60, 10],
       [90, 0]
-    ],
+    ] as any,
     "  "
-  );
+  ) as any;
   slider.labelHandles = booleanFn("label-handles", false);
   slider.labelTicks = booleanFn("label-ticks", false);
   slider.ticks = number("ticks", 10);
@@ -183,7 +208,7 @@ export const Histogram = (): HTMLCalciteSliderElement => {
 };
 
 export const HistogramWithColors = (): HTMLCalciteSliderElement => {
-  const slider = document.createElement("calcite-slider");
+  const slider = document.createElement("calcite-slider") as HTMLCalciteSliderElement;
   slider.min = number("min", 0);
   slider.minValue = number("min-value", 35);
   slider.max = number("max", 100);
@@ -197,9 +222,9 @@ export const HistogramWithColors = (): HTMLCalciteSliderElement => {
       [60, 55],
       [80, 10],
       [100, 0]
-    ],
+    ] as any,
     "  "
-  );
+  ) as any;
   slider.style.minWidth = "60vw";
   const colors = array("histogram colors", ["red", "green", "blue"]);
   const offsets = array(
@@ -211,24 +236,20 @@ export const HistogramWithColors = (): HTMLCalciteSliderElement => {
   return slider;
 };
 
-export const darkThemeHistogramRTL_TestOnly = (): HTMLCalciteSliderElement => {
-  const slider = document.createElement("calcite-slider");
+export const darkModeHistogramRTL_TestOnly = (): HTMLCalciteSliderElement => {
+  const slider = document.createElement("calcite-slider") as HTMLCalciteSliderElement;
   slider.min = number("min", 0);
   slider.minValue = number("min-value", 25);
   slider.max = number("max", 100);
   slider.maxValue = number("max-value", 75);
-  slider.histogram = array(
-    "histogram",
-    [
-      [0, 0],
-      [20, 12],
-      [40, 25],
-      [60, 55],
-      [80, 10],
-      [100, 0]
-    ],
-    "  "
-  );
+  slider.histogram = [
+    [0, 0],
+    [20, 12],
+    [40, 25],
+    [60, 55],
+    [80, 10],
+    [100, 0]
+  ];
   slider.labelHandles = booleanFn("label-handles", false);
   slider.labelTicks = booleanFn("label-ticks", false);
   slider.ticks = number("ticks", 10);
@@ -236,11 +257,11 @@ export const darkThemeHistogramRTL_TestOnly = (): HTMLCalciteSliderElement => {
   slider.snap = booleanFn("snap", false);
   slider.scale = select("scale", ["s", "m", "l"], "m");
   slider.style.minWidth = "60vw";
-  slider.className = "calcite-theme-dark";
+  slider.className = "calcite-mode-dark";
   return slider;
 };
 
-darkThemeHistogramRTL_TestOnly.parameters = { themes: themesDarkDefault };
+darkModeHistogramRTL_TestOnly.parameters = { modes: modesDarkDefault };
 
 export const disabled_TestOnly = (): string => html`<calcite-slider disabled value="5"></calcite-slider>`;
 

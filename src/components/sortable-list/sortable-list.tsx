@@ -1,19 +1,20 @@
-import Sortable from "sortablejs";
 import {
   Component,
   Element,
   Event,
   EventEmitter,
+  h,
   Listen,
   Prop,
   State,
-  h,
   VNode
 } from "@stencil/core";
+import Sortable from "sortablejs";
+import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import { createObserver } from "../../utils/observers";
+import { HandleNudge } from "../handle/interfaces";
 import { Layout } from "../interfaces";
 import { CSS } from "./resources";
-import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 
 /**
  * @slot - A slot for adding sortable items.
@@ -115,37 +116,45 @@ export class SortableList implements InteractiveComponent {
   @Event({ cancelable: false }) calciteListOrderChange: EventEmitter<void>;
 
   @Listen("calciteHandleNudge")
-  calciteHandleNudgeHandler(event: CustomEvent): void {
+  calciteHandleNudgeNextHandler(event: CustomEvent<HandleNudge>): void {
+    this.handleNudgeEvent(event);
+  }
+
+  // --------------------------------------------------------------------------
+  //
+  //  Private Methods
+  //
+  // --------------------------------------------------------------------------
+
+  handleNudgeEvent(event: CustomEvent<HandleNudge>): void {
+    const { direction } = event.detail;
+    const handle = event.target as HTMLCalciteHandleElement;
+
     const sortItem = this.items.find((item) => {
-      return item.contains(event.detail.handle) || event.composedPath().includes(item);
+      return item.contains(handle) || event.composedPath().includes(item);
     });
 
     const lastIndex = this.items.length - 1;
     const startingIndex = this.items.indexOf(sortItem);
     let appendInstead = false;
-    let buddyIndex;
-    switch (event.detail.direction) {
-      case "up":
-        event.preventDefault();
-        if (startingIndex === 0) {
-          appendInstead = true;
-        } else {
-          buddyIndex = startingIndex - 1;
-        }
-        break;
-      case "down":
-        event.preventDefault();
-        if (startingIndex === lastIndex) {
-          buddyIndex = 0;
-        } else if (startingIndex === lastIndex - 1) {
-          appendInstead = true;
-        } else {
-          buddyIndex = startingIndex + 2;
-        }
-        break;
-      default:
-        return;
+    let buddyIndex: number;
+
+    if (direction === "up") {
+      if (startingIndex === 0) {
+        appendInstead = true;
+      } else {
+        buddyIndex = startingIndex - 1;
+      }
+    } else {
+      if (startingIndex === lastIndex) {
+        buddyIndex = 0;
+      } else if (startingIndex === lastIndex - 1) {
+        appendInstead = true;
+      } else {
+        buddyIndex = startingIndex + 2;
+      }
     }
+
     this.mutationObserver?.disconnect();
 
     if (appendInstead) {
@@ -156,16 +165,10 @@ export class SortableList implements InteractiveComponent {
 
     this.items = Array.from(this.el.children);
 
-    event.detail.handle.activated = true;
-    event.detail.handle.setFocus();
+    handle.activated = true;
+    handle.setFocus();
     this.beginObserving();
   }
-
-  // --------------------------------------------------------------------------
-  //
-  //  Private Methods
-  //
-  // --------------------------------------------------------------------------
 
   setUpDragAndDrop(): void {
     this.cleanUpDragAndDrop();

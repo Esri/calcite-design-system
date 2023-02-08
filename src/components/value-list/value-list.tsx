@@ -1,4 +1,3 @@
-import Sortable from "sortablejs";
 import {
   Component,
   Element,
@@ -9,47 +8,68 @@ import {
   Method,
   Prop,
   State,
-  VNode
+  VNode,
+  Watch
 } from "@stencil/core";
-import { CSS, ICON_TYPES } from "./resources";
+import Sortable from "sortablejs";
+import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import {
-  ListFocusId,
+  componentLoaded,
+  LoadableComponent,
+  setComponentLoaded,
+  setUpLoadableComponent
+} from "../../utils/loadable";
+import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
+import { createObserver } from "../../utils/observers";
+import {
+  connectMessages,
+  disconnectMessages,
+  setUpMessages,
+  T9nComponent,
+  updateMessages
+} from "../../utils/t9n";
+import {
+  calciteInternalListItemValueChangeHandler,
   calciteListFocusOutHandler,
   calciteListItemChangeHandler,
-  calciteInternalListItemValueChangeHandler,
   cleanUpObserver,
-  deselectSiblingItems,
   deselectRemovedItems,
+  deselectSiblingItems,
   getItemData,
   handleFilter,
+  handleFilterEvent,
+  handleInitialFilter,
   initialize,
   initializeObserver,
   ItemData,
   keyDownHandler,
+  ListFocusId,
+  moveItemIndex,
   mutationObserverCallback,
   removeItem,
   selectSiblings,
   setFocus,
-  setUpItems,
-  moveItemIndex
+  setUpItems
 } from "../pick-list/shared-list-logic";
 import List from "../pick-list/shared-list-render";
-import { createObserver } from "../../utils/observers";
-import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import { ValueListMessages } from "./assets/value-list/t9n";
+import { CSS, ICON_TYPES } from "./resources";
 import { getHandleAndItemElement, getScreenReaderText } from "./utils";
 
 /**
+ * @deprecated Use the `list` component instead.
  * @slot - A slot for adding `calcite-value-list-item` elements. List items are displayed as a vertical list.
  * @slot menu-actions - A slot for adding a button and menu combination for performing actions, such as sorting.
  */
 @Component({
   tag: "calcite-value-list",
   styleUrl: "value-list.scss",
-  shadow: true
+  shadow: true,
+  assetsDirs: ["assets"]
 })
 export class ValueList<
   ItemElement extends HTMLCalciteValueListItemElement = HTMLCalciteValueListItemElement
-> implements InteractiveComponent
+> implements InteractiveComponent, LoadableComponent, LocalizedComponent, T9nComponent
 {
   // --------------------------------------------------------------------------
   //
@@ -58,17 +78,31 @@ export class ValueList<
   // --------------------------------------------------------------------------
 
   /**
-   * When true, interaction is prevented and the component is displayed with lower opacity.
+   * When `true`, interaction is prevented and the component is displayed with lower opacity.
    */
   @Prop({ reflect: true }) disabled = false;
 
   /**
-   * When true, `calcite-value-list-item`s are sortable via a draggable button.
+   * When `true`, `calcite-value-list-item`s are sortable via a draggable button.
    */
   @Prop({ reflect: true }) dragEnabled = false;
 
   /**
-   * When true, an input appears at the top of the component that can be used by end users to filter list items.
+   * The currently filtered items.
+   *
+   * @readonly
+   */
+  @Prop({ mutable: true }) filteredItems: HTMLCalciteValueListItemElement[] = [];
+
+  /**
+   * The currently filtered data.
+   *
+   * @readonly
+   */
+  @Prop({ mutable: true }) filteredData: ItemData = [];
+
+  /**
+   * When `true`, an input appears at the top of the component that can be used by end users to filter list items.
    */
   @Prop({ reflect: true }) filterEnabled = false;
 
@@ -78,6 +112,11 @@ export class ValueList<
   @Prop({ reflect: true }) filterPlaceholder: string;
 
   /**
+   * Text for the filter input field.
+   */
+  @Prop({ reflect: true, mutable: true }) filterText: string;
+
+  /**
    * The component's group identifier.
    *
    * To drag elements from one list into another, both lists must have the same group value.
@@ -85,50 +124,39 @@ export class ValueList<
   @Prop({ reflect: true }) group?: string;
 
   /**
-   * When true, a busy indicator is displayed.
+   * When `true`, a busy indicator is displayed.
    */
   @Prop({ reflect: true }) loading = false;
 
   /**
    * Similar to standard radio buttons and checkboxes.
-   * When true, a user can select multiple `calcite-value-list-item`s at a time.
-   * When false, only a single `calcite-value-list-item` can be selected at a time,
+   * When `true`, a user can select multiple `calcite-value-list-item`s at a time.
+   * When `false`, only a single `calcite-value-list-item` can be selected at a time,
    * and a new selection will deselect previous selections.
    */
   @Prop({ reflect: true }) multiple = false;
 
   /**
-   * When true and single-selection is enabled, the selection changes when navigating `calcite-value-list-item`s via keyboard.
+   * When `true` and single-selection is enabled, the selection changes when navigating `calcite-value-list-item`s via keyboard.
    */
   @Prop({ reflect: true }) selectionFollowsFocus = false;
 
   /**
-   * When "drag-enabled" is true and active, specifies accessible context to the `calcite-value-list-item`'s initial position.
-   *
-   * Use ${position} of ${total} as placeholder for displaying indices and ${item.label} as placeholder for displaying label of `calcite-value-list-item`.
+   * Use this property to override individual strings used by the component.
    */
-  @Prop() intlDragHandleIdle?: string;
+  @Prop({ mutable: true }) messageOverrides: Partial<ValueListMessages>;
+
+  @Watch("messageOverrides")
+  onMessagesChange(): void {
+    /* wired up by t9n util */
+  }
 
   /**
-   * When "drag-enabled" is true and active, specifies accessible context to the component.
+   * Made into a prop for testing purposes only
    *
-   * Use ${position} of ${total} as placeholder for displaying indices and ${item.label} as placeholder for displaying label of `calcite-value-list-item`.
+   * @internal
    */
-  @Prop() intlDragHandleActive?: string;
-
-  /**
-   * When "drag-enabled" is true and active, specifies accessible context to the `calcite-value-list-item`'s new position.
-   *
-   * Use ${position} of ${total} as placeholder for displaying indices and ${item.label} as placeholder for displaying label of `calcite-value-list-item`.
-   */
-  @Prop() intlDragHandleChange?: string;
-
-  /**
-   * When "drag-enabled" is true and active, specifies accessible context to the `calcite-value-list-item`'s current position after commit.
-   *
-   * Use ${position} of ${total} as placeholder for displaying indices and ${item.label} as placeholder for displaying label of `calcite-value-list-item`.
-   */
-  @Prop() intlDragHandleCommit?: string;
+  @Prop({ mutable: true }) messages: ValueListMessages;
 
   // --------------------------------------------------------------------------
   //
@@ -136,9 +164,18 @@ export class ValueList<
   //
   // --------------------------------------------------------------------------
 
-  @State() selectedValues: Map<string, ItemElement> = new Map();
-
   @State() dataForFilter: ItemData = [];
+
+  @State() defaultMessages: ValueListMessages;
+
+  @State() effectiveLocale = "";
+
+  @Watch("effectiveLocale")
+  effectiveLocaleChange(): void {
+    updateMessages(this, this.effectiveLocale);
+  }
+
+  @State() selectedValues: Map<string, ItemElement> = new Map();
 
   items: ItemElement[];
 
@@ -152,6 +189,8 @@ export class ValueList<
 
   emitCalciteListChange: () => void;
 
+  emitCalciteListFilter: () => void;
+
   filterEl: HTMLCalciteFilterElement;
 
   assistiveTextEl: HTMLSpanElement;
@@ -163,12 +202,21 @@ export class ValueList<
   // --------------------------------------------------------------------------
 
   connectedCallback(): void {
+    connectLocalized(this);
+    connectMessages(this);
     initialize.call(this);
     initializeObserver.call(this);
   }
 
+  async componentWillLoad(): Promise<void> {
+    setUpLoadableComponent(this);
+    await setUpMessages(this);
+  }
+
   componentDidLoad(): void {
+    setComponentLoaded(this);
     this.setUpDragAndDrop();
+    handleInitialFilter.call(this);
   }
 
   componentDidRender(): void {
@@ -176,6 +224,8 @@ export class ValueList<
   }
 
   disconnectedCallback(): void {
+    disconnectLocalized(this);
+    disconnectMessages(this);
     cleanUpObserver.call(this);
     this.cleanUpDragAndDrop();
   }
@@ -197,6 +247,11 @@ export class ValueList<
    * Emits when the order of the list has changed.
    */
   @Event({ cancelable: false }) calciteListOrderChange: EventEmitter<any[]>;
+
+  /**
+   * Emits when a filter has changed.
+   */
+  @Event({ cancelable: false }) calciteListFilter: EventEmitter<void>;
 
   @Listen("focusout")
   calciteListFocusOutHandler(event: FocusEvent): void {
@@ -249,6 +304,10 @@ export class ValueList<
     this.filterEl = el;
   };
 
+  setFilteredItems = (filteredItems: HTMLCalciteValueListItemElement[]): void => {
+    this.filteredItems = filteredItems;
+  };
+
   setUpDragAndDrop(): void {
     this.cleanUpDragAndDrop();
 
@@ -281,6 +340,8 @@ export class ValueList<
   selectSiblings = selectSiblings.bind(this);
 
   handleFilter = handleFilter.bind(this);
+
+  handleFilterEvent = handleFilterEvent.bind(this);
 
   getItemData = getItemData.bind(this);
 
@@ -352,12 +413,14 @@ export class ValueList<
   }
 
   /**
-   * Sets focus on the component.
+   * Sets focus on the component's first focusable element.
    *
    * @param focusId
    */
   @Method()
   async setFocus(focusId?: ListFocusId): Promise<void> {
+    await componentLoaded(this);
+
     return setFocus.call(this, focusId);
   }
 

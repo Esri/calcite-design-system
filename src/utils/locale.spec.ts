@@ -1,51 +1,131 @@
-import { delocalizeNumberString, localizeNumberString, locales } from "./locale";
+import {
+  defaultLocale,
+  defaultNumberingSystem,
+  locales,
+  numberingSystems,
+  NumberStringFormatOptions,
+  numberStringFormatter
+} from "./locale";
 
-const localesWithIssues = ["ar"]; // arabic has different numeral characters
+describe("NumberStringFormat", () => {
+  it("NumberFormat formatter is not initialized until necessary", () => {
+    const num = "123.456";
 
-describe("localizeNumberString and delocalizeNumberString", () => {
-  locales
-    .filter((locale) => !localesWithIssues.includes(locale))
-    .forEach((locale) => {
+    // should still work with options set
+    expect(numberStringFormatter.numberFormatOptions).toBeUndefined();
+    expect(numberStringFormatter.delocalize(numberStringFormatter.localize(num))).toBe(num);
+
+    // adding the default locale/numberingSystem should
+    // not create the formatter
+    numberStringFormatter.numberFormatOptions = {
+      locale: defaultLocale,
+      numberingSystem: defaultNumberingSystem
+    };
+    expect(numberStringFormatter.numberFormatter).toBeUndefined();
+    expect(numberStringFormatter.numberFormatOptions).toBeUndefined();
+
+    // setting a non-locale/numberingSystem option creates the formatter
+    // with the default locale/numberingSystem values
+    numberStringFormatter.numberFormatOptions = {
+      useGrouping: true
+    } as NumberStringFormatOptions;
+
+    expect(numberStringFormatter.numberFormatter).toBeDefined();
+    expect(numberStringFormatter.numberFormatOptions.numberingSystem).toBe(defaultNumberingSystem);
+    expect(numberStringFormatter.numberFormatOptions.locale).toBe(defaultLocale);
+  });
+
+  describe("locales", () => {
+    locales.forEach((locale) => {
       it(`integers localize and delocalize in "${locale}"`, () => {
         const numberString = "555";
-        const localizedNumberString = localizeNumberString(numberString, locale);
-        const delocalizedNumberString = delocalizeNumberString(localizedNumberString, locale);
+        numberStringFormatter.numberFormatOptions = {
+          locale,
+          numberingSystem: "latn",
+          useGrouping: false
+        };
+        const localizedNumberString = numberStringFormatter.localize(numberString);
+        const delocalizedNumberString = numberStringFormatter.delocalize(localizedNumberString);
         expect(delocalizedNumberString).toBe(numberString);
       });
 
       it(`negative numbers localize and delocalize in "${locale}"`, () => {
         const numberString = "-123";
-        const localizedNumberString = localizeNumberString(numberString, locale);
-        const delocalizedNumberString = delocalizeNumberString(localizedNumberString, locale);
+        numberStringFormatter.numberFormatOptions = {
+          locale,
+          numberingSystem: "latn",
+          useGrouping: false
+        };
+        const localizedNumberString = numberStringFormatter.localize(numberString);
+        const delocalizedNumberString = numberStringFormatter.delocalize(localizedNumberString);
         expect(delocalizedNumberString).toBe(numberString);
       });
 
-      it(`floating point numbers localize and delocalize in "${locale}"`, () => {
+      it(`locale: floating point numbers localize and delocalize in "${locale}"`, () => {
         const numberString = "4.321";
-        const localizedNumberString = localizeNumberString(numberString, locale);
-        const delocalizedNumberString = delocalizeNumberString(localizedNumberString, locale);
+        numberStringFormatter.numberFormatOptions = {
+          locale,
+          numberingSystem: "latn",
+          useGrouping: false
+        };
+        const localizedNumberString = numberStringFormatter.localize(numberString);
+        const delocalizedNumberString = numberStringFormatter.delocalize(localizedNumberString);
         expect(delocalizedNumberString).toBe(numberString);
       });
 
       it(`exponential numbers localize and delocalize in "${locale}"`, () => {
         const numberString = "2.5e-3";
-        const localizedNumberString = localizeNumberString(numberString, locale);
-        const delocalizedNumberString = delocalizeNumberString(localizedNumberString, locale);
+        numberStringFormatter.numberFormatOptions = {
+          locale,
+          numberingSystem: "latn",
+          useGrouping: false
+        };
+        const localizedNumberString = numberStringFormatter.localize(numberString);
+        const delocalizedNumberString = numberStringFormatter.delocalize(localizedNumberString);
         expect(delocalizedNumberString).toBe(numberString);
       });
 
       it(`numbers with group separators localize and delocalize in "${locale}"`, () => {
-        const numberString = "1,234";
-        const localizedNumberString = localizeNumberString(numberString, locale, true);
-        const delocalizedNumberString = delocalizeNumberString(localizedNumberString, locale);
-        expect(delocalizedNumberString).toBe("1234");
+        const numberString = "1234567890";
+        numberStringFormatter.numberFormatOptions = {
+          locale,
+          // the group separator is different in arabic depending on the numberingSystem
+          numberingSystem: locale === "ar" ? "arab" : "latn",
+          useGrouping: true
+        };
+        const localizedNumberString = numberStringFormatter.localize(numberString);
+        const delocalizedNumberString = numberStringFormatter.delocalize(localizedNumberString);
+        expect(delocalizedNumberString).toBe(numberString);
       });
 
       it(`floating point numbers with group separators localize and delocalize in "${locale}"`, () => {
-        const numberString = "12,345,678.9";
-        const localizedNumberString = localizeNumberString(numberString, locale, true);
-        const delocalizedNumberString = delocalizeNumberString(localizedNumberString, locale);
-        expect(delocalizedNumberString).toBe("12345678.9");
+        const numberString = "12345678.0123456789";
+        numberStringFormatter.numberFormatOptions = {
+          locale,
+          // the group separator is different in arabic depending on the numberingSystem
+          numberingSystem: locale === "ar" ? "arab" : "latn",
+          useGrouping: true
+        };
+        const localizedNumberString = numberStringFormatter.localize(numberString);
+        const delocalizedNumberString = numberStringFormatter.delocalize(localizedNumberString);
+        expect(delocalizedNumberString).toBe(numberString);
       });
     });
+  });
+
+  describe("numberingSystems", () => {
+    numberingSystems.forEach((numberingSystem) => {
+      const numberString = "0.0123456789";
+      it(`floating point numbers with group separators localize and delocalize in "${numberingSystem}"`, () => {
+        numberStringFormatter.numberFormatOptions = {
+          locale: numberingSystem === "arab" ? "ar" : "en",
+          numberingSystem,
+          useGrouping: true
+        };
+        const localizedNumberString = numberStringFormatter.localize(numberString);
+        const delocalizedNumberString = numberStringFormatter.delocalize(localizedNumberString);
+        expect(delocalizedNumberString).toBe(numberString);
+      });
+    });
+  });
 });

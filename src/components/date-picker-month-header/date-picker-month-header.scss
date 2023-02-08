@@ -73,6 +73,7 @@
 .text {
   @apply my-auto
     w-full
+    flex
     flex-auto
     items-center
     justify-center
@@ -80,7 +81,7 @@
     leading-none;
 }
 
-.text-nreverse {
+.text--reverse {
   @apply flex-row-reverse;
 }
 
@@ -101,7 +102,7 @@
   @apply font-inherit
     focus-base
     relative
-    w-12
+    w-10
     border-none
     bg-transparent
     text-center;
@@ -117,7 +118,7 @@
 }
 
 .year--suffix {
-  @apply w-16 text-left;
+  @apply text-left;
 }
 
 .year-wrap {
@@ -125,14 +126,8 @@
 }
 
 .suffix {
-  @apply absolute
-    top-0
-    w-16
+  @apply top-0 
     whitespace-nowrap
     text-start;
   inset-inline-start: 0;
-}
-
-.suffix__invisible {
-  @apply invisible;
 }

@@ -1,8 +1,8 @@
-import { number, select, text } from "@storybook/addon-knobs";
+import { number, select } from "@storybook/addon-knobs";
 import { boolean, storyFilters } from "../../../.storybook/helpers";
-import { themesDarkDefault } from "../../../.storybook/utils";
-import readme from "./readme.md";
+import { modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
+import readme from "./readme.md";
 
 export default {
   title: "Components/Controls/Rating",
@@ -21,14 +21,12 @@ export const simple = (): string => html`
     count="${number("count", 10)}"
     ${boolean("read-only", false)}
     ${boolean("disabled", false)}
-    intl-rating="${text("intl-rating", "Rating")}"
-    intl-stars="${text("intl-rating", "Stars: ${num}")}"
   ></calcite-rating>
 `;
 
-export const darkThemeRTL_TestOnly = (): string => html`
+export const darkModeRTL_TestOnly = (): string => html`
   <calcite-rating
-    class="calcite-theme-dark"
+    class="calcite-mode-dark"
     dir="rtl"
     scale="${select("scale", ["s", "m", "l"], "m")}"
     value="${number("value", 2)}"
@@ -37,11 +35,9 @@ export const darkThemeRTL_TestOnly = (): string => html`
     count="${number("count", 10)}"
     ${boolean("read-only", false)}
     ${boolean("disabled", false)}
-    intl-rating="${text("intl-rating", "Rating")}"
-    intl-stars="${text("intl-rating", "Stars: ${num}")}"
   ></calcite-rating>
 `;
 
-darkThemeRTL_TestOnly.parameters = { themes: themesDarkDefault };
+darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
 
 export const disabled_TestOnly = (): string => html`<calcite-rating disabled value="3"></calcite-rating>`;

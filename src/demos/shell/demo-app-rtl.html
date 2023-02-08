@@ -57,11 +57,11 @@
             });
           </script>
 
-          <h2>Light Theme</h2>
+          <h2>Mode Theme</h2>
           <div class="shell-container">
             <calcite-shell>
               <calcite-shell-panel slot="panel-start" position="start">
-                <calcite-action-bar slot="action-bar" class="calcite-theme-dark">
+                <calcite-action-bar slot="action-bar" class="calcite-mode-dark">
                   <calcite-action-group>
                     <calcite-action text="Add" icon="plus"> </calcite-action>
                     <calcite-action text="Save" disabled icon="save"> </calcite-action>
@@ -138,7 +138,7 @@
                   </calcite-action-group>
                 </calcite-action-bar>
                 <calcite-flow id="flow">
-                  <calcite-panel heading="Layer settings">
+                  <calcite-flow-item heading="Layer settings">
                     <calcite-action slot="header-menu-actions" text="Do a cool thing" text-enabled></calcite-action>
                     <calcite-action slot="header-menu-actions" text="Do a cool thing" text-enabled></calcite-action>
                     <calcite-action slot="header-menu-actions" text="Do a cool thing" text-enabled></calcite-action>
@@ -159,8 +159,8 @@
                     </calcite-block>
                     <button slot="footer-actions">Save</button>
                     <button slot="footer-actions">Cancel</button>
-                  </calcite-panel>
-                  <calcite-panel heading="Deeper flow item">
+                  </calcite-flow-item>
+                  <calcite-flow-item heading="Deeper flow item">
                     <calcite-block collapsible open heading="Contextual Content" summary="Select goodness">
                       <calcite-block-content>
                         <calcite-block-section text="Cool things">
@@ -193,7 +193,7 @@
                     </calcite-block>
                     <button slot="footer-actions">Save</button>
                     <button slot="footer-actions">Cancel</button>
-                  </calcite-panel>
+                  </calcite-flow-item>
                 </calcite-flow>
               </calcite-shell-panel>
               <div slot="header">
@@ -207,10 +207,10 @@
             </calcite-shell>
           </div>
 
-          <h2>Dark Theme</h2>
+          <h2>Dark Mode</h2>
 
           <div class="shell-container">
-            <calcite-shell class="calcite-theme-dark">
+            <calcite-shell class="calcite-mode-dark">
               <calcite-shell-panel slot="panel-start" position="start">
                 <calcite-action-pad hidden>
                   <calcite-action-group>

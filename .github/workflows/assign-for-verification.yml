@@ -6,7 +6,7 @@ jobs:
   assign:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/github-script@v4
+      - uses: actions/github-script@v6
         env:
           ISSUE_VERIFIERS: ${{secrets.ISSUE_VERIFIERS}}
           CALCITE_DESIGNERS: ${{secrets.CALCITE_DESIGNERS}}
@@ -17,7 +17,7 @@ jobs:
             if (label && label.name === "3 - installed") {
               const assignees = ISSUE_VERIFIERS.split(",").map((v) => v.trim());
 
-              const { data: issue } = await github.issues.get({
+              const { data: issue } = await github.rest.issues.get({
                 issue_number: context.issue.number,
                 owner: context.repo.owner,
                 repo: context.repo.repo,
@@ -28,14 +28,14 @@ jobs:
                 assignees.push(...CALCITE_DESIGNERS.split(",").map((v) => v.trim()));
               }
 
-              await github.issues.update({
+              await github.rest.issues.update({
                 issue_number: context.issue.number,
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 assignees,
               });
 
-              await github.issues.createComment({
+              await github.rest.issues.createComment({
                 issue_number: context.issue.number,
                 owner: context.repo.owner,
                 repo: context.repo.repo,

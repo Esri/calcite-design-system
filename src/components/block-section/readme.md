@@ -6,26 +6,25 @@ The `calcite-block-section` component is a child element of `calcite-block`. Sec
 
 ## Properties
 
-| Property        | Attribute        | Description                                                                                                                                                                      | Type                             | Default     |
-| --------------- | ---------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------- | ----------- |
-| `intlCollapse`  | `intl-collapse`  | Tooltip used for the toggle when expanded.                                                                                                                                       | `string`                         | `undefined` |
-| `intlExpand`    | `intl-expand`    | Tooltip used for the toggle when collapsed.                                                                                                                                      | `string`                         | `undefined` |
-| `open`          | `open`           | When true, the block's section content will be displayed.                                                                                                                        | `boolean`                        | `false`     |
-| `status`        | `status`         | BlockSection status. Adds indicator to show valid or invalid status.                                                                                                             | `"idle" \| "invalid" \| "valid"` | `undefined` |
-| `text`          | `text`           | Text displayed in the button.                                                                                                                                                    | `string`                         | `undefined` |
-| `toggleDisplay` | `toggle-display` | This property determines the look of the section toggle. If the value is "switch", a toggle-switch will be displayed. If the value is "button", a clickable header is displayed. | `"button" \| "switch"`           | `"button"`  |
+| Property           | Attribute           | Description                                                                                               | Type                             | Default     |
+| ------------------ | ------------------- | --------------------------------------------------------------------------------------------------------- | -------------------------------- | ----------- |
+| `messageOverrides` | `message-overrides` | Use this property to override individual strings used by the component.                                   | `BlockSectionMessages`           | `undefined` |
+| `open`             | `open`              | When `true`, expands the component and its contents.                                                      | `boolean`                        | `false`     |
+| `status`           | `status`            | Displays a status-related indicator icon.                                                                 | `"idle" \| "invalid" \| "valid"` | `undefined` |
+| `text`             | `text`              | The component header text.                                                                                | `string`                         | `undefined` |
+| `toggleDisplay`    | `toggle-display`    | Specifies the component's toggle display - `"button"` (selectable header), or `"switch"` (toggle switch). | `"button" \| "switch"`           | `"button"`  |
 
 ## Events
 
-| Event                       | Description                               | Type                |
-| --------------------------- | ----------------------------------------- | ------------------- |
-| `calciteBlockSectionToggle` | Emitted when the header has been clicked. | `CustomEvent<void>` |
+| Event                       | Description                             | Type                |
+| --------------------------- | --------------------------------------- | ------------------- |
+| `calciteBlockSectionToggle` | Emits when the header has been clicked. | `CustomEvent<void>` |
 
 ## Slots
 
-| Slot | Description                                     |
-| ---- | ----------------------------------------------- |
-|      | A slot for adding content to the block section. |
+| Slot | Description                       |
+| ---- | --------------------------------- |
+|      | A slot for adding custom content. |
 
 ## Dependencies
 

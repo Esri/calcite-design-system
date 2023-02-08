@@ -12,8 +12,6 @@ import {
   Watch
 } from "@stencil/core";
 import { focusElement } from "../../utils/dom";
-import { Scale, Width } from "../interfaces";
-import { LabelableComponent, connectLabel, disconnectLabel } from "../../utils/label";
 import {
   afterConnectDefaultValueSet,
   connectForm,
@@ -21,9 +19,17 @@ import {
   FormComponent,
   HiddenFormInputSlot
 } from "../../utils/form";
-import { CSS } from "./resources";
-import { createObserver } from "../../utils/observers";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import { connectLabel, disconnectLabel, LabelableComponent } from "../../utils/label";
+import {
+  componentLoaded,
+  LoadableComponent,
+  setComponentLoaded,
+  setUpLoadableComponent
+} from "../../utils/loadable";
+import { createObserver } from "../../utils/observers";
+import { Scale, Width } from "../interfaces";
+import { CSS } from "./resources";
 
 type OptionOrGroup = HTMLCalciteOptionElement | HTMLCalciteOptionGroupElement;
 type NativeOptionOrGroup = HTMLOptionElement | HTMLOptGroupElement;
@@ -46,7 +52,9 @@ function isOptionGroup(
   styleUrl: "select.scss",
   shadow: true
 })
-export class Select implements LabelableComponent, FormComponent, InteractiveComponent {
+export class Select
+  implements LabelableComponent, FormComponent, InteractiveComponent, LoadableComponent
+{
   //--------------------------------------------------------------------------
   //
   //  Properties
@@ -54,7 +62,7 @@ export class Select implements LabelableComponent, FormComponent, InteractiveCom
   //--------------------------------------------------------------------------
 
   /**
-   * When true, interaction is prevented and the component is displayed with lower opacity.
+   * When `true`, interaction is prevented and the component is displayed with lower opacity.
    */
   @Prop({ reflect: true }) disabled = false;
 
@@ -65,12 +73,14 @@ export class Select implements LabelableComponent, FormComponent, InteractiveCom
   @Prop() label!: string;
 
   /**
-   * Specifies the name of the component on form submission.
+   * Specifies the name of the component.
+   *
+   * Required to pass the component's `value` on form submission.
    */
   @Prop({ reflect: true }) name: string;
 
   /**
-   * When true, the component must have a value in order for the form to submit.
+   * When `true`, the component must have a value in order for the form to submit.
    *
    * @internal
    */
@@ -81,7 +91,7 @@ export class Select implements LabelableComponent, FormComponent, InteractiveCom
    */
   @Prop({ reflect: true }) scale: Scale = "m";
 
-  /** The component's "selectedOption" value. */
+  /** The component's `selectedOption` value. */
   @Prop({ mutable: true }) value: string = null;
 
   @Watch("value")
@@ -151,7 +161,12 @@ export class Select implements LabelableComponent, FormComponent, InteractiveCom
     disconnectForm(this);
   }
 
+  componentWillLoad(): void {
+    setUpLoadableComponent(this);
+  }
+
   componentDidLoad(): void {
+    setComponentLoaded(this);
     afterConnectDefaultValueSet(this, this.selectedOption?.value ?? "");
   }
 
@@ -168,6 +183,8 @@ export class Select implements LabelableComponent, FormComponent, InteractiveCom
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
+    await componentLoaded(this);
+
     focusElement(this.selectEl);
   }
 
@@ -178,7 +195,7 @@ export class Select implements LabelableComponent, FormComponent, InteractiveCom
   //--------------------------------------------------------------------------
 
   /**
-   * Fires when the selected option changes.
+   * Fires when the `selectedOption` changes.
    */
   @Event({ cancelable: false }) calciteSelectChange: EventEmitter<void>;
 
@@ -337,7 +354,7 @@ export class Select implements LabelableComponent, FormComponent, InteractiveCom
   renderChevron(): VNode {
     return (
       <div class={CSS.iconContainer}>
-        <calcite-icon class={CSS.icon} icon="chevron-down" scale="s" />
+        <calcite-icon class={CSS.icon} icon="chevron-down" scale={this.scale === "l" ? "m" : "s"} />
       </div>
     );
   }

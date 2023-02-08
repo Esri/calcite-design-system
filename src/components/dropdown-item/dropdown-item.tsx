@@ -8,15 +8,19 @@ import {
   Listen,
   Method,
   Prop,
-  VNode,
-  Watch
+  VNode
 } from "@stencil/core";
 import { getElementProp, toAriaBoolean } from "../../utils/dom";
 import { ItemKeyboardEvent } from "../dropdown/interfaces";
-
-import { FlipContext } from "../interfaces";
+import { RequestedItem } from "../dropdown-group/interfaces";
+import { FlipContext, Scale, SelectionMode } from "../interfaces";
 import { CSS } from "./resources";
-import { RequestedItem, SelectionMode } from "../dropdown-group/interfaces";
+import {
+  componentLoaded,
+  LoadableComponent,
+  setComponentLoaded,
+  setUpLoadableComponent
+} from "../../utils/loadable";
 
 /**
  * @slot - A slot for adding text.
@@ -26,7 +30,7 @@ import { RequestedItem, SelectionMode } from "../dropdown-group/interfaces";
   styleUrl: "dropdown-item.scss",
   shadow: true
 })
-export class DropdownItem {
+export class DropdownItem implements LoadableComponent {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -41,52 +45,42 @@ export class DropdownItem {
   //
   //--------------------------------------------------------------------------
 
-  /**
-   * Indicates whether the item is active.
-   *
-   * @deprecated Use selected instead.
-   */
-  @Prop({ reflect: true, mutable: true }) active = false;
-
-  @Watch("active")
-  activeHandler(value: boolean): void {
-    this.selected = value;
-  }
-
-  /** When true, item is selected  */
+  /** When `true`, the component is selected. */
   @Prop({ reflect: true, mutable: true }) selected = false;
 
-  @Watch("selected")
-  selectedHandler(value: boolean): void {
-    this.active = value;
-  }
-
-  /** When true, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
-  @Prop({ reflect: true }) iconFlipRtl?: FlipContext;
+  /** Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`). */
+  @Prop({ reflect: true }) iconFlipRtl: FlipContext;
 
   /** Specifies an icon to display at the start of the component. */
-  @Prop({ reflect: true }) iconStart?: string;
+  @Prop({ reflect: true }) iconStart: string;
 
   /** Specifies an icon to display at the end of the component. */
-  @Prop({ reflect: true }) iconEnd?: string;
+  @Prop({ reflect: true }) iconEnd: string;
 
-  /** optionally pass a href - used to determine if the component should render as anchor */
-  @Prop({ reflect: true }) href?: string;
+  /**
+   *  Specifies the URL of the linked resource, which can be set as an absolute or relative path.
+   *
+   * Determines if the component will render as an anchor.
+   */
+  @Prop({ reflect: true }) href: string;
 
-  /** Applies to the aria-label attribute on the button or hyperlink */
-  @Prop() label?: string;
+  /** Accessible name for the component. */
+  @Prop() label: string;
 
-  /** The rel attribute to apply to the hyperlink */
-  @Prop({ reflect: true }) rel?: string;
+  /** Specifies the relationship to the linked document defined in `href`. */
+  @Prop({ reflect: true }) rel: string;
 
-  /** The target attribute to apply to the hyperlink */
-  @Prop({ reflect: true }) target?: string;
+  /** Specifies the frame or window to open the linked document. */
+  @Prop({ reflect: true }) target: string;
 
   //--------------------------------------------------------------------------
   //
   //  Events
   //
   //--------------------------------------------------------------------------
+
+  /** Fires when the component is selected. */
+  @Event({ cancelable: false }) calciteDropdownItemSelect: EventEmitter<void>;
 
   /**
    * @internal
@@ -108,6 +102,8 @@ export class DropdownItem {
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
+    await componentLoaded(this);
+
     this.el?.focus();
   }
 
@@ -118,40 +114,39 @@ export class DropdownItem {
   //--------------------------------------------------------------------------
 
   componentWillLoad(): void {
+    setUpLoadableComponent(this);
     this.initialize();
   }
 
-  connectedCallback(): void {
-    const isSelected = this.selected || this.active;
+  componentDidLoad(): void {
+    setComponentLoaded(this);
+  }
 
-    if (isSelected) {
-      this.activeHandler(isSelected);
-      this.selectedHandler(isSelected);
-    }
+  connectedCallback(): void {
     this.initialize();
   }
 
   render(): VNode {
-    const scale = getElementProp(this.el, "scale", "m");
+    const scale = getElementProp(this.el, "scale", this.scale);
     const iconStartEl = (
       <calcite-icon
-        class="dropdown-item-icon-start"
+        class={CSS.iconStart}
         flipRtl={this.iconFlipRtl === "start" || this.iconFlipRtl === "both"}
         icon={this.iconStart}
-        scale="s"
+        scale={scale === "l" ? "m" : "s"}
       />
     );
     const contentNode = (
-      <span class="dropdown-item-content">
+      <span class={CSS.itemContent}>
         <slot />
       </span>
     );
     const iconEndEl = (
       <calcite-icon
-        class="dropdown-item-icon-end"
+        class={CSS.iconEnd}
         flipRtl={this.iconFlipRtl === "end" || this.iconFlipRtl === "both"}
         icon={this.iconEnd}
-        scale="s"
+        scale={scale === "l" ? "m" : "s"}
       />
     );
 
@@ -159,7 +154,7 @@ export class DropdownItem {
       this.iconStart && this.iconEnd
         ? [iconStartEl, contentNode, iconEndEl]
         : this.iconStart
-        ? [iconStartEl, <slot />]
+        ? [iconStartEl, contentNode]
         : this.iconEnd
         ? [contentNode, iconEndEl]
         : contentNode;
@@ -169,10 +164,11 @@ export class DropdownItem {
     ) : (
       <a
         aria-label={this.label}
-        class="dropdown-link"
+        class={CSS.link}
         href={this.href}
         ref={(el) => (this.childLink = el)}
         rel={this.rel}
+        tabIndex={-1}
         target={this.target}
       >
         {slottedContent}
@@ -183,7 +179,7 @@ export class DropdownItem {
       ? null
       : this.selectionMode === "single"
       ? "menuitemradio"
-      : this.selectionMode === "multi"
+      : this.selectionMode === "multiple"
       ? "menuitemcheckbox"
       : "menuitem";
 
@@ -198,16 +194,16 @@ export class DropdownItem {
             [CSS.containerSmall]: scale === "s",
             [CSS.containerMedium]: scale === "m",
             [CSS.containerLarge]: scale === "l",
-            [CSS.containerMulti]: this.selectionMode === "multi",
+            [CSS.containerMulti]: this.selectionMode === "multiple",
             [CSS.containerSingle]: this.selectionMode === "single",
             [CSS.containerNone]: this.selectionMode === "none"
           }}
         >
           {this.selectionMode !== "none" ? (
             <calcite-icon
-              class="dropdown-item-icon"
-              icon={this.selectionMode === "multi" ? "check" : "bullet-point"}
-              scale="s"
+              class={CSS.icon}
+              icon={this.selectionMode === "multiple" ? "check" : "bullet-point"}
+              scale={scale === "l" ? "m" : "s"}
             />
           ) : null}
           {contentEl}
@@ -282,10 +278,13 @@ export class DropdownItem {
   private requestedDropdownItem: HTMLCalciteDropdownItemElement;
 
   /** what selection mode is the parent dropdown group in */
-  private selectionMode: SelectionMode;
+  private selectionMode: Extract<"none" | "single" | "multiple", SelectionMode>;
 
   /** if href is requested, track the rendered child link*/
   private childLink: HTMLAnchorElement;
+
+  /** Specifies the scale of dropdown-item controlled by the parent, defaults to m */
+  scale: Scale = "m";
 
   //--------------------------------------------------------------------------
   //
@@ -303,7 +302,7 @@ export class DropdownItem {
 
   private determineActiveItem(): void {
     switch (this.selectionMode) {
-      case "multi":
+      case "multiple":
         if (this.el === this.requestedDropdownItem) {
           this.selected = !this.selected;
         }
@@ -324,6 +323,7 @@ export class DropdownItem {
   }
 
   private emitRequestedItem(): void {
+    this.calciteDropdownItemSelect.emit();
     this.calciteInternalDropdownItemSelect.emit({
       requestedDropdownItem: this.el,
       requestedDropdownGroup: this.parentDropdownGroupEl

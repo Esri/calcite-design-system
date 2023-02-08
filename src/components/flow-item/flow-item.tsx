@@ -1,67 +1,85 @@
 import {
   Component,
   Element,
-  Prop,
-  h,
-  VNode,
-  Host,
-  Method,
   Event,
   EventEmitter,
-  State
+  h,
+  Host,
+  Method,
+  Prop,
+  State,
+  VNode,
+  Watch
 } from "@stencil/core";
 import { getElementDir } from "../../utils/dom";
-import { HeadingLevel } from "../functional/Heading";
-import { Scale } from "../interfaces";
-import { CSS, ICONS, TEXT, SLOTS } from "./resources";
-import { SLOTS as PANEL_SLOTS } from "../panel/resources";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import {
+  componentLoaded,
+  LoadableComponent,
+  setComponentLoaded,
+  setUpLoadableComponent
+} from "../../utils/loadable";
+import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
+import {
+  connectMessages,
+  disconnectMessages,
+  setUpMessages,
+  T9nComponent,
+  updateMessages
+} from "../../utils/t9n";
+import { HeadingLevel } from "../functional/Heading";
+import { SLOTS as PANEL_SLOTS } from "../panel/resources";
+import { FlowItemMessages } from "./assets/flow-item/t9n";
+import { CSS, ICONS, SLOTS } from "./resources";
 
 /**
  * @slot - A slot for adding custom content.
- * @slot header-actions-start - A slot for adding actions or content to the start side of the header.
- * @slot header-actions-end - A slot for adding actions or content to the end side of the header.
- * @slot header-content - A slot for adding custom content to the header.
- * @slot header-menu-actions - A slot for adding an overflow menu with actions inside a `calcite-dropdown`.
+ * @slot header-actions-start - A slot for adding `calcite-action`s or content to the start side of the component's header.
+ * @slot header-actions-end - A slot for adding `calcite-action`s or content to the end side of the component's header.
+ * @slot header-content - A slot for adding custom content to the component's header.
+ * @slot header-menu-actions - A slot for adding an overflow menu with `calcite-action`s inside a `calcite-dropdown`.
  * @slot fab - A slot for adding a `calcite-fab` (floating action button) to perform an action.
- * @slot footer-actions - A slot for adding buttons to the footer.
- * @slot footer - A slot for adding custom content to the footer.
+ * @slot footer-actions - A slot for adding `calcite-button`s to the component's footer.
+ * @slot footer - A slot for adding custom content to the component's footer.
  */
 @Component({
   tag: "calcite-flow-item",
   styleUrl: "flow-item.scss",
-  shadow: true
+  shadow: true,
+  assetsDirs: ["assets"]
 })
-export class FlowItem implements InteractiveComponent {
+export class FlowItem
+  implements InteractiveComponent, LoadableComponent, LocalizedComponent, T9nComponent
+{
   // --------------------------------------------------------------------------
   //
   //  Properties
   //
   // --------------------------------------------------------------------------
 
-  /** When true, displays a close button in the trailing side of the header */
+  /** When `true`, displays a close button in the trailing side of the component's header. */
   @Prop({ mutable: true, reflect: true }) closable = false;
 
-  /** When true, flow-item will be hidden */
+  /** When `true`, the component will be hidden. */
   @Prop({ mutable: true, reflect: true }) closed = false;
 
   /**
-   * When provided, this method will be called before it is removed from the parent flow.
+   * When provided, the method will be called before it is removed from its parent `calcite-flow`.
    */
-  @Prop() beforeBack?: () => Promise<void>;
+  @Prop() beforeBack: () => Promise<void>;
 
   /** A description for the component. */
   @Prop() description: string;
 
   /**
-   *  When true, interaction is prevented and the component is displayed with lower opacity.
+   *  When `true`, interaction is prevented and the component is displayed with lower opacity.
    */
   @Prop({ reflect: true }) disabled = false;
 
   /**
    * The component header text.
    */
-  @Prop() heading?: string;
+  @Prop() heading: string;
 
   /**
    * Specifies the number at which section headings should start.
@@ -69,44 +87,38 @@ export class FlowItem implements InteractiveComponent {
   @Prop({ reflect: true }) headingLevel: HeadingLevel;
 
   /**
-   * Specifies the maximum height of the component.
-   */
-  @Prop({ reflect: true }) heightScale?: Scale;
-
-  /**
-   * Accessible name for the component's back button. The back button will only be shown when 'showBackButton' is true.
-   */
-  @Prop() intlBack?: string;
-
-  /**
-   * Accessible name for the component's close button. The close button will only be shown when 'dismissible' is true.
-   */
-  @Prop() intlClose?: string;
-
-  /**
-   * Accessible name for the component's actions menu.
-   */
-  @Prop() intlOptions?: string;
-
-  /**
-   * When true, a busy indicator is displayed.
+   * When `true`, a busy indicator is displayed.
    */
   @Prop({ reflect: true }) loading = false;
 
   /**
-   * When true, the action menu items in the `header-menu-actions` slot are open.
+   * When `true`, the action menu items in the `header-menu-actions` slot are open.
    */
   @Prop({ reflect: true }) menuOpen = false;
 
   /**
-   * When true, displays a back button in the header.
+   * Use this property to override individual strings used by the component.
    */
-  @Prop({ reflect: true }) showBackButton = false;
+  @Prop({ mutable: true }) messageOverrides: Partial<FlowItemMessages>;
+
+  @Watch("messageOverrides")
+  onMessagesChange(): void {
+    /* wired up by t9n util */
+  }
 
   /**
-   * Specifies the width of the component.
+   * Made into a prop for testing purposes only
+   *
+   * @internal
    */
-  @Prop({ reflect: true }) widthScale?: Scale;
+  @Prop({ mutable: true }) messages: FlowItemMessages;
+
+  /**
+   * When `true`, displays a back button in the component's header.
+   *
+   * @internal
+   */
+  @Prop() showBackButton = false;
 
   //--------------------------------------------------------------------------
   //
@@ -114,8 +126,27 @@ export class FlowItem implements InteractiveComponent {
   //
   //--------------------------------------------------------------------------
 
+  connectedCallback(): void {
+    connectLocalized(this);
+    connectMessages(this);
+  }
+
+  async componentWillLoad(): Promise<void> {
+    await setUpMessages(this);
+    setUpLoadableComponent(this);
+  }
+
   componentDidRender(): void {
     updateHostInteraction(this);
+  }
+
+  disconnectedCallback(): void {
+    disconnectLocalized(this);
+    disconnectMessages(this);
+  }
+
+  componentDidLoad(): void {
+    setComponentLoaded(this);
   }
 
   // --------------------------------------------------------------------------
@@ -130,11 +161,9 @@ export class FlowItem implements InteractiveComponent {
   @Event({ cancelable: false }) calciteFlowItemBack: EventEmitter<void>;
 
   /**
-   * Fires when the back button is clicked.
-   *
-   * @deprecated use calciteFlowItemBack instead.
+   * Fires when the content is scrolled.
    */
-  @Event({ cancelable: false }) calciteFlowItemBackClick: EventEmitter<void>;
+  @Event({ cancelable: false }) calciteFlowItemScroll: EventEmitter<void>;
 
   /**
    * Fires when the close button is clicked.
@@ -154,6 +183,15 @@ export class FlowItem implements InteractiveComponent {
   @State()
   backButtonEl: HTMLCalciteActionElement;
 
+  @State() defaultMessages: FlowItemMessages;
+
+  @State() effectiveLocale = "";
+
+  @Watch("effectiveLocale")
+  effectiveLocaleChange(): void {
+    updateMessages(this, this.effectiveLocale);
+  }
+
   // --------------------------------------------------------------------------
   //
   //  Methods
@@ -165,6 +203,8 @@ export class FlowItem implements InteractiveComponent {
    */
   @Method()
   async setFocus(): Promise<void> {
+    await componentLoaded(this);
+
     const { backButtonEl, containerEl } = this;
 
     if (backButtonEl) {
@@ -188,7 +228,7 @@ export class FlowItem implements InteractiveComponent {
    */
   @Method()
   async scrollContentTo(options?: ScrollToOptions): Promise<void> {
-    this.containerEl?.scrollContentTo(options);
+    await this.containerEl?.scrollContentTo(options);
   }
 
   // --------------------------------------------------------------------------
@@ -197,13 +237,17 @@ export class FlowItem implements InteractiveComponent {
   //
   // --------------------------------------------------------------------------
 
+  handlePanelScroll = (event: CustomEvent<void>): void => {
+    event.stopPropagation();
+    this.calciteFlowItemScroll.emit();
+  };
+
   handlePanelClose = (event: CustomEvent<void>): void => {
     event.stopPropagation();
     this.calciteFlowItemClose.emit();
   };
 
   backButtonClick = (): void => {
-    this.calciteFlowItemBackClick.emit();
     this.calciteFlowItemBack.emit();
   };
 
@@ -211,8 +255,8 @@ export class FlowItem implements InteractiveComponent {
     this.backButtonEl = node;
   };
 
-  getBackLabel = (): string => {
-    return this.intlBack || TEXT.back;
+  setContainerRef = (node: HTMLCalcitePanelElement): void => {
+    this.containerEl = node;
   };
 
   // --------------------------------------------------------------------------
@@ -225,8 +269,8 @@ export class FlowItem implements InteractiveComponent {
     const { el } = this;
 
     const rtl = getElementDir(el) === "rtl";
-    const { showBackButton, backButtonClick } = this;
-    const label = this.getBackLabel();
+    const { showBackButton, backButtonClick, messages } = this;
+    const label = messages.back;
     const icon = rtl ? ICONS.backRight : ICONS.backLeft;
 
     return showBackButton ? (
@@ -252,16 +296,12 @@ export class FlowItem implements InteractiveComponent {
       disabled,
       heading,
       headingLevel,
-      heightScale,
-      intlBack,
-      intlClose,
-      intlOptions,
       loading,
       menuOpen,
-      widthScale,
+      messages,
       backButtonEl
     } = this;
-    const label = this.getBackLabel();
+    const label = messages.back;
     return (
       <Host>
         <calcite-panel
@@ -271,15 +311,14 @@ export class FlowItem implements InteractiveComponent {
           disabled={disabled}
           heading={heading}
           headingLevel={headingLevel}
-          heightScale={heightScale}
-          intlBack={intlBack}
-          intlClose={intlClose}
-          intlOptions={intlOptions}
           loading={loading}
           menuOpen={menuOpen}
+          messageOverrides={messages}
           onCalcitePanelClose={this.handlePanelClose}
-          widthScale={widthScale}
+          onCalcitePanelScroll={this.handlePanelScroll}
+          ref={this.setContainerRef}
         >
+          {this.renderBackButton()}
           <slot name={SLOTS.headerActionsStart} slot={PANEL_SLOTS.headerActionsStart} />
           <slot name={SLOTS.headerActionsEnd} slot={PANEL_SLOTS.headerActionsEnd} />
           <slot name={SLOTS.headerContent} slot={PANEL_SLOTS.headerContent} />
@@ -288,10 +327,14 @@ export class FlowItem implements InteractiveComponent {
           <slot name={SLOTS.footerActions} slot={PANEL_SLOTS.footerActions} />
           <slot name={SLOTS.footer} slot={PANEL_SLOTS.footer} />
           <slot />
-          {this.renderBackButton()}
         </calcite-panel>
         {backButtonEl ? (
-          <calcite-tooltip label={label} placement="auto" referenceElement={backButtonEl}>
+          <calcite-tooltip
+            label={label}
+            overlayPositioning="fixed"
+            placement="top"
+            referenceElement={backButtonEl}
+          >
             {label}
           </calcite-tooltip>
         ) : null}

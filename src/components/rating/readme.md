@@ -7,37 +7,28 @@
 ### Basic
 
 ```html
-<calcite-rating
-  show-chip
-  scale="m"
-  value="0"
-  average="4.4"
-  count="10"
-  intl-rating="Rating"
-  intl-stars="Rating"
-></calcite-rating>
+<calcite-rating show-chip scale="m" value="0" average="4.4" count="10"></calcite-rating>
 ```
 
 ## Properties
 
-| Property     | Attribute     | Description                                                                                          | Type                | Default       |
-| ------------ | ------------- | ---------------------------------------------------------------------------------------------------- | ------------------- | ------------- |
-| `average`    | `average`     | Specifies a cumulative average from previous ratings to display.                                     | `number`            | `undefined`   |
-| `count`      | `count`       | Specifies the number of previous ratings to display.                                                 | `number`            | `undefined`   |
-| `disabled`   | `disabled`    | When true, interaction is prevented and the component is displayed with lower opacity.               | `boolean`           | `false`       |
-| `intlRating` | `intl-rating` | Accessible name for the component.                                                                   | `string`            | `TEXT.rating` |
-| `intlStars`  | `intl-stars`  | Accessible name for each star. The `${num}` in the string will be replaced by the number.            | `string`            | `TEXT.stars`  |
-| `name`       | `name`        | Specifies the name of the component on form submission.                                              | `string`            | `undefined`   |
-| `readOnly`   | `read-only`   | When true, the component's value can be read, but cannot be modified.                                | `boolean`           | `false`       |
-| `scale`      | `scale`       | Specifies the size of the component.                                                                 | `"l" \| "m" \| "s"` | `"m"`         |
-| `showChip`   | `show-chip`   | When true, and if available, displays the "average" and/or "count" data summary in a `calcite-chip`. | `boolean`           | `false`       |
-| `value`      | `value`       | The component's value.                                                                               | `number`            | `0`           |
+| Property           | Attribute           | Description                                                                                            | Type                | Default     |
+| ------------------ | ------------------- | ------------------------------------------------------------------------------------------------------ | ------------------- | ----------- |
+| `average`          | `average`           | Specifies a cumulative average from previous ratings to display.                                       | `number`            | `undefined` |
+| `count`            | `count`             | Specifies the number of previous ratings to display.                                                   | `number`            | `undefined` |
+| `disabled`         | `disabled`          | When `true`, interaction is prevented and the component is displayed with lower opacity.               | `boolean`           | `false`     |
+| `messageOverrides` | `message-overrides` | Use this property to override individual strings used by the component.                                | `RatingMessages`    | `undefined` |
+| `name`             | `name`              | Specifies the name of the component. Required to pass the component's `value` on form submission.      | `string`            | `undefined` |
+| `readOnly`         | `read-only`         | When `true`, the component's value can be read, but cannot be modified.                                | `boolean`           | `false`     |
+| `scale`            | `scale`             | Specifies the size of the component.                                                                   | `"l" \| "m" \| "s"` | `"m"`       |
+| `showChip`         | `show-chip`         | When `true`, and if available, displays the `average` and/or `count` data summary in a `calcite-chip`. | `boolean`           | `false`     |
+| `value`            | `value`             | The component's value.                                                                                 | `number`            | `0`         |
 
 ## Events
 
-| Event                 | Description                               | Type                              |
-| --------------------- | ----------------------------------------- | --------------------------------- |
-| `calciteRatingChange` | Fires when the component's value changes. | `CustomEvent<{ value: number; }>` |
+| Event                 | Description                               | Type                |
+| --------------------- | ----------------------------------------- | ------------------- |
+| `calciteRatingChange` | Fires when the component's value changes. | `CustomEvent<void>` |
 
 ## Methods
 
@@ -59,15 +50,15 @@ Type: `Promise<void>`
 
 ### Depends on
 
-- [calcite-icon](../icon)
 - [calcite-chip](../chip)
+- [calcite-icon](../icon)
 
 ### Graph
 
 ```mermaid
 graph TD;
-  calcite-rating --> calcite-icon
   calcite-rating --> calcite-chip
+  calcite-rating --> calcite-icon
   calcite-chip --> calcite-icon
   style calcite-rating fill:#f9f,stroke:#333,stroke-width:4px
 ```

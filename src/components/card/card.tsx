@@ -1,12 +1,31 @@
-import { Component, Element, Event, EventEmitter, h, Prop, VNode } from "@stencil/core";
-import { getSlotted, toAriaBoolean } from "../../utils/dom";
-import { CSS, SLOTS, TEXT } from "./resources";
-import { LogicalFlowPosition } from "../interfaces";
 import {
+  Component,
+  Element,
+  Event,
+  EventEmitter,
+  h,
+  Prop,
+  State,
+  VNode,
+  Watch
+} from "@stencil/core";
+import {
+  ConditionalSlotComponent,
   connectConditionalSlotComponent,
-  disconnectConditionalSlotComponent,
-  ConditionalSlotComponent
+  disconnectConditionalSlotComponent
 } from "../../utils/conditionalSlot";
+import { getSlotted, toAriaBoolean } from "../../utils/dom";
+import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
+import {
+  connectMessages,
+  disconnectMessages,
+  setUpMessages,
+  T9nComponent,
+  updateMessages
+} from "../../utils/t9n";
+import { LogicalFlowPosition } from "../interfaces";
+import { CardMessages } from "./assets/card/t9n";
+import { CSS, SLOTS } from "./resources";
 
 /**
  * Cards do not include a grid or bounding container
@@ -15,19 +34,20 @@ import {
 
 /**
  * @slot - A slot for adding subheader/description content.
- * @slot thumbnail - A slot for adding a thumbnail to the card.
- * @slot title - A slot for adding a card title.
- * @slot subtitle - A slot for adding a card subtitle or short summary.
- * @slot footer-leading - A slot for adding a leading footer.
- * @slot footer-trailing - A slot for adding a trailing footer.
+ * @slot thumbnail - A slot for adding a thumbnail to the component.
+ * @slot title - A slot for adding a title.
+ * @slot subtitle - A slot for adding a subtitle or short summary.
+ * @slot footer-start - A slot for adding a leading footer.
+ * @slot footer-end - A slot for adding a trailing footer.
  */
 
 @Component({
   tag: "calcite-card",
   styleUrl: "card.scss",
-  shadow: true
+  shadow: true,
+  assetsDirs: ["assets"]
 })
-export class Card implements ConditionalSlotComponent {
+export class Card implements ConditionalSlotComponent, LocalizedComponent, T9nComponent {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -42,37 +62,34 @@ export class Card implements ConditionalSlotComponent {
   //
   //--------------------------------------------------------------------------
 
-  /**  When true, the cards content is waiting to be loaded. This state shows a busy indicator.*/
+  /**  When `true`, a busy indicator is displayed. */
   @Prop({ reflect: true }) loading = false;
 
-  /** Indicates whether the card is selected. */
+  /** When `true`, the component is selected. */
   @Prop({ reflect: true, mutable: true }) selected = false;
 
-  /** Indicates whether the card is selectable. */
+  /** When `true`, the component is selectable. */
   @Prop({ reflect: true }) selectable = false;
 
-  /**
-   * string to override English loading text
-   *
-   * @default "Loading"
-   */
-  @Prop() intlLoading?: string = TEXT.loading;
-
-  /**
-   * string to override English select text for checkbox when selectable is true
-   *
-   * @default "Select"
-   */
-  @Prop({ reflect: false }) intlSelect: string = TEXT.select;
-
-  /**
-   * string to override English deselect text for checkbox when selectable is true
-   *
-   * @default "Deselect"
-   */
-  @Prop({ reflect: false }) intlDeselect: string = TEXT.deselect;
-
+  /** Sets the placement of the thumbnail defined in the `thumbnail` slot. */
   @Prop({ reflect: true }) thumbnailPosition: LogicalFlowPosition = "block-start";
+
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @internal
+   */
+  @Prop({ mutable: true }) messages: CardMessages;
+
+  /**
+   * Use this property to override individual strings used by the component.
+   */
+  @Prop({ mutable: true }) messageOverrides: Partial<CardMessages>;
+
+  @Watch("messageOverrides")
+  onMessagesChange(): void {
+    /* wired up by t9n util */
+  }
 
   //--------------------------------------------------------------------------
   //
@@ -80,7 +97,7 @@ export class Card implements ConditionalSlotComponent {
   //
   //--------------------------------------------------------------------------
 
-  /** Fired when a selectable card is selected */
+  /** Fires when `selectable` is `true` and the component is selected. */
   @Event({ cancelable: false }) calciteCardSelect: EventEmitter<void>;
 
   // --------------------------------------------------------------------------
@@ -91,10 +108,18 @@ export class Card implements ConditionalSlotComponent {
 
   connectedCallback(): void {
     connectConditionalSlotComponent(this);
+    connectLocalized(this);
+    connectMessages(this);
   }
 
   disonnectedCallback(): void {
     disconnectConditionalSlotComponent(this);
+    disconnectLocalized(this);
+    disconnectMessages(this);
+  }
+
+  async componentWillLoad(): Promise<void> {
+    await setUpMessages(this);
   }
 
   render(): VNode {
@@ -104,7 +129,7 @@ export class Card implements ConditionalSlotComponent {
       <div class={{ "calcite-card-container": true, inline: thumbnailInline }}>
         {this.loading ? (
           <div class="calcite-card-loader-container">
-            <calcite-loader active label={this.intlLoading} />
+            <calcite-loader label={this.messages.loading} />
           </div>
         ) : null}
         {thumbnailStart && this.renderThumbnail()}
@@ -125,6 +150,15 @@ export class Card implements ConditionalSlotComponent {
   //  Private State/Props
   //
   //--------------------------------------------------------------------------
+
+  @State() effectiveLocale: string;
+
+  @Watch("effectiveLocale")
+  effectiveLocaleChange(): void {
+    updateMessages(this, this.effectiveLocale);
+  }
+
+  @State() defaultMessages: CardMessages;
 
   //--------------------------------------------------------------------------
   //
@@ -160,7 +194,7 @@ export class Card implements ConditionalSlotComponent {
   }
 
   private renderCheckbox(): VNode {
-    const checkboxLabel = this.selected ? this.intlDeselect : this.intlSelect;
+    const checkboxLabel = this.selected ? this.messages.deselect : this.messages.select;
 
     return (
       <calcite-label
@@ -189,14 +223,14 @@ export class Card implements ConditionalSlotComponent {
 
   private renderFooter(): VNode {
     const { el } = this;
-    const leadingFooter = getSlotted(el, SLOTS.footerLeading);
-    const trailingFooter = getSlotted(el, SLOTS.footerTrailing);
+    const startFooter = getSlotted(el, SLOTS.footerStart);
+    const endFooter = getSlotted(el, SLOTS.footerEnd);
 
-    const hasFooter = leadingFooter || trailingFooter;
+    const hasFooter = startFooter || endFooter;
     return hasFooter ? (
       <footer class={CSS.footer}>
-        <slot name={SLOTS.footerLeading} />
-        <slot name={SLOTS.footerTrailing} />
+        <slot name={SLOTS.footerStart} />
+        <slot name={SLOTS.footerEnd} />
       </footer>
     ) : null;
   }

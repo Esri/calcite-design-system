@@ -1,14 +1,14 @@
 import {
   Component,
-  Host,
-  h,
   Element,
-  Prop,
-  Watch,
-  VNode,
   Event,
   EventEmitter,
-  Listen
+  h,
+  Host,
+  Listen,
+  Prop,
+  VNode,
+  Watch
 } from "@stencil/core";
 import { createObserver } from "../../utils/observers";
 import { Layout, Scale } from "../interfaces";
@@ -19,7 +19,9 @@ import { Layout, Scale } from "../interfaces";
 @Component({
   tag: "calcite-radio-button-group",
   styleUrl: "radio-button-group.scss",
-  shadow: true
+  shadow: {
+    delegatesFocus: true
+  }
 })
 export class RadioButtonGroup {
   //--------------------------------------------------------------------------
@@ -36,7 +38,7 @@ export class RadioButtonGroup {
   //
   //--------------------------------------------------------------------------
 
-  /** When true, interaction is prevented and the component is displayed with lower opacity. */
+  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @Prop({ reflect: true }) disabled = false;
 
   @Watch("disabled")
@@ -44,7 +46,7 @@ export class RadioButtonGroup {
     this.passPropsToRadioButtons();
   }
 
-  /** When true, the component is not displayed and its `calcite-radio-button`s are not focusable or checkable. */
+  /** When `true`, the component is not displayed and its `calcite-radio-button`s are not focusable or checkable. */
   @Prop({ reflect: true }) hidden = false;
 
   @Watch("hidden")
@@ -63,8 +65,15 @@ export class RadioButtonGroup {
   /** Specifies the name of the component on form submission. Must be unique to other component instances. */
   @Prop({ reflect: true }) name!: string;
 
-  /** When true, the component must have a value in order for the form to submit. */
+  /** When `true`, the component must have a value in order for the form to submit. */
   @Prop({ reflect: true }) required = false;
+
+  /**
+   * Specifies the component's selected item.
+   *
+   * @readonly
+   */
+  @Prop({ mutable: true }) selectedItem: HTMLCalciteRadioButtonElement = null;
 
   /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";
@@ -105,6 +114,7 @@ export class RadioButtonGroup {
 
   private passPropsToRadioButtons = (): void => {
     const radioButtons = this.el.querySelectorAll("calcite-radio-button");
+    this.selectedItem = Array.from(radioButtons).find((radioButton) => radioButton.checked) || null;
     if (radioButtons.length > 0) {
       radioButtons.forEach((radioButton) => {
         radioButton.disabled = this.disabled || radioButton.disabled;
@@ -125,7 +135,7 @@ export class RadioButtonGroup {
   /**
    * Fires when the component has changed.
    */
-  @Event({ cancelable: false }) calciteRadioButtonGroupChange: EventEmitter<any>;
+  @Event({ cancelable: false }) calciteRadioButtonGroupChange: EventEmitter<void>;
 
   //--------------------------------------------------------------------------
   //
@@ -135,7 +145,8 @@ export class RadioButtonGroup {
 
   @Listen("calciteRadioButtonChange")
   radioButtonChangeHandler(event: CustomEvent): void {
-    this.calciteRadioButtonGroupChange.emit((event.target as HTMLCalciteRadioButtonElement).value);
+    this.selectedItem = event.target as HTMLCalciteRadioButtonElement;
+    this.calciteRadioButtonGroupChange.emit();
   }
 
   // --------------------------------------------------------------------------

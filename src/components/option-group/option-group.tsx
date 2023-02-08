@@ -1,4 +1,4 @@
-import { Component, h, Prop, VNode, Watch, Event, EventEmitter, Fragment } from "@stencil/core";
+import { Component, Event, EventEmitter, Fragment, h, Prop, VNode, Watch } from "@stencil/core";
 
 /**
  * @slot - A slot for adding `calcite-option`s.
@@ -16,7 +16,7 @@ export class OptionGroup {
   //--------------------------------------------------------------------------
 
   /**
-   * When true, interaction is prevented and the component is displayed with lower opacity.
+   * When `true`, interaction is prevented and the component is displayed with lower opacity.
    */
   @Prop({
     reflect: true

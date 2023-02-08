@@ -1,8 +1,8 @@
 import { select, text } from "@storybook/addon-knobs";
 import { boolean, iconNames, storyFilters } from "../../../.storybook/helpers";
-import { themesDarkDefault } from "../../../.storybook/utils";
-import readme from "./readme.md";
+import { modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
+import readme from "./readme.md";
 
 export default {
   title: "Components/Controls/Input Text",
@@ -71,18 +71,13 @@ export const withSlottedAction = (): string => html`
     >
       <calcite-button slot="action">${text("action button text", "Go")}</calcite-button>
     </calcite-input-text>
-    <calcite-input-message
-      ${boolean("input-message-active", false)}
-      status="${select("input message status", ["idle", "valid", "invalid"], "idle")}"
-      >${text("input message text", "My great input message")}</calcite-input-message
-    >
   </div>
 `;
 
-export const darkThemeRTL_TestOnly = (): string => html`
+export const darkModeRTL_TestOnly = (): string => html`
   <div style="width:300px;max-width:100%;text-align:center;">
     <calcite-input-text
-      id="input-dark-theme"
+      id="input-dark-mode"
       status="${select("status", ["idle", "invalid", "valid"], "idle")}"
       alignment="${select("alignment", ["start", "end"], "start")}"
       prefix-text="${text("prefix-text", "")}"
@@ -94,11 +89,23 @@ export const darkThemeRTL_TestOnly = (): string => html`
       placeholder="${text("placeholder", "Placeholder text")}"
     >
     </calcite-input-text>
-    <calcite-input-message
-      ${boolean("calcite-input-message-active", true)}
-      status="${select("input message status", ["idle", "valid", "invalid"], "idle")}"
+    <calcite-input-message status="${select("input message status", ["idle", "valid", "invalid"], "idle")}"
       >${text("input message text", "My great input message")}</calcite-input-message
     >
   </div>
 `;
-darkThemeRTL_TestOnly.parameters = { themes: themesDarkDefault };
+darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
+
+export const mediumIconForLargeScaleStyling_TestOnly = (): string => html`
+  <calcite-label scale="l">
+    Input Label
+    <calcite-input-text placeholder="Placeholder" scale="l"></calcite-input-text>
+    <calcite-input-text
+      placeholder="Placeholder"
+      scale="l"
+      icon="search"
+      clearable
+      value="sample input to show x"
+    ></calcite-input-text>
+  </calcite-label>
+`;

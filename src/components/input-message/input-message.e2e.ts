@@ -1,11 +1,14 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, renders, hidden } from "../../tests/commonTests";
+import { accessible, hidden, renders } from "../../tests/commonTests";
 import { StatusIconDefaults } from "./interfaces";
 
 describe("calcite-input-message", () => {
-  it("renders", async () => renders("calcite-input-message", { visible: false, display: "flex" }));
+  it("renders", async () => {
+    await renders(`<calcite-input-message hidden></calcite-input-message>`, { display: "none", visible: false });
+    await renders(`<calcite-input-message></calcite-input-message>`, { display: "flex", visible: true });
+  });
 
-  it("honors hidden attribute", async () => hidden(`<calcite-input-message active>Text</calcite-input-message>`));
+  it("honors hidden attribute", async () => hidden(`<calcite-input-message>Text</calcite-input-message>`));
 
   it("is accessible", async () => accessible(`<calcite-input-message>Text</calcite-input-message>`));
   it("is accessible with icon", async () => accessible(`<calcite-input-message icon>Text</calcite-input-message>`));
@@ -28,19 +31,6 @@ describe("calcite-input-message", () => {
 
     const element = await page.find("calcite-input-message");
     expect(element).toEqualAttribute("status", "valid");
-  });
-
-  it("inherits requested props when from wrapping calcite-label when props are provided", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`
-    <calcite-label status="invalid">
-    Label text
-    <calcite-input-message>Text</calcite-input-message>
-    </calcite-label>
-    `);
-
-    const deprecatedLabelStatusElement = await page.find("calcite-input-message");
-    expect(deprecatedLabelStatusElement).toEqualAttribute("status", "invalid");
   });
 
   it("does not render an icon if not requested", async () => {

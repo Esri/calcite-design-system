@@ -1,6 +1,6 @@
 import { select, text, number } from "@storybook/addon-knobs";
 import { boolean, iconNames, storyFilters } from "../../../.storybook/helpers";
-import { themesDarkDefault } from "../../../.storybook/utils";
+import { modesDarkDefault } from "../../../.storybook/utils";
 import readme from "./readme.md";
 import { html } from "../../../support/formatting";
 
@@ -63,10 +63,7 @@ export const withInputMessage = (): string => html`
       placeholder="${text("placeholder", "Placeholder text", "Input")}"
     >
     </calcite-input>
-    <calcite-input-message
-      ${boolean("active", true)}
-      ${boolean("icon", false)}
-      icon="${select("icon", iconNames, "", "Input Message")}"
+    <calcite-input-message ${boolean("icon", false)} icon="${select("icon", iconNames, "", "Input Message")}"
       >${text("input message text", "My great input message", "Input Message")}</calcite-input-message
     >
   </div>
@@ -97,11 +94,6 @@ export const withSlottedAction = (): string => html`
     >
       <calcite-button slot="action">${text("action button text", "Go")}</calcite-button>
     </calcite-input>
-    <calcite-input-message
-      ${boolean("input-message-active", false)}
-      status="${select("input message status", ["idle", "valid", "invalid"], "idle")}"
-      >${text("input message text", "My great input message")}</calcite-input-message
-    >
   </div>
 `;
 
@@ -117,9 +109,7 @@ export const textarea = (): string => html`
       placeholder="${text("placeholder", "Placeholder text")}"
     >
     </calcite-input>
-    <calcite-input-message
-      ${boolean("input-message-active", false)}
-      status="${select("input message status", ["idle", "valid", "invalid"], "idle")}"
+    <calcite-input-message status="${select("input message status", ["idle", "valid", "invalid"], "idle")}"
       >${text("input message text", "My great input message")}</calcite-input-message
     >
   </div>
@@ -127,16 +117,16 @@ export const textarea = (): string => html`
 
 export const disabled_TestOnly = (): string => html`<calcite-input disabled value="disabled"></calcite-input>`;
 
-export const darkThemeRTL_TestOnly = (): string => html`
+export const darkModeRTL_TestOnly = (): string => html`
   <div dir="rtl" style="width:300px;max-width:100%;text-align:center;">
     <calcite-label
-      class="calcite-theme-dark"
+      class="calcite-mode-dark"
       status="${select("status", ["idle", "valid", "invalid"], "idle")}"
-      for="input-dark-theme"
+      for="input-dark-mode"
     >
       ${text("label text", "My great label")}
       <calcite-input
-        id="input-dark-theme"
+        id="input-dark-mode"
         type="${select(
           "type",
           ["text", "textarea", "email", "password", "tel", "number", "search", "file", "time", "date"],
@@ -157,15 +147,13 @@ export const darkThemeRTL_TestOnly = (): string => html`
         placeholder="${text("placeholder", "Placeholder text")}"
       >
       </calcite-input>
-      <calcite-input-message
-        ${boolean("calcite-input-message-active", true)}
-        status="${select("input message status", ["idle", "valid", "invalid"], "idle")}"
+      <calcite-input-message status="${select("input message status", ["idle", "valid", "invalid"], "idle")}"
         >${text("input message text", "My great input message")}</calcite-input-message
       >
     </calcite-label>
   </div>
 `;
-darkThemeRTL_TestOnly.parameters = { themes: themesDarkDefault };
+darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
 
 export const hebrewNumberingSystem_TestOnly = (): string =>
   html` <calcite-input type="number" lang="ar-EG" numbering-system="hebr" value="123456"></calcite-input>`;

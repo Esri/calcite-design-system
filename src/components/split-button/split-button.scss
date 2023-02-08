@@ -12,60 +12,61 @@
 }
 
 :host {
-  &:host([color="blue"]) {
+  &:host([kind="brand"]) {
     --calcite-split-button-background: theme("colors.brand");
     --calcite-split-button-divider: theme("colors.background.foreground.1");
   }
-  &:host([color="red"]) {
+  &:host([kind="danger"]) {
     --calcite-split-button-background: theme("colors.danger");
     --calcite-split-button-divider: theme("colors.background.foreground.1");
   }
-  &:host([color="neutral"]) {
+  &:host([kind="neutral"]) {
     --calcite-split-button-background: theme("colors.background.foreground.3");
     --calcite-split-button-divider: theme("colors.color.1");
   }
-  &:host([color="inverse"]) {
+  &:host([kind="inverse"]) {
     --calcite-split-button-background: var(--calcite-ui-inverse);
     --calcite-split-button-divider: theme("colors.background.foreground.1");
   }
 }
 
 :host([appearance="transparent"]) {
-  &:host([color="blue"]) {
+  &:host([kind="brand"]) {
     --calcite-split-button-divider: theme("colors.brand");
   }
-  &:host([color="red"]) {
+  &:host([kind="danger"]) {
     --calcite-split-button-divider: theme("colors.danger");
   }
-  &:host([color="neutral"]) {
+  &:host([kind="neutral"]) {
     --calcite-split-button-divider: theme("colors.color.1");
   }
-  &:host([color="inverse"]) {
+  &:host([kind="inverse"]) {
     --calcite-split-button-divider: theme("colors.background.foreground.1");
+    --calcite-split-button-background: transparent;
   }
 }
 
-:host([appearance="clear"]),
+:host([appearance="outline"]),
 :host([appearance="transparent"]) {
   --calcite-split-button-background: transparent;
 }
 
-:host([appearance="outline"]) {
+:host([appearance="outline-fill"]) {
   --calcite-split-button-background: theme("colors.background.foreground.1");
 }
 
-:host([appearance="clear"]),
-:host([appearance="outline"]) {
-  &:host([color="blue"]) {
+:host([appearance="outline"]),
+:host([appearance="outline-fill"]) {
+  &:host([kind="brand"]) {
     --calcite-split-button-divider: theme("colors.brand");
   }
-  &:host([color="red"]) {
+  &:host([kind="danger"]) {
     --calcite-split-button-divider: theme("colors.danger");
   }
-  &:host([color="neutral"]) {
+  &:host([kind="neutral"]) {
     --calcite-split-button-divider: theme("colors.background.foreground.3");
   }
-  &:host([color="inverse"]) {
+  &:host([kind="inverse"]) {
     --calcite-split-button-divider: var(--calcite-ui-inverse);
   }
 }
@@ -92,9 +93,8 @@
   background-color: var(--calcite-split-button-divider);
 }
 
-:host([appearance="outline"]),
-:host([appearance="clear"]),
-:host([appearance="minimal"]) {
+:host([appearance="outline-fill"]),
+:host([appearance="outline"]) {
   .split-button__divider-container {
     border-block: 1px solid var(--calcite-split-button-divider);
   }
@@ -103,21 +103,19 @@
   }
 }
 
-:host([appearance="outline"]:hover),
-:host([appearance="clear"]:hover),
-:host([appearance="minimal"]):hover {
+:host([appearance="outline-fill"]:hover),
+:host([appearance="outline"]:hover) {
   .split-button__divider-container {
     background-color: var(--calcite-split-button-divider);
   }
 }
 
-:host([appearance="outline"]:focus-within),
-:host([appearance="clear"]:focus-within),
-:host([appearance="minimal"]:focus-within) {
-  &:host([color="blue"]) {
+:host([appearance="outline-fill"]:focus-within),
+:host([appearance="outline"]:focus-within) {
+  &:host([kind="brand"]) {
     --calcite-split-button-divider: theme("colors.brand-press");
   }
-  &:host([color="red"]) {
+  &:host([kind="danger"]) {
     --calcite-split-button-divider: theme("colors.danger-press");
   }
   .split-button__divider-container {

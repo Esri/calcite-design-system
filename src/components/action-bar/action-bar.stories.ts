@@ -1,16 +1,15 @@
-import { boolean, select, text } from "@storybook/addon-knobs";
-import {
-  Attributes,
-  Attribute,
-  filterComponentAttributes,
-  createComponentHTML as create,
-  themesDarkDefault
-} from "../../../.storybook/utils";
-import readme from "./readme.md";
-import { ATTRIBUTES } from "../../../.storybook/resources";
-import { html } from "../../../support/formatting";
-import { TEXT } from "./resources";
+import { boolean, select } from "@storybook/addon-knobs";
 import { storyFilters } from "../../../.storybook/helpers";
+import { ATTRIBUTES } from "../../../.storybook/resources";
+import {
+  Attribute,
+  Attributes,
+  createComponentHTML as create,
+  filterComponentAttributes,
+  modesDarkDefault
+} from "../../../.storybook/utils";
+import { html } from "../../../support/formatting";
+import readme from "./readme.md";
 
 export default {
   title: "Components/Action Bar",
@@ -37,22 +36,6 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
         name: "expanded",
         commit(): Attribute {
           this.value = boolean("expanded", false);
-          delete this.build;
-          return this;
-        }
-      },
-      {
-        name: "intl-expand",
-        commit(): Attribute {
-          this.value = text("intlExpand", TEXT.expand);
-          delete this.build;
-          return this;
-        }
-      },
-      {
-        name: "intl-collapse",
-        commit(): Attribute {
-          this.value = text("intlCollapse", TEXT.collapse);
           delete this.build;
           return this;
         }
@@ -139,7 +122,7 @@ export const withDefinedWidths = (): string =>
     </calcite-action-bar>
   `;
 
-export const darkThemeRTL_TestOnly = (): string =>
+export const darkModeRTL_TestOnly = (): string =>
   create(
     "calcite-action-bar",
     createAttributes({ exceptions: ["dir", "class"] }).concat([
@@ -149,7 +132,7 @@ export const darkThemeRTL_TestOnly = (): string =>
       },
       {
         name: "class",
-        value: "calcite-theme-dark"
+        value: "calcite-mode-dark"
       }
     ]),
     html`
@@ -163,7 +146,7 @@ export const darkThemeRTL_TestOnly = (): string =>
     `
   );
 
-darkThemeRTL_TestOnly.parameters = { themes: themesDarkDefault };
+darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
 
 export const withTooltip_NoTest = (): string =>
   create(
@@ -174,3 +157,37 @@ export const withTooltip_NoTest = (): string =>
       <calcite-action text="Add" icon="plus"></calcite-action>
     `
   );
+
+withTooltip_NoTest.parameters = {
+  chromatic: { disableSnapshot: true }
+};
+
+export const hebrewLocale_TestOnly = (): string => `<calcite-action-bar expanded lang="he">
+<calcite-action text="Information" icon="information"></calcite-action>
+<calcite-action text="Feedback" slot="bottom-actions" icon="mega-phone"></calcite-action>
+</calcite-action-bar>`;
+
+export const norwegianLocale_TestOnly = (): string => `<calcite-action-bar expanded lang="nb">
+<calcite-action text="Information" icon="information"></calcite-action>
+<calcite-action text="Feedback" slot="bottom-actions" icon="mega-phone"></calcite-action>
+</calcite-action-bar>`;
+
+export const FrenchLocale_TestOnly = (): string => `<calcite-action-bar expanded lang="fr">
+<calcite-action text="Information" icon="information"></calcite-action>
+<calcite-action text="Feedback" slot="bottom-actions" icon="mega-phone"></calcite-action>
+</calcite-action-bar>`;
+
+export const hongKongLocale_TestOnly = (): string => `<calcite-action-bar expanded lang="zh-HK">
+<calcite-action text="Information" icon="information"></calcite-action>
+<calcite-action text="Feedback" slot="bottom-actions" icon="mega-phone"></calcite-action>
+</calcite-action-bar>`;
+
+export const ukranianLocale_TestOnly = (): string => `<calcite-action-bar expanded lang="uk">
+<calcite-action text="Information" icon="information"></calcite-action>
+<calcite-action text="Feedback" slot="bottom-actions" icon="mega-phone"></calcite-action>
+</calcite-action-bar>`;
+
+export const bosnianLocale_TestOnly = (): string => `<calcite-action-bar expanded lang="bs">
+<calcite-action text="Information" icon="information"></calcite-action>
+<calcite-action text="Feedback" slot="bottom-actions" icon="mega-phone"></calcite-action>
+</calcite-action-bar>`;

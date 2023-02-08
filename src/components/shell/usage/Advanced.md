@@ -43,7 +43,7 @@ Renders a shell with leading and trailing floating panels, action bar/pad, block
         <calcite-action slot="bottom-actions" text="Tips" icon="lightbulb"></calcite-action>
       </calcite-action-bar>
       <calcite-flow>
-        <calcite-panel heading="Layer settings">
+        <calcite-flow-item heading="Layer settings">
           <calcite-block collapsible open heading="Contextual Content" summary="Select goodness">
             <calcite-value-list multiple filter-enabled>
               <calcite-value-list-item label="2018 Population Density (Esri)" description="{POPDENS_CY}" value="POPDENS_CY">
@@ -57,7 +57,7 @@ Renders a shell with leading and trailing floating panels, action bar/pad, block
               </calcite-value-list-item>
             </calcite-value-list>
           </calcite-block>
-        </calcite-panel>
+        </calcite-flow-item>
       </calcite-flow>
   </calcite-shell-panel>
   <calcite-tip-manager slot="center-row">

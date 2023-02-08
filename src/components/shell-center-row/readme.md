@@ -4,11 +4,11 @@
 
 ## Properties
 
-| Property      | Attribute      | Description                                                                                              | Type                | Default |
-| ------------- | -------------- | -------------------------------------------------------------------------------------------------------- | ------------------- | ------- |
-| `detached`    | `detached`     | When true, the content area displays like a floating panel.                                              | `boolean`           | `false` |
-| `heightScale` | `height-scale` | Specifies the maximum height of the component.                                                           | `"l" \| "m" \| "s"` | `"s"`   |
-| `position`    | `position`     | Specifies the component's position. Will be flipped when the element direction is right-to-left ("rtl"). | `"end" \| "start"`  | `"end"` |
+| Property      | Attribute      | Description                                                                                                | Type                | Default |
+| ------------- | -------------- | ---------------------------------------------------------------------------------------------------------- | ------------------- | ------- |
+| `detached`    | `detached`     | When `true`, the content area displays like a floating panel.                                              | `boolean`           | `false` |
+| `heightScale` | `height-scale` | Specifies the maximum height of the component.                                                             | `"l" \| "m" \| "s"` | `"s"`   |
+| `position`    | `position`     | Specifies the component's position. Will be flipped when the element direction is right-to-left (`"rtl"`). | `"end" \| "start"`  | `"end"` |
 
 ## Slots
 

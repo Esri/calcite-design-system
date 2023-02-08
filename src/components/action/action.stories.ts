@@ -4,7 +4,7 @@ import {
   filterComponentAttributes,
   Attributes,
   createComponentHTML as create,
-  themesDarkDefault
+  modesDarkDefault
 } from "../../../.storybook/utils";
 import readme from "./readme.md";
 import { html } from "../../../support/formatting";
@@ -42,7 +42,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
       {
         name: "appearance",
         commit(): Attribute {
-          this.value = select("appearance", ["solid", "clear"], "solid");
+          this.value = select("appearance", ["solid", "transparent"], "solid");
           delete this.build;
           return this;
         }
@@ -160,14 +160,14 @@ export const disabledAndCompactAndTextOnly_TestOnly = (): string =>
     )}
   </div>`;
 
-export const activeAndAppearanceClear_TestOnly = (): string =>
+export const activeAndAppearanceTransparent_TestOnly = (): string =>
   html`<div>
     ${create(
       "calcite-action",
       createAttributes({ exceptions: ["icon", "appearance", "active"] }).concat([
         { name: "active", value: true },
         { name: "icon", value: "banana" },
-        { name: "appearance", value: "clear" }
+        { name: "appearance", value: "transparent" }
       ])
     )}
   </div>`;
@@ -209,16 +209,16 @@ export const arabicLocale_TestOnly = (): string => html`
   ></calcite-action>
 `;
 
-export const darkThemeRTL_TestOnly = (): string =>
+export const darkModeRTL_TestOnly = (): string =>
   html`<div>
     ${create(
       "calcite-action",
       createAttributes({ exceptions: ["icon", "class", "dir"] }).concat([
         { name: "icon", value: "banana" },
-        { name: "class", value: "calcite-theme-dark" },
+        { name: "class", value: "calcite-mode-dark" },
         { name: "dir", value: "rtl" }
       ])
     )}
   </div>`;
 
-darkThemeRTL_TestOnly.parameters = { themes: themesDarkDefault };
+darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };

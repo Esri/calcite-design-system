@@ -1,6 +1,6 @@
 import { newE2EPage } from "@stencil/core/testing";
+import { accessible, defaults, hidden, renders, t9n } from "../../tests/commonTests";
 import { CSS, TEXT } from "./resources";
-import { accessible, defaults, renders, hidden } from "../../tests/commonTests";
 
 describe("calcite-tip-manager", () => {
   it("renders", async () => renders("calcite-tip-manager", { display: "block" }));
@@ -65,7 +65,6 @@ describe("calcite-tip-manager", () => {
       let isVisible = await container.isVisible();
       expect(isVisible).toBe(true);
 
-      const toggleEventSpy = await page.spyOnEvent("calciteTipManagerToggle", "window");
       const closeEventSpy = await page.spyOnEvent("calciteTipManagerClose", "window");
 
       const closeButton = await page.find(`calcite-tip-manager >>> .${CSS.close}`);
@@ -77,7 +76,6 @@ describe("calcite-tip-manager", () => {
       isVisible = await container.isVisible();
       expect(isVisible).toBe(false);
 
-      expect(toggleEventSpy).toHaveReceivedEvent();
       expect(closeEventSpy).toHaveReceivedEvent();
 
       const isClosed = await tipManager.getProperty("closed");
@@ -241,4 +239,6 @@ describe("calcite-tip-manager", () => {
 
     expect(heading.tagName).toEqual("H2");
   });
+
+  it("supports translations", () => t9n("calcite-tip-manager"));
 });

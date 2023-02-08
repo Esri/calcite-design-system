@@ -5,16 +5,17 @@
 # https://octokit.github.io/rest.js/v18#issues-list-for-repo
 name: Move Issues To Current Milestone
 on:
-  schedule:
-    - cron: "0 9 * * 1"
+  workflow_dispatch:
+  # schedule:
+  # - cron: "0 9 * * 1"
 jobs:
   move:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/github-script@v4
+      - uses: actions/github-script@v6
         with:
           script: |
-            const { data: milestones } = await github.issues.listMilestones({
+            const { data: milestones } = await github.rest.issues.listMilestones({
               owner: context.repo.owner,
               repo: context.repo.repo,
               state: "open",
@@ -41,7 +42,7 @@ jobs:
                 return;
               }
 
-              const { data: previousMilestoneIssuesNew } = await github.issues.listForRepo({
+              const { data: previousMilestoneIssuesNew } = await github.rest.issues.listForRepo({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 state: "open",
@@ -50,7 +51,7 @@ jobs:
                 labels: "0 - new",
               });
 
-              const { data: previousMilestoneIssuesAssigned } = await github.issues.listForRepo({
+              const { data: previousMilestoneIssuesAssigned } = await github.rest.issues.listForRepo({
                   owner: context.repo.owner,
                   repo: context.repo.repo,
                   state: "open",
@@ -59,7 +60,7 @@ jobs:
                   labels: "1 - assigned",
                 });
 
-              const { data: previousMilestoneIssuesInDev } = await github.issues.listForRepo({
+              const { data: previousMilestoneIssuesInDev } = await github.rest.issues.listForRepo({
                   owner: context.repo.owner,
                   repo: context.repo.repo,
                   state: "open",
@@ -87,7 +88,7 @@ jobs:
                   "milestone adjusted",
                 ];
 
-                await github.issues.update({
+                await github.rest.issues.update({
                   owner: context.repo.owner,
                   repo: context.repo.repo,
                   issue_number: issue.number,

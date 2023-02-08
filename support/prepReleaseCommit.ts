@@ -1,135 +1,80 @@
-import type { Options } from "standard-version";
-import yargs from "yargs";
-
 (async function prepReleaseCommit(): Promise<void> {
   const childProcess = await import("child_process");
   const { promisify } = await import("util");
   const { promises: fs } = await import("fs");
-  const { default: gitSemverTags } = await import("git-semver-tags");
+  const { default: semver } = await import("semver");
   const { dirname, normalize } = await import("path");
   const prettier = await import("prettier");
-  const { default: semver } = await import("semver");
   const { quote } = await import("shell-quote");
-  const { default: standardVersion } = await import("standard-version");
   const { fileURLToPath } = await import("url");
   const exec = promisify(childProcess.exec);
 
-  const header = `# Changelog\n\nThis document maintains a list of released versions and changes introduced by them.\nThis project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html)\n`;
+  const header = `# Changelog\n\nThis document maintains a list of released versions and changes introduced by them.\nThis project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html)\n\n`;
   const unreleasedSectionTokenStart = "<!--@unreleased-section-start-->";
   const unreleasedSectionTokenEnd = "<!--@unreleased-section-end-->";
   const __filename = fileURLToPath(import.meta.url);
   const __dirname = dirname(__filename);
   const changelogPath = quote([normalize(`${__dirname}/../CHANGELOG.md`)]);
   const readmePath = quote([normalize(`${__dirname}/../readme.md`)]);
+  const packagePath = quote([normalize(`${__dirname}/../package.json`)]);
 
-  if (
-    (await exec("git rev-parse --abbrev-ref HEAD")).stdout.trim() !== "master" ||
-    (await exec("git rev-parse master")).stdout.trim() !== (await exec("git rev-parse origin/master")).stdout.trim() ||
-    (await exec("git status --porcelain=v1 2>/dev/null | wc -l")).stdout.trim() !== "0"
-  ) {
-    throw new Error(
-      "Make sure the master branch is checked out, in sync with origin, and that there are no uncommitted changes."
-    );
+  // git sanity checks to prevent unapproved changes from making it into a release
+  if ((await exec("git rev-parse --abbrev-ref HEAD")).stdout.trim() !== "master") {
+    throw new Error("The master branch must be checked out before releasing.");
   }
-
-  const { next } = yargs(process.argv.slice(2))
-    .options({ next: { type: "boolean", default: false } })
-    .parseSync();
+  if (
+    (await exec("git rev-parse master")).stdout.trim() !== (await exec("git rev-parse origin/master")).stdout.trim()
+  ) {
+    throw new Error("The master branch must be in sync with origin before releasing.");
+  }
 
   // deepen the history when fetching tags due to shallow clone
   await exec("git fetch --deepen=250 --tags");
 
-  const previousReleasedTag = (await exec("git describe --abbrev=0 --tags", { encoding: "utf-8" })).stdout.trim();
   const prereleaseVersionPattern = /-next\.\d+$/;
-  const previousReleaseIsPrerelease = prereleaseVersionPattern.test(previousReleasedTag);
-  const semverTags = await promisify(gitSemverTags)();
-  let standardVersionOptions: Options;
+
+  const currentLatestVersion = (await exec("npm view @esri/calcite-components dist-tags.latest")).stdout.trim();
+  const currentNextVersion = (await exec("npm view @esri/calcite-components dist-tags.next")).stdout.trim();
+  const releaseVersion = JSON.parse(await fs.readFile(packagePath, "utf8"))?.version;
+  const next = prereleaseVersionPattern.test(releaseVersion);
+
+  if (
+    !semver.valid(releaseVersion) ||
+    (!next && semver.gte(currentLatestVersion, releaseVersion)) ||
+    (next && semver.gte(currentNextVersion, releaseVersion))
+  ) {
+    throw new Error("Version was not incremented correctly");
+  }
 
   const baseErrorMessage = "an error occurred generating the changelog";
 
+  const changelogGenerationErrorMessage = `${baseErrorMessage} (releasing as: ${releaseVersion})`;
+
   try {
-    // create options before temp-deleting (prerelease) tags to prevent standard-version's tagging getting out of sync
-    standardVersionOptions = await getStandardVersionOptions(next, semverTags);
-  } catch (error) {
-    console.log(baseErrorMessage);
-    process.exitCode = 1;
-    return;
-  }
-
-  const changelogGenerationErrorMessage = `${baseErrorMessage} (releasing as: ${standardVersionOptions.releaseAs})`;
-
-  if (!previousReleaseIsPrerelease) {
-    try {
-      await runStandardVersion(next, standardVersionOptions);
-    } catch (error) {
-      console.log(changelogGenerationErrorMessage);
-      process.exitCode = 1;
+    if (next) {
+      await appendUnreleasedNotesToChangelog();
+    } else {
+      await convertUnreleasedChangelogContent(releaseVersion);
+      await updateReadmeCdnUrls(releaseVersion);
+      await exec(`git add ${readmePath}`);
     }
-    return;
-  }
-
-  const indexOfNonNextTag = semverTags.findIndex((tag) => !prereleaseVersionPattern.test(tag));
-  const nextTagsSinceLastRelease = semverTags.slice(0, indexOfNonNextTag);
-
-  try {
-    // delete prerelease tags locally, so they can be ignored when generating the changelog
-    await exec(`git tag --delete ${nextTagsSinceLastRelease.join(" ")}`);
-
-    await runStandardVersion(next, standardVersionOptions);
+    await exec(`git add ${changelogPath}`);
   } catch (error) {
     console.log(changelogGenerationErrorMessage);
     process.exitCode = 1;
-  } finally {
-    // restore deleted prerelease tags
-    await exec(`git fetch --tags`);
   }
 
-  async function getStandardVersionOptions(next: boolean, semverTags: string[]): Promise<Options> {
-    const target = next ? "next" : "beta";
-    const targetVersionPattern = new RegExp(`-${target}\\.\\d+$`);
-
-    // we keep track of `beta` and `next` releases since `standard-version` resets the version number when going in between
-    // this should not be needed after v1.0.0 since there would no longer be a beta version to keep track of
-    const targetDescendingOrderTags = semverTags.filter((tag) => targetVersionPattern.test(tag)).sort(semver.rcompare);
-    const targetReleaseVersion = semver.inc(targetDescendingOrderTags[0], "prerelease", target);
-
-    if (!targetReleaseVersion) {
-      throw new Error("an error occurred determining the target release version");
-    }
-
-    if (!targetVersionPattern.test(targetReleaseVersion)) {
-      throw new Error(`target release version does not have prerelease identifier (${target})`);
-    }
-
-    const standardVersionOptions: Options = {
-      commitAll: true,
-      noVerify: true,
-      header,
-      releaseAs: targetReleaseVersion,
-      releaseCommitMessageFormat: "{{currentTag}}"
-    };
-
-    if (next) {
-      // prerelease changelogs are updated in a separate method
-      standardVersionOptions.skip = { changelog: true };
-    }
-
-    return standardVersionOptions;
-  }
-
-  async function runStandardVersion(next: boolean, standardVersionOptions: Options): Promise<void> {
-    if (next) {
-      await appendUnreleasedNotesToChangelog();
-      await exec(`git add ${changelogPath}`);
-    } else {
-      if (!standardVersionOptions.releaseAs) {
-        throw new Error("an error occurred determining the target release version");
-      }
-      await updateReadmeCdnUrls(standardVersionOptions.releaseAs);
-      await exec(`git add ${readmePath}`);
-    }
-
-    await standardVersion(standardVersionOptions);
+  async function convertUnreleasedChangelogContent(version: string): Promise<void> {
+    const changelogContent: string = await fs.readFile(changelogPath, { encoding: "utf8" });
+    const date = new Date();
+    const adjustedDate = new Date(date.getTime() - date.getTimezoneOffset() * 60 * 1000).toISOString().split("T")[0];
+    const versionHeader = `## [v${version}](https://github.com/Esri/calcite-components/compare/v${currentLatestVersion}...v${version}) (${adjustedDate})`;
+    const unreleasedSectionPatternStart = new RegExp(`${unreleasedSectionTokenStart}.*## Unreleased`, "s");
+    const updatedChangelogContent = `${header}${versionHeader}\n${changelogContent
+      .replace(header, "")
+      .replace(unreleasedSectionPatternStart, "")
+      .replace(unreleasedSectionTokenEnd, "")}`;
+    await fs.writeFile(changelogPath, updatedChangelogContent);
   }
 
   async function appendUnreleasedNotesToChangelog(): Promise<void> {
@@ -153,11 +98,38 @@ import yargs from "yargs";
     const hasUnreleasedContent = unreleasedSectionContent.replace(unreleasedHeaderPattern, "").trim().length > 0;
 
     if (hasUnreleasedContent) {
-      changelogContent = changelogContent.replace(unreleasedSectionPattern, `$1\n${unreleasedSectionContent}\n$3`);
+      const getChangelogSection = (changes: string, startPattern: string, endPattern: string): string => {
+        if (!startPattern || !endPattern || !changes) {
+          return "";
+        }
+        const match = changes.match(new RegExp(`${startPattern}(.*?)${endPattern}`, "s"));
+        return match && match.length > 1 ? match[1] : "";
+      };
 
-      // remove date to make linking easier
-      // https://github.com/Esri/calcite-components/blob/master/CHANGELOG.md#unreleased
-      changelogContent = changelogContent.replace(unreleasedHeaderPattern, "## Unreleased");
+      const combineUnreleasedChangelogContent = (existingChanges: string, newChanges: string): string =>
+        ["### ⚠ BREAKING CHANGES", "### Features", "### Bug Fixes", "### Reverts"]
+          .map((sectionHeader) => {
+            const newSection = getChangelogSection(newChanges, sectionHeader, "##");
+            const existingSection = getChangelogSection(existingChanges, sectionHeader, "##");
+            return `${newSection || existingSection ? sectionHeader : ""}\n${newSection}\n${existingSection}`;
+          })
+          .join("");
+
+      const existingUnreleasedSectionContent = getChangelogSection(
+        changelogContent,
+        unreleasedSectionTokenStart,
+        unreleasedSectionTokenEnd
+      );
+      const combinedUnreleasedContent = combineUnreleasedChangelogContent(
+        // append the endPattern used for determining sections
+        `${existingUnreleasedSectionContent}\n##`,
+        `${unreleasedSectionContent}\n##`
+      );
+
+      changelogContent = changelogContent.replace(
+        unreleasedSectionPattern,
+        `$1\n## Unreleased\n${combinedUnreleasedContent}\n$3`
+      );
     }
 
     changelogContent = prettier.format(changelogContent, { parser: "markdown" });

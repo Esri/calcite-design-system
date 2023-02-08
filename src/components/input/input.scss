@@ -199,7 +199,7 @@
 }
 
 :host([icon][scale="l"]) input {
-  padding-inline-start: theme("padding.12");
+  padding-inline-start: theme("padding.14");
 }
 
 // positioning wrapper for icon and loader
@@ -217,6 +217,11 @@
     pointer-events-none
     absolute
     block;
+}
+
+.icon,
+.resize-icon-wrapper {
+  @apply z-default; // needed for firefox to display the icon properly
 }
 
 // hide browser default clear
@@ -560,7 +565,7 @@ input[type="time"]::-webkit-clear-button {
 :host .inline-child:not(.editing-enabled) {
   @apply border-color-transparent
     flex
-    cursor-pointer;
+    cursor-pointer text-ellipsis;
   padding-inline-start: 0;
 }
 

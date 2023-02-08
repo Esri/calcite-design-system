@@ -74,7 +74,7 @@
                 ><span> Shell Floating Panel Content </span>
               </calcite-panel>
 
-              <calcite-action-bar slot="action-bar" class="calcite-theme-dark">
+              <calcite-action-bar slot="action-bar" class="calcite-mode-dark">
                 <calcite-action-group>
                   <calcite-action text="Add">
                     <calcite-icon icon="plus" scale="s"></calcite-icon>
@@ -131,7 +131,7 @@
               </calcite-action-bar>
               <calcite-button
                 slot="header"
-                color="inverse"
+                kind="inverse"
                 alignment="icon-end-space-between"
                 icon-end="caret-down"
                 width="full"
@@ -141,7 +141,7 @@
               <something class="calcite-match-height">
                 <calcite-panel
                   heading="Panel with Header"
-                  summary="Popular Demographics in the United States (Beta) - County"
+                  description="Popular Demographics in the United States (Beta) - County"
                 >
                   <calcite-action slot="menu-actions" text="Switch layer" icon="caret-down"></calcite-action>
 
@@ -162,8 +162,8 @@
                       <calcite-button
                         width="full"
                         scale="s"
-                        appearance="clear"
-                        color="inverse"
+                        appearance="outline"
+                        kind="inverse"
                         class="combo-button__main"
                         text="Edit label style"
                         icon-end="pencil"
@@ -186,8 +186,8 @@
                         <calcite-button
                           width="full"
                           scale="s"
-                          appearance="clear"
-                          color="inverse"
+                          appearance="outline"
+                          kind="inverse"
                           class="combo-button__main"
                           text="Edit label style"
                           icon-end="pencil"
@@ -216,8 +216,8 @@
                         <calcite-button
                           width="full"
                           scale="s"
-                          appearance="clear"
-                          color="inverse"
+                          appearance="outline"
+                          kind="inverse"
                           class="combo-button__main"
                           text="Edit label style"
                           icon-end="pencil"
@@ -228,7 +228,7 @@
                     </section>
                   </calcite-block>
                   <calcite-fab slot="fab" id="label-fab" text="Add label class"></calcite-fab>
-                  <calcite-tooltip label="tooltip" reference-element="label-fab" disable-pointer>
+                  <calcite-tooltip label="tooltip" reference-element="label-fab" pointer-disabled>
                     Add label class
                   </calcite-tooltip>
                   <calcite-button slot="footer-actions" appearance="outline" width="half">Cancel</calcite-button>
@@ -250,7 +250,7 @@
       </main>
     </demo-dom-swapper>
     <script>
-      document.addEventListener("calciteThemeChange", (e) => console.log(e.detail.theme));
+      document.addEventListener("calciteModeChange", (e) => console.log(e.detail.theme));
     </script>
   </body>
 </html>

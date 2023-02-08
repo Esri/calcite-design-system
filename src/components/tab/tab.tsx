@@ -1,24 +1,23 @@
 import {
   Component,
-  Prop,
   Element,
-  Listen,
-  Method,
   Event,
   EventEmitter,
   h,
-  State,
   Host,
-  VNode,
-  Watch
+  Listen,
+  Method,
+  Prop,
+  State,
+  VNode
 } from "@stencil/core";
-import { TabChangeEventDetail } from "./interfaces";
-import { guid } from "../../utils/guid";
 import { nodeListToArray } from "../../utils/dom";
+import { guid } from "../../utils/guid";
 import { Scale } from "../interfaces";
+import { TabChangeEventDetail } from "./interfaces";
 
 /**
- * @slot - A slot for adding content to the component.
+ * @slot - A slot for adding custom content.
  */
 @Component({
   tag: "calcite-tab",
@@ -45,33 +44,14 @@ export class Tab {
    *
    * When specified, use the same value on the `calcite-tab-title`.
    */
-  @Prop({ reflect: true }) tab?: string;
+  @Prop({ reflect: true }) tab: string;
 
   /**
-   * When true, the component's contents are selected.
-   *
-   * Only one tab can be selected within the `calcite-tabs` parent.
-   *
-   * @deprecated Use `selected` instead.
-   */
-  @Prop({ reflect: true, mutable: true }) active = false;
-
-  @Watch("active")
-  activeHandler(value: boolean): void {
-    this.selected = value;
-  }
-
-  /**
-   * When true, the component's contents are selected.
+   * When `true`, the component's contents are selected.
    *
    * Only one tab can be selected within the `calcite-tabs` parent.
    */
   @Prop({ reflect: true, mutable: true }) selected = false;
-
-  @Watch("selected")
-  selectedHandler(value: boolean): void {
-    this.active = value;
-  }
 
   /**
    * @internal
@@ -89,7 +69,7 @@ export class Tab {
 
     return (
       <Host aria-labelledby={this.labeledBy} id={id}>
-        <div role="tabpanel" tabIndex={this.selected ? 0 : -1}>
+        <div class="container" role="tabpanel" tabIndex={this.selected ? 0 : -1}>
           <section>
             <slot />
           </section>
@@ -100,12 +80,6 @@ export class Tab {
 
   connectedCallback(): void {
     this.parentTabsEl = this.el.closest("calcite-tabs");
-    const isSelected = this.selected || this.active;
-
-    if (isSelected) {
-      this.activeHandler(isSelected);
-      this.selectedHandler(isSelected);
-    }
   }
 
   componentDidLoad(): void {

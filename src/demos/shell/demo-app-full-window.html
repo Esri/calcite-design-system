@@ -51,7 +51,7 @@
         <div class="shell-container">
           <calcite-shell>
             <calcite-shell-panel resizable slot="panel-start" position="start">
-              <calcite-action-bar slot="action-bar" class="calcite-theme-dark">
+              <calcite-action-bar slot="action-bar" class="calcite-mode-dark">
                 <calcite-action-group>
                   <calcite-action text="Add" icon="plus"> </calcite-action>
                   <calcite-action text="Save" disabled icon="save"> </calcite-action>
@@ -63,7 +63,7 @@
                   <calcite-action text="Layers" indicator icon="layers"> </calcite-action>
                 </calcite-action-group>
               </calcite-action-bar>
-              <calcite-panel heading="This the left panel" summary="I'm a summary." width-scale="m">
+              <calcite-panel heading="This the left panel" description="I'm a summary." width-scale="m">
                 <calcite-block collapsible heading="Primary Content" summary="This is the primary.">
                   <calcite-block-content>
                     <calcite-action text="Side ActionPad" text-enabled indicator icon="caret-square-right">
@@ -125,7 +125,7 @@
                 </calcite-action-group>
               </calcite-action-bar>
               <calcite-flow id="flow">
-                <calcite-panel heading="Layer settings" height-scale="l" width-scale="m">
+                <calcite-flow-item heading="Layer settings" height-scale="l" width-scale="m">
                   <calcite-action slot="header-menu-actions" text="Do a cool thing" text-enabled></calcite-action>
                   <calcite-action slot="header-menu-actions" text="Do a cool thing" text-enabled></calcite-action>
                   <calcite-action slot="header-menu-actions" text="Do a cool thing" text-enabled></calcite-action>
@@ -194,10 +194,10 @@
                     >Save</calcite-button
                   >
                   <calcite-button width="half" scale="s" slot="footer-actions">Cancel</calcite-button>
-                </calcite-panel>
-                <calcite-panel
+                </calcite-flow-item>
+                <calcite-flow-item
                   heading="A capability"
-                  summary="U.S. Demographics - State"
+                  description="U.S. Demographics - State"
                   height-scale="l"
                   width-scale="m"
                 >
@@ -328,11 +328,11 @@
                     </calcite-block-content>
                   </calcite-block>
                   <calcite-button slot="footer-actions" scale="s" width="half">Save</calcite-button>
-                  <calcite-button slot="footer-actions" scale="s" width="half" appearance="clear"
+                  <calcite-button slot="footer-actions" scale="s" width="half" appearance="outline"
                     >Cancel</calcite-button
                   >
                   <calcite-fab slot="fab" label="Add Item" text="Add"></calcite-fab>
-                </calcite-panel>
+                </calcite-flow-item>
               </calcite-flow>
             </calcite-shell-panel>
             <div slot="header">

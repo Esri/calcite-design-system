@@ -1,22 +1,8 @@
-/**
- * CSS Custom Properties
- *
- * These properties can be overridden using the component's tag as selector.
- *
- * @prop --calcite-panel-max-height: The maximum height of the component.
- * @prop --calcite-panel-max-width: The maximum width of the component.
- * @prop --calcite-panel-min-width: The minimum width of the component.
- */
-
 :host {
   @extend %component-host;
-  @apply relative flex w-full flex-auto overflow-hidden;
+  @apply relative flex w-full h-full flex-auto overflow-hidden;
 
   --calcite-min-header-height: calc(var(--calcite-icon-size) * 3);
-  --calcite-panel-max-height: unset;
-  --calcite-panel-width: 100%;
-  --calcite-panel-min-width: unset;
-  --calcite-panel-max-width: unset;
 }
 
 @include disabled();
@@ -26,41 +12,7 @@
 .container {
   @apply bg-background m-0 flex w-full flex-auto flex-col items-stretch p-0;
 
-  max-block-size: var(--calcite-panel-max-height);
-  inline-size: var(--calcite-panel-width);
-  max-inline-size: var(--calcite-panel-max-width);
-  min-inline-size: var(--calcite-panel-min-width);
   transition: max-block-size var(--calcite-animation-timing), inline-size var(--calcite-animation-timing);
-}
-
-:host([height-scale="s"]) {
-  --calcite-panel-max-height: 40vh;
-}
-
-:host([height-scale="m"]) {
-  --calcite-panel-max-height: 60vh;
-}
-
-:host([height-scale="l"]) {
-  --calcite-panel-max-height: 80vh;
-}
-
-:host([width-scale="s"]) {
-  --calcite-panel-width: calc(var(--calcite-panel-width-multiplier) * 12vw);
-  --calcite-panel-max-width: calc(var(--calcite-panel-width-multiplier) * 300px);
-  --calcite-panel-min-width: calc(var(--calcite-panel-width-multiplier) * 150px);
-}
-
-:host([width-scale="m"]) {
-  --calcite-panel-width: calc(var(--calcite-panel-width-multiplier) * 20vw);
-  --calcite-panel-max-width: calc(var(--calcite-panel-width-multiplier) * 420px);
-  --calcite-panel-min-width: calc(var(--calcite-panel-width-multiplier) * 240px);
-}
-
-:host([width-scale="l"]) {
-  --calcite-panel-width: calc(var(--calcite-panel-width-multiplier) * 45vw);
-  --calcite-panel-max-width: calc(var(--calcite-panel-width-multiplier) * 680px);
-  --calcite-panel-min-width: calc(var(--calcite-panel-width-multiplier) * 340px);
 }
 
 .container[hidden] {
@@ -157,13 +109,12 @@
 .fab-container {
   @apply sticky
   bottom-0
-  left-0
-  right-0
   my-0
   mx-auto
   block
   p-2
   z-sticky;
+  inset-inline: 0;
   inline-size: fit-content;
 }
 

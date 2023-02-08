@@ -146,7 +146,7 @@
 }
 
 :host([icon][scale="l"]) input {
-  padding-inline-start: theme("padding.12");
+  padding-inline-start: theme("padding.14");
 }
 
 // positioning wrapper for icon and loader
@@ -163,7 +163,9 @@
   @apply transition-default
     pointer-events-none
     absolute
-    block;
+    block
+
+    z-default; // needed for firefox to display the icon properly
 }
 
 .clear-button {
@@ -384,32 +386,6 @@
     flex
     flex-row
     items-center;
-}
-
-.resize-icon-wrapper {
-  inset-block-end: 2px;
-  inset-inline-end: 2px;
-
-  @apply bg-foreground-1
-    text-color-3
-    pointer-events-none
-    absolute
-    h-3
-    w-3;
-
-  & calcite-icon {
-    inset-block-end: theme("spacing.1");
-    inset-inline-end: theme("spacing.1");
-    transform: rotate(-45deg);
-  }
-}
-
-.calcite--rtl {
-  .resize-icon-wrapper {
-    & calcite-icon {
-      transform: rotate(45deg);
-    }
-  }
 }
 
 :host(.no-bottom-border) input {

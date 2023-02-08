@@ -1,7 +1,17 @@
-import { getElementProp, getSlotted, setRequestedIcon, ensureId, getThemeName, toAriaBoolean } from "./dom";
-import { guidPattern } from "./guid.spec";
+import { ModeName } from "../../src/components/interfaces";
 import { html } from "../../support/formatting";
-import { ThemeName } from "../../src/components/interfaces";
+import {
+  ensureId,
+  getElementProp,
+  getModeName,
+  getSlotted,
+  isPrimaryPointerButton,
+  setRequestedIcon,
+  slotChangeGetAssignedElements,
+  slotChangeHasAssignedElement,
+  toAriaBoolean
+} from "./dom";
+import { guidPattern } from "./guid.spec";
 
 describe("dom", () => {
   describe("getElementProp()", () => {
@@ -291,63 +301,63 @@ describe("dom", () => {
     });
   });
 
-  describe("getThemeName()", () => {
-    interface ThemedElement extends HTMLElement {
-      foundThemeName: ThemeName;
+  describe("getModeName()", () => {
+    interface ModeElement extends HTMLElement {
+      foundModeName: ModeName;
     }
-    function getTestComponentTheme(): string {
-      return document.body.querySelector<ThemedElement>("themed-element").foundThemeName;
+    function getTestComponentMode(): string {
+      return document.body.querySelector<ModeElement>("mode-element").foundModeName;
     }
     function defineTestComponents(): void {
-      class ThemedElement extends HTMLElement {
+      class ModeElement extends HTMLElement {
         constructor() {
           super();
           this.attachShadow({ mode: "open" });
         }
 
-        foundThemeName = null;
+        foundModeName = null;
 
         connectedCallback(): void {
-          this.foundThemeName = getThemeName(this);
+          this.foundModeName = getModeName(this);
         }
       }
-      customElements.define("themed-element", ThemedElement);
+      customElements.define("mode-element", ModeElement);
     }
     beforeEach(() => {
       defineTestComponents();
     });
 
-    it("finds the closest theme if set (light)", () => {
+    it("finds the closest mode if set (light)", () => {
       document.body.innerHTML = html`
-        <div class="calcite-theme-dark">
-          <div class="calcite-theme-light">
-            <themed-element></themed-element>
+        <div class="calcite-mode-dark">
+          <div class="calcite-mode-light">
+            <mode-element></mode-element>
           </div>
         </div>
       `;
-      expect(getTestComponentTheme()).toBe("light");
+      expect(getTestComponentMode()).toBe("light");
     });
 
-    it("finds the closest theme if set (dark)", () => {
+    it("finds the closest mode if set (dark)", () => {
       document.body.innerHTML = html`
-        <div class="calcite-theme-light">
-          <div class="calcite-theme-dark">
-            <themed-element></themed-element>
+        <div class="calcite-mode-light">
+          <div class="calcite-mode-dark">
+            <mode-element></mode-element>
           </div>
         </div>
       `;
-      expect(getTestComponentTheme()).toBe("dark");
+      expect(getTestComponentMode()).toBe("dark");
     });
 
-    it("sets to default (light) if no theme is set", () => {
+    it("sets to default (light) if no mode is set", () => {
       document.body.innerHTML = html`
         <div>
           <div>
-            <themed-element></themed-element>
+            <mode-element></mode-element>
           </div>
         </div>
       `;
-      expect(getTestComponentTheme()).toBe("light");
+      expect(getTestComponentMode()).toBe("light");
     });
   });
 
@@ -360,6 +370,51 @@ describe("dom", () => {
       expect(toAriaBoolean(false)).toBe("false");
       expect(toAriaBoolean(null)).toBe("false");
       expect(toAriaBoolean(undefined)).toBe("false");
+    });
+  });
+
+  describe("isPrimaryPointerButton()", () => {
+    it("handles pointer events", () => {
+      expect(isPrimaryPointerButton({ button: 0, isPrimary: true } as PointerEvent)).toBe(true);
+      expect(isPrimaryPointerButton({ button: 1, isPrimary: true } as PointerEvent)).toBe(false);
+      expect(isPrimaryPointerButton({ button: 0, isPrimary: false } as PointerEvent)).toBe(false);
+      expect(isPrimaryPointerButton({} as PointerEvent)).toBe(false);
+    });
+  });
+
+  describe("slotChangeGetAssignedElements()", () => {
+    it("handles slotted elements", () => {
+      const target = document.createElement("slot");
+      target.assignedElements = () => [document.createElement("div"), document.createElement("div")];
+      const event = new Event("onSlotchange");
+      target.dispatchEvent(event);
+      expect(slotChangeGetAssignedElements(event)).toHaveLength(2);
+    });
+
+    it("handles no slotted elements", () => {
+      const target = document.createElement("slot");
+      target.assignedElements = () => [];
+      const event = new Event("onSlotchange");
+      target.dispatchEvent(event);
+      expect(slotChangeGetAssignedElements(event)).toHaveLength(0);
+    });
+  });
+
+  describe("slotChangeHasAssignedElement()", () => {
+    it("handles slotted elements", () => {
+      const target = document.createElement("slot");
+      target.assignedElements = () => [document.createElement("div"), document.createElement("div")];
+      const event = new Event("onSlotchange");
+      target.dispatchEvent(event);
+      expect(slotChangeHasAssignedElement(event)).toBe(true);
+    });
+
+    it("handles no slotted elements", () => {
+      const target = document.createElement("slot");
+      target.assignedElements = () => [];
+      const event = new Event("onSlotchange");
+      target.dispatchEvent(event);
+      expect(slotChangeHasAssignedElement(event)).toBe(false);
     });
   });
 });

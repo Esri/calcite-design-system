@@ -23,7 +23,7 @@ describe("calcite-checkbox", () => {
   it("is labelable", async () =>
     labelable("calcite-checkbox", { propertyToToggle: "checked", shadowFocusTargetSelector: ".toggle" }));
 
-  it("is form-associated", async () => formAssociated("calcite-checkbox", { testValue: true }));
+  it("is form-associated", async () => formAssociated("calcite-checkbox", { testValue: true, inputType: "checkbox" }));
 
   it("can be disabled", () => disabled("calcite-checkbox"));
 

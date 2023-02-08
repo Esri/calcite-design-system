@@ -1,5 +1,8 @@
-:host([selected]) section {
-  @apply block;
+:host([selected]) {
+  section,
+  .container {
+    @apply block;
+  }
 }
 
 :host {
@@ -10,7 +13,8 @@
   @apply block h-full w-full overflow-auto;
 }
 
-section {
+section,
+.container {
   @apply hidden h-full w-full;
 }
 
@@ -23,5 +27,6 @@ section {
 }
 
 :host([scale="l"]) {
-  @apply text-0h py-3;
+  @apply text-0h;
+  padding-block: 13px;
 }

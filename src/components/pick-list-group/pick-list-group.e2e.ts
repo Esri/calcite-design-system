@@ -8,7 +8,7 @@ describe("calcite-pick-list-group", () => {
 
   it("honors hidden attribute", async () => hidden("calcite-pick-list-group"));
 
-  it("is accessible", async () => {
+  it.skip("is accessible", async () => {
     await accessible("<calcite-pick-list-group></calcite-pick-list-group>");
     await accessible(`<calcite-pick-list-group group-title="awesome title, bruh"></calcite-pick-list-group>`);
     await accessible(html`

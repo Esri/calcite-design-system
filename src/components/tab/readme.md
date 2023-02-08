@@ -14,11 +14,10 @@
 
 ## Properties
 
-| Property   | Attribute  | Description                                                                                                                                                                                       | Type      | Default     |
-| ---------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------- | ----------- |
-| `active`   | `active`   | <span style="color:red">**[DEPRECATED]**</span> Use "selected" instead.<br/><br/>When true, the component's contents are selected. Only one tab can be selected within the `calcite-tabs` parent. | `boolean` | `false`     |
-| `selected` | `selected` | When true, the component's contents are selected. Only one tab can be selected within the `calcite-tabs` parent.                                                                                  | `boolean` | `false`     |
-| `tab`      | `tab`      | Specifies a unique name for the component. When specified, use the same value on the `calcite-tab-title`.                                                                                         | `string`  | `undefined` |
+| Property   | Attribute  | Description                                                                                                        | Type      | Default     |
+| ---------- | ---------- | ------------------------------------------------------------------------------------------------------------------ | --------- | ----------- |
+| `selected` | `selected` | When `true`, the component's contents are selected. Only one tab can be selected within the `calcite-tabs` parent. | `boolean` | `false`     |
+| `tab`      | `tab`      | Specifies a unique name for the component. When specified, use the same value on the `calcite-tab-title`.          | `string`  | `undefined` |
 
 ## Methods
 
@@ -32,9 +31,9 @@ Type: `Promise<number>`
 
 ## Slots
 
-| Slot | Description                                 |
-| ---- | ------------------------------------------- |
-|      | A slot for adding content to the component. |
+| Slot | Description                       |
+| ---- | --------------------------------- |
+|      | A slot for adding custom content. |
 
 ## Dependencies
 

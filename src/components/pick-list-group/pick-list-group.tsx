@@ -1,15 +1,15 @@
-import { Component, Element, Prop, h, VNode, Fragment } from "@stencil/core";
-import { CSS, SLOTS } from "./resources";
-import { HEADING_LEVEL } from "./resources";
-import { getSlotted } from "../../utils/dom";
-import { HeadingLevel, Heading, constrainHeadingLevel } from "../functional/Heading";
+import { Component, Element, Fragment, h, Prop, VNode } from "@stencil/core";
 import {
   ConditionalSlotComponent,
   connectConditionalSlotComponent,
   disconnectConditionalSlotComponent
 } from "../../utils/conditionalSlot";
+import { getSlotted } from "../../utils/dom";
+import { constrainHeadingLevel, Heading, HeadingLevel } from "../functional/Heading";
+import { CSS, SLOTS } from "./resources";
 
 /**
+ * @deprecated Use the `list` component instead.
  * @slot - A slot for adding `calcite-pick-list-item` elements.
  */
 @Component({
@@ -74,7 +74,7 @@ export class PickListGroup implements ConditionalSlotComponent {
     const title = groupTitle;
     const parentLevel = el.closest("calcite-pick-list")?.headingLevel;
     const relativeLevel = parentLevel ? constrainHeadingLevel(parentLevel + 1) : null;
-    const level = headingLevel || relativeLevel || HEADING_LEVEL;
+    const level = headingLevel || relativeLevel;
 
     return (
       <Fragment>

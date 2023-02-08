@@ -5,14 +5,24 @@
 @include disabled();
 
 .container {
+  position: relative;
+}
+
+.table-container {
   @apply box-border
   flex
   w-full
   flex-col
-  bg-transparent;
+  bg-transparent
+  relative
+  z-default;
   * {
     @apply box-border;
   }
+}
+
+.table {
+  @apply w-full;
 }
 
 ::slotted(calcite-list-item) {
@@ -21,4 +31,12 @@
 
 ::slotted(calcite-list-item:last-child) {
   @apply shadow-none;
+}
+
+.sticky-pos {
+  @apply sticky top-0 z-sticky;
+}
+
+calcite-filter {
+  @apply mb-px;
 }

@@ -1,4 +1,4 @@
-import { Component, h, Prop, VNode, Element, EventEmitter, Event, Watch } from "@stencil/core";
+import { Component, Element, Event, EventEmitter, h, Prop, VNode, Watch } from "@stencil/core";
 import { createObserver } from "../../utils/observers";
 
 @Component({
@@ -14,7 +14,7 @@ export class Option {
   //--------------------------------------------------------------------------
 
   /**
-   * When true, interaction is prevented and the component is displayed with lower opacity.
+   * When `true`, interaction is prevented and the component is displayed with lower opacity.
    */
   @Prop({
     reflect: true
@@ -28,7 +28,7 @@ export class Option {
   label: string;
 
   /**
-   * When true, the component is selected.
+   * When `true`, the component is selected.
    */
   @Prop({
     reflect: true

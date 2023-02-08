@@ -5,7 +5,12 @@
     cursor-pointer;
 }
 
+[hidden] {
+  @apply hidden;
+}
+
 @include calciteHydratedHidden();
+@include disabled();
 
 :host([scale="s"]) {
   @apply text-n2h;
@@ -16,6 +21,10 @@
     .chevron,
     .checkmark,
     .bullet-point {
+      margin-inline: theme("margin.1");
+    }
+    .icon-start,
+    .actions-end {
       margin-inline: theme("margin.1");
     }
   }
@@ -32,6 +41,10 @@
     .bullet-point {
       margin-inline: theme("margin.2");
     }
+    .icon-start,
+    .actions-end {
+      margin-inline: theme("margin.2");
+    }
   }
 }
 
@@ -44,6 +57,10 @@
     .chevron,
     .checkmark,
     .bullet-point {
+      margin-inline: theme("margin.3");
+    }
+    .icon-start,
+    .actions-end {
       margin-inline: theme("margin.3");
     }
   }
@@ -81,12 +98,19 @@
 ::slotted(a) {
   @apply w-full no-underline;
 }
+
 // focus styles
 :host {
   @apply focus-base;
 }
+
 :host(:focus) {
   @apply focus-inset outline-none;
+}
+
+slot[name="actions-end"]::slotted(*),
+.actions-end {
+  @apply flex self-stretch flex-row items-center overflow-visible;
 }
 
 .checkbox {
@@ -110,8 +134,8 @@
     all var(--calcite-animation-timing) ease-in-out; // note that we're transitioning transform, not height!
   transform-origin: top; // keep the top of the element in the same place. this is optional.
 
-  :host([expanded]) > & {
-    transform: scaleY(1);
+  .item--expanded > & {
+    @apply overflow-visible;
     opacity: 1;
     block-size: auto;
   }
@@ -131,15 +155,15 @@
 
 .node-container:hover,
 :host([selected]) .node-container:hover,
-:host(:focus) .node-container {
+:host(:focus:not([disabled])) .node-container {
   .checkmark,
   .bullet-point {
     @apply opacity-100;
   }
 }
 
-:host([selected]) > .node-container,
-:host([selected]) > .node-container:hover {
+:host([selected]) .node-container,
+:host([selected]) .node-container:hover {
   @apply text-color-1 font-medium;
 
   .bullet-point,
@@ -150,38 +174,38 @@
 }
 
 :host([selection-mode="none"]:not([has-children])) {
-  &:host([scale="s"]) > .node-container {
+  &:host([scale="s"]) .node-container {
     padding-inline-start: theme("padding.2");
   }
-  &:host([scale="m"]) > .node-container {
+  &:host([scale="m"]) .node-container {
     padding-inline-start: theme("padding.4");
   }
-  &:host([scale="l"]) > .node-container {
+  &:host([scale="l"]) .node-container {
     padding-inline-start: theme("padding.6");
   }
 }
 
 // ancestors selection-mode, dropdown without children
 :host(:not([has-children])) {
-  &:host([scale="s"]) > .node-container[data-selection-mode="ancestors"] .checkbox {
+  &:host([scale="s"]) .node-container[data-selection-mode="ancestors"] .checkbox {
     padding-inline-start: theme("padding.5");
   }
-  &:host([scale="m"]) > .node-container[data-selection-mode="ancestors"] .checkbox {
+  &:host([scale="m"]) .node-container[data-selection-mode="ancestors"] .checkbox {
     padding-inline-start: theme("padding.6");
   }
-  &:host([scale="l"]) > .node-container[data-selection-mode="ancestors"] .checkbox {
+  &:host([scale="l"]) .node-container[data-selection-mode="ancestors"] .checkbox {
     padding-inline-start: 1.75rem;
   }
 }
 // ancestors selection-mode, dropdown with children
-:host([has-children]) > .node-container[data-selection-mode="ancestors"] {
+:host([has-children]) .node-container[data-selection-mode="ancestors"] {
   .checkbox {
     margin-inline-start: 0;
   }
 }
 
 // dropdown with children
-:host([has-children]) > .node-container {
+:host([has-children]) .node-container {
   .bullet-point,
   .checkmark {
     @apply hidden;
@@ -189,16 +213,16 @@
 }
 
 // dropdown expanded and not selected
-:host([has-children][expanded]:not([selected]):not([selection-mode="none"])) > .node-container {
+:host([has-children][expanded]:not([selected]):not([selection-mode="none"])) .node-container {
   ::slotted(*) {
     @apply text-color-1 font-medium;
   }
 }
 
-// dropdown selected (for children, multi-children selected parents)
-:host([has-children][selected]) > .node-container {
+// dropdown selected (for children, multichildren selected parents)
+:host([has-children][selected]) .node-container {
   &[data-selection-mode="children"],
-  &[data-selection-mode="multi-children"] {
+  &[data-selection-mode="multichildren"] {
     color: var(--calcite-ui-brand);
   }
 }
@@ -215,7 +239,7 @@
     transform: rotate(180deg);
   }
 
-  :host([expanded]) > .node-container > & {
+  .item--expanded > .node-container > & {
     transform: rotate(90deg);
   }
 }

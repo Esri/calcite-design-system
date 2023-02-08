@@ -1,8 +1,9 @@
 import { select } from "@storybook/addon-knobs";
-import { iconNames, boolean, storyFilters } from "../../../.storybook/helpers";
-import { placeholderImage, themesDarkDefault } from "../../../.storybook/utils";
-import readme from "./readme.md";
+import { boolean, iconNames, storyFilters } from "../../../.storybook/helpers";
+import { placeholderImage } from "../../../.storybook/placeholderImage";
+import { modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
+import readme from "./readme.md";
 
 export default {
   title: "Components/Chip",
@@ -16,8 +17,8 @@ export const simple = (): string => html`
   <div style="background-color:white;padding:100px">
     <calcite-chip
       scale="${select("scale", ["s", "m", "l"], "m")}"
-      appearance="${select("appearance", ["solid", "clear"], "solid")}"
-      color="${select("color", ["blue", "red", "yellow", "green", "grey"], "grey")}"
+      appearance="${select("appearance", ["outline", "outline-fill", "solid"], "solid")}"
+      kind="${select("kind", ["brand", "inverse", "neutral"], "neutral")}"
       ${boolean("closable", false)}
       >My great chip</calcite-chip
     >
@@ -29,8 +30,8 @@ export const withIcon = (): string => html`
     <calcite-chip
       icon="${select("icon", iconNames, iconNames[0])}"
       scale="${select("scale", ["s", "m", "l"], "m")}"
-      appearance="${select("appearance", ["solid", "clear"], "solid")}"
-      color="${select("color", ["blue", "red", "yellow", "green", "grey"], "grey")}"
+      appearance="${select("appearance", ["outline", "outline-fill", "solid"], "solid")}"
+      kind="${select("kind", ["brand", "inverse", "neutral"], "neutral")}"
       ${boolean("closable", false)}
     >
       My great chip</calcite-chip
@@ -42,8 +43,8 @@ export const withImage = (): string => html`
   <div style="background-color:white;padding:100px">
     <calcite-chip
       scale="${select("scale", ["s", "m", "l"], "m")}"
-      appearance="${select("appearance", ["solid", "clear"], "solid")}"
-      color="${select("color", ["blue", "red", "yellow", "green", "grey"], "grey")}"
+      appearance="${select("appearance", ["outline", "outline-fill", "solid"], "solid")}"
+      kind="${select("kind", ["brand", "inverse", "neutral"], "neutral")}"
       ${boolean("closable", false)}
     >
       <img alt="" slot="image" src="${placeholderImage({ width: 50, height: 50 })}" />
@@ -59,8 +60,8 @@ export const withAvatar = (): string => {
     <div style="background-color:white;padding:100px">
       <calcite-chip
         scale="${scale}"
-        appearance="${select("appearance", ["solid", "clear"], "solid")}"
-        color="${select("color", ["blue", "red", "yellow", "green", "grey"], "grey")}"
+        appearance="${select("appearance", ["outline", "outline-fill", "solid"], "solid")}"
+        kind="${select("kind", ["brand", "inverse", "neutral"], "neutral")}"
         ${boolean("closable", false)}
       >
         <calcite-avatar
@@ -78,17 +79,17 @@ export const withAvatar = (): string => {
 export const overriddenIconColor = (): string =>
   html`<calcite-chip icon="banana" style="--calcite-ui-icon-color: #ac9f42" closable>Banana</calcite-chip>`;
 
-export const darkThemeRTL_TestOnly = (): string => html`
+export const darkModeRTL_TestOnly = (): string => html`
   <div style="background-color:#2b2b2b;padding:100px" dir="rtl">
     <calcite-chip
-      class="calcite-theme-dark"
+      class="calcite-mode-dark"
       scale="${select("scale", ["s", "m", "l"], "m")}"
-      appearance="${select("appearance", ["solid", "clear"], "solid")}"
-      color="${select("color", ["blue", "red", "yellow", "green", "grey"], "grey")}"
+      appearance="${select("appearance", ["outline", "outline-fill", "solid"], "solid")}"
+      kind="${select("kind", ["brand", "inverse", "neutral"], "neutral")}"
       ${boolean("closable", false)}
       >My great chip</calcite-chip
     >
   </div>
 `;
 
-darkThemeRTL_TestOnly.parameters = { themes: themesDarkDefault };
+darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };

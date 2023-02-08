@@ -1,6 +1,7 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, defaults, disabled, focusable, hidden, renders, slots } from "../../tests/commonTests";
+import { accessible, defaults, disabled, focusable, hidden, renders, slots, t9n } from "../../tests/commonTests";
 import { CSS, SLOTS } from "./resources";
+import { html } from "../../../support/formatting";
 
 describe("calcite-flow-item", () => {
   it("renders", async () => renders("calcite-flow-item", { display: "flex" }));
@@ -56,6 +57,8 @@ describe("calcite-flow-item", () => {
       shadowFocusTargetSelector: "calcite-action"
     }));
 
+  it("supports translations", () => t9n("calcite-flow-item"));
+
   it("showBackButton", async () => {
     const page = await newE2EPage();
 
@@ -85,7 +88,6 @@ describe("calcite-flow-item", () => {
 
     expect(await backButtonNew.isVisible()).toBe(true);
 
-    const calciteFlowItemBackClick = await page.spyOnEvent("calciteFlowItemBackClick", "window");
     const calciteFlowItemBack = await page.spyOnEvent("calciteFlowItemBack", "window");
 
     await page.$eval("calcite-flow-item", (elm: HTMLElement) => {
@@ -93,7 +95,68 @@ describe("calcite-flow-item", () => {
       nativeBackButton.click();
     });
 
-    expect(calciteFlowItemBackClick).toHaveReceivedEvent();
     expect(calciteFlowItemBack).toHaveReceivedEvent();
+  });
+
+  it("allows scrolling content", async () => {
+    const page = await newE2EPage();
+    await page.setContent(html`
+      <calcite-flow style="height: 300px">
+        <calcite-flow-item heading="Flow heading" id="flowOrPanel">
+          <calcite-block heading="Block example" summary="Some subtext" collapsible open>
+            <calcite-notice open>
+              <div slot="message">An excellent assortment of content.</div>
+            </calcite-notice>
+          </calcite-block>
+          <calcite-block heading="Block example" summary="Some subtext" collapsible open>
+            <calcite-notice open>
+              <div slot="message">An excellent assortment of content.</div>
+            </calcite-notice>
+          </calcite-block>
+          <calcite-block heading="Block example" summary="Some subtext" collapsible open>
+            <calcite-notice open>
+              <div slot="message">An excellent assortment of content.</div>
+            </calcite-notice>
+          </calcite-block>
+          <calcite-block heading="Block example" summary="Some subtext" collapsible open>
+            <calcite-notice open>
+              <div slot="message">An excellent assortment of content.</div>
+            </calcite-notice>
+          </calcite-block>
+        </calcite-flow-item>
+      </calcite-flow>
+    `);
+    const [top, _middle, bottom] = await page.findAll("calcite-block");
+
+    await bottom.callMethod("scrollIntoView");
+
+    expect(await top.isIntersectingViewport()).toBe(false);
+
+    await page.$eval("calcite-flow-item", (panel: HTMLCalcitePanelElement) =>
+      panel.scrollContentTo({
+        top: 0,
+        behavior: "auto"
+      })
+    );
+
+    expect(await top.isIntersectingViewport()).toBe(true);
+  });
+
+  it("honors calciteFlowItemScroll event", async () => {
+    const page = await newE2EPage({
+      html: "<calcite-flow-item>test</calcite-flow-item>"
+    });
+
+    const scrollSpy = await page.spyOnEvent("calciteFlowItemScroll");
+
+    await page.evaluate(() => {
+      const panel = document.querySelector("calcite-flow-item").shadowRoot.querySelector("calcite-panel");
+
+      panel.dispatchEvent(new CustomEvent("calcitePanelScroll"));
+    });
+
+    await page.waitForChanges();
+
+    expect(scrollSpy).toHaveReceivedEventTimes(1);
   });
 });

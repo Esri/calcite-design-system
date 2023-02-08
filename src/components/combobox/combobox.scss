@@ -3,7 +3,7 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-combobox-input-height: the height of the combobox input
+ * @prop --calcite-combobox-input-height: Specifies the height of the component's input.
  */
 
 :host {
@@ -143,6 +143,7 @@
 }
 
 .floating-ui-container {
+  --calcite-floating-ui-z-index: theme("zIndex.dropdown");
   @include floatingUIContainer();
   @include floatingUIWrapper();
 }

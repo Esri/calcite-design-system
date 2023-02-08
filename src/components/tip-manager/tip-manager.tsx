@@ -3,17 +3,25 @@ import {
   Element,
   Event,
   EventEmitter,
+  h,
   Method,
   Prop,
   State,
-  Watch,
-  h,
-  VNode
+  VNode,
+  Watch
 } from "@stencil/core";
-import { CSS, ICONS, TEXT, HEADING_LEVEL } from "./resources";
 import { getElementDir, toAriaBoolean } from "../../utils/dom";
-import { HeadingLevel, Heading } from "../functional/Heading";
+import { connectLocalized, disconnectLocalized } from "../../utils/locale";
 import { createObserver } from "../../utils/observers";
+import {
+  connectMessages,
+  disconnectMessages,
+  setUpMessages,
+  updateMessages
+} from "../../utils/t9n";
+import { Heading, HeadingLevel } from "../functional/Heading";
+import { TipManagerMessages } from "./assets/tip-manager/t9n";
+import { CSS, ICONS } from "./resources";
 
 /**
  * @slot - A slot for adding `calcite-tip`s.
@@ -21,7 +29,8 @@ import { createObserver } from "../../utils/observers";
 @Component({
   tag: "calcite-tip-manager",
   styleUrl: "tip-manager.scss",
-  shadow: true
+  shadow: true,
+  assetsDirs: ["assets"]
 })
 export class TipManager {
   // --------------------------------------------------------------------------
@@ -30,14 +39,13 @@ export class TipManager {
   //
   // --------------------------------------------------------------------------
   /**
-   * When true, does not display or position the component.
+   * When `true`, does not display or position the component.
    */
   @Prop({ reflect: true, mutable: true }) closed = false;
 
   @Watch("closed")
   closedChangeHandler(): void {
     this.direction = null;
-    this.calciteTipManagerToggle.emit();
   }
 
   /**
@@ -46,29 +54,21 @@ export class TipManager {
   @Prop({ reflect: true }) headingLevel: HeadingLevel;
 
   /**
-   * Accessible name for the component's close button.
+   * Made into a prop for testing purposes only
+   *
+   * @internal
    */
-  @Prop() intlClose?: string;
+  @Prop({ mutable: true }) messages: TipManagerMessages;
 
   /**
-   * Accessible name for the `calcite-tip-group` title.
+   * Use this property to override individual strings used by the component.
    */
-  @Prop() intlDefaultTitle?: string;
+  @Prop({ mutable: true }) messageOverrides: Partial<TipManagerMessages>;
 
-  /**
-   * Accessible name for navigating to the next tip.
-   */
-  @Prop() intlNext?: string;
-
-  /**
-   * Text that accompanies the component's pagination.
-   */
-  @Prop() intlPaginationLabel?: string;
-
-  /**
-   * Accessible name for navigating to the previous tip.
-   */
-  @Prop() intlPrevious?: string;
+  @Watch("messageOverrides")
+  onMessagesChange(): void {
+    /* wired up by t9n util */
+  }
 
   // --------------------------------------------------------------------------
   //
@@ -98,6 +98,16 @@ export class TipManager {
 
   container: HTMLDivElement;
 
+  @State() defaultMessages: TipManagerMessages;
+
+  @State() effectiveLocale = "";
+
+  @Watch("effectiveLocale")
+  async effectiveLocaleChange(): Promise<void> {
+    await updateMessages(this, this.effectiveLocale);
+    this.updateGroupTitle();
+  }
+
   // --------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -105,12 +115,21 @@ export class TipManager {
   // --------------------------------------------------------------------------
 
   connectedCallback(): void {
+    connectLocalized(this);
+    connectMessages(this);
     this.setUpTips();
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
   }
 
+  async componentWillLoad(): Promise<void> {
+    await setUpMessages(this);
+    this.updateGroupTitle();
+  }
+
   disconnectedCallback(): void {
     this.mutationObserver?.disconnect();
+    disconnectLocalized(this);
+    disconnectMessages(this);
   }
 
   // --------------------------------------------------------------------------
@@ -142,13 +161,6 @@ export class TipManager {
   // --------------------------------------------------------------------------
 
   /**
-   * Emits when the component has been open or closed.
-   *
-   * @deprecated use `calciteTipManagerClose` instead.
-   */
-  @Event({ cancelable: false }) calciteTipManagerToggle: EventEmitter<void>;
-
-  /**
    * Emits when the component has been closed.
    */
   @Event({ cancelable: false }) calciteTipManagerClose: EventEmitter<void>;
@@ -170,16 +182,14 @@ export class TipManager {
     this.tips = tips;
     this.selectedIndex = selectedTip ? tips.indexOf(selectedTip) : 0;
 
-    tips.forEach((tip) => {
-      tip.nonDismissible = true;
+    tips.forEach((tip: HTMLCalciteTipElement) => {
+      tip.closeDisabled = true;
     });
     this.showSelectedTip();
-    this.updateGroupTitle();
   }
 
   hideTipManager = (): void => {
     this.closed = true;
-    this.calciteTipManagerToggle.emit();
     this.calciteTipManagerClose.emit();
   };
 
@@ -192,9 +202,11 @@ export class TipManager {
   }
 
   updateGroupTitle(): void {
-    const selectedTip = this.tips[this.selectedIndex];
-    const tipParent = selectedTip.closest("calcite-tip-group");
-    this.groupTitle = tipParent?.groupTitle || this.intlDefaultTitle || TEXT.defaultGroupTitle;
+    if (this.tips) {
+      const selectedTip = this.tips[this.selectedIndex];
+      const tipParent = selectedTip.closest("calcite-tip-group");
+      this.groupTitle = tipParent?.groupTitle || this.messages?.defaultGroupTitle;
+    }
   }
 
   previousClicked = (): void => {
@@ -242,11 +254,11 @@ export class TipManager {
 
   renderPagination(): VNode {
     const dir = getElementDir(this.el);
-    const { selectedIndex, tips, total, intlNext, intlPrevious, intlPaginationLabel } = this;
+    const { selectedIndex, tips, total, messages } = this;
 
-    const nextLabel = intlNext || TEXT.next;
-    const previousLabel = intlPrevious || TEXT.previous;
-    const paginationLabel = intlPaginationLabel || TEXT.defaultPaginationLabel;
+    const nextLabel = messages.next;
+    const previousLabel = messages.previous;
+    const paginationLabel = messages.defaultPaginationLabel;
 
     return tips.length > 1 ? (
       <footer class={CSS.pagination}>
@@ -270,9 +282,9 @@ export class TipManager {
   }
 
   render(): VNode {
-    const { closed, direction, headingLevel, groupTitle, selectedIndex, intlClose, total } = this;
+    const { closed, direction, headingLevel, groupTitle, selectedIndex, messages, total } = this;
 
-    const closeLabel = intlClose || TEXT.close;
+    const closeLabel = messages.close;
 
     if (total === 0) {
       return null;
@@ -288,7 +300,7 @@ export class TipManager {
         tabIndex={0}
       >
         <header class={CSS.header}>
-          <Heading class={CSS.heading} level={headingLevel || HEADING_LEVEL}>
+          <Heading class={CSS.heading} level={headingLevel}>
             {groupTitle}
           </Heading>
           <calcite-action

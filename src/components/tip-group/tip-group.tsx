@@ -1,4 +1,4 @@
-import { Component, Prop, h, VNode } from "@stencil/core";
+import { Component, h, Prop, VNode } from "@stencil/core";
 
 /**
  * @slot - A slot for adding `calcite-tip`s.
@@ -19,7 +19,7 @@ export class TipGroup {
    * The component header text for all nested `calcite-tip`s.
    *
    */
-  @Prop() groupTitle?: string;
+  @Prop() groupTitle: string;
 
   render(): VNode {
     return <slot />;

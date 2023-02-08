@@ -1,6 +1,6 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, defaults, disabled, focusable, hidden, renders, slots } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
+import { accessible, defaults, disabled, focusable, hidden, renders, slots, t9n } from "../../tests/commonTests";
 import { CSS, SLOTS } from "./resources";
 
 const panelTemplate = (scrollable = false) => html`<div style="height: 200px; display: flex">
@@ -33,25 +33,7 @@ describe("calcite-panel", () => {
 
   it("can be disabled", () => disabled(`<calcite-panel closable>scrolling content</calcite-panel>`));
 
-  it("honors dismissed prop (deprecated)", async () => {
-    const page = await newE2EPage();
-
-    await page.setContent("<calcite-panel dismissible>test</calcite-panel>");
-
-    const element = await page.find("calcite-panel");
-    const container = await page.find(`calcite-panel >>> .${CSS.container}`);
-
-    await page.waitForChanges();
-
-    expect(await container.isVisible()).toBe(true);
-
-    element.setProperty("dismissed", true);
-
-    await page.waitForChanges();
-
-    expect(await element.getProperty("closed")).toBe(true);
-    expect(await container.isVisible()).toBe(false);
-  });
+  it("supports translations", () => t9n("calcite-panel"));
 
   it("honors closed prop", async () => {
     const page = await newE2EPage();
@@ -69,7 +51,8 @@ describe("calcite-panel", () => {
 
     await page.waitForChanges();
 
-    expect(await element.getProperty("dismissed")).toBe(true);
+    expect(await element.getProperty("closed")).toBe(true);
+
     expect(await container.isVisible()).toBe(false);
   });
 
@@ -77,31 +60,12 @@ describe("calcite-panel", () => {
     const page = await newE2EPage({ html: "<calcite-panel closable>test</calcite-panel>" });
 
     const calcitePanelClose = await page.spyOnEvent("calcitePanelClose", "window");
-    const calcitePanelDismiss = await page.spyOnEvent("calcitePanelDismiss", "window");
-    const calcitePanelDismissedChange = await page.spyOnEvent("calcitePanelDismissedChange", "window");
 
     const closeButton = await page.find("calcite-panel >>> calcite-action");
 
     await closeButton.click();
 
     expect(calcitePanelClose).toHaveReceivedEvent();
-    expect(calcitePanelDismiss).toHaveReceivedEvent();
-    expect(calcitePanelDismissedChange).toHaveReceivedEvent();
-  });
-
-  it("dismiss event should not fire when closed via prop", async () => {
-    const page = await newE2EPage({ html: "<calcite-panel closable>test</calcite-panel>" });
-
-    const eventSpy = await page.spyOnEvent("calcitePanelDismiss", "window");
-
-    const panel = await page.find("calcite-panel");
-
-    panel.setProperty("dismissed", true);
-
-    await page.waitForChanges();
-
-    expect(await panel.getProperty("closed")).toBe(true);
-    expect(eventSpy).not.toHaveReceivedEvent();
   });
 
   it("should be accessible", async () =>
@@ -116,19 +80,8 @@ describe("calcite-panel", () => {
     </calcite-panel>
     `));
 
-  it("should focus on close button (deprecated)", async () =>
-    focusable(`<calcite-panel dismissible>test</calcite-panel>`, {
-      focusId: "dismiss-button",
-      shadowFocusTargetSelector: "calcite-action"
-    }));
-
   it("should focus on close button )", async () =>
     focusable(`<calcite-panel closable>test</calcite-panel>`, {
-      shadowFocusTargetSelector: "calcite-action"
-    }));
-
-  it("should focus on back button", async () =>
-    focusable(`<calcite-panel show-back-button>test</calcite-panel>`, {
       shadowFocusTargetSelector: "calcite-action"
     }));
 
@@ -165,16 +118,6 @@ describe("calcite-panel", () => {
     const element = await page.find(`calcite-panel >>> .${CSS.heading}`);
 
     expect(element).toEqualText("test heading");
-  });
-
-  it("should have default summary (deprecated)", async () => {
-    const page = await newE2EPage();
-
-    await page.setContent('<calcite-panel summary="test summary"></calcite-panel>');
-
-    const element = await page.find(`calcite-panel >>> .${CSS.description}`);
-
-    expect(element).toEqualText("test summary");
   });
 
   it("should have default description", async () => {
@@ -242,24 +185,6 @@ describe("calcite-panel", () => {
     expect(await actionsContainerEnd.isVisible()).toBe(false);
   });
 
-  it("header-content should override heading and summary properties (deprecated)", async () => {
-    const page = await newE2EPage();
-
-    await page.setContent(
-      `<calcite-panel heading="test heading" summary="test summary">
-        <div slot=${SLOTS.headerContent}>custom header content</div>
-      </calcite-panel>`
-    );
-
-    const heading = await page.find(`calcite-panel >>> ${CSS.heading}`);
-    const summary = await page.find(`calcite-panel >>> ${CSS.description}`);
-    const header = await page.find(`calcite-panel >>> ${CSS.header}`);
-
-    expect(heading).toBeNull();
-    expect(summary).toBeNull();
-    expect(header).not.toBeNull();
-  });
-
   it("header-content should override heading and description properties", async () => {
     const page = await newE2EPage();
 
@@ -278,45 +203,6 @@ describe("calcite-panel", () => {
     expect(header).not.toBeNull();
   });
 
-  it("showBackButton", async () => {
-    const page = await newE2EPage();
-
-    await page.setContent("<calcite-panel></calcite-panel>");
-
-    const element = await page.find("calcite-panel");
-
-    const showBackButton = await element.getProperty("showBackButton");
-
-    expect(showBackButton).toBe(false);
-
-    const backButton = await page.find(`calcite-panel >>> .${CSS.backButton}`);
-
-    expect(backButton).toBeNull();
-
-    element.setProperty("showBackButton", true);
-
-    await page.waitForChanges();
-
-    const showBackButtonNew = await element.getProperty("showBackButton");
-
-    expect(showBackButtonNew).toBe(true);
-
-    const backButtonNew = await page.find(`calcite-panel >>> .${CSS.backButton}`);
-
-    expect(backButtonNew).not.toBeNull();
-
-    expect(await backButtonNew.isVisible()).toBe(true);
-
-    const eventSpy = await page.spyOnEvent("calcitePanelBackClick", "window");
-
-    await page.$eval("calcite-panel", (elm: HTMLElement) => {
-      const nativeBackButton = elm.shadowRoot.querySelector(`calcite-action`);
-      nativeBackButton.click();
-    });
-
-    expect(eventSpy).toHaveReceivedEvent();
-  });
-
   it("should not render footer node if there are no actions or content", async () => {
     const page = await newE2EPage();
 
@@ -325,47 +211,6 @@ describe("calcite-panel", () => {
     const footer = await page.find(`calcite-panel >>> .${CSS.footer}`);
 
     expect(await footer.isVisible()).toBe(false);
-  });
-
-  it("should update width based on the multipier CSS variable", async () => {
-    const multipier = 2;
-
-    const page = await newE2EPage();
-    await page.setViewport({ width: 1600, height: 1200 });
-
-    await page.setContent(`
-      <calcite-panel width-scale="m">
-        test
-      </calcite-panel>
-    `);
-
-    await page.waitForChanges();
-
-    const content = await page.find(`calcite-panel >>> .${CSS.container}`);
-    const style = await content.getComputedStyle("width");
-    const widthDefault = parseFloat(style["width"]);
-
-    const page2 = await newE2EPage();
-    await page2.setViewport({ width: 1600, height: 1200 });
-
-    await page2.setContent(`
-      <style>
-        :root {
-          --calcite-panel-width-multiplier: ${multipier};
-        }
-      </style>
-      <calcite-panel width-scale="m">
-        test multiplied
-      </calcite-panel>
-    `);
-
-    await page2.waitForChanges();
-
-    const content2 = await page2.find(`calcite-panel >>> .${CSS.container}`);
-    const style2 = await content2.getComputedStyle("width");
-    const width2 = parseFloat(style2["width"]);
-
-    expect(width2).toEqual(widthDefault * multipier);
   });
 
   it("should set tabIndex of -1 on a non-scrollable panel", async () => {

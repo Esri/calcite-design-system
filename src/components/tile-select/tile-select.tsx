@@ -4,18 +4,24 @@ import {
   Event,
   EventEmitter,
   h,
-  Prop,
   Listen,
-  VNode,
-  Watch,
+  Method,
+  Prop,
   State,
-  Method
+  VNode,
+  Watch
 } from "@stencil/core";
+import { guid } from "../../utils/guid";
+import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import {
+  componentLoaded,
+  LoadableComponent,
+  setComponentLoaded,
+  setUpLoadableComponent
+} from "../../utils/loadable";
 import { Alignment, Width } from "../interfaces";
 import { TileSelectType } from "./interfaces";
-import { guid } from "../../utils/guid";
 import { CSS } from "./resources";
-import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 
 /**
  * @slot - A slot for adding custom content.
@@ -25,7 +31,7 @@ import { InteractiveComponent, updateHostInteraction } from "../../utils/interac
   styleUrl: "tile-select.scss",
   shadow: true
 })
-export class TileSelect implements InteractiveComponent {
+export class TileSelect implements InteractiveComponent, LoadableComponent {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -40,7 +46,7 @@ export class TileSelect implements InteractiveComponent {
   //
   //--------------------------------------------------------------------------
 
-  /** When true, the component is checked. */
+  /** When `true`, the component is checked. */
   @Prop({ reflect: true, mutable: true }) checked = false;
 
   @Watch("checked")
@@ -49,19 +55,22 @@ export class TileSelect implements InteractiveComponent {
   }
 
   /** A description for the component, which displays below the heading. */
-  @Prop({ reflect: true }) description?: string;
+  @Prop({ reflect: true }) description: string;
 
-  /** When true, interaction is prevented and the component is displayed with lower opacity. */
+  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @Prop({ reflect: true }) disabled = false;
 
   /** The component header text, which displays between the icon and description. */
-  @Prop({ reflect: true }) heading?: string;
+  @Prop({ reflect: true }) heading: string;
 
-  /** When true, the component is not displayed and is not focusable or checkable. */
+  /** When `true`, the component is not displayed and is not focusable or checkable. */
   @Prop({ reflect: true }) hidden = false;
 
   /** Specifies an icon to display. */
-  @Prop({ reflect: true }) icon?: string;
+  @Prop({ reflect: true }) icon: string;
+
+  /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
+  @Prop({ reflect: true }) iconFlipRtl = false;
 
   /** Specifies the name of the component on form submission. */
   @Prop({ reflect: true }) name;
@@ -71,10 +80,10 @@ export class TileSelect implements InteractiveComponent {
     this.input.name = newName;
   }
 
-  /** When true, displays an interactive input based on the "type" property. */
+  /** When `true`, displays an interactive input based on the `type` property. */
   @Prop({ reflect: true }) inputEnabled = false;
 
-  /** When inputEnabled is true, the placement of the interactive input on the component. */
+  /** When `inputEnabled` is `true`, specifies the placement of the interactive input on the component. */
   @Prop({ reflect: true }) inputAlignment: Extract<"end" | "start", Alignment> = "start";
 
   /**
@@ -85,7 +94,7 @@ export class TileSelect implements InteractiveComponent {
   @Prop({ reflect: true }) type: TileSelectType = "radio";
 
   /** The component's value. */
-  @Prop() value?: any;
+  @Prop() value: any;
 
   /** Specifies the width of the component. */
   @Prop({ reflect: true }) width: Extract<"auto" | "full", Width> = "auto";
@@ -133,6 +142,8 @@ export class TileSelect implements InteractiveComponent {
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
+    await componentLoaded(this);
+
     this.input?.setFocus();
   }
 
@@ -230,6 +241,14 @@ export class TileSelect implements InteractiveComponent {
     this.renderInput();
   }
 
+  componentWillLoad(): void {
+    setUpLoadableComponent(this);
+  }
+
+  componentDidLoad(): void {
+    setComponentLoaded(this);
+  }
+
   disconnectedCallback(): void {
     this.input.parentNode.removeChild(this.input);
   }
@@ -275,7 +294,8 @@ export class TileSelect implements InteractiveComponent {
       icon,
       inputAlignment,
       inputEnabled,
-      width
+      width,
+      iconFlipRtl
     } = this;
     return (
       <div
@@ -304,6 +324,7 @@ export class TileSelect implements InteractiveComponent {
           embed
           heading={heading}
           icon={icon}
+          iconFlipRtl={iconFlipRtl}
         />
         <slot />
       </div>

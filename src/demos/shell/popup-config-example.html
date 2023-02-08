@@ -56,7 +56,7 @@
           view.ui.move("zoom", "bottom-right");
         });
         // Theme switch
-        document.getElementById("toggle-theme").addEventListener("click", (event) => {
+        document.getElementById("toggle-mode").addEventListener("click", (event) => {
           const dark = document.getElementById("jsapi-theme-dark");
           const light = document.getElementById("jsapi-theme-light");
           dark.toggleAttribute("disabled");
@@ -146,7 +146,7 @@
               </calcite-action-bar>
               <calcite-button
                 slot="header"
-                color="inverse"
+                kind="inverse"
                 alignment="icon-end-space-between"
                 icon-end="caret-down"
                 width="full"
@@ -179,17 +179,13 @@
                     padding-right: 0.25rem;
                   }
                 </style>
-                <calcite-panel heading="cool" summary="Popular Demographics in the United States (Beta) - County">
+                <calcite-flow-item
+                  heading="cool"
+                  description="Popular Demographics in the United States (Beta) - County"
+                >
                   I'm this panel's content.
-                </calcite-panel>
-                <calcite-panel heading="Configure popup" dismissible>
-                  <!-- <div style="padding: 0.75rem">
-                  <calcite-notice active dismissible scale="s">
-                    <span slot="notice-message"
-                      >The message we've been putting up here. I don't remember what it is.</span
-                    >
-                  </calcite-notice>
-                </div> -->
+                </calcite-flow-item>
+                <calcite-flow-item heading="Configure popup" closable>
                   <calcite-action
                     slot="header-menu-actions"
                     text-enabled
@@ -233,12 +229,6 @@
 
                   <h4 class="demo-heading" style="margin: 0.75rem">Contents</h4>
 
-                  <!-- <div style="padding: 0.75rem">
-                    <calcite-notice active dismissible scale="s" icon>
-                      <span slot="notice-message">Enable pop-ups to add images, charts, text, and fields.</span>
-                    </calcite-notice>
-                  </div> -->
-                  <!-- <calcite-sortable-list> -->
                   <calcite-block drag-handle heading="Media" summary="Multiple (2)" collapsible>
                     <calcite-icon icon="images" scale="m" slot="icon"></calcite-icon>
                     <calcite-action label="ellipsis" slot="control" icon="ellipsis" scale="m"></calcite-action>
@@ -336,7 +326,7 @@
                     style="margin-top: 1rem"
                   >
                   </calcite-fab>
-                </calcite-panel>
+                </calcite-flow-item>
               </calcite-flow>
               <!-- </div> -->
             </calcite-shell-panel>
@@ -403,10 +393,8 @@
               </calcite-action>
               <calcite-pick-list-item label="about disasters, fires, floods and killer bees" value="1">
               </calcite-pick-list-item>
-              <calcite-pick-list-item
-                label="about the NASA shuttle falling in the sea"
-                value="2"
-              ></calcite-pick-list-item>
+              <calcite-pick-list-item label="about the NASA shuttle falling in the sea" value="2">
+              </calcite-pick-list-item>
               <calcite-pick-list-item label="about starvation and the food that Live Aid bought" value="3">
               </calcite-pick-list-item>
               <calcite-pick-list-item
@@ -452,7 +440,7 @@
               <calcite-pick-list-item label="END" value="4"></calcite-pick-list-item>
             </calcite-pick-list>
             <calcite-button slot="footer" width="half">Yeah!</calcite-button>
-            <calcite-button slot="footer" width="half" appearance="clear">Naw.</calcite-button>
+            <calcite-button slot="footer" width="half" appearance="outline">Naw.</calcite-button>
           </calcite-panel>
         </calcite-popover>
         <script>

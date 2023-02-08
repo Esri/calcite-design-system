@@ -3,43 +3,64 @@ import {
   Element,
   Event,
   EventEmitter,
-  Host,
-  Prop,
-  Watch,
   h,
+  Host,
+  Method,
+  Prop,
+  State,
   VNode,
-  Method
+  Watch
 } from "@stencil/core";
-import { Position, Scale, Layout } from "../interfaces";
+import { debounce } from "lodash-es";
+import {
+  ConditionalSlotComponent,
+  connectConditionalSlotComponent,
+  disconnectConditionalSlotComponent
+} from "../../utils/conditionalSlot";
+import { getSlotted } from "../../utils/dom";
+import {
+  componentLoaded,
+  LoadableComponent,
+  setComponentLoaded,
+  setUpLoadableComponent
+} from "../../utils/loadable";
+import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
+import { createObserver } from "../../utils/observers";
+import {
+  connectMessages,
+  disconnectMessages,
+  setUpMessages,
+  T9nComponent,
+  updateMessages
+} from "../../utils/t9n";
 import { ExpandToggle, toggleChildActionText } from "../functional/ExpandToggle";
-import { CSS, SLOTS, TEXT } from "./resources";
-import { getSlotted, focusElement } from "../../utils/dom";
+import { Layout, Position, Scale } from "../interfaces";
+import { ActionBarMessages } from "./assets/action-bar/t9n";
+import { CSS, SLOTS } from "./resources";
 import {
   geActionDimensions,
   getOverflowCount,
   overflowActions,
-  queryActions,
-  overflowActionsDebounceInMs
+  overflowActionsDebounceInMs,
+  queryActions
 } from "./utils";
-import { createObserver } from "../../utils/observers";
-import { debounce } from "lodash-es";
-import {
-  connectConditionalSlotComponent,
-  disconnectConditionalSlotComponent,
-  ConditionalSlotComponent
-} from "../../utils/conditionalSlot";
 
 /**
- * @slot - A slot for adding `calcite-action`s that will appear at the top of the action bar.
- * @slot bottom-actions - A slot for adding `calcite-action`s that will appear at the bottom of the action bar, above the collapse/expand button.
- * @slot expand-tooltip - Used to set the tooltip for the expand toggle.
+ * @slot - A slot for adding `calcite-action`s that will appear at the top of the component.
+ * @slot bottom-actions - A slot for adding `calcite-action`s that will appear at the bottom of the component, above the collapse/expand button.
+ * @slot expand-tooltip - A slot to set the `calcite-tooltip` for the expand toggle.
  */
 @Component({
   tag: "calcite-action-bar",
   styleUrl: "action-bar.scss",
-  shadow: true
+  shadow: {
+    delegatesFocus: true
+  },
+  assetsDirs: ["assets"]
 })
-export class ActionBar implements ConditionalSlotComponent {
+export class ActionBar
+  implements ConditionalSlotComponent, LoadableComponent, LocalizedComponent, T9nComponent
+{
   // --------------------------------------------------------------------------
   //
   //  Properties
@@ -47,7 +68,7 @@ export class ActionBar implements ConditionalSlotComponent {
   // --------------------------------------------------------------------------
 
   /**
-   * When true, the expand-toggling behavior is disabled.
+   * When `true`, the expand-toggling behavior is disabled.
    */
   @Prop({ reflect: true }) expandDisabled = false;
 
@@ -57,7 +78,7 @@ export class ActionBar implements ConditionalSlotComponent {
   }
 
   /**
-   * When true, the component is expanded.
+   * When `true`, the component is expanded.
    */
   @Prop({ reflect: true, mutable: true }) expanded = false;
 
@@ -66,16 +87,6 @@ export class ActionBar implements ConditionalSlotComponent {
     toggleChildActionText({ parent: this.el, expanded });
     this.conditionallyOverflowActions();
   }
-
-  /**
-   * Specifies the label of the expand icon when the component is collapsed.
-   */
-  @Prop() intlExpand?: string;
-
-  /**
-   * Specifies the label of the collapse icon when the component is expanded.
-   */
-  @Prop() intlCollapse?: string;
 
   /**
    *  The layout direction of the actions.
@@ -103,6 +114,23 @@ export class ActionBar implements ConditionalSlotComponent {
    * Specifies the size of the expand `calcite-action`.
    */
   @Prop({ reflect: true }) scale: Scale;
+
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @internal
+   */
+  @Prop({ mutable: true }) messages: ActionBarMessages;
+
+  /**
+   * Use this property to override individual strings used by the component.
+   */
+  @Prop({ mutable: true }) messageOverrides: Partial<ActionBarMessages>;
+
+  @Watch("messageOverrides")
+  onMessagesChange(): void {
+    /* wired up by t9n util */
+  }
 
   // --------------------------------------------------------------------------
   //
@@ -133,6 +161,15 @@ export class ActionBar implements ConditionalSlotComponent {
 
   expandToggleEl: HTMLCalciteActionElement;
 
+  @State() effectiveLocale: string;
+
+  @Watch("effectiveLocale")
+  effectiveLocaleChange(): void {
+    updateMessages(this, this.effectiveLocale);
+  }
+
+  @State() defaultMessages: ActionBarMessages;
+
   // --------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -140,12 +177,15 @@ export class ActionBar implements ConditionalSlotComponent {
   // --------------------------------------------------------------------------
 
   componentDidLoad(): void {
+    setComponentLoaded(this);
     this.conditionallyOverflowActions();
   }
 
   connectedCallback(): void {
     const { el, expanded } = this;
 
+    connectLocalized(this);
+    connectMessages(this);
     toggleChildActionText({ parent: el, expanded });
 
     this.mutationObserver?.observe(el, { childList: true, subtree: true });
@@ -158,10 +198,17 @@ export class ActionBar implements ConditionalSlotComponent {
     connectConditionalSlotComponent(this);
   }
 
+  async componentWillLoad(): Promise<void> {
+    setUpLoadableComponent(this);
+    await setUpMessages(this);
+  }
+
   disconnectedCallback(): void {
     this.mutationObserver?.disconnect();
     this.resizeObserver?.disconnect();
     disconnectConditionalSlotComponent(this);
+    disconnectLocalized(this);
+    disconnectMessages(this);
   }
 
   // --------------------------------------------------------------------------
@@ -181,16 +228,11 @@ export class ActionBar implements ConditionalSlotComponent {
   }
 
   /**
-   * Sets focus on the component.
-   *
-   * @param focusId
+   * Sets focus on the component's first focusable element.
    */
   @Method()
-  async setFocus(focusId?: "expand-toggle"): Promise<void> {
-    if (focusId === "expand-toggle") {
-      await focusElement(this.expandToggleEl);
-      return;
-    }
+  async setFocus(): Promise<void> {
+    await componentLoaded(this);
 
     this.el?.focus();
   }
@@ -201,8 +243,8 @@ export class ActionBar implements ConditionalSlotComponent {
   //
   // --------------------------------------------------------------------------
 
-  actionMenuOpenChangeHandler = (event: CustomEvent<boolean>): void => {
-    if (event.detail) {
+  actionMenuOpenHandler = (event: CustomEvent<void>): void => {
+    if ((event.target as HTMLCalciteActionGroupElement).menuOpen) {
       const composedPath = event.composedPath();
       Array.from(this.el.querySelectorAll("calcite-action-group")).forEach((group) => {
         if (!composedPath.includes(group)) {
@@ -277,28 +319,16 @@ export class ActionBar implements ConditionalSlotComponent {
   // --------------------------------------------------------------------------
 
   renderBottomActionGroup(): VNode {
-    const {
-      expanded,
-      expandDisabled,
-      intlExpand,
-      intlCollapse,
-      el,
-      position,
-      toggleExpand,
-      scale,
-      layout
-    } = this;
+    const { expanded, expandDisabled, el, position, toggleExpand, scale, layout, messages } = this;
 
     const tooltip = getSlotted(el, SLOTS.expandTooltip) as HTMLCalciteTooltipElement;
-    const expandLabel = intlExpand || TEXT.expand;
-    const collapseLabel = intlCollapse || TEXT.collapse;
 
     const expandToggleNode = !expandDisabled ? (
       <ExpandToggle
         el={el}
         expanded={expanded}
-        intlCollapse={collapseLabel}
-        intlExpand={expandLabel}
+        intlCollapse={messages.collapse}
+        intlExpand={messages.expand}
         position={position}
         ref={this.setExpandToggleRef}
         scale={scale}
@@ -318,7 +348,7 @@ export class ActionBar implements ConditionalSlotComponent {
 
   render(): VNode {
     return (
-      <Host onCalciteActionMenuOpenChange={this.actionMenuOpenChangeHandler}>
+      <Host onCalciteActionMenuOpen={this.actionMenuOpenHandler}>
         <slot />
         {this.renderBottomActionGroup()}
       </Host>

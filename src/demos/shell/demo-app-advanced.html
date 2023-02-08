@@ -71,7 +71,7 @@
         <div class="shell-container">
           <calcite-shell>
             <calcite-shell-panel id="primary-panel" slot="panel-start" position="start" detached>
-              <calcite-action-bar slot="action-bar" class="calcite-theme-dark">
+              <calcite-action-bar slot="action-bar" class="calcite-mode-dark">
                 <calcite-action-group>
                   <calcite-action text="Save" icon="save" indicator> </calcite-action>
                   <calcite-action text-enabled icon="map" text="New" slot="menu-actions"> </calcite-action>
@@ -95,7 +95,7 @@
               <calcite-panel heading="Layers" height-scale="l" width-scale="m">
                 <div id="layerlist-container"></div>
                 <calcite-fab slot="fab" id="layer-fab" text="Add layers"></calcite-fab>
-                <calcite-tooltip label="tooltip" reference-element="layer-fab" disable-pointer
+                <calcite-tooltip label="tooltip" reference-element="layer-fab" pointer-disabled
                   >Add layers</calcite-tooltip
                 >
               </calcite-panel>
@@ -103,7 +103,7 @@
 
             <calcite-shell-panel slot="panel-end" position="end">
               <calcite-action-bar slot="action-bar">
-                <calcite-tooltip slot="expand-tooltip" label="tooltip" disable-pointer>Add layers</calcite-tooltip>
+                <calcite-tooltip slot="expand-tooltip" label="tooltip" pointer-disabled>Add layers</calcite-tooltip>
                 <calcite-action-group>
                   <calcite-action text="Layer properties" icon="sliders-horizontal"> </calcite-action>
                   <calcite-action text="Styles" icon="shapes"> </calcite-action>
@@ -130,9 +130,9 @@
                 </calcite-action-group>
               </calcite-action-bar>
               <calcite-flow id="flow">
-                <calcite-panel
+                <calcite-flow-item
                   heading="Configure popup"
-                  summary="Popular Demographics in the United States (Beta) - County"
+                  description="Popular Demographics in the United States (Beta) - County"
                   width-scale="m"
                 >
                   <calcite-action slot="header-actions-end" icon="x" text="Close"> </calcite-action>
@@ -164,7 +164,7 @@
                         ></calcite-value-list-item>
                       </calcite-value-list>
                       <div class="row">
-                        <calcite-button id="attribute-add" round icon="plus" scale="s" width="full" color="neutral"
+                        <calcite-button id="attribute-add" round icon="plus" scale="s" width="full" kind="neutral"
                           >Select attributes</calcite-button
                         >
                       </div>
@@ -228,10 +228,10 @@
                     </calcite-block>
                   </calcite-sortable-list>
                   <calcite-fab slot="fab" id="label-fab" text="Add label class"></calcite-fab>
-                  <calcite-tooltip label="tootltip" reference-element="label-fab" disable-pointer>
+                  <calcite-tooltip label="tootltip" reference-element="label-fab" pointer-disabled>
                     Add label class
                   </calcite-tooltip>
-                </calcite-panel>
+                </calcite-flow-item>
               </calcite-flow>
             </calcite-shell-panel>
             <div class="gnav" slot="header">
@@ -296,7 +296,7 @@
           add-click-handle
           class="popover"
         >
-          <calcite-panel class="calcite-theme-light">
+          <calcite-panel class="calcite-mode-light">
             <h3 class="heading" slot="header-content">WE CARE A LOT</h3>
             <calcite-pick-list filter-enabled filter-sticky>
               <calcite-action slot="menu-actions" text="options">
@@ -316,7 +316,7 @@
               ></calcite-pick-list-item>
             </calcite-pick-list>
             <calcite-button slot="footer" width="half">Yeah!</calcite-button>
-            <calcite-button slot="footer" width="half" appearance="clear">Naw.</calcite-button>
+            <calcite-button slot="footer" width="half" appearance="outline">Naw.</calcite-button>
           </calcite-panel>
         </calcite-popover>
         <script>

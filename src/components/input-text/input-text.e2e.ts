@@ -1,16 +1,16 @@
 import { newE2EPage } from "@stencil/core/testing";
+import { html } from "../../../support/formatting";
 import {
   defaults,
   disabled,
   focusable,
   formAssociated,
+  hidden,
   labelable,
   reflects,
   renders,
-  hidden
+  t9n
 } from "../../tests/commonTests";
-import { html } from "../../../support/formatting";
-import { TEXT } from "./resources";
 
 describe("calcite-input-text", () => {
   it("is labelable", async () => labelable("calcite-input-text"));
@@ -60,15 +60,14 @@ describe("calcite-input-text", () => {
   it("inherits requested props when from wrapping calcite-label when props are provided", async () => {
     const page = await newE2EPage();
     await page.setContent(html`
-      <calcite-label status="invalid" scale="s">
+      <calcite-label scale="s">
         Label text
         <calcite-input-text></calcite-input-text>
       </calcite-label>
     `);
 
-    const deprecatedLabelStatusElement = await page.find("calcite-input-text");
-    expect(await deprecatedLabelStatusElement.getProperty("status")).toEqual("invalid");
-    expect(await deprecatedLabelStatusElement.getProperty("scale")).toEqual("s");
+    const inputTextElement = await page.find("calcite-input-text");
+    expect(await inputTextElement.getProperty("scale")).toEqual("s");
   });
 
   it("renders an icon when explicit Calcite UI is requested, and is a type without a default icon", async () => {
@@ -167,7 +166,7 @@ describe("calcite-input-text", () => {
     await page.setContent(html`<calcite-input-text clearable value="John Doe"></calcite-input-text>`);
     const clearButton = await page.find("calcite-input-text >>> .clear-button");
     expect(clearButton).not.toBe(null);
-    expect(clearButton.getAttribute("aria-label")).toBe(TEXT.clear);
+    expect(clearButton.getAttribute("aria-label")).toBe("Clear value");
   });
 
   it("does not render clear button when clearable is requested and value is not populated", async () => {
@@ -335,6 +334,13 @@ describe("calcite-input-text", () => {
     }
   });
 
+  it("sets internals to pattern when the attribute is used", async () => {
+    const page = await newE2EPage();
+    await page.setContent(html`<calcite-input-text type="file" pattern="[a-z]{4,8}"></calcite-input-text>`);
+    const input = await page.find("calcite-input-text >>> input");
+    expect(await input.getProperty("pattern")).toBe("[a-z]{4,8}");
+  });
+
   it("ArrowUp/ArrowDown function of moving caret to the beginning/end of text", async () => {
     const determineCaretIndex = (position?: number): Promise<boolean> => {
       return page.evaluate((position) => {
@@ -363,5 +369,60 @@ describe("calcite-input-text", () => {
     expect(await determineCaretIndex()).toBeTruthy();
   });
 
+  it("allows disabling slotted action", async () => {
+    const page = await newE2EPage();
+    await page.setContent(
+      `<calcite-input-text><calcite-button slot="action" disabled>Action</calcite-button></calcite-input-text>`
+    );
+
+    const input = await page.find("calcite-input-text");
+    const button = await page.find("calcite-button");
+
+    await input.callMethod("setFocus");
+    await page.keyboard.type("1");
+    await page.waitForChanges();
+    expect(await input.getProperty("value")).toBe("1");
+    expect(await button.getProperty("disabled")).toBe(true);
+    expect(await input.getProperty("disabled")).toBe(false);
+
+    await input.setProperty("disabled", true);
+    await input.callMethod("setFocus");
+    await page.waitForChanges();
+    await page.keyboard.type("2");
+    await page.waitForChanges();
+    expect(await input.getProperty("value")).toBe("1");
+    expect(await button.getProperty("disabled")).toBe(true);
+    expect(await input.getProperty("disabled")).toBe(true);
+
+    await input.setProperty("disabled", false);
+    await page.waitForChanges();
+    await input.callMethod("setFocus");
+    await page.keyboard.type("3");
+    await page.waitForChanges();
+    expect(await input.getProperty("value")).toBe("13");
+    expect(await button.getProperty("disabled")).toBe(true);
+    expect(await input.getProperty("disabled")).toBe(false);
+
+    await button.setProperty("disabled", false);
+    await page.waitForChanges();
+    await input.callMethod("setFocus");
+    await page.keyboard.type("4");
+    await page.waitForChanges();
+    expect(await input.getProperty("value")).toBe("134");
+    expect(await button.getProperty("disabled")).toBe(false);
+    expect(await input.getProperty("disabled")).toBe(false);
+
+    await input.setProperty("disabled", true);
+    await page.waitForChanges();
+    await input.callMethod("setFocus");
+    await page.keyboard.type("5");
+    await page.waitForChanges();
+    expect(await input.getProperty("value")).toBe("134");
+    expect(await button.getProperty("disabled")).toBe(true);
+    expect(await input.getProperty("disabled")).toBe(true);
+  });
+
   it("is form-associated", () => formAssociated("calcite-input-text", { testValue: "test", submitsOnEnter: true }));
+
+  it("supports translation", () => t9n("calcite-input-text"));
 });

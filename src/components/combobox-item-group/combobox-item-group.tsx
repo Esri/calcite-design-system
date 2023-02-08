@@ -1,10 +1,10 @@
-import { Component, Prop, h, VNode, Element } from "@stencil/core";
-import { CSS } from "./resources";
-import { getAncestors, getDepth } from "../combobox/utils";
+import { Component, Element, h, Prop, VNode } from "@stencil/core";
+import { getElementProp } from "../../utils/dom";
 import { guid } from "../../utils/guid";
 import { ComboboxChildElement } from "../combobox/interfaces";
-import { getElementProp } from "../../utils/dom";
+import { getAncestors, getDepth } from "../combobox/utils";
 import { Scale } from "../interfaces";
+import { CSS } from "./resources";
 
 /**
  * @slot - A slot for adding `calcite-combobox-item`s.
@@ -21,10 +21,10 @@ export class ComboboxItemGroup {
   //
   // --------------------------------------------------------------------------
 
-  /** Parent and grandparent combobox items, this is set internally for use from combobox */
+  /** Specifies the parent and grandparent `calcite-combobox-item`s, which are set on `calcite-combobox`. */
   @Prop({ mutable: true }) ancestors: ComboboxChildElement[];
 
-  /** Title of the group */
+  /** Specifies the title of the component. */
   @Prop() label!: string;
 
   // --------------------------------------------------------------------------

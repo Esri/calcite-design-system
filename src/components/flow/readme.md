@@ -40,7 +40,7 @@ Renders a flow with menu-actions and footer-actions in the form of buttons.
 
 ### `back() => Promise<HTMLCalciteFlowItemElement>`
 
-Removes the currently active `calcite-flow-item` or `calcite-panel`.
+Removes the currently active `calcite-flow-item`.
 
 #### Returns
 
@@ -48,9 +48,9 @@ Type: `Promise<HTMLCalciteFlowItemElement>`
 
 ## Slots
 
-| Slot | Description                                                                         |
-| ---- | ----------------------------------------------------------------------------------- |
-|      | A slot for adding `calcite-flow-item` or `calcite-panel`s (deprecated) to the flow. |
+| Slot | Description                                                      |
+| ---- | ---------------------------------------------------------------- |
+|      | A slot for adding `calcite-flow-item` elements to the component. |
 
 ---
 

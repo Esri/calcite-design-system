@@ -1,8 +1,8 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, defaults, focusable, hidden, reflects, renders, slots } from "../../tests/commonTests";
+import { html } from "../../../support/formatting";
+import { accessible, defaults, focusable, hidden, reflects, renders, slots, t9n } from "../../tests/commonTests";
 import { CSS, SLOTS } from "./resources";
 import { overflowActionsDebounceInMs } from "./utils";
-import { html } from "../../../support/formatting";
 
 describe("calcite-action-bar", () => {
   it("renders", async () => renders("calcite-action-bar", { display: "inline-flex" }));
@@ -236,8 +236,7 @@ describe("calcite-action-bar", () => {
         </calcite-action-bar>
       `,
       {
-        focusId: "expand-toggle",
-        focusTargetSelector: "calcite-action-bar"
+        focusTargetSelector: "calcite-action"
       }
     ));
 
@@ -269,15 +268,15 @@ describe("calcite-action-bar", () => {
     expect(await groups[0].getProperty("menuOpen")).toBe(false);
     expect(await groups[1].getProperty("menuOpen")).toBe(true);
 
-    const calciteActionMenuOpenChangeEvent = page.waitForEvent("calciteActionMenuOpenChange");
+    const calciteActionMenuOpenEvent = page.waitForEvent("calciteActionMenuOpen");
 
     await page.$eval("calcite-action-group", (firstActionGroup: HTMLCalciteActionGroupElement) => {
       firstActionGroup.menuOpen = true;
-      const event = new CustomEvent("calciteActionMenuOpenChange", { bubbles: true, detail: true });
+      const event = new CustomEvent("calciteActionMenuOpen", { bubbles: true });
       firstActionGroup.dispatchEvent(event);
     });
 
-    await calciteActionMenuOpenChangeEvent;
+    await calciteActionMenuOpenEvent;
 
     await page.waitForChanges();
 
@@ -382,4 +381,6 @@ describe("calcite-action-bar", () => {
       expect(await page.findAll(slottedActionsSelector)).toHaveLength(2);
     });
   });
+
+  it("supports translation", () => t9n("calcite-action-bar"));
 });

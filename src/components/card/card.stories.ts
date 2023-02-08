@@ -1,15 +1,15 @@
 import { boolean, select, text } from "@storybook/addon-knobs";
-import { placeholderImage, themesDarkDefault } from "../../../.storybook/utils";
+import { placeholderImage } from "../../../.storybook/placeholderImage";
 import { html } from "../../../support/formatting";
 import readme from "./readme.md";
 import {
   Attribute,
-  filterComponentAttributes,
   Attributes,
+  filterComponentAttributes,
+  modesDarkDefault,
   createComponentHTML as create
 } from "../../../.storybook/utils";
 import { storyFilters } from "../../../.storybook/helpers";
-import { TEXT } from "./resources";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 
 export default {
@@ -49,30 +49,6 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
         }
       },
       {
-        name: "intl-loading",
-        commit(): Attribute {
-          this.value = text("intl-loading", TEXT.loading);
-          delete this.build;
-          return this;
-        }
-      },
-      {
-        name: "intl-select",
-        commit(): Attribute {
-          this.value = text("intl-select", TEXT.select);
-          delete this.build;
-          return this;
-        }
-      },
-      {
-        name: "intl-deselect",
-        commit(): Attribute {
-          this.value = text("intl-deselect", TEXT.deselect);
-          delete this.build;
-          return this;
-        }
-      },
-      {
         name: "thumbnail-position",
         commit(): Attribute {
           this.value = select("thumbnail-position", logicalFlowPosition.values, logicalFlowPosition.defaultValue);
@@ -92,13 +68,13 @@ const titleHtml = html`
   </span>
 `;
 
-const footerButtonHtml = html` <calcite-button slot="footer-leading" width="full">Go</calcite-button> `;
+const footerButtonHtml = html` <calcite-button slot="footer-start" width="full">Go</calcite-button> `;
 
-const footerLeadingTextHtml = html`<span slot="footer-leading">Nov 25, 2018</span>`;
+const footerStartTextHtml = html`<span slot="footer-start">Nov 25, 2018</span>`;
 
 const footerLinksHtml = html`
-  <calcite-link class="calcite-theme-dark" slot="footer-leading">Lead footer</calcite-link>
-  <calcite-link class="calcite-theme-dark" slot="footer-trailing">Trail footer</calcite-link>
+  <calcite-link class="calcite-mode-dark" slot="footer-start">Lead footer</calcite-link>
+  <calcite-link class="calcite-mode-dark" slot="footer-end">Trail footer</calcite-link>
 `;
 
 const thumbnailHtml = html`<img
@@ -111,11 +87,11 @@ const thumbnailHtml = html`<img
   style="width: 380px;"
 /> `;
 
-const footerTrailingButtonsHtml = html`
-  <div slot="footer-trailing">
-    <calcite-button id="card-icon-test-6" scale="s" appearance="transparent" color="neutral" icon-start="circle">
+const footerEndButtonsHtml = html`
+  <div slot="footer-end">
+    <calcite-button id="card-icon-test-6" scale="s" appearance="transparent" kind="neutral" icon-start="circle">
     </calcite-button>
-    <calcite-button id="card-icon-test-7" scale="s" appearance="transparent" color="neutral" icon-start="circle">
+    <calcite-button id="card-icon-test-7" scale="s" appearance="transparent" kind="neutral" icon-start="circle">
     </calcite-button>
   </div>
 `;
@@ -139,14 +115,13 @@ export const simpleWithFooterButton = (): string => html`
 
 export const simpleWithFooterTextButtonTooltip_NoTest = (): string => html`
   <div style="width:260px">
-    ${create(
-      "calcite-card",
-      createAttributes(),
-      html`${titleHtml}${footerLeadingTextHtml}${footerTrailingButtonsHtml}`
-    )}
+    ${create("calcite-card", createAttributes(), html`${titleHtml}${footerStartTextHtml}${footerEndButtonsHtml}`)}
   </div>
   ${tooltipHtml}
 `;
+simpleWithFooterTextButtonTooltip_NoTest.parameters = {
+  chromatic: { disableSnapshot: true }
+};
 
 export const thumbnail = (): string => html`
   <div style="width:260px">
@@ -168,21 +143,21 @@ export const thumbnail = (): string => html`
           View Count: 0
         </div>
         <calcite-button
-          slot="footer-leading"
-          color="neutral"
+          slot="footer-start"
+          kind="neutral"
           scale="s"
           id="card-icon-test-1"
           icon-start="circle"
         ></calcite-button>
-        <div slot="footer-trailing">
-          <calcite-button scale="s" color="neutral" id="card-icon-test-2" icon-start="circle"></calcite-button>
-          <calcite-button scale="s" color="neutral" id="card-icon-test-3" icon-start="circle"></calcite-button>
+        <div slot="footer-end">
+          <calcite-button scale="s" kind="neutral" id="card-icon-test-2" icon-start="circle"></calcite-button>
+          <calcite-button scale="s" kind="neutral" id="card-icon-test-3" icon-start="circle"></calcite-button>
           <calcite-dropdown type="hover">
             <calcite-button
               id="card-icon-test-5"
-              slot="dropdown-trigger"
+              slot="trigger"
               scale="s"
-              color="neutral"
+              kind="neutral"
               icon-start="circle"
             ></calcite-button>
             <calcite-dropdown-group selection-mode="none">
@@ -225,8 +200,8 @@ export const thumbnailRounded = (): string => html`
         View Count: 0
       </div>
       <calcite-button
-        slot="footer-leading"
-        color="neutral"
+        slot="footer-start"
+        kind="neutral"
         scale="s"
         id="card-icon-test-1"
         icon-start="circle"
@@ -250,10 +225,10 @@ export const headerDoesNotOverlapWithCheckbox_TestOnly = (): string => html`
   </calcite-card>
 `;
 
-export const darkThemeRTL_TestOnly = (): string => html`
+export const darkModeRTL_TestOnly = (): string => html`
   <div dir="rtl" style="width:260px;">
-    <calcite-card>${thumbnailHtml}${titleHtml}${footerLeadingTextHtml}${footerTrailingButtonsHtml}</calcite-card>
+    <calcite-card>${thumbnailHtml}${titleHtml}${footerStartTextHtml}${footerEndButtonsHtml}</calcite-card>
   </div>
 `;
 
-darkThemeRTL_TestOnly.parameters = { themes: themesDarkDefault };
+darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };

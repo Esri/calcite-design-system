@@ -17,7 +17,7 @@ export const gridCenteringOfActionsInAGroup = (): string => html`
       <calcite-action
         alignment="${select("alignment", ["start", "center", "end"], "center")}"
         scale="${select("scale", ["s", "m", "l"], "m")}"
-        appearance="${select("appearance", ["solid", "clear", "outline"], "solid")}"
+        appearance="${select("appearance", ["solid", "transparent", "outline"], "solid")}"
         icon="${select("icon", iconNames, "polygon")}"
         ${text("text", "polygon")}
       >
@@ -25,7 +25,7 @@ export const gridCenteringOfActionsInAGroup = (): string => html`
       <calcite-action
         alignment="${select("alignment", ["start", "center", "end"], "center")}"
         scale="${select("scale", ["s", "m", "l"], "m")}"
-        appearance="${select("appearance", ["solid", "clear", "outline"], "solid")}"
+        appearance="${select("appearance", ["solid", "transparent", "outline"], "solid")}"
         icon="${select("icon", iconNames, "rectangle")}"
         ${text("text", "rectangle")}
       >
@@ -33,7 +33,7 @@ export const gridCenteringOfActionsInAGroup = (): string => html`
       <calcite-action
         alignment="${select("alignment", ["start", "center", "end"], "center")}"
         scale="${select("scale", ["s", "m", "l"], "m")}"
-        appearance="${select("appearance", ["solid", "clear", "outline"], "solid")}"
+        appearance="${select("appearance", ["solid", "transparent", "outline"], "solid")}"
         icon="${select("icon", iconNames, "trash")}"
         ${text("text", "trash")}
       >
@@ -41,3 +41,39 @@ export const gridCenteringOfActionsInAGroup = (): string => html`
     </calcite-action-group>
   </div>
 `;
+
+export const arabicLocale_TestOnly = (): string => html`<div style="width:400px">
+  <calcite-action-group expanded lang="ar">
+    <calcite-dropdown slot="menu-actions"> </calcite-dropdown>
+  </calcite-action-group>
+</div>`;
+
+export const germanLocale_TestOnly = (): string => html`<div style="width:400px">
+  <calcite-action-group expanded lang="de">
+    <calcite-dropdown slot="menu-actions"> </calcite-dropdown>
+  </calcite-action-group>
+</div>`;
+
+export const norwegianLocale_TestOnly = (): string => html`<div style="width:400px">
+  <calcite-action-group expanded lang="no">
+    <calcite-dropdown slot="menu-actions"> </calcite-dropdown>
+  </calcite-action-group>
+</div>`;
+
+export const ChineseLocale_TestOnly = (): string => html`<div style="width:400px">
+  <calcite-action-group expanded lang="zh-CN">
+    <calcite-dropdown slot="menu-actions"> </calcite-dropdown>
+  </calcite-action-group>
+</div>`;
+
+export const GreekLocale_TestOnly = (): string => html`<div style="width:400px">
+  <calcite-action-group expanded lang="el">
+    <calcite-dropdown slot="menu-actions"> </calcite-dropdown>
+  </calcite-action-group>
+</div>`;
+
+export const TurkishLocale_TestOnly = (): string => html`<div style="width:400px">
+  <calcite-action-group expanded lang="tr">
+    <calcite-dropdown slot="menu-actions"> </calcite-dropdown>
+  </calcite-action-group>
+</div>`;

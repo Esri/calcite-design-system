@@ -60,7 +60,7 @@
         <div class="shell-container">
           <calcite-shell>
             <calcite-shell-panel id="primary-panel" slot="panel-start" position="start">
-              <calcite-action-bar slot="action-bar" class="calcite-theme-dark">
+              <calcite-action-bar slot="action-bar" class="calcite-mode-dark">
                 <calcite-action-group>
                   <calcite-action text="Save" icon="save" indicator> </calcite-action>
                   <calcite-action icon="map" text="New"> </calcite-action>
@@ -82,12 +82,12 @@
                 </calcite-action-group>
               </calcite-action-bar>
               <calcite-flow>
-                <calcite-panel heading="First flow item" width-scale="l">
+                <calcite-flow-item heading="First flow item" width-scale="l">
                   Default slot of the first panel
-                </calcite-panel>
-                <calcite-panel heading="Second flow item 02" width-scale="m">
+                </calcite-flow-item>
+                <calcite-flow-item heading="Second flow item 02" width-scale="m">
                   Default slot of the second panel
-                </calcite-panel>
+                </calcite-flow-item>
               </calcite-flow>
             </calcite-shell-panel>
 
@@ -126,7 +126,7 @@
               <h2>Boomer v Millennial - California</h2>
             </div>
             <calcite-shell-center-row slot="center-row" height-scale="s" detached id="center-row">
-              <calcite-panel heading="Data table" summary="US Demographics - Country - County">
+              <calcite-panel heading="Data table" description="US Demographics - Country - County">
                 <calcite-action slot="header-leading-content" text="Switch layer" icon="caret-down"></calcite-action>
                 <calcite-action slot="header-actions-end" text="Expand" icon="chevrons-up" id="expand-trigger">
                 </calcite-action>

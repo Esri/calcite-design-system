@@ -4,45 +4,32 @@
 
 ## Properties
 
-| Property         | Attribute          | Description                                                                                                        | Type                         | Default     |
-| ---------------- | ------------------ | ------------------------------------------------------------------------------------------------------------------ | ---------------------------- | ----------- |
-| `beforeBack`     | --                 | When provided, this method will be called before it is removed from the parent flow.                               | `() => Promise<void>`        | `undefined` |
-| `closable`       | `closable`         | When true, displays a close button in the trailing side of the header                                              | `boolean`                    | `false`     |
-| `closed`         | `closed`           | When true, flow-item will be hidden                                                                                | `boolean`                    | `false`     |
-| `description`    | `description`      | A description for the component.                                                                                   | `string`                     | `undefined` |
-| `disabled`       | `disabled`         | When true, interaction is prevented and the component is displayed with lower opacity.                             | `boolean`                    | `false`     |
-| `heading`        | `heading`          | The component header text.                                                                                         | `string`                     | `undefined` |
-| `headingLevel`   | `heading-level`    | Specifies the number at which section headings should start.                                                       | `1 \| 2 \| 3 \| 4 \| 5 \| 6` | `undefined` |
-| `heightScale`    | `height-scale`     | Specifies the maximum height of the component.                                                                     | `"l" \| "m" \| "s"`          | `undefined` |
-| `intlBack`       | `intl-back`        | Accessible name for the component's back button. The back button will only be shown when 'showBackButton' is true. | `string`                     | `undefined` |
-| `intlClose`      | `intl-close`       | Accessible name for the component's close button. The close button will only be shown when 'dismissible' is true.  | `string`                     | `undefined` |
-| `intlOptions`    | `intl-options`     | Accessible name for the component's actions menu.                                                                  | `string`                     | `undefined` |
-| `loading`        | `loading`          | When true, a busy indicator is displayed.                                                                          | `boolean`                    | `false`     |
-| `menuOpen`       | `menu-open`        | When true, the action menu items in the `header-menu-actions` slot are open.                                       | `boolean`                    | `false`     |
-| `showBackButton` | `show-back-button` | When true, displays a back button in the header.                                                                   | `boolean`                    | `false`     |
-| `widthScale`     | `width-scale`      | Specifies the width of the component.                                                                              | `"l" \| "m" \| "s"`          | `undefined` |
+| Property           | Attribute           | Description                                                                                   | Type                         | Default     |
+| ------------------ | ------------------- | --------------------------------------------------------------------------------------------- | ---------------------------- | ----------- |
+| `beforeBack`       | --                  | When provided, the method will be called before it is removed from its parent `calcite-flow`. | `() => Promise<void>`        | `undefined` |
+| `closable`         | `closable`          | When `true`, displays a close button in the trailing side of the component's header.          | `boolean`                    | `false`     |
+| `closed`           | `closed`            | When `true`, the component will be hidden.                                                    | `boolean`                    | `false`     |
+| `description`      | `description`       | A description for the component.                                                              | `string`                     | `undefined` |
+| `disabled`         | `disabled`          | When `true`, interaction is prevented and the component is displayed with lower opacity.      | `boolean`                    | `false`     |
+| `heading`          | `heading`           | The component header text.                                                                    | `string`                     | `undefined` |
+| `headingLevel`     | `heading-level`     | Specifies the number at which section headings should start.                                  | `1 \| 2 \| 3 \| 4 \| 5 \| 6` | `undefined` |
+| `loading`          | `loading`           | When `true`, a busy indicator is displayed.                                                   | `boolean`                    | `false`     |
+| `menuOpen`         | `menu-open`         | When `true`, the action menu items in the `header-menu-actions` slot are open.                | `boolean`                    | `false`     |
+| `messageOverrides` | `message-overrides` | Use this property to override individual strings used by the component.                       | `FlowItemMessages`           | `undefined` |
 
 ## Events
 
-| Event                      | Description                                                                                                                      | Type                |
-| -------------------------- | -------------------------------------------------------------------------------------------------------------------------------- | ------------------- |
-| `calciteFlowItemBack`      | Fires when the back button is clicked.                                                                                           | `CustomEvent<void>` |
-| `calciteFlowItemBackClick` | <span style="color:red">**[DEPRECATED]**</span> use calciteFlowItemBack instead.<br/><br/>Fires when the back button is clicked. | `CustomEvent<void>` |
-| `calciteFlowItemClose`     | Fires when the close button is clicked.                                                                                          | `CustomEvent<void>` |
+| Event                   | Description                             | Type                |
+| ----------------------- | --------------------------------------- | ------------------- |
+| `calciteFlowItemBack`   | Fires when the back button is clicked.  | `CustomEvent<void>` |
+| `calciteFlowItemClose`  | Fires when the close button is clicked. | `CustomEvent<void>` |
+| `calciteFlowItemScroll` | Fires when the content is scrolled.     | `CustomEvent<void>` |
 
 ## Methods
 
 ### `scrollContentTo(options?: ScrollToOptions) => Promise<void>`
 
 Scrolls the component's content to a specified set of coordinates.
-
-```
-  myCalciteFlowItem.scrollContentTo({
-    left: 0, // Specifies the number of pixels along the X axis to scroll the window or element.
-    top: 0, // Specifies the number of pixels along the Y axis to scroll the window or element
-    behavior: "auto" // Specifies whether the scrolling should animate smoothly (smooth), or happen instantly in a single jump (auto, the default value).
-  });
-```
 
 #### Returns
 
@@ -58,16 +45,16 @@ Type: `Promise<void>`
 
 ## Slots
 
-| Slot                     | Description                                                                      |
-| ------------------------ | -------------------------------------------------------------------------------- |
-|                          | A slot for adding custom content.                                                |
-| `"fab"`                  | A slot for adding a `calcite-fab` (floating action button) to perform an action. |
-| `"footer"`               | A slot for adding custom content to the footer.                                  |
-| `"footer-actions"`       | A slot for adding buttons to the footer.                                         |
-| `"header-actions-end"`   | A slot for adding actions or content to the end side of the header.              |
-| `"header-actions-start"` | A slot for adding actions or content to the start side of the header.            |
-| `"header-content"`       | A slot for adding custom content to the header.                                  |
-| `"header-menu-actions"`  | A slot for adding an overflow menu with actions inside a `calcite-dropdown`.     |
+| Slot                     | Description                                                                                 |
+| ------------------------ | ------------------------------------------------------------------------------------------- |
+|                          | A slot for adding custom content.                                                           |
+| `"fab"`                  | A slot for adding a `calcite-fab` (floating action button) to perform an action.            |
+| `"footer"`               | A slot for adding custom content to the component's footer.                                 |
+| `"footer-actions"`       | A slot for adding `calcite-button`s to the component's footer.                              |
+| `"header-actions-end"`   | A slot for adding `calcite-action`s or content to the end side of the component's header.   |
+| `"header-actions-start"` | A slot for adding `calcite-action`s or content to the start side of the component's header. |
+| `"header-content"`       | A slot for adding custom content to the component's header.                                 |
+| `"header-menu-actions"`  | A slot for adding an overflow menu with `calcite-action`s inside a `calcite-dropdown`.      |
 
 ## Dependencies
 

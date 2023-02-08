@@ -1,5 +1,5 @@
+import { locales, numberStringFormatter } from "./locale";
 import { BigDecimal, isValidNumber, parseNumberString, sanitizeNumberString } from "./number";
-import { getDecimalSeparator, getGroupSeparator, getMinusSign, locales } from "./locale";
 
 describe("isValidNumber", () => {
   it("returns false for string values that can't compute to a number", () => {
@@ -111,19 +111,29 @@ describe("BigDecimal", () => {
     expect(negativeZero).toBe("-0");
   });
 
+  it("correctly formats long decimal numbers", () => {
+    numberStringFormatter.numberFormatOptions = {
+      locale: "en",
+      numberingSystem: "latn",
+      useGrouping: true
+    };
+    expect(new BigDecimal("123.0123456789").format(numberStringFormatter)).toBe("123.0123456789");
+  });
+
   locales.forEach((locale) => {
     it(`correctly localizes number parts - ${locale}`, () => {
-      const parts = new BigDecimal("-12345678.9").formatToParts(locale);
+      numberStringFormatter.numberFormatOptions = {
+        locale,
+        // the group separator is different in arabic depending on the numberingSystem
+        numberingSystem: locale === "ar" ? "arab" : "latn",
+        useGrouping: true
+      };
 
-      const group = getGroupSeparator(locale);
+      const parts = new BigDecimal("-12345678.9").formatToParts(numberStringFormatter);
       const groupPart = parts.find((part) => part.type === "group").value;
-      expect(groupPart.trim().length === 0 ? " " : groupPart).toBe(group);
-
-      const decimal = getDecimalSeparator(locale);
-      expect(parts.find((part) => part.type === "decimal").value).toBe(decimal);
-
-      const minusSign = getMinusSign(locale);
-      expect(parts.find((part) => part.type === "minusSign").value).toBe(minusSign);
+      expect(groupPart.trim().length === 0 ? " " : groupPart).toBe(numberStringFormatter.group);
+      expect(parts.find((part) => part.type === "decimal").value).toBe(numberStringFormatter.decimal);
+      expect(parts.find((part) => part.type === "minusSign").value).toBe(numberStringFormatter.minusSign);
     });
   });
 });

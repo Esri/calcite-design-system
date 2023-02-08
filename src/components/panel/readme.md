@@ -17,13 +17,13 @@ Renders a basic panel with a header.
 </calcite-panel>
 ```
 
-### Dismissible
+### Closable
 
-Renders a panel that is dismissible with a click of the "x".
+Renders a panel that is closable with a click of the "x".
 
 ```html
-<calcite-panel dismissible id="dismissible-panel">
-  <div slot="header-content">Dismissible Header</div>
+<calcite-panel closable id="closable-panel">
+  <div slot="header-content">Closable Header</div>
   <p>Click the X and I go away!</p>
 </calcite-panel>
 ```
@@ -67,36 +67,24 @@ Renders a panel with a header and a footer.
 
 ## Properties
 
-| Property         | Attribute          | Description                                                                                                                                                                                                  | Type                         | Default     |
-| ---------------- | ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------- | ----------- |
-| `beforeBack`     | --                 | <span style="color:red">**[DEPRECATED]**</span> use `calcite-flow-item` instead.<br/><br/>When provided, this method will be called before it is removed from the parent flow.                               | `() => Promise<void>`        | `undefined` |
-| `closable`       | `closable`         | When true, displays a close button in the trailing side of the header                                                                                                                                        | `boolean`                    | `false`     |
-| `closed`         | `closed`           | When true, panel will be hidden                                                                                                                                                                              | `boolean`                    | `false`     |
-| `description`    | `description`      | A description for the component.                                                                                                                                                                             | `string`                     | `undefined` |
-| `disabled`       | `disabled`         | When true, interaction is prevented and the component is displayed with lower opacity.                                                                                                                       | `boolean`                    | `false`     |
-| `dismissed`      | `dismissed`        | <span style="color:red">**[DEPRECATED]**</span> use closed instead<br/><br/>When true, hides the component.                                                                                                  | `boolean`                    | `false`     |
-| `dismissible`    | `dismissible`      | <span style="color:red">**[DEPRECATED]**</span> use closable instead<br/><br/>When true, a close button is added to the component.                                                                           | `boolean`                    | `false`     |
-| `heading`        | `heading`          | The component header text.                                                                                                                                                                                   | `string`                     | `undefined` |
-| `headingLevel`   | `heading-level`    | Specifies the number at which section headings should start.                                                                                                                                                 | `1 \| 2 \| 3 \| 4 \| 5 \| 6` | `undefined` |
-| `heightScale`    | `height-scale`     | Specifies the maximum height of the component.                                                                                                                                                               | `"l" \| "m" \| "s"`          | `undefined` |
-| `intlBack`       | `intl-back`        | <span style="color:red">**[DEPRECATED]**</span> use `calcite-flow-item` instead.<br/><br/>Accessible name for the component's back button. The back button will only be shown when 'showBackButton' is true. | `string`                     | `undefined` |
-| `intlClose`      | `intl-close`       | Accessible name for the component's close button. The close button will only be shown when 'dismissible' is true.                                                                                            | `string`                     | `undefined` |
-| `intlOptions`    | `intl-options`     | Accessible name for the component's actions menu.                                                                                                                                                            | `string`                     | `undefined` |
-| `loading`        | `loading`          | When true, a busy indicator is displayed.                                                                                                                                                                    | `boolean`                    | `false`     |
-| `menuOpen`       | `menu-open`        | When true, the action menu items in the `header-menu-actions` slot are open.                                                                                                                                 | `boolean`                    | `false`     |
-| `showBackButton` | `show-back-button` | <span style="color:red">**[DEPRECATED]**</span> use `calcite-flow-item` instead.<br/><br/>When true, displays a back button in the header.                                                                   | `boolean`                    | `false`     |
-| `summary`        | `summary`          | <span style="color:red">**[DEPRECATED]**</span> use description instead<br/><br/>Summary text. A description displayed underneath the heading.                                                               | `string`                     | `undefined` |
-| `widthScale`     | `width-scale`      | Specifies the width of the component.                                                                                                                                                                        | `"l" \| "m" \| "s"`          | `undefined` |
+| Property           | Attribute           | Description                                                                              | Type                         | Default     |
+| ------------------ | ------------------- | ---------------------------------------------------------------------------------------- | ---------------------------- | ----------- |
+| `closable`         | `closable`          | When `true`, displays a close button in the trailing side of the header.                 | `boolean`                    | `false`     |
+| `closed`           | `closed`            | When `true`, the component will be hidden.                                               | `boolean`                    | `false`     |
+| `description`      | `description`       | A description for the component.                                                         | `string`                     | `undefined` |
+| `disabled`         | `disabled`          | When `true`, interaction is prevented and the component is displayed with lower opacity. | `boolean`                    | `false`     |
+| `heading`          | `heading`           | The component header text.                                                               | `string`                     | `undefined` |
+| `headingLevel`     | `heading-level`     | Specifies the number at which section headings should start.                             | `1 \| 2 \| 3 \| 4 \| 5 \| 6` | `undefined` |
+| `loading`          | `loading`           | When `true`, a busy indicator is displayed.                                              | `boolean`                    | `false`     |
+| `menuOpen`         | `menu-open`         | When `true`, the action menu items in the `header-menu-actions` slot are open.           | `boolean`                    | `false`     |
+| `messageOverrides` | `message-overrides` | Use this property to override individual strings used by the component.                  | `PanelMessages`              | `undefined` |
 
 ## Events
 
-| Event                         | Description                                                                                                                                              | Type                |
-| ----------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------- |
-| `calcitePanelBackClick`       | <span style="color:red">**[DEPRECATED]**</span> use `calcite-flow-item` instead.<br/><br/>Fires when the back button is clicked.                         | `CustomEvent<void>` |
-| `calcitePanelClose`           | Fires when the close button is clicked.                                                                                                                  | `CustomEvent<void>` |
-| `calcitePanelDismiss`         | <span style="color:red">**[DEPRECATED]**</span> use calcitePanelClose instead.<br/><br/>Fires when the close button is clicked.                          | `CustomEvent<void>` |
-| `calcitePanelDismissedChange` | <span style="color:red">**[DEPRECATED]**</span> use calcitePanelClose instead.<br/><br/>Fires when there is a change to the `dismissed` property value . | `CustomEvent<void>` |
-| `calcitePanelScroll`          | Fires when the content is scrolled.                                                                                                                      | `CustomEvent<void>` |
+| Event                | Description                             | Type                |
+| -------------------- | --------------------------------------- | ------------------- |
+| `calcitePanelClose`  | Fires when the close button is clicked. | `CustomEvent<void>` |
+| `calcitePanelScroll` | Fires when the content is scrolled.     | `CustomEvent<void>` |
 
 ## Methods
 
@@ -104,21 +92,13 @@ Renders a panel with a header and a footer.
 
 Scrolls the component's content to a specified set of coordinates.
 
-```
-  myCalcitePanel.scrollContentTo({
-    left: 0, // Specifies the number of pixels along the X axis to scroll the window or element.
-    top: 0, // Specifies the number of pixels along the Y axis to scroll the window or element
-    behavior: "auto" // Specifies whether the scrolling should animate smoothly (smooth), or happen instantly in a single jump (auto, the default value).
-  });
-```
-
 #### Returns
 
 Type: `Promise<void>`
 
-### `setFocus(focusId?: "back-button" | "dismiss-button") => Promise<void>`
+### `setFocus() => Promise<void>`
 
-Sets focus on the component.
+Sets focus on the component's first focusable element.
 
 #### Returns
 
@@ -136,14 +116,6 @@ Type: `Promise<void>`
 | `"header-actions-start"` | A slot for adding actions or content to the start side of the header.            |
 | `"header-content"`       | A slot for adding custom content to the header.                                  |
 | `"header-menu-actions"`  | A slot for adding an overflow menu with actions inside a `calcite-dropdown`.     |
-
-## CSS Custom Properties
-
-| Name                         | Description                          |
-| ---------------------------- | ------------------------------------ |
-| `--calcite-panel-max-height` | The maximum height of the component. |
-| `--calcite-panel-max-width`  | The maximum width of the component.  |
-| `--calcite-panel-min-width`  | The minimum width of the component.  |
 
 ## Dependencies
 

@@ -56,22 +56,17 @@ Renders a tip manager using a group of tips as well as a single tip.
 
 ## Properties
 
-| Property              | Attribute               | Description                                                  | Type                         | Default     |
-| --------------------- | ----------------------- | ------------------------------------------------------------ | ---------------------------- | ----------- |
-| `closed`              | `closed`                | When true, does not display or position the component.       | `boolean`                    | `false`     |
-| `headingLevel`        | `heading-level`         | Specifies the number at which section headings should start. | `1 \| 2 \| 3 \| 4 \| 5 \| 6` | `undefined` |
-| `intlClose`           | `intl-close`            | Accessible name for the component's close button.            | `string`                     | `undefined` |
-| `intlDefaultTitle`    | `intl-default-title`    | Accessible name for the `calcite-tip-group` title.           | `string`                     | `undefined` |
-| `intlNext`            | `intl-next`             | Accessible name for navigating to the next tip.              | `string`                     | `undefined` |
-| `intlPaginationLabel` | `intl-pagination-label` | Text that accompanies the component's pagination.            | `string`                     | `undefined` |
-| `intlPrevious`        | `intl-previous`         | Accessible name for navigating to the previous tip.          | `string`                     | `undefined` |
+| Property           | Attribute           | Description                                                             | Type                         | Default     |
+| ------------------ | ------------------- | ----------------------------------------------------------------------- | ---------------------------- | ----------- |
+| `closed`           | `closed`            | When `true`, does not display or position the component.                | `boolean`                    | `false`     |
+| `headingLevel`     | `heading-level`     | Specifies the number at which section headings should start.            | `1 \| 2 \| 3 \| 4 \| 5 \| 6` | `undefined` |
+| `messageOverrides` | `message-overrides` | Use this property to override individual strings used by the component. | `TipManagerMessages`         | `undefined` |
 
 ## Events
 
-| Event                     | Description                                                                                                                                      | Type                |
-| ------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------- |
-| `calciteTipManagerClose`  | Emits when the component has been closed.                                                                                                        | `CustomEvent<void>` |
-| `calciteTipManagerToggle` | <span style="color:red">**[DEPRECATED]**</span> use "calciteTipManagerClose" instead.<br/><br/>Emits when the component has been open or closed. | `CustomEvent<void>` |
+| Event                    | Description                               | Type                |
+| ------------------------ | ----------------------------------------- | ------------------- |
+| `calciteTipManagerClose` | Emits when the component has been closed. | `CustomEvent<void>` |
 
 ## Methods
 

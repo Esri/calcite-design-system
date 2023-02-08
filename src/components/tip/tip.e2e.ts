@@ -1,5 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, hidden, renders, defaults, slots } from "../../tests/commonTests";
+import { accessible, hidden, renders, defaults, slots, t9n } from "../../tests/commonTests";
 import { CSS, SLOTS } from "./resources";
 
 describe("calcite-tip", () => {
@@ -19,10 +19,10 @@ describe("calcite-tip", () => {
 
   it("has slots", () => slots("calcite-tip", SLOTS));
 
-  it("should remove the closeButton if nonDismissible prop is true", async () => {
+  it("should remove the closeButton if closeDisabled prop is true", async () => {
     const page = await newE2EPage();
 
-    await page.setContent(`<calcite-tip non-dismissible><p>not dismissible</p></calcite-tip>`);
+    await page.setContent(`<calcite-tip close-disabled><p>not dismissible</p></calcite-tip>`);
 
     const closeButton = await page.find(`calcite-tip >>> .${CSS.close}`);
     expect(closeButton).toBeNull();
@@ -64,4 +64,6 @@ describe("calcite-tip", () => {
 
     expect(header).not.toBeNull();
   });
+
+  it("supports translations", () => t9n("calcite-tip"));
 });

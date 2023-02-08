@@ -40,7 +40,7 @@ Standalone user interface widgets or as part of larger, composite widgets.
 | textbox                      | A type of input that allows free-form text as its value.                                                                                                                       | [W3C](https://www.w3.org/TR/wai-aria-1.1/#textbox), [MDN](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/textbox_role)                   |
 | treeitem                     | An option item of a `tree`. This is an element within a tree that may be expanded or collapsed if it contains a sub-level group of tree item elements.                         | [W3C](https://www.w3.org/TR/wai-aria-1.1/#treeitem), [MDN](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/treeitem_role)                 |
 
-[scroll to top](#composite-roles)
+[scroll to top](#3-composite-roles)
 
 ## 2. Abstract Roles
 
@@ -61,7 +61,7 @@ Defining general role concepts, used for existence purposes only. **Authors must
 | widget             | An interactive component of a graphical user interface (GUI).                                                                                                                                                                                                                                                                                     | [W3C](https://www.w3.org/TR/wai-aria-1.1/#widget), [MDN](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/widget_role)           |
 | window             | A browser or application window.                                                                                                                                                                                                                                                                                                                  | [W3C](https://www.w3.org/TR/wai-aria-1.1/#window), [MDN](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/window_role)           |
 
-[scroll to top](#composite-roles)
+[scroll to top](#3-composite-roles)
 
 ## 3. Composite Roles
 
@@ -107,7 +107,7 @@ Learn more about the combobox role on [W3C](https://www.w3.org/TR/wai-aria-1.1/#
 | `Alt` + `↑` (_Optional_) | If the popup has focus, returns focus to the combobox, otherwise it closes the popup.                                                                                                                                                                                                                                                                                                                                                           |
 | `Enter`                  | If the combobox is editable and an autocomplete suggestion is selected in the popup, accepts the suggestion either by placing the input cursor at the end of the accepted value in the combobox or by performing a default action on the value. For example, in a messaging application, the default action may be to add the accepted value to a list of message recipients and then clear the combobox so the user can add another recipient. |
 
-[scroll to top](#composite-roles)
+[scroll to top](#roles)
 
 ### ii. grid
 
@@ -122,8 +122,8 @@ Learn more about the grid role on [W3C](https://www.w3.org/TR/wai-aria-1.1/#grid
 #### Grid Code
 
 ```html
-<!-- Grid role example 
-     Code pen example: https://codepen.io/geospatialem/pen/OJzwWKm 
+<!-- Grid role example
+     Code pen example: https://codepen.io/geospatialem/pen/OJzwWKm
 -->
 <table role="grid" aria-labelledby="grid-header">
   <caption id="grid-header">
@@ -140,9 +140,9 @@ Learn more about the grid role on [W3C](https://www.w3.org/TR/wai-aria-1.1/#grid
     <tr role="row">
       <th scope="row" role="rowheader" class="sr-only">Item 1</th>
       <!-- Note: for keyboard accessibility, all td elements, such as an input must contain a tabindex of 0 -->
-      <!-- example 1: 
+      <!-- example 1:
            <input tabindex="0" type="checkbox" id="{{WCAG 2.0 1.4.1}}-select">
-           <label for="{{WCAG 2.0 1.4.1}}-select">{{WCAG 2.0 1.4.1}}</label> 
+           <label for="{{WCAG 2.0 1.4.1}}-select">{{WCAG 2.0 1.4.1}}</label>
       -->
       <!-- example 2:
            <button tabindex="0">Success Criterion <span class="sr-only">{{WCAG 2.0 1.4.1}}</span></button>
@@ -184,7 +184,7 @@ To activate the interactive component, they will use the `return` and `space` ke
 | `ctrl` + `Home` | Moves focus to the first cell in the first row.                                                                                                                                                                                       |
 | `ctrl` + `End`  | Moves focus to the last cell in the last row.                                                                                                                                                                                         |
 
-[scroll to top](#composite-roles)
+[scroll to top](#roles)
 
 ### iii. listbox
 
@@ -247,7 +247,7 @@ Recommended selection model, holding modifier keys, such as `Shift` or `ctrl`, i
 | `ctrl` + `Shift` + `End` (_Optional_)  | Selects the focused option and all options down to the last option. Optionally, moves focus to the last option. |
 | `ctrl` + `A` (_Optional_)              | Selects all options in the list. Optionally, if all options are selected, it may also unselect all options.     |
 
-[scroll to top](#composite-roles)
+[scroll to top](#roles)
 
 ### iv. menu
 
@@ -299,7 +299,7 @@ Learn more about the menu role on [W3C](https://www.w3.org/TR/wai-aria-1.1/#menu
 | `End`                 | Moves focus to the last menu item.                                                                                                                         |
 | `A-Z` <br/> `a-z`     | - Moves focus to the next menu item with a label that starts with the typed character if such an menu item exists. <br/> - Otherwise, focus does not move. |
 
-[scroll to top](#composite-roles)
+[scroll to top](#roles)
 
 ### v. menubar
 
@@ -363,7 +363,7 @@ Learn more about the menubar role on [W3C](https://www.w3.org/TR/wai-aria-1.1/#m
 | `End`                 | Moves focus to last item in the menubar.                                                                                                                                                                                      |
 | `A-Z` <br/> `a-z`     | - Moves focus to next item in the menubar having a name that starts with the typed character. <br/> - If none of the items have a name starting with the typed character, focus does not move.                                |
 
-[scroll to top](#composite-roles)
+[scroll to top](#roles)
 
 ### vi. radiogroup
 
@@ -381,12 +381,12 @@ Learn more about the radiogroup role on [W3C](https://www.w3.org/TR/wai-aria-1.1
 
 ```html
 <!-- Radiogroup role example -->
-<span id="radio-group-label">What is the study of physical features on Earth?</span>
+<span id="segmented-control-label">What is the study of physical features on Earth?</span>
 <ul
-  id="radio-group"
+  id="segmented-control"
   class="radiogroup"
   role="radiogroup"
-  aria-labelledby="radio-group-label"
+  aria-labelledby="segmented-control-label"
   aria-activedescendant="radio-geography"
   tabindex="0"
 >
@@ -428,7 +428,7 @@ Learn more about the radiogroup role on [W3C](https://www.w3.org/TR/wai-aria-1.1
 | `tab`           | Moves keyboard focus to radiogroup. |
 | `←` `→` `↑` `↓` | Moves up and down radio options.    |
 
-[scroll to top](#composite-roles)
+[scroll to top](#roles)
 
 ### vii. tablist
 
@@ -477,7 +477,7 @@ If the `tablist` is horizontal, it does not listen for `↓` or `↑` so those k
 | `Shift` + `F10`       | If the tab has an associated popup menu, opens the menu.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
 | `Delete` (_optional_) | If deletion is allowed, deletes (closes) the current tab element and its associated tab panel, sets focus on the tab following the tab that was closed, and optionally activates the newly focused tab. If there is not a tab that followed the tab that was deleted, e.g., the deleted tab was the right-most tab in a left-to-right horizontal tab list, sets focus on and optionally activates the tab that preceded the deleted tab. If the application allows all tabs to be deleted, and the user deletes the last remaining tab in the tab list, the application moves focus to another element that provides a logical work flow. As an alternative to Delete, or in addition to supporting Delete, the delete function is available in a context menu. |
 
-[scroll to top](#composite-roles)
+[scroll to top](#roles)
 
 ### viii. tree
 
@@ -578,7 +578,7 @@ For a vertically oriented `tree`, which is the default orientation:
 
 `*` Type-ahead is recommended for all trees, especially for trees with more than 7 root nodes.
 
-[scroll to top](#composite-roles)
+[scroll to top](#roles)
 
 ### ix. treegrid
 
@@ -668,4 +668,4 @@ If navigation functions can dynamically add more rows or columns to the DOM, key
 
 While navigation keys, such as arrow keys, are moving focus from cell to cell, they are not available to do something like operate a `combobox` or move an editing caret inside of a cell.
 
-[scroll to top](#composite-roles)
+[scroll to top](#roles)

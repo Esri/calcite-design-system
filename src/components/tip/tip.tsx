@@ -1,12 +1,32 @@
-import { Component, Element, Event, EventEmitter, Prop, h, VNode, Fragment } from "@stencil/core";
-import { CSS, ICONS, SLOTS, TEXT, HEADING_LEVEL } from "./resources";
-import { getSlotted } from "../../utils/dom";
-import { HeadingLevel, Heading, constrainHeadingLevel } from "../functional/Heading";
+import {
+  Component,
+  Element,
+  Event,
+  EventEmitter,
+  Fragment,
+  h,
+  Prop,
+  State,
+  VNode,
+  Watch
+} from "@stencil/core";
 import {
   ConditionalSlotComponent,
   connectConditionalSlotComponent,
   disconnectConditionalSlotComponent
 } from "../../utils/conditionalSlot";
+import { getSlotted } from "../../utils/dom";
+import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
+import {
+  connectMessages,
+  disconnectMessages,
+  setUpMessages,
+  T9nComponent,
+  updateMessages
+} from "../../utils/t9n";
+import { constrainHeadingLevel, Heading, HeadingLevel } from "../functional/Heading";
+import { TipMessages } from "./assets/tip/t9n";
+import { CSS, ICONS, SLOTS } from "./resources";
 
 /**
  * @slot - A slot for adding text and a hyperlink.
@@ -15,28 +35,29 @@ import {
 @Component({
   tag: "calcite-tip",
   styleUrl: "tip.scss",
-  shadow: true
+  shadow: true,
+  assetsDirs: ["assets"]
 })
-export class Tip implements ConditionalSlotComponent {
+export class Tip implements ConditionalSlotComponent, LocalizedComponent, T9nComponent {
   // --------------------------------------------------------------------------
   //
   //  Properties
   //
   // --------------------------------------------------------------------------
   /**
-   * When true, the component does not display.
+   * When `true`, the component does not display.
    */
-  @Prop({ reflect: true, mutable: true }) dismissed = false;
+  @Prop({ reflect: true, mutable: true }) closed = false;
 
   /**
-   * When true, the close button is not present on the component.
+   * When `true`, the close button is not present on the component.
    */
-  @Prop({ reflect: true }) nonDismissible = false;
+  @Prop({ reflect: true }) closeDisabled = false;
 
   /**
    * The component header text.
    */
-  @Prop() heading?: string;
+  @Prop() heading: string;
 
   /**
    * Specifies the number at which section headings should start.
@@ -44,16 +65,28 @@ export class Tip implements ConditionalSlotComponent {
   @Prop({ reflect: true }) headingLevel: HeadingLevel;
 
   /**
-   * When true and if it has a parent `calcite-tip-manager`, the component is selected.
+   * When `true`, the component is selected if it has a parent `calcite-tip-manager`.
    *
    * Only one tip can be selected within the `calcite-tip-manager` parent.
    */
   @Prop({ reflect: true }) selected = false;
 
   /**
-   * Accessible name for the component's close button.
+   * Made into a prop for testing purposes only
+   *
+   * @internal
    */
-  @Prop() intlClose?: string;
+  @Prop({ mutable: true }) messages: TipMessages;
+
+  /**
+   * Use this property to override individual strings used by the component.
+   */
+  @Prop({ mutable: true }) messageOverrides: Partial<TipMessages>;
+
+  @Watch("messageOverrides")
+  onMessagesChange(): void {
+    /* wired up by t9n util */
+  }
 
   // --------------------------------------------------------------------------
   //
@@ -63,6 +96,15 @@ export class Tip implements ConditionalSlotComponent {
 
   @Element() el: HTMLCalciteTipElement;
 
+  @State() defaultMessages: TipMessages;
+
+  @State() effectiveLocale = "";
+
+  @Watch("effectiveLocale")
+  effectiveLocaleChange(): void {
+    updateMessages(this, this.effectiveLocale);
+  }
+
   // --------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -71,10 +113,18 @@ export class Tip implements ConditionalSlotComponent {
 
   connectedCallback(): void {
     connectConditionalSlotComponent(this);
+    connectLocalized(this);
+    connectMessages(this);
+  }
+
+  async componentWillLoad(): Promise<void> {
+    await setUpMessages(this);
   }
 
   disconnectedCallback(): void {
     disconnectConditionalSlotComponent(this);
+    disconnectLocalized(this);
+    disconnectMessages(this);
   }
 
   // --------------------------------------------------------------------------
@@ -84,7 +134,7 @@ export class Tip implements ConditionalSlotComponent {
   // --------------------------------------------------------------------------
 
   /**
-   * Emits when the component has been dismissed.
+   * Emits when the component has been closed.
    */
   @Event({ cancelable: false }) calciteTipDismiss: EventEmitter<void>;
 
@@ -95,7 +145,7 @@ export class Tip implements ConditionalSlotComponent {
   // --------------------------------------------------------------------------
 
   hideTip = (): void => {
-    this.dismissed = true;
+    this.closed = true;
 
     this.calciteTipDismiss.emit();
   };
@@ -110,7 +160,7 @@ export class Tip implements ConditionalSlotComponent {
     const { heading, headingLevel, el } = this;
     const parentLevel = el.closest("calcite-tip-manager")?.headingLevel;
     const relativeLevel = parentLevel ? constrainHeadingLevel(parentLevel + 1) : null;
-    const level = headingLevel || relativeLevel || HEADING_LEVEL;
+    const level = headingLevel || relativeLevel;
 
     return heading ? (
       <header class={CSS.header}>
@@ -122,17 +172,14 @@ export class Tip implements ConditionalSlotComponent {
   }
 
   renderDismissButton(): VNode {
-    const { nonDismissible, hideTip, intlClose } = this;
-
-    const text = intlClose || TEXT.close;
-
-    return !nonDismissible ? (
+    const { closeDisabled, hideTip } = this;
+    return !closeDisabled ? (
       <calcite-action
         class={CSS.close}
         icon={ICONS.close}
         onClick={hideTip}
         scale="l"
-        text={text}
+        text={this.messages.close}
       />
     ) : null;
   }

@@ -7,19 +7,18 @@ import {
   Host,
   Listen,
   Prop,
-  VNode,
-  Watch
+  VNode
 } from "@stencil/core";
-import { getElementDir, getElementProp, getSlotted, toAriaBoolean } from "../../utils/dom";
 import {
+  ConditionalSlotComponent,
   connectConditionalSlotComponent,
-  disconnectConditionalSlotComponent,
-  ConditionalSlotComponent
+  disconnectConditionalSlotComponent
 } from "../../utils/conditionalSlot";
+import { getElementDir, getElementProp, getSlotted, toAriaBoolean } from "../../utils/dom";
 import { CSS_UTILITY } from "../../utils/resources";
 import { SLOTS, CSS } from "./resources";
-import { Position } from "../interfaces";
-import { ItemKeyEvent, RegistryEntry, RequestedItem } from "./interfaces";
+import { FlipContext, Position, Scale } from "../interfaces";
+import { RegistryEntry, RequestedItem } from "./interfaces";
 
 /**
  * @slot - A slot for adding custom content, including nested `calcite-accordion-item`s.
@@ -44,81 +43,29 @@ export class AccordionItem implements ConditionalSlotComponent {
   //
   //--------------------------------------------------------------------------
 
-  /**
-   * When true, the component is active.
-   *
-   * @deprecated use expanded instead
-   */
-
-  @Prop({ reflect: true, mutable: true }) active = false;
-
-  @Watch("active")
-  activeHandler(value: boolean): void {
-    this.expanded = value;
-  }
-
-  /** When true, item is expanded */
+  /** When `true`, the component is expanded. */
   @Prop({ reflect: true, mutable: true }) expanded = false;
 
-  @Watch("expanded")
-  expandedHandler(value: boolean): void {
-    this.active = value;
-  }
-
-  /**
-   * Specifies a title for the component.
-   *
-   * @deprecated Use `heading` instead.
-   */
-  @Prop()
-  itemTitle?: string;
-
-  /**
-   * Specifies a subtitle for the component.
-   *
-   * @deprecated Use `description` instead.
-   */
-  @Prop() itemSubtitle?: string;
-
   /** Specifies heading text for the component. */
-  @Prop() heading?: string;
+  @Prop() heading: string;
 
   /** Specifies a description for the component. */
   @Prop() description: string;
 
-  /**
-   * Specifies an icon to display.
-   *
-   * @deprecated use `iconStart` or `iconEnd` instead.
-   */
-  @Prop({ mutable: true, reflect: true }) icon?: string;
-
-  @Watch("icon")
-  iconHandler(value: string): void {
-    this.iconStart = value;
-  }
-
   /** Specifies an icon to display at the start of the component. */
-  @Prop({ reflect: true }) iconStart?: string;
-
-  @Watch("iconStart")
-  iconStartHandler(value: string): void {
-    this.icon = value;
-  }
+  @Prop({ reflect: true }) iconStart: string;
 
   /** Specifies an icon to display at the end of the component. */
-  @Prop({ reflect: true }) iconEnd?: string;
+  @Prop({ reflect: true }) iconEnd: string;
+
+  /** Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`). */
+  @Prop({ reflect: true }) iconFlipRtl: FlipContext;
 
   //--------------------------------------------------------------------------
   //
   //  Events
   //
   //--------------------------------------------------------------------------
-
-  /**
-   * @internal
-   */
-  @Event({ cancelable: false }) calciteInternalAccordionItemKeyEvent: EventEmitter<ItemKeyEvent>;
 
   /**
    * @internal
@@ -143,20 +90,9 @@ export class AccordionItem implements ConditionalSlotComponent {
 
   connectedCallback(): void {
     this.parent = this.el.parentElement as HTMLCalciteAccordionElement;
-    this.selectionMode = getElementProp(this.el, "selection-mode", "multi");
     this.iconType = getElementProp(this.el, "icon-type", "chevron");
     this.iconPosition = getElementProp(this.el, "icon-position", this.iconPosition);
-    const isExpanded = this.active || this.expanded;
-    if (isExpanded) {
-      this.activeHandler(isExpanded);
-      this.expandedHandler(isExpanded);
-    }
-
-    if (this.iconStart) {
-      this.icon = this.iconStart;
-    } else if (this.icon) {
-      this.iconStart = this.icon;
-    }
+    this.scale = getElementProp(this.el, "scale", this.scale);
 
     connectConditionalSlotComponent(this);
   }
@@ -198,14 +134,27 @@ export class AccordionItem implements ConditionalSlotComponent {
   }
 
   render(): VNode {
+    const { iconFlipRtl } = this;
     const dir = getElementDir(this.el);
     const iconStartEl = this.iconStart ? (
-      <calcite-icon class={CSS.iconStart} icon={this.iconStart} key="icon-start" scale="s" />
+      <calcite-icon
+        class={CSS.iconStart}
+        flipRtl={iconFlipRtl === "both" || iconFlipRtl === "start"}
+        icon={this.iconStart}
+        key="icon-start"
+        scale={this.scale === "l" ? "m" : "s"}
+      />
     ) : null;
     const iconEndEl = this.iconEnd ? (
-      <calcite-icon class={CSS.iconEnd} icon={this.iconEnd} key="icon-end" scale="s" />
+      <calcite-icon
+        class={CSS.iconEnd}
+        flipRtl={iconFlipRtl === "both" || iconFlipRtl === "end"}
+        icon={this.iconEnd}
+        key="icon-end"
+        scale={this.scale === "l" ? "m" : "s"}
+      />
     ) : null;
-    const description = this.description || this.itemSubtitle;
+    const { description } = this;
     return (
       <Host>
         <div
@@ -217,7 +166,7 @@ export class AccordionItem implements ConditionalSlotComponent {
           <div class={{ [CSS.header]: true, [CSS_UTILITY.rtl]: dir === "rtl" }}>
             {this.renderActionsStart()}
             <div
-              aria-expanded={toAriaBoolean(this.active || this.expanded)}
+              aria-expanded={toAriaBoolean(this.expanded)}
               class={CSS.headerContent}
               onClick={this.itemHeaderClickHandler}
               role="button"
@@ -226,7 +175,7 @@ export class AccordionItem implements ConditionalSlotComponent {
               <div class={CSS.headerContainer}>
                 {iconStartEl}
                 <div class={CSS.headerText}>
-                  <span class={CSS.heading}>{this.heading || this.itemTitle}</span>
+                  <span class={CSS.heading}>{this.heading}</span>
                   {description ? <span class={CSS.description}>{description}</span> : null}
                 </div>
                 {iconEndEl}
@@ -238,11 +187,11 @@ export class AccordionItem implements ConditionalSlotComponent {
                     ? "chevronDown"
                     : this.iconType === "caret"
                     ? "caretDown"
-                    : this.expanded || this.active
+                    : this.expanded
                     ? "minus"
                     : "plus"
                 }
-                scale="s"
+                scale={this.scale === "l" ? "m" : "s"}
               />
             </div>
             {this.renderActionsEnd()}
@@ -268,16 +217,6 @@ export class AccordionItem implements ConditionalSlotComponent {
         case " ":
         case "Enter":
           this.emitRequestedItem();
-          event.preventDefault();
-          break;
-        case "ArrowUp":
-        case "ArrowDown":
-        case "Home":
-        case "End":
-          this.calciteInternalAccordionItemKeyEvent.emit({
-            parent: this.parent,
-            item: event
-          });
           event.preventDefault();
           break;
       }
@@ -321,6 +260,10 @@ export class AccordionItem implements ConditionalSlotComponent {
 
   /** handle clicks on item header */
   private itemHeaderClickHandler = (): void => this.emitRequestedItem();
+
+  /** Specifies the scale of the `accordion-item` controlled by the parent, defaults to m */
+  scale: Scale = "m";
+
   //--------------------------------------------------------------------------
   //
   //  Private Methods
@@ -328,8 +271,9 @@ export class AccordionItem implements ConditionalSlotComponent {
   //--------------------------------------------------------------------------
 
   private determineActiveItem(): void {
+    this.selectionMode = getElementProp(this.el, "selection-mode", "multiple");
     switch (this.selectionMode) {
-      case "multi":
+      case "multiple":
         if (this.el === this.requestedAccordionItem) {
           this.expanded = !this.expanded;
         }

@@ -1,14 +1,20 @@
-import { Component, Element, Event, EventEmitter, Method, Prop, h, VNode } from "@stencil/core";
+import { Component, Element, Event, EventEmitter, h, Method, Prop, VNode } from "@stencil/core";
 import { toAriaBoolean } from "../../utils/dom";
+import {
+  componentLoaded,
+  LoadableComponent,
+  setComponentLoaded,
+  setUpLoadableComponent
+} from "../../utils/loadable";
+import { HandleNudge } from "./interfaces";
 import { CSS, ICONS } from "./resources";
-import { DeprecatedEventPayload } from "../interfaces";
 
 @Component({
   tag: "calcite-handle",
   styleUrl: "handle.scss",
   shadow: true
 })
-export class Handle {
+export class Handle implements LoadableComponent {
   // --------------------------------------------------------------------------
   //
   //  Properties
@@ -24,6 +30,20 @@ export class Handle {
    * Value for the button title attribute
    */
   @Prop({ reflect: true }) textTitle = "handle";
+
+  //--------------------------------------------------------------------------
+  //
+  //  Lifecycle
+  //
+  //--------------------------------------------------------------------------
+
+  componentWillLoad(): void {
+    setUpLoadableComponent(this);
+  }
+
+  componentDidLoad(): void {
+    setComponentLoaded(this);
+  }
 
   // --------------------------------------------------------------------------
   //
@@ -43,10 +63,8 @@ export class Handle {
 
   /**
    * Emitted when the handle is activated and the up or down arrow key is pressed.
-   *
-   * **Note:**: The `handle` event payload prop is deprecated, please use the event's `target`/`currentTarget` instead
    */
-  @Event({ cancelable: false }) calciteHandleNudge: EventEmitter<DeprecatedEventPayload>;
+  @Event({ cancelable: false }) calciteHandleNudge: EventEmitter<HandleNudge>;
 
   // --------------------------------------------------------------------------
   //
@@ -57,6 +75,8 @@ export class Handle {
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
+    await componentLoaded(this);
+
     this.handleButton?.focus();
   }
 
@@ -73,13 +93,18 @@ export class Handle {
         event.preventDefault();
         break;
       case "ArrowUp":
+        if (!this.activated) {
+          return;
+        }
+        event.preventDefault();
+        this.calciteHandleNudge.emit({ direction: "up" });
+        break;
       case "ArrowDown":
         if (!this.activated) {
           return;
         }
         event.preventDefault();
-        const direction = event.key.toLowerCase().replace("arrow", "");
-        this.calciteHandleNudge.emit({ handle: this.el, direction });
+        this.calciteHandleNudge.emit({ direction: "down" });
         break;
     }
   };

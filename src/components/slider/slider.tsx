@@ -14,11 +14,7 @@ import {
 } from "@stencil/core";
 import { guid } from "../../utils/guid";
 
-import { ColorStop, DataSeries } from "../graph/interfaces";
-import { intersects } from "../../utils/dom";
-import { clamp, decimalPlaces } from "../../utils/math";
-import { Scale } from "../interfaces";
-import { LabelableComponent, connectLabel, disconnectLabel } from "../../utils/label";
+import { intersects, isPrimaryPointerButton } from "../../utils/dom";
 import {
   afterConnectDefaultValueSet,
   connectForm,
@@ -28,15 +24,27 @@ import {
 } from "../../utils/form";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import { isActivationKey } from "../../utils/key";
-import { localizeNumberString } from "../../utils/locale";
+import { connectLabel, disconnectLabel, LabelableComponent } from "../../utils/label";
 import {
-  GlobalAttrComponent,
-  watchGlobalAttributes,
-  unwatchGlobalAttributes
-} from "../../utils/globalAttributes";
+  componentLoaded,
+  LoadableComponent,
+  setComponentLoaded,
+  setUpLoadableComponent
+} from "../../utils/loadable";
+import {
+  connectLocalized,
+  disconnectLocalized,
+  LocalizedComponent,
+  NumberingSystem,
+  numberStringFormatter
+} from "../../utils/locale";
+import { clamp, decimalPlaces } from "../../utils/math";
+import { ColorStop, DataSeries } from "../graph/interfaces";
+import { Scale } from "../interfaces";
 import { CSS } from "./resources";
 
 type ActiveSliderProperty = "minValue" | "maxValue" | "value" | "minMaxValue";
+type SetValueProperty = Exclude<ActiveSliderProperty, "minMaxValue">;
 
 function isRange(value: number | number[]): value is number[] {
   return Array.isArray(value);
@@ -45,10 +53,17 @@ function isRange(value: number | number[]): value is number[] {
 @Component({
   tag: "calcite-slider",
   styleUrl: "slider.scss",
-  shadow: true
+  shadow: {
+    delegatesFocus: true
+  }
 })
 export class Slider
-  implements LabelableComponent, FormComponent, InteractiveComponent, GlobalAttrComponent
+  implements
+    LabelableComponent,
+    FormComponent,
+    InteractiveComponent,
+    LocalizedComponent,
+    LoadableComponent
 {
   //--------------------------------------------------------------------------
   //
@@ -63,23 +78,23 @@ export class Slider
   //
   //--------------------------------------------------------------------------
 
-  /** When true, interaction is prevented and the component is displayed with lower opacity. */
+  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @Prop({ reflect: true }) disabled = false;
 
   /**
-   * When true, number values are displayed with a group separator corresponding to the language and country format.
+   * When `true`, number values are displayed with a group separator corresponding to the language and country format.
    */
   @Prop({ reflect: true }) groupSeparator = false;
 
-  /** When true, indicates a histogram is present. */
+  /** When `true`, indicates a histogram is present. */
   @Prop({ reflect: true, mutable: true }) hasHistogram = false;
 
   /**
-   * A list of the histogram's x,y coordinates within the component's "min" and "max". Displays above the component's track.
+   * A list of the histogram's x,y coordinates within the component's `min` and `max`. Displays above the component's track.
    *
    * @see [DataSeries](https://github.com/Esri/calcite-components/blob/master/src/components/graph/interfaces.ts#L5)
    */
-  @Prop() histogram?: DataSeries;
+  @Prop() histogram: DataSeries;
 
   @Watch("histogram")
   histogramWatcher(newHistogram: DataSeries): void {
@@ -91,66 +106,68 @@ export class Slider
    */
   @Prop() histogramStops: ColorStop[];
 
-  /** When true, displays label handles with their numeric value. */
+  /** When `true`, displays label handles with their numeric value. */
   @Prop({ reflect: true }) labelHandles = false;
 
-  /** When true and "ticks" is specified, displays label tick marks with their numeric value. */
+  /** When `true` and `ticks` is specified, displays label tick marks with their numeric value. */
   @Prop({ reflect: true }) labelTicks = false;
 
   /** The component's maximum selectable value. */
   @Prop({ reflect: true }) max = 100;
 
-  /** For multiple selections, the accessible name for the second handle, such as "Temperature, upper bound". */
-  @Prop() maxLabel?: string;
+  /** For multiple selections, the accessible name for the second handle, such as `"Temperature, upper bound"`. */
+  @Prop() maxLabel: string;
 
   /** For multiple selections, the component's upper value. */
-  @Prop({ mutable: true }) maxValue?: number;
+  @Prop({ mutable: true }) maxValue: number;
 
   /** The component's minimum selectable value. */
   @Prop({ reflect: true }) min = 0;
 
-  /** Accessible name for first (or only) handle, such as "Temperature, lower bound". */
+  /** Accessible name for first (or only) handle, such as `"Temperature, lower bound"`. */
   @Prop() minLabel: string;
 
   /** For multiple selections, the component's lower value. */
-  @Prop({ mutable: true }) minValue?: number;
+  @Prop({ mutable: true }) minValue: number;
 
   /**
-   * When true, the slider will display values from high to low.
+   * When `true`, the slider will display values from high to low.
    *
    * Note that this value will be ignored if the slider has an associated histogram.
    */
   @Prop({ reflect: true }) mirrored = false;
 
-  /** Specifies the name of the component on form submission. */
+  /**
+   * Specifies the name of the component.
+   *
+   * Required to pass the component's `value` on form submission.
+   */
   @Prop({ reflect: true }) name: string;
 
   /**
    * Specifies the Unicode numeral system used by the component for localization.
-   *
-   * @mdn [numberingSystem](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/Locale/numberingSystem)
    */
-  @Prop() numberingSystem?: string;
+  @Prop() numberingSystem: NumberingSystem;
 
   /** Specifies the interval to move with the page up, or page down keys. */
-  @Prop({ reflect: true }) pageStep?: number;
+  @Prop({ reflect: true }) pageStep: number;
 
-  /** When true, sets a finer point for handles. */
+  /** When `true`, sets a finer point for handles. */
   @Prop({ reflect: true }) precise = false;
 
   /**
-   * When true, the component must have a value in order for the form to submit.
+   * When `true`, the component must have a value in order for the form to submit.
    */
   @Prop({ reflect: true }) required = false;
 
-  /** When true, enables snap selection in coordination with "step" via a mouse. */
+  /** When `true`, enables snap selection in coordination with `step` via a mouse. */
   @Prop({ reflect: true }) snap = false;
 
   /** Specifies the interval to move with the up, or down keys. */
-  @Prop({ reflect: true }) step?: number = 1;
+  @Prop({ reflect: true }) step = 1;
 
   /** Displays tick marks on the number line at a specified interval. */
-  @Prop({ reflect: true }) ticks?: number;
+  @Prop({ reflect: true }) ticks: number;
 
   /** The component's value. */
   @Prop({ reflect: true, mutable: true }) value: null | number | number[] = 0;
@@ -178,21 +195,22 @@ export class Slider
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
+    connectLocalized(this);
     this.setMinMaxFromValue();
     this.setValueFromMinMax();
     connectLabel(this);
     connectForm(this);
-    watchGlobalAttributes(this, ["lang"]);
   }
 
   disconnectedCallback(): void {
     disconnectLabel(this);
     disconnectForm(this);
+    disconnectLocalized(this);
     this.removeDragListeners();
-    unwatchGlobalAttributes(this);
   }
 
   componentWillLoad(): void {
+    setUpLoadableComponent(this);
     this.tickValues = this.generateTickValues();
     if (!isRange(this.value)) {
       this.value = this.clamp(this.value);
@@ -204,6 +222,10 @@ export class Slider
     if (this.histogram) {
       this.hasHistogram = true;
     }
+  }
+
+  componentDidLoad(): void {
+    setComponentLoaded(this);
   }
 
   componentDidRender(): void {
@@ -259,7 +281,7 @@ export class Slider
         }}
         onBlur={() => (this.activeProp = null)}
         onFocus={() => (this.activeProp = maxProp)}
-        onPointerDown={() => this.dragStart(maxProp)}
+        onPointerDown={(event) => this.pointerDownDragStart(event, maxProp)}
         ref={(el) => (this.maxHandle = el as HTMLDivElement)}
         role="slider"
         style={{ right: rightThumbOffset }}
@@ -284,7 +306,7 @@ export class Slider
         }}
         onBlur={() => (this.activeProp = null)}
         onFocus={() => (this.activeProp = maxProp)}
-        onPointerDown={() => this.dragStart(maxProp)}
+        onPointerDown={(event) => this.pointerDownDragStart(event, maxProp)}
         ref={(el) => (this.maxHandle = el as HTMLDivElement)}
         role="slider"
         style={{ right: rightThumbOffset }}
@@ -318,7 +340,7 @@ export class Slider
         }}
         onBlur={() => (this.activeProp = null)}
         onFocus={() => (this.activeProp = maxProp)}
-        onPointerDown={() => this.dragStart(maxProp)}
+        onPointerDown={(event) => this.pointerDownDragStart(event, maxProp)}
         ref={(el) => (this.maxHandle = el as HTMLDivElement)}
         role="slider"
         style={{ right: rightThumbOffset }}
@@ -353,7 +375,7 @@ export class Slider
         }}
         onBlur={() => (this.activeProp = null)}
         onFocus={() => (this.activeProp = maxProp)}
-        onPointerDown={() => this.dragStart(maxProp)}
+        onPointerDown={(event) => this.pointerDownDragStart(event, maxProp)}
         ref={(el) => (this.maxHandle = el as HTMLDivElement)}
         role="slider"
         style={{ right: rightThumbOffset }}
@@ -380,7 +402,7 @@ export class Slider
         }}
         onBlur={() => (this.activeProp = null)}
         onFocus={() => (this.activeProp = maxProp)}
-        onPointerDown={() => this.dragStart(maxProp)}
+        onPointerDown={(event) => this.pointerDownDragStart(event, maxProp)}
         ref={(el) => (this.maxHandle = el as HTMLDivElement)}
         role="slider"
         style={{ right: rightThumbOffset }}
@@ -407,7 +429,7 @@ export class Slider
         }}
         onBlur={() => (this.activeProp = null)}
         onFocus={() => (this.activeProp = maxProp)}
-        onPointerDown={() => this.dragStart(maxProp)}
+        onPointerDown={(event) => this.pointerDownDragStart(event, maxProp)}
         ref={(el) => (this.maxHandle = el as HTMLDivElement)}
         role="slider"
         style={{ right: rightThumbOffset }}
@@ -443,7 +465,7 @@ export class Slider
         }}
         onBlur={() => (this.activeProp = null)}
         onFocus={() => (this.activeProp = maxProp)}
-        onPointerDown={() => this.dragStart(maxProp)}
+        onPointerDown={(event) => this.pointerDownDragStart(event, maxProp)}
         ref={(el) => (this.maxHandle = el as HTMLDivElement)}
         role="slider"
         style={{ right: rightThumbOffset }}
@@ -478,7 +500,7 @@ export class Slider
         }}
         onBlur={() => (this.activeProp = null)}
         onFocus={() => (this.activeProp = "minValue")}
-        onPointerDown={() => this.dragStart("minValue")}
+        onPointerDown={(event) => this.pointerDownDragStart(event, "minValue")}
         ref={(el) => (this.minHandle = el as HTMLDivElement)}
         role="slider"
         style={{ left: leftThumbOffset }}
@@ -503,7 +525,7 @@ export class Slider
         }}
         onBlur={() => (this.activeProp = null)}
         onFocus={() => (this.activeProp = "minValue")}
-        onPointerDown={() => this.dragStart("minValue")}
+        onPointerDown={(event) => this.pointerDownDragStart(event, "minValue")}
         ref={(el) => (this.minHandle = el as HTMLDivElement)}
         role="slider"
         style={{ left: leftThumbOffset }}
@@ -537,7 +559,7 @@ export class Slider
         }}
         onBlur={() => (this.activeProp = null)}
         onFocus={() => (this.activeProp = "minValue")}
-        onPointerDown={() => this.dragStart("minValue")}
+        onPointerDown={(event) => this.pointerDownDragStart(event, "minValue")}
         ref={(el) => (this.minHandle = el as HTMLDivElement)}
         role="slider"
         style={{ left: leftThumbOffset }}
@@ -572,7 +594,7 @@ export class Slider
         }}
         onBlur={() => (this.activeProp = null)}
         onFocus={() => (this.activeProp = "minValue")}
-        onPointerDown={() => this.dragStart("minValue")}
+        onPointerDown={(event) => this.pointerDownDragStart(event, "minValue")}
         ref={(el) => (this.minHandle = el as HTMLDivElement)}
         role="slider"
         style={{ left: leftThumbOffset }}
@@ -599,7 +621,7 @@ export class Slider
         }}
         onBlur={() => (this.activeProp = null)}
         onFocus={() => (this.activeProp = "minValue")}
-        onPointerDown={() => this.dragStart("minValue")}
+        onPointerDown={(event) => this.pointerDownDragStart(event, "minValue")}
         ref={(el) => (this.minHandle = el as HTMLDivElement)}
         role="slider"
         style={{ left: leftThumbOffset }}
@@ -632,7 +654,7 @@ export class Slider
           <div class="track" ref={this.storeTrackRef}>
             <div
               class="track__range"
-              onPointerDown={() => this.dragStart("minMaxValue")}
+              onPointerDown={(event) => this.pointerDownDragStart(event, "minMaxValue")}
               style={{
                 left: `${mirror ? 100 - maxInterval : minInterval}%`,
                 right: `${mirror ? minInterval : 100 - maxInterval}%`
@@ -832,13 +854,18 @@ export class Slider
     }
     event.preventDefault();
     const fixedDecimalAdjustment = Number(adjustment.toFixed(decimalPlaces(step)));
-    this.setValue(activeProp, this.clamp(fixedDecimalAdjustment, activeProp));
+    this.setValue({
+      [activeProp as SetValueProperty]: this.clamp(fixedDecimalAdjustment, activeProp)
+    });
   }
 
   @Listen("pointerdown")
   pointerDownHandler(event: PointerEvent): void {
+    if (!isPrimaryPointerButton(event)) {
+      return;
+    }
+
     const x = event.clientX || event.pageX;
-    this.focusActiveHandle(x);
     const position = this.translate(x);
     let prop: ActiveSliderProperty = "value";
     if (isRange(this.value)) {
@@ -854,8 +881,9 @@ export class Slider
     this.dragStart(prop);
     const isThumbActive = this.el.shadowRoot.querySelector(".thumb:active");
     if (!isThumbActive) {
-      this.setValue(prop, this.clamp(position, prop));
+      this.setValue({ [prop as SetValueProperty]: this.clamp(position, prop) });
     }
+    this.focusActiveHandle(x);
   }
 
   handleTouchStart(event: TouchEvent): void {
@@ -885,17 +913,6 @@ export class Slider
    */
   @Event({ cancelable: false }) calciteSliderChange: EventEmitter<void>;
 
-  /**
-   * Fires on all updates to the component.
-   *
-   * **Note:** Will be fired frequently during drag. If you are performing any
-   * expensive operations consider using a debounce or throttle to avoid
-   * locking up the main thread.
-   *
-   * @deprecated use `calciteSliderInput` instead.
-   */
-  @Event({ cancelable: false }) calciteSliderUpdate: EventEmitter<void>;
-
   //--------------------------------------------------------------------------
   //
   //  Public Methods
@@ -905,6 +922,8 @@ export class Slider
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
+    await componentLoaded(this);
+
     const handle = this.minHandle ? this.minHandle : this.maxHandle;
     handle?.focus();
   }
@@ -920,6 +939,8 @@ export class Slider
   formEl: HTMLFormElement;
 
   defaultValue: Slider["value"];
+
+  private activeProp: ActiveSliderProperty = "value";
 
   private guid = `calcite-slider-${guid()}`;
 
@@ -939,6 +960,8 @@ export class Slider
 
   @State() private activeProp: ActiveSliderProperty = "value";
 
+  @State() effectiveLocale = "";
+  
   @State() private minMaxValueRange: number = null;
 
   @State() private minValueDragRange: number = null;
@@ -946,8 +969,6 @@ export class Slider
   @State() private maxValueDragRange: number = null;
 
   @State() private tickValues: number[] = [];
-
-  @State() globalAttributes = {};
 
   //--------------------------------------------------------------------------
   //
@@ -999,12 +1020,20 @@ export class Slider
     return ticks;
   }
 
+  private pointerDownDragStart(event: PointerEvent, prop: ActiveSliderProperty): void {
+    if (!isPrimaryPointerButton(event)) {
+      return;
+    }
+
+    this.dragStart(prop);
+  }
+
   private dragStart(prop: ActiveSliderProperty): void {
     this.dragProp = prop;
     this.lastDragProp = this.dragProp;
     this.activeProp = prop;
     document.addEventListener("pointermove", this.dragUpdate);
-    document.addEventListener("pointerup", this.dragEnd);
+    document.addEventListener("pointerup", this.pointerUpDragEnd);
     document.addEventListener("pointercancel", this.dragEnd);
   }
 
@@ -1014,6 +1043,7 @@ export class Slider
         this.minHandle.focus();
         break;
       case "maxValue":
+      case "value":
         this.maxHandle.focus();
         break;
       case "minMaxValue":
@@ -1037,8 +1067,10 @@ export class Slider
             newMinValue >= this.min &&
             newMaxValue - newMinValue === this.minMaxValueRange
           ) {
-            this.minValue = this.clamp(newMinValue, "minValue");
-            this.maxValue = this.clamp(newMaxValue, "maxValue");
+            this.setValue({
+              minValue: this.clamp(newMinValue, "minValue"),
+              maxValue: this.clamp(newMaxValue, "maxValue")
+            });
           }
         } else {
           this.minValueDragRange = value - this.minValue;
@@ -1046,19 +1078,26 @@ export class Slider
           this.minMaxValueRange = this.maxValue - this.minValue;
         }
       } else {
-        this.setValue(this.dragProp, this.clamp(value, this.dragProp));
+        this.setValue({ [this.dragProp as SetValueProperty]: this.clamp(value, this.dragProp) });
       }
     }
   };
 
   private emitInput(): void {
     this.calciteSliderInput.emit();
-    this.calciteSliderUpdate.emit();
   }
 
   private emitChange(): void {
     this.calciteSliderChange.emit();
   }
+
+  private pointerUpDragEnd = (event: PointerEvent): void => {
+    if (!isPrimaryPointerButton(event)) {
+      return;
+    }
+
+    this.dragEnd(event);
+  };
 
   private dragEnd = (event: PointerEvent): void => {
     this.removeDragListeners();
@@ -1075,24 +1114,37 @@ export class Slider
 
   private removeDragListeners() {
     document.removeEventListener("pointermove", this.dragUpdate);
-    document.removeEventListener("pointerup", this.dragEnd);
+    document.removeEventListener("pointerup", this.pointerUpDragEnd);
     document.removeEventListener("pointercancel", this.dragEnd);
   }
 
   /**
-   * Set the prop value if changed at the component level
+   * Set prop value(s) if changed at the component level
    *
-   * @param valueProp
-   * @param value
+   * @param {object} values - a set of key/value pairs delineating what properties in the component to update
    */
-  private setValue(valueProp: string, value: number): void {
-    const oldValue = this[valueProp];
-    const valueChanged = oldValue !== value;
+  private setValue(
+    values: Partial<{
+      [Property in keyof Pick<Slider, "maxValue" | "minValue" | "value">]: number;
+    }>
+  ): void {
+    let valueChanged: boolean;
+
+    Object.keys(values).forEach((propName) => {
+      const newValue = values[propName];
+
+      if (!valueChanged) {
+        const oldValue = this[propName];
+        valueChanged = oldValue !== newValue;
+      }
+
+      this[propName] = newValue;
+    });
 
     if (!valueChanged) {
       return;
     }
-    this[valueProp] = value;
+
     const dragging = this.dragProp;
     if (!dragging) {
       this.emitChange();
@@ -1442,14 +1494,14 @@ export class Slider
    * @param value
    */
   private determineGroupSeparator = (value: number): string => {
-    const lang = this.globalAttributes["lang"] || document.documentElement.lang || "en";
     if (typeof value === "number") {
-      return localizeNumberString(
-        value.toString(),
-        lang,
-        this.groupSeparator,
-        this.numberingSystem
-      );
+      numberStringFormatter.numberFormatOptions = {
+        locale: this.effectiveLocale,
+        numberingSystem: this.numberingSystem,
+        useGrouping: this.groupSeparator
+      };
+
+      return numberStringFormatter.localize(value.toString());
     }
   };
 }

@@ -7,25 +7,51 @@ import {
   Listen,
   Method,
   Prop,
+  State,
   VNode,
   Watch
 } from "@stencil/core";
 import { getElementProp, getSlotted } from "../../utils/dom";
-import { Scale } from "../interfaces";
-import { TEXT, CSS } from "./resources";
-import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
-import { createObserver } from "../../utils/observers";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
+import {
+  componentLoaded,
+  LoadableComponent,
+  setComponentLoaded,
+  setUpLoadableComponent
+} from "../../utils/loadable";
+import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
+import { createObserver } from "../../utils/observers";
+import {
+  connectMessages,
+  disconnectMessages,
+  setUpMessages,
+  T9nComponent,
+  updateMessages
+} from "../../utils/t9n";
+import { Scale } from "../interfaces";
+import { InlineEditableMessages } from "./assets/inline-editable/t9n";
+import { CSS } from "./resources";
 
 /**
  * @slot - A slot for adding a `calcite-input`.
  */
 @Component({
   tag: "calcite-inline-editable",
-  shadow: true,
-  styleUrl: "inline-editable.scss"
+  shadow: {
+    delegatesFocus: true
+  },
+  styleUrl: "inline-editable.scss",
+  assetsDirs: ["assets"]
 })
-export class InlineEditable implements InteractiveComponent, LabelableComponent {
+export class InlineEditable
+  implements
+    InteractiveComponent,
+    LabelableComponent,
+    LoadableComponent,
+    LocalizedComponent,
+    T9nComponent
+{
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -40,7 +66,9 @@ export class InlineEditable implements InteractiveComponent, LabelableComponent 
   //
   //--------------------------------------------------------------------------
 
-  /** specify whether editing can be enabled */
+  /**
+   * When `true`, interaction is prevented and the component is displayed with lower opacity.
+   */
   @Prop({ reflect: true }) disabled = false;
 
   @Watch("disabled")
@@ -50,7 +78,9 @@ export class InlineEditable implements InteractiveComponent, LabelableComponent 
     }
   }
 
-  /** specify whether the wrapped input element is editable, defaults to false */
+  /**
+   * When `true`, inline editing is enabled on the component.
+   */
   @Prop({ mutable: true, reflect: true }) editingEnabled = false;
 
   @Watch("editingEnabled")
@@ -63,38 +93,34 @@ export class InlineEditable implements InteractiveComponent, LabelableComponent 
     }
   }
 
-  /** specify whether the confirm button should display a loading state, defaults to false */
+  /** When `true`, a busy indicator is displayed. */
   @Prop({ mutable: true, reflect: true }) loading = false;
 
-  /** specify whether save/cancel controls should be displayed when editingEnabled is true, defaults to false */
+  /** When `true` and `editingEnabled` is `true`, displays save and cancel controls on the component. */
   @Prop({ reflect: true }) controls = false;
 
-  /**
-   * specify text to be user for the enable editing button's aria-label, defaults to `Click to edit`
-   *
-   * @default "Click to edit"
-   */
-  @Prop({ reflect: true }) intlEnableEditing = TEXT.intlEnablingEditing;
+  /** Specifies the size of the component. Defaults to the scale of the wrapped `calcite-input` or the scale of the closest wrapping component with a set scale. */
+  @Prop({ reflect: true, mutable: true }) scale: Scale;
+
+  /** Specifies a callback to be executed prior to disabling editing via the controls. When provided, the component's loading state will be handled automatically. */
+  @Prop() afterConfirm: () => Promise<void>;
 
   /**
-   * specify text to be user for the cancel editing button's aria-label, defaults to `Cancel`
+   * Made into a prop for testing purposes only
    *
-   * @default "Cancel"
+   * @internal
    */
-  @Prop({ reflect: true }) intlCancelEditing = TEXT.intlCancelEditing;
+  @Prop({ mutable: true }) messages: InlineEditableMessages;
 
   /**
-   * specify text to be user for the confirm changes button's aria-label, defaults to `Save`
-   *
-   * @default "Save"
+   * Use this property to override individual strings used by the component.
    */
-  @Prop({ reflect: true }) intlConfirmChanges = TEXT.intlConfirmChanges;
+  @Prop({ mutable: true }) messageOverrides: Partial<InlineEditableMessages>;
 
-  /** specify the scale of the inline-editable component, defaults to the scale of the wrapped calcite-input or the scale of the closest wrapping component with a set scale */
-  @Prop({ reflect: true, mutable: true }) scale?: Scale;
-
-  /** when controls, specify a callback to be executed prior to disabling editing. when provided, loading state will be handled automatically. */
-  @Prop() afterConfirm?: () => Promise<void>;
+  @Watch("messageOverrides")
+  onMessagesChange(): void {
+    /* wired up by t9n util */
+  }
 
   //--------------------------------------------------------------------------
   //
@@ -104,12 +130,25 @@ export class InlineEditable implements InteractiveComponent, LabelableComponent 
 
   connectedCallback() {
     connectLabel(this);
+    connectLocalized(this);
+    connectMessages(this);
     this.mutationObserver?.observe(this.el, { childList: true });
     this.mutationObserverCallback();
   }
 
+  async componentWillLoad(): Promise<void> {
+    setUpLoadableComponent(this);
+    await setUpMessages(this);
+  }
+
+  componentDidLoad(): void {
+    setComponentLoaded(this);
+  }
+
   disconnectedCallback() {
     disconnectLabel(this);
+    disconnectLocalized(this);
+    disconnectMessages(this);
     this.mutationObserver?.disconnect();
   }
 
@@ -131,10 +170,10 @@ export class InlineEditable implements InteractiveComponent, LabelableComponent 
           <calcite-button
             appearance="transparent"
             class={CSS.enableEditingButton}
-            color="neutral"
             disabled={this.disabled}
             iconStart="pencil"
-            label={this.intlEnableEditing}
+            kind="neutral"
+            label={this.messages.enableEditing}
             onClick={this.enableEditingHandler}
             ref={(el) => (this.enableEditingButton = el)}
             scale={this.scale}
@@ -149,10 +188,10 @@ export class InlineEditable implements InteractiveComponent, LabelableComponent 
               <calcite-button
                 appearance="transparent"
                 class={CSS.cancelEditingButton}
-                color="neutral"
                 disabled={this.disabled}
                 iconStart="x"
-                label={this.intlCancelEditing}
+                kind="neutral"
+                label={this.messages.cancelEditing}
                 onClick={this.cancelEditingHandler}
                 ref={(el) => (this.cancelEditingButton = el)}
                 scale={this.scale}
@@ -162,10 +201,10 @@ export class InlineEditable implements InteractiveComponent, LabelableComponent 
             <calcite-button
               appearance="solid"
               class={CSS.confirmChangesButton}
-              color="blue"
               disabled={this.disabled}
               iconStart="check"
-              label={this.intlConfirmChanges}
+              kind="brand"
+              label={this.messages.confirmChanges}
               loading={this.loading}
               onClick={this.confirmChangesHandler}
               ref={(el) => (this.confirmEditingButton = el)}
@@ -185,12 +224,12 @@ export class InlineEditable implements InteractiveComponent, LabelableComponent 
   //--------------------------------------------------------------------------
 
   /**
-   * Emitted when the cancel button gets clicked.
+   * Emits when the component's "cancel editing" button is pressed.
    */
   @Event({ cancelable: false }) calciteInlineEditableEditCancel: EventEmitter<void>;
 
   /**
-   * Emitted when the check button gets clicked.
+   * Emits when the component's "confirm edits" button is pressed.
    */
   @Event({ cancelable: false }) calciteInlineEditableEditConfirm: EventEmitter<void>;
 
@@ -235,19 +274,27 @@ export class InlineEditable implements InteractiveComponent, LabelableComponent 
 
   mutationObserver = createObserver("mutation", () => this.mutationObserverCallback());
 
+  @State() defaultMessages: InlineEditableMessages;
+
+  @State() effectiveLocale: string;
+
+  @Watch("effectiveLocale")
+  effectiveLocaleChange(): void {
+    updateMessages(this, this.effectiveLocale);
+  }
+
   //--------------------------------------------------------------------------
   //
   //  Public Methods
   //
   //--------------------------------------------------------------------------
 
+  /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
-    if (this.editingEnabled) {
-      this.inputElement?.setFocus();
-    } else {
-      this.enableEditingButton?.setFocus();
-    }
+    await componentLoaded(this);
+
+    this.el?.focus();
   }
 
   //--------------------------------------------------------------------------

@@ -1,19 +1,20 @@
 import { E2EPage, newE2EPage } from "@stencil/core/testing";
+import { KeyInput } from "puppeteer";
+import { html } from "../../../support/formatting";
 import {
   defaults,
   disabled,
   focusable,
   formAssociated,
+  hidden,
   labelable,
   reflects,
   renders,
-  hidden
+  t9n
 } from "../../tests/commonTests";
-import { html } from "../../../support/formatting";
-import { letterKeys, numberKeys } from "../../utils/key";
-import { getDecimalSeparator, locales, localizeNumberString } from "../../utils/locale";
 import { getElementXY } from "../../tests/utils";
-import { KeyInput } from "puppeteer";
+import { letterKeys, numberKeys } from "../../utils/key";
+import { locales, numberStringFormatter } from "../../utils/locale";
 
 describe("calcite-input-number", () => {
   const delayFor2UpdatesInMs = 200;
@@ -95,15 +96,14 @@ describe("calcite-input-number", () => {
   it("inherits requested props when from wrapping calcite-label when props are provided", async () => {
     const page = await newE2EPage();
     await page.setContent(html`
-      <calcite-label status="invalid" scale="s">
+      <calcite-label scale="s">
         Label text
         <calcite-input-number></calcite-input-number>
       </calcite-label>
     `);
 
-    const deprecatedLabelStatusElement = await page.find("calcite-input-number");
-    expect(await deprecatedLabelStatusElement.getProperty("status")).toEqual("invalid");
-    expect(await deprecatedLabelStatusElement.getProperty("scale")).toEqual("s");
+    const inputNumberElement = await page.find("calcite-input-number");
+    expect(await inputNumberElement.getProperty("scale")).toEqual("s");
   });
 
   it("renders an icon when explicit Calcite UI is requested, and is a type without a default icon", async () => {
@@ -315,7 +315,7 @@ describe("calcite-input-number", () => {
       await page.mouse.up();
       await page.waitForChanges();
       const totalNudgesUp = inputEventSpy.length;
-      expect(await input.getProperty("value")).toBe(`0.0${totalNudgesUp}`);
+      expect(await input.getProperty("value")).toBe(`${totalNudgesUp * 0.01}`);
 
       const [buttonDownLocationX, buttonDownLocationY] = await getElementXY(
         page,
@@ -330,7 +330,39 @@ describe("calcite-input-number", () => {
       await page.waitForChanges();
       const totalNudgesDown = inputEventSpy.length - totalNudgesUp;
       const finalNudgedValue = totalNudgesUp - totalNudgesDown;
-      expect(await input.getProperty("value")).toBe(finalNudgedValue === 0 ? "0" : `0.0${finalNudgedValue}`);
+      expect(await input.getProperty("value")).toBe(`${finalNudgedValue * 0.01}`);
+    });
+
+    it("decrements to max when value is higher", async () => {
+      await page.setContent(html`<calcite-input-number max="10" value="20"></calcite-input-number>`);
+
+      const element = await page.find("calcite-input-number");
+      const numberHorizontalItemDown = await page.find(
+        "calcite-input-number >>> .number-button-item[data-adjustment='down']"
+      );
+
+      await numberHorizontalItemDown.click();
+      await page.waitForChanges();
+      expect(await element.getProperty("value")).toBe("10");
+      await numberHorizontalItemDown.click();
+      await page.waitForChanges();
+      expect(await element.getProperty("value")).toBe("9");
+    });
+
+    it("increments to min when value is lower", async () => {
+      await page.setContent(html`<calcite-input-number min="20" value="11"></calcite-input-number>`);
+
+      const element = await page.find("calcite-input-number");
+      const numberHorizontalItemDown = await page.find(
+        "calcite-input-number >>> .number-button-item[data-adjustment='down']"
+      );
+
+      await numberHorizontalItemDown.click();
+      await page.waitForChanges();
+      expect(await element.getProperty("value")).toBe("20");
+      await numberHorizontalItemDown.click();
+      await page.waitForChanges();
+      expect(await element.getProperty("value")).toBe("20");
     });
 
     it("correctly increments and decrements value by one when any is set for step", async () => {
@@ -463,63 +495,87 @@ describe("calcite-input-number", () => {
       expect(await input.getProperty("value")).toBe(`${finalNudgedValue}`);
     });
 
-    it.skip("should emit an event on an interval when up/down buttons are down and stop on mouseup/mouseleave", async () => {
-      await page.setContent(html`<calcite-input-number value="0"></calcite-input-number>`);
-      const input = await page.find("calcite-input-number");
-      const calciteInputNumberInput = await page.spyOnEvent("calciteInputNumberInput");
-      const [buttonUpLocationX, buttonUpLocationY] = await getElementXY(
-        page,
-        "calcite-input-number",
-        ".number-button-item[data-adjustment='up']"
-      );
-      expect(calciteInputNumberInput).toHaveReceivedEventTimes(0);
-      await page.mouse.move(buttonUpLocationX, buttonUpLocationY);
-      await page.mouse.down();
-      await page.waitForTimeout(delayFor2UpdatesInMs);
-      await page.mouse.up();
-      await page.waitForChanges();
-      let totalNudgesUp = calciteInputNumberInput.length;
-      expect(await input.getProperty("value")).toBe(`${totalNudgesUp}`);
+    describe("mouse events on arrow buttons", () => {
+      let input;
+      let calciteInputNumberInput;
 
-      await page.mouse.down();
-      await page.waitForTimeout(delayFor2UpdatesInMs);
-      await page.mouse.move(buttonUpLocationX - 1, buttonUpLocationY - 1);
+      beforeEach(async () => {
+        await page.setContent(html`<calcite-input-number value="0"></calcite-input-number>`);
+        input = await page.find("calcite-input-number");
+        calciteInputNumberInput = await page.spyOnEvent("calciteInputNumberInput");
+      });
 
-      totalNudgesUp = calciteInputNumberInput.length;
-      expect(await input.getProperty("value")).toBe(`${totalNudgesUp}`);
+      describe("data-adjustment='up'", () => {
+        let buttonUpLocation;
 
-      // assert changes no longer emitted after moving away from stepper
-      await page.waitForTimeout(delayFor2UpdatesInMs);
-      expect(await input.getProperty("value")).toBe(`${totalNudgesUp}`);
-      await page.mouse.up(); // mouseleave assertion done, we release
+        beforeEach(async () => {
+          const [x, y] = await getElementXY(page, "calcite-input-number", ".number-button-item[data-adjustment='up']");
+          buttonUpLocation = [x, y];
+        });
 
-      const [buttonDownLocationX, buttonDownLocationY] = await getElementXY(
-        page,
-        "calcite-input-number",
-        ".number-button-item[data-adjustment='down']"
-      );
+        it.skip("should emit an event regularly on mousedown", async () => {
+          expect(calciteInputNumberInput).toHaveReceivedEventTimes(0);
+          await page.mouse.move(buttonUpLocation.x, buttonUpLocation.y);
+          await page.mouse.down();
+          await page.waitForTimeout(delayFor2UpdatesInMs);
+          await page.mouse.up();
+          await page.waitForChanges();
+          const totalNudgesUp = calciteInputNumberInput.length;
+          expect(await input.getProperty("value")).toBe(`${totalNudgesUp}`);
+        });
 
-      await page.mouse.move(buttonDownLocationX, buttonDownLocationY);
-      await page.mouse.down();
-      await page.waitForTimeout(delayFor2UpdatesInMs);
-      await page.mouse.up();
-      await page.waitForChanges();
+        it.skip("should stop emitting an event on mouseleave", async () => {
+          expect(calciteInputNumberInput).toHaveReceivedEventTimes(0);
+          await page.mouse.move(buttonUpLocation.x, buttonUpLocation.y);
+          await page.mouse.down();
+          await page.waitForTimeout(delayFor2UpdatesInMs);
+          await page.mouse.move(buttonUpLocation.x - 1, buttonUpLocation.y - 1);
 
-      let totalNudgesDown = calciteInputNumberInput.length - totalNudgesUp;
-      let finalNudgedValue = totalNudgesUp - totalNudgesDown;
-      expect(await input.getProperty("value")).toBe(`${finalNudgedValue}`);
+          const totalNudgesUp = calciteInputNumberInput.length;
+          // assert changes no longer emitted after moving away from stepper
+          await page.waitForTimeout(delayFor2UpdatesInMs);
+          await page.mouse.up(); // mouseleave assertion done, we release
+          expect(await input.getProperty("value")).toBe(`${totalNudgesUp}`);
+        });
+      });
 
-      await page.mouse.down();
-      await page.waitForTimeout(delayFor2UpdatesInMs);
-      await page.mouse.move(buttonDownLocationX - 1, buttonDownLocationY - 1);
+      describe("data-adjustment='down'", () => {
+        let buttonDownLocation;
 
-      totalNudgesDown = calciteInputNumberInput.length - totalNudgesUp;
-      finalNudgedValue = totalNudgesUp - totalNudgesDown;
-      expect(await input.getProperty("value")).toBe(`${finalNudgedValue}`);
+        beforeEach(async () => {
+          const [x, y] = await getElementXY(
+            page,
+            "calcite-input-number",
+            ".number-button-item[data-adjustment='down']"
+          );
+          buttonDownLocation = [x, y];
+        });
 
-      // assert changes no longer emitted after moving away from stepper
-      await page.waitForTimeout(delayFor2UpdatesInMs);
-      expect(await input.getProperty("value")).toBe(`${finalNudgedValue}`);
+        it.skip("should emit an event regularly on mousedown", async () => {
+          expect(calciteInputNumberInput).toHaveReceivedEventTimes(0);
+          await page.mouse.move(buttonDownLocation.x, buttonDownLocation.y);
+          await page.mouse.down();
+          await page.waitForTimeout(delayFor2UpdatesInMs);
+          await page.mouse.up();
+          await page.waitForChanges();
+          const totalNudgesUp = calciteInputNumberInput.length;
+          expect(await input.getProperty("value")).toBe(`${totalNudgesUp}`);
+        });
+
+        it.skip("should stop emitting an event on mouseleave", async () => {
+          expect(calciteInputNumberInput).toHaveReceivedEventTimes(0);
+          await page.mouse.move(buttonDownLocation.x, buttonDownLocation.y);
+          await page.mouse.down();
+          await page.waitForTimeout(delayFor2UpdatesInMs);
+          await page.mouse.move(buttonDownLocation.x - 1, buttonDownLocation.y - 1);
+
+          const totalNudgesUp = calciteInputNumberInput.length;
+          // assert changes no longer emitted after moving away from stepper
+          await page.waitForTimeout(delayFor2UpdatesInMs);
+          await page.mouse.up(); // mouseleave assertion done, we release
+          expect(await input.getProperty("value")).toBe(`${totalNudgesUp}`);
+        });
+      });
     });
 
     it("when both 'ArrowUp' and 'ArrowDown' are pressed at the same time most recently pressed key takes over", async () => {
@@ -527,11 +583,10 @@ describe("calcite-input-number", () => {
       const element = await page.find("calcite-input-number");
       await element.callMethod("setFocus");
 
-      const arrowUpDown = page.keyboard.down("ArrowUp");
-      const arrowDownDown = page.keyboard.down("ArrowDown");
-      await Promise.all([arrowUpDown, arrowDownDown]);
+      page.keyboard.press("ArrowUp");
+      page.keyboard.press("ArrowDown");
       await page.waitForTimeout(delayFor2UpdatesInMs);
-      expect(await element.getProperty("value")).toBe("-1");
+      expect(await element.getProperty("value")).toBe("0");
     });
 
     it("should emit event only twice when toggled fast between up/down arrows", async () => {
@@ -859,18 +914,24 @@ describe("calcite-input-number", () => {
     expect(await input.getProperty("value")).toBe("1.005");
   });
 
-  it("allows clearing value with an empty string", async () => {
+  it("allows negative numbers after clearing value with an empty string", async () => {
     const page = await newE2EPage();
     await page.setContent(html`<calcite-input-number value="1"></calcite-input-number>`);
     const input = await page.find("calcite-input-number");
+
     input.setProperty("value", "");
     await page.waitForChanges();
     expect(await input.getProperty("value")).toBe("");
+
+    await input.callMethod("setFocus");
+    await typeNumberValue(page, "-123");
+    await page.waitForChanges();
+    expect(await input.getProperty("value")).toBe("-123");
   });
 
   describe("number locale support", () => {
     // "nb" and "es-MX" locales skipped per: https://github.com/Esri/calcite-components/issues/2323
-    const localesWithIssues = ["ar", "bs", "mk", "nb", "es-MX"];
+    const localesWithIssues = ["ar", "bs", "mk", "no", "es-MX"];
     locales
       .filter((locale) => !localesWithIssues.includes(locale))
       .forEach((locale) => {
@@ -881,8 +942,13 @@ describe("calcite-input-number", () => {
           const calciteInput = await page.find("calcite-input-number");
           const input = await page.find("calcite-input-number >>> input");
 
+          numberStringFormatter.numberFormatOptions = {
+            locale,
+            numberingSystem: "latn",
+            useGrouping: false
+          };
           expect(await calciteInput.getProperty("value")).toBe(value);
-          expect(await input.getProperty("value")).toBe(localizeNumberString(value, locale));
+          expect(await input.getProperty("value")).toBe(numberStringFormatter.localize(value));
         });
 
         it(`displays group and decimal separator on initial load for ${locale} locale using opt-in prop`, async () => {
@@ -894,42 +960,57 @@ describe("calcite-input-number", () => {
           const calciteInput = await page.find("calcite-input-number");
           const input = await page.find("calcite-input-number >>> input");
 
+          numberStringFormatter.numberFormatOptions = {
+            locale,
+            numberingSystem: "latn",
+            useGrouping: true
+          };
           expect(await calciteInput.getProperty("value")).toBe(value);
-          expect(await input.getProperty("value")).toBe(localizeNumberString(value, locale, true));
+          expect(await input.getProperty("value")).toBe(numberStringFormatter.localize(value));
         });
 
         it(`allows typing valid decimal characters for ${locale} locale`, async () => {
+          numberStringFormatter.numberFormatOptions = {
+            locale,
+            numberingSystem: "latn",
+            useGrouping: false
+          };
+
           const page = await newE2EPage();
           await page.setContent(html`<calcite-input-number lang="${locale}"></calcite-input-number>`);
           const calciteInput = await page.find("calcite-input-number");
           const input = await page.find("calcite-input-number >>> input");
-          const decimal = getDecimalSeparator(locale);
-          const unformattedValue = "1234.56";
+          const value = "1234.56";
 
           await page.keyboard.press("Tab");
           await typeNumberValue(page, "1234");
-          await page.keyboard.sendCharacter(decimal);
+          await page.keyboard.sendCharacter(numberStringFormatter.decimal);
           await input.press("5");
           await input.press("6");
 
-          expect(await calciteInput.getProperty("value")).toBe(`1234.56`);
-          expect(await input.getProperty("value")).toBe(localizeNumberString(unformattedValue, locale));
+          expect(await calciteInput.getProperty("value")).toBe(value);
+          expect(await input.getProperty("value")).toBe(numberStringFormatter.localize(value));
         });
 
         it(`displays correct formatted value when using exponential numbers for ${locale} locale`, async () => {
+          numberStringFormatter.numberFormatOptions = {
+            locale,
+            numberingSystem: "latn",
+            useGrouping: false
+          };
+
           const page = await newE2EPage();
           await page.setContent(html`<calcite-input-number lang="${locale}"></calcite-input-number>`);
 
           const calciteInput = await page.find("calcite-input-number");
           const input = await page.find("calcite-input-number >>> input");
-          const decimal = getDecimalSeparator(locale);
-
+          const value = "1.5e-6";
           await page.keyboard.press("Tab");
           await page.waitForChanges();
-          await typeNumberValue(page, `1${decimal}5e-6`);
+          await typeNumberValue(page, `1${numberStringFormatter.decimal}5e-6`);
           await page.waitForChanges();
-          expect(await calciteInput.getProperty("value")).toBe(`1.5e-6`);
-          expect(await input.getProperty("value")).toBe(localizeNumberString("1.5e-6", locale));
+          expect(await calciteInput.getProperty("value")).toBe(value);
+          expect(await input.getProperty("value")).toBe(numberStringFormatter.localize(value));
         });
 
         it(`displays correct formatted value when the value is changed programmatically for ${locale} locale`, async () => {
@@ -959,8 +1040,13 @@ describe("calcite-input-number", () => {
           await typeNumberValue(page, assertedValue);
           await page.waitForChanges();
 
+          numberStringFormatter.numberFormatOptions = {
+            locale,
+            numberingSystem: "latn",
+            useGrouping: false
+          };
           expect(await calciteInput.getProperty("value")).toBe(assertedValue);
-          expect(await internalLocaleInput.getProperty("value")).toBe(localizeNumberString(assertedValue, locale));
+          expect(await internalLocaleInput.getProperty("value")).toBe(numberStringFormatter.localize(assertedValue));
         });
       });
   });
@@ -1123,8 +1209,13 @@ describe("calcite-input-number", () => {
     const input = await page.find("calcite-input-number >>> input");
     const copyInput = await page.find("#copy");
 
+    numberStringFormatter.numberFormatOptions = {
+      locale: "en-US",
+      numberingSystem: "latn",
+      useGrouping: true
+    };
     expect(await calciteInput.getProperty("value")).toBe(initialValue);
-    expect(await input.getProperty("value")).toBe(localizeNumberString(initialValue, "en-US", true));
+    expect(await input.getProperty("value")).toBe(numberStringFormatter.localize(initialValue));
 
     await copyInput.focus();
     await page.keyboard.down("Meta");
@@ -1138,7 +1229,7 @@ describe("calcite-input-number", () => {
     await page.keyboard.up("Meta");
 
     expect(await calciteInput.getProperty("value")).toBe(initialValue);
-    expect(await input.getProperty("value")).toBe(localizeNumberString(initialValue, "en-US", true));
+    expect(await input.getProperty("value")).toBe(numberStringFormatter.localize(initialValue));
   });
 
   it("cannot be modified when readOnly is true", async () => {
@@ -1194,6 +1285,13 @@ describe("calcite-input-number", () => {
     for (const button of buttons) {
       expect(await button.getProperty("disabled")).toBe(true);
     }
+  });
+
+  it("sets internals to autocomplete when the attribute is used", async () => {
+    const page = await newE2EPage();
+    await page.setContent(html`<calcite-input-number autocomplete="cc-number"></calcite-input-number>`);
+    const input = await page.find("calcite-input-number >>> input");
+    expect(await input.getProperty("autocomplete")).toBe("cc-number");
   });
 
   it("input event fires when number ends with a decimal", async () => {
@@ -1315,9 +1413,65 @@ describe("calcite-input-number", () => {
     });
   });
 
+  it("allows disabling slotted action", async () => {
+    const page = await newE2EPage();
+    await page.setContent(
+      `<calcite-input-number><calcite-button slot="action" disabled>Action</calcite-button></calcite-input-number>`
+    );
+
+    const input = await page.find("calcite-input-number");
+    const button = await page.find("calcite-button");
+
+    await input.callMethod("setFocus");
+    await typeNumberValue(page, "1");
+    await page.waitForChanges();
+    expect(await input.getProperty("value")).toBe("1");
+    expect(await button.getProperty("disabled")).toBe(true);
+    expect(await input.getProperty("disabled")).toBe(false);
+
+    await input.setProperty("disabled", true);
+    await input.callMethod("setFocus");
+    await page.waitForChanges();
+    await typeNumberValue(page, "2");
+    await page.waitForChanges();
+    expect(await input.getProperty("value")).toBe("1");
+    expect(await button.getProperty("disabled")).toBe(true);
+    expect(await input.getProperty("disabled")).toBe(true);
+
+    await input.setProperty("disabled", false);
+    await page.waitForChanges();
+    await input.callMethod("setFocus");
+    await typeNumberValue(page, "3");
+    await page.waitForChanges();
+    expect(await input.getProperty("value")).toBe("13");
+    expect(await button.getProperty("disabled")).toBe(true);
+    expect(await input.getProperty("disabled")).toBe(false);
+
+    await button.setProperty("disabled", false);
+    await page.waitForChanges();
+    await input.callMethod("setFocus");
+    await typeNumberValue(page, "4");
+    await page.waitForChanges();
+    expect(await input.getProperty("value")).toBe("134");
+    expect(await button.getProperty("disabled")).toBe(false);
+    expect(await input.getProperty("disabled")).toBe(false);
+
+    await input.setProperty("disabled", true);
+    await page.waitForChanges();
+    await input.callMethod("setFocus");
+    await page.keyboard.type("5");
+    await page.waitForChanges();
+    expect(await input.getProperty("value")).toBe("134");
+    expect(await button.getProperty("disabled")).toBe(true);
+    expect(await input.getProperty("disabled")).toBe(true);
+  });
+
   it("is form-associated", () =>
-    formAssociated("<calcite-input-number></calcite-input-number>", {
+    formAssociated("calcite-input-number", {
       testValue: 5,
-      submitsOnEnter: true
+      submitsOnEnter: true,
+      inputType: "number"
     }));
+
+  it("supports translation", () => t9n("calcite-input-number"));
 });

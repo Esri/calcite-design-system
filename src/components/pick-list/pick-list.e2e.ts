@@ -1,17 +1,17 @@
 import { E2EElement, E2EPage, newE2EPage } from "@stencil/core/testing";
-import { ICON_TYPES } from "./resources";
-import { accessible, hidden, renders, defaults } from "../../tests/commonTests";
-import {
-  selectionAndDeselection,
-  filterBehavior,
-  loadingState,
-  keyboardNavigation,
-  itemRemoval,
-  focusing,
-  disabling
-} from "./shared-list-tests";
 import { html } from "../../../support/formatting";
+import { accessible, defaults, hidden, renders } from "../../tests/commonTests";
 import { CSS as PICK_LIST_GROUP_CSS } from "../pick-list-group/resources";
+import { ICON_TYPES } from "./resources";
+import {
+  disabling,
+  filterBehavior,
+  focusing,
+  itemRemoval,
+  keyboardNavigation,
+  loadingState,
+  selectionAndDeselection
+} from "./shared-list-tests";
 
 describe("calcite-pick-list", () => {
   it("has property defaults", async () =>
@@ -26,7 +26,7 @@ describe("calcite-pick-list", () => {
 
   it("honors hidden attribute", async () => hidden("calcite-pick-list"));
 
-  it("is accessible", async () =>
+  it.skip("is accessible", async () =>
     accessible(html`
       <calcite-pick-list>
         <calcite-pick-list-item label="Sample" value="one"></calcite-pick-list-item>

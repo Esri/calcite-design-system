@@ -93,12 +93,6 @@ $gap--large: 12px;
   }
 }
 
-:host([appearance="minimal"]) {
-  .container {
-    border: none;
-  }
-}
-
 .container {
   @apply bg-foreground-1;
   display: inline-block;

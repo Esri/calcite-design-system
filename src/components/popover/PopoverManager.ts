@@ -1,3 +1,4 @@
+import { isPrimaryPointerButton } from "../../utils/dom";
 import { ReferenceElement } from "../../utils/floating-ui";
 import { isActivationKey } from "../../utils/key";
 
@@ -52,31 +53,41 @@ export default class PopoverManager {
     return registeredElements.get(registeredElement);
   };
 
-  private togglePopovers = (event: KeyboardEvent | MouseEvent): void => {
+  private togglePopovers = (event: KeyboardEvent | PointerEvent): void => {
     const composedPath = event.composedPath();
     const togglePopover = this.queryPopover(composedPath);
 
     if (togglePopover && !togglePopover.triggerDisabled) {
-      togglePopover.toggle();
+      togglePopover.open = !togglePopover.open;
     }
 
     Array.from(this.registeredElements.values())
       .filter(
         (popover) => popover !== togglePopover && popover.autoClose && popover.open && !composedPath.includes(popover)
       )
-      .forEach((popover) => popover.toggle(false));
+      .forEach((popover) => (popover.open = false));
   };
 
+  private closeAllPopovers(): void {
+    Array.from(this.registeredElements.values()).forEach((popover) => (popover.open = false));
+  }
+
   private keyHandler = (event: KeyboardEvent): void => {
-    if (event.defaultPrevented || !isActivationKey(event.key)) {
+    if (event.defaultPrevented) {
       return;
     }
 
-    this.togglePopovers(event);
+    if (event.key === "Escape") {
+      this.closeAllPopovers();
+    } else if (isActivationKey(event.key)) {
+      this.togglePopovers(event);
+    }
   };
 
-  private clickHandler = (event: MouseEvent): void => {
-    this.togglePopovers(event);
+  private clickHandler = (event: PointerEvent): void => {
+    if (isPrimaryPointerButton(event)) {
+      this.togglePopovers(event);
+    }
   };
 
   private addListeners(): void {

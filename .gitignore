@@ -3,9 +3,9 @@ dist/
 www/
 hydrate/
 node_modules/
+docs/
 
 # Compiled files
-support/output-targets/custom-elements/bundles/
 src/**/components.d.ts
 src/**/*.js
 __docs-temp__/*
@@ -33,3 +33,4 @@ UserInterfaceState.xcuserstate
 log.txt
 src/components.d.ts
 src/components/icon/assets
+src/components/*/assets/*/t9n/index.d.ts

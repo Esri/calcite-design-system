@@ -218,7 +218,8 @@ export default {
         dropdown: "600",
         overlay: "700",
         modal: "800",
-        popup: "900"
+        popover: "900",
+        tooltip: "901"
       }
     }
   },
@@ -231,6 +232,9 @@ export default {
         },
         ".focus-base": {
           "outline-color": "transparent"
+        },
+        ".focus-normal": {
+          outline: "2px solid var(--calcite-ui-brand)"
         },
         ".focus-outset": {
           outline: "2px solid var(--calcite-ui-brand)",
@@ -254,7 +258,7 @@ export default {
       };
       addUtilities(newUtilities);
     }),
-    plugin(({ addUtilities, theme, variants }) => {
+    plugin(({ addUtilities, theme }) => {
       const colors = flattenColorPalette(theme("borderColor"));
       delete colors["default"];
 
@@ -266,7 +270,7 @@ export default {
       }));
       const utilities = Object.assign({}, ...colorMap);
 
-      addUtilities(utilities, variants("borderColor"));
+      addUtilities(utilities);
     })
   ]
 };

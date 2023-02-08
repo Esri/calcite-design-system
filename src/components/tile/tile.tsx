@@ -1,12 +1,12 @@
 import { Component, Element, Fragment, h, Prop, VNode } from "@stencil/core";
-import { SLOTS } from "./resources";
-import { getSlotted } from "../../utils/dom";
 import {
   ConditionalSlotComponent,
   connectConditionalSlotComponent,
   disconnectConditionalSlotComponent
 } from "../../utils/conditionalSlot";
+import { getSlotted } from "../../utils/dom";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import { SLOTS } from "./resources";
 
 /**
  * @slot content-start - A slot for adding non-actionable elements before the component's content.
@@ -33,24 +33,24 @@ export class Tile implements ConditionalSlotComponent, InteractiveComponent {
   //--------------------------------------------------------------------------
 
   /**
-   * When true, the component is active.
+   * When `true`, the component is active.
    */
   @Prop({ reflect: true }) active = false;
 
   /**
    * A description for the component, which displays below the heading.
    */
-  @Prop({ reflect: true }) description?: string;
+  @Prop({ reflect: true }) description: string;
 
   /**
-   * When true, interaction is prevented and the component is displayed with lower opacity.
+   * When `true`, interaction is prevented and the component is displayed with lower opacity.
    */
   @Prop({ reflect: true }) disabled = false;
 
   /**
    * The component's embed mode.
    *
-   * When true, renders without a border and padding for use by other components.
+   * When `true`, renders without a border and padding for use by other components.
    */
   @Prop({ reflect: true }) embed = false;
 
@@ -62,16 +62,19 @@ export class Tile implements ConditionalSlotComponent, InteractiveComponent {
   @Prop({ reflect: true }) focused = false;
 
   /** The component header text, which displays between the icon and description. */
-  @Prop({ reflect: true }) heading?: string;
+  @Prop({ reflect: true }) heading: string;
 
-  /** When true, the component is not displayed and is not focusable.  */
+  /** When `true`, the component is not displayed and is not focusable.  */
   @Prop({ reflect: true }) hidden = false;
 
-  /** When embed is "false", the url for the component. */
-  @Prop({ reflect: true }) href?: string;
+  /** When embed is `"false"`, the URL for the component. */
+  @Prop({ reflect: true }) href: string;
 
   /** Specifies an icon to display. */
-  @Prop({ reflect: true }) icon?: string;
+  @Prop({ reflect: true }) icon: string;
+
+  /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
+  @Prop({ reflect: true }) iconFlipRtl = false;
 
   // --------------------------------------------------------------------------
   //
@@ -98,7 +101,7 @@ export class Tile implements ConditionalSlotComponent, InteractiveComponent {
   // --------------------------------------------------------------------------
 
   renderTile(): VNode {
-    const { icon, el, heading, description } = this;
+    const { icon, el, heading, description, iconFlipRtl } = this;
     const isLargeVisual = heading && icon && !description;
     const iconStyle = isLargeVisual
       ? {
@@ -111,7 +114,7 @@ export class Tile implements ConditionalSlotComponent, InteractiveComponent {
       <div class={{ container: true, "large-visual": isLargeVisual }}>
         {icon && (
           <div class="icon">
-            <calcite-icon icon={icon} scale="l" style={iconStyle} />
+            <calcite-icon flipRtl={iconFlipRtl} icon={icon} scale="l" style={iconStyle} />
           </div>
         )}
         <div class="content-container">
