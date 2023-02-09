@@ -42,7 +42,7 @@ export function connectFocusTrap(component: FocusTrapComponent): void {
     return;
   }
 
-  if (focusTrapEl.getAttribute("tabindex") !== "-1") {
+  if (!focusTrapEl.hasAttribute("tabindex")) {
     focusTrapEl.setAttribute("tabindex", "-1");
   }
 
