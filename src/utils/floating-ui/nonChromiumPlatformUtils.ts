@@ -2,25 +2,21 @@
  * This module provides utils to fix positioning across shadow DOM in non-Chromium browsers
  */
 
-/**
- * Polyfills the old offsetParent behavior from before the spec was changed:
- * https://github.com/w3c/csswg-drafts/issues/159
- *
- * @param element
- */
 function getWindow(node) {
   return node.ownerDocument?.defaultView || window;
 }
 
-function isShadowRoot(node) {
+function isShadowRoot(node): node is ShadowRoot {
   return node instanceof getWindow(node).ShadowRoot;
 }
 
 /**
  * Polyfills the old offsetParent behavior from before the spec was changed:
  * https://github.com/w3c/csswg-drafts/issues/159
+ *
+ * @param element
  */
-function composedOffsetParent(element: HTMLElement): HTMLElement {
+function composedOffsetParent(element: HTMLElement): Element {
   let { offsetParent } = element;
   let ancestor = element;
   let foundInsideSlot = false;
@@ -35,16 +31,16 @@ function composedOffsetParent(element: HTMLElement): HTMLElement {
         const hadStyleAttribute = assignedSlot.hasAttribute("style");
         const oldDisplay = assignedSlot.style.display;
         assignedSlot.style.display = getComputedStyle(ancestor).display;
-
         newOffsetParent = assignedSlot.offsetParent;
-
         assignedSlot.style.display = oldDisplay;
+
         if (!hadStyleAttribute) {
           assignedSlot.removeAttribute("style");
         }
       }
 
       ancestor = assignedSlot;
+
       if (offsetParent !== newOffsetParent) {
         offsetParent = newOffsetParent;
         foundInsideSlot = true;
@@ -52,7 +48,8 @@ function composedOffsetParent(element: HTMLElement): HTMLElement {
     } else if (isShadowRoot(ancestor) && ancestor.host && foundInsideSlot) {
       break;
     }
-    ancestor = (isShadowRoot(ancestor) && ancestor.host) || ancestor.parentNode;
+
+    ancestor = ((isShadowRoot(ancestor) && ancestor.host) || ancestor.parentNode) as HTMLElement;
   }
 
   return offsetParent;
