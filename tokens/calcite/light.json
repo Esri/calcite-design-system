@@ -676,6 +676,10 @@
           "label": {
             "value": "$input-datetime-local.font.label.light",
             "type": "color"
+          },
+          "prefix-suffix": {
+            "value": "$input-datetime-local.font.prefix-suffix.light",
+            "type": "color"
           }
         },
         "icon": {

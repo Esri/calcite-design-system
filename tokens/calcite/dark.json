@@ -644,6 +644,10 @@
           "label": {
             "value": "$input-datetime-local.font.label.dark",
             "type": "color"
+          },
+          "prefix-suffix": {
+            "value": "$input-datetime-local.font.prefix-suffix.dark",
+            "type": "color"
           }
         },
         "icon": {
