@@ -66,6 +66,20 @@
           "value": "$semantic.ui.color.text.2.dark",
           "type": "color"
         }
+      },
+      "read-only": {
+        "sm": {
+          "value": "$semantic.font.default.medium.-2h",
+          "type": "typography"
+        },
+        "md": {
+          "value": "$semantic.font.default.medium.-1h",
+          "type": "typography"
+        },
+        "lg": {
+          "value": "$semantic.font.default.medium.0h",
+          "type": "typography"
+        }
       }
     },
     "icon": {

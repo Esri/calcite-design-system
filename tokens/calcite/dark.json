@@ -688,6 +688,10 @@
           "label": {
             "value": "$input-email.font.label.dark",
             "type": "color"
+          },
+          "prefix-suffix": {
+            "value": "$input-email.font.prefix-suffix.dark",
+            "type": "color"
           }
         },
         "icon": {
@@ -728,6 +732,10 @@
           "label": {
             "value": "$input-file.font.label.dark",
             "type": "color"
+          },
+          "prefix-suffix": {
+            "value": "$input-file.font.prefix-suffix.dark",
+            "type": "color"
           }
         },
         "icon": {
@@ -767,6 +775,10 @@
           },
           "label": {
             "value": "$input-month.font.label.dark",
+            "type": "color"
+          },
+          "prefix-suffix": {
+            "value": "$input-month.font.prefix-suffix.dark",
             "type": "color"
           }
         },
