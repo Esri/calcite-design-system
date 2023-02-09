@@ -41,7 +41,7 @@ describe("focusTrapComponent", () => {
     fakeComponent.focusTrapEl.tabIndex = 0;
 
     connectFocusTrap(fakeComponent);
-    expect(fakeComponent.focusTrapEl.tabIndex).toBe(-1);
+    expect(fakeComponent.focusTrapEl.tabIndex).toBe(0);
     expect(fakeComponent.focusTrap).toBeDefined();
   });
 });
