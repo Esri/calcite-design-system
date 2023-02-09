@@ -239,11 +239,8 @@ export class Slider
   }
 
   componentDidLoad(): void {
-    const { y: handleY, width: handleWidth } = this.handleEl.getBoundingClientRect();
-    this.maxHandle.style.transform = `translate(var(--calcite-slider-thumb-x-offset),-${
-      handleY - this.trackEl.getBoundingClientRect().y + handleWidth / 2
-    }px)`;
     setComponentLoaded(this);
+    this.setHandlePosition();
   }
 
   render(): VNode {
@@ -1499,4 +1496,13 @@ export class Slider
       return numberStringFormatter.localize(value.toString());
     }
   };
+
+  private setHandlePosition(): void {
+    const { y: handleY, width: handleWidth } = this.handleEl.getBoundingClientRect();
+    const thumbY = `-${handleY - this.trackEl.getBoundingClientRect().y + handleWidth / 2}px)`;
+    if (isRange(this.value)) {
+      this.minHandle.style.transform = `translate( calc(var(--calcite-slider-thumb-x-offset)*-1), ${thumbY}`;
+    }
+    this.maxHandle.style.transform = `translate(var(--calcite-slider-thumb-x-offset),${thumbY}`;
+  }
 }
