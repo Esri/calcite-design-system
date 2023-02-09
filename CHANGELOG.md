@@ -3,6 +3,14 @@
 This document maintains a list of released versions and changes introduced by them.
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
+## [1.0.5](https://github.com/Esri/calcite-components/compare/v1.0.4...v1.0.5) (2023-02-09)
+
+### Bug Fixes
+
+- **input, input-number, input-text:** emit change value when clearing programmatically-set value ([#6431](https://github.com/Esri/calcite-components/issues/6431)) ([1802dc3](https://github.com/Esri/calcite-components/commit/1802dc3898358159da7304a940c1c530d8e98509)), closes [#4232](https://github.com/Esri/calcite-components/issues/4232)
+- **modal:** no longer loses focus trap after clicking inside the component. ([#6434](https://github.com/Esri/calcite-components/issues/6434)) ([df144dc](https://github.com/Esri/calcite-components/commit/df144dc30e66d7e11fda326f289c6b8c931c34f8)), closes [#6281](https://github.com/Esri/calcite-components/issues/6281)
+- **tooltip:** prevent closing of Esc-key-closing parent components when dismissing a tooltip with Esc ([#6343](https://github.com/Esri/calcite-components/issues/6343)) ([b4cbf54](https://github.com/Esri/calcite-components/commit/b4cbf544f876a5212d234368bbd296ed43433515)), closes [#6292](https://github.com/Esri/calcite-components/issues/6292)
+
 ## [v1.0.4](https://github.com/Esri/calcite-components/compare/v1.0.3...v1.0.4) (2023-02-07)
 
 ### Bug Fixes
