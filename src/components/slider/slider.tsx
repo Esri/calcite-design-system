@@ -1499,10 +1499,12 @@ export class Slider
 
   private setHandlePosition(): void {
     const { y: handleY, width: handleWidth } = this.handleEl.getBoundingClientRect();
-    const thumbY = `-${handleY - this.trackEl.getBoundingClientRect().y + handleWidth / 2}px)`;
+    const adjustedHandleY = `-${
+      handleY - this.trackEl.getBoundingClientRect().y + handleWidth / 2
+    }px)`;
     if (isRange(this.value)) {
-      this.minHandle.style.transform = `translate( calc(var(--calcite-slider-thumb-x-offset)*-1), ${thumbY}`;
+      this.minHandle.style.transform = `translate( calc(var(--calcite-slider-thumb-x-offset)*-1), ${adjustedHandleY}`;
     }
-    this.maxHandle.style.transform = `translate(var(--calcite-slider-thumb-x-offset),${thumbY}`;
+    this.maxHandle.style.transform = `translate(var(--calcite-slider-thumb-x-offset),${adjustedHandleY}`;
   }
 }
