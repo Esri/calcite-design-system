@@ -127,8 +127,8 @@ export const create: () => Config = () => ({
     name: "calcite-hydrated"
   },
   preamble: `All material copyright ESRI, All Rights Reserved, unless otherwise specified.\nSee https://github.com/Esri/calcite-components/blob/master/LICENSE.md for details.\nv${version}`,
-  experimentalImportInjection: true,
   extras: {
+    experimentalImportInjection: true,
     scriptDataOpts: true
   }
 });
