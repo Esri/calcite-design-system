@@ -279,3 +279,17 @@ export const wordBreakDoesNotAffectLabels_TestOnly = (): string =>
   ></calcite-slider>`;
 
 export const WithLabelHandlesAndNoValue_TestOnly = (): string => html` <calcite-slider max="750"></calcite-slider> `;
+
+export const WithLargeFontSize_TestOnly = (): string => html`<html lang="en">
+  <head>
+    <style>
+      html {
+        font-size: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <calcite-slider label-handles min-value="50" max-value="70" range></calcite-slider>
+    <calcite-slider label-handles value="70"></calcite-slider>
+  </body>
+</html>`;
