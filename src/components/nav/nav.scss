@@ -4,6 +4,12 @@
  * These properties can be overridden using the component's tag as selector.
  *
  * @prop --calcite-nav-width: Specifies the width of the component.
+ * @prop --calcite-nav-primary-background: Specifies the background color of the primary navigation.
+ * @prop --calcite-nav-primary-border-color: Specifies the background color of the primary navigation.
+ * @prop --calcite-nav-secondary-background: Specifies the background color of the secondary navigation.
+ * @prop --calcite-nav-secondary-border-color: Specifies the background color of the primary navigation.
+ * @prop --calcite-nav-tertiary-background: Specifies the width of the component.
+ * @prop --calcite-nav-tertiary-border-color: Specifies the background color of the primary navigation.
  */
 
 :host {
@@ -15,19 +21,36 @@
   @apply flex
     w-full;
   flex-direction: column;
-  background-color: var(--calcite-ui-foreground-1);
   margin-block: 0;
   margin-inline: auto;
-  border-block-end: 1px solid var(--calcite-ui-border-3);
+  border-block-end: 1px solid;
+  background-color: var(--calcite-nav-primary-background, var(--calcite-ui-foreground-1));
+  border-block-end-color: var(--calcite-nav-primary-border-color, var(--calcite-ui-border-3));
+  calcite-nav-menu-item {
+    --calcite-nav-menu-item-background: var(--calcite-nav-tertiary-background, var(--calcite-ui-foreground-1));
+  }
 }
+
 .nav-primary {
   @apply h-16;
 }
+
 .nav-secondary {
   @apply h-12;
+  background-color: var(--calcite-nav-secondary-background, var(--calcite-ui-foreground-1));
+  border-block-end-color: var(--calcite-nav-secondary-border-color, var(--calcite-ui-border-3));
+  calcite-nav-menu-item {
+    --calcite-nav-menu-item-background: var(--calcite-nav-tertiary-background, var(--calcite-ui-foreground-1));
+  }
 }
+
 .nav-tertiary {
   @apply h-10;
+  background-color: var(--calcite-nav-tertiary-background, var(--calcite-ui-foreground-1));
+  border-block-end-color: var(--calcite-nav-tertiary-border-color, var(--calcite-ui-border-3));
+  calcite-nav-menu-item {
+    --calcite-nav-menu-item-background: var(--calcite-nav-tertiary-background, var(--calcite-ui-foreground-1));
+  }
 }
 
 .nav-container-content {

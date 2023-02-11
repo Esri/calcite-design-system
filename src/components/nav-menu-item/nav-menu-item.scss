@@ -8,8 +8,7 @@
   items-center 
   relative 
   h-full 
-  box-border 
-  focus-base;
+  box-border;
   &:hover > calcite-action {
     border-inline-start-color: var(-calcite-ui-border-3);
   }
@@ -40,9 +39,6 @@
   border-block-end: 0;
   border-inline-end: 4px solid transparent;
 }
-:host(:active) a {
-  @apply text-color-1;
-}
 
 :host(:hover) calcite-action {
   @apply text-color-1;
@@ -53,8 +49,7 @@
 :host([active]) a {
   border-color: var(--calcite-ui-brand);
 }
-:host([active][layout="vertical"]) a {
-}
+
 :host a {
   @apply flex
   h-full
@@ -75,6 +70,10 @@
     display: inline-flex;
   }
 }
+.icon.icon-nested-open {
+  margin-inline-start: 1rem;
+  color: var(--calcite-ui-border-2);
+}
 
 .editable-content {
   display: flex;
@@ -89,10 +88,7 @@
 :host([text-enabled]) a .icon-end {
   @apply ml-3;
 }
-.text-container span:focus {
-  outline: none;
-  font-weight: 500;
-}
+
 .icon-link-when-dropdown {
   position: relative;
   inset-block-start: 3px;
@@ -103,8 +99,8 @@
   @apply pr-3;
 }
 :host([breadcrumb]) a .icon-breadcrumb {
-  @apply pl-3 mr-0;
-  --calcite-ui-icon-color: var(--calcite-ui-text-3);
+  @apply pl-2 mr-0;
+  --calcite-ui-icon-color: var(--calcite-ui-border-input);
 }
 :host a .icon-dropdown {
   @apply pl-3 mr-0 ml-auto;
@@ -120,6 +116,26 @@
 a {
   @apply bg-foreground-1;
 }
+:host calcite-action {
+  block-size: auto;
+  position: relative;
+  border-inline-start: 1px solid var(--calcite-ui-foreground-1);
+  &:after {
+    display: block;
+    inline-size: 1px;
+    content: "";
+    block-size: calc(100% - 24px);
+    inset-block: 12px;
+    background-color: var(--calcite-ui-border-3);
+    position: absolute;
+    inset-inline-start: -1px;
+    z-index: 9;
+  }
+  &:hover:after {
+    block-size: 100%;
+    inset-block: 0;
+  }
+}
 
 :host(:hover) a,
 a:hover {
@@ -129,7 +145,7 @@ a:hover {
   @apply bg-foreground-2;
 }
 
-:host(:focus) a {
+a:focus {
   @apply bg-foreground-2 text-color-2 focus-inset;
 }
 
@@ -159,8 +175,6 @@ a:active {
   transition: all ease-in-out 0.25s;
   overflow: visible;
   inset-block-start: 100%;
-
-  box-shadow: $shadow-2;
   &.open {
     display: block;
   }

@@ -7,12 +7,15 @@ import {
   h,
   Host,
   Listen,
+  Method,
   Prop,
   State,
   VNode
 } from "@stencil/core";
 import { FlipContext } from "../interfaces";
-import { filterDirectChildren, getElementDir, getSlotted } from "../../utils/dom";
+import { focusElementInGroup, getElementDir, getSlotted } from "../../utils/dom";
+import { NavMenuItemKeyEventDetail } from "./interfaces";
+import { componentLoaded, setComponentLoaded, setUpLoadableComponent } from "../../utils/loadable";
 
 @Component({
   tag: "calcite-nav-menu-item",
@@ -20,87 +23,255 @@ import { filterDirectChildren, getElementDir, getSlotted } from "../../utils/dom
   shadow: true
 })
 export class CalciteNavMenuItem {
+  //--------------------------------------------------------------------------
+  //
+  //  Element
+  //
+  //--------------------------------------------------------------------------
+
   @Element() el!: HTMLCalciteNavMenuItemElement;
 
-  @Prop({ reflect: true }) href?;
-
+  //--------------------------------------------------------------------------
+  //
+  //  Public Properties
+  //
+  //--------------------------------------------------------------------------
+  /** When true, the component displays a visual indication of breadcrumb */
   @Prop({ reflect: true, mutable: true }) breadcrumb?: boolean = false;
 
+  /** When `true`, the component is highlighted.  */
   @Prop({ reflect: true, mutable: true }) active: boolean;
 
+  /** When true and `textEnabled` is true, the `text` will be user-editable, and the component will emit an event. */
   @Prop({ reflect: true, mutable: true }) editable: boolean;
 
+  /** Specifies an icon to display at the start of the component. */
   @Prop({ reflect: true, mutable: true }) iconStart?: string;
 
+  /** Specifies an icon to display at the end of the component. */
   @Prop({ reflect: true, mutable: true }) iconEnd?: string;
 
+  /** Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`). */
   @Prop({ mutable: true }) iconFlipRtl?: FlipContext;
 
+  /** Displays the `text` */
   @Prop({ mutable: true }) textEnabled?: boolean;
 
-  @Prop({ reflect: true, mutable: true }) text?: string;
-
-  @Prop({ reflect: true, mutable: true }) subText?: string;
+  /** Specifies the text the component displays */
+  @Prop({ reflect: true, mutable: true }) text!: string;
 
   // remove reflect and move style to class
   @Prop({ mutable: true, reflect: true }) layout?: "horizontal" | "vertical" = "horizontal";
+
+  /** When true, provide a navigable href link */
+  @Prop({ reflect: true }) href?;
+
+  /**
+   * Defines the relationship between the `href` value and the current document.
+   *
+   * @mdn [rel](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/rel)
+   */
+  @Prop({ reflect: true }) rel: string;
+
+  /**
+   * Specifies where to open the linked document defined in the `href` property.
+   *
+   * @mdn [target](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#attr-target)
+   */
+  @Prop({ reflect: true }) target: string;
+
+  //--------------------------------------------------------------------------
+  //
+  //  Private State/Props
+  //
+  //--------------------------------------------------------------------------
+
+  private dir = getElementDir(this.el);
+
+  /** The close button element. */
+  private anchorEl?: HTMLAnchorElement;
+
+  @State() editingActive = false;
+
+  @State() hasSubMenu: boolean;
+
+  @State() subMenuOpen: boolean;
+
+  @State() isTopLevelItem: boolean;
+
+  // need to track the parent type of layout to determine if the nested dropdown position absolutely (horizontal parent),
+  // or position downward and expand relative (vertical parent)
+  @State() topLevelLayout: "vertical" | "horizontal";
+
+  @State() subMenuItems?: HTMLCalciteNavMenuItemElement[];
+
+  //--------------------------------------------------------------------------
+  //
+  //  Public Methods
+  //
+  //--------------------------------------------------------------------------
+
+  /** Sets focus on the component. */
+  @Method()
+  async setFocus(): Promise<void> {
+    await componentLoaded(this);
+
+    this.anchorEl?.focus();
+  }
 
   //--------------------------------------------------------------------------
   //
   //  Events
   //
   //--------------------------------------------------------------------------
+  /** @internal */
+  @Event({ cancelable: false })
+  calciteInternalNavItemKeyEvent: EventEmitter<NavMenuItemKeyEventDetail>;
+
+  //--------------------------------------------------------------------------
+  //
+  //  Event Listeners
+  //
+  //--------------------------------------------------------------------------
   @Listen("click", { target: "window" })
   handleClickOut(event: Event): void {
     if (
-      this.nestedParentType !== "vertical" &&
-      this.hasSlottedDropdownMenuItems &&
-      this.slottedDropdownMenuItemsOpen &&
+      this.topLevelLayout !== "vertical" &&
+      this.hasSubMenu &&
+      this.subMenuOpen &&
       !this.el.contains(event.target as Element)
     ) {
-      this.slottedDropdownMenuItemsOpen = false;
+      this.subMenuOpen = false;
     }
   }
 
-  // todo events
-  @Event() calciteMenuItemSelected: EventEmitter<any>;
-
-  @Prop({ mutable: true }) editingActive = false;
-
-  @State() hasSlottedDropdownMenuItems: boolean;
-
-  @State() slottedDropdownMenuItemsOpen: boolean;
-
-  // for multiple levels of nesting
-  @State() isNestedDropdown: boolean;
-
-  // need to track the parent type of layout to determine if the nested dropdown position absolutely (horizontal parent),
-  // or position downward and expand relative (vertical parent)
-  @State() nestedParentType: "vertical" | "horizontal";
-
-  @State() dropdownMenuItems?: HTMLCalciteNavMenuItemElement[];
+  //--------------------------------------------------------------------------
+  //
+  //  Lifecycle
+  //
+  //--------------------------------------------------------------------------
 
   connectedCallback() {
     this.active = this.active || this.editable;
     // todo - make this reactive to slot change, remove use of getSlotted
     // todo just get any nav items in the default slot?
-    this.hasSlottedDropdownMenuItems = !!getSlotted(this.el, "menu-item-dropdown");
-    this.dropdownMenuItems = getSlotted(this.el, "menu-item-dropdown", {
+    this.hasSubMenu = !!getSlotted(this.el, "menu-item-dropdown");
+    this.subMenuItems = getSlotted(this.el, "menu-item-dropdown", {
       all: true,
       matches: "calcite-nav-menu-item"
     }) as HTMLCalciteNavMenuItemElement[];
     // for now to detect nesting only working two level for demo.. need to just check if it has any parent originating at top lvel
-    this.isNestedDropdown =
-      this.el.parentElement?.slot === "" || this.el.parentElement?.slot === "menu-item-dropdown";
-
-    this.nestedParentType = this.el.closest("calcite-nav-menu")?.layout;
-
+    this.isTopLevelItem = !(
+      this.el.parentElement?.slot === "" || this.el.parentElement?.slot === "menu-item-dropdown"
+    );
+    this.topLevelLayout = this.el.closest("calcite-nav-menu")?.layout || "horizontal";
     // todo determine indentation level to support fly out
     // ensure any items slotted as dropdown menu children are vertical mode
-    this.dropdownMenuItems.map((el: HTMLCalciteNavMenuItemElement) => {
+    this.subMenuItems.map((el: HTMLCalciteNavMenuItemElement) => {
       el.layout = "vertical";
     });
   }
+
+  componentWillLoad(): void {
+    setUpLoadableComponent(this);
+  }
+
+  componentDidLoad(): void {
+    setComponentLoaded(this);
+  }
+
+  // --------------------------------------------------------------------------
+  //
+  //  Private Methods
+  //
+  // --------------------------------------------------------------------------
+
+  @Listen("calciteInternalNavItemKeyEvent")
+  calciteInternalNavMenuItemKeyEvent(event: KeyboardEvent): void {
+    const target = event.target as HTMLCalciteNavMenuItemElement;
+    switch (event.detail["key"]) {
+      case "Escape":
+        if (this.el.contains(target) && this.hasSubMenu) {
+          this.subMenuOpen = false;
+          this.el.setFocus();
+        }
+        break;
+    }
+  }
+
+  private keyDownHandler = (event: KeyboardEvent): void => {
+    console.log(this.topLevelLayout);
+    const isAnchor = event.target === this.anchorEl;
+    switch (event.key) {
+      case " ":
+      case "Enter":
+        if (this.href) {
+          return;
+        } else if (this.hasSubMenu && !this.subMenuOpen) {
+          this.subMenuOpen = true;
+          setTimeout(() => this.subMenuItems[0].setFocus(), 60);
+        } else if (this.hasSubMenu) {
+          this.subMenuOpen = false;
+        } else {
+          this.calciteInternalNavItemKeyEvent.emit(event);
+        }
+        event.preventDefault();
+
+        break;
+
+      case "Escape":
+        if (this.hasSubMenu) {
+          this.subMenuOpen = false;
+        }
+
+      case "ArrowDown":
+        if (this.layout === "horizontal" && this.hasSubMenu) {
+          this.subMenuOpen = true;
+        }
+        break;
+
+      case "ArrowUp":
+        if (this.layout === "horizontal" && this.hasSubMenu) {
+          this.subMenuOpen = false;
+        }
+
+      case "ArrowLeft":
+        if (this.layout === "vertical" && this.hasSubMenu) {
+          this.subMenuOpen = false;
+        }
+
+      case "ArrowRight":
+        if (this.layout === "vertical" && this.hasSubMenu) {
+          this.subMenuOpen = true;
+        }
+
+      case "Home":
+      case "End":
+        event.preventDefault();
+        this.calciteInternalNavItemKeyEvent.emit(event);
+        break;
+    }
+  };
+
+  private clickHandler = (): void => {
+    if (this.href && this.subMenuOpen) {
+      this.subMenuOpen = false;
+    } else if (this.editable && !this.hasSubMenu) {
+      this.editingActive = true;
+    } else if (!this.href && this.hasSubMenu) {
+      this.subMenuOpen = !this.subMenuOpen;
+    }
+  };
+
+  private toggleEditingState = (): void => {
+    this.editingActive = !this.editingActive;
+  };
+
+  //--------------------------------------------------------------------------
+  //
+  //  Render Methods
+  //
+  //--------------------------------------------------------------------------
 
   renderIconElStart(): VNode {
     return (
@@ -130,6 +301,7 @@ export class CalciteNavMenuItem {
         class="icon icon-end"
         flipRtl={this.iconFlipRtl === "end" || this.iconFlipRtl === "both"}
         icon={"pencil"}
+        onClick={this.toggleEditingState}
         scale="s"
       />
     );
@@ -139,9 +311,10 @@ export class CalciteNavMenuItem {
     return (
       <calcite-button
         appearance="outline-fill"
-        style={{ ["--calcite-ui-icon-color"]: "var(--calcite-ui-brand)" }}
         icon-start="save"
-        onClick={() => (this.editingActive = false)}
+        iconFlipRtl={this.iconFlipRtl}
+        onClick={this.toggleEditingState}
+        style={{ ["--calcite-ui-icon-color"]: "var(--calcite-ui-brand)" }}
       />
     );
   }
@@ -151,48 +324,35 @@ export class CalciteNavMenuItem {
       <calcite-button
         appearance="transparent"
         icon-start="trash"
+        onClick={this.toggleEditingState}
         style={{ ["--calcite-ui-icon-color"]: "var(--calcite-ui-border-input)" }}
-        onClick={() => (this.editingActive = false)}
       />
     );
   }
 
-  renderDropdownMenuItems(): VNode {
-    const dir = getElementDir(this.el);
+  renderBreadcrumbIcon(): VNode {
     return (
-      <div
-        class={`dropdown-menu-items ${this.slottedDropdownMenuItemsOpen ? "open" : ""} ${
-          this.isNestedDropdown ? "nested" : ""
-        }${dir === "rtl" ? " is-rtl" : ""}${
-          this.nestedParentType === "vertical" ? " is-vertical-dropdown-type" : ""
-        }`}
-      >
-        <slot name="menu-item-dropdown" />
-      </div>
+      <calcite-icon
+        class="icon icon-breadcrumb"
+        icon={this.dir === "rtl" ? "chevron-left" : "chevron-right"}
+        scale="s"
+      />
     );
   }
 
-  renderBreadcrumbChevron(): VNode {
-    const dir = getElementDir(this.el);
-    const dirChevron = dir === "rtl" ? "chevron-left" : "chevron-right";
-    return <calcite-icon class="icon icon-breadcrumb" icon={dirChevron} scale="s" />;
-  }
-
-  renderDirChevron(): VNode {
-    const dir = getElementDir(this.el);
-    const dirChevron = dir === "rtl" ? "chevron-left" : "chevron-right";
+  renderDropdownIcon(): VNode {
+    const dirChevron = this.dir === "rtl" ? "chevron-left" : "chevron-right";
     return (
       <calcite-icon
+        id="render-dropdown-icon"
         class="icon icon-dropdown"
         icon={
-          this.slottedDropdownMenuItemsOpen &&
-          (!this.isNestedDropdown || this.nestedParentType === "vertical")
+          (this.topLevelLayout === "vertical" && !this.subMenuOpen) ||
+          (this.isTopLevelItem && this.subMenuOpen)
             ? "chevron-up"
-            : !this.isNestedDropdown || this.nestedParentType === "vertical"
+            : (this.topLevelLayout === "vertical" && this.subMenuOpen) ||
+              (this.isTopLevelItem && this.hasSubMenu)
             ? "chevron-down"
-            : // and not vertical
-            this.isNestedDropdown
-            ? dirChevron
             : dirChevron
         }
         scale="s"
@@ -200,99 +360,98 @@ export class CalciteNavMenuItem {
     );
   }
 
-  renderDirDropdownAction(): VNode {
+  renderDropdownAction(): VNode {
     const dir = getElementDir(this.el);
     const dirChevron = dir === "rtl" ? "chevron-left" : "chevron-right";
     return (
       <calcite-action
         icon={
-          this.slottedDropdownMenuItemsOpen &&
-          (!this.isNestedDropdown || this.nestedParentType === "vertical")
+          this.subMenuOpen && (this.isTopLevelItem || this.topLevelLayout === "vertical")
             ? "chevron-up"
-            : !this.isNestedDropdown || this.nestedParentType === "vertical"
+            : this.isTopLevelItem || this.topLevelLayout === "vertical"
             ? "chevron-down"
             : // and not vertical
-            this.isNestedDropdown
+            this.isTopLevelItem
             ? dirChevron
             : dirChevron
         }
         text="open-dropdown"
         class="dropdown-with-href-toggle"
-        onClick={() => {
-          if (this.hasSlottedDropdownMenuItems) {
-            this.slottedDropdownMenuItemsOpen = !this.slottedDropdownMenuItemsOpen;
-          }
-        }}
+        onClick={() => (this.subMenuOpen = !this.subMenuOpen)}
+        onKeyDown={this.keyDownHandler}
       />
     );
   }
 
-  // todo inline event handling for menu, etc., very temp below:
-  // todo support multiple levels of slotting like tree - menu dropdown moves out from item on right - post mvp but should be simple to accomplish
-  render() {
-    const itemContent = (
+  rendersubMenuItems(): VNode {
+    const dir = getElementDir(this.el);
+    return (
+      <calcite-nav-menu
+        class={`dropdown-menu-items ${this.subMenuOpen ? "open" : ""} ${
+          !this.isTopLevelItem ? "nested" : ""
+        }${dir === "rtl" ? " is-rtl" : ""}${
+          this.topLevelLayout === "vertical" ? " is-vertical-dropdown-type" : ""
+        }`}
+        layout="vertical"
+        role="submenu"
+      >
+        <slot name="menu-item-dropdown" />
+      </calcite-nav-menu>
+    );
+  }
+
+  renderItemContent(): VNode {
+    return (
       <Fragment>
         {this.iconStart && this.renderIconElStart()}
         <div class="text-container">
           <span contenteditable={this.editingActive ? true : undefined}>
             {this.text && this.textEnabled && this.text ? this.text : null}
           </span>
-          {this.href && this.isNestedDropdown && this.hasSlottedDropdownMenuItems ? (
-            <calcite-icon class="icon icon-link-when-dropdown" icon={"chevrons-right"} scale="s" />
+          {this.editingActive ? (
+            <div class="editable-content">
+              {this.renderEditCancelButton()}
+              {this.renderEditSaveButton()}
+            </div>
           ) : null}
         </div>
-        {this.editingActive ? (
-          <div class="editable-content">
-            {this.renderEditCancelButton()}
-            {this.renderEditSaveButton()}
-          </div>
-        ) : null}
-        {/* handle subtext display */}
         {this.iconEnd && !this.editingActive && this.renderIconElEnd()}
         {this.editable && !this.editingActive && this.renderEditIcon()}
-        {!this.href && this.hasSlottedDropdownMenuItems ? this.renderDirChevron() : null}
-        {this.breadcrumb ? this.renderBreadcrumbChevron() : null}
+        {!this.href && this.hasSubMenu ? this.renderDropdownIcon() : null}
+        {this.breadcrumb ? this.renderBreadcrumbIcon() : null}
       </Fragment>
     );
+  }
 
+  render() {
     return (
-      <Host tabindex={0}>
-        <div
+      <Host>
+        <li
           class={`container ${
-            this.nestedParentType === "vertical" ? "nav-item-vertical-parent" : ""
+            this.topLevelLayout === "vertical" ? "nav-item-vertical-parent" : ""
           }`}
+          role="none"
         >
           <div class="item-content">
-            <Fragment>
-              <a
-                tabindex={-1}
-                href={this.href ? this.href : null}
-                onClick={(ev) => {
-                  if (!this.editable && !this.hasSlottedDropdownMenuItems) {
-                    return;
-                  } else if (this.editable && !this.hasSlottedDropdownMenuItems) {
-                    this.editingActive = true;
-                  } else if (!this.href && this.hasSlottedDropdownMenuItems) {
-                    this.slottedDropdownMenuItemsOpen = !this.slottedDropdownMenuItemsOpen;
-                  }
-                }}
-                onKeyDown={(event) => {
-                  if (
-                    (event.key === " " || event.key === "enter") &&
-                    !this.href &&
-                    this.hasSlottedDropdownMenuItems
-                  )
-                    this.slottedDropdownMenuItemsOpen = !this.slottedDropdownMenuItemsOpen;
-                }}
-              >
-                {itemContent}
-              </a>
-            </Fragment>
-
-            {this.href && this.hasSlottedDropdownMenuItems ? this.renderDirDropdownAction() : null}
+            <a
+              aria-current="todo"
+              aria-expanded={this.subMenuOpen ? "true" : "false"}
+              aria-haspopup={this.hasSubMenu ? "true" : undefined}
+              href={this.href ? this.href : null}
+              onClick={this.clickHandler}
+              onKeyDown={this.keyDownHandler}
+              ref={(el) => (this.anchorEl = el)}
+              rel={this.rel ? this.rel : null}
+              role="menuitem"
+              tabIndex={1}
+              target={this.target ? this.target : null}
+            >
+              {this.renderItemContent()}
+            </a>
+            {this.href && this.hasSubMenu ? this.renderDropdownAction() : null}
           </div>
-          {this.hasSlottedDropdownMenuItems ? this.renderDropdownMenuItems() : null}
-        </div>
+          {this.hasSubMenu ? this.rendersubMenuItems() : null}
+        </li>
       </Host>
     );
   }

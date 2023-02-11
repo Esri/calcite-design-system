@@ -11,15 +11,13 @@ export class CalciteNavLogo {
   //  Element
   //
   //--------------------------------------------------------------------------
-
   @Element() el: HTMLCalciteNavLogoElement;
 
   //--------------------------------------------------------------------------
   //
-  //  Element
+  //  Public Properties
   //
   //--------------------------------------------------------------------------
-
   @Prop({ reflect: true }) active?;
 
   @Prop({ reflect: true }) href?;
@@ -32,6 +30,11 @@ export class CalciteNavLogo {
 
   @Prop({ reflect: true }) subText?: string;
 
+  // --------------------------------------------------------------------------
+  //
+  //  Render Methods
+  //
+  // --------------------------------------------------------------------------
   render() {
     return (
       <Host tabIndex={0}>

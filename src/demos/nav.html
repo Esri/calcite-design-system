@@ -42,7 +42,8 @@
         </calcite-nav-menu>
 
         <calcite-nav-menu slot="primary-menu-end">
-          <calcite-nav-menu-item text="Theming" text-enabled icon-start="lightbulb"> </calcite-nav-menu-item>
+          <calcite-nav-menu-item text="Theming" href="#examples-theming" text-enabled icon-start="lightbulb">
+          </calcite-nav-menu-item>
           <calcite-nav-menu-item text="Platform" text-enabled icon-start="arcgis-online">
             <calcite-nav-menu-item
               href="./nav-field-maps.html"
@@ -60,16 +61,18 @@
         </calcite-nav-menu>
 
         <calcite-nav-menu slot="secondary-menu-start">
-          <calcite-nav-menu-item href="#intro" text="Intro" text-enabled></calcite-nav-menu-item>
-          <calcite-nav-menu-item href="#calcite-nav" text="calcite-nav" text-enabled>
+          <calcite-nav-menu-item href="#intro" text="Intro" icon-start="book" text-enabled></calcite-nav-menu-item>
+          <calcite-nav-menu-item href=" #calcite-nav" text="calcite-nav" text-enabled>
             <calcite-nav-menu-item
               href="#calcite-nav-slots"
+              icon-start="add-in"
               slot="menu-item-dropdown"
               text="Slots"
               text-enabled
             ></calcite-nav-menu-item>
             <calcite-nav-menu-item
               href="#calcite-nav-css-vars"
+              icon-start="multiple-variables"
               slot="menu-item-dropdown"
               text="Css vars"
               text-enabled
@@ -81,6 +84,7 @@
             <calcite-nav-menu-item
               href="#calcite-nav-menu-props"
               slot="menu-item-dropdown"
+              icon-start="sliders"
               text="Props"
               text-enabled
             ></calcite-nav-menu-item>
@@ -88,14 +92,23 @@
           <calcite-nav-menu-item href="#calcite-nav-menu-item" text="calcite-nav-menu-item" text-enabled>
             <calcite-nav-menu-item
               href="#calcite-nav-menu-item-slots"
+              icon-start="add-in"
               slot="menu-item-dropdown"
               text="Slots"
               text-enabled
             ></calcite-nav-menu-item>
             <calcite-nav-menu-item
               href="#calcite-nav-menu-item-props"
+              icon-start="sliders"
               slot="menu-item-dropdown"
               text="Props"
+              text-enabled
+            ></calcite-nav-menu-item>
+            <calcite-nav-menu-item
+              href="#calcite-nav-menu-item-events"
+              icon-start="activity-monitor"
+              slot="menu-item-dropdown"
+              text="Events"
               text-enabled
             ></calcite-nav-menu-item>
           </calcite-nav-menu-item>
@@ -791,18 +804,15 @@
             dropdown"
           </h3>
           <h4>
-            <b><code>overflow-type:</code></b>
-            <code
-              >"start" (default), "end", "center", "none" (disable overflow functionality - should we support
-              this?)</code
-            >
+            <b><code>overflow-type: (future feature) </code></b>
+            <code>"start" (default)"end""follw"(disable overflow functionality - should we support this?)</code>
           </h4>
           <h4>
-            <b><code>overflow-items-min:</code></b>
+            <b><code>min-items:</code></b>
             <code>Ensure this many items are persisted (as specified by overflow-type value)</code>
           </h4>
           <h4>
-            <b><code>overflow-items-max:</code></b>
+            <b><code>max-items:</code></b>
             <code>Limit items shown to this amount and append rest to overflow menu (as specified by overflow-type</code
             >. Can be used with breadcrumb
           </h4>
@@ -810,27 +820,6 @@
             <code>Note: temp display with no breadcrumb - todo demo of actual collapse</code>
           </h4>
         </div>
-
-        <calcite-shell>
-          <calcite-nav slot="header">
-            <calcite-nav-menu slot="primary-menu-start">
-              <calcite-nav-menu-item text="Temp overflow" icon-start="ellipsis" active>
-                <calcite-nav-menu-item slot="menu-item-dropdown" text="Products" text-enabled></calcite-nav-menu-item>
-                <calcite-nav-menu-item slot="menu-item-dropdown" active text="Industries" text-enabled>
-                </calcite-nav-menu-item>
-                <calcite-nav-menu-item slot="menu-item-dropdown" text="Support & Service" text-enabled>
-                </calcite-nav-menu-item>
-                <calcite-nav-menu-item slot="menu-item-dropdown" text="Stories" text-enabled></calcite-nav-menu-item>
-                <calcite-nav-menu-item slot="menu-item-dropdown" text="About" text-enabled></calcite-nav-menu-item>
-                <calcite-nav-menu-item slot="menu-item-dropdown" text="Support & Service" text-enabled>
-                </calcite-nav-menu-item>
-              </calcite-nav-menu-item>
-              <calcite-nav-menu-item text="Stories" text-enabled></calcite-nav-menu-item>
-              <calcite-nav-menu-item text="About" text-enabled></calcite-nav-menu-item>
-            </calcite-nav-menu>
-            <calcite-nav-logo text="end" text-enabled slot="logo"> </calcite-nav-logo>
-          </calcite-nav>
-        </calcite-shell>
 
         <calcite-shell>
           <calcite-nav slot="header">
@@ -849,27 +838,6 @@
               </calcite-nav-menu-item>
             </calcite-nav-menu>
             <calcite-nav-logo text="start" text-enabled slot="logo"> </calcite-nav-logo>
-          </calcite-nav>
-        </calcite-shell>
-
-        <calcite-shell>
-          <calcite-nav slot="header">
-            <calcite-nav-menu slot="primary-menu-start">
-              <calcite-nav-menu-item text="Products" text-enabled></calcite-nav-menu-item>
-              <calcite-nav-menu-item text="Temp overflow" icon-start="ellipsis" active>
-                <calcite-nav-menu-item slot="menu-item-dropdown" active text="Industries" text-enabled>
-                </calcite-nav-menu-item>
-                <calcite-nav-menu-item slot="menu-item-dropdown" text="Support & Service" text-enabled>
-                </calcite-nav-menu-item>
-                <calcite-nav-menu-item slot="menu-item-dropdown" text="Stories" text-enabled></calcite-nav-menu-item>
-                <calcite-nav-menu-item slot="menu-item-dropdown" text="About" text-enabled></calcite-nav-menu-item>
-                <calcite-nav-menu-item slot="menu-item-dropdown" text="Support & Service" text-enabled>
-                </calcite-nav-menu-item>
-                <calcite-nav-menu-item slot="menu-item-dropdown" text="Stories" text-enabled></calcite-nav-menu-item>
-              </calcite-nav-menu-item>
-              <calcite-nav-menu-item text="About" text-enabled></calcite-nav-menu-item>
-            </calcite-nav-menu>
-            <calcite-nav-logo text="center" text-enabled slot="logo"> </calcite-nav-logo>
           </calcite-nav>
         </calcite-shell>
 
@@ -1101,17 +1069,23 @@
           <calcite-shell-panel slot="panel-start">
             <calcite-panel heading="Extreme nested vertical nav-menu">
               <calcite-nav-menu layout="vertical">
-                <calcite-nav-menu-item icon-start="layer" text="Home" text-enabled> </calcite-nav-menu-item>
-                <calcite-nav-menu-item icon-start="layer" slot="menu-item-dropdown" text-enabled>
+                <calcite-nav-menu-item icon-start="layer" icon-end="layer" text="Home" text-enabled>
                 </calcite-nav-menu-item>
                 <calcite-nav-menu-item
                   icon-start="layer"
+                  icon-end="layer"
                   href="#"
                   text="Example nested"
                   text-enabled
                   icon-start="layer"
                 >
-                  <calcite-nav-menu-item icon-start="layer" slot="menu-item-dropdown" text="Capabilities" text-enabled>
+                  <calcite-nav-menu-item
+                    icon-end="layer"
+                    icon-start="layer"
+                    slot="menu-item-dropdown"
+                    text="Capabilities"
+                    text-enabled
+                  >
                   </calcite-nav-menu-item>
                   <calcite-nav-menu-item
                     icon-start="layer"
@@ -1398,6 +1372,7 @@
             </calcite-nav-menu>
           </calcite-nav>
         </calcite-shell>
+
         <calcite-shell>
           <calcite-nav slot="header" style="--calcite-ui-brand: #68a407">
             <calcite-nav-logo
@@ -1464,7 +1439,18 @@
             </calcite-nav-menu>
           </calcite-nav>
         </calcite-shell>
-
+        <div class="text-box">
+          <h3 id="calcite-nav-menu-item-events"><code>events</code></h3>
+          <h4>
+            <b><code>editingStart</code></b>
+          </h4>
+          <h4>
+            <b><code>editingEnabled</code></b>
+          </h4>
+          <h4>
+            <b><code>editingCanceled</code></b>
+          </h4>
+        </div>
         <!--
             *
             *
@@ -1766,7 +1752,59 @@
 
         <div class="text-box" id="examples-theming">
           <h2>Theming</h2>
+          <h3>can also theme bg and color of nav bg for each tier w css var</h3>
         </div>
+        <style>
+          .example-theming-tiers {
+            --calcite-nav-primary-background: red;
+            --calcite-nav-primary-border-color: darkred;
+            --calcite-nav-secondary-background: green;
+            --calcite-nav-secondary-border-color: darkgreen;
+            --calcite-nav-tertiary-background: blue;
+            --calcite-nav-tertiary-border-color: darkblue;
+          }
+        </style>
+        <calcite-shell>
+          <calcite-nav class="example-theming-tiers" slot="header" style="--calcite-ui-brand: #974dff">
+            <calcite-nav-logo text-enabled text="ArcGIS Developer" slot="logo" src="../assets/images/dev-docs.svg" href>
+            </calcite-nav-logo>
+            <calcite-nav-menu slot="primary-menu-start">
+              <calcite-nav-menu-item active text="Documentation" text-enabled></calcite-nav-menu-item>
+              <calcite-nav-menu-item text="Features" text-enabled></calcite-nav-menu-item>
+              <calcite-nav-menu-item text="Pricing" text-enabled></calcite-nav-menu-item>
+              <calcite-nav-menu-item text="Support"></calcite-nav-menu-item>
+            </calcite-nav-menu>
+            <calcite-nav-menu slot="secondary-menu-start">
+              <calcite-nav-menu-item breadcrumb text="Documentation" text-enabled></calcite-nav-menu-item>
+              <calcite-nav-menu-item breadcrumb text="Calcite Design System" text-enabled></calcite-nav-menu-item>
+              <calcite-nav-menu-item breadcrumb text="Components" text-enabled></calcite-nav-menu-item>
+              <calcite-nav-menu-item active text="Notice" text-enabled></calcite-nav-menu-item>
+            </calcite-nav-menu>
+            <calcite-nav-menu slot="tertiary-menu-start">
+              <calcite-nav-menu-item breadcrumb text="Documentation" text-enabled></calcite-nav-menu-item>
+              <calcite-nav-menu-item breadcrumb text="Calcite Design System" text-enabled></calcite-nav-menu-item>
+              <calcite-nav-menu-item breadcrumb text="Components" text-enabled></calcite-nav-menu-item>
+              <calcite-nav-menu-item active text="Notice" text-enabled></calcite-nav-menu-item>
+            </calcite-nav-menu>
+            <calcite-action slot="primary-actions-end" icon="search" scale="l" text="Search"></calcite-action>
+            <calcite-action
+              slot="primary-actions-end"
+              icon="bell"
+              indicator
+              scale="l"
+              text="Notifications"
+            ></calcite-action>
+            <calcite-action
+              slot="primary-actions-end"
+              icon="app-launcher"
+              scale="l"
+              text="App Launcher"
+            ></calcite-action>
+            <calcite-nav-user slot="user" user-name="Peter Berg" user-organization="Planet Drum Foundation">
+            </calcite-nav-user>
+          </calcite-nav>
+        </calcite-shell>
+
         <calcite-shell>
           <calcite-nav slot="header">
             <calcite-nav-logo

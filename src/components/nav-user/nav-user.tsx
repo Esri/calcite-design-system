@@ -1,4 +1,4 @@
-import { Component, Element, h, Host, Prop, State } from "@stencil/core";
+import { Component, Element, h, Host, Prop } from "@stencil/core";
 
 @Component({
   tag: "calcite-nav-user",
@@ -6,7 +6,19 @@ import { Component, Element, h, Host, Prop, State } from "@stencil/core";
   shadow: true
 })
 export class CalciteNavUser {
+  //--------------------------------------------------------------------------
+  //
+  //  Element
+  //
+  //--------------------------------------------------------------------------
+
   @Element() el: HTMLElement;
+
+  //--------------------------------------------------------------------------
+  //
+  //  Public Properties
+  //
+  //--------------------------------------------------------------------------
 
   @Prop({ reflect: true }) userName?;
 
@@ -14,7 +26,12 @@ export class CalciteNavUser {
 
   @Prop({ reflect: true }) userOrganization?;
 
-  // temp for demo
+  // --------------------------------------------------------------------------
+  //
+  //  Render Methods
+  //
+  // --------------------------------------------------------------------------
+
   render() {
     return (
       <Host tabIndex={0}>

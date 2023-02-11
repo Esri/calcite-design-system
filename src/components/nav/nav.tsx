@@ -30,7 +30,6 @@ export class CalciteNav {
   //  Element
   //
   //--------------------------------------------------------------------------
-
   @Element() el: HTMLCalciteNavElement;
 
   //--------------------------------------------------------------------------
@@ -51,15 +50,9 @@ export class CalciteNav {
 
   //--------------------------------------------------------------------------
   //
-  //  Lifecycle
+  //  Render Methods
   //
   //--------------------------------------------------------------------------
-
-  /**
-   *
-   * @param level - "primary" | "secondary" | "tertiary"
-   * @returns
-   */
   renderNavLevel(level: "primary" | "secondary" | "tertiary"): VNode {
     // todo use slot change handlers
     const progress = this.el.querySelector('[slot="progress"]');
