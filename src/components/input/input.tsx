@@ -460,6 +460,7 @@ export class Input
 
     this.setPreviousEmittedValue(this.value);
     this.setPreviousValue(this.value);
+
     if (this.type === "number") {
       this.warnAboutInvalidNumberValue(this.value);
       this.setValue({
@@ -644,8 +645,8 @@ export class Input
   private emitChangeIfUserModified = (): void => {
     if (this.previousValueOrigin === "user" && this.value !== this.previousEmittedValue) {
       this.calciteInputChange.emit();
+      this.setPreviousEmittedValue(this.value);
     }
-    this.previousEmittedValue = this.value;
   };
 
   private inputBlurHandler = () => {
@@ -833,13 +834,14 @@ export class Input
   }
 
   syncHiddenFormInput(input: HTMLInputElement): void {
-    if (this.type === "number") {
-      input.type = "number";
+    const { type } = this;
+
+    input.type = type;
+
+    if (type === "number") {
       input.min = this.min?.toString(10) ?? "";
       input.max = this.max?.toString(10) ?? "";
-    } else if (this.type === "text") {
-      input.type = "text";
-
+    } else if (type === "text") {
       if (this.minLength != null) {
         input.minLength = this.minLength;
       }
@@ -847,8 +849,6 @@ export class Input
       if (this.maxLength != null) {
         input.maxLength = this.maxLength;
       }
-    } else if (this.type === "password") {
-      input.type = "password";
     }
   }
 
@@ -898,22 +898,16 @@ export class Input
     this[`child${this.type === "number" ? "Number" : ""}El`].value = newInputValue;
   };
 
-  private setPreviousEmittedValue = (newPreviousEmittedValue: string): void => {
-    this.previousEmittedValue =
-      this.type === "number"
-        ? isValidNumber(newPreviousEmittedValue)
-          ? newPreviousEmittedValue
-          : ""
-        : newPreviousEmittedValue;
+  private setPreviousEmittedValue = (value: string): void => {
+    this.previousEmittedValue = this.normalizeValue(value);
   };
 
-  private setPreviousValue = (newPreviousValue: string): void => {
-    this.previousValue =
-      this.type === "number"
-        ? isValidNumber(newPreviousValue)
-          ? newPreviousValue
-          : ""
-        : newPreviousValue;
+  private normalizeValue(value: string): string {
+    return this.type === "number" ? (isValidNumber(value) ? value : "") : value;
+  }
+
+  private setPreviousValue = (value: string): void => {
+    this.previousValue = this.normalizeValue(value);
   };
 
   private setValue = ({
@@ -929,6 +923,9 @@ export class Input
     previousValue?: string;
     value: string;
   }): void => {
+    this.setPreviousValue(previousValue ?? this.value);
+    this.previousValueOrigin = origin;
+
     if (this.type === "number") {
       numberStringFormatter.numberFormatOptions = {
         locale: this.effectiveLocale,
@@ -955,19 +952,18 @@ export class Input
       const newLocalizedValue = numberStringFormatter.localize(newValue);
       this.localizedValue = newLocalizedValue;
 
-      this.setPreviousValue(previousValue || this.value);
-      this.previousValueOrigin = origin;
       this.userChangedValue = origin === "user" && this.value !== newValue;
       // don't sanitize the start of negative/decimal numbers, but
       // don't set value to an invalid number
       this.value = ["-", "."].includes(newValue) ? "" : newValue;
-      origin === "direct" && this.setInputValue(newLocalizedValue);
     } else {
-      this.setPreviousValue(previousValue || this.value);
-      this.previousValueOrigin = origin;
       this.userChangedValue = origin === "user" && this.value !== value;
       this.value = value;
-      origin === "direct" && this.setInputValue(value);
+    }
+
+    if (origin === "direct") {
+      this.setInputValue(value);
+      this.previousEmittedValue = value;
     }
 
     if (nativeEvent) {
