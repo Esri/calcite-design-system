@@ -340,7 +340,7 @@ export class Slider
         style={{ right: rightThumbOffset }}
         tabIndex={0}
       >
-        <div class="handle" />
+        <div class="handle" ref={(el) => (this.handleEl = el as HTMLDivElement)} />
         <span aria-hidden="true" class={handleLabelValueClasses}>
           {displayedValue}
         </span>
@@ -375,7 +375,7 @@ export class Slider
         style={{ right: rightThumbOffset }}
         tabIndex={0}
       >
-        <div class="handle" />
+        <div class="handle" ref={(el) => (this.handleEl = el as HTMLDivElement)} />
         <div class="handle-extension" />
       </div>
     );
@@ -403,7 +403,7 @@ export class Slider
         tabIndex={0}
       >
         <div class="handle-extension" />
-        <div class="handle" />
+        <div class="handle" ref={(el) => (this.handleEl = el as HTMLDivElement)} />
       </div>
     );
 
@@ -438,7 +438,7 @@ export class Slider
         <span aria-hidden="true" class={`${handleLabelValueClasses} transformed`}>
           {displayedValue}
         </span>
-        <div class="handle" />
+        <div class="handle" ref={(el) => (this.handleEl = el as HTMLDivElement)} />
         <div class="handle-extension" />
       </div>
     );
@@ -466,7 +466,7 @@ export class Slider
         tabIndex={0}
       >
         <div class="handle-extension" />
-        <div class="handle" />
+        <div class="handle" ref={(el) => (this.handleEl = el as HTMLDivElement)} />
         <span aria-hidden="true" class={handleLabelValueClasses}>
           {displayedValue}
         </span>
@@ -500,7 +500,7 @@ export class Slider
         style={{ left: leftThumbOffset }}
         tabIndex={0}
       >
-        <div class="handle" />
+        <div class="handle" ref={(el) => (this.handleEl = el as HTMLDivElement)} />
       </div>
     );
 
@@ -534,7 +534,7 @@ export class Slider
         <span aria-hidden="true" class={`${handleLabelMinValueClasses} transformed`}>
           {displayedMinValue}
         </span>
-        <div class="handle" />
+        <div class="handle" ref={(el) => (this.handleEl = el as HTMLDivElement)} />
       </div>
     );
 
@@ -559,7 +559,7 @@ export class Slider
         style={{ left: leftThumbOffset }}
         tabIndex={0}
       >
-        <div class="handle" />
+        <div class="handle" ref={(el) => (this.handleEl = el as HTMLDivElement)} />
         <span aria-hidden="true" class={handleLabelMinValueClasses}>
           {displayedMinValue}
         </span>
@@ -595,7 +595,7 @@ export class Slider
         tabIndex={0}
       >
         <div class="handle-extension" />
-        <div class="handle" />
+        <div class="handle" ref={(el) => (this.handleEl = el as HTMLDivElement)} />
       </div>
     );
 
@@ -622,7 +622,7 @@ export class Slider
         tabIndex={0}
       >
         <div class="handle-extension" />
-        <div class="handle" />
+        <div class="handle" ref={(el) => (this.handleEl = el as HTMLDivElement)} />
         <span aria-hidden="true" class={handleLabelMinValueClasses}>
           {displayedMinValue}
         </span>
@@ -1499,6 +1499,7 @@ export class Slider
 
   private setHandlePosition(): void {
     const { y: handleY, width: handleWidth } = this.handleEl.getBoundingClientRect();
+    console.log(handleY, handleWidth);
     const adjustedHandleY = `-${
       handleY - this.trackEl.getBoundingClientRect().y + handleWidth / 2
     }px)`;
