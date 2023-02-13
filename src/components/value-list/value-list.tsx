@@ -57,11 +57,10 @@ import { CSS, ICON_TYPES } from "./resources";
 import { getHandleAndItemElement, getScreenReaderText } from "./utils";
 
 /**
+ * @deprecated Use the `list` component instead.
  * @slot - A slot for adding `calcite-value-list-item` elements. List items are displayed as a vertical list.
  * @slot menu-actions - A slot for adding a button and menu combination for performing actions, such as sorting.
  */
-
-/** @deprecated Use the `list` component instead. */
 @Component({
   tag: "calcite-value-list",
   styleUrl: "value-list.scss",

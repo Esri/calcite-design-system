@@ -29,11 +29,10 @@ import { ICON_TYPES } from "../pick-list/resources";
 import { ICONS, SLOTS } from "./resources";
 
 /**
+ * @deprecated Use the `list` component instead.
  * @slot actions-end - A slot for adding `calcite-action`s or content to the end side of the component.
  * @slot actions-start - A slot for adding `calcite-action`s or content to the start side of the component.
  */
-
-/** @deprecated Use the `list` component instead. */
 @Component({
   tag: "calcite-value-list-item",
   styleUrl: "value-list-item.scss",
