@@ -882,6 +882,46 @@
             "type": "color"
           }
         }
+      },
+      "input-password": {
+        "font": {
+          "placeholder-value": {
+            "value": "$input-password.font.placeholder-value.light",
+            "type": "color"
+          },
+          "label": {
+            "value": "$input-password.font.label.light",
+            "type": "color"
+          }
+        },
+        "icon": {
+          "value": "$input-password.icon.light",
+          "type": "color"
+        },
+        "background": {
+          "default": {
+            "value": "$input-password.background.default.light",
+            "type": "color"
+          },
+          "prefix-sufix": {
+            "value": "$input-password.background.prefix-suffix.light",
+            "type": "color"
+          },
+          "read-only": {
+            "value": "$input-password.background.read-only.light",
+            "type": "color"
+          }
+        },
+        "border": {
+          "default": {
+            "value": "$input-password.border.default.light",
+            "type": "color"
+          },
+          "invalid": {
+            "value": "$input-password.border.invalid.light",
+            "type": "color"
+          }
+        }
       }
     }
   }

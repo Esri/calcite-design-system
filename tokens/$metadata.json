@@ -15,6 +15,7 @@
     "component/input-file",
     "component/input-month",
     "component/input-number",
+    "component/input-password",
     "component/input-message",
     "component/input-time",
     "component/date-picker",
