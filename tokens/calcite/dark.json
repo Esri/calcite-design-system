@@ -820,10 +820,6 @@
           "label": {
             "value": "$input-number.font.label.dark",
             "type": "color"
-          },
-          "prefix-suffix": {
-            "value": "$input-number.font.prefix-suffix.dark",
-            "type": "color"
           }
         },
         "icon": {
@@ -891,46 +887,6 @@
           },
           "invalid": {
             "value": "$input-password.border.invalid.dark",
-            "type": "color"
-          }
-        }
-      },
-      "input-search": {
-        "font": {
-          "placeholder-value": {
-            "value": "$input-search.font.placeholder-value.dark",
-            "type": "color"
-          },
-          "label": {
-            "value": "$input-search.font.label.dark",
-            "type": "color"
-          }
-        },
-        "icon": {
-          "value": "$input-search.icon.dark",
-          "type": "color"
-        },
-        "background": {
-          "default": {
-            "value": "$input-search.background.default.dark",
-            "type": "color"
-          },
-          "prefix-sufix": {
-            "value": "$input-search.background.prefix-suffix.dark",
-            "type": "color"
-          },
-          "read-only": {
-            "value": "$input-search.background.read-only.dark",
-            "type": "color"
-          }
-        },
-        "border": {
-          "default": {
-            "value": "$input-search.border.default.dark",
-            "type": "color"
-          },
-          "invalid": {
-            "value": "$input-search.border.invalid.dark",
             "type": "color"
           }
         }

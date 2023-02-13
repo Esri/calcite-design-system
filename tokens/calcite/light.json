@@ -852,10 +852,6 @@
           "label": {
             "value": "$input-number.font.label.light",
             "type": "color"
-          },
-          "prefix-suffix": {
-            "value": "$input-number.font.prefix-suffix.light",
-            "type": "color"
           }
         },
         "icon": {
