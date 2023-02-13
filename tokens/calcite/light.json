@@ -922,6 +922,46 @@
             "type": "color"
           }
         }
+      },
+      "input-search": {
+        "font": {
+          "placeholder-value": {
+            "value": "$input-search.font.placeholder-value.light",
+            "type": "color"
+          },
+          "label": {
+            "value": "$input-search.font.label.light",
+            "type": "color"
+          }
+        },
+        "icon": {
+          "value": "$input-search.icon.light",
+          "type": "color"
+        },
+        "background": {
+          "default": {
+            "value": "$input-search.background.default.light",
+            "type": "color"
+          },
+          "prefix-sufix": {
+            "value": "$input-search.background.prefix-suffix.light",
+            "type": "color"
+          },
+          "read-only": {
+            "value": "$input-search.background.read-only.light",
+            "type": "color"
+          }
+        },
+        "border": {
+          "default": {
+            "value": "$input-search.border.default.light",
+            "type": "color"
+          },
+          "invalid": {
+            "value": "$input-search.border.invalid.light",
+            "type": "color"
+          }
+        }
       }
     }
   }

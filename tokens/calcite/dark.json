@@ -850,6 +850,86 @@
             "type": "color"
           }
         }
+      },
+      "input-password": {
+        "font": {
+          "placeholder-value": {
+            "value": "$input-password.font.placeholder-value.dark",
+            "type": "color"
+          },
+          "label": {
+            "value": "$input-password.font.label.dark",
+            "type": "color"
+          }
+        },
+        "icon": {
+          "value": "$input-password.icon.dark",
+          "type": "color"
+        },
+        "background": {
+          "default": {
+            "value": "$input-password.background.default.dark",
+            "type": "color"
+          },
+          "prefix-sufix": {
+            "value": "$input-password.background.prefix-suffix.dark",
+            "type": "color"
+          },
+          "read-only": {
+            "value": "$input-password.background.read-only.dark",
+            "type": "color"
+          }
+        },
+        "border": {
+          "default": {
+            "value": "$input-password.border.default.dark",
+            "type": "color"
+          },
+          "invalid": {
+            "value": "$input-password.border.invalid.dark",
+            "type": "color"
+          }
+        }
+      },
+      "input-search": {
+        "font": {
+          "placeholder-value": {
+            "value": "$input-search.font.placeholder-value.dark",
+            "type": "color"
+          },
+          "label": {
+            "value": "$input-search.font.label.dark",
+            "type": "color"
+          }
+        },
+        "icon": {
+          "value": "$input-search.icon.dark",
+          "type": "color"
+        },
+        "background": {
+          "default": {
+            "value": "$input-search.background.default.dark",
+            "type": "color"
+          },
+          "prefix-sufix": {
+            "value": "$input-search.background.prefix-suffix.dark",
+            "type": "color"
+          },
+          "read-only": {
+            "value": "$input-search.background.read-only.dark",
+            "type": "color"
+          }
+        },
+        "border": {
+          "default": {
+            "value": "$input-search.border.default.dark",
+            "type": "color"
+          },
+          "invalid": {
+            "value": "$input-search.border.invalid.dark",
+            "type": "color"
+          }
+        }
       }
     }
   }
