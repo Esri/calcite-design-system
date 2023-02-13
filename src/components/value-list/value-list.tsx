@@ -356,12 +356,12 @@ export class ValueList<
       this.updateScreenReaderText(getScreenReaderText(item, "commit", this));
     }
 
-    event.preventDefault();
-
     if (!handle || !item.handleActivated) {
       keyDownHandler.call(this, event);
       return;
     }
+
+    event.preventDefault();
 
     const { items } = this;
 
