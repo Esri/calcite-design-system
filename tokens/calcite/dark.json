@@ -820,6 +820,10 @@
           "label": {
             "value": "$input-number.font.label.dark",
             "type": "color"
+          },
+          "prefix-suffix": {
+            "value": "$input-number.font.prefix-suffix.dark",
+            "type": "color"
           }
         },
         "icon": {
