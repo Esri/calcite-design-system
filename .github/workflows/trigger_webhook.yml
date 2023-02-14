@@ -19,29 +19,14 @@ jobs:
 #         run: sleep 10s
 #         shell: bash
 
-  setup_data:
-    runs-on: ubuntu-latest
-#     needs: allow_for_changes
-    outputs:
-      issue: ${{ steps.set-data.outputs.issue }}
-    steps:
-    - id: set-data
-      run: echo "::set-output name=issue::${{toJSON(github.event.issue)}}"
-#   job2:
-#     needs: job1
-#     runs-on: ubuntu-latest
-#     strategy:
-#       matrix: ${{fromJson(needs.job1.outputs.matrix)}}
-#     steps:
-#     - run: build
-
   get_data:
-    needs: setup_data
+    env:
+        ISSUE: '${{toJSON(github.event.issue)}}'
     runs-on: ubuntu-latest
     steps:
       - name: Dump context
         id: github_context_step
-        run: echo ${{fromJson(needs.setup_data.outputs.issue)}}
+        run: echo ${{env.ISSUE}}
 #       - name: Webhook
 #         uses: distributhor/workflow-webhook@v2
 #         env:
