@@ -26,7 +26,8 @@ jobs:
     steps:
       - name: Dump context
         id: github_context_step
-        run: echo '${{toJSON(env.ISSUE)}}'
+#         run: echo '${{github.event.issue}}'
+        run: echo 'Hello'
 #       - name: Webhook
 #         uses: distributhor/workflow-webhook@v2
 #         env:
