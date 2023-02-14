@@ -22,9 +22,12 @@ jobs:
 #     needs: allow_for_changes
     runs-on: ubuntu-latest
     steps:
+      - name: Grab Issue context
+        id: github_issue_context
+        run: export ISSUE=toJSON(github.event.issue)
       - name: Dump GitHub context
         id: github_context_step
-        run: echo '${{ toJSON(github) }}'
+        run: echo '${{ $ISSUE }}'
 #       - name: Get Issue Data
 #         id: git-issue-data
 #         uses: actions/github-script@v6
