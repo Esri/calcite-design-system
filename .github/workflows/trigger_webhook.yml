@@ -34,9 +34,9 @@ jobs:
               title,
               body,
               assignees: assignees.map(a => a.login).join(','),
-              closed_at: closed_at.toString(),
-              created_at: created_at.toString(),
-              id: id.toString(),
+              closed_at,
+              created_at,
+              id,
               labels: labels.map(l => l.name).join(','),
               milestone: {
                 description: milestone.description,
@@ -45,9 +45,9 @@ jobs:
                 state: milestone.state,
                 title: milestone.title
               },
-              number: number.toString(),
+              number: number,
               state,
-              updated_at: updated_at.toString(),
+              updated_at,
               secret: process.env.SECRET
             };
             return newData
