@@ -14,20 +14,27 @@ jobs:
   allow_for_changes:
     runs-on: ubuntu-latest
     steps:
-      - name: Sleep for 3 seconds
-        run: sleep 3s
+      - name: Sleep for .5 seconds
+        run: sleep .5s
         shell: bash
   get_data:
     runs-on: ubuntu-latest
     env:
       ISSUE: '${{toJSON(github.event.issue)}}'
     steps:
-      - name: Webhook
-        run: |
-          curl \
-            -H "Content-Type: application/json" \
-            --data '${{ env.ISSUE }}' \
-            --data '${{ secrets.AIRTABLE_KEY }}' ${{ secrets.AIRTABLE_WEBHOOK }}
+      - name: Set Data
+        id: set-data
+        uses: actions/github-script@v6
+        with:
+          script: |
+            console.log(context);
+            
+#       - name: Webhook
+#         run: |
+#           curl \
+#             -H "Content-Type: application/json" \
+#             --data '${{ env.ISSUE }}' \
+#             --data '${{ secrets.AIRTABLE_KEY }}' ${{ secrets.AIRTABLE_WEBHOOK }}
 #       - name: Webhook
 #         uses: distributhor/workflow-webhook@v2
 #         env:
