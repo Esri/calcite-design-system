@@ -18,7 +18,7 @@ jobs:
     steps:
       - name: Webhook
         run: |
-          curl $options \
+          curl \
             -H "Content-Type: application/json" \
             --data "$env.ISSUE" $secrets.AIRTABLE_WEBHOOK
 #       - name: Webhook
