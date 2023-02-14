@@ -22,9 +22,8 @@ jobs:
         with:
           result-encoding: string
           script: |
-            const test = env.ISSUE;
             return fetch(secrets.AIRTABLE_WEBHOOK, {
-              body: "{ hello: 1}",
+              body: JSON.stringify(context),
               method: "GET"
             })
 #         run: |
