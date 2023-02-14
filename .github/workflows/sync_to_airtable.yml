@@ -1,4 +1,4 @@
-name: automate_webhook
+name: sync_to_airtable
 
 on:
   # Trigger the workflow when issues are updated
