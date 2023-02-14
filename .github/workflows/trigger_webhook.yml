@@ -48,7 +48,8 @@ jobs:
               number: number && number.toString(),
               state: state || '',
               updated_at: updated_at ? updated_at.toString() : '',
-              secret: process.env.SECRET
+              secret: process.env.SECRET,
+              repo: context.repo
             };
             return newData
       - name: Webhook
@@ -56,24 +57,4 @@ jobs:
           curl \
             -H "Content-Type: application/json" \
             --data ${{ toJSON(steps.set-data.outputs.result) }} ${{ secrets.AIRTABLE_WEBHOOK }}
-#       - name: Webhook
-#         uses: distributhor/workflow-webhook@v2
-#         env:
-#           webhook_url: ${{ secrets.AIRTABLE_WEBHOOK }}
-#           webhook_secret: ${{ secrets.AIRTABLE_KEY }}
-#           data: "${{env.ISSUE}}"
-
-# jobs:
-# allow time for multiple changes on an issue
-  
-#   get_data:
-#     env:
-#         ISSUE: '${{github.event.issue.assignees}}'
-#     runs-on: ubuntu-latest
-#     steps:
-#       - name: Dump context
-#         id: github_context_step
-# #         run: echo '${{github.event.issue}}'
-#         run: echo 'Hello'
-     
     
