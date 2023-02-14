@@ -11,6 +11,15 @@ concurrency:
       cancel-in-progress: true
 
 jobs:
+  get_data:
+    runs-on: ubuntu-latest
+    env:
+      ISSUE: '${{toJSON(github.event.issue)}}'
+    steps:
+      - name: Dump context
+        run: echo 'Hello'
+
+# jobs:
 # allow time for multiple changes on an issue
 #   allow_for_changes:
 #     runs-on: ubuntu-latest
@@ -18,16 +27,15 @@ jobs:
 #       - name: Sleep for 10 seconds
 #         run: sleep 10s
 #         shell: bash
-
-  get_data:
-    env:
-        ISSUE: '${{github.event.issue.assignees}}'
-    runs-on: ubuntu-latest
-    steps:
-      - name: Dump context
-        id: github_context_step
-#         run: echo '${{github.event.issue}}'
-        run: echo 'Hello'
+#   get_data:
+#     env:
+#         ISSUE: '${{github.event.issue.assignees}}'
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Dump context
+#         id: github_context_step
+# #         run: echo '${{github.event.issue}}'
+#         run: echo 'Hello'
 #       - name: Webhook
 #         uses: distributhor/workflow-webhook@v2
 #         env:
