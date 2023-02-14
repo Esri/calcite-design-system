@@ -16,12 +16,18 @@ jobs:
     env:
       ISSUE: '${{toJSON(github.event.issue)}}'
     steps:
-      - name: Webhook
-        uses: distributhor/workflow-webhook@v2
-        env:
-          webhook_url: ${{ secrets.AIRTABLE_WEBHOOK }}
-          webhook_secret: ${{ secrets.AIRTABLE_KEY }}
-          data: "${{env.ISSUE}}"
+      - name: Webhook with curl
+        run: |
+          curl \
+            -X GET "${{ secrets.AIRTABLE_WEBHOOK }}" \
+            -d "${{env.ISSUE}}" \
+            -H "Content-Type: application/json"
+#       - name: Webhook
+#         uses: distributhor/workflow-webhook@v2
+#         env:
+#           webhook_url: ${{ secrets.AIRTABLE_WEBHOOK }}
+#           webhook_secret: ${{ secrets.AIRTABLE_KEY }}
+#           data: "${{env.ISSUE}}"
 
 # jobs:
 # allow time for multiple changes on an issue
