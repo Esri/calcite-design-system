@@ -38,13 +38,13 @@ jobs:
               created_at: created_at || '',
               id: id && id.toString(),
               labels: labels ? labels.map(l => l.name).join(','): '',
-              milestone: milestone ? {
-                description: milestone.description,
-                due_on: milestone.due_on,
-                number: milestone.number.toString(),
-                state: milestone.state,
-                title: milestone.title
-              } : {},
+              milestone: {
+                description: milestone ? milestone.description : '',
+                due_on: milestone ? milestone.due_on : '',
+                number: milestone ? milestone.number.toString() : '',
+                state: milestone ? milestone.state : '',
+                title: milestone ? milestone.title : ''
+              },
               number: number && number.toString(),
               state: state || '',
               updated_at: updated_at ? updated_at.toString() : '',
