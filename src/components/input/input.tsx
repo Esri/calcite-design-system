@@ -199,7 +199,9 @@ export class Input
   @Prop({ reflect: true }) minLength: number;
 
   /**
-   * Specifies the name of the component on form submission.
+   * Specifies the name of the component.
+   *
+   * Required to pass the component's `value` on form submission.
    *
    * @mdn [name](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#name)
    */
@@ -235,7 +237,7 @@ export class Input
   @Prop({ mutable: true, reflect: true }) status: Status = "idle";
 
   /**
-   * Specifies the granularity the component's value must adhere to.
+   * Specifies the granularity the component's `value` must adhere to.
    *
    * @mdn [step](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/step)
    */
@@ -458,6 +460,7 @@ export class Input
 
     this.setPreviousEmittedValue(this.value);
     this.setPreviousValue(this.value);
+
     if (this.type === "number") {
       this.warnAboutInvalidNumberValue(this.value);
       this.setValue({
@@ -642,8 +645,8 @@ export class Input
   private emitChangeIfUserModified = (): void => {
     if (this.previousValueOrigin === "user" && this.value !== this.previousEmittedValue) {
       this.calciteInputChange.emit();
+      this.setPreviousEmittedValue(this.value);
     }
-    this.previousEmittedValue = this.value;
   };
 
   private inputBlurHandler = () => {
@@ -831,13 +834,14 @@ export class Input
   }
 
   syncHiddenFormInput(input: HTMLInputElement): void {
-    if (this.type === "number") {
-      input.type = "number";
+    const { type } = this;
+
+    input.type = type;
+
+    if (type === "number") {
       input.min = this.min?.toString(10) ?? "";
       input.max = this.max?.toString(10) ?? "";
-    } else if (this.type === "text") {
-      input.type = "text";
-
+    } else if (type === "text") {
       if (this.minLength != null) {
         input.minLength = this.minLength;
       }
@@ -845,23 +849,13 @@ export class Input
       if (this.maxLength != null) {
         input.maxLength = this.maxLength;
       }
-    } else if (this.type === "password") {
-      input.type = "password";
     }
   }
 
   hiddenInputChangeHandler = (event: Event): void => {
     if ((event.target as HTMLInputElement).name === this.name) {
-      const hiddenInputValue = (event.target as HTMLInputElement).value;
-      const value =
-        this.type === "number"
-          ? isValidNumber(hiddenInputValue)
-            ? hiddenInputValue
-            : ""
-          : hiddenInputValue;
-
       this.setValue({
-        value,
+        value: (event.target as HTMLInputElement).value,
         origin: "direct"
       });
     }
@@ -904,22 +898,16 @@ export class Input
     this[`child${this.type === "number" ? "Number" : ""}El`].value = newInputValue;
   };
 
-  private setPreviousEmittedValue = (newPreviousEmittedValue: string): void => {
-    this.previousEmittedValue =
-      this.type === "number"
-        ? isValidNumber(newPreviousEmittedValue)
-          ? newPreviousEmittedValue
-          : ""
-        : newPreviousEmittedValue;
+  private setPreviousEmittedValue = (value: string): void => {
+    this.previousEmittedValue = this.normalizeValue(value);
   };
 
-  private setPreviousValue = (newPreviousValue: string): void => {
-    this.previousValue =
-      this.type === "number"
-        ? isValidNumber(newPreviousValue)
-          ? newPreviousValue
-          : ""
-        : newPreviousValue;
+  private normalizeValue(value: string): string {
+    return this.type === "number" ? (isValidNumber(value) ? value : "") : value;
+  }
+
+  private setPreviousValue = (value: string): void => {
+    this.previousValue = this.normalizeValue(value);
   };
 
   private setValue = ({
@@ -935,42 +923,48 @@ export class Input
     previousValue?: string;
     value: string;
   }): void => {
-    numberStringFormatter.numberFormatOptions = {
-      locale: this.effectiveLocale,
-      numberingSystem: this.numberingSystem,
-      useGrouping: this.groupSeparator
-    };
+    this.setPreviousValue(previousValue ?? this.value);
+    this.previousValueOrigin = origin;
 
     if (this.type === "number") {
-      const delocalizedValue =
-        (this.numberingSystem && this.numberingSystem !== "latn") ||
-        defaultNumberingSystem !== "latn"
-          ? numberStringFormatter.delocalize(value)
-          : value;
+      numberStringFormatter.numberFormatOptions = {
+        locale: this.effectiveLocale,
+        numberingSystem: this.numberingSystem,
+        useGrouping: this.groupSeparator,
+        signDisplay: "never"
+      };
 
-      const sanitizedValue = sanitizeNumberString(delocalizedValue);
+      const sanitizedValue = sanitizeNumberString(
+        // no need to delocalize a string that ia already in latn numerals
+        (this.numberingSystem && this.numberingSystem !== "latn") ||
+          defaultNumberingSystem !== "latn"
+          ? numberStringFormatter.delocalize(value)
+          : value
+      );
 
       const newValue =
-        (value && !sanitizedValue) || [".", "-"].includes(sanitizedValue)
+        value && !sanitizedValue
           ? isValidNumber(this.previousValue)
             ? this.previousValue
             : ""
           : sanitizedValue;
 
       const newLocalizedValue = numberStringFormatter.localize(newValue);
-
       this.localizedValue = newLocalizedValue;
+
       this.userChangedValue = origin === "user" && this.value !== newValue;
-      this.value = newValue;
-      origin === "direct" && this.setInputValue(newLocalizedValue);
+      // don't sanitize the start of negative/decimal numbers, but
+      // don't set value to an invalid number
+      this.value = ["-", "."].includes(newValue) ? "" : newValue;
     } else {
       this.userChangedValue = origin === "user" && this.value !== value;
       this.value = value;
-      origin === "direct" && this.setInputValue(value);
     }
 
-    this.setPreviousValue(previousValue || this.value);
-    this.previousValueOrigin = origin;
+    if (origin === "direct") {
+      this.setInputValue(value);
+      this.previousEmittedValue = value;
+    }
 
     if (nativeEvent) {
       const calciteInputInputEvent = this.calciteInputInput.emit();

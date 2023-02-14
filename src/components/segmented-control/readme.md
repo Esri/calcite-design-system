@@ -17,16 +17,16 @@
 
 ## Properties
 
-| Property       | Attribute       | Description                                                                              | Type                                     | Default        |
-| -------------- | --------------- | ---------------------------------------------------------------------------------------- | ---------------------------------------- | -------------- |
-| `appearance`   | `appearance`    | Specifies the appearance style of the component.                                         | `"outline" \| "outline-fill" \| "solid"` | `"solid"`      |
-| `disabled`     | `disabled`      | When `true`, interaction is prevented and the component is displayed with lower opacity. | `boolean`                                | `false`        |
-| `layout`       | `layout`        | Defines the layout of the component.                                                     | `"grid" \| "horizontal" \| "vertical"`   | `"horizontal"` |
-| `name`         | `name`          | Specifies the name of the component on form submission.                                  | `string`                                 | `undefined`    |
-| `scale`        | `scale`         | Specifies the size of the component.                                                     | `"l" \| "m" \| "s"`                      | `"m"`          |
-| `selectedItem` | `selected-item` | The component's selected item `HTMLElement`.                                             | `HTMLCalciteSegmentedControlItemElement` | `undefined`    |
-| `value`        | `value`         | The component's `selectedItem` value.                                                    | `string`                                 | `null`         |
-| `width`        | `width`         | Specifies the width of the component.                                                    | `"auto" \| "full"`                       | `"auto"`       |
+| Property       | Attribute       | Description                                                                                       | Type                                     | Default        |
+| -------------- | --------------- | ------------------------------------------------------------------------------------------------- | ---------------------------------------- | -------------- |
+| `appearance`   | `appearance`    | Specifies the appearance style of the component.                                                  | `"outline" \| "outline-fill" \| "solid"` | `"solid"`      |
+| `disabled`     | `disabled`      | When `true`, interaction is prevented and the component is displayed with lower opacity.          | `boolean`                                | `false`        |
+| `layout`       | `layout`        | Defines the layout of the component.                                                              | `"grid" \| "horizontal" \| "vertical"`   | `"horizontal"` |
+| `name`         | `name`          | Specifies the name of the component. Required to pass the component's `value` on form submission. | `string`                                 | `undefined`    |
+| `scale`        | `scale`         | Specifies the size of the component.                                                              | `"l" \| "m" \| "s"`                      | `"m"`          |
+| `selectedItem` | `selected-item` | The component's selected item `HTMLElement`.                                                      | `HTMLCalciteSegmentedControlItemElement` | `undefined`    |
+| `value`        | `value`         | The component's `selectedItem` value.                                                             | `string`                                 | `null`         |
+| `width`        | `width`         | Specifies the width of the component.                                                             | `"auto" \| "full"`                       | `"auto"`       |
 
 ## Events
 

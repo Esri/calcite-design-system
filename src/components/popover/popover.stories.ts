@@ -139,3 +139,66 @@ export const scaleConsistencyPopoverHeadingActionSlottedIcon_TestOnly = (): stri
     </calcite-popover>
   </div>
 `;
+
+export const smallScaleLayout_TestOnly = (): string => html`
+  <style>
+    :root {
+      --calcite-duration-factor: 0;
+    }
+  </style>
+  <div style="width: 400px;">
+    ${referenceElementHTML}
+    <calcite-popover
+      heading="these 🥨s are making me thirsty"
+      reference-element="reference-element"
+      placement="auto"
+      open
+      closable
+      scale="s"
+    >
+      ${contentHTML}
+    </calcite-popover>
+  </div>
+`;
+
+export const mediumScaleLayout_TestOnly = (): string => html`
+  <style>
+    :root {
+      --calcite-duration-factor: 0;
+    }
+  </style>
+  <div style="width: 400px;">
+    ${referenceElementHTML}
+    <calcite-popover
+      heading="these 🥨s are making me thirsty"
+      reference-element="reference-element"
+      placement="auto"
+      open
+      closable
+      scale="m"
+    >
+      ${contentHTML}
+    </calcite-popover>
+  </div>
+`;
+
+export const largeScaleLayout_TestOnly = (): string => html`
+  <style>
+    :root {
+      --calcite-duration-factor: 0;
+    }
+  </style>
+  <div style="width: 400px;">
+    ${referenceElementHTML}
+    <calcite-popover
+      heading="these 🥨s are making me thirsty"
+      reference-element="reference-element"
+      placement="auto"
+      open
+      closable
+      scale="l"
+    >
+      ${contentHTML}
+    </calcite-popover>
+  </div>
+`;

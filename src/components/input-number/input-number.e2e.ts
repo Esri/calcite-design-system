@@ -12,7 +12,7 @@ import {
   renders,
   t9n
 } from "../../tests/commonTests";
-import { getElementXY } from "../../tests/utils";
+import { getElementXY, selectText } from "../../tests/utils";
 import { letterKeys, numberKeys } from "../../utils/key";
 import { locales, numberStringFormatter } from "../../utils/locale";
 
@@ -724,6 +724,15 @@ describe("calcite-input-number", () => {
       expect(await element.getProperty("value")).toBe(programmaticSetValue);
       expect(calciteInputNumberInput).toHaveReceivedEventTimes(10);
       expect(calciteInputNumberChange).toHaveReceivedEventTimes(2);
+
+      await element.callMethod("setFocus");
+      await selectText(element);
+      await page.keyboard.press("Backspace");
+      await page.keyboard.press("Tab");
+
+      expect(await element.getProperty("value")).toBe("");
+      expect(calciteInputNumberInput).toHaveReceivedEventTimes(11);
+      expect(calciteInputNumberChange).toHaveReceivedEventTimes(3);
     }
 
     it("emits events", () => assertChangeEvents());
@@ -914,13 +923,19 @@ describe("calcite-input-number", () => {
     expect(await input.getProperty("value")).toBe("1.005");
   });
 
-  it("allows clearing value with an empty string", async () => {
+  it("allows negative numbers after clearing value with an empty string", async () => {
     const page = await newE2EPage();
     await page.setContent(html`<calcite-input-number value="1"></calcite-input-number>`);
     const input = await page.find("calcite-input-number");
+
     input.setProperty("value", "");
     await page.waitForChanges();
     expect(await input.getProperty("value")).toBe("");
+
+    await input.callMethod("setFocus");
+    await typeNumberValue(page, "-123");
+    await page.waitForChanges();
+    expect(await input.getProperty("value")).toBe("-123");
   });
 
   describe("number locale support", () => {
@@ -1461,9 +1476,10 @@ describe("calcite-input-number", () => {
   });
 
   it("is form-associated", () =>
-    formAssociated("<calcite-input-number></calcite-input-number>", {
+    formAssociated("calcite-input-number", {
       testValue: 5,
-      submitsOnEnter: true
+      submitsOnEnter: true,
+      inputType: "number"
     }));
 
   it("supports translation", () => t9n("calcite-input-number"));

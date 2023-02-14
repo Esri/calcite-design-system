@@ -493,6 +493,11 @@ interface FormAssociatedOptions {
   expectedSubmitValue?: any;
 
   /**
+   * Specifies the input type that will be used to capture the value.
+   */
+  inputType?: HTMLInputElement["type"];
+
+  /**
    * Specifies if the component supports submitting the form on Enter key press
    */
   submitsOnEnter?: boolean;
@@ -532,12 +537,36 @@ export async function formAssociated(componentTagOrHtml: TagOrHTML, options: For
     typeof options.testValue === "boolean" && (await page.$eval(componentTag, (component) => "checked" in component));
   const resettablePropName = checkable ? "checked" : "value";
   const initialValue = await component.getProperty(resettablePropName);
+  const name = await component.getProperty("name");
 
+  await assertValueSubmissionType();
   await assertValueResetOnFormReset();
   await assertValueSubmittedOnFormSubmit();
 
   if (options.submitsOnEnter) {
     await assertFormSubmitOnEnter();
+  }
+
+  async function assertValueSubmissionType(): Promise<void> {
+    const inputType = options.inputType ?? "text";
+
+    const hiddenFormInputType = await page.evaluate(
+      async (inputName: string, hiddenFormInputSlotName: string): Promise<string> => {
+        const hiddenFormInput = document.querySelector<HTMLInputElement>(
+          `[name="${inputName}"] input[slot=${hiddenFormInputSlotName}]`
+        );
+
+        return hiddenFormInput.type;
+      },
+      name,
+      hiddenFormInputSlotName
+    );
+
+    if (checkable) {
+      expect(hiddenFormInputType).toMatch(/radio|checkbox/);
+    } else {
+      expect(hiddenFormInputType).toMatch(inputType);
+    }
   }
 
   async function assertValueResetOnFormReset(): Promise<void> {
@@ -551,7 +580,6 @@ export async function formAssociated(componentTagOrHtml: TagOrHTML, options: For
   }
 
   async function assertValueSubmittedOnFormSubmit(): Promise<void> {
-    const inputName = await component.getProperty("name");
     const stringifiedTestValue = stringifyTestValue(options.testValue);
 
     if (checkable) {
@@ -579,7 +607,13 @@ export async function formAssociated(componentTagOrHtml: TagOrHTML, options: For
       component.setProperty("required", true);
       component.setProperty("value", null);
       await page.waitForChanges();
-      expect(await submitAndGetValue()).toBeUndefined();
+      expect(await submitAndGetValue()).toBe(
+        options.inputType === "color"
+          ? // `input[type="color"]` will set its value to #000000 when set to an invalid value
+            // see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/color#value
+            "#000000"
+          : undefined
+      );
 
       component.setProperty("required", false);
       component.setProperty("value", options.testValue);
@@ -651,7 +685,7 @@ export async function formAssociated(componentTagOrHtml: TagOrHTML, options: For
 
           return submitPromise;
         },
-        inputName,
+        name,
         hiddenFormInputSlotName
       );
     }

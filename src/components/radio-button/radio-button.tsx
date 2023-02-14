@@ -95,7 +95,11 @@ export class RadioButton
    */
   @Prop() label?: string;
 
-  /** Specifies the name of the component, passed from the `calcite-radio-button-group` on form submission. */
+  /**
+   * Specifies the name of the component. Can be inherited from `calcite-radio-button-group`.
+   *
+   * Required to pass the component's `value` on form submission.
+   */
   @Prop({ reflect: true }) name: string;
 
   @Watch("name")
@@ -151,6 +155,10 @@ export class RadioButton
   //  Private Methods
   //
   //--------------------------------------------------------------------------
+
+  syncHiddenFormInput(input: HTMLInputElement): void {
+    input.type = "radio";
+  }
 
   selectItem = (items: HTMLCalciteRadioButtonElement[], selectedIndex: number): void => {
     items[selectedIndex].click();
