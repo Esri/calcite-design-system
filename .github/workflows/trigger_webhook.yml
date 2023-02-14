@@ -21,12 +21,12 @@ jobs:
 
   get_data:
     env:
-        ISSUE: '${{toJSON(github.event.issue)}}'
+        ISSUE: '${{github.event.issue.assignees}}'
     runs-on: ubuntu-latest
     steps:
       - name: Dump context
         id: github_context_step
-        run: echo ${{env.ISSUE}}
+        run: echo '${{toJSON(env.ISSUE)}}'
 #       - name: Webhook
 #         uses: distributhor/workflow-webhook@v2
 #         env:
