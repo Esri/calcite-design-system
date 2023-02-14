@@ -33,21 +33,21 @@ jobs:
               action: context.action,
               title,
               body,
-              assignees: assignees.map(a => a.login).join(','),
-              closed_at,
-              created_at,
-              id,
-              labels: labels.map(l => l.name).join(','),
-              milestone: {
+              assignees: assignees ?  assignees.map(a => a.login).join(',') : '',
+              closed_at: closed_at || '',
+              created_at: created_at || '',
+              id: id && id.toString(),
+              labels: labels ? labels.map(l => l.name).join(','): '',
+              milestone: milestone ? {
                 description: milestone.description,
                 due_on: milestone.due_on,
                 number: milestone.number.toString(),
                 state: milestone.state,
                 title: milestone.title
-              },
-              number: number,
-              state,
-              updated_at,
+              } : {},
+              number: number && number.toString(),
+              state: state || '',
+              updated_at: updated_at ? updated_at.toString() : '',
               secret: process.env.SECRET
             };
             return newData
