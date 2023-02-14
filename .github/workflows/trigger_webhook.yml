@@ -27,11 +27,13 @@ jobs:
         uses: actions/github-script@v6
         with:
           script: |
-            return JSON.stringify(github.event.issue);
-      - name: Webhook
-        uses: distributhor/workflow-webhook@v2
-        env:
-          webhook_url: ${{ secrets.AIRTABLE_WEBHOOK }}
-          webhook_secret: ${{ secrets.AIRTABLE_KEY }}
-          data: "${{steps.git-issue-data.outputs.result}}"
+            return JSON.stringify(github.event);
+      - name: Debug
+        run: echo "${{steps.git-issue-data.outputs.result}}"
+#       - name: Webhook
+#         uses: distributhor/workflow-webhook@v2
+#         env:
+#           webhook_url: ${{ secrets.AIRTABLE_WEBHOOK }}
+#           webhook_secret: ${{ secrets.AIRTABLE_KEY }}
+#           data: "${{steps.git-issue-data.outputs.result}}"
     
