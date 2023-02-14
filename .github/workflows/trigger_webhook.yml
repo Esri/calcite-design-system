@@ -23,9 +23,12 @@ jobs:
       - name: Set Data
         id: set-data
         uses: actions/github-script@v6
+        env:
+          SECRET: ${{ secrets.AIRTABLE_KEY }}
         with:
           result-encoding: string
           script: |
+            const { SECRET } = process.env;
             const {
               action,
               issue: {
@@ -56,7 +59,7 @@ jobs:
               number,
               state,
               updated_at,
-              secret: secrets.AIRTABLE_KEY,
+              secret: SECRET,
             });
             
       - name: Webhook
