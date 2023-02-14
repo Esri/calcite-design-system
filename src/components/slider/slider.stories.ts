@@ -289,7 +289,9 @@ export const WithLargeFontSize_TestOnly = (): string => html`<html lang="en">
     </style>
   </head>
   <body>
+  <div style="width: 400px; height: 400px ; padding : 10px">
     <calcite-slider label-handles min-value="50" max-value="70" range></calcite-slider>
     <calcite-slider label-handles value="70"></calcite-slider>
+    <div style="width: 400px; height: 400px">
   </body>
 </html>`;
