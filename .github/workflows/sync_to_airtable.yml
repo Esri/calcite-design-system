@@ -7,14 +7,14 @@ on:
 
 # Automatically cancel any prior runs of this automation
 concurrency:
-      group: ${{ github.workflow }}-${{ github.event.issue.number }}-${{ github.ref }}
-      cancel-in-progress: true
+  group: ${{ github.workflow }}-${{ github.event.issue.number }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   allow_for_changes:
     runs-on: ubuntu-latest
     steps:
-      - name: Sleep for .5 seconds
+      - name: Sleep to allow time for multiple updates
         run: sleep .5s
         shell: bash
   get_data:
@@ -37,7 +37,7 @@ jobs:
               closed_at: closed_at || '',
               created_at: created_at || '',
               id: id && id.toString(),
-              labels: labels ? labels.map(l => l.name).join(','): '',
+              labels: labels ? labels.map(l => l.name).join(',') : '',
               milestone: {
                 description: milestone ? milestone.description : '',
                 due_on: milestone ? milestone.due_on : '',
@@ -51,6 +51,7 @@ jobs:
               secret: process.env.SECRET,
               repo: context.repo
             };
+
             return newData
       - name: Webhook
         run: |
