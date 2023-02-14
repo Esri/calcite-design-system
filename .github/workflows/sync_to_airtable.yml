@@ -29,7 +29,8 @@ jobs:
         with:
           script: |
             const { title, body, assignees, closed_at, created_at, id, labels, milestone, number, state, updated_at } = JSON.parse(process.env.ISSUE);
-            const newData = {
+
+            return {
               action: context.action,
               title,
               body,
@@ -51,8 +52,6 @@ jobs:
               secret: process.env.SECRET,
               repo: context.repo
             };
-
-            return newData
       - name: Webhook
         run: |
           curl \
