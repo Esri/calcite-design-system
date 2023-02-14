@@ -17,7 +17,7 @@ jobs:
       ISSUE: '${{toJSON(github.event.issue)}}'
     steps:
       - name: Dump context
-        run: echo ${{env.ISSUE}}
+        run: echo ${{fromJSON(env.ISSUE)}}
 
 # jobs:
 # allow time for multiple changes on an issue
