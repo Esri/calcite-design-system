@@ -28,40 +28,13 @@ jobs:
         with:
           result-encoding: string
           script: |
-            const { SECRET } = process.env;
             const {
               action,
-              issue: {
-                title,
-                body,
-                assignees,
-                closed_at,
-                created_at,
-                id,
-                labels,
-                milestone,
-                number,
-                state,
-                updated_at
-              }
+              issue: { title, body, assignees, closed_at, created_at, id, labels, milestone, number, state, updated_at }
             } = context;
-            
-            return JSON.stringify({
-              action,
-              title,
-              body,
-              assignees,
-              closed_at,
-              created_at,
-              id,
-              labels,
-              milestone,
-              number,
-              state,
-              updated_at,
-              secret: SECRET,
-            });
-            
+            const data = { action, title, body, assignees, closed_at, created_at, id, labels, milestone, number, state, updated_at, secret: process.env.SECRET };
+            console.log(data);
+            return data
       - name: Webhook
         run: |
           curl \
