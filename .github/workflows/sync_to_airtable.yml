@@ -1,20 +1,22 @@
-name: sync_to_airtable
+name: Sync to Airtable
 
 on:
-  # Trigger the workflow when issues are updated
   issues:
     types: [opened, edited, closed, reopened, assigned, unassigned, labeled, unlabeled, milestoned, demilestoned]
 
-# Automatically cancel any prior runs of this automation
+# Every time an issue is edited in any way, it triggers this action.
+# However, if this action is already running, we only want the latest run to complete.
+# The [concurrency:group] prevents duplicate runs of the Action on the same github issue,
+# while allowing concurrent runs triggered from different issues.
 concurrency:
-      group: ${{ github.workflow }}-${{ github.event.issue.number }}-${{ github.ref }}
-      cancel-in-progress: true
+  group: ${{ github.workflow }}-${{ github.event.issue.number }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   allow_for_changes:
     runs-on: ubuntu-latest
     steps:
-      - name: Sleep for .5 seconds
+      - name: Sleep to allow time for multiple updates
         run: sleep .5s
         shell: bash
   get_data:
@@ -29,7 +31,7 @@ jobs:
         with:
           script: |
             const { title, body, assignees, closed_at, created_at, id, labels, milestone, number, state, updated_at } = JSON.parse(process.env.ISSUE);
-            const newData = {
+            return {
               action: context.action,
               title,
               body,
@@ -37,7 +39,7 @@ jobs:
               closed_at: closed_at || '',
               created_at: created_at || '',
               id: id && id.toString(),
-              labels: labels ? labels.map(l => l.name).join(','): '',
+              labels: labels ? labels.map(l => l.name).join(',') : '',
               milestone: {
                 description: milestone ? milestone.description : '',
                 due_on: milestone ? milestone.due_on : '',
@@ -51,10 +53,8 @@ jobs:
               secret: process.env.SECRET,
               repo: context.repo
             };
-            return newData
       - name: Webhook
         run: |
           curl \
             -H "Content-Type: application/json" \
             --data ${{ toJSON(steps.set-data.outputs.result) }} ${{ secrets.AIRTABLE_WEBHOOK }}
-    
