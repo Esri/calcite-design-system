@@ -29,7 +29,27 @@ jobs:
         with:
           script: |
             const { title, body, assignees, closed_at, created_at, id, labels, milestone, number, state, updated_at } = JSON.parse(process.env.ISSUE);
-            const newData = { action: context.action, title, body, assignees, closed_at, created_at, id, labels, milestone, number, state, updated_at, secret: process.env.SECRET };
+            const newData = {
+              action: context.action,
+              title,
+              body,
+              assignees: assignees.map(a => a.login).join(','),
+              closed_at: closed_at.toString(),
+              created_at: created_at.toString(),
+              id: id.toString(),
+              labels: labels.map(l => l.name).join(','),
+              milestone: {
+                description: milestone.description,
+                due_on: milestone.due_on,
+                number: milestone.number.toString(),
+                state: milestone.state,
+                title: milestone.title
+              },
+              number: number.toString(),
+              state,
+              updated_at: updated_at.toString(),
+              secret: process.env.SECRET
+            };
             return newData
       - name: Webhook
         run: |
