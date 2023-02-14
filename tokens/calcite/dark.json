@@ -560,6 +560,12 @@
               "value": "$date-picker.font.selected.date.dark",
               "type": "color"
             }
+          },
+          "active": {
+            "date": {
+              "value": "$date-picker.font.active.date.dark",
+              "type": "color"
+            }
           }
         },
         "icon": {
@@ -595,13 +601,293 @@
           }
         }
       },
-      "$date-picker": {
+      "input-date-picker": {
         "font": {
-          "active": {
-            "date": {
-              "value": "$date-picker.font.active.date.dark",
-              "type": "color"
-            }
+          "placeholder-value": {
+            "value": "$input-date-picker.font.placeholder-value.dark",
+            "type": "color"
+          },
+          "label": {
+            "value": "$input-date-picker.font.label.dark",
+            "type": "color"
+          }
+        },
+        "icon": {
+          "value": "$input-date-picker.icon.dark",
+          "type": "color"
+        },
+        "border": {
+          "value": "$input-date-picker.border.dark",
+          "type": "color"
+        },
+        "background": {
+          "default": {
+            "value": "$input-date-picker.background.default.dark",
+            "type": "color"
+          },
+          "arrow": {
+            "value": "$input-date-picker.background.arrow.dark",
+            "type": "color"
+          },
+          "read-only": {
+            "value": "$input-date-picker.background.read-only.dark",
+            "type": "color"
+          }
+        }
+      },
+      "input-datetime-local": {
+        "font": {
+          "placeholder-value": {
+            "value": "$input-datetime-local.font.placeholder-value.dark",
+            "type": "color"
+          },
+          "label": {
+            "value": "$input-datetime-local.font.label.dark",
+            "type": "color"
+          },
+          "prefix-suffix": {
+            "value": "$input-datetime-local.font.prefix-suffix.dark",
+            "type": "color"
+          }
+        },
+        "icon": {
+          "value": "$input-datetime-local.icon.dark",
+          "type": "color"
+        },
+        "background": {
+          "default": {
+            "value": "$input-datetime-local.background.default.dark",
+            "type": "color"
+          },
+          "prefix-sufix": {
+            "value": "$input-datetime-local.background.prefix-suffix.dark",
+            "type": "color"
+          },
+          "read-only": {
+            "value": "$input-datetime-local.background.read-only.dark",
+            "type": "color"
+          }
+        },
+        "border": {
+          "default": {
+            "value": "$input-datetime-local.border.default.dark",
+            "type": "color"
+          },
+          "invalid": {
+            "value": "$input-datetime-local.border.invalid.dark",
+            "type": "color"
+          }
+        }
+      },
+      "input-email": {
+        "font": {
+          "placeholder-value": {
+            "value": "$input-email.font.placeholder-value.dark",
+            "type": "color"
+          },
+          "label": {
+            "value": "$input-email.font.label.dark",
+            "type": "color"
+          },
+          "prefix-suffix": {
+            "value": "$input-email.font.prefix-suffix.dark",
+            "type": "color"
+          }
+        },
+        "icon": {
+          "value": "$input-email.icon.dark",
+          "type": "color"
+        },
+        "background": {
+          "default": {
+            "value": "$input-email.background.default.dark",
+            "type": "color"
+          },
+          "prefix-sufix": {
+            "value": "$input-email.background.prefix-suffix.dark",
+            "type": "color"
+          },
+          "read-only": {
+            "value": "$input-email.background.read-only.dark",
+            "type": "color"
+          }
+        },
+        "border": {
+          "default": {
+            "value": "$input-email.border.default.dark",
+            "type": "color"
+          },
+          "invalid": {
+            "value": "$input-email.border.invalid.dark",
+            "type": "color"
+          }
+        }
+      },
+      "input-file": {
+        "font": {
+          "placeholder-value": {
+            "value": "$input-file.font.placeholder-value.dark",
+            "type": "color"
+          },
+          "label": {
+            "value": "$input-file.font.label.dark",
+            "type": "color"
+          },
+          "prefix-suffix": {
+            "value": "$input-file.font.prefix-suffix.dark",
+            "type": "color"
+          }
+        },
+        "icon": {
+          "value": "$input-file.icon.dark",
+          "type": "color"
+        },
+        "background": {
+          "default": {
+            "value": "$input-file.background.default.dark",
+            "type": "color"
+          },
+          "prefix-sufix": {
+            "value": "$input-file.background.prefix-suffix.dark",
+            "type": "color"
+          },
+          "read-only": {
+            "value": "$input-file.background.read-only.dark",
+            "type": "color"
+          }
+        },
+        "border": {
+          "default": {
+            "value": "$input-file.border.default.dark",
+            "type": "color"
+          },
+          "invalid": {
+            "value": "$input-file.border.invalid.dark",
+            "type": "color"
+          }
+        }
+      },
+      "input-month": {
+        "font": {
+          "placeholder-value": {
+            "value": "$input-month.font.placeholder-value.dark",
+            "type": "color"
+          },
+          "label": {
+            "value": "$input-month.font.label.dark",
+            "type": "color"
+          },
+          "prefix-suffix": {
+            "value": "$input-month.font.prefix-suffix.dark",
+            "type": "color"
+          }
+        },
+        "icon": {
+          "value": "$input-month.icon.dark",
+          "type": "color"
+        },
+        "background": {
+          "default": {
+            "value": "$input-month.background.default.dark",
+            "type": "color"
+          },
+          "prefix-sufix": {
+            "value": "$input-month.background.prefix-suffix.dark",
+            "type": "color"
+          },
+          "read-only": {
+            "value": "$input-month.background.read-only.dark",
+            "type": "color"
+          }
+        },
+        "border": {
+          "default": {
+            "value": "$input-month.border.default.dark",
+            "type": "color"
+          },
+          "invalid": {
+            "value": "$input-month.border.invalid.dark",
+            "type": "color"
+          }
+        }
+      },
+      "input-number": {
+        "font": {
+          "placeholder-value": {
+            "value": "$input-number.font.placeholder-value.dark",
+            "type": "color"
+          },
+          "label": {
+            "value": "$input-number.font.label.dark",
+            "type": "color"
+          }
+        },
+        "icon": {
+          "value": "$input-number.icon.dark",
+          "type": "color"
+        },
+        "background": {
+          "default": {
+            "value": "$input-number.background.default.dark",
+            "type": "color"
+          },
+          "prefix-sufix": {
+            "value": "$input-number.background.prefix-suffix.dark",
+            "type": "color"
+          },
+          "read-only": {
+            "value": "$input-number.background.read-only.dark",
+            "type": "color"
+          }
+        },
+        "border": {
+          "default": {
+            "value": "$input-number.border.default.dark",
+            "type": "color"
+          },
+          "invalid": {
+            "value": "$input-number.border.invalid.dark",
+            "type": "color"
+          }
+        }
+      },
+      "input-password": {
+        "font": {
+          "placeholder-value": {
+            "value": "$input-password.font.placeholder-value.dark",
+            "type": "color"
+          },
+          "label": {
+            "value": "$input-password.font.label.dark",
+            "type": "color"
+          }
+        },
+        "icon": {
+          "value": "$input-password.icon.dark",
+          "type": "color"
+        },
+        "background": {
+          "default": {
+            "value": "$input-password.background.default.dark",
+            "type": "color"
+          },
+          "prefix-sufix": {
+            "value": "$input-password.background.prefix-suffix.dark",
+            "type": "color"
+          },
+          "read-only": {
+            "value": "$input-password.background.read-only.dark",
+            "type": "color"
+          }
+        },
+        "border": {
+          "default": {
+            "value": "$input-password.border.default.dark",
+            "type": "color"
+          },
+          "invalid": {
+            "value": "$input-password.border.invalid.dark",
+            "type": "color"
           }
         }
       }

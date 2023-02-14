@@ -1,5 +1,5 @@
 {
-  "dropdown": {
+  "combobox": {
     "font": {
       "light": {
         "value": "$semantic.ui.color.text.3.light",
