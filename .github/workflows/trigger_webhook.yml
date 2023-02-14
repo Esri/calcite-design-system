@@ -11,6 +11,12 @@ concurrency:
       cancel-in-progress: true
 
 jobs:
+  allow_for_changes:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Sleep for 3 seconds
+        run: sleep 3s
+        shell: bash
   get_data:
     runs-on: ubuntu-latest
     env:
@@ -20,7 +26,8 @@ jobs:
         run: |
           curl \
             -H "Content-Type: application/json" \
-            --data '${{ env.ISSUE }}' ${{ secrets.AIRTABLE_WEBHOOK }}
+            --data '${{ env.ISSUE }}'
+            --data '${{ secrets.AIRTABLE_KEY }}' ${{ secrets.AIRTABLE_WEBHOOK }}
 #       - name: Webhook
 #         uses: distributhor/workflow-webhook@v2
 #         env:
@@ -30,12 +37,7 @@ jobs:
 
 # jobs:
 # allow time for multiple changes on an issue
-#   allow_for_changes:
-#     runs-on: ubuntu-latest
-#     steps:
-#       - name: Sleep for 10 seconds
-#         run: sleep 10s
-#         shell: bash
+  
 #   get_data:
 #     env:
 #         ISSUE: '${{github.event.issue.assignees}}'
