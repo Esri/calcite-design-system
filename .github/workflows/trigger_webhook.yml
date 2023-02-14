@@ -1,0 +1,37 @@
+name: automate_webhook
+
+on:
+  # Trigger the workflow when issues are updated
+  issues:
+    types: [opened, edited, closed, reopened, assigned, unassigned, labeled, unlabeled, milestoned, demilestoned]
+
+# Automatically cancel any prior runs of this automation
+concurrency:
+      group: ${{ github.workflow }}-${{ github.ref }}
+      cancel-in-progress: true
+
+jobs:
+  # allow time for multiple changes on an issue
+  allow_for_changes:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Sleep for 10 seconds
+        run: sleep 10s
+        shell: bash
+  get_data:
+    needs: allow_for_changes
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get Issue Data
+        id: git-issue-data
+        uses: actions/github-script@v6
+        with:
+          script: |
+            return JSON.stringify(github.event.issue);
+      - name: Webhook
+        uses: distributhor/workflow-webhook@v2
+        env:
+          webhook_url: ${{ secrets.AIRTABLE_WEBHOOK }}
+          webhook_secret: ${{ secrets.AIRTABLE_KEY }}
+          data: "${{steps.git-issue-data.outputs.result}}"
+    
