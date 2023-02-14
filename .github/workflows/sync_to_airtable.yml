@@ -1,0 +1,59 @@
+name: sync_to_airtable
+
+on:
+  # Trigger the workflow when issues are updated
+  issues:
+    types: [opened, edited, closed, reopened, assigned, unassigned, labeled, unlabeled, milestoned, demilestoned]
+
+# Automatically cancel any prior runs of this automation
+concurrency:
+      group: ${{ github.workflow }}-${{ github.event.issue.number }}-${{ github.ref }}
+      cancel-in-progress: true
+
+jobs:
+  allow_for_changes:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Sleep for .5 seconds
+        run: sleep .5s
+        shell: bash
+  get_data:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set Data
+        id: set-data
+        uses: actions/github-script@v6
+        env:
+          SECRET: ${{ secrets.AIRTABLE_KEY }}
+          ISSUE: ${{ toJSON(github.event.issue) }}
+        with:
+          script: |
+            const { title, body, assignees, closed_at, created_at, id, labels, milestone, number, state, updated_at } = JSON.parse(process.env.ISSUE);
+            const newData = {
+              action: context.action,
+              title,
+              body,
+              assignees: assignees ?  assignees.map(a => a.login).join(',') : '',
+              closed_at: closed_at || '',
+              created_at: created_at || '',
+              id: id && id.toString(),
+              labels: labels ? labels.map(l => l.name).join(','): '',
+              milestone: {
+                description: milestone ? milestone.description : '',
+                due_on: milestone ? milestone.due_on : '',
+                number: milestone ? milestone.number.toString() : '',
+                state: milestone ? milestone.state : '',
+                title: milestone ? milestone.title : ''
+              },
+              number: number && number.toString(),
+              state: state || '',
+              updated_at: updated_at ? updated_at.toString() : '',
+              secret: process.env.SECRET,
+              repo: context.repo
+            };
+            return newData
+      - name: Webhook
+        run: |
+          curl \
+            -H "Content-Type: application/json" \
+            --data ${{ toJSON(steps.set-data.outputs.result) }} ${{ secrets.AIRTABLE_WEBHOOK }}
