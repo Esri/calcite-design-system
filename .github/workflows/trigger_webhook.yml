@@ -20,7 +20,7 @@ jobs:
         run: |
           curl \
             -d "Secret: ${{ secrets.AIRTABLE_KEY }}"\
-            -d "${{env.ISSUE}}" \
+            -d ${{env.ISSUE}} \
             ${{ secrets.AIRTABLE_WEBHOOK }}
 #       - name: Webhook
 #         uses: distributhor/workflow-webhook@v2
