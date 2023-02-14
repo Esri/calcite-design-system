@@ -12,24 +12,25 @@ concurrency:
 
 jobs:
   # allow time for multiple changes on an issue
-  allow_for_changes:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Sleep for 10 seconds
-        run: sleep 10s
-        shell: bash
+#   allow_for_changes:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Sleep for 10 seconds
+#         run: sleep 10s
+#         shell: bash
   get_data:
-    needs: allow_for_changes
+#     needs: allow_for_changes
     runs-on: ubuntu-latest
     steps:
-      - name: Get Issue Data
-        id: git-issue-data
-        uses: actions/github-script@v6
-        with:
-          script: |
-            return JSON.stringify(github.event);
-      - name: Debug
-        run: echo "${{steps.git-issue-data.outputs.result}}"
+      - name: Dump GitHub context
+        id: github_context_step
+        run: echo '${{ toJSON(github) }}'
+#       - name: Get Issue Data
+#         id: git-issue-data
+#         uses: actions/github-script@v6
+#         with:
+#           script: |
+#             return JSON.stringify(github.event);
 #       - name: Webhook
 #         uses: distributhor/workflow-webhook@v2
 #         env:
