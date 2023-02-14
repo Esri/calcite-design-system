@@ -28,9 +28,9 @@ jobs:
           ISSUE: ${{ toJSON(github.event.issue) }}
         with:
           script: |
-            // const { title, body, assignees, closed_at, created_at, id, labels, milestone, number, state, updated_at } = process.env.ISSUE;
-            // const newData = { action: context.action, title, body, assignees, closed_at, created_at, id, labels, milestone, number, state, updated_at, secret: process.env.SECRET };
-            console.log(process.env);
+            const { title, body, assignees, closed_at, created_at, id, labels, milestone, number, state, updated_at } = JSON.parse(process.env.ISSUE);
+            const newData = { action: context.action, title, body, assignees, closed_at, created_at, id, labels, milestone, number, state, updated_at, secret: process.env.SECRET };
+            console.log(newData);
 #            return newData
 #       - name: Webhook
 #         run: |
