@@ -6,8 +6,7 @@
       "core": "source",
       "semantic": "source",
       "brand/global": "enabled",
-      "brand/light": "enabled",
-      "component/combobox": "disabled"
+      "brand/light": "enabled"
     },
     "$figmaStyleReferences": {}
   },
@@ -18,8 +17,7 @@
       "core": "source",
       "semantic": "source",
       "brand/global": "enabled",
-      "brand/dark": "enabled",
-      "component/combobox": "disabled"
+      "brand/dark": "enabled"
     },
     "$figmaStyleReferences": {}
   },
