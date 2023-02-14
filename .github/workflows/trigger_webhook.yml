@@ -24,23 +24,20 @@ jobs:
     steps:
 #       - name: Grab Issue context
 #         id: github_issue_context
-#         run: export ISSUE=toJSON(github.event.issue)
-#       - name: Dump GitHub context
+# #         run: export ISSUE=toJSON(github.event.issue)
+#       - name: Get Issue Data
+#         id: git-issue-data
+#         uses: actions/github-script@v6
+#         with:
+#           script: |
+#             return JSON.stringify(github.event.issue);
+#       - name: Dump context
 #         id: github_context_step
-#         run: echo "${{ ISSUE }}"
-      - name: Get Issue Data
-        id: git-issue-data
-        uses: actions/github-script@v6
-        with:
-          script: |
-            return JSON.stringify(github.event.issue);
-      - name: Dump context
-        id: github_context_step
-        run: echo "${{ steps.git-issue-data.outputs.result }}"
-#       - name: Webhook
-#         uses: distributhor/workflow-webhook@v2
-#         env:
-#           webhook_url: ${{ secrets.AIRTABLE_WEBHOOK }}
-#           webhook_secret: ${{ secrets.AIRTABLE_KEY }}
-#           data: "${{steps.git-issue-data.outputs.result}}"
+#         run: echo "${{ steps.git-issue-data.outputs.result }}"
+      - name: Webhook
+        uses: distributhor/workflow-webhook@v2
+        env:
+          webhook_url: ${{ secrets.AIRTABLE_WEBHOOK }}
+          webhook_secret: ${{ secrets.AIRTABLE_KEY }}
+          data: "${{github.event.issue}}"
     
