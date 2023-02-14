@@ -20,7 +20,7 @@ jobs:
         run: |
           curl \
             -H "Content-Type: application/json" \
-            --data "${{env.ISSUE}}" ${{ secrets.AIRTABLE_WEBHOOK }}
+            --data "{'hello': 'test'}" ${{ secrets.AIRTABLE_WEBHOOK }}
 #       - name: Webhook
 #         uses: distributhor/workflow-webhook@v2
 #         env:
