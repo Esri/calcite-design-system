@@ -17,20 +17,10 @@ jobs:
       ISSUE: '${{toJSON(github.event.issue)}}'
     steps:
       - name: Webhook
-        uses: actions/github-script@v6
-        id: my-script
-        with:
-          result-encoding: string
-          script: |
-            return fetch(secrets.AIRTABLE_WEBHOOK, {
-              body: JSON.stringify(context),
-              method: "GET"
-            })
-#         run: |
-#           curl \
-#             -d "Secret: ${{ secrets.AIRTABLE_KEY }}"\
-#             -d ${{env.ISSUE}} \
-#             ${{ secrets.AIRTABLE_WEBHOOK }}
+        run: |
+          curl $options \
+            -H "Content-Type: application/json" \
+            --data "$env.ISSUE" $secrets.AIRTABLE_WEBHOOK
 #       - name: Webhook
 #         uses: distributhor/workflow-webhook@v2
 #         env:
