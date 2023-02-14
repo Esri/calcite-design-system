@@ -16,8 +16,12 @@ jobs:
     env:
       ISSUE: '${{toJSON(github.event.issue)}}'
     steps:
-      - name: Dump context
-        run: echo ${{fromJSON(env.ISSUE)}}
+      - name: Webhook
+        uses: distributhor/workflow-webhook@v2
+        env:
+          webhook_url: ${{ secrets.AIRTABLE_WEBHOOK }}
+          webhook_secret: ${{ secrets.AIRTABLE_KEY }}
+          data: "${{env.ISSUE}}"
 
 # jobs:
 # allow time for multiple changes on an issue
@@ -36,10 +40,5 @@ jobs:
 #         id: github_context_step
 # #         run: echo '${{github.event.issue}}'
 #         run: echo 'Hello'
-#       - name: Webhook
-#         uses: distributhor/workflow-webhook@v2
-#         env:
-#           webhook_url: ${{ secrets.AIRTABLE_WEBHOOK }}
-#           webhook_secret: ${{ secrets.AIRTABLE_KEY }}
-#           data: "${{github.event.issue}}"
+     
     
