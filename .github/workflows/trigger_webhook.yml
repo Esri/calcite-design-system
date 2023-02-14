@@ -19,22 +19,53 @@ jobs:
         shell: bash
   get_data:
     runs-on: ubuntu-latest
-    env:
-      ISSUE: '${{toJSON(github.event.issue)}}'
     steps:
       - name: Set Data
         id: set-data
         uses: actions/github-script@v6
         with:
+          result-encoding: string
           script: |
-            console.log(context);
+            const {
+              action,
+              issue: {
+                title,
+                body,
+                assignees,
+                closed_at,
+                created_at,
+                id,
+                labels,
+                milestone,
+                number,
+                state,
+                updated_at
+              }
+            } = context;
             
-#       - name: Webhook
-#         run: |
-#           curl \
-#             -H "Content-Type: application/json" \
-#             --data '${{ env.ISSUE }}' \
-#             --data '${{ secrets.AIRTABLE_KEY }}' ${{ secrets.AIRTABLE_WEBHOOK }}
+            return JSON.stringify({
+              action,
+              title,
+              body,
+              assignees,
+              closed_at,
+              created_at,
+              id,
+              labels,
+              milestone,
+              number,
+              state,
+              updated_at,
+              secret: secrets.AIRTABLE_KEY,
+            });
+            
+      - name: Webhook
+        run: |
+          curl \
+            -H "Content-Type: application/json" \
+            --data "${{steps.set-result.outputs.result}}" ${{ secrets.AIRTABLE_WEBHOOK }}
+#            --data '${{ env.ISSUE }}' \
+#            --data '${{ secrets.AIRTABLE_KEY }}' 
 #       - name: Webhook
 #         uses: distributhor/workflow-webhook@v2
 #         env:
