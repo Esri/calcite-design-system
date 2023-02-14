@@ -7,7 +7,7 @@ on:
 
 # Automatically cancel any prior runs of this automation
 concurrency:
-      group: ${{ github.workflow }}-${{ github.ref }}
+      group: ${{ github.workflow }}-${{ github.event.issue.number }}-${{ github.ref }}
       cancel-in-progress: true
 
 jobs:
@@ -19,9 +19,9 @@ jobs:
       - name: Webhook with curl
         run: |
           curl \
-            -X GET "${{ secrets.AIRTABLE_WEBHOOK }}" \
+            -H "Secret: ${{ secrets.AIRTABLE_KEY }}"\
             -d "${{env.ISSUE}}" \
-            -H "Content-Type: application/json"
+            ${{ secrets.AIRTABLE_WEBHOOK }}
 #       - name: Webhook
 #         uses: distributhor/workflow-webhook@v2
 #         env:
