@@ -56,9 +56,9 @@ jobs:
               repo: context.repo
             };
 
-            return returnData
+            return JSON.stringify(returnData)
       - name: Webhook
         run: |
           curl \
             -H "Content-Type: application/json" \
-            --data ${{ toJSON(steps.set-data.outputs.result) }} ${{ secrets.AIRTABLE_WEBHOOK }}
+            --data ${{ steps.set-data.outputs.result }} ${{ secrets.AIRTABLE_WEBHOOK }}
