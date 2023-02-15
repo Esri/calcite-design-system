@@ -29,14 +29,14 @@ jobs:
           SECRET: ${{ secrets.AIRTABLE_KEY }}
           ISSUE: ${{ toJSON(github.event.issue) }}
         with:
+          result-encoding: string
           script: |
             const { title, body, assignees, closed_at, created_at, id, labels, milestone, number, state, updated_at } = JSON.parse(process.env.ISSUE);
-            const bodyData = JSON.stringify(body).replace('`', '\`').replace('<', '\<').replace('>', \>);
-
+            
             const returnData = {
               action: context.action,
               title,
-              body: bodyData,
+              body: body,
               assignees: assignees ?  assignees.map(a => a.login).join(',') : '',
               closed_at: closed_at || '',
               created_at: created_at || '',
