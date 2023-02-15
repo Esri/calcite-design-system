@@ -34,7 +34,7 @@ jobs:
             return {
               action: context.action,
               title,
-              body,
+              body: body.replace('<', '\<').replace('>', '\>'),
               assignees: assignees ?  assignees.map(a => a.login).join(',') : '',
               closed_at: closed_at || '',
               created_at: created_at || '',
