@@ -28,10 +28,11 @@ jobs:
         env:
           SECRET: ${{ secrets.AIRTABLE_KEY }}
           ISSUE: ${{ toJSON(github.event.issue) }}
+          WEBHOOK: ${{ secrets.AIRTABLE_WEBHOOK }}
         with:
           script: |
             const { title, body, assignees, closed_at, created_at, id, labels, milestone, number, state, updated_at } = JSON.parse(process.env.ISSUE);
-            return {
+            const data = {
               action: context.action,
               title,
               body: body.replace('<', '\<').replace('>', '\>'),
@@ -53,8 +54,15 @@ jobs:
               secret: process.env.SECRET,
               repo: context.repo
             };
-      - name: Webhook
+            const stringifyData = JSON.stringify(data);
+            return fetch(process.env.WEBHOOK, {
+              body: "{"content\\": \\"Posted Via Command line\\"}",
+              headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json"
+              },
+              method: "POST"
+            }).then((result) => result).catch((error) => error)
+      - name: Log Result
         run: |
-          curl \
-            -H "Content-Type: application/json" \
-            --data ${{ toJSON(steps.set-data.outputs.result) }} ${{ secrets.AIRTABLE_WEBHOOK }}
+            echo "${{steps.set-data.outputs.result}}"
