@@ -1,8 +1,8 @@
-import { newE2EPage } from "@stencil/core/testing";
+import { E2EPage, newE2EPage } from "@stencil/core/testing";
 import { focusable, renders, slots, hidden, t9n } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { CSS, SLOTS, DURATIONS } from "./resources";
-import { newProgrammaticE2EPage, skipAnimations } from "../../tests/utils";
+import { isElementFocused, newProgrammaticE2EPage, skipAnimations, waitForAnimationFrame } from "../../tests/utils";
 
 describe("calcite-modal properties", () => {
   it("renders", () => renders("calcite-modal", { display: "flex", visible: false }));
@@ -303,83 +303,90 @@ describe("opening and closing behavior", () => {
 
 describe("calcite-modal accessibility checks", () => {
   it("traps focus within the modal when open", async () => {
+    const button1Id = "button1";
+    const button2Id = "button2";
     const page = await newE2EPage();
     await page.setContent(
-      `<calcite-modal>
+      html`<calcite-modal>
         <div slot="content">
-          <button class="btn-1">Focus1</button>
-          <button class="btn-2">Focus1</button>
+          <button id="${button1Id}">Focus1</button>
+          <button id="${button2Id}">Focus2</button>
         </div>
       </calcite-modal>`
     );
-    const modal = await page.find("calcite-modal");
-    let $button1;
-    let $button2;
-    let $close;
-    await page.$eval(".btn-1", (elm) => ($button1 = elm));
-    await page.$eval(".btn-2", (elm) => ($button2 = elm));
-    await page.$eval("calcite-modal", (elm) => {
-      $close = elm.shadowRoot.querySelector(".close");
-    });
-    await modal.setProperty("open", true);
+    await skipAnimations(page);
     await page.waitForChanges();
-    expect(document.activeElement).toEqual($close);
+    const modal = await page.find("calcite-modal");
+    modal.setProperty("open", true);
+    await page.waitForChanges();
+
+    expect(await isElementFocused(page, `.${CSS.close}`, { shadowed: true })).toBe(true);
     await page.keyboard.press("Tab");
-    expect(document.activeElement).toEqual($button1);
+    expect(await isElementFocused(page, `#${button1Id}`)).toBe(true);
     await page.keyboard.press("Tab");
-    expect(document.activeElement).toEqual($button2);
+    expect(await isElementFocused(page, `#${button2Id}`)).toBe(true);
+
     await page.keyboard.press("Tab");
-    expect(document.activeElement).toEqual($close);
+    expect(await isElementFocused(page, `.${CSS.close}`, { shadowed: true })).toBe(true);
     await page.keyboard.down("Shift");
     await page.keyboard.press("Tab");
-    expect(document.activeElement).toEqual($button2);
+    expect(await isElementFocused(page, `#${button2Id}`)).toBe(true);
+
     await page.keyboard.press("Tab");
-    expect(document.activeElement).toEqual($button1);
+    expect(await isElementFocused(page, `#${button1Id}`)).toBe(true);
   });
 
   it("restores focus to previously focused element when closed", async () => {
+    const initiallyFocusedId = "initially-focused";
+    const initiallyFocusedIdSelector = `#${initiallyFocusedId}`;
     const page = await newE2EPage();
-    await page.setContent(`<button>Focus</button><calcite-modal></calcite-modal>`);
+    await page.setContent(
+      html`
+        <button id="${initiallyFocusedId}">Focus</button>
+        <calcite-modal></calcite-modal>
+      `
+    );
+    await skipAnimations(page);
     const modal = await page.find("calcite-modal");
-    let $button;
-    await page.$eval("button", (elm: any) => {
-      $button = elm;
-      $button.focus();
+    await page.$eval(initiallyFocusedIdSelector, (button: HTMLButtonElement) => {
+      button.focus();
     });
     await modal.setProperty("open", true);
     await page.waitForChanges();
     await modal.setProperty("open", false);
     await page.waitForChanges();
-    expect(document.activeElement).toEqual($button);
+    expect(await isElementFocused(page, initiallyFocusedIdSelector)).toBe(true);
   });
 
   it("traps focus within the modal when open and disabled close button", async () => {
+    const button1Id = "button1";
+    const button2Id = "button2";
     const page = await newE2EPage();
     await page.setContent(
-      `<calcite-modal close-button-disabled>
+      html`<calcite-modal close-button-disabled>
         <div slot="content">
-          <button class="btn-1">Focus1</button>
-          <button class="btn-2">Focus1</button>
+          <button id="${button1Id}">Focus1</button>
+          <button id="${button2Id}">Focus2</button>
         </div>
       </calcite-modal>`
     );
+    await skipAnimations(page);
     const modal = await page.find("calcite-modal");
-    let $button1;
-    let $button2;
-    await page.$eval(".btn-1", (elm) => ($button1 = elm));
-    await page.$eval(".btn-2", (elm) => ($button2 = elm));
 
     await modal.setProperty("open", true);
     await page.waitForChanges();
+    expect(await isElementFocused(page, `#${button1Id}`)).toBe(true);
+
     await page.keyboard.press("Tab");
-    expect(document.activeElement).toEqual($button1);
+    expect(await isElementFocused(page, `#${button2Id}`)).toBe(true);
+
     await page.keyboard.press("Tab");
-    expect(document.activeElement).toEqual($button2);
+    expect(await isElementFocused(page, `#${button1Id}`)).toBe(true);
     await page.keyboard.down("Shift");
     await page.keyboard.press("Tab");
-    expect(document.activeElement).toEqual($button2);
+    expect(await isElementFocused(page, `#${button2Id}`)).toBe(true);
     await page.keyboard.press("Tab");
-    expect(document.activeElement).toEqual($button1);
+    expect(await isElementFocused(page, `#${button1Id}`)).toBe(true);
   });
 
   it("traps focus within the modal when user clicks inside the modal", async () => {
@@ -398,28 +405,29 @@ describe("calcite-modal accessibility checks", () => {
         </calcite-modal>
       `
     );
+    await skipAnimations(page);
 
     const contentEl = await page.find(`div[slot="content"]`);
     const backButtonEl = await page.find(`calcite-button[slot="back"]`);
 
     await page.keyboard.press("Tab");
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("plus");
+    expect(await isElementFocused(page, `#plus`)).toBe(true);
 
     await page.keyboard.press("Tab");
-    expect(await page.evaluate(() => document.activeElement.slot)).toBe("back");
+    expect(await isElementFocused(page, `[slot="back"]`)).toBe(true);
 
     await page.keyboard.press("Tab");
-    expect(await page.evaluate(() => document.activeElement.slot)).toBe("secondary");
+    expect(await isElementFocused(page, `[slot="secondary"]`)).toBe(true);
 
     await page.keyboard.press("Tab");
-    expect(await page.evaluate(() => document.activeElement.slot)).toBe("primary");
+    expect(await isElementFocused(page, `[slot="primary"]`)).toBe(true);
 
     await contentEl.click();
     await page.waitForChanges();
     await backButtonEl.click();
     await page.waitForChanges();
 
-    expect(await page.evaluate(() => document.activeElement.slot)).toBe("back");
+    expect(await isElementFocused(page, `[slot="back"]`)).toBe(true);
   });
 
   describe("setFocus", () => {
