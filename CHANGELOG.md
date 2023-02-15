@@ -3,17 +3,13 @@
 This document maintains a list of released versions and changes introduced by them.
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
-<!--@unreleased-section-start-->
-
-## Unreleased
+## [v1.0.6](https://github.com/Esri/calcite-components/compare/v1.0.5...v1.0.6) (2023-02-14)
 
 ### Bug Fixes
 
 - **focus-trap:** prevent host from receiving initial focus ([#6479](https://github.com/Esri/calcite-components/issues/6479)) ([764609d](https://github.com/Esri/calcite-components/commit/764609de7b8c96aa331e364ca790eefdb44dd1ab)), closes [#6454](https://github.com/Esri/calcite-components/issues/6454) [/github.com/Esri/calcite-components/blob/059d6eee6a8dc0a0d74db6e113d30cafebac25bb/src/utils/focusTrapComponent.ts#L33-L35](https://github.com/Esri//github.com/Esri/calcite-components/blob/059d6eee6a8dc0a0d74db6e113d30cafebac25bb/src/utils/focusTrapComponent.ts/issues/L33-L35)
 - **tree-item:** preserves consistent height with or w/t actions-end ([#6403](https://github.com/Esri/calcite-components/issues/6403)) ([728f42b](https://github.com/Esri/calcite-components/commit/728f42b4ad219f5c947cfd5226db7959c3cfd9c1)), closes [#6361](https://github.com/Esri/calcite-components/issues/6361) [#3127](https://github.com/Esri/calcite-components/issues/3127)
 - **vite:** getting the dist build to work correctly with vite again ([#6452](https://github.com/Esri/calcite-components/issues/6452)) ([cc44984](https://github.com/Esri/calcite-components/commit/cc44984966d21a8537e03daa0fe66d90bff38385)), closes [#6419](https://github.com/Esri/calcite-components/issues/6419)
-
-<!--@unreleased-section-end-->
 
 ## [1.0.5](https://github.com/Esri/calcite-components/compare/v1.0.4...v1.0.5) (2023-02-09)
 
