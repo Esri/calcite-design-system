@@ -240,7 +240,6 @@ export class Slider
 
   componentDidLoad(): void {
     setComponentLoaded(this);
-    this.setHandlePosition();
   }
 
   render(): VNode {
@@ -281,7 +280,7 @@ export class Slider
         style={{ right: rightThumbOffset }}
         tabIndex={0}
       >
-        <div class="handle" ref={(el) => (this.handleEl = el as HTMLDivElement)} />
+        <div class="handle" />
       </div>
     );
 
@@ -315,7 +314,7 @@ export class Slider
         <span aria-hidden="true" class={`${handleLabelValueClasses} transformed`}>
           {displayedValue}
         </span>
-        <div class="handle" ref={(el) => (this.handleEl = el as HTMLDivElement)} />
+        <div class="handle" />
       </div>
     );
 
@@ -340,7 +339,7 @@ export class Slider
         style={{ right: rightThumbOffset }}
         tabIndex={0}
       >
-        <div class="handle" ref={(el) => (this.handleEl = el as HTMLDivElement)} />
+        <div class="handle" />
         <span aria-hidden="true" class={handleLabelValueClasses}>
           {displayedValue}
         </span>
@@ -375,7 +374,7 @@ export class Slider
         style={{ right: rightThumbOffset }}
         tabIndex={0}
       >
-        <div class="handle" ref={(el) => (this.handleEl = el as HTMLDivElement)} />
+        <div class="handle" />
         <div class="handle-extension" />
       </div>
     );
@@ -403,7 +402,7 @@ export class Slider
         tabIndex={0}
       >
         <div class="handle-extension" />
-        <div class="handle" ref={(el) => (this.handleEl = el as HTMLDivElement)} />
+        <div class="handle" />
       </div>
     );
 
@@ -438,7 +437,7 @@ export class Slider
         <span aria-hidden="true" class={`${handleLabelValueClasses} transformed`}>
           {displayedValue}
         </span>
-        <div class="handle" ref={(el) => (this.handleEl = el as HTMLDivElement)} />
+        <div class="handle" />
         <div class="handle-extension" />
       </div>
     );
@@ -466,7 +465,7 @@ export class Slider
         tabIndex={0}
       >
         <div class="handle-extension" />
-        <div class="handle" ref={(el) => (this.handleEl = el as HTMLDivElement)} />
+        <div class="handle" />
         <span aria-hidden="true" class={handleLabelValueClasses}>
           {displayedValue}
         </span>
@@ -500,7 +499,7 @@ export class Slider
         style={{ left: leftThumbOffset }}
         tabIndex={0}
       >
-        <div class="handle" ref={(el) => (this.handleEl = el as HTMLDivElement)} />
+        <div class="handle" />
       </div>
     );
 
@@ -534,7 +533,7 @@ export class Slider
         <span aria-hidden="true" class={`${handleLabelMinValueClasses} transformed`}>
           {displayedMinValue}
         </span>
-        <div class="handle" ref={(el) => (this.handleEl = el as HTMLDivElement)} />
+        <div class="handle" />
       </div>
     );
 
@@ -559,7 +558,7 @@ export class Slider
         style={{ left: leftThumbOffset }}
         tabIndex={0}
       >
-        <div class="handle" ref={(el) => (this.handleEl = el as HTMLDivElement)} />
+        <div class="handle" />
         <span aria-hidden="true" class={handleLabelMinValueClasses}>
           {displayedMinValue}
         </span>
@@ -595,7 +594,7 @@ export class Slider
         tabIndex={0}
       >
         <div class="handle-extension" />
-        <div class="handle" ref={(el) => (this.handleEl = el as HTMLDivElement)} />
+        <div class="handle" />
       </div>
     );
 
@@ -622,7 +621,7 @@ export class Slider
         tabIndex={0}
       >
         <div class="handle-extension" />
-        <div class="handle" ref={(el) => (this.handleEl = el as HTMLDivElement)} />
+        <div class="handle" />
         <span aria-hidden="true" class={handleLabelMinValueClasses}>
           {displayedMinValue}
         </span>
@@ -949,8 +948,6 @@ export class Slider
   private maxHandle: HTMLDivElement;
 
   private trackEl: HTMLDivElement;
-
-  private handleEl: HTMLDivElement;
 
   @State() effectiveLocale = "";
 
@@ -1496,16 +1493,4 @@ export class Slider
       return numberStringFormatter.localize(value.toString());
     }
   };
-
-  private setHandlePosition(): void {
-    const { y: handleY, width: handleWidth } = this.handleEl.getBoundingClientRect();
-    console.log(handleY, handleWidth);
-    const adjustedHandleY = `-${
-      handleY - this.trackEl.getBoundingClientRect().y + handleWidth / 2
-    }px)`;
-    if (isRange(this.value)) {
-      this.minHandle.style.transform = `translate( calc(var(--calcite-slider-thumb-x-offset)*-1), ${adjustedHandleY}`;
-    }
-    this.maxHandle.style.transform = `translate(var(--calcite-slider-thumb-x-offset),${adjustedHandleY}`;
-  }
 }
