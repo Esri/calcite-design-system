@@ -35,7 +35,7 @@ jobs:
             const data = {
               action: context.action,
               title,
-              body: body.replace('<', '\<').replace('>', '\>'),
+              body: body.replace('`', '\`').replace('<', '\<').replace('>', '\>'),
               assignees: assignees ?  assignees.map(a => a.login).join(',') : '',
               closed_at: closed_at || '',
               created_at: created_at || '',
