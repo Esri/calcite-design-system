@@ -61,4 +61,4 @@ jobs:
         run: |
           curl \
             -H "Content-Type: application/json" \
-            --data ${{ steps.set-data.outputs.result }} ${{ secrets.AIRTABLE_WEBHOOK }}
+            --data ${{ fromJSON(steps.set-data.outputs.result) }} ${{ secrets.AIRTABLE_WEBHOOK }}
