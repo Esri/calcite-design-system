@@ -54,14 +54,15 @@ jobs:
               secret: process.env.SECRET,
               repo: context.repo
             };
-            const stringifyData = JSON.stringify(data);
-            return fetch(process.env.WEBHOOK, {
-              body: "{"content\\": \\"Posted Via Command line\\"}",
-              headers: {
-                Accept: "application/json",
-                "Content-Type": "application/json"
-              },
-              method: "POST"
+            return data;
+            // const stringifyData = JSON.stringify(data);
+            // return fetch(process.env.WEBHOOK, {
+            //  body: "{"content\\": \\"Posted Via Command line\\"}",
+            //  headers: {
+            //    Accept: "application/json",
+            //    "Content-Type": "application/json"
+            //  },
+            //  method: "POST"
             }).then((result) => result).catch((error) => error)
       - name: Log Result
         run: |
