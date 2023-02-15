@@ -31,11 +31,10 @@ jobs:
         with:
           script: |
             const { title, body, assignees, closed_at, created_at, id, labels, milestone, number, state, updated_at } = JSON.parse(process.env.ISSUE);
-            const bodyData = body.replace('`', '\`').replace('<', '\<').replace('>', \>);
-            const returnData = {
+            return {
               action: context.action,
               title,
-              body: bodyData,
+              body,
               assignees: assignees ?  assignees.map(a => a.login).join(',') : '',
               closed_at: closed_at || '',
               created_at: created_at || '',
@@ -54,8 +53,6 @@ jobs:
               secret: process.env.SECRET,
               repo: context.repo
             };
-
-            return returnData
       - name: Webhook
         run: |
           curl \
