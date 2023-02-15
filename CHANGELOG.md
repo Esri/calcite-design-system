@@ -3,6 +3,12 @@
 This document maintains a list of released versions and changes introduced by them.
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
+## [v1.0.7](https://github.com/Esri/calcite-components/compare/v1.0.6...v1.0.7) (2023-02-15)
+
+### Reverts
+
+- **focus-trap:** prevent host from receiving initial focus ([#6483](https://github.com/Esri/calcite-components/pull/6483)) ([68f2c0e](https://github.com/Esri/calcite-components/commit/68f2c0e54339fb4be37172a69b17bbcde60b9613))
+
 ## [v1.0.6](https://github.com/Esri/calcite-components/compare/v1.0.5...v1.0.6) (2023-02-14)
 
 ### Bug Fixes
