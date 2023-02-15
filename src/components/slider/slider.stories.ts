@@ -284,7 +284,7 @@ export const WithLargeFontSize_TestOnly = (): string => html`<html lang="en">
   <head>
     <style>
       html {
-        font-size: 20px;
+        font-size: 24px;
       }
       calcite-label {
         padding: 10px;
