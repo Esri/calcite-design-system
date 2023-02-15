@@ -31,7 +31,7 @@ jobs:
         with:
           script: |
             const { title, body, assignees, closed_at, created_at, id, labels, milestone, number, state, updated_at } = JSON.parse(process.env.ISSUE);
-            const bodyData = body.replace('`', '\`').replace('<', '\<').replace('>', \>);
+            const bodyData = JSON.stringify(body).replace('`', '\`').replace('<', '\<').replace('>', \>);
 
             const returnData = {
               action: context.action,
