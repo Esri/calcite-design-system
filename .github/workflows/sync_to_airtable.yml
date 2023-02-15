@@ -56,7 +56,7 @@ jobs:
               repo: context.repo
             };
 
-            return JSON.stringify(returnData)
+            return returnData
       - name: Webhook
         run: |
           curl \
