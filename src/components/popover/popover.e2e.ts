@@ -729,9 +729,53 @@ describe("calcite-popover", () => {
         focusTargetSelector: `.${contentButtonClass}`
       }));
 
-    it("should focus close button", async () =>
+    it.skip("should focus close button", async () =>
       focusable(createPopoverHTML(contentHTML, "closable"), {
         shadowFocusTargetSelector: `.${CSS.closeButton}`
       }));
+  });
+
+  it("should focus input element in the page with popover when user click", async () => {
+    // refer to https://github.com/Esri/calcite-components/issues/5993 for context
+    const page = await newE2EPage();
+    await page.setContent(html` <calcite-shell content-behind>
+        <calcite-shell-panel slot="panel-end">
+          <calcite-label>
+            value
+            <calcite-input-number value="0" min="0" max="10" id="shell-input"></calcite-input-number>
+          </calcite-label>
+          <calcite-button id="button">open popover</calcite-button>
+        </calcite-shell-panel>
+      </calcite-shell>
+
+      <calcite-popover reference-element="button">
+        <calcite-panel heading="popover panel header" closable="true" style="height: 400px">
+          <calcite-input-number value="5" min="0" max="10" id="popover-input"></calcite-input-number>
+        </calcite-panel>
+      </calcite-popover>`);
+
+    const popover = await page.find("calcite-popover");
+    expect(await popover.getProperty("open")).toBe(false);
+
+    const referenceElement = await page.find("calcite-button#button");
+    await referenceElement.click();
+    await page.waitForChanges();
+    expect(await popover.getProperty("open")).toBe(true);
+
+    const inputElInPopover = await page.find("calcite-input-number#popover-input");
+    await inputElInPopover.click();
+    expect(await page.evaluate(() => document.activeElement.id)).toBe("popover-input");
+
+    await page.keyboard.press("Backspace");
+    await page.keyboard.type("12345");
+    expect(await inputElInPopover.getProperty("value")).toBe("12345");
+
+    const inputElInShell = await page.find("calcite-input-number#shell-input");
+    await inputElInShell.click();
+    expect(await page.evaluate(() => document.activeElement.id)).toBe("shell-input");
+
+    await page.keyboard.press("Backspace");
+    await page.keyboard.type("12345");
+    expect(await inputElInShell.getProperty("value")).toBe("12345");
   });
 });

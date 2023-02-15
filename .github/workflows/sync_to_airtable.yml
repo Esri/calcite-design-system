@@ -1,0 +1,67 @@
+name: Sync to Airtable
+
+on:
+  issues:
+    types: [opened, edited, closed, reopened, assigned, unassigned, labeled, unlabeled, milestoned, demilestoned]
+
+# Every time an issue is edited in any way, it triggers this action.
+# However, if this action is already running, we only want the latest run to complete.
+# The [concurrency:group] prevents duplicate runs of the Action on the same github issue,
+# while allowing concurrent runs triggered from different issues.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.issue.number }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  allow_for_changes:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Sleep to allow time for multiple updates
+        run: sleep .5s
+        shell: bash
+  get_data:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set Data
+        id: set-data
+        uses: actions/github-script@v6
+        env:
+          SECRET: ${{ secrets.AIRTABLE_KEY }}
+          ISSUE: ${{ toJSON(github.event.issue) }}
+        with:
+          script: |
+            const { title, body, assignees, closed_at, created_at, id, labels, milestone, number, state, updated_at } = JSON.parse(process.env.ISSUE);
+
+            const updateValues = {
+              action: context.action,
+              title,
+              body,
+              assignees: assignees ?  assignees.map(a => a.login).join(',') : '',
+              closed_at: closed_at || '',
+              created_at: created_at || '',
+              id: id && id.toString(),
+              labels: labels ? labels.map(l => l.name).join(',') : '',
+              milestone: {
+                description: milestone ? milestone.description : '',
+                due_on: milestone ? milestone.due_on : '',
+                number: milestone ? milestone.number.toString() : '',
+                state: milestone ? milestone.state : '',
+                title: milestone ? milestone.title : ''
+              },
+              number: number && number.toString(),
+              state: state || '',
+              updated_at: updated_at ? updated_at.toString() : '',
+              secret: process.env.SECRET,
+              repo: context.repo
+            };
+            
+            return updateValues;
+      
+      - name: Dump context
+        run: echo '${{steps.set-data.outputs.result}}'
+      
+      - name: Webhook
+        run: |
+          curl \
+            -H "Content-Type: application/json" \
+            --data ${{ toJSON(steps.set-data.outputs.result) }} ${{ secrets.AIRTABLE_WEBHOOK }}
