@@ -32,7 +32,7 @@ jobs:
           script: |
             const { title, body, assignees, closed_at, created_at, id, labels, milestone, number, state, updated_at } = JSON.parse(process.env.ISSUE);
 
-            return {
+            const updateValues = {
               action: context.action,
               title,
               body,
@@ -54,6 +54,12 @@ jobs:
               secret: process.env.SECRET,
               repo: context.repo
             };
+            
+            return updateValues;
+      
+      - name: Dump context
+        run: echo '${{steps.set-data.outputs.result}}'
+      
       - name: Webhook
         run: |
           curl \
