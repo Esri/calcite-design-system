@@ -224,6 +224,10 @@ export class Slider
     }
   }
 
+  componentDidLoad(): void {
+    setComponentLoaded(this);
+  }
+
   componentDidRender(): void {
     if (this.labelHandles) {
       this.adjustHostObscuredHandleLabel("value");
@@ -236,10 +240,6 @@ export class Slider
     }
     this.hideObscuredBoundingTickLabels();
     updateHostInteraction(this);
-  }
-
-  componentDidLoad(): void {
-    setComponentLoaded(this);
   }
 
   render(): VNode {
