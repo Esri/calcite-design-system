@@ -31,12 +31,12 @@ jobs:
         with:
           script: |
             const { title, body, assignees, closed_at, created_at, id, labels, milestone, number, state, updated_at } = JSON.parse(process.env.ISSUE);
-            const bodyData = JSON.stringify(body);
+            const bodyData = body.replace('`', '\`').replace('<', '\<').replace('>', \>);
 
             const returnData = {
               action: context.action,
               title,
-              body: bodyData.replace('`', '\`'),
+              body: bodyData,
               assignees: assignees ?  assignees.map(a => a.login).join(',') : '',
               closed_at: closed_at || '',
               created_at: created_at || '',
