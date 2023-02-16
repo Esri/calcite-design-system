@@ -42,11 +42,12 @@ export function connectFocusTrap(component: FocusTrapComponent): void {
     return;
   }
 
+  if (focusTrapEl.tabIndex == null) {
+    focusTrapEl.tabIndex = -1;
+  }
+
   const focusTrapOptions: FocusTrapOptions = {
-    allowOutsideClick: true,
-    clickOutsideDeactivates: (event: MouseEvent | TouchEvent) => {
-      return !event.composedPath().find((el) => (el as HTMLElement) === focusTrapEl);
-    },
+    clickOutsideDeactivates: true,
     document: focusTrapEl.ownerDocument,
     escapeDeactivates: false,
     fallbackFocus: focusTrapEl,
