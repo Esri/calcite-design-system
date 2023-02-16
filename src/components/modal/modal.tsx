@@ -263,7 +263,7 @@ export class Modal
 
   renderContentHeader(): VNode {
     return this.hasContentHeader ? (
-      <div class={CSS.contentHeader}>
+      <div class={CSS.contentHeader} key="content-header">
         <slot name={SLOTS.contentHeader} />
       </div>
     ) : null;
@@ -271,7 +271,7 @@ export class Modal
 
   renderContentFooter(): VNode {
     return this.hasContentFooter ? (
-      <div class={CSS.contentFooter}>
+      <div class={CSS.contentFooter} key="content-footer">
         <slot name={SLOTS.contentFooter} />
       </div>
     ) : null;

@@ -37,6 +37,16 @@ export const simple = (): string => html`
   </calcite-modal>
 `;
 
+const mightyLongTextToScroll = html`
+  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non nisi et elit auctor aliquet ac suscipit eros. Sed nec
+  nibh viverra, feugiat magna ut, posuere arcu. Curabitur varius erat ut suscipit convallis. Nullam semper pellentesque
+  est laoreet accumsan. Aenean eget urna fermentum, porttitor dui et, tincidunt erat. Curabitur lacinia lacus in urna
+  lacinia, ac interdum lorem fermentum. Ut accumsan malesuada varius. Lorem ipsum dolor sit amet, consectetur adipiscing
+  elit. Phasellus tempus tempor magna, eu dignissim urna ornare non. Integer tempor justo blandit nunc ornare, a
+  interdum nisl pharetra. Sed ultricies at augue vel fermentum. Maecenas laoreet odio lorem. Aliquam in pretium turpis.
+  Donec quis felis a diam accumsan vehicula efficitur at orci. Donec sollicitudin gravida ultrices.
+`;
+
 export const slots = (): string => html`
   <calcite-modal
     ${boolean("open", true)}
@@ -49,8 +59,8 @@ export const slots = (): string => html`
   >
     <h3 slot="header">Slot for a header.</h3>
     <h4 slot="content-header">Slot for a content-header.</h4>
-    <div slot="content">
-      <p>The modal demonstrates slots.</p>
+    <div slot="content" style="height: 100px">
+      <p>${mightyLongTextToScroll}</p>
     </div>
     <h4 slot="content-footer">Slot for a content-footer.</h4>
     <calcite-button slot="primary" width="full">Button</calcite-button>
