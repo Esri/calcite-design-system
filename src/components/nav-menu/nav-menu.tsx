@@ -23,8 +23,7 @@ export class CalciteNavMenu {
   //--------------------------------------------------------------------------
   @Prop({ mutable: true }) collapsed?;
 
-  @Prop({ mutable: true }) inactive = false;
-
+  // disable the automatic collapse based on width
   @Prop({ mutable: true, reflect: true }) disableCollapse?;
 
   // todo evaluate slotted content and determine if it is a nav menu item, then limit # rendered when auto-collapsing based on width of parent
@@ -46,17 +45,13 @@ export class CalciteNavMenu {
   //  Lifecycle
   //
   // --------------------------------------------------------------------------
-  // todo - shell prevent double border like shell panel when in shell header slot
   connectedCallback() {
     this.childNavMenuItems = getSlotted(this.el, "", {
       all: true,
       matches: "calcite-nav-menu-item"
     }) as HTMLCalciteNavMenuItemElement[];
 
-    // todo is slotted in a nav menu item
-
-    // todo determine indentation level to support fly out
-    // ensure any items slotted as dropdown menu children are vertical mode
+    // todo use slot change
     this.childNavMenuItems.map((el: HTMLCalciteNavMenuItemElement) => {
       el.layout = this.layout;
     });

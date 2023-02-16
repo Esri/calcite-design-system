@@ -42,9 +42,6 @@ export class CalciteNav {
   /* todo When `true`, hides slots secondary and tertiary slots and enables menu? */
   @Prop({ reflect: true }) collapsed = false;
 
-  /* todo When `true`, hides slots secondary and tertiary slots? */
-  @Prop({ reflect: true }) hideNonPrimary = false;
-
   /* todo Provide the label for the action that will invoke the vertical sheet display? */
   @Prop({ reflect: true }) menuLabel: string;
 

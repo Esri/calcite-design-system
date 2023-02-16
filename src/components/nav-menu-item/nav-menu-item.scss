@@ -40,6 +40,7 @@
   border-inline-end: 4px solid transparent;
 }
 
+:host(:focus) calcite-action,
 :host(:hover) calcite-action {
   @apply text-color-1;
   --calcite-ui-foreground-1: var(--calcite-ui-foreground-2);
