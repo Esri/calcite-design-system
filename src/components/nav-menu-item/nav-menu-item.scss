@@ -39,11 +39,9 @@
   border-block-end: 0;
   border-inline-end: 4px solid transparent;
 }
-
-:host(:focus) calcite-action,
-:host(:hover) calcite-action {
+a:focus ~ calcite-action,
+a:hover ~ calcite-action {
   @apply text-color-1;
-  --calcite-ui-foreground-1: var(--calcite-ui-foreground-2);
   border-inline-start: 1px solid var(--calcite-ui-border-3);
 }
 
@@ -138,7 +136,6 @@ a {
   }
 }
 
-:host(:hover) a,
 a:hover {
   @apply bg-foreground-2 text-color-2;
 }
