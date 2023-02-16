@@ -190,7 +190,39 @@
   padding-inline: var(--calcite-modal-content-padding, var(--calcite-modal-padding-internal));
 }
 
-.content--no-footer {
+.content-header {
+  @apply bg-foreground-1
+  border-color-3
+  flex
+  min-w-0
+  max-w-full
+  rounded-t
+  border-0
+  border-b
+  border-solid
+  z-header;
+  flex: 0 0 auto;
+}
+
+.content-footer {
+  @apply bg-foreground-1
+    border-color-3
+    mt-auto
+    box-border
+    flex
+    w-full
+    justify-between
+    rounded-b
+    border-0
+    border-t
+    border-solid
+    z-header;
+  flex: 0 0 auto;
+  padding-block: var(--calcite-modal-padding-internal);
+  padding-inline: var(--calcite-modal-padding-large-internal);
+}
+
+.content--no-modal-footer {
   @apply rounded-b;
 }
 
@@ -287,10 +319,10 @@ slot[name="primary"] {
 }
 
 :host([open][fullscreen]) {
-  .header {
-    border-radius: 0;
-  }
-  .footer {
+  .header,
+  .footer,
+  .content-header,
+  .content-footer {
     border-radius: 0;
   }
 }
@@ -339,7 +371,8 @@ slot[name="primary"] {
   .modal {
     @apply border-0 border-t-4 border-solid;
   }
-  .header {
+  .header,
+  .content-header {
     @apply rounded rounded-b-none;
   }
 }
@@ -351,7 +384,8 @@ slot[name="primary"] {
   @include slotted("header", "*") {
     @apply text-1;
   }
-  .footer {
+  .footer,
+  .content-footer {
     @apply sticky bottom-0;
   }
 }
@@ -360,7 +394,8 @@ slot[name="primary"] {
  * Mobile
  */
 @media screen and (max-width: $viewport-small) {
-  .footer {
+  .footer,
+  .content-footer {
     @apply flex-col;
   }
   .back,

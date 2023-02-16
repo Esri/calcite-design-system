@@ -50,6 +50,8 @@ import { ModalMessages } from "./assets/modal/t9n";
 /**
  * @slot header - A slot for adding header text.
  * @slot content - A slot for adding the component's content.
+ * @slot contentHeader - A slot for adding the component's content header.
+ * @slot contentFooter - A slot for adding the component's content footer.
  * @slot primary - A slot for adding a primary button.
  * @slot secondary - A slot for adding a secondary button.
  * @slot back - A slot for adding a back button.
@@ -223,24 +225,32 @@ export class Modal
                 <slot name={CSS.header} />
               </header>
             </div>
+
+            <div class={CSS.contentHeader}>
+              <slot name={SLOTS.contentHeader} />
+            </div>
             <div
               class={{
                 [CSS.content]: true,
-                [CSS.contentNoFooter]: !this.hasFooter
+                [CSS.contentNoModalFooter]: !this.hasModalFooter
               }}
               ref={(el) => (this.modalContent = el)}
             >
               <slot name={SLOTS.content} />
             </div>
-            {this.renderFooter()}
+            <div class={CSS.contentFooter}>
+              <slot name={SLOTS.contentFooter} />
+            </div>
+
+            {this.renderModalFooter()}
           </div>
         </div>
       </Host>
     );
   }
 
-  renderFooter(): VNode {
-    return this.hasFooter ? (
+  renderModalFooter(): VNode {
+    return this.hasModalFooter ? (
       <div class={CSS.footer} key="footer">
         <span class={CSS.back}>
           <slot name={SLOTS.back} />
@@ -347,7 +357,7 @@ export class Modal
 
   @State() cssHeight: string | number;
 
-  @State() hasFooter = true;
+  @State() hasModalFooter = true;
 
   /**
    * We use internal variable to make sure initially open modal can transition from closed state when rendered
@@ -527,7 +537,7 @@ export class Modal
   }
 
   private updateFooterVisibility = (): void => {
-    this.hasFooter = !!getSlotted(this.el, [SLOTS.back, SLOTS.primary, SLOTS.secondary]);
+    this.hasModalFooter = !!getSlotted(this.el, [SLOTS.back, SLOTS.primary, SLOTS.secondary]);
   };
 
   private updateSizeCssVars = (): void => {
