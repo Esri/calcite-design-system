@@ -12,6 +12,7 @@ describe("focusTrapComponent", () => {
 
     connectFocusTrap(fakeComponent);
 
+    expect(fakeComponent.focusTrapEl.tabIndex).toBe(-1);
     expect(fakeComponent.focusTrap).toBeDefined();
     expect(fakeComponent.focusTrap.active).toBe(false);
 
@@ -32,5 +33,15 @@ describe("focusTrapComponent", () => {
 
     deactivateFocusTrap(fakeComponent);
     expect(deactivateSpy).toHaveBeenCalledTimes(1);
+  });
+
+  it("focusTrapEl with tabIndex`", () => {
+    const fakeComponent = {} as any;
+    fakeComponent.focusTrapEl = document.createElement("div");
+    fakeComponent.focusTrapEl.tabIndex = 0;
+
+    connectFocusTrap(fakeComponent);
+    expect(fakeComponent.focusTrapEl.tabIndex).toBe(0);
+    expect(fakeComponent.focusTrap).toBeDefined();
   });
 });
