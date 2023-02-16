@@ -1,6 +1,5 @@
-import { Component, Element, h, Host, Listen, Method, Prop, State } from "@stencil/core";
+import { Component, Element, h, Host, Listen, Prop, State } from "@stencil/core";
 import { focusElementInGroup, getSlotted } from "../../utils/dom";
-import { componentLoaded } from "../../utils/loadable";
 
 @Component({
   tag: "calcite-nav-menu",

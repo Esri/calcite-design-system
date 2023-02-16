@@ -13,7 +13,7 @@ import {
   VNode
 } from "@stencil/core";
 import { FlipContext } from "../interfaces";
-import { focusElementInGroup, getElementDir, getSlotted } from "../../utils/dom";
+import { getElementDir, getSlotted } from "../../utils/dom";
 import { NavMenuItemKeyEventDetail } from "./interfaces";
 import { componentLoaded, setComponentLoaded, setUpLoadableComponent } from "../../utils/loadable";
 
@@ -201,7 +201,6 @@ export class CalciteNavMenuItem {
 
   private keyDownHandler = (event: KeyboardEvent): void => {
     console.log(this.topLevelLayout);
-    const isAnchor = event.target === this.anchorEl;
     switch (event.key) {
       case " ":
       case "Enter":
