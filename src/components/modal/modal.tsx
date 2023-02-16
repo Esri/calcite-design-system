@@ -179,6 +179,8 @@ export class Modal
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
     this.cssVarObserver?.observe(this.el, { attributeFilter: ["style"] });
     this.updateFooterVisibility();
+    this.updateContentHeaderVisibility();
+    this.updateContentFooterVisibility();
     this.updateSizeCssVars();
     connectConditionalSlotComponent(this);
     connectLocalized(this);
@@ -225,10 +227,7 @@ export class Modal
                 <slot name={CSS.header} />
               </header>
             </div>
-
-            <div class={CSS.contentHeader}>
-              <slot name={SLOTS.contentHeader} />
-            </div>
+            {this.renderContentHeader()}
             <div
               class={{
                 [CSS.content]: true,
@@ -238,10 +237,7 @@ export class Modal
             >
               <slot name={SLOTS.content} />
             </div>
-            <div class={CSS.contentFooter}>
-              <slot name={SLOTS.contentFooter} />
-            </div>
-
+            {this.renderContentFooter()}
             {this.renderModalFooter()}
           </div>
         </div>
@@ -261,6 +257,22 @@ export class Modal
         <span class={CSS.primary}>
           <slot name={SLOTS.primary} />
         </span>
+      </div>
+    ) : null;
+  }
+
+  renderContentHeader(): VNode {
+    return this.hasContentHeader ? (
+      <div class={CSS.contentHeader}>
+        <slot name={SLOTS.contentHeader} />
+      </div>
+    ) : null;
+  }
+
+  renderContentFooter(): VNode {
+    return this.hasContentFooter ? (
+      <div class={CSS.contentFooter}>
+        <slot name={SLOTS.contentFooter} />
       </div>
     ) : null;
   }
@@ -333,6 +345,8 @@ export class Modal
 
   private mutationObserver: MutationObserver = createObserver("mutation", () => {
     this.updateFooterVisibility();
+    this.updateContentHeaderVisibility();
+    this.updateContentFooterVisibility();
   });
 
   private cssVarObserver: MutationObserver = createObserver("mutation", () => {
@@ -358,6 +372,10 @@ export class Modal
   @State() cssHeight: string | number;
 
   @State() hasModalFooter = true;
+
+  @State() hasContentHeader = true;
+
+  @State() hasContentFooter = true;
 
   /**
    * We use internal variable to make sure initially open modal can transition from closed state when rendered
@@ -538,6 +556,14 @@ export class Modal
 
   private updateFooterVisibility = (): void => {
     this.hasModalFooter = !!getSlotted(this.el, [SLOTS.back, SLOTS.primary, SLOTS.secondary]);
+  };
+
+  private updateContentHeaderVisibility = (): void => {
+    this.hasContentHeader = !!getSlotted(this.el, SLOTS.contentHeader);
+  };
+
+  private updateContentFooterVisibility = (): void => {
+    this.hasContentFooter = !!getSlotted(this.el, SLOTS.contentFooter);
   };
 
   private updateSizeCssVars = (): void => {
