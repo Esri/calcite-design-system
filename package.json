@@ -27,7 +27,7 @@
     "docker:run": "docker run -i --init --rm --cap-add=SYS_ADMIN -v ./:/app -p 3333:3333 --name calcite-components-demos calcite-components",
     "docker:run-start": "npm run docker:run -- npm start",
     "docker:run-test": "npm run docker:run -- npm test",
-    "docker:run-test-watch": "npm run docker:run -- npm run test:watch accordion",
+    "docker:run-test-watch": "npm run docker:run -- npm run test:watch",
     "docs": "concurrently --kill-others --raw \"npm run build-storybook\" \"ts-node --esm ./support/cleanOnProcessExit.ts --path ./__docs-temp__\"",
     "docs:preview": "concurrently --raw \"npm:util:build-docs && start-storybook\" \"ts-node --esm ./support/cleanOnProcessExit.ts --path ./__docs-temp__\"",
     "lint": "concurrently npm:lint:*",
