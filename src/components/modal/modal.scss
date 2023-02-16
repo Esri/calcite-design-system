@@ -192,12 +192,7 @@
   padding-inline: var(--calcite-modal-content-padding, var(--calcite-modal-padding-internal));
 }
 
-.content-header:empty,
-.content-footer:empty {
-  display: none !important;
-}
-
-.content-header:not(:empty) {
+.content-header {
   @apply bg-foreground-1
   border-color-3
   flex
@@ -209,11 +204,11 @@
   border-solid
   z-header;
   flex: 0 0 auto;
-  padding-block: var(--calcite-modal-padding-internal);
-  padding-inline: var(--calcite-modal-padding-large-internal);
+  padding-block: var(--calcite-modal-content-header-padding, var(--calcite-modal-padding-internal));
+  padding-inline: var(--calcite-modal-content-header-padding, var(--calcite-modal-padding-internal));
 }
 
-.content-footer:not(:empty) {
+.content-footer {
   @apply bg-foreground-1
     border-color-3
     mt-auto
@@ -227,8 +222,8 @@
     border-solid
     z-header;
   flex: 0 0 auto;
-  padding-block: var(--calcite-modal-padding-internal);
-  padding-inline: var(--calcite-modal-padding-large-internal);
+  padding-block: var(--calcite-modal-content-footer-padding, var(--calcite-modal-padding-internal));
+  padding-inline: var(--calcite-modal-content-footer-padding, var(--calcite-modal-padding-internal));
 }
 
 .content--no-modal-footer {

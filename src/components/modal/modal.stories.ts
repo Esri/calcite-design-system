@@ -48,16 +48,12 @@ export const slots = (): string => html`
     ${boolean("escape-disabled", false)}
   >
     <h3 slot="header">Slot for a header.</h3>
-    <h4 slot="content-header">Slot for a content-header.</h3>
+    <h4 slot="content-header">Slot for a content-header.</h4>
     <div slot="content">
-      <p>The small modal is perfect for short confirmation dialogs or very compact interfaces with few elements.</p>
+      <p>The modal demonstrates slots.</p>
     </div>
-    <h4 slot="content-footer">Slot for a content-footer.</h3>
-    <calcite-button
-      slot="primary"
-      width="full"
-      >Button</calcite-button
-    >
+    <h4 slot="content-footer">Slot for a content-footer.</h4>
+    <calcite-button slot="primary" width="full">Button</calcite-button>
   </calcite-modal>
 `;
 
