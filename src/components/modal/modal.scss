@@ -192,7 +192,12 @@
   padding-inline: var(--calcite-modal-content-padding, var(--calcite-modal-padding-internal));
 }
 
-.content-header {
+.content-header:empty,
+.content-footer:empty {
+  display: none !important;
+}
+
+.content-header:not(:empty) {
   @apply bg-foreground-1
   border-color-3
   flex
@@ -208,7 +213,7 @@
   padding-inline: var(--calcite-modal-padding-large-internal);
 }
 
-.content-footer {
+.content-footer:not(:empty) {
   @apply bg-foreground-1
     border-color-3
     mt-auto

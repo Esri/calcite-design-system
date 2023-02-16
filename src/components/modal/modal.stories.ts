@@ -37,6 +37,30 @@ export const simple = (): string => html`
   </calcite-modal>
 `;
 
+export const slots = (): string => html`
+  <calcite-modal
+    ${boolean("open", true)}
+    kind="${select("kind", ["brand", "danger", "info", "success", "warning"], "")}"
+    scale="${select("scale", ["s", "m", "l"], "m")}"
+    width="${select("width", ["s", "m", "l"], "s")}"
+    ${boolean("fullscreen", false)}
+    ${boolean("docked", false)}
+    ${boolean("escape-disabled", false)}
+  >
+    <h3 slot="header">Slot for a header.</h3>
+    <h4 slot="content-header">Slot for a content-header.</h3>
+    <div slot="content">
+      <p>The small modal is perfect for short confirmation dialogs or very compact interfaces with few elements.</p>
+    </div>
+    <h4 slot="content-footer">Slot for a content-footer.</h3>
+    <calcite-button
+      slot="primary"
+      width="full"
+      >Button</calcite-button
+    >
+  </calcite-modal>
+`;
+
 export const darkModeRTLCustomSizeCSSVars_TestOnly = (): string => html`
   <calcite-modal
     class="calcite-mode-dark"
