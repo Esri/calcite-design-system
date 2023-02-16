@@ -14,7 +14,6 @@ import {
 } from "@stencil/core";
 import { FlipContext } from "../interfaces";
 import { getElementDir, getSlotted } from "../../utils/dom";
-import { NavMenuItemKeyEventDetail } from "./interfaces";
 import { componentLoaded, setComponentLoaded, setUpLoadableComponent } from "../../utils/loadable";
 
 @Component({
@@ -126,7 +125,7 @@ export class CalciteNavMenuItem {
   //--------------------------------------------------------------------------
   /** @internal */
   @Event({ cancelable: false })
-  calciteInternalNavItemKeyEvent: EventEmitter<NavMenuItemKeyEventDetail>;
+  calciteInternalNavItemKeyEvent: EventEmitter<KeyboardEvent>;
 
   //--------------------------------------------------------------------------
   //
