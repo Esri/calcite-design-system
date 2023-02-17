@@ -26,6 +26,7 @@ import {
 } from "../../utils/loadable";
 import { CSS, SLOTS as PICK_LIST_SLOTS } from "../pick-list-item/resources";
 import { ICON_TYPES } from "../pick-list/resources";
+import { ListItemAndHandle } from "./interfaces";
 import { ICONS, SLOTS } from "./resources";
 
 /**
@@ -117,6 +118,8 @@ export class ValueListItem
 
   pickListItem: HTMLCalcitePickListItemElement = null;
 
+  handleEl: HTMLSpanElement;
+
   guid = `calcite-value-list-item-${guid()}`;
 
   // --------------------------------------------------------------------------
@@ -181,6 +184,13 @@ export class ValueListItem
    */
   @Event({ cancelable: true }) calciteListItemRemove: EventEmitter<void>; // wrapped pick-list-item emits this
 
+  /**
+   * Fires when the drag handle is focused
+   * @internal
+   */
+  @Event({ cancelable: true })
+  calciteValueListItemDragHandleFocused: EventEmitter<ListItemAndHandle>;
+
   @Listen("calciteListItemChange")
   calciteListItemChangeHandler(event: CustomEvent): void {
     // adjust item payload from wrapped item before bubbling
@@ -208,6 +218,10 @@ export class ValueListItem
 
   handleSelectChange = (event: CustomEvent): void => {
     this.selected = event.detail.selected;
+  };
+
+  handleFocusIn = (): void => {
+    this.calciteValueListItemDragHandleFocused.emit({ item: this.el, handle: this.handleEl });
   };
 
   // --------------------------------------------------------------------------
@@ -245,7 +259,9 @@ export class ValueListItem
           }}
           data-js-handle
           onBlur={this.handleBlur}
+          onFocusin={this.handleFocusIn}
           onKeyDown={this.handleKeyDown}
+          ref={(el) => (this.handleEl = el as HTMLSpanElement)}
           role="button"
           tabindex="0"
         >
