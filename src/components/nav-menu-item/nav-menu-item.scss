@@ -9,6 +9,7 @@
   relative 
   h-full 
   box-border;
+  // todo min height
   &:hover > calcite-action {
     border-inline-start-color: var(-calcite-ui-border-3);
   }

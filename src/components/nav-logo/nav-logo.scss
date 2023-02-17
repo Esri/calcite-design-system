@@ -5,7 +5,6 @@
   items-center
   justify-center
   cursor-pointer transition-default focus-base no-underline;
-    // match nav item to center text
     border-block-end: 2px solid transparent;
   }
   & img {
@@ -39,6 +38,7 @@ img ~ .text-container {
   border-color: var(--calcite-ui-brand);
   --calcite-ui-icon-color: var(--calcite-ui-brand);
 }
+
 .text-container {
   @apply flex;
   flex-direction: column;
@@ -55,4 +55,5 @@ img ~ .text-container {
 
 .logo-subtext {
   @apply text-color-2;
+  font-size: var(--calcite-font-size--1);
 }

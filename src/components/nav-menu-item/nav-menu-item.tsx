@@ -36,7 +36,7 @@ export class CalciteNavMenuItem {
   //
   //--------------------------------------------------------------------------
   /** When true, the component displays a visual indication of breadcrumb */
-  @Prop({ reflect: true, mutable: true }) breadcrumb?: boolean = false;
+  @Prop({ reflect: true, mutable: true }) breadcrumb?: boolean;
 
   /** When `true`, the component is highlighted.  */
   @Prop({ reflect: true, mutable: true }) active: boolean;
@@ -58,9 +58,6 @@ export class CalciteNavMenuItem {
 
   /** Specifies the text the component displays */
   @Prop({ reflect: true, mutable: true }) text!: string;
-
-  // remove reflect and move style to class
-  @Prop({ mutable: true, reflect: true }) layout?: "horizontal" | "vertical" = "horizontal";
 
   /** When true, provide a navigable href link */
   @Prop({ reflect: true }) href?;
@@ -89,6 +86,10 @@ export class CalciteNavMenuItem {
 
   /** The close button element. */
   private anchorEl?: HTMLAnchorElement;
+
+  // make private
+  // remove reflect and move style to class
+  @Prop({ mutable: true, reflect: true }) layout?: "horizontal" | "vertical" = "horizontal";
 
   @State() editingActive = false;
 
@@ -127,6 +128,10 @@ export class CalciteNavMenuItem {
   @Event({ cancelable: false })
   calciteInternalNavItemKeyEvent: EventEmitter<KeyboardEvent>;
 
+  /** @internal */
+  @Event({ cancelable: false })
+  calciteInternalNavItemClickEvent: EventEmitter<MouseEvent>;
+
   //--------------------------------------------------------------------------
   //
   //  Event Listeners
@@ -140,6 +145,13 @@ export class CalciteNavMenuItem {
       this.subMenuOpen &&
       !this.el.contains(event.target as Element)
     ) {
+      this.subMenuOpen = false;
+    }
+  }
+
+  @Listen("calciteInternalNavItemClickEvent")
+  handleOtherNavItemClickEvent(event: Event): void {
+    if (this.subMenuOpen && this.el === (event.target as Element)) {
       this.subMenuOpen = false;
     }
   }
@@ -251,7 +263,8 @@ export class CalciteNavMenuItem {
     }
   };
 
-  private clickHandler = (): void => {
+  private clickHandler = (event: MouseEvent): void => {
+    this.calciteInternalNavItemClickEvent.emit(event);
     if (this.href && this.subMenuOpen) {
       this.subMenuOpen = false;
     } else if (this.editable && !this.hasSubMenu) {

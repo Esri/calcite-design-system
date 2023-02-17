@@ -1,55 +1,56 @@
-.user-details {
-  @apply flex 
-  relative 
-  h-full 
-  outline-none
+:host {
+  @apply inline-flex outline-none;
+  & a {
+    @apply flex m-0
   items-center
-  cursor-pointer 
-  text-0
-  transition-default 
-  focus-base  
-  text-color-2 box-border;
-  align-self: center;
-  & calcite-avatar {
-    @apply px-4;
+  justify-center
+  cursor-pointer transition-default focus-base no-underline;
+    border-block-end: 2px solid transparent;
   }
-  // temp
-  block-size: 64px;
 }
 
-.user-details:hover {
-  @apply bg-foreground-2 text-color-2;
+:host(:hover) a,
+:host(:focus) a {
+  @apply bg-foreground-2;
 }
-.user-details:focus {
-  @apply bg-foreground-2 text-color-2 focus-inset;
+:host(:focus) a {
+  @apply focus-inset;
 }
-
-.user-details:active {
+:host(:active) a {
   @apply bg-foreground-3;
 }
-.user-details[active] {
-  @apply bg-foreground-1 text-color-1;
+calcite-avatar {
+  @apply px-4 pl-4;
+}
+calcite-avatar ~ .text-container {
+  @apply pl-0;
+}
+:host(:active) a {
+  @apply text-color-1;
+}
+:host([active]) a {
+  z-index: 9;
+
+  @apply text-color-1;
+  border-color: var(--calcite-ui-brand);
+  --calcite-ui-icon-color: var(--calcite-ui-brand);
 }
 
-.container {
-  @apply flex flex-row content-center;
+.text-container {
+  @apply flex;
+  flex-direction: column;
+  text-align: start;
+  @apply px-4;
 }
+
 .user-text {
-  @apply flex flex-col content-center pr-4 pl-2;
-}
-
-span.user-name,
-span.user-organization {
-  display: inline-flex;
-  align-self: end;
-}
-
-span.user-name {
+  @apply text-0 ml-0
+  text-color-1;
   font-weight: 500;
-  color: var(--calcite-nav-text-color);
+  margin-block-start: 2px;
 }
 
-span.user-organization {
-  color: var(--calcite-ui-text-3);
-  @include font-size(-3);
+.user-subtext {
+  @apply text-color-2;
+  font-size: var(--calcite-font-size--1);
 }

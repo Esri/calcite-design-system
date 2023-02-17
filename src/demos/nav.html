@@ -119,7 +119,7 @@
           href="mailto:calcite@esri.com?subject=Navigation proposal feedback!"
           >Feedback
         </calcite-button>
-        <calcite-nav-user slot="user" user-name="Urbano Monti" user-organization="planisphere_co"> </calcite-nav-user>
+        <calcite-nav-user slot="user" text-enabled text="Urbano Monti" sub-text="planisphere_co"> </calcite-nav-user>
       </calcite-nav>
       <calcite-panel>
         <!--
@@ -175,7 +175,7 @@
         <calcite-shell>
           <calcite-nav slot="header">
             <calcite-chip slot="logo" scale="s">logo</calcite-chip>
-            <calcite-chip slot="user" scale="s">user</calcite-chip>
+            <calcite-chip slot="user" text-enabled scale="s">user</calcite-chip>
             <calcite-chip slot="primary-menu-start" scale="s">primary-menu-start</calcite-chip>
             <calcite-chip slot="primary-actions-start" scale="s">primary-actions-start</calcite-chip>
             <calcite-chip slot="primary-menu-center" scale="s">primary-menu-center</calcite-chip>
@@ -186,7 +186,7 @@
         <calcite-shell>
           <calcite-nav slot="header">
             <calcite-chip slot="logo" scale="s">logo</calcite-chip>
-            <calcite-chip slot="user" scale="s">user</calcite-chip>
+            <calcite-chip slot="user" text-enabled scale="s">user</calcite-chip>
             <calcite-chip slot="primary-menu-start" scale="s">primary-menu-start</calcite-chip>
             <calcite-chip slot="primary-actions-start" scale="s">primary-actions-start</calcite-chip>
             <calcite-chip slot="primary-menu-center" scale="s">primary-menu-center</calcite-chip>
@@ -201,7 +201,7 @@
         <calcite-shell>
           <calcite-nav slot="header">
             <calcite-chip slot="logo" scale="s">logo</calcite-chip>
-            <calcite-chip slot="user" scale="s">user</calcite-chip>
+            <calcite-chip slot="user" text-enabled scale="s">user</calcite-chip>
             <calcite-chip slot="primary-menu-start" scale="s">primary-menu-start</calcite-chip>
             <calcite-chip slot="primary-actions-start" scale="s">primary-actions-start</calcite-chip>
             <calcite-chip slot="primary-menu-center" scale="s">primary-menu-center</calcite-chip>
@@ -233,7 +233,7 @@
               <calcite-nav-menu-item text="Employees" text-enabled></calcite-nav-menu-item>
               <calcite-nav-menu-item text="Suppliers" text-enabled></calcite-nav-menu-item>
             </calcite-nav-menu>
-            <calcite-nav-user slot="user" user-name="Walt McChipson"> </calcite-nav-user>
+            <calcite-nav-user slot="user" text-enabled text="Walt McChipson"> </calcite-nav-user>
             <calcite-nav-menu slot="primary-menu-end">
               <calcite-nav-menu-item text-enabled text="Support"></calcite-nav-menu-item>
             </calcite-nav-menu>
@@ -255,7 +255,7 @@
               <calcite-nav-menu-item text="Employees" text-enabled></calcite-nav-menu-item>
               <calcite-nav-menu-item text="Suppliers" text-enabled></calcite-nav-menu-item>
             </calcite-nav-menu>
-            <calcite-nav-user slot="user" user-name="Walt McChipson"> </calcite-nav-user>
+            <calcite-nav-user slot="user" text-enabled text="Walt McChipson"> </calcite-nav-user>
             <calcite-nav-menu slot="secondary-actions-start">
               <calcite-chip scale="s">Slotted Action</calcite-chip>
             </calcite-nav-menu>
@@ -294,7 +294,7 @@
               <calcite-nav-menu-item text="Employees" text-enabled></calcite-nav-menu-item>
               <calcite-nav-menu-item text="Suppliers" text-enabled></calcite-nav-menu-item>
             </calcite-nav-menu>
-            <calcite-nav-user slot="user" user-name="Walt McChipson"> </calcite-nav-user>
+            <calcite-nav-user slot="user" text-enabled text="Walt McChipson"> </calcite-nav-user>
 
             <calcite-nav-menu slot="primary-actions-end">
               <calcite-nav-menu-item text-enabled text="Support"></calcite-nav-menu-item>
@@ -489,7 +489,7 @@
         <calcite-shell>
           <calcite-nav slot="header">
             <calcite-chip kind="brand" slot="logo" scale="s">logo</calcite-chip>
-            <calcite-chip slot="user" scale="s">user</calcite-chip>
+            <calcite-chip slot="user" text-enabled scale="s">user</calcite-chip>
             <calcite-chip slot="primary-actions-start" scale="s">primary-actions-start</calcite-chip>
             <calcite-chip slot="primary-menu-center" scale="s">primary-menu-center</calcite-chip>
             <calcite-chip slot="primary-actions-end" scale="s">primary-actions-end</calcite-chip>
@@ -612,7 +612,7 @@
         <calcite-shell>
           <calcite-nav slot="header">
             <calcite-chip slot="logo" scale="s">logo</calcite-chip>
-            <calcite-chip kind="brand" slot="user" scale="s">user</calcite-chip>
+            <calcite-chip kind="brand" slot="user" text-enabled scale="s">user</calcite-chip>
             <calcite-chip slot="primary-menu-center" scale="s">primary-menu-center</calcite-chip>
             <calcite-chip slot="primary-actions-start" scale="s">primary-actions-start</calcite-chip>
             <calcite-chip slot="primary-actions-end" scale="s">primary-actions-end</calcite-chip>
@@ -634,12 +634,12 @@
         </div>
         <calcite-shell>
           <calcite-nav slot="header">
-            <calcite-nav-user slot="user" user-name="Wendell Berry"> </calcite-nav-user>
+            <calcite-nav-user slot="user" text-enabled text="Wendell Berry"> </calcite-nav-user>
           </calcite-nav>
         </calcite-shell>
         <calcite-shell>
           <calcite-nav slot="header">
-            <calcite-nav-user slot="user" user-name="Wendell Berry" user-organization="wBerry_arcgis">
+            <calcite-nav-user slot="user" text-enabled text="Wendell Berry" sub-text="wBerry_arcgis">
             </calcite-nav-user>
           </calcite-nav>
         </calcite-shell>
@@ -647,8 +647,9 @@
           <calcite-nav slot="header">
             <calcite-nav-user
               slot="user"
-              user-name="Wendell Berry"
-              user-organization="wBerry_arcgis"
+              text-enabled
+              text="Wendell Berry"
+              sub-text="wBerry_arcgis"
               user-image-src="https://placebear.com/50/50"
             >
             </calcite-nav-user>
@@ -656,7 +657,12 @@
         </calcite-shell>
         <calcite-shell>
           <calcite-nav slot="header">
-            <calcite-nav-user slot="user" user-name="Wendell Berry" user-image-src="https://placebear.com/50/50">
+            <calcite-nav-user
+              slot="user"
+              text-enabled
+              text="Wendell Berry"
+              user-image-src="https://placebear.com/50/50"
+            >
             </calcite-nav-user>
           </calcite-nav>
         </calcite-shell>
@@ -675,7 +681,7 @@
         <calcite-shell>
           <calcite-nav slot="header">
             <calcite-chip slot="logo" scale="s">logo</calcite-chip>
-            <calcite-chip slot="user" scale="s">user</calcite-chip>
+            <calcite-chip slot="user" text-enabled scale="s">user</calcite-chip>
             <calcite-chip kind="brand" slot="primary-menu-start" scale="s">primary-menu-start</calcite-chip>
             <calcite-chip slot="primary-actions-start" scale="s">primary-actions-start</calcite-chip>
             <calcite-chip kind="brand" slot="primary-menu-center" scale="s">primary-menu-center</calcite-chip>
@@ -911,7 +917,7 @@
             <div slot="primary-actions-end">
               <calcite-chip scale="s" color="blue">Slotted Action</calcite-chip>
             </div>
-            <calcite-nav-user slot="user" user-name="Wendell Berry" user-organization="wBerry_arcgis">
+            <calcite-nav-user slot="user" text-enabled text="Wendell Berry" sub-text="wBerry_arcgis">
             </calcite-nav-user>
             <calcite-nav-menu slot="secondary-menu-start">
               <calcite-nav-menu-item text="overflow temp" icon-start="ellipsis" breadcrumb>
@@ -952,7 +958,7 @@
             <div slot="primary-actions-end">
               <calcite-chip scale="s" color="blue">Slotted Action</calcite-chip>
             </div>
-            <calcite-nav-user slot="user" user-name="Wendell Berry" user-organization="wBerry_arcgis">
+            <calcite-nav-user slot="user" text-enabled text="Wendell Berry" sub-text="wBerry_arcgis">
             </calcite-nav-user>
             <calcite-nav-menu slot="secondary-menu-start">
               <calcite-nav-menu-item text="overflow temp" icon-start="ellipsis" breadcrumb>
@@ -990,7 +996,7 @@
             <div slot="primary-actions-end">
               <calcite-chip scale="s" color="blue">Slotted Action</calcite-chip>
             </div>
-            <calcite-nav-user slot="user" user-name="Wendell Berry" user-organization="wBerry_arcgis">
+            <calcite-nav-user slot="user" text-enabled text="Wendell Berry" sub-text="wBerry_arcgis">
             </calcite-nav-user>
             <calcite-nav-menu slot="primary-menu-start">
               <calcite-nav-menu-item text="Home" text-enabled> </calcite-nav-menu-item>
@@ -1379,7 +1385,7 @@
             <calcite-nav-menu slot="primary-menu-start">
               <calcite-nav-menu-item text="Example" text-enabled></calcite-nav-menu-item>
             </calcite-nav-menu>
-            <calcite-nav-user slot="user" user-name="Wendell Berry" user-organization="wBerry_arcgis">
+            <calcite-nav-user slot="user" text-enabled text="Wendell Berry" sub-text="wBerry_arcgis">
             </calcite-nav-user>
           </calcite-nav>
         </calcite-shell>
@@ -1531,7 +1537,7 @@
                 <calcite-chip style="margin-left: 12px" scale="s" color="green">Saved</calcite-chip>
               </calcite-action>
             </div>
-            <calcite-nav-user slot="user" user-name="Allen Iverson" user-organization="Philadelphia 76ers">
+            <calcite-nav-user slot="user" text-enabled text="Allen Iverson" sub-text="Philadelphia 76ers">
             </calcite-nav-user>
           </calcite-nav>
         </calcite-shell>
@@ -1567,7 +1573,7 @@
               scale="l"
               text="App Launcher"
             ></calcite-action>
-            <calcite-nav-user slot="user" user-name="Peter Berg" user-organization="Planet Drum Foundation">
+            <calcite-nav-user slot="user" text-enabled text="Peter Berg" sub-text="Planet Drum Foundation">
             </calcite-nav-user>
           </calcite-nav>
         </calcite-shell>
@@ -1610,7 +1616,7 @@
               scale="l"
               text="App Launcher"
             ></calcite-action>
-            <calcite-nav-user slot="user" user-name="Wendell Berry" user-organization="wBerry_arcgis">
+            <calcite-nav-user slot="user" text-enabled text="Wendell Berry" sub-text="wBerry_arcgis">
             </calcite-nav-user>
           </calcite-nav>
         </calcite-shell>
@@ -1646,7 +1652,7 @@
               scale="l"
               text="App Launcher"
             ></calcite-action>
-            <calcite-nav-user slot="user" user-name="Urbano Monti" user-organization="planisphere_co">
+            <calcite-nav-user slot="user" text-enabled text="Urbano Monti" sub-text="planisphere_co">
             </calcite-nav-user>
           </calcite-nav>
         </calcite-shell>
@@ -1672,8 +1678,7 @@
               scale="l"
               text="App Launcher"
             ></calcite-action>
-            <calcite-nav-user slot="user" user-name="Alice Waters" user-organization="awaters_admin">
-            </calcite-nav-user>
+            <calcite-nav-user slot="user" text-enabled text="Alice Waters" sub-text="awaters_admin"> </calcite-nav-user>
           </calcite-nav>
         </calcite-shell>
 
@@ -1703,7 +1708,7 @@
             ></calcite-action>
             <calcite-action slot="primary-actions-end" icon="app-launcher" scale="l" text="App Launcher">
             </calcite-action>
-            <calcite-nav-user slot="user" user-name="Wendell Berry" user-organization="wBerry_arcgis">
+            <calcite-nav-user slot="user" text-enabled text="Wendell Berry" sub-text="wBerry_arcgis">
             </calcite-nav-user>
           </calcite-nav>
         </calcite-shell>
@@ -1723,8 +1728,7 @@
               scale="l"
               text="App Launcher"
             ></calcite-action>
-            <calcite-nav-user slot="user" user-name="Alice Waters" user-organization="awaters_admin">
-            </calcite-nav-user>
+            <calcite-nav-user slot="user" text-enabled text="Alice Waters" sub-text="awaters_admin"> </calcite-nav-user>
           </calcite-nav>
         </calcite-shell>
 
@@ -1755,7 +1759,7 @@
               scale="l"
               text="App Launcher"
             ></calcite-action>
-            <calcite-nav-user slot="user" user-name="Wendell Berry" user-organization="wBerry_arcgis">
+            <calcite-nav-user slot="user" text-enabled text="Wendell Berry" sub-text="wBerry_arcgis">
             </calcite-nav-user>
           </calcite-nav>
         </calcite-shell>
@@ -1780,7 +1784,7 @@
               scale="l"
               text="App Launcher"
             ></calcite-action>
-            <calcite-nav-user slot="user" user-name="Dennis Without-org"> </calcite-nav-user>
+            <calcite-nav-user slot="user" text-enabled text="Dennis Without-org"> </calcite-nav-user>
           </calcite-nav>
         </calcite-shell>
         <!--
@@ -1841,7 +1845,7 @@
               scale="l"
               text="App Launcher"
             ></calcite-action>
-            <calcite-nav-user slot="user" user-name="Peter Berg" user-organization="Planet Drum Foundation">
+            <calcite-nav-user slot="user" text-enabled text="Peter Berg" sub-text="Planet Drum Foundation">
             </calcite-nav-user>
           </calcite-nav>
         </calcite-shell>
