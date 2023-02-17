@@ -211,6 +211,7 @@ export class CalciteNavMenuItem {
   }
 
   private keyDownHandler = (event: KeyboardEvent): void => {
+    // todo refactor all
     console.log(this.topLevelLayout);
     switch (event.key) {
       case " ":
@@ -355,7 +356,6 @@ export class CalciteNavMenuItem {
     const dirChevron = this.dir === "rtl" ? "chevron-left" : "chevron-right";
     return (
       <calcite-icon
-        id="render-dropdown-icon"
         class="icon icon-dropdown"
         icon={
           (this.topLevelLayout === "vertical" && !this.subMenuOpen) ||
@@ -366,6 +366,7 @@ export class CalciteNavMenuItem {
             ? "chevron-down"
             : dirChevron
         }
+        id="render-dropdown-icon"
         scale="s"
       />
     );
@@ -376,6 +377,7 @@ export class CalciteNavMenuItem {
     const dirChevron = dir === "rtl" ? "chevron-left" : "chevron-right";
     return (
       <calcite-action
+        class="dropdown-with-href-toggle"
         icon={
           this.subMenuOpen && (this.isTopLevelItem || this.topLevelLayout === "vertical")
             ? "chevron-up"
@@ -386,10 +388,9 @@ export class CalciteNavMenuItem {
             ? dirChevron
             : dirChevron
         }
-        text="open-dropdown"
-        class="dropdown-with-href-toggle"
         onClick={() => (this.subMenuOpen = !this.subMenuOpen)}
         onKeyDown={this.keyDownHandler}
+        text="open-dropdown"
       />
     );
   }
