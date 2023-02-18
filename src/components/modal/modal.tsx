@@ -17,7 +17,12 @@ import {
   connectConditionalSlotComponent,
   disconnectConditionalSlotComponent
 } from "../../utils/conditionalSlot";
-import { ensureId, focusFirstTabbable, getSlotted } from "../../utils/dom";
+import {
+  ensureId,
+  focusFirstTabbable,
+  getSlotted,
+  slotChangeHasAssignedElement
+} from "../../utils/dom";
 import {
   activateFocusTrap,
   connectFocusTrap,
@@ -178,10 +183,8 @@ export class Modal
   connectedCallback(): void {
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
     this.cssVarObserver?.observe(this.el, { attributeFilter: ["style"] });
-    this.updateFooterVisibility();
-    this.updateContentHeaderVisibility();
-    this.updateContentFooterVisibility();
     this.updateSizeCssVars();
+    this.updateFooterVisibility();
     connectConditionalSlotComponent(this);
     connectLocalized(this);
     connectMessages(this);
@@ -262,19 +265,19 @@ export class Modal
   }
 
   renderContentHeader(): VNode {
-    return this.hasContentHeader ? (
-      <div class={CSS.contentHeader} key="content-header">
-        <slot name={SLOTS.contentHeader} />
+    return (
+      <div class={CSS.contentHeader} hidden={!this.hasContentHeader} key="content-header">
+        <slot name={SLOTS.contentHeader} onSlotchange={this.contentHeaderSlotChangeHandler} />
       </div>
-    ) : null;
+    );
   }
 
   renderContentFooter(): VNode {
-    return this.hasContentFooter ? (
-      <div class={CSS.contentFooter} key="content-footer">
-        <slot name={SLOTS.contentFooter} />
+    return (
+      <div class={CSS.contentFooter} hidden={!this.hasContentFooter} key="content-footer">
+        <slot name={SLOTS.contentFooter} onSlotchange={this.contentFooterSlotChangeHandler} />
       </div>
-    ) : null;
+    );
   }
 
   renderCloseButton(): VNode {
@@ -345,8 +348,6 @@ export class Modal
 
   private mutationObserver: MutationObserver = createObserver("mutation", () => {
     this.updateFooterVisibility();
-    this.updateContentHeaderVisibility();
-    this.updateContentFooterVisibility();
   });
 
   private cssVarObserver: MutationObserver = createObserver("mutation", () => {
@@ -373,9 +374,9 @@ export class Modal
 
   @State() hasModalFooter = true;
 
-  @State() hasContentHeader = true;
+  @State() hasContentHeader = false;
 
-  @State() hasContentFooter = true;
+  @State() hasContentFooter = false;
 
   /**
    * We use internal variable to make sure initially open modal can transition from closed state when rendered
@@ -558,16 +559,16 @@ export class Modal
     this.hasModalFooter = !!getSlotted(this.el, [SLOTS.back, SLOTS.primary, SLOTS.secondary]);
   };
 
-  private updateContentHeaderVisibility = (): void => {
-    this.hasContentHeader = !!getSlotted(this.el, SLOTS.contentHeader);
-  };
-
-  private updateContentFooterVisibility = (): void => {
-    this.hasContentFooter = !!getSlotted(this.el, SLOTS.contentFooter);
-  };
-
   private updateSizeCssVars = (): void => {
     this.cssWidth = getComputedStyle(this.el).getPropertyValue("--calcite-modal-width");
     this.cssHeight = getComputedStyle(this.el).getPropertyValue("--calcite-modal-height");
+  };
+
+  private contentHeaderSlotChangeHandler = (event: Event): void => {
+    this.hasContentHeader = slotChangeHasAssignedElement(event);
+  };
+
+  private contentFooterSlotChangeHandler = (event: Event): void => {
+    this.hasContentFooter = slotChangeHasAssignedElement(event);
   };
 }

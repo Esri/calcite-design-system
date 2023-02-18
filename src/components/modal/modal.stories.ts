@@ -58,11 +58,9 @@ export const slots = (): string => html`
     ${boolean("escape-disabled", false)}
   >
     <h3 slot="header">Slot for a header.</h3>
-    <h4 slot="content-header">Slot for a content-header.</h4>
-    <div slot="content" style="height: 100px">
-      <p>${mightyLongTextToScroll}</p>
-    </div>
-    <h4 slot="content-footer">Slot for a content-footer.</h4>
+    <div slot="content-header">Slot for a content-header.</div>
+    <div slot="content" style="height: 100px">${mightyLongTextToScroll}</div>
+    <div slot="content-footer">Slot for a content-footer.</div>
     <calcite-button slot="primary" width="full">Button</calcite-button>
   </calcite-modal>
 `;
