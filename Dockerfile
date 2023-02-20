@@ -5,7 +5,8 @@
 # - https://github.com/ionic-team/stencil/issues/3853
 
 # Resources:
-# - https://docs.docker.com/language/nodejs/build-images/
+# - https://docs.docker.com/language/nodejs/
+# - https://docs.docker.com/storage/bind-mounts/
 # - https://github.com/puppeteer/puppeteer/blob/main/docs/troubleshooting.md#running-puppeteer-in-docker
 # - https://stenciljs.com/docs/testing-config
 
@@ -33,10 +34,9 @@ RUN apt-get update \
   # Pretty hacky implementation - it relies on the testing block already existing
   # Alternatively, add the options directly the config or a `stencil.docker.config.ts` file
   && perl -pi -e '$_ .= qq(    browserArgs: ["--no-sandbox", "--disable-setuid-sandbox" ],\n) if /^\s+testing\:\s\{\n/' ./stencil.config.ts \
-  # Install project's npm dependencies,
-  # the legacy-peer-deps flag is only needed for our stencil-eslint dep conflict
+  # The legacy-peer-deps flag is only needed for my team's stencil-eslint dep conflict
   && npm install --legacy-peer-deps \
-  # Create non-root user to fix permission issues
+  # Create non-root user to fix filesystem permission issues
   && groupadd -r runner && useradd -r -g runner -G audio,video runner \
   && mkdir -p /home/runner/Downloads \
   && chown -R runner:runner /home/runner \
@@ -51,10 +51,12 @@ USER runner
 # COPY . .
 # CMD [ "npm", "run", "test" ]
 
-
-# Copying files in't necessary when using a bind mount so test/start
-# npm scripts can correctly rebuild when files change on your host machine
 # Or call the test/start/etc npm script afterward the image is created (useful for local development):
 
 #  $ docker build --tag components .
-#  $ docker run -i --init --rm -p 3333:3333 --cap-add=SYS_ADMIN -v ./:/app:z --user=$(id -u):$(id -g) --name components-demos components npm start
+#  $ docker run --init --interactive --rm --cap-add SYS_ADMIN --volume ./:/app:z --user $(id -u):$(id -g) --publish 3333:3333 --name components-demos components npm start
+
+# Note: copying files in't necessary when using a bind mount (e.g. --volume ./:/app:z)
+# The bind mount allows the test/start npm scripts to rebuild the watched files
+# when making changes on your host machine.
+
