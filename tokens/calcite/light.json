@@ -940,6 +940,10 @@
           "label": {
             "value": "$input-search.font.label.light",
             "type": "color"
+          },
+          "prefix-suffix": {
+            "value": "$input-search.font.prefix-suffix.light",
+            "type": "color"
           }
         },
         "icon": {
