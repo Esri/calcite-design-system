@@ -896,6 +896,10 @@
           "label": {
             "value": "$input-password.font.label.light",
             "type": "color"
+          },
+          "prefix-suffix": {
+            "value": "$input-password.font.prefix-suffix.light",
+            "type": "color"
           }
         },
         "icon": {
