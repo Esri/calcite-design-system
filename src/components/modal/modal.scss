@@ -22,7 +22,8 @@
   --calcite-modal-scrim-background-internal: #{rgba($blk-240, 0.85)};
 }
 
-[hidden] {
+.content-header[hidden],
+.content-footer[hidden] {
   @apply hidden;
 }
 
