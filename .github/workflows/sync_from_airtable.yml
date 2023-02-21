@@ -10,7 +10,7 @@ jobs:
     name: Test1 (conditional run)
     runs-on: ubuntu-latest
     steps:
-      - run: 'echo "field: ${{ github.event.client_payload.payload[issue Number] }}"'
+#       - run: 'echo "field: ${{ github.event.client_payload.payload[issue Number] }}"'
       - run: 'echo "payload: ${{ toJson(github.event.client_payload) }}"'
 #       - run: echo baz
 #         if: github.event.client_payload.payload.version == 'production'
