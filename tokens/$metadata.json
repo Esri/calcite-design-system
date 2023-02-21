@@ -28,6 +28,7 @@
     "component/loader",
     "component/radio",
     "component/rating",
+    "component/tab-tile",
     "component/tip",
     "component/tooltip",
     "component/switch",

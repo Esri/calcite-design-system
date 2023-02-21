@@ -202,7 +202,19 @@
       "component/tip": "enabled",
       "component/color-picker": "enabled",
       "component/date-picker": "enabled",
-      "component/input-date-picker": "enabled"
+      "component/input-date-picker": "enabled",
+      "component/tab-tile": "enabled",
+      "component/input-datetime-local": "enabled",
+      "component/input-email": "enabled",
+      "component/input-file": "enabled",
+      "component/input-month": "enabled",
+      "component/input-number": "enabled",
+      "component/input-password": "enabled",
+      "component/input-search": "enabled",
+      "component/input-telephone": "enabled",
+      "component/input-text": "enabled",
+      "component/input-week": "enabled",
+      "component/textarea": "enabled"
     },
     "$figmaStyleReferences": {
       "semantic.ui.color.brand.default.light": "S:959c4907a32cb62f2227db1c3fb7a88c3eedcbb9,",
