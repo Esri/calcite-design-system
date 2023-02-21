@@ -1062,6 +1062,86 @@
             "type": "color"
           }
         }
+      },
+      "input-week": {
+        "font": {
+          "placeholder-value": {
+            "value": "$input-week.font.placeholder-value.light",
+            "type": "color"
+          },
+          "label": {
+            "value": "$input-week.font.label.light",
+            "type": "color"
+          },
+          "prefix-suffix": {
+            "value": "$input-week.font.prefix-suffix.light",
+            "type": "color"
+          }
+        },
+        "icon": {
+          "value": "$input-week.icon.light",
+          "type": "color"
+        },
+        "background": {
+          "default": {
+            "value": "$input-week.background.default.light",
+            "type": "color"
+          },
+          "prefix-sufix": {
+            "value": "$input-week.background.prefix-suffix.light",
+            "type": "color"
+          },
+          "read-only": {
+            "value": "$input-week.background.read-only.light",
+            "type": "color"
+          }
+        },
+        "border": {
+          "default": {
+            "value": "$input-week.border.default.light",
+            "type": "color"
+          },
+          "invalid": {
+            "value": "$input-week.border.invalid.light",
+            "type": "color"
+          }
+        }
+      },
+      "textarea": {
+        "font": {
+          "placeholder-value": {
+            "value": "$textarea.font.placeholder-value.light",
+            "type": "color"
+          },
+          "label": {
+            "value": "$textarea.font.label.light",
+            "type": "color"
+          }
+        },
+        "icon": {
+          "value": "$textarea.icon.light",
+          "type": "color"
+        },
+        "background": {
+          "default": {
+            "value": "$textarea.background.default.light",
+            "type": "color"
+          },
+          "read-only": {
+            "value": "$textarea.background.read-only.light",
+            "type": "color"
+          }
+        },
+        "border": {
+          "default": {
+            "value": "{textarea.border.light}",
+            "type": "color"
+          },
+          "invalid": {
+            "value": "$textarea.border.invalid.light",
+            "type": "color"
+          }
+        }
       }
     }
   }
