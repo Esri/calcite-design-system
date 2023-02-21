@@ -1116,6 +1116,10 @@
           "label": {
             "value": "$textarea.font.label.light",
             "type": "color"
+          },
+          "chat-limit": {
+            "value": "$textarea.font.chat-limit.light",
+            "type": "color"
           }
         },
         "icon": {
@@ -1135,10 +1139,6 @@
         "border": {
           "default": {
             "value": "{textarea.border.light}",
-            "type": "color"
-          },
-          "invalid": {
-            "value": "$textarea.border.invalid.light",
             "type": "color"
           }
         }

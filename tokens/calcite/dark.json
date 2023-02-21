@@ -1080,6 +1080,10 @@
           "label": {
             "value": "$textarea.font.label.dark",
             "type": "color"
+          },
+          "chat-limit": {
+            "value": "$textarea.font.chat-limit.dark",
+            "type": "color"
           }
         },
         "icon": {

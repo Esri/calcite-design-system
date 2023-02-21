@@ -162,7 +162,7 @@
         "type": "sizing"
       },
       "lg": {
-        "value": "$core.sizing.9",
+        "value": "$core.sizing.7",
         "type": "sizing"
       }
     },
@@ -218,14 +218,6 @@
             "fontWeights": "$core.font.font-weight.medium-italic"
           },
           "type": "composition"
-        }
-      }
-    },
-    "opacity": {
-      "placeholder": {
-        "light": {
-          "value": "{core.opacity.50}",
-          "type": "opacity"
         }
       }
     }
