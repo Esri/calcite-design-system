@@ -5,8 +5,6 @@
  *
  * @prop --calcite-modal-content-background: Specifies the background color of content placed in the `content` slot.
  * @prop --calcite-modal-content-padding: Specifies the padding of the modal `content` slot.
- * @prop --calcite-modal-content-header-padding: Specifies the padding of the modal `content-header` slot.
- * @prop --calcite-modal-content-footer-padding: Specifies the padding of the modal `content-footer` slot.
  * @prop --calcite-modal-scrim-background: Specifies the background color of the modal scrim.
  * @prop --calcite-modal-width: Specifies a width of the modal, using `px`, `em`, `rem`, `vw`, or `%`. Will never exceed the width of the viewport. Will not apply if `fullscreen` if set.
  * @prop --calcite-modal-height: Specifies a height of the modal, using `px`, `em`, `rem`, `vh`, or `%`. Will never exceed the height of the viewport. Will not apply if `fullscreen` if set.
@@ -193,8 +191,7 @@
   @apply relative box-border block h-full overflow-auto p-0;
   max-block-size: 100%;
   background-color: var(--calcite-modal-content-background, theme("colors.background.foreground.1"));
-  padding-block: var(--calcite-modal-content-padding, var(--calcite-modal-padding-internal));
-  padding-inline: var(--calcite-modal-content-padding, var(--calcite-modal-padding-internal));
+  padding: var(--calcite-modal-padding-internal);
 }
 
 .content-header {
@@ -209,8 +206,7 @@
   border-solid
   z-header;
   flex: 0 0 auto;
-  padding-block: var(--calcite-modal-content-header-padding, var(--calcite-modal-padding-internal));
-  padding-inline: var(--calcite-modal-content-header-padding, var(--calcite-modal-padding-internal));
+  padding: var(--calcite-modal-padding-internal);
 }
 
 .content-footer {
@@ -227,8 +223,7 @@
     border-solid
     z-header;
   flex: 0 0 auto;
-  padding-block: var(--calcite-modal-content-footer-padding, var(--calcite-modal-padding-internal));
-  padding-inline: var(--calcite-modal-content-footer-padding, var(--calcite-modal-padding-internal));
+  padding: var(--calcite-modal-padding-internal);
 }
 
 .content--no-modal-footer {

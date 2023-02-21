@@ -27,7 +27,7 @@ export const simple = (): string => html`
   >
     <h3 slot="header">Small Modal</h3>
     <div slot="content">
-      <p>The small modal is perfect for short confirmation dialogs or very compact interfaces with few elements.</p>
+      The small modal is perfect for short confirmation dialogs or very compact interfaces with few elements.
     </div>
     <calcite-button slot="back" kind="neutral" appearance="outline" icon="chevron-left" width="full"
       >Back</calcite-button
