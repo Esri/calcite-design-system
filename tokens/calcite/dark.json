@@ -938,6 +938,94 @@
             "type": "color"
           }
         }
+      },
+      "input-telephone": {
+        "font": {
+          "placeholder-value": {
+            "value": "$input-telephone.font.placeholder-value.dark",
+            "type": "color"
+          },
+          "label": {
+            "value": "$input-telephone.font.label.dark",
+            "type": "color"
+          },
+          "prefix-suffix": {
+            "value": "$input-telephone.font.prefix-suffix.dark",
+            "type": "color"
+          }
+        },
+        "icon": {
+          "value": "$input-telephone.icon.dark",
+          "type": "color"
+        },
+        "background": {
+          "default": {
+            "value": "$input-telephone.background.default.dark",
+            "type": "color"
+          },
+          "prefix-sufix": {
+            "value": "$input-telephone.background.prefix-suffix.dark",
+            "type": "color"
+          },
+          "read-only": {
+            "value": "$input-telephone.background.read-only.dark",
+            "type": "color"
+          }
+        },
+        "border": {
+          "default": {
+            "value": "$input-telephone.border.default.dark",
+            "type": "color"
+          },
+          "invalid": {
+            "value": "$input-telephone.border.invalid.dark",
+            "type": "color"
+          }
+        }
+      },
+      "input-text": {
+        "font": {
+          "placeholder-value": {
+            "value": "$input-text.font.placeholder-value.dark",
+            "type": "color"
+          },
+          "label": {
+            "value": "$input-text.font.label.dark",
+            "type": "color"
+          },
+          "prefix-suffix": {
+            "value": "$input-text.font.prefix-suffix.dark",
+            "type": "color"
+          }
+        },
+        "icon": {
+          "value": "$input-text.icon.dark",
+          "type": "color"
+        },
+        "background": {
+          "default": {
+            "value": "$input-text.background.default.dark",
+            "type": "color"
+          },
+          "prefix-sufix": {
+            "value": "$input-text.background.prefix-suffix.dark",
+            "type": "color"
+          },
+          "read-only": {
+            "value": "$input-text.background.read-only.dark",
+            "type": "color"
+          }
+        },
+        "border": {
+          "default": {
+            "value": "$input-text.border.default.dark",
+            "type": "color"
+          },
+          "invalid": {
+            "value": "$input-text.border.invalid.dark",
+            "type": "color"
+          }
+        }
       }
     }
   }

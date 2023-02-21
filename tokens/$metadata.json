@@ -17,6 +17,8 @@
     "component/input-number",
     "component/input-password",
     "component/input-search",
+    "component/input-telephone",
+    "component/input-text",
     "component/input-message",
     "component/input-time",
     "component/date-picker",
