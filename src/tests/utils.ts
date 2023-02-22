@@ -271,3 +271,35 @@ export async function skipAnimations(page: E2EPage): Promise<void> {
     content: `:root { --calcite-duration-factor: 0; }`
   });
 }
+
+interface MatchesFocusedElementOptions {
+  /**
+   * Set this to true when the focused element is expected to reside in the shadow DOM
+   */
+  shadowed: boolean;
+}
+
+/**
+ * This util helps determine if a selector matches the currently focused element.
+ *
+ * @param page – the E2E page
+ * @param selector – selector of element to match
+ * @param options - options to customize the utility behavior
+ */
+export async function isElementFocused(
+  page: E2EPage,
+  selector: string,
+  options?: MatchesFocusedElementOptions
+): Promise<boolean> {
+  const shadowed = options?.shadowed;
+
+  return page.evaluate(
+    (selector: string, shadowed: boolean): boolean => {
+      const targetDoc = shadowed ? document.activeElement?.shadowRoot : document;
+
+      return !!targetDoc?.activeElement?.matches(selector);
+    },
+    selector,
+    shadowed
+  );
+}
