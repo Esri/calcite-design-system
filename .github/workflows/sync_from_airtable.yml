@@ -3,7 +3,7 @@ name: Sync from Airtable
 on:
   # publish blog using webhook
   repository_dispatch:
-    types: [update_issue]
+    types: [airtable-update]
 
 jobs:
   test1:
@@ -12,7 +12,7 @@ jobs:
     steps:
       - name: Dump GitHub context
         id: github_context_step
-        run: echo '${{ toJSON(github) }}'
+        run: echo '${{ toJSON(github.event.client_payload) }}'
 #       - run: 'echo "field: ${{ github.event.client_payload.payload[issue Number] }}"'
 #       - run: 'echo "payload: ${{ toJson(github.event.client_payload) }}"'
 #       - run: echo baz
