@@ -78,6 +78,36 @@
             "type": "color"
           }
         }
+      },
+      "space-around": {
+        "left-right": {
+          "sm": {
+            "value": "$core.spacing.1",
+            "type": "spacing"
+          },
+          "md": {
+            "value": "$core.spacing.5",
+            "type": "spacing"
+          },
+          "lg": {
+            "value": "$core.spacing.7",
+            "type": "spacing"
+          }
+        },
+        "top-bottom": {
+          "sm": {
+            "value": "$core.spacing.5",
+            "type": "spacing"
+          },
+          "md": {
+            "value": "$core.spacing.3",
+            "type": "spacing"
+          },
+          "lg": {
+            "value": "$core.spacing.4",
+            "type": "spacing"
+          }
+        }
       }
     },
     "border-radius": {
@@ -150,33 +180,35 @@
         "type": "spacing"
       }
     },
-    "space-around": {
-      "left-right": {
-        "sm": {
-          "value": "$core.spacing.1",
-          "type": "spacing"
+    "default": {
+      "space-around": {
+        "left-right": {
+          "sm": {
+            "value": "$core.spacing.1",
+            "type": "spacing"
+          },
+          "md": {
+            "value": "$core.spacing.1",
+            "type": "spacing"
+          },
+          "lg": {
+            "value": "$core.spacing.1",
+            "type": "spacing"
+          }
         },
-        "md": {
-          "value": "$core.spacing.1",
-          "type": "spacing"
-        },
-        "lg": {
-          "value": "$core.spacing.1",
-          "type": "spacing"
-        }
-      },
-      "top-bottom": {
-        "sm": {
-          "value": "$core.spacing.1",
-          "type": "spacing"
-        },
-        "md": {
-          "value": "$core.spacing.3",
-          "type": "spacing"
-        },
-        "lg": {
-          "value": "$core.spacing.4",
-          "type": "spacing"
+        "top-bottom": {
+          "sm": {
+            "value": "$core.spacing.1",
+            "type": "spacing"
+          },
+          "md": {
+            "value": "$core.spacing.3",
+            "type": "spacing"
+          },
+          "lg": {
+            "value": "$core.spacing.4",
+            "type": "spacing"
+          }
         }
       }
     },
