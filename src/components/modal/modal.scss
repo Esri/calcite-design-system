@@ -191,8 +191,8 @@
   @apply relative box-border block h-full overflow-auto p-0;
   background-color: var(--calcite-modal-content-background, theme("colors.background.foreground.1"));
   max-block-size: 100%;
-  /* stylelint-disable-next-line use-logical */
-  padding-block: var(--calcite-modal-content-padding, ; padding-inline: var(--calcite-modal-padding-internal));
+  /* stylelint-disable-line */
+  padding: var(--calcite-modal-content-padding, var(--calcite-modal-padding-internal)); /* stylelint-disable-line */
 }
 
 .content-header {
