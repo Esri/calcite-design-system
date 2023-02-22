@@ -1142,6 +1142,46 @@
             "type": "color"
           }
         }
+      },
+      "tab-title": {
+        "font": {
+          "default": {
+            "value": "$tab-title.font.default.light",
+            "type": "color"
+          },
+          "active": {
+            "value": "$tab-title.font.active.light",
+            "type": "color"
+          }
+        },
+        "icon": {
+          "default": {
+            "value": "$tab-title.icon.default.light",
+            "type": "color"
+          },
+          "active": {
+            "value": "$tab-title.icon.active.light",
+            "type": "color"
+          }
+        },
+        "bordered": {
+          "border": {
+            "value": "$tab-title.bordered.border.light",
+            "type": "color"
+          },
+          "background": {
+            "default": {
+              "value": "$tab-title.bordered.background.default.light",
+              "type": "color"
+            }
+          }
+        },
+        "border": {
+          "active": {
+            "value": "$tab-title.border.active.light",
+            "type": "color"
+          }
+        }
       }
     }
   }

@@ -1102,7 +1102,47 @@
         },
         "border": {
           "default": {
-            "value": "{textarea.border.dark}",
+            "value": "$textarea.border.dark",
+            "type": "color"
+          }
+        }
+      },
+      "tab-title": {
+        "font": {
+          "default": {
+            "value": "$tab-title.font.default.dark",
+            "type": "color"
+          },
+          "active": {
+            "value": "$tab-title.font.active.dark",
+            "type": "color"
+          }
+        },
+        "icon": {
+          "default": {
+            "value": "$tab-title.icon.default.dark",
+            "type": "color"
+          },
+          "active": {
+            "value": "$tab-title.icon.active.dark",
+            "type": "color"
+          }
+        },
+        "bordered": {
+          "border": {
+            "value": "$tab-title.bordered.border.dark",
+            "type": "color"
+          },
+          "background": {
+            "default": {
+              "value": "$tab-title.bordered.background.default.dark",
+              "type": "color"
+            }
+          }
+        },
+        "border": {
+          "active": {
+            "value": "$tab-title.border.active.dark",
             "type": "color"
           }
         }
