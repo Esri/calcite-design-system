@@ -1,4 +1,15 @@
-import { Component, Element, Event, EventEmitter, h, Method, Prop, VNode } from "@stencil/core";
+import {
+  Component,
+  Element,
+  Event,
+  EventEmitter,
+  h,
+  Method,
+  Prop,
+  State,
+  VNode,
+  Watch
+} from "@stencil/core";
 import { toAriaBoolean } from "../../utils/dom";
 import {
   componentLoaded,
@@ -6,15 +17,24 @@ import {
   setComponentLoaded,
   setUpLoadableComponent
 } from "../../utils/loadable";
+import {
+  connectMessages,
+  disconnectMessages,
+  setUpMessages,
+  T9nComponent,
+  updateMessages
+} from "../../utils/t9n";
+import { HandleMessages } from "./assets/handle/t9n";
 import { HandleNudge } from "./interfaces";
 import { CSS, ICONS } from "./resources";
 
 @Component({
   tag: "calcite-handle",
   styleUrl: "handle.scss",
-  shadow: true
+  shadow: true,
+  assetsDirs: ["assets"]
 })
-export class Handle implements LoadableComponent {
+export class Handle implements LoadableComponent, T9nComponent {
   // --------------------------------------------------------------------------
   //
   //  Properties
@@ -29,7 +49,24 @@ export class Handle implements LoadableComponent {
   /**
    * Value for the button title attribute
    */
-  @Prop({ reflect: true }) textTitle = "handle";
+  @Prop({ reflect: true }) dragHandle;
+
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @internal
+   */
+  @Prop() messages: HandleMessages;
+
+  /**
+   * Use this property to override individual strings used by the component.
+   */
+  @Prop() messageOverrides: Partial<HandleMessages>;
+
+  @Watch("messageOverrides")
+  onMessagesChange(): void {
+    /* wired up by t9n util */
+  }
 
   //--------------------------------------------------------------------------
   //
@@ -37,12 +74,21 @@ export class Handle implements LoadableComponent {
   //
   //--------------------------------------------------------------------------
 
-  componentWillLoad(): void {
+  connectedCallback(): void {
+    connectMessages(this);
+  }
+
+  async componentWillLoad(): Promise<void> {
+    await setUpMessages(this);
     setUpLoadableComponent(this);
   }
 
   componentDidLoad(): void {
     setComponentLoaded(this);
+  }
+
+  disconnectedCallback(): void {
+    disconnectMessages(this);
   }
 
   // --------------------------------------------------------------------------
@@ -55,6 +101,14 @@ export class Handle implements LoadableComponent {
 
   handleButton: HTMLElement;
 
+  @State() effectiveLocale: string;
+
+  @Watch("effectiveLocale")
+  effectiveLocaleChange(): void {
+    updateMessages(this, this.effectiveLocale);
+  }
+
+  @State() defaultMessages: HandleMessages;
   // --------------------------------------------------------------------------
   //
   //  Events
@@ -132,7 +186,7 @@ export class Handle implements LoadableComponent {
         }}
         role="button"
         tabindex="0"
-        title={this.textTitle}
+        title={this.messages.dragHandle}
       >
         <calcite-icon icon={ICONS.drag} scale="s" />
       </span>
