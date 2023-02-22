@@ -20,7 +20,7 @@ import {
   HiddenFormInputSlot
 } from "../../utils/form";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
-import { connectLabel, disconnectLabel, LabelableComponent } from "../../utils/label";
+import { connectLabel, disconnectLabel, LabelableComponent, getLabelText } from "../../utils/label";
 import {
   componentLoaded,
   LoadableComponent,
@@ -363,7 +363,7 @@ export class Select
     return (
       <Fragment>
         <select
-          aria-label={this.label}
+          aria-label={getLabelText(this)}
           class={CSS.select}
           disabled={this.disabled}
           onChange={this.handleInternalSelectChange}
