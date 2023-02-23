@@ -1,5 +1,5 @@
 import { Component, Element, h, Host, Prop, VNode, Watch } from "@stencil/core";
-import { getElementProp, setRequestedIcon } from "../../utils/dom";
+import { setRequestedIcon } from "../../utils/dom";
 import { Scale, Status } from "../interfaces";
 import { StatusIconDefaults } from "./interfaces";
 
@@ -51,7 +51,6 @@ export class InputMessage {
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
-    this.scale = getElementProp(this.el, "scale", this.scale);
     this.requestedIcon = setRequestedIcon(StatusIconDefaults, this.icon, this.status);
   }
 

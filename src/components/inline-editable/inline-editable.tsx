@@ -11,7 +11,7 @@ import {
   VNode,
   Watch
 } from "@stencil/core";
-import { getElementProp, getSlotted } from "../../utils/dom";
+import { getSlotted } from "../../utils/dom";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
 import {
@@ -305,8 +305,7 @@ export class InlineEditable
 
   mutationObserverCallback(): void {
     this.updateSlottedInput();
-    this.scale =
-      this.scale || this.inputElement?.scale || getElementProp(this.el, "scale", undefined);
+    this.scale = this.scale || this.inputElement?.scale;
   }
 
   onLabelClick(): void {
