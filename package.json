@@ -87,7 +87,7 @@
     "@esri/eslint-plugin-calcite-components": "0.2.2",
     "@stencil/eslint-plugin": "0.4.0",
     "@stencil/postcss": "2.1.0",
-    "@stencil/sass": "2.0.1",
+    "@stencil/sass": "2.0.3",
     "@stencil/state-tunnel": "^1.0.1",
     "@storybook/addon-a11y": "6.5.15",
     "@storybook/addon-docs": "6.5.15",
