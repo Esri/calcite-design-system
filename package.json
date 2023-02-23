@@ -31,7 +31,7 @@
     "lint:md": "markdownlint \"**/*.md\" --fix --ignore node_modules --disable MD024 MD013 MD041 MD033 && prettier --write \"**/*.md\" >/dev/null",
     "lint:yml": "prettier --write \"**/*.yml\" >/dev/null",
     "lint:scss": "stylelint --fix \"src/**/*.scss\" && prettier --write \"**/*.scss\" >/dev/null",
-    "lint:ts": "eslint --ext .js,.ts,.tsx --fix . && prettier --write \"**/*.{t,j}s?(x)\" >/dev/null",
+    "lint:ts": "eslint --ext .ts,.tsx --fix . && prettier --write \"**/*.ts?(x)\" >/dev/null",
     "posttest": "npm run test:prerender",
     "prepare": "husky install",
     "prepublishOnly": "ts-node --esm ./support/prepublish.ts",
