@@ -23,13 +23,35 @@
       }
     },
     "icon": {
-      "light": {
-        "value": "$semantic.ui.color.text.3.light",
-        "type": "color"
+      "blue": {
+        "light": {
+          "value": "$semantic.ui.color.brand.default.light",
+          "type": "color"
+        },
+        "dark": {
+          "value": "$semantic.ui.color.brand.default.dark",
+          "type": "color"
+        }
       },
-      "dark": {
-        "value": "$semantic.ui.color.text.3.dark",
-        "type": "color"
+      "inverse": {
+        "light": {
+          "value": "$semantic.ui.color.text.1.light",
+          "type": "color"
+        },
+        "dark": {
+          "value": "$semantic.ui.color.text.1.dark",
+          "type": "color"
+        }
+      },
+      "red": {
+        "light": {
+          "value": "$semantic.ui.color.danger.default.light",
+          "type": "color"
+        },
+        "dark": {
+          "value": "$semantic.ui.color.danger.default.dark",
+          "type": "color"
+        }
       }
     },
     "border": {
