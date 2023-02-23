@@ -417,11 +417,11 @@
       },
       "neutral": {
         "light": {
-          "value": "$semantic.ui.color.foreground.3.light",
+          "value": "$semantic.ui.color.foreground.1.light",
           "type": "color"
         },
         "dark": {
-          "value": "$semantic.ui.color.foreground.3.dark",
+          "value": "$semantic.ui.color.foreground.1.dark",
           "type": "color"
         }
       },
