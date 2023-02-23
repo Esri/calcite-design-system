@@ -27,17 +27,20 @@ export const simple = (): string => html`
   </calcite-pagination>
 `;
 
-export const darkModeFrenchLocale_TestOnly = (): string => html`<calcite-pagination
-  class="calcite-mode-dark"
-  start-item="1"
-  lang="fr"
-  group-separator
-  total-items="123456789"
-  page-size="10"
->
-</calcite-pagination>`;
+export const darkModeFrenchLocaleAndLargeScaleGetsMediumChevron_TestOnly = (): string => html`
+  <calcite-pagination
+    class="calcite-mode-dark"
+    start-item="1"
+    lang="fr"
+    group-separator
+    total-items="123456789"
+    page-size="10"
+    scale="l"
+  >
+  </calcite-pagination>
+`;
 
-darkModeFrenchLocale_TestOnly.parameters = { modes: modesDarkDefault };
+darkModeFrenchLocaleAndLargeScaleGetsMediumChevron_TestOnly.parameters = { modes: modesDarkDefault };
 
 export const arabicNumberingSystemAndRTL_TestOnly = (): string => html`<calcite-pagination
   dir="rtl"

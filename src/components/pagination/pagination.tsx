@@ -302,7 +302,7 @@ export class Pagination implements LocalizedComponent, LocalizedComponent, T9nCo
           disabled={prevDisabled}
           onClick={this.previousClicked}
         >
-          <calcite-icon flipRtl icon="chevronLeft" scale="s" />
+          <calcite-icon flipRtl icon="chevronLeft" scale={this.scale === "l" ? "m" : "s"} />
         </button>
         {totalItems > pageSize ? this.renderPage(1) : null}
         {this.renderLeftEllipsis()}
@@ -318,7 +318,7 @@ export class Pagination implements LocalizedComponent, LocalizedComponent, T9nCo
           disabled={nextDisabled}
           onClick={this.nextClicked}
         >
-          <calcite-icon flipRtl icon="chevronRight" scale="s" />
+          <calcite-icon flipRtl icon="chevronRight" scale={this.scale === "l" ? "m" : "s"} />
         </button>
       </Fragment>
     );
