@@ -185,11 +185,10 @@ export class ValueListItem
   @Event({ cancelable: true }) calciteListItemRemove: EventEmitter<void>; // wrapped pick-list-item emits this
 
   /**
-   * Fires when the drag handle is focused
    * @internal
    */
   @Event({ cancelable: true })
-  calciteValueListItemDragHandleFocused: EventEmitter<ListItemAndHandle>;
+  calciteValueListItemDragHandleBlur: EventEmitter<ListItemAndHandle>;
 
   @Listen("calciteListItemChange")
   calciteListItemChangeHandler(event: CustomEvent): void {
@@ -214,14 +213,11 @@ export class ValueListItem
 
   handleBlur = (): void => {
     this.handleActivated = false;
+    this.calciteValueListItemDragHandleBlur.emit({ item: this.el, handle: this.handleEl });
   };
 
   handleSelectChange = (event: CustomEvent): void => {
     this.selected = event.detail.selected;
-  };
-
-  handleFocusIn = (): void => {
-    this.calciteValueListItemDragHandleFocused.emit({ item: this.el, handle: this.handleEl });
   };
 
   // --------------------------------------------------------------------------
@@ -259,7 +255,6 @@ export class ValueListItem
           }}
           data-js-handle
           onBlur={this.handleBlur}
-          onFocusin={this.handleFocusIn}
           onKeyDown={this.handleKeyDown}
           ref={(el) => (this.handleEl = el as HTMLSpanElement)}
           role="button"

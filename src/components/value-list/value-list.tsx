@@ -458,8 +458,8 @@ export class ValueList<
     }
   };
 
-  @Listen("calciteValueListItemDragHandleFocused")
-  handleValueListItemFocusIn(event: CustomEvent<ListItemAndHandle>): void {
+  @Listen("calciteValueListItemDragHandleBlur")
+  handleValueListItemBlur(event: CustomEvent<ListItemAndHandle>): void {
     const { item, handle } = event.detail;
     if (!item?.handleActivated && item) {
       this.updateHandleAriaLabel(handle, getScreenReaderText(item, "idle", this));
