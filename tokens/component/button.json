@@ -43,6 +43,16 @@
           "type": "color"
         }
       },
+      "neutral": {
+        "light": {
+          "value": "$semantic.ui.color.border.3.light",
+          "type": "color"
+        },
+        "dark": {
+          "value": "$semantic.ui.color.border.3.dark",
+          "type": "color"
+        }
+      },
       "red": {
         "light": {
           "value": "$semantic.ui.color.danger.default.light",
@@ -164,7 +174,7 @@
     },
     "border-width": {
       "sm": {
-        "value": "$core.border.border-width.1",
+        "value": "$core.border.border-width.0",
         "type": "borderWidth"
       },
       "md": {
