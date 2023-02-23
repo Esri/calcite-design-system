@@ -1,13 +1,15 @@
 {
   "button": {
     "font": {
-      "light": {
-        "value": "$semantic.ui.color.text.3.light",
-        "type": "color"
-      },
-      "dark": {
-        "value": "$semantic.ui.color.text.3.dark",
-        "type": "color"
+      "blue": {
+        "light": {
+          "value": "$semantic.ui.color.text.inverse.light",
+          "type": "color"
+        },
+        "dark": {
+          "value": "$semantic.ui.color.text.inverse.dark",
+          "type": "color"
+        }
       },
       "sm": {
         "value": "$semantic.font.default.bold.-3h",
