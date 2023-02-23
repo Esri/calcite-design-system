@@ -7,9 +7,7 @@
       "semantic": "source",
       "brand/global": "enabled",
       "brand/light": "enabled",
-      "component/pagination": "disabled",
-      "component/[template-comp-name]_Copy": "disabled",
-      "component/link": "disabled"
+      "component/fab": "disabled"
     },
     "$figmaStyleReferences": {}
   },
@@ -21,9 +19,7 @@
       "semantic": "source",
       "brand/global": "enabled",
       "brand/dark": "enabled",
-      "component/pagination": "disabled",
-      "component/[template-comp-name]_Copy": "disabled",
-      "component/link": "disabled"
+      "component/fab": "disabled"
     },
     "$figmaStyleReferences": {}
   },
@@ -47,7 +43,8 @@
       "component/dropdown": "source",
       "component/color-picker": "source",
       "component/input-datetime-local": "source",
-      "component/link": "source"
+      "component/link": "source",
+      "component/fab": "source"
     },
     "$figmaStyleReferences": {
       "color.brand.default": "S:b28244f76fae4e504bbfa18bb30e111e02a00461,",
@@ -130,7 +127,8 @@
       "component/dropdown": "source",
       "component/color-picker": "source",
       "component/input-datetime-local": "source",
-      "component/link": "source"
+      "component/link": "source",
+      "component/fab": "source"
     },
     "$figmaStyleReferences": {
       "color.brand.default": "S:4ae7e0e0a08b9109fef0b6c2cb45185a3b711de8,",
@@ -225,7 +223,8 @@
       "component/button": "enabled",
       "component/dropdown": "enabled",
       "component/input-datetime-local": "enabled",
-      "component/link": "enabled"
+      "component/link": "enabled",
+      "component/fab": "enabled"
     },
     "$figmaStyleReferences": {
       "semantic.ui.color.brand.default.light": "S:959c4907a32cb62f2227db1c3fb7a88c3eedcbb9,",
