@@ -90,7 +90,7 @@
             "type": "spacing"
           },
           "lg": {
-            "value": "$core.spacing.7",
+            "value": "$core.spacing.1",
             "type": "spacing"
           }
         },
