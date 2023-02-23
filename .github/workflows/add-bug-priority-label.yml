@@ -46,7 +46,7 @@ jobs:
                   repo,
                   name: bugPriority,
                 });
-              } catch (e) {
+              } catch (error) {
                 await github.rest.issues.createLabel({
                   owner,
                   repo,
