@@ -149,6 +149,7 @@
     "storybook-rtl-addon": "0.3.3",
     "stylelint": "14.16.0",
     "stylelint-config-recommended-scss": "8.0.0",
+    "stylelint-rem-over-px": "1.0.0",
     "stylelint-use-logical-spec": "5.0.0",
     "tailwindcss": "3.2.4",
     "ts-jest": "27.1.5",

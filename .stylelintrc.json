@@ -1,7 +1,7 @@
 {
   "defaultSeverity": "warning",
   "extends": "stylelint-config-recommended-scss",
-  "plugins": ["stylelint-use-logical-spec"],
+  "plugins": ["stylelint-rem-over-px", "stylelint-use-logical-spec"],
   "rules": {
     "declaration-block-semicolon-newline-after": "always-multi-line",
     "declaration-colon-space-after": "always",
@@ -13,6 +13,7 @@
       }
     ],
     "property-case": "lower",
+    "rem-over-px/rem-over-px": true,
     "selector-max-specificity": [
       "0,5,5",
       {
