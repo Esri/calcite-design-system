@@ -187,7 +187,7 @@ export class ValueListItem
   /**
    * @internal
    */
-  @Event({ cancelable: true })
+  @Event({ cancelable: false })
   calciteValueListItemDragHandleBlur: EventEmitter<ListItemAndHandle>;
 
   @Listen("calciteListItemChange")

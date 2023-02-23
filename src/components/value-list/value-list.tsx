@@ -464,6 +464,7 @@ export class ValueList<
     if (!item?.handleActivated && item) {
       this.updateHandleAriaLabel(handle, getScreenReaderText(item, "idle", this));
     }
+    event.stopPropagation();
   }
 
   render(): VNode {
