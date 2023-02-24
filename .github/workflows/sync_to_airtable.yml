@@ -106,7 +106,7 @@ jobs:
                 }, {})),
                 owner: context.payload.repository.owner.login,
                 repo: context.payload.repository.name,
-                number: context.payload.issue.number,
+                number: context.payload.issue.number.toString(),
                 secret: process.env.SECRET,
                 title: context.payload.changes['title']
                   ? context.payload.changes['title'].from
