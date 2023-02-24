@@ -13,18 +13,21 @@ jobs:
           id: set-assigned-data
           uses: actions/github-script@v6
           env:
-            ACTION: ${{ toJSON(github.event.action) }}
-            DATA: ${{ toJSON(github.event.issue.assignees) }}
-            ISSUE: ${{ toJSON(github.event.issue.assignees) }}
-            NUMBER: ${{ github.event.issue.number }}
             SECRET: ${{ secrets.AIRTABLE_KEY }}
-            TITLE: ${{ github.event.issue.title }}
             WEBHOOK: ${{ secrets.AIRTABLE_WEBHOOK }}
           with:
             script: |
-              const { ACTION, DATA, NUMBER, SECRET, TITLE, WEBHOOK } = process.env;
-              const body = JSON.stringify({ action: ACTION, data: DATA, number: NUMBER, secret: SECRET, title: TITLE });
-              return fetch(WEBHOOK, {
+              const body = JSON.stringify({
+                action: context.payload.action,
+                data: context.payload.issue.assignees.map((assignee) => assignee.login),
+                owner: context.payload.repository.owner.login,
+                repo: context.payload.repository.name,
+                number: context.payload.issue.number.toString(),
+                secret: process.env.SECRET,
+                title: context.payload.issue.title,
+              });
+
+              return fetch(process.env.WEBHOOK, {
                 body,
                 headers: {
                   "Content-Type": "application/json"
@@ -39,17 +42,21 @@ jobs:
           id: set-closed-data
           uses: actions/github-script@v6
           env:
-            ACTION: ${{ toJSON(github.event.action) }}
-            DATA: ${{ toJSON(github.event.issue.state) }}
-            NUMBER: ${{ github.event.issue.number }}
             SECRET: ${{ secrets.AIRTABLE_KEY }}
-            TITLE: ${{ github.event.issue.title }}
             WEBHOOK: ${{ secrets.AIRTABLE_WEBHOOK }}
           with:
             script: |
-              const { ACTION, DATA, NUMBER, SECRET, TITLE, WEBHOOK } = process.env;
-              const body = JSON.stringify({ action: ACTION, data: DATA, number: NUMBER, secret: SECRET, title: TITLE });
-              return fetch(WEBHOOK, {
+              const body = JSON.stringify({
+                action: context.payload.action,
+                data: context.payload.issue.state,
+                owner: context.payload.repository.owner.login,
+                repo: context.payload.repository.name,
+                number: context.payload.issue.number.toString(),
+                secret: process.env.SECRET,
+                title: context.payload.issue.title,
+              });
+
+              return fetch(process.env.WEBHOOK, {
                 body,
                 headers: {
                   "Content-Type": "application/json"
@@ -64,17 +71,21 @@ jobs:
           id: set-demilestoned-data
           uses: actions/github-script@v6
           env:
-            ACTION: ${{ toJSON(github.event.action) }}
-            DATA: ${{ toJSON(github.event.issue.milestone) }}
-            NUMBER: ${{ github.event.issue.number }}
             SECRET: ${{ secrets.AIRTABLE_KEY }}
-            TITLE: ${{ github.event.issue.title }}
             WEBHOOK: ${{ secrets.AIRTABLE_WEBHOOK }}
           with:
             script: |
-              const { ACTION, DATA, NUMBER, SECRET, TITLE, WEBHOOK } = process.env;
-              const body = JSON.stringify({ action: ACTION, data: DATA, number: NUMBER, secret: SECRET, title: TITLE });
-              return fetch(WEBHOOK, {
+              const body = JSON.stringify({
+                action: context.payload.action,
+                data: JSON.stringify(context.payload.issue.milestone || null),
+                owner: context.payload.repository.owner.login,
+                repo: context.payload.repository.name,
+                number: context.payload.issue.number.toString(),
+                secret: process.env.SECRET,
+                title: context.payload.issue.title,
+              });
+
+              return fetch(process.env.WEBHOOK, {
                 body,
                 headers: {
                   "Content-Type": "application/json"
@@ -89,17 +100,13 @@ jobs:
           id: set-edited-data
           uses: actions/github-script@v6
           env:
-            ACTION: ${{ toJSON(github.event.action) }}
-            DATA: ${{ toJSON(github.event.changes) }}
-            NUMBER: ${{ github.event.issue.number }}
             SECRET: ${{ secrets.AIRTABLE_KEY }}
-            TITLE: ${{ github.event.issue.title }}
             WEBHOOK: ${{ secrets.AIRTABLE_WEBHOOK }}
           with:
             script: |
               const body = JSON.stringify({
                 action: context.payload.action,
-                changes: JSON.stringify(context.payload.changes),
+                changes: JSON.stringify(context.payload.changes || null),
                 data: JSON.stringify(Object.keys(context.payload.changes).reduce((acc, key) => {
                   acc[key] = context.payload.issue[key]
                   return acc;
@@ -128,17 +135,21 @@ jobs:
           id: set-labeled-data
           uses: actions/github-script@v6
           env:
-            ACTION: ${{ toJSON(github.event.action) }}
-            DATA: ${{ toJSON(github.event.issue.labels) }}
-            NUMBER: ${{ github.event.issue.number }}
             SECRET: ${{ secrets.AIRTABLE_KEY }}
-            TITLE: ${{ github.event.issue.title }}
             WEBHOOK: ${{ secrets.AIRTABLE_WEBHOOK }}
           with:
             script: |
-              const { ACTION, DATA, NUMBER, SECRET, TITLE, WEBHOOK } = process.env;
-              const body = JSON.stringify({ action: ACTION, data: DATA, number: NUMBER, secret: SECRET, title: TITLE });
-              return fetch(WEBHOOK, {
+              const body = JSON.stringify({
+                action: context.payload.action,
+                data: context.payload.issue.labels.map((label) => label.name),
+                owner: context.payload.repository.owner.login,
+                repo: context.payload.repository.name,
+                number: context.payload.issue.number.toString(),
+                secret: process.env.SECRET,
+                title: context.payload.issue.title,
+              });
+
+              return fetch(process.env.WEBHOOK, {
                 body,
                 headers: {
                   "Content-Type": "application/json"
@@ -153,17 +164,21 @@ jobs:
           id: set-milestoned-data
           uses: actions/github-script@v6
           env:
-            ACTION: ${{ toJSON(github.event.action) }}
-            DATA: ${{ toJSON(github.event.issue.milestone) }}
-            NUMBER: ${{ github.event.issue.number }}
             SECRET: ${{ secrets.AIRTABLE_KEY }}
-            TITLE: ${{ github.event.issue.title }}
             WEBHOOK: ${{ secrets.AIRTABLE_WEBHOOK }}
           with:
             script: |
-              const { ACTION, DATA, NUMBER, SECRET, TITLE, WEBHOOK } = process.env;
-              const body = JSON.stringify({ action: ACTION, data: DATA, number: NUMBER, secret: SECRET, title: TITLE });
-              return fetch(WEBHOOK, {
+              const body = JSON.stringify({
+                action: context.payload.action,
+                data: JSON.stringify(context.payload.issue.milestone),
+                owner: context.payload.repository.owner.login,
+                repo: context.payload.repository.name,
+                number: context.payload.issue.number.toString(),
+                secret: process.env.SECRET,
+                title: context.payload.issue.title,
+              });
+
+              return fetch(process.env.WEBHOOK, {
                 body,
                 headers: {
                   "Content-Type": "application/json"
@@ -178,17 +193,21 @@ jobs:
           id: set-opened-data
           uses: actions/github-script@v6
           env:
-            ACTION: ${{ toJSON(github.event.action) }}
-            DATA: ${{ toJSON(github.event.issue) }}
-            NUMBER: ${{ github.event.issue.number }}
             SECRET: ${{ secrets.AIRTABLE_KEY }}
-            TITLE: ${{ github.event.issue.title }}
             WEBHOOK: ${{ secrets.AIRTABLE_WEBHOOK }}
           with:
             script: |
-              const { ACTION, DATA, NUMBER, SECRET, TITLE, WEBHOOK } = process.env;
-              const body = JSON.stringify({ action: ACTION, data: DATA, number: NUMBER, secret: SECRET, title: TITLE });
-              return fetch(WEBHOOK, {
+              const body = JSON.stringify({
+                action: context.payload.action,
+                data: JSON.stringify(context.payload.issue),
+                owner: context.payload.repository.owner.login,
+                repo: context.payload.repository.name,
+                number: context.payload.issue.number.toString(),
+                secret: process.env.SECRET,
+                title: context.payload.issue.title,
+              });
+
+              return fetch(process.env.WEBHOOK, {
                 body,
                 headers: {
                   "Content-Type": "application/json"
@@ -203,17 +222,21 @@ jobs:
           id: set-reopened-data
           uses: actions/github-script@v6
           env:
-            ACTION: ${{ toJSON(github.event.action) }}
-            DATA: ${{ toJSON(github.event.issue) }}
-            NUMBER: ${{ github.event.issue.number }}
             SECRET: ${{ secrets.AIRTABLE_KEY }}
-            TITLE: ${{ github.event.issue.title }}
             WEBHOOK: ${{ secrets.AIRTABLE_WEBHOOK }}
           with:
             script: |
-              const { ACTION, DATA, NUMBER, SECRET, TITLE, WEBHOOK } = process.env;
-              const body = JSON.stringify({ action: ACTION, data: DATA, number: NUMBER, secret: SECRET, title: TITLE });
-              return fetch(WEBHOOK, {
+              const body = JSON.stringify({
+                action: context.payload.action,
+                data: context.payload.issue.state,
+                owner: context.payload.repository.owner.login,
+                repo: context.payload.repository.name,
+                number: context.payload.issue.number.toString(),
+                secret: process.env.SECRET,
+                title: context.payload.issue.title,
+              });
+
+              return fetch(process.env.WEBHOOK, {
                 body,
                 headers: {
                   "Content-Type": "application/json"
@@ -228,17 +251,21 @@ jobs:
           id: set-unassigned-data
           uses: actions/github-script@v6
           env:
-            ACTION: ${{ toJSON(github.event.action) }}
-            DATA: ${{ toJSON(github.event.issue.assignees) }}
-            NUMBER: ${{ github.event.issue.number }}
             SECRET: ${{ secrets.AIRTABLE_KEY }}
-            TITLE: ${{ github.event.issue.title }}
             WEBHOOK: ${{ secrets.AIRTABLE_WEBHOOK }}
           with:
             script: |
-              const { ACTION, DATA, NUMBER, SECRET, TITLE, WEBHOOK } = process.env;
-              const body = JSON.stringify({ action: ACTION, data: DATA, number: NUMBER, secret: SECRET, title: TITLE });
-              return fetch(WEBHOOK, {
+              const body = JSON.stringify({
+                action: context.payload.action,
+                data: context.payload.issue.assignees.length > 0 ? context.payload.issue.assignees.map((assignee) => assignee.login) : null,
+                owner: context.payload.repository.owner.login,
+                repo: context.payload.repository.name,
+                number: context.payload.issue.number.toString(),
+                secret: process.env.SECRET,
+                title: context.payload.issue.title,
+              });
+
+              return fetch(process.env.WEBHOOK, {
                 body,
                 headers: {
                   "Content-Type": "application/json"
@@ -253,17 +280,21 @@ jobs:
           id: set-unlabeled-data
           uses: actions/github-script@v6
           env:
-            ACTION: ${{ toJSON(github.event.action) }}
-            DATA: ${{ toJSON(github.event.issue.labels) }}
-            NUMBER: ${{ github.event.issue.number }}
             SECRET: ${{ secrets.AIRTABLE_KEY }}
-            TITLE: ${{ github.event.issue.title }}
             WEBHOOK: ${{ secrets.AIRTABLE_WEBHOOK }}
           with:
             script: |
-              const { ACTION, DATA, NUMBER, SECRET, TITLE, WEBHOOK } = process.env;
-              const body = JSON.stringify({ action: ACTION, data: DATA, number: NUMBER, secret: SECRET, title: TITLE });
-              return fetch(WEBHOOK, {
+              const body = JSON.stringify({
+                action: context.payload.action,
+                data: context.payload.issue.labels.length > 0 ? context.payload.issue.labels.map((label) => label.name) : null,
+                owner: context.payload.repository.owner.login,
+                repo: context.payload.repository.name,
+                number: context.payload.issue.number.toString(),
+                secret: process.env.SECRET,
+                title: context.payload.issue.title,
+              });
+
+              return fetch(process.env.WEBHOOK, {
                 body,
                 headers: {
                   "Content-Type": "application/json"
@@ -285,7 +316,7 @@ jobs:
         with:
           script: |
             core.info(`action: ${JSON.stringify(context.action})`);
-            core.info(`payload: ${JSON.stringify(context.payload})`);
+            core.info(`payload: ${JSON.stringify(context.payload)}`);
             core.info(`actor: ${context.actor}`);
             core.info(`changes: ${process.env.CHANGES}`);
             return true;
