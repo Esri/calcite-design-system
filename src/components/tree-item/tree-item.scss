@@ -166,7 +166,7 @@ slot[name="actions-end"]::slotted(*) {
 }
 
 .node-container {
-  @apply relative flex items-center;
+  @apply relative flex items-center min-w-0;
   padding-block: var(--calcite-tree-padding-y);
   padding-inline: 0;
 
