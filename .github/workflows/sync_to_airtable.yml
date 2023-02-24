@@ -19,7 +19,7 @@ jobs:
             script: |
               const body = JSON.stringify({
                 action: context.payload.action,
-                data: context.payload.issue.assignees.map((assignee) => assignee.login),
+                data: context.payload.issue.assignees,
                 owner: context.payload.repository.owner.login,
                 repo: context.payload.repository.name,
                 number: context.payload.issue.number.toString(),
@@ -141,7 +141,7 @@ jobs:
             script: |
               const body = JSON.stringify({
                 action: context.payload.action,
-                data: context.payload.issue.labels.map((label) => label.name),
+                data: context.payload.issue.labels,
                 owner: context.payload.repository.owner.login,
                 repo: context.payload.repository.name,
                 number: context.payload.issue.number.toString(),
@@ -257,7 +257,7 @@ jobs:
             script: |
               const body = JSON.stringify({
                 action: context.payload.action,
-                data: context.payload.issue.assignees.length > 0 ? context.payload.issue.assignees.map((assignee) => assignee.login) : null,
+                data: context.payload.issue.assignees,
                 owner: context.payload.repository.owner.login,
                 repo: context.payload.repository.name,
                 number: context.payload.issue.number.toString(),
@@ -286,7 +286,7 @@ jobs:
             script: |
               const body = JSON.stringify({
                 action: context.payload.action,
-                data: context.payload.issue.labels.length > 0 ? context.payload.issue.labels.map((label) => label.name) : null,
+                data: context.payload.issue.labels,
                 owner: context.payload.repository.owner.login,
                 repo: context.payload.repository.name,
                 number: context.payload.issue.number.toString(),
@@ -315,7 +315,7 @@ jobs:
           SENDER: ${{ toJSON(github.event.sender) }}
         with:
           script: |
-            core.info(`action: ${JSON.stringify(context.action)}`);
+            core.info(`action: ${JSON.stringify(context.payload.action)}`);
             core.info(`payload: ${JSON.stringify(context.payload)}`);
             core.info(`actor: ${context.actor}`);
             core.info(`changes: ${JSON.stringify(context.payload.changes)}`);
