@@ -1,16 +1,16 @@
-import { Component, Element, Prop, h, VNode, Fragment } from "@stencil/core";
-import { CSS, SLOTS } from "./resources";
-import { Position, Scale } from "../interfaces";
-import { getSlotted } from "../../utils/dom";
+import { Component, Element, Fragment, h, Prop, VNode } from "@stencil/core";
 import {
   ConditionalSlotComponent,
   connectConditionalSlotComponent,
   disconnectConditionalSlotComponent
 } from "../../utils/conditionalSlot";
+import { getSlotted } from "../../utils/dom";
+import { Position, Scale } from "../interfaces";
+import { CSS, SLOTS } from "./resources";
 
 /**
- * @slot - A slot for adding content to the shell panel.
- * @slot action-bar - A slot for adding a `calcite-action-bar` to the panel.
+ * @slot - A slot for adding content to the `calcite-shell-panel`.
+ * @slot action-bar - A slot for adding a `calcite-action-bar` to the `calcite-shell-panel`.
  */
 @Component({
   tag: "calcite-shell-center-row",
@@ -25,17 +25,17 @@ export class ShellCenterRow implements ConditionalSlotComponent {
   // --------------------------------------------------------------------------
 
   /**
-   * This property makes the content area appear like a "floating" panel.
+   * When `true`, the content area displays like a floating panel.
    */
   @Prop({ reflect: true }) detached = false;
 
   /**
-   * Specifies the maximum height of the row.
+   * Specifies the maximum height of the component.
    */
   @Prop({ reflect: true }) heightScale: Scale = "s";
 
   /**
-   * Arranges the component depending on the elements 'dir' property.
+   * Specifies the component's position. Will be flipped when the element direction is right-to-left (`"rtl"`).
    */
   @Prop({ reflect: true }) position: Position = "end";
 

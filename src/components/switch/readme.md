@@ -14,21 +14,20 @@
 
 ## Properties
 
-| Property   | Attribute  | Description                                                                                                        | Type                | Default     |
-| ---------- | ---------- | ------------------------------------------------------------------------------------------------------------------ | ------------------- | ----------- |
-| `checked`  | `checked`  | True if the switch is initially on                                                                                 | `boolean`           | `false`     |
-| `disabled` | `disabled` | True if the switch is disabled                                                                                     | `boolean`           | `false`     |
-| `label`    | `label`    | Applies to the aria-label attribute on the switch                                                                  | `string`            | `undefined` |
-| `name`     | `name`     | The name of the switch input                                                                                       | `string`            | `undefined` |
-| `scale`    | `scale`    | The scale of the switch                                                                                            | `"l" \| "m" \| "s"` | `"m"`       |
-| `switched` | `switched` | <span style="color:red">**[DEPRECATED]**</span> use 'checked' instead.<br/><br/>True if the switch is initially on | `boolean`           | `false`     |
-| `value`    | `value`    | The value of the switch input                                                                                      | `any`               | `undefined` |
+| Property   | Attribute  | Description                                                                                       | Type                | Default     |
+| ---------- | ---------- | ------------------------------------------------------------------------------------------------- | ------------------- | ----------- |
+| `checked`  | `checked`  | When `true`, the component is checked.                                                            | `boolean`           | `false`     |
+| `disabled` | `disabled` | When `true`, interaction is prevented and the component is displayed with lower opacity.          | `boolean`           | `false`     |
+| `label`    | `label`    | Accessible name for the component.                                                                | `string`            | `undefined` |
+| `name`     | `name`     | Specifies the name of the component. Required to pass the component's `value` on form submission. | `string`            | `undefined` |
+| `scale`    | `scale`    | Specifies the size of the component.                                                              | `"l" \| "m" \| "s"` | `"m"`       |
+| `value`    | `value`    | The component's value.                                                                            | `any`               | `undefined` |
 
 ## Events
 
-| Event                 | Description                               | Type               |
-| --------------------- | ----------------------------------------- | ------------------ |
-| `calciteSwitchChange` | Fires when the checked value has changed. | `CustomEvent<any>` |
+| Event                 | Description                                 | Type                |
+| --------------------- | ------------------------------------------- | ------------------- |
+| `calciteSwitchChange` | Fires when the `checked` value has changed. | `CustomEvent<void>` |
 
 ## Methods
 

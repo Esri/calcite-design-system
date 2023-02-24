@@ -1,5 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, disabled, formAssociated, HYDRATED_ATTR, labelable } from "../../tests/commonTests";
+import { accessible, disabled, formAssociated, hidden, HYDRATED_ATTR, labelable } from "../../tests/commonTests";
 
 describe("calcite-switch", () => {
   it("renders with correct default attributes", async () => {
@@ -12,13 +12,15 @@ describe("calcite-switch", () => {
     expect(calciteSwitch).toHaveAttribute("checked");
   });
 
+  it("honors hidden attribute", async () => hidden("calcite-switch"));
+
   it("is accessible", async () => accessible(`<calcite-switch label="test-label"></calcite-switch>`));
 
   it("is accessible: checked", async () => accessible(`<calcite-switch label="test-label" checked></calcite-switch>`));
 
   it("is labelable", async () => labelable("calcite-switch", { propertyToToggle: "checked" }));
 
-  it("is form-associated", async () => formAssociated("calcite-switch", { testValue: true }));
+  it("is form-associated", async () => formAssociated("calcite-switch", { testValue: true, inputType: "checkbox" }));
 
   it("can be disabled", () => disabled("calcite-switch"));
 
@@ -49,16 +51,12 @@ describe("calcite-switch", () => {
     });
 
     expect(await calciteSwitch.getProperty("checked")).toBe(true);
-  });
 
-  it("can be checked via the switched property (deprecated)", async () => {
-    const page = await newE2EPage();
-    await page.setContent("<calcite-switch switched></calcite-switch>");
+    // helps test click behavior via HTMLElement.click()
+    await calciteSwitch.callMethod("click");
+    await page.waitForChanges();
 
-    const calciteSwitch = await page.find("calcite-switch");
-
-    expect(await calciteSwitch.getProperty("checked")).toBe(true);
-    expect(await calciteSwitch.getProperty("switched")).toBe(true);
+    expect(await calciteSwitch.getProperty("checked")).toBe(false);
   });
 
   it("appropriately triggers the custom change event", async () => {
@@ -74,7 +72,6 @@ describe("calcite-switch", () => {
     await calciteSwitch.click();
 
     expect(changeEvent).toHaveReceivedEventTimes(1);
-    expect(changeEvent).toHaveFirstReceivedEventDetail({ switched: true });
   });
 
   it("doesn't emit when controlling checked attribute", async () => {

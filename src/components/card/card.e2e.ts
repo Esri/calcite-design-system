@@ -1,6 +1,6 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, renders, slots } from "../../tests/commonTests";
-import { placeholderImage } from "../../../.storybook/utils";
+import { accessible, renders, slots, hidden, t9n } from "../../tests/commonTests";
+import { placeholderImage } from "../../../.storybook/placeholderImage";
 import { CSS, SLOTS } from "./resources";
 const placeholder = placeholderImage({
   width: 350,
@@ -9,6 +9,8 @@ const placeholder = placeholderImage({
 
 describe("calcite-card", () => {
   it("renders", async () => renders("calcite-card", { display: "block" }));
+
+  it("honors hidden attribute", async () => hidden("calcite-card"));
 
   it("is accessible", async () => accessible("calcite-card"));
 
@@ -100,4 +102,6 @@ describe("calcite-card", () => {
       expect(await card.getProperty("selected")).toBe(true);
     });
   });
+
+  it("supports translations", () => t9n("calcite-card"));
 });

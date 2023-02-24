@@ -11,7 +11,7 @@
 }
 
 .container--l {
-  @apply text-0h py-3;
+  @apply text-0h py-2.5;
   padding-inline-end: theme("padding.4");
   padding-inline-start: theme("padding.10");
 }
@@ -46,7 +46,6 @@
     cursor-pointer
     items-center
     no-underline
-    outline-none
     duration-150
     ease-in-out;
 }
@@ -60,10 +59,11 @@
 
 .container {
   @include itemStyling;
+  text-align: start;
 }
 
 .dropdown-item-content {
-  @apply flex-auto;
+  @apply flex-auto py-0.5;
   padding-inline-end: theme("margin.auto");
   padding-inline-start: theme("margin.1");
 }
@@ -74,7 +74,7 @@
   @apply focus-base;
 }
 :host(:focus) {
-  @apply focus-inset;
+  @apply focus-inset outline-none;
 }
 
 // when used as link move styling anchor
@@ -127,8 +127,8 @@
   @apply opacity-100;
 }
 
-:host([active]) .container:not(.container--none-selection),
-:host([active]) .container--link .dropdown-link {
+:host([selected]) .container:not(.container--none-selection),
+:host([selected]) .container--link .dropdown-link {
   @apply text-color-1 font-medium;
   &:before {
     @apply opacity-100;
@@ -182,7 +182,7 @@
   @apply opacity-100;
 }
 
-:host([active]) .dropdown-item-icon {
+:host([selected]) .dropdown-item-icon {
   color: theme("backgroundColor.brand");
   @apply opacity-100;
 }

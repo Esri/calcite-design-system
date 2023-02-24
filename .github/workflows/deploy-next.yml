@@ -3,33 +3,46 @@ concurrency:
   group: deploy_next
   cancel-in-progress: true
 on:
+  workflow_dispatch:
   push:
     branches: [master]
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           fetch-depth: 0
           token: ${{ secrets.ADMIN_TOKEN }}
-      - uses: actions/setup-node@v2
+          ref: master
+      - uses: actions/setup-node@v3
         with:
-          node-version: lts/*
-          registry-url: https://registry.npmjs.org/
-          cache: npm
+          node-version-file: package.json
+          registry-url: "https://registry.npmjs.org"
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
       - name: e2e test
         run: |
-          npm ci
+          npm ci --legacy-peer-deps
           npm test
-      - name: next deployment
+      - name: storybook/next deployment
         env:
           NEXT_RELEASE_ENABLED: ${{ secrets.NEXT_RELEASE_ENABLED }}
+          # https://github.com/storybookjs/storybook-deployer/issues/77#issuecomment-618560481
+          GH_TOKEN_FOR_STORYBOOK: ${{ github.actor }}:${{ secrets.ADMIN_TOKEN }}
         run: |
           if [ "$NEXT_RELEASE_ENABLED" == "true" ]; then
-            npm run util:deploy-next-from-ci
+            if npm run util:is-next-deployable; then
+              git config --global user.email "github-actions[bot]@users.noreply.github.com"
+              git config --global user.name "github-actions[bot]"
+              # deploy storybook, but still release next if it fails
+              { npm run build-storybook && npx storybook-to-ghpages --host-token-env-variable=GH_TOKEN_FOR_STORYBOOK --existing-output-dir=docs --ci; } || true
+
+              # remove the build to docs after storybook deploys to gh-pages
+              # if there are changes the git sanity checks will prevent deployment
+              git reset --hard && git checkout master && git pull
+              npm run util:deploy-next-from-ci
+            fi
           else
             echo "Next release is disabled"
           fi

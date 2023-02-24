@@ -15,19 +15,3 @@
 .header .heading {
   @apply flex-auto p-2;
 }
-
-h1.heading {
-  @apply text-2h;
-}
-
-h2.heading {
-  @apply text-1h;
-}
-
-h3.heading {
-  @apply text-0h;
-}
-h4.heading,
-h5.heading {
-  @apply text-n1h;
-}

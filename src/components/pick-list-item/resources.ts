@@ -23,7 +23,3 @@ export const SLOTS = {
   actionsEnd: "actions-end",
   actionsStart: "actions-start"
 };
-
-export const TEXT = {
-  remove: "Remove"
-};

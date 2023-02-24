@@ -80,7 +80,7 @@
     transition-all
     duration-150
     ease-in-out;
-  top: -1px;
+  inset-block-start: -1px;
   inset-inline: -1px theme("inset.auto");
 }
 

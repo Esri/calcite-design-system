@@ -1,8 +1,8 @@
 import { E2EElement, newE2EPage } from "@stencil/core/testing";
 
-import { CSS, SLOTS } from "./resources";
-import { accessible, defaults, hidden, renders, slots } from "../../tests/commonTests";
+import { accessible, defaults, hidden, renders, slots, t9n } from "../../tests/commonTests";
 import { getElementXY } from "../../tests/utils";
+import { CSS, SLOTS } from "./resources";
 
 describe("calcite-shell-panel", () => {
   it("renders", async () => renders("calcite-shell-panel", { display: "flex" }));
@@ -18,10 +18,6 @@ describe("calcite-shell-panel", () => {
       {
         propertyName: "resizable",
         defaultValue: false
-      },
-      {
-        propertyName: "intlResize",
-        defaultValue: "Resize"
       }
     ]));
 
@@ -75,24 +71,6 @@ describe("calcite-shell-panel", () => {
     expect(isVisible).toBe(false);
   });
 
-  it("collapsed change should fire event", async () => {
-    const page = await newE2EPage();
-
-    await page.setContent(
-      '<calcite-shell-panel><div slot="action-bar">bar</div><div>content</div></calcite-shell-panel>'
-    );
-
-    const element = await page.find(`calcite-shell-panel`);
-
-    const eventSpy = await page.spyOnEvent("calciteShellPanelToggle", "window");
-
-    element.setProperty("collapsed", true);
-
-    await page.waitForChanges();
-
-    expect(eventSpy).toHaveReceivedEvent();
-  });
-
   it("start position property should have action slot first", async () => {
     const page = await newE2EPage();
     await page.setContent(
@@ -136,7 +114,7 @@ describe("calcite-shell-panel", () => {
 
   it("should be accessible", async () =>
     accessible(`
-    <calcite-shell-panel slot="primary-panel" position="start">
+    <calcite-shell-panel slot="panel-start" position="start">
       <calcite-action-bar slot="action-bar">
         <calcite-action-group>
           <calcite-action text="Add" icon="plus"></calcite-action>
@@ -168,8 +146,8 @@ describe("calcite-shell-panel", () => {
     expect(detachedElement).not.toBeNull();
   });
 
-  it("should update width based on the multipier CSS variable", async () => {
-    const multipier = 2;
+  it("should update width based on the requested CSS variable override", async () => {
+    const override = "678px";
 
     const page = await newE2EPage();
 
@@ -181,15 +159,13 @@ describe("calcite-shell-panel", () => {
 
     await page.waitForChanges();
 
-    const content = await page.find(`calcite-shell-panel >>> .${CSS.content}`);
-    const style = await content.getComputedStyle();
-    const widthDefault = parseFloat(style["width"]);
-
     const page2 = await newE2EPage();
     await page2.setContent(`
       <style>
         :root {
-          --calcite-panel-width-multiplier: ${multipier};
+          --calcite-shell-panel-min-width: ${override};
+          --calcite-shell-panel-max-width: ${override};
+          --calcite-shell-panel-width: ${override};
         }
       </style>
       <calcite-shell-panel>
@@ -203,7 +179,7 @@ describe("calcite-shell-panel", () => {
     const style2 = await content2.getComputedStyle();
     const width2 = parseFloat(style2["width"]);
 
-    expect(width2).toEqual(widthDefault * multipier);
+    expect(`${width2}px`).toEqual(override);
   });
 
   it("calcite-panel should render at the same height as the content__body.", async () => {
@@ -213,7 +189,7 @@ describe("calcite-shell-panel", () => {
     await page.setContent(`
       <div style="width: 100%; height: 100%;">
         <calcite-shell>
-          <calcite-shell-panel slot="primary-panel">
+          <calcite-shell-panel slot="panel-start">
             <calcite-button slot="headder">Header test</calcite-button>
             <calcite-panel>
               Content test
@@ -243,7 +219,7 @@ describe("calcite-shell-panel", () => {
     await page.setContent(`
       <div style="width: 100%; height: 100%;">
         <calcite-shell>
-          <calcite-shell-panel slot="primary-panel">
+          <calcite-shell-panel slot="panel-start">
             <calcite-button slot="headder">Header test</calcite-button>
             <calcite-panel>
               Content test
@@ -282,7 +258,7 @@ describe("calcite-shell-panel", () => {
     await page.setContent(`
       <div style="width: 100%; height: 100%;">
         <calcite-shell>
-          <calcite-shell-panel slot="primary-panel" resizable>
+          <calcite-shell-panel slot="panel-start" resizable>
             <calcite-button slot="headder">Header test</calcite-button>
             <calcite-panel>
               Content test
@@ -358,7 +334,7 @@ describe("calcite-shell-panel", () => {
     await page.setContent(`
       <div style="width: 100%; height: 100%;">
         <calcite-shell>
-          <calcite-shell-panel slot="primary-panel" resizable>
+          <calcite-shell-panel slot="panel-start" resizable>
             <calcite-button slot="headder">Header test</calcite-button>
             <calcite-panel>
               Content test
@@ -393,7 +369,7 @@ describe("calcite-shell-panel", () => {
     const page = await newE2EPage();
     await page.setContent(
       `<calcite-shell content-behind>
-        <calcite-shell-panel slot="primary-panel" position="start" detached></calcite-shell-panel>
+        <calcite-shell-panel slot="panel-start" position="start" detached></calcite-shell-panel>
         <calcite-action text="test" style="height: 100%; width: 100%;" text-enabled></calcite-action>
       </calcite-shell>`
     );
@@ -404,4 +380,6 @@ describe("calcite-shell-panel", () => {
     await page.waitForChanges();
     expect(await page.evaluate((selector) => document.activeElement.matches(selector), "calcite-action")).toBe(true);
   });
+
+  it("supports translations", () => t9n("calcite-shell-panel"));
 });

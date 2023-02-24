@@ -1,8 +1,14 @@
-import { Component, Element, h, Host, Method, Prop, VNode } from "@stencil/core";
+import { Component, Element, h, Host, Listen, Method, Prop, VNode } from "@stencil/core";
 import { focusElement, getElementDir } from "../../utils/dom";
-import { FlipContext } from "../interfaces";
-import { CSS_UTILITY } from "../../utils/resources";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import {
+  componentLoaded,
+  LoadableComponent,
+  setComponentLoaded,
+  setUpLoadableComponent
+} from "../../utils/loadable";
+import { CSS_UTILITY } from "../../utils/resources";
+import { FlipContext } from "../interfaces";
 
 /** Any attributes placed on <calcite-link> component will propagate to the rendered child */
 /** Passing a 'href' will render an anchor link, instead of a span. Role will be set to link, or link, depending on this. */
@@ -14,7 +20,7 @@ import { InteractiveComponent, updateHostInteraction } from "../../utils/interac
   styleUrl: "link.scss",
   shadow: true
 })
-export class Link implements InteractiveComponent {
+export class Link implements InteractiveComponent, LoadableComponent {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -29,39 +35,47 @@ export class Link implements InteractiveComponent {
   //
   //--------------------------------------------------------------------------
 
-  /** is the link disabled  */
+  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @Prop({ reflect: true }) disabled = false;
 
   /**
    * Prompts the user to save the linked URL instead of navigating to it. Can be used with or without a value:
    * Without a value, the browser will suggest a filename/extension
-   * See: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#attr-download
+   * See https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#attr-download.
    */
   @Prop({ reflect: true }) download: string | boolean = false;
 
-  /** optionally pass a href - used to determine if the component should render as a link or an anchor */
-  @Prop({ reflect: true }) href?: string;
+  /** Specifies the URL of the linked resource, which can be set as an absolute or relative path. */
+  @Prop({ reflect: true }) href: string;
 
-  /** optionally pass an icon to display at the end of a button - accepts calcite ui icon names  */
-  @Prop({ reflect: true }) iconEnd?: string;
+  /** Specifies an icon to display at the end of the component. */
+  @Prop({ reflect: true }) iconEnd: string;
 
-  /** flip the icon(s) in rtl */
-  @Prop({ reflect: true }) iconFlipRtl?: FlipContext;
+  /** Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`). */
+  @Prop({ reflect: true }) iconFlipRtl: FlipContext;
 
-  /** optionally pass an icon to display at the start of a button - accepts calcite ui icon names  */
-  @Prop({ reflect: true }) iconStart?: string;
+  /** Specifies an icon to display at the start of the component. */
+  @Prop({ reflect: true }) iconStart: string;
 
-  /** The rel attribute to apply to the hyperlink */
-  @Prop() rel?: string;
+  /** Specifies the relationship to the linked document defined in `href`. */
+  @Prop() rel: string;
 
-  /** The target attribute to apply to the hyperlink */
-  @Prop() target?: string;
+  /** Specifies the frame or window to open the linked document. */
+  @Prop() target: string;
 
   //--------------------------------------------------------------------------
   //
   //  Lifecycle
   //
   //--------------------------------------------------------------------------
+
+  componentWillLoad(): void {
+    setUpLoadableComponent(this);
+  }
+
+  componentDidLoad(): void {
+    setComponentLoaded(this);
+  }
 
   componentDidRender(): void {
     updateHostInteraction(this);
@@ -103,6 +117,7 @@ export class Link implements InteractiveComponent {
           */
           download={Tag === "a" && (download === "" || download) ? download : null}
           href={Tag === "a" && this.href}
+          onClick={this.childElClickHandler}
           ref={this.storeTagRef}
           rel={Tag === "a" && this.rel}
           role={role}
@@ -119,6 +134,20 @@ export class Link implements InteractiveComponent {
 
   //--------------------------------------------------------------------------
   //
+  //  Events
+  //
+  //--------------------------------------------------------------------------
+
+  @Listen("click")
+  clickHandler(event: PointerEvent): void {
+    // forwards the click() to the internal link for non user-initiated events
+    if (!event.isTrusted) {
+      this.childEl.click();
+    }
+  }
+
+  //--------------------------------------------------------------------------
+  //
   //  Public Methods
   //
   //--------------------------------------------------------------------------
@@ -126,6 +155,8 @@ export class Link implements InteractiveComponent {
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
+    await componentLoaded(this);
+
     focusElement(this.childEl);
   }
 
@@ -137,6 +168,13 @@ export class Link implements InteractiveComponent {
 
   /** the rendered child element */
   private childEl: HTMLAnchorElement | HTMLSpanElement;
+
+  private childElClickHandler = (event: PointerEvent): void => {
+    if (!event.isTrusted) {
+      // click was invoked internally, we stop it here
+      event.stopPropagation();
+    }
+  };
 
   //--------------------------------------------------------------------------
   //

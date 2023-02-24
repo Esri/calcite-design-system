@@ -7,7 +7,7 @@
 ### Basic
 
 ```html
-<calcite-notice scale="l" width="half" active>
+<calcite-notice scale="l" width="half" open>
   <div slot="title">Something failed</div>
   <div slot="message">That thing you wanted to do didn't work as expected</div>
   <calcite-link slot="link" href="/">View details</calcite-link>
@@ -25,28 +25,29 @@ You can programmatically focus the close button of a `dismissible` `calcite-noti
 
 ## Properties
 
-| Property      | Attribute     | Description                                                                                                                                            | Type                                     | Default      |
-| ------------- | ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------- | ------------ |
-| `active`      | `active`      | Is the notice currently active or not                                                                                                                  | `boolean`                                | `false`      |
-| `color`       | `color`       | Color for the notice (will apply to top border and icon)                                                                                               | `"blue" \| "green" \| "red" \| "yellow"` | `"blue"`     |
-| `dismissible` | `dismissible` | Optionally show a button the user can click to dismiss the notice                                                                                      | `boolean`                                | `false`      |
-| `icon`        | `icon`        | when used as a boolean set to true, show a default recommended icon. You can also pass a calcite-ui-icon name to this prop to display a requested icon | `boolean \| string`                      | `undefined`  |
-| `intlClose`   | `intl-close`  | String for the close button.                                                                                                                           | `string`                                 | `TEXT.close` |
-| `scale`       | `scale`       | specify the scale of the notice, defaults to m                                                                                                         | `"l" \| "m" \| "s"`                      | `"m"`        |
-| `width`       | `width`       | specify the width of the notice, defaults to auto                                                                                                      | `"auto" \| "full" \| "half"`             | `"auto"`     |
+| Property           | Attribute           | Description                                                                                                           | Type                                                      | Default     |
+| ------------------ | ------------------- | --------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------- | ----------- |
+| `closable`         | `closable`          | When `true`, a close button is added to the component.                                                                | `boolean`                                                 | `false`     |
+| `icon`             | `icon`              | When `true`, shows a default recommended icon. Alternatively, pass a Calcite UI Icon name to display a specific icon. | `boolean \| string`                                       | `undefined` |
+| `iconFlipRtl`      | `icon-flip-rtl`     | When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).                          | `boolean`                                                 | `false`     |
+| `kind`             | `kind`              | Specifies the kind of the component (will apply to top border and icon).                                              | `"brand" \| "danger" \| "info" \| "success" \| "warning"` | `"brand"`   |
+| `messageOverrides` | `message-overrides` | Use this property to override individual strings used by the component.                                               | `NoticeMessages`                                          | `undefined` |
+| `open`             | `open`              | When `true`, the component is visible.                                                                                | `boolean`                                                 | `false`     |
+| `scale`            | `scale`             | Specifies the size of the component.                                                                                  | `"l" \| "m" \| "s"`                                       | `"m"`       |
+| `width`            | `width`             | Specifies the width of the component.                                                                                 | `"auto" \| "full" \| "half"`                              | `"auto"`    |
 
 ## Events
 
-| Event                | Description                    | Type               |
-| -------------------- | ------------------------------ | ------------------ |
-| `calciteNoticeClose` | Fired when an notice is closed | `CustomEvent<any>` |
-| `calciteNoticeOpen`  | Fired when an Notice is opened | `CustomEvent<any>` |
+| Event                | Description                         | Type                |
+| -------------------- | ----------------------------------- | ------------------- |
+| `calciteNoticeClose` | Fired when the component is closed. | `CustomEvent<void>` |
+| `calciteNoticeOpen`  | Fired when the component is opened. | `CustomEvent<void>` |
 
 ## Methods
 
 ### `setFocus() => Promise<void>`
 
-Sets focus on the component.
+Sets focus on the component's first focusable element.
 
 #### Returns
 
@@ -54,18 +55,18 @@ Type: `Promise<void>`
 
 ## Slots
 
-| Slot            | Description                                                                                            |
-| --------------- | ------------------------------------------------------------------------------------------------------ |
-| `"actions-end"` | Allows adding a `calcite-action` at the end of the notice. It is recommended to use 2 or less actions. |
-| `"link"`        | Optional action to take from the notice (undo, try again, link to page, etc.)                          |
-| `"message"`     | Main text of the notice                                                                                |
-| `"title"`       | Title of the notice (optional)                                                                         |
+| Slot            | Description                                                                                                    |
+| --------------- | -------------------------------------------------------------------------------------------------------------- |
+| `"actions-end"` | A slot for adding `calcite-action`s to the end of the component. It is recommended to use two or less actions. |
+| `"link"`        | A slot for adding a `calcite-action` to take, such as: "undo", "try again", "link to page", etc.               |
+| `"message"`     | A slot for adding the message.                                                                                 |
+| `"title"`       | A slot for adding the title.                                                                                   |
 
 ## CSS Custom Properties
 
-| Name                     | Description             |
-| ------------------------ | ----------------------- |
-| `--calcite-notice-width` | the width of the notice |
+| Name                     | Description                 |
+| ------------------------ | --------------------------- |
+| `--calcite-notice-width` | The width of the component. |
 
 ## Dependencies
 

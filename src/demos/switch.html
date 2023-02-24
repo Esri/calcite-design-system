@@ -36,123 +36,125 @@
   </head>
 
   <body>
-    <h1 style="margin: 0 auto; text-align: center">Switch</h1>
+    <demo-dom-swapper>
+      <h1 style="margin: 0 auto; text-align: center">Switch</h1>
 
-    <!-- HEADER -->
-    <div class="parent">
-      <div class="child"></div>
-      <div class="child">Default</div>
-      <div class="child">Disabled</div>
-      <div class="child">Checked</div>
-      <div class="child">Checked Disabled</div>
-    </div>
-
-    <!-- Small -->
-    <div class="parent">
-      <div class="child right-aligned-text">Small</div>
-
-      <div class="child">
-        <calcite-switch scale="s"></calcite-switch>
+      <!-- HEADER -->
+      <div class="parent">
+        <div class="child"></div>
+        <div class="child">Default</div>
+        <div class="child">Disabled</div>
+        <div class="child">Checked</div>
+        <div class="child">Checked Disabled</div>
       </div>
 
-      <div class="child">
-        <calcite-switch scale="s" disabled></calcite-switch>
+      <!-- Small -->
+      <div class="parent">
+        <div class="child right-aligned-text">Small</div>
+
+        <div class="child">
+          <calcite-switch scale="s"></calcite-switch>
+        </div>
+
+        <div class="child">
+          <calcite-switch scale="s" disabled></calcite-switch>
+        </div>
+
+        <div class="child">
+          <calcite-switch scale="s" checked></calcite-switch>
+        </div>
+
+        <div class="child">
+          <calcite-switch scale="s" checked disabled></calcite-switch>
+        </div>
       </div>
 
-      <div class="child">
-        <calcite-switch scale="s" checked></calcite-switch>
+      <!-- Medium -->
+      <div class="parent">
+        <div class="child right-aligned-text">Medium</div>
+
+        <div class="child">
+          <calcite-switch scale="m"></calcite-switch>
+        </div>
+
+        <div class="child">
+          <calcite-switch scale="m" disabled></calcite-switch>
+        </div>
+
+        <div class="child">
+          <calcite-switch scale="m" checked></calcite-switch>
+        </div>
+
+        <div class="child">
+          <calcite-switch scale="m" checked disabled></calcite-switch>
+        </div>
       </div>
 
-      <div class="child">
-        <calcite-switch scale="s" checked disabled></calcite-switch>
-      </div>
-    </div>
+      <!-- Large -->
+      <div class="parent">
+        <div class="child right-aligned-text">Large</div>
 
-    <!-- Medium -->
-    <div class="parent">
-      <div class="child right-aligned-text">Medium</div>
+        <div class="child">
+          <calcite-switch scale="l"></calcite-switch>
+        </div>
 
-      <div class="child">
-        <calcite-switch scale="m"></calcite-switch>
-      </div>
+        <div class="child">
+          <calcite-switch scale="l" disabled></calcite-switch>
+        </div>
 
-      <div class="child">
-        <calcite-switch scale="m" disabled></calcite-switch>
-      </div>
+        <div class="child">
+          <calcite-switch scale="l" checked></calcite-switch>
+        </div>
 
-      <div class="child">
-        <calcite-switch scale="m" checked></calcite-switch>
-      </div>
-
-      <div class="child">
-        <calcite-switch scale="m" checked disabled></calcite-switch>
-      </div>
-    </div>
-
-    <!-- Large -->
-    <div class="parent">
-      <div class="child right-aligned-text">Large</div>
-
-      <div class="child">
-        <calcite-switch scale="l"></calcite-switch>
+        <div class="child">
+          <calcite-switch scale="l" checked disabled></calcite-switch>
+        </div>
       </div>
 
-      <div class="child">
-        <calcite-switch scale="l" disabled></calcite-switch>
+      <hr />
+      <!-- A horizontal line -->
+
+      <!-- RTL Set Directly on Switch -->
+      <div class="parent">
+        <div class="child"></div>
+
+        <div class="child">
+          RTL set directly on Switch
+          <p>
+            <calcite-switch dir="rtl"></calcite-switch>
+          </p>
+        </div>
+
+        <div class="child"></div>
+        <div class="child"></div>
+        <div class="child"></div>
       </div>
 
-      <div class="child">
-        <calcite-switch scale="l" checked></calcite-switch>
+      <hr />
+      <!-- A horizontal line -->
+
+      <!-- calciteSwitchChange -->
+      <div class="parent">
+        <div class="child"></div>
+
+        <div class="child">
+          Listen for "calciteSwitchChange"
+          <p>
+            <calcite-switch id="basicSwitch" checked></calcite-switch>
+          </p>
+        </div>
+
+        <div class="child"></div>
+        <div class="child"></div>
+        <div class="child"></div>
       </div>
 
-      <div class="child">
-        <calcite-switch scale="l" checked disabled></calcite-switch>
-      </div>
-    </div>
-
-    <hr />
-    <!-- A horizontal line -->
-
-    <!-- RTL Set Directly on Switch -->
-    <div class="parent">
-      <div class="child"></div>
-
-      <div class="child">
-        RTL set directly on Switch
-        <p>
-          <calcite-switch dir="rtl"></calcite-switch>
-        </p>
-      </div>
-
-      <div class="child"></div>
-      <div class="child"></div>
-      <div class="child"></div>
-    </div>
-
-    <hr />
-    <!-- A horizontal line -->
-
-    <!-- calciteSwitchChange -->
-    <div class="parent">
-      <div class="child"></div>
-
-      <div class="child">
-        Listen for "calciteSwitchChange"
-        <p>
-          <calcite-switch id="basicSwitch" checked></calcite-switch>
-        </p>
-      </div>
-
-      <div class="child"></div>
-      <div class="child"></div>
-      <div class="child"></div>
-    </div>
-
-    <script>
-      const basicSwitch = document.getElementById("basicSwitch");
-      basicSwitch.addEventListener("calciteSwitchChange", function (e) {
-        console.log("Basic switch changed by <calcite-switch>", e.detail.switched);
-      });
-    </script>
+      <script>
+        const basicSwitch = document.getElementById("basicSwitch");
+        basicSwitch.addEventListener("calciteSwitchChange", function (e) {
+          console.log("Basic switch changed by <calcite-switch>", e.target.checked);
+        });
+      </script>
+    </demo-dom-swapper>
   </body>
 </html>

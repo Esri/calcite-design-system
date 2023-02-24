@@ -1,5 +1,6 @@
 import { getAssetPath } from "@stencil/core";
-import { locales } from "../../utils/locale";
+import { dateFromISO } from "../../utils/date";
+import { getSupportedLocale } from "../../utils/locale";
 
 /**
  * Translation resource data structure
@@ -7,7 +8,7 @@ import { locales } from "../../utils/locale";
  * @private
  */
 export interface DateLocaleData {
-  "default-calendar": "gregorian";
+  "default-calendar": "gregorian" | "buddhist";
   separator: string;
   unitOrder: string;
   weekStart: number;
@@ -27,30 +28,6 @@ export interface DateLocaleData {
   year?: {
     suffix: string;
   };
-}
-
-/**
- * Get supported locale code from raw user input
- * Exported for testing purposes.
- *
- * @param lang
- * @private
- */
-function getSupportedLocale(lang = "") {
-  if (locales.indexOf(lang) > -1) {
-    return lang;
-  }
-
-  lang = lang.toLowerCase();
-
-  if (lang.includes("-")) {
-    lang = lang.replace(/(\w+)-(\w+)/, (_match, language, region) => `${language}-${region.toUpperCase()}`);
-
-    if (!locales.includes(lang)) {
-      lang = lang.split("-")[0];
-    }
-  }
-  return locales.includes(lang) ? lang : "en";
 }
 
 /**
@@ -93,4 +70,14 @@ export async function getLocaleData(lang: string): Promise<DateLocaleData> {
   translationCache[locale] = data;
 
   return data;
+}
+
+/**
+ *  Maps value to valueAsDate
+ *
+ * @param value
+ */
+
+export function getValueAsDateRange(value: string[]): Date[] {
+  return value.map((v, index) => dateFromISO(v, index === 1));
 }

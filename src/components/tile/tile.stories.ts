@@ -1,18 +1,18 @@
 import { select, text } from "@storybook/addon-knobs";
-import { iconNames, boolean } from "../../../.storybook/helpers";
-import { themesDarkDefault } from "../../../.storybook/utils";
+import { iconNames, boolean, storyFilters } from "../../../.storybook/helpers";
+import { modesDarkDefault } from "../../../.storybook/utils";
 import readme from "./readme.md";
 import { html } from "../../../support/formatting";
 
 export default {
   title: "Components/Tiles/Tile",
-
   parameters: {
     notes: readme
-  }
+  },
+  ...storyFilters()
 };
 
-export const Light = (): string => html`
+export const simple = (): string => html`
   <calcite-tile
     ${boolean("active", false)}
     description="${text(
@@ -28,43 +28,7 @@ export const Light = (): string => html`
   </calcite-tile>
 `;
 
-export const Dark = (): string => html`
-  <calcite-tile
-    ${boolean("active", false)}
-    description="${text(
-      "description",
-      "Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
-    )}"
-    ${boolean("disabled", false)}
-    heading="${text("heading", "Tile heading lorem ipsum")}"
-    ${boolean("hidden", false)}
-    href="${text("href", "#")}"
-    icon="${select("icon", iconNames, "layer")}"
-    class="calcite-theme-dark"
-  >
-  </calcite-tile>
-`;
-
-Dark.parameters = { themes: themesDarkDefault };
-
-export const RTL = (): string => html`
-  <calcite-tile
-    ${boolean("active", false)}
-    description="${text(
-      "description",
-      "Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
-    )}"
-    heading="${text("heading", "Tile heading lorem ipsum!")}"
-    ${boolean("disabled", false)}
-    ${boolean("hidden", false)}
-    href="${text("href", "#")}"
-    icon="${select("icon", iconNames, "layer")}"
-    dir="rtl"
-  >
-  </calcite-tile>
-`;
-
-export const LargeTile = (): string => html`
+export const largeTile = (): string => html`
   <calcite-tile
     ${boolean("active", false)}
     description=""
@@ -77,7 +41,26 @@ export const LargeTile = (): string => html`
   </calcite-tile>
 `;
 
-export const ContentStartRTL = (): string => html`
+export const darkModeRTL_TestOnly = (): string => html`
+  <calcite-tile
+    ${boolean("active", false)}
+    description="${text(
+      "description",
+      "Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+    )}"
+    ${boolean("disabled", false)}
+    heading="${text("heading", "Tile heading lorem ipsum")}"
+    ${boolean("hidden", false)}
+    href="${text("href", "#")}"
+    icon="${select("icon", iconNames, "layer")}"
+    class="calcite-mode-dark"
+    dir="rtl"
+  >
+  </calcite-tile>
+`;
+darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
+
+export const contentStartRTL_TestOnly = (): string => html`
   <calcite-tile
     description="${text("description", "polygon layer")}"
     heading="${text("heading", "Percent of population that carpool to work")}"
@@ -88,13 +71,27 @@ export const ContentStartRTL = (): string => html`
   </calcite-tile>
 `;
 
-export const disabled = (): string => html`<calcite-tile heading="Heading" disabled></calcite-tile>`;
-
-export const OverflowingContent = (): string => html`
+export const overflowingContent_TestOnly = (): string => html`
   <calcite-tile
     icon="2d-explore"
     heading="Example tile headinghfjkdlsahfjklsdahfjklsadhfjkldsahfjldkashfjdkalshfds;ahfjkldshafljkdsahfljksdahfdlsajkfhsadkljfhsdajklfhsdalkjfhdsalkjfhdsalf"
     description="Example tile description contenthfjdkslahfjkdsalhf sdajklfh ksdjahfljksadhfljkdsahfjklsdahfjlkdsahflkjdsahfjkdsahflkdjsahfldksajhfdsklajhfdsljkahfdsajkfhsadlkjfsadhfdsa"
     style="width:200px"
   ></calcite-tile>
+`;
+
+export const disabled_TestOnly = (): string => html`
+  <calcite-tile
+    ${boolean("active", false)}
+    description="${text(
+      "description",
+      "Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+    )}"
+    ${boolean("disabled", false)}
+    heading="${text("heading", "Tile heading lorem ipsum")}"
+    ${boolean("hidden", false)}
+    href="${text("href", "#")}"
+    icon="${select("icon", iconNames, "layer")}"
+  >
+  </calcite-tile>
 `;

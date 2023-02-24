@@ -1,23 +1,37 @@
 import {
+  Build,
   Component,
   Element,
-  Event,
-  EventEmitter,
+  forceUpdate,
+  h,
   Host,
   Method,
   Prop,
-  h,
-  forceUpdate,
-  VNode
+  State,
+  VNode,
+  Watch
 } from "@stencil/core";
-
-import { Alignment, Appearance, Scale } from "../interfaces";
-
-import { CSS, TEXT } from "./resources";
-
-import { createObserver } from "../../utils/observers";
-import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import { toAriaBoolean } from "../../utils/dom";
+import { guid } from "../../utils/guid";
+import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import {
+  componentLoaded,
+  LoadableComponent,
+  setComponentLoaded,
+  setUpLoadableComponent
+} from "../../utils/loadable";
+import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
+import { createObserver } from "../../utils/observers";
+import {
+  connectMessages,
+  disconnectMessages,
+  setUpMessages,
+  T9nComponent,
+  updateMessages
+} from "../../utils/t9n";
+import { Alignment, Appearance, Scale } from "../interfaces";
+import { ActionMessages } from "./assets/action/t9n";
+import { CSS, SLOTS } from "./resources";
 
 /**
  * @slot - A slot for adding a `calcite-icon`.
@@ -25,9 +39,12 @@ import { toAriaBoolean } from "../../utils/dom";
 @Component({
   tag: "calcite-action",
   styleUrl: "action.scss",
-  shadow: true
+  shadow: true,
+  assetsDirs: ["assets"]
 })
-export class Action implements InteractiveComponent {
+export class Action
+  implements InteractiveComponent, LocalizedComponent, T9nComponent, LoadableComponent
+{
   // --------------------------------------------------------------------------
   //
   //  Properties
@@ -35,62 +52,56 @@ export class Action implements InteractiveComponent {
   // --------------------------------------------------------------------------
 
   /**
-   * Indicates whether the action is highlighted.
+   * When `true`, the component is highlighted.
    */
   @Prop({ reflect: true }) active = false;
 
   /**
-   * Optionally specify the horizontal alignment of button elements with text content.
+   * Specifies the horizontal alignment of button elements with text content.
    */
-  @Prop({ reflect: true }) alignment?: Alignment;
+  @Prop({ reflect: true }) alignment: Alignment;
 
-  /** Specify the appearance style of the action, defaults to solid. */
-  @Prop({ reflect: true }) appearance: Extract<"solid" | "clear", Appearance> = "solid";
+  /** Specifies the appearance of the component. */
+  @Prop({ reflect: true }) appearance: Extract<"solid" | "transparent", Appearance> = "solid";
 
   /**
-   * Compact mode is used internally by components to reduce side padding, e.g. calcite-block-section.
+   * When `true`, the side padding of the component is reduced. Compact mode is used internally by components, e.g. `calcite-block-section`.
    */
   @Prop({ reflect: true }) compact = false;
 
   /**
-   * When true, disabled prevents interaction. This state shows items with lower opacity/grayed.
+   * When `true`, interaction is prevented and the component is displayed with lower opacity.
    */
   @Prop({ reflect: true }) disabled = false;
 
-  /**
-   * The name of the icon to display. The value of this property must match the icon name from https://esri.github.io/calcite-ui-icons/.
-   */
-  @Prop() icon?: string;
+  /** Specifies an icon to display. */
+  @Prop() icon: string;
+
+  /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
+  @Prop({ reflect: true }) iconFlipRtl = false;
 
   /**
-   * Indicates unread changes.
+   * When `true`, displays a visual indicator.
    */
   @Prop({ reflect: true }) indicator = false;
 
   /**
-   * string to override English loading text
-   *
-   * @default "Loading"
+   * Specifies the label of the component. If no label is provided, the label inherits what's provided for the `text` prop.
    */
-  @Prop() intlLoading?: string = TEXT.loading;
+  @Prop() label: string;
 
   /**
-   * The label of the action. If no label is provided, the label inherits what's provided for the `text` prop.
-   */
-  @Prop() label?: string;
-
-  /**
-   * When true, content is waiting to be loaded. This state shows a busy indicator.
+   * When `true`, a busy indicator is displayed.
    */
   @Prop({ reflect: true }) loading = false;
 
   /**
-   * Specifies the size of the action.
+   * Specifies the size of the component.
    */
   @Prop({ reflect: true }) scale: Scale = "m";
 
   /**
-   * Text that accompanies the action icon.
+   * Specifies text that accompanies the icon.
    */
   @Prop() text!: string;
 
@@ -99,18 +110,22 @@ export class Action implements InteractiveComponent {
    */
   @Prop({ reflect: true }) textEnabled = false;
 
-  // --------------------------------------------------------------------------
-  //
-  //  Events
-  //
-  // --------------------------------------------------------------------------
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @internal
+   */
+  @Prop({ mutable: true }) messages: ActionMessages;
 
   /**
-   * Emitted when the action has been clicked.
-   *
-   * @deprecated use onClick instead.
+   * Use this property to override individual strings used by the component.
    */
-  @Event() calciteActionClick: EventEmitter;
+  @Prop({ mutable: true }) messageOverrides: Partial<ActionMessages>;
+
+  @Watch("messageOverrides")
+  onMessagesChange(): void {
+    /* wired up by t9n util */
+  }
 
   // --------------------------------------------------------------------------
   //
@@ -124,6 +139,21 @@ export class Action implements InteractiveComponent {
 
   mutationObserver = createObserver("mutation", () => forceUpdate(this));
 
+  @State() effectiveLocale = "";
+
+  @Watch("effectiveLocale")
+  effectiveLocaleChange(): void {
+    updateMessages(this, this.effectiveLocale);
+  }
+
+  @State() defaultMessages: ActionMessages;
+
+  guid = `calcite-action-${guid()}`;
+
+  indicatorId = `${this.guid}-indicator`;
+
+  buttonId = `${this.guid}-button`;
+
   // --------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -131,10 +161,25 @@ export class Action implements InteractiveComponent {
   // --------------------------------------------------------------------------
 
   connectedCallback(): void {
+    connectLocalized(this);
+    connectMessages(this);
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
   }
 
+  async componentWillLoad(): Promise<void> {
+    setUpLoadableComponent(this);
+    if (Build.isBrowser) {
+      await setUpMessages(this);
+    }
+  }
+
+  componentDidLoad(): void {
+    setComponentLoaded(this);
+  }
+
   disconnectedCallback(): void {
+    disconnectLocalized(this);
+    disconnectMessages(this);
     this.mutationObserver?.disconnect();
   }
 
@@ -151,7 +196,9 @@ export class Action implements InteractiveComponent {
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
-    this.buttonEl.focus();
+    await componentLoaded(this);
+
+    this.buttonEl?.focus();
   }
 
   // --------------------------------------------------------------------------
@@ -175,14 +222,31 @@ export class Action implements InteractiveComponent {
     ) : null;
   }
 
+  renderIndicatorText(): VNode {
+    const { indicator, messages, indicatorId, buttonId } = this;
+    return (
+      <div
+        aria-labelledby={buttonId}
+        aria-live="polite"
+        class={CSS.indicatorText}
+        id={indicatorId}
+        role="region"
+      >
+        {indicator ? messages.indicator : null}
+      </div>
+    );
+  }
+
   renderIconContainer(): VNode {
-    const { loading, icon, scale, el, intlLoading } = this;
+    const { loading, icon, scale, el, iconFlipRtl } = this;
     const iconScale = scale === "l" ? "m" : "s";
     const loaderScale = scale === "l" ? "l" : "m";
     const calciteLoaderNode = loading ? (
-      <calcite-loader active inline label={intlLoading} scale={loaderScale} />
+      <calcite-loader inline label={this.messages.loading} scale={loaderScale} />
     ) : null;
-    const calciteIconNode = icon ? <calcite-icon icon={icon} scale={iconScale} /> : null;
+    const calciteIconNode = icon ? (
+      <calcite-icon flipRtl={iconFlipRtl} icon={icon} scale={iconScale} />
+    ) : null;
     const iconNode = calciteLoaderNode || calciteIconNode;
     const hasIconToDisplay = iconNode || el.children?.length;
 
@@ -206,9 +270,20 @@ export class Action implements InteractiveComponent {
   }
 
   render(): VNode {
-    const { compact, disabled, loading, textEnabled, label, text } = this;
-
-    const ariaLabel = label || text;
+    const {
+      active,
+      compact,
+      disabled,
+      loading,
+      textEnabled,
+      label,
+      text,
+      indicator,
+      indicatorId,
+      buttonId,
+      messages
+    } = this;
+    const ariaLabel = `${label || text}${indicator ? ` (${messages.indicator})` : ""}`;
 
     const buttonClasses = {
       [CSS.button]: true,
@@ -217,18 +292,23 @@ export class Action implements InteractiveComponent {
     };
 
     return (
-      <Host onClick={this.calciteActionClickHandler}>
+      <Host>
         <button
           aria-busy={toAriaBoolean(loading)}
+          aria-controls={indicator ? indicatorId : null}
           aria-disabled={toAriaBoolean(disabled)}
           aria-label={ariaLabel}
+          aria-pressed={toAriaBoolean(active)}
           class={buttonClasses}
           disabled={disabled}
+          id={buttonId}
           ref={(buttonEl): HTMLButtonElement => (this.buttonEl = buttonEl)}
         >
           {this.renderIconContainer()}
           {this.renderTextContainer()}
         </button>
+        <slot name={SLOTS.tooltip} onSlotchange={this.handleTooltipSlotChange} />
+        {this.renderIndicatorText()}
       </Host>
     );
   }
@@ -239,9 +319,17 @@ export class Action implements InteractiveComponent {
   //
   // --------------------------------------------------------------------------
 
-  calciteActionClickHandler = (): void => {
-    if (!this.disabled) {
-      this.calciteActionClick.emit();
+  handleTooltipSlotChange = (event: Event): void => {
+    const tooltips = (event.target as HTMLSlotElement)
+      .assignedElements({
+        flatten: true
+      })
+      .filter((el) => el?.matches("calcite-tooltip")) as HTMLCalciteTooltipElement[];
+
+    const tooltip = tooltips[0];
+
+    if (tooltip) {
+      tooltip.referenceElement = this.buttonEl;
     }
   };
 }

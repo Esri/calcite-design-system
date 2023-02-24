@@ -2,13 +2,15 @@ import {
   Attribute,
   filterComponentAttributes,
   Attributes,
-  createComponentHTML as create
+  createComponentHTML as create,
+  modesDarkDefault
 } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { boolean, text } from "@storybook/addon-knobs";
 import selectReadme from "../select/readme.md";
 import optionReadme from "../option/readme.md";
 import optionGroupReadme from "../option-group/readme.md";
+import { storyFilters } from "../../../.storybook/helpers";
 
 const createSelectAttributes: (options?: { exceptions: string[] }) => Attributes = (
   { exceptions } = { exceptions: [] }
@@ -71,10 +73,11 @@ export default {
       option: optionReadme,
       optionGroup: optionGroupReadme
     }
-  }
+  },
+  ...storyFilters()
 };
 
-export const basic = (): string =>
+export const simple = (): string =>
   html`<div style="width:260px">
     ${create(
       "calcite-select",
@@ -112,14 +115,18 @@ export const grouped = (): string =>
     `
   );
 
-export const RTL = (): string =>
+export const darkModeRTL_TestOnly = (): string =>
   create(
     "calcite-select",
     [
-      ...createSelectAttributes({ exceptions: ["dir"] }),
+      ...createSelectAttributes({ exceptions: ["dir", "class"] }),
       {
         name: "dir",
         value: "rtl"
+      },
+      {
+        name: "class",
+        value: "calcite-mode-dark"
       }
     ],
     html`
@@ -139,7 +146,11 @@ export const RTL = (): string =>
     `
   );
 
-export const disabled = (): string => html`<calcite-select disabled>
-  <calcite-option label="first" value="1"></calcite-option>
-  <calcite-option label="second" value="2"></calcite-option>
-</calcite-select>`;
+darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
+
+export const disabledAndLargeScaleGetsMediumChevron_TestOnly = (): string => html`
+  <calcite-select disabled scale="l">
+    <calcite-option label="first" value="1"></calcite-option>
+    <calcite-option label="second" value="2"></calcite-option>
+  </calcite-select>
+`;

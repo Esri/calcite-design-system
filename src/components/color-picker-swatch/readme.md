@@ -4,11 +4,11 @@
 
 ## Properties
 
-| Property | Attribute | Description                                          | Type                | Default     |
-| -------- | --------- | ---------------------------------------------------- | ------------------- | ----------- |
-| `active` | `active`  | Used to display whether the swatch is active or not. | `boolean`           | `false`     |
-| `color`  | `color`   | The color value.                                     | `string`            | `undefined` |
-| `scale`  | `scale`   | The component scale.                                 | `"l" \| "m" \| "s"` | `"m"`       |
+| Property | Attribute | Description                           | Type                | Default     |
+| -------- | --------- | ------------------------------------- | ------------------- | ----------- |
+| `active` | `active`  | When `true`, the component is active. | `boolean`           | `false`     |
+| `color`  | `color`   | The color value.                      | `string`            | `undefined` |
+| `scale`  | `scale`   | Specifies the size of the component.  | `"l" \| "m" \| "s"` | `"m"`       |
 
 ## Dependencies
 

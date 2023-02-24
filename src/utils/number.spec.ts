@@ -1,4 +1,5 @@
-import { isValidNumber, parseNumberString, sanitizeNumberString } from "./number";
+import { locales, numberStringFormatter } from "./locale";
+import { BigDecimal, isValidNumber, parseNumberString, sanitizeNumberString } from "./number";
 
 describe("isValidNumber", () => {
   it("returns false for string values that can't compute to a number", () => {
@@ -95,5 +96,44 @@ describe("sanitizeNumberString", () => {
     expect(sanitizeNumberString(nonLeadingZeroExponentialString)).toBe("500000e600");
     expect(sanitizeNumberString(multiDecimalExponentialString)).toBe("1.2e21");
     expect(sanitizeNumberString(crazyExponentialString)).toBe("-2.1e53109");
+  });
+});
+
+describe("BigDecimal", () => {
+  it("handles precise/large numbers and arbitrary-precision arithmetic", () => {
+    const subtract = new BigDecimal("0.3").subtract("0.1").toString();
+    expect(subtract).toBe("0.2");
+
+    const add = new BigDecimal(Number.MAX_SAFE_INTEGER.toString()).add("1").toString();
+    expect(Number(add)).toBeGreaterThan(Number.MAX_SAFE_INTEGER);
+
+    const negativeZero = new BigDecimal("-0").toString();
+    expect(negativeZero).toBe("-0");
+  });
+
+  it("correctly formats long decimal numbers", () => {
+    numberStringFormatter.numberFormatOptions = {
+      locale: "en",
+      numberingSystem: "latn",
+      useGrouping: true
+    };
+    expect(new BigDecimal("123.0123456789").format(numberStringFormatter)).toBe("123.0123456789");
+  });
+
+  locales.forEach((locale) => {
+    it(`correctly localizes number parts - ${locale}`, () => {
+      numberStringFormatter.numberFormatOptions = {
+        locale,
+        // the group separator is different in arabic depending on the numberingSystem
+        numberingSystem: locale === "ar" ? "arab" : "latn",
+        useGrouping: true
+      };
+
+      const parts = new BigDecimal("-12345678.9").formatToParts(numberStringFormatter);
+      const groupPart = parts.find((part) => part.type === "group").value;
+      expect(groupPart.trim().length === 0 ? " " : groupPart).toBe(numberStringFormatter.group);
+      expect(parts.find((part) => part.type === "decimal").value).toBe(numberStringFormatter.decimal);
+      expect(parts.find((part) => part.type === "minusSign").value).toBe(numberStringFormatter.minusSign);
+    });
   });
 });

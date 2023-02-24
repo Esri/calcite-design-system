@@ -3,9 +3,10 @@ import { JSX } from "../components";
 import { toHaveNoViolations } from "jest-axe";
 import axe from "axe-core";
 import { config } from "../../stencil.config";
-import { GlobalTestProps } from "./utils";
+import { GlobalTestProps, skipAnimations } from "./utils";
 import { hiddenFormInputSlotName } from "../utils/form";
 import { html } from "../../support/formatting";
+import { MessageBundle } from "../utils/t9n";
 
 expect.extend(toHaveNoViolations);
 
@@ -183,7 +184,11 @@ export async function hidden(componentTagOrHTML: TagOrHTML): Promise<void> {
 }
 
 interface FocusableOptions {
-  /** use this to pass an ID to setFocus() */
+  /**
+   * use this to pass an ID to setFocus()
+   *
+   * @deprecated components should no longer use a focusId parameter for setFocus()
+   */
   focusId?: string;
 
   /**
@@ -220,6 +225,9 @@ export async function focusable(componentTagOrHTML: TagOrHTML, options?: Focusab
       )
     ).toBe(true);
   }
+
+  // wait for next frame before checking focus
+  await page.waitForTimeout(0);
 
   expect(await page.evaluate((selector) => document.activeElement.matches(selector), focusTargetSelector)).toBe(true);
 }
@@ -368,7 +376,8 @@ export async function labelable(componentTagOrHtml: TagOrHTML, options?: Labelab
   function ensureId(html: string): string {
     return html.includes("id=") ? html : html.replace(componentTag, `${componentTag} id="${id}" `);
   }
-  const wrappedHtml = html`<calcite-label> ${labelTitle} ${componentHtml} </calcite-label>`;
+
+  const wrappedHtml = html`<calcite-label> ${labelTitle} ${componentHtml}</calcite-label>`;
   const wrappedPage: E2EPage = await newE2EPage({ html: wrappedHtml });
   await wrappedPage.waitForChanges();
 
@@ -484,6 +493,11 @@ interface FormAssociatedOptions {
   expectedSubmitValue?: any;
 
   /**
+   * Specifies the input type that will be used to capture the value.
+   */
+  inputType?: HTMLInputElement["type"];
+
+  /**
    * Specifies if the component supports submitting the form on Enter key press
    */
   submitsOnEnter?: boolean;
@@ -509,9 +523,9 @@ export async function formAssociated(componentTagOrHtml: TagOrHTML, options: For
     html: html`<form>
       ${componentHtml}
       <!--
-      keeping things simple by using submit-type input
-      this should cover button and calcite-button submit cases
-      -->
+          keeping things simple by using submit-type input
+          this should cover button and calcite-button submit cases
+          -->
       <input id="submitter" type="submit" />
     </form>`
   });
@@ -523,12 +537,36 @@ export async function formAssociated(componentTagOrHtml: TagOrHTML, options: For
     typeof options.testValue === "boolean" && (await page.$eval(componentTag, (component) => "checked" in component));
   const resettablePropName = checkable ? "checked" : "value";
   const initialValue = await component.getProperty(resettablePropName);
+  const name = await component.getProperty("name");
 
+  await assertValueSubmissionType();
   await assertValueResetOnFormReset();
   await assertValueSubmittedOnFormSubmit();
 
   if (options.submitsOnEnter) {
     await assertFormSubmitOnEnter();
+  }
+
+  async function assertValueSubmissionType(): Promise<void> {
+    const inputType = options.inputType ?? "text";
+
+    const hiddenFormInputType = await page.evaluate(
+      async (inputName: string, hiddenFormInputSlotName: string): Promise<string> => {
+        const hiddenFormInput = document.querySelector<HTMLInputElement>(
+          `[name="${inputName}"] input[slot=${hiddenFormInputSlotName}]`
+        );
+
+        return hiddenFormInput.type;
+      },
+      name,
+      hiddenFormInputSlotName
+    );
+
+    if (checkable) {
+      expect(hiddenFormInputType).toMatch(/radio|checkbox/);
+    } else {
+      expect(hiddenFormInputType).toMatch(inputType);
+    }
   }
 
   async function assertValueResetOnFormReset(): Promise<void> {
@@ -542,7 +580,6 @@ export async function formAssociated(componentTagOrHtml: TagOrHTML, options: For
   }
 
   async function assertValueSubmittedOnFormSubmit(): Promise<void> {
-    const inputName = await component.getProperty("name");
     const stringifiedTestValue = stringifyTestValue(options.testValue);
 
     if (checkable) {
@@ -570,7 +607,13 @@ export async function formAssociated(componentTagOrHtml: TagOrHTML, options: For
       component.setProperty("required", true);
       component.setProperty("value", null);
       await page.waitForChanges();
-      expect(await submitAndGetValue()).toBeUndefined();
+      expect(await submitAndGetValue()).toBe(
+        options.inputType === "color"
+          ? // `input[type="color"]` will set its value to #000000 when set to an invalid value
+            // see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/color#value
+            "#000000"
+          : undefined
+      );
 
       component.setProperty("required", false);
       component.setProperty("value", options.testValue);
@@ -642,7 +685,7 @@ export async function formAssociated(componentTagOrHtml: TagOrHTML, options: For
 
           return submitPromise;
         },
-        inputName,
+        name,
         hiddenFormInputSlotName
       );
     }
@@ -714,20 +757,17 @@ export async function disabled(
 
   const component = await page.find(tag);
   const enabledComponentClickSpy = await component.spyOnEvent("click");
-  await page.addStyleTag({
-    // skip animations/transitions
-    content: `:root { --calcite-duration-factor: 0; }`
-  });
-
+  await skipAnimations(page);
   await page.$eval(tag, (el) => {
     el.addEventListener(
       "click",
       (event) => {
         const path = event.composedPath() as HTMLElement[];
+        const anchor = path.find((el) => el?.tagName === "A");
 
-        if (path.find((el) => el?.tagName === "A")) {
+        if (anchor) {
           // we prevent the default behavior to avoid a page redirect
-          el.addEventListener("click", (event) => event.preventDefault(), { once: true });
+          anchor.addEventListener("click", (event) => event.preventDefault(), { once: true });
         }
       },
       true
@@ -825,22 +865,22 @@ export async function disabled(
 }
 
 /**
- * This helper will test if a popper-owning component has configured the popper correctly.
- * At the moment, this only tests if the scroll event listeners are only active when the popper is displayed.
+ * This helper will test if a floating-ui-owning component has configured the floating-ui correctly.
+ * At the moment, this only tests if the scroll event listeners are only active when the floating-ui is displayed.
  *
  * @param componentTagOrHTML - the component tag or HTML markup to test against
- * @param togglePropName - the component property that toggles the popper
- * @param options - the popper owner test configuration
- * @param options.shadowPopperSelector
+ * @param togglePropName - the component property that toggles the floating-ui
+ * @param options - the floating-ui owner test configuration
+ * @param options.shadowSelector
  */
-export async function popperOwner(
+export async function floatingUIOwner(
   componentTagOrHTML: TagOrHTML,
   togglePropName: string,
   options?: {
     /**
-     * Use this to specify the selector in the shadow DOM for the popper element.
+     * Use this to specify the selector in the shadow DOM for the floating-ui element.
      */
-    shadowPopperSelector?: string;
+    shadowSelector?: string;
   }
 ): Promise<void> {
   const page = await simplePageSetup(componentTagOrHTML);
@@ -862,11 +902,13 @@ export async function popperOwner(
     return page.$eval(
       tag,
       (component: HTMLElement, shadowSelector: string): string => {
-        const popperEl = shadowSelector ? component.shadowRoot.querySelector<HTMLElement>(shadowSelector) : component;
+        const floatingUIEl = shadowSelector
+          ? component.shadowRoot.querySelector<HTMLElement>(shadowSelector)
+          : component;
 
-        return popperEl.getAttribute("style");
+        return floatingUIEl.getAttribute("style");
       },
-      options?.shadowPopperSelector
+      options?.shadowSelector
     );
   }
 
@@ -903,4 +945,81 @@ export async function popperOwner(
   await page.waitForChanges();
 
   expect(await getTransform()).toBe(initialOpenTransform);
+}
+
+/**
+ * Helper to test t9n component setup
+ *
+ * @param {TagOrHTML|TagAndPage} componentSetup - A component tag, html, or an object with e2e page and tag for setting up a test
+ */
+export async function t9n(componentSetup: TagOrHTML | TagAndPage): Promise<void> {
+  const { page, tag } = await getTagAndPage(componentSetup);
+  const component = await page.find(tag);
+
+  await assertDefaultMessages();
+
+  await assertOverrides();
+  await assertLangSwitch();
+
+  async function getCurrentMessages(): Promise<MessageBundle> {
+    return page.$eval(tag, (component: HTMLElement & { messages: MessageBundle }) => component.messages);
+  }
+
+  async function assertDefaultMessages(): Promise<void> {
+    expect(await getCurrentMessages()).toBeDefined();
+  }
+
+  async function assertOverrides(): Promise<void> {
+    const messages = await getCurrentMessages();
+    const firstMessageProp = Object.keys(messages)[0];
+    const messageOverride = { [firstMessageProp]: "override test" };
+
+    component.setProperty("messageOverrides", messageOverride);
+    await page.waitForChanges();
+
+    expect(await getCurrentMessages()).toEqual({
+      ...messages,
+      ...messageOverride
+    });
+
+    // reset test changes
+    component.setProperty("messageOverrides", undefined);
+    await page.waitForChanges();
+  }
+
+  async function assertLangSwitch(): Promise<void> {
+    const enMessages = await getCurrentMessages();
+    const fakeBundleIdentifier = "__fake__";
+    await page.evaluate(
+      (enMessages, fakeBundleIdentifier) => {
+        const orig = window.fetch;
+        window.fetch = async function (input, init) {
+          if (typeof input === "string" && input.endsWith("messages_es.json")) {
+            const fakeEsMessages = {
+              ...enMessages, // reuse real message bundle in case component rendering depends on strings
+
+              [fakeBundleIdentifier]: true // we inject a fake identifier for assertion-purposes
+            };
+            window.fetch = orig;
+            return new Response(new Blob([JSON.stringify(fakeEsMessages, null, 2)], { type: "application/json" }));
+          }
+
+          return orig.call(input, init);
+        };
+      },
+      enMessages,
+      fakeBundleIdentifier
+    );
+
+    component.setAttribute("lang", "es");
+    await page.waitForChanges();
+    await page.waitForTimeout(3000);
+    const esMessages = await getCurrentMessages();
+
+    expect(esMessages).toHaveProperty(fakeBundleIdentifier);
+
+    // reset test changes
+    component.removeAttribute("lang");
+    await page.waitForChanges();
+  }
 }

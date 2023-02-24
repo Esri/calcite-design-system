@@ -1,15 +1,17 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { renders } from "../../tests/commonTests";
+import { hidden, renders } from "../../tests/commonTests";
 
 describe("calcite-loader", () => {
   it("renders", async () => {
-    await renders("calcite-loader", { display: "none", visible: false });
-    await renders(`<calcite-loader active></calcite-loader>`, { display: "flex", visible: true });
+    await renders(`<calcite-loader></calcite-loader>`, { display: "flex", visible: true });
+    await renders(`<calcite-loader inline></calcite-loader>`, { display: "flex", visible: true });
   });
+
+  it("honors hidden attribute", async () => hidden("calcite-loader"));
 
   it("displays label from text prop", async () => {
     const page = await newE2EPage();
-    await page.setContent(`<calcite-loader active text="testing"></calcite-loader>`);
+    await page.setContent(`<calcite-loader text="testing"></calcite-loader>`);
     const elm = await page.find("calcite-loader >>> .loader__text");
     expect(elm).toEqualText("testing");
   });
@@ -39,14 +41,14 @@ describe("calcite-loader", () => {
 
   it("displays inline with text from inline prop", async () => {
     const page = await newE2EPage();
-    await page.setContent(`<calcite-loader active inline></calcite-loader>`);
+    await page.setContent(`<calcite-loader inline></calcite-loader>`);
     const rect = await page.find("calcite-loader >>> circle");
     expect(rect).toEqualAttribute("r", "7.2");
   });
 
   it("sets a default id when none is provided", async () => {
     const page = await newE2EPage();
-    await page.setContent(`<calcite-loader active></calcite-loader>`);
+    await page.setContent(`<calcite-loader></calcite-loader>`);
     const loader = await page.find("calcite-loader");
     expect(loader).toHaveAttribute("id");
     expect(loader.getAttribute("id").length).toEqual(36);

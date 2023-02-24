@@ -2,7 +2,6 @@
 @mixin focus-style-base() {
   outline-offset: 0;
   outline-color: transparent;
-  transition: outline-offset 100ms ease-in-out, outline-color 100ms ease-in-out;
 }
 
 // place on the element that receives focus style, while in focus
@@ -22,9 +21,7 @@
 @mixin focus-box-shadow($base-shadow: null) {
   @if $base-shadow {
     box-shadow: $base-shadow, 0 0 0 2px var(--calcite-ui-foreground-1), 0 0 0 4px var(--calcite-ui-brand);
-    transition: var(--calcite-animation-timing);
   } @else {
     box-shadow: 0 0 0 2px var(--calcite-ui-foreground-1), 0 0 0 4px var(--calcite-ui-brand);
-    transition: var(--calcite-animation-timing);
   }
 }

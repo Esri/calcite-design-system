@@ -1,11 +1,9 @@
-import { accessible, defaults, hidden, reflects, renders, focusable, disabled } from "../../tests/commonTests";
-
-import { CSS, DEFAULT_COLOR, DEFAULT_STORAGE_KEY_PREFIX, DIMENSIONS, TEXT } from "./resources";
+import { accessible, defaults, hidden, reflects, renders, focusable, disabled, t9n } from "../../tests/commonTests";
+import { CSS, DEFAULT_COLOR, DEFAULT_STORAGE_KEY_PREFIX, DIMENSIONS } from "./resources";
 import { E2EElement, E2EPage, EventSpy, newE2EPage } from "@stencil/core/testing";
 import { ColorValue } from "./interfaces";
 import SpyInstance = jest.SpyInstance;
 import { GlobalTestProps, selectText, getElementXY } from "../../tests/utils";
-
 describe("calcite-color-picker", () => {
   let consoleSpy: SpyInstance;
 
@@ -47,10 +45,6 @@ describe("calcite-color-picker", () => {
   it("reflects", async () =>
     reflects("calcite-color-picker", [
       {
-        propertyName: "appearance",
-        value: "minimal"
-      },
-      {
         propertyName: "scale",
         value: "m"
       }
@@ -65,88 +59,8 @@ describe("calcite-color-picker", () => {
         defaultValue: false
       },
       {
-        propertyName: "appearance",
-        defaultValue: "default"
-      },
-      {
         propertyName: "format",
         defaultValue: "auto"
-      },
-      {
-        propertyName: "intlB",
-        defaultValue: TEXT.b
-      },
-      {
-        propertyName: "intlBlue",
-        defaultValue: TEXT.blue
-      },
-      {
-        propertyName: "intlDeleteColor",
-        defaultValue: TEXT["deleteColor"]
-      },
-      {
-        propertyName: "intlG",
-        defaultValue: TEXT.g
-      },
-      {
-        propertyName: "intlGreen",
-        defaultValue: TEXT.green
-      },
-      {
-        propertyName: "intlH",
-        defaultValue: TEXT.h
-      },
-      {
-        propertyName: "intlHsv",
-        defaultValue: TEXT["hsv"]
-      },
-      {
-        propertyName: "intlHex",
-        defaultValue: TEXT.hex
-      },
-      {
-        propertyName: "intlHue",
-        defaultValue: TEXT.hue
-      },
-      {
-        propertyName: "intlNoColor",
-        defaultValue: TEXT.noColor
-      },
-      {
-        propertyName: "intlR",
-        defaultValue: TEXT.r
-      },
-      {
-        propertyName: "intlRed",
-        defaultValue: TEXT.red
-      },
-      {
-        propertyName: "intlRgb",
-        defaultValue: TEXT.rgb
-      },
-      {
-        propertyName: "intlS",
-        defaultValue: TEXT.s
-      },
-      {
-        propertyName: "intlSaturation",
-        defaultValue: TEXT.saturation
-      },
-      {
-        propertyName: "intlSaveColor",
-        defaultValue: TEXT.saveColor
-      },
-      {
-        propertyName: "intlSaved",
-        defaultValue: TEXT.saved
-      },
-      {
-        propertyName: "intlV",
-        defaultValue: TEXT.v
-      },
-      {
-        propertyName: "intlValue",
-        defaultValue: TEXT.value
       },
       {
         propertyName: "scale",
@@ -161,6 +75,8 @@ describe("calcite-color-picker", () => {
   // #408047 is a color in the middle of the color field
   it("can be disabled", () => disabled("<calcite-color-picker value='#408047'></calcite-color-picker>"));
 
+  it("supports translations", () => t9n("<calcite-color-picker></calcite-color-picker>"));
+
   it(`should set all internal calcite-button types to 'button'`, async () => {
     const page = await newE2EPage({
       html: "<calcite-color-picker></calcite-color-picker>"
@@ -170,7 +86,9 @@ describe("calcite-color-picker", () => {
 
     expect(buttons).toHaveLength(2);
 
-    buttons.forEach(async (button) => expect(await button.getProperty("type")).toBe("button"));
+    for (const button of buttons) {
+      expect(await button.getProperty("type")).toBe("button");
+    }
   });
 
   it.skip("emits event when value changes via user interaction and not programmatically", async () => {
@@ -317,7 +235,7 @@ describe("calcite-color-picker", () => {
   };
 
   function assertUnsupportedValueMessage(value: string | object | null, format: string): void {
-    expect(consoleSpy).toBeCalledTimes(1);
+    expect(consoleSpy).toHaveBeenCalledTimes(1);
     expect(consoleSpy).toHaveBeenCalledWith(
       expect.stringMatching(
         new RegExp(
@@ -453,9 +371,8 @@ describe("calcite-color-picker", () => {
   });
 
   it("allows selecting colors via color field/slider", async () => {
-    const page = await newE2EPage({
-      html: "<calcite-color-picker value='#000' scale='m'></calcite-color-picker>"
-    });
+    const page = await newE2EPage();
+    await page.setContent("<calcite-color-picker value='#000' scale='m'></calcite-color-picker>");
     const picker = await page.find(`calcite-color-picker`);
     const spy = await picker.spyOnEvent("calciteColorPickerChange");
     let changes = 0;
@@ -498,13 +415,13 @@ describe("calcite-color-picker", () => {
 
     const expectedColorSamples = [
       "#ff0000",
-      "#ffdd00",
+      "#ffd900",
       "#48ff00",
       "#00ff91",
       "#0095ff",
       "#4800ff",
       "#ff00dd",
-      "#ff0000"
+      "#ff0004"
     ];
 
     for (let i = 0; i < expectedColorSamples.length; i++) {

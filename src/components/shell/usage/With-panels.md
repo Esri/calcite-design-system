@@ -2,10 +2,10 @@ Renders a shell with a header and panels on the left and right sides of the app.
 
 ```html
 <calcite-shell>
-  <calcite-shell-panel slot="primary-panel" position="start">
+  <calcite-shell-panel slot="panel-start" position="start">
     Leading panel! (on the left side, since this is a LTR app)
   </calcite-shell-panel>
-  <calcite-shell-panel slot="contextual-panel" position="end"> Trailing panel! (right side) </calcite-shell-panel>
+  <calcite-shell-panel slot="panel-end" position="end"> Trailing panel! (right side) </calcite-shell-panel>
   <calcite-shell-center-row slot="center-row" position="end" height-scale="m">
     Center Row! (center bottom)
   </calcite-shell-center-row>

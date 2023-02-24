@@ -27,18 +27,3 @@ export const CSS = {
   timePicker: "time-picker",
   meridiemStart: "meridiem--start"
 };
-
-export const TEXT = {
-  hour: "Hour",
-  hourDown: "Decrease hour",
-  hourUp: "Increase hour",
-  meridiem: "AM/PM",
-  meridiemDown: "Decrease AM/PM",
-  meridiemUp: "Increase AM/PM",
-  minute: "Minute",
-  minuteDown: "Decrease minute",
-  minuteUp: "Increase minute",
-  second: "Second",
-  secondDown: "Decrease second",
-  secondUp: "Increase second"
-};

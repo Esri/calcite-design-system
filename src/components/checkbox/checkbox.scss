@@ -3,7 +3,7 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-checkbox-size: the width and height of the checkbox
+ * @prop --calcite-checkbox-size: Specifies the component's height and width.
  */
 
 :host([scale="s"]) {
@@ -21,6 +21,13 @@
     cursor-pointer
     select-none;
   -webkit-tap-highlight-color: transparent;
+
+  .check-svg,
+  .toggle {
+    inline-size: var(--calcite-checkbox-size);
+    block-size: var(--calcite-checkbox-size);
+  }
+
   .check-svg {
     @apply bg-foreground-1
       pointer-events-none
@@ -30,11 +37,7 @@
       fill-current
       stroke-current
       stroke-1
-      transition-all
-      duration-150
-      ease-in-out;
-    width: var(--calcite-checkbox-size);
-    height: var(--calcite-checkbox-size);
+      transition-default;
     box-shadow: inset 0 0 0 1px var(--calcite-ui-border-input);
     color: theme("backgroundColor.background");
   }
@@ -53,15 +56,14 @@
   }
 }
 
-:host {
-  .toggle:focus .check-svg,
-  .toggle:active .check-svg {
-    @include focus-box-shadow(inset 0 0 0 1px var(--calcite-ui-brand));
-  }
-}
+.toggle {
+  @apply focus-base;
 
-.toggle:focus-visible {
-  outline: none;
+  &:active,
+  &:focus,
+  &:focus-visible {
+    @apply focus-outset;
+  }
 }
 
 @include disabled();

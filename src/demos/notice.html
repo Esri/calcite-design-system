@@ -36,457 +36,483 @@
   </head>
 
   <body>
-    <h1 style="margin: 0 auto; text-align: center">Notice</h1>
+    <demo-dom-swapper>
+      <h1 style="margin: 0 auto; text-align: center">Notice</h1>
 
-    <!--
+      <!--
       **************************************************
       * SMALL
       **************************************************
      -->
-    <div class="parent">
-      <div class="child right-aligned-text"></div>
-      <div class="child">Small</div>
-    </div>
-
-    <!-- info -->
-    <div class="parent">
-      <div class="child right-aligned-text">Info</div>
-
-      <div class="child">
-        <calcite-notice icon="information" color="blue" scale="s" id="notice-five-small" active dismissible>
-          <div slot="title">Title lorem ispum</div>
-          <div slot="message">Body lorem ispum</div>
-        </calcite-notice>
+      <div class="parent">
+        <div class="child right-aligned-text"></div>
+        <div class="child">Small</div>
       </div>
-    </div>
+      <!-- brand -->
+      <div class="parent">
+        <div class="child right-aligned-text">Brand</div>
 
-    <!-- success -->
-    <div class="parent">
-      <div class="child right-aligned-text">Success</div>
-
-      <div class="child">
-        <calcite-notice icon="check-circle" color="green" id="success-one-small" scale="s" active dismissible>
-          <div slot="title">Title lorem ispum</div>
-          <div slot="message">Body lorem ispum</div>
-        </calcite-notice>
+        <div class="child">
+          <calcite-notice icon scale="s" open closable>
+            <div slot="title">Title lorem ispum</div>
+            <div slot="message">Body lorem ispum</div>
+          </calcite-notice>
+        </div>
       </div>
-    </div>
 
-    <!-- warning -->
-    <div class="parent">
-      <div class="child right-aligned-text">Warning</div>
+      <!-- info -->
+      <div class="parent">
+        <div class="child right-aligned-text">Info</div>
 
-      <div class="child">
-        <calcite-notice
-          icon="exclamation-mark-triangle"
-          color="yellow"
-          id="warning-one-small"
-          scale="s"
-          active
-          dismissible
-        >
-          <div slot="title">Title lorem ispum</div>
-          <div slot="message">Body lorem ispum</div>
-        </calcite-notice>
+        <div class="child">
+          <calcite-notice icon kind="info" scale="s" open closable>
+            <div slot="title">Title lorem ispum</div>
+            <div slot="message">Body lorem ispum</div>
+          </calcite-notice>
+        </div>
       </div>
-    </div>
 
-    <!-- danger -->
-    <div class="parent">
-      <div class="child right-aligned-text">Danger</div>
+      <!-- success -->
+      <div class="parent">
+        <div class="child right-aligned-text">Success</div>
 
-      <div class="child">
-        <calcite-notice icon="exclamation-mark-triangle" color="red" id="danger-one-small" scale="s" active dismissible>
-          <div slot="title">Title lorem ispum</div>
-          <div slot="message">Body lorem ispum</div>
-        </calcite-notice>
+        <div class="child">
+          <calcite-notice icon kind="success" scale="s" open closable>
+            <div slot="title">Title lorem ispum</div>
+            <div slot="message">Body lorem ispum</div>
+          </calcite-notice>
+        </div>
       </div>
-    </div>
 
-    <!-- Non-dismissible -->
-    <div class="parent">
-      <div class="child right-aligned-text">Non-dismissible</div>
+      <!-- warning -->
+      <div class="parent">
+        <div class="child right-aligned-text">Warning</div>
 
-      <div class="child">
-        <calcite-notice icon="information" color="blue" scale="s" id="notice-five-small" active>
-          <div slot="title">Title lorem ispum</div>
-          <div slot="message">Body lorem ispum</div>
-        </calcite-notice>
+        <div class="child">
+          <calcite-notice icon kind="warning" scale="s" open closable>
+            <div slot="title">Title lorem ispum</div>
+            <div slot="message">Body lorem ispum</div>
+          </calcite-notice>
+        </div>
       </div>
-    </div>
 
-    <!-- custom icon -->
-    <div class="parent">
-      <div class="child right-aligned-text">Custom Icon</div>
+      <!-- danger -->
+      <div class="parent">
+        <div class="child right-aligned-text">Danger</div>
 
-      <div class="child">
-        <calcite-notice icon="plus" scale="s" active dismissible>
-          <div slot="title">Title lorem ispum</div>
-          <div slot="message">Body lorem ispum</div>
-        </calcite-notice>
+        <div class="child">
+          <calcite-notice icon kind="danger" scale="s" open closable>
+            <div slot="title">Title lorem ispum</div>
+            <div slot="message">Body lorem ispum</div>
+          </calcite-notice>
+        </div>
       </div>
-    </div>
 
-    <!-- with link -->
-    <div class="parent">
-      <div class="child right-aligned-text">With link</div>
+      <!-- close-disabled -->
+      <div class="parent">
+        <div class="child right-aligned-text">close-disabled</div>
 
-      <div class="child">
-        <calcite-notice icon="information" scale="s" active dismissible>
-          <div slot="title">Title lorem ispum</div>
-          <div slot="message">Body lorem ispum</div>
-          <calcite-link slot="link" title="my action">Link ispum </calcite-link>
-        </calcite-notice>
+        <div class="child">
+          <calcite-notice scale="s" open>
+            <div slot="title">Title lorem ispum</div>
+            <div slot="message">Body lorem ispum</div>
+          </calcite-notice>
+        </div>
       </div>
-    </div>
 
-    <!-- No icon -->
-    <div class="parent">
-      <div class="child right-aligned-text">No icon</div>
+      <!-- custom icon -->
+      <div class="parent">
+        <div class="child right-aligned-text">Custom Icon</div>
 
-      <div class="child">
-        <calcite-notice color="blue" scale="s" id="no-icon-five-small" active dismissible>
-          <div slot="title">Title lorem ispum</div>
-          <div slot="message">Body lorem ispum</div>
-        </calcite-notice>
+        <div class="child">
+          <calcite-notice icon="layer" scale="s" open closable>
+            <div slot="title">Title lorem ispum</div>
+            <div slot="message">Body lorem ispum</div>
+          </calcite-notice>
+        </div>
       </div>
-    </div>
 
-    <!-- with actions and tooltip -->
-    <div class="parent">
-      <div class="child right-aligned-text">With actions and tooltip</div>
+      <!-- with link -->
+      <div class="parent">
+        <div class="child right-aligned-text">With link</div>
 
-      <div class="child">
-        <calcite-notice icon="information" scale="s" width="full" active dismissible>
-          <div slot="title">Title lorem ispum</div>
-          <div slot="message">Body lorem ispum</div>
-          <calcite-action id="retry-action-s" scale="s" slot="actions-end" title="Retry" icon="reset"></calcite-action>
-          <calcite-action id="info-action-s" scale="s" slot="actions-end" title="Get info" icon="attachment">
-          </calcite-action>
-        </calcite-notice>
-
-        <calcite-tooltip reference-element="retry-action-s" placement="top">Retry that action</calcite-tooltip>
-        <calcite-tooltip reference-element="info-action-s" placement="top">Attach a file</calcite-tooltip>
+        <div class="child">
+          <calcite-notice icon scale="s" open closable>
+            <div slot="title">Title lorem ispum</div>
+            <div slot="message">Body lorem ispum</div>
+            <calcite-link slot="link" title="my action">Link ispum </calcite-link>
+          </calcite-notice>
+        </div>
       </div>
-    </div>
 
-    <!-- with wrapping text -->
-    <div class="parent">
-      <div class="child right-aligned-text">With wrapping text</div>
+      <!-- No icon -->
+      <div class="parent">
+        <div class="child right-aligned-text">No icon</div>
 
-      <div class="child">
-        <calcite-notice icon="information" color="blue" scale="s" id="no-icon-five-small" active dismissible>
-          <div slot="title">Leverage agile frameworks to provide a robust synopsis lorem ipsum</div>
-          <div slot="message">
-            Organically grow the holistic world view of disruptive innovation via workplace diversity and empowerment.
-          </div>
-        </calcite-notice>
+        <div class="child">
+          <calcite-notice scale="s" open closable>
+            <div slot="title">Title lorem ispum</div>
+            <div slot="message">Body lorem ispum</div>
+          </calcite-notice>
+        </div>
       </div>
-    </div>
 
-    <hr />
-    <!-- A horizontal line -->
+      <!-- with actions and tooltip -->
+      <div class="parent">
+        <div class="child right-aligned-text">With actions and tooltip</div>
 
-    <!--
+        <div class="child">
+          <calcite-notice icon scale="s" width="full" open closable>
+            <div slot="title">Title lorem ispum</div>
+            <div slot="message">Body lorem ispum</div>
+            <calcite-action
+              id="retry-action-s"
+              scale="s"
+              slot="actions-end"
+              title="Retry"
+              icon="reset"
+            ></calcite-action>
+            <calcite-action id="info-action-s" scale="s" slot="actions-end" title="Get info" icon="attachment">
+            </calcite-action>
+          </calcite-notice>
+
+          <calcite-tooltip reference-element="retry-action-s" placement="top">Retry that action</calcite-tooltip>
+          <calcite-tooltip reference-element="info-action-s" placement="top">Attach a file</calcite-tooltip>
+        </div>
+      </div>
+
+      <!-- with wrapping text -->
+      <div class="parent">
+        <div class="child right-aligned-text">With wrapping text</div>
+
+        <div class="child">
+          <calcite-notice icon scale="s" open closable>
+            <div slot="title">Leverage agile frameworks to provide a robust synopsis lorem ipsum</div>
+            <div slot="message">
+              Organically grow the holistic world view of disruptive innovation via workplace diversity and empowerment.
+            </div>
+          </calcite-notice>
+        </div>
+      </div>
+
+      <hr />
+      <!-- A horizontal line -->
+
+      <!--
       **************************************************
       * MEDIUM
       **************************************************
      -->
-    <div class="parent">
-      <div class="child right-aligned-text"></div>
-      <div class="child">Medium</div>
-    </div>
 
-    <!-- info -->
-    <div class="parent">
-      <div class="child right-aligned-text">Info</div>
-
-      <div class="child">
-        <calcite-notice icon="information" color="blue" scale="m" id="notice-five-medium" active dismissible>
-          <div slot="title">Title lorem ispum</div>
-          <div slot="message">Body lorem ispum</div>
-        </calcite-notice>
+      <div class="parent">
+        <div class="child right-aligned-text"></div>
+        <div class="child">Medium</div>
       </div>
-    </div>
 
-    <!-- success -->
-    <div class="parent">
-      <div class="child right-aligned-text">Success</div>
+      <!-- brand -->
+      <div class="parent">
+        <div class="child right-aligned-text">Brand</div>
 
-      <div class="child">
-        <calcite-notice icon="check-circle" color="green" id="success-one-medium" scale="m" active dismissible>
-          <div slot="title">Title lorem ispum</div>
-          <div slot="message">Body lorem ispum</div>
-        </calcite-notice>
+        <div class="child">
+          <calcite-notice icon open closable>
+            <div slot="title">Title lorem ispum</div>
+            <div slot="message">Body lorem ispum</div>
+          </calcite-notice>
+        </div>
       </div>
-    </div>
 
-    <!-- warning -->
-    <div class="parent">
-      <div class="child right-aligned-text">Warning</div>
+      <!-- info -->
+      <div class="parent">
+        <div class="child right-aligned-text">Info</div>
 
-      <div class="child">
-        <calcite-notice
-          icon="exclamation-mark-triangle"
-          color="yellow"
-          id="warning-one-medium"
-          scale="m"
-          active
-          dismissible
-        >
-          <div slot="title">Title lorem ispum</div>
-          <div slot="message">Body lorem ispum</div>
-        </calcite-notice>
+        <div class="child">
+          <calcite-notice icon kind="info" open closable>
+            <div slot="title">Title lorem ispum</div>
+            <div slot="message">Body lorem ispum</div>
+          </calcite-notice>
+        </div>
       </div>
-    </div>
 
-    <!-- danger -->
-    <div class="parent">
-      <div class="child right-aligned-text">Danger</div>
+      <!-- success -->
+      <div class="parent">
+        <div class="child right-aligned-text">Success</div>
 
-      <div class="child">
-        <calcite-notice
-          icon="exclamation-mark-triangle"
-          color="red"
-          id="danger-one-medium"
-          scale="m"
-          active
-          dismissible
-        >
-          <div slot="title">Title lorem ispum</div>
-          <div slot="message">Body lorem ispum</div>
-        </calcite-notice>
+        <div class="child">
+          <calcite-notice icon kind="success" scale="m" open closable>
+            <div slot="title">Title lorem ispum</div>
+            <div slot="message">Body lorem ispum</div>
+          </calcite-notice>
+        </div>
       </div>
-    </div>
 
-    <!-- Non-dismissible -->
-    <div class="parent">
-      <div class="child right-aligned-text">Non-dismissible</div>
+      <!-- warning -->
+      <div class="parent">
+        <div class="child right-aligned-text">Warning</div>
 
-      <div class="child">
-        <calcite-notice icon="information" color="blue" scale="m" id="notice-five-medium" active>
-          <div slot="title">Title lorem ispum</div>
-          <div slot="message">Body lorem ispum</div>
-        </calcite-notice>
+        <div class="child">
+          <calcite-notice icon kind="warning" scale="m" open closable>
+            <div slot="title">Title lorem ispum</div>
+            <div slot="message">Body lorem ispum</div>
+          </calcite-notice>
+        </div>
       </div>
-    </div>
 
-    <!-- custom icon -->
-    <div class="parent">
-      <div class="child right-aligned-text">Custom Icon</div>
+      <!-- danger -->
+      <div class="parent">
+        <div class="child right-aligned-text">Danger</div>
 
-      <div class="child">
-        <calcite-notice icon="plus" scale="m" active dismissible>
-          <div slot="title">Title lorem ispum</div>
-          <div slot="message">Body lorem ispum</div>
-        </calcite-notice>
+        <div class="child">
+          <calcite-notice icon kind="danger" scale="m" open closable>
+            <div slot="title">Title lorem ispum</div>
+            <div slot="message">Body lorem ispum</div>
+          </calcite-notice>
+        </div>
       </div>
-    </div>
 
-    <!-- with link -->
-    <div class="parent">
-      <div class="child right-aligned-text">With link</div>
-
-      <div class="child">
-        <calcite-notice icon="information" scale="m" active dismissible>
-          <div slot="title">Title lorem ispum</div>
-          <div slot="message">Body lorem ispum</div>
-          <calcite-link slot="link" title="my action">Link ispum </calcite-link>
-        </calcite-notice>
+      <!-- close-disabled -->
+      <div class="parent">
+        <div class="child right-aligned-text">close-disabled</div>
+        <div class="child">
+          <calcite-notice scale="m" open>
+            <div slot="title">Title lorem ispum</div>
+            <div slot="message">Body lorem ispum</div>
+          </calcite-notice>
+        </div>
       </div>
-    </div>
 
-    <!-- No icon -->
-    <div class="parent">
-      <div class="child right-aligned-text">No icon</div>
+      <!-- custom icon -->
+      <div class="parent">
+        <div class="child right-aligned-text">Custom Icon</div>
 
-      <div class="child">
-        <calcite-notice color="blue" scale="m" id="no-icon-five-medium" active dismissible>
-          <div slot="title">Title lorem ispum</div>
-          <div slot="message">Body lorem ispum</div>
-        </calcite-notice>
+        <div class="child">
+          <calcite-notice icon="layer" scale="m" open closable>
+            <div slot="title">Title lorem ispum</div>
+            <div slot="message">Body lorem ispum</div>
+          </calcite-notice>
+        </div>
       </div>
-    </div>
 
-    <!-- with actions and tooltip -->
-    <div class="parent">
-      <div class="child right-aligned-text">With actions and tooltip</div>
+      <!-- with link -->
+      <div class="parent">
+        <div class="child right-aligned-text">With link</div>
 
-      <div class="child">
-        <calcite-notice icon="information" scale="m" width="full" active dismissible>
-          <div slot="title">Title lorem ispum</div>
-          <div slot="message">Body lorem ispum</div>
-          <calcite-action id="retry-action-s" scale="m" slot="actions-end" title="Retry" icon="reset"></calcite-action>
-          <calcite-action id="info-action-s" scale="m" slot="actions-end" title="Get info" icon="attachment">
-          </calcite-action>
-        </calcite-notice>
-
-        <calcite-tooltip reference-element="retry-action-s" placement="top">Retry that action</calcite-tooltip>
-        <calcite-tooltip reference-element="info-action-s" placement="top">Attach a file</calcite-tooltip>
+        <div class="child">
+          <calcite-notice icon scale="m" open closable>
+            <div slot="title">Title lorem ispum</div>
+            <div slot="message">Body lorem ispum</div>
+            <calcite-link slot="link" title="my action">Link ispum </calcite-link>
+          </calcite-notice>
+        </div>
       </div>
-    </div>
 
-    <!-- with wrapping text -->
-    <div class="parent">
-      <div class="child right-aligned-text">With wrapping text</div>
+      <!-- No icon -->
+      <div class="parent">
+        <div class="child right-aligned-text">No icon</div>
 
-      <div class="child">
-        <calcite-notice icon="information" color="blue" scale="m" id="no-icon-five-medium" active dismissible>
-          <div slot="title">Leverage agile frameworks to provide a robust synopsis lorem ipsum</div>
-          <div slot="message">
-            Organically grow the holistic world view of disruptive innovation via workplace diversity and empowerment.
-          </div>
-        </calcite-notice>
+        <div class="child">
+          <calcite-notice scale="m" open closable>
+            <div slot="title">Title lorem ispum</div>
+            <div slot="message">Body lorem ispum</div>
+          </calcite-notice>
+        </div>
       </div>
-    </div>
 
-    <hr />
-    <!-- A horizontal line -->
+      <!-- with actions and tooltip -->
+      <div class="parent">
+        <div class="child right-aligned-text">With actions and tooltip</div>
 
-    <!--
+        <div class="child">
+          <calcite-notice icon scale="m" width="full" open closable>
+            <div slot="title">Title lorem ispum</div>
+            <div slot="message">Body lorem ispum</div>
+            <calcite-action
+              id="retry-action-s"
+              scale="m"
+              slot="actions-end"
+              title="Retry"
+              icon="reset"
+            ></calcite-action>
+            <calcite-action id="info-action-s" scale="m" slot="actions-end" title="Get info" icon="attachment">
+            </calcite-action>
+          </calcite-notice>
+
+          <calcite-tooltip reference-element="retry-action-s" placement="top">Retry that action</calcite-tooltip>
+          <calcite-tooltip reference-element="info-action-s" placement="top">Attach a file</calcite-tooltip>
+        </div>
+      </div>
+
+      <!-- with wrapping text -->
+      <div class="parent">
+        <div class="child right-aligned-text">With wrapping text</div>
+
+        <div class="child">
+          <calcite-notice icon scale="m" open closable>
+            <div slot="title">Leverage agile frameworks to provide a robust synopsis lorem ipsum</div>
+            <div slot="message">
+              Organically grow the holistic world view of disruptive innovation via workplace diversity and empowerment.
+            </div>
+          </calcite-notice>
+        </div>
+      </div>
+
+      <hr />
+      <!-- A horizontal line -->
+
+      <!--
       **************************************************
       * LARGE
       **************************************************
      -->
-    <div class="parent">
-      <div class="child right-aligned-text"></div>
-      <div class="child">Large</div>
-    </div>
-
-    <!-- info -->
-    <div class="parent">
-      <div class="child right-aligned-text">Info</div>
-
-      <div class="child">
-        <calcite-notice icon="information" color="blue" scale="l" id="notice-five-large" active dismissible>
-          <div slot="title">Title lorem ispum</div>
-          <div slot="message">Body lorem ispum</div>
-        </calcite-notice>
+      <div class="parent">
+        <div class="child right-aligned-text"></div>
+        <div class="child">Large</div>
       </div>
-    </div>
 
-    <!-- success -->
-    <div class="parent">
-      <div class="child right-aligned-text">Success</div>
+      <!-- brand -->
+      <div class="parent">
+        <div class="child right-aligned-text">Brand</div>
 
-      <div class="child">
-        <calcite-notice icon="check-circle" color="green" id="success-one-large" scale="l" active dismissible>
-          <div slot="title">Title lorem ispum</div>
-          <div slot="message">Body lorem ispum</div>
-        </calcite-notice>
+        <div class="child">
+          <calcite-notice icon scale="l" open closable>
+            <div slot="title">Title lorem ispum</div>
+            <div slot="message">Body lorem ispum</div>
+          </calcite-notice>
+        </div>
       </div>
-    </div>
 
-    <!-- warning -->
-    <div class="parent">
-      <div class="child right-aligned-text">Warning</div>
+      <!-- info -->
+      <div class="parent">
+        <div class="child right-aligned-text">Info</div>
 
-      <div class="child">
-        <calcite-notice
-          icon="exclamation-mark-triangle"
-          color="yellow"
-          id="warning-one-large"
-          scale="l"
-          active
-          dismissible
-        >
-          <div slot="title">Title lorem ispum</div>
-          <div slot="message">Body lorem ispum</div>
-        </calcite-notice>
+        <div class="child">
+          <calcite-notice icon kind="info" scale="l" open closable>
+            <div slot="title">Title lorem ispum</div>
+            <div slot="message">Body lorem ispum</div>
+          </calcite-notice>
+        </div>
       </div>
-    </div>
 
-    <!-- danger -->
-    <div class="parent">
-      <div class="child right-aligned-text">Danger</div>
+      <!-- success -->
+      <div class="parent">
+        <div class="child right-aligned-text">Success</div>
 
-      <div class="child">
-        <calcite-notice icon="exclamation-mark-triangle" color="red" id="danger-one-large" scale="l" active dismissible>
-          <div slot="title">Title lorem ispum</div>
-          <div slot="message">Body lorem ispum</div>
-        </calcite-notice>
+        <div class="child">
+          <calcite-notice icon kind="success" scale="l" open closable>
+            <div slot="title">Title lorem ispum</div>
+            <div slot="message">Body lorem ispum</div>
+          </calcite-notice>
+        </div>
       </div>
-    </div>
 
-    <!-- Non-dismissible -->
-    <div class="parent">
-      <div class="child right-aligned-text">Non-dismissible</div>
+      <!-- warning -->
+      <div class="parent">
+        <div class="child right-aligned-text">Warning</div>
 
-      <div class="child">
-        <calcite-notice icon="information" color="blue" scale="l" id="notice-five-large" active>
-          <div slot="title">Title lorem ispum</div>
-          <div slot="message">Body lorem ispum</div>
-        </calcite-notice>
+        <div class="child">
+          <calcite-notice icon kind="warning" scale="l" open closable>
+            <div slot="title">Title lorem ispum</div>
+            <div slot="message">Body lorem ispum</div>
+          </calcite-notice>
+        </div>
       </div>
-    </div>
 
-    <!-- custom icon -->
-    <div class="parent">
-      <div class="child right-aligned-text">Custom Icon</div>
+      <!-- danger -->
+      <div class="parent">
+        <div class="child right-aligned-text">Danger</div>
 
-      <div class="child">
-        <calcite-notice icon="plus" scale="l" active dismissible>
-          <div slot="title">Title lorem ispum</div>
-          <div slot="message">Body lorem ispum</div>
-        </calcite-notice>
+        <div class="child">
+          <calcite-notice icon kind="danger" scale="l" open closable>
+            <div slot="title">Title lorem ispum</div>
+            <div slot="message">Body lorem ispum</div>
+          </calcite-notice>
+        </div>
       </div>
-    </div>
 
-    <!-- with link -->
-    <div class="parent">
-      <div class="child right-aligned-text">With link</div>
-
-      <div class="child">
-        <calcite-notice icon="information" scale="l" active dismissible>
-          <div slot="title">Title lorem ispum</div>
-          <div slot="message">Body lorem ispum</div>
-          <calcite-link slot="link" title="my action">Link ispum </calcite-link>
-        </calcite-notice>
+      <!-- close-disabled -->
+      <div class="parent">
+        <div class="child right-aligned-text">close-disabled</div>
+        <div class="child">
+          <calcite-notice icon scale="l" open>
+            <div slot="title">Title lorem ispum</div>
+            <div slot="message">Body lorem ispum</div>
+          </calcite-notice>
+        </div>
       </div>
-    </div>
 
-    <!-- No icon -->
-    <div class="parent">
-      <div class="child right-aligned-text">No icon</div>
+      <!-- custom icon -->
+      <div class="parent">
+        <div class="child right-aligned-text">Custom Icon</div>
 
-      <div class="child">
-        <calcite-notice color="blue" scale="l" id="no-icon-five-large" active dismissible>
-          <div slot="title">Title lorem ispum</div>
-          <div slot="message">Body lorem ispum</div>
-        </calcite-notice>
+        <div class="child">
+          <calcite-notice icon="layer" scale="l" open closable>
+            <div slot="title">Title lorem ispum</div>
+            <div slot="message">Body lorem ispum</div>
+          </calcite-notice>
+        </div>
       </div>
-    </div>
 
-    <!-- with actions and tooltip -->
-    <div class="parent">
-      <div class="child right-aligned-text">With actions and tooltip</div>
+      <!-- with link -->
+      <div class="parent">
+        <div class="child right-aligned-text">With link</div>
 
-      <div class="child">
-        <calcite-notice icon="information" scale="l" width="full" active dismissible>
-          <div slot="title">Title lorem ispum</div>
-          <div slot="message">Body lorem ispum</div>
-          <calcite-action id="retry-action-s" scale="l" slot="actions-end" title="Retry" icon="reset"></calcite-action>
-          <calcite-action id="info-action-s" scale="l" slot="actions-end" title="Get info" icon="attachment">
-          </calcite-action>
-        </calcite-notice>
-
-        <calcite-tooltip reference-element="retry-action-s" placement="top">Retry that action</calcite-tooltip>
-        <calcite-tooltip reference-element="info-action-s" placement="top">Attach a file</calcite-tooltip>
+        <div class="child">
+          <calcite-notice icon scale="l" open closable>
+            <div slot="title">Title lorem ispum</div>
+            <div slot="message">Body lorem ispum</div>
+            <calcite-link slot="link" title="my action">Link ispum </calcite-link>
+          </calcite-notice>
+        </div>
       </div>
-    </div>
 
-    <!-- with wrapping text -->
-    <div class="parent">
-      <div class="child right-aligned-text">With wrapping text</div>
+      <!-- No icon -->
+      <div class="parent">
+        <div class="child right-aligned-text">No icon</div>
 
-      <div class="child">
-        <calcite-notice icon="information" color="blue" scale="l" id="no-icon-five-large" active dismissible>
-          <div slot="title">Leverage agile frameworks to provide a robust synopsis lorem ipsum</div>
-          <div slot="message">
-            Organically grow the holistic world view of disruptive innovation via workplace diversity and empowerment.
-          </div>
-        </calcite-notice>
+        <div class="child">
+          <calcite-notice scale="l" open closable>
+            <div slot="title">Title lorem ispum</div>
+            <div slot="message">Body lorem ispum</div>
+          </calcite-notice>
+        </div>
       </div>
-    </div>
+
+      <!-- with actions and tooltip -->
+      <div class="parent">
+        <div class="child right-aligned-text">With actions and tooltip</div>
+
+        <div class="child">
+          <calcite-notice icon scale="l" width="full" open closable>
+            <div slot="title">Title lorem ispum</div>
+            <div slot="message">Body lorem ispum</div>
+            <calcite-action
+              id="retry-action-s"
+              scale="l"
+              slot="actions-end"
+              title="Retry"
+              icon="reset"
+            ></calcite-action>
+            <calcite-action id="info-action-s" scale="l" slot="actions-end" title="Get info" icon="attachment">
+            </calcite-action>
+          </calcite-notice>
+
+          <calcite-tooltip reference-element="retry-action-s" placement="top">Retry that action</calcite-tooltip>
+          <calcite-tooltip reference-element="info-action-s" placement="top">Attach a file</calcite-tooltip>
+        </div>
+      </div>
+
+      <!-- with wrapping text -->
+      <div class="parent">
+        <div class="child right-aligned-text">With wrapping text</div>
+
+        <div class="child">
+          <calcite-notice icon scale="l" open closable>
+            <div slot="title">Leverage agile frameworks to provide a robust synopsis lorem ipsum</div>
+            <div slot="message">
+              Organically grow the holistic world view of disruptive innovation via workplace diversity and empowerment.
+            </div>
+          </calcite-notice>
+        </div>
+      </div>
+    </demo-dom-swapper>
   </body>
 </html>

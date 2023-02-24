@@ -38,87 +38,89 @@
   </head>
 
   <body>
-    <!-- basic -->
-    <div class="parent">
-      <div class="child right-aligned-text">basic</div>
-      <div class="child">
-        <calcite-panel height-scale="s">
-          <div slot="header-content">Header!</div>
-          <p>Slotted content!</p>
-        </calcite-panel>
-      </div>
-    </div>
-
-    <!-- disabled -->
-    <div class="parent">
-      <div class="child right-aligned-text">disabled</div>
-      <div class="child">
-        <calcite-panel disabled>
-          <div slot="header-content">Header!</div>
-          <p>Slotted content!</p>
-        </calcite-panel>
-      </div>
-    </div>
-
-    <!-- footer -->
-    <div class="parent">
-      <div class="child right-aligned-text">footer</div>
-      <div class="child">
-        <calcite-panel>
-          <div slot="header-content">header-content slot</div>
-          <p>I have a footer.</p>
-          <div slot="footer">panel Footer</div>
-        </calcite-panel>
-      </div>
-    </div>
-
-    <!-- header with actions -->
-    <div class="parent">
-      <div class="child right-aligned-text">header with actions</div>
-      <div class="child">
-        <calcite-panel>
-          <calcite-action
-            label="icon left"
-            icon="left"
-            onclick="console.log('left clicked');"
-            slot="header-actions-start"
-          ></calcite-action>
-          <div slot="header-content">panel 3 header</div>
-          <calcite-action
-            label="icon right"
-            icon="right"
-            onclick="console.log('right clicked');"
-            slot="header-actions-end"
-          ></calcite-action>
-          <p>Buttons in the top left and right. Mainly for calcite-actions and not plain buttons.</p>
-        </calcite-panel>
-      </div>
-    </div>
-
-    <!-- dismissible panel -->
-    <div class="parent">
-      <div class="child right-aligned-text">dismissible panel</div>
-      <div class="child">
-        <calcite-panel dismissible id="dismissible-panel">
-          <div slot="header-content">Dismissible Header</div>
-          <p>Click the X and I go away!</p>
-        </calcite-panel>
-      </div>
-    </div>
-
-    <!-- Scrollable panel -->
-    <div class="parent">
-      <div class="child right-aligned-text">Scrollable panel</div>
-      <div class="child">
-        <div style="height: 200px; display: flex">
-          <calcite-panel>
-            <div>
-              <p style="height: 400px">Hello world!</p>
-              <p>Hello world!</p>
-            </div>
+    <demo-dom-swapper>
+      <!-- basic -->
+      <div class="parent">
+        <div class="child right-aligned-text">basic</div>
+        <div class="child">
+          <calcite-panel height-scale="s">
+            <div slot="header-content">Header!</div>
+            <p>Slotted content!</p>
           </calcite-panel>
         </div>
       </div>
-    </div>
+
+      <!-- disabled -->
+      <div class="parent">
+        <div class="child right-aligned-text">disabled</div>
+        <div class="child">
+          <calcite-panel disabled>
+            <div slot="header-content">Header!</div>
+            <p>Slotted content!</p>
+          </calcite-panel>
+        </div>
+      </div>
+
+      <!-- footer -->
+      <div class="parent">
+        <div class="child right-aligned-text">footer</div>
+        <div class="child">
+          <calcite-panel>
+            <div slot="header-content">header-content slot</div>
+            <p>I have a footer.</p>
+            <div slot="footer">panel Footer</div>
+          </calcite-panel>
+        </div>
+      </div>
+
+      <!-- header with actions -->
+      <div class="parent">
+        <div class="child right-aligned-text">header with actions</div>
+        <div class="child">
+          <calcite-panel>
+            <calcite-action
+              label="icon left"
+              icon="left"
+              onclick="console.log('left clicked');"
+              slot="header-actions-start"
+            ></calcite-action>
+            <div slot="header-content">panel 3 header</div>
+            <calcite-action
+              label="icon right"
+              icon="right"
+              onclick="console.log('right clicked');"
+              slot="header-actions-end"
+            ></calcite-action>
+            <p>Buttons in the top left and right. Mainly for calcite-actions and not plain buttons.</p>
+          </calcite-panel>
+        </div>
+      </div>
+
+      <!-- closable panel -->
+      <div class="parent">
+        <div class="child right-aligned-text">closable panel</div>
+        <div class="child">
+          <calcite-panel closable id="closable-panel">
+            <div slot="header-content">closable Header</div>
+            <p>Click the X and I go away!</p>
+          </calcite-panel>
+        </div>
+      </div>
+
+      <!-- Scrollable panel -->
+      <div class="parent">
+        <div class="child right-aligned-text">Scrollable panel</div>
+        <div class="child">
+          <div style="height: 200px; display: flex">
+            <calcite-panel>
+              <div>
+                <p style="height: 400px">Hello world!</p>
+                <p>Hello world!</p>
+              </div>
+            </calcite-panel>
+          </div>
+        </div>
+      </div>
+    </demo-dom-swapper>
   </body>
 </html>

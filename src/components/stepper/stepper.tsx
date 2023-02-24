@@ -7,19 +7,16 @@ import {
   Listen,
   Method,
   Prop,
-  VNode,
-  Watch
+  VNode
 } from "@stencil/core";
 
+import { focusElementInGroup } from "../../utils/dom";
+import { NumberingSystem } from "../../utils/locale";
 import { Layout, Scale } from "../interfaces";
-import {
-  StepperItemChangeEventDetail,
-  StepperItemEventDetail,
-  StepperItemKeyEventDetail
-} from "./interfaces";
+import { StepperItemChangeEventDetail, StepperItemKeyEventDetail } from "./interfaces";
 
 /**
- * @slot - A slot for adding `calcite-stepper-item`s.
+ * @slot - A slot for adding `calcite-stepper-item` elements.
  */
 @Component({
   tag: "calcite-stepper",
@@ -41,31 +38,29 @@ export class Stepper {
   //
   //--------------------------------------------------------------------------
 
-  /** optionally display a status icon next to the step title */
+  /** When `true`, displays a status icon in the `calcite-stepper-item` heading. */
   @Prop({ reflect: true }) icon = false;
 
-  /** specify the layout of stepper, defaults to horizontal */
-  @Prop({ reflect: true }) layout: Layout = "horizontal";
+  /** Defines the layout of the component. */
+  @Prop({ reflect: true }) layout: Extract<"horizontal" | "vertical", Layout> = "horizontal";
 
-  /** optionally display the number next to the step title */
+  /** When `true`, displays the step number in the `calcite-stepper-item` heading. */
   @Prop({ reflect: true }) numbered = false;
 
-  /** specify the scale of stepper, defaults to m */
+  /**
+   * Specifies the Unicode numeral system used by the component for localization.
+   */
+  @Prop({ reflect: true }) numberingSystem?: NumberingSystem;
+
+  /**
+   * Specifies the component's selected item.
+   *
+   * @readonly
+   */
+  @Prop({ mutable: true }) selectedItem: HTMLCalciteStepperItemElement = null;
+
+  /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";
-
-  /** @internal */
-  @Prop({ mutable: true }) requestedContent: Node[];
-
-  // watch for removal of disabled to register step
-  @Watch("requestedContent")
-  contentWatcher(): void {
-    if (this.layout === "horizontal") {
-      if (!this.stepperContentContainer && this.requestedContent) {
-        this.addHorizontalContentContainer();
-      }
-      this.updateContent(this.requestedContent);
-    }
-  }
 
   //--------------------------------------------------------------------------
   //
@@ -74,11 +69,19 @@ export class Stepper {
   //--------------------------------------------------------------------------
 
   /**
-   * This event fires when the active stepper item has changed.
+   * Fires when the active `calcite-stepper-item` changes.
+   *
+   */
+  @Event({ cancelable: false })
+  calciteStepperItemChange: EventEmitter<void>;
+
+  /**
+   * Fires when the active `calcite-stepper-item` changes.
    *
    * @internal
    */
-  @Event() calciteInternalStepperItemChange: EventEmitter<StepperItemChangeEventDetail>;
+  @Event({ cancelable: false })
+  calciteInternalStepperItemChange: EventEmitter<StepperItemChangeEventDetail>;
 
   //--------------------------------------------------------------------------
   //
@@ -87,21 +90,27 @@ export class Stepper {
   //--------------------------------------------------------------------------
   componentDidLoad(): void {
     // if no stepper items are set as active, default to the first one
-    if (!this.currentPosition) {
+    if (typeof this.currentPosition !== "number") {
       this.calciteInternalStepperItemChange.emit({
         position: 0
       });
     }
   }
 
-  componentWillLoad() {
-    if (this.layout === "horizontal" && !this.stepperContentContainer) {
-      this.addHorizontalContentContainer();
-    }
-  }
-
   render(): VNode {
-    return <slot />;
+    return (
+      <slot
+        onSlotchange={(event: Event) => {
+          const items = (event.currentTarget as HTMLSlotElement)
+            .assignedElements()
+            .filter((el) => el?.tagName === "CALCITE-STEPPER-ITEM");
+
+          const spacing = Array(items.length).fill("1fr").join(" ");
+          this.el.style.gridTemplateAreas = spacing;
+          this.el.style.gridTemplateColumns = spacing;
+        }}
+      />
+    );
   }
 
   //--------------------------------------------------------------------------
@@ -111,46 +120,33 @@ export class Stepper {
   //--------------------------------------------------------------------------
 
   @Listen("calciteInternalStepperItemKeyEvent")
-  calciteInternalStepperItemKeyEvent(e: CustomEvent<StepperItemKeyEventDetail>): void {
-    const item = e.detail.item;
-    const itemToFocus = e.target as HTMLCalciteStepperItemElement;
-    const isFirstItem = this.itemIndex(itemToFocus) === 0;
-    const isLastItem = this.itemIndex(itemToFocus) === this.enabledItems.length - 1;
+  calciteInternalStepperItemKeyEvent(event: CustomEvent<StepperItemKeyEventDetail>): void {
+    const item = event.detail.item;
+    const itemToFocus = event.target as HTMLCalciteStepperItemElement;
+
     switch (item.key) {
       case "ArrowDown":
       case "ArrowRight":
-        if (isLastItem) {
-          this.focusFirstItem();
-        } else {
-          this.focusNextItem(itemToFocus);
-        }
+        focusElementInGroup(this.enabledItems, itemToFocus, "next");
         break;
       case "ArrowUp":
       case "ArrowLeft":
-        if (isFirstItem) {
-          this.focusLastItem();
-        } else {
-          this.focusPrevItem(itemToFocus);
-        }
+        focusElementInGroup(this.enabledItems, itemToFocus, "previous");
         break;
       case "Home":
-        this.focusFirstItem();
+        focusElementInGroup(this.enabledItems, itemToFocus, "first");
         break;
       case "End":
-        this.focusLastItem();
+        focusElementInGroup(this.enabledItems, itemToFocus, "last");
         break;
     }
-    e.stopPropagation();
+    event.stopPropagation();
   }
 
   @Listen("calciteInternalStepperItemRegister")
-  registerItem(event: CustomEvent<StepperItemEventDetail>): void {
+  registerItem(event: CustomEvent): void {
     const item = event.target as HTMLCalciteStepperItemElement;
     const { content, position } = event.detail;
-
-    if (content && item.active) {
-      this.requestedContent = content;
-    }
 
     this.itemMap.set(item, { position, content });
     this.items = this.sortItems();
@@ -159,15 +155,22 @@ export class Stepper {
   }
 
   @Listen("calciteInternalStepperItemSelect")
-  updateItem(event: CustomEvent<StepperItemEventDetail>): void {
-    if (event.detail.content) {
-      this.requestedContent = event.detail.content;
+  updateItem(event: CustomEvent): void {
+    const { position } = event.detail;
+
+    if (typeof position === "number") {
+      this.currentPosition = position;
+      this.selectedItem = event.target as HTMLCalciteStepperItemElement;
     }
-    this.currentPosition = event.detail.position;
+
     this.calciteInternalStepperItemChange.emit({
-      position: this.currentPosition
+      position
     });
-    event.stopPropagation();
+  }
+
+  @Listen("calciteInternalUserRequestedStepperItemSelect")
+  handleUserRequestedStepperItemSelect(): void {
+    this.calciteStepperItemChange.emit();
   }
 
   //--------------------------------------------------------------------------
@@ -176,7 +179,7 @@ export class Stepper {
   //
   //--------------------------------------------------------------------------
 
-  /** set the next step as active */
+  /** Set the next `calcite-stepper-item` as active. */
   @Method()
   async nextStep(): Promise<void> {
     const enabledStepIndex = this.getEnabledStepIndex(this.currentPosition + 1, "next");
@@ -188,7 +191,7 @@ export class Stepper {
     this.updateStep(enabledStepIndex);
   }
 
-  /** set the previous step as active */
+  /** Set the previous `calcite-stepper-item` as active. */
   @Method()
   async prevStep(): Promise<void> {
     const enabledStepIndex = this.getEnabledStepIndex(this.currentPosition - 1, "previous");
@@ -201,7 +204,7 @@ export class Stepper {
   }
 
   /**
-   * set the requested step as active
+   * Set a specified `calcite-stepper-item` as active.
    *
    * @param step
    */
@@ -214,7 +217,7 @@ export class Stepper {
     }
   }
 
-  /** set the first step as active */
+  /** Set the first `calcite-stepper-item` as active. */
   @Method()
   async startStep(): Promise<void> {
     const enabledStepIndex = this.getEnabledStepIndex(0, "next");
@@ -226,7 +229,7 @@ export class Stepper {
     this.updateStep(enabledStepIndex);
   }
 
-  /** set the last step as active */
+  /** Set the last `calcite-stepper-item` as active. */
   @Method()
   async endStep(): Promise<void> {
     const enabledStepIndex = this.getEnabledStepIndex(this.items.length - 1, "previous");
@@ -255,9 +258,6 @@ export class Stepper {
   /** keep track of the currently active item position */
   private currentPosition: number;
 
-  /** the container where we place horizontal layout step content */
-  private stepperContentContainer: HTMLDivElement;
-
   //--------------------------------------------------------------------------
   //
   //  Private Methods
@@ -281,57 +281,11 @@ export class Stepper {
       : null;
   }
 
-  private addHorizontalContentContainer(): void {
-    this.stepperContentContainer = document.createElement("div") as HTMLDivElement;
-    this.stepperContentContainer.classList.add("calcite-stepper-content");
-    this.el.insertAdjacentElement("beforeend", this.stepperContentContainer);
-  }
-
   private updateStep(position: number): void {
-    const { itemMap, items } = this;
-
     this.currentPosition = position;
-
-    const content = itemMap.get(items[position])?.content;
-
-    if (content) {
-      this.requestedContent = content;
-    }
-
     this.calciteInternalStepperItemChange.emit({
       position
     });
-  }
-
-  private focusFirstItem(): void {
-    const firstItem = this.enabledItems[0];
-    this.focusElement(firstItem);
-  }
-
-  private focusLastItem(): void {
-    const lastItem = this.enabledItems[this.enabledItems.length - 1];
-    this.focusElement(lastItem);
-  }
-
-  private focusNextItem(e: HTMLCalciteStepperItemElement): void {
-    const index = this.itemIndex(e);
-    const nextItem = this.enabledItems[index + 1] || this.enabledItems[0];
-    this.focusElement(nextItem);
-  }
-
-  private focusPrevItem(e: HTMLCalciteStepperItemElement): void {
-    const index = this.itemIndex(e);
-    const prevItem =
-      this.enabledItems[index - 1] || this.enabledItems[this.enabledItems.length - 1];
-    this.focusElement(prevItem);
-  }
-
-  private itemIndex(e: HTMLCalciteStepperItemElement): number {
-    return this.enabledItems.indexOf(e);
-  }
-
-  private focusElement(item: HTMLCalciteStepperItemElement) {
-    item.focus();
   }
 
   private sortItems(): HTMLCalciteStepperItemElement[] {
@@ -344,10 +298,5 @@ export class Stepper {
 
   private filterItems(): HTMLCalciteStepperItemElement[] {
     return this.items.filter((item) => !item.disabled);
-  }
-
-  private updateContent(content: Node[]): void {
-    this.stepperContentContainer.innerHTML = "";
-    this.stepperContentContainer.append(...content);
   }
 }

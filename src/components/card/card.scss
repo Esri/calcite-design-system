@@ -2,32 +2,25 @@
   @apply block max-w-full;
   & .calcite-card-container {
     @apply bg-foreground-1
-      border-color-2
-      text-color-3
-      relative
-      flex
-      h-full
-      flex-col
-      justify-between
-      border
-      border-solid
-      shadow-none
-      duration-150
-      ease-in-out;
+    border-color-2
+    text-color-3
+    relative
+    flex
+    h-full
+    flex-col
+    justify-between
+    border
+    border-solid
+    shadow-none
+    duration-150
+    ease-in-out
+    overflow-hidden;
     border-radius: var(--calcite-border-radius-base);
-    &:hover {
-      @apply shadow-1-lg;
-      z-index: 1;
-    }
-    &:active {
-      @apply shadow-1-sm duration-75;
-      z-index: 1;
-    }
   }
 }
 
 .container {
-  @apply flex flex-auto flex-col;
+  @apply relative flex flex-auto flex-col;
 }
 
 :host([loading]) .calcite-card-container *:not(calcite-loader):not(.calcite-card-loader-container) {
@@ -64,11 +57,6 @@
     p-3;
 }
 
-// selectable and selected styles
-:host([selectable]) .calcite-card-container:active {
-  @apply shadow-1-sm;
-}
-
 :host([selected]) .calcite-card-container {
   @apply border-color-brand;
 }
@@ -79,6 +67,13 @@
     text-n1-wrap
     m-0
     font-medium;
+}
+
+:host([selectable]) {
+  .header {
+    // prevents overlap with checkbox (default header padding + no-overlap spacing)
+    padding-inline-end: theme("spacing.8");
+  }
 }
 
 @include slotted("subtitle", "*") {
@@ -93,20 +88,40 @@
   @apply min-w-full max-w-full;
 }
 
-@include slotted("footer-leading", "*") {
+@include slotted("footer-start", "*") {
   @apply text-n2-wrap self-center;
   margin-inline-end: auto;
 }
-@include slotted("footer-trailing", "*") {
+@include slotted("footer-end", "*") {
   @apply text-n2-wrap self-center;
-}
-
-.thumbnail-wrapper {
-  @apply text-0-wrap;
 }
 
 .checkbox-wrapper {
   @apply absolute m-0 p-0;
-  top: theme("spacing.2");
+  inset-block-start: theme("spacing.2");
   inset-inline-end: theme("spacing.2");
+}
+
+.thumbnail-wrapper {
+  @apply flex;
+}
+
+.calcite-card-container.inline {
+  @apply flex-row;
+
+  & > .container {
+    @apply w-3/5;
+  }
+  & > .thumbnail-wrapper {
+    @apply items-start w-2/5;
+  }
+
+  @include slotted("thumbnail", "img") {
+    @apply w-full;
+  }
+}
+
+slot[name="footer-start"]::slotted(*),
+slot[name="footer-end"]::slotted(*) {
+  @apply flex gap-1;
 }

@@ -1,103 +1,96 @@
-import { select, optionsKnob } from "@storybook/addon-knobs";
-import { createSteps, iconNames, stepStory } from "../../../.storybook/helpers";
-import { placeholderImage, themesDarkDefault } from "../../../.storybook/utils";
-import readme1 from "./readme.md";
-import readme2 from "../tab/readme.md";
+import { select } from "@storybook/addon-knobs";
+import { iconNames, storyFilters } from "../../../.storybook/helpers";
+import { placeholderImage } from "../../../.storybook/placeholderImage";
+import { modesDarkDefault } from "../../../.storybook/utils";
+import { html } from "../../../support/formatting";
 import readme3 from "../tab-nav/readme.md";
 import readme4 from "../tab-title/readme.md";
-import { html } from "../../../support/formatting";
+import readme2 from "../tab/readme.md";
+import readme1 from "./readme.md";
 
 export default {
   title: "Components/Tabs",
-
   parameters: {
     notes: [readme1, readme2, readme3, readme4]
-  }
+  },
+  ...storyFilters()
 };
 
-export const Simple = stepStory(
-  (): string => html`
-    <calcite-tabs
-      layout="${select("layout", ["inline", "center"], "inline")}"
-      position="${select("position", ["above", "below"], "above")}"
-      scale="${select("scale", ["s", "m", "l"], "m")}"
-    >
-      <calcite-tab-nav slot="tab-nav">
-        <calcite-tab-title active>Tab 1 Title</calcite-tab-title>
-        <calcite-tab-title id="reference-element">Tab 2 Title</calcite-tab-title>
-        <calcite-tab-title>Tab 3 Title</calcite-tab-title>
-        <calcite-tab-title>Tab 4 Title</calcite-tab-title>
-      </calcite-tab-nav>
-
-      <calcite-tab active>
-        <p>Tab 1 Content</p><br />
-      </calcite-tab>
-      <calcite-tab><p>Tab 2 Content</p>
-      <img src="${placeholderImage({
-        width: 1000,
-        height: 200
-      })}"></img>
-      </calcite-tab>
-      <calcite-tab><p>Tab 3 Content</p></calcite-tab>
-      <calcite-tab><p>Tab 4 Content</p></calcite-tab>
-    </calcite-tabs>
-  `,
-  createSteps("calcite-tabs").snapshot("simple").click("#reference-element").snapshot("horizontal scroll")
-);
-
-export const Bordered = (): string => html`
+export const simpleDarkModeRTL_TestOnly = (): string => html`
   <calcite-tabs
-    layout="inline"
-    position="${select("position", ["above", "below"], "above")}"
+    dir="rtl"
+    class="calcite-mode-dark"
+    layout="${select("layout", ["inline", "center"], "inline")}"
+    position="${select("position", ["top", "bottom"], "top")}"
+    scale="${select("scale", ["s", "m", "l"], "m")}"
+  >
+    <calcite-tab-nav slot="title-group">
+      <calcite-tab-title selected>Tab 1 Title</calcite-tab-title>
+      <calcite-tab-title>Tab 2 Title</calcite-tab-title>
+      <calcite-tab-title disabled>Disabled Tab</calcite-tab-title>
+      <calcite-tab-title>Tab 4 Title</calcite-tab-title>
+    </calcite-tab-nav>
+    <calcite-tab selected><p>Tab 1 Content</p></calcite-tab>
+    <calcite-tab><p>Tab 2 Content</p></calcite-tab>
+    <calcite-tab><p>Tab 3 Content</p></calcite-tab>
+    <calcite-tab><p>Tab 4 Content</p></calcite-tab>
+  </calcite-tabs>
+`;
+simpleDarkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
+
+export const bordered = (): string => html`
+  <calcite-tabs
+    layout="${select("layout", ["inline", "center"], "inline")}"
+    position="${select("position", ["top", "bottom"], "top")}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
     bordered
   >
-    <calcite-tab-nav slot="tab-nav">
+    <calcite-tab-nav slot="title-group">
       <calcite-tab-title tab="tab1">Tab 1 Title</calcite-tab-title>
       <calcite-tab-title tab="tab2">Tab 2 Title</calcite-tab-title>
       <calcite-tab-title tab="tab3">Tab 3 Title</calcite-tab-title>
-      <calcite-tab-title tab="tab4" active>Tab 4 Title</calcite-tab-title>
+      <calcite-tab-title tab="tab4" selected>Tab 4 Title</calcite-tab-title>
     </calcite-tab-nav>
     <calcite-tab tab="tab1">Tab 1 Content</calcite-tab>
     <calcite-tab tab="tab2">Tab 2 Content</calcite-tab>
     <calcite-tab tab="tab3">Tab 3 Content</calcite-tab>
-    <calcite-tab tab="tab4" active>Tab 4 Content</calcite-tab>
+    <calcite-tab tab="tab4" selected>Tab 4 Content</calcite-tab>
   </calcite-tabs>
 `;
 
-export const BorderedRTLDark = (): string => html`
+export const borderedDarkModeRTL_TestOnly = (): string => html`
   <calcite-tabs
     layout="inline"
-    position="${select("position", ["above", "below"], "above")}"
+    position="${select("position", ["top", "bottom"], "top")}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
     bordered
     dir="rtl"
-    class="calcite-theme-dark"
+    class="calcite-mode-dark"
   >
-    <calcite-tab-nav slot="tab-nav">
+    <calcite-tab-nav slot="title-group">
       <calcite-tab-title tab="tab1">Tab 1 Title</calcite-tab-title>
       <calcite-tab-title tab="tab2">Tab 2 Title</calcite-tab-title>
       <calcite-tab-title tab="tab3">Tab 3 Title</calcite-tab-title>
-      <calcite-tab-title tab="tab4" active>Tab 4 Title</calcite-tab-title>
+      <calcite-tab-title tab="tab4" selected>Tab 4 Title</calcite-tab-title>
     </calcite-tab-nav>
     <calcite-tab tab="tab1">Tab 1 Content</calcite-tab>
     <calcite-tab tab="tab2">Tab 2 Content</calcite-tab>
     <calcite-tab tab="tab3">Tab 3 Content</calcite-tab>
-    <calcite-tab tab="tab4" active>Tab 4 Content</calcite-tab>
+    <calcite-tab tab="tab4" selected>Tab 4 Content</calcite-tab>
   </calcite-tabs>
 `;
-BorderedRTLDark.parameters = { themes: themesDarkDefault };
+borderedDarkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
 
 const selectedIcon = iconNames[0];
 
-export const WithIcons = (): string => html`
+export const withIcons = (): string => html`
   <calcite-tabs
     layout="${select("layout", ["inline", "center"], "inline")}"
-    position="${select("position", ["above", "below"], "above")}"
+    position="${select("position", ["top", "bottom"], "top")}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
   >
-    <calcite-tab-nav slot="tab-nav">
-      <calcite-tab-title active icon-start="${select("tab 1 icon-start", iconNames, selectedIcon)}"
+    <calcite-tab-nav slot="title-group">
+      <calcite-tab-title selected icon-start="${select("tab 1 icon-start", iconNames, selectedIcon)}"
         >Tab 1 Title</calcite-tab-title
       >
       <calcite-tab-title icon-end="${select("tab 2 icon-end", iconNames, selectedIcon)}">Tab 2 Title</calcite-tab-title>
@@ -109,30 +102,28 @@ export const WithIcons = (): string => html`
       <calcite-tab-title icon-start="${select("tab 4 icon-start", iconNames, selectedIcon)}"></calcite-tab-title>
     </calcite-tab-nav>
 
-    <calcite-tab active><p>Tab 1 Content</p></calcite-tab>
+    <calcite-tab selected><p>Tab 1 Content</p></calcite-tab>
     <calcite-tab><p>Tab 2 Content</p></calcite-tab>
     <calcite-tab><p>Tab 3 Content</p></calcite-tab>
     <calcite-tab><p>Tab 4 Content</p></calcite-tab>
   </calcite-tabs>
 `;
 
-WithIcons.storyName = "With icons";
-
-export const SetWidth = (): string => html`
+export const setWidth = (): string => html`
   <div style="width: 400px;">
     <calcite-tabs
     layout="${select("layout", ["inline", "center"], "inline")}"
-    position="${select("position", ["above", "below"], "above")}"
+    position="${select("position", ["top", "bottom"], "top")}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
     >
-    <calcite-tab-nav slot="tab-nav">
-      <calcite-tab-title active>Tab 1 Title</calcite-tab-title>
+    <calcite-tab-nav slot="title-group">
+      <calcite-tab-title selected>Tab 1 Title</calcite-tab-title>
       <calcite-tab-title id="reference-element">Tab 2 Title</calcite-tab-title>
       <calcite-tab-title>Tab 3 Title</calcite-tab-title>
       <calcite-tab-title>Tab 4 Title</calcite-tab-title>
     </calcite-tab-nav>
 
-    <calcite-tab active>
+    <calcite-tab selected>
       <p>Tab 1 Content</p><br />
     </calcite-tab>
     <calcite-tab><p>Tab 2 Content</p>
@@ -147,103 +138,39 @@ export const SetWidth = (): string => html`
   </div>
 `;
 
-export const JustTabNav = (): string => html`
+export const justTabNav = (): string => html`
   <calcite-tab-nav
-    position="${select("position", ["above", "below"], "below")}"
+    position="${select("position", ["top", "bottom"], "top")}"
     scale="${select("scale", ["s", "m", "l"], "l")}"
   >
     <calcite-tab-title>Tab 1 Title</calcite-tab-title>
     <calcite-tab-title>Tab 2 Title</calcite-tab-title>
     <calcite-tab-title>Tab 3 Title</calcite-tab-title>
-    <calcite-tab-title active>Tab 4 Title</calcite-tab-title>
+    <calcite-tab-title selected>Tab 4 Title</calcite-tab-title>
   </calcite-tab-nav>
 `;
 
-export const DarkMode = (): string => html`
-  <calcite-tabs
-    class="calcite-theme-dark"
-    layout="${select("layout", ["inline", "center"], "inline")}"
-    position="${select("position", ["above", "below"], "above")}"
-    scale="${select("scale", ["s", "m", "l"], "m")}"
-  >
-    <calcite-tab-nav slot="tab-nav">
-      <calcite-tab-title active>Tab 1 Title</calcite-tab-title>
-      <calcite-tab-title>Tab 2 Title</calcite-tab-title>
-      <calcite-tab-title>Tab 3 Title</calcite-tab-title>
-      <calcite-tab-title>Tab 4 Title</calcite-tab-title>
+export const disabledTabsAndMediumIconsForLargeTabsTitle_TestOnly = (): string => html`
+  <calcite-tabs scale="l">
+    <calcite-tab-nav slot="title-group">
+      <calcite-tab-title selected>Tab 1 Title</calcite-tab-title>
+      <calcite-tab-title disabled icon-start="arrow-left">Tab 2 Title</calcite-tab-title>
+      <calcite-tab-title disabled icon-start="arrow-left" icon-end="arrow-right">Tab 3 Title</calcite-tab-title>
     </calcite-tab-nav>
-    <calcite-tab active><p>Tab 1 Content</p></calcite-tab>
+
+    <calcite-tab><p>Tab 1 Content</p></calcite-tab>
     <calcite-tab><p>Tab 2 Content</p></calcite-tab>
     <calcite-tab><p>Tab 3 Content</p></calcite-tab>
-    <calcite-tab><p>Tab 4 Content</p></calcite-tab>
   </calcite-tabs>
 `;
 
-DarkMode.storyName = "Dark mode";
-DarkMode.parameters = { themes: themesDarkDefault };
-
-export const DisabledTabs = (): string => {
-  const disabledLabel = "Disabled Tabs";
-  const disabledValuesObj = {
-    Tab1: "tab1",
-    Tab2: "tab2",
-    Tab3: "tab3"
-  };
-  const defaultValue = "tab2";
-  const optionsKnobSelections = optionsKnob(
-    disabledLabel,
-    disabledValuesObj,
-    defaultValue,
-    { display: "multi-select" },
-    "DISABLED-TABS"
-  );
-  const tab1disabled = optionsKnobSelections.includes(disabledValuesObj.Tab1);
-  const tab2disabled = optionsKnobSelections.includes(disabledValuesObj.Tab2);
-  const tab3disabled = optionsKnobSelections.includes(disabledValuesObj.Tab3);
-
-  return `
-      <calcite-tabs>
-        <calcite-tab-nav slot="tab-nav">
-          <calcite-tab-title active ${tab1disabled ? "disabled" : ""}>Tab 1 Title</calcite-tab-title>
-          <calcite-tab-title ${tab2disabled ? "disabled" : ""}>Tab 2 Title</calcite-tab-title>
-          <calcite-tab-title ${tab3disabled ? "disabled" : ""}>Tab 3 Title</calcite-tab-title>
-        </calcite-tab-nav>
-
-        <calcite-tab active><p>Tab 1 Content</p></calcite-tab>
-        <calcite-tab><p>Tab 2 Content</p></calcite-tab>
-        <calcite-tab><p>Tab 3 Content</p></calcite-tab>
-      </calcite-tabs>
-    `;
-};
-
-DisabledTabs.storyName = "Disabled tabs";
-
-export const RTL = (): string => html`
-  <calcite-tabs
-    dir="rtl"
-    layout="${select("layout", ["inline", "center"], "inline")}"
-    position="${select("position", ["above", "below"], "above")}"
-    scale="${select("scale", ["s", "m", "l"], "m")}"
-  >
-    <calcite-tab-nav slot="tab-nav">
-      <calcite-tab-title active>Tab 1 Title</calcite-tab-title>
-      <calcite-tab-title>Tab 2 Title</calcite-tab-title>
-      <calcite-tab-title>Tab 3 Title</calcite-tab-title>
-      <calcite-tab-title>Tab 4 Title</calcite-tab-title>
+export const TabChilrenWithPercentageHeights = (): string => html`
+  <calcite-tabs style="height: 250px;">
+    <calcite-tab-nav slot="title-group">
+      <calcite-tab-title selected>Boats</calcite-tab-title>
     </calcite-tab-nav>
-
-    <calcite-tab active><p>Tab 1 Content</p></calcite-tab>
-    <calcite-tab><p>Tab 2 Content</p></calcite-tab>
-    <calcite-tab><p>Tab 3 Content</p></calcite-tab>
-    <calcite-tab><p>Tab 4 Content</p></calcite-tab>
+    <calcite-tab style="background: pink;">
+      <div style="background: red; height: 100%;">Tab 1 content</div>
+    </calcite-tab>
   </calcite-tabs>
 `;
-
-export const disabled = (): string => html`<calcite-tabs>
-  <calcite-tab-nav slot="tab-nav">
-    <calcite-tab-title active>Tab 1 Title</calcite-tab-title>
-    <calcite-tab-title disabled>Tab 2 Title</calcite-tab-title>
-  </calcite-tab-nav>
-  <calcite-tab active><p>Tab 1 Content</p></calcite-tab>
-  <calcite-tab><p>Tab 2 Content</p></calcite-tab>
-</calcite-tabs>`;

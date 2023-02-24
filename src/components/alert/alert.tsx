@@ -12,10 +12,42 @@ import {
   VNode,
   Watch
 } from "@stencil/core";
-import { getSlotted, setRequestedIcon, toAriaBoolean } from "../../utils/dom";
-import { DURATIONS, SLOTS, TEXT } from "./resources";
-import { Scale } from "../interfaces";
-import { AlertDuration, AlertPlacement, StatusColor, StatusIcons } from "./interfaces";
+import {
+  getSlotted,
+  setRequestedIcon,
+  slotChangeHasAssignedElement,
+  toAriaBoolean
+} from "../../utils/dom";
+import { MenuPlacement } from "../../utils/floating-ui";
+import {
+  componentLoaded,
+  LoadableComponent,
+  setComponentLoaded,
+  setUpLoadableComponent
+} from "../../utils/loadable";
+import {
+  connectLocalized,
+  disconnectLocalized,
+  NumberingSystem,
+  numberStringFormatter
+} from "../../utils/locale";
+import {
+  connectOpenCloseComponent,
+  disconnectOpenCloseComponent,
+  OpenCloseComponent
+} from "../../utils/openCloseComponent";
+import {
+  connectMessages,
+  disconnectMessages,
+  setUpMessages,
+  T9nComponent,
+  updateMessages
+} from "../../utils/t9n";
+import { Kind, Scale } from "../interfaces";
+import { KindIcons } from "../resources";
+import { AlertMessages } from "./assets/alert/t9n";
+import { AlertDuration, Sync } from "./interfaces";
+import { CSS, DURATIONS, SLOTS } from "./resources";
 
 /**
  * Alerts are meant to provide a way to communicate urgent or important information to users, frequently as a result of an action they took in your app. Alerts are positioned
@@ -23,17 +55,19 @@ import { AlertDuration, AlertPlacement, StatusColor, StatusIcons } from "./inter
  */
 
 /**
- * @slot title - Title of the alert (optional)
- * @slot message - Main text of the alert
- * @slot link - Optional action to take from the alert (undo, try again, link to page, etc.)
+ * @slot title - A slot for adding a title to the component.
+ * @slot message - A slot for adding main text to the component.
+ * @slot link - A slot for adding a `calcite-action` to take from the component such as: "undo", "try again", "link to page", etc.
+ * @slot actions-end - A slot for adding `calcite-action`s to the end of the component. It is recommended to use two or fewer actions.
  */
 
 @Component({
   tag: "calcite-alert",
   styleUrl: "alert.scss",
-  shadow: true
+  shadow: true,
+  assetsDirs: ["assets"]
 })
-export class Alert {
+export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponent {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -48,64 +82,93 @@ export class Alert {
   //
   //---------------------------------------------------------------------------
 
-  /** Is the alert currently active or not */
-  @Prop({ reflect: true, mutable: true }) active = false;
+  /** When `true`, displays and positions the component. */
+  @Prop({ reflect: true, mutable: true }) open = false;
 
-  @Watch("active")
-  watchActive(): void {
-    if (this.active && !this.queued) {
+  @Watch("open")
+  openHandler(): void {
+    if (this.open && !this.queued) {
       this.calciteInternalAlertRegister.emit();
     }
-    if (!this.active) {
-      this.queue = this.queue.filter((e) => e !== this.el);
+    if (!this.open) {
+      this.queue = this.queue.filter((el) => el !== this.el);
       this.calciteInternalAlertSync.emit({ queue: this.queue });
     }
   }
 
-  /** Close the alert automatically (recommended for passive, non-blocking alerts) */
-  @Prop() autoDismiss = false;
+  /** When `true`, the component closes automatically (recommended for passive, non-blocking alerts). */
+  @Prop({ reflect: true }) autoClose = false;
 
-  /** Duration of autoDismiss (only used with `autoDismiss`) */
-  @Prop({ reflect: true }) autoDismissDuration: AlertDuration = this.autoDismiss ? "medium" : null;
+  /** Specifies the duration before the component automatically closes (only use with `autoClose`). */
+  @Prop({ reflect: true }) autoCloseDuration: AlertDuration = this.autoClose ? "medium" : null;
 
-  /** Color for the alert (will apply to top border and icon) */
-  @Prop({ reflect: true }) color: StatusColor = "blue";
+  /** Specifies the kind of the component (will apply to top border and icon). */
+  @Prop({ reflect: true }) kind: Extract<
+    "brand" | "danger" | "info" | "success" | "warning",
+    Kind
+  > = "brand";
 
   /**
-   * when used as a boolean set to true, show a default recommended icon. You can
-   * also pass a calcite-ui-icon name to this prop to display a requested icon
+   * When `true`, shows a default recommended icon. Alternatively,
+   * pass a Calcite UI Icon name to display a specific icon.
    */
   @Prop({ reflect: true }) icon: string | boolean;
 
-  /**
-   * string to override English close text
-   *
-   * @default "Close"
-   */
-  @Prop() intlClose: string = TEXT.intlClose;
+  /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
+  @Prop({ reflect: true }) iconFlipRtl = false;
 
-  /** Accessible name for the component */
+  /** Specifies an accessible name for the component. */
   @Prop() label!: string;
 
-  /** specify the placement of the alert */
-  @Prop() placement: AlertPlacement = "bottom";
+  /**
+   * Specifies the Unicode numeral system used by the component for localization.
+   */
+  @Prop({ reflect: true }) numberingSystem: NumberingSystem;
 
-  /** specify the scale of the alert, defaults to m */
+  /** Specifies the placement of the component */
+  @Prop({ reflect: true }) placement: MenuPlacement = "bottom";
+
+  /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";
 
-  @Watch("icon")
-  @Watch("color")
-  updateRequestedIcon(): void {
-    this.requestedIcon = setRequestedIcon(StatusIcons, this.icon, this.color);
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @internal
+   */
+  @Prop({ mutable: true }) messages: AlertMessages;
+
+  /**
+   * Use this property to override individual strings used by the component.
+   */
+  @Prop({ mutable: true }) messageOverrides: Partial<AlertMessages>;
+
+  @Watch("messageOverrides")
+  onMessagesChange(): void {
+    /* wired up by t9n util */
   }
 
-  @Watch("autoDismissDuration")
+  /**
+   * This internal property, managed by a containing calcite-shell, is used
+   * to inform the component if special configuration or styles are needed
+   *
+   * @internal
+   */
+  @Prop({ mutable: true }) slottedInShell: boolean;
+
+  @Watch("icon")
+  @Watch("kind")
+  updateRequestedIcon(): void {
+    this.requestedIcon = setRequestedIcon(KindIcons, this.icon, this.kind);
+  }
+
+  @Watch("autoCloseDuration")
   updateDuration(): void {
-    if (this.autoDismiss && this.autoDismissTimeoutId) {
-      window.clearTimeout(this.autoDismissTimeoutId);
-      this.autoDismissTimeoutId = window.setTimeout(
+    if (this.autoClose && this.autoCloseTimeoutId) {
+      window.clearTimeout(this.autoCloseTimeoutId);
+      this.autoCloseTimeoutId = window.setTimeout(
         () => this.closeAlert(),
-        DURATIONS[this.autoDismissDuration] - (Date.now() - this.trackTimer)
+        DURATIONS[this.autoCloseDuration]
       );
     }
   }
@@ -117,23 +180,40 @@ export class Alert {
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
-    if (this.active && !this.queued) {
+    connectLocalized(this);
+    connectMessages(this);
+    const open = this.open;
+    if (open && !this.queued) {
+      this.openHandler();
       this.calciteInternalAlertRegister.emit();
     }
+    connectOpenCloseComponent(this);
   }
 
-  componentWillLoad(): void {
-    this.requestedIcon = setRequestedIcon(StatusIcons, this.icon, this.color);
+  async componentWillLoad(): Promise<void> {
+    setUpLoadableComponent(this);
+    this.requestedIcon = setRequestedIcon(KindIcons, this.icon, this.kind);
+    await setUpMessages(this);
+  }
+
+  componentDidLoad(): void {
+    setComponentLoaded(this);
   }
 
   disconnectedCallback(): void {
-    window.clearTimeout(this.autoDismissTimeoutId);
+    window.clearTimeout(this.autoCloseTimeoutId);
+    window.clearTimeout(this.queueTimeout);
+    disconnectOpenCloseComponent(this);
+    disconnectLocalized(this);
+    disconnectMessages(this);
+    this.slottedInShell = false;
   }
 
   render(): VNode {
+    const { hasEndActions } = this;
     const closeButton = (
       <button
-        aria-label={this.intlClose}
+        aria-label={this.messages.close}
         class="alert-close"
         onClick={this.closeAlert}
         ref={(el) => (this.closeButton = el)}
@@ -142,7 +222,16 @@ export class Alert {
         <calcite-icon icon="x" scale={this.scale === "l" ? "m" : "s"} />
       </button>
     );
-    const queueText = `+${this.queueLength > 2 ? this.queueLength - 1 : 1}`;
+
+    numberStringFormatter.numberFormatOptions = {
+      locale: this.effectiveLocale,
+      numberingSystem: this.numberingSystem,
+      signDisplay: "always"
+    };
+
+    const queueNumber = this.queueLength > 2 ? this.queueLength - 1 : 1;
+    const queueText = numberStringFormatter.numberFormatter.format(queueNumber);
+
     const queueCount = (
       <div class={`${this.queueLength > 1 ? "active " : ""}alert-queue-count`}>
         <calcite-chip scale={this.scale} value={queueText}>
@@ -151,9 +240,18 @@ export class Alert {
       </div>
     );
 
-    const { active, autoDismiss, label, placement, queued, requestedIcon } = this;
-    const role = autoDismiss ? "alert" : "alertdialog";
-    const hidden = !active;
+    const { open, autoClose, label, placement, queued, requestedIcon, iconFlipRtl } = this;
+    const role = autoClose ? "alert" : "alertdialog";
+    const hidden = !open;
+
+    const slotNode = (
+      <slot
+        key="actionsEndSlot"
+        name={SLOTS.actionsEnd}
+        onSlotchange={this.actionsEndSlotChangeHandler}
+      />
+    );
+
     return (
       <Host
         aria-hidden={toAriaBoolean(hidden)}
@@ -165,13 +263,20 @@ export class Alert {
           class={{
             container: true,
             queued,
-            [placement]: true
+            [placement]: true,
+            [CSS.slottedInShell]: this.slottedInShell
           }}
-          onTransitionEnd={this.transitionEnd}
+          onPointerEnter={this.autoClose && this.autoCloseTimeoutId ? this.handleMouseOver : null}
+          onPointerLeave={this.autoClose && this.autoCloseTimeoutId ? this.handleMouseLeave : null}
+          ref={this.setTransitionEl}
         >
           {requestedIcon ? (
             <div class="alert-icon">
-              <calcite-icon icon={requestedIcon} scale={this.scale === "l" ? "m" : "s"} />
+              <calcite-icon
+                flipRtl={iconFlipRtl}
+                icon={requestedIcon}
+                scale={this.scale === "l" ? "m" : "s"}
+              />
             </div>
           ) : null}
           <div class="alert-content">
@@ -179,9 +284,12 @@ export class Alert {
             <slot name={SLOTS.message} />
             <slot name={SLOTS.link} />
           </div>
-          {queueCount}
-          {!autoDismiss ? closeButton : null}
-          {active && !queued && autoDismiss ? <div class="alert-dismiss-progress" /> : null}
+          <div class={CSS.actionsEnd} hidden={!hasEndActions}>
+            {slotNode}
+          </div>
+          {this.queueLength > 1 ? queueCount : null}
+          {closeButton}
+          {open && !queued && autoClose ? <div class="alert-dismiss-progress" /> : null}
         </div>
       </Host>
     );
@@ -193,25 +301,31 @@ export class Alert {
   //
   //--------------------------------------------------------------------------
 
-  /** Fired when an alert is closed */
-  @Event() calciteAlertClose: EventEmitter;
+  /** Fires when the component is requested to be closed and before the closing transition begins. */
+  @Event({ cancelable: false }) calciteAlertBeforeClose: EventEmitter<void>;
 
-  /** Fired when an alert is opened */
-  @Event() calciteAlertOpen: EventEmitter;
+  /** Fires when the component is closed and animation is complete. */
+  @Event({ cancelable: false }) calciteAlertClose: EventEmitter<void>;
+
+  /** Fires when the component is added to the DOM but not rendered, and before the opening transition begins. */
+  @Event({ cancelable: false }) calciteAlertBeforeOpen: EventEmitter<void>;
+
+  /** Fires when the component is open and animation is complete. */
+  @Event({ cancelable: false }) calciteAlertOpen: EventEmitter<void>;
 
   /**
-   * Fired to sync queue when opened or closed
+   * Fires to sync queue when opened or closed.
    *
    * @internal
    */
-  @Event() calciteInternalAlertSync: EventEmitter;
+  @Event({ cancelable: false }) calciteInternalAlertSync: EventEmitter<Sync>;
 
   /**
-   * Fired when an alert is added to dom - used to receive initial queue
+   * Fires when the component is added to DOM - used to receive initial queue.
    *
    * @internal
    */
-  @Event() calciteInternalAlertRegister: EventEmitter;
+  @Event({ cancelable: false }) calciteInternalAlertRegister: EventEmitter<void>;
 
   // when an alert is opened or closed, update queue and determine active alert
   @Listen("calciteInternalAlertSync", { target: "window" })
@@ -224,10 +338,10 @@ export class Alert {
     event.stopPropagation();
   }
 
-  // when an alert is first registered, trigger a queue sync to get queue
+  // when an alert is first registered, trigger a queue sync
   @Listen("calciteInternalAlertRegister", { target: "window" })
   alertRegister(): void {
-    if (this.active && !this.queue.includes(this.el as HTMLCalciteAlertElement)) {
+    if (this.open && !this.queue.includes(this.el as HTMLCalciteAlertElement)) {
       this.queued = true;
       this.queue.push(this.el as HTMLCalciteAlertElement);
     }
@@ -241,9 +355,11 @@ export class Alert {
   //
   //--------------------------------------------------------------------------
 
-  /** Sets focus on the component. */
+  /** Sets focus on the component's "close" button (the first focusable item). */
   @Method()
   async setFocus(): Promise<void> {
+    await componentLoaded(this);
+
     const alertLinkEl: HTMLCalciteLinkElement = getSlotted(this.el, { selector: "calcite-link" });
 
     if (!this.closeButton && !alertLinkEl) {
@@ -261,6 +377,17 @@ export class Alert {
   //
   //--------------------------------------------------------------------------
 
+  @State() effectiveLocale = "";
+
+  @Watch("effectiveLocale")
+  effectiveLocaleChange(): void {
+    updateMessages(this, this.effectiveLocale);
+  }
+
+  @State() defaultMessages: AlertMessages;
+
+  @State() hasEndActions = false;
+
   /** the list of queued alerts */
   @State() queue: HTMLCalciteAlertElement[] = [];
 
@@ -271,19 +398,27 @@ export class Alert {
   @State() queued = false;
 
   /** the close button element */
-  private closeButton?: HTMLButtonElement;
+  private closeButton: HTMLButtonElement;
 
-  private autoDismissTimeoutId: number = null;
+  private autoCloseTimeoutId: number = null;
 
   private queueTimeout: number;
 
-  private trackTimer = Date.now();
+  private initialOpenTime: number;
+
+  private lastMouseOverBegin: number;
+
+  private totalOpenTime = 0;
+
+  private totalHoverTime = 0;
 
   /** the computed icon to render */
   /* @internal */
   @State() requestedIcon?: string;
 
-  private activeTransitionProp = "opacity";
+  openTransitionProp = "opacity";
+
+  transitionEl: HTMLDivElement;
 
   //--------------------------------------------------------------------------
   //
@@ -291,15 +426,20 @@ export class Alert {
   //
   //--------------------------------------------------------------------------
 
+  private setTransitionEl = (el): void => {
+    this.transitionEl = el;
+    connectOpenCloseComponent(this);
+  };
+
   /** determine which alert is active */
   private determineActiveAlert(): void {
     if (this.queue?.[0] === this.el) {
       this.openAlert();
-      if (this.autoDismiss && !this.autoDismissTimeoutId) {
-        this.trackTimer = Date.now();
-        this.autoDismissTimeoutId = window.setTimeout(
+      if (this.autoClose && !this.autoCloseTimeoutId) {
+        this.initialOpenTime = Date.now();
+        this.autoCloseTimeoutId = window.setTimeout(
           () => this.closeAlert(),
-          DURATIONS[this.autoDismissDuration]
+          DURATIONS[this.autoCloseDuration]
         );
       }
     } else {
@@ -307,33 +447,53 @@ export class Alert {
     }
   }
 
-  /** close and emit the closed alert and the queue */
+  /** close and emit calciteInternalAlertSync event with the updated queue payload */
   private closeAlert = (): void => {
-    this.autoDismissTimeoutId = null;
+    this.autoCloseTimeoutId = null;
     this.queued = false;
-    this.active = false;
-    this.queue = this.queue.filter((e) => e !== this.el);
+    this.open = false;
+    this.queue = this.queue.filter((el) => el !== this.el);
     this.determineActiveAlert();
     this.calciteInternalAlertSync.emit({ queue: this.queue });
   };
 
-  transitionEnd = (event: TransitionEvent): void => {
-    if (event.propertyName === this.activeTransitionProp) {
-      this.active
-        ? this.calciteAlertOpen.emit({
-            el: this.el,
-            queue: this.queue
-          })
-        : this.calciteAlertClose.emit({
-            el: this.el,
-            queue: this.queue
-          });
-    }
-  };
+  onBeforeOpen(): void {
+    this.calciteAlertBeforeOpen.emit();
+  }
 
-  /** emit the opened alert and the queue */
+  onOpen(): void {
+    this.calciteAlertOpen.emit();
+  }
+
+  onBeforeClose(): void {
+    this.calciteAlertBeforeClose.emit();
+  }
+
+  onClose(): void {
+    this.calciteAlertClose.emit();
+  }
+
+  /** remove queued class after animation completes */
   private openAlert(): void {
     window.clearTimeout(this.queueTimeout);
     this.queueTimeout = window.setTimeout(() => (this.queued = false), 300);
   }
+
+  private actionsEndSlotChangeHandler = (event: Event): void => {
+    this.hasEndActions = slotChangeHasAssignedElement(event);
+  };
+
+  private handleMouseOver = (): void => {
+    window.clearTimeout(this.autoCloseTimeoutId);
+    this.totalOpenTime = Date.now() - this.initialOpenTime;
+    this.lastMouseOverBegin = Date.now();
+  };
+
+  private handleMouseLeave = (): void => {
+    const hoverDuration = Date.now() - this.lastMouseOverBegin;
+    const timeRemaining =
+      DURATIONS[this.autoCloseDuration] - this.totalOpenTime + this.totalHoverTime;
+    this.totalHoverTime = this.totalHoverTime ? hoverDuration + this.totalHoverTime : hoverDuration;
+    this.autoCloseTimeoutId = window.setTimeout(() => this.closeAlert(), timeRemaining);
+  };
 }

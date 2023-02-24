@@ -3,11 +3,11 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-input-message-spacing-value: the top margin above the input-message.
+ * @prop --calcite-input-message-spacing-value: The top margin spacing above the component.
  */
 
-:host([active][scale="m"]),
-:host([active][scale="l"]) {
+:host([scale="m"]),
+:host([scale="l"]) {
   --calcite-input-message-spacing-value: theme("spacing.1");
 }
 
@@ -15,16 +15,14 @@
   @apply text-color-1 transition-default invisible box-border flex h-0 w-full items-center font-medium opacity-0;
 }
 
-:host([active]) {
+:host {
   @apply transition-default visible h-auto opacity-100;
 }
 
-:host([active][scale="m"]),
-:host([active][scale="l"]) {
-  margin-top: var(--calcite-input-message-spacing-value);
+:host([scale="m"]),
+:host([scale="l"]) {
+  margin-block-start: var(--calcite-input-message-spacing-value);
 }
-
-@include calciteHydratedHidden();
 
 .calcite-input-message-icon {
   @apply transition-default
@@ -51,7 +49,7 @@
 }
 
 // Validation Text
-:host([status][active]) {
+:host([status]) {
   @apply text-color-1;
 }
 

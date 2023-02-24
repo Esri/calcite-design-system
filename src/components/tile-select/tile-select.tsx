@@ -4,18 +4,24 @@ import {
   Event,
   EventEmitter,
   h,
-  Prop,
   Listen,
-  VNode,
-  Watch,
+  Method,
+  Prop,
   State,
-  Method
+  VNode,
+  Watch
 } from "@stencil/core";
+import { guid } from "../../utils/guid";
+import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import {
+  componentLoaded,
+  LoadableComponent,
+  setComponentLoaded,
+  setUpLoadableComponent
+} from "../../utils/loadable";
 import { Alignment, Width } from "../interfaces";
 import { TileSelectType } from "./interfaces";
-import { guid } from "../../utils/guid";
 import { CSS } from "./resources";
-import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 
 /**
  * @slot - A slot for adding custom content.
@@ -25,7 +31,7 @@ import { InteractiveComponent, updateHostInteraction } from "../../utils/interac
   styleUrl: "tile-select.scss",
   shadow: true
 })
-export class TileSelect implements InteractiveComponent {
+export class TileSelect implements InteractiveComponent, LoadableComponent {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -40,7 +46,7 @@ export class TileSelect implements InteractiveComponent {
   //
   //--------------------------------------------------------------------------
 
-  /** The checked state of the tile select. */
+  /** When `true`, the component is checked. */
   @Prop({ reflect: true, mutable: true }) checked = false;
 
   @Watch("checked")
@@ -48,22 +54,25 @@ export class TileSelect implements InteractiveComponent {
     this.input.checked = newChecked;
   }
 
-  /** The description text that appears beneath the heading of the tile. */
-  @Prop({ reflect: true }) description?: string;
+  /** A description for the component, which displays below the heading. */
+  @Prop({ reflect: true }) description: string;
 
-  /** The disabled state of the tile select. */
+  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @Prop({ reflect: true }) disabled = false;
 
-  /** The heading text that appears between the icon and description of the tile. */
-  @Prop({ reflect: true }) heading?: string;
+  /** The component header text, which displays between the icon and description. */
+  @Prop({ reflect: true }) heading: string;
 
-  /** The hidden state of the tile select. */
+  /** When `true`, the component is not displayed and is not focusable or checkable. */
   @Prop({ reflect: true }) hidden = false;
 
-  /** The icon that appears at the top of the tile. */
-  @Prop({ reflect: true }) icon?: string;
+  /** Specifies an icon to display. */
+  @Prop({ reflect: true }) icon: string;
 
-  /** The name of the tile select.  This name will appear in form submissions as either a radio or checkbox identifier based on the `type` property. */
+  /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
+  @Prop({ reflect: true }) iconFlipRtl = false;
+
+  /** Specifies the name of the component on form submission. */
   @Prop({ reflect: true }) name;
 
   @Watch("name")
@@ -71,19 +80,23 @@ export class TileSelect implements InteractiveComponent {
     this.input.name = newName;
   }
 
-  /** Display an interactive radio or checkbox. */
+  /** When `true`, displays an interactive input based on the `type` property. */
   @Prop({ reflect: true }) inputEnabled = false;
 
-  /** The side of the tile that the radio or checkbox appears on when inputEnabled is true. */
+  /** When `inputEnabled` is `true`, specifies the placement of the interactive input on the component. */
   @Prop({ reflect: true }) inputAlignment: Extract<"end" | "start", Alignment> = "start";
 
-  /** The selection mode of the tile select: radio (single) or checkbox (multiple). */
+  /**
+   * The selection mode of the component.
+   *
+   * Use radio for single selection, and checkbox for multiple selections.
+   */
   @Prop({ reflect: true }) type: TileSelectType = "radio";
 
-  /** The value of the tile select.  This value will appear in form submissions when this tile select is checked. */
-  @Prop() value?: any;
+  /** The component's value. */
+  @Prop() value: any;
 
-  /** specify the width of the tile, defaults to auto */
+  /** Specifies the width of the component. */
   @Prop({ reflect: true }) width: Extract<"auto" | "full", Width> = "auto";
 
   //--------------------------------------------------------------------------
@@ -112,9 +125,13 @@ export class TileSelect implements InteractiveComponent {
   //--------------------------------------------------------------------------
 
   /**
-   * Emits a custom change event.  For checkboxes, it emits when the checkbox is checked or unchecked.  For radios it only emits when it is checked.
+   * Emits a custom change event.
+   *
+   * For checkboxes it emits when checked or unchecked.
+   *
+   * For radios it only emits when checked.
    */
-  @Event() calciteTileSelectChange: EventEmitter;
+  @Event({ cancelable: false }) calciteTileSelectChange: EventEmitter<void>;
 
   //--------------------------------------------------------------------------
   //
@@ -125,7 +142,9 @@ export class TileSelect implements InteractiveComponent {
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
-    this.input.setFocus();
+    await componentLoaded(this);
+
+    this.input?.setFocus();
   }
 
   //--------------------------------------------------------------------------
@@ -192,7 +211,7 @@ export class TileSelect implements InteractiveComponent {
     }
   }
 
-  @Listen("mouseenter")
+  @Listen("pointerenter")
   mouseenter(): void {
     if (this.input.localName === "calcite-radio-button") {
       (this.input as HTMLCalciteRadioButtonElement).hovered = true;
@@ -202,7 +221,7 @@ export class TileSelect implements InteractiveComponent {
     }
   }
 
-  @Listen("mouseleave")
+  @Listen("pointerleave")
   mouseleave(): void {
     if (this.input.localName === "calcite-radio-button") {
       (this.input as HTMLCalciteRadioButtonElement).hovered = false;
@@ -220,6 +239,14 @@ export class TileSelect implements InteractiveComponent {
 
   connectedCallback(): void {
     this.renderInput();
+  }
+
+  componentWillLoad(): void {
+    setUpLoadableComponent(this);
+  }
+
+  componentDidLoad(): void {
+    setComponentLoaded(this);
   }
 
   disconnectedCallback(): void {
@@ -267,7 +294,8 @@ export class TileSelect implements InteractiveComponent {
       icon,
       inputAlignment,
       inputEnabled,
-      width
+      width,
+      iconFlipRtl
     } = this;
     return (
       <div
@@ -296,6 +324,7 @@ export class TileSelect implements InteractiveComponent {
           embed
           heading={heading}
           icon={icon}
+          iconFlipRtl={iconFlipRtl}
         />
         <slot />
       </div>

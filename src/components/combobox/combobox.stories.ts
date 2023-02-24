@@ -1,27 +1,25 @@
 import { select, number, text } from "@storybook/addon-knobs";
-import { boolean, createSteps, stepStory } from "../../../.storybook/helpers";
-import { themesDarkDefault } from "../../../.storybook/utils";
+import { boolean, storyFilters } from "../../../.storybook/helpers";
+import { modesDarkDefault } from "../../../.storybook/utils";
 import readme1 from "./readme.md";
 import readme2 from "../combobox-item/readme.md";
 import { html } from "../../../support/formatting";
 
 export default {
   title: "Components/Controls/Combobox",
-
   parameters: {
     notes: [readme1, readme2]
-  }
+  },
+  ...storyFilters()
 };
 
-const scrollablePageSizeInPx = 2400;
-
-export const Simple = (): string => html`
+export const simple = (): string => html`
   <div style="width:400px;max-width:100%;background-color:white;padding:100px">
     <calcite-combobox
       label="demo combobox"
       placeholder="${text("placeholder", "placeholder")}"
       label="${text("label (for screen readers)", "demo")}"
-      selection-mode="${select("selection-mode", ["multi", "single", "ancestors"], "multi")}"
+      selection-mode="${select("selection-mode", ["multiple", "single", "ancestors"], "multiple")}"
       scale="${select("scale", ["s", "m", "l"], "m")}"
       ${boolean("disabled", false)}
       ${boolean("allow-custom-values", false)}
@@ -49,11 +47,11 @@ export const Simple = (): string => html`
   </div>
 `;
 
-export const Single = (): string => html`
+export const single = (): string => html`
   <div style="width:150px;max-width:100%;background-color:white;padding:100px">
     <calcite-combobox
       label="demo combobox"
-      selection-mode="${select("selection-mode", ["multi", "single", "ancestors"], "single")}"
+      selection-mode="${select("selection-mode", ["multiple", "single", "ancestors"], "single")}"
       placeholder="${text("placeholder", "placeholder")}"
       label="${text("label (for screen readers)", "demo")}"
       scale="${select("scale", ["s", "m", "l"], "m")}"
@@ -77,13 +75,13 @@ export const Single = (): string => html`
   </div>
 `;
 
-export const Multiple = (): string => html`
+export const multiple = (): string => html`
   <div style="width:400px;max-width:100%;background-color:white;padding:100px">
     <calcite-combobox
       label="demo combobox"
       placeholder="${text("placeholder", "placeholder")}"
       label="${text("label (for screen readers)", "demo")}"
-      selection-mode="${select("selection-mode", ["multi", "single", "ancestors"], "multi")}"
+      selection-mode="${select("selection-mode", ["multiple", "single", "ancestors"], "multiple")}"
       scale="${select("scale", ["s", "m", "l"], "m")}"
       ${boolean("disabled", false)}
       ${boolean("allow-custom-values", false)}
@@ -104,12 +102,12 @@ export const Multiple = (): string => html`
   </div>
 `;
 
-export const NestedItems = (): string => html`
+export const nestedItems = (): string => html`
   <div style="width:400px;max-width:100%;background-color:white;padding:100px">
     <calcite-combobox
-      active
+      open
       label="demo combobox"
-      selection-mode="${select("selection-mode", ["multi", "single", "ancestors"], "multi")}"
+      selection-mode="${select("selection-mode", ["multiple", "single", "ancestors"], "multiple")}"
       placeholder="${text("placeholder", "placeholder")}"
       label="${text("label (for screen readers)", "demo")}"
       scale="${select("scale", ["s", "m", "l"], "m")}"
@@ -147,12 +145,120 @@ export const NestedItems = (): string => html`
   </div>
 `;
 
-export const DarkTheme = (): string => html`
+export const longItems_TestOnly = (): string => html`<style>
+    calcite-combobox {
+      width: 260px;
+    }
+    calcite-combobox-item {
+      width: 260px;
+    }
+  </style>
+  <calcite-combobox open>
+    <calcite-combobox-item text-label="Layers">
+      <calcite-combobox-item text-label="Enriched USA Census Tract Areas Aug29"></calcite-combobox-item>
+      <calcite-combobox-item text-label="Viewer_Reservable_Equipments_Capacity_V2_WFL1"></calcite-combobox-item>
+    </calcite-combobox-item>
+  </calcite-combobox>`;
+
+export const disabled_TestOnly = (): string => html`<calcite-combobox disabled>
+  <calcite-combobox-item value="Trees" text-label="Trees">
+    <calcite-combobox-item value="Pine" text-label="Pine"></calcite-combobox-item>
+    <calcite-combobox-item value="Sequoia" disabled text-label="Sequoia"></calcite-combobox-item>
+    <calcite-combobox-item value="Douglas Fir" text-label="Douglas Fir"></calcite-combobox-item>
+  </calcite-combobox-item>
+  <calcite-combobox-item value="Flowers" text-label="Flowers" disabled>
+    <calcite-combobox-item value="Daffodil" text-label="Daffodil"></calcite-combobox-item>
+    <calcite-combobox-item value="Black Eyed Susan" text-label="Black Eyed Susan"></calcite-combobox-item>
+    <calcite-combobox-item value="Nasturtium" text-label="Nasturtium"></calcite-combobox-item>
+  </calcite-combobox-item>
+</calcite-combobox>`;
+
+export const flipPlacements_TestOnly = (): string => html`
+  <style>
+    .my-combobox {
+      position: unset;
+      margin-top: 50px;
+    }
+  </style>
+  <div style="height: 100px; overflow:scroll;">
+    <calcite-combobox class="my-combobox" placeholder="placeholder" open>
+      <calcite-combobox-item value="Trees" text-label="Trees" aria-hidden="true">
+        <calcite-combobox-item value="Pine" text-label="Pine" aria-hidden="true"></calcite-combobox-item>
+        <calcite-combobox-item
+          value="Sequoia"
+          disabled=""
+          text-label="Sequoia"
+          aria-hidden="true"
+        ></calcite-combobox-item>
+        <calcite-combobox-item value="Douglas Fir" text-label="Douglas Fir" aria-hidden="true"></calcite-combobox-item>
+      </calcite-combobox-item>
+      <calcite-combobox-item value="Flowers" text-label="Flowers" aria-hidden="true">
+        <calcite-combobox-item value="Daffodil" text-label="Daffodil" aria-hidden="true"></calcite-combobox-item>
+        <calcite-combobox-item
+          value="Black Eyed Susan"
+          text-label="Black Eyed Susan"
+          aria-hidden="true"
+        ></calcite-combobox-item>
+        <calcite-combobox-item value="Nasturtium" text-label="Nasturtium" aria-hidden="true"></calcite-combobox-item>
+      </calcite-combobox-item>
+      <calcite-combobox-item value="Animals" text-label="Animals" aria-hidden="true">
+        <calcite-combobox-item value="Birds" text-label="Birds" aria-hidden="true"></calcite-combobox-item>
+        <calcite-combobox-item value="Reptiles" text-label="Reptiles" aria-hidden="true"></calcite-combobox-item>
+        <calcite-combobox-item value="Amphibians" text-label="Amphibians" aria-hidden="true"></calcite-combobox-item>
+      </calcite-combobox-item>
+      <calcite-combobox-item value="Rocks" text-label="Rocks" aria-hidden="true"></calcite-combobox-item>
+      <calcite-combobox-item value="Insects" text-label="Insects" aria-hidden="true"></calcite-combobox-item>
+      <calcite-combobox-item value="Rivers" text-label="Rivers" aria-hidden="true"></calcite-combobox-item>
+    </calcite-combobox>
+  </div>
+  <script>
+    document.querySelector(".my-combobox").flipPlacements = ["right"];
+  </script>
+`;
+
+export const flipPositioning_TestOnly = (): string => html`
+  <div style="position: absolute; bottom: 10px; left: 10px;">
+    <calcite-combobox
+      max-items="${number("max-items", 6)}"
+      placeholder="${text("placeholder", "placeholder")}"
+      label="${text("label (for screen readers)", "demo")}"
+      selection-mode="${select("selection-mode", ["multiple", "single", "ancestors"], "multiple")}"
+      scale="${select("scale", ["s", "m", "l"], "m")}"
+      ${boolean("disabled", false)}
+      ${boolean("allow-custom-values", false)}
+      open
+    >
+      <calcite-combobox-item value="Trees" text-label="Trees">
+        <calcite-combobox-item value="Pine" text-label="Pine"></calcite-combobox-item>
+        <calcite-combobox-item value="Sequoia" disabled text-label="Sequoia"></calcite-combobox-item>
+        <calcite-combobox-item value="Douglas Fir" text-label="Douglas Fir"></calcite-combobox-item>
+      </calcite-combobox-item>
+      <calcite-combobox-item value="Flowers" text-label="Flowers">
+        <calcite-combobox-item value="Daffodil" text-label="Daffodil"></calcite-combobox-item>
+        <calcite-combobox-item value="Black Eyed Susan" text-label="Black Eyed Susan"></calcite-combobox-item>
+        <calcite-combobox-item value="Nasturtium" text-label="Nasturtium"></calcite-combobox-item>
+      </calcite-combobox-item>
+      <calcite-combobox-item value="Animals" text-label="Animals">
+        <calcite-combobox-item value="Birds" text-label="Birds"></calcite-combobox-item>
+        <calcite-combobox-item value="Reptiles" text-label="Reptiles"></calcite-combobox-item>
+        <calcite-combobox-item value="Amphibians" text-label="Amphibians"></calcite-combobox-item>
+      </calcite-combobox-item>
+      <calcite-combobox-item value="Rocks" text-label="Rocks"></calcite-combobox-item>
+      <calcite-combobox-item value="Insects" text-label="Insects"></calcite-combobox-item>
+      <calcite-combobox-item value="Rivers" text-label="Rivers"></calcite-combobox-item>
+    </calcite-combobox>
+  </div>
+`;
+flipPositioning_TestOnly.parameters = {
+  layout: "fullscreen"
+};
+
+export const darkModeRTL_TestOnly = (): string => html`
   <div style="width:400px;max-width:100%;padding:100px">
     <calcite-combobox
       label="demo combobox"
-      selection-mode="${select("selection-mode", ["multi", "single", "ancestors"], "multi")}"
-      class="calcite-theme-dark"
+      selection-mode="${select("selection-mode", ["multiple", "single", "ancestors"], "multiple")}"
+      class="calcite-mode-dark"
       placeholder="${text("placeholder", "placeholder")}"
       label="${text("label (for screen readers)", "demo")}"
       scale="${select("scale", ["s", "m", "l"], "m")}"
@@ -181,21 +287,68 @@ export const DarkTheme = (): string => html`
     </calcite-combobox>
   </div>
 `;
+darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
 
-DarkTheme.parameters = { themes: themesDarkDefault };
+export const singleLongLabel_TestOnly = (): string => html`
+  <calcite-combobox open selection-mode="single" allow-custom-values>
+    <calcite-combobox-item value="Trees" text-label="Trees">
+      <calcite-combobox-item
+        value="CommercialDamageAssessment - Damage to Commercial Buildings"
+        text-label="CommercialDamageAssessment - Damage to Commercial Buildings &  Damage to Residential Buildings "
+      ></calcite-combobox-item>
+      <calcite-combobox-item value="Sequoia" text-label="Sequoia"></calcite-combobox-item>
+      <calcite-combobox-item value="Douglas Fir" text-label="Douglas Fir"></calcite-combobox-item>
+    </calcite-combobox-item>
+    <calcite-combobox-item value="Rivers" text-label="Rivers"></calcite-combobox-item>
+  </calcite-combobox>
+`;
 
-export const Rtl = (): string => html`
+export const withPlaceholderIcon_TestOnly = (): string => html` <calcite-combobox
+  id="labelFour"
+  label="test"
+  placeholder="${text("placeholder", "select folder")}"
+  placeholder-icon="${text("placeholder-icon", "select")}"
+  max-items="6"
+  selection-mode="single"
+  scale="s"
+>
+  <calcite-combobox-item value="root" text-label="username" icon="home"></calcite-combobox-item>
+  <calcite-combobox-item value="1" text-label="Folder 1" icon="folder"></calcite-combobox-item>
+  <calcite-combobox-item value="2" text-label="Folder 2" icon="folder"></calcite-combobox-item>
+</calcite-combobox>`;
+
+export const withoutPlaceholderIcon_TestOnly = (): string => html` <div
+  style="width:400px;max-width:100%;background-color:white;padding:100px"
+>
+  <calcite-combobox placeholder="${text("placeholder", "select folder")}" selection-mode="multiple" open>
+    <calcite-combobox-item value="root" text-label="username" icon="home" selected></calcite-combobox-item>
+    <calcite-combobox-item value="1" text-label="Folder 1" icon="folder"></calcite-combobox-item>
+    <calcite-combobox-item value="2" text-label="Folder 2" icon="folder"></calcite-combobox-item>
+  </calcite-combobox>
+</div>`;
+
+export const scrollingWithoutMaxItems_TestOnly = (): string => html`
   <div style="width:400px;max-width:100%;background-color:white;padding:100px">
-    <calcite-combobox
-      placeholder="${text("placeholder", "placeholder")}"
-      label="${text("label (for screen readers)", "demo")}"
-      selection-mode="${select("selection-mode", ["multi", "single", "ancestors"], "multi")}"
-      dir="rtl"
-      scale="${select("scale", ["s", "m", "l"], "m")}"
-      ${boolean("disabled", false)}
-      ${boolean("allow-custom-values", false)}
-    >
-      <calcite-combobox-item value="Trees" text-label="Trees">
+    <calcite-combobox label="demo combobox" open>
+      <calcite-combobox-item value="Trees" text-label="Trees" selected>
+        <calcite-combobox-item value="Pine" text-label="Pine"></calcite-combobox-item>
+        <calcite-combobox-item value="Sequoia" disabled text-label="Sequoia"></calcite-combobox-item>
+        <calcite-combobox-item value="Douglas Fir" text-label="Douglas Fir"></calcite-combobox-item>
+      </calcite-combobox-item>
+      <calcite-combobox-item value="Flowers" text-label="Flowers">
+        <calcite-combobox-item value="Daffodil" text-label="Daffodil"></calcite-combobox-item>
+        <calcite-combobox-item value="Black Eyed Susan" text-label="Black Eyed Susan"></calcite-combobox-item>
+        <calcite-combobox-item value="Nasturtium" text-label="Nasturtium"></calcite-combobox-item>
+      </calcite-combobox-item>
+      <calcite-combobox-item value="Animals" text-label="Animals">
+        <calcite-combobox-item value="Birds" text-label="Birds"></calcite-combobox-item>
+        <calcite-combobox-item value="Reptiles" text-label="Reptiles"></calcite-combobox-item>
+        <calcite-combobox-item value="Amphibians" text-label="Amphibians"></calcite-combobox-item>
+      </calcite-combobox-item>
+      <calcite-combobox-item value="Rocks" text-label="Rocks"></calcite-combobox-item>
+      <calcite-combobox-item value="Insects" text-label="Insects"></calcite-combobox-item>
+      <calcite-combobox-item value="Rivers" text-label="Rivers"></calcite-combobox-item>
+      <calcite-combobox-item value="Trees" text-label="Trees" selected>
         <calcite-combobox-item value="Pine" text-label="Pine"></calcite-combobox-item>
         <calcite-combobox-item value="Sequoia" disabled text-label="Sequoia"></calcite-combobox-item>
         <calcite-combobox-item value="Douglas Fir" text-label="Douglas Fir"></calcite-combobox-item>
@@ -217,70 +370,80 @@ export const Rtl = (): string => html`
   </div>
 `;
 
-Rtl.storyName = "RTL";
+export const optionListMinWidthMatchesInputWhenOverlayPositioningIsFixed_TestOnly = (): string => html`
+  <style>
+    .wrapper {
+      display: flex;
+      width: 100%;
+    }
 
-export const FlipPositioning = stepStory(
-  (): string => html`
-    <div style="position: absolute; bottom: 10px; left: 10px;">
-      <calcite-combobox
-        max-items="${number("max-items", 6)}"
-        placeholder="${text("placeholder", "placeholder")}"
-        label="${text("label (for screen readers)", "demo")}"
-        selection-mode="${select("selection-mode", ["multi", "single", "ancestors"], "multi")}"
-        scale="${select("scale", ["s", "m", "l"], "m")}"
-        ${boolean("disabled", false)}
-        ${boolean("allow-custom-values", false)}
-      >
-        <calcite-combobox-item value="Trees" text-label="Trees">
-          <calcite-combobox-item value="Pine" text-label="Pine"></calcite-combobox-item>
-          <calcite-combobox-item value="Sequoia" disabled text-label="Sequoia"></calcite-combobox-item>
-          <calcite-combobox-item value="Douglas Fir" text-label="Douglas Fir"></calcite-combobox-item>
-        </calcite-combobox-item>
-        <calcite-combobox-item value="Flowers" text-label="Flowers">
-          <calcite-combobox-item value="Daffodil" text-label="Daffodil"></calcite-combobox-item>
-          <calcite-combobox-item value="Black Eyed Susan" text-label="Black Eyed Susan"></calcite-combobox-item>
-          <calcite-combobox-item value="Nasturtium" text-label="Nasturtium"></calcite-combobox-item>
-        </calcite-combobox-item>
-        <calcite-combobox-item value="Animals" text-label="Animals">
-          <calcite-combobox-item value="Birds" text-label="Birds"></calcite-combobox-item>
-          <calcite-combobox-item value="Reptiles" text-label="Reptiles"></calcite-combobox-item>
-          <calcite-combobox-item value="Amphibians" text-label="Amphibians"></calcite-combobox-item>
-        </calcite-combobox-item>
-        <calcite-combobox-item value="Rocks" text-label="Rocks"></calcite-combobox-item>
-        <calcite-combobox-item value="Insects" text-label="Insects"></calcite-combobox-item>
-        <calcite-combobox-item value="Rivers" text-label="Rivers"></calcite-combobox-item>
-      </calcite-combobox>
-    </div>
-  `,
-  createSteps("calcite-combobox").snapshot("Default").click("calcite-combobox").snapshot("Open")
-);
-FlipPositioning.parameters = {
-  layout: "fullscreen"
-};
+    calcite-combobox {
+      width: 400px;
+      margin: 0 auto;
+    }
+  </style>
+  <div class="wrapper">
+    <calcite-combobox placeholder="placeholder" overlay-positioning="fixed" placement="bottom" open>
+      <calcite-combobox-item value="Trees" text-label="Trees" aria-hidden="true">
+        <calcite-combobox-item value="Pine" text-label="Pine" aria-hidden="true"></calcite-combobox-item>
+        <calcite-combobox-item
+          value="Sequoia"
+          disabled=""
+          text-label="Sequoia"
+          aria-hidden="true"
+        ></calcite-combobox-item>
+        <calcite-combobox-item value="Douglas Fir" text-label="Douglas Fir" aria-hidden="true"></calcite-combobox-item>
+      </calcite-combobox-item>
+      <calcite-combobox-item value="Flowers" text-label="Flowers" aria-hidden="true">
+        <calcite-combobox-item value="Daffodil" text-label="Daffodil" aria-hidden="true"></calcite-combobox-item>
+        <calcite-combobox-item
+          value="Black Eyed Susan"
+          text-label="Black Eyed Susan"
+          aria-hidden="true"
+        ></calcite-combobox-item>
+        <calcite-combobox-item value="Nasturtium" text-label="Nasturtium" aria-hidden="true"></calcite-combobox-item>
+      </calcite-combobox-item>
+      <calcite-combobox-item value="Animals" text-label="Animals" aria-hidden="true">
+        <calcite-combobox-item value="Birds" text-label="Birds" aria-hidden="true"></calcite-combobox-item>
+        <calcite-combobox-item value="Reptiles" text-label="Reptiles" aria-hidden="true"></calcite-combobox-item>
+        <calcite-combobox-item value="Amphibians" text-label="Amphibians" aria-hidden="true"></calcite-combobox-item>
+      </calcite-combobox-item>
+      <calcite-combobox-item value="Rocks" text-label="Rocks" aria-hidden="true"></calcite-combobox-item>
+      <calcite-combobox-item value="Insects" text-label="Insects" aria-hidden="true"></calcite-combobox-item>
+      <calcite-combobox-item value="Rivers" text-label="Rivers" aria-hidden="true"></calcite-combobox-item>
+    </calcite-combobox>
+  </div>
+`;
 
-export const SingleLongLabel = (): string => html`
-  <calcite-combobox active selection-mode="single" allow-custom-values>
-    <calcite-combobox-item value="Trees" text-label="Trees">
-      <calcite-combobox-item
-        value="CommercialDamageAssessment - Damage to Commercial Buildings"
-        text-label="CommercialDamageAssessment - Damage to Commercial Buildings &  Damage to Residential Buildings "
-      ></calcite-combobox-item>
-      <calcite-combobox-item value="Sequoia" text-label="Sequoia"></calcite-combobox-item>
-      <calcite-combobox-item value="Douglas Fir" text-label="Douglas Fir"></calcite-combobox-item>
-    </calcite-combobox-item>
-    <calcite-combobox-item value="Rivers" text-label="Rivers"></calcite-combobox-item>
+export const mediumIconForLargeComoboboxItem_TestOnly = (): string => html`
+  <calcite-combobox open scale="l">
+    <calcite-combobox-item
+      icon="altitude"
+      value="altitude"
+      text-label="Altitude"
+      selected
+      scale="l"
+    ></calcite-combobox-item>
+    <calcite-combobox-item icon="article" value="article" text-label="Article" scale="l"></calcite-combobox-item>
+    <calcite-combobox-item value="altitude" text-label="Altitude" scale="l"></calcite-combobox-item>
+    <calcite-combobox-item value="article" text-label="Article" scale="l"></calcite-combobox-item>
   </calcite-combobox>
 `;
 
-export const disabled = (): string => html`<calcite-combobox disabled>
-  <calcite-combobox-item value="Trees" text-label="Trees">
-    <calcite-combobox-item value="Pine" text-label="Pine"></calcite-combobox-item>
-    <calcite-combobox-item value="Sequoia" disabled text-label="Sequoia"></calcite-combobox-item>
-    <calcite-combobox-item value="Douglas Fir" text-label="Douglas Fir"></calcite-combobox-item>
-  </calcite-combobox-item>
-  <calcite-combobox-item value="Flowers" text-label="Flowers" disabled>
-    <calcite-combobox-item value="Daffodil" text-label="Daffodil"></calcite-combobox-item>
-    <calcite-combobox-item value="Black Eyed Susan" text-label="Black Eyed Susan"></calcite-combobox-item>
-    <calcite-combobox-item value="Nasturtium" text-label="Nasturtium"></calcite-combobox-item>
-  </calcite-combobox-item>
-</calcite-combobox>`;
+export const withSelectorIndicatorAndIcons_TestOnly = (): string => html`
+  <calcite-combobox label="test" placeholder="select folder" selection-mode="multiple" open>
+    <calcite-combobox-item text-label="Folder 1" icon="folder" selected>
+      <calcite-combobox-item text-label="Sub Folder 1" icon="folder" selected>
+        <calcite-combobox-item text-label="Sub Folder 2 " icon="folder" selected></calcite-combobox-item>
+      </calcite-combobox-item>
+    </calcite-combobox-item>
+    <calcite-combobox-item text-label="Folder 2" icon="folder"></calcite-combobox-item>
+    <calcite-combobox-item text-label="Folder 3" icon="folder"></calcite-combobox-item>
+    <calcite-combobox-item text-label="Folder 4"></calcite-combobox-item>
+    <calcite-combobox-item-group label="Files">
+      <calcite-combobox-item text-label="File 1" icon="file" selected>
+        <calcite-combobox-item text-label="file 2" icon="file" selected></calcite-combobox-item>
+      </calcite-combobox-item>
+    </calcite-combobox-item-group>
+  </calcite-combobox>
+`;

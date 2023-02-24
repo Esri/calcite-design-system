@@ -1,20 +1,22 @@
 import { boolean } from "@storybook/addon-knobs";
+import { storyFilters } from "../../../.storybook/helpers";
 import {
   Attribute,
-  filterComponentAttributes,
   Attributes,
   createComponentHTML as create,
-  themesDarkDefault
+  filterComponentAttributes,
+  modesDarkDefault
 } from "../../../.storybook/utils";
-import readme from "./readme.md";
-import itemReadme from "../value-list-item/readme.md";
 import { html } from "../../../support/formatting";
+import itemReadme from "../value-list-item/readme.md";
+import readme from "./readme.md";
 
 export default {
   title: "Components/Value List",
   parameters: {
     notes: [readme, itemReadme]
-  }
+  },
+  ...storyFilters()
 };
 
 const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ exceptions } = { exceptions: [] }) => {
@@ -78,14 +80,14 @@ const action = html`
     slot="actions-end"
     label="click-me"
     onClick="console.log('clicked');"
-    appearance="clear"
+    appearance="outline"
     scale="s"
     icon="ellipsis"
   ></calcite-action>
 `;
 
-export const basic = (): string =>
-  create(
+export const simple = (): string => html`
+  ${create(
     "calcite-value-list",
     createAttributes(),
     html`
@@ -103,14 +105,28 @@ export const basic = (): string =>
         ${action}
       </calcite-value-list-item>
     `
-  );
+  )}
+`;
 
-export const darkThemeRTL = (): string =>
-  create(
+export const disabled_TestOnly = (): string => html`
+  <calcite-value-list disabled>
+    <calcite-value-list-item label="T. Rex" description="arm strength impaired" value="trex"></calcite-value-list-item>
+    <calcite-value-list-item
+      label="Triceratops"
+      description="3 horn"
+      value="triceratops"
+      selected
+    ></calcite-value-list-item>
+    <calcite-value-list-item label="hi" description="there" value="helloWorld"></calcite-value-list-item>
+  </calcite-value-list>
+`;
+
+export const darkModeRTL_TestOnly = (): string => html`
+  ${create(
     "calcite-value-list",
     createAttributes({ exceptions: ["dir", "class"] }).concat([
       { name: "dir", value: "rtl" },
-      { name: "class", value: "calcite-theme-dark" }
+      { name: "class", value: "calcite-mode-dark" }
     ]),
     html`
       <calcite-value-list-item label="Dogs" description="Man's best friend" value="dogs">
@@ -127,17 +143,6 @@ export const darkThemeRTL = (): string =>
         ${action}
       </calcite-value-list-item>
     `
-  );
-
-darkThemeRTL.parameters = { themes: themesDarkDefault };
-
-export const disabled = (): string => html`<calcite-value-list disabled>
-  <calcite-value-list-item label="T. Rex" description="arm strength impaired" value="trex"></calcite-value-list-item>
-  <calcite-value-list-item
-    label="Triceratops"
-    description="3 horn"
-    value="triceratops"
-    selected
-  ></calcite-value-list-item>
-  <calcite-value-list-item label="hi" description="there" value="helloWorld"></calcite-value-list-item>
-</calcite-value-list>`;
+  )}
+`;
+darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };

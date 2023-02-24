@@ -3,33 +3,54 @@ import {
   Element,
   Event,
   EventEmitter,
-  Host,
-  Prop,
-  Watch,
   h,
+  Host,
+  Method,
+  Prop,
+  State,
   VNode,
-  Method
+  Watch
 } from "@stencil/core";
-import { Layout, Position, Scale } from "../interfaces";
-import { ExpandToggle, toggleChildActionText } from "../functional/ExpandToggle";
-import { focusElement, getSlotted } from "../../utils/dom";
-import { CSS, TEXT, SLOTS } from "./resources";
 import {
   ConditionalSlotComponent,
   connectConditionalSlotComponent,
   disconnectConditionalSlotComponent
 } from "../../utils/conditionalSlot";
+import { getSlotted } from "../../utils/dom";
+import {
+  componentLoaded,
+  LoadableComponent,
+  setComponentLoaded,
+  setUpLoadableComponent
+} from "../../utils/loadable";
+import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
+import {
+  connectMessages,
+  disconnectMessages,
+  setUpMessages,
+  T9nComponent,
+  updateMessages
+} from "../../utils/t9n";
+import { ExpandToggle, toggleChildActionText } from "../functional/ExpandToggle";
+import { Layout, Position, Scale } from "../interfaces";
+import { ActionPadMessages } from "./assets/action-pad/t9n";
+import { CSS, SLOTS } from "./resources";
 
 /**
- * @slot - A slot for adding `calcite-action`s to the action pad.
- * @slot expand-tooltip - Used to set the tooltip for the expand toggle.
+ * @slot - A slot for adding `calcite-action`s to the component.
+ * @slot expand-tooltip - A slot to set the `calcite-tooltip` for the expand toggle.
  */
 @Component({
   tag: "calcite-action-pad",
   styleUrl: "action-pad.scss",
-  shadow: true
+  shadow: {
+    delegatesFocus: true
+  },
+  assetsDirs: ["assets"]
 })
-export class ActionPad implements ConditionalSlotComponent {
+export class ActionPad
+  implements ConditionalSlotComponent, LoadableComponent, LocalizedComponent, T9nComponent
+{
   // --------------------------------------------------------------------------
   //
   //  Properties
@@ -37,12 +58,12 @@ export class ActionPad implements ConditionalSlotComponent {
   // --------------------------------------------------------------------------
 
   /**
-   * When set to true, the expand-toggling behavior will be disabled.
+   * When `true`, the expand-toggling behavior is disabled.
    */
   @Prop({ reflect: true }) expandDisabled = false;
 
   /**
-   * Indicates whether widget is expanded.
+   * When `true`, the component is expanded.
    */
   @Prop({ reflect: true, mutable: true }) expanded = false;
 
@@ -52,29 +73,36 @@ export class ActionPad implements ConditionalSlotComponent {
   }
 
   /**
-   * Indicates the horizontal or vertical layout of the component.
+   * Indicates the layout of the component.
    */
   @Prop({ reflect: true }) layout: Layout = "vertical";
 
   /**
-   * Updates the label of the expand icon when the component is not expanded.
-   */
-  @Prop() intlExpand?: string;
-
-  /**
-   * Updates the label of the collapse icon when the component is expanded.
-   */
-  @Prop() intlCollapse?: string;
-
-  /**
-   * Arranges the component depending on the elements 'dir' property.
+   * Arranges the component depending on the element's `dir` property.
    */
   @Prop({ reflect: true }) position: Position;
 
   /**
-   * Specifies the size of the expand action.
+   * Specifies the size of the expand `calcite-action`.
    */
   @Prop({ reflect: true }) scale: Scale;
+
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @internal
+   */
+  @Prop({ mutable: true }) messages: ActionPadMessages;
+
+  /**
+   * Use this property to override individual strings used by the component.
+   */
+  @Prop({ mutable: true }) messageOverrides: Partial<ActionPadMessages>;
+
+  @Watch("messageOverrides")
+  onMessagesChange(): void {
+    /* wired up by t9n util */
+  }
 
   // --------------------------------------------------------------------------
   //
@@ -83,9 +111,9 @@ export class ActionPad implements ConditionalSlotComponent {
   // --------------------------------------------------------------------------
 
   /**
-   * Emitted when expanded has been toggled.
+   * Emits when the `expanded` property is toggled.
    */
-  @Event() calciteActionPadToggle: EventEmitter;
+  @Event({ cancelable: false }) calciteActionPadToggle: EventEmitter<void>;
 
   // --------------------------------------------------------------------------
   //
@@ -97,6 +125,15 @@ export class ActionPad implements ConditionalSlotComponent {
 
   expandToggleEl: HTMLCalciteActionElement;
 
+  @State() effectiveLocale = "";
+
+  @Watch("effectiveLocale")
+  effectiveLocaleChange(): void {
+    updateMessages(this, this.effectiveLocale);
+  }
+
+  @State() defaultMessages: ActionPadMessages;
+
   // --------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -105,16 +142,25 @@ export class ActionPad implements ConditionalSlotComponent {
 
   connectedCallback(): void {
     connectConditionalSlotComponent(this);
+    connectLocalized(this);
+    connectMessages(this);
   }
 
   disconnectedCallback(): void {
+    disconnectLocalized(this);
+    disconnectMessages(this);
     disconnectConditionalSlotComponent(this);
   }
 
-  componentWillLoad(): void {
+  async componentWillLoad(): Promise<void> {
+    setUpLoadableComponent(this);
     const { el, expanded } = this;
-
     toggleChildActionText({ parent: el, expanded });
+    await setUpMessages(this);
+  }
+
+  componentDidLoad(): void {
+    setComponentLoaded(this);
   }
 
   // --------------------------------------------------------------------------
@@ -124,18 +170,13 @@ export class ActionPad implements ConditionalSlotComponent {
   // --------------------------------------------------------------------------
 
   /**
-   * Sets focus on the component.
-   *
-   * @param focusId
+   * Sets focus on the component's first focusable element.
    */
   @Method()
-  async setFocus(focusId?: "expand-toggle"): Promise<void> {
-    if (focusId === "expand-toggle") {
-      await focusElement(this.expandToggleEl);
-      return;
-    }
+  async setFocus(): Promise<void> {
+    await componentLoaded(this);
 
-    this.el.focus();
+    this.el?.focus();
   }
 
   // --------------------------------------------------------------------------
@@ -144,8 +185,8 @@ export class ActionPad implements ConditionalSlotComponent {
   //
   // --------------------------------------------------------------------------
 
-  actionMenuOpenChangeHandler = (event: CustomEvent<boolean>): void => {
-    if (event.detail) {
+  actionMenuOpenHandler = (event: CustomEvent<void>): void => {
+    if ((event.target as HTMLCalciteActionGroupElement).menuOpen) {
       const composedPath = event.composedPath();
       Array.from(this.el.querySelectorAll("calcite-action-group")).forEach((group) => {
         if (!composedPath.includes(group)) {
@@ -171,27 +212,16 @@ export class ActionPad implements ConditionalSlotComponent {
   // --------------------------------------------------------------------------
 
   renderBottomActionGroup(): VNode {
-    const {
-      expanded,
-      expandDisabled,
-      intlExpand,
-      intlCollapse,
-      el,
-      position,
-      toggleExpand,
-      scale
-    } = this;
+    const { expanded, expandDisabled, messages, el, position, toggleExpand, scale, layout } = this;
 
     const tooltip = getSlotted(el, SLOTS.expandTooltip) as HTMLCalciteTooltipElement;
-    const expandLabel = intlExpand || TEXT.expand;
-    const collapseLabel = intlCollapse || TEXT.collapse;
 
     const expandToggleNode = !expandDisabled ? (
       <ExpandToggle
         el={el}
         expanded={expanded}
-        intlCollapse={collapseLabel}
-        intlExpand={expandLabel}
+        intlCollapse={messages.collapse}
+        intlExpand={messages.expand}
         position={position}
         ref={this.setExpandToggleRef}
         scale={scale}
@@ -201,7 +231,7 @@ export class ActionPad implements ConditionalSlotComponent {
     ) : null;
 
     return expandToggleNode ? (
-      <calcite-action-group class={CSS.actionGroupBottom} scale={scale}>
+      <calcite-action-group class={CSS.actionGroupBottom} layout={layout} scale={scale}>
         <slot name={SLOTS.expandTooltip} />
         {expandToggleNode}
       </calcite-action-group>
@@ -210,7 +240,7 @@ export class ActionPad implements ConditionalSlotComponent {
 
   render(): VNode {
     return (
-      <Host onCalciteActionMenuOpenChange={this.actionMenuOpenChangeHandler}>
+      <Host onCalciteActionMenuOpen={this.actionMenuOpenHandler}>
         <div class={CSS.container}>
           <slot />
           {this.renderBottomActionGroup()}

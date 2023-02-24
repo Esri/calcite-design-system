@@ -12,7 +12,7 @@ $gap--large: 12px;
 
 :host([scale="s"]) {
   .container {
-    width: 160px;
+    inline-size: 160px;
   }
 
   .saved-colors {
@@ -24,18 +24,18 @@ $gap--large: 12px;
   }
 
   .channel {
-    width: 100%;
-    margin-bottom: $gap--small;
+    inline-size: 100%;
+    margin-block-end: $gap--small;
 
     &:last-child {
-      margin-bottom: 0;
+      margin-block-end: 0;
     }
   }
 }
 
 :host([scale="m"]) {
   .container {
-    width: 272px;
+    inline-size: 272px;
   }
 }
 
@@ -49,25 +49,26 @@ $gap--large: 12px;
   @apply text-n1h;
 
   .container {
-    width: 464px;
+    inline-size: 464px;
   }
 
   .color-field-and-slider {
-    margin-bottom: -20px;
+    margin-block-end: -20px;
   }
 
   .section {
-    padding: 0 $section-padding--large $section-padding--large;
+    padding-block: 0 $section-padding--large;
+    padding-inline: $section-padding--large;
 
     &:first-of-type {
-      padding-top: $section-padding--large;
+      padding-block-start: $section-padding--large;
     }
   }
 
   .saved-colors {
     grid-template-columns: repeat(auto-fill, minmax(28px, 1fr));
     grid-gap: $gap--large;
-    padding-top: $section-padding--large;
+    padding-block-start: $section-padding--large;
   }
 
   .control-section {
@@ -83,18 +84,12 @@ $gap--large: 12px;
       flex-shrink
       flex-col
       justify-around;
-    min-height: 98px;
-    width: 160px;
+    min-block-size: 98px;
+    inline-size: 160px;
   }
 
   .color-mode-container {
     flex-shrink: 3;
-  }
-}
-
-:host([appearance="minimal"]) {
-  .container {
-    border: none;
   }
 }
 
@@ -123,7 +118,8 @@ $gap--large: 12px;
 }
 
 .color-field-and-slider {
-  margin-bottom: -16px;
+  margin-block-end: -16px;
+  touch-action: none;
 
   &--interactive {
     cursor: pointer;
@@ -137,10 +133,11 @@ $gap--large: 12px;
 }
 
 .section {
-  padding: 0 $section-padding $section-padding;
+  padding-block: 0 $section-padding;
+  padding-inline: $section-padding;
 
   &:first-of-type {
-    padding-top: $section-padding;
+    padding-block-start: $section-padding;
   }
 }
 
@@ -159,7 +156,7 @@ $gap--large: 12px;
 
 .header--hex,
 .color-mode-container {
-  padding-top: $section-padding;
+  padding-block-start: $section-padding;
 }
 
 .channels {
@@ -168,16 +165,16 @@ $gap--large: 12px;
 }
 
 .channel {
-  width: 31%;
+  inline-size: 31%;
 }
 
 .saved-colors {
-  padding-top: $section-padding;
+  padding-block-start: $section-padding;
   display: -ms-grid;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(24px, 1fr));
   grid-gap: $gap;
-  width: 100%;
+  inline-size: 100%;
 }
 
 .saved-colors-buttons {

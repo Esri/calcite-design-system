@@ -4,25 +4,28 @@
 
 <!-- Auto Generated Below -->
 
+> **[DEPRECATED]** Use the `list` component instead.
+
 ## Properties
 
-| Property             | Attribute         | Description                                                                                  | Type                                                        | Default     |
-| -------------------- | ----------------- | -------------------------------------------------------------------------------------------- | ----------------------------------------------------------- | ----------- |
-| `description`        | `description`     | An optional description for the list item that displays below the label text.                | `string`                                                    | `undefined` |
-| `disabled`           | `disabled`        | When true, the list item cannot be clicked and is visually muted.                            | `boolean`                                                   | `false`     |
-| `icon`               | `icon`            | Determines the icon SVG symbol that will be shown. Options are circle, square, grip or null. | `ICON_TYPES.circle \| ICON_TYPES.grip \| ICON_TYPES.square` | `null`      |
-| `label` _(required)_ | `label`           | The main label for the list item. Appears next to the icon.                                  | `string`                                                    | `undefined` |
-| `metadata`           | --                | Provides additional metadata to a list item. Primary use is for a filter on the parent list. | `{ [x: string]: unknown; }`                                 | `undefined` |
-| `nonInteractive`     | `non-interactive` | When true, prevents the content of the list item from user interaction.                      | `boolean`                                                   | `false`     |
-| `removable`          | `removable`       | When true, adds an action to remove the list item.                                           | `boolean`                                                   | `false`     |
-| `selected`           | `selected`        | When true, preselects the list item. Toggles when an item is checked/unchecked.              | `boolean`                                                   | `false`     |
-| `value` _(required)_ | `value`           | The list item's associated value.                                                            | `any`                                                       | `undefined` |
+| Property             | Attribute         | Description                                                                                    | Type                                                        | Default     |
+| -------------------- | ----------------- | ---------------------------------------------------------------------------------------------- | ----------------------------------------------------------- | ----------- |
+| `description`        | `description`     | A description for the component that displays below the label text.                            | `string`                                                    | `undefined` |
+| `disabled`           | `disabled`        | When `true`, interaction is prevented and the component is displayed with lower opacity.       | `boolean`                                                   | `false`     |
+| `icon`               | `icon`            | Determines the icon SVG symbol that will be shown. Options are circle, square, grip or null.   | `ICON_TYPES.circle \| ICON_TYPES.grip \| ICON_TYPES.square` | `null`      |
+| `iconFlipRtl`        | `icon-flip-rtl`   | When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).   | `boolean`                                                   | `false`     |
+| `label` _(required)_ | `label`           | Label and accessible name for the component. Appears next to the icon.                         | `string`                                                    | `undefined` |
+| `metadata`           | --                | Provides additional metadata to the component. Primary use is for a filter on the parent list. | `{ [x: string]: unknown; }`                                 | `undefined` |
+| `nonInteractive`     | `non-interactive` | When `true`, prevents the content of the component from user interaction.                      | `boolean`                                                   | `false`     |
+| `removable`          | `removable`       | When `true`, adds an action to remove the component.                                           | `boolean`                                                   | `false`     |
+| `selected`           | `selected`        | When `true`, the component is selected.                                                        | `boolean`                                                   | `false`     |
+| `value` _(required)_ | `value`           | The component's value.                                                                         | `any`                                                       | `undefined` |
 
 ## Events
 
 | Event                   | Description                              | Type                |
 | ----------------------- | ---------------------------------------- | ------------------- |
-| `calciteListItemRemove` | Emits when the remove button is pressed. | `CustomEvent<void>` |
+| `calciteListItemRemove` | Fires when the remove button is pressed. | `CustomEvent<void>` |
 
 ## Methods
 
@@ -42,13 +45,6 @@ The first argument allows the value to be coerced, rather than swapping values.
 #### Returns
 
 Type: `Promise<void>`
-
-## Slots
-
-| Slot              | Description                                                         |
-| ----------------- | ------------------------------------------------------------------- |
-| `"actions-end"`   | A slot for adding actions or content to the end side of the item.   |
-| `"actions-start"` | A slot for adding actions or content to the start side of the item. |
 
 ## Dependencies
 

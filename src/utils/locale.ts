@@ -1,5 +1,51 @@
-import { sanitizeDecimalString, sanitizeExponentialNumberString } from "./number";
-import { isValidNumber } from "./number";
+import { closestElementCrossShadowBoundary, containsCrossShadowBoundary } from "./dom";
+import { BigDecimal, isValidNumber, sanitizeExponentialNumberString } from "./number";
+import { createObserver } from "./observers";
+
+export const defaultLocale = "en";
+
+export const t9nLocales = [
+  "ar",
+  "bg",
+  "bs",
+  "ca",
+  "cs",
+  "da",
+  "de",
+  "el",
+  defaultLocale,
+  "es",
+  "et",
+  "fi",
+  "fr",
+  "he",
+  "hr",
+  "hu",
+  "id",
+  "it",
+  "ja",
+  "ko",
+  "lt",
+  "lv",
+  "no",
+  "nl",
+  "pl",
+  "pt-BR",
+  "pt-PT",
+  "ro",
+  "ru",
+  "sk",
+  "sl",
+  "sr",
+  "sv",
+  "th",
+  "tr",
+  "uk",
+  "vi",
+  "zh-CN",
+  "zh-HK",
+  "zh-TW"
+];
 
 export const locales = [
   "ar",
@@ -11,7 +57,7 @@ export const locales = [
   "de",
   "de-CH",
   "el",
-  "en",
+  defaultLocale,
   "en-AU",
   "en-CA",
   "en-GB",
@@ -33,7 +79,7 @@ export const locales = [
   "lt",
   "lv",
   "mk",
-  "nb",
+  "no",
   "nl",
   "pl",
   "pt",
@@ -53,74 +99,343 @@ export const locales = [
   "zh-TW"
 ];
 
-const allDecimalsExceptLast = new RegExp(`[.](?=.*[.])`, "g");
-const everythingExceptNumbersDecimalsAndMinusSigns = new RegExp("[^0-9-.]", "g");
-const defaultGroupSeparator = new RegExp(",", "g");
+export const numberingSystems = [
+  "arab",
+  "arabext",
+  "bali",
+  "beng",
+  "deva",
+  "fullwide",
+  "gujr",
+  "guru",
+  "hanidec",
+  "khmr",
+  "knda",
+  "laoo",
+  "latn",
+  "limb",
+  "mlym",
+  "mong",
+  "mymr",
+  "orya",
+  "tamldec",
+  "telu",
+  "thai",
+  "tibt"
+] as const;
 
-function createLocaleNumberFormatter(locale: string): Intl.NumberFormat {
-  return new Intl.NumberFormat(locale, {
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 20
-  });
-}
+export const supportedLocales = [...new Set([...t9nLocales, ...locales])] as const;
 
-export function delocalizeNumberString(numberString: string, locale: string): string {
-  return sanitizeExponentialNumberString(numberString, (nonExpoNumString: string): string => {
-    const delocalizedNumberString = nonExpoNumString
-      .replace(getMinusSign(locale), "-")
-      .replace(getGroupSeparator(locale), "")
-      .replace(getDecimalSeparator(locale), ".")
-      .replace(allDecimalsExceptLast, "")
-      .replace(everythingExceptNumbersDecimalsAndMinusSigns, "");
+export type NumberingSystem = typeof numberingSystems[number];
 
-    return isValidNumber(delocalizedNumberString) ? delocalizedNumberString : nonExpoNumString;
-  });
-}
+export type SupportedLocales = typeof supportedLocales[number];
 
-export function getGroupSeparator(locale: string): string {
-  const formatter = createLocaleNumberFormatter(locale);
-  const parts = formatter.formatToParts(1234567);
-  const value = parts.find((part) => part.type === "group").value;
-  // change whitespace group characters that don't render correctly
-  return value.trim().length === 0 ? " " : value;
-}
+const isNumberingSystemSupported = (numberingSystem: string): numberingSystem is NumberingSystem =>
+  numberingSystems.includes(numberingSystem as NumberingSystem);
 
-export function getDecimalSeparator(locale: string): string {
-  const formatter = createLocaleNumberFormatter(locale);
-  const parts = formatter.formatToParts(1.1);
-  return parts.find((part) => part.type === "decimal").value;
-}
+const browserNumberingSystem = new Intl.NumberFormat().resolvedOptions().numberingSystem;
 
-export function getMinusSign(locale: string): string {
-  const formatter = createLocaleNumberFormatter(locale);
-  const parts = formatter.formatToParts(-9);
-  return parts.find((part) => part.type === "minusSign").value;
-}
+export const defaultNumberingSystem =
+  browserNumberingSystem === "arab" || !isNumberingSystemSupported(browserNumberingSystem)
+    ? "latn"
+    : browserNumberingSystem;
 
-export function localizeNumberString(numberString: string, locale: string, displayGroupSeparator = false): string {
-  return sanitizeExponentialNumberString(numberString, (nonExpoNumString: string): string => {
-    if (nonExpoNumString) {
-      const number = Number(sanitizeDecimalString(nonExpoNumString.replace(defaultGroupSeparator, "")));
-      if (!isNaN(number)) {
-        const formatter = createLocaleNumberFormatter(locale);
-        const parts = formatter.formatToParts(number);
-        const localizedNumberString = parts
-          .map(({ type, value }) => {
-            switch (type) {
-              case "group":
-                return displayGroupSeparator ? getGroupSeparator(locale) : "";
-              case "decimal":
-                return getDecimalSeparator(locale);
-              case "minusSign":
-                return getMinusSign(locale);
-              default:
-                return value;
-            }
-          })
-          .reduce((string, part) => string + part);
-        return localizedNumberString;
-      }
+export const getSupportedNumberingSystem = (numberingSystem: string): NumberingSystem =>
+  isNumberingSystemSupported(numberingSystem) ? numberingSystem : defaultNumberingSystem;
+
+/**
+ * Gets the locale that best matches the context.
+ *
+ * @param locale – the BCP 47 locale code
+ * @param context - specifies whether the locale code should match in the context of CLDR or T9N (translation)
+ */
+export function getSupportedLocale(locale: string, context: "cldr" | "t9n" = "cldr"): SupportedLocales {
+  const contextualLocales = context === "cldr" ? locales : t9nLocales;
+
+  if (!locale) {
+    return defaultLocale;
+  }
+
+  if (contextualLocales.includes(locale)) {
+    return locale;
+  }
+
+  locale = locale.toLowerCase();
+
+  // we support both 'nb' and 'no' (BCP 47) for Norwegian but only `no` has corresponding bundle
+  if (locale === "nb") {
+    return "no";
+  }
+
+  // we use `pt-BR` as it will have the same translations as `pt`, which has no corresponding bundle
+  if (context === "t9n" && locale === "pt") {
+    return "pt-BR";
+  }
+
+  if (locale.includes("-")) {
+    locale = locale.replace(/(\w+)-(\w+)/, (_match, language, region) => `${language}-${region.toUpperCase()}`);
+
+    if (!contextualLocales.includes(locale)) {
+      locale = locale.split("-")[0];
     }
-    return nonExpoNumString;
-  });
+  }
+
+  // we can `zh-CN` as base translation for chinese locales which has no corresponding bundle.
+  if (locale === "zh") {
+    return "zh-CN";
+  }
+
+  if (!contextualLocales.includes(locale)) {
+    console.warn(
+      `Translations for the "${locale}" locale are not available and will fall back to the default, English (en).`
+    );
+    return defaultLocale;
+  }
+
+  return locale;
 }
+
+/**
+ * This interface is for components that need to determine locale from the lang attribute.
+ */
+export interface LocalizedComponent {
+  el: HTMLElement;
+
+  /**
+   * Used to store the effective locale to avoid multiple lookups.
+   *
+   * This is an internal property and should:
+   *
+   * - use the `@State` decorator
+   * - be initialized to ""
+   *
+   * Components should watch this prop to ensure messages are updated.
+   *
+   * @Watch("effectiveLocale")
+   * effectiveLocaleChange(): void {
+   *   updateMessages(this, this.effectiveLocale);
+   * }
+   */
+  effectiveLocale: string;
+}
+
+const connectedComponents = new Set<LocalizedComponent>();
+
+/**
+ * This utility sets up internals for messages support.
+ *
+ * It needs to be called in `connectedCallback` before any logic that depends on locale
+ *
+ * @param component
+ */
+export function connectLocalized(component: LocalizedComponent): void {
+  updateEffectiveLocale(component);
+
+  if (connectedComponents.size === 0) {
+    mutationObserver?.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["lang"],
+      subtree: true
+    });
+  }
+
+  connectedComponents.add(component);
+}
+
+/**
+ * This is only exported for components that implemented the now deprecated `locale` prop.
+ *
+ * Do not use this utils for new components.
+ *
+ * @param component
+ */
+export function updateEffectiveLocale(component: LocalizedComponent): void {
+  component.effectiveLocale = getLocale(component);
+}
+
+/**
+ * This utility tears down internals for messages support.
+ *
+ * It needs to be called in `disconnectedCallback`
+ *
+ * @param component
+ */
+export function disconnectLocalized(component: LocalizedComponent): void {
+  connectedComponents.delete(component);
+
+  if (connectedComponents.size === 0) {
+    mutationObserver.disconnect();
+  }
+}
+
+const mutationObserver = createObserver("mutation", (records) => {
+  records.forEach((record) => {
+    const el = record.target as HTMLElement;
+
+    connectedComponents.forEach((component) => {
+      const inUnrelatedSubtree = !containsCrossShadowBoundary(el, component.el);
+
+      if (inUnrelatedSubtree) {
+        return;
+      }
+
+      const closestLangEl = closestElementCrossShadowBoundary<HTMLElement>(component.el, "[lang]");
+
+      if (!closestLangEl) {
+        component.effectiveLocale = defaultLocale;
+        return;
+      }
+
+      const closestLang = closestLangEl.lang;
+
+      component.effectiveLocale =
+        // user set lang="" means unknown language, so we use default
+        closestLangEl.hasAttribute("lang") && closestLang === "" ? defaultLocale : closestLang;
+    });
+  });
+});
+
+/**
+ * This util helps resolve a component's locale.
+ * It will also fall back on the deprecated `locale` if a component implemented this previously.
+ *
+ * @param component
+ */
+function getLocale(component: LocalizedComponent): string {
+  return (
+    component.el.lang ||
+    closestElementCrossShadowBoundary<HTMLElement>(component.el, "[lang]")?.lang ||
+    document.documentElement.lang ||
+    defaultLocale
+  );
+}
+
+export interface NumberStringFormatOptions extends Intl.NumberFormatOptions {
+  numberingSystem: NumberingSystem;
+  locale: string;
+}
+
+/**
+ * This util formats and parses numbers for localization
+ */
+export class NumberStringFormat {
+  /**
+   * The actual group separator for the specified locale.
+   * Some white space group separators don't render correctly in the browser,
+   * so we replace them with a normal <SPACE>.
+   */
+  private _actualGroup: string;
+
+  /** the corrected group separator */
+  private _group: string;
+
+  get group(): string {
+    return this._group;
+  }
+
+  private _decimal: string;
+
+  get decimal(): string {
+    return this._decimal;
+  }
+
+  private _minusSign: string;
+
+  get minusSign(): string {
+    return this._minusSign;
+  }
+
+  private _digits: Array<string>;
+
+  get digits(): Array<string> {
+    return this._digits;
+  }
+
+  private _getDigitIndex;
+
+  private _numberFormatter: Intl.NumberFormat;
+
+  get numberFormatter(): Intl.NumberFormat {
+    return this._numberFormatter;
+  }
+
+  private _numberFormatOptions: NumberStringFormatOptions;
+
+  get numberFormatOptions(): NumberStringFormatOptions {
+    return this._numberFormatOptions;
+  }
+
+  /**
+   * numberFormatOptions needs to be set before localize/delocalize is called to ensure the options are up to date
+   */
+  set numberFormatOptions(options: NumberStringFormatOptions) {
+    options.locale = getSupportedLocale(options?.locale);
+    options.numberingSystem = getSupportedNumberingSystem(options?.numberingSystem);
+
+    if (
+      // No need to create the formatter if `locale` and `numberingSystem`
+      // are the default values and `numberFormatOptions` has not been set
+      (!this._numberFormatOptions &&
+        options.locale === defaultLocale &&
+        options.numberingSystem === defaultNumberingSystem &&
+        // don't skip initialization if any options besides locale/numberingSystem are set
+        Object.keys(options).length === 2) ||
+      // cache formatter by only recreating when options change
+      JSON.stringify(this._numberFormatOptions) === JSON.stringify(options)
+    ) {
+      return;
+    }
+
+    this._numberFormatOptions = options;
+
+    this._numberFormatter = new Intl.NumberFormat(
+      this._numberFormatOptions.locale,
+      this._numberFormatOptions as Intl.NumberFormatOptions
+    );
+
+    this._digits = [
+      ...new Intl.NumberFormat(this._numberFormatOptions.locale, {
+        useGrouping: false,
+        numberingSystem: this._numberFormatOptions.numberingSystem
+      } as Intl.NumberFormatOptions).format(9876543210)
+    ].reverse();
+
+    const index = new Map(this._digits.map((d, i) => [d, i]));
+    const parts = new Intl.NumberFormat(this._numberFormatOptions.locale).formatToParts(-12345678.9);
+
+    this._actualGroup = parts.find((d) => d.type === "group").value;
+    // change whitespace group characters that don't render correctly
+    this._group = this._actualGroup.trim().length === 0 ? " " : this._actualGroup;
+    this._decimal = parts.find((d) => d.type === "decimal").value;
+    this._minusSign = parts.find((d) => d.type === "minusSign").value;
+    this._getDigitIndex = (d: string) => index.get(d);
+  }
+
+  delocalize = (numberString: string): string =>
+    // For performance, (de)localization is skipped if the formatter isn't initialized.
+    // In order to localize/delocalize, e.g. when lang/numberingSystem props are not default values,
+    // `numberFormatOptions` must be set in a component to create and cache the formatter.
+    this._numberFormatOptions
+      ? sanitizeExponentialNumberString(numberString, (nonExpoNumString: string): string =>
+          nonExpoNumString
+            .trim()
+            .replace(new RegExp(`[${this._minusSign}]`, "g"), "-")
+            .replace(new RegExp(`[${this._group}]`, "g"), "")
+            .replace(new RegExp(`[${this._decimal}]`, "g"), ".")
+            .replace(new RegExp(`[${this._digits.join("")}]`, "g"), this._getDigitIndex)
+        )
+      : numberString;
+
+  localize = (numberString: string): string =>
+    this._numberFormatOptions
+      ? sanitizeExponentialNumberString(numberString, (nonExpoNumString: string): string =>
+          isValidNumber(nonExpoNumString.trim())
+            ? new BigDecimal(nonExpoNumString.trim())
+                .format(this)
+                .replace(new RegExp(`[${this._actualGroup}]`, "g"), this._group)
+            : nonExpoNumString
+        )
+      : numberString;
+}
+
+export const numberStringFormatter = new NumberStringFormat();

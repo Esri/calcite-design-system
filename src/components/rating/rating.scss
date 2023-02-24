@@ -3,12 +3,12 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-rating-spacing-unit: the amount of left/right margin between each rating star
+ * @prop --calcite-rating-spacing-unit: The amount of left and right margin spacing between each rating star.
  */
 
 :host {
   @apply relative flex items-center;
-  width: fit-content;
+  inline-size: fit-content;
 }
 
 @include disabled();
@@ -33,25 +33,25 @@
 }
 
 .fieldset {
-  @apply m-0 flex border-0 p-0;
+  margin: 0;
+  display: flex;
+  border-width: 0;
+  padding: 0;
+  align-items: center;
+  gap: var(--calcite-rating-spacing-unit);
 }
 
 .wrapper {
-  @apply inline-block;
-  margin-inline-end: var(--calcite-rating-spacing-unit);
+  display: inline-block;
 }
 
 .star {
-  @apply focus-base
-    relative
-    flex
-    cursor-pointer;
+  @apply transition-default;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
   color: theme("borderColor.color.input");
-  transition: var(--calcite-animation-timing);
-  transform: scale(1);
-  &:active {
-    transform: scale(1.1);
-  }
 }
 
 .focused {
@@ -64,36 +64,31 @@
 }
 
 .hovered,
-.selected,
-:host([read-only]) .average,
-:host([read-only]) .fraction {
+.selected {
   color: theme("colors.brand");
 }
 
-.hovered:not(.selected) {
-  transform: scale(0.9);
-}
-
-:host .fraction {
-  @apply pointer-events-none
-    absolute
-    top-0
-    overflow-hidden;
-  transition: var(--calcite-animation-timing);
+.fraction {
+  @apply transition-default;
+  position: absolute;
+  pointer-events: none;
+  inset-block-start: 0;
+  overflow: hidden;
   inset-inline-start: 0;
 }
 
 // rating count
 calcite-chip {
-  @apply pointer-events-none cursor-default;
+  pointer-events: none;
+  cursor: default;
 }
 
 .number--average {
-  @apply font-bold;
+  font-weight: bold;
 }
 
 .number--count {
-  @apply text-color-2;
+  color: var(--calcite-ui-text-2);
   font-style: italic;
   &:not(:first-child) {
     margin-inline-start: var(--calcite-rating-spacing-unit);

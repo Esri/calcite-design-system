@@ -4,6 +4,8 @@
 
 <!-- Auto Generated Below -->
 
+> **[DEPRECATED]** Use the `list` component instead.
+
 ## Usage
 
 ### Basic
@@ -42,51 +44,29 @@ Renders a value list with drag and drop capability between the items.
 </calcite-value-list>
 ```
 
-### Label-editing-and-single-select
-
-Renders a value list with label editing and single select.
-
-```html
-<calcite-value-list label-editing-enabled>
-  <calcite-value-list-item
-    label="2018 Generation Alpha Population (Born 2017 or Later) [updated 2019-09-18]"
-    description="GENALPHACY"
-    value="GENALPHACY"
-  >
-  </calcite-value-list-item>
-  <calcite-value-list-item
-    label="2010-2018 Households: Annual Growth Rate (Esri)"
-    description="HHGRW10CY-2019-09-18.001ZZYLKJ"
-    value="HHGRW10CY"
-  >
-  </calcite-value-list-item>
-  <calcite-value-list-item
-    label="2010-2018 Households: Annual Growth Rate (Esri)"
-    description="HHGRW10CY-2019-09-18.001ZZYYZLKJ"
-    value="HHGRW10CY2"
-  >
-  </calcite-value-list-item>
-</calcite-value-list>
-```
-
 ## Properties
 
-| Property                | Attribute                 | Description                                                                                                                                                                                                                                             | Type      | Default     |
-| ----------------------- | ------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------- | ----------- |
-| `disabled`              | `disabled`                | When true, prevents user interaction. This state shows list items grayed out and with lower opacity.                                                                                                                                                    | `boolean` | `false`     |
-| `dragEnabled`           | `drag-enabled`            | When true, list items are sortable via a draggable button.                                                                                                                                                                                              | `boolean` | `false`     |
-| `filterEnabled`         | `filter-enabled`          | When true, an input appears at the top of the list that can be used by end users to filter list items.                                                                                                                                                  | `boolean` | `false`     |
-| `filterPlaceholder`     | `filter-placeholder`      | Placeholder text for the filter's input field.                                                                                                                                                                                                          | `string`  | `undefined` |
-| `group`                 | `group`                   | The list's group identifier. To drag elements from one list into another, both lists must have the same group value.                                                                                                                                    | `string`  | `undefined` |
-| `loading`               | `loading`                 | When true, content is waiting to be loaded. This state shows a busy indicator.                                                                                                                                                                          | `boolean` | `false`     |
-| `multiple`              | `multiple`                | Similar to standard radio buttons and checkboxes. When true, a user can select multiple list items at a time. When false, only a single list item can be selected at a time, and selecting a new list item will deselect any other selected list items. | `boolean` | `false`     |
-| `selectionFollowsFocus` | `selection-follows-focus` | When true and single-selection is enabled, the selection changes when navigating list items via the keyboard.                                                                                                                                           | `boolean` | `false`     |
+| Property                | Attribute                 | Description                                                                                                                                                                                                                                                             | Type                                                                                          | Default     |
+| ----------------------- | ------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- | ----------- |
+| `disabled`              | `disabled`                | When `true`, interaction is prevented and the component is displayed with lower opacity.                                                                                                                                                                                | `boolean`                                                                                     | `false`     |
+| `dragEnabled`           | `drag-enabled`            | When `true`, `calcite-value-list-item`s are sortable via a draggable button.                                                                                                                                                                                            | `boolean`                                                                                     | `false`     |
+| `filterEnabled`         | `filter-enabled`          | When `true`, an input appears at the top of the component that can be used by end users to filter list items.                                                                                                                                                           | `boolean`                                                                                     | `false`     |
+| `filterPlaceholder`     | `filter-placeholder`      | Placeholder text for the filter's input field.                                                                                                                                                                                                                          | `string`                                                                                      | `undefined` |
+| `filterText`            | `filter-text`             | Text for the filter input field.                                                                                                                                                                                                                                        | `string`                                                                                      | `undefined` |
+| `filteredData`          | --                        | The currently filtered data.                                                                                                                                                                                                                                            | `{ label: string; description: string; metadata: Record<string, unknown>; value: string; }[]` | `[]`        |
+| `filteredItems`         | --                        | The currently filtered items.                                                                                                                                                                                                                                           | `HTMLCalciteValueListItemElement[]`                                                           | `[]`        |
+| `group`                 | `group`                   | The component's group identifier. To drag elements from one list into another, both lists must have the same group value.                                                                                                                                               | `string`                                                                                      | `undefined` |
+| `loading`               | `loading`                 | When `true`, a busy indicator is displayed.                                                                                                                                                                                                                             | `boolean`                                                                                     | `false`     |
+| `messageOverrides`      | `message-overrides`       | Use this property to override individual strings used by the component.                                                                                                                                                                                                 | `ValueListMessages`                                                                           | `undefined` |
+| `multiple`              | `multiple`                | Similar to standard radio buttons and checkboxes. When `true`, a user can select multiple `calcite-value-list-item`s at a time. When `false`, only a single `calcite-value-list-item` can be selected at a time, and a new selection will deselect previous selections. | `boolean`                                                                                     | `false`     |
+| `selectionFollowsFocus` | `selection-follows-focus` | When `true` and single-selection is enabled, the selection changes when navigating `calcite-value-list-item`s via keyboard.                                                                                                                                             | `boolean`                                                                                     | `false`     |
 
 ## Events
 
 | Event                    | Description                                              | Type                                                        |
 | ------------------------ | -------------------------------------------------------- | ----------------------------------------------------------- |
 | `calciteListChange`      | Emits when any of the list item selections have changed. | `CustomEvent<Map<string, HTMLCalciteValueListItemElement>>` |
+| `calciteListFilter`      | Emits when a filter has changed.                         | `CustomEvent<void>`                                         |
 | `calciteListOrderChange` | Emits when the order of the list has changed.            | `CustomEvent<any[]>`                                        |
 
 ## Methods
@@ -101,18 +81,11 @@ Type: `Promise<Map<string, HTMLCalciteValueListItemElement>>`
 
 ### `setFocus(focusId?: ListFocusId) => Promise<void>`
 
-Sets focus on the component.
+Sets focus on the component's first focusable element.
 
 #### Returns
 
 Type: `Promise<void>`
-
-## Slots
-
-| Slot             | Description                                                                                        |
-| ---------------- | -------------------------------------------------------------------------------------------------- |
-|                  | A slot for adding `calcite-value-list-item` elements. List items are displayed as a vertical list. |
-| `"menu-actions"` | A slot for adding a button and menu combination for performing actions, such as sorting.           |
 
 ## Dependencies
 

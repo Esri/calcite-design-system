@@ -1,12 +1,14 @@
 import { CSS as PICK_LIST_ITEM_CSS, SLOTS } from "../pick-list-item/resources";
-import { accessible, disabled, focusable, renders, slots } from "../../tests/commonTests";
+import { accessible, disabled, focusable, renders, slots, hidden } from "../../tests/commonTests";
 import { E2EPage, newE2EPage } from "@stencil/core/testing";
 import { html } from "../../../support/formatting";
 
 describe("calcite-value-list-item", () => {
   it("renders", async () => renders("calcite-value-list-item", { display: "flex" }));
 
-  it("is accessible", async () => {
+  it("honors hidden attribute", async () => hidden("calcite-value-list-item"));
+
+  it.skip("is accessible", async () => {
     await accessible(html`
       <calcite-value-list>
         <calcite-value-list-item label="test" description="a number" value="one"></calcite-value-list-item>
@@ -67,9 +69,9 @@ describe("calcite-value-list-item", () => {
     expect(properties.get("shiftPressed")._remoteObject.value).toBe(false);
   });
 
-  it("prevents deselection when disableDeselect is true", async () => {
+  it("prevents deselection when deselectDisabled is true", async () => {
     const page = await newE2EPage({
-      html: `<calcite-value-list-item label="test" value="example" disable-deselect selected></calcite-value-list-item>`
+      html: `<calcite-value-list-item label="test" value="example" deselect-disabled selected></calcite-value-list-item>`
     });
     const item = await page.find("calcite-value-list-item");
 

@@ -1,43 +1,48 @@
-const rimraf = require("rimraf");
-const { argv } = require("yargs");
-const { resolve } = require("path");
+import yargs from "yargs";
 
-// 👇 based on https://stackoverflow.com/a/14032965
+(async function () {
+  const { default: rimraf } = await import("rimraf");
+  const { resolve } = await import("path");
 
-process.stdin.resume(); // so the program will not close instantly
+  // 👇 based on https://stackoverflow.com/a/14032965
 
-interface CleanupOptions {
-  cleanup: boolean;
-}
+  process.stdin.resume(); // so the program will not close instantly
 
-interface ExitOptions {
-  exit: boolean;
-}
-
-const { path } = argv;
-
-const exitHandler = (options: CleanupOptions | ExitOptions): void => {
-  if ("cleanup" in options) {
-    rimraf.sync(resolve(`${process.cwd()}/${path}`));
+  interface CleanupOptions {
+    cleanup: boolean;
   }
-  if ("exit" in options) {
-    process.exit();
+
+  interface ExitOptions {
+    exit: boolean;
   }
-};
 
-// do something when app is closing
-process.on("exit", exitHandler.bind(null, { cleanup: true }));
+  const { path } = yargs(process.argv.slice(2))
+    .options({ path: { type: "string" } })
+    .parseSync();
 
-// catches ctrl+c event
-process.on("SIGINT", exitHandler.bind(null, { exit: true }));
+  const exitHandler = (options: CleanupOptions | ExitOptions): void => {
+    if ("cleanup" in options) {
+      rimraf.sync(resolve(`${process.cwd()}/${path}`));
+    }
+    if ("exit" in options) {
+      process.exit();
+    }
+  };
 
-// catches other kill process signals (e.g., concurrently --kill-others ...)
-process.on("SIGHUP", exitHandler.bind(null, { exit: true }));
-process.on("SIGTERM", exitHandler.bind(null, { exit: true }));
+  // do something when app is closing
+  process.on("exit", exitHandler.bind(null, { cleanup: true }));
 
-// catches "kill pid" (for example: nodemon restart)
-process.on("SIGUSR1", exitHandler.bind(null, { exit: true }));
-process.on("SIGUSR2", exitHandler.bind(null, { exit: true }));
+  // catches ctrl+c event
+  process.on("SIGINT", exitHandler.bind(null, { exit: true }));
 
-// catches uncaught exceptions
-process.on("uncaughtException", exitHandler.bind(null, { exit: true }));
+  // catches other kill process signals (e.g., concurrently --kill-others ...)
+  process.on("SIGHUP", exitHandler.bind(null, { exit: true }));
+  process.on("SIGTERM", exitHandler.bind(null, { exit: true }));
+
+  // catches "kill pid" (for example: nodemon restart)
+  process.on("SIGUSR1", exitHandler.bind(null, { exit: true }));
+  process.on("SIGUSR2", exitHandler.bind(null, { exit: true }));
+
+  // catches uncaught exceptions
+  process.on("uncaughtException", exitHandler.bind(null, { exit: true }));
+})();

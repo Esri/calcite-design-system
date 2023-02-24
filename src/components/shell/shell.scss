@@ -3,7 +3,7 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-shell-tip-spacing: the left/right positioning of the tip-manager when slotted within a shell
+ * @prop --calcite-shell-tip-spacing: The left and right spacing of the `calcite-tip-manager` when slotted in the component.
  */
 
 :host {
@@ -29,10 +29,6 @@
     overflow-hidden;
 }
 
-.main--reversed {
-  @apply flex-row-reverse;
-}
-
 .content {
   @apply flex
     h-full
@@ -46,29 +42,32 @@
 .content ::slotted(calcite-panel),
 .content ::slotted(calcite-flow) {
   @apply flex-auto self-stretch;
-  max-height: unset;
+  max-block-size: unset;
 }
 
 .content--behind {
   @apply absolute
     inset-0
-    z-0
     border-0;
+  z-index: calc(theme("zIndex.default") - 1);
   display: initial;
 }
 
 ::slotted(calcite-shell-center-row) {
-  width: unset;
+  inline-size: unset;
 }
 
 ::slotted(.header .heading) {
   @apply text-n2-wrap font-normal;
 }
 
+slot[name="panel-end"]::slotted(calcite-shell-panel) {
+  margin-inline-start: auto;
+}
+
 ::slotted(calcite-shell-panel),
 ::slotted(calcite-shell-center-row) {
-  @apply relative;
-  z-index: 1;
+  @apply relative z-default;
 }
 
 ::slotted(calcite-panel),
@@ -89,9 +88,15 @@ slot[name="center-row"]::slotted(calcite-shell-center-row:not([detached])) {
   animate-in-up
   absolute
   box-border
-  rounded;
-  bottom: theme("spacing.2");
-  left: var(--calcite-shell-tip-spacing);
-  right: var(--calcite-shell-tip-spacing);
-  z-index: 2;
+  rounded
+  z-toast;
+  inset-block-end: theme("spacing.2");
+  inset-inline: var(--calcite-shell-tip-spacing);
+}
+
+// positioning logic for expected slotted components
+.position-wrapper {
+  position: absolute;
+  pointer-events: none;
+  inset: 0;
 }

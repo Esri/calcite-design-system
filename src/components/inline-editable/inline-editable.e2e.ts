@@ -1,4 +1,4 @@
-import { accessible, disabled, labelable, renders } from "../../tests/commonTests";
+import { accessible, disabled, labelable, renders, hidden, t9n } from "../../tests/commonTests";
 import { E2EPage } from "@stencil/core/testing";
 import { newE2EPage } from "@stencil/core/testing";
 import { CSS } from "./resources";
@@ -14,6 +14,8 @@ describe("calcite-inline-editable", () => {
       `,
       { display: "block" }
     ));
+
+  it("honors hidden attribute", async () => hidden("calcite-inline-editable"));
 
   it("can be disabled", () =>
     disabled(
@@ -55,7 +57,9 @@ describe("calcite-inline-editable", () => {
 
       expect(buttons).toHaveLength(3);
 
-      buttons.forEach(async (button) => expect(await button.getProperty("type")).toBe("button"));
+      for (const button of buttons) {
+        expect(await button.getProperty("type")).toBe("button");
+      }
     });
 
     it("uses a wrapping label's scale when none are provided", async () => {
@@ -384,4 +388,6 @@ describe("calcite-inline-editable", () => {
       });
     });
   });
+
+  it("supports translation", () => t9n("calcite-inline-editable"));
 });

@@ -1,35 +1,34 @@
-import {
-  Component,
-  Element,
-  Event,
-  EventEmitter,
-  Prop,
-  Watch,
-  h,
-  VNode,
-  State,
-  forceUpdate
-} from "@stencil/core";
-import { CSS, SLOTS, TEXT } from "./resources";
-import { Position, Scale } from "../interfaces";
-import { getSlotted, getElementDir } from "../../utils/dom";
-import { clamp } from "../../utils/math";
+import { Component, Element, forceUpdate, h, Prop, State, VNode, Watch } from "@stencil/core";
 import {
   ConditionalSlotComponent,
   connectConditionalSlotComponent,
   disconnectConditionalSlotComponent
 } from "../../utils/conditionalSlot";
+import { getElementDir, getSlotted, isPrimaryPointerButton } from "../../utils/dom";
+import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
+import { clamp } from "../../utils/math";
+import {
+  connectMessages,
+  disconnectMessages,
+  setUpMessages,
+  T9nComponent,
+  updateMessages
+} from "../../utils/t9n";
+import { Position, Scale } from "../interfaces";
+import { ShellPanelMessages } from "./assets/shell-panel/t9n";
+import { CSS, SLOTS } from "./resources";
 
 /**
- * @slot - A slot for adding content to the shell panel.
- * @slot action-bar - A slot for adding a `calcite-action-bar` to the panel.
+ * @slot - A slot for adding custom content.
+ * @slot action-bar - A slot for adding a `calcite-action-bar` to the component.
  */
 @Component({
   tag: "calcite-shell-panel",
   styleUrl: "shell-panel.scss",
-  shadow: true
+  shadow: true,
+  assetsDirs: ["assets"]
 })
-export class ShellPanel implements ConditionalSlotComponent {
+export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent, T9nComponent {
   // --------------------------------------------------------------------------
   //
   //  Properties
@@ -37,48 +36,52 @@ export class ShellPanel implements ConditionalSlotComponent {
   // --------------------------------------------------------------------------
 
   /**
-   * Hide the content panel.
+   * When `true`, hides the component's content area.
    */
   @Prop({ reflect: true }) collapsed = false;
 
-  @Watch("collapsed")
-  watchHandler(): void {
-    this.calciteShellPanelToggle.emit();
-  }
-
   /**
-   * This property makes the content area appear like a "floating" panel.
+   * When `true`, the content area displays like a floating panel.
    */
   @Prop({ reflect: true }) detached = false;
 
   /**
-   * Specifies the maximum height of the contents when detached.
+   * When `detached`, specifies the maximum height of the component.
    */
   @Prop({ reflect: true }) detachedHeightScale: Scale = "l";
 
   /**
-   * This sets width of the content area.
+   * Specifies the width of the component's content area.
    */
 
   @Prop({ reflect: true }) widthScale: Scale = "m";
 
   /**
-   * Arranges the component depending on the elements 'dir' property.
+   * Specifies the component's position. Will be flipped when the element direction is right-to-left (`"rtl"`).
    */
   @Prop({ reflect: true }) position: Position;
 
   /**
-   * Accessible label for resize separator.
-   *
-   * @default "Resize"
-   */
-  @Prop() intlResize = TEXT.resize;
-
-  /**
-   * This property makes the content area resizable if the calcite-shell-panel is not 'detached'.
+   * When `true` and not `detached`, the component's content area is resizable.
    */
   @Prop({ reflect: true }) resizable = false;
 
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @internal
+   */
+  @Prop({ mutable: true }) messages: ShellPanelMessages;
+
+  /**
+   * Use this property to override individual strings used by the component.
+   */
+  @Prop({ mutable: true }) messageOverrides: Partial<ShellPanelMessages>;
+
+  @Watch("messageOverrides")
+  onMessagesChange(): void {
+    /* wired up by t9n util */
+  }
   //--------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -87,11 +90,19 @@ export class ShellPanel implements ConditionalSlotComponent {
 
   connectedCallback(): void {
     connectConditionalSlotComponent(this);
+    connectLocalized(this);
+    connectMessages(this);
+  }
+
+  async componentWillLoad(): Promise<void> {
+    await setUpMessages(this);
   }
 
   disconnectedCallback(): void {
     disconnectConditionalSlotComponent(this);
     this.disconnectSeparator();
+    disconnectLocalized(this);
+    disconnectMessages(this);
   }
 
   componentDidLoad(): void {
@@ -124,18 +135,14 @@ export class ShellPanel implements ConditionalSlotComponent {
 
   stepMultiplier = 10;
 
-  // --------------------------------------------------------------------------
-  //
-  //  Events
-  //
-  // --------------------------------------------------------------------------
+  @State() defaultMessages: ShellPanelMessages;
 
-  /**
-   * Emitted when collapse has been toggled.
-   *
-   * @deprecated use a resizeObserver on the shell-panel to listen for changes to its size.
-   */
-  @Event() calciteShellPanelToggle: EventEmitter;
+  @State() effectiveLocale = "";
+
+  @Watch("effectiveLocale")
+  effectiveLocaleChange(): void {
+    updateMessages(this, this.effectiveLocale);
+  }
 
   // --------------------------------------------------------------------------
   //
@@ -163,7 +170,6 @@ export class ShellPanel implements ConditionalSlotComponent {
       contentWidth,
       contentWidthMax,
       contentWidthMin,
-      intlResize,
       resizable
     } = this;
 
@@ -186,7 +192,7 @@ export class ShellPanel implements ConditionalSlotComponent {
 
     const separatorNode = allowResizing ? (
       <div
-        aria-label={intlResize}
+        aria-label={this.messages.resize}
         aria-orientation="horizontal"
         aria-valuemax={contentWidthMax}
         aria-valuemin={contentWidthMin}
@@ -357,6 +363,10 @@ export class ShellPanel implements ConditionalSlotComponent {
   };
 
   separatorPointerUp = (event: PointerEvent): void => {
+    if (!isPrimaryPointerButton(event)) {
+      return;
+    }
+
     event.preventDefault();
     document.removeEventListener("pointerup", this.separatorPointerUp);
     document.removeEventListener("pointermove", this.separatorPointerMove);
@@ -367,6 +377,10 @@ export class ShellPanel implements ConditionalSlotComponent {
   };
 
   separatorPointerDown = (event: PointerEvent): void => {
+    if (!isPrimaryPointerButton(event)) {
+      return;
+    }
+
     event.preventDefault();
     const { separatorEl } = this;
 

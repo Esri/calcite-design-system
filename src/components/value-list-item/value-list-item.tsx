@@ -10,29 +10,37 @@ import {
   Prop,
   VNode
 } from "@stencil/core";
-import { ICON_TYPES } from "../pick-list/resources";
-import { guid } from "../../utils/guid";
-import { CSS } from "../pick-list-item/resources";
-import { ICONS, SLOTS } from "./resources";
-import { SLOTS as PICK_LIST_SLOTS } from "../pick-list-item/resources";
-import { getSlotted, toAriaBoolean } from "../../utils/dom";
 import {
   ConditionalSlotComponent,
   connectConditionalSlotComponent,
   disconnectConditionalSlotComponent
 } from "../../utils/conditionalSlot";
+import { getSlotted } from "../../utils/dom";
+import { guid } from "../../utils/guid";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import {
+  componentLoaded,
+  LoadableComponent,
+  setComponentLoaded,
+  setUpLoadableComponent
+} from "../../utils/loadable";
+import { CSS, SLOTS as PICK_LIST_SLOTS } from "../pick-list-item/resources";
+import { ICON_TYPES } from "../pick-list/resources";
+import { ICONS, SLOTS } from "./resources";
 
 /**
- * @slot actions-end - A slot for adding actions or content to the end side of the item.
- * @slot actions-start - A slot for adding actions or content to the start side of the item.
+ * @deprecated Use the `list` component instead.
+ * @slot actions-end - A slot for adding `calcite-action`s or content to the end side of the component.
+ * @slot actions-start - A slot for adding `calcite-action`s or content to the start side of the component.
  */
 @Component({
   tag: "calcite-value-list-item",
   styleUrl: "value-list-item.scss",
   shadow: true
 })
-export class ValueListItem implements ConditionalSlotComponent, InteractiveComponent {
+export class ValueListItem
+  implements ConditionalSlotComponent, InteractiveComponent, LoadableComponent
+{
   // --------------------------------------------------------------------------
   //
   //  Properties
@@ -40,22 +48,22 @@ export class ValueListItem implements ConditionalSlotComponent, InteractiveCompo
   // --------------------------------------------------------------------------
 
   /**
-   * An optional description for the list item that displays below the label text.
+   * A description for the component that displays below the label text.
    */
   @Prop({ reflect: true }) description?: string;
 
   /**
-   * When true, the list item cannot be clicked and is visually muted.
+   * When `true`, interaction is prevented and the component is displayed with lower opacity.
    */
   @Prop({ reflect: true }) disabled = false;
 
   /**
    * @internal
    */
-  @Prop() disableDeselect = false;
+  @Prop() deselectDisabled = false;
 
   /**
-   * When true, prevents the content of the list item from user interaction.
+   * When `true`, prevents the content of the component from user interaction.
    */
   @Prop({ reflect: true }) nonInteractive = false;
 
@@ -71,28 +79,31 @@ export class ValueListItem implements ConditionalSlotComponent, InteractiveCompo
    */
   @Prop({ reflect: true }) icon?: ICON_TYPES | null = null;
 
+  /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
+  @Prop({ reflect: true }) iconFlipRtl = false;
+
   /**
-   * The main label for the list item. Appears next to the icon.
+   * Label and accessible name for the component. Appears next to the icon.
    */
   @Prop({ reflect: true }) label!: string;
 
   /**
-   * Provides additional metadata to a list item. Primary use is for a filter on the parent list.
+   * Provides additional metadata to the component. Primary use is for a filter on the parent list.
    */
   @Prop() metadata?: Record<string, unknown>;
 
   /**
-   * When true, adds an action to remove the list item.
+   * When `true`, adds an action to remove the component.
    */
   @Prop({ reflect: true }) removable = false;
 
   /**
-   * When true, preselects the list item. Toggles when an item is checked/unchecked.
+   * When `true`, the component is selected.
    */
   @Prop({ reflect: true, mutable: true }) selected = false;
 
   /**
-   * The list item's associated value.
+   * The component's value.
    */
   @Prop() value!: any;
 
@@ -122,6 +133,14 @@ export class ValueListItem implements ConditionalSlotComponent, InteractiveCompo
     disconnectConditionalSlotComponent(this);
   }
 
+  componentWillLoad(): void {
+    setUpLoadableComponent(this);
+  }
+
+  componentDidLoad(): void {
+    setComponentLoaded(this);
+  }
+
   componentDidRender(): void {
     updateHostInteraction(this, this.el.closest("calcite-value-list") ? "managed" : false);
   }
@@ -146,6 +165,8 @@ export class ValueListItem implements ConditionalSlotComponent, InteractiveCompo
   /** Set focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
+    await componentLoaded(this);
+
     this.pickListItem?.setFocus();
   }
 
@@ -156,9 +177,9 @@ export class ValueListItem implements ConditionalSlotComponent, InteractiveCompo
   // --------------------------------------------------------------------------
 
   /**
-   * Emits when the remove button is pressed.
+   * Fires when the remove button is pressed.
    */
-  @Event() calciteListItemRemove: EventEmitter<void>; // wrapped pick-list-item emits this
+  @Event({ cancelable: true }) calciteListItemRemove: EventEmitter<void>; // wrapped pick-list-item emits this
 
   @Listen("calciteListItemChange")
   calciteListItemChangeHandler(event: CustomEvent): void {
@@ -177,6 +198,7 @@ export class ValueListItem implements ConditionalSlotComponent, InteractiveCompo
 
   handleKeyDown = (event: KeyboardEvent): void => {
     if (event.key === " ") {
+      event.preventDefault();
       this.handleActivated = !this.handleActivated;
     }
   };
@@ -214,11 +236,10 @@ export class ValueListItem implements ConditionalSlotComponent, InteractiveCompo
   }
 
   renderHandle(): VNode {
-    const { icon } = this;
+    const { icon, iconFlipRtl } = this;
     if (icon === ICON_TYPES.grip) {
       return (
         <span
-          aria-pressed={toAriaBoolean(this.handleActivated)}
           class={{
             [CSS.handle]: true,
             [CSS.handleActivated]: this.handleActivated
@@ -229,7 +250,7 @@ export class ValueListItem implements ConditionalSlotComponent, InteractiveCompo
           role="button"
           tabindex="0"
         >
-          <calcite-icon icon={ICONS.drag} scale="s" />
+          <calcite-icon flipRtl={iconFlipRtl} icon={ICONS.drag} scale="s" />
         </span>
       );
     }
@@ -241,7 +262,7 @@ export class ValueListItem implements ConditionalSlotComponent, InteractiveCompo
         {this.renderHandle()}
         <calcite-pick-list-item
           description={this.description}
-          disableDeselect={this.disableDeselect}
+          deselectDisabled={this.deselectDisabled}
           disabled={this.disabled}
           label={this.label}
           metadata={this.metadata}

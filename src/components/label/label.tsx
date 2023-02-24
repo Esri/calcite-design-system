@@ -1,6 +1,6 @@
-import { Component, Element, Event, h, Prop, EventEmitter, VNode, Host } from "@stencil/core";
-import { Alignment, Scale, Status } from "../interfaces";
-import { labelDisconnectedEvent, labelConnectedEvent } from "../../utils/label";
+import { Component, Element, Event, EventEmitter, h, Host, Prop, VNode } from "@stencil/core";
+import { labelConnectedEvent, labelDisconnectedEvent } from "../../utils/label";
+import { Alignment, Scale } from "../interfaces";
 import { CSS } from "./resources";
 
 /**
@@ -26,34 +26,17 @@ export class Label {
   //
   //--------------------------------------------------------------------------
 
-  /** specify the text alignment of the label */
+  /** Specifies the text alignment of the component. */
   @Prop({ reflect: true }) alignment: Alignment = "start";
 
-  /**
-   * specify the status of the label and any child input / input messages
-   *
-   * @deprecated set directly on child element instead
-   */
-  @Prop({ reflect: true }) status: Status = "idle";
-
-  /** The id of the input associated with the label */
+  /** Specifies the `id` of the component the label is bound to. Use when the component the label is bound to does not reside within the component. */
   @Prop({ reflect: true }) for: string;
 
-  /** specify the scale of the label, defaults to m */
+  /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";
 
-  /** is the wrapped element positioned inline with the label slotted text */
+  /** Defines the layout of the label in relation to the component. Use `"inline"` positions to wrap the label and component on the same line. */
   @Prop({ reflect: true }) layout: "inline" | "inline-space-between" | "default" = "default";
-
-  /** eliminates any space around the label */
-  @Prop() disableSpacing = false;
-
-  /**
-   * is the label disabled
-   *
-   * @deprecated use the `disabled` property on the interactive components instead
-   */
-  @Prop({ reflect: true }) disabled = false;
 
   //--------------------------------------------------------------------------
   //
@@ -64,7 +47,7 @@ export class Label {
   /**
    * @internal
    */
-  @Event({ bubbles: false }) calciteInternalLabelClick: EventEmitter<{
+  @Event({ bubbles: false, cancelable: false }) calciteInternalLabelClick: EventEmitter<{
     sourceEvent: MouseEvent;
   }>;
 

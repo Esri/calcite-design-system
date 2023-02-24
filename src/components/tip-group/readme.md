@@ -6,9 +6,9 @@
 
 ## Properties
 
-| Property     | Attribute     | Description                         | Type     | Default     |
-| ------------ | ------------- | ----------------------------------- | -------- | ----------- |
-| `groupTitle` | `group-title` | The title used for all nested tips. | `string` | `undefined` |
+| Property     | Attribute     | Description                                              | Type     | Default     |
+| ------------ | ------------- | -------------------------------------------------------- | -------- | ----------- |
+| `groupTitle` | `group-title` | The component header text for all nested `calcite-tip`s. | `string` | `undefined` |
 
 ## Slots
 

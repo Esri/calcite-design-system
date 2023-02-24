@@ -1,9 +1,8 @@
 import { Component, Element, Event, EventEmitter, h, Listen, Prop, VNode } from "@stencil/core";
-import { AccordionAppearance } from "./interfaces";
-import { Position, Scale } from "../interfaces";
-
+import { Appearance, Position, Scale, SelectionMode } from "../interfaces";
+import { RequestedItem } from "./interfaces";
 /**
- * @slot - A slot for adding `calcite-accordion-item`s. `calcite-accordion` cannot be nested, however calcite-accordion-item`s can.
+ * @slot - A slot for adding `calcite-accordion-item`s. `calcite-accordion` cannot be nested, however `calcite-accordion-item`s can.
  */
 @Component({
   tag: "calcite-accordion",
@@ -25,23 +24,26 @@ export class Accordion {
   //
   //--------------------------------------------------------------------------
 
-  /** specify the appearance - default (containing border), or minimal (no containing border), defaults to default */
-  @Prop({ reflect: true }) appearance: AccordionAppearance = "default";
+  /** Specifies the appearance of the component. */
+  @Prop({ reflect: true }) appearance: Extract<"solid" | "transparent", Appearance> = "solid";
 
-  /** specify the placement of the icon in the header, defaults to end */
+  /** Specifies the placement of the icon in the header. */
   @Prop({ reflect: true }) iconPosition: Position = "end";
 
-  /** specify the type of the icon in the header, defaults to chevron */
+  /** Specifies the type of the icon in the header. */
   @Prop({ reflect: true }) iconType: "chevron" | "caret" | "plus-minus" = "chevron";
 
-  /** specify the scale of accordion, defaults to m */
+  /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";
 
   /**
-   * specify the selection mode - multi (allow any number of open items), single (allow one open item),
-   * or single-persist (allow and require one open item), defaults to multi
+   * Specifies the selection mode - `"multiple"` (allow any number of open items), `"single"` (allow one open item),
+   * or `"single-persist"` (allow and require one open item).
    */
-  @Prop({ reflect: true }) selectionMode: "multi" | "single" | "single-persist" = "multi";
+  @Prop({ reflect: true }) selectionMode: Extract<
+    "single" | "single-persist" | "multiple",
+    SelectionMode
+  > = "multiple";
 
   //--------------------------------------------------------------------------
   //
@@ -52,7 +54,7 @@ export class Accordion {
   /**
    * @internal
    */
-  @Event() calciteInternalAccordionChange: EventEmitter;
+  @Event({ cancelable: false }) calciteInternalAccordionChange: EventEmitter<RequestedItem>;
 
   //--------------------------------------------------------------------------
   //
@@ -68,12 +70,12 @@ export class Accordion {
   }
 
   render(): VNode {
+    const transparent = this.appearance === "transparent";
     return (
       <div
         class={{
-          "accordion--transparent": this.appearance === "transparent",
-          "accordion--minimal": this.appearance === "minimal",
-          accordion: this.appearance === "default"
+          "accordion--transparent": transparent,
+          accordion: !transparent
         }}
       >
         <slot />
@@ -87,52 +89,17 @@ export class Accordion {
   //
   //--------------------------------------------------------------------------
 
-  @Listen("calciteInternalAccordionItemKeyEvent")
-  calciteInternalAccordionItemKeyEvent(e: CustomEvent): void {
-    const item = e.detail.item;
-    const parent = e.detail.parent as HTMLCalciteAccordionElement;
-    if (this.el === parent) {
-      const key = item.key;
-      const itemToFocus = e.target;
-      const isFirstItem = this.itemIndex(itemToFocus) === 0;
-      const isLastItem = this.itemIndex(itemToFocus) === this.items.length - 1;
-      switch (key) {
-        case "ArrowDown":
-          if (isLastItem) {
-            this.focusFirstItem();
-          } else {
-            this.focusNextItem(itemToFocus);
-          }
-          break;
-        case "ArrowUp":
-          if (isFirstItem) {
-            this.focusLastItem();
-          } else {
-            this.focusPrevItem(itemToFocus);
-          }
-          break;
-        case "Home":
-          this.focusFirstItem();
-          break;
-        case "End":
-          this.focusLastItem();
-          break;
-      }
-    }
-    e.stopPropagation();
-  }
-
   @Listen("calciteInternalAccordionItemRegister")
-  registerCalciteAccordionItem(e: CustomEvent): void {
+  registerCalciteAccordionItem(event: CustomEvent): void {
     const item = {
-      item: e.target as HTMLCalciteAccordionItemElement,
-      parent: e.detail.parent as HTMLCalciteAccordionElement,
-      position: e.detail.position as number
+      item: event.target as HTMLCalciteAccordionItemElement,
+      parent: event.detail.parent as HTMLCalciteAccordionElement,
+      position: event.detail.position as number
     };
     if (this.el === item.parent) {
       this.items.push(item);
     }
-    e.stopPropagation();
+    event.stopPropagation();
   }
 
   @Listen("calciteInternalAccordionItemSelect")
@@ -164,37 +131,6 @@ export class Accordion {
   //  Private Methods
   //
   //--------------------------------------------------------------------------
-
-  private focusFirstItem() {
-    const firstItem = this.items[0];
-    this.focusElement(firstItem);
-  }
-
-  private focusLastItem() {
-    const lastItem = this.items[this.items.length - 1];
-    this.focusElement(lastItem);
-  }
-
-  private focusNextItem(e): void {
-    const index = this.itemIndex(e);
-    const nextItem = this.items[index + 1] || this.items[0];
-    this.focusElement(nextItem);
-  }
-
-  private focusPrevItem(e): void {
-    const index = this.itemIndex(e);
-    const prevItem = this.items[index - 1] || this.items[this.items.length - 1];
-    this.focusElement(prevItem);
-  }
-
-  private itemIndex(e): number {
-    return this.items.indexOf(e);
-  }
-
-  private focusElement(item) {
-    const target = item as HTMLCalciteAccordionItemElement;
-    target.focus();
-  }
 
   private sortItems = (items: any[]): any[] =>
     items.sort((a, b) => a.position - b.position).map((a) => a.item);

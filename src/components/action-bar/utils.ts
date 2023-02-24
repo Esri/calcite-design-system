@@ -1,34 +1,61 @@
 import { forceUpdate } from "@stencil/core";
-import { SLOTS as ACTION_MENU_SLOTS } from "../action-menu/resources";
 import { SLOTS as ACTION_GROUP_SLOTS } from "../action-group/resources";
+import { SLOTS as ACTION_MENU_SLOTS } from "../action-menu/resources";
+import { Layout } from "../interfaces";
 
 export const overflowActionsDebounceInMs = 150;
-const groupBufferHeight = 2;
+const groupBufferPx = 2;
+
+const getAverage = (arr: number[]) => arr.reduce((p, c) => p + c, 0) / arr.length;
+
+export const geActionDimensions = (
+  actions: HTMLCalciteActionElement[]
+): { actionWidth: number; actionHeight: number } => {
+  const actionLen = actions?.length;
+  return {
+    actionWidth: actionLen ? getAverage(actions.map((action) => action.clientWidth || 0)) : 0,
+    actionHeight: actionLen ? getAverage(actions.map((action) => action.clientHeight || 0)) : 0
+  };
+};
 
 const getMaxActionCount = ({
+  width,
+  actionWidth,
+  layout,
   height,
   actionHeight,
   groupCount
 }: {
+  layout: Extract<"horizontal" | "vertical", Layout>;
   height: number;
+  actionWidth: number;
+  width: number;
   actionHeight: number;
   groupCount: number;
 }): number => {
-  return Math.floor((height - groupCount * groupBufferHeight) / actionHeight);
+  const maxContainerPx = layout === "horizontal" ? width : height;
+  const avgItemPx = layout === "horizontal" ? actionWidth : actionHeight;
+  return Math.floor((maxContainerPx - groupCount * groupBufferPx) / avgItemPx);
 };
 
 export const getOverflowCount = ({
+  layout,
   actionCount,
+  actionWidth,
+  width,
   actionHeight,
   height,
   groupCount
 }: {
+  layout: Extract<"horizontal" | "vertical", Layout>;
   actionCount: number;
+  actionWidth: number;
+  width: number;
   actionHeight: number;
   height: number;
   groupCount: number;
 }): number => {
-  return Math.max(actionCount - getMaxActionCount({ height, actionHeight, groupCount }), 0);
+  return Math.max(actionCount - getMaxActionCount({ width, actionWidth, layout, height, actionHeight, groupCount }), 0);
 };
 
 export const queryActions = (el: HTMLElement): HTMLCalciteActionElement[] => {

@@ -32,7 +32,7 @@ body:
     attributes:
       label: Reproduction Sample
       description: |
-        We provide the following templates to help get started: [codepen](https://codepen.io/pen?template=RwgrjEx) (just Calcite), [codesandbox](https://codesandbox.io/s/calcite-template-p95kp?file=/src/App.js) (Calcite with React wrapper), or [jsbin](https://jsbin.com/wiguxohisa/edit?html,output) (Calcite with ArcGIS JSAPI). You can also make your own sample using one of the those websites. Alternatively, a [documentation sample](https://developers.arcgis.com/calcite-design-system/components) can be used if the issue is reproducible.
+        We provide the following templates to help get started: [codepen](https://codepen.io/pen?template=RwgrjEx) (just Calcite), [codesandbox](https://codesandbox.io/s/calcite-template-p95kp?file=/src/App.js) (Calcite with React wrapper), or [jsbin](https://jsbin.com/wiguxohisa/edit?html,output) (Calcite with ArcGIS JSAPI). You can also make your own sample using one of the those websites. Alternatively, a [documentation sample](https://developers.arcgis.com/calcite-design-system/components) can be used if the issue is reproducible. If you are experiencing build or Node related errors, please provide a GitHub repo for the sample.
     validations:
       required: true
   - type: textarea
@@ -51,7 +51,6 @@ body:
     attributes:
       label: Reproduction Version
       description: The latest version that reproduces the issue.
-      placeholder: beta.2
     validations:
       required: true
   - type: input
@@ -77,6 +76,52 @@ body:
     attributes:
       label: Regression?
       description: Please provide the last working version if the issue is a regression.
-      placeholder: beta.1
     validations:
       required: false
+  - type: dropdown
+    id: esri-team
+    validations:
+      required: true
+    attributes:
+      label: Esri team
+      multiple: false
+      description: If you work at Esri, please select your product team. Otherwise choose "N/A". If your team is not listed, choose "N/A", and then edit the line after submitting the issue.
+      options:
+        - N/A
+        - ArcGIS Solutions
+        - ArcGIS AppStudio
+        - ArcGIS Business/Community Analyst
+        - ArcGIS Charts
+        - ArcGIS Dashboards
+        - ArcGIS Developer Experience
+        - ArcGIS Enterprise
+        - ArcGIS Excalibur
+        - ArcGIS Experience Builder
+        - ArcGIS Field Apps
+        - ArcGIS GeoAnalytics
+        - ArcGIS GeoBIM
+        - ArcGIS GeoPlanner
+        - ArcGIS Hub
+        - ArcGIS Indoors
+        - ArcGIS Insights
+        - ArcGIS Instant Apps
+        - ArcGIS Living Atlas
+        - ArcGIS Map Viewer
+        - ArcGIS Marketplace
+        - ArcGIS Mission
+        - ArcGIS Monitor
+        - ArcGIS Network Analyst
+        - ArcGIS Online
+        - ArcGIS Pro
+        - ArcGIS Maps SDK for JavaScript
+        - ArcGIS Scene Viewer
+        - ArcGIS Site Scan
+        - ArcGIS StoryMaps
+        - ArcGIS Survey123
+        - ArcGIS Web Analysis
+        - ArcGIS Urban
+        - Esri Marketing
+        - Professional Services - Midwest Delivery Center
+        - Professional Services - Services Delivery
+        - Calcite (design)
+        - Calcite (dev)

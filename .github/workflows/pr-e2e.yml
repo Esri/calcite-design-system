@@ -4,13 +4,13 @@ on:
     branches: [master]
 jobs:
   e2e:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           fetch-depth: 0
       - name: skip for markdown only prs
-        id: testable
+        id: markdown-check
         run: |
           current_branch=$(git rev-parse --abbrev-ref HEAD)
           # diff of branch excluding md
@@ -19,14 +19,14 @@ jobs:
           # skip if there are only md changes
           if [ -z "$testable_changes" ]; then
             echo "skip e2e"
+            echo "SKIP=true" >> $GITHUB_OUTPUT
           else
             echo "run e2e"
-            echo "::set-output name=skip::false"
+            echo "SKIP=false" >> $GITHUB_OUTPUT
           fi
-      - uses: actions/setup-node@v2
+      - uses: actions/setup-node@v3
         with:
-          node-version: lts/*
-          cache: npm
-      - run: npm install
-      - if: steps.testable.outputs.skip == 'false'
+          node-version-file: package.json
+      - run: npm ci --legacy-peer-deps
+      - if: steps.markdown-check.outputs.SKIP == 'false'
         run: npm test

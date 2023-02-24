@@ -1,5 +1,12 @@
-import { Component, Element, Event, EventEmitter, Method, Prop, h, VNode } from "@stencil/core";
+import { Component, Element, Event, EventEmitter, h, Method, Prop, VNode } from "@stencil/core";
 import { toAriaBoolean } from "../../utils/dom";
+import {
+  componentLoaded,
+  LoadableComponent,
+  setComponentLoaded,
+  setUpLoadableComponent
+} from "../../utils/loadable";
+import { HandleNudge } from "./interfaces";
 import { CSS, ICONS } from "./resources";
 
 @Component({
@@ -7,7 +14,7 @@ import { CSS, ICONS } from "./resources";
   styleUrl: "handle.scss",
   shadow: true
 })
-export class Handle {
+export class Handle implements LoadableComponent {
   // --------------------------------------------------------------------------
   //
   //  Properties
@@ -23,6 +30,20 @@ export class Handle {
    * Value for the button title attribute
    */
   @Prop({ reflect: true }) textTitle = "handle";
+
+  //--------------------------------------------------------------------------
+  //
+  //  Lifecycle
+  //
+  //--------------------------------------------------------------------------
+
+  componentWillLoad(): void {
+    setUpLoadableComponent(this);
+  }
+
+  componentDidLoad(): void {
+    setComponentLoaded(this);
+  }
 
   // --------------------------------------------------------------------------
   //
@@ -41,9 +62,9 @@ export class Handle {
   // --------------------------------------------------------------------------
 
   /**
-   * Emitted when the the handle is activated and the up or down arrow key is pressed.
+   * Emitted when the handle is activated and the up or down arrow key is pressed.
    */
-  @Event() calciteHandleNudge: EventEmitter;
+  @Event({ cancelable: false }) calciteHandleNudge: EventEmitter<HandleNudge>;
 
   // --------------------------------------------------------------------------
   //
@@ -54,7 +75,9 @@ export class Handle {
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
-    this.handleButton.focus();
+    await componentLoaded(this);
+
+    this.handleButton?.focus();
   }
 
   // --------------------------------------------------------------------------
@@ -67,14 +90,21 @@ export class Handle {
     switch (event.key) {
       case " ":
         this.activated = !this.activated;
+        event.preventDefault();
         break;
       case "ArrowUp":
+        if (!this.activated) {
+          return;
+        }
+        event.preventDefault();
+        this.calciteHandleNudge.emit({ direction: "up" });
+        break;
       case "ArrowDown":
         if (!this.activated) {
           return;
         }
-        const direction = event.key.toLowerCase().replace("arrow", "");
-        this.calciteHandleNudge.emit({ handle: this.el, direction });
+        event.preventDefault();
+        this.calciteHandleNudge.emit({ direction: "down" });
         break;
     }
   };

@@ -1,9 +1,10 @@
 import { boolean, text } from "@storybook/addon-knobs";
-import { filterComponentAttributes, Attributes, createComponentHTML as create } from "../../../.storybook/utils";
-import readme from "./readme.md";
-import itemReadme from "../panel/readme.md";
-import { SLOTS, TEXT } from "../panel/resources";
+import { storyFilters } from "../../../.storybook/helpers";
+import { Attributes, createComponentHTML as create, filterComponentAttributes } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
+import itemReadme from "../panel/readme.md";
+import { SLOTS } from "../panel/resources";
+import readme from "./readme.md";
 
 export default {
   title: "Components/Flow",
@@ -12,7 +13,8 @@ export default {
       flow: readme,
       item: itemReadme
     }
-  }
+  },
+  ...storyFilters()
 };
 
 const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ exceptions } = { exceptions: [] }) => {
@@ -38,20 +40,8 @@ const createFlowItemAttributes: (group: string) => Attributes = (group) => {
       value: boolean("menuOpen", false, group)
     },
     {
-      name: "summary",
-      value: text("summary", "Summary", group)
-    },
-    {
-      name: "intl-back",
-      value: text("intlBack", TEXT.back, group)
-    },
-    {
-      name: "intl-open",
-      value: text("intlOpen", TEXT.open, group)
-    },
-    {
-      name: "intl-close",
-      value: text("intlClose", TEXT.close, group)
+      name: "description",
+      value: text("description", "Description", group)
     }
   ];
 };
@@ -81,7 +71,7 @@ const menuActionsHTML = html`
 `;
 
 const footerActionsHTML = html`
-  <calcite-button slot="${SLOTS.footerActions}" width="half" appearance="clear">Cancel</calcite-button>
+  <calcite-button slot="${SLOTS.footerActions}" width="half" appearance="outline">Cancel</calcite-button>
   <calcite-button slot="${SLOTS.footerActions}" width="half">Save</button>
 `;
 
@@ -149,18 +139,70 @@ const item2HTML = html`
   </ul>
 `;
 
-export const basic = (): string =>
+export const simple = (): string =>
   create(
     "calcite-flow",
     createAttributes(),
-    `${create("calcite-panel", createFlowItemAttributes("Panel 1"), createItemHTML(item1HTML))}
-    ${create("calcite-panel", createFlowItemAttributes("Panel 2"), createItemHTML(item2HTML))}`
+    `${create("calcite-flow-item", createFlowItemAttributes("Flow Item 1"), createItemHTML(item1HTML))}
+    ${create("calcite-flow-item", createFlowItemAttributes("Flow Item 2"), createItemHTML(item2HTML))}`
   );
 
-export const RTL = (): string =>
+export const darkModeRTL_TestOnly = (): string =>
   create(
     "calcite-flow",
-    createAttributes({ exceptions: ["dir"] }).concat({ name: "dir", value: "rtl" }),
-    `${create("calcite-panel", createFlowItemAttributes("Panel 1"), createItemHTML(item1HTML))}
-    ${create("calcite-panel", createFlowItemAttributes("Panel 2"), createItemHTML(item2HTML))}`
+    createAttributes({ exceptions: ["dir"] }).concat(
+      {
+        name: "class",
+        value: "calcite-mode-dark"
+      },
+      { name: "dir", value: "rtl" }
+    ),
+    `${create("calcite-flow-item", createFlowItemAttributes("Flow Item 1"), createItemHTML(item1HTML))}
+    ${create("calcite-flow-item", createFlowItemAttributes("Flow Item 2"), createItemHTML(item2HTML))}`
   );
+
+export const noDoubleScrollbars_TestOnly = (): string => html`
+  <style>
+    #container {
+      display: flex;
+      max-height: 540px;
+      width: 300px;
+    }
+    .content {
+      height: 100%;
+      display: flex;
+      padding: 10px;
+      overflow-y: auto; /* Control scrollbar via child */
+    }
+  </style>
+  <div id="container">
+    <calcite-flow>
+      <calcite-flow-item heading="Example">
+        <div>### Stickied Content e.g. toolbar</div>
+        <div class="content">
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus sapien lectus, ultricies a molestie nec,
+          sollicitudin ac nulla. Pellentesque tincidunt malesuada arcu et placerat. In malesuada neque lectus, at congue
+          est malesuada quis. Proin tincidunt lacus laoreet mauris fringilla accumsan. Cras nec enim eu lectus suscipit
+          vestibulum a laoreet arcu. Duis posuere nunc vel enim blandit, nec vehicula orci aliquam. Vestibulum hendrerit
+          mi vel nisi posuere accumsan. Aenean efficitur est id cursus convallis. Morbi turpis ante, sodales eu tortor
+          eu, mattis bibendum purus. Morbi iaculis nisl nunc, quis accumsan quam laoreet vitae. Aliquam ex ligula,
+          ornare eu ex vitae, tincidunt venenatis lacus. Phasellus risus quam, elementum sed justo porttitor,
+          ullamcorper mattis nisl. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia
+          curae; Nulla non dui at metus porta lacinia congue sit amet quam. Mauris viverra diam neque, in blandit leo
+          vehicula et. Donec non purus vitae nunc tincidunt egestas. Nunc pretium enim magna, sed fringilla lacus
+          viverra in. Nam et pretium nisi. Ut bibendum, ipsum sit amet egestas hendrerit, quam orci sollicitudin purus,
+          sit amet finibus mauris erat in eros. Integer est dui, vehicula a ipsum id, pellentesque semper elit. Fusce
+          euismod volutpat eros vitae imperdiet. Nam suscipit lacus id posuere pharetra. Cras eros ipsum, feugiat non
+          leo non, ornare malesuada eros. Donec egestas purus non quam tempus commodo. Maecenas ex augue, euismod eget
+          magna in, dapibus fermentum felis. Phasellus justo felis, sollicitudin ut ex sed, lobortis scelerisque sem.
+          Pellentesque semper placerat velit, sit amet viverra tortor ultricies eu. Pellentesque habitant morbi
+          tristique senectus et netus et malesuada fames ac turpis egestas. Phasellus feugiat, augue in molestie
+          imperdiet, felis turpis facilisis tortor, at tempus purus risus et sapien. Fusce id nisi id orci elementum
+          sollicitudin. Nam id libero eu odio efficitur rutrum maximus porta lorem. Nunc tristique interdum augue,
+          sodales viverra lectus efficitur vitae. Nam molestie, neque consequat mollis pulvinar, sapien sem semper nunc,
+          et euismod enim sem vitae ligula.
+        </div>
+      </calcite-flow-item>
+    </calcite-flow>
+  </div>
+`;

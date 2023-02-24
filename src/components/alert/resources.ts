@@ -1,7 +1,3 @@
-export const TEXT = {
-  intlClose: "Close"
-};
-
 export const DURATIONS = {
   slow: 14000,
   medium: 10000,
@@ -9,7 +5,15 @@ export const DURATIONS = {
 };
 
 export const SLOTS = {
+  actionsEnd: "actions-end",
   title: "title",
   message: "message",
   link: "link"
+};
+
+export const CSS = {
+  actionsEnd: "actions-end",
+  container: "container",
+  close: "alert-close",
+  slottedInShell: "slotted-in-shell"
 };

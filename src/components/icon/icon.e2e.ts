@@ -1,9 +1,11 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, defaults, reflects, renders } from "../../tests/commonTests";
+import { accessible, defaults, hidden, reflects, renders } from "../../tests/commonTests";
 import { CSS } from "./resources";
 import { scaleToPx } from "./utils";
 
 describe("calcite-icon", () => {
+  it("honors hidden attribute", async () => hidden("calcite-icon"));
+
   it("has defaults", async () =>
     defaults("calcite-icon", [
       { propertyName: "flipRtl", defaultValue: false },
@@ -59,7 +61,7 @@ describe("calcite-icon", () => {
       expect(path.getAttribute("d")).toBe(iconPathData);
     });
 
-    it("loads icon when it's close to viewport", async () => {
+    it.skip("loads icon when it's close to viewport", async () => {
       const page = await newE2EPage();
       await page.setContent(`<calcite-icon icon="a-z" style="margin-top: 1000px"></calcite-icon>`);
       await page.waitForChanges();

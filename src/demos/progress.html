@@ -27,38 +27,40 @@
   </head>
 
   <body>
-    <h1 style="margin: 0 auto; text-align: center">Progress</h1>
+    <demo-dom-swapper>
+      <h1 style="margin: 0 auto; text-align: center">Progress</h1>
 
-    <!-- Indeterminate -->
-    <div class="parent">
-      <div class="child">Indeterminate</div>
+      <!-- Indeterminate -->
+      <div class="parent">
+        <div class="child">Indeterminate</div>
 
-      <div class="child">
-        <calcite-progress type="indeterminate" label="a11y label"></calcite-progress>
+        <div class="child">
+          <calcite-progress type="indeterminate" label="a11y label"></calcite-progress>
+        </div>
       </div>
-    </div>
 
-    <!-- Determinate -->
-    <div class="parent">
-      <div class="child">Determinate</div>
+      <!-- Determinate -->
+      <div class="parent">
+        <div class="child">Determinate</div>
 
-      <div class="child">
-        <calcite-progress
-          type="determinate"
-          value="0.5"
-          label="a11y label"
-          text="50% Complete (optional text)"
-        ></calcite-progress>
+        <div class="child">
+          <calcite-progress
+            type="determinate"
+            value="0.5"
+            label="a11y label"
+            text="50% Complete (optional text)"
+          ></calcite-progress>
+        </div>
       </div>
-    </div>
 
-    <!-- Reversed -->
-    <div class="parent">
-      <div class="child">Reversed</div>
+      <!-- Reversed -->
+      <div class="parent">
+        <div class="child">Reversed</div>
 
-      <div class="child">
-        <calcite-progress type="indeterminate" reversed label="a11y label"></calcite-progress>
+        <div class="child">
+          <calcite-progress type="indeterminate" reversed label="a11y label"></calcite-progress>
+        </div>
       </div>
-    </div>
+    </demo-dom-swapper>
   </body>
 </html>

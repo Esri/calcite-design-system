@@ -4,38 +4,65 @@ import {
   Event,
   EventEmitter,
   forceUpdate,
+  h,
   Host,
   Method,
   Prop,
   State,
-  Watch,
-  h,
-  VNode
+  VNode,
+  Watch
 } from "@stencil/core";
 import {
-  CSS,
-  ARIA_CONTROLS,
-  ARIA_EXPANDED,
-  HEADING_LEVEL,
-  TEXT,
-  defaultPopoverPlacement
-} from "./resources";
-import {
-  PopperPlacement,
+  connectFloatingUI,
   defaultOffsetDistance,
-  createPopper,
-  updatePopper,
-  CSS as PopperCSS,
+  disconnectFloatingUI,
+  EffectivePlacement,
+  filterComputedPlacements,
+  FloatingCSS,
+  FloatingUIComponent,
+  LogicalPlacement,
   OverlayPositioning,
-  ComputedPlacement,
-  filterComputedPlacements
-} from "../../utils/popper";
-import { StrictModifiers, Instance as Popper } from "@popperjs/core";
-import { guid } from "../../utils/guid";
-import { queryElementRoots, toAriaBoolean } from "../../utils/dom";
-import { HeadingLevel, Heading } from "../functional/Heading";
+  ReferenceElement,
+  reposition,
+  updateAfterClose
+} from "../../utils/floating-ui";
+import {
+  activateFocusTrap,
+  connectFocusTrap,
+  deactivateFocusTrap,
+  FocusTrap,
+  FocusTrapComponent,
+  updateFocusTrapElements
+} from "../../utils/focusTrapComponent";
+import { ARIA_CONTROLS, ARIA_EXPANDED, CSS, defaultPopoverPlacement } from "./resources";
 
+import { focusFirstTabbable, queryElementRoots, toAriaBoolean } from "../../utils/dom";
+import { guid } from "../../utils/guid";
+import {
+  connectOpenCloseComponent,
+  disconnectOpenCloseComponent,
+  OpenCloseComponent
+} from "../../utils/openCloseComponent";
+import { Heading, HeadingLevel } from "../functional/Heading";
+import { Scale } from "../interfaces";
+
+import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
+import {
+  connectMessages,
+  disconnectMessages,
+  setUpMessages,
+  T9nComponent,
+  updateMessages
+} from "../../utils/t9n";
+import { PopoverMessages } from "./assets/popover/t9n";
 import PopoverManager from "./PopoverManager";
+
+import {
+  componentLoaded,
+  LoadableComponent,
+  setComponentLoaded,
+  setUpLoadableComponent
+} from "../../utils/loadable";
 
 const manager = new PopoverManager();
 
@@ -45,9 +72,18 @@ const manager = new PopoverManager();
 @Component({
   tag: "calcite-popover",
   styleUrl: "popover.scss",
-  shadow: true
+  shadow: true,
+  assetsDirs: ["assets"]
 })
-export class Popover {
+export class Popover
+  implements
+    FloatingUIComponent,
+    OpenCloseComponent,
+    FocusTrapComponent,
+    LoadableComponent,
+    LocalizedComponent,
+    T9nComponent
+{
   // --------------------------------------------------------------------------
   //
   //  Properties
@@ -55,57 +91,80 @@ export class Popover {
   // --------------------------------------------------------------------------
 
   /**
-   * Automatically closes any currently open popovers when clicking outside of a popover.
+   * When `true`, clicking outside of the component automatically closes open `calcite-popover`s.
    */
   @Prop({ reflect: true }) autoClose = false;
 
-  /**
-   * Display a close button within the Popover.
-   *
-   * @deprecated use dismissible instead.
-   */
-  @Prop({ reflect: true }) closeButton = false;
+  /** When `true`, display a close button within the component. */
+  @Prop({ mutable: true, reflect: true }) closable = false;
 
   /**
-   * Display a close button within the Popover.
+   * When `true`, prevents flipping the component's placement when overlapping its `referenceElement`.
    */
-  @Prop({ reflect: true }) dismissible = false;
+  @Prop({ reflect: true }) flipDisabled = false;
 
   /**
-   * Prevents flipping the popover's placement when it starts to overlap its reference element.
+   * When `true`, prevents focus trapping.
    */
-  @Prop({ reflect: true }) disableFlip = false;
+  @Prop({ reflect: true }) focusTrapDisabled = false;
+
+  @Watch("focusTrapDisabled")
+  handlefocusTrapDisabled(focusTrapDisabled: boolean): void {
+    if (!this.open) {
+      return;
+    }
+
+    focusTrapDisabled ? deactivateFocusTrap(this) : activateFocusTrap(this);
+  }
 
   /**
-   * Removes the caret pointer.
+   * When `true`, removes the caret pointer.
    */
-  @Prop({ reflect: true }) disablePointer = false;
+  @Prop({ reflect: true }) pointerDisabled = false;
 
   /**
    * Defines the available placements that can be used when a flip occurs.
    */
-  @Prop() flipPlacements?: ComputedPlacement[];
+  @Prop() flipPlacements: EffectivePlacement[];
 
   @Watch("flipPlacements")
   flipPlacementsHandler(): void {
     this.setFilteredPlacements();
+    this.reposition(true);
   }
 
   /**
-   * Heading text.
+   * The component header text.
    */
-  @Prop() heading?: string;
+  @Prop() heading: string;
 
   /**
-   * Number at which section headings should start for this component.
+   * Specifies the number at which section headings should start.
    */
-  @Prop() headingLevel: HeadingLevel;
+  @Prop({ reflect: true }) headingLevel: HeadingLevel;
 
-  /** Accessible name for the component */
+  /** Accessible name for the component. */
   @Prop() label!: string;
 
   /**
-   * Offset the position of the popover away from the reference element.
+   * Use this property to override individual strings used by the component.
+   */
+  @Prop({ mutable: true }) messageOverrides: Partial<PopoverMessages>;
+
+  @Watch("messageOverrides")
+  onMessagesChange(): void {
+    /* wired up by t9n util */
+  }
+
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @internal
+   */
+  @Prop({ mutable: true }) messages: PopoverMessages;
+
+  /**
+   * Offsets the position of the popover away from the `referenceElement`.
    *
    * @default 6
    */
@@ -113,66 +172,80 @@ export class Popover {
 
   @Watch("offsetDistance")
   offsetDistanceOffsetHandler(): void {
-    this.reposition();
+    this.reposition(true);
   }
 
   /**
-   * Offset the position of the popover along the reference element.
+   * Offsets the position of the component along the `referenceElement`.
    */
   @Prop({ reflect: true }) offsetSkidding = 0;
 
   @Watch("offsetSkidding")
   offsetSkiddingHandler(): void {
-    this.reposition();
+    this.reposition(true);
   }
 
   /**
-   * Display and position the component.
+   * When `true`, displays and positions the component.
    */
   @Prop({ reflect: true, mutable: true }) open = false;
 
   @Watch("open")
-  openHandler(): void {
-    this.reposition();
+  openHandler(value: boolean): void {
+    if (value) {
+      this.reposition(true);
+    } else {
+      updateAfterClose(this.el);
+    }
+
     this.setExpandedAttr();
   }
 
-  /** Describes the type of positioning to use for the overlaid content. If your element is in a fixed container, use the 'fixed' value. */
-  @Prop() overlayPositioning: OverlayPositioning = "absolute";
-
   /**
-   * Determines where the component will be positioned relative to the referenceElement.
+   * Determines the type of positioning to use for the overlaid content.
    *
-   * @see [PopperPlacement](https://github.com/Esri/calcite-components/blob/master/src/utils/popper.ts#L25)
+   * Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.
+   *
+   * `"fixed"` value should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
+   *
    */
-  @Prop({ reflect: true }) placement: PopperPlacement = defaultPopoverPlacement;
+  @Prop({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
 
-  @Watch("placement")
-  placementHandler(): void {
-    this.reposition();
+  @Watch("overlayPositioning")
+  overlayPositioningHandler(): void {
+    this.reposition(true);
   }
 
   /**
-   * Reference HTMLElement used to position this component according to the placement property. As a convenience, a string ID of the reference element can be used. However, setting this property to use an HTMLElement is preferred so that the component does not need to query the DOM for the referenceElement.
+   * Determines where the component will be positioned relative to the `referenceElement`.
    */
-  @Prop() referenceElement!: HTMLElement | string;
+  @Prop({ reflect: true }) placement: LogicalPlacement = defaultPopoverPlacement;
+
+  @Watch("placement")
+  placementHandler(): void {
+    this.reposition(true);
+  }
+
+  /**
+   *  The `referenceElement` used to position the component according to its `placement` value. Setting to an `HTMLElement` is preferred so the component does not need to query the DOM. However, a string `id` of the reference element can also be used.
+   */
+  @Prop() referenceElement!: ReferenceElement | string;
 
   @Watch("referenceElement")
   referenceElementHandler(): void {
     this.setUpReferenceElement();
+    this.reposition(true);
   }
 
-  /**
-   * Disables automatically toggling a popover when its referenceElement has been triggered. This property can be set to true to manage when a popover is open.
-   */
-  @Prop({ reflect: true }) triggerDisabled = false;
+  /** Specifies the size of the component. */
+  @Prop({ reflect: true }) scale: Scale = "m";
 
   /**
-   * Text for close button.
+   * When `true`, disables automatically toggling the component when its `referenceElement` has been triggered.
    *
-   * @default "Close"
+   * This property can be set to `true` to manage when the component is open.
    */
-  @Prop() intlClose = TEXT.close;
+  @Prop({ reflect: true }) triggerDisabled = false;
 
   // --------------------------------------------------------------------------
   //
@@ -180,13 +253,20 @@ export class Popover {
   //
   // --------------------------------------------------------------------------
 
-  filteredFlipPlacements: ComputedPlacement[];
+  filteredFlipPlacements: EffectivePlacement[];
 
   @Element() el: HTMLCalcitePopoverElement;
 
-  @State() effectiveReferenceElement: HTMLElement;
+  @State() effectiveLocale = "";
 
-  popper: Popper;
+  @Watch("effectiveLocale")
+  effectiveLocaleChange(): void {
+    updateMessages(this, this.effectiveLocale);
+  }
+
+  @State() effectiveReferenceElement: ReferenceElement;
+
+  @State() defaultMessages: PopoverMessages;
 
   arrowEl: HTMLDivElement;
 
@@ -194,7 +274,15 @@ export class Popover {
 
   guid = `calcite-popover-${guid()}`;
 
-  private activeTransitionProp = "opacity";
+  openTransitionProp = "opacity";
+
+  transitionEl: HTMLDivElement;
+
+  hasLoaded = false;
+
+  focusTrap: FocusTrap;
+
+  focusTrapEl: HTMLDivElement;
 
   // --------------------------------------------------------------------------
   //
@@ -204,19 +292,33 @@ export class Popover {
 
   connectedCallback(): void {
     this.setFilteredPlacements();
+    connectLocalized(this);
+    connectMessages(this);
+    connectOpenCloseComponent(this);
+    this.setUpReferenceElement(this.hasLoaded);
   }
 
-  componentWillLoad(): void {
-    this.setUpReferenceElement();
+  async componentWillLoad(): Promise<void> {
+    await setUpMessages(this);
+    setUpLoadableComponent(this);
   }
 
   componentDidLoad(): void {
+    setComponentLoaded(this);
+    if (this.referenceElement && !this.effectiveReferenceElement) {
+      this.setUpReferenceElement();
+    }
     this.reposition();
+    this.hasLoaded = true;
   }
 
   disconnectedCallback(): void {
     this.removeReferences();
-    this.destroyPopper();
+    disconnectLocalized(this);
+    disconnectMessages(this);
+    disconnectFloatingUI(this, this.effectiveReferenceElement, this.el);
+    disconnectOpenCloseComponent(this);
+    deactivateFocusTrap(this);
   }
 
   //--------------------------------------------------------------------------
@@ -224,11 +326,18 @@ export class Popover {
   //  Events
   //
   //--------------------------------------------------------------------------
-  /** Fired when the popover is closed */
-  @Event() calcitePopoverClose: EventEmitter;
 
-  /** Fired when the popover is opened */
-  @Event() calcitePopoverOpen: EventEmitter;
+  /** Fires when the component is requested to be closed and before the closing transition begins. */
+  @Event({ cancelable: false }) calcitePopoverBeforeClose: EventEmitter<void>;
+
+  /** Fires when the component is closed and animation is complete. */
+  @Event({ cancelable: false }) calcitePopoverClose: EventEmitter<void>;
+
+  /** Fires when the component is added to the DOM but not rendered, and before the opening transition begins. */
+  @Event({ cancelable: false }) calcitePopoverBeforeOpen: EventEmitter<void>;
+
+  /** Fires when the component is open and animation is complete. */
+  @Event({ cancelable: false }) calcitePopoverOpen: EventEmitter<void>;
 
   // --------------------------------------------------------------------------
   //
@@ -236,49 +345,59 @@ export class Popover {
   //
   // --------------------------------------------------------------------------
 
-  /** Updates the position of the component. */
+  /**
+   * Updates the position of the component.
+   *
+   * @param delayed
+   */
   @Method()
-  async reposition(): Promise<void> {
-    const { popper, el, placement } = this;
-    const modifiers = this.getModifiers();
-
-    popper
-      ? await updatePopper({
-          el,
-          modifiers,
-          placement,
-          popper
-        })
-      : this.createPopper();
+  async reposition(delayed = false): Promise<void> {
+    const {
+      el,
+      effectiveReferenceElement,
+      placement,
+      overlayPositioning,
+      flipDisabled,
+      filteredFlipPlacements,
+      offsetDistance,
+      offsetSkidding,
+      arrowEl
+    } = this;
+    return reposition(
+      this,
+      {
+        floatingEl: el,
+        referenceEl: effectiveReferenceElement,
+        overlayPositioning,
+        placement,
+        flipDisabled,
+        flipPlacements: filteredFlipPlacements,
+        offsetDistance,
+        offsetSkidding,
+        includeArrow: !this.pointerDisabled,
+        arrowEl,
+        type: "popover"
+      },
+      delayed
+    );
   }
 
   /**
-   * Sets focus on the component.
-   *
-   * @param focusId
+   * Sets focus on the component's first focusable element.
    */
   @Method()
-  async setFocus(focusId?: "close-button"): Promise<void> {
-    const { closeButtonEl } = this;
-
-    if (focusId === "close-button" && closeButtonEl) {
-      forceUpdate(closeButtonEl);
-      closeButtonEl.setFocus();
-
-      return;
-    }
-
-    this.el?.focus();
+  async setFocus(): Promise<void> {
+    await componentLoaded(this);
+    forceUpdate(this.el);
+    focusFirstTabbable(this.focusTrapEl);
   }
 
   /**
-   * Toggles the popover's open property.
-   *
-   * @param value
+   * Updates the element(s) that are used within the focus-trap of the component.
    */
   @Method()
-  async toggle(value = !this.open): Promise<void> {
-    this.open = value;
+  async updateFocusTrapElements(): Promise<void> {
+    updateFocusTrapElements(this);
   }
 
   // --------------------------------------------------------------------------
@@ -286,6 +405,13 @@ export class Popover {
   //  Private Methods
   //
   // --------------------------------------------------------------------------
+
+  private setTransitionEl = (el: HTMLDivElement): void => {
+    this.transitionEl = el;
+    connectOpenCloseComponent(this);
+    this.focusTrapEl = el;
+    connectFocusTrap(this);
+  };
 
   setFilteredPlacements = (): void => {
     const { el, flipPlacements } = this;
@@ -295,19 +421,19 @@ export class Popover {
       : null;
   };
 
-  setUpReferenceElement = (): void => {
+  setUpReferenceElement = (warn = true): void => {
     this.removeReferences();
     this.effectiveReferenceElement = this.getReferenceElement();
+    connectFloatingUI(this, this.effectiveReferenceElement, this.el);
 
     const { el, referenceElement, effectiveReferenceElement } = this;
-    if (referenceElement && !effectiveReferenceElement) {
+    if (warn && referenceElement && !effectiveReferenceElement) {
       console.warn(`${el.tagName}: reference-element id "${referenceElement}" was not found.`, {
         el
       });
     }
 
     this.addReferences();
-    this.createPopper();
   };
 
   getId = (): string => {
@@ -321,7 +447,9 @@ export class Popover {
       return;
     }
 
-    effectiveReferenceElement.setAttribute(ARIA_EXPANDED, toAriaBoolean(open));
+    if ("setAttribute" in effectiveReferenceElement) {
+      effectiveReferenceElement.setAttribute(ARIA_EXPANDED, toAriaBoolean(open));
+    }
   };
 
   addReferences = (): void => {
@@ -333,7 +461,10 @@ export class Popover {
 
     const id = this.getId();
 
-    effectiveReferenceElement.setAttribute(ARIA_CONTROLS, id);
+    if ("setAttribute" in effectiveReferenceElement) {
+      effectiveReferenceElement.setAttribute(ARIA_CONTROLS, id);
+    }
+
     manager.registerElement(effectiveReferenceElement, this.el);
     this.setExpandedAttr();
   };
@@ -345,12 +476,15 @@ export class Popover {
       return;
     }
 
-    effectiveReferenceElement.removeAttribute(ARIA_CONTROLS);
-    effectiveReferenceElement.removeAttribute(ARIA_EXPANDED);
+    if ("removeAttribute" in effectiveReferenceElement) {
+      effectiveReferenceElement.removeAttribute(ARIA_CONTROLS);
+      effectiveReferenceElement.removeAttribute(ARIA_EXPANDED);
+    }
+
     manager.unregisterElement(effectiveReferenceElement);
   };
 
-  getReferenceElement(): HTMLElement {
+  getReferenceElement(): ReferenceElement {
     const { referenceElement, el } = this;
 
     return (
@@ -360,85 +494,31 @@ export class Popover {
     );
   }
 
-  getModifiers(): Partial<StrictModifiers>[] {
-    const {
-      arrowEl,
-      disableFlip,
-      disablePointer,
-      offsetDistance,
-      offsetSkidding,
-      filteredFlipPlacements
-    } = this;
-    const flipModifier: Partial<StrictModifiers> = {
-      name: "flip",
-      enabled: !disableFlip
-    };
-
-    if (filteredFlipPlacements) {
-      flipModifier.options = {
-        fallbackPlacements: filteredFlipPlacements
-      };
-    }
-
-    const arrowModifier: Partial<StrictModifiers> = {
-      name: "arrow",
-      enabled: !disablePointer
-    };
-
-    if (arrowEl) {
-      arrowModifier.options = {
-        element: arrowEl
-      };
-    }
-
-    const offsetModifier: Partial<StrictModifiers> = {
-      name: "offset",
-      enabled: true,
-      options: {
-        offset: [offsetSkidding, offsetDistance]
-      }
-    };
-
-    const eventListenerModifier: Partial<StrictModifiers> = {
-      name: "eventListeners",
-      enabled: this.open
-    };
-
-    return [arrowModifier, flipModifier, offsetModifier, eventListenerModifier];
-  }
-
-  createPopper(): void {
-    this.destroyPopper();
-    const { el, placement, effectiveReferenceElement: referenceEl, overlayPositioning } = this;
-    const modifiers = this.getModifiers();
-
-    this.popper = createPopper({
-      el,
-      modifiers,
-      overlayPositioning,
-      placement,
-      referenceEl
-    });
-  }
-
-  destroyPopper(): void {
-    const { popper } = this;
-
-    if (popper) {
-      popper.destroy();
-    }
-
-    this.popper = null;
-  }
-
   hide = (): void => {
     this.open = false;
   };
 
-  transitionEnd = (event: TransitionEvent): void => {
-    if (event.propertyName === this.activeTransitionProp) {
-      this.open ? this.calcitePopoverOpen.emit() : this.calcitePopoverClose.emit();
-    }
+  onBeforeOpen(): void {
+    this.calcitePopoverBeforeOpen.emit();
+  }
+
+  onOpen(): void {
+    this.calcitePopoverOpen.emit();
+    activateFocusTrap(this);
+  }
+
+  onBeforeClose(): void {
+    this.calcitePopoverBeforeClose.emit();
+  }
+
+  onClose(): void {
+    this.calcitePopoverClose.emit();
+    deactivateFocusTrap(this);
+  }
+
+  storeArrowEl = (el: HTMLDivElement): void => {
+    this.arrowEl = el;
+    this.reposition(true);
   };
 
   // --------------------------------------------------------------------------
@@ -448,17 +528,17 @@ export class Popover {
   // --------------------------------------------------------------------------
 
   renderCloseButton(): VNode {
-    const { dismissible, closeButton, intlClose } = this;
-
-    return dismissible || closeButton ? (
-      <div class={CSS.closeButtonContainer}>
+    const { messages, closable } = this;
+    return closable ? (
+      <div class={CSS.closeButtonContainer} key={CSS.closeButtonContainer}>
         <calcite-action
           class={CSS.closeButton}
           onClick={this.hide}
           ref={(closeButtonEl) => (this.closeButtonEl = closeButtonEl)}
-          text={intlClose}
+          scale={this.scale}
+          text={messages.close}
         >
-          <calcite-icon icon="x" scale="m" />
+          <calcite-icon icon="x" scale={this.scale === "l" ? "m" : this.scale} />
         </calcite-action>
       </div>
     ) : null;
@@ -467,13 +547,13 @@ export class Popover {
   renderHeader(): VNode {
     const { heading, headingLevel } = this;
     const headingNode = heading ? (
-      <Heading class={CSS.heading} level={headingLevel || HEADING_LEVEL}>
+      <Heading class={CSS.heading} level={headingLevel}>
         {heading}
       </Heading>
     ) : null;
 
     return headingNode ? (
-      <div class={CSS.header}>
+      <div class={CSS.header} key={CSS.header}>
         {headingNode}
         {this.renderCloseButton()}
       </div>
@@ -481,27 +561,26 @@ export class Popover {
   }
 
   render(): VNode {
-    const { effectiveReferenceElement, heading, label, open, disablePointer } = this;
+    const { effectiveReferenceElement, heading, label, open, pointerDisabled } = this;
     const displayed = effectiveReferenceElement && open;
     const hidden = !displayed;
-    const arrowNode = !disablePointer ? (
-      <div class={CSS.arrow} ref={(arrowEl) => (this.arrowEl = arrowEl)} />
-    ) : null;
+    const arrowNode = !pointerDisabled ? <div class={CSS.arrow} ref={this.storeArrowEl} /> : null;
 
     return (
       <Host
         aria-hidden={toAriaBoolean(hidden)}
         aria-label={label}
+        aria-live="polite"
         calcite-hydrated-hidden={hidden}
         id={this.getId()}
         role="dialog"
       >
         <div
           class={{
-            [PopperCSS.animation]: true,
-            [PopperCSS.animationActive]: displayed
+            [FloatingCSS.animation]: true,
+            [FloatingCSS.animationActive]: displayed
           }}
-          onTransitionEnd={this.transitionEnd}
+          ref={this.setTransitionEl}
         >
           {arrowNode}
           <div

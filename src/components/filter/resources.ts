@@ -3,11 +3,6 @@ export const CSS = {
   searchIcon: "search-icon"
 };
 
-export const TEXT = {
-  filterLabel: "Filter",
-  clear: "Clear filter"
-};
-
 export const ICONS = {
   search: "search",
   close: "x"

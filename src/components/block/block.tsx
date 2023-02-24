@@ -1,28 +1,51 @@
-import { Component, Element, Event, EventEmitter, h, Host, Prop, VNode } from "@stencil/core";
-import { CSS, HEADING_LEVEL, ICONS, SLOTS, TEXT } from "./resources";
-import { getSlotted, toAriaBoolean } from "../../utils/dom";
-import { Heading, HeadingLevel } from "../functional/Heading";
-import { Status } from "../interfaces";
+import {
+  Component,
+  Element,
+  Event,
+  EventEmitter,
+  h,
+  Host,
+  Prop,
+  State,
+  VNode,
+  Watch
+} from "@stencil/core";
 import {
   ConditionalSlotComponent,
   connectConditionalSlotComponent,
   disconnectConditionalSlotComponent
 } from "../../utils/conditionalSlot";
-import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import { getSlotted, toAriaBoolean } from "../../utils/dom";
 import { guid } from "../../utils/guid";
+import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
+import {
+  connectMessages,
+  disconnectMessages,
+  setUpMessages,
+  T9nComponent,
+  updateMessages
+} from "../../utils/t9n";
+import { Heading, HeadingLevel } from "../functional/Heading";
+import { Status } from "../interfaces";
+import { BlockMessages } from "./assets/block/t9n";
+import { CSS, ICONS, SLOTS } from "./resources";
 
 /**
- * @slot - A slot for adding content to the block.
- * @slot icon - A slot for adding a leading header icon.
+ * @slot - A slot for adding custom content.
+ * @slot icon - A slot for adding a leading header icon with `calcite-icon`.
  * @slot control - A slot for adding a single HTML input element in a header.
- * @slot header-menu-actions - a slot for adding an overflow menu with actions inside a dropdown.
+ * @slot header-menu-actions - A slot for adding an overflow menu with `calcite-action`s inside a dropdown menu.
  */
 @Component({
   tag: "calcite-block",
   styleUrl: "block.scss",
-  shadow: true
+  shadow: true,
+  assetsDirs: ["assets"]
 })
-export class Block implements ConditionalSlotComponent, InteractiveComponent {
+export class Block
+  implements ConditionalSlotComponent, InteractiveComponent, LocalizedComponent, T9nComponent
+{
   // --------------------------------------------------------------------------
   //
   //  Properties
@@ -30,86 +53,65 @@ export class Block implements ConditionalSlotComponent, InteractiveComponent {
   // --------------------------------------------------------------------------
 
   /**
-   * When true, this block will be collapsible.
+   * When `true`, the component is collapsible.
    */
-  @Prop() collapsible = false;
+  @Prop({ reflect: true }) collapsible = false;
 
   /**
-   * When true, disabled prevents interaction. This state shows items with lower opacity/grayed.
+   * When `true`, interaction is prevented and the component is displayed with lower opacity.
    */
   @Prop({ reflect: true }) disabled = false;
 
   /**
-   * When true, displays a drag handle in the header.
+   * When `true`, displays a drag handle in the header.
    */
   @Prop({ reflect: true }) dragHandle = false;
 
   /**
-   * Block heading.
+   * The component header text.
    */
   @Prop() heading!: string;
 
   /**
-   * Number at which section headings should start for this component.
+   * Specifies the number at which section headings should start.
    */
-  @Prop() headingLevel: HeadingLevel;
+  @Prop({ reflect: true }) headingLevel: HeadingLevel;
 
   /**
-   * Aria-label for collapsing the toggle and tooltip used for the toggle when expanded.
-   *
-   * @default "Collapse"
-   */
-  @Prop() intlCollapse?: string = TEXT.collapse;
-
-  /**
-   * Aria-label for expanding the toggle and tooltip used for the toggle when collapsed.
-   *
-   * @default "Expand"
-   */
-  @Prop() intlExpand?: string = TEXT.expand;
-
-  /**
-   * string to override English loading text
-   *
-   * @default "Loading"
-   */
-  @Prop() intlLoading?: string = TEXT.loading;
-
-  /**
-   * Text string used for the actions menu
-   *
-   * @default "Options"
-   */
-  @Prop() intlOptions?: string = TEXT.options;
-
-  /**
-   * When true, content is waiting to be loaded. This state shows a busy indicator.
+   * When `true`, a busy indicator is displayed.
    */
   @Prop({ reflect: true }) loading = false;
 
   /**
-   * When true, the block's content will be displayed.
+   * When `true`, expands the component and its contents.
    */
   @Prop({ reflect: true, mutable: true }) open = false;
 
   /**
-   * Block status. Updates or adds icon to show related icon and color.
+   * Displays a status-related indicator icon.
    */
-  @Prop({ reflect: true }) status?: Status;
+  @Prop({ reflect: true }) status: Status;
 
   /**
-   * Block summary.
+   * A description for the component, which displays below the heading.
    */
-  @Prop() summary: string;
+  @Prop() description: string;
 
-  //--------------------------------------------------------------------------
-  //
-  //  Lifecycle
-  //
-  //--------------------------------------------------------------------------
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @internal
+   */
+  @Prop({ mutable: true }) messages: BlockMessages;
 
-  componentDidRender(): void {
-    updateHostInteraction(this);
+  /**
+   * Use this property to override individual strings used by the component.
+   */
+  @Prop({ mutable: true }) messageOverrides: Partial<BlockMessages>;
+
+  @Watch("messageOverrides")
+  onMessagesChange(): void {
+    /* wired up by t9n util */
   }
 
   // --------------------------------------------------------------------------
@@ -122,6 +124,15 @@ export class Block implements ConditionalSlotComponent, InteractiveComponent {
 
   private guid = guid();
 
+  @State() effectiveLocale: string;
+
+  @Watch("effectiveLocale")
+  effectiveLocaleChange(): void {
+    updateMessages(this, this.effectiveLocale);
+  }
+
+  @State() defaultMessages: BlockMessages;
+
   // --------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -130,10 +141,22 @@ export class Block implements ConditionalSlotComponent, InteractiveComponent {
 
   connectedCallback(): void {
     connectConditionalSlotComponent(this);
+    connectLocalized(this);
+    connectMessages(this);
   }
 
   disconnectedCallback(): void {
+    disconnectLocalized(this);
+    disconnectMessages(this);
     disconnectConditionalSlotComponent(this);
+  }
+
+  componentDidRender(): void {
+    updateHostInteraction(this);
+  }
+
+  async componentWillLoad(): Promise<void> {
+    await setUpMessages(this);
   }
 
   // --------------------------------------------------------------------------
@@ -143,9 +166,9 @@ export class Block implements ConditionalSlotComponent, InteractiveComponent {
   // --------------------------------------------------------------------------
 
   /**
-   * Emitted when the header has been clicked.
+   * Emits when the component's header is clicked.
    */
-  @Event() calciteBlockToggle: EventEmitter;
+  @Event({ cancelable: false }) calciteBlockToggle: EventEmitter<void>;
 
   // --------------------------------------------------------------------------
   //
@@ -199,21 +222,21 @@ export class Block implements ConditionalSlotComponent, InteractiveComponent {
   }
 
   renderTitle(): VNode {
-    const { heading, headingLevel, summary } = this;
-    return heading || summary ? (
+    const { heading, headingLevel, description } = this;
+    return heading || description ? (
       <div class={CSS.title}>
-        <Heading class={CSS.heading} level={headingLevel || HEADING_LEVEL}>
+        <Heading class={CSS.heading} level={headingLevel}>
           {heading}
         </Heading>
-        {summary ? <div class={CSS.summary}>{summary}</div> : null}
+        {description ? <div class={CSS.description}>{description}</div> : null}
       </div>
     ) : null;
   }
 
   render(): VNode {
-    const { collapsible, el, intlCollapse, intlExpand, loading, open, intlLoading } = this;
+    const { collapsible, el, loading, open, messages } = this;
 
-    const toggleLabel = open ? intlCollapse || TEXT.collapse : intlExpand || TEXT.expand;
+    const toggleLabel = open ? messages.collapse : messages.expand;
 
     const headerContent = (
       <header class={CSS.header}>
@@ -257,14 +280,14 @@ export class Block implements ConditionalSlotComponent, InteractiveComponent {
           headerContent
         )}
         {loading ? (
-          <calcite-loader inline is-active label={intlLoading} />
+          <calcite-loader inline label={messages.loading} />
         ) : hasControl ? (
           <div class={CSS.controlContainer}>
             <slot name={SLOTS.control} />
           </div>
         ) : null}
         {hasMenuActions ? (
-          <calcite-action-menu label={this.intlOptions || TEXT.options}>
+          <calcite-action-menu label={messages.options}>
             <slot name={SLOTS.headerMenuActions} />
           </calcite-action-menu>
         ) : null}
@@ -276,7 +299,7 @@ export class Block implements ConditionalSlotComponent, InteractiveComponent {
         <article
           aria-busy={toAriaBoolean(loading)}
           class={{
-            [CSS.article]: true
+            [CSS.container]: true
           }}
         >
           {headerNode}

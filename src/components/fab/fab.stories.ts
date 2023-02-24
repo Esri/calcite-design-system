@@ -4,19 +4,21 @@ import {
   Attributes,
   createComponentHTML as create,
   filterComponentAttributes,
-  themesDarkDefault
+  modesDarkDefault
 } from "../../../.storybook/utils";
 import readme from "./readme.md";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { ICONS } from "./resources";
 import { html } from "../../../support/formatting";
+import { storyFilters } from "../../../.storybook/helpers";
 const { scale } = ATTRIBUTES;
 
 export default {
   title: "Components/Buttons/FAB",
   parameters: {
     notes: readme
-  }
+  },
+  ...storyFilters()
 };
 
 const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ exceptions } = { exceptions: [] }) => {
@@ -25,7 +27,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
       {
         name: "appearance",
         commit(): Attribute {
-          this.value = select("appearance", ["solid", "outline"], "outline");
+          this.value = select("appearance", ["solid", "outline-fill"], "outline-fill");
           delete this.build;
           return this;
         }
@@ -91,8 +93,10 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
   );
 };
 
-export const basic = (): string => create("calcite-fab", createAttributes());
-export const darkThemeRTL = (): string =>
+export const simple = (): string => create("calcite-fab", createAttributes());
+export const disabled_TestOnly = (): string => html`<calcite-fab disabled icon="plus"></calcite-fab>`;
+
+export const darkModeRTL_TestOnly = (): string =>
   create(
     "calcite-fab",
     createAttributes({ exceptions: ["dir", "class"] }).concat([
@@ -102,11 +106,9 @@ export const darkThemeRTL = (): string =>
       },
       {
         name: "class",
-        value: "calcite-theme-dark"
+        value: "calcite-mode-dark"
       }
     ])
   );
 
-darkThemeRTL.parameters = { themes: themesDarkDefault };
-
-export const disabled = (): string => html`<calcite-fab disabled icon="plus"></calcite-fab>`;
+darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };

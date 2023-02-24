@@ -2,7 +2,7 @@
   @apply relative
     flex
     w-full
-    min-w-full
+    min-w-fit
     flex-row
     flex-wrap
     items-stretch
@@ -13,10 +13,11 @@
   @apply flex-auto flex-col;
 }
 
-:host ::slotted(.calcite-stepper-content) {
-  @apply flex
-    w-full
-    min-w-full
-    flex-col
-    flex-wrap;
+:host([layout="horizontal"]) {
+  display: grid;
+  // grid-templates-columns are dynamically generated
+  // grid-templates-rows are dynamically generated
+  grid-template-areas:
+    "items"
+    "content";
 }

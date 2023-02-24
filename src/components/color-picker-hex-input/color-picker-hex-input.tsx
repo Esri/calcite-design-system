@@ -11,13 +11,19 @@ import {
   VNode,
   Watch
 } from "@stencil/core";
-import { hexChar, isLonghandHex, isValidHex, normalizeHex, rgbToHex } from "../color-picker/utils";
 import Color from "color";
-import { CSS } from "./resources";
-import { Scale } from "../interfaces";
-import { RGB } from "../color-picker/interfaces";
 import { focusElement } from "../../utils/dom";
-import { TEXT } from "../color-picker/resources";
+import {
+  componentLoaded,
+  LoadableComponent,
+  setComponentLoaded,
+  setUpLoadableComponent
+} from "../../utils/loadable";
+import { NumberingSystem } from "../../utils/locale";
+import { RGB } from "../color-picker/interfaces";
+import { hexChar, isLonghandHex, isValidHex, normalizeHex, rgbToHex } from "../color-picker/utils";
+import { Scale } from "../interfaces";
+import { CSS } from "./resources";
 
 const DEFAULT_COLOR = Color();
 
@@ -26,7 +32,7 @@ const DEFAULT_COLOR = Color();
   styleUrl: "color-picker-hex-input.scss",
   shadow: true
 })
-export class ColorPickerHexInput {
+export class ColorPickerHexInput implements LoadableComponent {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -34,6 +40,11 @@ export class ColorPickerHexInput {
   //--------------------------------------------------------------------------
 
   @Element() el: HTMLCalciteColorPickerHexInputElement;
+
+  /**
+   * Specifies accessible label for the input field.
+   */
+  @Prop() hexLabel = "Hex";
 
   //--------------------------------------------------------------------------
   //
@@ -59,6 +70,14 @@ export class ColorPickerHexInput {
     }
   }
 
+  componentWillLoad(): void {
+    setUpLoadableComponent(this);
+  }
+
+  componentDidLoad(): void {
+    setComponentLoaded(this);
+  }
+
   //--------------------------------------------------------------------------
   //
   //  Public Properties
@@ -66,35 +85,22 @@ export class ColorPickerHexInput {
   //--------------------------------------------------------------------------
 
   /**
-   * When false, empty color (null) will be allowed as a value. Otherwise, a color value is always enforced by the component.
+   * When `false`, an empty color (`null`) will be allowed as a `value`. Otherwise, a color value is enforced on the component.
    *
-   * When true, clearing the input and blurring will restore the last valid color set. When false, it will set it to empty.
+   * When `true`, a color value is enforced, and clearing the input or blurring will restore the last valid `value`. When `false`, an empty color (`null`) will be allowed as a `value`.
    */
   @Prop() allowEmpty = false;
 
-  /**
-   * Label used for the hex input.
-   *
-   * @default "Hex"
-   */
-  @Prop() intlHex = TEXT.hex;
-
-  /**
-   * Label used for the hex input when there is no color selected.
-   *
-   * @default "No color"
-   */
-  @Prop() intlNoColor = TEXT.noColor;
-
-  /**
-   * The component's scale.
-   */
+  /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";
 
   /**
-   * The hex value.
+   * The Hex value.
    */
   @Prop({ mutable: true, reflect: true }) value: string = normalizeHex(DEFAULT_COLOR.hex());
+
+  /** Specifies the Unicode numeral system used by the component for localization. */
+  @Prop() numberingSystem?: NumberingSystem;
 
   @Watch("value")
   handleValueChange(value: string, oldValue: string): void {
@@ -110,7 +116,7 @@ export class ColorPickerHexInput {
   /**
    * Emitted when the hex value changes.
    */
-  @Event() calciteColorPickerHexInputChange: EventEmitter;
+  @Event({ cancelable: false }) calciteColorPickerHexInputChange: EventEmitter<void>;
 
   private onCalciteInternalInputBlur = (): void => {
     const node = this.inputNode;
@@ -138,7 +144,7 @@ export class ColorPickerHexInput {
   protected onInputKeyDown(event: KeyboardEvent): void {
     const { altKey, ctrlKey, metaKey, shiftKey } = event;
     const { internalColor, value } = this;
-    const key = event.key;
+    const { key } = event;
 
     if (key === "Tab" || key === "Enter") {
       this.onInputChange();
@@ -176,6 +182,15 @@ export class ColorPickerHexInput {
     }
   }
 
+  private onPaste(event: ClipboardEvent): void {
+    const hex = event.clipboardData.getData("text");
+
+    if (isValidHex(hex)) {
+      event.preventDefault();
+      this.inputNode.value = hex.slice(1);
+    }
+  }
+
   //--------------------------------------------------------------------------
   //
   //  Private State/Props
@@ -198,18 +213,19 @@ export class ColorPickerHexInput {
   //--------------------------------------------------------------------------
 
   render(): VNode {
-    const { intlHex, value } = this;
+    const { value } = this;
     const hexInputValue = this.formatForInternalInput(value);
-
     return (
       <div class={CSS.container}>
         <calcite-input
           class={CSS.input}
-          label={intlHex}
+          label={this.hexLabel}
           maxLength={6}
+          numberingSystem={this.numberingSystem}
           onCalciteInputChange={this.onInputChange}
           onCalciteInternalInputBlur={this.onCalciteInternalInputBlur}
           onKeyDown={this.handleKeyDown}
+          onPaste={this.onPaste}
           prefixText="#"
           ref={this.storeInputRef}
           scale={this.scale}
@@ -236,6 +252,8 @@ export class ColorPickerHexInput {
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
+    await componentLoaded(this);
+
     focusElement(this.inputNode);
   }
 

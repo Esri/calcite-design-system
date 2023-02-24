@@ -80,7 +80,7 @@ export interface FormComponent<T = any> extends FormOwner {
  *
  * Along with the interface, use the matching form utils to help set up the component behavior.
  */
-export interface CheckableFormCompoment<T = any> extends FormComponent<T> {
+export interface CheckableFormComponent<T = any> extends FormComponent<T> {
   /**
    * For boolean-valued components, this property defines whether the associated value is submitted to the form or not.
    */
@@ -90,13 +90,11 @@ export interface CheckableFormCompoment<T = any> extends FormComponent<T> {
    * The initial checked value for this form component.
    *
    * When the form is reset, the checked property will be set to this value.
-   *
-   * @todo remove optional in follow-up PR
    */
-  defaultChecked?: boolean;
+  defaultChecked: boolean;
 }
 
-function isCheckable(component: FormComponent): component is CheckableFormCompoment {
+function isCheckable(component: FormComponent): component is CheckableFormComponent {
   return "checked" in component;
 }
 
@@ -137,9 +135,18 @@ function hasRegisteredFormComponentParent(
  * Helper to submit a form.
  *
  * @param component
+ * @returns true if its associated form was submitted, false otherwise.
  */
-export function submitForm(component: FormOwner): void {
-  component.formEl?.requestSubmit();
+export function submitForm(component: FormOwner): boolean {
+  const { formEl } = component;
+
+  if (!formEl) {
+    return false;
+  }
+
+  "requestSubmit" in formEl ? formEl.requestSubmit() : formEl.submit();
+
+  return true;
 }
 
 /**
@@ -218,6 +225,15 @@ export function afterConnectDefaultValueSet<T>(component: FormComponent<T>, valu
   component.defaultValue = value;
 }
 
+const hiddenInputChangeHandler = (event: Event) => {
+  event.target.dispatchEvent(
+    new CustomEvent("calciteInternalHiddenInputChange", { bubbles: true })
+  );
+};
+
+const removeHiddenInputChangeEventListener = (input: HTMLInputElement) =>
+  input.removeEventListener("change", hiddenInputChangeHandler);
+
 /**
  * Helper for maintaining a form-associated's hidden input in sync with the component.
  *
@@ -232,7 +248,10 @@ function syncHiddenFormInput(component: FormComponent): void {
   const inputs = el.querySelectorAll<HTMLInputElement>(`input[slot="${hiddenFormInputSlotName}"]`);
 
   if (!formEl || !name) {
-    inputs.forEach((input) => input.remove());
+    inputs.forEach((input) => {
+      removeHiddenInputChangeEventListener(input);
+      input.remove();
+    });
     return;
   }
 
@@ -275,13 +294,19 @@ function syncHiddenFormInput(component: FormComponent): void {
 
     docFrag.append(input);
 
+    // emits when hidden input is autofilled
+    input.addEventListener("change", hiddenInputChangeHandler);
+
     defaultSyncHiddenFormInput(component, input, value);
   });
 
   if (docFrag) {
     el.append(docFrag);
   }
-  extra.forEach((input) => input.remove());
+  extra.forEach((input) => {
+    removeHiddenInputChangeEventListener(input);
+    input.remove();
+  });
 }
 
 function defaultSyncHiddenFormInput(
@@ -299,15 +324,12 @@ function defaultSyncHiddenFormInput(
   input.tabIndex = -1;
 
   if (isCheckable(component)) {
+    input.checked = component.checked;
+
     // keep in sync to prevent losing reset value
     input.defaultChecked = component.defaultChecked;
     // heuristic to support default/on mode from https://html.spec.whatwg.org/multipage/input.html#dom-input-value-default-on
     input.value = component.checked ? value || "on" : "";
-
-    // we disable the component when not checked to avoid having its value submitted
-    if (!disabled && !component.checked) {
-      input.disabled = true;
-    }
   } else {
     input.value = value || "";
   }

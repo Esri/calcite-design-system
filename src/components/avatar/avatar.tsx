@@ -1,8 +1,8 @@
 import { Component, Element, h, Prop, State } from "@stencil/core";
+import { getModeName } from "../../utils/dom";
 import { isValidHex } from "../color-picker/utils";
 import { Scale } from "../interfaces";
 import { hexToHue, stringToHex } from "./utils";
-import { getThemeName } from "../../utils/dom";
 
 @Component({
   tag: "calcite-avatar",
@@ -24,20 +24,20 @@ export class Avatar {
   //
   //--------------------------------------------------------------------------
 
-  /** specify the scale of the avatar, defaults to m */
+  /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";
 
-  /** src to an image (remember to add a token if the user is private) */
-  @Prop() thumbnail: string;
+  /** Specifies the `src` to an image (remember to add a token if the user is private). */
+  @Prop({ reflect: true }) thumbnail: string;
 
-  /** full name of the user */
-  @Prop() fullName: string;
+  /** Specifies the full name of the user. */
+  @Prop({ reflect: true }) fullName: string;
 
-  /** user name */
-  @Prop() username: string;
+  /** Specifies the username of the user. */
+  @Prop({ reflect: true }) username: string;
 
-  /** unique id for user */
-  @Prop() userId: string;
+  /** Specifies the unique id of the user. */
+  @Prop({ reflect: true }) userId: string;
 
   //--------------------------------------------------------------------------
   //
@@ -55,8 +55,7 @@ export class Avatar {
   //
   //--------------------------------------------------------------------------
 
-  /** True if thumnail fails to load */
-  @State() error = false;
+  @State() thumbnailFailedToLoad = false;
 
   //--------------------------------------------------------------------------
   //
@@ -65,9 +64,14 @@ export class Avatar {
   //--------------------------------------------------------------------------
 
   private determineContent() {
-    if (this.thumbnail && !this.error) {
+    if (this.thumbnail && !this.thumbnailFailedToLoad) {
       return (
-        <img alt="" class="thumbnail" onError={() => (this.error = true)} src={this.thumbnail} />
+        <img
+          alt=""
+          class="thumbnail"
+          onError={() => (this.thumbnailFailedToLoad = true)}
+          src={this.thumbnail}
+        />
       );
     }
     const initials = this.generateInitials();
@@ -90,7 +94,7 @@ export class Avatar {
    */
   private generateFillColor() {
     const { userId, username, fullName, el } = this;
-    const theme = getThemeName(el);
+    const theme = getModeName(el);
     const id = userId && `#${userId.substr(userId.length - 6)}`;
     const name = username || fullName || "";
     const hex = id && isValidHex(id) ? id : stringToHex(name);

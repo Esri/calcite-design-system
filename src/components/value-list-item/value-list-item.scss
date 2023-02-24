@@ -25,8 +25,7 @@ calcite-pick-list-item {
 }
 
 .handle {
-  @apply text-color-1
-    flex
+  @apply flex
     cursor-move
     items-center
     justify-center
@@ -34,7 +33,7 @@ calcite-pick-list-item {
     bg-transparent
     py-0
     px-1;
-  color: theme("borderColor.color.1");
+  color: theme("borderColor.color.input");
   &:hover {
     @apply bg-foreground-2 text-color-1;
   }

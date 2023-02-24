@@ -16,7 +16,7 @@
   @apply text-color-3
     text-center
     font-bold;
-  width: calc(100% / 7);
+  inline-size: calc(100% / 7);
 }
 
 :host([scale="s"]) .week-header {
@@ -35,8 +35,7 @@
   @apply flex
     flex-row
     py-0;
-  padding-left: 6px;
-  padding-right: 6px;
+  padding-inline: 6px;
   &:focus {
     @apply outline-none;
   }

@@ -56,28 +56,23 @@ Renders a tip manager using a group of tips as well as a single tip.
 
 ## Properties
 
-| Property              | Attribute               | Description                                                       | Type                         | Default     |
-| --------------------- | ----------------------- | ----------------------------------------------------------------- | ---------------------------- | ----------- |
-| `closed`              | `closed`                | Closed state of the `calcite-tip-manager`.                        | `boolean`                    | `false`     |
-| `headingLevel`        | `heading-level`         | Number at which section headings should start for this component. | `1 \| 2 \| 3 \| 4 \| 5 \| 6` | `undefined` |
-| `intlClose`           | `intl-close`            | Alternate text for closing the tip.                               | `string`                     | `undefined` |
-| `intlDefaultTitle`    | `intl-default-title`    | The default group title for the `calcite-tip-manager`.            | `string`                     | `undefined` |
-| `intlNext`            | `intl-next`             | Alternate text for navigating to the next tip.                    | `string`                     | `undefined` |
-| `intlPaginationLabel` | `intl-pagination-label` | Label that appears on hover of pagination icon.                   | `string`                     | `undefined` |
-| `intlPrevious`        | `intl-previous`         | Alternate text for navigating to the previous tip.                | `string`                     | `undefined` |
+| Property           | Attribute           | Description                                                             | Type                         | Default     |
+| ------------------ | ------------------- | ----------------------------------------------------------------------- | ---------------------------- | ----------- |
+| `closed`           | `closed`            | When `true`, does not display or position the component.                | `boolean`                    | `false`     |
+| `headingLevel`     | `heading-level`     | Specifies the number at which section headings should start.            | `1 \| 2 \| 3 \| 4 \| 5 \| 6` | `undefined` |
+| `messageOverrides` | `message-overrides` | Use this property to override individual strings used by the component. | `TipManagerMessages`         | `undefined` |
 
 ## Events
 
-| Event                     | Description                                                                                                                                                          | Type               |
-| ------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------ |
-| `calciteTipManagerClose`  | Emitted when the `calcite-tip-manager` has been closed.                                                                                                              | `CustomEvent<any>` |
-| `calciteTipManagerToggle` | <span style="color:red">**[DEPRECATED]**</span> use calciteTipManagerClose instead.<br/><br/>Emitted when the `calcite-tip-manager` has been toggled open or closed. | `CustomEvent<any>` |
+| Event                    | Description                               | Type                |
+| ------------------------ | ----------------------------------------- | ------------------- |
+| `calciteTipManagerClose` | Emits when the component has been closed. | `CustomEvent<void>` |
 
 ## Methods
 
 ### `nextTip() => Promise<void>`
 
-Selects the next tip to display
+Selects the next `calcite-tip` to display.
 
 #### Returns
 
@@ -85,7 +80,7 @@ Type: `Promise<void>`
 
 ### `previousTip() => Promise<void>`
 
-Selects the previous tip to display
+Selects the previous `calcite-tip` to display.
 
 #### Returns
 
@@ -99,10 +94,10 @@ Type: `Promise<void>`
 
 ## CSS Custom Properties
 
-| Name                           | Description                                           |
-| ------------------------------ | ----------------------------------------------------- |
-| `--calcite-tip-manager-height` | the maximum height of the tip-manager                 |
-| `--calcite-tip-max-width`      | the maximum width of a slotted tip within tip-manager |
+| Name                           | Description                                                        |
+| ------------------------------ | ------------------------------------------------------------------ |
+| `--calcite-tip-manager-height` | The maximum height of the component.                               |
+| `--calcite-tip-max-width`      | The maximum width of a slotted `calcite-tip` within the component. |
 
 ## Dependencies
 

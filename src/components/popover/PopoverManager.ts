@@ -1,4 +1,6 @@
-import { queryElementsRoots } from "../../utils/dom";
+import { isPrimaryPointerButton } from "../../utils/dom";
+import { ReferenceElement } from "../../utils/floating-ui";
+import { isActivationKey } from "../../utils/key";
 
 export default class PopoverManager {
   // --------------------------------------------------------------------------
@@ -7,7 +9,7 @@ export default class PopoverManager {
   //
   // --------------------------------------------------------------------------
 
-  private registeredElements = new WeakMap<HTMLElement, HTMLCalcitePopoverElement>();
+  private registeredElements = new Map<ReferenceElement, HTMLCalcitePopoverElement>();
 
   private registeredElementCount = 0;
 
@@ -17,7 +19,7 @@ export default class PopoverManager {
   //
   // --------------------------------------------------------------------------
 
-  registerElement(referenceEl: HTMLElement, popover: HTMLCalcitePopoverElement): void {
+  registerElement(referenceEl: ReferenceElement, popover: HTMLCalcitePopoverElement): void {
     this.registeredElementCount++;
 
     this.registeredElements.set(referenceEl, popover);
@@ -27,7 +29,7 @@ export default class PopoverManager {
     }
   }
 
-  unregisterElement(referenceEl: HTMLElement): void {
+  unregisterElement(referenceEl: ReferenceElement): void {
     if (this.registeredElements.delete(referenceEl)) {
       this.registeredElementCount--;
     }
@@ -51,30 +53,41 @@ export default class PopoverManager {
     return registeredElements.get(registeredElement);
   };
 
-  private togglePopovers = (event: KeyboardEvent | MouseEvent): void => {
+  private togglePopovers = (event: KeyboardEvent | PointerEvent): void => {
     const composedPath = event.composedPath();
-    const popover = this.queryPopover(composedPath);
+    const togglePopover = this.queryPopover(composedPath);
 
-    if (popover && !popover.triggerDisabled) {
-      popover.toggle();
-      return;
+    if (togglePopover && !togglePopover.triggerDisabled) {
+      togglePopover.open = !togglePopover.open;
     }
 
-    (queryElementsRoots(event.target as HTMLElement, "calcite-popover") as HTMLCalcitePopoverElement[])
-      .filter((popover) => popover.autoClose && popover.open && !composedPath.includes(popover))
-      .forEach((popover) => popover.toggle(false));
+    Array.from(this.registeredElements.values())
+      .filter(
+        (popover) => popover !== togglePopover && popover.autoClose && popover.open && !composedPath.includes(popover)
+      )
+      .forEach((popover) => (popover.open = false));
   };
+
+  private closeAllPopovers(): void {
+    Array.from(this.registeredElements.values()).forEach((popover) => (popover.open = false));
+  }
 
   private keyHandler = (event: KeyboardEvent): void => {
-    if (event.key !== "Enter" && event.key !== " ") {
+    if (event.defaultPrevented) {
       return;
     }
 
-    this.togglePopovers(event);
+    if (event.key === "Escape") {
+      this.closeAllPopovers();
+    } else if (isActivationKey(event.key)) {
+      this.togglePopovers(event);
+    }
   };
 
-  private clickHandler = (event: MouseEvent): void => {
-    this.togglePopovers(event);
+  private clickHandler = (event: PointerEvent): void => {
+    if (isPrimaryPointerButton(event)) {
+      this.togglePopovers(event);
+    }
   };
 
   private addListeners(): void {

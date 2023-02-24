@@ -1,6 +1,3 @@
-import { HEADING_LEVEL as PARENT_HEADING_LEVEL } from "../tip-manager/resources";
-import { HeadingLevel } from "../functional/Heading";
-
 export const CSS = {
   container: "container",
   header: "header",
@@ -18,9 +15,3 @@ export const ICONS = {
 export const SLOTS = {
   thumbnail: "thumbnail"
 };
-
-export const TEXT = {
-  close: "Close"
-};
-
-export const HEADING_LEVEL = (PARENT_HEADING_LEVEL + 1) as HeadingLevel;

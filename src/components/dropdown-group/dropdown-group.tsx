@@ -10,17 +10,18 @@ import {
   VNode
 } from "@stencil/core";
 import { getElementProp } from "../../utils/dom";
-import { SelectionMode } from "./interfaces";
-import { Scale } from "../interfaces";
+import { Scale, SelectionMode } from "../interfaces";
+import { RequestedItem } from "./interfaces";
 import { CSS } from "./resources";
-
 /**
  * @slot - A slot for adding `calcite-dropdown-item`s.
  */
 @Component({
   tag: "calcite-dropdown-group",
   styleUrl: "dropdown-group.scss",
-  shadow: true
+  shadow: {
+    delegatesFocus: true
+  }
 })
 export class DropdownGroup {
   //--------------------------------------------------------------------------
@@ -36,17 +37,20 @@ export class DropdownGroup {
   //
   //--------------------------------------------------------------------------
 
-  /** optionally set a group title for display */
-  @Prop({ reflect: true }) groupTitle?: string;
+  /** Specifies and displays a group title. */
+  @Prop({ reflect: true }) groupTitle: string;
 
   /**
-    specify the selection mode - multi (allow any number of (or no) active items), single (allow and require one active item),
-   none (no active items), defaults to single
+   * Specifies the component's selection mode, where
+   * `"multiple"` allows any number of (or no) selected `calcite-dropdown-item`s,
+   * `"single"` allows and requires one selected `calcite-dropdown-item`, and
+   * `"none"` does not allow selection on `calcite-dropdown-item`s.
    */
-  @Prop({ reflect: true }) selectionMode: SelectionMode = "single";
+  @Prop({ reflect: true }) selectionMode: Extract<"single" | "none" | "multiple", SelectionMode> =
+    "single";
 
   /**
-   * Specifies the size of the action.
+   * Specifies the size of the component.
    */
   @Prop({ reflect: true }) scale: Scale;
 
@@ -59,7 +63,7 @@ export class DropdownGroup {
   /**
    * @internal
    */
-  @Event() calciteInternalDropdownItemChange: EventEmitter;
+  @Event({ cancelable: false }) calciteInternalDropdownItemChange: EventEmitter<RequestedItem>;
 
   //--------------------------------------------------------------------------
   //
@@ -83,7 +87,7 @@ export class DropdownGroup {
       this.groupPosition > 0 ? <div class="dropdown-separator" role="separator" /> : null;
 
     return (
-      <Host role="menu">
+      <Host aria-label={this.groupTitle} role="group">
         <div
           class={{
             container: true,

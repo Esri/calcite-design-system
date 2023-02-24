@@ -11,7 +11,7 @@
   }
   & textarea {
     @apply h-6;
-    min-height: theme("spacing.6");
+    min-block-size: theme("spacing.6");
   }
   & .number-button-wrapper,
   & .action-wrapper calcite-button,
@@ -22,8 +22,8 @@
     @apply h-6;
   }
   & .clear-button {
-    min-height: theme("spacing.6");
-    min-width: theme("spacing.6");
+    min-block-size: theme("spacing.6");
+    min-inline-size: theme("spacing.6");
   }
   & textarea {
     @apply text-n2h
@@ -40,7 +40,7 @@
     @apply text-n1h h-8 px-3;
   }
   & textarea {
-    min-height: theme("spacing.8");
+    min-block-size: theme("spacing.8");
   }
   & .number-button-wrapper,
   & .action-wrapper calcite-button,
@@ -51,8 +51,8 @@
     @apply h-8;
   }
   & .clear-button {
-    min-height: theme("spacing.8");
-    min-width: theme("spacing.8");
+    min-block-size: theme("spacing.8");
+    min-inline-size: theme("spacing.8");
   }
   & textarea {
     @apply text-n1h
@@ -69,7 +69,7 @@
     @apply text-0h h-11 px-4;
   }
   & textarea {
-    min-height: theme("spacing.11");
+    min-block-size: theme("spacing.11");
   }
   & .number-button-wrapper,
   & .action-wrapper calcite-button,
@@ -80,8 +80,8 @@
     @apply h-11;
   }
   & .clear-button {
-    min-height: theme("spacing.11");
-    min-width: theme("spacing.11");
+    min-block-size: theme("spacing.11");
+    min-inline-size: theme("spacing.11");
   }
   & textarea {
     @apply text-0h
@@ -99,7 +99,7 @@
 
 :host textarea,
 :host input {
-  transition: var(--calcite-animation-timing), height 0s;
+  transition: var(--calcite-animation-timing), block-size 0, outline-offset 0s;
   -webkit-appearance: none;
   @apply font-inherit
     text-color-1
@@ -199,7 +199,7 @@
 }
 
 :host([icon][scale="l"]) input {
-  padding-inline-start: theme("padding.12");
+  padding-inline-start: theme("padding.14");
 }
 
 // positioning wrapper for icon and loader
@@ -216,8 +216,12 @@
   @apply transition-default
     pointer-events-none
     absolute
-    z-10
     block;
+}
+
+.icon,
+.resize-icon-wrapper {
+  @apply z-default; // needed for firefox to display the icon properly
 }
 
 // hide browser default clear
@@ -278,9 +282,8 @@ input[type="time"]::-webkit-clear-button {
 
 // loading
 .loader {
-  top: 1px;
-  left: 1px;
-  right: 1px;
+  inset-block-start: 1px;
+  inset-inline: 1px;
   @apply pointer-events-none
     absolute
     block;
@@ -432,8 +435,8 @@ input[type="time"]::-webkit-clear-button {
 }
 
 .number-button-item {
-  max-height: 50%;
-  min-height: 50%;
+  max-block-size: 50%;
+  min-block-size: 50%;
   pointer-events: initial;
   @apply border-color-input
     bg-foreground-1
@@ -460,6 +463,9 @@ input[type="time"]::-webkit-clear-button {
   }
   &:active {
     @apply bg-foreground-3;
+  }
+  &:disabled {
+    @apply pointer-events-none;
   }
 }
 
@@ -490,19 +496,18 @@ input[type="time"]::-webkit-clear-button {
 }
 
 .resize-icon-wrapper {
-  bottom: 2px;
+  inset-block-end: 2px;
   inset-inline-end: 2px;
 
   @apply bg-foreground-1
     text-color-3
     pointer-events-none
     absolute
-    z-10
     h-3
     w-3;
 
   & calcite-icon {
-    bottom: theme("spacing.1");
+    inset-block-end: theme("spacing.1");
     inset-inline-end: theme("spacing.1");
     transform: rotate(-45deg);
   }
@@ -552,7 +557,6 @@ input[type="time"]::-webkit-clear-button {
 
 :host .inline-child {
   @apply transition-default bg-transparent;
-
   .editing-enabled {
     background-color: inherit;
   }
@@ -561,7 +565,7 @@ input[type="time"]::-webkit-clear-button {
 :host .inline-child:not(.editing-enabled) {
   @apply border-color-transparent
     flex
-    cursor-pointer;
+    cursor-pointer text-ellipsis;
   padding-inline-start: 0;
 }
 

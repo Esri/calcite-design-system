@@ -3,25 +3,24 @@ import {
   Element,
   Event,
   EventEmitter,
-  Host,
-  Method,
-  Prop,
   h,
-  Watch,
-  VNode
+  Host,
+  Prop,
+  VNode,
+  Watch
 } from "@stencil/core";
+import {
+  ConditionalSlotComponent,
+  connectConditionalSlotComponent,
+  disconnectConditionalSlotComponent
+} from "../../utils/conditionalSlot";
 import { getElementProp, getSlotted } from "../../utils/dom";
-import { CSS } from "./resources";
 import { guid } from "../../utils/guid";
+import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import { ComboboxChildElement } from "../combobox/interfaces";
 import { getAncestors, getDepth } from "../combobox/utils";
 import { Scale } from "../interfaces";
-import {
-  connectConditionalSlotComponent,
-  disconnectConditionalSlotComponent,
-  ConditionalSlotComponent
-} from "../../utils/conditionalSlot";
-import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import { CSS } from "./resources";
 
 /**
  * @slot - A slot for adding nested `calcite-combobox-item`s.
@@ -38,37 +37,44 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
   //
   // --------------------------------------------------------------------------
 
-  /** When true, the item cannot be clicked and is visually muted. */
+  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @Prop({ reflect: true }) disabled = false;
 
-  /** Set this to true to pre-select an item. Toggles when an item is checked/unchecked. */
+  /**
+   * When `true`, the component is selected.
+   */
   @Prop({ reflect: true, mutable: true }) selected = false;
 
-  /** True when item is highlighted either from keyboard or mouse hover */
-  @Prop() active = false;
+  /** When `true`, the component is active. */
+  @Prop({ reflect: true }) active = false;
 
-  /** Parent and grandparent combobox items, this is set internally for use from combobox */
+  /** Specifies the parent and grandparent items, which are set on `calcite-combobox`. */
   @Prop({ mutable: true }) ancestors: ComboboxChildElement[];
 
-  /** Unique identifier, used for accessibility */
-  @Prop() guid = guid();
+  /** The `id` attribute of the component. When omitted, a globally unique identifier is used. */
+  @Prop({ reflect: true }) guid = guid();
 
-  /** Custom icon to display both in combobox chips and next to combobox item text */
-  @Prop() icon?: string;
+  /** Specifies an icon to display. */
+  @Prop({ reflect: true }) icon: string;
+
+  /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
+  @Prop({ reflect: true }) iconFlipRtl = false;
 
   @Watch("selected")
   selectedWatchHandler(): void {
-    this.calciteComboboxItemChange.emit(this.el);
+    this.calciteComboboxItemChange.emit();
   }
 
-  /** The main label for this item. */
+  /** The component's text. */
   @Prop({ reflect: true }) textLabel!: string;
 
-  /** The item's associated value */
+  /** The component's value. */
   @Prop() value!: any;
 
-  /** Don't filter this item based on the search text */
-  @Prop({ reflect: true }) constant: boolean;
+  /**
+   * When `true`, omits the component from the `calcite-combobox` filtered search results.
+   */
+  @Prop({ reflect: true }) filterDisabled: boolean;
 
   // --------------------------------------------------------------------------
   //
@@ -80,6 +86,7 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
 
   isNested: boolean;
 
+  /** Specifies the scale of the combobox-item controlled by parent, defaults to m */
   scale: Scale = "m";
 
   // --------------------------------------------------------------------------
@@ -109,29 +116,10 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
   // --------------------------------------------------------------------------
 
   /**
-   * Emitted whenever the item is selected or unselected.
-   */
-  @Event() calciteComboboxItemChange: EventEmitter;
-
-  // --------------------------------------------------------------------------
-  //
-  //  Public Methods
-  //
-  // --------------------------------------------------------------------------
-
-  /**
-   * Used to toggle the selection state. By default this won't trigger an event.
-   * The first argument allows the value to be coerced, rather than swapping values.
+   * Emits whenever the component is selected or unselected.
    *
-   * @param coerce
    */
-  @Method()
-  async toggleSelected(coerce?: boolean): Promise<void> {
-    if (this.disabled) {
-      return;
-    }
-    this.selected = typeof coerce === "boolean" ? coerce : !this.selected;
-  }
+  @Event({ cancelable: false }) calciteComboboxItemChange: EventEmitter<void>;
 
   // --------------------------------------------------------------------------
   //
@@ -139,12 +127,16 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
   //
   // --------------------------------------------------------------------------
 
-  itemClickHandler = (event: MouseEvent): void => {
-    event.preventDefault();
+  toggleSelected(coerce?: boolean): Promise<void> {
     if (this.disabled) {
       return;
     }
-    this.selected = !this.selected;
+    this.selected = typeof coerce === "boolean" ? coerce : !this.selected;
+  }
+
+  itemClickHandler = (event: MouseEvent): void => {
+    event.preventDefault();
+    this.toggleSelected();
   };
 
   // --------------------------------------------------------------------------
@@ -153,30 +145,42 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
   //
   // --------------------------------------------------------------------------
 
-  renderIcon(isSingle: boolean): VNode {
-    const { icon, disabled, selected } = this;
-    const level = `${CSS.icon}--indent`;
-    const defaultIcon = isSingle ? "dot" : "check";
-    const iconPath = disabled ? "circle-disallowed" : defaultIcon;
-    const showDot = isSingle && !icon && !disabled;
+  renderIcon(iconPath: string): VNode {
+    return this.icon ? (
+      <calcite-icon
+        class={{
+          [CSS.custom]: !!this.icon,
+          [CSS.iconActive]: this.icon && this.selected,
+          [CSS.iconIndent]: true
+        }}
+        flipRtl={this.iconFlipRtl}
+        icon={this.icon || iconPath}
+        key="icon"
+        scale={this.scale === "l" ? "m" : "s"}
+      />
+    ) : null;
+  }
+
+  renderSelectIndicator(showDot: boolean, iconPath: string): VNode {
     return showDot ? (
       <span
         class={{
           [CSS.icon]: true,
           [CSS.dot]: true,
-          [level]: true
+          [CSS.iconIndent]: true
         }}
       />
     ) : (
       <calcite-icon
         class={{
-          [CSS.icon]: !icon,
-          [CSS.custom]: !!icon,
-          [CSS.iconActive]: icon && selected,
-          [level]: true
+          [CSS.icon]: true,
+          [CSS.iconActive]: this.selected,
+          [CSS.iconIndent]: true
         }}
-        icon={icon || iconPath}
-        scale="s"
+        flipRtl={this.iconFlipRtl}
+        icon={iconPath}
+        key="indicator"
+        scale={this.scale === "l" ? "m" : "s"}
       />
     );
   }
@@ -194,7 +198,11 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
   }
 
   render(): VNode {
-    const isSingleSelect = getElementProp(this.el, "selection-mode", "multi") === "single";
+    const isSingleSelect = getElementProp(this.el, "selection-mode", "multiple") === "single";
+    const showDot = isSingleSelect && !this.disabled;
+    const defaultIcon = isSingleSelect ? "dot" : "check";
+    const iconPath = this.disabled ? "circle-disallowed" : defaultIcon;
+
     const classes = {
       [CSS.label]: true,
       [CSS.selected]: this.selected,
@@ -210,8 +218,9 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
           style={{ "--calcite-combobox-item-spacing-indent-multiplier": `${depth}` }}
         >
           <li class={classes} id={this.guid} onClick={this.itemClickHandler}>
-            {this.renderIcon(isSingleSelect)}
-            <span class={CSS.title}>{this.textLabel}</span>
+            {this.renderSelectIndicator(showDot, iconPath)}
+            {this.renderIcon(iconPath)}
+            <span class="title">{this.textLabel}</span>
           </li>
           {this.renderChildren()}
         </div>

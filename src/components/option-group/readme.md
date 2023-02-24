@@ -4,10 +4,10 @@
 
 ## Properties
 
-| Property             | Attribute  | Description                                                          | Type      | Default     |
-| -------------------- | ---------- | -------------------------------------------------------------------- | --------- | ----------- |
-| `disabled`           | `disabled` | When true, it prevents selection from any of its associated options. | `boolean` | `false`     |
-| `label` _(required)_ | `label`    | The group label. This property is required.                          | `string`  | `undefined` |
+| Property             | Attribute  | Description                                                                              | Type      | Default     |
+| -------------------- | ---------- | ---------------------------------------------------------------------------------------- | --------- | ----------- |
+| `disabled`           | `disabled` | When `true`, interaction is prevented and the component is displayed with lower opacity. | `boolean` | `false`     |
+| `label` _(required)_ | `label`    | Accessible name for the component.                                                       | `string`  | `undefined` |
 
 ## Slots
 

@@ -6,12 +6,14 @@ individual `calcite-accordion` item
 
 ## Properties
 
-| Property       | Attribute       | Description                                                        | Type      | Default     |
-| -------------- | --------------- | ------------------------------------------------------------------ | --------- | ----------- |
-| `active`       | `active`        | Indicates whether the item is active.                              | `boolean` | `false`     |
-| `icon`         | `icon`          | optionally pass an icon to display - accepts Calcite UI icon names | `string`  | `undefined` |
-| `itemSubtitle` | `item-subtitle` | pass a title for the accordion item                                | `string`  | `undefined` |
-| `itemTitle`    | `item-title`    | pass a title for the accordion item                                | `string`  | `undefined` |
+| Property      | Attribute       | Description                                                                                                 | Type                         | Default     |
+| ------------- | --------------- | ----------------------------------------------------------------------------------------------------------- | ---------------------------- | ----------- |
+| `description` | `description`   | Specifies a description for the component.                                                                  | `string`                     | `undefined` |
+| `expanded`    | `expanded`      | When `true`, the component is expanded.                                                                     | `boolean`                    | `false`     |
+| `heading`     | `heading`       | Specifies heading text for the component.                                                                   | `string`                     | `undefined` |
+| `iconEnd`     | `icon-end`      | Specifies an icon to display at the end of the component.                                                   | `string`                     | `undefined` |
+| `iconFlipRtl` | `icon-flip-rtl` | Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`). | `"both" \| "end" \| "start"` | `undefined` |
+| `iconStart`   | `icon-start`    | Specifies an icon to display at the start of the component.                                                 | `string`                     | `undefined` |
 
 ## Slots
 

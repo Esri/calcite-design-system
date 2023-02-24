@@ -1,6 +1,6 @@
 import { select, text, number } from "@storybook/addon-knobs";
-import { boolean, iconNames } from "../../../.storybook/helpers";
-import { themesDarkDefault } from "../../../.storybook/utils";
+import { boolean, iconNames, storyFilters } from "../../../.storybook/helpers";
+import { modesDarkDefault } from "../../../.storybook/utils";
 import readme from "./readme.md";
 import { html } from "../../../support/formatting";
 
@@ -8,98 +8,71 @@ export default {
   title: "Components/Controls/Input",
   parameters: {
     notes: readme
-  }
+  },
+  ...storyFilters()
 };
 
-export const WithLabel = (): string => html`
-  <div style="width:300px;max-width:100%;text-align:center;">
-    <calcite-label
-      status="${select("status", ["idle", "valid", "invalid"], "idle")}"
-      scale="${select("scale", ["s", "m", "l"], "m")}"
-      for="input-with-label"
-    >
-      ${text("label text", "My great label")}
-      <calcite-input
-        id="input-with-label"
-        type="${select(
-          "type",
-          ["text", "textarea", "email", "password", "tel", "number", "search", "file", "time", "date"],
-          "text"
-        )}"
-        status="${select("status", ["idle", "invalid", "valid"], "idle")}"
-        alignment="${select("alignment", ["start", "end"], "start")}"
-        number-button-type="${select("number-button-type", ["none", "horizontal", "vertical"], "horizontal")}"
-        min="${number("min", 0)}"
-        max="${number("max", 100)}"
-        step="${number("step", 1)}"
-        prefix-text="${text("prefix-text", "")}"
-        suffix-text="${text("suffix-text", "")}"
-        ${boolean("loading", false)}
-        ${boolean("clearable", false)}
-        ${boolean("disabled", false)}
-        value="${text("value", "")}"
-        placeholder="${text("placeholder", "Placeholder text")}"
-      >
-      </calcite-input>
-      <calcite-input-message
-        ${boolean("input-message-active", false)}
-        status="${select("input message status", ["idle", "valid", "invalid"], "idle")}"
-        >${text("input message text", "My great input message")}</calcite-input-message
-      >
-    </calcite-label>
-  </div>
-`;
-
-export const WithLabelAndInputMessage = (): string => html`
-  <div style="width:300px;max-width:100%;text-align:center;">
-    <calcite-label
-      status="${select("status", ["idle", "valid", "invalid"], "idle", "Label")}"
-      alignment="${select("alignment", ["start", "center", "end"], "start", "Label")}"
-      scale="${select("scale", ["s", "m", "l"], "m", "Label")}"
-      layout="${select("layout", ["default", "inline", "inline-space-between"], "default", "Label")}"
-      for="input-with-label-and-input-message"
-    >
-      ${text("label text", "My great label", "Label")}
-      <calcite-input
-        id="input-with-label-and-input-message"
-        type="${select(
-          "type",
-          ["text", "textarea", "email", "password", "tel", "number", "search", "file", "time", "date"],
-          "text",
-          "Input"
-        )}"
-        status="${select("status", ["idle", "invalid", "valid"], "idle", "Input")}"
-        alignment="${select("alignment", ["start", "end"], "start", "Input")}"
-        number-button-type="${select("number-button-type", ["none", "horizontal", "vertical"], "horizontal", "Input")}"
-        min="${number("min", 0)}"
-        max="${number("max", 100)}"
-        step="${number("step", 1)}"
-        prefix-text="${text("prefix-text", "", "Input")}"
-        suffix-text="${text("suffix-text", "", "Input")}"
-        ${boolean("loading", false)}
-        ${boolean("autofocus", false)}
-        ${boolean("required", false)}
-        value="${text("value", "", "Input")}"
-        placeholder="${text("placeholder", "Placeholder text", "Input")}"
-      >
-      </calcite-input>
-      <calcite-input-message
-        ${boolean("active", true)}
-        ${boolean("icon", false)}
-        icon="${select("icon", iconNames, "", "Input Message")}"
-        >${text("input message text", "My great input message", "Input Message")}</calcite-input-message
-      >
-    </calcite-label>
-  </div>
-`;
-
-WithLabelAndInputMessage.storyName = "With Label and Input Message";
-
-export const WithoutLabel = (): string => html`
+export const simple = (): string => html`
   <div style="width:300px;max-width:100%;text-align:center;">
     <calcite-input
-      scale="${select("scale", ["s", "m", "l"], "m")}"
-      status="${select("status", ["idle", "valid", "invalid"], "idle")}"
+      id="input-with-label"
+      type="${select(
+        "type",
+        ["text", "textarea", "email", "password", "tel", "number", "search", "file", "time", "date"],
+        "text"
+      )}"
+      status="${select("status", ["idle", "invalid", "valid"], "idle")}"
+      alignment="${select("alignment", ["start", "end"], "start")}"
+      number-button-type="${select("number-button-type", ["none", "horizontal", "vertical"], "horizontal")}"
+      min="${number("min", 0)}"
+      max="${number("max", 100)}"
+      step="${number("step", 1)}"
+      prefix-text="${text("prefix-text", "")}"
+      suffix-text="${text("suffix-text", "")}"
+      ${boolean("loading", false)}
+      ${boolean("clearable", false)}
+      ${boolean("disabled", false)}
+      value="${text("value", "")}"
+      placeholder="${text("placeholder", "Placeholder text")}"
+    ></calcite-input>
+  </div>
+`;
+
+export const withInputMessage = (): string => html`
+  <div style="width:300px;max-width:100%;text-align:center;">
+    <calcite-input
+      id="input-with-label-and-input-message"
+      type="${select(
+        "type",
+        ["text", "textarea", "email", "password", "tel", "number", "search", "file", "time", "date"],
+        "text",
+        "Input"
+      )}"
+      status="${select("status", ["idle", "invalid", "valid"], "idle", "Input")}"
+      alignment="${select("alignment", ["start", "end"], "start", "Input")}"
+      number-button-type="${select("number-button-type", ["none", "horizontal", "vertical"], "horizontal", "Input")}"
+      min="${number("min", 0)}"
+      max="${number("max", 100)}"
+      step="${number("step", 1)}"
+      prefix-text="${text("prefix-text", "", "Input")}"
+      suffix-text="${text("suffix-text", "", "Input")}"
+      ${boolean("loading", false)}
+      ${boolean("autofocus", false)}
+      ${boolean("required", false)}
+      value="${text("value", "", "Input")}"
+      placeholder="${text("placeholder", "Placeholder text", "Input")}"
+    >
+    </calcite-input>
+    <calcite-input-message ${boolean("icon", false)} icon="${select("icon", iconNames, "", "Input Message")}"
+      >${text("input message text", "My great input message", "Input Message")}</calcite-input-message
+    >
+  </div>
+`;
+
+export const withSlottedAction = (): string => html`
+  <div style="width:300px;max-width:100%;text-align:center;">
+    <calcite-input
+      id="input-with-slotted-action"
       type="${select(
         "type",
         ["text", "textarea", "email", "password", "tel", "number", "search", "file", "time", "date"],
@@ -119,83 +92,41 @@ export const WithoutLabel = (): string => html`
       value="${text("value", "")}"
       placeholder="${text("placeholder", "Placeholder text")}"
     >
+      <calcite-button slot="action">${text("action button text", "Go")}</calcite-button>
     </calcite-input>
   </div>
 `;
 
-export const WithSlottedAction = (): string => html`
+export const textarea = (): string => html`
   <div style="width:300px;max-width:100%;text-align:center;">
-    <calcite-label
-      status="${select("status", ["idle", "valid", "invalid"], "idle")}"
-      scale="${select("scale", ["s", "m", "l"], "m")}"
-      for="input-with-slotted-action"
+    <calcite-input
+      id="input-with-text-area"
+      type="textarea"
+      ${boolean("loading", false)}
+      ${boolean("clearable", false)}
+      ${boolean("disabled", false)}
+      value="${text("value", "")}"
+      placeholder="${text("placeholder", "Placeholder text")}"
     >
-      ${text("label text", "My great label")}
-      <calcite-input
-        id="input-with-slotted-action"
-        type="${select(
-          "type",
-          ["text", "textarea", "email", "password", "tel", "number", "search", "file", "time", "date"],
-          "text"
-        )}"
-        status="${select("status", ["idle", "invalid", "valid"], "idle")}"
-        alignment="${select("alignment", ["start", "end"], "start")}"
-        number-button-type="${select("number-button-type", ["none", "horizontal", "vertical"], "horizontal")}"
-        min="${number("min", 0)}"
-        max="${number("max", 100)}"
-        step="${number("step", 1)}"
-        prefix-text="${text("prefix-text", "")}"
-        suffix-text="${text("suffix-text", "")}"
-        ${boolean("loading", false)}
-        ${boolean("clearable", false)}
-        ${boolean("disabled", false)}
-        value="${text("value", "")}"
-        placeholder="${text("placeholder", "Placeholder text")}"
-      >
-        <calcite-button slot="action">${text("action button text", "Go")}</calcite-button>
-      </calcite-input>
-      <calcite-input-message
-        ${boolean("input-message-active", false)}
-        status="${select("input message status", ["idle", "valid", "invalid"], "idle")}"
-        >${text("input message text", "My great input message")}</calcite-input-message
-      >
-    </calcite-label>
+    </calcite-input>
+    <calcite-input-message status="${select("input message status", ["idle", "valid", "invalid"], "idle")}"
+      >${text("input message text", "My great input message")}</calcite-input-message
+    >
   </div>
 `;
 
-export const Textarea = (): string => html`
-  <div style="width:300px;max-width:100%;text-align:center;">
-    <calcite-label status="${select("status", ["idle", "valid", "invalid"], "idle")}" for="input-with-text-area">
-      ${text("label text", "My great label")}
-      <calcite-input
-        id="input-with-text-area"
-        type="textarea"
-        ${boolean("loading", false)}
-        ${boolean("clearable", false)}
-        ${boolean("disabled", false)}
-        value="${text("value", "")}"
-        placeholder="${text("placeholder", "Placeholder text")}"
-      >
-      </calcite-input>
-      <calcite-input-message
-        ${boolean("input-message-active", false)}
-        status="${select("input message status", ["idle", "valid", "invalid"], "idle")}"
-        >${text("input message text", "My great input message")}</calcite-input-message
-      >
-    </calcite-label>
-  </div>
-`;
+export const disabled_TestOnly = (): string => html`<calcite-input disabled value="disabled"></calcite-input>`;
 
-export const SimpleDarkMode = (): string => html`
-  <div style="width:300px;max-width:100%;text-align:center;">
+export const darkModeRTL_TestOnly = (): string => html`
+  <div dir="rtl" style="width:300px;max-width:100%;text-align:center;">
     <calcite-label
-      class="calcite-theme-dark"
+      class="calcite-mode-dark"
       status="${select("status", ["idle", "valid", "invalid"], "idle")}"
-      for="input-dark-theme"
+      for="input-dark-mode"
     >
       ${text("label text", "My great label")}
       <calcite-input
-        id="input-dark-theme"
+        id="input-dark-mode"
         type="${select(
           "type",
           ["text", "textarea", "email", "password", "tel", "number", "search", "file", "time", "date"],
@@ -216,59 +147,16 @@ export const SimpleDarkMode = (): string => html`
         placeholder="${text("placeholder", "Placeholder text")}"
       >
       </calcite-input>
-      <calcite-input-message
-        ${boolean("calcite-input-message-active", false)}
-        status="${select("input message status", ["idle", "valid", "invalid"], "idle")}"
+      <calcite-input-message status="${select("input message status", ["idle", "valid", "invalid"], "idle")}"
         >${text("input message text", "My great input message")}</calcite-input-message
       >
     </calcite-label>
   </div>
 `;
+darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
 
-SimpleDarkMode.storyName = "Simple - Dark mode";
-SimpleDarkMode.parameters = { themes: themesDarkDefault };
+export const hebrewNumberingSystem_TestOnly = (): string =>
+  html` <calcite-input type="number" lang="ar-EG" numbering-system="hebr" value="123456"></calcite-input>`;
 
-export const WithLabelAndInputMessageRTL = (): string => html`
-  <div style="width:300px;max-width:100%;text-align:center;" dir="rtl">
-    <calcite-label
-      status="${select("status", ["idle", "valid", "invalid"], "idle", "Label")}"
-      alignment="${select("alignment", ["start", "center", "end"], "start", "Label")}"
-      scale="${select("scale", ["s", "m", "l"], "m", "Label")}"
-      layout="${select("layout", ["default", "inline", "inline-space-between"], "default", "Label")}"
-      for="input-with-label-and-input-message-rtl"
-    >
-      ${text("label text", "My great label", "Label")}
-      <calcite-input
-        id="input-with-label-and-input-message-rtl"
-        type="${select(
-          "type",
-          ["text", "textarea", "email", "password", "tel", "number", "search", "file", "time", "date"],
-          "text",
-          "Input"
-        )}"
-        status="${select("status", ["idle", "invalid", "valid"], "idle", "Input")}"
-        alignment="${select("alignment", ["start", "end"], "start", "Input")}"
-        number-button-type="${select("number-button-type", ["none", "horizontal", "vertical"], "horizontal", "Input")}"
-        min="${number("min", 0)}"
-        max="${number("max", 100)}"
-        step="${number("step", 1)}"
-        prefix-text="${text("prefix-text", "", "Input")}"
-        suffix-text="${text("suffix-text", "", "Input")}"
-        ${boolean("loading", false)}
-        ${boolean("autofocus", false)}
-        ${boolean("required", false)}
-        value="${text("value", "", "Input")}"
-        placeholder="${text("placeholder", "Placeholder text", "Input")}"
-      >
-      </calcite-input>
-      <calcite-input-message
-        ${boolean("active", true)}
-        ${boolean("icon", false)}
-        icon="${select("icon", iconNames, "", "Input Message")}"
-        >${text("input message text", "My great input message", "Input Message")}</calcite-input-message
-      >
-    </calcite-label>
-  </div>
-`;
-
-export const disabled = (): string => html`<calcite-input disabled value="disabled"></calcite-input>`;
+export const arabicLocaleWithLatinNumberingSystem_TestOnly = (): string =>
+  html` <calcite-input type="number" lang="ar-EG" value="123456"></calcite-input>`;

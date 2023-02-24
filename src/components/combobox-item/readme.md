@@ -4,34 +4,24 @@
 
 ## Properties
 
-| Property                 | Attribute    | Description                                                                         | Type      | Default     |
-| ------------------------ | ------------ | ----------------------------------------------------------------------------------- | --------- | ----------- |
-| `active`                 | `active`     | True when item is highlighted either from keyboard or mouse hover                   | `boolean` | `false`     |
-| `ancestors`              | --           | Parent and grandparent combobox items, this is set internally for use from combobox | `any[]`   | `undefined` |
-| `constant`               | `constant`   | Don't filter this item based on the search text                                     | `boolean` | `undefined` |
-| `disabled`               | `disabled`   | When true, the item cannot be clicked and is visually muted.                        | `boolean` | `false`     |
-| `guid`                   | `guid`       | Unique identifier, used for accessibility                                           | `string`  | `guid()`    |
-| `icon`                   | `icon`       | Custom icon to display both in combobox chips and next to combobox item text        | `string`  | `undefined` |
-| `selected`               | `selected`   | Set this to true to pre-select an item. Toggles when an item is checked/unchecked.  | `boolean` | `false`     |
-| `textLabel` _(required)_ | `text-label` | The main label for this item.                                                       | `string`  | `undefined` |
-| `value` _(required)_     | `value`      | The item's associated value                                                         | `any`     | `undefined` |
+| Property                 | Attribute         | Description                                                                                  | Type      | Default     |
+| ------------------------ | ----------------- | -------------------------------------------------------------------------------------------- | --------- | ----------- |
+| `active`                 | `active`          | When `true`, the component is active.                                                        | `boolean` | `false`     |
+| `ancestors`              | --                | Specifies the parent and grandparent items, which are set on `calcite-combobox`.             | `any[]`   | `undefined` |
+| `disabled`               | `disabled`        | When `true`, interaction is prevented and the component is displayed with lower opacity.     | `boolean` | `false`     |
+| `filterDisabled`         | `filter-disabled` | When `true`, omits the component from the `calcite-combobox` filtered search results.        | `boolean` | `undefined` |
+| `guid`                   | `guid`            | The `id` attribute of the component. When omitted, a globally unique identifier is used.     | `string`  | `guid()`    |
+| `icon`                   | `icon`            | Specifies an icon to display.                                                                | `string`  | `undefined` |
+| `iconFlipRtl`            | `icon-flip-rtl`   | When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). | `boolean` | `false`     |
+| `selected`               | `selected`        | When `true`, the component is selected.                                                      | `boolean` | `false`     |
+| `textLabel` _(required)_ | `text-label`      | The component's text.                                                                        | `string`  | `undefined` |
+| `value` _(required)_     | `value`           | The component's value.                                                                       | `any`     | `undefined` |
 
 ## Events
 
-| Event                       | Description                                          | Type               |
-| --------------------------- | ---------------------------------------------------- | ------------------ |
-| `calciteComboboxItemChange` | Emitted whenever the item is selected or unselected. | `CustomEvent<any>` |
-
-## Methods
-
-### `toggleSelected(coerce?: boolean) => Promise<void>`
-
-Used to toggle the selection state. By default this won't trigger an event.
-The first argument allows the value to be coerced, rather than swapping values.
-
-#### Returns
-
-Type: `Promise<void>`
+| Event                       | Description                                             | Type                |
+| --------------------------- | ------------------------------------------------------- | ------------------- |
+| `calciteComboboxItemChange` | Emits whenever the component is selected or unselected. | `CustomEvent<void>` |
 
 ## Slots
 

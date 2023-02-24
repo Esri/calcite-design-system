@@ -1,21 +1,23 @@
 import { boolean, select, text } from "@storybook/addon-knobs";
+import { storyFilters } from "../../../.storybook/helpers";
+import { ATTRIBUTES } from "../../../.storybook/resources";
 import {
+  Attribute,
   Attributes,
   createComponentHTML as create,
-  Attribute,
   filterComponentAttributes,
-  themesDarkDefault
+  modesDarkDefault
 } from "../../../.storybook/utils";
-import { ATTRIBUTES } from "../../../.storybook/resources";
-import readme from "./readme.md";
-import { SLOTS, TEXT } from "./resources";
 import { html } from "../../../support/formatting";
+import readme from "./readme.md";
+import { SLOTS } from "./resources";
 
 export default {
   title: "Components/Panel",
   parameters: {
     notes: readme
-  }
+  },
+  ...storyFilters()
 };
 
 const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ exceptions } = { exceptions: [] }) => {
@@ -24,9 +26,9 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
   return filterComponentAttributes(
     [
       {
-        name: "dismissed",
+        name: "closed",
         commit(): Attribute {
-          this.value = boolean("dismissed", false);
+          this.value = boolean("closed", false);
           delete this.build;
           return this;
         }
@@ -40,9 +42,9 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
         }
       },
       {
-        name: "dismissible",
+        name: "closable",
         commit(): Attribute {
-          this.value = boolean("dismissible", false);
+          this.value = boolean("closable", false);
           delete this.build;
           return this;
         }
@@ -59,14 +61,6 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
         name: "loading",
         commit(): Attribute {
           this.value = boolean("loading", false);
-          delete this.build;
-          return this;
-        }
-      },
-      {
-        name: "intl-close",
-        commit(): Attribute {
-          this.value = text("intlClose", TEXT.close);
           delete this.build;
           return this;
         }
@@ -104,7 +98,7 @@ const contentHTML = html`
 `;
 
 const footerHTML = html`
-  <calcite-button slot="${SLOTS.footer}" width="half" appearance="clear">Naw.</calcite-button>
+  <calcite-button slot="${SLOTS.footer}" width="half" appearance="outline">Naw.</calcite-button>
   <calcite-button slot="${SLOTS.footer}" width="half">Yeah!</calcite-button>
 `;
 
@@ -114,9 +108,7 @@ const panelContent = `${headerHTML}
   ${contentHTML}
   ${footerHTML}`;
 
-export const basic = (): string => create("calcite-panel", createAttributes(), panelContent);
-
-export const withButton = (): string =>
+export const simple = (): string =>
   create(
     "calcite-panel",
     createAttributes(),
@@ -134,19 +126,26 @@ export const onlyProps = (): string => html`
   <div style="width: 300px;">
     <calcite-panel
       height-scale="s"
-      heading="Panel title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum"
-      summary="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+      heading-level="${text("heading-level", "2")}"
+      description="${text(
+        "description",
+        "Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collab on thinking to further the overall."
+      )}"
+      heading="${text(
+        "heading",
+        "Panel title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum Tile title lorem ipsum"
+      )}"
     />
   </div>
 `;
 
-export const withStyledSlot = (): string => html`
-  <calcite-panel style="height: 100%;" heading="Heading">
+export const disabledWithStyledSlot_TestOnly = (): string => html`
+  <calcite-panel style="height: 100%;" heading="Heading" disabled>
     <div id="content" style="height: 100%;">${contentHTML}</div>
   </calcite-panel>
 `;
 
-export const darkThemeRTL = (): string =>
+export const darkModeRTL_TestOnly = (): string =>
   create(
     "calcite-panel",
     createAttributes({ exceptions: ["dir", "class"] }).concat([
@@ -156,12 +155,10 @@ export const darkThemeRTL = (): string =>
       },
       {
         name: "class",
-        value: "calcite-theme-dark"
+        value: "calcite-mode-dark"
       }
     ]),
     panelContent
   );
 
-darkThemeRTL.parameters = { themes: themesDarkDefault };
-
-export const disabled = (): string => html`<calcite-panel heading="Heading" disabled>disabled</calcite-panel>`;
+darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };

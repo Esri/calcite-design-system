@@ -1,9 +1,10 @@
 import { select, number, text } from "@storybook/addon-knobs";
 import { html } from "../../../support/formatting";
-import { boolean, createSteps, stepStory, setTheme, setKnobs } from "../../../.storybook/helpers";
-import { popperPlacements } from "../../utils/popper";
+import { boolean, storyFilters } from "../../../.storybook/helpers";
+import { placements } from "../../utils/floating-ui";
 import readme from "./readme.md";
 import { defaultPopoverPlacement } from "../popover/resources";
+import { modesDarkDefault } from "../../../.storybook/utils";
 
 const contentHTML = `
 <div style="width: 300px; padding:12px 16px;">
@@ -19,68 +20,185 @@ const nestedReferenceElementHTML = `Ut enim ad minim veniam, quis <calcite-butto
 export default {
   title: "Components/Popover",
   parameters: {
-    notes: [readme]
-  }
+    notes: [readme],
+    chromatic: {
+      delay: 500
+    }
+  },
+  ...storyFilters()
 };
 
-export const Simple = stepStory(
-  (): string => html`
-    <div style="width: 400px;">
-      ${referenceElementHTML}
+export const simple = (): string => html`
+  <div style="width: 400px;">
+    ${referenceElementHTML}
+    <calcite-popover
+      ${boolean("closable", false)}
+      ${boolean("flip-disabled", false)}
+      ${boolean("pointer-disabled", false)}
+      reference-element="reference-element"
+      placement="${select("placement", placements, defaultPopoverPlacement)}"
+      offset-distance="${number("offset-distance", 6)}"
+      offset-skidding="${number("offset-skidding", 0)}"
+      ${boolean("open", true)}
+      text-close="${text("text-close", "Close")}"
+    >
+      ${contentHTML}
+    </calcite-popover>
+  </div>
+`;
+
+export const darkModeRTL_TestOnly = (): string => html` <style>
+    :root {
+      --calcite-duration-factor: 0;
+    }
+  </style>
+  <div style="width: 400px;">
+    ${referenceElementHTML}
+    <calcite-popover
+      ${boolean("closable", false)}
+      ${boolean("flip-disabled", false)}
+      ${boolean("pointer-disabled", false)}
+      reference-element="reference-element"
+      placement="${select("placement", placements, defaultPopoverPlacement)}"
+      offset-distance="${number("offset-distance", 6)}"
+      offset-skidding="${number("offset-skidding", 0)}"
+      ${boolean("open", true)}
+      text-close="${text("text-close", "Close")}"
+      dir="${select("dir", ["ltr", "rtl"], "rtl")}"
+      class="calcite-mode-dark"
+    >
+      ${contentHTML}
+    </calcite-popover>
+  </div>`;
+
+darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
+
+export const nested = (): string => html`
+  <div style="width: 400px;">
+    ${referenceElementHTML}
+    <calcite-popover
+      ${boolean("closable", true)}
+      reference-element="reference-element"
+      placement="${select("placement", placements, defaultPopoverPlacement)}"
+      ${boolean("open", true)}
+    >
+      <div style="width: 300px; padding:12px 16px;">${nestedReferenceElementHTML}</div>
       <calcite-popover
-        ${boolean("dismissible", false)}
-        ${boolean("disable-flip", false)}
-        ${boolean("disable-pointer", false)}
-        reference-element="reference-element"
-        placement="${select("placement", popperPlacements, defaultPopoverPlacement)}"
-        offset-distance="${number("offset-distance", 6)}"
-        offset-skidding="${number("offset-skidding", 0)}"
-        ${boolean("open", false)}
-        text-close="${text("text-close", "Close")}"
+        heading="${text("heading", "Heading")}"
+        ${boolean("closable", true)}
+        reference-element="reference-element-nested"
+        placement="${select("placement", placements, defaultPopoverPlacement)}"
+        ${boolean("open", true)}
       >
         ${contentHTML}
       </calcite-popover>
-    </div>
-  `,
-  createSteps("calcite-popover")
-    .snapshot("Default")
-    .click("#reference-element")
-    .snapshot("Open")
-    .executeScript(setKnobs({ story: "components-popover--simple", knobs: [{ name: "dismissible", value: "true" }] }))
-    .click("#reference-element")
-    .snapshot("dismissible")
-    .rtl()
-    .snapshot("Rtl")
-    .ltr()
-    .executeScript(setTheme("dark"))
-    .snapshot("Dark theme")
-);
+    </calcite-popover>
+  </div>
+`;
 
-export const Nested = stepStory(
-  (): string => html`
-    <div style="width: 400px;">
-      ${referenceElementHTML}
-      <calcite-popover
-        ${boolean("dismissible", true)}
-        reference-element="reference-element"
-        placement="${select("placement", popperPlacements, defaultPopoverPlacement)}"
-        ${boolean("open", false)}
-      >
-        <div style="width: 300px; padding:12px 16px;">${nestedReferenceElementHTML}</div>
-        <calcite-popover
-          ${boolean("dismissible", true)}
-          reference-element="reference-element-nested"
-          placement="${select("placement", popperPlacements, defaultPopoverPlacement)}"
-          ${boolean("open", false)}
-        >
-          ${contentHTML}
-        </calcite-popover>
-      </calcite-popover>
+nested.parameters = {
+  chromatic: { delay: 1500 }
+};
+
+export const flipPlacements_TestOnly = (): string => html`
+  <style>
+    :root {
+      --calcite-duration-factor: 0;
+    }
+  </style>
+  <div style="height: 100px; overflow:scroll; width: 200px;">
+    <div class="my-popover-reference">
+      <calcite-button title="Reference Element" id="reference-element">nostrud exercitation</calcite-button>
     </div>
-  `,
-  createSteps("calcite-popover")
-    .click("#reference-element")
-    .snapshot("Single popover open")
-    .click("#reference-element-nested")
-    .snapshot("Multiple popovers open")
-);
+    <calcite-popover class="my-popover" reference-element="reference-element" open placement="top" heading="Heading">
+      ${contentHTML}
+    </calcite-popover>
+  </div>
+  <script>
+    document.querySelector(".my-popover").flipPlacements = ["right"];
+  </script>
+`;
+
+export const scaleConsistencyPopoverHeadingActionSlottedIcon_TestOnly = (): string => html`
+  <style>
+    :root {
+      --calcite-duration-factor: 0;
+    }
+  </style>
+  <div style="width: 400px;">
+    ${referenceElementHTML}
+    <calcite-popover
+      heading="Dreams didn't make us kings. Dragons did. 🐉"
+      reference-element="reference-element"
+      placement="auto"
+      open
+      closable
+      scale="m"
+    >
+      ${contentHTML}
+    </calcite-popover>
+  </div>
+`;
+
+export const smallScaleLayout_TestOnly = (): string => html`
+  <style>
+    :root {
+      --calcite-duration-factor: 0;
+    }
+  </style>
+  <div style="width: 400px;">
+    ${referenceElementHTML}
+    <calcite-popover
+      heading="these 🥨s are making me thirsty"
+      reference-element="reference-element"
+      placement="auto"
+      open
+      closable
+      scale="s"
+    >
+      ${contentHTML}
+    </calcite-popover>
+  </div>
+`;
+
+export const mediumScaleLayout_TestOnly = (): string => html`
+  <style>
+    :root {
+      --calcite-duration-factor: 0;
+    }
+  </style>
+  <div style="width: 400px;">
+    ${referenceElementHTML}
+    <calcite-popover
+      heading="these 🥨s are making me thirsty"
+      reference-element="reference-element"
+      placement="auto"
+      open
+      closable
+      scale="m"
+    >
+      ${contentHTML}
+    </calcite-popover>
+  </div>
+`;
+
+export const largeScaleLayout_TestOnly = (): string => html`
+  <style>
+    :root {
+      --calcite-duration-factor: 0;
+    }
+  </style>
+  <div style="width: 400px;">
+    ${referenceElementHTML}
+    <calcite-popover
+      heading="these 🥨s are making me thirsty"
+      reference-element="reference-element"
+      placement="auto"
+      open
+      closable
+      scale="l"
+    >
+      ${contentHTML}
+    </calcite-popover>
+  </div>
+`;

@@ -1,20 +1,23 @@
-import { Component, Element, Prop, h, VNode, Fragment } from "@stencil/core";
-import { CSS, SLOTS } from "./resources";
-import { getSlotted } from "../../utils/dom";
+import { Component, Element, Fragment, h, Prop, State, VNode } from "@stencil/core";
 import {
   ConditionalSlotComponent,
   connectConditionalSlotComponent,
   disconnectConditionalSlotComponent
 } from "../../utils/conditionalSlot";
+import { slotChangeGetAssignedElements, slotChangeHasAssignedElement } from "../../utils/dom";
+import { CSS, SLOTS } from "./resources";
 
 /**
- * @slot - A slot for adding content to the shell. This content will appear between any leading and trailing panels added to the shell. (eg. a map)
- * @slot header - A slot for adding header content. This content will be positioned at the top of the shell.
- * @slot footer - A slot for adding footer content. This content will be positioned at the bottom of the shell.
- * @slot primary-panel - A slot for adding the leading `calcite-shell-panel`.
- * @slot contextual-panel - A slot for adding the trailing `calcite-shell-panel`.
- * @slot center-row - A slot for adding custom content in the center row.
+ * @slot - A slot for adding custom content. This content will appear between any leading and trailing panels added to the component, such as a map.
+ * @slot header - A slot for adding header content. This content will be positioned at the top of the component.
+ * @slot footer - A slot for adding footer content. This content will be positioned at the bottom of the component.
+ * @slot panel-start - A slot for adding the starting `calcite-shell-panel`.
+ * @slot panel-end - A slot for adding the ending `calcite-shell-panel`.
+ * @slot center-row - A slot for adding content to the center row.
+ * @slot modals - A slot for adding `calcite-modal` components. When placed in this slot, the modal position will be constrained to the extent of the shell.
+ * @slot alerts - A slot for adding `calcite-alert` components. When placed in this slot, the alert position will be constrained to the extent of the shell.
  */
+
 @Component({
   tag: "calcite-shell",
   styleUrl: "shell.scss",
@@ -28,7 +31,7 @@ export class Shell implements ConditionalSlotComponent {
   // --------------------------------------------------------------------------
 
   /**
-   * Positions the center content behind any calcite-shell-panels.
+   * Positions the center content behind any `calcite-shell-panel`s.
    */
   @Prop({ reflect: true }) contentBehind = false;
 
@@ -39,6 +42,14 @@ export class Shell implements ConditionalSlotComponent {
   // --------------------------------------------------------------------------
 
   @Element() el: HTMLCalciteShellElement;
+
+  @State() hasHeader = false;
+
+  @State() hasFooter = false;
+
+  @State() hasAlerts = false;
+
+  @State() hasModals = false;
 
   // --------------------------------------------------------------------------
   //
@@ -56,14 +67,72 @@ export class Shell implements ConditionalSlotComponent {
 
   // --------------------------------------------------------------------------
   //
+  //  Private Methods
+  //
+  // --------------------------------------------------------------------------
+
+  handleHeaderSlotChange = (event: Event): void => {
+    this.hasHeader = !!slotChangeHasAssignedElement(event);
+  };
+
+  handleFooterSlotChange = (event: Event): void => {
+    this.hasFooter = !!slotChangeHasAssignedElement(event);
+  };
+
+  handleAlertsSlotChange = (event: Event): void => {
+    this.hasAlerts = !!slotChangeHasAssignedElement(event);
+    slotChangeGetAssignedElements(event)?.map((el) => {
+      if (el.nodeName === "CALCITE-ALERT") {
+        (el as HTMLCalciteAlertElement).slottedInShell = true;
+      }
+    });
+  };
+
+  handleModalsSlotChange = (event: Event): void => {
+    this.hasModals = !!slotChangeHasAssignedElement(event);
+    slotChangeGetAssignedElements(event)?.map((el) => {
+      if (el.nodeName === "CALCITE-MODAL") {
+        (el as HTMLCalciteModalElement).slottedInShell = true;
+      }
+    });
+  };
+
+  // --------------------------------------------------------------------------
+  //
   //  Render Methods
   //
   // --------------------------------------------------------------------------
 
   renderHeader(): VNode {
-    const hasHeader = !!getSlotted(this.el, SLOTS.header);
+    return (
+      <div hidden={!this.hasHeader}>
+        <slot key="header" name={SLOTS.header} onSlotchange={this.handleHeaderSlotChange} />
+      </div>
+    );
+  }
 
-    return hasHeader ? <slot key="header" name={SLOTS.header} /> : null;
+  renderFooter(): VNode {
+    return (
+      <div class={CSS.footer} hidden={!this.hasFooter} key="footer">
+        <slot name={SLOTS.footer} onSlotchange={this.handleFooterSlotChange} />
+      </div>
+    );
+  }
+
+  renderAlerts(): VNode {
+    return (
+      <div hidden={!this.hasAlerts}>
+        <slot key="alerts" name={SLOTS.alerts} onSlotchange={this.handleAlertsSlotChange} />
+      </div>
+    );
+  }
+
+  renderModals(): VNode {
+    return (
+      <div hidden={!this.hasModals}>
+        <slot key="modals" name={SLOTS.modals} onSlotchange={this.handleModalsSlotChange} />
+      </div>
+    );
   }
 
   renderContent(): VNode[] {
@@ -94,29 +163,21 @@ export class Shell implements ConditionalSlotComponent {
     return content;
   }
 
-  renderFooter(): VNode {
-    const hasFooter = !!getSlotted(this.el, SLOTS.footer);
-
-    return hasFooter ? (
-      <div class={CSS.footer} key="footer">
-        <slot name={SLOTS.footer} />
+  renderMain(): VNode {
+    return (
+      <div class={CSS.main}>
+        <slot name={SLOTS.panelStart} />
+        {this.renderContent()}
+        <slot name={SLOTS.panelEnd} />
       </div>
-    ) : null;
+    );
   }
 
-  renderMain(): VNode {
-    const primaryPanel = getSlotted<HTMLCalciteShellPanelElement>(this.el, SLOTS.primaryPanel);
-
-    const mainClasses = {
-      [CSS.main]: true,
-      [CSS.mainReversed]: primaryPanel?.position === "end"
-    };
-
+  renderPositionedSlots(): VNode {
     return (
-      <div class={mainClasses}>
-        <slot name={SLOTS.primaryPanel} />
-        {this.renderContent()}
-        <slot name={SLOTS.contextualPanel} />
+      <div class={CSS.positionedSlotWrapper}>
+        {this.renderAlerts()}
+        {this.renderModals()}
       </div>
     );
   }
@@ -127,6 +188,7 @@ export class Shell implements ConditionalSlotComponent {
         {this.renderHeader()}
         {this.renderMain()}
         {this.renderFooter()}
+        {this.renderPositionedSlots()}
       </Fragment>
     );
   }

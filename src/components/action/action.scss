@@ -1,6 +1,15 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-action-indicator-color: Specifies the color of the component's indicator.
+ */
+
 :host {
   @extend %component-host;
   @apply flex bg-transparent;
+  --calcite-action-indicator-color: theme("colors.brand");
 }
 
 @include disabled();
@@ -42,21 +51,21 @@
       flex
       items-center
       justify-center;
-    min-width: theme("spacing.4");
-    min-height: theme("spacing.4");
+    min-inline-size: theme("spacing.4");
+    min-block-size: theme("spacing.4");
   }
 
   .text-container {
     @apply m-0
       w-0
       truncate
-      leading-4
+      leading-6
       opacity-0
       transition-opacity
       duration-150
       ease-in-out;
     transition-property: margin;
-    transition-property: width;
+    transition-property: inline-size;
   }
 
   .text-container--visible {
@@ -66,7 +75,7 @@
 
 :host([scale="s"]) {
   .button {
-    @apply text-n2h p-2 font-normal;
+    @apply text-n2h px-2 py-1 font-normal;
   }
   .button--text-visible .icon-container {
     margin-inline-end: theme("spacing.2");
@@ -75,7 +84,7 @@
 
 :host([scale="m"]) {
   .button {
-    @apply text-n1h p-4 font-normal;
+    @apply text-n1h px-4 py-3 font-normal;
   }
   .button--text-visible .icon-container {
     margin-inline-end: theme("spacing.3");
@@ -136,27 +145,27 @@
   @apply bg-foreground-1;
 }
 
-:host([appearance="clear"]) .button {
+:host([appearance="transparent"]) .button {
   @apply bg-transparent
     transition-shadow
     duration-150
     ease-in-out;
 }
 
-:host([appearance="clear"]) .button:hover,
-:host([appearance="clear"]) .button:focus {
+:host([appearance="transparent"]) .button:hover,
+:host([appearance="transparent"]) .button:focus {
   @apply bg-transparent;
   box-shadow: 0 0 0 2px theme("borderColor.color.1") inset;
 }
 
-:host([active][appearance="clear"]) .button,
-:host([active][appearance="clear"]) .button:hover,
-:host([active][appearance="clear"]) .button:focus {
+:host([active][appearance="transparent"]) .button,
+:host([active][appearance="transparent"]) .button:hover,
+:host([active][appearance="transparent"]) .button:focus {
   @apply text-color-1 fill-color-1 bg-foreground-3;
 }
 
-:host([appearance="clear"][loading]) .button,
-:host([appearance="clear"][disabled]) .button {
+:host([appearance="transparent"][loading]) .button,
+:host([appearance="transparent"][disabled]) .button {
   @apply bg-transparent;
 }
 
@@ -170,7 +179,8 @@
 }
 
 :host([loading]) calcite-loader[inline] {
-  @apply text-color-3 mr-0;
+  @apply text-color-3;
+  margin-inline-end: theme("spacing.0");
 }
 
 :host([disabled]) .button,
@@ -188,13 +198,13 @@
 :host([indicator]) {
   .button::after {
     content: "";
-    @apply bg-brand
-      absolute
-      z-10
+    @apply absolute
       h-2
       w-2
       rounded-full
       border-2;
+
+    background-color: var(--calcite-action-indicator-color);
     border-color: theme("colors.background.foreground.1");
     inset-block-end: theme("spacing.3");
     inset-inline-end: theme("spacing.3");
@@ -226,4 +236,8 @@
 
 :host([indicator][active]) .button::after {
   border-color: theme("colors.background.foreground.3");
+}
+
+.indicator-text {
+  @apply sr-only;
 }

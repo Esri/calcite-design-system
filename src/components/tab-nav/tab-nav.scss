@@ -3,15 +3,15 @@
 }
 
 :host([scale="s"]) {
-  min-height: theme("spacing.6");
+  min-block-size: theme("spacing.6");
 }
 
 :host([scale="m"]) {
-  min-height: theme("spacing.8");
+  min-block-size: theme("spacing.8");
 }
 
 :host([scale="l"]) {
-  min-height: theme("spacing.11");
+  min-block-size: theme("spacing.11");
 }
 
 .tab-nav {
@@ -19,10 +19,6 @@
     w-full
     justify-start
     overflow-auto;
-}
-
-:host([layout="center"]) .tab-nav {
-  @apply justify-center;
 }
 
 // prevent indicator overflow in horizontal scrolling situations
@@ -45,23 +41,23 @@
     ease-out;
 }
 
-:host([position="below"]) .tab-nav-active-indicator {
-  bottom: unset;
+:host([position="bottom"]) .tab-nav-active-indicator {
+  inset-block-end: unset;
   @apply top-0;
 }
 
-:host([position="below"]) .tab-nav-active-indicator-container {
-  bottom: unset;
+:host([position="bottom"]) .tab-nav-active-indicator-container {
+  inset-block-end: unset;
   @apply top-0;
 }
 
 :host([bordered]) .tab-nav-active-indicator-container {
-  bottom: unset; // display active blue line above instead of below
+  inset-block-end: unset; // display active blue line above instead of below
 }
 
-:host([bordered][position="below"]) .tab-nav-active-indicator-container {
-  bottom: 0; // display active blue line below instead of above
-  top: unset;
+:host([bordered][position="bottom"]) .tab-nav-active-indicator-container {
+  inset-block-end: 0; // display active blue line below instead of above
+  inset-block-start: unset;
 }
 
 @media (forced-colors: active) {

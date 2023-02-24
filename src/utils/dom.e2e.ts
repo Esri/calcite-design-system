@@ -1,5 +1,5 @@
 import { E2EPage, newE2EPage } from "@stencil/core/testing";
-import { queryElementRoots, queryElementsRoots, getRootNode, getHost } from "./dom";
+import { getHost, getRootNode, queryElementRoots } from "./dom";
 
 interface SetUpTestComponentOptions {
   insideHostHTML: string;
@@ -19,7 +19,6 @@ type TestWindow = typeof window & {
       id?: string;
     }
   ) => T | null;
-  queryElementsRoots: <T extends Element = Element>(element: Element, selector: string) => T[];
   setUpTestComponent: (options: SetUpTestComponentOptions) => void;
 };
 
@@ -62,7 +61,6 @@ describe("queries", () => {
       ${getRootNode}
       ${getHost}
       ${queryElementRoots}
-      ${queryElementsRoots}
       ${setUpTestComponent}
       `
     });
@@ -186,37 +184,5 @@ describe("queries", () => {
     );
 
     expect(text).toBe(outsideHost);
-  });
-
-  it("queryElementsRoots: should query multiple elements", async () => {
-    const results = await page.evaluate(
-      ({
-        insideHostHTML,
-        componentTag,
-        insideShadowHTML,
-        myButtonClass,
-        myButtonId
-      }: SetUpTestComponentOptions): string[] => {
-        (window as TestWindow).setUpTestComponent({
-          insideHostHTML,
-          componentTag,
-          insideShadowHTML,
-          myButtonClass,
-          myButtonId
-        });
-
-        const testComponent = document.querySelector("test-component");
-        const queryEl = testComponent.shadowRoot.querySelector("div");
-        const resultEls: HTMLElement[] = (window as TestWindow).queryElementsRoots(queryEl, "button");
-
-        return resultEls.map((el: HTMLElement) => el.textContent);
-      },
-      { insideHostHTML, componentTag, insideShadowHTML, myButtonClass, myButtonId }
-    );
-
-    expect(results).toHaveLength(3);
-    expect(results[0]).toBe(insideShadow);
-    expect(results[1]).toBe(outsideHost);
-    expect(results[2]).toBe(insideHost);
   });
 });

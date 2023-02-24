@@ -14,16 +14,16 @@
 
 ## Properties
 
-| Property | Attribute | Description                                                                                           | Type      | Default     |
-| -------- | --------- | ----------------------------------------------------------------------------------------------------- | --------- | ----------- |
-| `active` | `active`  | Show this tab                                                                                         | `boolean` | `false`     |
-| `tab`    | `tab`     | Optionally include a unique name for this tab, be sure to also set this name on the associated title. | `string`  | `undefined` |
+| Property   | Attribute  | Description                                                                                                        | Type      | Default     |
+| ---------- | ---------- | ------------------------------------------------------------------------------------------------------------------ | --------- | ----------- |
+| `selected` | `selected` | When `true`, the component's contents are selected. Only one tab can be selected within the `calcite-tabs` parent. | `boolean` | `false`     |
+| `tab`      | `tab`      | Specifies a unique name for the component. When specified, use the same value on the `calcite-tab-title`.          | `string`  | `undefined` |
 
 ## Methods
 
 ### `getTabIndex() => Promise<number>`
 
-Return the index of this tab within the tab array
+Returns the index of the component item within the tab array.
 
 #### Returns
 

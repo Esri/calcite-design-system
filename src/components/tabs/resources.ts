@@ -1,3 +1,3 @@
 export const SLOTS = {
-  tabNav: "tab-nav"
+  titleGroup: "title-group"
 };

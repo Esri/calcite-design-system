@@ -1,11 +1,13 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, renders } from "../../tests/commonTests";
+import { accessible, renders, hidden } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 
 describe("calcite-tab-nav", () => {
   const tabNavHtml = "<calcite-tab-nav></calcite-tab-nav>";
 
   it("renders", async () => await renders(tabNavHtml, { display: "flex" }));
+
+  it("honors hidden attribute", async () => hidden("calcite-tab-nav"));
 
   it("is accessible", async () => await accessible(tabNavHtml));
 
@@ -17,7 +19,7 @@ describe("calcite-tab-nav", () => {
     const activeEventSpy = await page.spyOnEvent("calciteTabChange");
     const firstTabTitle = await page.find("calcite-tab-title");
 
-    firstTabTitle.setProperty("active", true);
+    firstTabTitle.setProperty("selected", true);
     await page.waitForChanges();
     expect(activeEventSpy).toHaveReceivedEventTimes(0);
 
@@ -28,9 +30,9 @@ describe("calcite-tab-nav", () => {
     expect(activeEventSpy).toHaveReceivedEventTimes(2);
   });
 
-  describe("active indicator", () => {
+  describe("selected indicator", () => {
     const tabTitles = html`
-      <calcite-tab-title active>Tab 1 Title</calcite-tab-title>
+      <calcite-tab-title selected>Tab 1 Title</calcite-tab-title>
       <calcite-tab-title>Tab 2 Title</calcite-tab-title>
       <calcite-tab-title>Tab 3 Title</calcite-tab-title>
       <calcite-tab-title>Tab 4 Title</calcite-tab-title>
@@ -85,7 +87,7 @@ describe("calcite-tab-nav", () => {
       it("should render with small scale", async () => {
         const page = await newE2EPage({
           html: `<calcite-tab-nav scale='s'>
-            <calcite-tab-title active>Tab 1 Title</calcite-tab-title>
+            <calcite-tab-title selected>Tab 1 Title</calcite-tab-title>
             <calcite-tab-title>Tab 2 Title</calcite-tab-title>
             <calcite-tab-title>Tab 3 Title</calcite-tab-title>
             <calcite-tab-title>Tab 4 Title</calcite-tab-title>
@@ -101,7 +103,7 @@ describe("calcite-tab-nav", () => {
       it("should render with medium scale", async () => {
         const page = await newE2EPage({
           html: `<calcite-tab-nav scale='m'>
-            <calcite-tab-title active>Tab 1 Title</calcite-tab-title>
+            <calcite-tab-title selected>Tab 1 Title</calcite-tab-title>
             <calcite-tab-title>Tab 2 Title</calcite-tab-title>
             <calcite-tab-title>Tab 3 Title</calcite-tab-title>
             <calcite-tab-title>Tab 4 Title</calcite-tab-title>
@@ -117,7 +119,7 @@ describe("calcite-tab-nav", () => {
       it("should render with medium scale", async () => {
         const page = await newE2EPage({
           html: `<calcite-tab-nav scale='l'>
-            <calcite-tab-title active>Tab 1 Title</calcite-tab-title>
+            <calcite-tab-title selected>Tab 1 Title</calcite-tab-title>
             <calcite-tab-title>Tab 2 Title</calcite-tab-title>
             <calcite-tab-title>Tab 3 Title</calcite-tab-title>
             <calcite-tab-title>Tab 4 Title</calcite-tab-title>
@@ -158,5 +160,30 @@ describe("calcite-tab-nav", () => {
         });
       });
     });
+  });
+
+  it("focuses on keyboard interaction", async () => {
+    const page = await newE2EPage();
+    await page.setContent(html`<calcite-tab-nav>
+      <calcite-tab-title id="tab1">Tab 1 Title</calcite-tab-title>
+      <calcite-tab-title id="tab2">Tab 2 Title</calcite-tab-title>
+      <calcite-tab-title id="tab3">Tab 3 Title</calcite-tab-title>
+    </calcite-tab-nav>`);
+
+    const tab1 = await page.find("#tab1");
+    await tab1.focus();
+    expect(await page.evaluate(() => document.activeElement.id)).toBe("tab1");
+
+    await page.keyboard.press("ArrowRight");
+    expect(await page.evaluate(() => document.activeElement.id)).toBe("tab2");
+
+    await page.keyboard.press("ArrowLeft");
+    expect(await page.evaluate(() => document.activeElement.id)).toBe("tab1");
+
+    await page.keyboard.press("End");
+    expect(await page.evaluate(() => document.activeElement.id)).toBe("tab3");
+
+    await page.keyboard.press("Home");
+    expect(await page.evaluate(() => document.activeElement.id)).toBe("tab1");
   });
 });

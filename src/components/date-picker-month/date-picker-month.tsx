@@ -1,17 +1,20 @@
 import {
   Component,
   Element,
-  Prop,
-  Host,
   Event,
   EventEmitter,
   h,
+  Host,
   Listen,
+  Prop,
   VNode
 } from "@stencil/core";
-import { inRange, sameDate, dateFromRange, HoverRange } from "../../utils/date";
+import { dateFromRange, HoverRange, inRange, sameDate } from "../../utils/date";
 import { DateLocaleData } from "../date-picker/utils";
 import { Scale } from "../interfaces";
+
+const DAYS_PER_WEEK = 7;
+const DAYS_MAXIMUM_INDEX = 6;
 
 @Component({
   tag: "calcite-date-picker-month",
@@ -45,13 +48,13 @@ export class DatePickerMonth {
   /** End date currently active  */
   @Prop() endDate?: Date;
 
-  /** Minimum date of the calendar below which is disabled.*/
+  /** Specifies the earliest allowed date (`"yyyy-mm-dd"`). */
   @Prop() min: Date;
 
-  /** Maximum date of the calendar above which is disabled.*/
+  /** Specifies the latest allowed date (`"yyyy-mm-dd"`). */
   @Prop() max: Date;
 
-  /** specify the scale of the date picker */
+  /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale;
 
   /**
@@ -72,25 +75,29 @@ export class DatePickerMonth {
 
   /**
    * Event emitted when user selects the date.
+   *
+   * @internal
    */
-  @Event() calciteDatePickerSelect: EventEmitter;
+  @Event({ cancelable: false }) calciteInternalDatePickerSelect: EventEmitter<Date>;
 
   /**
    * Event emitted when user hovers the date.
    *
    * @internal
    */
-  @Event() calciteInternalDatePickerHover: EventEmitter;
+  @Event({ cancelable: false }) calciteInternalDatePickerHover: EventEmitter<Date>;
 
   /**
    * Active date for the user keyboard access.
+   *
+   * @internal
    */
-  @Event() calciteDatePickerActiveDateChange: EventEmitter;
+  @Event({ cancelable: false }) calciteInternalDatePickerActiveDateChange: EventEmitter<Date>;
 
   /**
    * @internal
    */
-  @Event() calciteInternalDatePickerMouseOut: EventEmitter;
+  @Event({ cancelable: false }) calciteInternalDatePickerMouseOut: EventEmitter<void>;
 
   //--------------------------------------------------------------------------
   //
@@ -98,40 +105,45 @@ export class DatePickerMonth {
   //
   //--------------------------------------------------------------------------
 
-  keyDownHandler = (e: KeyboardEvent): void => {
+  keyDownHandler = (event: KeyboardEvent): void => {
+    if (event.defaultPrevented) {
+      return;
+    }
+
     const isRTL = this.el.dir === "rtl";
-    switch (e.key) {
+
+    switch (event.key) {
       case "ArrowUp":
-        e.preventDefault();
+        event.preventDefault();
         this.addDays(-7);
         break;
       case "ArrowRight":
-        e.preventDefault();
+        event.preventDefault();
         this.addDays(isRTL ? -1 : 1);
         break;
       case "ArrowDown":
-        e.preventDefault();
+        event.preventDefault();
         this.addDays(7);
         break;
       case "ArrowLeft":
-        e.preventDefault();
+        event.preventDefault();
         this.addDays(isRTL ? 1 : -1);
         break;
       case "PageUp":
-        e.preventDefault();
+        event.preventDefault();
         this.addMonths(-1);
         break;
       case "PageDown":
-        e.preventDefault();
+        event.preventDefault();
         this.addMonths(1);
         break;
       case "Home":
-        e.preventDefault();
+        event.preventDefault();
         this.activeDate.setDate(1);
         this.addDays();
         break;
       case "End":
-        e.preventDefault();
+        event.preventDefault();
         this.activeDate.setDate(
           new Date(this.activeDate.getFullYear(), this.activeDate.getMonth() + 1, 0).getDate()
         );
@@ -139,7 +151,7 @@ export class DatePickerMonth {
         break;
       case "Enter":
       case " ":
-        e.preventDefault();
+        event.preventDefault();
         break;
       case "Tab":
         this.activeFocus = false;
@@ -154,7 +166,7 @@ export class DatePickerMonth {
     this.activeFocus = false;
   };
 
-  @Listen("mouseout")
+  @Listen("pointerout")
   mouseoutHandler(): void {
     this.calciteInternalDatePickerMouseOut.emit();
   }
@@ -173,7 +185,7 @@ export class DatePickerMonth {
       this.scale === "s" ? narrow || short || abbreviated : short || abbreviated || narrow;
     const adjustedWeekDays = [...weekDays.slice(startOfWeek, 7), ...weekDays.slice(0, startOfWeek)];
     const curMonDays = this.getCurrentMonthDays(month, year);
-    const prevMonDays = this.getPrevMonthdays(month, year, startOfWeek);
+    const prevMonDays = this.getPreviousMonthDays(month, year, startOfWeek);
     const nextMonDays = this.getNextMonthDays(month, year, startOfWeek);
     const days = [
       ...prevMonDays.map((day) => {
@@ -236,7 +248,9 @@ export class DatePickerMonth {
   private addMonths(step: number) {
     const nextDate = new Date(this.activeDate);
     nextDate.setMonth(this.activeDate.getMonth() + step);
-    this.calciteDatePickerActiveDateChange.emit(dateFromRange(nextDate, this.min, this.max));
+    this.calciteInternalDatePickerActiveDateChange.emit(
+      dateFromRange(nextDate, this.min, this.max)
+    );
     this.activeFocus = true;
   }
 
@@ -248,7 +262,9 @@ export class DatePickerMonth {
   private addDays(step = 0) {
     const nextDate = new Date(this.activeDate);
     nextDate.setDate(this.activeDate.getDate() + step);
-    this.calciteDatePickerActiveDateChange.emit(dateFromRange(nextDate, this.min, this.max));
+    this.calciteInternalDatePickerActiveDateChange.emit(
+      dateFromRange(nextDate, this.min, this.max)
+    );
     this.activeFocus = true;
   }
 
@@ -259,15 +275,21 @@ export class DatePickerMonth {
    * @param year
    * @param startOfWeek
    */
-  private getPrevMonthdays(month: number, year: number, startOfWeek: number): number[] {
+  private getPreviousMonthDays(month: number, year: number, startOfWeek: number): number[] {
     const lastDate = new Date(year, month, 0);
     const date = lastDate.getDate();
-    const day = lastDate.getDay();
+    const startDay = lastDate.getDay();
     const days = [];
-    if (day - 6 === startOfWeek) {
+
+    if (startDay === (startOfWeek + DAYS_MAXIMUM_INDEX) % DAYS_PER_WEEK) {
       return days;
     }
-    for (let i = Math.abs(lastDate.getDay() - startOfWeek); i >= 0; i--) {
+
+    if (startDay === startOfWeek) {
+      return [date];
+    }
+
+    for (let i = (DAYS_PER_WEEK + startDay - startOfWeek) % DAYS_PER_WEEK; i >= 0; i--) {
       days.push(date - i);
     }
     return days;
@@ -298,10 +320,10 @@ export class DatePickerMonth {
   private getNextMonthDays(month: number, year: number, startOfWeek: number): number[] {
     const endDay = new Date(year, month + 1, 0).getDay();
     const days = [];
-    if (endDay === (startOfWeek + 6) % 7) {
+    if (endDay === (startOfWeek + DAYS_MAXIMUM_INDEX) % DAYS_PER_WEEK) {
       return days;
     }
-    for (let i = 0; i < (6 - (endDay - startOfWeek)) % 7; i++) {
+    for (let i = 0; i < (DAYS_MAXIMUM_INDEX - (endDay - startOfWeek)) % DAYS_PER_WEEK; i++) {
       days.push(i + 1);
     }
     return days;
@@ -359,19 +381,19 @@ export class DatePickerMonth {
     );
   }
 
-  dayHover = (e: CustomEvent): void => {
-    const target = e.target as HTMLCalciteDatePickerDayElement;
-    if (e.detail.disabled) {
+  dayHover = (event: CustomEvent): void => {
+    const target = event.target as HTMLCalciteDatePickerDayElement;
+    if (target.disabled) {
       this.calciteInternalDatePickerMouseOut.emit();
     } else {
       this.calciteInternalDatePickerHover.emit(target.value);
     }
-    e.stopPropagation();
+    event.stopPropagation();
   };
 
-  daySelect = (e: CustomEvent): void => {
-    const target = e.target as HTMLCalciteDatePickerDayElement;
-    this.calciteDatePickerSelect.emit(target.value);
+  daySelect = (event: CustomEvent): void => {
+    const target = event.target as HTMLCalciteDatePickerDayElement;
+    this.calciteInternalDatePickerSelect.emit(target.value);
   };
 
   /**
@@ -410,7 +432,6 @@ export class DatePickerMonth {
         endOfRange={this.isEndOfRange(date)}
         highlighted={this.betweenSelectedRange(date)}
         key={date.toDateString()}
-        localeData={this.localeData}
         onCalciteDaySelect={this.daySelect}
         onCalciteInternalDayHover={this.dayHover}
         range={!!this.startDate && !!this.endDate && !sameDate(this.startDate, this.endDate)}
@@ -459,8 +480,9 @@ export class DatePickerMonth {
       !insideRange &&
       ((!isStart && date >= this.endDate && (date < end || sameDate(date, end))) ||
         (isStart &&
-          (date < this.startDate || (this.endDate && sameDate(date, this.startDate))) &&
-          (date > start || sameDate(date, start))));
+          ((this.startDate && date < this.startDate) ||
+            (this.endDate && sameDate(date, this.startDate))) &&
+          ((start && date > start) || sameDate(date, start))));
     return cond1 || cond2;
   }
 }

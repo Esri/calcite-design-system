@@ -1,5 +1,5 @@
 export const CSS = {
-  article: "article",
+  container: "container",
   content: "content",
   headerContainer: "header-container",
   icon: "icon",
@@ -11,6 +11,7 @@ export const CSS = {
   header: "header",
   button: "button",
   summary: "summary",
+  description: "description",
   controlContainer: "control-container",
   valid: "valid",
   invalid: "invalid",
@@ -37,5 +38,3 @@ export const ICONS = {
   invalid: "exclamation-mark-triangle",
   refresh: "refresh"
 };
-
-export const HEADING_LEVEL = 4;

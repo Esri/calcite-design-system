@@ -1,13 +1,28 @@
+import { Build, Component, Element, h, Method, Prop, State, VNode, Watch } from "@stencil/core";
 import "form-request-submit-polyfill/form-request-submit-polyfill";
-import { Component, Element, h, Method, Prop, Build, State, VNode, Watch } from "@stencil/core";
-import { CSS, TEXT } from "./resources";
 import { closestElementCrossShadowBoundary } from "../../utils/dom";
-import { ButtonAlignment, ButtonAppearance, ButtonColor } from "./interfaces";
-import { FlipContext, Scale, Width } from "../interfaces";
-import { LabelableComponent, connectLabel, disconnectLabel, getLabelText } from "../../utils/label";
-import { createObserver } from "../../utils/observers";
+import { FormOwner, resetForm, submitForm } from "../../utils/form";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
-import { submitForm, resetForm, FormOwner } from "../../utils/form";
+import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
+import {
+  componentLoaded,
+  LoadableComponent,
+  setComponentLoaded,
+  setUpLoadableComponent
+} from "../../utils/loadable";
+import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
+import { createObserver } from "../../utils/observers";
+import {
+  connectMessages,
+  disconnectMessages,
+  setUpMessages,
+  T9nComponent,
+  updateMessages
+} from "../../utils/t9n";
+import { Appearance, FlipContext, Kind, Scale, Width } from "../interfaces";
+import { ButtonMessages } from "./assets/button/t9n";
+import { ButtonAlignment } from "./interfaces";
+import { CSS } from "./resources";
 
 /** Passing a 'href' will render an anchor link, instead of a button. Role will be set to link, or button, depending on this. */
 /** It is the consumers responsibility to add aria information, rel, target, for links, and any button attributes for form submission */
@@ -16,9 +31,18 @@ import { submitForm, resetForm, FormOwner } from "../../utils/form";
 @Component({
   tag: "calcite-button",
   styleUrl: "button.scss",
-  shadow: true
+  shadow: true,
+  assetsDirs: ["assets"]
 })
-export class Button implements LabelableComponent, InteractiveComponent, FormOwner {
+export class Button
+  implements
+    LabelableComponent,
+    InteractiveComponent,
+    FormOwner,
+    LoadableComponent,
+    LocalizedComponent,
+    T9nComponent
+{
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -33,73 +57,91 @@ export class Button implements LabelableComponent, InteractiveComponent, FormOwn
   //
   //--------------------------------------------------------------------------
 
-  /** optionally specify alignment of button elements. */
-  @Prop({ reflect: true }) alignment?: ButtonAlignment = "center";
+  /** Specifies the alignment of the component's elements. */
+  @Prop({ reflect: true }) alignment: ButtonAlignment = "center";
 
-  /** specify the appearance style of the button, defaults to solid. */
-  @Prop({ reflect: true }) appearance: ButtonAppearance = "solid";
+  /** Specifies the appearance style of the component. */
+  @Prop({ reflect: true }) appearance: Extract<
+    "outline" | "outline-fill" | "solid" | "transparent",
+    Appearance
+  > = "solid";
 
-  /** Applies to the aria-label attribute on the button or hyperlink */
-  @Prop() label?: string;
+  /** Accessible name for the component. */
+  @Prop() label: string;
 
-  /** specify the color of the button, defaults to blue */
-  @Prop({ reflect: true }) color: ButtonColor = "blue";
+  /** Specifies the kind of the component (will apply to border and background if applicable). */
+  @Prop({ reflect: true }) kind: Extract<"brand" | "danger" | "inverse" | "neutral", Kind> =
+    "brand";
 
-  /** is the button disabled  */
+  /**  When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @Prop({ reflect: true }) disabled = false;
 
-  /** optionally pass a href - used to determine if the component should render as a button or an anchor */
-  @Prop({ reflect: true }) href?: string;
+  /**
+   * Specifies the URL of the linked resource, which can be set as an absolute or relative path.
+   */
+  @Prop({ reflect: true }) href: string;
 
-  /** optionally pass an icon to display at the end of a button - accepts calcite ui icon names  */
-  @Prop({ reflect: true }) iconEnd?: string;
+  /** Specifies an icon to display at the end of the component. */
+  @Prop({ reflect: true }) iconEnd: string;
 
-  /** flip the icon(s) in rtl */
-  @Prop({ reflect: true }) iconFlipRtl?: FlipContext;
+  /** Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`). */
+  @Prop({ reflect: true }) iconFlipRtl: FlipContext;
 
-  /** optionally pass an icon to display at the start of a button - accepts calcite ui icon names  */
-  @Prop({ reflect: true }) iconStart?: string;
+  /** Specifies an icon to display at the start of the component. */
+  @Prop({ reflect: true }) iconStart: string;
 
   /**
-   * string to override English loading text
-   *
-   * @default "Loading"
+   * When `true`, a busy indicator is displayed and interaction is disabled.
    */
-  @Prop() intlLoading?: string = TEXT.loading;
-
-  /** optionally add a calcite-loader component to the button, disabling interaction.  */
   @Prop({ reflect: true }) loading = false;
 
-  /** The name attribute to apply to the button */
-  @Prop() name?: string;
-
-  /** The rel attribute to apply to the hyperlink */
-  @Prop() rel?: string;
+  /** Specifies the name of the component on form submission. */
+  @Prop({ reflect: true }) name?: string;
 
   /**
-   * The form ID to associate with the component
+   * Defines the relationship between the `href` value and the current document.
    *
-   * @deprecated – this property is no longer needed if placed inside a form.
+   * @mdn [rel](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/rel)
    */
-  @Prop() form?: string;
+  @Prop({ reflect: true }) rel: string;
 
-  /** optionally add a round style to the button  */
+  /** When `true`, adds a round style to the component. */
   @Prop({ reflect: true }) round = false;
 
-  /** specify the scale of the button, defaults to m */
+  /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";
 
-  /** is the button a child of a calcite-split-button */
-  @Prop({ reflect: true }) splitChild?: "primary" | "secondary" | false = false;
+  /** Specifies if the component is a child of a `calcite-split-button`. */
+  @Prop({ reflect: true }) splitChild: "primary" | "secondary" | false = false;
 
-  /** The target attribute to apply to the hyperlink */
-  @Prop() target?: string;
+  /**
+   * Specifies where to open the linked document defined in the `href` property.
+   *
+   * @mdn [target](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#attr-target)
+   */
+  @Prop({ reflect: true }) target: string;
 
-  /** The type attribute to apply to the button */
-  @Prop({ mutable: true }) type = "button";
+  /**
+   * Specifies the default behavior of the button.
+   *
+   * @mdn [type](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/button#attr-type)
+   */
+  @Prop({ mutable: true, reflect: true }) type = "button";
 
-  /** specify the width of the button, defaults to auto */
+  /** Specifies the width of the component. */
   @Prop({ reflect: true }) width: Width = "auto";
+
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @internal
+   */
+  @Prop({ mutable: true }) messages: ButtonMessages;
+
+  /**
+   * Use this property to override individual strings used by the component.
+   */
+  @Prop({ mutable: true }) messageOverrides: Partial<ButtonMessages>;
 
   @Watch("loading")
   loadingChanged(newValue: boolean, oldValue: boolean): void {
@@ -113,32 +155,44 @@ export class Button implements LabelableComponent, InteractiveComponent, FormOwn
     }
   }
 
+  @Watch("messageOverrides")
+  onMessagesChange(): void {
+    /** referred in t9n util */
+  }
+
   //--------------------------------------------------------------------------
   //
   //  Lifecycle
   //
   //--------------------------------------------------------------------------
 
-  connectedCallback(): void {
+  async connectedCallback(): Promise<void> {
+    connectLocalized(this);
+    connectMessages(this);
     this.hasLoader = this.loading;
     this.setupTextContentObserver();
     connectLabel(this);
-    this.formEl = closestElementCrossShadowBoundary<HTMLFormElement>(
-      this.el,
-      this.form ? `#${this.form}` : "form"
-    );
+    this.formEl = closestElementCrossShadowBoundary<HTMLFormElement>(this.el, "form");
   }
 
   disconnectedCallback(): void {
     this.mutationObserver?.disconnect();
     disconnectLabel(this);
+    disconnectLocalized(this);
+    disconnectMessages(this);
     this.formEl = null;
   }
 
-  componentWillLoad(): void {
+  async componentWillLoad(): Promise<void> {
+    setUpLoadableComponent(this);
     if (Build.isBrowser) {
       this.updateHasContent();
+      await setUpMessages(this);
     }
+  }
+
+  componentDidLoad(): void {
+    setComponentLoaded(this);
   }
 
   componentDidRender(): void {
@@ -151,21 +205,21 @@ export class Button implements LabelableComponent, InteractiveComponent, FormOwn
     const loaderNode = this.hasLoader ? (
       <div class={CSS.buttonLoader}>
         <calcite-loader
-          active
           class={this.loading ? CSS.loadingIn : CSS.loadingOut}
           inline
-          label={this.intlLoading}
-          scale="m"
+          label={this.messages.loading}
+          scale={this.scale === "l" ? "m" : "s"}
         />
       </div>
     ) : null;
+    const noStartEndIcons = !this.iconStart && !this.iconEnd;
 
     const iconStartEl = (
       <calcite-icon
         class={{ [CSS.icon]: true, [CSS.iconStart]: true }}
         flipRtl={this.iconFlipRtl === "start" || this.iconFlipRtl === "both"}
         icon={this.iconStart}
-        scale="s"
+        scale={this.scale === "l" ? "m" : "s"}
       />
     );
 
@@ -174,7 +228,7 @@ export class Button implements LabelableComponent, InteractiveComponent, FormOwn
         class={{ [CSS.icon]: true, [CSS.iconEnd]: true }}
         flipRtl={this.iconFlipRtl === "end" || this.iconFlipRtl === "both"}
         icon={this.iconEnd}
-        scale="s"
+        scale={this.scale === "l" ? "m" : "s"}
       />
     );
 
@@ -188,6 +242,8 @@ export class Button implements LabelableComponent, InteractiveComponent, FormOwn
       <Tag
         aria-label={getLabelText(this)}
         class={{
+          [CSS.buttonPadding]: noStartEndIcons,
+          [CSS.buttonPaddingShrunk]: !noStartEndIcons,
           [CSS.contentSlotted]: this.hasContent,
           [CSS.iconStartEmpty]: !this.iconStart,
           [CSS.iconEndEmpty]: !this.iconEnd
@@ -219,7 +275,9 @@ export class Button implements LabelableComponent, InteractiveComponent, FormOwn
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
-    this.childEl.focus();
+    await componentLoaded(this);
+
+    this.childEl?.focus();
   }
 
   //--------------------------------------------------------------------------
@@ -243,6 +301,15 @@ export class Button implements LabelableComponent, InteractiveComponent, FormOwn
 
   /** determine if loader present for styling purposes */
   @State() private hasLoader = false;
+
+  @State() effectiveLocale = "";
+
+  @Watch("effectiveLocale")
+  effectiveLocaleChange(): void {
+    updateMessages(this, this.effectiveLocale);
+  }
+
+  @State() defaultMessages: ButtonMessages;
 
   private updateHasContent() {
     const slottedContent = this.el.textContent.trim().length > 0 || this.el.childNodes.length > 0;

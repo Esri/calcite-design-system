@@ -1,22 +1,8 @@
-/**
- * CSS Custom Properties
- *
- * These properties can be overridden using the component's tag as selector.
- *
- * @prop --calcite-panel-max-height: the maximum height of the panel
- * @prop --calcite-panel-max-width: the maximum width of the panel
- * @prop --calcite-panel-min-width: the minimum width of the panel
- */
-
 :host {
   @extend %component-host;
-  @apply relative flex w-full flex-auto overflow-hidden;
+  @apply relative flex w-full h-full flex-auto overflow-hidden;
 
   --calcite-min-header-height: calc(var(--calcite-icon-size) * 3);
-  --calcite-panel-max-height: unset;
-  --calcite-panel-width: 100%;
-  --calcite-panel-min-width: unset;
-  --calcite-panel-max-width: unset;
 }
 
 @include disabled();
@@ -26,61 +12,23 @@
 .container {
   @apply bg-background m-0 flex w-full flex-auto flex-col items-stretch p-0;
 
-  max-height: var(--calcite-panel-max-height);
-  width: var(--calcite-panel-width);
-  max-width: var(--calcite-panel-max-width);
-  min-width: var(--calcite-panel-min-width);
-  transition: max-height var(--calcite-animation-timing), width var(--calcite-animation-timing);
-}
-
-:host([height-scale="s"]) {
-  --calcite-panel-max-height: 40vh;
-}
-
-:host([height-scale="m"]) {
-  --calcite-panel-max-height: 60vh;
-}
-
-:host([height-scale="l"]) {
-  --calcite-panel-max-height: 80vh;
-}
-
-:host([width-scale="s"]) {
-  --calcite-panel-width: calc(var(--calcite-panel-width-multiplier) * 12vw);
-  --calcite-panel-max-width: calc(var(--calcite-panel-width-multiplier) * 300px);
-  --calcite-panel-min-width: calc(var(--calcite-panel-width-multiplier) * 150px);
-}
-
-:host([width-scale="m"]) {
-  --calcite-panel-width: calc(var(--calcite-panel-width-multiplier) * 20vw);
-  --calcite-panel-max-width: calc(var(--calcite-panel-width-multiplier) * 420px);
-  --calcite-panel-min-width: calc(var(--calcite-panel-width-multiplier) * 240px);
-}
-
-:host([width-scale="l"]) {
-  --calcite-panel-width: calc(var(--calcite-panel-width-multiplier) * 45vw);
-  --calcite-panel-max-width: calc(var(--calcite-panel-width-multiplier) * 680px);
-  --calcite-panel-min-width: calc(var(--calcite-panel-width-multiplier) * 340px);
+  transition: max-block-size var(--calcite-animation-timing), inline-size var(--calcite-animation-timing);
 }
 
 .container[hidden] {
   @apply hidden;
 }
 
-:host([loading]) .container,
-:host([disabled]) .container {
-  @apply relative;
-}
-
 .header {
-  border-bottom: 1px solid;
+  border-block-end: 1px solid;
   @apply bg-foreground-1
     border-b-color-3
     sticky
     top-0
     w-full
     items-stretch
-    justify-start;
+    justify-start
+    z-header;
   flex: 0 0 auto;
 }
 
@@ -92,7 +40,7 @@
     py-3.5;
   margin-inline-end: auto;
   .heading,
-  .summary {
+  .description {
     @apply block
       break-words
       p-0;
@@ -103,7 +51,7 @@
       @apply mb-0;
     }
   }
-  .summary {
+  .description {
     @apply text-color-2 text-n1h;
   }
 }
@@ -122,20 +70,8 @@
   items-stretch;
 }
 
-.header-actions--end,
-.menu-container:only-child {
+.header-actions--end {
   margin-inline-start: theme("margin.auto");
-}
-
-.menu-button {
-  @apply relative
-    h-full
-    flex-initial
-    self-stretch;
-}
-.menu {
-  min-width: theme("spacing.40");
-  flex-flow: column nowrap;
 }
 
 .content-wrapper {
@@ -156,7 +92,7 @@
 }
 
 .footer {
-  border-top: 1px solid;
+  border-block-start: 1px solid;
   @apply bg-foreground-1
   border-t-color-3
   sticky
@@ -166,18 +102,22 @@
   justify-evenly;
 
   flex: 0 0 auto;
-  min-height: theme("spacing.12");
+  min-block-size: theme("spacing.12");
   padding: theme("spacing.2");
 }
 
 .fab-container {
   @apply sticky
   bottom-0
-  left-0
-  right-0
   my-0
   mx-auto
   block
-  p-2;
-  width: fit-content;
+  p-2
+  z-sticky;
+  inset-inline: 0;
+  inline-size: fit-content;
+}
+
+[hidden] {
+  display: none;
 }

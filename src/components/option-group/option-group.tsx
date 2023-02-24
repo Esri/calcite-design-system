@@ -1,4 +1,4 @@
-import { Component, h, Prop, VNode, Watch, Event, EventEmitter, Fragment } from "@stencil/core";
+import { Component, Event, EventEmitter, Fragment, h, Prop, VNode, Watch } from "@stencil/core";
 
 /**
  * @slot - A slot for adding `calcite-option`s.
@@ -16,7 +16,7 @@ export class OptionGroup {
   //--------------------------------------------------------------------------
 
   /**
-   * When true, it prevents selection from any of its associated options.
+   * When `true`, interaction is prevented and the component is displayed with lower opacity.
    */
   @Prop({
     reflect: true
@@ -24,7 +24,7 @@ export class OptionGroup {
   disabled = false;
 
   /**
-   * The group label. This property is required.
+   * Accessible name for the component.
    */
   @Prop()
   label!: string;
@@ -44,8 +44,8 @@ export class OptionGroup {
   /**
    * @internal
    */
-  @Event()
-  private calciteInternalOptionGroupChange: EventEmitter;
+  @Event({ cancelable: false })
+  private calciteInternalOptionGroupChange: EventEmitter<void>;
 
   //--------------------------------------------------------------------------
   //

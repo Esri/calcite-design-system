@@ -1,9 +1,9 @@
-import { Component, h, VNode, Prop, Element } from "@stencil/core";
-import { TileSelectGroupLayout } from "./interfaces";
+import { Component, Element, h, Prop, VNode } from "@stencil/core";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import { TileSelectGroupLayout } from "./interfaces";
 
 /**
- * @slot - A slot for adding `calcite-tile-select`s.
+ * @slot - A slot for adding `calcite-tile-select` elements.
  */
 @Component({
   tag: "calcite-tile-select-group",
@@ -25,11 +25,15 @@ export class TileSelectGroup implements InteractiveComponent {
   //
   //--------------------------------------------------------------------------
 
-  /** The disabled state of the tile select. */
+  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @Prop({ reflect: true }) disabled = false;
 
-  /** Tiles by default move horizontally, stacking with each row, vertical allows single-column layouts */
-  @Prop({ reflect: true }) layout?: TileSelectGroupLayout = "horizontal";
+  /**
+   * Defines the layout of the component.
+   *
+   * Use `"horizontal"` for rows, and `"vertical"` for a single column.
+   */
+  @Prop({ reflect: true }) layout: TileSelectGroupLayout = "horizontal";
 
   //--------------------------------------------------------------------------
   //

@@ -1,4 +1,4 @@
-import { Component, h, Prop, VNode, Element, EventEmitter, Event, Watch } from "@stencil/core";
+import { Component, Element, Event, EventEmitter, h, Prop, VNode, Watch } from "@stencil/core";
 import { createObserver } from "../../utils/observers";
 
 @Component({
@@ -14,7 +14,7 @@ export class Option {
   //--------------------------------------------------------------------------
 
   /**
-   * When true, it prevents the option from being selected.
+   * When `true`, interaction is prevented and the component is displayed with lower opacity.
    */
   @Prop({
     reflect: true
@@ -22,13 +22,13 @@ export class Option {
   disabled = false;
 
   /**
-   * The option label.
+   * Accessible name for the component.
    */
   @Prop({ mutable: true })
   label: string;
 
   /**
-   * When true, this option is selected. Otherwise, false.
+   * When `true`, the component is selected.
    */
   @Prop({
     reflect: true
@@ -36,7 +36,7 @@ export class Option {
   selected: boolean;
 
   /**
-   * The value associated with this option.
+   * The component's value.
    */
   @Prop({ mutable: true })
   value: any;
@@ -80,8 +80,8 @@ export class Option {
   /**
    * @internal
    */
-  @Event()
-  private calciteInternalOptionChange: EventEmitter;
+  @Event({ cancelable: false })
+  private calciteInternalOptionChange: EventEmitter<void>;
 
   //--------------------------------------------------------------------------
   //

@@ -3,25 +3,46 @@ import {
   Element,
   Event,
   EventEmitter,
-  Prop,
-  h,
-  VNode,
-  Method,
   Fragment,
+  h,
+  Method,
+  Prop,
+  State,
+  VNode,
   Watch
 } from "@stencil/core";
-import { debounce, forIn } from "lodash-es";
-import { CSS, ICONS, TEXT, DEBOUNCE_TIMEOUT } from "./resources";
-import { Scale } from "../interfaces";
-import { focusElement } from "../../utils/dom";
+import { debounce } from "lodash-es";
+import { filter } from "../../utils/filter";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import {
+  componentLoaded,
+  LoadableComponent,
+  setComponentLoaded,
+  setUpLoadableComponent
+} from "../../utils/loadable";
+import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
+import {
+  connectMessages,
+  disconnectMessages,
+  setUpMessages,
+  T9nComponent,
+  updateMessages
+} from "../../utils/t9n";
+import { Scale } from "../interfaces";
+import { FilterMessages } from "./assets/filter/t9n";
+import { CSS, DEBOUNCE_TIMEOUT, ICONS } from "./resources";
 
 @Component({
   tag: "calcite-filter",
   styleUrl: "filter.scss",
-  shadow: true
+  shadow: {
+    delegatesFocus: true
+  },
+  assetsDirs: ["assets"]
 })
-export class Filter implements InteractiveComponent {
+export class Filter
+  implements InteractiveComponent, LoadableComponent, LocalizedComponent, T9nComponent
+{
   // --------------------------------------------------------------------------
   //
   //  Properties
@@ -29,10 +50,12 @@ export class Filter implements InteractiveComponent {
   // --------------------------------------------------------------------------
 
   /**
-   * The items to filter through. The filter uses this as the starting point, and returns items
+   * Defines the items to filter. The component uses the values as the starting point, and returns items
+   *
    * that contain the string entered in the input, using a partial match and recursive search.
    *
-   * This property is required.
+   * This property is needed to conduct filtering.
+   *
    */
   @Prop({ mutable: true }) items: object[] = [];
 
@@ -42,39 +65,48 @@ export class Filter implements InteractiveComponent {
   }
 
   /**
-   * When true, disabled prevents interaction. This state shows items with lower opacity/grayed.
+   * When `true`, interaction is prevented and the component is displayed with lower opacity.
    */
   @Prop({ reflect: true }) disabled = false;
 
   /**
-   * The resulting items after filtering.
+   * The component's resulting items after filtering.
    *
    * @readonly
    */
   @Prop({ mutable: true }) filteredItems: object[] = [];
 
   /**
-   * A text label that will appear on the clear button.
+   * Specifies placeholder text for the input element.
    */
-  @Prop() intlClear?: string;
+  @Prop() placeholder: string;
 
   /**
-   * A text label that will appear next to the input field.
+   * Specifies the size of the component.
    */
-  @Prop() intlLabel?: string;
-
-  /**
-   * Placeholder text for the input element's placeholder attribute
-   */
-  @Prop() placeholder?: string;
-
-  /** specify the scale of filter, defaults to m */
   @Prop({ reflect: true }) scale: Scale = "m";
 
   /**
-   * Filter value.
+   * The component's value.
    */
   @Prop({ mutable: true }) value = "";
+
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @internal
+   */
+  @Prop({ mutable: true }) messages: FilterMessages;
+
+  /**
+   * Use this property to override individual strings used by the component.
+   */
+  @Prop({ mutable: true }) messageOverrides: Partial<FilterMessages>;
+
+  @Watch("messageOverrides")
+  onMessagesChange(): void {
+    /* wired up by t9n util */
+  }
 
   @Watch("value")
   valueHandler(value: string): void {
@@ -83,7 +115,7 @@ export class Filter implements InteractiveComponent {
 
   // --------------------------------------------------------------------------
   //
-  //  Private Properties
+  //  Private State/Properties
   //
   // --------------------------------------------------------------------------
 
@@ -91,15 +123,14 @@ export class Filter implements InteractiveComponent {
 
   textInput: HTMLCalciteInputElement;
 
-  //--------------------------------------------------------------------------
-  //
-  //  Lifecycle
-  //
-  //--------------------------------------------------------------------------
+  @State() effectiveLocale: string;
 
-  componentDidRender(): void {
-    updateHostInteraction(this);
+  @Watch("effectiveLocale")
+  effectiveLocaleChange(): void {
+    updateMessages(this, this.effectiveLocale);
   }
+
+  @State() defaultMessages: FilterMessages;
 
   // --------------------------------------------------------------------------
   //
@@ -110,7 +141,7 @@ export class Filter implements InteractiveComponent {
   /**
    * This event fires when the filter text changes.
    */
-  @Event() calciteFilterChange: EventEmitter<void>;
+  @Event({ cancelable: false }) calciteFilterChange: EventEmitter<void>;
 
   //--------------------------------------------------------------------------
   //
@@ -118,8 +149,29 @@ export class Filter implements InteractiveComponent {
   //
   //--------------------------------------------------------------------------
 
-  componentWillLoad(): void {
+  async componentWillLoad(): Promise<void> {
+    setUpLoadableComponent(this);
+    this.updateFiltered(filter(this.items, this.value));
     this.filter(this.value);
+    await setUpMessages(this);
+  }
+
+  connectedCallback(): void {
+    connectLocalized(this);
+    connectMessages(this);
+  }
+
+  componentDidRender(): void {
+    updateHostInteraction(this);
+  }
+
+  disconnectedCallback(): void {
+    disconnectLocalized(this);
+    disconnectMessages(this);
+  }
+
+  componentDidLoad(): void {
+    setComponentLoaded(this);
   }
 
   // --------------------------------------------------------------------------
@@ -131,7 +183,9 @@ export class Filter implements InteractiveComponent {
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
-    focusElement(this.textInput);
+    await componentLoaded(this);
+
+    this.el?.focus();
   }
 
   // --------------------------------------------------------------------------
@@ -140,38 +194,10 @@ export class Filter implements InteractiveComponent {
   //
   // --------------------------------------------------------------------------
 
-  filter = debounce((value: string, emit = false): void => {
-    const regex = new RegExp(value, "i");
-
-    if (this.items.length === 0) {
-      this.updateFiltered([], emit);
-      return;
-    }
-
-    const find = (input: object, RE: RegExp): any => {
-      let found = false;
-      forIn(input, (val) => {
-        if (typeof val === "function" || val == null /* intentional == to catch undefined */) {
-          return;
-        }
-        if (Array.isArray(val) || (typeof val === "object" && val !== null)) {
-          if (find(val, RE)) {
-            found = true;
-          }
-        } else if (RE.test(val)) {
-          found = true;
-        }
-      });
-
-      return found;
-    };
-
-    const result = this.items.filter((item) => {
-      return find(item, regex);
-    });
-
-    this.updateFiltered(result, emit);
-  }, DEBOUNCE_TIMEOUT);
+  private filter = debounce(
+    (value: string, emit = false): void => this.updateFiltered(filter(this.items, value), emit),
+    DEBOUNCE_TIMEOUT
+  );
 
   inputHandler = (event: CustomEvent): void => {
     const target = event.target as HTMLCalciteInputElement;
@@ -182,6 +208,7 @@ export class Filter implements InteractiveComponent {
   keyDownHandler = (event: KeyboardEvent): void => {
     if (event.key === "Escape") {
       this.clear();
+      event.preventDefault();
     }
 
     if (event.key === "Enter") {
@@ -217,11 +244,11 @@ export class Filter implements InteractiveComponent {
         <div class={CSS.container}>
           <label>
             <calcite-input
-              aria-label={this.intlLabel || TEXT.filterLabel}
+              aria-label={this.messages.label}
               clearable={true}
               disabled={disabled}
               icon={ICONS.search}
-              intlClear={this.intlClear || TEXT.clear}
+              messageOverrides={{ clear: this.messages.clear }}
               onCalciteInputInput={this.inputHandler}
               onKeyDown={this.keyDownHandler}
               placeholder={this.placeholder}

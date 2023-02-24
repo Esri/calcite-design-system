@@ -17,23 +17,24 @@
 
 ## Properties
 
-| Property      | Attribute     | Description                                                                                              | Type      | Default     |
-| ------------- | ------------- | -------------------------------------------------------------------------------------------------------- | --------- | ----------- |
-| `active`      | `active`      | The active state of the tile.                                                                            | `boolean` | `false`     |
-| `description` | `description` | The description text that appears beneath the heading of the tile.                                       | `string`  | `undefined` |
-| `disabled`    | `disabled`    | When true, prevents interaction.                                                                         | `boolean` | `false`     |
-| `embed`       | `embed`       | The embed mode of the tile. When true, renders without a border and padding for use by other components. | `boolean` | `false`     |
-| `heading`     | `heading`     | The heading text that appears between the icon and description of the tile.                              | `string`  | `undefined` |
-| `hidden`      | `hidden`      | The hidden state of the tile.                                                                            | `boolean` | `false`     |
-| `href`        | `href`        | The (optional) url for the tile. (Only applies when embed is set to false)                               | `string`  | `undefined` |
-| `icon`        | `icon`        | The icon that appears at the top of the tile.                                                            | `string`  | `undefined` |
+| Property      | Attribute       | Description                                                                                                | Type      | Default     |
+| ------------- | --------------- | ---------------------------------------------------------------------------------------------------------- | --------- | ----------- |
+| `active`      | `active`        | When `true`, the component is active.                                                                      | `boolean` | `false`     |
+| `description` | `description`   | A description for the component, which displays below the heading.                                         | `string`  | `undefined` |
+| `disabled`    | `disabled`      | When `true`, interaction is prevented and the component is displayed with lower opacity.                   | `boolean` | `false`     |
+| `embed`       | `embed`         | The component's embed mode. When `true`, renders without a border and padding for use by other components. | `boolean` | `false`     |
+| `heading`     | `heading`       | The component header text, which displays between the icon and description.                                | `string`  | `undefined` |
+| `hidden`      | `hidden`        | When `true`, the component is not displayed and is not focusable.                                          | `boolean` | `false`     |
+| `href`        | `href`          | When embed is `"false"`, the URL for the component.                                                        | `string`  | `undefined` |
+| `icon`        | `icon`          | Specifies an icon to display.                                                                              | `string`  | `undefined` |
+| `iconFlipRtl` | `icon-flip-rtl` | When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).               | `boolean` | `false`     |
 
 ## Slots
 
-| Slot              | Description                                                        |
-| ----------------- | ------------------------------------------------------------------ |
-| `"content-end"`   | A slot for adding non-actionable elements after the tile content.  |
-| `"content-start"` | A slot for adding non-actionable elements before the tile content. |
+| Slot              | Description                                                               |
+| ----------------- | ------------------------------------------------------------------------- |
+| `"content-end"`   | A slot for adding non-actionable elements after the component's content.  |
+| `"content-start"` | A slot for adding non-actionable elements before the component's content. |
 
 ## Dependencies
 

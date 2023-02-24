@@ -27,11 +27,15 @@ calcite-value-list-item:last-of-type {
     items-center
     justify-end;
   &.sticky-pos {
-    @apply sticky top-0 z-10;
+    @apply sticky top-0 z-sticky;
   }
   @apply shadow-border-bottom;
 }
 
 calcite-filter {
   @apply mb-px;
+}
+
+.assistive-text {
+  @apply sr-only;
 }

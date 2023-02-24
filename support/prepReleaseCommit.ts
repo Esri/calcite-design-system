@@ -1,177 +1,162 @@
-import type { Options } from "standard-version";
-
-const childProcess = require("child_process");
-const { promises: fs } = require("fs");
-const gitSemverTags = require("git-semver-tags");
-const { normalize } = require("path");
-const pify = require("pify");
-const prettier = require("prettier");
-const semver = require("semver");
-const { quote } = require("shell-quote");
-const standardVersion = require("standard-version");
-const { argv } = require("yargs");
-
-const exec = pify(childProcess.exec);
-const header = `# Changelog\n\nThis document maintains a list of released versions and changes introduced by them.\nThis project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html)\n`;
-const unreleasedSectionTokenStart = "<!--@unreleased-section-start-->";
-const unreleasedSectionTokenEnd = "<!--@unreleased-section-end-->";
-const changelogPath = quote([normalize(`${__dirname}/../CHANGELOG.md`)]);
-const readmePath = quote([normalize(`${__dirname}/../readme.md`)]);
-
 (async function prepReleaseCommit(): Promise<void> {
-  const { next } = argv;
+  const childProcess = await import("child_process");
+  const { promisify } = await import("util");
+  const { promises: fs } = await import("fs");
+  const { default: semver } = await import("semver");
+  const { dirname, normalize } = await import("path");
+  const prettier = await import("prettier");
+  const { quote } = await import("shell-quote");
+  const { fileURLToPath } = await import("url");
+  const exec = promisify(childProcess.exec);
+
+  const header = `# Changelog\n\nThis document maintains a list of released versions and changes introduced by them.\nThis project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html)\n\n`;
+  const unreleasedSectionTokenStart = "<!--@unreleased-section-start-->";
+  const unreleasedSectionTokenEnd = "<!--@unreleased-section-end-->";
+  const __filename = fileURLToPath(import.meta.url);
+  const __dirname = dirname(__filename);
+  const changelogPath = quote([normalize(`${__dirname}/../CHANGELOG.md`)]);
+  const readmePath = quote([normalize(`${__dirname}/../readme.md`)]);
+  const packagePath = quote([normalize(`${__dirname}/../package.json`)]);
+
+  // git sanity checks to prevent unapproved changes from making it into a release
+  if ((await exec("git rev-parse --abbrev-ref HEAD")).stdout.trim() !== "master") {
+    throw new Error("The master branch must be checked out before releasing.");
+  }
+  if (
+    (await exec("git rev-parse master")).stdout.trim() !== (await exec("git rev-parse origin/master")).stdout.trim()
+  ) {
+    throw new Error("The master branch must be in sync with origin before releasing.");
+  }
 
   // deepen the history when fetching tags due to shallow clone
   await exec("git fetch --deepen=250 --tags");
 
-  const previousReleasedTag = (await exec("git describe --abbrev=0 --tags", { encoding: "utf-8" })).trim();
   const prereleaseVersionPattern = /-next\.\d+$/;
-  const previousReleaseIsPrerelease = prereleaseVersionPattern.test(previousReleasedTag);
-  const semverTags = await pify(gitSemverTags)();
-  let standardVersionOptions: Options;
+
+  const currentLatestVersion = (await exec("npm view @esri/calcite-components dist-tags.latest")).stdout.trim();
+  const currentNextVersion = (await exec("npm view @esri/calcite-components dist-tags.next")).stdout.trim();
+  const releaseVersion = JSON.parse(await fs.readFile(packagePath, "utf8"))?.version;
+  const next = prereleaseVersionPattern.test(releaseVersion);
+
+  if (
+    !semver.valid(releaseVersion) ||
+    (!next && semver.gte(currentLatestVersion, releaseVersion)) ||
+    (next && semver.gte(currentNextVersion, releaseVersion))
+  ) {
+    throw new Error("Version was not incremented correctly");
+  }
 
   const baseErrorMessage = "an error occurred generating the changelog";
 
+  const changelogGenerationErrorMessage = `${baseErrorMessage} (releasing as: ${releaseVersion})`;
+
   try {
-    // create options before temp-deleting (prerelease) tags to prevent standard-version's tagging getting out of sync
-    standardVersionOptions = await getStandardVersionOptions(next, semverTags);
-  } catch (error) {
-    console.log(baseErrorMessage);
-    await exec(`echo ${baseErrorMessage}`);
-
-    process.exitCode = 1;
-    return;
-  }
-
-  const changelogGenerationErrorMessage = `${baseErrorMessage} (releasing as: ${standardVersionOptions.releaseAs})`;
-
-  if (!previousReleaseIsPrerelease) {
-    try {
-      await runStandardVersion(next, standardVersionOptions);
-    } catch (error) {
-      console.log(changelogGenerationErrorMessage);
-      await exec(`echo ${changelogGenerationErrorMessage}`);
-
-      process.exitCode = 1;
+    if (next) {
+      await appendUnreleasedNotesToChangelog();
+    } else {
+      await convertUnreleasedChangelogContent(releaseVersion);
+      await updateReadmeCdnUrls(releaseVersion);
+      await exec(`git add ${readmePath}`);
     }
-    return;
-  }
-
-  const indexOfNonNextTag = semverTags.findIndex((tag) => !prereleaseVersionPattern.test(tag));
-  const nextTagsSinceLastRelease = semverTags.slice(0, indexOfNonNextTag);
-
-  try {
-    // delete prerelease tags locally, so they can be ignored when generating the changelog
-    await exec(`git tag --delete ${nextTagsSinceLastRelease.join(" ")}`);
-
-    await runStandardVersion(next, standardVersionOptions);
+    await exec(`git add ${changelogPath}`);
   } catch (error) {
     console.log(changelogGenerationErrorMessage);
-    await exec(`echo ${changelogGenerationErrorMessage}`);
     process.exitCode = 1;
-  } finally {
-    // restore deleted prerelease tags
-    await exec(`git fetch --tags`);
+  }
+
+  async function convertUnreleasedChangelogContent(version: string): Promise<void> {
+    const changelogContent: string = await fs.readFile(changelogPath, { encoding: "utf8" });
+    const date = new Date();
+    const adjustedDate = new Date(date.getTime() - date.getTimezoneOffset() * 60 * 1000).toISOString().split("T")[0];
+    const versionHeader = `## [v${version}](https://github.com/Esri/calcite-components/compare/v${currentLatestVersion}...v${version}) (${adjustedDate})`;
+    const unreleasedSectionPatternStart = new RegExp(`${unreleasedSectionTokenStart}.*## Unreleased`, "s");
+    const updatedChangelogContent = `${header}${versionHeader}\n${changelogContent
+      .replace(header, "")
+      .replace(unreleasedSectionPatternStart, "")
+      .replace(unreleasedSectionTokenEnd, "")}`;
+    await fs.writeFile(changelogPath, updatedChangelogContent);
+  }
+
+  async function appendUnreleasedNotesToChangelog(): Promise<void> {
+    let changelogContent: string = await fs.readFile(changelogPath, { encoding: "utf8" });
+
+    const needsUnreleasedSectionTokens = !changelogContent.includes(unreleasedSectionTokenStart);
+
+    if (needsUnreleasedSectionTokens) {
+      changelogContent = changelogContent.replace(
+        header,
+        `${header}\n${unreleasedSectionTokenStart}${unreleasedSectionTokenEnd}\n`
+      );
+    }
+
+    const unreleasedSectionPattern = new RegExp(
+      `(${unreleasedSectionTokenStart})(.*)(${unreleasedSectionTokenEnd})`,
+      "s"
+    );
+    const unreleasedSectionContent = await getUnreleasedChangelogContents();
+    const unreleasedHeaderPattern = /## Unreleased \(\d{4}-\d{2}-\d{2}\)/;
+    const hasUnreleasedContent = unreleasedSectionContent.replace(unreleasedHeaderPattern, "").trim().length > 0;
+
+    if (hasUnreleasedContent) {
+      const getChangelogSection = (changes: string, startPattern: string, endPattern: string): string => {
+        if (!startPattern || !endPattern || !changes) {
+          return "";
+        }
+        const match = changes.match(new RegExp(`${startPattern}(.*?)${endPattern}`, "s"));
+        return match && match.length > 1 ? match[1] : "";
+      };
+
+      const combineUnreleasedChangelogContent = (existingChanges: string, newChanges: string): string =>
+        ["### ⚠ BREAKING CHANGES", "### Features", "### Bug Fixes", "### Reverts"]
+          .map((sectionHeader) => {
+            const newSection = getChangelogSection(newChanges, sectionHeader, "##");
+            const existingSection = getChangelogSection(existingChanges, sectionHeader, "##");
+            return `${newSection || existingSection ? sectionHeader : ""}\n${newSection}\n${existingSection}`;
+          })
+          .join("");
+
+      const existingUnreleasedSectionContent = getChangelogSection(
+        changelogContent,
+        unreleasedSectionTokenStart,
+        unreleasedSectionTokenEnd
+      );
+      const combinedUnreleasedContent = combineUnreleasedChangelogContent(
+        // append the endPattern used for determining sections
+        `${existingUnreleasedSectionContent}\n##`,
+        `${unreleasedSectionContent}\n##`
+      );
+
+      changelogContent = changelogContent.replace(
+        unreleasedSectionPattern,
+        `$1\n## Unreleased\n${combinedUnreleasedContent}\n$3`
+      );
+    }
+
+    changelogContent = prettier.format(changelogContent, { parser: "markdown" });
+
+    await fs.writeFile(changelogPath, changelogContent);
+  }
+
+  async function getUnreleasedChangelogContents(): Promise<string> {
+    // invoking this way since we want the CLI module behavior, which doesn't provide a way to programmatically use it
+    return (
+      await exec(
+        "npx conventional-changelog --release-count 1 --output-unreleased --preset conventionalcommits --context support/.unreleased-changelog-context.json",
+        { encoding: "utf-8" }
+      )
+    ).stdout.trim();
+  }
+
+  async function updateReadmeCdnUrls(version: string): Promise<void> {
+    const scriptTagPattern = /(<script\s+type="module"\s+src=").+("\s*><\/script>)/m;
+    const linkTagPattern = /(<link\s+rel="stylesheet"\s+type="text\/css"\s+href=").+("\s*\/>)/m;
+    const baseCdnUrl = `https://unpkg.com/@esri/calcite-components@${version}/dist/calcite/calcite.`;
+
+    const readmeContent: string = await fs.readFile(readmePath, { encoding: "utf8" });
+    const updatedReadmeContent = readmeContent
+      .replace(scriptTagPattern, `$1${baseCdnUrl}esm.js$2`)
+      .replace(linkTagPattern, `$1${baseCdnUrl}css$2`);
+
+    await fs.writeFile(readmePath, updatedReadmeContent);
   }
 })();
-
-async function getStandardVersionOptions(next: boolean, semverTags: string[]): Promise<Options> {
-  const target = next ? "next" : "beta";
-  const targetVersionPattern = new RegExp(`-${target}\\.\\d+$`);
-
-  await exec(`echo ${semverTags}`);
-
-  // we keep track of `beta` and `next` releases since `standard-version` resets the version number when going in between
-  // this should not be needed after v1.0.0 since there would no longer be a beta version to keep track of
-  const targetDescendingOrderTags = semverTags.filter((tag) => targetVersionPattern.test(tag)).sort(semver.rcompare);
-  const targetReleaseVersion = semver.inc(targetDescendingOrderTags[0], "prerelease", target);
-
-  await exec(`echo ${targetDescendingOrderTags}`);
-
-  if (!targetVersionPattern.test(targetReleaseVersion)) {
-    throw new Error(`target release version does not have prerelease identifier (${target})`);
-  }
-
-  const standardVersionOptions: Options = {
-    commitAll: true,
-    noVerify: true,
-    header,
-    releaseAs: targetReleaseVersion,
-    releaseCommitMessageFormat: "{{currentTag}}"
-  };
-
-  if (next) {
-    // prerelease changelogs are updated in a separate method
-    standardVersionOptions.skip = { changelog: true };
-  }
-
-  return standardVersionOptions;
-}
-
-async function runStandardVersion(next: boolean, standardVersionOptions: Options): Promise<void> {
-  if (next) {
-    await appendUnreleasedNotesToChangelog();
-    await exec(`git add ${changelogPath}`);
-  } else {
-    await updateReadmeCdnUrls(standardVersionOptions.releaseAs);
-    await exec(`git add ${readmePath}`);
-  }
-
-  await standardVersion(standardVersionOptions);
-}
-
-async function appendUnreleasedNotesToChangelog(): Promise<void> {
-  let changelogContent: string = await fs.readFile(changelogPath, { encoding: "utf8" });
-
-  const needsUnreleasedSectionTokens = !changelogContent.includes(unreleasedSectionTokenStart);
-
-  if (needsUnreleasedSectionTokens) {
-    changelogContent = changelogContent.replace(
-      header,
-      `${header}\n${unreleasedSectionTokenStart}${unreleasedSectionTokenEnd}\n`
-    );
-  }
-
-  const unreleasedSectionPattern = new RegExp(
-    `(${unreleasedSectionTokenStart})(.*)(${unreleasedSectionTokenEnd})`,
-    "s"
-  );
-  const unreleasedSectionContent = await getUnreleasedChangelogContents();
-  const unreleasedHeaderPattern = /## Unreleased \(\d{4}-\d{2}-\d{2}\)/;
-  const hasUnreleasedContent = unreleasedSectionContent.replace(unreleasedHeaderPattern, "").trim().length > 0;
-
-  if (hasUnreleasedContent) {
-    changelogContent = changelogContent.replace(unreleasedSectionPattern, `$1\n${unreleasedSectionContent}\n$3`);
-
-    // remove date to make linking easier
-    // https://github.com/Esri/calcite-components/blob/master/CHANGELOG.md#unreleased
-    changelogContent = changelogContent.replace(unreleasedHeaderPattern, "## Unreleased");
-  }
-
-  changelogContent = prettier.format(changelogContent, { parser: "markdown" });
-
-  await fs.writeFile(changelogPath, changelogContent);
-}
-
-async function getUnreleasedChangelogContents(): Promise<string> {
-  // invoking this way since we want the CLI module behavior, which doesn't provide a way to programmatically use it
-  return (
-    await exec(
-      "npx conventional-changelog --release-count 1 --output-unreleased --preset conventionalcommits --context support/.unreleased-changelog-context.json",
-      { encoding: "utf-8" }
-    )
-  ).trim();
-}
-
-async function updateReadmeCdnUrls(version: string): Promise<void> {
-  const scriptTagPattern = /(<script\s+type="module"\s+src=").+("\s*><\/script>)/m;
-  const linkTagPattern = /(<link\s+rel="stylesheet"\s+type="text\/css"\s+href=").+("\s*\/>)/m;
-  const baseCdnUrl = `https://unpkg.com/@esri/calcite-components@${version}/dist/calcite/calcite.`;
-
-  const readmeContent: string = await fs.readFile(readmePath, { encoding: "utf8" });
-  const updatedReadmeContent = readmeContent
-    .replace(scriptTagPattern, `$1${baseCdnUrl}esm.js$2`)
-    .replace(linkTagPattern, `$1${baseCdnUrl}css$2`);
-
-  await fs.writeFile(readmePath, updatedReadmeContent);
-}

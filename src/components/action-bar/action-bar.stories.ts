@@ -1,21 +1,22 @@
-import { boolean, select, text } from "@storybook/addon-knobs";
-import {
-  Attributes,
-  Attribute,
-  filterComponentAttributes,
-  createComponentHTML as create,
-  themesDarkDefault
-} from "../../../.storybook/utils";
-import readme from "./readme.md";
+import { boolean, select } from "@storybook/addon-knobs";
+import { storyFilters } from "../../../.storybook/helpers";
 import { ATTRIBUTES } from "../../../.storybook/resources";
+import {
+  Attribute,
+  Attributes,
+  createComponentHTML as create,
+  filterComponentAttributes,
+  modesDarkDefault
+} from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
-import { TEXT } from "./resources";
+import readme from "./readme.md";
 
 export default {
   title: "Components/Action Bar",
   parameters: {
     notes: readme
-  }
+  },
+  ...storyFilters()
 };
 
 const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ exceptions } = { exceptions: [] }) => {
@@ -40,22 +41,6 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
         }
       },
       {
-        name: "intl-expand",
-        commit(): Attribute {
-          this.value = text("intlExpand", TEXT.expand);
-          delete this.build;
-          return this;
-        }
-      },
-      {
-        name: "intl-collapse",
-        commit(): Attribute {
-          this.value = text("intlCollapse", TEXT.collapse);
-          delete this.build;
-          return this;
-        }
-      },
-      {
         name: "position",
         commit(): Attribute {
           this.value = select("position", position.values, position.defaultValue);
@@ -68,7 +53,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
   );
 };
 
-export const basic = (): string =>
+export const simple = (): string =>
   create(
     "calcite-action-bar",
     createAttributes(),
@@ -83,7 +68,61 @@ export const basic = (): string =>
     `
   );
 
-export const darkThemeRTL = (): string =>
+export const horizontal = (): string => html`
+  <div style="width: 500px;">
+    <calcite-action-bar layout="horizontal" style="width:100%">
+      <calcite-action-group layout="horizontal">
+        <calcite-action text="Add" icon="plus"> </calcite-action>
+        <calcite-action text="Save" icon="save"> </calcite-action>
+        <calcite-action text="Layers" icon="layers"> </calcite-action>
+      </calcite-action-group>
+      <calcite-action-group layout="horizontal">
+        <calcite-action text="Add" icon="plus"> </calcite-action>
+        <calcite-action text="Save" active icon="save"> </calcite-action>
+        <calcite-action text="Layers" icon="layers"> </calcite-action>
+      </calcite-action-group>
+      <calcite-action slot="bottom-actions" text="hello world" icon="layers"> </calcite-action>
+    </calcite-action-bar>
+  </div>
+`;
+
+export const horizontalSmall = (): string => html`
+  <div style="width: 250px;">
+    <calcite-action-bar layout="horizontal" style="width:100%">
+      <calcite-action-group layout="horizontal">
+        <calcite-action text="Add" icon="plus"> </calcite-action>
+        <calcite-action text="Save" icon="save"> </calcite-action>
+        <calcite-action text="Layers" icon="layers"> </calcite-action>
+      </calcite-action-group>
+      <calcite-action-group layout="horizontal">
+        <calcite-action text="Add" icon="plus"> </calcite-action>
+        <calcite-action text="Save" active icon="save"> </calcite-action>
+        <calcite-action text="Layers" icon="layers"> </calcite-action>
+      </calcite-action-group>
+      <calcite-action slot="bottom-actions" text="hello world" icon="layers"> </calcite-action>
+    </calcite-action-bar>
+  </div>
+`;
+
+export const withDefinedWidths = (): string =>
+  html`
+    <style>
+      calcite-action-bar {
+        --calcite-action-bar-expanded-max-width: 150px;
+      }
+    </style>
+    <calcite-action-bar expanded>
+      <calcite-action-group>
+        <calcite-action text="Add to my custom action bar application" icon="plus"></calcite-action>
+        <calcite-action text="Save to my custom action bar application" icon="save"></calcite-action>
+      </calcite-action-group>
+      <calcite-action-group>
+        <calcite-action text="Layers in my custom action bar application" icon="layers"></calcite-action>
+      </calcite-action-group>
+    </calcite-action-bar>
+  `;
+
+export const darkModeRTL_TestOnly = (): string =>
   create(
     "calcite-action-bar",
     createAttributes({ exceptions: ["dir", "class"] }).concat([
@@ -93,7 +132,7 @@ export const darkThemeRTL = (): string =>
       },
       {
         name: "class",
-        value: "calcite-theme-dark"
+        value: "calcite-mode-dark"
       }
     ]),
     html`
@@ -107,9 +146,9 @@ export const darkThemeRTL = (): string =>
     `
   );
 
-darkThemeRTL.parameters = { themes: themesDarkDefault };
+darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
 
-export const withTooltip = (): string =>
+export const withTooltip_NoTest = (): string =>
   create(
     "calcite-action-bar",
     createAttributes(),
@@ -118,3 +157,37 @@ export const withTooltip = (): string =>
       <calcite-action text="Add" icon="plus"></calcite-action>
     `
   );
+
+withTooltip_NoTest.parameters = {
+  chromatic: { disableSnapshot: true }
+};
+
+export const hebrewLocale_TestOnly = (): string => `<calcite-action-bar expanded lang="he">
+<calcite-action text="Information" icon="information"></calcite-action>
+<calcite-action text="Feedback" slot="bottom-actions" icon="mega-phone"></calcite-action>
+</calcite-action-bar>`;
+
+export const norwegianLocale_TestOnly = (): string => `<calcite-action-bar expanded lang="nb">
+<calcite-action text="Information" icon="information"></calcite-action>
+<calcite-action text="Feedback" slot="bottom-actions" icon="mega-phone"></calcite-action>
+</calcite-action-bar>`;
+
+export const FrenchLocale_TestOnly = (): string => `<calcite-action-bar expanded lang="fr">
+<calcite-action text="Information" icon="information"></calcite-action>
+<calcite-action text="Feedback" slot="bottom-actions" icon="mega-phone"></calcite-action>
+</calcite-action-bar>`;
+
+export const hongKongLocale_TestOnly = (): string => `<calcite-action-bar expanded lang="zh-HK">
+<calcite-action text="Information" icon="information"></calcite-action>
+<calcite-action text="Feedback" slot="bottom-actions" icon="mega-phone"></calcite-action>
+</calcite-action-bar>`;
+
+export const ukranianLocale_TestOnly = (): string => `<calcite-action-bar expanded lang="uk">
+<calcite-action text="Information" icon="information"></calcite-action>
+<calcite-action text="Feedback" slot="bottom-actions" icon="mega-phone"></calcite-action>
+</calcite-action-bar>`;
+
+export const bosnianLocale_TestOnly = (): string => `<calcite-action-bar expanded lang="bs">
+<calcite-action text="Information" icon="information"></calcite-action>
+<calcite-action text="Feedback" slot="bottom-actions" icon="mega-phone"></calcite-action>
+</calcite-action-bar>`;

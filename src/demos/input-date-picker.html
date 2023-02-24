@@ -40,62 +40,64 @@
     </style>
   </head>
   <body>
-    <!-- Sizes -->
-    <div class="parent-flex">
-      <div class="child-flex font right-aligned-text"></div>
-      <div class="child-flex font">Small</div>
-      <div class="child-flex font">Medium</div>
-      <div class="child-flex font">Large</div>
-    </div>
-
-    <!-- Standard -->
-    <div class="parent-flex">
-      <div class="child-flex font right-aligned-text">Standard</div>
-      <div class="child-flex">
-        <calcite-label>
-          Input Date Picker Label
-          <calcite-input-date-picker scale="s" value="2023-03-07"></calcite-input-date-picker>
-        </calcite-label>
+    <demo-dom-swapper>
+      <!-- Sizes -->
+      <div class="parent-flex">
+        <div class="child-flex font right-aligned-text"></div>
+        <div class="child-flex font">Small</div>
+        <div class="child-flex font">Medium</div>
+        <div class="child-flex font">Large</div>
       </div>
 
-      <div class="child-flex">
-        <calcite-label>
-          Input Date Picker Label
-          <calcite-input-date-picker scale="m" value="2023-03-07"></calcite-input-date-picker>
-        </calcite-label>
+      <!-- Standard -->
+      <div class="parent-flex">
+        <div class="child-flex font right-aligned-text">Standard</div>
+        <div class="child-flex">
+          <calcite-label>
+            Input Date Picker Label
+            <calcite-input-date-picker scale="s" value="2023-03-07"></calcite-input-date-picker>
+          </calcite-label>
+        </div>
+
+        <div class="child-flex">
+          <calcite-label>
+            Input Date Picker Label
+            <calcite-input-date-picker scale="m" value="2023-03-07"></calcite-input-date-picker>
+          </calcite-label>
+        </div>
+
+        <div class="child-flex">
+          <calcite-label>
+            Input Date Picker Label
+            <calcite-input-date-picker scale="l" value="2023-03-07"></calcite-input-date-picker>
+          </calcite-label>
+        </div>
       </div>
 
-      <div class="child-flex">
-        <calcite-label>
-          Input Date Picker Label
-          <calcite-input-date-picker scale="l" value="2023-03-07"></calcite-input-date-picker>
-        </calcite-label>
-      </div>
-    </div>
+      <!-- Range -->
+      <div class="parent-flex">
+        <div class="child-flex font right-aligned-text">Range</div>
+        <div class="child-flex">
+          <calcite-label>
+            Input Date Picker Label
+            <calcite-input-date-picker range scale="s"></calcite-input-date-picker>
+          </calcite-label>
+        </div>
 
-    <!-- Range -->
-    <div class="parent-flex">
-      <div class="child-flex font right-aligned-text">Range</div>
-      <div class="child-flex">
-        <calcite-label>
-          Input Date Picker Label
-          <calcite-input-date-picker range scale="s"></calcite-input-date-picker>
-        </calcite-label>
-      </div>
+        <div class="child-flex">
+          <calcite-label>
+            Input Date Picker Label
+            <calcite-input-date-picker range scale="m"></calcite-input-date-picker>
+          </calcite-label>
+        </div>
 
-      <div class="child-flex">
-        <calcite-label>
-          Input Date Picker Label
-          <calcite-input-date-picker range scale="m"></calcite-input-date-picker>
-        </calcite-label>
+        <div class="child-flex">
+          <calcite-label>
+            Input Date Picker Label
+            <calcite-input-date-picker range scale="l"></calcite-input-date-picker>
+          </calcite-label>
+        </div>
       </div>
-
-      <div class="child-flex">
-        <calcite-label>
-          Input Date Picker Label
-          <calcite-input-date-picker range scale="l"></calcite-input-date-picker>
-        </calcite-label>
-      </div>
-    </div>
+    </demo-dom-swapper>
   </body>
 </html>

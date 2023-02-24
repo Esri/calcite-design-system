@@ -1,12 +1,15 @@
 module.exports = {
   addons: [
-    "@storybook/addon-docs",
-    "@storybook/addon-knobs",
     "@storybook/addon-a11y",
+    "@storybook/addon-docs",
+    "@storybook/addon-interactions",
+    "@storybook/addon-knobs",
+    "@storybook/testing-library",
     "@whitespace/storybook-addon-html",
-    "storybook-rtl-addon",
-    "storybook-addon-themes"
+    "storybook-addon-themes",
+    "storybook-rtl-addon"
   ],
+  staticDirs: ["../__docs-temp__"],
   stories: ["../src/**/*.stories.@(mdx|ts)"],
   babel: async (options) => {
     return {

@@ -1,5 +1,6 @@
 :host {
   @extend %component-spacing;
+  @include floatingUIElemAnim(".menu-container");
   @apply relative
     inline-block
     w-full
@@ -59,47 +60,49 @@
   }
 
   .vertical-arrow-container {
-    top: theme("spacing.6");
+    inset-block-start: theme("spacing.6");
     @apply bg-foreground-1
       absolute
-      left-0
-      z-10
+      z-default
       mx-px
       px-2.5;
+    inset-inline-start: 0;
   }
 }
 
 :host([scale="s"][range]:not([layout="vertical"])) {
   .calendar-picker-wrapper {
-    width: 216px;
+    inline-size: 216px;
   }
 }
 
 :host([scale="m"][range]:not([layout="vertical"])) {
   .calendar-picker-wrapper {
-    width: 286px;
+    inline-size: 286px;
   }
 }
 
 :host([scale="l"][range]:not([layout="vertical"])) {
   .calendar-picker-wrapper {
-    width: 398px;
+    inline-size: 398px;
   }
 }
 
 .menu-container {
-  @include popperContainer();
-  @include popperWrapper();
+  --calcite-floating-ui-z-index: theme("zIndex.dropdown");
+  @include floatingUIContainer();
+  @include floatingUIWrapper();
+  @apply invisible;
 }
 
-@include popperElemAnim(".menu-container");
+@include floatingUIElemAnim(".menu-container");
 
-:host([active]) .menu-container {
-  @include popperWrapperActive();
+:host([open]) .menu-container {
+  @include floatingUIWrapperActive();
 }
 
 .menu-container--active {
-  @include popperElemAnim(".menu-container");
+  @include floatingUIWrapperActive();
 }
 
 .input .calcite-input__wrapper {
@@ -107,8 +110,8 @@
 }
 
 :host([range][layout="vertical"][scale="m"]) .vertical-arrow-container {
-  top: theme("spacing.6");
-  @apply pl-3;
+  inset-block-start: theme("spacing.6");
+  padding-inline-start: theme("spacing.3");
 
   calcite-icon {
     @apply h-3
@@ -118,11 +121,11 @@
 }
 
 :host([range][layout="vertical"][scale="l"]) .vertical-arrow-container {
-  top: theme("spacing.9");
+  inset-block-start: theme("spacing.9");
   @apply px-3.5;
 }
 
-:host([range][layout="vertical"][active]) {
+:host([range][layout="vertical"][open]) {
   .vertical-arrow-container {
     @apply hidden;
   }

@@ -25,6 +25,9 @@ describe("global styles", () => {
         await page.waitForChanges();
         const noticeAnimation = await page.evaluate(() => {
           const noticeEl = document.querySelector("calcite-notice");
+          if (!noticeEl) {
+            return null;
+          }
           const { animationName, animationDuration, opacity } = window.getComputedStyle(noticeEl);
           return {
             name: animationName,
@@ -32,9 +35,9 @@ describe("global styles", () => {
             opacity: opacity
           };
         });
-        expect(noticeAnimation.duration).toEqual("0.15s");
-        expect(noticeAnimation.name).toEqual(className.slice(className.indexOf("_") + 2));
-        expect(noticeAnimation.opacity).not.toBe("0");
+        expect(noticeAnimation?.duration).toEqual("0.15s");
+        expect(noticeAnimation?.name).toEqual(className.slice(className.indexOf("_") + 2));
+        expect(noticeAnimation?.opacity).not.toBe("0");
       });
     });
 
@@ -54,14 +57,11 @@ describe("global styles", () => {
         `
       });
       await page.waitForChanges();
-      const eleTransition = await page.evaluate(() => {
+      const eleTransitionDuration = await page.evaluate(() => {
         const ele = document.querySelector("div");
-        const { transitionDuration } = window.getComputedStyle(ele);
-        return {
-          duration: transitionDuration
-        };
+        return ele ? window.getComputedStyle(ele).transitionDuration : null;
       });
-      expect(eleTransition.duration).toEqual("0s");
+      expect(eleTransitionDuration).toEqual("0s");
     });
   });
 
@@ -73,27 +73,21 @@ describe("global styles", () => {
     await page.$eval("div", (element: any) => {
       element.style.setProperty("--calcite-duration-factor", 0);
     });
-    const eleTransition = await page.evaluate(() => {
+    const eleTransitionDuration = await page.evaluate(() => {
       const ele = document.querySelector("div");
-      const { transitionDuration } = window.getComputedStyle(ele);
-      return {
-        duration: transitionDuration
-      };
+      return ele ? window.getComputedStyle(ele).transitionDuration : null;
     });
-    expect(eleTransition.duration).toEqual("0.15s");
+    expect(eleTransitionDuration).toEqual("0.15s");
   });
 
   it("should set animation duration to default value 150ms", async () => {
     const page = await newE2EPage({
       html: html` <div style="transition: all var(--calcite-animation-timing) linear;"></div> `
     });
-    const eleTransition = await page.evaluate(() => {
+    const eleTransitionDuration = await page.evaluate(() => {
       const ele = document.querySelector("div");
-      const { transitionDuration } = window.getComputedStyle(ele);
-      return {
-        duration: transitionDuration
-      };
+      return ele ? window.getComputedStyle(ele).transitionDuration : null;
     });
-    expect(eleTransition.duration).toEqual("0.15s");
+    expect(eleTransitionDuration).toEqual("0.15s");
   });
 });

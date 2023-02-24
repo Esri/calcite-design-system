@@ -21,26 +21,27 @@
 
 ## Properties
 
-| Property         | Attribute         | Description                                                                                                                                   | Type                    | Default     |
-| ---------------- | ----------------- | --------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------- | ----------- |
-| `checked`        | `checked`         | The checked state of the tile select.                                                                                                         | `boolean`               | `false`     |
-| `description`    | `description`     | The description text that appears beneath the heading of the tile.                                                                            | `string`                | `undefined` |
-| `disabled`       | `disabled`        | The disabled state of the tile select.                                                                                                        | `boolean`               | `false`     |
-| `heading`        | `heading`         | The heading text that appears between the icon and description of the tile.                                                                   | `string`                | `undefined` |
-| `hidden`         | `hidden`          | The hidden state of the tile select.                                                                                                          | `boolean`               | `false`     |
-| `icon`           | `icon`            | The icon that appears at the top of the tile.                                                                                                 | `string`                | `undefined` |
-| `inputAlignment` | `input-alignment` | The side of the tile that the radio or checkbox appears on when inputEnabled is true.                                                         | `"end" \| "start"`      | `"start"`   |
-| `inputEnabled`   | `input-enabled`   | Display an interactive radio or checkbox.                                                                                                     | `boolean`               | `false`     |
-| `name`           | `name`            | The name of the tile select. This name will appear in form submissions as either a radio or checkbox identifier based on the `type` property. | `any`                   | `undefined` |
-| `type`           | `type`            | The selection mode of the tile select: radio (single) or checkbox (multiple).                                                                 | `"checkbox" \| "radio"` | `"radio"`   |
-| `value`          | `value`           | The value of the tile select. This value will appear in form submissions when this tile select is checked.                                    | `any`                   | `undefined` |
-| `width`          | `width`           | specify the width of the tile, defaults to auto                                                                                               | `"auto" \| "full"`      | `"auto"`    |
+| Property         | Attribute         | Description                                                                                                | Type                    | Default     |
+| ---------------- | ----------------- | ---------------------------------------------------------------------------------------------------------- | ----------------------- | ----------- |
+| `checked`        | `checked`         | When `true`, the component is checked.                                                                     | `boolean`               | `false`     |
+| `description`    | `description`     | A description for the component, which displays below the heading.                                         | `string`                | `undefined` |
+| `disabled`       | `disabled`        | When `true`, interaction is prevented and the component is displayed with lower opacity.                   | `boolean`               | `false`     |
+| `heading`        | `heading`         | The component header text, which displays between the icon and description.                                | `string`                | `undefined` |
+| `hidden`         | `hidden`          | When `true`, the component is not displayed and is not focusable or checkable.                             | `boolean`               | `false`     |
+| `icon`           | `icon`            | Specifies an icon to display.                                                                              | `string`                | `undefined` |
+| `iconFlipRtl`    | `icon-flip-rtl`   | When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).               | `boolean`               | `false`     |
+| `inputAlignment` | `input-alignment` | When `inputEnabled` is `true`, specifies the placement of the interactive input on the component.          | `"end" \| "start"`      | `"start"`   |
+| `inputEnabled`   | `input-enabled`   | When `true`, displays an interactive input based on the `type` property.                                   | `boolean`               | `false`     |
+| `name`           | `name`            | Specifies the name of the component on form submission.                                                    | `any`                   | `undefined` |
+| `type`           | `type`            | The selection mode of the component. Use radio for single selection, and checkbox for multiple selections. | `"checkbox" \| "radio"` | `"radio"`   |
+| `value`          | `value`           | The component's value.                                                                                     | `any`                   | `undefined` |
+| `width`          | `width`           | Specifies the width of the component.                                                                      | `"auto" \| "full"`      | `"auto"`    |
 
 ## Events
 
-| Event                     | Description                                                                                                                                   | Type               |
-| ------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- | ------------------ |
-| `calciteTileSelectChange` | Emits a custom change event. For checkboxes, it emits when the checkbox is checked or unchecked. For radios it only emits when it is checked. | `CustomEvent<any>` |
+| Event                     | Description                                                                                                            | Type                |
+| ------------------------- | ---------------------------------------------------------------------------------------------------------------------- | ------------------- |
+| `calciteTileSelectChange` | Emits a custom change event. For checkboxes it emits when checked or unchecked. For radios it only emits when checked. | `CustomEvent<void>` |
 
 ## Methods
 

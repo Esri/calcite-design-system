@@ -1,18 +1,20 @@
 import { select, text } from "@storybook/addon-knobs";
 
-import { placeholderImage, themesDarkDefault } from "../../../.storybook/utils";
+import { storyFilters } from "../../../.storybook/helpers";
+import { placeholderImage } from "../../../.storybook/placeholderImage";
+import { modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import readme from "./readme.md";
 
 export default {
   title: "Components/Avatar",
-
   parameters: {
     notes: readme
-  }
+  },
+  ...storyFilters()
 };
 
-export const Simple = (): string => html`
+export const simple = (): string => html`
   <calcite-avatar
     scale="${select("scale", ["s", "m", "l"], "m")}"
     full-name="${text("full-name", "John Doe")}"
@@ -23,7 +25,7 @@ export const Simple = (): string => html`
   </calcite-avatar>
 `;
 
-export const MissingThumbnail = (): string => html`
+export const missingThumbnail = (): string => html`
   <calcite-avatar
     scale="${select("scale", ["s", "m", "l"], "m")}"
     full-name="${text("full-name", "John Doe")}"
@@ -33,11 +35,10 @@ export const MissingThumbnail = (): string => html`
   </calcite-avatar>
 `;
 
-MissingThumbnail.storyName = "Missing thumbnail";
-
-export const Dark = (): string => html`
+export const darkModeRTL_TestOnly = (): string => html`
   <calcite-avatar
-    class="calcite-theme-dark"
+    dir="rtl"
+    class="calcite-mode-dark"
     scale="${select("scale", ["s", "m", "l"], "m")}"
     full-name="${text("full-name", "John Doe")}"
     username="${text("username", "jdoe")}"
@@ -46,4 +47,4 @@ export const Dark = (): string => html`
   </calcite-avatar>
 `;
 
-Dark.parameters = { themes: themesDarkDefault };
+darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };

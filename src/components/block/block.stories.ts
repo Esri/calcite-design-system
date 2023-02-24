@@ -1,14 +1,15 @@
-import { boolean, select, text } from "@storybook/addon-knobs";
+import { boolean, number, select, text } from "@storybook/addon-knobs";
 import {
   Attribute,
   filterComponentAttributes,
   Attributes,
-  createComponentHTML as create,
-  placeholderImage
+  createComponentHTML as create
 } from "../../../.storybook/utils";
+import { placeholderImage } from "../../../.storybook/placeholderImage";
 import blockReadme from "./readme.md";
 import sectionReadme from "../block-section/readme.md";
 import { html } from "../../../support/formatting";
+import { storyFilters } from "../../../.storybook/helpers";
 
 export default {
   title: "Components/Block",
@@ -17,7 +18,8 @@ export default {
       block: blockReadme,
       section: sectionReadme
     }
-  }
+  },
+  ...storyFilters()
 };
 
 const createBlockAttributes: (options?: { exceptions: string[] }) => Attributes = (
@@ -37,9 +39,9 @@ const createBlockAttributes: (options?: { exceptions: string[] }) => Attributes 
       },
 
       {
-        name: "summary",
+        name: "description",
         commit(): Attribute {
-          this.value = text("summary", "summary", group);
+          this.value = text("description", "description", group);
           delete this.build;
           return this;
         }
@@ -77,17 +79,9 @@ const createBlockAttributes: (options?: { exceptions: string[] }) => Attributes 
         }
       },
       {
-        name: "intl-collapse",
+        name: "heading-level",
         commit(): Attribute {
-          this.value = text("intlCollapse", "Collapse", group);
-          delete this.build;
-          return this;
-        }
-      },
-      {
-        name: "intl-expand",
-        commit(): Attribute {
-          this.value = text("intlExpand", "Expand", group);
+          this.value = number("heading-level", 2, { min: 1, max: 6, step: 1 }, group);
           delete this.build;
           return this;
         }
@@ -113,39 +107,14 @@ const createSectionAttributes: () => Attributes = () => {
     {
       name: "toggle-display",
       value: select("toggleDisplay", toggleDisplayOptions, toggleDisplayOptions[0], group)
-    },
-    {
-      name: "intl-collapse",
-      value: text("intlCollapse", "Collapse", group)
-    },
-    {
-      name: "intl-expand",
-      value: text("intlExpand", "Expand", group)
     }
   ];
 };
 
-export const basic = (): string =>
+export const simple = (): string =>
   create(
     "calcite-block",
     createBlockAttributes(),
-    html`
-      ${create(
-        "calcite-block-section",
-        createSectionAttributes(),
-        `<img alt="demo" src="${placeholderImage({ width: 320, height: 240 })}" />`
-      )}
-
-      <calcite-block-section text="Nature" open>
-        <img alt="demo" src="${placeholderImage({ width: 320, height: 240 })}" />
-      </calcite-block-section>
-    `
-  );
-
-export const RTL = (): string =>
-  create(
-    "calcite-block",
-    createBlockAttributes({ exceptions: ["dir"] }).concat({ name: "dir", value: "rtl" }),
     html`
       ${create(
         "calcite-block-section",
@@ -169,8 +138,61 @@ export const withHeaderControl = (): string =>
 export const withIconAndHeader = (): string =>
   create("calcite-block", createBlockAttributes({ exceptions: ["open", "collapsible"] }), `<div slot="icon">✅</div>`);
 
-export const disabled = (): string => html`<calcite-block heading="heading" summary="summary" open collapsible disabled>
+export const disabled_TestOnly = (): string => html`<calcite-block
+  heading="heading"
+  description="description"
+  open
+  collapsible
+  disabled
+>
   <calcite-block-section text="Nature" open>
     <img alt="demo" src="${placeholderImage({ width: 320, height: 240 })}" />
   </calcite-block-section>
 </calcite-block>`;
+
+export const paddingDisabled_TestOnly = (): string => html` <calcite-panel heading="Properties">
+  <calcite-block
+    heading="Example block heading"
+    description="example summary heading"
+    collapsible
+    open
+    style="--calcite-block-padding: 0;"
+  >
+    <div>calcite components ninja</div>
+  </calcite-block>
+</calcite-panel>`;
+
+export const darkModeRTL_TestOnly = (): string =>
+  create(
+    "calcite-block",
+    createBlockAttributes({ exceptions: ["dir"] }).concat(
+      {
+        name: "class",
+        value: "calcite-mode-dark"
+      },
+      { name: "dir", value: "rtl" }
+    ),
+    html`
+      ${create(
+        "calcite-block-section",
+        createSectionAttributes(),
+        `<img alt="demo" src="${placeholderImage({ width: 320, height: 240 })}" />`
+      )}
+
+      <calcite-block-section text="Nature" open>
+        <img alt="demo" src="${placeholderImage({ width: 320, height: 240 })}" />
+      </calcite-block-section>
+    `
+  );
+
+export const contentCanTakeFullHeight_TestOnly = (): string =>
+  html`<calcite-block open heading="Heading" description="description" style="height: 250px">
+    <div style="background: red; height: 100%;">should take full width of the content area</div>
+  </calcite-block>`;
+
+export const contentSpacing_TestOnly = (): string =>
+  html`
+    <calcite-block heading="Block heading" open>
+      <div>Some text that has padding built in</div>
+    </calcite-block>
+  `;

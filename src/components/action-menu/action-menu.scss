@@ -13,7 +13,7 @@
   flex;
 }
 
-::slotted(calcite-action[active]) {
+.menu ::slotted(calcite-action[active]) {
   @apply focus-outset;
   outline-offset: 0px;
 }

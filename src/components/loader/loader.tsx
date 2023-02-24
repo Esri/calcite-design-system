@@ -20,29 +20,29 @@ export class Loader {
   //  Properties
   //
   //--------------------------------------------------------------------------
-  /** When true, the loader is active. */
-  @Prop({ reflect: true }) active = false;
 
-  /** When true, displays smaller and appears to the left of the text. */
+  /** When `true`, displays smaller and appears to the left of the text. */
   @Prop({ reflect: true }) inline = false;
 
-  /** Accessible name for the loader. */
+  /** Accessible name for the component. */
   @Prop() label!: string;
 
-  /** Specify the scale of the loader. */
+  /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";
 
-  /** Use indeterminate if finding actual progress value is impossible. */
+  /**
+   * Specifies the component type.
+   *
+   * Use `"indeterminate"` if finding actual progress value is impossible.
+   *
+   */
   @Prop({ reflect: true }) type: "indeterminate" | "determinate";
 
-  /** Valid only for determinate indicators. Percent complete of 100. */
+  /** The component's value. Valid only for `"determinate"` indicators. Percent complete of 100. */
   @Prop() value = 0;
 
-  /** Text that displays under the loading indicator. */
-  @Prop() text? = "";
-
-  /** Disables spacing around the loader. */
-  @Prop() noPadding = false;
+  /** Text that displays under the component's indicator. */
+  @Prop() text = "";
 
   //--------------------------------------------------------------------------
   //
@@ -79,13 +79,14 @@ export class Loader {
         {...(isDeterminate ? hostAttributes : {})}
       >
         <div class="loader__svgs">
-          <svg class="loader__svg loader__svg--1" viewBox={viewbox}>
+          <svg aria-hidden="true" class="loader__svg loader__svg--1" viewBox={viewbox}>
             <circle {...svgAttributes} />
           </svg>
-          <svg class="loader__svg loader__svg--2" viewBox={viewbox}>
+          <svg aria-hidden="true" class="loader__svg loader__svg--2" viewBox={viewbox}>
             <circle {...svgAttributes} />
           </svg>
           <svg
+            aria-hidden="true"
             class="loader__svg loader__svg--3"
             viewBox={viewbox}
             {...(isDeterminate ? { style: determinateStyle } : {})}

@@ -1,8 +1,8 @@
 import { FunctionalComponent, h } from "@stencil/core";
 import { getElementDir } from "../../utils/dom";
 import { queryActions } from "../action-bar/utils";
-import { Position, Scale } from "../interfaces";
 import { SLOTS as ACTION_GROUP_SLOTS } from "../action-group/resources";
+import { Position, Scale } from "../interfaces";
 
 interface ExpandToggleProps {
   expanded: boolean;
@@ -35,7 +35,11 @@ export function toggleChildActionText({
   queryActions(parent)
     .filter((el) => el.slot !== ACTION_GROUP_SLOTS.menuActions)
     .forEach((action) => (action.textEnabled = expanded));
-  parent.querySelectorAll("calcite-action-group").forEach((group) => (group.expanded = expanded));
+  parent
+    .querySelectorAll("calcite-action-group, calcite-action-menu")
+    .forEach(
+      (el: HTMLCalciteActionMenuElement | HTMLCalciteActionGroupElement) => (el.expanded = expanded)
+    );
 }
 
 const setTooltipReference = ({

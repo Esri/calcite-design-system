@@ -61,27 +61,27 @@ Renders a group of `calcite-action`s contained in a `calcite-action-group`. Acti
 
 ## Properties
 
-| Property                  | Attribute                   | Description                                                              | Type                | Default     |
-| ------------------------- | --------------------------- | ------------------------------------------------------------------------ | ------------------- | ----------- |
-| `expandDisabled`          | `expand-disabled`           | When set to true, the expand-toggling behavior will be disabled.         | `boolean`           | `false`     |
-| `expanded`                | `expanded`                  | Indicates whether widget is expanded.                                    | `boolean`           | `false`     |
-| `intlCollapse`            | `intl-collapse`             | Updates the label of the collapse icon when the component is expanded.   | `string`            | `undefined` |
-| `intlExpand`              | `intl-expand`               | Updates the label of the expand icon when the component is not expanded. | `string`            | `undefined` |
-| `overflowActionsDisabled` | `overflow-actions-disabled` | Disables automatically overflowing actions that won't fit into menus.    | `boolean`           | `false`     |
-| `position`                | `position`                  | Arranges the component depending on the elements 'dir' property.         | `"end" \| "start"`  | `undefined` |
-| `scale`                   | `scale`                     | Specifies the size of the expand action.                                 | `"l" \| "m" \| "s"` | `undefined` |
+| Property                  | Attribute                   | Description                                                                     | Type                         | Default      |
+| ------------------------- | --------------------------- | ------------------------------------------------------------------------------- | ---------------------------- | ------------ |
+| `expandDisabled`          | `expand-disabled`           | When `true`, the expand-toggling behavior is disabled.                          | `boolean`                    | `false`      |
+| `expanded`                | `expanded`                  | When `true`, the component is expanded.                                         | `boolean`                    | `false`      |
+| `layout`                  | `layout`                    | The layout direction of the actions.                                            | `"horizontal" \| "vertical"` | `"vertical"` |
+| `messageOverrides`        | `message-overrides`         | Use this property to override individual strings used by the component.         | `ActionBarMessages`          | `undefined`  |
+| `overflowActionsDisabled` | `overflow-actions-disabled` | Disables automatically overflowing `calcite-action`s that won't fit into menus. | `boolean`                    | `false`      |
+| `position`                | `position`                  | Arranges the component depending on the element's `dir` property.               | `"end" \| "start"`           | `undefined`  |
+| `scale`                   | `scale`                     | Specifies the size of the expand `calcite-action`.                              | `"l" \| "m" \| "s"`          | `undefined`  |
 
 ## Events
 
-| Event                    | Description                             | Type               |
-| ------------------------ | --------------------------------------- | ------------------ |
-| `calciteActionBarToggle` | Emitted when expanded has been toggled. | `CustomEvent<any>` |
+| Event                    | Description                                    | Type                |
+| ------------------------ | ---------------------------------------------- | ------------------- |
+| `calciteActionBarToggle` | Emits when the `expanded` property is toggled. | `CustomEvent<void>` |
 
 ## Methods
 
-### `setFocus(focusId?: "expand-toggle") => Promise<void>`
+### `setFocus() => Promise<void>`
 
-Sets focus on the component.
+Sets focus on the component's first focusable element.
 
 #### Returns
 
@@ -89,11 +89,17 @@ Type: `Promise<void>`
 
 ## Slots
 
-| Slot               | Description                                                                                                             |
-| ------------------ | ----------------------------------------------------------------------------------------------------------------------- |
-|                    | A slot for adding `calcite-action`s that will appear at the top of the action bar.                                      |
-| `"bottom-actions"` | A slot for adding `calcite-action`s that will appear at the bottom of the action bar, above the collapse/expand button. |
-| `"expand-tooltip"` | Used to set the tooltip for the expand toggle.                                                                          |
+| Slot               | Description                                                                                                            |
+| ------------------ | ---------------------------------------------------------------------------------------------------------------------- |
+|                    | A slot for adding `calcite-action`s that will appear at the top of the component.                                      |
+| `"bottom-actions"` | A slot for adding `calcite-action`s that will appear at the bottom of the component, above the collapse/expand button. |
+| `"expand-tooltip"` | A slot to set the `calcite-tooltip` for the expand toggle.                                                             |
+
+## CSS Custom Properties
+
+| Name                                      | Description                                                                            |
+| ----------------------------------------- | -------------------------------------------------------------------------------------- |
+| `--calcite-action-bar-expanded-max-width` | optionally specify the expanded max width of the action bar when in "vertical" layout. |
 
 ## Dependencies
 

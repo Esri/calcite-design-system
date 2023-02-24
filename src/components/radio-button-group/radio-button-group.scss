@@ -1,6 +1,6 @@
 :host {
   @apply flex;
-  max-width: 100vw;
+  max-inline-size: 100vw;
 }
 :host([layout="horizontal"]) {
   @apply flex-row flex-wrap;

@@ -1,13 +1,51 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, disabled, hidden, renders } from "../../tests/commonTests";
-import { CSS } from "./resources";
+import { accessible, disabled, hidden, renders, slots, t9n, defaults } from "../../tests/commonTests";
+import { CSS, SLOTS } from "./resources";
 
 describe("calcite-action", () => {
+  it("has property defaults", async () =>
+    defaults("calcite-action", [
+      {
+        propertyName: "active",
+        defaultValue: false
+      },
+      {
+        propertyName: "appearance",
+        defaultValue: "solid"
+      },
+      {
+        propertyName: "compact",
+        defaultValue: false
+      },
+      {
+        propertyName: "disabled",
+        defaultValue: false
+      },
+      {
+        propertyName: "indicator",
+        defaultValue: false
+      },
+      {
+        propertyName: "loading",
+        defaultValue: false
+      },
+      {
+        propertyName: "scale",
+        defaultValue: "m"
+      },
+      {
+        propertyName: "textEnabled",
+        defaultValue: false
+      }
+    ]));
+
   it("renders", async () => renders("calcite-action", { display: "flex" }));
 
   it("honors hidden attribute", async () => hidden("calcite-action"));
 
   it("can be disabled", () => disabled("calcite-action"));
+
+  it("has slots", () => slots("calcite-action", SLOTS));
 
   it("should have visible text when text is enabled", async () => {
     const page = await newE2EPage();
@@ -93,6 +131,14 @@ describe("calcite-action", () => {
     expect(button.getAttribute("aria-label")).toBe("hello world");
   });
 
+  it("should set aria-label with indicator", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<calcite-action indicator text="hello world"></calcite-action>`);
+
+    const button = await page.find(`calcite-action >>> .${CSS.button}`);
+    expect(button.getAttribute("aria-label")).toBe(`hello world (Indicator present)`);
+  });
+
   it("should have label", async () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-action text="hello world" label="hi"></calcite-action>`);
@@ -112,5 +158,40 @@ describe("calcite-action", () => {
   it("should be accessible", async () => {
     await accessible(`<calcite-action text="hello world"></calcite-action>`);
     await accessible(`<calcite-action text="hello world" disabled text-enabled></calcite-action>`);
+    await accessible(`<calcite-action indicator text="hello world"></calcite-action>`);
+  });
+
+  it("should have a tooltip", async () => {
+    const page = await newE2EPage();
+    await page.setContent(
+      `<calcite-action text="hello world"><calcite-tooltip slot="tooltip">Hello World!</calcite-tooltip></calcite-action>`
+    );
+    await page.waitForChanges();
+
+    const tooltip = await page.find("calcite-tooltip");
+    const referenceElement: HTMLElement = await tooltip.getProperty("referenceElement");
+    expect(referenceElement).toBeDefined();
+  });
+
+  it("support translation", () => t9n("calcite-action"));
+
+  it("should have a indicator live region", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<calcite-action></calcite-action>`);
+    await page.waitForChanges();
+
+    const action = await page.find("calcite-action");
+    const liveRegion = await page.find(`calcite-action >>> .${CSS.indicatorText}`);
+
+    expect(liveRegion.getAttribute("aria-live")).toBe("polite");
+    expect(liveRegion.getAttribute("role")).toBe("region");
+    expect(liveRegion.textContent).toBe("");
+
+    action.setProperty("indicator", true);
+    await page.waitForChanges();
+
+    expect(liveRegion.getAttribute("aria-live")).toBe("polite");
+    expect(liveRegion.getAttribute("role")).toBe("region");
+    expect(liveRegion.textContent).toBe("Indicator present");
   });
 });

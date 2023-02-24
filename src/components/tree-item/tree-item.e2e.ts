@@ -1,10 +1,12 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, renders, defaults, slots } from "../../tests/commonTests";
+import { accessible, defaults, disabled, hidden, renders, slots } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { SLOTS } from "./resources";
 
 describe("calcite-tree-item", () => {
   it("renders", async () => renders("calcite-tree-item", { visible: false, display: "block" }));
+
+  it("honors hidden attribute", async () => hidden(`<calcite-tree-item expanded></calcite-tree-item>`));
 
   it("is accessible", async () => accessible(`<calcite-tree-item></calcite-tree-item>`));
 
@@ -47,6 +49,15 @@ describe("calcite-tree-item", () => {
     ]));
 
   it("has slots", () => slots("calcite-tree-item", SLOTS));
+
+  it("can be disabled (within a tree)", async () => {
+    const page = await newE2EPage();
+    await page.setContent(html` <calcite-tree expanded>
+      <calcite-tree-item>😃</calcite-tree-item>
+    </calcite-tree>`);
+
+    await disabled({ page, tag: "calcite-tree-item" });
+  });
 
   it("should expand/collapse children when the icon is clicked, but not select/deselect group", async () => {
     const page = await newE2EPage();

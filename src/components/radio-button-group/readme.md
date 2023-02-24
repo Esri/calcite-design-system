@@ -75,20 +75,21 @@ Renders all radio button inputs disabled, first one checked
 
 ## Properties
 
-| Property            | Attribute  | Description                                                                                                                 | Type                                   | Default        |
-| ------------------- | ---------- | --------------------------------------------------------------------------------------------------------------------------- | -------------------------------------- | -------------- |
-| `disabled`          | `disabled` | The disabled state of the radio button group.                                                                               | `boolean`                              | `false`        |
-| `hidden`            | `hidden`   | The radio button group's hidden status. When a radio button group is hidden none of its options are focusable or checkable. | `boolean`                              | `false`        |
-| `layout`            | `layout`   | The layout direction of the radio buttons in a group.                                                                       | `"grid" \| "horizontal" \| "vertical"` | `"horizontal"` |
-| `name` _(required)_ | `name`     | The name of the radio button group. `name` must be unique to other radio button group instances.                            | `string`                               | `undefined`    |
-| `required`          | `required` | Requires that a value is selected for the radio button group before the parent form will submit.                            | `boolean`                              | `false`        |
-| `scale`             | `scale`    | The scale (size) of the radio button group.                                                                                 | `"l" \| "m" \| "s"`                    | `"m"`          |
+| Property            | Attribute       | Description                                                                                                 | Type                                   | Default        |
+| ------------------- | --------------- | ----------------------------------------------------------------------------------------------------------- | -------------------------------------- | -------------- |
+| `disabled`          | `disabled`      | When `true`, interaction is prevented and the component is displayed with lower opacity.                    | `boolean`                              | `false`        |
+| `hidden`            | `hidden`        | When `true`, the component is not displayed and its `calcite-radio-button`s are not focusable or checkable. | `boolean`                              | `false`        |
+| `layout`            | `layout`        | Defines the layout of the component.                                                                        | `"grid" \| "horizontal" \| "vertical"` | `"horizontal"` |
+| `name` _(required)_ | `name`          | Specifies the name of the component on form submission. Must be unique to other component instances.        | `string`                               | `undefined`    |
+| `required`          | `required`      | When `true`, the component must have a value in order for the form to submit.                               | `boolean`                              | `false`        |
+| `scale`             | `scale`         | Specifies the size of the component.                                                                        | `"l" \| "m" \| "s"`                    | `"m"`          |
+| `selectedItem`      | `selected-item` | Specifies the component's selected item.                                                                    | `HTMLCalciteRadioButtonElement`        | `null`         |
 
 ## Events
 
-| Event                           | Description                                      | Type               |
-| ------------------------------- | ------------------------------------------------ | ------------------ |
-| `calciteRadioButtonGroupChange` | Emitted when the radio button group has changed. | `CustomEvent<any>` |
+| Event                           | Description                           | Type                |
+| ------------------------------- | ------------------------------------- | ------------------- |
+| `calciteRadioButtonGroupChange` | Fires when the component has changed. | `CustomEvent<void>` |
 
 ## Slots
 

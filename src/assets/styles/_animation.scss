@@ -71,3 +71,9 @@
 .calcite-animate__in-scale {
   animation-name: in-scale;
 }
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --calcite-internal-duration-factor: 0;
+  }
+}

@@ -3,7 +3,7 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-dropdown-width: the width of the dropdown wrapper
+ * @prop --calcite-dropdown-width: Specifies the width of the component's wrapper.
  */
 
 :host {
@@ -13,24 +13,35 @@
 @include disabled();
 
 :host .calcite-dropdown-wrapper {
-  @include popperContainer();
-  @include popperWrapper();
+  --calcite-floating-ui-z-index: theme("zIndex.dropdown");
+  @include floatingUIContainer();
+  @include floatingUIWrapper();
 }
-@include popperElemAnim(".calcite-dropdown-wrapper");
-:host([active]) .calcite-dropdown-wrapper {
-  @include popperWrapperActive();
+
+@include floatingUIElemAnim(".calcite-dropdown-wrapper");
+:host([open]) .calcite-dropdown-wrapper {
+  @include floatingUIWrapperActive();
 }
+
 :host .calcite-dropdown-content {
   @apply bg-foreground-1
     w-auto
     overflow-y-auto
-    overflow-x-hidden;
-  max-height: 90vh;
-  width: var(--calcite-dropdown-width);
+    overflow-x-hidden
+    max-h-menu;
+  inline-size: var(--calcite-dropdown-width);
 }
-.calcite-dropdown-trigger-container {
+.calcite-trigger-container {
   @apply relative flex flex-auto;
 }
+
+@media (forced-colors: active) {
+  /* use real border since box-shadow is removed in high contrast mode */
+  :host([open]) .calcite-dropdown-wrapper {
+    border: 1px solid canvasText;
+  }
+}
+
 // width
 :host([width="s"]) {
   --calcite-dropdown-width: theme("spacing.48");

@@ -1,0 +1,5 @@
+{
+  "name": "workaround-for-storybook-build-only-working-with-cjs",
+  "private": true,
+  "type": "commonjs"
+}

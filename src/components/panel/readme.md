@@ -17,13 +17,13 @@ Renders a basic panel with a header.
 </calcite-panel>
 ```
 
-### Dismissible
+### Closable
 
-Renders a panel that is dismissible with a click of the "x".
+Renders a panel that is closable with a click of the "x".
 
 ```html
-<calcite-panel dismissible id="dismissible-panel">
-  <div slot="header-content">Dismissible Header</div>
+<calcite-panel closable id="closable-panel">
+  <div slot="header-content">Closable Header</div>
   <p>Click the X and I go away!</p>
 </calcite-panel>
 ```
@@ -67,54 +67,38 @@ Renders a panel with a header and a footer.
 
 ## Properties
 
-| Property         | Attribute          | Description                                                                                               | Type                         | Default     |
-| ---------------- | ------------------ | --------------------------------------------------------------------------------------------------------- | ---------------------------- | ----------- |
-| `beforeBack`     | --                 | When provided, this method will be called before it is removed from the parent flow.                      | `() => Promise<void>`        | `undefined` |
-| `disabled`       | `disabled`         | When true, disabled prevents interaction. This state shows items with lower opacity/grayed.               | `boolean`                    | `false`     |
-| `dismissed`      | `dismissed`        | Hides the panel.                                                                                          | `boolean`                    | `false`     |
-| `dismissible`    | `dismissible`      | Displays a close button in the trailing side of the header.                                               | `boolean`                    | `false`     |
-| `heading`        | `heading`          | Heading text.                                                                                             | `string`                     | `undefined` |
-| `headingLevel`   | `heading-level`    | Number at which section headings should start for this component.                                         | `1 \| 2 \| 3 \| 4 \| 5 \| 6` | `undefined` |
-| `heightScale`    | `height-scale`     | Specifies the maximum height of the panel.                                                                | `"l" \| "m" \| "s"`          | `undefined` |
-| `intlBack`       | `intl-back`        | 'Back' text string.                                                                                       | `string`                     | `undefined` |
-| `intlClose`      | `intl-close`       | 'Close' text string for the close button. The close button will only be shown when 'dismissible' is true. | `string`                     | `undefined` |
-| `intlOptions`    | `intl-options`     | 'Options' text string for the actions menu.                                                               | `string`                     | `undefined` |
-| `loading`        | `loading`          | When true, content is waiting to be loaded. This state shows a busy indicator.                            | `boolean`                    | `false`     |
-| `menuOpen`       | `menu-open`        | Opens the action menu.                                                                                    | `boolean`                    | `false`     |
-| `showBackButton` | `show-back-button` | Shows a back button in the header.                                                                        | `boolean`                    | `false`     |
-| `summary`        | `summary`          | Summary text. A description displayed underneath the heading.                                             | `string`                     | `undefined` |
-| `widthScale`     | `width-scale`      | This sets width of the panel.                                                                             | `"l" \| "m" \| "s"`          | `undefined` |
+| Property           | Attribute           | Description                                                                              | Type                         | Default     |
+| ------------------ | ------------------- | ---------------------------------------------------------------------------------------- | ---------------------------- | ----------- |
+| `closable`         | `closable`          | When `true`, displays a close button in the trailing side of the header.                 | `boolean`                    | `false`     |
+| `closed`           | `closed`            | When `true`, the component will be hidden.                                               | `boolean`                    | `false`     |
+| `description`      | `description`       | A description for the component.                                                         | `string`                     | `undefined` |
+| `disabled`         | `disabled`          | When `true`, interaction is prevented and the component is displayed with lower opacity. | `boolean`                    | `false`     |
+| `heading`          | `heading`           | The component header text.                                                               | `string`                     | `undefined` |
+| `headingLevel`     | `heading-level`     | Specifies the number at which section headings should start.                             | `1 \| 2 \| 3 \| 4 \| 5 \| 6` | `undefined` |
+| `loading`          | `loading`           | When `true`, a busy indicator is displayed.                                              | `boolean`                    | `false`     |
+| `menuOpen`         | `menu-open`         | When `true`, the action menu items in the `header-menu-actions` slot are open.           | `boolean`                    | `false`     |
+| `messageOverrides` | `message-overrides` | Use this property to override individual strings used by the component.                  | `PanelMessages`              | `undefined` |
 
 ## Events
 
-| Event                         | Description                                                                                                                               | Type               |
-| ----------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- | ------------------ |
-| `calcitePanelBackClick`       | Emitted when the back button has been clicked.                                                                                            | `CustomEvent<any>` |
-| `calcitePanelDismiss`         | Emitted when the close button has been clicked.                                                                                           | `CustomEvent<any>` |
-| `calcitePanelDismissedChange` | <span style="color:red">**[DEPRECATED]**</span> use calcitePanelDismiss instead.<br/><br/>Emitted when the close button has been clicked. | `CustomEvent<any>` |
-| `calcitePanelScroll`          | Emitted when the content has been scrolled.                                                                                               | `CustomEvent<any>` |
+| Event                | Description                             | Type                |
+| -------------------- | --------------------------------------- | ------------------- |
+| `calcitePanelClose`  | Fires when the close button is clicked. | `CustomEvent<void>` |
+| `calcitePanelScroll` | Fires when the content is scrolled.     | `CustomEvent<void>` |
 
 ## Methods
 
 ### `scrollContentTo(options?: ScrollToOptions) => Promise<void>`
 
-Scrolls panel content to a particular set of coordinates.
-
-```
-  myCalcitePanel.scrollContentTo({
-    left: 0, // Specifies the number of pixels along the X axis to scroll the window or element.
-    top: 0, // Specifies the number of pixels along the Y axis to scroll the window or element
-    behavior: "auto" // Specifies whether the scrolling should animate smoothly (smooth), or happen instantly in a single jump (auto, the default value).
-  });
-```
+Scrolls the component's content to a specified set of coordinates.
 
 #### Returns
 
 Type: `Promise<void>`
 
-### `setFocus(focusId?: "dismiss-button" | "back-button") => Promise<void>`
+### `setFocus() => Promise<void>`
 
-Sets focus on the component.
+Sets focus on the component's first focusable element.
 
 #### Returns
 
@@ -128,20 +112,16 @@ Type: `Promise<void>`
 | `"fab"`                  | A slot for adding a `calcite-fab` (floating action button) to perform an action. |
 | `"footer"`               | A slot for adding custom content to the footer.                                  |
 | `"footer-actions"`       | A slot for adding buttons to the footer.                                         |
-| `"header-actions-end"`   | A slot for adding actions or content to the end side of the panel header.        |
-| `"header-actions-start"` | A slot for adding actions or content to the start side of the panel header.      |
+| `"header-actions-end"`   | A slot for adding actions or content to the end side of the header.              |
+| `"header-actions-start"` | A slot for adding actions or content to the start side of the header.            |
 | `"header-content"`       | A slot for adding custom content to the header.                                  |
-| `"header-menu-actions"`  | A slot for adding an overflow menu with actions inside a dropdown.               |
-
-## CSS Custom Properties
-
-| Name                         | Description                     |
-| ---------------------------- | ------------------------------- |
-| `--calcite-panel-max-height` | the maximum height of the panel |
-| `--calcite-panel-max-width`  | the maximum width of the panel  |
-| `--calcite-panel-min-width`  | the minimum width of the panel  |
+| `"header-menu-actions"`  | A slot for adding an overflow menu with actions inside a `calcite-dropdown`.     |
 
 ## Dependencies
+
+### Used by
+
+- [calcite-flow-item](../flow-item)
 
 ### Depends on
 
@@ -163,6 +143,7 @@ graph TD;
   calcite-popover --> calcite-action
   calcite-popover --> calcite-icon
   calcite-scrim --> calcite-loader
+  calcite-flow-item --> calcite-panel
   style calcite-panel fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

@@ -19,31 +19,30 @@
 
 ## Properties
 
-| Property       | Attribute       | Description                                                                              | Type      | Default         |
-| -------------- | --------------- | ---------------------------------------------------------------------------------------- | --------- | --------------- |
-| `intlDeselect` | `intl-deselect` | string to override English deselect text for checkbox when selectable is true            | `string`  | `TEXT.deselect` |
-| `intlLoading`  | `intl-loading`  | string to override English loading text                                                  | `string`  | `TEXT.loading`  |
-| `intlSelect`   | `intl-select`   | string to override English select text for checkbox when selectable is true              | `string`  | `TEXT.select`   |
-| `loading`      | `loading`       | When true, the cards content is waiting to be loaded. This state shows a busy indicator. | `boolean` | `false`         |
-| `selectable`   | `selectable`    | Indicates whether the card is selectable.                                                | `boolean` | `false`         |
-| `selected`     | `selected`      | Indicates whether the card is selected.                                                  | `boolean` | `false`         |
+| Property            | Attribute            | Description                                                             | Type                                                             | Default         |
+| ------------------- | -------------------- | ----------------------------------------------------------------------- | ---------------------------------------------------------------- | --------------- |
+| `loading`           | `loading`            | When `true`, a busy indicator is displayed.                             | `boolean`                                                        | `false`         |
+| `messageOverrides`  | `message-overrides`  | Use this property to override individual strings used by the component. | `CardMessages`                                                   | `undefined`     |
+| `selectable`        | `selectable`         | When `true`, the component is selectable.                               | `boolean`                                                        | `false`         |
+| `selected`          | `selected`           | When `true`, the component is selected.                                 | `boolean`                                                        | `false`         |
+| `thumbnailPosition` | `thumbnail-position` | Sets the placement of the thumbnail defined in the `thumbnail` slot.    | `"block-end" \| "block-start" \| "inline-end" \| "inline-start"` | `"block-start"` |
 
 ## Events
 
-| Event               | Description                              | Type               |
-| ------------------- | ---------------------------------------- | ------------------ |
-| `calciteCardSelect` | Fired when a selectable card is selected | `CustomEvent<any>` |
+| Event               | Description                                                      | Type                |
+| ------------------- | ---------------------------------------------------------------- | ------------------- |
+| `calciteCardSelect` | Fires when `selectable` is `true` and the component is selected. | `CustomEvent<void>` |
 
 ## Slots
 
-| Slot                | Description                                         |
-| ------------------- | --------------------------------------------------- |
-|                     | A slot for adding subheader/description content.    |
-| `"footer-leading"`  | A slot for adding a leading footer.                 |
-| `"footer-trailing"` | A slot for adding a trailing footer.                |
-| `"subtitle"`        | A slot for adding a card subtitle or short summary. |
-| `"thumbnail"`       | A slot for adding a thumbnail to the card.          |
-| `"title"`           | A slot for adding a card title.                     |
+| Slot             | Description                                      |
+| ---------------- | ------------------------------------------------ |
+|                  | A slot for adding subheader/description content. |
+| `"footer-end"`   | A slot for adding a trailing footer.             |
+| `"footer-start"` | A slot for adding a leading footer.              |
+| `"subtitle"`     | A slot for adding a subtitle or short summary.   |
+| `"thumbnail"`    | A slot for adding a thumbnail to the component.  |
+| `"title"`        | A slot for adding a title.                       |
 
 ## Dependencies
 

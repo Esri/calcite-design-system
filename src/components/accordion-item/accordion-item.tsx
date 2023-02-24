@@ -9,11 +9,16 @@ import {
   Prop,
   VNode
 } from "@stencil/core";
-import { getElementDir, getElementProp, toAriaBoolean } from "../../utils/dom";
-
+import {
+  ConditionalSlotComponent,
+  connectConditionalSlotComponent,
+  disconnectConditionalSlotComponent
+} from "../../utils/conditionalSlot";
+import { getElementDir, getElementProp, getSlotted, toAriaBoolean } from "../../utils/dom";
 import { CSS_UTILITY } from "../../utils/resources";
-import { Position } from "../interfaces";
-import { guid } from "../../utils/guid";
+import { SLOTS, CSS } from "./resources";
+import { FlipContext, Position, Scale } from "../interfaces";
+import { RegistryEntry, RequestedItem } from "./interfaces";
 
 /**
  * @slot - A slot for adding custom content, including nested `calcite-accordion-item`s.
@@ -23,7 +28,7 @@ import { guid } from "../../utils/guid";
   styleUrl: "accordion-item.scss",
   shadow: true
 })
-export class AccordionItem {
+export class AccordionItem implements ConditionalSlotComponent {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -38,17 +43,23 @@ export class AccordionItem {
   //
   //--------------------------------------------------------------------------
 
-  /** Indicates whether the item is active. */
-  @Prop({ reflect: true, mutable: true }) active = false;
+  /** When `true`, the component is expanded. */
+  @Prop({ reflect: true, mutable: true }) expanded = false;
 
-  /** pass a title for the accordion item */
-  @Prop() itemTitle?: string;
+  /** Specifies heading text for the component. */
+  @Prop() heading: string;
 
-  /** pass a title for the accordion item */
-  @Prop() itemSubtitle?: string;
+  /** Specifies a description for the component. */
+  @Prop() description: string;
 
-  /** optionally pass an icon to display - accepts Calcite UI icon names  */
-  @Prop({ reflect: true }) icon?: string;
+  /** Specifies an icon to display at the start of the component. */
+  @Prop({ reflect: true }) iconStart: string;
+
+  /** Specifies an icon to display at the end of the component. */
+  @Prop({ reflect: true }) iconEnd: string;
+
+  /** Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`). */
+  @Prop({ reflect: true }) iconFlipRtl: FlipContext;
 
   //--------------------------------------------------------------------------
   //
@@ -59,22 +70,17 @@ export class AccordionItem {
   /**
    * @internal
    */
-  @Event() calciteInternalAccordionItemKeyEvent: EventEmitter;
+  @Event({ cancelable: false }) calciteInternalAccordionItemSelect: EventEmitter<RequestedItem>;
 
   /**
    * @internal
    */
-  @Event() calciteInternalAccordionItemSelect: EventEmitter;
+  @Event({ cancelable: false }) calciteInternalAccordionItemClose: EventEmitter<void>;
 
   /**
    * @internal
    */
-  @Event() calciteInternalAccordionItemClose: EventEmitter;
-
-  /**
-   * @internal
-   */
-  @Event() calciteInternalAccordionItemRegister: EventEmitter;
+  @Event({ cancelable: false }) calciteInternalAccordionItemRegister: EventEmitter<RegistryEntry>;
 
   //--------------------------------------------------------------------------
   //
@@ -84,9 +90,11 @@ export class AccordionItem {
 
   connectedCallback(): void {
     this.parent = this.el.parentElement as HTMLCalciteAccordionElement;
-    this.selectionMode = getElementProp(this.el, "selection-mode", "multi");
     this.iconType = getElementProp(this.el, "icon-type", "chevron");
     this.iconPosition = getElementProp(this.el, "icon-position", this.iconPosition);
+    this.scale = getElementProp(this.el, "scale", this.scale);
+
+    connectConditionalSlotComponent(this);
   }
 
   componentDidLoad(): void {
@@ -97,58 +105,98 @@ export class AccordionItem {
     });
   }
 
+  disconnectedCallback(): void {
+    disconnectConditionalSlotComponent(this);
+  }
+
+  // --------------------------------------------------------------------------
+  //
+  //  Render Methods
+  //
+  // --------------------------------------------------------------------------
+
+  renderActionsStart(): VNode {
+    const { el } = this;
+    return getSlotted(el, SLOTS.actionsStart) ? (
+      <div class={CSS.actionsStart}>
+        <slot name={SLOTS.actionsStart} />
+      </div>
+    ) : null;
+  }
+
+  renderActionsEnd(): VNode {
+    const { el } = this;
+    return getSlotted(el, SLOTS.actionsEnd) ? (
+      <div class={CSS.actionsEnd}>
+        <slot name={SLOTS.actionsEnd} />
+      </div>
+    ) : null;
+  }
+
   render(): VNode {
+    const { iconFlipRtl } = this;
     const dir = getElementDir(this.el);
-
-    const iconEl = <calcite-icon class="accordion-item-icon" icon={this.icon} scale="s" />;
-
-    const { guid } = this;
-    const regionId = `${guid}-region`;
-    const buttonId = `${guid}-button`;
-
+    const iconStartEl = this.iconStart ? (
+      <calcite-icon
+        class={CSS.iconStart}
+        flipRtl={iconFlipRtl === "both" || iconFlipRtl === "start"}
+        icon={this.iconStart}
+        key="icon-start"
+        scale={this.scale === "l" ? "m" : "s"}
+      />
+    ) : null;
+    const iconEndEl = this.iconEnd ? (
+      <calcite-icon
+        class={CSS.iconEnd}
+        flipRtl={iconFlipRtl === "both" || iconFlipRtl === "end"}
+        icon={this.iconEnd}
+        key="icon-end"
+        scale={this.scale === "l" ? "m" : "s"}
+      />
+    ) : null;
+    const { description } = this;
     return (
-      <Host tabindex="0">
+      <Host>
         <div
           class={{
             [`icon-position--${this.iconPosition}`]: true,
             [`icon-type--${this.iconType}`]: true
           }}
         >
-          <div
-            aria-controls={regionId}
-            class={{ "accordion-item-header": true, [CSS_UTILITY.rtl]: dir === "rtl" }}
-            id={buttonId}
-            onClick={this.itemHeaderClickHandler}
-            role="button"
-          >
-            {this.icon ? iconEl : null}
-            <div class="accordion-item-header-text">
-              <span class="accordion-item-title">{this.itemTitle}</span>
-              {this.itemSubtitle ? (
-                <span class="accordion-item-subtitle">{this.itemSubtitle}</span>
-              ) : null}
+          <div class={{ [CSS.header]: true, [CSS_UTILITY.rtl]: dir === "rtl" }}>
+            {this.renderActionsStart()}
+            <div
+              aria-expanded={toAriaBoolean(this.expanded)}
+              class={CSS.headerContent}
+              onClick={this.itemHeaderClickHandler}
+              role="button"
+              tabindex="0"
+            >
+              <div class={CSS.headerContainer}>
+                {iconStartEl}
+                <div class={CSS.headerText}>
+                  <span class={CSS.heading}>{this.heading}</span>
+                  {description ? <span class={CSS.description}>{description}</span> : null}
+                </div>
+                {iconEndEl}
+              </div>
+              <calcite-icon
+                class={CSS.expandIcon}
+                icon={
+                  this.iconType === "chevron"
+                    ? "chevronDown"
+                    : this.iconType === "caret"
+                    ? "caretDown"
+                    : this.expanded
+                    ? "minus"
+                    : "plus"
+                }
+                scale={this.scale === "l" ? "m" : "s"}
+              />
             </div>
-            <calcite-icon
-              class="accordion-item-expand-icon"
-              icon={
-                this.iconType === "chevron"
-                  ? "chevronDown"
-                  : this.iconType === "caret"
-                  ? "caretDown"
-                  : this.active
-                  ? "minus"
-                  : "plus"
-              }
-              scale="s"
-            />
+            {this.renderActionsEnd()}
           </div>
-          <div
-            aria-expanded={toAriaBoolean(this.active)}
-            aria-labelledby={buttonId}
-            class="accordion-item-content"
-            id={regionId}
-            role="region"
-          >
+          <div class={CSS.content}>
             <slot />
           </div>
         </div>
@@ -163,23 +211,13 @@ export class AccordionItem {
   //--------------------------------------------------------------------------
 
   @Listen("keydown")
-  keyDownHandler(e: KeyboardEvent): void {
-    if (e.target === this.el) {
-      switch (e.key) {
+  keyDownHandler(event: KeyboardEvent): void {
+    if (event.target === this.el) {
+      switch (event.key) {
         case " ":
         case "Enter":
           this.emitRequestedItem();
-          e.preventDefault();
-          break;
-        case "ArrowUp":
-        case "ArrowDown":
-        case "Home":
-        case "End":
-          this.calciteInternalAccordionItemKeyEvent.emit({
-            parent: this.parent,
-            item: e
-          });
-          e.preventDefault();
+          event.preventDefault();
           break;
       }
     }
@@ -202,8 +240,6 @@ export class AccordionItem {
   //
   //--------------------------------------------------------------------------
 
-  private guid = guid();
-
   /** the containing accordion element */
   private parent: HTMLCalciteAccordionElement;
 
@@ -224,6 +260,10 @@ export class AccordionItem {
 
   /** handle clicks on item header */
   private itemHeaderClickHandler = (): void => this.emitRequestedItem();
+
+  /** Specifies the scale of the `accordion-item` controlled by the parent, defaults to m */
+  scale: Scale = "m";
+
   //--------------------------------------------------------------------------
   //
   //  Private Methods
@@ -231,19 +271,20 @@ export class AccordionItem {
   //--------------------------------------------------------------------------
 
   private determineActiveItem(): void {
+    this.selectionMode = getElementProp(this.el, "selection-mode", "multiple");
     switch (this.selectionMode) {
-      case "multi":
+      case "multiple":
         if (this.el === this.requestedAccordionItem) {
-          this.active = !this.active;
+          this.expanded = !this.expanded;
         }
         break;
 
       case "single":
-        this.active = this.el === this.requestedAccordionItem ? !this.active : false;
+        this.expanded = this.el === this.requestedAccordionItem ? !this.expanded : false;
         break;
 
       case "single-persist":
-        this.active = this.el === this.requestedAccordionItem;
+        this.expanded = this.el === this.requestedAccordionItem;
         break;
     }
   }

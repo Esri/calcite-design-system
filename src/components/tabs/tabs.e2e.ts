@@ -1,16 +1,16 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, renders, defaults } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
+import { accessible, defaults, hidden, renders } from "../../tests/commonTests";
 
 describe("calcite-tabs", () => {
   const tabsContent = `
-    <calcite-tab-nav slot="tab-nav">
-      <calcite-tab-title active>Tab 1 Title</calcite-tab-title>
+    <calcite-tab-nav slot="title-group">
+      <calcite-tab-title selected>Tab 1 Title</calcite-tab-title>
       <calcite-tab-title>Tab 2 Title</calcite-tab-title>
       <calcite-tab-title>Tab 3 Title</calcite-tab-title>
       <calcite-tab-title>Tab 4 Title</calcite-tab-title>
     </calcite-tab-nav>
-    <calcite-tab active>Tab 1 Content</calcite-tab>
+    <calcite-tab selected>Tab 1 Content</calcite-tab>
     <calcite-tab>Tab 2 Content</calcite-tab>
     <calcite-tab>Tab 3 Content</calcite-tab>
     <calcite-tab>Tab 4 Content</calcite-tab>
@@ -19,10 +19,12 @@ describe("calcite-tabs", () => {
 
   it("renders", async () => renders(tabsSnippet, { display: "flex" }));
 
+  it("honors hidden attribute", async () => hidden("calcite-tabs"));
+
   it("has defaults", async () =>
     defaults("calcite-tabs", [
       { propertyName: "layout", defaultValue: "inline" },
-      { propertyName: "position", defaultValue: "above" },
+      { propertyName: "position", defaultValue: "top" },
       { propertyName: "scale", defaultValue: "m" }
     ]));
 
@@ -33,14 +35,14 @@ describe("calcite-tabs", () => {
 
     await page.setContent(`
       <calcite-tabs>
-        <calcite-tab-nav slot="tab-nav">
-          <calcite-tab-title id="title-1" active>Tab 1 Title</calcite-tab-title>
+        <calcite-tab-nav slot="title-group">
+          <calcite-tab-title id="title-1" selected>Tab 1 Title</calcite-tab-title>
           <calcite-tab-title id="title-2" >Tab 2 Title</calcite-tab-title>
           <calcite-tab-title id="title-3" >Tab 3 Title</calcite-tab-title>
           <calcite-tab-title id="title-4" >Tab 4 Title</calcite-tab-title>
         </calcite-tab-nav>
 
-        <calcite-tab id="tab-1" active>Tab 1 Content</calcite-tab>
+        <calcite-tab id="tab-1" selected>Tab 1 Content</calcite-tab>
         <calcite-tab id="tab-2">Tab 2 Content</calcite-tab>
         <calcite-tab id="tab-3">Tab 3 Content</calcite-tab>
         <calcite-tab id="tab-4">Tab 4 Content</calcite-tab>
@@ -52,10 +54,10 @@ describe("calcite-tabs", () => {
     const tabs = await page.findAll("calcite-tab");
     const titles = await page.findAll("calcite-tab-title");
 
-    expect(tabs[0]).toEqualAttribute("aria-expanded", "true");
-    expect(tabs[1]).toEqualAttribute("aria-expanded", "false");
-    expect(tabs[2]).toEqualAttribute("aria-expanded", "false");
-    expect(tabs[3]).toEqualAttribute("aria-expanded", "false");
+    expect(titles[0]).toEqualAttribute("aria-selected", "true");
+    expect(titles[1]).toEqualAttribute("aria-selected", "false");
+    expect(titles[2]).toEqualAttribute("aria-selected", "false");
+    expect(titles[3]).toEqualAttribute("aria-selected", "false");
 
     for (let index = 0; index < tabs.length; index++) {
       const tab = tabs[index];
@@ -70,14 +72,14 @@ describe("calcite-tabs", () => {
 
     await page.setContent(`
       <calcite-tabs>
-        <calcite-tab-nav slot="tab-nav">
-          <calcite-tab-title active>Tab 1 Title</calcite-tab-title>
+        <calcite-tab-nav slot="title-group">
+          <calcite-tab-title selected>Tab 1 Title</calcite-tab-title>
           <calcite-tab-title id="insert-after-title">Tab 2 Title</calcite-tab-title>
           <calcite-tab-title>Tab 3 Title</calcite-tab-title>
           <calcite-tab-title>Tab 4 Title</calcite-tab-title>
         </calcite-tab-nav>
 
-        <calcite-tab active>Tab 1 Content</calcite-tab>
+        <calcite-tab selected>Tab 1 Content</calcite-tab>
         <calcite-tab id="insert-after-tab">Tab 2 Content</calcite-tab>
         <calcite-tab>Tab 3 Content</calcite-tab>
         <calcite-tab>Tab 4 Content</calcite-tab>
@@ -166,7 +168,7 @@ describe("calcite-tabs", () => {
       const page = await newE2EPage({
         html: `
         <calcite-tabs bordered>
-          <calcite-tab-nav slot="tab-nav">
+          <calcite-tab-nav slot="title-group">
             <calcite-tab-title icon-start="arrow-left" icon-end="arrow-right">Tab 1 Title</calcite-tab-title>
             <calcite-tab-title icon-start="arrow-left" icon-end="arrow-right" >Tab 2 Title</calcite-tab-title>
           </calcite-tab-nav>
@@ -181,11 +183,11 @@ describe("calcite-tabs", () => {
       expect(indicatorStyles.bottom).not.toEqual("0px");
     });
 
-    it("should render tab-nav's blue active indicator on bottom when position is below", async () => {
+    it("should render tab-nav's blue active indicator on bottom when position is bottom", async () => {
       const page = await newE2EPage({
         html: `
-        <calcite-tabs bordered position="below">
-          <calcite-tab-nav slot="tab-nav">
+        <calcite-tabs bordered position="bottom">
+          <calcite-tab-nav slot="title-group">
             <calcite-tab-title icon-start="arrow-left" icon-end="arrow-right">Tab 1 Title</calcite-tab-title>
             <calcite-tab-title icon-start="arrow-left" icon-end="arrow-right" >Tab 2 Title</calcite-tab-title>
           </calcite-tab-nav>
@@ -201,21 +203,21 @@ describe("calcite-tabs", () => {
     });
   });
 
-  it("should ignore bordered attribute when layout is center", async () => {
+  it("should not ignore bordered attribute when layout is center", async () => {
     const page = await newE2EPage({
       html: `<calcite-tabs layout="center" bordered>${tabsContent}</calcite-tabs>`
     });
-    expect(await page.find("calcite-tabs")).not.toHaveAttribute("bordered");
+    expect(await page.find("calcite-tabs")).toHaveAttribute("bordered");
   });
 
   it("item selection should work when placed inside shadow DOM (#992)", async () => {
     const wrappedTabTemplateHTML = html`
       <calcite-tabs>
-        <calcite-tab-nav slot="tab-nav">
-          <calcite-tab-title id="title-1" active>Tab 1 Title</calcite-tab-title>
+        <calcite-tab-nav slot="title-group">
+          <calcite-tab-title id="title-1" selected>Tab 1 Title</calcite-tab-title>
           <calcite-tab-title id="title-2">Tab 2 Title</calcite-tab-title>
         </calcite-tab-nav>
-        <calcite-tab id="tab-1" active>Tab 1 Content</calcite-tab>
+        <calcite-tab id="tab-1" selected>Tab 1 Content</calcite-tab>
         <calcite-tab id="tab-2">Tab 2 Content</calcite-tab>
       </calcite-tabs>
     `;
@@ -252,8 +254,8 @@ describe("calcite-tabs", () => {
         await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
         await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
 
-        const titleTab = wrapper.shadowRoot.querySelector("calcite-tab-title[active]").id;
-        const contentTab = wrapper.shadowRoot.querySelector("calcite-tab[active]").id;
+        const titleTab = wrapper.shadowRoot.querySelector("calcite-tab-title[selected]").id;
+        const contentTab = wrapper.shadowRoot.querySelector("calcite-tab[selected]").id;
         return { titleTab, contentTab };
       },
       [wrappedTabTemplateHTML]
@@ -266,13 +268,13 @@ describe("calcite-tabs", () => {
     const page = await newE2EPage({
       html: html`
         <calcite-tabs id="parentTabs">
-          <calcite-tab-nav slot="tab-nav">
+          <calcite-tab-nav slot="title-group">
             <calcite-tab-title id="parentA">Parent 1</calcite-tab-title>
             <calcite-tab-title>Parent 2</calcite-tab-title>
           </calcite-tab-nav>
           <calcite-tab id="parentTabA">
             <calcite-tabs>
-              <calcite-tab-nav slot="tab-nav">
+              <calcite-tab-nav slot="title-group">
                 <calcite-tab-title>Child 1</calcite-tab-title>
                 <calcite-tab-title id="kidB">Child 2</calcite-tab-title>
                 <calcite-tab-title>Child 3</calcite-tab-title>
@@ -290,17 +292,17 @@ describe("calcite-tabs", () => {
     await page.waitForChanges();
 
     const kidB = await page.find("#kidB");
-    kidB.click();
+    await kidB.click();
 
     await page.waitForChanges();
 
     const parentTabA = await page.find("#parentTabA");
-    const childTitle = (await parentTabA.find("calcite-tab-title[active]")).getAttribute("id");
-    const childContent = (await parentTabA.find("calcite-tab[active]")).getAttribute("id");
+    const childTitle = (await parentTabA.find("calcite-tab-title[selected]")).getAttribute("id");
+    const childContent = (await parentTabA.find("calcite-tab[selected]")).getAttribute("id");
 
     const parentTabs = await page.find("#parentTabs");
-    const parentTitle = (await parentTabs.find("calcite-tab-title[active]")).getAttribute("id");
-    const parentContent = (await parentTabs.find("calcite-tab[active]")).getAttribute("id");
+    const parentTitle = (await parentTabs.find("calcite-tab-title[selected]")).getAttribute("id");
+    const parentContent = (await parentTabs.find("calcite-tab[selected]")).getAttribute("id");
 
     expect(childTitle).toBe("kidB");
     expect(childContent).toBe("kidBTab");

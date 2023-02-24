@@ -57,8 +57,8 @@ Add `calcite-match-height` to a wrapping element to ensure proper height, scroll
     <calcite-action text="Layers" icon="layers"></calcite-action>
   </calcite-action-bar>
   <calcite-flow>
-    <calcite-panel> ... </calcite-panel>
-    <calcite-panel> ... </calcite-panel>
+    <calcite-flow-item> ... </calcite-flow-item>
+    <calcite-flow-item> ... </calcite-flow-item>
   </calcite-flow>
 </calcite-shell-panel>
 ```
@@ -78,28 +78,31 @@ Add `calcite-match-height` to a wrapping element to ensure proper height, scroll
 
 ## Properties
 
-| Property              | Attribute               | Description                                                                                  | Type                | Default       |
-| --------------------- | ----------------------- | -------------------------------------------------------------------------------------------- | ------------------- | ------------- |
-| `collapsed`           | `collapsed`             | Hide the content panel.                                                                      | `boolean`           | `false`       |
-| `detached`            | `detached`              | This property makes the content area appear like a "floating" panel.                         | `boolean`           | `false`       |
-| `detachedHeightScale` | `detached-height-scale` | Specifies the maximum height of the contents when detached.                                  | `"l" \| "m" \| "s"` | `"l"`         |
-| `intlResize`          | `intl-resize`           | Accessible label for resize separator.                                                       | `string`            | `TEXT.resize` |
-| `position`            | `position`              | Arranges the component depending on the elements 'dir' property.                             | `"end" \| "start"`  | `undefined`   |
-| `resizable`           | `resizable`             | This property makes the content area resizable if the calcite-shell-panel is not 'detached'. | `boolean`           | `false`       |
-| `widthScale`          | `width-scale`           | This sets width of the content area.                                                         | `"l" \| "m" \| "s"` | `"m"`         |
-
-## Events
-
-| Event                     | Description                                                                                                                                                                 | Type               |
-| ------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------ |
-| `calciteShellPanelToggle` | <span style="color:red">**[DEPRECATED]**</span> use a resizeObserver on the shell-panel to listen for changes to its size.<br/><br/>Emitted when collapse has been toggled. | `CustomEvent<any>` |
+| Property              | Attribute               | Description                                                                                                | Type                 | Default     |
+| --------------------- | ----------------------- | ---------------------------------------------------------------------------------------------------------- | -------------------- | ----------- |
+| `collapsed`           | `collapsed`             | When `true`, hides the component's content area.                                                           | `boolean`            | `false`     |
+| `detached`            | `detached`              | When `true`, the content area displays like a floating panel.                                              | `boolean`            | `false`     |
+| `detachedHeightScale` | `detached-height-scale` | When `detached`, specifies the maximum height of the component.                                            | `"l" \| "m" \| "s"`  | `"l"`       |
+| `messageOverrides`    | `message-overrides`     | Use this property to override individual strings used by the component.                                    | `ShellPanelMessages` | `undefined` |
+| `position`            | `position`              | Specifies the component's position. Will be flipped when the element direction is right-to-left (`"rtl"`). | `"end" \| "start"`   | `undefined` |
+| `resizable`           | `resizable`             | When `true` and not `detached`, the component's content area is resizable.                                 | `boolean`            | `false`     |
+| `widthScale`          | `width-scale`           | Specifies the width of the component's content area.                                                       | `"l" \| "m" \| "s"`  | `"m"`       |
 
 ## Slots
 
-| Slot           | Description                                            |
-| -------------- | ------------------------------------------------------ |
-|                | A slot for adding content to the shell panel.          |
-| `"action-bar"` | A slot for adding a `calcite-action-bar` to the panel. |
+| Slot           | Description                                                |
+| -------------- | ---------------------------------------------------------- |
+|                | A slot for adding custom content.                          |
+| `"action-bar"` | A slot for adding a `calcite-action-bar` to the component. |
+
+## CSS Custom Properties
+
+| Name                                        | Description                                                  |
+| ------------------------------------------- | ------------------------------------------------------------ |
+| `--calcite-shell-panel-detached-max-height` | The maximum height of the component when `detached` is true. |
+| `--calcite-shell-panel-max-width`           | The maximum width of the component.                          |
+| `--calcite-shell-panel-min-width`           | The minimum width of the component.                          |
+| `--calcite-shell-panel-width`               | The width of the component.                                  |
 
 ---
 

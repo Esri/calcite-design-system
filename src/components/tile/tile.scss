@@ -21,7 +21,7 @@
   justify-center
   gap-2;
     // set width handles slotted content and heading word wrap
-    width: 10%;
+    inline-size: 10%;
   }
 
   .content-container {
@@ -58,7 +58,7 @@
   .large-visual {
     @apply items-center
       text-center;
-    min-height: theme("spacing.48");
+    min-block-size: theme("spacing.48");
     .icon {
       @apply flex
         justify-center

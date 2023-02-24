@@ -24,7 +24,12 @@
 
 :host,
 .list {
-  @apply m-0 flex flex-col p-0 outline-none;
+  @apply m-0 flex flex-col p-0;
+}
+
+:host(:focus),
+.list:focus {
+  @apply outline-none;
 }
 
 .label {
@@ -48,7 +53,6 @@
     flex-1
     border-b
     font-bold;
-  padding: var(--calcite-combobox-item-spacing-unit-l) 0;
-  margin-left: var(--calcite-combobox-item-spacing-unit-s);
-  margin-right: var(--calcite-combobox-item-spacing-unit-s);
+  padding-block: var(--calcite-combobox-item-spacing-unit-l);
+  padding-inline: var(--calcite-combobox-item-spacing-unit-s);
 }

@@ -1,21 +1,25 @@
-import { boolean, select, text } from "@storybook/addon-knobs";
+import { boolean, select } from "@storybook/addon-knobs";
 import {
   Attributes,
   Attribute,
   filterComponentAttributes,
   createComponentHTML as create,
-  themesDarkDefault
+  modesDarkDefault
 } from "../../../.storybook/utils";
 import readme from "./readme.md";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { html } from "../../../support/formatting";
-import { TEXT } from "./resources";
+import { storyFilters } from "../../../.storybook/helpers";
 
 export default {
   title: "Components/Action Pad",
   parameters: {
-    notes: readme
-  }
+    notes: readme,
+    chromatic: {
+      delay: 5000
+    }
+  },
+  ...storyFilters()
 };
 
 const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ exceptions } = { exceptions: [] }) => {
@@ -46,29 +50,13 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
           delete this.build;
           return this;
         }
-      },
-      {
-        name: "intl-expand",
-        commit(): Attribute {
-          this.value = text("intlExpand", TEXT.expand);
-          delete this.build;
-          return this;
-        }
-      },
-      {
-        name: "intl-collapse",
-        commit(): Attribute {
-          this.value = text("intlCollapse", TEXT.collapse);
-          delete this.build;
-          return this;
-        }
       }
     ],
     exceptions
   );
 };
 
-export const basic = (): string =>
+export const simple = (): string =>
   create(
     "calcite-action-pad",
     createAttributes(),
@@ -83,7 +71,25 @@ export const basic = (): string =>
     `
   );
 
-export const darkThemeRTL = (): string =>
+export const withDefinedWidths = (): string =>
+  html`
+    <style>
+      calcite-action-pad {
+        --calcite-action-pad-expanded-max-width: 150px;
+      }
+    </style>
+    <calcite-action-pad expanded>
+      <calcite-action-group>
+        <calcite-action text="Add to my custom action pad application" icon="plus"></calcite-action>
+        <calcite-action text="Save to my custom action pad application" icon="save"></calcite-action>
+      </calcite-action-group>
+      <calcite-action-group>
+        <calcite-action text="Layers in my custom action pad application" icon="layers"></calcite-action>
+      </calcite-action-group>
+    </calcite-action-pad>
+  `;
+
+export const darkModeRTL_TestOnly = (): string =>
   create(
     "calcite-action-pad",
     createAttributes({ exceptions: ["dir", "class"] }).concat([
@@ -93,7 +99,7 @@ export const darkThemeRTL = (): string =>
       },
       {
         name: "class",
-        value: "calcite-theme-dark"
+        value: "calcite-mode-dark"
       }
     ]),
     html`
@@ -107,9 +113,9 @@ export const darkThemeRTL = (): string =>
     `
   );
 
-darkThemeRTL.parameters = { themes: themesDarkDefault };
+darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
 
-export const withTooltip = (): string =>
+export const withTooltip_NoTest = (): string =>
   create(
     "calcite-action-pad",
     createAttributes(),
@@ -118,3 +124,31 @@ export const withTooltip = (): string =>
       <calcite-action text="Add" icon="plus"></calcite-action>
     `
   );
+
+withTooltip_NoTest.parameters = {
+  chromatic: { disableSnapshot: true }
+};
+
+export const hebrewLocale_TestOnly = (): string => html`<div style="width:400px">
+  <calcite-action-pad expanded lang="he" layout="horizontal"> </calcite-action-pad>
+</div>`;
+
+export const norwegianLocale_TestOnly = (): string => html`<div style="width:400px">
+  <calcite-action-pad expanded lang="nb" layout="horizontal"> </calcite-action-pad>
+</div>`;
+
+export const spanishLocale_TestOnly = (): string => html`<div style="width:400px">
+  <calcite-action-pad expanded lang="es" layout="horizontal"> </calcite-action-pad>
+</div>`;
+
+export const taiwanLocale_TestOnly = (): string => html`<div style="width:400px">
+  <calcite-action-pad expanded lang="zh-TW" layout="horizontal"> </calcite-action-pad>
+</div>`;
+
+export const russianLocale_TestOnly = (): string => html`<div style="width:400px">
+  <calcite-action-pad expanded lang="ru" layout="horizontal"> </calcite-action-pad>
+</div>`;
+
+export const romanianMoldovaLocale_TestOnly = (): string => html`<div style="width:400px">
+  <calcite-action-pad expanded lang="ro-mo" layout="horizontal"> </calcite-action-pad>
+</div>`;

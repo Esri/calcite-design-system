@@ -11,19 +11,25 @@ import {
   VNode,
   Watch
 } from "@stencil/core";
-import { guid } from "../../utils/guid";
+import { getRoundRobinIndex } from "../../utils/array";
 import { focusElement, getElementDir, toAriaBoolean } from "../../utils/dom";
-import { Scale } from "../interfaces";
-import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
 import {
-  HiddenFormInputSlot,
+  CheckableFormComponent,
   connectForm,
   disconnectForm,
-  CheckableFormCompoment
+  HiddenFormInputSlot
 } from "../../utils/form";
-import { CSS } from "./resources";
-import { getRoundRobinIndex } from "../../utils/array";
+import { guid } from "../../utils/guid";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
+import {
+  componentLoaded,
+  LoadableComponent,
+  setComponentLoaded,
+  setUpLoadableComponent
+} from "../../utils/loadable";
+import { Scale } from "../interfaces";
+import { CSS } from "./resources";
 
 @Component({
   tag: "calcite-radio-button",
@@ -31,7 +37,7 @@ import { InteractiveComponent, updateHostInteraction } from "../../utils/interac
   shadow: true
 })
 export class RadioButton
-  implements LabelableComponent, CheckableFormCompoment, InteractiveComponent
+  implements LabelableComponent, CheckableFormComponent, InteractiveComponent, LoadableComponent
 {
   //--------------------------------------------------------------------------
   //
@@ -47,7 +53,7 @@ export class RadioButton
   //
   //--------------------------------------------------------------------------
 
-  /** The checked state of the radio button. */
+  /** When `true`, the component is checked. */
   @Prop({ mutable: true, reflect: true }) checked = false;
 
   @Watch("checked")
@@ -56,40 +62,44 @@ export class RadioButton
       this.uncheckOtherRadioButtonsInGroup();
     }
 
-    this.calciteInternalRadioButtonCheckedChange.emit(newChecked);
+    this.calciteInternalRadioButtonCheckedChange.emit();
   }
 
-  /** The disabled state of the radio button. */
+  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @Prop({ reflect: true }) disabled = false;
 
   /**
-   * The focused state of the radio button.
+   * The focused state of the component.
    *
    * @internal
    */
   @Prop({ mutable: true, reflect: true }) focused = false;
 
-  /** The id attribute of the radio button.  When omitted, a globally unique identifier is used. */
+  /** The `id` of the component. When omitted, a globally unique identifier is used. */
   @Prop({ reflect: true, mutable: true }) guid: string;
 
-  /** The radio button's hidden status.  When a radio button is hidden it is not focusable or checkable. */
+  /** When `true`, the component is not displayed and is not focusable or checkable. */
   @Prop({ reflect: true }) hidden = false;
 
   /**
-   * The hovered state of the radio button.
+   * The hovered state of the component.
    *
    * @internal
    */
   @Prop({ reflect: true, mutable: true }) hovered = false;
 
   /**
-   * The label of the radio input
+   * Accessible name for the component.
    *
    * @internal
    */
   @Prop() label?: string;
 
-  /** The name of the radio button. `name` is passed as a property automatically from `calcite-radio-button-group`. */
+  /**
+   * Specifies the name of the component. Can be inherited from `calcite-radio-button-group`.
+   *
+   * Required to pass the component's `value` on form submission.
+   */
   @Prop({ reflect: true }) name: string;
 
   @Watch("name")
@@ -97,13 +107,13 @@ export class RadioButton
     this.checkLastRadioButton();
   }
 
-  /** Requires that a value is selected for the radio button group before the parent form will submit. */
+  /** When `true`, the component must have a value selected from the `calcite-radio-button-group` in order for the form to submit. */
   @Prop({ reflect: true }) required = false;
 
-  /** The scale (size) of the radio button. `scale` is passed as a property automatically from `calcite-radio-button-group`. */
+  /** Specifies the size of the component inherited from the `calcite-radio-button-group`. */
   @Prop({ reflect: true }) scale: Scale = "m";
 
-  /** The value of the radio button. */
+  /** The component's value. */
   @Prop({ mutable: true }) value!: any;
 
   //--------------------------------------------------------------------------
@@ -115,6 +125,8 @@ export class RadioButton
   labelEl: HTMLCalciteLabelElement;
 
   formEl: HTMLFormElement;
+
+  defaultChecked: boolean;
 
   defaultValue: RadioButton["value"];
 
@@ -131,6 +143,8 @@ export class RadioButton
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
+    await componentLoaded(this);
+
     if (!this.disabled) {
       focusElement(this.containerEl);
     }
@@ -141,6 +155,10 @@ export class RadioButton
   //  Private Methods
   //
   //--------------------------------------------------------------------------
+
+  syncHiddenFormInput(input: HTMLInputElement): void {
+    input.type = "radio";
+  }
 
   selectItem = (items: HTMLCalciteRadioButtonElement[], selectedIndex: number): void => {
     items[selectedIndex].click();
@@ -163,6 +181,7 @@ export class RadioButton
     }
     this.uncheckAllRadioButtonsInGroup();
     this.checked = true;
+    this.focused = true;
     this.calciteRadioButtonChange.emit();
     this.setFocus();
   };
@@ -257,15 +276,15 @@ export class RadioButton
    *
    * @internal
    */
-  @Event() calciteInternalRadioButtonBlur: EventEmitter;
+  @Event({ cancelable: false }) calciteInternalRadioButtonBlur: EventEmitter<void>;
 
   /**
    * Fires only when the radio button is checked.  This behavior is identical to the native HTML input element.
    * Since this event does not fire when the radio button is unchecked, it's not recommended to attach a listener for this event
    * directly on the element, but instead either attach it to a node that contains all of the radio buttons in the group
-   * or use the calciteRadioButtonGroupChange event if using this with calcite-radio-button-group.
+   * or use the `calciteRadioButtonGroupChange` event if using this with `calcite-radio-button-group`.
    */
-  @Event() calciteRadioButtonChange: EventEmitter;
+  @Event({ cancelable: false }) calciteRadioButtonChange: EventEmitter<void>;
 
   /**
    * Fires when the checked property changes.  This is an internal event used for styling purposes only.
@@ -273,14 +292,14 @@ export class RadioButton
    *
    * @internal
    */
-  @Event() calciteInternalRadioButtonCheckedChange: EventEmitter;
+  @Event({ cancelable: false }) calciteInternalRadioButtonCheckedChange: EventEmitter<void>;
 
   /**
    * Fires when the radio button is focused.
    *
    * @internal
    */
-  @Event() calciteInternalRadioButtonFocus: EventEmitter;
+  @Event({ cancelable: false }) calciteInternalRadioButtonFocus: EventEmitter<void>;
 
   //--------------------------------------------------------------------------
   //
@@ -288,19 +307,19 @@ export class RadioButton
   //
   //--------------------------------------------------------------------------
 
-  @Listen("mouseenter")
+  @Listen("pointerenter")
   mouseenter(): void {
     this.hovered = true;
   }
 
-  @Listen("mouseleave")
+  @Listen("pointerleave")
   mouseleave(): void {
     this.hovered = false;
   }
 
   handleKeyDown = (event: KeyboardEvent): void => {
     const keys = ["ArrowLeft", "ArrowUp", "ArrowRight", "ArrowDown", " "];
-    const key = event.key;
+    const { key } = event;
     const { el } = this;
 
     if (keys.indexOf(key) === -1) {
@@ -309,6 +328,7 @@ export class RadioButton
 
     if (key === " ") {
       this.check();
+      event.preventDefault();
       return;
     }
 
@@ -386,7 +406,13 @@ export class RadioButton
     connectForm(this);
   }
 
+  componentWillLoad(): void {
+    setUpLoadableComponent(this);
+  }
+
   componentDidLoad(): void {
+    setComponentLoaded(this);
+
     if (this.focused && !this.disabled) {
       this.setFocus();
     }

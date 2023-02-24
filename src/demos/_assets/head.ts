@@ -15,10 +15,13 @@
     {
       src: "build/calcite.esm.js",
       type: "module"
+    },
+    {
+      src: "demos/_assets/demo-dom-swapper.js"
     }
   ];
 
-  const parseTemplate = (text: string): HTMLTemplateElement => {
+  const parseTemplate = (text: string): HTMLTemplateElement | null => {
     const parser = new DOMParser();
     const doc = parser.parseFromString(text, "text/html");
     return doc.head.querySelector("template");
@@ -29,8 +32,10 @@
     const response = await window.fetch(`${root}${ASSETS_PATH}/demo-template.html`);
     const text = await response.text();
     const template = parseTemplate(text);
-    const firstChild = document.body.firstChild;
-    firstChild && document.body.insertBefore(template.content, firstChild);
+    if (template) {
+      const firstChild = document.body.firstChild;
+      firstChild && document.body.insertBefore(template.content, firstChild);
+    }
   };
 
   if (window.location.pathname.includes("/demos/") && !urlParams.has(DISABLE_HEADER_URL_PARAM)) {

@@ -9,7 +9,7 @@
 A single instance of an alert. Multiple alerts will aggregate in a queue.
 
 ```html
-<calcite-alert active>
+<calcite-alert open>
   <div slot="title">Title of alert</div>
   <div slot="message">Message text of the alert</div>
   <a slot="link" href="#">Retry</a>
@@ -18,30 +18,34 @@ A single instance of an alert. Multiple alerts will aggregate in a queue.
 
 ## Properties
 
-| Property              | Attribute               | Description                                                                                                                                            | Type                                                                              | Default                              |
-| --------------------- | ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------- | ------------------------------------ |
-| `active`              | `active`                | Is the alert currently active or not                                                                                                                   | `boolean`                                                                         | `false`                              |
-| `autoDismiss`         | `auto-dismiss`          | Close the alert automatically (recommended for passive, non-blocking alerts)                                                                           | `boolean`                                                                         | `false`                              |
-| `autoDismissDuration` | `auto-dismiss-duration` | Duration of autoDismiss (only used with `autoDismiss`)                                                                                                 | `"fast" \| "medium" \| "slow"`                                                    | `this.autoDismiss ? "medium" : null` |
-| `color`               | `color`                 | Color for the alert (will apply to top border and icon)                                                                                                | `"blue" \| "green" \| "red" \| "yellow"`                                          | `"blue"`                             |
-| `icon`                | `icon`                  | when used as a boolean set to true, show a default recommended icon. You can also pass a calcite-ui-icon name to this prop to display a requested icon | `boolean \| string`                                                               | `undefined`                          |
-| `intlClose`           | `intl-close`            | string to override English close text                                                                                                                  | `string`                                                                          | `TEXT.intlClose`                     |
-| `label` _(required)_  | `label`                 | Accessible name for the component                                                                                                                      | `string`                                                                          | `undefined`                          |
-| `placement`           | `placement`             | specify the placement of the alert                                                                                                                     | `"bottom" \| "bottom-end" \| "bottom-start" \| "top" \| "top-end" \| "top-start"` | `"bottom"`                           |
-| `scale`               | `scale`                 | specify the scale of the alert, defaults to m                                                                                                          | `"l" \| "m" \| "s"`                                                               | `"m"`                                |
+| Property             | Attribute             | Description                                                                                                           | Type                                                                                                                                                                                                                                    | Default                            |
+| -------------------- | --------------------- | --------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------- |
+| `autoClose`          | `auto-close`          | When `true`, the component closes automatically (recommended for passive, non-blocking alerts).                       | `boolean`                                                                                                                                                                                                                               | `false`                            |
+| `autoCloseDuration`  | `auto-close-duration` | Specifies the duration before the component automatically closes (only use with `autoClose`).                         | `"fast" \| "medium" \| "slow"`                                                                                                                                                                                                          | `this.autoClose ? "medium" : null` |
+| `icon`               | `icon`                | When `true`, shows a default recommended icon. Alternatively, pass a Calcite UI Icon name to display a specific icon. | `boolean \| string`                                                                                                                                                                                                                     | `undefined`                        |
+| `iconFlipRtl`        | `icon-flip-rtl`       | When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).                          | `boolean`                                                                                                                                                                                                                               | `false`                            |
+| `kind`               | `kind`                | Specifies the kind of the component (will apply to top border and icon).                                              | `"brand" \| "danger" \| "info" \| "success" \| "warning"`                                                                                                                                                                               | `"brand"`                          |
+| `label` _(required)_ | `label`               | Specifies an accessible name for the component.                                                                       | `string`                                                                                                                                                                                                                                | `undefined`                        |
+| `messageOverrides`   | `message-overrides`   | Use this property to override individual strings used by the component.                                               | `AlertMessages`                                                                                                                                                                                                                         | `undefined`                        |
+| `numberingSystem`    | `numbering-system`    | Specifies the Unicode numeral system used by the component for localization.                                          | `"arab" \| "arabext" \| "bali" \| "beng" \| "deva" \| "fullwide" \| "gujr" \| "guru" \| "hanidec" \| "khmr" \| "knda" \| "laoo" \| "latn" \| "limb" \| "mlym" \| "mong" \| "mymr" \| "orya" \| "tamldec" \| "telu" \| "thai" \| "tibt"` | `undefined`                        |
+| `open`               | `open`                | When `true`, displays and positions the component.                                                                    | `boolean`                                                                                                                                                                                                                               | `false`                            |
+| `placement`          | `placement`           | Specifies the placement of the component                                                                              | `"bottom" \| "bottom-end" \| "bottom-start" \| "top" \| "top-end" \| "top-start"`                                                                                                                                                       | `"bottom"`                         |
+| `scale`              | `scale`               | Specifies the size of the component.                                                                                  | `"l" \| "m" \| "s"`                                                                                                                                                                                                                     | `"m"`                              |
 
 ## Events
 
-| Event               | Description                   | Type               |
-| ------------------- | ----------------------------- | ------------------ |
-| `calciteAlertClose` | Fired when an alert is closed | `CustomEvent<any>` |
-| `calciteAlertOpen`  | Fired when an alert is opened | `CustomEvent<any>` |
+| Event                     | Description                                                                                              | Type                |
+| ------------------------- | -------------------------------------------------------------------------------------------------------- | ------------------- |
+| `calciteAlertBeforeClose` | Fires when the component is requested to be closed and before the closing transition begins.             | `CustomEvent<void>` |
+| `calciteAlertBeforeOpen`  | Fires when the component is added to the DOM but not rendered, and before the opening transition begins. | `CustomEvent<void>` |
+| `calciteAlertClose`       | Fires when the component is closed and animation is complete.                                            | `CustomEvent<void>` |
+| `calciteAlertOpen`        | Fires when the component is open and animation is complete.                                              | `CustomEvent<void>` |
 
 ## Methods
 
 ### `setFocus() => Promise<void>`
 
-Sets focus on the component.
+Sets focus on the component's "close" button (the first focusable item).
 
 #### Returns
 
@@ -49,17 +53,18 @@ Type: `Promise<void>`
 
 ## Slots
 
-| Slot        | Description                                                                  |
-| ----------- | ---------------------------------------------------------------------------- |
-| `"link"`    | Optional action to take from the alert (undo, try again, link to page, etc.) |
-| `"message"` | Main text of the alert                                                       |
-| `"title"`   | Title of the alert (optional)                                                |
+| Slot            | Description                                                                                                        |
+| --------------- | ------------------------------------------------------------------------------------------------------------------ |
+| `"actions-end"` | A slot for adding `calcite-action`s to the end of the component. It is recommended to use two or fewer actions.    |
+| `"link"`        | A slot for adding a `calcite-action` to take from the component such as: "undo", "try again", "link to page", etc. |
+| `"message"`     | A slot for adding main text to the component.                                                                      |
+| `"title"`       | A slot for adding a title to the component.                                                                        |
 
 ## CSS Custom Properties
 
-| Name                    | Description            |
-| ----------------------- | ---------------------- |
-| `--calcite-alert-width` | the width of the alert |
+| Name                    | Description                           |
+| ----------------------- | ------------------------------------- |
+| `--calcite-alert-width` | Specifies the width of the component. |
 
 ## Dependencies
 

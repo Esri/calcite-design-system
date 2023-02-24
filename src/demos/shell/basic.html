@@ -20,52 +20,54 @@
   </head>
 
   <body>
-    <main>
-      <div class="example-container">
-        <h1>calcite-shell</h1>
+    <demo-dom-swapper>
+      <main>
+        <div class="example-container">
+          <h1>calcite-shell</h1>
 
-        <h2>Basic Shell</h2>
-        <div class="shell-container">
-          <calcite-shell>
-            <div slot="header">
-              <header class="header">
-                <h2 class="heading">Shell Header: My App</h2>
-              </header>
-            </div>
-            <p>Shell Content</p>
-            <img src="https://via.placeholder.com/700x400" alt="placeholder" />
-          </calcite-shell>
-        </div>
-        <h2>Shell with Footer</h2>
-        <div class="shell-container">
-          <calcite-shell>
-            <div slot="header">
-              <header class="header">
-                <h2 class="heading">Shell Header: My App</h2>
-              </header>
-            </div>
-            <p>Shell Content</p>
-            <img src="https://via.placeholder.com/700x400" alt="placeholder" />
+          <h2>Basic Shell</h2>
+          <div class="shell-container">
+            <calcite-shell>
+              <div slot="header">
+                <header class="header">
+                  <h2 class="heading">Shell Header: My App</h2>
+                </header>
+              </div>
+              <p>Shell Content</p>
+              <img src="https://via.placeholder.com/700x400" alt="placeholder" />
+            </calcite-shell>
+          </div>
+          <h2>Shell with Footer</h2>
+          <div class="shell-container">
+            <calcite-shell>
+              <div slot="header">
+                <header class="header">
+                  <h2 class="heading">Shell Header: My App</h2>
+                </header>
+              </div>
+              <p>Shell Content</p>
+              <img src="https://via.placeholder.com/700x400" alt="placeholder" />
 
-            <footer slot="footer">Footer</footer>
-          </calcite-shell>
-        </div>
-        <h2>Shell with Panels</h2>
-        <div class="shell-container">
-          <calcite-shell>
-            <calcite-shell-panel slot="primary-panel" position="start"> leading panel </calcite-shell-panel>
+              <footer slot="footer">Footer</footer>
+            </calcite-shell>
+          </div>
+          <h2>Shell with Panels</h2>
+          <div class="shell-container">
+            <calcite-shell>
+              <calcite-shell-panel slot="panel-start" position="start"> leading panel </calcite-shell-panel>
 
-            <calcite-shell-panel slot="contextual-panel" position="end"> trailing panel </calcite-shell-panel>
-            <div slot="header">
-              <header class="header">
-                <h2 class="heading">Shell Header: My App</h2>
-              </header>
-            </div>
-            <p>Shell Content</p>
-            <img src="https://via.placeholder.com/700x400" alt="placeholder" />
-          </calcite-shell>
+              <calcite-shell-panel slot="panel-end" position="end"> trailing panel </calcite-shell-panel>
+              <div slot="header">
+                <header class="header">
+                  <h2 class="heading">Shell Header: My App</h2>
+                </header>
+              </div>
+              <p>Shell Content</p>
+              <img src="https://via.placeholder.com/700x400" alt="placeholder" />
+            </calcite-shell>
+          </div>
         </div>
-      </div>
-    </main>
+      </main>
+    </demo-dom-swapper>
   </body>
 </html>

@@ -1,63 +1,57 @@
 import { number, select } from "@storybook/addon-knobs";
 import { locales } from "../../utils/locale";
-import { themesDarkDefault } from "../../../.storybook/utils";
+import { modesDarkDefault } from "../../../.storybook/utils";
 import readme from "./readme.md";
 import { html } from "../../../support/formatting";
+import { storyFilters } from "../../../.storybook/helpers";
 
 export default {
   title: "Components/Pagination",
-
   parameters: {
-    notes: readme
-  }
+    notes: readme,
+    chromatic: {
+      delay: 500
+    }
+  },
+  ...storyFilters()
 };
 
-export const Simple = (): string => html`
+export const simple = (): string => html`
   <calcite-pagination
     scale="${select("scale", ["s", "m", "l"], "m")}"
-    start="${number("start", 1)}"
-    total="${number("total", 123456789)}"
-    num="${number("num", 10)}"
-    dir="${select("dir", ["ltr", "rtl"], "ltr")}"
+    start-item="${number("start-item", 1)}"
+    lang="${select("lang", locales, "en")}"
+    total-items="${number("total-items", 123456789)}"
+    page-size="${number("page-size", 10)}"
   >
   </calcite-pagination>
 `;
 
-export const Locales = (): string => html`
+export const darkModeFrenchLocaleAndLargeScaleGetsMediumChevron_TestOnly = (): string => html`
   <calcite-pagination
-    lang="${select("lang", locales, "fr")}"
-    scale="${select("scale", ["s", "m", "l"], "m")}"
-    start="${number("start", 1)}"
-    total="${number("total", 123456789)}"
-    num="${number("num", 10)}"
-    dir="${select("dir", ["ltr", "rtl"], "ltr")}"
+    class="calcite-mode-dark"
+    start-item="1"
+    lang="fr"
+    group-separator
+    total-items="123456789"
+    page-size="10"
+    scale="l"
   >
   </calcite-pagination>
 `;
 
-export const DarkMode = (): string => html`
-  <calcite-pagination
-    class="calcite-theme-dark"
-    scale="${select("scale", ["s", "m", "l"], "m")}"
-    start="${number("start", 1)}"
-    total="${number("total", 123456789)}"
-    num="${number("num", 10)}"
-    dir="${select("dir", ["ltr", "rtl"], "ltr")}"
-    class="calcite-theme-dark"
-  >
-  </calcite-pagination>
-`;
+darkModeFrenchLocaleAndLargeScaleGetsMediumChevron_TestOnly.parameters = { modes: modesDarkDefault };
 
-DarkMode.parameters = { themes: themesDarkDefault };
+export const arabicNumberingSystemAndRTL_TestOnly = (): string => html`<calcite-pagination
+  dir="rtl"
+  page-sizebering-system="arab"
+  start-item="1"
+  lang="fr"
+  total-items="123456789"
+  page-size="10"
+>
+</calcite-pagination>`;
 
-export const RTL = (): string => html`
-  <calcite-pagination
-    dir="rtl"
-    scale="${select("scale", ["s", "m", "l"], "m")}"
-    start="${number("start", 1)}"
-    total="${number("total", 123456789)}"
-    num="${number("num", 10)}"
-    dir="${select("dir", ["ltr", "rtl"], "ltr")}"
-  >
-  </calcite-pagination>
-`;
+arabicNumberingSystemAndRTL_TestOnly.parameters = {
+  chromatic: { diffThreshold: 1 }
+};

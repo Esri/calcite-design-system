@@ -1,18 +1,20 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { defaults, renders } from "../../tests/commonTests";
+import { defaults, renders, hidden } from "../../tests/commonTests";
 
 describe("calcite-tab", () => {
   const tabHtml = "<calcite-tab>A tab</calcite-tab>";
 
   it("renders", async () => {
     await renders("calcite-tab", { display: "none", visible: false });
-    await renders("<calcite-tab active></calcite-tab>", { display: "block", visible: true });
+    await renders("<calcite-tab selected></calcite-tab>", { display: "block", visible: true });
   });
+
+  it("honors hidden attribute", async () => hidden("calcite-tab"));
 
   it("has defaults", async () =>
     defaults("calcite-tab", [
       { propertyName: "tab", defaultValue: undefined },
-      { propertyName: "active", defaultValue: false },
+      { propertyName: "selected", defaultValue: false },
       { propertyName: "scale", defaultValue: undefined }
     ]));
 

@@ -1,5 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, defaults, focusable, renders } from "../../tests/commonTests";
+import { accessible, defaults, focusable, hidden, renders, t9n } from "../../tests/commonTests";
 import { formatTimePart } from "../../utils/time";
 import { CSS } from "./resources";
 
@@ -37,6 +37,8 @@ export type NumericString = "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" 
 describe("calcite-time-picker", () => {
   it("renders", async () => renders("calcite-time-picker", { display: "inline-block" }));
 
+  it("honors hidden attribute", async () => hidden("calcite-time-picker"));
+
   it("is accessible", async () => accessible(`<calcite-time-picker></calcite-time-picker>`));
 
   it("is accessible using seconds", async () =>
@@ -48,9 +50,14 @@ describe("calcite-time-picker", () => {
       { propertyName: "step", defaultValue: 60 }
     ]));
 
-  it("should focus the first input when setFocus is called", async () =>
+  it("should focus the first focusable element when setFocus is called (ltr)", async () =>
     focusable(`calcite-time-picker`, {
-      shadowFocusTargetSelector: `.${CSS.hour}`
+      shadowFocusTargetSelector: `.${CSS.buttonHourUp}`
+    }));
+
+  it("should focus the first focusable element when setFocus is called (rtl)", async () =>
+    focusable(`<calcite-time-picker dir="rtl" lang="ar"></calcite-time-picker>`, {
+      shadowFocusTargetSelector: `.${CSS.buttonHourUp}`
     }));
 
   it("value displays correctly when value is programmatically changed", async () => {
@@ -1041,5 +1048,16 @@ describe("calcite-time-picker", () => {
       const timePickerDir = await timePicker.getAttribute("dir");
       expect(timePickerDir).toBe("ltr");
     });
+
+    it("meridiem is at the start of the time for arabic locale", async () => {
+      const page = await newE2EPage({
+        html: `<calcite-time-picker lang="ar" dir="rtl"></calcite-time-picker>`
+      });
+
+      const meridiemStart = await page.find(`calcite-time-picker >>> .${CSS.meridiemStart}`);
+      expect(meridiemStart).toBeTruthy();
+    });
   });
+
+  it("suuports translation", () => t9n("<calcite-time-picker></calcite-time-picker>"));
 });

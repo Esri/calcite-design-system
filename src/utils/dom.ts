@@ -1,6 +1,10 @@
-import { CSS_UTILITY } from "./resources";
+import { tabbable } from "tabbable";
 import { guid } from "./guid";
+import { CSS_UTILITY } from "./resources";
 
+export const tabbableOptions = {
+  getShadowRoot: true
+};
 /**
  * This helper will guarantee an ID on the provided element.
  *
@@ -23,12 +27,12 @@ export function nodeListToArray<T extends Element>(nodeList: HTMLCollectionOf<T>
 
 export type Direction = "ltr" | "rtl";
 
-export function getThemeName(el: HTMLElement): "light" | "dark" {
-  const closestElWithTheme = closestElementCrossShadowBoundary(
+export function getModeName(el: HTMLElement): "light" | "dark" {
+  const closestElWithMode = closestElementCrossShadowBoundary(
     el,
-    `.${CSS_UTILITY.darkTheme}, .${CSS_UTILITY.lightTheme}`
+    `.${CSS_UTILITY.darkMode}, .${CSS_UTILITY.lightMode}`
   );
-  return closestElWithTheme?.classList.contains("calcite-theme-dark") ? "dark" : "light";
+  return closestElWithMode?.classList.contains("calcite-mode-dark") ? "dark" : "light";
 }
 
 export function getElementDir(el: HTMLElement): Direction {
@@ -50,41 +54,6 @@ export function getRootNode(el: Element): Document | ShadowRoot {
 
 export function getHost(root: Document | ShadowRoot): Element | null {
   return (root as ShadowRoot).host || null;
-}
-
-/**
- * This helper queries an element's rootNodes and any ancestor rootNodes.
- *
- * @param element
- * @param selector
- * @returns {Element[]} The elements.
- */
-export function queryElementsRoots<T extends Element = Element>(element: Element, selector: string): T[] {
-  // Gets the rootNode and any ancestor rootNodes (shadowRoot or document) of an element and queries them for a selector.
-  // Based on: https://stackoverflow.com/q/54520554/194216
-  function queryFromAll<T extends Element = Element>(el: Element, allResults: T[]): T[] {
-    if (!el) {
-      return allResults;
-    }
-
-    if ((el as Slottable).assignedSlot) {
-      el = (el as Slottable).assignedSlot;
-    }
-
-    const rootNode = getRootNode(el);
-
-    const results = Array.from(rootNode.querySelectorAll(selector)) as T[];
-
-    const uniqueResults = results.filter((result) => !allResults.includes(result));
-
-    allResults = [...allResults, ...uniqueResults];
-
-    const host = getHost(rootNode);
-
-    return host ? queryFromAll(host, allResults) : allResults;
-  }
-
-  return queryFromAll(element, []);
 }
 
 /**
@@ -153,6 +122,37 @@ export function closestElementCrossShadowBoundary<T extends Element = Element>(
   return closestFrom(element);
 }
 
+/**
+ * This utility helps invoke a callback as it traverses a node and its ancestors until reaching the root document.
+ *
+ * Returning early or undefined in `onVisit` will continue traversing up the DOM tree. Otherwise, traversal will halt with the returned value as the result of the function
+ *
+ * @param element
+ * @param onVisit
+ */
+export function walkUpAncestry<T = any>(element: Element, onVisit: (node: Node) => T): T {
+  return visit(element, onVisit);
+}
+
+function visit<T = any>(node: Node, onVisit: (node: Node) => T): T {
+  if (!node) {
+    return;
+  }
+
+  const result = onVisit(node);
+  if (result !== undefined) {
+    return result;
+  }
+
+  const { parentNode } = node;
+
+  return visit(parentNode instanceof ShadowRoot ? parentNode.host : parentNode, onVisit);
+}
+
+export function containsCrossShadowBoundary(element: Element, maybeDescendant: Element): boolean {
+  return !!walkUpAncestry(maybeDescendant, (node) => (node === element ? true : undefined));
+}
+
 export interface FocusableElement extends HTMLElement {
   setFocus?: () => Promise<void>;
 }
@@ -169,6 +169,15 @@ export async function focusElement(el: FocusableElement): Promise<void> {
   return isCalciteFocusable(el) ? el.setFocus() : el.focus();
 }
 
+/**
+ * Helper to focus the first tabbable element.
+ *
+ * @param {HTMLElement} element The html element containing tabbable elements.
+ */
+export function focusFirstTabbable(element: HTMLElement): void {
+  (tabbable(element, tabbableOptions)[0] || element).focus();
+}
+
 interface GetSlottedOptions {
   all?: boolean;
   direct?: boolean;
@@ -178,6 +187,18 @@ interface GetSlottedOptions {
 
 const defaultSlotSelector = ":not([slot])";
 
+/**
+ * Gets slotted elements for a named slot.
+ *
+ * @param element
+ * @param slotName
+ * @param options
+ * @deprecated Use `onSlotchange` event instead.
+ *
+ * ```
+ * <slot onSlotchange={(event) => this.myElements = slotChangeGetAssignedElements(event)} />}
+ * ```
+ */
 export function getSlotted<T extends Element = Element>(
   element: Element,
   slotName: string | string[] | (GetSlottedOptions & { all: true }),
@@ -291,5 +312,89 @@ export function intersects(rect1: DOMRect, rect2: DOMRect): boolean {
  * @returns {string} The string conversion of a boolean value ("true" | "false").
  */
 export function toAriaBoolean(value: boolean): string {
-  return (!!value).toString();
+  return Boolean(value).toString();
 }
+
+/**
+ * This helper returns `true` if the target `slot` element from the `onSlotchange` event has an assigned element.
+ *
+ * ```
+ * <slot onSlotchange={(event) => this.mySlotHasElement = slotChangeHasAssignedElement(event)} />}
+ * ```
+ *
+ * @param event
+ * @returns {boolean} Whether the slot has any assigned elements.
+ */
+export function slotChangeHasAssignedElement(event: Event): boolean {
+  return !!slotChangeGetAssignedElements(event).length;
+}
+
+/**
+ * This helper returns the assigned elements on a `slot` element from the `onSlotchange` event.
+ *
+ * ```
+ * <slot onSlotchange={(event) => this.mySlotElements = slotChangeGetAssignedElements(event)} />}
+ * ```
+ *
+ * @param event
+ * @returns {boolean} Whether the slot has any assigned elements.
+ */
+export function slotChangeGetAssignedElements(event: Event): Element[] {
+  return (event.target as HTMLSlotElement).assignedElements({
+    flatten: true
+  });
+}
+
+/**
+ * This helper returns true if the pointer event fired from the primary button of the device.
+ *
+ * See https://www.w3.org/TR/pointerevents/#the-button-property.
+ *
+ * @param event
+ * @returns {boolean}
+ */
+export function isPrimaryPointerButton(event: PointerEvent): boolean {
+  return !!(event.isPrimary && event.button === 0);
+}
+
+/**
+ * This helper sets focus on and returns a destination element from within a group of provided elements.
+ *
+ * @param elements An array of elements
+ * @param currentElement The current element
+ * @param destination The target destination element to focus
+ * @returns {Element} The focused element
+ */
+
+export type FocusElementInGroupDestination = "first" | "last" | "next" | "previous";
+
+export const focusElementInGroup = (
+  elements: Element[],
+  currentElement: Element,
+  destination: FocusElementInGroupDestination
+): Element => {
+  const currentIndex = elements.indexOf(currentElement);
+  const isFirstItem = currentIndex === 0;
+  const isLastItem = currentIndex === elements.length - 1;
+  destination =
+    destination === "previous" && isFirstItem ? "last" : destination === "next" && isLastItem ? "first" : destination;
+
+  let focusTarget;
+  switch (destination) {
+    case "first":
+      focusTarget = elements[0];
+      break;
+    case "last":
+      focusTarget = elements[elements.length - 1];
+      break;
+    case "next":
+      focusTarget = elements[currentIndex + 1] || elements[0];
+      break;
+    case "previous":
+      focusTarget = elements[currentIndex - 1] || elements[elements.length - 1];
+      break;
+  }
+
+  focusElement(focusTarget);
+  return focusTarget;
+};

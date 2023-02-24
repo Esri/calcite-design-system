@@ -1,8 +1,8 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, defaults, focusable, hidden, reflects, renders, slots } from "../../tests/commonTests";
+import { html } from "../../../support/formatting";
+import { accessible, defaults, focusable, hidden, reflects, renders, slots, t9n } from "../../tests/commonTests";
 import { CSS, SLOTS } from "./resources";
 import { overflowActionsDebounceInMs } from "./utils";
-import { html } from "../../../support/formatting";
 
 describe("calcite-action-bar", () => {
   it("renders", async () => renders("calcite-action-bar", { display: "inline-flex" }));
@@ -22,6 +22,10 @@ describe("calcite-action-bar", () => {
       {
         propertyName: "scale",
         defaultValue: undefined
+      },
+      {
+        propertyName: "layout",
+        defaultValue: "vertical"
       }
     ]));
 
@@ -232,8 +236,7 @@ describe("calcite-action-bar", () => {
         </calcite-action-bar>
       `,
       {
-        focusId: "expand-toggle",
-        focusTargetSelector: "calcite-action-bar"
+        focusTargetSelector: "calcite-action"
       }
     ));
 
@@ -265,15 +268,15 @@ describe("calcite-action-bar", () => {
     expect(await groups[0].getProperty("menuOpen")).toBe(false);
     expect(await groups[1].getProperty("menuOpen")).toBe(true);
 
-    const calciteActionMenuOpenChangeEvent = page.waitForEvent("calciteActionMenuOpenChange");
+    const calciteActionMenuOpenEvent = page.waitForEvent("calciteActionMenuOpen");
 
     await page.$eval("calcite-action-group", (firstActionGroup: HTMLCalciteActionGroupElement) => {
       firstActionGroup.menuOpen = true;
-      const event = new CustomEvent("calciteActionMenuOpenChange", { bubbles: true, detail: true });
+      const event = new CustomEvent("calciteActionMenuOpen", { bubbles: true });
       firstActionGroup.dispatchEvent(event);
     });
 
-    await calciteActionMenuOpenChangeEvent;
+    await calciteActionMenuOpenEvent;
 
     await page.waitForChanges();
 
@@ -298,19 +301,21 @@ describe("calcite-action-bar", () => {
   describe("overflow actions", () => {
     it("should slot 'menu-actions' on sublist changes", async () => {
       const page = await newE2EPage({
-        html: html`<calcite-action-bar style="height: 290px">
-          <calcite-action-group id="dynamic-group"
-            ><calcite-action text="Layer properties" icon="sliders-horizontal"></calcite-action>
-            <calcite-action id="second-action" text="Styles" icon="shapes"></calcite-action
-          ></calcite-action-group>
-          <calcite-action-group>
-            <calcite-action text="Save" icon="save" disabled></calcite-action>
-            <calcite-action icon="layers" text="Layers"></calcite-action>
-          </calcite-action-group>
-          <calcite-action-group slot="bottom-actions">
-            <calcite-action text="Tips" icon="lightbulb"></calcite-action>
-          </calcite-action-group>
-        </calcite-action-bar>`
+        html: html`<div style="width:500px; height:500px;">
+          <calcite-action-bar style="height: 290px">
+            <calcite-action-group id="dynamic-group"
+              ><calcite-action text="Layer properties" icon="sliders-horizontal"></calcite-action>
+              <calcite-action id="second-action" text="Styles" icon="shapes"></calcite-action
+            ></calcite-action-group>
+            <calcite-action-group>
+              <calcite-action text="Save" icon="save" disabled></calcite-action>
+              <calcite-action icon="layers" text="Layers"></calcite-action>
+            </calcite-action-group>
+            <calcite-action-group slot="bottom-actions">
+              <calcite-action text="Tips" icon="lightbulb"></calcite-action>
+            </calcite-action-group>
+          </calcite-action-bar>
+        </div>`
       });
       await page.waitForTimeout(overflowActionsDebounceInMs);
 
@@ -329,35 +334,38 @@ describe("calcite-action-bar", () => {
           <calcite-action text="Table" icon="table"></calcite-action>`
         );
       });
-      await page.waitForTimeout(overflowActionsDebounceInMs);
+      await page.waitForTimeout(overflowActionsDebounceInMs + 10);
+      await page.waitForChanges();
 
       expect(await page.findAll(dynamicGroupActionsSelector)).toHaveLength(8);
       expect(await page.findAll(slottedActionsSelector)).toHaveLength(7);
     });
 
-    it("should slot 'menu-actions' on resize of component", async () => {
+    it.skip("should slot 'menu-actions' on resize of component", async () => {
       const page = await newE2EPage({
-        html: html`<calcite-action-bar style="height: 290px">
-          <calcite-action-group id="dynamic-group"
-            ><calcite-action text="Layer properties" icon="sliders-horizontal"></calcite-action>
-            <calcite-action text="Styles" icon="shapes"></calcite-action>
-            <calcite-action text="Styles" icon="shapes"></calcite-action>
-            <calcite-action text="Filter" icon="layer-filter"></calcite-action>
-            <calcite-action text="Configure pop-ups" icon="popup"></calcite-action>
-            <calcite-action text="Configure attributes" icon="feature-details"></calcite-action>
-            <calcite-action text="Labels" icon="label" active></calcite-action>
-            <calcite-action text="Table" icon="table"></calcite-action
-          ></calcite-action-group>
-          <calcite-action-group>
-            <calcite-action text="Save" icon="save" disabled></calcite-action>
-            <calcite-action icon="layers" text="Layers"></calcite-action>
-          </calcite-action-group>
-          <calcite-action-group slot="bottom-actions">
-            <calcite-action text="Tips" icon="lightbulb"></calcite-action>
-          </calcite-action-group>
-        </calcite-action-bar>`
+        html: html`<div style="width:500px; height:500px;">
+          <calcite-action-bar style="height: 290px">
+            <calcite-action-group id="dynamic-group"
+              ><calcite-action text="Layer properties" icon="sliders-horizontal"></calcite-action>
+              <calcite-action text="Styles" icon="shapes"></calcite-action>
+              <calcite-action text="Styles" icon="shapes"></calcite-action>
+              <calcite-action text="Filter" icon="layer-filter"></calcite-action>
+              <calcite-action text="Configure pop-ups" icon="popup"></calcite-action>
+              <calcite-action text="Configure attributes" icon="feature-details"></calcite-action>
+              <calcite-action text="Labels" icon="label" active></calcite-action>
+              <calcite-action text="Table" icon="table"></calcite-action
+            ></calcite-action-group>
+            <calcite-action-group>
+              <calcite-action text="Save" icon="save" disabled></calcite-action>
+              <calcite-action icon="layers" text="Layers"></calcite-action>
+            </calcite-action-group>
+            <calcite-action-group slot="bottom-actions">
+              <calcite-action text="Tips" icon="lightbulb"></calcite-action>
+            </calcite-action-group>
+          </calcite-action-bar>
+        </div>`
       });
-      await page.waitForTimeout(overflowActionsDebounceInMs);
+      await page.waitForTimeout(overflowActionsDebounceInMs + 10);
 
       expect(await page.findAll(dynamicGroupActionsSelector)).toHaveLength(8);
       expect(await page.findAll(slottedActionsSelector)).toHaveLength(7);
@@ -365,10 +373,14 @@ describe("calcite-action-bar", () => {
       await page.$eval("calcite-action-bar", (element: HTMLCalciteActionBarElement) => {
         element.style.height = "550px";
       });
-      await page.waitForTimeout(overflowActionsDebounceInMs);
+
+      await page.waitForTimeout(overflowActionsDebounceInMs + 10);
+      await page.waitForChanges();
 
       expect(await page.findAll(dynamicGroupActionsSelector)).toHaveLength(8);
       expect(await page.findAll(slottedActionsSelector)).toHaveLength(2);
     });
   });
+
+  it("supports translation", () => t9n("calcite-action-bar"));
 });

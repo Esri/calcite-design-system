@@ -1,30 +1,52 @@
 import {
+  Build,
   Component,
-  h,
-  Prop,
-  Event,
   Element,
-  Host,
-  State,
+  Event,
   EventEmitter,
-  Watch,
+  h,
+  Host,
+  Prop,
+  State,
   VNode,
-  Build
+  Watch
 } from "@stencil/core";
-import { getLocaleData, DateLocaleData } from "./utils";
-import { dateFromRange, dateFromISO, dateToISO, getDaysDiff, HoverRange } from "../../utils/date";
+import {
+  dateFromISO,
+  dateFromRange,
+  dateToISO,
+  getDaysDiff,
+  HoverRange,
+  setEndOfDay
+} from "../../utils/date";
+import {
+  connectLocalized,
+  disconnectLocalized,
+  LocalizedComponent,
+  NumberingSystem,
+  numberStringFormatter
+} from "../../utils/locale";
+import {
+  connectMessages,
+  disconnectMessages,
+  setUpMessages,
+  T9nComponent,
+  updateMessages
+} from "../../utils/t9n";
 import { HeadingLevel } from "../functional/Heading";
-
-import { DateRangeChange } from "./interfaces";
-import { HEADING_LEVEL, TEXT } from "./resources";
+import { DatePickerMessages } from "./assets/date-picker/t9n";
+import { HEADING_LEVEL } from "./resources";
+import { DateLocaleData, getLocaleData, getValueAsDateRange } from "./utils";
 
 @Component({
   assetsDirs: ["assets"],
   tag: "calcite-date-picker",
   styleUrl: "date-picker.scss",
-  shadow: true
+  shadow: {
+    delegatesFocus: true
+  }
 })
-export class DatePicker {
+export class DatePicker implements LocalizedComponent, T9nComponent {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -37,58 +59,56 @@ export class DatePicker {
   //  Public Properties
   //
   //--------------------------------------------------------------------------
-  /** Active range */
-  @Prop() activeRange?: "start" | "end";
 
-  /** Selected date */
-  @Prop({ mutable: true }) value?: string | string[];
+  /** Specifies the component's active date. */
+  @Prop({ mutable: true }) activeDate: Date;
 
-  /**
-   * Number at which section headings should start for this component.
-   */
-  @Prop() headingLevel: HeadingLevel;
-
-  /** Selected date as full date object*/
-  @Prop({ mutable: true }) valueAsDate?: Date | Date[];
-
-  @Watch("valueAsDate")
-  handleValueAsDate(date: Date | Date[]): void {
-    if (!Array.isArray(date) && date && date !== this.activeDate) {
-      this.activeDate = date;
+  @Watch("activeDate")
+  activeDateWatcher(newActiveDate: Date): void {
+    if (this.activeRange === "end") {
+      this.activeEndDate = newActiveDate;
     }
   }
 
   /**
-   * Selected start date as full date object
-   *
-   * @deprecated use valueAsDate instead
+   * When `range` is true, specifies the active `range`. Where `"start"` specifies the starting range date and `"end"` the ending range date.
    */
-  @Prop({ mutable: true }) startAsDate?: Date;
+  @Prop({ reflect: true }) activeRange: "start" | "end";
 
   /**
-   * Selected end date as full date object
-   *
-   * @deprecated use valueAsDate instead
+   * Specifies the selected date as a string (`"yyyy-mm-dd"`), or an array of strings for `range` values (`["yyyy-mm-dd", "yyyy-mm-dd"]`).
    */
-  @Prop({ mutable: true }) endAsDate?: Date;
+  @Prop({ mutable: true }) value: string | string[];
 
-  /** Earliest allowed date as full date object */
-  @Prop({ mutable: true }) minAsDate?: Date;
+  /**
+   * Specifies the number at which section headings should start.
+   */
+  @Prop({ reflect: true }) headingLevel: HeadingLevel;
 
-  /** Latest allowed date as full date object */
-  @Prop({ mutable: true }) maxAsDate?: Date;
+  /** Specifies the selected date as a full date object (`new Date("yyyy-mm-dd")`), or an array containing full date objects (`[new Date("yyyy-mm-dd"), new Date("yyyy-mm-dd")]`). */
+  @Prop({ mutable: true }) valueAsDate: Date | Date[];
 
-  @Watch("startAsDate")
-  @Watch("endAsDate")
-  handleRangeChange(): void {
-    const { startAsDate: startDate, endAsDate: endDate } = this;
-
-    this.activeEndDate = endDate;
-    this.activeStartDate = startDate;
+  @Watch("valueAsDate")
+  valueAsDateWatcher(newValueAsDate: Date | Date[]): void {
+    if (this.range && Array.isArray(newValueAsDate)) {
+      const { activeStartDate, activeEndDate } = this;
+      const newActiveStartDate = newValueAsDate[0];
+      const newActiveEndDate = newValueAsDate[1];
+      this.activeStartDate = activeStartDate !== newActiveStartDate && newActiveStartDate;
+      this.activeEndDate = activeEndDate !== newActiveEndDate && newActiveEndDate;
+    } else if (newValueAsDate && newValueAsDate !== this.activeDate) {
+      this.activeDate = newValueAsDate as Date;
+    }
   }
 
-  /** Earliest allowed date ("yyyy-mm-dd") */
-  @Prop({ mutable: true }) min?: string;
+  /** Specifies the earliest allowed date as a full date object (`new Date("yyyy-mm-dd")`). */
+  @Prop({ mutable: true }) minAsDate: Date;
+
+  /** Specifies the latest allowed date as a full date object (`new Date("yyyy-mm-dd")`). */
+  @Prop({ mutable: true }) maxAsDate: Date;
+
+  /** Specifies the earliest allowed date (`"yyyy-mm-dd"`). */
+  @Prop({ mutable: true, reflect: true }) min: string;
 
   @Watch("min")
   onMinChanged(min: string): void {
@@ -97,8 +117,8 @@ export class DatePicker {
     }
   }
 
-  /** Latest allowed date ("yyyy-mm-dd") */
-  @Prop({ mutable: true }) max?: string;
+  /** Specifies the latest allowed date (`"yyyy-mm-dd"`). */
+  @Prop({ mutable: true, reflect: true }) max: string;
 
   @Watch("max")
   onMaxChanged(max: string): void {
@@ -108,51 +128,36 @@ export class DatePicker {
   }
 
   /**
-   * Localized string for "previous month" (used for aria label)
+   * Specifies the Unicode numeral system used by the component for localization. This property cannot be dynamically changed.
    *
-   * @default "Previous month"
    */
-  @Prop() intlPrevMonth?: string = TEXT.prevMonth;
+  @Prop({ reflect: true }) numberingSystem: NumberingSystem;
 
-  /**
-   * Localized string for "next month" (used for aria label)
-   *
-   * @default "Next month"
-   */
-  @Prop() intlNextMonth?: string = TEXT.nextMonth;
-
-  /**
-   * Localized string for "year" (used for aria label)
-   *
-   * @default "Year"
-   */
-  @Prop() intlYear?: string = TEXT.year;
-
-  /** BCP 47 language tag for desired language and country format */
-  @Prop() locale?: string = document.documentElement.lang || "en";
-
-  /** specify the scale of the date picker */
+  /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: "s" | "m" | "l" = "m";
 
-  /** Range mode activation */
+  /** When `true`, activates the component's range mode to allow a start and end date. */
   @Prop({ reflect: true }) range = false;
 
-  /**
-   * Selected start date
-   *
-   * @deprecated use value instead
-   */
-  @Prop({ mutable: true }) start?: string;
+  /** When `true`, disables the default behavior on the third click of narrowing or extending the range and instead starts a new range. */
+  @Prop({ reflect: true }) proximitySelectionDisabled = false;
 
   /**
-   * Selected end date
-   *
-   * @deprecated use value instead
+   * Use this property to override individual strings used by the component.
    */
-  @Prop({ mutable: true }) end?: string;
+  @Prop({ mutable: true }) messageOverrides: Partial<DatePickerMessages>;
 
-  /** Disables the default behaviour on the third click of narrowing or extending the range and instead starts a new range. */
-  @Prop() proximitySelectionDisabled = false;
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @internal
+   */
+  @Prop({ mutable: true }) messages: DatePickerMessages;
+
+  @Watch("messageOverrides")
+  onMessagesChange(): void {
+    /* wired up by t9n util */
+  }
 
   //--------------------------------------------------------------------------
   //
@@ -160,21 +165,14 @@ export class DatePicker {
   //
   //--------------------------------------------------------------------------
   /**
-   * Trigger calcite date change when a user changes the date.
+   * Emits when a user changes the component's date. For `range` events, use `calciteDatePickerRangeChange`.
    */
-  @Event() calciteDatePickerChange: EventEmitter<Date>;
+  @Event({ cancelable: false }) calciteDatePickerChange: EventEmitter<void>;
 
   /**
-   * Trigger calcite date change when a user changes the date range.
-   *
-   * @see [DateRangeChange](https://github.com/Esri/calcite-components/blob/master/src/components/date-picker/interfaces.ts#L1)
+   * Emits when a user changes the component's date `range`. For components without `range` use `calciteDatePickerChange`.
    */
-  @Event() calciteDatePickerRangeChange: EventEmitter<DateRangeChange>;
-
-  /**
-   * Active date.
-   */
-  @State() activeDate: Date;
+  @Event({ cancelable: false }) calciteDatePickerRangeChange: EventEmitter<void>;
 
   /**
    * Active start date.
@@ -186,26 +184,23 @@ export class DatePicker {
    */
   @State() activeEndDate: Date;
 
+  @State() startAsDate: Date;
+
+  @State() endAsDate: Date;
+
   // --------------------------------------------------------------------------
   //
   //  Lifecycle
   //
   // --------------------------------------------------------------------------
   connectedCallback(): void {
+    connectLocalized(this);
+    connectMessages(this);
+
     if (Array.isArray(this.value)) {
-      this.valueAsDate = this.value.map((v) => dateFromISO(v));
-      this.start = this.value[0];
-      this.end = this.value[1];
+      this.valueAsDate = getValueAsDateRange(this.value);
     } else if (this.value) {
       this.valueAsDate = dateFromISO(this.value);
-    }
-
-    if (this.start) {
-      this.setStartAsDate(dateFromISO(this.start));
-    }
-
-    if (this.end) {
-      this.setEndAsDate(dateFromISO(this.end));
     }
 
     if (this.min) {
@@ -217,25 +212,29 @@ export class DatePicker {
     }
   }
 
+  disconnectedCallback(): void {
+    disconnectLocalized(this);
+    disconnectMessages(this);
+  }
+
   async componentWillLoad(): Promise<void> {
     await this.loadLocaleData();
     this.onMinChanged(this.min);
     this.onMaxChanged(this.max);
+    await setUpMessages(this);
   }
 
   render(): VNode {
     const date = dateFromRange(
-      this.range ? this.startAsDate : this.valueAsDate,
+      this.range && Array.isArray(this.valueAsDate) ? this.valueAsDate[0] : this.valueAsDate,
       this.minAsDate,
       this.maxAsDate
     );
-    const activeStartDate = this.range
-      ? this.getActiveStartDate(date, this.minAsDate, this.maxAsDate)
-      : this.getActiveDate(date, this.minAsDate, this.maxAsDate);
-    let activeDate = activeStartDate;
-    const endDate = this.range
-      ? dateFromRange(this.endAsDate, this.minAsDate, this.maxAsDate)
-      : null;
+    let activeDate = this.getActiveDate(date, this.minAsDate, this.maxAsDate);
+    const endDate =
+      this.range && Array.isArray(this.valueAsDate)
+        ? dateFromRange(this.valueAsDate[1], this.minAsDate, this.maxAsDate)
+        : null;
     const activeEndDate = this.getActiveEndDate(endDate, this.minAsDate, this.maxAsDate);
     if (
       (this.activeRange === "end" ||
@@ -262,7 +261,7 @@ export class DatePicker {
           : this.maxAsDate
         : this.maxAsDate;
     return (
-      <Host onBlur={this.reset} onKeyUp={this.keyUpHandler} role="application">
+      <Host onBlur={this.reset} onKeyDown={this.keyDownHandler} role="application">
         {this.renderCalendar(activeDate, maxDate, minDate, date, endDate)}
       </Host>
     );
@@ -273,6 +272,16 @@ export class DatePicker {
   //  Private State/Props
   //
   //--------------------------------------------------------------------------
+
+  @State() effectiveLocale = "";
+
+  @Watch("effectiveLocale")
+  effectiveLocaleChange(): void {
+    updateMessages(this, this.effectiveLocale);
+  }
+
+  @State() defaultMessages: DatePickerMessages;
+
   @State() private localeData: DateLocaleData;
 
   @State() private hoverRange: HoverRange;
@@ -285,8 +294,8 @@ export class DatePicker {
   //
   //--------------------------------------------------------------------------
 
-  keyUpHandler = (e: KeyboardEvent): void => {
-    if (e.key === "Escape") {
+  keyDownHandler = (event: KeyboardEvent): void => {
+    if (event.key === "Escape") {
       this.reset();
     }
   };
@@ -294,38 +303,29 @@ export class DatePicker {
   @Watch("value")
   valueHandler(value: string | string[]): void {
     if (Array.isArray(value)) {
-      this.valueAsDate = value.map((v) => dateFromISO(v));
-      this.start = value[0];
-      this.end = value[1];
+      this.valueAsDate = getValueAsDateRange(value);
     } else if (value) {
       this.valueAsDate = dateFromISO(value);
-      this.start = "";
-      this.end = "";
     }
   }
 
-  @Watch("start")
-  startWatcher(start: string): void {
-    this.setStartAsDate(dateFromISO(start));
-  }
-
-  @Watch("end")
-  endWatcher(end: string): void {
-    this.setEndAsDate(dateFromISO(end));
-  }
-
-  @Watch("locale")
+  @Watch("effectiveLocale")
   private async loadLocaleData(): Promise<void> {
     if (!Build.isBrowser) {
       return;
     }
 
-    const { locale } = this;
-    this.localeData = await getLocaleData(locale);
+    numberStringFormatter.numberFormatOptions = {
+      numberingSystem: this.numberingSystem,
+      locale: this.effectiveLocale,
+      useGrouping: false
+    };
+
+    this.localeData = await getLocaleData(this.effectiveLocale);
   }
 
-  monthHeaderSelectChange = (e: CustomEvent<Date>): void => {
-    const date = new Date(e.detail);
+  monthHeaderSelectChange = (event: CustomEvent<Date>): void => {
+    const date = new Date(event.detail);
     if (!this.range) {
       this.activeDate = date;
     } else {
@@ -338,8 +338,8 @@ export class DatePicker {
     }
   };
 
-  monthActiveDateChange = (e: CustomEvent<Date>): void => {
-    const date = new Date(e.detail);
+  monthActiveDateChange = (event: CustomEvent<Date>): void => {
+    const date = new Date(event.detail);
     if (!this.range) {
       this.activeDate = date;
     } else {
@@ -352,21 +352,26 @@ export class DatePicker {
     }
   };
 
-  monthHoverChange = (e: CustomEvent<Date>): void => {
-    if (!this.startAsDate) {
+  monthHoverChange = (event: CustomEvent<Date>): void => {
+    if (!this.range) {
       this.hoverRange = undefined;
       return;
     }
-    const date = new Date(e.detail);
+
+    const { valueAsDate } = this;
+    const start = Array.isArray(valueAsDate) && valueAsDate[0];
+    const end = Array.isArray(valueAsDate) && valueAsDate[1];
+
+    const date = new Date(event.detail);
     this.hoverRange = {
       focused: this.activeRange || "start",
-      start: this.startAsDate,
-      end: this.endAsDate
+      start,
+      end
     };
     if (!this.proximitySelectionDisabled) {
-      if (this.endAsDate) {
-        const startDiff = getDaysDiff(date, this.startAsDate);
-        const endDiff = getDaysDiff(date, this.endAsDate);
+      if (end) {
+        const startDiff = getDaysDiff(date, start);
+        const endDiff = getDaysDiff(date, end);
         if (endDiff > 0) {
           this.hoverRange.end = date;
           this.hoverRange.focused = "end";
@@ -381,24 +386,26 @@ export class DatePicker {
           this.hoverRange.focused = "end";
         }
       } else {
-        if (date < this.startAsDate) {
-          this.hoverRange = {
-            focused: "start",
-            start: date,
-            end: this.startAsDate
-          };
-        } else {
-          this.hoverRange.end = date;
-          this.hoverRange.focused = "end";
+        if (start) {
+          if (date < start) {
+            this.hoverRange = {
+              focused: "start",
+              start: date,
+              end: start
+            };
+          } else {
+            this.hoverRange.end = date;
+            this.hoverRange.focused = "end";
+          }
         }
       }
     } else {
-      if (!this.endAsDate) {
-        if (date < this.startAsDate) {
+      if (!end) {
+        if (date < start) {
           this.hoverRange = {
             focused: "start",
             start: date,
-            end: this.startAsDate
+            end: start
           };
         } else {
           this.hoverRange.end = date;
@@ -408,7 +415,7 @@ export class DatePicker {
         this.hoverRange = undefined;
       }
     }
-    e.stopPropagation();
+    event.stopPropagation();
   };
 
   monthMouseOutChange = (): void => {
@@ -438,13 +445,11 @@ export class DatePicker {
         <calcite-date-picker-month-header
           activeDate={activeDate}
           headingLevel={this.headingLevel || HEADING_LEVEL}
-          intlNextMonth={this.intlNextMonth}
-          intlPrevMonth={this.intlPrevMonth}
-          intlYear={this.intlYear}
           localeData={this.localeData}
           max={maxDate}
+          messages={this.messages}
           min={minDate}
-          onCalciteDatePickerSelect={this.monthHeaderSelectChange}
+          onCalciteInternalDatePickerSelect={this.monthHeaderSelectChange}
           scale={this.scale}
           selectedDate={this.activeRange === "end" ? endDate : date || new Date()}
         />,
@@ -455,10 +460,10 @@ export class DatePicker {
           localeData={this.localeData}
           max={maxDate}
           min={minDate}
-          onCalciteDatePickerActiveDateChange={this.monthActiveDateChange}
-          onCalciteDatePickerSelect={this.monthDateChange}
+          onCalciteInternalDatePickerActiveDateChange={this.monthActiveDateChange}
           onCalciteInternalDatePickerHover={this.monthHoverChange}
           onCalciteInternalDatePickerMouseOut={this.monthMouseOutChange}
+          onCalciteInternalDatePickerSelect={this.monthDateChange}
           scale={this.scale}
           selectedDate={this.activeRange === "end" ? endDate : date}
           startDate={this.range ? date : undefined}
@@ -468,95 +473,96 @@ export class DatePicker {
   }
 
   /**
-   * Update date instance of start if valid
-   *
-   * @param startDate
-   * @param emit
-   */
-  private setStartAsDate(startDate: Date, emit?: boolean): void {
-    this.startAsDate = startDate;
-    this.mostRecentRangeValue = this.startAsDate;
-    if (emit) {
-      this.calciteDatePickerRangeChange.emit({
-        startDate,
-        endDate: this.endAsDate
-      });
-    }
-  }
-
-  /**
-   * Update date instance of end if valid
-   *
-   * @param endDate
-   * @param emit
-   */
-  private setEndAsDate(endDate: Date, emit?: boolean): void {
-    this.endAsDate = endDate;
-    this.mostRecentRangeValue = this.endAsDate;
-    if (emit) {
-      this.calciteDatePickerRangeChange.emit({
-        startDate: this.startAsDate,
-        endDate
-      });
-    }
-  }
-
-  /**
    * Reset active date and close
    */
   reset = (): void => {
+    const { valueAsDate } = this;
     if (
-      !Array.isArray(this.valueAsDate) &&
-      this.valueAsDate &&
-      this.valueAsDate?.getTime() !== this.activeDate?.getTime()
+      !Array.isArray(valueAsDate) &&
+      valueAsDate &&
+      valueAsDate?.getTime() !== this.activeDate?.getTime()
     ) {
-      this.activeDate = new Date(this.valueAsDate);
+      this.activeDate = new Date(valueAsDate);
     }
-    if (this.startAsDate && this.startAsDate?.getTime() !== this.activeStartDate?.getTime()) {
-      this.activeStartDate = new Date(this.startAsDate);
-    }
-    if (this.endAsDate && this.endAsDate?.getTime() !== this.activeEndDate?.getTime()) {
-      this.activeEndDate = new Date(this.endAsDate);
+    if (Array.isArray(valueAsDate)) {
+      if (
+        valueAsDate[0] &&
+        valueAsDate[0]?.getTime() !==
+          (this.activeStartDate instanceof Date && this.activeStartDate?.getTime())
+      ) {
+        this.activeStartDate = new Date(valueAsDate[0]);
+      }
+      if (
+        valueAsDate[1] &&
+        valueAsDate[1]?.getTime() !==
+          (this.activeStartDate instanceof Date && this.activeEndDate?.getTime())
+      ) {
+        this.activeEndDate = new Date(valueAsDate[1]);
+      }
     }
   };
 
+  private getEndDate(): Date {
+    return (Array.isArray(this.valueAsDate) && this.valueAsDate[1]) || undefined;
+  }
+
   private setEndDate(date: Date): void {
-    this.end = date ? dateToISO(date) : "";
-    this.setEndAsDate(date, true);
+    const startDate = this.getStartDate();
+    const newEndDate = date ? setEndOfDay(date) : date;
+    this.value = [dateToISO(startDate), dateToISO(date)];
+    this.valueAsDate = [startDate, date];
+    this.mostRecentRangeValue = newEndDate;
+    this.calciteDatePickerRangeChange.emit();
     this.activeEndDate = date || null;
   }
 
+  private getStartDate(): Date {
+    return Array.isArray(this.valueAsDate) && this.valueAsDate[0];
+  }
+
   private setStartDate(date: Date): void {
-    this.start = date ? dateToISO(date) : "";
-    this.setStartAsDate(date, true);
+    const endDate = this.getEndDate();
+    this.value = [dateToISO(date), dateToISO(endDate)];
+    this.valueAsDate = [date, endDate];
+    this.mostRecentRangeValue = date;
+    this.calciteDatePickerRangeChange.emit();
     this.activeStartDate = date || null;
   }
 
   /**
    * Event handler for when the selected date changes
    *
-   * @param e
+   * @param event
    */
-  private monthDateChange = (e: CustomEvent<Date>): void => {
-    const date = new Date(e.detail);
-    if (!this.range) {
-      this.value = date ? dateToISO(date) : "";
-      this.valueAsDate = date || null;
-      this.activeDate = date || null;
-      this.calciteDatePickerChange.emit(date);
+  private monthDateChange = (event: CustomEvent<Date>): void => {
+    const date = new Date(event.detail);
+    const isoDate = dateToISO(date);
+
+    if (!this.range && isoDate === dateToISO(this.valueAsDate as Date)) {
       return;
     }
 
-    if (!this.startAsDate || (!this.endAsDate && date < this.startAsDate)) {
-      if (this.startAsDate) {
-        this.setEndDate(new Date(this.startAsDate));
+    if (!this.range) {
+      this.value = isoDate || "";
+      this.valueAsDate = date || null;
+      this.activeDate = date || null;
+      this.calciteDatePickerChange.emit();
+      return;
+    }
+
+    const start = this.getStartDate();
+    const end = this.getEndDate();
+
+    if (!start || (!end && date < start)) {
+      if (start) {
+        this.setEndDate(new Date(start));
       }
       if (this.activeRange == "end") {
         this.setEndDate(date);
       } else {
         this.setStartDate(date);
       }
-    } else if (!this.endAsDate) {
+    } else if (!end) {
       this.setEndDate(date);
     } else {
       if (!this.proximitySelectionDisabled) {
@@ -567,8 +573,8 @@ export class DatePicker {
             this.setStartDate(date);
           }
         } else {
-          const startDiff = getDaysDiff(date, this.startAsDate);
-          const endDiff = getDaysDiff(date, this.endAsDate);
+          const startDiff = getDaysDiff(date, start);
+          const endDiff = getDaysDiff(date, end);
           if (endDiff === 0 || startDiff < 0) {
             this.setStartDate(date);
           } else if (startDiff === 0 || endDiff < 0) {
@@ -581,10 +587,9 @@ export class DatePicker {
         }
       } else {
         this.setStartDate(date);
-        this.endAsDate = this.activeEndDate = this.end = undefined;
       }
     }
-    this.calciteDatePickerChange.emit(date);
+    this.calciteDatePickerChange.emit();
   };
 
   /**
@@ -596,12 +601,6 @@ export class DatePicker {
    */
   private getActiveDate(value: Date | null, min: Date | null, max: Date | null): Date {
     return dateFromRange(this.activeDate, min, max) || value || dateFromRange(new Date(), min, max);
-  }
-
-  private getActiveStartDate(value: Date | null, min: Date | null, max: Date | null): Date {
-    return (
-      dateFromRange(this.activeStartDate, min, max) || value || dateFromRange(new Date(), min, max)
-    );
   }
 
   private getActiveEndDate(value: Date | null, min: Date | null, max: Date | null): Date {

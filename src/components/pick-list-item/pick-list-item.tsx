@@ -7,29 +7,49 @@ import {
   h,
   Method,
   Prop,
+  State,
   VNode,
   Watch
 } from "@stencil/core";
-import { CSS, ICONS, SLOTS, TEXT } from "./resources";
-import { ICON_TYPES } from "../pick-list/resources";
-import { getSlotted, toAriaBoolean } from "../../utils/dom";
 import {
   ConditionalSlotComponent,
   connectConditionalSlotComponent,
   disconnectConditionalSlotComponent
 } from "../../utils/conditionalSlot";
+import { getSlotted, toAriaBoolean } from "../../utils/dom";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import {
+  componentLoaded,
+  LoadableComponent,
+  setComponentLoaded,
+  setUpLoadableComponent
+} from "../../utils/loadable";
+import { connectLocalized, disconnectLocalized } from "../../utils/locale";
+import {
+  connectMessages,
+  disconnectMessages,
+  setUpMessages,
+  T9nComponent,
+  updateMessages
+} from "../../utils/t9n";
+import { ICON_TYPES } from "../pick-list/resources";
+import { PickListItemMessages } from "./assets/pick-list-item/t9n";
+import { CSS, ICONS, SLOTS } from "./resources";
 
 /**
- * @slot actions-end - a slot for adding actions or content to the end side of the item.
- * @slot actions-start - a slot for adding actions or content to the start side of the item.
+ * @deprecated Use the `list` component instead.
+ * @slot actions-end - A slot for adding `calcite-action`s or content to the end side of the component.
+ * @slot actions-start - A slot for adding `calcite-action`s or content to the start side of the component.
  */
 @Component({
   tag: "calcite-pick-list-item",
   styleUrl: "pick-list-item.scss",
-  shadow: true
+  shadow: true,
+  assetsDirs: ["assets"]
 })
-export class PickListItem implements ConditionalSlotComponent, InteractiveComponent {
+export class PickListItem
+  implements ConditionalSlotComponent, InteractiveComponent, LoadableComponent, T9nComponent
+{
   // --------------------------------------------------------------------------
   //
   //  Properties
@@ -37,9 +57,9 @@ export class PickListItem implements ConditionalSlotComponent, InteractiveCompon
   // --------------------------------------------------------------------------
 
   /**
-   * An optional description for this item.  This will appear below the label text.
+   * A description for the component that displays below the label text.
    */
-  @Prop({ reflect: true }) description?: string;
+  @Prop({ reflect: true }) description: string;
 
   @Watch("description")
   descriptionWatchHandler(): void {
@@ -47,14 +67,14 @@ export class PickListItem implements ConditionalSlotComponent, InteractiveCompon
   }
 
   /**
-   * When true, the item cannot be clicked and is visually muted.
+   * When `true`, interaction is prevented and the component is displayed with lower opacity.
    */
   @Prop({ reflect: true }) disabled = false;
 
   /**
-   * When false, the item cannot be deselected by user interaction.
+   * When `false`, the component cannot be deselected by user interaction.
    */
-  @Prop() disableDeselect = false;
+  @Prop({ reflect: true }) deselectDisabled = false;
 
   /**
    * @internal
@@ -62,16 +82,19 @@ export class PickListItem implements ConditionalSlotComponent, InteractiveCompon
   @Prop({ reflect: true }) nonInteractive = false;
 
   /**
-   * Determines the icon SVG symbol that will be shown. Options are circle, square, grip or null.
+   * Determines the icon SVG symbol that will be shown. Options are `"circle"`, `"square"`, `"grip"` or `null`.
    *
    * @see [ICON_TYPES](https://github.com/Esri/calcite-components/blob/master/src/components/pick-list/resources.ts#L5)
    */
-  @Prop({ reflect: true }) icon?: ICON_TYPES | null = null;
+  @Prop({ reflect: true }) icon: ICON_TYPES | null = null;
+
+  /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
+  @Prop({ reflect: true }) iconFlipRtl = false;
 
   /**
-   * The main label for this item. This will appear next to the icon.
+   * Label and accessible name for the component. Appears next to the icon.
    */
-  @Prop({ reflect: true }) label: string;
+  @Prop({ reflect: true }) label!: string;
 
   @Watch("label")
   labelWatchHandler(): void {
@@ -79,9 +102,27 @@ export class PickListItem implements ConditionalSlotComponent, InteractiveCompon
   }
 
   /**
-   * Used to provide additional metadata to an item, primarily used when the parent list has a filter.
+   * Use this property to override individual strings used by the component.
    */
-  @Prop() metadata?: Record<string, unknown>;
+  @Prop({ mutable: true }) messageOverrides: Partial<PickListItemMessages>;
+
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @internal
+   */
+  @Prop({ mutable: true }) messages: PickListItemMessages;
+
+  @Watch("defaultMessages")
+  @Watch("messageOverrides")
+  onMessagesChange(): void {
+    /* wired up by t9n util */
+  }
+
+  /**
+   * Provides additional metadata to the component. Primary use is for a filter on the parent list.
+   */
+  @Prop() metadata: Record<string, unknown>;
 
   @Watch("metadata")
   metadataWatchHandler(): void {
@@ -89,12 +130,12 @@ export class PickListItem implements ConditionalSlotComponent, InteractiveCompon
   }
 
   /**
-   * Set this to true to display a remove action that removes the item from the list.
+   * When `true`, displays a remove action that removes the item from the list.
    */
-  @Prop({ reflect: true }) removable? = false;
+  @Prop({ reflect: true }) removable = false;
 
   /**
-   * Set this to true to pre-select an item. Toggles when an item is checked/unchecked.
+   * When `true`, selects an item. Toggles when an item is checked/unchecked.
    */
   @Prop({ reflect: true, mutable: true }) selected = false;
 
@@ -111,14 +152,7 @@ export class PickListItem implements ConditionalSlotComponent, InteractiveCompon
   }
 
   /**
-   * Used as an accessible label (aria-label) for the "remove item" action. Only applicable if removable is true.
-   *
-   * @default "Remove"
-   */
-  @Prop({ reflect: true }) intlRemove = TEXT.remove;
-
-  /**
-   * The item's associated value.
+   * The component's value.
    */
   @Prop() value!: any;
 
@@ -139,6 +173,15 @@ export class PickListItem implements ConditionalSlotComponent, InteractiveCompon
 
   shiftPressed: boolean;
 
+  @State() defaultMessages: PickListItemMessages;
+
+  @State() effectiveLocale = "";
+
+  @Watch("effectiveLocale")
+  effectiveLocaleChange(): void {
+    updateMessages(this, this.effectiveLocale);
+  }
+
   // --------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -146,10 +189,23 @@ export class PickListItem implements ConditionalSlotComponent, InteractiveCompon
   // --------------------------------------------------------------------------
 
   connectedCallback(): void {
+    connectLocalized(this);
+    connectMessages(this);
     connectConditionalSlotComponent(this);
   }
 
+  async componentWillLoad(): Promise<void> {
+    await setUpMessages(this);
+    setUpLoadableComponent(this);
+  }
+
+  componentDidLoad(): void {
+    setComponentLoaded(this);
+  }
+
   disconnectedCallback(): void {
+    disconnectLocalized(this);
+    disconnectMessages(this);
     disconnectConditionalSlotComponent(this);
   }
 
@@ -164,9 +220,9 @@ export class PickListItem implements ConditionalSlotComponent, InteractiveCompon
   // --------------------------------------------------------------------------
 
   /**
-   * Emitted whenever the item is selected or unselected.
+   * Fires when the component is selected or unselected.
    */
-  @Event() calciteListItemChange: EventEmitter<{
+  @Event({ cancelable: false }) calciteListItemChange: EventEmitter<{
     item: HTMLCalcitePickListItemElement;
     value: any;
     selected: boolean;
@@ -174,23 +230,23 @@ export class PickListItem implements ConditionalSlotComponent, InteractiveCompon
   }>;
 
   /**
-   * Emitted whenever the remove button is pressed.
+   * Fires when the remove button is pressed.
    */
-  @Event() calciteListItemRemove: EventEmitter<void>;
+  @Event({ cancelable: true }) calciteListItemRemove: EventEmitter<void>;
 
   /**
-   * Emitted whenever the the item's label, description, value or metadata properties are modified.
+   * Emits when the component's label, description, value, or metadata properties are modified.
    *
    * @internal
    */
-  @Event() calciteInternalListItemPropsChange: EventEmitter<void>;
+  @Event({ cancelable: false }) calciteInternalListItemPropsChange: EventEmitter<void>;
 
   /**
-   * Emitted whenever the the item's value property is modified.
+   * Emits when the component's value property is modified.
    *
    * @internal
    */
-  @Event() calciteInternalListItemValueChange: EventEmitter<{
+  @Event({ cancelable: false }) calciteInternalListItemValueChange: EventEmitter<{
     oldValue: any;
     newValue: any;
   }>;
@@ -202,7 +258,7 @@ export class PickListItem implements ConditionalSlotComponent, InteractiveCompon
   // --------------------------------------------------------------------------
 
   /**
-   * Used to toggle the selection state. By default this won't trigger an event.
+   * Toggles the selection state. By default this won't trigger an event.
    * The first argument allows the value to be coerced, rather than swapping values.
    *
    * @param coerce
@@ -215,6 +271,8 @@ export class PickListItem implements ConditionalSlotComponent, InteractiveCompon
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
+    await componentLoaded(this);
+
     this.focusEl?.focus();
   }
 
@@ -225,7 +283,7 @@ export class PickListItem implements ConditionalSlotComponent, InteractiveCompon
   // --------------------------------------------------------------------------
 
   pickListClickHandler = (event: MouseEvent): void => {
-    if (this.disabled || (this.disableDeselect && this.selected) || this.nonInteractive) {
+    if (this.disabled || (this.deselectDisabled && this.selected) || this.nonInteractive) {
       return;
     }
 
@@ -236,7 +294,7 @@ export class PickListItem implements ConditionalSlotComponent, InteractiveCompon
   pickListKeyDownHandler = (event: KeyboardEvent): void => {
     if (event.key === " ") {
       event.preventDefault();
-      if ((this.disableDeselect && this.selected) || this.nonInteractive) {
+      if ((this.deselectDisabled && this.selected) || this.nonInteractive) {
         return;
       }
       this.selected = !this.selected;
@@ -254,7 +312,7 @@ export class PickListItem implements ConditionalSlotComponent, InteractiveCompon
   // --------------------------------------------------------------------------
 
   renderIcon(): VNode {
-    const { icon } = this;
+    const { icon, iconFlipRtl } = this;
 
     if (!icon) {
       return null;
@@ -268,7 +326,9 @@ export class PickListItem implements ConditionalSlotComponent, InteractiveCompon
         }}
         onClick={this.pickListClickHandler}
       >
-        {icon === ICON_TYPES.square ? <calcite-icon icon={ICONS.checked} scale="s" /> : null}
+        {icon === ICON_TYPES.square ? (
+          <calcite-icon flipRtl={iconFlipRtl} icon={ICONS.checked} scale="s" />
+        ) : null}
       </span>
     );
   }
@@ -278,9 +338,9 @@ export class PickListItem implements ConditionalSlotComponent, InteractiveCompon
       <calcite-action
         class={CSS.remove}
         icon={ICONS.remove}
-        onCalciteActionClick={this.removeClickHandler}
+        onClick={this.removeClickHandler}
         slot={SLOTS.actionsEnd}
-        text={this.intlRemove}
+        text={this.messages.remove}
       />
     ) : null;
   }

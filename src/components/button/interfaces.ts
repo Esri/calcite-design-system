@@ -1,5 +1,3 @@
-export type ButtonColor = "blue" | "inverse" | "neutral" | "red";
-export type ButtonAppearance = "solid" | "outline" | "clear" | "transparent";
 export type ButtonAlignment =
   | "start"
   | "end"

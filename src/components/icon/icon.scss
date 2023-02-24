@@ -3,7 +3,7 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-ui-icon-color: the color of the icon. Defaults to 'currentColor'.
+ * @prop --calcite-ui-icon-color: The component's color. Defaults to `currentColor`.
  */
 
 :host {
@@ -12,20 +12,20 @@
 
 :host([scale="s"]) {
   @apply h-4 w-4;
-  min-width: theme("spacing.4");
-  min-height: theme("spacing.4");
+  min-inline-size: theme("spacing.4");
+  min-block-size: theme("spacing.4");
 }
 
 :host([scale="m"]) {
   @apply h-6 w-6;
-  min-width: theme("spacing.6");
-  min-height: theme("spacing.6");
+  min-inline-size: theme("spacing.6");
+  min-block-size: theme("spacing.6");
 }
 
 :host([scale="l"]) {
   @apply h-8 w-8;
-  min-width: theme("spacing.8");
-  min-height: theme("spacing.8");
+  min-inline-size: theme("spacing.8");
+  min-block-size: theme("spacing.8");
 }
 
 .flip-rtl {

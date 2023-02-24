@@ -9,10 +9,10 @@ Displays a contextual message to a user. Allows the passing of content, links, e
 ### Basic
 
 ```html
-<calcite-label status="“invalid”">
+<calcite-label>
   My great label
-  <calcite-input placeholder="“Enter" your information”></calcite-input>
-  <calcite-input-message active
+  <calcite-input status="invalid" placeholder="“Enter" your information”></calcite-input>
+  <calcite-input-message status="invalid"
     >That's not going to work out.
     <calcite-button appearance="inline" href="">Learn more</calcite-button></calcite-input-message
   >
@@ -21,13 +21,12 @@ Displays a contextual message to a user. Allows the passing of content, links, e
 
 ## Properties
 
-| Property | Attribute | Description                                                                                                                                                                                                                      | Type                             | Default     |
-| -------- | --------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------- | ----------- |
-| `active` | `active`  | Indicates whether the message is displayed.                                                                                                                                                                                      | `boolean`                        | `false`     |
-| `icon`   | `icon`    | when used as a boolean set to true, show a default icon based on status. You can also pass a calcite-ui-icon name to this prop to display a custom icon                                                                          | `boolean \| string`              | `undefined` |
-| `scale`  | `scale`   | specify the scale of the input, defaults to m                                                                                                                                                                                    | `"l" \| "m" \| "s"`              | `"m"`       |
-| `status` | `status`  | specify the status of the input field, determines message and icons                                                                                                                                                              | `"idle" \| "invalid" \| "valid"` | `"idle"`    |
-| `type`   | `type`    | <span style="color:red">**[DEPRECATED]**</span> "floating" type is no longer supported<br/><br/>specify the appearance of any slotted message - default (displayed under input), or floating (positioned absolutely under input) | `"default"`                      | `undefined` |
+| Property      | Attribute       | Description                                                                                  | Type                             | Default     |
+| ------------- | --------------- | -------------------------------------------------------------------------------------------- | -------------------------------- | ----------- |
+| `icon`        | `icon`          | Specifies an icon to display.                                                                | `boolean \| string`              | `undefined` |
+| `iconFlipRtl` | `icon-flip-rtl` | When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). | `boolean`                        | `false`     |
+| `scale`       | `scale`         | Specifies the size of the component.                                                         | `"l" \| "m" \| "s"`              | `"m"`       |
+| `status`      | `status`        | Specifies the status of the input field, which determines message and icons.                 | `"idle" \| "invalid" \| "valid"` | `"idle"`    |
 
 ## Slots
 
@@ -37,9 +36,9 @@ Displays a contextual message to a user. Allows the passing of content, links, e
 
 ## CSS Custom Properties
 
-| Name                                    | Description                             |
-| --------------------------------------- | --------------------------------------- |
-| `--calcite-input-message-spacing-value` | the top margin above the input-message. |
+| Name                                    | Description                                 |
+| --------------------------------------- | ------------------------------------------- |
+| `--calcite-input-message-spacing-value` | The top margin spacing above the component. |
 
 ## Dependencies
 

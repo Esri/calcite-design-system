@@ -12,8 +12,6 @@ import {
   Watch
 } from "@stencil/core";
 import { focusElement } from "../../utils/dom";
-import { Scale, Width } from "../interfaces";
-import { LabelableComponent, connectLabel, disconnectLabel } from "../../utils/label";
 import {
   afterConnectDefaultValueSet,
   connectForm,
@@ -21,9 +19,17 @@ import {
   FormComponent,
   HiddenFormInputSlot
 } from "../../utils/form";
-import { CSS } from "./resources";
-import { createObserver } from "../../utils/observers";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import { connectLabel, disconnectLabel, LabelableComponent, getLabelText } from "../../utils/label";
+import {
+  componentLoaded,
+  LoadableComponent,
+  setComponentLoaded,
+  setUpLoadableComponent
+} from "../../utils/loadable";
+import { createObserver } from "../../utils/observers";
+import { Scale, Width } from "../interfaces";
+import { CSS } from "./resources";
 
 type OptionOrGroup = HTMLCalciteOptionElement | HTMLCalciteOptionGroupElement;
 type NativeOptionOrGroup = HTMLOptionElement | HTMLOptGroupElement;
@@ -46,7 +52,9 @@ function isOptionGroup(
   styleUrl: "select.scss",
   shadow: true
 })
-export class Select implements LabelableComponent, FormComponent, InteractiveComponent {
+export class Select
+  implements LabelableComponent, FormComponent, InteractiveComponent, LoadableComponent
+{
   //--------------------------------------------------------------------------
   //
   //  Properties
@@ -54,34 +62,36 @@ export class Select implements LabelableComponent, FormComponent, InteractiveCom
   //--------------------------------------------------------------------------
 
   /**
-   * When true, it prevents the option from being selected.
+   * When `true`, interaction is prevented and the component is displayed with lower opacity.
    */
   @Prop({ reflect: true }) disabled = false;
 
   /**
-   * The component's label. This is required for accessibility purposes.
+   * Accessible name for the component.
    *
    */
   @Prop() label!: string;
 
   /**
-   * The select's name. Gets submitted with the form.
+   * Specifies the name of the component.
+   *
+   * Required to pass the component's `value` on form submission.
    */
-  @Prop() name: string;
+  @Prop({ reflect: true }) name: string;
 
   /**
-   * When true, makes the component required for form-submission.
+   * When `true`, the component must have a value in order for the form to submit.
    *
    * @internal
    */
   @Prop({ reflect: true }) required = false;
 
   /**
-   * The component scale.
+   * Specifies the size of the component.
    */
   @Prop({ reflect: true }) scale: Scale = "m";
 
-  /** The value of the selectedOption */
+  /** The component's `selectedOption` value. */
   @Prop({ mutable: true }) value: string = null;
 
   @Watch("value")
@@ -91,7 +101,7 @@ export class Select implements LabelableComponent, FormComponent, InteractiveCom
   }
 
   /**
-   * The currently selected option.
+   * The component's selected option `HTMLElement`.
    *
    * @readonly
    */
@@ -103,7 +113,7 @@ export class Select implements LabelableComponent, FormComponent, InteractiveCom
   }
 
   /**
-   * The component width.
+   * Specifies the width of the component.
    */
   @Prop({ reflect: true }) width: Width = "auto";
 
@@ -151,7 +161,12 @@ export class Select implements LabelableComponent, FormComponent, InteractiveCom
     disconnectForm(this);
   }
 
+  componentWillLoad(): void {
+    setUpLoadableComponent(this);
+  }
+
   componentDidLoad(): void {
+    setComponentLoaded(this);
     afterConnectDefaultValueSet(this, this.selectedOption?.value ?? "");
   }
 
@@ -168,6 +183,8 @@ export class Select implements LabelableComponent, FormComponent, InteractiveCom
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
+    await componentLoaded(this);
+
     focusElement(this.selectEl);
   }
 
@@ -178,9 +195,9 @@ export class Select implements LabelableComponent, FormComponent, InteractiveCom
   //--------------------------------------------------------------------------
 
   /**
-   * This event will fire whenever the selected option changes.
+   * Fires when the `selectedOption` changes.
    */
-  @Event() calciteSelectChange: EventEmitter<void>;
+  @Event({ cancelable: false }) calciteSelectChange: EventEmitter<void>;
 
   private handleInternalSelectChange = (): void => {
     const selected = this.selectEl.selectedOptions[0];
@@ -337,7 +354,7 @@ export class Select implements LabelableComponent, FormComponent, InteractiveCom
   renderChevron(): VNode {
     return (
       <div class={CSS.iconContainer}>
-        <calcite-icon class={CSS.icon} icon="chevron-down" scale="s" />
+        <calcite-icon class={CSS.icon} icon="chevron-down" scale={this.scale === "l" ? "m" : "s"} />
       </div>
     );
   }
@@ -346,7 +363,7 @@ export class Select implements LabelableComponent, FormComponent, InteractiveCom
     return (
       <Fragment>
         <select
-          aria-label={this.label}
+          aria-label={getLabelText(this)}
           class={CSS.select}
           disabled={this.disabled}
           onChange={this.handleInternalSelectChange}

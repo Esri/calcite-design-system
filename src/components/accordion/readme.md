@@ -1,6 +1,6 @@
 # calcite-accordion
 
-`calcite-accordion` can be used to present content in collapsible sections. Configuration options exist for visual style (icon-position, scale, appearance), and selection functionality. Selection modes include "multi", "single", and "single-persist".
+`calcite-accordion` can be used to present content in collapsible sections. Configuration options exist for visual style (icon-position, scale, appearance), and selection functionality.
 
 <!-- Auto Generated Below -->
 
@@ -10,27 +10,27 @@
 
 ```html
 <calcite-accordion>
-  <calcite-accordion-item item-title="Accordion Item">Accordion Section Content </calcite-accordion-item>
-  <calcite-accordion-item item-title="Accordion Item 2" active>Accordion Section Content </calcite-accordion-item>
-  <calcite-accordion-item item-title="Accordion Item 3">Accordion Section Content </calcite-accordion-item>
+  <calcite-accordion-item heading="Accordion Item">Accordion Section Content </calcite-accordion-item>
+  <calcite-accordion-item heading="Accordion Item 2" expanded>Accordion Section Content </calcite-accordion-item>
+  <calcite-accordion-item heading="Accordion Item 3">Accordion Section Content </calcite-accordion-item>
 </calcite-accordion>
 ```
 
 ## Properties
 
-| Property        | Attribute        | Description                                                                                                                                                               | Type                                      | Default     |
-| --------------- | ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------- | ----------- |
-| `appearance`    | `appearance`     | specify the appearance - default (containing border), or minimal (no containing border), defaults to default                                                              | `"default" \| "minimal" \| "transparent"` | `"default"` |
-| `iconPosition`  | `icon-position`  | specify the placement of the icon in the header, defaults to end                                                                                                          | `"end" \| "start"`                        | `"end"`     |
-| `iconType`      | `icon-type`      | specify the type of the icon in the header, defaults to chevron                                                                                                           | `"caret" \| "chevron" \| "plus-minus"`    | `"chevron"` |
-| `scale`         | `scale`          | specify the scale of accordion, defaults to m                                                                                                                             | `"l" \| "m" \| "s"`                       | `"m"`       |
-| `selectionMode` | `selection-mode` | specify the selection mode - multi (allow any number of open items), single (allow one open item), or single-persist (allow and require one open item), defaults to multi | `"multi" \| "single" \| "single-persist"` | `"multi"`   |
+| Property        | Attribute        | Description                                                                                                                                                              | Type                                         | Default      |
+| --------------- | ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | -------------------------------------------- | ------------ |
+| `appearance`    | `appearance`     | Specifies the appearance of the component.                                                                                                                               | `"solid" \| "transparent"`                   | `"solid"`    |
+| `iconPosition`  | `icon-position`  | Specifies the placement of the icon in the header.                                                                                                                       | `"end" \| "start"`                           | `"end"`      |
+| `iconType`      | `icon-type`      | Specifies the type of the icon in the header.                                                                                                                            | `"caret" \| "chevron" \| "plus-minus"`       | `"chevron"`  |
+| `scale`         | `scale`          | Specifies the size of the component.                                                                                                                                     | `"l" \| "m" \| "s"`                          | `"m"`        |
+| `selectionMode` | `selection-mode` | Specifies the selection mode - `"multiple"` (allow any number of open items), `"single"` (allow one open item), or `"single-persist"` (allow and require one open item). | `"multiple" \| "single" \| "single-persist"` | `"multiple"` |
 
 ## Slots
 
-| Slot | Description                                                                                                              |
-| ---- | ------------------------------------------------------------------------------------------------------------------------ |
-|      | A slot for adding `calcite-accordion-item`s. `calcite-accordion` cannot be nested, however calcite-accordion-item`s can. |
+| Slot | Description                                                                                                               |
+| ---- | ------------------------------------------------------------------------------------------------------------------------- |
+|      | A slot for adding `calcite-accordion-item`s. `calcite-accordion` cannot be nested, however `calcite-accordion-item`s can. |
 
 ---
 

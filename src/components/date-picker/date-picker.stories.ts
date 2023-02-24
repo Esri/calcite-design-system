@@ -1,25 +1,30 @@
-import { select, text, boolean } from "@storybook/addon-knobs";
+import { boolean, select, text } from "@storybook/addon-knobs";
 
+import { storyFilters } from "../../../.storybook/helpers";
+import { ATTRIBUTES } from "../../../.storybook/resources";
 import {
   Attribute,
-  filterComponentAttributes,
   Attributes,
   createComponentHTML as create,
-  themesDarkDefault
+  filterComponentAttributes,
+  modesDarkDefault
 } from "../../../.storybook/utils";
-import readme from "./readme.md";
 import { html } from "../../../support/formatting";
 import { locales } from "../../utils/locale";
-import { createSteps, setKnobs, setTheme, stepStory } from "../../../.storybook/helpers";
-import { ATTRIBUTES } from "../../../.storybook/resources";
+import readme from "./readme.md";
 const { scale } = ATTRIBUTES;
 
 export default {
   title: "Components/Controls/DatePicker",
-
   parameters: {
-    notes: readme
-  }
+    notes: readme,
+    chromatic: {
+      // https://www.chromatic.com/docs/threshold
+      diffThreshold: Number(process.env.CHROMATIC_DIFF_THRESHOLD) || 0.3,
+      delay: 500
+    }
+  },
+  ...storyFilters()
 };
 
 const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ exceptions } = { exceptions: [] }) => {
@@ -34,33 +39,9 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
         }
       },
       {
-        name: "end",
+        name: "lang",
         commit(): Attribute {
-          this.value = text("end", "");
-          delete this.build;
-          return this;
-        }
-      },
-      {
-        name: "intl-next-month",
-        commit(): Attribute {
-          this.value = text("intl-next-month", "Next month");
-          delete this.build;
-          return this;
-        }
-      },
-      {
-        name: "intl-prev-month",
-        commit(): Attribute {
-          this.value = text("intl-prev-month", "Previous month");
-          delete this.build;
-          return this;
-        }
-      },
-      {
-        name: "locale",
-        commit(): Attribute {
-          this.value = select("locale", locales, "en");
+          this.value = select("lang", locales, "en");
           delete this.build;
           return this;
         }
@@ -114,14 +95,6 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
         }
       },
       {
-        name: "start",
-        commit(): Attribute {
-          this.value = text("start", "");
-          delete this.build;
-          return this;
-        }
-      },
-      {
         name: "value",
         commit(): Attribute {
           this.value = text("value", "2020-02-28");
@@ -134,85 +107,130 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
   );
 };
 
-export const Default = stepStory(
-  (): string => html`<div style="width: 400px">${create("calcite-date-picker", createAttributes())}</div>`,
+export const simple = (): string =>
+  html`<div style="width: 400px">${create("calcite-date-picker", createAttributes())}</div>`;
 
-  createSteps("calcite-date-picker")
-    .snapshot("Default")
+export const range = (): string =>
+  html`<div style="width: 400px">
+    ${create(
+      "calcite-date-picker",
+      createAttributes({ exceptions: ["min", "range"] }).concat([
+        { name: "min", value: "2016-08-09" },
+        { name: "range", value: "true" }
+      ])
+    )}
+  </div>`;
 
-    .executeScript(
-      setKnobs({
-        story: "components-controls-datepicker--default",
-        knobs: [{ name: "dir", value: "rtl" }]
-      })
-    )
-    .snapshot("Default RTL")
+export const rangeRTL_TestOnly = (): string => html`
+  <div style="width: 400px">
+    <calcite-date-picker dir="rtl" range></calcite-date-picker>
+  </div>
+`;
 
-    .executeScript(
-      setKnobs({
-        story: "components-controls-datepicker--default",
-        knobs: []
-      })
-    )
-    .executeScript(setTheme("dark"))
-    .snapshot("Dark")
+export const darkModeRTL_TestOnly = (): string =>
+  html`<div style="width: 400px">
+    ${create(
+      "calcite-date-picker",
+      createAttributes({ exceptions: ["class", "dir"] }).concat([
+        { name: "dir", value: "rtl" },
+        { name: "class", value: "calcite-mode-dark" }
+      ])
+    )}
+  </div>`;
 
-    .executeScript(setTheme("light"))
-    .executeScript(
-      setKnobs({
-        story: "components-controls-datepicker--default",
-        knobs: [
-          { name: "end", value: "2020-02-16" },
-          { name: "min", value: "2016-08-09" },
-          { name: "range", value: "true" },
-          { name: "start", value: "2020-02-12" }
-        ]
-      })
-    )
-    .snapshot("Range")
+darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
 
-    .executeScript(
-      setKnobs({
-        story: "components-controls-datepicker--default",
-        knobs: [
-          { name: "dir", value: "rtl" },
-          { name: "end", value: "2020-02-16" },
-          { name: "min", value: "2016-08-09" },
-          { name: "range", value: "true" },
-          { name: "start", value: "2020-02-12" }
-        ]
-      })
-    )
-    .snapshot("Range RTL")
+export const bgLang_TestOnly = (): string =>
+  html`<div style="width: 400px">
+    ${create("calcite-date-picker", createAttributes({ exceptions: ["lang"] }).concat([{ name: "lang", value: "bg" }]))}
+  </div>`;
 
-    .executeScript(
-      setKnobs({
-        story: "components-controls-datepicker--default",
-        knobs: [{ name: "value", value: "2022-03-15" }]
-      })
-    )
-    .executeScript(
-      `
-      const datePicker = document.querySelector("calcite-date-picker");
-      datePicker.maxAsDate = new Date(2022, 2, 18);
-      datePicker.minAsDate = new Date(2022, 2, 10);
-    `
-    )
-    .snapshot(" set maxAsDate & minAsDate")
+export const ptPTLang_TestOnly = (): string =>
+  html`<div style="width: 400px">
+    ${create(
+      "calcite-date-picker",
+      createAttributes({ exceptions: ["lang"] }).concat([{ name: "lang", value: "pt-PT" }])
+    )}
+  </div>`;
 
-    .executeScript(
-      setKnobs({
-        story: "components-controls-datepicker--default",
-        knobs: [{ name: "locale", value: "bg" }]
-      })
-    )
-    .snapshot("bg locale")
+export const germanLang_TestOnly = (): string =>
+  html`<div style="width: 400px">
+    ${create(
+      "calcite-date-picker",
+      createAttributes({ exceptions: ["lang", "value"] }).concat([
+        { name: "lang", value: "de" },
+        { name: "value", value: "2022-08-11" }
+      ])
+    )}
+  </div>`;
 
-    .executeScript(
-      setKnobs({
-        story: "components-controls-datepicker--default",
-        knobs: [{ name: "locale", value: "ru" }]
-      })
-    )
-    .snapshot("ru locale")
-);
+export const spanishLang_TestOnly = (): string =>
+  html`<div style="width: 400px">
+    ${create(
+      "calcite-date-picker",
+      createAttributes({ exceptions: ["lang", "value"] }).concat([
+        { name: "lang", value: "es" },
+        { name: "value", value: "2023-05-11" }
+      ])
+    )}
+  </div>`;
+
+export const norwegianLang_TestOnly = (): string =>
+  html`<div style="width: 400px">
+    ${create(
+      "calcite-date-picker",
+      createAttributes({ exceptions: ["lang", "value"] }).concat([
+        { name: "lang", value: "nb" },
+        { name: "value", value: "2023-05-11" }
+      ])
+    )}
+  </div>`;
+
+export const britishLang_TestOnly = (): string =>
+  html`<div style="width: 400px">
+    ${create(
+      "calcite-date-picker",
+      createAttributes({ exceptions: ["lang", "value"] }).concat([
+        { name: "lang", value: "en-gb" },
+        { name: "value", value: "2024-01-11" }
+      ])
+    )}
+  </div>`;
+
+export const chineseLang_TestOnly = (): string =>
+  html`<div style="width: 400px">
+    ${create(
+      "calcite-date-picker",
+      createAttributes({ exceptions: ["lang", "value"] }).concat([
+        { name: "lang", value: "zh-cn" },
+        { name: "value", value: "2024-01-11" }
+      ])
+    )}
+  </div>`;
+
+export const arabLangNumberingSystem_TestOnly = (): string =>
+  html`<div style="width: 400px">
+    ${create(
+      "calcite-date-picker",
+      createAttributes({ exceptions: ["lang", "numberingSystem"] }).concat([
+        { name: "lang", value: "ar" },
+        { name: "numbering-system", value: "arab" },
+        { name: "value", value: "2022-08-11" }
+      ])
+    )}
+  </div>`;
+
+arabLangNumberingSystem_TestOnly.parameters = {
+  chromatic: { diffThreshold: 1 }
+};
+
+export const thaiLangNumberingSystem_TestOnly = (): string =>
+  html`<div style="width: 400px">
+    ${create(
+      "calcite-date-picker",
+      createAttributes({ exceptions: ["lang", "numberingSystem"] }).concat([
+        { name: "lang", value: "th" },
+        { name: "numbering-system", value: "thai" }
+      ])
+    )}
+  </div>`;

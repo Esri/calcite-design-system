@@ -2,22 +2,41 @@
   @apply text-color-3
     block
     max-w-full
-    cursor-pointer
-    outline-none;
+    cursor-pointer;
+}
+
+[hidden] {
+  @apply hidden;
+}
+
+// Revisit: We don't normally clip actions to accommodate component heights, it’s inconsistent with how we normally handle slots.
+// This also results in clipping the top/bottom of the blue focus outline.
+.node-actions-container {
+  @apply overflow-hidden flex justify-between;
 }
 
 @include calciteHydratedHidden();
+@include disabled();
 
 :host([scale="s"]) {
   @apply text-n2h;
 
-  .node-container {
-    --calcite-tree-padding-y: theme("padding.1");
-    .checkbox,
-    .chevron,
-    .checkmark,
-    .bullet-point {
-      margin-inline: theme("margin.1");
+  .node-actions-container {
+    @apply h-6;
+    .node-container {
+      --calcite-tree-padding-y: theme("padding.1");
+      .checkbox,
+      .chevron,
+      .checkmark,
+      .bullet-point {
+        margin-inline: theme("margin.1");
+      }
+      .icon-start {
+        margin-inline: theme("margin.3");
+      }
+    }
+    .actions-end {
+      @apply inline-flex;
     }
   }
 }
@@ -25,13 +44,22 @@
 :host([scale="m"]) {
   @apply text-n1h;
 
-  .node-container {
-    --calcite-tree-padding-y: theme("padding.2");
-    .checkbox,
-    .chevron,
-    .checkmark,
-    .bullet-point {
-      margin-inline: theme("margin.2");
+  .node-actions-container {
+    @apply h-8;
+    .node-container {
+      --calcite-tree-padding-y: theme("padding.2");
+      .checkbox,
+      .chevron,
+      .checkmark,
+      .bullet-point {
+        margin-inline: theme("margin.2");
+      }
+      .icon-start {
+        margin-inline: theme("margin.3");
+      }
+    }
+    .actions-end {
+      @apply inline-flex;
     }
   }
 }
@@ -39,13 +67,22 @@
 :host([scale="l"]) {
   @apply text-0h;
 
-  .node-container {
-    --calcite-tree-padding-y: theme("padding.3");
-    .checkbox,
-    .chevron,
-    .checkmark,
-    .bullet-point {
-      margin-inline: theme("margin.3");
+  .node-actions-container {
+    @apply h-12;
+    .node-container {
+      --calcite-tree-padding-y: theme("padding.3");
+      .checkbox,
+      .chevron,
+      .checkmark,
+      .bullet-point {
+        margin-inline: theme("margin.3");
+      }
+      .icon-start {
+        margin-inline: theme("margin.3");
+      }
+    }
+    .actions-end {
+      @apply inline-flex;
     }
   }
 }
@@ -56,12 +93,12 @@
         absolute
         top-0
         w-px
-        transition-colors;
+        transition-colors
+        z-default;
     // ensure lines don't overlap focus outline
-    height: 96%;
+    block-size: 96%;
     content: "";
     background-color: var(--calcite-ui-border-2);
-    z-index: -1;
   }
 }
 
@@ -82,21 +119,34 @@
 ::slotted(a) {
   @apply w-full no-underline;
 }
+
 // focus styles
 :host {
   @apply focus-base;
+  &:focus,
+  &:active {
+    @apply focus-inset outline-none;
+  }
 }
-:host(:focus) {
-  @apply focus-inset;
+
+:host(:focus:not([disabled])) {
+  @apply focus-inset outline-none;
+}
+
+slot[name="actions-end"]::slotted(*) {
+  @apply flex self-stretch flex-row items-center overflow-visible;
 }
 
 .checkbox {
-  @apply outline-none;
   line-height: 0;
 }
 
 .checkbox-label {
   @apply pointer-events-none flex items-center;
+}
+
+.checkbox:focus {
+  @apply outline-none;
 }
 
 .children-container {
@@ -108,16 +158,17 @@
     all var(--calcite-animation-timing) ease-in-out; // note that we're transitioning transform, not height!
   transform-origin: top; // keep the top of the element in the same place. this is optional.
 
-  :host([expanded]) > & {
-    transform: scaleY(1);
+  .item--expanded > & {
+    @apply overflow-visible;
     opacity: 1;
-    height: auto;
+    block-size: auto;
   }
 }
 
 .node-container {
   @apply relative flex items-center;
-  padding: var(--calcite-tree-padding-y) 0;
+  padding-block: var(--calcite-tree-padding-y);
+  padding-inline: 0;
 
   .checkmark,
   .bullet-point {
@@ -128,15 +179,15 @@
 
 .node-container:hover,
 :host([selected]) .node-container:hover,
-:host(:focus) .node-container {
+:host(:focus:not([disabled])) .node-container {
   .checkmark,
   .bullet-point {
     @apply opacity-100;
   }
 }
 
-:host([selected]) > .node-container,
-:host([selected]) > .node-container:hover {
+:host([selected]) .node-container,
+:host([selected]) .node-container:hover {
   @apply text-color-1 font-medium;
 
   .bullet-point,
@@ -146,27 +197,39 @@
   }
 }
 
-// ancestors selection-mode, dropdown without children
-:host(:not([has-children])) {
-  &:host([scale="s"]) > .node-container[data-selection-mode="ancestors"] .checkbox {
-    padding-inline-start: theme("padding.5");
+:host([selection-mode="none"]:not([has-children])) {
+  &:host([scale="s"]) .node-container {
+    padding-inline-start: theme("padding.2");
   }
-  &:host([scale="m"]) > .node-container[data-selection-mode="ancestors"] .checkbox {
+  &:host([scale="m"]) .node-container {
+    padding-inline-start: theme("padding.4");
+  }
+  &:host([scale="l"]) .node-container {
     padding-inline-start: theme("padding.6");
   }
-  &:host([scale="l"]) > .node-container[data-selection-mode="ancestors"] .checkbox {
+}
+
+// ancestors selection-mode, dropdown without children
+:host(:not([has-children])) {
+  &:host([scale="s"]) .node-container[data-selection-mode="ancestors"] .checkbox {
+    padding-inline-start: theme("padding.5");
+  }
+  &:host([scale="m"]) .node-container[data-selection-mode="ancestors"] .checkbox {
+    padding-inline-start: theme("padding.6");
+  }
+  &:host([scale="l"]) .node-container[data-selection-mode="ancestors"] .checkbox {
     padding-inline-start: 1.75rem;
   }
 }
 // ancestors selection-mode, dropdown with children
-:host([has-children]) > .node-container[data-selection-mode="ancestors"] {
+:host([has-children]) .node-container[data-selection-mode="ancestors"] {
   .checkbox {
     margin-inline-start: 0;
   }
 }
 
 // dropdown with children
-:host([has-children]) > .node-container {
+:host([has-children]) .node-container {
   .bullet-point,
   .checkmark {
     @apply hidden;
@@ -174,16 +237,16 @@
 }
 
 // dropdown expanded and not selected
-:host([has-children][expanded]:not([selected])) > .node-container {
+:host([has-children][expanded]:not([selected]):not([selection-mode="none"])) .node-container {
   ::slotted(*) {
     @apply text-color-1 font-medium;
   }
 }
 
-// dropdown selected (for children, multi-children selected parents)
-:host([has-children][selected]) > .node-container {
+// dropdown selected (for children, multichildren selected parents)
+:host([has-children][selected]) .node-container {
   &[data-selection-mode="children"],
-  &[data-selection-mode="multi-children"] {
+  &[data-selection-mode="multichildren"] {
     color: var(--calcite-ui-brand);
   }
 }
@@ -200,7 +263,7 @@
     transform: rotate(180deg);
   }
 
-  :host([expanded]) > .node-container > & {
+  .item--expanded .node-container > & {
     transform: rotate(90deg);
   }
 }

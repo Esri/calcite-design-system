@@ -1,4 +1,4 @@
-import { Component, Element, Host, h, Prop, VNode, Watch } from "@stencil/core";
+import { Component, Element, h, Host, Prop, VNode, Watch } from "@stencil/core";
 import { getElementProp, setRequestedIcon } from "../../utils/dom";
 import { Scale, Status } from "../interfaces";
 import { StatusIconDefaults } from "./interfaces";
@@ -26,27 +26,17 @@ export class InputMessage {
   //
   //--------------------------------------------------------------------------
 
-  /** Indicates whether the message is displayed. */
-  @Prop({ reflect: true }) active = false;
-
-  /**
-   * when used as a boolean set to true, show a default icon based on status. You can
-   * also pass a calcite-ui-icon name to this prop to display a custom icon
-   */
+  /** Specifies an icon to display. */
   @Prop({ reflect: true }) icon: boolean | string;
 
-  /** specify the scale of the input, defaults to m */
+  /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
+  @Prop({ reflect: true }) iconFlipRtl = false;
+
+  /** Specifies the size of the component. */
   @Prop({ reflect: true, mutable: true }) scale: Scale = "m";
 
-  /** specify the status of the input field, determines message and icons */
+  /** Specifies the status of the input field, which determines message and icons. */
   @Prop({ reflect: true, mutable: true }) status: Status = "idle";
-
-  /**
-   * specify the appearance of any slotted message - default (displayed under input), or floating (positioned absolutely under input)
-   *
-   * @deprecated "floating" type is no longer supported
-   */
-  @Prop({ reflect: true }) type: "default";
 
   @Watch("status")
   @Watch("icon")
@@ -61,13 +51,12 @@ export class InputMessage {
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
-    this.status = getElementProp(this.el, "status", this.status);
     this.scale = getElementProp(this.el, "scale", this.scale);
     this.requestedIcon = setRequestedIcon(StatusIconDefaults, this.icon, this.status);
   }
 
   render(): VNode {
-    const hidden = !this.active;
+    const hidden = this.el.hidden;
     return (
       <Host calcite-hydrated-hidden={hidden}>
         {this.renderIcon(this.requestedIcon)}
@@ -93,7 +82,14 @@ export class InputMessage {
 
   private renderIcon(iconName: string): VNode {
     if (iconName) {
-      return <calcite-icon class="calcite-input-message-icon" icon={iconName} scale="s" />;
+      return (
+        <calcite-icon
+          class="calcite-input-message-icon"
+          flipRtl={this.iconFlipRtl}
+          icon={iconName}
+          scale="s"
+        />
+      );
     }
   }
 }

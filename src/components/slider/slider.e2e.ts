@@ -1,12 +1,15 @@
-import { newE2EPage } from "@stencil/core/testing";
-import { defaults, disabled, formAssociated, labelable, renders } from "../../tests/commonTests";
-import { getElementXY } from "../../tests/utils";
+import { E2EElement, E2EPage, newE2EPage } from "@stencil/core/testing";
 import { html } from "../../../support/formatting";
+import { defaults, disabled, formAssociated, hidden, labelable, renders } from "../../tests/commonTests";
+import { getElementXY } from "../../tests/utils";
+import { CSS } from "./resources";
 
 describe("calcite-slider", () => {
   const sliderWidthFor1To1PixelValueTrack = "114px";
 
   it("renders", async () => renders("calcite-slider", { display: "block" }));
+
+  it("honors hidden attribute", async () => hidden("calcite-slider"));
 
   it("has defaults", async () =>
     defaults("calcite-slider", [
@@ -267,6 +270,60 @@ describe("calcite-slider", () => {
     expect(changeEvent).toHaveReceivedEventTimes(1);
   });
 
+  describe("thumb focus for single value", () => {
+    const sliderForThumbFocusTests = html`<calcite-slider
+      style="width:${sliderWidthFor1To1PixelValueTrack}"
+      min="0"
+      max="100"
+      snap
+      ticks="10"
+      value="50"
+    ></calcite-slider>`;
+
+    it("should focus thumb when clicked near", async () => {
+      const page = await newE2EPage();
+      await page.setContent(html`${sliderForThumbFocusTests}`);
+      const slider = await page.find("calcite-slider");
+      const [trackX, trackY] = await getElementXY(page, "calcite-slider", ".track");
+
+      await page.mouse.move(trackX + 50, trackY);
+      await page.mouse.down();
+      await page.mouse.up();
+      await page.waitForChanges();
+
+      let isThumbFocused = await page.$eval("calcite-slider", (slider) =>
+        slider.shadowRoot.activeElement?.classList.contains("thumb--value")
+      );
+
+      expect(isThumbFocused).toBe(true);
+      expect(await slider.getProperty("value")).toBe(50);
+
+      await page.mouse.move(trackX + 40, trackY);
+      await page.mouse.down();
+      await page.mouse.up();
+      await page.waitForChanges();
+
+      isThumbFocused = await page.$eval("calcite-slider", (slider) =>
+        slider.shadowRoot.activeElement?.classList.contains("thumb--value")
+      );
+
+      expect(isThumbFocused).toBe(true);
+      expect(await slider.getProperty("value")).toBe(40);
+
+      await page.mouse.move(trackX + 60, trackY);
+      await page.mouse.down();
+      await page.mouse.up();
+      await page.waitForChanges();
+
+      isThumbFocused = await page.$eval("calcite-slider", (slider) =>
+        slider.shadowRoot.activeElement?.classList.contains("thumb--value")
+      );
+
+      expect(isThumbFocused).toBe(true);
+      expect(await slider.getProperty("value")).toBe(60);
+    });
+  });
+
   describe("thumb focus in range", () => {
     const sliderForThumbFocusTests = html`<calcite-slider
       style="width:${sliderWidthFor1To1PixelValueTrack}"
@@ -504,6 +561,38 @@ describe("calcite-slider", () => {
       expect(inputEvent).toHaveReceivedEventTimes(5);
       expect(changeEvent).toHaveReceivedEventTimes(1);
     });
+
+    it("range: clicking and dragging the range changes minValue and maxValue on mousedown, emits on mouseup", async () => {
+      const page = await newE2EPage();
+      await page.setContent(
+        html`<calcite-slider
+          min-value="0"
+          max-value="50"
+          snap
+          style="width:${sliderWidthFor1To1PixelValueTrack}"
+        ></calcite-slider>`
+      );
+      const slider = await page.find("calcite-slider");
+      const inputEvent = await slider.spyOnEvent("calciteSliderInput");
+      const changeEvent = await slider.spyOnEvent("calciteSliderChange");
+      const [trackX, trackY] = await getElementXY(page, "calcite-slider", ".track");
+
+      await page.mouse.move(trackX + 25, trackY);
+      await page.mouse.down();
+      await page.mouse.move(trackX + 26, trackY);
+      await page.mouse.move(trackX + 27, trackY);
+      await page.mouse.move(trackX + 28, trackY);
+      await page.mouse.move(trackX + 29, trackY);
+      await page.mouse.move(trackX + 30, trackY);
+      await page.mouse.move(trackX + 31, trackY);
+      await page.mouse.up();
+      await page.waitForChanges();
+
+      expect(await slider.getProperty("minValue")).toBe(5);
+      expect(await slider.getProperty("maxValue")).toBe(55);
+      expect(inputEvent).toHaveReceivedEventTimes(6);
+      expect(changeEvent).toHaveReceivedEventTimes(1);
+    });
   });
 
   describe("histogram", () => {
@@ -671,4 +760,88 @@ describe("calcite-slider", () => {
   it("is form-associated", () => formAssociated("calcite-slider", { testValue: 5 }));
 
   it("is form-associated with range", () => formAssociated("calcite-slider", { testValue: [5, 10] }));
+
+  describe("number locale support", () => {
+    let page: E2EPage;
+    let noSeparator: string[];
+    const expectedNotSeparatedValueArray = {
+      en: ["2500", "500000.5", "1000", "1000000.5"],
+      fr: ["2500", "500000,5", "1000", "1000000,5"]
+    };
+    let withSeparator: string[];
+    let getDisplayedValuesArray;
+    let element: E2EElement;
+    const formattedValuesPerLanguageObject = {
+      "de-CH": ["2’500", "500’000.5", "1’000", "1’000’000.5"],
+      en: ["2,500", "500,000.5", "1,000", "1,000,000.5"],
+      es: ["2500", "500.000,5", "1000", "1.000.000,5"],
+      fr: ["2 500", "500 000,5", "1 000", "1 000 000,5"],
+      hi: ["2,500", "5,00,000.5", "1,000", "10,00,000.5"]
+    };
+
+    beforeEach(async () => {
+      page = await newE2EPage();
+      await page.setContent(html`<calcite-slider
+        group-separator
+        lang="en"
+        min="1000"
+        max="1000000.50"
+        min-value="2500"
+        max-value="500000.50"
+        step="1000"
+        ticks="1000"
+        label-handles
+        label-ticks
+        style="width:${sliderWidthFor1To1PixelValueTrack}"
+      >
+      </calcite-slider>`);
+      element = await page.find("calcite-slider");
+
+      getDisplayedValuesArray = async (): Promise<string[]> => {
+        const labelMinVal = (await element.shadowRoot.querySelector(`.${CSS.handleLabelMinValue}`)) as HTMLElement;
+        const labelVal = (await element.shadowRoot.querySelector(`.${CSS.handleLabelValue}`)) as HTMLElement;
+
+        const tickMin = (await element.shadowRoot.querySelector(`.${CSS.tickMin}`)) as HTMLElement;
+        const tickMax = (await element.shadowRoot.querySelector(`.${CSS.tickMax}`)) as HTMLElement;
+
+        return [labelMinVal.innerText, labelVal.innerText, tickMin.innerText, tickMax.innerText];
+      };
+      await page.exposeFunction("getDisplayedValuesArray", getDisplayedValuesArray);
+    });
+
+    it("does not render separated when groupSeparator prop is false", async () => {
+      element.setProperty("groupSeparator", false);
+      await page.waitForChanges();
+
+      noSeparator = await page.$eval("calcite-slider", async (): Promise<string[]> => {
+        return await getDisplayedValuesArray();
+      });
+      expect(await element.getProperty("groupSeparator")).toBe(false);
+      expect(noSeparator).toEqual(expectedNotSeparatedValueArray.en);
+
+      element.setProperty("lang", "fr");
+      await page.waitForChanges();
+
+      noSeparator = await page.$eval("calcite-slider", async (): Promise<string[]> => {
+        return await getDisplayedValuesArray();
+      });
+      expect(noSeparator).toEqual(expectedNotSeparatedValueArray.fr);
+    });
+
+    it("displays group separator for multiple locales", async () => {
+      const testLocalizedGroupSeparator = async (lang: string, formattedValuesArr: string[]): Promise<void> => {
+        element.setProperty("lang", lang);
+        await page.waitForChanges();
+
+        withSeparator = await page.$eval("calcite-slider", async (): Promise<string[]> => {
+          return await getDisplayedValuesArray();
+        });
+        expect(withSeparator).toEqual(formattedValuesArr);
+      };
+
+      for (const lang in formattedValuesPerLanguageObject) {
+        await testLocalizedGroupSeparator(lang, formattedValuesPerLanguageObject[lang]);
+      }
+    });
+  });
 });

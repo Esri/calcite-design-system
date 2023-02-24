@@ -4,7 +4,7 @@
   --calcite-stepper-item-spacing-unit-l: theme("spacing.4");
   @apply text-n1h;
   margin-inline-end: theme("margin.1");
-  .stepper-item-subtitle {
+  .stepper-item-description {
     @apply text-n2h;
   }
 }
@@ -15,7 +15,7 @@
   --calcite-stepper-item-spacing-unit-l: theme("spacing.5");
   @apply text-0h;
   margin-inline-end: theme("margin.2");
-  .stepper-item-subtitle {
+  .stepper-item-description {
     @apply text-n1h;
   }
 }
@@ -26,7 +26,7 @@
   --calcite-stepper-item-spacing-unit-l: theme("spacing.6");
   @apply text-1h;
   margin-inline-end: theme("margin.3");
-  .stepper-item-subtitle {
+  .stepper-item-description {
     @apply text-0h;
   }
 }
@@ -37,7 +37,7 @@
   flex-grow
   flex-col
   self-start;
-  margin-bottom: var(--calcite-stepper-item-spacing-unit-s);
+  margin-block-end: var(--calcite-stepper-item-spacing-unit-s);
 }
 
 :host .container {
@@ -113,14 +113,14 @@
   margin-inline-end: auto;
 }
 
-:host .stepper-item-title,
-:host .stepper-item-subtitle {
+:host .stepper-item-heading,
+:host .stepper-item-description {
   @apply flex w-full;
 }
-:host .stepper-item-title {
+:host .stepper-item-heading {
   @apply text-color-2 mb-1 font-medium;
 }
-:host .stepper-item-subtitle {
+:host .stepper-item-description {
   @apply text-color-3;
 }
 
@@ -135,7 +135,7 @@
 @include disabled();
 
 :host([complete]) .container {
-  // todo dark theme
+  // todo dark mode
   border-color: rgba($h-bb-060, 0.5);
   & .stepper-item-icon {
     color: theme("backgroundColor.brand");
@@ -153,29 +153,29 @@
   }
 }
 
-:host(:hover:not([disabled]):not([active])) .container,
-:host(:focus:not([disabled]):not([active])) .container {
+:host(:hover:not([disabled]):not([selected])) .container,
+:host(:focus:not([disabled]):not([selected])) .container {
   @apply border-t-color-brand;
 
-  & .stepper-item-title {
+  & .stepper-item-heading {
     @apply text-color-1;
   }
-  & .stepper-item-subtitle {
+  & .stepper-item-description {
     @apply text-color-2;
   }
 }
 
-:host([error]:hover:not([disabled]):not([active])) .container,
-:host([error]:focus:not([disabled]):not([active])) .container {
+:host([error]:hover:not([disabled]):not([selected])) .container,
+:host([error]:focus:not([disabled]):not([selected])) .container {
   @apply border-t-color-danger-hover;
 }
 
-:host([active]) .container {
-  border-top-color: theme("backgroundColor.brand");
-  & .stepper-item-title {
+:host([selected]) .container {
+  border-block-start-color: theme("backgroundColor.brand");
+  & .stepper-item-heading {
     @apply text-color-1;
   }
-  & .stepper-item-subtitle {
+  & .stepper-item-description {
     @apply text-color-2;
   }
   & .stepper-item-number {
@@ -188,15 +188,20 @@
   }
 }
 
-// vertical layout
+:host([selected]) .container {
+  & .stepper-item-content {
+    @apply flex;
+  }
+}
+
 :host([layout="vertical"]) .container {
   @apply border-color-3
-    mx-0
-    mt-0
-    flex-auto
-    border-t-0
-    border-solid
-    py-0;
+  mx-0
+  mt-0
+  flex-auto
+  border-t-0
+  border-solid
+  py-0;
   border-inline-start-width: theme("borderWidth.2");
   padding-inline-start: var(--calcite-stepper-item-spacing-unit-l);
 
@@ -213,35 +218,107 @@
   }
 }
 
-// only show the content for vertical items
-:host([layout="vertical"][active]) .container {
-  & .stepper-item-content {
-    @apply flex;
-    & ::slotted(:last-child) {
-      margin-bottom: var(--calcite-stepper-item-spacing-unit-l);
-    }
-  }
-}
-
 :host([layout="vertical"][complete]) .container {
   border-color: rgba($h-bb-060, 0.5);
 }
-:host([layout="vertical"][complete]:hover:not([disabled]):not([active])) .container,
-:host([layout="vertical"][complete]:focus:not([disabled]):not([active])) .container {
+:host([layout="vertical"][complete]:hover:not([disabled]):not([selected])) .container,
+:host([layout="vertical"][complete]:focus:not([disabled]):not([selected])) .container {
   @apply border-color-brand;
 }
 :host([layout="vertical"][error]) .container {
   @apply border-color-danger;
 }
-:host([layout="vertical"][active]) .container {
+:host([layout="vertical"][selected]) .container {
   @apply border-color-brand;
+
+  & .stepper-item-content:not(:empty) {
+    margin-block-end: var(--calcite-stepper-item-spacing-unit-l);
+  }
 }
-:host([layout="vertical"]:hover:not([disabled]):not([active])) .container,
-:host([layout="vertical"]:focus:not([disabled]):not([active])) .container {
+:host([layout="vertical"]:hover:not([disabled]):not([selected])) .container,
+:host([layout="vertical"]:focus:not([disabled]):not([selected])) .container {
   border-color: rgba($h-bb-060, 0.5);
 }
-:host([layout="vertical"][error]:hover:not([disabled]):not([active])) .container,
-:host([layout="vertical"][error]:focus:not([disabled]):not([active])) .container {
+:host([layout="vertical"][error]:hover:not([disabled]):not([selected])) .container,
+:host([layout="vertical"][error]:focus:not([disabled]):not([selected])) .container {
+  @apply border-color-danger-hover;
+}
+
+:host([layout="horizontal"]) {
+  display: contents;
+
+  .container {
+    display: contents;
+  }
+
+  .stepper-item-header {
+    @apply border-color-3
+    border-0
+    border-solid
+    border-t-2
+    focus-base;
+
+    grid-row: items;
+    margin-inline-end: theme("margin.2");
+    margin-block-end: var(--calcite-stepper-item-spacing-unit-s);
+
+    &:focus {
+      @apply focus-outset;
+    }
+  }
+
+  .stepper-item-content {
+    @apply cursor-auto duration-150 ease-in-out;
+    padding-block: 0;
+    padding-inline-end: var(--calcite-stepper-item-spacing-unit-m);
+    text-align: start;
+  }
+}
+
+:host([layout="horizontal"][disabled]) {
+  .stepper-item-header {
+    @extend %disabled-host-only;
+  }
+}
+
+:host([layout="horizontal"][selected]) {
+  .stepper-item-content {
+    grid-area: 2 / 1 / 2 / -1;
+  }
+}
+
+:host([layout="horizontal"][scale="s"]) {
+  .stepper-item-header {
+    margin-inline-end: theme("margin.1");
+    margin-block-end: var(--calcite-stepper-item-spacing-unit-s);
+  }
+}
+:host([layout="horizontal"][scale="l"]) {
+  .stepper-item-header {
+    margin-inline-end: theme("margin.3");
+    margin-block-end: var(--calcite-stepper-item-spacing-unit-s);
+  }
+}
+
+:host([layout="horizontal"][complete]) .stepper-item-header {
+  border-color: rgba($h-bb-060, 0.5);
+}
+:host([layout="horizontal"][complete]:hover:not([disabled]):not([selected])) .stepper-item-header,
+:host([layout="horizontal"][complete]:focus:not([disabled]):not([selected])) .stepper-item-header {
+  @apply border-color-brand;
+}
+:host([layout="horizontal"][error]) .stepper-item-header {
+  @apply border-color-danger;
+}
+:host([layout="horizontal"][selected]) .stepper-item-header {
+  @apply border-color-brand;
+}
+:host([layout="horizontal"]:hover:not([disabled]):not([selected])) .stepper-item-header,
+:host([layout="horizontal"]:focus:not([disabled]):not([selected])) .stepper-item-header {
+  border-color: rgba($h-bb-060, 0.5);
+}
+:host([layout="horizontal"][error]:hover:not([disabled]):not([selected])) .stepper-item-header,
+:host([layout="horizontal"][error]:focus:not([disabled]):not([selected])) .stepper-item-header {
   @apply border-color-danger-hover;
 }
 
@@ -256,8 +333,8 @@
     outline-color: canvasText;
   }
 
-  :host([active]) .container {
-    border-top-color: highlight;
+  :host([selected]) .container {
+    border-block-start-color: highlight;
     & .stepper-item-number {
       color: highlight;
     }
@@ -266,7 +343,7 @@
     }
   }
 
-  :host([layout="vertical"][active]) .container {
+  :host([layout="vertical"][selected]) .container {
     border-color: highlight;
   }
 }

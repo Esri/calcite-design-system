@@ -1,5 +1,5 @@
 :host {
-  @apply border-color-2
+  @apply border-color-1
     bg-foreground-1
     relative
     inline-block
@@ -13,13 +13,13 @@
 
 //FIXME: These need to be revisted by design to get scale values
 :host([scale="s"]) {
-  max-width: 216px;
+  max-inline-size: 216px;
 }
 
 :host([scale="m"]) {
-  max-width: 286px;
+  max-inline-size: 286px;
 }
 
 :host([scale="l"]) {
-  max-width: 398px;
+  max-inline-size: 398px;
 }

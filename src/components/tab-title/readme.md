@@ -6,26 +6,26 @@ The tab-title is the link that switches between panes in [calcite-tabs](../tabs)
 
 ## Properties
 
-| Property      | Attribute       | Description                                                                                              | Type                         | Default     |
-| ------------- | --------------- | -------------------------------------------------------------------------------------------------------- | ---------------------------- | ----------- |
-| `active`      | `active`        | Show this tab title as selected                                                                          | `boolean`                    | `false`     |
-| `disabled`    | `disabled`      | Disable this tab title                                                                                   | `boolean`                    | `false`     |
-| `iconEnd`     | `icon-end`      | optionally pass an icon to display at the end of a tab title - accepts calcite ui icon names             | `string`                     | `undefined` |
-| `iconFlipRtl` | `icon-flip-rtl` | flip the icon(s) in rtl                                                                                  | `"both" \| "end" \| "start"` | `undefined` |
-| `iconStart`   | `icon-start`    | optionally pass an icon to display at the start of a tab title - accepts calcite ui icon names           | `string`                     | `undefined` |
-| `tab`         | `tab`           | Optionally include a unique name for the tab title, be sure to also set this name on the associated tab. | `string`                     | `undefined` |
+| Property      | Attribute       | Description                                                                                                                                       | Type                         | Default     |
+| ------------- | --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------- | ----------- |
+| `disabled`    | `disabled`      | When `true`, interaction is prevented and the component is displayed with lower opacity.                                                          | `boolean`                    | `false`     |
+| `iconEnd`     | `icon-end`      | Specifies an icon to display at the end of the component.                                                                                         | `string`                     | `undefined` |
+| `iconFlipRtl` | `icon-flip-rtl` | Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`).                                       | `"both" \| "end" \| "start"` | `undefined` |
+| `iconStart`   | `icon-start`    | Specifies an icon to display at the start of the component.                                                                                       | `string`                     | `undefined` |
+| `selected`    | `selected`      | When `true`, the component and its respective `calcite-tab` contents are selected. Only one tab can be selected within the `calcite-tabs` parent. | `boolean`                    | `false`     |
+| `tab`         | `tab`           | Specifies a unique name for the component. When specified, use the same value on the `calcite-tab`.                                               | `string`                     | `undefined` |
 
 ## Events
 
-| Event                 | Description                                                                             | Type                                |
-| --------------------- | --------------------------------------------------------------------------------------- | ----------------------------------- |
-| `calciteTabsActivate` | Fires when a specific tab is activated. Emits the "tab" property or the index position. | `CustomEvent<TabChangeEventDetail>` |
+| Event                 | Description                             | Type                |
+| --------------------- | --------------------------------------- | ------------------- |
+| `calciteTabsActivate` | Fires when a `calcite-tab` is selected. | `CustomEvent<void>` |
 
 ## Methods
 
 ### `getTabIndex() => Promise<number>`
 
-Return the index of this title within the nav
+Returns the index of the title within the `calcite-tab-nav`.
 
 #### Returns
 
