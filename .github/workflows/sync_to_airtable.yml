@@ -82,5 +82,5 @@ jobs:
           result-encoding: string
       - name: Log Result
         run: |
-          echo "${{ github.event }}"
+          echo "${{ toJSON(github.event) }}"
 #          echo "${{steps.set-data.outputs.result}}" | echo ""
