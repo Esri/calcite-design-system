@@ -4,14 +4,6 @@ on:
   issues:
     types: [opened, edited, closed, reopened, assigned, unassigned, labeled, unlabeled, milestoned, demilestoned]
 
-# Every time an issue is edited in any way, it triggers this action.
-# However, if this action is already running, we only want the latest run to complete.
-# The [concurrency:group] prevents duplicate runs of the Action on the same github issue,
-# while allowing concurrent runs triggered from different issues.
-concurrency:
-  group: ${{ github.workflow }}-${{ github.event.issue.number }}-${{ github.ref }}
-  cancel-in-progress: true
-
 jobs:
   allow_for_changes:
     runs-on: ubuntu-latest
