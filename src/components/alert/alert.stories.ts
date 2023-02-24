@@ -1,5 +1,5 @@
 import { select } from "@storybook/addon-knobs";
-import { boolean, iconNames, storyFilters } from "../../../.storybook/helpers";
+import { boolean, iconNames, screenshotDelay, storyFilters } from "../../../.storybook/helpers";
 import { modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import readme from "./readme.md";
@@ -9,7 +9,7 @@ export default {
   parameters: {
     notes: readme,
     chromatic: {
-      delay: 500
+      delay: screenshotDelay
     }
   },
   ...storyFilters()

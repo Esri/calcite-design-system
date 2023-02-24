@@ -3,14 +3,14 @@ import { locales } from "../../utils/locale";
 import { modesDarkDefault } from "../../../.storybook/utils";
 import readme from "./readme.md";
 import { html } from "../../../support/formatting";
-import { storyFilters } from "../../../.storybook/helpers";
+import { screenshotDelay, storyFilters } from "../../../.storybook/helpers";
 
 export default {
   title: "Components/Pagination",
   parameters: {
     notes: readme,
     chromatic: {
-      delay: 500
+      delay: screenshotDelay
     }
   },
   ...storyFilters()

@@ -1,6 +1,6 @@
 import { select, number, text } from "@storybook/addon-knobs";
 import { html } from "../../../support/formatting";
-import { boolean, storyFilters } from "../../../.storybook/helpers";
+import { boolean, screenshotDelay, storyFilters } from "../../../.storybook/helpers";
 import { placements } from "../../utils/floating-ui";
 import readme from "./readme.md";
 import { defaultPopoverPlacement } from "../popover/resources";
@@ -22,7 +22,7 @@ export default {
   parameters: {
     notes: [readme],
     chromatic: {
-      delay: 500
+      delay: screenshotDelay
     }
   },
   ...storyFilters()
@@ -97,7 +97,7 @@ export const nested = (): string => html`
 `;
 
 nested.parameters = {
-  chromatic: { delay: 1500 }
+  chromatic: { delay: screenshotDelay * 1.5 }
 };
 
 export const flipPlacements_TestOnly = (): string => html`

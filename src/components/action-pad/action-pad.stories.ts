@@ -9,14 +9,14 @@ import {
 import readme from "./readme.md";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { html } from "../../../support/formatting";
-import { storyFilters } from "../../../.storybook/helpers";
+import { screenshotDelay, storyFilters } from "../../../.storybook/helpers";
 
 export default {
   title: "Components/Action Pad",
   parameters: {
     notes: readme,
     chromatic: {
-      delay: 5000
+      delay: screenshotDelay
     }
   },
   ...storyFilters()

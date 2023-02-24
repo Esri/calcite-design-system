@@ -1,6 +1,6 @@
 import { boolean, select, text } from "@storybook/addon-knobs";
 
-import { storyFilters } from "../../../.storybook/helpers";
+import { screenshotDelay, storyFilters } from "../../../.storybook/helpers";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import {
   Attribute,
@@ -21,7 +21,7 @@ export default {
     chromatic: {
       // https://www.chromatic.com/docs/threshold
       diffThreshold: Number(process.env.CHROMATIC_DIFF_THRESHOLD) || 0.3,
-      delay: 500
+      delay: screenshotDelay
     }
   },
   ...storyFilters()

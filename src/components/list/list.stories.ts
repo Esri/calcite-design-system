@@ -4,7 +4,7 @@ import readme from "./readme.md";
 import itemReadme from "../list-item/readme.md";
 import groupReadme from "../list-item-group/readme.md";
 import { html } from "../../../support/formatting";
-import { storyFilters, boolean } from "../../../.storybook/helpers";
+import { storyFilters, boolean, screenshotDelay } from "../../../.storybook/helpers";
 import { select, text } from "@storybook/addon-knobs";
 
 export default {
@@ -12,7 +12,7 @@ export default {
   parameters: {
     notes: [readme, itemReadme, groupReadme],
     chromatic: {
-      delay: 500
+      delay: screenshotDelay
     }
   },
   ...storyFilters()

@@ -47,3 +47,8 @@ export function storyFilters(): {
     excludeStories: process.env.STORYBOOK_SCREENSHOT_TEST_BUILD ? /.*_NoTest$/ : /.*_TestOnly$/
   };
 }
+
+/**
+ * Base delay in ms for delaying screenshots stories.
+ */
+export const screenshotDelay = 1000;

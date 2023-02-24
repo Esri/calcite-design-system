@@ -1,5 +1,5 @@
 import { number, select } from "@storybook/addon-knobs";
-import { boolean, storyFilters } from "../../../.storybook/helpers";
+import { boolean, screenshotDelay, storyFilters } from "../../../.storybook/helpers";
 import { modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { defaultMenuPlacement, menuPlacements } from "../../utils/floating-ui";
@@ -12,7 +12,7 @@ export default {
   parameters: {
     notes: [readme1, readme2, readme3],
     chromatic: {
-      delay: 500
+      delay: screenshotDelay
     }
   },
   ...storyFilters()
@@ -293,7 +293,7 @@ export const scrollingAfterCertainItems_TestOnly = (): string => html`
 `;
 
 scrollingAfterCertainItems_TestOnly.parameters = {
-  chromatic: { delay: 1500 }
+  chromatic: { delay: screenshotDelay * 1.5 }
 };
 
 export const scrollingWithoutMaxItems_TestOnly = (): string => html`
