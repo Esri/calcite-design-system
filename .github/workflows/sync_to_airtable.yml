@@ -5,67 +5,7 @@ on:
     types: [opened, edited, closed, reopened, assigned, unassigned, labeled, unlabeled, milestoned, demilestoned]
 
 jobs:
-  send_opened:
-    if: | 
-      github.event.action == 'test'
-    runs-on: ubuntu-latest
-    steps:
-      - run: echo "send opened"
-  send_edited:
-    if: | 
-      github.event.action == 'test'
-    runs-on: ubuntu-latest
-    steps:
-      - run: echo "send edited"
-  send_closed:
-    if: | 
-      github.event.action == 'test'
-    runs-on: ubuntu-latest
-    steps:
-      - run: echo "send closed"
-  send_reopened:
-    if: | 
-      github.event.action == 'test'
-    runs-on: ubuntu-latest
-    steps:
-      - run: echo "send reopened"
-  send_assigned:
-    if: | 
-      github.event.action == 'test'
-    runs-on: ubuntu-latest
-    steps:
-      - run: echo "send assigned"
-  send_unassigned:
-    if: | 
-      github.event.action == 'test'
-    runs-on: ubuntu-latest
-    steps:
-      - run: echo "send unassigned"
-  send_labeled:
-    if: | 
-      github.event.action == 'test'
-    runs-on: ubuntu-latest
-    steps:
-      - run: echo "send labeled"
-  send_unlabeled:
-    if: | 
-      github.event.action == 'test'
-    runs-on: ubuntu-latest
-    steps:
-      - run: echo "send unlabeled"
-  send_milestoned:
-    if: | 
-      github.event.action == 'test'
-    runs-on: ubuntu-latest
-    steps:
-      - run: echo "send milestoned"
-  send_demilestoned:
-    if: | 
-      github.event.action == 'test'
-    runs-on: ubuntu-latest
-    steps:
-      - run: echo "send demilestoned"
-  get_data:
+  send_data:
     runs-on: ubuntu-latest
     steps:
       - name: Set Data
@@ -75,12 +15,20 @@ jobs:
           SECRET: ${{ secrets.AIRTABLE_KEY }}
           ISSUE: ${{ toJSON(github.event.issue) }}
           WEBHOOK: ${{ secrets.AIRTABLE_WEBHOOK }}
+          ACTION: ${{ github.event.action }}
+          CHANGES: ${{ github.event.changes }}
+          SENDER: ${{ github.event.sender }}
         with:
           script: |
             const issue = process.env.ISSUE;
-            return issue;
+            return {
+              issue: process.env.ISSUE,
+              action: process.env.ACTION,
+              changes: process.env.CHANGES,
+              sender: process.env.SENDER
+            };
           result-encoding: string
       - name: Log Result
         run: |
-          echo "${{ toJSON(github.event) }}"
+          echo "${{ toJSON(steps.set-data.outputs.result) }}"
 #          echo "${{steps.set-data.outputs.result}}" | echo ""
