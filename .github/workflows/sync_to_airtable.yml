@@ -15,6 +15,7 @@ jobs:
           env:
             ACTION: ${{ toJSON(github.event.action) }}
             DATA: ${{ toJSON(github.event.issue.assignees) }}
+            ISSUE: ${{ toJSON(github.event.issue.assignees) }}
             NUMBER: ${{ github.event.issue.number }}
             SECRET: ${{ secrets.AIRTABLE_KEY }}
             TITLE: ${{ github.event.issue.title }}
@@ -97,7 +98,7 @@ jobs:
           with:
             script: |
               const { ACTION, DATA, NUMBER, SECRET, TITLE, WEBHOOK } = process.env;
-              const body = JSON.stringify({ action: ACTION, data: DATA, number: NUMBER, secret: SECRET, title: TITLE });
+              const body = JSON.stringify({ action: ACTION, data: context.payload, number: NUMBER, secret: SECRET, title: TITLE });
               fetch(WEBHOOK, {
                 body,
                 headers: {
@@ -269,8 +270,7 @@ jobs:
           SENDER: ${{ toJSON(github.event.sender) }}
         with:
           script: |
-            const { ACTION, CHANGES, ISSUE, SENDER } = process.env;
-            core.info('action: ', ACTION);
-            core.info('changes: ', CHANGES);
-            core.info('issue: ', ISSUE);
-            core.info('sender: ', SENDER);
+            core.info(`action: ${context.action}`);
+            core.info(`payload: ${context.payload}`);
+            core.info(`actor: ${context.actor}`);
+            core.info(`changes: ${process.env.CHANGES}`);
