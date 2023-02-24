@@ -2,18 +2,267 @@ name: Sync to Airtable
 
 on:
   issues:
-    types: [opened, edited, closed, reopened, assigned, unassigned, labeled, unlabeled, milestoned, demilestoned]
+    types: [assigned, closed, demilestoned, edited, labeled, milestoned, opened, reopened, unassigned, unlabeled]
 
 jobs:
+  issue_assigned:
+      runs-on: ubuntu-latest
+      if: github.event.action == 'assigned'
+      steps:
+        - name: Set Data
+          id: set-assigned-data
+          uses: actions/github-script@v6
+          env:
+            ACTION: ${{ toJSON(github.event.action) }}
+            DATA: ${{ toJSON(github.event.issue.assignees) }}
+            NUMBER: ${{ github.event.issue.number }}
+            SECRET: ${{ secrets.AIRTABLE_KEY }}
+            TITLE: ${{ github.event.issue.title }}
+            WEBHOOK: ${{ secrets.AIRTABLE_WEBHOOK }}
+          with:
+            script: |
+              const { ACTION, DATA, NUMBER, SECRET, TITLE, WEBHOOK } = process.env;
+              const body = JSON.stringify({ action: ACTION, data: DATA, number: NUMBER, secret: SECRET, title: TITLE });
+              fetch(WEBHOOK, {
+                body,
+                headers: {
+                  "Content-Type": "application/json"
+                },
+                method: "POST"
+              });
+  issue_closed:
+    runs-on: ubuntu-latest
+    if: github.event.action == 'closed'
+    steps:
+        - name: Set Data
+          id: set-closed-data
+          uses: actions/github-script@v6
+          env:
+            ACTION: ${{ toJSON(github.event.action) }}
+            DATA: ${{ toJSON(github.event.issue.state) }}
+            NUMBER: ${{ github.event.issue.number }}
+            SECRET: ${{ secrets.AIRTABLE_KEY }}
+            TITLE: ${{ github.event.issue.title }}
+            WEBHOOK: ${{ secrets.AIRTABLE_WEBHOOK }}
+          with:
+            script: |
+              const { ACTION, DATA, NUMBER, SECRET, TITLE, WEBHOOK } = process.env;
+              const body = JSON.stringify({ action: ACTION, data: DATA, number: NUMBER, secret: SECRET, title: TITLE });
+              fetch(WEBHOOK, {
+                body,
+                headers: {
+                  "Content-Type": "application/json"
+                },
+                method: "POST"
+              });
+  issue_demilestoned:
+    runs-on: ubuntu-latest
+    if: github.event.action == 'demilestoned'
+    steps:
+        - name: Set Data
+          id: set-demilestoned-data
+          uses: actions/github-script@v6
+          env:
+            ACTION: ${{ toJSON(github.event.action) }}
+            DATA: ${{ toJSON(github.event.issue.milestone) }}
+            NUMBER: ${{ github.event.issue.number }}
+            SECRET: ${{ secrets.AIRTABLE_KEY }}
+            TITLE: ${{ github.event.issue.title }}
+            WEBHOOK: ${{ secrets.AIRTABLE_WEBHOOK }}
+          with:
+            script: |
+              const { ACTION, DATA, NUMBER, SECRET, TITLE, WEBHOOK } = process.env;
+              const body = JSON.stringify({ action: ACTION, data: DATA, number: NUMBER, secret: SECRET, title: TITLE });
+              fetch(WEBHOOK, {
+                body,
+                headers: {
+                  "Content-Type": "application/json"
+                },
+                method: "POST"
+              });
+  issue_edited:
+    runs-on: ubuntu-latest
+    if: github.event.action == 'edited'
+    steps:
+        - name: Set Data
+          id: set-edited-data
+          uses: actions/github-script@v6
+          env:
+            ACTION: ${{ toJSON(github.event.action) }}
+            DATA: ${{ toJSON(github.event.changes) }}
+            NUMBER: ${{ github.event.issue.number }}
+            SECRET: ${{ secrets.AIRTABLE_KEY }}
+            TITLE: ${{ github.event.issue.title }}
+            WEBHOOK: ${{ secrets.AIRTABLE_WEBHOOK }}
+          with:
+            script: |
+              const { ACTION, DATA, NUMBER, SECRET, TITLE, WEBHOOK } = process.env;
+              const body = JSON.stringify({ action: ACTION, data: DATA, number: NUMBER, secret: SECRET, title: TITLE });
+              fetch(WEBHOOK, {
+                body,
+                headers: {
+                  "Content-Type": "application/json"
+                },
+                method: "POST"
+              });
+  issue_labeled:
+    runs-on: ubuntu-latest
+    if: github.event.action == 'labeled'
+    steps:
+        - name: Set Data
+          id: set-labeled-data
+          uses: actions/github-script@v6
+          env:
+            ACTION: ${{ toJSON(github.event.action) }}
+            DATA: ${{ toJSON(github.event.issue.labels) }}
+            NUMBER: ${{ github.event.issue.number }}
+            SECRET: ${{ secrets.AIRTABLE_KEY }}
+            TITLE: ${{ github.event.issue.title }}
+            WEBHOOK: ${{ secrets.AIRTABLE_WEBHOOK }}
+          with:
+            script: |
+              const { ACTION, DATA, NUMBER, SECRET, TITLE, WEBHOOK } = process.env;
+              const body = JSON.stringify({ action: ACTION, data: DATA, number: NUMBER, secret: SECRET, title: TITLE });
+              fetch(WEBHOOK, {
+                body,
+                headers: {
+                  "Content-Type": "application/json"
+                },
+                method: "POST"
+              });
+  issue_milestoned:
+    runs-on: ubuntu-latest
+    if: github.event.action == 'milestoned'
+    steps:
+        - name: Set Data
+          id: set-milestoned-data
+          uses: actions/github-script@v6
+          env:
+            ACTION: ${{ toJSON(github.event.action) }}
+            DATA: ${{ toJSON(github.event.issue.milestone) }}
+            NUMBER: ${{ github.event.issue.number }}
+            SECRET: ${{ secrets.AIRTABLE_KEY }}
+            TITLE: ${{ github.event.issue.title }}
+            WEBHOOK: ${{ secrets.AIRTABLE_WEBHOOK }}
+          with:
+            script: |
+              const { ACTION, DATA, NUMBER, SECRET, TITLE, WEBHOOK } = process.env;
+              const body = JSON.stringify({ action: ACTION, data: DATA, number: NUMBER, secret: SECRET, title: TITLE });
+              fetch(WEBHOOK, {
+                body,
+                headers: {
+                  "Content-Type": "application/json"
+                },
+                method: "POST"
+              });
+  issue_opened:
+    runs-on: ubuntu-latest
+    if: github.event.action == 'opened'
+    steps:
+        - name: Set Data
+          id: set-opened-data
+          uses: actions/github-script@v6
+          env:
+            ACTION: ${{ toJSON(github.event.action) }}
+            DATA: ${{ toJSON(github.event.issue) }}
+            NUMBER: ${{ github.event.issue.number }}
+            SECRET: ${{ secrets.AIRTABLE_KEY }}
+            TITLE: ${{ github.event.issue.title }}
+            WEBHOOK: ${{ secrets.AIRTABLE_WEBHOOK }}
+          with:
+            script: |
+              const { ACTION, DATA, NUMBER, SECRET, TITLE, WEBHOOK } = process.env;
+              const body = JSON.stringify({ action: ACTION, data: DATA, number: NUMBER, secret: SECRET, title: TITLE });
+              fetch(WEBHOOK, {
+                body,
+                headers: {
+                  "Content-Type": "application/json"
+                },
+                method: "POST"
+              });
+  issue_reopened:
+    runs-on: ubuntu-latest
+    if: github.event.action == 'reopened'
+    steps:
+        - name: Set Data
+          id: set-reopened-data
+          uses: actions/github-script@v6
+          env:
+            ACTION: ${{ toJSON(github.event.action) }}
+            DATA: ${{ toJSON(github.event.issue) }}
+            NUMBER: ${{ github.event.issue.number }}
+            SECRET: ${{ secrets.AIRTABLE_KEY }}
+            TITLE: ${{ github.event.issue.title }}
+            WEBHOOK: ${{ secrets.AIRTABLE_WEBHOOK }}
+          with:
+            script: |
+              const { ACTION, DATA, NUMBER, SECRET, TITLE, WEBHOOK } = process.env;
+              const body = JSON.stringify({ action: ACTION, data: DATA, number: NUMBER, secret: SECRET, title: TITLE });
+              fetch(WEBHOOK, {
+                body,
+                headers: {
+                  "Content-Type": "application/json"
+                },
+                method: "POST"
+              });
+  issue_unassigned:
+    runs-on: ubuntu-latest
+    if: github.event.action == 'unassigned'
+    steps:
+        - name: Set Data
+          id: set-unassigned-data
+          uses: actions/github-script@v6
+          env:
+            ACTION: ${{ toJSON(github.event.action) }}
+            DATA: ${{ toJSON(github.event.issue.assignees) }}
+            NUMBER: ${{ github.event.issue.number }}
+            SECRET: ${{ secrets.AIRTABLE_KEY }}
+            TITLE: ${{ github.event.issue.title }}
+            WEBHOOK: ${{ secrets.AIRTABLE_WEBHOOK }}
+          with:
+            script: |
+              const { ACTION, DATA, NUMBER, SECRET, TITLE, WEBHOOK } = process.env;
+              const body = JSON.stringify({ action: ACTION, data: DATA, number: NUMBER, secret: SECRET, title: TITLE });
+              fetch(WEBHOOK, {
+                body,
+                headers: {
+                  "Content-Type": "application/json"
+                },
+                method: "POST"
+              });
+  issue_unlabeled:
+    runs-on: ubuntu-latest
+    if: github.event.action == 'unlabeled'
+    steps:
+        - name: Set Data
+          id: set-unlabeled-data
+          uses: actions/github-script@v6
+          env:
+            ACTION: ${{ toJSON(github.event.action) }}
+            DATA: ${{ toJSON(github.event.issue.labels) }}
+            NUMBER: ${{ github.event.issue.number }}
+            SECRET: ${{ secrets.AIRTABLE_KEY }}
+            TITLE: ${{ github.event.issue.title }}
+            WEBHOOK: ${{ secrets.AIRTABLE_WEBHOOK }}
+          with:
+            script: |
+              const { ACTION, DATA, NUMBER, SECRET, TITLE, WEBHOOK } = process.env;
+              const body = JSON.stringify({ action: ACTION, data: DATA, number: NUMBER, secret: SECRET, title: TITLE });
+              fetch(WEBHOOK, {
+                body,
+                headers: {
+                  "Content-Type": "application/json"
+                },
+                method: "POST"
+              });
   send_data:
+    if: ${{ always() }}
+    needs: [ issue_assigned, issue_closed, issue_demilestoned, issue_edited, issue_labeled, issue_milestoned, issue_opened, issue_reopened, issue_unassigned, issue_unlabeled ]
     runs-on: ubuntu-latest
     steps:
-      - name: Set Data
-        id: set-data
+      - name: Record Data
         uses: actions/github-script@v6
         env:
-          SECRET: ${{ secrets.AIRTABLE_KEY }}
-          WEBHOOK: ${{ secrets.AIRTABLE_WEBHOOK }}
           ACTION: ${{ toJSON(github.event.action) }}
           CHANGES: ${{ toJSON(github.event.changes) }}
           ISSUE: ${{ toJSON(github.event.issue) }}
@@ -21,8 +270,7 @@ jobs:
         with:
           script: |
             const { ACTION, CHANGES, ISSUE, SENDER } = process.env;
-            return SENDER;
-          result-encoding: string
-      - name: Log Result
-        run: |
-          echo "${{ toJSON(steps.set-data.outputs.result) }}"
+            core.info('action: ', ACTION);
+            core.info('changes: ', CHANGES);
+            core.info('issue: ', ISSUE);
+            core.info('sender: ', SENDER);
