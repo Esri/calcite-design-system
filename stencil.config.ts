@@ -7,6 +7,7 @@ import tailwindConfig from "./tailwind.config";
 import { generatePreactTypes } from "./support/preact";
 import stylelint from "stylelint";
 import { version } from "./package.json";
+import cssnano from "cssnano";
 
 export const create: () => Config = () => ({
   namespace: "calcite",
@@ -111,6 +112,9 @@ export const create: () => Config = () => ({
         stylelint({
           configFile: ".stylelintrc-postcss.json",
           fix: true
+        }),
+        cssnano({
+          preset: "default"
         })
       ]
     })

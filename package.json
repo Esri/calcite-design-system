@@ -119,6 +119,7 @@
     "concurrently": "7.6.0",
     "conventional-changelog-cli": "2.2.2",
     "cpy-cli": "^4.0.0",
+    "cssnano": "5.1.15",
     "dedent": "0.7.0",
     "eslint": "8.30.0",
     "eslint-config-prettier": "8.6.0",
