@@ -24,7 +24,7 @@ jobs:
             script: |
               const { ACTION, DATA, NUMBER, SECRET, TITLE, WEBHOOK } = process.env;
               const body = JSON.stringify({ action: ACTION, data: DATA, number: NUMBER, secret: SECRET, title: TITLE });
-              fetch(WEBHOOK, {
+              return fetch(WEBHOOK, {
                 body,
                 headers: {
                   "Content-Type": "application/json"
@@ -49,7 +49,7 @@ jobs:
             script: |
               const { ACTION, DATA, NUMBER, SECRET, TITLE, WEBHOOK } = process.env;
               const body = JSON.stringify({ action: ACTION, data: DATA, number: NUMBER, secret: SECRET, title: TITLE });
-              fetch(WEBHOOK, {
+              return fetch(WEBHOOK, {
                 body,
                 headers: {
                   "Content-Type": "application/json"
@@ -74,7 +74,7 @@ jobs:
             script: |
               const { ACTION, DATA, NUMBER, SECRET, TITLE, WEBHOOK } = process.env;
               const body = JSON.stringify({ action: ACTION, data: DATA, number: NUMBER, secret: SECRET, title: TITLE });
-              fetch(WEBHOOK, {
+              return fetch(WEBHOOK, {
                 body,
                 headers: {
                   "Content-Type": "application/json"
@@ -98,9 +98,22 @@ jobs:
           with:
             script: |
               const { ACTION, DATA, NUMBER, SECRET, TITLE, WEBHOOK } = process.env;
-              const body = JSON.stringify({ action: ACTION, data: context.payload, number: NUMBER, secret: SECRET, title: TITLE });
-              fetch(WEBHOOK, {
-                body,
+              const body = {
+                action: context.payload.action,
+                changes: JSON.stringify(context.payload.changes),
+                owner: context.payload.repository.owner.login
+                repo: context.payload.repository.name
+                number: context.payload.issue.number,
+                secret: SECRET
+              };
+              const data = JSON.stringify(Object.keys(context.payload.changes).reduce((acc, key) => {
+                acc[key] = context.payload.issue[key]
+                return acc;
+              }, {}));
+              const title = context.payload.changes['title'] ? context.payload.changes['title'].from : context.payload.issue.title;
+              
+              return fetch(WEBHOOK, {
+                body: JSON.stringify({ ...body, data, title }),
                 headers: {
                   "Content-Type": "application/json"
                 },
@@ -124,7 +137,7 @@ jobs:
             script: |
               const { ACTION, DATA, NUMBER, SECRET, TITLE, WEBHOOK } = process.env;
               const body = JSON.stringify({ action: ACTION, data: DATA, number: NUMBER, secret: SECRET, title: TITLE });
-              fetch(WEBHOOK, {
+              return fetch(WEBHOOK, {
                 body,
                 headers: {
                   "Content-Type": "application/json"
@@ -149,7 +162,7 @@ jobs:
             script: |
               const { ACTION, DATA, NUMBER, SECRET, TITLE, WEBHOOK } = process.env;
               const body = JSON.stringify({ action: ACTION, data: DATA, number: NUMBER, secret: SECRET, title: TITLE });
-              fetch(WEBHOOK, {
+              return fetch(WEBHOOK, {
                 body,
                 headers: {
                   "Content-Type": "application/json"
@@ -174,7 +187,7 @@ jobs:
             script: |
               const { ACTION, DATA, NUMBER, SECRET, TITLE, WEBHOOK } = process.env;
               const body = JSON.stringify({ action: ACTION, data: DATA, number: NUMBER, secret: SECRET, title: TITLE });
-              fetch(WEBHOOK, {
+              return fetch(WEBHOOK, {
                 body,
                 headers: {
                   "Content-Type": "application/json"
@@ -199,7 +212,7 @@ jobs:
             script: |
               const { ACTION, DATA, NUMBER, SECRET, TITLE, WEBHOOK } = process.env;
               const body = JSON.stringify({ action: ACTION, data: DATA, number: NUMBER, secret: SECRET, title: TITLE });
-              fetch(WEBHOOK, {
+              return fetch(WEBHOOK, {
                 body,
                 headers: {
                   "Content-Type": "application/json"
@@ -224,7 +237,7 @@ jobs:
             script: |
               const { ACTION, DATA, NUMBER, SECRET, TITLE, WEBHOOK } = process.env;
               const body = JSON.stringify({ action: ACTION, data: DATA, number: NUMBER, secret: SECRET, title: TITLE });
-              fetch(WEBHOOK, {
+              return fetch(WEBHOOK, {
                 body,
                 headers: {
                   "Content-Type": "application/json"
@@ -249,7 +262,7 @@ jobs:
             script: |
               const { ACTION, DATA, NUMBER, SECRET, TITLE, WEBHOOK } = process.env;
               const body = JSON.stringify({ action: ACTION, data: DATA, number: NUMBER, secret: SECRET, title: TITLE });
-              fetch(WEBHOOK, {
+              return fetch(WEBHOOK, {
                 body,
                 headers: {
                   "Content-Type": "application/json"
@@ -270,7 +283,8 @@ jobs:
           SENDER: ${{ toJSON(github.event.sender) }}
         with:
           script: |
-            core.info(`action: ${context.action}`);
-            core.info(`payload: ${context.payload}`);
+            core.info(`action: ${JSON.stringify(context.action})`);
+            core.info(`payload: ${JSON.stringify(context.payload})`);
             core.info(`actor: ${context.actor}`);
             core.info(`changes: ${process.env.CHANGES}`);
+            return true;
