@@ -20,8 +20,8 @@
   --calcite-modal-scrim-background-internal: #{rgba($blk-240, 0.85)};
 }
 
-.content-header[hidden],
-.content-footer[hidden] {
+.content-top[hidden],
+.content-bottom[hidden] {
   @apply hidden;
 }
 
@@ -194,7 +194,7 @@
   padding: var(--calcite-modal-content-padding, var(--calcite-modal-padding-internal));
 }
 
-.content-header {
+.content-top {
   @apply bg-foreground-1
   border-color-3
   flex
@@ -209,7 +209,7 @@
   padding: var(--calcite-modal-padding-internal);
 }
 
-.content-footer {
+.content-bottom {
   @apply bg-foreground-1
     border-color-3
     mt-auto
@@ -325,8 +325,8 @@ slot[name="primary"] {
 :host([open][fullscreen]) {
   .header,
   .footer,
-  .content-header,
-  .content-footer {
+  .content-top,
+  .content-bottom {
     border-radius: 0;
   }
 }
@@ -376,7 +376,7 @@ slot[name="primary"] {
     @apply border-0 border-t-4 border-solid;
   }
   .header,
-  .content-header {
+  .content-top {
     @apply rounded rounded-b-none;
   }
 }
@@ -385,11 +385,11 @@ slot[name="primary"] {
  * Tablet
  */
 @media screen and (max-width: $viewport-medium) {
-  @include slotted("header", "content-header", "*") {
+  @include slotted("header", "content-top", "*") {
     @apply text-1;
   }
   .footer,
-  .content-footer {
+  .content-bottom {
     @apply sticky bottom-0;
   }
 }
@@ -399,7 +399,7 @@ slot[name="primary"] {
  */
 @media screen and (max-width: $viewport-small) {
   .footer,
-  .content-footer {
+  .content-bottom {
     @apply flex-col;
   }
   .back,

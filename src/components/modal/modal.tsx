@@ -55,8 +55,8 @@ import { ModalMessages } from "./assets/modal/t9n";
 /**
  * @slot header - A slot for adding header text.
  * @slot content - A slot for adding the component's content.
- * @slot contentHeader - A slot for adding the component's content header.
- * @slot contentFooter - A slot for adding the component's content footer.
+ * @slot contentTop - A slot for adding the component's content header.
+ * @slot contentBottom - A slot for adding the component's content footer.
  * @slot primary - A slot for adding a primary button.
  * @slot secondary - A slot for adding a secondary button.
  * @slot back - A slot for adding a back button.
@@ -230,7 +230,7 @@ export class Modal
                 <slot name={CSS.header} />
               </header>
             </div>
-            {this.renderContentHeader()}
+            {this.renderContentTop()}
             <div
               class={{
                 [CSS.content]: true,
@@ -240,7 +240,7 @@ export class Modal
             >
               <slot name={SLOTS.content} />
             </div>
-            {this.renderContentFooter()}
+            {this.renderContentBottom()}
             {this.renderModalFooter()}
           </div>
         </div>
@@ -264,18 +264,18 @@ export class Modal
     ) : null;
   }
 
-  renderContentHeader(): VNode {
+  renderContentTop(): VNode {
     return (
-      <div class={CSS.contentHeader} hidden={!this.hasContentHeader} key="content-header">
-        <slot name={SLOTS.contentHeader} onSlotchange={this.contentHeaderSlotChangeHandler} />
+      <div class={CSS.contentTop} hidden={!this.hasContentTop} key="content-top">
+        <slot name={SLOTS.contentTop} onSlotchange={this.contentTopSlotChangeHandler} />
       </div>
     );
   }
 
-  renderContentFooter(): VNode {
+  renderContentBottom(): VNode {
     return (
-      <div class={CSS.contentFooter} hidden={!this.hasContentFooter} key="content-footer">
-        <slot name={SLOTS.contentFooter} onSlotchange={this.contentFooterSlotChangeHandler} />
+      <div class={CSS.contentBottom} hidden={!this.hasContentBottom} key="content-bottom">
+        <slot name={SLOTS.contentBottom} onSlotchange={this.contentBottomSlotChangeHandler} />
       </div>
     );
   }
@@ -374,9 +374,9 @@ export class Modal
 
   @State() hasModalFooter = true;
 
-  @State() hasContentHeader = false;
+  @State() hasContentTop = false;
 
-  @State() hasContentFooter = false;
+  @State() hasContentBottom = false;
 
   /**
    * We use internal variable to make sure initially open modal can transition from closed state when rendered
@@ -564,11 +564,11 @@ export class Modal
     this.cssHeight = getComputedStyle(this.el).getPropertyValue("--calcite-modal-height");
   };
 
-  private contentHeaderSlotChangeHandler = (event: Event): void => {
-    this.hasContentHeader = slotChangeHasAssignedElement(event);
+  private contentTopSlotChangeHandler = (event: Event): void => {
+    this.hasContentTop = slotChangeHasAssignedElement(event);
   };
 
-  private contentFooterSlotChangeHandler = (event: Event): void => {
-    this.hasContentFooter = slotChangeHasAssignedElement(event);
+  private contentBottomSlotChangeHandler = (event: Event): void => {
+    this.hasContentBottom = slotChangeHasAssignedElement(event);
   };
 }

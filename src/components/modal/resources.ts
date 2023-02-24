@@ -13,8 +13,8 @@ export const CSS = {
   container: "container",
   content: "content",
   contentNoModalFooter: "content--no-modal-footer",
-  contentFooter: "content-footer",
-  contentHeader: "content-header",
+  contentBottom: "content-bottom",
+  contentTop: "content-top",
   slottedInShell: "slotted-in-shell",
 
   // these classes help apply the animation in phases to only set transform on open/close
@@ -38,8 +38,8 @@ export const ICONS = {
 
 export const SLOTS = {
   content: "content",
-  contentFooter: "content-footer",
-  contentHeader: "content-header",
+  contentBottom: "content-bottom",
+  contentTop: "content-top",
   header: "header",
   back: "back",
   secondary: "secondary",

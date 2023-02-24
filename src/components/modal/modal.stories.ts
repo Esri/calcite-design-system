@@ -1,4 +1,4 @@
-import { select, number } from "@storybook/addon-knobs";
+import { select } from "@storybook/addon-knobs";
 import { boolean, storyFilters } from "../../../.storybook/helpers";
 import { modesDarkDefault } from "../../../.storybook/utils";
 import readme from "./readme.md";
@@ -58,9 +58,9 @@ export const slots = (): string => html`
     ${boolean("escape-disabled", false)}
   >
     <h3 slot="header">Slot for a header.</h3>
-    <div slot="content-header">Slot for a content-header.</div>
+    <div slot="content-top">Slot for a content-top.</div>
     <div slot="content" style="height: 100px">${mightyLongTextToScroll}</div>
-    <div slot="content-footer">Slot for a content-footer.</div>
+    <div slot="content-bottom">Slot for a content-bottom.</div>
     <calcite-button slot="primary" width="full">Button</calcite-button>
   </calcite-modal>
 `;
