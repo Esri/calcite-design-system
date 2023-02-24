@@ -97,23 +97,24 @@ jobs:
             WEBHOOK: ${{ secrets.AIRTABLE_WEBHOOK }}
           with:
             script: |
-              const { ACTION, DATA, NUMBER, SECRET, TITLE, WEBHOOK } = process.env;
-              const body = {
+              const body = JSON.stringify({
                 action: context.payload.action,
                 changes: JSON.stringify(context.payload.changes),
-                owner: context.payload.repository.owner.login
-                repo: context.payload.repository.name
+                data: JSON.stringify(Object.keys(context.payload.changes).reduce((acc, key) => {
+                  acc[key] = context.payload.issue[key]
+                  return acc;
+                }, {})),
+                owner: context.payload.repository.owner.login,
+                repo: context.payload.repository.name,
                 number: context.payload.issue.number,
-                secret: SECRET
-              };
-              const data = JSON.stringify(Object.keys(context.payload.changes).reduce((acc, key) => {
-                acc[key] = context.payload.issue[key]
-                return acc;
-              }, {}));
-              const title = context.payload.changes['title'] ? context.payload.changes['title'].from : context.payload.issue.title;
-              
-              return fetch(WEBHOOK, {
-                body: JSON.stringify({ ...body, data, title }),
+                secret: process.env.SECRET,
+                title: context.payload.changes['title']
+                  ? context.payload.changes['title'].from
+                  : context.payload.issue.title,
+              });
+
+              return fetch(process.env.WEBHOOK, {
+                body,
                 headers: {
                   "Content-Type": "application/json"
                 },
