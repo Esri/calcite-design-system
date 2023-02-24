@@ -32,6 +32,7 @@ import {
   LoadableComponent,
   componentLoaded
 } from "../../utils/loadable";
+import { getItemPosition } from "../stepper/utils";
 
 /**
  * @slot - A slot for adding custom content.
@@ -142,10 +143,10 @@ export class StepperItem implements InteractiveComponent, LocalizedComponent, Lo
   calciteInternalStepperItemKeyEvent: EventEmitter<StepperItemKeyEventDetail>;
 
   /**
-   * @internal
+   * Fires when the selection of `calcite-stepper-item` changes.
    */
   @Event({ cancelable: false })
-  calciteInternalStepperItemSelect: EventEmitter<StepperItemEventDetail>;
+  calciteStepperItemSelect: EventEmitter<void>;
 
   /**
    * @internal
@@ -176,7 +177,7 @@ export class StepperItem implements InteractiveComponent, LocalizedComponent, Lo
     this.layout = getElementProp(this.el, "layout", false);
     this.scale = getElementProp(this.el, "scale", "m");
     this.parentStepperEl = this.el.parentElement as HTMLCalciteStepperElement;
-    this.itemPosition = this.getItemPosition();
+    this.itemPosition = getItemPosition(this.parentStepperEl, this.el);
     this.registerStepperItem();
 
     if (this.selected) {
@@ -349,19 +350,9 @@ export class StepperItem implements InteractiveComponent, LocalizedComponent, Lo
 
   private emitRequestedItem = (): void => {
     if (!this.disabled) {
-      const position = this.itemPosition;
-
-      this.calciteInternalStepperItemSelect.emit({
-        position
-      });
+      this.calciteStepperItemSelect.emit();
     }
   };
-
-  private getItemPosition(): number {
-    return Array.from(this.parentStepperEl?.querySelectorAll("calcite-stepper-item")).indexOf(
-      this.el
-    );
-  }
 
   renderNumbers(): string {
     numberStringFormatter.numberFormatOptions = {
