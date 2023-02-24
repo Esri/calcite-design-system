@@ -77,10 +77,10 @@ jobs:
           WEBHOOK: ${{ secrets.AIRTABLE_WEBHOOK }}
         with:
           script: |
-            const { title, body, assignees, closed_at, created_at, id, labels, milestone, number, state, updated_at } = process.env.ISSUE;
-            const test = JSON.parse(body)
-            return test;
+            const issue = process.env.ISSUE;
+            return issue;
           result-encoding: string
       - name: Log Result
         run: |
-            echo "${{steps.set-data.outputs.result}}" | echo "${{ github.event }}"
+          echo "${{ github.event }}"
+#          echo "${{steps.set-data.outputs.result}}" | echo ""
