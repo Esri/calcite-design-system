@@ -13,11 +13,11 @@ jobs:
         uses: actions/github-script@v6
         env:
           SECRET: ${{ secrets.AIRTABLE_KEY }}
-          ISSUE: ${{ github.event.issue }}
+          ISSUE: ${{ toJSON(github.event.issue) }}
           WEBHOOK: ${{ secrets.AIRTABLE_WEBHOOK }}
-          ACTION: ${{ github.event.action }}
-          CHANGES: ${{ github.event.changes }}
-          SENDER: ${{ github.event }}
+          ACTION: ${{ toJSON(github.event.action) }}
+          CHANGES: ${{ toJSON(github.event.changes) }}
+          SENDER: ${{ toJSON(github.event.sender) }}
         with:
           script: |
             return {
