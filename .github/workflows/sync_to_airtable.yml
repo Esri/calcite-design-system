@@ -14,11 +14,15 @@ jobs:
         env:
           SECRET: ${{ secrets.AIRTABLE_KEY }}
           WEBHOOK: ${{ secrets.AIRTABLE_WEBHOOK }}
+          ACTION: ${{ toJSON(github.event.action) }}
+          CHANGES: ${{ toJSON(github.event.changes) }}
+          ISSUE: ${{ toJSON(github.event.issue) }}
+          SENDER: ${{ toJSON(github.event.sender) }}
         with:
           script: |
-            const { issue, action, changes, sender } = github.event;
-            return issue;
+            const { ACTION, CHANGES, ISSUE, SENDER } = process.env;
+            return SENDER;
           result-encoding: string
       - name: Log Result
         run: |
-          echo "${{ steps.set-data.outputs.result }}"
+          echo "${{ toJSON(steps.set-data.outputs.result) }}"
