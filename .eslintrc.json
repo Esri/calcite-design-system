@@ -65,6 +65,7 @@
       }
     ],
     "@typescript-eslint/no-explicit-any": "off",
+    "@typescript-eslint/no-unused-vars": "error",
     "curly": "error",
     "jest/expect-expect": "off",
     "jest/no-export": "warn",
