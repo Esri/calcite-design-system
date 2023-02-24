@@ -315,8 +315,8 @@ jobs:
           SENDER: ${{ toJSON(github.event.sender) }}
         with:
           script: |
-            core.info(`action: ${JSON.stringify(context.action})`);
+            core.info(`action: ${JSON.stringify(context.action)}`);
             core.info(`payload: ${JSON.stringify(context.payload)}`);
             core.info(`actor: ${context.actor}`);
-            core.info(`changes: ${process.env.CHANGES}`);
+            core.info(`changes: ${JSON.stringify(context.payload.changes)}`);
             return true;
