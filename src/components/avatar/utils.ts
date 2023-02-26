@@ -5,20 +5,34 @@ import { hexToRGB } from "../color-picker/utils";
  * Convert a string to a valid hex by hashing its contents
  * and using the hash as a seed for three distinct color values
  *
- * @param str
+ * @param name
+ * @param theme
+ * @param scale
  */
-export function stringToHex(str: string): string {
-  let hash = 0;
-  for (let i = 0; i < str.length; i++) {
-    hash = str.charCodeAt(i) + ((hash << 5) - hash);
-  }
+export function stringToHex(name: string, theme?: string, scale?: string): string {
+  const { constName, constTheme, constScale } = { constName: name, constTheme: theme, constScale: scale };
 
-  let hex = "#";
-  for (let j = 0; j < 3; j++) {
-    const value = (hash >> (j * 8)) & 0xff;
-    hex += ("00" + value.toString(16)).substr(-2);
+  const generateNewHexValue = () => {
+    let hash = 0;
+    for (let i = 0; i < constName.length; i++) {
+      hash = constName.charCodeAt(i) + ((hash << 5) - hash);
+    }
+
+    let hex = "#";
+    for (let j = 0; j < 3; j++) {
+      const value = (hash >> (j * 8)) & 0xff;
+      hex += ("00" + value.toString(16)).substr(-2);
+    }
+    return hex;
+  };
+
+  const newHexValue: string = generateNewHexValue();
+
+  if (isContrastCompliant(newHexValue, constTheme, constScale)) {
+    return newHexValue;
+  } else {
+    stringToHex(constName, constTheme, constScale);
   }
-  return hex;
 }
 
 /**
@@ -65,40 +79,32 @@ export function hexToHue(hex: string): number {
 }
 
 /**
- * For a hex color, find the RGB
- *
- * @param hex {string} - form of "#------"
- */
-export function hexToRGB(hex: string): [r, g, b] {
-  const hex = hex.replace("#", "");
-
-  const r = parseInt(hex.substring(0, 2), 16);
-  const g = parseInt(hex.substring(2, 4), 16);
-  const b = parseInt(hex.substring(4, 6), 16);
-
-  return [r, g, b];
-}
-
-/**
  * For RGB color, find luminance
  *
  * @param rgb
+ * @param colorObject
+ * @param colorObject.r
+ * @param colorObject.g
+ * @param colorObject.b
  */
-export function rgbToLuminance(rgb: [r, g, b]): number {
-  const [r, g, b] = rgb;
+export function rgbToLuminance(colorObject: { r: number; g: number; b: number }): number {
+  const { r, g, b } = colorObject;
+  const linearRGB = [];
+  let luminance: number;
 
-  //find linear RGB value for each component c
-  rgb.forEach((c) => {
+  //find linear RGB value for each channel c
+  [r, g, b].forEach((c) => {
     if (c <= 0.03928) {
-      luminance.push(c / 12.92);
+      linearRGB.push(c / 12.92);
     } else {
-      luminance.push(Math.pow((c + 0.055) / 1.055, 2.4));
+      linearRGB.push(Math.pow((c + 0.055) / 1.055, 2.4));
     }
 
     //calculate relative luminance using ITU-R BT standard
     //function for non-linear relationship between digital values and perceived brightness
-    return 0.2126 + r + 0.7152 + g + 0.0722 + b;
+    luminance = 0.2126 + r + 0.7152 + g + 0.0722 + b;
   });
+  return luminance;
 }
 
 /**
@@ -106,15 +112,19 @@ export function rgbToLuminance(rgb: [r, g, b]): number {
  *
  * @param colorOne {string} - form of "#------"
  * @param colorTwo {string} - form of "#------"
+ * @param name
+ * @param theme
  * @param scale string
  */
-export function isContrastCompliant(colorOne: string, colorTwo: string, scale: string): boolean {
-  const getLuminance = (color) => {
-    hexToRGB(color);
-    rgbToLuminance(color);
+export function isContrastCompliant(name: string, theme: string, scale: string): boolean {
+  const getLuminance = (name) => {
+    const rgbObj = hexToRGB(name);
+    return rgbToLuminance(rgbObj);
   };
 
-  //for as long as the initials always default to bold
-  const contrastRatio = (getLuminance(colorOne) + 0.05) / (getLuminance(colorTwo) + 0.05);
-  scale === "l" ? contrastRatio >= 3 : contrastRatio >= 4.5;
+  const themeRGB = theme === "Light" ? { r: 159, g: 159, b: 159 } : { r: 106, g: 106, b: 106 };
+
+  //as long as the initials always default to bold
+  const contrastRatio = (getLuminance(name) + 0.05) / (getLuminance(themeRGB) + 0.05);
+  return scale === "l" ? contrastRatio >= 3 : contrastRatio >= 4.5;
 }

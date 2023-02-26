@@ -93,11 +93,12 @@ export class Avatar {
    * Generate a valid background color that is consistent and unique to this user
    */
   private generateFillColor() {
-    const { userId, username, fullName, el } = this;
+    const { userId, username, fullName, el, scale } = this;
     const theme = getModeName(el);
     const id = userId && `#${userId.substr(userId.length - 6)}`;
     const name = username || fullName || "";
-    const hex = id && isValidHex(id) ? id : stringToHex(name);
+    const hex = id && isValidHex(id) ? id : stringToHex(name, theme, scale);
+
     // if there is not unique information, or an invalid hex is produced, return a default
     if ((!userId && !name) || !isValidHex(hex)) {
       return `var(--calcite-ui-foreground-2)`;
