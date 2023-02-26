@@ -7,7 +7,7 @@ on:
 jobs:
   issue_assigned:
       runs-on: ubuntu-latest
-      if: github.event.action == 'assigned'
+      if: github.event.action == 'assigned' || github.event.action == 'unassigned'
       steps:
         - name: Set Data
           id: set-assigned-data
@@ -65,7 +65,7 @@ jobs:
               });
   issue_demilestoned:
     runs-on: ubuntu-latest
-    if: github.event.action == 'demilestoned'
+    if: github.event.action == 'demilestoned' || github.event.action == 'milestoned'
     steps:
         - name: Set Data
           id: set-demilestoned-data
@@ -129,7 +129,7 @@ jobs:
               });
   issue_labeled:
     runs-on: ubuntu-latest
-    if: github.event.action == 'labeled'
+    if: github.event.action == 'labeled' || github.event.action == 'unlabeled'
     steps:
         - name: Set Data
           id: set-labeled-data
@@ -156,38 +156,9 @@ jobs:
                 },
                 method: "POST"
               });
-  issue_milestoned:
-    runs-on: ubuntu-latest
-    if: github.event.action == 'milestoned'
-    steps:
-        - name: Set Data
-          id: set-milestoned-data
-          uses: actions/github-script@v6
-          env:
-            SECRET: ${{ secrets.AIRTABLE_KEY }}
-            WEBHOOK: ${{ secrets.AIRTABLE_WEBHOOK }}
-          with:
-            script: |
-              const body = JSON.stringify({
-                action: context.payload.action,
-                data: JSON.stringify(context.payload.issue.milestone),
-                owner: context.payload.repository.owner.login,
-                repo: context.payload.repository.name,
-                number: context.payload.issue.number.toString(),
-                secret: process.env.SECRET,
-                title: context.payload.issue.title,
-              });
-
-              return fetch(process.env.WEBHOOK, {
-                body,
-                headers: {
-                  "Content-Type": "application/json"
-                },
-                method: "POST"
-              });
   issue_opened:
     runs-on: ubuntu-latest
-    if: github.event.action == 'opened'
+    if: github.event.action == 'opened' || github.event.action == 'reopened'
     steps:
         - name: Set Data
           id: set-opened-data
@@ -214,109 +185,3 @@ jobs:
                 },
                 method: "POST"
               });
-  issue_reopened:
-    runs-on: ubuntu-latest
-    if: github.event.action == 'reopened'
-    steps:
-        - name: Set Data
-          id: set-reopened-data
-          uses: actions/github-script@v6
-          env:
-            SECRET: ${{ secrets.AIRTABLE_KEY }}
-            WEBHOOK: ${{ secrets.AIRTABLE_WEBHOOK }}
-          with:
-            script: |
-              const body = JSON.stringify({
-                action: context.payload.action,
-                data: JSON.stringify(context.payload.issue),
-                owner: context.payload.repository.owner.login,
-                repo: context.payload.repository.name,
-                number: context.payload.issue.number.toString(),
-                secret: process.env.SECRET,
-                title: context.payload.issue.title,
-              });
-
-              return fetch(process.env.WEBHOOK, {
-                body,
-                headers: {
-                  "Content-Type": "application/json"
-                },
-                method: "POST"
-              });
-  issue_unassigned:
-    runs-on: ubuntu-latest
-    if: github.event.action == 'unassigned'
-    steps:
-        - name: Set Data
-          id: set-unassigned-data
-          uses: actions/github-script@v6
-          env:
-            SECRET: ${{ secrets.AIRTABLE_KEY }}
-            WEBHOOK: ${{ secrets.AIRTABLE_WEBHOOK }}
-          with:
-            script: |
-              const body = JSON.stringify({
-                action: context.payload.action,
-                data: context.payload.issue.assignees,
-                owner: context.payload.repository.owner.login,
-                repo: context.payload.repository.name,
-                number: context.payload.issue.number.toString(),
-                secret: process.env.SECRET,
-                title: context.payload.issue.title,
-              });
-
-              return fetch(process.env.WEBHOOK, {
-                body,
-                headers: {
-                  "Content-Type": "application/json"
-                },
-                method: "POST"
-              });
-  issue_unlabeled:
-    runs-on: ubuntu-latest
-    if: github.event.action == 'unlabeled'
-    steps:
-        - name: Set Data
-          id: set-unlabeled-data
-          uses: actions/github-script@v6
-          env:
-            SECRET: ${{ secrets.AIRTABLE_KEY }}
-            WEBHOOK: ${{ secrets.AIRTABLE_WEBHOOK }}
-          with:
-            script: |
-              const body = JSON.stringify({
-                action: context.payload.action,
-                data: context.payload.issue.labels,
-                owner: context.payload.repository.owner.login,
-                repo: context.payload.repository.name,
-                number: context.payload.issue.number.toString(),
-                secret: process.env.SECRET,
-                title: context.payload.issue.title,
-              });
-
-              return fetch(process.env.WEBHOOK, {
-                body,
-                headers: {
-                  "Content-Type": "application/json"
-                },
-                method: "POST"
-              });
-  send_data:
-    if: ${{ always() }}
-    needs: [ issue_assigned, issue_closed, issue_demilestoned, issue_edited, issue_labeled, issue_milestoned, issue_opened, issue_reopened, issue_unassigned, issue_unlabeled ]
-    runs-on: ubuntu-latest
-    steps:
-      - name: Record Data
-        uses: actions/github-script@v6
-        env:
-          ACTION: ${{ toJSON(github.event.action) }}
-          CHANGES: ${{ toJSON(github.event.changes) }}
-          ISSUE: ${{ toJSON(github.event.issue) }}
-          SENDER: ${{ toJSON(github.event.sender) }}
-        with:
-          script: |
-            core.info(`action: ${JSON.stringify(context.payload.action)}`);
-            core.info(`payload: ${JSON.stringify(context.payload)}`);
-            core.info(`actor: ${context.actor}`);
-            core.info(`changes: ${JSON.stringify(context.payload.changes)}`);
-            return true;
