@@ -5,9 +5,9 @@ import { hexToRGB } from "../color-picker/utils";
  * Convert a string to a valid hex by hashing its contents
  * and using the hash as a seed for three distinct color values
  *
- * @param name
- * @param theme
- * @param scale
+ * @param name {string}
+ * @param theme {string}
+ * @param scale {string}
  */
 export function stringToHex(name: string, theme?: string, scale?: string): string {
   const { constName, constTheme, constScale } = { constName: name, constTheme: theme, constScale: scale };
@@ -81,8 +81,7 @@ export function hexToHue(hex: string): number {
 /**
  * For RGB color, find luminance
  *
- * @param rgb
- * @param colorObject
+ * @param colorObject { r: number; g: number; b: number }
  * @param colorObject.r
  * @param colorObject.g
  * @param colorObject.b
@@ -110,11 +109,9 @@ export function rgbToLuminance(colorObject: { r: number; g: number; b: number })
 /**
  * Verify the generated color is WCAG contrast compliant
  *
- * @param colorOne {string} - form of "#------"
- * @param colorTwo {string} - form of "#------"
- * @param name
- * @param theme
- * @param scale string
+ * @param name {string} - form of "#------"
+ * @param theme {string}
+ * @param scale {string}
  */
 export function isContrastCompliant(name: string, theme: string, scale: string): boolean {
   const getLuminance = (name) => {
