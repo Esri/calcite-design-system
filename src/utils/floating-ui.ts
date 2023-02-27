@@ -61,11 +61,10 @@ async function patchFloatingUiForNonChromiumBrowsers(): Promise<void> {
     // ⚠️ browser-sniffing is not a best practice and should be avoided ⚠️
     (/firefox|safari/i.test(getUAString()) || isChrome109OrAbove())
   ) {
-    const { getClippingRect, getElementRects, getOffsetParent } = await import("./floating-ui/utils");
+    const { offsetParent } = await import("./floating-ui/utils");
 
-    platform.getClippingRect = getClippingRect;
-    platform.getOffsetParent = getOffsetParent;
-    platform.getElementRects = getElementRects as any;
+    const originalGetOffsetParent = platform.getOffsetParent;
+    platform.getOffsetParent = (element: Element) => originalGetOffsetParent(element, offsetParent);
   }
 }
 
