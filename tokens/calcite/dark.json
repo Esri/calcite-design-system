@@ -30,7 +30,7 @@
         "type": "color"
       },
       "3": {
-        "value": "$semantic.ui.color.foreground.3.dark",
+        "value": "{semantic.ui.color.foreground.current.dark}",
         "type": "color"
       }
     },
@@ -509,6 +509,640 @@
           },
           "red": {
             "value": "$alert.icon.red.dark",
+            "type": "color"
+          }
+        }
+      },
+      "color-picker": {
+        "font": {
+          "label": {
+            "value": "$color-picker.font.label.dark",
+            "type": "color"
+          }
+        },
+        "icon": {
+          "value": "$color-picker.icon.dark",
+          "type": "color"
+        },
+        "border": {
+          "value": "$color-picker.border.dark",
+          "type": "color"
+        },
+        "background": {
+          "default": {
+            "value": "$color-picker.background.default.dark",
+            "type": "color"
+          }
+        }
+      },
+      "date-picker": {
+        "font": {
+          "date": {
+            "value": "$date-picker.font.date.dark",
+            "type": "color"
+          },
+          "day": {
+            "value": "$date-picker.font.day.dark",
+            "type": "color"
+          },
+          "month": {
+            "value": "$date-picker.font.month.dark",
+            "type": "color"
+          },
+          "range": {
+            "date": {
+              "value": "$date-picker.font.range.date.dark",
+              "type": "color"
+            }
+          },
+          "selected": {
+            "date": {
+              "value": "$date-picker.font.selected.date.dark",
+              "type": "color"
+            }
+          },
+          "active": {
+            "date": {
+              "value": "$date-picker.font.active.date.dark",
+              "type": "color"
+            }
+          }
+        },
+        "icon": {
+          "value": "$date-picker.icon.dark",
+          "type": "color"
+        },
+        "border": {
+          "value": "$date-picker.border.dark",
+          "type": "color"
+        },
+        "date": {
+          "active": {
+            "border": {
+              "value": "$date-picker.date.active.border.dark",
+              "type": "color"
+            }
+          }
+        },
+        "background": {
+          "default": {
+            "value": "$date-picker.background.default.dark",
+            "type": "color"
+          },
+          "date": {
+            "range": {
+              "value": "$date-picker.background.date.range.dark",
+              "type": "color"
+            },
+            "active": {
+              "value": "$date-picker.background.date.active.dark",
+              "type": "color"
+            }
+          }
+        }
+      },
+      "input-date-picker": {
+        "font": {
+          "placeholder-value": {
+            "value": "$input-date-picker.font.placeholder-value.dark",
+            "type": "color"
+          },
+          "label": {
+            "value": "$input-date-picker.font.label.dark",
+            "type": "color"
+          }
+        },
+        "icon": {
+          "value": "$input-date-picker.icon.dark",
+          "type": "color"
+        },
+        "border": {
+          "value": "$input-date-picker.border.dark",
+          "type": "color"
+        },
+        "background": {
+          "default": {
+            "value": "$input-date-picker.background.default.dark",
+            "type": "color"
+          },
+          "arrow": {
+            "value": "$input-date-picker.background.arrow.dark",
+            "type": "color"
+          },
+          "read-only": {
+            "value": "$input-date-picker.background.read-only.dark",
+            "type": "color"
+          }
+        }
+      },
+      "input-datetime-local": {
+        "font": {
+          "placeholder-value": {
+            "value": "$input-datetime-local.font.placeholder-value.dark",
+            "type": "color"
+          },
+          "label": {
+            "value": "$input-datetime-local.font.label.dark",
+            "type": "color"
+          },
+          "prefix-suffix": {
+            "value": "$input-datetime-local.font.prefix-suffix.dark",
+            "type": "color"
+          }
+        },
+        "icon": {
+          "value": "$input-datetime-local.icon.dark",
+          "type": "color"
+        },
+        "background": {
+          "default": {
+            "value": "$input-datetime-local.background.default.dark",
+            "type": "color"
+          },
+          "prefix-sufix": {
+            "value": "$input-datetime-local.background.prefix-suffix.dark",
+            "type": "color"
+          },
+          "read-only": {
+            "value": "$input-datetime-local.background.read-only.dark",
+            "type": "color"
+          }
+        },
+        "border": {
+          "default": {
+            "value": "$input-datetime-local.border.default.dark",
+            "type": "color"
+          },
+          "invalid": {
+            "value": "$input-datetime-local.border.invalid.dark",
+            "type": "color"
+          }
+        }
+      },
+      "input-email": {
+        "font": {
+          "placeholder-value": {
+            "value": "$input-email.font.placeholder-value.dark",
+            "type": "color"
+          },
+          "label": {
+            "value": "$input-email.font.label.dark",
+            "type": "color"
+          },
+          "prefix-suffix": {
+            "value": "$input-email.font.prefix-suffix.dark",
+            "type": "color"
+          }
+        },
+        "icon": {
+          "value": "$input-email.icon.dark",
+          "type": "color"
+        },
+        "background": {
+          "default": {
+            "value": "$input-email.background.default.dark",
+            "type": "color"
+          },
+          "prefix-sufix": {
+            "value": "$input-email.background.prefix-suffix.dark",
+            "type": "color"
+          },
+          "read-only": {
+            "value": "$input-email.background.read-only.dark",
+            "type": "color"
+          }
+        },
+        "border": {
+          "default": {
+            "value": "$input-email.border.default.dark",
+            "type": "color"
+          },
+          "invalid": {
+            "value": "$input-email.border.invalid.dark",
+            "type": "color"
+          }
+        }
+      },
+      "input-file": {
+        "font": {
+          "placeholder-value": {
+            "value": "$input-file.font.placeholder-value.dark",
+            "type": "color"
+          },
+          "label": {
+            "value": "$input-file.font.label.dark",
+            "type": "color"
+          },
+          "prefix-suffix": {
+            "value": "$input-file.font.prefix-suffix.dark",
+            "type": "color"
+          }
+        },
+        "icon": {
+          "value": "$input-file.icon.dark",
+          "type": "color"
+        },
+        "background": {
+          "default": {
+            "value": "$input-file.background.default.dark",
+            "type": "color"
+          },
+          "prefix-sufix": {
+            "value": "$input-file.background.prefix-suffix.dark",
+            "type": "color"
+          },
+          "read-only": {
+            "value": "$input-file.background.read-only.dark",
+            "type": "color"
+          }
+        },
+        "border": {
+          "default": {
+            "value": "$input-file.border.default.dark",
+            "type": "color"
+          },
+          "invalid": {
+            "value": "$input-file.border.invalid.dark",
+            "type": "color"
+          }
+        }
+      },
+      "input-month": {
+        "font": {
+          "placeholder-value": {
+            "value": "$input-month.font.placeholder-value.dark",
+            "type": "color"
+          },
+          "label": {
+            "value": "$input-month.font.label.dark",
+            "type": "color"
+          },
+          "prefix-suffix": {
+            "value": "$input-month.font.prefix-suffix.dark",
+            "type": "color"
+          }
+        },
+        "icon": {
+          "value": "$input-month.icon.dark",
+          "type": "color"
+        },
+        "background": {
+          "default": {
+            "value": "$input-month.background.default.dark",
+            "type": "color"
+          },
+          "prefix-sufix": {
+            "value": "$input-month.background.prefix-suffix.dark",
+            "type": "color"
+          },
+          "read-only": {
+            "value": "$input-month.background.read-only.dark",
+            "type": "color"
+          }
+        },
+        "border": {
+          "default": {
+            "value": "$input-month.border.default.dark",
+            "type": "color"
+          },
+          "invalid": {
+            "value": "$input-month.border.invalid.dark",
+            "type": "color"
+          }
+        }
+      },
+      "input-number": {
+        "font": {
+          "placeholder-value": {
+            "value": "$input-number.font.placeholder-value.dark",
+            "type": "color"
+          },
+          "label": {
+            "value": "$input-number.font.label.dark",
+            "type": "color"
+          }
+        },
+        "icon": {
+          "value": "$input-number.icon.dark",
+          "type": "color"
+        },
+        "background": {
+          "default": {
+            "value": "$input-number.background.default.dark",
+            "type": "color"
+          },
+          "prefix-sufix": {
+            "value": "$input-number.background.prefix-suffix.dark",
+            "type": "color"
+          },
+          "read-only": {
+            "value": "$input-number.background.read-only.dark",
+            "type": "color"
+          }
+        },
+        "border": {
+          "default": {
+            "value": "$input-number.border.default.dark",
+            "type": "color"
+          },
+          "invalid": {
+            "value": "$input-number.border.invalid.dark",
+            "type": "color"
+          }
+        }
+      },
+      "input-password": {
+        "font": {
+          "placeholder-value": {
+            "value": "$input-password.font.placeholder-value.dark",
+            "type": "color"
+          },
+          "label": {
+            "value": "$input-password.font.label.dark",
+            "type": "color"
+          },
+          "prefix-suffix": {
+            "value": "$input-password.font.prefix-suffix.dark",
+            "type": "color"
+          }
+        },
+        "icon": {
+          "value": "$input-password.icon.dark",
+          "type": "color"
+        },
+        "background": {
+          "default": {
+            "value": "$input-password.background.default.dark",
+            "type": "color"
+          },
+          "prefix-sufix": {
+            "value": "$input-password.background.prefix-suffix.dark",
+            "type": "color"
+          },
+          "read-only": {
+            "value": "$input-password.background.read-only.dark",
+            "type": "color"
+          }
+        },
+        "border": {
+          "default": {
+            "value": "$input-password.border.default.dark",
+            "type": "color"
+          },
+          "invalid": {
+            "value": "$input-password.border.invalid.dark",
+            "type": "color"
+          }
+        }
+      },
+      "input-search": {
+        "font": {
+          "placeholder-value": {
+            "value": "$input-search.font.placeholder-value.dark",
+            "type": "color"
+          },
+          "label": {
+            "value": "$input-search.font.label.dark",
+            "type": "color"
+          },
+          "prefix-suffix": {
+            "value": "$input-search.font.prefix-suffix.dark",
+            "type": "color"
+          }
+        },
+        "icon": {
+          "value": "$input-search.icon.dark",
+          "type": "color"
+        },
+        "background": {
+          "default": {
+            "value": "$input-search.background.default.dark",
+            "type": "color"
+          },
+          "prefix-sufix": {
+            "value": "$input-search.background.prefix-suffix.dark",
+            "type": "color"
+          },
+          "read-only": {
+            "value": "$input-search.background.read-only.dark",
+            "type": "color"
+          }
+        },
+        "border": {
+          "default": {
+            "value": "$input-search.border.default.dark",
+            "type": "color"
+          },
+          "invalid": {
+            "value": "$input-search.border.invalid.dark",
+            "type": "color"
+          }
+        }
+      },
+      "input-telephone": {
+        "font": {
+          "placeholder-value": {
+            "value": "$input-telephone.font.placeholder-value.dark",
+            "type": "color"
+          },
+          "label": {
+            "value": "$input-telephone.font.label.dark",
+            "type": "color"
+          },
+          "prefix-suffix": {
+            "value": "$input-telephone.font.prefix-suffix.dark",
+            "type": "color"
+          }
+        },
+        "icon": {
+          "value": "$input-telephone.icon.dark",
+          "type": "color"
+        },
+        "background": {
+          "default": {
+            "value": "$input-telephone.background.default.dark",
+            "type": "color"
+          },
+          "prefix-sufix": {
+            "value": "$input-telephone.background.prefix-suffix.dark",
+            "type": "color"
+          },
+          "read-only": {
+            "value": "$input-telephone.background.read-only.dark",
+            "type": "color"
+          }
+        },
+        "border": {
+          "default": {
+            "value": "$input-telephone.border.default.dark",
+            "type": "color"
+          },
+          "invalid": {
+            "value": "$input-telephone.border.invalid.dark",
+            "type": "color"
+          }
+        }
+      },
+      "input-text": {
+        "font": {
+          "placeholder-value": {
+            "value": "$input-text.font.placeholder-value.dark",
+            "type": "color"
+          },
+          "label": {
+            "value": "$input-text.font.label.dark",
+            "type": "color"
+          },
+          "prefix-suffix": {
+            "value": "$input-text.font.prefix-suffix.dark",
+            "type": "color"
+          }
+        },
+        "icon": {
+          "value": "$input-text.icon.dark",
+          "type": "color"
+        },
+        "background": {
+          "default": {
+            "value": "$input-text.background.default.dark",
+            "type": "color"
+          },
+          "prefix-sufix": {
+            "value": "$input-text.background.prefix-suffix.dark",
+            "type": "color"
+          },
+          "read-only": {
+            "value": "$input-text.background.read-only.dark",
+            "type": "color"
+          }
+        },
+        "border": {
+          "default": {
+            "value": "$input-text.border.default.dark",
+            "type": "color"
+          },
+          "invalid": {
+            "value": "$input-text.border.invalid.dark",
+            "type": "color"
+          }
+        }
+      },
+      "input-week": {
+        "font": {
+          "placeholder-value": {
+            "value": "$input-week.font.placeholder-value.dark",
+            "type": "color"
+          },
+          "label": {
+            "value": "$input-week.font.label.dark",
+            "type": "color"
+          },
+          "prefix-suffix": {
+            "value": "$input-week.font.prefix-suffix.dark",
+            "type": "color"
+          }
+        },
+        "icon": {
+          "value": "$input-week.icon.dark",
+          "type": "color"
+        },
+        "background": {
+          "default": {
+            "value": "$input-week.background.default.dark",
+            "type": "color"
+          },
+          "prefix-sufix": {
+            "value": "$input-week.background.prefix-suffix.dark",
+            "type": "color"
+          },
+          "read-only": {
+            "value": "$input-week.background.read-only.dark",
+            "type": "color"
+          }
+        },
+        "border": {
+          "default": {
+            "value": "$input-week.border.default.dark",
+            "type": "color"
+          },
+          "invalid": {
+            "value": "$input-week.border.invalid.dark",
+            "type": "color"
+          }
+        }
+      },
+      "textarea": {
+        "font": {
+          "placeholder-value": {
+            "value": "$textarea.font.placeholder-value.dark",
+            "type": "color"
+          },
+          "label": {
+            "value": "$textarea.font.label.dark",
+            "type": "color"
+          },
+          "chat-limit": {
+            "value": "$textarea.font.chat-limit.dark",
+            "type": "color"
+          }
+        },
+        "icon": {
+          "value": "$textarea.icon.dark",
+          "type": "color"
+        },
+        "background": {
+          "default": {
+            "value": "$textarea.background.default.dark",
+            "type": "color"
+          },
+          "read-only": {
+            "value": "$textarea.background.read-only.dark",
+            "type": "color"
+          }
+        },
+        "border": {
+          "default": {
+            "value": "$textarea.border.dark",
+            "type": "color"
+          }
+        }
+      },
+      "tab-title": {
+        "font": {
+          "default": {
+            "value": "$tab-title.font.default.dark",
+            "type": "color"
+          },
+          "active": {
+            "value": "$tab-title.font.active.dark",
+            "type": "color"
+          }
+        },
+        "icon": {
+          "default": {
+            "value": "$tab-title.icon.default.dark",
+            "type": "color"
+          },
+          "active": {
+            "value": "$tab-title.icon.active.dark",
+            "type": "color"
+          }
+        },
+        "bordered": {
+          "border": {
+            "value": "$tab-title.bordered.border.dark",
+            "type": "color"
+          },
+          "background": {
+            "default": {
+              "value": "$tab-title.bordered.background.default.dark",
+              "type": "color"
+            }
+          }
+        },
+        "border": {
+          "active": {
+            "value": "$tab-title.border.active.dark",
             "type": "color"
           }
         }
