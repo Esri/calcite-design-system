@@ -10,7 +10,7 @@
         "type": "color"
       },
       "sm": {
-        "value": "$semantic.font.default.bold.-3h",
+        "value": "$semantic.font.default.bold.-2h",
         "type": "typography"
       },
       "md": {

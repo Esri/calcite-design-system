@@ -34,6 +34,7 @@
     "component/pagination",
     "component/segmented-control",
     "component/stepper",
+    "component/stepper-item",
     "component/switch",
     "component/[template-comp-name]",
     "component/accordion_backup",
