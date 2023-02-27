@@ -26,14 +26,11 @@ jobs:
           result-encoding: string
           script: |
               const {OWNER, REPO, NUMBER} = process.env;
-              return github.request('GET /repos/{OWNER}/{REPO}/issues/{NUMBER}', {
-                owner: OWNER,
-                repo: REPO,
-                issue_number: NUMBER,
-                headers: {
-                  'X-GitHub-Api-Version': '2022-11-28'
-                }
-              })
+              return github.rest.issues.get({
+                  issue_number: NUMBER,
+                  owner: OWNER,
+                  repo: REPO,
+                });
      - name: Get result
        id: output-result
        run: echo "result=${{steps.find-existing-issue.outputs.result}}" >> $GITHUB_OUTPUT
