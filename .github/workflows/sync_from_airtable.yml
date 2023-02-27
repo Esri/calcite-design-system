@@ -25,15 +25,14 @@ jobs:
        with:
           result-encoding: string
           script: |
-              const {OWNER, REPO, NUMBER} = process.env;
-              return github.rest.issues.get({
-                  issue_number: 44,
-                  owner: 'Esri',
-                  repo: 'calcite-design-tokens,
-                });
-     - name: Get result
-       id: output-result
-       run: echo "result=${{steps.find-existing-issue.outputs.result}}" >> $GITHUB_OUTPUT
+            const test = await github.rest.issues.get({
+                issue_number: 44,
+                owner: 'Esri',
+                repo: 'calcite-design-tokens,
+              });
+            return JSON.stringify(test)
+#      - id: output-result
+#        run: echo "result=${{steps.find-existing-issue.outputs.result}}" >> $GITHUB_OUTPUT
   
 #   assigned_unassigned:
 #     name: Assign or Unassign
