@@ -105,13 +105,35 @@
       }
     },
     "icon": {
-      "light": {
-        "value": "$semantic.ui.color.text.3.light",
-        "type": "color"
+      "default": {
+        "light": {
+          "value": "$semantic.ui.color.border.3.light",
+          "type": "color"
+        },
+        "dark": {
+          "value": "$semantic.ui.color.border.3.dark",
+          "type": "color"
+        }
       },
-      "dark": {
-        "value": "$semantic.ui.color.text.3.dark",
-        "type": "color"
+      "active": {
+        "light": {
+          "value": "$semantic.ui.color.brand.default.light",
+          "type": "color"
+        },
+        "dark": {
+          "value": "$semantic.ui.color.brand.default.dark",
+          "type": "color"
+        }
+      },
+      "error": {
+        "light": {
+          "value": "$semantic.ui.color.danger.default.light",
+          "type": "color"
+        },
+        "dark": {
+          "value": "$semantic.ui.color.danger.default.dark",
+          "type": "color"
+        }
       }
     },
     "border": {
