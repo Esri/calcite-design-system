@@ -9,10 +9,8 @@
   @apply hidden;
 }
 
-// Revisit: We don't normally clip actions to accommodate component heights, it’s inconsistent with how we normally handle slots.
-// This also results in clipping the top/bottom of the blue focus outline.
 .node-actions-container {
-  @apply overflow-hidden flex justify-between;
+  @apply flex justify-between;
 }
 
 @include calciteHydratedHidden();
@@ -132,6 +130,12 @@
 
 slot[name="actions-end"]::slotted(*) {
   @apply flex self-stretch flex-row items-center overflow-visible;
+}
+
+.actions-end {
+  // Revisit: We don't normally clip actions to accommodate component heights, it’s inconsistent with how we normally handle slots.
+  // This also results in clipping the top/bottom of the blue focus outline.
+  @apply overflow-hidden;
 }
 
 .checkbox {
