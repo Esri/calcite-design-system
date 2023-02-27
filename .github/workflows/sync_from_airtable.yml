@@ -22,7 +22,6 @@ jobs:
        id: my-script
        with:
          result-encoding: string
-         retries: 3
          script: |
            return github.rest.issues.get({
              issue_number: 44,
