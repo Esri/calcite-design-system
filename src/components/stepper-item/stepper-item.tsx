@@ -143,7 +143,7 @@ export class StepperItem implements InteractiveComponent, LocalizedComponent, Lo
   calciteInternalStepperItemKeyEvent: EventEmitter<StepperItemKeyEventDetail>;
 
   /**
-   * Fires when the selection of `calcite-stepper-item` changes.
+   * Emits when the component's header is selected.
    */
   @Event({ cancelable: false })
   calciteStepperItemSelect: EventEmitter<void>;
@@ -333,15 +333,14 @@ export class StepperItem implements InteractiveComponent, LocalizedComponent, Lo
     ) {
       return;
     }
-
     this.emitUserRequestedItem();
   };
 
   private emitUserRequestedItem = (): void => {
-    this.emitRequestedItem();
     if (!this.disabled) {
       const position = this.itemPosition;
-
+      this.selectedPosition = getItemPosition(this.parentStepperEl, this.el);
+      this.determineSelectedItem();
       this.calciteInternalUserRequestedStepperItemSelect.emit({
         position
       });
