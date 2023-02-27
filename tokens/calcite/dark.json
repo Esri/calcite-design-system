@@ -860,6 +860,10 @@
           "label": {
             "value": "$input-password.font.label.dark",
             "type": "color"
+          },
+          "prefix-suffix": {
+            "value": "$input-password.font.prefix-suffix.dark",
+            "type": "color"
           }
         },
         "icon": {
@@ -887,6 +891,258 @@
           },
           "invalid": {
             "value": "$input-password.border.invalid.dark",
+            "type": "color"
+          }
+        }
+      },
+      "input-search": {
+        "font": {
+          "placeholder-value": {
+            "value": "$input-search.font.placeholder-value.dark",
+            "type": "color"
+          },
+          "label": {
+            "value": "$input-search.font.label.dark",
+            "type": "color"
+          },
+          "prefix-suffix": {
+            "value": "$input-search.font.prefix-suffix.dark",
+            "type": "color"
+          }
+        },
+        "icon": {
+          "value": "$input-search.icon.dark",
+          "type": "color"
+        },
+        "background": {
+          "default": {
+            "value": "$input-search.background.default.dark",
+            "type": "color"
+          },
+          "prefix-sufix": {
+            "value": "$input-search.background.prefix-suffix.dark",
+            "type": "color"
+          },
+          "read-only": {
+            "value": "$input-search.background.read-only.dark",
+            "type": "color"
+          }
+        },
+        "border": {
+          "default": {
+            "value": "$input-search.border.default.dark",
+            "type": "color"
+          },
+          "invalid": {
+            "value": "$input-search.border.invalid.dark",
+            "type": "color"
+          }
+        }
+      },
+      "input-telephone": {
+        "font": {
+          "placeholder-value": {
+            "value": "$input-telephone.font.placeholder-value.dark",
+            "type": "color"
+          },
+          "label": {
+            "value": "$input-telephone.font.label.dark",
+            "type": "color"
+          },
+          "prefix-suffix": {
+            "value": "$input-telephone.font.prefix-suffix.dark",
+            "type": "color"
+          }
+        },
+        "icon": {
+          "value": "$input-telephone.icon.dark",
+          "type": "color"
+        },
+        "background": {
+          "default": {
+            "value": "$input-telephone.background.default.dark",
+            "type": "color"
+          },
+          "prefix-sufix": {
+            "value": "$input-telephone.background.prefix-suffix.dark",
+            "type": "color"
+          },
+          "read-only": {
+            "value": "$input-telephone.background.read-only.dark",
+            "type": "color"
+          }
+        },
+        "border": {
+          "default": {
+            "value": "$input-telephone.border.default.dark",
+            "type": "color"
+          },
+          "invalid": {
+            "value": "$input-telephone.border.invalid.dark",
+            "type": "color"
+          }
+        }
+      },
+      "input-text": {
+        "font": {
+          "placeholder-value": {
+            "value": "$input-text.font.placeholder-value.dark",
+            "type": "color"
+          },
+          "label": {
+            "value": "$input-text.font.label.dark",
+            "type": "color"
+          },
+          "prefix-suffix": {
+            "value": "$input-text.font.prefix-suffix.dark",
+            "type": "color"
+          }
+        },
+        "icon": {
+          "value": "$input-text.icon.dark",
+          "type": "color"
+        },
+        "background": {
+          "default": {
+            "value": "$input-text.background.default.dark",
+            "type": "color"
+          },
+          "prefix-sufix": {
+            "value": "$input-text.background.prefix-suffix.dark",
+            "type": "color"
+          },
+          "read-only": {
+            "value": "$input-text.background.read-only.dark",
+            "type": "color"
+          }
+        },
+        "border": {
+          "default": {
+            "value": "$input-text.border.default.dark",
+            "type": "color"
+          },
+          "invalid": {
+            "value": "$input-text.border.invalid.dark",
+            "type": "color"
+          }
+        }
+      },
+      "input-week": {
+        "font": {
+          "placeholder-value": {
+            "value": "$input-week.font.placeholder-value.dark",
+            "type": "color"
+          },
+          "label": {
+            "value": "$input-week.font.label.dark",
+            "type": "color"
+          },
+          "prefix-suffix": {
+            "value": "$input-week.font.prefix-suffix.dark",
+            "type": "color"
+          }
+        },
+        "icon": {
+          "value": "$input-week.icon.dark",
+          "type": "color"
+        },
+        "background": {
+          "default": {
+            "value": "$input-week.background.default.dark",
+            "type": "color"
+          },
+          "prefix-sufix": {
+            "value": "$input-week.background.prefix-suffix.dark",
+            "type": "color"
+          },
+          "read-only": {
+            "value": "$input-week.background.read-only.dark",
+            "type": "color"
+          }
+        },
+        "border": {
+          "default": {
+            "value": "$input-week.border.default.dark",
+            "type": "color"
+          },
+          "invalid": {
+            "value": "$input-week.border.invalid.dark",
+            "type": "color"
+          }
+        }
+      },
+      "textarea": {
+        "font": {
+          "placeholder-value": {
+            "value": "$textarea.font.placeholder-value.dark",
+            "type": "color"
+          },
+          "label": {
+            "value": "$textarea.font.label.dark",
+            "type": "color"
+          },
+          "chat-limit": {
+            "value": "$textarea.font.chat-limit.dark",
+            "type": "color"
+          }
+        },
+        "icon": {
+          "value": "$textarea.icon.dark",
+          "type": "color"
+        },
+        "background": {
+          "default": {
+            "value": "$textarea.background.default.dark",
+            "type": "color"
+          },
+          "read-only": {
+            "value": "$textarea.background.read-only.dark",
+            "type": "color"
+          }
+        },
+        "border": {
+          "default": {
+            "value": "$textarea.border.dark",
+            "type": "color"
+          }
+        }
+      },
+      "tab-title": {
+        "font": {
+          "default": {
+            "value": "$tab-title.font.default.dark",
+            "type": "color"
+          },
+          "active": {
+            "value": "$tab-title.font.active.dark",
+            "type": "color"
+          }
+        },
+        "icon": {
+          "default": {
+            "value": "$tab-title.icon.default.dark",
+            "type": "color"
+          },
+          "active": {
+            "value": "$tab-title.icon.active.dark",
+            "type": "color"
+          }
+        },
+        "bordered": {
+          "border": {
+            "value": "$tab-title.bordered.border.dark",
+            "type": "color"
+          },
+          "background": {
+            "default": {
+              "value": "$tab-title.bordered.background.default.dark",
+              "type": "color"
+            }
+          }
+        },
+        "border": {
+          "active": {
+            "value": "$tab-title.border.active.dark",
             "type": "color"
           }
         }

@@ -1424,16 +1424,6 @@
               "type": "color"
             }
           },
-          "3": {
-            "light": {
-              "value": "$core.color.neutral.blk-020",
-              "type": "color"
-            },
-            "dark": {
-              "value": "$core.color.neutral.blk-220",
-              "type": "color"
-            }
-          },
           "current": {
             "light": {
               "value": "$core.color.palette.high-saturation.blue.h-bb-010",
