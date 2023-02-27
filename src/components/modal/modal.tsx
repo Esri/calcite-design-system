@@ -215,6 +215,7 @@ export class Modal
               [CSS.modal]: true,
               [CSS.modalOpen]: this.isOpen
             }}
+            // eslint-disable-next-line react/jsx-sort-props
             ref={this.setTransitionEl}
           >
             <div class={CSS.header}>
@@ -228,6 +229,7 @@ export class Modal
                 [CSS.content]: true,
                 [CSS.contentNoFooter]: !this.hasFooter
               }}
+              // eslint-disable-next-line react/jsx-sort-props
               ref={(el) => (this.modalContent = el)}
             >
               <slot name={SLOTS.content} />
@@ -262,8 +264,9 @@ export class Modal
         class={CSS.close}
         key="button"
         onClick={this.close}
-        ref={(el) => (this.closeButtonEl = el)}
         title={this.messages.close}
+        // eslint-disable-next-line react/jsx-sort-props
+        ref={(el) => (this.closeButtonEl = el)}
       >
         <calcite-icon
           icon={ICONS.close}

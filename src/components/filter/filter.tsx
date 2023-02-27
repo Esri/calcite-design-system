@@ -252,12 +252,13 @@ export class Filter
               onCalciteInputInput={this.inputHandler}
               onKeyDown={this.keyDownHandler}
               placeholder={this.placeholder}
-              ref={(el): void => {
-                this.textInput = el;
-              }}
               scale={scale}
               type="text"
               value={this.value}
+              // eslint-disable-next-line react/jsx-sort-props
+              ref={(el): void => {
+                this.textInput = el;
+              }}
             />
           </label>
         </div>

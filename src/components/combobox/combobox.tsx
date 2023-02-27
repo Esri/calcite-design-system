@@ -1142,8 +1142,9 @@ export class Combobox
           onFocus={this.comboboxFocusHandler}
           onInput={this.inputHandler}
           placeholder={placeholder}
-          ref={(el) => (this.textInput = el as HTMLInputElement)}
           type="text"
+          // eslint-disable-next-line react/jsx-sort-props
+          ref={(el) => (this.textInput = el as HTMLInputElement)}
         />
       </span>
     );
@@ -1177,9 +1178,14 @@ export class Combobox
           "floating-ui-container": true,
           "floating-ui-container--active": open
         }}
+        // eslint-disable-next-line react/jsx-sort-props
         ref={setFloatingEl}
       >
-        <div class={classes} ref={setContainerEl}>
+        <div
+          class={classes}
+          // eslint-disable-next-line react/jsx-sort-props
+          ref={setContainerEl}
+        >
           <ul class={{ list: true, "list--hide": !open }}>
             <slot />
           </ul>
@@ -1243,8 +1249,9 @@ export class Combobox
           }}
           onClick={this.clickHandler}
           onKeyDown={this.keydownHandler}
-          ref={this.setReferenceEl}
           role="combobox"
+          // eslint-disable-next-line react/jsx-sort-props
+          ref={this.setReferenceEl}
         >
           <div class="grid-input">
             {this.renderIconStart()}

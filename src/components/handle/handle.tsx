@@ -127,12 +127,13 @@ export class Handle implements LoadableComponent {
         class={{ [CSS.handle]: true, [CSS.handleActivated]: this.activated }}
         onBlur={this.handleBlur}
         onKeyDown={this.handleKeyDown}
-        ref={(el): void => {
-          this.handleButton = el;
-        }}
         role="button"
         tabindex="0"
         title={this.textTitle}
+        // eslint-disable-next-line react/jsx-sort-props
+        ref={(el): void => {
+          this.handleButton = el;
+        }}
       >
         <calcite-icon icon={ICONS.drag} scale="s" />
       </span>

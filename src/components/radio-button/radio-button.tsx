@@ -443,9 +443,10 @@ export class RadioButton
           class={CSS.container}
           onBlur={this.onContainerBlur}
           onFocus={this.onContainerFocus}
-          ref={this.setContainerEl}
           role="radio"
           tabIndex={tabIndex}
+          // eslint-disable-next-line react/jsx-sort-props
+          ref={this.setContainerEl}
         >
           <div class="radio" />
         </div>
