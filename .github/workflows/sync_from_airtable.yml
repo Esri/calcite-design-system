@@ -41,7 +41,7 @@ jobs:
   assigned_unassigned:
     name: Assign or Unassign
     needs: existing_issue
-    if: needs.existing-issue.outputs.github_issue && ACTION === 'assigned/unassigned'
+    if: ${{ (needs.existing-issue.outputs.github_issue !== undefined) && (ACTION === 'assigned/unassigned') }}
     runs-on: ubuntu-latest
     steps:
      - uses: actions/github-script@v6
@@ -51,7 +51,7 @@ jobs:
   labeled_unlabeled:
     name: Label or UnLabel
     needs: existing_issue
-    if: needs.existing-issue.outputs.github_issue && ACTION === 'labeled/unlabeled'
+    if: ${{ (needs.existing-issue.outputs.github_issue !== undefined) && (ACTION === 'labeled/unlabeled') }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/github-script@v6
@@ -61,7 +61,7 @@ jobs:
   milestoned_demilestoned:
     name: Milestone or DeMilestone
     needs: existing_issue
-    if: needs.existing-issue.outputs.github_issue && ACTION === 'milestoned/demilestoned'
+    if: ${{ (needs.existing-issue.outputs.github_issue !== undefined) && (ACTION === 'milestoned/demilestoned') }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/github-script@v6
@@ -71,7 +71,7 @@ jobs:
   open_closed:
     name: Opened, ReOpened, or Closed
     needs: existing_issue
-    if: needs.existing-issue.outputs.github_issue && ACTION === 'open/closed'
+    if: ${{ (needs.existing-issue.outputs.github_issue !== undefined) && (ACTION === 'open/closed') }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/github-script@v6
@@ -81,7 +81,7 @@ jobs:
   edited:
     name: Edited
     needs: existing_issue
-    if: needs.existing-issue.outputs.github_issue && ACTION === 'edited'
+    if: ${{ (needs.existing-issue.outputs.github_issue !== undefined) && (ACTION === 'edited') }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/github-script@v6
@@ -91,7 +91,7 @@ jobs:
   new_issue:
     name: Create New Issue
     needs: existing_issue
-    if: needs.existing-issue.outputs.github_issue == undefined
+    if: ${{(ACTION === 'edited') && (needs.existing-issue.outputs.github_issue == undefined)}}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/github-script@v6
