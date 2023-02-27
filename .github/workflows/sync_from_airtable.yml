@@ -36,7 +36,7 @@ jobs:
   test:
     name: Assign or Unassign
     needs: existing_issue
-    if: ${{ (needs.existing-issue.outputs.github_issue.status == 200) && ($ACTION == 'assigned/unassigned') }}
+    if: ${{ (needs.existing-issue.outputs.github_issue.status == 200) && (${{env.ACTION}} == 'assigned/unassigned') }}
     runs-on: ubuntu-latest
     steps:
      - uses: actions/github-script@v6
