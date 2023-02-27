@@ -6,10 +6,10 @@ on:
     types: [airtable-update]
 
 env:
-  ACTION: github.event.client_payload.action
-  DATA: toJSON(github.event.client_payload.data)
-  NUMBER: github.event.client_payload.number
-  TITLE: github.event.client_payload.title
+  ACTION: ${{ github.event.client_payload.action }}
+  DATA: ${{ toJSON(github.event.client_payload.data) }}
+  NUMBER: ${{ github.event.client_payload.number }}
+  TITLE: ${{ github.event.client_payload.title }}
   OWNER: 'Esri'
   REPO: 'calcite-design-tokens'
 
