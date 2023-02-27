@@ -18,20 +18,27 @@ jobs:
     name: Find Existing Issue
     runs-on: ubuntu-latest
     outputs:
-      github_issue: ${{ steps.output-result.outputs.result }}
+      github_issue: ${{ steps.find-existing-issue.outputs.result }}
     steps:
      - uses: actions/github-script@v6
        id: find-existing-issue
        with:
-         result-encoding: string
          script: |
            return github.rest.issues.get({
              issue_number: 44,
              owner: 'Esri',
              repo: 'calcite-design-tokens',
-           }).then((results) => JSON.stringify(results));
-     - id: output-result
-       run: echo "result=${{ steps.find-existing-issue.outputs.result }}" >> $GITHUB_OUTPUT
+           });
+  test:
+    name: Assign or Unassign
+    needs: existing_issue
+    if: ${{ (needs.existing-issue.outputs.github_issue.status == 200) && (ACTION === 'assigned/unassigned') }}
+    runs-on: ubuntu-latest
+    steps:
+     - uses: actions/github-script@v6
+       with:
+          script: |
+              core.info(needs.existing-issue.outputs.github_issue)
 #   assigned_unassigned:
 #     name: Assign or Unassign
 #     needs: existing_issue
