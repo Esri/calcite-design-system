@@ -31,7 +31,7 @@ jobs:
              repo: 'calcite-design-tokens',
            })
      - id: output-result
-       run: echo "result=${{steps.find-existing-issue.outputs.result}}" >> $GITHUB_OUTPUT
+       run: echo "result=${{ toJSON(steps.find-existing-issue.outputs.result) }}" >> $GITHUB_OUTPUT
 #   assigned_unassigned:
 #     name: Assign or Unassign
 #     needs: existing_issue
