@@ -27,9 +27,9 @@ jobs:
           script: |
               const {OWNER, REPO, NUMBER} = process.env;
               return github.rest.issues.get({
-                  issue_number: NUMBER,
-                  owner: OWNER,
-                  repo: REPO,
+                  issue_number: 44,
+                  owner: 'Esri',
+                  repo: 'calcite-design-tokens,
                 });
      - name: Get result
        id: output-result
