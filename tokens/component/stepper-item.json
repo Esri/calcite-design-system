@@ -251,6 +251,10 @@
         "value": "$core.spacing.11",
         "type": "spacing"
       }
+    },
+    "disabled": {
+      "value": "{core.opacity.50}",
+      "type": "opacity"
     }
   }
 }
