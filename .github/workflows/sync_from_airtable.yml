@@ -5,15 +5,97 @@ on:
   repository_dispatch:
     types: [airtable-update]
 
+env:
+  ACTION: github.event.client_payload.action
+  DATA: toJSON(github.event.client_payload.data)
+  NUMBER: github.event.client_payload.number
+  TITLE: github.event.client_payload.title
+  OWNER: 'Esri'
+  REPO: 'calcite-design-tokens'
+
 jobs:
-  test1:
-    name: Test1 (conditional run)
+  existing_issue:
+    name: Find Existing Issue
+    runs-on: ubuntu-latest
+    outputs:
+      github_issue: ${{ steps.output-result.outputs.result }}
+    steps:
+     - uses: actions/github-script@v6
+       id: find-existing-issue
+       with:
+          result-encoding: string
+          script: |
+              const {OWNER, REPO, NUMBER} = process.env;
+              return github.request('GET /repos/{OWNER}/{REPO}/issues/{NUMBER}', {
+                owner: OWNER,
+                repo: REPO,
+                issue_number: NUMBER,
+                headers: {
+                  'X-GitHub-Api-Version': '2022-11-28'
+                }
+              })
+     - name: Get result
+       id: output-result
+       run: echo "result=${{steps.find-existing-issue.outputs.result}}" >> $GITHUB_OUTPUT
+  
+  assigned_unassigned:
+    name: Assign or Unassign
+    needs: existing_issue
+    if: needs.existing-issue.outputs.github_issue && ACTION === 'assigned/unassigned'
     runs-on: ubuntu-latest
     steps:
-      - name: Dump GitHub context
-        id: github_context_step
-        run: echo '${{ toJSON(github.event.client_payload) }}'
-#       - run: 'echo "field: ${{ github.event.client_payload.payload[issue Number] }}"'
-#       - run: 'echo "payload: ${{ toJson(github.event.client_payload) }}"'
-#       - run: echo baz
-#         if: github.event.client_payload.payload.version == 'production'
+     - uses: actions/github-script@v6
+       with:
+          script: |
+              console.log(process.env.ACTION)
+  labeled_unlabeled:
+    name: Label or UnLabel
+    needs: existing_issue
+    if: needs.existing-issue.outputs.github_issue && ACTION === 'labeled/unlabeled'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/github-script@v6
+        with:
+            script: |
+              console.log(process.env.ACTION)
+  milestoned_demilestoned:
+    name: Milestone or DeMilestone
+    needs: existing_issue
+    if: needs.existing-issue.outputs.github_issue && ACTION === 'milestoned/demilestoned'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/github-script@v6
+        with:
+            script: |
+              console.log(process.env.ACTION)
+  open_closed:
+    name: Opened, ReOpened, or Closed
+    needs: existing_issue
+    if: needs.existing-issue.outputs.github_issue && ACTION === 'open/closed'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/github-script@v6
+        with:
+            script: |
+              console.log(process.env.ACTION)
+  edited:
+    name: Edited
+    needs: existing_issue
+    if: needs.existing-issue.outputs.github_issue && ACTION === 'edited'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/github-script@v6
+        with:
+            script: |
+              console.log(process.env.ACTION)
+  new_issue:
+    name: Create New Issue
+    needs: existing_issue
+    if: needs.existing-issue.outputs.github_issue == undefined
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/github-script@v6
+        with:
+            script: |
+              console.log(process.env.ACTION)
+              
