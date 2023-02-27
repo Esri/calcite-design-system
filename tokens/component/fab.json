@@ -1,7 +1,7 @@
 {
   "fab": {
     "font": {
-      "blue": {
+      "brand": {
         "solid": {
           "light": {
             "value": "$semantic.ui.color.text.inverse.light",
@@ -139,7 +139,7 @@
           }
         }
       },
-      "red": {
+      "danger": {
         "solid": {
           "light": {
             "value": "$semantic.ui.color.text.inverse.light",
@@ -183,7 +183,7 @@
       }
     },
     "icon": {
-      "blue": {
+      "brand": {
         "solid": {
           "light": {
             "value": "$semantic.ui.color.foreground.1.light",
@@ -309,7 +309,7 @@
           }
         }
       },
-      "red": {
+      "danger": {
         "solid": {
           "light": {
             "value": "$semantic.ui.color.foreground.1.light",
@@ -353,7 +353,7 @@
       }
     },
     "border": {
-      "blue": {
+      "brand": {
         "light": {
           "value": "$semantic.ui.color.brand.default.light",
           "type": "color"
@@ -383,7 +383,7 @@
           "type": "color"
         }
       },
-      "red": {
+      "danger": {
         "light": {
           "value": "$semantic.ui.color.danger.default.light",
           "type": "color"
@@ -395,7 +395,7 @@
       }
     },
     "background": {
-      "blue": {
+      "brand": {
         "light": {
           "value": "$semantic.ui.color.brand.default.light",
           "type": "color"
@@ -425,7 +425,7 @@
           "type": "color"
         }
       },
-      "red": {
+      "danger": {
         "light": {
           "value": "$semantic.ui.color.danger.default.light",
           "type": "color"
