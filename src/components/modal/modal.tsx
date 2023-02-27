@@ -234,22 +234,22 @@ export class Modal
             <div
               class={{
                 [CSS.content]: true,
-                [CSS.contentNoModalFooter]: !this.hasModalFooter
+                [CSS.contentNoFooter]: !this.hasFooter
               }}
               ref={(el) => (this.modalContent = el)}
             >
               <slot name={SLOTS.content} />
             </div>
             {this.renderContentBottom()}
-            {this.renderModalFooter()}
+            {this.renderFooter()}
           </div>
         </div>
       </Host>
     );
   }
 
-  renderModalFooter(): VNode {
-    return this.hasModalFooter ? (
+  renderFooter(): VNode {
+    return this.hasFooter ? (
       <div class={CSS.footer} key="footer">
         <span class={CSS.back}>
           <slot name={SLOTS.back} />
@@ -266,7 +266,7 @@ export class Modal
 
   renderContentTop(): VNode {
     return (
-      <div class={CSS.contentTop} hidden={!this.hasContentTop} key="content-top">
+      <div class={CSS.contentTop} hidden={!this.hasContentTop}>
         <slot name={SLOTS.contentTop} onSlotchange={this.contentTopSlotChangeHandler} />
       </div>
     );
@@ -274,7 +274,7 @@ export class Modal
 
   renderContentBottom(): VNode {
     return (
-      <div class={CSS.contentBottom} hidden={!this.hasContentBottom} key="content-bottom">
+      <div class={CSS.contentBottom} hidden={!this.hasContentBottom}>
         <slot name={SLOTS.contentBottom} onSlotchange={this.contentBottomSlotChangeHandler} />
       </div>
     );
@@ -372,7 +372,7 @@ export class Modal
 
   @State() cssHeight: string | number;
 
-  @State() hasModalFooter = true;
+  @State() hasFooter = true;
 
   @State() hasContentTop = false;
 
@@ -556,7 +556,7 @@ export class Modal
   }
 
   private updateFooterVisibility = (): void => {
-    this.hasModalFooter = !!getSlotted(this.el, [SLOTS.back, SLOTS.primary, SLOTS.secondary]);
+    this.hasFooter = !!getSlotted(this.el, [SLOTS.back, SLOTS.primary, SLOTS.secondary]);
   };
 
   private updateSizeCssVars = (): void => {

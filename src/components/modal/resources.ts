@@ -12,7 +12,7 @@ export const CSS = {
   overflowHidden: "overflow-hidden",
   container: "container",
   content: "content",
-  contentNoModalFooter: "content--no-modal-footer",
+  contentNoFooter: "content--no-footer",
   contentBottom: "content-bottom",
   contentTop: "content-top",
   slottedInShell: "slotted-in-shell",
