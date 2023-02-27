@@ -141,7 +141,7 @@ jobs:
             script: |
               const body = JSON.stringify({
                 action: context.payload.action,
-                data: context.payload.issue.labels,
+                data: JSON.stringify({labels: context.payload.issue.labels}),
                 owner: context.payload.repository.owner.login,
                 repo: context.payload.repository.name,
                 number: context.payload.issue.number.toString(),
