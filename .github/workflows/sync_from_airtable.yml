@@ -23,9 +23,9 @@ jobs:
      - uses: actions/github-script@v6
        id: find-existing-issue
        env:
-          NUMBER: '${$NUMBER}}'
-          OWNER: '${{$OWNER}}'
-          REPO: '${{$REPO}}'
+          NUMBER: '${{env.NUMBER}}'
+          OWNER: '${{env.OWNER}}'
+          REPO: '${{env.REPO}}'
        with:
          script: |
            return github.rest.issues.get({
