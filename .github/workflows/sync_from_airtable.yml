@@ -19,78 +19,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
      - uses: actions/github-script@v6
-       id: find-existing-issue
+       id: my-script
        with:
-          script: |
-            github.rest.issues.get({
-              issue_number: 44,
-              owner: 'Esri',
-              repo: 'calcite-design-tokens,
-            });
-            
-#     outputs:
-#       github_issue: ${{ steps.output-result.outputs.result }}      
-#      - id: output-result
-#        run: echo "result=${{steps.find-existing-issue.outputs.result}}" >> $GITHUB_OUTPUT
-  
-#   assigned_unassigned:
-#     name: Assign or Unassign
-#     needs: existing_issue
-#     if: ${{ (needs.existing-issue.outputs.github_issue !== undefined) && (ACTION === 'assigned/unassigned') }}
-#     runs-on: ubuntu-latest
-#     steps:
-#      - uses: actions/github-script@v6
-#        with:
-#           script: |
-#               console.log(process.env.ACTION)
-#   labeled_unlabeled:
-#     name: Label or UnLabel
-#     needs: existing_issue
-#     if: ${{ (needs.existing-issue.outputs.github_issue !== undefined) && (ACTION === 'labeled/unlabeled') }}
-#     runs-on: ubuntu-latest
-#     steps:
-#       - uses: actions/github-script@v6
-#         with:
-#             script: |
-#               console.log(process.env.ACTION)
-#   milestoned_demilestoned:
-#     name: Milestone or DeMilestone
-#     needs: existing_issue
-#     if: ${{ (needs.existing-issue.outputs.github_issue !== undefined) && (ACTION === 'milestoned/demilestoned') }}
-#     runs-on: ubuntu-latest
-#     steps:
-#       - uses: actions/github-script@v6
-#         with:
-#             script: |
-#               console.log(process.env.ACTION)
-#   open_closed:
-#     name: Opened, ReOpened, or Closed
-#     needs: existing_issue
-#     if: ${{ (needs.existing-issue.outputs.github_issue !== undefined) && (ACTION === 'open/closed') }}
-#     runs-on: ubuntu-latest
-#     steps:
-#       - uses: actions/github-script@v6
-#         with:
-#             script: |
-#               console.log(process.env.ACTION)
-#   edited:
-#     name: Edited
-#     needs: existing_issue
-#     if: ${{ (needs.existing-issue.outputs.github_issue !== undefined) && (ACTION === 'edited') }}
-#     runs-on: ubuntu-latest
-#     steps:
-#       - uses: actions/github-script@v6
-#         with:
-#             script: |
-#               console.log(process.env.ACTION)
-#   new_issue:
-#     name: Create New Issue
-#     needs: existing_issue
-#     if: ${{(ACTION === 'edited') && (needs.existing-issue.outputs.github_issue == undefined)}}
-#     runs-on: ubuntu-latest
-#     steps:
-#       - uses: actions/github-script@v6
-#         with:
-#             script: |
-#               console.log(process.env.ACTION)
-              
+         result-encoding: string
+         retries: 3
+         script: |
+           github.rest.issues.get({
+             issue_number: 44,
+             owner: 'Esri',
+             repo: 'calcite-design-tokens',
+           })
