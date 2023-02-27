@@ -29,7 +29,7 @@ jobs:
              issue_number: 44,
              owner: 'Esri',
              repo: 'calcite-design-tokens',
-           }).then((result) => result.json()).then((results) => JSON.stringify(results));
+           }).then((results) => JSON.stringify(results));
      - id: output-result
        run: echo "result=${{ steps.find-existing-issue.outputs.result }}" >> $GITHUB_OUTPUT
 #   assigned_unassigned:
