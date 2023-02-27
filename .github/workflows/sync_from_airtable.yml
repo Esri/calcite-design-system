@@ -24,7 +24,7 @@ jobs:
          result-encoding: string
          retries: 3
          script: |
-           github.rest.issues.get({
+           return github.rest.issues.get({
              issue_number: 44,
              owner: 'Esri',
              repo: 'calcite-design-tokens',
