@@ -12,7 +12,7 @@
             "type": "color"
           }
         },
-        "outline": {
+        "outline-fill": {
           "light": {
             "value": "$semantic.ui.color.brand.default.light",
             "type": "color"
@@ -22,7 +22,7 @@
             "type": "color"
           }
         },
-        "clear": {
+        "outline": {
           "light": {
             "value": "$semantic.ui.color.brand.default.light",
             "type": "color"
@@ -44,7 +44,7 @@
         }
       },
       "sm": {
-        "value": "$semantic.font.default.bold.-3h",
+        "value": "$semantic.font.default.bold.-2h",
         "type": "typography"
       },
       "md": {
@@ -66,7 +66,7 @@
             "type": "color"
           }
         },
-        "outline": {
+        "outline-fill": {
           "light": {
             "value": "$semantic.ui.color.text.1.light",
             "type": "color"
@@ -76,7 +76,7 @@
             "type": "color"
           }
         },
-        "clear": {
+        "outline": {
           "light": {
             "value": "$semantic.ui.color.text.1.light",
             "type": "color"
@@ -108,7 +108,7 @@
             "type": "color"
           }
         },
-        "outline": {
+        "outline-fill": {
           "light": {
             "value": "$semantic.ui.color.text.1.light",
             "type": "color"
@@ -118,7 +118,7 @@
             "type": "color"
           }
         },
-        "clear": {
+        "outline": {
           "light": {
             "value": "$semantic.ui.color.text.1.light",
             "type": "color"
@@ -150,7 +150,7 @@
             "type": "color"
           }
         },
-        "outline": {
+        "outline-fill": {
           "light": {
             "value": "$semantic.ui.color.danger.default.light",
             "type": "color"
@@ -160,7 +160,7 @@
             "type": "color"
           }
         },
-        "clear": {
+        "outline": {
           "light": {
             "value": "$semantic.ui.color.danger.default.light",
             "type": "color"
@@ -194,7 +194,7 @@
             "type": "color"
           }
         },
-        "outline": {
+        "outline-fill": {
           "light": {
             "value": "$semantic.ui.color.brand.default.light",
             "type": "color"
@@ -204,7 +204,7 @@
             "type": "color"
           }
         },
-        "clear": {
+        "outline": {
           "light": {
             "value": "$semantic.ui.color.brand.default.light",
             "type": "color"
@@ -236,7 +236,7 @@
             "type": "color"
           }
         },
-        "outline": {
+        "outline-fill": {
           "light": {
             "value": "$semantic.ui.color.text.1.light",
             "type": "color"
@@ -246,7 +246,7 @@
             "type": "color"
           }
         },
-        "clear": {
+        "outline": {
           "light": {
             "value": "$semantic.ui.color.text.1.light",
             "type": "color"
@@ -278,7 +278,7 @@
             "type": "color"
           }
         },
-        "outline": {
+        "outline-fill": {
           "light": {
             "value": "$semantic.ui.color.text.1.light",
             "type": "color"
@@ -288,7 +288,7 @@
             "type": "color"
           }
         },
-        "clear": {
+        "outline": {
           "light": {
             "value": "$semantic.ui.color.text.1.light",
             "type": "color"
@@ -320,7 +320,7 @@
             "type": "color"
           }
         },
-        "outline": {
+        "outline-fill": {
           "light": {
             "value": "$semantic.ui.color.danger.default.light",
             "type": "color"
@@ -330,7 +330,7 @@
             "type": "color"
           }
         },
-        "clear": {
+        "outline": {
           "light": {
             "value": "$semantic.ui.color.danger.default.light",
             "type": "color"
@@ -354,99 +354,195 @@
     },
     "border": {
       "blue": {
-        "light": {
-          "value": "$semantic.ui.color.brand.default.light",
-          "type": "color"
+        "solid": {
+          "light": {
+            "value": "$semantic.ui.color.brand.default.light",
+            "type": "color"
+          },
+          "dark": {
+            "value": "$semantic.ui.color.brand.default.dark",
+            "type": "color"
+          }
         },
-        "dark": {
-          "value": "$semantic.ui.color.brand.default.dark",
-          "type": "color"
+        "outline-fill": {
+          "light": {
+            "value": "$semantic.ui.color.brand.default.light",
+            "type": "color"
+          },
+          "dark": {
+            "value": "$semantic.ui.color.brand.default.dark",
+            "type": "color"
+          }
+        },
+        "outline": {
+          "light": {
+            "value": "$semantic.ui.color.brand.default.light",
+            "type": "color"
+          },
+          "dark": {
+            "value": "$semantic.ui.color.brand.default.dark",
+            "type": "color"
+          }
         }
       },
       "inverse": {
-        "light": {
-          "value": "$semantic.ui.color.inverse.light",
-          "type": "color"
+        "solid": {
+          "light": {
+            "value": "$semantic.ui.color.inverse.light",
+            "type": "color"
+          },
+          "dark": {
+            "value": "$semantic.ui.color.inverse.dark",
+            "type": "color"
+          }
         },
-        "dark": {
-          "value": "$semantic.ui.color.inverse.dark",
-          "type": "color"
+        "outline-fill": {
+          "light": {
+            "value": "$semantic.ui.color.inverse.light",
+            "type": "color"
+          },
+          "dark": {
+            "value": "$semantic.ui.color.inverse.dark",
+            "type": "color"
+          }
+        },
+        "outline": {
+          "light": {
+            "value": "$semantic.ui.color.inverse.light",
+            "type": "color"
+          },
+          "dark": {
+            "value": "$semantic.ui.color.inverse.dark",
+            "type": "color"
+          }
         }
       },
       "neutral": {
-        "light": {
-          "value": "$semantic.ui.color.border.3.light",
-          "type": "color"
+        "solid": {
+          "light": {
+            "value": "$semantic.ui.color.inverse.light",
+            "type": "color"
+          },
+          "dark": {
+            "value": "$semantic.ui.color.inverse.dark",
+            "type": "color"
+          }
         },
-        "dark": {
-          "value": "$semantic.ui.color.border.3.dark",
-          "type": "color"
+        "outline-fill": {
+          "light": {
+            "value": "$semantic.ui.color.inverse.light",
+            "type": "color"
+          },
+          "dark": {
+            "value": "$semantic.ui.color.inverse.dark",
+            "type": "color"
+          }
+        },
+        "outline": {
+          "light": {
+            "value": "$semantic.ui.color.inverse.light",
+            "type": "color"
+          },
+          "dark": {
+            "value": "$semantic.ui.color.inverse.dark",
+            "type": "color"
+          }
         }
       },
       "red": {
-        "light": {
-          "value": "$semantic.ui.color.danger.default.light",
-          "type": "color"
+        "solid": {
+          "light": {
+            "value": "$semantic.ui.color.danger.default.light",
+            "type": "color"
+          },
+          "dark": {
+            "value": "$semantic.ui.color.danger.default.dark",
+            "type": "color"
+          }
         },
-        "dark": {
-          "value": "$semantic.ui.color.danger.default.dark",
-          "type": "color"
+        "outline-fill": {
+          "light": {
+            "value": "$semantic.ui.color.danger.default.light",
+            "type": "color"
+          },
+          "dark": {
+            "value": "$semantic.ui.color.danger.default.dark",
+            "type": "color"
+          }
+        },
+        "outline": {
+          "light": {
+            "value": "$semantic.ui.color.danger.default.light",
+            "type": "color"
+          },
+          "dark": {
+            "value": "$semantic.ui.color.danger.default.dark",
+            "type": "color"
+          }
         }
       }
     },
     "background": {
       "blue": {
-        "light": {
-          "value": "$semantic.ui.color.brand.default.light",
-          "type": "color"
-        },
-        "dark": {
-          "value": "$semantic.ui.color.brand.default.dark",
-          "type": "color"
+        "solid": {
+          "light": {
+            "value": "$semantic.ui.color.brand.default.light",
+            "type": "color"
+          },
+          "dark": {
+            "value": "$semantic.ui.color.brand.default.dark",
+            "type": "color"
+          }
         }
       },
       "inverse": {
-        "light": {
-          "value": "$semantic.ui.color.inverse.light",
-          "type": "color"
-        },
-        "dark": {
-          "value": "$semantic.ui.color.inverse.dark",
-          "type": "color"
+        "solid": {
+          "light": {
+            "value": "$semantic.ui.color.inverse.light",
+            "type": "color"
+          },
+          "dark": {
+            "value": "$semantic.ui.color.inverse.dark",
+            "type": "color"
+          }
         }
       },
       "neutral": {
-        "light": {
-          "value": "$semantic.ui.color.foreground.1.light",
-          "type": "color"
-        },
-        "dark": {
-          "value": "$semantic.ui.color.foreground.1.dark",
-          "type": "color"
+        "solid": {
+          "light": {
+            "value": "$semantic.ui.color.foreground.1.light",
+            "type": "color"
+          },
+          "dark": {
+            "value": "$semantic.ui.color.foreground.1.dark",
+            "type": "color"
+          }
         }
       },
       "red": {
-        "light": {
-          "value": "$semantic.ui.color.danger.default.light",
-          "type": "color"
-        },
-        "dark": {
-          "value": "$semantic.ui.color.danger.default.dark",
-          "type": "color"
+        "solid": {
+          "light": {
+            "value": "$semantic.ui.color.danger.default.light",
+            "type": "color"
+          },
+          "dark": {
+            "value": "$semantic.ui.color.danger.default.dark",
+            "type": "color"
+          }
         }
       }
     },
     "border-radius": {
       "sm": {
-        "value": "$core.border.border-radius.4",
+        "value": "$core.border.border-radius.none",
         "type": "borderRadius"
       },
       "md": {
-        "value": "$core.border.border-radius.5",
+        "value": "$core.border.border-radius.none",
         "type": "borderRadius"
       },
       "lg": {
-        "value": "$core.border.border-radius.6",
+        "value": "$core.border.border-radius.none",
         "type": "borderRadius"
       }
     },
@@ -456,11 +552,11 @@
         "type": "borderWidth"
       },
       "md": {
-        "value": "$core.border.border-width.2",
+        "value": "$core.border.border-width.0",
         "type": "borderWidth"
       },
       "lg": {
-        "value": "$core.border.border-width.4",
+        "value": "$core.border.border-width.0",
         "type": "borderWidth"
       }
     },
@@ -484,11 +580,11 @@
         "type": "sizing"
       },
       "md": {
-        "value": "$core.sizing.9",
+        "value": "$core.sizing.7",
         "type": "sizing"
       },
       "lg": {
-        "value": "$core.sizing.11",
+        "value": "$core.sizing.7",
         "type": "sizing"
       }
     },
