@@ -6,7 +6,6 @@ on:
     types: [airtable-update]
 
 env:
-  ACTION: ${{ github.event.client_payload.action }}
   DATA: ${{ toJSON(github.event.client_payload.data) }}
   NUMBER: ${{ github.event.client_payload.number }}
   TITLE: ${{ github.event.client_payload.title }}
@@ -36,10 +35,10 @@ jobs:
   test:
     name: Assign or Unassign
     needs: existing_issue
-    if: needs.existing-issue.outputs.github_issue.status == 200 && env.ACTION == 'assigned/unassigned'
+    if: needs.existing-issue.outputs.github_issue.status == 200 && github.event.client_payload.action == 'assigned/unassigned'
     runs-on: ubuntu-latest
     steps:
-     - run: echo "${{env.ACTION}}" 
+     - run: echo "${{env.DATA}}" 
 #      - uses: actions/github-script@v6
 #        with:
 #           script: |
