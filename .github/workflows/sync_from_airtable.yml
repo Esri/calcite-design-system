@@ -17,20 +17,19 @@ jobs:
   existing_issue:
     name: Find Existing Issue
     runs-on: ubuntu-latest
-    outputs:
-      github_issue: ${{ steps.output-result.outputs.result }}
     steps:
      - uses: actions/github-script@v6
        id: find-existing-issue
        with:
-          result-encoding: string
           script: |
-            const test = await github.rest.issues.get({
-                issue_number: 44,
-                owner: 'Esri',
-                repo: 'calcite-design-tokens,
-              });
-            return JSON.stringify(test)
+            github.rest.issues.get({
+              issue_number: 44,
+              owner: 'Esri',
+              repo: 'calcite-design-tokens,
+            });
+            
+#     outputs:
+#       github_issue: ${{ steps.output-result.outputs.result }}      
 #      - id: output-result
 #        run: echo "result=${{steps.find-existing-issue.outputs.result}}" >> $GITHUB_OUTPUT
   
