@@ -33,7 +33,7 @@ jobs:
              owner: 'Esri',
              repo: 'calcite-design-tokens',
            });
-           core.info(issue)
+           core.info(JSON.stringify(issue))
   debugger:
     name: Test for data
     needs: existing_issue
