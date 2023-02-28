@@ -28,11 +28,12 @@ jobs:
        with:
          script: |
            const { NUMBER, OWNER, REPO } = process.env;
-           return github.rest.issues.get({
-             issue_number: NUMBER,
-             owner: OWNER,
-             repo: REPO,
+           const issue = github.rest.issues.get({
+             issue_number: 44,
+             owner: 'Esri',
+             repo: 'calcite-design-tokens',
            });
+           core.info(issue)
   debugger:
     name: Test for data
     needs: existing_issue
@@ -47,12 +48,12 @@ jobs:
           script: |
               core.info(process.env.ISSUE)
               core.info(process.env.DATA)
-              core.info(process.env.ACTION)
+              core.info(process.env.ACTION )
     
   assigned_unassigned:
     name: Assign or Unassign
     needs: existing_issue
-    if: needs.existing-issue.outputs.github_issue.status == 200 && github.event.client_payload.action == 'assigned/unassigned'
+    if: (needs.existing-issue.outputs.github_issue.status == 200) && github.event.client_payload.action == 'assigned/unassigned'
     runs-on: ubuntu-latest
     steps:
      - uses: actions/github-script@v6
