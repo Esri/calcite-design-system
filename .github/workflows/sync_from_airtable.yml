@@ -80,14 +80,16 @@ jobs:
         DATA: ${{env.DATA}}
         ISSUE: ${{ needs.existing_issue.outputs.github_issue }}
        with:
+          result-encoding: string
           script: |
             const { OWNER, REPO, NUMBER, DATA } = process.env;
             const { assignees } = JSON.parse(DATA);
             
+            core.info(JSON.stringify(assignees))
+
             if (assignees) {
               const updateIssueData = { owner: OWNER, repo: REPO, issue_number: NUMBER, assignees };
 
-              core.log(JSON.stringify(updateIssueData, null, 4))
             }
             
             
