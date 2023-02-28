@@ -82,15 +82,11 @@ jobs:
        with:
           result-encoding: string
           script: |
-            const { OWNER, REPO, NUMBER, DATA } = process.env;
+            const { OWNER, REPO, NUMBER, DATA, ISSUE } = process.env;
             const { assignees } = JSON.parse(DATA);
 
             if (assignees) {
-              const issue = await github.rest.issues.get({
-                owner: OWNER,
-                repo: REPO,
-                issue_number: NUMBER,
-              });
+              const issue = JSON.parse(ISSUE);
               const updateIssueData = { owner: OWNER, repo: REPO, issue_number: NUMBER, assignees };
               
               core.info(JSON.stringify(issue, null, 2))
