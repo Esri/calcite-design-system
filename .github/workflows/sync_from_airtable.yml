@@ -77,15 +77,15 @@ jobs:
         NUMBER: ${{env.NUMBER}}
         OWNER: ${{env.OWNER}}
         REPO: ${{env.REPO}}
-        DATA: ${{env.DATA}}
+        DATA: ${{ fromJSON(env.DATA) }}
         ISSUE: ${{ needs.existing_issue.outputs.github_issue }}
        with:
           result-encoding: string
           script: |
             const { OWNER, REPO, NUMBER, DATA } = process.env;
-            const { assignees } = JSON.parse(DATA);
+            const { assignees } = DATA;
             
-            core.info(JSON.stringify(assignees))
+            core.info(JSON.stringify(DATA))
 
             if (assignees) {
               const updateIssueData = { owner: OWNER, repo: REPO, issue_number: NUMBER, assignees };
