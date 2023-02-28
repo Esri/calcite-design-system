@@ -33,7 +33,7 @@ jobs:
              owner: OWNER,
              repo: REPO,
            });
-           core.info(issue.status === 200 ? JSON.stringify(issue) : null)
+           return issue.status === 200 ? JSON.stringify(issue) : null;
   debugger:
     name: Test for data
     needs: existing_issue
