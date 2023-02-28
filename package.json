@@ -138,7 +138,7 @@
     "postcss": "8.4.20",
     "prettier": "2.8.1",
     "puppeteer": "10.0.0",
-    "quicktype-core": "6.1.0",
+    "quicktype-core": "23.0.9",
     "rimraf": "3.0.2",
     "semver": "7.3.8",
     "shell-quote": "1.7.4",
