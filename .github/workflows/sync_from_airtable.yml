@@ -33,8 +33,7 @@ jobs:
              owner: OWNER,
              repo: REPO,
            });
-           return issue.status === 200 ? JSON.stringify(issue) : null;
-         result-encoding: string
+           return issue.status === 200 ? issue : null;
   debugger:
     name: Test for data
     needs: existing_issue
@@ -42,7 +41,7 @@ jobs:
     steps:
      - uses: actions/github-script@v6
        env:
-          STATUS: ${{ toJSON(needs.existing_issue.outputs.github_issue).status }}
+          STATUS: ${{ needs.existing_issue.outputs.github_issue.status }}
           DATA: ${{env.DATA}}
           ACTION: ${{github.event.client_payload.action}}
           ISASSIGNED: ${{ github.event.client_payload.action == 'assigned/unassigned' }} 
