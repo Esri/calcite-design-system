@@ -9,10 +9,8 @@
   @apply hidden;
 }
 
-// Revisit: We don't normally clip actions to accommodate component heights, it’s inconsistent with how we normally handle slots.
-// This also results in clipping the top/bottom of the blue focus outline.
 .node-actions-container {
-  @apply overflow-hidden flex justify-between;
+  @apply flex justify-between;
 }
 
 @include calciteHydratedHidden();
@@ -22,9 +20,8 @@
   @apply text-n2h;
 
   .node-actions-container {
-    @apply h-6;
+    @apply min-h-[1.5rem];
     .node-container {
-      --calcite-tree-padding-y: theme("padding.1");
       .checkbox,
       .chevron,
       .checkmark,
@@ -35,9 +32,6 @@
         margin-inline: theme("margin.3");
       }
     }
-    .actions-end {
-      @apply inline-flex;
-    }
   }
 }
 
@@ -45,9 +39,8 @@
   @apply text-n1h;
 
   .node-actions-container {
-    @apply h-8;
+    @apply min-h-[2rem];
     .node-container {
-      --calcite-tree-padding-y: theme("padding.2");
       .checkbox,
       .chevron,
       .checkmark,
@@ -58,9 +51,6 @@
         margin-inline: theme("margin.3");
       }
     }
-    .actions-end {
-      @apply inline-flex;
-    }
   }
 }
 
@@ -68,9 +58,8 @@
   @apply text-0h;
 
   .node-actions-container {
-    @apply h-12;
+    @apply min-h-[2.75rem];
     .node-container {
-      --calcite-tree-padding-y: theme("padding.3");
       .checkbox,
       .chevron,
       .checkmark,
@@ -80,9 +69,6 @@
       .icon-start {
         margin-inline: theme("margin.3");
       }
-    }
-    .actions-end {
-      @apply inline-flex;
     }
   }
 }
@@ -133,8 +119,8 @@
   @apply focus-inset outline-none;
 }
 
-slot[name="actions-end"]::slotted(*) {
-  @apply flex self-stretch flex-row items-center overflow-visible;
+.actions-end {
+  @apply flex self-stretch flex-row items-center;
 }
 
 .checkbox {
@@ -167,8 +153,6 @@ slot[name="actions-end"]::slotted(*) {
 
 .node-container {
   @apply relative flex items-center;
-  padding-block: var(--calcite-tree-padding-y);
-  padding-inline: 0;
 
   .checkmark,
   .bullet-point {
