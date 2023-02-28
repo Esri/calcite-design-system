@@ -40,12 +40,14 @@ jobs:
     steps:
      - uses: actions/github-script@v6
        env:
-          DATA: env.DATA
-          ISSUE: needs.existing-issue.outputs.github_issue
+          DATA: ${{env.DATA}}
+          ISSUE: ${{needs.existing-issue.outputs.github_issue}}
+          ACTION: ${{github.event.client_payload.action}}
        with:
           script: |
               core.info(process.env.ISSUE)
               core.info(process.env.DATA)
+              core.info(process.env.ACTION)
     
   assigned_unassigned:
     name: Assign or Unassign
