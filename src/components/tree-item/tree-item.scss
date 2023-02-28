@@ -152,7 +152,7 @@
 }
 
 .node-container {
-  @apply relative flex items-center;
+  @apply relative flex items-center min-w-0;
 
   .checkmark,
   .bullet-point {
