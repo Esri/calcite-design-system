@@ -55,29 +55,40 @@ jobs:
             return issue.status;
      - uses: actions/github-script@v6
        env:
-          STATUS: ${{ steps.set-status.outputs.result  }}
-          STATUS_2: ${{ fromJSON(needs.existing_issue.outputs.github_issue).status }}
+          STATUS: ${{ fromJSON(needs.existing_issue.outputs.github_issue).status == 200  }}
           DATA: ${{env.DATA}}
           ACTION: ${{github.event.client_payload.action}}
           ISASSIGNED: ${{ github.event.client_payload.action == 'assigned/unassigned' }} 
        with:
           script: |
               core.info(process.env.STATUS)
-              core.info(process.env.STATUS_2)
               core.info(process.env.DATA)
               core.info(process.env.ACTION )
               core.info(process.env.ISASSIGNED)
     
-#   assigned_unassigned:
-#     name: Assign or Unassign
-#     needs: existing_issue
-#     if: ${{needs.existing_issue.outputs.github_issue.status == 200 }} && (${{github.event.client_payload.action}} == 'assigned/unassigned')
-#     runs-on: ubuntu-latest
-#     steps:
-#      - uses: actions/github-script@v6
-#        with:
-#           script: |
-#               core.info(process.env.ACTION)
+  assigned_unassigned:
+    name: Assign or Unassign
+    needs: existing_issue
+    if: (fromJSON(needs.existing_issue.outputs.github_issue).status == 200 ) && (github.event.client_payload.action == 'assigned/unassigned')
+    runs-on: ubuntu-latest
+    steps:
+     - uses: actions/github-script@v6
+       env:
+        NUMBER: ${{env.NUMBER}}
+        OWNER: ${{env.OWNER}}
+        REPO: ${{env.REPO}}
+        DATA: ${{env.DATA}}
+        ISSUE: ${{ needs.existing_issue.outputs.github_issue }}
+       with:
+          script: |
+            const { OWNER, REPO, NUMBER, DATA } = process.env;
+            const { assignees } = JSON.parse(DATA);
+            
+            const updateIssueData = { owner: OWNER, repo: REPO, issue_number: NUMBER, assignees };
+
+            core.info(updateIssueData);
+            
+#            github.rest.issues.update(updateIssueData)
 #   labeled_unlabeled:
 #     name: Label or UnLabel
 #     needs: existing_issue
