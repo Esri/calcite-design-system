@@ -42,8 +42,8 @@ jobs:
     steps:
      - uses: actions/github-script@v6
        env:
-          ISSUE: ${{needs.existing_issue.outputs.github_issue}}
-          STATUS: ${{ toJSON(needs.existing_issue.outputs.github_issue.status) == "200" }}
+#           ISSUE: ${{needs.existing_issue.outputs.github_issue}}
+          STATUS: ${{ needs.existing_issue.outputs.github_issue.status }}
           DATA: ${{env.DATA}}
           ACTION: ${{github.event.client_payload.action}}
           ISASSIGNED: ${{ github.event.client_payload.action == 'assigned/unassigned' }} 
