@@ -33,7 +33,7 @@ jobs:
              owner: OWNER,
              repo: REPO,
            });
-           return issue.status === 200 ? JSON.stringify(issue) : null;
+           return issue.status === 200 ? issue : null;
      - id: output-step
        run: echo 'result=${{ toJSON(steps.find-existing-issue.outputs.result) }}' >> "$GITHUB_OUTPUT"
   debugger:
