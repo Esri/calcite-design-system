@@ -32,9 +32,6 @@
         margin-inline: theme("margin.3");
       }
     }
-    .actions-end {
-      @apply h-6 inline-flex;
-    }
   }
 }
 
@@ -54,9 +51,6 @@
         margin-inline: theme("margin.3");
       }
     }
-    .actions-end {
-      @apply h-8 inline-flex;
-    }
   }
 }
 
@@ -75,9 +69,6 @@
       .icon-start {
         margin-inline: theme("margin.3");
       }
-    }
-    .actions-end {
-      @apply h-12 inline-flex;
     }
   }
 }
@@ -128,14 +119,8 @@
   @apply focus-inset outline-none;
 }
 
-slot[name="actions-end"]::slotted(*) {
-  @apply flex self-stretch flex-row items-center overflow-visible;
-}
-
 .actions-end {
-  // Revisit: We don't normally clip actions to accommodate component heights, it’s inconsistent with how we normally handle slots.
-  // This also results in clipping the top/bottom of the blue focus outline.
-  @apply overflow-hidden;
+  @apply flex self-stretch flex-row items-center;
 }
 
 .checkbox {
