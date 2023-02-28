@@ -43,10 +43,10 @@ jobs:
      - uses: actions/github-script@v6
        env:
           ISSUE: ${{needs.existing_issue.outputs.github_issue}}
-          STATUS: ${{needs.existing_issue.outputs.github_issue.status == '200' }}
+          STATUS: ${{ fromJSON(needs.existing_issue.outputs.github_issue.status) == 200 }}
           DATA: ${{env.DATA}}
           ACTION: ${{github.event.client_payload.action}}
-          ISASSIGNED: ${{github.event.client_payload.action}} == 'assigned/unassigned'
+          ISASSIGNED: ${{ github.event.client_payload.action == 'assigned/unassigned' }} 
        with:
           script: |
               core.info(process.env.ISSUE)
