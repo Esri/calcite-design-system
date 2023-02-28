@@ -17,7 +17,7 @@ jobs:
     name: Find Existing Issue
     runs-on: ubuntu-latest
     outputs:
-      github_issue: ${{ steps.find-existing-issue.outputs.result }}
+      github_issue: ${{ steps.output-step.outputs.result }}
     steps:
      - uses: actions/github-script@v6
        id: find-existing-issue
@@ -34,6 +34,8 @@ jobs:
              repo: REPO,
            });
            return issue.status === 200 ? JSON.stringify(issue) : null;
+     - id: output-step
+       run: echo 'result=${{ toJSON(steps.find-existing-issue.outputs.result) }}' >> "$GITHUB_OUTPUT"
   debugger:
     name: Test for data
     needs: existing_issue
@@ -41,8 +43,8 @@ jobs:
     steps:
      - uses: actions/github-script@v6
        env:
+          ISSUE: ${{needs.existing_issue.outputs.github_issue}}
           DATA: ${{env.DATA}}
-          ISSUE: ${{needs.existing-issue.outputs.github_issue}}
           ACTION: ${{github.event.client_payload.action}}
        with:
           script: |
