@@ -30,12 +30,9 @@ jobs:
            const { NUMBER, OWNER, REPO } = process.env;
            const issue = await github.rest.issues.get({
              issue_number: NUMBER,
-             owner: 'Esri',
-             repo: 'calcite-design-tokens',
+             owner: OWNER,
+             repo: REPO,
            });
-           core.info(NUMBER)
-           core.info(OWNER)
-           core.info(REPO)
            core.info(issue.status === 200 ? JSON.stringify(issue) : null)
   debugger:
     name: Test for data
