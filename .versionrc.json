@@ -1,7 +1,5 @@
 {
   "commitAll": true,
-  "noVerify": true,
-  "releaseCommitMessageFormat": "{{currentTag}}",
   "skip": {
     "changelog": true
   },

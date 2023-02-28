@@ -226,7 +226,7 @@ export const actionsEndQueued_TestOnly = (): string => html`
   </script>
 `;
 
-export const autoClosableeRetainsCloseButton_TestOnly = (): string => html`
+export const autoClosableRetainsCloseButton_TestOnly = (): string => html`
   <style>
     :root {
       --calcite-duration-factor: 0;

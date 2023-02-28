@@ -1,0 +1,187 @@
+name: Sync to Airtable
+
+on:
+  issues:
+    types: [assigned, closed, demilestoned, edited, labeled, milestoned, opened, reopened, unassigned, unlabeled]
+
+jobs:
+  issue_assigned:
+    runs-on: ubuntu-latest
+    if: github.event.action == 'assigned' || github.event.action == 'unassigned'
+    steps:
+      - name: Set Data
+        id: set-assigned-data
+        uses: actions/github-script@v6
+        env:
+          SECRET: ${{ secrets.AIRTABLE_KEY }}
+          WEBHOOK: ${{ secrets.AIRTABLE_WEBHOOK }}
+        with:
+          script: |
+            const { action, issue, repository } = context.payload;
+            const body = JSON.stringify({
+              action,
+              data: JSON.stringify({ assignees: issue.assignees }),
+              owner: repository.owner.login,
+              repo: repository.name,
+              number: issue.number.toString(),
+              secret: process.env.SECRET,
+              title: issue.title,
+            });
+            return fetch(process.env.WEBHOOK, {
+              body,
+              headers: {
+                "Content-Type": "application/json"
+              },
+              method: "POST"
+            });
+  issue_closed:
+    runs-on: ubuntu-latest
+    if: github.event.action == 'closed'
+    steps:
+      - name: Set Data
+        id: set-closed-data
+        uses: actions/github-script@v6
+        env:
+          SECRET: ${{ secrets.AIRTABLE_KEY }}
+          WEBHOOK: ${{ secrets.AIRTABLE_WEBHOOK }}
+        with:
+          script: |
+            const { action, issue, repository } = context.payload;
+            const body = JSON.stringify({
+              action,
+              data: issue.closed_at,
+              owner: repository.owner.login,
+              repo: repository.name,
+              number: issue.number.toString(),
+              secret: process.env.SECRET,
+              title: issue.title,
+            });
+            return fetch(process.env.WEBHOOK, {
+              body,
+              headers: {
+                "Content-Type": "application/json"
+              },
+              method: "POST"
+            });
+  issue_milestoned:
+    runs-on: ubuntu-latest
+    if: github.event.action == 'demilestoned' || github.event.action == 'milestoned'
+    steps:
+      - name: Set Data
+        id: set-demilestoned-data
+        uses: actions/github-script@v6
+        env:
+          SECRET: ${{ secrets.AIRTABLE_KEY }}
+          WEBHOOK: ${{ secrets.AIRTABLE_WEBHOOK }}
+        with:
+          script: |
+            const { action, issue, repository } = context.payload;
+            const body = JSON.stringify({
+              action,
+              data: JSON.stringify(issue.milestone || null),
+              owner: repository.owner.login,
+              repo: repository.name,
+              number: issue.number.toString(),
+              secret: process.env.SECRET,
+              title: issue.title,
+            });
+            return fetch(process.env.WEBHOOK, {
+              body,
+              headers: {
+                "Content-Type": "application/json"
+              },
+              method: "POST"
+            });
+  issue_edited:
+    runs-on: ubuntu-latest
+    if: github.event.action == 'edited'
+    steps:
+      - name: Set Data
+        id: set-edited-data
+        uses: actions/github-script@v6
+        env:
+          SECRET: ${{ secrets.AIRTABLE_KEY }}
+          WEBHOOK: ${{ secrets.AIRTABLE_WEBHOOK }}
+        with:
+          script: |
+            const { action, issue, changes, repository } = context.payload;
+            const body = JSON.stringify({
+              action,
+              changes: JSON.stringify(changes || null),
+              data: JSON.stringify(Object.keys(changes).reduce((acc, key) => {
+                acc[key] = issue[key]
+                return acc;
+              }, {})),
+              owner: repository.owner.login,
+              repo: repository.name,
+              number: issue.number.toString(),
+              secret: process.env.SECRET,
+              title: changes['title']
+                ? changes['title'].from
+                : issue.title,
+            });
+            return fetch(process.env.WEBHOOK, {
+              body,
+              headers: {
+                "Content-Type": "application/json"
+              },
+              method: "POST"
+            });
+  issue_labeled:
+    runs-on: ubuntu-latest
+    if: github.event.action == 'labeled' || github.event.action == 'unlabeled'
+    steps:
+      - name: Set Data
+        id: set-labeled-data
+        uses: actions/github-script@v6
+        env:
+          SECRET: ${{ secrets.AIRTABLE_KEY }}
+          WEBHOOK: ${{ secrets.AIRTABLE_WEBHOOK }}
+        with:
+          script: |
+            const { action, issue, repository } = context.payload;
+            const body = JSON.stringify({
+              action,
+              data: JSON.stringify({labels: issue.labels}),
+              owner: repository.owner.login,
+              repo: repository.name,
+              number: issue.number.toString(),
+              secret: process.env.SECRET,
+              title: issue.title,
+            });
+            return fetch(process.env.WEBHOOK, {
+              body,
+              headers: {
+                "Content-Type": "application/json"
+              },
+              method: "POST"
+            });
+  issue_opened:
+    runs-on: ubuntu-latest
+    if: github.event.action == 'opened' || github.event.action == 'reopened'
+    steps:
+      - name: Set Data
+        id: set-opened-data
+        uses: actions/github-script@v6
+        env:
+          SECRET: ${{ secrets.AIRTABLE_KEY }}
+          WEBHOOK: ${{ secrets.AIRTABLE_WEBHOOK }}
+        with:
+          script: |
+            const { action, issue, repository } = context.payload;
+            const body = JSON.stringify({
+              action,
+              data: JSON.stringify(issue),
+              owner: repository.owner.login,
+              repo: repository.name,
+              number: issue.number.toString(),
+              secret: process.env.SECRET,
+              title: issue.title,
+            });
+            return fetch(process.env.WEBHOOK, {
+              body,
+              headers: {
+                "Content-Type": "application/json"
+              },
+              method: "POST"
+            });

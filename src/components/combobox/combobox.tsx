@@ -1233,7 +1233,7 @@ export class Combobox
           aria-controls={`${listboxUidPrefix}${guid}`}
           aria-expanded={toAriaBoolean(open)}
           aria-haspopup="listbox"
-          aria-labelledby={`${labelUidPrefix}${guid}`}
+          aria-label={getLabelText(this)}
           aria-live="polite"
           aria-owns={`${listboxUidPrefix}${guid}`}
           class={{

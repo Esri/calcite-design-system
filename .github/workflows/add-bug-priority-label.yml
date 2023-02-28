@@ -1,4 +1,4 @@
-name: Add Esri Product Label
+name: Add Bug Priority Label
 on:
   issues:
     types: [opened, edited]
@@ -22,45 +22,45 @@ jobs:
               return;
             }
 
-            const productRegex = new RegExp(
+            const bugPriorityRegex = new RegExp(
               action === "edited"
                 ? // the way GitHub parses the issue body into plaintext
                   // requires this exact format for edits
-                  "(?<=### Esri team\r\n\r\n).+"
+                  "(?<=### Priority impact\r\n\r\n).+"
                 : // otherwise it depends on the submitter's OS
-                  "(?<=### Esri team[\r\n|\r|\n]{2}).+$",
+                  "(?<=### Priority impact[\r\n|\r|\n]{2}).+$",
               "m"
             );
 
-            const productRegexMatch = body.match(productRegex);
+            const bugPriorityRegexMatch = body.match(bugPriorityRegex);
 
-            const product = (
-              productRegexMatch && productRegexMatch[0] ? productRegexMatch[0] : ""
+            const bugPriority = (
+              bugPriorityRegexMatch && bugPriorityRegexMatch[0] ? bugPriorityRegexMatch[0] : ""
             ).trim();
 
-            if (product && product !== "N/A") {
+            if (bugPriority && bugPriority !== "N/A") {
               /** Creates a label if it does not exist */
               try {
                 await github.rest.issues.getLabel({
                   owner,
                   repo,
-                  name: product,
+                  name: bugPriority,
                 });
-              } catch (e) {
+              } catch (error) {
                 await github.rest.issues.createLabel({
                   owner,
                   repo,
-                  name: product,
-                  color: "006B75",
-                  description: `Issues logged by ${product} team members.`,
+                  name: bugPriority,
+                  color: "bb7fe0",
+                  description: `User set priority status of ${bugPriority}`,
                 });
               }
 
-              /** add new product label */
+              /** add new bug priority label */
               await github.rest.issues.addLabels({
                 issue_number,
                 owner,
                 repo,
-                labels: [product],
+                labels: [bugPriority],
               });
             }
