@@ -28,7 +28,7 @@ jobs:
        with:
          script: |
            const { NUMBER, OWNER, REPO } = process.env;
-           const issue = github.rest.issues.get({
+           const issue = await github.rest.issues.get({
              issue_number: 44,
              owner: 'Esri',
              repo: 'calcite-design-tokens',
