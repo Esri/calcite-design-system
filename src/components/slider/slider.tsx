@@ -24,7 +24,7 @@ import {
 } from "../../utils/form";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import { isActivationKey } from "../../utils/key";
-import { connectLabel, disconnectLabel, LabelableComponent } from "../../utils/label";
+import { connectLabel, disconnectLabel, LabelableComponent, getLabelText } from "../../utils/label";
 import {
   componentLoaded,
   LoadableComponent,
@@ -637,6 +637,7 @@ export class Slider
     return (
       <Host id={id} onTouchStart={this.handleTouchStart}>
         <div
+          aria-label={getLabelText(this)}
           class={{
             ["container"]: true,
             ["container--range"]: valueIsRange,
