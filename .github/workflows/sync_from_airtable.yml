@@ -26,6 +26,7 @@ jobs:
           OWNER: '${{env.OWNER}}'
           REPO: '${{env.REPO}}'
        with:
+         result-encoding: string
          script: |
            const { NUMBER, OWNER, REPO } = process.env;
            const issue = await github.rest.issues.get({
@@ -34,6 +35,7 @@ jobs:
              repo: REPO,
            });
            return issue.status === 200 ? JSON.stringify(issue) : '';
+        
   debugger:
     name: Test for data
     needs: existing_issue
