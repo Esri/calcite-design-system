@@ -53,7 +53,7 @@ jobs:
   assigned_unassigned:
     name: Assign or Unassign
     needs: existing_issue
-    if: needs.existing-issue.outputs.github_issue.status && github.event.client_payload.action == 'assigned/unassigned'
+    if: (needs.existing-issue.outputs.github_issue.status == 200) && (github.event.client_payload.action == 'assigned/unassigned')
     runs-on: ubuntu-latest
     steps:
      - uses: actions/github-script@v6
