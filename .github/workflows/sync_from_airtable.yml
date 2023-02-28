@@ -45,10 +45,11 @@ jobs:
           ISSUE: ${{ needs.existing_issue.outputs.github_issue }}
        with:
           script: |
-            const issueData = JSON.parse(process.env.ISSUE);
+            const { status, title }  = JSON.parse(process.env.ISSUE);
             
-            core.info(issueData.status)
-            return issueData.status;
+            core.info(status)
+            core.info(title)
+            return status;
      - uses: actions/github-script@v6
        env:
           STATUS: ${{ steps.set-status.outputs.result  }}
