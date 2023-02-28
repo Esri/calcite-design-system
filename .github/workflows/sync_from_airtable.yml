@@ -39,15 +39,24 @@ jobs:
     needs: existing_issue
     runs-on: ubuntu-latest
     steps:
+     - id: set-status
+       uses: actions/github-script@v6
+       env:
+          ISSUE: ${{ needs.existing_issue.outputs.github_issue }}
+       with:
+          script: |
+            const issueData = JSON.parse(process.env.ISSUE);
+            
+            core.info(issueData.status)
+            return status;
      - uses: actions/github-script@v6
        env:
-          STATUS: ${{ fromJSON(needs.existing_issue.outputs.github_issue).status }}
+          STATUS: ${{ steps.set-status.outputs.result  }}
           DATA: ${{env.DATA}}
           ACTION: ${{github.event.client_payload.action}}
           ISASSIGNED: ${{ github.event.client_payload.action == 'assigned/unassigned' }} 
        with:
           script: |
-              core.info(process.env.ISSUE)
               core.info(process.env.STATUS)
               core.info(process.env.DATA)
               core.info(process.env.ACTION )
