@@ -86,11 +86,12 @@ jobs:
             const { assignees } = JSON.parse(DATA);
 
             if (assignees) {
-              const currentTime = new Date().getTime()
               const issue = JSON.parse(ISSUE);
+              const issueUpdateTime = issue.updated_at.getTime();
+              const currentTime = new Date().getTime();
               const updateIssueData = { owner: OWNER, repo: REPO, issue_number: NUMBER, assignees };
               
-              const difference = currentTime.getTime() - issue.updated_at.getTime();
+              const difference = currentTime - issueUpdateTime;
               const getDifferenceInMinutes = (ms) => ms / 1000 / 60;
 
               if (getDifferenceInMinutes > 2) {
