@@ -27,80 +27,82 @@ jobs:
           REPO: '${{env.REPO}}'
        with:
          script: |
+           const { NUMBER, OWNER, REPO } = process.env;
            return github.rest.issues.get({
-             issue_number: 44,
-             owner: 'Esri',
-             repo: 'calcite-design-tokens',
+             issue_number: NUMBER,
+             owner: OWNER,
+             repo: REPO,
            });
-  test:
+  debugger:
+    name: Test for data
+    needs: existing_issue
+    runs-on: ubuntu-latest
+    steps:
+     - uses: actions/github-script@v6
+       env:
+          DATA: '${{env.DATA}}'
+       with:
+          script: |
+              core.info(needs.existing-issue.outputs.github_issue)
+              core.info(process.env.DATA)
+    
+  assigned_unassigned:
     name: Assign or Unassign
     needs: existing_issue
     if: needs.existing-issue.outputs.github_issue.status == 200 && github.event.client_payload.action == 'assigned/unassigned'
     runs-on: ubuntu-latest
     steps:
-     - run: echo "${{env.DATA}}" 
-#      - uses: actions/github-script@v6
-#        with:
-#           script: |
-#               core.info(needs.existing-issue.outputs.github_issue)
-    
-#   assigned_unassigned:
-#     name: Assign or Unassign
-#     needs: existing_issue
-#     if: ${{ (needs.existing-issue.outputs.github_issue !== undefined) && (ACTION === 'assigned/unassigned') }}
-#     runs-on: ubuntu-latest
-#     steps:
-#      - uses: actions/github-script@v6
-#        with:
-#           script: |
-#               console.log(process.env.ACTION)
-#   labeled_unlabeled:
-#     name: Label or UnLabel
-#     needs: existing_issue
-#     if: ${{ (needs.existing-issue.outputs.github_issue !== undefined) && (ACTION === 'labeled/unlabeled') }}
-#     runs-on: ubuntu-latest
-#     steps:
-#       - uses: actions/github-script@v6
-#         with:
-#             script: |
-#               console.log(process.env.ACTION)
-#   milestoned_demilestoned:
-#     name: Milestone or DeMilestone
-#     needs: existing_issue
-#     if: ${{ (needs.existing-issue.outputs.github_issue !== undefined) && (ACTION === 'milestoned/demilestoned') }}
-#     runs-on: ubuntu-latest
-#     steps:
-#       - uses: actions/github-script@v6
-#         with:
-#             script: |
-#               console.log(process.env.ACTION)
-#   open_closed:
-#     name: Opened, ReOpened, or Closed
-#     needs: existing_issue
-#     if: ${{ (needs.existing-issue.outputs.github_issue !== undefined) && (ACTION === 'open/closed') }}
-#     runs-on: ubuntu-latest
-#     steps:
-#       - uses: actions/github-script@v6
-#         with:
-#             script: |
-#               console.log(process.env.ACTION)
-#   edited:
-#     name: Edited
-#     needs: existing_issue
-#     if: ${{ (needs.existing-issue.outputs.github_issue !== undefined) && (ACTION === 'edited') }}
-#     runs-on: ubuntu-latest
-#     steps:
-#       - uses: actions/github-script@v6
-#         with:
-#             script: |
-#               console.log(process.env.ACTION)
-#   new_issue:
-#     name: Create New Issue
-#     needs: existing_issue
-#     if: ${{(ACTION === 'edited') && (needs.existing-issue.outputs.github_issue == undefined)}}
-#     runs-on: ubuntu-latest
-#     steps:
-#       - uses: actions/github-script@v6
-#         with:
-#             script: |
-#               console.log(process.env.ACTION)
+     - uses: actions/github-script@v6
+       with:
+          script: |
+              core.info(process.env.ACTION)
+  labeled_unlabeled:
+    name: Label or UnLabel
+    needs: existing_issue
+    if: needs.existing-issue.outputs.github_issue.status == 200 && github.event.client_payload.action == 'labeled/unlabeled'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/github-script@v6
+        with:
+            script: |
+              core.info(process.env.ACTION)
+  milestoned_demilestoned:
+    name: Milestone or DeMilestone
+    needs: existing_issue
+    if: needs.existing-issue.outputs.github_issue.status == 200 && github.event.client_payload.action == 'milestoned/demilestoned'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/github-script@v6
+        with:
+            script: |
+              console.log(process.env.ACTION)
+  open_closed:
+    name: Opened, ReOpened, or Closed
+    needs: existing_issue
+    if: needs.existing-issue.outputs.github_issue.status == 200 && github.event.client_payload.action == 'opened/closed'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/github-script@v6
+        with:
+            script: |
+              core.info(process.env.ACTION)
+  edited:
+    name: Edited
+    needs: existing_issue
+    if: needs.existing-issue.outputs.github_issue.status == 200 && github.event.client_payload.action == 'edited'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/github-script@v6
+        with:
+            script: |
+              core.info(process.env.ACTION)
+  new_issue:
+    name: Create New Issue
+    needs: existing_issue
+    if: needs.existing-issue.outputs.github_issue.status != 200
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/github-script@v6
+        with:
+            script: |
+              core.info(process.env.ACTION)
