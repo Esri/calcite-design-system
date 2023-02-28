@@ -46,7 +46,9 @@ jobs:
        with:
           script: |
             const issue  = JSON.parse(process.env.ISSUE);
+            const keys = Object.keys(issue)
             
+            core.info(keys)
             core.info(issue)
             return issue;
      - uses: actions/github-script@v6
