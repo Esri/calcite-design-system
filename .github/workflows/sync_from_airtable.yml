@@ -43,13 +43,13 @@ jobs:
      - uses: actions/github-script@v6
        env:
           ISSUE: ${{needs.existing_issue.outputs.github_issue}}
-          ISOK: ${{ needs.existing_issue.outputs.github_issue }} == '200'
+          STATUS: ${{needs.existing_issue.outputs.github_issue.status == 200 }}
           DATA: ${{env.DATA}}
           ACTION: ${{github.event.client_payload.action}}
        with:
           script: |
               core.info(process.env.ISSUE)
-              core.info(process.env.ISOK)
+              core.info(process.env.STATUS)
               core.info(process.env.DATA)
               core.info(process.env.ACTION )
     
