@@ -84,11 +84,15 @@ jobs:
             const { OWNER, REPO, NUMBER, DATA } = process.env;
             const { assignees } = JSON.parse(DATA);
             
-            const updateIssueData = { owner: OWNER, repo: REPO, issue_number: NUMBER, assignees };
+            if (assignees) {
+              const updateIssueData = { owner: OWNER, repo: REPO, issue_number: NUMBER, assignees };
 
-            core.info(updateIssueData);
+              core.log(JSON.stringify(updateIssueData, null, 4))
+            }
             
-#          github.rest.issues.update(updateIssueData)
+            
+#   github.rest.issues.update(updateIssueData);          
+#          
 #   labeled_unlabeled:
 #     name: Label or UnLabel
 #     needs: existing_issue
