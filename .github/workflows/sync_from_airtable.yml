@@ -47,8 +47,8 @@ jobs:
           script: |
             const issueData = JSON.parse(process.env.ISSUE);
             
-            core.info(issueData["status"])
-            return issueData["status"];
+            core.info(issueData)
+            return issueData;
      - uses: actions/github-script@v6
        env:
           STATUS: ${{ steps.set-status.outputs.result  }}
