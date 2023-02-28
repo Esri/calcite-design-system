@@ -56,7 +56,6 @@ jobs:
      - uses: actions/github-script@v6
        env:
           STATUS: ${{ steps.set-status.outputs.result  }}
-          STATUS_1: ${{ fromJSON(needs.existing_issue.outputs.github_issue.status) }}
           STATUS_2: ${{ fromJSON(needs.existing_issue.outputs.github_issue).status }}
           DATA: ${{env.DATA}}
           ACTION: ${{github.event.client_payload.action}}
@@ -64,7 +63,6 @@ jobs:
        with:
           script: |
               core.info(process.env.STATUS)
-              core.info(process.env.STATUS_1)
               core.info(process.env.STATUS_2)
               core.info(process.env.DATA)
               core.info(process.env.ACTION )
