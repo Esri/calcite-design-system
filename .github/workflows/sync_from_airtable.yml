@@ -87,13 +87,9 @@ jobs:
 
             if (assignees) {
               const updateIssueData = { owner: OWNER, repo: REPO, issue_number: NUMBER, assignees };
-              core.info(JSON.stringify(updateIssueData))
+              github.rest.issues.update(updateIssueData);
             }
-            
-             core.info(JSON.stringify(assignees))
-            
-            
-#   github.rest.issues.update(updateIssueData);          
+#             
 #          
 #   labeled_unlabeled:
 #     name: Label or UnLabel
