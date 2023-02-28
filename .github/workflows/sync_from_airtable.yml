@@ -40,10 +40,11 @@ jobs:
     steps:
      - uses: actions/github-script@v6
        env:
-          DATA: '${{env.DATA}}'
+          DATA: env.DATA
+          ISSUE: needs.existing-issue.outputs.github_issue
        with:
           script: |
-              core.info(needs.existing-issue.outputs.github_issue)
+              core.info(process.env.ISSUE)
               core.info(process.env.DATA)
     
   assigned_unassigned:
