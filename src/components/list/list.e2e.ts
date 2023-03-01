@@ -107,16 +107,15 @@ describe("calcite-list", () => {
     const list = await page.find("calcite-list");
     const filter = await page.find(`calcite-list >>> calcite-filter`);
     expect(await list.getProperty("filteredItems")).toHaveLength(2);
-    expect(await list.getProperty("filteredData")).toHaveLength(0);
+    expect(await list.getProperty("filteredData")).toHaveLength(2);
     expect(await list.getProperty("filterText")).toBeUndefined();
 
     await filter.callMethod("setFocus");
 
-    const calciteFilterChangeEvent = filter.waitForEvent("calciteFilterChange");
     const calciteListFilterEvent = page.waitForEvent("calciteListFilter");
     await page.keyboard.type("one");
     await page.waitForTimeout(debounceTimeout);
-    await calciteFilterChangeEvent;
+    await page.waitForChanges();
     await calciteListFilterEvent;
     expect(await list.getProperty("filteredItems")).toHaveLength(1);
     expect(await list.getProperty("filteredData")).toHaveLength(1);
@@ -127,25 +126,47 @@ describe("calcite-list", () => {
     await page.keyboard.press("Backspace");
     await page.waitForChanges();
 
-    const calciteFilterChangeEvent2 = filter.waitForEvent("calciteFilterChange");
     const calciteListFilterEvent2 = page.waitForEvent("calciteListFilter");
     await page.keyboard.type("two");
     await page.waitForTimeout(debounceTimeout);
-    await calciteFilterChangeEvent2;
+    await page.waitForChanges();
     await calciteListFilterEvent2;
     expect(await list.getProperty("filteredItems")).toHaveLength(1);
     expect(await list.getProperty("filteredData")).toHaveLength(1);
     expect(await list.getProperty("filterText")).toBe("two");
 
-    const calciteFilterChangeEvent3 = filter.waitForEvent("calciteFilterChange");
     const calciteListFilterEvent3 = page.waitForEvent("calciteListFilter");
     await page.keyboard.type("blah");
     await page.waitForTimeout(debounceTimeout);
-    await calciteFilterChangeEvent3;
+    await page.waitForChanges();
     await calciteListFilterEvent3;
     expect(await list.getProperty("filteredItems")).toHaveLength(0);
     expect(await list.getProperty("filteredData")).toHaveLength(0);
     expect(await list.getProperty("filterText")).toBe("twoblah");
+  });
+
+  it("filters initially", async () => {
+    const page = await newE2EPage({
+      html: html`
+        <calcite-list filter-enabled filter-text="match">
+          <calcite-list-item id="label-match" label="match" description="description" value="value"></calcite-list-item>
+          <calcite-list-item id="description-match" label="label" description="match" value="value"></calcite-list-item>
+          <calcite-list-item id="value-match" label="label" description="description" value="match"></calcite-list-item>
+          <calcite-list-item id="nope" label="label" description="description" value="value"></calcite-list-item>
+        </calcite-list>
+      `
+    });
+
+    const list = await page.find("calcite-list");
+    await page.waitForTimeout(debounceTimeout);
+    await page.waitForChanges();
+
+    expect(await list.getProperty("filteredData")).toHaveLength(3);
+    expect(await list.getProperty("filteredItems")).toHaveLength(3);
+
+    const visibleItems = await page.findAll("calcite-list-item:not([hidden])");
+
+    expect(visibleItems.map((item) => item.id)).toEqual(["label-match", "description-match", "value-match"]);
   });
 
   it("should update active item on init and click", async () => {
