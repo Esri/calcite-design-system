@@ -86,18 +86,18 @@ jobs:
             const { assignees } = JSON.parse(DATA);
 
             if (assignees) {
+                const assignee = assignees[0];
                 const { updated_at } = JSON.parse(ISSUE);
-                const issueUpdateTime = new Date(issue.updated_at).getTime();
+                const issueUpdateTime = new Date(updated_at).getTime();
                 const currentTime = new Date().getTime();
                 const timeDiffInMs = currentTime - issueUpdateTime;
                 const getInMinutes = (ms) => (ms / 1000 / 60);
                 const differenceInMinutes = getInMinutes(timeDiffInMs);
 
                 core.info(updated_at)
-                core.info(currentTime)
+                core.info(assignee)
 
                 if (differenceInMinutes > 2) {
-                    // Continue updating issue
                     const updateIssueData = { owner: OWNER, repo: REPO, issue_number: NUMBER, assignees };
                     core.info(JSON.stringify(updateIssueData, null, 2))
                 } else {
