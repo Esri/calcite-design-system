@@ -42,14 +42,14 @@ jobs:
     if: (fromJSON(needs.existing_issue.outputs.github_issue).status == 200 ) && (github.event.client_payload.action == 'assigned/unassigned')
     runs-on: ubuntu-latest
     steps:
-     - uses: actions/github-script@v6
-       env:
-        NUMBER: ${{env.NUMBER}}
-        OWNER: ${{env.OWNER}}
-        REPO: ${{env.REPO}}
-        DATA: ${{ fromJSON(env.DATA) }}
-        ISSUE: ${{ needs.existing_issue.outputs.github_issue }}
-       with:
+      - uses: actions/github-script@v6
+        env:
+          NUMBER: ${{env.NUMBER}}
+          OWNER: ${{env.OWNER}}
+          REPO: ${{env.REPO}}
+          DATA: ${{ fromJSON(env.DATA) }}
+          ISSUE: ${{ needs.existing_issue.outputs.github_issue }}
+        with:
           script: |
             const { DATA, NUMBER, OWNER, REPO, } = process.env;
             const { assignees } = JSON.parse(DATA);
@@ -103,17 +103,19 @@ jobs:
     if: (fromJSON(needs.existing_issue.outputs.github_issue).status == 200 ) && (github.event.client_payload.action == 'labeled/unlabeled')
     runs-on: ubuntu-latest
     steps:
-     - uses: actions/github-script@v6
-       env:
-        NUMBER: ${{env.NUMBER}}
-        OWNER: ${{env.OWNER}}
-        REPO: ${{env.REPO}}
-        DATA: ${{ fromJSON(env.DATA) }}
-        ISSUE: ${{ needs.existing_issue.outputs.github_issue }}
-       with:
-          script: |
-            const { DATA, NUMBER, OWNER, REPO, } = process.env;
-            const { assignees } = JSON.parse(DATA);
+      - uses: actions/github-script@v6
+        env:
+          NUMBER: ${{env.NUMBER}}
+          OWNER: ${{env.OWNER}}
+          REPO: ${{env.REPO}}
+          DATA: ${{ fromJSON(env.DATA) }}
+          ISSUE: ${{ needs.existing_issue.outputs.github_issue }}
+        with:
+            script: |
+              const { DATA, NUMBER, OWNER, REPO, } = process.env;
+              const labels = JSON.parse(DATA);
+
+              core.info(JSON.stringify(labels));
 
 # if (assignees) {
 #     const issue  = JSON.parse(process.env.ISSUE);
