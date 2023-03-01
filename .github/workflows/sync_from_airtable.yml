@@ -203,7 +203,32 @@ jobs:
                       }
                   }
               }
+  milestoned_demilestoned:
+    name: Milestoned or Demilestoned
+    needs: existing_issue
+    if: (fromJSON(needs.existing_issue.outputs.github_issue).status == 200 ) && (github.event.client_payload.action == 'milestoned/demilestoned')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/github-script@v6
+        env:
+          DATA: ${{ fromJSON(env.DATA) }}
+          ISSUE: ${{ needs.existing_issue.outputs.github_issue }}
+          NUMBER: ${{env.NUMBER}}
+          OWNER: ${{env.OWNER}}
+          REPO: ${{env.REPO}}
+        with:
+            script: |
+              const { DATA, NUMBER, ISSUE, OWNER, REPO } = process.env;
+              const { milestone } = JSON.parse(DATA);
 
+              if (milestone) {
+                await github.rest.issues.update({
+                  owner: OWNER,
+                  repo: REPO,
+                  issue_number: NUMBER,
+                  milestone,
+                });
+              }
 #   milestoned_demilestoned:
 #     name: Milestone or DeMilestone
 #     needs: existing_issue
