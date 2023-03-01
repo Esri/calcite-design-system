@@ -145,7 +145,7 @@ jobs:
                               issue_number: NUMBER,
                               labels: addLabels
                           })
-                          core.info('Labels added: ', addLabels)
+                          core.info(`Labels added: ${addLabels}`)
                       } catch (error) {
                           if (error.toString().includes('Label does not exist')) {
                               await Promise.all(addLabels.map(async (label) => {
@@ -162,7 +162,7 @@ jobs:
                                           labels: label
                                       });
 
-                                      core.info('Label added: ', label)
+                                      core.info(`Label added: ${label})`)
                                   } catch (error) {
                                       try {
                                           await github.rest.issues.createLabel({
@@ -170,16 +170,16 @@ jobs:
                                               repo: REPO,
                                               name: label
                                           });
-                                          core.info('Label created: ', label)
+                                          core.info(`Label created: ${label}`)
                                           await github.rest.issues.addLabels({
                                               owner: OWNER,
                                               repo: REPO,
                                               issue_number: NUMBER,
                                               labels: label
                                           });
-                                          core.info('Label added: ', label)
+                                          core.info(`Label added: ${label}`)
                                       } catch (error) {
-                                          console.error('Label not added: ', error)
+                                          console.error(`Label not added: ${error}`)
                                       }
                                   }
                               }))
