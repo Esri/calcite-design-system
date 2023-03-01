@@ -55,15 +55,8 @@ jobs:
             const { assignees } = JSON.parse(DATA);
 
             if (assignees) {
-              const issue  = JSON.parse(process.env.ISSUE);
-              const ghAssignees = issue.data.assignees;
-              const issueUpdateTime = new Date(issue.data.updated_at).getTime();
-              const currentTime = new Date().getTime();
-              const timeDiffInMs = currentTime - issueUpdateTime;
-              const getInMinutes = (ms) =>(ms / 1000 / 60);
-
-              if (getInMinutes(timeDiffInMs) > 1.2) {
-                // Continue updating issue
+                const issue  = JSON.parse(process.env.ISSUE);
+                const ghAssignees = issue.data.assignees;
                 const keepAssignees = []
                 const addAssignees = [];
                 const ghLookup = {};
@@ -74,10 +67,10 @@ jobs:
 
                 for (let i in assignees) {
                     if (typeof ghLookup[assignees[i]] != 'undefined') {
-                      keepAssignees.push(assignees[i])
-                      delete ghLookup[assignees[i]];
+                    keepAssignees.push(assignees[i])
+                    delete ghLookup[assignees[i]];
                     } else {
-                      addAssignees.push(assignees[i]);
+                    addAssignees.push(assignees[i]);
                     }
                 }
 
@@ -87,25 +80,22 @@ jobs:
                 core.info(addAssignees);
 
                 if (addAssignees) {
-                  # await github.rest.issues.addAssignees({
-                  #   owner: OWNER,
-                  #   repo: REPO,
-                  #   issue_number: NUMBER,
-                  #   assignees: addAssignees
-                  # });
+                    // await github.rest.issues.addAssignees({
+                    //     owner: OWNER,
+                    //     repo: REPO,
+                    //     issue_number: NUMBER,
+                    //     assignees: addAssignees
+                    // });
                 }
 
                 if (removeAssignees) {
-                  # await github.rest.issues.removeAssignees({
-                  #   owner: OWNER,
-                  #   repo: REPO,
-                  #   issue_number: NUMBER,
-                  #   assignees: removeAssignees
-                  # });
+                    // await github.rest.issues.removeAssignees({
+                    //     owner: OWNER,
+                    //     repo: REPO,
+                    //     issue_number: NUMBER,
+                    //     assignees: removeAssignees
+                    // });
                 }
-              } else {
-                core.info('Stopping propagation, issue was recently updated and this is likely an update loop.')
-              }
             }
         
   # labeled_unlabeled:
