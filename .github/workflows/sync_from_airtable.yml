@@ -189,17 +189,18 @@ jobs:
 
                   if (removeLabels && removeLabels.length > 0) {
                       try {
-                          await Promise.all(removeLabels.map(async (name) => github.rest.issues.removeLabel({
-                              owner: OWNER,
-                              repo: REPO,
-                              issue_number: NUMBER,
-                              name
-                          }).then(() => core.info('Remove Label ', name))));
+                          await Promise.all(removeLabels.map(async (name) => {
+                              await github.rest.issues.removeLabel({
+                                  owner: OWNER,
+                                  repo: REPO,
+                                  issue_number: NUMBER,
+                                  name
+                              });
+                              core.info(`Remove Label: ${name}`)
+                          }));
                       } catch (err) {
-                          if (!error.includes('Label does not exist')) { core.error('Label not removed: ', err) }   
+                          if (!error.includes('Label does not exist')) { core.error(`Label not removed: ${err}`) }   
                       }
-
-                      core.info('labels Removed: ', removeLabels.join(','))
                   }
               }
 
