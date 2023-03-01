@@ -76,6 +76,8 @@ jobs:
 
                 const removeAssignees = Object.keys(ghLookup);
 
+                core.info(JSON.stringify(ghLookup))
+                core.info(JSON.stringify(assignees))
                 core.info(JSON.stringify(removeAssignees));
                 core.info(addAssignees);
 
