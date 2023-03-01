@@ -78,7 +78,7 @@ jobs:
         OWNER: ${{env.OWNER}}
         REPO: ${{env.REPO}}
         DATA: ${{ fromJSON(env.DATA) }}
-        ISSUE: ${{ fromJSON(needs.existing_issue.outputs.github_issue) }}
+        ISSUE: ${{ needs.existing_issue.outputs.github_issue }}
        with:
           result-encoding: string
           script: |
