@@ -145,6 +145,7 @@ jobs:
                               issue_number: NUMBER,
                               labels: addLabels
                           })
+                          core.info('Labels added: ', addLabels)
                       } catch (error) {
                           if (error.toString().includes('Label does not exist')) {
                               await Promise.all(addLabels.map(async (label) => {
@@ -153,36 +154,37 @@ jobs:
                                           owner: OWNER,
                                           repo: REPO,
                                           name: label
-                                      }).then(() => core.info('Get Label'))
+                                      });
                                       await github.rest.issues.addLabels({
                                           owner: OWNER,
                                           repo: REPO,
                                           issue_number: NUMBER,
                                           labels: label
-                                      }).then(() => core.info('Add Labels'))
+                                      });
+
+                                      core.info('Label added: ', label)
                                   } catch (error) {
                                       try {
                                           await github.rest.issues.createLabel({
                                               owner: OWNER,
                                               repo: REPO,
                                               name: label
-                                          }).then(() => core.info('Create Label', label));
-
+                                          });
+                                          core.info('Label created: ', label)
                                           await github.rest.issues.addLabels({
                                               owner: OWNER,
                                               repo: REPO,
                                               issue_number: NUMBER,
                                               labels: label
-                                          }).then(() => core.info('Add Label', label))
+                                          });
+                                          core.info('Label added: ', label)
                                       } catch (error) {
-                                          console.error(error)
+                                          console.error('Label not added: ', error)
                                       }
                                   }
                               }))
                           }
                       }
-
-                      core.info('labels Added: ', addLabels.join(','))
                   }
 
                   if (removeLabels && removeLabels.length > 0) {
@@ -194,8 +196,7 @@ jobs:
                               name
                           }).then(() => core.info('Remove Label ', name))));
                       } catch (err) {
-                          // const error = err.toString();
-                          // if (!error.includes('Label does not exist')) { core.error(err)}   
+                          if (!error.includes('Label does not exist')) { core.error('Label not removed: ', err) }   
                       }
 
                       core.info('labels Removed: ', removeLabels.join(','))
