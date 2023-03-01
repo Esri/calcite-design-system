@@ -82,20 +82,20 @@ jobs:
        with:
           result-encoding: string
           script: |
-            const { assignees } = JSON.parse(process.env.DATA);
+            const data = JSON.parse(process.env.DATA);
 
-            if (assignees) {
+            if (data.assignees) {
               const issue  = JSON.parse(process.env.ISSUE);
               const issueUpdateTime = new Date(issue.data.updated_at).getTime();
               const currentTime = new Date().getTime();
               const timeDiffInMs = currentTime - issueUpdateTime;
               const getInMinutes = (ms) =>(ms / 1000 / 60);
-              const differenceInMinutes = getInMinutes();
+              const differenceInMinutes = getInMinutes(timeDiffInMs);
 
-              core.info(issue.data.updated_at)
-              core.info(assignees)
+              core.info(timeDiffInMs)
 
               core.info(differenceInMinutes)
+              core.info(data, data.assignees)
 
               if (differenceInMinutes > 2) {
                 // Continue updating issue
