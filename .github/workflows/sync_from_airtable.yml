@@ -17,7 +17,7 @@ jobs:
     name: Find Existing Issue
     runs-on: ubuntu-latest
     outputs:
-      github_issue: ${{ toJSON(steps.find-existing-issue.outputs.result) }}
+      github_issue: ${{ steps.find-existing-issue.outputs.result }}
     steps:
      - uses: actions/github-script@v6
        id: find-existing-issue
@@ -26,6 +26,7 @@ jobs:
           OWNER: '${{env.OWNER}}'
           REPO: '${{env.REPO}}'
        with:
+         result-encoding: string
          script: |
            const { NUMBER, OWNER, REPO } = process.env;
            const issue = await github.rest.issues.get({
@@ -33,7 +34,7 @@ jobs:
              owner: OWNER,
              repo: REPO,
            });
-           return issue.status === 200 ? issue : null;
+           return issue.status === 200 ? JSON.stringify(issue) : '';
         
   debugger:
     name: Test for data
@@ -68,7 +69,7 @@ jobs:
   assigned_unassigned:
     name: Assign or Unassign
     needs: existing_issue
-    if: (toJSON(needs.existing_issue.outputs.github_issue).status == 200 ) && (github.event.client_payload.action == 'assigned/unassigned')
+    if: (fromJSON(needs.existing_issue.outputs.github_issue).status == 200 ) && (github.event.client_payload.action == 'assigned/unassigned')
     runs-on: ubuntu-latest
     steps:
      - uses: actions/github-script@v6
@@ -77,31 +78,17 @@ jobs:
         OWNER: ${{env.OWNER}}
         REPO: ${{env.REPO}}
         DATA: ${{ fromJSON(env.DATA) }}
-        ISSUE: ${{ fromJSON(needs.existing_issue.outputs.github_issue) }}
+        ISSUE: ${{ needs.existing_issue.outputs.github_issue }}
        with:
           result-encoding: string
           script: |
-            const { OWNER, REPO, NUMBER, DATA, ISSUE } = process.env;
-            const { assignees } = JSON.parse(DATA);
+            const { assignees } = JSON.parse(process.env.DATA);
 
             if (assignees) {
-                const assignee = assignees[0];
-                const { updated_at } = JSON.parse(ISSUE);
-                const issueUpdateTime = new Date(updated_at).getTime();
-                const currentTime = new Date().getTime();
-                const timeDiffInMs = currentTime - issueUpdateTime;
-                const getInMinutes = (ms) => (ms / 1000 / 60);
-                const differenceInMinutes = getInMinutes(timeDiffInMs);
-
-                core.info(updated_at)
-                core.info(assignee)
-
-                if (differenceInMinutes > 2) {
-                  const updateIssueData = { owner: OWNER, repo: REPO, issue_number: NUMBER, assignees };
-                  core.info(JSON.stringify(updateIssueData, null, 2))
-                } else {
-                  core.info('Stopping propagation, issue was recently updated and this is likely an update loop.')
-                }
+              const issue  = JSON.parse(process.env.ISSUE);
+              const keys = Object.keys(issue)
+              
+              core.info(keys)
             }
 #  github.rest.issues.update(updateIssueData);  
 #          
