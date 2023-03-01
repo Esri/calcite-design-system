@@ -233,21 +233,22 @@ jobs:
                       throw new Error(`This milestone exists in ${milestone.repo}. Creating new milestone in this repository.`)
                   }
               } catch (error) {
-                  const { title, description, due_on } = milestone;
+                  core.info(error)
+                  // const { title, description, due_on } = milestone;
                   try {
-                      const newMilestone = await github.rest.issues.createMilestone({
-                          owner: OWNER,
-                          repo: REPO,
-                          title,
-                          description,
-                          due_on,
-                      });
-                      await github.rest.issues.update({
-                          owner: OWNER,
-                          repo: REPO,
-                          issue_number: NUMBER,
-                          milestone: newMilestone.number,
-                      });
+                      // const newMilestone = await github.rest.issues.createMilestone({
+                      //     owner: OWNER,
+                      //     repo: REPO,
+                      //     title,
+                      //     description,
+                      //     due_on,
+                      // });
+                      // await github.rest.issues.update({
+                      //     owner: OWNER,
+                      //     repo: REPO,
+                      //     issue_number: NUMBER,
+                      //     milestone: newMilestone.number,
+                      // });
                   } catch (error) {
                       core.error(error);
                   }
