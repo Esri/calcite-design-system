@@ -43,7 +43,7 @@ jobs:
      - id: set-status
        uses: actions/github-script@v6
        env:
-          ISSUE: ${{ toJSON(needs.existing_issue.outputs.github_issue) }}
+          ISSUE: ${{ needs.existing_issue.outputs.github_issue }}
        with:
           script: |
             const issue  = JSON.parse(process.env.ISSUE);
