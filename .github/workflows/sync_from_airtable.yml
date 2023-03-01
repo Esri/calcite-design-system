@@ -204,7 +204,7 @@ jobs:
                   }
               }
   milestoned_demilestoned:
-    name: Labeled or Unlabeled
+    name: Milestoned or Demilestoned
     needs: existing_issue
     if: (fromJSON(needs.existing_issue.outputs.github_issue).status == 200 ) && (github.event.client_payload.action == 'milestoned/demilestoned')
     runs-on: ubuntu-latest
