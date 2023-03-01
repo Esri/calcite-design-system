@@ -116,48 +116,48 @@ jobs:
               const labels = JSON.parse(DATA);
 
               core.info(JSON.stringify(labels))
-              if (labels) {
-                const issue  = JSON.parse(process.env.ISSUE);
-                const ghLabels = issue.data.assignees.map((assignee) => assignee.login);
-                const keepLabels = []
-                const addLabels = [];
-                const ghLookup = {};
+# if (labels) {
+#   const issue  = JSON.parse(process.env.ISSUE);
+#   const ghLabels = issue.data.assignees.map((assignee) => assignee.login);
+#   const keepLabels = []
+#   const addLabels = [];
+#   const ghLookup = {};
 
-                for (let j in ghLabels) {
-                  ghLookup[ghLabels[j]] = ghLabels[j];
-                }
+#   for (let j in ghLabels) {
+#     ghLookup[ghLabels[j]] = ghLabels[j];
+#   }
 
-                for (let i in assignees) {
-                  if (typeof ghLookup[assignees[i]] != 'undefined') {
-                    keepLabels.push(assignees[i])
-                    delete ghLookup[assignees[i]];
-                  } else {
-                    addLabels.push(assignees[i]);
-                  }
-                }
+#   for (let i in assignees) {
+#     if (typeof ghLookup[assignees[i]] != 'undefined') {
+#       keepLabels.push(assignees[i])
+#       delete ghLookup[assignees[i]];
+#     } else {
+#       addLabels.push(assignees[i]);
+#     }
+#   }
 
-                const removeAssignees = Object.keys(ghLookup);
+#   const removeAssignees = Object.keys(ghLookup);
 
-                if (addLabels && addLabels.length > 0) {
-                  // await github.rest.issues.addLabels({
-                  //    owner: OWNER,
-                  //    repo: REPO,
-                  //    issue_number: NUMBER,
-                  //    assignees: addLabels
-                  // });
-                  core.info('Assignees Added: ', addLabels.join(','))
-                }
+#   if (addLabels && addLabels.length > 0) {
+#     // await github.rest.issues.addLabels({
+#     //    owner: OWNER,
+#     //    repo: REPO,
+#     //    issue_number: NUMBER,
+#     //    assignees: addLabels
+#     // });
+#     core.info('Assignees Added: ', addLabels.join(','))
+#   }
 
-                if (removeLabels && removeLabels.length > 0) {
-                  // await github.rest.issues.removeLabels({
-                  //     owner: OWNER,
-                  //     repo: REPO,
-                  //     issue_number: NUMBER,
-                  //     assignees: removeLabels
-                  // });
-                  core.info('Assignees Removed: ', removeLabels.join(','))
-                }
-              }
+#   if (removeLabels && removeLabels.length > 0) {
+#     // await github.rest.issues.removeLabels({
+#     //     owner: OWNER,
+#     //     repo: REPO,
+#     //     issue_number: NUMBER,
+#     //     assignees: removeLabels
+#     // });
+#     core.info('Assignees Removed: ', removeLabels.join(','))
+#   }
+# }
 #   milestoned_demilestoned:
 #     name: Milestone or DeMilestone
 #     needs: existing_issue
