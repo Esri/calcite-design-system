@@ -117,7 +117,7 @@ jobs:
 
               if (labels) {
                   const issue  = JSON.parse(process.env.ISSUE);
-                  const ghLabels = issue.data.labels.map((label) => label.login);
+                  const ghLabels = issue.data.labels.map((label) => label.name);
                   const keepLabels = []
                   const addLabels = [];
                   const ghLookup = {};
@@ -138,28 +138,65 @@ jobs:
                   const removeLabels = Object.keys(ghLookup);
 
                   if (addLabels && addLabels.length > 0) {
-                      await github.rest.issues.addLabels({
-                          owner: OWNER,
-                          repo: REPO,
-                          issue_number: NUMBER,
-                          labels: addLabels
-                      }).catch((err) => {
-                          const error = err.toString();
-                          if (error.includes('Label does not exist')) { core.error('create label'); } else { core.error(err)}
-                      });
+                      try {
+                          await github.rest.issues.addLabels({
+                              owner: OWNER,
+                              repo: REPO,
+                              issue_number: NUMBER,
+                              labels: addLabels
+                          })
+                      } catch (error) {
+                          if (error.toString().includes('Label does not exist')) {
+                              await Promise.all(addLabels.map(async (label) => {
+                                  try {
+                                      await github.rest.issues.getLabel({
+                                          owner: OWNER,
+                                          repo: REPO,
+                                          name: label
+                                      }).then(() => core.info('Get Label'))
+                                      await github.rest.issues.addLabels({
+                                          owner: OWNER,
+                                          repo: REPO,
+                                          issue_number: NUMBER,
+                                          labels: label
+                                      }).then(() => core.info('Add Labels'))
+                                  } catch (error) {
+                                      try {
+                                          await github.rest.issues.createLabel({
+                                              owner: OWNER,
+                                              repo: REPO,
+                                              name: label
+                                          }).then(() => core.info('Create Label', label));
+
+                                          await github.rest.issues.addLabels({
+                                              owner: OWNER,
+                                              repo: REPO,
+                                              issue_number: NUMBER,
+                                              labels: label
+                                          }).then(() => core.info('Add Label', label))
+                                      } catch (error) {
+                                          console.error(error)
+                                      }
+                                  }
+                              }))
+                          }
+                      }
+
                       core.info('labels Added: ', addLabels.join(','))
                   }
 
                   if (removeLabels && removeLabels.length > 0) {
-                      await Promise.all(removeLabels.map(async (name) => github.rest.issues.removeLabel({
-                          owner: OWNER,
-                          repo: REPO,
-                          issue_number: NUMBER,
-                          name
-                      }).catch((err) => {
+                      try {
+                          await Promise.all(removeLabels.map(async (name) => github.rest.issues.removeLabel({
+                              owner: OWNER,
+                              repo: REPO,
+                              issue_number: NUMBER,
+                              name
+                          }))).then(() => core.info('Remove Label ', name))
+                      } catch (err) {
                           const error = err.toString();
-                          if (error.includes('Label does not exist')) { core.error('create label'); } else { core.error(err)}
-                      })));
+                          if (!error.includes('Label does not exist')) { core.error(err)}   
+                      }
 
                       core.info('labels Removed: ', removeLabels.join(','))
                   }
