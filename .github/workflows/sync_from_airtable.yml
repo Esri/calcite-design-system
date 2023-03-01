@@ -26,7 +26,6 @@ jobs:
           OWNER: '${{env.OWNER}}'
           REPO: '${{env.REPO}}'
        with:
-         result-encoding: string
          script: |
            const { NUMBER, OWNER, REPO } = process.env;
            const issue = await github.rest.issues.get({
