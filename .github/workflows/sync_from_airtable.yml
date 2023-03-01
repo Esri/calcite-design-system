@@ -82,7 +82,8 @@ jobs:
        with:
           result-encoding: string
           script: |
-            const { assignees } = JSON.parse(process.env.DATA);
+            const { DATA, NUMBER, OWNER, REPO, } = process.env;
+            const { assignees } = JSON.parse(DATA);
 
             if (assignees) {
               const issue  = JSON.parse(process.env.ISSUE);
