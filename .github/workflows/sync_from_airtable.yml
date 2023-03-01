@@ -297,7 +297,7 @@ jobs:
     steps:
       - uses: actions/github-script@v6
         env:
-            DATA: ${{ fromJSON(env.DATA) }}
+            DATA: ${{ env.DATA }}
             OWNER: ${{env.OWNER}}
             REPO: ${{env.REPO}}
         with:
