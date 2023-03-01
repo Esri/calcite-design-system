@@ -93,7 +93,7 @@ jobs:
                 const getInMinutes = (ms) => (ms / 1000 / 60);
                 const differenceInMinutes = getInMinutes(timeDiffInMs);
 
-                core.info(issue)
+                core.info(JSON.stringify(issue))
                 core.info(currentTime)
 
                 if (differenceInMinutes > 2) {
