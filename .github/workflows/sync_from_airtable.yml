@@ -273,7 +273,7 @@ jobs:
   edited:
     name: Edited
     needs: existing_issue
-    if: (fromJSON(needs.existing_issue.outputs.github_issue).status == 200 ) && (github.event.client_payload.action == 'opened/closed')
+    if: (fromJSON(needs.existing_issue.outputs.github_issue).status == 200 ) && (github.event.client_payload.action == 'edited')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/github-script@v6
