@@ -116,47 +116,51 @@ jobs:
               const { labels } = JSON.parse(DATA);
 
               if (labels) {
-                const issue  = JSON.parse(process.env.ISSUE);
-                const ghLabels = issue.data.labels.map((label) => label.login);
-                const keepLabels = []
-                const addLabels = [];
-                const ghLookup = {};
+                  const issue  = JSON.parse(process.env.ISSUE);
+                  const ghLabels = issue.data.labels.map((label) => label.login);
+                  const keepLabels = []
+                  const addLabels = [];
+                  const ghLookup = {};
 
-                for (let j in ghLabels) {
-                    ghLookup[ghLabels[j]] = ghLabels[j];
-                }
+                  for (let j in ghLabels) {
+                      ghLookup[ghLabels[j]] = ghLabels[j];
+                  }
 
-                for (let i in labels) {
-                    if (typeof ghLookup[labels[i]] != 'undefined') {
-                      keepLabels.push(labels[i])
-                      delete ghLookup[labels[i]];
-                    } else {
-                      addLabels.push(labels[i]);
-                    }
-                }
+                  for (let i in labels) {
+                      if (typeof ghLookup[labels[i]] != 'undefined') {
+                          keepLabels.push(labels[i])
+                          delete ghLookup[labels[i]];
+                      } else {
+                          addLabels.push(labels[i]);
+                      }
+                  }
 
-                const removeLabels = Object.keys(ghLookup);
+                  const removeLabels = Object.keys(ghLookup);
 
-                if (addLabels && addLabels.length > 0) {
-                  await github.rest.issues.addLabels({
-                      owner: OWNER,
-                      repo: REPO,
-                      issue_number: NUMBER,
-                      labels: addLabels
-                  });
-                  core.info('labels Added: ', addLabels.join(','))
-                }
+                  if (addLabels && addLabels.length > 0) {
+                      await github.rest.issues.addLabels({
+                          owner: OWNER,
+                          repo: REPO,
+                          issue_number: NUMBER,
+                          labels: addLabels
+                      }).catch((err) => {
+                          if (err.includes('Label does not exist')) { core.error(err); } else { core.error(err)}
+                      });
+                      core.info('labels Added: ', addLabels.join(','))
+                  }
 
-                if (removeLabels && removeLabels.length > 0) {
-                  await Promise.all(removeLabels.map(async (name) => github.rest.issues.removeLabel({
-                      owner: OWNER,
-                      repo: REPO,
-                      issue_number: NUMBER,
-                      name
-                    })));
+                  if (removeLabels && removeLabels.length > 0) {
+                      await Promise.all(removeLabels.map(async (name) => github.rest.issues.removeLabel({
+                          owner: OWNER,
+                          repo: REPO,
+                          issue_number: NUMBER,
+                          name
+                      }).catch((err) => {
+                          if (err.includes('Label does not exist')) { core.error(err); } else { core.error(err)}
+                      })));
 
-                  core.info('labels Removed: ', removeLabels.join(','))
-                }
+                      core.info('labels Removed: ', removeLabels.join(','))
+                  }
               }
 
 #   milestoned_demilestoned:
