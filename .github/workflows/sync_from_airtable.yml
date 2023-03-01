@@ -17,7 +17,7 @@ jobs:
     name: Find Existing Issue
     runs-on: ubuntu-latest
     outputs:
-      github_issue: ${{ steps.find-existing-issue.outputs.result }}
+      github_issue: ${{ toJSON(steps.find-existing-issue.outputs.result) }}
     steps:
      - uses: actions/github-script@v6
        id: find-existing-issue
@@ -34,7 +34,7 @@ jobs:
              owner: OWNER,
              repo: REPO,
            });
-           return issue.status === 200 ? JSON.stringify(issue) : '';
+           return issue.status === 200 ? issue : '';
         
   debugger:
     name: Test for data
@@ -78,7 +78,7 @@ jobs:
         OWNER: ${{env.OWNER}}
         REPO: ${{env.REPO}}
         DATA: ${{ fromJSON(env.DATA) }}
-        ISSUE: ${{ needs.existing_issue.outputs.github_issue }}
+        ISSUE: ${{ fromJSON(needs.existing_issue.outputs.github_issue) }}
        with:
           result-encoding: string
           script: |
@@ -86,8 +86,7 @@ jobs:
             const { assignees } = JSON.parse(DATA);
 
             if (assignees) {
-                const assignee = assignees[0];
-                const { updated_at } = JSON.parse(ISSUE);
+                const { updated_at } = ISSUE;
                 const issueUpdateTime = new Date(updated_at).getTime();
                 const currentTime = new Date().getTime();
                 const timeDiffInMs = currentTime - issueUpdateTime;
@@ -95,13 +94,12 @@ jobs:
                 const differenceInMinutes = getInMinutes(timeDiffInMs);
 
                 core.info(updated_at)
-                core.info(assignee)
 
                 if (differenceInMinutes > 2) {
-                    const updateIssueData = { owner: OWNER, repo: REPO, issue_number: NUMBER, assignees };
-                    core.info(JSON.stringify(updateIssueData, null, 2))
+                  const updateIssueData = { owner: OWNER, repo: REPO, issue_number: NUMBER, assignees };
+                  core.info(JSON.stringify(updateIssueData, null, 2))
                 } else {
-                    core.info('Stopping propagation, issue was recently updated and this is likely an update loop.')
+                  core.info('Stopping propagation, issue was recently updated and this is likely an update loop.')
                 }
             }
 #  github.rest.issues.update(updateIssueData);  
