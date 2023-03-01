@@ -180,6 +180,16 @@ export class ValueListItem
   // --------------------------------------------------------------------------
 
   /**
+   * Fires when the component is selected or unselected.
+   */
+  @Event({ cancelable: false }) calciteListItemChange: EventEmitter<{
+    item: HTMLCalciteValueListItemElement;
+    value: any;
+    selected: boolean;
+    shiftPressed: boolean;
+  }>;
+
+  /**
    * Fires when the remove button is pressed.
    */
   @Event({ cancelable: true }) calciteListItemRemove: EventEmitter<void>; // wrapped pick-list-item emits this
