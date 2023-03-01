@@ -25,23 +25,31 @@ jobs:
           NUMBER: '${{env.NUMBER}}'
           OWNER: '${{env.OWNER}}'
           REPO: '${{env.REPO}}'
+          TITLE: '${{env.TITLE}}'
           ACTION: '${{github.event.client_payload.action}}'
       with:
         result-encoding: string
         script: |
-          const { NUMBER, OWNER, REPO, ACTION } = process.env;
-          if (ACTION !== 'new_issue') {
-              try {
-                  const issue = await github.rest.issues.get({
-                      issue_number: NUMBER,
-                      owner: OWNER,
-                      repo: REPO,
-                  });
+          const { NUMBER, OWNER, REPO, ACTION, TITLE } = process.env;
+          try {
+              const issue = await github.rest.issues.get({
+                  issue_number: NUMBER,
+                  owner: OWNER,
+                  repo: REPO,
+              });
 
-                  return issue.status === 200 ? JSON.stringify(issue) : JSON.stringify(null);
-              } catch (error) {
-                  return JSON.stringify(null);
-              }
+              return issue.status === 200 ? JSON.stringify(issue) : JSON.stringify(null);
+          } catch (error) {
+              
+              const issue = await github.rest.search.issuesAndPullRequests({
+                  q: `"${TITLE}" in:title is:open is:issue`,
+                  sort: 'created',
+                  order: 'asc',
+                  per_page: 1
+              }).then((result) =>  result[0]);
+              core.info(issue);
+
+              return issue ? JSON.stringify(issue) : JSON.stringify(null);
           }
 
           return JSON.stringify(null);
