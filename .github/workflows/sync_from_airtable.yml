@@ -34,7 +34,7 @@ jobs:
              owner: OWNER,
              repo: REPO,
            });
-           return issue.status === 200 ? JSON.stringify(issue) : '';
+           return issue.status === 200 ? issue : null;
         
   debugger:
     name: Test for data
@@ -69,7 +69,7 @@ jobs:
   assigned_unassigned:
     name: Assign or Unassign
     needs: existing_issue
-    if: (needs.existing_issue.outputs.github_issue.status == 200 ) && (github.event.client_payload.action == 'assigned/unassigned')
+    if: (toJSON(needs.existing_issue.outputs.github_issue).status == 200 ) && (github.event.client_payload.action == 'assigned/unassigned')
     runs-on: ubuntu-latest
     steps:
      - uses: actions/github-script@v6
