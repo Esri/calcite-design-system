@@ -105,102 +105,59 @@ jobs:
     steps:
       - uses: actions/github-script@v6
         env:
+          DATA: ${{ fromJSON(env.DATA) }}
+          ISSUE: ${{ needs.existing_issue.outputs.github_issue }}
           NUMBER: ${{env.NUMBER}}
           OWNER: ${{env.OWNER}}
           REPO: ${{env.REPO}}
-          DATA: ${{ fromJSON(env.DATA) }}
-          ISSUE: ${{ needs.existing_issue.outputs.github_issue }}
         with:
             script: |
-              const { DATA, NUMBER, OWNER, REPO, } = process.env;
-              // const labels = JSON.parse(DATA);
+              const { DATA, NUMBER, ISSUE, OWNER, REPO } = process.env;
+              const { labels } = JSON.parse(DATA);
 
-              core.info(NUMBER);
+              if (labels) {
+                const issue  = JSON.parse(process.env.ISSUE);
+                const ghLabels = issue.data.labels.map((label) => label.login);
+                const keepLabels = []
+                const addLabels = [];
+                const ghLookup = {};
 
-# if (assignees) {
-#     const issue  = JSON.parse(process.env.ISSUE);
-#     const ghAssignees = issue.data.assignees.map((assignee) => assignee.login);
-#     const keepAssignees = []
-#     const addAssignees = [];
-#     const ghLookup = {};
+                for (let j in ghLabels) {
+                    ghLookup[ghLabels[j]] = ghLabels[j];
+                }
 
-#     for (let j in ghAssignees) {
-#         ghLookup[ghAssignees[j]] = ghAssignees[j];
-#     }
+                for (let i in labels) {
+                    if (typeof ghLookup[labels[i]] != 'undefined') {
+                    keepLabels.push(labels[i])
+                    delete ghLookup[labels[i]];
+                    } else {
+                    addLabels.push(labels[i]);
+                    }
+                }
 
-#     for (let i in assignees) {
-#         if (typeof ghLookup[assignees[i]] != 'undefined') {
-#         keepAssignees.push(assignees[i])
-#         delete ghLookup[assignees[i]];
-#         } else {
-#         addAssignees.push(assignees[i]);
-#         }
-#     }
+                const removeLabels = Object.keys(ghLookup);
 
-#     const removeAssignees = Object.keys(ghLookup);
+                if (addLabels && addLabels.length > 0) {
+                  await github.rest.issues.addLabels({
+                      owner: OWNER,
+                      repo: REPO,
+                      issue_number: NUMBER,
+                      labels: addLabels
+                  });
+                  core.info('labels Added: ', addLabels.join(','))
+                }
 
-#     if (addAssignees && addAssignees.length > 0) {
-#       await github.rest.issues.addAssignees({
-#           owner: OWNER,
-#           repo: REPO,
-#           issue_number: NUMBER,
-#           assignees: addAssignees
-#       });
-#       core.info('Assignees Added: ', addAssignees.join(','))
-#     }
+                if (removeLabels && removeLabels.length > 0) {
+                  await github.rest.issues.removeLabels({
+                      owner: OWNER,
+                      repo: REPO,
+                      issue_number: NUMBER,
+                      labels: removeLabels
+                  });
+                  core.info('labels Removed: ', removeLabels.join(','))
+                }
+              }
 
-#     if (removeAssignees && removeAssignees.length > 0) {
-#       await github.rest.issues.removeAssignees({
-#           owner: OWNER,
-#           repo: REPO,
-#           issue_number: NUMBER,
-#           assignees: removeAssignees
-#       });
-#       core.info('Assignees Removed: ', removeAssignees.join(','))
-#     }
-# }
-# if (labels) {
-#   const issue  = JSON.parse(process.env.ISSUE);
-#   const ghLabels = issue.data.assignees.map((assignee) => assignee.login);
-#   const keepLabels = []
-#   const addLabels = [];
-#   const ghLookup = {};
-
-#   for (let j in ghLabels) {
-#     ghLookup[ghLabels[j]] = ghLabels[j];
-#   }
-
-#   for (let i in assignees) {
-#     if (typeof ghLookup[assignees[i]] != 'undefined') {
-#       keepLabels.push(assignees[i])
-#       delete ghLookup[assignees[i]];
-#     } else {
-#       addLabels.push(assignees[i]);
-#     }
-#   }
-
-#   const removeAssignees = Object.keys(ghLookup);
-
-#   if (addLabels && addLabels.length > 0) {
-#     // await github.rest.issues.addLabels({
-#     //    owner: OWNER,
-#     //    repo: REPO,
-#     //    issue_number: NUMBER,
-#     //    assignees: addLabels
-#     // });
-#     core.info('Assignees Added: ', addLabels.join(','))
-#   }
-
-#   if (removeLabels && removeLabels.length > 0) {
-#     // await github.rest.issues.removeLabels({
-#     //     owner: OWNER,
-#     //     repo: REPO,
-#     //     issue_number: NUMBER,
-#     //     assignees: removeLabels
-#     // });
-#     core.info('Assignees Removed: ', removeLabels.join(','))
-#   }
-# }
 #   milestoned_demilestoned:
 #     name: Milestone or DeMilestone
 #     needs: existing_issue
