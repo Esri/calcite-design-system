@@ -91,7 +91,7 @@ jobs:
               const timeDiffInMs = currentTime - issueUpdateTime;
               const getInMinutes = (ms) =>(ms / 1000 / 60);
 
-              if (getInMinutes(timeDiffInMs) > 2) {
+              if (getInMinutes(timeDiffInMs) > 1) {
                 // Continue updating issue
                 const updateIssueData = { owner: OWNER, repo: REPO, issue_number: NUMBER, assignees };
                 core.info(JSON.stringify(updateIssueData))
