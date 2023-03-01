@@ -148,7 +148,7 @@ jobs:
                 }
 
                 if (removeLabels && removeLabels.length > 0) {
-                  await Promise.all(removeLabels.map(async (name) => github.rest.issues.removeLabels({
+                  await Promise.all(removeLabels.map(async (name) => github.rest.issues.removeLabel({
                       owner: OWNER,
                       repo: REPO,
                       issue_number: NUMBER,
