@@ -56,7 +56,7 @@ jobs:
 
             if (assignees) {
                 const issue  = JSON.parse(process.env.ISSUE);
-                const ghAssignees = issue.data.assignees;
+                const ghAssignees = issue.data.assignees.map((assignee) => assignee.login);
                 const keepAssignees = []
                 const addAssignees = [];
                 const ghLookup = {};
@@ -79,6 +79,9 @@ jobs:
                 core.info(JSON.stringify(ghLookup))
                 core.info(JSON.stringify(assignees))
                 core.info(JSON.stringify(ghAssignees));
+                core.info(JSON.stringify(removeAssignees));
+                core.info(JSON.stringify(addAssignees));
+                core.info(JSON.stringify(keepAssignees));
 
                 if (addAssignees) {
                     // await github.rest.issues.addAssignees({
