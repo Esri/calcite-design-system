@@ -85,14 +85,15 @@ jobs:
             const { assignees } = JSON.parse(process.env.DATA);
 
             if (assignees) {
-              core.info(issue.data.updated_at)
-              core.info(assignees)
               const issue  = JSON.parse(process.env.ISSUE);
               const issueUpdateTime = new Date(issue.data.updated_at).getTime();
               const currentTime = new Date().getTime();
               const timeDiffInMs = currentTime - issueUpdateTime;
               const getInMinutes = (ms) =>(ms / 1000 / 60);
               const differenceInMinutes = getInMinutes();
+
+              core.info(issue.data.updated_at)
+              core.info(assignees)
 
               core.info(differenceInMinutes)
 
