@@ -87,6 +87,7 @@ jobs:
 
             if (assignees) {
               const issue  = JSON.parse(process.env.ISSUE);
+              const ghAssignees = issue.data.assignees;
               const issueUpdateTime = new Date(issue.data.updated_at).getTime();
               const currentTime = new Date().getTime();
               const timeDiffInMs = currentTime - issueUpdateTime;
@@ -94,9 +95,11 @@ jobs:
 
               if (getInMinutes(timeDiffInMs) > 1) {
                 // Continue updating issue
-                const updateIssueData = { owner: OWNER, repo: REPO, issue_number: NUMBER, assignees };
-                core.info(JSON.stringify(updateIssueData))
-                // github.rest.issues.update(updateIssueData);
+                if (ghAssignees.join(',') !== assignees.join(',')) {
+                  const updateIssueData = { owner: OWNER, repo: REPO, issue_number: NUMBER, assignees };
+                  core.info(JSON.stringify(updateIssueData))
+                  // github.rest.issues.update(updateIssueData);
+                }
               } else {
                 core.info('Stopping propagation, issue was recently updated and this is likely an update loop.')
               }
