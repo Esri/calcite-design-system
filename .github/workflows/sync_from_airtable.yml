@@ -212,27 +212,20 @@ jobs:
       - uses: actions/github-script@v6
         env:
           DATA: ${{ fromJSON(env.DATA) }}
-          ISSUE: ${{ needs.existing_issue.outputs.github_issue }}
           NUMBER: ${{env.NUMBER}}
           OWNER: ${{env.OWNER}}
           REPO: ${{env.REPO}}
         with:
             script: |
-              const { DATA, NUMBER, ISSUE, OWNER, REPO } = process.env;
+              const { DATA, NUMBER, OWNER, REPO } = process.env;
               const { milestone } = JSON.parse(DATA);
-              const issue  = JSON.parse(ISSUE)
-
-              console.log(milestone)
-              console.log(JSON.stringify(issue.milestone))
-
-              if (milestone && (issue.milestone.number !== milestone)) {
-                await github.rest.issues.update({
-                  owner: OWNER,
-                  repo: REPO,
-                  issue_number: NUMBER,
-                  milestone,
-                });
-              }
+              
+              await github.rest.issues.update({
+                owner: OWNER,
+                repo: REPO,
+                issue_number: NUMBER,
+                milestone,
+              });
 #   open_closed:
 #     name: Opened, ReOpened, or Closed
 #     needs: existing_issue
