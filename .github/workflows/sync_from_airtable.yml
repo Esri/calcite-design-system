@@ -35,36 +35,6 @@ jobs:
              repo: REPO,
            });
            return issue.status === 200 ? JSON.stringify(issue) : '';
-        
-  # debugger:
-  #   name: Test for data
-  #   needs: existing_issue
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #    - id: set-status
-  #      uses: actions/github-script@v6
-  #      env:
-  #         ISSUE: ${{ needs.existing_issue.outputs.github_issue }}
-  #      with:
-  #         script: |
-  #           const issue  = JSON.parse(process.env.ISSUE);
-  #           const keys = Object.keys(issue)
-            
-  #           core.info(keys)
-  #           core.info(issue)
-  #           return issue.status;
-  #    - uses: actions/github-script@v6
-  #      env:
-  #         STATUS: ${{ fromJSON(needs.existing_issue.outputs.github_issue).status == 200  }}
-  #         DATA: ${{env.DATA}}
-  #         ACTION: ${{github.event.client_payload.action}}
-  #         ISASSIGNED: ${{ github.event.client_payload.action == 'assigned/unassigned' }} 
-  #      with:
-  #         script: |
-  #             core.info(process.env.STATUS)
-  #             core.info(process.env.DATA)
-  #             core.info(process.env.ACTION )
-  #             core.info(process.env.ISASSIGNED)
     
   assigned_unassigned:
     name: Assign or Unassign
@@ -94,32 +64,45 @@ jobs:
 
               if (getInMinutes(timeDiffInMs) > 1.2) {
                 // Continue updating issue
-                if (ghAssignees.length !== assignees.length) return false
+                const keepAssignees = []
+                const addAssignees = [];
+                const ghLookup = {};
 
-                const ghFrequency = {}
-                const airtableFrequency = {}
-
-                // Create ghFrequency
-                for (let assignee of ghAssignees) {
-                  ghFrequency[assignee] = ghFrequency[assignee] + 1 || 1
+                for (let j in ghAssignees) {
+                    ghLookup[ghAssignees[j]] = ghAssignees[j];
                 }
 
-                // Create airtableFrequency
-                for (let assignee of assignees) {
-                  airtableFrequency[assignee] = airtableFrequency[assignee] + 1 || 1
+                for (let i in assignees) {
+                    if (typeof ghLookup[assignees[i]] != 'undefined') {
+                      keepAssignees.push(assignees[i])
+                      delete ghLookup[assignees[i]];
+                    } else {
+                      addAssignees.push(assignees[i]);
+                    }
                 }
 
-                // Compare frequency counters
-                for (let key in ghFrequency) {
-                  if (!(key ** 2 in airtableFrequency)) return false
+                const removeAssignees = Object.keys(ghLookup);
 
-                  if (ghFrequency[key] !== airtableFrequency[key ** 2]) return false
+                core.info(removeAssignees);
+                core.info(addAssignees);
+
+                if (addAssignees) {
+                  # await github.rest.issues.addAssignees({
+                  #   owner: OWNER,
+                  #   repo: REPO,
+                  #   issue_number: NUMBER,
+                  #   assignees: addAssignees
+                  # });
                 }
 
-                const updateIssueData = { owner: OWNER, repo: REPO, issue_number: NUMBER, assignees };
-                return github.rest.issues.update(updateIssueData).then((response) => {
-                  core.info(JSON.stringify(response))
-                });
+                if (removeAssignees) {
+                  # await github.rest.issues.removeAssignees({
+                  #   owner: OWNER,
+                  #   repo: REPO,
+                  #   issue_number: NUMBER,
+                  #   assignees: removeAssignees
+                  # });
+                }
               } else {
                 core.info('Stopping propagation, issue was recently updated and this is likely an update loop.')
               }
