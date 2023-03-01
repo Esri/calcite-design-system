@@ -25,16 +25,24 @@ jobs:
           NUMBER: '${{env.NUMBER}}'
           OWNER: '${{env.OWNER}}'
           REPO: '${{env.REPO}}'
+          ACTION: '${{github.event.client_payload.action}}'
        with:
          result-encoding: string
          script: |
-           const { NUMBER, OWNER, REPO } = process.env;
-           const issue = await github.rest.issues.get({
-             issue_number: NUMBER,
-             owner: OWNER,
-             repo: REPO,
-           });
-           return issue.status === 200 ? JSON.stringify(issue) : '';
+           const { NUMBER, OWNER, REPO, ACTION } = process.env;
+           if (ACTION !== 'new_issue') {
+           
+            const issue = await github.rest.issues.get({
+               issue_number: NUMBER,
+               owner: OWNER,
+               repo: REPO,
+             });
+             return issue.status === 200 ? JSON.stringify(issue) : JSON.stringify(null);
+           
+           }
+           
+           return JSON.stringify(null);
+           
     
   assigned_unassigned:
     name: Assign or Unassign
@@ -296,10 +304,25 @@ jobs:
   new_issue:
     name: Create New Issue
     needs: existing_issue
-    if: fromJSON(needs.existing_issue.outputs.github_issue).status != 200
+    if: fromJSON(needs.existing_issue.outputs.github_issue) == null
     runs-on: ubuntu-latest
     steps:
       - uses: actions/github-script@v6
+        env:
+            DATA: ${{ fromJSON(env.DATA) }}
+            OWNER: ${{env.OWNER}}
+            REPO: ${{env.REPO}}
         with:
             script: |
               core.info('New Issue')
+              const { DATA, NUMBER, OWNER, REPO } = process.env;
+              const { assignees, title, body, labels, milestone } = JSON.parse(DATA);
+              await github.rest.issues.create({
+                owner: OWNER,
+                repo: REPO,
+                title,
+                body,
+                labels,
+                milestone,
+                assignees
+              });
