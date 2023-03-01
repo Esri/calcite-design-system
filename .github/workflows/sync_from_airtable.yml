@@ -94,27 +94,47 @@ jobs:
 
               if (getInMinutes(timeDiffInMs) > 1) {
                 // Continue updating issue
-                if (ghAssignees.join(',') !== assignees.join(',')) {
-                  const updateIssueData = { owner: OWNER, repo: REPO, issue_number: NUMBER, assignees };
-                  return github.rest.issues.update(updateIssueData).then((response) => {
-                    core.info(response)
-                  });
+                if (ghAssignees.length !== assignees.length) return false
+
+                const ghFrequency = {}
+                const airtableFrequency = {}
+
+                // Create ghFrequency
+                for (let assignee of ghAssignees) {
+                  ghFrequency[assignee] = ghFrequency[assignee] + 1 || 1
                 }
+
+                // Create airtableFrequency
+                for (let assignee of assignees) {
+                  airtableFrequency[assignee] = airtableFrequency[assignee] + 1 || 1
+                }
+
+                // Compare frequency counters
+                for (let key in ghFrequency) {
+                  if (!(key ** 2 in airtableFrequency)) return false
+
+                  if (ghFrequency[key] !== airtableFrequency[key ** 2]) return false
+                }
+
+                const updateIssueData = { owner: OWNER, repo: REPO, issue_number: NUMBER, assignees };
+                return github.rest.issues.update(updateIssueData).then((response) => {
+                  core.info(JSON.stringify(response))
+                });
               } else {
                 core.info('Stopping propagation, issue was recently updated and this is likely an update loop.')
               }
             }
         
-#   labeled_unlabeled:
-#     name: Label or UnLabel
-#     needs: existing_issue
-#     if: (fromJSON(needs.existing_issue.outputs.github_issue).status == 200 ) && (github.event.client_payload.action == 'labeled/unlabeled')
-#     runs-on: ubuntu-latest
-#     steps:
-#       - uses: actions/github-script@v6
-#         with:
-#             script: |
-#               core.info(process.env.ACTION)
+# labeled_unlabeled:
+#   name: Label or UnLabel
+#   needs: existing_issue
+#   if: (fromJSON(needs.existing_issue.outputs.github_issue).status == 200 ) && (github.event.client_payload.action == 'labeled/unlabeled')
+#   runs-on: ubuntu-latest
+#   steps:
+#     - uses: actions/github-script@v6
+#       with:
+#           script: |
+#             core.info(process.env.ACTION)
 #   milestoned_demilestoned:
 #     name: Milestone or DeMilestone
 #     needs: existing_issue
