@@ -86,22 +86,23 @@ jobs:
             const { assignees } = JSON.parse(DATA);
 
             if (assignees) {
-              const issue = JSON.parse(ISSUE);
-              const issueUpdateTime = new Date(issue.updated_at).getTime();
-              const currentTime = new Date().getTime();
-              const timeDiffInMs = currentTime - issueUpdateTime;
-              const getInMinutes = (ms) => (ms / 1000 / 60);
-              const differenceInMinutes = getInMinutes(timeDiffInMs);
+                const issue = JSON.parse(ISSUE);
+                const issueUpdateTime = new Date(issue.updated_at).getTime();
+                const currentTime = new Date().getTime();
+                const timeDiffInMs = currentTime - issueUpdateTime;
+                const getInMinutes = (ms) => (ms / 1000 / 60);
+                const differenceInMinutes = getInMinutes(timeDiffInMs);
 
-              core.info(differenceInMinutes)
+                core.info(timeDiffInMs)
+                core.info(differenceInMinutes)
 
-              if (differenceInMinutes > 2) {
-                // Continue updating issue
-                const updateIssueData = { owner: OWNER, repo: REPO, issue_number: NUMBER, assignees };
-                core.info(JSON.stringify(updateIssueData, null, 2))
-              } else {
-                core.info('Stopping propagation, issue was recently updated and this is likely an update loop.')
-              }
+                if (differenceInMinutes > 2) {
+                    // Continue updating issue
+                    const updateIssueData = { owner: OWNER, repo: REPO, issue_number: NUMBER, assignees };
+                    core.info(JSON.stringify(updateIssueData, null, 2))
+                } else {
+                    core.info('Stopping propagation, issue was recently updated and this is likely an update loop.')
+                }
             }
 #  github.rest.issues.update(updateIssueData);  
 #          
