@@ -149,10 +149,30 @@ describe("calcite-list", () => {
     const page = await newE2EPage({
       html: html`
         <calcite-list filter-enabled filter-text="match">
-          <calcite-list-item id="label-match" label="match" description="description" value="value"></calcite-list-item>
-          <calcite-list-item id="description-match" label="label" description="match" value="value"></calcite-list-item>
-          <calcite-list-item id="value-match" label="label" description="description" value="match"></calcite-list-item>
-          <calcite-list-item id="nope" label="label" description="description" value="value"></calcite-list-item>
+          <calcite-list-item
+            id="label-match"
+            label="match"
+            description="description-1"
+            value="value-1"
+          ></calcite-list-item>
+          <calcite-list-item
+            id="description-match"
+            label="label-2"
+            description="match"
+            value="value-1"
+          ></calcite-list-item>
+          <calcite-list-item
+            id="value-match"
+            label="label-3"
+            description="description-3"
+            value="match"
+          ></calcite-list-item>
+          <calcite-list-item
+            id="no-match"
+            label="label-4"
+            description="description-4"
+            value="value-4"
+          ></calcite-list-item>
         </calcite-list>
       `
     });
