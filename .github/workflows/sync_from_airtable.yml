@@ -17,7 +17,7 @@ jobs:
     name: Find Existing Issue
     runs-on: ubuntu-latest
     outputs:
-      github_issue: ${{ toJSON(steps.find-existing-issue.outputs.result) }}
+      github_issue: ${{ steps.find-existing-issue.outputs.result }}
     steps:
      - uses: actions/github-script@v6
        id: find-existing-issue
@@ -34,7 +34,7 @@ jobs:
              owner: OWNER,
              repo: REPO,
            });
-           return issue.status === 200 ? issue : '';
+           return issue.status === 200 ? JSON.stringify(issue) : '';
         
   debugger:
     name: Test for data
@@ -86,7 +86,8 @@ jobs:
             const { assignees } = JSON.parse(DATA);
 
             if (assignees) {
-                const { updated_at } = ISSUE;
+                const assignee = assignees[0];
+                const { updated_at } = JSON.parse(ISSUE);
                 const issueUpdateTime = new Date(updated_at).getTime();
                 const currentTime = new Date().getTime();
                 const timeDiffInMs = currentTime - issueUpdateTime;
@@ -94,6 +95,7 @@ jobs:
                 const differenceInMinutes = getInMinutes(timeDiffInMs);
 
                 core.info(updated_at)
+                core.info(assignee)
 
                 if (differenceInMinutes > 2) {
                   const updateIssueData = { owner: OWNER, repo: REPO, issue_number: NUMBER, assignees };
