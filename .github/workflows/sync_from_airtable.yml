@@ -192,10 +192,10 @@ jobs:
                               repo: REPO,
                               issue_number: NUMBER,
                               name
-                          }))).then(() => core.info('Remove Label ', name))
+                          }).then(() => core.info('Remove Label ', name))));
                       } catch (err) {
-                          const error = err.toString();
-                          if (!error.includes('Label does not exist')) { core.error(err)}   
+                          // const error = err.toString();
+                          // if (!error.includes('Label does not exist')) { core.error(err)}   
                       }
 
                       core.info('labels Removed: ', removeLabels.join(','))
