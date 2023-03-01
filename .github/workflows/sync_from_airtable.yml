@@ -233,16 +233,6 @@ jobs:
                   milestone,
                 });
               }
-#   milestoned_demilestoned:
-#     name: Milestone or DeMilestone
-#     needs: existing_issue
-#     if: (fromJSON(needs.existing_issue.outputs.github_issue).status == 200 ) && (github.event.client_payload.action == 'milestoned/demilestoned'
-#     runs-on: ubuntu-latest
-#     steps:
-#       - uses: actions/github-script@v6
-#         with:
-#             script: |
-#               console.log(process.env.ACTION)
 #   open_closed:
 #     name: Opened, ReOpened, or Closed
 #     needs: existing_issue
