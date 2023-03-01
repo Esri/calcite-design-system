@@ -302,15 +302,16 @@ jobs:
             REPO: ${{env.REPO}}
         with:
             script: |
-              core.info('New Issue')
               const { DATA, NUMBER, OWNER, REPO } = process.env;
               const { assignees, title, body, labels, milestone } = JSON.parse(DATA);
-              await github.rest.issues.create({
-                owner: OWNER,
-                repo: REPO,
-                title,
-                body,
-                labels,
-                milestone,
-                assignees
+              const newIssue = await github.rest.issues.create({
+                  owner: OWNER,
+                  repo: REPO,
+                  title,
+                  body,
+                  labels,
+                  milestone: milestone[0].milestone_number,
+                  assignees
               });
+
+              core.info(`New Issue ${JSON.stringify(newIssue)}`);
