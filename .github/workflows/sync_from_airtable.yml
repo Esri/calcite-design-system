@@ -222,17 +222,26 @@ jobs:
               const repoName = `${OWNER}/${REPO}`;
 
               try {
-                  core.info(milestone)
-                  if (milestone && (repoName === milestone?.repo)) {
+                  if (milestone) {
+                      const { repo, milestone_number } = milestone;
+                      if (repoName === repo) {
+                          await github.rest.issues.update({
+                              owner: OWNER,
+                              repo: REPO,
+                              issue_number: NUMBER,
+                              milestone: milestone_number || null,
+                          });
+                          core.info(`Issue ${ NUMBER }'s Milestone updated to ${ milestone_number || 'null' }`)
+                      } else {
+                          throw new Error(`This milestone exists in ${milestone.repo}. Creating new milestone in this repository.`)
+                      }
+                  } else {
                       await github.rest.issues.update({
                           owner: OWNER,
                           repo: REPO,
                           issue_number: NUMBER,
-                          milestone: milestone ? milestone.milestone_number : null,
+                          milestone: null,
                       });
-                      core.info(`Issue ${NUMBER}'s Milestone updated to ${ milestone ? milestone.milestone_number : 'null'}`)
-                  } else {
-                      throw new Error(`This milestone exists in ${milestone.repo}. Creating new milestone in this repository.`)
                   }
               } catch (error) {
                   core.info(error)
