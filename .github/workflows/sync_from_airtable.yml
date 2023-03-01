@@ -36,35 +36,35 @@ jobs:
            });
            return issue.status === 200 ? JSON.stringify(issue) : '';
         
-  debugger:
-    name: Test for data
-    needs: existing_issue
-    runs-on: ubuntu-latest
-    steps:
-     - id: set-status
-       uses: actions/github-script@v6
-       env:
-          ISSUE: ${{ needs.existing_issue.outputs.github_issue }}
-       with:
-          script: |
-            const issue  = JSON.parse(process.env.ISSUE);
-            const keys = Object.keys(issue)
+  # debugger:
+  #   name: Test for data
+  #   needs: existing_issue
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #    - id: set-status
+  #      uses: actions/github-script@v6
+  #      env:
+  #         ISSUE: ${{ needs.existing_issue.outputs.github_issue }}
+  #      with:
+  #         script: |
+  #           const issue  = JSON.parse(process.env.ISSUE);
+  #           const keys = Object.keys(issue)
             
-            core.info(keys)
-            core.info(issue)
-            return issue.status;
-     - uses: actions/github-script@v6
-       env:
-          STATUS: ${{ fromJSON(needs.existing_issue.outputs.github_issue).status == 200  }}
-          DATA: ${{env.DATA}}
-          ACTION: ${{github.event.client_payload.action}}
-          ISASSIGNED: ${{ github.event.client_payload.action == 'assigned/unassigned' }} 
-       with:
-          script: |
-              core.info(process.env.STATUS)
-              core.info(process.env.DATA)
-              core.info(process.env.ACTION )
-              core.info(process.env.ISASSIGNED)
+  #           core.info(keys)
+  #           core.info(issue)
+  #           return issue.status;
+  #    - uses: actions/github-script@v6
+  #      env:
+  #         STATUS: ${{ fromJSON(needs.existing_issue.outputs.github_issue).status == 200  }}
+  #         DATA: ${{env.DATA}}
+  #         ACTION: ${{github.event.client_payload.action}}
+  #         ISASSIGNED: ${{ github.event.client_payload.action == 'assigned/unassigned' }} 
+  #      with:
+  #         script: |
+  #             core.info(process.env.STATUS)
+  #             core.info(process.env.DATA)
+  #             core.info(process.env.ACTION )
+  #             core.info(process.env.ISASSIGNED)
     
   assigned_unassigned:
     name: Assign or Unassign
@@ -92,7 +92,7 @@ jobs:
               const timeDiffInMs = currentTime - issueUpdateTime;
               const getInMinutes = (ms) =>(ms / 1000 / 60);
 
-              if (getInMinutes(timeDiffInMs) > 1) {
+              if (getInMinutes(timeDiffInMs) > 1.2) {
                 // Continue updating issue
                 if (ghAssignees.length !== assignees.length) return false
 
@@ -125,16 +125,16 @@ jobs:
               }
             }
         
-# labeled_unlabeled:
-#   name: Label or UnLabel
-#   needs: existing_issue
-#   if: (fromJSON(needs.existing_issue.outputs.github_issue).status == 200 ) && (github.event.client_payload.action == 'labeled/unlabeled')
-#   runs-on: ubuntu-latest
-#   steps:
-#     - uses: actions/github-script@v6
-#       with:
-#           script: |
-#             core.info(process.env.ACTION)
+  # labeled_unlabeled:
+  #   name: Label or UnLabel
+  #   needs: existing_issue
+  #   if: (fromJSON(needs.existing_issue.outputs.github_issue).status == 200 ) && (github.event.client_payload.action == 'labeled/unlabeled')
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/github-script@v6
+  #       with:
+  #           script: |
+  #             core.info(process.env.ACTION)
 #   milestoned_demilestoned:
 #     name: Milestone or DeMilestone
 #     needs: existing_issue
