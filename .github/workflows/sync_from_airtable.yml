@@ -128,10 +128,10 @@ jobs:
 
                 for (let i in labels) {
                     if (typeof ghLookup[labels[i]] != 'undefined') {
-                    keepLabels.push(labels[i])
-                    delete ghLookup[labels[i]];
+                      keepLabels.push(labels[i])
+                      delete ghLookup[labels[i]];
                     } else {
-                    addLabels.push(labels[i]);
+                      addLabels.push(labels[i]);
                     }
                 }
 
@@ -148,12 +148,15 @@ jobs:
                 }
 
                 if (removeLabels && removeLabels.length > 0) {
-                  await github.rest.issues.removeLabels({
+                  removeLabels.forEach((name) => {
+                    await github.rest.issues.removeLabels({
                       owner: OWNER,
                       repo: REPO,
                       issue_number: NUMBER,
-                      labels: removeLabels
+                      name
+                    });
                   });
+
                   core.info('labels Removed: ', removeLabels.join(','))
                 }
               }
