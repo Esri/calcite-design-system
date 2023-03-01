@@ -89,8 +89,8 @@ jobs:
               const issue = JSON.parse(ISSUE);
               const issueUpdateTime = new Date(issue.updated_at).getTime();
               const currentTime = new Date().getTime();
-              const getInSeconds = (ms) => ms / 1000;
-              const differenceInSeconds(getInSeconds(currentTime - issueUpdateTime))
+              const getInSeconds = (ms) =>(ms / 1000);
+              const differenceInSeconds = getInSeconds(currentTime - issueUpdateTime);
 
               core.info(differenceInSeconds)
 
