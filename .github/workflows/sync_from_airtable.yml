@@ -108,14 +108,14 @@ jobs:
           NUMBER: ${{env.NUMBER}}
           OWNER: ${{env.OWNER}}
           REPO: ${{env.REPO}}
-          DATA: ${{ fromJSON(env.DATA) }}
-          ISSUE: ${{ needs.existing_issue.outputs.github_issue }}
+          # DATA: ${{ fromJSON(env.DATA) }}
+          # ISSUE: ${{ needs.existing_issue.outputs.github_issue }}
         with:
             script: |
               const { DATA, NUMBER, OWNER, REPO, } = process.env;
-              const labels = JSON.parse(DATA);
+              // const labels = JSON.parse(DATA);
 
-              core.info(JSON.stringify(labels));
+              core.info(NUMBER);
 
 # if (assignees) {
 #     const issue  = JSON.parse(process.env.ISSUE);
