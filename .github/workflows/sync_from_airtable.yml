@@ -17,7 +17,7 @@ jobs:
     name: Find Existing Issue
     runs-on: ubuntu-latest
     outputs:
-      github_issue: ${{ steps.find-existing-issue.outputs.result }}
+      github_issue: ${{ toJSON(steps.find-existing-issue.outputs.result) }}
     steps:
      - uses: actions/github-script@v6
        id: find-existing-issue
