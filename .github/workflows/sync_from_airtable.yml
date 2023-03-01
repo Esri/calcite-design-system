@@ -78,7 +78,7 @@ jobs:
         OWNER: ${{env.OWNER}}
         REPO: ${{env.REPO}}
         DATA: ${{ fromJSON(env.DATA) }}
-        ISSUE: ${{ needs.existing_issue.outputs.github_issue }}
+        ISSUE: ${{ fromJSON(needs.existing_issue.outputs.github_issue) }}
        with:
           result-encoding: string
           script: |
@@ -87,7 +87,8 @@ jobs:
 
             if (assignees) {
               const issue = JSON.parse(ISSUE);
-              const issueUpdateTime = issue.updated_at.getTime();
+              console.log(issue)
+              const issueUpdateTime = ISSUE.updated_at.getTime();
               const currentTime = new Date().getTime();
               const updateIssueData = { owner: OWNER, repo: REPO, issue_number: NUMBER, assignees };
               
