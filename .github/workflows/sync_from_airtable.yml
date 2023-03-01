@@ -153,7 +153,7 @@ jobs:
                       repo: REPO,
                       issue_number: NUMBER,
                       name
-                    }));
+                    })));
 
                   core.info('labels Removed: ', removeLabels.join(','))
                 }
