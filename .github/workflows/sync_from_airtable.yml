@@ -144,6 +144,7 @@ jobs:
                           issue_number: NUMBER,
                           labels: addLabels
                       }).catch((err) => {
+                          core.error(err)
                           if (err.includes('Label does not exist')) { core.error(err); } else { core.error(err)}
                       });
                       core.info('labels Added: ', addLabels.join(','))
@@ -156,6 +157,7 @@ jobs:
                           issue_number: NUMBER,
                           name
                       }).catch((err) => {
+                          core.error(err)
                           if (err.includes('Label does not exist')) { core.error(err); } else { core.error(err)}
                       })));
 
