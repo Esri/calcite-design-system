@@ -80,7 +80,6 @@ jobs:
         DATA: ${{ fromJSON(env.DATA) }}
         ISSUE: ${{ needs.existing_issue.outputs.github_issue }}
        with:
-          result-encoding: string
           script: |
             const { DATA, NUMBER, OWNER, REPO, } = process.env;
             const { assignees } = JSON.parse(DATA);
@@ -97,15 +96,15 @@ jobs:
                 // Continue updating issue
                 if (ghAssignees.join(',') !== assignees.join(',')) {
                   const updateIssueData = { owner: OWNER, repo: REPO, issue_number: NUMBER, assignees };
-                  core.info(JSON.stringify(updateIssueData))
-                  // github.rest.issues.update(updateIssueData);
+                  return github.rest.issues.update(updateIssueData).then((response) => {
+                    core.info(response)
+                  });
                 }
               } else {
                 core.info('Stopping propagation, issue was recently updated and this is likely an update loop.')
               }
             }
-#   
-#          
+        
 #   labeled_unlabeled:
 #     name: Label or UnLabel
 #     needs: existing_issue
