@@ -76,29 +76,24 @@ jobs:
 
                 const removeAssignees = Object.keys(ghLookup);
 
-                core.info(JSON.stringify(ghLookup))
-                core.info(JSON.stringify(assignees))
-                core.info(JSON.stringify(ghAssignees));
-                core.info(JSON.stringify(removeAssignees));
-                core.info(JSON.stringify(addAssignees));
-                core.info(JSON.stringify(keepAssignees));
-
-                if (addAssignees) {
-                    // await github.rest.issues.addAssignees({
-                    //     owner: OWNER,
-                    //     repo: REPO,
-                    //     issue_number: NUMBER,
-                    //     assignees: addAssignees
-                    // });
+                if (addAssignees && addAssignees.length > 0) {
+                  await github.rest.issues.addAssignees({
+                      owner: OWNER,
+                      repo: REPO,
+                      issue_number: NUMBER,
+                      assignees: addAssignees
+                  });
+                  core.info('Assignees Added: ', addAssignees.join(','))
                 }
 
-                if (removeAssignees) {
-                    // await github.rest.issues.removeAssignees({
-                    //     owner: OWNER,
-                    //     repo: REPO,
-                    //     issue_number: NUMBER,
-                    //     assignees: removeAssignees
-                    // });
+                if (removeAssignees && removeAssignees.length > 0) {
+                  await github.rest.issues.removeAssignees({
+                      owner: OWNER,
+                      repo: REPO,
+                      issue_number: NUMBER,
+                      assignees: removeAssignees
+                  });
+                  core.info('Assignees Removed: ', removeAssignees.join(','))
                 }
             }
         
