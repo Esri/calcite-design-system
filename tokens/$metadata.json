@@ -34,6 +34,7 @@
     "component/tooltip",
     "component/switch",
     "component/[template-comp-name]",
+    "component/card",
     "component/accordion_backup",
     "calcite/light",
     "calcite/dark",
