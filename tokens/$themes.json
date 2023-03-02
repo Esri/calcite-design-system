@@ -6,7 +6,8 @@
       "core": "source",
       "semantic": "source",
       "brand/global": "enabled",
-      "brand/light": "enabled"
+      "brand/light": "enabled",
+      "component/test": "disabled"
     },
     "$figmaStyleReferences": {}
   },
@@ -17,7 +18,8 @@
       "core": "source",
       "semantic": "source",
       "brand/global": "enabled",
-      "brand/dark": "enabled"
+      "brand/dark": "enabled",
+      "component/test": "disabled"
     },
     "$figmaStyleReferences": {}
   },
@@ -35,7 +37,8 @@
       "component/loader": "source",
       "component/radio": "source",
       "component/rating": "source",
-      "component/tooltip": "source"
+      "component/tooltip": "source",
+      "component/test": "disabled"
     },
     "$figmaStyleReferences": {
       "color.brand.default": "S:b28244f76fae4e504bbfa18bb30e111e02a00461,",
@@ -112,7 +115,8 @@
       "component/loader": "source",
       "component/radio": "source",
       "component/rating": "source",
-      "component/tooltip": "source"
+      "component/tooltip": "source",
+      "component/test": "disabled"
     },
     "$figmaStyleReferences": {
       "color.brand.default": "S:4ae7e0e0a08b9109fef0b6c2cb45185a3b711de8,",
@@ -214,7 +218,8 @@
       "component/input-text": "enabled",
       "component/input-week": "enabled",
       "component/textarea": "enabled",
-      "component/tab-title": "enabled"
+      "component/tab-title": "enabled",
+      "component/test": "disabled"
     },
     "$figmaStyleReferences": {
       "semantic.ui.color.brand.default.light": "S:959c4907a32cb62f2227db1c3fb7a88c3eedcbb9,",
