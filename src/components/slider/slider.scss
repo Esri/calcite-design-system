@@ -34,11 +34,8 @@
   font-size: var(--calcite-slider-container-font-size);
 }
 
-// disable browser swipe navigation to next/previous page to prevent
-// interference with the slide thumb intended functionality to follow touch gesture
 :host {
   @apply block;
-  touch-action: none;
 }
 
 .container {
@@ -50,6 +47,8 @@
   --calcite-slider-full-handle-height: calc(
     var(--calcite-slider-handle-size) + var(--calcite-slider-handle-extension-height)
   );
+  touch-action: none;
+  // disable browser swipe navigation to prevent interference with the slide thumb following a touch gesture
 }
 
 @include disabled() {
