@@ -3,9 +3,7 @@
 This document maintains a list of released versions and changes introduced by them.
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
-<!--@unreleased-section-start-->
-
-## Unreleased
+## [v1.0.8](https://github.com/Esri/calcite-components/compare/v1.0.7...v1.0.8) (2023-03-02)
 
 ### Bug Fixes
 
@@ -20,8 +18,6 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 * **value-list:** add back instructions for screen reader when drag handle is activated ([#6402](https://github.com/Esri/calcite-components/issues/6402)) ([b822f25](https://github.com/Esri/calcite-components/commit/b822f25a88519c8a4ddb1311006a88ac1e7b5a1b)), closes [#6401](https://github.com/Esri/calcite-components/issues/6401) [#5739](https://github.com/Esri/calcite-components/issues/5739)
 
 - **slider:** slider handle aligns with track when font size changes ([#5372](https://github.com/Esri/calcite-components/issues/5372)) ([780df6c](https://github.com/Esri/calcite-components/commit/780df6c78b9dd111bec177189421372c3fe21285)), closes [#4721](https://github.com/Esri/calcite-components/issues/4721)
-
-<!--@unreleased-section-end-->
 
 ## [v1.0.7](https://github.com/Esri/calcite-components/compare/v1.0.6...v1.0.7) (2023-02-15)
 
