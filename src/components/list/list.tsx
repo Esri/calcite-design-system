@@ -391,7 +391,7 @@ export class List implements InteractiveComponent, LoadableComponent {
     }));
   };
 
-  private updateListItems = debounce((): void => {
+  private updateListItems(): void {
     const { selectionAppearance, selectionMode } = this;
     const items = this.queryListItems();
     items.forEach((item) => {
@@ -406,7 +406,7 @@ export class List implements InteractiveComponent, LoadableComponent {
     this.setActiveListItem();
     this.updateSelectedItems();
     this.updateFilteredItems();
-  }, debounceTimeout);
+  }
 
   queryListItems = (): HTMLCalciteListItemElement[] => {
     return Array.from(this.el.querySelectorAll(listItemSelector));
