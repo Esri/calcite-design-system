@@ -34,7 +34,6 @@
     "component/tooltip",
     "component/switch",
     "component/[template-comp-name]",
-    "component/test",
     "component/accordion_backup",
     "component/accordion_backup_Copy",
     "calcite/light",
