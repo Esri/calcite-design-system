@@ -1182,6 +1182,18 @@
             "type": "color"
           }
         }
+      },
+      "tabs": {
+        "bordered": {
+          "border": {
+            "value": "$tab-title.bordered.border.light",
+            "type": "color"
+          },
+          "background": {
+            "value": "$tab-title.bordered.background.default.light",
+            "type": "color"
+          }
+        }
       }
     }
   }

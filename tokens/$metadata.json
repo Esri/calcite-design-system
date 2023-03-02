@@ -29,6 +29,7 @@
     "component/radio",
     "component/rating",
     "component/tab-title",
+    "component/tabs",
     "component/tip",
     "component/tooltip",
     "component/switch",
