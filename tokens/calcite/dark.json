@@ -1158,6 +1158,22 @@
             "type": "color"
           }
         }
+      },
+      "card": {
+        "font": {
+          "title": {
+            "value": "$card.font.title.dark",
+            "type": "color"
+          },
+          "subtitle": {
+            "value": "$card.font.subtitle.dark",
+            "type": "color"
+          },
+          "description": {
+            "value": "$card.font.description.dark",
+            "type": "color"
+          }
+        }
       }
     }
   }
