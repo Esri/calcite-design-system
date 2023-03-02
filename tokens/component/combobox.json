@@ -1,5 +1,5 @@
 {
-  "[comp-name]": {
+  "combobox": {
     "font": {
       "light": {
         "value": "$semantic.ui.color.text.3.light",
@@ -10,7 +10,7 @@
         "type": "color"
       },
       "sm": {
-        "value": "$semantic.font.default.bold.-2h",
+        "value": "$semantic.font.default.bold.-3h",
         "type": "typography"
       },
       "md": {
@@ -146,31 +146,6 @@
       "lg": {
         "value": "$core.spacing.11",
         "type": "spacing"
-      }
-    },
-    "[specific-element]": {
-      "font": {
-        "sm": {
-          "value": {
-            "typography": "$[comp-name].font.sm",
-            "fontWeights": "$core.font.font-weight.medium-italic"
-          },
-          "type": "composition"
-        },
-        "md": {
-          "value": {
-            "typography": "$[comp-name].font.md",
-            "fontWeights": "$core.font.font-weight.medium-italic"
-          },
-          "type": "composition"
-        },
-        "lg": {
-          "value": {
-            "typography": "$[comp-name].font.lg",
-            "fontWeights": "$core.font.font-weight.medium-italic"
-          },
-          "type": "composition"
-        }
       }
     }
   }
