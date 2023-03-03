@@ -152,7 +152,6 @@ export class Filter
   async componentWillLoad(): Promise<void> {
     setUpLoadableComponent(this);
     this.updateFiltered(filter(this.items, this.value));
-    this.filter(this.value);
     await setUpMessages(this);
   }
 

@@ -65,6 +65,19 @@ body:
       description: Please provide the last working version if the issue is a regression.
     validations:
       required: false
+  - type: dropdown
+    id: priority-impact
+    validations:
+      required: true
+    attributes:
+      label: Priority impact
+      multiple: false
+      description: What is the impact to you, your team, or organization? Use discretion and only select "need" or "emergency" priorities for high user impact and quality issues. For instance, would someone notice, in a bad way, if this issue were present in the release?
+      options:
+        - p3 - not time sensitive
+        - p2 - want for current milestone
+        - p1 - need for current milestone
+        - p0 - emergency
   - type: textarea
     id: impact
     attributes:
