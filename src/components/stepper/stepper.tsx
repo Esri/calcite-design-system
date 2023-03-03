@@ -14,7 +14,6 @@ import { focusElementInGroup } from "../../utils/dom";
 import { NumberingSystem } from "../../utils/locale";
 import { Layout, Scale } from "../interfaces";
 import { StepperItemChangeEventDetail, StepperItemKeyEventDetail } from "./interfaces";
-import { getItemPosition } from "./utils";
 
 /**
  * @slot - A slot for adding `calcite-stepper-item` elements.
@@ -155,18 +154,18 @@ export class Stepper {
     event.stopPropagation();
   }
 
-  @Listen("calciteStepperItemSelect")
+  @Listen("calciteInternalStepperItemSelect")
   updateItem(event: CustomEvent): void {
-    const stepperItemEl = event.target as HTMLCalciteStepperItemElement;
-    const position = getItemPosition(this.el, stepperItemEl);
+    const { position } = event.detail;
+
     if (typeof position === "number") {
       this.currentPosition = position;
-      this.selectedItem = stepperItemEl;
-
-      this.calciteInternalStepperItemChange.emit({
-        position
-      });
+      this.selectedItem = event.target as HTMLCalciteStepperItemElement;
     }
+
+    this.calciteInternalStepperItemChange.emit({
+      position
+    });
   }
 
   @Listen("calciteInternalUserRequestedStepperItemSelect")
