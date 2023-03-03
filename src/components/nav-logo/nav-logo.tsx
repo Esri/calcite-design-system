@@ -36,6 +36,12 @@ export class CalciteNavLogo {
   /** When `true`, makes `text` and `subText` visible */
   @Prop({ reflect: true }) textEnabled?: boolean;
 
+  /* todo Provide the label for the action that will invoke the vertical sheet display? */
+  @Prop({ reflect: true }) hamburgerEnabled: boolean;
+
+  /* todo Provide the label for the action that will invoke the vertical sheet display? */
+  @Prop({ reflect: true }) hamburgerText: string;
+
   // --------------------------------------------------------------------------
   //
   //  Render Methods
@@ -44,6 +50,7 @@ export class CalciteNavLogo {
   render() {
     return (
       <Host>
+        {this.hamburgerEnabled ? <calcite-action icon="hamburger" text="Toggle" /> : null}
         <a href={this.href} tabIndex={0}>
           {this.src && <img src={this.src} />}
           {(this.text || this.subText) && this.textEnabled && (

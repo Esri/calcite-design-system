@@ -328,6 +328,7 @@
             </calcite-nav-menu>
           </calcite-nav>
         </calcite-shell>
+
         <div class="text-box">
           <h4>
             <code><b>progress slot</b>positions a progress component within the nav</code>
@@ -517,6 +518,12 @@
           <h4>
             <code><b>active</b></code>
           </h4>
+          <h4>
+            <code><b>hamburger-enabled (tbd name)</b></code>
+          </h4>
+          <h4>
+            <code><b>hamburger-text (tbd name)</b></code>
+          </h4>
         </div>
         <calcite-shell>
           <calcite-nav slot="header" style="--calcite-ui-brand: #bf390f">
@@ -593,6 +600,33 @@
               src="../assets/images/acme-logo.svg"
             >
             </calcite-nav-logo>
+          </calcite-nav>
+        </calcite-shell>
+        <div class="text-box">
+          <h4>
+            <code
+              ><b>hamburgerEnabled (tbd name)</b> - opt in to showing hamburger, positions next to title in main</code
+            >
+          </h4>
+        </div>
+        <calcite-shell>
+          <calcite-nav slot="header">
+            <calcite-nav-logo
+              hamburger-enabled
+              text-enabled
+              text="Walt's Chips"
+              sub-text="Eastern Potato Chip Company"
+              slot="logo"
+              src="../assets/images/acme-logo.svg"
+            >
+            </calcite-nav-logo>
+            <calcite-chip slot="logo" scale="s">logo</calcite-chip>
+            <calcite-chip slot="user" text-enabled scale="s">user</calcite-chip>
+            <calcite-chip slot="primary-menu-start" scale="s">primary-menu-start</calcite-chip>
+            <calcite-chip slot="primary-actions-start" scale="s">primary-actions-start</calcite-chip>
+            <calcite-chip slot="primary-menu-center" scale="s">primary-menu-center</calcite-chip>
+            <calcite-chip slot="primary-actions-end" scale="s">primary-actions-end </calcite-chip>
+            <calcite-chip slot="primary-menu-end" scale="s">primary-menu-end </calcite-chip>
           </calcite-nav>
         </calcite-shell>
         <!--
