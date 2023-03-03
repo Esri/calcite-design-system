@@ -44,7 +44,7 @@
     "test:existing-build": "stencil test --no-docs --no-build --spec --e2e",
     "test:prerender": "stencil build --no-docs --prerender",
     "test:watch": "npm run test -- -- --watchAll",
-    "util:build-docs": "npm run util:copy-icons && stencil build --docs --config stencil.storybook.config.ts",
+    "util:build-docs": "npm run util:prep-build-reqs && stencil build --docs --config stencil.storybook.config.ts",
     "util:clean-tested-build": "npm ci && npm test && npm run build",
     "util:copy-icons": "cpy \"./node_modules/@esri/calcite-ui-icons/js/*.json\" \"./src/components/icon/assets/icon/\" --flat",
     "util:deploy-next": "npm run util:prep-next && npm run util:publish-next",
