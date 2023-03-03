@@ -94,6 +94,7 @@
     "@storybook/addon-interactions": "6.5.15",
     "@storybook/addon-knobs": "6.4.0",
     "@storybook/html": "6.5.15",
+    "@storybook/jest": "0.0.10",
     "@storybook/storybook-deployer": "2.8.16",
     "@storybook/testing-library": "0.0.13",
     "@types/dedent": "0.7.0",

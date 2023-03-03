@@ -11,6 +11,9 @@ module.exports = {
   ],
   staticDirs: ["../__docs-temp__"],
   stories: ["../src/**/*.stories.@(mdx|ts)"],
+  features: {
+    interactionsDebugger: true
+  },
   babel: async (options) => {
     return {
       ...options,
