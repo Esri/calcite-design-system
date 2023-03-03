@@ -32,7 +32,6 @@ import {
   LoadableComponent,
   componentLoaded
 } from "../../utils/loadable";
-import { getItemPosition } from "../stepper/utils";
 
 /**
  * @slot - A slot for adding custom content.
@@ -143,10 +142,10 @@ export class StepperItem implements InteractiveComponent, LocalizedComponent, Lo
   calciteInternalStepperItemKeyEvent: EventEmitter<StepperItemKeyEventDetail>;
 
   /**
-   * Emits when the component's header is selected.
+   * @internal
    */
   @Event({ cancelable: false })
-  calciteStepperItemSelect: EventEmitter<void>;
+  calciteInternalStepperItemSelect: EventEmitter<StepperItemEventDetail>;
 
   /**
    * @internal
@@ -177,7 +176,7 @@ export class StepperItem implements InteractiveComponent, LocalizedComponent, Lo
     this.layout = getElementProp(this.el, "layout", false);
     this.scale = getElementProp(this.el, "scale", "m");
     this.parentStepperEl = this.el.parentElement as HTMLCalciteStepperElement;
-    this.itemPosition = getItemPosition(this.parentStepperEl, this.el);
+    this.itemPosition = this.getItemPosition();
     this.registerStepperItem();
 
     if (this.selected) {
@@ -333,14 +332,15 @@ export class StepperItem implements InteractiveComponent, LocalizedComponent, Lo
     ) {
       return;
     }
+
     this.emitUserRequestedItem();
   };
 
   private emitUserRequestedItem = (): void => {
+    this.emitRequestedItem();
     if (!this.disabled) {
       const position = this.itemPosition;
-      this.selectedPosition = getItemPosition(this.parentStepperEl, this.el);
-      this.determineSelectedItem();
+
       this.calciteInternalUserRequestedStepperItemSelect.emit({
         position
       });
@@ -349,9 +349,19 @@ export class StepperItem implements InteractiveComponent, LocalizedComponent, Lo
 
   private emitRequestedItem = (): void => {
     if (!this.disabled) {
-      this.calciteStepperItemSelect.emit();
+      const position = this.itemPosition;
+
+      this.calciteInternalStepperItemSelect.emit({
+        position
+      });
     }
   };
+
+  private getItemPosition(): number {
+    return Array.from(this.parentStepperEl?.querySelectorAll("calcite-stepper-item")).indexOf(
+      this.el
+    );
+  }
 
   renderNumbers(): string {
     numberStringFormatter.numberFormatOptions = {
