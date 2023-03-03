@@ -17,6 +17,7 @@ import {
   setComponentLoaded,
   setUpLoadableComponent
 } from "../../utils/loadable";
+import { connectLocalized, disconnectLocalized } from "../../utils/locale";
 import {
   connectMessages,
   disconnectMessages,
@@ -49,7 +50,7 @@ export class Handle implements LoadableComponent, T9nComponent {
   /**
    * Value for the button title attribute
    */
-  @Prop({ reflect: true }) dragHandle;
+  @Prop({ reflect: true }) dragHandle: string;
 
   /**
    * Made into a prop for testing purposes only
@@ -76,11 +77,12 @@ export class Handle implements LoadableComponent, T9nComponent {
 
   connectedCallback(): void {
     connectMessages(this);
+    connectLocalized(this);
   }
 
   async componentWillLoad(): Promise<void> {
-    await setUpMessages(this);
     setUpLoadableComponent(this);
+    await setUpMessages(this);
   }
 
   componentDidLoad(): void {
@@ -89,6 +91,7 @@ export class Handle implements LoadableComponent, T9nComponent {
 
   disconnectedCallback(): void {
     disconnectMessages(this);
+    disconnectLocalized(this);
   }
 
   // --------------------------------------------------------------------------
@@ -103,12 +106,13 @@ export class Handle implements LoadableComponent, T9nComponent {
 
   @State() effectiveLocale: string;
 
+  @State() defaultMessages: HandleMessages;
+
   @Watch("effectiveLocale")
   effectiveLocaleChange(): void {
     updateMessages(this, this.effectiveLocale);
   }
 
-  @State() defaultMessages: HandleMessages;
   // --------------------------------------------------------------------------
   //
   //  Events
