@@ -74,7 +74,7 @@
     "@stencil/core": "2.20.0",
     "@types/color": "3.0.3",
     "color": "4.2.3",
-    "focus-trap": "7.2.0",
+    "focus-trap": "7.3.1",
     "form-request-submit-polyfill": "2.0.0",
     "lodash-es": "4.17.21",
     "sortablejs": "1.15.0"
