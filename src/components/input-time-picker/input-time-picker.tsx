@@ -502,9 +502,10 @@ export class InputTimePicker
             onCalciteInternalInputBlur={this.calciteInternalInputBlurHandler}
             onCalciteInternalInputFocus={this.calciteInternalInputFocusHandler}
             readOnly={this.readOnly}
-            ref={this.setCalciteInputEl}
             scale={this.scale}
             step={this.step}
+            // eslint-disable-next-line react/jsx-sort-props
+            ref={this.setCalciteInputEl}
           />
         </div>
         <calcite-popover
@@ -514,19 +515,21 @@ export class InputTimePicker
           open={this.open}
           overlayPositioning={this.overlayPositioning}
           placement={this.placement}
-          ref={this.setCalcitePopoverEl}
           referenceElement={this.referenceElementId}
           triggerDisabled={true}
+          // eslint-disable-next-line react/jsx-sort-props
+          ref={this.setCalcitePopoverEl}
         >
           <calcite-time-picker
             lang={this.effectiveLocale}
             messageOverrides={this.messagesOverrides}
             numberingSystem={this.numberingSystem}
             onCalciteInternalTimePickerChange={this.timePickerChangeHandler}
-            ref={this.setCalciteTimePickerEl}
             scale={this.scale}
             step={this.step}
             value={this.value}
+            // eslint-disable-next-line react/jsx-sort-props
+            ref={this.setCalciteTimePickerEl}
           />
         </calcite-popover>
         <HiddenFormInputSlot component={this} />

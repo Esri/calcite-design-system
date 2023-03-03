@@ -92,12 +92,13 @@ export const ExpandToggle: FunctionalComponent<ExpandToggleProps> = ({
     <calcite-action
       icon={expanded ? expandIcon : collapseIcon}
       onClick={toggle}
-      ref={(referenceElement): HTMLCalciteActionElement =>
-        setTooltipReference({ tooltip, referenceElement, expanded, ref })
-      }
       scale={scale}
       text={expandText}
       textEnabled={expanded}
+      // eslint-disable-next-line react/jsx-sort-props
+      ref={(referenceElement): HTMLCalciteActionElement =>
+        setTooltipReference({ tooltip, referenceElement, expanded, ref })
+      }
     />
   );
 

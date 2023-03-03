@@ -216,8 +216,9 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
         aria-label={this.messages.close}
         class="alert-close"
         onClick={this.closeAlert}
-        ref={(el) => (this.closeButton = el)}
         type="button"
+        // eslint-disable-next-line react/jsx-sort-props
+        ref={(el) => (this.closeButton = el)}
       >
         <calcite-icon icon="x" scale={this.scale === "l" ? "m" : "s"} />
       </button>
@@ -268,6 +269,7 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
           }}
           onPointerEnter={this.autoClose && this.autoCloseTimeoutId ? this.handleMouseOver : null}
           onPointerLeave={this.autoClose && this.autoCloseTimeoutId ? this.handleMouseLeave : null}
+          // eslint-disable-next-line react/jsx-sort-props
           ref={this.setTransitionEl}
         >
           {requestedIcon ? (

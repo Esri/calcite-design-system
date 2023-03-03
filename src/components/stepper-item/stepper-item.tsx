@@ -207,11 +207,12 @@ export class StepperItem implements InteractiveComponent, LocalizedComponent, Lo
         <div class="container">
           <div
             class="stepper-item-header"
-            ref={(el) => (this.headerEl = el)}
             tabIndex={
               /* additional tab index logic needed because of display: contents */
               this.layout === "horizontal" && !this.disabled ? 0 : null
             }
+            // eslint-disable-next-line react/jsx-sort-props
+            ref={(el) => (this.headerEl = el)}
           >
             {this.icon ? this.renderIcon() : null}
             {this.numbered ? <div class="stepper-item-number">{this.renderNumbers()}.</div> : null}
