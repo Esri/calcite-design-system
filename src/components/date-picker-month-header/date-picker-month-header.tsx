@@ -163,9 +163,10 @@ export class DatePickerMonthHeader {
               onInput={this.onYearInput}
               onKeyDown={this.onYearKey}
               pattern="\d*"
-              ref={(el) => (this.yearInput = el)}
               type="text"
               value={localizedYear}
+              // eslint-disable-next-line react/jsx-sort-props
+              ref={(el) => (this.yearInput = el)}
             />
             {suffix && <span class={CSS.suffix}>{suffix}</span>}
           </span>

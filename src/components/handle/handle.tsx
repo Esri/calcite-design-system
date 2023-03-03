@@ -185,12 +185,12 @@ export class Handle implements LoadableComponent, T9nComponent {
         class={{ [CSS.handle]: true, [CSS.handleActivated]: this.activated }}
         onBlur={this.handleBlur}
         onKeyDown={this.handleKeyDown}
-        ref={(el): void => {
-          this.handleButton = el;
-        }}
         role="button"
         tabindex="0"
         title={this.messages.dragHandle}
+        ref={(el): void => {
+          this.handleButton = el;
+        }}
       >
         <calcite-icon icon={ICONS.drag} scale="s" />
       </span>

@@ -278,8 +278,9 @@ export class List implements InteractiveComponent, LoadableComponent {
                     items={dataForFilter}
                     onCalciteFilterChange={this.handleFilter}
                     placeholder={filterPlaceholder}
-                    ref={(el) => (this.filterEl = el)}
                     value={filterText}
+                    // eslint-disable-next-line react/jsx-sort-props
+                    ref={(el) => (this.filterEl = el)}
                   />
                 </th>
               </tr>

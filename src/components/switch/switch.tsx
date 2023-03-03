@@ -190,9 +190,10 @@ export class Switch
           aria-checked={toAriaBoolean(this.checked)}
           aria-label={getLabelText(this)}
           class="container"
-          ref={this.setSwitchEl}
           role="switch"
           tabIndex={0}
+          // eslint-disable-next-line react/jsx-sort-props
+          ref={this.setSwitchEl}
         >
           <div class="track">
             <div class="handle" />
