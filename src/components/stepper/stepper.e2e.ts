@@ -1,6 +1,7 @@
 import { E2EPage, newE2EPage } from "@stencil/core/testing";
 import { renders, hidden } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
+import { clickStepperItemContent, getSelectedItemId, itemClicker } from "./utils";
 
 // todo test the automatic setting of first item to selected
 describe("calcite-stepper", () => {
@@ -440,12 +441,6 @@ describe("calcite-stepper", () => {
       const eventSpy = await element.spyOnEvent("calciteStepperItemChange");
       const firstItem = await page.find("#step-1");
 
-      const getSelectedItemId = async (): Promise<string> => {
-        return await page.evaluate((): string => {
-          return document.querySelector("calcite-stepper")?.selectedItem?.id || "";
-        });
-      };
-
       let expectedEvents = 0;
 
       // non user interaction
@@ -453,23 +448,15 @@ describe("calcite-stepper", () => {
       await page.waitForChanges();
       expect(eventSpy).toHaveReceivedEventTimes(expectedEvents);
 
-      // we use browser-context function to click on items to workaround `E2EElement#click` error
-      async function itemClicker(item: HTMLCalciteStepperItemElement) {
-        item.click();
-      }
-
       await page.$eval("#step-2", itemClicker);
       expect(eventSpy).toHaveReceivedEventTimes(++expectedEvents);
-      expect(await getSelectedItemId()).toBe("step-2");
+      expect(await getSelectedItemId(page)).toBe("step-2");
 
       if (hasContent) {
-        await page.$eval("#step-1", (item: HTMLCalciteStepperItemElement) =>
-          item.shadowRoot.querySelector<HTMLElement>(".stepper-item-content").click()
-        );
-
+        await clickStepperItemContent(page, "#step-1");
         if (layout === "vertical") {
           expect(eventSpy).toHaveReceivedEventTimes(++expectedEvents);
-          expect(await getSelectedItemId()).toBe("step-1");
+          expect(await getSelectedItemId(page)).toBe("step-1");
         } else {
           // no events since horizontal layout moves content outside of item selection hit area
           expect(eventSpy).toHaveReceivedEventTimes(expectedEvents);
@@ -482,7 +469,7 @@ describe("calcite-stepper", () => {
 
       await page.$eval("#step-4", itemClicker);
       expect(eventSpy).toHaveReceivedEventTimes(++expectedEvents);
-      expect(await getSelectedItemId()).toBe("step-4");
+      expect(await getSelectedItemId(page)).toBe("step-4");
 
       await element.callMethod("prevStep");
       await page.waitForChanges();
