@@ -188,6 +188,7 @@ export class Handle implements LoadableComponent, T9nComponent {
         role="button"
         tabindex="0"
         title={this.messages.dragHandle}
+        // eslint-disable-next-line react/jsx-sort-props
         ref={(el): void => {
           this.handleButton = el;
         }}
