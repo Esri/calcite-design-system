@@ -298,8 +298,9 @@ export class ListItem implements InteractiveComponent, LoadableComponent {
         class={CSS.actionsStart}
         hidden={!hasActionsStart}
         key="actions-start-container"
-        ref={(el) => (this.actionsStartEl = el)}
         role="gridcell"
+        // eslint-disable-next-line react/jsx-sort-props
+        ref={(el) => (this.actionsStartEl = el)}
       >
         <slot name={SLOTS.actionsStart} onSlotchange={this.handleActionsStartSlotChange} />
       </td>
@@ -314,8 +315,9 @@ export class ListItem implements InteractiveComponent, LoadableComponent {
         class={CSS.actionsEnd}
         hidden={!hasActionsEnd}
         key="actions-end-container"
-        ref={(el) => (this.actionsEndEl = el)}
         role="gridcell"
+        // eslint-disable-next-line react/jsx-sort-props
+        ref={(el) => (this.actionsEndEl = el)}
       >
         <slot name={SLOTS.actionsEnd} onSlotchange={this.handleActionsEndSlotChange} />
       </td>
@@ -388,8 +390,9 @@ export class ListItem implements InteractiveComponent, LoadableComponent {
         }}
         key="content-container"
         onClick={this.itemClicked}
-        ref={(el) => (this.contentEl = el)}
         role="gridcell"
+        // eslint-disable-next-line react/jsx-sort-props
+        ref={(el) => (this.contentEl = el)}
       >
         {content}
       </td>
@@ -430,10 +433,11 @@ export class ListItem implements InteractiveComponent, LoadableComponent {
           }}
           onFocus={this.focusCellNull}
           onKeyDown={this.handleItemKeyDown}
-          ref={(el) => (this.containerEl = el)}
           role="row"
           style={{ "--calcite-list-item-spacing-indent-multiplier": `${this.visualLevel}` }}
           tabIndex={active ? 0 : -1}
+          // eslint-disable-next-line react/jsx-sort-props
+          ref={(el) => (this.containerEl = el)}
         >
           {this.renderSelected()}
           {this.renderOpen()}

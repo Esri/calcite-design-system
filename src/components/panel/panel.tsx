@@ -393,8 +393,9 @@ export class Panel
         aria-label={text}
         icon={ICONS.close}
         onClick={close}
-        ref={this.setCloseRef}
         text={text}
+        // eslint-disable-next-line react/jsx-sort-props
+        ref={this.setCloseRef}
       />
     ) : null;
 
@@ -510,6 +511,7 @@ export class Panel
           [CSS.contentHeight]: hasFab
         }}
         onScroll={this.panelScrollHandler}
+        // eslint-disable-next-line react/jsx-sort-props
         ref={this.setPanelScrollEl}
       >
         {containerNode}
@@ -535,8 +537,9 @@ export class Panel
         class={CSS.container}
         hidden={closed}
         onKeyDown={panelKeyDownHandler}
-        ref={this.setContainerRef}
         tabIndex={closable ? 0 : -1}
+        // eslint-disable-next-line react/jsx-sort-props
+        ref={this.setContainerRef}
       >
         {this.renderHeaderNode()}
         {this.renderContent()}

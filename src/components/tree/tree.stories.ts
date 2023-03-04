@@ -212,6 +212,46 @@ export const iconStartAndActionsEnd = (): string => html`
   </div>
 `;
 
+export const treeItemTextContentWraps_TestOnly = (): string => html`
+  <calcite-tree style="width: 300px">
+    <calcite-tree-item>
+      <span>Possibly_long_tree_item_name_because_it_is_a_user_generated_layer_name</span>
+    </calcite-tree-item>
+  </calcite-tree>
+`;
+
+export const treeItemContentIsNotClipped_TestOnly = (): string => html`
+  <style>
+    .string-value {
+      white-space: pre-wrap;
+    }
+  </style>
+  <calcite-tree>
+    <calcite-tree-item>
+      <div>
+        <span>content from tree item below should not be clipped 👇</span><span>:&nbsp;</span
+        ><span class="string-value">✂️ 🚫clipped ✂️</span>
+      </div>
+    </calcite-tree-item>
+
+    <calcite-tree-item>
+      <div>
+        <span>value</span><span>:&nbsp;</span
+        ><!-- formatting (single-lining JSON) hides the issue, so we disable it -->
+        <!-- prettier-ignore -->
+        <span class="string-value">{
+          "spatialReference": {
+            "latestWkid": 3857,
+            "wkid": 102100
+          },
+          "x": -8443894.052,
+          "y": 5664504.875700004
+        }</span>
+      </div>
+    </calcite-tree-item>
+  </calcite-tree>
+`;
+
 export const darkModeRTL_TestOnly = (): string => html`
   <calcite-tree
     class="calcite-mode-dark"

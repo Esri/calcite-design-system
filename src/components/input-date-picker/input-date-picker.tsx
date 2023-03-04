@@ -465,7 +465,11 @@ export class InputDatePicker
         {this.localeData && (
           <div aria-expanded={toAriaBoolean(this.open)} class="input-container" role="application">
             {
-              <div class="input-wrapper" ref={this.setStartWrapper}>
+              <div
+                class="input-wrapper"
+                // eslint-disable-next-line react/jsx-sort-props
+                ref={this.setStartWrapper}
+              >
                 <calcite-input
                   class={`input ${
                     this.layout === "vertical" && this.range ? `no-bottom-border` : ``
@@ -480,9 +484,10 @@ export class InputDatePicker
                   onCalciteInternalInputFocus={this.startInputFocus}
                   placeholder={this.localeData?.placeholder}
                   readOnly={readOnly}
-                  ref={this.setStartInput}
                   scale={this.scale}
                   type="text"
+                  // eslint-disable-next-line react/jsx-sort-props
+                  ref={this.setStartInput}
                 />
               </div>
             }
@@ -492,6 +497,7 @@ export class InputDatePicker
                 [CSS.menu]: true,
                 [CSS.menuActive]: this.open
               }}
+              // eslint-disable-next-line react/jsx-sort-props
               ref={this.setFloatingEl}
             >
               <div
@@ -501,6 +507,7 @@ export class InputDatePicker
                   [FloatingCSS.animation]: true,
                   [FloatingCSS.animationActive]: this.open
                 }}
+                // eslint-disable-next-line react/jsx-sort-props
                 ref={this.setTransitionEl}
               >
                 <calcite-date-picker
@@ -539,7 +546,11 @@ export class InputDatePicker
               </div>
             )}
             {this.range && (
-              <div class="input-wrapper" ref={this.setEndWrapper}>
+              <div
+                class="input-wrapper"
+                // eslint-disable-next-line react/jsx-sort-props
+                ref={this.setEndWrapper}
+              >
                 <calcite-input
                   class={{
                     input: true,
@@ -554,9 +565,10 @@ export class InputDatePicker
                   onCalciteInternalInputFocus={this.endInputFocus}
                   placeholder={this.localeData?.placeholder}
                   readOnly={readOnly}
-                  ref={this.setEndInput}
                   scale={this.scale}
                   type="text"
+                  // eslint-disable-next-line react/jsx-sort-props
+                  ref={this.setEndInput}
                 />
               </div>
             )}
