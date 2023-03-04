@@ -1,6 +1,6 @@
 import { boolean, select, text } from "@storybook/addon-knobs";
-import { waitFor } from "@storybook/testing-library";
-import { expect } from "@storybook/jest";
+import { userEvent } from "@storybook/testing-library";
+import { screen, within } from "shadow-dom-testing-library";
 import { storyFilters } from "../../../.storybook/helpers";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import {
@@ -123,29 +123,14 @@ export const range = (): string =>
   </div>`;
 
 range.play = async () => {
-  const element = document.querySelector("div > calcite-date-picker");
-  await waitFor(() => {
-    expect(element).toBeInTheDocument();
-  });
-
-  // use the shadowRoot property to locate the <h3> element in the Shadow DOM:
-  const shadowDomElement = element?.shadowRoot?.querySelector("calcite-date-picker-month");
-  console.log(shadowDomElement);
-
-  // check textContent of the Shadow DOM element:
-  return shadowDomElement?.textContent?.includes("13");
-
-  // const startDate = await canvas.findByText('13', {
-  //   selector: 'span',
-  // });
-
-  // await userEvent.click(startDate);
-
-  // const endDate = await canvas.findByText('28', {
-  //   selector: 'span',
-  // });
-
-  // await userEvent.click(endDate);
+  const dateMonth = await screen.findByShadowRole("grid");
+  const nameInput = await within(dateMonth).findAllByShadowRole("gridcell");
+  const day = await within(nameInput[4]).findByShadowText("2");
+  const secondDay = await within(nameInput[5]).findByShadowText("3");
+  const thirdDay = await within(nameInput[6]).findByShadowText("4");
+  userEvent.click(day);
+  userEvent.hover(secondDay);
+  userEvent.click(thirdDay);
 };
 
 export const rangeRTL_TestOnly = (): string => html`

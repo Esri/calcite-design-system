@@ -1,4 +1,6 @@
 import { select, text } from "@storybook/addon-knobs";
+import { userEvent, waitFor } from "@storybook/testing-library";
+import { screen, within } from "shadow-dom-testing-library";
 import { boolean, iconNames, storyFilters } from "../../../.storybook/helpers";
 import { modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
@@ -73,6 +75,20 @@ export const withSlottedAction = (): string => html`
     </calcite-input-text>
   </div>
 `;
+
+withSlottedAction.play = async () => {
+  const element = document.querySelector("div > calcite-input-text") || new Element();
+  await waitFor(() => {
+    userEvent.click(element);
+  });
+  const inputWrapper = await screen.findByPlaceholderText("Placeholder text");
+  const input = await within(inputWrapper).findAllByShadowPlaceholderText("Placeholder text");
+  await userEvent.type(input[0], " Replacing the placeholder text", {
+    delay: 100
+  });
+  const button = await within(inputWrapper).findByShadowRole("button");
+  await userEvent.click(button);
+};
 
 export const darkModeRTL_TestOnly = (): string => html`
   <div style="width:300px;max-width:100%;text-align:center;">
