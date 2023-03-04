@@ -3,11 +3,13 @@ import {
   Element,
   Event,
   EventEmitter,
+  forceUpdate,
   h,
   Listen,
   Method,
   Prop,
-  VNode
+  VNode,
+  Watch
 } from "@stencil/core";
 
 import { focusElementInGroup } from "../../utils/dom";
@@ -51,6 +53,14 @@ export class Stepper {
    * Specifies the Unicode numeral system used by the component for localization.
    */
   @Prop({ reflect: true }) numberingSystem?: NumberingSystem;
+
+  @Watch("numberingSystem")
+  numberingSystemChange(): void {
+    for (const item of this.itemMap.keys()) {
+      // trigger item rendering to pick up parent numbering system
+      forceUpdate(item);
+    }
+  }
 
   /**
    * Specifies the component's selected item.
