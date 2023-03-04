@@ -252,11 +252,12 @@ export class Button
         href={childElType === "a" && this.href}
         name={childElType === "button" && this.name}
         onClick={this.handleClick}
-        ref={(el) => (this.childEl = el)}
         rel={childElType === "a" && this.rel}
         tabIndex={this.disabled || this.loading ? -1 : null}
         target={childElType === "a" && this.target}
         type={childElType === "button" && this.type}
+        // eslint-disable-next-line react/jsx-sort-props
+        ref={(el) => (this.childEl = el)}
       >
         {loaderNode}
         {this.iconStart ? iconStartEl : null}

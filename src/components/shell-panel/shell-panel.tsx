@@ -180,8 +180,9 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
         class={{ [CSS.content]: true, [CSS.contentDetached]: detached }}
         hidden={collapsed}
         key="content"
-        ref={this.storeContentEl}
         style={allowResizing && contentWidth ? { width: `${contentWidth}px` } : null}
+        // eslint-disable-next-line react/jsx-sort-props
+        ref={this.storeContentEl}
       >
         {this.renderHeader()}
         <div class={CSS.contentBody}>
@@ -200,10 +201,11 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
         class={CSS.separator}
         key="separator"
         onKeyDown={this.separatorKeyDown}
-        ref={this.connectSeparator}
         role="separator"
         tabIndex={0}
         touch-action="none"
+        // eslint-disable-next-line react/jsx-sort-props
+        ref={this.connectSeparator}
       />
     ) : null;
 
