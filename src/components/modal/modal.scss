@@ -114,11 +114,11 @@
   transition-delay: 0ms;
 }
 
-:host([open]) .container {
+.container--open {
   @apply opacity-100;
   visibility: visible !important;
   transition-delay: 0ms;
-  .modal--open {
+  .modal {
     @apply pointer-events-auto visible opacity-100;
     transition: transform var(--calcite-internal-animation-timing-slow) $easing-function, visibility 0ms linear,
       opacity var(--calcite-internal-animation-timing-slow) $easing-function,
