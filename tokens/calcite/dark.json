@@ -1174,6 +1174,26 @@
             "type": "color"
           }
         }
+      },
+      "action": {
+        "font": {
+          "value": "$action.font.dark",
+          "type": "color"
+        },
+        "icon": {
+          "value": "$action.icon.dark",
+          "type": "color"
+        },
+        "background": {
+          "default": {
+            "value": "$action.background.default.dark",
+            "type": "color"
+          },
+          "active": {
+            "value": "$action.background.active.dark",
+            "type": "color"
+          }
+        }
       }
     }
   }
