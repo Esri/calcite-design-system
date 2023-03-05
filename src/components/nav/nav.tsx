@@ -10,19 +10,15 @@ import { Component, Element, h, Host, Prop, VNode } from "@stencil/core";
  * @slot logo - A slot for adding a `calcite-logo` component to the primary nav level
  * @slot user - A slot for adding a `calcite-user` component to the primary nav level
  * @slot progress - A slot for adding a `calcite-progress` component to the primary nav level
- * @slot primary-menu-start - A slot for adding a `calcite-nav-menu` in the start position of the primary nav level
- * @slot primary-menu-center - A slot for adding a `calcite-nav-menu` in the center position of the primary nav level
- * @slot primary-menu-end - A slot for adding a `calcite-nav-menu` in the end position of the primary nav level
- * @slot secondary-menu-start - A slot for adding a `calcite-nav-menu` in the start position of the secondary nav level
- * @slot secondary-menu-end - A slot for adding a `calcite-nav-menu` in the end position of the secondary nav level
- * @slot tertiary-menu-start - A slot for adding a `calcite-nav-menu` in the start position of the tertiary nav level
- * @slot tertiary-menu-end - A slot for adding a `calcite-nav-menu` in the end position of the tertiary nav level
- * @slot primary-actions-start - A slot for adding a `calcite-action` or other content in the start position of the primary nav level
- * @slot primary-actions-end - A slot for adding a `calcite-action` or other content in the end position of the primary nav level
- * @slot secondary-actions-start - A slot for adding a `calcite-action` or other content in the start position of the secondary nav level
- * @slot secondary-actions-end - A slot for adding a `calcite-action` or other content in the end position of the secondary nav level
- * @slot tertiary-actions-start - A slot for adding a `calcite-action` or other content in the start position of the tertiary nav level
- * @slot tertiary-actions-end - A slot for adding a `calcite-action` or other content in the end position of the tertiary nav level
+ * @slot primary-content-start - A slot for adding a `calcite-nav-menu`, `calcite-action`, or other interactive elements in the start position of the primary nav level
+ * @slot primary-content-center - A slot for adding a `calcite-nav-menu`, `calcite-action`, or other interactive elements in the center position of the primary nav level
+ * @slot primary-content-end - A slot for adding a `calcite-nav-menu`, `calcite-action`, or other interactive elements in the end position of the primary nav level
+ * @slot secondary-content-start - A slot for adding a `calcite-nav-menu`, `calcite-action`, or other interactive elements in the start position of the secondary nav level
+ * @slot secondary-content-center - A slot for adding a `calcite-nav-menu`, `calcite-action`, or other interactive elements in the center position of the secondary nav level
+ * @slot secondary-content-end - A slot for adding a `calcite-nav-menu`, `calcite-action`, or other interactive elements in the end position of the secondary nav level
+ * @slot tertiary-content-start - A slot for adding a `calcite-nav-menu`, `calcite-action`, or other interactive elements in the start position of the tertiary nav level
+ * @slot tertiary-content-center - A slot for adding a `calcite-nav-menu`, `calcite-action`, or other interactive elements in the center position of the tertiary nav level
+ * @slot tertiary-content-end - A slot for adding a `calcite-nav-menu`, `calcite-action`, or other interactive elements in the end position of the tertiary nav level
  */
 export class CalciteNav {
   //--------------------------------------------------------------------------
@@ -55,30 +51,21 @@ export class CalciteNav {
     const progress = this.el.querySelector('[slot="progress"]');
     const logo = this.el.querySelector('[slot="logo"]');
     const user = this.el.querySelector('[slot="user"]');
-    const menuStart = this.el.querySelector(`[slot="${level}-menu-start"]`);
-    const menuCenter = this.el.querySelector(`[slot="${level}-menu-center"]`);
-    const menuEnd = this.el.querySelector(`[slot="${level}-menu-end"]`);
-    const actionsStart = this.el.querySelector(`[slot="${level}-actions-start"]`);
-    const actionsEnd = this.el.querySelector(`[slot="${level}-actions-end"]`);
+    const contentStart = this.el.querySelector(`[slot="${level}-content-start"]`);
+    const contentCenter = this.el.querySelector(`[slot="${level}-content-center"]`);
+    const contentEnd = this.el.querySelector(`[slot="${level}-content-end"]`);
 
     const showMenu =
-      (level === "primary" && (logo || user)) ||
-      menuCenter ||
-      menuStart ||
-      menuEnd ||
-      actionsStart ||
-      actionsEnd;
+      (level === "primary" && (logo || user)) || contentCenter || contentStart || contentEnd;
 
     return showMenu ? (
       <div class={`nav-container nav-${level}`}>
         {progress ? <slot name="progress" /> : null}
         <div class="nav-container-content">
           {level === "primary" && logo ? <slot name="logo" /> : null}
-          {menuStart ? <slot name={`${level}-menu-start`} /> : null}
-          {actionsStart ? <slot name={`${level}-actions-start`} /> : null}
-          {menuCenter ? <slot name={`${level}-menu-center`} /> : null}
-          {actionsEnd ? <slot name={`${level}-actions-end`} /> : null}
-          {menuStart ? <slot name={`${level}-menu-end`} /> : null}
+          {contentStart ? <slot name={`${level}-content-start`} /> : null}
+          {contentCenter ? <slot name={`${level}-content-center`} /> : null}
+          {contentStart ? <slot name={`${level}-content-end`} /> : null}
           {level === "primary" && user ? <slot name="user" /> : null}
         </div>
       </div>

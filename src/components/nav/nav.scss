@@ -65,81 +65,56 @@
 slot[name] {
   @apply flex flex-row;
 }
+
+slot[name="primary-content-start"]::slotted(*),
+slot[name="primary-content-center"]::slotted(*),
+slot[name="primary-content-end"]::slotted(*),
+slot[name="secondary-content-start"]::slotted(*),
+slot[name="secondary-content-end"]::slotted(*),
+slot[name="tertiary-content-start"]::slotted(*),
+slot[name="tertiary-content-end"]::slotted(*) {
+  @apply flex flex-row items-center;
+}
+
 slot[name="progress"],
 slot[name="progress"] calcite-progress {
   position: absolute;
   inset-block-start: 0;
   inset-inline: 0;
 }
-slot[name="primary-menu-end"],
-slot[name="secondary-menu-end"],
-slot[name="tertiary-menu-end"] {
+slot[name="primary-content-end"],
+slot[name="secondary-content-end"],
+slot[name="tertiary-content-end"] {
   @apply ml-auto;
 }
-// support the full width example
-slot[name="primary-menu-start"]:only-child :first-child,
-slot[name="secondary-menu-start"]:only-child :first-child,
-slot[name="tertiary-menu-start"]:only-child :first-child,
-slot[name="primary-menu-end"]:only-child :first-child,
-slot[name="secondary-menu-end"]:only-child :first-child,
-slot[name="tertiary-menu-end"]:only-child :first-child {
-  inline-size: 100%;
-  border: 2px solid red !important;
-}
 
-slot[name="primary-actions-start"]::slotted(*),
-slot[name="primary-actions-end"]::slotted(*),
-slot[name="secondary-actions-start"]::slotted(*),
-slot[name="secondary-actions-end"]::slotted(*),
-slot[name="tertiary-actions-start"]::slotted(*),
-slot[name="tertiary-actions-end"]::slotted(*) {
-  @apply flex flex-row items-center;
-}
-
-slot[name="primary-actions-start"],
-slot[name="secondary-actions-start"],
-slot[name="tertiary-actions-start"] {
+slot[name="primary-content-start"],
+slot[name="secondary-content-start"],
+slot[name="tertiary-content-start"] {
   @apply mr-auto;
 }
 
-slot[name="primary-actions-end"],
-slot[name="secondary-actions-end"],
-slot[name="tertiary-actions-end"],
+slot[name="primary-content-end"],
+slot[name="secondary-content-end"],
+slot[name="tertiary-content-end"],
 slot[name="logo"] ~ slot[name="user"],
 slot[name="user"]:only-child {
   @apply ml-auto;
 }
 
-slot[name="primary-menu-center"] {
+slot[name="primary-content-center"] {
   @apply ml-auto mr-auto;
 }
 
-// todo menu center
-slot[name="primary-actions-end"] ~ slot[name="primary-menu-end"],
-slot[name="secondary-actions-end"] ~ slot[name="secondary-menu-end"],
-slot[name="tertiary-actions-end"] ~ slot[name="tertiary-menu-end"],
-slot[name="primary-menu-start"] ~ slot[name="primary-actions-start"],
-slot[name="secondary-menu-start"] ~ slot[name="secondary-actions-start"],
-slot[name="tertiary-menu-start"] ~ slot[name="tertiary-actions-start"],
-slot[name="primary-menu-center"] ~ slot[name="primary-actions-end"],
-slot[name="primary-menu-center"] ~ slot[name="primary-menu-end"],
-slot[name="primary-menu-center"] ~ slot[name="user"],
-slot[name="primary-menu-end"] ~ slot[name="user"],
-slot[name="primary-actions-end"] ~ slot[name="user"] {
-  margin: 0;
+slot[name="primary-content-start"] ~ slot[name="primary-content-center"] {
+  margin-inline-start: 0;
 }
 
-// temp hiding
-/*
-slot[name="primary-menu-center"],
-slot[name="primary-menu-start"],
-slot[name="primary-menu-end"],
-slot[name="secondary-menu-start"],
-slot[name="secondary-menu-end"],
-slot[name="tertiary-menu-start"],
-slot[name="tertiary-menu-end"] {
-  @media only screen and (max-width: $viewport-medium) {
-    @apply hidden;
-  }
+slot[name="primary-content-start"] ~ slot[name="primary-content-end"],
+slot[name="secondary-content-start"] ~ slot[name="secondary-content-end"],
+slot[name="tertiary-content-end"] ~ slot[name="tertiary-content-end"],
+slot[name="primary-content-center"] ~ slot[name="primary-content-end"],
+slot[name="primary-content-center"] ~ slot[name="user"],
+slot[name="primary-content-end"] ~ slot[name="user"] {
+  margin: 0;
 }
-*/

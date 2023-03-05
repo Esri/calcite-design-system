@@ -12,7 +12,7 @@ export default {
 };
 
 export const simple = (): string => html`<calcite-nav
-  ><calcite-nav-menu slot="primary-menu-center">
+  ><calcite-nav-menu slot="primary-content-center">
     <calcite-nav-menu-item
       text="${text("text", "My nav item")}"
       src="${text("src", "")}"
@@ -27,7 +27,7 @@ export const simple = (): string => html`<calcite-nav
 ></calcite-nav>`;
 
 export const iconStart = (): string => html`<calcite-nav
-  ><calcite-nav-menu slot="primary-menu-center">
+  ><calcite-nav-menu slot="primary-content-center">
     <calcite-nav-menu-item
       text="${text("text", "My nav item")}"
       src="${text("src", "")}"
@@ -43,7 +43,7 @@ export const iconStart = (): string => html`<calcite-nav
 ></calcite-nav>`;
 
 export const iconEnd = (): string => html`<calcite-nav
-  ><calcite-nav-menu slot="primary-menu-center">
+  ><calcite-nav-menu slot="primary-content-center">
     <calcite-nav-menu-item
       text="${text("text", "My nav item")}"
       src="${text("src", "")}"
@@ -59,7 +59,7 @@ export const iconEnd = (): string => html`<calcite-nav
 ></calcite-nav>`;
 
 export const iconsBoth = (): string => html`<calcite-nav
-  ><calcite-nav-menu slot="primary-menu-center">
+  ><calcite-nav-menu slot="primary-content-center">
     <calcite-nav-menu-item
       text="${text("text", "My nav item")}"
       src="${text("src", "")}"

@@ -35,13 +35,13 @@
           href
         >
         </calcite-nav-logo>
-        <calcite-nav-menu slot="primary-menu-start">
+        <calcite-nav-menu slot="primary-content-start">
           <calcite-nav-menu-item breadcrumb icon-start="home" text="Files" text-enabled></calcite-nav-menu-item>
           <calcite-nav-menu-item breadcrumb text="Proposals" text-enabled> </calcite-nav-menu-item>
           <calcite-nav-menu-item active text="Nav" text-enabled></calcite-nav-menu-item>
         </calcite-nav-menu>
 
-        <calcite-nav-menu slot="primary-menu-end">
+        <calcite-nav-menu slot="primary-content-end">
           <calcite-nav-menu-item text="Theming" href="#examples-theming" text-enabled icon-start="lightbulb">
           </calcite-nav-menu-item>
           <calcite-nav-menu-item text="Platform" text-enabled icon-start="arcgis-online">
@@ -60,7 +60,7 @@
           </calcite-nav-menu-item>
         </calcite-nav-menu>
 
-        <calcite-nav-menu slot="secondary-menu-start">
+        <calcite-nav-menu slot="secondary-content-start">
           <calcite-nav-menu-item href="#intro" text="Intro" icon-start="book" text-enabled></calcite-nav-menu-item>
           <calcite-nav-menu-item href=" #calcite-nav" text="calcite-nav" text-enabled>
             <calcite-nav-menu-item
@@ -114,7 +114,7 @@
           </calcite-nav-menu-item>
         </calcite-nav-menu>
         <calcite-button
-          slot="secondary-actions-end"
+          slot="secondary-content-end"
           style="margin: 8px"
           href="mailto:calcite@esri.com?subject=Navigation proposal feedback!"
           >Feedback
@@ -157,15 +157,15 @@
             <code><b>user:</b> place a `nav-user` component (primary only)</code>
           </h4>
           <h4>
-            <code><b>primary-menu-center:</b> position a `calcite-nav-menu` component (primary only)</code>
-          </h4>
-          <h4>
-            <code><b>primary/secondary/tertiary-menu-start/end</b>: position a `calcite-nav-menu` component</code>
+            <code
+              ><b>primary-content-center:</b> position a `calcite-nav-menu`, `calcite-action`/s, or other interactive
+              component (primary only)</code
+            >
           </h4>
           <h4>
             <code
-              ><b>primary/secondary/tertiary-actions-start/end</b>: position a `calcite-action` component(s) or custom
-              controls</code
+              ><b>primary/secondary/tertiary-content-start/end:</b> position a `calcite-nav-menu`, `calcite-action`/s,
+              or other interactive component</code
             >
           </h4>
           <h4>
@@ -176,45 +176,33 @@
           <calcite-nav slot="header">
             <calcite-chip slot="logo" scale="s">logo</calcite-chip>
             <calcite-chip slot="user" text-enabled scale="s">user</calcite-chip>
-            <calcite-chip slot="primary-menu-start" scale="s">primary-menu-start</calcite-chip>
-            <calcite-chip slot="primary-actions-start" scale="s">primary-actions-start</calcite-chip>
-            <calcite-chip slot="primary-menu-center" scale="s">primary-menu-center</calcite-chip>
-            <calcite-chip slot="primary-actions-end" scale="s">primary-actions-end </calcite-chip>
-            <calcite-chip slot="primary-menu-end" scale="s">primary-menu-end </calcite-chip>
+            <calcite-chip slot="primary-content-start" scale="s">primary-content-start</calcite-chip>
+            <calcite-chip slot="primary-content-center" scale="s">primary-content-center</calcite-chip>
+            <calcite-chip slot="primary-content-end" scale="s">primary-content-end </calcite-chip>
           </calcite-nav>
         </calcite-shell>
         <calcite-shell>
           <calcite-nav slot="header">
             <calcite-chip slot="logo" scale="s">logo</calcite-chip>
             <calcite-chip slot="user" text-enabled scale="s">user</calcite-chip>
-            <calcite-chip slot="primary-menu-start" scale="s">primary-menu-start</calcite-chip>
-            <calcite-chip slot="primary-actions-start" scale="s">primary-actions-start</calcite-chip>
-            <calcite-chip slot="primary-menu-center" scale="s">primary-menu-center</calcite-chip>
-            <calcite-chip slot="primary-actions-end" scale="s">primary-actions-end </calcite-chip>
-            <calcite-chip slot="primary-menu-end" scale="s">primary-menu-end </calcite-chip>
-            <calcite-chip slot="secondary-actions-start" scale="s">secondary-actions-start</calcite-chip>
-            <calcite-chip slot="secondary-actions-end" scale="s">secondary-actions-end</calcite-chip>
-            <calcite-chip slot="secondary-menu-start" scale="s">secondary-menu-start </calcite-chip>
-            <calcite-chip slot="secondary-menu-end" scale="s">secondary-menu-end </calcite-chip>
+            <calcite-chip slot="primary-content-start" scale="s">primary-content-start</calcite-chip>
+            <calcite-chip slot="primary-content-center" scale="s">primary-content-center</calcite-chip>
+            <calcite-chip slot="primary-content-end" scale="s">primary-content-end </calcite-chip>
+            <calcite-chip slot="secondary-content-start" scale="s">secondary-content-start</calcite-chip>
+            <calcite-chip slot="secondary-content-end" scale="s">secondary-content-end</calcite-chip>
           </calcite-nav>
         </calcite-shell>
         <calcite-shell>
           <calcite-nav slot="header">
             <calcite-chip slot="logo" scale="s">logo</calcite-chip>
             <calcite-chip slot="user" text-enabled scale="s">user</calcite-chip>
-            <calcite-chip slot="primary-menu-start" scale="s">primary-menu-start</calcite-chip>
-            <calcite-chip slot="primary-actions-start" scale="s">primary-actions-start</calcite-chip>
-            <calcite-chip slot="primary-menu-center" scale="s">primary-menu-center</calcite-chip>
-            <calcite-chip slot="primary-actions-end" scale="s">primary-actions-end </calcite-chip>
-            <calcite-chip slot="primary-menu-end" scale="s">primary-menu-end </calcite-chip>
-            <calcite-chip slot="secondary-actions-start" scale="s">secondary-actions-start</calcite-chip>
-            <calcite-chip slot="secondary-actions-end" scale="s">secondary-actions-end</calcite-chip>
-            <calcite-chip slot="secondary-menu-start" scale="s">secondary-menu-start </calcite-chip>
-            <calcite-chip slot="secondary-menu-end" scale="s">secondary-menu-end </calcite-chip>
-            <calcite-chip slot="tertiary-actions-start" scale="s">tertiary-actions-start</calcite-chip>
-            <calcite-chip slot="tertiary-actions-end" scale="s">tertiary-actions-end</calcite-chip>
-            <calcite-chip slot="tertiary-menu-start" scale="s">tertiary-menu-start </calcite-chip>
-            <calcite-chip slot="tertiary-menu-end" scale="s">tertiary-menu-end </calcite-chip>
+            <calcite-chip slot="primary-content-start" scale="s">primary-content-start</calcite-chip>
+            <calcite-chip slot="primary-content-center" scale="s">primary-content-center</calcite-chip>
+            <calcite-chip slot="primary-content-end" scale="s">primary-content-end </calcite-chip>
+            <calcite-chip slot="secondary-content-start" scale="s">secondary-content-start</calcite-chip>
+            <calcite-chip slot="secondary-content-end" scale="s">secondary-content-end</calcite-chip>
+            <calcite-chip slot="tertiary-content-start" scale="s">tertiary-content-start</calcite-chip>
+            <calcite-chip slot="tertiary-content-end" scale="s">tertiary-content-end</calcite-chip>
           </calcite-nav>
         </calcite-shell>
         <calcite-shell>
@@ -227,14 +215,14 @@
               src="../assets/images/acme-logo.svg"
             >
             </calcite-nav-logo>
-            <calcite-nav-menu slot="primary-menu-start">
+            <calcite-nav-menu slot="primary-content-start">
               <calcite-nav-menu-item text="Potatoes" text-enabled></calcite-nav-menu-item>
               <calcite-nav-menu-item active text="Chips" text-enabled></calcite-nav-menu-item>
               <calcite-nav-menu-item text="Employees" text-enabled></calcite-nav-menu-item>
               <calcite-nav-menu-item text="Suppliers" text-enabled></calcite-nav-menu-item>
             </calcite-nav-menu>
             <calcite-nav-user slot="user" text-enabled text="Walt McChipson"> </calcite-nav-user>
-            <calcite-nav-menu slot="primary-menu-end">
+            <calcite-nav-menu slot="primary-content-end">
               <calcite-nav-menu-item text-enabled text="Support"></calcite-nav-menu-item>
             </calcite-nav-menu>
           </calcite-nav>
@@ -249,30 +237,30 @@
               src="../assets/images/acme-logo.svg"
             >
             </calcite-nav-logo>
-            <calcite-nav-menu slot="primary-menu-start">
+            <calcite-nav-menu slot="primary-content-start">
               <calcite-nav-menu-item text="Potatoes" text-enabled></calcite-nav-menu-item>
               <calcite-nav-menu-item active text="Chips" text-enabled></calcite-nav-menu-item>
               <calcite-nav-menu-item text="Employees" text-enabled></calcite-nav-menu-item>
               <calcite-nav-menu-item text="Suppliers" text-enabled></calcite-nav-menu-item>
             </calcite-nav-menu>
             <calcite-nav-user slot="user" text-enabled text="Walt McChipson"> </calcite-nav-user>
-            <calcite-nav-menu slot="secondary-actions-start">
+            <calcite-nav-menu slot="secondary-content-start">
               <calcite-chip scale="s">Slotted Action</calcite-chip>
             </calcite-nav-menu>
-            <calcite-nav-menu slot="secondary-actions-end">
+            <calcite-nav-menu slot="secondary-content-end">
               <calcite-chip scale="s">Slotted Action</calcite-chip>
             </calcite-nav-menu>
-            <calcite-nav-menu slot="primary-menu-end">
+            <calcite-nav-menu slot="primary-content-end">
               <calcite-nav-menu-item text-enabled text="Support"></calcite-nav-menu-item>
             </calcite-nav-menu>
-            <calcite-nav-menu slot="secondary-menu-start">
+            <calcite-nav-menu slot="secondary-content-start">
               <calcite-nav-menu-item text-enabled icon-start="dashboard" text="Dashboard"> </calcite-nav-menu-item>
               <calcite-nav-menu-item text-enabled icon-start="utility-network-trace" text="Distributors">
               </calcite-nav-menu-item>
               <calcite-nav-menu-item text-enabled icon-start="legend" text="Stockists"> </calcite-nav-menu-item>
               <calcite-nav-menu-item text-enabled active icon-start="credit-card" text="Sales"> </calcite-nav-menu-item>
             </calcite-nav-menu>
-            <calcite-nav-menu slot="secondary-menu-end">
+            <calcite-nav-menu slot="secondary-content-end">
               <calcite-nav-menu-item text-enabled text="US Sales"></calcite-nav-menu-item>
               <calcite-nav-menu-item active text-enabled text="International Sales"></calcite-nav-menu-item>
             </calcite-nav-menu>
@@ -288,7 +276,7 @@
               src="../assets/images/acme-logo.svg"
             >
             </calcite-nav-logo>
-            <calcite-nav-menu slot="primary-menu-start">
+            <calcite-nav-menu slot="primary-content-start">
               <calcite-nav-menu-item text="Potatoes" text-enabled></calcite-nav-menu-item>
               <calcite-nav-menu-item active text="Chips" text-enabled></calcite-nav-menu-item>
               <calcite-nav-menu-item text="Employees" text-enabled></calcite-nav-menu-item>
@@ -296,33 +284,33 @@
             </calcite-nav-menu>
             <calcite-nav-user slot="user" text-enabled text="Walt McChipson"> </calcite-nav-user>
 
-            <calcite-nav-menu slot="primary-actions-end">
+            <calcite-nav-menu slot="primary-content-end">
               <calcite-nav-menu-item text-enabled text="Support"></calcite-nav-menu-item>
             </calcite-nav-menu>
-            <calcite-nav-menu slot="secondary-menu-start">
+            <calcite-nav-menu slot="secondary-content-start">
               <calcite-nav-menu-item text-enabled icon-start="app-launcher" text="All" breadcrumb>
               </calcite-nav-menu-item>
               <calcite-nav-menu-item text-enabled icon-start="apps" text="Testing Flavors" breadcrumb>
               </calcite-nav-menu-item>
               <calcite-nav-menu-item text-enabled active text="Sorel Pesto"> </calcite-nav-menu-item>
             </calcite-nav-menu>
-            <calcite-nav-menu slot="tertiary-actions-start">
+            <calcite-nav-menu slot="tertiary-content-start">
               <calcite-chip scale="s">Slotted Action</calcite-chip>
             </calcite-nav-menu>
-            <calcite-nav-menu slot="tertiary-actions-end">
+            <calcite-nav-menu slot="tertiary-content-end">
               <calcite-chip scale="s">Slotted Action</calcite-chip>
             </calcite-nav-menu>
-            <calcite-nav-menu slot="secondary-menu-end">
+            <calcite-nav-menu slot="secondary-content-end">
               <calcite-nav-menu-item text-enabled icon-start="book" text="Tasting Notes"> </calcite-nav-menu-item>
               <calcite-nav-menu-item text-enabled icon-start="legend" text="Ingredients"> </calcite-nav-menu-item>
               <calcite-nav-menu-item text-enabled active icon-start="activity-monitor" text="Health Benefits">
               </calcite-nav-menu-item>
             </calcite-nav-menu>
-            <calcite-nav-menu slot="tertiary-menu-start">
+            <calcite-nav-menu slot="tertiary-content-start">
               <calcite-nav-menu-item text-enabled text="Vitamins"></calcite-nav-menu-item>
               <calcite-nav-menu-item active text-enabled text="Minerals"></calcite-nav-menu-item>
             </calcite-nav-menu>
-            <calcite-nav-menu slot="tertiary-menu-end">
+            <calcite-nav-menu slot="tertiary-content-end">
               <calcite-nav-menu-item text-enabled text="Vitamins"></calcite-nav-menu-item>
               <calcite-nav-menu-item active text-enabled text="Minerals"></calcite-nav-menu-item>
             </calcite-nav-menu>
@@ -345,26 +333,26 @@
               src="../assets/images/acme-logo.svg"
             >
             </calcite-nav-logo>
-            <calcite-nav-menu slot="primary-menu-start">
+            <calcite-nav-menu slot="primary-content-start">
               <calcite-nav-menu-item text="Potatoes" text-enabled></calcite-nav-menu-item>
               <calcite-nav-menu-item active text="Chips" text-enabled></calcite-nav-menu-item>
               <calcite-nav-menu-item text="Employees" text-enabled></calcite-nav-menu-item>
               <calcite-nav-menu-item text="Suppliers" text-enabled></calcite-nav-menu-item>
             </calcite-nav-menu>
-            <calcite-nav-menu slot="primary-actions-end">
+            <calcite-nav-menu slot="primary-content-end">
               <calcite-nav-menu-item text-enabled text="Support"></calcite-nav-menu-item>
             </calcite-nav-menu>
-            <calcite-nav-menu slot="secondary-menu-start">
+            <calcite-nav-menu slot="secondary-content-start">
               <calcite-nav-menu-item text-enabled icon-start="app-launcher" text="All" breadcrumb>
               </calcite-nav-menu-item>
               <calcite-nav-menu-item text-enabled icon-start="apps" text="Testing Flavors" breadcrumb>
               </calcite-nav-menu-item>
               <calcite-nav-menu-item text-enabled active text="Sorel Pesto"> </calcite-nav-menu-item>
             </calcite-nav-menu>
-            <calcite-nav-menu slot="tertiary-actions-start">
+            <calcite-nav-menu slot="tertiary-content-start">
               <calcite-chip scale="s">Slotted Action</calcite-chip>
             </calcite-nav-menu>
-            <calcite-nav-menu slot="tertiary-actions-end">
+            <calcite-nav-menu slot="tertiary-content-end">
               <calcite-chip scale="s">Slotted Action</calcite-chip>
             </calcite-nav-menu>
           </calcite-nav>
@@ -380,26 +368,26 @@
               src="../assets/images/acme-logo.svg"
             >
             </calcite-nav-logo>
-            <calcite-nav-menu slot="primary-menu-start">
+            <calcite-nav-menu slot="primary-content-start">
               <calcite-nav-menu-item text="Potatoes" text-enabled></calcite-nav-menu-item>
               <calcite-nav-menu-item active text="Chips" text-enabled></calcite-nav-menu-item>
               <calcite-nav-menu-item text="Employees" text-enabled></calcite-nav-menu-item>
               <calcite-nav-menu-item text="Suppliers" text-enabled></calcite-nav-menu-item>
             </calcite-nav-menu>
-            <calcite-nav-menu slot="primary-actions-end">
+            <calcite-nav-menu slot="primary-content-end">
               <calcite-nav-menu-item text-enabled text="Support"></calcite-nav-menu-item>
             </calcite-nav-menu>
-            <calcite-nav-menu slot="secondary-menu-start">
+            <calcite-nav-menu slot="secondary-content-start">
               <calcite-nav-menu-item text-enabled icon-start="app-launcher" text="All" breadcrumb>
               </calcite-nav-menu-item>
               <calcite-nav-menu-item text-enabled icon-start="apps" text="Testing Flavors" breadcrumb>
               </calcite-nav-menu-item>
               <calcite-nav-menu-item text-enabled active text="Sorel Pesto"> </calcite-nav-menu-item>
             </calcite-nav-menu>
-            <calcite-nav-menu slot="tertiary-actions-start">
+            <calcite-nav-menu slot="tertiary-content-start">
               <calcite-chip scale="s">Slotted Action</calcite-chip>
             </calcite-nav-menu>
-            <calcite-nav-menu slot="tertiary-actions-end">
+            <calcite-nav-menu slot="tertiary-content-end">
               <calcite-chip scale="s">Slotted Action</calcite-chip>
             </calcite-nav-menu>
           </calcite-nav>
@@ -420,13 +408,13 @@
               src="../assets/images/acme-logo.svg"
             >
             </calcite-nav-logo>
-            <calcite-nav-menu slot="primary-menu-start">
+            <calcite-nav-menu slot="primary-content-start">
               <calcite-nav-menu-item active text="Potatoes" text-enabled></calcite-nav-menu-item>
               <calcite-nav-menu-item text="Chips" text-enabled></calcite-nav-menu-item>
               <calcite-nav-menu-item text="Employees" text-enabled></calcite-nav-menu-item>
               <calcite-nav-menu-item text="Suppliers" text-enabled></calcite-nav-menu-item>
             </calcite-nav-menu>
-            <calcite-nav-menu slot="primary-actions-end">
+            <calcite-nav-menu slot="primary-content-end">
               <calcite-nav-menu-item text-enabled text="Support"></calcite-nav-menu-item>
             </calcite-nav-menu>
           </calcite-nav>
@@ -441,13 +429,13 @@
               src="../assets/images/acme-logo.svg"
             >
             </calcite-nav-logo>
-            <calcite-nav-menu slot="primary-menu-start">
+            <calcite-nav-menu slot="primary-content-start">
               <calcite-nav-menu-item text="Potatoes" text-enabled></calcite-nav-menu-item>
               <calcite-nav-menu-item text="Chips" text-enabled></calcite-nav-menu-item>
               <calcite-nav-menu-item text="Employees" text-enabled></calcite-nav-menu-item>
               <calcite-nav-menu-item active text="Suppliers" text-enabled></calcite-nav-menu-item>
             </calcite-nav-menu>
-            <calcite-nav-menu slot="primary-actions-end">
+            <calcite-nav-menu slot="primary-content-end">
               <calcite-nav-menu-item text-enabled text="Support"></calcite-nav-menu-item>
             </calcite-nav-menu>
           </calcite-nav>
@@ -462,13 +450,13 @@
               src="../assets/images/acme-logo.svg"
             >
             </calcite-nav-logo>
-            <calcite-nav-menu slot="primary-menu-start">
+            <calcite-nav-menu slot="primary-content-start">
               <calcite-nav-menu-item text="Potatoes" text-enabled></calcite-nav-menu-item>
               <calcite-nav-menu-item active text="Chips" text-enabled></calcite-nav-menu-item>
               <calcite-nav-menu-item text="Employees" text-enabled></calcite-nav-menu-item>
               <calcite-nav-menu-item text="Suppliers" text-enabled></calcite-nav-menu-item>
             </calcite-nav-menu>
-            <calcite-nav-menu slot="primary-actions-end">
+            <calcite-nav-menu slot="primary-content-end">
               <calcite-nav-menu-item text-enabled text="Support"></calcite-nav-menu-item>
             </calcite-nav-menu>
           </calcite-nav>
@@ -491,11 +479,11 @@
           <calcite-nav slot="header">
             <calcite-chip kind="brand" slot="logo" scale="s">logo</calcite-chip>
             <calcite-chip slot="user" text-enabled scale="s">user</calcite-chip>
-            <calcite-chip slot="primary-actions-start" scale="s">primary-actions-start</calcite-chip>
-            <calcite-chip slot="primary-menu-center" scale="s">primary-menu-center</calcite-chip>
-            <calcite-chip slot="primary-actions-end" scale="s">primary-actions-end</calcite-chip>
-            <calcite-chip slot="primary-menu-start" scale="s">primary-menu-start </calcite-chip>
-            <calcite-chip slot="primary-menu-end" scale="s">primary-menu-end </calcite-chip>
+            <calcite-chip slot="primary-content-start" scale="s">primary-content-start</calcite-chip>
+            <calcite-chip slot="primary-content-center" scale="s">primary-content-center</calcite-chip>
+            <calcite-chip slot="primary-content-end" scale="s">primary-content-end</calcite-chip>
+            <calcite-chip slot="primary-content-start" scale="s">primary-content-start </calcite-chip>
+            <calcite-chip slot="primary-content-end" scale="s">primary-content-end </calcite-chip>
           </calcite-nav>
         </calcite-shell>
         <div class="text-box">
@@ -622,11 +610,9 @@
             </calcite-nav-logo>
             <calcite-chip slot="logo" scale="s">logo</calcite-chip>
             <calcite-chip slot="user" text-enabled scale="s">user</calcite-chip>
-            <calcite-chip slot="primary-menu-start" scale="s">primary-menu-start</calcite-chip>
-            <calcite-chip slot="primary-actions-start" scale="s">primary-actions-start</calcite-chip>
-            <calcite-chip slot="primary-menu-center" scale="s">primary-menu-center</calcite-chip>
-            <calcite-chip slot="primary-actions-end" scale="s">primary-actions-end </calcite-chip>
-            <calcite-chip slot="primary-menu-end" scale="s">primary-menu-end </calcite-chip>
+            <calcite-chip slot="primary-content-start" scale="s">primary-content-start</calcite-chip>
+            <calcite-chip slot="primary-content-center" scale="s">primary-content-center</calcite-chip>
+            <calcite-chip slot="primary-content-end" scale="s">primary-content-end </calcite-chip>
           </calcite-nav>
         </calcite-shell>
         <!--
@@ -647,11 +633,9 @@
           <calcite-nav slot="header">
             <calcite-chip slot="logo" scale="s">logo</calcite-chip>
             <calcite-chip kind="brand" slot="user" text-enabled scale="s">user</calcite-chip>
-            <calcite-chip slot="primary-menu-center" scale="s">primary-menu-center</calcite-chip>
-            <calcite-chip slot="primary-actions-start" scale="s">primary-actions-start</calcite-chip>
-            <calcite-chip slot="primary-actions-end" scale="s">primary-actions-end</calcite-chip>
-            <calcite-chip slot="primary-menu-start" scale="s">primary-menu-start </calcite-chip>
-            <calcite-chip slot="primary-menu-end" scale="s">primary-menu-end </calcite-chip>
+            <calcite-chip slot="primary-content-center" scale="s">primary-content-center</calcite-chip>
+            <calcite-chip slot="primary-content-end" scale="s">primary-content-end</calcite-chip>
+            <calcite-chip slot="primary-content-start" scale="s">primary-content-start </calcite-chip>
           </calcite-nav>
         </calcite-shell>
         <div class="text-box">
@@ -716,43 +700,37 @@
           <calcite-nav slot="header">
             <calcite-chip slot="logo" scale="s">logo</calcite-chip>
             <calcite-chip slot="user" text-enabled scale="s">user</calcite-chip>
-            <calcite-chip kind="brand" slot="primary-menu-start" scale="s">primary-menu-start</calcite-chip>
-            <calcite-chip slot="primary-actions-start" scale="s">primary-actions-start</calcite-chip>
-            <calcite-chip kind="brand" slot="primary-menu-center" scale="s">primary-menu-center</calcite-chip>
-            <calcite-chip slot="primary-actions-end" scale="s">primary-actions-end </calcite-chip>
-            <calcite-chip kind="brand" slot="primary-menu-end" scale="s">primary-menu-end </calcite-chip>
-            <calcite-chip slot="secondary-actions-start" scale="s">secondary-actions-start</calcite-chip>
-            <calcite-chip slot="secondary-actions-end" scale="s">secondary-actions-end</calcite-chip>
-            <calcite-chip kind="brand" slot="secondary-menu-start" scale="s">secondary-menu-start </calcite-chip>
-            <calcite-chip kind="brand" slot="secondary-menu-end" scale="s">secondary-menu-end </calcite-chip>
-            <calcite-chip slot="tertiary-actions-start" scale="s">tertiary-actions-start</calcite-chip>
-            <calcite-chip slot="tertiary-actions-end" scale="s">tertiary-actions-end</calcite-chip>
-            <calcite-chip kind="brand" slot="tertiary-menu-start" scale="s">tertiary-menu-start </calcite-chip>
-            <calcite-chip kind="brand" slot="tertiary-menu-end" scale="s">tertiary-menu-end </calcite-chip>
+            <calcite-chip kind="brand" slot="primary-content-start" scale="s">primary-content-start</calcite-chip>
+            <calcite-chip kind="brand" slot="primary-content-center" scale="s">primary-content-center</calcite-chip>
+            <calcite-chip kind="brand" slot="primary-content-end" scale="s">primary-content-end </calcite-chip>
+            <calcite-chip kind="brand" slot="secondary-content-start" scale="s">secondary-content-start </calcite-chip>
+            <calcite-chip kind="brand" slot="secondary-content-end" scale="s">secondary-content-end </calcite-chip>
+            <calcite-chip kind="brand" slot="tertiary-content-start" scale="s">tertiary-content-start </calcite-chip>
+            <calcite-chip kind="brand" slot="tertiary-content-end" scale="s">tertiary-content-end </calcite-chip>
           </calcite-nav>
         </calcite-shell>
 
         <calcite-shell>
           <calcite-nav slot="header">
-            <calcite-nav-menu slot="primary-menu-start">
+            <calcite-nav-menu slot="primary-content-start">
               <calcite-nav-menu-item active text="Products" text-enabled></calcite-nav-menu-item>
               <calcite-nav-menu-item text="Industries" text-enabled> </calcite-nav-menu-item>
               <calcite-nav-menu-item text="Support & Service" text-enabled> </calcite-nav-menu-item>
               <calcite-nav-menu-item text="Stories" text-enabled></calcite-nav-menu-item>
               <calcite-nav-menu-item text="About" text-enabled></calcite-nav-menu-item>
             </calcite-nav-menu>
-            <calcite-nav-menu slot="secondary-menu-start">
+            <calcite-nav-menu slot="secondary-content-start">
               <calcite-nav-menu-item text-enabled title active text="ArcGIS Online"> </calcite-nav-menu-item>
             </calcite-nav-menu>
-            <calcite-nav-menu slot="primary-actions-end">
+            <calcite-nav-menu slot="primary-content-end">
               <calcite-nav-menu-item text-enabled title text="Support"> </calcite-nav-menu-item>
               <calcite-nav-menu-item text-enabled title text="Documentation"> </calcite-nav-menu-item>
               <calcite-nav-menu-item text-enabled title text="Support"> </calcite-nav-menu-item>
             </calcite-nav-menu>
-            <calcite-nav-menu slot="primary-actions-end">
+            <calcite-nav-menu slot="primary-content-end">
               <calcite-nav-menu-item text-enabled title text="Something else"> </calcite-nav-menu-item>
             </calcite-nav-menu>
-            <calcite-nav-menu slot="secondary-menu-end">
+            <calcite-nav-menu slot="secondary-content-end">
               <calcite-nav-menu-item text-enabled text="Overview"></calcite-nav-menu-item>
               <calcite-nav-menu-item text-enabled text="Capabilities" active> </calcite-nav-menu-item>
               <calcite-nav-menu-item text-enabled text="Resources"></calcite-nav-menu-item>
@@ -760,7 +738,7 @@
               <calcite-nav-menu-item text-enabled text="Sales"></calcite-nav-menu-item>
               <calcite-nav-menu-item text-enabled text="Pricing"></calcite-nav-menu-item>
             </calcite-nav-menu>
-            <calcite-nav-menu slot="tertiary-menu-start">
+            <calcite-nav-menu slot="tertiary-content-start">
               <calcite-nav-menu-item text="Home" text-enabled></calcite-nav-menu-item>
               <calcite-nav-menu-item text="Get Started" text-enabled></calcite-nav-menu-item>
               <calcite-nav-menu-item text="Create" text-enabled></calcite-nav-menu-item>
@@ -768,7 +746,7 @@
               <calcite-nav-menu-item text="Share" text-enabled></calcite-nav-menu-item>
               <calcite-nav-menu-item text="Manage Data" text-enabled></calcite-nav-menu-item>
             </calcite-nav-menu>
-            <calcite-nav-menu slot="tertiary-menu-end">
+            <calcite-nav-menu slot="tertiary-content-end">
               <calcite-nav-menu-item text="Reference" active text-enabled></calcite-nav-menu-item>
             </calcite-nav-menu>
           </calcite-nav>
@@ -790,7 +768,7 @@
               slot="nav-logo"
             >
             </calcite-nav-logo>
-            <calcite-nav-menu slot="nav-menu-end">
+            <calcite-nav-menu slot="nav-content-end">
               <calcite-nav-menu-item text-enabled text="A lonely menu item"></calcite-nav-menu-item>
             </calcite-nav-menu>
           </calcite-nav>
@@ -863,7 +841,7 @@
 
         <calcite-shell>
           <calcite-nav slot="header">
-            <calcite-nav-menu slot="primary-menu-start">
+            <calcite-nav-menu slot="primary-content-start">
               <calcite-nav-menu-item text="Products" text-enabled></calcite-nav-menu-item>
               <calcite-nav-menu-item active text="Industries" text-enabled> </calcite-nav-menu-item>
               <calcite-nav-menu-item text="Temp overflow" icon-start="ellipsis">
@@ -894,7 +872,7 @@
         </div>
         <calcite-shell>
           <calcite-nav slot="header">
-            <calcite-nav-menu slot="primary-menu-start">
+            <calcite-nav-menu slot="primary-content-start">
               <calcite-nav-menu-item breadcrumb text="Home" text-enabled> </calcite-nav-menu-item>
               <calcite-nav-menu-item breadcrumb text="Products" text-enabled> </calcite-nav-menu-item>
               <calcite-nav-menu-item breadcrumb title text="ArcGIS Online" text-enabled></calcite-nav-menu-item>
@@ -906,7 +884,7 @@
 
         <calcite-shell>
           <calcite-nav slot="header">
-            <calcite-nav-menu slot="primary-menu-start">
+            <calcite-nav-menu slot="primary-content-start">
               <calcite-nav-menu-item text="overflow temp" icon-start="ellipsis" breadcrumb>
                 <calcite-nav-menu-item slot="menu-item-dropdown" text="Home" text-enabled> </calcite-nav-menu-item>
                 <calcite-nav-menu-item slot="menu-item-dropdown" text="Products" text-enabled> </calcite-nav-menu-item>
@@ -920,7 +898,7 @@
 
         <calcite-shell>
           <calcite-nav slot="header">
-            <calcite-nav-menu slot="primary-menu-start">
+            <calcite-nav-menu slot="primary-content-start">
               <calcite-nav-menu-item text="temp" icon-start="ellipsis" breadcrumb>
                 <calcite-nav-menu-item slot="menu-item-dropdown" text="Home" text-enabled> </calcite-nav-menu-item>
                 <calcite-nav-menu-item slot="menu-item-dropdown" text="Products" text-enabled> </calcite-nav-menu-item>
@@ -948,12 +926,12 @@
               href
             >
             </calcite-nav-logo>
-            <div slot="primary-actions-end">
+            <div slot="primary-content-end">
               <calcite-chip scale="s" color="blue">Slotted Action</calcite-chip>
             </div>
             <calcite-nav-user slot="user" text-enabled text="Wendell Berry" sub-text="wBerry_arcgis">
             </calcite-nav-user>
-            <calcite-nav-menu slot="secondary-menu-start">
+            <calcite-nav-menu slot="secondary-content-start">
               <calcite-nav-menu-item text="overflow temp" icon-start="ellipsis" breadcrumb>
                 <calcite-nav-menu-item slot="menu-item-dropdown" text="Home" text-enabled> </calcite-nav-menu-item>
                 <calcite-nav-menu-item slot="menu-item-dropdown" text="Products" text-enabled>
@@ -989,12 +967,12 @@
               href
             >
             </calcite-nav-logo>
-            <div slot="primary-actions-end">
+            <div slot="primary-content-end">
               <calcite-chip scale="s" color="blue">Slotted Action</calcite-chip>
             </div>
             <calcite-nav-user slot="user" text-enabled text="Wendell Berry" sub-text="wBerry_arcgis">
             </calcite-nav-user>
-            <calcite-nav-menu slot="secondary-menu-start">
+            <calcite-nav-menu slot="secondary-content-start">
               <calcite-nav-menu-item text="overflow temp" icon-start="ellipsis" breadcrumb>
                 <calcite-nav-menu-item slot="menu-item-dropdown" text="Home" text-enabled> </calcite-nav-menu-item>
                 <calcite-nav-menu-item slot="menu-item-dropdown" text="Products" text-enabled> </calcite-nav-menu-item>
@@ -1027,12 +1005,12 @@
               href
             >
             </calcite-nav-logo>
-            <div slot="primary-actions-end">
+            <div slot="primary-content-end">
               <calcite-chip scale="s" color="blue">Slotted Action</calcite-chip>
             </div>
             <calcite-nav-user slot="user" text-enabled text="Wendell Berry" sub-text="wBerry_arcgis">
             </calcite-nav-user>
-            <calcite-nav-menu slot="primary-menu-start">
+            <calcite-nav-menu slot="primary-content-start">
               <calcite-nav-menu-item text="Home" text-enabled> </calcite-nav-menu-item>
               <calcite-nav-menu-item slot="menu-item-dropdown" text-enabled> </calcite-nav-menu-item>
               <calcite-nav-menu-item text="Example nested" text-enabled icon-start="layer">
@@ -1324,15 +1302,15 @@
           <calcite-nav slot="header" style="--calcite-ui-brand: #bf390f; --calcite-nav-width: 70vw">
             <calcite-nav-logo text-enabled text="Walt's Chips" slot="logo" src="../assets/images/acme-logo.svg">
             </calcite-nav-logo>
-            <calcite-nav-menu slot="primary-menu-end">
+            <calcite-nav-menu slot="primary-content-end">
               <calcite-nav-menu-item text-enabled text="Sign in"></calcite-nav-menu-item>
             </calcite-nav-menu>
-            <calcite-action slot="primary-actions-end" icon="search" scale="l" text="Search"></calcite-action>
-            <calcite-nav-menu slot="secondary-menu-start">
+            <calcite-action slot="primary-content-end" icon="search" scale="l" text="Search"></calcite-action>
+            <calcite-nav-menu slot="secondary-content-start">
               <calcite-nav-menu-item text="Parent" breadcrumb text-enabled> </calcite-nav-menu-item>
               <calcite-nav-menu-item text="Current page" text-enabled> </calcite-nav-menu-item>
             </calcite-nav-menu>
-            <calcite-nav-menu slot="secondary-menu-end">
+            <calcite-nav-menu slot="secondary-content-end">
               <calcite-nav-menu-item text="Potatoes">
                 <calcite-nav-menu-item slot="menu-item-dropdown" text="Chips" text-enabled></calcite-nav-menu-item>
                 <calcite-nav-menu-item slot="menu-item-dropdown" text="Employees" text-enabled></calcite-nav-menu-item>
@@ -1356,12 +1334,12 @@
           <calcite-nav slot="header" style="--calcite-ui-brand: #bf390f; --calcite-nav-width: 70vw">
             <calcite-nav-logo text-enabled text="Walt's Chips" slot="logo" src="../assets/images/acme-logo.svg">
             </calcite-nav-logo>
-            <calcite-nav-menu slot="primary-menu-end">
+            <calcite-nav-menu slot="primary-content-end">
               <calcite-nav-menu-item text-enabled text="Sign in"></calcite-nav-menu-item>
             </calcite-nav-menu>
-            <calcite-action slot="primary-actions-end" icon="search" scale="l" text="Search"></calcite-action>
+            <calcite-action slot="primary-content-end" icon="search" scale="l" text="Search"></calcite-action>
 
-            <calcite-nav-menu slot="secondary-menu-start" layout="vertical" style="width:100%; !important">
+            <calcite-nav-menu slot="secondary-content-start" layout="vertical" style="width:100%; !important">
               <calcite-nav-menu-item text="Potatoes" text-enabled>
                 <calcite-nav-menu-item slot="menu-item-dropdown" text="Chips" text-enabled></calcite-nav-menu-item>
                 <calcite-nav-menu-item slot="menu-item-dropdown" text="Employees" text-enabled></calcite-nav-menu-item>
@@ -1416,7 +1394,7 @@
               href
             >
             </calcite-nav-logo>
-            <calcite-nav-menu slot="primary-menu-start">
+            <calcite-nav-menu slot="primary-content-start">
               <calcite-nav-menu-item text="Example" text-enabled></calcite-nav-menu-item>
             </calcite-nav-menu>
             <calcite-nav-user slot="user" text-enabled text="Wendell Berry" sub-text="wBerry_arcgis">
@@ -1433,7 +1411,7 @@
               href
             >
             </calcite-nav-logo>
-            <calcite-nav-menu slot="primary-menu-start">
+            <calcite-nav-menu slot="primary-content-start">
               <calcite-nav-menu-item icon-start="layer" text="Example" text-enabled></calcite-nav-menu-item>
             </calcite-nav-menu>
           </calcite-nav>
@@ -1448,7 +1426,7 @@
               href
             >
             </calcite-nav-logo>
-            <calcite-nav-menu slot="primary-menu-start">
+            <calcite-nav-menu slot="primary-content-start">
               <calcite-nav-menu-item icon-end="layer" text="Example" text-enabled></calcite-nav-menu-item>
             </calcite-nav-menu>
           </calcite-nav>
@@ -1464,7 +1442,7 @@
               href
             >
             </calcite-nav-logo>
-            <calcite-nav-menu slot="primary-menu-start">
+            <calcite-nav-menu slot="primary-content-start">
               <calcite-nav-menu-item icon-start="layer" icon-end="layer" text="Example" text-enabled>
               </calcite-nav-menu-item>
             </calcite-nav-menu>
@@ -1480,7 +1458,7 @@
               href
             >
             </calcite-nav-logo>
-            <calcite-nav-menu slot="primary-menu-start">
+            <calcite-nav-menu slot="primary-content-start">
               <calcite-nav-menu-item active icon-start="layer" icon-end="layer" text="Example" text-enabled>
               </calcite-nav-menu-item>
             </calcite-nav-menu>
@@ -1498,7 +1476,7 @@
               href
             >
             </calcite-nav-logo>
-            <calcite-nav-menu slot="primary-menu-start">
+            <calcite-nav-menu slot="primary-content-start">
               <calcite-nav-menu-item editable text="Location analysis: Site 2" text-enabled> </calcite-nav-menu-item>
             </calcite-nav-menu>
           </calcite-nav>
@@ -1514,7 +1492,7 @@
               href
             >
             </calcite-nav-logo>
-            <calcite-nav-menu slot="primary-menu-start">
+            <calcite-nav-menu slot="primary-content-start">
               <calcite-nav-menu-item editable editing-active text="Location analysis: Site 2" text-enabled>
               </calcite-nav-menu-item>
             </calcite-nav-menu>
@@ -1553,20 +1531,20 @@
               href
             >
             </calcite-nav-logo>
-            <calcite-nav-menu slot="primary-actions-end">
+            <calcite-nav-menu slot="primary-content-end">
               <calcite-nav-menu-item text-enabled text="Support"></calcite-nav-menu-item>
               <calcite-nav-menu-item text-enabled icon-start="services" text="Sales"></calcite-nav-menu-item>
             </calcite-nav-menu>
-            <calcite-nav-menu slot="primary-menu-start">
+            <calcite-nav-menu slot="primary-content-start">
               <calcite-nav-menu-item text="Groups" text-enabled></calcite-nav-menu-item>
               <calcite-nav-menu-item active icon-start="gallery" text="Gallery" text-enabled> </calcite-nav-menu-item>
               <calcite-nav-menu-item icon-end="map" text="Map" text-enabled></calcite-nav-menu-item>
               <calcite-nav-menu-item icon-start="superimpose" text="Sample Name"></calcite-nav-menu-item>
             </calcite-nav-menu>
-            <div slot="primary-actions-start">
+            <div slot="primary-content-start">
               <calcite-chip style="margin-left: 12px" scale="s" color="yellow">Something else</calcite-chip>
             </div>
-            <div slot="primary-actions-end">
+            <div slot="primary-content-end">
               <calcite-action icon="save" scale="l">
                 <calcite-chip style="margin-left: 12px" scale="s" color="green">Saved</calcite-chip>
               </calcite-action>
@@ -1580,29 +1558,29 @@
           <calcite-nav slot="header" style="--calcite-ui-brand: #974dff">
             <calcite-nav-logo text-enabled text="ArcGIS Developer" slot="logo" src="../assets/images/dev-docs.svg" href>
             </calcite-nav-logo>
-            <calcite-nav-menu slot="primary-menu-start">
+            <calcite-nav-menu slot="primary-content-start">
               <calcite-nav-menu-item active text="Documentation" text-enabled></calcite-nav-menu-item>
               <calcite-nav-menu-item text="Features" text-enabled></calcite-nav-menu-item>
               <calcite-nav-menu-item text="Pricing" text-enabled></calcite-nav-menu-item>
               <calcite-nav-menu-item text="Support"></calcite-nav-menu-item>
             </calcite-nav-menu>
-            <calcite-nav-menu slot="secondary-menu-start">
+            <calcite-nav-menu slot="secondary-content-start">
               <calcite-nav-menu-item breadcrumb text="Documentation" text-enabled></calcite-nav-menu-item>
               <calcite-nav-menu-item breadcrumb text="Calcite Design System" text-enabled></calcite-nav-menu-item>
               <calcite-nav-menu-item breadcrumb text="Components" text-enabled></calcite-nav-menu-item>
               <calcite-nav-menu-item active text="Notice" text-enabled></calcite-nav-menu-item>
             </calcite-nav-menu>
 
-            <calcite-action slot="primary-actions-end" icon="search" scale="l" text="Search"></calcite-action>
+            <calcite-action slot="primary-content-end" icon="search" scale="l" text="Search"></calcite-action>
             <calcite-action
-              slot="primary-actions-end"
+              slot="primary-content-end"
               icon="bell"
               indicator
               scale="l"
               text="Notifications"
             ></calcite-action>
             <calcite-action
-              slot="primary-actions-end"
+              slot="primary-content-end"
               icon="app-launcher"
               scale="l"
               text="App Launcher"
@@ -1623,11 +1601,11 @@
               href
             >
             </calcite-nav-logo>
-            <calcite-nav-menu slot="primary-menu-start">
+            <calcite-nav-menu slot="primary-content-start">
               <calcite-nav-menu-item editable text="New development shadow projection" text-enabled>
               </calcite-nav-menu-item>
             </calcite-nav-menu>
-            <div slot="primary-actions-end">
+            <div slot="primary-content-end">
               <calcite-split-button color="neutral" primary-text="New Scene">
                 <calcite-dropdown-group selection-mode="none">
                   <calcite-dropdown-item>Action 1</calcite-dropdown-item>
@@ -1636,16 +1614,16 @@
                 </calcite-dropdown-group>
               </calcite-split-button>
             </div>
-            <calcite-action slot="primary-actions-end" icon="search" scale="l" text="Search"></calcite-action>
+            <calcite-action slot="primary-content-end" icon="search" scale="l" text="Search"></calcite-action>
             <calcite-action
-              slot="primary-actions-end"
+              slot="primary-content-end"
               icon="bell"
               indicator
               scale="l"
               text="Notifications"
             ></calcite-action>
             <calcite-action
-              slot="primary-actions-end"
+              slot="primary-content-end"
               icon="app-launcher"
               scale="l"
               text="App Launcher"
@@ -1666,22 +1644,22 @@
               href
             >
             </calcite-nav-logo>
-            <calcite-nav-menu slot="primary-menu-start">
+            <calcite-nav-menu slot="primary-content-start">
               <calcite-nav-menu-item text="Home" text-enabled></calcite-nav-menu-item>
               <calcite-nav-menu-item text="Gallery" text-enabled></calcite-nav-menu-item>
               <calcite-nav-menu-item active text="Groups" text-enabled></calcite-nav-menu-item>
               <calcite-nav-menu-item text="Organization" text-enabled></calcite-nav-menu-item>
             </calcite-nav-menu>
-            <calcite-action slot="primary-actions-end" icon="search" scale="l" text="Search"></calcite-action>
+            <calcite-action slot="primary-content-end" icon="search" scale="l" text="Search"></calcite-action>
             <calcite-action
-              slot="primary-actions-end"
+              slot="primary-content-end"
               icon="bell"
               indicator
               scale="l"
               text="Notifications"
             ></calcite-action>
             <calcite-action
-              slot="primary-actions-end"
+              slot="primary-content-end"
               icon="app-launcher"
               scale="l"
               text="App Launcher"
@@ -1701,13 +1679,13 @@
               href
             >
             </calcite-nav-logo>
-            <calcite-nav-menu slot="primary-menu-start">
+            <calcite-nav-menu slot="primary-content-start">
               <calcite-nav-menu-item breadcrumb text="All Content" icon="book" text-enabled> </calcite-nav-menu-item>
               <calcite-nav-menu-item breadcrumb text="Applications" icon="apps" text-enabled> </calcite-nav-menu-item>
               <calcite-nav-menu-item active text-enabled text="My Excellent Application"></calcite-nav-menu-item>
             </calcite-nav-menu>
             <calcite-action
-              slot="primary-actions-end"
+              slot="primary-content-end"
               icon="app-launcher"
               scale="l"
               text="App Launcher"
@@ -1726,21 +1704,21 @@
               href
             >
             </calcite-nav-logo>
-            <calcite-nav-menu slot="primary-menu-start">
+            <calcite-nav-menu slot="primary-content-start">
               <calcite-nav-menu-item active icon="book" text="My Surveys" text-enabled></calcite-nav-menu-item>
             </calcite-nav-menu>
-            <div slot="primary-actions-end">
+            <div slot="primary-content-end">
               <calcite-button icon-start="plus">Create</calcite-button>
             </div>
-            <calcite-action slot="primary-actions-end" icon="search" scale="l" text="Search"></calcite-action>
+            <calcite-action slot="primary-content-end" icon="search" scale="l" text="Search"></calcite-action>
             <calcite-action
-              slot="primary-actions-end"
+              slot="primary-content-end"
               icon="bell"
               indicator
               scale="l"
               text="Notifications"
             ></calcite-action>
-            <calcite-action slot="primary-actions-end" icon="app-launcher" scale="l" text="App Launcher">
+            <calcite-action slot="primary-content-end" icon="app-launcher" scale="l" text="App Launcher">
             </calcite-action>
             <calcite-nav-user slot="user" text-enabled text="Wendell Berry" sub-text="wBerry_arcgis">
             </calcite-nav-user>
@@ -1757,7 +1735,7 @@
             >
             </calcite-nav-logo>
             <calcite-action
-              slot="primary-actions-end"
+              slot="primary-content-end"
               icon="app-launcher"
               scale="l"
               text="App Launcher"
@@ -1777,10 +1755,10 @@
               href
             >
             </calcite-nav-logo>
-            <calcite-nav-menu slot="primary-menu-start">
+            <calcite-nav-menu slot="primary-content-start">
               <calcite-nav-menu-item editable text="Location analysis: Site 2" text-enabled> </calcite-nav-menu-item>
             </calcite-nav-menu>
-            <div slot="primary-actions-end">
+            <div slot="primary-content-end">
               <calcite-action icon="undo" scale="l"></calcite-action>
               <calcite-action icon="redo" scale="l"></calcite-action>
               <calcite-action icon="save" scale="l">
@@ -1788,7 +1766,7 @@
               </calcite-action>
             </div>
             <calcite-action
-              slot="primary-actions-end"
+              slot="primary-content-end"
               icon="app-launcher"
               scale="l"
               text="App Launcher"
@@ -1802,18 +1780,18 @@
           <calcite-nav slot="header" style="--calcite-ui-brand: #4fbaa9">
             <calcite-nav-logo slot="logo" text-enabled text="StoryMaps" src="../assets/images/storymaps-logo.svg" href>
             </calcite-nav-logo>
-            <calcite-nav-menu slot="primary-menu-start">
+            <calcite-nav-menu slot="primary-content-start">
               <calcite-nav-menu-item breadcrumb icon-start="home" text="Home" text-enabled> </calcite-nav-menu-item>
               <calcite-nav-menu-item editable icon-start="open-book" text="A Great StoryMap" text-enabled>
               </calcite-nav-menu-item>
             </calcite-nav-menu>
-            <div slot="primary-actions-end">
+            <div slot="primary-content-end">
               <calcite-action icon="save" scale="l">
                 <calcite-chip style="margin-left: 12px" scale="s" color="green">Up to date</calcite-chip>
               </calcite-action>
             </div>
             <calcite-action
-              slot="primary-actions-end"
+              slot="primary-content-end"
               icon="app-launcher"
               scale="l"
               text="App Launcher"
@@ -1847,34 +1825,34 @@
           <calcite-nav class="example-theming-tiers" slot="header" style="--calcite-ui-brand: #974dff">
             <calcite-nav-logo text-enabled text="ArcGIS Developer" slot="logo" src="../assets/images/dev-docs.svg" href>
             </calcite-nav-logo>
-            <calcite-nav-menu slot="primary-menu-start">
+            <calcite-nav-menu slot="primary-content-start">
               <calcite-nav-menu-item active text="Documentation" text-enabled></calcite-nav-menu-item>
               <calcite-nav-menu-item text="Features" text-enabled></calcite-nav-menu-item>
               <calcite-nav-menu-item text="Pricing" text-enabled></calcite-nav-menu-item>
               <calcite-nav-menu-item text="Support"></calcite-nav-menu-item>
             </calcite-nav-menu>
-            <calcite-nav-menu slot="secondary-menu-start">
+            <calcite-nav-menu slot="secondary-content-start">
               <calcite-nav-menu-item breadcrumb text="Documentation" text-enabled></calcite-nav-menu-item>
               <calcite-nav-menu-item breadcrumb text="Calcite Design System" text-enabled></calcite-nav-menu-item>
               <calcite-nav-menu-item breadcrumb text="Components" text-enabled></calcite-nav-menu-item>
               <calcite-nav-menu-item active text="Notice" text-enabled></calcite-nav-menu-item>
             </calcite-nav-menu>
-            <calcite-nav-menu slot="tertiary-menu-start">
+            <calcite-nav-menu slot="tertiary-content-start">
               <calcite-nav-menu-item breadcrumb text="Documentation" text-enabled></calcite-nav-menu-item>
               <calcite-nav-menu-item breadcrumb text="Calcite Design System" text-enabled></calcite-nav-menu-item>
               <calcite-nav-menu-item breadcrumb text="Components" text-enabled></calcite-nav-menu-item>
               <calcite-nav-menu-item active text="Notice" text-enabled></calcite-nav-menu-item>
             </calcite-nav-menu>
-            <calcite-action slot="primary-actions-end" icon="search" scale="l" text="Search"></calcite-action>
+            <calcite-action slot="primary-content-end" icon="search" scale="l" text="Search"></calcite-action>
             <calcite-action
-              slot="primary-actions-end"
+              slot="primary-content-end"
               icon="bell"
               indicator
               scale="l"
               text="Notifications"
             ></calcite-action>
             <calcite-action
-              slot="primary-actions-end"
+              slot="primary-content-end"
               icon="app-launcher"
               scale="l"
               text="App Launcher"
@@ -1893,7 +1871,7 @@
               slot="logo"
             >
             </calcite-nav-logo>
-            <div slot="primary-actions-end" style="display: flex; flex-direction: row; align-items: center">
+            <div slot="primary-content-end" style="display: flex; flex-direction: row; align-items: center">
               <calcite-chip style="margin: 0 16px">Custom control</calcite-chip>
               <calcite-label style="--calcite-label-margin-bottom: 0" layout="inline-space-between">
                 Outage Type
@@ -1935,7 +1913,7 @@
               href
             >
             </calcite-nav-logo>
-            <div slot="primary-actions-end">
+            <div slot="primary-content-end">
               <calcite-action icon="ellipsis" scale="l"> </calcite-action>
             </div>
           </calcite-nav>
@@ -1951,7 +1929,7 @@
               slot="logo"
             >
             </calcite-nav-logo>
-            <div slot="primary-actions-end" style="display: flex; flex-direction: row; align-items: center">
+            <div slot="primary-content-end" style="display: flex; flex-direction: row; align-items: center">
               <calcite-chip style="margin: 0 16px" appearance="clear" color="yellow">Custom control</calcite-chip>
               <calcite-label style="--calcite-label-margin-bottom: 0" layout="inline-space-between"
                 >Información Histórica
@@ -1998,7 +1976,7 @@
           >
             <calcite-nav-logo text-enabled text="Major Crimes Summary" sub-text="January to December 2019" slot="logo">
             </calcite-nav-logo>
-            <div slot="primary-actions-end" style="display: flex; flex-direction: row; align-items: center">
+            <div slot="primary-content-end" style="display: flex; flex-direction: row; align-items: center">
               <calcite-label style="--calcite-label-margin-bottom: 0" layout="inline-space-between">
                 Location
                 <calcite-combobox placeholder="Select">

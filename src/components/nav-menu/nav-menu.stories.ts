@@ -1,4 +1,4 @@
-import { boolean, storyFilters } from "../../../.storybook/helpers";
+import { storyFilters } from "../../../.storybook/helpers";
 import readme from "./readme.md";
 import { html } from "../../../support/formatting";
 import { select } from "@storybook/addon-knobs";
@@ -13,7 +13,11 @@ export default {
 
 export const simple = (): string => html`
   <calcite-nav>
-    <calcite-nav-menu slot="primary-menu-center" layout="${select("layout", ["horizontal", "vertical"], "horizontal")}">
+    <calcite-nav-menu slot="primary-content-center" layout="${select(
+      "layout",
+      ["horizontal", "vertical"],
+      "horizontal"
+    )}">
       <calcite-nav-menu-item text="Example nav item 1" text-enabled></calcite-nav-menu-item>
       <calcite-nav-menu-item text="Example nav item 2" text-enabled active></calcite-nav-menu-item>
       <calcite-nav-menu-item
