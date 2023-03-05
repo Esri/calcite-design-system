@@ -14,10 +14,8 @@ import { Component, Element, h, Host, Prop, VNode } from "@stencil/core";
  * @slot primary-content-center - A slot for adding a `calcite-nav-menu`, `calcite-action`, or other interactive elements in the center position of the primary nav level
  * @slot primary-content-end - A slot for adding a `calcite-nav-menu`, `calcite-action`, or other interactive elements in the end position of the primary nav level
  * @slot secondary-content-start - A slot for adding a `calcite-nav-menu`, `calcite-action`, or other interactive elements in the start position of the secondary nav level
- * @slot secondary-content-center - A slot for adding a `calcite-nav-menu`, `calcite-action`, or other interactive elements in the center position of the secondary nav level
  * @slot secondary-content-end - A slot for adding a `calcite-nav-menu`, `calcite-action`, or other interactive elements in the end position of the secondary nav level
  * @slot tertiary-content-start - A slot for adding a `calcite-nav-menu`, `calcite-action`, or other interactive elements in the start position of the tertiary nav level
- * @slot tertiary-content-center - A slot for adding a `calcite-nav-menu`, `calcite-action`, or other interactive elements in the center position of the tertiary nav level
  * @slot tertiary-content-end - A slot for adding a `calcite-nav-menu`, `calcite-action`, or other interactive elements in the end position of the tertiary nav level
  */
 export class CalciteNav {
