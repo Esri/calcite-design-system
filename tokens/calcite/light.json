@@ -1186,11 +1186,11 @@
       "tabs": {
         "bordered": {
           "border": {
-            "value": "$tab-title.bordered.border.light",
+            "value": "$tabs.bordered.border.light",
             "type": "color"
           },
           "background": {
-            "value": "$tab-title.bordered.background.default.light",
+            "value": "$tabs.bordered.background.default.light",
             "type": "color"
           }
         }

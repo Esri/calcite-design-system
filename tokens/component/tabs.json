@@ -14,11 +14,11 @@
       "background": {
         "default": {
           "light": {
-            "value": "$semantic.ui.color.background.light",
+            "value": "$semantic.ui.color.foreground.1.light",
             "type": "color"
           },
           "dark": {
-            "value": "$semantic.ui.color.background.dark",
+            "value": "$semantic.ui.color.foreground.1.dark",
             "type": "color"
           }
         }

@@ -1150,11 +1150,11 @@
       "tabs": {
         "bordered": {
           "border": {
-            "value": "$tab-title.bordered.border.dark",
+            "value": "$tabs.bordered.border.dark",
             "type": "color"
           },
           "background": {
-            "value": "$tab-title.bordered.background.default.dark",
+            "value": "$tabs.bordered.background.default.dark",
             "type": "color"
           }
         }
