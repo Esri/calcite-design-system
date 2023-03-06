@@ -252,15 +252,15 @@
     },
     "border-width": {
       "sm": {
-        "value": "$core.border.border-width.0",
+        "value": "$core.border.border-width.1",
         "type": "borderWidth"
       },
       "md": {
-        "value": "$core.border.border-width.0",
+        "value": "$core.border.border-width.1",
         "type": "borderWidth"
       },
       "lg": {
-        "value": "$core.border.border-width.0",
+        "value": "$core.border.border-width.1",
         "type": "borderWidth"
       }
     },
@@ -284,11 +284,11 @@
         "type": "sizing"
       },
       "md": {
-        "value": "$core.sizing.9",
+        "value": "$core.sizing.7",
         "type": "sizing"
       },
       "lg": {
-        "value": "$core.sizing.11",
+        "value": "$core.sizing.7",
         "type": "sizing"
       }
     },
