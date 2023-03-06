@@ -248,10 +248,10 @@ a:active {
   margin-inline-start: auto;
   transition: opacity var(--calcite-internal-animation-timing-medium) ease-in-out,
     inset-inline-end var(--calcite-internal-animation-timing-slow) ease-in-out;
-  inset-inline-end: 1rem;
+  inset-inline-end: 0.25rem;
   position: relative;
 }
 a:hover .hover-href-icon {
   opacity: 1;
-  inset-inline-end: 0;
+  inset-inline-end: -0.25rem;
 }
