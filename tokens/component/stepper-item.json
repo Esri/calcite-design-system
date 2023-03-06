@@ -294,11 +294,11 @@
     },
     "space-between": {
       "sm": {
-        "value": "$core.spacing.9",
+        "value": "$core.spacing.5",
         "type": "spacing"
       },
       "md": {
-        "value": "$core.spacing.11",
+        "value": "$core.spacing.7",
         "type": "spacing"
       },
       "lg": {
@@ -307,17 +307,47 @@
       }
     },
     "space-around": {
-      "sm": {
-        "value": "$core.spacing.7",
-        "type": "spacing"
+      "left": {
+        "sm": {
+          "value": "$core.spacing.none",
+          "type": "spacing"
+        },
+        "md": {
+          "value": "$core.spacing.none",
+          "type": "spacing"
+        },
+        "lg": {
+          "value": "$core.spacing.none",
+          "type": "spacing"
+        }
       },
-      "md": {
-        "value": "$core.spacing.9",
-        "type": "spacing"
+      "right": {
+        "sm": {
+          "value": "$core.spacing.5",
+          "type": "spacing"
+        },
+        "md": {
+          "value": "$core.spacing.7",
+          "type": "spacing"
+        },
+        "lg": {
+          "value": "$core.spacing.8",
+          "type": "spacing"
+        }
       },
-      "lg": {
-        "value": "$core.spacing.11",
-        "type": "spacing"
+      "top-bottom": {
+        "sm": {
+          "value": "$core.spacing.7",
+          "type": "spacing"
+        },
+        "md": {
+          "value": "$core.spacing.8",
+          "type": "spacing"
+        },
+        "lg": {
+          "value": "$core.spacing.9",
+          "type": "spacing"
+        }
       }
     }
   }
