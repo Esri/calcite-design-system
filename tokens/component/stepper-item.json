@@ -165,23 +165,67 @@
       }
     },
     "icon": {
-      "light": {
-        "value": "$semantic.ui.color.text.3.light",
-        "type": "color"
+      "default": {
+        "light": {
+          "value": "$semantic.ui.color.border.3.light",
+          "type": "color"
+        },
+        "dark": {
+          "value": "$semantic.ui.color.border.3.dark",
+          "type": "color"
+        }
       },
-      "dark": {
-        "value": "$semantic.ui.color.text.3.dark",
-        "type": "color"
+      "active": {
+        "light": {
+          "value": "$semantic.ui.color.brand.default.light",
+          "type": "color"
+        },
+        "dark": {
+          "value": "$semantic.ui.color.brand.default.dark",
+          "type": "color"
+        }
+      },
+      "error": {
+        "light": {
+          "value": "$semantic.ui.color.danger.default.light",
+          "type": "color"
+        },
+        "dark": {
+          "value": "$semantic.ui.color.danger.default.dark",
+          "type": "color"
+        }
       }
     },
     "border": {
-      "light": {
-        "value": "$semantic.ui.color.border.1.light",
-        "type": "color"
+      "default": {
+        "light": {
+          "value": "$semantic.ui.color.border.3.light",
+          "type": "color"
+        },
+        "dark": {
+          "value": "$semantic.ui.color.border.3.dark",
+          "type": "color"
+        }
       },
-      "dark": {
-        "value": "$semantic.ui.color.border.1.dark",
-        "type": "color"
+      "active": {
+        "light": {
+          "value": "$semantic.ui.color.brand.default.light",
+          "type": "color"
+        },
+        "dark": {
+          "value": "$semantic.ui.color.brand.default.dark",
+          "type": "color"
+        }
+      },
+      "error": {
+        "light": {
+          "value": "$semantic.ui.color.danger.default.light",
+          "type": "color"
+        },
+        "dark": {
+          "value": "$semantic.ui.color.danger.default.dark",
+          "type": "color"
+        }
       }
     },
     "background": {
@@ -206,31 +250,17 @@
         "type": "color"
       }
     },
-    "border-radius": {
-      "sm": {
-        "value": "$core.border.border-radius.4",
-        "type": "borderRadius"
-      },
-      "md": {
-        "value": "$core.border.border-radius.5",
-        "type": "borderRadius"
-      },
-      "lg": {
-        "value": "$core.border.border-radius.6",
-        "type": "borderRadius"
-      }
-    },
     "border-width": {
       "sm": {
-        "value": "$core.border.border-width.1",
+        "value": "$core.border.border-width.0",
         "type": "borderWidth"
       },
       "md": {
-        "value": "$core.border.border-width.2",
+        "value": "$core.border.border-width.0",
         "type": "borderWidth"
       },
       "lg": {
-        "value": "$core.border.border-width.4",
+        "value": "$core.border.border-width.0",
         "type": "borderWidth"
       }
     },
