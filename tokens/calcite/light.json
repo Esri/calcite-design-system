@@ -1209,6 +1209,16 @@
             "value": "$card.font.description.light",
             "type": "color"
           }
+        },
+        "border": {
+          "default": {
+            "value": "$card.border.default.light",
+            "type": "color"
+          },
+          "active": {
+            "value": "$card.border.active.light",
+            "type": "color"
+          }
         }
       },
       "action": {

@@ -1173,6 +1173,16 @@
             "value": "$card.font.description.dark",
             "type": "color"
           }
+        },
+        "border": {
+          "default": {
+            "value": "$card.border.default.dark",
+            "type": "color"
+          },
+          "active": {
+            "value": "$card.border.active.dark",
+            "type": "color"
+          }
         }
       },
       "action": {

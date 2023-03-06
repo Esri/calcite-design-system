@@ -47,13 +47,25 @@
       }
     },
     "border": {
-      "light": {
-        "value": "$semantic.ui.color.border.2.light",
-        "type": "color"
+      "default": {
+        "light": {
+          "value": "$semantic.ui.color.border.2.light",
+          "type": "color"
+        },
+        "dark": {
+          "value": "$semantic.ui.color.border.2.dark",
+          "type": "color"
+        }
       },
-      "dark": {
-        "value": "$semantic.ui.color.border.2.dark",
-        "type": "color"
+      "active": {
+        "light": {
+          "value": "$semantic.ui.color.brand.default.light",
+          "type": "color"
+        },
+        "dark": {
+          "value": "$semantic.ui.color.brand.default.dark",
+          "type": "color"
+        }
       }
     },
     "background": {
