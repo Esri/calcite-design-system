@@ -198,6 +198,10 @@ export const alignmentStartAndLargeScaleAndTextOverflow_TestOnly = (): string =>
     )}
   </div>`;
 
+export const indicatorTextEnabled_TestOnly = (): string => html`
+  <calcite-action indicator active text="click-me" text-enabled icon="gear"></calcite-action>
+`;
+
 export const arabicLocale_TestOnly = (): string => html`
   <calcite-action
     dir="rtl"
