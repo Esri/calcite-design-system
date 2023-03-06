@@ -1,6 +1,6 @@
 {
   "name": "@esri/calcite-components",
-  "version": "1.0.8-next.0",
+  "version": "1.0.8",
   "description": "Web Components for Esri's Calcite Design System.",
   "main": "dist/index.cjs.js",
   "module": "dist/index.js",
@@ -44,7 +44,7 @@
     "test:existing-build": "stencil test --no-docs --no-build --spec --e2e",
     "test:prerender": "stencil build --no-docs --prerender",
     "test:watch": "npm run test -- -- --watchAll",
-    "util:build-docs": "npm run util:copy-icons && stencil build --docs --config stencil.storybook.config.ts",
+    "util:build-docs": "npm run util:prep-build-reqs && stencil build --docs --config stencil.storybook.config.ts",
     "util:clean-tested-build": "npm ci && npm test && npm run build",
     "util:copy-icons": "cpy \"./node_modules/@esri/calcite-ui-icons/js/*.json\" \"./src/components/icon/assets/icon/\" --flat",
     "util:deploy-next": "npm run util:prep-next && npm run util:publish-next",
@@ -70,11 +70,11 @@
     "url": "git+https://github.com/Esri/calcite-components.git"
   },
   "dependencies": {
-    "@floating-ui/dom": "1.1.0",
+    "@floating-ui/dom": "1.2.1",
     "@stencil/core": "2.20.0",
     "@types/color": "3.0.3",
     "color": "4.2.3",
-    "focus-trap": "7.2.0",
+    "focus-trap": "7.3.1",
     "form-request-submit-polyfill": "2.0.0",
     "lodash-es": "4.17.21",
     "sortablejs": "1.15.0"
@@ -89,7 +89,7 @@
     "@stencil/postcss": "2.1.0",
     "@stencil/sass": "2.0.3",
     "@stencil/state-tunnel": "^1.0.1",
-    "@storybook/addon-a11y": "6.5.15",
+    "@storybook/addon-a11y": "6.5.16",
     "@storybook/addon-docs": "6.5.15",
     "@storybook/addon-interactions": "6.5.15",
     "@storybook/addon-knobs": "6.4.0",
@@ -120,7 +120,7 @@
     "conventional-changelog-cli": "2.2.2",
     "cpy-cli": "^4.0.0",
     "dedent": "0.7.0",
-    "eslint": "8.30.0",
+    "eslint": "8.35.0",
     "eslint-config-prettier": "8.6.0",
     "eslint-plugin-jest": "27.2.1",
     "eslint-plugin-jsdoc": "39.6.4",
