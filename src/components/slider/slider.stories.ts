@@ -279,3 +279,117 @@ export const wordBreakDoesNotAffectLabels_TestOnly = (): string =>
   ></calcite-slider>`;
 
 export const WithLabelHandlesAndNoValue_TestOnly = (): string => html` <calcite-slider max="750"></calcite-slider> `;
+
+export const WithLargeFontSize_TestOnly = (): string => html`<html lang="en">
+  <head>
+    <style>
+      html {
+        font-size: 24px;
+      }
+      calcite-label {
+        padding: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div style="width: 400px; padding: 20px">
+      <calcite-label>
+        precise with label-handles
+        <calcite-slider scale="s" min="10" max="100" value="50" step="10" precise label-handles></calcite-slider
+      ></calcite-label>
+      <calcite-label>
+        precise with label-handles mirrored
+        <calcite-slider
+          scale="s"
+          min="10"
+          max="100"
+          value="50"
+          step="10"
+          label-handles
+          precise
+          mirrored
+        ></calcite-slider>
+      </calcite-label>
+      <calcite-label>
+        precise with label-handles & label-ticks
+        <calcite-slider
+          min="0"
+          max="100"
+          value="40"
+          step="10"
+          ticks="10"
+          scale="s"
+          label-handles
+          label-ticks
+          precise
+        ></calcite-slider>
+      </calcite-label>
+      <calcite-label>
+        precise with label-handles & label-ticks mirrored
+        <calcite-slider
+          min="0"
+          max="100"
+          value="40"
+          step="10"
+          ticks="10"
+          scale="s"
+          label-handles
+          precise
+          mirrored
+          label-ticks
+        ></calcite-slider>
+      </calcite-label>
+      <calcite-label>
+        range slider with label-handles & label-ticks
+        <calcite-slider
+          min="10"
+          max="100"
+          min-value="20"
+          max-value="90"
+          step="10"
+          min-label="Temperature range (lower)"
+          max-label="Temperature range (upper)"
+          scale="s"
+          label-handles
+          ticks="10"
+          label-ticks
+        ></calcite-slider>
+      </calcite-label>
+      <calcite-label>
+        precise range slider with label-handles & label-ticks
+        <calcite-slider
+          min="10"
+          max="100"
+          min-value="20"
+          max-value="90"
+          step="10"
+          min-label="Temperature range (lower)"
+          max-label="Temperature range (upper)"
+          scale="s"
+          label-handles
+          ticks="10"
+          precise
+          label-ticks
+        ></calcite-slider>
+      </calcite-label>
+      <calcite-label>
+        precise range slider with label-handles & label-ticks mirrored
+        <calcite-slider
+          min="10"
+          max="100"
+          min-value="20"
+          max-value="90"
+          step="10"
+          min-label="Temperature range (lower)"
+          max-label="Temperature range (upper)"
+          scale="s"
+          label-handles
+          ticks="10"
+          precise
+          label-ticks
+          mirrored
+        ></calcite-slider>
+      </calcite-label>
+    </div>
+  </body>
+</html>`;

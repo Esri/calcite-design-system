@@ -380,8 +380,9 @@ export class PickListItem
           class={CSS.label}
           onClick={this.pickListClickHandler}
           onKeyDown={this.pickListKeyDownHandler}
-          ref={(focusEl): HTMLLabelElement => (this.focusEl = focusEl)}
           tabIndex={0}
+          // eslint-disable-next-line react/jsx-sort-props
+          ref={(focusEl): HTMLLabelElement => (this.focusEl = focusEl)}
         >
           <div
             aria-checked={toAriaBoolean(this.selected)}

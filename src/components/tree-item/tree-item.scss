@@ -9,23 +9,28 @@
   @apply hidden;
 }
 
+.node-actions-container {
+  @apply flex justify-between;
+}
+
 @include calciteHydratedHidden();
 @include disabled();
 
 :host([scale="s"]) {
   @apply text-n2h;
 
-  .node-container {
-    --calcite-tree-padding-y: theme("padding.1");
-    .checkbox,
-    .chevron,
-    .checkmark,
-    .bullet-point {
-      margin-inline: theme("margin.1");
-    }
-    .icon-start,
-    .actions-end {
-      margin-inline: theme("margin.1");
+  .node-actions-container {
+    @apply min-h-[1.5rem];
+    .node-container {
+      .checkbox,
+      .chevron,
+      .checkmark,
+      .bullet-point {
+        margin-inline: theme("margin.1");
+      }
+      .icon-start {
+        margin-inline: theme("margin.3");
+      }
     }
   }
 }
@@ -33,17 +38,18 @@
 :host([scale="m"]) {
   @apply text-n1h;
 
-  .node-container {
-    --calcite-tree-padding-y: theme("padding.2");
-    .checkbox,
-    .chevron,
-    .checkmark,
-    .bullet-point {
-      margin-inline: theme("margin.2");
-    }
-    .icon-start,
-    .actions-end {
-      margin-inline: theme("margin.2");
+  .node-actions-container {
+    @apply min-h-[2rem];
+    .node-container {
+      .checkbox,
+      .chevron,
+      .checkmark,
+      .bullet-point {
+        margin-inline: theme("margin.2");
+      }
+      .icon-start {
+        margin-inline: theme("margin.3");
+      }
     }
   }
 }
@@ -51,17 +57,18 @@
 :host([scale="l"]) {
   @apply text-0h;
 
-  .node-container {
-    --calcite-tree-padding-y: theme("padding.3");
-    .checkbox,
-    .chevron,
-    .checkmark,
-    .bullet-point {
-      margin-inline: theme("margin.3");
-    }
-    .icon-start,
-    .actions-end {
-      margin-inline: theme("margin.3");
+  .node-actions-container {
+    @apply min-h-[2.75rem];
+    .node-container {
+      .checkbox,
+      .chevron,
+      .checkmark,
+      .bullet-point {
+        margin-inline: theme("margin.3");
+      }
+      .icon-start {
+        margin-inline: theme("margin.3");
+      }
     }
   }
 }
@@ -102,15 +109,18 @@
 // focus styles
 :host {
   @apply focus-base;
+  &:focus,
+  &:active {
+    @apply focus-inset outline-none;
+  }
 }
 
-:host(:focus) {
+:host(:focus:not([disabled])) {
   @apply focus-inset outline-none;
 }
 
-slot[name="actions-end"]::slotted(*),
 .actions-end {
-  @apply flex self-stretch flex-row items-center overflow-visible;
+  @apply flex self-stretch flex-row items-center;
 }
 
 .checkbox {
@@ -142,9 +152,7 @@ slot[name="actions-end"]::slotted(*),
 }
 
 .node-container {
-  @apply relative flex items-center;
-  padding-block: var(--calcite-tree-padding-y);
-  padding-inline: 0;
+  @apply relative flex items-center min-w-0;
 
   .checkmark,
   .bullet-point {
@@ -239,7 +247,7 @@ slot[name="actions-end"]::slotted(*),
     transform: rotate(180deg);
   }
 
-  .item--expanded > .node-container > & {
+  .item--expanded .node-container > & {
     transform: rotate(90deg);
   }
 }

@@ -8,7 +8,8 @@ export const CSS = {
   bulletPointIcon: "bullet-point",
   checkmarkIcon: "checkmark",
   itemExpanded: "item--expanded",
-  iconStart: "icon-start"
+  iconStart: "icon-start",
+  nodeAndActionsContainer: "node-actions-container"
 };
 
 export const SLOTS = {

@@ -173,24 +173,36 @@ describe("calcite-filter", () => {
       });
     });
 
-    it.skip("updates filtered items after filtering", async () => {
-      const filterChangeSpy = await page.spyOnEvent("calciteFilterChange");
-      const waitForEvent = page.waitForEvent("calciteFilterChange");
+    it("updates filtered items after filtering", async () => {
       const filter = await page.find("calcite-filter");
+      const filterChangeSpy = await page.spyOnEvent("calciteFilterChange");
+      await page.waitForTimeout(DEBOUNCE_TIMEOUT);
+      await page.waitForChanges();
+
+      expect(filterChangeSpy).toHaveReceivedEventTimes(0);
+      assertMatchingItems(await filter.getProperty("filteredItems"), [
+        "harry",
+        "matt",
+        "franco",
+        "katy",
+        "jon",
+        "regex"
+      ]);
+
+      const filterChangeEvent = page.waitForEvent("calciteFilterChange");
       await filter.callMethod("setFocus");
       await filter.type("developer");
-      await waitForEvent;
+      await filterChangeEvent;
 
       expect(filterChangeSpy).toHaveReceivedEventTimes(1);
-
       assertMatchingItems(await filter.getProperty("filteredItems"), ["harry", "matt", "franco", "jon"]);
 
-      await page.evaluate(() => {
-        const filter = document.querySelector("calcite-filter");
+      await page.$eval("calcite-filter", (filter: HTMLCalciteFilterElement): void => {
         filter.items = filter.items.slice(3);
       });
-
       await page.waitForTimeout(DEBOUNCE_TIMEOUT);
+      await page.waitForChanges();
+
       assertMatchingItems(await filter.getProperty("filteredItems"), ["jon"]);
       expect(filterChangeSpy).toHaveReceivedEventTimes(1);
     });
