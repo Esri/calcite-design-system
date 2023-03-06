@@ -212,6 +212,7 @@ export class Modal
         <div
           class={{
             [CSS.container]: true,
+            [CSS.containerOpen]: this.isOpen,
             [CSS.slottedInShell]: this.slottedInShell
           }}
         >
@@ -219,8 +220,7 @@ export class Modal
           {this.renderStyle()}
           <div
             class={{
-              [CSS.modal]: true,
-              [CSS.modalOpen]: this.isOpen
+              [CSS.modal]: true
             }}
             // eslint-disable-next-line react/jsx-sort-props
             ref={this.setTransitionEl}
