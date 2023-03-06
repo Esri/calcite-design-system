@@ -43,15 +43,15 @@
           }
         },
         "sm": {
-          "value": "$semantic.font.default.bold.-1h",
+          "value": "$semantic.font.default.medium.-1h",
           "type": "typography"
         },
         "md": {
-          "value": "$semantic.font.default.bold.0h",
+          "value": "$semantic.font.default.medium.0h",
           "type": "typography"
         },
         "lg": {
-          "value": "$semantic.font.default.bold.1h",
+          "value": "$semantic.font.default.medium.1h",
           "type": "typography"
         }
       },
