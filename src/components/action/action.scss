@@ -70,6 +70,7 @@
 
   .text-container--visible {
     @apply w-auto flex-auto opacity-100;
+    margin-inline-end: theme("spacing.4");
   }
 }
 
@@ -212,9 +213,6 @@
   .button--text-visible {
     &::after {
       inset-block-end: auto;
-    }
-    .text-container--visible {
-      margin-inline-end: theme("spacing.4");
     }
   }
   .button:hover::after,
