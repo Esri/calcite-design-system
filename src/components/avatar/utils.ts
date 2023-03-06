@@ -9,6 +9,7 @@ import { hexToRGB } from "../color-picker/utils";
  * @param theme {string}
  * @param scale {string}
  */
+let multi = 8; //temporary var, testing recursive regeneration of hex
 export function stringToHex(name: string, theme?: string, scale?: string): string {
   const { constName, constTheme, constScale } = { constName: name, constTheme: theme, constScale: scale };
 
@@ -17,12 +18,12 @@ export function stringToHex(name: string, theme?: string, scale?: string): strin
     for (let i = 0; i < constName.length; i++) {
       hash = constName.charCodeAt(i) + ((hash << 5) - hash);
     }
-
     let hex = "#";
     for (let j = 0; j < 3; j++) {
-      const value = (hash >> (j * 8)) & 0xff;
+      const value = (hash >> (j * multi)) & 0xff;
       hex += ("00" + value.toString(16)).substr(-2);
     }
+    multi++;
     return hex;
   };
 
@@ -109,19 +110,18 @@ export function rgbToLuminance(colorObject: { r: number; g: number; b: number })
 /**
  * Verify the generated color is WCAG contrast compliant
  *
- * @param name {string} - form of "#------"
+ * @param hex {string} - form of "#------"
  * @param theme {string}
  * @param scale {string}
  */
-export function isContrastCompliant(name: string, theme: string, scale: string): boolean {
-  const getLuminance = (name) => {
-    const rgbObj = hexToRGB(name);
+export function isContrastCompliant(hex: string, theme: string, scale: string): boolean {
+  const getLuminance = (hex) => {
+    const rgbObj = hexToRGB(hex);
     return rgbToLuminance(rgbObj);
   };
-
-  const themeRGB = theme === "Light" ? { r: 159, g: 159, b: 159 } : { r: 106, g: 106, b: 106 };
+  const themeRGB = theme === "Light" ? "#9F9F9F" : "#6A6A6A";
 
   //as long as the initials always default to bold
-  const contrastRatio = (getLuminance(name) + 0.05) / (getLuminance(themeRGB) + 0.05);
+  const contrastRatio = (getLuminance(hex) + 0.05) / (getLuminance(themeRGB) + 0.05);
   return scale === "l" ? contrastRatio >= 3 : contrastRatio >= 4.5;
 }
