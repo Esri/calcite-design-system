@@ -6,8 +6,7 @@
       "core": "source",
       "semantic": "source",
       "brand/global": "enabled",
-      "brand/light": "enabled",
-      "component/stepper-item": "disabled"
+      "brand/light": "enabled"
     },
     "$figmaStyleReferences": {}
   },
@@ -18,8 +17,7 @@
       "core": "source",
       "semantic": "source",
       "brand/global": "enabled",
-      "brand/dark": "enabled",
-      "component/stepper-item": "disabled"
+      "brand/dark": "enabled"
     },
     "$figmaStyleReferences": {}
   },
