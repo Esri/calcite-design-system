@@ -1219,6 +1219,12 @@
             "value": "$card.border.active.light",
             "type": "color"
           }
+        },
+        "background": {
+          "default": {
+            "value": "$card.background.default.light",
+            "type": "color"
+          }
         }
       },
       "action": {

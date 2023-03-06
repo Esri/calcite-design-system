@@ -1183,6 +1183,12 @@
             "value": "$card.border.active.dark",
             "type": "color"
           }
+        },
+        "background": {
+          "default": {
+            "value": "$card.background.default.dark",
+            "type": "color"
+          }
         }
       },
       "action": {
