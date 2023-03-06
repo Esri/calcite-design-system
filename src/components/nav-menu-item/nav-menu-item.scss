@@ -171,7 +171,7 @@ a:active {
   min-inline-size: 100%;
   inline-size: max-content;
   display: none;
-  transition: all ease-in-out 0.25s;
+  transition: all var(--calcite-internal-animation-timing-slow) ease-in-out;
   overflow: visible;
   inset-block-start: 100%;
   &.open {
@@ -240,4 +240,18 @@ a:active {
 
 .dropdown-with-href-toggle {
   z-index: 0;
+}
+
+.hover-href-icon {
+  opacity: 0;
+  padding-inline-start: 2rem;
+  margin-inline-start: auto;
+  transition: opacity var(--calcite-internal-animation-timing-medium) ease-in-out,
+    inset-inline-end var(--calcite-internal-animation-timing-slow) ease-in-out;
+  inset-inline-end: 1rem;
+  position: relative;
+}
+a:hover .hover-href-icon {
+  opacity: 1;
+  inset-inline-end: 0;
 }

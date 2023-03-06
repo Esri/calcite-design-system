@@ -211,7 +211,10 @@ export class CalciteNavMenuItem {
   }
 
   private keyDownHandler = (event: KeyboardEvent): void => {
-    // todo refactor all
+    // todo refactor all of this
+    // probably need to maintain index of all "parents" and track where
+    // user currently is focused in
+    // probably move logic to parent nav-menu, just emit key from here
     console.log(this.topLevelLayout);
     switch (event.key) {
       case " ":
@@ -227,7 +230,6 @@ export class CalciteNavMenuItem {
           this.calciteInternalNavItemKeyEvent.emit(event);
         }
         event.preventDefault();
-
         break;
 
       case "Escape":
@@ -459,9 +461,17 @@ export class CalciteNavMenuItem {
               target={this.target ? this.target : null}
             >
               {this.renderItemContent()}
+              {this.href && (this.layout === "vertical" || this.topLevelLayout === "vertical") ? (
+                <calcite-icon
+                  class="hover-href-icon"
+                  icon={this.dir === "rtl" ? "arrow-left" : "arrow-right"}
+                  scale="s"
+                />
+              ) : null}
             </a>
             {this.href && this.hasSubMenu ? this.renderDropdownAction() : null}
           </div>
+
           {this.hasSubMenu ? this.rendersubMenuItems() : null}
         </li>
       </Host>

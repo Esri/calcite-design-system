@@ -507,10 +507,10 @@
             <code><b>active</b></code>
           </h4>
           <h4>
-            <code><b>hamburger-enabled (tbd name)</b></code>
+            <code><b>hamburger-toggle-enabled (tbd name)</b></code>
           </h4>
           <h4>
-            <code><b>hamburger-text (tbd name)</b></code>
+            <code><b>intl-hamburger-toggle (tbd name)</b></code>
           </h4>
         </div>
         <calcite-shell>
@@ -590,13 +590,6 @@
             </calcite-nav-logo>
           </calcite-nav>
         </calcite-shell>
-        <div class="text-box">
-          <h4>
-            <code
-              ><b>hamburgerEnabled (tbd name)</b> - opt in to showing hamburger, positions next to title in main</code
-            >
-          </h4>
-        </div>
         <calcite-shell>
           <calcite-nav slot="header">
             <calcite-nav-logo
@@ -608,11 +601,41 @@
               src="../assets/images/acme-logo.svg"
             >
             </calcite-nav-logo>
-            <calcite-chip slot="logo" scale="s">logo</calcite-chip>
-            <calcite-chip slot="user" text-enabled scale="s">user</calcite-chip>
-            <calcite-chip slot="primary-content-start" scale="s">primary-content-start</calcite-chip>
-            <calcite-chip slot="primary-content-center" scale="s">primary-content-center</calcite-chip>
-            <calcite-chip slot="primary-content-end" scale="s">primary-content-end </calcite-chip>
+          </calcite-nav>
+        </calcite-shell>
+        <calcite-shell>
+          <calcite-nav slot="header">
+            <calcite-nav-logo
+              slot="logo"
+              hamburger-enabled
+              text-enabled
+              slot="logo"
+              src="../assets/images/acme-logo.svg"
+            >
+            </calcite-nav-logo>
+          </calcite-nav>
+        </calcite-shell>
+        <calcite-shell>
+          <calcite-nav slot="header">
+            <calcite-nav-logo slot="logo" hamburger-enabled text-enabled text="Walt's Chips"> </calcite-nav-logo>
+          </calcite-nav>
+        </calcite-shell>
+        <calcite-shell>
+          <calcite-nav slot="header">
+            <calcite-nav-logo
+              slot="logo"
+              hamburger-enabled
+              text-enabled
+              text="Walt's Chips"
+              sub-text="Eastern Potato Chip Company"
+            >
+            </calcite-nav-logo>
+          </calcite-nav>
+        </calcite-shell>
+        <calcite-shell>
+          <calcite-nav slot="header">
+            <calcite-nav-logo slot="logo" hamburger-enabled text="Walt's Chips" sub-text="Eastern Potato Chip Company">
+            </calcite-nav-logo>
           </calcite-nav>
         </calcite-shell>
         <!--
@@ -1250,41 +1273,41 @@
                 >
                   <calcite-nav-menu-item text="Home" text-enabled> </calcite-nav-menu-item>
                   <calcite-nav-menu-item text="Reference" text-enabled>
-                    <calcite-nav-menu-item slot="menu-item-dropdown" text="an item" text-enabled>
+                    <calcite-nav-menu-item href="#" slot="menu-item-dropdown" text="an item" text-enabled>
                     </calcite-nav-menu-item>
-                    <calcite-nav-menu-item slot="menu-item-dropdown" text="an item" text-enabled>
+                    <calcite-nav-menu-item href="#" slot="menu-item-dropdown" text="an item" text-enabled>
                     </calcite-nav-menu-item>
-                    <calcite-nav-menu-item slot="menu-item-dropdown" text="an item" text-enabled>
+                    <calcite-nav-menu-item href="#" slot="menu-item-dropdown" text="an item" text-enabled>
                     </calcite-nav-menu-item>
                   </calcite-nav-menu-item>
-                  <calcite-nav-menu-item text="Items of reference" text-enabled> </calcite-nav-menu-item>
-                  <calcite-nav-menu-item text="Reference item" active text-enabled> </calcite-nav-menu-item>
-                  <calcite-nav-menu-item text="Longer item" text-enabled> </calcite-nav-menu-item>
-                  <calcite-nav-menu-item text="Items of reference" text-enabled> </calcite-nav-menu-item>
-                  <calcite-nav-menu-item text="Reference item" text-enabled> </calcite-nav-menu-item>
-                  <calcite-nav-menu-item text="Longer item" text-enabled> </calcite-nav-menu-item>
+                  <calcite-nav-menu-item href="#" text="Items of reference" text-enabled> </calcite-nav-menu-item>
+                  <calcite-nav-menu-item href="#" text="Reference item" active text-enabled> </calcite-nav-menu-item>
+                  <calcite-nav-menu-item href="#" text="Longer item" text-enabled> </calcite-nav-menu-item>
+                  <calcite-nav-menu-item href="#" text="Items of reference" text-enabled> </calcite-nav-menu-item>
+                  <calcite-nav-menu-item href="#" text="Reference item" text-enabled> </calcite-nav-menu-item>
+                  <calcite-nav-menu-item href="#" text="Longer item" text-enabled> </calcite-nav-menu-item>
                 </calcite-nav-menu>
               </calcite-flow-item>
               <calcite-flow-item heading="Whatever user clicked on">
                 <calcite-nav-menu layout="vertical">
-                  <calcite-nav-menu-item text="Home" text-enabled> </calcite-nav-menu-item>
-                  <calcite-nav-menu-item text="Items of reference" text-enabled> </calcite-nav-menu-item>
-                  <calcite-nav-menu-item text="Reference item" active text-enabled> </calcite-nav-menu-item>
-                  <calcite-nav-menu-item text="Longer item" text-enabled> </calcite-nav-menu-item>
-                  <calcite-nav-menu-item text="Items of reference" text-enabled> </calcite-nav-menu-item>
-                  <calcite-nav-menu-item text="Reference item" text-enabled> </calcite-nav-menu-item>
-                  <calcite-nav-menu-item text="Longer item" text-enabled> </calcite-nav-menu-item>
+                  <calcite-nav-menu-item href="#" text="Home" text-enabled> </calcite-nav-menu-item>
+                  <calcite-nav-menu-item href="#" text="Items of reference" text-enabled> </calcite-nav-menu-item>
+                  <calcite-nav-menu-item href="#" text="Reference item" active text-enabled> </calcite-nav-menu-item>
+                  <calcite-nav-menu-item href="#" text="Longer item" text-enabled> </calcite-nav-menu-item>
+                  <calcite-nav-menu-item href="#" text="Items of reference" text-enabled> </calcite-nav-menu-item>
+                  <calcite-nav-menu-item href="#" text="Reference item" text-enabled> </calcite-nav-menu-item>
+                  <calcite-nav-menu-item href="#" text="Longer item" text-enabled> </calcite-nav-menu-item>
                 </calcite-nav-menu>
               </calcite-flow-item>
               <calcite-flow-item heading="three levels" description="maybe another parent if that far deep">
                 <calcite-nav-menu layout="vertical">
-                  <calcite-nav-menu-item text="Home" text-enabled> </calcite-nav-menu-item>
-                  <calcite-nav-menu-item text="Items of reference" text-enabled> </calcite-nav-menu-item>
-                  <calcite-nav-menu-item text="Reference item" active text-enabled> </calcite-nav-menu-item>
-                  <calcite-nav-menu-item text="Longer item" text-enabled> </calcite-nav-menu-item>
-                  <calcite-nav-menu-item text="Items of reference" text-enabled> </calcite-nav-menu-item>
-                  <calcite-nav-menu-item text="Reference item" text-enabled> </calcite-nav-menu-item>
-                  <calcite-nav-menu-item text="Longer item" text-enabled> </calcite-nav-menu-item>
+                  <calcite-nav-menu-item href="#" text="Home" text-enabled> </calcite-nav-menu-item>
+                  <calcite-nav-menu-item href="#" text="Items of reference" text-enabled> </calcite-nav-menu-item>
+                  <calcite-nav-menu-item href="#" text="Reference item" active text-enabled> </calcite-nav-menu-item>
+                  <calcite-nav-menu-item href="#" text="Longer item" text-enabled> </calcite-nav-menu-item>
+                  <calcite-nav-menu-item href="#" text="Items of reference" text-enabled> </calcite-nav-menu-item>
+                  <calcite-nav-menu-item href="#" text="Reference item" text-enabled> </calcite-nav-menu-item>
+                  <calcite-nav-menu-item href="#" text="Longer item" text-enabled> </calcite-nav-menu-item>
                 </calcite-nav-menu>
               </calcite-flow-item>
             </calcite-flow>

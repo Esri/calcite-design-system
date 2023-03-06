@@ -12,14 +12,14 @@
   }
 }
 
-:host(:hover) a,
-:host(:focus) a {
+a:hover,
+a:focus {
   @apply bg-foreground-2;
 }
-:host(:focus) a {
+a:focus {
   @apply focus-inset;
 }
-:host(:active) a {
+a:active {
   @apply bg-foreground-3;
 }
 img {
