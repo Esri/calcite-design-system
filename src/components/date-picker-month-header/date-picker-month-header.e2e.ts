@@ -1,6 +1,6 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { renders } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
+import { renders } from "../../tests/commonTests";
 
 describe("calcite-date-picker-month-header", () => {
   it("renders", async () => renders("calcite-date-picker-month-header", { display: "block" }));
@@ -50,6 +50,11 @@ describe("calcite-date-picker-month-header", () => {
       dateMonthHeader.activeDate = now;
       dateMonthHeader.selectedDate = now;
       dateMonthHeader.localeData = localeData;
+      dateMonthHeader.messages = {
+        nextMonth: "Next month",
+        prevMonth: "Previous month",
+        year: "Year"
+      };
 
       document.body.innerHTML = "";
       document.body.append(dateMonthHeader);
@@ -62,7 +67,7 @@ describe("calcite-date-picker-month-header", () => {
     expect(await next.isVisible()).toBe(true);
   });
 
-  it("passes down the default intlYear prop to nested .year input to set it as aria-label", async () => {
+  it("should set the input aria-label to year", async () => {
     const page = await newE2EPage();
     await page.setContent(html`<calcite-date-picker></calcite-date-picker>`);
 
@@ -74,7 +79,11 @@ describe("calcite-date-picker-month-header", () => {
       dateMonthHeader.activeDate = now;
       dateMonthHeader.selectedDate = now;
       dateMonthHeader.localeData = localeData;
-      dateMonthHeader.intlYear = "Year";
+      dateMonthHeader.messages = {
+        nextMonth: "Next month",
+        prevMonth: "Previous month",
+        year: "Year"
+      };
 
       document.body.innerHTML = "";
       document.body.append(dateMonthHeader);

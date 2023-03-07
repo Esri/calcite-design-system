@@ -1,5 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, defaults, focusable, hidden, reflects, renders, slots } from "../../tests/commonTests";
+import { accessible, defaults, focusable, hidden, reflects, renders, slots, t9n } from "../../tests/commonTests";
 import { CSS, SLOTS } from "./resources";
 import { html } from "../../../support/formatting";
 
@@ -192,14 +192,13 @@ describe("calcite-action-pad", () => {
         </calcite-action-pad>
       `,
       {
-        focusId: "expand-toggle",
-        focusTargetSelector: "calcite-action-pad"
+        focusTargetSelector: "calcite-action"
       }
     ));
 
   it("has slots", () => slots("calcite-action-pad", SLOTS));
 
-  it("'calciteActionMenuOpenChange' event should set other 'calcite-action-group' - 'menuOpen' to false", async () => {
+  it("'calciteActionMenuOpen' event should set other 'calcite-action-group' - 'menuOpen' to false", async () => {
     const page = await newE2EPage({
       html: `<calcite-action-pad>
           <calcite-action-group>
@@ -220,7 +219,7 @@ describe("calcite-action-pad", () => {
         </calcite-action-pad>`
     });
 
-    const eventSpy = await page.spyOnEvent("calciteActionMenuOpenChange", "window");
+    const eventSpy = await page.spyOnEvent("calciteActionMenuOpen", "window");
 
     await page.waitForChanges();
 
@@ -251,4 +250,6 @@ describe("calcite-action-pad", () => {
 
     expect(await button.getProperty("scale")).toBe("l");
   });
+
+  it("supports translation", () => t9n("calcite-action-pad"));
 });

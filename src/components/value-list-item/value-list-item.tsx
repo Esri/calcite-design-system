@@ -10,27 +10,29 @@ import {
   Prop,
   VNode
 } from "@stencil/core";
-import { ICON_TYPES } from "../pick-list/resources";
-import { guid } from "../../utils/guid";
-import { CSS, SLOTS as PICK_LIST_SLOTS } from "../pick-list-item/resources";
-import { ICONS, SLOTS } from "./resources";
-import { getSlotted } from "../../utils/dom";
 import {
   ConditionalSlotComponent,
   connectConditionalSlotComponent,
   disconnectConditionalSlotComponent
 } from "../../utils/conditionalSlot";
+import { getSlotted } from "../../utils/dom";
+import { guid } from "../../utils/guid";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import {
-  setUpLoadableComponent,
-  setComponentLoaded,
+  componentLoaded,
   LoadableComponent,
-  componentLoaded
+  setComponentLoaded,
+  setUpLoadableComponent
 } from "../../utils/loadable";
+import { CSS, SLOTS as PICK_LIST_SLOTS } from "../pick-list-item/resources";
+import { ICON_TYPES } from "../pick-list/resources";
+import { ListItemAndHandle } from "./interfaces";
+import { ICONS, SLOTS } from "./resources";
 
 /**
- * @slot actions-end - A slot for adding actions or content to the end side of the component.
- * @slot actions-start - A slot for adding actions or content to the start side of the component.
+ * @deprecated Use the `list` component instead.
+ * @slot actions-end - A slot for adding `calcite-action`s or content to the end side of the component.
+ * @slot actions-start - A slot for adding `calcite-action`s or content to the start side of the component.
  */
 @Component({
   tag: "calcite-value-list-item",
@@ -59,7 +61,7 @@ export class ValueListItem
   /**
    * @internal
    */
-  @Prop() disableDeselect = false;
+  @Prop() deselectDisabled = false;
 
   /**
    * When `true`, prevents the content of the component from user interaction.
@@ -77,6 +79,9 @@ export class ValueListItem
    * @see [ICON_TYPES](https://github.com/Esri/calcite-components/blob/master/src/components/pick-list/resources.ts#L5)
    */
   @Prop({ reflect: true }) icon?: ICON_TYPES | null = null;
+
+  /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
+  @Prop({ reflect: true }) iconFlipRtl = false;
 
   /**
    * Label and accessible name for the component. Appears next to the icon.
@@ -112,6 +117,8 @@ export class ValueListItem
   @Element() el: HTMLCalciteValueListItemElement;
 
   pickListItem: HTMLCalcitePickListItemElement = null;
+
+  handleEl: HTMLSpanElement;
 
   guid = `calcite-value-list-item-${guid()}`;
 
@@ -177,6 +184,12 @@ export class ValueListItem
    */
   @Event({ cancelable: true }) calciteListItemRemove: EventEmitter<void>; // wrapped pick-list-item emits this
 
+  /**
+   * @internal
+   */
+  @Event({ cancelable: false })
+  calciteValueListItemDragHandleBlur: EventEmitter<ListItemAndHandle>;
+
   @Listen("calciteListItemChange")
   calciteListItemChangeHandler(event: CustomEvent): void {
     // adjust item payload from wrapped item before bubbling
@@ -194,13 +207,13 @@ export class ValueListItem
 
   handleKeyDown = (event: KeyboardEvent): void => {
     if (event.key === " ") {
-      event.preventDefault();
       this.handleActivated = !this.handleActivated;
     }
   };
 
   handleBlur = (): void => {
     this.handleActivated = false;
+    this.calciteValueListItemDragHandleBlur.emit({ item: this.el, handle: this.handleEl });
   };
 
   handleSelectChange = (event: CustomEvent): void => {
@@ -232,7 +245,7 @@ export class ValueListItem
   }
 
   renderHandle(): VNode {
-    const { icon } = this;
+    const { icon, iconFlipRtl } = this;
     if (icon === ICON_TYPES.grip) {
       return (
         <span
@@ -243,10 +256,11 @@ export class ValueListItem
           data-js-handle
           onBlur={this.handleBlur}
           onKeyDown={this.handleKeyDown}
+          ref={(el) => (this.handleEl = el as HTMLSpanElement)}
           role="button"
           tabindex="0"
         >
-          <calcite-icon icon={ICONS.drag} scale="s" />
+          <calcite-icon flipRtl={iconFlipRtl} icon={ICONS.drag} scale="s" />
         </span>
       );
     }
@@ -258,16 +272,17 @@ export class ValueListItem
         {this.renderHandle()}
         <calcite-pick-list-item
           description={this.description}
-          disableDeselect={this.disableDeselect}
+          deselectDisabled={this.deselectDisabled}
           disabled={this.disabled}
           label={this.label}
           metadata={this.metadata}
           nonInteractive={this.nonInteractive}
           onCalciteListItemChange={this.handleSelectChange}
-          ref={this.getPickListRef}
           removable={this.removable}
           selected={this.selected}
           value={this.value}
+          // eslint-disable-next-line react/jsx-sort-props
+          ref={this.getPickListRef}
         >
           {this.renderActionsStart()}
           {this.renderActionsEnd()}

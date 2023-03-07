@@ -4,24 +4,24 @@ import {
   Event,
   EventEmitter,
   h,
-  Prop,
   Listen,
-  VNode,
-  Watch,
+  Method,
+  Prop,
   State,
-  Method
+  VNode,
+  Watch
 } from "@stencil/core";
-import { Alignment, Width } from "../interfaces";
-import { TileSelectType } from "./interfaces";
 import { guid } from "../../utils/guid";
-import { CSS } from "./resources";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import {
-  setUpLoadableComponent,
-  setComponentLoaded,
+  componentLoaded,
   LoadableComponent,
-  componentLoaded
+  setComponentLoaded,
+  setUpLoadableComponent
 } from "../../utils/loadable";
+import { Alignment, Width } from "../interfaces";
+import { TileSelectType } from "./interfaces";
+import { CSS } from "./resources";
 
 /**
  * @slot - A slot for adding custom content.
@@ -55,19 +55,22 @@ export class TileSelect implements InteractiveComponent, LoadableComponent {
   }
 
   /** A description for the component, which displays below the heading. */
-  @Prop({ reflect: true }) description?: string;
+  @Prop({ reflect: true }) description: string;
 
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @Prop({ reflect: true }) disabled = false;
 
   /** The component header text, which displays between the icon and description. */
-  @Prop({ reflect: true }) heading?: string;
+  @Prop({ reflect: true }) heading: string;
 
   /** When `true`, the component is not displayed and is not focusable or checkable. */
   @Prop({ reflect: true }) hidden = false;
 
   /** Specifies an icon to display. */
-  @Prop({ reflect: true }) icon?: string;
+  @Prop({ reflect: true }) icon: string;
+
+  /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
+  @Prop({ reflect: true }) iconFlipRtl = false;
 
   /** Specifies the name of the component on form submission. */
   @Prop({ reflect: true }) name;
@@ -91,7 +94,7 @@ export class TileSelect implements InteractiveComponent, LoadableComponent {
   @Prop({ reflect: true }) type: TileSelectType = "radio";
 
   /** The component's value. */
-  @Prop() value?: any;
+  @Prop() value: any;
 
   /** Specifies the width of the component. */
   @Prop({ reflect: true }) width: Extract<"auto" | "full", Width> = "auto";
@@ -291,7 +294,8 @@ export class TileSelect implements InteractiveComponent, LoadableComponent {
       icon,
       inputAlignment,
       inputEnabled,
-      width
+      width,
+      iconFlipRtl
     } = this;
     return (
       <div
@@ -320,6 +324,7 @@ export class TileSelect implements InteractiveComponent, LoadableComponent {
           embed
           heading={heading}
           icon={icon}
+          iconFlipRtl={iconFlipRtl}
         />
         <slot />
       </div>

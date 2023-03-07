@@ -13,6 +13,7 @@ src\components\combobox\assets\combobox\t9n
 src\components\date-picker\assets\date-picker\t9n
 src\components\filter\assets\filter\t9n
 src\components\flow-item\assets\flow-item\t9n
+src\components\handle\assets\handle\t9n
 src\components\inline-editable\assets\inline-editable\t9n
 src\components\input-number\assets\input-number\t9n
 src\components\input-text\assets\input-text\t9n
@@ -26,6 +27,7 @@ src\components\popover\assets\popover\t9n
 src\components\rating\assets\rating\t9n
 src\components\scrim\assets\scrim\t9n
 src\components\shell-panel\assets\shell-panel\t9n
+src\components\textarea\assets\textarea\t9n
 src\components\time-picker\assets\time-picker\t9n
 src\components\tip-manager\assets\tip-manager\t9n
 src\components\tip\assets\tip\t9n

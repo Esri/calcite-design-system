@@ -2,7 +2,7 @@
 
 Esri welcomes contributions from anyone and everyone. Please see our [guidelines for contributing](https://github.com/esri/contributing).
 
-Note: New contributors should first contact [Ben Elan](mailto:belan@esri.com) or [Juan Carlos Franco](mailto:JFranco@esri.com) to join the [Calcite Components GitHub team](https://github.com/orgs/Esri/teams/calcite-components/members). Then, clone the repo via SSH key on your machine (this Git workflow is required in order to work with our Screener test integration).
+Note: New contributors should first contact [Ben Elan](mailto:belan@esri.com) or [Juan Carlos Franco](mailto:JFranco@esri.com) to join the [Calcite Components GitHub team](https://github.com/orgs/Esri/teams/calcite-components/members). Then, clone the repo via SSH key on your machine (this Git workflow is required in order to work with our Chromatic test integration).
 
 ## I want to contribute, what should I work on?
 
@@ -17,9 +17,9 @@ Calcite Components is still in its early stages. You can help most by:
 
 If you aren't familiar with the basics of Web Components and Shadow DOM, please read through some of the following resources before contributing:
 
-- [Google - Custom Elements v1: Reusable Web Components ](https://developers.google.com/web/fundamentals/web-components/customelements)
-- [Google - Shadow DOM v1: Self-Contained Web Components ](https://developers.google.com/web/fundamentals/web-components/shadowdom)
-- [CSS Tricks - An Introduction to Web Components ](https://css-tricks.com/an-introduction-to-web-components/)
+- [Google - Custom Elements v1: Reusable Web Components](https://developers.google.com/web/fundamentals/web-components/customelements)
+- [Google - Shadow DOM v1: Self-Contained Web Components](https://developers.google.com/web/fundamentals/web-components/shadowdom)
+- [CSS Tricks - An Introduction to Web Components](https://css-tricks.com/an-introduction-to-web-components/)
 
 ## Before filing an issue
 
@@ -67,12 +67,16 @@ Milestones are used to manage sprints, which are two weeks long. Sprint mileston
 
 ### Estimates
 
-Estimates are used to determine how much work needs to go into an issue. The total estimate helps the product managers triage issues effectively so developers are not overwhelmed during sprints. If you are not on the team, please do not add estimates when creating cases. You can add an estimate label to your ticket `estimate-` to track your estimate. Here are some guidelines for the numbering system:
+Estimates are used to determine how much work needs to go into an issue. The total estimate helps product managers triage issues effectively so developers are not overwhelmed during sprints. If you are not on the team, please do not add estimates when creating cases. Here are some guidelines for time estimates using an `estimate-#` label for tracking:
 
-- **1:** Fixing a typo, small syntax issue, or tweaking a css property. Something that can be done in a couple minutes.
-- **5:** Fixing bugs or adding small features that don't require comprehensive planning.
-- **13:** Issues that are more complicated and need some workflow or design planning. These issues usually need additional unit tests written.
-- **40:** If an issue is this complicated it should be converted into an epic.
+- `estimate - 1`: Very small fix or change, a one line update.
+- `estimate - 2`: Small fix or update, does not require updates to tests.
+- `estimate - 3`: A day or two of work, may require changes to tests.
+- `estimate - 5`: A few days of work, requires updates to tests.
+- `estimate - 8`: Requires input from team, consider smaller steps.
+- `estimate - 13`: Requires planning and input from team, consider smaller steps.
+- `estimate - 21`: Requires planning, input from team members and possibly others.
+- `estimate - 34`: Issue should be converted into an epic. Requires all hands on deck.
 
 ### Epics
 
@@ -93,12 +97,14 @@ An installation of Node is required for development. If you don't have Node inst
 
 We also recommend installing the following extensions in your editor of choice: TypeScript, TailwindCSS, ESLint, Stylelint, and Prettier. If you use VS Code, you will see a pop up in the bottom right corner prompting you to install or view the workspaces's recommended extensions. Here are instructions for manually installing the extensions in a variety of editors:
 
-- https://tailwindcss.com/docs/intellisense
-- https://eslint.org/docs/latest/user-guide/integrations
-- https://stylelint.io/user-guide/integrations/editor
-- https://prettier.io/docs/en/editors.html
+- <https://tailwindcss.com/docs/intellisense>
+- <https://eslint.org/docs/latest/user-guide/integrations>
+- <https://stylelint.io/user-guide/integrations/editor>
+- <https://prettier.io/docs/en/editors.html>
 
 If your IDE supports the [Language Server Protocol (LSP) specification](https://microsoft.github.io/language-server-protocol/) but isn't mentioned in the links above, ask Ben for help getting set up.
+
+**NOTE:** If you are on Windows, we strongly recommend using the Bash emulation that ships with [Git for Windows](https://gitforwindows.org/). Or better yet, use [Ubuntu in WSL](https://ubuntu.com/wsl)! Otherwise, keep in mind that some of the scripts used by maintainers (such as for releasing) likely won't work in Command Prompt or PowerShell. However, please log an issue if scripts used for normal development (start/test/build/etc) don't work in your Windows environment.
 
 ## Starting the demos
 
@@ -168,7 +174,7 @@ When submitting a pull request, please use one of the following formats for your
 
 For pull requests associated with an existing issue:
 
-```
+```text
 <username>/<issue-id><issue-description>
 johndoe/15-update-modal
 johndoe/update-modal-15
@@ -176,12 +182,12 @@ johndoe/update-modal-15
 
 For pull requests without an associated issue:
 
-```
+```text
 <username>/<issue-description>
 johndoe/modal-styling
 ```
 
-```
+```text
 <username>/<type-of-pr><issue-description>
 johndoe/docs/update-modal-docs
 johndoe/feature/add-something-to-modal
@@ -198,7 +204,7 @@ This project follows [conventional commits](https://www.conventionalcommits.org/
 
 Commit messages for breaking changes should use both the header (`!`) and body (`BREAKING CHANGE:`) syntax:
 
-```
+```text
 <type>!: <descriptive summary>
 
 <optional info>

@@ -1,33 +1,33 @@
 import {
   Component,
   Element,
-  h,
-  VNode,
-  Prop,
-  Method,
-  Listen,
-  Watch,
-  State,
   Event,
-  EventEmitter
+  EventEmitter,
+  h,
+  Listen,
+  Method,
+  Prop,
+  State,
+  VNode,
+  Watch
 } from "@stencil/core";
-import { CSS, debounceTimeout, SelectionAppearance, SelectionMode } from "./resources";
-import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
-
-import { createObserver } from "../../utils/observers";
-import { getListItemChildren, updateListItemChildren } from "../list-item/utils";
-import { toAriaBoolean } from "../../utils/dom";
 import { debounce } from "lodash-es";
+import { toAriaBoolean } from "../../utils/dom";
+import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import { createObserver } from "../../utils/observers";
+import { SelectionMode } from "../interfaces";
 import { ItemData } from "../list-item/interfaces";
 import { MAX_COLUMNS } from "../list-item/resources";
+import { getListItemChildren, updateListItemChildren } from "../list-item/utils";
+import { CSS, debounceTimeout, SelectionAppearance } from "./resources";
 
 const listItemSelector = "calcite-list-item";
 
 import {
-  setUpLoadableComponent,
-  setComponentLoaded,
+  componentLoaded,
   LoadableComponent,
-  componentLoaded
+  setComponentLoaded,
+  setUpLoadableComponent
 } from "../../utils/loadable";
 
 /**
@@ -53,7 +53,7 @@ export class List implements InteractiveComponent, LoadableComponent {
   @Prop({ reflect: true }) disabled = false;
 
   /**
-   * When true, an input appears at the top of the list that can be used by end users to filter items in the list.
+   * When `true`, an input appears at the top of the component that can be used by end users to filter `calcite-list-item`s.
    */
   @Prop({ reflect: true }) filterEnabled = false;
 
@@ -63,36 +63,36 @@ export class List implements InteractiveComponent, LoadableComponent {
   }
 
   /**
-   * **read-only** The currently filtered items
+   * The currently filtered `calcite-list-item`s.
    *
    * @readonly
    */
   @Prop({ mutable: true }) filteredItems: HTMLCalciteListItemElement[] = [];
 
   /**
-   * **read-only** The currently filtered items
+   * The currently filtered `calcite-list-item` data.
    *
    * @readonly
    */
   @Prop({ mutable: true }) filteredData: ItemData = [];
 
   /**
-   * Placeholder text for the filter input field.
+   * Placeholder text for the component's filter input field.
    */
   @Prop({ reflect: true }) filterPlaceholder: string;
 
   /**
-   * Text for the filter input field.
+   * Text for the component's filter input field.
    */
   @Prop({ reflect: true, mutable: true }) filterText: string;
 
   /**
    * Specifies an accessible name for the component.
    */
-  @Prop() label?: string;
+  @Prop() label: string;
 
   /**
-   * When true, content is waiting to be loaded. This state shows a busy indicator.
+   * When `true`, a busy indicator is displayed.
    */
   @Prop({ reflect: true }) loading = false;
 
@@ -104,19 +104,20 @@ export class List implements InteractiveComponent, LoadableComponent {
   @Prop() openable = false;
 
   /**
-   * **read-only** The currently selected items
+   * The currently selected items.
    *
    * @readonly
    */
   @Prop({ mutable: true }) selectedItems: HTMLCalciteListItemElement[] = [];
 
   /**
-   * specify the selection mode - multiple (allow any number of (or no) selected items), single (allow and require one selected item), none (no selected items), defaults to single
+   * Specifies the selection mode - `"multiple"` (allow any number of selected items), `"single"` (allows and require one selected item), `"none"` (no selected items).
    */
-  @Prop({ reflect: true }) selectionMode: SelectionMode = "none";
+  @Prop({ reflect: true }) selectionMode: Extract<"none" | "multiple" | "single", SelectionMode> =
+    "none";
 
   /**
-   * specify the selection appearance - icon (displays a checkmark or dot), border (displays a border), defaults to icon
+   * Specifies the selection appearance - `"icon"` (displays a checkmark or dot) or `"border"` (displays a border).
    */
   @Prop({ reflect: true }) selectionAppearance: SelectionAppearance = "icon";
 
@@ -133,7 +134,7 @@ export class List implements InteractiveComponent, LoadableComponent {
   //--------------------------------------------------------------------------
 
   /**
-   * Emits when a filter has changed.
+   * Emits when the component's filter has changed.
    */
   @Event({ cancelable: false }) calciteListFilter: EventEmitter<void>;
 
@@ -151,13 +152,22 @@ export class List implements InteractiveComponent, LoadableComponent {
     }
   }
 
+  @Listen("calciteInternalListItemActive")
+  handleCalciteListItemActive(event: CustomEvent): void {
+    const target = event.target as HTMLCalciteListItemElement;
+    const { listItems } = this;
+
+    listItems.forEach((listItem) => {
+      listItem.active = listItem === target;
+    });
+  }
+
   @Listen("calciteInternalListItemSelect")
   handleCalciteListItemSelect(event: CustomEvent): void {
     const target = event.target as HTMLCalciteListItemElement;
     const { listItems, selectionMode } = this;
 
     listItems.forEach((listItem) => {
-      listItem.active = listItem === target;
       if (selectionMode === "single") {
         listItem.selected = listItem === target;
       }
@@ -225,7 +235,7 @@ export class List implements InteractiveComponent, LoadableComponent {
   //
   // --------------------------------------------------------------------------
 
-  /** Sets focus on the component. */
+  /** Sets focus on the component's first focusable element. */
   @Method()
   async setFocus(): Promise<void> {
     await componentLoaded(this);
@@ -268,8 +278,9 @@ export class List implements InteractiveComponent, LoadableComponent {
                     items={dataForFilter}
                     onCalciteFilterChange={this.handleFilter}
                     placeholder={filterPlaceholder}
-                    ref={(el) => (this.filterEl = el)}
                     value={filterText}
+                    // eslint-disable-next-line react/jsx-sort-props
+                    ref={(el) => (this.filterEl = el)}
                   />
                 </th>
               </tr>
@@ -381,7 +392,7 @@ export class List implements InteractiveComponent, LoadableComponent {
     }));
   };
 
-  private updateListItems = debounce((): void => {
+  private updateListItems(): void {
     const { selectionAppearance, selectionMode } = this;
     const items = this.queryListItems();
     items.forEach((item) => {
@@ -396,7 +407,7 @@ export class List implements InteractiveComponent, LoadableComponent {
     this.setActiveListItem();
     this.updateSelectedItems();
     this.updateFilteredItems();
-  }, debounceTimeout);
+  }
 
   queryListItems = (): HTMLCalciteListItemElement[] => {
     return Array.from(this.el.querySelectorAll(listItemSelector));

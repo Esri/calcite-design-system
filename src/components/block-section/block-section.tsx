@@ -1,36 +1,47 @@
-import { Component, Element, Event, EventEmitter, Prop, h, VNode, Host } from "@stencil/core";
+import {
+  Component,
+  Element,
+  Event,
+  EventEmitter,
+  h,
+  Host,
+  Prop,
+  State,
+  VNode,
+  Watch
+} from "@stencil/core";
 
 import { getElementDir, toAriaBoolean } from "../../utils/dom";
-import { CSS, ICONS, TEXT } from "./resources";
-import { BlockSectionToggleDisplay } from "./interfaces";
-import { Status } from "../interfaces";
 import { guid } from "../../utils/guid";
 import { isActivationKey } from "../../utils/key";
+import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
+import {
+  connectMessages,
+  disconnectMessages,
+  setUpMessages,
+  T9nComponent,
+  updateMessages
+} from "../../utils/t9n";
+import { Status } from "../interfaces";
+import { BlockSectionMessages } from "./assets/block-section/t9n";
+import { BlockSectionToggleDisplay } from "./interfaces";
+import { CSS, ICONS } from "./resources";
 
 /**
- * @slot - A slot for adding content to the component.
+ * @slot - A slot for adding custom content.
  */
 @Component({
   tag: "calcite-block-section",
   styleUrl: "block-section.scss",
-  shadow: true
+  shadow: true,
+  assetsDirs: ["assets"]
 })
-export class BlockSection {
+export class BlockSection implements LocalizedComponent, T9nComponent {
   // --------------------------------------------------------------------------
   //
   //  Properties
   //
   // --------------------------------------------------------------------------
-
-  /**
-   * Accessible name for the component's collapse button.
-   */
-  @Prop() intlCollapse?: string;
-
-  /**
-   * Accessible name for the component's expand button.
-   */
-  @Prop() intlExpand?: string;
 
   /**
    * When `true`, expands the component and its contents.
@@ -40,7 +51,7 @@ export class BlockSection {
   /**
    * Displays a status-related indicator icon.
    */
-  @Prop({ reflect: true }) status?: Status;
+  @Prop({ reflect: true }) status: Status;
 
   /**
    * The component header text.
@@ -56,6 +67,23 @@ export class BlockSection {
    */
   @Prop({ reflect: true }) toggleDisplay: BlockSectionToggleDisplay = "button";
 
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @internal
+   */
+  @Prop({ mutable: true }) messages: BlockSectionMessages;
+
+  /**
+   * Use this property to override individual strings used by the component.
+   */
+  @Prop({ mutable: true }) messageOverrides: Partial<BlockSectionMessages>;
+
+  @Watch("messageOverrides")
+  onMessagesChange(): void {
+    /* wired up by t9n util */
+  }
+
   // --------------------------------------------------------------------------
   //
   //  Private Properties
@@ -65,6 +93,15 @@ export class BlockSection {
   @Element() el: HTMLCalciteBlockSectionElement;
 
   private guid = guid();
+
+  @State() effectiveLocale: string;
+
+  @Watch("effectiveLocale")
+  effectiveLocaleChange(): void {
+    updateMessages(this, this.effectiveLocale);
+  }
+
+  @State() defaultMessages: BlockSectionMessages;
 
   // --------------------------------------------------------------------------
   //
@@ -98,6 +135,26 @@ export class BlockSection {
 
   // --------------------------------------------------------------------------
   //
+  //  Lifecycle
+  //
+  // --------------------------------------------------------------------------
+
+  connectedCallback(): void {
+    connectLocalized(this);
+    connectMessages(this);
+  }
+
+  disconnectedCallback(): void {
+    disconnectLocalized(this);
+    disconnectMessages(this);
+  }
+
+  async componentWillLoad(): Promise<void> {
+    await setUpMessages(this);
+  }
+
+  // --------------------------------------------------------------------------
+  //
   //  Render Methods
   //
   // --------------------------------------------------------------------------
@@ -116,7 +173,7 @@ export class BlockSection {
   }
 
   render(): VNode {
-    const { el, intlCollapse, intlExpand, open, text, toggleDisplay } = this;
+    const { el, messages, open, text, toggleDisplay } = this;
     const dir = getElementDir(el);
     const arrowIcon = open
       ? ICONS.menuOpen
@@ -124,7 +181,7 @@ export class BlockSection {
       ? ICONS.menuClosedLeft
       : ICONS.menuClosedRight;
 
-    const toggleLabel = open ? intlCollapse || TEXT.collapse : intlExpand || TEXT.expand;
+    const toggleLabel = open ? messages.collapse : messages.expand;
 
     const { guid } = this;
     const regionId = `${guid}-region`;

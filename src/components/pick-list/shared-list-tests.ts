@@ -1,8 +1,8 @@
 import { E2EElement, E2EPage, newE2EPage } from "@stencil/core/testing";
-import { disabled, focusable } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
-import { CSS as PICK_LIST_ITEM_CSS } from "../pick-list-item/resources";
+import { disabled, focusable } from "../../tests/commonTests";
 import { selectText } from "../../tests/utils";
+import { CSS as PICK_LIST_ITEM_CSS } from "../pick-list-item/resources";
 
 type ListType = "pick" | "value";
 type ListElement = HTMLCalcitePickListElement | HTMLCalciteValueListElement;
@@ -168,7 +168,7 @@ export function keyboardNavigation(listType: ListType): void {
       });
     });
 
-    it("should honor filterText", async () => {
+    it.skip("should honor filterText", async () => {
       const page = await newE2EPage({
         html: `
         <calcite-${listType}-list filter-enabled filter-text="one">
@@ -183,7 +183,7 @@ export function keyboardNavigation(listType: ListType): void {
       expect(await list.getProperty("filterText")).toBe("one");
     });
 
-    it("navigating items after filtering", async () => {
+    it.skip("navigating items after filtering", async () => {
       const page = await newE2EPage({
         html: `
         <calcite-${listType}-list filter-enabled>

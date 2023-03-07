@@ -1,17 +1,17 @@
-import { select, text, boolean } from "@storybook/addon-knobs";
+import { boolean, select, text } from "@storybook/addon-knobs";
 
+import { storyFilters } from "../../../.storybook/helpers";
+import { ATTRIBUTES } from "../../../.storybook/resources";
 import {
   Attribute,
-  filterComponentAttributes,
   Attributes,
   createComponentHTML as create,
-  themesDarkDefault
+  filterComponentAttributes,
+  modesDarkDefault
 } from "../../../.storybook/utils";
-import readme from "./readme.md";
 import { html } from "../../../support/formatting";
 import { locales } from "../../utils/locale";
-import { createSteps, setKnobs, stepStory, storyFilters } from "../../../.storybook/helpers";
-import { ATTRIBUTES } from "../../../.storybook/resources";
+import readme from "./readme.md";
 const { scale } = ATTRIBUTES;
 
 export default {
@@ -20,7 +20,8 @@ export default {
     notes: readme,
     chromatic: {
       // https://www.chromatic.com/docs/threshold
-      diffThreshold: Number(process.env.CHROMATIC_DIFF_THRESHOLD) || 0.3
+      diffThreshold: Number(process.env.CHROMATIC_DIFF_THRESHOLD) || 0.3,
+      delay: 500
     }
   },
   ...storyFilters()
@@ -38,33 +39,9 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
         }
       },
       {
-        name: "end",
+        name: "lang",
         commit(): Attribute {
-          this.value = text("end", "");
-          delete this.build;
-          return this;
-        }
-      },
-      {
-        name: "intl-next-month",
-        commit(): Attribute {
-          this.value = text("intl-next-month", "Next month");
-          delete this.build;
-          return this;
-        }
-      },
-      {
-        name: "intl-prev-month",
-        commit(): Attribute {
-          this.value = text("intl-prev-month", "Previous month");
-          delete this.build;
-          return this;
-        }
-      },
-      {
-        name: "locale",
-        commit(): Attribute {
-          this.value = select("locale", locales, "en");
+          this.value = select("lang", locales, "en");
           delete this.build;
           return this;
         }
@@ -118,14 +95,6 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
         }
       },
       {
-        name: "start",
-        commit(): Attribute {
-          this.value = text("start", "");
-          delete this.build;
-          return this;
-        }
-      },
-      {
         name: "value",
         commit(): Attribute {
           this.value = text("value", "2020-02-28");
@@ -145,48 +114,38 @@ export const range = (): string =>
   html`<div style="width: 400px">
     ${create(
       "calcite-date-picker",
-      createAttributes({ exceptions: ["end", "min", "range", "start"] }).concat([
-        { name: "end", value: "2020-02-16" },
+      createAttributes({ exceptions: ["min", "range"] }).concat([
         { name: "min", value: "2016-08-09" },
-        { name: "range", value: "true" },
-        { name: "start", value: "2020-02-12" }
+        { name: "range", value: "true" }
       ])
     )}
   </div>`;
 
-export const rangeRTL_TestOnly = (): string =>
-  html`<div style="width: 400px">
-    ${create(
-      "calcite-date-picker",
-      createAttributes({ exceptions: ["end", "min", "range", "start", "dir"] }).concat([
-        { name: "dir", value: "rtl" },
-        { name: "end", value: "2020-02-16" },
-        { name: "min", value: "2016-08-09" },
-        { name: "range", value: "true" },
-        { name: "start", value: "2020-02-12" }
-      ])
-    )}
-  </div>`;
+export const rangeRTL_TestOnly = (): string => html`
+  <div style="width: 400px">
+    <calcite-date-picker dir="rtl" range></calcite-date-picker>
+  </div>
+`;
 
-export const darkThemeRTL_TestOnly = (): string =>
+export const darkModeRTL_TestOnly = (): string =>
   html`<div style="width: 400px">
     ${create(
       "calcite-date-picker",
       createAttributes({ exceptions: ["class", "dir"] }).concat([
         { name: "dir", value: "rtl" },
-        { name: "class", value: "calcite-theme-dark" }
+        { name: "class", value: "calcite-mode-dark" }
       ])
     )}
   </div>`;
 
-darkThemeRTL_TestOnly.parameters = { themes: themesDarkDefault };
+darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
 
-export const bgLocale_TestOnly = (): string =>
+export const bgLang_TestOnly = (): string =>
   html`<div style="width: 400px">
     ${create("calcite-date-picker", createAttributes({ exceptions: ["lang"] }).concat([{ name: "lang", value: "bg" }]))}
   </div>`;
 
-export const ptPTLocale_TestOnly = (): string =>
+export const ptPTLang_TestOnly = (): string =>
   html`<div style="width: 400px">
     ${create(
       "calcite-date-picker",
@@ -194,7 +153,7 @@ export const ptPTLocale_TestOnly = (): string =>
     )}
   </div>`;
 
-export const germanLocale_TestOnly = (): string =>
+export const germanLang_TestOnly = (): string =>
   html`<div style="width: 400px">
     ${create(
       "calcite-date-picker",
@@ -205,7 +164,7 @@ export const germanLocale_TestOnly = (): string =>
     )}
   </div>`;
 
-export const spanishLocale_TestOnly = (): string =>
+export const spanishLang_TestOnly = (): string =>
   html`<div style="width: 400px">
     ${create(
       "calcite-date-picker",
@@ -216,7 +175,7 @@ export const spanishLocale_TestOnly = (): string =>
     )}
   </div>`;
 
-export const norwegianLocale_TestOnly = (): string =>
+export const norwegianLang_TestOnly = (): string =>
   html`<div style="width: 400px">
     ${create(
       "calcite-date-picker",
@@ -227,7 +186,7 @@ export const norwegianLocale_TestOnly = (): string =>
     )}
   </div>`;
 
-export const britishLocale_TestOnly = (): string =>
+export const britishLang_TestOnly = (): string =>
   html`<div style="width: 400px">
     ${create(
       "calcite-date-picker",
@@ -238,7 +197,7 @@ export const britishLocale_TestOnly = (): string =>
     )}
   </div>`;
 
-export const chineseLocale_TestOnly = (): string =>
+export const chineseLang_TestOnly = (): string =>
   html`<div style="width: 400px">
     ${create(
       "calcite-date-picker",
@@ -249,18 +208,23 @@ export const chineseLocale_TestOnly = (): string =>
     )}
   </div>`;
 
-export const arabLocaleNumberingSystem_TestOnly = (): string =>
+export const arabLangNumberingSystem_TestOnly = (): string =>
   html`<div style="width: 400px">
     ${create(
       "calcite-date-picker",
       createAttributes({ exceptions: ["lang", "numberingSystem"] }).concat([
         { name: "lang", value: "ar" },
-        { name: "numbering-system", value: "arab" }
+        { name: "numbering-system", value: "arab" },
+        { name: "value", value: "2022-08-11" }
       ])
     )}
   </div>`;
 
-export const thaiLocaleNumberingSystem_TestOnly = (): string =>
+arabLangNumberingSystem_TestOnly.parameters = {
+  chromatic: { diffThreshold: 1 }
+};
+
+export const thaiLangNumberingSystem_TestOnly = (): string =>
   html`<div style="width: 400px">
     ${create(
       "calcite-date-picker",
@@ -270,22 +234,3 @@ export const thaiLocaleNumberingSystem_TestOnly = (): string =>
       ])
     )}
   </div>`;
-
-export const interactions_TestOnly = stepStory(
-  (): string => html`<div style="width: 400px">${create("calcite-date-picker", createAttributes())}</div>`,
-  createSteps("calcite-date-picker")
-    .executeScript(
-      setKnobs({
-        story: "components-controls-datepicker--simple",
-        knobs: [{ name: "value", value: "2022-03-15" }]
-      })
-    )
-    .executeScript(
-      `
-      const datePicker = document.querySelector("calcite-date-picker");
-      datePicker.maxAsDate = new Date(2022, 2, 18);
-      datePicker.minAsDate = new Date(2022, 2, 10);
-    `
-    )
-    .snapshot("set maxAsDate & minAsDate")
-);

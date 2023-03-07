@@ -2,10 +2,10 @@ $floating-ui-transform-bottom: translateY(-5px);
 $floating-ui-transform-top: translateY(5px);
 $floating-ui-transform-left: translateX(5px);
 $floating-ui-transform-right: translateX(-5px);
-$floating-ui-default-z-index: 900;
 
 :root {
   --calcite-floating-ui-transition: var(--calcite-animation-timing);
+  --calcite-floating-ui-z-index: theme("zIndex.dropdown");
 }
 
 @mixin floatingUIAnim {
@@ -74,10 +74,10 @@ $floating-ui-default-z-index: 900;
   }
 }
 
-@mixin floatingUIContainer($zIndex: $floating-ui-default-z-index) {
+@mixin floatingUIContainer() {
   display: block;
   position: absolute;
-  z-index: $zIndex;
+  z-index: var(--calcite-floating-ui-z-index);
 }
 
 @mixin floatingUIWrapper {
@@ -88,9 +88,9 @@ $floating-ui-default-z-index: 900;
   visibility: visible;
 }
 
-@mixin floatingUIHost($zIndex: $floating-ui-default-z-index) {
+@mixin floatingUIHost() {
   :host {
-    @include floatingUIContainer($zIndex);
+    @include floatingUIContainer();
   }
 
   @include floatingUIHostAnim();

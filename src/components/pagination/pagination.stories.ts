@@ -1,6 +1,6 @@
 import { number, select } from "@storybook/addon-knobs";
 import { locales } from "../../utils/locale";
-import { themesDarkDefault } from "../../../.storybook/utils";
+import { modesDarkDefault } from "../../../.storybook/utils";
 import readme from "./readme.md";
 import { html } from "../../../support/formatting";
 import { storyFilters } from "../../../.storybook/helpers";
@@ -8,7 +8,10 @@ import { storyFilters } from "../../../.storybook/helpers";
 export default {
   title: "Components/Pagination",
   parameters: {
-    notes: readme
+    notes: readme,
+    chromatic: {
+      delay: 500
+    }
   },
   ...storyFilters()
 };
@@ -16,32 +19,39 @@ export default {
 export const simple = (): string => html`
   <calcite-pagination
     scale="${select("scale", ["s", "m", "l"], "m")}"
-    start="${number("start", 1)}"
+    start-item="${number("start-item", 1)}"
     lang="${select("lang", locales, "en")}"
-    total="${number("total", 123456789)}"
-    num="${number("num", 10)}"
+    total-items="${number("total-items", 123456789)}"
+    page-size="${number("page-size", 10)}"
   >
   </calcite-pagination>
 `;
 
-export const darkThemeFrenchLocale_TestOnly = (): string => html`<calcite-pagination
-  class="calcite-theme-dark"
-  start="1"
-  lang="fr"
-  group-separator
-  total="123456789"
-  num="10"
->
-</calcite-pagination>`;
+export const darkModeFrenchLocaleAndLargeScaleGetsMediumChevron_TestOnly = (): string => html`
+  <calcite-pagination
+    class="calcite-mode-dark"
+    start-item="1"
+    lang="fr"
+    group-separator
+    total-items="123456789"
+    page-size="10"
+    scale="l"
+  >
+  </calcite-pagination>
+`;
 
-darkThemeFrenchLocale_TestOnly.parameters = { themes: themesDarkDefault };
+darkModeFrenchLocaleAndLargeScaleGetsMediumChevron_TestOnly.parameters = { modes: modesDarkDefault };
 
 export const arabicNumberingSystemAndRTL_TestOnly = (): string => html`<calcite-pagination
   dir="rtl"
-  numbering-system="arab"
-  start="1"
+  page-sizebering-system="arab"
+  start-item="1"
   lang="fr"
-  total="123456789"
-  num="10"
+  total-items="123456789"
+  page-size="10"
 >
 </calcite-pagination>`;
+
+arabicNumberingSystemAndRTL_TestOnly.parameters = {
+  chromatic: { diffThreshold: 1 }
+};

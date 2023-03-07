@@ -1,5 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, defaults, hidden, renders } from "../../tests/commonTests";
+import { accessible, defaults, hidden, renders, t9n } from "../../tests/commonTests";
 import { CSS } from "./resources";
 
 describe("calcite-scrim", () => {
@@ -18,6 +18,8 @@ describe("calcite-scrim", () => {
         defaultValue: false
       }
     ]));
+
+  it("supports translations", () => t9n("calcite-scrim"));
 
   it("shows loading component", async () => {
     const page = await newE2EPage();
@@ -56,7 +58,7 @@ describe("calcite-scrim", () => {
     expect(clickSpy).toHaveReceivedEventTimes(0);
   });
 
-  it("does allow clickss inside default node", async () => {
+  it("does allow clicks inside default node", async () => {
     const page = await newE2EPage();
 
     await page.setContent(`
@@ -94,7 +96,7 @@ describe("calcite-scrim", () => {
     expect(contentNode).not.toBeNull();
   });
 
-  describe("CSS properties for light/dark themes", () => {
+  describe("CSS properties for light/dark modes", () => {
     const scrimSnippet = `
     <div style="position: relative; width: 200px; height: 200px; overflow: auto;">
       <calcite-scrim>
@@ -118,8 +120,8 @@ describe("calcite-scrim", () => {
       expect(scrimBgStyle).toEqual("green");
     });
 
-    describe("when theme attribute is not provided", () => {
-      it("should render scrim background with default value tied to light theme", async () => {
+    describe("when mode attribute is not provided", () => {
+      it("should render scrim background with default value tied to mode", async () => {
         page = await newE2EPage({ html: scrimSnippet });
         scrim = await page.find("calcite-scrim >>> .scrim");
         scrimStyles = await scrim.getComputedStyle();
@@ -128,10 +130,10 @@ describe("calcite-scrim", () => {
       });
     });
 
-    describe("when theme attribute is dark", () => {
-      it("should render scrim background with value tied to dark theme", async () => {
+    describe("when mode attribute is dark", () => {
+      it("should render scrim background with value tied to dark mode", async () => {
         page = await newE2EPage({
-          html: `<div class="calcite-theme-dark">${scrimSnippet}</div>`
+          html: `<div class="calcite-mode-dark">${scrimSnippet}</div>`
         });
         scrim = await page.find("calcite-scrim >>> .scrim");
         scrimStyles = await scrim.getComputedStyle();
@@ -140,12 +142,30 @@ describe("calcite-scrim", () => {
       });
     });
 
-    it("should allow the CSS custom property to be overridden", async () => {
+    it("should allow the CSS custom property to be overridden when applied to :root", async () => {
       const overrideStyle = "rgb(128, 0, 128)";
       page = await newE2EPage({
         html: `
         <style>
           :root {
+            --calcite-scrim-background: ${overrideStyle};
+          }
+        </style>
+        ${scrimSnippet}
+        `
+      });
+      scrim = await page.find("calcite-scrim >>> .scrim");
+      scrimStyles = await scrim.getComputedStyle();
+      scrimBgStyle = await scrimStyles.getPropertyValue("background-color");
+      expect(scrimBgStyle).toEqual(overrideStyle);
+    });
+
+    it("should allow the CSS custom property to be overridden when applied to element", async () => {
+      const overrideStyle = "rgb(128, 0, 128)";
+      page = await newE2EPage({
+        html: `
+        <style>
+          calcite-scrim {
             --calcite-scrim-background: ${overrideStyle};
           }
         </style>

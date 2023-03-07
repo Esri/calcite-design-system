@@ -1,7 +1,7 @@
-import { E2EPage, newE2EPage, E2EElement } from "@stencil/core/testing";
-import { defaults, disabled, formAssociated, labelable, renders, hidden } from "../../tests/commonTests";
-import { getElementXY } from "../../tests/utils";
+import { E2EElement, E2EPage, newE2EPage } from "@stencil/core/testing";
 import { html } from "../../../support/formatting";
+import { defaults, disabled, formAssociated, hidden, labelable, renders } from "../../tests/commonTests";
+import { getElementXY } from "../../tests/utils";
 import { CSS } from "./resources";
 
 describe("calcite-slider", () => {

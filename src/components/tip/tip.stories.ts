@@ -4,11 +4,10 @@ import {
   filterComponentAttributes,
   Attributes,
   createComponentHTML as create,
-  themesDarkDefault
+  modesDarkDefault
 } from "../../../.storybook/utils";
 import readme from "./readme.md";
 import groupReadme from "../tip-group/readme.md";
-import { TEXT } from "./resources";
 import { placeholderImage } from "../../../.storybook/placeholderImage";
 import { storyFilters } from "../../../.storybook/helpers";
 
@@ -24,17 +23,17 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
   return filterComponentAttributes(
     [
       {
-        name: "dismissed",
+        name: "closed",
         commit(): Attribute {
-          this.value = boolean("dismissed", false);
+          this.value = boolean("closed", false);
           delete this.build;
           return this;
         }
       },
       {
-        name: "non-dismissible",
+        name: "close-disabled",
         commit(): Attribute {
-          this.value = boolean("nonDismissible", false);
+          this.value = boolean("closeDisabled", false);
           delete this.build;
           return this;
         }
@@ -43,14 +42,6 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
         name: "heading",
         commit(): Attribute {
           this.value = text("heading", "My Tip");
-          delete this.build;
-          return this;
-        }
-      },
-      {
-        name: "intl-close",
-        commit(): Attribute {
-          this.value = text("intlClose", TEXT.close);
           delete this.build;
           return this;
         }
@@ -67,13 +58,13 @@ const html = `<img slot="thumbnail" src="${placeholderImage({
 
 export const simple = (): string => create("calcite-tip", createAttributes(), html);
 
-export const darkThemeRTL_TestOnly = (): string =>
+export const darkModeRTL_TestOnly = (): string =>
   create(
     "calcite-tip",
     createAttributes({ exceptions: ["dir", "class"] }).concat([
       { name: "dir", value: "rtl" },
-      { name: "class", value: "calcite-theme-dark" }
+      { name: "class", value: "calcite-mode-dark" }
     ]),
     html
   );
-darkThemeRTL_TestOnly.parameters = { themes: themesDarkDefault };
+darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };

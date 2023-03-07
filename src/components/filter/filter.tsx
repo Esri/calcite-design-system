@@ -7,28 +7,42 @@ import {
   h,
   Method,
   Prop,
+  State,
   VNode,
   Watch
 } from "@stencil/core";
 import { debounce } from "lodash-es";
-import { CSS, DEBOUNCE_TIMEOUT, ICONS, TEXT } from "./resources";
-import { Scale } from "../interfaces";
-import { focusElement } from "../../utils/dom";
-import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import { filter } from "../../utils/filter";
+import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import {
-  setUpLoadableComponent,
-  setComponentLoaded,
+  componentLoaded,
   LoadableComponent,
-  componentLoaded
+  setComponentLoaded,
+  setUpLoadableComponent
 } from "../../utils/loadable";
+import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
+import {
+  connectMessages,
+  disconnectMessages,
+  setUpMessages,
+  T9nComponent,
+  updateMessages
+} from "../../utils/t9n";
+import { Scale } from "../interfaces";
+import { FilterMessages } from "./assets/filter/t9n";
+import { CSS, DEBOUNCE_TIMEOUT, ICONS } from "./resources";
 
 @Component({
   tag: "calcite-filter",
   styleUrl: "filter.scss",
-  shadow: true
+  shadow: {
+    delegatesFocus: true
+  },
+  assetsDirs: ["assets"]
 })
-export class Filter implements InteractiveComponent, LoadableComponent {
+export class Filter
+  implements InteractiveComponent, LoadableComponent, LocalizedComponent, T9nComponent
+{
   // --------------------------------------------------------------------------
   //
   //  Properties
@@ -63,16 +77,6 @@ export class Filter implements InteractiveComponent, LoadableComponent {
   @Prop({ mutable: true }) filteredItems: object[] = [];
 
   /**
-   * Accessible name for the component's clear button.
-   */
-  @Prop() intlClear: string;
-
-  /**
-   * Accessible name for the component.
-   */
-  @Prop() intlLabel: string;
-
-  /**
    * Specifies placeholder text for the input element.
    */
   @Prop() placeholder: string;
@@ -87,6 +91,23 @@ export class Filter implements InteractiveComponent, LoadableComponent {
    */
   @Prop({ mutable: true }) value = "";
 
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @internal
+   */
+  @Prop({ mutable: true }) messages: FilterMessages;
+
+  /**
+   * Use this property to override individual strings used by the component.
+   */
+  @Prop({ mutable: true }) messageOverrides: Partial<FilterMessages>;
+
+  @Watch("messageOverrides")
+  onMessagesChange(): void {
+    /* wired up by t9n util */
+  }
+
   @Watch("value")
   valueHandler(value: string): void {
     this.filter(value);
@@ -94,7 +115,7 @@ export class Filter implements InteractiveComponent, LoadableComponent {
 
   // --------------------------------------------------------------------------
   //
-  //  Private Properties
+  //  Private State/Properties
   //
   // --------------------------------------------------------------------------
 
@@ -102,25 +123,14 @@ export class Filter implements InteractiveComponent, LoadableComponent {
 
   textInput: HTMLCalciteInputElement;
 
-  //--------------------------------------------------------------------------
-  //
-  //  Lifecycle
-  //
-  //--------------------------------------------------------------------------
+  @State() effectiveLocale: string;
 
-  componentWillLoad(): void {
-    setUpLoadableComponent(this);
-
-    this.updateFiltered(filter(this.items, this.value));
+  @Watch("effectiveLocale")
+  effectiveLocaleChange(): void {
+    updateMessages(this, this.effectiveLocale);
   }
 
-  componentDidLoad(): void {
-    setComponentLoaded(this);
-  }
-
-  componentDidRender(): void {
-    updateHostInteraction(this);
-  }
+  @State() defaultMessages: FilterMessages;
 
   // --------------------------------------------------------------------------
   //
@@ -129,9 +139,39 @@ export class Filter implements InteractiveComponent, LoadableComponent {
   // --------------------------------------------------------------------------
 
   /**
-   * Fires when the component's text changes.
+   * This event fires when the filter text changes.
    */
   @Event({ cancelable: false }) calciteFilterChange: EventEmitter<void>;
+
+  //--------------------------------------------------------------------------
+  //
+  //  Lifecycle
+  //
+  //--------------------------------------------------------------------------
+
+  async componentWillLoad(): Promise<void> {
+    setUpLoadableComponent(this);
+    this.updateFiltered(filter(this.items, this.value));
+    await setUpMessages(this);
+  }
+
+  connectedCallback(): void {
+    connectLocalized(this);
+    connectMessages(this);
+  }
+
+  componentDidRender(): void {
+    updateHostInteraction(this);
+  }
+
+  disconnectedCallback(): void {
+    disconnectLocalized(this);
+    disconnectMessages(this);
+  }
+
+  componentDidLoad(): void {
+    setComponentLoaded(this);
+  }
 
   // --------------------------------------------------------------------------
   //
@@ -144,7 +184,7 @@ export class Filter implements InteractiveComponent, LoadableComponent {
   async setFocus(): Promise<void> {
     await componentLoaded(this);
 
-    focusElement(this.textInput);
+    this.el?.focus();
   }
 
   // --------------------------------------------------------------------------
@@ -203,20 +243,21 @@ export class Filter implements InteractiveComponent, LoadableComponent {
         <div class={CSS.container}>
           <label>
             <calcite-input
-              aria-label={this.intlLabel || TEXT.filterLabel}
+              aria-label={this.messages.label}
               clearable={true}
               disabled={disabled}
               icon={ICONS.search}
-              intlClear={this.intlClear || TEXT.clear}
+              messageOverrides={{ clear: this.messages.clear }}
               onCalciteInputInput={this.inputHandler}
               onKeyDown={this.keyDownHandler}
               placeholder={this.placeholder}
-              ref={(el): void => {
-                this.textInput = el;
-              }}
               scale={scale}
               type="text"
               value={this.value}
+              // eslint-disable-next-line react/jsx-sort-props
+              ref={(el): void => {
+                this.textInput = el;
+              }}
             />
           </label>
         </div>

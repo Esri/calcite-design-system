@@ -122,31 +122,31 @@ A general purpose list that enables users to construct list items that conform t
 
 ## Properties
 
-| Property              | Attribute              | Description                                                                                                                                                                    | Type                                                                                          | Default     |
-| --------------------- | ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------- | ----------- |
-| `disabled`            | `disabled`             | When `true`, interaction is prevented and the component is displayed with lower opacity.                                                                                       | `boolean`                                                                                     | `false`     |
-| `filterEnabled`       | `filter-enabled`       | When true, an input appears at the top of the list that can be used by end users to filter items in the list.                                                                  | `boolean`                                                                                     | `false`     |
-| `filterPlaceholder`   | `filter-placeholder`   | Placeholder text for the filter input field.                                                                                                                                   | `string`                                                                                      | `undefined` |
-| `filterText`          | `filter-text`          | Text for the filter input field.                                                                                                                                               | `string`                                                                                      | `undefined` |
-| `filteredData`        | --                     | **read-only** The currently filtered items                                                                                                                                     | `{ label: string; description: string; metadata: Record<string, unknown>; value: string; }[]` | `[]`        |
-| `filteredItems`       | --                     | **read-only** The currently filtered items                                                                                                                                     | `HTMLCalciteListItemElement[]`                                                                | `[]`        |
-| `label`               | `label`                | Specifies an accessible name for the component.                                                                                                                                | `string`                                                                                      | `undefined` |
-| `loading`             | `loading`              | When true, content is waiting to be loaded. This state shows a busy indicator.                                                                                                 | `boolean`                                                                                     | `false`     |
-| `selectedItems`       | --                     | **read-only** The currently selected items                                                                                                                                     | `HTMLCalciteListItemElement[]`                                                                | `[]`        |
-| `selectionAppearance` | `selection-appearance` | specify the selection appearance - icon (displays a checkmark or dot), border (displays a border), defaults to icon                                                            | `"border" \| "icon"`                                                                          | `"icon"`    |
-| `selectionMode`       | `selection-mode`       | specify the selection mode - multiple (allow any number of (or no) selected items), single (allow and require one selected item), none (no selected items), defaults to single | `"multiple" \| "none" \| "single"`                                                            | `"none"`    |
+| Property              | Attribute              | Description                                                                                                                                                        | Type                                                                                          | Default     |
+| --------------------- | ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------- | ----------- |
+| `disabled`            | `disabled`             | When `true`, interaction is prevented and the component is displayed with lower opacity.                                                                           | `boolean`                                                                                     | `false`     |
+| `filterEnabled`       | `filter-enabled`       | When `true`, an input appears at the top of the component that can be used by end users to filter `calcite-list-item`s.                                            | `boolean`                                                                                     | `false`     |
+| `filterPlaceholder`   | `filter-placeholder`   | Placeholder text for the component's filter input field.                                                                                                           | `string`                                                                                      | `undefined` |
+| `filterText`          | `filter-text`          | Text for the component's filter input field.                                                                                                                       | `string`                                                                                      | `undefined` |
+| `filteredData`        | --                     | The currently filtered `calcite-list-item` data.                                                                                                                   | `{ label: string; description: string; metadata: Record<string, unknown>; value: string; }[]` | `[]`        |
+| `filteredItems`       | --                     | The currently filtered `calcite-list-item`s.                                                                                                                       | `HTMLCalciteListItemElement[]`                                                                | `[]`        |
+| `label`               | `label`                | Specifies an accessible name for the component.                                                                                                                    | `string`                                                                                      | `undefined` |
+| `loading`             | `loading`              | When `true`, a busy indicator is displayed.                                                                                                                        | `boolean`                                                                                     | `false`     |
+| `selectedItems`       | --                     | The currently selected items.                                                                                                                                      | `HTMLCalciteListItemElement[]`                                                                | `[]`        |
+| `selectionAppearance` | `selection-appearance` | Specifies the selection appearance - `"icon"` (displays a checkmark or dot) or `"border"` (displays a border).                                                     | `"border" \| "icon"`                                                                          | `"icon"`    |
+| `selectionMode`       | `selection-mode`       | Specifies the selection mode - `"multiple"` (allow any number of selected items), `"single"` (allows and require one selected item), `"none"` (no selected items). | `"multiple" \| "none" \| "single"`                                                            | `"none"`    |
 
 ## Events
 
-| Event               | Description                      | Type                |
-| ------------------- | -------------------------------- | ------------------- |
-| `calciteListFilter` | Emits when a filter has changed. | `CustomEvent<void>` |
+| Event               | Description                                    | Type                |
+| ------------------- | ---------------------------------------------- | ------------------- |
+| `calciteListFilter` | Emits when the component's filter has changed. | `CustomEvent<void>` |
 
 ## Methods
 
 ### `setFocus() => Promise<void>`
 
-Sets focus on the component.
+Sets focus on the component's first focusable element.
 
 #### Returns
 

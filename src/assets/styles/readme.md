@@ -6,7 +6,7 @@ When building any component in calcite-components or [calcite-components](https:
 
 ### Color
 
-[`colors.scss`](https://github.com/Esri/calcite-colors/blob/master/dist/colors.scss): you'll find the global CSS variables for both light and dark theme.
+[`colors.scss`](https://github.com/Esri/calcite-colors/blob/master/dist/colors.scss): you'll find the global CSS variables for both light and dark mode.
 
 ## From [calcite-base](https://github.com/esri/calcite-base)
 
@@ -19,7 +19,7 @@ When building any component in calcite-components or [calcite-components](https:
 Avenir Next is the main font family in use.
 For text indicating or related to code, use this CSS variable:
 
-```
+```scss
 font-family: --calcite-code-family;
 ```
 
@@ -27,12 +27,8 @@ font-family: --calcite-code-family;
 
 Here are the most common use cases font-size (Sass):
 
-```
-@include font-size(1)
-@include font-size(0)
-@include font-size(-1)
-@include font-size(-2)
-@include font-size(-3)
+```scss
+@include font-size(1) @include font-size(0) @include font-size(-1) @include font-size(-2) @include font-size(-3);
 ```
 
 The entire range is from font-size -3 to 8.
@@ -43,7 +39,7 @@ Example:
 
 CSS ouput:
 
-```
+```scss
 .font-size--2 {
   font-size: 0.875rem;
   line-height: 1.5;
@@ -63,7 +59,7 @@ Two font weights are available using CSS vars.
 
 Example:
 
-```
+```scss
 font-weight: var(--calcite-font-weight-normal);
 ```
 
@@ -73,7 +69,7 @@ The shadow of an element usually corresponds to the priority or importance of th
 
 #### CSS variables for shadows
 
-```
+```scss
 --shadow-1
 --shadow-1-hover
 --shadow-1-press
@@ -100,18 +96,17 @@ All focuses-able elements should use the custom focus. Use a combination of two 
 
 Include the base focus mixin to the elements style block.
 
-```
+```scss
 .my-element-class {
   @include focus-style-base();
 }
-
 ```
 
 And also add the focus style mixin to the `:focus` block. There is an inset style and an outset style.
 
 Inset focus style
 
-```
+```scss
 .my-element-class:focus {
   @include focus-style-inset(var(--calcite-ui-brand));
 }
@@ -119,7 +114,7 @@ Inset focus style
 
 Outset focus style
 
-```
+```scss
 .my-element-class:focus {
   @include focus-style-outset();
 }

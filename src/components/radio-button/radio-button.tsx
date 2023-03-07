@@ -11,25 +11,25 @@ import {
   VNode,
   Watch
 } from "@stencil/core";
-import { guid } from "../../utils/guid";
+import { getRoundRobinIndex } from "../../utils/array";
 import { focusElement, getElementDir, toAriaBoolean } from "../../utils/dom";
-import { Scale } from "../interfaces";
-import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
 import {
-  HiddenFormInputSlot,
+  CheckableFormComponent,
   connectForm,
   disconnectForm,
-  CheckableFormComponent
+  HiddenFormInputSlot
 } from "../../utils/form";
-import { CSS } from "./resources";
-import { getRoundRobinIndex } from "../../utils/array";
+import { guid } from "../../utils/guid";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
 import {
-  setUpLoadableComponent,
-  setComponentLoaded,
+  componentLoaded,
   LoadableComponent,
-  componentLoaded
+  setComponentLoaded,
+  setUpLoadableComponent
 } from "../../utils/loadable";
+import { Scale } from "../interfaces";
+import { CSS } from "./resources";
 
 @Component({
   tag: "calcite-radio-button",
@@ -95,7 +95,11 @@ export class RadioButton
    */
   @Prop() label?: string;
 
-  /** Specifies the name of the component, passed from the `calcite-radio-button-group` on form submission. */
+  /**
+   * Specifies the name of the component. Can be inherited from `calcite-radio-button-group`.
+   *
+   * Required to pass the component's `value` on form submission.
+   */
   @Prop({ reflect: true }) name: string;
 
   @Watch("name")
@@ -151,6 +155,10 @@ export class RadioButton
   //  Private Methods
   //
   //--------------------------------------------------------------------------
+
+  syncHiddenFormInput(input: HTMLInputElement): void {
+    input.type = "radio";
+  }
 
   selectItem = (items: HTMLCalciteRadioButtonElement[], selectedIndex: number): void => {
     items[selectedIndex].click();
@@ -435,9 +443,10 @@ export class RadioButton
           class={CSS.container}
           onBlur={this.onContainerBlur}
           onFocus={this.onContainerFocus}
-          ref={this.setContainerEl}
           role="radio"
           tabIndex={tabIndex}
+          // eslint-disable-next-line react/jsx-sort-props
+          ref={this.setContainerEl}
         >
           <div class="radio" />
         </div>

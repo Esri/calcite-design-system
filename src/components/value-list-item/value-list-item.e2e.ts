@@ -69,9 +69,9 @@ describe("calcite-value-list-item", () => {
     expect(properties.get("shiftPressed")._remoteObject.value).toBe(false);
   });
 
-  it("prevents deselection when disableDeselect is true", async () => {
+  it("prevents deselection when deselectDisabled is true", async () => {
     const page = await newE2EPage({
-      html: `<calcite-value-list-item label="test" value="example" disable-deselect selected></calcite-value-list-item>`
+      html: `<calcite-value-list-item label="test" value="example" deselect-disabled selected></calcite-value-list-item>`
     });
     const item = await page.find("calcite-value-list-item");
 

@@ -87,7 +87,7 @@
 
       <div class="parent-flex">
         <div class="child-flex child-flex-padding">
-          <calcite-label layout="inline" disable-spacing>
+          <calcite-label layout="inline" style="--calcite-label-margin-bottom: 0">
             <span style="margin-right: 0.75rem">Manual spacing for browsers that don't support flex gap</span>
             <calcite-checkbox></calcite-checkbox>
           </calcite-label>
@@ -279,12 +279,12 @@
       <div class="parent-flex">
         <div class="child-flex child-flex-padding">
           <calcite-label>
-            Calcite Label wrapping a Calcite Radio Group
-            <calcite-radio-group width="full">
-              <calcite-radio-group-item value="react" checked>React</calcite-radio-group-item>
-              <calcite-radio-group-item value="ember">Ember</calcite-radio-group-item>
-              <calcite-radio-group-item value="angular">Angular</calcite-radio-group-item>
-            </calcite-radio-group>
+            Calcite Label wrapping a Calcite Segmented Control
+            <calcite-segmented-control width="full">
+              <calcite-segmented-control-item value="react" checked>React</calcite-segmented-control-item>
+              <calcite-segmented-control-item value="ember">Ember</calcite-segmented-control-item>
+              <calcite-segmented-control-item value="angular">Angular</calcite-segmented-control-item>
+            </calcite-segmented-control>
           </calcite-label>
         </div>
 

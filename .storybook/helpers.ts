@@ -1,9 +1,8 @@
 import * as icons from "@esri/calcite-ui-icons";
 import { boolean as booleanKnob } from "@storybook/addon-knobs";
-import { Steps } from "screener-storybook/src/screener";
-import { THEMES } from "../src/utils/resources";
-import { ThemeName } from "../src/components/interfaces";
 import { Parameters } from "@storybook/api";
+import { ModeName } from "../src/components/interfaces";
+import { MODES } from "../src/utils/resources";
 
 // we can get all unique icon names from all size 16 non-filled icons.
 export const iconNames = Object.keys(icons)
@@ -31,32 +30,12 @@ export const setKnobs = ({ story, knobs }: { story: string; knobs: { name: strin
     .join("")}"`;
 };
 
-export const setTheme = (value: ThemeName) => `${THEMES.map(
-  (theme) => `document.body.classList.toggle('${theme.className}', ${(theme.name === value).toString()});`
+export const setMode = (value: ModeName) => `${MODES.map(
+  (mode) => `document.body.classList.toggle('${mode.className}', ${(mode.name === value).toString()});`
 ).join("")}
 `;
 
 export const toggleCentered: string = `document.body.classList.toggle('sb-main-centered');`;
-
-export const createSteps = (componentSelector: string): Steps => {
-  return new Steps().wait(`${componentSelector}[calcite-hydrated]`);
-};
-
-export const stepStory = (story: Story, steps: Steps): Story => {
-  const stepsDecorator = (Story: Story) => {
-    const node = document.createRange().createContextualFragment(Story());
-    (node as any).steps = steps.end();
-    return node;
-  };
-
-  if (story.decorators) {
-    story.decorators.push(stepsDecorator);
-  } else {
-    story.decorators = [stepsDecorator];
-  }
-
-  return story;
-};
 
 /**
  * This helps create different storybook builds for internal and screenshot test environments

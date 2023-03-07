@@ -1,8 +1,8 @@
-import { Component, Prop, h, VNode, Host, Element, State } from "@stencil/core";
+import { Component, Element, h, Host, Prop, State, VNode } from "@stencil/core";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
-import { CSS } from "./resources";
 import { MAX_COLUMNS } from "../list-item/resources";
 import { getDepth } from "../list-item/utils";
+import { CSS } from "./resources";
 /**
  * @slot - A slot for adding `calcite-list-item` and `calcite-list-item-group` elements.
  */
@@ -19,7 +19,7 @@ export class ListItemGroup implements InteractiveComponent {
   // --------------------------------------------------------------------------
 
   /**
-   * When true, interaction is prevented and the component is displayed with lower opacity.
+   * When `true`, interaction is prevented and the component is displayed with lower opacity.
    */
   @Prop({ reflect: true }) disabled = false;
 

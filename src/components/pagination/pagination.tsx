@@ -3,37 +3,48 @@ import {
   Element,
   Event,
   EventEmitter,
-  h,
-  Prop,
-  Method,
-  VNode,
   Fragment,
+  h,
+  Method,
+  Prop,
   State,
+  VNode,
   Watch
 } from "@stencil/core";
-import { Scale } from "../interfaces";
 import {
   connectLocalized,
   disconnectLocalized,
   LocalizedComponent,
-  numberStringFormatter,
-  NumberingSystem
+  NumberingSystem,
+  numberStringFormatter
 } from "../../utils/locale";
-import { CSS, TEXT } from "./resources";
+import {
+  connectMessages,
+  disconnectMessages,
+  setUpMessages,
+  T9nComponent,
+  updateMessages
+} from "../../utils/t9n";
+import { Scale } from "../interfaces";
+import { PaginationMessages } from "./assets/pagination/t9n";
+import { CSS } from "./resources";
 
 const maxPagesDisplayed = 5;
 export interface PaginationDetail {
   start: number;
-  total: number;
-  num: number;
+  totalItems: number;
+  startItem: number;
 }
 
 @Component({
   tag: "calcite-pagination",
   styleUrl: "pagination.scss",
-  shadow: true
+  shadow: {
+    delegatesFocus: true
+  },
+  assetsDirs: ["assets"]
 })
-export class Pagination implements LocalizedComponent {
+export class Pagination implements LocalizedComponent, LocalizedComponent, T9nComponent {
   //--------------------------------------------------------------------------
   //
   //  Public Properties
@@ -45,33 +56,29 @@ export class Pagination implements LocalizedComponent {
    */
   @Prop({ reflect: true }) groupSeparator = false;
 
+  /**
+   * Use this property to override individual strings used by the component.
+   */
+  @Prop({ mutable: true }) messageOverrides: Partial<PaginationMessages>;
+
+  @Watch("messageOverrides")
+  onMessagesChange(): void {
+    /* wired up by t9n util */
+  }
+
   /** Specifies the number of items per page. */
-  @Prop({ reflect: true }) num = 20;
+  @Prop({ reflect: true }) pageSize = 20;
 
   /**
    * Specifies the Unicode numeral system used by the component for localization.
    */
-  @Prop() numberingSystem?: NumberingSystem;
+  @Prop() numberingSystem: NumberingSystem;
 
   /** Specifies the starting item number. */
-  @Prop({ mutable: true, reflect: true }) start = 1;
+  @Prop({ mutable: true, reflect: true }) startItem = 1;
 
   /** Specifies the total number of items. */
-  @Prop({ reflect: true }) total = 0;
-
-  /**
-   * Accessible name for the component's next button.
-   *
-   * @default "Next"
-   */
-  @Prop() textLabelNext: string = TEXT.nextLabel;
-
-  /**
-   * Accessible name for the component's previous button.
-   *
-   * @default "Previous"
-   */
-  @Prop() textLabelPrevious: string = TEXT.previousLabel;
+  @Prop({ reflect: true }) totalItems = 0;
 
   /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";
@@ -89,7 +96,14 @@ export class Pagination implements LocalizedComponent {
   //
   //--------------------------------------------------------------------------
 
+  @State() defaultMessages: PaginationMessages;
+
   @State() effectiveLocale = "";
+
+  @Watch("effectiveLocale")
+  effectiveLocaleChange(): void {
+    updateMessages(this, this.effectiveLocale);
+  }
 
   @Watch("effectiveLocale")
   effectiveLocaleWatcher(): void {
@@ -100,6 +114,13 @@ export class Pagination implements LocalizedComponent {
     };
   }
 
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @internal
+   */
+  @Prop({ mutable: true }) messages: PaginationMessages;
+
   //--------------------------------------------------------------------------
   //
   //  Events
@@ -108,17 +129,8 @@ export class Pagination implements LocalizedComponent {
 
   /**
    * Emits when the selected page changes.
-   *
-   * @deprecated use calcitePaginationChange instead
    */
-  @Event({ cancelable: false }) calcitePaginationUpdate: EventEmitter<PaginationDetail>;
-
-  /**
-   * Emits when the selected page changes.
-   *
-   * @see [PaginationDetail](https://github.com/Esri/calcite-components/blob/master/src/components/pagination/pagination.tsx#L23)
-   */
-  @Event({ cancelable: false }) calcitePaginationChange: EventEmitter<PaginationDetail>;
+  @Event({ cancelable: false }) calcitePaginationChange: EventEmitter<void>;
 
   // --------------------------------------------------------------------------
   //
@@ -128,10 +140,16 @@ export class Pagination implements LocalizedComponent {
 
   connectedCallback(): void {
     connectLocalized(this);
+    connectMessages(this);
+  }
+
+  async componentWillLoad(): Promise<void> {
+    await setUpMessages(this);
   }
 
   disconnectedCallback(): void {
     disconnectLocalized(this);
+    disconnectMessages(this);
   }
 
   // --------------------------------------------------------------------------
@@ -143,13 +161,13 @@ export class Pagination implements LocalizedComponent {
   /** Go to the next page of results. */
   @Method()
   async nextPage(): Promise<void> {
-    this.start = Math.min(this.getLastStart(), this.start + this.num);
+    this.startItem = Math.min(this.getLastStart(), this.startItem + this.pageSize);
   }
 
   /** Go to the previous page of results. */
   @Method()
   async previousPage(): Promise<void> {
-    this.start = Math.max(1, this.start - this.num);
+    this.startItem = Math.max(1, this.startItem - this.pageSize);
   }
 
   // --------------------------------------------------------------------------
@@ -159,8 +177,11 @@ export class Pagination implements LocalizedComponent {
   // --------------------------------------------------------------------------
 
   private getLastStart(): number {
-    const { total, num } = this;
-    const lastStart = total % num === 0 ? total - num : Math.floor(total / num) * num;
+    const { totalItems, pageSize } = this;
+    const lastStart =
+      totalItems % pageSize === 0
+        ? totalItems - pageSize
+        : Math.floor(totalItems / pageSize) * pageSize;
     return lastStart + 1;
   }
 
@@ -175,22 +196,15 @@ export class Pagination implements LocalizedComponent {
   };
 
   private showLeftEllipsis() {
-    return Math.floor(this.start / this.num) > 3;
+    return Math.floor(this.startItem / this.pageSize) > 3;
   }
 
   private showRightEllipsis() {
-    return (this.total - this.start) / this.num > 3;
+    return (this.totalItems - this.startItem) / this.pageSize > 3;
   }
 
   private emitUpdate() {
-    const changePayload = {
-      start: this.start,
-      total: this.total,
-      num: this.num
-    };
-
-    this.calcitePaginationChange.emit(changePayload);
-    this.calcitePaginationUpdate.emit(changePayload);
+    this.calcitePaginationChange.emit();
   }
 
   //--------------------------------------------------------------------------
@@ -205,22 +219,22 @@ export class Pagination implements LocalizedComponent {
     let nextStart: number;
 
     // if we don't need ellipses render the whole set
-    if (this.total / this.num <= maxPagesDisplayed) {
-      nextStart = 1 + this.num;
-      end = lastStart - this.num;
+    if (this.totalItems / this.pageSize <= maxPagesDisplayed) {
+      nextStart = 1 + this.pageSize;
+      end = lastStart - this.pageSize;
     } else {
       // if we're within max pages of page 1
-      if (this.start / this.num < maxPagesDisplayed - 1) {
-        nextStart = 1 + this.num;
-        end = 1 + 4 * this.num;
+      if (this.startItem / this.pageSize < maxPagesDisplayed - 1) {
+        nextStart = 1 + this.pageSize;
+        end = 1 + 4 * this.pageSize;
       } else {
         // if we're within max pages of last page
-        if (this.start + 3 * this.num >= this.total) {
-          nextStart = lastStart - 4 * this.num;
-          end = lastStart - this.num;
+        if (this.startItem + 3 * this.pageSize >= this.totalItems) {
+          nextStart = lastStart - 4 * this.pageSize;
+          end = lastStart - this.pageSize;
         } else {
-          nextStart = this.start - this.num;
-          end = this.start + this.num;
+          nextStart = this.startItem - this.pageSize;
+          end = this.startItem + this.pageSize;
         }
       }
     }
@@ -228,14 +242,14 @@ export class Pagination implements LocalizedComponent {
     const pages = [];
     while (nextStart <= end) {
       pages.push(nextStart);
-      nextStart = nextStart + this.num;
+      nextStart = nextStart + this.pageSize;
     }
 
     return pages.map((page) => this.renderPage(page));
   }
 
   renderPage(start: number): VNode {
-    const page = Math.floor(start / this.num) + (this.num === 1 ? 0 : 1);
+    const page = Math.floor(start / this.pageSize) + (this.pageSize === 1 ? 0 : 1);
     numberStringFormatter.numberFormatOptions = {
       locale: this.effectiveLocale,
       numberingSystem: this.numberingSystem,
@@ -248,10 +262,10 @@ export class Pagination implements LocalizedComponent {
       <button
         class={{
           [CSS.page]: true,
-          [CSS.selected]: start === this.start
+          [CSS.selected]: start === this.startItem
         }}
         onClick={() => {
-          this.start = start;
+          this.startItem = start;
           this.emitUpdate();
         }}
       >
@@ -261,25 +275,26 @@ export class Pagination implements LocalizedComponent {
   }
 
   renderLeftEllipsis(): VNode {
-    if (this.total / this.num > maxPagesDisplayed && this.showLeftEllipsis()) {
+    if (this.totalItems / this.pageSize > maxPagesDisplayed && this.showLeftEllipsis()) {
       return <span class={`${CSS.ellipsis} ${CSS.ellipsisStart}`}>&hellip;</span>;
     }
   }
 
   renderRightEllipsis(): VNode {
-    if (this.total / this.num > maxPagesDisplayed && this.showRightEllipsis()) {
+    if (this.totalItems / this.pageSize > maxPagesDisplayed && this.showRightEllipsis()) {
       return <span class={`${CSS.ellipsis} ${CSS.ellipsisEnd}`}>&hellip;</span>;
     }
   }
 
   render(): VNode {
-    const { total, num, start } = this;
-    const prevDisabled = num === 1 ? start <= num : start < num;
-    const nextDisabled = num === 1 ? start + num > total : start + num > total;
+    const { totalItems, pageSize, startItem } = this;
+    const prevDisabled = pageSize === 1 ? startItem <= pageSize : startItem < pageSize;
+    const nextDisabled =
+      pageSize === 1 ? startItem + pageSize > totalItems : startItem + pageSize > totalItems;
     return (
       <Fragment>
         <button
-          aria-label={this.textLabelPrevious}
+          aria-label={this.messages.previous}
           class={{
             [CSS.previous]: true,
             [CSS.disabled]: prevDisabled
@@ -287,15 +302,15 @@ export class Pagination implements LocalizedComponent {
           disabled={prevDisabled}
           onClick={this.previousClicked}
         >
-          <calcite-icon flipRtl icon="chevronLeft" scale="s" />
+          <calcite-icon flipRtl icon="chevronLeft" scale={this.scale === "l" ? "m" : "s"} />
         </button>
-        {total > num ? this.renderPage(1) : null}
+        {totalItems > pageSize ? this.renderPage(1) : null}
         {this.renderLeftEllipsis()}
         {this.renderPages()}
         {this.renderRightEllipsis()}
         {this.renderPage(this.getLastStart())}
         <button
-          aria-label={this.textLabelNext}
+          aria-label={this.messages.next}
           class={{
             [CSS.next]: true,
             [CSS.disabled]: nextDisabled
@@ -303,7 +318,7 @@ export class Pagination implements LocalizedComponent {
           disabled={nextDisabled}
           onClick={this.nextClicked}
         >
-          <calcite-icon flipRtl icon="chevronRight" scale="s" />
+          <calcite-icon flipRtl icon="chevronRight" scale={this.scale === "l" ? "m" : "s"} />
         </button>
       </Fragment>
     );

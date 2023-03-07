@@ -1,8 +1,8 @@
-import { accessible, hidden, renders, defaults, reflects, focusable, slots } from "../../tests/commonTests";
 import { newE2EPage } from "@stencil/core/testing";
-import { SLOTS, CSS } from "./resources";
 import { html } from "../../../support/formatting";
+import { accessible, defaults, focusable, hidden, reflects, renders, slots } from "../../tests/commonTests";
 import { TOOLTIP_DELAY_MS } from "../tooltip/resources";
+import { CSS, SLOTS } from "./resources";
 
 describe("calcite-action-menu", () => {
   it("renders", async () => renders("calcite-action-menu", { display: "flex" }));
@@ -34,10 +34,6 @@ describe("calcite-action-menu", () => {
       },
       {
         propertyName: "flipPlacements",
-        defaultValue: undefined
-      },
-      {
-        propertyName: "intlOptions",
         defaultValue: undefined
       },
       {
@@ -74,7 +70,7 @@ describe("calcite-action-menu", () => {
       }
     ]));
 
-  it("should emit 'calciteActionMenuOpenChange' event", async () => {
+  it("should emit 'calciteActionMenuOpen' event", async () => {
     const page = await newE2EPage({
       html: `<calcite-action-menu>
       <calcite-action text="Add" icon="plus"></calcite-action>
@@ -83,7 +79,7 @@ describe("calcite-action-menu", () => {
 
     await page.waitForChanges();
 
-    const clickSpy = await page.spyOnEvent("calciteActionMenuOpenChange");
+    const clickSpy = await page.spyOnEvent("calciteActionMenuOpen");
 
     const actionMenu = await page.find("calcite-action-menu");
 

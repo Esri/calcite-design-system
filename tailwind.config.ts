@@ -218,7 +218,8 @@ export default {
         dropdown: "600",
         overlay: "700",
         modal: "800",
-        popup: "900"
+        popover: "900",
+        tooltip: "901"
       }
     }
   },

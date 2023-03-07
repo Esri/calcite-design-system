@@ -8,20 +8,18 @@ import {
   Listen,
   Method,
   Prop,
-  VNode,
-  Watch
+  VNode
 } from "@stencil/core";
 import { getElementProp, toAriaBoolean } from "../../utils/dom";
 import { ItemKeyboardEvent } from "../dropdown/interfaces";
-
-import { FlipContext } from "../interfaces";
+import { RequestedItem } from "../dropdown-group/interfaces";
+import { FlipContext, Scale, SelectionMode } from "../interfaces";
 import { CSS } from "./resources";
-import { RequestedItem, SelectionMode } from "../dropdown-group/interfaces";
 import {
-  setUpLoadableComponent,
-  setComponentLoaded,
+  componentLoaded,
   LoadableComponent,
-  componentLoaded
+  setComponentLoaded,
+  setUpLoadableComponent
 } from "../../utils/loadable";
 
 /**
@@ -47,27 +45,10 @@ export class DropdownItem implements LoadableComponent {
   //
   //--------------------------------------------------------------------------
 
-  /**
-   * When `true`, the component is selected.
-   *
-   * @deprecated Use `selected` instead.
-   */
-  @Prop({ reflect: true, mutable: true }) active = false;
-
-  @Watch("active")
-  activeHandler(value: boolean): void {
-    this.selected = value;
-  }
-
   /** When `true`, the component is selected. */
   @Prop({ reflect: true, mutable: true }) selected = false;
 
-  @Watch("selected")
-  selectedHandler(value: boolean): void {
-    this.active = value;
-  }
-
-  /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
+  /** Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`). */
   @Prop({ reflect: true }) iconFlipRtl: FlipContext;
 
   /** Specifies an icon to display at the start of the component. */
@@ -97,6 +78,9 @@ export class DropdownItem implements LoadableComponent {
   //  Events
   //
   //--------------------------------------------------------------------------
+
+  /** Fires when the component is selected. */
+  @Event({ cancelable: false }) calciteDropdownItemSelect: EventEmitter<void>;
 
   /**
    * @internal
@@ -139,36 +123,30 @@ export class DropdownItem implements LoadableComponent {
   }
 
   connectedCallback(): void {
-    const isSelected = this.selected || this.active;
-
-    if (isSelected) {
-      this.activeHandler(isSelected);
-      this.selectedHandler(isSelected);
-    }
     this.initialize();
   }
 
   render(): VNode {
-    const scale = getElementProp(this.el, "scale", "m");
+    const scale = getElementProp(this.el, "scale", this.scale);
     const iconStartEl = (
       <calcite-icon
-        class="dropdown-item-icon-start"
+        class={CSS.iconStart}
         flipRtl={this.iconFlipRtl === "start" || this.iconFlipRtl === "both"}
         icon={this.iconStart}
-        scale="s"
+        scale={scale === "l" ? "m" : "s"}
       />
     );
     const contentNode = (
-      <span class="dropdown-item-content">
+      <span class={CSS.itemContent}>
         <slot />
       </span>
     );
     const iconEndEl = (
       <calcite-icon
-        class="dropdown-item-icon-end"
+        class={CSS.iconEnd}
         flipRtl={this.iconFlipRtl === "end" || this.iconFlipRtl === "both"}
         icon={this.iconEnd}
-        scale="s"
+        scale={scale === "l" ? "m" : "s"}
       />
     );
 
@@ -176,7 +154,7 @@ export class DropdownItem implements LoadableComponent {
       this.iconStart && this.iconEnd
         ? [iconStartEl, contentNode, iconEndEl]
         : this.iconStart
-        ? [iconStartEl, <slot />]
+        ? [iconStartEl, contentNode]
         : this.iconEnd
         ? [contentNode, iconEndEl]
         : contentNode;
@@ -186,11 +164,13 @@ export class DropdownItem implements LoadableComponent {
     ) : (
       <a
         aria-label={this.label}
-        class="dropdown-link"
+        class={CSS.link}
         href={this.href}
-        ref={(el) => (this.childLink = el)}
         rel={this.rel}
+        tabIndex={-1}
         target={this.target}
+        // eslint-disable-next-line react/jsx-sort-props
+        ref={(el) => (this.childLink = el)}
       >
         {slottedContent}
       </a>
@@ -200,7 +180,7 @@ export class DropdownItem implements LoadableComponent {
       ? null
       : this.selectionMode === "single"
       ? "menuitemradio"
-      : this.selectionMode === "multiple" || this.selectionMode === "multi"
+      : this.selectionMode === "multiple"
       ? "menuitemcheckbox"
       : "menuitem";
 
@@ -215,21 +195,16 @@ export class DropdownItem implements LoadableComponent {
             [CSS.containerSmall]: scale === "s",
             [CSS.containerMedium]: scale === "m",
             [CSS.containerLarge]: scale === "l",
-            [CSS.containerMulti]:
-              this.selectionMode === "multiple" || this.selectionMode === "multi",
+            [CSS.containerMulti]: this.selectionMode === "multiple",
             [CSS.containerSingle]: this.selectionMode === "single",
             [CSS.containerNone]: this.selectionMode === "none"
           }}
         >
           {this.selectionMode !== "none" ? (
             <calcite-icon
-              class="dropdown-item-icon"
-              icon={
-                this.selectionMode === "multiple" || this.selectionMode === "multi"
-                  ? "check"
-                  : "bullet-point"
-              }
-              scale="s"
+              class={CSS.icon}
+              icon={this.selectionMode === "multiple" ? "check" : "bullet-point"}
+              scale={scale === "l" ? "m" : "s"}
             />
           ) : null}
           {contentEl}
@@ -304,10 +279,13 @@ export class DropdownItem implements LoadableComponent {
   private requestedDropdownItem: HTMLCalciteDropdownItemElement;
 
   /** what selection mode is the parent dropdown group in */
-  private selectionMode: SelectionMode;
+  private selectionMode: Extract<"none" | "single" | "multiple", SelectionMode>;
 
   /** if href is requested, track the rendered child link*/
   private childLink: HTMLAnchorElement;
+
+  /** Specifies the scale of dropdown-item controlled by the parent, defaults to m */
+  scale: Scale = "m";
 
   //--------------------------------------------------------------------------
   //
@@ -325,7 +303,6 @@ export class DropdownItem implements LoadableComponent {
 
   private determineActiveItem(): void {
     switch (this.selectionMode) {
-      case "multi":
       case "multiple":
         if (this.el === this.requestedDropdownItem) {
           this.selected = !this.selected;
@@ -347,6 +324,7 @@ export class DropdownItem implements LoadableComponent {
   }
 
   private emitRequestedItem(): void {
+    this.calciteDropdownItemSelect.emit();
     this.calciteInternalDropdownItemSelect.emit({
       requestedDropdownItem: this.el,
       requestedDropdownGroup: this.parentDropdownGroupEl

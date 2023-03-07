@@ -13,13 +13,14 @@ import {
   VNode,
   Watch
 } from "@stencil/core";
-import { TabChangeEventDetail } from "../tab/interfaces";
-import { guid } from "../../utils/guid";
 import { getElementDir, getElementProp, toAriaBoolean } from "../../utils/dom";
-import { TabID, TabLayout, TabPosition } from "../tabs/interfaces";
-import { FlipContext, Scale } from "../interfaces";
-import { createObserver } from "../../utils/observers";
+import { guid } from "../../utils/guid";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import { createObserver } from "../../utils/observers";
+import { FlipContext, Scale } from "../interfaces";
+import { TabChangeEventDetail } from "../tab/interfaces";
+import { CSS } from "./resources";
+import { TabID, TabLayout, TabPosition } from "../tabs/interfaces";
 
 /**
  * @slot - A slot for adding text.
@@ -48,26 +49,11 @@ export class TabTitle implements InteractiveComponent {
    * When `true`, the component and its respective `calcite-tab` contents are selected.
    *
    * Only one tab can be selected within the `calcite-tabs` parent.
-   *
-   * @deprecated Use `selected` instead.
-   */
-  @Prop({ reflect: true, mutable: true }) active = false;
-
-  @Watch("active")
-  activeHandler(value: boolean): void {
-    this.selected = value;
-  }
-
-  /**
-   * When `true`, the component and its respective `calcite-tab` contents are selected.
-   *
-   * Only one tab can be selected within the `calcite-tabs` parent.
    */
   @Prop({ reflect: true, mutable: true }) selected = false;
 
   @Watch("selected")
-  selectedHandler(value: boolean): void {
-    this.active = value;
+  selectedHandler(): void {
     if (this.selected) {
       this.emitActiveTab(false);
     }
@@ -77,13 +63,13 @@ export class TabTitle implements InteractiveComponent {
   @Prop({ reflect: true }) disabled = false;
 
   /** Specifies an icon to display at the end of the component. */
-  @Prop({ reflect: true }) iconEnd?: string;
+  @Prop({ reflect: true }) iconEnd: string;
 
-  /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
-  @Prop({ reflect: true }) iconFlipRtl?: FlipContext;
+  /** Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`). */
+  @Prop({ reflect: true }) iconFlipRtl: FlipContext;
 
   /** Specifies an icon to display at the start of the component. */
-  @Prop({ reflect: true }) iconStart?: string;
+  @Prop({ reflect: true }) iconStart: string;
 
   /**
    * @internal
@@ -110,7 +96,7 @@ export class TabTitle implements InteractiveComponent {
    *
    * When specified, use the same value on the `calcite-tab`.
    */
-  @Prop({ reflect: true }) tab?: string;
+  @Prop({ reflect: true }) tab: string;
 
   //--------------------------------------------------------------------------
   //
@@ -119,14 +105,6 @@ export class TabTitle implements InteractiveComponent {
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
-    const { selected, active } = this;
-
-    if (selected) {
-      this.active = selected;
-    } else if (active) {
-      this.activeHandler(active);
-    }
-
     this.setupTextContentObserver();
     this.parentTabNavEl = this.el.closest("calcite-tab-nav");
     this.parentTabsEl = this.el.closest("calcite-tabs");
@@ -171,19 +149,19 @@ export class TabTitle implements InteractiveComponent {
 
     const iconStartEl = (
       <calcite-icon
-        class="calcite-tab-title--icon icon-start"
+        class={{ [CSS.titleIcon]: true, [CSS.iconStart]: true }}
         flipRtl={this.iconFlipRtl === "start" || this.iconFlipRtl === "both"}
         icon={this.iconStart}
-        scale="s"
+        scale={this.scale === "l" ? "m" : "s"}
       />
     );
 
     const iconEndEl = (
       <calcite-icon
-        class="calcite-tab-title--icon icon-end"
+        class={{ [CSS.titleIcon]: true, [CSS.iconEnd]: true }}
         flipRtl={this.iconFlipRtl === "end" || this.iconFlipRtl === "both"}
         icon={this.iconEnd}
-        scale="s"
+        scale={this.scale === "l" ? "m" : "s"}
       />
     );
 
@@ -198,8 +176,10 @@ export class TabTitle implements InteractiveComponent {
         <div
           class={{
             container: true,
-            "container--has-text": this.hasText
+            [CSS.iconPresent]: this.iconStart || this.iconEnd ? true : null,
+            [CSS.containerHasText]: this.hasText
           }}
+          // eslint-disable-next-line react/jsx-sort-props
           ref={(el) => this.resizeObserver?.observe(el)}
         >
           {this.iconStart ? iconStartEl : null}
@@ -294,11 +274,9 @@ export class TabTitle implements InteractiveComponent {
   //--------------------------------------------------------------------------
 
   /**
-   * Fires when a `calcite-tab` is selected. Emits the `tab` property, or the index position.
-   *
-   * @see [TabChangeEventDetail](https://github.com/Esri/calcite-components/blob/master/src/components/tab/interfaces.ts#L1)
+   * Fires when a `calcite-tab` is selected.
    */
-  @Event({ cancelable: false }) calciteTabsActivate: EventEmitter<TabChangeEventDetail>;
+  @Event({ cancelable: false }) calciteTabsActivate: EventEmitter<void>;
 
   /**
    * Fires when a `calcite-tab` is selected (`event.details`).
@@ -415,7 +393,7 @@ export class TabTitle implements InteractiveComponent {
     this.calciteInternalTabsActivate.emit(payload);
 
     if (userTriggered) {
-      this.calciteTabsActivate.emit(payload);
+      this.calciteTabsActivate.emit();
     }
   }
 

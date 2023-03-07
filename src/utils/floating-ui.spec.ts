@@ -1,3 +1,4 @@
+import { waitForAnimationFrame } from "../tests/utils";
 import {
   cleanupMap,
   connectFloatingUI,
@@ -15,7 +16,22 @@ import {
   repositionDebounceTimeout,
   updateAfterClose
 } from "./floating-ui";
-import { waitForAnimationFrame } from "../tests/utils";
+
+import * as floatingUIDOM from "@floating-ui/dom";
+
+(floatingUIDOM as any).computePosition = async (_: HTMLElement, floatingEl: HTMLElement) => {
+  floatingEl.style.transform = "some value";
+  floatingEl.style.top = "0";
+  floatingEl.style.left = "0";
+
+  return {
+    x: 0,
+    y: 0,
+    placement: "bottom",
+    strategy: "absolute",
+    middlewareData: {}
+  };
+};
 
 it("should set calcite placement to FloatingUI placement", () => {
   const el = document.createElement("div");
@@ -206,7 +222,7 @@ it("should have correct value for defaultOffsetDistance", () => {
 });
 
 it("should filter computed placements", () => {
-  expect(new Set(filterComputedPlacements(placements, document.createElement("div")))).toEqual(
+  expect(new Set(filterComputedPlacements([...placements], document.createElement("div")))).toEqual(
     new Set(effectivePlacements)
   );
 });

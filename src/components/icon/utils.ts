@@ -1,5 +1,5 @@
-import { getAssetPath } from "@stencil/core";
 import { CalciteIconPath } from "@esri/calcite-ui-icons";
+import { getAssetPath } from "@stencil/core";
 import { Scale } from "../interfaces";
 
 export interface FetchIconProps {
@@ -58,24 +58,31 @@ export async function fetchIcon({ icon, scale }: FetchIconProps): Promise<Calcit
  * Normalize the icon name to match the path data module exports.
  * Exported for testing purposes.
  *
- * @param name
+ * @param name – an icon name that can be either kebab or camel-cased
  * @private
  */
 export function normalizeIconName(name: string): string {
   const numberLeadingName = !isNaN(Number(name.charAt(0)));
   const parts = name.split("-");
+  const kebabCased = parts.length > 0;
 
-  if (parts.length === 1) {
-    return numberLeadingName ? `i${name}` : name;
+  if (kebabCased) {
+    const firstNonDigitInPartPattern = /[a-z]/i;
+
+    name = parts
+      .map((part, partIndex) => {
+        return part.replace(firstNonDigitInPartPattern, function replacer(match, offset) {
+          const isFirstCharInName = partIndex === 0 && offset === 0;
+
+          if (isFirstCharInName) {
+            return match;
+          }
+
+          return match.toUpperCase();
+        });
+      })
+      .join("");
   }
 
-  return parts
-    .map((part, index) => {
-      if (index === 0) {
-        return numberLeadingName ? `i${part.toUpperCase()}` : part;
-      }
-
-      return part.charAt(0).toUpperCase() + part.slice(1);
-    })
-    .join("");
+  return numberLeadingName ? `i${name}` : name;
 }

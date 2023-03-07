@@ -1,9 +1,9 @@
-import { text, select } from "@storybook/addon-knobs";
+import { select, text } from "@storybook/addon-knobs";
 import { boolean, storyFilters } from "../../../.storybook/helpers";
-import { themesDarkDefault } from "../../../.storybook/utils";
+import { modesDarkDefault } from "../../../.storybook/utils";
 import * as icons from "../../../node_modules/@esri/calcite-ui-icons";
-import readme from "./readme.md";
 import { html } from "../../../support/formatting";
+import readme from "./readme.md";
 
 // we can get all unique icon names from all size 16 non-filled icons.
 const iconNames = Object.keys(icons)
@@ -95,9 +95,9 @@ export const iconStartAndIconEnd = (): string => html`
   </div>
 `;
 
-export const darkThemeRTL_TestOnly = (): string => html`
+export const darkModeRTL_TestOnly = (): string => html`
   <div
-    class="calcite-theme-dark"
+    class="calcite-mode-dark"
     dir="rtl"
     style="color: white; font-size: ${select(
       "containing font size",
@@ -106,13 +106,13 @@ export const darkThemeRTL_TestOnly = (): string => html`
     )}px; font-weight: ${select("containing font weight", ["300", "400", "500", "700"], "400")};"
   >
     Some wrapping text
-    <calcite-link class="calcite-theme-dark" href="${text("href", "")}" ${boolean("disabled", false)}
+    <calcite-link class="calcite-mode-dark" href="${text("href", "")}" ${boolean("disabled", false)}
       >${text("text", "link text here")}</calcite-link
     >
     around the link
   </div>
 `;
 
-darkThemeRTL_TestOnly.parameters = { themes: themesDarkDefault };
+darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
 
 export const disabled_TestOnly = (): string => html`<calcite-link disabled>disabled</calcite-link`;

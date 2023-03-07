@@ -1,24 +1,34 @@
-import { Component, Element, Prop, h, VNode, State, forceUpdate } from "@stencil/core";
-import { CSS, SLOTS, TEXT } from "./resources";
-import { Position, Scale } from "../interfaces";
-import { getSlotted, getElementDir, isPrimaryPointerButton } from "../../utils/dom";
-import { clamp } from "../../utils/math";
+import { Component, Element, forceUpdate, h, Prop, State, VNode, Watch } from "@stencil/core";
 import {
   ConditionalSlotComponent,
   connectConditionalSlotComponent,
   disconnectConditionalSlotComponent
 } from "../../utils/conditionalSlot";
+import { getElementDir, getSlotted, isPrimaryPointerButton } from "../../utils/dom";
+import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
+import { clamp } from "../../utils/math";
+import {
+  connectMessages,
+  disconnectMessages,
+  setUpMessages,
+  T9nComponent,
+  updateMessages
+} from "../../utils/t9n";
+import { Position, Scale } from "../interfaces";
+import { ShellPanelMessages } from "./assets/shell-panel/t9n";
+import { CSS, SLOTS } from "./resources";
 
 /**
- * @slot - A slot for adding content to the component.
+ * @slot - A slot for adding custom content.
  * @slot action-bar - A slot for adding a `calcite-action-bar` to the component.
  */
 @Component({
   tag: "calcite-shell-panel",
   styleUrl: "shell-panel.scss",
-  shadow: true
+  shadow: true,
+  assetsDirs: ["assets"]
 })
-export class ShellPanel implements ConditionalSlotComponent {
+export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent, T9nComponent {
   // --------------------------------------------------------------------------
   //
   //  Properties
@@ -52,17 +62,26 @@ export class ShellPanel implements ConditionalSlotComponent {
   @Prop({ reflect: true }) position: Position;
 
   /**
-   * Accessible name for the resize separator.
-   *
-   * @default "Resize"
-   */
-  @Prop() intlResize = TEXT.resize;
-
-  /**
    * When `true` and not `detached`, the component's content area is resizable.
    */
   @Prop({ reflect: true }) resizable = false;
 
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @internal
+   */
+  @Prop({ mutable: true }) messages: ShellPanelMessages;
+
+  /**
+   * Use this property to override individual strings used by the component.
+   */
+  @Prop({ mutable: true }) messageOverrides: Partial<ShellPanelMessages>;
+
+  @Watch("messageOverrides")
+  onMessagesChange(): void {
+    /* wired up by t9n util */
+  }
   //--------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -71,11 +90,19 @@ export class ShellPanel implements ConditionalSlotComponent {
 
   connectedCallback(): void {
     connectConditionalSlotComponent(this);
+    connectLocalized(this);
+    connectMessages(this);
+  }
+
+  async componentWillLoad(): Promise<void> {
+    await setUpMessages(this);
   }
 
   disconnectedCallback(): void {
     disconnectConditionalSlotComponent(this);
     this.disconnectSeparator();
+    disconnectLocalized(this);
+    disconnectMessages(this);
   }
 
   componentDidLoad(): void {
@@ -108,6 +135,15 @@ export class ShellPanel implements ConditionalSlotComponent {
 
   stepMultiplier = 10;
 
+  @State() defaultMessages: ShellPanelMessages;
+
+  @State() effectiveLocale = "";
+
+  @Watch("effectiveLocale")
+  effectiveLocaleChange(): void {
+    updateMessages(this, this.effectiveLocale);
+  }
+
   // --------------------------------------------------------------------------
   //
   //  Render Methods
@@ -134,7 +170,6 @@ export class ShellPanel implements ConditionalSlotComponent {
       contentWidth,
       contentWidthMax,
       contentWidthMin,
-      intlResize,
       resizable
     } = this;
 
@@ -145,8 +180,9 @@ export class ShellPanel implements ConditionalSlotComponent {
         class={{ [CSS.content]: true, [CSS.contentDetached]: detached }}
         hidden={collapsed}
         key="content"
-        ref={this.storeContentEl}
         style={allowResizing && contentWidth ? { width: `${contentWidth}px` } : null}
+        // eslint-disable-next-line react/jsx-sort-props
+        ref={this.storeContentEl}
       >
         {this.renderHeader()}
         <div class={CSS.contentBody}>
@@ -157,7 +193,7 @@ export class ShellPanel implements ConditionalSlotComponent {
 
     const separatorNode = allowResizing ? (
       <div
-        aria-label={intlResize}
+        aria-label={this.messages.resize}
         aria-orientation="horizontal"
         aria-valuemax={contentWidthMax}
         aria-valuemin={contentWidthMin}
@@ -165,10 +201,11 @@ export class ShellPanel implements ConditionalSlotComponent {
         class={CSS.separator}
         key="separator"
         onKeyDown={this.separatorKeyDown}
-        ref={this.connectSeparator}
         role="separator"
         tabIndex={0}
         touch-action="none"
+        // eslint-disable-next-line react/jsx-sort-props
+        ref={this.connectSeparator}
       />
     ) : null;
 

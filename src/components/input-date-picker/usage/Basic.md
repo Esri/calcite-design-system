@@ -6,8 +6,6 @@
       min="2016-08-09"
       max="2023-12-18"
       lang="en"
-      intl-next-month="Next month"
-      intl-prev-month="Previous month"
       role="application"
       layout="horizontal"
     ></calcite-input-date-picker>

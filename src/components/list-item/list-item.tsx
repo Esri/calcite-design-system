@@ -1,38 +1,39 @@
 import {
   Component,
   Element,
-  Prop,
-  h,
-  VNode,
-  Host,
-  Method,
   Event,
   EventEmitter,
-  Watch,
-  State
+  h,
+  Host,
+  Method,
+  Prop,
+  State,
+  VNode,
+  Watch
 } from "@stencil/core";
-import { SLOTS, CSS, ICONS } from "./resources";
 import { getElementDir, slotChangeHasAssignedElement, toAriaBoolean } from "../../utils/dom";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
-
+import { SelectionMode } from "../interfaces";
+import { SelectionAppearance } from "../list/resources";
+import { CSS, ICONS, SLOTS } from "./resources";
 import { getDepth, getListItemChildren, updateListItemChildren } from "./utils";
-import { SelectionAppearance, SelectionMode } from "../list/resources";
 
 const focusMap = new Map<HTMLCalciteListElement, number>();
 
 const listSelector = "calcite-list";
 
 import {
-  setUpLoadableComponent,
-  setComponentLoaded,
+  componentLoaded,
   LoadableComponent,
-  componentLoaded
+  setComponentLoaded,
+  setUpLoadableComponent
 } from "../../utils/loadable";
 
 /**
  * @slot - A slot for adding `calcite-list-item` and `calcite-list-item-group` elements.
  * @slot actions-start - A slot for adding actionable `calcite-action` elements before the content of the component.
  * @slot content-start - A slot for adding non-actionable elements before the label and description of the component.
+ * @slot content - A slot for adding non-actionable, centered content in place of the `label` and `description` of the component.
  * @slot content-end - A slot for adding non-actionable elements after the label and description of the component.
  * @slot actions-end - A slot for adding actionable `calcite-action` elements after the content of the component.
  */
@@ -65,7 +66,7 @@ export class ListItem implements InteractiveComponent, LoadableComponent {
   /**
    * A description for the component. Displays below the label text.
    */
-  @Prop() description?: string;
+  @Prop() description: string;
 
   /**
    * When `true`, interaction is prevented and the component is displayed with lower opacity.
@@ -78,12 +79,12 @@ export class ListItem implements InteractiveComponent, LoadableComponent {
   @Prop() label: string;
 
   /**
-   * Provides additional metadata to the component. Primary use is for a filter on the parent list.
+   * Provides additional metadata to the component. Primary use is for a filter on the parent `calcite-list`.
    */
-  @Prop() metadata?: Record<string, unknown>;
+  @Prop() metadata: Record<string, unknown>;
 
   /**
-   * When true, item is open to show child components.
+   * When `true`, the item is open to show child components.
    */
   @Prop({ mutable: true, reflect: true }) open = false;
 
@@ -102,7 +103,7 @@ export class ListItem implements InteractiveComponent, LoadableComponent {
   @Prop() setPosition: number = null;
 
   /**
-   * When true, the component is selected.
+   * When `true`, the component is selected.
    */
   @Prop({ reflect: true, mutable: true }) selected = false;
 
@@ -119,14 +120,15 @@ export class ListItem implements InteractiveComponent, LoadableComponent {
   @Prop() value: any;
 
   /**
-   * specify the selection mode - multiple (allow any number of (or no) selected items), single (allow and require one selected item), none (no selected items), defaults to single
+   * Specifies the selection mode - `"multiple"` (allow any number of selected items), `"single"` (allows and require one selected item), `"none"` (no selected items).
    *
    * @internal
    */
-  @Prop({ mutable: true }) selectionMode: SelectionMode = null;
+  @Prop({ mutable: true }) selectionMode: Extract<"none" | "multiple" | "single", SelectionMode> =
+    null;
 
   /**
-   * specify the selection appearance - icon (displays a checkmark or dot), border (displays a border), defaults to icon
+   * Specifies the selection appearance - `"icon"` (displays a checkmark or dot) or `"border"` (displays a border).
    *
    * @internal
    */
@@ -139,7 +141,7 @@ export class ListItem implements InteractiveComponent, LoadableComponent {
   //--------------------------------------------------------------------------
 
   /**
-   * Emitted whenever the list item content is selected.
+   * Emits when the item's content is selected.
    */
   @Event({ cancelable: false }) calciteListItemSelect: EventEmitter<void>;
 
@@ -148,6 +150,12 @@ export class ListItem implements InteractiveComponent, LoadableComponent {
    * @internal
    */
   @Event({ cancelable: false }) calciteInternalListItemSelect: EventEmitter<void>;
+
+  /**
+   *
+   * @internal
+   */
+  @Event({ cancelable: false }) calciteInternalListItemActive: EventEmitter<void>;
 
   /**
    *
@@ -174,6 +182,8 @@ export class ListItem implements InteractiveComponent, LoadableComponent {
   @State() hasActionsStart = false;
 
   @State() hasActionsEnd = false;
+
+  @State() hasCustomContent = false;
 
   @State() hasContentStart = false;
 
@@ -247,7 +257,7 @@ export class ListItem implements InteractiveComponent, LoadableComponent {
     }
 
     return (
-      <td class={CSS.selectionContainer} key="selection-container" onClick={this.toggleSelected}>
+      <td class={CSS.selectionContainer} key="selection-container" onClick={this.itemClicked}>
         <calcite-icon
           icon={
             selected
@@ -274,7 +284,7 @@ export class ListItem implements InteractiveComponent, LoadableComponent {
         />
       </td>
     ) : parentListEl?.openable ? (
-      <td class={CSS.openContainer} key="open-container" onClick={this.toggleSelected}>
+      <td class={CSS.openContainer} key="open-container" onClick={this.itemClicked}>
         <calcite-icon icon={ICONS.blank} scale="s" />
       </td>
     ) : null;
@@ -288,8 +298,9 @@ export class ListItem implements InteractiveComponent, LoadableComponent {
         class={CSS.actionsStart}
         hidden={!hasActionsStart}
         key="actions-start-container"
-        ref={(el) => (this.actionsStartEl = el)}
         role="gridcell"
+        // eslint-disable-next-line react/jsx-sort-props
+        ref={(el) => (this.actionsStartEl = el)}
       >
         <slot name={SLOTS.actionsStart} onSlotchange={this.handleActionsStartSlotChange} />
       </td>
@@ -304,8 +315,9 @@ export class ListItem implements InteractiveComponent, LoadableComponent {
         class={CSS.actionsEnd}
         hidden={!hasActionsEnd}
         key="actions-end-container"
-        ref={(el) => (this.actionsEndEl = el)}
         role="gridcell"
+        // eslint-disable-next-line react/jsx-sort-props
+        ref={(el) => (this.actionsEndEl = el)}
       >
         <slot name={SLOTS.actionsEnd} onSlotchange={this.handleActionsEndSlotChange} />
       </td>
@@ -321,6 +333,15 @@ export class ListItem implements InteractiveComponent, LoadableComponent {
     );
   }
 
+  renderCustomContent(): VNode {
+    const { hasCustomContent } = this;
+    return (
+      <div class={CSS.customContent} hidden={!hasCustomContent}>
+        <slot name={SLOTS.content} onSlotchange={this.handleContentSlotChange} />
+      </div>
+    );
+  }
+
   renderContentEnd(): VNode {
     const { hasContentEnd } = this;
     return (
@@ -330,10 +351,10 @@ export class ListItem implements InteractiveComponent, LoadableComponent {
     );
   }
 
-  renderContent(): VNode {
-    const { label, description } = this;
+  renderContentProperties(): VNode {
+    const { label, description, hasCustomContent } = this;
 
-    return !!label || !!description ? (
+    return !hasCustomContent && (!!label || !!description) ? (
       <div class={CSS.content} key="content">
         {label ? (
           <div class={CSS.label} key="label">
@@ -350,9 +371,14 @@ export class ListItem implements InteractiveComponent, LoadableComponent {
   }
 
   renderContentContainer(): VNode {
-    const { description, label, selectionMode } = this;
-    const hasCenterContent = !!label || !!description;
-    const content = [this.renderContentStart(), this.renderContent(), this.renderContentEnd()];
+    const { description, label, selectionMode, hasCustomContent } = this;
+    const hasCenterContent = hasCustomContent || !!label || !!description;
+    const content = [
+      this.renderContentStart(),
+      this.renderCustomContent(),
+      this.renderContentProperties(),
+      this.renderContentEnd()
+    ];
 
     return (
       <td
@@ -363,9 +389,10 @@ export class ListItem implements InteractiveComponent, LoadableComponent {
           [CSS.contentContainerHasCenterContent]: hasCenterContent
         }}
         key="content-container"
-        onClick={this.toggleSelected}
-        ref={(el) => (this.contentEl = el)}
+        onClick={this.itemClicked}
         role="gridcell"
+        // eslint-disable-next-line react/jsx-sort-props
+        ref={(el) => (this.contentEl = el)}
       >
         {content}
       </td>
@@ -406,10 +433,11 @@ export class ListItem implements InteractiveComponent, LoadableComponent {
           }}
           onFocus={this.focusCellNull}
           onKeyDown={this.handleItemKeyDown}
-          ref={(el) => (this.containerEl = el)}
           role="row"
           style={{ "--calcite-list-item-spacing-indent-multiplier": `${this.visualLevel}` }}
           tabIndex={active ? 0 : -1}
+          // eslint-disable-next-line react/jsx-sort-props
+          ref={(el) => (this.containerEl = el)}
         >
           {this.renderSelected()}
           {this.renderOpen()}
@@ -434,6 +462,10 @@ export class ListItem implements InteractiveComponent, LoadableComponent {
   //  Private Methods
   //
   // --------------------------------------------------------------------------
+
+  handleContentSlotChange = (event: Event): void => {
+    this.hasCustomContent = slotChangeHasAssignedElement(event);
+  };
 
   handleActionsStartSlotChange = (event: Event): void => {
     this.hasActionsStart = slotChangeHasAssignedElement(event);
@@ -486,6 +518,11 @@ export class ListItem implements InteractiveComponent, LoadableComponent {
 
   toggleOpen = (): void => {
     this.open = !this.open;
+  };
+
+  itemClicked = (): void => {
+    this.toggleSelected();
+    this.calciteInternalListItemActive.emit();
   };
 
   toggleSelected = (): void => {

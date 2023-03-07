@@ -7,7 +7,7 @@
 ### Basic
 
 ```html
-<calcite-button icon-start="plus" color="red">Go!</calcite-button>
+<calcite-button icon-start="plus">Go!</calcite-button>
 ```
 
 ### Focusing
@@ -34,14 +34,14 @@ Any additional attributes set on `<calcite-button>` are passed to the internal `
 
 ```html
 <calcite-button appearance="solid" icon-start="arrow-left">Back</calcite-button>
-<calcite-button icon-end="map" color="red">Map Options</calcite-button>
-<calcite-button icon-end="plus" appearance="outline" color="inverse">Add to favorites</calcite-button>
+<calcite-button icon-end="map" kind="danger">Delete Map Options</calcite-button>
+<calcite-button icon-end="plus" appearance="outline-fill" kind="inverse">Add to favorites</calcite-button>
 ```
 
 ### With-loader-disabled
 
 ```html
-<calcite-button loading color="neutral">Fetching data...</calcite-button>
+<calcite-button loading kind="neutral">Fetching data...</calcite-button>
 <calcite-button disabled>Can't touch this</calcite-button>
 ```
 
@@ -61,28 +61,27 @@ Any additional attributes set on `<calcite-button>` are passed to the internal `
 
 ## Properties
 
-| Property      | Attribute       | Description                                                                                                                                                                        | Type                                                                                                        | Default        |
-| ------------- | --------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------- | -------------- |
-| `alignment`   | `alignment`     | Specifies the alignment of the component's elements.                                                                                                                               | `"center" \| "end" \| "icon-end-space-between" \| "icon-start-space-between" \| "space-between" \| "start"` | `"center"`     |
-| `appearance`  | `appearance`    | Specifies the appearance style of the component.                                                                                                                                   | `"clear" \| "minimal" \| "outline" \| "solid" \| "transparent"`                                             | `"solid"`      |
-| `color`       | `color`         | Specifies the color of the component.                                                                                                                                              | `"blue" \| "inverse" \| "neutral" \| "red"`                                                                 | `"blue"`       |
-| `disabled`    | `disabled`      | When `true`, interaction is prevented and the component is displayed with lower opacity.                                                                                           | `boolean`                                                                                                   | `false`        |
-| `form`        | `form`          | <span style="color:red">**[DEPRECATED]**</span> – The property is no longer needed if the component is placed inside a form.<br/><br/>The form ID to associate with the component. | `string`                                                                                                    | `undefined`    |
-| `href`        | `href`          | Specifies the URL of the linked resource, which can be set as an absolute or relative path.                                                                                        | `string`                                                                                                    | `undefined`    |
-| `iconEnd`     | `icon-end`      | Specifies an icon to display at the end of the component.                                                                                                                          | `string`                                                                                                    | `undefined`    |
-| `iconFlipRtl` | `icon-flip-rtl` | When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).                                                                                       | `"both" \| "end" \| "start"`                                                                                | `undefined`    |
-| `iconStart`   | `icon-start`    | Specifies an icon to display at the start of the component.                                                                                                                        | `string`                                                                                                    | `undefined`    |
-| `intlLoading` | `intl-loading`  | Accessible name when the component is loading.                                                                                                                                     | `string`                                                                                                    | `TEXT.loading` |
-| `label`       | `label`         | Accessible name for the component.                                                                                                                                                 | `string`                                                                                                    | `undefined`    |
-| `loading`     | `loading`       | When `true`, a busy indicator is displayed and interaction is disabled.                                                                                                            | `boolean`                                                                                                   | `false`        |
-| `name`        | `name`          | Specifies the name of the component on form submission.                                                                                                                            | `string`                                                                                                    | `undefined`    |
-| `rel`         | `rel`           | Defines the relationship between the `href` value and the current document.                                                                                                        | `string`                                                                                                    | `undefined`    |
-| `round`       | `round`         | When `true`, adds a round style to the component.                                                                                                                                  | `boolean`                                                                                                   | `false`        |
-| `scale`       | `scale`         | Specifies the size of the component.                                                                                                                                               | `"l" \| "m" \| "s"`                                                                                         | `"m"`          |
-| `splitChild`  | `split-child`   | Specifies if the component is a child of a `calcite-split-button`.                                                                                                                 | `"primary" \| "secondary" \| boolean`                                                                       | `false`        |
-| `target`      | `target`        | Specifies where to open the linked document defined in the `href` property.                                                                                                        | `string`                                                                                                    | `undefined`    |
-| `type`        | `type`          | Specifies the default behavior of the button.                                                                                                                                      | `string`                                                                                                    | `"button"`     |
-| `width`       | `width`         | Specifies the width of the component.                                                                                                                                              | `"auto" \| "full" \| "half"`                                                                                | `"auto"`       |
+| Property           | Attribute           | Description                                                                                                 | Type                                                                                                        | Default     |
+| ------------------ | ------------------- | ----------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------- | ----------- |
+| `alignment`        | `alignment`         | Specifies the alignment of the component's elements.                                                        | `"center" \| "end" \| "icon-end-space-between" \| "icon-start-space-between" \| "space-between" \| "start"` | `"center"`  |
+| `appearance`       | `appearance`        | Specifies the appearance style of the component.                                                            | `"outline" \| "outline-fill" \| "solid" \| "transparent"`                                                   | `"solid"`   |
+| `disabled`         | `disabled`          | When `true`, interaction is prevented and the component is displayed with lower opacity.                    | `boolean`                                                                                                   | `false`     |
+| `href`             | `href`              | Specifies the URL of the linked resource, which can be set as an absolute or relative path.                 | `string`                                                                                                    | `undefined` |
+| `iconEnd`          | `icon-end`          | Specifies an icon to display at the end of the component.                                                   | `string`                                                                                                    | `undefined` |
+| `iconFlipRtl`      | `icon-flip-rtl`     | Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`). | `"both" \| "end" \| "start"`                                                                                | `undefined` |
+| `iconStart`        | `icon-start`        | Specifies an icon to display at the start of the component.                                                 | `string`                                                                                                    | `undefined` |
+| `kind`             | `kind`              | Specifies the kind of the component (will apply to border and background if applicable).                    | `"brand" \| "danger" \| "inverse" \| "neutral"`                                                             | `"brand"`   |
+| `label`            | `label`             | Accessible name for the component.                                                                          | `string`                                                                                                    | `undefined` |
+| `loading`          | `loading`           | When `true`, a busy indicator is displayed and interaction is disabled.                                     | `boolean`                                                                                                   | `false`     |
+| `messageOverrides` | `message-overrides` | Use this property to override individual strings used by the component.                                     | `ButtonMessages`                                                                                            | `undefined` |
+| `name`             | `name`              | Specifies the name of the component on form submission.                                                     | `string`                                                                                                    | `undefined` |
+| `rel`              | `rel`               | Defines the relationship between the `href` value and the current document.                                 | `string`                                                                                                    | `undefined` |
+| `round`            | `round`             | When `true`, adds a round style to the component.                                                           | `boolean`                                                                                                   | `false`     |
+| `scale`            | `scale`             | Specifies the size of the component.                                                                        | `"l" \| "m" \| "s"`                                                                                         | `"m"`       |
+| `splitChild`       | `split-child`       | Specifies if the component is a child of a `calcite-split-button`.                                          | `"primary" \| "secondary" \| boolean`                                                                       | `false`     |
+| `target`           | `target`            | Specifies where to open the linked document defined in the `href` property.                                 | `string`                                                                                                    | `undefined` |
+| `type`             | `type`              | Specifies the default behavior of the button.                                                               | `string`                                                                                                    | `"button"`  |
+| `width`            | `width`             | Specifies the width of the component.                                                                       | `"auto" \| "full" \| "half"`                                                                                | `"auto"`    |
 
 ## Methods
 

@@ -10,13 +10,13 @@ describe("form", () => {
     let submitted = submitForm(formOwner);
 
     expect(submitted).toBe(true);
-    expect(submitSpy).toBeCalledTimes(1);
+    expect(submitSpy).toHaveBeenCalledTimes(1);
 
     formOwner.formEl = null;
 
     submitted = submitForm(formOwner);
 
     expect(submitted).toBe(false);
-    expect(submitSpy).toBeCalledTimes(1);
+    expect(submitSpy).toHaveBeenCalledTimes(1);
   });
 });

@@ -1,9 +1,9 @@
-import { Component, h, VNode, Prop, Element } from "@stencil/core";
-import { TileSelectGroupLayout } from "./interfaces";
+import { Component, Element, h, Prop, VNode } from "@stencil/core";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import { TileSelectGroupLayout } from "./interfaces";
 
 /**
- * @slot - A slot for adding `calcite-tile-select`s.
+ * @slot - A slot for adding `calcite-tile-select` elements.
  */
 @Component({
   tag: "calcite-tile-select-group",
@@ -33,7 +33,7 @@ export class TileSelectGroup implements InteractiveComponent {
    *
    * Use `"horizontal"` for rows, and `"vertical"` for a single column.
    */
-  @Prop({ reflect: true }) layout?: TileSelectGroupLayout = "horizontal";
+  @Prop({ reflect: true }) layout: TileSelectGroupLayout = "horizontal";
 
   //--------------------------------------------------------------------------
   //

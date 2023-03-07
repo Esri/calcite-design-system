@@ -59,7 +59,7 @@
         <div class="shell-container">
           <calcite-shell content-behind>
             <calcite-shell-panel id="primary-panel" slot="panel-start" position="start" detached>
-              <calcite-action-bar slot="action-bar" class="calcite-theme-dark">
+              <calcite-action-bar slot="action-bar" class="calcite-mode-dark">
                 <calcite-action-group>
                   <calcite-action text="Save" icon="save" indicator> </calcite-action>
                   <calcite-action icon="map" text="New"> </calcite-action>
@@ -132,7 +132,7 @@
               </calcite-action-bar>
               <calcite-button
                 slot="header"
-                color="inverse"
+                kind="inverse"
                 alignment="icon-end-space-between"
                 icon-end="caret-down"
                 width="full"
@@ -170,7 +170,7 @@
                         <calcite-button
                           slot="action"
                           appearance="transparent"
-                          color="neutral"
+                          kind="neutral"
                           icon-start="brackets-curly"
                           scale="s"
                         ></calcite-button>
@@ -811,7 +811,7 @@
                   </calcite-block>
 
                   <calcite-fab slot="fab" id="label-fab" text="Add label class"></calcite-fab>
-                  <calcite-tooltip label="tooltip" reference-element="label-fab" disable-pointer>
+                  <calcite-tooltip label="tooltip" reference-element="label-fab" pointer-disabled>
                     Add label class
                   </calcite-tooltip>
                   <calcite-button slot="footer-actions" appearance="outline" width="half">Cancel</calcite-button>
@@ -932,7 +932,7 @@
               <calcite-pick-list-item label="END" value="4"></calcite-pick-list-item>
             </calcite-pick-list>
             <calcite-button slot="footer" width="half">Yeah!</calcite-button>
-            <calcite-button slot="footer" width="half" appearance="clear">Naw.</calcite-button>
+            <calcite-button slot="footer" width="half" appearance="outline">Naw.</calcite-button>
           </calcite-panel>
         </calcite-popover>
         <script>

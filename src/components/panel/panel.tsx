@@ -3,26 +3,36 @@ import {
   Element,
   Event,
   EventEmitter,
+  Fragment,
+  h,
   Method,
   Prop,
-  h,
+  State,
   VNode,
-  Fragment,
-  State
+  Watch
 } from "@stencil/core";
-import { CSS, ICONS, SLOTS, TEXT } from "./resources";
-import { toAriaBoolean } from "../../utils/dom";
-import { Scale } from "../interfaces";
-import { HeadingLevel, Heading } from "../functional/Heading";
-import { SLOTS as ACTION_MENU_SLOTS } from "../action-menu/resources";
+import { focusFirstTabbable, toAriaBoolean } from "../../utils/dom";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
-import { createObserver } from "../../utils/observers";
 import {
-  setUpLoadableComponent,
-  setComponentLoaded,
+  componentLoaded,
   LoadableComponent,
-  componentLoaded
+  setComponentLoaded,
+  setUpLoadableComponent
 } from "../../utils/loadable";
+import { createObserver } from "../../utils/observers";
+import { SLOTS as ACTION_MENU_SLOTS } from "../action-menu/resources";
+import { Heading, HeadingLevel } from "../functional/Heading";
+import { CSS, ICONS, SLOTS } from "./resources";
+
+import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
+import {
+  connectMessages,
+  disconnectMessages,
+  setUpMessages,
+  T9nComponent,
+  updateMessages
+} from "../../utils/t9n";
+import { PanelMessages } from "./assets/panel/t9n";
 
 /**
  * @slot - A slot for adding custom content.
@@ -37,9 +47,12 @@ import {
 @Component({
   tag: "calcite-panel",
   styleUrl: "panel.scss",
-  shadow: true
+  shadow: true,
+  assetsDirs: ["assets"]
 })
-export class Panel implements InteractiveComponent, LoadableComponent {
+export class Panel
+  implements InteractiveComponent, LoadableComponent, LocalizedComponent, T9nComponent
+{
   // --------------------------------------------------------------------------
   //
   //  Properties
@@ -63,34 +76,14 @@ export class Panel implements InteractiveComponent, LoadableComponent {
   @Prop({ reflect: true }) headingLevel: HeadingLevel;
 
   /**
-   * Specifies the maximum height of the component.
-   */
-  @Prop({ reflect: true }) heightScale?: Scale;
-
-  /**
-   * Specifies the width of the component.
-   */
-  @Prop({ reflect: true }) widthScale?: Scale;
-
-  /**
    * When `true`, a busy indicator is displayed.
    */
   @Prop({ reflect: true }) loading = false;
 
   /**
-   * Accessible name for the component's close button. The close button will only be shown when `closeable` is `true`.
-   */
-  @Prop() intlClose?: string;
-
-  /**
-   * Accessible name for the component's actions menu.
-   */
-  @Prop() intlOptions?: string;
-
-  /**
    * The component header text.
    */
-  @Prop() heading?: string;
+  @Prop() heading: string;
 
   /** A description for the component. */
   @Prop() description: string;
@@ -100,14 +93,37 @@ export class Panel implements InteractiveComponent, LoadableComponent {
    */
   @Prop({ reflect: true }) menuOpen = false;
 
+  /**
+   * Use this property to override individual strings used by the component.
+   */
+  @Prop({ mutable: true }) messageOverrides: Partial<PanelMessages>;
+
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @internal
+   */
+  @Prop({ mutable: true }) messages: PanelMessages;
+
+  @Watch("messageOverrides")
+  onMessagesChange(): void {
+    /* wired up by t9n util */
+  }
+
   //--------------------------------------------------------------------------
   //
   //  Lifecycle
   //
   //--------------------------------------------------------------------------
 
-  componentWillLoad(): void {
+  connectedCallback(): void {
+    connectLocalized(this);
+    connectMessages(this);
+  }
+
+  async componentWillLoad(): Promise<void> {
     setUpLoadableComponent(this);
+    await setUpMessages(this);
   }
 
   componentDidLoad(): void {
@@ -116,6 +132,12 @@ export class Panel implements InteractiveComponent, LoadableComponent {
 
   componentDidRender(): void {
     updateHostInteraction(this);
+  }
+
+  disconnectedCallback(): void {
+    disconnectLocalized(this);
+    disconnectMessages(this);
+    this.resizeObserver?.disconnect();
   }
 
   // --------------------------------------------------------------------------
@@ -150,14 +172,13 @@ export class Panel implements InteractiveComponent, LoadableComponent {
 
   @State() hasFab = false;
 
-  // --------------------------------------------------------------------------
-  //
-  //  Lifecycle
-  //
-  // --------------------------------------------------------------------------
+  @State() defaultMessages: PanelMessages;
 
-  disconnectedCallback(): void {
-    this.resizeObserver?.disconnect();
+  @State() effectiveLocale = "";
+
+  @Watch("effectiveLocale")
+  effectiveLocaleChange(): void {
+    updateMessages(this, this.effectiveLocale);
   }
 
   // --------------------------------------------------------------------------
@@ -287,37 +308,12 @@ export class Panel implements InteractiveComponent, LoadableComponent {
   // --------------------------------------------------------------------------
 
   /**
-   * Sets focus on the component.
-   *
-   * @param focusId
+   * Sets focus on the component's first focusable element.
    */
   @Method()
-  async setFocus(focusId?: "back-button" | "dismiss-button"): Promise<void> {
+  async setFocus(): Promise<void> {
     await componentLoaded(this);
-
-    const { backButtonEl, closeButtonEl, containerEl } = this;
-
-    if (focusId === "back-button") {
-      backButtonEl?.setFocus();
-      return;
-    }
-
-    if (focusId === "dismiss-button") {
-      closeButtonEl?.setFocus();
-      return;
-    }
-
-    if (backButtonEl) {
-      backButtonEl.setFocus();
-      return;
-    }
-
-    if (closeButtonEl) {
-      closeButtonEl.setFocus();
-      return;
-    }
-
-    containerEl?.focus();
+    focusFirstTabbable(this.containerEl);
   }
 
   /**
@@ -389,16 +385,17 @@ export class Panel implements InteractiveComponent, LoadableComponent {
   }
 
   renderHeaderActionsEnd(): VNode {
-    const { close, hasEndActions, intlClose, closable } = this;
-    const text = intlClose || TEXT.close;
+    const { close, hasEndActions, messages, closable } = this;
+    const text = messages.close;
 
     const closableNode = closable ? (
       <calcite-action
         aria-label={text}
         icon={ICONS.close}
         onClick={close}
-        ref={this.setCloseRef}
         text={text}
+        // eslint-disable-next-line react/jsx-sort-props
+        ref={this.setCloseRef}
       />
     ) : null;
 
@@ -421,21 +418,21 @@ export class Panel implements InteractiveComponent, LoadableComponent {
   }
 
   renderMenu(): VNode {
-    const { hasMenuItems, intlOptions, menuOpen } = this;
+    const { hasMenuItems, messages, menuOpen } = this;
 
     return (
       <calcite-action-menu
         flipPlacements={["top", "bottom"]}
         hidden={!hasMenuItems}
         key="menu"
-        label={intlOptions || TEXT.options}
+        label={messages.options}
         open={menuOpen}
         placement="bottom-end"
       >
         <calcite-action
           icon={ICONS.menu}
           slot={ACTION_MENU_SLOTS.trigger}
-          text={intlOptions || TEXT.options}
+          text={messages.options}
         />
         <slot
           name={SLOTS.headerMenuActions}
@@ -514,6 +511,7 @@ export class Panel implements InteractiveComponent, LoadableComponent {
           [CSS.contentHeight]: hasFab
         }}
         onScroll={this.panelScrollHandler}
+        // eslint-disable-next-line react/jsx-sort-props
         ref={this.setPanelScrollEl}
       >
         {containerNode}
@@ -539,8 +537,9 @@ export class Panel implements InteractiveComponent, LoadableComponent {
         class={CSS.container}
         hidden={closed}
         onKeyDown={panelKeyDownHandler}
-        ref={this.setContainerRef}
         tabIndex={closable ? 0 : -1}
+        // eslint-disable-next-line react/jsx-sort-props
+        ref={this.setContainerRef}
       >
         {this.renderHeaderNode()}
         {this.renderContent()}

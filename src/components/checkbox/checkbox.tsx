@@ -9,20 +9,24 @@ import {
   Prop,
   VNode
 } from "@stencil/core";
-import { guid } from "../../utils/guid";
-import { Scale } from "../interfaces";
-import { CheckableFormComponent, HiddenFormInputSlot } from "../../utils/form";
-import { LabelableComponent, connectLabel, disconnectLabel, getLabelText } from "../../utils/label";
-import { connectForm, disconnectForm } from "../../utils/form";
-import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import { toAriaBoolean } from "../../utils/dom";
-import { isActivationKey } from "../../utils/key";
 import {
-  setUpLoadableComponent,
-  setComponentLoaded,
+  CheckableFormComponent,
+  connectForm,
+  disconnectForm,
+  HiddenFormInputSlot
+} from "../../utils/form";
+import { guid } from "../../utils/guid";
+import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import { isActivationKey } from "../../utils/key";
+import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
+import {
+  componentLoaded,
   LoadableComponent,
-  componentLoaded
+  setComponentLoaded,
+  setUpLoadableComponent
 } from "../../utils/loadable";
+import { Scale } from "../interfaces";
 
 @Component({
   tag: "calcite-checkbox",
@@ -76,7 +80,7 @@ export class Checkbox
    *
    * @internal
    */
-  @Prop() label?: string;
+  @Prop() label: string;
 
   /** Specifies the name of the component on form submission. */
   @Prop({ reflect: true }) name;
@@ -133,6 +137,10 @@ export class Checkbox
   //  Private Methods
   //
   //--------------------------------------------------------------------------
+
+  syncHiddenFormInput(input: HTMLInputElement): void {
+    input.type = "checkbox";
+  }
 
   getPath = (): string =>
     this.indeterminate ? this.indeterminatePath : this.checked ? this.checkedPath : "";
@@ -242,9 +250,10 @@ export class Checkbox
           class="toggle"
           onBlur={this.onToggleBlur}
           onFocus={this.onToggleFocus}
-          ref={(toggleEl) => (this.toggleEl = toggleEl)}
           role="checkbox"
           tabIndex={this.disabled ? undefined : 0}
+          // eslint-disable-next-line react/jsx-sort-props
+          ref={(toggleEl) => (this.toggleEl = toggleEl)}
         >
           <svg aria-hidden="true" class="check-svg" viewBox="0 0 16 16">
             <path d={this.getPath()} />

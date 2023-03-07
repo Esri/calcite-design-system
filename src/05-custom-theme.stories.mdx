@@ -1,6 +1,6 @@
 import { Meta, Description, Canvas, Story } from "@storybook/addon-docs";
 import { color } from "@storybook/addon-knobs";
-import { placeholderImage } from "../.storybook/placeholderImage"
+import { placeholderImage } from "../.storybook/placeholderImage";
 import markdown from "./custom-theme.md";
 
 <Meta title="Theming/Custom Theme" />
@@ -96,27 +96,27 @@ export const Template = () =>
             </calcite-tree>
           </calcite-accordion-item>
         </calcite-accordion>
-        <calcite-notice color="red" scale="s" open>
+        <calcite-notice kind="danger" scale="s" open>
           <div slot="title">Something failed</div>
           <div slot="message">
             There was an error while performing the task.
           </div>
           <calcite-link slot="link" title="my action">Retry</calcite-link>
         </calcite-notice>
-        <calcite-notice icon color="green" scale="s" open closable>
+        <calcite-notice icon kind="success" scale="s" open closable>
           <div slot="title">Something worked</div>
           <div slot="message">
             That thing you wanted to do worked as expected
           </div>
         </calcite-notice>
         <calcite-label>
-          Radio Group
-          <calcite-radio-group>
-            <calcite-radio-group-item value="react" checked>React</calcite-radio-group-item>
-            <calcite-radio-group-item value="ember">Ember</calcite-radio-group-item>
-            <calcite-radio-group-item value="angular">Angular</calcite-radio-group-item>
-            <calcite-radio-group-item value="vue">Vue</calcite-radio-group-item>
-          </calcite-radio-group>
+          Segmented Control
+          <calcite-segmented-control>
+            <calcite-segmented-control-item value="react" checked>React</calcite-segmented-control-item>
+            <calcite-segmented-control-item value="ember">Ember</calcite-segmented-control-item>
+            <calcite-segmented-control-item value="angular">Angular</calcite-segmented-control-item>
+            <calcite-segmented-control-item value="vue">Vue</calcite-segmented-control-item>
+          </calcite-segmented-control>
         </calcite-label>
         <calcite-icon icon="3d-glasses"></calcite-icon>
       </div>
@@ -130,13 +130,13 @@ export const Template = () =>
               src="${placeholderImage({ width: 260, height: 160 })}"
             />
             <h3 slot="title">Selectable card</h3>
-            <calcite-link slot="footer-leading">Lead füt</calcite-link>
-            <calcite-link slot="footer-trailing">Trail füt</calcite-link>
+            <calcite-link slot="footer-start">Lead füt</calcite-link>
+            <calcite-link slot="footer-end">Trail füt</calcite-link>
           </calcite-card>
         </div>
         <div>
           <calcite-dropdown>
-            <calcite-button slot="dropdown-trigger">Primary</calcite-button>
+            <calcite-button slot="trigger">Primary</calcite-button>
             <calcite-dropdown-group group-title="View">
               <calcite-dropdown-item icon-start="list-bullet" selected>List</calcite-dropdown-item>
               <calcite-dropdown-item icon-start="grid">Grid</calcite-dropdown-item>
@@ -144,7 +144,7 @@ export const Template = () =>
             </calcite-dropdown-group>
           </calcite-dropdown>
           <calcite-button appearance="outline">Outline</calcite-button>
-          <calcite-button color="red">Red</calcite-button>
+          <calcite-button kind="danger">Red</calcite-button>
         </div>
         <div>
           <label>
@@ -153,20 +153,16 @@ export const Template = () =>
           </label>
         </div>
         <div>
-          <calcite-chip>Grey</calcite-chip>
-          <calcite-chip color="red">Red</calcite-chip>
-          <calcite-chip color="yellow">Yellow</calcite-chip>
-          <calcite-chip color="green">Green</calcite-chip>
-          <calcite-chip color="blue">Blue</calcite-chip>
+          <calcite-chip>Neutral</calcite-chip>
+          <calcite-chip kind="inverse">Inverse</calcite-chip>
+          <calcite-chip kind="brand">Brand</calcite-chip>
         </div>
         <div>
-          <calcite-chip appearance="transparent">Grey</calcite-chip>
-          <calcite-chip appearance="transparent" color="red">Red</calcite-chip>
-          <calcite-chip appearance="transparent" color="yellow">Yellow</calcite-chip>
-          <calcite-chip appearance="transparent" color="green">Green</calcite-chip>
-          <calcite-chip appearance="transparent" color="blue">Red</calcite-chip>
+          <calcite-chip appearance="transparent">Neutral</calcite-chip>
+          <calcite-chip appearance="transparent" kind="inverse">Inverse</calcite-chip>
+          <calcite-chip appearance="outline-fill" kind="brand">Brand</calcite-chip>
         </div>
-        <calcite-pagination total="1200" num="100" start="1"></calcite-pagination>
+        <calcite-pagination total-items="1200" page-size="100" start-item="1"></calcite-pagination>
         <calcite-slider
           min="0"
           max="100"
@@ -180,7 +176,7 @@ export const Template = () =>
       <div class="demo-column">
         <calcite-date-picker scale="m" value="2020-11-27"></calcite-date-picker>
         <calcite-tabs>
-          <calcite-tab-nav slot="tab-nav">
+          <calcite-tab-nav slot="title-group">
             <calcite-tab-title selected>Tab 1 Title</calcite-tab-title>
             <calcite-tab-title>Tab 2 Title</calcite-tab-title>
             <calcite-tab-title>Tab 3 Title</calcite-tab-title>
@@ -189,7 +185,7 @@ export const Template = () =>
         </calcite-tabs>
         <calcite-loader class="chromatic-ignore"></calcite-loader>
         <label>
-          <calcite-switch scale="m" checked color="red"> </calcite-switch>
+          <calcite-switch scale="m" checked> </calcite-switch>
           Red switch scale medium
         </label>
       </div>

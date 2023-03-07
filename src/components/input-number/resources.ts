@@ -18,7 +18,3 @@ export const CSS = {
 export const SLOTS = {
   action: "action"
 };
-
-export const TEXT = {
-  clear: "Clear value"
-};

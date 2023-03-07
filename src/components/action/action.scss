@@ -70,6 +70,7 @@
 
   .text-container--visible {
     @apply w-auto flex-auto opacity-100;
+    margin-inline-end: theme("spacing.4");
   }
 }
 
@@ -213,9 +214,6 @@
     &::after {
       inset-block-end: auto;
     }
-    .text-container--visible {
-      margin-inline-end: theme("spacing.4");
-    }
   }
   .button:hover::after,
   .button:focus::after {
@@ -236,4 +234,8 @@
 
 :host([indicator][active]) .button::after {
   border-color: theme("colors.background.foreground.3");
+}
+
+.indicator-text {
+  @apply sr-only;
 }

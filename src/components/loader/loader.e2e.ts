@@ -1,9 +1,10 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { renders, hidden } from "../../tests/commonTests";
+import { hidden, renders } from "../../tests/commonTests";
 
 describe("calcite-loader", () => {
   it("renders", async () => {
     await renders(`<calcite-loader></calcite-loader>`, { display: "flex", visible: true });
+    await renders(`<calcite-loader inline></calcite-loader>`, { display: "flex", visible: true });
   });
 
   it("honors hidden attribute", async () => hidden("calcite-loader"));

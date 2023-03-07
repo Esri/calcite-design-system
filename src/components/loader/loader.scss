@@ -5,7 +5,8 @@
  *
  * @prop --calcite-loader-font-size: Specifies the font size of the loading percentage when type is `"determinate"`.
  * @prop --calcite-loader-size: The width and height of a non-inline loader.
- * @prop --calcite-loader-size-inline: The width and height of an inline loader.
+ * @prop --calcite-loader-size-inline: The width and height of an inline loader
+ * @prop --calcite-loader-padding : Specifies the padding of the loader.
  */
 
 $stroke-width: 3;
@@ -120,10 +121,6 @@ $loader-circumference: ($loader-scale - (2 * $stroke-width)) * 3.14159;
   inline-size: var(--calcite-loader-size-inline);
   margin-inline-end: calc(var(--calcite-loader-size-inline) * 0.5);
   vertical-align: calc(var(--calcite-loader-size-inline) * -1 * 0.2);
-}
-
-:host([inline]) {
-  @apply inline-block;
 }
 
 :host([inline]) .loader__svgs {

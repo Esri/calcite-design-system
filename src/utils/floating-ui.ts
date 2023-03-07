@@ -13,10 +13,10 @@ import {
   Strategy,
   VirtualElement
 } from "@floating-ui/dom";
-import { closestElementCrossShadowBoundary, getElementDir } from "./dom";
-import { debounce } from "lodash-es";
 import { Build } from "@stencil/core";
+import { debounce } from "lodash-es";
 import { config } from "./config";
+import { closestElementCrossShadowBoundary, getElementDir } from "./dom";
 
 const floatingUIBrowserCheck = patchFloatingUiForNonChromiumBrowsers();
 
@@ -27,29 +27,44 @@ async function patchFloatingUiForNonChromiumBrowsers(): Promise<void> {
     platform: string;
   }
 
+  function getUAData(): NavigatorUAData | undefined {
+    return (navigator as any).userAgentData;
+  }
+
   function getUAString(): string {
-    const uaData = (navigator as any).userAgentData as NavigatorUAData | undefined;
+    const uaData = getUAData();
+
+    return uaData?.brands
+      ? uaData.brands.map(({ brand, version }) => `${brand}/${version}`).join(" ")
+      : navigator.userAgent;
+  }
+
+  function isChrome109OrAbove(): boolean {
+    const uaData = getUAData();
 
     if (uaData?.brands) {
-      return uaData.brands.map((item) => `${item.brand}/${item.version}`).join(" ");
+      return !!uaData.brands.find(
+        ({ brand, version }) => (brand === "Google Chrome" || brand === "Chromium") && Number(version) >= 109
+      );
     }
 
-    return navigator.userAgent;
+    return !!navigator.userAgent.split(" ").find((ua) => {
+      const [browser, version] = ua.split("/");
+
+      return browser === "Chrome" && parseInt(version) >= 109;
+    });
   }
 
   if (
     Build.isBrowser &&
     config.floatingUINonChromiumPositioningFix &&
     // ⚠️ browser-sniffing is not a best practice and should be avoided ⚠️
-    /firefox|safari/i.test(getUAString())
+    (/firefox|safari/i.test(getUAString()) || isChrome109OrAbove())
   ) {
-    const { getClippingRect, getElementRects, getOffsetParent } = await import(
-      "./floating-ui/nonChromiumPlatformUtils"
-    );
+    const { offsetParent } = await import("./floating-ui/utils");
 
-    platform.getClippingRect = getClippingRect;
-    platform.getOffsetParent = getOffsetParent;
-    platform.getElementRects = getElementRects as any;
+    const originalGetOffsetParent = platform.getOffsetParent;
+    platform.getOffsetParent = (element: Element) => originalGetOffsetParent(element, offsetParent);
   }
 }
 
@@ -69,7 +84,7 @@ type UIType = "menu" | "tooltip" | "popover";
 export type OverlayPositioning = Strategy;
 
 /**
- * Placements that change based on element direction.
+ * Variation Placements change based on element direction.
  *
  * These variation placements will automatically flip "left"/"right" depending on LTR/RTL direction.
  *
@@ -77,17 +92,15 @@ export type OverlayPositioning = Strategy;
  *
  * see: https://github.com/floating-ui/floating-ui/issues/1563 and https://github.com/floating-ui/floating-ui/discussions/1549
  */
-type VariationPlacement = "leading-start" | "leading" | "leading-end" | "trailing-end" | "trailing" | "trailing-start";
 
-type AutoPlacement = "auto" | "auto-start" | "auto-end";
-
-export type LogicalPlacement = AutoPlacement | Placement | VariationPlacement;
 export type EffectivePlacement = Placement;
 
-export const placements: LogicalPlacement[] = [
+export const placements = [
+  // auto placements
   "auto",
   "auto-start",
   "auto-end",
+  // placements
   "top",
   "top-start",
   "top-end",
@@ -100,13 +113,16 @@ export const placements: LogicalPlacement[] = [
   "left",
   "left-start",
   "left-end",
+  // variation placements
   "leading-start",
   "leading",
   "leading-end",
   "trailing-end",
   "trailing",
   "trailing-start"
-];
+] as const;
+
+export type LogicalPlacement = typeof placements[number];
 
 export const effectivePlacements: EffectivePlacement[] = [
   "top",
@@ -190,7 +206,7 @@ export const FloatingCSS = {
 
 function getMiddleware({
   placement,
-  disableFlip,
+  flipDisabled,
   flipPlacements,
   offsetDistance,
   offsetSkidding,
@@ -198,7 +214,7 @@ function getMiddleware({
   type
 }: {
   placement: LogicalPlacement;
-  disableFlip?: boolean;
+  flipDisabled?: boolean;
   flipPlacements?: EffectivePlacement[];
   offsetDistance?: number;
   offsetSkidding?: number;
@@ -229,7 +245,7 @@ function getMiddleware({
       middleware.push(
         autoPlacement({ alignment: placement === "auto-start" ? "start" : placement === "auto-end" ? "end" : null })
       );
-    } else if (!disableFlip) {
+    } else if (!flipDisabled) {
       middleware.push(flip(flipPlacements ? { fallbackPlacements: flipPlacements } : {}));
     }
 
@@ -286,7 +302,7 @@ export function getEffectivePlacement(floatingEl: HTMLElement, placement: Logica
  * @param options.floatingEl
  * @param options.overlayPositioning
  * @param options.placement
- * @param options.disableFlip
+ * @param options.flipDisabled
  * @param options.flipPlacements
  * @param options.offsetDistance
  * @param options.offsetSkidding
@@ -321,7 +337,7 @@ const debouncedReposition = debounce(positionFloatingUI, repositionDebounceTimeo
  * @param root0.floatingEl
  * @param root0.overlayPositioning
  * @param root0.placement
- * @param root0.disableFlip
+ * @param root0.flipDisabled
  * @param root0.flipPlacements
  * @param root0.offsetDistance
  * @param root0.offsetSkidding
@@ -334,7 +350,7 @@ export async function positionFloatingUI({
   floatingEl,
   overlayPositioning = "absolute",
   placement,
-  disableFlip,
+  flipDisabled,
   flipPlacements,
   offsetDistance,
   offsetSkidding,
@@ -346,9 +362,8 @@ export async function positionFloatingUI({
   floatingEl: HTMLElement;
   overlayPositioning: Strategy;
   placement: LogicalPlacement;
-  disableFlip?: boolean;
+  flipDisabled?: boolean;
   flipPlacements?: EffectivePlacement[];
-
   offsetDistance?: number;
   offsetSkidding?: number;
   arrowEl?: HTMLElement;
@@ -375,7 +390,7 @@ export async function positionFloatingUI({
         : getEffectivePlacement(floatingEl, placement),
     middleware: getMiddleware({
       placement,
-      disableFlip,
+      flipDisabled,
       flipPlacements,
       offsetDistance,
       offsetSkidding,

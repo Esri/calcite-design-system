@@ -14,11 +14,7 @@ import {
 } from "@stencil/core";
 import { guid } from "../../utils/guid";
 
-import { ColorStop, DataSeries } from "../graph/interfaces";
 import { intersects, isPrimaryPointerButton } from "../../utils/dom";
-import { clamp, decimalPlaces } from "../../utils/math";
-import { Scale } from "../interfaces";
-import { LabelableComponent, connectLabel, disconnectLabel } from "../../utils/label";
 import {
   afterConnectDefaultValueSet,
   connectForm,
@@ -28,20 +24,24 @@ import {
 } from "../../utils/form";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import { isActivationKey } from "../../utils/key";
+import { connectLabel, disconnectLabel, LabelableComponent, getLabelText } from "../../utils/label";
+import {
+  componentLoaded,
+  LoadableComponent,
+  setComponentLoaded,
+  setUpLoadableComponent
+} from "../../utils/loadable";
 import {
   connectLocalized,
   disconnectLocalized,
   LocalizedComponent,
-  numberStringFormatter,
-  NumberingSystem
+  NumberingSystem,
+  numberStringFormatter
 } from "../../utils/locale";
+import { clamp, decimalPlaces } from "../../utils/math";
+import { ColorStop, DataSeries } from "../graph/interfaces";
+import { Scale } from "../interfaces";
 import { CSS } from "./resources";
-import {
-  setUpLoadableComponent,
-  setComponentLoaded,
-  LoadableComponent,
-  componentLoaded
-} from "../../utils/loadable";
 
 type ActiveSliderProperty = "minValue" | "maxValue" | "value" | "minMaxValue";
 type SetValueProperty = Exclude<ActiveSliderProperty, "minMaxValue">;
@@ -53,7 +53,9 @@ function isRange(value: number | number[]): value is number[] {
 @Component({
   tag: "calcite-slider",
   styleUrl: "slider.scss",
-  shadow: true
+  shadow: {
+    delegatesFocus: true
+  }
 })
 export class Slider
   implements
@@ -92,7 +94,7 @@ export class Slider
    *
    * @see [DataSeries](https://github.com/Esri/calcite-components/blob/master/src/components/graph/interfaces.ts#L5)
    */
-  @Prop() histogram?: DataSeries;
+  @Prop() histogram: DataSeries;
 
   @Watch("histogram")
   histogramWatcher(newHistogram: DataSeries): void {
@@ -114,10 +116,10 @@ export class Slider
   @Prop({ reflect: true }) max = 100;
 
   /** For multiple selections, the accessible name for the second handle, such as `"Temperature, upper bound"`. */
-  @Prop() maxLabel?: string;
+  @Prop() maxLabel: string;
 
   /** For multiple selections, the component's upper value. */
-  @Prop({ mutable: true }) maxValue?: number;
+  @Prop({ mutable: true }) maxValue: number;
 
   /** The component's minimum selectable value. */
   @Prop({ reflect: true }) min = 0;
@@ -126,7 +128,7 @@ export class Slider
   @Prop() minLabel: string;
 
   /** For multiple selections, the component's lower value. */
-  @Prop({ mutable: true }) minValue?: number;
+  @Prop({ mutable: true }) minValue: number;
 
   /**
    * When `true`, the slider will display values from high to low.
@@ -135,16 +137,20 @@ export class Slider
    */
   @Prop({ reflect: true }) mirrored = false;
 
-  /** Specifies the name of the component on form submission. */
+  /**
+   * Specifies the name of the component.
+   *
+   * Required to pass the component's `value` on form submission.
+   */
   @Prop({ reflect: true }) name: string;
 
   /**
    * Specifies the Unicode numeral system used by the component for localization.
    */
-  @Prop() numberingSystem?: NumberingSystem;
+  @Prop() numberingSystem: NumberingSystem;
 
   /** Specifies the interval to move with the page up, or page down keys. */
-  @Prop({ reflect: true }) pageStep?: number;
+  @Prop({ reflect: true }) pageStep: number;
 
   /** When `true`, sets a finer point for handles. */
   @Prop({ reflect: true }) precise = false;
@@ -158,10 +164,10 @@ export class Slider
   @Prop({ reflect: true }) snap = false;
 
   /** Specifies the interval to move with the up, or down keys. */
-  @Prop({ reflect: true }) step?: number = 1;
+  @Prop({ reflect: true }) step = 1;
 
   /** Displays tick marks on the number line at a specified interval. */
-  @Prop({ reflect: true }) ticks?: number;
+  @Prop({ reflect: true }) ticks: number;
 
   /** The component's value. */
   @Prop({ reflect: true, mutable: true }) value: null | number | number[] = 0;
@@ -269,10 +275,11 @@ export class Slider
         onBlur={() => (this.activeProp = null)}
         onFocus={() => (this.activeProp = maxProp)}
         onPointerDown={(event) => this.pointerDownDragStart(event, maxProp)}
-        ref={(el) => (this.maxHandle = el as HTMLDivElement)}
         role="slider"
         style={{ right: rightThumbOffset }}
         tabIndex={0}
+        // eslint-disable-next-line react/jsx-sort-props
+        ref={(el) => (this.maxHandle = el as HTMLDivElement)}
       >
         <div class="handle" />
       </div>
@@ -294,10 +301,11 @@ export class Slider
         onBlur={() => (this.activeProp = null)}
         onFocus={() => (this.activeProp = maxProp)}
         onPointerDown={(event) => this.pointerDownDragStart(event, maxProp)}
-        ref={(el) => (this.maxHandle = el as HTMLDivElement)}
         role="slider"
         style={{ right: rightThumbOffset }}
         tabIndex={0}
+        // eslint-disable-next-line react/jsx-sort-props
+        ref={(el) => (this.maxHandle = el as HTMLDivElement)}
       >
         <span aria-hidden="true" class={handleLabelValueClasses}>
           {displayedValue}
@@ -328,10 +336,11 @@ export class Slider
         onBlur={() => (this.activeProp = null)}
         onFocus={() => (this.activeProp = maxProp)}
         onPointerDown={(event) => this.pointerDownDragStart(event, maxProp)}
-        ref={(el) => (this.maxHandle = el as HTMLDivElement)}
         role="slider"
         style={{ right: rightThumbOffset }}
         tabIndex={0}
+        // eslint-disable-next-line react/jsx-sort-props
+        ref={(el) => (this.maxHandle = el as HTMLDivElement)}
       >
         <div class="handle" />
         <span aria-hidden="true" class={handleLabelValueClasses}>
@@ -363,10 +372,11 @@ export class Slider
         onBlur={() => (this.activeProp = null)}
         onFocus={() => (this.activeProp = maxProp)}
         onPointerDown={(event) => this.pointerDownDragStart(event, maxProp)}
-        ref={(el) => (this.maxHandle = el as HTMLDivElement)}
         role="slider"
         style={{ right: rightThumbOffset }}
         tabIndex={0}
+        // eslint-disable-next-line react/jsx-sort-props
+        ref={(el) => (this.maxHandle = el as HTMLDivElement)}
       >
         <div class="handle" />
         <div class="handle-extension" />
@@ -390,10 +400,11 @@ export class Slider
         onBlur={() => (this.activeProp = null)}
         onFocus={() => (this.activeProp = maxProp)}
         onPointerDown={(event) => this.pointerDownDragStart(event, maxProp)}
-        ref={(el) => (this.maxHandle = el as HTMLDivElement)}
         role="slider"
         style={{ right: rightThumbOffset }}
         tabIndex={0}
+        // eslint-disable-next-line react/jsx-sort-props
+        ref={(el) => (this.maxHandle = el as HTMLDivElement)}
       >
         <div class="handle-extension" />
         <div class="handle" />
@@ -417,10 +428,11 @@ export class Slider
         onBlur={() => (this.activeProp = null)}
         onFocus={() => (this.activeProp = maxProp)}
         onPointerDown={(event) => this.pointerDownDragStart(event, maxProp)}
-        ref={(el) => (this.maxHandle = el as HTMLDivElement)}
         role="slider"
         style={{ right: rightThumbOffset }}
         tabIndex={0}
+        // eslint-disable-next-line react/jsx-sort-props
+        ref={(el) => (this.maxHandle = el as HTMLDivElement)}
       >
         <span aria-hidden="true" class={handleLabelValueClasses}>
           {displayedValue}
@@ -453,10 +465,11 @@ export class Slider
         onBlur={() => (this.activeProp = null)}
         onFocus={() => (this.activeProp = maxProp)}
         onPointerDown={(event) => this.pointerDownDragStart(event, maxProp)}
-        ref={(el) => (this.maxHandle = el as HTMLDivElement)}
         role="slider"
         style={{ right: rightThumbOffset }}
         tabIndex={0}
+        // eslint-disable-next-line react/jsx-sort-props
+        ref={(el) => (this.maxHandle = el as HTMLDivElement)}
       >
         <div class="handle-extension" />
         <div class="handle" />
@@ -488,10 +501,11 @@ export class Slider
         onBlur={() => (this.activeProp = null)}
         onFocus={() => (this.activeProp = "minValue")}
         onPointerDown={(event) => this.pointerDownDragStart(event, "minValue")}
-        ref={(el) => (this.minHandle = el as HTMLDivElement)}
         role="slider"
         style={{ left: leftThumbOffset }}
         tabIndex={0}
+        // eslint-disable-next-line react/jsx-sort-props
+        ref={(el) => (this.minHandle = el as HTMLDivElement)}
       >
         <div class="handle" />
       </div>
@@ -513,10 +527,11 @@ export class Slider
         onBlur={() => (this.activeProp = null)}
         onFocus={() => (this.activeProp = "minValue")}
         onPointerDown={(event) => this.pointerDownDragStart(event, "minValue")}
-        ref={(el) => (this.minHandle = el as HTMLDivElement)}
         role="slider"
         style={{ left: leftThumbOffset }}
         tabIndex={0}
+        // eslint-disable-next-line react/jsx-sort-props
+        ref={(el) => (this.minHandle = el as HTMLDivElement)}
       >
         <span aria-hidden="true" class={handleLabelMinValueClasses}>
           {displayedMinValue}
@@ -547,10 +562,11 @@ export class Slider
         onBlur={() => (this.activeProp = null)}
         onFocus={() => (this.activeProp = "minValue")}
         onPointerDown={(event) => this.pointerDownDragStart(event, "minValue")}
-        ref={(el) => (this.minHandle = el as HTMLDivElement)}
         role="slider"
         style={{ left: leftThumbOffset }}
         tabIndex={0}
+        // eslint-disable-next-line react/jsx-sort-props
+        ref={(el) => (this.minHandle = el as HTMLDivElement)}
       >
         <div class="handle" />
         <span aria-hidden="true" class={handleLabelMinValueClasses}>
@@ -582,10 +598,11 @@ export class Slider
         onBlur={() => (this.activeProp = null)}
         onFocus={() => (this.activeProp = "minValue")}
         onPointerDown={(event) => this.pointerDownDragStart(event, "minValue")}
-        ref={(el) => (this.minHandle = el as HTMLDivElement)}
         role="slider"
         style={{ left: leftThumbOffset }}
         tabIndex={0}
+        // eslint-disable-next-line react/jsx-sort-props
+        ref={(el) => (this.minHandle = el as HTMLDivElement)}
       >
         <div class="handle-extension" />
         <div class="handle" />
@@ -609,10 +626,11 @@ export class Slider
         onBlur={() => (this.activeProp = null)}
         onFocus={() => (this.activeProp = "minValue")}
         onPointerDown={(event) => this.pointerDownDragStart(event, "minValue")}
-        ref={(el) => (this.minHandle = el as HTMLDivElement)}
         role="slider"
         style={{ left: leftThumbOffset }}
         tabIndex={0}
+        // eslint-disable-next-line react/jsx-sort-props
+        ref={(el) => (this.minHandle = el as HTMLDivElement)}
       >
         <div class="handle-extension" />
         <div class="handle" />
@@ -631,6 +649,7 @@ export class Slider
     return (
       <Host id={id} onTouchStart={this.handleTouchStart}>
         <div
+          aria-label={getLabelText(this)}
           class={{
             ["container"]: true,
             ["container--range"]: valueIsRange,
@@ -638,7 +657,11 @@ export class Slider
           }}
         >
           {this.renderGraph()}
-          <div class="track" ref={this.storeTrackRef}>
+          <div
+            class="track"
+            // eslint-disable-next-line react/jsx-sort-props
+            ref={this.storeTrackRef}
+          >
             <div
               class="track__range"
               onPointerDown={(event) => this.pointerDownDragStart(event, "minMaxValue")}
@@ -900,17 +923,6 @@ export class Slider
    */
   @Event({ cancelable: false }) calciteSliderChange: EventEmitter<void>;
 
-  /**
-   * Fires on all updates to the component.
-   *
-   * **Note:** Will be fired frequently during drag. If you are performing any
-   * expensive operations consider using a debounce or throttle to avoid
-   * locking up the main thread.
-   *
-   * @deprecated use `calciteSliderInput` instead.
-   */
-  @Event({ cancelable: false }) calciteSliderUpdate: EventEmitter<void>;
-
   //--------------------------------------------------------------------------
   //
   //  Public Methods
@@ -1079,7 +1091,6 @@ export class Slider
 
   private emitInput(): void {
     this.calciteSliderInput.emit();
-    this.calciteSliderUpdate.emit();
   }
 
   private emitChange(): void {

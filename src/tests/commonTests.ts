@@ -184,7 +184,11 @@ export async function hidden(componentTagOrHTML: TagOrHTML): Promise<void> {
 }
 
 interface FocusableOptions {
-  /** use this to pass an ID to setFocus() */
+  /**
+   * use this to pass an ID to setFocus()
+   *
+   * @deprecated components should no longer use a focusId parameter for setFocus()
+   */
   focusId?: string;
 
   /**
@@ -489,6 +493,11 @@ interface FormAssociatedOptions {
   expectedSubmitValue?: any;
 
   /**
+   * Specifies the input type that will be used to capture the value.
+   */
+  inputType?: HTMLInputElement["type"];
+
+  /**
    * Specifies if the component supports submitting the form on Enter key press
    */
   submitsOnEnter?: boolean;
@@ -528,12 +537,36 @@ export async function formAssociated(componentTagOrHtml: TagOrHTML, options: For
     typeof options.testValue === "boolean" && (await page.$eval(componentTag, (component) => "checked" in component));
   const resettablePropName = checkable ? "checked" : "value";
   const initialValue = await component.getProperty(resettablePropName);
+  const name = await component.getProperty("name");
 
+  await assertValueSubmissionType();
   await assertValueResetOnFormReset();
   await assertValueSubmittedOnFormSubmit();
 
   if (options.submitsOnEnter) {
     await assertFormSubmitOnEnter();
+  }
+
+  async function assertValueSubmissionType(): Promise<void> {
+    const inputType = options.inputType ?? "text";
+
+    const hiddenFormInputType = await page.evaluate(
+      async (inputName: string, hiddenFormInputSlotName: string): Promise<string> => {
+        const hiddenFormInput = document.querySelector<HTMLInputElement>(
+          `[name="${inputName}"] input[slot=${hiddenFormInputSlotName}]`
+        );
+
+        return hiddenFormInput.type;
+      },
+      name,
+      hiddenFormInputSlotName
+    );
+
+    if (checkable) {
+      expect(hiddenFormInputType).toMatch(/radio|checkbox/);
+    } else {
+      expect(hiddenFormInputType).toMatch(inputType);
+    }
   }
 
   async function assertValueResetOnFormReset(): Promise<void> {
@@ -547,7 +580,6 @@ export async function formAssociated(componentTagOrHtml: TagOrHTML, options: For
   }
 
   async function assertValueSubmittedOnFormSubmit(): Promise<void> {
-    const inputName = await component.getProperty("name");
     const stringifiedTestValue = stringifyTestValue(options.testValue);
 
     if (checkable) {
@@ -575,7 +607,13 @@ export async function formAssociated(componentTagOrHtml: TagOrHTML, options: For
       component.setProperty("required", true);
       component.setProperty("value", null);
       await page.waitForChanges();
-      expect(await submitAndGetValue()).toBeUndefined();
+      expect(await submitAndGetValue()).toBe(
+        options.inputType === "color"
+          ? // `input[type="color"]` will set its value to #000000 when set to an invalid value
+            // see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/color#value
+            "#000000"
+          : undefined
+      );
 
       component.setProperty("required", false);
       component.setProperty("value", options.testValue);
@@ -647,7 +685,7 @@ export async function formAssociated(componentTagOrHtml: TagOrHTML, options: For
 
           return submitPromise;
         },
-        inputName,
+        name,
         hiddenFormInputSlotName
       );
     }
@@ -919,7 +957,7 @@ export async function t9n(componentSetup: TagOrHTML | TagAndPage): Promise<void>
   const component = await page.find(tag);
 
   await assertDefaultMessages();
-  await assertIntlPropAsOverrides();
+
   await assertOverrides();
   await assertLangSwitch();
 
@@ -929,33 +967,6 @@ export async function t9n(componentSetup: TagOrHTML | TagAndPage): Promise<void>
 
   async function assertDefaultMessages(): Promise<void> {
     expect(await getCurrentMessages()).toBeDefined();
-  }
-
-  async function assertIntlPropAsOverrides(): Promise<void> {
-    const intlProps = await page.$eval(tag, (component: HTMLElement) =>
-      Object.keys(component.constructor.prototype).filter((prop) => prop.startsWith("intl"))
-    );
-
-    if (intlProps.length > 0) {
-      const props: Partial<MessageBundle> = {};
-
-      for (const prop of intlProps) {
-        const index = intlProps.indexOf(prop);
-        const mappedPropName = prop.replace("intl", "");
-        props[mappedPropName[0].toLowerCase() + mappedPropName.slice(1)] = `${index}`;
-
-        component.setProperty(prop, `${index}`);
-        await page.waitForChanges();
-      }
-
-      expect(props).toEqual(await getCurrentMessages());
-
-      // reset test changes
-      for (const prop of intlProps) {
-        component.setProperty(prop, undefined);
-        await page.waitForChanges();
-      }
-    }
   }
 
   async function assertOverrides(): Promise<void> {
@@ -977,25 +988,35 @@ export async function t9n(componentSetup: TagOrHTML | TagAndPage): Promise<void>
   }
 
   async function assertLangSwitch(): Promise<void> {
-    await page.evaluate(() => {
-      const orig = window.fetch;
-      window.fetch = async function (input, init) {
-        if (typeof input === "string" && input.endsWith("messages_es.json")) {
-          const dummyMessages = {};
-          window.fetch = orig;
-          return new Response(new Blob([JSON.stringify(dummyMessages, null, 2)], { type: "application/json" }));
-        }
+    const enMessages = await getCurrentMessages();
+    const fakeBundleIdentifier = "__fake__";
+    await page.evaluate(
+      (enMessages, fakeBundleIdentifier) => {
+        const orig = window.fetch;
+        window.fetch = async function (input, init) {
+          if (typeof input === "string" && input.endsWith("messages_es.json")) {
+            const fakeEsMessages = {
+              ...enMessages, // reuse real message bundle in case component rendering depends on strings
 
-        return orig.call(input, init);
-      };
-    });
+              [fakeBundleIdentifier]: true // we inject a fake identifier for assertion-purposes
+            };
+            window.fetch = orig;
+            return new Response(new Blob([JSON.stringify(fakeEsMessages, null, 2)], { type: "application/json" }));
+          }
+
+          return orig.call(input, init);
+        };
+      },
+      enMessages,
+      fakeBundleIdentifier
+    );
 
     component.setAttribute("lang", "es");
     await page.waitForChanges();
     await page.waitForTimeout(3000);
     const esMessages = await getCurrentMessages();
 
-    expect(esMessages).toEqual({});
+    expect(esMessages).toHaveProperty(fakeBundleIdentifier);
 
     // reset test changes
     component.removeAttribute("lang");

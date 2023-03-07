@@ -355,26 +355,44 @@
       <div class="parent-flex">
         <div class="child-flex font right-aligned-text">Status (can edit)</div>
         <div class="child-flex">
-          <calcite-label scale="s" status="invalid">
+          <calcite-label scale="s">
             Invalid input
-            <calcite-input-number placeholder="Placeholder" scale="s" value="123" step="1"></calcite-input-number>
-            <calcite-input-message scale="s" active icon> Error message </calcite-input-message>
+            <calcite-input-number
+              status="invalid"
+              placeholder="Placeholder"
+              scale="s"
+              value="123"
+              step="1"
+            ></calcite-input-number>
+            <calcite-input-message status="invalid" scale="s" icon> Error message </calcite-input-message>
           </calcite-label>
         </div>
 
         <div class="child-flex">
-          <calcite-label status="invalid">
+          <calcite-label>
             Invalid input
-            <calcite-input-number placeholder="Placeholder" scale="m" value="123" step="1"></calcite-input-number>
-            <calcite-input-message scale="m" active icon> Error message </calcite-input-message>
+            <calcite-input-number
+              status="invalid"
+              placeholder="Placeholder"
+              scale="m"
+              value="123"
+              step="1"
+            ></calcite-input-number>
+            <calcite-input-message status="invalid" scale="m" icon> Error message </calcite-input-message>
           </calcite-label>
         </div>
 
         <div class="child-flex">
-          <calcite-label scale="l" status="invalid">
+          <calcite-label scale="l">
             Invalid input
-            <calcite-input-number placeholder="Placeholder" scale="l" value="123" step="1"></calcite-input-number>
-            <calcite-input-message scale="l" active icon> Error message </calcite-input-message>
+            <calcite-input-number
+              status="invalid"
+              placeholder="Placeholder"
+              scale="l"
+              value="123"
+              step="1"
+            ></calcite-input-number>
+            <calcite-input-message status="invalid" scale="l" icon> Error message </calcite-input-message>
           </calcite-label>
         </div>
       </div>
@@ -512,7 +530,7 @@
           let input = document.createElement("calcite-input-number");
           (locale === "ar" || locale === "he") && input.setAttribute("dir", "rtl");
           input.setAttribute("id", locale);
-          input.setAttribute("locale", locale);
+          input.setAttribute("lang", locale);
           input.setAttribute("name", locale);
           input.setAttribute("scale", "s");
           input.setAttribute("value", "1234.56");
@@ -529,7 +547,7 @@
           (locale === "ar" || locale === "he") && input.setAttribute("dir", "rtl");
           input.setAttribute("group-separator", true);
           input.setAttribute("id", `${locale}-group-separator`);
-          input.setAttribute("locale", locale);
+          input.setAttribute("lang", locale);
           input.setAttribute("name", `${locale}-group-separator`);
           input.setAttribute("scale", "s");
           input.setAttribute("value", "1234.56");

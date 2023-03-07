@@ -36,16 +36,22 @@
 
 ## Properties
 
-| Property      | Attribute      | Description                                    | Type      | Default        |
-| ------------- | -------------- | ---------------------------------------------- | --------- | -------------- |
-| `intlLoading` | `intl-loading` | Accessible name when the component is loading. | `string`  | `TEXT.loading` |
-| `loading`     | `loading`      | When `true`, a busy indicator is displayed.    | `boolean` | `false`        |
+| Property           | Attribute           | Description                                                             | Type            | Default     |
+| ------------------ | ------------------- | ----------------------------------------------------------------------- | --------------- | ----------- |
+| `loading`          | `loading`           | When `true`, a busy indicator is displayed.                             | `boolean`       | `false`     |
+| `messageOverrides` | `message-overrides` | Use this property to override individual strings used by the component. | `ScrimMessages` | `undefined` |
 
 ## Slots
 
 | Slot | Description                                                      |
 | ---- | ---------------------------------------------------------------- |
 |      | A slot for adding custom content, primarily loading information. |
+
+## CSS Custom Properties
+
+| Name                         | Description                                  |
+| ---------------------------- | -------------------------------------------- |
+| `--calcite-scrim-background` | Specifies the background color of the scrim. |
 
 ## Dependencies
 

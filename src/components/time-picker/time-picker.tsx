@@ -11,10 +11,23 @@ import {
   VNode,
   Watch
 } from "@stencil/core";
-import { Scale } from "../interfaces";
 import { isActivationKey, numberKeys } from "../../utils/key";
 import { isValidNumber } from "../../utils/number";
+import { Scale } from "../interfaces";
 
+import {
+  connectLocalized,
+  disconnectLocalized,
+  LocalizedComponent,
+  NumberingSystem
+} from "../../utils/locale";
+import {
+  connectMessages,
+  disconnectMessages,
+  setUpMessages,
+  T9nComponent,
+  updateMessages
+} from "../../utils/t9n";
 import {
   formatTimePart,
   getLocaleHourCycle,
@@ -30,20 +43,14 @@ import {
   parseTimeString,
   TimePart
 } from "../../utils/time";
-import { CSS, TEXT } from "./resources";
-import {
-  connectLocalized,
-  disconnectLocalized,
-  LocalizedComponent,
-  NumberingSystem,
-  updateEffectiveLocale
-} from "../../utils/locale";
+import { TimePickerMessages } from "./assets/time-picker/t9n";
+import { CSS } from "./resources";
 
 import {
-  setUpLoadableComponent,
-  setComponentLoaded,
+  componentLoaded,
   LoadableComponent,
-  componentLoaded
+  setComponentLoaded,
+  setUpLoadableComponent
 } from "../../utils/loadable";
 
 function capitalize(str: string): string {
@@ -53,9 +60,14 @@ function capitalize(str: string): string {
 @Component({
   tag: "calcite-time-picker",
   styleUrl: "time-picker.scss",
-  shadow: true
+  shadow: {
+    delegatesFocus: true
+  },
+  assetsDirs: ["assets"]
 })
-export class TimePicker implements LocalizedComponent, LoadableComponent {
+export class TimePicker
+  implements LocalizedComponent, LoadableComponent, LocalizedComponent, T9nComponent
+{
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -70,104 +82,6 @@ export class TimePicker implements LocalizedComponent, LoadableComponent {
   //
   //--------------------------------------------------------------------------
 
-  /**
-   * Accessible name for the component's hour input.
-   *
-   * @default "Hour"
-   */
-  @Prop() intlHour = TEXT.hour;
-
-  /**
-   * Accessible name for the component's hour down button.
-   *
-   * @default "Decrease hour"
-   */
-  @Prop() intlHourDown = TEXT.hourDown;
-
-  /**
-   * Accessible name for the component's hour up button.
-   *
-   * @default "Increase hour"
-   */
-  @Prop() intlHourUp = TEXT.hourUp;
-
-  /**
-   * Accessible name for the component's meridiem (AM/PM) input.
-   *
-   * @default "AM/PM"
-   */
-  @Prop() intlMeridiem = TEXT.meridiem;
-
-  /**
-   * Accessible name for the component's meridiem (AM/PM) down button.
-   *
-   * @default "Decrease AM/PM"
-   */
-  @Prop() intlMeridiemDown = TEXT.meridiemDown;
-
-  /**
-   * Accessible name for the component's meridiem (AM/PM) up button.
-   *
-   * @default "Increase AM/PM"
-   */
-  @Prop() intlMeridiemUp = TEXT.meridiemUp;
-
-  /**
-   * Accessible name for the component's minute input.
-   *
-   * @default "Minute"
-   */
-  @Prop() intlMinute = TEXT.minute;
-
-  /**
-   * Accessible name for the component's minute down button.
-   *
-   * @default "Decrease minute"
-   */
-  @Prop() intlMinuteDown = TEXT.minuteDown;
-
-  /**
-   * Accessible name for the component's minute up button.
-   *
-   * @default "Increase minute"
-   */
-  @Prop() intlMinuteUp = TEXT.minuteUp;
-
-  /**
-   * Accessible name for the component's second input.
-   *
-   * @default "Second"
-   */
-  @Prop() intlSecond = TEXT.second;
-
-  /**
-   * Accessible name for the component's second down button.
-   *
-   * @default "Decrease second"
-   */
-  @Prop() intlSecondDown = TEXT.secondDown;
-
-  /**
-   * Accessible name for the component's second up button.
-   *
-   * @default "Increase second"
-   */
-  @Prop() intlSecondUp = TEXT.secondUp;
-
-  /**
-   * BCP 47 language tag for desired language and country format.
-   *
-   * @internal
-   * @deprecated set the global `lang` attribute on the element instead.
-   * @mdn [lang](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/lang)
-   */
-  @Prop({ mutable: true }) locale: string;
-
-  @Watch("locale")
-  localeChanged(): void {
-    updateEffectiveLocale(this);
-  }
-
   /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";
 
@@ -178,7 +92,7 @@ export class TimePicker implements LocalizedComponent, LoadableComponent {
    * Specifies the Unicode numeral system used by the component for localization.
    *
    */
-  @Prop() numberingSystem?: NumberingSystem;
+  @Prop() numberingSystem: NumberingSystem;
 
   /** The component's value in UTC (always 24-hour format). */
   @Prop({ mutable: true }) value: string = null;
@@ -186,6 +100,23 @@ export class TimePicker implements LocalizedComponent, LoadableComponent {
   @Watch("value")
   valueWatcher(newValue: string): void {
     this.setValue(newValue, false);
+  }
+
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @internal
+   */
+  @Prop({ mutable: true }) messages: TimePickerMessages;
+
+  /**
+   * Use this property to override individual strings used by the component.
+   */
+  @Prop({ mutable: true }) messageOverrides: Partial<TimePickerMessages>;
+
+  @Watch("messageOverrides")
+  onMessagesChange(): void {
+    /* wired up by t9n util */
   }
 
   // --------------------------------------------------------------------------
@@ -245,6 +176,8 @@ export class TimePicker implements LocalizedComponent, LoadableComponent {
 
   @State() showSecond: boolean = this.step < 60;
 
+  @State() defaultMessages: TimePickerMessages;
+
   //--------------------------------------------------------------------------
   //
   //  Events
@@ -293,22 +226,22 @@ export class TimePicker implements LocalizedComponent, LoadableComponent {
     switch (this.activeEl) {
       case this.hourEl:
         if (key === "ArrowRight") {
-          this.setFocus("minute");
+          this.focusPart("minute");
           event.preventDefault();
         }
         break;
       case this.minuteEl:
         switch (key) {
           case "ArrowLeft":
-            this.setFocus("hour");
+            this.focusPart("hour");
             event.preventDefault();
             break;
           case "ArrowRight":
             if (this.step !== 60) {
-              this.setFocus("second");
+              this.focusPart("second");
               event.preventDefault();
             } else if (this.hourCycle === "12") {
-              this.setFocus("meridiem");
+              this.focusPart("meridiem");
               event.preventDefault();
             }
             break;
@@ -317,12 +250,12 @@ export class TimePicker implements LocalizedComponent, LoadableComponent {
       case this.secondEl:
         switch (key) {
           case "ArrowLeft":
-            this.setFocus("minute");
+            this.focusPart("minute");
             event.preventDefault();
             break;
           case "ArrowRight":
             if (this.hourCycle === "12") {
-              this.setFocus("meridiem");
+              this.focusPart("meridiem");
               event.preventDefault();
             }
             break;
@@ -332,10 +265,10 @@ export class TimePicker implements LocalizedComponent, LoadableComponent {
         switch (key) {
           case "ArrowLeft":
             if (this.step !== 60) {
-              this.setFocus("second");
+              this.focusPart("second");
               event.preventDefault();
             } else {
-              this.setFocus("minute");
+              this.focusPart("minute");
               event.preventDefault();
             }
             break;
@@ -351,15 +284,13 @@ export class TimePicker implements LocalizedComponent, LoadableComponent {
   //--------------------------------------------------------------------------
 
   /**
-   * Sets focus on the component.
-   *
-   * @param target
+   * Sets focus on the component's first focusable element.
    */
   @Method()
-  async setFocus(target: TimePart): Promise<void> {
+  async setFocus(): Promise<void> {
     await componentLoaded(this);
 
-    this[`${target || "hour"}El`]?.focus();
+    this.el?.focus();
   }
 
   // --------------------------------------------------------------------------
@@ -367,6 +298,12 @@ export class TimePicker implements LocalizedComponent, LoadableComponent {
   //  Private Methods
   //
   // --------------------------------------------------------------------------
+
+  private async focusPart(target: TimePart): Promise<void> {
+    await componentLoaded(this);
+
+    this[`${target || "hour"}El`]?.focus();
+  }
 
   private buttonActivated(event: KeyboardEvent): boolean {
     const { key } = event;
@@ -757,6 +694,7 @@ export class TimePicker implements LocalizedComponent, LoadableComponent {
   }
 
   private updateLocale() {
+    updateMessages(this, this.effectiveLocale);
     this.hourCycle = getLocaleHourCycle(this.effectiveLocale, this.numberingSystem);
     this.setValue(this.value, false);
   }
@@ -770,6 +708,7 @@ export class TimePicker implements LocalizedComponent, LoadableComponent {
   connectedCallback() {
     connectLocalized(this);
     this.updateLocale();
+    connectMessages(this);
     this.meridiemOrder = this.getMeridiemOrder(
       getTimeParts({
         value: "0:00:00",
@@ -779,8 +718,9 @@ export class TimePicker implements LocalizedComponent, LoadableComponent {
     );
   }
 
-  componentWillLoad(): void {
+  async componentWillLoad(): Promise<void> {
     setUpLoadableComponent(this);
+    await setUpMessages(this);
   }
 
   componentDidLoad(): void {
@@ -789,6 +729,7 @@ export class TimePicker implements LocalizedComponent, LoadableComponent {
 
   disconnectedCallback(): void {
     disconnectLocalized(this);
+    disconnectMessages(this);
   }
 
   // --------------------------------------------------------------------------
@@ -815,7 +756,7 @@ export class TimePicker implements LocalizedComponent, LoadableComponent {
       >
         <div class={CSS.column} role="group">
           <span
-            aria-label={this.intlHourUp}
+            aria-label={this.messages.hourUp}
             class={{
               [CSS.button]: true,
               [CSS.buttonHourUp]: true,
@@ -829,7 +770,7 @@ export class TimePicker implements LocalizedComponent, LoadableComponent {
             <calcite-icon icon="chevron-up" scale={iconScale} />
           </span>
           <span
-            aria-label={this.intlHour}
+            aria-label={this.messages.hour}
             aria-valuemax="23"
             aria-valuemin="1"
             aria-valuenow={(hourIsNumber && parseInt(this.hour)) || "0"}
@@ -840,14 +781,15 @@ export class TimePicker implements LocalizedComponent, LoadableComponent {
             }}
             onFocus={this.focusHandler}
             onKeyDown={this.hourKeyDownHandler}
-            ref={this.setHourEl}
             role="spinbutton"
             tabIndex={0}
+            // eslint-disable-next-line react/jsx-sort-props
+            ref={this.setHourEl}
           >
             {this.localizedHour || "--"}
           </span>
           <span
-            aria-label={this.intlHourDown}
+            aria-label={this.messages.hourDown}
             class={{
               [CSS.button]: true,
               [CSS.buttonHourDown]: true,
@@ -864,7 +806,7 @@ export class TimePicker implements LocalizedComponent, LoadableComponent {
         <span class={CSS.delimiter}>{this.localizedHourSuffix}</span>
         <div class={CSS.column} role="group">
           <span
-            aria-label={this.intlMinuteUp}
+            aria-label={this.messages.minuteUp}
             class={{
               [CSS.button]: true,
               [CSS.buttonMinuteUp]: true
@@ -877,7 +819,7 @@ export class TimePicker implements LocalizedComponent, LoadableComponent {
             <calcite-icon icon="chevron-up" scale={iconScale} />
           </span>
           <span
-            aria-label={this.intlMinute}
+            aria-label={this.messages.minute}
             aria-valuemax="12"
             aria-valuemin="1"
             aria-valuenow={(minuteIsNumber && parseInt(this.minute)) || "0"}
@@ -888,14 +830,15 @@ export class TimePicker implements LocalizedComponent, LoadableComponent {
             }}
             onFocus={this.focusHandler}
             onKeyDown={this.minuteKeyDownHandler}
-            ref={this.setMinuteEl}
             role="spinbutton"
             tabIndex={0}
+            // eslint-disable-next-line react/jsx-sort-props
+            ref={this.setMinuteEl}
           >
             {this.localizedMinute || "--"}
           </span>
           <span
-            aria-label={this.intlMinuteDown}
+            aria-label={this.messages.minuteDown}
             class={{
               [CSS.button]: true,
               [CSS.buttonMinuteDown]: true
@@ -912,7 +855,7 @@ export class TimePicker implements LocalizedComponent, LoadableComponent {
         {this.showSecond && (
           <div class={CSS.column} role="group">
             <span
-              aria-label={this.intlSecondUp}
+              aria-label={this.messages.secondUp}
               class={{
                 [CSS.button]: true,
                 [CSS.buttonSecondUp]: true
@@ -925,7 +868,7 @@ export class TimePicker implements LocalizedComponent, LoadableComponent {
               <calcite-icon icon="chevron-up" scale={iconScale} />
             </span>
             <span
-              aria-label={this.intlSecond}
+              aria-label={this.messages.second}
               aria-valuemax="59"
               aria-valuemin="0"
               aria-valuenow={(secondIsNumber && parseInt(this.second)) || "0"}
@@ -936,14 +879,15 @@ export class TimePicker implements LocalizedComponent, LoadableComponent {
               }}
               onFocus={this.focusHandler}
               onKeyDown={this.secondKeyDownHandler}
-              ref={this.setSecondEl}
               role="spinbutton"
               tabIndex={0}
+              // eslint-disable-next-line react/jsx-sort-props
+              ref={this.setSecondEl}
             >
               {this.localizedSecond || "--"}
             </span>
             <span
-              aria-label={this.intlSecondDown}
+              aria-label={this.messages.secondDown}
               class={{
                 [CSS.button]: true,
                 [CSS.buttonSecondDown]: true
@@ -969,7 +913,7 @@ export class TimePicker implements LocalizedComponent, LoadableComponent {
             role="group"
           >
             <span
-              aria-label={this.intlMeridiemUp}
+              aria-label={this.messages.meridiemUp}
               class={{
                 [CSS.button]: true,
                 [CSS.buttonMeridiemUp]: true,
@@ -983,7 +927,7 @@ export class TimePicker implements LocalizedComponent, LoadableComponent {
               <calcite-icon icon="chevron-up" scale={iconScale} />
             </span>
             <span
-              aria-label={this.intlMeridiem}
+              aria-label={this.messages.meridiem}
               aria-valuemax="2"
               aria-valuemin="1"
               aria-valuenow={(this.meridiem === "PM" && "2") || "1"}
@@ -994,14 +938,15 @@ export class TimePicker implements LocalizedComponent, LoadableComponent {
               }}
               onFocus={this.focusHandler}
               onKeyDown={this.meridiemKeyDownHandler}
-              ref={this.setMeridiemEl}
               role="spinbutton"
               tabIndex={0}
+              // eslint-disable-next-line react/jsx-sort-props
+              ref={this.setMeridiemEl}
             >
               {this.localizedMeridiem || "--"}
             </span>
             <span
-              aria-label={this.intlMeridiemDown}
+              aria-label={this.messages.meridiemDown}
               class={{
                 [CSS.button]: true,
                 [CSS.buttonMeridiemDown]: true,

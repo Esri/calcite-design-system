@@ -1,5 +1,5 @@
 import { boolean, select, text } from "@storybook/addon-knobs";
-import { themesDarkDefault } from "../../../.storybook/utils";
+import { modesDarkDefault } from "../../../.storybook/utils";
 import readme from "./readme.md";
 import { html } from "../../../support/formatting";
 import { locales } from "../../utils/locale";
@@ -22,8 +22,6 @@ export const simple = (): string => html`
       min="${text("min", "2016-08-09")}"
       max="${text("max", "2023-12-18")}"
       lang="${select("locale", locales, "en")}"
-      intl-next-month="${text("intl-next-month", "Next month")}"
-      intl-prev-month="${text("intl-prev-month", "Previous month")}"
       placement="${select("placement", menuPlacements, defaultMenuPlacement)}"
     ></calcite-input-date-picker
   </div>
@@ -33,8 +31,6 @@ export const range = (): string => html`
   <div style="width: 400px">
     <calcite-input-date-picker
       scale="${select("scale", ["s", "m", "l"], "m")}"
-      start="${text("start", "2020-12-12")}"
-      end="${text("end", "2020-12-16")}"
       min="${text("min", "2016-08-09")}"
       max="${text("max", "2023-12-18")}"
       lang="${select("locale", locales, "en")}"
@@ -68,22 +64,29 @@ export const flipPlacements_TestOnly = (): string => html`
   </script>
 `;
 
-export const laoNumberingSystem_TestOnly = (): string => html`
+export const laoNumberingSystemAndMediumIconForLargeInput_TestOnly = (): string => html`
   <div style="width: 400px">
     <calcite-input-date-picker
+      open
       value="1/1/1"
       lang="zh-CN"
       numbering-system="laoo"
-    ></calcite-input-date-picker
-  </div>`;
+      scale="l"
+      start="2020-12-12"
+      end="2020-12-16"
+      range=""
+      layout="horizontal"
+    ></calcite-input-date-picker>
+  </div>
+`;
 
-export const darkThemeRTL_TestOnly = (): string => html`
+export const darkModeRTL_TestOnly = (): string => html`
   <div style="width: 400px">
     <calcite-input-date-picker
-      class="calcite-theme-dark"
+      class="calcite-mode-dark"
       dir="rtl"
       value="2020-12-12"
     ></calcite-input-date-picker
   </div>
 `;
-darkThemeRTL_TestOnly.parameters = { themes: themesDarkDefault };
+darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };

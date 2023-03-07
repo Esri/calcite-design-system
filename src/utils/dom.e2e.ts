@@ -1,5 +1,5 @@
 import { E2EPage, newE2EPage } from "@stencil/core/testing";
-import { queryElementRoots, getRootNode, getHost } from "./dom";
+import { getHost, getRootNode, queryElementRoots } from "./dom";
 
 interface SetUpTestComponentOptions {
   insideHostHTML: string;

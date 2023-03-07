@@ -12,12 +12,6 @@ export const SLOTS = {
   thumbnail: "thumbnail",
   title: "title",
   subtitle: "subtitle",
-  footerLeading: "footer-leading",
-  footerTrailing: "footer-trailing"
-};
-
-export const TEXT = {
-  select: "Select",
-  deselect: "Deselect",
-  loading: "Loading"
+  footerStart: "footer-start",
+  footerEnd: "footer-end"
 };

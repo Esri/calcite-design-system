@@ -1,5 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, disabled, formAssociated, HYDRATED_ATTR, labelable, hidden } from "../../tests/commonTests";
+import { accessible, disabled, formAssociated, hidden, HYDRATED_ATTR, labelable } from "../../tests/commonTests";
 
 describe("calcite-switch", () => {
   it("renders with correct default attributes", async () => {
@@ -20,7 +20,7 @@ describe("calcite-switch", () => {
 
   it("is labelable", async () => labelable("calcite-switch", { propertyToToggle: "checked" }));
 
-  it("is form-associated", async () => formAssociated("calcite-switch", { testValue: true }));
+  it("is form-associated", async () => formAssociated("calcite-switch", { testValue: true, inputType: "checkbox" }));
 
   it("can be disabled", () => disabled("calcite-switch"));
 
@@ -59,16 +59,6 @@ describe("calcite-switch", () => {
     expect(await calciteSwitch.getProperty("checked")).toBe(false);
   });
 
-  it("can be checked via the switched property (deprecated)", async () => {
-    const page = await newE2EPage();
-    await page.setContent("<calcite-switch switched></calcite-switch>");
-
-    const calciteSwitch = await page.find("calcite-switch");
-
-    expect(await calciteSwitch.getProperty("checked")).toBe(true);
-    expect(await calciteSwitch.getProperty("switched")).toBe(true);
-  });
-
   it("appropriately triggers the custom change event", async () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-switch></calcite-switch>`);
@@ -82,7 +72,6 @@ describe("calcite-switch", () => {
     await calciteSwitch.click();
 
     expect(changeEvent).toHaveReceivedEventTimes(1);
-    expect(changeEvent).toHaveFirstReceivedEventDetail({ switched: true });
   });
 
   it("doesn't emit when controlling checked attribute", async () => {

@@ -63,7 +63,7 @@
         <div class="shell-container">
           <calcite-shell content-behind>
             <calcite-shell-panel id="primary-panel" slot="panel-start" position="start" detached>
-              <calcite-action-bar slot="action-bar" class="calcite-theme-dark">
+              <calcite-action-bar slot="action-bar" class="calcite-mode-dark">
                 <calcite-action-group>
                   <calcite-action text="Save" icon="save" indicator> </calcite-action>
                   <calcite-action icon="map" text="New"> </calcite-action>
@@ -113,7 +113,7 @@
               </calcite-action-bar>
               <calcite-button
                 slot="header"
-                color="inverse"
+                kind="inverse"
                 alignment="icon-end-space-between"
                 icon-end="caret-down"
                 width="full"
@@ -208,7 +208,7 @@
                   </calcite-block>
 
                   <calcite-fab slot="fab" id="label-fab" text="Add label class"></calcite-fab>
-                  <calcite-tooltip label="tooltip" reference-element="label-fab" disable-pointer>
+                  <calcite-tooltip label="tooltip" reference-element="label-fab" pointer-disabled>
                     Add label class
                   </calcite-tooltip>
                   <calcite-button slot="footer-actions" appearance="outline" width="half">Cancel</calcite-button>

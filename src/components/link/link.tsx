@@ -1,14 +1,14 @@
 import { Component, Element, h, Host, Listen, Method, Prop, VNode } from "@stencil/core";
 import { focusElement, getElementDir } from "../../utils/dom";
-import { FlipContext } from "../interfaces";
-import { CSS_UTILITY } from "../../utils/resources";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import {
-  setUpLoadableComponent,
-  setComponentLoaded,
+  componentLoaded,
   LoadableComponent,
-  componentLoaded
+  setComponentLoaded,
+  setUpLoadableComponent
 } from "../../utils/loadable";
+import { CSS_UTILITY } from "../../utils/resources";
+import { FlipContext } from "../interfaces";
 
 /** Any attributes placed on <calcite-link> component will propagate to the rendered child */
 /** Passing a 'href' will render an anchor link, instead of a span. Role will be set to link, or link, depending on this. */
@@ -46,22 +46,22 @@ export class Link implements InteractiveComponent, LoadableComponent {
   @Prop({ reflect: true }) download: string | boolean = false;
 
   /** Specifies the URL of the linked resource, which can be set as an absolute or relative path. */
-  @Prop({ reflect: true }) href?: string;
+  @Prop({ reflect: true }) href: string;
 
   /** Specifies an icon to display at the end of the component. */
-  @Prop({ reflect: true }) iconEnd?: string;
+  @Prop({ reflect: true }) iconEnd: string;
 
-  /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
-  @Prop({ reflect: true }) iconFlipRtl?: FlipContext;
+  /** Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`). */
+  @Prop({ reflect: true }) iconFlipRtl: FlipContext;
 
   /** Specifies an icon to display at the start of the component. */
-  @Prop({ reflect: true }) iconStart?: string;
+  @Prop({ reflect: true }) iconStart: string;
 
   /** Specifies the relationship to the linked document defined in `href`. */
-  @Prop() rel?: string;
+  @Prop() rel: string;
 
   /** Specifies the frame or window to open the linked document. */
-  @Prop() target?: string;
+  @Prop() target: string;
 
   //--------------------------------------------------------------------------
   //
@@ -118,11 +118,12 @@ export class Link implements InteractiveComponent, LoadableComponent {
           download={Tag === "a" && (download === "" || download) ? download : null}
           href={Tag === "a" && this.href}
           onClick={this.childElClickHandler}
-          ref={this.storeTagRef}
           rel={Tag === "a" && this.rel}
           role={role}
           tabIndex={tabIndex}
           target={Tag === "a" && this.target}
+          // eslint-disable-next-line react/jsx-sort-props
+          ref={this.storeTagRef}
         >
           {this.iconStart ? iconStartEl : null}
           <slot />

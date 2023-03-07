@@ -1,8 +1,8 @@
-import { text, number, array, boolean as booleanFn, select } from "@storybook/addon-knobs";
+import { array, boolean as booleanFn, number, select, text } from "@storybook/addon-knobs";
 import { boolean, storyFilters } from "../../../.storybook/helpers";
-import { themesDarkDefault } from "../../../.storybook/utils";
-import readme from "./readme.md";
+import { modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
+import readme from "./readme.md";
 
 export default {
   title: "Components/Controls/Slider",
@@ -10,7 +10,8 @@ export default {
     notes: readme,
     chromatic: {
       // https://www.chromatic.com/docs/threshold
-      diffThreshold: Number(process.env.CHROMATIC_DIFF_THRESHOLD) || 0.3
+      diffThreshold: Number(process.env.CHROMATIC_DIFF_THRESHOLD) || 0.3,
+      delay: 500
     }
   },
   ...storyFilters()
@@ -54,9 +55,9 @@ export const range = (): string => html`
   ></calcite-slider>
 `;
 
-export const darkThemeMirroredRange_TestOnly = (): string => html`
+export const darkModeMirroredRange_TestOnly = (): string => html`
   <calcite-slider
-    class="calcite-theme-dark"
+    class="calcite-mode-dark"
     mirrored
     min="${number("min", 0)}"
     min-label="${text("min-label", "Temperature, lower bound")}"
@@ -74,8 +75,8 @@ export const darkThemeMirroredRange_TestOnly = (): string => html`
   ></calcite-slider>
 `;
 
-darkThemeMirroredRange_TestOnly.story = {
-  parameters: { themes: themesDarkDefault }
+darkModeMirroredRange_TestOnly.story = {
+  parameters: { modes: modesDarkDefault }
 };
 
 export const rangeLabeledTicks_TestOnly = (): string => html`
@@ -94,6 +95,10 @@ export const rangeLabeledTicks_TestOnly = (): string => html`
   ></calcite-slider>
 `;
 
+rangeLabeledTicks_TestOnly.parameters = {
+  chromatic: { diffThreshold: 1 }
+};
+
 export const rangeLabeledTicksOverlappingAtMax_TestOnly = (): string => html`
   <calcite-slider
     min="${number("min", 5)}"
@@ -109,6 +114,10 @@ export const rangeLabeledTicksOverlappingAtMax_TestOnly = (): string => html`
     ${boolean("snap", true)}
   ></calcite-slider>
 `;
+
+rangeLabeledTicksOverlappingAtMax_TestOnly.parameters = {
+  chromatic: { diffThreshold: 1 }
+};
 
 export const rangeLabeledTicksOverlappingAtMin_TestOnly = (): string => html`
   <calcite-slider
@@ -126,6 +135,10 @@ export const rangeLabeledTicksOverlappingAtMin_TestOnly = (): string => html`
   ></calcite-slider>
 `;
 
+rangeLabeledTicksOverlappingAtMin_TestOnly.parameters = {
+  chromatic: { diffThreshold: 1 }
+};
+
 export const rangeLabeledTicksEdgePositioningAtMax_TestOnly = (): string => html`
   <calcite-slider
     min="${number("min", 5)}"
@@ -142,6 +155,10 @@ export const rangeLabeledTicksEdgePositioningAtMax_TestOnly = (): string => html
   ></calcite-slider>
 `;
 
+rangeLabeledTicksEdgePositioningAtMax_TestOnly.parameters = {
+  chromatic: { diffThreshold: 1 }
+};
+
 export const rangeLabeledTicksEdgePositioningAtMin_TestOnly = (): string => html`
   <calcite-slider
     min="${number("min", 5)}"
@@ -157,6 +174,10 @@ export const rangeLabeledTicksEdgePositioningAtMin_TestOnly = (): string => html
     ${boolean("snap", true)}
   ></calcite-slider>
 `;
+
+rangeLabeledTicksEdgePositioningAtMin_TestOnly.parameters = {
+  chromatic: { diffThreshold: 1 }
+};
 
 export const Histogram = (): HTMLCalciteSliderElement => {
   const slider = document.createElement("calcite-slider") as HTMLCalciteSliderElement;
@@ -215,7 +236,7 @@ export const HistogramWithColors = (): HTMLCalciteSliderElement => {
   return slider;
 };
 
-export const darkThemeHistogramRTL_TestOnly = (): HTMLCalciteSliderElement => {
+export const darkModeHistogramRTL_TestOnly = (): HTMLCalciteSliderElement => {
   const slider = document.createElement("calcite-slider") as HTMLCalciteSliderElement;
   slider.min = number("min", 0);
   slider.minValue = number("min-value", 25);
@@ -236,11 +257,11 @@ export const darkThemeHistogramRTL_TestOnly = (): HTMLCalciteSliderElement => {
   slider.snap = booleanFn("snap", false);
   slider.scale = select("scale", ["s", "m", "l"], "m");
   slider.style.minWidth = "60vw";
-  slider.className = "calcite-theme-dark";
+  slider.className = "calcite-mode-dark";
   return slider;
 };
 
-darkThemeHistogramRTL_TestOnly.parameters = { themes: themesDarkDefault };
+darkModeHistogramRTL_TestOnly.parameters = { modes: modesDarkDefault };
 
 export const disabled_TestOnly = (): string => html`<calcite-slider disabled value="5"></calcite-slider>`;
 
@@ -258,3 +279,117 @@ export const wordBreakDoesNotAffectLabels_TestOnly = (): string =>
   ></calcite-slider>`;
 
 export const WithLabelHandlesAndNoValue_TestOnly = (): string => html` <calcite-slider max="750"></calcite-slider> `;
+
+export const WithLargeFontSize_TestOnly = (): string => html`<html lang="en">
+  <head>
+    <style>
+      html {
+        font-size: 24px;
+      }
+      calcite-label {
+        padding: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div style="width: 400px; padding: 20px">
+      <calcite-label>
+        precise with label-handles
+        <calcite-slider scale="s" min="10" max="100" value="50" step="10" precise label-handles></calcite-slider
+      ></calcite-label>
+      <calcite-label>
+        precise with label-handles mirrored
+        <calcite-slider
+          scale="s"
+          min="10"
+          max="100"
+          value="50"
+          step="10"
+          label-handles
+          precise
+          mirrored
+        ></calcite-slider>
+      </calcite-label>
+      <calcite-label>
+        precise with label-handles & label-ticks
+        <calcite-slider
+          min="0"
+          max="100"
+          value="40"
+          step="10"
+          ticks="10"
+          scale="s"
+          label-handles
+          label-ticks
+          precise
+        ></calcite-slider>
+      </calcite-label>
+      <calcite-label>
+        precise with label-handles & label-ticks mirrored
+        <calcite-slider
+          min="0"
+          max="100"
+          value="40"
+          step="10"
+          ticks="10"
+          scale="s"
+          label-handles
+          precise
+          mirrored
+          label-ticks
+        ></calcite-slider>
+      </calcite-label>
+      <calcite-label>
+        range slider with label-handles & label-ticks
+        <calcite-slider
+          min="10"
+          max="100"
+          min-value="20"
+          max-value="90"
+          step="10"
+          min-label="Temperature range (lower)"
+          max-label="Temperature range (upper)"
+          scale="s"
+          label-handles
+          ticks="10"
+          label-ticks
+        ></calcite-slider>
+      </calcite-label>
+      <calcite-label>
+        precise range slider with label-handles & label-ticks
+        <calcite-slider
+          min="10"
+          max="100"
+          min-value="20"
+          max-value="90"
+          step="10"
+          min-label="Temperature range (lower)"
+          max-label="Temperature range (upper)"
+          scale="s"
+          label-handles
+          ticks="10"
+          precise
+          label-ticks
+        ></calcite-slider>
+      </calcite-label>
+      <calcite-label>
+        precise range slider with label-handles & label-ticks mirrored
+        <calcite-slider
+          min="10"
+          max="100"
+          min-value="20"
+          max-value="90"
+          step="10"
+          min-label="Temperature range (lower)"
+          max-label="Temperature range (upper)"
+          scale="s"
+          label-handles
+          ticks="10"
+          precise
+          label-ticks
+          mirrored
+        ></calcite-slider>
+      </calcite-label>
+    </div>
+  </body>
+</html>`;

@@ -1,10 +1,10 @@
-import { Component, Element, Listen, Method, State, h, VNode } from "@stencil/core";
-import { CSS } from "./resources";
-import { FlowDirection } from "./interfaces";
+import { Component, Element, h, Listen, Method, State, VNode } from "@stencil/core";
 import { createObserver } from "../../utils/observers";
+import { FlowDirection } from "./interfaces";
+import { CSS } from "./resources";
 
 /**
- * @slot - A slot for adding `calcite-flow-item` to the component.
+ * @slot - A slot for adding `calcite-flow-item` elements to the component.
  */
 @Component({
   tag: "calcite-flow",
@@ -100,9 +100,7 @@ export class Flow {
 
     const newItems: HTMLCalciteFlowItemElement[] = Array.from(
       el.querySelectorAll("calcite-flow-item")
-    ).filter(
-      (flowItem) => !flowItem.matches("calcite-flow-item calcite-flow-item")
-    ) as HTMLCalciteFlowItemElement[];
+    ).filter((flowItem) => flowItem.closest("calcite-flow") === el) as HTMLCalciteFlowItemElement[];
 
     const oldItemCount = items.length;
     const newItemCount = newItems.length;

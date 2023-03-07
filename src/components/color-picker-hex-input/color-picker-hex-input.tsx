@@ -11,20 +11,19 @@ import {
   VNode,
   Watch
 } from "@stencil/core";
-import { hexChar, isLonghandHex, isValidHex, normalizeHex, rgbToHex } from "../color-picker/utils";
 import Color from "color";
-import { CSS } from "./resources";
-import { Scale } from "../interfaces";
-import { RGB } from "../color-picker/interfaces";
 import { focusElement } from "../../utils/dom";
-import { TEXT } from "../color-picker/resources";
-import { NumberingSystem } from "../../utils/locale";
 import {
-  setUpLoadableComponent,
-  setComponentLoaded,
+  componentLoaded,
   LoadableComponent,
-  componentLoaded
+  setComponentLoaded,
+  setUpLoadableComponent
 } from "../../utils/loadable";
+import { NumberingSystem } from "../../utils/locale";
+import { RGB } from "../color-picker/interfaces";
+import { hexChar, isLonghandHex, isValidHex, normalizeHex, rgbToHex } from "../color-picker/utils";
+import { Scale } from "../interfaces";
+import { CSS } from "./resources";
 
 const DEFAULT_COLOR = Color();
 
@@ -41,6 +40,11 @@ export class ColorPickerHexInput implements LoadableComponent {
   //--------------------------------------------------------------------------
 
   @Element() el: HTMLCalciteColorPickerHexInputElement;
+
+  /**
+   * Specifies accessible label for the input field.
+   */
+  @Prop() hexLabel = "Hex";
 
   //--------------------------------------------------------------------------
   //
@@ -86,20 +90,6 @@ export class ColorPickerHexInput implements LoadableComponent {
    * When `true`, a color value is enforced, and clearing the input or blurring will restore the last valid `value`. When `false`, an empty color (`null`) will be allowed as a `value`.
    */
   @Prop() allowEmpty = false;
-
-  /**
-   * Accessible name for the Hex input.
-   *
-   * @default "Hex"
-   */
-  @Prop() intlHex = TEXT.hex;
-
-  /**
-   * Accessible name for the Hex input when there is no color selected.
-   *
-   * @default "No color"
-   */
-  @Prop() intlNoColor = TEXT.noColor;
 
   /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";
@@ -223,14 +213,13 @@ export class ColorPickerHexInput implements LoadableComponent {
   //--------------------------------------------------------------------------
 
   render(): VNode {
-    const { intlHex, value } = this;
+    const { value } = this;
     const hexInputValue = this.formatForInternalInput(value);
-
     return (
       <div class={CSS.container}>
         <calcite-input
           class={CSS.input}
-          label={intlHex}
+          label={this.hexLabel}
           maxLength={6}
           numberingSystem={this.numberingSystem}
           onCalciteInputChange={this.onInputChange}
@@ -238,9 +227,10 @@ export class ColorPickerHexInput implements LoadableComponent {
           onKeyDown={this.handleKeyDown}
           onPaste={this.onPaste}
           prefixText="#"
-          ref={this.storeInputRef}
           scale={this.scale}
           value={hexInputValue}
+          // eslint-disable-next-line react/jsx-sort-props
+          ref={this.storeInputRef}
         />
         {hexInputValue ? (
           <calcite-color-picker-swatch

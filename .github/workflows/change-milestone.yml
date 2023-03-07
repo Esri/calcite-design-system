@@ -5,8 +5,9 @@
 # https://octokit.github.io/rest.js/v18#issues-list-for-repo
 name: Move Issues To Current Milestone
 on:
-  schedule:
-    - cron: "0 9 * * 1"
+  workflow_dispatch:
+  # schedule:
+  # - cron: "0 9 * * 1"
 jobs:
   move:
     runs-on: ubuntu-latest

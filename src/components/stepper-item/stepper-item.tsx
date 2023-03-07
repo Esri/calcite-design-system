@@ -57,25 +57,12 @@ export class StepperItem implements InteractiveComponent, LocalizedComponent, Lo
   //--------------------------------------------------------------------------
 
   /**
-   *  When `true`, the component is selected.
-   *
-   * @deprecated Use `selected` instead.
-   */
-  @Prop({ reflect: true, mutable: true }) active = false;
-
-  @Watch("active")
-  activeHandler(value: boolean): void {
-    this.selected = value;
-  }
-
-  /**
    * When `true`, the component is selected.
    */
   @Prop({ reflect: true, mutable: true }) selected = false;
 
   @Watch("selected")
-  selectedHandler(value: boolean): void {
-    this.active = value;
+  selectedHandler(): void {
     if (this.selected) {
       this.emitRequestedItem();
     }
@@ -90,22 +77,8 @@ export class StepperItem implements InteractiveComponent, LocalizedComponent, Lo
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @Prop({ reflect: true }) disabled = false;
 
-  /**
-   * The component header text.
-   *
-   * @deprecated use `heading` instead.
-   */
-  @Prop() itemTitle?: string;
-
   /** The component header text. */
-  @Prop() heading?: string;
-
-  /**
-   * A description for the component. Displays below the header text.
-   *
-   * @deprecated use `description` instead.
-   */
-  @Prop() itemSubtitle?: string;
+  @Prop() heading: string;
 
   /** A description for the component. Displays below the header text. */
   @Prop() description: string;
@@ -113,12 +86,15 @@ export class StepperItem implements InteractiveComponent, LocalizedComponent, Lo
   // internal props inherited from wrapping calcite-stepper
   /** Defines the layout of the component. */
   /** @internal */
-  @Prop({ reflect: true, mutable: true }) layout?: Extract<"horizontal" | "vertical", Layout> =
+  @Prop({ reflect: true, mutable: true }) layout: Extract<"horizontal" | "vertical", Layout> =
     "horizontal";
 
   /** When `true`, displays a status icon in the component's heading. */
   /** @internal */
   @Prop({ mutable: true }) icon = false;
+
+  /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
+  @Prop({ reflect: true }) iconFlipRtl = false;
 
   /** When `true`, displays the step number in the component's heading. */
   /** @internal */
@@ -191,13 +167,6 @@ export class StepperItem implements InteractiveComponent, LocalizedComponent, Lo
 
   connectedCallback(): void {
     connectLocalized(this);
-    const { selected, active } = this;
-
-    if (selected) {
-      this.active = selected;
-    } else if (active) {
-      this.selected = active;
-    }
   }
 
   componentWillLoad(): void {
@@ -213,12 +182,6 @@ export class StepperItem implements InteractiveComponent, LocalizedComponent, Lo
     if (this.selected) {
       this.emitRequestedItem();
     }
-
-    numberStringFormatter.numberFormatOptions = {
-      locale: this.effectiveLocale,
-      numberingSystem: this.parentStepperEl?.numberingSystem,
-      useGrouping: false
-    };
   }
 
   componentDidLoad(): void {
@@ -236,28 +199,25 @@ export class StepperItem implements InteractiveComponent, LocalizedComponent, Lo
   render(): VNode {
     return (
       <Host
-        aria-expanded={toAriaBoolean(this.active)}
+        aria-expanded={toAriaBoolean(this.selected)}
         onClick={this.handleItemClick}
         onKeyDown={this.keyDownHandler}
       >
         <div class="container">
           <div
             class="stepper-item-header"
-            ref={(el) => (this.headerEl = el)}
             tabIndex={
               /* additional tab index logic needed because of display: contents */
               this.layout === "horizontal" && !this.disabled ? 0 : null
             }
+            // eslint-disable-next-line react/jsx-sort-props
+            ref={(el) => (this.headerEl = el)}
           >
             {this.icon ? this.renderIcon() : null}
-            {this.numbered ? (
-              <div class="stepper-item-number">
-                {numberStringFormatter.numberFormatter.format(this.itemPosition + 1)}.
-              </div>
-            ) : null}
+            {this.numbered ? <div class="stepper-item-number">{this.renderNumbers()}.</div> : null}
             <div class="stepper-item-header-text">
-              <span class="stepper-item-heading">{this.heading || this.itemTitle}</span>
-              <span class="stepper-item-description">{this.description || this.itemSubtitle}</span>
+              <span class="stepper-item-heading">{this.heading}</span>
+              <span class="stepper-item-description">{this.description}</span>
             </div>
           </div>
           <div class="stepper-item-content">
@@ -291,6 +251,7 @@ export class StepperItem implements InteractiveComponent, LocalizedComponent, Lo
   //
   //--------------------------------------------------------------------------
 
+  /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
     await componentLoaded(this);
@@ -348,7 +309,9 @@ export class StepperItem implements InteractiveComponent, LocalizedComponent, Lo
       ? "checkCircleF"
       : "circle";
 
-    return <calcite-icon class="stepper-item-icon" icon={path} scale="s" />;
+    return (
+      <calcite-icon class="stepper-item-icon" flipRtl={this.iconFlipRtl} icon={path} scale="s" />
+    );
   }
 
   private determineSelectedItem(): void {
@@ -399,5 +362,14 @@ export class StepperItem implements InteractiveComponent, LocalizedComponent, Lo
     return Array.from(this.parentStepperEl?.querySelectorAll("calcite-stepper-item")).indexOf(
       this.el
     );
+  }
+
+  renderNumbers(): string {
+    numberStringFormatter.numberFormatOptions = {
+      locale: this.effectiveLocale,
+      numberingSystem: this.parentStepperEl?.numberingSystem,
+      useGrouping: false
+    };
+    return numberStringFormatter.numberFormatter.format(this.itemPosition + 1);
   }
 }

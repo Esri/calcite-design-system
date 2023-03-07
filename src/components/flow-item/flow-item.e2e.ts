@@ -1,5 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, defaults, disabled, focusable, hidden, renders, slots } from "../../tests/commonTests";
+import { accessible, defaults, disabled, focusable, hidden, renders, slots, t9n } from "../../tests/commonTests";
 import { CSS, SLOTS } from "./resources";
 import { html } from "../../../support/formatting";
 
@@ -57,6 +57,8 @@ describe("calcite-flow-item", () => {
       shadowFocusTargetSelector: "calcite-action"
     }));
 
+  it("supports translations", () => t9n("calcite-flow-item"));
+
   it("showBackButton", async () => {
     const page = await newE2EPage();
 
@@ -102,29 +104,29 @@ describe("calcite-flow-item", () => {
       <calcite-flow style="height: 300px">
         <calcite-flow-item heading="Flow heading" id="flowOrPanel">
           <calcite-block heading="Block example" summary="Some subtext" collapsible open>
-            <calcite-notice active>
+            <calcite-notice open>
               <div slot="message">An excellent assortment of content.</div>
             </calcite-notice>
           </calcite-block>
           <calcite-block heading="Block example" summary="Some subtext" collapsible open>
-            <calcite-notice active>
+            <calcite-notice open>
               <div slot="message">An excellent assortment of content.</div>
             </calcite-notice>
           </calcite-block>
           <calcite-block heading="Block example" summary="Some subtext" collapsible open>
-            <calcite-notice active>
+            <calcite-notice open>
               <div slot="message">An excellent assortment of content.</div>
             </calcite-notice>
           </calcite-block>
           <calcite-block heading="Block example" summary="Some subtext" collapsible open>
-            <calcite-notice active>
+            <calcite-notice open>
               <div slot="message">An excellent assortment of content.</div>
             </calcite-notice>
           </calcite-block>
         </calcite-flow-item>
       </calcite-flow>
     `);
-    const [top, _middle, bottom] = await page.findAll("calcite-block");
+    const [top, , bottom] = await page.findAll("calcite-block");
 
     await bottom.callMethod("scrollIntoView");
 

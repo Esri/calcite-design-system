@@ -1,8 +1,52 @@
+import { closestElementCrossShadowBoundary, containsCrossShadowBoundary } from "./dom";
 import { BigDecimal, isValidNumber, sanitizeExponentialNumberString } from "./number";
 import { createObserver } from "./observers";
-import { closestElementCrossShadowBoundary, containsCrossShadowBoundary } from "./dom";
 
 export const defaultLocale = "en";
+
+export const t9nLocales = [
+  "ar",
+  "bg",
+  "bs",
+  "ca",
+  "cs",
+  "da",
+  "de",
+  "el",
+  defaultLocale,
+  "es",
+  "et",
+  "fi",
+  "fr",
+  "he",
+  "hr",
+  "hu",
+  "id",
+  "it",
+  "ja",
+  "ko",
+  "lt",
+  "lv",
+  "no",
+  "nl",
+  "pl",
+  "pt-BR",
+  "pt-PT",
+  "ro",
+  "ru",
+  "sk",
+  "sl",
+  "sr",
+  "sv",
+  "th",
+  "tr",
+  "uk",
+  "vi",
+  "zh-CN",
+  "zh-HK",
+  "zh-TW"
+];
+
 export const locales = [
   "ar",
   "bg",
@@ -35,7 +79,7 @@ export const locales = [
   "lt",
   "lv",
   "mk",
-  "nb",
+  "no",
   "nl",
   "pl",
   "pt",
@@ -80,7 +124,11 @@ export const numberingSystems = [
   "tibt"
 ] as const;
 
+export const supportedLocales = [...new Set([...t9nLocales, ...locales])] as const;
+
 export type NumberingSystem = typeof numberingSystems[number];
+
+export type SupportedLocales = typeof supportedLocales[number];
 
 const isNumberingSystemSupported = (numberingSystem: string): numberingSystem is NumberingSystem =>
   numberingSystems.includes(numberingSystem as NumberingSystem);
@@ -95,31 +143,56 @@ export const defaultNumberingSystem =
 export const getSupportedNumberingSystem = (numberingSystem: string): NumberingSystem =>
   isNumberingSystemSupported(numberingSystem) ? numberingSystem : defaultNumberingSystem;
 
-export function getSupportedLocale(locale: string): string {
-  if (locales.indexOf(locale) > -1) {
-    return locale;
-  }
+/**
+ * Gets the locale that best matches the context.
+ *
+ * @param locale – the BCP 47 locale code
+ * @param context - specifies whether the locale code should match in the context of CLDR or T9N (translation)
+ */
+export function getSupportedLocale(locale: string, context: "cldr" | "t9n" = "cldr"): SupportedLocales {
+  const contextualLocales = context === "cldr" ? locales : t9nLocales;
 
   if (!locale) {
     return defaultLocale;
   }
 
+  if (contextualLocales.includes(locale)) {
+    return locale;
+  }
+
   locale = locale.toLowerCase();
 
-  // we support both 'nb' and 'no' (BCP 47) for Norwegian
+  // we support both 'nb' and 'no' (BCP 47) for Norwegian but only `no` has corresponding bundle
   if (locale === "nb") {
     return "no";
+  }
+
+  // we use `pt-BR` as it will have the same translations as `pt`, which has no corresponding bundle
+  if (context === "t9n" && locale === "pt") {
+    return "pt-BR";
   }
 
   if (locale.includes("-")) {
     locale = locale.replace(/(\w+)-(\w+)/, (_match, language, region) => `${language}-${region.toUpperCase()}`);
 
-    if (!locales.includes(locale)) {
+    if (!contextualLocales.includes(locale)) {
       locale = locale.split("-")[0];
     }
   }
 
-  return locales.includes(locale) ? locale : defaultLocale;
+  // we can `zh-CN` as base translation for chinese locales which has no corresponding bundle.
+  if (locale === "zh") {
+    return "zh-CN";
+  }
+
+  if (!contextualLocales.includes(locale)) {
+    console.warn(
+      `Translations for the "${locale}" locale are not available and will fall back to the default, English (en).`
+    );
+    return defaultLocale;
+  }
+
+  return locale;
 }
 
 /**
@@ -127,16 +200,6 @@ export function getSupportedLocale(locale: string): string {
  */
 export interface LocalizedComponent {
   el: HTMLElement;
-
-  /**
-   * BCP 47 language tag for desired language and country format
-   *
-   * **Note**: this prop was added exclusively for backwards-compatibility
-   *
-   * @deprecated set the global `lang` attribute on the element instead.
-   * @mdn [lang](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/lang)
-   */
-  locale?: string;
 
   /**
    * Used to store the effective locale to avoid multiple lookups.
@@ -169,7 +232,7 @@ export function connectLocalized(component: LocalizedComponent): void {
   updateEffectiveLocale(component);
 
   if (connectedComponents.size === 0) {
-    mutationObserver.observe(document.documentElement, {
+    mutationObserver?.observe(document.documentElement, {
       attributes: true,
       attributeFilter: ["lang"],
       subtree: true
@@ -210,10 +273,9 @@ const mutationObserver = createObserver("mutation", (records) => {
     const el = record.target as HTMLElement;
 
     connectedComponents.forEach((component) => {
-      const hasOverridingLocale = !!(component.locale && !component.el.lang);
       const inUnrelatedSubtree = !containsCrossShadowBoundary(el, component.el);
 
-      if (hasOverridingLocale || inUnrelatedSubtree) {
+      if (inUnrelatedSubtree) {
         return;
       }
 
@@ -242,7 +304,6 @@ const mutationObserver = createObserver("mutation", (records) => {
 function getLocale(component: LocalizedComponent): string {
   return (
     component.el.lang ||
-    component.locale ||
     closestElementCrossShadowBoundary<HTMLElement>(component.el, "[lang]")?.lang ||
     document.documentElement.lang ||
     defaultLocale

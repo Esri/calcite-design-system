@@ -1,4 +1,3 @@
-import { DeprecatedEventPayload, Position, Scale, Status } from "../interfaces";
 import {
   Component,
   Element,
@@ -19,10 +18,8 @@ import {
   isPrimaryPointerButton,
   setRequestedIcon
 } from "../../utils/dom";
+import { Position, Scale, Status } from "../interfaces";
 
-import { CSS, SLOTS, TEXT } from "./resources";
-import { InputPlacement } from "./interfaces";
-import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
 import {
   connectForm,
   disconnectForm,
@@ -36,8 +33,7 @@ import {
   defaultNumberingSystem,
   LocalizedComponent,
   disconnectLocalized,
-  connectLocalized,
-  updateEffectiveLocale
+  connectLocalized
 } from "../../utils/locale";
 import { numberKeys } from "../../utils/key";
 import {
@@ -46,19 +42,27 @@ import {
   parseNumberString,
   sanitizeNumberString
 } from "../../utils/number";
-import { CSS_UTILITY, TEXT as COMMON_TEXT } from "../../utils/resources";
-import { decimalPlaces, bigDecimalPlaces, bigIntMax } from "../../utils/math";
-import { createObserver } from "../../utils/observers";
+import { bigDecimalPlaces, bigIntMax } from "../../utils/math";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
 import {
-  setUpLoadableComponent,
-  setComponentLoaded,
+  componentLoaded,
   LoadableComponent,
-  componentLoaded
+  setComponentLoaded,
+  setUpLoadableComponent
 } from "../../utils/loadable";
-
-type NumberNudgeDirection = "up" | "down";
-type setNumberValueOrigin = "initial" | "connected" | "user" | "reset" | "direct";
+import { createObserver } from "../../utils/observers";
+import { CSS_UTILITY } from "../../utils/resources";
+import {
+  connectMessages,
+  disconnectMessages,
+  setUpMessages,
+  T9nComponent,
+  updateMessages
+} from "../../utils/t9n";
+import { InputPlacement, NumberNudgeDirection, SetValueOrigin } from "../input/interfaces";
+import { InputNumberMessages } from "./assets/input-number/t9n";
+import { CSS, SLOTS } from "./resources";
 
 /**
  * @slot action - A slot for positioning a button next to the component.
@@ -66,7 +70,8 @@ type setNumberValueOrigin = "initial" | "connected" | "user" | "reset" | "direct
 @Component({
   tag: "calcite-input-number",
   styleUrl: "input-number.scss",
-  shadow: true
+  shadow: true,
+  assetsDirs: ["assets"]
 })
 export class InputNumber
   implements
@@ -74,6 +79,7 @@ export class InputNumber
     FormComponent,
     InteractiveComponent,
     LocalizedComponent,
+    T9nComponent,
     LoadableComponent
 {
   //--------------------------------------------------------------------------
@@ -130,48 +136,25 @@ export class InputNumber
   @Prop({ reflect: true }) hidden = false;
 
   /**
-   * When `true`, shows a default recommended icon. Alternatively, pass a Calcite UI Icon name to display a specific icon.
+   * Specifies an icon to display.
+   *
+   * @futureBreaking Remove boolean type as it is not supported.
    */
   @Prop({ reflect: true }) icon: string | boolean;
-
-  /**
-   * A text label that will appear on the clear button for screen readers.
-   */
-  @Prop() intlClear?: string;
-
-  /**
-   * Accessible name that will appear while loading.
-   *
-   * @default "Loading"
-   */
-  @Prop() intlLoading?: string = COMMON_TEXT.loading;
 
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @Prop({ reflect: true }) iconFlipRtl = false;
 
   /** Accessible name for the component's button or hyperlink. */
-  @Prop() label?: string;
+  @Prop() label: string;
 
   /** When `true`, the component is in the loading state and `calcite-progress` is displayed. */
   @Prop({ reflect: true }) loading = false;
 
   /**
-   * Specifies the BCP 47 language tag for the desired language and country format.
-   *
-   * @deprecated set the global `lang` attribute on the element instead.
-   * @mdn [lang](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/lang)
-   */
-  @Prop() locale: string;
-
-  @Watch("locale")
-  localeChanged(): void {
-    updateEffectiveLocale(this);
-  }
-
-  /**
    * Specifies the Unicode numeral system used by the component for localization.
    */
-  @Prop({ reflect: true }) numberingSystem?: NumberingSystem;
+  @Prop({ reflect: true }) numberingSystem: NumberingSystem;
 
   /**
    * Toggles locale formatting for numbers.
@@ -185,7 +168,7 @@ export class InputNumber
    *
    * @mdn [max](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#max)
    */
-  @Prop({ reflect: true }) max?: number;
+  @Prop({ reflect: true }) max: number;
 
   /** watcher to update number-to-string for max */
   @Watch("max")
@@ -198,7 +181,7 @@ export class InputNumber
    *
    * @mdn [min](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#min)
    */
-  @Prop({ reflect: true }) min?: number;
+  @Prop({ reflect: true }) min: number;
 
   /** watcher to update number-to-string for min */
   @Watch("min")
@@ -211,24 +194,26 @@ export class InputNumber
    *
    * @mdn [maxlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#maxlength)
    */
-  @Prop({ reflect: true }) maxLength?: number;
+  @Prop({ reflect: true }) maxLength: number;
 
   /**
    * Specifies the minimum length of text for the component's value.
    *
    * @mdn [minlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#minlength)
    */
-  @Prop({ reflect: true }) minLength?: number;
+  @Prop({ reflect: true }) minLength: number;
 
   /**
    * Specifies the name of the component.
+   *
+   * Required to pass the component's `value` on form submission.
    *
    * @mdn [name](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#name)
    */
   @Prop({ reflect: true }) name: string;
 
   /** Specifies the placement of the buttons. */
-  @Prop({ reflect: true }) numberButtonType?: InputPlacement = "vertical";
+  @Prop({ reflect: true }) numberButtonType: InputPlacement = "vertical";
 
   /**
    * Specifies placeholder text for the component.
@@ -238,7 +223,7 @@ export class InputNumber
   @Prop() placeholder: string;
 
   /** Adds text to the start of the component. */
-  @Prop() prefixText?: string;
+  @Prop() prefixText: string;
 
   /**
    * When `true`, the component's value can be read, but cannot be modified.
@@ -261,7 +246,7 @@ export class InputNumber
    *
    * @mdn [step](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/step)
    */
-  @Prop({ reflect: true }) step?: number | "any";
+  @Prop({ reflect: true }) step: number | "any";
 
   /**
    * Specifies the type of content to autocomplete, for use in forms.
@@ -271,8 +256,24 @@ export class InputNumber
    */
   @Prop() autocomplete: string;
 
+  /**
+   * Specifies the type of content to help devices display an appropriate virtual keyboard.
+   * Read the native attribute's documentation on MDN for more info.
+   *
+   * @mdn [step](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/inputmode)
+   */
+  @Prop() inputMode = "decimal";
+
+  /**
+   * Specifies the action label or icon for the Enter key on virtual keyboards.
+   * Read the native attribute's documentation on MDN for more info.
+   *
+   * @mdn [step](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/enterkeyhint)
+   */
+  @Prop() enterKeyHint: string;
+
   /** Adds text to the end of the component.  */
-  @Prop() suffixText?: string;
+  @Prop() suffixText: string;
 
   /**
    * @internal
@@ -281,6 +282,23 @@ export class InputNumber
 
   /** The component's value. */
   @Prop({ mutable: true }) value = "";
+
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @internal
+   */
+  @Prop({ mutable: true }) messages: InputNumberMessages;
+
+  /**
+   * Use this property to override individual strings used by the component.
+   */
+  @Prop({ mutable: true }) messageOverrides: Partial<InputNumberMessages>;
+
+  @Watch("messageOverrides")
+  onMessagesChange(): void {
+    /* wired up by t9n util */
+  }
 
   @Watch("value")
   valueWatcher(newValue: string, previousValue: string): void {
@@ -330,11 +348,11 @@ export class InputNumber
 
   private maxString?: string;
 
-  private previousEmittedValue: string;
+  private previousEmittedNumberValue: string;
 
   private previousValue: string;
 
-  private previousValueOrigin: setNumberValueOrigin = "initial";
+  private previousValueOrigin: SetValueOrigin = "initial";
 
   /** the computed icon to render */
   private requestedIcon?: string;
@@ -353,7 +371,21 @@ export class InputNumber
 
   @State() effectiveLocale = "";
 
+  @Watch("effectiveLocale")
+  effectiveLocaleWatcher(locale: string): void {
+    updateMessages(this, this.effectiveLocale);
+    numberStringFormatter.numberFormatOptions = {
+      locale,
+      numberingSystem: this.numberingSystem,
+      useGrouping: false
+    };
+  }
+
+  @State() defaultMessages: InputNumberMessages;
+
   @State() localizedValue: string;
+
+  @State() slottedActionElDisabledInternally = false;
 
   //--------------------------------------------------------------------------
   //
@@ -363,9 +395,8 @@ export class InputNumber
 
   connectedCallback(): void {
     connectLocalized(this);
-
+    connectMessages(this);
     this.scale = getElementProp(this.el, "scale", this.scale);
-    this.status = getElementProp(this.el, "status", this.status);
     this.inlineEditableEl = this.el.closest("calcite-inline-editable");
     if (this.inlineEditableEl) {
       this.editingEnabled = this.inlineEditableEl.editingEnabled || false;
@@ -394,17 +425,18 @@ export class InputNumber
     disconnectLabel(this);
     disconnectForm(this);
     disconnectLocalized(this);
+    disconnectMessages(this);
 
     this.mutationObserver?.disconnect();
     this.el.removeEventListener("calciteInternalHiddenInputChange", this.hiddenInputChangeHandler);
   }
 
-  componentWillLoad(): void {
+  async componentWillLoad(): Promise<void> {
     setUpLoadableComponent(this);
-
     this.maxString = this.max?.toString();
     this.minString = this.min?.toString();
     this.requestedIcon = setRequestedIcon({}, this.icon, "number");
+    await setUpMessages(this);
   }
 
   componentShouldUpdate(newValue: string, oldValue: string, property: string): boolean {
@@ -440,10 +472,8 @@ export class InputNumber
 
   /**
    * Fires each time a new value is typed.
-   *
-   * **Note:**: The `el` and `value` event payload props are deprecated, please use the event's `target`/`currentTarget` instead
    */
-  @Event({ cancelable: true }) calciteInputNumberInput: EventEmitter<DeprecatedEventPayload>;
+  @Event({ cancelable: true }) calciteInputNumberInput: EventEmitter<void>;
 
   /**
    * Fires each time a new value is typed and committed.
@@ -540,10 +570,10 @@ export class InputNumber
   };
 
   private emitChangeIfUserModified = (): void => {
-    if (this.previousValueOrigin === "user" && this.value !== this.previousEmittedValue) {
+    if (this.previousValueOrigin === "user" && this.value !== this.previousEmittedNumberValue) {
       this.calciteInputNumberChange.emit();
+      this.setPreviousEmittedNumberValue(this.value);
     }
-    this.previousEmittedValue = this.value;
   };
 
   private inputNumberBlurHandler = () => {
@@ -551,11 +581,14 @@ export class InputNumber
     this.emitChangeIfUserModified();
   };
 
-  private inputNumberFocusHandler = (event: FocusEvent): void => {
+  private clickHandler = (event: MouseEvent): void => {
     const slottedActionEl = getSlotted(this.el, "action");
     if (event.target !== slottedActionEl) {
       this.setFocus();
     }
+  };
+
+  private inputNumberFocusHandler = (): void => {
     this.calciteInternalInputNumberFocus.emit();
   };
 
@@ -668,7 +701,7 @@ export class InputNumber
 
     const inputMax = this.maxString ? parseFloat(this.maxString) : null;
     const inputMin = this.minString ? parseFloat(this.minString) : null;
-    const valueNudgeDelayInMs = 100;
+    const valueNudgeDelayInMs = 150;
 
     this.incrementOrDecrementNumberValue(direction, inputMax, inputMin, nativeEvent);
 
@@ -740,9 +773,15 @@ export class InputNumber
       return;
     }
 
-    this.disabled
-      ? slottedActionEl.setAttribute("disabled", "")
-      : slottedActionEl.removeAttribute("disabled");
+    if (this.disabled) {
+      if (slottedActionEl.getAttribute("disabled") == null) {
+        this.slottedActionElDisabledInternally = true;
+      }
+      slottedActionEl.setAttribute("disabled", "");
+    } else if (this.slottedActionElDisabledInternally) {
+      slottedActionEl.removeAttribute("disabled");
+      this.slottedActionElDisabledInternally = false;
+    }
   }
 
   private setInputNumberValue = (newInputValue: string): void => {
@@ -752,14 +791,16 @@ export class InputNumber
     this.childNumberEl.value = newInputValue;
   };
 
-  private setPreviousEmittedNumberValue = (newPreviousEmittedValue: string): void => {
-    this.previousEmittedValue = isValidNumber(newPreviousEmittedValue)
-      ? newPreviousEmittedValue
-      : "";
+  private setPreviousEmittedNumberValue = (value: string): void => {
+    this.previousEmittedNumberValue = this.normalizeValue(value);
   };
 
-  private setPreviousNumberValue = (newPreviousValue: string): void => {
-    this.previousValue = isValidNumber(newPreviousValue) ? newPreviousValue : "";
+  private normalizeValue(value: string): string {
+    return isValidNumber(value) ? value : "";
+  }
+
+  private setPreviousNumberValue = (value: string): void => {
+    this.previousValue = this.normalizeValue(value);
   };
 
   private setNumberValue = ({
@@ -771,7 +812,7 @@ export class InputNumber
   }: {
     committing?: boolean;
     nativeEvent?: MouseEvent | KeyboardEvent | InputEvent;
-    origin: setNumberValueOrigin;
+    origin: SetValueOrigin;
     previousValue?: string;
     value: string;
   }): void => {
@@ -782,6 +823,7 @@ export class InputNumber
     };
 
     const sanitizedValue = sanitizeNumberString(
+      // no need to delocalize a string that ia already in latn numerals
       (this.numberingSystem && this.numberingSystem !== "latn") || defaultNumberingSystem !== "latn"
         ? numberStringFormatter.delocalize(value)
         : value
@@ -795,29 +837,25 @@ export class InputNumber
         : sanitizedValue;
 
     const newLocalizedValue = numberStringFormatter.localize(newValue);
+    this.localizedValue = newLocalizedValue;
 
-    this.setPreviousNumberValue(previousValue || this.value);
+    this.setPreviousNumberValue(previousValue ?? this.value);
     this.previousValueOrigin = origin;
     this.userChangedValue = origin === "user" && this.value !== newValue;
-    this.value = newValue;
-
-    this.localizedValue = newLocalizedValue;
+    // don't sanitize the start of negative/decimal numbers, but
+    // don't set value to an invalid number
+    this.value = ["-", "."].includes(newValue) ? "" : newValue;
 
     if (origin === "direct") {
       this.setInputNumberValue(newLocalizedValue);
+      this.setPreviousEmittedNumberValue(newLocalizedValue);
     }
 
     if (nativeEvent) {
-      const calciteInputNumberInputEvent = this.calciteInputNumberInput.emit({
-        element: this.childNumberEl,
-        nativeEvent,
-        value: this.value
-      });
-
+      const calciteInputNumberInputEvent = this.calciteInputNumberInput.emit();
       if (calciteInputNumberInputEvent.defaultPrevented) {
-        const previousLocalizedValue = numberStringFormatter.localize(this.previousValue);
         this.value = this.previousValue;
-        this.localizedValue = previousLocalizedValue;
+        this.localizedValue = numberStringFormatter.localize(this.previousValue);
       } else if (committing) {
         this.emitChangeIfUserModified();
       }
@@ -844,20 +882,20 @@ export class InputNumber
     const dir = getElementDir(this.el);
     const loader = (
       <div class={CSS.loader}>
-        <calcite-progress label={this.intlLoading} type="indeterminate" />
+        <calcite-progress label={this.messages.loading} type="indeterminate" />
       </div>
     );
 
     const inputClearButton = (
       <button
-        aria-label={this.intlClear || TEXT.clear}
+        aria-label={this.messages.clear}
         class={CSS.clearButton}
         disabled={this.disabled || this.readOnly}
         onClick={this.clearInputValue}
         tabIndex={-1}
         type="button"
       >
-        <calcite-icon icon="x" scale="s" />
+        <calcite-icon icon="x" scale={this.scale === "l" ? "m" : "s"} />
       </button>
     );
     const iconEl = (
@@ -865,7 +903,7 @@ export class InputNumber
         class={CSS.inputIcon}
         flipRtl={this.iconFlipRtl}
         icon={this.requestedIcon}
-        scale="s"
+        scale={this.scale === "l" ? "m" : "s"}
       />
     );
 
@@ -886,7 +924,7 @@ export class InputNumber
         tabIndex={-1}
         type="button"
       >
-        <calcite-icon icon="chevron-up" scale="s" />
+        <calcite-icon icon="chevron-up" scale={this.scale === "l" ? "m" : "s"} />
       </button>
     );
 
@@ -905,7 +943,7 @@ export class InputNumber
         tabIndex={-1}
         type="button"
       >
-        <calcite-icon icon="chevron-down" scale="s" />
+        <calcite-icon icon="chevron-down" scale={this.scale === "l" ? "m" : "s"} />
       </button>
     );
 
@@ -927,8 +965,8 @@ export class InputNumber
         autofocus={this.autofocus ? true : null}
         defaultValue={this.defaultValue}
         disabled={this.disabled ? true : null}
-        enterKeyHint={this.el.enterKeyHint}
-        inputMode={this.el.inputMode}
+        enterKeyHint={this.enterKeyHint}
+        inputMode={this.inputMode}
         key="localized-input"
         maxLength={this.maxLength}
         minLength={this.minLength}
@@ -940,14 +978,15 @@ export class InputNumber
         onKeyUp={this.inputNumberKeyUpHandler}
         placeholder={this.placeholder || ""}
         readOnly={this.readOnly}
-        ref={this.setChildNumberElRef}
         type="text"
         value={this.localizedValue}
+        // eslint-disable-next-line react/jsx-sort-props
+        ref={this.setChildNumberElRef}
       />
     );
 
     return (
-      <Host onClick={this.inputNumberFocusHandler} onKeyDown={this.keyDownHandler}>
+      <Host onClick={this.clickHandler} onKeyDown={this.keyDownHandler}>
         <div class={{ [CSS.inputWrapper]: true, [CSS_UTILITY.rtl]: dir === "rtl" }}>
           {this.numberButtonType === "horizontal" && !this.readOnly
             ? numberButtonsHorizontalDown

@@ -18,6 +18,9 @@
     var(--calcite-list-item-spacing-indent) * var(--calcite-list-item-spacing-indent-multiplier)
   );
 }
+.container:hover {
+  @apply bg-foreground-2 cursor-pointer;
+}
 
 .container--border-selected {
   border-inline-start: theme("borderWidth.4") solid theme("colors.brand");
@@ -45,10 +48,6 @@
     p-0;
 }
 
-.content-container--selectable {
-  @apply cursor-pointer;
-}
-
 tr,
 td {
   @apply focus-base;
@@ -59,7 +58,8 @@ td:focus {
   @apply focus-normal z-sticky;
 }
 
-.content {
+.content,
+.custom-content {
   @apply text-n2-wrap
     flex
     flex-auto
