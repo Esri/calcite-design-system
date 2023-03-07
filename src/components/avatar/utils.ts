@@ -34,9 +34,8 @@ export function stringToHexCompliant(nameOrId: string, theme: string): string {
 
     hex = theme === "light" ? Color(lightenAvatarBackground).hex() : Color(darkenAvatarBackground).hex();
 
-    stringToHexCompliant(hex, theme);
+    return stringToHexCompliant(hex, theme);
   }
-  return compliant;
 }
 
 /**
