@@ -6,28 +6,35 @@ import Color from "color";
  * Convert a string to a valid hex by hashing its contents
  * and using the hash as a seed for three distinct color values
  *
- * @param name {string}
- * @param nameOrId
+ * @param nameOrId {string}
  * @param theme {string}
  * @param scale {string}
  */
-export function stringToHex(nameOrId: string, theme: string, scale: string): string {
-  let hex = nameOrId.startsWith("#") ? nameOrId : "#";
-  if (!nameOrId.startsWith("#")) {
+export function stringToHexCompliant(nameOrId: string, theme: string, scale: string): string {
+  let hex;
+  if (nameOrId.startsWith("#")) {
+    hex = nameOrId;
+  } else {
     let hash = 0;
     for (let i = 0; i < nameOrId.length; i++) {
       hash = nameOrId.charCodeAt(i) + ((hash << 5) - hash);
     }
+    hex = "#";
     for (let j = 0; j < 3; j++) {
       const value = (hash >> (j * 8)) & 0xff;
       hex += ("00" + value.toString(16)).substr(-2);
     }
   }
-  let color;
-  while (!isContrastCompliant(hex, theme, scale)) {
-    color = theme === "light" ? Color(hex).darken(0.5).rgb().string() : Color(hex).lighten(0.5).rgb().string();
+
+  if (isContrastCompliant(hex, theme, scale)) {
+    return hex;
+  } else {
+    const darken = Color(hex).darken(1.5).rgb().string(); //returns "rgb(127, 0, 0)" format
+    const lighten = Color(hex).lighten(1.5).rgb().string();
+    //generate color format const color = Color('rgb(255, 255, 255)')
+    hex = theme === "light" ? Color(darken).hex() : Color(lighten).hex();
+    stringToHexCompliant(hex, theme, scale);
   }
-  return color;
 }
 
 /**

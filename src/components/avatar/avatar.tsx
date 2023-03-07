@@ -2,7 +2,7 @@ import { Component, Element, h, Prop, State } from "@stencil/core";
 import { getModeName } from "../../utils/dom";
 import { isValidHex } from "../color-picker/utils";
 import { Scale } from "../interfaces";
-import { hexToHue, stringToHex } from "./utils";
+import { hexToHue, stringToHexCompliant } from "./utils";
 
 @Component({
   tag: "calcite-avatar",
@@ -98,8 +98,10 @@ export class Avatar {
     const id = userId && `#${userId.substr(userId.length - 6)}`;
     const name = username || fullName || "";
 
-    const useId = id && isValidHex(id);
-    const hex = useId ? stringToHex(id, theme, scale) : stringToHex(name, theme, scale);
+    const useId: boolean = id && isValidHex(id);
+    const hex = useId
+      ? stringToHexCompliant(id, theme, scale)
+      : stringToHexCompliant(name, theme, scale);
 
     // if there is not unique information, or an invalid hex is produced, return a default
     if ((!userId && !name) || !isValidHex(hex)) {
