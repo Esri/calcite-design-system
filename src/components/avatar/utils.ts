@@ -8,10 +8,10 @@ import Color from "color";
  *
  * @param nameOrId {string}
  * @param theme {string}
- * @param scale {string}
  */
-export function stringToHexCompliant(nameOrId: string, theme: string, scale: string): string {
+export function stringToHexCompliant(nameOrId: string, theme: string): string {
   let hex;
+
   if (nameOrId.startsWith("#")) {
     hex = nameOrId;
   } else {
@@ -25,16 +25,18 @@ export function stringToHexCompliant(nameOrId: string, theme: string, scale: str
       hex += ("00" + value.toString(16)).substr(-2);
     }
   }
-
-  if (isContrastCompliant(hex, theme, scale)) {
-    return hex;
+  const compliant = isContrastCompliant(hex, theme);
+  if (compliant) {
+    return compliant;
   } else {
-    const darken = Color(hex).darken(1.5).rgb().string(); //returns "rgb(127, 0, 0)" format
-    const lighten = Color(hex).lighten(1.5).rgb().string();
-    //generate color format const color = Color('rgb(255, 255, 255)')
-    hex = theme === "light" ? Color(darken).hex() : Color(lighten).hex();
-    stringToHexCompliant(hex, theme, scale);
+    const darkenAvatarBackground = Color(hex).darken(0.5).rgb().string(); //returns "rgb(127, 0, 0)" format
+    const lightenAvatarBackground = Color(hex).lighten(0.5).rgb().string();
+
+    hex = theme === "light" ? Color(lightenAvatarBackground).hex() : Color(darkenAvatarBackground).hex();
+
+    stringToHexCompliant(hex, theme);
   }
+  return compliant;
 }
 
 /**
@@ -96,16 +98,20 @@ export function rgbToLuminosity(colorObject: RGB): number {
  *
  * @param hex {string} - form of "#------"
  * @param theme {string}
- * @param scale {string}
  */
-export function isContrastCompliant(hex: string, theme: string, scale: string): boolean {
+export function isContrastCompliant(hex: string, theme: string): string | null {
   const getLuminance = (hex) => {
     const rgbObj = hexToRGB(hex);
     return rgbToLuminosity(rgbObj);
   };
-  const themeInitials = theme === "Light" ? "#9F9F9F" : "#6A6A6A";
+  const themeInitials = theme === "light" ? "#6A6A6A" : "#9f9f9f";
 
-  //as long as the initials always default to bold
-  const contrastRatio = (getLuminance(hex) + 0.05) / (getLuminance(themeInitials) + 0.05);
-  return scale === "l" ? contrastRatio >= 3 : contrastRatio >= 4.5;
+  //dark mode uses ui-text-3-dark #9f9f9f (lighter grey initials, darker background)  luminosity 0.35
+  //light mode uses ui-text-3 #6a6a6a (darker grey initials, lighter background) luminosity 0.144
+  const contrastRatio =
+    theme === "light"
+      ? (getLuminance(hex) + 0.05) / (getLuminance(themeInitials) + 0.05)
+      : (getLuminance(themeInitials) + 0.05) / (getLuminance(hex) + 0.05); //divide by darker value (lower lum value)
+
+  return contrastRatio >= 4.5 ? hex : null; //our largest initials are 16px bold (requirement is for <18.5 px (14pt) if bold)
 }

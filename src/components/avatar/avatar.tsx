@@ -93,15 +93,13 @@ export class Avatar {
    * Generate a valid background color that is consistent and unique to this user
    */
   private generateFillColor() {
-    const { userId, username, fullName, el, scale } = this;
+    const { userId, username, fullName, el } = this;
     const theme = getModeName(el);
     const id = userId && `#${userId.substr(userId.length - 6)}`;
     const name = username || fullName || "";
 
     const useId: boolean = id && isValidHex(id);
-    const hex = useId
-      ? stringToHexCompliant(id, theme, scale)
-      : stringToHexCompliant(name, theme, scale);
+    const hex = useId ? stringToHexCompliant(id, theme) : stringToHexCompliant(name, theme);
 
     // if there is not unique information, or an invalid hex is produced, return a default
     if ((!userId && !name) || !isValidHex(hex)) {
