@@ -164,7 +164,7 @@ export const disabledTabsAndMediumIconsForLargeTabsTitle_TestOnly = (): string =
   </calcite-tabs>
 `;
 
-export const TabChilrenWithPercentageHeights = (): string => html`
+export const TabChildrenWithPercentageHeights = (): string => html`
   <calcite-tabs style="height: 250px;">
     <calcite-tab-nav slot="title-group">
       <calcite-tab-title selected>Boats</calcite-tab-title>
@@ -174,6 +174,6 @@ export const TabChilrenWithPercentageHeights = (): string => html`
     </calcite-tab>
   </calcite-tabs>
 `;
-TabChilrenWithPercentageHeights.parameters = {
+TabChildrenWithPercentageHeights.parameters = {
   chromatic: { delay: 1000 }
 };
