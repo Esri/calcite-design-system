@@ -43,7 +43,12 @@ export const List: FunctionalComponent<{ props: ListProps } & DOMAttributes<any>
     <Host aria-busy={toAriaBoolean(loading)} role="menu" {...rest}>
       <section>
         {dragEnabled ? (
-          <span aria-live="assertive" class="assistive-text" ref={storeAssistiveEl} />
+          <span
+            aria-live="assertive"
+            class="assistive-text"
+            // eslint-disable-next-line react/jsx-sort-props
+            ref={storeAssistiveEl}
+          />
         ) : null}
         <header class={{ [CSS.sticky]: true }}>
           {filterEnabled ? (
@@ -53,8 +58,9 @@ export const List: FunctionalComponent<{ props: ListProps } & DOMAttributes<any>
               items={dataForFilter}
               onCalciteFilterChange={handleFilterEvent}
               placeholder={filterPlaceholder}
-              ref={setFilterEl}
               value={filterText}
+              // eslint-disable-next-line react/jsx-sort-props
+              ref={setFilterEl}
             />
           ) : null}
           <slot name={SLOTS.menuActions} />

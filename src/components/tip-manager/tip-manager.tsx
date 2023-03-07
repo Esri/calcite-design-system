@@ -296,8 +296,9 @@ export class TipManager {
         class={CSS.container}
         hidden={closed}
         onKeyDown={this.tipManagerKeyDownHandler}
-        ref={this.storeContainerRef}
         tabIndex={0}
+        // eslint-disable-next-line react/jsx-sort-props
+        ref={this.storeContainerRef}
       >
         <header class={CSS.header}>
           <Heading class={CSS.heading} level={headingLevel}>

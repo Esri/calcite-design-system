@@ -227,9 +227,10 @@ export class ColorPickerHexInput implements LoadableComponent {
           onKeyDown={this.handleKeyDown}
           onPaste={this.onPaste}
           prefixText="#"
-          ref={this.storeInputRef}
           scale={this.scale}
           value={hexInputValue}
+          // eslint-disable-next-line react/jsx-sort-props
+          ref={this.storeInputRef}
         />
         {hexInputValue ? (
           <calcite-color-picker-swatch

@@ -302,6 +302,7 @@ export class Action
           class={buttonClasses}
           disabled={disabled}
           id={buttonId}
+          // eslint-disable-next-line react/jsx-sort-props
           ref={(buttonEl): HTMLButtonElement => (this.buttonEl = buttonEl)}
         >
           {this.renderIconContainer()}
