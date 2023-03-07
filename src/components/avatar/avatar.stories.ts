@@ -2,7 +2,6 @@ import { select, text } from "@storybook/addon-knobs";
 
 import { storyFilters } from "../../../.storybook/helpers";
 import { placeholderImage } from "../../../.storybook/placeholderImage";
-import { modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import readme from "./readme.md";
 
@@ -35,7 +34,7 @@ export const missingThumbnail = (): string => html`
   </calcite-avatar>
 `;
 
-export const darkModeRTL_TestOnly = (): string => html`
+export const darkModeRTLAndContrast = (): string => html`
   <calcite-avatar
     dir="rtl"
     class="calcite-mode-dark"
@@ -46,5 +45,3 @@ export const darkModeRTL_TestOnly = (): string => html`
   >
   </calcite-avatar>
 `;
-
-darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
