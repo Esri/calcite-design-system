@@ -7,26 +7,27 @@ import Color from "color";
  * and using the hash as a seed for three distinct color values
  *
  * @param name {string}
+ * @param nameOrId
  * @param theme {string}
  * @param scale {string}
  */
-export function stringToHex(name: string, theme?: string, scale?: string): string {
-  let hash = 0;
-  for (let i = 0; i < name.length; i++) {
-    hash = name.charCodeAt(i) + ((hash << 5) - hash);
+export function stringToHex(nameOrId: string, theme: string, scale: string): string {
+  let hex = nameOrId.startsWith("#") ? nameOrId : "#";
+  if (!nameOrId.startsWith("#")) {
+    let hash = 0;
+    for (let i = 0; i < nameOrId.length; i++) {
+      hash = nameOrId.charCodeAt(i) + ((hash << 5) - hash);
+    }
+    for (let j = 0; j < 3; j++) {
+      const value = (hash >> (j * 8)) & 0xff;
+      hex += ("00" + value.toString(16)).substr(-2);
+    }
   }
-
-  let hex = "#";
-  for (let j = 0; j < 3; j++) {
-    const value = (hash >> (j * 8)) & 0xff;
-    hex += ("00" + value.toString(16)).substr(-2);
+  let color;
+  while (!isContrastCompliant(hex, theme, scale)) {
+    color = theme === "light" ? Color(hex).darken(0.5).rgb().string() : Color(hex).lighten(0.5).rgb().string();
   }
-
-  if (isContrastCompliant(hex, theme, scale)) {
-    return hex;
-  } else {
-    console.log("====Not compliant====");
-  }
+  return color;
 }
 
 /**
@@ -95,10 +96,9 @@ export function isContrastCompliant(hex: string, theme: string, scale: string): 
     const rgbObj = hexToRGB(hex);
     return rgbToLuminosity(rgbObj);
   };
-  const themeRGB = theme === "Light" ? "#9F9F9F" : "#6A6A6A";
+  const themeInitials = theme === "Light" ? "#9F9F9F" : "#6A6A6A";
 
   //as long as the initials always default to bold
-  const contrastRatio = (getLuminance(hex) + 0.05) / (getLuminance(themeRGB) + 0.05);
-  console.log("contrastRatio", contrastRatio);
+  const contrastRatio = (getLuminance(hex) + 0.05) / (getLuminance(themeInitials) + 0.05);
   return scale === "l" ? contrastRatio >= 3 : contrastRatio >= 4.5;
 }

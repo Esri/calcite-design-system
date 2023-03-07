@@ -97,7 +97,9 @@ export class Avatar {
     const theme = getModeName(el);
     const id = userId && `#${userId.substr(userId.length - 6)}`;
     const name = username || fullName || "";
-    const hex = id && isValidHex(id) ? id : stringToHex(name, theme, scale);
+
+    const useId = id && isValidHex(id);
+    const hex = useId ? stringToHex(id, theme, scale) : stringToHex(name, theme, scale);
 
     // if there is not unique information, or an invalid hex is produced, return a default
     if ((!userId && !name) || !isValidHex(hex)) {
