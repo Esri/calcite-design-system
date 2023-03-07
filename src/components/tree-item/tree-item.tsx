@@ -311,22 +311,26 @@ export class TreeItem
         role="treeitem"
       >
         <div class={{ [CSS.itemExpanded]: isExpanded }}>
-          <div
-            class={{
-              [CSS.nodeContainer]: true,
-              [CSS_UTILITY.rtl]: rtl
-            }}
-            data-selection-mode={this.selectionMode}
-            ref={(el) => (this.defaultSlotWrapper = el as HTMLElement)}
-          >
-            {chevron}
-            {itemIndicator}
-            {this.iconStart ? iconStartEl : null}
-            {checkbox ? checkbox : defaultSlotNode}
+          <div class={CSS.nodeAndActionsContainer}>
+            <div
+              class={{
+                [CSS.nodeContainer]: true,
+                [CSS_UTILITY.rtl]: rtl
+              }}
+              data-selection-mode={this.selectionMode}
+              // eslint-disable-next-line react/jsx-sort-props
+              ref={(el) => (this.defaultSlotWrapper = el as HTMLElement)}
+            >
+              {chevron}
+              {itemIndicator}
+              {this.iconStart ? iconStartEl : null}
+              {checkbox ? checkbox : defaultSlotNode}
+            </div>
             <div class={CSS.actionsEnd} hidden={!hasEndActions}>
               {slotNode}
             </div>
           </div>
+
           <div
             class={{
               [CSS.childrenContainer]: true,
@@ -334,8 +338,9 @@ export class TreeItem
             }}
             data-test-id="calcite-tree-children"
             onClick={this.childrenClickHandler}
-            ref={(el) => this.setTransitionEl(el)}
             role={this.hasChildren ? "group" : undefined}
+            // eslint-disable-next-line react/jsx-sort-props
+            ref={(el) => this.setTransitionEl(el)}
           >
             <slot name={SLOTS.children} />
           </div>

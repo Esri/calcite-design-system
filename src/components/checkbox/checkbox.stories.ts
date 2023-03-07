@@ -4,12 +4,6 @@ import { modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import readme from "./readme.md";
 
-import { filterComponentAttributes, Attributes, createComponentHTML as create } from "../../../.storybook/utils";
-
-const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ exceptions } = { exceptions: [] }) => {
-  return filterComponentAttributes([], exceptions);
-};
-
 export default {
   title: "Components/Controls/Checkbox",
   parameters: {
