@@ -248,6 +248,8 @@
       "component/input-text": "enabled",
       "component/input-week": "enabled",
       "component/textarea": "enabled",
+      "component/card": "enabled",
+      "component/tabs": "enabled",
       "component/tab-title": "enabled"
     },
     "$figmaStyleReferences": {
