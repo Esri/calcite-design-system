@@ -179,6 +179,7 @@ export class TabTitle implements InteractiveComponent {
             [CSS.iconPresent]: this.iconStart || this.iconEnd ? true : null,
             [CSS.containerHasText]: this.hasText
           }}
+          // eslint-disable-next-line react/jsx-sort-props
           ref={(el) => this.resizeObserver?.observe(el)}
         >
           {this.iconStart ? iconStartEl : null}

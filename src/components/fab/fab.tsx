@@ -147,14 +147,15 @@ export class Fab implements InteractiveComponent, LoadableComponent {
         kind={kind}
         label={label}
         loading={loading}
-        ref={(buttonEl): void => {
-          this.buttonEl = buttonEl;
-        }}
         round={true}
         scale={scale}
         title={title}
         type="button"
         width="auto"
+        // eslint-disable-next-line react/jsx-sort-props
+        ref={(buttonEl): void => {
+          this.buttonEl = buttonEl;
+        }}
       >
         {this.textEnabled ? this.text : null}
       </calcite-button>

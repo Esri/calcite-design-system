@@ -1100,9 +1100,10 @@ export class Input
           pattern={this.pattern}
           placeholder={this.placeholder || ""}
           readOnly={this.readOnly}
-          ref={this.setChildNumberElRef}
           type="text"
           value={this.localizedValue}
+          // eslint-disable-next-line react/jsx-sort-props
+          ref={this.setChildNumberElRef}
         />
       ) : null;
 
@@ -1136,7 +1137,6 @@ export class Input
               pattern={this.pattern}
               placeholder={this.placeholder || ""}
               readOnly={this.readOnly}
-              ref={this.setChildElRef}
               required={this.required ? true : null}
               step={this.step}
               tabIndex={
@@ -1144,6 +1144,8 @@ export class Input
               }
               type={this.type}
               value={this.value}
+              // eslint-disable-next-line react/jsx-sort-props
+              ref={this.setChildElRef}
             />,
             this.isTextarea ? (
               <div class={CSS.resizeIconWrapper}>

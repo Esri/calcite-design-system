@@ -318,6 +318,7 @@ export class TreeItem
                 [CSS_UTILITY.rtl]: rtl
               }}
               data-selection-mode={this.selectionMode}
+              // eslint-disable-next-line react/jsx-sort-props
               ref={(el) => (this.defaultSlotWrapper = el as HTMLElement)}
             >
               {chevron}
@@ -337,8 +338,9 @@ export class TreeItem
             }}
             data-test-id="calcite-tree-children"
             onClick={this.childrenClickHandler}
-            ref={(el) => this.setTransitionEl(el)}
             role={this.hasChildren ? "group" : undefined}
+            // eslint-disable-next-line react/jsx-sort-props
+            ref={(el) => this.setTransitionEl(el)}
           >
             <slot name={SLOTS.children} />
           </div>
