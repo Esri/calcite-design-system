@@ -1,14 +1,46 @@
 {
-  "stepper": {
+  "stepper-item": {
     "font": {
       "heading": {
-        "light": {
-          "value": "$semantic.ui.color.text.2.light",
-          "type": "color"
+        "default": {
+          "light": {
+            "value": "$semantic.ui.color.text.2.light",
+            "type": "color"
+          },
+          "dark": {
+            "value": "$semantic.ui.color.text.2.dark",
+            "type": "color"
+          }
         },
-        "dark": {
-          "value": "$semantic.ui.color.text.2.dark",
-          "type": "color"
+        "active": {
+          "light": {
+            "value": "$semantic.ui.color.text.1.light",
+            "type": "color"
+          },
+          "dark": {
+            "value": "$semantic.ui.color.text.1.dark",
+            "type": "color"
+          }
+        },
+        "error": {
+          "light": {
+            "value": "$semantic.ui.color.text.2.light",
+            "type": "color"
+          },
+          "dark": {
+            "value": "$semantic.ui.color.text.1.dark",
+            "type": "color"
+          }
+        },
+        "complete": {
+          "light": {
+            "value": "$semantic.ui.color.text.2.light",
+            "type": "color"
+          },
+          "dark": {
+            "value": "$semantic.ui.color.text.2.dark",
+            "type": "color"
+          }
         },
         "sm": {
           "value": "$semantic.font.default.medium.-1h",
@@ -24,28 +56,46 @@
         }
       },
       "description": {
-        "sm": {
-          "value": "$semantic.font.default.regular.-1h",
-          "type": "typography"
+        "default": {
+          "light": {
+            "value": "$semantic.ui.color.text.3.light",
+            "type": "color"
+          },
+          "dark": {
+            "value": "$semantic.ui.color.text.2.dark",
+            "type": "color"
+          }
         },
-        "md": {
-          "value": "$semantic.font.default.regular.0h",
-          "type": "typography"
+        "active": {
+          "light": {
+            "value": "$semantic.ui.color.text.2.light",
+            "type": "color"
+          },
+          "dark": {
+            "value": "$semantic.ui.color.text.1.dark",
+            "type": "color"
+          }
         },
-        "lg": {
-          "value": "$semantic.font.default.regular.1h",
-          "type": "typography"
+        "error": {
+          "light": {
+            "value": "$semantic.ui.color.text.3.light",
+            "type": "color"
+          },
+          "dark": {
+            "value": "$semantic.ui.color.text.1.dark",
+            "type": "color"
+          }
         },
-        "light": {
-          "value": "$semantic.ui.color.text.3.light",
-          "type": "color"
+        "complete": {
+          "light": {
+            "value": "$semantic.ui.color.text.3.light",
+            "type": "color"
+          },
+          "dark": {
+            "value": "$semantic.ui.color.text.2.dark",
+            "type": "color"
+          }
         },
-        "dark": {
-          "value": "$semantic.ui.color.text.3.dark",
-          "type": "color"
-        }
-      },
-      "content": {
         "sm": {
           "value": "$semantic.font.default.regular.-2h",
           "type": "typography"
@@ -59,48 +109,58 @@
           "type": "typography"
         }
       },
-      "number": {
-        "sm": {
-          "value": "$semantic.font.default.medium.-1h",
-          "type": "typography"
-        },
-        "md": {
-          "value": "$semantic.font.default.medium.0h",
-          "type": "typography"
-        },
-        "lg": {
-          "value": "$semantic.font.default.medium.1h",
-          "type": "typography"
-        },
+      "context": {
         "default": {
           "light": {
-            "value": "$semantic.ui.color.text.2.light",
+            "value": "$semantic.ui.color.text.3.light",
             "type": "color"
           },
           "dark": {
-            "value": "$semantic.ui.color.text.3.dark",
+            "value": "$semantic.ui.color.text.2.dark",
             "type": "color"
           }
         },
         "active": {
           "light": {
-            "value": "$semantic.ui.color.brand.default.light",
+            "value": "$semantic.ui.color.text.2.light",
             "type": "color"
           },
           "dark": {
-            "value": "$semantic.ui.color.brand.default.dark",
+            "value": "$semantic.ui.color.text.1.dark",
             "type": "color"
           }
         },
         "error": {
           "light": {
-            "value": "$semantic.ui.color.danger.default.light",
+            "value": "$semantic.ui.color.text.3.light",
             "type": "color"
           },
           "dark": {
-            "value": "$semantic.ui.color.danger.default.dark",
+            "value": "$semantic.ui.color.text.1.dark",
             "type": "color"
           }
+        },
+        "complete": {
+          "light": {
+            "value": "$semantic.ui.color.text.3.light",
+            "type": "color"
+          },
+          "dark": {
+            "value": "$semantic.ui.color.text.2.dark",
+            "type": "color"
+          }
+        },
+        "sm": {
+          "value": "$semantic.font.default.regular.-2h",
+          "type": "typography"
+        },
+        "md": {
+          "value": "$semantic.font.default.regular.-1h",
+          "type": "typography"
+        },
+        "lg": {
+          "value": "$semantic.font.default.regular.0h",
+          "type": "typography"
         }
       }
     },
@@ -139,11 +199,11 @@
     "border": {
       "default": {
         "light": {
-          "value": "$semantic.ui.color.border.1.light",
-          "type": "color"
-        },
-        "dark": {
-          "value": "$semantic.ui.color.border.1.dark",
+            "value": "$semantic.ui.color.border.3.light",
+            "type": "color"
+          },
+          "dark": {
+            "value": "$semantic.ui.color.border.3.dark",
           "type": "color"
         }
       },
@@ -166,6 +226,28 @@
           "value": "$semantic.ui.color.danger.default.dark",
           "type": "color"
         }
+      }
+    },
+    "background": {
+      "default": {
+        "light": {
+          "value": "$semantic.ui.color.background.light",
+          "type": "color"
+        },
+        "dark": {
+          "value": "$semantic.ui.color.background.dark",
+          "type": "color"
+        }
+      }
+    },
+    "foreground": {
+      "light": {
+        "value": "$semantic.ui.color.foreground.2.light",
+        "type": "color"
+      },
+      "dark": {
+        "value": "$semantic.ui.color.foreground.2.dark",
+        "type": "color"
       }
     },
     "border-radius": {
@@ -216,21 +298,21 @@
         "type": "sizing"
       },
       "md": {
-        "value": "$core.sizing.9",
+        "value": "$core.sizing.7",
         "type": "sizing"
       },
       "lg": {
-        "value": "$core.sizing.11",
+        "value": "$core.sizing.7",
         "type": "sizing"
       }
     },
     "space-between": {
       "sm": {
-        "value": "$core.spacing.9",
+        "value": "$core.spacing.5",
         "type": "spacing"
       },
       "md": {
-        "value": "$core.spacing.11",
+        "value": "$core.spacing.7",
         "type": "spacing"
       },
       "lg": {
@@ -239,17 +321,47 @@
       }
     },
     "space-around": {
-      "sm": {
-        "value": "$core.spacing.7",
-        "type": "spacing"
+      "left": {
+        "sm": {
+          "value": "$core.spacing.none",
+          "type": "spacing"
+        },
+        "md": {
+          "value": "$core.spacing.none",
+          "type": "spacing"
+        },
+        "lg": {
+          "value": "$core.spacing.none",
+          "type": "spacing"
+        }
       },
-      "md": {
-        "value": "$core.spacing.9",
-        "type": "spacing"
+      "right": {
+        "sm": {
+          "value": "$core.spacing.5",
+          "type": "spacing"
+        },
+        "md": {
+          "value": "$core.spacing.7",
+          "type": "spacing"
+        },
+        "lg": {
+          "value": "$core.spacing.8",
+          "type": "spacing"
+        }
       },
-      "lg": {
-        "value": "$core.spacing.11",
-        "type": "spacing"
+      "top-bottom": {
+        "sm": {
+          "value": "$core.spacing.7",
+          "type": "spacing"
+        },
+        "md": {
+          "value": "$core.spacing.8",
+          "type": "spacing"
+        },
+        "lg": {
+          "value": "$core.spacing.9",
+          "type": "spacing"
+        }
       }
     },
     "disabled": {
