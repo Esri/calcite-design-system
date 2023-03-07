@@ -546,17 +546,18 @@ export class InputNumber
       !isNaN(inputMin) &&
       !nudgedValue.subtract(`${inputMax}`).isNegative;
 
-    const finalValue =
-      nudgedValueBelowInputMin || nudgedValueAboveInputMax ? inputVal : nudgedValue;
-
     const inputValPlaces = bigDecimalPlaces(inputVal.toString());
     const inputStepPlaces = bigDecimalPlaces(inputStep.toString());
+
+    const finalValue = (
+      nudgedValueBelowInputMin || nudgedValueAboveInputMax ? inputVal : nudgedValue
+    ).toFixed(bigIntMax(inputValPlaces, inputStepPlaces));
 
     this.setNumberValue({
       committing: true,
       nativeEvent,
       origin: "user",
-      value: finalValue.toFixed(bigIntMax(inputValPlaces, inputStepPlaces))
+      value: finalValue
     });
   }
 
