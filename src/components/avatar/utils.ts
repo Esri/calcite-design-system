@@ -1,29 +1,26 @@
 import { RGB } from "../color-picker/interfaces";
 import { hexToRGB } from "../color-picker/utils";
+import { stringArgs } from "./interfaces";
 import Color from "color";
 
 /**
  * Convert a string to a valid hex by hashing its contents
  * and using the hash as a seed for three distinct color values
  *
- * @param nameOrId {string}
+ * @param name {string}
  * @param theme {string}
  */
-export function stringToHexCompliant(nameOrId: string, theme: string): string {
+
+export function stringToHexCompliant(args: stringArgs): string {
+  const { id, name, theme } = args;
   let hex;
 
-  if (nameOrId.startsWith("#")) {
-    hex = nameOrId;
+  if (id) {
+    hex = id;
   } else {
-    let hash = 0;
-    for (let i = 0; i < nameOrId.length; i++) {
-      hash = nameOrId.charCodeAt(i) + ((hash << 5) - hash);
-    }
-    hex = "#";
-    for (let j = 0; j < 3; j++) {
-      const value = (hash >> (j * 8)) & 0xff;
-      hex += ("00" + value.toString(16)).substr(-2);
-    }
+    //returns a 6-digit color code based on a string input
+    const hash = Array.from(name).reduce((acc, char) => char.charCodeAt(0) + ((acc << 5) - acc), 0);
+    hex = "#" + ((hash & 0xffffff) + 0x1000000).toString(16).substr(1);
   }
   const compliant = isContrastCompliant(hex, theme);
   if (compliant) {
@@ -34,7 +31,8 @@ export function stringToHexCompliant(nameOrId: string, theme: string): string {
 
     hex = theme === "light" ? Color(lightenAvatarBackground).hex() : Color(darkenAvatarBackground).hex();
 
-    return stringToHexCompliant(hex, theme);
+    const updatedArgs = { ...args, id: hex };
+    return stringToHexCompliant(updatedArgs);
   }
 }
 
@@ -107,10 +105,12 @@ export function isContrastCompliant(hex: string, theme: string): string | null {
 
   //dark mode uses ui-text-3-dark #9f9f9f (lighter grey initials, darker background)  luminosity 0.35
   //light mode uses ui-text-3 #6a6a6a (darker grey initials, lighter background) luminosity 0.144
-  const contrastRatio =
+  const k = 0.05; //small offset to prevent division by zero
+  const [l1, l2] =
     theme === "light"
-      ? (getLuminance(hex) + 0.05) / (getLuminance(themeInitials) + 0.05)
-      : (getLuminance(themeInitials) + 0.05) / (getLuminance(hex) + 0.05); //divide by darker value (lower lum value)
+      ? [getLuminance(hex), getLuminance(themeInitials)]
+      : [getLuminance(themeInitials), getLuminance(hex)];
+  const contrastRatio = (l1 + k) / (l2 + k); //divide by darker value (lower lum value)
 
   return contrastRatio >= 4.5 ? hex : null; //our largest initials are 16px bold (requirement is for <18.5 px (14pt) if bold)
 }
