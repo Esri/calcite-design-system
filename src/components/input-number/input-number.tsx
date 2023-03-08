@@ -531,11 +531,11 @@ export class InputNumber
     nativeEvent: KeyboardEvent | MouseEvent
   ): void {
     const { value } = this;
-    const inputStep = this.step === "any" ? 1 : Math.abs(this.step || 1);
-    const inputVal = new BigDecimal(value && value !== "" ? value : "0");
-
     const adjustment = direction === "up" ? 1 : -1;
+    const inputStep = this.step === "any" ? 1 : Math.abs(this.step || 1);
+    const inputVal = new BigDecimal(value !== "" ? value : "0");
     const nudgedValue = inputVal.add(`${inputStep * adjustment}`);
+
     const nudgedValueBelowInputMin =
       typeof inputMin === "number" &&
       !isNaN(inputMin) &&
@@ -546,12 +546,16 @@ export class InputNumber
       !isNaN(inputMin) &&
       !nudgedValue.subtract(`${inputMax}`).isNegative;
 
-    const inputValPlaces = bigDecimalPlaces(inputVal.toString());
-    const inputStepPlaces = bigDecimalPlaces(inputStep.toString());
+    const decimalPlaces = bigIntMax(
+      bigDecimalPlaces(inputVal.toString()),
+      bigDecimalPlaces(inputStep.toString())
+    );
 
-    const finalValue = (
-      nudgedValueBelowInputMin || nudgedValueAboveInputMax ? inputVal : nudgedValue
-    ).toFixed(bigIntMax(inputValPlaces, inputStepPlaces));
+    const finalValue = nudgedValueBelowInputMin
+      ? `${inputMin}`
+      : nudgedValueAboveInputMax
+      ? `${inputMax}`
+      : nudgedValue.toFixed(decimalPlaces);
 
     this.setNumberValue({
       committing: true,

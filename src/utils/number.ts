@@ -1,8 +1,10 @@
 import { numberKeys } from "./key";
 import { NumberStringFormat } from "./locale";
 
-const defaultMinusSignRegex = new RegExp("-", "g");
-const unnecessaryDecimalRegex = new RegExp("\\.?0+$");
+const defaultMinusSign = "-";
+const defaultDecimalSeparator = ".";
+const unnecessaryDecimalRegex = new RegExp(`\\${defaultDecimalSeparator}(0+)?$`);
+const trailingZeros = new RegExp("0+$");
 
 // adopted from https://stackoverflow.com/a/66939244
 export class BigDecimal {
@@ -22,12 +24,14 @@ export class BigDecimal {
     if (input instanceof BigDecimal) {
       return input;
     }
+    if (input.indexOf("e") !== -1) {
+    }
     const [integers, decimals] = String(input).split(".").concat("");
     this.value =
       BigInt(integers + decimals.padEnd(BigDecimal.DECIMALS, "0").slice(0, BigDecimal.DECIMALS)) +
       BigInt(BigDecimal.ROUNDED && decimals[BigDecimal.DECIMALS] >= "5");
 
-    this.isNegative = input.charAt(0) === "-";
+    this.isNegative = input.charAt(0) === defaultMinusSign;
   }
 
   static _divRound = (dividend: bigint, divisor: bigint): BigDecimal =>
@@ -41,16 +45,18 @@ export class BigDecimal {
   getIntegersAndDecimals(): { integers: string; decimals: string } {
     const s = this.value
       .toString()
-      .replace(defaultMinusSignRegex, "")
+      .replace(defaultMinusSign, "")
       .padStart(BigDecimal.DECIMALS + 1, "0");
     const integers = s.slice(0, -BigDecimal.DECIMALS);
-    const decimals = s.slice(-BigDecimal.DECIMALS).replace(unnecessaryDecimalRegex, "");
+    const decimals = s.slice(-BigDecimal.DECIMALS).replace(trailingZeros, "");
     return { integers, decimals };
   }
 
   toString(): string {
     const { integers, decimals } = this.getIntegersAndDecimals();
-    return `${this.isNegative ? "-" : ""}${integers}${decimals.length ? "." + decimals : ""}`;
+    return `${this.isNegative ? defaultMinusSign : ""}${integers}${
+      decimals.length ? defaultDecimalSeparator + decimals : ""
+    }`;
   }
 
   toFixed(decimalPlaces: bigint): string {
@@ -161,6 +167,56 @@ export function sanitizeExponentialNumberString(numberString: string, func: (s: 
     .map((section, i) => (i === 1 ? func(section.replace(/\./g, "")) : func(section)))
     .join("e")
     .replace(/^e/, "1e");
+}
+
+export function expandExponentialNumberString(numberString: string): string {
+  const exponentialParts = numberString.split(/[eE]/);
+  if (exponentialParts.length === 1) {
+    return numberString;
+  }
+  // const number = +numberString;
+  // if (number < Number.MAX_SAFE_INTEGER && number > Number.MIN_SAFE_INTEGER) {
+  //   return `${number}`;
+  // }
+
+  const isNegative = numberString.charAt(0) === defaultMinusSign;
+
+  const magnitude = Number(exponentialParts[1]);
+  const decimalParts = exponentialParts[0].split(defaultDecimalSeparator);
+  const integers = (isNegative ? decimalParts[0].substring(1) : decimalParts[0]) || "";
+  const decimals = decimalParts[1] || "";
+
+  const shiftDecimalLeft = (integers: string, magnitude: number): string => {
+    const magnitudeOffset = Math.abs(magnitude) - integers.length;
+
+    const leftPaddedZeros = magnitudeOffset > 0 ? `${"0".repeat(magnitudeOffset)}${integers}` : integers;
+
+    const shiftedDecimal = `${leftPaddedZeros.slice(0, magnitude)}${defaultDecimalSeparator}${leftPaddedZeros.slice(
+      magnitude
+    )}`;
+
+    return shiftedDecimal;
+  };
+
+  const shiftDecimalRight = (decimals: string, magnitude: number): string => {
+    const rightPaddedZeros =
+      magnitude > decimals.length ? `${decimals}${"0".repeat(magnitude - decimals.length)}` : decimals;
+
+    const shiftedDecimal = `${rightPaddedZeros.slice(0, magnitude)}${defaultDecimalSeparator}${rightPaddedZeros.slice(
+      magnitude
+    )}`;
+
+    return shiftedDecimal;
+  };
+
+  const expandedNumberString =
+    magnitude > 0
+      ? `${integers}${shiftDecimalRight(decimals, magnitude)}`
+      : `${shiftDecimalLeft(integers, magnitude)}${decimals}`;
+
+  return `${isNegative ? defaultMinusSign : ""}${
+    expandedNumberString.charAt(0) === defaultDecimalSeparator ? "0" : ""
+  }${expandedNumberString.replace(unnecessaryDecimalRegex, "").replace(allLeadingZerosOptionallyNegative, "")}`;
 }
 
 function stringContainsNumbers(string: string): boolean {
