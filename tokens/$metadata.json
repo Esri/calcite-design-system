@@ -37,6 +37,7 @@
     "component/switch",
     "component/[template-comp-name]",
     "component/action-bar",
+    "component/action-pad",
     "component/accordion_backup",
     "calcite/light",
     "calcite/dark",

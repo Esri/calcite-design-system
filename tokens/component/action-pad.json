@@ -1,5 +1,5 @@
 {
-  "action-bar": {
+  "action-pad": {
     "border": {
       "light": {
         "value": "$semantic.ui.color.border.1.light",
@@ -22,15 +22,15 @@
     },
     "border-radius": {
       "sm": {
-        "value": "$core.border.border-radius.none",
+        "value": "$core.border.border-radius.1",
         "type": "borderRadius"
       },
       "md": {
-        "value": "$core.border.border-radius.none",
+        "value": "$core.border.border-radius.1",
         "type": "borderRadius"
       },
       "lg": {
-        "value": "$core.border.border-radius.none",
+        "value": "$core.border.border-radius.1",
         "type": "borderRadius"
       }
     },
@@ -85,6 +85,20 @@
           },
           "type": "composition"
         }
+      }
+    },
+    "shadow": {
+      "sm": {
+        "value": "{core.box-shadow.1}",
+        "type": "boxShadow"
+      },
+      "md": {
+        "value": "{core.box-shadow.1}",
+        "type": "boxShadow"
+      },
+      "lg": {
+        "value": "{core.box-shadow.1}",
+        "type": "boxShadow"
       }
     }
   }
