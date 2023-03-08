@@ -101,7 +101,6 @@ export class Avatar {
     const useId: boolean = id && isValidHex(id);
     const args = useId ? { id, theme } : { name, theme };
     const hex = stringToHexCompliant(args);
-
     // if there is not unique information, or an invalid hex is produced, return a default
     if ((!userId && !name) || !isValidHex(hex)) {
       return `var(--calcite-ui-foreground-2)`;

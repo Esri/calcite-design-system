@@ -23,16 +23,16 @@ export function stringToHexCompliant(args: stringArgs): string {
     hex = "#" + ((hash & 0xffffff) + 0x1000000).toString(16).substr(1);
   }
   const compliant = isContrastCompliant(hex, theme);
-  if (compliant) {
-    return compliant;
-  } else {
-    const darkenAvatarBackground = Color(hex).darken(0.5).rgb().string(); //returns "rgb(127, 0, 0)" format
-    const lightenAvatarBackground = Color(hex).lighten(0.5).rgb().string();
+  if (!compliant) {
+    const darkenAvatarBackground = Color(hex).darken(0.1).rgb().string(); //returns "rgb(127, 0, 0)" format
+    const lightenAvatarBackground = Color(hex).lighten(0.1).rgb().string();
 
     hex = theme === "light" ? Color(lightenAvatarBackground).hex() : Color(darkenAvatarBackground).hex();
 
     const updatedArgs = { ...args, id: hex };
     return stringToHexCompliant(updatedArgs);
+  } else {
+    return compliant;
   }
 }
 
