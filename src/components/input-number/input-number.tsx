@@ -43,7 +43,7 @@ import {
   parseNumberString,
   sanitizeNumberString
 } from "../../utils/number";
-import { bigDecimalPlaces, bigIntMax } from "../../utils/math";
+import { decimalPlaces } from "../../utils/math";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
 import {
@@ -358,7 +358,7 @@ export class InputNumber
   /** the computed icon to render */
   private requestedIcon?: string;
 
-  private nudgeNumberValueIntervalId;
+  private nudgeNumberValueIntervalId: number;
 
   mutationObserver = createObserver("mutation", () => this.setDisabledAction());
 
@@ -547,16 +547,13 @@ export class InputNumber
       !isNaN(inputMax) &&
       !nudgedValue.subtract(`${inputMax}`).isNegative;
 
-    const decimalPlaces = bigIntMax(
-      bigDecimalPlaces(inputVal.toString()),
-      bigDecimalPlaces(inputStep.toString())
-    );
-
     const finalValue = nudgedValueBelowInputMin
       ? `${inputMin}`
       : nudgedValueAboveInputMax
       ? `${inputMax}`
-      : nudgedValue.toFixed(decimalPlaces);
+      : nudgedValue.toFixed(
+          Math.max(decimalPlaces(inputVal.toString()), decimalPlaces(inputStep.toString()))
+        );
 
     this.setNumberValue({
       committing: true,
@@ -768,7 +765,7 @@ export class InputNumber
     event.stopPropagation();
   };
 
-  private setChildNumberElRef = (el) => {
+  private setChildNumberElRef = (el: HTMLInputElement) => {
     this.childNumberEl = el;
   };
 

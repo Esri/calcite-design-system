@@ -863,7 +863,7 @@ export class Slider
       return;
     }
     event.preventDefault();
-    const fixedDecimalAdjustment = Number(adjustment.toFixed(decimalPlaces(step)));
+    const fixedDecimalAdjustment = Number(adjustment.toFixed(decimalPlaces(`${step}`)));
     this.setValue({
       [activeProp as SetValueProperty]: this.clamp(fixedDecimalAdjustment, activeProp)
     });
@@ -1200,7 +1200,7 @@ export class Slider
     const percent = (x - left) / width;
     const mirror = this.shouldMirror();
     const clampedValue = this.clamp(this.min + range * (mirror ? 1 - percent : percent));
-    let value = Number(clampedValue.toFixed(decimalPlaces(this.step)));
+    let value = Number(clampedValue.toFixed(decimalPlaces(`${this.step}`)));
     if (this.snap && this.step) {
       value = this.getClosestStep(value);
     }
@@ -1214,10 +1214,10 @@ export class Slider
    * @internal
    */
   private getClosestStep(num: number): number {
-    num = Number(this.clamp(num).toFixed(decimalPlaces(this.step)));
+    num = Number(this.clamp(num).toFixed(decimalPlaces(`${this.step}`)));
     if (this.step) {
       const step = Math.round(num / this.step) * this.step;
-      num = Number(this.clamp(step).toFixed(decimalPlaces(this.step)));
+      num = Number(this.clamp(step).toFixed(decimalPlaces(`${this.step}`)));
     }
     return num;
   }

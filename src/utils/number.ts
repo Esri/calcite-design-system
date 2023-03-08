@@ -55,7 +55,7 @@ export class BigDecimal {
     return `${this.isNegative ? "-" : ""}${integers}${decimals.length ? "." + decimals : ""}`;
   }
 
-  toFixed(decimalPlaces: bigint): string {
+  toFixed(decimalPlaces: number): string {
     return this.toString().replace(new RegExp(`-?\d+\.?\d{0, ${decimalPlaces}}`), "");
   }
 
@@ -182,7 +182,7 @@ export function sanitizeExponentialNumberString(numberString: string, func: (s: 
 export function expandExponentialNumberString(numberString: string): string {
   const exponentialParts = numberString.split(/[eE]/);
   const number = +numberString;
-  if (exponentialParts.length === 1 || (number < Number.MAX_SAFE_INTEGER && number > Number.MIN_SAFE_INTEGER)) {
+  if (exponentialParts.length === 1 || Number.isSafeInteger(number)) {
     return `${number}`;
   }
 

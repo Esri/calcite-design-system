@@ -622,8 +622,8 @@ export class Input
         ? inputMax
         : nudgedValue;
 
-    const inputValPlaces = decimalPlaces(inputVal);
-    const inputStepPlaces = decimalPlaces(inputStep);
+    const inputValPlaces = decimalPlaces(`${inputVal}`);
+    const inputStepPlaces = decimalPlaces(`${inputStep}`);
 
     this.setValue({
       committing: true,
