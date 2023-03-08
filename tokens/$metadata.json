@@ -36,6 +36,7 @@
     "component/tooltip",
     "component/switch",
     "component/[template-comp-name]",
+    "component/action-bar",
     "component/accordion_backup",
     "calcite/light",
     "calcite/dark",

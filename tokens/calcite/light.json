@@ -1246,6 +1246,16 @@
             "type": "color"
           }
         }
+      },
+      "action-bar": {
+        "border": {
+          "value": "$action-bar.border.light",
+          "type": "color"
+        },
+        "background": {
+          "value": "$action-bar.background.light",
+          "type": "color"
+        }
       }
     }
   }

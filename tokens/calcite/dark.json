@@ -1210,6 +1210,16 @@
             "type": "color"
           }
         }
+      },
+      "action-bar": {
+        "border": {
+          "value": "$action-bar.border.dark",
+          "type": "color"
+        },
+        "background": {
+          "value": "$action-bar.background.dark",
+          "type": "color"
+        }
       }
     }
   }
