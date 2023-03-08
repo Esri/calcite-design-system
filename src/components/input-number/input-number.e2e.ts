@@ -230,18 +230,7 @@ describe("calcite-input-number", () => {
       expect(await element.getProperty("value")).toBe("100000000000000000000000000000000000000000000000010");
       element.setProperty("step", 0.1);
       await page.waitForChanges();
-      // Array.from({ length: 10 }), async () => await numberHorizontalItemDown.click();
-      await numberHorizontalItemDown.click();
-      await numberHorizontalItemDown.click();
-      await numberHorizontalItemDown.click();
-      await numberHorizontalItemDown.click();
-      await numberHorizontalItemDown.click();
-      await numberHorizontalItemDown.click();
-      await numberHorizontalItemDown.click();
-      await numberHorizontalItemDown.click();
-      await numberHorizontalItemDown.click();
-      await numberHorizontalItemDown.click();
-      await numberHorizontalItemDown.click();
+      Array.from({ length: 10 }, async () => await numberHorizontalItemDown.click());
       await page.waitForChanges();
       expect(await element.getProperty("value")).toBe("100000000000000000000000000000000000000000000000009");
     });
@@ -263,13 +252,7 @@ describe("calcite-input-number", () => {
       );
       element.setProperty("step", 0.1);
       await page.waitForChanges();
-      await numberHorizontalItemDown.click();
-      await numberHorizontalItemDown.click();
-      await numberHorizontalItemDown.click();
-      await numberHorizontalItemDown.click();
-      await numberHorizontalItemDown.click();
-      await numberHorizontalItemDown.click();
-      // Array.from({ length: 5 }), async () => await numberHorizontalItemDown.click();
+      Array.from({ length: 5 }, async () => await numberHorizontalItemDown.click());
       await page.waitForChanges();
       expect(await element.getProperty("value")).toBe(
         "0.50000000000000000000000000000000000000000000000000000000000123"

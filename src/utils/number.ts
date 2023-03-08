@@ -181,16 +181,18 @@ export function sanitizeExponentialNumberString(numberString: string, func: (s: 
  */
 export function expandExponentialNumberString(numberString: string): string {
   const exponentialParts = numberString.split(/[eE]/);
-  const number = +numberString;
-  if (exponentialParts.length === 1 || Number.isSafeInteger(number)) {
-    return `${number}`;
+  if (exponentialParts.length === 1) {
+    return numberString;
+  }
+  if (Number.isSafeInteger(+numberString)) {
+    return `${+numberString}`;
   }
 
   const isNegative = numberString.charAt(0) === "-";
   const magnitude = +exponentialParts[1];
   const decimalParts = exponentialParts[0].split(".");
-  const integers = (isNegative ? decimalParts[0].substring(1) : decimalParts[0]) || "0";
-  const decimals = decimalParts[1] || "0";
+  const integers = (isNegative ? decimalParts[0].substring(1) : decimalParts[0]) || "";
+  const decimals = decimalParts[1] || "";
 
   const shiftDecimalLeft = (integers: string, magnitude: number): string => {
     const magnitudeDelta = Math.abs(magnitude) - integers.length;
