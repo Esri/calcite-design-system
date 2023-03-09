@@ -967,9 +967,10 @@ export class InputNumber
         onKeyUp={this.inputNumberKeyUpHandler}
         placeholder={this.placeholder || ""}
         readOnly={this.readOnly}
-        ref={this.setChildNumberElRef}
         type="text"
         value={this.localizedValue}
+        // eslint-disable-next-line react/jsx-sort-props
+        ref={this.setChildNumberElRef}
       />
     );
 

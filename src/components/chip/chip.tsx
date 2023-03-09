@@ -246,6 +246,7 @@ export class Chip
         aria-label={this.messages.dismissLabel}
         class={CSS.close}
         onClick={this.closeClickHandler}
+        // eslint-disable-next-line react/jsx-sort-props
         ref={(el) => (this.closeButton = el)}
       >
         <calcite-icon
