@@ -47,7 +47,6 @@ import {
 
 import {
   BigDecimal,
-  expandExponentialNumberString,
   isValidNumber,
   parseNumberString,
   sanitizeNumberString
@@ -618,7 +617,7 @@ export class Input
     const { value } = this;
     const adjustment = direction === "up" ? 1 : -1;
     const inputStep = this.step === "any" ? 1 : Math.abs(this.step || 1);
-    const inputVal = new BigDecimal(value !== "" ? expandExponentialNumberString(value) : "0");
+    const inputVal = new BigDecimal(value !== "" ? value : "0");
     const nudgedValue = inputVal.add(`${inputStep * adjustment}`);
 
     const nudgedValueBelowInputMin =
