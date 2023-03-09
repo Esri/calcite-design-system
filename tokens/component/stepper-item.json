@@ -20,6 +20,16 @@
           "dark": {
             "value": "$semantic.ui.color.text.1.dark",
             "type": "color"
+          },
+          "numbered": {
+            "light": {
+              "value": "$semantic.ui.color.brand.default.light",
+              "type": "color"
+            },
+            "dark": {
+              "value": "$semantic.ui.color.brand.default.dark",
+              "type": "color"
+            }
           }
         },
         "error": {
@@ -28,8 +38,18 @@
             "type": "color"
           },
           "dark": {
-            "value": "$semantic.ui.color.text.1.dark",
+            "value": "$semantic.ui.color.text.2.dark",
             "type": "color"
+          },
+          "numbered": {
+            "light": {
+              "value": "$semantic.ui.color.danger.default.light",
+              "type": "color"
+            },
+            "dark": {
+              "value": "$semantic.ui.color.danger.default.dark",
+              "type": "color"
+            }
           }
         },
         "complete": {
@@ -62,7 +82,7 @@
             "type": "color"
           },
           "dark": {
-            "value": "$semantic.ui.color.text.2.dark",
+            "value": "$semantic.ui.color.text.3.dark",
             "type": "color"
           }
         },
@@ -72,7 +92,7 @@
             "type": "color"
           },
           "dark": {
-            "value": "$semantic.ui.color.text.1.dark",
+            "value": "$semantic.ui.color.text.2.dark",
             "type": "color"
           }
         },
@@ -82,7 +102,7 @@
             "type": "color"
           },
           "dark": {
-            "value": "$semantic.ui.color.text.1.dark",
+            "value": "$semantic.ui.color.text.3.dark",
             "type": "color"
           }
         },
@@ -92,7 +112,7 @@
             "type": "color"
           },
           "dark": {
-            "value": "$semantic.ui.color.text.2.dark",
+            "value": "$semantic.ui.color.text.3.dark",
             "type": "color"
           }
         },
@@ -112,7 +132,7 @@
       "context": {
         "default": {
           "light": {
-            "value": "$semantic.ui.color.text.3.light",
+            "value": "$semantic.ui.color.text.2.light",
             "type": "color"
           },
           "dark": {
@@ -126,23 +146,23 @@
             "type": "color"
           },
           "dark": {
-            "value": "$semantic.ui.color.text.1.dark",
+            "value": "$semantic.ui.color.text.2.dark",
             "type": "color"
           }
         },
         "error": {
           "light": {
-            "value": "$semantic.ui.color.text.3.light",
+            "value": "$semantic.ui.color.text.2.light",
             "type": "color"
           },
           "dark": {
-            "value": "$semantic.ui.color.text.1.dark",
+            "value": "$semantic.ui.color.text.2.dark",
             "type": "color"
           }
         },
         "complete": {
           "light": {
-            "value": "$semantic.ui.color.text.3.light",
+            "value": "$semantic.ui.color.text.2.light",
             "type": "color"
           },
           "dark": {
@@ -199,11 +219,11 @@
     "border": {
       "default": {
         "light": {
-            "value": "$semantic.ui.color.border.3.light",
-            "type": "color"
-          },
-          "dark": {
-            "value": "$semantic.ui.color.border.3.dark",
+          "value": "$semantic.ui.color.border.3.light",
+          "type": "color"
+        },
+        "dark": {
+          "value": "$semantic.ui.color.border.3.dark",
           "type": "color"
         }
       },
