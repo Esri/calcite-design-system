@@ -214,6 +214,16 @@
           "value": "$semantic.ui.color.danger.default.dark",
           "type": "color"
         }
+      },
+      "complete": {
+        "light": {
+          "value": "$semantic.ui.color.brand.default.light",
+          "type": "color"
+        },
+        "dark": {
+          "value": "$semantic.ui.color.brand.default.dark",
+          "type": "color"
+        }
       }
     },
     "border": {
@@ -244,6 +254,16 @@
         },
         "dark": {
           "value": "$semantic.ui.color.danger.default.dark",
+          "type": "color"
+        }
+      },
+      "complete": {
+        "light": {
+          "value": "$semantic.ui.color.brand.default.light",
+          "type": "color"
+        },
+        "dark": {
+          "value": "$semantic.ui.color.brand.default.dark",
           "type": "color"
         }
       }
