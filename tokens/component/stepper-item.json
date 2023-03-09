@@ -199,11 +199,11 @@
     "border": {
       "default": {
         "light": {
-          "value": "$semantic.ui.color.border.3.light",
-          "type": "color"
-        },
-        "dark": {
-          "value": "$semantic.ui.color.border.3.dark",
+            "value": "$semantic.ui.color.border.3.light",
+            "type": "color"
+          },
+          "dark": {
+            "value": "$semantic.ui.color.border.3.dark",
           "type": "color"
         }
       },
@@ -248,6 +248,20 @@
       "dark": {
         "value": "$semantic.ui.color.foreground.2.dark",
         "type": "color"
+      }
+    },
+    "border-radius": {
+      "sm": {
+        "value": "$core.border.border-radius.4",
+        "type": "borderRadius"
+      },
+      "md": {
+        "value": "$core.border.border-radius.5",
+        "type": "borderRadius"
+      },
+      "lg": {
+        "value": "$core.border.border-radius.6",
+        "type": "borderRadius"
       }
     },
     "border-width": {
@@ -349,6 +363,10 @@
           "type": "spacing"
         }
       }
+    },
+    "disabled": {
+      "value": "{core.opacity.50}",
+      "type": "opacity"
     }
   }
 }
