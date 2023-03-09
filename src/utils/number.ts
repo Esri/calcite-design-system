@@ -55,10 +55,6 @@ export class BigDecimal {
     return `${this.isNegative ? "-" : ""}${integers}${decimals.length ? "." + decimals : ""}`;
   }
 
-  toFixed(decimalPlaces: number): string {
-    return this.toString().replace(new RegExp(`-?\d+\.?\d{0, ${decimalPlaces}}`), "");
-  }
-
   formatToParts(formatter: NumberStringFormat): Intl.NumberFormatPart[] {
     const { integers, decimals } = this.getIntegersAndDecimals();
     const parts = formatter.numberFormatter.formatToParts(BigInt(integers));

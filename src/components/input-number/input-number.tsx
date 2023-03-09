@@ -44,7 +44,6 @@ import {
   NumberingSystem,
   numberStringFormatter
 } from "../../utils/locale";
-import { decimalPlaces } from "../../utils/math";
 import {
   BigDecimal,
   expandExponentialNumberString,
@@ -551,9 +550,7 @@ export class InputNumber
       ? `${inputMin}`
       : nudgedValueAboveInputMax
       ? `${inputMax}`
-      : nudgedValue.toFixed(
-          Math.max(decimalPlaces(inputVal.toString()), decimalPlaces(inputStep.toString()))
-        );
+      : nudgedValue.toString();
 
     this.setNumberValue({
       committing: true,
