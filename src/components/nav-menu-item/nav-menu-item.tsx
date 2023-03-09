@@ -13,7 +13,12 @@ import {
   VNode
 } from "@stencil/core";
 import { FlipContext } from "../interfaces";
-import { getElementDir, getSlotted } from "../../utils/dom";
+import {
+  getElementDir,
+  // getSlotted,
+  slotChangeGetAssignedElements
+  // slotChangeHasAssignedElement
+} from "../../utils/dom";
 import { componentLoaded, setComponentLoaded, setUpLoadableComponent } from "../../utils/loadable";
 
 @Component({
@@ -36,7 +41,7 @@ export class CalciteNavMenuItem {
   //
   //--------------------------------------------------------------------------
   /** When true, the component displays a visual indication of breadcrumb */
-  @Prop({ reflect: true, mutable: true }) breadcrumb?: boolean;
+  @Prop({ reflect: true, mutable: true }) breadcrumb: boolean;
 
   /** When `true`, the component is highlighted.  */
   @Prop({ reflect: true, mutable: true }) active: boolean;
@@ -48,19 +53,19 @@ export class CalciteNavMenuItem {
   @Prop({ reflect: true, mutable: true }) iconStart?: string;
 
   /** Specifies an icon to display at the end of the component. */
-  @Prop({ reflect: true, mutable: true }) iconEnd?: string;
+  @Prop({ reflect: true, mutable: true }) iconEnd: string;
 
   /** Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`). */
-  @Prop({ mutable: true }) iconFlipRtl?: FlipContext;
+  @Prop({ mutable: true }) iconFlipRtl: FlipContext;
 
   /** Displays the `text` */
-  @Prop({ mutable: true }) textEnabled?: boolean;
+  @Prop({ mutable: true }) textEnabled: boolean;
 
   /** Specifies the text the component displays */
   @Prop({ reflect: true, mutable: true }) text!: string;
 
   /** When true, provide a navigable href link */
-  @Prop({ reflect: true }) href?;
+  @Prop({ reflect: true }) href: string;
 
   /**
    * Defines the relationship between the `href` value and the current document.
@@ -91,9 +96,13 @@ export class CalciteNavMenuItem {
   // remove reflect and move style to class
   @Prop({ mutable: true, reflect: true }) layout?: "horizontal" | "vertical" = "horizontal";
 
+  // private parentEl: HTMLCalciteNavMenuElement;
+
+  // private parentElLayout: "horizontal" | "vertical" = "horizontal";
+
   @State() editingActive = false;
 
-  @State() hasSubMenu: boolean;
+  @State() hasSubMenu = false;
 
   @State() subMenuOpen: boolean;
 
@@ -164,23 +173,18 @@ export class CalciteNavMenuItem {
 
   connectedCallback() {
     this.active = this.active || this.editable;
-    // todo - make this reactive to slot change, remove use of getSlotted
     // todo just get any nav items in the default slot?
-    this.hasSubMenu = !!getSlotted(this.el, "menu-item-dropdown");
-    this.subMenuItems = getSlotted(this.el, "menu-item-dropdown", {
-      all: true,
-      matches: "calcite-nav-menu-item"
-    }) as HTMLCalciteNavMenuItemElement[];
+    this.hasSubMenu = this.hasSlottedItems();
+
     // for now to detect nesting only working two level for demo.. need to just check if it has any parent originating at top lvel
+    //not sure if this is reqired???
     this.isTopLevelItem = !(
       this.el.parentElement?.slot === "" || this.el.parentElement?.slot === "menu-item-dropdown"
     );
+
     this.topLevelLayout = this.el.closest("calcite-nav-menu")?.layout || "horizontal";
+
     // todo determine indentation level to support fly out
-    // ensure any items slotted as dropdown menu children are vertical mode
-    this.subMenuItems.map((el: HTMLCalciteNavMenuItemElement) => {
-      el.layout = "vertical";
-    });
   }
 
   componentWillLoad(): void {
@@ -409,7 +413,7 @@ export class CalciteNavMenuItem {
         layout="vertical"
         role="submenu"
       >
-        <slot name="menu-item-dropdown" />
+        <slot name="menu-item-dropdown" onSlotchange={this.handleMenuItemSlotChange} />
       </calcite-nav-menu>
     );
   }
@@ -471,10 +475,22 @@ export class CalciteNavMenuItem {
             </a>
             {this.href && this.hasSubMenu ? this.renderDropdownAction() : null}
           </div>
-
           {this.hasSubMenu ? this.rendersubMenuItems() : null}
         </li>
       </Host>
     );
+  }
+
+  private handleMenuItemSlotChange = (event: Event): void => {
+    if (this.hasSubMenu) {
+      this.subMenuItems = slotChangeGetAssignedElements(event) as HTMLCalciteNavMenuItemElement[];
+      this.subMenuItems.map((el: HTMLCalciteNavMenuItemElement) => {
+        el.layout = "vertical";
+      });
+    }
+  };
+
+  private hasSlottedItems(): boolean {
+    return this.el.querySelectorAll("[slot=menu-item-dropdown]").length > 0;
   }
 }
