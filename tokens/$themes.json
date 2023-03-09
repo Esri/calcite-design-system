@@ -6,9 +6,7 @@
       "core": "source",
       "semantic": "source",
       "brand/global": "enabled",
-      "brand/light": "enabled",
-      "component/action-bar-grid": "disabled",
-      "component/action-pad-grid": "disabled"
+      "brand/light": "enabled"
     },
     "$figmaStyleReferences": {}
   },
@@ -19,9 +17,7 @@
       "core": "source",
       "semantic": "source",
       "brand/global": "enabled",
-      "brand/dark": "enabled",
-      "component/action-bar-grid": "disabled",
-      "component/action-pad-grid": "disabled"
+      "brand/dark": "enabled"
     },
     "$figmaStyleReferences": {}
   },
@@ -39,9 +35,7 @@
       "component/loader": "source",
       "component/radio": "source",
       "component/rating": "source",
-      "component/tooltip": "source",
-      "component/action-bar-grid": "disabled",
-      "component/action-pad-grid": "disabled"
+      "component/tooltip": "source"
     },
     "$figmaStyleReferences": {
       "color.brand.default": "S:b28244f76fae4e504bbfa18bb30e111e02a00461,",
@@ -118,9 +112,7 @@
       "component/loader": "source",
       "component/radio": "source",
       "component/rating": "source",
-      "component/tooltip": "source",
-      "component/action-bar-grid": "disabled",
-      "component/action-pad-grid": "disabled"
+      "component/tooltip": "source"
     },
     "$figmaStyleReferences": {
       "color.brand.default": "S:4ae7e0e0a08b9109fef0b6c2cb45185a3b711de8,",
