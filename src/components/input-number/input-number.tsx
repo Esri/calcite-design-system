@@ -27,24 +27,8 @@ import {
   HiddenFormInputSlot,
   submitForm
 } from "../../utils/form";
-import {
-  NumberingSystem,
-  numberStringFormatter,
-  defaultNumberingSystem,
-  LocalizedComponent,
-  disconnectLocalized,
-  connectLocalized
-} from "../../utils/locale";
-import { numberKeys } from "../../utils/key";
-import {
-  BigDecimal,
-  expandExponentialNumberString,
-  isValidNumber,
-  parseNumberString,
-  sanitizeNumberString
-} from "../../utils/number";
-import { decimalPlaces } from "../../utils/math";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import { numberKeys } from "../../utils/key";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
 import {
   componentLoaded,
@@ -52,6 +36,22 @@ import {
   setComponentLoaded,
   setUpLoadableComponent
 } from "../../utils/loadable";
+import {
+  connectLocalized,
+  defaultNumberingSystem,
+  disconnectLocalized,
+  LocalizedComponent,
+  NumberingSystem,
+  numberStringFormatter
+} from "../../utils/locale";
+import { decimalPlaces } from "../../utils/math";
+import {
+  BigDecimal,
+  expandExponentialNumberString,
+  isValidNumber,
+  parseNumberString,
+  sanitizeNumberString
+} from "../../utils/number";
 import { createObserver } from "../../utils/observers";
 import { CSS_UTILITY } from "../../utils/resources";
 import {

@@ -46,8 +46,8 @@ import {
 } from "../../utils/locale";
 import { decimalPlaces } from "../../utils/math";
 import {
-  expandExponentialNumberString,
   BigDecimal,
+  expandExponentialNumberString,
   isValidNumber,
   parseNumberString,
   sanitizeNumberString
