@@ -96,6 +96,8 @@ export class CalciteNavMenuItem {
   // remove reflect and move style to class
   @Prop({ mutable: true, reflect: true }) layout?: "horizontal" | "vertical" = "horizontal";
 
+  @Prop({ mutable: true, reflect: true }) dropdownPosition: "horizontal" | "vertical" = "vertical";
+
   // private parentEl: HTMLCalciteNavMenuElement;
 
   // private parentElLayout: "horizontal" | "vertical" = "horizontal";
@@ -178,9 +180,6 @@ export class CalciteNavMenuItem {
 
     // for now to detect nesting only working two level for demo.. need to just check if it has any parent originating at top lvel
     //not sure if this is reqired???
-    this.isTopLevelItem = !(
-      this.el.parentElement?.slot === "" || this.el.parentElement?.slot === "menu-item-dropdown"
-    );
 
     this.topLevelLayout = this.el.closest("calcite-nav-menu")?.layout || "horizontal";
 
@@ -364,12 +363,10 @@ export class CalciteNavMenuItem {
       <calcite-icon
         class="icon icon-dropdown"
         icon={
-          (this.topLevelLayout === "vertical" && !this.subMenuOpen) ||
-          (this.isTopLevelItem && this.subMenuOpen)
-            ? "chevron-up"
-            : (this.topLevelLayout === "vertical" && this.subMenuOpen) ||
-              (this.isTopLevelItem && this.hasSubMenu)
-            ? "chevron-down"
+          this.dropdownPosition === "vertical" || this.topLevelLayout === "vertical"
+            ? this.subMenuOpen
+              ? "chevron-up"
+              : "chevron-down"
             : dirChevron
         }
         id="render-dropdown-icon"
@@ -385,13 +382,10 @@ export class CalciteNavMenuItem {
       <calcite-action
         class="dropdown-with-href-toggle"
         icon={
-          this.subMenuOpen && (this.isTopLevelItem || this.topLevelLayout === "vertical")
-            ? "chevron-up"
-            : this.isTopLevelItem || this.topLevelLayout === "vertical"
-            ? "chevron-down"
-            : // and not vertical
-            this.isTopLevelItem
-            ? dirChevron
+          this.dropdownPosition === "vertical" || this.topLevelLayout === "vertical"
+            ? this.subMenuOpen
+              ? "chevron-up"
+              : "chevron-down"
             : dirChevron
         }
         onClick={() => (this.subMenuOpen = !this.subMenuOpen)}
