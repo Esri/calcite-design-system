@@ -1228,6 +1228,14 @@
         }
       },
       "action": {
+        "font": {
+          "value": "$action.font.light",
+          "type": "color"
+        },
+        "icon": {
+          "value": "$action.icon.light",
+          "type": "color"
+        },
         "background": {
           "default": {
             "value": "$action.background.default.light",
@@ -1237,33 +1245,45 @@
             "value": "$action.background.active.light",
             "type": "color"
           }
-        },
-        "indicator": {
-          "value": "$action.indicator.light",
+        }
+      },
+      "action-bar": {
+        "border": {
+          "value": "$action-bar.border.light",
           "type": "color"
         },
-        "font": {
-          "default": {
-            "value": "$action.font.default.light",
-            "type": "color"
-          },
-          "active": {
-            "value": "$action.font.active.light",
-            "type": "color"
-          }
+        "background": {
+          "value": "$action-bar.background.light",
+          "type": "color"
+        }
+      },
+      "action-pad": {
+        "border": {
+          "value": "$action-pad.border.light",
+          "type": "color"
         },
-        "icon": {
-          "default": {
-            "value": "$action.icon.default.light",
-            "type": "color"
-          },
-          "active": {
-            "value": "$action.icon.active.light",
-            "type": "color"
-          }
+        "background": {
+          "value": "$action-pad.background.light",
+          "type": "color"
+        }
+      },
+      "action-bar-grid": {
+        "border": {
+          "value": "$action-bar-grid.border.light",
+          "type": "color"
         },
-        "loader": {
-          "value": "$action.loader-icon.light",
+        "background": {
+          "value": "$action-bar-grid.background.light",
+          "type": "color"
+        }
+      },
+      "action-pad-grid": {
+        "border": {
+          "value": "$action-pad-grid.border.light",
+          "type": "color"
+        },
+        "background": {
+          "value": "$action-pad-grid.background.light",
           "type": "color"
         }
       }

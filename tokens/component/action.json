@@ -1,6 +1,14 @@
 {
   "action": {
     "font": {
+      "light": {
+        "value": "$semantic.ui.color.text.3.light",
+        "type": "color"
+      },
+      "dark": {
+        "value": "$semantic.ui.color.text.3.dark",
+        "type": "color"
+      },
       "sm": {
         "value": "$semantic.font.default.regular.-2h",
         "type": "typography"
@@ -12,48 +20,16 @@
       "lg": {
         "value": "$semantic.font.default.regular.0h",
         "type": "typography"
-      },
-      "default": {
-        "light": {
-          "value": "$semantic.ui.color.text.3.light",
-          "type": "color"
-        },
-        "dark": {
-          "value": "$semantic.ui.color.text.3.dark",
-          "type": "color"
-        }
-      },
-      "active": {
-        "light": {
-          "value": "$semantic.ui.color.text.1.light",
-          "type": "color"
-        },
-        "dark": {
-          "value": "$semantic.ui.color.text.1.dark",
-          "type": "color"
-        }
       }
     },
     "icon": {
-      "default": {
-        "light": {
-          "value": "$semantic.ui.color.text.3.light",
-          "type": "color"
-        },
-        "dark": {
-          "value": "$semantic.ui.color.text.3.dark",
-          "type": "color"
-        }
+      "light": {
+        "value": "$semantic.ui.color.text.3.light",
+        "type": "color"
       },
-      "active": {
-        "light": {
-          "value": "$semantic.ui.color.text.1.light",
-          "type": "color"
-        },
-        "dark": {
-          "value": "$semantic.ui.color.text.1.dark",
-          "type": "color"
-        }
+      "dark": {
+        "value": "$semantic.ui.color.text.3.dark",
+        "type": "color"
       }
     },
     "background": {
@@ -143,40 +119,6 @@
           },
           "type": "composition"
         }
-      }
-    },
-    "indicator-size": {
-      "sm": {
-        "value": "$core.sizing.3",
-        "type": "sizing"
-      },
-      "md": {
-        "value": "$core.sizing.3",
-        "type": "sizing"
-      },
-      "lg": {
-        "value": "$core.sizing.3",
-        "type": "sizing"
-      }
-    },
-    "indicator": {
-      "light": {
-        "value": "$semantic.ui.color.brand.default.light",
-        "type": "color"
-      },
-      "dark": {
-        "value": "$semantic.ui.color.brand.default.dark",
-        "type": "color"
-      }
-    },
-    "loader-icon": {
-      "light": {
-        "value": "$semantic.ui.color.text.3.light",
-        "type": "color"
-      },
-      "dark": {
-        "value": "$semantic.ui.color.text.3.dark",
-        "type": "color"
       }
     }
   }
