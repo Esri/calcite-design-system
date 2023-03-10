@@ -81,6 +81,11 @@ export class CalciteNavMenuItem {
    */
   @Prop({ reflect: true }) target: string;
 
+  /**
+   * Specified th placement of nested menu items in a dropdown.
+   */
+  @Prop({ mutable: true, reflect: true }) dropdownPosition: "horizontal" | "vertical";
+
   //--------------------------------------------------------------------------
   //
   //  Private State/Props
@@ -92,15 +97,7 @@ export class CalciteNavMenuItem {
   /** The close button element. */
   private anchorEl?: HTMLAnchorElement;
 
-  // make private
-  // remove reflect and move style to class
-  @Prop({ mutable: true, reflect: true }) layout?: "horizontal" | "vertical" = "horizontal";
-
-  @Prop({ mutable: true, reflect: true }) dropdownPosition: "horizontal" | "vertical" = "vertical";
-
-  // private parentEl: HTMLCalciteNavMenuElement;
-
-  // private parentElLayout: "horizontal" | "vertical" = "horizontal";
+  private layout: "horizontal" | "vertical";
 
   @State() editingActive = false;
 
@@ -182,6 +179,7 @@ export class CalciteNavMenuItem {
     //not sure if this is reqired???
 
     this.topLevelLayout = this.el.closest("calcite-nav-menu")?.layout || "horizontal";
+    this.layout = this.topLevelLayout;
 
     // todo determine indentation level to support fly out
   }
@@ -399,11 +397,13 @@ export class CalciteNavMenuItem {
     const dir = getElementDir(this.el);
     return (
       <calcite-nav-menu
-        class={`dropdown-menu-items ${this.subMenuOpen ? "open" : ""} ${
-          !this.isTopLevelItem ? "nested" : ""
-        }${dir === "rtl" ? " is-rtl" : ""}${
-          this.topLevelLayout === "vertical" ? " is-vertical-dropdown-type" : ""
-        }`}
+        class={{
+          "dropdown-menu-items": true,
+          open: this.subMenuOpen,
+          "is-vertical-dropdown-type": this.topLevelLayout === "vertical",
+          "is-rtl": dir === "rtl",
+          nested: this.topLevelLayout === "horizontal" && this.dropdownPosition !== "vertical"
+        }}
         layout="vertical"
         role="submenu"
       >
@@ -478,9 +478,9 @@ export class CalciteNavMenuItem {
   private handleMenuItemSlotChange = (event: Event): void => {
     if (this.hasSubMenu) {
       this.subMenuItems = slotChangeGetAssignedElements(event) as HTMLCalciteNavMenuItemElement[];
-      this.subMenuItems.map((el: HTMLCalciteNavMenuItemElement) => {
-        el.layout = "vertical";
-      });
+      // this.subMenuItems.map((el: HTMLCalciteNavMenuItemElement) => {
+      // el.dropdownPosition = "vertical";
+      // });
     }
   };
 
