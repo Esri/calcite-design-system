@@ -22,9 +22,7 @@ export class BigDecimal {
     if (input instanceof BigDecimal) {
       return input;
     }
-    if (input.indexOf("e") !== -1) {
-    }
-    const [integers, decimals] = String(input).split(".").concat("");
+    const [integers, decimals] = expandExponentialNumberString(input).split(".").concat("");
     this.value =
       BigInt(integers + decimals.padEnd(BigDecimal.DECIMALS, "0").slice(0, BigDecimal.DECIMALS)) +
       BigInt(BigDecimal.ROUNDED && decimals[BigDecimal.DECIMALS] >= "5");
@@ -38,7 +36,7 @@ export class BigDecimal {
     );
 
   static fromBigInt = (bigint: bigint): BigDecimal =>
-    Object.assign(Object.create(BigDecimal.prototype), { value: bigint, isNegative: bigint < 0n });
+    Object.assign(Object.create(BigDecimal.prototype), { value: bigint, isNegative: bigint < BigInt(0) });
 
   getIntegersAndDecimals(): { integers: string; decimals: string } {
     const s = this.value
@@ -53,10 +51,6 @@ export class BigDecimal {
   toString(): string {
     const { integers, decimals } = this.getIntegersAndDecimals();
     return `${this.isNegative ? "-" : ""}${integers}${decimals.length ? "." + decimals : ""}`;
-  }
-
-  toFixed(decimalPlaces: number): string {
-    return this.toString().replace(new RegExp(`-?\d+\.?\d{0, ${decimalPlaces}}`), "");
   }
 
   formatToParts(formatter: NumberStringFormat): Intl.NumberFormatPart[] {
