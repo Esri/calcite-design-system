@@ -197,7 +197,7 @@
     },
     "chevron-size": {
       "md": {
-        "value": "$core.sizing.9",
+        "value": "$core.sizing.7",
         "type": "sizing"
       }
     },
