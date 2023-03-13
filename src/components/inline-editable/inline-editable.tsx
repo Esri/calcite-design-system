@@ -175,13 +175,14 @@ export class InlineEditable
             kind="neutral"
             label={this.messages.enableEditing}
             onClick={this.enableEditingHandler}
-            ref={(el) => (this.enableEditingButton = el)}
             scale={this.scale}
             style={{
               opacity: this.editingEnabled ? "0" : "1",
               width: this.editingEnabled ? "0" : "inherit"
             }}
             type="button"
+            // eslint-disable-next-line react/jsx-sort-props
+            ref={(el) => (this.enableEditingButton = el)}
           />
           {this.shouldShowControls && [
             <div class={CSS.cancelEditingButtonWrapper}>
@@ -193,9 +194,10 @@ export class InlineEditable
                 kind="neutral"
                 label={this.messages.cancelEditing}
                 onClick={this.cancelEditingHandler}
-                ref={(el) => (this.cancelEditingButton = el)}
                 scale={this.scale}
                 type="button"
+                // eslint-disable-next-line react/jsx-sort-props
+                ref={(el) => (this.cancelEditingButton = el)}
               />
             </div>,
             <calcite-button
@@ -207,9 +209,10 @@ export class InlineEditable
               label={this.messages.confirmChanges}
               loading={this.loading}
               onClick={this.confirmChangesHandler}
-              ref={(el) => (this.confirmEditingButton = el)}
               scale={this.scale}
               type="button"
+              // eslint-disable-next-line react/jsx-sort-props
+              ref={(el) => (this.confirmEditingButton = el)}
             />
           ]}
         </div>

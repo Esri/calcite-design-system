@@ -276,6 +276,9 @@ export class Rating
                       name={this.guid}
                       onChange={this.handleInputChange}
                       onKeyDown={this.handleInputKeyDown}
+                      type="radio"
+                      value={value}
+                      // eslint-disable-next-line react/jsx-sort-props
                       ref={(el) => {
                         this.inputRefs[idx] = el;
                         return (
@@ -283,8 +286,6 @@ export class Rating
                           (this.inputFocusRef = el as HTMLInputElement)
                         );
                       }}
-                      type="radio"
-                      value={value}
                     />
                     <StarIcon full={selected || average} scale={this.scale} />
                     {partial && (

@@ -13,11 +13,11 @@ Calcite Components, part of Esri's Calcite Design System, is a rich library of f
 The most common approach for loading Calcite Components is to use the version hosted on the CDN. The components can be loaded via `<script>` and `<link>` tags in the head of your HTML document:
 
 ```html
-<script type="module" src="https://unpkg.com/@esri/calcite-components@1.0.4/dist/calcite/calcite.esm.js"></script>
+<script type="module" src="https://unpkg.com/@esri/calcite-components@1.0.8/dist/calcite/calcite.esm.js"></script>
 <link
   rel="stylesheet"
   type="text/css"
-  href="https://unpkg.com/@esri/calcite-components@1.0.4/dist/calcite/calcite.css"
+  href="https://unpkg.com/@esri/calcite-components@1.0.8/dist/calcite/calcite.css"
 />
 ```
 
