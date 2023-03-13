@@ -620,19 +620,19 @@ export class Input
     const inputVal = new BigDecimal(value !== "" ? value : "0");
     const nudgedValue = inputVal.add(`${inputStep * adjustment}`);
 
-    const nudgedValueBelowInputMin =
+    const nudgedValueBelowInputMin = () =>
       typeof inputMin === "number" &&
       !isNaN(inputMin) &&
       nudgedValue.subtract(`${inputMin}`).isNegative;
 
-    const nudgedValueAboveInputMax =
+    const nudgedValueAboveInputMax = () =>
       typeof inputMax === "number" &&
       !isNaN(inputMax) &&
       !nudgedValue.subtract(`${inputMax}`).isNegative;
 
-    const finalValue = nudgedValueBelowInputMin
+    const finalValue = nudgedValueBelowInputMin()
       ? `${inputMin}`
-      : nudgedValueAboveInputMax
+      : nudgedValueAboveInputMax()
       ? `${inputMax}`
       : nudgedValue.toString();
 

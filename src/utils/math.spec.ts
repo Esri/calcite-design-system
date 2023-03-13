@@ -10,8 +10,7 @@ describe("clamp", () => {
 
 describe("decimalPlaces", () => {
   it("returns largest number", () => {
-    expect(decimalPlaces("123.")).toBe(0);
-    expect(decimalPlaces("123.00000000000000000000000000000000000000000000000001")).toBe(50);
-    expect(decimalPlaces("123.123")).toBe(3);
+    expect(decimalPlaces(123)).toBe(0);
+    expect(decimalPlaces(123.123)).toBe(3);
   });
 });

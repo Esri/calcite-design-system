@@ -178,8 +178,10 @@ export function expandExponentialNumberString(numberString: string): string {
   if (exponentialParts.length === 1) {
     return numberString;
   }
-  if (Number.isSafeInteger(+numberString)) {
-    return `${+numberString}`;
+
+  const number = +numberString;
+  if (Number.isSafeInteger(number)) {
+    return `${number}`;
   }
 
   const isNegative = numberString.charAt(0) === "-";

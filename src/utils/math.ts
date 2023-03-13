@@ -2,8 +2,8 @@ export const clamp = (value: number, min: number, max: number): number => Math.m
 
 const decimalNumberRegex = new RegExp(/(?:\.(\d+))?(?:[eE]([+-]?\d+))?$/);
 
-export const decimalPlaces = (value: string): number => {
-  const match = value.match(decimalNumberRegex);
+export const decimalPlaces = (value: number): number => {
+  const match = ("" + value).match(decimalNumberRegex);
   if (!match) {
     return 0;
   }
