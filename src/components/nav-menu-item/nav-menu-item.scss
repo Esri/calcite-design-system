@@ -251,6 +251,7 @@ a:active {
   inset-inline-end: 0.25rem;
   position: relative;
 }
+a:focus .hover-href-icon,
 a:hover .hover-href-icon {
   opacity: 1;
   inset-inline-end: -0.25rem;
