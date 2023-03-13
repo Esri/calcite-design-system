@@ -11,6 +11,7 @@
     "component/action-pad-grid",
     "component/alert",
     "component/avatar",
+    "component/block",
     "component/card",
     "component/checkbox",
     "component/chip",
