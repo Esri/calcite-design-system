@@ -436,16 +436,17 @@ export class DatePickerMonth {
         onCalciteInternalDayHover={this.dayHover}
         range={!!this.startDate && !!this.endDate && !sameDate(this.startDate, this.endDate)}
         rangeHover={this.isRangeHover(date)}
+        scale={this.scale}
+        selected={this.isSelected(date)}
+        startOfRange={this.isStartOfRange(date)}
+        value={date}
+        // eslint-disable-next-line react/jsx-sort-props
         ref={(el: HTMLCalciteDatePickerDayElement) => {
           // when moving via keyboard, focus must be updated on active date
           if (ref && active && this.activeFocus) {
             el?.focus();
           }
         }}
-        scale={this.scale}
-        selected={this.isSelected(date)}
-        startOfRange={this.isStartOfRange(date)}
-        value={date}
       />
     );
   }

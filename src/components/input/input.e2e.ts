@@ -13,7 +13,7 @@ import {
 import { html } from "../../../support/formatting";
 import { letterKeys, numberKeys } from "../../utils/key";
 import { locales, numberStringFormatter } from "../../utils/locale";
-import { getElementXY } from "../../tests/utils";
+import { getElementXY, selectText } from "../../tests/utils";
 import { KeyInput } from "puppeteer";
 
 describe("calcite-input", () => {
@@ -712,6 +712,15 @@ describe("calcite-input", () => {
       expect(await element.getProperty("value")).toBe(programmaticSetValue);
       expect(calciteInputInput).toHaveReceivedEventTimes(10);
       expect(calciteInputChange).toHaveReceivedEventTimes(2);
+
+      await element.callMethod("setFocus");
+      await selectText(element);
+      await page.keyboard.press("Backspace");
+      await page.keyboard.press("Tab");
+
+      expect(await element.getProperty("value")).toBe("");
+      expect(calciteInputInput).toHaveReceivedEventTimes(11);
+      expect(calciteInputChange).toHaveReceivedEventTimes(3);
     }
 
     it("emits when type is text", () => assertChangeEvents("text"));

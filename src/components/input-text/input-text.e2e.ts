@@ -11,6 +11,7 @@ import {
   renders,
   t9n
 } from "../../tests/commonTests";
+import { selectText } from "../../tests/utils";
 
 describe("calcite-input-text", () => {
   it("is labelable", async () => labelable("calcite-input-text"));
@@ -159,6 +160,15 @@ describe("calcite-input-text", () => {
     expect(await element.getProperty("value")).toBe(programmaticSetValue);
     expect(calciteInputTextInput).toHaveReceivedEventTimes(10);
     expect(calciteInputTextChange).toHaveReceivedEventTimes(2);
+
+    await element.callMethod("setFocus");
+    await selectText(element);
+    await page.keyboard.press("Backspace");
+    await page.keyboard.press("Tab");
+
+    expect(await element.getProperty("value")).toBe("");
+    expect(calciteInputTextInput).toHaveReceivedEventTimes(11);
+    expect(calciteInputTextChange).toHaveReceivedEventTimes(3);
   });
 
   it("renders clear button when clearable is requested and value is populated at load", async () => {

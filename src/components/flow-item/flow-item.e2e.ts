@@ -126,7 +126,7 @@ describe("calcite-flow-item", () => {
         </calcite-flow-item>
       </calcite-flow>
     `);
-    const [top, _middle, bottom] = await page.findAll("calcite-block");
+    const [top, , bottom] = await page.findAll("calcite-block");
 
     await bottom.callMethod("scrollIntoView");
 

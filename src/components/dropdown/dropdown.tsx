@@ -251,6 +251,7 @@ export class Dropdown
           id={`${guid}-menubutton`}
           onClick={this.openCalciteDropdown}
           onKeyDown={this.keyDownHandler}
+          // eslint-disable-next-line react/jsx-sort-props
           ref={this.setReferenceEl}
         >
           <slot
@@ -264,6 +265,7 @@ export class Dropdown
         <div
           aria-hidden={toAriaBoolean(!open)}
           class="calcite-dropdown-wrapper"
+          // eslint-disable-next-line react/jsx-sort-props
           ref={this.setFloatingEl}
         >
           <div
@@ -274,8 +276,9 @@ export class Dropdown
               [FloatingCSS.animationActive]: open
             }}
             id={`${guid}-menu`}
-            ref={this.setScrollerAndTransitionEl}
             role="menu"
+            // eslint-disable-next-line react/jsx-sort-props
+            ref={this.setScrollerAndTransitionEl}
           >
             <slot onSlotchange={this.updateGroups} />
           </div>

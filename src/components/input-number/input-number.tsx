@@ -343,7 +343,7 @@ export class InputNumber
 
   private maxString?: string;
 
-  private previousEmittedValue: string;
+  private previousEmittedNumberValue: string;
 
   private previousValue: string;
 
@@ -559,10 +559,10 @@ export class InputNumber
   };
 
   private emitChangeIfUserModified = (): void => {
-    if (this.previousValueOrigin === "user" && this.value !== this.previousEmittedValue) {
+    if (this.previousValueOrigin === "user" && this.value !== this.previousEmittedNumberValue) {
       this.calciteInputNumberChange.emit();
+      this.setPreviousEmittedNumberValue(this.value);
     }
-    this.previousEmittedValue = this.value;
   };
 
   private inputNumberBlurHandler = () => {
@@ -780,14 +780,16 @@ export class InputNumber
     this.childNumberEl.value = newInputValue;
   };
 
-  private setPreviousEmittedNumberValue = (newPreviousEmittedValue: string): void => {
-    this.previousEmittedValue = isValidNumber(newPreviousEmittedValue)
-      ? newPreviousEmittedValue
-      : "";
+  private setPreviousEmittedNumberValue = (value: string): void => {
+    this.previousEmittedNumberValue = this.normalizeValue(value);
   };
 
-  private setPreviousNumberValue = (newPreviousValue: string): void => {
-    this.previousValue = isValidNumber(newPreviousValue) ? newPreviousValue : "";
+  private normalizeValue(value: string): string {
+    return isValidNumber(value) ? value : "";
+  }
+
+  private setPreviousNumberValue = (value: string): void => {
+    this.previousValue = this.normalizeValue(value);
   };
 
   private setNumberValue = ({
@@ -826,13 +828,17 @@ export class InputNumber
     const newLocalizedValue = numberStringFormatter.localize(newValue);
     this.localizedValue = newLocalizedValue;
 
-    this.setPreviousNumberValue(previousValue || this.value);
+    this.setPreviousNumberValue(previousValue ?? this.value);
     this.previousValueOrigin = origin;
     this.userChangedValue = origin === "user" && this.value !== newValue;
     // don't sanitize the start of negative/decimal numbers, but
     // don't set value to an invalid number
     this.value = ["-", "."].includes(newValue) ? "" : newValue;
-    origin === "direct" && this.setInputNumberValue(newLocalizedValue);
+
+    if (origin === "direct") {
+      this.setInputNumberValue(newLocalizedValue);
+      this.setPreviousEmittedNumberValue(newLocalizedValue);
+    }
 
     if (nativeEvent) {
       const calciteInputNumberInputEvent = this.calciteInputNumberInput.emit();
@@ -961,9 +967,10 @@ export class InputNumber
         onKeyUp={this.inputNumberKeyUpHandler}
         placeholder={this.placeholder || ""}
         readOnly={this.readOnly}
-        ref={this.setChildNumberElRef}
         type="text"
         value={this.localizedValue}
+        // eslint-disable-next-line react/jsx-sort-props
+        ref={this.setChildNumberElRef}
       />
     );
 

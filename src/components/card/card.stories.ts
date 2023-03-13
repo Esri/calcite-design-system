@@ -1,4 +1,4 @@
-import { boolean, select, text } from "@storybook/addon-knobs";
+import { boolean, select } from "@storybook/addon-knobs";
 import { placeholderImage } from "../../../.storybook/placeholderImage";
 import { html } from "../../../support/formatting";
 import readme from "./readme.md";

@@ -166,10 +166,11 @@ export class DropdownItem implements LoadableComponent {
         aria-label={this.label}
         class={CSS.link}
         href={this.href}
-        ref={(el) => (this.childLink = el)}
         rel={this.rel}
         tabIndex={-1}
         target={this.target}
+        // eslint-disable-next-line react/jsx-sort-props
+        ref={(el) => (this.childLink = el)}
       >
         {slottedContent}
       </a>
