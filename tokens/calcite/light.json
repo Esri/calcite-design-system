@@ -1286,6 +1286,98 @@
           "value": "$action-pad-grid.background.light",
           "type": "color"
         }
+      },
+      "block": {
+        "font": {
+          "heading": {
+            "value": "$block.font.heading.light",
+            "type": "color"
+          },
+          "description": {
+            "value": "$block.font.description.light",
+            "type": "color"
+          },
+          "content": {
+            "value": "$block.font.content.light",
+            "type": "color"
+          }
+        },
+        "icon": {
+          "idle": {
+            "value": "$block.icon.idle.light",
+            "type": "color"
+          },
+          "valid": {
+            "value": "$block.icon.valid.light",
+            "type": "color"
+          },
+          "invalid": {
+            "value": "$block.icon.invalid.light",
+            "type": "color"
+          },
+          "drag-handle": {
+            "value": "$block.icon.drag-handle.light",
+            "type": "color"
+          },
+          "chevron": {
+            "value": "$block.icon.chevron.light",
+            "type": "color"
+          }
+        },
+        "border": {
+          "value": "$block.border.light",
+          "type": "color"
+        },
+        "background": {
+          "value": "$block.background.light",
+          "type": "color"
+        }
+      }
+    },
+    "block": {
+      "font": {
+        "heading": {
+          "value": "$block.font.heading.light",
+          "type": "color"
+        },
+        "description": {
+          "value": "$block.font.description.light",
+          "type": "color"
+        },
+        "content": {
+          "value": "$block.font.content.light",
+          "type": "color"
+        }
+      },
+      "icon": {
+        "idle": {
+          "value": "$block.icon.idle.light",
+          "type": "color"
+        },
+        "valid": {
+          "value": "$block.icon.valid.light",
+          "type": "color"
+        },
+        "invalid": {
+          "value": "$block.icon.invalid.light",
+          "type": "color"
+        },
+        "drag-handle": {
+          "value": "$block.icon.drag-handle.light",
+          "type": "color"
+        },
+        "chevron": {
+          "value": "$block.icon.chevron.light",
+          "type": "color"
+        }
+      },
+      "border": {
+        "value": "$block.border.light",
+        "type": "color"
+      },
+      "background": {
+        "value": "$block.background.light",
+        "type": "color"
       }
     }
   }

@@ -15,7 +15,7 @@
           "type": "typography"
         }
       },
-      "dscription": {
+      "description": {
         "light": {
           "value": "$semantic.ui.color.text.3.light",
           "type": "color"
@@ -23,6 +23,10 @@
         "dark": {
           "value": "$semantic.ui.color.text.3.dark",
           "type": "color"
+        },
+        "md": {
+          "value": "$semantic.font.default.regular.-2h",
+          "type": "typography"
         }
       },
       "content": {
@@ -36,12 +40,6 @@
         },
         "md": {
           "value": "$semantic.font.default.regular.-1h",
-          "type": "typography"
-        }
-      },
-      "description": {
-        "md": {
-          "value": "$semantic.font.default.regular.-2h",
           "type": "typography"
         }
       }
@@ -74,6 +72,26 @@
         },
         "dark": {
           "value": "$semantic.ui.color.danger.default.dark",
+          "type": "color"
+        }
+      },
+      "drag-handle": {
+        "light": {
+          "value": "$semantic.ui.color.border.input.light",
+          "type": "color"
+        },
+        "dark": {
+          "value": "$semantic.ui.color.border.input.dark",
+          "type": "color"
+        }
+      },
+      "chevron": {
+        "light": {
+          "value": "$semantic.ui.color.text.3.light",
+          "type": "color"
+        },
+        "dark": {
+          "value": "{semantic.ui.color.text.3.dark}",
           "type": "color"
         }
       }
