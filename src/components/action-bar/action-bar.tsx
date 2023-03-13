@@ -330,10 +330,11 @@ export class ActionBar
         intlCollapse={messages.collapse}
         intlExpand={messages.expand}
         position={position}
-        ref={this.setExpandToggleRef}
         scale={scale}
         toggle={toggleExpand}
         tooltip={tooltip}
+        // eslint-disable-next-line react/jsx-sort-props
+        ref={this.setExpandToggleRef}
       />
     ) : null;
 

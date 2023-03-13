@@ -337,9 +337,14 @@ export class Tooltip implements FloatingUIComponent, OpenCloseComponent {
             [FloatingCSS.animation]: true,
             [FloatingCSS.animationActive]: displayed
           }}
+          // eslint-disable-next-line react/jsx-sort-props
           ref={this.setTransitionEl}
         >
-          <div class={CSS.arrow} ref={(arrowEl) => (this.arrowEl = arrowEl)} />
+          <div
+            class={CSS.arrow}
+            // eslint-disable-next-line react/jsx-sort-props
+            ref={(arrowEl) => (this.arrowEl = arrowEl)}
+          />
           <div class={CSS.container}>
             <slot />
           </div>

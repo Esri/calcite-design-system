@@ -360,6 +360,7 @@ export class Chip
         class={CSS.close}
         onClick={this.closeHandler}
         onKeyDown={this.closeButtonKeyDownHandler}
+        ref={(el) => (this.closeButton = el)}
       >
         <calcite-icon
           class={CSS.closeIcon}

@@ -156,6 +156,7 @@ export class Notice
         aria-label={this.messages.close}
         class={CSS.close}
         onClick={this.close}
+        // eslint-disable-next-line react/jsx-sort-props
         ref={(el) => (this.closeButton = el)}
       >
         <calcite-icon icon="x" scale={this.scale === "l" ? "m" : "s"} />

@@ -781,9 +781,10 @@ export class TimePicker
             }}
             onFocus={this.focusHandler}
             onKeyDown={this.hourKeyDownHandler}
-            ref={this.setHourEl}
             role="spinbutton"
             tabIndex={0}
+            // eslint-disable-next-line react/jsx-sort-props
+            ref={this.setHourEl}
           >
             {this.localizedHour || "--"}
           </span>
@@ -829,9 +830,10 @@ export class TimePicker
             }}
             onFocus={this.focusHandler}
             onKeyDown={this.minuteKeyDownHandler}
-            ref={this.setMinuteEl}
             role="spinbutton"
             tabIndex={0}
+            // eslint-disable-next-line react/jsx-sort-props
+            ref={this.setMinuteEl}
           >
             {this.localizedMinute || "--"}
           </span>
@@ -877,9 +879,10 @@ export class TimePicker
               }}
               onFocus={this.focusHandler}
               onKeyDown={this.secondKeyDownHandler}
-              ref={this.setSecondEl}
               role="spinbutton"
               tabIndex={0}
+              // eslint-disable-next-line react/jsx-sort-props
+              ref={this.setSecondEl}
             >
               {this.localizedSecond || "--"}
             </span>
@@ -935,9 +938,10 @@ export class TimePicker
               }}
               onFocus={this.focusHandler}
               onKeyDown={this.meridiemKeyDownHandler}
-              ref={this.setMeridiemEl}
               role="spinbutton"
               tabIndex={0}
+              // eslint-disable-next-line react/jsx-sort-props
+              ref={this.setMeridiemEl}
             >
               {this.localizedMeridiem || "--"}
             </span>
