@@ -62,7 +62,7 @@ export class CalciteNavMenuItem {
   @Prop({ mutable: true }) textEnabled: boolean;
 
   /** Specifies the text the component displays */
-  @Prop({ reflect: true, mutable: true }) text!: string;
+  @Prop({ reflect: true, mutable: true }) text: string;
 
   /** When true, provide a navigable href link */
   @Prop({ reflect: true }) href: string;
@@ -94,7 +94,11 @@ export class CalciteNavMenuItem {
 
   // make private
   // remove reflect and move style to class
-  @Prop({ mutable: true, reflect: true }) layout?: "horizontal" | "vertical" = "horizontal";
+  /**
+   * @internal
+   */
+  @Prop({ mutable: true })
+  layout?: "horizontal" | "vertical" = "horizontal";
 
   @State() editingActive = false;
 
@@ -149,7 +153,7 @@ export class CalciteNavMenuItem {
       this.subMenuOpen &&
       !this.el.contains(event.target as Element)
     ) {
-      this.subMenuOpen = !this.subMenuOpen;
+      this.subMenuOpen = false;
     }
   }
 
@@ -174,7 +178,7 @@ export class CalciteNavMenuItem {
     // for now to detect nesting only working two level for demo.. need to just check if it has any parent originating at top lvel
     //not sure if this is reqired???
     this.isTopLevelItem = !(
-      this.el.parentElement?.slot === "" || this.el.parentElement?.slot === "menu-item-dropdown"
+      this.el.parentElement?.slot === "menu-item-dropdown" || this.el.slot !== ""
     );
     this.topLevelLayout = this.el.closest("calcite-nav-menu")?.layout || "horizontal";
     this.layout = this.topLevelLayout;
@@ -214,7 +218,6 @@ export class CalciteNavMenuItem {
     // probably need to maintain index of all "parents" and track where
     // user currently is focused in
     // probably move logic to parent nav-menu, just emit key from here
-    console.log(this.topLevelLayout);
     switch (event.key) {
       case " ":
       case "Enter":
@@ -355,10 +358,6 @@ export class CalciteNavMenuItem {
 
   renderDropdownIcon(): VNode {
     const dirChevron = this.dir === "rtl" ? "chevron-left" : "chevron-right";
-    if (this.el.text === "internal") {
-      console.log("balh", this.topLevelLayout === "vertical", !this.subMenuOpen);
-      console.log(this.isTopLevelItem, this.subMenuOpen);
-    }
 
     return (
       <calcite-icon
@@ -369,12 +368,6 @@ export class CalciteNavMenuItem {
               ? "chevron-up"
               : "chevron-down"
             : dirChevron
-          // this.subMenuOpen && (this.topLevelLayout === "vertical" || this.isTopLevelItem)
-          //   ? "chevron-up"
-          //   : (this.topLevelLayout === "vertical" && this.subMenuOpen) ||
-          //     (this.isTopLevelItem && this.hasSubMenu)
-          //   ? "chevron-down"
-          //   : dirChevron
         }
         id="render-dropdown-icon"
         scale="s"
