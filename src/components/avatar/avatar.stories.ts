@@ -58,10 +58,7 @@ const users = [
 ];
 
 const contrastLight = users
-  .map(
-    (user): string =>
-      html`<calcite-avatar key=${user.id} user-id="${user.id}" username="${user.name}"></calcite-avatar>`
-  )
+  .map((user): string => html`<calcite-avatar user-id="${user.id}" username="${user.name}"></calcite-avatar>`)
   .join("");
 
 const contrastDarkRTL = users
@@ -70,7 +67,6 @@ const contrastDarkRTL = users
       html`<calcite-avatar
         dir="rtl"
         class="calcite-mode-dark"
-        key=${user.id}
         user-id="${user.id}"
         username="${user.name}"
       ></calcite-avatar>`
@@ -78,8 +74,23 @@ const contrastDarkRTL = users
   .join("");
 
 export const contrast = (): string => html`
-  <div style="display: flex; width: 35%; justify-content: space-between; align-items: center; padding: 25px 0;">
-    <div style="flex: 1 0 21%; margin: 0 15px;">${contrastLight}</div>
-    <div style="flex: 1 0 21%; margin: 0 15px;">${contrastDarkRTL}</div>
+  <div>
+    <style>
+      .container {
+        display: flex;
+        width: 35%;
+        justify-content: space-between;
+        align-items: center;
+        padding: 25px 0;
+      }
+      .use-case {
+        flex: 1 0 21%;
+        margin: 0 15px;
+      }
+    </style>
+    <div class="container">
+      <div class="use-case">${contrastLight}</div>
+      <div class="use-case">${contrastDarkRTL}</div>
+    </div>
   </div>
 `;
