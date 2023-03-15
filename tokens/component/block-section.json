@@ -1,5 +1,5 @@
 {
-  "block": {
+  "block-section": {
     "font": {
       "heading": {
         "light": {
@@ -136,21 +136,15 @@
     },
     "space-between": {
       "md": {
-        "value": "$core.spacing.5",
+        "value": "$core.spacing.none",
         "type": "spacing"
       }
     },
     "space-around": {
-      "block": {
-        "top-down-left": {
+      "block-text": {
+        "right-left": {
           "md": {
             "value": "$core.spacing.5",
-            "type": "spacing"
-          }
-        },
-        "right": {
-          "md": {
-            "value": "$core.spacing.7",
             "type": "spacing"
           }
         }
@@ -165,6 +159,14 @@
         "top-down": {
           "md": {
             "value": "$core.spacing.3",
+            "type": "spacing"
+          }
+        }
+      },
+      "block-section": {
+        "top-down": {
+          "md": {
+            "value": "$core.spacing.5",
             "type": "spacing"
           }
         }
@@ -205,18 +207,6 @@
       "md": {
         "value": "$core.sizing.9",
         "type": "sizing"
-      }
-    },
-    "drag-handle": {
-      "space-around": {
-        "dragg": {
-          "right-left": {
-            "md": {
-              "value": "$core.spacing.1",
-              "type": "spacing"
-            }
-          }
-        }
       }
     }
   }
