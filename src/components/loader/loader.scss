@@ -9,9 +9,17 @@
  * @prop --calcite-loader-padding : Specifies the padding of the loader.
  */
 
+@import "../../assets/styles/animation";
+
 $stroke-width: 3;
 $loader-scale: 54;
 $loader-circumference: ($loader-scale - (2 * $stroke-width)) * 3.14159;
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --calcite-internal-duration-factor: 0;
+  }
+}
 
 :host {
   @apply relative mx-auto hidden items-center justify-center opacity-100;
@@ -21,7 +29,7 @@ $loader-circumference: ($loader-scale - (2 * $stroke-width)) * 3.14159;
   stroke-width: $stroke-width;
   fill: none;
   transform: scale(1, 1);
-  animation: loader-color-shift calc(var(--calcite-internal-animation-timing-slow) * 2) alternate-reverse infinite
+  animation: loader-color-shift scaleDuration(--calcite-internal-animation-timing-slow, 2) alternate-reverse infinite
     linear;
   padding-block: var(--calcite-loader-padding, theme("spacing.16"));
 }
@@ -191,9 +199,9 @@ $loader-circumference: ($loader-scale - (2 * $stroke-width)) * 3.14159;
   }
 }
 
-@include generateSegment(1, 10, 40, calc(var(--calcite-internal-animation-timing-slow) * 2.4));
-@include generateSegment(2, 20, 30, calc(var(--calcite-internal-animation-timing-slow) * 3.2));
-@include generateSegment(3, 05, 45, calc(var(--calcite-internal-animation-timing-slow) * 3.867));
+@include generateSegment(1, 10, 40, scaleDuration(--calcite-internal-animation-timing-slow, 2.4));
+@include generateSegment(2, 20, 30, scaleDuration(--calcite-internal-animation-timing-slow, 3.2));
+@include generateSegment(3, 05, 45, scaleDuration(--calcite-internal-animation-timing-slow, 3.867));
 
 @keyframes loader-color-shift {
   0% {
