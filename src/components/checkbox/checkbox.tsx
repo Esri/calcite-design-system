@@ -138,6 +138,10 @@ export class Checkbox
   //
   //--------------------------------------------------------------------------
 
+  syncHiddenFormInput(input: HTMLInputElement): void {
+    input.type = "checkbox";
+  }
+
   getPath = (): string =>
     this.indeterminate ? this.indeterminatePath : this.checked ? this.checkedPath : "";
 
@@ -246,9 +250,10 @@ export class Checkbox
           class="toggle"
           onBlur={this.onToggleBlur}
           onFocus={this.onToggleFocus}
-          ref={(toggleEl) => (this.toggleEl = toggleEl)}
           role="checkbox"
           tabIndex={this.disabled ? undefined : 0}
+          // eslint-disable-next-line react/jsx-sort-props
+          ref={(toggleEl) => (this.toggleEl = toggleEl)}
         >
           <svg aria-hidden="true" class="check-svg" viewBox="0 0 16 16">
             <path d={this.getPath()} />

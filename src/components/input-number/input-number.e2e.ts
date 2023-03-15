@@ -12,7 +12,7 @@ import {
   renders,
   t9n
 } from "../../tests/commonTests";
-import { getElementXY } from "../../tests/utils";
+import { getElementXY, selectText } from "../../tests/utils";
 import { letterKeys, numberKeys } from "../../utils/key";
 import { locales, numberStringFormatter } from "../../utils/locale";
 
@@ -208,6 +208,55 @@ describe("calcite-input-number", () => {
     let page: E2EPage;
     beforeEach(async () => {
       page = await newE2EPage();
+    });
+
+    it("correctly increments/decrements numbers greater than MAX_SAFE_INTEGER", async () => {
+      await page.setContent(
+        html`<calcite-input-number
+          value="100000000000000000000000000000000000000000000000000."
+          step="10"
+        ></calcite-input-number>`
+      );
+      const element = await page.find("calcite-input-number");
+      const numberHorizontalItemDown = await page.find(
+        "calcite-input-number >>> .number-button-item[data-adjustment='down']"
+      );
+      const numberHorizontalItemUp = await page.find(
+        "calcite-input-number >>> .number-button-item[data-adjustment='up']"
+      );
+      expect(await element.getProperty("value")).toBe("100000000000000000000000000000000000000000000000000");
+      await numberHorizontalItemUp.click();
+      await page.waitForChanges();
+      expect(await element.getProperty("value")).toBe("100000000000000000000000000000000000000000000000010");
+      element.setProperty("step", 0.1);
+      await page.waitForChanges();
+      Array.from({ length: 10 }, async () => await numberHorizontalItemDown.click());
+      await page.waitForChanges();
+      expect(await element.getProperty("value")).toBe("100000000000000000000000000000000000000000000000009");
+    });
+
+    it("correctly increments/decrements exponential notation numbers without losing precision", async () => {
+      await page.setContent(html`<calcite-input-number value="1.23e-60"></calcite-input-number>`);
+      const element = await page.find("calcite-input-number");
+      const numberHorizontalItemDown = await page.find(
+        "calcite-input-number >>> .number-button-item[data-adjustment='down']"
+      );
+      const numberHorizontalItemUp = await page.find(
+        "calcite-input-number >>> .number-button-item[data-adjustment='up']"
+      );
+      expect(await element.getProperty("value")).toBe("1.23e-60");
+      await numberHorizontalItemUp.click();
+      await page.waitForChanges();
+      expect(await element.getProperty("value")).toBe(
+        "1.00000000000000000000000000000000000000000000000000000000000123"
+      );
+      element.setProperty("step", 0.1);
+      await page.waitForChanges();
+      Array.from({ length: 5 }, async () => await numberHorizontalItemDown.click());
+      await page.waitForChanges();
+      expect(await element.getProperty("value")).toBe(
+        "0.50000000000000000000000000000000000000000000000000000000000123"
+      );
     });
 
     it("correctly increments and decrements decimal value when number buttons are clicked and the step precision matches the precision of the initial value", async () => {
@@ -724,6 +773,15 @@ describe("calcite-input-number", () => {
       expect(await element.getProperty("value")).toBe(programmaticSetValue);
       expect(calciteInputNumberInput).toHaveReceivedEventTimes(10);
       expect(calciteInputNumberChange).toHaveReceivedEventTimes(2);
+
+      await element.callMethod("setFocus");
+      await selectText(element);
+      await page.keyboard.press("Backspace");
+      await page.keyboard.press("Tab");
+
+      expect(await element.getProperty("value")).toBe("");
+      expect(calciteInputNumberInput).toHaveReceivedEventTimes(11);
+      expect(calciteInputNumberChange).toHaveReceivedEventTimes(3);
     }
 
     it("emits events", () => assertChangeEvents());
@@ -914,13 +972,19 @@ describe("calcite-input-number", () => {
     expect(await input.getProperty("value")).toBe("1.005");
   });
 
-  it("allows clearing value with an empty string", async () => {
+  it("allows negative numbers after clearing value with an empty string", async () => {
     const page = await newE2EPage();
     await page.setContent(html`<calcite-input-number value="1"></calcite-input-number>`);
     const input = await page.find("calcite-input-number");
+
     input.setProperty("value", "");
     await page.waitForChanges();
     expect(await input.getProperty("value")).toBe("");
+
+    await input.callMethod("setFocus");
+    await typeNumberValue(page, "-123");
+    await page.waitForChanges();
+    expect(await input.getProperty("value")).toBe("-123");
   });
 
   describe("number locale support", () => {
@@ -1461,9 +1525,10 @@ describe("calcite-input-number", () => {
   });
 
   it("is form-associated", () =>
-    formAssociated("<calcite-input-number></calcite-input-number>", {
+    formAssociated("calcite-input-number", {
       testValue: 5,
-      submitsOnEnter: true
+      submitsOnEnter: true,
+      inputType: "number"
     }));
 
   it("supports translation", () => t9n("calcite-input-number"));

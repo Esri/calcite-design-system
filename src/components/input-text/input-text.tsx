@@ -109,7 +109,9 @@ export class InputText
   @Prop({ reflect: true }) hidden = false;
 
   /**
-   * When `true`, shows a default recommended icon. Alternatively, pass a Calcite UI Icon name to display a specific icon.
+   * Specifies an icon to display.
+   *
+   * @futureBreaking Remove boolean type as it is not supported.
    */
   @Prop({ reflect: true }) icon: string | boolean;
 
@@ -138,6 +140,8 @@ export class InputText
 
   /**
    * Specifies the name of the component.
+   *
+   * Required to pass the component's `value` on form submission.
    *
    * @mdn [name](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#name)
    */
@@ -425,8 +429,8 @@ export class InputText
   private emitChangeIfUserModified = (): void => {
     if (this.previousValueOrigin === "user" && this.value !== this.previousEmittedValue) {
       this.calciteInputTextChange.emit();
+      this.setPreviousEmittedValue(this.value);
     }
-    this.previousEmittedValue = this.value;
   };
 
   private inputTextBlurHandler = () => {
@@ -528,12 +532,12 @@ export class InputText
     this.childEl.value = newInputValue;
   };
 
-  private setPreviousEmittedValue = (newPreviousEmittedValue: string): void => {
-    this.previousEmittedValue = newPreviousEmittedValue;
+  private setPreviousEmittedValue = (value: string): void => {
+    this.previousEmittedValue = value;
   };
 
-  private setPreviousValue = (newPreviousValue: string): void => {
-    this.previousValue = newPreviousValue;
+  private setPreviousValue = (value: string): void => {
+    this.previousValue = value;
   };
 
   private setValue = ({
@@ -549,13 +553,14 @@ export class InputText
     previousValue?: string;
     value: string;
   }): void => {
-    this.setPreviousValue(previousValue || this.value);
+    this.setPreviousValue(previousValue ?? this.value);
     this.previousValueOrigin = origin;
     this.userChangedValue = origin === "user" && value !== this.value;
     this.value = value;
 
     if (origin === "direct") {
       this.setInputValue(value);
+      this.setPreviousEmittedValue(value);
     }
 
     if (nativeEvent) {
@@ -630,11 +635,12 @@ export class InputText
         pattern={this.pattern}
         placeholder={this.placeholder || ""}
         readOnly={this.readOnly}
-        ref={this.setChildElRef}
         required={this.required ? true : null}
         tabIndex={this.disabled || (this.inlineEditableEl && !this.editingEnabled) ? -1 : null}
         type="text"
         value={this.value}
+        // eslint-disable-next-line react/jsx-sort-props
+        ref={this.setChildElRef}
       />
     );
 

@@ -74,7 +74,9 @@ export class SegmentedControl
   @Prop({ reflect: true }) layout: Layout = "horizontal";
 
   /**
-   * Specifies the name of the component on form submission.
+   * Specifies the name of the component.
+   *
+   * Required to pass the component's `value` on form submission.
    */
   @Prop({ reflect: true }) name: string;
 
@@ -249,7 +251,7 @@ export class SegmentedControl
   //
   //--------------------------------------------------------------------------
 
-  /** Fires when the selected option changes, where the event detail is the new value. */
+  /** Fires when the `calcite-segmented-control-item` selection changes. */
   @Event({ cancelable: false }) calciteSegmentedControlChange: EventEmitter<void>;
 
   // --------------------------------------------------------------------------

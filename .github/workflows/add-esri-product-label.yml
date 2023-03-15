@@ -56,19 +56,6 @@ jobs:
                 });
               }
 
-              /** remove any existing product label(s) */
-              const existingProductLabels = currentLabels
-                .filter((l) => /Issues logged by/.test(l.description) && l.name !== product)
-                .forEach(
-                  async (l) =>
-                    await github.rest.issues.removeLabel({
-                      issue_number,
-                      owner,
-                      repo,
-                      name: l.name,
-                    })
-                );
-
               /** add new product label */
               await github.rest.issues.addLabels({
                 issue_number,

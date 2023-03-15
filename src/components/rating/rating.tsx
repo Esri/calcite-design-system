@@ -88,7 +88,11 @@ export class Rating
     /* wired up by t9n util */
   }
 
-  /** Specifies the name of the component on form submission. */
+  /**
+   * Specifies the name of the component.
+   *
+   * Required to pass the component's `value` on form submission.
+   */
   @Prop({ reflect: true }) name: string;
 
   /** When `true`, the component's value can be read, but cannot be modified. */
@@ -272,6 +276,9 @@ export class Rating
                       name={this.guid}
                       onChange={this.handleInputChange}
                       onKeyDown={this.handleInputKeyDown}
+                      type="radio"
+                      value={value}
+                      // eslint-disable-next-line react/jsx-sort-props
                       ref={(el) => {
                         this.inputRefs[idx] = el;
                         return (
@@ -279,8 +286,6 @@ export class Rating
                           (this.inputFocusRef = el as HTMLInputElement)
                         );
                       }}
-                      type="radio"
-                      value={value}
                     />
                     <StarIcon full={selected || average} scale={this.scale} />
                     {partial && (

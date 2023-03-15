@@ -1,6 +1,7 @@
 import { isPrimaryPointerButton } from "../../utils/dom";
 import { ReferenceElement } from "../../utils/floating-ui";
 import { TOOLTIP_DELAY_MS } from "./resources";
+import { getEffectiveReferenceElement } from "./utils";
 
 export default class TooltipManager {
   // --------------------------------------------------------------------------
@@ -60,12 +61,18 @@ export default class TooltipManager {
   };
 
   private keyDownHandler = (event: KeyboardEvent): void => {
-    if (event.key === "Escape") {
+    if (event.key === "Escape" && !event.defaultPrevented) {
       const { activeTooltipEl } = this;
 
-      if (activeTooltipEl) {
+      if (activeTooltipEl && activeTooltipEl.open) {
         this.clearHoverTimeout();
         this.toggleTooltip(activeTooltipEl, false);
+
+        const referenceElement = getEffectiveReferenceElement(activeTooltipEl);
+
+        if (referenceElement instanceof Element && referenceElement.contains(event.target as HTMLElement)) {
+          event.preventDefault();
+        }
       }
     }
   };
@@ -119,7 +126,7 @@ export default class TooltipManager {
   };
 
   private addListeners(): void {
-    document.addEventListener("keydown", this.keyDownHandler);
+    document.addEventListener("keydown", this.keyDownHandler, { capture: true });
     document.addEventListener("pointermove", this.pointerMoveHandler, { capture: true });
     document.addEventListener("pointerdown", this.pointerDownHandler, { capture: true });
     document.addEventListener("focusin", this.focusInHandler, { capture: true });
@@ -127,7 +134,7 @@ export default class TooltipManager {
   }
 
   private removeListeners(): void {
-    document.removeEventListener("keydown", this.keyDownHandler);
+    document.removeEventListener("keydown", this.keyDownHandler, { capture: true });
     document.removeEventListener("pointermove", this.pointerMoveHandler, { capture: true });
     document.removeEventListener("pointerdown", this.pointerDownHandler, { capture: true });
     document.removeEventListener("focusin", this.focusInHandler, { capture: true });

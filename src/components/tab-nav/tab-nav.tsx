@@ -178,16 +178,19 @@ export class TabNav {
         <div
           class="tab-nav"
           onScroll={this.handleContainerScroll}
+          // eslint-disable-next-line react/jsx-sort-props
           ref={(el: HTMLDivElement) => (this.tabNavEl = el)}
         >
           <div
             class="tab-nav-active-indicator-container"
+            // eslint-disable-next-line react/jsx-sort-props
             ref={(el) => (this.activeIndicatorContainerEl = el)}
           >
             <div
               class="tab-nav-active-indicator"
-              ref={(el) => (this.activeIndicatorEl = el as HTMLElement)}
               style={indicatorStyle}
+              // eslint-disable-next-line react/jsx-sort-props
+              ref={(el) => (this.activeIndicatorEl = el as HTMLElement)}
             />
           </div>
           <slot />
@@ -303,6 +306,10 @@ export class TabNav {
   animationActiveDuration = 0.3;
 
   resizeObserver = createObserver("resize", () => {
+    if (!this.activeIndicatorEl) {
+      return;
+    }
+
     // remove active indicator transition duration during resize to prevent wobble
     this.activeIndicatorEl.style.transitionDuration = "0s";
     this.updateActiveWidth();
