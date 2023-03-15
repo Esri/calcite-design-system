@@ -13,12 +13,7 @@ import {
   VNode
 } from "@stencil/core";
 import { FlipContext } from "../interfaces";
-import {
-  getElementDir,
-  // getSlotted,
-  slotChangeGetAssignedElements
-  // slotChangeHasAssignedElement
-} from "../../utils/dom";
+import { getElementDir, slotChangeGetAssignedElements } from "../../utils/dom";
 import { componentLoaded, setComponentLoaded, setUpLoadableComponent } from "../../utils/loadable";
 
 @Component({
@@ -97,7 +92,7 @@ export class CalciteNavMenuItem {
   /**
    * @internal
    */
-  @Prop({ mutable: true })
+  @Prop({ mutable: true, reflect: true })
   layout?: "horizontal" | "vertical" = "horizontal";
 
   @State() editingActive = false;
@@ -150,6 +145,7 @@ export class CalciteNavMenuItem {
   handleClickOut(event: Event): void {
     if (
       this.topLevelLayout !== "vertical" &&
+      this.hasSubMenu &&
       this.subMenuOpen &&
       !this.el.contains(event.target as Element)
     ) {
@@ -182,8 +178,6 @@ export class CalciteNavMenuItem {
     );
     this.topLevelLayout = this.el.closest("calcite-nav-menu")?.layout || "horizontal";
     this.layout = this.topLevelLayout;
-
-    // todo determine indentation level to support fly out
   }
 
   componentWillLoad(): void {
@@ -441,9 +435,10 @@ export class CalciteNavMenuItem {
     return (
       <Host>
         <li
-          class={`container ${
-            this.topLevelLayout === "vertical" ? "nav-item-vertical-parent" : ""
-          }`}
+          class={{
+            container: true,
+            "nav-item-vertical-parent": this.topLevelLayout === "vertical"
+          }}
           role="none"
         >
           <div class="item-content">
