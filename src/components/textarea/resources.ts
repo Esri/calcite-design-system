@@ -1,13 +1,14 @@
 export const CSS = {
   characterLimit: "character-limit",
+  content: "content",
   footer: "footer",
   resizeDisabled: "resize--disabled",
   resizeDisabledX: "resize--disabled-x",
   resizeDisabledY: "resize--disabled-y",
-  characterOverlimit: "character--overlimit",
+  characterOverlimit: "character--over-limit",
   readonly: "readonly",
   textareaInvalid: "textarea--invalid",
-  footerSlotted: "footer-slotted",
+  footerSlotted: "footer--slotted",
   borderColor: "border--color",
   hide: "hide",
   blocksizeFull: "block-size--full"

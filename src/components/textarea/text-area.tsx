@@ -47,12 +47,12 @@ import { InteractiveComponent, updateHostInteraction } from "../../utils/interac
  */
 
 @Component({
-  tag: "calcite-textarea",
+  tag: "calcite-text-area",
   styleUrl: "textarea.scss",
   shadow: true,
   assetsDirs: ["assets"]
 })
-export class Textarea
+export class TextArea
   implements
     FormComponent,
     LabelableComponent,
@@ -98,6 +98,7 @@ export class Textarea
   /**
    * When `true`, the component's value can be read, but cannot be modified.
    *
+   * @readonly
    * @mdn [readOnly](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/readonly)
    */
   @Prop({ reflect: true }) readonly = false;
@@ -114,7 +115,7 @@ export class Textarea
    *
    * @mdn [cols](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea#attr-cols)
    */
-  @Prop({ reflect: true }) cols: number;
+  @Prop({ reflect: true }) columns: number;
 
   /**
    * Specifies the maximum number of characters allowed.
@@ -143,11 +144,11 @@ export class Textarea
   /** The component's value. */
   @Prop({ mutable: true }) value: string;
 
-  /** When `true`, disables horizantally and vertically resizing the component.*/
+  /** When `true`, disables horizontally and vertically resizing the component.*/
   @Prop({ reflect: true }) resizeDisabled = false;
 
-  /** When `true`, disables horizantally resizing the component. */
-  @Prop({ reflect: true }) horizantalResizeDisabled = false;
+  /** When `true`, disables horizontally resizing the component. */
+  @Prop({ reflect: true }) horizontalResizeDisabled = false;
 
   /** When `true`, disables vertically resizing the component. */
   @Prop({ reflect: true }) verticalResizeDisabled = false;
@@ -163,9 +164,6 @@ export class Textarea
    * Accessible name for the component.
    */
   @Prop() label: string;
-
-  // /** When `true`, the component will be marked as invalid. */
-  // @Prop({ reflect: true }) invalid = false;
 
   /**
    * Specifies the Unicode numeral system used by the component for localization.
@@ -261,9 +259,8 @@ export class Textarea
           aria-label={getLabelText(this)}
           autofocus={this.autofocus}
           class={{
-            textarea: true,
             [CSS.resizeDisabled]: this.resizeDisabled,
-            [CSS.resizeDisabledX]: this.horizantalResizeDisabled,
+            [CSS.resizeDisabledX]: this.horizontalResizeDisabled,
             [CSS.resizeDisabledY]: this.verticalResizeDisabled,
             [CSS.readonly]: this.readonly,
             [CSS.textareaInvalid]: this.value?.length > this.maxLength,
@@ -271,39 +268,37 @@ export class Textarea
             [CSS.borderColor]: !hasFooter,
             [CSS.blocksizeFull]: !hasFooter
           }}
-          cols={this.cols}
+          cols={this.columns}
           disabled={this.disabled}
           name={this.name}
           onChange={this.handleChange}
           onInput={this.handleInput}
           placeholder={this.placeholder}
           readonly={this.readonly}
-          ref={this.setTextareaEl}
           required={this.required}
           rows={this.rows}
           value={this.value}
           wrap={this.wrap}
+          // eslint-disable-next-line react/jsx-sort-props
+          ref={this.setTextareaEl}
         />
-        <span class="content">
+        <span class={{ content: true }}>
           <slot onSlotchange={this.contentSlotChangeHandler} />
         </span>
-        {
-          <footer
-            class={{
-              [CSS.footer]: true,
-              [CSS.readonly]: this.readonly,
-              [CSS.hide]: !hasFooter
-            }}
-            key={CSS.footer}
-            ref={(el) => (this.footerEl = el as HTMLElement)}
-          >
-            <div class="slot-container">
-              <slot name={SLOTS.footerStart} onSlotchange={this.footerStartSlotChangeHandler} />
-              <slot name={SLOTS.footerEnd} onSlotchange={this.footerEndSlotChangeHandler} />
-            </div>
-            {this.renderCharacterLimit()}
-          </footer>
-        }
+        <footer
+          class={{
+            [CSS.footer]: true,
+            [CSS.readonly]: this.readonly,
+            [CSS.hide]: !hasFooter
+          }}
+          ref={(el) => (this.footerEl = el as HTMLElement)}
+        >
+          <div class={{ container: true }}>
+            <slot name={SLOTS.footerStart} onSlotchange={this.footerStartSlotChangeHandler} />
+            <slot name={SLOTS.footerEnd} onSlotchange={this.footerEndSlotChangeHandler} />
+          </div>
+          {this.renderCharacterLimit()}
+        </footer>
         <HiddenFormInputSlot component={this} />
       </Host>
     );
@@ -335,7 +330,7 @@ export class Textarea
 
   formEl: HTMLFormElement;
 
-  defaultValue: Textarea["value"];
+  defaultValue: TextArea["value"];
 
   labelEl: HTMLCalciteLabelElement;
 
@@ -455,10 +450,10 @@ export class Textarea
   setHeightAndWidthToAuto = throttle(
     (): void => {
       this.verticalResizeDisabled || (this.el.style.height = "auto");
-      this.horizantalResizeDisabled || (this.el.style.width = "auto");
+      this.horizontalResizeDisabled || (this.el.style.width = "auto");
     },
     RESIZE_TIMEOUT,
-    { leading: false, trailing: true }
+    { leading: false }
   );
 
   setTextareaEl = (el: HTMLTextAreaElement): void => {

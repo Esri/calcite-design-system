@@ -22,7 +22,7 @@ textarea {
       @apply focus-inset-danger;
     }
   }
-  &.footer-slotted {
+  &.footer--slotted {
     min-inline-size: theme("spacing.72");
   }
 }
@@ -41,7 +41,7 @@ textarea {
   @apply flex justify-end text-color-2 items-center;
 }
 
-.character--overlimit {
+.character--over-limit {
   @apply font-bold text-danger;
 }
 
@@ -142,6 +142,6 @@ textarea {
 
 @include disabled();
 
-.slot-container {
+.container {
   @apply flex justify-between w-full;
 }

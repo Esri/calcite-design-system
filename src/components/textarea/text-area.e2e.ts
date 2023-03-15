@@ -6,24 +6,20 @@ import {
   focusable,
   formAssociated,
   hidden,
-  HYDRATED_ATTR,
   labelable,
   reflects,
+  renders,
   t9n
 } from "../../tests/commonTests";
 import { CSS } from "./resources";
 
-describe("calcite-textarea", () => {
+describe("calcite-text-area", () => {
   it("renders", async () => {
-    const page = await newE2EPage();
-    await page.setContent("<calcite-textarea></calcite-textarea>");
-
-    const element = await page.find("calcite-textarea");
-    expect(element).toHaveAttribute(HYDRATED_ATTR);
+    renders("calcite-text-area");
   });
 
   it("defaults", async () => {
-    defaults("calcite-textarea", [
+    defaults("calcite-text-area", [
       {
         propertyName: "wrap",
         defaultValue: "soft"
@@ -35,16 +31,16 @@ describe("calcite-textarea", () => {
     ]);
   });
 
-  it("honors hidden attribute", () => hidden("calcite-textarea"));
+  it("honors hidden attribute", () => hidden("calcite-text-area"));
 
-  it("is labelable", () => labelable("calcite-textarea"));
+  it("is labelable", () => labelable("calcite-text-area"));
 
-  it("can be disabled", () => disabled("calcite-textarea"));
+  it("can be disabled", () => disabled("calcite-text-area"));
 
   it("reflects", async () =>
-    reflects("calcite-textarea", [
+    reflects("calcite-text-area", [
       {
-        propertyName: "cols",
+        propertyName: "columns",
         value: "10"
       },
       {
@@ -60,15 +56,15 @@ describe("calcite-textarea", () => {
   it("is accessible", async () => {
     const page = await newE2EPage();
     await page.setContent(
-      `<calcite-label>add notes<calcite-textarea max-length="50"  required name="something" > </calcite-textarea></calcite-label>`
+      `<calcite-label>add notes<calcite-text-area max-length="50" required name="something" > </calcite-text-area></calcite-label>`
     );
-    await accessible("calcite-textarea", page);
+    await accessible("calcite-text-area", page);
   });
 
-  it("is focusable", () => focusable("calcite-textarea"));
+  it("is focusable", () => focusable("calcite-text-area"));
 
   it("is form associated", () =>
-    formAssociated("calcite-textarea", {
+    formAssociated("calcite-text-area", {
       testValue: "zion national park",
       expectedSubmitValue: "zion national park",
       submitsOnEnter: false
@@ -76,9 +72,9 @@ describe("calcite-textarea", () => {
 
   it("should emit calciteTextareaInput event when user starts typing", async () => {
     const page = await newE2EPage();
-    await page.setContent("<calcite-textarea></calcite-textarea>");
+    await page.setContent("<calcite-text-area></calcite-text-area>");
 
-    const element = await page.find("calcite-textarea");
+    const element = await page.find("calcite-text-area");
     const eventSpy = await element.spyOnEvent("calciteTextareaInput");
     await page.waitForChanges();
 
@@ -93,9 +89,9 @@ describe("calcite-textarea", () => {
 
   it("should emit calciteTextareaInput event when user tabs into textarea  and type", async () => {
     const page = await newE2EPage();
-    await page.setContent("<calcite-textarea></calcite-textarea>");
+    await page.setContent("<calcite-text-area></calcite-text-area>");
 
-    const element = await page.find("calcite-textarea");
+    const element = await page.find("calcite-text-area");
     const eventSpy = await element.spyOnEvent("calciteTextareaInput");
     await page.waitForChanges();
 
@@ -110,9 +106,9 @@ describe("calcite-textarea", () => {
 
   it("should emit calciteTextareaChange event when user tabs out of the textarea", async () => {
     const page = await newE2EPage();
-    await page.setContent("<calcite-textarea></calcite-textarea>");
+    await page.setContent("<calcite-text-area></calcite-text-area>");
 
-    const element = await page.find("calcite-textarea");
+    const element = await page.find("calcite-text-area");
     const eventSpy = await element.spyOnEvent("calciteTextareaChange");
     await page.waitForChanges();
 
@@ -130,9 +126,9 @@ describe("calcite-textarea", () => {
 
   it("should not emit calciteTextareaChange & calciteTextareaInput event when user tabs out of the textarea without typing", async () => {
     const page = await newE2EPage();
-    await page.setContent("<calcite-textarea></calcite-textarea>");
+    await page.setContent("<calcite-text-area></calcite-text-area>");
 
-    const element = await page.find("calcite-textarea");
+    const element = await page.find("calcite-text-area");
     const changeEventSpy = await element.spyOnEvent("calciteTextareaChange");
     const inputEventSpy = await element.spyOnEvent("calciteTextareaInput");
     await page.waitForChanges();
@@ -149,9 +145,9 @@ describe("calcite-textarea", () => {
 
   it("should be able to enter characters beyond max-length", async () => {
     const page = await newE2EPage();
-    await page.setContent("<calcite-textarea></calcite-textarea>");
+    await page.setContent("<calcite-text-area></calcite-text-area>");
 
-    const element = await page.find("calcite-textarea");
+    const element = await page.find("calcite-text-area");
     element.setAttribute("max-length", 5);
     await page.waitForChanges();
 
@@ -167,7 +163,7 @@ describe("calcite-textarea", () => {
   it("should disable slotted elements when disabled", async () => {
     const page = await newE2EPage();
     await page.setContent(
-      `<calcite-textarea  disabled><calcite-button slot="footer-start">CLEAR</calcite-button></calcite-textarea>`
+      `<calcite-text-area  disabled><calcite-button slot="footer-start">CLEAR</calcite-button></calcite-text-area>`
     );
 
     const element = await page.find("calcite-button");
@@ -178,11 +174,11 @@ describe("calcite-textarea", () => {
 
   it("should have footer-slotted class when slotted at both start and end", async () => {
     const page = await newE2EPage();
-    await page.setContent(`<calcite-textarea >
+    await page.setContent(`<calcite-text-area >
     <calcite-button slot="footer-start">CLEAR</calcite-button>
-    <calcite-button slot="footer-end">RESET</calcite-button></calcite-textarea>`);
+    <calcite-button slot="footer-end">RESET</calcite-button></calcite-text-area>`);
 
-    const element = await page.find("calcite-textarea >>> textarea");
+    const element = await page.find("calcite-text-area >>> textarea");
     await page.waitForChanges();
 
     expect(element).toHaveClass(CSS.footerSlotted);
@@ -191,33 +187,34 @@ describe("calcite-textarea", () => {
   describe("resize disabled", () => {
     it("should have resize-disabled class", async () => {
       const page = await newE2EPage();
-      await page.setContent(`<calcite-textarea resize-disabled></calcite-textarea>`);
+      await page.setContent(`<calcite-text-area resize-disabled></calcite-text-area>`);
 
-      const element = await page.find("calcite-textarea >>> textarea");
+      const element = await page.find("calcite-text-area >>> textarea");
       await page.waitForChanges();
 
       expect(element).toHaveClass(CSS.resizeDisabled);
     });
 
-    it("should have resize-disabled--x class when horizantal-resize-disabled property is parsed", async () => {
+    it("should have resize-disabled--x class when horizontal-resize-disabled property is parsed", async () => {
       const page = await newE2EPage();
-      await page.setContent(`<calcite-textarea horizantal-resize-disabled></calcite-textarea>`);
+      await page.setContent(`<calcite-text-area horizontal-resize-disabled></calcite-text-area>`);
 
-      const element = await page.find("calcite-textarea >>> textarea");
+      const element = await page.find("calcite-text-area >>> textarea");
       await page.waitForChanges();
 
       expect(element).toHaveClass(CSS.resizeDisabledX);
     });
+
     it("should have resize-disabled--y class when vertical-resize-disabled property is parsed", async () => {
       const page = await newE2EPage();
-      await page.setContent(`<calcite-textarea vertical-resize-disabled></calcite-textarea>`);
+      await page.setContent(`<calcite-text-area vertical-resize-disabled></calcite-text-area>`);
 
-      const element = await page.find("calcite-textarea >>> textarea");
+      const element = await page.find("calcite-text-area >>> textarea");
       await page.waitForChanges();
 
       expect(element).toHaveClass(CSS.resizeDisabledY);
     });
   });
 
-  it("supports translations", () => t9n("calcite-textarea"));
+  it("supports translations", () => t9n("calcite-text-area"));
 });

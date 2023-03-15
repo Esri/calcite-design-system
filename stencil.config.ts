@@ -67,12 +67,12 @@ export const create: () => Config = () => ({
     { components: ["calcite-stepper", "calcite-stepper-item"] },
     { components: ["calcite-switch"] },
     { components: ["calcite-tab", "calcite-tab-title", "calcite-tab-nav", "calcite-tabs"] },
+    { components: ["calcite-text-area"] },
     { components: ["calcite-tip", "calcite-tip-group", "calcite-tip-manager"] },
     { components: ["calcite-tile"] },
     { components: ["calcite-tile-select-group", "calcite-tile-select"] },
     { components: ["calcite-tooltip"] },
     { components: ["calcite-tree", "calcite-tree-item"] },
-    { components: ["calcite-textarea"] },
     { components: ["calcite-value-list", "calcite-value-list-item"] }
   ],
   outputTargets: [
