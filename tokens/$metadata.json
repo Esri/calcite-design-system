@@ -12,6 +12,7 @@
     "component/alert",
     "component/avatar",
     "component/block",
+    "component/block-section",
     "component/card",
     "component/checkbox",
     "component/chip",
