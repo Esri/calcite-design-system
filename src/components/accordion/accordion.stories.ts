@@ -300,6 +300,6 @@ const accordionItems = useCases
   )
   .join("");
 
-export const longHeading_MediumIconForLargeAccordionItem = (): string => html`
+export const longHeading_MediumIconForLargeAccordionItem_testOnly = (): string => html`
   <calcite-accordion scale="l" style="width: 600px"> ${accordionItems} </calcite-accordion>
 `;
