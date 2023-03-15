@@ -264,28 +264,42 @@ export const withIconStartAndEnd_TestOnly = (): string =>
     `
   );
 
-export const mediumIconForLargeAccordionItem_TestOnly = (): string => html`
-  <calcite-accordion scale="l" style="width: 400px">
-    <calcite-accordion-item heading="Accordion Item" scale="l"></calcite-accordion-item>
-    <calcite-accordion-item
-      heading="Accordion Item IconStart/End"
-      icon-start="plane"
-      icon-end="plane"
-      scale="l"
-    ></calcite-accordion-item>
-    <calcite-accordion-item heading="Accordion Item" scale="l" description="A great subtitle"></calcite-accordion-item>
-    <calcite-accordion-item
-      heading="Accordion Item IconStart/End"
-      icon-start="plane"
-      icon-end="plane"
-      scale="l"
-      description="A great subtitle"
-    ></calcite-accordion-item>
-    <calcite-accordion-item
-      heading="Accordion Item IconStart/End with a potentially two line title"
-      icon-start="banana"
-      icon-end="banana"
-      scale="l"
-    ></calcite-accordion-item>
-  </calcite-accordion>
+const useCases = [
+  { icon: "", heading: "Simple item with heading", description: "" },
+  { icon: "", heading: "Simple item with heading", description: "Simple item with description" },
+  {
+    icon: "embark",
+    heading:
+      "Embark_title_is_super_long_what_do_we_do_now_Watercraft_title_is_super_long_what_do_we_do_now_Watercraft_title_is_super_long_what_do_we_do_now_Watercraft_title_is_super_long_what_do_we_do_now_Watercraft_title_is_super_long_what_do_we_do_now_Watercraft_title_is_super_long_what_do_we_do_now_Watercraft_title_is_super_long_what_do_we_do_now_Watercraft_title_is_super_long_what_do_we_do_now_Watercraft_title_is_super_long_what_do_we_do_now_Watercraft_title_is_super_long_what_do_we_do_now_Watercraft_title_is_super_long_what_do_we_do_now_",
+    description: "Extra long heading with underscores and icons m /scale l"
+  },
+  {
+    icon: "car",
+    heading: "Extra long description with underscores and icons m /scale l",
+    description:
+      "Car_title_is_super_long_what_do_we_do_now_Watercraft_title_is_super_long_what_do_we_do_now_Watercraft_title_is_super_long_what_do_we_do_now_Watercraft_title_is_super_long_what_do_we_do_now_Watercraft_title_is_super_long_what_do_we_do_now_Watercraft_title_is_super_long_what_do_we_do_now_Watercraft_title_is_super_long_what_do_we_do_now_Watercraft_title_is_super_long_what_do_we_do_now_Watercraft_title_is_super_long_what_do_we_do_now_Watercraft_title_is_super_long_what_do_we_do_now_Watercraft_title_is_super_long_what_do_we_do_now_"
+  },
+  {
+    icon: "plane",
+    heading: "Extra long description and icons m /scale l",
+    description:
+      "Planes, helicopters, and jets. Planes, helicopters, and jets. Planes, helicopters, and jets. Planes, helicopters, and jets. Planes, helicopters, and jets. Planes, helicopters, and jets. Planes, helicopters, and jets. Planes, helicopters, and jets. Planes, helicopters, and jets. Planes, helicopters, and jets. Planes, helicopters, and jets. Planes, helicopters, and jets. Planes, helicopters, and jets. Planes, helicopters, and jets. Planes, helicopters, and jets."
+  }
+];
+
+const accordionItems = useCases
+  .map(
+    (useCase): string =>
+      html`<calcite-accordion-item
+        icon-start="${useCase.icon}"
+        icon-end="${useCase.icon}"
+        scale="l"
+        heading="${useCase.heading}"
+        description="${useCase.description}"
+      ></calcite-accordion-item>`
+  )
+  .join("");
+
+export const longHeading_MediumIconForLargeAccordionItem = (): string => html`
+  <calcite-accordion scale="l" style="width: 600px"> ${accordionItems} </calcite-accordion>
 `;
