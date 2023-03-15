@@ -1,9 +1,13 @@
 :host {
-  @apply inline-block w-full h-full;
+  @apply inline-block 
+  w-full 
+  h-full;
 }
 
 textarea {
-  @apply text-color-1 relative block
+  @apply text-color-1 
+  relative 
+  block
   bg-foreground-1 
   box-border
   border-color-input  
@@ -17,7 +21,10 @@ textarea {
     @apply focus-inset;
   }
   &.textarea--invalid {
-    @apply border-color-danger border border-solid border-b;
+    @apply border-color-danger 
+    border 
+    border-solid 
+    border-b;
     &:focus {
       @apply focus-inset-danger;
     }
@@ -28,7 +35,8 @@ textarea {
 }
 
 .footer {
-  @apply flex bg-foreground-1 
+  @apply flex 
+  bg-foreground-1 
   box-border
   border-color-input
   border
@@ -38,11 +46,15 @@ textarea {
 }
 
 .character-limit {
-  @apply flex justify-end text-color-2 items-center;
+  @apply flex 
+  justify-end 
+  text-color-2 
+  items-center;
 }
 
 .character--over-limit {
-  @apply font-bold text-danger;
+  @apply font-bold 
+  text-danger;
 }
 
 .resize--disabled {
@@ -58,11 +70,13 @@ textarea {
 :host([scale="s"]) {
   @apply text-n2;
   .footer {
-    @apply py-1 px-2;
+    @apply py-1 
+    px-2;
     min-block-size: 1.75rem;
   }
   textarea {
-    @apply py-1 px-2;
+    @apply py-1 
+    px-2;
   }
 }
 
@@ -70,16 +84,19 @@ textarea {
   textarea,
   .footer,
   .character-limit {
-    @apply text-n2 pl-2;
+    @apply text-n2 
+    pl-2;
   }
 }
 
 :host([scale="m"]) {
   textarea {
-    @apply py-2 px-3;
+    @apply py-2 
+    px-3;
   }
   .footer {
-    @apply py-2 px-3;
+    @apply py-2 
+    px-3;
     min-block-size: 2.25rem;
   }
 }
@@ -88,17 +105,20 @@ textarea {
   textarea,
   .footer,
   .character-limit {
-    @apply text-n1 pl-3;
+    @apply text-n1 
+    pl-3;
   }
 }
 
 :host([scale="l"]) {
   @apply text-0;
   textarea {
-    @apply py-3 px-4;
+    @apply py-3 
+    px-4;
   }
   .footer {
-    @apply py-3 px-4;
+    @apply py-3 
+    px-4;
     min-block-size: 2.75rem;
   }
 }
@@ -107,11 +127,10 @@ textarea {
   textarea,
   .footer,
   .character-limit {
-    @apply text-0 pl-4;
+    @apply text-0 
+    pl-4;
   }
 }
-
-@include hidden-form-input();
 
 .readonly {
   @apply bg-background font-medium;
@@ -131,7 +150,7 @@ textarea {
   }
 }
 
-:host textarea.block-size--full {
+textarea.block-size--full {
   @apply h-full;
 }
 
@@ -140,8 +159,11 @@ textarea {
   @apply hidden;
 }
 
-@include disabled();
-
 .container {
-  @apply flex justify-between w-full;
+  @apply flex 
+  justify-between
+   w-full;
 }
+
+@include hidden-form-input();
+@include disabled();

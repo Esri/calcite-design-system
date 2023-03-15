@@ -13,7 +13,7 @@ import {
 } from "@stencil/core";
 import { connectForm, disconnectForm, FormComponent, HiddenFormInputSlot } from "../../utils/form";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
-import { slotChangeGetAssignedElements, toAriaBoolean } from "../../utils/dom";
+import { toAriaBoolean } from "../../utils/dom";
 import { CSS, SLOTS, RESIZE_TIMEOUT } from "./resources";
 import {
   connectLocalized,
@@ -36,7 +36,7 @@ import {
   T9nComponent,
   updateMessages
 } from "../../utils/t9n";
-import { TextareaMessages } from "./assets/textarea/t9n";
+import { TextAreaMessages } from "./assets/text-area/t9n";
 import { throttle } from "lodash-es";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 
@@ -48,7 +48,7 @@ import { InteractiveComponent, updateHostInteraction } from "../../utils/interac
 
 @Component({
   tag: "calcite-text-area",
-  styleUrl: "textarea.scss",
+  styleUrl: "text-area.scss",
   shadow: true,
   assetsDirs: ["assets"]
 })
@@ -66,7 +66,7 @@ export class TextArea
   //  Element
   //
   //--------------------------------------------------------------------------
-  @Element() el: HTMLCalciteTextareaElement;
+  @Element() el: HTMLCalciteTextAreaElement;
 
   //--------------------------------------------------------------------------
   //
@@ -180,22 +180,16 @@ export class TextArea
    *
    * @internal
    */
-  @Prop({ mutable: true }) messages: TextareaMessages;
+  @Prop({ mutable: true }) messages: TextAreaMessages;
 
   /**
    * Use this property to override individual strings used by the component.
    */
-  @Prop({ mutable: true }) messageOverrides: Partial<TextareaMessages>;
+  @Prop({ mutable: true }) messageOverrides: Partial<TextAreaMessages>;
 
   @Watch("messageOverrides")
   onMessagesChange(): void {
     /* wired up by t9n util */
-  }
-
-  @Watch("disabled")
-  disabledHandler(value: boolean): void {
-    this.disablePointerEvents(value, this.startSlotElements);
-    this.disablePointerEvents(value, this.endSlotElements);
   }
 
   //--------------------------------------------------------------------------
@@ -294,8 +288,8 @@ export class TextArea
           ref={(el) => (this.footerEl = el as HTMLElement)}
         >
           <div class={{ container: true }}>
-            <slot name={SLOTS.footerStart} onSlotchange={this.footerStartSlotChangeHandler} />
-            <slot name={SLOTS.footerEnd} onSlotchange={this.footerEndSlotChangeHandler} />
+            <slot name={SLOTS.footerStart} />
+            <slot name={SLOTS.footerEnd} />
           </div>
           {this.renderCharacterLimit()}
         </footer>
@@ -349,7 +343,7 @@ export class TextArea
     updateMessages(this, this.effectiveLocale);
   }
 
-  @State() defaultMessages: TextareaMessages;
+  @State() defaultMessages: TextAreaMessages;
 
   //--------------------------------------------------------------------------
   //
@@ -372,20 +366,6 @@ export class TextArea
 
   handleChange = (): void => {
     this.calciteTextareaChange.emit();
-  };
-
-  footerEndSlotChangeHandler = (event: Event): void => {
-    this.endSlotElements = slotChangeGetAssignedElements(event);
-    if (this.disabled) {
-      this.disablePointerEvents(this.disabled, this.endSlotElements);
-    }
-  };
-
-  footerStartSlotChangeHandler = (event: Event): void => {
-    this.startSlotElements = slotChangeGetAssignedElements(event);
-    if (this.disabled) {
-      this.disablePointerEvents(this.disabled, this.startSlotElements);
-    }
   };
 
   contentSlotChangeHandler = (): void => {
@@ -419,14 +399,6 @@ export class TextArea
       useGrouping: this.groupSeparator
     };
     return numberStringFormatter.localize(this.value ? this.value.length.toString() : "0");
-  }
-
-  disablePointerEvents(disabled: boolean, slottedElements: Element[]): void {
-    if (!!slottedElements?.length) {
-      slottedElements.forEach((el: HTMLElement) => {
-        el.style.pointerEvents = disabled ? "none" : "auto";
-      });
-    }
   }
 
   resizeObserver = createObserver("resize", () => {
