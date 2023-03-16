@@ -10,7 +10,7 @@
         "type": "color"
       },
       "md": {
-        "value": "$semantic.font.default.medium.-1h",
+        "value": "$semantic.font.wrap.medium.-1",
         "type": "typography"
       }
     },
@@ -62,12 +62,6 @@
         "type": "borderRadius"
       }
     },
-    "border-width": {
-      "md": {
-        "value": "$core.border.border-width.0",
-        "type": "borderWidth"
-      }
-    },
     "icon-size": {
       "md": {
         "value": "$core.sizing.7",
@@ -96,9 +90,25 @@
         }
       },
       "block-section": {
-        "top-down": {
+        "top-bottom": {
           "md": {
             "value": "$core.spacing.5",
+            "type": "spacing"
+          }
+        }
+      },
+      "icon": {
+        "left": {
+          "md": {
+            "value": "$core.spacing.3",
+            "type": "spacing"
+          }
+        }
+      },
+      "switch": {
+        "left": {
+          "md": {
+            "value": "$core.spacing.1",
             "type": "spacing"
           }
         }
