@@ -13,7 +13,7 @@ import {
 } from "@stencil/core";
 import { connectForm, disconnectForm, FormComponent, HiddenFormInputSlot } from "../../utils/form";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
-import { toAriaBoolean } from "../../utils/dom";
+import { slotChangeHasAssignedElement, toAriaBoolean } from "../../utils/dom";
 import { CSS, SLOTS, RESIZE_TIMEOUT } from "./resources";
 import {
   connectLocalized,
@@ -243,9 +243,8 @@ export class TextArea
   }
 
   render(): VNode {
-    const hasFooter =
-      !!this.startSlotElements?.length || !!this.endSlotElements?.length || !!this.maxLength;
-
+    const hasFooter = this.startSlotHasElements || this.endSlotHasElements || !!this.maxLength;
+    console.log("render");
     return (
       <Host>
         <textarea
@@ -258,8 +257,7 @@ export class TextArea
             [CSS.resizeDisabledY]: this.verticalResizeDisabled,
             [CSS.readonly]: this.readonly,
             [CSS.textareaInvalid]: this.value?.length > this.maxLength,
-            [CSS.footerSlotted]: !!this.endSlotElements?.length && !!this.startSlotElements?.length,
-            [CSS.borderColor]: !hasFooter,
+            [CSS.footerSlotted]: this.endSlotHasElements && this.startSlotHasElements,
             [CSS.blocksizeFull]: !hasFooter
           }}
           cols={this.columns}
@@ -288,8 +286,18 @@ export class TextArea
           ref={(el) => (this.footerEl = el as HTMLElement)}
         >
           <div class={{ container: true }}>
-            <slot name={SLOTS.footerStart} />
-            <slot name={SLOTS.footerEnd} />
+            <slot
+              name={SLOTS.footerStart}
+              onSlotchange={(event) =>
+                (this.startSlotHasElements = slotChangeHasAssignedElement(event))
+              }
+            />
+            <slot
+              name={SLOTS.footerEnd}
+              onSlotchange={(event) =>
+                (this.endSlotHasElements = slotChangeHasAssignedElement(event))
+              }
+            />
           </div>
           {this.renderCharacterLimit()}
         </footer>
@@ -332,11 +340,11 @@ export class TextArea
 
   footerEl: HTMLElement;
 
+  endSlotHasElements: boolean;
+
+  startSlotHasElements: boolean;
+
   @State() effectiveLocale = "";
-
-  @State() endSlotElements: Element[];
-
-  @State() startSlotElements: Element[];
 
   @Watch("effectiveLocale")
   effectiveLocaleChange(): void {

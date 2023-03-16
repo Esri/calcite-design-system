@@ -15,7 +15,7 @@ import { CSS } from "./resources";
 
 describe("calcite-text-area", () => {
   it("renders", async () => {
-    renders("calcite-text-area");
+    renders("calcite-text-area", { display: "inline-block" });
   });
 
   it("defaults", async () => {
@@ -172,7 +172,7 @@ describe("calcite-text-area", () => {
     expect((await element.getComputedStyle()).pointerEvents).toBe("none");
   });
 
-  it("should have footer-slotted class when slotted at both start and end", async () => {
+  it("should have footer--slotted class when slotted at both start and end", async () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-text-area >
     <calcite-button slot="footer-start">CLEAR</calcite-button>
