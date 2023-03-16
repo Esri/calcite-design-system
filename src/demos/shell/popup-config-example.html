@@ -56,7 +56,7 @@
           view.ui.move("zoom", "bottom-right");
         });
         // Theme switch
-        document.getElementById("toggle-theme").addEventListener("click", (event) => {
+        document.getElementById("toggle-mode").addEventListener("click", (event) => {
           const dark = document.getElementById("jsapi-theme-dark");
           const light = document.getElementById("jsapi-theme-light");
           dark.toggleAttribute("disabled");
@@ -146,7 +146,7 @@
               </calcite-action-bar>
               <calcite-button
                 slot="header"
-                color="inverse"
+                kind="inverse"
                 alignment="icon-end-space-between"
                 icon-end="caret-down"
                 width="full"
@@ -440,7 +440,7 @@
               <calcite-pick-list-item label="END" value="4"></calcite-pick-list-item>
             </calcite-pick-list>
             <calcite-button slot="footer" width="half">Yeah!</calcite-button>
-            <calcite-button slot="footer" width="half" appearance="clear">Naw.</calcite-button>
+            <calcite-button slot="footer" width="half" appearance="outline">Naw.</calcite-button>
           </calcite-panel>
         </calcite-popover>
         <script>

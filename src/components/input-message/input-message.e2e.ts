@@ -1,5 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, renders, hidden } from "../../tests/commonTests";
+import { accessible, hidden, renders } from "../../tests/commonTests";
 import { StatusIconDefaults } from "./interfaces";
 
 describe("calcite-input-message", () => {

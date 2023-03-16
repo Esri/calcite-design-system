@@ -12,11 +12,7 @@ import {
   VNode,
   Watch
 } from "@stencil/core";
-import { guid } from "../../utils/guid";
-import { formatTimeString, isValidTime, localizeTimeString } from "../../utils/time";
-import { Scale } from "../interfaces";
 import { FloatingUIComponent, LogicalPlacement, OverlayPositioning } from "../../utils/floating-ui";
-import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
 import {
   connectForm,
   disconnectForm,
@@ -24,28 +20,33 @@ import {
   HiddenFormInputSlot,
   submitForm
 } from "../../utils/form";
+import { guid } from "../../utils/guid";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import { numberKeys } from "../../utils/key";
+import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
+import {
+  componentLoaded,
+  LoadableComponent,
+  setComponentLoaded,
+  setUpLoadableComponent
+} from "../../utils/loadable";
 import {
   connectLocalized,
   disconnectLocalized,
   LocalizedComponent,
   NumberingSystem,
-  numberStringFormatter,
-  updateEffectiveLocale
+  numberStringFormatter
 } from "../../utils/locale";
-import { Messages } from "../time-picker/assets/time-picker/t9n";
-import { numberKeys } from "../../utils/key";
-import {
-  setUpLoadableComponent,
-  setComponentLoaded,
-  LoadableComponent,
-  componentLoaded
-} from "../../utils/loadable";
+import { formatTimeString, isValidTime, localizeTimeString } from "../../utils/time";
+import { Scale } from "../interfaces";
+import { TimePickerMessages } from "../time-picker/assets/time-picker/t9n";
 
 @Component({
   tag: "calcite-input-time-picker",
   styleUrl: "input-time-picker.scss",
-  shadow: true
+  shadow: {
+    delegatesFocus: true
+  }
 })
 export class InputTimePicker
   implements
@@ -107,21 +108,7 @@ export class InputTimePicker
   /**
    * Use this property to override individual strings used by the component.
    */
-  @Prop() messagesOverrides: Partial<Messages>;
-
-  /**
-   * BCP 47 language tag for desired language and country format.
-   *
-   * @internal
-   * @deprecated set the global `lang` attribute on the element instead.
-   * @mdn [lang](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/lang)
-   */
-  @Prop({ mutable: true }) locale: string;
-
-  @Watch("locale")
-  localeChanged(): void {
-    updateEffectiveLocale(this);
-  }
+  @Prop() messagesOverrides: Partial<TimePickerMessages>;
 
   /** Specifies the name of the component on form submission. */
   @Prop() name: string;
@@ -226,7 +213,7 @@ export class InputTimePicker
   /**
    * Fires when the time value is changed as a result of user input.
    */
-  @Event({ cancelable: true }) calciteInputTimePickerChange: EventEmitter<string>;
+  @Event({ cancelable: true }) calciteInputTimePickerChange: EventEmitter<void>;
 
   //--------------------------------------------------------------------------
   //
@@ -333,7 +320,7 @@ export class InputTimePicker
   async setFocus(): Promise<void> {
     await componentLoaded(this);
 
-    this.calciteInputEl?.setFocus();
+    this.el.focus();
   }
 
   /**

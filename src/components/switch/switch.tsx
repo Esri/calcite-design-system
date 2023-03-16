@@ -10,22 +10,22 @@ import {
   VNode
 } from "@stencil/core";
 import { focusElement, toAriaBoolean } from "../../utils/dom";
-import { Scale } from "../interfaces";
-import { LabelableComponent, connectLabel, disconnectLabel, getLabelText } from "../../utils/label";
 import {
+  CheckableFormComponent,
   connectForm,
   disconnectForm,
-  CheckableFormComponent,
   HiddenFormInputSlot
 } from "../../utils/form";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import { isActivationKey } from "../../utils/key";
+import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
 import {
-  setUpLoadableComponent,
-  setComponentLoaded,
+  componentLoaded,
   LoadableComponent,
-  componentLoaded
+  setComponentLoaded,
+  setUpLoadableComponent
 } from "../../utils/loadable";
+import { Scale } from "../interfaces";
 
 @Component({
   tag: "calcite-switch",
@@ -138,8 +138,6 @@ export class Switch
 
   /**
    * Fires when the `checked` value has changed.
-   *
-   * **Note:** The event payload is deprecated, use the component's `checked` property instead.
    */
   @Event({ cancelable: false }) calciteSwitchChange: EventEmitter<void>;
 

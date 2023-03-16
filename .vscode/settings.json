@@ -6,5 +6,9 @@
   "editor.formatOnSave": true,
   "editor.quickSuggestions": {
     "strings": true
-  }
+  },
+  "html.customData": [
+    "./dist/extras/vscode-data.json",
+    "./node_modules/@esri/calcite-components/dist/extras/vscode-data.json"
+  ]
 }

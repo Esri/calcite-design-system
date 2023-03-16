@@ -132,7 +132,7 @@ A general purpose list that enables users to construct list items that conform t
 | `filteredItems`       | --                     | The currently filtered `calcite-list-item`s.                                                                                                                       | `HTMLCalciteListItemElement[]`                                                                | `[]`        |
 | `label`               | `label`                | Specifies an accessible name for the component.                                                                                                                    | `string`                                                                                      | `undefined` |
 | `loading`             | `loading`              | When `true`, a busy indicator is displayed.                                                                                                                        | `boolean`                                                                                     | `false`     |
-| `selectedItems`       | --                     | **read-only** The currently selected items                                                                                                                         | `HTMLCalciteListItemElement[]`                                                                | `[]`        |
+| `selectedItems`       | --                     | The currently selected items.                                                                                                                                      | `HTMLCalciteListItemElement[]`                                                                | `[]`        |
 | `selectionAppearance` | `selection-appearance` | Specifies the selection appearance - `"icon"` (displays a checkmark or dot) or `"border"` (displays a border).                                                     | `"border" \| "icon"`                                                                          | `"icon"`    |
 | `selectionMode`       | `selection-mode`       | Specifies the selection mode - `"multiple"` (allow any number of selected items), `"single"` (allows and require one selected item), `"none"` (no selected items). | `"multiple" \| "none" \| "single"`                                                            | `"none"`    |
 
@@ -146,7 +146,7 @@ A general purpose list that enables users to construct list items that conform t
 
 ### `setFocus() => Promise<void>`
 
-Sets focus on the component.
+Sets focus on the component's first focusable element.
 
 #### Returns
 

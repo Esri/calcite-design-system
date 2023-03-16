@@ -10,17 +10,15 @@ import {
   VNode,
   Watch
 } from "@stencil/core";
-import { CSS, ICONS, SLOTS } from "./resources";
-import { getSlotted, toAriaBoolean } from "../../utils/dom";
-import { Heading, HeadingLevel } from "../functional/Heading";
-import { Status } from "../interfaces";
 import {
   ConditionalSlotComponent,
   connectConditionalSlotComponent,
   disconnectConditionalSlotComponent
 } from "../../utils/conditionalSlot";
-import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import { getSlotted, toAriaBoolean } from "../../utils/dom";
 import { guid } from "../../utils/guid";
+import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 import {
   connectMessages,
   disconnectMessages,
@@ -28,14 +26,16 @@ import {
   T9nComponent,
   updateMessages
 } from "../../utils/t9n";
-import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
-import { Messages } from "./assets/block/t9n";
+import { Heading, HeadingLevel } from "../functional/Heading";
+import { Status } from "../interfaces";
+import { BlockMessages } from "./assets/block/t9n";
+import { CSS, ICONS, SLOTS } from "./resources";
 
 /**
- * @slot - A slot for adding content to the component.
+ * @slot - A slot for adding custom content.
  * @slot icon - A slot for adding a leading header icon with `calcite-icon`.
  * @slot control - A slot for adding a single HTML input element in a header.
- * @slot header-menu-actions - A slot for adding an overflow menu with `calcite-action`s inside a dropdown.
+ * @slot header-menu-actions - A slot for adding an overflow menu with `calcite-action`s inside a dropdown menu.
  */
 @Component({
   tag: "calcite-block",
@@ -102,12 +102,12 @@ export class Block
    *
    * @internal
    */
-  @Prop({ mutable: true }) messages: Messages;
+  @Prop({ mutable: true }) messages: BlockMessages;
 
   /**
    * Use this property to override individual strings used by the component.
    */
-  @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
+  @Prop({ mutable: true }) messageOverrides: Partial<BlockMessages>;
 
   @Watch("messageOverrides")
   onMessagesChange(): void {
@@ -131,7 +131,7 @@ export class Block
     updateMessages(this, this.effectiveLocale);
   }
 
-  @State() defaultMessages: Messages;
+  @State() defaultMessages: BlockMessages;
 
   // --------------------------------------------------------------------------
   //

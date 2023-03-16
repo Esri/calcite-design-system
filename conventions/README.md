@@ -188,7 +188,7 @@ Notice `.card` does not appear anywhere. We would then apply styles to the host 
 Modifier classes on the "block" (host element) can often be written by reflecting the prop and selecting it directly via an attribute selector:
 
 ```scss
-:host([color="blue"]) {
+:host([kind="success"]) {
 }
 ```
 

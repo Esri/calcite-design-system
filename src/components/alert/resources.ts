@@ -14,5 +14,6 @@ export const SLOTS = {
 export const CSS = {
   actionsEnd: "actions-end",
   container: "container",
-  close: "alert-close"
+  close: "alert-close",
+  slottedInShell: "slotted-in-shell"
 };

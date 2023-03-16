@@ -6,15 +6,16 @@
   --calcite-chip-spacing-unit-s: theme("spacing.1");
   .image-container {
     @apply h-5 w-5;
+    padding-inline-start: theme("spacing[0.5]");
   }
 }
 :host([scale="m"]) {
   @apply text-n1 h-8;
   --calcite-chip-spacing-unit-l: theme("spacing.3");
-  --calcite-chip-spacing-unit-s: 6px;
+  --calcite-chip-spacing-unit-s: calc(theme("spacing.3") / 2);
   .image-container {
     @apply h-6 w-6;
-    padding-inline-start: theme("padding.1");
+    padding-inline-start: theme("spacing.1");
   }
 }
 
@@ -24,7 +25,7 @@
   --calcite-chip-spacing-unit-s: theme("spacing.2");
   .image-container {
     @apply h-8 w-8;
-    padding-inline-start: theme("spacing.1");
+    padding-inline-start: theme("spacing.2");
   }
 }
 
@@ -47,45 +48,97 @@
 
 .title {
   @apply truncate;
+  padding-block: 0;
 }
 
-:host span {
-  padding-block: 0;
+.content--slotted .title {
   padding-inline: var(--calcite-chip-spacing-unit-l);
 }
 
-:host([closable]) span {
+:host([closable][icon]) .container:not(.content--slotted) .title {
+  padding-inline: 0 var(--calcite-chip-spacing-unit-s);
+}
+
+:host(:not([closable])) .container:not(.content--slotted) .chip-icon {
+  margin-inline: auto;
+}
+
+.container:not(.image--slotted) .image-container {
+  display: none;
+}
+
+:host([scale="s"][closable]) .container:not(.content--slotted) .image-container {
+  margin-inline-end: theme("spacing[0.5]");
+}
+
+:host([scale="m"][closable]) .container:not(.content--slotted) .image-container {
+  margin-inline-end: theme("spacing.1");
+}
+
+:host([scale="l"][closable]) .container:not(.content--slotted) .image-container {
+  margin-inline-end: theme("spacing.2");
+}
+
+:host([scale="s"]:not([closable])) .container:not(.content--slotted) {
+  @apply w-6 h-6;
+  & .image-container {
+    padding-inline: theme("spacing[0.5]");
+  }
+}
+
+:host([scale="m"]:not([closable])) .container:not(.content--slotted) {
+  @apply w-8 h-8;
+  & .image-container {
+    padding-inline: theme("spacing.1");
+  }
+}
+
+:host([scale="l"]:not([closable])) .container:not(.content--slotted) {
+  @apply w-11 h-11;
+  & .image-container {
+    padding-inline: calc(theme("spacing.3") / 2);
+  }
+}
+
+:host([closable]) .content--slotted .title {
   padding-inline: var(--calcite-chip-spacing-unit-l) var(--calcite-chip-spacing-unit-s);
 }
 
-:host([icon]:not([closable])) span {
-  padding-block: 0;
-  padding-inline: var(--calcite-chip-spacing-unit-l);
+:host([scale="s"]) button {
+  inline-size: theme("spacing.4");
+  block-size: theme("spacing.4");
+  margin-inline-end: theme("spacing[0.5]");
 }
 
-:host button {
+:host([scale="m"]) button {
+  inline-size: theme("spacing.6");
+  block-size: theme("spacing.6");
+  margin-inline-end: theme("spacing.1");
+}
+
+:host([scale="l"]) button {
+  inline-size: theme("spacing.8");
+  block-size: theme("spacing.8");
+  margin-inline-end: theme("spacing.2");
+}
+
+button {
   @apply focus-base
     transition-default
     text-color-1
     m-0
-    inline-flex
-    max-h-full
-    min-h-full
     cursor-pointer
     items-center
-    self-stretch
     border-none
     bg-transparent;
   -webkit-appearance: none;
-  border-start-start-radius: 0;
-  border-start-end-radius: 50px;
-  border-end-end-radius: 50px;
-  border-end-start-radius: 0;
-  padding-block: 0;
+  display: flex;
+  border-radius: 50%;
   padding-inline: var(--calcite-chip-spacing-unit-s);
   color: inherit;
+  align-content: center;
+  justify-content: center;
 
-  // close button focus styles
   --calcite-chip-transparent-hover: var(--calcite-button-transparent-hover);
   --calcite-chip-transparent-press: var(--calcite-button-transparent-press);
   &:hover {
@@ -102,10 +155,10 @@
 
 //slotted image
 .image-container {
-  @apply rounded-half inline-flex overflow-hidden;
+  @apply inline-flex overflow-hidden;
 }
 
-:host slot[name="image"]::slotted(*) {
+slot[name="image"]::slotted(*) {
   @apply rounded-half flex h-full w-full overflow-hidden;
 }
 
@@ -118,38 +171,9 @@
     ease-in-out;
   margin-inline-end: 0;
   margin-inline-start: var(--calcite-chip-spacing-unit-l);
-  border-start-start-radius: 0;
-  border-start-end-radius: 50px;
-  border-end-end-radius: 50px;
-  border-end-start-radius: 0;
 }
 
-// solid
-:host([color="blue"]) {
-  border-color: transparent;
-  background-color: var(--calcite-ui-info);
-  color: var(--calcite-ui-text-inverse);
-}
-
-:host([color="red"]) {
-  border-color: transparent;
-  background-color: var(--calcite-ui-danger);
-  color: var(--calcite-ui-text-inverse);
-}
-
-:host([color="yellow"]) {
-  border-color: transparent;
-  background-color: var(--calcite-ui-warning);
-  color: $blk-220;
-}
-
-:host([color="green"]) {
-  border-color: transparent;
-  background-color: var(--calcite-ui-success);
-  color: $blk-220;
-}
-
-:host([color="grey"]) {
+:host([kind="neutral"]) {
   border-color: transparent;
   background-color: var(--calcite-ui-foreground-2);
   color: var(--calcite-ui-text-1);
@@ -163,52 +187,76 @@
   }
 }
 
-:host([appearance="clear"]),
-:host([appearance="transparent"]) {
-  @apply text-color-1 bg-transparent;
-}
+:host([kind="inverse"]) {
+  border-color: transparent;
+  background-color: var(--calcite-ui-inverse);
+  @apply text-color-inverse;
 
-// clear is deprecated. use transparent instead.
-:host([color="blue"][appearance="clear"]),
-:host([color="blue"][appearance="transparent"]) {
-  border-color: var(--calcite-ui-info);
+  button,
+  .close-icon {
+    @apply text-color-inverse;
+  }
+
   .chip-icon {
-    color: var(--calcite-ui-icon-color, var(--calcite-ui-info));
+    color: var(--calcite-ui-icon-color, var(--calcite-ui-text-inverse));
   }
 }
 
-:host([color="red"][appearance="clear"]),
-:host([color="red"][appearance="transparent"]) {
-  border-color: var(--calcite-ui-danger);
+:host([kind="brand"]) {
+  border-color: transparent;
+  background-color: var(--calcite-ui-brand);
+  color: var(--calcite-ui-text-inverse);
+  button,
+  .close-icon {
+    @apply text-color-inverse;
+  }
+
   .chip-icon {
-    color: var(--calcite-ui-icon-color, var(--calcite-ui-danger));
+    color: var(--calcite-ui-icon-color, var(--calcite-ui-text-inverse));
   }
 }
 
-:host([color="yellow"][appearance="clear"]),
-:host([color="yellow"][appearance="transparent"]) {
-  border-color: var(--calcite-ui-warning);
-  .chip-icon {
-    color: var(--calcite-ui-icon-color, var(--calcite-ui-warning));
+:host([appearance="outline-fill"]),
+:host([appearance="outline"]) {
+  @apply text-color-1 bg-foreground-1;
+  button,
+  .close-icon {
+    @apply text-color-3;
   }
-}
-
-:host([color="green"][appearance="clear"]),
-:host([color="green"][appearance="transparent"]) {
-  border-color: var(--calcite-ui-success);
-  .chip-icon {
-    color: var(--calcite-ui-icon-color, var(--calcite-ui-success));
-  }
-}
-
-:host([color="grey"][appearance="clear"]),
-:host([color="grey"][appearance="transparent"]) {
-  border-color: var(--calcite-ui-border-1);
   .chip-icon {
     color: var(--calcite-ui-icon-color, var(--calcite-ui-text-3));
   }
 }
 
+:host([appearance="outline-fill"]) {
+  @apply bg-foreground-1;
+}
+
+:host([appearance="outline"]) {
+  @apply bg-transparent;
+}
+
+:host([kind="neutral"][appearance="outline-fill"]),
+:host([kind="neutral"][appearance="outline"]) {
+  border-color: var(--calcite-ui-border-1);
+}
+
+:host([kind="inverse"][appearance="outline-fill"]),
+:host([kind="inverse"][appearance="outline"]) {
+  border-color: var(--calcite-ui-border-inverse);
+}
+
+:host([kind="brand"][appearance="outline-fill"]),
+:host([kind="brand"][appearance="outline"]) {
+  border-color: var(--calcite-ui-brand);
+}
+
+:host([kind="brand"][appearance="solid"]),
+:host([kind="inverse"][appearance="solid"]) {
+  button {
+    outline-color: var(--calcite-ui-text-inverse);
+  }
+}
 :host([closed]) {
   display: none;
 }

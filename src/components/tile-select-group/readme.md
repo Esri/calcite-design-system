@@ -11,9 +11,9 @@
 
 ## Slots
 
-| Slot | Description                               |
-| ---- | ----------------------------------------- |
-|      | A slot for adding `calcite-tile-select`s. |
+| Slot | Description                                       |
+| ---- | ------------------------------------------------- |
+|      | A slot for adding `calcite-tile-select` elements. |
 
 ---
 

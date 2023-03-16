@@ -192,8 +192,7 @@ describe("calcite-action-pad", () => {
         </calcite-action-pad>
       `,
       {
-        focusId: "expand-toggle",
-        focusTargetSelector: "calcite-action-pad"
+        focusTargetSelector: "calcite-action"
       }
     ));
 

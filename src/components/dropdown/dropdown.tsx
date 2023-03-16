@@ -13,41 +13,48 @@ import {
 } from "@stencil/core";
 import { ItemKeyboardEvent } from "./interfaces";
 
-import { focusElement, isPrimaryPointerButton, toAriaBoolean } from "../../utils/dom";
 import {
-  FloatingCSS,
-  OverlayPositioning,
-  FloatingUIComponent,
+  focusElement,
+  focusElementInGroup,
+  isPrimaryPointerButton,
+  toAriaBoolean
+} from "../../utils/dom";
+import {
   connectFloatingUI,
+  defaultMenuPlacement,
   disconnectFloatingUI,
   EffectivePlacement,
-  MenuPlacement,
-  defaultMenuPlacement,
   filterComputedPlacements,
+  FloatingCSS,
+  FloatingUIComponent,
+  MenuPlacement,
+  OverlayPositioning,
   reposition,
   updateAfterClose
 } from "../../utils/floating-ui";
+import { guid } from "../../utils/guid";
+import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import { isActivationKey } from "../../utils/key";
+import { createObserver } from "../../utils/observers";
+import {
+  connectOpenCloseComponent,
+  disconnectOpenCloseComponent,
+  OpenCloseComponent
+} from "../../utils/openCloseComponent";
+import { RequestedItem } from "../dropdown-group/interfaces";
 import { Scale } from "../interfaces";
 import { SLOTS } from "./resources";
-import { createObserver } from "../../utils/observers";
-import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
-import {
-  OpenCloseComponent,
-  connectOpenCloseComponent,
-  disconnectOpenCloseComponent
-} from "../../utils/openCloseComponent";
-import { guid } from "../../utils/guid";
-import { RequestedItem } from "../dropdown-group/interfaces";
-import { isActivationKey } from "../../utils/key";
 
 /**
- * @slot - A slot for adding `calcite-dropdown-group` components. Every `calcite-dropdown-item` must have a parent `calcite-dropdown-group`, even if the `groupTitle` property is not set.
+ * @slot - A slot for adding `calcite-dropdown-group` elements. Every `calcite-dropdown-item` must have a parent `calcite-dropdown-group`, even if the `groupTitle` property is not set.
  * @slot trigger - A slot for the element that triggers the `calcite-dropdown`.
  */
 @Component({
   tag: "calcite-dropdown",
   styleUrl: "dropdown.scss",
-  shadow: true
+  shadow: {
+    delegatesFocus: true
+  }
 })
 export class Dropdown implements InteractiveComponent, OpenCloseComponent, FloatingUIComponent {
   //--------------------------------------------------------------------------
@@ -342,34 +349,27 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent, Float
   @Listen("calciteInternalDropdownItemKeyEvent")
   calciteInternalDropdownItemKeyEvent(event: CustomEvent<ItemKeyboardEvent>): void {
     const { keyboardEvent } = event.detail;
-    // handle edge
     const target = keyboardEvent.target as HTMLCalciteDropdownItemElement;
-    const itemToFocus = target.nodeName !== "A" ? target : target.parentNode;
-    const isFirstItem = this.itemIndex(itemToFocus) === 0;
-    const isLastItem = this.itemIndex(itemToFocus) === this.items.length - 1;
+
     switch (keyboardEvent.key) {
       case "Tab":
-        if (isLastItem && !keyboardEvent.shiftKey) {
+        if (this.items.indexOf(target) === this.items.length - 1 && !keyboardEvent.shiftKey) {
           this.closeCalciteDropdown();
-        } else if (isFirstItem && keyboardEvent.shiftKey) {
+        } else if (this.items.indexOf(target) === 0 && keyboardEvent.shiftKey) {
           this.closeCalciteDropdown();
-        } else if (keyboardEvent.shiftKey) {
-          this.focusPrevItem(itemToFocus);
-        } else {
-          this.focusNextItem(itemToFocus);
         }
         break;
       case "ArrowDown":
-        this.focusNextItem(itemToFocus);
+        focusElementInGroup(this.items, target, "next");
         break;
       case "ArrowUp":
-        this.focusPrevItem(itemToFocus);
+        focusElementInGroup(this.items, target, "previous");
         break;
       case "Home":
-        this.focusFirstItem();
+        focusElementInGroup(this.items, target, "first");
         break;
       case "End":
-        this.focusLastItem();
+        focusElementInGroup(this.items, target, "last");
         break;
     }
 
@@ -618,32 +618,6 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent, Float
   private focusOnFirstActiveOrFirstItem = (): void => {
     this.getFocusableElement(this.items.find((item) => item.selected) || this.items[0]);
   };
-
-  private focusFirstItem() {
-    const firstItem = this.items[0];
-    this.getFocusableElement(firstItem);
-  }
-
-  private focusLastItem() {
-    const lastItem = this.items[this.items.length - 1];
-    this.getFocusableElement(lastItem);
-  }
-
-  private focusNextItem(el): void {
-    const index = this.itemIndex(el);
-    const nextItem = this.items[index + 1] || this.items[0];
-    this.getFocusableElement(nextItem);
-  }
-
-  private focusPrevItem(el): void {
-    const index = this.itemIndex(el);
-    const prevItem = this.items[index - 1] || this.items[this.items.length - 1];
-    this.getFocusableElement(prevItem);
-  }
-
-  private itemIndex(el): number {
-    return this.items.indexOf(el);
-  }
 
   private getFocusableElement(item): void {
     if (!item) {

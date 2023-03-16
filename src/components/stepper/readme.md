@@ -32,12 +32,13 @@ Calcite stepper can be used to present a stepper workflow to a user. It has conf
 | `numbered`        | `numbered`         | When `true`, displays the step number in the `calcite-stepper-item` heading. | `boolean`                                                                                                                                                                                                                               | `false`        |
 | `numberingSystem` | `numbering-system` | Specifies the Unicode numeral system used by the component for localization. | `"arab" \| "arabext" \| "bali" \| "beng" \| "deva" \| "fullwide" \| "gujr" \| "guru" \| "hanidec" \| "khmr" \| "knda" \| "laoo" \| "latn" \| "limb" \| "mlym" \| "mong" \| "mymr" \| "orya" \| "tamldec" \| "telu" \| "thai" \| "tibt"` | `undefined`    |
 | `scale`           | `scale`            | Specifies the size of the component.                                         | `"l" \| "m" \| "s"`                                                                                                                                                                                                                     | `"m"`          |
+| `selectedItem`    | `selected-item`    | Specifies the component's selected item.                                     | `HTMLCalciteStepperItemElement`                                                                                                                                                                                                         | `null`         |
 
 ## Events
 
-| Event                      | Description                                           | Type                                        |
-| -------------------------- | ----------------------------------------------------- | ------------------------------------------- |
-| `calciteStepperItemChange` | Fires when the active `calcite-stepper-item` changes. | `CustomEvent<StepperItemChangeEventDetail>` |
+| Event                      | Description                                           | Type                |
+| -------------------------- | ----------------------------------------------------- | ------------------- |
+| `calciteStepperItemChange` | Fires when the active `calcite-stepper-item` changes. | `CustomEvent<void>` |
 
 ## Methods
 
@@ -83,9 +84,9 @@ Type: `Promise<void>`
 
 ## Slots
 
-| Slot | Description                                |
-| ---- | ------------------------------------------ |
-|      | A slot for adding `calcite-stepper-item`s. |
+| Slot | Description                                        |
+| ---- | -------------------------------------------------- |
+|      | A slot for adding `calcite-stepper-item` elements. |
 
 ---
 

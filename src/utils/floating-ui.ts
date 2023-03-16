@@ -13,10 +13,10 @@ import {
   Strategy,
   VirtualElement
 } from "@floating-ui/dom";
-import { closestElementCrossShadowBoundary, getElementDir } from "./dom";
-import { debounce } from "lodash-es";
 import { Build } from "@stencil/core";
+import { debounce } from "lodash-es";
 import { config } from "./config";
+import { closestElementCrossShadowBoundary, getElementDir } from "./dom";
 
 const floatingUIBrowserCheck = patchFloatingUiForNonChromiumBrowsers();
 

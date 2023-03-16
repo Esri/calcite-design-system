@@ -3,24 +3,21 @@ import {
   Element,
   Event,
   EventEmitter,
-  h,
-  Prop,
-  Method,
-  VNode,
   Fragment,
+  h,
+  Method,
+  Prop,
   State,
+  VNode,
   Watch
 } from "@stencil/core";
-import { Scale } from "../interfaces";
 import {
   connectLocalized,
   disconnectLocalized,
   LocalizedComponent,
-  numberStringFormatter,
-  NumberingSystem
+  NumberingSystem,
+  numberStringFormatter
 } from "../../utils/locale";
-import { CSS } from "./resources";
-import { Messages } from "./assets/pagination/t9n";
 import {
   connectMessages,
   disconnectMessages,
@@ -28,6 +25,9 @@ import {
   T9nComponent,
   updateMessages
 } from "../../utils/t9n";
+import { Scale } from "../interfaces";
+import { PaginationMessages } from "./assets/pagination/t9n";
+import { CSS } from "./resources";
 
 const maxPagesDisplayed = 5;
 export interface PaginationDetail {
@@ -39,7 +39,9 @@ export interface PaginationDetail {
 @Component({
   tag: "calcite-pagination",
   styleUrl: "pagination.scss",
-  shadow: true,
+  shadow: {
+    delegatesFocus: true
+  },
   assetsDirs: ["assets"]
 })
 export class Pagination implements LocalizedComponent, LocalizedComponent, T9nComponent {
@@ -57,27 +59,11 @@ export class Pagination implements LocalizedComponent, LocalizedComponent, T9nCo
   /**
    * Use this property to override individual strings used by the component.
    */
-  @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
+  @Prop({ mutable: true }) messageOverrides: Partial<PaginationMessages>;
 
-  @Watch("textLabelNext")
-  @Watch("textLabelPrevious")
   @Watch("messageOverrides")
   onMessagesChange(): void {
     /* wired up by t9n util */
-  }
-
-  getExtraMessageOverrides(): Partial<Messages> {
-    const extraOverrides: Partial<Messages> = {};
-
-    if (this.textLabelNext) {
-      extraOverrides.next = this.textLabelNext;
-    }
-
-    if (this.textLabelPrevious) {
-      extraOverrides.previous = this.textLabelPrevious;
-    }
-
-    return extraOverrides;
   }
 
   /** Specifies the number of items per page. */
@@ -93,20 +79,6 @@ export class Pagination implements LocalizedComponent, LocalizedComponent, T9nCo
 
   /** Specifies the total number of items. */
   @Prop({ reflect: true }) total = 0;
-
-  /**
-   * Accessible name for the component's next button.
-   *
-   * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`
-   */
-  @Prop() textLabelNext: string;
-
-  /**
-   * Accessible name for the component's previous button.
-   *
-   * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`
-   */
-  @Prop() textLabelPrevious: string;
 
   /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";
@@ -124,7 +96,7 @@ export class Pagination implements LocalizedComponent, LocalizedComponent, T9nCo
   //
   //--------------------------------------------------------------------------
 
-  @State() defaultMessages: Messages;
+  @State() defaultMessages: PaginationMessages;
 
   @State() effectiveLocale = "";
 
@@ -147,7 +119,7 @@ export class Pagination implements LocalizedComponent, LocalizedComponent, T9nCo
    *
    * @internal
    */
-  @Prop({ mutable: true }) messages: Messages;
+  @Prop({ mutable: true }) messages: PaginationMessages;
 
   //--------------------------------------------------------------------------
   //

@@ -4,49 +4,48 @@ import {
   Event,
   EventEmitter,
   forceUpdate,
+  h,
   Host,
   Method,
   Prop,
   State,
-  Watch,
-  h,
-  VNode
+  VNode,
+  Watch
 } from "@stencil/core";
-import { CSS, ARIA_CONTROLS, ARIA_EXPANDED, defaultPopoverPlacement } from "./resources";
 import {
-  FloatingCSS,
-  OverlayPositioning,
-  FloatingUIComponent,
   connectFloatingUI,
-  disconnectFloatingUI,
-  LogicalPlacement,
-  EffectivePlacement,
   defaultOffsetDistance,
+  disconnectFloatingUI,
+  EffectivePlacement,
   filterComputedPlacements,
+  FloatingCSS,
+  FloatingUIComponent,
+  LogicalPlacement,
+  OverlayPositioning,
   ReferenceElement,
   reposition,
   updateAfterClose
 } from "../../utils/floating-ui";
 import {
-  FocusTrapComponent,
-  FocusTrap,
-  connectFocusTrap,
   activateFocusTrap,
+  connectFocusTrap,
   deactivateFocusTrap,
-  focusFirstTabbable
+  FocusTrap,
+  FocusTrapComponent,
+  updateFocusTrapElements
 } from "../../utils/focusTrapComponent";
+import { ARIA_CONTROLS, ARIA_EXPANDED, CSS, defaultPopoverPlacement } from "./resources";
 
+import { focusFirstTabbable, queryElementRoots, toAriaBoolean } from "../../utils/dom";
 import { guid } from "../../utils/guid";
-import { queryElementRoots, toAriaBoolean } from "../../utils/dom";
 import {
-  OpenCloseComponent,
   connectOpenCloseComponent,
-  disconnectOpenCloseComponent
+  disconnectOpenCloseComponent,
+  OpenCloseComponent
 } from "../../utils/openCloseComponent";
-import { HeadingLevel, Heading } from "../functional/Heading";
+import { Heading, HeadingLevel } from "../functional/Heading";
 import { Scale } from "../interfaces";
 
-import PopoverManager from "./PopoverManager";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 import {
   connectMessages,
@@ -55,13 +54,14 @@ import {
   T9nComponent,
   updateMessages
 } from "../../utils/t9n";
-import { Messages } from "./assets/popover/t9n";
+import { PopoverMessages } from "./assets/popover/t9n";
+import PopoverManager from "./PopoverManager";
 
 import {
-  setUpLoadableComponent,
-  setComponentLoaded,
+  componentLoaded,
   LoadableComponent,
-  componentLoaded
+  setComponentLoaded,
+  setUpLoadableComponent
 } from "../../utils/loadable";
 
 const manager = new PopoverManager();
@@ -143,22 +143,14 @@ export class Popover
    */
   @Prop({ reflect: true }) headingLevel: HeadingLevel;
 
-  /**
-   * Accessible name for the component's close button.
-   *
-   * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`
-   */
-  @Prop() intlClose: string;
-
   /** Accessible name for the component. */
   @Prop() label!: string;
 
   /**
    * Use this property to override individual strings used by the component.
    */
-  @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
+  @Prop({ mutable: true }) messageOverrides: Partial<PopoverMessages>;
 
-  @Watch("intlClose")
   @Watch("messageOverrides")
   onMessagesChange(): void {
     /* wired up by t9n util */
@@ -169,7 +161,7 @@ export class Popover
    *
    * @internal
    */
-  @Prop({ mutable: true }) messages: Messages;
+  @Prop({ mutable: true }) messages: PopoverMessages;
 
   /**
    * Offsets the position of the popover away from the `referenceElement`.
@@ -274,7 +266,7 @@ export class Popover
 
   @State() effectiveReferenceElement: ReferenceElement;
 
-  @State() defaultMessages: Messages;
+  @State() defaultMessages: PopoverMessages;
 
   arrowEl: HTMLDivElement;
 
@@ -391,34 +383,21 @@ export class Popover
   }
 
   /**
-   * Sets focus on the component.
-   *
-   * @param focusId
+   * Sets focus on the component's first focusable element.
    */
   @Method()
-  async setFocus(focusId?: "close-button"): Promise<void> {
+  async setFocus(): Promise<void> {
     await componentLoaded(this);
-
-    const { closeButtonEl } = this;
-
-    if (focusId === "close-button" && closeButtonEl) {
-      forceUpdate(closeButtonEl);
-      closeButtonEl.setFocus();
-
-      return;
-    }
-
-    focusFirstTabbable(this);
+    forceUpdate(this.el);
+    focusFirstTabbable(this.focusTrapEl);
   }
 
   /**
-   * Toggles the component's open property.
-   *
-   * @param value
+   * Updates the element(s) that are used within the focus-trap of the component.
    */
   @Method()
-  async toggle(value = !this.open): Promise<void> {
-    this.open = value;
+  async updateFocusTrapElements(): Promise<void> {
+    updateFocusTrapElements(this);
   }
 
   // --------------------------------------------------------------------------
@@ -551,7 +530,7 @@ export class Popover
   renderCloseButton(): VNode {
     const { messages, closable } = this;
     return closable ? (
-      <div class={CSS.closeButtonContainer}>
+      <div class={CSS.closeButtonContainer} key={CSS.closeButtonContainer}>
         <calcite-action
           class={CSS.closeButton}
           onClick={this.hide}
@@ -574,7 +553,7 @@ export class Popover
     ) : null;
 
     return headingNode ? (
-      <div class={CSS.header}>
+      <div class={CSS.header} key={CSS.header}>
         {headingNode}
         {this.renderCloseButton()}
       </div>

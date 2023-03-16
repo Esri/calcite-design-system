@@ -1,6 +1,6 @@
-import { h, Component } from "@stencil/core";
+import { Component, h } from "@stencil/core";
 import { newSpecPage } from "@stencil/core/testing";
-import { Heading, constrainHeadingLevel } from "./Heading";
+import { constrainHeadingLevel, Heading } from "./Heading";
 
 describe("constrainHeadingLevel", () => {
   it("should constrain heading levels", () => {

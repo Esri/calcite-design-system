@@ -1,12 +1,12 @@
 import { Component, Element, Fragment, h, Prop, VNode } from "@stencil/core";
-import { SLOTS } from "./resources";
-import { getSlotted } from "../../utils/dom";
 import {
   ConditionalSlotComponent,
   connectConditionalSlotComponent,
   disconnectConditionalSlotComponent
 } from "../../utils/conditionalSlot";
+import { getSlotted } from "../../utils/dom";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import { SLOTS } from "./resources";
 
 /**
  * @slot content-start - A slot for adding non-actionable elements before the component's content.
@@ -73,6 +73,9 @@ export class Tile implements ConditionalSlotComponent, InteractiveComponent {
   /** Specifies an icon to display. */
   @Prop({ reflect: true }) icon: string;
 
+  /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
+  @Prop({ reflect: true }) iconFlipRtl = false;
+
   // --------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -98,7 +101,7 @@ export class Tile implements ConditionalSlotComponent, InteractiveComponent {
   // --------------------------------------------------------------------------
 
   renderTile(): VNode {
-    const { icon, el, heading, description } = this;
+    const { icon, el, heading, description, iconFlipRtl } = this;
     const isLargeVisual = heading && icon && !description;
     const iconStyle = isLargeVisual
       ? {
@@ -111,7 +114,7 @@ export class Tile implements ConditionalSlotComponent, InteractiveComponent {
       <div class={{ container: true, "large-visual": isLargeVisual }}>
         {icon && (
           <div class="icon">
-            <calcite-icon icon={icon} scale="l" style={iconStyle} />
+            <calcite-icon flipRtl={iconFlipRtl} icon={icon} scale="l" style={iconStyle} />
           </div>
         )}
         <div class="content-container">

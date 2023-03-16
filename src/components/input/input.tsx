@@ -1,4 +1,3 @@
-import { DeprecatedEventPayload, Scale, Status } from "../interfaces";
 import {
   Component,
   Element,
@@ -19,11 +18,8 @@ import {
   isPrimaryPointerButton,
   setRequestedIcon
 } from "../../utils/dom";
+import { Scale, Status } from "../interfaces";
 
-import { CSS, INPUT_TYPE_ICONS, SLOTS } from "./resources";
-import { InputPlacement, NumberNudgeDirection, SetValueOrigin } from "./interfaces";
-import { Position } from "../interfaces";
-import { LabelableComponent, connectLabel, disconnectLabel, getLabelText } from "../../utils/label";
 import {
   connectForm,
   disconnectForm,
@@ -31,20 +27,27 @@ import {
   HiddenFormInputSlot,
   submitForm
 } from "../../utils/form";
+import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import { numberKeys } from "../../utils/key";
+import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
 import {
-  NumberingSystem,
+  componentLoaded,
+  LoadableComponent,
+  setComponentLoaded,
+  setUpLoadableComponent
+} from "../../utils/loadable";
+import {
+  connectLocalized,
   defaultNumberingSystem,
-  numberStringFormatter,
   disconnectLocalized,
   LocalizedComponent,
-  connectLocalized
+  NumberingSystem,
+  numberStringFormatter
 } from "../../utils/locale";
-import { numberKeys } from "../../utils/key";
-import { isValidNumber, parseNumberString, sanitizeNumberString } from "../../utils/number";
-import { CSS_UTILITY } from "../../utils/resources";
 import { decimalPlaces } from "../../utils/math";
+import { isValidNumber, parseNumberString, sanitizeNumberString } from "../../utils/number";
 import { createObserver } from "../../utils/observers";
-import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import { CSS_UTILITY } from "../../utils/resources";
 import {
   connectMessages,
   disconnectMessages,
@@ -52,13 +55,10 @@ import {
   T9nComponent,
   updateMessages
 } from "../../utils/t9n";
-import { Messages } from "./assets/input/t9n";
-import {
-  setUpLoadableComponent,
-  setComponentLoaded,
-  LoadableComponent,
-  componentLoaded
-} from "../../utils/loadable";
+import { Position } from "../interfaces";
+import { InputMessages } from "./assets/input/t9n";
+import { InputPlacement, NumberNudgeDirection, SetValueOrigin } from "./interfaces";
+import { CSS, INPUT_TYPE_ICONS, SLOTS } from "./resources";
 
 /**
  * @slot action - A slot for positioning a `calcite-button` next to the component.
@@ -330,12 +330,12 @@ export class Input
    *
    * @internal
    */
-  @Prop({ mutable: true }) messages: Messages;
+  @Prop({ mutable: true }) messages: InputMessages;
 
   /**
    * Use this property to override individual strings used by the component.
    */
-  @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
+  @Prop({ mutable: true }) messageOverrides: Partial<InputMessages>;
 
   @Watch("messageOverrides")
   onMessagesChange(): void {
@@ -412,7 +412,7 @@ export class Input
   /** the computed icon to render */
   private requestedIcon?: string;
 
-  private nudgeNumberValueIntervalId;
+  private nudgeNumberValueIntervalId: number;
 
   mutationObserver = createObserver("mutation", () => this.setDisabledAction());
 
@@ -431,9 +431,11 @@ export class Input
     updateMessages(this, this.effectiveLocale);
   }
 
-  @State() defaultMessages: Messages;
+  @State() defaultMessages: InputMessages;
 
   @State() localizedValue: string;
+
+  @State() slottedActionElDisabledInternally = false;
 
   //--------------------------------------------------------------------------
   //
@@ -465,6 +467,7 @@ export class Input
     }
 
     this.mutationObserver?.observe(this.el, { childList: true });
+
     this.setDisabledAction();
     this.el.addEventListener("calciteInternalHiddenInputChange", this.hiddenInputChangeHandler);
   }
@@ -523,13 +526,10 @@ export class Input
    */
   @Event({ cancelable: false }) calciteInternalInputBlur: EventEmitter<void>;
 
-  // TODO: refactor color-picker to not use the deprecated
-  // nativeEvent payload property in handleChannelInput()
   /**
    * Fires each time a new `value` is typed.
-   * NOTE: `nativeEvent` payload property is deprecated
    */
-  @Event({ cancelable: true }) calciteInputInput: EventEmitter<DeprecatedEventPayload>;
+  @Event({ cancelable: true }) calciteInputInput: EventEmitter<void>;
 
   /**
    * Fires each time a new `value` is typed and committed.
@@ -561,6 +561,18 @@ export class Input
       this.childNumberEl?.select();
     } else {
       this.childEl?.select();
+    }
+  }
+
+  // TODO: refactor so we don't need to sync the internals in color-picker
+  // https://github.com/Esri/calcite-components/issues/6100
+  /** @internal */
+  @Method()
+  async internalSyncChildElValue(): Promise<void> {
+    if (this.type === "number") {
+      this.childNumberEl.value = this.value;
+    } else {
+      this.childEl.value = this.value;
     }
   }
   //--------------------------------------------------------------------------
@@ -601,9 +613,10 @@ export class Input
     const adjustment = direction === "up" ? 1 : -1;
     const nudgedValue = inputVal + inputStep * adjustment;
     const finalValue =
-      (typeof inputMin === "number" && !isNaN(inputMin) && nudgedValue < inputMin) ||
-      (typeof inputMax === "number" && !isNaN(inputMax) && nudgedValue > inputMax)
-        ? inputVal
+      typeof inputMin === "number" && !isNaN(inputMin) && nudgedValue < inputMin
+        ? inputMin
+        : typeof inputMax === "number" && !isNaN(inputMax) && nudgedValue > inputMax
+        ? inputMax
         : nudgedValue;
 
     const inputValPlaces = decimalPlaces(inputVal);
@@ -776,7 +789,7 @@ export class Input
 
     const inputMax = this.maxString ? parseFloat(this.maxString) : null;
     const inputMin = this.minString ? parseFloat(this.minString) : null;
-    const valueNudgeDelayInMs = 100;
+    const valueNudgeDelayInMs = 150;
 
     this.incrementOrDecrementNumberValue(direction, inputMax, inputMin, nativeEvent);
 
@@ -855,11 +868,11 @@ export class Input
     event.stopPropagation();
   };
 
-  private setChildElRef = (el) => {
+  private setChildElRef = (el: HTMLInputElement | HTMLTextAreaElement) => {
     this.childEl = el;
   };
 
-  private setChildNumberElRef = (el) => {
+  private setChildNumberElRef = (el: HTMLInputElement) => {
     this.childNumberEl = el;
   };
 
@@ -870,9 +883,15 @@ export class Input
       return;
     }
 
-    this.disabled
-      ? slottedActionEl.setAttribute("disabled", "")
-      : slottedActionEl.removeAttribute("disabled");
+    if (this.disabled) {
+      if (slottedActionEl.getAttribute("disabled") == null) {
+        this.slottedActionElDisabledInternally = true;
+      }
+      slottedActionEl.setAttribute("disabled", "");
+    } else if (this.slottedActionElDisabledInternally) {
+      slottedActionEl.removeAttribute("disabled");
+      this.slottedActionElDisabledInternally = false;
+    }
   }
 
   private setInputValue = (newInputValue: string): void => {
@@ -954,9 +973,7 @@ export class Input
     this.previousValueOrigin = origin;
 
     if (nativeEvent) {
-      const calciteInputInputEvent = this.calciteInputInput.emit({
-        nativeEvent
-      });
+      const calciteInputInputEvent = this.calciteInputInput.emit();
       if (calciteInputInputEvent.defaultPrevented) {
         this.value = this.previousValue;
         this.localizedValue =
@@ -1002,7 +1019,7 @@ export class Input
         tabIndex={-1}
         type="button"
       >
-        <calcite-icon icon="x" scale="s" />
+        <calcite-icon icon="x" scale={this.scale === "l" ? "m" : "s"} />
       </button>
     );
     const iconEl = (
@@ -1010,7 +1027,7 @@ export class Input
         class={CSS.inputIcon}
         flipRtl={this.iconFlipRtl}
         icon={this.requestedIcon}
-        scale="s"
+        scale={this.scale === "l" ? "m" : "s"}
       />
     );
 
@@ -1031,7 +1048,7 @@ export class Input
         tabIndex={-1}
         type="button"
       >
-        <calcite-icon icon="chevron-up" scale="s" />
+        <calcite-icon icon="chevron-up" scale={this.scale === "l" ? "m" : "s"} />
       </button>
     );
 
@@ -1050,7 +1067,7 @@ export class Input
         tabIndex={-1}
         type="button"
       >
-        <calcite-icon icon="chevron-down" scale="s" />
+        <calcite-icon icon="chevron-down" scale={this.scale === "l" ? "m" : "s"} />
       </button>
     );
 
@@ -1136,7 +1153,7 @@ export class Input
             />,
             this.isTextarea ? (
               <div class={CSS.resizeIconWrapper}>
-                <calcite-icon icon="chevron-down" scale="s" />
+                <calcite-icon icon="chevron-down" scale={this.scale === "l" ? "m" : "s"} />
               </div>
             ) : null
           ]

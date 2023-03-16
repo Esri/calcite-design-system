@@ -11,7 +11,7 @@
 }
 
 .container--l {
-  @apply text-0h py-3;
+  @apply text-0h py-2.5;
   padding-inline-end: theme("padding.4");
   padding-inline-start: theme("padding.10");
 }
@@ -63,7 +63,7 @@
 }
 
 .dropdown-item-content {
-  @apply flex-auto;
+  @apply flex-auto py-0.5;
   padding-inline-end: theme("margin.auto");
   padding-inline-start: theme("margin.1");
 }

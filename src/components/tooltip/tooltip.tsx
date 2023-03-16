@@ -1,36 +1,36 @@
 import {
   Component,
   Element,
+  Event,
+  EventEmitter,
+  h,
   Host,
   Method,
   Prop,
   State,
-  Watch,
-  h,
   VNode,
-  Event,
-  EventEmitter
+  Watch
 } from "@stencil/core";
-import { CSS, ARIA_DESCRIBED_BY } from "./resources";
-import { guid } from "../../utils/guid";
-import {
-  OverlayPositioning,
-  FloatingUIComponent,
-  connectFloatingUI,
-  disconnectFloatingUI,
-  LogicalPlacement,
-  defaultOffsetDistance,
-  ReferenceElement,
-  reposition,
-  FloatingCSS,
-  updateAfterClose
-} from "../../utils/floating-ui";
 import { queryElementRoots, toAriaBoolean } from "../../utils/dom";
 import {
-  OpenCloseComponent,
+  connectFloatingUI,
+  defaultOffsetDistance,
+  disconnectFloatingUI,
+  FloatingCSS,
+  FloatingUIComponent,
+  LogicalPlacement,
+  OverlayPositioning,
+  ReferenceElement,
+  reposition,
+  updateAfterClose
+} from "../../utils/floating-ui";
+import { guid } from "../../utils/guid";
+import {
   connectOpenCloseComponent,
-  disconnectOpenCloseComponent
+  disconnectOpenCloseComponent,
+  OpenCloseComponent
 } from "../../utils/openCloseComponent";
+import { ARIA_DESCRIBED_BY, CSS } from "./resources";
 
 import TooltipManager from "./TooltipManager";
 

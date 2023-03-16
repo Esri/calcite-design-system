@@ -31,9 +31,9 @@ Type: `Promise<number>`
 
 ## Slots
 
-| Slot | Description                                 |
-| ---- | ------------------------------------------- |
-|      | A slot for adding content to the component. |
+| Slot | Description                       |
+| ---- | --------------------------------- |
+|      | A slot for adding custom content. |
 
 ## Dependencies
 

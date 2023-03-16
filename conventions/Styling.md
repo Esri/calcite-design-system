@@ -30,59 +30,18 @@ Add a class to handle the logic in the component class.
 }
 ```
 
-## Color
+## Light Mode/Dark Mode
 
-If a component has multiple color themes (for example Blue, Red, Green, and Yellow) representing various state implement a `color` prop and reflect it to an attributes.
-
-```tsx
-enum Colors {
-  red = "red",
-  blue = "blue",
-  green = "green",
-  yellow = "yellow",
-}
-
-export class Component {
-
-// ...
-
-@Prop({ reflect: true }) color: Colors = 'blue'
-
-// ...
-```
-
-You can then use the `:host()` selector to define your custom colors:
-
-```scss
-:host([color="blue"]) {
-  .something {
-    // make it blue
-  }
-}
-
-:host([color="red"]) {
-  .something {
-    // make it red
-  }
-}
-```
-
-**Discussed In**:
-
-- https://github.com/Esri/calcite-components/pull/24/files/3446c89010e3ef0421803d68d627aba2e7c4bfa0#r289427838
-
-## Light Theme/Dark Theme
-
-In the [global CSS file](https://github.com/Esri/calcite-components/blob/master/src/assets/styles/global.scss), we specify the values of each color for both light and dark theme. This enables theming to be inherited throughout a component tree. Consider this valid example:
+In the [global CSS file](https://github.com/Esri/calcite-components/blob/master/src/assets/styles/global.scss), we specify the values of each color for both light and dark mode. This enables theming to be inherited throughout a component tree. Consider this valid example:
 
 ```html
-<div class="calcite-theme-dark">
+<div class="calcite-mode-dark">
   <calcite-button>Button text</calcite-button>
   <calcite-date-picker></calcite-date-picker>
 </div>
 ```
 
-This will cause both the button and the date picker to use the dark theme color variables declared in the global file. This makes it very easy for developers to move an entire app from light to dark and vice versa.
+This will cause both the button and the date picker to use the dark mode color variables declared in the global file. This makes it very easy for developers to move an entire app from light to dark mode and vice versa.
 
 To make this work, inside a component's SASS file, _you must use colors from the theme variables_. For example
 
@@ -100,7 +59,7 @@ To make this work, inside a component's SASS file, _you must use colors from the
 
 ## Custom Themes
 
-Since Calcite Components might be used in many different contexts such as configurable apps, multiple themes and appearances need to be supported. The most common use case for custom themes are applications where the end user needs to be able to customize brand colors and typography. To this end custom theming can be accomplished by overriding the [CSS Custom Properties (CSS Variables)](https://developer.mozilla.org/en-US/docs/Web/CSS/--*) from the main light and dark themes with new values:
+Since Calcite Components might be used in many different contexts such as configurable apps, multiple themes and appearances need to be supported. The most common use case for custom themes are applications where the end user needs to be able to customize brand colors and typography. To this end custom theming can be accomplished by overriding the [CSS Custom Properties (CSS Variables)](https://developer.mozilla.org/en-US/docs/Web/CSS/--*) from the main light and dark modes with new values:
 
 ```css
 :root {
@@ -140,7 +99,7 @@ All components have been constructed to inherit their `font-family`. This enable
 
 ### Palette
 
-The current light theme colors and their hex values can be found [here](https://esri.github.io/calcite-colors/).
+The Esri color palette can be found [here](https://esri.github.io/calcite-colors/).
 
 **Discussed In**:
 

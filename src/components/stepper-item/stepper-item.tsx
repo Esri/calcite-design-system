@@ -93,6 +93,9 @@ export class StepperItem implements InteractiveComponent, LocalizedComponent, Lo
   /** @internal */
   @Prop({ mutable: true }) icon = false;
 
+  /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
+  @Prop({ reflect: true }) iconFlipRtl = false;
+
   /** When `true`, displays the step number in the component's heading. */
   /** @internal */
   @Prop({ mutable: true }) numbered = false;
@@ -257,6 +260,7 @@ export class StepperItem implements InteractiveComponent, LocalizedComponent, Lo
   //
   //--------------------------------------------------------------------------
 
+  /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
     await componentLoaded(this);
@@ -314,7 +318,9 @@ export class StepperItem implements InteractiveComponent, LocalizedComponent, Lo
       ? "checkCircleF"
       : "circle";
 
-    return <calcite-icon class="stepper-item-icon" icon={path} scale="s" />;
+    return (
+      <calcite-icon class="stepper-item-icon" flipRtl={this.iconFlipRtl} icon={path} scale="s" />
+    );
   }
 
   private determineSelectedItem(): void {

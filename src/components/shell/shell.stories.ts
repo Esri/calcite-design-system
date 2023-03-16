@@ -1,17 +1,17 @@
 import { boolean, select } from "@storybook/addon-knobs";
-import {
-  filterComponentAttributes,
-  Attributes,
-  createComponentHTML as create,
-  themesDarkDefault
-} from "../../../.storybook/utils";
+import { storyFilters } from "../../../.storybook/helpers";
 import { placeholderImage } from "../../../.storybook/placeholderImage";
 import { ATTRIBUTES } from "../../../.storybook/resources";
-import readme from "./readme.md";
-import panelReadme from "../shell-panel/readme.md";
-import centerRowReadme from "../shell-center-row/readme.md";
+import {
+  Attributes,
+  createComponentHTML as create,
+  filterComponentAttributes,
+  modesDarkDefault
+} from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
-import { storyFilters } from "../../../.storybook/helpers";
+import centerRowReadme from "../shell-center-row/readme.md";
+import panelReadme from "../shell-panel/readme.md";
+import readme from "./readme.md";
 
 export default {
   title: "Components/Shell",
@@ -104,7 +104,7 @@ const actionBarEndContentHTML = html`
 `;
 
 const actionBarStartHTML = html`
-  <calcite-action-bar class="calcite-theme-dark" slot="action-bar"> ${actionBarStartContentHTML} </calcite-action-bar>
+  <calcite-action-bar class="calcite-mode-dark" slot="action-bar"> ${actionBarStartContentHTML} </calcite-action-bar>
 `;
 
 const actionBarEndHTML = html`
@@ -257,7 +257,7 @@ const advancedTrailingPanelHTMl = html`
           </calcite-block-section>
         </calcite-block-content>
       </calcite-block>
-      <calcite-button slot="footer-actions" width="half" appearance="clear">Cancel</calcite-button>
+      <calcite-button slot="footer-actions" width="half" appearance="outline">Cancel</calcite-button>
       <calcite-button slot="footer-actions" width="half">Save</calcite-button>
     </calcite-flow-item>
     <calcite-flow-item heading="Deeper flow item">
@@ -291,7 +291,7 @@ const advancedTrailingPanelHTMl = html`
           </calcite-block-section>
         </calcite-block-content>
       </calcite-block>
-      <calcite-button slot="footer-actions" width="half" appearance="clear">Cancel</calcite-button>
+      <calcite-button slot="footer-actions" width="half" appearance="outline">Cancel</calcite-button>
       <calcite-button slot="footer-actions" width="half">Save</calcite-button>
     </calcite-flow-item>
   </calcite-flow>
@@ -311,12 +311,12 @@ export const simple = (): string =>
     `
   );
 
-export const darkThemeRTL_TestOnly = (): string =>
+export const darkModeRTL_TestOnly = (): string =>
   create(
     "calcite-shell",
     createAttributes({ exceptions: ["dir", "class"] }).concat(
       { name: "dir", value: "rtl" },
-      { name: "class", value: "calcite-theme-dark" }
+      { name: "class", value: "calcite-mode-dark" }
     ),
     html`
       ${headerHTML}
@@ -328,7 +328,7 @@ export const darkThemeRTL_TestOnly = (): string =>
     `
   );
 
-darkThemeRTL_TestOnly.parameters = { themes: themesDarkDefault };
+darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
 
 export const closedPanels = (): string => html`<calcite-shell content-behind>
   <calcite-shell-panel slot="panel-start" detached>
@@ -441,9 +441,9 @@ background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
           <calcite-button
             slot="footer-actions"
             width="half"
-            appearance="clear"
+            appearance="outline"
             alignment="center"
-            color="blue"
+            kind="brand"
             scale="m"
           >
             Cancel
@@ -453,7 +453,7 @@ background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
             width="half"
             alignment="center"
             appearance="solid"
-            color="blue"
+            kind="brand"
             scale="m"
           >
             Save
@@ -501,9 +501,9 @@ background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
           <calcite-button
             slot="footer-actions"
             width="half"
-            appearance="clear"
+            appearance="outline"
             alignment="center"
-            color="blue"
+            kind="brand"
             scale="m"
           >
             Cancel
@@ -513,7 +513,7 @@ background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
             width="half"
             alignment="center"
             appearance="solid"
-            color="blue"
+            kind="brand"
             scale="m"
           >
             Save
@@ -523,6 +523,84 @@ background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
     </calcite-shell-panel>
     <footer slot="footer">My Shell Footer</footer>
   </calcite-shell>`;
+
+export const slottedModalAndAlert = (): string => html` <main>
+  <p class="padded-content">
+    <calcite-notice width="full" open><span slot="title">Other page content outside of shell</span></calcite-notice>
+    Master cleanse occupy lo-fi meh. Green juice williamsburg XOXO man bun ascot fit. Knausgaard heirloom four dollar
+    toast DSA chicharrones, typewriter chia raw denim. Bicycle rights mustache humblebrag, mixtape slow-carb retro
+    vibecession franzen chia. Bespoke coloring book hot chicken literally bushwick succulents wayfarers. Dreamcatcher
+    taiyaki celiac pork belly migas, fashion axe beard shabby chic. Forage chia twee bushwick readymade yuccie praxis
+    enamel pin cred mukbang bicycle rights VHS iPhone pour-over subway tile.
+  </p>
+  <calcite-shell
+    style="
+    width:100%;
+    height:500px;
+    max-height:80%;
+    position:relative;
+    "
+  >
+    <div class="gnav" slot="header">Header Example</div>
+    <calcite-modal open slot="modals" docked><span slot="header">Modal slotted in Shell</span></calcite-modal>
+    <calcite-alert open slot="alerts" placement="top-end"
+      ><span slot="title">Alert slotted in Shell</span>
+    </calcite-alert>
+    <calcite-shell-panel id="primary-panel" slot="panel-start" position="start">
+      <calcite-action-bar slot="action-bar">
+        <calcite-action-group>
+          <calcite-action text="Save" icon="save" indicator> </calcite-action>
+          <calcite-action text-enabled icon="map" text="New" slot="menu-actions"> </calcite-action>
+          <calcite-action text-enabled icon="collection" text="Open" slot="menu-actions"> </calcite-action>
+        </calcite-action-group>
+        <calcite-action-group>
+          <calcite-action icon="layers" text="Layers" active> </calcite-action>
+          <calcite-action icon="basemap" text="Basemaps"> </calcite-action>
+          <calcite-action icon="legend" text="Legend"> </calcite-action>
+          <calcite-action icon="bookmark" text="Bookmarks"> </calcite-action>
+        </calcite-action-group>
+      </calcite-action-bar>
+      <calcite-panel heading="Panel">
+        <div class="padded-content">Panel content<br />Padding is fake.</div>
+      </calcite-panel>
+    </calcite-shell-panel>
+
+    <calcite-shell-panel slot="panel-end" position="end">
+      <calcite-action-bar slot="action-bar">
+        <calcite-tooltip slot="expand-tooltip" label="tooltip" disable-pointer>Add layers</calcite-tooltip>
+        <calcite-action-group>
+          <calcite-action text="Layer properties" icon="sliders-horizontal"> </calcite-action>
+          <calcite-action text="Styles" icon="shapes"> </calcite-action>
+          <calcite-action text="Filter" icon="layer-filter"> </calcite-action>
+          <calcite-action text="Configure pop-ups" icon="popup" active> </calcite-action>
+          <calcite-action text-enabled text="Configure attributes" icon="feature-details" slot="menu-actions">
+          </calcite-action>
+          <calcite-action text-enabled text="Labels" icon="label" slot="menu-actions"> </calcite-action>
+          <calcite-action text-enabled text="Tablew" icon="table" slot="menu-actions"> </calcite-action>
+        </calcite-action-group>
+      </calcite-action-bar>
+      <calcite-flow>
+        <calcite-flow-item heading="Flow 01">
+          <div class="padded-content">Flow 01 content<br />Padding is fake.</div>
+        </calcite-flow-item>
+        <calcite-flow-item heading="Flow 02">
+          <div class="padded-content">Flow 02 content<br />Padding is fake.</div>
+        </calcite-flow-item>
+      </calcite-flow>
+    </calcite-shell-panel>
+
+    <calcite-panel heading="Main content">
+      <div class="padded-content">The borders are only applied to "known" components.<br />Padding is fake.</div>
+    </calcite-panel>
+    <footer slot="footer">Footer Example</footer>
+  </calcite-shell>
+  <p class="padded-content">
+    <calcite-notice width="full" open><span slot="title">Notice outside of shell</span></calcite-notice>
+    Edison bulb iceland narwhal fit DSA. Activated charcoal dreamcatcher shabby chic, microdosing gluten-free locavore
+    chambray tumblr hella sus ugh cronut tofu. Vibecession air plant etsy, vape church-key narwhal activated charcoal
+    offal kombucha hella. Actually mumblecore butcher, iceland man bun prism blog taiyaki roof party portland hashtag.
+  </p>
+</main>`;
 
 export const contentBehind = (): string => html`<calcite-shell content-behind>
   ${headerHTML}
