@@ -264,7 +264,7 @@ export const withIconStartAndEnd_TestOnly = (): string =>
     `
   );
 
-const useCases = [
+const iconHeaderUseCasesArr: { icon: string; heading: string; description: string }[] = [
   { icon: "", heading: "Simple item with heading", description: "" },
   { icon: "", heading: "Simple item with heading", description: "Simple item with description" },
   {
@@ -287,9 +287,9 @@ const useCases = [
   }
 ];
 
-const accordionItems = useCases
+const accordionItemsIconHeaderUseCases = iconHeaderUseCasesArr
   .map(
-    (useCase): string =>
+    (useCase) =>
       html`<calcite-accordion-item
         icon-start="${useCase.icon}"
         icon-end="${useCase.icon}"
@@ -300,6 +300,6 @@ const accordionItems = useCases
   )
   .join("");
 
-export const longHeading_MediumIconForLargeAccordionItem_testOnly = (): string => html`
-  <calcite-accordion scale="l" style="width: 600px"> ${accordionItems} </calcite-accordion>
+export const longHeading_MediumIconForLargeAccordionItem_TestOnly = (): string => html`
+  <calcite-accordion scale="l" style="width: 600px"> ${accordionItemsIconHeaderUseCases} </calcite-accordion>
 `;
