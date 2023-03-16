@@ -48,7 +48,7 @@ body:
     attributes:
       label: Priority impact
       multiple: false
-      description: What is the impact to you, your team, or organization? Use discretion and only select "need" priority for high user impact and quality issues. For instance, would someone notice, in a bad way, if this enhancement were present in the release?
+      description: What is the impact of the enhancement to you, your team, or organization? Use discretion and only select the "need" priority for high user impact and quality issues in the component(s).
       options:
         - p4 - not time sensitive
         - p3 - want for upcoming milestone
