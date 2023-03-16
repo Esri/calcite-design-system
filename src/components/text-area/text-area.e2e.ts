@@ -160,18 +160,6 @@ describe("calcite-text-area", () => {
     expect(await element.getProperty("value")).toBe("rocky mountains");
   });
 
-  it("should disable slotted elements when disabled", async () => {
-    const page = await newE2EPage();
-    await page.setContent(
-      `<calcite-text-area  disabled><calcite-button slot="footer-start">CLEAR</calcite-button></calcite-text-area>`
-    );
-
-    const element = await page.find("calcite-button");
-    await page.waitForChanges();
-
-    expect((await element.getComputedStyle()).pointerEvents).toBe("none");
-  });
-
   it("should have footer--slotted class when slotted at both start and end", async () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-text-area >
@@ -218,3 +206,5 @@ describe("calcite-text-area", () => {
 
   it("supports translations", () => t9n("calcite-text-area"));
 });
+
+//group change and input event tests

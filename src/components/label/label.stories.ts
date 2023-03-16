@@ -77,6 +77,10 @@ export const simple = (): string => html`
         <calcite-option>c</calcite-option>
       </calcite-select>
     </calcite-label>
+    <calcite-label>
+      Add Notes
+      <calcite-text-area> </calcite-text-area>
+    </calcite-label>
   </div>
 `;
 
@@ -139,6 +143,10 @@ export const darkModeRTL_TestOnly = (): string => html`
       <calcite-checkbox></calcite-checkbox>
       Text trailing inline-space-between
     </calcite-label>
+    <calcite-label>
+      Add Notes
+      <calcite-text-area> </calcite-text-area>
+    </calcite-label>
   </div>
 `;
 
@@ -174,5 +182,9 @@ export const spacingWithLabel_TestOnly = (): string => html`
   <calcite-label class="css-var">
     I should not have a bottom margin because I have the CSS variable set.
     <calcite-input></calcite-input>
+  </calcite-label>
+  <calcite-label>
+    Add Notes
+    <calcite-text-area> </calcite-text-area>
   </calcite-label>
 `;

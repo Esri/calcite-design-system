@@ -258,7 +258,8 @@ export class TextArea
             [CSS.readonly]: this.readonly,
             [CSS.textareaInvalid]: this.value?.length > this.maxLength,
             [CSS.footerSlotted]: this.endSlotHasElements && this.startSlotHasElements,
-            [CSS.blocksizeFull]: !hasFooter
+            [CSS.blocksizeFull]: !hasFooter,
+            [CSS.borderColor]: !hasFooter
           }}
           cols={this.columns}
           disabled={this.disabled}
@@ -274,7 +275,7 @@ export class TextArea
           // eslint-disable-next-line react/jsx-sort-props
           ref={this.setTextareaEl}
         />
-        <span class={{ content: true }}>
+        <span class={{ [CSS.content]: true }}>
           <slot onSlotchange={this.contentSlotChangeHandler} />
         </span>
         <footer
@@ -285,7 +286,7 @@ export class TextArea
           }}
           ref={(el) => (this.footerEl = el as HTMLElement)}
         >
-          <div class={{ container: true }}>
+          <div class={{ [CSS.container]: true }}>
             <slot
               name={SLOTS.footerStart}
               onSlotchange={(event) =>
@@ -427,6 +428,8 @@ export class TextArea
     }
   }
 
+  // height and width are set to auto here to avoid overlapping on to neighboring elements in the layout when user starts resizing.
+  // throttle is used to avoid flashing of textarea when user resizes for the first time
   setHeightAndWidthToAuto = throttle(
     (): void => {
       this.verticalResizeDisabled || (this.el.style.height = "auto");

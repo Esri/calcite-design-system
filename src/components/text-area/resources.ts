@@ -1,6 +1,7 @@
 export const CSS = {
   characterLimit: "character-limit",
   content: "content",
+  container: "container",
   footer: "footer",
   resizeDisabled: "resize--disabled",
   resizeDisabledX: "resize--disabled-x",
