@@ -30,6 +30,7 @@
     "component/input-time",
     "component/input-text",
     "component/input-week",
+    "component/notice",
     "component/textarea",
     "component/date-picker",
     "component/label",
