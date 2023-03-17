@@ -307,13 +307,13 @@ export class TextArea
   @Method()
   async setFocus(): Promise<void> {
     await componentLoaded(this);
-    this.textareaEl.focus();
+    this.textAreaEl.focus();
   }
 
   /** Selects all text of the component's `value`. */
   @Method()
   async selectText(): Promise<void> {
-    this.textareaEl.select();
+    this.textAreaEl.select();
   }
   //--------------------------------------------------------------------------
   //
@@ -327,7 +327,7 @@ export class TextArea
 
   labelEl: HTMLCalciteLabelElement;
 
-  textareaEl: HTMLTextAreaElement;
+  textAreaEl: HTMLTextAreaElement;
 
   footerEl: HTMLElement;
 
@@ -434,14 +434,14 @@ export class TextArea
   );
 
   setTextAreaEl = (el: HTMLTextAreaElement): void => {
-    this.textareaEl = el;
+    this.textAreaEl = el;
     this.resizeObserver.observe(el);
   };
 
   setTextAreaHeight(): void {
     const { textAreaHeight, elHeight, footerHeight } = this.getHeightandWidthOfElements();
     if (footerHeight > 0 && textAreaHeight + footerHeight != elHeight) {
-      this.textareaEl.style.height = `${elHeight - footerHeight}px`;
+      this.textAreaEl.style.height = `${elHeight - footerHeight}px`;
     }
   }
 
@@ -454,7 +454,7 @@ export class TextArea
     footerWidth: number;
   } {
     const { height: textAreaHeight, width: textAreaWidth } =
-      this.textareaEl.getBoundingClientRect();
+      this.textAreaEl.getBoundingClientRect();
     const { height: elHeight, width: elWidth } = this.el.getBoundingClientRect();
     const { height: footerHeight, width: footerWidth } = this.footerEl?.getBoundingClientRect();
 

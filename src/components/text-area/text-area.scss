@@ -17,6 +17,9 @@ textarea {
   m-0;
   min-inline-size: theme("spacing.48");
   border-block-end: 1px solid var(--calcite-ui-border-3);
+  @media screen and (max-width: 480px) {
+    @apply resize-none;
+  }
   &:focus {
     @apply focus-inset;
   }
@@ -59,15 +62,15 @@ textarea {
 }
 
 :host([resize="none"]) textarea {
-  resize: none;
+  @apply resize-none;
 }
 
 :host([resize="horizontal"]) textarea {
-  resize: horizontal;
+  @apply resize-x;
 }
 
 :host([resize="vertical"]) textarea {
-  resize: vertical;
+  @apply resize-y;
 }
 
 :host([scale="s"]) {
