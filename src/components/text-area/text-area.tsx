@@ -422,8 +422,12 @@ export class TextArea
   // throttle is used to avoid flashing of textarea when user resizes for the first time
   setHeightAndWidthToAuto = throttle(
     (): void => {
-      this.resize === "vertical" || this.resize === "both" || (this.el.style.height = "auto");
-      this.resize === "horizontal" || this.resize === "both" || (this.el.style.width = "auto");
+      if (this.resize === "vertical" || this.resize === "both") {
+        this.el.style.height = "auto";
+      }
+      if (this.resize === "vertical" || this.resize === "both") {
+        this.el.style.width = "auto";
+      }
     },
     RESIZE_TIMEOUT,
     { leading: false }
