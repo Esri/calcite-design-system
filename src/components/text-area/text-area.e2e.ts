@@ -87,12 +87,13 @@ describe("calcite-text-area", () => {
     expect(eventSpy).toHaveReceivedEventTimes(5);
   });
 
-  it("should emit calciteTextareaInput event when user tabs into textarea  and type", async () => {
+  it("should emit calciteTextareaInput event when user type in the textarea and emit calciteTextareaChange when users tabs out", async () => {
     const page = await newE2EPage();
     await page.setContent("<calcite-text-area></calcite-text-area>");
 
     const element = await page.find("calcite-text-area");
-    const eventSpy = await element.spyOnEvent("calciteTextareaInput");
+    const inputEventSpy = await element.spyOnEvent("calciteTextareaInput");
+    const changeEventSpy = await element.spyOnEvent("calciteTextareaChange");
     await page.waitForChanges();
 
     await page.keyboard.press("Tab");
@@ -101,27 +102,12 @@ describe("calcite-text-area", () => {
     await page.keyboard.type("rocky");
     await page.waitForChanges();
 
-    expect(eventSpy).toHaveReceivedEventTimes(5);
-  });
-
-  it("should emit calciteTextareaChange event when user tabs out of the textarea", async () => {
-    const page = await newE2EPage();
-    await page.setContent("<calcite-text-area></calcite-text-area>");
-
-    const element = await page.find("calcite-text-area");
-    const eventSpy = await element.spyOnEvent("calciteTextareaChange");
-    await page.waitForChanges();
+    expect(inputEventSpy).toHaveReceivedEventTimes(5);
 
     await page.keyboard.press("Tab");
     await page.waitForChanges();
 
-    await page.keyboard.type("rocky mountains");
-    await page.waitForChanges();
-
-    await page.keyboard.press("Tab");
-    await page.waitForChanges();
-
-    expect(eventSpy).toHaveReceivedEventTimes(1);
+    expect(changeEventSpy).toHaveReceivedEventTimes(1);
   });
 
   it("should not emit calciteTextareaChange & calciteTextareaInput event when user tabs out of the textarea without typing", async () => {
@@ -172,39 +158,27 @@ describe("calcite-text-area", () => {
     expect(element).toHaveClass(CSS.footerSlotted);
   });
 
-  describe("resize disabled", () => {
-    it("should have resize-disabled class", async () => {
+  describe("resize", () => {
+    it("should set CSS resize property to horizontal", async () => {
       const page = await newE2EPage();
-      await page.setContent(`<calcite-text-area resize-disabled></calcite-text-area>`);
+      await page.setContent(`<calcite-text-area resize="horizontal"></calcite-text-area>`);
 
       const element = await page.find("calcite-text-area >>> textarea");
       await page.waitForChanges();
 
-      expect(element).toHaveClass(CSS.resizeDisabled);
+      expect((await element.getComputedStyle()).resize).toBe("horizontal");
     });
 
-    it("should have resize-disabled--x class when horizontal-resize-disabled property is parsed", async () => {
+    it("should set CSS resize property to vertical", async () => {
       const page = await newE2EPage();
-      await page.setContent(`<calcite-text-area horizontal-resize-disabled></calcite-text-area>`);
+      await page.setContent(`<calcite-text-area resize="vertical"></calcite-text-area>`);
 
       const element = await page.find("calcite-text-area >>> textarea");
       await page.waitForChanges();
 
-      expect(element).toHaveClass(CSS.resizeDisabledX);
-    });
-
-    it("should have resize-disabled--y class when vertical-resize-disabled property is parsed", async () => {
-      const page = await newE2EPage();
-      await page.setContent(`<calcite-text-area vertical-resize-disabled></calcite-text-area>`);
-
-      const element = await page.find("calcite-text-area >>> textarea");
-      await page.waitForChanges();
-
-      expect(element).toHaveClass(CSS.resizeDisabledY);
+      expect((await element.getComputedStyle()).resize).toBe("vertical");
     });
   });
 
   it("supports translations", () => t9n("calcite-text-area"));
 });
-
-//group change and input event tests

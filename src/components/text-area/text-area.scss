@@ -57,14 +57,16 @@ textarea {
   text-danger;
 }
 
-.resize--disabled {
+:host([resize="none"]) textarea {
   resize: none;
 }
-.resize--disabled-x {
-  resize: vertical;
-}
-.resize--disabled-y {
+
+:host([resize="horizontal"]) textarea {
   resize: horizontal;
+}
+
+:host([resize="vertical"]) textarea {
+  resize: vertical;
 }
 
 :host([scale="s"]) {

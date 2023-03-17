@@ -17,12 +17,8 @@ export const simple = (): string => html`
     placeholder="${text("placeholder", "Add Notes")}"
     ${boolean("disabled", false)}
     columns="${number("columns", 20)}"
+    resize="${text("resize", "both")}
     rows="${number("rows", 2)}"
-    ${boolean("resize-disabled", true)}
-    ${boolean("horizontal-resize-disabled", false)}
-    ${boolean("vertical-resize-disabled", false)}
-    ${boolean("required", false)}
-    ${boolean("readonly", false)}
     label="${text("label", "")}"
     name="${text("name", "")}"
   >
@@ -42,9 +38,6 @@ export const withSlottedElements = (): string => html`
     ${boolean("disabled", false)}
     columns="${number("columns", 20)}"
     rows="${number("rows", 2)}"
-    ${boolean("resize-disabled", true)}
-    ${boolean("horizontal-resize-disabled", false)}
-    ${boolean("vertical-resize-disabled", false)}
     ${boolean("required", false)}
     ${boolean("readonly", false)}
     label="${text("label", "")}"
@@ -68,7 +61,7 @@ export const readonly_TestOnly = (): string => html`
   <calcite-text-area readonly> </calcite-text-area>
 </div> `;
 
-export const resizeDisabled_TestOnly = (): string => html` <calcite-text-area resize-disabled> </calcite-text-area> `;
+export const resizeDisabled_TestOnly = (): string => html` <calcite-text-area resize="none"> </calcite-text-area> `;
 
 export const groupSeparator_TestOnly = (): string => html`
   <calcite-text-area value="Rocky Mountains National Park" lang="fr" max-length="123456" group-separator>

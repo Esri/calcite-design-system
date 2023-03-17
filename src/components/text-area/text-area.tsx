@@ -145,13 +145,7 @@ export class TextArea
   @Prop({ mutable: true }) value: string;
 
   /** When `true`, disables horizontally and vertically resizing the component.*/
-  @Prop({ reflect: true }) resizeDisabled = false;
-
-  /** When `true`, disables horizontally resizing the component. */
-  @Prop({ reflect: true }) horizontalResizeDisabled = false;
-
-  /** When `true`, disables vertically resizing the component. */
-  @Prop({ reflect: true }) verticalResizeDisabled = false;
+  @Prop({ reflect: true }) resize: "both" | "horizontal" | "vertical" | "none" = "both";
 
   /**
    * When `true`, the component must have a value in order for the form to submit.
@@ -244,7 +238,6 @@ export class TextArea
 
   render(): VNode {
     const hasFooter = this.startSlotHasElements || this.endSlotHasElements || !!this.maxLength;
-    console.log("render");
     return (
       <Host>
         <textarea
@@ -252,9 +245,6 @@ export class TextArea
           aria-label={getLabelText(this)}
           autofocus={this.autofocus}
           class={{
-            [CSS.resizeDisabled]: this.resizeDisabled,
-            [CSS.resizeDisabledX]: this.horizontalResizeDisabled,
-            [CSS.resizeDisabledY]: this.verticalResizeDisabled,
             [CSS.readonly]: this.readonly,
             [CSS.textareaInvalid]: this.value?.length > this.maxLength,
             [CSS.footerSlotted]: this.endSlotHasElements && this.startSlotHasElements,
@@ -432,8 +422,8 @@ export class TextArea
   // throttle is used to avoid flashing of textarea when user resizes for the first time
   setHeightAndWidthToAuto = throttle(
     (): void => {
-      this.verticalResizeDisabled || (this.el.style.height = "auto");
-      this.horizontalResizeDisabled || (this.el.style.width = "auto");
+      this.resize === "vertical" || this.resize === "both" || (this.el.style.height = "auto");
+      this.resize === "horizontal" || this.resize === "both" || (this.el.style.width = "auto");
     },
     RESIZE_TIMEOUT,
     { leading: false }
