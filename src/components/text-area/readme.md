@@ -1,4 +1,4 @@
-# calcite-textarea
+# calcite-text-area
 
 <!-- Auto Generated Below -->
 
