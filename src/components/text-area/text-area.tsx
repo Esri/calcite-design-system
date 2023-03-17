@@ -425,7 +425,7 @@ export class TextArea
       if (this.resize === "vertical" || this.resize === "both") {
         this.el.style.height = "auto";
       }
-      if (this.resize === "vertical" || this.resize === "both") {
+      if (this.resize === "horizontal" || this.resize === "both") {
         this.el.style.width = "auto";
       }
     },
