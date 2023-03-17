@@ -1220,6 +1220,106 @@
           "value": "$action-bar.background.dark",
           "type": "color"
         }
+      },
+      "action-pad": {
+        "border": {
+          "value": "$action-pad.border.dark",
+          "type": "color"
+        },
+        "background": {
+          "value": "$action-pad.background.dark",
+          "type": "color"
+        }
+      },
+      "action-bar-grid": {
+        "border": {
+          "value": "$action-bar-grid.border.dark",
+          "type": "color"
+        },
+        "background": {
+          "value": "$action-bar-grid.background.dark",
+          "type": "color"
+        }
+      },
+      "action-pad-grid": {
+        "border": {
+          "value": "$action-pad-grid.border.dark",
+          "type": "color"
+        },
+        "background": {
+          "value": "$action-pad-grid.background.dark",
+          "type": "color"
+        }
+      },
+      "block": {
+        "font": {
+          "heading": {
+            "value": "$block.font.heading.dark",
+            "type": "color"
+          },
+          "description": {
+            "value": "$block.font.description.dark",
+            "type": "color"
+          },
+          "content": {
+            "value": "$block.font.content.dark",
+            "type": "color"
+          }
+        },
+        "icon": {
+          "idle": {
+            "value": "$block.icon.idle.dark",
+            "type": "color"
+          },
+          "valid": {
+            "value": "$block.icon.valid.dark",
+            "type": "color"
+          },
+          "invalid": {
+            "value": "$block.icon.invalid.dark",
+            "type": "color"
+          },
+          "drag-handle": {
+            "value": "$block.icon.drag-handle.dark",
+            "type": "color"
+          },
+          "chevron": {
+            "value": "$block.icon.chevron.dark",
+            "type": "color"
+          }
+        },
+        "border": {
+          "value": "$block.border.light",
+          "type": "color"
+        },
+        "background": {
+          "value": "$block.background.dark",
+          "type": "color"
+        }
+      },
+      "block-section": {
+        "font": {
+          "value": "$block-section.font.dark",
+          "type": "color"
+        },
+        "icon": {
+          "valid": {
+            "value": "$block-section.icon.valid.dark",
+            "type": "color"
+          },
+          "invalid": {
+            "value": "$block-section.icon.invalid.dark",
+            "type": "color"
+          },
+          "chevron": {
+            "value": "$block-section.icon.chevron.dark",
+            "type": "color"
+          }
+        },
+        "background": {
+          "value": "$block-section.background.dark",
+          "type": "color"
+        }
       }
     }
   }
