@@ -70,30 +70,13 @@ describe("calcite-text-area", () => {
       submitsOnEnter: false
     }));
 
-  it("should emit calciteTextareaInput event when user starts typing", async () => {
-    const page = await newE2EPage();
-    await page.setContent("<calcite-text-area></calcite-text-area>");
-
-    const element = await page.find("calcite-text-area");
-    const eventSpy = await element.spyOnEvent("calciteTextareaInput");
-    await page.waitForChanges();
-
-    await element.callMethod("setFocus");
-    await page.waitForChanges();
-
-    await page.keyboard.type("rocky");
-    await page.waitForChanges();
-
-    expect(eventSpy).toHaveReceivedEventTimes(5);
-  });
-
   it("should emit calciteTextareaInput event when user type in the textarea and emit calciteTextareaChange when users tabs out", async () => {
     const page = await newE2EPage();
     await page.setContent("<calcite-text-area></calcite-text-area>");
 
     const element = await page.find("calcite-text-area");
-    const inputEventSpy = await element.spyOnEvent("calciteTextareaInput");
-    const changeEventSpy = await element.spyOnEvent("calciteTextareaChange");
+    const inputEventSpy = await element.spyOnEvent("calciteTextAreaInput");
+    const changeEventSpy = await element.spyOnEvent("calciteTextAreaChange");
     await page.waitForChanges();
 
     await page.keyboard.press("Tab");
@@ -115,8 +98,8 @@ describe("calcite-text-area", () => {
     await page.setContent("<calcite-text-area></calcite-text-area>");
 
     const element = await page.find("calcite-text-area");
-    const changeEventSpy = await element.spyOnEvent("calciteTextareaChange");
-    const inputEventSpy = await element.spyOnEvent("calciteTextareaInput");
+    const changeEventSpy = await element.spyOnEvent("calciteTextAreaChange");
+    const inputEventSpy = await element.spyOnEvent("calciteTextAreaInput");
     await page.waitForChanges();
 
     await page.keyboard.press("Tab");

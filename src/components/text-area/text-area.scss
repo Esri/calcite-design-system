@@ -20,7 +20,7 @@ textarea {
   &:focus {
     @apply focus-inset;
   }
-  &.textarea--invalid {
+  &.text-area--invalid {
     @apply border-color-danger 
     border 
     border-solid 

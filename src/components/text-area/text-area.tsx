@@ -144,7 +144,7 @@ export class TextArea
   /** The component's value. */
   @Prop({ mutable: true }) value: string;
 
-  /** When `true`, disables horizontally and vertically resizing the component.*/
+  /** Allows resizing the component. */
   @Prop({ reflect: true }) resize: "both" | "horizontal" | "vertical" | "none" = "both";
 
   /**
@@ -194,12 +194,12 @@ export class TextArea
   /**
    * Fires each time a new `value` is typed.
    */
-  @Event({ cancelable: true }) calciteTextareaInput: EventEmitter<void>;
+  @Event({ cancelable: true }) calciteTextAreaInput: EventEmitter<void>;
 
   /**
    * Fires each time a new `value` is typed and committed.
    */
-  @Event({ cancelable: true }) calciteTextareaChange: EventEmitter<void>;
+  @Event({ cancelable: true }) calciteTextAreaChange: EventEmitter<void>;
 
   //--------------------------------------------------------------------------
   //
@@ -225,7 +225,7 @@ export class TextArea
 
   componentDidRender(): void {
     updateHostInteraction(this);
-    this.setTextareaHeight();
+    this.setTextAreaHeight();
   }
 
   disconnectedCallback(): void {
@@ -246,7 +246,7 @@ export class TextArea
           autofocus={this.autofocus}
           class={{
             [CSS.readonly]: this.readonly,
-            [CSS.textareaInvalid]: this.value?.length > this.maxLength,
+            [CSS.textAreaInvalid]: this.value?.length > this.maxLength,
             [CSS.footerSlotted]: this.endSlotHasElements && this.startSlotHasElements,
             [CSS.blocksizeFull]: !hasFooter,
             [CSS.borderColor]: !hasFooter
@@ -263,7 +263,7 @@ export class TextArea
           value={this.value}
           wrap={this.wrap}
           // eslint-disable-next-line react/jsx-sort-props
-          ref={this.setTextareaEl}
+          ref={this.setTextAreaEl}
         />
         <span class={{ [CSS.content]: true }}>
           <slot onSlotchange={this.contentSlotChangeHandler} />
@@ -360,11 +360,11 @@ export class TextArea
 
   handleInput = (event: InputEvent): void => {
     this.value = event.target["value"];
-    this.calciteTextareaInput.emit();
+    this.calciteTextAreaInput.emit();
   };
 
   handleChange = (): void => {
-    this.calciteTextareaChange.emit();
+    this.calciteTextAreaChange.emit();
   };
 
   contentSlotChangeHandler = (): void => {
@@ -401,12 +401,12 @@ export class TextArea
   }
 
   resizeObserver = createObserver("resize", () => {
-    const { textareaHeight, textareaWidth, elHeight, elWidth, footerHeight, footerWidth } =
+    const { textAreaHeight, textAreaWidth, elHeight, elWidth, footerHeight, footerWidth } =
       this.getHeightandWidthOfElements();
-    if (footerWidth > 0 && footerWidth !== textareaWidth) {
-      this.footerEl.style.width = `${textareaWidth}px`;
+    if (footerWidth > 0 && footerWidth !== textAreaWidth) {
+      this.footerEl.style.width = `${textAreaWidth}px`;
     }
-    if (elWidth !== textareaWidth || elHeight !== textareaHeight + (footerHeight || 0)) {
+    if (elWidth !== textAreaWidth || elHeight !== textAreaHeight + (footerHeight || 0)) {
       this.setHeightAndWidthToAuto();
     }
   });
@@ -433,34 +433,34 @@ export class TextArea
     { leading: false }
   );
 
-  setTextareaEl = (el: HTMLTextAreaElement): void => {
+  setTextAreaEl = (el: HTMLTextAreaElement): void => {
     this.textareaEl = el;
     this.resizeObserver.observe(el);
   };
 
-  setTextareaHeight(): void {
-    const { textareaHeight, elHeight, footerHeight } = this.getHeightandWidthOfElements();
-    if (footerHeight > 0 && textareaHeight + footerHeight != elHeight) {
+  setTextAreaHeight(): void {
+    const { textAreaHeight, elHeight, footerHeight } = this.getHeightandWidthOfElements();
+    if (footerHeight > 0 && textAreaHeight + footerHeight != elHeight) {
       this.textareaEl.style.height = `${elHeight - footerHeight}px`;
     }
   }
 
   getHeightandWidthOfElements(): {
-    textareaHeight: number;
-    textareaWidth: number;
+    textAreaHeight: number;
+    textAreaWidth: number;
     elHeight: number;
     elWidth: number;
     footerHeight: number;
     footerWidth: number;
   } {
-    const { height: textareaHeight, width: textareaWidth } =
+    const { height: textAreaHeight, width: textAreaWidth } =
       this.textareaEl.getBoundingClientRect();
     const { height: elHeight, width: elWidth } = this.el.getBoundingClientRect();
     const { height: footerHeight, width: footerWidth } = this.footerEl?.getBoundingClientRect();
 
     return {
-      textareaHeight,
-      textareaWidth,
+      textAreaHeight,
+      textAreaWidth,
       elHeight,
       elWidth,
       footerHeight,

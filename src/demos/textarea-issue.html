@@ -49,7 +49,7 @@
         justify-content: center;
       }
 
-      calcite-textarea {
+      calcite-text-area {
         width: 320px;
         height: 160px;
       }
@@ -64,24 +64,24 @@
   <body>
     <!---- ISSUE #1-->
     <div class="parent" style="color: black">
-      #Issue1: No height & width set on flex container. height and width are set with calcite-textarea selector.
+      #Issue1: No height & width set on flex container. height and width are set with calcite-text-area selector.
     </div>
     <div class="parent" style="color: black">
-      When the resizing start observe that both calcite textarea and native textarea pushes the element's around in the
-      layout. This behavior is consistent with native textarea. To achieve such behavior in calcite-textarea we are
+      When the resizing start observe that both calcite-text-area and native textarea pushes the element's around in the
+      layout. This behavior is consistent with native textarea. To achieve such behavior in calcite-text-area we are
       setting the height and width of host to auto when resize begins. If not, when resizing starts overlapping is
       observed.
     </div>
     <div class="parent">
       <div class="child-text"></div>
-      <div class="child scale-text">calcite-textarea</div>
+      <div class="child scale-text">calcite-text-area</div>
       <div class="child scale-text"></div>
       <div class="child scale-text">native textarea</div>
     </div>
     <div class="parent">
       <div class="child-text">Textarea wrapped inside a flex container</div>
       <div class="child">
-        <calcite-textarea placeholder="add notes" scale="s"> </calcite-textarea>
+        <calcite-text-area placeholder="add notes" scale="s"> </calcite-text-area>
       </div>
       <div class="child">
         <calcite-button> Layout button</calcite-button>
@@ -98,24 +98,24 @@
     <!---- ISSUE #2-->
 
     <div class="parent" style="color: black">
-      #Issue2: Height & width are set on both flex container and calcite-textarea selector.
+      #Issue2: Height & width are set on both flex container and calcite-text-area selector.
     </div>
     <div class="parent" style="color: black">
-      When the resizing start , calcite-textarea overlaps with the neighboring elements in the layout where as native
+      When the resizing start , calcite-text-area overlaps with the neighboring elements in the layout where as native
       textarea does overlap but restrict the user to not resize beyond the flex container height. This is due to
-      flex-direction being column. In calcite-textarea case this is not happening due to the height, width being set to
+      flex-direction being column. In calcite-texta-rea case this is not happening due to the height, width being set to
       auto as mentioned in above issue 1.
     </div>
     <div class="parent">
       <div class="child-text"></div>
-      <div class="child scale-text">calcite-textarea</div>
+      <div class="child scale-text">calcite-text-area</div>
       <div class="child scale-text"></div>
       <div class="child scale-text">native textarea</div>
     </div>
     <div class="parent">
       <div class="child-text">Textarea wrapped inside a flex container</div>
       <div class="child-issue2">
-        <calcite-textarea placeholder="add notes" scale="s"> </calcite-textarea>
+        <calcite-text-area placeholder="add notes" scale="s"> </calcite-text-area>
       </div>
       <div class="child">
         <calcite-button> Layout button</calcite-button>

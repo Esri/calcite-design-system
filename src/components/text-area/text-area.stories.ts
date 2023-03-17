@@ -4,7 +4,7 @@ import readme from "./readme.md";
 import { html } from "../../../support/formatting";
 
 export default {
-  title: "Components/Textarea",
+  title: "Components/TextArea",
   parameters: {
     notes: readme
   },

@@ -1,3 +1,3 @@
 ```html
-<calcite-textarea placeholder="Add Notes"></calcite-textarea>
+<calcite-text-area placeholder="Add Notes"></calcite-text-area>
 ```
