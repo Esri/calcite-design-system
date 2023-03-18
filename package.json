@@ -71,7 +71,7 @@
   },
   "dependencies": {
     "@floating-ui/dom": "1.2.1",
-    "@stencil/core": "2.20.0",
+    "@stencil/core": "2.22.3",
     "@types/color": "3.0.3",
     "color": "4.2.3",
     "focus-trap": "7.4.0",
@@ -85,7 +85,7 @@
     "@esri/calcite-colors": "6.1.0",
     "@esri/calcite-ui-icons": "3.21.2",
     "@esri/eslint-plugin-calcite-components": "0.2.2",
-    "@stencil/eslint-plugin": "0.4.0",
+    "@stencil-community/eslint-plugin": "0.5.0",
     "@stencil/postcss": "2.1.0",
     "@stencil/sass": "2.0.3",
     "@stencil/state-tunnel": "^1.0.1",
@@ -153,7 +153,7 @@
     "ts-jest": "27.1.5",
     "ts-node": "10.9.1",
     "type-fest": "3.5.0",
-    "typescript": "4.7.4",
+    "typescript": "4.9.5",
     "updtr": "4.0.0",
     "workbox-build": "6.5.4",
     "yargs": "17.6.2"

@@ -4,7 +4,7 @@
   },
   "extends": [
     "plugin:@esri/calcite-components/recommended",
-    "plugin:@stencil/recommended",
+    "plugin:@stencil-community/recommended",
     "plugin:@typescript-eslint/recommended",
     "plugin:jest/recommended",
     "plugin:jsdoc/recommended",
@@ -38,14 +38,14 @@
         "message": "Use keydown instead for consistent interaction behavior (e.g., closing, moving focus, etc.)."
       }
     ],
-    "@stencil/decorators-context": "off",
-    "@stencil/decorators-style": "warn",
-    "@stencil/no-unused-watch": "off",
-    "@stencil/own-methods-must-be-private": "off",
-    "@stencil/own-props-must-be-private": "off",
-    "@stencil/prefer-vdom-listener": "warn",
-    "@stencil/required-jsdoc": "off",
-    "@stencil/strict-boolean-conditions": "off",
+    "@stencil-community/decorators-context": "off",
+    "@stencil-community/decorators-style": "warn",
+    "@stencil-community/no-unused-watch": "off",
+    "@stencil-community/own-methods-must-be-private": "off",
+    "@stencil-community/own-props-must-be-private": "off",
+    "@stencil-community/prefer-vdom-listener": "warn",
+    "@stencil-community/required-jsdoc": "off",
+    "@stencil-community/strict-boolean-conditions": "off",
     "@typescript-eslint/ban-types": "warn",
     "@typescript-eslint/explicit-module-boundary-types": [
       "error",

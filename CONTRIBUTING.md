@@ -116,16 +116,6 @@ cd calcite-components
 npm install
 ```
 
-> **NOTE**
->
-> The first time installing dependencies, you may need to use the `legacy-peer-deps` flag due to an Stencil/ESLint dependency conflict:
->
-> ```sh
-> npm install --legacy-peer-deps
-> ```
->
-> Hopefully this will no longer be an issue once [`@stencil/eslint-plugin`](https://github.com/ionic-team/stencil-eslint) supports ESLint v8.
-
 Next, start the local Stencil development server on localhost:
 
 ```sh
