@@ -20,20 +20,20 @@
 
 :host([width-scale="s"]) .content {
   --calcite-shell-panel-width-internal: var(--calcite-shell-panel-width, 12vw);
-  --calcite-shell-panel-max-width-internal: var(--calcite-shell-panel-max-width, 300px);
-  --calcite-shell-panel-min-width-internal: var(--calcite-shell-panel-min-width, 150px);
+  --calcite-shell-panel-max-width-internal: var(--calcite-shell-panel-max-width, 18.75rem);
+  --calcite-shell-panel-min-width-internal: var(--calcite-shell-panel-min-width, 9.375rem);
 }
 
 :host([width-scale="m"]) .content {
   --calcite-shell-panel-width-internal: var(--calcite-shell-panel-width, 20vw);
-  --calcite-shell-panel-max-width-internal: var(--calcite-shell-panel-max-width, 420px);
-  --calcite-shell-panel-min-width-internal: var(--calcite-shell-panel-min-width, 240px);
+  --calcite-shell-panel-max-width-internal: var(--calcite-shell-panel-max-width, 26.25rem);
+  --calcite-shell-panel-min-width-internal: var(--calcite-shell-panel-min-width, 15rem);
 }
 
 :host([width-scale="l"]) .content {
   --calcite-shell-panel-width-internal: var(--calcite-shell-panel-width, 45vw);
-  --calcite-shell-panel-max-width-internal: var(--calcite-shell-panel-max-width, 680px);
-  --calcite-shell-panel-min-width-internal: var(--calcite-shell-panel-min-width, 340px);
+  --calcite-shell-panel-max-width-internal: var(--calcite-shell-panel-max-width, 42.5rem);
+  --calcite-shell-panel-min-width-internal: var(--calcite-shell-panel-min-width, 21.25rem);
 }
 
 :host([detached-height-scale="s"]) .content--detached {
@@ -94,11 +94,11 @@
 }
 
 :host([position="start"]) .separator {
-  inset-inline-end: -2px;
+  inset-inline-end: -0.125rem;
 }
 
 :host([position="end"]) .separator {
-  inset-inline-start: -2px;
+  inset-inline-start: -0.125rem;
 }
 
 ::slotted(calcite-panel),

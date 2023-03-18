@@ -80,8 +80,8 @@
     transition-all
     duration-150
     ease-in-out;
-  inset-block-start: -1px;
-  inset-inline: -1px theme("inset.auto");
+  inset-block-start: -0.0625rem;
+  inset-inline: -0.0625rem theme("inset.auto");
 }
 
 :host(:hover),
@@ -98,7 +98,7 @@
   }
   .handle {
     @apply border-color-brand;
-    inset-inline: theme("inset.auto") -1px;
+    inset-inline: theme("inset.auto") -0.0625rem;
   }
 }
 

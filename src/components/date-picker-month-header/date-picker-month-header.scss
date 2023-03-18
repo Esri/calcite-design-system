@@ -109,8 +109,8 @@
   &:hover {
     @apply duration-100 ease-in-out;
     transition-property: outline-color;
-    outline: 2px solid var(--calcite-ui-border-2);
-    outline-offset: 2px;
+    outline: 0.125rem solid var(--calcite-ui-border-2);
+    outline-offset: 0.125rem;
   }
   &:focus {
     @apply focus-outset;

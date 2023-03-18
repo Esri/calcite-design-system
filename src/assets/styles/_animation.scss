@@ -10,7 +10,7 @@
 @keyframes in-down {
   0% {
     opacity: 0;
-    transform: translate3D(0, -5px, 0);
+    transform: translate3D(0, -0.3125rem, 0);
   }
   100% {
     opacity: 1;
@@ -21,7 +21,7 @@
 @keyframes in-up {
   0% {
     opacity: 0;
-    transform: translate3D(0, 5px, 0);
+    transform: translate3D(0, 0.3125rem, 0);
   }
   100% {
     opacity: 1;

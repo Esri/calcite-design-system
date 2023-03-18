@@ -37,7 +37,7 @@
 }
 
 :host([scale="l"]) {
-  block-size: 44px;
+  block-size: 2.75rem;
   --calcite-select-font-size: theme("fontSize.0h");
   --calcite-select-spacing-inline: theme("spacing.4") theme("spacing.12");
   .icon-container {

@@ -72,19 +72,19 @@
 
 :host([scale="s"][range]:not([layout="vertical"])) {
   .calendar-picker-wrapper {
-    inline-size: 216px;
+    inline-size: 13.5rem;
   }
 }
 
 :host([scale="m"][range]:not([layout="vertical"])) {
   .calendar-picker-wrapper {
-    inline-size: 286px;
+    inline-size: 17.875rem;
   }
 }
 
 :host([scale="l"][range]:not([layout="vertical"])) {
   .calendar-picker-wrapper {
-    inline-size: 398px;
+    inline-size: 24.875rem;
   }
 }
 

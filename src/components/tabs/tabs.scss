@@ -8,11 +8,11 @@
 }
 
 :host([bordered]:not([position="bottom"])) ::slotted(calcite-tab-nav) {
-  margin-block-end: -1px;
+  margin-block-end: -0.0625rem;
 }
 
 :host([bordered][position="bottom"]) {
-  box-shadow: inset 0 1px 0 var(--calcite-ui-border-1), inset 0 -1px 0 var(--calcite-ui-border-1);
+  box-shadow: inset 0 0.0625rem 0 var(--calcite-ui-border-1), inset 0 -0.0625rem 0 var(--calcite-ui-border-1);
 }
 
 :host([bordered]) section {

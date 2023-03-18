@@ -10,7 +10,7 @@ $spacing: $baseline * 0.5;
     cursor: pointer;
     display: inline-block;
     block-size: 100%;
-    max-inline-size: 300px;
+    max-inline-size: 18.75rem;
     padding: $spacing;
     position: relative;
     vertical-align: top;
@@ -37,8 +37,8 @@ $spacing: $baseline * 0.5;
       &:not(.disabled) {
         &:not(.input-enabled) {
           @apply focus-inset;
-          outline-offset: -4px;
-          box-shadow: 0 0 0 1px var(--calcite-ui-brand), inset 0 0 0 2px var(--calcite-ui-foreground-1);
+          outline-offset: -0.25rem;
+          box-shadow: 0 0 0 0.0625rem var(--calcite-ui-brand), inset 0 0 0 0.125rem var(--calcite-ui-foreground-1);
         }
       }
     }

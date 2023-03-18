@@ -1,7 +1,7 @@
-$floating-ui-transform-bottom: translateY(-5px);
-$floating-ui-transform-top: translateY(5px);
-$floating-ui-transform-left: translateX(5px);
-$floating-ui-transform-right: translateX(-5px);
+$floating-ui-transform-bottom: translateY(-0.3125rem);
+$floating-ui-transform-top: translateY(0.3125rem);
+$floating-ui-transform-left: translateX(0.3125rem);
+$floating-ui-transform-right: translateX(-0.3125rem);
 
 :root {
   --calcite-floating-ui-transition: var(--calcite-animation-timing);
@@ -98,7 +98,7 @@ $floating-ui-transform-right: translateX(-5px);
   @include calciteHydratedHidden();
 }
 
-$pointer_size: 8px;
+$pointer_size: 0.5rem;
 $pointer_offset: -$pointer_size * 0.5;
 
 @mixin floatingUIArrow {

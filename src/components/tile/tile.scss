@@ -83,10 +83,10 @@
 }
 :host(:not([embed])[href]:hover) {
   @apply cursor-pointer;
-  box-shadow: 0 0 0 2px var(--calcite-ui-brand);
+  box-shadow: 0 0 0 0.125rem var(--calcite-ui-brand);
 }
 :host(:not([embed])[href]:active) {
-  box-shadow: 0 0 0 3px var(--calcite-ui-brand);
+  box-shadow: 0 0 0 0.1875rem var(--calcite-ui-brand);
 }
 :host([icon][heading]:not([description]):not([embed])) {
   @apply p-0;

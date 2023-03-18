@@ -496,8 +496,8 @@ input[type="time"]::-webkit-clear-button {
 }
 
 .resize-icon-wrapper {
-  inset-block-end: 2px;
-  inset-inline-end: 2px;
+  inset-block-end: 0.125rem;
+  inset-inline-end: 0.125rem;
 
   @apply bg-foreground-1
     text-color-3

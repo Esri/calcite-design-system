@@ -156,7 +156,7 @@
 :host([appearance="transparent"]) .button:hover,
 :host([appearance="transparent"]) .button:focus {
   @apply bg-transparent;
-  box-shadow: 0 0 0 2px theme("borderColor.color.1") inset;
+  box-shadow: 0 0 0 0.125rem theme("borderColor.color.1") inset;
 }
 
 :host([active][appearance="transparent"]) .button,

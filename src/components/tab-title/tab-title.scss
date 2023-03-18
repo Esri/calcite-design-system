@@ -116,11 +116,11 @@
 }
 
 :host([bordered][selected]) {
-  box-shadow: inset 0px -2px var(--calcite-ui-foreground-1);
+  box-shadow: inset 0rem -0.125rem var(--calcite-ui-foreground-1);
 }
 
 :host([bordered][selected][position="bottom"]) {
-  box-shadow: inset 0 2px 0 var(--calcite-ui-foreground-1);
+  box-shadow: inset 0 0.125rem 0 var(--calcite-ui-foreground-1);
 }
 
 :host([bordered]:hover),
@@ -169,7 +169,7 @@
     @apply px-4;
   }
   .icon-present {
-    padding-block: 11px;
+    padding-block: 0.6875rem;
   }
 }
 

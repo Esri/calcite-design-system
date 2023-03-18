@@ -2,7 +2,7 @@
   @apply bg-foreground-1 flex;
   inline-size: fit-content;
   outline: 1px solid var(--calcite-ui-border-input);
-  outline-offset: -1px;
+  outline-offset: -0.0625rem;
 }
 
 :host([appearance="outline"]) {
