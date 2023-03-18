@@ -126,7 +126,7 @@ export class Button
    *
    * @mdn [type](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/button#attr-type)
    */
-  @Prop({ mutable: true, reflect: true }) type = "button";
+  @Prop({ reflect: true }) type = "button";
 
   /** Specifies the width of the component. */
   @Prop({ reflect: true }) width: Width = "auto";
@@ -136,11 +136,13 @@ export class Button
    *
    * @internal
    */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
   @Prop({ mutable: true }) messages: ButtonMessages;
 
   /**
    * Use this property to override individual strings used by the component.
    */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
   @Prop({ mutable: true }) messageOverrides: Partial<ButtonMessages>;
 
   @Watch("loading")
