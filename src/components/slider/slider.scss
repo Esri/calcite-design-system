@@ -124,7 +124,7 @@
       rounded-full;
     block-size: var(--calcite-slider-handle-size);
     inline-size: var(--calcite-slider-handle-size);
-    box-shadow: 0 0 0 2px var(--calcite-ui-text-3) inset;
+    box-shadow: 0 0 0 0.125rem var(--calcite-ui-text-3) inset;
     transition: border var(--calcite-internal-animation-timing-medium) ease,
       background-color var(--calcite-internal-animation-timing-medium) ease,
       box-shadow var(--calcite-animation-timing) ease;
@@ -138,7 +138,7 @@
 
   &:hover {
     .handle {
-      box-shadow: 0 0 0 3px var(--calcite-ui-brand) inset;
+      box-shadow: 0 0 0 0.1875rem var(--calcite-ui-brand) inset;
     }
     .handle-extension {
       @apply bg-brand;
@@ -215,7 +215,7 @@
 .thumb--active {
   .handle {
     @apply bg-brand;
-    box-shadow: 0 0 8px 0 rgb(0 0 0 / 16%); // shadow 1 press
+    box-shadow: 0 0 0.5rem 0 rgb(0 0 0 / 16%); // shadow 1 press
   }
 }
 
@@ -282,7 +282,7 @@
     border-solid;
   background-color: var(--calcite-ui-border-input);
   border-color: var(--calcite-ui-foreground-1);
-  inset-block-start: -2px;
+  inset-block-start: -0.125rem;
   pointer-events: none;
   margin-inline-start: calc(-1 * theme("margin[0.5]"));
 }
@@ -316,7 +316,7 @@
 
 .graph {
   color: var(--calcite-ui-foreground-3);
-  block-size: 48px;
+  block-size: 3rem;
 }
 
 // Ensure we have enough space on variants with text elements to prevent overlap
@@ -354,18 +354,18 @@
   }
   &:host([label-handles]:not([precise])) {
     .container {
-      padding-block-start: calc(var(--calcite-slider-full-handle-height) + 4px);
+      padding-block-start: calc(var(--calcite-slider-full-handle-height) + 0.25rem);
     }
   }
   &:host([label-handles][precise]) {
     .container {
       padding-block-start: calc(
-        var(--calcite-slider-full-handle-height) + var(--calcite-slider-container-font-size) + 4px
+        var(--calcite-slider-full-handle-height) + var(--calcite-slider-container-font-size) + 0.25rem
       );
     }
     .container--range {
       padding-block-end: calc(
-        var(--calcite-slider-full-handle-height) + var(--calcite-slider-container-font-size) + 4px
+        var(--calcite-slider-full-handle-height) + var(--calcite-slider-container-font-size) + 0.25rem
       );
     }
   }

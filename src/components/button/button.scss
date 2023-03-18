@@ -4,10 +4,10 @@
 
 // fab variants
 :host([round]) {
-  border-radius: 50px;
+  border-radius: 3.125rem;
   & a,
   & button {
-    border-radius: 50px;
+    border-radius: 3.125rem;
   }
 }
 
@@ -23,8 +23,8 @@
 :host button,
 :host a {
   --calcite-button-content-margin-internal: theme("margin.2");
-  --calcite-button-padding-x-internal: 7px;
-  --calcite-button-padding-y-internal: 3px;
+  --calcite-button-padding-x-internal: 0.4375rem;
+  --calcite-button-padding-y-internal: 0.1875rem;
   padding-block: var(--calcite-button-padding-y-internal);
   padding-inline: var(--calcite-button-padding-x-internal);
   @apply font-inherit
@@ -324,12 +324,12 @@
     &:focus {
       @apply border-color-brand;
       color: theme("colors.brand");
-      box-shadow: inset 0 0 0 2px var(--calcite-ui-brand);
+      box-shadow: inset 0 0 0 0.125rem var(--calcite-ui-brand);
     }
     &:active {
       @apply border-color-brand-press;
       color: theme("colors.brand-press");
-      box-shadow: inset 0 0 0 2px var(--calcite-ui-brand-press);
+      box-shadow: inset 0 0 0 0.125rem var(--calcite-ui-brand-press);
     }
     calcite-loader {
       color: theme("colors.brand");
@@ -349,12 +349,12 @@
     &:focus {
       @apply border-color-danger;
       color: theme("colors.danger");
-      box-shadow: inset 0 0 0 2px var(--calcite-ui-danger);
+      box-shadow: inset 0 0 0 0.125rem var(--calcite-ui-danger);
     }
     &:active {
       @apply border-color-danger-press;
       color: theme("colors.danger-press");
-      box-shadow: inset 0 0 0 2px var(--calcite-ui-danger-press);
+      box-shadow: inset 0 0 0 0.125rem var(--calcite-ui-danger-press);
     }
     calcite-loader {
       color: theme("colors.danger");
@@ -370,10 +370,10 @@
       box-shadow: inset 0 0 0 1px var(--calcite-ui-foreground-3);
     }
     &:focus {
-      box-shadow: inset 0 0 0 2px var(--calcite-ui-foreground-3);
+      box-shadow: inset 0 0 0 0.125rem var(--calcite-ui-foreground-3);
     }
     &:active {
-      box-shadow: inset 0 0 0 2px var(--calcite-ui-foreground-3);
+      box-shadow: inset 0 0 0 0.125rem var(--calcite-ui-foreground-3);
     }
     calcite-loader {
       @apply text-color-1;
@@ -391,11 +391,11 @@
     }
     &:focus {
       border-color: var(--calcite-ui-inverse);
-      box-shadow: inset 0 0 0 2px var(--calcite-ui-inverse);
+      box-shadow: inset 0 0 0 0.125rem var(--calcite-ui-inverse);
     }
     &:active {
       border-color: var(--calcite-ui-inverse-press);
-      box-shadow: inset 0 0 0 2px var(--calcite-ui-inverse-press);
+      box-shadow: inset 0 0 0 0.125rem var(--calcite-ui-inverse-press);
     }
     calcite-loader {
       @apply text-color-1;
@@ -422,12 +422,12 @@
     &:focus {
       @apply border-color-brand;
       color: theme("colors.brand");
-      box-shadow: inset 0 0 0 2px var(--calcite-ui-brand);
+      box-shadow: inset 0 0 0 0.125rem var(--calcite-ui-brand);
     }
     &:active {
       @apply border-color-brand-press;
       color: theme("colors.brand-press");
-      box-shadow: inset 0 0 0 2px var(--calcite-ui-brand-press);
+      box-shadow: inset 0 0 0 0.125rem var(--calcite-ui-brand-press);
     }
     calcite-loader {
       color: theme("colors.brand");
@@ -447,12 +447,12 @@
     &:focus {
       @apply border-color-danger;
       color: theme("colors.danger");
-      box-shadow: inset 0 0 0 2px var(--calcite-ui-danger);
+      box-shadow: inset 0 0 0 0.125rem var(--calcite-ui-danger);
     }
     &:active {
       @apply border-color-danger-press;
       color: theme("colors.danger-press");
-      box-shadow: inset 0 0 0 2px var(--calcite-ui-danger-press);
+      box-shadow: inset 0 0 0 0.125rem var(--calcite-ui-danger-press);
     }
     calcite-loader {
       color: theme("colors.danger");
@@ -468,10 +468,10 @@
       box-shadow: inset 0 0 0 1px var(--calcite-ui-foreground-3);
     }
     &:focus {
-      box-shadow: inset 0 0 0 2px var(--calcite-ui-foreground-3);
+      box-shadow: inset 0 0 0 0.125rem var(--calcite-ui-foreground-3);
     }
     &:active {
-      box-shadow: inset 0 0 0 2px var(--calcite-ui-foreground-3);
+      box-shadow: inset 0 0 0 0.125rem var(--calcite-ui-foreground-3);
     }
     calcite-loader {
       @apply text-color-1;
@@ -489,11 +489,11 @@
     }
     &:focus {
       border-color: var(--calcite-ui-inverse);
-      box-shadow: inset 0 0 0 2px var(--calcite-ui-inverse);
+      box-shadow: inset 0 0 0 0.125rem var(--calcite-ui-inverse);
     }
     &:active {
       border-color: var(--calcite-ui-inverse-press);
-      box-shadow: inset 0 0 0 2px var(--calcite-ui-inverse-press);
+      box-shadow: inset 0 0 0 0.125rem var(--calcite-ui-inverse-press);
     }
     calcite-loader {
       @apply text-color-1;
@@ -603,7 +603,7 @@
 :host(.enable-editing-button) {
   button {
     &:focus {
-      outline-offset: -2px; // ensure focus outlines work in Safari
+      outline-offset: -0.125rem; // ensure focus outlines work in Safari
     }
   }
 }
@@ -630,18 +630,18 @@
 
 :host([scale="s"]) button,
 :host([scale="s"]) a {
-  --calcite-button-padding-y-internal: 3px;
+  --calcite-button-padding-y-internal: 0.1875rem;
 }
 
 :host([scale="m"]) button.content--slotted,
 :host([scale="m"]) a.content--slotted {
-  --calcite-button-padding-x-internal: 11px;
+  --calcite-button-padding-x-internal: 0.6875rem;
   @apply text-n1h;
 }
 
 :host([scale="m"]) button,
 :host([scale="m"]) a {
-  --calcite-button-padding-y-internal: 7px;
+  --calcite-button-padding-y-internal: 0.4375rem;
 }
 // accommodate for transparent buttons not having borders
 :host([scale="m"][appearance="transparent"]) button.content--slotted,
@@ -651,18 +651,18 @@
 
 :host([scale="l"]) button.content--slotted,
 :host([scale="l"]) a.content--slotted {
-  --calcite-button-padding-x-internal: 15px;
+  --calcite-button-padding-x-internal: 0.9375rem;
   @apply text-0h;
 }
 
 :host([scale="l"]) {
   .button-padding {
     --calcite-button-padding-x-internal: theme("padding.4");
-    --calcite-button-padding-y-internal: 11px;
+    --calcite-button-padding-y-internal: 0.6875rem;
   }
   //shrink the padding if an icon is present to preserve the height
   .button-padding--shrunk {
-    --calcite-button-padding-y-internal: 9px;
+    --calcite-button-padding-y-internal: 0.5625rem;
   }
 }
 
@@ -670,7 +670,7 @@
 :host([scale="s"]) button:not(.content--slotted),
 :host([scale="s"]) a:not(.content--slotted) {
   --calcite-button-padding-x-internal: theme("padding[0.5]");
-  --calcite-button-padding-y-internal: 3px;
+  --calcite-button-padding-y-internal: 0.1875rem;
   @apply text-0h w-6;
   min-block-size: theme("height.6");
 }
@@ -678,14 +678,14 @@
 :host([scale="m"]) button:not(.content--slotted),
 :host([scale="m"]) a:not(.content--slotted) {
   --calcite-button-padding-x-internal: theme("padding[0.5]");
-  --calcite-button-padding-y-internal: 7px;
+  --calcite-button-padding-y-internal: 0.4375rem;
   @apply text-0h w-8;
   min-block-size: theme("height.8");
 }
 :host([scale="l"]) button:not(.content--slotted),
 :host([scale="l"]) a:not(.content--slotted) {
   --calcite-button-padding-x-internal: theme("padding[0.5]");
-  --calcite-button-padding-y-internal: 9px;
+  --calcite-button-padding-y-internal: 0.5625rem;
   @apply text-0h w-11;
   min-block-size: theme("height.11");
 }
@@ -698,7 +698,7 @@
 // generate fab scales (scenario: 2 icons, ie., should not be square)
 :host([scale="s"][icon-start][icon-end]) button:not(.content--slotted),
 :host([scale="s"][icon-start][icon-end]) a:not(.content--slotted) {
-  --calcite-button-padding-x-internal: 23px;
+  --calcite-button-padding-x-internal: 1.4375rem;
   @apply text-0h h-6;
 }
 // accommodate for transparent buttons not having borders
@@ -714,11 +714,11 @@
 // accommodate for transparent buttons not having borders
 :host([scale="m"][icon-start][icon-end][appearance="transparent"]) button:not(.content--slotted),
 :host([scale="m"][icon-start][icon-end][appearance="transparent"]) a:not(.content--slotted) {
-  --calcite-button-padding-x-internal: 33px;
+  --calcite-button-padding-x-internal: 2.0625rem;
 }
 :host([scale="l"][icon-start][icon-end]) button:not(.content--slotted),
 :host([scale="l"][icon-start][icon-end]) a:not(.content--slotted) {
-  --calcite-button-padding-x-internal: 43px;
+  --calcite-button-padding-x-internal: 2.6875rem;
   @apply text-0h h-11;
   // add space between when only 2 icons
   .icon--start + .icon--end {

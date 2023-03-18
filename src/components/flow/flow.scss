@@ -41,7 +41,7 @@
   @keyframes calcite-frame-advance {
     0% {
       @apply bg-opacity-50;
-      transform: translate3d(50px, 0, 0);
+      transform: translate3d(3.125rem, 0, 0);
     }
     100% {
       @apply bg-opacity-100;
@@ -52,7 +52,7 @@
   @keyframes calcite-frame-retreat {
     0% {
       @apply bg-opacity-50;
-      transform: translate3d(-50px, 0, 0);
+      transform: translate3d(-3.125rem, 0, 0);
     }
     100% {
       @apply bg-opacity-100;

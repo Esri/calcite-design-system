@@ -6,13 +6,13 @@
 
 // place on the element that receives focus style, while in focus
 @mixin focus-style-outset() {
-  outline: 2px solid var(--calcite-ui-brand);
-  outline-offset: 2px;
+  outline: 0.125rem solid var(--calcite-ui-brand);
+  outline-offset: 0.125rem;
 }
 
 @mixin focus-style-inset($color) {
-  outline: 2px solid $color;
-  outline-offset: -2px;
+  outline: 0.125rem solid $color;
+  outline-offset: -0.125rem;
 }
 
 /**
@@ -20,8 +20,8 @@
 */
 @mixin focus-box-shadow($base-shadow: null) {
   @if $base-shadow {
-    box-shadow: $base-shadow, 0 0 0 2px var(--calcite-ui-foreground-1), 0 0 0 4px var(--calcite-ui-brand);
+    box-shadow: $base-shadow, 0 0 0 0.125rem var(--calcite-ui-foreground-1), 0 0 0 0.25rem var(--calcite-ui-brand);
   } @else {
-    box-shadow: 0 0 0 2px var(--calcite-ui-foreground-1), 0 0 0 4px var(--calcite-ui-brand);
+    box-shadow: 0 0 0 0.125rem var(--calcite-ui-foreground-1), 0 0 0 0.25rem var(--calcite-ui-brand);
   }
 }

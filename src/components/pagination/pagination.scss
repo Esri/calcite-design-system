@@ -63,7 +63,7 @@
     border-none
     border-opacity-0
     bg-transparent;
-  border-block: 2px solid transparent;
+  border-block: 0.125rem solid transparent;
   &:hover {
     @apply text-color-1 transition-default;
   }

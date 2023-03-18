@@ -95,7 +95,7 @@
     border-block-end: 1px solid var(--calcite-ui-border-3);
     min-block-size: var(--calcite-alert-min-height);
     inline-size: var(--calcite-alert-width);
-    max-inline-size: calc(100% - (var(--calcite-alert-edge-distance) * 2 + 2px));
+    max-inline-size: calc(100% - (var(--calcite-alert-edge-distance) * 2 + 0.125rem));
     max-block-size: 0;
     transition: var(--calcite-internal-animation-timing-slow) $easing-function,
       opacity var(--calcite-internal-animation-timing-slow) $easing-function,
@@ -267,14 +267,14 @@
     w-full
     overflow-hidden;
   inset-inline: 0;
-  inset-block-start: -2px;
-  block-size: 2px;
+  inset-block-start: -0.125rem;
+  block-size: 0.125rem;
   border-radius: var(--calcite-border-radius) var(--calcite-border-radius) 0 0;
   &:after {
     @apply absolute
     top-0
     block;
-    block-size: 2px;
+    block-size: 0.125rem;
     content: "";
     background-color: var(--calcite-alert-dismiss-progress-background);
     inset-inline-end: 0;

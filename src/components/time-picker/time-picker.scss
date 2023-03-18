@@ -63,13 +63,13 @@
       justify-center
       font-medium;
     &:hover {
-      box-shadow: inset 0 0 0 2px var(--calcite-ui-foreground-2);
+      box-shadow: inset 0 0 0 0.125rem var(--calcite-ui-foreground-2);
       z-index: theme("zIndex.header");
     }
     &:focus,
     &:hover:focus {
       @apply outline-none;
-      box-shadow: inset 0 0 0 2px var(--calcite-ui-brand);
+      box-shadow: inset 0 0 0 0.125rem var(--calcite-ui-brand);
       z-index: theme("zIndex.header");
       outline-offset: 0;
     }

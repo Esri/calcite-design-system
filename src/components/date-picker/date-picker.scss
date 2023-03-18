@@ -13,13 +13,13 @@
 
 //FIXME: These need to be revisted by design to get scale values
 :host([scale="s"]) {
-  max-inline-size: 216px;
+  max-inline-size: 13.5rem;
 }
 
 :host([scale="m"]) {
-  max-inline-size: 286px;
+  max-inline-size: 17.875rem;
 }
 
 :host([scale="l"]) {
-  max-inline-size: 398px;
+  max-inline-size: 24.875rem;
 }

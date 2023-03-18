@@ -1,8 +1,8 @@
-$section-padding: 12px;
-$section-padding--large: 16px;
-$gap: 8px;
-$gap--small: 4px;
-$gap--large: 12px;
+$section-padding: 0.75rem;
+$section-padding--large: 1rem;
+$gap: 0.5rem;
+$gap--small: 0.25rem;
+$gap--large: 0.75rem;
 
 :host {
   @apply text-n2h inline-block font-normal;
@@ -12,11 +12,11 @@ $gap--large: 12px;
 
 :host([scale="s"]) {
   .container {
-    inline-size: 160px;
+    inline-size: 10rem;
   }
 
   .saved-colors {
-    grid-template-columns: repeat(auto-fill, minmax(20px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(1.25rem, 1fr));
   }
 
   .channels {
@@ -35,7 +35,7 @@ $gap--large: 12px;
 
 :host([scale="m"]) {
   .container {
-    inline-size: 272px;
+    inline-size: 17rem;
   }
 }
 
@@ -49,11 +49,11 @@ $gap--large: 12px;
   @apply text-n1h;
 
   .container {
-    inline-size: 464px;
+    inline-size: 29rem;
   }
 
   .color-field-and-slider {
-    margin-block-end: -20px;
+    margin-block-end: -1.25rem;
   }
 
   .section {
@@ -66,7 +66,7 @@ $gap--large: 12px;
   }
 
   .saved-colors {
-    grid-template-columns: repeat(auto-fill, minmax(28px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(1.75rem, 1fr));
     grid-gap: $gap--large;
     padding-block-start: $section-padding--large;
   }
@@ -84,8 +84,8 @@ $gap--large: 12px;
       flex-shrink
       flex-col
       justify-around;
-    min-block-size: 98px;
-    inline-size: 160px;
+    min-block-size: 6.125rem;
+    inline-size: 10rem;
   }
 
   .color-mode-container {
@@ -109,16 +109,16 @@ $gap--large: 12px;
     pointer-events-none
     absolute;
 
-  outline-offset: 14px;
+  outline-offset: 0.875rem;
 
   &:focus {
     @apply focus-outset;
-    outline-offset: 16px;
+    outline-offset: 1rem;
   }
 }
 
 .color-field-and-slider {
-  margin-block-end: -16px;
+  margin-block-end: -1rem;
   touch-action: none;
 
   &--interactive {
@@ -172,7 +172,7 @@ $gap--large: 12px;
   padding-block-start: $section-padding;
   display: -ms-grid;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(24px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(1.5rem, 1fr));
   grid-gap: $gap;
   inline-size: 100%;
 }
@@ -192,7 +192,7 @@ $gap--large: 12px;
 
   &:hover {
     transition: outline-color var(--calcite-internal-animation-timing-fast) ease-in-out;
-    outline: 2px solid var(--calcite-ui-border-2);
-    outline-offset: 2px;
+    outline: 0.125rem solid var(--calcite-ui-border-2);
+    outline-offset: 0.125rem;
   }
 }

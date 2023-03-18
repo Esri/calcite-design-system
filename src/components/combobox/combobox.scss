@@ -76,7 +76,7 @@
   font-size: inherit;
   block-size: var(--calcite-combobox-input-height);
   line-height: var(--calcite-combobox-input-height);
-  min-inline-size: 120px;
+  min-inline-size: 7.5rem;
   margin-block-end: var(--calcite-combobox-item-spacing-unit-s);
   &:focus {
     @apply outline-none;

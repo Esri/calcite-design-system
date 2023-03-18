@@ -101,7 +101,7 @@ ul:focus {
 }
 
 .icon--custom {
-  margin-block-start: -1px;
+  margin-block-start: -0.0625rem;
   padding-inline-start: var(--calcite-combobox-item-spacing-unit-l);
   @apply text-color-3;
 }
