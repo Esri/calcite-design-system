@@ -144,7 +144,7 @@ export function submitForm(component: FormOwner): boolean {
     return false;
   }
 
-  "requestSubmit" in formEl ? formEl.requestSubmit() : formEl.submit();
+  "requestSubmit" in formEl ? formEl.requestSubmit() : (formEl as HTMLFormElement).submit();
 
   return true;
 }

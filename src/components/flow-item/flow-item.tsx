@@ -280,10 +280,11 @@ export class FlowItem
         icon={icon}
         key="flow-back-button"
         onClick={backButtonClick}
-        ref={this.setBackRef}
         scale="s"
         slot="header-actions-start"
         text={label}
+        // eslint-disable-next-line react/jsx-sort-props
+        ref={this.setBackRef}
       />
     ) : null;
   }
@@ -316,6 +317,7 @@ export class FlowItem
           messageOverrides={messages}
           onCalcitePanelClose={this.handlePanelClose}
           onCalcitePanelScroll={this.handlePanelScroll}
+          // eslint-disable-next-line react/jsx-sort-props
           ref={this.setContainerRef}
         >
           {this.renderBackButton()}

@@ -534,9 +534,10 @@ export class Popover
         <calcite-action
           class={CSS.closeButton}
           onClick={this.hide}
-          ref={(closeButtonEl) => (this.closeButtonEl = closeButtonEl)}
           scale={this.scale}
           text={messages.close}
+          // eslint-disable-next-line react/jsx-sort-props
+          ref={(closeButtonEl) => (this.closeButtonEl = closeButtonEl)}
         >
           <calcite-icon icon="x" scale={this.scale === "l" ? "m" : this.scale} />
         </calcite-action>
@@ -564,7 +565,13 @@ export class Popover
     const { effectiveReferenceElement, heading, label, open, pointerDisabled } = this;
     const displayed = effectiveReferenceElement && open;
     const hidden = !displayed;
-    const arrowNode = !pointerDisabled ? <div class={CSS.arrow} ref={this.storeArrowEl} /> : null;
+    const arrowNode = !pointerDisabled ? (
+      <div
+        class={CSS.arrow}
+        // eslint-disable-next-line react/jsx-sort-props
+        ref={this.storeArrowEl}
+      />
+    ) : null;
 
     return (
       <Host
@@ -580,6 +587,7 @@ export class Popover
             [FloatingCSS.animation]: true,
             [FloatingCSS.animationActive]: displayed
           }}
+          // eslint-disable-next-line react/jsx-sort-props
           ref={this.setTransitionEl}
         >
           {arrowNode}
