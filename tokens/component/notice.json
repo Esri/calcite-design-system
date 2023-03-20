@@ -25,7 +25,7 @@
       },
       "message": {
         "sm": {
-          "value": "$semantic.font.wrap.regular.-1",
+          "value": "$semantic.font.wrap.regular.-2",
           "type": "typography"
         },
         "md": {
@@ -185,6 +185,20 @@
         "dark": {
           "value": "$semantic.ui.color.brand.default.dark",
           "type": "color"
+        }
+      },
+      "border": {
+        "sm": {
+          "value": "$core.border.border-width.1",
+          "type": "borderWidth"
+        },
+        "md": {
+          "value": "$core.border.border-width.1",
+          "type": "borderWidth"
+        },
+        "lg": {
+          "value": "$core.border.border-width.1",
+          "type": "borderWidth"
         }
       }
     },
