@@ -1356,6 +1356,22 @@
           "value": "$block-section.background.light",
           "type": "color"
         }
+      },
+      "notice": {
+        "font": {
+          "title": {
+            "value": "$notice.font.title.light",
+            "type": "color"
+          },
+          "message": {
+            "value": "$notice.font.message.light",
+            "type": "color"
+          }
+        },
+        "background": {
+          "value": "$notice.background.light",
+          "type": "color"
+        }
       }
     }
   }

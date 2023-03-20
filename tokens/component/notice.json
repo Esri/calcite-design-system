@@ -85,7 +85,7 @@
       }
     },
     "icon": {
-      "blue": {
+      "info": {
         "light": {
           "value": "$semantic.ui.color.info.default.light",
           "type": "color"
@@ -95,7 +95,7 @@
           "type": "color"
         }
       },
-      "green": {
+      "success": {
         "light": {
           "value": "$semantic.ui.color.success.default.light",
           "type": "color"
@@ -105,7 +105,7 @@
           "type": "color"
         }
       },
-      "yellow": {
+      "warning": {
         "light": {
           "value": "$semantic.ui.color.warning.default.light",
           "type": "color"
@@ -115,19 +115,29 @@
           "type": "color"
         }
       },
-      "red": {
+      "danger": {
         "light": {
           "value": "$semantic.ui.color.danger.default.light",
           "type": "color"
         },
         "dark": {
           "value": "$semantic.ui.color.danger.default.dark",
+          "type": "color"
+        }
+      },
+      "brand": {
+        "light": {
+          "value": "$semantic.ui.color.brand.default.light",
+          "type": "color"
+        },
+        "dark": {
+          "value": "$semantic.ui.color.brand.default.dark",
           "type": "color"
         }
       }
     },
     "highlight": {
-      "blue": {
+      "info": {
         "light": {
           "value": "$semantic.ui.color.info.default.light",
           "type": "color"
@@ -137,7 +147,7 @@
           "type": "color"
         }
       },
-      "green": {
+      "success": {
         "light": {
           "value": "$semantic.ui.color.success.default.light",
           "type": "color"
@@ -147,7 +157,7 @@
           "type": "color"
         }
       },
-      "yellow": {
+      "warning": {
         "light": {
           "value": "$semantic.ui.color.warning.default.light",
           "type": "color"
@@ -157,13 +167,23 @@
           "type": "color"
         }
       },
-      "red": {
+      "danger": {
         "light": {
           "value": "$semantic.ui.color.danger.default.light",
           "type": "color"
         },
         "dark": {
           "value": "$semantic.ui.color.danger.default.dark",
+          "type": "color"
+        }
+      },
+      "brand": {
+        "light": {
+          "value": "$semantic.ui.color.brand.default.light",
+          "type": "color"
+        },
+        "dark": {
+          "value": "$semantic.ui.color.brand.default.dark",
           "type": "color"
         }
       }
