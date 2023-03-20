@@ -53,7 +53,8 @@ textarea {
   justify-end 
   text-color-2 
   items-center
-  font-normal;
+  font-normal 
+  whitespace-nowrap;
 }
 
 .character--over-limit {
@@ -168,7 +169,11 @@ textarea.block-size--full {
 .container {
   @apply flex 
   justify-between
-   w-full;
+  w-full;
+}
+
+.footer--end-only {
+  @apply justify-end;
 }
 
 @include hidden-form-input();

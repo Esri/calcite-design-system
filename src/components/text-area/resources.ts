@@ -12,7 +12,8 @@ export const CSS = {
   footerSlotted: "footer--slotted",
   borderColor: "border--color",
   hide: "hide",
-  blocksizeFull: "block-size--full"
+  blocksizeFull: "block-size--full",
+  footerEndSlotOnly: "footer--end-only"
 };
 
 export const SLOTS = {

@@ -57,16 +57,14 @@ export const withSlottedElementsDarkModeRTL_TestOnly = (): string => html`
 
 export const disabled_TestOnly = (): string => html` <calcite-text-area disabled> </calcite-text-area> `;
 
-export const readonly_TestOnly = (): string => html`
-  <calcite-text-area readonly> </calcite-text-area>
-</div> `;
+export const readonly_TestOnly = (): string => html` <calcite-text-area readonly> </calcite-text-area> `;
 
 export const resizeDisabled_TestOnly = (): string => html` <calcite-text-area resize="none"> </calcite-text-area> `;
 
 export const groupSeparator_TestOnly = (): string => html`
   <calcite-text-area value="Rocky Mountains National Park" lang="fr" max-length="123456" group-separator>
   </calcite-text-area>
-</div> `;
+`;
 
 export const exceedingMaxlength_TestOnly = (): string => html`
   <calcite-text-area value="Rocky Mountains National Park" max-length="10"> </calcite-text-area>

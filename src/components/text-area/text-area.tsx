@@ -276,7 +276,12 @@ export class TextArea
           }}
           ref={(el) => (this.footerEl = el as HTMLElement)}
         >
-          <div class={{ [CSS.container]: true }}>
+          <div
+            class={{
+              [CSS.container]: true,
+              [CSS.footerEndSlotOnly]: !this.startSlotHasElements && this.endSlotHasElements
+            }}
+          >
             <slot
               name={SLOTS.footerStart}
               onSlotchange={(event) =>
@@ -331,9 +336,9 @@ export class TextArea
 
   footerEl: HTMLElement;
 
-  endSlotHasElements: boolean;
+  @State() endSlotHasElements: boolean;
 
-  startSlotHasElements: boolean;
+  @State() startSlotHasElements: boolean;
 
   @State() effectiveLocale = "";
 
