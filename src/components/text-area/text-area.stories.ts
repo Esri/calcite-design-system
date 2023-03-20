@@ -49,7 +49,7 @@ export const withSlottedElements = (): string => html`
 `;
 
 export const withSlottedElementsDarkModeRTL_TestOnly = (): string => html`
-  <calcite-text-area max-length="50" placeholder="Add Notes">
+  <calcite-text-area max-length="50" placeholder="Add Notes" dir="rtl" class="calcite-mode-dark">
     <calcite-button slot="${text("slot", "footer-start")}">RESET</calcite-button>
     <calcite-action icon="code" slot="${text("slot", "footer-end")}"></calcite-action>
   </calcite-text-area>
