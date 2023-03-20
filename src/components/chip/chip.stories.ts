@@ -85,15 +85,7 @@ export const overriddenIconColor = (): string =>
 
 export const darkModeRTL_TestOnly = (): string => html`
   <div style="background-color:#2b2b2b;padding:100px" dir="rtl">
-    <calcite-chip
-      class="calcite-mode-dark"
-      scale="${select("scale", ["s", "m", "l"], "m")}"
-      appearance="${select("appearance", ["outline", "outline-fill", "solid"], "solid")}"
-      kind="${select("kind", ["brand", "inverse", "neutral"], "neutral")}"
-      ${boolean("closable", false)}
-      ${boolean("selected", false)}
-      >My great chip</calcite-chip
-    >
+    <calcite-chip class="calcite-mode-dark">My great chip</calcite-chip>
   </div>
 `;
 
