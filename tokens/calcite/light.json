@@ -1356,6 +1356,66 @@
           "value": "$block-section.background.light",
           "type": "color"
         }
+      },
+      "notice": {
+        "font": {
+          "title": {
+            "value": "$notice.font.title.light",
+            "type": "color"
+          },
+          "message": {
+            "value": "$notice.font.message.light",
+            "type": "color"
+          }
+        },
+        "background": {
+          "value": "$notice.background.light",
+          "type": "color"
+        },
+        "icon": {
+          "info": {
+            "value": "$notice.icon.info.light",
+            "type": "color"
+          },
+          "success": {
+            "value": "$notice.icon.success.light",
+            "type": "color"
+          },
+          "warning": {
+            "value": "$notice.icon.warning.light",
+            "type": "color"
+          },
+          "danger": {
+            "value": "$notice.icon.danger.light",
+            "type": "color"
+          },
+          "brand": {
+            "value": "$notice.icon.brand.light",
+            "type": "color"
+          }
+        },
+        "highlight": {
+          "info": {
+            "value": "$notice.highlight.info.light",
+            "type": "color"
+          },
+          "success": {
+            "value": "$notice.highlight.success.light",
+            "type": "color"
+          },
+          "warning": {
+            "value": "$notice.highlight.warning.light",
+            "type": "color"
+          },
+          "danger": {
+            "value": "$notice.highlight.danger.light",
+            "type": "color"
+          },
+          "brand": {
+            "value": "$notice.highlight.brand.light",
+            "type": "color"
+          }
+        }
       }
     }
   }
