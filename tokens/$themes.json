@@ -248,9 +248,18 @@
       "component/input-text": "enabled",
       "component/input-week": "enabled",
       "component/textarea": "enabled",
+      "component/tab-title": "enabled",
       "component/card": "enabled",
       "component/tabs": "enabled",
-      "component/tab-title": "enabled"
+      "component/action-bar": "enabled",
+      "component/action": "enabled",
+      "component/action-pad": "enabled",
+      "component/action-bar-grid": "enabled",
+      "component/action-pad-grid": "enabled",
+      "component/block": "enabled",
+      "component/block-section": "enabled",
+      "component/notice": "enabled",
+      "component/modal-medium": "enabled"
     },
     "$figmaStyleReferences": {
       "semantic.ui.color.brand.default.light": "S:959c4907a32cb62f2227db1c3fb7a88c3eedcbb9,",

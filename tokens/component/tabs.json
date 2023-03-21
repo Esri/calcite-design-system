@@ -74,7 +74,7 @@
             "type": "color"
           },
           "dark": {
-            "value": "$semantic.ui.color.background.dark",
+            "value": "$semantic.ui.color.foreground.1.dark",
             "type": "color"
           }
         }
@@ -96,20 +96,19 @@
         },
         "top-bottom": {
           "sm": {
-            "value": "$core.spacing.1",
+            "value": "$core.spacing.7",
             "type": "spacing"
           },
           "md": {
-            "value": "$core.spacing.3",
+            "value": "$core.spacing.7",
             "type": "spacing"
           },
           "lg": {
-            "value": "$core.spacing.4",
+            "value": "$core.spacing.10",
             "type": "spacing"
           }
         }
-      }
-    },
+      },
     "border-radius": {
       "sm": {
         "value": "$core.border.border-radius.none",
@@ -122,6 +121,21 @@
       "lg": {
         "value": "$core.border.border-radius.none",
         "type": "borderRadius"
+      }
+    }, 
+      "space-between": {
+        "sm": {
+          "value": "$core.spacing.none",
+          "type": "spacing"
+        },
+        "md": {
+          "value": "$core.spacing.none",
+          "type": "spacing"
+        },
+        "lg": {
+          "value": "$core.spacing.none",
+          "type": "spacing"
+        }
       }
     },
     "border-width": {
@@ -184,15 +198,16 @@
       "space-around": {
         "left-right": {
           "sm": {
-            "value": "$core.spacing.1",
+            "value": "$core.spacing.none",
             "type": "spacing"
           },
           "md": {
-            "value": "$core.spacing.1",
+            "value": "$core.spacing.none",
             "type": "spacing"
           },
           "lg": {
-            "value": "$core.spacing.1",
+            "value": "$core.spacing.none",
+
             "type": "spacing"
           }
         },
@@ -206,9 +221,23 @@
             "type": "spacing"
           },
           "lg": {
-            "value": "$core.spacing.4",
+            "value": "$core.spacing.5",
             "type": "spacing"
           }
+        }
+      },
+      "space-between": {
+        "sm": {
+          "value": "$core.spacing.7",
+          "type": "spacing"
+        },
+        "md": {
+          "value": "$core.spacing.8",
+          "type": "spacing"
+        },
+        "lg": {
+          "value": "$core.spacing.9",
+          "type": "spacing"
         }
       }
     },
