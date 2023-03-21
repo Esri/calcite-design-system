@@ -1245,14 +1245,52 @@
             "value": "$action.background.active.light",
             "type": "color"
           }
-        },
-        "indicator": {
-          "value": "$action.indicator.light",
+        }
+      },
+      "action-bar": {
+        "border": {
+          "value": "$action-bar.border.light",
           "type": "color"
         },
+        "background": {
+          "value": "$action-bar.background.light",
+          "type": "color"
+        }
+      },
+      "action-pad": {
+        "border": {
+          "value": "$action-pad.border.light",
+          "type": "color"
+        },
+        "background": {
+          "value": "$action-pad.background.light",
+          "type": "color"
+        }
+      },
+      "action-bar-grid": {
+        "border": {
+          "value": "$action-bar-grid.border.light",
+          "type": "color"
+        },
+        "background": {
+          "value": "$action-bar-grid.background.light",
+          "type": "color"
+        }
+      },
+      "action-pad-grid": {
+        "border": {
+          "value": "$action-pad-grid.border.light",
+          "type": "color"
+        },
+        "background": {
+          "value": "$action-pad-grid.background.light",
+          "type": "color"
+        }
+      },
+      "block": {
         "font": {
-          "default": {
-            "value": "$action.font.default.light",
+          "heading": {
+            "value": "$block.font.heading.light",
             "type": "color"
           },
           "active": {
@@ -1316,17 +1354,33 @@
           }
         },
         "icon": {
-          "default": {
-            "value": "$action.icon.default.light",
+          "idle": {
+            "value": "$block.icon.idle.light",
             "type": "color"
           },
-          "active": {
-            "value": "$action.icon.active.light",
+          "valid": {
+            "value": "$block.icon.valid.light",
+            "type": "color"
+          },
+          "invalid": {
+            "value": "$block.icon.invalid.light",
+            "type": "color"
+          },
+          "drag-handle": {
+            "value": "$block.icon.drag-handle.light",
+            "type": "color"
+          },
+          "chevron": {
+            "value": "$block.icon.chevron.light",
             "type": "color"
           }
         },
-        "loader": {
-          "value": "$action.loader-icon.light",
+        "border": {
+          "value": "$block.border.light",
+          "type": "color"
+        },
+        "background": {
+          "value": "$block.background.light",
           "type": "color"
         }
           "idle": {
