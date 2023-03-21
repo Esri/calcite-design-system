@@ -1,0 +1,325 @@
+name: Sync from Airtable
+
+on:
+  # publish blog using webhook
+  repository_dispatch:
+    types: [airtable-update]
+
+env:
+  DATA: ${{ toJSON(github.event.client_payload.data) }}
+  NUMBER: ${{ github.event.client_payload.number }}
+  TITLE: ${{ github.event.client_payload.title }}
+  OWNER: 'Esri'
+  REPO: 'calcite-design-tokens'
+
+jobs:
+  existing_issue:
+    name: Find Existing Issue
+    runs-on: ubuntu-latest
+    outputs:
+      github_issue: ${{ steps.find-existing-issue.outputs.result }}
+    steps:
+    - uses: actions/github-script@v6
+      id: find-existing-issue
+      env:
+          NUMBER: '${{env.NUMBER}}'
+          OWNER: '${{env.OWNER}}'
+          REPO: '${{env.REPO}}'
+          TITLE: '${{env.TITLE}}'
+          ACTION: '${{github.event.client_payload.action}}'
+      with:
+        result-encoding: string
+        script: |
+          const { NUMBER, OWNER, REPO, ACTION, TITLE } = process.env;
+          try {
+              const issue = await github.rest.issues.get({
+                  issue_number: NUMBER,
+                  owner: OWNER,
+                  repo: REPO,
+              });
+
+              return issue.status === 200 ? JSON.stringify(issue) : JSON.stringify(null);
+          } catch (error) {
+              
+              const issue = await github.rest.search.issuesAndPullRequests({
+                  q: `"${TITLE}" in:title is:open is:issue`,
+                  sort: 'created',
+                  order: 'asc',
+                  per_page: 1
+              }).then((result) =>  result[0]);
+              core.info(issue);
+
+              return issue ? JSON.stringify(issue) : JSON.stringify(null);
+          }
+
+          return JSON.stringify(null);
+    
+  assigned_unassigned:
+    name: Assign or Unassign
+    needs: existing_issue
+    if: (fromJSON(needs.existing_issue.outputs.github_issue).status == 200 ) && (github.event.client_payload.action == 'assigned/unassigned')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/github-script@v6
+        env:
+          NUMBER: ${{env.NUMBER}}
+          OWNER: ${{env.OWNER}}
+          REPO: ${{env.REPO}}
+          DATA: ${{ fromJSON(env.DATA) }}
+          ISSUE: ${{ needs.existing_issue.outputs.github_issue }}
+        with:
+          script: |
+            const { DATA, NUMBER, OWNER, REPO, } = process.env;
+            const { assignees } = JSON.parse(DATA);
+            if (assignees) {
+                const issue  = JSON.parse(process.env.ISSUE);
+                const ghAssignees = issue.data.assignees.map((assignee) => assignee.login);
+                const keepAssignees = []
+                const addAssignees = [];
+                const ghLookup = {};
+                for (let j in ghAssignees) {
+                    ghLookup[ghAssignees[j]] = ghAssignees[j];
+                }
+                for (let i in assignees) {
+                    if (typeof ghLookup[assignees[i]] != 'undefined') {
+                    keepAssignees.push(assignees[i])
+                    delete ghLookup[assignees[i]];
+                    } else {
+                    addAssignees.push(assignees[i]);
+                    }
+                }
+                const removeAssignees = Object.keys(ghLookup);
+                if (addAssignees && addAssignees.length > 0) {
+                  await github.rest.issues.addAssignees({
+                      owner: OWNER,
+                      repo: REPO,
+                      issue_number: NUMBER,
+                      assignees: addAssignees
+                  });
+                  core.info('Assignees Added: ', addAssignees.join(','))
+                }
+                if (removeAssignees && removeAssignees.length > 0) {
+                  await github.rest.issues.removeAssignees({
+                      owner: OWNER,
+                      repo: REPO,
+                      issue_number: NUMBER,
+                      assignees: removeAssignees
+                  });
+                  core.info('Assignees Removed: ', removeAssignees.join(','))
+                }
+            }
+          
+  labeled_unlabeled:
+    name: Labeled or Unlabeled
+    needs: existing_issue
+    if: (fromJSON(needs.existing_issue.outputs.github_issue).status == 200 ) && (github.event.client_payload.action == 'labeled/unlabeled')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/github-script@v6
+        env:
+          DATA: ${{ fromJSON(env.DATA) }}
+          ISSUE: ${{ needs.existing_issue.outputs.github_issue }}
+          NUMBER: ${{env.NUMBER}}
+          OWNER: ${{env.OWNER}}
+          REPO: ${{env.REPO}}
+        with:
+            script: |
+              const { DATA, NUMBER, ISSUE, OWNER, REPO } = process.env;
+              const { labels } = JSON.parse(DATA);
+              if (labels) {
+                  const issue  = JSON.parse(process.env.ISSUE);
+                  const ghLabels = issue.data.labels.map((label) => label.name);
+                  const keepLabels = []
+                  const addLabels = [];
+                  const ghLookup = {};
+                  for (let j in ghLabels) {
+                      ghLookup[ghLabels[j]] = ghLabels[j];
+                  }
+                  for (let i in labels) {
+                      if (typeof ghLookup[labels[i]] != 'undefined') {
+                          keepLabels.push(labels[i])
+                          delete ghLookup[labels[i]];
+                      } else {
+                          addLabels.push(labels[i]);
+                      }
+                  }
+                  const removeLabels = Object.keys(ghLookup);
+                  if (addLabels && addLabels.length > 0) {
+                      try {
+                          await github.rest.issues.addLabels({
+                              owner: OWNER,
+                              repo: REPO,
+                              issue_number: NUMBER,
+                              labels: addLabels
+                          })
+                          core.info(`Labels added: ${addLabels}`)
+                      } catch (error) {
+                          if (error.toString().includes('Label does not exist')) {
+                              await Promise.all(addLabels.map(async (label) => {
+                                  try {
+                                      await github.rest.issues.getLabel({
+                                          owner: OWNER,
+                                          repo: REPO,
+                                          name: label
+                                      });
+                                      await github.rest.issues.addLabels({
+                                          owner: OWNER,
+                                          repo: REPO,
+                                          issue_number: NUMBER,
+                                          labels: label
+                                      });
+                                      core.info(`Label added: ${label})`)
+                                  } catch (error) {
+                                      try {
+                                          await github.rest.issues.createLabel({
+                                              owner: OWNER,
+                                              repo: REPO,
+                                              name: label
+                                          });
+                                          core.info(`Label created: ${label}`)
+                                          await github.rest.issues.addLabels({
+                                              owner: OWNER,
+                                              repo: REPO,
+                                              issue_number: NUMBER,
+                                              labels: label
+                                          });
+                                          core.info(`Label added: ${label}`)
+                                      } catch (error) {
+                                          console.error(`Label not added: ${error}`)
+                                      }
+                                  }
+                              }))
+                          }
+                      }
+                  }
+                  if (removeLabels && removeLabels.length > 0) {
+                      try {
+                          await Promise.all(removeLabels.map(async (name) => {
+                              await github.rest.issues.removeLabel({
+                                  owner: OWNER,
+                                  repo: REPO,
+                                  issue_number: NUMBER,
+                                  name
+                              });
+                              core.info(`Remove Label: ${name}`)
+                          }));
+                      } catch (err) {
+                          if (!error.includes('Label does not exist')) { core.error(`Label not removed: ${err}`) }   
+                      }
+                  }
+              }
+  milestoned_demilestoned:
+    name: Milestoned or Demilestoned
+    needs: existing_issue
+    if: (fromJSON(needs.existing_issue.outputs.github_issue).status == 200 ) && (github.event.client_payload.action == 'milestoned/demilestoned')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/github-script@v6
+        env:
+          DATA: ${{ fromJSON(env.DATA) }}
+          NUMBER: ${{env.NUMBER}}
+          OWNER: ${{env.OWNER}}
+          REPO: ${{env.REPO}}
+        with:
+            script: |
+              const { DATA, NUMBER, OWNER, REPO } = process.env;
+              const { milestone } = JSON.parse(DATA);
+              const repoName = `${OWNER}/${REPO}`;
+              try {
+                  if (milestone) {
+                      const { repo, milestone_number } = milestone;
+                      if (repoName === repo) {
+                          await github.rest.issues.update({
+                              owner: OWNER,
+                              repo: REPO,
+                              issue_number: NUMBER,
+                              milestone: milestone_number || null,
+                          });
+                          core.info(`Issue ${ NUMBER }'s Milestone updated to ${ milestone_number }`)
+                      } else {
+                          throw new Error(`This milestone only exists in ${milestone.repo}.`)
+                      }
+                  } else {
+                      await github.rest.issues.update({
+                          owner: OWNER,
+                          repo: REPO,
+                          issue_number: NUMBER,
+                          milestone: null,
+                      });
+                      core.info(`Issue ${ NUMBER }'s Milestone updated to 'null'`)
+                  }
+              } catch (error) {
+                  core.info(error)
+              }
+  open_closed:
+    name: Opened, ReOpened, or Closed
+    needs: existing_issue
+    if: (fromJSON(needs.existing_issue.outputs.github_issue).status == 200 ) && (github.event.client_payload.action == 'opened/closed')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/github-script@v6
+        env:
+          DATA: ${{ fromJSON(env.DATA) }}
+          NUMBER: ${{env.NUMBER}}
+          OWNER: ${{env.OWNER}}
+          REPO: ${{env.REPO}}
+        with:
+            script: |
+              const { DATA, NUMBER, OWNER, REPO } = process.env;
+              const { state } = JSON.parse(DATA);
+              
+              await github.rest.issues.update({
+                owner: OWNER,
+                repo: REPO,
+                issue_number: NUMBER,
+                state,
+              });
+  edited:
+    name: Edited
+    needs: existing_issue
+    if: (fromJSON(needs.existing_issue.outputs.github_issue).status == 200 ) && (github.event.client_payload.action == 'edited')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/github-script@v6
+        env:
+            DATA: ${{ fromJSON(env.DATA) }}
+            NUMBER: ${{env.NUMBER}}
+            OWNER: ${{env.OWNER}}
+            REPO: ${{env.REPO}}
+        with:
+            script: |
+              const { DATA, NUMBER, OWNER, REPO } = process.env;
+              const data = JSON.parse(DATA);
+              
+              await github.rest.issues.update({
+                owner: OWNER,
+                repo: REPO,
+                issue_number: NUMBER,
+                ...data,
+              });
+  new_issue:
+    name: Create New Issue
+    needs: existing_issue
+    if: fromJSON(needs.existing_issue.outputs.github_issue) == null
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/github-script@v6
+        env:
+            DATA: ${{ env.DATA }}
+            OWNER: ${{env.OWNER}}
+            REPO: ${{env.REPO}}
+        with:
+            script: |
+              const { DATA, NUMBER, OWNER, REPO } = process.env;
+              const { assignees, title, body, labels, milestone } = JSON.parse(DATA);
+              const newIssue = await github.rest.issues.create({
+                  owner: OWNER,
+                  repo: REPO,
+                  title,
+                  body,
+                  labels,
+                  milestone: milestone[0].milestone_number,
+                  assignees
+              });
+
+              core.info(`New Issue ${JSON.stringify(newIssue)}`);

@@ -1245,6 +1245,19 @@
             "value": "$action.background.active.light",
             "type": "color"
           }
+        },
+        "indicator": {
+          "value": "$action.indicator.light",
+          "type": "color"
+        },
+        "font": {
+          "default": {
+            "value": "$action.font.default.light",
+            "type": "color"
+          },
+          "active": {
+            "value": "$action.font.active.light",
+
         }
       },
       "action-bar": {
@@ -1303,6 +1316,19 @@
           }
         },
         "icon": {
+          "default": {
+            "value": "$action.icon.default.light",
+            "type": "color"
+          },
+          "active": {
+            "value": "$action.icon.active.light",
+            "type": "color"
+          }
+        },
+        "loader": {
+          "value": "$action.loader-icon.light",
+          "type": "color"
+        }
           "idle": {
             "value": "$block.icon.idle.light",
             "type": "color"

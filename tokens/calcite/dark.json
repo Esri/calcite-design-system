@@ -1192,6 +1192,10 @@
         }
       },
       "action": {
+        "indicator": {
+          "value": "$action.indicator.dark",
+          "type": "color"
+        },
         "font": {
           "value": "$action.font.dark",
           "type": "color"
@@ -1267,6 +1271,19 @@
           }
         },
         "icon": {
+          "default": {
+            "value": "$action.icon.default.dark",
+            "type": "color"
+          },
+          "active": {
+            "value": "$action.icon.active.dark",
+            "type": "color"
+          }
+        },
+        "loader": {
+          "value": "$action.loader-icon.dark",
+          "type": "color"
+        }
           "idle": {
             "value": "$block.icon.idle.dark",
             "type": "color"
