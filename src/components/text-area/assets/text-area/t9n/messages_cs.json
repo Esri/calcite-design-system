@@ -1,4 +1,4 @@
 {
   "invalid": "Neplatný",
-  "overLimit": "Překročen limit počtu znaků"
+  "tooLong": "Překročen limit počtu znaků"
 }

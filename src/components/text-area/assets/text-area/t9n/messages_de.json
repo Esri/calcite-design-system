@@ -1,4 +1,4 @@
 {
   "invalid": "Ungültig",
-  "overLimit": "Zeichenlimit wurde überschritten"
+  "tooLong": "Zeichenlimit wurde überschritten"
 }

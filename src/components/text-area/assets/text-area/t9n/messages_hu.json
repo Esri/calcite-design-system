@@ -1,4 +1,4 @@
 {
   "invalid": "Érvénytelen",
-  "overLimit": "Karakterkorlát túllépve"
+  "tooLong": "Karakterkorlát túllépve"
 }

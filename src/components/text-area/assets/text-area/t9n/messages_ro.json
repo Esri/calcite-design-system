@@ -1,4 +1,4 @@
 {
   "invalid": "Nevalid",
-  "overLimit": "Limită de caractere depășită"
+  "tooLong": "Limită de caractere depășită"
 }

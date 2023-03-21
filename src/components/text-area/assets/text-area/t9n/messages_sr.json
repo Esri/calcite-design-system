@@ -1,4 +1,4 @@
 {
   "invalid": "Nevažeće",
-  "overLimit": "Prekoračeno ograničenje znakova"
+  "tooLong": "Prekoračeno ograničenje znakova"
 }

@@ -1,4 +1,4 @@
 {
   "invalid": "Virheellinen",
-  "overLimit": "Merkkien määrä ylitetty"
+  "tooLong": "Merkkien määrä ylitetty"
 }

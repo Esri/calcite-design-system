@@ -1,4 +1,4 @@
 {
   "invalid": "Geçersiz",
-  "overLimit": "Karakter sınırı aşıldı"
+  "tooLong": "Karakter sınırı aşıldı"
 }

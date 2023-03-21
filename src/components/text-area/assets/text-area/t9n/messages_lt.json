@@ -1,4 +1,4 @@
 {
   "invalid": "Neteisingas",
-  "overLimit": "Viršytas simbolių limitas"
+  "tooLong": "Viršytas simbolių limitas"
 }

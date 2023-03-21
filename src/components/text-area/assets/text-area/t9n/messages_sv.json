@@ -1,4 +1,4 @@
 {
   "invalid": "Ogiltig",
-  "overLimit": "Teckengränsen överskriden"
+  "tooLong": "Teckengränsen överskriden"
 }

@@ -386,7 +386,7 @@ export class TextArea
   renderCharacterLimit = (): VNode => {
     return this.maxLength ? (
       <span class={CSS.characterLimit}>
-        <span class={{ [CSS.characterOverlimit]: this.value?.length > this.maxLength }}>
+        <span class={{ [CSS.characterOverLimit]: this.value?.length > this.maxLength }}>
           {this.getLocalizedCharacterLength()}
         </span>
         {"/"}
@@ -420,7 +420,7 @@ export class TextArea
   syncHiddenFormInput(input: HTMLInputElement): void {
     input.setCustomValidity("");
     if (this.value?.length > this.maxLength) {
-      input.setCustomValidity(this.messages.overLimit);
+      input.setCustomValidity(this.messages.tooLong);
     }
   }
 
