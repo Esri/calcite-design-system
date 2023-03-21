@@ -43,7 +43,7 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version-file: package.json
-      - run: npm install --legacy-peer-deps
+      - run: npm install
       - if: steps.markdown-check.outputs.SKIP == 'false'
         name: Publish to Chromatic
         uses: chromaui/action@v1
