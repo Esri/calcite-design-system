@@ -79,7 +79,7 @@ export const simple = (): string => html`
     </calcite-label>
     <calcite-label>
       Add Notes
-      <calcite-text-area> </calcite-text-area>
+      <calcite-text-area></calcite-text-area>
     </calcite-label>
   </div>
 `;
@@ -145,7 +145,7 @@ export const darkModeRTL_TestOnly = (): string => html`
     </calcite-label>
     <calcite-label>
       Add Notes
-      <calcite-text-area> </calcite-text-area>
+      <calcite-text-area></calcite-text-area>
     </calcite-label>
   </div>
 `;
@@ -185,6 +185,6 @@ export const spacingWithLabel_TestOnly = (): string => html`
   </calcite-label>
   <calcite-label>
     Add Notes
-    <calcite-text-area> </calcite-text-area>
+    <calcite-text-area></calcite-text-area>
   </calcite-label>
 `;

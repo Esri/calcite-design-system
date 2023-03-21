@@ -12,7 +12,7 @@ export const CSS = {
   footerSlotted: "footer--slotted",
   borderColor: "border--color",
   hide: "hide",
-  blocksizeFull: "block-size--full",
+  blockSizeFull: "block-size--full",
   footerEndSlotOnly: "footer--end-only"
 };
 

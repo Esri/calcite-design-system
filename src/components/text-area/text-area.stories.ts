@@ -66,7 +66,7 @@ export const groupSeparator_TestOnly = (): string => html`
   </calcite-text-area>
 `;
 
-export const exceedingMaxlength_TestOnly = (): string => html`
+export const exceedingMaxLength_TestOnly = (): string => html`
   <calcite-text-area value="Rocky Mountains National Park" max-length="10"> </calcite-text-area>
 `;
 
@@ -82,4 +82,4 @@ export const chineseLangNumberingSystem_TestOnly = (): string => html`
 `;
 
 export const insideContainerWithHeightAndWidth_TestOnly = (): string =>
-  html`<div style="width:500px;height:500px"><calcite-text-area> </calcite-text-area></div>`;
+  html`<div style="width:500px;height:500px"><calcite-text-area></calcite-text-area></div>`;

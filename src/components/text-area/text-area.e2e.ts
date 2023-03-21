@@ -70,7 +70,7 @@ describe("calcite-text-area", () => {
       submitsOnEnter: false
     }));
 
-  it("should emit calciteTextareaInput event when user type in the textarea and emit calciteTextareaChange when users tabs out", async () => {
+  it("should emit calciteTextAreaInput event when user type in the textarea and emit calciteTextAreaChange when users tabs out", async () => {
     const page = await newE2EPage();
     await page.setContent("<calcite-text-area></calcite-text-area>");
 
@@ -93,7 +93,7 @@ describe("calcite-text-area", () => {
     expect(changeEventSpy).toHaveReceivedEventTimes(1);
   });
 
-  it("should not emit calciteTextareaChange & calciteTextareaInput event when user tabs out of the textarea without typing", async () => {
+  it("should not emit calciteTextAreaChange & calciteTextAreaInput event when user tabs out of the textarea without typing", async () => {
     const page = await newE2EPage();
     await page.setContent("<calcite-text-area></calcite-text-area>");
 
@@ -131,7 +131,7 @@ describe("calcite-text-area", () => {
 
   it("should have footer--slotted class when slotted at both start and end", async () => {
     const page = await newE2EPage();
-    await page.setContent(`<calcite-text-area >
+    await page.setContent(`<calcite-text-area>
     <calcite-button slot="footer-start">CLEAR</calcite-button>
     <calcite-button slot="footer-end">RESET</calcite-button></calcite-text-area>`);
 
@@ -141,6 +141,8 @@ describe("calcite-text-area", () => {
     expect(element).toHaveClass(CSS.footerSlotted);
   });
 
+  // todo: add a test to simulate dragging behavior for resize.
+  // currently we are assuming resize CSS property value determines the resize behavior.
   describe("resize", () => {
     it("should set CSS resize property to horizontal", async () => {
       const page = await newE2EPage();

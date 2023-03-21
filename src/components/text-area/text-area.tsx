@@ -82,11 +82,54 @@ export class TextArea
   @Prop({ reflect: true }) autofocus = false;
 
   /**
+   * Specifies the number or columns allowed.
+   *
+   * @mdn [cols](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea#attr-cols)
+   */
+  @Prop({ reflect: true }) columns: number;
+
+  /**
    * When `true`, interaction is prevented and the component is displayed with lower opacity.
    *
    * @mdn [disabled](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/disabled)
    */
   @Prop({ reflect: true }) disabled = false;
+
+  /**
+   * When `true`, number values are displayed with a group separator corresponding to the language and country format.
+   */
+  @Prop({ reflect: true }) groupSeparator = false;
+
+  /**
+   * Accessible name for the component.
+   */
+  @Prop() label: string;
+
+  /**
+   * Specifies the maximum number of characters allowed.
+   *
+   * @mdn [maxlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea#attr-maxlength)
+   */
+  @Prop({ reflect: true }) maxLength: number;
+
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @internal
+   */
+  @Prop({ mutable: true }) messages: TextAreaMessages;
+
+  /**
+   * Specifies the name of the component
+   *
+   * @mdn [name](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea#attr-name)
+   */
+  @Prop({ reflect: true }) name: string;
+
+  /**
+   * Specifies the Unicode numeral system used by the component for localization.
+   */
+  @Prop() numberingSystem: NumberingSystem;
 
   /**
    * Specifies the placeholder text for the component.
@@ -104,35 +147,27 @@ export class TextArea
   @Prop({ reflect: true }) readonly = false;
 
   /**
+   * When `true`, the component must have a value in order for the form to submit.
+   *
+   * @mdn [required]https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/required
+   */
+  @Prop({ reflect: true }) required = false;
+
+  /** Allows resizing the component. */
+  @Prop({ reflect: true }) resize: "both" | "horizontal" | "vertical" | "none" = "both";
+
+  /**
    * Specifies the number or rows allowed.
    *
    * @mdn [rows](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea#attr-rows)
    */
   @Prop({ reflect: true }) rows: number;
 
-  /**
-   * Specifies the number or columns allowed.
-   *
-   * @mdn [cols](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea#attr-cols)
-   */
-  @Prop({ reflect: true }) columns: number;
-
-  /**
-   * Specifies the maximum number of characters allowed.
-   *
-   * @mdn [maxlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea#attr-maxlength)
-   */
-  @Prop({ reflect: true }) maxLength: number;
-
-  /**
-   * Specifies the name of the component
-   *
-   * @mdn [name](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea#attr-name)
-   */
-  @Prop({ reflect: true }) name: string;
-
   /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: "l" | "m" | "s" = "m";
+
+  /** The component's value. */
+  @Prop({ mutable: true }) value: string;
 
   /**
    * Specifies the wrapping mechanism for the text.
@@ -140,41 +175,6 @@ export class TextArea
    * @mdn [wrap](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea#attr-wrap)
    */
   @Prop({ reflect: true }) wrap: "soft" | "hard" = "soft";
-
-  /** The component's value. */
-  @Prop({ mutable: true }) value: string;
-
-  /** Allows resizing the component. */
-  @Prop({ reflect: true }) resize: "both" | "horizontal" | "vertical" | "none" = "both";
-
-  /**
-   * When `true`, the component must have a value in order for the form to submit.
-   *
-   * @mdn [required]https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/required
-   */
-  @Prop({ reflect: true }) required = false;
-
-  /**
-   * Accessible name for the component.
-   */
-  @Prop() label: string;
-
-  /**
-   * Specifies the Unicode numeral system used by the component for localization.
-   */
-  @Prop() numberingSystem: NumberingSystem;
-
-  /**
-   * When `true`, number values are displayed with a group separator corresponding to the language and country format.
-   */
-  @Prop({ reflect: true }) groupSeparator = false;
-
-  /**
-   * Made into a prop for testing purposes only
-   *
-   * @internal
-   */
-  @Prop({ mutable: true }) messages: TextAreaMessages;
 
   /**
    * Use this property to override individual strings used by the component.
@@ -194,12 +194,12 @@ export class TextArea
   /**
    * Fires each time a new `value` is typed.
    */
-  @Event({ cancelable: true }) calciteTextAreaInput: EventEmitter<void>;
+  @Event() calciteTextAreaInput: EventEmitter<void>;
 
   /**
    * Fires each time a new `value` is typed and committed.
    */
-  @Event({ cancelable: true }) calciteTextAreaChange: EventEmitter<void>;
+  @Event() calciteTextAreaChange: EventEmitter<void>;
 
   //--------------------------------------------------------------------------
   //
@@ -248,7 +248,7 @@ export class TextArea
             [CSS.readonly]: this.readonly,
             [CSS.textAreaInvalid]: this.value?.length > this.maxLength,
             [CSS.footerSlotted]: this.endSlotHasElements && this.startSlotHasElements,
-            [CSS.blocksizeFull]: !hasFooter,
+            [CSS.blockSizeFull]: !hasFooter,
             [CSS.borderColor]: !hasFooter
           }}
           cols={this.columns}
@@ -326,15 +326,17 @@ export class TextArea
   //
   //--------------------------------------------------------------------------
 
-  formEl: HTMLFormElement;
-
   defaultValue: TextArea["value"];
+
+  footerEl: HTMLElement;
+
+  formEl: HTMLFormElement;
 
   labelEl: HTMLCalciteLabelElement;
 
   textAreaEl: HTMLTextAreaElement;
 
-  footerEl: HTMLElement;
+  @State() defaultMessages: TextAreaMessages;
 
   @State() endSlotHasElements: boolean;
 
@@ -346,8 +348,6 @@ export class TextArea
   effectiveLocaleChange(): void {
     updateMessages(this, this.effectiveLocale);
   }
-
-  @State() defaultMessages: TextAreaMessages;
 
   //--------------------------------------------------------------------------
   //
