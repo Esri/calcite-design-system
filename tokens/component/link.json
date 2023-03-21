@@ -1,0 +1,44 @@
+{
+  "link": {
+    "font": {
+      "light": {
+        "value": "$semantic.ui.color.text.link.light",
+        "type": "color"
+      },
+      "dark": {
+        "value": "$semantic.ui.color.text.link.dark",
+        "type": "color"
+      },
+      "regular": {
+        "value": "$semantic.font.wrap.regular.0",
+        "type": "typography"
+      }
+    },
+    "icon": {
+      "light": {
+        "value": "$semantic.ui.color.text.link.light",
+        "type": "color"
+      },
+      "dark": {
+        "value": "$semantic.ui.color.text.link.dark",
+        "type": "color"
+      }
+    },
+    "border": {
+      "light": {
+        "value": "$semantic.ui.color.text.link.light",
+        "type": "color"
+      },
+      "dark": {
+        "value": "$semantic.ui.color.text.link.dark",
+        "type": "color"
+      }
+    },
+    "bottom": {
+      "border-width": {
+        "value": "$core.border.border-width.0",
+        "type": "borderWidth"
+      }
+    }
+  }
+}

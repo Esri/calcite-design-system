@@ -70,7 +70,7 @@
       "background": {
         "default": {
           "light": {
-            "value": "$semantic.ui.color.background.light",
+            "value": "$semantic.ui.color.foreground.1.light",
             "type": "color"
           },
           "dark": {
@@ -90,7 +90,7 @@
             "type": "spacing"
           },
           "lg": {
-            "value": "$core.spacing.1",
+            "value": "$core.spacing.7",
             "type": "spacing"
           }
         },
