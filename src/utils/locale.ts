@@ -310,10 +310,10 @@ function getLocale(component: LocalizedComponent): string {
   );
 }
 
-export interface NumberStringFormatOptions extends Intl.NumberFormatOptions {
+export type NumberStringFormatOptions = Intl.NumberFormatOptions & {
   numberingSystem: NumberingSystem;
   locale: string;
-}
+};
 
 /**
  * This util formats and parses numbers for localization
@@ -403,12 +403,12 @@ export class NumberStringFormat {
     const index = new Map(this._digits.map((d, i) => [d, i]));
     const parts = new Intl.NumberFormat(this._numberFormatOptions.locale).formatToParts(-12345678.9);
 
-    this._actualGroup = parts.find((d) => d.type === "group").value;
+    this._actualGroup = parts.find((part) => part.type === "group").value;
     // change whitespace group characters that don't render correctly
     this._group = this._actualGroup.trim().length === 0 ? " " : this._actualGroup;
-    this._decimal = parts.find((d) => d.type === "decimal").value;
-    this._minusSign = parts.find((d) => d.type === "minusSign").value;
-    this._getDigitIndex = (d: string) => index.get(d);
+    this._decimal = parts.find((part) => part.type === "decimal").value;
+    this._minusSign = parts.find((part) => part.type === "minusSign").value;
+    this._getDigitIndex = (digit: string) => index.get(digit);
   }
 
   delocalize = (numberString: string): string =>

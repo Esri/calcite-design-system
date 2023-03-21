@@ -4,6 +4,8 @@ import { NumberStringFormat } from "./locale";
 const unnecessaryDecimal = new RegExp(`\\${"."}(0+)?$`);
 const trailingZeros = new RegExp("0+$");
 
+const isNegativeNumber = (numberString: string) => numberString.charAt(0) === "-";
+
 // adopted from https://stackoverflow.com/a/66939244
 export class BigDecimal {
   value: bigint;
@@ -27,7 +29,7 @@ export class BigDecimal {
       BigInt(integers + decimals.padEnd(BigDecimal.DECIMALS, "0").slice(0, BigDecimal.DECIMALS)) +
       BigInt(BigDecimal.ROUNDED && decimals[BigDecimal.DECIMALS] >= "5");
 
-    this.isNegative = input.charAt(0) === "-";
+    this.isNegative = isNegativeNumber(input);
   }
 
   static _divRound = (dividend: bigint, divisor: bigint): BigDecimal =>
@@ -60,7 +62,11 @@ export class BigDecimal {
 
     if (decimals.length) {
       parts.push({ type: "decimal", value: formatter.decimal });
-      decimals.split("").forEach((char: string) => parts.push({ type: "fraction", value: char }));
+      decimals
+        .split("")
+        .forEach((char: string) =>
+          parts.push({ type: "fraction", value: formatter.numberFormatter.format(Number(char)) })
+        );
     }
 
     return parts;
@@ -71,6 +77,7 @@ export class BigDecimal {
     const integersFormatted = `${this.isNegative ? formatter.minusSign : ""}${formatter.numberFormatter.format(
       BigInt(integers)
     )}`;
+    // format decimals one char at a time so leading zeros aren't removed
     const decimalsFormatted = decimals.length
       ? `${formatter.decimal}${decimals
           .split("")
@@ -101,6 +108,14 @@ export function isValidNumber(numberString: string): boolean {
   return !(!numberString || isNaN(Number(numberString)));
 }
 
+function stringContainsNumbers(string: string): boolean {
+  return numberKeys.some((number) => string.includes(number));
+}
+
+/*
+ * Parses and sanitizes a string into a valid number, if possible.
+ * The function is used for pasted text which can contain any characters.
+ */
 export function parseNumberString(numberString?: string): string {
   if (!numberString || !stringContainsNumbers(numberString)) {
     return "";
@@ -111,11 +126,11 @@ export function parseNumberString(numberString?: string): string {
     const result = nonExpoNumString
       .split("")
       .filter((value, i) => {
-        if (value.match(/\./g) && !containsDecimal) {
+        if (value === "." && !containsDecimal) {
           containsDecimal = true;
           return true;
         }
-        if (value.match(/\-/g) && i === 0) {
+        if (value === "-" && i === 0) {
           return true;
         }
         return numberKeys.includes(value);
@@ -131,6 +146,10 @@ const decimalOnlyAtEndOfString = /(?!^\.)\.$/;
 const allHyphensExceptTheStart = /(?!^-)-/g;
 const isNegativeDecimalOnlyZeros = /^-\b0\b\.?0*$/;
 
+/*
+ * Attempts to sanitize numbers as they are being typed. If the sanitized value is not
+ * a valid number, the initial value is returned to prevent interrupting a user's typing.
+ */
 export const sanitizeNumberString = (numberString: string): string =>
   sanitizeExponentialNumberString(numberString, (nonExpoNumString) => {
     const sanitizedValue = nonExpoNumString
@@ -139,12 +158,22 @@ export const sanitizeNumberString = (numberString: string): string =>
       .replace(allLeadingZerosOptionallyNegative, "$1");
 
     return isValidNumber(sanitizedValue)
-      ? isNegativeDecimalOnlyZeros.test(sanitizedValue)
+      ? // BigDecimal uses BigInt internally, which doesn't support -0 like number does
+        isNegativeDecimalOnlyZeros.test(sanitizedValue)
         ? sanitizedValue
-        : new BigDecimal(sanitizedValue).toString()
+        : new BigDecimal(sanitizedValue).toString() // formats the number for consistency
       : nonExpoNumString;
   });
 
+/**
+ * Runs the provided function on the numbers before and after the first "e", if applicable.
+ * This function is used by our locale/number utils to support exponential notation.
+ * It also sanitizes decimals and E's from the magnitude of numbers in exponential notation.
+ *
+ * @param  {string} numberString the stringified number (potentially in exponential notation) to sanitize
+ * @param {(s: string) => string} func the sanitization function to run on each side of the "e"
+ * @returns {string} the sanitized numberString
+ */
 export function sanitizeExponentialNumberString(numberString: string, func: (s: string) => string): string {
   if (!numberString) {
     return numberString;
@@ -159,9 +188,13 @@ export function sanitizeExponentialNumberString(numberString: string, func: (s: 
   return numberString
     .replace(/[eE]*$/g, "")
     .substring(0, firstE)
-    .concat(numberString.slice(firstE).replace(/[eE]/g, ""))
+    .concat(numberString.slice(firstE).replace(/[eE]/g, "")) // remove E's from the magnitude
     .split(/[eE]/)
-    .map((section, i) => (i === 1 ? func(section.replace(/\./g, "")) : func(section)))
+    .map((section, i) =>
+      i === 1
+        ? func(section.replace(/\./g, "")) // remove decimals from the magnitude
+        : func(section)
+    )
     .join("e")
     .replace(/^e/, "1e");
 }
@@ -184,36 +217,29 @@ export function expandExponentialNumberString(numberString: string): string {
     return `${number}`;
   }
 
-  const isNegative = numberString.charAt(0) === "-";
+  const isNegative = isNegativeNumber(numberString);
   const magnitude = +exponentialParts[1];
   const decimalParts = exponentialParts[0].split(".");
   const integers = (isNegative ? decimalParts[0].substring(1) : decimalParts[0]) || "";
   const decimals = decimalParts[1] || "";
 
-  const shiftDecimalLeft = (integers: string, magnitude: number): string => {
+  const shiftDecimalLeft = (): string => {
     const magnitudeDelta = Math.abs(magnitude) - integers.length;
     const leftPaddedZeros = magnitudeDelta > 0 ? `${"0".repeat(magnitudeDelta)}${integers}` : integers;
     const shiftedDecimal = `${leftPaddedZeros.slice(0, magnitude)}${"."}${leftPaddedZeros.slice(magnitude)}`;
     return shiftedDecimal;
   };
 
-  const shiftDecimalRight = (decimals: string, magnitude: number): string => {
+  const shiftDecimalRight = (): string => {
     const rightPaddedZeros =
       magnitude > decimals.length ? `${decimals}${"0".repeat(magnitude - decimals.length)}` : decimals;
     const shiftedDecimal = `${rightPaddedZeros.slice(0, magnitude)}${"."}${rightPaddedZeros.slice(magnitude)}`;
     return shiftedDecimal;
   };
 
-  const expandedNumberString =
-    magnitude > 0
-      ? `${integers}${shiftDecimalRight(decimals, magnitude)}`
-      : `${shiftDecimalLeft(integers, magnitude)}${decimals}`;
+  const expandedNumberString = magnitude > 0 ? `${integers}${shiftDecimalRight()}` : `${shiftDecimalLeft()}${decimals}`;
 
   return `${isNegative ? "-" : ""}${expandedNumberString.charAt(0) === "." ? "0" : ""}${expandedNumberString
     .replace(unnecessaryDecimal, "")
     .replace(allLeadingZerosOptionallyNegative, "")}`;
-}
-
-function stringContainsNumbers(string: string): boolean {
-  return numberKeys.some((number) => string.includes(number));
 }

@@ -8,12 +8,13 @@ import {
 } from "./locale";
 
 describe("NumberStringFormat", () => {
+  // NOTE: don't put any tests above this one because the formatter will then be cached
   it("NumberFormat formatter is not initialized until necessary", () => {
-    const num = "123.456";
+    const numberString = "123.456";
 
     // should still work with options set
     expect(numberStringFormatter.numberFormatOptions).toBeUndefined();
-    expect(numberStringFormatter.delocalize(numberStringFormatter.localize(num))).toBe(num);
+    expect(numberStringFormatter.delocalize(numberStringFormatter.localize(numberString))).toBe(numberString);
 
     // adding the default locale/numberingSystem should
     // not create the formatter
@@ -33,6 +34,45 @@ describe("NumberStringFormat", () => {
     expect(numberStringFormatter.numberFormatter).toBeDefined();
     expect(numberStringFormatter.numberFormatOptions.numberingSystem).toBe(defaultNumberingSystem);
     expect(numberStringFormatter.numberFormatOptions.locale).toBe(defaultLocale);
+  });
+
+  it("delocalizes and localizes arab/ar numberingSystem/lang numbers with group separators", () => {
+    const numberString = "-١٢٣٬٤٥٦٬٧٨٠٫٩٨٧";
+    numberStringFormatter.numberFormatOptions = { locale: "ar",
+      numberingSystem: "arab",
+      useGrouping: true
+    };
+
+    const delocalizedNumberString = numberStringFormatter.delocalize(numberString);
+    const localizedNumberString = numberStringFormatter.localize(delocalizedNumberString);
+    expect(delocalizedNumberString).toBe("-123456780.987");
+    expect(localizedNumberString).toBe(numberString);
+  });
+
+  it("delocalizes and localizes beng/bn-BD numberingSystem/lang numbers with group separators", () => {
+    const numberString = "-১২,৩৪,৫৬,৭৮০.৯৮৭";
+    numberStringFormatter.numberFormatOptions = {
+      locale: "bn-BD",
+      numberingSystem: "beng"
+    };
+
+    const delocalizedNumberString = numberStringFormatter.delocalize(numberString);
+    const localizedNumberString = numberStringFormatter.localize(delocalizedNumberString);
+    expect(delocalizedNumberString).toBe("-123456780.987");
+    expect(localizedNumberString).toBe(numberString);
+  });
+
+  it("delocalizes and localizes deva/sa-IN numberingSystem/lang numbers with group separators", () => {
+    const numberString = "-१२,३४,५६,७८०.९८७";
+    numberStringFormatter.numberFormatOptions = {
+      locale: "sa-IN",
+      numberingSystem: "deva"
+    };
+
+    const delocalizedNumberString = numberStringFormatter.delocalize(numberString);
+    const localizedNumberString = numberStringFormatter.localize(delocalizedNumberString);
+    expect(delocalizedNumberString).toBe("-123456780.987");
+    expect(localizedNumberString).toBe(numberString);
   });
 
   describe("locales", () => {
