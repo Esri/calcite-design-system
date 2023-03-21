@@ -36,11 +36,13 @@ export class Scrim implements LocalizedComponent, T9nComponent {
    *
    * @internal
    */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
   @Prop({ mutable: true }) messages: ScrimMessages;
 
   /**
    * Use this property to override individual strings used by the component.
    */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
   @Prop({ mutable: true }) messageOverrides: Partial<ScrimMessages>;
 
   @Watch("messageOverrides")

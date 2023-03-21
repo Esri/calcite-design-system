@@ -45,7 +45,7 @@ export class Tabs {
   /**
    * When `true`, the component will display with a folder style menu.
    */
-  @Prop({ reflect: true, mutable: true }) bordered = false;
+  @Prop() bordered = false;
 
   //--------------------------------------------------------------------------
   //
