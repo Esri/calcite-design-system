@@ -405,7 +405,8 @@ export class TextArea
     return numberStringFormatter.localize(this.value ? this.value.length.toString() : "0");
   }
 
-  resizeObserver = createObserver("resize", () => {
+  resizeObserver = createObserver("resize", async () => {
+    await componentLoaded(this);
     const { textAreaHeight, textAreaWidth, elHeight, elWidth, footerHeight, footerWidth } =
       this.getHeightandWidthOfElements();
     if (footerWidth > 0 && footerWidth !== textAreaWidth) {
