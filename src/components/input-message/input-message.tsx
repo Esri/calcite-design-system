@@ -36,7 +36,7 @@ export class InputMessage {
   @Prop({ reflect: true, mutable: true }) scale: Scale = "m";
 
   /** Specifies the status of the input field, which determines message and icons. */
-  @Prop({ reflect: true, mutable: true }) status: Status = "idle";
+  @Prop({ reflect: true }) status: Status = "idle";
 
   @Watch("status")
   @Watch("icon")

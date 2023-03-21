@@ -59,6 +59,7 @@ export class Pagination implements LocalizedComponent, LocalizedComponent, T9nCo
   /**
    * Use this property to override individual strings used by the component.
    */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
   @Prop({ mutable: true }) messageOverrides: Partial<PaginationMessages>;
 
   @Watch("messageOverrides")
@@ -119,6 +120,7 @@ export class Pagination implements LocalizedComponent, LocalizedComponent, T9nCo
    *
    * @internal
    */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
   @Prop({ mutable: true }) messages: PaginationMessages;
 
   //--------------------------------------------------------------------------
