@@ -42,8 +42,8 @@ import { InteractiveComponent, updateHostInteraction } from "../../utils/interac
 
 /**
  * @slot - A slot for adding text.
- * @slot footer-start - A slot for adding a leading footer.
- * @slot footer-end - A slot for adding a trailing footer.
+ * @slot footer-start - A slot for adding content to the start of the component's footer.
+ * @slot footer-end - A slot for adding content to the end of the component's footer.
  */
 
 @Component({
@@ -82,7 +82,7 @@ export class TextArea
   @Prop({ reflect: true }) autofocus = false;
 
   /**
-   * Specifies the number or columns allowed.
+   * Specifies the component's number of columns.
    *
    * @mdn [cols](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea#attr-cols)
    */
@@ -120,7 +120,7 @@ export class TextArea
   @Prop({ mutable: true }) messages: TextAreaMessages;
 
   /**
-   * Specifies the name of the component
+   * Specifies the name of the component.
    *
    * @mdn [name](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea#attr-name)
    */
@@ -139,12 +139,12 @@ export class TextArea
   @Prop() placeholder: string;
 
   /**
-   * When `true`, the component's value can be read, but cannot be modified.
+   * When `true`, the component's `value` can be read, but cannot be modified.
    *
    * @readonly
    * @mdn [readOnly](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/readonly)
    */
-  @Prop({ reflect: true }) readonly = false;
+  @Prop({ reflect: true }) readOnly = false;
 
   /**
    * When `true`, the component must have a value in order for the form to submit.
@@ -153,11 +153,11 @@ export class TextArea
    */
   @Prop({ reflect: true }) required = false;
 
-  /** Allows resizing the component. */
+  /** Specifies if the component is resizable. */
   @Prop({ reflect: true }) resize: "both" | "horizontal" | "vertical" | "none" = "both";
 
   /**
-   * Specifies the number or rows allowed.
+   * Specifies the component's number of rows.
    *
    * @mdn [rows](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea#attr-rows)
    */
@@ -245,7 +245,7 @@ export class TextArea
           aria-label={getLabelText(this)}
           autofocus={this.autofocus}
           class={{
-            [CSS.readonly]: this.readonly,
+            [CSS.readOnly]: this.readOnly,
             [CSS.textAreaInvalid]: this.value?.length > this.maxLength,
             [CSS.footerSlotted]: this.endSlotHasElements && this.startSlotHasElements,
             [CSS.blockSizeFull]: !hasFooter,
@@ -257,7 +257,7 @@ export class TextArea
           onChange={this.handleChange}
           onInput={this.handleInput}
           placeholder={this.placeholder}
-          readonly={this.readonly}
+          readonly={this.readOnly}
           required={this.required}
           rows={this.rows}
           value={this.value}
@@ -271,7 +271,7 @@ export class TextArea
         <footer
           class={{
             [CSS.footer]: true,
-            [CSS.readonly]: this.readonly,
+            [CSS.readOnly]: this.readOnly,
             [CSS.hide]: !hasFooter
           }}
           ref={(el) => (this.footerEl = el as HTMLElement)}
@@ -315,7 +315,7 @@ export class TextArea
     this.textAreaEl.focus();
   }
 
-  /** Selects all text of the component's `value`. */
+  /** Selects the text of the component's `value`. */
   @Method()
   async selectText(): Promise<void> {
     this.textAreaEl.select();
