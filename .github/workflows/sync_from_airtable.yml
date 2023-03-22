@@ -1,7 +1,6 @@
 name: Sync from Airtable
 
 on:
-  # publish blog using webhook
   repository_dispatch:
     types: [airtable-update]
 
@@ -204,10 +203,13 @@ jobs:
                             core.info(`Remove Label: ${name}`)
                         }));
                     } catch (err) {
-                        if (!error.includes('Label does not exist')) { core.error(`Label not removed: ${err}`) }   
+                        if (!error.includes('Label does not exist')) {
+                          core.error(`Label not removed: ${err}`)
+                        }   
                     }
                 }
             }
+
   milestoned_demilestoned:
     name: Milestoned or Demilestoned
     needs: existing_issue
@@ -251,8 +253,9 @@ jobs:
             } catch (error) {
                 core.info(error)
             }
+
   open_closed:
-    name: Opened, ReOpened, or Closed
+    name: Opened, Reopened, or Closed
     needs: existing_issue
     if: (fromJSON(needs.existing_issue.outputs.github_issue).status == 200 ) && (github.event.client_payload.action == 'opened/closed')
     runs-on: ubuntu-latest
@@ -274,6 +277,7 @@ jobs:
               issue_number: NUMBER,
               state,
             });
+
   edited:
     name: Edited
     needs: existing_issue
@@ -297,6 +301,7 @@ jobs:
               issue_number: NUMBER,
               ...data,
             });
+
   new_issue:
     name: Create New Issue
     needs: existing_issue
