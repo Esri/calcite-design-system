@@ -75,7 +75,7 @@ export class TextArea
   //--------------------------------------------------------------------------
 
   /**
-   * When `true`, the component is focused on page load.
+   * When `true`, the component is focused on page load. Only one element can contain `autofocus`. If multiple elements have `autofocus`, the first element will receive focus.
    *
    * @mdn [autofocus](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/autofocus)
    */
@@ -425,7 +425,7 @@ export class TextArea
   }
 
   // height and width are set to auto here to avoid overlapping on to neighboring elements in the layout when user starts resizing.
-  // throttle is used to avoid flashing of textarea when user resizes for the first time
+  // throttle is used to avoid flashing of textarea when user resizes.
   setHeightAndWidthToAuto = throttle(
     (): void => {
       if (this.resize === "vertical" || this.resize === "both") {
