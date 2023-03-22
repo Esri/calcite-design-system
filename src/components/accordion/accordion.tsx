@@ -3,8 +3,6 @@ import { Appearance, Position, Scale, SelectionMode } from "../interfaces";
 import { RequestedItem } from "./interfaces";
 /**
  * @slot - A slot for adding `calcite-accordion-item`s. `calcite-accordion` cannot be nested, however `calcite-accordion-item`s can.
- * @slot actions-start - A slot for adding `calcite-action`s or content to the start side of the `calcite-accordion-item`.
- * @slot actions-end - A slot for adding `calcite-action`s or content to the end side of the `calcite-accordion-item`.
  */
 @Component({
   tag: "calcite-accordion",
