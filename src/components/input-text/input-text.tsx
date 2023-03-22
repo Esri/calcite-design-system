@@ -171,7 +171,7 @@ export class InputText
   @Prop({ mutable: true, reflect: true }) scale: Scale = "m";
 
   /** Specifies the status of the input field, which determines message and icons. */
-  @Prop({ mutable: true, reflect: true }) status: Status = "idle";
+  @Prop({ reflect: true }) status: Status = "idle";
 
   /**
    * Specifies the type of content to autocomplete, for use in forms.
@@ -221,11 +221,13 @@ export class InputText
    *
    * @internal
    */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
   @Prop({ mutable: true }) messages: InputTextMessages;
 
   /**
    * Use this property to override individual strings used by the component.
    */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
   @Prop({ mutable: true }) messageOverrides: Partial<InputTextMessages>;
 
   @Watch("messageOverrides")
@@ -635,11 +637,12 @@ export class InputText
         pattern={this.pattern}
         placeholder={this.placeholder || ""}
         readOnly={this.readOnly}
-        ref={this.setChildElRef}
         required={this.required ? true : null}
         tabIndex={this.disabled || (this.inlineEditableEl && !this.editingEnabled) ? -1 : null}
         type="text"
         value={this.value}
+        // eslint-disable-next-line react/jsx-sort-props
+        ref={this.setChildElRef}
       />
     );
 

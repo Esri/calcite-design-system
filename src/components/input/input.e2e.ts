@@ -234,6 +234,55 @@ describe("calcite-input", () => {
       page = await newE2EPage();
     });
 
+    it("correctly increments/decrements numbers greater than MAX_SAFE_INTEGER", async () => {
+      await page.setContent(
+        html`<calcite-input-number
+          value="100000000000000000000000000000000000000000000000000."
+          step="10"
+        ></calcite-input-number>`
+      );
+      const element = await page.find("calcite-input-number");
+      const numberHorizontalItemDown = await page.find(
+        "calcite-input-number >>> .number-button-item[data-adjustment='down']"
+      );
+      const numberHorizontalItemUp = await page.find(
+        "calcite-input-number >>> .number-button-item[data-adjustment='up']"
+      );
+      expect(await element.getProperty("value")).toBe("100000000000000000000000000000000000000000000000000");
+      await numberHorizontalItemUp.click();
+      await page.waitForChanges();
+      expect(await element.getProperty("value")).toBe("100000000000000000000000000000000000000000000000010");
+      element.setProperty("step", 0.1);
+      await page.waitForChanges();
+      Array.from({ length: 10 }, async () => await numberHorizontalItemDown.click());
+      await page.waitForChanges();
+      expect(await element.getProperty("value")).toBe("100000000000000000000000000000000000000000000000009");
+    });
+
+    it("correctly increments/decrements exponential notation numbers without losing precision", async () => {
+      await page.setContent(html`<calcite-input-number value="1.23e-60"></calcite-input-number>`);
+      const element = await page.find("calcite-input-number");
+      const numberHorizontalItemDown = await page.find(
+        "calcite-input-number >>> .number-button-item[data-adjustment='down']"
+      );
+      const numberHorizontalItemUp = await page.find(
+        "calcite-input-number >>> .number-button-item[data-adjustment='up']"
+      );
+      expect(await element.getProperty("value")).toBe("1.23e-60");
+      await numberHorizontalItemUp.click();
+      await page.waitForChanges();
+      expect(await element.getProperty("value")).toBe(
+        "1.00000000000000000000000000000000000000000000000000000000000123"
+      );
+      element.setProperty("step", 0.1);
+      await page.waitForChanges();
+      Array.from({ length: 5 }, async () => await numberHorizontalItemDown.click());
+      await page.waitForChanges();
+      expect(await element.getProperty("value")).toBe(
+        "0.50000000000000000000000000000000000000000000000000000000000123"
+      );
+    });
+
     it("correctly increments and decrements decimal value when number buttons are clicked and the step precision matches the precision of the initial value", async () => {
       await page.setContent(html`<calcite-input type="number" value="3.123" step="0.001"></calcite-input>`);
 

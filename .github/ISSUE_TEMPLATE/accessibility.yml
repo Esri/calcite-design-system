@@ -79,6 +79,20 @@ body:
     validations:
       required: false
   - type: dropdown
+    id: priority-impact
+    validations:
+      required: true
+    attributes:
+      label: Priority impact
+      multiple: false
+      description: What is the impact to you, your team, or organization? Use discretion and only select "need" or "emergency" priorities for high user impact and quality issues. For instance, would someone notice, in a bad way, if this issue were present in the release?
+      options:
+        - p4 - not time sensitive
+        - p3 - want for upcoming milestone
+        - p2 - want for current milestone
+        - p1 - need for current milestone
+        - p0 - emergency
+  - type: dropdown
     id: esri-team
     validations:
       required: true

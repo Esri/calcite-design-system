@@ -278,10 +278,11 @@ export class ValueListItem
           metadata={this.metadata}
           nonInteractive={this.nonInteractive}
           onCalciteListItemChange={this.handleSelectChange}
-          ref={this.getPickListRef}
           removable={this.removable}
           selected={this.selected}
           value={this.value}
+          // eslint-disable-next-line react/jsx-sort-props
+          ref={this.getPickListRef}
         >
           {this.renderActionsStart()}
           {this.renderActionsEnd()}

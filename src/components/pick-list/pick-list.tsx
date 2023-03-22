@@ -81,6 +81,7 @@ export class PickList<
    *
    * @readonly
    */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by shared-list-logic
   @Prop({ mutable: true }) filteredData: ItemData = [];
 
   /**
@@ -96,6 +97,7 @@ export class PickList<
   /**
    * Text for the filter input field.
    */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by shared-list-logic
   @Prop({ reflect: true, mutable: true }) filterText: string;
 
   /**

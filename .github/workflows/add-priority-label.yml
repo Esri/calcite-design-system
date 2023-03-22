@@ -1,4 +1,4 @@
-name: Add Bug Priority Label
+name: Add Priority Label
 on:
   issues:
     types: [opened, edited]
@@ -22,7 +22,7 @@ jobs:
               return;
             }
 
-            const bugPriorityRegex = new RegExp(
+            const addPriorityRegex = new RegExp(
               action === "edited"
                 ? // the way GitHub parses the issue body into plaintext
                   // requires this exact format for edits
@@ -32,35 +32,35 @@ jobs:
               "m"
             );
 
-            const bugPriorityRegexMatch = body.match(bugPriorityRegex);
+            const addPriorityRegexMatch = body.match(addPriorityRegex);
 
-            const bugPriority = (
-              bugPriorityRegexMatch && bugPriorityRegexMatch[0] ? bugPriorityRegexMatch[0] : ""
+            const addPriorityLabel = (
+              addPriorityRegexMatch && addPriorityRegexMatch[0] ? addPriorityRegexMatch[0] : ""
             ).trim();
 
-            if (bugPriority && bugPriority !== "N/A") {
+            if (addPriorityLabel && addPriorityLabel !== "N/A") {
               /** Creates a label if it does not exist */
               try {
                 await github.rest.issues.getLabel({
                   owner,
                   repo,
-                  name: bugPriority,
+                  name: addPriorityLabel,
                 });
               } catch (error) {
                 await github.rest.issues.createLabel({
                   owner,
                   repo,
-                  name: bugPriority,
+                  name: addPriorityLabel,
                   color: "bb7fe0",
-                  description: `User set priority status of ${bugPriority}`,
+                  description: `User set priority status of ${addPriorityLabel}`,
                 });
               }
 
-              /** add new bug priority label */
+              /** add new priority label */
               await github.rest.issues.addLabels({
                 issue_number,
                 owner,
                 repo,
-                labels: [bugPriority],
+                labels: [addPriorityLabel],
               });
             }
