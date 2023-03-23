@@ -824,7 +824,7 @@ export class InputNumber
     };
 
     const sanitizedValue = sanitizeNumberString(
-      // no need to parse a string that is already in Latin numerals
+      // no need to delocalize a string that ia already in latn numerals
       (this.numberingSystem && this.numberingSystem !== "latn") || defaultNumberingSystem !== "latn"
         ? numberStringFormatter.delocalize(value)
         : value
