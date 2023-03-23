@@ -181,7 +181,7 @@ export class InputDatePicker
   @Prop({ mutable: true }) maxAsDate: Date;
 
   /** Specifies the earliest allowed date ("yyyy-mm-dd"). */
-  @Prop({ mutable: true }) min: string;
+  @Prop() min: string;
 
   @Watch("min")
   onMinChanged(min: string): void {
@@ -191,7 +191,7 @@ export class InputDatePicker
   }
 
   /** Specifies the latest allowed date ("yyyy-mm-dd"). */
-  @Prop({ mutable: true }) max: string;
+  @Prop() max: string;
 
   @Watch("max")
   onMaxChanged(max: string): void {
@@ -280,6 +280,7 @@ export class InputDatePicker
   /**
    * Use this property to override individual strings used by the component.
    */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
   @Prop({ mutable: true }) messageOverrides: Partial<DatePickerMessages>;
 
   //--------------------------------------------------------------------------

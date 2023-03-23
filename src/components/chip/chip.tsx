@@ -75,7 +75,7 @@ export class Chip
   @Prop({ reflect: true }) kind: Extract<"brand" | "inverse" | "neutral", Kind> = "neutral";
 
   /** When `true`, a close button is added to the component. */
-  @Prop({ reflect: true, mutable: true }) closable = false;
+  @Prop({ reflect: true }) closable = false;
 
   /** Specifies an icon to display. */
   @Prop({ reflect: true }) icon: string;
@@ -117,6 +117,7 @@ export class Chip
   /**
    * Use this property to override individual strings used by the component.
    */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
   @Prop({ mutable: true }) messageOverrides: Partial<ChipMessages>;
 
   /**
@@ -124,6 +125,7 @@ export class Chip
    *
    * @internal
    */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
   @Prop({ mutable: true }) messages: ChipMessages;
 
   @Watch("messageOverrides")

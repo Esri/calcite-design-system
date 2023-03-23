@@ -64,7 +64,7 @@ export class Checkbox
    *
    * @internal
    */
-  @Prop({ reflect: true, mutable: true }) hovered = false;
+  @Prop({ reflect: true }) hovered = false;
 
   /**
    * When `true`, the component is initially indeterminate, which is independent from its `checked` value.

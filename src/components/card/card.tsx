@@ -79,11 +79,13 @@ export class Card implements ConditionalSlotComponent, LocalizedComponent, T9nCo
    *
    * @internal
    */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
   @Prop({ mutable: true }) messages: CardMessages;
 
   /**
    * Use this property to override individual strings used by the component.
    */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
   @Prop({ mutable: true }) messageOverrides: Partial<CardMessages>;
 
   @Watch("messageOverrides")
