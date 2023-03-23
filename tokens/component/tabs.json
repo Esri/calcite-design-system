@@ -109,20 +109,20 @@
           }
         }
       },
-    "border-radius": {
-      "sm": {
-        "value": "$core.border.border-radius.none",
-        "type": "borderRadius"
+      "border-radius": {
+        "sm": {
+          "value": "$core.border.border-radius.none",
+          "type": "borderRadius"
+        },
+        "md": {
+          "value": "$core.border.border-radius.none",
+          "type": "borderRadius"
+        },
+        "lg": {
+          "value": "$core.border.border-radius.none",
+          "type": "borderRadius"
+        }
       },
-      "md": {
-        "value": "$core.border.border-radius.none",
-        "type": "borderRadius"
-      },
-      "lg": {
-        "value": "$core.border.border-radius.none",
-        "type": "borderRadius"
-      }
-    }, 
       "space-between": {
         "sm": {
           "value": "$core.spacing.none",
@@ -207,7 +207,6 @@
           },
           "lg": {
             "value": "$core.spacing.none",
-
             "type": "spacing"
           }
         },

@@ -19,8 +19,6 @@
     "component/block",
     "component/block-section",
     "component/card",
-    "component/checkbox",
-    "component/chip",
     "component/date-picker",
     "component/color-picker",
     "component/input-date-picker",
@@ -36,7 +34,6 @@
     "component/input-time",
     "component/input-text",
     "component/input-week",
-    "component/date-picker",
     "component/modal-medium",
     "component/notice",
     "component/textarea",
@@ -47,8 +44,6 @@
     "component/tab-title",
     "component/tabs",
     "component/rating",
-    "component/tab-title",
-    "component/tabs",
     "component/tip",
     "component/tooltip",
     "component/pagination",
@@ -58,10 +53,9 @@
     "component/switch",
     "component/[template-comp-name]",
     "component/accordion_backup",
-    "calcite/light",
-    "calcite/dark",
     "brand/global",
     "brand/light",
-    "brand/dark"
+    "brand/dark",
+    "component/combobox"
   ]
 }

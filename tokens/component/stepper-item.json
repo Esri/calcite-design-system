@@ -199,11 +199,11 @@
     "border": {
       "default": {
         "light": {
-            "value": "$semantic.ui.color.border.3.light",
-            "type": "color"
-          },
-          "dark": {
-            "value": "$semantic.ui.color.border.3.dark",
+          "value": "$semantic.ui.color.border.3.light",
+          "type": "color"
+        },
+        "dark": {
+          "value": "$semantic.ui.color.border.3.dark",
           "type": "color"
         }
       },
