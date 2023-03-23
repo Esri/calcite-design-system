@@ -209,7 +209,7 @@
     },
     "drag-handle": {
       "space-around": {
-        "dragg": {
+        "drag": {
           "right-left": {
             "md": {
               "value": "$core.spacing.1",

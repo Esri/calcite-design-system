@@ -21,6 +21,7 @@
     "component/card",
     "component/checkbox",
     "component/chip",
+    "component/combobox",
     "component/date-picker",
     "component/color-picker",
     "component/input-date-picker",
