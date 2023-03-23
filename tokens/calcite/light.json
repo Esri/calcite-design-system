@@ -1294,55 +1294,7 @@
             "type": "color"
           },
           "active": {
-            "value": "$action.font.active.light",
-
-        }
-      },
-      "action-bar": {
-        "border": {
-          "value": "$action-bar.border.light",
-          "type": "color"
-        },
-        "background": {
-          "value": "$action-bar.background.light",
-          "type": "color"
-        }
-      },
-      "action-pad": {
-        "border": {
-          "value": "$action-pad.border.light",
-          "type": "color"
-        },
-        "background": {
-          "value": "$action-pad.background.light",
-          "type": "color"
-        }
-      },
-      "action-bar-grid": {
-        "border": {
-          "value": "$action-bar-grid.border.light",
-          "type": "color"
-        },
-        "background": {
-          "value": "$action-bar-grid.background.light",
-          "type": "color"
-        }
-      },
-      "action-pad-grid": {
-        "border": {
-          "value": "$action-pad-grid.border.light",
-          "type": "color"
-        },
-        "background": {
-          "value": "$action-pad-grid.background.light",
-          "type": "color"
-        }
-      },
-      "block": {
-        "font": {
-          "heading": {
-            "value": "$block.font.heading.light",
-            "type": "color"
+            "value": "$action.font.active.light"
           },
           "description": {
             "value": "$block.font.description.light",

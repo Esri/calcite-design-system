@@ -225,7 +225,7 @@
         "type": "spacing"
       }
     },
-    "space-arround": {
+    "space-around": {
       "sm": {
         "value": "$core.spacing.3",
         "type": "spacing"

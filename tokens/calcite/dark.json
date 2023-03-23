@@ -1278,12 +1278,7 @@
           "active": {
             "value": "$action.icon.active.dark",
             "type": "color"
-          }
-        },
-        "loader": {
-          "value": "$action.loader-icon.dark",
-          "type": "color"
-        }
+          },
           "idle": {
             "value": "$block.icon.idle.dark",
             "type": "color"
@@ -1305,6 +1300,10 @@
             "type": "color"
           }
         },
+        "loader": {
+          "value": "$action.loader-icon.dark",
+          "type": "color"
+        },
         "border": {
           "value": "$block.border.light",
           "type": "color"
@@ -1312,90 +1311,6 @@
         "background": {
           "value": "$block.background.dark",
           "type": "color"
-        }
-      },
-      "block-section": {
-        "font": {
-          "value": "$block-section.font.dark",
-          "type": "color"
-        },
-        "icon": {
-          "valid": {
-            "value": "$block-section.icon.valid.dark",
-            "type": "color"
-          },
-          "invalid": {
-            "value": "$block-section.icon.invalid.dark",
-            "type": "color"
-          },
-          "chevron": {
-            "value": "$block-section.icon.chevron.dark",
-            "type": "color"
-          }
-        },
-        "background": {
-          "value": "$block-section.background.dark",
-          "type": "color"
-        }
-      },
-      "notice": {
-        "font": {
-          "title": {
-            "value": "$notice.font.title.dark",
-            "type": "color"
-          },
-          "message": {
-            "value": "$notice.font.message.dark",
-            "type": "color"
-          }
-        },
-        "background": {
-          "value": "$notice.background.dark",
-          "type": "color"
-        },
-        "icon": {
-          "info": {
-            "value": "$notice.icon.info.dark",
-            "type": "color"
-          },
-          "success": {
-            "value": "$notice.icon.success.dark",
-            "type": "color"
-          },
-          "warning": {
-            "value": "$notice.icon.warning.dark",
-            "type": "color"
-          },
-          "danger": {
-            "value": "$notice.icon.danger.dark",
-            "type": "color"
-          },
-          "brand": {
-            "value": "$notice.icon.brand.dark",
-            "type": "color"
-          }
-        },
-        "highlight": {
-          "info": {
-            "value": "$notice.highlight.info.dark",
-            "type": "color"
-          },
-          "success": {
-            "value": "$notice.highlight.success.dark",
-            "type": "color"
-          },
-          "warning": {
-            "value": "$notice.highlight.warning.dark",
-            "type": "color"
-          },
-          "danger": {
-            "value": "$notice.highlight.danger.dark",
-            "type": "color"
-          },
-          "brand": {
-            "value": "$notice.highlight.brand.dark",
-            "type": "color"
-          }
         }
       },
       "block-section": {
