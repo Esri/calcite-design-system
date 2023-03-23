@@ -77,7 +77,8 @@
     ease-in-out;
   }
 }
-:host([href]) {
+:host([href]),
+:host([href]:hover) {
   .heading {
     @apply underline;
     color: var(--calcite-ui-text-link);
