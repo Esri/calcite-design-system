@@ -1294,7 +1294,8 @@
             "type": "color"
           },
           "active": {
-            "value": "$action.font.active.light"
+            "value": "$action.font.active.light",
+            "type": "color"
           },
           "description": {
             "value": "$block.font.description.light",
