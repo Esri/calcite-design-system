@@ -1,4 +1,5 @@
 import { closestElementCrossShadowBoundary, containsCrossShadowBoundary } from "./dom";
+import { numberKeys } from "./key";
 import { BigDecimal, isValidNumber, sanitizeExponentialNumberString } from "./number";
 import { createObserver } from "./observers";
 
@@ -436,6 +437,31 @@ export class NumberStringFormat {
             : nonExpoNumString
         )
       : numberString;
+
+  /*
+   * Formats latin numerals one by one into the Class's numberingSystem.
+   * Useful for dates/times with seperator chars, since they aren't valid numbers.
+   */
+  localizeNumerals = (value: string): string =>
+    value
+      ? value
+          .split("")
+          .map((char: string) => (numberKeys?.includes(char) ? this._numberFormatter.format(Number(char)) : char))
+          .join("")
+      : "";
+
+  /*
+   * Parses a string and converts numbers in the Class's numberingSystem into
+   * Latin numerals. The string does not have to be a valid number (or parse
+   * to one), so it is useful for dates, times, and user inputs.
+   */
+  delocalizeNumerals = (value: string): string =>
+    value
+      ? value
+          .split("")
+          .map((char: string) => this.delocalize(char))
+          .join("")
+      : "";
 }
 
 export const numberStringFormatter = new NumberStringFormat();

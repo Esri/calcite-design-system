@@ -43,7 +43,6 @@ import {
   submitForm
 } from "../../utils/form";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
-import { numberKeys } from "../../utils/key";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
 import {
   componentLoaded,
@@ -301,8 +300,8 @@ export class InputDatePicker
   private calciteInternalInputInputHandler = (event: CustomEvent<any>): void => {
     const target = event.target as HTMLCalciteInputElement;
     const value = target.value;
-    const parsedValue = this.parseNumerals(value);
-    const formattedValue = this.formatNumerals(parsedValue);
+    const parsedValue = numberStringFormatter.delocalizeNumerals(value);
+    const formattedValue = numberStringFormatter.localizeNumerals(parsedValue);
 
     target.value = formattedValue;
 
@@ -858,9 +857,10 @@ export class InputDatePicker
       : null;
 
     const localizedDate =
-      date && this.formatNumerals(date.toLocaleDateString(this.effectiveLocale));
+      date && numberStringFormatter.localizeNumerals(date.toLocaleDateString(this.effectiveLocale));
     const localizedEndDate =
-      endDate && this.formatNumerals(endDate.toLocaleDateString(this.effectiveLocale));
+      endDate &&
+      numberStringFormatter.localizeNumerals(endDate.toLocaleDateString(this.effectiveLocale));
 
     localizedDate && this.setInputValue(localizedDate, "start");
     this.range && localizedEndDate && this.setInputValue(localizedEndDate, "end");
@@ -941,30 +941,4 @@ export class InputDatePicker
       `The specified value "${value}" does not conform to the required format, "YYYY-MM-DD".`
     );
   }
-
-  private commonDateSeparators = [".", "-", "/"];
-
-  private formatNumerals = (value: string): string =>
-    value
-      ? value
-          .split("")
-          .map((char: string) =>
-            this.commonDateSeparators?.includes(char)
-              ? this.localeData?.separator
-              : numberKeys?.includes(char)
-              ? numberStringFormatter?.numberFormatter?.format(Number(char))
-              : char
-          )
-          .join("")
-      : "";
-
-  private parseNumerals = (value: string): string =>
-    value
-      ? value
-          .split("")
-          .map((char: string) =>
-            numberKeys.includes(char) ? numberStringFormatter.delocalize(char) : char
-          )
-          .join("")
-      : "";
 }
