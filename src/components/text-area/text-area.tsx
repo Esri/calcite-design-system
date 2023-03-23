@@ -318,6 +318,7 @@ export class TextArea
   /** Selects the text of the component's `value`. */
   @Method()
   async selectText(): Promise<void> {
+    await componentLoaded(this);
     this.textAreaEl.select();
   }
   //--------------------------------------------------------------------------
