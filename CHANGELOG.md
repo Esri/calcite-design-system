@@ -9,9 +9,11 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ### Bug Fixes
 
-- restore form control validation in Safari ([#6623](https://github.com/Esri/calcite-components/issues/6623)) ([b293077](https://github.com/Esri/calcite-components/commit/b293077bb38b41df3726e2afbad1682e922c9c55)), closes [#6626](https://github.com/Esri/calcite-components/issues/6626)
+- **tile:** adds styling to `tile` where `link` is present for additional distinction ([#6628](https://github.com/Esri/calcite-components/issues/6628)) ([093ae47](https://github.com/Esri/calcite-components/commit/093ae474cca3f35bd749988dd3f026e51c3d5520)), closes [#5608](https://github.com/Esri/calcite-components/issues/5608)
 
-* **accordion, accordion-item:** now wraps long words in header (title & description) ([#6608](https://github.com/Esri/calcite-components/issues/6608)) ([46575ff](https://github.com/Esri/calcite-components/commit/46575ff836ca941a518d46c1f4c11b83b5da3e02)), closes [#5683](https://github.com/Esri/calcite-components/issues/5683)
+* restore form control validation in Safari ([#6623](https://github.com/Esri/calcite-components/issues/6623)) ([b293077](https://github.com/Esri/calcite-components/commit/b293077bb38b41df3726e2afbad1682e922c9c55)), closes [#6626](https://github.com/Esri/calcite-components/issues/6626)
+
+- **accordion, accordion-item:** now wraps long words in header (title & description) ([#6608](https://github.com/Esri/calcite-components/issues/6608)) ([46575ff](https://github.com/Esri/calcite-components/commit/46575ff836ca941a518d46c1f4c11b83b5da3e02)), closes [#5683](https://github.com/Esri/calcite-components/issues/5683)
 
 <!--@unreleased-section-end-->
 
