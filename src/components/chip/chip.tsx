@@ -5,6 +5,7 @@ import {
   Event,
   EventEmitter,
   h,
+  Host,
   Listen,
   Method,
   Prop,
@@ -39,6 +40,7 @@ import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../..
 import { createObserver } from "../../utils/observers";
 import { isActivationKey } from "../../utils/key";
 import { ChipMessages } from "./assets/chip/t9n";
+import { ChipAria } from "./interfaces";
 
 /**
  * @slot - A slot for adding text.
@@ -98,7 +100,7 @@ export class Chip
    *
    * @internal
    */
-  @Prop({ reflect: true, mutable: true }) selectable = false;
+  @Prop({ reflect: true }) selectable = false;
 
   /**
    * This internal property, managed by a containing `calcite-chip-group`, is
@@ -106,10 +108,8 @@ export class Chip
    *
    * @internal
    */
-  @Prop({ mutable: true }) selectionMode: Extract<
-    "multiple" | "single" | "single-persist" | "none",
-    SelectionMode
-  > = "none";
+  @Prop() selectionMode: Extract<"multiple" | "single" | "single-persist" | "none", SelectionMode> =
+    "none";
 
   /** When true, the component is selected.  */
   @Prop({ reflect: true, mutable: true }) selected = false;
@@ -135,7 +135,7 @@ export class Chip
 
   //--------------------------------------------------------------------------
   //
-  //  Private Properties / State
+  //  Private State/Props
   //
   // --------------------------------------------------------------------------
 
@@ -148,16 +148,13 @@ export class Chip
     updateMessages(this, this.effectiveLocale);
   }
 
-  /** determine if there is slotted content for styling purposes */
   @State() private hasContent = false;
 
-  /** determine if there is slotted image for styling purposes */
   @State() private hasImage = false;
 
   private containerEl: HTMLDivElement;
 
-  /** the containing chip group element */
-  private parent: HTMLCalciteChipGroupElement;
+  private parentGroupEl: HTMLCalciteChipGroupElement;
 
   private mutationObserver = createObserver("mutation", () => this.updateHasContent());
 
@@ -189,7 +186,7 @@ export class Chip
   // --------------------------------------------------------------------------
 
   connectedCallback(): void {
-    this.parent = this.el.parentElement as HTMLCalciteChipGroupElement;
+    this.parentGroupEl = this.el.parentElement as HTMLCalciteChipGroupElement;
     connectConditionalSlotComponent(this);
     connectLocalized(this);
     connectMessages(this);
@@ -237,15 +234,6 @@ export class Chip
           break;
       }
     }
-  }
-
-  @Listen("calciteChipInternalSelectionChange", { target: "body" })
-  internalSelectionChangeListener(event: CustomEvent): void {
-    if (event.target !== this.parent) {
-      return;
-    }
-    this.determineActiveItem(event.detail);
-    event.stopPropagation();
   }
 
   //--------------------------------------------------------------------------
@@ -297,28 +285,8 @@ export class Chip
   };
 
   private itemSelectHandler = (): void => {
-    if (this.selectionMode !== "none") {
-      this.calciteChipSelect.emit();
-    }
+    this.calciteChipSelect.emit();
   };
-
-  private determineActiveItem(requestedChip): void {
-    switch (this.selectionMode) {
-      case "multiple":
-        if (this.el === requestedChip) {
-          this.selected = !this.selected;
-        }
-        break;
-
-      case "single":
-        this.selected = this.el === requestedChip ? !this.selected : false;
-        break;
-
-      case "single-persist":
-        this.selected = this.el === requestedChip;
-        break;
-    }
-  }
 
   //--------------------------------------------------------------------------
   //
@@ -362,7 +330,6 @@ export class Chip
         class={CSS.close}
         onClick={this.closeHandler}
         onKeyDown={this.closeButtonKeyDownHandler}
-        ref={(el) => (this.closeButton = el)}
       >
         <calcite-icon
           class={CSS.closeIcon}
@@ -388,45 +355,34 @@ export class Chip
   }
 
   render(): VNode {
-    let aria = {};
-    switch (this.selectionMode) {
-      case "single":
-      case "single-persist":
-        aria = {
-          "aria-checked": toAriaBoolean(this.selected),
-          "aria-labelledby": this.parent.label,
-          role: "radio"
-        };
-        break;
-      case "multiple":
-        aria = {
-          "aria-checked": toAriaBoolean(this.selected),
-          "aria-labelledby": this.parent.label,
-          role: "checkbox"
-        };
-        break;
-    }
+    const aria: ChipAria = {
+      "aria-checked": toAriaBoolean(this.selected),
+      "aria-labelledby": this.parentGroupEl.label,
+      role: this.selectionMode === "multiple" ? "checkbox" : "radio"
+    };
 
     return (
-      <div
-        {...aria}
-        class={{
-          [CSS.container]: true,
-          [CSS.contentSlotted]: this.hasContent,
-          [CSS.imageSlotted]: this.hasImage
-        }}
-        onClick={this.itemSelectHandler}
-        ref={(el) => (this.containerEl = el)}
-        tabIndex={0}
-      >
-        {this.selectable && this.selectionMode !== "none" && this.renderSelectionIcon()}
-        {this.renderChipImage()}
-        {this.icon && this.renderIcon()}
-        <span class={CSS.title}>
-          <slot />
-        </span>
-        {this.closable && this.renderCloseButton()}
-      </div>
+      <Host>
+        <div
+          {...aria}
+          class={{
+            [CSS.container]: true,
+            [CSS.contentSlotted]: this.hasContent,
+            [CSS.imageSlotted]: this.hasImage
+          }}
+          onClick={this.itemSelectHandler}
+          ref={(el) => (this.containerEl = el)}
+          tabIndex={0}
+        >
+          {this.selectable && this.selectionMode !== "none" && this.renderSelectionIcon()}
+          {this.renderChipImage()}
+          {this.icon && this.renderIcon()}
+          <span class={CSS.title}>
+            <slot />
+          </span>
+          {this.closable && this.renderCloseButton()}
+        </div>
+      </Host>
     );
   }
 }

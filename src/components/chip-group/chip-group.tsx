@@ -1,15 +1,4 @@
-import {
-  Component,
-  h,
-  VNode,
-  Prop,
-  Element,
-  Listen,
-  EventEmitter,
-  Event,
-  Host,
-  Watch
-} from "@stencil/core";
+import { Component, h, VNode, Prop, Element, Listen, EventEmitter, Event } from "@stencil/core";
 import { focusElementInGroup } from "../../utils/dom";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import { createObserver } from "../../utils/observers";
@@ -60,11 +49,6 @@ export class ChipGroup implements InteractiveComponent {
    */
   @Prop({ mutable: true }) selectedItems: HTMLCalciteChipElement[] = [];
 
-  @Watch("selectedItems")
-  onMessagesChange(): void {
-    this.calciteChipGroupSelectChange.emit();
-  }
-
   //--------------------------------------------------------------------------
   //
   //  Private Properties
@@ -72,7 +56,6 @@ export class ChipGroup implements InteractiveComponent {
   //--------------------------------------------------------------------------
   mutationObserver = createObserver("mutation", () => this.updateItems);
 
-  /** created list of Chip items */
   private items: HTMLCalciteChipElement[] = [];
 
   //--------------------------------------------------------------------------
@@ -80,18 +63,8 @@ export class ChipGroup implements InteractiveComponent {
   //  Events
   //
   //--------------------------------------------------------------------------
-
-  /**
-   *
-   * @internal
-   */
-  @Event({ cancelable: false })
-  calciteChipInternalSelectionChange: EventEmitter<HTMLCalciteChipElement>;
-
-  /**
-   * Emits when the component's selection changes.
-   */
-  @Event({ cancelable: false }) calciteChipGroupSelectChange: EventEmitter<void>;
+  /** Emits when the component's selection changes. */
+  @Event({ cancelable: false }) calciteChipGroupSelect: EventEmitter<void>;
 
   //--------------------------------------------------------------------------
   //
@@ -100,7 +73,6 @@ export class ChipGroup implements InteractiveComponent {
   //--------------------------------------------------------------------------
   connectedCallback(): void {
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
-    this.updateItems;
   }
 
   componentDidRender(): void {
@@ -119,8 +91,6 @@ export class ChipGroup implements InteractiveComponent {
   @Listen("calciteInternalChipKeyEvent")
   calciteInternalChipKeyEvent(event: CustomEvent): void {
     if (event.composedPath().includes(this.el)) {
-      console.log(event.detail.key);
-
       switch (event.detail.key) {
         case "ArrowRight":
           focusElementInGroup(this.items, event.detail.target, "next");
@@ -154,9 +124,10 @@ export class ChipGroup implements InteractiveComponent {
   }
 
   @Listen("calciteChipSelect")
-  updateActiveItemOnChange(event: CustomEvent): void {
-    this.calciteChipInternalSelectionChange.emit(event.target as HTMLCalciteChipElement);
-    this.selectedItems = this.items.filter((item) => item.selected);
+  calciteChipSelectListener(event: CustomEvent): void {
+    if (event.composedPath().includes(this.el)) {
+      this.setSelectedItems(event);
+    }
   }
 
   //--------------------------------------------------------------------------
@@ -170,12 +141,41 @@ export class ChipGroup implements InteractiveComponent {
       .assignedElements({ flatten: true })
       .filter((el) => el?.matches("calcite-chip")) as HTMLCalciteChipElement[];
 
-    updatedChips?.map((el) => {
+    updatedChips.forEach((el) => {
       el.selectable = this.selectionMode !== "none";
       el.selectionMode = this.selectionMode;
     });
 
     this.items = updatedChips;
+    this.setSelectedItems();
+  };
+
+  private setSelectedItems = (event?: Event): void => {
+    if (event) {
+      this.items.forEach((el) => {
+        const matchingEl = event.target === el;
+        switch (this.selectionMode) {
+          case "multiple":
+            if (matchingEl) {
+              el.selected = !el.selected;
+            }
+            break;
+
+          case "single":
+            el.selected = matchingEl ? !el.selected : false;
+            break;
+
+          case "single-persist":
+            el.selected = !!matchingEl;
+            break;
+        }
+      });
+    }
+
+    this.selectedItems = this.items.filter((el) => el.selected);
+    if (event) {
+      this.calciteChipGroupSelect.emit();
+    }
   };
 
   //--------------------------------------------------------------------------
@@ -189,11 +189,9 @@ export class ChipGroup implements InteractiveComponent {
       this.selectionMode === "none" || this.selectionMode === "multiple" ? "group" : "radiogroup";
 
     return (
-      <Host>
-        <div aria-label={this.label} class="container" role={role}>
-          <slot onSlotchange={this.updateItems} />
-        </div>
-      </Host>
+      <div aria-label={this.label} class="container" role={role}>
+        <slot onSlotchange={this.updateItems} />
+      </div>
     );
   }
 }
