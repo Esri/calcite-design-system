@@ -67,13 +67,16 @@ import { DatePickerMessages } from "../date-picker/assets/date-picker/t9n";
 import { DateLocaleData, getLocaleData, getValueAsDateRange } from "../date-picker/utils";
 import { HeadingLevel } from "../functional/Heading";
 import { CSS } from "./resources";
+import { connectMessages, disconnectMessages, setUpMessages, T9nComponent } from "../../utils/t9n";
+import { InputDatePickerMessages } from "./assets/input-date-picker/t9n";
 
 @Component({
   tag: "calcite-input-date-picker",
   styleUrl: "input-date-picker.scss",
   shadow: {
     delegatesFocus: true
-  }
+  },
+  assetsDirs: ["assets"]
 })
 export class InputDatePicker
   implements
@@ -83,7 +86,8 @@ export class InputDatePicker
     OpenCloseComponent,
     FloatingUIComponent,
     LocalizedComponent,
-    LoadableComponent
+    LoadableComponent,
+    T9nComponent
 {
   //--------------------------------------------------------------------------
   //
@@ -173,6 +177,25 @@ export class InputDatePicker
 
   /** The component's value as a full date object. */
   @Prop({ mutable: true }) valueAsDate: Date | Date[];
+
+  /**
+   * Use this property to override individual strings used by the component.
+   */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
+  @Prop({ mutable: true }) messageOverrides: Partial<InputDatePickerMessages & DatePickerMessages>;
+
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @internal
+   */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
+  @Prop({ mutable: true }) messages: InputDatePickerMessages;
+
+  @Watch("messageOverrides")
+  onMessagesChange(): void {
+    /* wired up by t9n util */
+  }
 
   /** Specifies the earliest allowed date as a full date object. */
   @Prop({ mutable: true }) minAsDate: Date;
@@ -276,12 +299,6 @@ export class InputDatePicker
 
   /** Defines the layout of the component. */
   @Prop({ reflect: true }) layout: "horizontal" | "vertical" = "horizontal";
-
-  /**
-   * Use this property to override individual strings used by the component.
-   */
-  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
-  @Prop({ mutable: true }) messageOverrides: Partial<DatePickerMessages>;
 
   //--------------------------------------------------------------------------
   //
@@ -417,6 +434,7 @@ export class InputDatePicker
     connectLabel(this);
     connectForm(this);
     connectOpenCloseComponent(this);
+    connectMessages(this);
 
     this.setFilteredPlacements();
     this.reposition(true);
@@ -430,7 +448,7 @@ export class InputDatePicker
 
   async componentWillLoad(): Promise<void> {
     setUpLoadableComponent(this);
-    await this.loadLocaleData();
+    await Promise.all([this.loadLocaleData(), setUpMessages(this)]);
     this.onMinChanged(this.min);
     this.onMaxChanged(this.max);
   }
@@ -447,6 +465,7 @@ export class InputDatePicker
     disconnectFloatingUI(this, this.referenceEl, this.floatingEl);
     disconnectOpenCloseComponent(this);
     disconnectLocalized(this);
+    disconnectMessages(this);
   }
 
   componentDidRender(): void {
@@ -454,7 +473,7 @@ export class InputDatePicker
   }
 
   render(): VNode {
-    const { disabled, effectiveLocale, numberingSystem, readOnly } = this;
+    const { disabled, effectiveLocale, messages, numberingSystem, readOnly } = this;
     numberStringFormatter.numberFormatOptions = {
       numberingSystem,
       locale: effectiveLocale,
@@ -465,39 +484,40 @@ export class InputDatePicker
       <Host onBlur={this.deactivate} onKeyDown={this.keyDownHandler} role="application">
         {this.localeData && (
           <div aria-expanded={toAriaBoolean(this.open)} class="input-container" role="application">
-            {
-              <div
-                class="input-wrapper"
+            <div
+              class="input-wrapper"
+              // eslint-disable-next-line react/jsx-sort-props
+              ref={this.setStartWrapper}
+            >
+              <calcite-input
+                class={`input ${
+                  this.layout === "vertical" && this.range ? `no-bottom-border` : ``
+                }`}
+                disabled={disabled}
+                icon="calendar"
+                label={getLabelText(this)}
+                number-button-type="none"
+                numberingSystem={numberingSystem}
+                onCalciteInputInput={this.calciteInternalInputInputHandler}
+                onCalciteInternalInputBlur={this.calciteInternalInputBlurHandler}
+                onCalciteInternalInputFocus={this.startInputFocus}
+                placeholder={this.localeData?.placeholder}
+                readOnly={readOnly}
+                scale={this.scale}
+                type="text"
                 // eslint-disable-next-line react/jsx-sort-props
-                ref={this.setStartWrapper}
-              >
-                <calcite-input
-                  class={`input ${
-                    this.layout === "vertical" && this.range ? `no-bottom-border` : ``
-                  }`}
-                  disabled={disabled}
-                  icon="calendar"
-                  label={getLabelText(this)}
-                  number-button-type="none"
-                  numberingSystem={numberingSystem}
-                  onCalciteInputInput={this.calciteInternalInputInputHandler}
-                  onCalciteInternalInputBlur={this.calciteInternalInputBlurHandler}
-                  onCalciteInternalInputFocus={this.startInputFocus}
-                  placeholder={this.localeData?.placeholder}
-                  readOnly={readOnly}
-                  scale={this.scale}
-                  type="text"
-                  // eslint-disable-next-line react/jsx-sort-props
-                  ref={this.setStartInput}
-                />
-              </div>
-            }
+                ref={this.setStartInput}
+              />
+            </div>
             <div
               aria-hidden={toAriaBoolean(!this.open)}
+              aria-label={messages.chooseDate}
+              aria-modal="true"
               class={{
                 [CSS.menu]: true,
                 [CSS.menuActive]: this.open
               }}
+              role="dialog"
               // eslint-disable-next-line react/jsx-sort-props
               ref={this.setFloatingEl}
             >
@@ -595,6 +615,8 @@ export class InputDatePicker
   defaultValue: InputDatePicker["value"];
 
   @State() datePickerActiveDate: Date;
+
+  @State() defaultMessages: InputDatePickerMessages;
 
   @State() effectiveLocale = "";
 

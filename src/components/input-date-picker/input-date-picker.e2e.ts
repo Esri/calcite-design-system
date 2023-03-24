@@ -6,7 +6,8 @@ import {
   labelable,
   floatingUIOwner,
   renders,
-  hidden
+  hidden,
+  t9n
 } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { CSS } from "./resources";
@@ -33,6 +34,8 @@ describe("calcite-input-date-picker", () => {
   it("is labelable", async () => labelable("calcite-input-date-picker"));
 
   it("can be disabled", () => disabled("calcite-input-date-picker"));
+
+  it("supports t9n", () => t9n("calcite-input-date-picker"));
 
   describe("event emitting when the value changes", () => {
     it("emits change event when value is committed for single date", async () => {
