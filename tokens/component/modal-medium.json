@@ -41,7 +41,7 @@
           "type": "typography"
         },
         "lg": {
-          "value": "$semantic.font.default.regualr.1h",
+          "value": "$semantic.font.default.regular.1h",
           "type": "typography"
         }
       }

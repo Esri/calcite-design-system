@@ -1396,6 +1396,50 @@
             "type": "color"
           }
         }
+      },
+      "modal-medium": {
+        "font": {
+          "header": {
+            "value": "$modal-medium.font.header.dark",
+            "type": "color"
+          },
+          "content": {
+            "value": "$modal-medium.font.content.dark",
+            "type": "color"
+          }
+        },
+        "icon": {
+          "value": "$modal-medium.icon.dark",
+          "type": "color"
+        },
+        "border": {
+          "default": {
+            "value": "$modal-medium.border.default.dark",
+            "type": "color"
+          },
+          "top": {
+            "brand": {
+              "value": "$modal-medium.border.top.brand.dark",
+              "type": "color"
+            },
+            "info": {
+              "value": "$modal-medium.border.top.info.dark",
+              "type": "color"
+            },
+            "success": {
+              "value": "$modal-medium.border.top.success.dark",
+              "type": "color"
+            },
+            "danger": {
+              "value": "$modal-medium.border.top.danger.dark",
+              "type": "color"
+            },
+            "warning": {
+              "value": "$modal-medium.border.top.warning.dark",
+              "type": "color"
+            }
+          }
+        }
       }
     }
   }
