@@ -1,5 +1,5 @@
 {
-  "modal-medium": {
+  "modal": {
     "font": {
       "header": {
         "light": {
@@ -200,6 +200,20 @@
           "value": "$core.spacing.8",
           "type": "spacing"
         }
+      },
+      "cancel-button": {
+        "sm": {
+          "value": "$core.spacing.1",
+          "type": "spacing"
+        },
+        "md": {
+          "value": "$core.spacing.1",
+          "type": "spacing"
+        },
+        "lg": {
+          "value": "$core.spacing.1",
+          "type": "spacing"
+        }
       }
     },
     "[specific-element]": {
@@ -269,6 +283,20 @@
       "md": {
         "value": "$core.border.border-radius.1",
         "type": "borderRadius"
+      }
+    },
+    "comp-size": {
+      "small-width": {
+        "value": "512",
+        "type": "sizing"
+      },
+      "medium-width": {
+        "value": "768px",
+        "type": "sizing"
+      },
+      "full-width": {
+        "value": "1504px",
+        "type": "sizing"
       }
     }
   }

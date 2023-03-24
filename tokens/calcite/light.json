@@ -1421,48 +1421,52 @@
           }
         }
       },
-      "modal-medium": {
+      "modal": {
         "font": {
           "header": {
-            "value": "$modal-medium.font.header.light",
+            "value": "$modal.font.header.light",
             "type": "color"
           },
           "content": {
-            "value": "$modal-medium.font.content.light",
+            "value": "$modal.font.content.light",
             "type": "color"
           }
         },
         "icon": {
-          "value": "$modal-medium.icon.light",
+          "value": "$modal.icon.light",
           "type": "color"
         },
         "border": {
           "default": {
-            "value": "$modal-medium.border.default.light",
+            "value": "$modal.border.default.light",
             "type": "color"
           },
           "top": {
             "brand": {
-              "value": "$modal-medium.border.top.brand.light",
+              "value": "$modal.border.top.brand.light",
               "type": "color"
             },
             "info": {
-              "value": "$modal-medium.border.top.info.light",
+              "value": "$modal.border.top.info.light",
               "type": "color"
             },
             "success": {
-              "value": "$modal-medium.border.top.success.light",
+              "value": "$modal.border.top.success.light",
               "type": "color"
             },
             "danger": {
-              "value": "$modal-medium.border.top.danger.light",
+              "value": "$modal.border.top.danger.light",
               "type": "color"
             },
             "warning": {
-              "value": "$modal-medium.border.top.warning.light",
+              "value": "$modal.border.top.warning.light",
               "type": "color"
             }
           }
+        },
+        "background": {
+          "value": "$modal.background.light",
+          "type": "color"
         }
       }
     }

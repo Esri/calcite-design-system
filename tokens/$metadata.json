@@ -35,7 +35,7 @@
     "component/input-time",
     "component/input-text",
     "component/input-week",
-    "component/modal-medium",
+    "component/modal",
     "component/notice",
     "component/textarea",
     "component/label",
