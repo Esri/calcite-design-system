@@ -1,5 +1,4 @@
 import { Build, Component, Element, h, Method, Prop, State, VNode, Watch } from "@stencil/core";
-import "form-request-submit-polyfill/form-request-submit-polyfill";
 import { closestElementCrossShadowBoundary } from "../../utils/dom";
 import { FormOwner, resetForm, submitForm } from "../../utils/form";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";

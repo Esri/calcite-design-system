@@ -55,8 +55,8 @@ import { ModalMessages } from "./assets/modal/t9n";
 /**
  * @slot header - A slot for adding header text.
  * @slot content - A slot for adding the component's content.
- * @slot contentTop - A slot for adding the component's content header.
- * @slot contentBottom - A slot for adding the component's content footer.
+ * @slot content-top - A slot for adding content to the component's sticky header, where content remains at the top of the component when scrolling up and down.
+ * @slot content-bottom - A slot for adding content to the component's sticky footer, where content remains at the bottom of the component when scrolling up and down.
  * @slot primary - A slot for adding a primary button.
  * @slot secondary - A slot for adding a secondary button.
  * @slot back - A slot for adding a back button.
