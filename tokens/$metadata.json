@@ -47,6 +47,7 @@
     "component/rating",
     "component/tip",
     "component/tooltip",
+    "component/panel-header",
     "component/pagination",
     "component/segmented-control",
     "component/stepper",

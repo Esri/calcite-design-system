@@ -1468,6 +1468,24 @@
           "value": "$modal.background.light",
           "type": "color"
         }
+      },
+      "panel-header": {
+        "font": {
+          "value": "$panel-header.font.light",
+          "type": "color"
+        },
+        "icon": {
+          "value": "$panel-header.icon.light",
+          "type": "color"
+        },
+        "border": {
+          "value": "$panel-header.border.light",
+          "type": "color"
+        },
+        "background": {
+          "value": "$panel-header.background.light",
+          "type": "color"
+        }
       }
     }
   }

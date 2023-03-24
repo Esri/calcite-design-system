@@ -1444,6 +1444,24 @@
           "value": "$modal.background.dark",
           "type": "color"
         }
+      },
+      "panel-header": {
+        "font": {
+          "value": "$panel-header.font.dark",
+          "type": "color"
+        },
+        "icon": {
+          "value": "$panel-header.icon.dark",
+          "type": "color"
+        },
+        "border": {
+          "value": "$panel-header.border.dark",
+          "type": "color"
+        },
+        "background": {
+          "value": "$panel-header.background.dark",
+          "type": "color"
+        }
       }
     }
   }
