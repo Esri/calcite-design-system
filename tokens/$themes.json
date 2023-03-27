@@ -6,8 +6,7 @@
       "core": "source",
       "semantic": "source",
       "brand/global": "enabled",
-      "brand/light": "enabled",
-      "component/popover": "disabled"
+      "brand/light": "enabled"
     },
     "$figmaStyleReferences": {}
   },
@@ -18,8 +17,7 @@
       "core": "source",
       "semantic": "source",
       "brand/global": "enabled",
-      "brand/dark": "enabled",
-      "component/popover": "disabled"
+      "brand/dark": "enabled"
     },
     "$figmaStyleReferences": {}
   },
@@ -49,8 +47,7 @@
       "component/switch": "source",
       "component/tooltip": "source",
       "core": "source",
-      "semantic": "source",
-      "component/popover": "disabled"
+      "semantic": "source"
     },
     "$figmaStyleReferences": {
       "color.brand.default": "S:b28244f76fae4e504bbfa18bb30e111e02a00461,",
@@ -139,8 +136,7 @@
       "component/pagination": "source",
       "component/segmented-control": "source",
       "component/switch": "source",
-      "component/stepper-item": "source",
-      "component/popover": "disabled"
+      "component/stepper-item": "source"
     },
     "$figmaStyleReferences": {
       "color.brand.default": "S:4ae7e0e0a08b9109fef0b6c2cb45185a3b711de8,",
