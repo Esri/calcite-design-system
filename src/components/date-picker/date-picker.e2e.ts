@@ -18,7 +18,7 @@ describe("calcite-date-picker", () => {
     ]));
 
   it("focusable", async () =>
-    focusable("<calcite-date-picker></calcite-date-picker>", {
+    focusable("calcite-date-picker", {
       shadowFocusTargetSelector: "calcite-date-picker-month-header"
     }));
 

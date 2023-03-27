@@ -4,7 +4,7 @@ import { SLOTS } from "./resources";
 
 const actionGroupHTML = `<calcite-action-group scale="l">
       <calcite-action id="plus" slot="menu-actions" text="Add" icon="plus"></calcite-action>
-      <calcite-action id="banaa" slot="menu-actions" text="Banana" icon="banana"></calcite-action>
+      <calcite-action id="banana" slot="menu-actions" text="Banana" icon="banana"></calcite-action>
       </calcite-action-group>`;
 
 describe("calcite-action-group", () => {
