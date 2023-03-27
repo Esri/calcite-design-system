@@ -1462,6 +1462,24 @@
           "value": "$panel-header.background.dark",
           "type": "color"
         }
+      },
+      "popover": {
+        "font": {
+          "value": "$popover.font.dark",
+          "type": "color"
+        },
+        "icon": {
+          "value": "$popover.icon.dark",
+          "type": "color"
+        },
+        "border": {
+          "value": "$popover.border.dark",
+          "type": "color"
+        },
+        "background": {
+          "value": "$popover.background.dark",
+          "type": "color"
+        }
       }
     }
   }
