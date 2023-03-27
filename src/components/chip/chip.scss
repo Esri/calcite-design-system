@@ -42,9 +42,12 @@
     font-medium;
 }
 
+/*
 .container.is-selectable {
   @apply cursor-pointer;
 }
+*/
+
 .container {
   @apply inline-flex h-full max-w-full items-center rounded-full;
   @apply focus-base;

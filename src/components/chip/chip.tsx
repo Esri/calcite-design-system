@@ -363,9 +363,11 @@ export class Chip
             [CSS.imageSlotted]: this.hasImage
           }}
           onClick={this.itemSelectHandler}
-          ref={(el) => (this.containerEl = el)}
           tabIndex={0}
+          // eslint-disable-next-line react/jsx-sort-props
+          ref={(el) => (this.containerEl = el)}
         >
+          {this.selectionMode !== "none" && this.renderSelectionIcon()}
           {this.renderChipImage()}
           {this.icon && this.renderIcon()}
           <span class={CSS.title}>
