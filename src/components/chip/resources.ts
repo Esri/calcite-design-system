@@ -7,7 +7,7 @@ export const CSS = {
   contentSlotted: "content--slotted",
   container: "container",
   imageSlotted: "image--slotted",
-  selectable: "is-selectable"
+  selectable: "selectable"
 };
 
 export const SLOTS = {

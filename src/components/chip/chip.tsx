@@ -367,9 +367,8 @@ export class Chip
           class={{
             [CSS.container]: true,
             [CSS.contentSlotted]: this.hasContent,
-            [CSS.imageSlotted]: this.hasImage
-            // [CSS.selectable]: true
-            // [CSS.selectable]: this.selectionMode !== "none"
+            [CSS.imageSlotted]: this.hasImage,
+            [CSS.selectable]: true
           }}
           onClick={this.itemSelectHandler}
           tabIndex={0}
