@@ -88,6 +88,9 @@ export class Chip
   /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";
 
+  /** Accessible name for the component. */
+  @Prop() label: any;
+
   /** The component's value. */
   @Prop() value!: any;
 
@@ -100,8 +103,11 @@ export class Chip
    *
    * @internal
    */
-  @Prop() selectionMode: Extract<"multiple" | "single" | "single-persist" | "none", SelectionMode> =
-    "none";
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by parent chip-group
+  @Prop({ mutable: true }) selectionMode: Extract<
+    "multiple" | "single" | "single-persist" | "none",
+    SelectionMode
+  > = "none";
 
   /** When true, the component is selected.  */
   @Prop({ reflect: true, mutable: true }) selected = false;
@@ -349,6 +355,7 @@ export class Chip
   render(): VNode {
     const aria: ChipAria = {
       "aria-checked": toAriaBoolean(this.selected),
+      "aria-label": this.label,
       "aria-labelledby": this.parentGroupEl.label,
       role: this.selectionMode === "multiple" ? "checkbox" : "radio"
     };
@@ -361,6 +368,8 @@ export class Chip
             [CSS.container]: true,
             [CSS.contentSlotted]: this.hasContent,
             [CSS.imageSlotted]: this.hasImage
+            // [CSS.isSelectable]: true
+            // [CSS.isSelectable]: this.selectionMode !== "none"
           }}
           onClick={this.itemSelectHandler}
           tabIndex={0}

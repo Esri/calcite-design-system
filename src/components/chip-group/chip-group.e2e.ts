@@ -15,8 +15,8 @@ describe("calcite-chip-group", () => {
     it("is accessible in selection mode none (default)", async () => {
       await accessible(
         html`<calcite-chip-group label="test-label">
-          <calcite-chip value="test"></calcite-chip>
-          <calcite-chip value="test"></calcite-chip>
+          <calcite-chip label="test-label"></calcite-chip>
+          <calcite-chip label="test-label"></calcite-chip>
         </calcite-chip-group>`
       );
     });
@@ -24,8 +24,8 @@ describe("calcite-chip-group", () => {
     it("is accessible in selection mode single", async () => {
       await accessible(
         html` <calcite-chip-group label="test-label" selection-mode="single">
-          <calcite-chip value="test"></calcite-chip>
-          <calcite-chip value="test"></calcite-chip>
+          <calcite-chip label="test-label"></calcite-chip>
+          <calcite-chip label="test-label"></calcite-chip>
         </calcite-chip-group>`
       );
     });
@@ -33,8 +33,8 @@ describe("calcite-chip-group", () => {
     it("is accessible in selection mode single-persist", async () => {
       await accessible(
         html`<calcite-chip-group label="test-label" selection-mode="single-persist">
-          <calcite-chip value="test"></calcite-chip>
-          <calcite-chip value="test"></calcite-chip>
+          <calcite-chip label="test-label"></calcite-chip>
+          <calcite-chip label="test-label"></calcite-chip>
         </calcite-chip-group>`
       );
     });
@@ -42,8 +42,8 @@ describe("calcite-chip-group", () => {
     it("is accessible in selection mode multiple", async () => {
       await accessible(
         html`<calcite-chip-group label="test-label" selection-mode="multiple">
-          <calcite-chip value="test"></calcite-chip>
-          <calcite-chip value="test"></calcite-chip>
+          <calcite-chip label="test-label"></calcite-chip>
+          <calcite-chip label="test-label"></calcite-chip>
         </calcite-chip-group>`
       );
     });
@@ -54,9 +54,9 @@ describe("calcite-chip-group", () => {
       const page = await newE2EPage();
       await page.setContent(
         html`<calcite-chip-group label="test-label" selection-mode="single">
-          <calcite-chip id="chip-1" value="test"></calcite-chip>
-          <calcite-chip id="chip-2" selected value="test"></calcite-chip>
-          <calcite-chip id="chip-3" value="test"></calcite-chip>
+          <calcite-chip id="chip-1" label="test-label"></calcite-chip>
+          <calcite-chip id="chip-2" selected label="test-label"></calcite-chip>
+          <calcite-chip id="chip-3" label="test-label"></calcite-chip>
         </calcite-chip-group>`
       );
       await page.waitForChanges();
@@ -107,8 +107,8 @@ describe("calcite-chip-group", () => {
       const page = await newE2EPage();
       await page.setContent(
         html`<calcite-chip-group label="test-label">
-          <calcite-chip id="chip-1" value="test"></calcite-chip>
-          <calcite-chip id="chip-2" value="test"></calcite-chip>
+          <calcite-chip id="chip-1" label="test-label"></calcite-chip>
+          <calcite-chip id="chip-2" label="test-label"></calcite-chip>
         </calcite-chip-group>`
       );
       await page.waitForChanges();
@@ -146,8 +146,8 @@ describe("calcite-chip-group", () => {
       const page = await newE2EPage();
       await page.setContent(
         html`<calcite-chip-group label="test-label" selection-mode="single-persist">
-          <calcite-chip id="chip-1" selected value="test"></calcite-chip>
-          <calcite-chip id="chip-2" value="test"></calcite-chip>
+          <calcite-chip id="chip-1" selected label="test-label"></calcite-chip>
+          <calcite-chip id="chip-2" label="test-label"></calcite-chip>
         </calcite-chip-group>`
       );
       await page.waitForChanges();
@@ -185,9 +185,9 @@ describe("calcite-chip-group", () => {
       const page = await newE2EPage();
       await page.setContent(
         html`<calcite-chip-group label="test-label" selection-mode="multiple">
-          <calcite-chip id="chip-1" value="test"></calcite-chip>
-          <calcite-chip id="chip-2" value="test"></calcite-chip>
-          <calcite-chip id="chip-3" value="test"></calcite-chip>
+          <calcite-chip id="chip-1" label="test-label"></calcite-chip>
+          <calcite-chip id="chip-2" label="test-label"></calcite-chip>
+          <calcite-chip id="chip-3" label="test-label"></calcite-chip>
         </calcite-chip-group>`
       );
       await page.waitForChanges();
@@ -256,11 +256,11 @@ describe("calcite-chip-group", () => {
       const page = await newE2EPage();
       await page.setContent(
         html`<calcite-chip-group label="test-label" selection-mode="single">
-          <calcite-chip id="chip-1" value="test"></calcite-chip>
-          <calcite-chip id="chip-2" value="test"></calcite-chip>
-          <calcite-chip id="chip-3" value="test"></calcite-chip>
-          <calcite-chip id="chip-4" value="test"></calcite-chip>
-          <calcite-chip id="chip-5" value="test"></calcite-chip>
+          <calcite-chip id="chip-1" label="test-label"></calcite-chip>
+          <calcite-chip id="chip-2" label="test-label"></calcite-chip>
+          <calcite-chip id="chip-3" label="test-label"></calcite-chip>
+          <calcite-chip id="chip-4" label="test-label"></calcite-chip>
+          <calcite-chip id="chip-5" label="test-label"></calcite-chip>
         </calcite-chip-group>`
       );
 
@@ -307,11 +307,11 @@ describe("calcite-chip-group", () => {
       const page = await newE2EPage();
       await page.setContent(
         html` <calcite-chip-group label="test-label" selection-mode="single">
-          <calcite-chip closable id="chip-1" value="test"></calcite-chip>
-          <calcite-chip closable id="chip-2" value="test"></calcite-chip>
-          <calcite-chip closable id="chip-3" value="test"></calcite-chip>
-          <calcite-chip closable id="chip-4" value="test"></calcite-chip>
-          <calcite-chip closable id="chip-5" value="test"></calcite-chip>
+          <calcite-chip closable id="chip-1" label="test-label"></calcite-chip>
+          <calcite-chip closable id="chip-2" label="test-label"></calcite-chip>
+          <calcite-chip closable id="chip-3" label="test-label"></calcite-chip>
+          <calcite-chip closable id="chip-4" label="test-label"></calcite-chip>
+          <calcite-chip closable id="chip-5" label="test-label"></calcite-chip>
         </calcite-chip-group>`
       );
 
@@ -353,11 +353,11 @@ describe("calcite-chip-group", () => {
       const page = await newE2EPage();
       await page.setContent(
         html`<calcite-chip-group label="test-label" selection-mode="single">
-          <calcite-chip closable id="chip-1" value="test"></calcite-chip>
-          <calcite-chip closable id="chip-2" value="test"></calcite-chip>
-          <calcite-chip closable id="chip-3" value="test"></calcite-chip>
-          <calcite-chip closable id="chip-4" value="test"></calcite-chip>
-          <calcite-chip closable id="chip-5" value="test"></calcite-chip>
+          <calcite-chip closable id="chip-1" label="test-label"></calcite-chip>
+          <calcite-chip closable id="chip-2" label="test-label"></calcite-chip>
+          <calcite-chip closable id="chip-3" label="test-label"></calcite-chip>
+          <calcite-chip closable id="chip-4" label="test-label"></calcite-chip>
+          <calcite-chip closable id="chip-5" label="test-label"></calcite-chip>
         </calcite-chip-group>`
       );
 
@@ -388,11 +388,11 @@ describe("calcite-chip-group", () => {
     const page = await newE2EPage();
     await page.setContent(
       html`<calcite-chip-group label="test-label" selection-mode="multiple">
-        <calcite-chip id="chip-1" value="test"></calcite-chip>
-        <calcite-chip id="chip-2" value="test"></calcite-chip>
-        <calcite-chip id="chip-3" value="test"></calcite-chip>
-        <calcite-chip selected id="chip-4" value="test"></calcite-chip>
-        <calcite-chip selected id="chip-5" value="test"></calcite-chip>
+        <calcite-chip id="chip-1" label="test-label"></calcite-chip>
+        <calcite-chip id="chip-2" label="test-label"></calcite-chip>
+        <calcite-chip id="chip-3" label="test-label"></calcite-chip>
+        <calcite-chip selected id="chip-4" label="test-label"></calcite-chip>
+        <calcite-chip selected id="chip-5" label="test-label"></calcite-chip>
       </calcite-chip-group>`
     );
     const element = await page.find("calcite-chip-group");
