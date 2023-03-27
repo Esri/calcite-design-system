@@ -81,6 +81,36 @@
         "value": "$core.spacing.0",
         "type": "spacing"
       }
+    },
+    "dropdown-icon": {
+      "space-around": {
+        "child-level-1": {
+          "left": {
+            "value": "$core.spacing.none",
+            "type": "spacing"
+          }
+        },
+        "child-level-2": {
+          "left": {
+            "value": "$core.spacing.7",
+            "type": "spacing"
+          }
+        },
+        "child-level-3": {
+          "left": {
+            "value": "$core.spacing.11",
+            "type": "spacing"
+          }
+        }
+      }
+    },
+    "selection-icon": {
+      "space-around": {
+        "left-right": {
+          "value": "$core.spacing.5",
+          "type": "spacing"
+        }
+      }
     }
   }
 }
