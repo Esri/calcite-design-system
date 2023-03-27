@@ -42,7 +42,7 @@
     font-medium;
 }
 
-:host([selectable]) .container {
+.container.is-selectable {
   @apply cursor-pointer;
 }
 .container {
@@ -86,21 +86,21 @@
   margin-inline-end: theme("spacing.2");
 }
 
-:host([scale="s"]:not([closable]):not([selectable])) .container:not(.content--slotted) {
+:host([scale="s"]:not([closable])) .container:not(.content--slotted):not(.is-selectable) {
   @apply w-6 h-6;
   & .image-container {
     padding-inline: theme("spacing[0.5]");
   }
 }
 
-:host([scale="m"]:not([closable]):not([selectable])) .container:not(.content--slotted) {
+:host([scale="m"]:not([closable])) .container:not(.content--slotted):not(.is-selectable) {
   @apply w-8 h-8;
   & .image-container {
     padding-inline: theme("spacing.1");
   }
 }
 
-:host([scale="l"]:not([closable]):not([selectable])) .container:not(.content--slotted) {
+:host([scale="l"]:not([closable])) .container:not(.content--slotted):not(.is-selectable) {
   @apply w-11 h-11;
   & .image-container {
     padding-inline: calc(theme("spacing.3") / 2);

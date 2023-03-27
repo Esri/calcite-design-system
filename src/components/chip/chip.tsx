@@ -100,14 +100,6 @@ export class Chip
    *
    * @internal
    */
-  @Prop({ reflect: true }) selectable = false;
-
-  /**
-   * This internal property, managed by a containing `calcite-chip-group`, is
-   * conditionally set based on the `selectionMode` of the parent
-   *
-   * @internal
-   */
   @Prop() selectionMode: Extract<"multiple" | "single" | "single-persist" | "none", SelectionMode> =
     "none";
 
@@ -374,7 +366,6 @@ export class Chip
           ref={(el) => (this.containerEl = el)}
           tabIndex={0}
         >
-          {this.selectable && this.selectionMode !== "none" && this.renderSelectionIcon()}
           {this.renderChipImage()}
           {this.icon && this.renderIcon()}
           <span class={CSS.title}>

@@ -137,16 +137,14 @@ export class ChipGroup implements InteractiveComponent {
   //--------------------------------------------------------------------------
 
   private updateItems = (event: Event): void => {
-    const updatedChips = (event.target as HTMLSlotElement)
+    this.items = (event.target as HTMLSlotElement)
       .assignedElements({ flatten: true })
       .filter((el) => el?.matches("calcite-chip")) as HTMLCalciteChipElement[];
 
-    updatedChips.forEach((el) => {
-      el.selectable = this.selectionMode !== "none";
+    this.items.forEach((el) => {
       el.selectionMode = this.selectionMode;
     });
 
-    this.items = updatedChips;
     this.setSelectedItems();
   };
 
@@ -173,6 +171,7 @@ export class ChipGroup implements InteractiveComponent {
     }
 
     this.selectedItems = this.items.filter((el) => el.selected);
+
     if (event) {
       this.calciteChipGroupSelect.emit();
     }
