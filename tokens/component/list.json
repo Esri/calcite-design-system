@@ -24,6 +24,18 @@
           "value": "$semantic.ui.color.text.3.dark",
           "type": "color"
         }
+      },
+      "group-heading": {
+        "value": "$semantic.font.default.bold.-1h",
+        "type": "typography",
+        "light": {
+          "value": "$semantic.ui.color.text.2.light",
+          "type": "color"
+        },
+        "dark": {
+          "value": "$semantic.ui.color.text.2.dark",
+          "type": "color"
+        }
       }
     },
     "icon": {
@@ -126,6 +138,22 @@
       "dark": {
         "value": "$semantic.ui.color.foreground.1.dark",
         "type": "color"
+      },
+      "group-heading": {
+        "light": {
+          "value": "$semantic.ui.color.foreground.2.light",
+          "type": "color"
+        },
+        "dark": {
+          "value": "$semantic.ui.color.foreground.2.dark",
+          "type": "color"
+        }
+      }
+    },
+    "group-heading": {
+      "space-around": {
+        "value": "$core.spacing.5",
+        "type": "spacing"
       }
     }
   }
