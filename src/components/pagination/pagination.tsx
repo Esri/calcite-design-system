@@ -259,12 +259,14 @@ export class Pagination implements LocalizedComponent, LocalizedComponent, T9nCo
     };
 
     const displayedPage = numberStringFormatter.localize(page.toString());
+    const selected = start === this.startItem;
 
     return (
       <button
+        aria-current={selected ? "page" : "false"}
         class={{
           [CSS.page]: true,
-          [CSS.selected]: start === this.startItem
+          [CSS.selected]: selected
         }}
         onClick={() => {
           this.startItem = start;
