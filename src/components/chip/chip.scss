@@ -163,7 +163,6 @@ button {
   }
 }
 
-// select icon
 .select-icon {
   align-self: center;
   align-content: center;
@@ -198,7 +197,6 @@ button {
   opacity: 1;
 }
 
-//slotted image
 .image-container {
   @apply inline-flex overflow-hidden;
 }
@@ -207,7 +205,6 @@ slot[name="image"]::slotted(*) {
   @apply rounded-half flex h-full w-full overflow-hidden;
 }
 
-//icon
 .chip-icon {
   @apply relative
     my-0

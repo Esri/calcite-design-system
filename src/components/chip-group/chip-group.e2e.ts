@@ -388,11 +388,11 @@ describe("calcite-chip-group", () => {
     const page = await newE2EPage();
     await page.setContent(
       html`<calcite-chip-group label="test-label" selection-mode="multiple">
-        <calcite-chip id="chip-1" label="test-label"></calcite-chip>
-        <calcite-chip id="chip-2" label="test-label"></calcite-chip>
-        <calcite-chip id="chip-3" label="test-label"></calcite-chip>
-        <calcite-chip selected id="chip-4" label="test-label"></calcite-chip>
-        <calcite-chip selected id="chip-5" label="test-label"></calcite-chip>
+        <calcite-chip label="test-label"></calcite-chip>
+        <calcite-chip label="test-label"></calcite-chip>
+        <calcite-chip label="test-label"></calcite-chip>
+        <calcite-chip selected label="test-label"></calcite-chip>
+        <calcite-chip selected label="test-label"></calcite-chip>
       </calcite-chip-group>`
     );
     const element = await page.find("calcite-chip-group");
