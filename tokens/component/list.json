@@ -1,16 +1,12 @@
 {
-  "label": {
+  "list": {
     "font": {
-      "sm": {
+      "label": {
         "value": "$semantic.font.default.regular.-2h",
         "type": "typography"
       },
-      "md": {
-        "value": "$semantic.font.default.regular.-1h",
-        "type": "typography"
-      },
-      "lg": {
-        "value": "$semantic.font.default.regular.0h",
+      "description": {
+        "value": "$semantic.font.default.regular.-2h",
         "type": "typography"
       },
       "light": {
@@ -20,6 +16,70 @@
       "dark": {
         "value": "$semantic.ui.color.text.1.dark",
         "type": "color"
+      }
+    },
+    "icon": {
+      "light": {
+        "value": "$semantic.ui.color.text.1.light",
+        "type": "color"
+      },
+      "dark": {
+        "value": "$semantic.ui.color.text.1.dark",
+        "type": "color"
+      },
+      "selection-single": {
+        "light": {
+          "value": "$semantic.ui.color.brand.default.light",
+          "type": "color"
+        },
+        "dark": {
+          "value": "$semantic.ui.color.brand.default.dark",
+          "type": "color"
+        }
+      },
+      "selection-multi": {
+        "light": {
+          "value": "$semantic.ui.color.brand.default.light",
+          "type": "color"
+        },
+        "dark": {
+          "value": "$semantic.ui.color.brand.default.dark",
+          "type": "color"
+        }
+      }
+    },
+    "border": {
+      "value": "$core.border.border-width.2",
+      "type": "borderWidth",
+      "highlight": {
+        "light": {
+          "value": "$semantic.ui.color.brand.default.light",
+          "type": "color"
+        },
+        "dark": {
+          "value": "$semantic.ui.color.brand.default.dark",
+          "type": "color"
+        }
+      }
+    },
+    "content": {
+      "space-around": {
+        "top-bottom": {
+          "value": "$core.spacing.3",
+          "type": "spacing"
+        },
+        "left": {
+          "value": "$core.spacing.6",
+          "type": "spacing"
+        },
+        "right": {
+          "value": "$core.spacing.5",
+          "type": "spacing"
+        }
+      },
+      "space-between": {
+        "value": "$core.spacing.0",
+        "type": "spacing"
       }
     }
   }

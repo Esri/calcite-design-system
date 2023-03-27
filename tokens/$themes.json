@@ -6,9 +6,7 @@
       "core": "source",
       "semantic": "source",
       "brand/global": "enabled",
-      "brand/light": "enabled",
-      "component/[template-comp-name]_Copy": "disabled",
-      "component/list": "disabled"
+      "brand/light": "enabled"
     },
     "$figmaStyleReferences": {}
   },
@@ -19,9 +17,7 @@
       "core": "source",
       "semantic": "source",
       "brand/global": "enabled",
-      "brand/dark": "enabled",
-      "component/[template-comp-name]_Copy": "disabled",
-      "component/list": "disabled"
+      "brand/dark": "enabled"
     },
     "$figmaStyleReferences": {}
   },
