@@ -68,7 +68,7 @@ export class Panel
   @Prop({ reflect: true }) disabled = false;
 
   /** When `true`, displays a close button in the trailing side of the header. */
-  @Prop({ mutable: true, reflect: true }) closable = false;
+  @Prop({ reflect: true }) closable = false;
 
   /**
    * Specifies the number at which section headings should start.
@@ -96,6 +96,7 @@ export class Panel
   /**
    * Use this property to override individual strings used by the component.
    */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
   @Prop({ mutable: true }) messageOverrides: Partial<PanelMessages>;
 
   /**
@@ -103,6 +104,7 @@ export class Panel
    *
    * @internal
    */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
   @Prop({ mutable: true }) messages: PanelMessages;
 
   @Watch("messageOverrides")

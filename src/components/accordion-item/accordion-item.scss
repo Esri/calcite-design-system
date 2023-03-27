@@ -102,6 +102,7 @@
     items-center
     duration-150
     ease-in-out;
+  @include word-break();
 }
 
 :host .content {
