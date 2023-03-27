@@ -2,14 +2,15 @@
   display: flex;
 }
 
-:host .container {
+.container {
   display: flex;
   inline-size: 100%;
   flex-wrap: wrap;
   gap: theme("spacing.2");
-  ::slotted(calcite-chip) {
-    flex: none;
-  }
+}
+
+::slotted(calcite-chip) {
+  flex: none;
 }
 
 :host([scale="s"]) .container {

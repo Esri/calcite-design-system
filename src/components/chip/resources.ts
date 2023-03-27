@@ -7,7 +7,9 @@ export const CSS = {
   contentSlotted: "content--slotted",
   container: "container",
   imageSlotted: "image--slotted",
-  selectable: "selectable"
+  selectable: "selectable",
+  selectIcon: "select-icon",
+  selectIconActive: "select-icon--active"
 };
 
 export const SLOTS = {
@@ -15,5 +17,8 @@ export const SLOTS = {
 };
 
 export const ICONS = {
-  close: "x"
+  close: "x",
+  unchecked: "circle",
+  checkedSingle: "circle-f",
+  checked: "check-circle-f"
 };

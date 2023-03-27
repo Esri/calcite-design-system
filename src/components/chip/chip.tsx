@@ -303,20 +303,21 @@ export class Chip
   renderSelectionIcon(): VNode {
     const icon =
       this.selectionMode === "multiple" && this.selected
-        ? "check-circle-f"
+        ? ICONS.checked
         : this.selectionMode === "multiple"
-        ? "circle"
-        : this.selected && "circle-f";
+        ? ICONS.unchecked
+        : this.selected
+        ? ICONS.checkedSingle
+        : undefined;
 
     return (
       <div
-        class={`select-icon ${this.selectionMode === "multiple" || this.selected ? "active" : ""}`}
+        class={{
+          [CSS.selectIcon]: true,
+          [CSS.selectIconActive]: this.selectionMode === "multiple" || this.selected
+        }}
       >
-        <calcite-icon
-          class={CSS.chipIcon}
-          icon={icon ? icon : undefined}
-          scale={this.scale === "l" ? "m" : "s"}
-        />
+        <calcite-icon class={CSS.chipIcon} icon={icon} scale={this.scale === "l" ? "m" : "s"} />
       </div>
     );
   }

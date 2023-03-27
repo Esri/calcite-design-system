@@ -172,22 +172,22 @@ button {
   opacity: 0;
   transition: opacity 0.15s ease-in-out, inline-size 0.15s ease-in-out;
 
-  &.active {
+  &.select-icon--active {
     visibility: visible;
     opacity: 0.5;
   }
 }
-.container:hover .select-icon.active {
+.container:hover .select-icon.select-icon--active {
   opacity: 1;
 }
 // explicit width for transition
-:host([scale="s"]) .select-icon.active {
+:host([scale="s"]) .select-icon.select-icon--active {
   inline-size: theme("spacing.6");
 }
-:host([scale="m"]) .select-icon.active {
+:host([scale="m"]) .select-icon.select-icon--active {
   inline-size: theme("spacing.7");
 }
-:host([scale="l"]) .select-icon.active {
+:host([scale="l"]) .select-icon.select-icon--active {
   inline-size: theme("spacing.8");
 }
 
