@@ -270,9 +270,9 @@ describe("calcite-chip-group", () => {
       const chip4 = await page.find("#chip-4");
       const chip5 = await page.find("#chip-5");
 
-      await chip2.click();
+      await chip1.click();
       await page.waitForChanges();
-      expect(await page.evaluate(() => document.activeElement)).toEqual(chip1.id);
+      expect(await page.evaluate(() => document.activeElement.id)).toEqual(chip1.id);
 
       await page.keyboard.press("ArrowRight");
       await page.waitForChanges();

@@ -89,7 +89,7 @@ export class ChipGroup implements InteractiveComponent {
   //--------------------------------------------------------------------------
 
   @Listen("calciteInternalChipKeyEvent")
-  calciteInternalChipKeyEvent(event: CustomEvent): void {
+  calciteInternalChipKeyEventListener(event: CustomEvent): void {
     if (event.composedPath().includes(this.el)) {
       switch (event.detail.key) {
         case "ArrowRight":
@@ -109,7 +109,7 @@ export class ChipGroup implements InteractiveComponent {
   }
 
   @Listen("calciteChipClose")
-  calciteChipListener(event: CustomEvent): void {
+  calciteChipCloseListener(event: CustomEvent): void {
     const item = event.target as HTMLCalciteChipElement;
     if (this.items.includes(item)) {
       if (this.items.indexOf(item) > 0) {
