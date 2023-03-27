@@ -108,7 +108,7 @@ export class DatePicker implements LocalizedComponent, T9nComponent {
   @Prop({ mutable: true }) maxAsDate: Date;
 
   /** Specifies the earliest allowed date (`"yyyy-mm-dd"`). */
-  @Prop({ mutable: true, reflect: true }) min: string;
+  @Prop({ reflect: true }) min: string;
 
   @Watch("min")
   onMinChanged(min: string): void {
@@ -118,7 +118,7 @@ export class DatePicker implements LocalizedComponent, T9nComponent {
   }
 
   /** Specifies the latest allowed date (`"yyyy-mm-dd"`). */
-  @Prop({ mutable: true, reflect: true }) max: string;
+  @Prop({ reflect: true }) max: string;
 
   @Watch("max")
   onMaxChanged(max: string): void {
@@ -145,6 +145,7 @@ export class DatePicker implements LocalizedComponent, T9nComponent {
   /**
    * Use this property to override individual strings used by the component.
    */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
   @Prop({ mutable: true }) messageOverrides: Partial<DatePickerMessages>;
 
   /**
@@ -152,6 +153,7 @@ export class DatePicker implements LocalizedComponent, T9nComponent {
    *
    * @internal
    */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
   @Prop({ mutable: true }) messages: DatePickerMessages;
 
   @Watch("messageOverrides")

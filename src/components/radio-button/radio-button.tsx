@@ -114,6 +114,7 @@ export class RadioButton
   @Prop({ reflect: true }) scale: Scale = "m";
 
   /** The component's value. */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by form module
   @Prop({ mutable: true }) value!: any;
 
   //--------------------------------------------------------------------------

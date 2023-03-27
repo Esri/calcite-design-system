@@ -8,7 +8,8 @@ describe("calcite-pagination", () => {
 
   it("honors hidden attribute", async () => hidden("calcite-pagination"));
 
-  it("is accessible", async () => accessible(`<calcite-pagination></calcite-pagination>`));
+  it("is accessible", async () =>
+    accessible(`<calcite-pagination page-size="10" start-item="50" total-items="100"></calcite-pagination>`));
 
   it("supports translations", () => t9n("calcite-pagination"));
 
