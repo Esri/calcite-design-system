@@ -106,17 +106,29 @@
           "left": {
             "value": "$core.spacing.none",
             "type": "spacing"
+          },
+          "right": {
+            "value": "$core.spacing.none",
+            "type": "spacing"
           }
         },
         "child-level-2": {
           "left": {
             "value": "$core.spacing.7",
             "type": "spacing"
+          },
+          "right": {
+            "value": "$core.spacing.none",
+            "type": "spacing"
           }
         },
         "child-level-3": {
           "left": {
             "value": "$core.spacing.11",
+            "type": "spacing"
+          },
+          "right": {
+            "value": "$core.spacing.none",
             "type": "spacing"
           }
         }
