@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Calcite Nav</title>
+    <link rel="stylesheet" href="https://webapps-cdn.esri.com/CDN/fonts/v1.4.1/fonts.css" />
+    <link rel="stylesheet" href="../build/calcite.css" />
+    <script type="module" src="../build/calcite.esm.js"></script>
+    <script nomodule src="../build/calcite.js"></script>
+    <script src="_assets/head.js"></script>
+
+    <!-- Chart JS-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.css" />
+
+    <!-- JSAPI-->
+    <script src="https://js.arcgis.com/4.19/"></script>
+    <link rel="stylesheet" href="https://js.arcgis.com/4.19/esri/themes/light/main.css" />
+
+    <!-- Project files-->
+    <link rel="stylesheet" href="/demos/_assets/nav-demos.css" />
+  </head>
+
+  <body>
+    <calcite-nav-menu layout="horizontal">
+      <calcite-nav-menu-item href="#calcite-nav-menu" text-enabled text="props" dropdown-position="horizontal">
+        <calcite-nav-menu-item slot="menu-item-dropdown" text-enabled text="scale">
+          <calcite-nav-menu-item slot="menu-item-dropdown" text-enabled text="s">
+            <calcite-nav-menu-item slot="menu-item-dropdown" text-enabled text="small"></calcite-nav-menu-item>
+          </calcite-nav-menu-item>
+          <calcite-nav-menu-item slot="menu-item-dropdown" text-enabled text="m"></calcite-nav-menu-item>
+        </calcite-nav-menu-item>
+        <calcite-nav-menu-item slot="menu-item-dropdown" text-enabled text="appearance"> </calcite-nav-menu-item>
+        <calcite-nav-menu-item slot="menu-item-dropdown" text-enabled text="color"> </calcite-nav-menu-item>
+      </calcite-nav-menu-item>
+      <calcite-nav-menu-item href="#calcite-nav-menu" text-enabled text="States"> </calcite-nav-menu-item>
+      <calcite-nav-menu-item href="#calcite-nav-menu" text-enabled text="Events"> </calcite-nav-menu-item>
+    </calcite-nav-menu>
+
+    <calcite-nav-menu layout="vertical">
+      <calcite-nav-menu-item href="#calcite-nav-menu" text-enabled text="props" dropdown-position="horizontal">
+        <calcite-nav-menu-item slot="menu-item-dropdown" text-enabled text="scale">
+          <calcite-nav-menu-item slot="menu-item-dropdown" text-enabled text="s">
+            <calcite-nav-menu-item slot="menu-item-dropdown" text-enabled text="small"></calcite-nav-menu-item>
+          </calcite-nav-menu-item>
+          <calcite-nav-menu-item slot="menu-item-dropdown" text-enabled text="m"></calcite-nav-menu-item>
+        </calcite-nav-menu-item>
+      </calcite-nav-menu-item>
+      <calcite-nav-menu-item href="#calcite-nav-menu" text-enabled text="States"> </calcite-nav-menu-item>
+      <calcite-nav-menu-item href="#calcite-nav-menu" text-enabled text="Events"> </calcite-nav-menu-item>
+    </calcite-nav-menu>
+    <calcite-button> FOCUS</calcite-button>
+
+    <script type="module">
+      await customElements.whenDefined("calcite-nav-menu-item");
+      const buttonEl = document.querySelector("calcite-button");
+      const navitem = document.querySelector('calcite-nav-menu-item[text="States"]');
+      buttonEl.addEventListener("click", async () => {
+        navitem.setFocus();
+      });
+    </script>
+  </body>
+</html>

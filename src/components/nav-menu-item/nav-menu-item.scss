@@ -40,6 +40,16 @@
   border-block-end: 0;
   border-inline-end: 4px solid transparent;
 }
+
+// .layout--vertical {
+//   display: flex;
+//   inline-size: 100%;
+//   @apply py-4;
+//   justify-content: flex-start;
+//   border-block-end: 0;
+//   border-inline-end: 4px solid transparent;
+// }
+
 a:focus ~ calcite-action,
 a:hover ~ calcite-action {
   @apply text-color-1;

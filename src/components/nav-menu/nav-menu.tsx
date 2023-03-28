@@ -1,5 +1,5 @@
 import { Component, Element, h, Host, Listen, Prop, State } from "@stencil/core";
-import { focusElementInGroup, getSlotted } from "../../utils/dom";
+import { focusElementInGroup, getHost, getRootNode, getSlotted } from "../../utils/dom";
 
 @Component({
   tag: "calcite-nav-menu",
@@ -45,15 +45,16 @@ export class CalciteNavMenu {
   //
   // --------------------------------------------------------------------------
   connectedCallback() {
-    this.childNavMenuItems = getSlotted(this.el, "", {
+    const hostElement = getHost(getRootNode(this.el));
+    this.childNavMenuItems = getSlotted(hostElement ? hostElement : this.el, "menu-item-dropdown", {
       all: true,
       matches: "calcite-nav-menu-item"
     }) as HTMLCalciteNavMenuItemElement[];
 
     // todo use slot change
-    this.childNavMenuItems.map((el: HTMLCalciteNavMenuItemElement) => {
-      el.layout = this.layout;
-    });
+    // this.childNavMenuItems.map((el: HTMLCalciteNavMenuItemElement) => {
+    //   el.layout = this.layout;
+    // });
   }
 
   //--------------------------------------------------------------------------
@@ -65,26 +66,26 @@ export class CalciteNavMenu {
   @Listen("calciteInternalNavItemKeyEvent")
   calciteInternalNavMenuItemKeyEvent(event: KeyboardEvent): void {
     const target = event.target as HTMLCalciteNavMenuItemElement;
-    console.log(event.detail["key"]);
-    console.log(this.childNavMenuItems);
+    // console.log(event.detail["key"]);
+    console.log(this.el, this.childNavMenuItems);
     switch (event.detail["key"]) {
       case "ArrowDown":
-        if (target.layout === "vertical") {
+        if (this.layout === "vertical") {
           focusElementInGroup(this.childNavMenuItems, target, "next");
         }
         break;
       case "ArrowUp":
-        if (target.layout === "vertical") {
+        if (this.layout === "vertical") {
           focusElementInGroup(this.childNavMenuItems, target, "previous");
         }
         break;
       case "ArrowRight":
-        if (target.layout === "horizontal") {
+        if (this.layout === "horizontal") {
           focusElementInGroup(this.childNavMenuItems, target, "next");
         }
         break;
       case "ArrowLeft":
-        if (target.layout === "horizontal") {
+        if (this.layout === "horizontal") {
           focusElementInGroup(this.childNavMenuItems, target, "previous");
         }
         break;
