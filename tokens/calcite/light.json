@@ -1294,7 +1294,8 @@
             "type": "color"
           },
           "active": {
-            "value": "$action.font.active.light"
+            "value": "$action.font.active.light",
+            "type": "color"
           },
           "description": {
             "value": "$block.font.description.light",
@@ -1418,6 +1419,90 @@
             "value": "$notice.highlight.brand.light",
             "type": "color"
           }
+        }
+      },
+      "modal": {
+        "font": {
+          "header": {
+            "value": "$modal.font.header.light",
+            "type": "color"
+          },
+          "content": {
+            "value": "$modal.font.content.light",
+            "type": "color"
+          }
+        },
+        "icon": {
+          "value": "$modal.icon.light",
+          "type": "color"
+        },
+        "border": {
+          "default": {
+            "value": "$modal.border.default.light",
+            "type": "color"
+          },
+          "top": {
+            "brand": {
+              "value": "$modal.border.top.brand.light",
+              "type": "color"
+            },
+            "info": {
+              "value": "$modal.border.top.info.light",
+              "type": "color"
+            },
+            "success": {
+              "value": "$modal.border.top.success.light",
+              "type": "color"
+            },
+            "danger": {
+              "value": "$modal.border.top.danger.light",
+              "type": "color"
+            },
+            "warning": {
+              "value": "$modal.border.top.warning.light",
+              "type": "color"
+            }
+          }
+        },
+        "background": {
+          "value": "$modal.background.light",
+          "type": "color"
+        }
+      },
+      "panel-header": {
+        "font": {
+          "value": "$panel-header.font.light",
+          "type": "color"
+        },
+        "icon": {
+          "value": "$panel-header.icon.light",
+          "type": "color"
+        },
+        "border": {
+          "value": "$panel-header.border.light",
+          "type": "color"
+        },
+        "background": {
+          "value": "$panel-header.background.light",
+          "type": "color"
+        }
+      },
+      "popover": {
+        "font": {
+          "value": "$popover.font.light",
+          "type": "color"
+        },
+        "icon": {
+          "value": "$popover.icon.light",
+          "type": "color"
+        },
+        "border": {
+          "value": "$popover.border.light",
+          "type": "color"
+        },
+        "background": {
+          "value": "$popover.background.light",
+          "type": "color"
         }
       }
     }

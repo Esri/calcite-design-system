@@ -1396,6 +1396,90 @@
             "type": "color"
           }
         }
+      },
+      "modal": {
+        "font": {
+          "header": {
+            "value": "$modal.font.header.dark",
+            "type": "color"
+          },
+          "content": {
+            "value": "$modal.font.content.dark",
+            "type": "color"
+          }
+        },
+        "icon": {
+          "value": "$modal.icon.dark",
+          "type": "color"
+        },
+        "border": {
+          "default": {
+            "value": "$modal.border.default.dark",
+            "type": "color"
+          },
+          "top": {
+            "brand": {
+              "value": "$modal.border.top.brand.dark",
+              "type": "color"
+            },
+            "info": {
+              "value": "$modal.border.top.info.dark",
+              "type": "color"
+            },
+            "success": {
+              "value": "$modal.border.top.success.dark",
+              "type": "color"
+            },
+            "danger": {
+              "value": "$modal.border.top.danger.dark",
+              "type": "color"
+            },
+            "warning": {
+              "value": "$modal.border.top.warning.dark",
+              "type": "color"
+            }
+          }
+        },
+        "background": {
+          "value": "$modal.background.dark",
+          "type": "color"
+        }
+      },
+      "panel-header": {
+        "font": {
+          "value": "$panel-header.font.dark",
+          "type": "color"
+        },
+        "icon": {
+          "value": "$panel-header.icon.dark",
+          "type": "color"
+        },
+        "border": {
+          "value": "$panel-header.border.dark",
+          "type": "color"
+        },
+        "background": {
+          "value": "$panel-header.background.dark",
+          "type": "color"
+        }
+      },
+      "popover": {
+        "font": {
+          "value": "$popover.font.dark",
+          "type": "color"
+        },
+        "icon": {
+          "value": "$popover.icon.dark",
+          "type": "color"
+        },
+        "border": {
+          "value": "$popover.border.dark",
+          "type": "color"
+        },
+        "background": {
+          "value": "$popover.background.dark",
+          "type": "color"
+        }
       }
     }
   }
