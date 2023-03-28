@@ -64,7 +64,7 @@ export class Checkbox
    *
    * @internal
    */
-  @Prop({ reflect: true, mutable: true }) hovered = false;
+  @Prop({ reflect: true }) hovered = false;
 
   /**
    * When `true`, the component is initially indeterminate, which is independent from its `checked` value.
@@ -250,9 +250,10 @@ export class Checkbox
           class="toggle"
           onBlur={this.onToggleBlur}
           onFocus={this.onToggleFocus}
-          ref={(toggleEl) => (this.toggleEl = toggleEl)}
           role="checkbox"
           tabIndex={this.disabled ? undefined : 0}
+          // eslint-disable-next-line react/jsx-sort-props
+          ref={(toggleEl) => (this.toggleEl = toggleEl)}
         >
           <svg aria-hidden="true" class="check-svg" viewBox="0 0 16 16">
             <path d={this.getPath()} />

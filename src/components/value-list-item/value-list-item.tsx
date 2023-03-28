@@ -26,6 +26,7 @@ import {
 } from "../../utils/loadable";
 import { CSS, SLOTS as PICK_LIST_SLOTS } from "../pick-list-item/resources";
 import { ICON_TYPES } from "../pick-list/resources";
+import { ListItemAndHandle } from "./interfaces";
 import { ICONS, SLOTS } from "./resources";
 
 /**
@@ -117,6 +118,8 @@ export class ValueListItem
 
   pickListItem: HTMLCalcitePickListItemElement = null;
 
+  handleEl: HTMLSpanElement;
+
   guid = `calcite-value-list-item-${guid()}`;
 
   // --------------------------------------------------------------------------
@@ -181,6 +184,12 @@ export class ValueListItem
    */
   @Event({ cancelable: true }) calciteListItemRemove: EventEmitter<void>; // wrapped pick-list-item emits this
 
+  /**
+   * @internal
+   */
+  @Event({ cancelable: false })
+  calciteValueListItemDragHandleBlur: EventEmitter<ListItemAndHandle>;
+
   @Listen("calciteListItemChange")
   calciteListItemChangeHandler(event: CustomEvent): void {
     // adjust item payload from wrapped item before bubbling
@@ -198,13 +207,13 @@ export class ValueListItem
 
   handleKeyDown = (event: KeyboardEvent): void => {
     if (event.key === " ") {
-      event.preventDefault();
       this.handleActivated = !this.handleActivated;
     }
   };
 
   handleBlur = (): void => {
     this.handleActivated = false;
+    this.calciteValueListItemDragHandleBlur.emit({ item: this.el, handle: this.handleEl });
   };
 
   handleSelectChange = (event: CustomEvent): void => {
@@ -247,6 +256,7 @@ export class ValueListItem
           data-js-handle
           onBlur={this.handleBlur}
           onKeyDown={this.handleKeyDown}
+          ref={(el) => (this.handleEl = el as HTMLSpanElement)}
           role="button"
           tabindex="0"
         >
@@ -268,10 +278,11 @@ export class ValueListItem
           metadata={this.metadata}
           nonInteractive={this.nonInteractive}
           onCalciteListItemChange={this.handleSelectChange}
-          ref={this.getPickListRef}
           removable={this.removable}
           selected={this.selected}
           value={this.value}
+          // eslint-disable-next-line react/jsx-sort-props
+          ref={this.getPickListRef}
         >
           {this.renderActionsStart()}
           {this.renderActionsEnd()}

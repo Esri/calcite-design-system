@@ -3,7 +3,7 @@ labelsToCheck:
   - bug
 commentHeader: "It looks like this issue is missing some information:"
 requiredItems:
-  - response: "- A [codepen](https://codepen.io/pen?template=RwgrjEx), [codesandbox](https://codesandbox.io/s/calcite-template-p95kp?file=/src/App.js), or [jsbin](https://jsbin.com/wiguxohisa/edit?html,output) that reproduces the issue. Alternatively, a [documentation](https://developers.arcgis.com/calcite-design-system/components/) sample can be used if the issue is reproducible. If you are experiencing build or Node related errors, please provide a GitHub repo for the sample."
+  - response: "- A [codepen](https://codepen.io/pen?template=RwgrjEx), [codesandbox](https://codesandbox.io/s/calcite-template-p95kp?file=/src/App.js), or [jsbin](https://jsbin.com/qecewik/edit?html,output) that reproduces the issue. Alternatively, a [documentation](https://developers.arcgis.com/calcite-design-system/components/) sample can be used if the issue is reproducible. If you are experiencing build or Node related errors, please provide a GitHub repo for the sample."
     requireAll: false
     content:
       - "jsbin.com/"

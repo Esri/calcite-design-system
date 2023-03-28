@@ -76,11 +76,13 @@ export class Rating
    *
    * @internal
    */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
   @Prop({ mutable: true }) messages: RatingMessages;
 
   /**
    * Use this property to override individual strings used by the component.
    */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
   @Prop({ mutable: true }) messageOverrides: Partial<RatingMessages>;
 
   @Watch("messageOverrides")
@@ -276,6 +278,9 @@ export class Rating
                       name={this.guid}
                       onChange={this.handleInputChange}
                       onKeyDown={this.handleInputKeyDown}
+                      type="radio"
+                      value={value}
+                      // eslint-disable-next-line react/jsx-sort-props
                       ref={(el) => {
                         this.inputRefs[idx] = el;
                         return (
@@ -283,8 +288,6 @@ export class Rating
                           (this.inputFocusRef = el as HTMLInputElement)
                         );
                       }}
-                      type="radio"
-                      value={value}
                     />
                     <StarIcon full={selected || average} scale={this.scale} />
                     {partial && (

@@ -145,6 +145,7 @@ export class ColorPicker
   /**
    * Use this property to override individual strings used by the component.
    */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
   @Prop({ mutable: true }) messageOverrides: Partial<ColorPickerMessages>;
 
   @Watch("messageOverrides")
@@ -261,6 +262,7 @@ export class ColorPicker
    *
    * @internal
    */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
   @Prop({ mutable: true }) messages: ColorPickerMessages;
 
   @State() savedColors: string[] = [];
@@ -739,6 +741,7 @@ export class ColorPicker
             onPointerEnter={this.handleColorFieldAndSliderPointerEnterOrMove}
             onPointerLeave={this.handleColorFieldAndSliderPointerLeave}
             onPointerMove={this.handleColorFieldAndSliderPointerEnterOrMove}
+            // eslint-disable-next-line react/jsx-sort-props
             ref={this.initColorFieldAndSlider}
           />
           <div
@@ -748,10 +751,11 @@ export class ColorPicker
             aria-valuenow={(vertical ? color?.saturationv() : color?.value()) || "0"}
             class={{ [CSS.scope]: true, [CSS.colorFieldScope]: true }}
             onKeyDown={this.handleColorFieldScopeKeyDown}
-            ref={this.storeColorFieldScope}
             role="slider"
             style={{ top: `${colorFieldScopeTop || 0}px`, left: `${colorFieldScopeLeft || 0}px` }}
             tabindex="0"
+            // eslint-disable-next-line react/jsx-sort-props
+            ref={this.storeColorFieldScope}
           />
           <div
             aria-label={messages.hue}
@@ -760,10 +764,11 @@ export class ColorPicker
             aria-valuenow={color?.round().hue() || DEFAULT_COLOR.round().hue()}
             class={{ [CSS.scope]: true, [CSS.hueScope]: true }}
             onKeyDown={this.handleHueScopeKeyDown}
-            ref={this.storeHueScope}
             role="slider"
             style={{ top: `${hueTop}px`, left: `${hueLeft}px` }}
             tabindex="0"
+            // eslint-disable-next-line react/jsx-sort-props
+            ref={this.storeHueScope}
           />
         </div>
         {hideHex && hideChannels ? null : (

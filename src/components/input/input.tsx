@@ -44,8 +44,13 @@ import {
   NumberingSystem,
   numberStringFormatter
 } from "../../utils/locale";
-import { decimalPlaces } from "../../utils/math";
-import { isValidNumber, parseNumberString, sanitizeNumberString } from "../../utils/number";
+
+import {
+  BigDecimal,
+  isValidNumber,
+  parseNumberString,
+  sanitizeNumberString
+} from "../../utils/number";
 import { createObserver } from "../../utils/observers";
 import { CSS_UTILITY } from "../../utils/resources";
 import {
@@ -96,7 +101,7 @@ export class Input
   @Prop({ reflect: true }) alignment: Position = "start";
 
   /**
-   * When `true`, the component is focused on page load.
+   * When `true`, the component is focused on page load. Only one element can contain `autofocus`. If multiple elements have `autofocus`, the first element will receive focus.
    *
    * @mdn [autofocus](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/autofocus)
    */
@@ -332,11 +337,13 @@ export class Input
    *
    * @internal
    */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
   @Prop({ mutable: true }) messages: InputMessages;
 
   /**
    * Use this property to override individual strings used by the component.
    */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
   @Prop({ mutable: true }) messageOverrides: Partial<InputMessages>;
 
   @Watch("messageOverrides")
@@ -557,7 +564,7 @@ export class Input
     }
   }
 
-  /** Selects all text of the component's `value`. */
+  /** Selects the text of the component's `value`. */
   @Method()
   async selectText(): Promise<void> {
     if (this.type === "number") {
@@ -610,26 +617,32 @@ export class Input
     nativeEvent: KeyboardEvent | MouseEvent
   ): void {
     const { value } = this;
-    const inputStep = this.step === "any" ? 1 : Math.abs(this.step || 1);
-    const inputVal = value && value !== "" ? parseFloat(value) : 0;
-
     const adjustment = direction === "up" ? 1 : -1;
-    const nudgedValue = inputVal + inputStep * adjustment;
-    const finalValue =
-      typeof inputMin === "number" && !isNaN(inputMin) && nudgedValue < inputMin
-        ? inputMin
-        : typeof inputMax === "number" && !isNaN(inputMax) && nudgedValue > inputMax
-        ? inputMax
-        : nudgedValue;
+    const inputStep = this.step === "any" ? 1 : Math.abs(this.step || 1);
+    const inputVal = new BigDecimal(value !== "" ? value : "0");
+    const nudgedValue = inputVal.add(`${inputStep * adjustment}`);
 
-    const inputValPlaces = decimalPlaces(inputVal);
-    const inputStepPlaces = decimalPlaces(inputStep);
+    const nudgedValueBelowInputMin = () =>
+      typeof inputMin === "number" &&
+      !isNaN(inputMin) &&
+      nudgedValue.subtract(`${inputMin}`).isNegative;
+
+    const nudgedValueAboveInputMax = () =>
+      typeof inputMax === "number" &&
+      !isNaN(inputMax) &&
+      !nudgedValue.subtract(`${inputMax}`).isNegative;
+
+    const finalValue = nudgedValueBelowInputMin()
+      ? `${inputMin}`
+      : nudgedValueAboveInputMax()
+      ? `${inputMax}`
+      : nudgedValue.toString();
 
     this.setValue({
       committing: true,
       nativeEvent,
       origin: "user",
-      value: finalValue.toFixed(Math.max(inputValPlaces, inputStepPlaces))
+      value: finalValue
     });
   }
 
@@ -1100,9 +1113,10 @@ export class Input
           pattern={this.pattern}
           placeholder={this.placeholder || ""}
           readOnly={this.readOnly}
-          ref={this.setChildNumberElRef}
           type="text"
           value={this.localizedValue}
+          // eslint-disable-next-line react/jsx-sort-props
+          ref={this.setChildNumberElRef}
         />
       ) : null;
 
@@ -1136,7 +1150,6 @@ export class Input
               pattern={this.pattern}
               placeholder={this.placeholder || ""}
               readOnly={this.readOnly}
-              ref={this.setChildElRef}
               required={this.required ? true : null}
               step={this.step}
               tabIndex={
@@ -1144,6 +1157,8 @@ export class Input
               }
               type={this.type}
               value={this.value}
+              // eslint-disable-next-line react/jsx-sort-props
+              ref={this.setChildElRef}
             />,
             this.isTextarea ? (
               <div class={CSS.resizeIconWrapper}>

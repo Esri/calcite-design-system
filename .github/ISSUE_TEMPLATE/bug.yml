@@ -26,7 +26,7 @@ body:
     attributes:
       label: Reproduction Sample
       description: |
-        We provide the following templates to help get started: [codepen](https://codepen.io/pen?template=RwgrjEx) (just Calcite), [codesandbox](https://codesandbox.io/s/calcite-template-p95kp?file=/src/App.js) (Calcite with React wrapper), or [jsbin](https://jsbin.com/wiguxohisa/edit?html,output) (Calcite with ArcGIS JSAPI). You can also make your own sample using one of the those websites. Alternatively, a [documentation sample](https://developers.arcgis.com/calcite-design-system/components) can be used if the issue is reproducible. If you are experiencing build or Node related errors, please provide a GitHub repo for the sample.
+        We provide the following templates to help get started: [codepen](https://codepen.io/pen?template=RwgrjEx) (just Calcite), [codesandbox](https://codesandbox.io/s/calcite-template-p95kp?file=/src/App.js) (Calcite with React wrapper), or [jsbin](https://jsbin.com/qecewik/edit?html,output) (Calcite with ArcGIS JSAPI). You can also make your own sample using one of the those websites. Alternatively, a [documentation sample](https://developers.arcgis.com/calcite-design-system/components) can be used if the issue is reproducible. If you are experiencing build or Node related errors, please provide a GitHub repo for the sample.
     validations:
       required: true
   - type: textarea
@@ -74,7 +74,8 @@ body:
       multiple: false
       description: What is the impact to you, your team, or organization? Use discretion and only select "need" or "emergency" priorities for high user impact and quality issues. For instance, would someone notice, in a bad way, if this issue were present in the release?
       options:
-        - p3 - not time sensitive
+        - p4 - not time sensitive
+        - p3 - want for upcoming milestone
         - p2 - want for current milestone
         - p1 - need for current milestone
         - p0 - emergency

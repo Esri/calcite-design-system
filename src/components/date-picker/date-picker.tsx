@@ -6,6 +6,7 @@ import {
   EventEmitter,
   h,
   Host,
+  Method,
   Prop,
   State,
   VNode,
@@ -19,6 +20,12 @@ import {
   HoverRange,
   setEndOfDay
 } from "../../utils/date";
+import {
+  componentLoaded,
+  LoadableComponent,
+  setComponentLoaded,
+  setUpLoadableComponent
+} from "../../utils/loadable";
 import {
   connectLocalized,
   disconnectLocalized,
@@ -46,7 +53,7 @@ import { DateLocaleData, getLocaleData, getValueAsDateRange } from "./utils";
     delegatesFocus: true
   }
 })
-export class DatePicker implements LocalizedComponent, T9nComponent {
+export class DatePicker implements LocalizedComponent, LoadableComponent, T9nComponent {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -108,7 +115,7 @@ export class DatePicker implements LocalizedComponent, T9nComponent {
   @Prop({ mutable: true }) maxAsDate: Date;
 
   /** Specifies the earliest allowed date (`"yyyy-mm-dd"`). */
-  @Prop({ mutable: true, reflect: true }) min: string;
+  @Prop({ reflect: true }) min: string;
 
   @Watch("min")
   onMinChanged(min: string): void {
@@ -118,7 +125,7 @@ export class DatePicker implements LocalizedComponent, T9nComponent {
   }
 
   /** Specifies the latest allowed date (`"yyyy-mm-dd"`). */
-  @Prop({ mutable: true, reflect: true }) max: string;
+  @Prop({ reflect: true }) max: string;
 
   @Watch("max")
   onMaxChanged(max: string): void {
@@ -145,6 +152,7 @@ export class DatePicker implements LocalizedComponent, T9nComponent {
   /**
    * Use this property to override individual strings used by the component.
    */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
   @Prop({ mutable: true }) messageOverrides: Partial<DatePickerMessages>;
 
   /**
@@ -152,6 +160,7 @@ export class DatePicker implements LocalizedComponent, T9nComponent {
    *
    * @internal
    */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
   @Prop({ mutable: true }) messages: DatePickerMessages;
 
   @Watch("messageOverrides")
@@ -188,6 +197,19 @@ export class DatePicker implements LocalizedComponent, T9nComponent {
 
   @State() endAsDate: Date;
 
+  //--------------------------------------------------------------------------
+  //
+  //  Public Methods
+  //
+  //--------------------------------------------------------------------------
+
+  /** Sets focus on the component's first focusable element. */
+  @Method()
+  async setFocus(): Promise<void> {
+    await componentLoaded(this);
+    this.el.focus();
+  }
+
   // --------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -218,10 +240,15 @@ export class DatePicker implements LocalizedComponent, T9nComponent {
   }
 
   async componentWillLoad(): Promise<void> {
+    setUpLoadableComponent(this);
     await this.loadLocaleData();
     this.onMinChanged(this.min);
     this.onMaxChanged(this.max);
     await setUpMessages(this);
+  }
+
+  componentDidLoad(): void {
+    setComponentLoaded(this);
   }
 
   render(): VNode {

@@ -367,6 +367,7 @@ export class Select
           class={CSS.select}
           disabled={this.disabled}
           onChange={this.handleInternalSelectChange}
+          // eslint-disable-next-line react/jsx-sort-props
           ref={this.storeSelectRef}
         >
           <slot />

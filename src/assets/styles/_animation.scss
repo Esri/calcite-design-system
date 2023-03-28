@@ -74,6 +74,16 @@
 
 @media (prefers-reduced-motion: reduce) {
   :root {
-    --calcite-internal-duration-factor: 0;
+    // [workaround] using 0.01 to ensure `openCloseComponent` utils work consistently
+    // this should be removed once https://github.com/Esri/calcite-components/issues/6604 is addressed
+    --calcite-internal-duration-factor: 0.01;
   }
+}
+
+/* helper to properly scale internal durations */
+@function scaleDuration($animationVar, $factor) {
+  @return calc(
+    calc(var($animationVar) / var(--calcite-internal-duration-factor)) *
+      calc($factor / var(--calcite-internal-duration-factor))
+  );
 }

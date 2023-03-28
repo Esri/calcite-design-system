@@ -270,10 +270,11 @@ export class ActionMenu implements LoadableComponent {
         <calcite-action
           class={CSS.defaultTrigger}
           icon={ICONS.menu}
-          ref={this.setDefaultMenuButtonEl}
           scale={scale}
           text={label}
           textEnabled={expanded}
+          // eslint-disable-next-line react/jsx-sort-props
+          ref={this.setDefaultMenuButtonEl}
         />
       </slot>
     );
