@@ -1,3 +1,4 @@
+import "form-request-submit-polyfill/form-request-submit-polyfill";
 import { closestElementCrossShadowBoundary } from "./dom";
 import { FunctionalComponent, h } from "@stencil/core";
 
@@ -144,7 +145,7 @@ export function submitForm(component: FormOwner): boolean {
     return false;
   }
 
-  "requestSubmit" in formEl ? formEl.requestSubmit() : (formEl as HTMLFormElement).submit();
+  formEl.requestSubmit();
 
   return true;
 }
