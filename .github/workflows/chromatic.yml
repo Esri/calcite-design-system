@@ -4,12 +4,11 @@ on:
     branches: [master]
   pull_request:
     branches: [master]
-    types: [labeled, ready_for_review]
+    types: [labeled]
 jobs:
   run:
     if: |
-      (github.event.action == 'ready_for_review' && contains(github.event.pull_request.labels.*.name, 'pr ready for visual snapshots')) ||
-      (github.event.action == 'labeled' && github.event.label.name == 'pr ready for visual snapshots' && github.event.pull_request.draft == false) ||
+      (github.event.action == 'labeled' && github.event.label.name == 'pr ready for visual snapshots') ||
       (github.event_name == 'push' && github.actor != 'dependabot[bot]' && github.actor != 'github-actions[bot]')
     runs-on: ubuntu-latest
     steps:
