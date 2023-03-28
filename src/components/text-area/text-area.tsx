@@ -96,6 +96,14 @@ export class TextArea
   @Prop({ reflect: true }) disabled = false;
 
   /**
+   * The ID of the form owner to associate this component with.
+   *
+   * When not set, this component will be associated with its ancestor `<form>` element, if any.
+   */
+  @Prop({ reflect: true })
+  form: string;
+
+  /**
    * When `true`, number values are displayed with a group separator corresponding to the language and country format.
    */
   @Prop({ reflect: true }) groupSeparator = false;
@@ -117,6 +125,7 @@ export class TextArea
    *
    * @internal
    */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
   @Prop({ mutable: true }) messages: TextAreaMessages;
 
   /**
@@ -179,6 +188,7 @@ export class TextArea
   /**
    * Use this property to override individual strings used by the component.
    */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
   @Prop({ mutable: true }) messageOverrides: Partial<TextAreaMessages>;
 
   @Watch("messageOverrides")

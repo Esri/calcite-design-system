@@ -72,6 +72,14 @@ export class Rating
   @Prop({ reflect: true }) disabled = false;
 
   /**
+   * The ID of the form owner to associate this component with.
+   *
+   * When not set, this component will be associated with its ancestor `<form>` element, if any.
+   */
+  @Prop({ reflect: true })
+  form: string;
+
+  /**
    * Made into a prop for testing purposes only
    *
    * @internal

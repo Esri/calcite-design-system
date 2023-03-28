@@ -64,6 +64,14 @@ export class SegmentedControl
   @Prop({ reflect: true }) disabled = false;
 
   /**
+   * The ID of the form owner to associate this component with.
+   *
+   * When not set, this component will be associated with its ancestor `<form>` element, if any.
+   */
+  @Prop({ reflect: true })
+  form: string;
+
+  /**
    * When `true`, the component must have a value in order for the form to submit.
    *
    * @internal
