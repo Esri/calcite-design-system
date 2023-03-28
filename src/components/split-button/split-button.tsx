@@ -1,6 +1,22 @@
-import { Component, Element, Event, EventEmitter, h, Prop, VNode, Watch } from "@stencil/core";
+import {
+  Component,
+  Element,
+  Event,
+  EventEmitter,
+  h,
+  Method,
+  Prop,
+  VNode,
+  Watch
+} from "@stencil/core";
 import { OverlayPositioning } from "../../utils/floating-ui";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import {
+  componentLoaded,
+  LoadableComponent,
+  setComponentLoaded,
+  setUpLoadableComponent
+} from "../../utils/loadable";
 import { DropdownIconType } from "../button/interfaces";
 import { Appearance, FlipContext, Kind, Scale, Width } from "../interfaces";
 import { CSS } from "./resources";
@@ -15,7 +31,7 @@ import { CSS } from "./resources";
     delegatesFocus: true
   }
 })
-export class SplitButton implements InteractiveComponent {
+export class SplitButton implements InteractiveComponent, LoadableComponent {
   @Element() el: HTMLCalciteSplitButtonElement;
 
   /** Specifies the appearance style of the component. */
@@ -108,9 +124,30 @@ export class SplitButton implements InteractiveComponent {
 
   //--------------------------------------------------------------------------
   //
+  //  Public Methods
+  //
+  //--------------------------------------------------------------------------
+
+  /** Sets focus on the component's first focusable element. */
+  @Method()
+  async setFocus(): Promise<void> {
+    await componentLoaded(this);
+    this.el.focus();
+  }
+
+  //--------------------------------------------------------------------------
+  //
   //  Lifecycle
   //
   //--------------------------------------------------------------------------
+
+  componentWillLoad(): void {
+    setUpLoadableComponent(this);
+  }
+
+  componentDidLoad(): void {
+    setComponentLoaded(this);
+  }
 
   componentDidRender(): void {
     updateHostInteraction(this);
