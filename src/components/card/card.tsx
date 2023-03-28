@@ -79,11 +79,13 @@ export class Card implements ConditionalSlotComponent, LocalizedComponent, T9nCo
    *
    * @internal
    */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
   @Prop({ mutable: true }) messages: CardMessages;
 
   /**
    * Use this property to override individual strings used by the component.
    */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
   @Prop({ mutable: true }) messageOverrides: Partial<CardMessages>;
 
   @Watch("messageOverrides")
@@ -194,15 +196,13 @@ export class Card implements ConditionalSlotComponent, LocalizedComponent, T9nCo
   }
 
   private renderCheckbox(): VNode {
-    const checkboxLabel = this.selected ? this.messages.deselect : this.messages.select;
-
     return (
       <calcite-label
         class={CSS.checkboxWrapper}
         onClick={this.cardSelectClick}
         onKeyDown={this.cardSelectKeyDown}
       >
-        <calcite-checkbox checked={this.selected} label={checkboxLabel} />
+        <calcite-checkbox checked={this.selected} label={this.messages.select} />
       </calcite-label>
     );
   }
