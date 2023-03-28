@@ -130,7 +130,7 @@
     "git-semver-tags": "4.1.1",
     "husky": "8.0.3",
     "jest": "27.4.5",
-    "jest-axe": "7.0.0",
+    "jest-axe": "7.0.1",
     "jest-cli": "27.4.5",
     "lint-staged": "13.1.0",
     "markdownlint-cli": "0.33.0",
