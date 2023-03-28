@@ -437,7 +437,7 @@ export class TextArea
 
   // height and width are set to auto here to avoid overlapping on to neighboring elements in the layout when user starts resizing.
   // throttle is used to avoid flashing of textarea when user resizes.
-  setHeightAndWidthToAuto = throttle(
+  private setHeightAndWidthToAuto = throttle(
     (): void => {
       if (this.resize === "vertical" || this.resize === "both") {
         this.el.style.height = "auto";
