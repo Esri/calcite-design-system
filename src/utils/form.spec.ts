@@ -52,8 +52,9 @@ describe("form", () => {
 
     it("finds form via ID", async () => {
       const formEl = document.createElement("form");
-      formEl.id = "test-form";
-      const form = "test-form";
+      const formId = "test-form";
+      formEl.id = formId;
+      const form = formId;
       const el = document.createElement("div");
       document.append(formEl, el);
       const formOwner: FormOwner = { formEl, form, el };

@@ -19,9 +19,9 @@ export interface FormOwner {
   readonly el: HTMLElement;
 
   /**
-   * The ID of the form owner to associate this component with.
+   * The ID of the form to associate with the component.
    *
-   * When not set, this component will be associated with its ancestor `<form>` element, if any.
+   * When not set, the component will be associated with its ancestor `<form>` element, if any.
    *
    * Note that this prop should use the @Prop decorator.
    */
