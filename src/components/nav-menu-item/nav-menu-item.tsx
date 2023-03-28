@@ -138,7 +138,7 @@ export class CalciteNavMenuItem implements LoadableComponent, OpenCloseComponent
   //
   //--------------------------------------------------------------------------
   /** @internal */
-  @Event({ cancelable: false })
+  @Event({ cancelable: true })
   calciteInternalNavItemKeyEvent: EventEmitter<KeyboardEvent>;
 
   /** @internal */
@@ -270,16 +270,25 @@ export class CalciteNavMenuItem implements LoadableComponent, OpenCloseComponent
         }
 
       case "ArrowDown":
-        if (this.topLevelLayout === "horizontal" && this.hasSubMenu) {
-          if (this.subMenuOpen) {
-            setTimeout(() => this.subMenuItems[this.focusedSubMenuItemIndex + 1].setFocus(), 1000);
-          } else {
-            this.subMenuOpen = true;
-            setTimeout(() => this.focusFirst(), 1000);
-          }
+        // if (this.topLevelLayout === "horizontal" && this.hasSubMenu) {
+        //   if (this.subMenuOpen) {
+        //     setTimeout(() => this.subMenuItems[this.focusedSubMenuItemIndex + 1].setFocus(), 1000);
+        //   } else {
+        //     this.subMenuOpen = true;
+        //     setTimeout(() => this.focusFirst(), 1000);
+        //   }
 
+        //   this.calciteInternalNavItemKeyEvent.emit(event);
+        // }
+        if (this.isTopLevelItem) {
+          this.subMenuOpen = true;
+          setTimeout(() => this.focusFirst(), 1000);
+          return;
+        }
+        if (this.topLevelLayout === "horizontal") {
           this.calciteInternalNavItemKeyEvent.emit(event);
         }
+
         break;
 
       case "ArrowUp":
@@ -299,10 +308,33 @@ export class CalciteNavMenuItem implements LoadableComponent, OpenCloseComponent
           this.calciteInternalNavItemKeyEvent.emit(event);
         }
 
+      // if (this.topLevelLayout === "horizontal") {
+      //   if (this.isTopLevelItem) {
+      //     this.calciteInternalNavItemKeyEvent.emit(event);
+      //     return;
+      //   }
+      //   if (this.hasSubMenu) {
+      //     this.subMenuOpen = true;
+      //     setTimeout(() => this.focusFirst(), 1000);
+      //   }
+      // }
+
       case "ArrowRight":
-        if (this.topLevelLayout === "vertical" && this.hasSubMenu) {
-          this.subMenuOpen = true;
-          this.calciteInternalNavItemKeyEvent.emit(event);
+        // if (this.topLevelLayout === "vertical" && this.hasSubMenu) {
+        //   this.subMenuOpen = true;
+        //   console.log("ARROW RIGHT");
+        //   this.calciteInternalNavItemKeyEvent.emit(event);
+        // }
+
+        if (this.topLevelLayout === "horizontal") {
+          if (this.isTopLevelItem) {
+            this.calciteInternalNavItemKeyEvent.emit(event);
+            return;
+          }
+          if (this.hasSubMenu) {
+            this.subMenuOpen = true;
+            setTimeout(() => this.focusFirst(), 1000);
+          }
         }
 
       case "Home":

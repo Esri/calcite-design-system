@@ -45,12 +45,18 @@ export class CalciteNavMenu {
   //
   // --------------------------------------------------------------------------
   connectedCallback() {
+    // get host of nav-menu which  is added for nested submenu and is not part of lightDOM.
     const hostElement = getHost(getRootNode(this.el));
-    this.childNavMenuItems = getSlotted(hostElement ? hostElement : this.el, "menu-item-dropdown", {
-      all: true,
-      matches: "calcite-nav-menu-item"
-    }) as HTMLCalciteNavMenuItemElement[];
 
+    this.childNavMenuItems = getSlotted(
+      hostElement ? hostElement : this.el,
+      hostElement ? "menu-item-dropdown" : "",
+      {
+        all: true,
+        matches: "calcite-nav-menu-item"
+      }
+    ) as HTMLCalciteNavMenuItemElement[];
+    // console.log(hostElement ? hostElement : this.el, this.childNavMenuItems);
     // todo use slot change
     // this.childNavMenuItems.map((el: HTMLCalciteNavMenuItemElement) => {
     //   el.layout = this.layout;
@@ -66,8 +72,7 @@ export class CalciteNavMenu {
   @Listen("calciteInternalNavItemKeyEvent")
   calciteInternalNavMenuItemKeyEvent(event: KeyboardEvent): void {
     const target = event.target as HTMLCalciteNavMenuItemElement;
-    // console.log(event.detail["key"]);
-    console.log(this.el, this.childNavMenuItems);
+    event.stopPropagation();
     switch (event.detail["key"]) {
       case "ArrowDown":
         if (this.layout === "vertical") {
@@ -103,6 +108,7 @@ export class CalciteNavMenu {
         console.log("leave?");
         break;
     }
+    event.preventDefault();
   }
 
   // --------------------------------------------------------------------------
