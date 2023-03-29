@@ -111,7 +111,10 @@ export class CalciteNavMenuItem implements LoadableComponent, OpenCloseComponent
 
   @State() hasSubMenu = false;
 
-  @State() subMenuOpen = false;
+  /**
+   * @internal
+   */
+  @Prop({ mutable: true }) subMenuOpen = false;
 
   @Watch("subMenuOpen")
   subMenuChangeHandler(): void {
@@ -249,7 +252,7 @@ export class CalciteNavMenuItem implements LoadableComponent, OpenCloseComponent
         if (this.href) {
           if (event.target === this.dropDownActionEl && this.hasSubMenu) {
             if (!this.subMenuOpen) {
-              setTimeout(() => this.focusFirst(), 1000);
+              setTimeout(() => this.focusFirst(), 500);
             }
             this.subMenuOpen = !this.subMenuOpen;
           }
@@ -270,19 +273,9 @@ export class CalciteNavMenuItem implements LoadableComponent, OpenCloseComponent
         }
 
       case "ArrowDown":
-        // if (this.topLevelLayout === "horizontal" && this.hasSubMenu) {
-        //   if (this.subMenuOpen) {
-        //     setTimeout(() => this.subMenuItems[this.focusedSubMenuItemIndex + 1].setFocus(), 1000);
-        //   } else {
-        //     this.subMenuOpen = true;
-        //     setTimeout(() => this.focusFirst(), 1000);
-        //   }
-
-        //   this.calciteInternalNavItemKeyEvent.emit(event);
-        // }
         if (this.isTopLevelItem) {
           this.subMenuOpen = true;
-          setTimeout(() => this.focusFirst(), 1000);
+          setTimeout(() => this.focusFirst(), 500);
           return;
         }
         if (this.topLevelLayout === "horizontal") {
@@ -294,38 +287,28 @@ export class CalciteNavMenuItem implements LoadableComponent, OpenCloseComponent
       case "ArrowUp":
         if (this.isTopLevelItem) {
           this.subMenuOpen = true;
-          setTimeout(() => this.focusLast(), 1000);
+          setTimeout(() => this.focusLast(), 500);
           return;
         }
-        console.log("submenu opened", this.el);
+
         if (this.topLevelLayout === "horizontal") {
           this.calciteInternalNavItemKeyEvent.emit(event);
         }
         break;
       case "ArrowLeft":
-        if (this.topLevelLayout === "vertical" && this.hasSubMenu) {
-          this.subMenuOpen = false;
-          this.calciteInternalNavItemKeyEvent.emit(event);
+        if (this.topLevelLayout === "horizontal") {
+          if (this.isTopLevelItem) {
+            this.calciteInternalNavItemKeyEvent.emit(event);
+            return;
+          }
+          if (this.el.parentElement.nodeName === "CALCITE-NAV-MENU-ITEM") {
+            const parentEl = this.el.parentElement as HTMLCalciteNavMenuItemElement;
+            parentEl.setFocus();
+          }
         }
-
-      // if (this.topLevelLayout === "horizontal") {
-      //   if (this.isTopLevelItem) {
-      //     this.calciteInternalNavItemKeyEvent.emit(event);
-      //     return;
-      //   }
-      //   if (this.hasSubMenu) {
-      //     this.subMenuOpen = true;
-      //     setTimeout(() => this.focusFirst(), 1000);
-      //   }
-      // }
+        break;
 
       case "ArrowRight":
-        // if (this.topLevelLayout === "vertical" && this.hasSubMenu) {
-        //   this.subMenuOpen = true;
-        //   console.log("ARROW RIGHT");
-        //   this.calciteInternalNavItemKeyEvent.emit(event);
-        // }
-
         if (this.topLevelLayout === "horizontal") {
           if (this.isTopLevelItem) {
             this.calciteInternalNavItemKeyEvent.emit(event);
@@ -518,7 +501,7 @@ export class CalciteNavMenuItem implements LoadableComponent, OpenCloseComponent
 
   render() {
     return (
-      <Host>
+      <Host onFocus={this.focusHandler}>
         <li
           class={{
             container: true,
@@ -599,5 +582,13 @@ export class CalciteNavMenuItem implements LoadableComponent, OpenCloseComponent
   private focusLast(): void {
     this.focusedSubMenuItemIndex = this.subMenuItems.length - 1;
     setTimeout(() => this.subMenuItems[this.subMenuItems.length - 1].setFocus(), 1000);
+  }
+
+  private focusHandler(event: FocusEvent): void {
+    const target = event.target as HTMLCalciteNavMenuItemElement;
+    if (target.subMenuOpen) {
+      console.log("focus in");
+      target.subMenuOpen = false;
+    }
   }
 }
