@@ -509,212 +509,429 @@ interface FormAssociatedOptions {
  * @param {FormAssociatedOptions} options - form associated options
  */
 export async function formAssociated(componentTagOrHtml: TagOrHTML, options: FormAssociatedOptions): Promise<void> {
-  const componentTag = getTag(componentTagOrHtml);
-  const componentHtml = ensureName(
-    isHTML(componentTagOrHtml) ? componentTagOrHtml : `<${componentTag}></${componentTag}>`
-  );
+  async function testAncestorFormAssociated(): Promise<void> {
+    const componentTag = getTag(componentTagOrHtml);
+    const componentHtml = ensureName(
+      isHTML(componentTagOrHtml) ? componentTagOrHtml : `<${componentTag}></${componentTag}>`
+    );
 
-  function ensureName(html: string): string {
-    return html.includes("name=") ? html : html.replace(componentTag, `${componentTag} name="testName" `);
-  }
+    function ensureName(html: string): string {
+      return html.includes("name=") ? html : html.replace(componentTag, `${componentTag} name="testName" `);
+    }
 
-  const page = await newE2EPage({
-    html: html`<form>
-      ${componentHtml}
-      <!--
+    const page = await newE2EPage({
+      html: html`<form>
+        ${componentHtml}
+        <!--
           keeping things simple by using submit-type input
           this should cover button and calcite-button submit cases
           -->
-      <input id="submitter" type="submit" />
-    </form>`
-  });
+        <input id="submitter" type="submit" />
+      </form>`
+    });
 
-  await page.waitForChanges();
-
-  const component = await page.find(componentTag);
-  const checkable =
-    typeof options.testValue === "boolean" && (await page.$eval(componentTag, (component) => "checked" in component));
-  const resettablePropName = checkable ? "checked" : "value";
-  const initialValue = await component.getProperty(resettablePropName);
-  const name = await component.getProperty("name");
-
-  await assertValueSubmissionType();
-  await assertValueResetOnFormReset();
-  await assertValueSubmittedOnFormSubmit();
-
-  if (options.submitsOnEnter) {
-    await assertFormSubmitOnEnter();
-  }
-
-  async function assertValueSubmissionType(): Promise<void> {
-    const inputType = options.inputType ?? "text";
-
-    const hiddenFormInputType = await page.evaluate(
-      async (inputName: string, hiddenFormInputSlotName: string): Promise<string> => {
-        const hiddenFormInput = document.querySelector<HTMLInputElement>(
-          `[name="${inputName}"] input[slot=${hiddenFormInputSlotName}]`
-        );
-
-        return hiddenFormInput.type;
-      },
-      name,
-      hiddenFormInputSlotName
-    );
-
-    if (checkable) {
-      expect(hiddenFormInputType).toMatch(/radio|checkbox/);
-    } else {
-      expect(hiddenFormInputType).toMatch(inputType);
-    }
-  }
-
-  async function assertValueResetOnFormReset(): Promise<void> {
-    component.setProperty(resettablePropName, options.testValue);
     await page.waitForChanges();
 
-    await page.$eval("form", (form: HTMLFormElement) => form.reset());
-    await page.waitForChanges();
+    const component = await page.find(componentTag);
+    const checkable =
+      typeof options.testValue === "boolean" && (await page.$eval(componentTag, (component) => "checked" in component));
+    const resettablePropName = checkable ? "checked" : "value";
+    const initialValue = await component.getProperty(resettablePropName);
+    const name = await component.getProperty("name");
 
-    expect(await component.getProperty(resettablePropName)).toBe(initialValue);
-  }
+    await assertValueSubmissionType();
+    await assertValueResetOnFormReset();
+    await assertValueSubmittedOnFormSubmit();
 
-  async function assertValueSubmittedOnFormSubmit(): Promise<void> {
-    const stringifiedTestValue = stringifyTestValue(options.testValue);
-
-    if (checkable) {
-      component.setProperty("checked", true);
-      await page.waitForChanges();
-      expect(await submitAndGetValue()).toEqual("on");
-
-      component.setProperty("value", options.testValue);
-      await page.waitForChanges();
-      expect(await submitAndGetValue()).toEqual(stringifiedTestValue);
-
-      component.setProperty("disabled", true);
-      await page.waitForChanges();
-      expect(await submitAndGetValue()).toBe(null);
-
-      component.setProperty("checked", true);
-      component.setProperty("disabled", false);
-      await page.waitForChanges();
-      expect(await submitAndGetValue()).toEqual(stringifiedTestValue);
-
-      component.setProperty("checked", false);
-      await page.waitForChanges();
-      expect(await submitAndGetValue()).toBe(null);
-    } else {
-      component.setProperty("required", true);
-      component.setProperty("value", null);
-      await page.waitForChanges();
-      expect(await submitAndGetValue()).toBe(
-        options.inputType === "color"
-          ? // `input[type="color"]` will set its value to #000000 when set to an invalid value
-            // see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/color#value
-            "#000000"
-          : undefined
-      );
-
-      component.setProperty("required", false);
-      component.setProperty("value", options.testValue);
-      await page.waitForChanges();
-      expect(await submitAndGetValue()).toEqual(options?.expectedSubmitValue || stringifiedTestValue);
-
-      component.setProperty("disabled", true);
-      await page.waitForChanges();
-      expect(await submitAndGetValue()).toBe(null);
-
-      component.setProperty("disabled", false);
-      component.setProperty("value", options.testValue);
-      await page.waitForChanges();
-      expect(await submitAndGetValue()).toEqual(options?.expectedSubmitValue || stringifiedTestValue);
-
-      component.setProperty("value", options.testValue);
-      await page.waitForChanges();
-      expect(await submitAndGetValue()).toEqual(options?.expectedSubmitValue || stringifiedTestValue);
+    if (options.submitsOnEnter) {
+      await assertFormSubmitOnEnter();
     }
 
-    type SubmitValueResult = ReturnType<FormData["get"]> | ReturnType<FormData["getAll"] | undefined>;
+    async function assertValueSubmissionType(): Promise<void> {
+      const inputType = options.inputType ?? "text";
 
-    /**
-     * This method will submit the form and return the submitted value:
-     *
-     * For single-value components, it will return a string or null if the value was not submitted
-     * For multi-value components, it will return an array of strings
-     *
-     * If the input cannot be submitted because it is invalid, undefined will be returned
-     */
-    async function submitAndGetValue(): Promise<SubmitValueResult> {
-      return page.$eval(
-        "form",
-        async (
-          form: HTMLFormElement,
-          inputName: string,
-          hiddenFormInputSlotName: string
-        ): Promise<SubmitValueResult> => {
-          const hiddenFormInput = document.querySelector(
+      const hiddenFormInputType = await page.evaluate(
+        async (inputName: string, hiddenFormInputSlotName: string): Promise<string> => {
+          const hiddenFormInput = document.querySelector<HTMLInputElement>(
             `[name="${inputName}"] input[slot=${hiddenFormInputSlotName}]`
           );
 
-          let resolve: (value: SubmitValueResult) => void;
-          const submitPromise = new Promise<SubmitValueResult>((yes) => (resolve = yes));
-
-          function handleFormSubmit(event: Event): void {
-            event.preventDefault();
-            const formData = new FormData(form);
-            const values = formData.getAll(inputName);
-
-            if (values.length > 1) {
-              resolve(values as string[]);
-              return;
-            }
-
-            resolve(formData.get(inputName));
-            hiddenFormInput.removeEventListener("invalid", handleInvalidInput);
-          }
-
-          function handleInvalidInput(): void {
-            resolve(undefined);
-            form.removeEventListener("submit", handleFormSubmit);
-          }
-
-          form.addEventListener("submit", handleFormSubmit, { once: true });
-          hiddenFormInput.addEventListener("invalid", handleInvalidInput, { once: true });
-
-          document.querySelector<HTMLInputElement>("#submitter").click();
-
-          return submitPromise;
+          return hiddenFormInput.type;
         },
         name,
         hiddenFormInputSlotName
       );
+
+      if (checkable) {
+        expect(hiddenFormInputType).toMatch(/radio|checkbox/);
+      } else {
+        expect(hiddenFormInputType).toMatch(inputType);
+      }
+    }
+
+    async function assertValueResetOnFormReset(): Promise<void> {
+      component.setProperty(resettablePropName, options.testValue);
+      await page.waitForChanges();
+
+      await page.$eval("form", (form: HTMLFormElement) => form.reset());
+      await page.waitForChanges();
+
+      expect(await component.getProperty(resettablePropName)).toBe(initialValue);
+    }
+
+    async function assertValueSubmittedOnFormSubmit(): Promise<void> {
+      const stringifiedTestValue = stringifyTestValue(options.testValue);
+
+      if (checkable) {
+        component.setProperty("checked", true);
+        await page.waitForChanges();
+        expect(await submitAndGetValue()).toEqual("on");
+
+        component.setProperty("value", options.testValue);
+        await page.waitForChanges();
+        expect(await submitAndGetValue()).toEqual(stringifiedTestValue);
+
+        component.setProperty("disabled", true);
+        await page.waitForChanges();
+        expect(await submitAndGetValue()).toBe(null);
+
+        component.setProperty("checked", true);
+        component.setProperty("disabled", false);
+        await page.waitForChanges();
+        expect(await submitAndGetValue()).toEqual(stringifiedTestValue);
+
+        component.setProperty("checked", false);
+        await page.waitForChanges();
+        expect(await submitAndGetValue()).toBe(null);
+      } else {
+        component.setProperty("required", true);
+        component.setProperty("value", null);
+        await page.waitForChanges();
+        expect(await submitAndGetValue()).toBe(
+          options.inputType === "color"
+            ? // `input[type="color"]` will set its value to #000000 when set to an invalid value
+              // see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/color#value
+              "#000000"
+            : undefined
+        );
+
+        component.setProperty("required", false);
+        component.setProperty("value", options.testValue);
+        await page.waitForChanges();
+        expect(await submitAndGetValue()).toEqual(options?.expectedSubmitValue || stringifiedTestValue);
+
+        component.setProperty("disabled", true);
+        await page.waitForChanges();
+        expect(await submitAndGetValue()).toBe(null);
+
+        component.setProperty("disabled", false);
+        component.setProperty("value", options.testValue);
+        await page.waitForChanges();
+        expect(await submitAndGetValue()).toEqual(options?.expectedSubmitValue || stringifiedTestValue);
+
+        component.setProperty("value", options.testValue);
+        await page.waitForChanges();
+        expect(await submitAndGetValue()).toEqual(options?.expectedSubmitValue || stringifiedTestValue);
+      }
+
+      type SubmitValueResult = ReturnType<FormData["get"]> | ReturnType<FormData["getAll"] | undefined>;
+
+      /**
+       * This method will submit the form and return the submitted value:
+       *
+       * For single-value components, it will return a string or null if the value was not submitted
+       * For multi-value components, it will return an array of strings
+       *
+       * If the input cannot be submitted because it is invalid, undefined will be returned
+       */
+      async function submitAndGetValue(): Promise<SubmitValueResult> {
+        return page.$eval(
+          "form",
+          async (
+            form: HTMLFormElement,
+            inputName: string,
+            hiddenFormInputSlotName: string
+          ): Promise<SubmitValueResult> => {
+            const hiddenFormInput = document.querySelector(
+              `[name="${inputName}"] input[slot=${hiddenFormInputSlotName}]`
+            );
+
+            let resolve: (value: SubmitValueResult) => void;
+            const submitPromise = new Promise<SubmitValueResult>((yes) => (resolve = yes));
+
+            function handleFormSubmit(event: Event): void {
+              event.preventDefault();
+              const formData = new FormData(form);
+              const values = formData.getAll(inputName);
+
+              if (values.length > 1) {
+                resolve(values as string[]);
+                return;
+              }
+
+              resolve(formData.get(inputName));
+              hiddenFormInput.removeEventListener("invalid", handleInvalidInput);
+            }
+
+            function handleInvalidInput(): void {
+              resolve(undefined);
+              form.removeEventListener("submit", handleFormSubmit);
+            }
+
+            form.addEventListener("submit", handleFormSubmit, { once: true });
+            hiddenFormInput.addEventListener("invalid", handleInvalidInput, { once: true });
+
+            document.querySelector<HTMLInputElement>("#submitter").click();
+
+            return submitPromise;
+          },
+          name,
+          hiddenFormInputSlotName
+        );
+      }
+    }
+
+    async function assertFormSubmitOnEnter(): Promise<void> {
+      type TestWindow = GlobalTestProps<{
+        called: boolean;
+      }>;
+
+      await page.$eval("form", (form: HTMLFormElement) => {
+        form.addEventListener("submit", (event) => {
+          event.preventDefault();
+          (window as TestWindow).called = true;
+        });
+      });
+
+      const stringifiedTestValue = stringifyTestValue(options.testValue);
+
+      await component.setProperty("value", stringifiedTestValue);
+      await component.callMethod("setFocus");
+      await page.keyboard.press("Enter");
+      const called = await page.evaluate(() => (window as TestWindow).called);
+
+      expect(called).toBe(true);
+    }
+
+    function stringifyTestValue(value: any): string | string[] {
+      return Array.isArray(value) ? value.map((value) => value.toString()) : value.toString();
     }
   }
 
-  async function assertFormSubmitOnEnter(): Promise<void> {
-    type TestWindow = GlobalTestProps<{
-      called: boolean;
-    }>;
+  async function testIdFormAssociated(): Promise<void> {
+    const componentTag = getTag(componentTagOrHtml);
+    const componentHtml = ensureForm(
+      ensureName(isHTML(componentTagOrHtml) ? componentTagOrHtml : `<${componentTag}></${componentTag}>`)
+    );
 
-    await page.$eval("form", (form: HTMLFormElement) => {
-      form.addEventListener("submit", (event) => {
-        event.preventDefault();
-        (window as TestWindow).called = true;
-      });
+    function ensureName(html: string): string {
+      return html.includes("name=") ? html : html.replace(componentTag, `${componentTag} name="testName" `);
+    }
+
+    function ensureForm(html: string): string {
+      return html.includes("form=") ? html : html.replace(componentTag, `${componentTag} form="test-form" `);
+    }
+
+    const page = await newE2EPage({
+      html: html`<form id="test-form"></form>
+        ${componentHtml}
+        <!--
+        keeping things simple by using submit-type input
+        this should cover button and calcite-button submit cases
+        -->
+        <input id="submitter" form="test-form" type="submit" />`
     });
 
-    const stringifiedTestValue = stringifyTestValue(options.testValue);
+    await page.waitForChanges();
 
-    await component.setProperty("value", stringifiedTestValue);
-    await component.callMethod("setFocus");
-    await page.keyboard.press("Enter");
-    const called = await page.evaluate(() => (window as TestWindow).called);
+    const component = await page.find(componentTag);
+    const checkable =
+      typeof options.testValue === "boolean" && (await page.$eval(componentTag, (component) => "checked" in component));
+    const resettablePropName = checkable ? "checked" : "value";
+    const initialValue = await component.getProperty(resettablePropName);
+    const name = await component.getProperty("name");
 
-    expect(called).toBe(true);
+    await assertValueSubmissionType();
+    await assertValueResetOnFormReset();
+    await assertValueSubmittedOnFormSubmit();
+
+    if (options.submitsOnEnter) {
+      await assertFormSubmitOnEnter();
+    }
+
+    async function assertValueSubmissionType(): Promise<void> {
+      const inputType = options.inputType ?? "text";
+
+      const hiddenFormInputType = await page.evaluate(
+        async (inputName: string, hiddenFormInputSlotName: string): Promise<string> => {
+          const hiddenFormInput = document.querySelector<HTMLInputElement>(
+            `[name="${inputName}"] input[slot=${hiddenFormInputSlotName}]`
+          );
+
+          return hiddenFormInput.type;
+        },
+        name,
+        hiddenFormInputSlotName
+      );
+
+      if (checkable) {
+        expect(hiddenFormInputType).toMatch(/radio|checkbox/);
+      } else {
+        expect(hiddenFormInputType).toMatch(inputType);
+      }
+    }
+
+    async function assertValueResetOnFormReset(): Promise<void> {
+      component.setProperty(resettablePropName, options.testValue);
+      await page.waitForChanges();
+
+      await page.$eval("form", (form: HTMLFormElement) => form.reset());
+      await page.waitForChanges();
+
+      expect(await component.getProperty(resettablePropName)).toBe(initialValue);
+    }
+
+    async function assertValueSubmittedOnFormSubmit(): Promise<void> {
+      const stringifiedTestValue = stringifyTestValue(options.testValue);
+
+      if (checkable) {
+        component.setProperty("checked", true);
+        await page.waitForChanges();
+        expect(await submitAndGetValue()).toEqual("on");
+
+        component.setProperty("value", options.testValue);
+        await page.waitForChanges();
+        expect(await submitAndGetValue()).toEqual(stringifiedTestValue);
+
+        component.setProperty("disabled", true);
+        await page.waitForChanges();
+        expect(await submitAndGetValue()).toBe(null);
+
+        component.setProperty("checked", true);
+        component.setProperty("disabled", false);
+        await page.waitForChanges();
+        expect(await submitAndGetValue()).toEqual(stringifiedTestValue);
+
+        component.setProperty("checked", false);
+        await page.waitForChanges();
+        expect(await submitAndGetValue()).toBe(null);
+      } else {
+        component.setProperty("required", true);
+        component.setProperty("value", null);
+        await page.waitForChanges();
+        expect(await submitAndGetValue()).toBe(
+          options.inputType === "color"
+            ? // `input[type="color"]` will set its value to #000000 when set to an invalid value
+              // see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/color#value
+              "#000000"
+            : undefined
+        );
+
+        component.setProperty("required", false);
+        component.setProperty("value", options.testValue);
+        await page.waitForChanges();
+        expect(await submitAndGetValue()).toEqual(options?.expectedSubmitValue || stringifiedTestValue);
+
+        component.setProperty("disabled", true);
+        await page.waitForChanges();
+        expect(await submitAndGetValue()).toBe(null);
+
+        component.setProperty("disabled", false);
+        component.setProperty("value", options.testValue);
+        await page.waitForChanges();
+        expect(await submitAndGetValue()).toEqual(options?.expectedSubmitValue || stringifiedTestValue);
+
+        component.setProperty("value", options.testValue);
+        await page.waitForChanges();
+        expect(await submitAndGetValue()).toEqual(options?.expectedSubmitValue || stringifiedTestValue);
+      }
+
+      type SubmitValueResult = ReturnType<FormData["get"]> | ReturnType<FormData["getAll"] | undefined>;
+
+      /**
+       * This method will submit the form and return the submitted value:
+       *
+       * For single-value components, it will return a string or null if the value was not submitted
+       * For multi-value components, it will return an array of strings
+       *
+       * If the input cannot be submitted because it is invalid, undefined will be returned
+       */
+      async function submitAndGetValue(): Promise<SubmitValueResult> {
+        return page.$eval(
+          "form",
+          async (
+            form: HTMLFormElement,
+            inputName: string,
+            hiddenFormInputSlotName: string
+          ): Promise<SubmitValueResult> => {
+            const hiddenFormInput = document.querySelector(
+              `[name="${inputName}"] input[slot=${hiddenFormInputSlotName}]`
+            );
+
+            let resolve: (value: SubmitValueResult) => void;
+            const submitPromise = new Promise<SubmitValueResult>((yes) => (resolve = yes));
+
+            function handleFormSubmit(event: Event): void {
+              event.preventDefault();
+              const formData = new FormData(form);
+              const values = formData.getAll(inputName);
+
+              if (values.length > 1) {
+                resolve(values as string[]);
+                return;
+              }
+
+              resolve(formData.get(inputName));
+              hiddenFormInput.removeEventListener("invalid", handleInvalidInput);
+            }
+
+            function handleInvalidInput(): void {
+              resolve(undefined);
+              form.removeEventListener("submit", handleFormSubmit);
+            }
+
+            form.addEventListener("submit", handleFormSubmit, { once: true });
+            hiddenFormInput.addEventListener("invalid", handleInvalidInput, { once: true });
+
+            document.querySelector<HTMLInputElement>("#submitter").click();
+
+            return submitPromise;
+          },
+          name,
+          hiddenFormInputSlotName
+        );
+      }
+    }
+
+    async function assertFormSubmitOnEnter(): Promise<void> {
+      type TestWindow = GlobalTestProps<{
+        called: boolean;
+      }>;
+
+      await page.$eval("form", (form: HTMLFormElement) => {
+        form.addEventListener("submit", (event) => {
+          event.preventDefault();
+          (window as TestWindow).called = true;
+        });
+      });
+
+      const stringifiedTestValue = stringifyTestValue(options.testValue);
+
+      await component.setProperty("value", stringifiedTestValue);
+      await component.callMethod("setFocus");
+      await page.keyboard.press("Enter");
+      const called = await page.evaluate(() => (window as TestWindow).called);
+
+      expect(called).toBe(true);
+    }
+
+    function stringifyTestValue(value: any): string | string[] {
+      return Array.isArray(value) ? value.map((value) => value.toString()) : value.toString();
+    }
   }
 
-  function stringifyTestValue(value: any): string | string[] {
-    return Array.isArray(value) ? value.map((value) => value.toString()) : value.toString();
-  }
+  await testAncestorFormAssociated();
+  await testIdFormAssociated();
 }
 
 interface TabAndClickTargets {
