@@ -1,14 +1,25 @@
-import { newE2EPage, E2EElement, E2EPage } from "@stencil/core/testing";
-import { accessible, hidden, renders, t9n } from "../../tests/commonTests";
-import { CSS } from "./resources";
+import { E2EElement, E2EPage, newE2EPage } from "@stencil/core/testing";
 import { html } from "../../../support/formatting";
+import { accessible, focusable, hidden, renders, t9n } from "../../tests/commonTests";
+import { CSS } from "./resources";
 
 describe("calcite-pagination", () => {
   it("renders", async () => renders("calcite-pagination", { display: "flex" }));
 
+  it("focuses previous button when not on the first page", async () =>
+    focusable('<calcite-pagination page-size="1" start-item="2" total-items="10"></calcite-pagination>', {
+      shadowFocusTargetSelector: `.${CSS.previous}`
+    }));
+
+  it("focuses page number 1 when on the first page", async () =>
+    focusable('<calcite-pagination page-size="1" start-item="1" total-items="10"></calcite-pagination>', {
+      shadowFocusTargetSelector: `.${CSS.page}`
+    }));
+
   it("honors hidden attribute", async () => hidden("calcite-pagination"));
 
-  it("is accessible", async () => accessible(`<calcite-pagination></calcite-pagination>`));
+  it("is accessible", async () =>
+    accessible(`<calcite-pagination page-size="10" start-item="50" total-items="100"></calcite-pagination>`));
 
   it("supports translations", () => t9n("calcite-pagination"));
 

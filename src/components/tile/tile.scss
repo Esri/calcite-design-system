@@ -77,6 +77,13 @@
     ease-in-out;
   }
 }
+:host([href]),
+:host([href]:hover) {
+  .heading {
+    @apply underline;
+    color: var(--calcite-ui-text-link);
+  }
+}
 :host(:not([embed])) {
   @apply p-3;
   box-shadow: 0 0 0 1px var(--calcite-ui-border-2);

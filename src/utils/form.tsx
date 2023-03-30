@@ -1,4 +1,5 @@
-import { closestElementCrossShadowBoundary } from "./dom";
+import "form-request-submit-polyfill/form-request-submit-polyfill";
+import { closestElementCrossShadowBoundary, queryElementRoots } from "./dom";
 import { FunctionalComponent, h } from "@stencil/core";
 
 /**
@@ -13,7 +14,23 @@ export const hiddenFormInputSlotName = "hidden-form-input";
  */
 export interface FormOwner {
   /**
+   * The host element.
+   */
+  readonly el: HTMLElement;
+
+  /**
+   * The ID of the form to associate with the component.
+   *
+   * When not set, the component will be associated with its ancestor `<form>` element, if any.
+   *
+   * Note that this prop should use the @Prop decorator.
+   */
+  form: string;
+
+  /**
    * The form this component is associated with.
+   *
+   * @internal
    */
   formEl: HTMLFormElement;
 }
@@ -35,11 +52,6 @@ export interface FormComponent<T = any> extends FormOwner {
    * @todo remove optional in follow-up PR
    */
   required?: boolean;
-
-  /**
-   * The host element.
-   */
-  readonly el: HTMLElement;
 
   /**
    * The name used to submit the value to the associated form.
@@ -101,10 +113,26 @@ function isCheckable(component: FormComponent): component is CheckableFormCompon
 const onFormResetMap = new WeakMap<HTMLElement, FormComponent["onFormReset"]>();
 const formComponentSet = new WeakSet<HTMLElement>();
 
+/**
+ * This helps determine if our form component is part of a composite form-associated component.
+ *
+ * @param form
+ * @param formComponentEl
+ */
 function hasRegisteredFormComponentParent(
   form: HTMLFormElement,
   formComponentEl: HTMLElement
 ): boolean {
+  // if we have a parent component using the form ID attribute, we assume it is form-associated
+  const hasParentComponentWithFormIdSet = closestElementCrossShadowBoundary(
+    formComponentEl.parentElement,
+    "[form]"
+  );
+
+  if (hasParentComponentWithFormIdSet) {
+    return true;
+  }
+
   // we use events as a way to test for nested form-associated components across shadow bounds
   const formComponentRegisterEventName = "calciteInternalFormComponentRegister";
 
@@ -144,7 +172,7 @@ export function submitForm(component: FormOwner): boolean {
     return false;
   }
 
-  "requestSubmit" in formEl ? formEl.requestSubmit() : formEl.submit();
+  formEl.requestSubmit();
 
   return true;
 }
@@ -165,14 +193,13 @@ export function resetForm(component: FormOwner): void {
  */
 export function connectForm<T>(component: FormComponent<T>): void {
   const { el, value } = component;
+  const associatedForm = findAssociatedForm(component);
 
-  const form = closestElementCrossShadowBoundary<HTMLFormElement>(el, "form");
-
-  if (!form || hasRegisteredFormComponentParent(form, el)) {
+  if (!associatedForm || hasRegisteredFormComponentParent(associatedForm, el)) {
     return;
   }
 
-  component.formEl = form;
+  component.formEl = associatedForm;
   component.defaultValue = value;
 
   if (isCheckable(component)) {
@@ -180,9 +207,22 @@ export function connectForm<T>(component: FormComponent<T>): void {
   }
 
   const boundOnFormReset = (component.onFormReset || onFormReset).bind(component);
-  form.addEventListener("reset", boundOnFormReset);
+  associatedForm.addEventListener("reset", boundOnFormReset);
   onFormResetMap.set(component.el, boundOnFormReset);
   formComponentSet.add(el);
+}
+
+/**
+ * Utility method to find a form-component's associated form element.
+ *
+ * @param component
+ */
+export function findAssociatedForm(component: FormOwner): HTMLFormElement | null {
+  const { el, form } = component;
+
+  return form
+    ? queryElementRoots<HTMLFormElement>(el, { id: form })
+    : closestElementCrossShadowBoundary<HTMLFormElement>(el, "form");
 }
 
 function onFormReset<T>(this: FormComponent<T>): void {
@@ -314,7 +354,7 @@ function defaultSyncHiddenFormInput(
   input: HTMLInputElement,
   value: string
 ): void {
-  const { defaultValue, disabled, name, required } = component;
+  const { defaultValue, disabled, form, name, required } = component;
 
   // keep in sync to prevent losing reset value
   input.defaultValue = defaultValue;
@@ -322,6 +362,13 @@ function defaultSyncHiddenFormInput(
   input.name = name;
   input.required = required;
   input.tabIndex = -1;
+
+  // we set the attr as the prop is read-only
+  if (form) {
+    input.setAttribute("form", form);
+  } else {
+    input.removeAttribute("form");
+  }
 
   if (isCheckable(component)) {
     input.checked = component.checked;

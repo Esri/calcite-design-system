@@ -1,7 +1,5 @@
 import { Build, Component, Element, h, Method, Prop, State, VNode, Watch } from "@stencil/core";
-import "form-request-submit-polyfill/form-request-submit-polyfill";
-import { closestElementCrossShadowBoundary } from "../../utils/dom";
-import { FormOwner, resetForm, submitForm } from "../../utils/form";
+import { findAssociatedForm, FormOwner, resetForm, submitForm } from "../../utils/form";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
 import {
@@ -77,6 +75,14 @@ export class Button
   @Prop({ reflect: true }) disabled = false;
 
   /**
+   * The ID of the form that will be associated with the component.
+   *
+   * When not set, the component will be associated with its ancestor `<form>` element, if any.
+   */
+  @Prop({ reflect: true })
+  form: string;
+
+  /**
    * Specifies the URL of the linked resource, which can be set as an absolute or relative path.
    */
   @Prop({ reflect: true }) href: string;
@@ -126,7 +132,7 @@ export class Button
    *
    * @mdn [type](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/button#attr-type)
    */
-  @Prop({ mutable: true, reflect: true }) type = "button";
+  @Prop({ reflect: true }) type = "button";
 
   /** Specifies the width of the component. */
   @Prop({ reflect: true }) width: Width = "auto";
@@ -136,11 +142,13 @@ export class Button
    *
    * @internal
    */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
   @Prop({ mutable: true }) messages: ButtonMessages;
 
   /**
    * Use this property to override individual strings used by the component.
    */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
   @Prop({ mutable: true }) messageOverrides: Partial<ButtonMessages>;
 
   @Watch("loading")
@@ -172,7 +180,7 @@ export class Button
     this.hasLoader = this.loading;
     this.setupTextContentObserver();
     connectLabel(this);
-    this.formEl = closestElementCrossShadowBoundary<HTMLFormElement>(this.el, "form");
+    this.formEl = findAssociatedForm(this);
   }
 
   disconnectedCallback(): void {
@@ -252,11 +260,12 @@ export class Button
         href={childElType === "a" && this.href}
         name={childElType === "button" && this.name}
         onClick={this.handleClick}
-        ref={(el) => (this.childEl = el)}
         rel={childElType === "a" && this.rel}
         tabIndex={this.disabled || this.loading ? -1 : null}
         target={childElType === "a" && this.target}
         type={childElType === "button" && this.type}
+        // eslint-disable-next-line react/jsx-sort-props
+        ref={(el) => (this.childEl = el)}
       >
         {loaderNode}
         {this.iconStart ? iconStartEl : null}

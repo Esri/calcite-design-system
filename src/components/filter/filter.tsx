@@ -57,7 +57,7 @@ export class Filter
    * This property is needed to conduct filtering.
    *
    */
-  @Prop({ mutable: true }) items: object[] = [];
+  @Prop() items: object[] = [];
 
   @Watch("items")
   watchItemsHandler(): void {
@@ -96,11 +96,13 @@ export class Filter
    *
    * @internal
    */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
   @Prop({ mutable: true }) messages: FilterMessages;
 
   /**
    * Use this property to override individual strings used by the component.
    */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
   @Prop({ mutable: true }) messageOverrides: Partial<FilterMessages>;
 
   @Watch("messageOverrides")
@@ -152,7 +154,6 @@ export class Filter
   async componentWillLoad(): Promise<void> {
     setUpLoadableComponent(this);
     this.updateFiltered(filter(this.items, this.value));
-    this.filter(this.value);
     await setUpMessages(this);
   }
 
@@ -252,12 +253,13 @@ export class Filter
               onCalciteInputInput={this.inputHandler}
               onKeyDown={this.keyDownHandler}
               placeholder={this.placeholder}
-              ref={(el): void => {
-                this.textInput = el;
-              }}
               scale={scale}
               type="text"
               value={this.value}
+              // eslint-disable-next-line react/jsx-sort-props
+              ref={(el): void => {
+                this.textInput = el;
+              }}
             />
           </label>
         </div>

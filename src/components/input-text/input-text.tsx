@@ -78,7 +78,7 @@ export class InputText
   @Prop({ reflect: true }) alignment: Position = "start";
 
   /**
-   * When `true`, the component is focused on page load.
+   * When `true`, the component is focused on page load. Only one element can contain `autofocus`. If multiple elements have `autofocus`, the first element will receive focus.
    *
    * @mdn [autofocus](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/autofocus)
    */
@@ -100,6 +100,14 @@ export class InputText
   disabledWatcher(): void {
     this.setDisabledAction();
   }
+
+  /**
+   * The ID of the form that will be associated with the component.
+   *
+   * When not set, the component will be associated with its ancestor `<form>` element, if any.
+   */
+  @Prop({ reflect: true })
+  form: string;
 
   /**
    * When `true`, the component will not be visible.
@@ -171,7 +179,7 @@ export class InputText
   @Prop({ mutable: true, reflect: true }) scale: Scale = "m";
 
   /** Specifies the status of the input field, which determines message and icons. */
-  @Prop({ mutable: true, reflect: true }) status: Status = "idle";
+  @Prop({ reflect: true }) status: Status = "idle";
 
   /**
    * Specifies the type of content to autocomplete, for use in forms.
@@ -221,11 +229,13 @@ export class InputText
    *
    * @internal
    */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
   @Prop({ mutable: true }) messages: InputTextMessages;
 
   /**
    * Use this property to override individual strings used by the component.
    */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
   @Prop({ mutable: true }) messageOverrides: Partial<InputTextMessages>;
 
   @Watch("messageOverrides")
@@ -386,7 +396,7 @@ export class InputText
     this.childEl?.focus();
   }
 
-  /** Selects all text of the component's `value`. */
+  /** Selects the text of the component's `value`. */
   @Method()
   async selectText(): Promise<void> {
     this.childEl?.select();
@@ -634,11 +644,12 @@ export class InputText
         pattern={this.pattern}
         placeholder={this.placeholder || ""}
         readOnly={this.readOnly}
-        ref={this.setChildElRef}
         required={this.required ? true : null}
         tabIndex={this.disabled || (this.inlineEditableEl && !this.editingEnabled) ? -1 : null}
         type="text"
         value={this.value}
+        // eslint-disable-next-line react/jsx-sort-props
+        ref={this.setChildElRef}
       />
     );
 

@@ -1,8 +1,8 @@
 import { numberKeys } from "./key";
 import { NumberStringFormat } from "./locale";
 
-const defaultMinusSignRegex = new RegExp("-", "g");
-const unnecessaryDecimalRegex = new RegExp("\\.?0+$");
+const unnecessaryDecimal = new RegExp(`\\${"."}(0+)?$`);
+const trailingZeros = new RegExp("0+$");
 
 // adopted from https://stackoverflow.com/a/66939244
 export class BigDecimal {
@@ -22,7 +22,7 @@ export class BigDecimal {
     if (input instanceof BigDecimal) {
       return input;
     }
-    const [integers, decimals] = String(input).split(".").concat("");
+    const [integers, decimals] = expandExponentialNumberString(input).split(".").concat("");
     this.value =
       BigInt(integers + decimals.padEnd(BigDecimal.DECIMALS, "0").slice(0, BigDecimal.DECIMALS)) +
       BigInt(BigDecimal.ROUNDED && decimals[BigDecimal.DECIMALS] >= "5");
@@ -30,20 +30,21 @@ export class BigDecimal {
     this.isNegative = input.charAt(0) === "-";
   }
 
-  static _divRound = (dividend: bigint, divisor: bigint): bigint =>
+  static _divRound = (dividend: bigint, divisor: bigint): BigDecimal =>
     BigDecimal.fromBigInt(
       dividend / divisor + (BigDecimal.ROUNDED ? ((dividend * BigInt(2)) / divisor) % BigInt(2) : BigInt(0))
     );
 
-  static fromBigInt = (bigint: bigint): bigint => Object.assign(Object.create(BigDecimal.prototype), { value: bigint });
+  static fromBigInt = (bigint: bigint): BigDecimal =>
+    Object.assign(Object.create(BigDecimal.prototype), { value: bigint, isNegative: bigint < BigInt(0) });
 
   getIntegersAndDecimals(): { integers: string; decimals: string } {
     const s = this.value
       .toString()
-      .replace(defaultMinusSignRegex, "")
+      .replace("-", "")
       .padStart(BigDecimal.DECIMALS + 1, "0");
     const integers = s.slice(0, -BigDecimal.DECIMALS);
-    const decimals = s.slice(-BigDecimal.DECIMALS).replace(unnecessaryDecimalRegex, "");
+    const decimals = s.slice(-BigDecimal.DECIMALS).replace(trailingZeros, "");
     return { integers, decimals };
   }
 
@@ -79,13 +80,21 @@ export class BigDecimal {
     return `${integersFormatted}${decimalsFormatted}`;
   }
 
-  add = (num: string): bigint => BigDecimal.fromBigInt(this.value + new BigDecimal(num).value);
+  add(n: string): BigDecimal {
+    return BigDecimal.fromBigInt(this.value + new BigDecimal(n).value);
+  }
 
-  subtract = (num: string): bigint => BigDecimal.fromBigInt(this.value - new BigDecimal(num).value);
+  subtract(n: string): BigDecimal {
+    return BigDecimal.fromBigInt(this.value - new BigDecimal(n).value);
+  }
 
-  multiply = (num: string): bigint => BigDecimal._divRound(this.value * new BigDecimal(num).value, BigDecimal.SHIFT);
+  multiply(n: string): BigDecimal {
+    return BigDecimal._divRound(this.value * new BigDecimal(n).value, BigDecimal.SHIFT);
+  }
 
-  divide = (num: string): bigint => BigDecimal._divRound(this.value * BigDecimal.SHIFT, new BigDecimal(num).value);
+  divide(n: string): BigDecimal {
+    return BigDecimal._divRound(this.value * BigDecimal.SHIFT, new BigDecimal(n).value);
+  }
 }
 
 export function isValidNumber(numberString: string): boolean {
@@ -155,6 +164,54 @@ export function sanitizeExponentialNumberString(numberString: string, func: (s: 
     .map((section, i) => (i === 1 ? func(section.replace(/\./g, "")) : func(section)))
     .join("e")
     .replace(/^e/, "1e");
+}
+
+/**
+ * Converts an exponential notation numberString into decimal notation.
+ * BigInt doesn't support exponential notation, so this is required to maintain precision
+ *
+ * @param {string} numberString - pre-validated exponential or decimal number
+ * @returns {string} numberString in decimal notation
+ */
+export function expandExponentialNumberString(numberString: string): string {
+  const exponentialParts = numberString.split(/[eE]/);
+  if (exponentialParts.length === 1) {
+    return numberString;
+  }
+
+  const number = +numberString;
+  if (Number.isSafeInteger(number)) {
+    return `${number}`;
+  }
+
+  const isNegative = numberString.charAt(0) === "-";
+  const magnitude = +exponentialParts[1];
+  const decimalParts = exponentialParts[0].split(".");
+  const integers = (isNegative ? decimalParts[0].substring(1) : decimalParts[0]) || "";
+  const decimals = decimalParts[1] || "";
+
+  const shiftDecimalLeft = (integers: string, magnitude: number): string => {
+    const magnitudeDelta = Math.abs(magnitude) - integers.length;
+    const leftPaddedZeros = magnitudeDelta > 0 ? `${"0".repeat(magnitudeDelta)}${integers}` : integers;
+    const shiftedDecimal = `${leftPaddedZeros.slice(0, magnitude)}${"."}${leftPaddedZeros.slice(magnitude)}`;
+    return shiftedDecimal;
+  };
+
+  const shiftDecimalRight = (decimals: string, magnitude: number): string => {
+    const rightPaddedZeros =
+      magnitude > decimals.length ? `${decimals}${"0".repeat(magnitude - decimals.length)}` : decimals;
+    const shiftedDecimal = `${rightPaddedZeros.slice(0, magnitude)}${"."}${rightPaddedZeros.slice(magnitude)}`;
+    return shiftedDecimal;
+  };
+
+  const expandedNumberString =
+    magnitude > 0
+      ? `${integers}${shiftDecimalRight(decimals, magnitude)}`
+      : `${shiftDecimalLeft(integers, magnitude)}${decimals}`;
+
+  return `${isNegative ? "-" : ""}${expandedNumberString.charAt(0) === "." ? "0" : ""}${expandedNumberString
+    .replace(unnecessaryDecimal, "")
+    .replace(allLeadingZerosOptionallyNegative, "")}`;
 }
 
 function stringContainsNumbers(string: string): boolean {

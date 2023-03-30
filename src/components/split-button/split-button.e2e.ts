@@ -1,6 +1,6 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, renders, defaults, disabled, hidden } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
+import { accessible, defaults, disabled, focusable, hidden, renders } from "../../tests/commonTests";
 import { CSS } from "./resources";
 
 describe("calcite-split-button", () => {
@@ -21,6 +21,16 @@ describe("calcite-split-button", () => {
   it("renders", () => renders("calcite-split-button", { display: "inline-block" }));
 
   it("honors hidden attribute", async () => hidden("calcite-split-button"));
+
+  it("focusable", async () =>
+    focusable(
+      `<calcite-split-button primary-text="Button Text" dropdown-label="Show options">
+      ${content}
+      </calcite-split-button>`,
+      {
+        shadowFocusTargetSelector: "calcite-button"
+      }
+    ));
 
   it("is accessible", async () =>
     accessible(`<calcite-split-button

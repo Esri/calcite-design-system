@@ -30,6 +30,7 @@ __docs-temp__/*
 $RECYCLE.BIN/
 Thumbs.db
 UserInterfaceState.xcuserstate
+Dockerfile
 log.txt
 src/components.d.ts
 src/components/icon/assets
