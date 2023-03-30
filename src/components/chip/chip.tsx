@@ -330,11 +330,7 @@ export class Chip
         onClick={this.closeHandler}
         onKeyDown={this.closeButtonKeyDownHandler}
       >
-        <calcite-icon
-          class={CSS.closeIcon}
-          icon={ICONS.close}
-          scale={this.scale === "l" ? "m" : "s"}
-        />
+        <calcite-icon icon={ICONS.close} scale={this.scale === "l" ? "m" : "s"} />
       </button>
     );
   }
@@ -369,7 +365,9 @@ export class Chip
             [CSS.container]: true,
             [CSS.contentSlotted]: this.hasContent,
             [CSS.imageSlotted]: this.hasImage,
-            [CSS.selectable]: this.selectionMode !== "none"
+            [CSS.selectable]: this.selectionMode !== "none",
+            [CSS.closable]: this.closable,
+            [CSS.hasIcon]: !!this.icon
           }}
           onClick={this.itemSelectHandler}
           tabIndex={0}

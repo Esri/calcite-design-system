@@ -2,30 +2,49 @@
 // todo update when new spacing modifiers are introduced to calcite-base
 :host([scale="s"]) {
   @apply text-n2 h-6;
-  --calcite-chip-spacing-unit-l: theme("spacing.2");
-  --calcite-chip-spacing-unit-s: theme("spacing.1");
-  .image-container {
-    @apply h-5 w-5;
-    padding-inline-start: theme("spacing[0.5]");
+  --calcite-chip-spacing-unit-l-internal: 0.25rem;
+  --calcite-chip-spacing-unit-s-internal: 0.125rem;
+  .image-container,
+  .close {
+    @apply h-4 w-4;
+  }
+  .select-icon.select-icon--active {
+    @apply w-6;
+  }
+  .container:not(.closable):not(.content--slotted):not(.selectable) {
+    @apply w-6 h-6;
   }
 }
+
 :host([scale="m"]) {
   @apply text-n1 h-8;
-  --calcite-chip-spacing-unit-l: theme("spacing.3");
-  --calcite-chip-spacing-unit-s: calc(theme("spacing.3") / 2);
-  .image-container {
+  --calcite-chip-spacing-unit-l-internal: 0.5rem;
+  --calcite-chip-spacing-unit-s-internal: 0.25rem;
+  .image-container,
+  .close {
     @apply h-6 w-6;
-    padding-inline-start: theme("spacing.1");
+  }
+  .select-icon.select-icon--active {
+    @apply w-6;
+  }
+  .container:not(.closable):not(.content--slotted):not(.selectable) {
+    @apply w-8 h-8;
   }
 }
 
 :host([scale="l"]) {
   @apply text-0 h-11;
-  --calcite-chip-spacing-unit-l: theme("spacing.4");
-  --calcite-chip-spacing-unit-s: theme("spacing.2");
-  .image-container {
+  --calcite-chip-spacing-unit-l-internal: 1rem;
+  --calcite-chip-spacing-unit-s-internal: 0.5rem;
+  .image-container,
+  .close {
     @apply h-8 w-8;
-    padding-inline-start: theme("spacing.2");
+  }
+  .select-icon.select-icon--active {
+    @apply w-8;
+  }
+  .container:not(.closable):not(.content--slotted):not(.selectable) {
+    @apply w-11 h-11;
   }
 }
 
@@ -42,13 +61,18 @@
     font-medium;
 }
 
-.container.selectable {
-  @apply cursor-pointer;
-}
-
 .container {
-  @apply inline-flex h-full max-w-full items-center rounded-full;
-  @apply focus-base;
+  @apply inline-flex h-full max-w-full items-center rounded-full focus-base justify-center;
+  gap: var(--calcite-chip-spacing-unit-s-internal);
+  padding-inline: var(--calcite-chip-spacing-unit-s-internal);
+  &:not(.closable):not(.content--slotted):not(.selectable) {
+    padding: 0;
+    gap: 0;
+  }
+
+  &.selectable {
+    @apply cursor-pointer;
+  }
   &:focus {
     @apply focus-outset;
   }
@@ -56,81 +80,28 @@
 
 .title {
   @apply truncate;
-  padding-block: 0;
+  padding-inline: var(--calcite-chip-spacing-unit-s-internal);
 }
 
-.content--slotted .title {
-  padding-inline: var(--calcite-chip-spacing-unit-l);
+.container:not(.closable):not(.selectable):not(.image--slotted) .title {
+  padding-inline: var(--calcite-chip-spacing-unit-l-internal);
 }
 
-:host([closable][icon]) .container:not(.content--slotted) .title {
-  padding-inline: 0 var(--calcite-chip-spacing-unit-s);
-}
-
-:host(:not([closable])) .container:not(.content--slotted) .chip-icon {
-  margin-inline: auto;
+.container:not(.content--slotted) .title {
+  display: none;
 }
 
 .container:not(.image--slotted) .image-container {
   display: none;
 }
 
-:host([scale="s"][closable]) .container:not(.content--slotted) .image-container {
-  margin-inline-end: theme("spacing[0.5]");
+.image-container {
+  @apply inline-flex overflow-hidden;
+  align-items: center;
+  justify-content: center;
 }
 
-:host([scale="m"][closable]) .container:not(.content--slotted) .image-container {
-  margin-inline-end: theme("spacing.1");
-}
-
-:host([scale="l"][closable]) .container:not(.content--slotted) .image-container {
-  margin-inline-end: theme("spacing.2");
-}
-
-:host([scale="s"]:not([closable])) .container:not(.content--slotted):not(.selectable) {
-  @apply w-6 h-6;
-  & .image-container {
-    padding-inline: theme("spacing[0.5]");
-  }
-}
-
-:host([scale="m"]:not([closable])) .container:not(.content--slotted):not(.selectable) {
-  @apply w-8 h-8;
-  & .image-container {
-    padding-inline: theme("spacing.1");
-  }
-}
-
-:host([scale="l"]:not([closable])) .container:not(.content--slotted):not(.selectable) {
-  @apply w-11 h-11;
-  & .image-container {
-    padding-inline: calc(theme("spacing.3") / 2);
-  }
-}
-
-:host([closable]) .content--slotted .title {
-  padding-inline: var(--calcite-chip-spacing-unit-l) var(--calcite-chip-spacing-unit-s);
-}
-
-:host([scale="s"]) button {
-  inline-size: theme("spacing.4");
-  block-size: theme("spacing.4");
-  margin-inline-end: theme("spacing[0.5]");
-}
-
-:host([scale="m"]) button {
-  inline-size: theme("spacing.6");
-  block-size: theme("spacing.6");
-  margin-inline-end: theme("spacing.1");
-}
-
-:host([scale="l"]) button {
-  inline-size: theme("spacing.8");
-  block-size: theme("spacing.8");
-  margin-inline-end: theme("spacing.2");
-}
-
-button {
+.close {
   @apply focus-base
     transition-default
     text-color-1
@@ -142,11 +113,9 @@ button {
   -webkit-appearance: none;
   display: flex;
   border-radius: 50%;
-  padding-inline: var(--calcite-chip-spacing-unit-s);
   color: inherit;
   align-content: center;
   justify-content: center;
-
   --calcite-chip-transparent-hover: var(--calcite-button-transparent-hover);
   --calcite-chip-transparent-press: var(--calcite-button-transparent-press);
   &:hover {
@@ -171,32 +140,18 @@ button {
   inline-size: 0;
   opacity: 0;
   transition: opacity 0.15s ease-in-out, inline-size 0.15s ease-in-out;
-
   &.select-icon--active {
     visibility: visible;
     opacity: 0.5;
   }
-}
-.container:hover .select-icon.select-icon--active {
-  opacity: 1;
-}
-// explicit width for transition
-:host([scale="s"]) .select-icon.select-icon--active {
-  inline-size: theme("spacing.6");
-}
-:host([scale="m"]) .select-icon.select-icon--active {
-  inline-size: theme("spacing.7");
-}
-:host([scale="l"]) .select-icon.select-icon--active {
-  inline-size: theme("spacing.8");
 }
 
 :host([selected]) .select-icon {
   opacity: 1;
 }
 
-.image-container {
-  @apply inline-flex overflow-hidden;
+.container:hover .select-icon.select-icon--active {
+  opacity: 1;
 }
 
 slot[name="image"]::slotted(*) {
@@ -204,24 +159,17 @@ slot[name="image"]::slotted(*) {
 }
 
 .chip-icon {
-  @apply relative
-    my-0
-    inline-flex
-    duration-150
-    ease-in-out;
-  margin-inline-end: 0;
-  margin-inline-start: var(--calcite-chip-spacing-unit-l);
+  @apply relative my-0 inline-flex duration-150 ease-in-out;
+  margin-inline: var(--calcite-chip-spacing-unit-s-internal);
 }
 
 :host([kind="neutral"]) {
   border-color: transparent;
   background-color: var(--calcite-ui-foreground-2);
   color: var(--calcite-ui-text-1);
-  button,
-  .close-icon {
+  .close {
     color: var(--calcite-ui-text-3);
   }
-
   .chip-icon {
     color: var(--calcite-ui-icon-color, var(--calcite-ui-text-3));
   }
@@ -231,12 +179,9 @@ slot[name="image"]::slotted(*) {
   border-color: transparent;
   background-color: var(--calcite-ui-inverse);
   @apply text-color-inverse;
-
-  button,
-  .close-icon {
+  .close {
     @apply text-color-inverse;
   }
-
   .chip-icon {
     color: var(--calcite-ui-icon-color, var(--calcite-ui-text-inverse));
   }
@@ -246,11 +191,9 @@ slot[name="image"]::slotted(*) {
   border-color: transparent;
   background-color: var(--calcite-ui-brand);
   color: var(--calcite-ui-text-inverse);
-  button,
-  .close-icon {
+  .close {
     @apply text-color-inverse;
   }
-
   .chip-icon {
     color: var(--calcite-ui-icon-color, var(--calcite-ui-text-inverse));
   }
@@ -259,8 +202,7 @@ slot[name="image"]::slotted(*) {
 :host([appearance="outline-fill"]),
 :host([appearance="outline"]) {
   @apply text-color-1 bg-foreground-1;
-  button,
-  .close-icon {
+  .close {
     @apply text-color-3;
   }
   .chip-icon {

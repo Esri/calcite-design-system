@@ -3,10 +3,11 @@ export const CSS = {
   close: "close",
   imageContainer: "image-container",
   chipIcon: "chip-icon",
-  closeIcon: "close-icon",
   contentSlotted: "content--slotted",
   container: "container",
   imageSlotted: "image--slotted",
+  closable: "closable",
+  hasIcon: "has-icon",
   selectable: "selectable",
   selectIcon: "select-icon",
   selectIconActive: "select-icon--active"
