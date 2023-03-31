@@ -1504,6 +1504,60 @@
           "value": "$popover.background.light",
           "type": "color"
         }
+      },
+      "slider": {
+        "font": {
+          "label": {
+            "value": "$slider.font.label.light",
+            "type": "color"
+          },
+          "tick-label": {
+            "value": "$slider.font.tick-label.light",
+            "type": "color"
+          }
+        },
+        "handle": {
+          "background": {
+            "value": "$slider.handle.background.light",
+            "type": "color"
+          },
+          "border": {
+            "value": "$slider.handle.border.light",
+            "type": "color"
+          }
+        },
+        "border": {
+          "default": {
+            "value": "$slider.border.default.light",
+            "type": "color"
+          },
+          "active": {
+            "value": "$slider.border.active.light",
+            "type": "color"
+          }
+        },
+        "tick": {
+          "default": {
+            "background": {
+              "value": "$slider.tick.default.background.light",
+              "type": "color"
+            },
+            "border": {
+              "value": "$slider.tick.default.border.light",
+              "type": "color"
+            }
+          },
+          "active": {
+            "background": {
+              "value": "$slider.tick.active.background.light",
+              "type": "color"
+            },
+            "border": {
+              "value": "$slider.tick.active.border.light",
+              "type": "color"
+            }
+          }
+        }
       }
     }
   }
