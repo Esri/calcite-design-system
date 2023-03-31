@@ -51,6 +51,8 @@
     "component/popover",
     "component/pagination",
     "component/segmented-control",
+    "component/slider",
+    "component/slider-range",
     "component/stepper",
     "component/stepper-item",
     "component/switch",

@@ -1480,6 +1480,60 @@
           "value": "$popover.background.dark",
           "type": "color"
         }
+      },
+      "slider": {
+        "font": {
+          "label": {
+            "value": "$slider.font.label.dark",
+            "type": "color"
+          },
+          "tick-label": {
+            "value": "$slider.font.tick-label.dark",
+            "type": "color"
+          }
+        },
+        "handle": {
+          "background": {
+            "value": "$slider.handle.background.dark",
+            "type": "color"
+          },
+          "border": {
+            "value": "$slider.handle.border.dark",
+            "type": "color"
+          }
+        },
+        "border": {
+          "default": {
+            "value": "$slider.border.default.dark",
+            "type": "color"
+          },
+          "active": {
+            "value": "$slider.border.active.dark",
+            "type": "color"
+          }
+        },
+        "tick": {
+          "default": {
+            "background": {
+              "value": "$slider.tick.default.background.dark",
+              "type": "color"
+            },
+            "border": {
+              "value": "$slider.tick.default.border.dark",
+              "type": "color"
+            }
+          },
+          "active": {
+            "background": {
+              "value": "$slider.tick.active.background.dark",
+              "type": "color"
+            },
+            "border": {
+              "value": "$slider.tick.active.border.dark",
+              "type": "color"
+            }
+          }
+        }
       }
     }
   }
