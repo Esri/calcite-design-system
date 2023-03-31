@@ -68,6 +68,8 @@ export class Chip
   //  Public Properties
   //
   //--------------------------------------------------------------------------
+  /** When true, interaction is prevented and the component is displayed with lower opacity. */
+  @Prop({ reflect: true }) disabled = false;
 
   /** Specifies the appearance style of the component. */
   @Prop({ reflect: true }) appearance: Extract<"outline" | "outline-fill" | "solid", Appearance> =
@@ -361,7 +363,6 @@ export class Chip
       <Host>
         <div
           {...aria}
-          aria-hidden="true"
           class={{
             [CSS.container]: true,
             [CSS.contentSlotted]: this.hasContent,
@@ -371,7 +372,7 @@ export class Chip
             [CSS.hasIcon]: !!this.icon
           }}
           onClick={this.itemSelectHandler}
-          tabIndex={0}
+          tabIndex={!this.disabled ? 0 : -1}
           // eslint-disable-next-line react/jsx-sort-props
           ref={(el) => (this.containerEl = el)}
         >

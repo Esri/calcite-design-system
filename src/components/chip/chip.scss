@@ -250,3 +250,5 @@ slot[name="image"]::slotted(*) {
 :host([closed]) {
   display: none;
 }
+
+@include disabled();
