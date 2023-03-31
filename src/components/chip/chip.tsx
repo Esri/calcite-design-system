@@ -317,7 +317,7 @@ export class Chip
           [CSS.selectIconActive]: this.selectionMode === "multiple" || this.selected
         }}
       >
-        <calcite-icon class={CSS.chipIcon} icon={icon} scale={this.scale === "l" ? "m" : "s"} />
+        <calcite-icon icon={icon} scale={this.scale === "l" ? "m" : "s"} />
       </div>
     );
   }
@@ -361,6 +361,7 @@ export class Chip
       <Host>
         <div
           {...aria}
+          aria-hidden="true"
           class={{
             [CSS.container]: true,
             [CSS.contentSlotted]: this.hasContent,

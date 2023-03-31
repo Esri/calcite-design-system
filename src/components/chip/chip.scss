@@ -81,10 +81,17 @@
 .title {
   @apply truncate;
   padding-inline: var(--calcite-chip-spacing-unit-s-internal);
+  &:last-child {
+    padding-inline-end: var(--calcite-chip-spacing-unit-l-internal);
+  }
 }
 
 .container:not(.closable):not(.selectable):not(.image--slotted) .title {
   padding-inline: var(--calcite-chip-spacing-unit-l-internal);
+}
+.container:not(.closable):not(.selectable):not(.image--slotted) .chip-icon ~ .title {
+  padding-inline-start: var(--calcite-chip-spacing-unit-s-internal);
+  padding-inline-start: 0;
 }
 
 .container:not(.content--slotted) .title {
@@ -132,7 +139,7 @@
 
 .select-icon {
   align-self: center;
-  align-content: center;
+  justify-content: center;
   display: flex;
   inset-block-start: -1px;
   position: relative;
