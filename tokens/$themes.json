@@ -260,7 +260,9 @@
       "component/block": "enabled",
       "component/block-section": "enabled",
       "component/notice": "enabled",
-      "component/modal-medium": "enabled",
+      "component/modal": "enabled",
+      "component/panel-header": "enabled",
+      "component/popover": "enabled",
       "component/list": "enabled"
     },
     "$figmaStyleReferences": {
