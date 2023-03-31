@@ -54,7 +54,7 @@
     "component/segmented-control",
     "component/stepper",
     "component/stepper-item",
-    "component/switch", "component/[template-comp-name]_Copy",
+    "component/switch",
     "component/accordion_backup",
     "calcite/light",
     "calcite/dark",
