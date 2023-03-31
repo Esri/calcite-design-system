@@ -115,21 +115,6 @@ const loader = document.querySelector(".my-loader-element") as HTMLCalciteLoader
 loader.active = true;
 ```
 
-## Tailwind
-
-Components are internally styled using [Tailwind](https://tailwindcss.com/) generated utility classes. The configuration used to generate these utilties is packaged as a Tailwind [preset](https://tailwindcss.com/docs/presets) which can be used in your project to create consistent, Calcite-aligned, styling.
-
-```js
-// tailwind.config.js
-module.exports = {
-  presets: [require("@esri/calcite-components/calcite-preset.ts")],
-  theme: {},
-  plugins: []
-};
-```
-
-Here, the [default configuration](https://github.com/tailwindlabs/tailwindcss/blob/master/stubs/config.full.js) is merged with `./calcite-preset.ts` to form a Calcite themed, scales based, final configuration. Utilities generated from this configuration form a constrained subset of CSS and serve as the visual primitives used to compose more complex designs such as components.
-
 ## `@stencil/core` Version
 
 When using Stencil, make sure the `@stencil/core` version in your project matches the one used by Calcite Components. You may run into type errors if the `@stencil/core` versions are different. You can install the same Stencil version used by `@esri/calcite-components`:

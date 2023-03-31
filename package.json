@@ -14,8 +14,7 @@
   "collection": "dist/collection/collection-manifest.json",
   "files": [
     "dist/",
-    "hydrate/",
-    "calcite-preset.ts"
+    "hydrate/"
   ],
   "scripts": {
     "build": "npm run util:prep-build-reqs && stencil build",
