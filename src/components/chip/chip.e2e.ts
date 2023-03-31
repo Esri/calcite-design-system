@@ -1,5 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, focusable, hidden, renders, slots, t9n } from "../../tests/commonTests";
+import { accessible, disabled, focusable, hidden, renders, slots, t9n } from "../../tests/commonTests";
 
 import { CSS, SLOTS } from "./resources";
 
@@ -13,6 +13,8 @@ describe("calcite-chip", () => {
   it("has slots", () => slots("calcite-chip", SLOTS));
 
   it("is focusable", () => focusable("calcite-chip"));
+
+  it("can be disabled", () => disabled("calcite-chip"));
 
   it("should emit event after the close button is clicked", async () => {
     const page = await newE2EPage();

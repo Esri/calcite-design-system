@@ -1,6 +1,6 @@
 import { E2EPage, newE2EPage } from "@stencil/core/testing";
 import { html } from "../../../support/formatting";
-import { accessible, renders, hidden } from "../../tests/commonTests";
+import { accessible, renders, hidden, disabled } from "../../tests/commonTests";
 import { GlobalTestProps } from "../../tests/utils";
 import { CSS as CHIP_CSS } from "../chip/resources";
 
@@ -11,6 +11,8 @@ describe("calcite-chip-group", () => {
     }));
 
   it("honors hidden attribute", async () => hidden("calcite-chip-group"));
+
+  it("can be disabled", () => disabled("calcite-chip-group"));
 
   describe("is accessible", () => {
     it("is accessible in selection mode none (default)", async () => {

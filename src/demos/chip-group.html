@@ -235,6 +235,39 @@
         </calcite-chip-group>
       </div>
       <div class="parent">
+        <div class="child">Multiple with closable, icon, disabled</div>
+
+        <calcite-chip-group label="demo-group-label" selection-mode="multiple" class="">
+          <calcite-chip icon="file-csv" closable appearance="outline-fill" value="calcite chip"> CSV </calcite-chip>
+          <calcite-chip icon="file-excel" closable appearance="outline-fill" selected value="calcite chip"
+            >Excel
+          </calcite-chip>
+          <calcite-chip icon="file-kml" closable appearance="outline-fill" selected value="calcite chip">
+            KML
+          </calcite-chip>
+          <calcite-chip disabled icon="file-text" closable appearance="outline-fill" value="calcite chip">
+            Text
+          </calcite-chip>
+          <calcite-chip disabled icon="file-pdf" closable appearance="outline-fill" value="calcite chip">
+            PDF
+          </calcite-chip>
+        </calcite-chip-group>
+      </div>
+      <div class="parent">
+        <div class="child">Multiple with closable, icon, disabled parent</div>
+        <calcite-chip-group disabled label="demo-group-label" selection-mode="multiple" class="">
+          <calcite-chip icon="file-csv" closable appearance="outline-fill" value="calcite chip"> CSV </calcite-chip>
+          <calcite-chip icon="file-excel" closable appearance="outline-fill" selected value="calcite chip"
+            >Excel
+          </calcite-chip>
+          <calcite-chip icon="file-kml" closable appearance="outline-fill" selected value="calcite chip">
+            KML
+          </calcite-chip>
+          <calcite-chip icon="file-text" closable appearance="outline-fill" value="calcite chip"> Text </calcite-chip>
+          <calcite-chip icon="file-pdf" closable appearance="outline-fill" value="calcite chip"> PDF </calcite-chip>
+        </calcite-chip-group>
+      </div>
+      <div class="parent">
         <div class="child">Multiple with closable, icon</div>
 
         <calcite-chip-group label="demo-group-label" class="themed-children" selection-mode="multiple" class="">

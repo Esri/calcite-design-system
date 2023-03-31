@@ -246,7 +246,9 @@ export class Chip
   @Method()
   async setFocus(): Promise<void> {
     await componentLoaded(this);
-    this.containerEl?.focus();
+    if (!this.disabled) {
+      this.containerEl?.focus();
+    }
   }
 
   // --------------------------------------------------------------------------
@@ -331,6 +333,7 @@ export class Chip
         class={CSS.close}
         onClick={this.closeHandler}
         onKeyDown={this.closeButtonKeyDownHandler}
+        tabIndex={!this.disabled ? 0 : -1}
       >
         <calcite-icon icon={ICONS.close} scale={this.scale === "l" ? "m" : "s"} />
       </button>
