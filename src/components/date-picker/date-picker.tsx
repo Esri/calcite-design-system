@@ -193,6 +193,12 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
    */
   @State() activeEndDate: Date;
 
+  /**
+   * The DateTimeFormat instance to use to label days.
+   * @internal
+   */
+  @State() dateTimeFormat: Intl.DateTimeFormat;
+
   @State() startAsDate: Date;
 
   @State() endAsDate: Date;
@@ -349,6 +355,8 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
     };
 
     this.localeData = await getLocaleData(this.effectiveLocale);
+    // TODO: need to cache
+    this.dateTimeFormat = new Intl.DateTimeFormat(this.effectiveLocale, { dateStyle: "full" });
   }
 
   monthHeaderSelectChange = (event: CustomEvent<Date>): void => {
@@ -482,6 +490,7 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
         />,
         <calcite-date-picker-month
           activeDate={activeDate}
+          dateTimeFormat={this.dateTimeFormat}
           endDate={this.range ? endDate : undefined}
           hoverRange={this.hoverRange}
           localeData={this.localeData}
