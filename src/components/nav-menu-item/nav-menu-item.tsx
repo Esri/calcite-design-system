@@ -526,45 +526,43 @@ export class CalciteNavMenuItem implements LoadableComponent {
   render() {
     return (
       <Host onFocus={this.focusHandler}>
-        <div>
-          <li
-            class={{
-              container: true,
-              "nav-item-vertical-parent": this.topLevelLayout === "vertical"
-            }}
-            role="none"
-          >
-            <div class="item-content">
-              <a
-                aria-current="todo"
-                aria-expanded={this.subMenuOpen ? "true" : "false"}
-                aria-haspopup={this.hasSubMenu ? "true" : undefined}
-                class={{
-                  "layout--vertical": true
-                }}
-                href={this.href ? this.href : null}
-                onClick={this.clickHandler}
-                onKeyDown={this.keyDownHandler}
-                ref={(el) => (this.anchorEl = el)}
-                rel={this.rel ? this.rel : null}
-                role="menuitem"
-                tabIndex={1}
-                target={this.target ? this.target : null}
-              >
-                {this.renderItemContent()}
-                {this.href && this.topLevelLayout === "vertical" ? (
-                  <calcite-icon
-                    class="hover-href-icon"
-                    icon={this.dir === "rtl" ? "arrow-left" : "arrow-right"}
-                    scale="s"
-                  />
-                ) : null}
-              </a>
-              {this.href && this.hasSubMenu ? this.renderDropdownAction() : null}
-            </div>
-            {this.hasSubMenu ? this.rendersubMenuItems() : null}
-          </li>
-        </div>
+        <li
+          class={{
+            container: true,
+            "nav-item-vertical-parent": this.topLevelLayout === "vertical"
+          }}
+          role="none"
+        >
+          <div class="item-content">
+            <a
+              aria-current="todo"
+              aria-expanded={this.subMenuOpen ? "true" : "false"}
+              aria-haspopup={this.hasSubMenu ? "true" : undefined}
+              class={{
+                "layout--vertical": true
+              }}
+              href={this.href ? this.href : null}
+              onClick={this.clickHandler}
+              onKeyDown={this.keyDownHandler}
+              ref={(el) => (this.anchorEl = el)}
+              rel={this.rel ? this.rel : null}
+              role="menuitem"
+              tabIndex={1}
+              target={this.target ? this.target : null}
+            >
+              {this.renderItemContent()}
+              {this.href && this.topLevelLayout === "vertical" ? (
+                <calcite-icon
+                  class="hover-href-icon"
+                  icon={this.dir === "rtl" ? "arrow-left" : "arrow-right"}
+                  scale="s"
+                />
+              ) : null}
+            </a>
+            {this.href && this.hasSubMenu ? this.renderDropdownAction() : null}
+          </div>
+          {this.hasSubMenu ? this.rendersubMenuItems() : null}
+        </li>
       </Host>
     );
   }
