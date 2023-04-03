@@ -27,6 +27,8 @@ export default {
   ...storyFilters()
 };
 
+const testDate = "2020-02-28";
+
 const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ exceptions } = { exceptions: [] }) => {
   return filterComponentAttributes(
     [
@@ -97,7 +99,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
       {
         name: "value",
         commit(): Attribute {
-          this.value = text("value", "2020-02-28");
+          this.value = text("value", testDate);
           delete this.build;
           return this;
         }
@@ -123,7 +125,7 @@ export const range = (): string =>
 
 export const rangeRTL_TestOnly = (): string => html`
   <div style="width: 400px">
-    <calcite-date-picker dir="rtl" range></calcite-date-picker>
+    <calcite-date-picker value="${testDate}" dir="rtl" range></calcite-date-picker>
   </div>
 `;
 
