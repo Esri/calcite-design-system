@@ -25,7 +25,7 @@
 
   <body>
     <calcite-nav-menu layout="horizontal">
-      <calcite-nav-menu-item href="#calcite-nav-menu" text-enabled text="props" dropdown-position="horizontal">
+      <calcite-nav-menu-item text-enabled text="props" href="#calcite-nav-menu" dropdown-position="horizontal">
         <calcite-nav-menu-item slot="menu-item-dropdown" text-enabled text="scale">
           <calcite-nav-menu-item slot="menu-item-dropdown" text-enabled text="s">
             <calcite-nav-menu-item slot="menu-item-dropdown" text-enabled text="small"></calcite-nav-menu-item>
@@ -35,8 +35,12 @@
         <calcite-nav-menu-item slot="menu-item-dropdown" text-enabled text="appearance"> </calcite-nav-menu-item>
         <calcite-nav-menu-item slot="menu-item-dropdown" text-enabled text="color"> </calcite-nav-menu-item>
       </calcite-nav-menu-item>
-      <calcite-nav-menu-item href="#calcite-nav-menu" text-enabled text="States"> </calcite-nav-menu-item>
-      <calcite-nav-menu-item href="#calcite-nav-menu" text-enabled text="Events"> </calcite-nav-menu-item>
+      <calcite-nav-menu-item text-enabled text="States">
+        <calcite-nav-menu-item slot="menu-item-dropdown" text-enabled text="internal"></calcite-nav-menu-item>
+      </calcite-nav-menu-item>
+      <calcite-nav-menu-item href="#calcite-nav-menu" text-enabled text="Events">
+        <calcite-nav-menu-item slot="menu-item-dropdown" text-enabled text="public"> </calcite-nav-menu-item>
+      </calcite-nav-menu-item>
     </calcite-nav-menu>
 
     <calcite-nav-menu layout="vertical">
@@ -48,10 +52,10 @@
           <calcite-nav-menu-item slot="menu-item-dropdown" text-enabled text="m"></calcite-nav-menu-item>
         </calcite-nav-menu-item>
       </calcite-nav-menu-item>
-      <calcite-nav-menu-item href="#calcite-nav-menu" text-enabled text="States"> </calcite-nav-menu-item>
+      <calcite-nav-menu-item text-enabled text="States"> </calcite-nav-menu-item>
       <calcite-nav-menu-item href="#calcite-nav-menu" text-enabled text="Events"> </calcite-nav-menu-item>
     </calcite-nav-menu>
-    <calcite-button> FOCUS</calcite-button>
+    <!-- <calcite-button> FOCUS</calcite-button>
 
     <script type="module">
       await customElements.whenDefined("calcite-nav-menu-item");
@@ -60,6 +64,6 @@
       buttonEl.addEventListener("click", async () => {
         navitem.setFocus();
       });
-    </script>
+    </script> -->
   </body>
 </html>

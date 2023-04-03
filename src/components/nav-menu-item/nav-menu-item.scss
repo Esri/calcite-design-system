@@ -26,13 +26,7 @@
   align-items: stretch;
 }
 
-:host([layout="vertical"]) {
-  display: flex;
-  flex-direction: row;
-  @apply h-auto;
-  inline-size: 100%;
-}
-:host([layout="vertical"]) a {
+.layout--vertical {
   display: flex;
   inline-size: 100%;
   @apply py-4;
@@ -40,15 +34,6 @@
   border-block-end: 0;
   border-inline-end: 4px solid transparent;
 }
-
-// .layout--vertical {
-//   display: flex;
-//   inline-size: 100%;
-//   @apply py-4;
-//   justify-content: flex-start;
-//   border-block-end: 0;
-//   border-inline-end: 4px solid transparent;
-// }
 
 a:focus ~ calcite-action,
 a:hover ~ calcite-action {
@@ -74,7 +59,6 @@ a:hover ~ calcite-action {
   text-decoration: none;
   font-weight: var(--calcite-nav-menu-item-font-weight);
   border-block-end: 2px solid transparent;
-  padding-block-start: 2px;
 
   & span {
     display: inline-flex;
