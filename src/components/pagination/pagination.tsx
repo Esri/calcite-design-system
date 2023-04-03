@@ -12,6 +12,12 @@ import {
   Watch
 } from "@stencil/core";
 import {
+  componentLoaded,
+  LoadableComponent,
+  setComponentLoaded,
+  setUpLoadableComponent
+} from "../../utils/loadable";
+import {
   connectLocalized,
   disconnectLocalized,
   LocalizedComponent,
@@ -44,7 +50,9 @@ export interface PaginationDetail {
   },
   assetsDirs: ["assets"]
 })
-export class Pagination implements LocalizedComponent, LocalizedComponent, T9nComponent {
+export class Pagination
+  implements LocalizedComponent, LocalizedComponent, LoadableComponent, T9nComponent
+{
   //--------------------------------------------------------------------------
   //
   //  Public Properties
@@ -147,6 +155,11 @@ export class Pagination implements LocalizedComponent, LocalizedComponent, T9nCo
 
   async componentWillLoad(): Promise<void> {
     await setUpMessages(this);
+    setUpLoadableComponent(this);
+  }
+
+  componentDidLoad(): void {
+    setComponentLoaded(this);
   }
 
   disconnectedCallback(): void {
@@ -159,6 +172,13 @@ export class Pagination implements LocalizedComponent, LocalizedComponent, T9nCo
   //  Public Methods
   //
   // --------------------------------------------------------------------------
+
+  /** Sets focus on the component's first focusable element. */
+  @Method()
+  async setFocus(): Promise<void> {
+    await componentLoaded(this);
+    this.el.focus();
+  }
 
   /** Go to the next page of results. */
   @Method()
@@ -259,12 +279,14 @@ export class Pagination implements LocalizedComponent, LocalizedComponent, T9nCo
     };
 
     const displayedPage = numberStringFormatter.localize(page.toString());
+    const selected = start === this.startItem;
 
     return (
       <button
+        aria-current={selected ? "page" : "false"}
         class={{
           [CSS.page]: true,
-          [CSS.selected]: start === this.startItem
+          [CSS.selected]: selected
         }}
         onClick={() => {
           this.startItem = start;
