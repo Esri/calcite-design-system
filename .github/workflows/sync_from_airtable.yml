@@ -37,21 +37,12 @@ jobs:
                     repo: REPO,
                 });
 
-                return issue.status === 200 ? JSON.stringify(issue) : JSON.stringify(null);
+                return issue.status === 200 ? JSON.stringify(issue) : null;
             } catch (error) {
                 
-                const issue = await github.rest.search.issuesAndPullRequests({
-                    q: `"${TITLE}" in:title is:open is:issue`,
-                    sort: 'created',
-                    order: 'asc',
-                    per_page: 1
-                }).then((result) =>  result[0]);
-                core.info(issue);
+                return null;
 
-                return issue ? JSON.stringify(issue) : JSON.stringify(null);
             }
-
-            return JSON.stringify(null);
 
   assigned_unassigned:
     name: Assign or Unassign
@@ -73,38 +64,48 @@ jobs:
             if (assignees) {
                 const issue  = JSON.parse(process.env.ISSUE);
                 const ghAssignees = issue.data.assignees.map((assignee) => assignee.login);
-                const keepAssignees = []
-                const addAssignees = [];
-                const ghLookup = {};
-                for (let j in ghAssignees) {
-                    ghLookup[ghAssignees[j]] = ghAssignees[j];
-                }
-                for (let i in assignees) {
-                    if (typeof ghLookup[assignees[i]] != 'undefined') {
-                    keepAssignees.push(assignees[i])
-                    delete ghLookup[assignees[i]];
+                const { removeAssignees, addAssignees } = assignees.reduce((acc, labelName, idx) => {
+                    const currentIdx = acc.priorAssignees.indexOf(labelName);
+
+                    if (currentIdx === -1) {
+                        acc.addAssignees.push(labelName);
                     } else {
-                    addAssignees.push(assignees[i]);
+                        // Keep the label indices from the priorLabel list
+                        acc.keepAssignees[currentIdx] = labelName;
                     }
+
+                    if (idx === labels.length - 1) {
+                        // We are in our final loop. Remove empty indices from keepAssignees and set those priorAssignees for removal.
+                        acc.keepAssignees = acc.keepAssignees.filter((label, keepLabelIdx) => {
+                            if (label === undefined) {
+                                acc.removeAssignees.push(acc.priorAssignees[keepLabelIdx]);
+                                return false;
+                            } else {
+                                return true;
+                            }
+                        })
+                    }
+
+                    return acc;
+                }, { keepAssignees: new Array(issue.data.assignees.length), removeAssignees: [], addAssignees: [], priorAssignees: issue.data.assignees.map((assignee) => assignee.login)});
+
+                if (addAssignees.length > 0) {
+                    await github.rest.issues.addAssignees({
+                        owner: OWNER,
+                        repo: REPO,
+                        issue_number: NUMBER,
+                        assignees: addAssignees
+                    });
+                    core.info('Assignees Added: ', addAssignees.join(','))
                 }
-                const removeAssignees = Object.keys(ghLookup);
-                if (addAssignees && addAssignees.length > 0) {
-                  await github.rest.issues.addAssignees({
-                      owner: OWNER,
-                      repo: REPO,
-                      issue_number: NUMBER,
-                      assignees: addAssignees
-                  });
-                  core.info('Assignees Added: ', addAssignees.join(','))
-                }
-                if (removeAssignees && removeAssignees.length > 0) {
-                  await github.rest.issues.removeAssignees({
-                      owner: OWNER,
-                      repo: REPO,
-                      issue_number: NUMBER,
-                      assignees: removeAssignees
-                  });
-                  core.info('Assignees Removed: ', removeAssignees.join(','))
+                if (removeAssignees.length > 0) {
+                    await github.rest.issues.removeAssignees({
+                        owner: OWNER,
+                        repo: REPO,
+                        issue_number: NUMBER,
+                        assignees: removeAssignees
+                    });
+                    core.info('Assignees Removed: ', removeAssignees.join(','))
                 }
             }
 
@@ -127,23 +128,68 @@ jobs:
             const { labels } = JSON.parse(DATA);
             if (labels) {
                 const issue  = JSON.parse(process.env.ISSUE);
-                const ghLabels = issue.data.labels.map((label) => label.name);
-                const keepLabels = []
-                const addLabels = [];
-                const ghLookup = {};
-                for (let j in ghLabels) {
-                    ghLookup[ghLabels[j]] = ghLabels[j];
-                }
-                for (let i in labels) {
-                    if (typeof ghLookup[labels[i]] != 'undefined') {
-                        keepLabels.push(labels[i])
-                        delete ghLookup[labels[i]];
+                const { removeLabels, addLabels } = labels.reduce((acc, labelName, idx) => {
+                    const currentIdx = acc.priorLabels.indexOf(labelName);
+
+                    if (currentIdx === -1) {
+                        acc.addLabels.push(labelName);
                     } else {
-                        addLabels.push(labels[i]);
+                        // Keep the label indices from the priorLabel list
+                        acc.keepLabels[currentIdx] = labelName;
                     }
-                }
-                const removeLabels = Object.keys(ghLookup);
-                if (addLabels && addLabels.length > 0) {
+
+                    if (idx === labels.length - 1) {
+                        // We are in our final loop. Remove empty indices from keepLabels and set those priorLabels for removal.
+                        acc.keepLabels = acc.keepLabels.filter((label, keepLabelIdx) => {
+                            if (label === undefined) {
+                                acc.removeLabels.push(acc.priorLabels[keepLabelIdx]);
+                                return false;
+                            } else {
+                                return true;
+                            }
+                        })
+                    }
+
+                    return acc;
+                    
+                }, { keepLabels: new Array(issue.data.labels.length), removeLabels: [], addLabels: [], priorLabels: issue.data.labels.map((label) => label.name)});
+
+                if (addLabels.length > 0) {
+                    await Promise.all(addLabels.map(async (label) => {
+                        try {
+                            await github.rest.issues.getLabel({
+                                owner: OWNER,
+                                repo: REPO,
+                                name: label
+                            });
+                            await github.rest.issues.addLabels({
+                                owner: OWNER,
+                                repo: REPO,
+                                issue_number: NUMBER,
+                                labels: label
+                            });
+                            core.info(`Label added: ${label})`)
+                        } catch (error) {
+                            try {
+                                await github.rest.issues.createLabel({
+                                    owner: OWNER,
+                                    repo: REPO,
+                                    name: label
+                                });
+                                core.info(`Label created: ${label}`)
+                                await github.rest.issues.addLabels({
+                                    owner: OWNER,
+                                    repo: REPO,
+                                    issue_number: NUMBER,
+                                    labels: label
+                                });
+                                core.info(`Label added: ${label}`)
+                            } catch (error) {
+                                console.error(`Label not added: ${error}`)
+                            }
+                        }
+                    }))
+
                     try {
                         await github.rest.issues.addLabels({
                             owner: OWNER,
@@ -154,44 +200,12 @@ jobs:
                         core.info(`Labels added: ${addLabels}`)
                     } catch (error) {
                         if (error.toString().includes('Label does not exist')) {
-                            await Promise.all(addLabels.map(async (label) => {
-                                try {
-                                    await github.rest.issues.getLabel({
-                                        owner: OWNER,
-                                        repo: REPO,
-                                        name: label
-                                    });
-                                    await github.rest.issues.addLabels({
-                                        owner: OWNER,
-                                        repo: REPO,
-                                        issue_number: NUMBER,
-                                        labels: label
-                                    });
-                                    core.info(`Label added: ${label})`)
-                                } catch (error) {
-                                    try {
-                                        await github.rest.issues.createLabel({
-                                            owner: OWNER,
-                                            repo: REPO,
-                                            name: label
-                                        });
-                                        core.info(`Label created: ${label}`)
-                                        await github.rest.issues.addLabels({
-                                            owner: OWNER,
-                                            repo: REPO,
-                                            issue_number: NUMBER,
-                                            labels: label
-                                        });
-                                        core.info(`Label added: ${label}`)
-                                    } catch (error) {
-                                        console.error(`Label not added: ${error}`)
-                                    }
-                                }
-                            }))
+                            
                         }
                     }
                 }
-                if (removeLabels && removeLabels.length > 0) {
+
+                if (removeLabels.length > 0) {
                     try {
                         await Promise.all(removeLabels.map(async (name) => {
                             await github.rest.issues.removeLabel({
@@ -204,7 +218,7 @@ jobs:
                         }));
                     } catch (err) {
                         if (!error.includes('Label does not exist')) {
-                          core.error(`Label not removed: ${err}`)
+                            core.error(`Label not removed: ${err}`)
                         }   
                     }
                 }
