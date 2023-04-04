@@ -11,6 +11,10 @@ env:
   OWNER: "Esri"
   REPO: "calcite-components"
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}-${{ env.NUMBER }}
+  cancel-in-progress: true
+
 jobs:
   existing_issue:
     name: Find Existing Issue
