@@ -43,7 +43,7 @@ import {
 } from "../../utils/t9n";
 import { HeadingLevel } from "../functional/Heading";
 import { DatePickerMessages } from "./assets/date-picker/t9n";
-import { HEADING_LEVEL } from "./resources";
+import { DATE_PICKER_FORMAT_OPTIONS, HEADING_LEVEL } from "./resources";
 import { DateLocaleData, getLocaleData, getValueAsDateRange } from "./utils";
 
 @Component({
@@ -356,7 +356,7 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
     };
 
     this.localeData = await getLocaleData(this.effectiveLocale);
-    this.dateTimeFormat = getDateTimeFormat(this.effectiveLocale, { dateStyle: "full" });
+    this.dateTimeFormat = getDateTimeFormat(this.effectiveLocale, DATE_PICKER_FORMAT_OPTIONS);
   }
 
   monthHeaderSelectChange = (event: CustomEvent<Date>): void => {
@@ -490,7 +490,7 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
         />,
         <calcite-date-picker-month
           activeDate={activeDate}
-          effectiveLocale={this.effectiveLocale}
+          dateTimeFormat={this.dateTimeFormat}
           endDate={this.range ? endDate : undefined}
           hoverRange={this.hoverRange}
           localeData={this.localeData}
