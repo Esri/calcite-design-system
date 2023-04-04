@@ -12,7 +12,7 @@ env:
   REPO: "calcite-components"
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}-${{ env.NUMBER }}
+  group: ${{ github.workflow }}-${{ github.ref }}-${{ github.event.client_payload.number }}
   cancel-in-progress: true
 
 jobs:
@@ -314,7 +314,7 @@ jobs:
             if (issue.title === title && issue.body === body) {
               return true;
             }
-            
+
             await github.rest.issues.update({
               owner: OWNER,
               repo: REPO,
