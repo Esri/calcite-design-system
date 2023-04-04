@@ -13,9 +13,9 @@ import { CSS, SLOTS } from "./resources";
  * @slot footer - A slot for adding footer content. This content will be positioned at the bottom of the component.
  * @slot panel-start - A slot for adding the starting `calcite-shell-panel`.
  * @slot panel-end - A slot for adding the ending `calcite-shell-panel`.
- * @slot panel-top - A slot for adding the top `calcite-shell-panel`.
- * @slot panel-bottom - A slot for adding the bottom `calcite-shell-panel`.
- * @slot center-row - A slot for adding the bottom `calcite-shell-panel`. (Deprecated - use `panel-bottom` instead)
+ * @slot panel-top - A slot for adding the top `calcite-shell-center-row`.
+ * @slot panel-bottom - A slot for adding the bottom `calcite-shell-center-row`.
+ * @slot center-row - [Deprecated] use "panel-bottom" instead. A slot for adding the bottom `calcite-shell-center-row`.
  * @slot modals - A slot for adding `calcite-modal` components. When placed in this slot, the modal position will be constrained to the extent of the shell.
  * @slot alerts - A slot for adding `calcite-alert` components. When placed in this slot, the alert position will be constrained to the extent of the shell.
  */

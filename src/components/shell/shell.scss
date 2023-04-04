@@ -110,12 +110,12 @@ slot[name="panel-bottom"]::slotted(calcite-shell-center-row:not([detached])) {
   inset-inline: var(--calcite-shell-tip-spacing);
 }
 
-slot[name="center-row"]::slotted(calcite-shell-center-row:only-of-type),
-slot[name="panel-bottom"]::slotted(calcite-shell-center-row:only-of-type) {
+slot[name="center-row"]::slotted(calcite-shell-center-row),
+slot[name="panel-bottom"]::slotted(calcite-shell-center-row) {
   margin-block-start: auto;
 }
 
-slot[name="panel-top"]::slotted(calcite-shell-center-row:only-of-type) {
+slot[name="panel-top"]::slotted(calcite-shell-center-row) {
   margin-block-end: auto;
 }
 

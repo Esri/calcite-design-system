@@ -56,7 +56,7 @@
       <main>
         <div class="shell-container">
           <calcite-shell content-behind>
-            <calcite-shell-center-row slot="panel-top" height-scale="s" detached>
+            <calcite-shell-center-row slot="panel-top" hidden height-scale="s" detached>
               <calcite-panel
                 heading="Shell center row top"
                 description="Will be replaced with horizontal action bar / slot panel in shell panel"
@@ -114,7 +114,7 @@
                 </calcite-action-group>
               </calcite-action-bar>
             </calcite-shell-center-row>
-            <calcite-shell-panel slot="panel-start" position="start">
+            <calcite-shell-panel resizable slot="panel-start" position="start">
               <calcite-action-bar slot="action-bar">
                 <calcite-action-group>
                   <calcite-action text="Save" icon="save" indicator> </calcite-action>
@@ -140,7 +140,7 @@
                 <div class="padded-content">Panel content<br />Padding is fake.</div>
               </calcite-panel>
             </calcite-shell-panel>
-            <calcite-shell-panel slot="panel-end" position="end">
+            <calcite-shell-panel resizable slot="panel-end" position="end">
               <calcite-action-bar slot="action-bar">
                 <calcite-tooltip slot="expand-tooltip" label="tooltip" pointer-disabled>Add layers</calcite-tooltip>
                 <calcite-action-group>
