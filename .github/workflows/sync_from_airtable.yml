@@ -41,9 +41,9 @@ jobs:
                     repo: REPO,
                 });
 
-                return issue.status === 200 ? JSON.stringify(issue) : null;
+                return issue.status === 200 ? JSON.stringify(issue) : '';
             } catch (error) {
-                return null;
+                return '';
             }
 
   assigned_unassigned:
@@ -325,7 +325,7 @@ jobs:
   new_issue:
     name: Create New Issue
     needs: existing_issue
-    if: needs.existing_issue.outputs.github_issue == null
+    if: needs.existing_issue.outputs.github_issue == ''
     runs-on: ubuntu-latest
     steps:
       - uses: actions/github-script@v6
