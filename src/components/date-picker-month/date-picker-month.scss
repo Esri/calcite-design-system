@@ -22,7 +22,6 @@
 .day {
   @apply flex
   min-w-0
-  cursor-pointer
   justify-center;
   inline-size: calc(100% / 7);
 }
