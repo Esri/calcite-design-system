@@ -41,6 +41,12 @@ import { formatTimeString, isValidTime, localizeTimeString } from "../../utils/t
 import { Scale } from "../interfaces";
 import { TimePickerMessages } from "../time-picker/assets/time-picker/t9n";
 
+import dayjs from "dayjs";
+import localizedFormat from "dayjs/plugin/localizedFormat";
+import customParseFormat from "dayjs/plugin/customParseFormat";
+dayjs.extend(localizedFormat);
+dayjs.extend(customParseFormat);
+
 @Component({
   tag: "calcite-input-time-picker",
   styleUrl: "input-time-picker.scss",
@@ -199,7 +205,7 @@ export class InputTimePicker
   @State() effectiveLocale = "";
 
   @Watch("effectiveLocale")
-  effectiveLocaleWatcher(): void {
+  async effectiveLocaleWatcher(): Promise<void> {
     this.setInputValue(
       localizeTimeString({
         value: this.value,
@@ -208,6 +214,10 @@ export class InputTimePicker
         includeSeconds: this.shouldIncludeSeconds()
       })
     );
+    const dayjsLocaleData = await import(
+      `https://unpkg.com/dayjs@1.11.7/locale/${this.effectiveLocale.toLowerCase()}`
+    );
+    dayjs.locale(dayjsLocaleData);
   }
 
   @State() localizedValue: string;
@@ -239,6 +249,9 @@ export class InputTimePicker
       numberingSystem,
       useGrouping: false
     };
+
+    const parseResult = dayjs(calciteInputEl.value, "LTS");
+    console.log(parseResult);
 
     const delocalizedValue = numberStringFormatter.delocalize(calciteInputEl.value);
 
@@ -465,13 +478,17 @@ export class InputTimePicker
     connectForm(this);
   }
 
-  componentWillLoad(): void {
+  componentWillLoad() {
     setUpLoadableComponent(this);
   }
 
-  componentDidLoad() {
+  async componentDidLoad(): Promise<void> {
     setComponentLoaded(this);
     this.setInputValue(this.localizedValue);
+    const dayjsLocaleData = await import(
+      `https://unpkg.com/dayjs@1.11.7/locale/${this.effectiveLocale.toLowerCase()}`
+    );
+    dayjs.locale(dayjsLocaleData);
   }
 
   disconnectedCallback() {
