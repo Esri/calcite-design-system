@@ -18,8 +18,7 @@
         width: 100%;
         height: 100%;
       }
-    </style>
-    <style>
+
       #viewDiv {
         padding: 0;
         margin: 0;
@@ -86,7 +85,7 @@
                 </calcite-action-group>
               </calcite-action-bar>
             </calcite-shell-center-row>
-            <calcite-shell-center-row slot="panel-bottom" detached>
+            <calcite-shell-center-row slot="panel-bottom" height-scale="s" detached>
               <calcite-panel
                 heading="Shell center row bottom"
                 description="Will be replaced with horizontal action bar / slot panel in shell panel"
@@ -101,10 +100,7 @@
                   id="expand-trigger"
                 ></calcite-action>
                 <calcite-action label="this is a label" slot="header-actions-end" icon="x" scale="m"></calcite-action>
-
-                <!-- / ShellCenterRow content -->
               </calcite-panel>
-
               <calcite-action-bar slot="action-bar">
                 <calcite-action-group>
                   <calcite-action text="It's like you can touch it!" icon="3d-glasses"> </calcite-action>
@@ -118,10 +114,7 @@
                 </calcite-action-group>
               </calcite-action-bar>
             </calcite-shell-center-row>
-            <calcite-shell-panel id="primary-panel" slot="panel-start">
-              <!-- <div slot="action-bar">
-                      Actionbar
-                  </div> -->
+            <calcite-shell-panel slot="panel-start" position="start">
               <calcite-action-bar slot="action-bar">
                 <calcite-action-group>
                   <calcite-action text="Save" icon="save" indicator> </calcite-action>
@@ -147,7 +140,6 @@
                 <div class="padded-content">Panel content<br />Padding is fake.</div>
               </calcite-panel>
             </calcite-shell-panel>
-
             <calcite-shell-panel slot="panel-end" position="end">
               <calcite-action-bar slot="action-bar">
                 <calcite-tooltip slot="expand-tooltip" label="tooltip" pointer-disabled>Add layers</calcite-tooltip>
