@@ -1,6 +1,8 @@
 import {
+  dateTimeFormatCache,
   defaultLocale,
   defaultNumberingSystem,
+  getDateTimeFormat,
   locales,
   numberingSystems,
   NumberStringFormatOptions,
@@ -127,5 +129,54 @@ describe("NumberStringFormat", () => {
         expect(delocalizedNumberString).toBe(numberString);
       });
     });
+  });
+});
+
+describe("getDateTimeFormat()", () => {
+  beforeEach(() => dateTimeFormatCache?.clear());
+
+  it("generates an instance of DateTimeFormat by locale", () => {
+    const enDateTimeFormat = getDateTimeFormat("en");
+    expect(enDateTimeFormat).toBeInstanceOf(Intl.DateTimeFormat);
+    expect(enDateTimeFormat.resolvedOptions().locale).toBe("en");
+
+    const esDateTimeFormat = getDateTimeFormat("es");
+    expect(esDateTimeFormat).toBeInstanceOf(Intl.DateTimeFormat);
+    expect(esDateTimeFormat.resolvedOptions().locale).toBe("es");
+  });
+
+  it("supports passing options", () => {
+    const options: Intl.DateTimeFormatOptions = { dateStyle: "full", numberingSystem: "latn" }; // using a subset and assuming other props will work the same
+    const enDateTimeFormat = getDateTimeFormat("en", options);
+
+    for (const [key, value] of Object.entries(options)) {
+      expect(enDateTimeFormat.resolvedOptions()[key]).toBe(value);
+    }
+  });
+
+  it("returns the same instance when given the same parameters", () => {
+    const simpleEnDateTimeFormat = getDateTimeFormat("en");
+
+    expect(simpleEnDateTimeFormat).toBe(getDateTimeFormat("en"));
+    expect(dateTimeFormatCache.size).toBe(1);
+
+    const options: Intl.DateTimeFormatOptions = { dateStyle: "full" };
+    const customizedEnDateTimeFormat = getDateTimeFormat("en", options);
+
+    expect(customizedEnDateTimeFormat).toBe(getDateTimeFormat("en", options));
+    expect(simpleEnDateTimeFormat).not.toBe(customizedEnDateTimeFormat);
+    expect(dateTimeFormatCache.size).toBe(2);
+
+    const simpleEsDateTimeFormat = getDateTimeFormat("es");
+
+    expect(simpleEsDateTimeFormat).toBe(getDateTimeFormat("es"));
+    expect(simpleEsDateTimeFormat).not.toBe(simpleEnDateTimeFormat);
+    expect(dateTimeFormatCache.size).toBe(1);
+
+    const customizedEsDateTimeFormat = getDateTimeFormat("es", options);
+
+    expect(customizedEsDateTimeFormat).toBe(getDateTimeFormat("es", options));
+    expect(simpleEsDateTimeFormat).not.toBe(customizedEsDateTimeFormat);
+    expect(dateTimeFormatCache.size).toBe(2);
   });
 });
