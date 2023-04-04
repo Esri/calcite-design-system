@@ -90,6 +90,7 @@ slot[name="panel-bottom"]::slotted(calcite-shell-center-row:not([detached])) {
   justify-content: space-between;
   block-size: 100%;
   inline-size: 100%;
+  min-inline-size: 0;
 }
 
 ::slotted(calcite-shell-center-row) {
@@ -97,15 +98,13 @@ slot[name="panel-bottom"]::slotted(calcite-shell-center-row:not([detached])) {
   align-self: stretch;
 }
 
-::slotted(calcite-tip-manager) {
-  @apply shadow-2
-  animate-in-up
-  absolute
-  box-border
-  rounded
-  z-toast;
-  inset-block-end: theme("spacing.2");
-  inset-inline: var(--calcite-shell-tip-spacing);
+slot[name="center-row"]::slotted(calcite-shell-center-row:only-of-type),
+slot[name="panel-bottom"]::slotted(calcite-shell-center-row:only-of-type) {
+  margin-block-start: auto;
+}
+
+slot[name="panel-top"]::slotted(calcite-shell-center-row:only-of-type) {
+  margin-block-end: auto;
 }
 
 // positioning logic for expected slotted components
