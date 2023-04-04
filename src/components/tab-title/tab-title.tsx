@@ -21,6 +21,18 @@ import { FlipContext, Scale } from "../interfaces";
 import { TabChangeEventDetail } from "../tab/interfaces";
 import { CSS } from "./resources";
 import { TabID, TabLayout, TabPosition } from "../tabs/interfaces";
+import {
+  connectMessages,
+  disconnectMessages,
+  setUpMessages,
+  T9nComponent,
+  updateMessages
+} from "../../utils/t9n";
+import { TabTitleMessages } from "./assets/tab-title/t9n";
+
+/**
+ * Tab-titles are optionally individually closable.
+ */
 
 /**
  * @slot - A slot for adding text.
@@ -28,9 +40,10 @@ import { TabID, TabLayout, TabPosition } from "../tabs/interfaces";
 @Component({
   tag: "calcite-tab-title",
   styleUrl: "tab-title.scss",
-  shadow: true
+  shadow: true,
+  assetsDirs: ["assets"]
 })
-export class TabTitle implements InteractiveComponent {
+export class TabTitle implements InteractiveComponent, T9nComponent {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -58,6 +71,9 @@ export class TabTitle implements InteractiveComponent {
       this.emitActiveTab(false);
     }
   }
+
+  /** When `true`, a close button is added to the component. */
+  @Prop({ reflect: true }) closable = false;
 
   /** When `true`, interaction is prevented and the component is displayed with lower opacity.  */
   @Prop({ reflect: true }) disabled = false;
@@ -98,6 +114,25 @@ export class TabTitle implements InteractiveComponent {
    */
   @Prop({ reflect: true }) tab: string;
 
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @internal
+   */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
+  @Prop({ mutable: true }) messages: TabTitleMessages;
+
+  /**
+   * Use this property to override individual strings used by the component.
+   */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
+  @Prop({ mutable: true }) messageOverrides: Partial<TabTitleMessages>;
+
+  @Watch("messageOverrides")
+  onMessagesChange(): void {
+    /* wired up by t9n util */
+  }
+
   //--------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -105,12 +140,14 @@ export class TabTitle implements InteractiveComponent {
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
+    connectMessages(this);
     this.setupTextContentObserver();
     this.parentTabNavEl = this.el.closest("calcite-tab-nav");
     this.parentTabsEl = this.el.closest("calcite-tabs");
   }
 
   disconnectedCallback(): void {
+    console.log("disconnecting");
     this.mutationObserver?.disconnect();
     // Dispatching to body in order to be listened by other elements that are still connected to the DOM.
     document.body?.dispatchEvent(
@@ -119,9 +156,11 @@ export class TabTitle implements InteractiveComponent {
       })
     );
     this.resizeObserver?.disconnect();
+    disconnectMessages(this);
   }
 
-  componentWillLoad(): void {
+  async componentWillLoad(): Promise<void> {
+    await setUpMessages(this);
     if (Build.isBrowser) {
       this.updateHasText();
     }
@@ -145,7 +184,8 @@ export class TabTitle implements InteractiveComponent {
   }
 
   render(): VNode {
-    const id = this.el.id || this.guid;
+    const { el } = this;
+    const id = el.id || this.guid;
 
     const iconStartEl = (
       <calcite-icon
@@ -185,9 +225,27 @@ export class TabTitle implements InteractiveComponent {
           {this.iconStart ? iconStartEl : null}
           <slot />
           {this.iconEnd ? iconEndEl : null}
+          {this.renderCloseButtonEl()}
         </div>
       </Host>
     );
+  }
+
+  renderCloseButtonEl(): VNode {
+    const { messages, closable } = this;
+
+    return closable ? (
+      <button
+        aria-label={messages.close}
+        class={CSS.close}
+        onClick={this.close}
+        // eslint-disable-next-line react/jsx-sort-props
+        ref={(el) => (this.closeButtonEl = el)}
+        title={this.messages.close}
+      >
+        <calcite-icon icon="x" scale={this.scale === "l" ? "m" : "s"} />
+      </button>
+    ) : null;
   }
 
   async componentDidLoad(): Promise<void> {
@@ -353,6 +411,17 @@ export class TabTitle implements InteractiveComponent {
 
   //--------------------------------------------------------------------------
   //
+  //  Private Method
+  //
+  //--------------------------------------------------------------------------
+
+  private close = (): void => {
+    console.log("private close is called");
+    this.el.remove();
+  };
+
+  //--------------------------------------------------------------------------
+  //
   //  Private State/Props
   //
   //--------------------------------------------------------------------------
@@ -360,10 +429,22 @@ export class TabTitle implements InteractiveComponent {
   /** watches for changing text content */
   mutationObserver: MutationObserver = createObserver("mutation", () => this.updateHasText());
 
+  /** The close button element. */
+  private closeButtonEl?: HTMLButtonElement;
+
   @State() controls: string;
 
   /** determine if there is slotted text for styling purposes */
   @State() hasText = false;
+
+  @State() effectiveLocale: string;
+
+  @Watch("effectiveLocale")
+  effectiveLocaleChange(): void {
+    updateMessages(this, this.effectiveLocale);
+  }
+
+  @State() defaultMessages: TabTitleMessages;
 
   parentTabNavEl: HTMLCalciteTabNavElement;
 
