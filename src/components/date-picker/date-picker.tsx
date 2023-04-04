@@ -29,6 +29,7 @@ import {
 import {
   connectLocalized,
   disconnectLocalized,
+  getDateTimeFormat,
   LocalizedComponent,
   NumberingSystem,
   numberStringFormatter
@@ -183,26 +184,6 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
    */
   @Event({ cancelable: false }) calciteDatePickerRangeChange: EventEmitter<void>;
 
-  /**
-   * Active start date.
-   */
-  @State() activeStartDate: Date;
-
-  /**
-   * Active end date.
-   */
-  @State() activeEndDate: Date;
-
-  /**
-   * The DateTimeFormat instance to use to label days.
-   * @internal
-   */
-  @State() dateTimeFormat: Intl.DateTimeFormat;
-
-  @State() startAsDate: Date;
-
-  @State() endAsDate: Date;
-
   //--------------------------------------------------------------------------
   //
   //  Public Methods
@@ -306,6 +287,24 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
   //
   //--------------------------------------------------------------------------
 
+  /**
+   * Active end date.
+   */
+  @State() activeEndDate: Date;
+
+  /**
+   * Active start date.
+   */
+  @State() activeStartDate: Date;
+
+  /**
+   * The DateTimeFormat instance to use to label days for screen readers.
+   * @internal
+   */
+  @State() dateTimeFormat: Intl.DateTimeFormat;
+
+  @State() defaultMessages: DatePickerMessages;
+
   @State() effectiveLocale = "";
 
   @Watch("effectiveLocale")
@@ -313,13 +312,15 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
     updateMessages(this, this.effectiveLocale);
   }
 
-  @State() defaultMessages: DatePickerMessages;
-
-  @State() private localeData: DateLocaleData;
+  @State() endAsDate: Date;
 
   @State() private hoverRange: HoverRange;
 
+  @State() private localeData: DateLocaleData;
+
   private mostRecentRangeValue?: Date;
+
+  @State() startAsDate: Date;
 
   //--------------------------------------------------------------------------
   //
@@ -355,8 +356,7 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
     };
 
     this.localeData = await getLocaleData(this.effectiveLocale);
-    // TODO: need to cache
-    this.dateTimeFormat = new Intl.DateTimeFormat(this.effectiveLocale, { dateStyle: "full" });
+    this.dateTimeFormat = getDateTimeFormat(this.effectiveLocale, { dateStyle: "full" });
   }
 
   monthHeaderSelectChange = (event: CustomEvent<Date>): void => {
@@ -490,7 +490,7 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
         />,
         <calcite-date-picker-month
           activeDate={activeDate}
-          dateTimeFormat={this.dateTimeFormat}
+          effectiveLocale={this.effectiveLocale}
           endDate={this.range ? endDate : undefined}
           hoverRange={this.hoverRange}
           localeData={this.localeData}
