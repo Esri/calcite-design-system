@@ -38,7 +38,6 @@
     overflow-auto;
 }
 
-.content ::slotted(calcite-shell-center-row),
 .content ::slotted(calcite-panel),
 .content ::slotted(calcite-flow) {
   @apply flex-auto self-stretch;
@@ -51,10 +50,6 @@
     border-0;
   z-index: calc(theme("zIndex.default") - 1);
   display: initial;
-}
-
-::slotted(calcite-shell-center-row) {
-  inline-size: unset;
 }
 
 ::slotted(.header .heading) {
@@ -78,9 +73,23 @@ slot[name="panel-end"]::slotted(calcite-shell-panel) {
   border-r-0
   border-solid;
 }
-
-slot[name="center-row"]::slotted(calcite-shell-center-row:not([detached])) {
+slot[name="panel-top"]::slotted(calcite-shell-center-row:not([detached])),
+slot[name="center-row"]::slotted(calcite-shell-center-row:not([detached])),
+slot[name="panel-bottom"]::slotted(calcite-shell-center-row:not([detached])) {
   @apply border-color-3 border-l border-r;
+}
+
+.center-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  block-size: 100%;
+  inline-size: 100%;
+}
+
+::slotted(calcite-shell-center-row) {
+  flex: none;
+  align-self: stretch;
 }
 
 ::slotted(calcite-tip-manager) {
