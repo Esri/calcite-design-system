@@ -39,9 +39,7 @@ jobs:
 
                 return issue.status === 200 ? JSON.stringify(issue) : null;
             } catch (error) {
-                
                 return null;
-
             }
 
   assigned_unassigned:
@@ -80,9 +78,9 @@ jobs:
                             if (label === undefined) {
                                 acc.removeAssignees.push(acc.priorAssignees[keepLabelIdx]);
                                 return false;
-                            } else {
-                                return true;
                             }
+                            
+                            return true;
                         })
                     }
 
@@ -144,9 +142,8 @@ jobs:
                             if (label === undefined) {
                                 acc.removeLabels.push(acc.priorLabels[keepLabelIdx]);
                                 return false;
-                            } else {
-                                return true;
                             }
+                            return true;
                         })
                     }
 
