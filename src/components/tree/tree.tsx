@@ -55,7 +55,7 @@ export class Tree {
    * `"multichildren"` allows any number of selections from corresponding parent and child selections,
    * `"multiple"` allows any number of selections,
    * `"none"` allows no selections,
-   * `"single"` allows one selection, or
+   * `"single"` allows one selection, and
    * `"single-persist"` allows and requires one selection.
    *
    * @default "single"
