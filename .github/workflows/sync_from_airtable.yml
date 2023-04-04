@@ -340,11 +340,11 @@ jobs:
             const newIssue = await github.rest.issues.create({
                 owner: OWNER,
                 repo: REPO,
-                title,
-                body,
-                labels,
-                milestone: milestone[0].milestone_number,
-                assignees
+                title: title || '',
+                body: body || '',
+                labels: labels || undefined,
+                milestone: milestone[0].milestone_number || undefined,
+                assignees: assignees || undefined,
             });
 
             core.info(`New Issue ${JSON.stringify(newIssue)}`);
