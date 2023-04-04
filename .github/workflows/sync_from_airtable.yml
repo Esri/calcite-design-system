@@ -307,20 +307,25 @@ jobs:
           REPO: ${{env.REPO}}
         with:
           script: |
-            const { DATA, NUMBER, OWNER, REPO } = process.env;
-            const data = JSON.parse(DATA);
+            const { DATA, NUMBER, OWNER, REPO, ISSUE } = process.env;
+            const issue  = JSON.parse(ISSUE);
+            const { body, title } = JSON.parse(DATA);
 
+            if (issue.title === title && issue.body === body) {
+              return true;
+            }
+            
             await github.rest.issues.update({
               owner: OWNER,
               repo: REPO,
               issue_number: NUMBER,
-              ...data,
+              body,
+              title,
             });
-
   new_issue:
     name: Create New Issue
     needs: existing_issue
-    if: fromJSON(needs.existing_issue.outputs.github_issue) == null
+    if: needs.existing_issue.outputs.github_issue == null
     runs-on: ubuntu-latest
     steps:
       - uses: actions/github-script@v6
