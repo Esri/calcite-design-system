@@ -298,7 +298,8 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
   @State() activeStartDate: Date;
 
   /**
-   * The DateTimeFormat instance to use to label days for screen readers.
+   * The DateTimeFormat used to provide screen reader labels.
+   *
    * @internal
    */
   @State() dateTimeFormat: Intl.DateTimeFormat;

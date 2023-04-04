@@ -37,7 +37,8 @@ export class DatePickerMonth {
   //--------------------------------------------------------------------------
 
   /**
-   * The DateTimeFormat instance to use to label days.
+   * The DateTimeFormat used to provide screen reader labels.
+   *
    * @internal
    */
   @Prop() dateTimeFormat: Intl.DateTimeFormat;
