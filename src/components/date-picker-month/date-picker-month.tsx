@@ -216,7 +216,7 @@ export class DatePickerMonth {
 
     return (
       <Host onFocusOut={this.disableActiveFocus} onKeyDown={this.keyDownHandler}>
-        <div class="calender" role="grid">
+        <div class="calendar" role="grid">
           <div class="week-headers" role="row">
             {adjustedWeekDays.map((weekday) => (
               <span class="week-header" role="columnheader">
