@@ -337,7 +337,8 @@ jobs:
           script: |
             const { DATA, NUMBER, OWNER, REPO } = process.env;
             const data = JSON.parse(DATA);
-            core.info(data.title);
+            core.info(data);
+            core.info(data["title"]);
             const title = `${data.title}`;
             const body = data.body ? `${data.body}` : '';
             const assignees = null;
