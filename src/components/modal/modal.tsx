@@ -17,7 +17,12 @@ import {
   connectConditionalSlotComponent,
   disconnectConditionalSlotComponent
 } from "../../utils/conditionalSlot";
-import { ensureId, focusFirstTabbable, getSlotted } from "../../utils/dom";
+import {
+  ensureId,
+  focusFirstTabbable,
+  getSlotted,
+  slotChangeHasAssignedElement
+} from "../../utils/dom";
 import {
   activateFocusTrap,
   connectFocusTrap,
@@ -50,6 +55,8 @@ import { ModalMessages } from "./assets/modal/t9n";
 /**
  * @slot header - A slot for adding header text.
  * @slot content - A slot for adding the component's content.
+ * @slot content-top - A slot for adding content to the component's sticky header, where content remains at the top of the component when scrolling up and down.
+ * @slot content-bottom - A slot for adding content to the component's sticky footer, where content remains at the bottom of the component when scrolling up and down.
  * @slot primary - A slot for adding a primary button.
  * @slot secondary - A slot for adding a secondary button.
  * @slot back - A slot for adding a back button.
@@ -133,11 +140,13 @@ export class Modal
    *
    * @internal
    */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
   @Prop({ mutable: true }) messages: ModalMessages;
 
   /**
    * Use this property to override individual strings used by the component.
    */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
   @Prop({ mutable: true }) messageOverrides: Partial<ModalMessages>;
 
   @Watch("messageOverrides")
@@ -176,8 +185,8 @@ export class Modal
   connectedCallback(): void {
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
     this.cssVarObserver?.observe(this.el, { attributeFilter: ["style"] });
-    this.updateFooterVisibility();
     this.updateSizeCssVars();
+    this.updateFooterVisibility();
     connectConditionalSlotComponent(this);
     connectLocalized(this);
     connectMessages(this);
@@ -205,6 +214,7 @@ export class Modal
         <div
           class={{
             [CSS.container]: true,
+            [CSS.containerOpen]: this.isOpen,
             [CSS.slottedInShell]: this.slottedInShell
           }}
         >
@@ -212,9 +222,9 @@ export class Modal
           {this.renderStyle()}
           <div
             class={{
-              [CSS.modal]: true,
-              [CSS.modalOpen]: this.isOpen
+              [CSS.modal]: true
             }}
+            // eslint-disable-next-line react/jsx-sort-props
             ref={this.setTransitionEl}
           >
             <div class={CSS.header}>
@@ -223,15 +233,18 @@ export class Modal
                 <slot name={CSS.header} />
               </header>
             </div>
+            {this.renderContentTop()}
             <div
               class={{
                 [CSS.content]: true,
                 [CSS.contentNoFooter]: !this.hasFooter
               }}
+              // eslint-disable-next-line react/jsx-sort-props
               ref={(el) => (this.modalContent = el)}
             >
               <slot name={SLOTS.content} />
             </div>
+            {this.renderContentBottom()}
             {this.renderFooter()}
           </div>
         </div>
@@ -255,6 +268,22 @@ export class Modal
     ) : null;
   }
 
+  renderContentTop(): VNode {
+    return (
+      <div class={CSS.contentTop} hidden={!this.hasContentTop}>
+        <slot name={SLOTS.contentTop} onSlotchange={this.contentTopSlotChangeHandler} />
+      </div>
+    );
+  }
+
+  renderContentBottom(): VNode {
+    return (
+      <div class={CSS.contentBottom} hidden={!this.hasContentBottom}>
+        <slot name={SLOTS.contentBottom} onSlotchange={this.contentBottomSlotChangeHandler} />
+      </div>
+    );
+  }
+
   renderCloseButton(): VNode {
     return !this.closeButtonDisabled ? (
       <button
@@ -262,8 +291,9 @@ export class Modal
         class={CSS.close}
         key="button"
         onClick={this.close}
-        ref={(el) => (this.closeButtonEl = el)}
         title={this.messages.close}
+        // eslint-disable-next-line react/jsx-sort-props
+        ref={(el) => (this.closeButtonEl = el)}
       >
         <calcite-icon
           icon={ICONS.close}
@@ -348,6 +378,10 @@ export class Modal
   @State() cssHeight: string | number;
 
   @State() hasFooter = true;
+
+  @State() hasContentTop = false;
+
+  @State() hasContentBottom = false;
 
   /**
    * We use internal variable to make sure initially open modal can transition from closed state when rendered
@@ -533,5 +567,13 @@ export class Modal
   private updateSizeCssVars = (): void => {
     this.cssWidth = getComputedStyle(this.el).getPropertyValue("--calcite-modal-width");
     this.cssHeight = getComputedStyle(this.el).getPropertyValue("--calcite-modal-height");
+  };
+
+  private contentTopSlotChangeHandler = (event: Event): void => {
+    this.hasContentTop = slotChangeHasAssignedElement(event);
+  };
+
+  private contentBottomSlotChangeHandler = (event: Event): void => {
+    this.hasContentBottom = slotChangeHasAssignedElement(event);
   };
 }

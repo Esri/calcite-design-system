@@ -52,6 +52,7 @@ import {
   setUpItems
 } from "../pick-list/shared-list-logic";
 import List from "../pick-list/shared-list-render";
+import { ListItemAndHandle } from "../value-list-item/interfaces";
 import { ValueListMessages } from "./assets/value-list/t9n";
 import { CSS, ICON_TYPES } from "./resources";
 import { getHandleAndItemElement, getScreenReaderText } from "./utils";
@@ -99,6 +100,7 @@ export class ValueList<
    *
    * @readonly
    */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by shared-list-logic module
   @Prop({ mutable: true }) filteredData: ItemData = [];
 
   /**
@@ -114,6 +116,7 @@ export class ValueList<
   /**
    * Text for the filter input field.
    */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by shared-list-logic module
   @Prop({ reflect: true, mutable: true }) filterText: string;
 
   /**
@@ -144,6 +147,7 @@ export class ValueList<
   /**
    * Use this property to override individual strings used by the component.
    */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
   @Prop({ mutable: true }) messageOverrides: Partial<ValueListMessages>;
 
   @Watch("messageOverrides")
@@ -156,6 +160,7 @@ export class ValueList<
    *
    * @internal
    */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
   @Prop({ mutable: true }) messages: ValueListMessages;
 
   // --------------------------------------------------------------------------
@@ -360,6 +365,8 @@ export class ValueList<
       return;
     }
 
+    event.preventDefault();
+
     const { items } = this;
 
     if (event.key === " ") {
@@ -369,8 +376,6 @@ export class ValueList<
     if ((event.key !== "ArrowUp" && event.key !== "ArrowDown") || items.length <= 1) {
       return;
     }
-
-    event.preventDefault();
 
     const { el } = this;
     const nextIndex = moveItemIndex(this, item, event.key === "ArrowUp" ? "up" : "down");
@@ -456,6 +461,15 @@ export class ValueList<
       this.updateHandleAriaLabel(handle, getScreenReaderText(item, "idle", this));
     }
   };
+
+  @Listen("calciteValueListItemDragHandleBlur")
+  handleValueListItemBlur(event: CustomEvent<ListItemAndHandle>): void {
+    const { item, handle } = event.detail;
+    if (!item?.handleActivated && item) {
+      this.updateHandleAriaLabel(handle, getScreenReaderText(item, "idle", this));
+    }
+    event.stopPropagation();
+  }
 
   render(): VNode {
     return (

@@ -92,11 +92,13 @@ export class ActionPad
    *
    * @internal
    */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
   @Prop({ mutable: true }) messages: ActionPadMessages;
 
   /**
    * Use this property to override individual strings used by the component.
    */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
   @Prop({ mutable: true }) messageOverrides: Partial<ActionPadMessages>;
 
   @Watch("messageOverrides")
@@ -223,10 +225,11 @@ export class ActionPad
         intlCollapse={messages.collapse}
         intlExpand={messages.expand}
         position={position}
-        ref={this.setExpandToggleRef}
         scale={scale}
         toggle={toggleExpand}
         tooltip={tooltip}
+        // eslint-disable-next-line react/jsx-sort-props
+        ref={this.setExpandToggleRef}
       />
     ) : null;
 

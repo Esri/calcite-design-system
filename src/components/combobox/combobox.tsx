@@ -139,6 +139,14 @@ export class Combobox
     }
   }
 
+  /**
+   * The ID of the form that will be associated with the component.
+   *
+   * When not set, the component will be associated with its ancestor `<form>` element, if any.
+   */
+  @Prop({ reflect: true })
+  form: string;
+
   /** Accessible name for the component. */
   @Prop() label!: string;
 
@@ -233,11 +241,13 @@ export class Combobox
    *
    * @internal
    */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
   @Prop({ mutable: true }) messages: ComboboxMessages;
 
   /**
    * Use this property to override individual strings used by the component.
    */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
   @Prop({ mutable: true }) messageOverrides: Partial<ComboboxMessages>;
 
   @Watch("messageOverrides")
@@ -1142,8 +1152,9 @@ export class Combobox
           onFocus={this.comboboxFocusHandler}
           onInput={this.inputHandler}
           placeholder={placeholder}
-          ref={(el) => (this.textInput = el as HTMLInputElement)}
           type="text"
+          // eslint-disable-next-line react/jsx-sort-props
+          ref={(el) => (this.textInput = el as HTMLInputElement)}
         />
       </span>
     );
@@ -1177,9 +1188,14 @@ export class Combobox
           "floating-ui-container": true,
           "floating-ui-container--active": open
         }}
+        // eslint-disable-next-line react/jsx-sort-props
         ref={setFloatingEl}
       >
-        <div class={classes} ref={setContainerEl}>
+        <div
+          class={classes}
+          // eslint-disable-next-line react/jsx-sort-props
+          ref={setContainerEl}
+        >
           <ul class={{ list: true, "list--hide": !open }}>
             <slot />
           </ul>
@@ -1243,8 +1259,9 @@ export class Combobox
           }}
           onClick={this.clickHandler}
           onKeyDown={this.keydownHandler}
-          ref={this.setReferenceEl}
           role="combobox"
+          // eslint-disable-next-line react/jsx-sort-props
+          ref={this.setReferenceEl}
         >
           <div class="grid-input">
             {this.renderIconStart()}

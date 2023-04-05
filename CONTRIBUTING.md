@@ -23,7 +23,7 @@ If you aren't familiar with the basics of Web Components and Shadow DOM, please 
 
 ## Before filing an issue
 
-If something isn't working the way you expect, please take a look at the [existing issues](https://github.com/Esri/calcite-components/issues) before logging a new one. Have you found a new bug? Want to request a new feature? We'd love to hear from you! Please make sure to provide all of the requested info from the appropriate [issue template](https://github.com/Esri/calcite-components/issues/new/choose) so we can work on resolving the issue as soon as possible. A sample that reproduces the issue is required for logging bugs, we created templates in [codepen](https://codepen.io/pen?template=RwgrjEx), [codesandbox](https://codesandbox.io/s/calcite-template-p95kp?file=/src/App.js), and [jsbin](https://jsbin.com/lopumatiru/edit?html,output) (with the ArcGIS API for JavaScript) to help get started. Alternatively, a [documentation](https://developers.arcgis.com/calcite-design-system/components/) sample can be used if the issue is reproducible. Some other things to consider:
+If something isn't working the way you expect, please take a look at the [existing issues](https://github.com/Esri/calcite-components/issues) before logging a new one. Have you found a new bug? Want to request a new feature? We'd love to hear from you! Please make sure to provide all of the requested info from the appropriate [issue template](https://github.com/Esri/calcite-components/issues/new/choose) so we can work on resolving the issue as soon as possible. A sample that reproduces the issue is required for logging bugs, we created templates in [codepen](https://codepen.io/pen?template=RwgrjEx), [codesandbox](https://codesandbox.io/s/calcite-template-p95kp?file=/src/App.js), and [jsbin](https://jsbin.com/lopumatiru/edit?html,output) (with the ArcGIS Maps SDK for JavaScript) to help get started. Alternatively, a [documentation](https://developers.arcgis.com/calcite-design-system/components/) sample can be used if the issue is reproducible. Some other things to consider:
 
 - Use a clear and descriptive title
 - Detail what is happening now vs what should happen
@@ -115,16 +115,6 @@ git clone git@github.com:Esri/calcite-components.git
 cd calcite-components
 npm install
 ```
-
-> **NOTE**
->
-> The first time installing dependencies, you may need to use the `legacy-peer-deps` flag due to an Stencil/ESLint dependency conflict:
->
-> ```sh
-> npm install --legacy-peer-deps
-> ```
->
-> Hopefully this will no longer be an issue once [`@stencil/eslint-plugin`](https://github.com/ionic-team/stencil-eslint) supports ESLint v8.
 
 Next, start the local Stencil development server on localhost:
 

@@ -1,7 +1,7 @@
+import rimraf from "rimraf";
 import yargs from "yargs";
 
 (async function () {
-  const { default: rimraf } = await import("rimraf");
   const { resolve } = await import("path");
 
   // 👇 based on https://stackoverflow.com/a/14032965

@@ -52,6 +52,14 @@ export class Switch
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @Prop({ reflect: true }) disabled = false;
 
+  /**
+   * The ID of the form that will be associated with the component.
+   *
+   * When not set, the component will be associated with its ancestor `<form>` element, if any.
+   */
+  @Prop({ reflect: true })
+  form: string;
+
   /** Accessible name for the component. */
   @Prop() label: string;
 
@@ -190,9 +198,10 @@ export class Switch
           aria-checked={toAriaBoolean(this.checked)}
           aria-label={getLabelText(this)}
           class="container"
-          ref={this.setSwitchEl}
           role="switch"
           tabIndex={0}
+          // eslint-disable-next-line react/jsx-sort-props
+          ref={this.setSwitchEl}
         >
           <div class="track">
             <div class="handle" />

@@ -1,3 +1,5 @@
+@import "../../assets/styles/animation";
+
 :host {
   @apply relative block w-full;
 }
@@ -28,7 +30,7 @@
 
 .indeterminate {
   @apply w-1/5;
-  animation: looping-progress-bar-ani calc(var(--calcite-internal-animation-timing-medium) * 11) linear infinite;
+  animation: looping-progress-bar-ani scaleDuration(--calcite-internal-animation-timing-medium, 11) linear infinite;
 }
 
 .reversed {

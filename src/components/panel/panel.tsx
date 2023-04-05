@@ -68,7 +68,7 @@ export class Panel
   @Prop({ reflect: true }) disabled = false;
 
   /** When `true`, displays a close button in the trailing side of the header. */
-  @Prop({ mutable: true, reflect: true }) closable = false;
+  @Prop({ reflect: true }) closable = false;
 
   /**
    * Specifies the number at which section headings should start.
@@ -96,6 +96,7 @@ export class Panel
   /**
    * Use this property to override individual strings used by the component.
    */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
   @Prop({ mutable: true }) messageOverrides: Partial<PanelMessages>;
 
   /**
@@ -103,6 +104,7 @@ export class Panel
    *
    * @internal
    */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
   @Prop({ mutable: true }) messages: PanelMessages;
 
   @Watch("messageOverrides")
@@ -393,8 +395,9 @@ export class Panel
         aria-label={text}
         icon={ICONS.close}
         onClick={close}
-        ref={this.setCloseRef}
         text={text}
+        // eslint-disable-next-line react/jsx-sort-props
+        ref={this.setCloseRef}
       />
     ) : null;
 
@@ -510,6 +513,7 @@ export class Panel
           [CSS.contentHeight]: hasFab
         }}
         onScroll={this.panelScrollHandler}
+        // eslint-disable-next-line react/jsx-sort-props
         ref={this.setPanelScrollEl}
       >
         {containerNode}
@@ -535,8 +539,9 @@ export class Panel
         class={CSS.container}
         hidden={closed}
         onKeyDown={panelKeyDownHandler}
-        ref={this.setContainerRef}
         tabIndex={closable ? 0 : -1}
+        // eslint-disable-next-line react/jsx-sort-props
+        ref={this.setContainerRef}
       >
         {this.renderHeaderNode()}
         {this.renderContent()}
