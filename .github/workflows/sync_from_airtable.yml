@@ -360,12 +360,12 @@ jobs:
 
             try {
               const newIssue = await github.rest.issues.create(issueCreateObject);
+
+              if (!newIssue.number) {
+                core.debug(newIssue)
+              }
             } catch (err) {
               core.error(err);
-              core.info(issueCreateObject)
-            }
-
-            if (!newIssue.number) {
-              core.debug(newIssue)
+              core.info(JSON.stringify(issueCreateObject, null, 4))
             }
 
