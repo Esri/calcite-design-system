@@ -337,6 +337,8 @@ jobs:
           script: |
             const { DATA, NUMBER, OWNER, REPO } = process.env;
             const data = JSON.parse(DATA);
+            core.info(DATA);
+            core.info(data);
             const title = `${data.title}`;
             const body = data.body ? `${data.body}` : '';
             const assignees = null;
@@ -351,12 +353,6 @@ jobs:
                 milestone,
                 labels
               };
-
-
-            if (!title || title.length < 2) {
-              core.error(JSON.parse(DATA))
-              return true;
-            }
 
             try {
               const newIssue = await github.rest.issues.create(issueCreateObject);
