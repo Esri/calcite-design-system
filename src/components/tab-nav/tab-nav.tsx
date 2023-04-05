@@ -193,7 +193,7 @@ export class TabNav {
               ref={(el) => (this.activeIndicatorEl = el as HTMLElement)}
             />
           </div>
-          <slot onSlotchange={this.disableLastClosableTabTitle} />
+          <slot onSlotchange={this.handleClosable} />
         </div>
       </Host>
     );
@@ -376,10 +376,24 @@ export class TabNav {
     );
   }
 
+  handleClosable = (): void => {
+    this.disableLastClosableTabTitle();
+    this.closingSelectedSequence();
+  };
+
   private disableLastClosableTabTitle = (): void => {
     const tabTitles = this.el.querySelectorAll("calcite-tab-title");
     if (tabTitles.length === 1 && tabTitles[0].hasAttribute("closable")) {
       tabTitles[0].shadowRoot.querySelector("button").disabled = true;
     }
+  };
+
+  private closingSelectedSequence = (): void => {
+    const tabTitles = this.el.querySelectorAll("calcite-tab-title");
+    tabTitles[this.selectedTabId].selected = true;
+    this.selectedTabId = Array.from(tabTitles).findIndex.call(
+      tabTitles,
+      (tabTitle) => tabTitle.hasAttribute("selected") //explicitely trigger resetting the tabId for watcher to fire
+    );
   };
 }
