@@ -367,5 +367,6 @@ jobs:
             } catch (err) {
               core.error(err);
               core.info(JSON.stringify(issueCreateObject, null, 4))
+              throw new Error(err)
             }
 
