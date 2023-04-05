@@ -366,7 +366,7 @@ export function isPrimaryPointerButton(event: PointerEvent): boolean {
  * @returns {Element} The focused element
  */
 
-export type FocusElementInGroupDestination = "first" | "last" | "next" | "previous";
+export type FocusElementInGroupDestination = "first" | "last" | "next" | "previous" | "current";
 
 export const focusElementInGroup = (
   elements: Element[],
@@ -377,7 +377,7 @@ export const focusElementInGroup = (
   const isFirstItem = currentIndex === 0;
   const isLastItem = currentIndex === elements.length - 1;
   destination =
-    destination === "previous" && isFirstItem ? "last" : destination === "next" && isLastItem ? "first" : destination;
+    (destination === "previous" && isFirstItem) || (destination === "next" && isLastItem) ? "current" : destination;
 
   let focusTarget;
   switch (destination) {
@@ -388,11 +388,13 @@ export const focusElementInGroup = (
       focusTarget = elements[elements.length - 1];
       break;
     case "next":
-      focusTarget = elements[currentIndex + 1] || elements[0];
+      focusTarget = elements[currentIndex + 1];
       break;
     case "previous":
-      focusTarget = elements[currentIndex - 1] || elements[elements.length - 1];
+      focusTarget = elements[currentIndex - 1];
       break;
+    case "current":
+      focusTarget = elements[currentIndex];
   }
 
   focusElement(focusTarget);

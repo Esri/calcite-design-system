@@ -209,18 +209,18 @@ export class CalciteNavMenuItem implements LoadableComponent {
   //
   // --------------------------------------------------------------------------
 
-  @Listen("calciteInternalNavItemKeyEvent")
-  calciteInternalNavMenuItemKeyEvent(event: KeyboardEvent): void {
-    const target = event.target as HTMLCalciteNavMenuItemElement;
-    switch (event.detail["key"]) {
-      case "Escape":
-        if (this.el.contains(target) && this.hasSubMenu) {
-          this.subMenuOpen = false;
-          this.el.setFocus();
-        }
-        break;
-    }
-  }
+  // @Listen("calciteInternalNavItemKeyEvent")
+  // calciteInternalNavMenuItemKeyEvent(event: KeyboardEvent): void {
+  //   const target = event.target as HTMLCalciteNavMenuItemElement;
+  //   switch (event.detail["key"]) {
+  //     case "Escape":
+  //       if (this.el.contains(target) && this.hasSubMenu) {
+  //         this.subMenuOpen = false;
+  //         this.el.setFocus();
+  //       }
+  //       break;
+  //   }
+  // }
 
   /** Sets focus on the component. */
   @Method()
@@ -257,10 +257,18 @@ export class CalciteNavMenuItem implements LoadableComponent {
         event.preventDefault();
         break;
       case "Escape":
-        if (this.hasSubMenu) {
-          this.subMenuOpen = false;
+        if (this.isTopLevelItem) {
+          this.calciteInternalNavItemKeyEvent.emit(event);
+          return;
         }
-
+        if (this.subMenuOpen) {
+          this.subMenuOpen = false;
+        } else {
+          if (this.el.parentElement.nodeName === "CALCITE-NAV-MENU-ITEM") {
+            this.focusParentElement();
+          }
+        }
+        break;
       case "ArrowDown":
         if (this.topLevelLayout === "horizontal") {
           if (this.isTopLevelItem) {
@@ -299,9 +307,7 @@ export class CalciteNavMenuItem implements LoadableComponent {
             return;
           }
           if (this.el.parentElement.nodeName === "CALCITE-NAV-MENU-ITEM") {
-            const parentEl = this.el.parentElement as HTMLCalciteNavMenuItemElement;
-            parentEl.setFocus();
-            parentEl.subMenuOpen = false;
+            this.focusParentElement();
           }
         } else {
           if (this.hasSubMenu && this.subMenuOpen) {
@@ -547,7 +553,7 @@ export class CalciteNavMenuItem implements LoadableComponent {
               ref={(el) => (this.anchorEl = el)}
               rel={this.rel ? this.rel : null}
               role="menuitem"
-              tabIndex={1}
+              tabIndex={this.isTopLevelItem ? 1 : -1}
               target={this.target ? this.target : null}
             >
               {this.renderItemContent()}
@@ -604,8 +610,40 @@ export class CalciteNavMenuItem implements LoadableComponent {
 
   private focusHandler(event: FocusEvent): void {
     const target = event.target as HTMLCalciteNavMenuItemElement;
-    if (target.subMenuOpen && this.topLevelLayout === "horizontal") {
+    if (target.subMenuOpen) {
       target.subMenuOpen = false;
+    }
+  }
+
+  private focusParentElement(): void {
+    const parentEl = this.el.parentElement as HTMLCalciteNavMenuItemElement;
+    parentEl.setFocus();
+    parentEl.subMenuOpen = false;
+  }
+
+  // private blurHandler(event: FocusEvent): void {
+  // console.log(event.target, event.relatedTarget);
+  // if (
+  //   this.topLevelLayout !== "vertical" &&
+  //   this.hasSubMenu &&
+  //   this.subMenuOpen &&
+  //   !this.el.contains(event.target as Element)
+  // ) {
+  //   this.subMenuOpen = false;
+  // }
+  // console.log(event, event.relatedTarget, event.target, this.el);
+  // // console.log(this.el.contains(event.relatedTarget as Element));
+  // if (event.target.contains(event.relatedTarget as Element)) {
+  //   // this.subMenuOpen = false;
+  //   console.log("yup");
+  // }
+  // }
+
+  @Listen("focusout")
+  handleBlur(event: FocusEvent): void {
+    console.log(this.el);
+    if (!this.el.contains(event.relatedTarget as Element)) {
+      this.subMenuOpen = false;
     }
   }
 }

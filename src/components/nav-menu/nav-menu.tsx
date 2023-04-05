@@ -104,6 +104,11 @@ export class CalciteNavMenu {
           focusElementInGroup(this.childNavMenuItems, target, "last");
         }
         break;
+      case "Escape":
+        if (target.subMenuOpen) {
+          target.subMenuOpen = false;
+        }
+        break;
       case "Tab":
         console.log("leave?");
         break;
