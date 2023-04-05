@@ -10,6 +10,7 @@ env:
   TITLE: ${{ github.event.client_payload.title }}
   OWNER: "Esri"
   REPO: "calcite-components"
+  ACTIONS_STEP_DEBUG: true
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}-${{ github.event.client_payload.number }}
@@ -337,14 +338,17 @@ jobs:
           script: |
             const { DATA, NUMBER, OWNER, REPO } = process.env;
             const { assignees, title, body, labels, milestone } = JSON.parse(DATA);
-            const newIssue = await github.rest.issues.create({
-                owner: OWNER,
-                repo: REPO,
-                title: title || '',
-                body: body || '',
-                labels: labels || undefined,
-                milestone: milestone[0].milestone_number || undefined,
-                assignees: assignees || undefined,
-            });
+            const newIssue = { test: 'one' }
+            /*
+              const newIssue = await github.rest.issues.create({
+                  owner: OWNER,
+                  repo: REPO,
+                  title: title || '',
+                  body: body || '',
+                  labels: labels || undefined,
+                  milestone: milestone[0].milestone_number || undefined,
+                  assignees: assignees || undefined,
+              });
+            */
 
             core.info(`New Issue ${JSON.stringify(newIssue)}`);
