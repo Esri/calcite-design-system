@@ -336,30 +336,20 @@ jobs:
         with:
           script: |
             const { DATA, NUMBER, OWNER, REPO } = process.env;
-            let { title, body, assignees, milestone labels } = JSON.parse(DATA);
+            const data = JSON.parse(DATA);
+            const title = `${data.title}`;
+            const body = data.body ? `${data.body}` : '';
+            const assignees = null;
+            const milestone = null;
+            const labels = null;
+
 
             if (!title || title.length < 2) {
               core.error(JSON.parse(DATA))
               return true;
             }
 
-            title = title.toString();
-            body = body || '';
-            assignees = assignees
-                ? Array.isArray(assignees)
-                  ? assignees
-                  : assignees.split(',')
-                : null;
-            milestone = milestone ? Number(milestone) : null;
-            labels = labels
-                ? Array.isArray(labels)
-                  ? labels
-                  : labels.split(',')
-                : null;
-
-            
-            try {
-              const newIssue = await github.issues.create({
+            const newIssue = await github.issues.create({
                 owner: OWNER,
                 repo: REPO,
                 title,
@@ -368,17 +358,6 @@ jobs:
                 milestone,
                 labels
               });
-            } catch(err) {
-              core.error({
-                owner: OWNER,
-                repo: REPO,
-                title,
-                body,
-                assignees,
-                milestone,
-                labels
-              })
-            }
 
             if (!newIssue.number) {
               core.debug(newIssue)
