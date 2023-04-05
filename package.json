@@ -140,7 +140,7 @@
     "quicktype-core": "23.0.12",
     "rimraf": "4.1.2",
     "semver": "7.3.8",
-    "shell-quote": "1.7.4",
+    "shell-quote": "1.8.0",
     "standard-version": "9.5.0",
     "stencil-eslint-core": "0.3.1",
     "storybook": "6.5.16",
