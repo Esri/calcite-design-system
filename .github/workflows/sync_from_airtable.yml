@@ -358,15 +358,27 @@ jobs:
                 : null;
 
             
-            const newIssue = await github.issues.create({
-              owner: OWNER,
-              repo: REPO,
-              title,
-              body,
-              assignees,
-              milestone,
-              labels
-            }).then((response) =>  core.debug(response));
+            try {
+              const newIssue = await github.issues.create({
+                owner: OWNER,
+                repo: REPO,
+                title,
+                body,
+                assignees,
+                milestone,
+                labels
+              });
+            } catch(err) {
+              core.error({
+                owner: OWNER,
+                repo: REPO,
+                title,
+                body,
+                assignees,
+                milestone,
+                labels
+              })
+            }
 
             if (!newIssue.number) {
               core.debug(newIssue)
