@@ -336,15 +336,36 @@ jobs:
         with:
           script: |
             const { DATA, NUMBER, OWNER, REPO } = process.env;
-            const { assignees, title, body, labels, milestone } = JSON.parse(DATA);
+            let { title, body, assignees, milestone labels } = JSON.parse(DATA);
 
-            if (title === undefined || body === undefined) return true;
+            if (!title || title.length < 2) {
+              core.error(JSON.parse(DATA))
+              return true;
+            }
+
+            title = title.toString();
+            body = body || '';
+            assignees = assignees
+                ? Array.isArray(assignees)
+                  ? assignees
+                  : assignees.split(',')
+                : null;
+            milestone = milestone ? Number(milestone) : null;
+            labels = labels
+                ? Array.isArray(labels)
+                  ? labels
+                  : labels.split(',')
+                : null;
+
             
             const newIssue = await github.issues.create({
               owner: OWNER,
               repo: REPO,
-              title: title,
-              body: body
+              title,
+              body,
+              assignees,
+              milestone,
+              labels
             }).then((response) =>  core.debug(response));
 
             if (!newIssue.number) {
