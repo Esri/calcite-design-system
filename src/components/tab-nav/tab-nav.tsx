@@ -193,7 +193,7 @@ export class TabNav {
               ref={(el) => (this.activeIndicatorEl = el as HTMLElement)}
             />
           </div>
-          <slot />
+          <slot onSlotchange={this.disableLastClosableTabTitle} />
         </div>
       </Host>
     );
@@ -375,4 +375,11 @@ export class TabNav {
       "calcite-tab-title:not([disabled])"
     );
   }
+
+  private disableLastClosableTabTitle = (): void => {
+    const tabTitles = this.el.querySelectorAll("calcite-tab-title");
+    if (tabTitles.length === 1 && tabTitles[0].hasAttribute("closable")) {
+      tabTitles[0].shadowRoot.querySelector("button").disabled = true;
+    }
+  };
 }

@@ -147,7 +147,6 @@ export class TabTitle implements InteractiveComponent, T9nComponent {
   }
 
   disconnectedCallback(): void {
-    console.log("disconnecting");
     this.mutationObserver?.disconnect();
     // Dispatching to body in order to be listened by other elements that are still connected to the DOM.
     document.body?.dispatchEvent(
@@ -238,6 +237,7 @@ export class TabTitle implements InteractiveComponent, T9nComponent {
       <button
         aria-label={messages.close}
         class={CSS.close}
+        disabled={false}
         onClick={this.close}
         // eslint-disable-next-line react/jsx-sort-props
         ref={(el) => (this.closeButtonEl = el)}
@@ -416,7 +416,6 @@ export class TabTitle implements InteractiveComponent, T9nComponent {
   //--------------------------------------------------------------------------
 
   private close = (): void => {
-    console.log("private close is called");
     this.el.remove();
   };
 
