@@ -339,16 +339,27 @@ jobs:
             const { DATA, NUMBER, OWNER, REPO } = process.env;
             const { assignees, title, body, labels, milestone } = JSON.parse(DATA);
             const newIssue = { test: 'one' }
-            /*
-              const newIssue = await github.rest.issues.create({
-                  owner: OWNER,
-                  repo: REPO,
-                  title: title || '',
-                  body: body || '',
-                  labels: labels || undefined,
-                  milestone: milestone[0].milestone_number || undefined,
-                  assignees: assignees || undefined,
-              });
-            */
+
+            if (title === undefined || body === undefined) return true;
+
+            core.debug({
+              owner: OWNER,
+              repo: REPO,
+              title: title,
+              body: body,
+              labels: labels,
+              milestone: milestone[0].milestone_number,
+              assignees: assignees,
+            })
+            
+            const newIssue = await github.issues.create({
+              owner: OWNER,
+              repo: REPO,
+              title: title,
+              body: body,
+              labels: labels,
+              milestone: milestone[0].milestone_number,
+              assignees: assignees,
+            });
 
             core.info(`New Issue ${JSON.stringify(newIssue)}`);
