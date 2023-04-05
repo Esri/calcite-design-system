@@ -342,14 +342,7 @@ jobs:
             const assignees = null;
             const milestone = null;
             const labels = null;
-
-
-            if (!title || title.length < 2) {
-              core.error(JSON.parse(DATA))
-              return true;
-            }
-
-            const newIssue = await github.issues.create({
+            const issueCreateObject = {
                 owner: OWNER,
                 repo: REPO,
                 title,
@@ -357,7 +350,20 @@ jobs:
                 assignees,
                 milestone,
                 labels
-              });
+              };
+
+
+            if (!title || title.length < 2) {
+              core.error(JSON.parse(DATA))
+              return true;
+            }
+
+            try {
+              const newIssue = await github.issues.create(issueCreateObject);
+            } catch (err) {
+              core.error(err);
+              core.info(issueCreateObject)
+            }
 
             if (!newIssue.number) {
               core.debug(newIssue)
