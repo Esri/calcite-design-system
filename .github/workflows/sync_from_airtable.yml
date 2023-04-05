@@ -359,7 +359,7 @@ jobs:
             }
 
             try {
-              const newIssue = await github.issues.create(issueCreateObject);
+              const newIssue = await github.rest.issues.create(issueCreateObject);
             } catch (err) {
               core.error(err);
               core.info(issueCreateObject)
