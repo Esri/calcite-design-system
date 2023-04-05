@@ -9,7 +9,7 @@ env:
   NUMBER: ${{ github.event.client_payload.number }}
   TITLE: ${{ github.event.client_payload.title }}
   OWNER: "Esri"
-  REPO: "calcite-components"
+  REPO: "calcite-design-tokens"
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}-${{ github.event.client_payload.number }}
@@ -336,14 +336,19 @@ jobs:
         with:
           script: |
             const { DATA, NUMBER, OWNER, REPO } = process.env;
-            const data = JSON.parse(DATA);
-            core.info(data);
-            core.info(data["title"]);
-            const title = `${data.title}`;
-            const body = data.body ? `${data.body}` : '';
-            const assignees = null;
-            const milestone = null;
-            const labels = null;
+            const {
+              title,
+              body,
+              assignees,
+              milestone,
+              labels
+            } = JSON.parse(DATA);
+            core.info(title);
+            core.info(body);
+            core.info(assignees);
+            core.info(milestone);
+            core.info(labels);
+            
             const issueCreateObject = {
                 owner: OWNER,
                 repo: REPO,
