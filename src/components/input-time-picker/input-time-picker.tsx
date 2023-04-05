@@ -199,7 +199,8 @@ export class InputTimePicker
   @State() effectiveLocale = "";
 
   @Watch("effectiveLocale")
-  effectiveLocaleWatcher(): void {
+  @Watch("step")
+  valueRelatedPropChange(): void {
     this.setInputValue(
       localizeTimeString({
         value: this.value,
