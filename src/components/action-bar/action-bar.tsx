@@ -275,6 +275,9 @@ export class ActionBar
     const actions = queryActions(el);
     const actionCount = expandDisabled ? actions.length : actions.length + 1;
     const actionGroups = Array.from(el.querySelectorAll("calcite-action-group"));
+
+    this.setGroupLayout(actionGroups);
+
     const groupCount =
       getSlotted(el, SLOTS.bottomActions) || !expandDisabled
         ? actionGroups.length + 1
@@ -312,6 +315,20 @@ export class ActionBar
 
   setExpandToggleRef = (el: HTMLCalciteActionElement): void => {
     this.expandToggleEl = el;
+  };
+
+  setGroupLayout = (groups: HTMLCalciteActionGroupElement[]): void => {
+    groups.forEach((group) => (group.layout = this.layout));
+  };
+
+  handleDefaultSlotChange = (event: Event): void => {
+    const groups = (event.target as HTMLSlotElement)
+      .assignedElements({
+        flatten: true
+      })
+      .filter((el) => el?.matches("calcite-action-group")) as HTMLCalciteActionGroupElement[];
+
+    this.setGroupLayout(groups);
   };
 
   // --------------------------------------------------------------------------
@@ -352,7 +369,7 @@ export class ActionBar
   render(): VNode {
     return (
       <Host onCalciteActionMenuOpen={this.actionMenuOpenHandler}>
-        <slot />
+        <slot onSlotchange={this.handleDefaultSlotChange} />
         {this.renderBottomActionGroup()}
       </Host>
     );

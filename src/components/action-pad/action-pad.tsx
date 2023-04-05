@@ -35,6 +35,7 @@ import { ExpandToggle, toggleChildActionText } from "../functional/ExpandToggle"
 import { Layout, Position, Scale } from "../interfaces";
 import { ActionPadMessages } from "./assets/action-pad/t9n";
 import { CSS, SLOTS } from "./resources";
+import { createObserver } from "../../utils/observers";
 
 /**
  * @slot - A slot for adding `calcite-action`s to the component.
@@ -125,6 +126,12 @@ export class ActionPad
 
   @Element() el: HTMLCalciteActionPadElement;
 
+  mutationObserver = createObserver("mutation", () => {
+    const actionGroups = Array.from(this.el.querySelectorAll("calcite-action-group"));
+
+    this.setGroupLayout(actionGroups);
+  });
+
   expandToggleEl: HTMLCalciteActionElement;
 
   @State() effectiveLocale = "";
@@ -207,6 +214,20 @@ export class ActionPad
     this.expandToggleEl = el;
   };
 
+  setGroupLayout = (groups: HTMLCalciteActionGroupElement[]): void => {
+    groups.forEach((group) => (group.layout = this.layout));
+  };
+
+  handleDefaultSlotChange = (event: Event): void => {
+    const groups = (event.target as HTMLSlotElement)
+      .assignedElements({
+        flatten: true
+      })
+      .filter((el) => el?.matches("calcite-action-group")) as HTMLCalciteActionGroupElement[];
+
+    this.setGroupLayout(groups);
+  };
+
   // --------------------------------------------------------------------------
   //
   //  Component Methods
@@ -245,7 +266,7 @@ export class ActionPad
     return (
       <Host onCalciteActionMenuOpen={this.actionMenuOpenHandler}>
         <div class={CSS.container}>
-          <slot />
+          <slot onSlotchange={this.handleDefaultSlotChange} />
           {this.renderBottomActionGroup()}
         </div>
       </Host>
