@@ -29,7 +29,7 @@
 }
 
 :host([read-only]) {
-  @apply pointer-events-none;
+  @extend %non-interactive-host-contents;
 }
 
 .fieldset {
