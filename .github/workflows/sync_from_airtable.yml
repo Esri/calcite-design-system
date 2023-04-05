@@ -338,7 +338,6 @@ jobs:
           script: |
             const { DATA, NUMBER, OWNER, REPO } = process.env;
             const { assignees, title, body, labels, milestone } = JSON.parse(DATA);
-            const newIssue = { test: 'one' }
 
             if (title === undefined || body === undefined) return true;
 
