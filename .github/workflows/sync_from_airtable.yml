@@ -344,15 +344,10 @@ jobs:
               owner: OWNER,
               repo: REPO,
               title: title,
-              body: body,
-              /* 
-                labels: labels,
-                milestone: milestone[0].milestone_number,
-                assignees: assignees,
-              */
-            }).then((response) =>  core.log(response));
+              body: body
+            }).then((response) =>  core.debug(response));
 
             if (!newIssue.number) {
-              core.log(newIssue)
-              throw new Error('Issue creation error')
+              core.debug(newIssue)
             }
+
