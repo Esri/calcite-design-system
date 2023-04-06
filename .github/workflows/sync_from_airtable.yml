@@ -332,9 +332,8 @@ jobs:
         with:
           script: |
             const { DATA, NUMBER, OWNER, REPO } = process.env;
-            const data = JSON.parse(DATA);
-            core.info(typeof data);
-            core.info(data);
+            const data = JSON.parse(`${DATA}`);
+            core.info(typeof DATA);
             core.info(title);
             core.info(body);
             core.info(assignees);
