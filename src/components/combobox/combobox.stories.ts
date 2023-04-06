@@ -447,3 +447,15 @@ export const withSelectorIndicatorAndIcons_TestOnly = (): string => html`
     </calcite-combobox-item-group>
   </calcite-combobox>
 `;
+
+export const nestedGroups_TestOnly =
+  (): string => html`<calcite-combobox open selection-mode="single" style="width:400px" placeholder="Type to filter">
+<calcite-combobox-item-group label="Level 1">
+  <calcite-combobox-item-group label="Level 2">
+    <calcite-combobox-item-group label="Level 3">
+      <calcite-combobox-item value="Item 1" text-label="Item 1">
+      </calcite-combobox-item>
+      <calcite-combobox-item value="Item 2" text-label="Item 2">
+      </calcite-combobox-item>
+    </calcite-combobox-item-group>
+</calcite-combobox>`;
