@@ -326,13 +326,14 @@ jobs:
     steps:
       - uses: actions/github-script@v6
         env:
-          DATA: ${{ env.DATA }}
+          DATA: ${{ fromJSON(env.DATA) }}
+          NUMBER: ${{env.NUMBER}}
           OWNER: ${{env.OWNER}}
           REPO: ${{env.REPO}}
         with:
           script: |
             const { DATA, NUMBER, OWNER, REPO } = process.env;
-            const data = JSON.parse(`${DATA}`);
+            const data = JSON.parse(DATA);
             core.info(DATA);
             core.info(data);
             core.info(data['body']);
