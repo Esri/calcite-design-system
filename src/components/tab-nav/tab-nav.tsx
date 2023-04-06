@@ -110,7 +110,8 @@ export class TabNav {
     this.selectedTitle = await this.getTabTitleById(this.selectedTabId);
   }
 
-  @Watch("selectedTitle") selectedTitleChanged(): void {
+  @Watch("selectedTitle")
+  selectedTitleChanged(): void {
     this.updateOffsetPosition();
     this.updateActiveWidth();
     // reset the animation time on tab selection
@@ -389,11 +390,17 @@ export class TabNav {
   };
 
   private closingSelectedSequence = (): void => {
-    const tabTitles = this.el.querySelectorAll("calcite-tab-title");
-    tabTitles[this.selectedTabId].selected = true;
-    this.selectedTabId = Array.from(tabTitles).findIndex.call(
+    const { selectedTabId } = this;
+    let tabTitles = this.el.querySelectorAll("calcite-tab-title");
+    if (selectedTabId === tabTitles.length) {
+      tabTitles = this.el.querySelectorAll("calcite-tab-title");
+      tabTitles[tabTitles.length - 1].selected = true;
+      return;
+    }
+    const selectedTabIdNew = Array.from(tabTitles).findIndex.call(
       tabTitles,
-      (tabTitle) => tabTitle.hasAttribute("selected") //explicitely trigger resetting the tabId for watcher to fire
+      (tabTitle) => tabTitle.selected === true // explicitly trigger resetting the tabId for watcher to fire
     );
+    this.selectedTabId = selectedTabIdNew;
   };
 }
