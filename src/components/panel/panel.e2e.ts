@@ -61,7 +61,7 @@ describe("calcite-panel", () => {
 
     const calcitePanelClose = await page.spyOnEvent("calcitePanelClose", "window");
 
-    const closeButton = await page.find("calcite-panel >>> calcite-action");
+    const closeButton = await page.find("calcite-panel >>> calcite-action[data-test=close]");
 
     await closeButton.click();
 

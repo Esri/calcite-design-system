@@ -393,6 +393,7 @@ export class Panel
     const closableNode = closable ? (
       <calcite-action
         aria-label={text}
+        data-test="close"
         icon={ICONS.close}
         onClick={close}
         text={text}
