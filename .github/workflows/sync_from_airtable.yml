@@ -333,12 +333,12 @@ jobs:
           script: |
             const { DATA, NUMBER, OWNER, REPO } = process.env;
             const data = JSON.parse(`${DATA}`);
-            core.info(typeof DATA);
-            core.info(title);
-            core.info(body);
-            core.info(assignees);
-            core.info(milestone);
-            core.info(labels);
+            core.info(typeof data);
+            core.info(data['title']);
+            core.info(data['body']);
+            core.info(data['assignees']);
+            core.info(data['milestone']);
+            core.info(data['labels']);
 
             const issueCreateObject = {
                 owner: OWNER,
