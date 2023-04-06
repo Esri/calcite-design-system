@@ -330,32 +330,41 @@ jobs:
           NUMBER: ${{env.NUMBER}}
           OWNER: ${{env.OWNER}}
           REPO: ${{env.REPO}}
+          SECRET: ${{ secrets.AIRTABLE_KEY }}
+          WEBHOOK: ${{ secrets.AIRTABLE_WEBHOOK }}
         with:
           script: |
-            const { DATA, NUMBER, OWNER, REPO } = process.env;
+            const { DATA, NUMBER, OWNER, REPO, WEBHOOK, SECRET } = process.env;
             const data = JSON.parse(DATA);
-            const assignees = data.assignees || [];
-            const body = data.body || '';
-            const labels = data.labels || [];
-            const milestone = Number(data.milestone) || null;
-            const title = data.title;
-
             const issueCreateObject = {
                 owner: OWNER,
                 repo: REPO,
-                assignees,
-                body,
-                labels,
-                milestone,
-                title
+                assignees: data.assignees,
+                body: data.body,
+                labels: data.labels,
+                milestone: Number(data.milestone) || null,
+                title: data.title
               };
 
             try {
               const newIssue = await github.rest.issues.create(issueCreateObject);
-
-              if (!newIssue.number) {
-                core.debug(newIssue)
-              }
+              
+              /* Send new issue number back to Airtable */
+              await fetch(WEBHOOK, {
+                body: {
+                  action: 'opened',
+                  data: JSON.stringify(newIssue),
+                  owner: OWNER,
+                  repo: REPO,
+                  number: `${newIssue.number}`,
+                  secret: SECRET,
+                  title: newIssue.title,
+                },
+                headers: {
+                  "Content-Type": "application/json"
+                },
+                method: "POST"
+              });
             } catch (err) {
               core.info(JSON.stringify(issueCreateObject, null, 4))
               throw new Error(err)
