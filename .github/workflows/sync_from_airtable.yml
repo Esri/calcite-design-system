@@ -334,7 +334,7 @@ jobs:
           script: |
             const { DATA, NUMBER, OWNER, REPO } = process.env;
             const data = JSON.parse(DATA);
-            const assignees = data.assignees || [],
+            const assignees = data.assignees || [];
             const body = data.body || '';
             const labels = data.labels || [];
             const milestone = Number(data.milestone) || null;
