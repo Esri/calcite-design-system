@@ -16,7 +16,7 @@ import {
   connectConditionalSlotComponent,
   disconnectConditionalSlotComponent
 } from "../../utils/conditionalSlot";
-import { getSlotted } from "../../utils/dom";
+import { getSlotted, slotChangeGetAssignedElements } from "../../utils/dom";
 import {
   componentLoaded,
   LoadableComponent,
@@ -226,11 +226,9 @@ export class ActionPad
   }
 
   handleDefaultSlotChange = (event: Event): void => {
-    const groups = (event.target as HTMLSlotElement)
-      .assignedElements({
-        flatten: true
-      })
-      .filter((el) => el?.matches("calcite-action-group")) as HTMLCalciteActionGroupElement[];
+    const groups = slotChangeGetAssignedElements(event).filter((el) =>
+      el?.matches("calcite-action-group")
+    ) as HTMLCalciteActionGroupElement[];
 
     this.setGroupLayout(groups);
   };
