@@ -1060,4 +1060,23 @@ describe("calcite-time-picker", () => {
   });
 
   it("suuports translation", () => t9n("<calcite-time-picker></calcite-time-picker>"));
+
+  it("toggles seconds display when step is < 60", async () => {
+    const page = await newE2EPage({
+      html: `<calcite-time-picker value="11:00:00"></calcite-time-picker>`
+    });
+    const timePicker = await page.find("calcite-time-picker");
+
+    expect(await page.find(`calcite-time-picker >>> .${CSS.second}`)).toBeNull();
+
+    timePicker.setProperty("step", 1);
+    await page.waitForChanges();
+
+    expect(await page.find(`calcite-time-picker >>> .${CSS.second}`)).not.toBeNull();
+
+    timePicker.setProperty("step", 60);
+    await page.waitForChanges();
+
+    expect(await page.find(`calcite-time-picker >>> .${CSS.second}`)).toBeNull();
+  });
 });
