@@ -186,7 +186,7 @@ jobs:
                                 });
                                 core.info(`Label added: ${label}`)
                             } catch (error) {
-                                console.error(`Label not added: ${error}`)
+                              throw new Error(error);
                             }
                         }
                     }))
@@ -200,9 +200,7 @@ jobs:
                         })
                         core.info(`Labels added: ${addLabels}`)
                     } catch (error) {
-                        if (error.toString().includes('Label does not exist')) {
-                            
-                        }
+                        throw new Error(error);
                     }
                 }
 
@@ -218,9 +216,7 @@ jobs:
                             core.info(`Remove Label: ${name}`)
                         }));
                     } catch (err) {
-                        if (!error.includes('Label does not exist')) {
-                            core.error(`Label not removed: ${err}`)
-                        }   
+                        throw new Error(err);
                     }
                 }
             }
@@ -266,7 +262,7 @@ jobs:
                     core.info(`Issue ${ NUMBER }'s Milestone updated to 'null'`)
                 }
             } catch (error) {
-                core.info(error)
+              throw new Error(error);
             }
 
   open_closed:
@@ -336,19 +332,15 @@ jobs:
         with:
           script: |
             const { DATA, NUMBER, OWNER, REPO } = process.env;
-            const {
-              title,
-              body,
-              assignees,
-              milestone,
-              labels
-            } = JSON.parse(DATA);
+            const data = JSON.parse(DATA);
+            core.info(typeof data);
+            core.info(data);
             core.info(title);
             core.info(body);
             core.info(assignees);
             core.info(milestone);
             core.info(labels);
-            
+
             const issueCreateObject = {
                 owner: OWNER,
                 repo: REPO,
