@@ -13,14 +13,7 @@ import {
   VNode
 } from "@stencil/core";
 import { FlipContext } from "../interfaces";
-import {
-  // focusElement,
-  // focusElementInGroup,
-  //  focusElementInGroup,
-  getElementDir,
-  // getSlotted,
-  slotChangeGetAssignedElements
-} from "../../utils/dom";
+import { getElementDir, slotChangeGetAssignedElements } from "../../utils/dom";
 import {
   componentLoaded,
   LoadableComponent,
@@ -225,7 +218,6 @@ export class CalciteNavMenuItem implements LoadableComponent {
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
-    // console.log(this.anchorEl, this.el, this.text);
     await componentLoaded(this);
     this.anchorEl.focus();
   }
@@ -241,14 +233,13 @@ export class CalciteNavMenuItem implements LoadableComponent {
         if (this.href) {
           if (event.target === this.dropDownActionEl && this.hasSubMenu) {
             if (!this.subMenuOpen) {
-              setTimeout(() => this.focusFirst(), 500);
+              this.focusFirst();
             }
-            // this.subMenuOpen = !this.subMenuOpen;
           }
           return;
         } else if (this.hasSubMenu && !this.subMenuOpen) {
           this.subMenuOpen = true;
-          setTimeout(() => this.focusFirst(), 60);
+          this.focusFirst();
         } else if (this.hasSubMenu) {
           this.subMenuOpen = false;
         } else {
@@ -273,7 +264,7 @@ export class CalciteNavMenuItem implements LoadableComponent {
         if (this.topLevelLayout === "horizontal") {
           if (this.isTopLevelItem) {
             this.subMenuOpen = true;
-            setTimeout(() => this.focusFirst(), 500);
+            this.focusFirst();
             return;
           }
 
@@ -281,6 +272,7 @@ export class CalciteNavMenuItem implements LoadableComponent {
         }
 
         if (this.topLevelLayout === "vertical") {
+          event.preventDefault();
           this.calciteInternalNavItemKeyEvent.emit(event);
         }
         break;
@@ -289,7 +281,7 @@ export class CalciteNavMenuItem implements LoadableComponent {
         if (this.topLevelLayout === "horizontal") {
           if (this.isTopLevelItem) {
             this.subMenuOpen = true;
-            setTimeout(() => this.focusLast(), 500);
+            this.focusLast();
             return;
           }
 
@@ -297,6 +289,7 @@ export class CalciteNavMenuItem implements LoadableComponent {
         }
 
         if (this.topLevelLayout === "vertical") {
+          event.preventDefault();
           this.calciteInternalNavItemKeyEvent.emit(event);
         }
         break;
@@ -344,7 +337,7 @@ export class CalciteNavMenuItem implements LoadableComponent {
             if (!this.subMenuOpen) {
               this.subMenuOpen = true;
             } else {
-              setTimeout(() => this.focusFirst(), 500);
+              this.focusFirst();
             }
           }
         }
@@ -621,27 +614,8 @@ export class CalciteNavMenuItem implements LoadableComponent {
     parentEl.subMenuOpen = false;
   }
 
-  // private blurHandler(event: FocusEvent): void {
-  // console.log(event.target, event.relatedTarget);
-  // if (
-  //   this.topLevelLayout !== "vertical" &&
-  //   this.hasSubMenu &&
-  //   this.subMenuOpen &&
-  //   !this.el.contains(event.target as Element)
-  // ) {
-  //   this.subMenuOpen = false;
-  // }
-  // console.log(event, event.relatedTarget, event.target, this.el);
-  // // console.log(this.el.contains(event.relatedTarget as Element));
-  // if (event.target.contains(event.relatedTarget as Element)) {
-  //   // this.subMenuOpen = false;
-  //   console.log("yup");
-  // }
-  // }
-
   @Listen("focusout")
-  handleBlur(event: FocusEvent): void {
-    console.log(this.el);
+  handleFocusout(event: FocusEvent): void {
     if (!this.el.contains(event.relatedTarget as Element)) {
       this.subMenuOpen = false;
     }
