@@ -334,21 +334,20 @@ jobs:
           script: |
             const { DATA, NUMBER, OWNER, REPO } = process.env;
             const data = JSON.parse(DATA);
-            core.info(DATA);
-            core.info(data);
-            core.info(data['body']);
-            core.info(data['assignees']);
-            core.info(data['milestone']);
-            core.info(data['labels']);
+            const assignees = data.assignees || [],
+            const body = data.body || '';
+            const labels = data.labels || [];
+            const milestone = Number(data.milestone) || null;
+            const title = data.title;
 
             const issueCreateObject = {
                 owner: OWNER,
                 repo: REPO,
-                title,
-                body,
                 assignees,
+                body,
+                labels,
                 milestone,
-                labels
+                title
               };
 
             try {
