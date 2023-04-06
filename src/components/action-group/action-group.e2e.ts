@@ -9,10 +9,10 @@ const actionGroupHTML = `<calcite-action-group scale="l">
 
 describe("calcite-action-group", () => {
   it("defaults", async () =>
-    defaults("calcite-action-bar", [
+    defaults("calcite-action-group", [
       {
         propertyName: "layout",
-        defaultValue: "horizontal"
+        defaultValue: "vertical"
       }
     ]));
 
