@@ -11,7 +11,7 @@ import {
   VNode,
   Watch
 } from "@stencil/core";
-import { focusFirstTabbable, toAriaBoolean } from "../../utils/dom";
+import { focusFirstTabbable, slotChangeGetAssignedElements, toAriaBoolean } from "../../utils/dom";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import {
   componentLoaded,
@@ -275,11 +275,9 @@ export class Panel
   };
 
   handleActionBarSlotChange = (event: Event): void => {
-    const actionBars = (event.target as HTMLSlotElement)
-      .assignedElements({
-        flatten: true
-      })
-      .filter((el) => el?.matches("calcite-action-bar")) as HTMLCalciteActionBarElement[];
+    const actionBars = slotChangeGetAssignedElements(event).filter((el) =>
+      el?.matches("calcite-action-bar")
+    ) as HTMLCalciteActionBarElement[];
 
     actionBars.forEach((actionBar) => (actionBar.layout = "horizontal"));
 
