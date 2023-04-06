@@ -4,7 +4,12 @@ import {
   connectConditionalSlotComponent,
   disconnectConditionalSlotComponent
 } from "../../utils/conditionalSlot";
-import { getElementDir, getSlotted, isPrimaryPointerButton } from "../../utils/dom";
+import {
+  getElementDir,
+  getSlotted,
+  isPrimaryPointerButton,
+  slotChangeGetAssignedElements
+} from "../../utils/dom";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 import { clamp } from "../../utils/math";
 import {
@@ -410,12 +415,10 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
   };
 
   handleActionBarSlotChange = (event: Event): void => {
-    const actionBars = (event.target as HTMLSlotElement)
-      .assignedElements({
-        flatten: true
-      })
-      .filter((el) => el?.matches("calcite-action-bar")) as HTMLCalciteActionBarElement[];
-
-    actionBars.forEach((actionBar) => (actionBar.layout = "vertical"));
+    (
+      slotChangeGetAssignedElements(event).filter((el) =>
+        el?.matches("calcite-action-bar")
+      ) as HTMLCalciteActionBarElement[]
+    ).forEach((actionBar) => (actionBar.layout = "vertical"));
   };
 }
