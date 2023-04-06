@@ -93,6 +93,11 @@ export class ActionBar
    */
   @Prop({ reflect: true }) layout: Extract<"horizontal" | "vertical", Layout> = "vertical";
 
+  @Watch("layout")
+  layoutHandler(): void {
+    this.updateGroups();
+  }
+
   /**
    * Disables automatically overflowing `calcite-action`s that won't fit into menus.
    */
@@ -315,6 +320,12 @@ export class ActionBar
 
   setExpandToggleRef = (el: HTMLCalciteActionElement): void => {
     this.expandToggleEl = el;
+  };
+
+  updateGroups = (): void => {
+    const actionGroups = Array.from(this.el.querySelectorAll("calcite-action-group"));
+
+    this.setGroupLayout(actionGroups);
   };
 
   setGroupLayout = (groups: HTMLCalciteActionGroupElement[]): void => {

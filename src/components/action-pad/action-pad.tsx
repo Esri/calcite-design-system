@@ -78,6 +78,11 @@ export class ActionPad
    */
   @Prop({ reflect: true }) layout: Layout = "vertical";
 
+  @Watch("layout")
+  layoutHandler(): void {
+    this.updateGroups();
+  }
+
   /**
    * Arranges the component depending on the element's `dir` property.
    */
@@ -212,6 +217,12 @@ export class ActionPad
 
   setExpandToggleRef = (el: HTMLCalciteActionElement): void => {
     this.expandToggleEl = el;
+  };
+
+  updateGroups = (): void => {
+    const actionGroups = Array.from(this.el.querySelectorAll("calcite-action-group"));
+
+    this.setGroupLayout(actionGroups);
   };
 
   setGroupLayout = (groups: HTMLCalciteActionGroupElement[]): void => {

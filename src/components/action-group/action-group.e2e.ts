@@ -1,5 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, focusable, hidden, renders, slots, t9n } from "../../tests/commonTests";
+import { accessible, defaults, focusable, hidden, renders, slots, t9n } from "../../tests/commonTests";
 import { SLOTS } from "./resources";
 
 const actionGroupHTML = `<calcite-action-group scale="l">
@@ -8,6 +8,14 @@ const actionGroupHTML = `<calcite-action-group scale="l">
       </calcite-action-group>`;
 
 describe("calcite-action-group", () => {
+  it("defaults", async () =>
+    defaults("calcite-action-bar", [
+      {
+        propertyName: "layout",
+        defaultValue: "horizontal"
+      }
+    ]));
+
   it("renders", async () => renders("calcite-action-group", { display: "flex" }));
 
   it("focusable", async () => focusable(actionGroupHTML, { shadowFocusTargetSelector: "calcite-action" }));
