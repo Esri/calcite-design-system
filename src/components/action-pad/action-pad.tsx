@@ -131,11 +131,9 @@ export class ActionPad
 
   @Element() el: HTMLCalciteActionPadElement;
 
-  mutationObserver = createObserver("mutation", () => {
-    const actionGroups = Array.from(this.el.querySelectorAll("calcite-action-group"));
-
-    this.setGroupLayout(actionGroups);
-  });
+  mutationObserver = createObserver("mutation", () =>
+    this.setGroupLayout(Array.from(this.el.querySelectorAll("calcite-action-group")))
+  );
 
   expandToggleEl: HTMLCalciteActionElement;
 
@@ -219,15 +217,13 @@ export class ActionPad
     this.expandToggleEl = el;
   };
 
-  updateGroups = (): void => {
-    const actionGroups = Array.from(this.el.querySelectorAll("calcite-action-group"));
+  updateGroups(): void {
+    this.setGroupLayout(Array.from(this.el.querySelectorAll("calcite-action-group")));
+  }
 
-    this.setGroupLayout(actionGroups);
-  };
-
-  setGroupLayout = (groups: HTMLCalciteActionGroupElement[]): void => {
+  setGroupLayout(groups: HTMLCalciteActionGroupElement[]): void {
     groups.forEach((group) => (group.layout = this.layout));
-  };
+  }
 
   handleDefaultSlotChange = (event: Event): void => {
     const groups = (event.target as HTMLSlotElement)

@@ -322,15 +322,13 @@ export class ActionBar
     this.expandToggleEl = el;
   };
 
-  updateGroups = (): void => {
-    const actionGroups = Array.from(this.el.querySelectorAll("calcite-action-group"));
+  updateGroups(): void {
+    this.setGroupLayout(Array.from(this.el.querySelectorAll("calcite-action-group")));
+  }
 
-    this.setGroupLayout(actionGroups);
-  };
-
-  setGroupLayout = (groups: HTMLCalciteActionGroupElement[]): void => {
+  setGroupLayout(groups: HTMLCalciteActionGroupElement[]): void {
     groups.forEach((group) => (group.layout = this.layout));
-  };
+  }
 
   handleDefaultSlotChange = (event: Event): void => {
     const groups = (event.target as HTMLSlotElement)
