@@ -106,6 +106,7 @@
   @apply inline-flex overflow-hidden;
   align-items: center;
   justify-content: center;
+  pointer-events: none;
 }
 
 .close {

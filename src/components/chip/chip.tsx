@@ -357,6 +357,7 @@ export class Chip
   render(): VNode {
     const aria: ChipAria = {
       "aria-checked": toAriaBoolean(this.selected),
+      "aria-disabled": toAriaBoolean(this.disabled),
       "aria-label": this.label,
       "aria-labelledby": this.parentGroupEl.label,
       role: this.selectionMode === "multiple" ? "checkbox" : "radio"

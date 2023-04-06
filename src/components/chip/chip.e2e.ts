@@ -1,6 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { accessible, disabled, focusable, hidden, renders, slots, t9n } from "../../tests/commonTests";
-
 import { CSS, SLOTS } from "./resources";
 
 describe("calcite-chip", () => {

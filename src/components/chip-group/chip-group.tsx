@@ -1,5 +1,5 @@
 import { Component, h, VNode, Prop, Element, Listen, EventEmitter, Event } from "@stencil/core";
-import { focusElementInGroup } from "../../utils/dom";
+import { focusElementInGroup, toAriaBoolean } from "../../utils/dom";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import { createObserver } from "../../utils/observers";
 import { Scale, SelectionMode } from "../interfaces";
@@ -189,7 +189,12 @@ export class ChipGroup implements InteractiveComponent {
       this.selectionMode === "none" || this.selectionMode === "multiple" ? "group" : "radiogroup";
 
     return (
-      <div aria-label={this.label} class="container" role={role}>
+      <div
+        aria-disabled={toAriaBoolean(this.disabled)}
+        aria-label={this.label}
+        class="container"
+        role={role}
+      >
         <slot onSlotchange={this.updateItems} />
       </div>
     );
