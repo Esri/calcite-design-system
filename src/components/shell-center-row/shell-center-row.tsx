@@ -84,10 +84,6 @@ export class ShellCenterRow implements ConditionalSlotComponent {
       </div>
     ) : null;
 
-    if (actionBar) {
-      actionBar.layout = "horizontal";
-    }
-
     const children: VNode[] = [actionBarNode, contentNode];
 
     if (actionBar?.position === "end") {

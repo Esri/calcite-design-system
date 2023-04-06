@@ -90,8 +90,6 @@ export class ActionBar
 
   /**
    *  The layout direction of the actions.
-   *
-   * @deprecated It is no longer necessary to set this property.
    */
   @Prop({ reflect: true }) layout: Extract<"horizontal" | "vertical", Layout> = "vertical";
 

@@ -211,9 +211,7 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
       />
     ) : null;
 
-    const actionBarNode = (
-      <slot key="action-bar" name={SLOTS.actionBar} onSlotchange={this.handleActionBarSlotChange} />
-    );
+    const actionBarNode = <slot key="action-bar" name={SLOTS.actionBar} />;
 
     const mainNodes = [actionBarNode, contentNode, separatorNode];
 
@@ -407,15 +405,5 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
 
   disconnectSeparator = (): void => {
     this.separatorEl?.removeEventListener("pointerdown", this.separatorPointerDown);
-  };
-
-  handleActionBarSlotChange = (event: Event): void => {
-    const actionBars = (event.target as HTMLSlotElement)
-      .assignedElements({
-        flatten: true
-      })
-      .filter((el) => el?.matches("calcite-action-bar")) as HTMLCalciteActionBarElement[];
-
-    actionBars.forEach((actionBar) => (actionBar.layout = "vertical"));
   };
 }
