@@ -7,6 +7,10 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ## Unreleased
 
+### Features
+
+- **shell:** Add panel-top slot ([#6730](https://github.com/Esri/calcite-components/issues/6730)) ([62fb8a2](https://github.com/Esri/calcite-components/commit/62fb8a2e2b42bb8734a8486cf09afd8461a52c35)), closes [#6389](https://github.com/Esri/calcite-components/issues/6389) [#6449](https://github.com/Esri/calcite-components/issues/6449)
+
 ### Bug Fixes
 
 - **input-time-picker, time-picker:** render when input-time-picker or time-picker's step property changes ([#6731](https://github.com/Esri/calcite-components/issues/6731)) ([2118349](https://github.com/Esri/calcite-components/commit/211834988fffea14792d073235881caa6cb5472e)), closes [#6039](https://github.com/Esri/calcite-components/issues/6039)
