@@ -7,7 +7,15 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ## Unreleased
 
+### Features
+
+- **shell:** Add panel-top slot ([#6730](https://github.com/Esri/calcite-components/issues/6730)) ([62fb8a2](https://github.com/Esri/calcite-components/commit/62fb8a2e2b42bb8734a8486cf09afd8461a52c35)), closes [#6389](https://github.com/Esri/calcite-components/issues/6389) [#6449](https://github.com/Esri/calcite-components/issues/6449)
+
 ### Bug Fixes
+
+- **block:** Ensure description has correct line-height ([#6723](https://github.com/Esri/calcite-components/issues/6723)) ([a7deec2](https://github.com/Esri/calcite-components/commit/a7deec2770a90375253f9ca6ac89f2900b804b3f)), closes [#6443](https://github.com/Esri/calcite-components/issues/6443)
+
+* **input-time-picker, time-picker:** render when input-time-picker or time-picker's step property changes ([#6731](https://github.com/Esri/calcite-components/issues/6731)) ([2118349](https://github.com/Esri/calcite-components/commit/211834988fffea14792d073235881caa6cb5472e)), closes [#6039](https://github.com/Esri/calcite-components/issues/6039)
 
 - **date-picker:** improve date-picker a11y ([#6715](https://github.com/Esri/calcite-components/issues/6715)) ([74b3b96](https://github.com/Esri/calcite-components/commit/74b3b968dd4ec8b0b1240c7e12fe207c26a2a396)), closes [#5570](https://github.com/Esri/calcite-components/issues/5570)
 
