@@ -333,8 +333,8 @@ jobs:
           script: |
             const { DATA, NUMBER, OWNER, REPO } = process.env;
             const data = JSON.parse(`${DATA}`);
-            core.info(typeof data);
-            core.info(data['title']);
+            core.info(DATA);
+            core.info(data);
             core.info(data['body']);
             core.info(data['assignees']);
             core.info(data['milestone']);
