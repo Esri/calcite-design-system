@@ -150,7 +150,7 @@
   async function updateReadmeCdnUrls(version: string): Promise<void> {
     const scriptTagPattern = /(<script\s+type="module"\s+src=").+("\s*><\/script>)/m;
     const linkTagPattern = /(<link\s+rel="stylesheet"\s+type="text\/css"\s+href=").+("\s*\/>)/m;
-    const baseCdnUrl = `https://unpkg.com/@esri/calcite-components@${version}/dist/calcite/calcite.`;
+    const baseCdnUrl = `https://cdn.jsdelivr.net/npm/@esri/calcite-components@${version}/dist/calcite/calcite.`;
 
     const readmeContent: string = await fs.readFile(readmePath, { encoding: "utf8" });
     const updatedReadmeContent = readmeContent
