@@ -148,7 +148,7 @@ export class ChipGroup implements InteractiveComponent {
   @Listen("calciteChipSelect")
   calciteChipSelectListener(event: CustomEvent): void {
     if (event.composedPath().includes(this.el)) {
-      this.setSelectedItems(event);
+      this.setSelectedItems(true, event.target as HTMLCalciteChipElement);
     }
   }
 
@@ -184,13 +184,13 @@ export class ChipGroup implements InteractiveComponent {
       el.selectionMode = this.selectionMode;
     });
 
-    this.setSelectedItems();
+    this.setSelectedItems(false);
   };
 
-  private setSelectedItems = (event?: Event): void => {
-    if (event) {
+  private setSelectedItems = (emit: boolean, elToMatch?: HTMLCalciteChipElement): void => {
+    if (elToMatch) {
       this.items.forEach((el) => {
-        const matchingEl = event.target === el;
+        const matchingEl = elToMatch === el;
         switch (this.selectionMode) {
           case "multiple":
             if (matchingEl) {
@@ -211,7 +211,7 @@ export class ChipGroup implements InteractiveComponent {
 
     this.selectedItems = this.items.filter((el) => el.selected);
 
-    if (event) {
+    if (emit) {
       this.calciteChipGroupSelect.emit();
     }
   };
