@@ -46,9 +46,16 @@ export function connectFocusTrap(component: FocusTrapComponent): void {
     focusTrapEl.tabIndex = -1;
   }
 
+  /*
+  You must use the document option to configure the focus trap to use your shadow host element as its document. The downside of this option is that, while selector queries on nodes inside your trap will now work, the trap will not prevent focus from being set on nodes outside your Shadow DOM, which is the same drawback as putting a focus trap inside an iframe.
+
+  https://github.com/focus-trap/focus-trap#shadow-dom
+  */
+  const document = focusTrapEl as any;
+
   const focusTrapOptions: FocusTrapOptions = {
     clickOutsideDeactivates: true,
-    document: focusTrapEl.ownerDocument,
+    document,
     escapeDeactivates: false,
     fallbackFocus: focusTrapEl,
     setReturnFocus: (el) => {
