@@ -30,6 +30,11 @@ export class CalciteNavMenu {
 
   @Prop({ reflect: true }) layout?: "horizontal" | "vertical";
 
+  /**
+   * Specifies accessible label for the component
+   */
+  @Prop() label: string;
+
   //--------------------------------------------------------------------------
   //
   //  Private State/Props
@@ -124,7 +129,7 @@ export class CalciteNavMenu {
   render() {
     return (
       <Host>
-        <ul aria-label="todo" role="menubar">
+        <ul aria-label={this.label} role="menubar">
           <slot />
           {this.overflowedNavMenuItems.length > 0 && (
             <calcite-nav-menu-item icon-start="ellipsis" text="overflow" title="overflow-items" />

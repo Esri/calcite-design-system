@@ -530,11 +530,11 @@ export class CalciteNavMenuItem implements LoadableComponent {
             container: true,
             "nav-item-vertical-parent": this.topLevelLayout === "vertical"
           }}
-          role="none"
+          role="menuitem"
         >
           <div class="item-content">
             <a
-              aria-current="todo"
+              aria-current="page"
               aria-expanded={this.subMenuOpen ? "true" : "false"}
               aria-haspopup={this.hasSubMenu ? "true" : undefined}
               class={{
