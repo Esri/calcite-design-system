@@ -1,4 +1,10 @@
-const locales = [
+interface Locale {
+  name: string;
+  locale: string;
+  dir?: "ltr" | "rtl";
+}
+
+export const locales: Locale[] = [
   { name: "Afrikaans", locale: "af" },
   { name: "Albanian", locale: "sq" },
   { name: "Albanian (Albania)", locale: "sq-AL" },
