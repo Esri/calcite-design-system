@@ -6,13 +6,16 @@ import { CSS as CHIP_CSS } from "../chip/resources";
 
 describe("calcite-chip-group", () => {
   it("renders", async () =>
-    renders("<calcite-chip-group><calcite-chip></calcite-chip><calcite-chip></calcite-chip></calcite-chip-group>", {
+    renders("<calcite-chip-group><calcite-chip></calcite-chip></calcite-chip-group>", {
       display: "flex"
     }));
 
   it("honors hidden attribute", async () => hidden("calcite-chip-group"));
 
-  it("can be disabled", () => disabled("calcite-chip-group"));
+  it("can be disabled", () =>
+    disabled("<calcite-chip-group><calcite-chip></calcite-chip></calcite-chip-group>", {
+      focusTarget: "child"
+    }));
 
   describe("is accessible", () => {
     it("is accessible in selection mode none (default)", async () => {

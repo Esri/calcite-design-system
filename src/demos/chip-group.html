@@ -143,9 +143,8 @@
 
       <!-- Inverse-->
       <div class="parent">
-        <calcite-button id="focus-chip-button">s</calcite-button>
         <div class="child">Single</div>
-        <calcite-chip-group id="focus-chip" id="testy" label="demo-group-label" selection-mode="single">
+        <calcite-chip-group label="demo-group-label" selection-mode="single">
           <calcite-chip kind="inverse" value="calcite chip">Research</calcite-chip>
           <calcite-chip kind="inverse" value="calcite chip">Findings</calcite-chip>
           <calcite-chip selected kind="inverse" value="calcite chip">Hypothesis</calcite-chip>
@@ -419,9 +418,6 @@
       <hr />
     </demo-dom-swapper>
     <script>
-      document.getElementById("focus-chip-button").addEventListener("click", (event) => {
-        document.getElementById("focus-chip").setFocus();
-      });
       document.querySelectorAll("calcite-chip-group").forEach((item) => {
         item.addEventListener("calciteChipGroupSelect", (event) => {
           console.log(event.target.selectedItems);
