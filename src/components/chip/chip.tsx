@@ -96,7 +96,7 @@ export class Chip
   @Prop({ reflect: true }) scale: Scale = "m";
 
   /** Accessible name for the component. */
-  @Prop() label: any;
+  @Prop() label: string;
 
   /** The component's value. */
   @Prop() value!: any;
@@ -110,11 +110,8 @@ export class Chip
    *
    * @internal
    */
-  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by parent chip-group
-  @Prop({ mutable: true }) selectionMode: Extract<
-    "multiple" | "single" | "single-persist" | "none",
-    SelectionMode
-  > = "none";
+  @Prop() selectionMode: Extract<"multiple" | "single" | "single-persist" | "none", SelectionMode> =
+    "none";
 
   /** When true, the component is selected.  */
   @Prop({ reflect: true, mutable: true }) selected = false;
@@ -225,13 +222,13 @@ export class Chip
   //
   //--------------------------------------------------------------------------
 
-  @Listen("keydown", { capture: true })
+  @Listen("keydown")
   keyDownHandler(event: KeyboardEvent): void {
     if (event.target === this.el) {
       switch (event.key) {
         case " ":
         case "Enter":
-          this.itemSelectHandler();
+          this.calciteChipSelect.emit();
           event.preventDefault();
           break;
         case "ArrowRight":
@@ -266,7 +263,7 @@ export class Chip
   //
   // --------------------------------------------------------------------------
 
-  private closeHandler = (): void => {
+  private close = (): void => {
     this.calciteChipClose.emit();
     this.selected = false;
     this.closed = true;
@@ -275,7 +272,7 @@ export class Chip
   private closeButtonKeyDownHandler = (event: KeyboardEvent): void => {
     if (isActivationKey(event.key)) {
       event.preventDefault();
-      this.closeHandler();
+      this.close();
     }
   };
 
@@ -293,10 +290,6 @@ export class Chip
 
   private handleSlotImageChange = (event: Event): void => {
     this.hasImage = slotChangeHasAssignedElement(event);
-  };
-
-  private itemSelectHandler = (): void => {
-    this.calciteChipSelect.emit();
   };
 
   //--------------------------------------------------------------------------
@@ -340,9 +333,9 @@ export class Chip
       <button
         aria-label={this.messages.dismissLabel}
         class={CSS.close}
-        onClick={this.closeHandler}
+        onClick={this.close}
         onKeyDown={this.closeButtonKeyDownHandler}
-        tabIndex={!this.disabled ? 0 : -1}
+        tabIndex={this.disabled ? -1 : 0}
       >
         <calcite-icon icon={ICONS.close} scale={this.scale === "l" ? "m" : "s"} />
       </button>
@@ -379,9 +372,9 @@ export class Chip
             [CSS.closable]: this.closable,
             [CSS.hasIcon]: !!this.icon
           }}
-          onClick={this.itemSelectHandler}
+          onClick={() => this.calciteChipSelect.emit()}
           role={this.selectionMode === "multiple" ? "checkbox" : "radio"}
-          tabIndex={!this.disabled ? 0 : -1}
+          tabIndex={this.disabled ? -1 : 0}
           // eslint-disable-next-line react/jsx-sort-props
           ref={(el) => (this.containerEl = el)}
         >

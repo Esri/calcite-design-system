@@ -25,7 +25,7 @@ export const simple = (): string => html`
 `;
 
 export const darkThemeRTL_TestOnly = (): string => html`
-  <div style="background-color:#2b2b2b;" dir="rtl">
+  <div dir="rtl">
     <calcite-chip-group>
       <calcite-chip value="forest">Forest</calcite-chip>
       <calcite-chip value="tundra">Tundra/calcite-chip>

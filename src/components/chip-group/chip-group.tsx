@@ -64,6 +64,7 @@ export class ChipGroup implements InteractiveComponent {
   //  Private Properties
   //
   //--------------------------------------------------------------------------
+
   mutationObserver = createObserver("mutation", () => this.updateItems);
 
   private items: HTMLCalciteChipElement[] = [];
@@ -73,6 +74,7 @@ export class ChipGroup implements InteractiveComponent {
   //  Events
   //
   //--------------------------------------------------------------------------
+
   /** Emits when the component's selection changes. */
   @Event({ cancelable: false }) calciteChipGroupSelect: EventEmitter<void>;
 
@@ -81,6 +83,7 @@ export class ChipGroup implements InteractiveComponent {
   //  Lifecycle
   //
   //--------------------------------------------------------------------------
+
   connectedCallback(): void {
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
   }
@@ -161,10 +164,8 @@ export class ChipGroup implements InteractiveComponent {
   @Method()
   async setFocus(): Promise<void> {
     await componentLoaded(this);
-    if (!this.disabled && this.selectedItems.length > 0) {
-      this.selectedItems[0]?.setFocus();
-    } else if (!this.disabled) {
-      this.items[0]?.setFocus();
+    if (!this.disabled) {
+      (this.selectedItems[0] || this.items[0])?.setFocus();
     }
   }
 

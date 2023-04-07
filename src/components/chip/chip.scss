@@ -2,13 +2,13 @@
 // todo update when new spacing modifiers are introduced to calcite-base
 :host([scale="s"]) {
   @apply text-n2 h-6;
-  --calcite-chip-spacing-unit-l-internal: 0.25rem;
-  --calcite-chip-spacing-unit-s-internal: 0.125rem;
+  --calcite-chip-spacing-unit-l-internal: theme("spacing[1]");
+  --calcite-chip-spacing-unit-s-internal: theme("spacing[0.5]");
   .image-container,
   .close {
     @apply h-4 w-4;
   }
-  .select-icon.select-icon--active {
+  .select-icon--active {
     @apply w-6;
   }
   .container:not(.closable):not(.content--slotted):not(.selectable) {
@@ -18,13 +18,13 @@
 
 :host([scale="m"]) {
   @apply text-n1 h-8;
-  --calcite-chip-spacing-unit-l-internal: 0.5rem;
-  --calcite-chip-spacing-unit-s-internal: 0.25rem;
+  --calcite-chip-spacing-unit-l-internal: theme("spacing[2]");
+  --calcite-chip-spacing-unit-s-internal: theme("spacing[1]");
   .image-container,
   .close {
     @apply h-6 w-6;
   }
-  .select-icon.select-icon--active {
+  .select-icon--active {
     @apply w-6;
   }
   .container:not(.closable):not(.content--slotted):not(.selectable) {
@@ -34,13 +34,13 @@
 
 :host([scale="l"]) {
   @apply text-0 h-11;
-  --calcite-chip-spacing-unit-l-internal: 1rem;
-  --calcite-chip-spacing-unit-s-internal: 0.5rem;
+  --calcite-chip-spacing-unit-l-internal: theme("spacing[4]");
+  --calcite-chip-spacing-unit-s-internal: theme("spacing[2]");
   .image-container,
   .close {
     @apply h-8 w-8;
   }
-  .select-icon.select-icon--active {
+  .select-icon--active {
     @apply w-8;
   }
   .container:not(.closable):not(.content--slotted):not(.selectable) {
@@ -158,7 +158,7 @@
   opacity: 1;
 }
 
-.container:hover .select-icon.select-icon--active {
+.container:hover .select-icon--active {
   opacity: 1;
 }
 

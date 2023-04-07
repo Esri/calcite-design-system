@@ -71,23 +71,23 @@ describe("calcite-chip-group", () => {
       const chip1 = await page.find("#chip-1");
       const chip2 = await page.find("#chip-2");
 
-      const eventSpy = await element.spyOnEvent("calciteChipGroupSelect");
+      const chipGroupSelectSpy = await element.spyOnEvent("calciteChipGroupSelect");
       await assertSelectedItems.setUpEvents(page);
 
-      const eventSpyChip1 = await chip1.spyOnEvent("calciteChipSelect");
-      const eventSpyChip2 = await chip2.spyOnEvent("calciteChipSelect");
-      expect(eventSpy).toHaveReceivedEventTimes(0);
-      expect(eventSpyChip1).toHaveReceivedEventTimes(0);
-      expect(eventSpyChip2).toHaveReceivedEventTimes(0);
+      const chipSelectSpy1 = await chip1.spyOnEvent("calciteChipSelect");
+      const chipSelectSpy2 = await chip2.spyOnEvent("calciteChipSelect");
+      expect(chipGroupSelectSpy).toHaveReceivedEventTimes(0);
+      expect(chipSelectSpy1).toHaveReceivedEventTimes(0);
+      expect(chipSelectSpy2).toHaveReceivedEventTimes(0);
       expect(await element.getProperty("selectedItems")).toHaveLength(1);
       await assertSelectedItems(page, { expectedItemIds: [chip2.id] });
 
       await chip1.click();
       await page.waitForChanges();
 
-      expect(await eventSpy).toHaveReceivedEventTimes(1);
-      expect(await eventSpyChip1).toHaveReceivedEventTimes(1);
-      expect(await eventSpyChip2).toHaveReceivedEventTimes(0);
+      expect(await chipGroupSelectSpy).toHaveReceivedEventTimes(1);
+      expect(await chipSelectSpy1).toHaveReceivedEventTimes(1);
+      expect(await chipSelectSpy2).toHaveReceivedEventTimes(0);
       expect(await chip1.getProperty("selected")).toBe(true);
       expect(await chip2.getProperty("selected")).toBe(false);
       expect(await element.getProperty("selectedItems")).toHaveLength(1);
@@ -95,9 +95,9 @@ describe("calcite-chip-group", () => {
 
       await chip2.click();
       await page.waitForChanges();
-      expect(eventSpy).toHaveReceivedEventTimes(2);
-      expect(eventSpyChip1).toHaveReceivedEventTimes(1);
-      expect(eventSpyChip2).toHaveReceivedEventTimes(1);
+      expect(chipGroupSelectSpy).toHaveReceivedEventTimes(2);
+      expect(chipSelectSpy1).toHaveReceivedEventTimes(1);
+      expect(chipSelectSpy2).toHaveReceivedEventTimes(1);
       expect(await chip1.getProperty("selected")).toBe(false);
       expect(await chip2.getProperty("selected")).toBe(true);
       expect(await element.getProperty("selectedItems")).toHaveLength(1);
@@ -105,9 +105,9 @@ describe("calcite-chip-group", () => {
 
       await chip2.click();
       await page.waitForChanges();
-      expect(eventSpy).toHaveReceivedEventTimes(3);
-      expect(eventSpyChip1).toHaveReceivedEventTimes(1);
-      expect(eventSpyChip2).toHaveReceivedEventTimes(2);
+      expect(chipGroupSelectSpy).toHaveReceivedEventTimes(3);
+      expect(chipSelectSpy1).toHaveReceivedEventTimes(1);
+      expect(chipSelectSpy2).toHaveReceivedEventTimes(2);
       expect(await chip1.getProperty("selected")).toBe(false);
       expect(await chip2.getProperty("selected")).toBe(false);
       expect(await element.getProperty("selectedItems")).toEqual([]);
@@ -127,15 +127,15 @@ describe("calcite-chip-group", () => {
       const element = await page.find("calcite-chip-group");
       const chip1 = await page.find("#chip-1");
       const chip2 = await page.find("#chip-2");
-      const eventSpy = await element.spyOnEvent("calciteChipGroupSelect");
+      const chipGroupSelectSpy = await element.spyOnEvent("calciteChipGroupSelect");
       await assertSelectedItems.setUpEvents(page);
-      expect(eventSpy).toHaveReceivedEventTimes(0);
+      expect(chipGroupSelectSpy).toHaveReceivedEventTimes(0);
       expect(await element.getProperty("selectedItems")).toEqual([]);
       await assertSelectedItems(page, { expectedItemIds: [] });
 
       await chip1.click();
       await page.waitForChanges();
-      expect(eventSpy).toHaveReceivedEventTimes(1);
+      expect(chipGroupSelectSpy).toHaveReceivedEventTimes(1);
       expect(await chip1.getProperty("selected")).toBe(false);
       expect(await chip2.getProperty("selected")).toBe(false);
       expect(await element.getProperty("selectedItems")).toEqual([]);
@@ -143,7 +143,7 @@ describe("calcite-chip-group", () => {
 
       await chip2.click();
       await page.waitForChanges();
-      expect(eventSpy).toHaveReceivedEventTimes(2);
+      expect(chipGroupSelectSpy).toHaveReceivedEventTimes(2);
       expect(await chip1.getProperty("selected")).toBe(false);
       expect(await chip2.getProperty("selected")).toBe(false);
       expect(await element.getProperty("selectedItems")).toEqual([]);
@@ -151,7 +151,7 @@ describe("calcite-chip-group", () => {
 
       await chip2.click();
       await page.waitForChanges();
-      expect(eventSpy).toHaveReceivedEventTimes(3);
+      expect(chipGroupSelectSpy).toHaveReceivedEventTimes(3);
       expect(await chip1.getProperty("selected")).toBe(false);
       expect(await chip2.getProperty("selected")).toBe(false);
       expect(await element.getProperty("selectedItems")).toEqual([]);
@@ -171,16 +171,16 @@ describe("calcite-chip-group", () => {
       const element = await page.find("calcite-chip-group");
       const chip1 = await page.find("#chip-1");
       const chip2 = await page.find("#chip-2");
-      const eventSpy = await element.spyOnEvent("calciteChipGroupSelect");
+      const chipGroupSelectSpy = await element.spyOnEvent("calciteChipGroupSelect");
       await assertSelectedItems.setUpEvents(page);
 
-      expect(eventSpy).toHaveReceivedEventTimes(0);
+      expect(chipGroupSelectSpy).toHaveReceivedEventTimes(0);
       expect(await element.getProperty("selectedItems")).toHaveLength(1);
       await assertSelectedItems(page, { expectedItemIds: [chip1.id] });
 
       await chip1.click();
       await page.waitForChanges();
-      expect(eventSpy).toHaveReceivedEventTimes(1);
+      expect(chipGroupSelectSpy).toHaveReceivedEventTimes(1);
       expect(await chip1.getProperty("selected")).toBe(true);
       expect(await chip2.getProperty("selected")).toBe(false);
       expect(await element.getProperty("selectedItems")).toHaveLength(1);
@@ -188,7 +188,7 @@ describe("calcite-chip-group", () => {
 
       await chip2.click();
       await page.waitForChanges();
-      expect(eventSpy).toHaveReceivedEventTimes(2);
+      expect(chipGroupSelectSpy).toHaveReceivedEventTimes(2);
       expect(await chip1.getProperty("selected")).toBe(false);
       expect(await chip2.getProperty("selected")).toBe(true);
       expect(await element.getProperty("selectedItems")).toHaveLength(1);
@@ -196,7 +196,7 @@ describe("calcite-chip-group", () => {
 
       await chip2.click();
       await page.waitForChanges();
-      expect(eventSpy).toHaveReceivedEventTimes(3);
+      expect(chipGroupSelectSpy).toHaveReceivedEventTimes(3);
       expect(await chip1.getProperty("selected")).toBe(false);
       expect(await chip2.getProperty("selected")).toBe(true);
       expect(await element.getProperty("selectedItems")).toHaveLength(1);
@@ -219,16 +219,16 @@ describe("calcite-chip-group", () => {
       const chip2 = await page.find("#chip-2");
       const chip3 = await page.find("#chip-3");
 
-      const eventSpy = await element.spyOnEvent("calciteChipGroupSelect");
+      const chipGroupSelectSpy = await element.spyOnEvent("calciteChipGroupSelect");
       await assertSelectedItems.setUpEvents(page);
 
-      expect(eventSpy).toHaveReceivedEventTimes(0);
+      expect(chipGroupSelectSpy).toHaveReceivedEventTimes(0);
       expect(await element.getProperty("selectedItems")).toEqual([]);
       await assertSelectedItems(page, { expectedItemIds: [] });
 
       await chip1.click();
       await page.waitForChanges();
-      expect(eventSpy).toHaveReceivedEventTimes(1);
+      expect(chipGroupSelectSpy).toHaveReceivedEventTimes(1);
       expect(await chip1.getProperty("selected")).toBe(true);
       expect(await chip2.getProperty("selected")).toBe(false);
       expect(await chip3.getProperty("selected")).toBe(false);
@@ -237,7 +237,7 @@ describe("calcite-chip-group", () => {
 
       await chip2.click();
       await page.waitForChanges();
-      expect(eventSpy).toHaveReceivedEventTimes(2);
+      expect(chipGroupSelectSpy).toHaveReceivedEventTimes(2);
       expect(await chip1.getProperty("selected")).toBe(true);
       expect(await chip2.getProperty("selected")).toBe(true);
       expect(await chip3.getProperty("selected")).toBe(false);
@@ -246,7 +246,7 @@ describe("calcite-chip-group", () => {
 
       await chip3.click();
       await page.waitForChanges();
-      expect(eventSpy).toHaveReceivedEventTimes(3);
+      expect(chipGroupSelectSpy).toHaveReceivedEventTimes(3);
       expect(await chip1.getProperty("selected")).toBe(true);
       expect(await chip2.getProperty("selected")).toBe(true);
       expect(await chip3.getProperty("selected")).toBe(true);
@@ -255,7 +255,7 @@ describe("calcite-chip-group", () => {
 
       await chip1.click();
       await page.waitForChanges();
-      expect(eventSpy).toHaveReceivedEventTimes(4);
+      expect(chipGroupSelectSpy).toHaveReceivedEventTimes(4);
       expect(await chip1.getProperty("selected")).toBe(false);
       expect(await chip2.getProperty("selected")).toBe(true);
       expect(await chip3.getProperty("selected")).toBe(true);
@@ -264,7 +264,7 @@ describe("calcite-chip-group", () => {
 
       await chip2.click();
       await page.waitForChanges();
-      expect(eventSpy).toHaveReceivedEventTimes(5);
+      expect(chipGroupSelectSpy).toHaveReceivedEventTimes(5);
       expect(await chip1.getProperty("selected")).toBe(false);
       expect(await chip2.getProperty("selected")).toBe(false);
       expect(await chip3.getProperty("selected")).toBe(true);
@@ -273,7 +273,7 @@ describe("calcite-chip-group", () => {
 
       await chip3.click();
       await page.waitForChanges();
-      expect(eventSpy).toHaveReceivedEventTimes(6);
+      expect(chipGroupSelectSpy).toHaveReceivedEventTimes(6);
       expect(await chip1.getProperty("selected")).toBe(false);
       expect(await chip2.getProperty("selected")).toBe(false);
       expect(await chip3.getProperty("selected")).toBe(false);
@@ -296,7 +296,7 @@ describe("calcite-chip-group", () => {
       );
 
       const element = await page.find("calcite-chip-group");
-      const eventSpy = await element.spyOnEvent("calciteChipGroupSelect");
+      const chipGroupSelectSpy = await element.spyOnEvent("calciteChipGroupSelect");
       await assertSelectedItems.setUpEvents(page);
 
       const chip1 = await page.find("#chip-1");
@@ -325,7 +325,7 @@ describe("calcite-chip-group", () => {
 
       await page.keyboard.press("Space");
       await page.waitForChanges();
-      expect(eventSpy).toHaveReceivedEventTimes(2);
+      expect(chipGroupSelectSpy).toHaveReceivedEventTimes(2);
       expect(await element.getProperty("selectedItems")).toHaveLength(2);
       await assertSelectedItems(page, { expectedItemIds: [chip1.id, chip5.id] });
 
@@ -335,13 +335,13 @@ describe("calcite-chip-group", () => {
 
       await page.keyboard.press("Enter");
       await page.waitForChanges();
-      expect(eventSpy).toHaveReceivedEventTimes(3);
+      expect(chipGroupSelectSpy).toHaveReceivedEventTimes(3);
       expect(await element.getProperty("selectedItems")).toHaveLength(3);
       await assertSelectedItems(page, { expectedItemIds: [chip1.id, chip4.id, chip5.id] });
 
       await page.keyboard.press("Space");
       await page.waitForChanges();
-      expect(eventSpy).toHaveReceivedEventTimes(4);
+      expect(chipGroupSelectSpy).toHaveReceivedEventTimes(4);
       expect(await element.getProperty("selectedItems")).toHaveLength(2);
       await assertSelectedItems(page, { expectedItemIds: [chip1.id, chip5.id] });
 
