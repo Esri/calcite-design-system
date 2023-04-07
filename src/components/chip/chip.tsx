@@ -36,11 +36,11 @@ import {
   T9nComponent,
   updateMessages
 } from "../../utils/t9n";
+import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 import { createObserver } from "../../utils/observers";
 import { isActivationKey } from "../../utils/key";
 import { ChipMessages } from "./assets/chip/t9n";
-import { ChipAria } from "./interfaces";
 
 /**
  * @slot - A slot for adding text.
@@ -53,7 +53,12 @@ import { ChipAria } from "./interfaces";
   assetsDirs: ["assets"]
 })
 export class Chip
-  implements ConditionalSlotComponent, LoadableComponent, LocalizedComponent, T9nComponent
+  implements
+    ConditionalSlotComponent,
+    InteractiveComponent,
+    LoadableComponent,
+    LocalizedComponent,
+    T9nComponent
 {
   //--------------------------------------------------------------------------
   //
@@ -197,6 +202,10 @@ export class Chip
     setComponentLoaded(this);
   }
 
+  componentDidRender(): void {
+    updateHostInteraction(this);
+  }
+
   disconnectedCallback(): void {
     disconnectConditionalSlotComponent(this);
     disconnectLocalized(this);
@@ -242,7 +251,7 @@ export class Chip
   //
   //--------------------------------------------------------------------------
 
-  /** When `closable` is `true`, sets focus on the component's "close" button (the first focusable item). */
+  /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
     await componentLoaded(this);
@@ -355,18 +364,13 @@ export class Chip
   }
 
   render(): VNode {
-    const aria: ChipAria = {
-      "aria-checked": toAriaBoolean(this.selected),
-      "aria-disabled": toAriaBoolean(this.disabled),
-      "aria-label": this.label,
-      "aria-labelledby": this.parentGroupEl.label,
-      role: this.selectionMode === "multiple" ? "checkbox" : "radio"
-    };
-
     return (
       <Host>
         <div
-          {...aria}
+          aria-checked={toAriaBoolean(this.selected)}
+          aria-disabled={toAriaBoolean(this.disabled)}
+          aria-label={this.label}
+          aria-labelledby={this.parentGroupEl.label}
           class={{
             [CSS.container]: true,
             [CSS.contentSlotted]: this.hasContent,
@@ -376,6 +380,7 @@ export class Chip
             [CSS.hasIcon]: !!this.icon
           }}
           onClick={this.itemSelectHandler}
+          role={this.selectionMode === "multiple" ? "checkbox" : "radio"}
           tabIndex={!this.disabled ? 0 : -1}
           // eslint-disable-next-line react/jsx-sort-props
           ref={(el) => (this.containerEl = el)}

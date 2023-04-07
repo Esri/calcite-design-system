@@ -1,9 +1,19 @@
-import { Component, h, VNode, Prop, Element, Listen, EventEmitter, Event } from "@stencil/core";
+import {
+  Component,
+  h,
+  VNode,
+  Prop,
+  Element,
+  Listen,
+  EventEmitter,
+  Event,
+  Method
+} from "@stencil/core";
 import { focusElementInGroup, toAriaBoolean } from "../../utils/dom";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import { createObserver } from "../../utils/observers";
 import { Scale, SelectionMode } from "../interfaces";
-
+import { componentLoaded, setComponentLoaded, setUpLoadableComponent } from "../../utils/loadable";
 /**
  * @slot - A slot for adding one or more `calcite-chip`s.
  */
@@ -79,8 +89,16 @@ export class ChipGroup implements InteractiveComponent {
     updateHostInteraction(this);
   }
 
+  componentDidLoad(): void {
+    setComponentLoaded(this);
+  }
+
   disconnectedCallback(): void {
     this.mutationObserver?.disconnect();
+  }
+
+  async componentWillLoad(): Promise<void> {
+    setUpLoadableComponent(this);
   }
   //--------------------------------------------------------------------------
   //
@@ -128,6 +146,25 @@ export class ChipGroup implements InteractiveComponent {
   calciteChipSelectListener(event: CustomEvent): void {
     if (event.composedPath().includes(this.el)) {
       this.setSelectedItems(event);
+    }
+  }
+
+  // --------------------------------------------------------------------------
+  //
+  //  Public Methods
+  //
+  // --------------------------------------------------------------------------
+
+  /**
+   * Sets focus on the component's first focusable element.
+   */
+  @Method()
+  async setFocus(): Promise<void> {
+    await componentLoaded(this);
+    if (!this.disabled && this.selectedItems.length > 0) {
+      this.selectedItems[0]?.setFocus();
+    } else if (!this.disabled) {
+      this.items[0]?.setFocus();
     }
   }
 
