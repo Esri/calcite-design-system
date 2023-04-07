@@ -34,22 +34,25 @@ This pattern enables components to support built-in translations. In order to su
    2. `messages_en.json` – locale-specific bundle (kept in sync with main one via scripts)
 2. Implement the `T9nComponent` interface
    1. The `onMessagesChange` method must be empty as it is wired up by the support utils.
-   2. The `onMessagesChange` method must also be configured with watchers for the messages properties as well as `intl` props.
+   2. The `onMessagesChange` method must also be configured to watch the `messageOverrides` property.
 3. Use the `setUpMessages` util in the component's `componentWillLoad` lifecycle methods. This must be awaited on to have an initial set of strings available before rendering.
 4. Use the `connectMessages`/`disconnectMessages` utils in the component's `connectedCallback`/`disconnectedCallback` lifecycle methods. This will set up and tear down supporting methods on the component.
 5. Add an appropriate E2E test by using the `t9n` common test helper.
-6. Components such as `input-date-picker` are neither localized nor `t9n` need to forward `intl` props into supporting components.
-   1. Add the `messageOverrides` property.
-   2. Mark `intl` properties as optional, and add a deprecation notice pointing to `messageOverrides` as the new solution.
-   3. Parse the `messageOverrides` along with `intl` properties into supporting components in render method.
-7. Internal components which support public components requires `t9n` properties only to forward the messages.
+6. Composite components need to forward message overrides props to supporting t9n components.
+   1. If the parent supports translations:
+      1. Add the `messageOverrides` property (its type should be the union of the parent and supporting component messages types).
+      2. Pass the `messageOverrides` into supporting components in the render method.
+   1. If the parent does not support translations:
+      1. Add the `messageOverrides` property (its type should be the union of supporting component messages types).
+      2. Pass the `messageOverrides` into supporting components in the render method.
+7. Internal components that support public t9n components
+   1. Do not have to implement the `T9nComponent` interface
+   2. Should use an internal, immutable, `messages` property (its type should correspond to the parent component's messages type)
 
 #### Notes
 
 - This pattern depends on `LocalizedComponent` being implemented.
 - `connectLocalized` (from `LocalizedComponent`) must be called before `connectMessages`.
-- Although `intl` properties are supported, message overrides have the higher precedence.
-- If a message string has a matching `intl` prop, its translation bundle message keys must match the same prop name without the `intl` prefix (e.g., `intlClose` -> `close`)
 - You can also look at the interface and util documentation for additional info.
 - The internal `messages` property should be used as the source of truth for translations in rendering.
 - List of supported locales can be found on our [Localization support page](https://developers.arcgis.com/calcite-design-system/localization/#locale-support).
