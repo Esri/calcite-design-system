@@ -59,6 +59,8 @@ export class ActionGroup
 
   /**
    * Indicates the layout of the component.
+   *
+   * @deprecated Use the `layout` property on the component's parent instead.
    */
   @Prop({ reflect: true }) layout: Layout = "vertical";
 
