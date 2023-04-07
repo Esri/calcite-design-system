@@ -13,11 +13,14 @@ Calcite Components, part of Esri's Calcite Design System, is a rich library of f
 The most common approach for loading Calcite Components is to use the version hosted on the CDN. The components can be loaded via `<script>` and `<link>` tags in the head of your HTML document:
 
 ```html
-<script type="module" src="https://unpkg.com/@esri/calcite-components@1.2.0/dist/calcite/calcite.esm.js"></script>
+<script
+  type="module"
+  src="https://cdn.jsdelivr.net/npm/@esri/calcite-components@1.2.0/dist/calcite/calcite.esm.js"
+></script>
 <link
   rel="stylesheet"
   type="text/css"
-  href="https://unpkg.com/@esri/calcite-components@1.2.0/dist/calcite/calcite.css"
+  href="https://cdn.jsdelivr.net/npm/@esri/calcite-components@1.2.0/dist/calcite/calcite.css"
 />
 ```
 
@@ -42,7 +45,7 @@ Choose one of the two builds provided by Calcite Components.
 ```jsx
 import { setAssetPath } from "@esri/calcite-components/dist/components";
 // CDN hosted assets
-setAssetPath("https://unpkg.com/@esri/calcite-components/dist/calcite/assets");
+setAssetPath("https://cdn.jsdelivr.net/npm/@esri/calcite-components/dist/calcite/assets");
 
 // Local assets
 // setAssetPath(PATH); // PATH depends on framework, more info below
@@ -64,7 +67,7 @@ When using the [Distribution](https://stenciljs.com/docs/distribution) build, yo
 import { defineCustomElements } from "@esri/calcite-components/dist/loader";
 // CDN hosted assets
 defineCustomElements(window, {
-  resourcesUrl: "https://unpkg.com/@esri/calcite-components/dist/calcite/assets"
+  resourcesUrl: "https://cdn.jsdelivr.net/npm/@esri/calcite-components/dist/calcite/assets"
 });
 
 // Local assets

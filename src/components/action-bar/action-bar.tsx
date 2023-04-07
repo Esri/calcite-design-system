@@ -17,7 +17,7 @@ import {
   connectConditionalSlotComponent,
   disconnectConditionalSlotComponent
 } from "../../utils/conditionalSlot";
-import { getSlotted } from "../../utils/dom";
+import { getSlotted, slotChangeGetAssignedElements } from "../../utils/dom";
 import {
   componentLoaded,
   LoadableComponent,
@@ -92,6 +92,11 @@ export class ActionBar
    *  The layout direction of the actions.
    */
   @Prop({ reflect: true }) layout: Extract<"horizontal" | "vertical", Layout> = "vertical";
+
+  @Watch("layout")
+  layoutHandler(): void {
+    this.updateGroups();
+  }
 
   /**
    * Disables automatically overflowing `calcite-action`s that won't fit into menus.
@@ -275,6 +280,9 @@ export class ActionBar
     const actions = queryActions(el);
     const actionCount = expandDisabled ? actions.length : actions.length + 1;
     const actionGroups = Array.from(el.querySelectorAll("calcite-action-group"));
+
+    this.setGroupLayout(actionGroups);
+
     const groupCount =
       getSlotted(el, SLOTS.bottomActions) || !expandDisabled
         ? actionGroups.length + 1
@@ -312,6 +320,22 @@ export class ActionBar
 
   setExpandToggleRef = (el: HTMLCalciteActionElement): void => {
     this.expandToggleEl = el;
+  };
+
+  updateGroups(): void {
+    this.setGroupLayout(Array.from(this.el.querySelectorAll("calcite-action-group")));
+  }
+
+  setGroupLayout(groups: HTMLCalciteActionGroupElement[]): void {
+    groups.forEach((group) => (group.layout = this.layout));
+  }
+
+  handleDefaultSlotChange = (event: Event): void => {
+    const groups = slotChangeGetAssignedElements(event).filter((el) =>
+      el?.matches("calcite-action-group")
+    ) as HTMLCalciteActionGroupElement[];
+
+    this.setGroupLayout(groups);
   };
 
   // --------------------------------------------------------------------------
@@ -352,7 +376,7 @@ export class ActionBar
   render(): VNode {
     return (
       <Host onCalciteActionMenuOpen={this.actionMenuOpenHandler}>
-        <slot />
+        <slot onSlotchange={this.handleDefaultSlotChange} />
         {this.renderBottomActionGroup()}
       </Host>
     );
