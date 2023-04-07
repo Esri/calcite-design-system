@@ -7,11 +7,42 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ## Unreleased
 
+### Features
+
+- **shell:** Add panel-top slot ([#6730](https://github.com/Esri/calcite-components/issues/6730)) ([62fb8a2](https://github.com/Esri/calcite-components/commit/62fb8a2e2b42bb8734a8486cf09afd8461a52c35)), closes [#6389](https://github.com/Esri/calcite-components/issues/6389) [#6449](https://github.com/Esri/calcite-components/issues/6449)
+
 ### Bug Fixes
 
-- **accordion, accordion-item:** now wraps long words in header (title & description) ([#6608](https://github.com/Esri/calcite-components/issues/6608)) ([46575ff](https://github.com/Esri/calcite-components/commit/46575ff836ca941a518d46c1f4c11b83b5da3e02)), closes [#5683](https://github.com/Esri/calcite-components/issues/5683)
+- **block:** Ensure description has correct line-height ([#6723](https://github.com/Esri/calcite-components/issues/6723)) ([a7deec2](https://github.com/Esri/calcite-components/commit/a7deec2770a90375253f9ca6ac89f2900b804b3f)), closes [#6443](https://github.com/Esri/calcite-components/issues/6443)
+
+* **input-time-picker, time-picker:** render when input-time-picker or time-picker's step property changes ([#6731](https://github.com/Esri/calcite-components/issues/6731)) ([2118349](https://github.com/Esri/calcite-components/commit/211834988fffea14792d073235881caa6cb5472e)), closes [#6039](https://github.com/Esri/calcite-components/issues/6039)
+
+- **date-picker:** improve date-picker a11y ([#6715](https://github.com/Esri/calcite-components/issues/6715)) ([74b3b96](https://github.com/Esri/calcite-components/commit/74b3b968dd4ec8b0b1240c7e12fe207c26a2a396)), closes [#5570](https://github.com/Esri/calcite-components/issues/5570)
+
+* **inline-editable, input-message, input-number, input-text, input:** prevent components from unintentionally picking up a different scale/status value from an ancestor ([#6506](https://github.com/Esri/calcite-components/issues/6506)) ([e27f4b3](https://github.com/Esri/calcite-components/commit/e27f4b355dd42d7b7ef4cef509b6c558e80fc7c0)), closes [#6494](https://github.com/Esri/calcite-components/issues/6494)
 
 <!--@unreleased-section-end-->
+
+## [v1.2.0](https://github.com/Esri/calcite-components/compare/v1.1.0...v1.2.0) (2023-03-27)
+
+### Features
+
+- support setting form ID on form components ([#6682](https://github.com/Esri/calcite-components/issues/6682)) ([1a4041d](https://github.com/Esri/calcite-components/commit/1a4041df3808bc7f5e537d8bbef13d0956dee0a9)), closes [#5164](https://github.com/Esri/calcite-components/issues/5164)
+- **pagination, split-button, dropdown, date-picker, action-group:** add setFocus method ([#6438](https://github.com/Esri/calcite-components/issues/6438)) ([a93a85f](https://github.com/Esri/calcite-components/commit/a93a85fd6a205434835e8fa14b96af1e95a04f20)), closes [#5147](https://github.com/Esri/calcite-components/issues/5147) [/github.com/Esri/calcite-components/issues/5147#issuecomment-1355194965](https://github.com/Esri//github.com/Esri/calcite-components/issues/5147/issues/issuecomment-1355194965)
+- **text-area:** add calcite-text-area component ([#5644](https://github.com/Esri/calcite-components/issues/5644)) ([1a1528b](https://github.com/Esri/calcite-components/commit/1a1528b42dde5b2f0f7933e15ea4790274903c54)), closes [#863](https://github.com/Esri/calcite-components/issues/863)
+
+### Bug Fixes
+
+- **card:** provide more meaningful screen reader label for selectable cards (deprecates `deselect` message override) ([#6657](https://github.com/Esri/calcite-components/issues/6657)) ([8ee37d2](https://github.com/Esri/calcite-components/commit/8ee37d2d5e7c14223837d0be80e79df6a71e7e56)), closes [#5585](https://github.com/Esri/calcite-components/issues/5585)
+- **modal:** prevent error when calling setFocus on a recently rendered and opened modal (`dist-custom-elements`) ([#6666](https://github.com/Esri/calcite-components/issues/6666)) ([aa1f3d1](https://github.com/Esri/calcite-components/commit/aa1f3d1b53e40db295edb135f03ef9ef48eb23db)), closes [#6188](https://github.com/Esri/calcite-components/issues/6188) [/github.com/ionic-team/ionic-framework/blob/main/core/src/utils/helpers.ts#L72-L79](https://github.com/Esri//github.com/ionic-team/ionic-framework/blob/main/core/src/utils/helpers.ts/issues/L72-L79) [/github.com/ionic-team/stencil/issues/3246#issuecomment-1048802446](https://github.com/Esri//github.com/ionic-team/stencil/issues/3246/issues/issuecomment-1048802446)
+- **pagination:** add current page information for screen readers ([#6637](https://github.com/Esri/calcite-components/issues/6637)) ([335f947](https://github.com/Esri/calcite-components/commit/335f947e8a0b692b5d0b5a6d9a47e68c9b8297e9)), closes [#5590](https://github.com/Esri/calcite-components/issues/5590)
+- **tile-select:** fix click not firing in custom-elements build ([#6665](https://github.com/Esri/calcite-components/issues/6665)) ([71aa826](https://github.com/Esri/calcite-components/commit/71aa8261f9e8d05f11142652a1b66293a968ddf8)), closes [#6185](https://github.com/Esri/calcite-components/issues/6185)
+
+* **tile:** adds styling to `tile` where `link` is present for additional distinction ([#6628](https://github.com/Esri/calcite-components/issues/6628)) ([093ae47](https://github.com/Esri/calcite-components/commit/093ae474cca3f35bd749988dd3f026e51c3d5520)), closes [#5608](https://github.com/Esri/calcite-components/issues/5608)
+
+- restore form control validation in Safari ([#6623](https://github.com/Esri/calcite-components/issues/6623)) ([b293077](https://github.com/Esri/calcite-components/commit/b293077bb38b41df3726e2afbad1682e922c9c55)), closes [#6626](https://github.com/Esri/calcite-components/issues/6626)
+
+* **accordion, accordion-item:** now wraps long words in header (title & description) ([#6608](https://github.com/Esri/calcite-components/issues/6608)) ([46575ff](https://github.com/Esri/calcite-components/commit/46575ff836ca941a518d46c1f4c11b83b5da3e02)), closes [#5683](https://github.com/Esri/calcite-components/issues/5683)
 
 ## [v1.1.0](https://github.com/Esri/calcite-components/compare/v1.0.8...v1.1.0) (2023-03-15)
 

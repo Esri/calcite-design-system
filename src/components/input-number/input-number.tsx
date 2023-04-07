@@ -13,7 +13,6 @@ import {
 } from "@stencil/core";
 import {
   getElementDir,
-  getElementProp,
   getSlotted,
   isPrimaryPointerButton,
   setRequestedIcon
@@ -99,7 +98,7 @@ export class InputNumber
   @Prop({ reflect: true }) alignment: Position = "start";
 
   /**
-   * When `true`, the component is focused on page load.
+   * When `true`, the component is focused on page load. Only one element can contain `autofocus`. If multiple elements have `autofocus`, the first element will receive focus.
    *
    * @mdn [autofocus](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/autofocus)
    */
@@ -121,6 +120,14 @@ export class InputNumber
   disabledWatcher(): void {
     this.setDisabledAction();
   }
+
+  /**
+   * The ID of the form that will be associated with the component.
+   *
+   * When not set, the component will be associated with its ancestor form element, if any.
+   */
+  @Prop({ reflect: true })
+  form: string;
 
   /**
    * When `true`, number values are displayed with a group separator corresponding to the language and country format.
@@ -397,7 +404,6 @@ export class InputNumber
   connectedCallback(): void {
     connectLocalized(this);
     connectMessages(this);
-    this.scale = getElementProp(this.el, "scale", this.scale);
     this.inlineEditableEl = this.el.closest("calcite-inline-editable");
     if (this.inlineEditableEl) {
       this.editingEnabled = this.inlineEditableEl.editingEnabled || false;
@@ -495,7 +501,7 @@ export class InputNumber
     this.childNumberEl?.focus();
   }
 
-  /** Selects all text of the component's `value`. */
+  /** Selects the text of the component's `value`. */
   @Method()
   async selectText(): Promise<void> {
     this.childNumberEl?.select();

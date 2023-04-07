@@ -62,20 +62,6 @@ describe("calcite-inline-editable", () => {
       }
     });
 
-    it("uses a wrapping label's scale when none are provided", async () => {
-      page = await newE2EPage();
-      await page.setContent(`
-      <calcite-label scale="l">
-        <calcite-inline-editable>
-          <calcite-input/>
-        </calcite-inline-editable>
-      </calcite-label>
-      `);
-      await page.waitForChanges();
-      const element = await page.find("calcite-inline-editable");
-      expect(element).toEqualAttribute("scale", "l");
-    });
-
     it("uses a child input's scale when none are provided", async () => {
       page = await newE2EPage();
       await page.setContent(`

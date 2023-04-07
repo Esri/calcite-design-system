@@ -88,6 +88,11 @@ export class TimePicker
   /** Specifies the granularity the `value` must adhere to (in seconds). */
   @Prop({ reflect: true }) step = 60;
 
+  @Watch("step")
+  stepChange(): void {
+    this.updateShowSecond();
+  }
+
   /**
    * Specifies the Unicode numeral system used by the component for localization.
    *
@@ -176,7 +181,7 @@ export class TimePicker
 
   @State() second: string;
 
-  @State() showSecond: boolean = this.step < 60;
+  @State() showSecond: boolean;
 
   @State() defaultMessages: TimePickerMessages;
 
@@ -300,6 +305,10 @@ export class TimePicker
   //  Private Methods
   //
   // --------------------------------------------------------------------------
+
+  private updateShowSecond(): void {
+    this.showSecond = this.step < 60;
+  }
 
   private async focusPart(target: TimePart): Promise<void> {
     await componentLoaded(this);
@@ -711,6 +720,7 @@ export class TimePicker
     connectLocalized(this);
     this.updateLocale();
     connectMessages(this);
+    this.updateShowSecond();
     this.meridiemOrder = this.getMeridiemOrder(
       getTimeParts({
         value: "0:00:00",

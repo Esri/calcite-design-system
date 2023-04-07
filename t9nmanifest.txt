@@ -28,7 +28,7 @@ src\components\popover\assets\popover\t9n
 src\components\rating\assets\rating\t9n
 src\components\scrim\assets\scrim\t9n
 src\components\shell-panel\assets\shell-panel\t9n
-src\components\textarea\assets\textarea\t9n
+src\components\text-area\assets\text-area\t9n
 src\components\time-picker\assets\time-picker\t9n
 src\components\tip-manager\assets\tip-manager\t9n
 src\components\tip\assets\tip\t9n
