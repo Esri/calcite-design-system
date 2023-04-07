@@ -107,7 +107,7 @@ export class CalciteNavMenuItem implements LoadableComponent {
   // or position downward and expand relative (vertical parent)
   @State() topLevelLayout: "vertical" | "horizontal";
 
-  @State() subMenuItems?: HTMLCalciteNavMenuItemElement[];
+  @State() subMenuItems: HTMLCalciteNavMenuItemElement[];
 
   //--------------------------------------------------------------------------
   //
@@ -467,6 +467,7 @@ export class CalciteNavMenuItem implements LoadableComponent {
         }
         onClick={() => (this.subMenuOpen = !this.subMenuOpen)}
         onKeyDown={this.keyDownHandler}
+        // role="none"
         text="open-dropdown"
         // eslint-disable-next-line react/jsx-sort-props
         ref={(el) => (this.dropDownActionEl = el)}
@@ -485,7 +486,7 @@ export class CalciteNavMenuItem implements LoadableComponent {
           "is-vertical-dropdown-type": this.topLevelLayout === "vertical"
         }}
         layout="vertical"
-        role="submenu"
+        role="menu"
       >
         <slot name="menu-item-dropdown" onSlotchange={this.handleMenuItemSlotChange} />
       </calcite-nav-menu>
@@ -524,7 +525,7 @@ export class CalciteNavMenuItem implements LoadableComponent {
             container: true,
             "nav-item-vertical-parent": this.topLevelLayout === "vertical"
           }}
-          role="menuitem"
+          role="none"
         >
           <div class="item-content">
             <a

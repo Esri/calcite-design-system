@@ -35,6 +35,11 @@ export class CalciteNavMenu {
    */
   @Prop() label: string;
 
+  /**
+   * @internal
+   */
+  @Prop() role = "menubar";
+
   //--------------------------------------------------------------------------
   //
   //  Private State/Props
@@ -129,7 +134,7 @@ export class CalciteNavMenu {
   render() {
     return (
       <Host>
-        <ul aria-label={this.label} role="menubar">
+        <ul aria-label={this.label} role={this.role}>
           <slot />
           {this.overflowedNavMenuItems.length > 0 && (
             <calcite-nav-menu-item icon-start="ellipsis" text="overflow" title="overflow-items" />
