@@ -30,42 +30,63 @@ export interface FocusTrapComponent {
 
 export type FocusTrap = _FocusTrap;
 
+interface ConnectFocusTrapOptions {
+  /**
+   * This option allows the focus trap to be created on a different element that's not the host (e.g., a supporting popup component).
+   */
+  focusTrapEl?: HTMLElement;
+
+  /**
+   * This allows specifying overrides to ConnectFocusTrap options.
+   */
+  focusTrapOptions?: Omit<FocusTrapOptions, "document" | "tabbableOptions" | "trapStack">;
+}
+
 /**
  * Helper to set up the FocusTrap component.
  *
  * @param {FocusTrapComponent} component The FocusTrap component.
+ * @param options
  */
-export function connectFocusTrap(component: FocusTrapComponent): void {
+export function connectFocusTrap(component: FocusTrapComponent, options?: ConnectFocusTrapOptions): void {
   const { el } = component;
+  const focusTrapNode = options?.focusTrapEl || el;
 
-  if (!el) {
+  if (!focusTrapNode) {
     return;
   }
 
   const focusTrapOptions: FocusTrapOptions = {
     clickOutsideDeactivates: true,
-    document: el.ownerDocument,
     escapeDeactivates: false,
-    fallbackFocus: el,
+    fallbackFocus: focusTrapNode,
     setReturnFocus: (el) => {
       focusElement(el as FocusableElement);
       return false;
     },
+    ...options?.focusTrapOptions,
+
+    // the following options are not overrideable
+    document: el.ownerDocument,
     tabbableOptions,
     trapStack
   };
 
-  component.focusTrap = createFocusTrap(el, focusTrapOptions);
+  component.focusTrap = createFocusTrap(focusTrapNode, focusTrapOptions);
 }
 
 /**
  * Helper to activate the FocusTrap component.
  *
  * @param {FocusTrapComponent} component The FocusTrap component.
+ * @param [options] The FocusTrap activate options.
  */
-export function activateFocusTrap(component: FocusTrapComponent): void {
+export function activateFocusTrap(
+  component: FocusTrapComponent,
+  options?: Parameters<_FocusTrap["activate"]>[0]
+): void {
   if (!component.focusTrapDisabled) {
-    component.focusTrap?.activate();
+    component.focusTrap?.activate(options);
   }
 }
 
@@ -73,9 +94,13 @@ export function activateFocusTrap(component: FocusTrapComponent): void {
  * Helper to deactivate the FocusTrap component.
  *
  * @param {FocusTrapComponent} component The FocusTrap component.
+ * @param [options] The FocusTrap deactivate options.
  */
-export function deactivateFocusTrap(component: FocusTrapComponent): void {
-  component.focusTrap?.deactivate();
+export function deactivateFocusTrap(
+  component: FocusTrapComponent,
+  options?: Parameters<_FocusTrap["deactivate"]>[0]
+): void {
+  component.focusTrap?.deactivate(options);
 }
 
 /**
