@@ -1,6 +1,5 @@
-import { getAssetPath } from "@stencil/core";
 import { dateFromISO } from "../../utils/date";
-import { getSupportedLocale } from "../../utils/locale";
+import { getDateTimeFormat, getSupportedLocale } from "../../utils/locale";
 
 /**
  * Translation resource data structure
@@ -36,7 +35,7 @@ export interface DateLocaleData {
  *
  * @private
  */
-export const translationCache: Record<string, DateLocaleData> = {};
+export const localeDataCache: Record<string, DateLocaleData> = {};
 
 /**
  * CLDR request cache.
@@ -54,22 +53,144 @@ export const requestCache: Record<string, Promise<DateLocaleData>> = {};
  */
 export async function getLocaleData(lang: string): Promise<DateLocaleData> {
   const locale = getSupportedLocale(lang);
-  if (translationCache[locale]) {
-    return translationCache[locale];
-  }
-  if (!requestCache[locale]) {
-    requestCache[locale] = fetch(getAssetPath(`./assets/date-picker/nls/${locale}.json`))
-      .then((resp) => resp.json())
-      .catch(() => {
-        console.error(`Translations for "${locale}" not found or invalid, falling back to english`);
-        return getLocaleData("en");
-      });
+
+  const supportedLocaleStartOfWeek: Record<string, number> = {
+    ar: 6,
+    bg: 1,
+    bs: 1,
+    ca: 1,
+    cs: 1,
+    da: 1,
+    de: 1,
+    "de-CH": 1,
+    el: 1,
+    en: 7,
+    "en-AU": 1,
+    "en-CA": 7,
+    "en-GB": 1,
+    es: 1,
+    "es-MX": 7,
+    et: 1,
+    fi: 1,
+    fr: 1,
+    "fr-CH": 1,
+    he: 7,
+    hi: 7,
+    hr: 1,
+    hu: 1,
+    id: 7,
+    it: 1,
+    "it-CH": 1,
+    ja: 7,
+    ko: 7,
+    lt: 1,
+    lv: 1,
+    mk: 1,
+    nl: 1,
+    no: 1,
+    pl: 1,
+    pt: 7,
+    "pt-BR": 7,
+    "pt-PT": 7,
+    ro: 1,
+    ru: 1,
+    sk: 1,
+    sl: 1,
+    sr: 1,
+    sv: 1,
+    th: 7,
+    tr: 1,
+    uk: 1,
+    vi: 1,
+    "zh-CN": 7,
+    "zh-HK": 7,
+    "zh-TW": 7
+  };
+
+  if (localeDataCache[locale]) {
+    return localeDataCache[locale];
   }
 
-  const data = await requestCache[locale];
-  translationCache[locale] = data;
+  function pickPart(format: Intl.DateTimeFormat, part: Intl.DateTimeFormatPartTypes, date: Date): string {
+    return format.formatToParts(date).find(({ type }) => type === part)?.value;
+  }
 
-  return data;
+  const shortFormat = getDateTimeFormat(locale, { month: "short", weekday: "narrow" });
+  const mediumFormat = getDateTimeFormat(locale, { weekday: "short" });
+  const regularFormat = getDateTimeFormat(locale, { month: "2-digit", day: "2-digit", year: "numeric" });
+  const longFormat = getDateTimeFormat(locale, { month: "long" });
+  const resolvedOptions = regularFormat.resolvedOptions();
+  const sampleDate = new Date();
+  const parts = regularFormat.formatToParts(sampleDate);
+  const builtData: Partial<DateLocaleData> = {};
+
+  function mapWeek(fn: (date: Date) => string): string[] {
+    const mw: string[] = [];
+
+    for (let i = 0; i <= 7; i++) {
+      const start = new Date(Date.UTC(2016, 10, 14 + i));
+      mw.push(fn(start));
+    }
+
+    return mw;
+  }
+
+  function mapMonth(fn: (date: Date) => string): string[] {
+    const mm: string[] = [];
+
+    for (let i = 0; i <= 11; i++) {
+      const start = new Date(Date.UTC(2016, 1 + i, 1));
+      mm.push(fn(start));
+    }
+
+    return mm;
+  }
+
+  const separator = parts.find((part) => part.type === "literal")?.value ?? "/";
+
+  const unitOrder: string = parts
+    .map((part) => {
+      return part.type === "day"
+        ? "D".repeat(part.value.length)
+        : part.type === "month"
+        ? "M".repeat(part.value.length)
+        : part.type === "year"
+        ? "Y".repeat(part.value.length)
+        : undefined;
+    })
+    .filter(Boolean)
+    .join(separator);
+
+  builtData["default-calendar"] = resolvedOptions.calendar as DateLocaleData["default-calendar"];
+  builtData.separator = separator;
+  builtData.unitOrder = unitOrder;
+  builtData.weekStart = supportedLocaleStartOfWeek[locale];
+  builtData.placeholder = unitOrder;
+
+  builtData.days = {
+    // narrow or short will always be used if specified (currently)
+    narrow: mapWeek((date) => pickPart(mediumFormat, "weekday", date)),
+    short: mapWeek((date) => pickPart(shortFormat, "weekday", date))
+  };
+
+  builtData.numerals = locale === "ar" ? "٠١٢٣٤٥٦٧٨٩" : "0123456789"; // use numberformatter or more reliable
+
+  builtData.months = {
+    // wide will always be used if specified (currently)
+    wide: mapMonth((date) => pickPart(longFormat, "month", date)),
+
+    // intentionally empty as
+    abbreviated: [],
+    narrow: []
+  };
+
+  const yearIndex = parts.findIndex((part) => part.type === "year");
+  const yearSeparator = parts.slice(yearIndex).find((part) => part.type === "literal");
+  builtData.year = yearSeparator ? { suffix: yearSeparator.value } : undefined;
+
+  localeDataCache[locale] = builtData as DateLocaleData;
+
+  return localeDataCache[locale];
 }
 
 /**
