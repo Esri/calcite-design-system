@@ -118,6 +118,8 @@ export class TabNav {
     this.activeIndicatorEl.style.transitionDuration = `${this.animationActiveDuration}s`;
   }
 
+  @Prop({ mutable: true }) closedTabTitleEl: HTMLCalciteTabTitleElement;
+
   //--------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -272,6 +274,11 @@ export class TabNav {
     this.updateActiveWidth();
   }
 
+  @Listen("calciteInternalTabTitleClose")
+  tabTitleCloseHandler(event: MouseEvent): void {
+    this.closedTabTitleEl = event.target as HTMLCalciteTabTitleElement;
+  }
+
   //--------------------------------------------------------------------------
   //
   //  Events
@@ -395,12 +402,16 @@ export class TabNav {
     if (selectedTabId === tabTitles.length) {
       tabTitles = this.el.querySelectorAll("calcite-tab-title");
       tabTitles[tabTitles.length - 1].selected = true;
+      this.selectedTabId = tabTitles.length - 1;
       return;
     }
-    const selectedTabIdNew = Array.from(tabTitles).findIndex.call(
-      tabTitles,
-      (tabTitle) => tabTitle.selected === true // explicitly trigger resetting the tabId for watcher to fire
-    );
-    this.selectedTabId = selectedTabIdNew;
+    const selectedClosed = Array.from(tabTitles).some((tabTitle) => tabTitle.selected);
+
+    if (selectedTabId && !selectedClosed) {
+      tabTitles = this.el.querySelectorAll("calcite-tab-title");
+      tabTitles[selectedTabId].selected = true;
+      this.selectedTabId = selectedTabId;
+      return;
+    }
   };
 }

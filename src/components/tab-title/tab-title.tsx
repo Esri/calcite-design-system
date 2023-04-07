@@ -374,6 +374,11 @@ export class TabTitle implements InteractiveComponent, T9nComponent {
    */
   @Event({ cancelable: false }) calciteInternalTabIconChanged: EventEmitter<void>;
 
+  /**
+   * Fires when the close button is clicked.
+   */
+  @Event({ cancelable: false }) calciteInternalTabTitleClose: EventEmitter<void>;
+
   //--------------------------------------------------------------------------
   //
   //  Public Methods
@@ -416,6 +421,7 @@ export class TabTitle implements InteractiveComponent, T9nComponent {
   //--------------------------------------------------------------------------
 
   private close = (): void => {
+    this.calciteInternalTabTitleClose.emit();
     this.el.remove();
   };
 
