@@ -55,7 +55,7 @@ export function createObserver<T extends ObserverType>(
   }
 
   const Observer = getObserver<T>(type);
-  return new Observer(callback as any, options as any) as any;
+  return new Observer(callback as any, options) as any;
 }
 
 function getObserver<T extends ObserverType>(type: T): ObserverClassType<T> {
