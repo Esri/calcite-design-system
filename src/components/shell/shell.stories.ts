@@ -377,7 +377,7 @@ background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
     ></div>
     <calcite-shell-panel slot="panel-end" position="end" detached>
       <calcite-action-bar slot="action-bar">
-        <calcite-action-group layout="vertical">
+        <calcite-action-group>
           <calcite-action text="Idea" label="Add Item" icon="lightbulb" appearance="solid" scale="m"></calcite-action>
           <calcite-action
             text="Information"
@@ -387,7 +387,7 @@ background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
             scale="m"
           ></calcite-action>
         </calcite-action-group>
-        <calcite-action-group layout="vertical">
+        <calcite-action-group>
           <calcite-action
             text="Question"
             label="View Layers"
