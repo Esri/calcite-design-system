@@ -116,6 +116,7 @@
     "cheerio": "1.0.0-rc.10",
     "chokidar": "3.5.3",
     "chromatic": "6.17.2",
+    "composed-offset-position": "0.0.4",
     "concurrently": "7.6.0",
     "conventional-changelog-cli": "2.2.2",
     "cpy-cli": "^4.0.0",
