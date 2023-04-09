@@ -1,7 +1,8 @@
 export const CSS = {
   close: "tab-title-close",
   container: "container",
-  containerHasText: "container--has-text",
+  contentHasText: "content--has-text",
+  content: "content",
   iconEnd: "icon-end",
   iconStart: "icon-start",
   iconPresent: "icon-present",

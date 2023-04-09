@@ -215,15 +215,16 @@ export class TabTitle implements InteractiveComponent, T9nComponent {
         <div
           class={{
             container: true,
-            [CSS.iconPresent]: this.iconStart || this.iconEnd ? true : null,
-            [CSS.containerHasText]: this.hasText
+            [CSS.iconPresent]: this.iconStart || this.iconEnd ? true : null
           }}
           // eslint-disable-next-line react/jsx-sort-props
           ref={(el) => this.resizeObserver?.observe(el)}
         >
-          {this.iconStart ? iconStartEl : null}
-          <slot />
-          {this.iconEnd ? iconEndEl : null}
+          <div class={{ [CSS.content]: true, [CSS.contentHasText]: this.hasText }}>
+            {this.iconStart ? iconStartEl : null}
+            <slot />
+            {this.iconEnd ? iconEndEl : null}
+          </div>
           {this.renderCloseButtonEl()}
         </div>
       </Host>

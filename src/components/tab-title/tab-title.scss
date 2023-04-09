@@ -17,12 +17,14 @@
   border-block-start-style: solid;
 }
 
-:host .container {
-  @apply focus-base;
-}
+//focus styles
 
-:host(:focus) .container {
-  @apply focus-inset;
+.tab-title-close,
+.content {
+  @apply focus-base;
+  &:focus {
+    @apply focus-inset;
+  }
 }
 
 :host(:active),
@@ -33,37 +35,46 @@
   }
 }
 
-:host([selected]) .container {
+:host([selected]) .content,
+.tab-title-close {
   @apply text-color-1 border-color-transparent;
 }
 
 @include disabled() {
-  .container {
+  .container,
+  .tab-title-close {
     @apply pointer-events-none opacity-50;
   }
 }
 
 :host([scale="s"]) {
   margin-inline-end: 1rem;
-  .container {
+  .content,
+  .tab-title-close {
     @apply text-n2h py-1;
   }
 }
 
 :host([scale="m"]) {
-  .container {
+  .content,
+  .tab-title-close {
     @apply text-n1h py-2;
   }
 }
 
 :host([scale="l"]) {
   margin-inline-end: 1.5rem;
-  .container {
+  .content,
+  .tab-title-close {
     @apply text-0h py-2.5;
   }
 }
 
 .container {
+  @apply flex;
+}
+
+.content {
   @apply border-b-color-transparent
     text-color-3
     text-n1h
@@ -75,8 +86,8 @@
     cursor-pointer
     appearance-none
     justify-center
+    items-center
     truncate
-    border-b-2
     px-0;
   border-block-end-style: solid;
 }
@@ -91,16 +102,38 @@
   }
 }
 
-.container--has-text {
+.content--has-text {
   @apply p-1;
 }
 
-.container--has-text .calcite-tab-title--icon.icon-start {
+.content--has-text .calcite-tab-title--icon.icon-start {
   margin-inline-end: theme("margin.2");
 }
 
-.container--has-text .calcite-tab-title--icon.icon-end {
+.content--has-text .calcite-tab-title--icon.icon-end {
   margin-inline-start: theme("margin.2");
+}
+
+@mixin tab-title-element-base() {
+  @apply transition-default 
+      text-color-3 
+      box-border
+      flex
+      cursor-pointer 
+      self-stretch
+      h-full
+      appearance-none
+      overflow-hidden
+      border-none
+      outline-none
+      justify-center
+      items-center;
+}
+
+.tab-title-close {
+  @include tab-title-element-base;
+  @apply bg-foreground-1;
+  flex: 0 0 auto;
 }
 
 // compensate for spacing when no hastext and two icons
@@ -113,6 +146,9 @@
 // bordered styles
 :host([bordered]) {
   margin-inline-end: 0;
+  .content {
+    @apply mb-0;
+  }
 }
 
 :host([bordered][selected]) {
@@ -130,9 +166,12 @@
     @apply relative;
   }
 }
-
-:host([bordered]:hover) {
-  .container {
+:host([bordered]) {
+  .tab-title-close:hover,
+  .tab-title-close:focus,
+  .content:hover,
+  .content:focus {
+    @apply text-color-1;
     background-color: var(--calcite-button-transparent-hover);
   }
 }
