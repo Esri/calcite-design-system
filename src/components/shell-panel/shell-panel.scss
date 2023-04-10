@@ -63,6 +63,10 @@
   }
 }
 
+:host([layout="horizontal"]) .container {
+  flex-direction: column;
+}
+
 :host(:hover),
 :host(:focus-within) {
   .separator:not(:hover):not(:focus) {
@@ -75,11 +79,7 @@
   @apply transition-default
   pointer-events-auto
   absolute
-  bottom-0
-  top-0
   flex
-  h-full
-  w-0.5
   bg-transparent
   opacity-0;
   cursor: col-resize;
@@ -93,12 +93,39 @@
   }
 }
 
-:host([position="start"]) .separator {
-  inset-inline-end: -2px;
+:host([layout="vertical"]) .separator {
+  @apply bottom-0
+  top-0 h-full
+  w-0.5;
+  cursor: col-resize;
 }
 
-:host([position="end"]) .separator {
+:host([layout="horizontal"][position="start"]) .separator {
+  @apply bottom-0;
+}
+
+:host([layout="horizontal"][position="end"]) .separator {
+  @apply top-0;
+}
+
+:host([layout="horizontal"]) .separator {
+  @apply right-0 w-full
+  h-0.5;
+  cursor: row-resize;
+}
+
+:host([layout="vertical"][position="start"]) .separator {
+  inset-inline-end: -2px;
+}
+:host([layout="horizontal"][position="start"]) .separator {
+  inset-block-end: -2px;
+}
+
+:host([layout="vertical"][position="end"]) .separator {
   inset-inline-start: -2px;
+}
+:host([layout="horizontal"][position="end"]) .separator {
+  inset-block-start: -2px;
 }
 
 ::slotted(calcite-panel),
