@@ -287,6 +287,21 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
         : roundedWidth;
   }
 
+  updateAriaValues(): void {
+    const { contentEl } = this;
+    const computedStyle = contentEl && getComputedStyle(contentEl);
+
+    if (!computedStyle) {
+      return;
+    }
+
+    this.layout === "horizontal"
+      ? this.updateHeights(computedStyle)
+      : this.updateWidths(computedStyle);
+
+    forceUpdate(this);
+  }
+
   setContentHeight(height: number): void {
     const { contentHeightMax, contentHeightMin } = this;
 
@@ -332,21 +347,6 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
     if (typeof min === "number" && !isNaN(min)) {
       this.contentHeightMin = min;
     }
-  }
-
-  updateAriaValues(): void {
-    const { contentEl } = this;
-    const computedStyle = contentEl && getComputedStyle(contentEl);
-
-    if (!computedStyle) {
-      return;
-    }
-
-    this.layout === "horizontal"
-      ? this.updateHeights(computedStyle)
-      : this.updateWidths(computedStyle);
-
-    forceUpdate(this);
   }
 
   storeContentEl = (contentEl: HTMLDivElement): void => {
