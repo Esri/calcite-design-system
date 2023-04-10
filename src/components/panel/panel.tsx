@@ -387,12 +387,13 @@ export class Panel
   }
 
   renderHeaderActionsEnd(): VNode {
-    const { close, hasEndActions, messages, closable } = this;
+    const { close, hasEndActions, messages, closable, hasMenuItems } = this;
     const text = messages.close;
 
     const closableNode = closable ? (
       <calcite-action
         aria-label={text}
+        data-test="close"
         icon={ICONS.close}
         onClick={close}
         text={text}
@@ -405,7 +406,7 @@ export class Panel
       <slot name={SLOTS.headerActionsEnd} onSlotchange={this.handleHeaderActionsEndSlotChange} />
     );
 
-    const showContainer = hasEndActions || closableNode;
+    const showContainer = hasEndActions || closableNode || hasMenuItems;
 
     return (
       <div
@@ -414,6 +415,7 @@ export class Panel
         key="header-actions-end"
       >
         {slotNode}
+        {this.renderMenu()}
         {closableNode}
       </div>
     );
@@ -463,7 +465,6 @@ export class Panel
         {this.renderHeaderSlottedContent()}
         {headerContentNode}
         {this.renderHeaderActionsEnd()}
-        {this.renderMenu()}
       </header>
     );
   }
