@@ -1,4 +1,5 @@
 import {
+  Build,
   Component,
   Element,
   Event,
@@ -393,7 +394,7 @@ export class Panel
     const closableNode = closable ? (
       <calcite-action
         aria-label={text}
-        data-test="close"
+        data-test={Build.isTesting ? "close" : undefined}
         icon={ICONS.close}
         onClick={close}
         text={text}
