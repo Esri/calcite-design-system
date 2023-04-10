@@ -49,13 +49,66 @@ describe("calcite-tab-title", () => {
     expect(iconEnd).not.toBeNull();
   });
 
-  it("renders with close button when set to closable", async () => {
-    const page = await newE2EPage();
-    await page.setContent(html`<calcite-tab-title closable>Text</calcite-tab-title>`);
-    const element = await page.find("calcite-tab-title");
-    const close = await page.find(closeHtml);
-    expect(element).toHaveAttribute(HYDRATED_ATTR);
-    expect(close).not.toBeNull();
+  describe("closing behavior", () => {
+    let page: E2EPage;
+
+    beforeEach(async () => {
+      page = await newE2EPage();
+      await page.setContent(html`<calcite-tab-title closable>Text</calcite-tab-title>`);
+    });
+
+    it("renders with close button when set to closable", async () => {
+      const element = await page.find("calcite-tab-title");
+      const close = await page.find(closeHtml);
+      expect(element).toHaveAttribute(HYDRATED_ATTR);
+      expect(close).not.toBeNull();
+    });
+
+    it("clicking on close button closes the tab", async () => {
+      let element = await page.find("calcite-tab-title");
+      const close = await page.find(closeHtml);
+      expect(element).toHaveAttribute(HYDRATED_ATTR);
+
+      await close.click();
+      await page.waitForChanges();
+
+      element = await page.find("calcite-tab-title");
+      expect(element).toBeNull();
+    });
+
+    it("when last remaining button is closable, it becomes disabled", async () => {
+      page = await newE2EPage();
+      await page.setContent(
+        html`
+          <tab-nav>
+            <calcite-tab-title id="one" closable>Text</calcite-tab-title>
+            <calcite-tab-title id="two" closable>Text</calcite-tab-title>
+          </tab-nav>
+        `
+      );
+
+      let elementOne = await page.find(`calcite-tab-title[id='one']`);
+      const closeOne = await page.find(`calcite-tab-title[id='one'] >>> .${CSS.close}`);
+      expect(elementOne).toHaveAttribute(HYDRATED_ATTR);
+
+      await closeOne.click();
+      await page.waitForChanges();
+
+      elementOne = await page.find(`calcite-tab-title[id='one']`);
+      expect(elementOne).toBeNull();
+
+      let elementTwo = await page.find(`calcite-tab-title[id='two']`);
+      const closeTwo = await page.find(`calcite-tab-title[id='two'] >>> .${CSS.close}`);
+      expect(elementTwo).toHaveAttribute(HYDRATED_ATTR);
+
+      await closeTwo.click();
+      await page.waitForChanges();
+
+      elementTwo = await page.find(`calcite-tab-title[id='two']`);
+      expect(elementTwo).toBeNull();
+
+      (await closeTwo.getProperty("disabled")) === true;
+    });
   });
 
   it.skip("emits active event on user interaction only", async () => {
