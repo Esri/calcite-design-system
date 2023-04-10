@@ -1,11 +1,14 @@
-import { newE2EPage } from "@stencil/core/testing";
+import { newE2EPage, E2EPage } from "@stencil/core/testing";
 import { disabled, HYDRATED_ATTR, renders, hidden } from "../../tests/commonTests";
+import { html } from "../../../support/formatting";
 import { CSS } from "./resources";
 
 describe("calcite-tab-title", () => {
   const tabTitleHtml = "<calcite-tab-title></calcite-tab-title>";
   const iconStartHtml = `calcite-tab-title >>> .${CSS.titleIcon}.${CSS.iconStart}`;
   const iconEndHtml = `calcite-tab-title >>> .${CSS.titleIcon}.${CSS.iconEnd}`;
+  const closeHtml = `calcite-tab-title >>> .${CSS.close}`;
+  const contentHtml = `calcite-tab-title >>> .${CSS.content}`;
 
   it("renders", async () => renders(tabTitleHtml, { display: "block" }));
 
@@ -46,6 +49,15 @@ describe("calcite-tab-title", () => {
     expect(iconEnd).not.toBeNull();
   });
 
+  it("renders with close button when set to closable", async () => {
+    const page = await newE2EPage();
+    await page.setContent(html`<calcite-tab-title closable>Text</calcite-tab-title>`);
+    const element = await page.find("calcite-tab-title");
+    const close = await page.find(closeHtml);
+    expect(element).toHaveAttribute(HYDRATED_ATTR);
+    expect(close).not.toBeNull();
+  });
+
   it.skip("emits active event on user interaction only", async () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-tab-title>Title</calcite-tab-title>`);
@@ -65,88 +77,98 @@ describe("calcite-tab-title", () => {
 
   describe("when parent element is tab-nav", () => {
     describe("when position is top, default", () => {
-      it("should render with bottom border on hover", async () => {
-        const page = await newE2EPage({
-          html: `
-          <calcite-tab-nav>
-            <calcite-tab-title id="for-hover">Tab 1 title</calcite-tab-title>
-          </calcite-tab-nav>
-          `
-        });
-        const element = await page.find("#for-hover");
-        await element.hover();
+      it("should render content and close with bottom border on hover", async () => {
+        const page = await newE2EPage();
+        await page.setContent(html`<calcite-tab-title closable>Tab 1 title</calcite-tab-title>`);
 
-        const container = await page.find("#for-hover >>> .container");
-        const containerStyles = await container.getComputedStyle();
-        expect(containerStyles["border-top-width"]).toEqual("0px");
-        expect(containerStyles["border-bottom-width"]).not.toEqual("0px");
+        const element = await page.find("calcite-tab-title");
+        const content = await page.find(contentHtml);
+        const close = await page.find(closeHtml);
+        expect(element).toHaveAttribute(HYDRATED_ATTR);
+        expect(close).not.toBeNull();
+
+        await content.hover();
+        const contentStyles = await content.getComputedStyle();
+        expect(contentStyles["border-top-width"]).toEqual("0px");
+        expect(contentStyles["border-bottom-width"]).not.toEqual("0px");
+
+        await close.hover();
+        const closeStyles = await close.getComputedStyle();
+        expect(closeStyles["border-top-width"]).toEqual("0px");
+        expect(closeStyles["border-bottom-width"]).not.toEqual("0px");
       });
     });
 
     describe("when position is bottom", () => {
-      it("should render with top border on hover", async () => {
-        const page = await newE2EPage({
-          html: `
-          <calcite-tab-nav position="bottom">
-            <calcite-tab-title selected>Tab 1 Title</calcite-tab-title>
-            <calcite-tab-title id="for-hover">Tab 2 Title</calcite-tab-title>
-          </calcite-tab-nav>
-          `
-        });
-        const element = await page.find("#for-hover");
-        await element.hover();
+      it("should render content and close with top border on hover", async () => {
+        const page = await newE2EPage();
+        await page.setContent(html`<calcite-tab-title closable>Tab 1 title</calcite-tab-title>`);
 
-        const container = await page.find("#for-hover >>> .container");
-        const containerStyles = await container.getComputedStyle();
-        expect(containerStyles["border-top-width"]).not.toEqual("0px");
-        expect(containerStyles["border-bottom-width"]).toEqual("0px");
+        const element = await page.find("calcite-tab-title");
+        const content = await page.find(contentHtml);
+        const close = await page.find(closeHtml);
+        expect(element).toHaveAttribute(HYDRATED_ATTR);
+        expect(close).not.toBeNull();
+
+        await content.hover();
+        const contentStyles = await content.getComputedStyle();
+        expect(contentStyles["border-top-width"]).not.toEqual("0px");
+        expect(contentStyles["border-bottom-width"]).toEqual("0px");
+
+        await close.hover();
+        const closeStyles = await close.getComputedStyle();
+        expect(closeStyles["border-top-width"]).not.toEqual("0px");
+        expect(closeStyles["border-bottom-width"]).toEqual("0px");
       });
     });
 
     describe("scale property", () => {
-      it("should inherit small scale from tab-nav", async () => {
-        const page = await newE2EPage({
-          html: `<calcite-tab-nav scale="s">
+      let page: E2EPage;
+
+      beforeEach(async () => {
+        page = await newE2EPage();
+        await page.setContent(
+          html` <calcite-tab-nav>
             <calcite-tab-title selected>Tab Title</calcite-tab-title>
             <calcite-tab-title>Tab 2 Title</calcite-tab-title>
           </calcite-tab-nav>`
-        });
+        );
+      });
+
+      it("should inherit small scale from tab-nav", async () => {
         const element = await page.find("calcite-tab-title");
-        const container = await page.find("calcite-tab-title >>> .container");
-        const containerStyles = await container.getComputedStyle();
-        expect(element).toEqualAttribute("scale", "s");
-        expect(containerStyles.fontSize).toEqual("12px");
-        expect(containerStyles.lineHeight).toEqual("16px"); // 1rem
+        element.setProperty("scale", "s");
+        await page.waitForChanges();
+
+        const content = await page.find("calcite-tab-title >>> .content");
+        const contentStyles = await content.getComputedStyle();
+
+        expect(contentStyles.fontSize).toEqual("12px");
+        expect(contentStyles.lineHeight).toEqual("16px"); // 1rem
       });
 
       it("should inherit medium scale from tab-nav", async () => {
-        const page = await newE2EPage({
-          html: `<calcite-tab-nav scale="m">
-            <calcite-tab-title selected>Tab Title</calcite-tab-title>
-            <calcite-tab-title>Tab 2 Title</calcite-tab-title>
-          </calcite-tab-nav>`
-        });
         const element = await page.find("calcite-tab-title");
-        const container = await page.find("calcite-tab-title >>> .container");
-        const containerStyles = await container.getComputedStyle();
-        expect(element).toEqualAttribute("scale", "m");
-        expect(containerStyles.fontSize).toEqual("14px");
-        expect(containerStyles.lineHeight).toEqual("16px"); // 1rem
+        element.setProperty("scale", "m");
+        await page.waitForChanges();
+
+        const content = await page.find("calcite-tab-title >>> .content");
+        const contentStyles = await content.getComputedStyle();
+
+        expect(contentStyles.fontSize).toEqual("14px");
+        expect(contentStyles.lineHeight).toEqual("16px"); // 1rem
       });
 
       it("should inherit large scale from tab-nav", async () => {
-        const page = await newE2EPage({
-          html: `<calcite-tab-nav scale="l">
-            <calcite-tab-title selected>Tab 1 Title</calcite-tab-title>
-            <calcite-tab-title>Tab 2 Title</calcite-tab-title>
-          </calcite-tab-nav>`
-        });
         const element = await page.find("calcite-tab-title");
-        const container = await page.find("calcite-tab-title >>> .container");
-        const containerStyles = await container.getComputedStyle();
-        expect(element).toEqualAttribute("scale", "l");
-        expect(containerStyles.fontSize).toEqual("16px");
-        expect(containerStyles.lineHeight).toEqual("20px"); // 1.25rem
+        element.setProperty("scale", "l");
+        await page.waitForChanges();
+
+        const content = await page.find("calcite-tab-title >>> .content");
+        const contentStyles = await content.getComputedStyle();
+
+        expect(contentStyles.fontSize).toEqual("16px");
+        expect(contentStyles.lineHeight).toEqual("20px"); // 1.25rem
       });
     });
   });
