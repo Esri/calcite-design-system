@@ -1,5 +1,5 @@
 :host {
-  @apply inline-block w-auto align-middle;
+  @apply inline-block w-auto align-middle relative;
 }
 
 // fab variants
@@ -68,6 +68,16 @@
   .content {
     margin-inline-end: unset;
   }
+}
+
+:host[title]:after {
+  @apply absolute inset-x-1/2 bottom-full w-max opacity-0;
+  content: attr(title);
+  transition: opacity var(--calcite-internal-animation-timing-fast) ease-in-out;
+}
+
+:host[title]:hover:after {
+  @apply opacity-100;
 }
 
 :host([scale="m"]) {

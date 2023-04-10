@@ -118,8 +118,9 @@
               width="full"
               style="width: 200px"
               appearance="outline"
-              >A_super____long_text___in_this_button</calcite-button
-            >
+              id="button"
+              title
+            ></calcite-button>
           </p>
           <p>
             <calcite-button kind="brand" scale="m"> Button </calcite-button>
@@ -127,6 +128,15 @@
           <p>
             <calcite-button kind="brand" scale="l"> Button </calcite-button>
           </p>
+          <script>
+            const chapterOneOfMyNextBook =
+              "This_long_text_contains_a_coded_map_for_hidden_treasures_of_Edward_Teach_aka_Blackbeard_._If_only_you_could_access_it_you_could_buy_out_The_Magic_Castle_on_Franklin_ave_Los_Angeles_like_you_ve_always_wanted";
+
+            const button = document.getElementById("button");
+
+            button.innerHTML = chapterOneOfMyNextBook;
+            button.title = chapterOneOfMyNextBook;
+          </script>
         </div>
 
         <!-- With Icons -->
