@@ -11,7 +11,7 @@ import {
   VNode,
   Watch
 } from "@stencil/core";
-import { focusFirstTabbable, toAriaBoolean } from "../../utils/dom";
+import { focusFirstTabbable, slotChangeGetAssignedElements, toAriaBoolean } from "../../utils/dom";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import {
   componentLoaded,
@@ -36,6 +36,7 @@ import { PanelMessages } from "./assets/panel/t9n";
 
 /**
  * @slot - A slot for adding custom content.
+ * @slot action-bar - A slot for adding a `calcite-action-bar` to the component.
  * @slot header-actions-start - A slot for adding actions or content to the start side of the header.
  * @slot header-actions-end - A slot for adding actions or content to the end side of the header.
  * @slot header-content - A slot for adding custom content to the header.
@@ -168,6 +169,8 @@ export class Panel
 
   @State() hasHeaderContent = false;
 
+  @State() hasActionBar = false;
+
   @State() hasFooterContent = false;
 
   @State() hasFooterActions = false;
@@ -271,6 +274,16 @@ export class Panel
     this.hasMenuItems = !!elements.length;
   };
 
+  handleActionBarSlotChange = (event: Event): void => {
+    const actionBars = slotChangeGetAssignedElements(event).filter((el) =>
+      el?.matches("calcite-action-bar")
+    ) as HTMLCalciteActionBarElement[];
+
+    actionBars.forEach((actionBar) => (actionBar.layout = "horizontal"));
+
+    this.hasActionBar = !!actionBars.length;
+  };
+
   handleHeaderContentSlotChange = (event: Event): void => {
     const elements = (event.target as HTMLSlotElement).assignedElements({
       flatten: true
@@ -356,6 +369,14 @@ export class Panel
         {descriptionNode}
       </div>
     ) : null;
+  }
+
+  renderActionBar(): VNode {
+    return (
+      <div class={CSS.actionBarContainer} hidden={!this.hasActionBar}>
+        <slot name={SLOTS.actionBar} onSlotchange={this.handleActionBarSlotChange} />
+      </div>
+    );
   }
 
   /**
@@ -545,6 +566,7 @@ export class Panel
         ref={this.setContainerRef}
       >
         {this.renderHeaderNode()}
+        {this.renderActionBar()}
         {this.renderContent()}
         {this.renderFooterNode()}
       </article>
