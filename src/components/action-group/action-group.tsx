@@ -1,5 +1,4 @@
-import { Component, Element, h, Prop, Watch } from "@stencil/core";
-import { Fragment, State, VNode } from "@stencil/core/internal";
+import { Component, Element, Fragment, h, Method, Prop, State, VNode, Watch } from "@stencil/core";
 import { CalciteActionMenuCustomEvent } from "../../components";
 import {
   ConditionalSlotComponent,
@@ -7,6 +6,12 @@ import {
   disconnectConditionalSlotComponent
 } from "../../utils/conditionalSlot";
 import { getSlotted } from "../../utils/dom";
+import {
+  componentLoaded,
+  LoadableComponent,
+  setComponentLoaded,
+  setUpLoadableComponent
+} from "../../utils/loadable";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 import {
   connectMessages,
@@ -33,7 +38,9 @@ import { ICONS, SLOTS } from "./resources";
   },
   assetsDirs: ["assets"]
 })
-export class ActionGroup implements ConditionalSlotComponent, LocalizedComponent, T9nComponent {
+export class ActionGroup
+  implements ConditionalSlotComponent, LoadableComponent, LocalizedComponent, T9nComponent
+{
   // --------------------------------------------------------------------------
   //
   //  Properties
@@ -52,6 +59,8 @@ export class ActionGroup implements ConditionalSlotComponent, LocalizedComponent
 
   /**
    * Indicates the layout of the component.
+   *
+   * @deprecated Use the `layout` property on the component's parent instead.
    */
   @Prop({ reflect: true }) layout: Layout = "vertical";
 
@@ -105,6 +114,18 @@ export class ActionGroup implements ConditionalSlotComponent, LocalizedComponent
 
   @State() defaultMessages: ActionGroupMessages;
 
+  //--------------------------------------------------------------------------
+  //
+  //  Public Methods
+  //
+  //--------------------------------------------------------------------------
+
+  /** Sets focus on the component's first focusable element. */
+  @Method()
+  async setFocus(): Promise<void> {
+    await componentLoaded(this);
+    this.el.focus();
+  }
   // --------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -124,7 +145,12 @@ export class ActionGroup implements ConditionalSlotComponent, LocalizedComponent
   }
 
   async componentWillLoad(): Promise<void> {
+    setUpLoadableComponent(this);
     await setUpMessages(this);
+  }
+
+  componentDidLoad(): void {
+    setComponentLoaded(this);
   }
 
   // --------------------------------------------------------------------------

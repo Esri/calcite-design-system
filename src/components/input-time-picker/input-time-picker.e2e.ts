@@ -6,10 +6,10 @@ import {
   disabled,
   focusable,
   formAssociated,
+  hidden,
   labelable,
   reflects,
-  renders,
-  hidden
+  renders
 } from "../../tests/commonTests";
 
 describe("calcite-input-time-picker", () => {
@@ -371,4 +371,28 @@ describe("calcite-input-time-picker", () => {
 
   it("is form-associated", () =>
     formAssociated("calcite-input-time-picker", { testValue: "03:23", submitsOnEnter: true }));
+
+  it("toggles seconds display when step is < 60", async () => {
+    const page = await newE2EPage({
+      html: `<calcite-input-time-picker value="11:00:00"></calcite-input-time-picker>`
+    });
+
+    const inputTimePicker = await page.find("calcite-input-time-picker");
+    const input = await page.find("calcite-input-time-picker >>> calcite-input");
+
+    expect(await inputTimePicker.getProperty("value")).toBe("11:00:00");
+    expect(await input.getProperty("value")).toBe("11:00 AM");
+
+    inputTimePicker.setProperty("step", 1);
+    await page.waitForChanges();
+
+    expect(await inputTimePicker.getProperty("value")).toBe("11:00:00");
+    expect(await input.getProperty("value")).toBe("11:00:00 AM");
+
+    inputTimePicker.setProperty("step", 60);
+    await page.waitForChanges();
+
+    expect(await inputTimePicker.getProperty("value")).toBe("11:00:00");
+    expect(await input.getProperty("value")).toBe("11:00 AM");
+  });
 });

@@ -7,7 +7,8 @@
     <title>Boomer v Millennial - California</title>
 
     <script src="../_assets/head.js"></script>
-
+    <link rel="stylesheet" href="https://js.arcgis.com/4.15/esri/themes/light/main.css" />
+    <script src="https://js.arcgis.com/4.15/"></script>
     <style>
       html,
       body,
@@ -18,21 +19,102 @@
         height: 100%;
       }
 
-      .padded-content {
-        padding: 0.75rem;
+      #viewDiv {
+        padding: 0;
+        margin: 0;
+        height: 100%;
+        width: 100%;
       }
     </style>
+
+    <script>
+      require(["esri/WebMap", "esri/views/MapView", "esri/widgets/LayerList", "esri/widgets/Zoom"], function (
+        WebMap,
+        MapView,
+        LayerList,
+        Zoom
+      ) {
+        const webmap = new WebMap({
+          portalItem: {
+            id: "cc316ca9e0824970ad29ac558161d42d"
+          }
+        });
+
+        const view = new MapView({
+          container: "viewDiv",
+          map: webmap
+        });
+        view.when(function () {
+          view.ui.move("zoom", "bottom-right");
+        });
+      });
+    </script>
   </head>
 
   <body>
     <demo-dom-swapper>
       <main>
         <div class="shell-container">
-          <calcite-shell>
-            <calcite-shell-panel id="primary-panel" slot="panel-start" position="start">
-              <!-- <div slot="action-bar">
-                  Actionbar
-              </div> -->
+          <calcite-shell content-behind>
+            <calcite-shell-center-row slot="panel-top" hidden height-scale="s" detached>
+              <calcite-panel
+                heading="Shell center row top"
+                description="Will be replaced with horizontal action bar / slot panel in shell panel"
+              >
+                <calcite-action label="this is a label" slot="header-actions-start" icon="caret-down" scale="s">
+                </calcite-action>
+                <calcite-action
+                  label="this is a label"
+                  slot="header-actions-end"
+                  icon="chevrons-up"
+                  scale="m"
+                  id="expand-trigger"
+                ></calcite-action>
+                <calcite-action label="this is a label" slot="header-actions-end" icon="x" scale="m"></calcite-action>
+              </calcite-panel>
+              <calcite-action-bar slot="action-bar">
+                <calcite-action-group>
+                  <calcite-action text="It's like you can touch it!" icon="3d-glasses"> </calcite-action>
+                  <calcite-action text="It has appeal." icon="banana"> </calcite-action>
+                  <calcite-action text="Make it a race car." icon="erase"> </calcite-action>
+                  <calcite-action label="add in edit" icon="add-in-edit" text="3 Square?"></calcite-action>
+                </calcite-action-group>
+                <calcite-action-group slot="bottom-actions">
+                  <calcite-action icon="lightbulb" text="Tips" id="tip-manager-button"></calcite-action>
+                  <calcite-action icon="mega-phone" text="What's that?!" id="tip-manager-button"></calcite-action>
+                </calcite-action-group>
+              </calcite-action-bar>
+            </calcite-shell-center-row>
+            <calcite-shell-center-row slot="panel-bottom" height-scale="s" detached>
+              <calcite-panel
+                heading="Shell center row bottom"
+                description="Will be replaced with horizontal action bar / slot panel in shell panel"
+              >
+                <calcite-action label="this is a label" slot="header-actions-start" icon="caret-down" scale="s">
+                </calcite-action>
+                <calcite-action
+                  label="this is a label"
+                  slot="header-actions-end"
+                  icon="chevrons-up"
+                  scale="m"
+                  id="expand-trigger"
+                ></calcite-action>
+                <calcite-action label="this is a label" slot="header-actions-end" icon="x" scale="m"></calcite-action>
+              </calcite-panel>
+              <calcite-action-bar slot="action-bar">
+                <calcite-action-group>
+                  <calcite-action text="It's like you can touch it!" icon="3d-glasses"> </calcite-action>
+                  <calcite-action text="It has appeal." icon="banana"> </calcite-action>
+                  <calcite-action text="Make it a race car." icon="erase"> </calcite-action>
+                  <calcite-action label="add in edit" icon="add-in-edit" text="3 Square?"></calcite-action>
+                </calcite-action-group>
+                <calcite-action-group slot="bottom-actions">
+                  <calcite-action icon="lightbulb" text="Tips" id="tip-manager-button"></calcite-action>
+                  <calcite-action icon="mega-phone" text="What's that?!" id="tip-manager-button"></calcite-action>
+                </calcite-action-group>
+              </calcite-action-bar>
+            </calcite-shell-center-row>
+            <calcite-shell-panel resizable slot="panel-start" position="start">
               <calcite-action-bar slot="action-bar">
                 <calcite-action-group>
                   <calcite-action text="Save" icon="save" indicator> </calcite-action>
@@ -54,15 +136,11 @@
                   <calcite-action text="What's next" icon="mega-phone"></calcite-action>
                 </calcite-action-group>
               </calcite-action-bar>
-              <calcite-panel heading="Panel">
+              <calcite-panel heading="Panel bottom">
                 <div class="padded-content">Panel content<br />Padding is fake.</div>
               </calcite-panel>
             </calcite-shell-panel>
-
-            <calcite-shell-panel slot="panel-end" position="end">
-              <!-- <div slot="action-bar">
-                Actionbar
-            </div> -->
+            <calcite-shell-panel resizable slot="panel-end" position="end">
               <calcite-action-bar slot="action-bar">
                 <calcite-tooltip slot="expand-tooltip" label="tooltip" pointer-disabled>Add layers</calcite-tooltip>
                 <calcite-action-group>
@@ -102,23 +180,7 @@
             <div class="gnav" slot="header">
               <h2>Boomer v Millennial - California</h2>
             </div>
-            <calcite-panel heading="Main content">
-              <div class="padded-content">
-                The borders are only applied to "known" components.<br />Padding is fake.
-              </div>
-            </calcite-panel>
-            <!-- <calcite-flow>
-            <calcite-panel heading="Flow 01">
-                Flow 01
-            </calcite-panel>
-            <calcite-panel heading="Flow 02">
-                Flow 02
-            </calcite-panel>
-        </calcite-flow> -->
-            <!-- <div class="main-content">
-              Main content
-          </div> -->
-
+            <div id="viewDiv"></div>
             <footer slot="footer">Footer</footer>
           </calcite-shell>
         </div>

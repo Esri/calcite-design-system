@@ -6,6 +6,7 @@ import {
   EventEmitter,
   h,
   Host,
+  Method,
   Prop,
   State,
   VNode,
@@ -20,8 +21,15 @@ import {
   setEndOfDay
 } from "../../utils/date";
 import {
+  componentLoaded,
+  LoadableComponent,
+  setComponentLoaded,
+  setUpLoadableComponent
+} from "../../utils/loadable";
+import {
   connectLocalized,
   disconnectLocalized,
+  getDateTimeFormat,
   LocalizedComponent,
   NumberingSystem,
   numberStringFormatter
@@ -35,7 +43,7 @@ import {
 } from "../../utils/t9n";
 import { HeadingLevel } from "../functional/Heading";
 import { DatePickerMessages } from "./assets/date-picker/t9n";
-import { HEADING_LEVEL } from "./resources";
+import { DATE_PICKER_FORMAT_OPTIONS, HEADING_LEVEL } from "./resources";
 import { DateLocaleData, getLocaleData, getValueAsDateRange } from "./utils";
 
 @Component({
@@ -46,7 +54,7 @@ import { DateLocaleData, getLocaleData, getValueAsDateRange } from "./utils";
     delegatesFocus: true
   }
 })
-export class DatePicker implements LocalizedComponent, T9nComponent {
+export class DatePicker implements LocalizedComponent, LoadableComponent, T9nComponent {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -176,19 +184,18 @@ export class DatePicker implements LocalizedComponent, T9nComponent {
    */
   @Event({ cancelable: false }) calciteDatePickerRangeChange: EventEmitter<void>;
 
-  /**
-   * Active start date.
-   */
-  @State() activeStartDate: Date;
+  //--------------------------------------------------------------------------
+  //
+  //  Public Methods
+  //
+  //--------------------------------------------------------------------------
 
-  /**
-   * Active end date.
-   */
-  @State() activeEndDate: Date;
-
-  @State() startAsDate: Date;
-
-  @State() endAsDate: Date;
+  /** Sets focus on the component's first focusable element. */
+  @Method()
+  async setFocus(): Promise<void> {
+    await componentLoaded(this);
+    this.el.focus();
+  }
 
   // --------------------------------------------------------------------------
   //
@@ -220,10 +227,15 @@ export class DatePicker implements LocalizedComponent, T9nComponent {
   }
 
   async componentWillLoad(): Promise<void> {
+    setUpLoadableComponent(this);
     await this.loadLocaleData();
     this.onMinChanged(this.min);
     this.onMaxChanged(this.max);
     await setUpMessages(this);
+  }
+
+  componentDidLoad(): void {
+    setComponentLoaded(this);
   }
 
   render(): VNode {
@@ -275,6 +287,25 @@ export class DatePicker implements LocalizedComponent, T9nComponent {
   //
   //--------------------------------------------------------------------------
 
+  /**
+   * Active end date.
+   */
+  @State() activeEndDate: Date;
+
+  /**
+   * Active start date.
+   */
+  @State() activeStartDate: Date;
+
+  /**
+   * The DateTimeFormat used to provide screen reader labels.
+   *
+   * @internal
+   */
+  @State() dateTimeFormat: Intl.DateTimeFormat;
+
+  @State() defaultMessages: DatePickerMessages;
+
   @State() effectiveLocale = "";
 
   @Watch("effectiveLocale")
@@ -282,13 +313,15 @@ export class DatePicker implements LocalizedComponent, T9nComponent {
     updateMessages(this, this.effectiveLocale);
   }
 
-  @State() defaultMessages: DatePickerMessages;
-
-  @State() private localeData: DateLocaleData;
+  @State() endAsDate: Date;
 
   @State() private hoverRange: HoverRange;
 
+  @State() private localeData: DateLocaleData;
+
   private mostRecentRangeValue?: Date;
+
+  @State() startAsDate: Date;
 
   //--------------------------------------------------------------------------
   //
@@ -324,6 +357,7 @@ export class DatePicker implements LocalizedComponent, T9nComponent {
     };
 
     this.localeData = await getLocaleData(this.effectiveLocale);
+    this.dateTimeFormat = getDateTimeFormat(this.effectiveLocale, DATE_PICKER_FORMAT_OPTIONS);
   }
 
   monthHeaderSelectChange = (event: CustomEvent<Date>): void => {
@@ -457,6 +491,7 @@ export class DatePicker implements LocalizedComponent, T9nComponent {
         />,
         <calcite-date-picker-month
           activeDate={activeDate}
+          dateTimeFormat={this.dateTimeFormat}
           endDate={this.range ? endDate : undefined}
           hoverRange={this.hoverRange}
           localeData={this.localeData}

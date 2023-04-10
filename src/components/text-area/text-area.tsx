@@ -96,6 +96,14 @@ export class TextArea
   @Prop({ reflect: true }) disabled = false;
 
   /**
+   * The ID of the form that will be associated with the component.
+   *
+   * When not set, the component will be associated with its ancestor form element, if any.
+   */
+  @Prop({ reflect: true })
+  form: string;
+
+  /**
    * When `true`, number values are displayed with a group separator corresponding to the language and country format.
    */
   @Prop({ reflect: true }) groupSeparator = false;
@@ -117,6 +125,7 @@ export class TextArea
    *
    * @internal
    */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
   @Prop({ mutable: true }) messages: TextAreaMessages;
 
   /**
@@ -179,6 +188,7 @@ export class TextArea
   /**
    * Use this property to override individual strings used by the component.
    */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
   @Prop({ mutable: true }) messageOverrides: Partial<TextAreaMessages>;
 
   @Watch("messageOverrides")
@@ -427,7 +437,7 @@ export class TextArea
 
   // height and width are set to auto here to avoid overlapping on to neighboring elements in the layout when user starts resizing.
   // throttle is used to avoid flashing of textarea when user resizes.
-  setHeightAndWidthToAuto = throttle(
+  private setHeightAndWidthToAuto = throttle(
     (): void => {
       if (this.resize === "vertical" || this.resize === "both") {
         this.el.style.height = "auto";

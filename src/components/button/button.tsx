@@ -1,6 +1,5 @@
 import { Build, Component, Element, h, Method, Prop, State, VNode, Watch } from "@stencil/core";
-import { closestElementCrossShadowBoundary } from "../../utils/dom";
-import { FormOwner, resetForm, submitForm } from "../../utils/form";
+import { findAssociatedForm, FormOwner, resetForm, submitForm } from "../../utils/form";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
 import {
@@ -74,6 +73,14 @@ export class Button
 
   /**  When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @Prop({ reflect: true }) disabled = false;
+
+  /**
+   * The ID of the form that will be associated with the component.
+   *
+   * When not set, the component will be associated with its ancestor form element, if any.
+   */
+  @Prop({ reflect: true })
+  form: string;
 
   /**
    * Specifies the URL of the linked resource, which can be set as an absolute or relative path.
@@ -173,7 +180,7 @@ export class Button
     this.hasLoader = this.loading;
     this.setupTextContentObserver();
     connectLabel(this);
-    this.formEl = closestElementCrossShadowBoundary<HTMLFormElement>(this.el, "form");
+    this.formEl = findAssociatedForm(this);
   }
 
   disconnectedCallback(): void {

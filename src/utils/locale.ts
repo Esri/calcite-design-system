@@ -439,3 +439,64 @@ export class NumberStringFormat {
 }
 
 export const numberStringFormatter = new NumberStringFormat();
+
+export type LocaleDateTimeOptionKey = string;
+
+/**
+ * Exported for testing purposes only.
+ *
+ * @internal
+ */
+export let dateTimeFormatCache: Map<LocaleDateTimeOptionKey, Intl.DateTimeFormat>;
+
+/**
+ * Used to ensure all cached formats are for the same locale.
+ *
+ * @internal
+ */
+let previousLocaleUsedForCaching: string;
+
+/**
+ * Generates a cache key for date time format lookups.
+ *
+ * @internal
+ */
+function buildDateTimeFormatCacheKey(options: Intl.DateTimeFormatOptions = {}): string {
+  return Object.entries(options)
+    .sort(([key1], [key2]) => key1.localeCompare(key2))
+    .map((keyValue) => `${keyValue[0]}-${keyValue[1]}`)
+    .flat()
+    .join(":");
+}
+
+/**
+ * Returns an instance of Intl.DateTimeFormat and reuses it if requested with the same locale and options.
+ *
+ * **Note**: the cache will be cleared if a different locale is provided
+ *
+ * @internal
+ */
+export function getDateTimeFormat(locale: string, options?: Intl.DateTimeFormatOptions): Intl.DateTimeFormat {
+  locale = getSupportedLocale(locale);
+
+  if (!dateTimeFormatCache) {
+    dateTimeFormatCache = new Map();
+  }
+
+  if (previousLocaleUsedForCaching !== locale) {
+    dateTimeFormatCache.clear();
+    previousLocaleUsedForCaching = locale;
+  }
+
+  const key = buildDateTimeFormatCacheKey(options);
+  const cached = dateTimeFormatCache.get(key);
+
+  if (cached) {
+    return cached;
+  }
+
+  const format = new Intl.DateTimeFormat(locale, options);
+  dateTimeFormatCache.set(key, format);
+
+  return format;
+}
