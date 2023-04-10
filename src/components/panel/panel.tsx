@@ -373,7 +373,7 @@ export class Panel
 
   renderActionBar(): VNode {
     return (
-      <div class={CSS.actionBarContainer} hidden={!this.hasActionBar} key="action-bar">
+      <div class={CSS.actionBarContainer} hidden={!this.hasActionBar}>
         <slot name={SLOTS.actionBar} onSlotchange={this.handleActionBarSlotChange} />
       </div>
     );
