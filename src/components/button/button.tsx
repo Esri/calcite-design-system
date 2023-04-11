@@ -175,12 +175,18 @@ export class Button
   //--------------------------------------------------------------------------
 
   async connectedCallback(): Promise<void> {
+    const { disabled, el } = this;
+
     connectLocalized(this);
     connectMessages(this);
     this.hasLoader = this.loading;
     this.setupTextContentObserver();
     connectLabel(this);
     this.formEl = findAssociatedForm(this);
+
+    if (!disabled) {
+      this.resizeObserver?.observe(el);
+    }
   }
 
   disconnectedCallback(): void {
@@ -188,6 +194,7 @@ export class Button
     disconnectLabel(this);
     disconnectLocalized(this);
     disconnectMessages(this);
+    this.resizeObserver?.disconnect();
     this.formEl = null;
   }
 
@@ -313,6 +320,8 @@ export class Button
 
   @State() effectiveLocale = "";
 
+  private truncated = false;
+
   @Watch("effectiveLocale")
   effectiveLocaleChange(): void {
     updateMessages(this, this.effectiveLocale);
@@ -331,6 +340,12 @@ export class Button
   private setupTextContentObserver() {
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
   }
+
+  private setTruncated() {
+    this.truncated = true;
+  }
+
+  resizeObserver = createObserver("resize", () => this.setTruncated);
 
   //--------------------------------------------------------------------------
   //
