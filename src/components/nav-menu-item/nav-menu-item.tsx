@@ -97,6 +97,8 @@ export class CalciteNavMenuItem implements LoadableComponent {
 
   private dropDownActionEl: HTMLCalciteActionElement;
 
+  private isFocused: boolean;
+
   @State() editingActive = false;
 
   @State() hasSubMenu = false;
@@ -167,6 +169,7 @@ export class CalciteNavMenuItem implements LoadableComponent {
 
   connectedCallback() {
     this.active = this.active || this.editable;
+    this.isFocused = this.active;
     // todo just get any nav items in the default slot?
     this.hasSubMenu = this.hasSlottedItems();
 
@@ -350,9 +353,14 @@ export class CalciteNavMenuItem implements LoadableComponent {
 
   private focusHandler(event: FocusEvent): void {
     const target = event.target as HTMLCalciteNavMenuItemElement;
+    this.isFocused = true;
     if (target.subMenuOpen) {
       target.subMenuOpen = false;
     }
+  }
+
+  private blurHandler(): void {
+    this.isFocused = false;
   }
 
   private focusParentElement(): void {
@@ -519,7 +527,7 @@ export class CalciteNavMenuItem implements LoadableComponent {
   render() {
     const dir = getElementDir(this.el);
     return (
-      <Host onFocus={this.focusHandler}>
+      <Host onBlur={this.blurHandler} onFocus={this.focusHandler}>
         <li
           class={{
             container: true,
@@ -529,7 +537,7 @@ export class CalciteNavMenuItem implements LoadableComponent {
         >
           <div class="item-content">
             <a
-              aria-current="page"
+              aria-current={this.isFocused ? "page" : false}
               aria-expanded={this.subMenuOpen ? "true" : "false"}
               aria-haspopup={this.hasSubMenu ? "true" : undefined}
               class={{
