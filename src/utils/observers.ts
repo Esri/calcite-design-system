@@ -20,13 +20,7 @@ type ObserverCallbackType<T extends ObserverType> = T extends "mutation"
   ? ResizeObserverCallback
   : never;
 
-type ObserverOptions<T extends ObserverType> = T extends "mutation"
-  ? MutationObserverInit
-  : T extends "intersection"
-  ? IntersectionObserverInit
-  : T extends "resize"
-  ? never
-  : never;
+type ObserverOptions<T extends ObserverType> = T extends "intersection" ? IntersectionObserverInit : never;
 
 type ObserverClassType<T extends ObserverType> = T extends "mutation"
   ? typeof ExtendedMutationObserver
@@ -61,7 +55,7 @@ export function createObserver<T extends ObserverType>(
   }
 
   const Observer = getObserver<T>(type);
-  return new Observer(callback as any, options as any) as any;
+  return new Observer(callback as any, options) as any;
 }
 
 function getObserver<T extends ObserverType>(type: T): ObserverClassType<T> {
