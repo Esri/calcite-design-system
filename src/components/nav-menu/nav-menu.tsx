@@ -20,20 +20,23 @@ export class CalciteNavMenu {
   //  Public Properties
   //
   //--------------------------------------------------------------------------
-  @Prop({ mutable: true }) collapsed?;
+  @Prop({ mutable: true }) collapsed: boolean;
 
   // disable the automatic collapse based on width
-  @Prop({ mutable: true, reflect: true }) disableCollapse?;
+  @Prop({ mutable: true, reflect: true }) disableCollapse: boolean;
 
-  // todo evaluate slotted content and determine if it is a nav menu item, then limit # rendered when auto-collapsing based on width of parent
-  @Prop({ mutable: true }) minCollapsedItems?;
-
-  @Prop({ reflect: true }) layout?: "horizontal" | "vertical";
+  /**
+   * Specifies the layout of the component.
+   */
+  @Prop({ reflect: true }) layout: "horizontal" | "vertical" = "horizontal";
 
   /**
    * Specifies accessible label for the component
    */
   @Prop() label: string;
+
+  // todo evaluate slotted content and determine if it is a nav menu item, then limit # rendered when auto-collapsing based on width of parent
+  @Prop({ mutable: true }) minCollapsedItems?;
 
   /**
    * @internal
@@ -55,7 +58,7 @@ export class CalciteNavMenu {
   //
   // --------------------------------------------------------------------------
   connectedCallback() {
-    // get host of nav-menu which  is added for nested submenu and is not part of lightDOM.
+    // get host of nav-menu which is added for nested submenu and is not part of lightDOM.
     const hostElement = getHost(getRootNode(this.el));
 
     this.childNavMenuItems = getSlotted(
@@ -66,11 +69,6 @@ export class CalciteNavMenu {
         matches: "calcite-nav-menu-item"
       }
     ) as HTMLCalciteNavMenuItemElement[];
-    // console.log(hostElement ? hostElement : this.el, this.childNavMenuItems);
-    // todo use slot change
-    // this.childNavMenuItems.map((el: HTMLCalciteNavMenuItemElement) => {
-    //   el.layout = this.layout;
-    // });
   }
 
   //--------------------------------------------------------------------------
@@ -104,23 +102,10 @@ export class CalciteNavMenu {
           focusElementInGroup(this.childNavMenuItems, target, "previous");
         }
         break;
-      case "Home":
-        if (this.el === target.parentElement) {
-          focusElementInGroup(this.childNavMenuItems, target, "first");
-        }
-        break;
-      case "End":
-        if (this.el === target.parentElement) {
-          focusElementInGroup(this.childNavMenuItems, target, "last");
-        }
-        break;
       case "Escape":
         if (target.subMenuOpen) {
           target.subMenuOpen = false;
         }
-        break;
-      case "Tab":
-        console.log("leave?");
         break;
     }
     event.preventDefault();
