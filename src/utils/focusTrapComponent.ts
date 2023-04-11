@@ -8,6 +8,11 @@ const trapStack: _FocusTrap[] = [];
  */
 export interface FocusTrapComponent {
   /**
+   * The focus trap element.
+   */
+  el: HTMLElement;
+
+  /**
    * When `true`, prevents focus trapping.
    */
   focusTrapDisabled: boolean;
@@ -18,14 +23,14 @@ export interface FocusTrapComponent {
   focusTrap: FocusTrap;
 
   /**
-   * The focus trap element.
-   */
-  focusTrapEl: HTMLElement;
-
-  /**
    * Method to update the element(s) that are used within the FocusTrap component.
    */
   updateFocusTrapElements: () => Promise<void>;
+
+  /**
+   * Method to set focus to the component.
+   */
+  setFocus: () => Promise<void>;
 }
 
 export type FocusTrap = _FocusTrap;
@@ -36,21 +41,20 @@ export type FocusTrap = _FocusTrap;
  * @param {FocusTrapComponent} component The FocusTrap component.
  */
 export function connectFocusTrap(component: FocusTrapComponent): void {
-  const { focusTrapEl } = component;
+  const { el } = component;
 
-  if (!focusTrapEl) {
+  if (!el) {
     return;
-  }
-
-  if (focusTrapEl.tabIndex == null) {
-    focusTrapEl.tabIndex = -1;
   }
 
   const focusTrapOptions: FocusTrapOptions = {
     clickOutsideDeactivates: true,
-    document: focusTrapEl.ownerDocument,
+    document: el.ownerDocument,
     escapeDeactivates: false,
-    fallbackFocus: focusTrapEl,
+    fallbackFocus: () => {
+      component.setFocus();
+      return null;
+    },
     setReturnFocus: (el) => {
       focusElement(el as FocusableElement);
       return false;
@@ -59,7 +63,7 @@ export function connectFocusTrap(component: FocusTrapComponent): void {
     trapStack
   };
 
-  component.focusTrap = createFocusTrap(focusTrapEl, focusTrapOptions);
+  component.focusTrap = createFocusTrap(el, focusTrapOptions);
 }
 
 /**
@@ -95,5 +99,5 @@ export function deactivateFocusTrap(component: FocusTrapComponent): void {
  * requestAnimationFrame(() => input.setFocus());
  */
 export function updateFocusTrapElements(component: FocusTrapComponent): void {
-  component.focusTrap?.updateContainerElements(component.focusTrapEl);
+  component.focusTrap?.updateContainerElements(component.el);
 }

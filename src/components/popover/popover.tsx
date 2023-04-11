@@ -63,6 +63,7 @@ import {
   setComponentLoaded,
   setUpLoadableComponent
 } from "../../utils/loadable";
+import { createObserver } from "../../utils/observers";
 
 const manager = new PopoverManager();
 
@@ -255,6 +256,10 @@ export class Popover
   //
   // --------------------------------------------------------------------------
 
+  mutationObserver: MutationObserver = createObserver("mutation", () =>
+    this.updateFocusTrapElements()
+  );
+
   filteredFlipPlacements: EffectivePlacement[];
 
   @Element() el: HTMLCalcitePopoverElement;
@@ -284,8 +289,6 @@ export class Popover
 
   focusTrap: FocusTrap;
 
-  focusTrapEl: HTMLDivElement;
-
   // --------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -298,6 +301,7 @@ export class Popover
     connectMessages(this);
     connectOpenCloseComponent(this);
     this.setUpReferenceElement(this.hasLoaded);
+    connectFocusTrap(this);
   }
 
   async componentWillLoad(): Promise<void> {
@@ -391,7 +395,7 @@ export class Popover
   async setFocus(): Promise<void> {
     await componentLoaded(this);
     forceUpdate(this.el);
-    focusFirstTabbable(this.focusTrapEl);
+    focusFirstTabbable(this.el);
   }
 
   /**
@@ -411,8 +415,6 @@ export class Popover
   private setTransitionEl = (el: HTMLDivElement): void => {
     this.transitionEl = el;
     connectOpenCloseComponent(this);
-    this.focusTrapEl = el;
-    connectFocusTrap(this);
   };
 
   setFilteredPlacements = (): void => {
