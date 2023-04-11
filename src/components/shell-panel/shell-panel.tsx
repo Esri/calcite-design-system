@@ -243,7 +243,7 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
         aria-valuemin={layout == "horizontal" ? contentHeightMin : contentWidthMin}
         aria-valuenow={
           layout == "horizontal"
-            ? contentHeight && initialContentHeight
+            ? contentHeight ?? initialContentHeight
             : contentWidth ?? initialContentWidth
         }
         class={CSS.separator}
@@ -364,6 +364,8 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
       contentWidthMax,
       initialContentWidth,
       initialContentHeight,
+      contentHeightMin,
+      contentHeightMax,
       position
     } = this;
     const multipliedStep = step * stepMultiplier;
@@ -400,10 +402,9 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
     if (increaseKeys) {
       const stepValue = event.shiftKey ? multipliedStep : step;
 
-      return (
-        (layout === "horizontal" ? initialContentHeight : initialContentWidth) +
-        directionFactor * stepValue
-      );
+      return layout === "horizontal"
+        ? initialContentHeight + directionFactor * stepValue
+        : initialContentWidth + directionFactor * stepValue;
     }
 
     const decreaseKeys =
@@ -417,30 +418,37 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
     if (decreaseKeys) {
       const stepValue = event.shiftKey ? multipliedStep : step;
 
-      return (
-        (layout === "horizontal" ? initialContentHeight : initialContentWidth) -
-        directionFactor * stepValue
-      );
+      return layout === "horizontal"
+        ? initialContentHeight - directionFactor * stepValue
+        : initialContentWidth - directionFactor * stepValue;
     }
 
-    if (typeof contentWidthMin === "number" && key === "Home") {
+    if (key === "Home" && layout === "horizontal" && typeof contentHeightMin === "number") {
+      return contentHeightMin;
+    }
+
+    if (key === "Home" && layout === "vertical" && typeof contentWidthMin === "number") {
       return contentWidthMin;
     }
 
-    if (typeof contentWidthMax === "number" && key === "End") {
+    if (key === "End" && layout === "horizontal" && typeof contentHeightMax === "number") {
+      return contentHeightMax;
+    }
+
+    if (key === "End" && layout === "vertical" && typeof contentWidthMax === "number") {
       return contentWidthMax;
     }
 
     if (key === "PageDown") {
-      return (
-        (layout === "horizontal" ? initialContentHeight : initialContentWidth) - multipliedStep
-      );
+      return layout === "horizontal"
+        ? initialContentHeight - multipliedStep
+        : initialContentWidth - multipliedStep;
     }
 
     if (key === "PageUp") {
-      return (
-        (layout === "horizontal" ? initialContentHeight : initialContentWidth) + multipliedStep
-      );
+      return layout === "horizontal"
+        ? initialContentHeight + multipliedStep
+        : initialContentWidth + multipliedStep;
     }
 
     return null;
