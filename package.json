@@ -96,7 +96,7 @@
     "@storybook/addon-knobs": "6.4.0",
     "@storybook/html": "6.5.15",
     "@storybook/storybook-deployer": "2.8.16",
-    "@storybook/testing-library": "0.0.13",
+    "@storybook/testing-library": "0.1.0",
     "@types/dedent": "0.7.0",
     "@types/jest": "27.0.3",
     "@types/jest-axe": "3.5.5",
