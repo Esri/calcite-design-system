@@ -26,11 +26,6 @@ export interface FocusTrapComponent {
    * Method to update the element(s) that are used within the FocusTrap component.
    */
   updateFocusTrapElements: () => Promise<void>;
-
-  /**
-   * Method to set focus to the component.
-   */
-  setFocus: () => Promise<void>;
 }
 
 export type FocusTrap = _FocusTrap;
@@ -51,10 +46,6 @@ export function connectFocusTrap(component: FocusTrapComponent): void {
     clickOutsideDeactivates: true,
     document: el.ownerDocument,
     escapeDeactivates: false,
-    fallbackFocus: () => {
-      component.setFocus();
-      return null;
-    },
     setReturnFocus: (el) => {
       focusElement(el as FocusableElement);
       return false;
