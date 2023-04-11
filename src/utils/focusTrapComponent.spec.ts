@@ -13,7 +13,7 @@ describe("focusTrapComponent", () => {
     connectFocusTrap(fakeComponent);
 
     expect(fakeComponent.el).toBeDefined();
-    expect(fakeComponent.el.active).toBe(false);
+    expect(fakeComponent.focusTrap.active).toBe(false);
 
     const activateSpy = jest.fn();
     fakeComponent.focusTrap.activate = activateSpy;
