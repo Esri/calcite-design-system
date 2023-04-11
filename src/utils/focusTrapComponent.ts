@@ -46,6 +46,7 @@ export function connectFocusTrap(component: FocusTrapComponent): void {
     clickOutsideDeactivates: true,
     document: el.ownerDocument,
     escapeDeactivates: false,
+    fallbackFocus: el,
     setReturnFocus: (el) => {
       focusElement(el as FocusableElement);
       return false;
