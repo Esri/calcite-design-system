@@ -178,6 +178,7 @@ export class Button
     connectLocalized(this);
     connectMessages(this);
     this.hasLoader = this.loading;
+    this.setupTextContentObserver();
     connectLabel(this);
     this.formEl = findAssociatedForm(this);
   }
@@ -337,6 +338,10 @@ export class Button
       this.el.childNodes.length === 1 && this.el.childNodes[0]?.nodeName === "#text"
         ? this.el.textContent?.trim().length > 0
         : slottedContent;
+  }
+
+  private setupTextContentObserver() {
+    this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
   }
 
   //--------------------------------------------------------------------------
