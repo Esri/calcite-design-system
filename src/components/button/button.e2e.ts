@@ -599,4 +599,25 @@ describe("calcite-button", () => {
   });
 
   it("supports translation", () => t9n("calcite-button"));
+
+  it("shows tooltip for buttons with truncated long text", async () => {
+    const shortText = "Short Text";
+    const longText =
+      "This_long_text_contains_a_coded_map_for_hidden_treasures_of_Edward_Teach_aka_Blackbeard_._If_only_you_could_access_it_you_could_buy_out_The_Magic_Castle_on_Franklin_ave_Los_Angeles_like_you_ve_always_wanted.";
+
+    const page = await newE2EPage();
+    await page.setContent(
+      html`
+        <calcite-button id="one" style="{width:" 200px}>${longText}</calcite-button
+        ><calcite-button id="two" style="{width:" 200px}>${shortText}</calcite-button>
+      `
+    );
+    const buttonElOne = await page.find("#one >>> button");
+    const buttonElTwo = await page.find("#two >>> button");
+
+    expect(buttonElOne.textContent.length).toBeLessThan(longText.length);
+
+    expect(buttonElOne).toHaveAttribute("title");
+    expect(buttonElTwo).not.toHaveAttribute("title");
+  });
 });
