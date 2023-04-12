@@ -65,9 +65,11 @@ export class ChipGroup implements InteractiveComponent {
   //
   //--------------------------------------------------------------------------
 
-  mutationObserver = createObserver("mutation", () => this.updateItems);
+  mutationObserver = createObserver("mutation", () => this.updateItems());
 
   private items: HTMLCalciteChipElement[] = [];
+
+  private slotRefEl: HTMLSlotElement;
 
   //--------------------------------------------------------------------------
   //
@@ -175,8 +177,9 @@ export class ChipGroup implements InteractiveComponent {
   //
   //--------------------------------------------------------------------------
 
-  private updateItems = (event: Event): void => {
-    this.items = (event.target as HTMLSlotElement)
+  private updateItems = (event?: Event): void => {
+    const target = event ? (event.target as HTMLSlotElement) : this.slotRefEl;
+    this.items = target
       .assignedElements({ flatten: true })
       .filter((el) => el?.matches("calcite-chip")) as HTMLCalciteChipElement[];
 
@@ -233,7 +236,10 @@ export class ChipGroup implements InteractiveComponent {
         class="container"
         role={role}
       >
-        <slot onSlotchange={this.updateItems} />
+        <slot
+          onSlotchange={this.updateItems}
+          ref={(el) => (this.slotRefEl = el as HTMLSlotElement)}
+        />
       </div>
     );
   }
