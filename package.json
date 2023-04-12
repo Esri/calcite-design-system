@@ -115,7 +115,7 @@
     "chalk": "4.1.2",
     "cheerio": "1.0.0-rc.10",
     "chokidar": "3.5.3",
-    "chromatic": "6.17.2",
+    "chromatic": "6.17.3",
     "composed-offset-position": "0.0.4",
     "concurrently": "7.6.0",
     "conventional-changelog-cli": "2.2.2",
