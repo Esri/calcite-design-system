@@ -7,6 +7,7 @@
   const childProcess = await import("child_process");
   const { promisify } = await import("util");
   const exec = promisify(childProcess.exec);
+  const maxBuffer = 1024 * 2048;
 
   async function deployNextFromCI(): Promise<void> {
     console.log("Deploying @next 🚧");
@@ -15,9 +16,10 @@
     // https://docs.github.com/en/actions/publishing-packages/publishing-nodejs-packages#publishing-packages-to-the-npm-registry
 
     console.log(" - prepping and building package...");
-    await exec(`npm run util:prep-next`);
+    await exec(`npm run util:prep-next`, { maxBuffer });
 
-    const changesCommitted = (await exec(`git rev-parse HEAD`)) !== (await exec(`git rev-parse origin/master`));
+    const changesCommitted =
+      (await exec(`git rev-parse HEAD`, { maxBuffer })) !== (await exec(`git rev-parse origin/master`, { maxBuffer }));
     if (!changesCommitted) {
       throw new Error("Failed to commit changes");
     }
@@ -25,7 +27,7 @@
     // github token provided by the checkout action
     // https://github.com/actions/checkout#usage
     console.log(" - pushes tags and publishing @next...");
-    await exec(`npm run util:publish-next`);
+    await exec(`npm run util:publish-next`, { maxBuffer });
 
     console.log("@next deployed! 🚀");
   }
