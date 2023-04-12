@@ -57,6 +57,7 @@
     "component/stepper-item",
     "component/switch",
     "component/[template-comp-name]",
+    "component/tile",
     "component/tree-item",
     "component/accordion_backup",
     "calcite/light",
