@@ -175,18 +175,11 @@ export class Button
   //--------------------------------------------------------------------------
 
   async connectedCallback(): Promise<void> {
-    const { disabled, el } = this;
-
     connectLocalized(this);
     connectMessages(this);
     this.hasLoader = this.loading;
-    this.setupTextContentObserver();
     connectLabel(this);
     this.formEl = findAssociatedForm(this);
-
-    if (!disabled) {
-      this.resizeObserver?.observe(el);
-    }
   }
 
   disconnectedCallback(): void {
@@ -194,7 +187,6 @@ export class Button
     disconnectLabel(this);
     disconnectLocalized(this);
     disconnectMessages(this);
-    this.resizeObserver?.disconnect();
     this.formEl = null;
   }
 
@@ -208,6 +200,18 @@ export class Button
 
   componentDidLoad(): void {
     setComponentLoaded(this);
+
+    const slotted = this.el.shadowRoot
+      .querySelector("span.content")
+      .querySelector("slot") as HTMLSlotElement;
+
+    const textNodes = slotted.assignedNodes().filter((node) => node.nodeName === "#text");
+    const initialText = textNodes.map((node) => node.textContent).join("");
+
+    const spanContent = this.el.shadowRoot.querySelector("span.content");
+    const spanContentOffsetWidth = (spanContent as HTMLElement).offsetWidth;
+
+    spanContentOffsetWidth < initialText.length ? this.el.setAttribute("title", initialText) : null;
   }
 
   componentDidRender(): void {
@@ -320,8 +324,6 @@ export class Button
 
   @State() effectiveLocale = "";
 
-  private truncated = false;
-
   @Watch("effectiveLocale")
   effectiveLocaleChange(): void {
     updateMessages(this, this.effectiveLocale);
@@ -336,16 +338,6 @@ export class Button
         ? this.el.textContent?.trim().length > 0
         : slottedContent;
   }
-
-  private setupTextContentObserver() {
-    this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
-  }
-
-  private setTruncated() {
-    this.truncated = true;
-  }
-
-  resizeObserver = createObserver("resize", () => this.setTruncated);
 
   //--------------------------------------------------------------------------
   //

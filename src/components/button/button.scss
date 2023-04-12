@@ -70,7 +70,7 @@
   }
 }
 
-:host[title][truncated]:after {
+:host[title]:after {
   @apply absolute inset-x-1/2 bottom-full w-max opacity-0;
   content: attr(title);
   transition: opacity var(--calcite-internal-animation-timing-fast) ease-in-out;
