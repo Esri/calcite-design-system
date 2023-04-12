@@ -176,6 +176,11 @@ export class List implements InteractiveComponent, LoadableComponent {
     this.updateSelectedItems();
   }
 
+  @Listen("calciteListItemClose")
+  handleCalciteListItemClose(): void {
+    this.updateListItems();
+  }
+
   //--------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -400,7 +405,7 @@ export class List implements InteractiveComponent, LoadableComponent {
       item.selectionMode = selectionMode;
     });
     this.listItems = items;
-    this.enabledListItems = items.filter((item) => !item.disabled);
+    this.enabledListItems = items.filter((item) => !item.disabled && !item.closed);
     if (this.filterEnabled) {
       this.dataForFilter = this.getItemData();
     }
