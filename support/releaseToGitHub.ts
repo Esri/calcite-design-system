@@ -1,8 +1,9 @@
+import rimraf from "rimraf";
+
 (async function () {
   const childProcess = await import("child_process");
   const { promisify } = await import("util");
   const { default: githubRelease } = await import("gh-release");
-  const { default: rimraf } = await import("rimraf");
   const exec = promisify(childProcess.exec);
 
   const packageFileName = (await exec("npm pack", { encoding: "utf-8" })).stdout.trim();

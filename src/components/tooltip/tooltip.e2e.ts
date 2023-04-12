@@ -12,6 +12,8 @@ describe("calcite-tooltip", () => {
   /**
    * Helps assert the canceled Esc key press when closing tooltips
    * Must be called before the tooltip is closed via keyboard.
+   *
+   * @param page
    */
   async function setUpEscapeKeyCancelListener(page: E2EPage): Promise<void> {
     await page.evaluate(() => {

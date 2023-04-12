@@ -1,6 +1,5 @@
 export const CSS = {
   modal: "modal",
-  modalOpen: "modal--open",
   title: "title",
   header: "header",
   footer: "footer",
@@ -11,6 +10,7 @@ export const CSS = {
   primary: "primary",
   overflowHidden: "overflow-hidden",
   container: "container",
+  containerOpen: "container--open",
   content: "content",
   contentNoFooter: "content--no-footer",
   contentBottom: "content-bottom",
