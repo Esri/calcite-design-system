@@ -115,4 +115,37 @@ describe("calcite-list-item", () => {
 
     expect(eventSpy).toHaveReceivedEventTimes(1);
   });
+
+  it("honors closed prop", async () => {
+    const page = await newE2EPage();
+
+    await page.setContent("<calcite-list-item closable>test</calcite-list-item>");
+
+    const element = await page.find("calcite-list-item");
+    const container = await page.find(`calcite-list-item >>> .${CSS.container}`);
+
+    await page.waitForChanges();
+
+    expect(await container.isVisible()).toBe(true);
+
+    element.setProperty("closed", true);
+
+    await page.waitForChanges();
+
+    expect(await element.getProperty("closed")).toBe(true);
+
+    expect(await container.isVisible()).toBe(false);
+  });
+
+  it("should fire close event when closed", async () => {
+    const page = await newE2EPage({ html: "<calcite-list-item closable>test</calcite-list-item>" });
+
+    const calciteListItemClose = await page.spyOnEvent("calciteListItemClose", "window");
+
+    const closeButton = await page.find(`calcite-list-item >>> .${CSS.actionsEnd} calcite-action`);
+
+    await closeButton.click();
+
+    expect(calciteListItemClose).toHaveReceivedEvent();
+  });
 });
