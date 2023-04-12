@@ -1,5 +1,5 @@
 import { Component, Element, h, Host, Listen, Prop, State } from "@stencil/core";
-import { focusElementInGroup, getSlotted } from "../../utils/dom";
+import { focusElementInGroup, getHost, getRootNode, getSlotted } from "../../utils/dom";
 
 @Component({
   tag: "calcite-nav-menu",
@@ -20,15 +20,28 @@ export class CalciteNavMenu {
   //  Public Properties
   //
   //--------------------------------------------------------------------------
-  @Prop({ mutable: true }) collapsed?;
+  @Prop({ mutable: true }) collapsed: boolean;
 
   // disable the automatic collapse based on width
-  @Prop({ mutable: true, reflect: true }) disableCollapse?;
+  @Prop({ mutable: true, reflect: true }) disableCollapse: boolean;
+
+  /**
+   * Specifies the layout of the component.
+   */
+  @Prop({ reflect: true }) layout: "horizontal" | "vertical" = "horizontal";
+
+  /**
+   * Specifies accessible label for the component
+   */
+  @Prop() label: string;
 
   // todo evaluate slotted content and determine if it is a nav menu item, then limit # rendered when auto-collapsing based on width of parent
   @Prop({ mutable: true }) minCollapsedItems?;
 
-  @Prop({ reflect: true }) layout?: "horizontal" | "vertical";
+  /**
+   * @internal
+   */
+  @Prop() role = "menubar";
 
   //--------------------------------------------------------------------------
   //
@@ -45,15 +58,17 @@ export class CalciteNavMenu {
   //
   // --------------------------------------------------------------------------
   connectedCallback() {
-    this.childNavMenuItems = getSlotted(this.el, "", {
-      all: true,
-      matches: "calcite-nav-menu-item"
-    }) as HTMLCalciteNavMenuItemElement[];
+    // get host of nav-menu which is added for nested submenu and is not part of lightDOM.
+    const hostElement = getHost(getRootNode(this.el));
 
-    // todo use slot change
-    this.childNavMenuItems.map((el: HTMLCalciteNavMenuItemElement) => {
-      el.layout = this.layout;
-    });
+    this.childNavMenuItems = getSlotted(
+      hostElement ? hostElement : this.el,
+      hostElement ? "menu-item-dropdown" : "",
+      {
+        all: true,
+        matches: "calcite-nav-menu-item"
+      }
+    ) as HTMLCalciteNavMenuItemElement[];
   }
 
   //--------------------------------------------------------------------------
@@ -65,43 +80,35 @@ export class CalciteNavMenu {
   @Listen("calciteInternalNavItemKeyEvent")
   calciteInternalNavMenuItemKeyEvent(event: KeyboardEvent): void {
     const target = event.target as HTMLCalciteNavMenuItemElement;
-    console.log(event.detail["key"]);
-    console.log(this.childNavMenuItems);
+    event.stopPropagation();
     switch (event.detail["key"]) {
       case "ArrowDown":
-        if (target.layout === "vertical") {
+        if (this.layout === "vertical") {
           focusElementInGroup(this.childNavMenuItems, target, "next");
         }
         break;
       case "ArrowUp":
-        if (target.layout === "vertical") {
+        if (this.layout === "vertical") {
           focusElementInGroup(this.childNavMenuItems, target, "previous");
         }
         break;
       case "ArrowRight":
-        if (target.layout === "horizontal") {
+        if (this.layout === "horizontal") {
           focusElementInGroup(this.childNavMenuItems, target, "next");
         }
         break;
       case "ArrowLeft":
-        if (target.layout === "horizontal") {
+        if (this.layout === "horizontal") {
           focusElementInGroup(this.childNavMenuItems, target, "previous");
         }
         break;
-      case "Home":
-        if (this.el === target.parentElement) {
-          focusElementInGroup(this.childNavMenuItems, target, "first");
+      case "Escape":
+        if (target.subMenuOpen) {
+          target.subMenuOpen = false;
         }
-        break;
-      case "End":
-        if (this.el === target.parentElement) {
-          focusElementInGroup(this.childNavMenuItems, target, "last");
-        }
-        break;
-      case "Tab":
-        console.log("leave?");
         break;
     }
+    event.preventDefault();
   }
 
   // --------------------------------------------------------------------------
@@ -112,7 +119,7 @@ export class CalciteNavMenu {
   render() {
     return (
       <Host>
-        <ul aria-label="todo" role="menubar">
+        <ul aria-label={this.label} role={this.role}>
           <slot />
           {this.overflowedNavMenuItems.length > 0 && (
             <calcite-nav-menu-item icon-start="ellipsis" text="overflow" title="overflow-items" />
