@@ -2,28 +2,28 @@ import { Component, Element, h, Host, Listen, Prop, State } from "@stencil/core"
 import { focusElementInGroup, getHost, getRootNode, getSlotted } from "../../utils/dom";
 
 @Component({
-  tag: "calcite-nav-menu",
-  styleUrl: "nav-menu.scss",
+  tag: "calcite-menu",
+  styleUrl: "menu.scss",
   shadow: true
 })
-export class CalciteNavMenu {
+export class CalciteMenu {
   //--------------------------------------------------------------------------
   //
   //  Element
   //
   //--------------------------------------------------------------------------
 
-  @Element() el: HTMLCalciteNavMenuElement;
+  @Element() el: HTMLCalciteMenuElement;
 
   //--------------------------------------------------------------------------
   //
   //  Public Properties
   //
   //--------------------------------------------------------------------------
-  @Prop({ mutable: true }) collapsed: boolean;
+  @Prop() collapsed: boolean;
 
   // disable the automatic collapse based on width
-  @Prop({ mutable: true, reflect: true }) disableCollapse: boolean;
+  @Prop({ reflect: true }) disableCollapse: boolean;
 
   /**
    * Specifies the layout of the component.
@@ -36,7 +36,7 @@ export class CalciteNavMenu {
   @Prop() label: string;
 
   // todo evaluate slotted content and determine if it is a nav menu item, then limit # rendered when auto-collapsing based on width of parent
-  @Prop({ mutable: true }) minCollapsedItems?;
+  @Prop() minCollapsedItems: boolean;
 
   /**
    * @internal
@@ -48,9 +48,9 @@ export class CalciteNavMenu {
   //  Private State/Props
   //
   //--------------------------------------------------------------------------
-  @State() childNavMenuItems?: HTMLCalciteNavMenuItemElement[];
+  @State() childNavMenuItems?: HTMLCalciteMenuItemElement[];
 
-  @State() overflowedNavMenuItems?: HTMLCalciteNavMenuItemElement[] = [];
+  @State() overflowedNavMenuItems?: HTMLCalciteMenuItemElement[] = [];
 
   // --------------------------------------------------------------------------
   //
@@ -58,7 +58,7 @@ export class CalciteNavMenu {
   //
   // --------------------------------------------------------------------------
   connectedCallback() {
-    // get host of nav-menu which is added for nested submenu and is not part of lightDOM.
+    // get host of menu which is added for nested submenu and is not part of lightDOM.
     const hostElement = getHost(getRootNode(this.el));
 
     this.childNavMenuItems = getSlotted(
@@ -66,9 +66,9 @@ export class CalciteNavMenu {
       hostElement ? "menu-item-dropdown" : "",
       {
         all: true,
-        matches: "calcite-nav-menu-item"
+        matches: "calcite-menu-item"
       }
-    ) as HTMLCalciteNavMenuItemElement[];
+    ) as HTMLCalciteMenuItemElement[];
   }
 
   //--------------------------------------------------------------------------
@@ -79,7 +79,7 @@ export class CalciteNavMenu {
 
   @Listen("calciteInternalNavItemKeyEvent")
   calciteInternalNavMenuItemKeyEvent(event: KeyboardEvent): void {
-    const target = event.target as HTMLCalciteNavMenuItemElement;
+    const target = event.target as HTMLCalciteMenuItemElement;
     event.stopPropagation();
     switch (event.detail["key"]) {
       case "ArrowDown":
@@ -103,8 +103,8 @@ export class CalciteNavMenu {
         }
         break;
       case "Escape":
-        if (target.subMenuOpen) {
-          target.subMenuOpen = false;
+        if (target.open) {
+          target.open = false;
         }
         break;
     }
@@ -122,7 +122,7 @@ export class CalciteNavMenu {
         <ul aria-label={this.label} role={this.role}>
           <slot />
           {this.overflowedNavMenuItems.length > 0 && (
-            <calcite-nav-menu-item icon-start="ellipsis" text="overflow" title="overflow-items" />
+            <calcite-menu-item icon-start="ellipsis" text="overflow" title="overflow-items" />
           )}
         </ul>
       </Host>

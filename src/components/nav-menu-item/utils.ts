@@ -1,9 +1,9 @@
-export function getMenubarItem(el: HTMLCalciteNavMenuItemElement): HTMLCalciteNavMenuItemElement {
+export function getMenubarItem(el: HTMLCalciteMenuItemElement): HTMLCalciteMenuItemElement {
   let parentEl = el.parentElement;
-  let menuBarItem: HTMLCalciteNavMenuItemElement | null = null;
+  let menuBarItem: HTMLCalciteMenuItemElement | null = null;
 
-  while (parentEl.matches("calcite-nav-menu-item")) {
-    menuBarItem = parentEl as HTMLCalciteNavMenuItemElement;
+  while (parentEl.matches("calcite-menu-item")) {
+    menuBarItem = parentEl as HTMLCalciteMenuItemElement;
     parentEl = parentEl.parentElement;
   }
   menuBarItem.subMenuOpen = false;

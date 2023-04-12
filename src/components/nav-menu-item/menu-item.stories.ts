@@ -12,8 +12,8 @@ export default {
 };
 
 export const simple = (): string => html`<calcite-nav
-  ><calcite-nav-menu slot="primary-content-center">
-    <calcite-nav-menu-item
+  ><calcite-menu slot="primary-content-center">
+    <calcite-menu-item
       text="${text("text", "My nav item")}"
       src="${text("src", "")}"
       href="${text("href", "")}"
@@ -23,12 +23,12 @@ export const simple = (): string => html`<calcite-nav
       ${boolean("breadcrumb", false)}
       ${boolean("editable", false)}
       ${boolean("text-enabled", true)}
-    /> </calcite-nav-menu
+    /> </calcite-menu
 ></calcite-nav>`;
 
 export const iconStart = (): string => html`<calcite-nav
-  ><calcite-nav-menu slot="primary-content-center">
-    <calcite-nav-menu-item
+  ><calcite-menu slot="primary-content-center">
+    <calcite-menu-item
       text="${text("text", "My nav item")}"
       src="${text("src", "")}"
       href="${text("href", "")}"
@@ -39,12 +39,12 @@ export const iconStart = (): string => html`<calcite-nav
       ${boolean("breadcrumb", false)}
       ${boolean("editable", false)}
       ${boolean("text-enabled", true)}
-    /> </calcite-nav-menu
+    /> </calcite-menu
 ></calcite-nav>`;
 
 export const iconEnd = (): string => html`<calcite-nav
-  ><calcite-nav-menu slot="primary-content-center">
-    <calcite-nav-menu-item
+  ><calcite-menu slot="primary-content-center">
+    <calcite-menu-item
       text="${text("text", "My nav item")}"
       src="${text("src", "")}"
       href="${text("href", "")}"
@@ -55,12 +55,12 @@ export const iconEnd = (): string => html`<calcite-nav
       ${boolean("breadcrumb", false)}
       ${boolean("editable", false)}
       ${boolean("text-enabled", true)}
-    /> </calcite-nav-menu
+    /> </calcite-menu
 ></calcite-nav>`;
 
 export const iconsBoth = (): string => html`<calcite-nav
-  ><calcite-nav-menu slot="primary-content-center">
-    <calcite-nav-menu-item
+  ><calcite-menu slot="primary-content-center">
+    <calcite-menu-item
       text="${text("text", "My nav item")}"
       src="${text("src", "")}"
       href="${text("href", "")}"
@@ -72,5 +72,5 @@ export const iconsBoth = (): string => html`<calcite-nav
       ${boolean("breadcrumb", false)}
       ${boolean("editable", false)}
       ${boolean("text-enabled", true)}
-    /> </calcite-nav-menu
+    /> </calcite-menu
 ></calcite-nav>`;

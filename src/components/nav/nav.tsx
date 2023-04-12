@@ -10,13 +10,13 @@ import { Component, Element, h, Host, Prop, VNode } from "@stencil/core";
  * @slot logo - A slot for adding a `calcite-logo` component to the primary nav level
  * @slot user - A slot for adding a `calcite-user` component to the primary nav level
  * @slot progress - A slot for adding a `calcite-progress` component to the primary nav level
- * @slot primary-content-start - A slot for adding a `calcite-nav-menu`, `calcite-action`, or other interactive elements in the start position of the primary nav level
- * @slot primary-content-center - A slot for adding a `calcite-nav-menu`, `calcite-action`, or other interactive elements in the center position of the primary nav level
- * @slot primary-content-end - A slot for adding a `calcite-nav-menu`, `calcite-action`, or other interactive elements in the end position of the primary nav level
- * @slot secondary-content-start - A slot for adding a `calcite-nav-menu`, `calcite-action`, or other interactive elements in the start position of the secondary nav level
- * @slot secondary-content-end - A slot for adding a `calcite-nav-menu`, `calcite-action`, or other interactive elements in the end position of the secondary nav level
- * @slot tertiary-content-start - A slot for adding a `calcite-nav-menu`, `calcite-action`, or other interactive elements in the start position of the tertiary nav level
- * @slot tertiary-content-end - A slot for adding a `calcite-nav-menu`, `calcite-action`, or other interactive elements in the end position of the tertiary nav level
+ * @slot primary-content-start - A slot for adding a `calcite-menu`, `calcite-action`, or other interactive elements in the start position of the primary nav level
+ * @slot primary-content-center - A slot for adding a `calcite-menu`, `calcite-action`, or other interactive elements in the center position of the primary nav level
+ * @slot primary-content-end - A slot for adding a `calcite-menu`, `calcite-action`, or other interactive elements in the end position of the primary nav level
+ * @slot secondary-content-start - A slot for adding a `calcite-menu`, `calcite-action`, or other interactive elements in the start position of the secondary nav level
+ * @slot secondary-content-end - A slot for adding a `calcite-menu`, `calcite-action`, or other interactive elements in the end position of the secondary nav level
+ * @slot tertiary-content-start - A slot for adding a `calcite-menu`, `calcite-action`, or other interactive elements in the start position of the tertiary nav level
+ * @slot tertiary-content-end - A slot for adding a `calcite-menu`, `calcite-action`, or other interactive elements in the end position of the tertiary nav level
  */
 export class CalciteNav {
   //--------------------------------------------------------------------------
