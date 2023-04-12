@@ -235,14 +235,11 @@ export class CalciteMenuItem implements LoadableComponent {
       case "ArrowDown":
         if (this.topLevelLayout === "horizontal") {
           if (this.isTopLevelItem) {
-            this.open = true;
-            this.focusFirst();
+            this.open ? this.focusFirst() : (this.open = true);
             return;
           }
-
           this.calciteInternalNavItemKeyEvent.emit(event);
         }
-
         if (this.topLevelLayout === "vertical") {
           event.preventDefault();
           this.calciteInternalNavItemKeyEvent.emit(event);
@@ -252,11 +249,9 @@ export class CalciteMenuItem implements LoadableComponent {
       case "ArrowUp":
         if (this.topLevelLayout === "horizontal") {
           if (this.isTopLevelItem) {
-            this.open = true;
-            this.focusLast();
+            this.open ? this.focusLast() : (this.open = true);
             return;
           }
-
           this.calciteInternalNavItemKeyEvent.emit(event);
         }
 
@@ -344,11 +339,11 @@ export class CalciteMenuItem implements LoadableComponent {
   }
 
   private focusFirst(): void {
-    setTimeout(() => this.subMenuItems[0].setFocus(), 1000);
+    this.subMenuItems[0].setFocus();
   }
 
   private focusLast(): void {
-    setTimeout(() => this.subMenuItems[this.subMenuItems.length - 1].setFocus(), 1000);
+    this.subMenuItems[this.subMenuItems.length - 1].setFocus();
   }
 
   private focusHandler(event: FocusEvent): void {

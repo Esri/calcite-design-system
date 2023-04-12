@@ -6,6 +6,6 @@ export function getMenubarItem(el: HTMLCalciteMenuItemElement): HTMLCalciteMenuI
     menuBarItem = parentEl as HTMLCalciteMenuItemElement;
     parentEl = parentEl.parentElement;
   }
-  menuBarItem.subMenuOpen = false;
+  menuBarItem.open = false;
   return menuBarItem;
 }
