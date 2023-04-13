@@ -361,6 +361,10 @@ export class TreeItem
 
   @Listen("click")
   onClick(event: Event): void {
+    if (this.disabled) {
+      return;
+    }
+
     // Solve for if the item is clicked somewhere outside the slotted anchor.
     // Anchor is triggered anywhere you click
     const [link] = filterDirectChildren<HTMLAnchorElement>(this.el, "a");

@@ -141,6 +141,10 @@ export class Link implements InteractiveComponent, LoadableComponent {
 
   @Listen("click")
   clickHandler(event: PointerEvent): void {
+    if (this.disabled) {
+      return;
+    }
+
     // forwards the click() to the internal link for non user-initiated events
     if (!event.isTrusted) {
       this.childEl.click();
