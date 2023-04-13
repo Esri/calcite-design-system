@@ -188,6 +188,7 @@ export class Button
     disconnectLabel(this);
     disconnectLocalized(this);
     disconnectMessages(this);
+    this.resizeObserver?.disconnect();
     this.formEl = null;
   }
 
@@ -200,12 +201,8 @@ export class Button
   }
 
   componentDidLoad(): void {
-    const { contentEl, childEl, fullLengthSlottedText } = this;
     setComponentLoaded(this);
-
-    contentEl.offsetWidth < contentEl.scrollWidth
-      ? childEl.setAttribute("title", fullLengthSlottedText)
-      : null;
+    this.setFullLengthText();
   }
 
   componentDidRender(): void {
@@ -247,7 +244,7 @@ export class Button
 
     const contentEl = (
       <span class={CSS.content} ref={(el) => (this.contentEl = el)}>
-        <slot onSlotchange={this.handleSlotchange} />
+        <slot />
       </span>
     );
 
@@ -265,12 +262,12 @@ export class Button
         href={childElType === "a" && this.href}
         name={childElType === "button" && this.name}
         onClick={this.handleClick}
+        ref={this.setChildEl}
         rel={childElType === "a" && this.rel}
         tabIndex={this.disabled || this.loading ? -1 : null}
         target={childElType === "a" && this.target}
+        title={this.fullLengthSlottedText}
         type={childElType === "button" && this.type}
-        // eslint-disable-next-line react/jsx-sort-props
-        ref={(el) => (this.childEl = el)}
       >
         {loaderNode}
         {this.iconStart ? iconStartEl : null}
@@ -343,6 +340,8 @@ export class Button
   /** keep track of the rendered contentEl */
   private contentEl: HTMLElement;
 
+  resizeObserver = createObserver("resize", () => this.setFullLengthText());
+
   //--------------------------------------------------------------------------
   //
   //  Private Methods
@@ -370,8 +369,17 @@ export class Button
     }
   };
 
-  private handleSlotchange = (event): void => {
-    const textNodes = event.target.assignedNodes().filter((node) => node.nodeName === "#text");
-    this.fullLengthSlottedText = textNodes.map((node) => node.textContent).join("");
+  private setFullLengthText = (): void => {
+    const { contentEl } = this;
+    this.fullLengthSlottedText =
+      contentEl.offsetWidth < contentEl.scrollWidth ? contentEl.innerText : null;
+  };
+
+  setChildEl = (el: HTMLElement): void => {
+    this.childEl = el;
+
+    if (el) {
+      this.resizeObserver?.observe(el);
+    }
   };
 }
