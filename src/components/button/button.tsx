@@ -375,7 +375,7 @@ export class Button
       contentEl.offsetWidth < contentEl.scrollWidth ? contentEl.innerText : null;
   };
 
-  setChildEl = (el: HTMLElement): void => {
+  private setChildEl = (el: HTMLElement): void => {
     this.childEl = el;
 
     if (el) {
