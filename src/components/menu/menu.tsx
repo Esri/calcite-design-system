@@ -35,9 +35,6 @@ export class CalciteMenu {
    */
   @Prop() label: string;
 
-  // todo evaluate slotted content and determine if it is a nav menu item, then limit # rendered when auto-collapsing based on width of parent
-  @Prop() minCollapsedItems: boolean;
-
   /**
    * @internal
    */
