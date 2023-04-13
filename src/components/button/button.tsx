@@ -200,19 +200,16 @@ export class Button
   }
 
   componentDidLoad(): void {
+    const { initialSlottedText, el } = this;
     setComponentLoaded(this);
 
-    const slotted = this.el.shadowRoot
-      .querySelector("span.content")
-      .querySelector("slot") as HTMLSlotElement;
-
-    const textNodes = slotted.assignedNodes().filter((node) => node.nodeName === "#text");
-    const initialText = textNodes.map((node) => node.textContent).join("");
-
-    const spanContent = this.el.shadowRoot.querySelector("span.content");
+    const spanContent = el.shadowRoot.querySelector("span.content");
     const spanContentOffsetWidth = (spanContent as HTMLElement).offsetWidth;
+    const button = el.shadowRoot.querySelector("button");
 
-    spanContentOffsetWidth < initialText.length ? this.el.setAttribute("title", initialText) : null;
+    spanContentOffsetWidth < initialSlottedText.length
+      ? button.setAttribute("title", initialSlottedText)
+      : null;
   }
 
   componentDidRender(): void {
@@ -254,7 +251,7 @@ export class Button
 
     const contentEl = (
       <span class={CSS.content}>
-        <slot />
+        <slot onSlotchange={this.handleSlotchange} />
       </span>
     );
 
@@ -344,6 +341,8 @@ export class Button
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
   }
 
+  private initialSlottedText: string;
+
   //--------------------------------------------------------------------------
   //
   //  Private Methods
@@ -369,5 +368,10 @@ export class Button
     } else if (type === "reset") {
       resetForm(this);
     }
+  };
+
+  private handleSlotchange = (event): void => {
+    const textNodes = event.target.assignedNodes().filter((node) => node.nodeName === "#text");
+    this.initialSlottedText = textNodes.map((node) => node.textContent).join("");
   };
 }
