@@ -73,7 +73,7 @@
   &.selectable {
     @apply cursor-pointer;
   }
-  &:focus {
+  &:not(.non-interactive):focus {
     @apply focus-outset;
   }
 }

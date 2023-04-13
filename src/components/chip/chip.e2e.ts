@@ -15,6 +15,32 @@ describe("calcite-chip", () => {
 
   it("can be disabled", () => disabled("calcite-chip"));
 
+  it("should emit event after the chip is clicked", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<calcite-chip id="chip-1" >cheetos</calcite-chip>`);
+
+    const eventSpy = await page.spyOnEvent("calciteChipSelect", "window");
+
+    const chip1 = await page.find("#chip-1");
+    await chip1.click();
+    await page.waitForChanges();
+
+    expect(eventSpy).toHaveReceivedEvent();
+  });
+
+  it("should not emit event after the chip button is clicked when non-interactive", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<calcite-chip id="chip-1" non-interactive>cheetos</calcite-chip>`);
+
+    const eventSpy = await page.spyOnEvent("calciteChipSelect", "window");
+
+    const chip1 = await page.find("#chip-1");
+    await chip1.click();
+    await page.waitForChanges();
+
+    expect(eventSpy).not.toHaveReceivedEvent();
+  });
+
   it("should emit event after the close button is clicked", async () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-chip closable>cheetos</calcite-chip>`);

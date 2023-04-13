@@ -135,6 +135,13 @@ export class Chip
     /* wired up by t9n util */
   }
 
+  /**
+   * Prevents the chip from being focused. When `closable` is true - the close button is still focusable.
+   *
+   * @internal
+   */
+  @Prop() nonInteractive = false;
+
   //--------------------------------------------------------------------------
   //
   //  Private State/Props
@@ -155,6 +162,8 @@ export class Chip
   @State() private hasImage = false;
 
   private containerEl: HTMLDivElement;
+
+  private closeButtonEl: HTMLButtonElement;
 
   private parentGroupEl: HTMLCalciteChipGroupElement;
 
@@ -228,7 +237,7 @@ export class Chip
       switch (event.key) {
         case " ":
         case "Enter":
-          this.calciteChipSelect.emit();
+          this.handleEmittingEvent();
           event.preventDefault();
           break;
         case "ArrowRight":
@@ -242,6 +251,20 @@ export class Chip
     }
   }
 
+  @Listen("click")
+  clickHandler(): void {
+    if (this.nonInteractive && this.closable) {
+      this.closeButtonEl.focus();
+    }
+  }
+
+  @Listen("focus")
+  focusHandler(): void {
+    if (this.nonInteractive && this.closable) {
+      this.closeButtonEl.focus();
+    }
+  }
+
   //--------------------------------------------------------------------------
   //
   //  Public Methods
@@ -252,8 +275,10 @@ export class Chip
   @Method()
   async setFocus(): Promise<void> {
     await componentLoaded(this);
-    if (!this.disabled) {
+    if (!this.disabled && !this.nonInteractive) {
       this.containerEl?.focus();
+    } else if (!this.disabled && this.closable) {
+      this.closeButtonEl?.focus();
     }
   }
 
@@ -290,6 +315,12 @@ export class Chip
 
   private handleSlotImageChange = (event: Event): void => {
     this.hasImage = slotChangeHasAssignedElement(event);
+  };
+
+  private handleEmittingEvent = (): void => {
+    if (!this.nonInteractive) {
+      this.calciteChipSelect.emit();
+    }
   };
 
   //--------------------------------------------------------------------------
@@ -336,6 +367,8 @@ export class Chip
         onClick={this.close}
         onKeyDown={this.closeButtonKeyDownHandler}
         tabIndex={this.disabled ? -1 : 0}
+        // eslint-disable-next-line react/jsx-sort-props
+        ref={(el) => (this.closeButtonEl = el)}
       >
         <calcite-icon icon={ICONS.close} scale={this.scale === "l" ? "m" : "s"} />
       </button>
@@ -360,8 +393,8 @@ export class Chip
     return (
       <Host>
         <div
-          aria-checked={toAriaBoolean(this.selected)}
-          aria-disabled={toAriaBoolean(this.disabled)}
+          aria-checked={this.nonInteractive ? undefined : toAriaBoolean(this.selected)}
+          aria-disabled={this.nonInteractive ? undefined : toAriaBoolean(this.disabled)}
           aria-label={this.label}
           aria-labelledby={this.parentGroupEl.label}
           class={{
@@ -370,11 +403,18 @@ export class Chip
             [CSS.imageSlotted]: this.hasImage,
             [CSS.selectable]: this.selectionMode !== "none",
             [CSS.closable]: this.closable,
-            [CSS.hasIcon]: !!this.icon
+            [CSS.hasIcon]: !!this.icon,
+            [CSS.nonInteractive]: this.nonInteractive
           }}
-          onClick={() => this.calciteChipSelect.emit()}
-          role={this.selectionMode === "multiple" ? "checkbox" : "radio"}
-          tabIndex={this.disabled ? -1 : 0}
+          onClick={this.handleEmittingEvent}
+          role={
+            this.selectionMode === "multiple" && !this.nonInteractive
+              ? "checkbox"
+              : this.nonInteractive
+              ? undefined
+              : "radio"
+          }
+          tabIndex={this.disabled || this.nonInteractive ? -1 : 0}
           // eslint-disable-next-line react/jsx-sort-props
           ref={(el) => (this.containerEl = el)}
         >

@@ -694,6 +694,8 @@ export class Combobox
 
   clickHandler = (event: MouseEvent): void => {
     if (event.composedPath().some((node: HTMLElement) => node.tagName === "CALCITE-CHIP")) {
+      this.open = false;
+      event.stopPropagation();
       return;
     }
     this.open = !this.open;
@@ -1099,6 +1101,7 @@ export class Combobox
           id={item.guid ? `${chipUidPrefix}${item.guid}` : null}
           key={item.textLabel}
           messageOverrides={{ dismissLabel: messages.removeTag }}
+          nonInteractive
           onCalciteChipClose={() => this.calciteChipCloseHandler(item)}
           scale={scale}
           title={label}

@@ -10,7 +10,8 @@ export const CSS = {
   hasIcon: "has-icon",
   selectable: "selectable",
   selectIcon: "select-icon",
-  selectIconActive: "select-icon--active"
+  selectIconActive: "select-icon--active",
+  nonInteractive: "non-interactive"
 };
 
 export const SLOTS = {

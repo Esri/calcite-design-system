@@ -186,6 +186,10 @@
   max-inline-size: 100%;
 }
 
+.chip:first-of-type {
+  margin-inline-start: calc(var(--calcite-combobox-item-spacing-unit-s) / 4);
+}
+
 .chip--active {
   @apply bg-foreground-3;
 }
