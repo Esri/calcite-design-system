@@ -524,40 +524,42 @@ export class CalciteMenuItem implements LoadableComponent {
     return (
       <Host onBlur={this.blurHandler} onFocus={this.focusHandler}>
         <li
+          // aria-labeledby={this.text}
           class={{
             container: true,
             "nav-item-vertical-parent": this.topLevelLayout === "vertical"
           }}
           role="none"
         >
-          <div class="item-content">
-            <a
-              aria-current={this.isFocused ? "page" : false}
-              aria-expanded={this.open ? "true" : "false"}
-              aria-haspopup={this.hasSubMenu ? "true" : undefined}
-              class={{
-                "layout--vertical": true
-              }}
-              href={this.href ? this.href : null}
-              onClick={this.clickHandler}
-              onKeyDown={this.keyDownHandler}
-              ref={(el) => (this.anchorEl = el)}
-              rel={this.rel ? this.rel : null}
-              role="menuitem"
-              tabIndex={this.isTopLevelItem ? 1 : -1}
-              target={this.target ? this.target : null}
-            >
-              {this.renderItemContent(dir)}
-              {this.href && this.topLevelLayout === "vertical" ? (
-                <calcite-icon
-                  class="hover-href-icon"
-                  icon={dir === "rtl" ? "arrow-left" : "arrow-right"}
-                  scale="s"
-                />
-              ) : null}
-            </a>
-            {this.href && this.hasSubMenu ? this.renderDropdownAction(dir) : null}
-          </div>
+          {/* <div class="item-content"> */}
+          <a
+            aria-current={this.isFocused ? "page" : false}
+            aria-expanded={this.open ? "true" : "false"}
+            aria-haspopup={this.hasSubMenu ? "true" : undefined}
+            aria-label={this.text}
+            class={{
+              "layout--vertical": true
+            }}
+            href={this.href ? this.href : null}
+            onClick={this.clickHandler}
+            onKeyDown={this.keyDownHandler}
+            ref={(el) => (this.anchorEl = el)}
+            rel={this.rel ? this.rel : null}
+            role="menuitem"
+            tabIndex={this.isTopLevelItem ? 0 : -1}
+            target={this.target ? this.target : null}
+          >
+            {this.renderItemContent(dir)}
+            {this.href && this.topLevelLayout === "vertical" ? (
+              <calcite-icon
+                class="hover-href-icon"
+                icon={dir === "rtl" ? "arrow-left" : "arrow-right"}
+                scale="s"
+              />
+            ) : null}
+          </a>
+          {this.href && this.hasSubMenu ? this.renderDropdownAction(dir) : null}
+          {/* </div> */}
           {this.hasSubMenu ? this.rendersubMenuItems(dir) : null}
         </li>
       </Host>
