@@ -61,7 +61,7 @@ async function patchFloatingUiForNonChromiumBrowsers(): Promise<void> {
     // ⚠️ browser-sniffing is not a best practice and should be avoided ⚠️
     (/firefox|safari/i.test(getUAString()) || isChrome109OrAbove())
   ) {
-    const { offsetParent } = await import("./floating-ui/utils");
+    const { offsetParent } = await import("composed-offset-position");
 
     const originalGetOffsetParent = platform.getOffsetParent;
     platform.getOffsetParent = (element: Element) => originalGetOffsetParent(element, offsetParent);

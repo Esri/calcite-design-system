@@ -1,6 +1,6 @@
 import { select } from "@storybook/addon-knobs";
 import { boolean, storyFilters } from "../../../.storybook/helpers";
-import { themesDarkDefault } from "../../../.storybook/utils";
+import { modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import readme2 from "../segmented-control-item/readme.md";
 import readme1 from "./readme.md";
@@ -63,7 +63,7 @@ export const darkThemeRTL_TestOnly = (): string => html`
   </calcite-segmented-control>
 `;
 
-darkThemeRTL_TestOnly.parameters = { themes: themesDarkDefault };
+darkThemeRTL_TestOnly.parameters = { themes: modesDarkDefault };
 
 export const disabled_TestOnly = (): string => html`<calcite-segmented-control disabled>
   <calcite-segmented-control-item value="react" checked>React</calcite-segmented-control-item>

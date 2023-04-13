@@ -93,19 +93,6 @@ describe("calcite-input-number", () => {
     expect(calciteInputInput).not.toHaveReceivedEvent();
   });
 
-  it("inherits requested props when from wrapping calcite-label when props are provided", async () => {
-    const page = await newE2EPage();
-    await page.setContent(html`
-      <calcite-label scale="s">
-        Label text
-        <calcite-input-number></calcite-input-number>
-      </calcite-label>
-    `);
-
-    const inputNumberElement = await page.find("calcite-input-number");
-    expect(await inputNumberElement.getProperty("scale")).toEqual("s");
-  });
-
   it("renders an icon when explicit Calcite UI is requested, and is a type without a default icon", async () => {
     const page = await newE2EPage();
     await page.setContent(html`<calcite-input-number icon="key"></calcite-input-number>`);

@@ -250,7 +250,7 @@ my-component/
   ...
 ```
 
-The component's metadata should then include the following metadata prop `assetsDir: ["assets"]`.
+The component's metadata should then include the following metadata prop [`assetsDirs: ["assets"]`](https://stenciljs.com/docs/assets#assetsdirs).
 
 ```tsx
 import { Component, Host, h } from "@stencil/core";
@@ -258,7 +258,7 @@ import { Component, Host, h } from "@stencil/core";
 @Component({
   tag: "calcite-test",
   shadow: true,
-  assetsDir: ["assets"]
+  assetsDirs: ["assets"]
 })
 export class MyComponent {
   /* ... */

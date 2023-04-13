@@ -33,6 +33,7 @@
 }
 .calcite-trigger-container {
   @apply relative flex flex-auto;
+  @include word-break;
 }
 
 @media (forced-colors: active) {

@@ -161,4 +161,33 @@ export const darkModeRTL_TestOnly = (): string =>
     panelContent
   );
 
+export const closableWithActions_TestOnly = (): string => html`
+  <calcite-panel
+    style="height: 100%;"
+    closable
+    heading="Closable with actions"
+    description="A panel that can be closed"
+  >
+    <calcite-action text="information" text-enabled icon="information" slot="header-actions-start"></calcite-action>
+    <calcite-action text="banana" text-enabled icon="banana" slot="header-menu-actions"></calcite-action>
+    <calcite-action text="measure" text-enabled icon="measure" slot="header-menu-actions"></calcite-action>
+    <div id="content" style="height: 100%;">${contentHTML}</div>
+    ${footerHTML}
+  </calcite-panel>
+`;
+
 darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
+
+export const withActionBar_TestOnly = (): string => html`<div style="width: 300px;">
+  <calcite-panel height-scale="s">
+    <calcite-action-bar slot="action-bar">
+      <calcite-action-group>
+        <calcite-action text="Add" icon="plus"> </calcite-action>
+        <calcite-action text="Save" icon="save"> </calcite-action>
+        <calcite-action text="Layers" icon="layers"> </calcite-action>
+      </calcite-action-group>
+    </calcite-action-bar>
+    <div slot="header-content">Header!</div>
+    <p>Slotted content!</p>
+  </calcite-panel>
+</div>`;
