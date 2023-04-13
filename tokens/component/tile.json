@@ -9,16 +9,16 @@
         "value": "$semantic.ui.color.text.3.dark",
         "type": "color"
       },
-      "sm": {
-        "value": "$semantic.font.default.bold.-2h",
+      "heading": {
+        "value": "$semantic.font.default.medium.-1h",
         "type": "typography"
       },
-      "md": {
-        "value": "$semantic.font.default.bold.-1h",
+      "description": {
+        "value": "$semantic.font.default.regular.-2h",
         "type": "typography"
       },
-      "lg": {
-        "value": "$semantic.font.default.bold.0h",
+      "link": {
+        "value": "$semantic.font.default.regular.-2h",
         "type": "typography"
       }
     },
