@@ -32,8 +32,7 @@ import {
   FloatingUIComponent,
   MenuPlacement,
   OverlayPositioning,
-  reposition,
-  updateAfterClose
+  reposition
 } from "../../utils/floating-ui";
 import {
   connectForm,
@@ -214,17 +213,12 @@ export class InputDatePicker
   @Watch("open")
   openHandler(value: boolean): void {
     if (this.disabled || this.readOnly) {
-      if (!value) {
-        updateAfterClose(this.floatingEl);
-      }
       this.open = false;
       return;
     }
 
     if (value) {
       this.reposition(true);
-    } else {
-      updateAfterClose(this.floatingEl);
     }
   }
 
