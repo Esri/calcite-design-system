@@ -136,7 +136,8 @@ export class Chip
   }
 
   /**
-   * Prevents the chip from being focused. When `closable` is true - the close button is still focusable.
+   * When true, prevents the chip from being focused, and the `calciteChipSelect` event from emitting.
+   * When `closable` is true - the close button remains focusable and interactive.
    *
    * @internal
    */
