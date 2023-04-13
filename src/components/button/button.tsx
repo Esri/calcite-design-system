@@ -200,15 +200,11 @@ export class Button
   }
 
   componentDidLoad(): void {
-    const { initialSlottedText, el } = this;
+    const { contentEl, childEl, fullLengthSlottedText } = this;
     setComponentLoaded(this);
 
-    const spanContent = el.shadowRoot.querySelector("span.content");
-    const spanContentOffsetWidth = (spanContent as HTMLElement).offsetWidth;
-    const button = el.shadowRoot.querySelector("button");
-
-    spanContentOffsetWidth < initialSlottedText.length
-      ? button.setAttribute("title", initialSlottedText)
+    contentEl.offsetWidth < contentEl.scrollWidth
+      ? childEl.setAttribute("title", fullLengthSlottedText)
       : null;
   }
 
@@ -250,7 +246,7 @@ export class Button
     );
 
     const contentEl = (
-      <span class={CSS.content}>
+      <span class={CSS.content} ref={(el) => (this.contentEl = el)}>
         <slot onSlotchange={this.handleSlotchange} />
       </span>
     );
@@ -341,7 +337,11 @@ export class Button
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
   }
 
-  private initialSlottedText: string;
+  /** inital full length slotted text before the truncation */
+  private fullLengthSlottedText: string;
+
+  /** keep track of the rendered contentEl */
+  private contentEl: HTMLElement;
 
   //--------------------------------------------------------------------------
   //
@@ -372,6 +372,6 @@ export class Button
 
   private handleSlotchange = (event): void => {
     const textNodes = event.target.assignedNodes().filter((node) => node.nodeName === "#text");
-    this.initialSlottedText = textNodes.map((node) => node.textContent).join("");
+    this.fullLengthSlottedText = textNodes.map((node) => node.textContent).join("");
   };
 }
