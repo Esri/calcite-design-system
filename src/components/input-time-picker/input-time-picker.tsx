@@ -3,6 +3,7 @@ import {
   Element,
   Event,
   EventEmitter,
+  getAssetPath,
   h,
   Host,
   Listen,
@@ -42,17 +43,23 @@ import { Scale } from "../interfaces";
 import { TimePickerMessages } from "../time-picker/assets/time-picker/t9n";
 
 import dayjs from "dayjs";
-import localizedFormat from "dayjs/plugin/localizedFormat";
 import customParseFormat from "dayjs/plugin/customParseFormat";
-dayjs.extend(localizedFormat);
+import localeData from "dayjs/plugin/localeData";
+import localizedFormat from "dayjs/plugin/localizedFormat";
+import updateLocale from "dayjs/plugin/updateLocale";
+
 dayjs.extend(customParseFormat);
+dayjs.extend(localeData);
+dayjs.extend(localizedFormat);
+dayjs.extend(updateLocale);
 
 @Component({
   tag: "calcite-input-time-picker",
   styleUrl: "input-time-picker.scss",
   shadow: {
     delegatesFocus: true
-  }
+  },
+  assetsDirs: ["assets"]
 })
 export class InputTimePicker
   implements
@@ -214,10 +221,7 @@ export class InputTimePicker
         includeSeconds: this.shouldIncludeSeconds()
       })
     );
-    const dayjsLocaleData = await import(
-      `https://unpkg.com/dayjs@1.11.7/locale/${this.effectiveLocale.toLowerCase()}`
-    );
-    dayjs.locale(dayjsLocaleData);
+    this.loadLocaleDefinition();
   }
 
   @State() localizedValue: string;
@@ -250,8 +254,25 @@ export class InputTimePicker
       useGrouping: false
     };
 
-    const parseResult = dayjs(calciteInputEl.value, "LTS");
-    console.log(parseResult);
+    if (this.effectiveLocale === "ar") {
+      dayjs.updateLocale(this.effectiveLocale.toLowerCase(), {
+        meridiem: (hour) => (hour > 12 ? "م" : "ص"),
+        formats: {
+          LT: this.numberingSystem === "arab" ? "A HH:mm" : "HH:mm A",
+          LTS: this.numberingSystem === "arab" ? "A HH:mm:ss" : "HH:mm:ss A",
+          L: "DD/MM/YYYY",
+          LL: "D MMMM YYYY",
+          LLL: "D MMMM YYYY A HH:mm",
+          LLLL: "dddd D MMMM YYYY A HH:mm"
+        }
+      });
+    }
+    const localParseResult = dayjs(
+      calciteInputEl.value,
+      this.shouldIncludeSeconds() ? "LTS" : "LT",
+      this.effectiveLocale.toLowerCase()
+    );
+    console.log(localParseResult);
 
     const delocalizedValue = numberStringFormatter.delocalize(calciteInputEl.value);
 
@@ -480,15 +501,16 @@ export class InputTimePicker
 
   componentWillLoad() {
     setUpLoadableComponent(this);
+    this.loadLocaleDefinition();
+  }
+
+  async loadLocaleDefinition(): Promise<void> {
+    await import(getAssetPath(`assets/input-time-picker/${this.effectiveLocale.toLowerCase()}.js`));
   }
 
   async componentDidLoad(): Promise<void> {
     setComponentLoaded(this);
     this.setInputValue(this.localizedValue);
-    const dayjsLocaleData = await import(
-      `https://unpkg.com/dayjs@1.11.7/locale/${this.effectiveLocale.toLowerCase()}`
-    );
-    dayjs.locale(dayjsLocaleData);
   }
 
   disconnectedCallback() {
@@ -523,6 +545,7 @@ export class InputTimePicker
             disabled={this.disabled}
             icon="clock"
             label={getLabelText(this)}
+            lang={this.effectiveLocale}
             onCalciteInputInput={this.calciteInputInputHandler}
             onCalciteInternalInputBlur={this.calciteInternalInputBlurHandler}
             onCalciteInternalInputFocus={this.calciteInternalInputFocusHandler}
@@ -537,6 +560,7 @@ export class InputTimePicker
           focusTrapDisabled={true}
           id={popoverId}
           label="Time Picker"
+          lang={this.effectiveLocale}
           open={this.open}
           overlayPositioning={this.overlayPositioning}
           placement={this.placement}
