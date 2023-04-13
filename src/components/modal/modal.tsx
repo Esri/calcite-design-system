@@ -190,6 +190,7 @@ export class Modal
     connectConditionalSlotComponent(this);
     connectLocalized(this);
     connectMessages(this);
+    connectFocusTrap(this);
   }
 
   disconnectedCallback(): void {
@@ -351,9 +352,9 @@ export class Modal
 
   modalContent: HTMLDivElement;
 
-  private mutationObserver: MutationObserver = createObserver("mutation", () => {
-    this.updateFooterVisibility();
-  });
+  private mutationObserver: MutationObserver = createObserver("mutation", () =>
+    this.handleMutationObserver()
+  );
 
   private cssVarObserver: MutationObserver = createObserver("mutation", () => {
     this.updateSizeCssVars();
@@ -366,8 +367,6 @@ export class Modal
   transitionEl: HTMLDivElement;
 
   focusTrap: FocusTrap;
-
-  focusTrapEl: HTMLDivElement;
 
   closeButtonEl: HTMLButtonElement;
 
@@ -443,7 +442,7 @@ export class Modal
   @Method()
   async setFocus(): Promise<void> {
     await componentLoaded(this);
-    focusFirstTabbable(this.focusTrapEl);
+    focusFirstTabbable(this.el);
   }
 
   /**
@@ -480,8 +479,6 @@ export class Modal
 
   private setTransitionEl = (el: HTMLDivElement): void => {
     this.transitionEl = el;
-    this.focusTrapEl = el;
-    connectFocusTrap(this);
   };
 
   onBeforeOpen(): void {
@@ -559,6 +556,11 @@ export class Modal
   private removeOverflowHiddenClass(): void {
     document.documentElement.classList.remove(CSS.overflowHidden);
   }
+
+  private handleMutationObserver = (): void => {
+    this.updateFooterVisibility();
+    this.updateFocusTrapElements();
+  };
 
   private updateFooterVisibility = (): void => {
     this.hasFooter = !!getSlotted(this.el, [SLOTS.back, SLOTS.primary, SLOTS.secondary]);

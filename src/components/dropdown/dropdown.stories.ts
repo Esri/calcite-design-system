@@ -490,3 +490,18 @@ export const mediumIconForLargeDropdownItem_TestOnly = (): string => html`
     </calcite-dropdown-group>
   </calcite-dropdown>
 `;
+
+export const triggerWordBreak_TestOnly = (): string => html`<div style="width:300px;">
+<calcite-dropdown scale="m">
+  <calcite-button slot="trigger" alignment="icon-end-space-between" appearance="transparent" icon-end="chevronDown"
+    scale="m" type="button" width="full">BirdObservationCommentBirdObservationComment</calcite-button>
+  <calcite-dropdown-group role="group" selection-mode="single">
+    <calcite-dropdown-item>BirdObservationComment</calcite-dropdown-item>
+    <calcite-dropdown-item>BirdObservationComment-BirdObservationComment</calcite-dropdown-item>
+    <calcite-dropdown-item>BirdObservationCommentBirdObservationComment</calcite-dropdown-item>
+  </calcite-dropdown-group>
+  <calcite-dropdown-item>BirdObservationComment BirdObservationComment</calcite-dropdown-item>
+  <calcite-dropdown-item>Bird_Observation_Comment_Bird_Observation_Comment</calcite-dropdown-item>
+  </calcite-dropdown-group>
+</calcite-dropdown>
+</div>`;

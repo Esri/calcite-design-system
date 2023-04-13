@@ -33,7 +33,7 @@ export class InputMessage {
   @Prop({ reflect: true }) iconFlipRtl = false;
 
   /** Specifies the size of the component. */
-  @Prop({ reflect: true, mutable: true }) scale: Scale = "m";
+  @Prop({ reflect: true }) scale: Scale = "m";
 
   /** Specifies the status of the input field, which determines message and icons. */
   @Prop({ reflect: true }) status: Status = "idle";

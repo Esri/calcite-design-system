@@ -126,7 +126,7 @@ export class Input
   /**
    * The ID of the form that will be associated with the component.
    *
-   * When not set, the component will be associated with its ancestor `<form>` element, if any.
+   * When not set, the component will be associated with its ancestor form element, if any.
    */
   @Prop({ reflect: true })
   form: string;
@@ -243,10 +243,10 @@ export class Input
   @Prop({ reflect: true }) required = false;
 
   /** Specifies the size of the component. */
-  @Prop({ mutable: true, reflect: true }) scale: Scale = "m";
+  @Prop({ reflect: true }) scale: Scale = "m";
 
   /** Specifies the status of the input field, which determines message and icons. */
-  @Prop({ mutable: true, reflect: true }) status: Status = "idle";
+  @Prop({ reflect: true }) status: Status = "idle";
 
   /**
    * Specifies the granularity the component's `value` must adhere to.

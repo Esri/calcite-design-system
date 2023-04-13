@@ -79,8 +79,24 @@ slot[name="panel-end"]::slotted(calcite-shell-panel) {
   border-solid;
 }
 
-slot[name="center-row"]::slotted(calcite-shell-center-row:not([detached])) {
+slot[name="center-row"]::slotted(calcite-shell-center-row:not([detached])),
+slot[name="panel-top"]::slotted(calcite-shell-center-row:not([detached])),
+slot[name="panel-bottom"]::slotted(calcite-shell-center-row:not([detached])) {
   @apply border-color-3 border-l border-r;
+}
+
+.center-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  block-size: 100%;
+  inline-size: 100%;
+  min-inline-size: 0;
+}
+
+::slotted(calcite-shell-center-row) {
+  flex: none;
+  align-self: stretch;
 }
 
 ::slotted(calcite-tip-manager) {
@@ -92,6 +108,15 @@ slot[name="center-row"]::slotted(calcite-shell-center-row:not([detached])) {
   z-toast;
   inset-block-end: theme("spacing.2");
   inset-inline: var(--calcite-shell-tip-spacing);
+}
+
+slot[name="center-row"]::slotted(calcite-shell-center-row),
+slot[name="panel-bottom"]::slotted(calcite-shell-center-row) {
+  margin-block-start: auto;
+}
+
+slot[name="panel-top"]::slotted(calcite-shell-center-row) {
+  margin-block-end: auto;
 }
 
 // positioning logic for expected slotted components
