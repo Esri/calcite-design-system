@@ -51,4 +51,3 @@ const locales = [
   { name: "Ukrainian", locale: "uk" },
   { name: "Vietnamese", locale: "vi" }
 ];
-export default locales;
