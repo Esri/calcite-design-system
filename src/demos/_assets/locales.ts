@@ -1,6 +1,5 @@
 const locales = [
   { name: "Arabic", locale: "ar", dir: "rtl" },
-  { name: "Arabic - Iraq", locale: "ar-IQ", dir: "rtl" },
   { name: "Arabic (Arab Numerals)", locale: "ar", dir: "rtl", numberingSystem: "arab" },
   { name: "Bosnian", locale: "bs" },
   { name: "Bulgarian", locale: "bg" },
@@ -21,6 +20,7 @@ const locales = [
   { name: "French", locale: "fr" },
   { name: "French - Switzerland", locale: "fr-CH" },
   { name: "German", locale: "de" },
+  { name: "German - Austria", locale: "de-AT" },
   { name: "German - Switzerland", locale: "de-CH" },
   { name: "Greek", locale: "el" },
   { name: "Hebrew", locale: "he" },

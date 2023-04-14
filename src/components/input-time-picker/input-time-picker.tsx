@@ -393,10 +393,10 @@ export class InputTimePicker
   }
 
   private parseInputString(value: string): void {
-    const locale = this.effectiveLocale;
+    const locale = this.effectiveLocale.toLowerCase();
     switch (locale) {
       case "ar":
-        dayjs.updateLocale(locale.toLowerCase(), {
+        dayjs.updateLocale(locale, {
           meridiem: (hour) => (hour > 12 ? "م" : "ص"),
           formats: {
             LT: this.numberingSystem === "arab" ? "A HH:mm" : "HH:mm A",
@@ -408,16 +408,21 @@ export class InputTimePicker
           }
         });
         break;
-      case "zh-TW":
-        dayjs.updateLocale(locale.toLowerCase(), {
+      case "en-au":
+        dayjs.updateLocale(locale, {
+          meridiem: (hour) => (hour > 12 ? "pm" : "am")
+        });
+        break;
+      case "zh-tw":
+        dayjs.updateLocale(locale, {
           formats: {
             LT: "AHH:mm",
             LTS: "AHH:mm:ss"
           }
         });
         break;
-      case "zh-HK":
-        dayjs.updateLocale(locale.toLowerCase(), {
+      case "zh-hk":
+        dayjs.updateLocale(locale, {
           formats: {
             LT: "AHH:mm",
             LTS: "AHH:mm:ss"

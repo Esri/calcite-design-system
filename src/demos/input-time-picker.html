@@ -23,7 +23,7 @@
         height: calc(100vh - 82px);
         overflow-y: scroll;
       }
-      main {
+      .grid {
         display: grid;
         grid-template-columns: repeat(4, 1fr);
         gap: 1em;
@@ -41,7 +41,12 @@
   <body>
     <demo-dom-swapper>
       <div id="main-container">
-        <main></main>
+        <main>
+          <h3>12-Hour Locales</h3>
+          <div id="h12" class="grid"></div>
+          <h3>24-Hour Locales</h3>
+          <div id="h23" class="grid"></div>
+        </main>
       </div>
 
       <script>
@@ -57,16 +62,23 @@
           const currentDate = new Date();
           const currentTime = `${currentDate.getHours()}:${currentDate.getMinutes()}:${currentDate.getSeconds()}`;
 
-          locales.forEach(({ locale, name, numberingSystem }) => {
+          locales.forEach(({ locale, name, numberingSystem, hourCycle }) => {
             let labelEl = document.createElement("calcite-label");
             let inputTimePickerEl = document.createElement("calcite-input-time-picker");
             inputTimePickerEl.setAttribute("lang", locale);
             inputTimePickerEl.setAttribute("numbering-system", numberingSystem || "latn");
             inputTimePickerEl.setAttribute("step", 1);
-            inputTimePickerEl.setAttribute("value", currentTime);
+            inputTimePickerEl.setAttribute("value", "10:00:00");
             labelEl.appendChild(document.createTextNode(`${name} (${locale})`));
             labelEl.appendChild(inputTimePickerEl);
             mainEl.appendChild(labelEl);
+
+            const localeObject = new Intl.Locale(locale);
+            if (localeObject.hourCycles[0] === "h12") {
+              h12.appendChild(labelEl);
+            } else {
+              h23.appendChild(labelEl);
+            }
           });
         })();
       </script>
