@@ -618,8 +618,9 @@ describe("calcite-button", () => {
     const button2 = await page.find(`calcite-button[id='two'] >>> button`);
 
     expect(button1).toHaveAttribute("title");
+    expect(button2).not.toHaveAttribute("title");
 
+    expect(button1.textContent.length).toBeLessThan(longText.length);
     expect(button1.getAttribute("title")).toEqual(longText);
-    expect(button2.getAttribute("title")).toEqual("");
   });
 });

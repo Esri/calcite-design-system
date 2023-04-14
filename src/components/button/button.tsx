@@ -334,11 +334,11 @@ export class Button
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
   }
 
-  /** inital full length slotted text before the truncation */
-  private tooltipText: string;
+  /** keeps track of the tooltipText */
+  @State() tooltipText: string;
 
   /** keep track of the rendered contentEl */
-  private contentEl: HTMLElement;
+  private contentEl: HTMLSpanElement;
 
   resizeObserver = createObserver("resize", () => this.setTooltipText());
 
@@ -372,7 +372,7 @@ export class Button
   private setTooltipText = (): void => {
     const { contentEl } = this;
     if (contentEl) {
-      this.tooltipText = contentEl.offsetWidth < contentEl.scrollWidth ? contentEl.innerText : null;
+      this.tooltipText = contentEl.offsetWidth < contentEl.scrollWidth ? this.el.innerText : null;
     }
   };
 
