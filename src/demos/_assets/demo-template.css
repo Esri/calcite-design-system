@@ -37,10 +37,15 @@
   align-items: center;
   column-gap: 2rem;
   display: grid;
-  grid-template-columns: auto auto auto auto;
+  grid-template-columns: auto auto auto;
   padding: 1rem 2rem;
+  border-right: 1px solid var(--calcite-ui-border-3);
 }
 
 .demo-switches__label {
   margin-top: 0.5rem;
+}
+
+.demo-close {
+  padding: 1rem 2rem;
 }
