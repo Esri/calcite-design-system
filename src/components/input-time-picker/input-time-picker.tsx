@@ -416,6 +416,15 @@ export class InputTimePicker
           }
         });
         break;
+      case "zh-HK":
+        dayjs.updateLocale(locale.toLowerCase(), {
+          formats: {
+            LT: "AHH:mm",
+            LTS: "AHH:mm:ss"
+          },
+          meridiem: (hour) => (hour > 12 ? "下午" : "上午")
+        });
+        break;
     }
 
     console.clear();
