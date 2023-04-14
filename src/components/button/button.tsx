@@ -202,7 +202,7 @@ export class Button
 
   componentDidLoad(): void {
     setComponentLoaded(this);
-    this.setFullLengthText();
+    this.setTooltipText();
   }
 
   componentDidRender(): void {
@@ -266,7 +266,7 @@ export class Button
         rel={childElType === "a" && this.rel}
         tabIndex={this.disabled || this.loading ? -1 : null}
         target={childElType === "a" && this.target}
-        title={this.fullLengthSlottedText}
+        title={this.tooltipText}
         type={childElType === "button" && this.type}
       >
         {loaderNode}
@@ -335,12 +335,12 @@ export class Button
   }
 
   /** inital full length slotted text before the truncation */
-  private fullLengthSlottedText: string;
+  private tooltipText: string;
 
   /** keep track of the rendered contentEl */
   private contentEl: HTMLElement;
 
-  resizeObserver = createObserver("resize", () => this.setFullLengthText());
+  resizeObserver = createObserver("resize", () => this.setTooltipText());
 
   //--------------------------------------------------------------------------
   //
@@ -369,10 +369,11 @@ export class Button
     }
   };
 
-  private setFullLengthText = (): void => {
+  private setTooltipText = (): void => {
     const { contentEl } = this;
-    this.fullLengthSlottedText =
-      contentEl.offsetWidth < contentEl.scrollWidth ? contentEl.innerText : null;
+    if (contentEl) {
+      this.tooltipText = contentEl.offsetWidth < contentEl.scrollWidth ? contentEl.innerText : null;
+    }
   };
 
   private setChildEl = (el: HTMLElement): void => {
