@@ -1058,7 +1058,6 @@ export async function disabled(
   await expectToBeFocused(clickFocusTarget);
 
   await component.callMethod("click");
-
   await expectToBeFocused(clickFocusTarget);
 
   // some components emit more than one click event,
