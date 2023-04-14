@@ -394,9 +394,11 @@ export class InputTimePicker
 
   private parseInputString(value: string): void {
     const locale = this.effectiveLocale.toLowerCase();
+    let localeConfig;
+
     switch (locale) {
       case "ar":
-        dayjs.updateLocale(locale, {
+        localeConfig = {
           meridiem: (hour) => (hour > 12 ? "م" : "ص"),
           formats: {
             LT: this.numberingSystem === "arab" ? "A HH:mm" : "HH:mm A",
@@ -406,31 +408,60 @@ export class InputTimePicker
             LLL: "D MMMM YYYY A HH:mm",
             LLLL: "dddd D MMMM YYYY A HH:mm"
           }
-        });
+        };
         break;
       case "en-au":
-        dayjs.updateLocale(locale, {
+        localeConfig = {
           meridiem: (hour) => (hour > 12 ? "pm" : "am")
-        });
+        };
+        break;
+      case "en-ca":
+        localeConfig = {
+          meridiem: (hour) => (hour > 12 ? "p.m." : "a.m.")
+        };
+        break;
+      case "el":
+        localeConfig = {
+          meridiem: (hour) => (hour > 12 ? "μ.μ." : "π.μ.")
+        };
+      case "hi":
+        localeConfig = {
+          formats: {
+            LT: "h:mm A",
+            LTS: "h:mm:ss A",
+            L: "DD/MM/YYYY",
+            LL: "D MMMM YYYY",
+            LLL: "D MMMM YYYY, h:mm A",
+            LLLL: "dddd, D MMMM YYYY, h:mm A"
+          },
+          meridiem: (hour) => (hour > 12 ? "pm" : "am")
+        };
+        break;
+      case "ko":
+        localeConfig = {
+          meridiem: (hour) => (hour > 12 ? "오후" : "오전")
+        };
         break;
       case "zh-tw":
-        dayjs.updateLocale(locale, {
+        localeConfig = {
           formats: {
             LT: "AHH:mm",
             LTS: "AHH:mm:ss"
           }
-        });
+        };
         break;
       case "zh-hk":
-        dayjs.updateLocale(locale, {
+        localeConfig = {
           formats: {
             LT: "AHH:mm",
             LTS: "AHH:mm:ss"
           },
           meridiem: (hour) => (hour > 12 ? "下午" : "上午")
-        });
+        };
         break;
     }
+
+    dayjs.updateLocale(locale, localeConfig);
 
     console.clear();
     console.log("preparse value:", value);
