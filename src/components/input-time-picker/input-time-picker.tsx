@@ -46,11 +46,13 @@ import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import localeData from "dayjs/plugin/localeData";
 import localizedFormat from "dayjs/plugin/localizedFormat";
+import preParsePostFormat from "dayjs/plugin/preParsePostFormat";
 import updateLocale from "dayjs/plugin/updateLocale";
 
 dayjs.extend(customParseFormat);
 dayjs.extend(localeData);
 dayjs.extend(localizedFormat);
+dayjs.extend(preParsePostFormat);
 dayjs.extend(updateLocale);
 
 // This dayjs global is needed by the lazy-loaded locale files
@@ -257,26 +259,6 @@ export class InputTimePicker
       useGrouping: false
     };
 
-    if (this.effectiveLocale === "ar") {
-      dayjs.updateLocale(this.effectiveLocale.toLowerCase(), {
-        meridiem: (hour) => (hour > 12 ? "م" : "ص"),
-        formats: {
-          LT: this.numberingSystem === "arab" ? "A HH:mm" : "HH:mm A",
-          LTS: this.numberingSystem === "arab" ? "A HH:mm:ss" : "HH:mm:ss A",
-          L: "DD/MM/YYYY",
-          LL: "D MMMM YYYY",
-          LLL: "D MMMM YYYY A HH:mm",
-          LLLL: "dddd D MMMM YYYY A HH:mm"
-        }
-      });
-    }
-    const localParseResult = dayjs(
-      calciteInputEl.value,
-      this.shouldIncludeSeconds() ? "LTS" : "LT",
-      this.effectiveLocale.toLowerCase()
-    );
-    console.log(localParseResult);
-
     const delocalizedValue = numberStringFormatter.delocalize(calciteInputEl.value);
 
     const localizedInputValue = localizeTimeString({
@@ -300,6 +282,8 @@ export class InputTimePicker
 
   private calciteInputInputHandler = (event: CustomEvent): void => {
     const target = event.target as HTMLCalciteTimePickerElement;
+
+    this.parseInputString(target.value);
 
     numberStringFormatter.numberFormatOptions = {
       locale: this.effectiveLocale,
@@ -343,6 +327,7 @@ export class InputTimePicker
     const target = event.target as HTMLCalciteTimePickerElement;
     const value = target.value;
     this.setValue({ value, origin: "time-picker" });
+    this.parseInputString(this.calciteInputEl.value);
   };
 
   @Listen("calciteInternalTimePickerFocus")
@@ -405,6 +390,43 @@ export class InputTimePicker
 
   onLabelClick(): void {
     this.setFocus();
+  }
+
+  private parseInputString(value: string): void {
+    const locale = this.effectiveLocale;
+    switch (locale) {
+      case "ar":
+        dayjs.updateLocale(locale.toLowerCase(), {
+          meridiem: (hour) => (hour > 12 ? "م" : "ص"),
+          formats: {
+            LT: this.numberingSystem === "arab" ? "A HH:mm" : "HH:mm A",
+            LTS: this.numberingSystem === "arab" ? "A HH:mm:ss" : "HH:mm:ss A",
+            L: "DD/MM/YYYY",
+            LL: "D MMMM YYYY",
+            LLL: "D MMMM YYYY A HH:mm",
+            LLLL: "dddd D MMMM YYYY A HH:mm"
+          }
+        });
+        break;
+      case "zh-TW":
+        dayjs.updateLocale(locale.toLowerCase(), {
+          formats: {
+            LT: "AHH:mm",
+            LTS: "AHH:mm:ss"
+          }
+        });
+        break;
+    }
+
+    console.clear();
+    console.log("preparse value:", value);
+
+    const localParseResult = dayjs(
+      value,
+      this.shouldIncludeSeconds() ? "LTS" : "LT",
+      locale.toLowerCase()
+    );
+    console.log(localParseResult);
   }
 
   private shouldIncludeSeconds(): boolean {
