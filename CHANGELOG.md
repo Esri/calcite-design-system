@@ -17,6 +17,11 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ### Bug Fixes
 
+- **combobox, dropdown, input-date-picker, popover, tooltip:** fix misplaced floating-ui elements when associated-components are closed ([#6709](https://github.com/Esri/calcite-components/issues/6709)) ([e220686](https://github.com/Esri/calcite-components/commit/e220686fa366b86dda2647da25144eb45a4a193d)), closes [#6404](https://github.com/Esri/calcite-components/issues/6404)
+
+* **combobox:** Visually nest group items properly ([#6749](https://github.com/Esri/calcite-components/issues/6749)) ([8d0d0e5](https://github.com/Esri/calcite-components/commit/8d0d0e54d2bab05069322143feb09ae3f1db79ca)), closes [#6384](https://github.com/Esri/calcite-components/issues/6384)
+* **modal, popover:** fix focus-trap from preventing first click ([#6769](https://github.com/Esri/calcite-components/issues/6769)) ([be4a63a](https://github.com/Esri/calcite-components/commit/be4a63a661b2d7ac698649acf0e7769ea39c0694)), closes [#6581](https://github.com/Esri/calcite-components/issues/6581)
+
 - **dropdown:** trigger should break words when overflowing container. ([#6747](https://github.com/Esri/calcite-components/issues/6747)) ([496ce7e](https://github.com/Esri/calcite-components/commit/496ce7e3431f8ca6ed058e3a1c6d0f22d090f504)), closes [#5903](https://github.com/Esri/calcite-components/issues/5903)
 - **panel:** ensure close button is placed in the corner of the panel header. ([#6746](https://github.com/Esri/calcite-components/issues/6746)) ([1401523](https://github.com/Esri/calcite-components/commit/140152370455a8c9daa842083c89bf34b3da29d3)), closes [#6742](https://github.com/Esri/calcite-components/issues/6742)
 

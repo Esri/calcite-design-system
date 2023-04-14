@@ -213,21 +213,19 @@ export class TileSelect implements InteractiveComponent, LoadableComponent {
 
   @Listen("pointerenter")
   pointerEnterHandler(): void {
-    if (this.input.localName === "calcite-radio-button") {
-      (this.input as HTMLCalciteRadioButtonElement).hovered = true;
-    }
-    if (this.input.localName === "calcite-checkbox") {
-      (this.input as HTMLCalciteCheckboxElement).hovered = true;
+    const { localName } = this.input;
+
+    if (localName === "calcite-radio-button" || localName === "calcite-checkbox") {
+      (this.input as HTMLCalciteRadioButtonElement | HTMLCalciteCheckboxElement).hovered = true;
     }
   }
 
   @Listen("pointerleave")
   pointerLeaveHandler(): void {
-    if (this.input.localName === "calcite-radio-button") {
-      (this.input as HTMLCalciteRadioButtonElement).hovered = false;
-    }
-    if (this.input.localName === "calcite-checkbox") {
-      (this.input as HTMLCalciteCheckboxElement).hovered = false;
+    const { localName } = this.input;
+
+    if (localName === "calcite-radio-button" || localName === "calcite-checkbox") {
+      (this.input as HTMLCalciteRadioButtonElement | HTMLCalciteCheckboxElement).hovered = false;
     }
   }
 
