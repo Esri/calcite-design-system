@@ -608,7 +608,7 @@ export async function formAssociated(componentTagOrHtml: TagOrHTML, options: For
       hiddenFormInputSlotName
     );
 
-    if (isCheckable(page, component, options)) {
+    if (await isCheckable(page, component, options)) {
       expect(hiddenFormInputType).toMatch(/radio|checkbox/);
     } else {
       expect(hiddenFormInputType).toMatch(inputType);
@@ -620,7 +620,7 @@ export async function formAssociated(componentTagOrHtml: TagOrHTML, options: For
     component: E2EElement,
     options: FormAssociatedOptions
   ): Promise<void> {
-    const resettablePropName = isCheckable(page, component, options) ? "checked" : "value";
+    const resettablePropName = await isCheckable(page, component, options) ? "checked" : "value";
     const initialValue = await component.getProperty(resettablePropName);
     component.setProperty(resettablePropName, options.testValue);
     await page.waitForChanges();
