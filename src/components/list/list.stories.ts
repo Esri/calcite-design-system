@@ -344,7 +344,7 @@ export const closableListItems_TestOnly = (): string => html`<calcite-list
   label="test"
   filter-enabled
 >
-  <calcite-list-item closable label="test1" value="test1" description="hello world 1">
+  <calcite-list-item closable label="basic" value="basic" description="hello world">
     <calcite-icon icon="banana" slot="content-start" style="color: var(--calcite-ui-success)"></calcite-icon>
     <calcite-action
       appearance="transparent"
@@ -354,16 +354,10 @@ export const closableListItems_TestOnly = (): string => html`<calcite-list
       slot="actions-end"
     ></calcite-action>
   </calcite-list-item>
-  <calcite-list-item closable label="test2" value="test2" description="hello world 2">
+  <calcite-list-item closable disabled label="disabled" value="disabled" description="hello world">
     <calcite-icon icon="compass" slot="content-start" style="color: var(--calcite-ui-success)"></calcite-icon>
   </calcite-list-item>
-  <calcite-list-item closable label="test3" value="test3" description="hello world 3">
-    <calcite-icon icon="compass" slot="content-start" style="color: var(--calcite-ui-success)"></calcite-icon>
-  </calcite-list-item>
-  <calcite-list-item closable disabled label="test4" value="test4" description="hello world 4">
-    <calcite-icon icon="compass" slot="content-start" style="color: var(--calcite-ui-success)"></calcite-icon>
-  </calcite-list-item>
-  <calcite-list-item closed closable disabled label="test5" value="test5" description="hello world 5">
+  <calcite-list-item closed closable label="closed" value="closed" description="hello world">
     <calcite-icon icon="compass" slot="content-start" style="color: var(--calcite-ui-success)"></calcite-icon>
   </calcite-list-item>
 </calcite-list>`;

@@ -146,6 +146,6 @@ describe("calcite-list-item", () => {
 
     await closeButton.click();
 
-    expect(calciteListItemClose).toHaveReceivedEvent();
+    expect(calciteListItemClose).toHaveReceivedEventTimes(1);
   });
 });
