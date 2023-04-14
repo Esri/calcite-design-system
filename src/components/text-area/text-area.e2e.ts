@@ -14,11 +14,9 @@ import {
 import { CSS } from "./resources";
 
 describe("calcite-text-area", () => {
-  it("renders", async () => {
-    renders("calcite-text-area", { display: "inline-block" });
-  });
+  it("renders", async () => renders("calcite-text-area", { display: "inline-block" }));
 
-  it("defaults", async () => {
+  it("defaults", async () =>
     defaults("calcite-text-area", [
       {
         propertyName: "wrap",
@@ -28,8 +26,7 @@ describe("calcite-text-area", () => {
         propertyName: "scale",
         defaultValue: "m"
       }
-    ]);
-  });
+    ]));
 
   it("honors hidden attribute", () => hidden("calcite-text-area"));
 
