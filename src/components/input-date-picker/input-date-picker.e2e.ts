@@ -206,7 +206,7 @@ describe("calcite-input-date-picker", () => {
     for (let i = 0; i < 10; i++) {
       await input.press("Backspace");
     }
-    input.press("Enter");
+    await input.press("Enter");
 
     await page.waitForChanges();
 

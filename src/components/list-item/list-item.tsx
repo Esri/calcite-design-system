@@ -17,6 +17,15 @@ import { SelectionMode } from "../interfaces";
 import { SelectionAppearance } from "../list/resources";
 import { CSS, ICONS, SLOTS } from "./resources";
 import { getDepth, getListItemChildren, updateListItemChildren } from "./utils";
+import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
+import {
+  connectMessages,
+  disconnectMessages,
+  setUpMessages,
+  T9nComponent,
+  updateMessages
+} from "../../utils/t9n";
+import { ListItemMessages } from "./assets/list-item/t9n";
 
 const focusMap = new Map<HTMLCalciteListElement, number>();
 
@@ -40,9 +49,12 @@ import {
 @Component({
   tag: "calcite-list-item",
   styleUrl: "list-item.scss",
-  shadow: true
+  shadow: true,
+  assetsDirs: ["assets"]
 })
-export class ListItem implements InteractiveComponent, LoadableComponent {
+export class ListItem
+  implements InteractiveComponent, LoadableComponent, LocalizedComponent, T9nComponent
+{
   // --------------------------------------------------------------------------
   //
   //  Properties
@@ -62,6 +74,12 @@ export class ListItem implements InteractiveComponent, LoadableComponent {
       this.focusCell(null, false);
     }
   }
+
+  /** When `true`, a close button is added to the component. */
+  @Prop({ reflect: true }) closable = false;
+
+  /** When `true`, hides the component. */
+  @Prop({ reflect: true, mutable: true }) closed = false;
 
   /**
    * A description for the component. Displays below the label text.
@@ -134,6 +152,25 @@ export class ListItem implements InteractiveComponent, LoadableComponent {
    */
   @Prop({ mutable: true }) selectionAppearance: SelectionAppearance = null;
 
+  /**
+   * Use this property to override individual strings used by the component.
+   */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
+  @Prop({ mutable: true }) messageOverrides: Partial<ListItemMessages>;
+
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @internal
+   */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
+  @Prop({ mutable: true }) messages: ListItemMessages;
+
+  @Watch("messageOverrides")
+  onMessagesChange(): void {
+    /* wired up by t9n util */
+  }
+
   //--------------------------------------------------------------------------
   //
   //  Events
@@ -144,6 +181,11 @@ export class ListItem implements InteractiveComponent, LoadableComponent {
    * Emits when the item's content is selected.
    */
   @Event({ cancelable: false }) calciteListItemSelect: EventEmitter<void>;
+
+  /**
+   * Fires when the close button is clicked.
+   */
+  @Event({ cancelable: false }) calciteListItemClose: EventEmitter<void>;
 
   /**
    *
@@ -170,6 +212,15 @@ export class ListItem implements InteractiveComponent, LoadableComponent {
   // --------------------------------------------------------------------------
 
   @Element() el: HTMLCalciteListItemElement;
+
+  @State() effectiveLocale = "";
+
+  @Watch("effectiveLocale")
+  effectiveLocaleChange(): void {
+    updateMessages(this, this.effectiveLocale);
+  }
+
+  @State() defaultMessages: ListItemMessages;
 
   @State() level: number = null;
 
@@ -198,6 +249,8 @@ export class ListItem implements InteractiveComponent, LoadableComponent {
   actionsEndEl: HTMLTableCellElement;
 
   connectedCallback(): void {
+    connectLocalized(this);
+    connectMessages(this);
     const { el } = this;
     this.parentListEl = el.closest(listSelector);
     this.level = getDepth(el) + 1;
@@ -205,8 +258,9 @@ export class ListItem implements InteractiveComponent, LoadableComponent {
     this.setSelectionDefaults();
   }
 
-  componentWillLoad(): void {
+  async componentWillLoad(): Promise<void> {
     setUpLoadableComponent(this);
+    await setUpMessages(this);
   }
 
   componentDidLoad(): void {
@@ -215,6 +269,11 @@ export class ListItem implements InteractiveComponent, LoadableComponent {
 
   componentDidRender(): void {
     updateHostInteraction(this, "managed");
+  }
+
+  disconnectedCallback(): void {
+    disconnectLocalized(this);
+    disconnectMessages(this);
   }
 
   // --------------------------------------------------------------------------
@@ -308,18 +367,28 @@ export class ListItem implements InteractiveComponent, LoadableComponent {
   }
 
   renderActionsEnd(): VNode {
-    const { label, hasActionsEnd } = this;
+    const { label, hasActionsEnd, closable, messages } = this;
     return (
       <td
         aria-label={label}
         class={CSS.actionsEnd}
-        hidden={!hasActionsEnd}
+        hidden={!(hasActionsEnd || closable)}
         key="actions-end-container"
         role="gridcell"
         // eslint-disable-next-line react/jsx-sort-props
         ref={(el) => (this.actionsEndEl = el)}
       >
         <slot name={SLOTS.actionsEnd} onSlotchange={this.handleActionsEndSlotChange} />
+        {closable ? (
+          <calcite-action
+            appearance="transparent"
+            icon={ICONS.close}
+            key="close-action"
+            label={messages.close}
+            onClick={this.closeClickHandler}
+            text={messages.close}
+          />
+        ) : null}
       </td>
     );
   }
@@ -410,7 +479,8 @@ export class ListItem implements InteractiveComponent, LoadableComponent {
       label,
       selected,
       selectionAppearance,
-      selectionMode
+      selectionMode,
+      closed
     } = this;
 
     const showBorder = selectionMode !== "none" && selectionAppearance === "border";
@@ -431,6 +501,7 @@ export class ListItem implements InteractiveComponent, LoadableComponent {
             [CSS.containerBorderSelected]: borderSelected,
             [CSS.containerBorderUnselected]: borderUnselected
           }}
+          hidden={closed}
           onFocus={this.focusCellNull}
           onKeyDown={this.handleItemKeyDown}
           role="row"
@@ -462,6 +533,11 @@ export class ListItem implements InteractiveComponent, LoadableComponent {
   //  Private Methods
   //
   // --------------------------------------------------------------------------
+
+  closeClickHandler = (): void => {
+    this.closed = true;
+    this.calciteListItemClose.emit();
+  };
 
   handleContentSlotChange = (event: Event): void => {
     this.hasCustomContent = slotChangeHasAssignedElement(event);

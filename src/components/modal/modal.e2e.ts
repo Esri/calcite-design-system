@@ -24,7 +24,7 @@ describe("calcite-modal properties", () => {
   it("sets custom width correctly", async () => {
     const page = await newE2EPage();
     // set large page to ensure test modal isn't becoming fullscreen
-    page.setViewport({ width: 1440, height: 1440 });
+    await page.setViewport({ width: 1440, height: 1440 });
     await page.setContent(`<calcite-modal style="--calcite-modal-width:600px;"></calcite-modal>`);
     const modal = await page.find("calcite-modal");
     await modal.setProperty("open", true);
@@ -39,7 +39,7 @@ describe("calcite-modal properties", () => {
   it("sets custom height correctly", async () => {
     const page = await newE2EPage();
     // set large page to ensure test modal isn't becoming fullscreen
-    page.setViewport({ width: 1440, height: 1440 });
+    await page.setViewport({ width: 1440, height: 1440 });
     await page.setContent(`<calcite-modal style="--calcite-modal-height:600px;" open></calcite-modal>`);
     const modal = await page.find("calcite-modal");
     await modal.setProperty("open", true);
@@ -54,7 +54,7 @@ describe("calcite-modal properties", () => {
   it("expectedly does not set custom width when `fullscreen` is true", async () => {
     const page = await newE2EPage();
     // set large page to ensure test modal isn't becoming fullscreen
-    page.setViewport({ width: 1440, height: 1440 });
+    await page.setViewport({ width: 1440, height: 1440 });
     await page.setContent(`<calcite-modal style="--calcite-modal-width:600px;" fullscreen open></calcite-modal>`);
     const modal = await page.find("calcite-modal");
     await modal.setProperty("open", true);
@@ -69,7 +69,7 @@ describe("calcite-modal properties", () => {
   it("expectedly does not set custom height when `fullscreen` is true", async () => {
     const page = await newE2EPage();
     // set large page to ensure test modal isn't becoming fullscreen
-    page.setViewport({ width: 1440, height: 1440 });
+    await page.setViewport({ width: 1440, height: 1440 });
     await page.setContent(`<calcite-modal style="--calcite-modal-height:600px;" fullscreen open></calcite-modal>`);
     const modal = await page.find("calcite-modal");
     await modal.setProperty("open", true);
@@ -84,7 +84,7 @@ describe("calcite-modal properties", () => {
   it("does not overflow page bounds when requested css variable sizes are larger than viewport", async () => {
     const page = await newE2EPage();
     // set small page to test overflow
-    page.setViewport({ width: 800, height: 800 });
+    await page.setViewport({ width: 800, height: 800 });
     await page.setContent(
       `<calcite-modal style="--calcite-modal-height:1200px;--calcite-modal-width:1200px;" open></calcite-modal>`
     );
