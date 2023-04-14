@@ -259,7 +259,7 @@ export class InputTimePicker
       useGrouping: false
     };
 
-    const delocalizedValue = numberStringFormatter.delocalize(calciteInputEl.value);
+    const delocalizedValue = this.parseInputString(calciteInputEl.value);
 
     const localizedInputValue = localizeTimeString({
       value: delocalizedValue,
@@ -392,7 +392,7 @@ export class InputTimePicker
     this.setFocus();
   }
 
-  private parseInputString(value: string): void {
+  private parseInputString(value: string): string {
     const locale = this.effectiveLocale.toLowerCase();
     let localeConfig;
 
@@ -463,15 +463,16 @@ export class InputTimePicker
 
     dayjs.updateLocale(locale, localeConfig);
 
-    console.clear();
-    console.log("preparse value:", value);
-
     const localParseResult = dayjs(
       value,
       this.shouldIncludeSeconds() ? "LTS" : "LT",
       locale.toLowerCase()
     );
-    console.log(localParseResult);
+    const timeString = `${localParseResult.get("hour")}:${localParseResult.get(
+      "minute"
+    )}:${localParseResult.get("seconds")}`;
+
+    return formatTimeString(timeString);
   }
 
   private shouldIncludeSeconds(): boolean {
