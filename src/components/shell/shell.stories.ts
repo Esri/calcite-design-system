@@ -358,7 +358,7 @@ export const closedPanels = (): string =>
   </calcite-shell-panel>
 </calcite-shell>`);
 
-export const endPanelOnly = (): string =>
+export const endPanel_TestOnly = (): string =>
   html(`<calcite-shell content-behind>
     <header slot="header">
       <h2>My Shell Header</h2>
@@ -613,7 +613,7 @@ export const contentBehind = (): string =>
   ${footerHTML}
 </calcite-shell>`);
 
-export const slottedPanelTopOnly = (): string =>
+export const slottedPanelTop_TestOnly = (): string =>
   html(`<calcite-shell
     style="
     width:100%;
@@ -638,7 +638,7 @@ export const slottedPanelTopOnly = (): string =>
   </calcite-shell>
 `);
 
-export const slottedPanelBottomOnly = (): string =>
+export const slottedPanelBottom_TestOnly = (): string =>
   html(`
   <calcite-shell
     style="
