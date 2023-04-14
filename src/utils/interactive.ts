@@ -17,8 +17,9 @@ export interface InteractiveComponent {
 
 type HostIsTabbablePredicate = () => boolean;
 
-function noopClick(): void {
-  /** noop */
+function onPointerDown(event: PointerEvent): void {
+  // prevent click from moving focus on host
+  event.preventDefault();
 }
 
 /**
@@ -46,12 +47,12 @@ export function updateHostInteraction(
       (document.activeElement as HTMLElement).blur();
     }
 
-    component.el.click = noopClick;
+    component.el.addEventListener("pointerdown", onPointerDown, { capture: true });
 
     return;
   }
 
-  component.el.click = HTMLElement.prototype.click;
+  component.el.removeEventListener("pointerdown", onPointerDown, { capture: true });
 
   if (typeof hostIsTabbable === "function") {
     component.el.setAttribute("tabindex", hostIsTabbable.call(component) ? "0" : "-1");

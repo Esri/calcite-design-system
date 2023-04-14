@@ -1015,7 +1015,7 @@ export async function disabled(
     await component.callMethod("click");
     await expectToBeFocused("body");
 
-    expect(disabledComponentClickSpy).toHaveReceivedEventTimes(0);
+    expect(disabledComponentClickSpy).toHaveReceivedEventTimes(1);
 
     return;
   }
@@ -1058,6 +1058,7 @@ export async function disabled(
   await expectToBeFocused(clickFocusTarget);
 
   await component.callMethod("click");
+
   await expectToBeFocused(clickFocusTarget);
 
   // some components emit more than one click event,
@@ -1077,7 +1078,7 @@ export async function disabled(
   await page.mouse.click(shadowFocusableCenterX, shadowFocusableCenterY);
   await expectToBeFocused("body");
 
-  expect(disabledComponentClickSpy).toHaveReceivedEventTimes(0);
+  expect(disabledComponentClickSpy).toHaveReceivedEventTimes(1);
 }
 
 /**
