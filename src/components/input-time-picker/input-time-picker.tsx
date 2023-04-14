@@ -53,6 +53,9 @@ dayjs.extend(localeData);
 dayjs.extend(localizedFormat);
 dayjs.extend(updateLocale);
 
+// This dayjs global is needed by the lazy-loaded locale files
+(window as any).dayjs = dayjs;
+
 @Component({
   tag: "calcite-input-time-picker",
   styleUrl: "input-time-picker.scss",
