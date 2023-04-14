@@ -8,7 +8,7 @@
   position: sticky;
   top: 0;
   background-color: var(--calcite-ui-background);
-  z-index: 2;
+  z-index: 999;
 }
 
 .demo-header__leading-content,
@@ -37,7 +37,7 @@
   align-items: center;
   column-gap: 2rem;
   display: grid;
-  grid-template-columns: auto auto auto;
+  grid-template-columns: auto auto auto auto;
   padding: 1rem 2rem;
 }
 
