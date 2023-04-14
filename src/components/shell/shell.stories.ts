@@ -718,3 +718,32 @@ export const slottedPanelTopAndBottomAndSides = (): string =>
     <footer slot="footer">Footer Example</footer>
   </calcite-shell>
 `);
+
+export const shellPanelZIndex_TestOnly = (): string => html` <calcite-shell
+  style="
+width:100%;
+height:500px;
+max-height:80%;
+position:relative;
+"
+>
+  <calcite-shell-panel slot="panel-start" position="start" collapsed>
+    <calcite-action-bar slot="action-bar">
+      <calcite-tooltip open slot="expand-tooltip">Expand</calcite-tooltip>
+      <calcite-action-group>
+        <calcite-action text="Add" icon="plus"></calcite-action>
+        <calcite-action text="Save" disabled icon="save"></calcite-action>
+        <calcite-action text="Layers" active indicator icon="layers"></calcite-action>
+      </calcite-action-group>
+      <calcite-action-group>
+        <calcite-action text="Add" icon="plus"></calcite-action>
+        <calcite-action text="Layers" indicator icon="layers"></calcite-action>
+      </calcite-action-group>
+    </calcite-action-bar>
+  </calcite-shell-panel>
+  <calcite-shell-center-row detached>
+    <calcite-panel>
+      <div style="background: maroon; height: 100%; width: 100%;"></div>
+    </calcite-panel>
+  </calcite-shell-center-row>
+</calcite-shell>`;

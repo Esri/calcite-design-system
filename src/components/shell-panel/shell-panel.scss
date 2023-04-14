@@ -7,15 +7,22 @@
  * @prop --calcite-shell-panel-max-width: The maximum width of the component.
  * @prop --calcite-shell-panel-min-width: The minimum width of the component.
  * @prop --calcite-shell-panel-detached-max-height: The maximum height of the component when `detached` is true.
+ * @prop --calcite-shell-panel-z-index: Sets the z-index value for the component.
  *
  */
 
 :host {
-  @apply pointer-events-none
+  @apply relative
+    pointer-events-none
     flex
     flex-initial
     items-stretch;
   --calcite-shell-panel-detached-max-height: unset;
+  z-index: var(--calcite-shell-panel-z-index, theme("zIndex.default"));
+}
+
+:host([layout="vertical"]) {
+  z-index: var(--calcite-shell-panel-z-index, calc(theme("zIndex.default") + 1));
 }
 
 :host([width-scale="s"]) .content {
