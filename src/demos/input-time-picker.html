@@ -57,10 +57,11 @@
           const currentDate = new Date();
           const currentTime = `${currentDate.getHours()}:${currentDate.getMinutes()}:${currentDate.getSeconds()}`;
 
-          locales.forEach(({ locale, name }) => {
+          locales.forEach(({ locale, name, numberingSystem }) => {
             let labelEl = document.createElement("calcite-label");
             let inputTimePickerEl = document.createElement("calcite-input-time-picker");
             inputTimePickerEl.setAttribute("lang", locale);
+            inputTimePickerEl.setAttribute("numbering-system", numberingSystem || "latn");
             inputTimePickerEl.setAttribute("step", 1);
             inputTimePickerEl.setAttribute("value", currentTime);
             labelEl.appendChild(document.createTextNode(`${name} (${locale})`));

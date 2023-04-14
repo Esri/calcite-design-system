@@ -1,5 +1,6 @@
 const locales = [
   { name: "Arabic", locale: "ar", dir: "rtl" },
+  { name: "Arabic (Arab Numerals)", locale: "ar", dir: "rtl", numberingSystem: "arab" },
   { name: "Bosnian", locale: "bs" },
   { name: "Bulgarian", locale: "bg" },
   { name: "Catalan", locale: "ca" },
