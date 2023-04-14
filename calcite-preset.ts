@@ -233,23 +233,23 @@ export default {
           "outline-color": "transparent"
         },
         ".focus-normal": {
-          outline: "2px solid var(--calcite-ui-brand)"
+          outline: "2px solid var(--calcite-ui-focus-color)"
         },
         ".focus-outset": {
-          outline: "2px solid var(--calcite-ui-brand)",
-          "outline-offset": "2px"
+          outline: "2px solid var(--calcite-ui-focus-color)",
+          "outline-offset": "calc(var(--calcite-ui-focus-offset) * -1)"
         },
         ".focus-inset": {
-          outline: "2px solid var(--calcite-ui-brand)",
-          "outline-offset": "-2px"
+          outline: "2px solid var(--calcite-ui-focus-color)",
+          "outline-offset": "var(--calcite-ui-focus-offset)"
         },
         ".focus-outset-danger": {
           outline: "2px solid var(--calcite-ui-danger)",
-          "outline-offset": "2px"
+          "outline-offset": "calc(var(--calcite-ui-focus-offset) * -1)"
         },
         ".focus-inset-danger": {
           outline: "2px solid var(--calcite-ui-danger)",
-          "outline-offset": "-2px"
+          "outline-offset": "var(--calcite-ui-focus-offset)"
         },
         ".transition-default": {
           transition: "all var(--calcite-animation-timing) ease-in-out 0s, outline 0s, outline-offset 0s"

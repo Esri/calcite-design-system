@@ -46,6 +46,8 @@
   --calcite-border-radius-base: 0;
   --calcite-ui-opacity-disabled: 0.5;
   --calcite-panel-width-multiplier: 1;
+  --calcite-ui-focus-offset: -2px;
+  --calcite-ui-focus-color: var(--calcite-ui-brand);
   --calcite-ui-icon-color: currentColor;
 
   @apply font-sans;
