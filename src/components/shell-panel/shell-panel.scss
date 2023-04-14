@@ -246,3 +246,19 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
 :host([position="end"]) .content ::slotted(calcite-panel) {
   border-inline-end: none;
 }
+
+:host([layout="horizontal"]) slot[name="action-bar"]::slotted(calcite-action-bar) {
+  border-inline: 0;
+}
+
+:host([layout="horizontal"][position="start"]) .content ::slotted(calcite-flow),
+:host([layout="horizontal"][position="start"]) .content ::slotted(calcite-panel) {
+  border-inline: 0;
+  border-block-start: 0;
+}
+
+:host([layout="horizontal"][position="end"]) .content ::slotted(calcite-flow),
+:host([layout="horizontal"][position="end"]) .content ::slotted(calcite-panel) {
+  border-inline: 0;
+  border-block-end: 0;
+}
