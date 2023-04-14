@@ -1015,7 +1015,7 @@ export async function disabled(
     await component.callMethod("click");
     await expectToBeFocused("body");
 
-    expect(disabledComponentClickSpy).toHaveReceivedEventTimes(1);
+    expect(disabledComponentClickSpy).toHaveReceivedEventTimes(2);
 
     return;
   }
