@@ -166,35 +166,71 @@ describe("calcite-tree-item", () => {
   });
 
   describe("when a tree-item has ancestors selection-mode and is selected", () => {
-    it("should update its ancestor tree-items' indeterminate properties", async () => {
-      const tree = `<calcite-tree selection-mode="ancestors">
-        <calcite-tree-item expanded data-id="ancestor">
-          <span> Fruits </span>
-          <calcite-tree slot="children">
-            <calcite-tree-item>
-              <calcite-link href="#go" tabindex="-1"> Bananas </calcite-link>
-            </calcite-tree-item>
-            <calcite-tree-item expanded data-id="ancestor">
-              <span> Pears </span>
-              <calcite-tree slot="children">
-                <calcite-tree-item selected>
-                  <calcite-link href="#go" tabindex="-1"> Anjou </calcite-link>
-                </calcite-tree-item>
-                <calcite-tree-item>
-                  <calcite-link href="#go" tabindex="-1"> Bartlett </calcite-link>
-                </calcite-tree-item>
-              </calcite-tree>
-            </calcite-tree-item>
-          </calcite-tree>
-        </calcite-tree-item>
-      </calcite-tree>
+    it("should update its ancestor tree-items' indeterminate properties (ancestors are indeterminate)", async () => {
+      const tree = html`
+        <calcite-tree selection-mode="ancestors">
+          <calcite-tree-item expanded data-id="ancestor">
+            <span>Fruits</span>
+            <calcite-tree slot="children">
+              <calcite-tree-item>
+                <calcite-link href="#go" tabindex="-1">Bananas</calcite-link>
+              </calcite-tree-item>
+              <calcite-tree-item expanded data-id="ancestor">
+                <span>Pears</span>
+                <calcite-tree slot="children">
+                  <calcite-tree-item selected>
+                    <calcite-link href="#go" tabindex="-1">Anjou</calcite-link>
+                  </calcite-tree-item>
+                  <calcite-tree-item>
+                    <calcite-link href="#go" tabindex="-1">Bartlett</calcite-link>
+                  </calcite-tree-item>
+                </calcite-tree>
+              </calcite-tree-item>
+            </calcite-tree>
+          </calcite-tree-item>
+        </calcite-tree>
       `;
-      const page = await newE2EPage({ html: tree });
+      const page = await newE2EPage();
+      await page.setContent(tree);
       const ancestors = await page.findAll(`calcite-tree-item[data-id="ancestor"]`);
 
-      for (let i = 0; i < ancestors.length; i++) {
-        const node = ancestors[i];
+      for (const node of ancestors) {
         expect(await node.getProperty("indeterminate")).toBe(true);
+        expect(await node.getProperty("selected")).toBe(false);
+      }
+    });
+
+    it("should update its ancestor tree-items' indeterminate properties (ancestors are selected)", async () => {
+      const tree = html`
+        <calcite-tree selection-mode="ancestors">
+          <calcite-tree-item expanded data-id="ancestor">
+            <span>Fruits</span>
+            <calcite-tree slot="children">
+              <calcite-tree-item>
+                <calcite-link href="#go" tabindex="-1">Bananas</calcite-link>
+              </calcite-tree-item>
+              <calcite-tree-item expanded data-id="ancestor">
+                <span>Pears</span>
+                <calcite-tree slot="children">
+                  <calcite-tree-item selected>
+                    <calcite-link href="#go" tabindex="-1">Anjou</calcite-link>
+                  </calcite-tree-item>
+                  <calcite-tree-item selected>
+                    <calcite-link href="#go" tabindex="-1">Bartlett</calcite-link>
+                  </calcite-tree-item>
+                </calcite-tree>
+              </calcite-tree-item>
+            </calcite-tree>
+          </calcite-tree-item>
+        </calcite-tree>
+      `;
+      const page = await newE2EPage();
+      await page.setContent(tree);
+      const ancestors = await page.findAll(`calcite-tree-item[data-id="ancestor"]`);
+
+      for (const node of ancestors) {
+        expect(await node.getProperty("indeterminate")).toBe(false);
+        expect(await node.getProperty("selected")).toBe(true);
       }
     });
   });
