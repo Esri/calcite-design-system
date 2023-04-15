@@ -54,13 +54,16 @@ export class CalciteMenuItem implements LoadableComponent {
   @Prop({ reflect: true }) href: string;
 
   /** Specifies an icon to display at the start of the component. */
-  @Prop({ reflect: true }) iconStart?: string;
+  @Prop({ reflect: true }) iconStart: string;
 
   /** Specifies an icon to display at the end of the component. */
   @Prop({ reflect: true }) iconEnd: string;
 
   /** Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`). */
   @Prop() iconFlipRtl: FlipContext;
+
+  /** Accessible name for the component. */
+  @Prop() label: string;
 
   /**
    * Defines the relationship between the `href` value and the current document.
@@ -78,9 +81,6 @@ export class CalciteMenuItem implements LoadableComponent {
 
   /** Specifies the text the component displays */
   @Prop({ reflect: true }) text: string;
-
-  /** Displays the `text` */
-  @Prop() textEnabled: boolean;
 
   /**
    * @internal
@@ -234,7 +234,10 @@ export class CalciteMenuItem implements LoadableComponent {
         break;
       case "ArrowDown":
         if (this.topLevelLayout === "horizontal") {
-          if (this.isTopLevelItem) {
+          if (this.isTopLevelItem && this.hasSubMenu) {
+            if (!!this.href && event.target !== this.dropDownActionEl) {
+              return;
+            }
             this.open ? this.focusFirst() : (this.open = true);
             return;
           }
@@ -248,7 +251,10 @@ export class CalciteMenuItem implements LoadableComponent {
 
       case "ArrowUp":
         if (this.topLevelLayout === "horizontal") {
-          if (this.isTopLevelItem) {
+          if (this.isTopLevelItem && this.hasSubMenu) {
+            if (!!this.href && event.target !== this.dropDownActionEl) {
+              return;
+            }
             this.open ? this.focusLast() : (this.open = true);
             return;
           }
@@ -301,6 +307,9 @@ export class CalciteMenuItem implements LoadableComponent {
           }
         } else {
           if (this.hasSubMenu) {
+            if (!!this.href && event.target !== this.dropDownActionEl) {
+              return;
+            }
             if (!this.open) {
               this.open = true;
             } else {
@@ -501,9 +510,7 @@ export class CalciteMenuItem implements LoadableComponent {
       <Fragment>
         {this.iconStart && this.renderIconElStart()}
         <div class="text-container">
-          <span contenteditable={this.editingActive ? true : undefined}>
-            {this.text && this.textEnabled && this.text ? this.text : null}
-          </span>
+          <span contenteditable={this.editingActive ? true : undefined}>{this.text}</span>
           {this.editingActive ? (
             <div class="editable-content">
               {this.renderEditCancelButton()}
@@ -524,42 +531,41 @@ export class CalciteMenuItem implements LoadableComponent {
     return (
       <Host onBlur={this.blurHandler} onFocus={this.focusHandler}>
         <li
-          // aria-labeledby={this.text}
           class={{
             container: true,
             "nav-item-vertical-parent": this.topLevelLayout === "vertical"
           }}
           role="none"
         >
-          {/* <div class="item-content"> */}
-          <a
-            aria-current={this.isFocused ? "page" : false}
-            aria-expanded={this.open ? "true" : "false"}
-            aria-haspopup={this.hasSubMenu ? "true" : undefined}
-            aria-label={this.text}
-            class={{
-              "layout--vertical": true
-            }}
-            href={this.href ? this.href : null}
-            onClick={this.clickHandler}
-            onKeyDown={this.keyDownHandler}
-            ref={(el) => (this.anchorEl = el)}
-            rel={this.rel ? this.rel : null}
-            role="menuitem"
-            tabIndex={this.isTopLevelItem ? 0 : -1}
-            target={this.target ? this.target : null}
-          >
-            {this.renderItemContent(dir)}
-            {this.href && this.topLevelLayout === "vertical" ? (
-              <calcite-icon
-                class="hover-href-icon"
-                icon={dir === "rtl" ? "arrow-left" : "arrow-right"}
-                scale="s"
-              />
-            ) : null}
-          </a>
-          {this.href && this.hasSubMenu ? this.renderDropdownAction(dir) : null}
-          {/* </div> */}
+          <div class="item-content">
+            <a
+              aria-current={this.isFocused ? "page" : false}
+              aria-expanded={this.open ? "true" : "false"}
+              aria-haspopup={this.hasSubMenu ? "true" : undefined}
+              aria-label={this.label || this.text}
+              class={{
+                "layout--vertical": true
+              }}
+              href={this.href ? this.href : null}
+              onClick={this.clickHandler}
+              onKeyDown={this.keyDownHandler}
+              ref={(el) => (this.anchorEl = el)}
+              rel={this.rel ? this.rel : null}
+              role="menuitem"
+              tabIndex={this.isTopLevelItem ? 0 : -1}
+              target={this.target ? this.target : null}
+            >
+              {this.renderItemContent(dir)}
+              {this.href && this.topLevelLayout === "vertical" ? (
+                <calcite-icon
+                  class="hover-href-icon"
+                  icon={dir === "rtl" ? "arrow-left" : "arrow-right"}
+                  scale="s"
+                />
+              ) : null}
+            </a>
+            {this.href && this.hasSubMenu ? this.renderDropdownAction(dir) : null}
+          </div>
           {this.hasSubMenu ? this.rendersubMenuItems(dir) : null}
         </li>
       </Host>
