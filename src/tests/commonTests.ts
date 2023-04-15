@@ -810,6 +810,13 @@ interface DisabledOptions {
    *  Use this to specify whether the test should cover focusing.
    */
   focusTarget: FocusTarget | TabAndClickTargets;
+
+  /**
+   *  Use this to specify the main wrapped component in shadow DOM that handles disabling interaction.
+   *
+   *  Note: this should only be used for components that wrap a single component that implements disabled behavior.
+   */
+  shadowAriaAttributeTargetSelector?: string;
 }
 
 type ComponentTestSetupProvider = () => TagOrHTML | TagAndPage;
@@ -836,12 +843,10 @@ async function getTagAndPage(componentTestSetup: ComponentTestSetup): Promise<Ta
  * @param {ComponentTestSetup} componentTestSetup - A component tag, html, or the tag and e2e page for setting up a test
  * @param {DisabledOptions} [options={ focusTarget: "host" }] - disabled options
  */
-export async function disabled(
-  componentTestSetup: ComponentTestSetup,
-  options: DisabledOptions = { focusTarget: "host" }
-): Promise<void> {
-  const { page, tag } = await getTagAndPage(componentTestSetup);
+export async function disabled(componentTestSetup: ComponentTestSetup, options?: DisabledOptions): Promise<void> {
+  options = { focusTarget: "host", ...options };
 
+  const { page, tag } = await getTagAndPage(componentTestSetup);
   const component = await page.find(tag);
   await skipAnimations(page);
   await page.$eval(tag, (el) => {
@@ -859,6 +864,10 @@ export async function disabled(
       true
     );
   });
+
+  const ariaAttributeTargetElement = options.shadowAriaAttributeTargetSelector
+    ? await page.find(`${tag} >>> ${options.shadowAriaAttributeTargetSelector}`)
+    : component;
 
   // only testing events from https://github.com/web-platform-tests/wpt/blob/master/html/semantics/disabled-elements/event-propagate-disabled.tentative.html#L66
   const eventsExpectedToBubble = ["mousemove", "pointermove", "pointerdown", "pointerup"];
@@ -893,7 +902,7 @@ export async function disabled(
     component.setProperty("disabled", true);
     await page.waitForChanges();
 
-    expect(component.getAttribute("aria-disabled")).toBe("true");
+    expect(ariaAttributeTargetElement.getAttribute("aria-disabled")).toBe("true");
 
     await page.click(tag);
     await expectToBeFocused("body");
@@ -961,7 +970,7 @@ export async function disabled(
   component.setProperty("disabled", true);
   await page.waitForChanges();
 
-  expect(component.getAttribute("aria-disabled")).toBe("true");
+  expect(ariaAttributeTargetElement.getAttribute("aria-disabled")).toBe("true");
 
   await resetFocusOrder();
   await page.keyboard.press("Tab");
