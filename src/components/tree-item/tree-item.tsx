@@ -503,12 +503,13 @@ export class TreeItem
    * @private
    */
   private updateAncestorTree(): void {
-    if (this.selectionMode !== "ancestors") {
+    const parentItem = this.parentTreeItem;
+
+    if (this.selectionMode !== "ancestors" || !parentItem) {
       return;
     }
 
     if (this.selected) {
-      const parentItem = this.parentTreeItem;
       const parentTree = this.el.parentElement;
       const siblings = Array.from(parentTree?.children);
       const selectedSiblings = siblings.filter(
