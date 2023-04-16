@@ -111,7 +111,7 @@ export class TreeItem
    *
    * @internal
    */
-  @Prop({ reflect: true }) indeterminate: boolean;
+  @Prop({ reflect: true }) indeterminate = false;
 
   /**
    * @internal
@@ -521,6 +521,9 @@ export class TreeItem
       } else if (selectedSiblings.length > 0) {
         parentItem.indeterminate = true;
       }
+    } else if (this.indeterminate) {
+      const parentItem = this.parentTreeItem;
+      parentItem.indeterminate = true;
     }
   }
 

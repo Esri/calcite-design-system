@@ -45,7 +45,10 @@ describe("calcite-tree-item", () => {
         propertyName: "hasChildren",
         defaultValue: false
       },
-      { propertyName: "indeterminate", defaultValue: undefined }
+      {
+        propertyName: "indeterminate",
+        defaultValue: false
+      }
     ]));
 
   it("has slots", () => slots("calcite-tree-item", SLOTS));
@@ -192,6 +195,7 @@ describe("calcite-tree-item", () => {
       `;
       const page = await newE2EPage();
       await page.setContent(tree);
+      await page.waitForChanges();
       const ancestors = await page.findAll(`calcite-tree-item[data-id="ancestor"]`);
 
       for (const node of ancestors) {
@@ -226,12 +230,14 @@ describe("calcite-tree-item", () => {
       `;
       const page = await newE2EPage();
       await page.setContent(tree);
-      const ancestors = await page.findAll(`calcite-tree-item[data-id="ancestor"]`);
+      await page.waitForChanges();
+      const [indeterminateAncestor, selectedAncestor] = await page.findAll(`calcite-tree-item[data-id="ancestor"]`);
 
-      for (const node of ancestors) {
-        expect(await node.getProperty("indeterminate")).toBe(false);
-        expect(await node.getProperty("selected")).toBe(true);
-      }
+      expect(await indeterminateAncestor.getProperty("indeterminate")).toBe(true);
+      expect(await indeterminateAncestor.getProperty("selected")).toBe(false);
+
+      expect(await selectedAncestor.getProperty("indeterminate")).toBe(false);
+      expect(await selectedAncestor.getProperty("selected")).toBe(true);
     });
   });
 
