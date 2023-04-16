@@ -1,7 +1,5 @@
 import { Build, Component, Element, h, Method, Prop, State, VNode, Watch } from "@stencil/core";
-import "form-request-submit-polyfill/form-request-submit-polyfill";
-import { closestElementCrossShadowBoundary } from "../../utils/dom";
-import { FormOwner, resetForm, submitForm } from "../../utils/form";
+import { findAssociatedForm, FormOwner, resetForm, submitForm } from "../../utils/form";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
 import {
@@ -77,6 +75,14 @@ export class Button
   @Prop({ reflect: true }) disabled = false;
 
   /**
+   * The ID of the form that will be associated with the component.
+   *
+   * When not set, the component will be associated with its ancestor form element, if any.
+   */
+  @Prop({ reflect: true })
+  form: string;
+
+  /**
    * Specifies the URL of the linked resource, which can be set as an absolute or relative path.
    */
   @Prop({ reflect: true }) href: string;
@@ -126,7 +132,7 @@ export class Button
    *
    * @mdn [type](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/button#attr-type)
    */
-  @Prop({ mutable: true, reflect: true }) type = "button";
+  @Prop({ reflect: true }) type = "button";
 
   /** Specifies the width of the component. */
   @Prop({ reflect: true }) width: Width = "auto";
@@ -136,11 +142,13 @@ export class Button
    *
    * @internal
    */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
   @Prop({ mutable: true }) messages: ButtonMessages;
 
   /**
    * Use this property to override individual strings used by the component.
    */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
   @Prop({ mutable: true }) messageOverrides: Partial<ButtonMessages>;
 
   @Watch("loading")
@@ -172,7 +180,7 @@ export class Button
     this.hasLoader = this.loading;
     this.setupTextContentObserver();
     connectLabel(this);
-    this.formEl = closestElementCrossShadowBoundary<HTMLFormElement>(this.el, "form");
+    this.formEl = findAssociatedForm(this);
   }
 
   disconnectedCallback(): void {
@@ -180,6 +188,7 @@ export class Button
     disconnectLabel(this);
     disconnectLocalized(this);
     disconnectMessages(this);
+    this.resizeObserver?.disconnect();
     this.formEl = null;
   }
 
@@ -193,6 +202,7 @@ export class Button
 
   componentDidLoad(): void {
     setComponentLoaded(this);
+    this.setTooltipText();
   }
 
   componentDidRender(): void {
@@ -233,7 +243,7 @@ export class Button
     );
 
     const contentEl = (
-      <span class={CSS.content}>
+      <span class={CSS.content} ref={(el) => (this.contentEl = el)}>
         <slot />
       </span>
     );
@@ -252,10 +262,11 @@ export class Button
         href={childElType === "a" && this.href}
         name={childElType === "button" && this.name}
         onClick={this.handleClick}
-        ref={(el) => (this.childEl = el)}
+        ref={this.setChildEl}
         rel={childElType === "a" && this.rel}
         tabIndex={this.disabled || this.loading ? -1 : null}
         target={childElType === "a" && this.target}
+        title={this.tooltipText}
         type={childElType === "button" && this.type}
       >
         {loaderNode}
@@ -323,6 +334,14 @@ export class Button
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
   }
 
+  /** keeps track of the tooltipText */
+  @State() tooltipText: string;
+
+  /** keep track of the rendered contentEl */
+  private contentEl: HTMLSpanElement;
+
+  resizeObserver = createObserver("resize", () => this.setTooltipText());
+
   //--------------------------------------------------------------------------
   //
   //  Private Methods
@@ -347,6 +366,21 @@ export class Button
       submitForm(this);
     } else if (type === "reset") {
       resetForm(this);
+    }
+  };
+
+  private setTooltipText = (): void => {
+    const { contentEl } = this;
+    if (contentEl) {
+      this.tooltipText = contentEl.offsetWidth < contentEl.scrollWidth ? this.el.innerText : null;
+    }
+  };
+
+  private setChildEl = (el: HTMLElement): void => {
+    this.childEl = el;
+
+    if (el) {
+      this.resizeObserver?.observe(el);
     }
   };
 }

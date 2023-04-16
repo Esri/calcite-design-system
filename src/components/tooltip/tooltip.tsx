@@ -21,8 +21,7 @@ import {
   LogicalPlacement,
   OverlayPositioning,
   ReferenceElement,
-  reposition,
-  updateAfterClose
+  reposition
 } from "../../utils/floating-ui";
 import { guid } from "../../utils/guid";
 import {
@@ -89,8 +88,6 @@ export class Tooltip implements FloatingUIComponent, OpenCloseComponent {
   openHandler(value: boolean): void {
     if (value) {
       this.reposition(true);
-    } else {
-      updateAfterClose(this.el);
     }
   }
 
@@ -337,9 +334,14 @@ export class Tooltip implements FloatingUIComponent, OpenCloseComponent {
             [FloatingCSS.animation]: true,
             [FloatingCSS.animationActive]: displayed
           }}
+          // eslint-disable-next-line react/jsx-sort-props
           ref={this.setTransitionEl}
         >
-          <div class={CSS.arrow} ref={(arrowEl) => (this.arrowEl = arrowEl)} />
+          <div
+            class={CSS.arrow}
+            // eslint-disable-next-line react/jsx-sort-props
+            ref={(arrowEl) => (this.arrowEl = arrowEl)}
+          />
           <div class={CSS.container}>
             <slot />
           </div>

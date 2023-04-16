@@ -104,6 +104,7 @@ export class PickListItem
   /**
    * Use this property to override individual strings used by the component.
    */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
   @Prop({ mutable: true }) messageOverrides: Partial<PickListItemMessages>;
 
   /**
@@ -111,6 +112,7 @@ export class PickListItem
    *
    * @internal
    */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
   @Prop({ mutable: true }) messages: PickListItemMessages;
 
   @Watch("defaultMessages")
@@ -380,8 +382,9 @@ export class PickListItem
           class={CSS.label}
           onClick={this.pickListClickHandler}
           onKeyDown={this.pickListKeyDownHandler}
-          ref={(focusEl): HTMLLabelElement => (this.focusEl = focusEl)}
           tabIndex={0}
+          // eslint-disable-next-line react/jsx-sort-props
+          ref={(focusEl): HTMLLabelElement => (this.focusEl = focusEl)}
         >
           <div
             aria-checked={toAriaBoolean(this.selected)}

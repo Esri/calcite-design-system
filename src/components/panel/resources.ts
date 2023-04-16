@@ -1,4 +1,5 @@
 export const CSS = {
+  actionBarContainer: "action-bar-container",
   backButton: "back-button",
   container: "container",
   header: "header",
@@ -24,6 +25,7 @@ export const ICONS = {
 };
 
 export const SLOTS = {
+  actionBar: "action-bar",
   headerActionsStart: "header-actions-start",
   headerActionsEnd: "header-actions-end",
   headerMenuActions: "header-menu-actions",

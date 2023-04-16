@@ -58,10 +58,10 @@ export class FlowItem
   // --------------------------------------------------------------------------
 
   /** When `true`, displays a close button in the trailing side of the component's header. */
-  @Prop({ mutable: true, reflect: true }) closable = false;
+  @Prop({ reflect: true }) closable = false;
 
   /** When `true`, the component will be hidden. */
-  @Prop({ mutable: true, reflect: true }) closed = false;
+  @Prop({ reflect: true }) closed = false;
 
   /**
    * When provided, the method will be called before it is removed from its parent `calcite-flow`.
@@ -99,6 +99,7 @@ export class FlowItem
   /**
    * Use this property to override individual strings used by the component.
    */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
   @Prop({ mutable: true }) messageOverrides: Partial<FlowItemMessages>;
 
   @Watch("messageOverrides")
@@ -111,6 +112,7 @@ export class FlowItem
    *
    * @internal
    */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
   @Prop({ mutable: true }) messages: FlowItemMessages;
 
   /**
@@ -280,10 +282,11 @@ export class FlowItem
         icon={icon}
         key="flow-back-button"
         onClick={backButtonClick}
-        ref={this.setBackRef}
         scale="s"
         slot="header-actions-start"
         text={label}
+        // eslint-disable-next-line react/jsx-sort-props
+        ref={this.setBackRef}
       />
     ) : null;
   }
@@ -316,6 +319,7 @@ export class FlowItem
           messageOverrides={messages}
           onCalcitePanelClose={this.handlePanelClose}
           onCalcitePanelScroll={this.handlePanelScroll}
+          // eslint-disable-next-line react/jsx-sort-props
           ref={this.setContainerRef}
         >
           {this.renderBackButton()}

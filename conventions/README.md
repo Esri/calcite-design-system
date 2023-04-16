@@ -153,6 +153,20 @@ It is recommended to reflect properties that fit the following criteria:
 
 Doing so will give developers more flexibility when querying the DOM. This is important in framework environments where we can't safely assume components will have their attributes set vs properties.
 
+### `ref` usage
+
+Due to a [bug in Stencil](https://github.com/ionic-team/stencil/issues/4074), `ref` should be set as the last property in JSX to ensure the node's attributes/properties are up to date.
+
+```jsx
+<div
+  class={CSS.foo}
+  // ...
+  tabIndex={0}
+  // eslint-disable-next-line react/jsx-sort-props
+  ref={this.storeSomeElementRef}
+/>
+```
+
 ## Focus support
 
 Components with focusable content, must implement the following pattern:
@@ -236,7 +250,7 @@ my-component/
   ...
 ```
 
-The component's metadata should then include the following metadata prop `assetsDir: ["assets"]`.
+The component's metadata should then include the following metadata prop [`assetsDirs: ["assets"]`](https://stenciljs.com/docs/assets#assetsdirs).
 
 ```tsx
 import { Component, Host, h } from "@stencil/core";
@@ -244,7 +258,7 @@ import { Component, Host, h } from "@stencil/core";
 @Component({
   tag: "calcite-test",
   shadow: true,
-  assetsDir: ["assets"]
+  assetsDirs: ["assets"]
 })
 export class MyComponent {
   /* ... */

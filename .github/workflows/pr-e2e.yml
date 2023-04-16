@@ -27,6 +27,6 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version-file: package.json
-      - run: npm ci --legacy-peer-deps
+      - run: npm ci
       - if: steps.markdown-check.outputs.SKIP == 'false'
         run: npm test

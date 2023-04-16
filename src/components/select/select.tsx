@@ -67,6 +67,14 @@ export class Select
   @Prop({ reflect: true }) disabled = false;
 
   /**
+   * The ID of the form that will be associated with the component.
+   *
+   * When not set, the component will be associated with its ancestor form element, if any.
+   */
+  @Prop({ reflect: true })
+  form: string;
+
+  /**
    * Accessible name for the component.
    *
    */
@@ -367,6 +375,7 @@ export class Select
           class={CSS.select}
           disabled={this.disabled}
           onChange={this.handleInternalSelectChange}
+          // eslint-disable-next-line react/jsx-sort-props
           ref={this.storeSelectRef}
         >
           <slot />

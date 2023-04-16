@@ -58,7 +58,7 @@ export class ComboboxItemGroup {
 
   render(): VNode {
     const { el, scale } = this;
-    const indent = `${CSS.label}--indent-${getDepth(el)}`;
+    const depth = getDepth(el);
 
     return (
       <ul
@@ -66,7 +66,12 @@ export class ComboboxItemGroup {
         class={{ [CSS.list]: true, [`scale--${scale}`]: true }}
         role="group"
       >
-        <li class={{ [CSS.label]: true, [indent]: true }} id={this.guid} role="presentation">
+        <li
+          class={{ [CSS.label]: true }}
+          id={this.guid}
+          role="presentation"
+          style={{ "--calcite-combobox-item-spacing-indent-multiplier": `${depth}` }}
+        >
           <span class={CSS.title}>{this.label}</span>
         </li>
         <slot />

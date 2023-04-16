@@ -176,6 +176,11 @@ export class List implements InteractiveComponent, LoadableComponent {
     this.updateSelectedItems();
   }
 
+  @Listen("calciteListItemClose")
+  handleCalciteListItemClose(): void {
+    this.updateListItems();
+  }
+
   //--------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -278,8 +283,9 @@ export class List implements InteractiveComponent, LoadableComponent {
                     items={dataForFilter}
                     onCalciteFilterChange={this.handleFilter}
                     placeholder={filterPlaceholder}
-                    ref={(el) => (this.filterEl = el)}
                     value={filterText}
+                    // eslint-disable-next-line react/jsx-sort-props
+                    ref={(el) => (this.filterEl = el)}
                   />
                 </th>
               </tr>
@@ -391,7 +397,7 @@ export class List implements InteractiveComponent, LoadableComponent {
     }));
   };
 
-  private updateListItems = debounce((): void => {
+  private updateListItems(): void {
     const { selectionAppearance, selectionMode } = this;
     const items = this.queryListItems();
     items.forEach((item) => {
@@ -399,14 +405,14 @@ export class List implements InteractiveComponent, LoadableComponent {
       item.selectionMode = selectionMode;
     });
     this.listItems = items;
-    this.enabledListItems = items.filter((item) => !item.disabled);
+    this.enabledListItems = items.filter((item) => !item.disabled && !item.closed);
     if (this.filterEnabled) {
       this.dataForFilter = this.getItemData();
     }
     this.setActiveListItem();
     this.updateSelectedItems();
     this.updateFilteredItems();
-  }, debounceTimeout);
+  }
 
   queryListItems = (): HTMLCalciteListItemElement[] => {
     return Array.from(this.el.querySelectorAll(listItemSelector));

@@ -18,6 +18,7 @@ src\components\inline-editable\assets\inline-editable\t9n
 src\components\input-number\assets\input-number\t9n
 src\components\input-text\assets\input-text\t9n
 src\components\input\assets\input\t9n
+src\components\list-item\assets\list-item\t9n
 src\components\modal\assets\modal\t9n
 src\components\notice\assets\notice\t9n
 src\components\pagination\assets\pagination\t9n
@@ -27,7 +28,7 @@ src\components\popover\assets\popover\t9n
 src\components\rating\assets\rating\t9n
 src\components\scrim\assets\scrim\t9n
 src\components\shell-panel\assets\shell-panel\t9n
-src\components\textarea\assets\textarea\t9n
+src\components\text-area\assets\text-area\t9n
 src\components\time-picker\assets\time-picker\t9n
 src\components\tip-manager\assets\tip-manager\t9n
 src\components\tip\assets\tip\t9n

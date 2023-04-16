@@ -32,8 +32,7 @@ import {
   FloatingUIComponent,
   MenuPlacement,
   OverlayPositioning,
-  reposition,
-  updateAfterClose
+  reposition
 } from "../../utils/floating-ui";
 import {
   connectForm,
@@ -101,6 +100,14 @@ export class InputDatePicker
    * When `true`, interaction is prevented and the component is displayed with lower opacity.
    */
   @Prop({ reflect: true }) disabled = false;
+
+  /**
+   * The ID of the form that will be associated with the component.
+   *
+   * When not set, the component will be associated with its ancestor form element, if any.
+   */
+  @Prop({ reflect: true })
+  form: string;
 
   /**
    * When `true`, the component's value can be read, but controls are not accessible and the value cannot be modified.
@@ -181,7 +188,7 @@ export class InputDatePicker
   @Prop({ mutable: true }) maxAsDate: Date;
 
   /** Specifies the earliest allowed date ("yyyy-mm-dd"). */
-  @Prop({ mutable: true }) min: string;
+  @Prop() min: string;
 
   @Watch("min")
   onMinChanged(min: string): void {
@@ -191,7 +198,7 @@ export class InputDatePicker
   }
 
   /** Specifies the latest allowed date ("yyyy-mm-dd"). */
-  @Prop({ mutable: true }) max: string;
+  @Prop() max: string;
 
   @Watch("max")
   onMaxChanged(max: string): void {
@@ -206,17 +213,12 @@ export class InputDatePicker
   @Watch("open")
   openHandler(value: boolean): void {
     if (this.disabled || this.readOnly) {
-      if (!value) {
-        updateAfterClose(this.floatingEl);
-      }
       this.open = false;
       return;
     }
 
     if (value) {
       this.reposition(true);
-    } else {
-      updateAfterClose(this.floatingEl);
     }
   }
 
@@ -280,6 +282,7 @@ export class InputDatePicker
   /**
    * Use this property to override individual strings used by the component.
    */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
   @Prop({ mutable: true }) messageOverrides: Partial<DatePickerMessages>;
 
   //--------------------------------------------------------------------------
@@ -465,7 +468,11 @@ export class InputDatePicker
         {this.localeData && (
           <div aria-expanded={toAriaBoolean(this.open)} class="input-container" role="application">
             {
-              <div class="input-wrapper" ref={this.setStartWrapper}>
+              <div
+                class="input-wrapper"
+                // eslint-disable-next-line react/jsx-sort-props
+                ref={this.setStartWrapper}
+              >
                 <calcite-input
                   class={`input ${
                     this.layout === "vertical" && this.range ? `no-bottom-border` : ``
@@ -480,9 +487,10 @@ export class InputDatePicker
                   onCalciteInternalInputFocus={this.startInputFocus}
                   placeholder={this.localeData?.placeholder}
                   readOnly={readOnly}
-                  ref={this.setStartInput}
                   scale={this.scale}
                   type="text"
+                  // eslint-disable-next-line react/jsx-sort-props
+                  ref={this.setStartInput}
                 />
               </div>
             }
@@ -492,6 +500,7 @@ export class InputDatePicker
                 [CSS.menu]: true,
                 [CSS.menuActive]: this.open
               }}
+              // eslint-disable-next-line react/jsx-sort-props
               ref={this.setFloatingEl}
             >
               <div
@@ -501,6 +510,7 @@ export class InputDatePicker
                   [FloatingCSS.animation]: true,
                   [FloatingCSS.animationActive]: this.open
                 }}
+                // eslint-disable-next-line react/jsx-sort-props
                 ref={this.setTransitionEl}
               >
                 <calcite-date-picker
@@ -539,7 +549,11 @@ export class InputDatePicker
               </div>
             )}
             {this.range && (
-              <div class="input-wrapper" ref={this.setEndWrapper}>
+              <div
+                class="input-wrapper"
+                // eslint-disable-next-line react/jsx-sort-props
+                ref={this.setEndWrapper}
+              >
                 <calcite-input
                   class={{
                     input: true,
@@ -554,9 +568,10 @@ export class InputDatePicker
                   onCalciteInternalInputFocus={this.endInputFocus}
                   placeholder={this.localeData?.placeholder}
                   readOnly={readOnly}
-                  ref={this.setEndInput}
                   scale={this.scale}
                   type="text"
+                  // eslint-disable-next-line react/jsx-sort-props
+                  ref={this.setEndInput}
                 />
               </div>
             )}

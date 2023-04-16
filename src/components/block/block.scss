@@ -16,6 +16,7 @@
 
 @include disabled();
 
+@import "../../assets/styles/animation";
 @import "../../assets/styles/header";
 
 .header {
@@ -84,7 +85,7 @@ calcite-handle {
 }
 
 .description {
-  @apply text-n2
+  @apply text-n2-wrap
     text-color-3
     word-break
     mt-0.5
@@ -106,7 +107,7 @@ calcite-handle {
 }
 
 .status-icon.loading {
-  animation: spin calc(var(--calcite-internal-animation-timing-slow) * 2) linear infinite;
+  animation: spin scaleDuration(--calcite-internal-animation-timing-slow, 2) linear infinite;
 }
 
 @keyframes spin {

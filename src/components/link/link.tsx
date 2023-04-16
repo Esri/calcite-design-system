@@ -118,11 +118,12 @@ export class Link implements InteractiveComponent, LoadableComponent {
           download={Tag === "a" && (download === "" || download) ? download : null}
           href={Tag === "a" && this.href}
           onClick={this.childElClickHandler}
-          ref={this.storeTagRef}
           rel={Tag === "a" && this.rel}
           role={role}
           tabIndex={tabIndex}
           target={Tag === "a" && this.target}
+          // eslint-disable-next-line react/jsx-sort-props
+          ref={this.storeTagRef}
         >
           {this.iconStart ? iconStartEl : null}
           <slot />
