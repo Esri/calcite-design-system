@@ -55,6 +55,7 @@ export const locales = [
   "cs",
   "da",
   "de",
+  "de-AT",
   "de-CH",
   "el",
   defaultLocale,

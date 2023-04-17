@@ -16,7 +16,7 @@ import {
 import { Build } from "@stencil/core";
 import { debounce } from "lodash-es";
 import { config } from "./config";
-import { closestElementCrossShadowBoundary, getElementDir } from "./dom";
+import { getElementDir } from "./dom";
 
 const floatingUIBrowserCheck = patchFloatingUiForNonChromiumBrowsers();
 
@@ -451,18 +451,15 @@ export function connectFloatingUI(
 
   disconnectFloatingUI(component, referenceEl, floatingEl);
 
-  const position = component.overlayPositioning;
-
-  // ensure position matches for initial positioning
   Object.assign(floatingEl.style, {
     visibility: "hidden",
     pointerEvents: "none",
-    position
-  });
 
-  if (position === "absolute") {
-    resetPosition(floatingEl);
-  }
+    // initial positioning based on https://floating-ui.com/docs/computePosition#initial-layout
+    position: component.overlayPositioning,
+    top: "0",
+    left: "0"
+  });
 
   const runAutoUpdate = Build.isBrowser
     ? autoUpdate
@@ -495,8 +492,6 @@ export function disconnectFloatingUI(
     return;
   }
 
-  getTransitionTarget(floatingEl).removeEventListener("transitionend", handleTransitionElTransitionEnd);
-
   const cleanup = cleanupMap.get(component);
 
   if (cleanup) {
@@ -514,48 +509,3 @@ const visiblePointerSize = 4;
  * @default 6
  */
 export const defaultOffsetDistance = Math.ceil(Math.hypot(visiblePointerSize, visiblePointerSize));
-
-/**
- * This utils applies floating element styles to avoid affecting layout when closed.
- *
- * This should be called when the closing transition will start.
- *
- * @param floatingEl
- */
-export function updateAfterClose(floatingEl: HTMLElement): void {
-  if (!floatingEl || floatingEl.style.position !== "absolute") {
-    return;
-  }
-
-  getTransitionTarget(floatingEl).addEventListener("transitionend", handleTransitionElTransitionEnd);
-}
-
-function getTransitionTarget(floatingEl: HTMLElement): ShadowRoot | HTMLElement {
-  // assumes floatingEl w/ shadowRoot is a FloatingUIComponent
-  return floatingEl.shadowRoot || floatingEl;
-}
-
-function handleTransitionElTransitionEnd(event: TransitionEvent): void {
-  const floatingTransitionEl = event.target as HTMLElement;
-
-  if (
-    // using any prop from floating-ui transition
-    event.propertyName === "opacity" &&
-    floatingTransitionEl.classList.contains(FloatingCSS.animation)
-  ) {
-    const floatingEl = getFloatingElFromTransitionTarget(floatingTransitionEl);
-    resetPosition(floatingEl);
-    getTransitionTarget(floatingEl).removeEventListener("transitionend", handleTransitionElTransitionEnd);
-  }
-}
-
-function resetPosition(floatingEl: HTMLElement): void {
-  // resets position to better match https://floating-ui.com/docs/computePosition#initial-layout
-  floatingEl.style.transform = "";
-  floatingEl.style.top = "0";
-  floatingEl.style.left = "0";
-}
-
-function getFloatingElFromTransitionTarget(floatingTransitionEl: HTMLElement): HTMLElement {
-  return closestElementCrossShadowBoundary(floatingTransitionEl, `[${placementDataAttribute}]`);
-}
