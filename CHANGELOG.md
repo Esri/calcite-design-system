@@ -9,6 +9,10 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ### Features
 
+- **list, list-item:** Adds the ability to close a list-item ([#6775](https://github.com/Esri/calcite-components/issues/6775)) ([66171ab](https://github.com/Esri/calcite-components/commit/66171ab203e34b565ad1e86c0c88531a2b39b1cf)), closes [#6555](https://github.com/Esri/calcite-components/issues/6555)
+
+* **date-picker:** add support for de-AT locale ([#6788](https://github.com/Esri/calcite-components/issues/6788)) ([be3a8b2](https://github.com/Esri/calcite-components/commit/be3a8b2414794562f5efa8a8223fdacd93192d1f)), closes [#6737](https://github.com/Esri/calcite-components/issues/6737)
+
 - **panel:** Add slot for an action-bar component. ([#6738](https://github.com/Esri/calcite-components/issues/6738)) ([b57733b](https://github.com/Esri/calcite-components/commit/b57733b0108f504280ac91e710341ca25510c0fb)), closes [#6448](https://github.com/Esri/calcite-components/issues/6448)
 - make getAssetPath available in output targets ([#6755](https://github.com/Esri/calcite-components/issues/6755)) ([f915aa1](https://github.com/Esri/calcite-components/commit/f915aa1766a0519409a6f5638ed5edd45beee8df)), closes [#6696](https://github.com/Esri/calcite-components/issues/6696)
 - **action-bar, action-pad:** Set layout property on child action-group elements. ([#6739](https://github.com/Esri/calcite-components/issues/6739)) ([8eefa12](https://github.com/Esri/calcite-components/commit/8eefa12e83246583e14d936a95de993a06eb03ee)), closes [#6390](https://github.com/Esri/calcite-components/issues/6390)
@@ -17,21 +21,23 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ### Bug Fixes
 
-- **combobox, dropdown, input-date-picker, popover, tooltip:** fix misplaced floating-ui elements when associated-components are closed ([#6709](https://github.com/Esri/calcite-components/issues/6709)) ([e220686](https://github.com/Esri/calcite-components/commit/e220686fa366b86dda2647da25144eb45a4a193d)), closes [#6404](https://github.com/Esri/calcite-components/issues/6404)
+- **button:** truncate long button text ([#6664](https://github.com/Esri/calcite-components/issues/6664)) ([5857e76](https://github.com/Esri/calcite-components/commit/5857e76a01835ee93dcd4753dbd0446afb330530)), closes [#5660](https://github.com/Esri/calcite-components/issues/5660)
 
-* **combobox:** Visually nest group items properly ([#6749](https://github.com/Esri/calcite-components/issues/6749)) ([8d0d0e5](https://github.com/Esri/calcite-components/commit/8d0d0e54d2bab05069322143feb09ae3f1db79ca)), closes [#6384](https://github.com/Esri/calcite-components/issues/6384)
-* **modal, popover:** fix focus-trap from preventing first click ([#6769](https://github.com/Esri/calcite-components/issues/6769)) ([be4a63a](https://github.com/Esri/calcite-components/commit/be4a63a661b2d7ac698649acf0e7769ea39c0694)), closes [#6581](https://github.com/Esri/calcite-components/issues/6581)
+* **combobox, dropdown, input-date-picker, popover, tooltip:** fix misplaced floating-ui elements when associated-components are closed ([#6709](https://github.com/Esri/calcite-components/issues/6709)) ([e220686](https://github.com/Esri/calcite-components/commit/e220686fa366b86dda2647da25144eb45a4a193d)), closes [#6404](https://github.com/Esri/calcite-components/issues/6404)
 
-- **dropdown:** trigger should break words when overflowing container. ([#6747](https://github.com/Esri/calcite-components/issues/6747)) ([496ce7e](https://github.com/Esri/calcite-components/commit/496ce7e3431f8ca6ed058e3a1c6d0f22d090f504)), closes [#5903](https://github.com/Esri/calcite-components/issues/5903)
-- **panel:** ensure close button is placed in the corner of the panel header. ([#6746](https://github.com/Esri/calcite-components/issues/6746)) ([1401523](https://github.com/Esri/calcite-components/commit/140152370455a8c9daa842083c89bf34b3da29d3)), closes [#6742](https://github.com/Esri/calcite-components/issues/6742)
+- **combobox:** Visually nest group items properly ([#6749](https://github.com/Esri/calcite-components/issues/6749)) ([8d0d0e5](https://github.com/Esri/calcite-components/commit/8d0d0e54d2bab05069322143feb09ae3f1db79ca)), closes [#6384](https://github.com/Esri/calcite-components/issues/6384)
+- **modal, popover:** fix focus-trap from preventing first click ([#6769](https://github.com/Esri/calcite-components/issues/6769)) ([be4a63a](https://github.com/Esri/calcite-components/commit/be4a63a661b2d7ac698649acf0e7769ea39c0694)), closes [#6581](https://github.com/Esri/calcite-components/issues/6581)
 
-* **block:** Ensure description has correct line-height ([#6723](https://github.com/Esri/calcite-components/issues/6723)) ([a7deec2](https://github.com/Esri/calcite-components/commit/a7deec2770a90375253f9ca6ac89f2900b804b3f)), closes [#6443](https://github.com/Esri/calcite-components/issues/6443)
+* **dropdown:** trigger should break words when overflowing container. ([#6747](https://github.com/Esri/calcite-components/issues/6747)) ([496ce7e](https://github.com/Esri/calcite-components/commit/496ce7e3431f8ca6ed058e3a1c6d0f22d090f504)), closes [#5903](https://github.com/Esri/calcite-components/issues/5903)
+* **panel:** ensure close button is placed in the corner of the panel header. ([#6746](https://github.com/Esri/calcite-components/issues/6746)) ([1401523](https://github.com/Esri/calcite-components/commit/140152370455a8c9daa842083c89bf34b3da29d3)), closes [#6742](https://github.com/Esri/calcite-components/issues/6742)
 
-- **input-time-picker, time-picker:** render when input-time-picker or time-picker's step property changes ([#6731](https://github.com/Esri/calcite-components/issues/6731)) ([2118349](https://github.com/Esri/calcite-components/commit/211834988fffea14792d073235881caa6cb5472e)), closes [#6039](https://github.com/Esri/calcite-components/issues/6039)
+- **block:** Ensure description has correct line-height ([#6723](https://github.com/Esri/calcite-components/issues/6723)) ([a7deec2](https://github.com/Esri/calcite-components/commit/a7deec2770a90375253f9ca6ac89f2900b804b3f)), closes [#6443](https://github.com/Esri/calcite-components/issues/6443)
 
-* **date-picker:** improve date-picker a11y ([#6715](https://github.com/Esri/calcite-components/issues/6715)) ([74b3b96](https://github.com/Esri/calcite-components/commit/74b3b968dd4ec8b0b1240c7e12fe207c26a2a396)), closes [#5570](https://github.com/Esri/calcite-components/issues/5570)
+* **input-time-picker, time-picker:** render when input-time-picker or time-picker's step property changes ([#6731](https://github.com/Esri/calcite-components/issues/6731)) ([2118349](https://github.com/Esri/calcite-components/commit/211834988fffea14792d073235881caa6cb5472e)), closes [#6039](https://github.com/Esri/calcite-components/issues/6039)
 
-- **inline-editable, input-message, input-number, input-text, input:** prevent components from unintentionally picking up a different scale/status value from an ancestor ([#6506](https://github.com/Esri/calcite-components/issues/6506)) ([e27f4b3](https://github.com/Esri/calcite-components/commit/e27f4b355dd42d7b7ef4cef509b6c558e80fc7c0)), closes [#6494](https://github.com/Esri/calcite-components/issues/6494)
+- **date-picker:** improve date-picker a11y ([#6715](https://github.com/Esri/calcite-components/issues/6715)) ([74b3b96](https://github.com/Esri/calcite-components/commit/74b3b968dd4ec8b0b1240c7e12fe207c26a2a396)), closes [#5570](https://github.com/Esri/calcite-components/issues/5570)
+
+* **inline-editable, input-message, input-number, input-text, input:** prevent components from unintentionally picking up a different scale/status value from an ancestor ([#6506](https://github.com/Esri/calcite-components/issues/6506)) ([e27f4b3](https://github.com/Esri/calcite-components/commit/e27f4b355dd42d7b7ef4cef509b6c558e80fc7c0)), closes [#6494](https://github.com/Esri/calcite-components/issues/6494)
 
 <!--@unreleased-section-end-->
 
