@@ -11,11 +11,11 @@ describe("calcite-chip", () => {
 
   it("has slots", () => slots("calcite-chip", SLOTS));
 
-  it("is focusable", () => focusable("calcite-chip"));
+  it("is focusable when interactive", () => focusable("<calcite-chip interactive>doritos</calcite-chip>"));
 
   it("can be disabled", () => disabled("calcite-chip"));
 
-  it("should emit event after the chip is clicked", async () => {
+  it("should not emit event after the chip is clicked if interactive if not set", async () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-chip id="chip-1" >cheetos</calcite-chip>`);
 
@@ -25,12 +25,12 @@ describe("calcite-chip", () => {
     await chip1.click();
     await page.waitForChanges();
 
-    expect(eventSpy).toHaveReceivedEvent();
+    expect(eventSpy).not.toHaveReceivedEvent();
   });
 
-  it("should not emit event after the chip button is clicked when non-interactive", async () => {
+  it("should emit event after the chip button is clicked when interactive", async () => {
     const page = await newE2EPage();
-    await page.setContent(`<calcite-chip id="chip-1" non-interactive>cheetos</calcite-chip>`);
+    await page.setContent(`<calcite-chip id="chip-1" interactive>cheetos</calcite-chip>`);
 
     const eventSpy = await page.spyOnEvent("calciteChipSelect", "window");
 
@@ -38,7 +38,7 @@ describe("calcite-chip", () => {
     await chip1.click();
     await page.waitForChanges();
 
-    expect(eventSpy).not.toHaveReceivedEvent();
+    expect(eventSpy).toHaveReceivedEvent();
   });
 
   it("should emit event after the close button is clicked", async () => {

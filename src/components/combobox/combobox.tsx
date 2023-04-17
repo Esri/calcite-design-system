@@ -1096,7 +1096,6 @@ export class Combobox
           id={item.guid ? `${chipUidPrefix}${item.guid}` : null}
           key={item.textLabel}
           messageOverrides={{ dismissLabel: messages.removeTag }}
-          nonInteractive
           onCalciteChipClose={() => this.calciteChipCloseHandler(item)}
           scale={scale}
           title={label}

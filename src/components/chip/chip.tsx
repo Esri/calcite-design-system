@@ -136,12 +136,12 @@ export class Chip
   }
 
   /**
-   * When true, prevents the chip from being focused, and the `calciteChipSelect` event from emitting.
-   * When `closable` is true - the close button remains focusable and interactive.
+   * When true, enables the chip to be focused, and allows the `calciteChipSelect` to emit.
+   * This is set to `true` by a parent Chip Group component.
    *
    * @internal
    */
-  @Prop() nonInteractive = false;
+  @Prop() interactive = false;
 
   //--------------------------------------------------------------------------
   //
@@ -254,14 +254,14 @@ export class Chip
 
   @Listen("click")
   clickHandler(): void {
-    if (this.nonInteractive && this.closable) {
+    if (!this.interactive && this.closable) {
       this.closeButtonEl.focus();
     }
   }
 
   @Listen("focus")
   focusHandler(): void {
-    if (this.nonInteractive && this.closable) {
+    if (!this.interactive && this.closable) {
       this.closeButtonEl.focus();
     }
   }
@@ -276,7 +276,7 @@ export class Chip
   @Method()
   async setFocus(): Promise<void> {
     await componentLoaded(this);
-    if (!this.disabled && !this.nonInteractive) {
+    if (!this.disabled && this.interactive) {
       this.containerEl?.focus();
     } else if (!this.disabled && this.closable) {
       this.closeButtonEl?.focus();
@@ -319,7 +319,7 @@ export class Chip
   };
 
   private handleEmittingEvent = (): void => {
-    if (!this.nonInteractive) {
+    if (this.interactive) {
       this.calciteChipSelect.emit();
     }
   };
@@ -394,8 +394,8 @@ export class Chip
     return (
       <Host>
         <div
-          aria-checked={this.nonInteractive ? undefined : toAriaBoolean(this.selected)}
-          aria-disabled={this.nonInteractive ? undefined : toAriaBoolean(this.disabled)}
+          aria-checked={this.interactive ? toAriaBoolean(this.selected) : undefined}
+          aria-disabled={this.interactive ? toAriaBoolean(this.disabled) : undefined}
           aria-label={this.label}
           aria-labelledby={this.parentGroupEl.label}
           class={{
@@ -405,17 +405,17 @@ export class Chip
             [CSS.selectable]: this.selectionMode !== "none",
             [CSS.closable]: this.closable,
             [CSS.hasIcon]: !!this.icon,
-            [CSS.nonInteractive]: this.nonInteractive
+            [CSS.nonInteractive]: !this.interactive
           }}
           onClick={this.handleEmittingEvent}
           role={
-            this.selectionMode === "multiple" && !this.nonInteractive
+            this.selectionMode === "multiple" && this.interactive
               ? "checkbox"
-              : this.nonInteractive
-              ? undefined
-              : "radio"
+              : this.interactive
+              ? "radio"
+              : undefined
           }
-          tabIndex={this.disabled || this.nonInteractive ? -1 : 0}
+          tabIndex={this.disabled ? -1 : 0}
           // eslint-disable-next-line react/jsx-sort-props
           ref={(el) => (this.containerEl = el)}
         >

@@ -184,6 +184,7 @@ export class ChipGroup implements InteractiveComponent {
       .filter((el) => el?.matches("calcite-chip")) as HTMLCalciteChipElement[];
 
     this.items.forEach((el) => {
+      el.interactive = true;
       el.selectionMode = this.selectionMode;
     });
 
