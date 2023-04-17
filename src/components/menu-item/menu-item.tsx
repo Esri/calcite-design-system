@@ -171,7 +171,7 @@ export class CalciteMenuItem implements LoadableComponent {
     this.active = this.active || this.editable;
     this.isFocused = this.active;
     // todo just get any nav items in the default slot?
-    this.hasSubMenu = this.hasSlottedItems();
+    // this.hasSubMenu = this.hasSlottedItems();
 
     // for now to detect nesting only working two level for demo.need to just check if it has any parent originating at top lvel
     this.isTopLevelItem = !(
@@ -338,14 +338,15 @@ export class CalciteMenuItem implements LoadableComponent {
   };
 
   private handleMenuItemSlotChange = (event: Event): void => {
-    if (this.hasSubMenu) {
-      this.subMenuItems = slotChangeGetAssignedElements(event) as HTMLCalciteMenuItemElement[];
-    }
+    // if (this.hasSubMenu) {
+    this.subMenuItems = slotChangeGetAssignedElements(event) as HTMLCalciteMenuItemElement[];
+    this.hasSubMenu = this.subMenuItems.length > 0;
+    // }
   };
 
-  private hasSlottedItems(): boolean {
-    return this.el.querySelectorAll("[slot=menu-item-dropdown]").length > 0;
-  }
+  // private hasSlottedItems(): boolean {
+  //   return this.el.querySelectorAll("[slot=menu-item-dropdown]").length > 0;
+  // }
 
   private focusFirst(): void {
     this.subMenuItems[0].setFocus();
@@ -566,7 +567,7 @@ export class CalciteMenuItem implements LoadableComponent {
             </a>
             {this.href && this.hasSubMenu ? this.renderDropdownAction(dir) : null}
           </div>
-          {this.hasSubMenu ? this.rendersubMenuItems(dir) : null}
+          {this.rendersubMenuItems(dir)}
         </li>
       </Host>
     );

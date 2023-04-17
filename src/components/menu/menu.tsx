@@ -1,5 +1,5 @@
 import { Component, Element, h, Host, Listen, Prop, State } from "@stencil/core";
-import { focusElementInGroup, getHost, getRootNode, getSlotted } from "../../utils/dom";
+import { focusElementInGroup, slotChangeGetAssignedElements } from "../../utils/dom";
 
 @Component({
   tag: "calcite-menu",
@@ -45,7 +45,7 @@ export class CalciteMenu {
   //  Private State/Props
   //
   //--------------------------------------------------------------------------
-  @State() childNavMenuItems?: HTMLCalciteMenuItemElement[];
+  @State() childMenuItems?: HTMLCalciteMenuItemElement[];
 
   @State() overflowedNavMenuItems?: HTMLCalciteMenuItemElement[] = [];
 
@@ -56,16 +56,15 @@ export class CalciteMenu {
   // --------------------------------------------------------------------------
   connectedCallback() {
     // get host of menu which is added for nested submenu and is not part of lightDOM.
-    const hostElement = getHost(getRootNode(this.el));
-
-    this.childNavMenuItems = getSlotted(
-      hostElement ? hostElement : this.el,
-      hostElement ? "menu-item-dropdown" : "",
-      {
-        all: true,
-        matches: "calcite-menu-item"
-      }
-    ) as HTMLCalciteMenuItemElement[];
+    // const hostElement = getHost(getRootNode(this.el));
+    // this.childNavMenuItems = getSlotted(
+    //   hostElement ? hostElement : this.el,
+    //   hostElement ? "menu-item-dropdown" : "",
+    //   {
+    //     all: true,
+    //     matches: "calcite-menu-item"
+    //   }
+    // ) as HTMLCalciteMenuItemElement[];
   }
 
   //--------------------------------------------------------------------------
@@ -81,22 +80,22 @@ export class CalciteMenu {
     switch (event.detail["key"]) {
       case "ArrowDown":
         if (this.layout === "vertical") {
-          focusElementInGroup(this.childNavMenuItems, target, "next");
+          focusElementInGroup(this.childMenuItems, target, "next");
         }
         break;
       case "ArrowUp":
         if (this.layout === "vertical") {
-          focusElementInGroup(this.childNavMenuItems, target, "previous");
+          focusElementInGroup(this.childMenuItems, target, "previous");
         }
         break;
       case "ArrowRight":
         if (this.layout === "horizontal") {
-          focusElementInGroup(this.childNavMenuItems, target, "next");
+          focusElementInGroup(this.childMenuItems, target, "next");
         }
         break;
       case "ArrowLeft":
         if (this.layout === "horizontal") {
-          focusElementInGroup(this.childNavMenuItems, target, "previous");
+          focusElementInGroup(this.childMenuItems, target, "previous");
         }
         break;
       case "Escape":
@@ -108,6 +107,10 @@ export class CalciteMenu {
     event.preventDefault();
   }
 
+  private handleMenuSlotChange(event: Event): void {
+    this.childMenuItems = slotChangeGetAssignedElements(event) as HTMLCalciteMenuItemElement[];
+  }
+
   // --------------------------------------------------------------------------
   //
   //  Render Methods
@@ -117,7 +120,7 @@ export class CalciteMenu {
     return (
       <Host>
         <ul aria-label={this.label} role={this.role}>
-          <slot />
+          <slot onSlotchange={this.handleMenuSlotChange} />
           {this.overflowedNavMenuItems.length > 0 && (
             <calcite-menu-item icon-start="ellipsis" text="overflow" title="overflow-items" />
           )}
