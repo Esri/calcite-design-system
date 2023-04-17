@@ -205,7 +205,7 @@ export const largeScaleLayout_TestOnly = (): string => html`
 
 export const transparentBG_TestOnly = (): string => html`
   <style>
-    :root {
+    calcite-popover {
       --calcite-ui-foreground-1: rgba(0, 0, 0, 0.5);
       --calcite-ui-text-1: orange;
     }
