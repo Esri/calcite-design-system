@@ -217,7 +217,7 @@
       "component/label": "enabled",
       "component/tooltip": "enabled",
       "component/input-time": "enabled",
-      "component/[template-comp-name]": "enabled",
+      "component/[template-comp-name]": "disabled",
       "component/switch": "enabled",
       "component/input-message": "enabled",
       "component/accordion-item": "enabled",
