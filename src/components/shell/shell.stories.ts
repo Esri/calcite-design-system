@@ -722,6 +722,7 @@ export const slottedPanelTopAndBottomAndSides = (): string =>
 export const shellPanelZIndex_TestOnly = (): string => html` <calcite-shell
   style="
 width:100%;
+min-width: 600px;
 height:500px;
 max-height:80%;
 position:relative;
