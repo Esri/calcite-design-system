@@ -23,8 +23,7 @@ import {
   LogicalPlacement,
   OverlayPositioning,
   ReferenceElement,
-  reposition,
-  updateAfterClose
+  reposition
 } from "../../utils/floating-ui";
 import {
   activateFocusTrap,
@@ -197,8 +196,6 @@ export class Popover
   openHandler(value: boolean): void {
     if (value) {
       this.reposition(true);
-    } else {
-      updateAfterClose(this.el);
     }
 
     this.setExpandedAttr();

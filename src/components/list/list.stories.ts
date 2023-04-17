@@ -26,7 +26,8 @@ const knobsHTML = (): string => html`selection-mode="${select(
   "none"
 )}"
 selection-appearance="${select("selection-appearance", ["icon", "border"], "icon")}" ${boolean("loading", false)}
-${boolean("filter-enabled", false)} ${boolean("disabled", false)} ${text("label", "My List")}`;
+${boolean("closable", false)} ${boolean("closed", false)} ${boolean("filter-enabled", false)}
+${boolean("disabled", false)} ${text("label", "My List")}`;
 
 export const simple = (): string => html`
   <calcite-list ${knobsHTML()}>
@@ -336,4 +337,27 @@ export const customContent_TestOnly = (): string => html`<calcite-list disabled>
       <div>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</div>
     </div></calcite-list-item
   >
+</calcite-list>`;
+
+export const closableListItems_TestOnly = (): string => html`<calcite-list
+  selection-mode="single"
+  label="test"
+  filter-enabled
+>
+  <calcite-list-item closable label="basic" value="basic" description="hello world">
+    <calcite-icon icon="banana" slot="content-start" style="color: var(--calcite-ui-success)"></calcite-icon>
+    <calcite-action
+      appearance="transparent"
+      icon="ellipsis"
+      text="menu"
+      label="menu"
+      slot="actions-end"
+    ></calcite-action>
+  </calcite-list-item>
+  <calcite-list-item closable disabled label="disabled" value="disabled" description="hello world">
+    <calcite-icon icon="compass" slot="content-start" style="color: var(--calcite-ui-success)"></calcite-icon>
+  </calcite-list-item>
+  <calcite-list-item closed closable label="closed" value="closed" description="hello world">
+    <calcite-icon icon="compass" slot="content-start" style="color: var(--calcite-ui-success)"></calcite-icon>
+  </calcite-list-item>
 </calcite-list>`;
