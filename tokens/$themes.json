@@ -47,7 +47,9 @@
       "component/switch": "source",
       "component/tooltip": "source",
       "core": "source",
-      "semantic": "source"
+      "semantic": "source",
+      "component/tree-item": "source",
+      "component/tile": "source"
     },
     "$figmaStyleReferences": {
       "color.brand.default": "S:b28244f76fae4e504bbfa18bb30e111e02a00461,",
@@ -136,7 +138,9 @@
       "component/pagination": "source",
       "component/segmented-control": "source",
       "component/switch": "source",
-      "component/stepper-item": "source"
+      "component/stepper-item": "source",
+      "component/tree-item": "source",
+      "component/tile": "source"
     },
     "$figmaStyleReferences": {
       "color.brand.default": "S:4ae7e0e0a08b9109fef0b6c2cb45185a3b711de8,",
@@ -260,7 +264,9 @@
       "component/notice": "enabled",
       "component/modal": "enabled",
       "component/panel-header": "enabled",
-      "component/popover": "enabled"
+      "component/popover": "enabled",
+      "component/tree-item": "enabled",
+      "component/tile": "enabled"
     },
     "$figmaStyleReferences": {
       "semantic.ui.color.brand.default.light": "S:959c4907a32cb62f2227db1c3fb7a88c3eedcbb9,",
