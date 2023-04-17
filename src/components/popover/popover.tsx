@@ -533,6 +533,7 @@ export class Popover
     return closable ? (
       <div class={CSS.closeButtonContainer} key={CSS.closeButtonContainer}>
         <calcite-action
+          appearance="transparent"
           class={CSS.closeButton}
           onClick={this.hide}
           scale={this.scale}
