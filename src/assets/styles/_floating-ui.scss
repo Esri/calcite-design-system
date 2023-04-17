@@ -98,7 +98,7 @@ $floating-ui-transform-right: translateX(-5px);
   @include calciteHydratedHidden();
 }
 
-$pointer_size: 8px;
+$pointer_size: 12px;
 $pointer_offset: -$pointer_size * 0.5;
 
 @mixin floatingUIArrow {
@@ -113,7 +113,6 @@ $pointer_offset: -$pointer_size * 0.5;
   .arrow::before {
     content: "";
     @apply shadow-1;
-    transform: rotate(45deg);
     background: var(--calcite-ui-foreground-1);
   }
 
@@ -121,8 +120,16 @@ $pointer_offset: -$pointer_size * 0.5;
     inset-block-end: $pointer_offset;
   }
 
+  :host([data-placement^="top"]) .arrow::before {
+    clip-path: polygon(50% 100%, 0 50%, 100% 50%);
+  }
+
   :host([data-placement^="bottom"]) .arrow {
     inset-block-start: $pointer_offset;
+  }
+
+  :host([data-placement^="bottom"]) .arrow::before {
+    clip-path: polygon(50% 0, 0 50%, 100% 50%);
   }
 
   :host([data-placement^="right"]) .arrow,
@@ -135,7 +142,15 @@ $pointer_offset: -$pointer_size * 0.5;
     inset-inline-end: $pointer_offset;
   }
 
+  :host([data-placement^="left"]) .arrow::before {
+    clip-path: polygon(100% 50%, 50% 0, 50% 100%);
+  }
+
   :host([data-placement^="right"]) .arrow {
     inset-inline-start: $pointer_offset;
+  }
+
+  :host([data-placement^="right"]) .arrow::before {
+    clip-path: polygon(0 50%, 50% 0, 50% 100%);
   }
 }
