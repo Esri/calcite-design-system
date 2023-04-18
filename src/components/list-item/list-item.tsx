@@ -121,7 +121,7 @@ export class ListItem
   @Prop() setPosition: number = null;
 
   /**
-   * When `true`, the component is selected.
+   * When `true` and the parent `calcite-list`'s `selectionMode` is `"single"` or `"multiple"`, the component is selected.
    */
   @Prop({ reflect: true, mutable: true }) selected = false;
 
