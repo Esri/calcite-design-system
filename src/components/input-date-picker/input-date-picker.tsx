@@ -470,6 +470,7 @@ export class InputDatePicker
             {
               <div
                 class="input-wrapper"
+                onClick={this.onInputWrapperClick}
                 // eslint-disable-next-line react/jsx-sort-props
                 ref={this.setStartWrapper}
               >
@@ -492,6 +493,7 @@ export class InputDatePicker
                   // eslint-disable-next-line react/jsx-sort-props
                   ref={this.setStartInput}
                 />
+                {this.renderToggleIcon(this.open && this.focusedInput === "start")}
               </div>
             }
             <div
@@ -551,6 +553,7 @@ export class InputDatePicker
             {this.range && (
               <div
                 class="input-wrapper"
+                onClick={this.onInputWrapperClick}
                 // eslint-disable-next-line react/jsx-sort-props
                 ref={this.setEndWrapper}
               >
@@ -573,12 +576,21 @@ export class InputDatePicker
                   // eslint-disable-next-line react/jsx-sort-props
                   ref={this.setEndInput}
                 />
+                {this.renderToggleIcon(this.open && this.focusedInput === "end")}
               </div>
             )}
           </div>
         )}
         <HiddenFormInputSlot component={this} />
       </Host>
+    );
+  }
+
+  renderToggleIcon(open: boolean): VNode {
+    return (
+      <span class={CSS.toggleIcon}>
+        <calcite-icon icon={open ? "chevron-up" : "chevron-down"} scale="s" />
+      </span>
     );
   }
 
@@ -644,6 +656,11 @@ export class InputDatePicker
   //  Private Methods
   //
   //--------------------------------------------------------------------------
+
+  private onInputWrapperClick = () => {
+    this.open = !this.open;
+    this.setFocus();
+  };
 
   setFilteredPlacements = (): void => {
     const { el, flipPlacements } = this;
@@ -735,7 +752,12 @@ export class InputDatePicker
 
   keyDownHandler = (event: KeyboardEvent): void => {
     const { defaultPrevented, key } = event;
-    if (key === "Enter" && !defaultPrevented) {
+
+    if (defaultPrevented) {
+      return;
+    }
+
+    if (key === "Enter") {
       this.commitValue();
       if (this.shouldFocusRangeEnd()) {
         this.endInput?.setFocus();
@@ -745,23 +767,20 @@ export class InputDatePicker
       if (submitForm(this)) {
         event.preventDefault();
       }
-    } else if (key === "Escape" && !defaultPrevented) {
+    } else if (key === "ArrowDown") {
+      this.open = true;
+      event.preventDefault();
+    } else if (key === "Escape") {
       this.open = false;
       event.preventDefault();
     }
   };
 
   startInputFocus = (): void => {
-    if (!this.readOnly) {
-      this.open = true;
-    }
     this.focusedInput = "start";
   };
 
   endInputFocus = (): void => {
-    if (!this.readOnly) {
-      this.open = true;
-    }
     this.focusedInput = "end";
   };
 
