@@ -1,0 +1,142 @@
+import * as StyleDictionary from 'style-dictionary';
+import path from 'path';
+export { 
+  expandComposites,
+  mapDescriptionToComment,
+  checkAndEvaluateMath,
+  transformDimension,
+  transformFontWeights,
+  transformColorModifiers,
+  transformLineHeight,
+  transformShadowForCSS,
+  transformBorderForCSS,
+  transformTypographyForCSS,
+  transformHEXRGBaForCSS,
+  transformLetterSpacingForCSS,
+  transformTypographyForCompose
+} from '@tokens-studio/sd-transforms'
+
+const tokensDir = path.resolve(process.cwd(), 'tokens');
+const themes = [{
+  name: 'calcite-headless',
+  enabled: ['core', 'semantic.json', 'component/avatar'],
+  outputDir: 'build',
+  options: {
+    outputReferences: true,
+  }
+}];
+
+StyleDictionary.registerParser({
+  pattern: /\.json$/,
+  parse: ({ filePath, contents }) => {
+    debugger;
+    const regexTest = /\$\w+[\.\w-]*/dgm
+    return JSON.parse(contents, (key, value) => {
+      const newValue = value.replaceAll(regexTest, (match) => {
+        return `{${match.slice(1)}}`;
+      })
+      return newValue;
+    });
+  }
+});
+
+StyleDictionary.registerTransform({
+  type: `value`,
+  transitive: true,
+  name: `debugger`,
+  matcher: (token) => true,
+  transformer: (token) => {
+    debugger;
+    // token.value will be resolved and transformed at this point
+    return token;
+  }
+});
+
+StyleDictionary.registerFormat({
+  name: `calcite/js`,
+  formatter: function({dictionary, options}) {
+    const referencedTokens: string[] = [];
+    // @ts-expect-error SD still needs to workout some weirdness with their types
+    const enabledTokens = dictionary.allTokens.sort(StyleDictionary.formatHelpers.sortByReference(dictionary)).map(token => {
+      debugger;
+      let value = JSON.stringify(token.value);
+      // the `dictionary` object now has `usesReference()` and
+      // `getReferences()` methods. `usesReference()` will return true if
+      // the value has a reference in it. `getReferences()` will return
+      // an array of references to the whole tokens so that you can access their
+      // names or any other attributes.
+      if (dictionary.usesReference(token.original.value)) {
+        // Note: make sure to use `token.original.value` because
+        // `token.value` is already resolved at this point.
+        const refs = dictionary.getReferences(token.original.value);
+        refs.forEach(ref => {
+          const originalValue = ref.name;
+          referencedTokens.push(originalValue.slice(1, -1));
+          value = value.replace(ref.value, () => `${originalValue}`);
+        });
+      }
+      // Only write to file if it is an enabled file (enabled == source in SD)
+      return token.isSource ? `export const ${token.name} = ${value};`: undefined;
+    }).filter((t) => t);
+
+    return 
+  }
+});
+
+const defaultTransforms = [
+  'debugger',
+  'ts/descriptionToComment',
+  'ts/size/px',
+  'ts/opacity',
+  'ts/size/lineheight',
+  'ts/type/fontWeight',
+  'ts/resolveMath',
+  'ts/color/modifiers',
+];
+const jsTransforms = [
+  'name/cti/kebab'
+];
+const cssTransforms = [
+  'ts/size/css/letterspacing',
+  'ts/typography/css/shorthand',
+  'ts/border/css/shorthand',
+  'ts/shadow/css/shorthand',
+  'ts/color/css/hexrgba',
+  'name/cti/kebab'
+];
+
+themes.forEach(theme => {
+  StyleDictionary.extend({
+    source: theme.enabled,
+    platforms: {
+      js: {
+        options: theme.options,
+        transforms: [
+          ...defaultTransforms,
+          ...jsTransforms,
+        ],
+        buildPath: `${theme.outputDir}/js/`,
+        files: [
+          {
+            destination: `${theme.name}.js`,
+            format: 'calcite/js',
+          },
+        ],
+      },
+      css: {
+        options: theme.options,
+        transforms: [
+          ...defaultTransforms,
+          ...cssTransforms,
+        ],
+        buildPath:  `${theme.outputDir}/css/`,
+        files: [
+          {
+            destination: `${theme.name}.css`,
+            format: 'css/variables',
+          },
+        ],
+      },
+    },
+  }).buildAllPlatforms();
+});

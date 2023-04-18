@@ -51,6 +51,8 @@
     "release": "echo 'release is still TBD. Please message Ali Stump or Erik Harper-Dicianno for more information."
   },
   "devDependencies": {
+    "@tokens-studio/sd-transforms": "^0.8.1",
+    "@types/node": "^18.15.11",
     "style-dictionary": "^3.7.1",
     "token-transformer": "^0.0.27"
   }
