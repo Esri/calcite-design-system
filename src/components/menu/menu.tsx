@@ -1,5 +1,6 @@
 import { Component, Element, h, Host, Listen, Prop, State } from "@stencil/core";
 import { focusElementInGroup, slotChangeGetAssignedElements } from "../../utils/dom";
+// import { MenuItemEvent } from "../menu-item/interfaces";
 
 @Component({
   tag: "calcite-menu",
@@ -74,28 +75,30 @@ export class CalciteMenu {
   //--------------------------------------------------------------------------
 
   @Listen("calciteInternalNavItemKeyEvent")
-  calciteInternalNavMenuItemKeyEvent(event: KeyboardEvent): void {
-    const target = event.target as HTMLCalciteMenuItemElement;
-    event.stopPropagation();
-    switch (event.detail["key"]) {
+  calciteInternalNavMenuItemKeyEvent(event: CustomEvent): void {
+    // const menuItemEvent: MenuItemEvent = event.detail;
+    const target = event.detail.event.target as HTMLCalciteMenuItemElement;
+    const menuItems = this.childMenuItems || event.detail.children;
+    event.detail.event.stopPropagation();
+    switch (event.detail.event.detail["key"]) {
       case "ArrowDown":
         if (this.layout === "vertical") {
-          focusElementInGroup(this.childMenuItems, target, "next");
+          focusElementInGroup(menuItems, target, "next");
         }
         break;
       case "ArrowUp":
         if (this.layout === "vertical") {
-          focusElementInGroup(this.childMenuItems, target, "previous");
+          focusElementInGroup(menuItems, target, "previous");
         }
         break;
       case "ArrowRight":
         if (this.layout === "horizontal") {
-          focusElementInGroup(this.childMenuItems, target, "next");
+          focusElementInGroup(menuItems, target, "next");
         }
         break;
       case "ArrowLeft":
         if (this.layout === "horizontal") {
-          focusElementInGroup(this.childMenuItems, target, "previous");
+          focusElementInGroup(menuItems, target, "previous");
         }
         break;
       case "Escape":
@@ -104,7 +107,7 @@ export class CalciteMenu {
         }
         break;
     }
-    event.preventDefault();
+    event.detail.event.preventDefault();
   }
 
   private handleMenuSlotChange(event: Event): void {

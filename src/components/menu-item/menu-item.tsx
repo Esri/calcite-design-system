@@ -20,6 +20,7 @@ import {
   setComponentLoaded,
   setUpLoadableComponent
 } from "../../utils/loadable";
+import { MenuItemEvent } from "./interfaces";
 
 @Component({
   tag: "calcite-menu-item",
@@ -131,7 +132,7 @@ export class CalciteMenuItem implements LoadableComponent {
   //--------------------------------------------------------------------------
   /** @internal */
   @Event({ cancelable: true })
-  calciteInternalNavItemKeyEvent: EventEmitter<KeyboardEvent>;
+  calciteInternalNavItemKeyEvent: EventEmitter<MenuItemEvent>;
 
   /** @internal */
   @Event({ cancelable: false })
@@ -215,13 +216,19 @@ export class CalciteMenuItem implements LoadableComponent {
         } else if (this.hasSubMenu) {
           this.open = false;
         } else {
-          this.calciteInternalNavItemKeyEvent.emit(event);
+          this.calciteInternalNavItemKeyEvent.emit({
+            event,
+            children: this.subMenuItems
+          });
         }
         event.preventDefault();
         break;
       case "Escape":
         if (this.isTopLevelItem) {
-          this.calciteInternalNavItemKeyEvent.emit(event);
+          this.calciteInternalNavItemKeyEvent.emit({
+            event: event,
+            children: this.subMenuItems
+          });
           return;
         }
         if (this.open) {
@@ -241,11 +248,18 @@ export class CalciteMenuItem implements LoadableComponent {
             this.open ? this.focusFirst() : (this.open = true);
             return;
           }
-          this.calciteInternalNavItemKeyEvent.emit(event);
+          this.calciteInternalNavItemKeyEvent.emit({
+            event,
+            children: this.subMenuItems
+          });
         }
         if (this.topLevelLayout === "vertical") {
           event.preventDefault();
-          this.calciteInternalNavItemKeyEvent.emit(event);
+          this.calciteInternalNavItemKeyEvent.emit({
+            event: event,
+
+            children: this.subMenuItems
+          });
         }
         break;
 
@@ -258,18 +272,27 @@ export class CalciteMenuItem implements LoadableComponent {
             this.open ? this.focusLast() : (this.open = true);
             return;
           }
-          this.calciteInternalNavItemKeyEvent.emit(event);
+          this.calciteInternalNavItemKeyEvent.emit({
+            event: event,
+            children: this.subMenuItems
+          });
         }
 
         if (this.topLevelLayout === "vertical") {
           event.preventDefault();
-          this.calciteInternalNavItemKeyEvent.emit(event);
+          this.calciteInternalNavItemKeyEvent.emit({
+            event: event,
+            children: this.subMenuItems
+          });
         }
         break;
       case "ArrowLeft":
         if (this.topLevelLayout === "horizontal") {
           if (this.isTopLevelItem) {
-            this.calciteInternalNavItemKeyEvent.emit(event);
+            this.calciteInternalNavItemKeyEvent.emit({
+              event: event,
+              children: this.subMenuItems
+            });
             return;
           }
           if (this.el.parentElement.nodeName === "CALCITE-MENU-ITEM") {
@@ -290,7 +313,10 @@ export class CalciteMenuItem implements LoadableComponent {
       case "ArrowRight":
         if (this.topLevelLayout === "horizontal") {
           if (this.isTopLevelItem) {
-            this.calciteInternalNavItemKeyEvent.emit(event);
+            this.calciteInternalNavItemKeyEvent.emit({
+              event: event,
+              children: this.subMenuItems
+            });
             return;
           }
           if (this.hasSubMenu) {
