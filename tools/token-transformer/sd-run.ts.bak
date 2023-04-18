@@ -17,6 +17,7 @@ export {
 } from '@tokens-studio/sd-transforms'
 
 const tokensDir = path.resolve(process.cwd(), 'tokens');
+
 const themes = [{
   name: 'calcite-headless',
   enabled: ['core', 'semantic.json', 'component/avatar'],
@@ -79,7 +80,14 @@ StyleDictionary.registerFormat({
       return token.isSource ? `export const ${token.name} = ${value};`: undefined;
     }).filter((t) => t);
 
-    return 
+    return StyleDictionary.formatHelpers.fileHeader({ file: {
+      className?: string;
+      packageName?: string;
+      destination: string;
+      format?: string;
+      filter?: string | Partial<TransformedToken> | ((token: TransformedToken) => boolean);
+      options?: Options;
+    }, commentStyle: 'short'})
   }
 });
 
