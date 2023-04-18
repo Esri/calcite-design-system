@@ -6,6 +6,10 @@ const toggleMode = (): void => {
   document.body.classList.toggle("calcite-mode-dark");
 };
 
+const closeHeader = (): void => {
+  document.getElementById("demo-header")?.remove();
+};
+
 const toggleDom = ({ currentTarget }): void => {
   const mover = document.querySelector<DomSwapper>("demo-dom-swapper");
   if (!mover) {
@@ -27,6 +31,7 @@ const loadDemoToggles = () => {
   document.getElementById("toggle-dir")?.addEventListener("calciteSwitchChange", toggleDir);
   document.getElementById("toggle-mode")?.addEventListener("calciteSwitchChange", toggleMode);
   document.getElementById("toggle-dom")?.addEventListener("calciteSwitchChange", toggleDom);
+  document.getElementById("close-header")?.addEventListener("click", closeHeader);
 };
 
 document.readyState === "loading" ? document.addEventListener("DOMContentLoaded", loadDemoToggles) : loadDemoToggles();
