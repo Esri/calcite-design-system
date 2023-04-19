@@ -381,7 +381,7 @@ export class Chip
           aria-labelledby={this.parentGroupEl.label}
           class={{
             [CSS.container]: true,
-            [CSS.contentSlotted]: this.hasText,
+            [CSS.textSlotted]: this.hasText,
             [CSS.imageSlotted]: this.hasImage,
             [CSS.selectable]: this.selectionMode !== "none",
             [CSS.multiple]: this.selectionMode === "multiple",

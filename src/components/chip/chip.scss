@@ -2,14 +2,14 @@
 // todo update when new spacing modifiers are introduced to calcite-base
 :host([scale="s"]) {
   @apply text-n2 h-6;
-  --calcite-chip-spacing-unit-internal: 4px;
+  --calcite-chip-spacing-s-internal: theme("spacing[0.5]");
+  --calcite-chip-spacing-l-internal: theme("spacing[1.5]");
   .image-container,
-  .close {
+  .close,
+  .select-icon--active {
     @apply h-4 w-4;
   }
-  .select-icon--active {
-    @apply w-6;
-  }
+
   .container.is-circle {
     @apply w-6 h-6;
   }
@@ -17,14 +17,14 @@
 
 :host([scale="m"]) {
   @apply text-n1 h-8;
-  --calcite-chip-spacing-unit-internal: 6px;
+  --calcite-chip-spacing-s-internal: theme("spacing[1]");
+  --calcite-chip-spacing-l-internal: theme("spacing[2]");
   .image-container,
-  .close {
+  .close,
+  .select-icon--active {
     @apply h-6 w-6;
   }
-  .select-icon--active {
-    @apply w-6;
-  }
+
   .container.is-circle {
     @apply w-8 h-8;
   }
@@ -32,13 +32,13 @@
 
 :host([scale="l"]) {
   @apply text-0 h-11;
-  --calcite-chip-spacing-unit-internal: 8px;
+  --calcite-chip-spacing-s-internal: theme("spacing[1.5]");
+  --calcite-chip-spacing-l-internal: theme("spacing[2]");
+
   .image-container,
-  .close {
-    @apply h-8 w-8;
-  }
+  .close,
   .select-icon--active {
-    @apply w-8;
+    @apply h-8 w-8;
   }
   .container.is-circle {
     @apply w-11 h-11;
@@ -62,8 +62,8 @@
   @apply inline-flex h-full max-w-full items-center rounded-full focus-base justify-center;
 
   &:not(.is-circle) {
-    gap: var(--calcite-chip-spacing-unit-internal);
-    padding-inline: var(--calcite-chip-spacing-unit-internal);
+    gap: var(--calcite-chip-spacing-l-internal);
+    padding-inline: var(--calcite-chip-spacing-s-internal);
   }
 
   &.selectable {
@@ -79,17 +79,17 @@
 
 .title {
   @apply truncate;
-  padding-inline-start: var(--calcite-chip-spacing-unit-internal);
+  padding-inline-start: var(--calcite-chip-spacing-s-internal);
   &:last-child {
-    padding-inline-end: var(--calcite-chip-spacing-unit-internal);
+    padding-inline-end: var(--calcite-chip-spacing-s-internal);
   }
 }
 
 .container.image--slotted .image-container ~ .title {
-  padding-inline-start: calc(var(--calcite-chip-spacing-unit-internal) / 2);
+  padding-inline-start: calc(var(--calcite-chip-spacing-s-internal) / 2);
 }
 
-.container:not(.content--slotted) .title {
+.container:not(.text--slotted) .title {
   display: none;
 }
 
@@ -136,6 +136,7 @@
 .select-icon {
   align-self: center;
   justify-content: center;
+  align-items: center;
   display: flex;
   inset-block-start: -1px;
   position: relative;
@@ -163,7 +164,7 @@ slot[name="image"]::slotted(*) {
 
 .chip-icon {
   @apply relative my-0 inline-flex duration-150 ease-in-out;
-  margin-inline: var(--calcite-chip-spacing-unit-internal);
+  margin-inline: var(--calcite-chip-spacing-l-internal) var(--calcite-chip-spacing-s-internal);
 }
 
 :host([kind="neutral"]) {

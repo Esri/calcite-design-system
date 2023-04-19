@@ -3,7 +3,7 @@ export const CSS = {
   close: "close",
   imageContainer: "image-container",
   chipIcon: "chip-icon",
-  contentSlotted: "content--slotted",
+  textSlotted: "text--slotted",
   container: "container",
   imageSlotted: "image--slotted",
   closable: "closable",
