@@ -272,8 +272,10 @@ describe("calcite-input-date-picker", () => {
     });
 
     it("syncs lang changes to internal date-picker and input", async () => {
-      const lang = "it-CH";
-      const newLang = "nl";
+      // note that lang values should be available as bundles for both input-date-picker and date-picker
+      const lang = "en";
+      const newLang = "es";
+
       const year = "2020";
       const month = "4";
       const day = "19";
