@@ -6,7 +6,8 @@ import {
   labelable,
   floatingUIOwner,
   renders,
-  hidden
+  hidden,
+  t9n
 } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { CSS } from "./resources";
@@ -33,6 +34,8 @@ describe("calcite-input-date-picker", () => {
   it("is labelable", async () => labelable("calcite-input-date-picker"));
 
   it("can be disabled", () => disabled("calcite-input-date-picker"));
+
+  it.skip("supports t9n", () => t9n("calcite-input-date-picker"));
 
   describe("event emitting when the value changes", () => {
     it("emits change event when value is committed for single date", async () => {
@@ -269,8 +272,10 @@ describe("calcite-input-date-picker", () => {
     });
 
     it("syncs lang changes to internal date-picker and input", async () => {
-      const lang = "it-CH";
-      const newLang = "nl";
+      // note that lang values should be available as bundles for both input-date-picker and date-picker
+      const lang = "en";
+      const newLang = "es";
+
       const year = "2020";
       const month = "4";
       const day = "19";
