@@ -48,7 +48,7 @@
     "util:build-docs": "npm run util:prep-build-reqs && stencil build --docs --config stencil.storybook.config.ts",
     "util:clean-tested-build": "npm ci && npm test && npm run build",
     "util:copy-assets": "npm run util:copy-icons && npm run util:copy-dayjs-locales",
-    "util:copy-dayjs-locales": "cpy \"./node_modules/dayjs/locale/*.js\" \"./src/components/input-time-picker/assets/input-time-picker/\" --flat",
+    "util:copy-dayjs-locales": "cpy \"./node_modules/dayjs/locale/*.js\" \"./src/components/input-time-picker/assets/nls/dayjs/input-time-picker/\" --flat",
     "util:copy-icons": "cpy \"./node_modules/@esri/calcite-ui-icons/js/*.json\" \"./src/components/icon/assets/icon/\" --flat",
     "util:deploy-next": "npm run util:prep-next && npm run util:publish-next",
     "util:deploy-next-from-ci": "ts-node --esm support/deployNextFromCI.ts",
