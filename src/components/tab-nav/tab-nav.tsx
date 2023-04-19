@@ -390,17 +390,15 @@ export class TabNav {
   };
 
   private disableLastClosableTabTitle = (): void => {
-    const tabTitles = this.el.querySelectorAll("calcite-tab-title");
-    if (tabTitles.length === 1 && tabTitles[0].hasAttribute("closable")) {
-      tabTitles[0].shadowRoot.querySelector("button").disabled = true;
+    const { tabTitles } = this;
+    if (tabTitles.length === 1 && tabTitles[0].closable) {
+      tabTitles[0].disabled = true;
     }
   };
 
   private closingSelectedSequence = (): void => {
-    const { selectedTabId } = this;
-    let tabTitles = this.el.querySelectorAll("calcite-tab-title");
+    const { selectedTabId, tabTitles } = this;
     if (selectedTabId === tabTitles.length) {
-      tabTitles = this.el.querySelectorAll("calcite-tab-title");
       tabTitles[tabTitles.length - 1].selected = true;
       this.selectedTabId = tabTitles.length - 1;
       return;
@@ -408,7 +406,6 @@ export class TabNav {
     const selectedClosed = Array.from(tabTitles).some((tabTitle) => tabTitle.selected);
 
     if (selectedTabId && !selectedClosed) {
-      tabTitles = this.el.querySelectorAll("calcite-tab-title");
       tabTitles[selectedTabId].selected = true;
       this.selectedTabId = selectedTabId;
       return;

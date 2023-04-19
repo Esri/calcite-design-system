@@ -75,6 +75,9 @@ export class TabTitle implements InteractiveComponent, T9nComponent {
   /** When `true`, a close button is added to the component. */
   @Prop({ reflect: true }) closable = false;
 
+  /** The close button element. */
+  @Prop({ reflect: false, mutable: true }) closeButtonEl?: HTMLButtonElement;
+
   /** When `true`, interaction is prevented and the component is displayed with lower opacity.  */
   @Prop({ reflect: true }) disabled = false;
 
@@ -435,9 +438,6 @@ export class TabTitle implements InteractiveComponent, T9nComponent {
 
   /** watches for changing text content */
   mutationObserver: MutationObserver = createObserver("mutation", () => this.updateHasText());
-
-  /** The close button element. */
-  private closeButtonEl?: HTMLButtonElement;
 
   @State() controls: string;
 
