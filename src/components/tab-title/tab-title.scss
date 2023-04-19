@@ -18,7 +18,6 @@
 }
 
 // focus styles
-
 .tab-title-close,
 .container {
   @apply focus-base;
@@ -39,8 +38,7 @@
 }
 
 @include disabled() {
-  .container,
-  .tab-title-close {
+  .container {
     @apply pointer-events-none opacity-50;
   }
 }
@@ -69,17 +67,18 @@
 }
 
 .container {
-  @apply flex;
-  border-block-start-style: unset;
+  @apply flex justify-between;
+  border-block-end-style: solid;
+  border-block-end-color: transparent;
+  padding-inline-end: 0;
 }
 
 .content {
-  @apply border-b-color-transparent
-    text-color-3
+  @apply text-color-3
     text-n1h
     transition-default
     box-border
-    flex
+    flex-1
     w-full
     cursor-pointer
     appearance-none
@@ -87,6 +86,9 @@
     items-center
     truncate
     px-0;
+}
+.container {
+  @apply border-b-color-transparent;
   border-block-end-style: solid;
 }
 
@@ -125,15 +127,12 @@
       border-none
       justify-center
       items-center;
-  border-block-end-style: solid;
-  border-block-end-color: transparent;
 }
 
 .tab-title-close {
   @include tab-title-element-base;
   @apply bg-foreground-1 text-color-1;
-  flex: 0 0 auto;
-  margin-inline-start: 0;
+  margin-inline-start: auto;
   background-color: var(--calcite-button-transparent-1);
 }
 
@@ -144,40 +143,20 @@
   }
 }
 
-// bordered / selected styles
-
+// bordered styles
 :host([bordered]) {
   margin-inline-end: 0;
   .content {
     @apply mb-0;
   }
-  .tab-title-close {
-    border-block-end: 1px solid transparent;
-  }
-}
-
-:host([selected]) .content,
-:host([selected]) .tab-title-close {
-  @apply text-color-1 border-color-transparent;
 }
 
 :host([bordered][selected]) {
   box-shadow: inset 0px -2px var(--calcite-ui-foreground-1);
-  .container {
-    border-inline-start: 1px solid var(--calcite-ui-border-1);
-    border-inline-end: 1px solid var(--calcite-ui-border-1);
-  }
 }
 
 :host([bordered][selected][position="bottom"]) {
   box-shadow: inset 0 2px 0 var(--calcite-ui-foreground-1);
-  .container {
-    border-block-start-style: none;
-  }
-}
-
-:host([bordered][position="bottom"]) .container {
-  border-block-start-style: unset;
 }
 
 :host([bordered]:hover),
@@ -185,6 +164,39 @@
 :host([bordered]:active) {
   .container {
     @apply relative;
+  }
+}
+
+:host([bordered]:hover) {
+  .container {
+    background-color: var(--calcite-button-transparent-hover);
+  }
+}
+
+:host([bordered]) .container {
+  border-block-end-style: unset;
+  border-inline-start: 1px solid transparent;
+  border-inline-end: 1px solid transparent;
+}
+
+:host([bordered][position="bottom"]) .container {
+  border-block-start-style: unset;
+}
+
+:host([selected][bordered]) .container {
+  border-inline-start-color: var(--calcite-ui-border-1);
+  border-inline-end-color: var(--calcite-ui-border-1);
+}
+
+:host([bordered]) {
+  .container {
+    @apply relative;
+  }
+}
+
+:host([bordered][scale="l"]) {
+  .icon-present {
+    padding-block: 11px;
   }
 }
 
@@ -197,15 +209,29 @@
   }
 }
 
-:host([bordered][scale="l"]) {
-  .icon-present {
-    padding-block: 11px;
-  }
-}
-
 @media (forced-colors: active) {
   :host {
     outline-width: 0;
     outline-offset: 0;
+  }
+
+  :host(:focus) .container {
+    outline-color: highlight;
+  }
+
+  :host([bordered]) .container {
+    border-block-end-style: solid;
+  }
+
+  :host([bordered][position="bottom"]) .container {
+    border-block-start-style: solid;
+  }
+
+  :host([bordered][selected]) .container {
+    border-block-end-style: none;
+  }
+
+  :host([bordered][position="bottom"][selected]) .container {
+    border-block-start-style: none;
   }
 }
