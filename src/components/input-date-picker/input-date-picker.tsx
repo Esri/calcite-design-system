@@ -483,9 +483,9 @@ export class InputDatePicker
     };
 
     return (
-      <Host onBlur={this.deactivate} onKeyDown={this.keyDownHandler} role="application">
+      <Host onBlur={this.deactivate} onKeyDown={this.keyDownHandler}>
         {this.localeData && (
-          <div aria-expanded={toAriaBoolean(this.open)} class="input-container" role="application">
+          <div class="input-container">
             <div
               class="input-wrapper"
               onClick={this.onInputWrapperClick}
@@ -493,6 +493,10 @@ export class InputDatePicker
               ref={this.setStartWrapper}
             >
               <calcite-input
+                aria-autocomplete="none"
+                aria-controls="date-picker"
+                aria-expanded={toAriaBoolean(this.open)}
+                aria-haspopup="dialog"
                 class={`input ${
                   this.layout === "vertical" && this.range ? `no-bottom-border` : ``
                 }`}
@@ -506,6 +510,7 @@ export class InputDatePicker
                 onCalciteInternalInputFocus={this.startInputFocus}
                 placeholder={this.localeData?.placeholder}
                 readOnly={readOnly}
+                role="combobox"
                 scale={this.scale}
                 type="text"
                 // eslint-disable-next-line react/jsx-sort-props
@@ -516,6 +521,7 @@ export class InputDatePicker
             <div
               aria-hidden={toAriaBoolean(!this.open)}
               aria-label={messages.chooseDate}
+              aria-live="polite"
               aria-modal="true"
               class={{
                 [CSS.menu]: true,
@@ -539,6 +545,7 @@ export class InputDatePicker
                   activeDate={this.datePickerActiveDate}
                   activeRange={this.focusedInput}
                   headingLevel={this.headingLevel}
+                  id="date-picker"
                   max={this.max}
                   maxAsDate={this.maxAsDate}
                   messageOverrides={this.messageOverrides}
@@ -578,6 +585,10 @@ export class InputDatePicker
                 ref={this.setEndWrapper}
               >
                 <calcite-input
+                  aria-autocomplete="none"
+                  aria-controls="date-picker"
+                  aria-expanded={toAriaBoolean(this.open)}
+                  aria-haspopup="dialog"
                   class={{
                     input: true,
                     "border-top-color-one": this.layout === "vertical" && this.range
@@ -591,6 +602,7 @@ export class InputDatePicker
                   onCalciteInternalInputFocus={this.endInputFocus}
                   placeholder={this.localeData?.placeholder}
                   readOnly={readOnly}
+                  role="combobox"
                   scale={this.scale}
                   type="text"
                   // eslint-disable-next-line react/jsx-sort-props

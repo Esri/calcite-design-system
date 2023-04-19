@@ -367,7 +367,7 @@ describe("calcite-input-date-picker", () => {
     await page.setContent(`<calcite-input-date-picker value="2023-01-31"></calcite-input-date-picker>`);
     const inputDatePicker = await page.find("calcite-input-date-picker");
 
-    await inputDatePicker.callMethod("setFocus");
+    await inputDatePicker.click();
     await page.waitForChanges();
 
     await page.evaluate(() => {
@@ -426,7 +426,7 @@ describe("calcite-input-date-picker", () => {
 
     expect(await input.getProperty("value")).toBe("");
 
-    await component.callMethod("setFocus");
+    await component.click();
     await page.waitForChanges();
     const calendar = await page.find(`#canReadOnly >>> .${CSS.menu}`);
 
