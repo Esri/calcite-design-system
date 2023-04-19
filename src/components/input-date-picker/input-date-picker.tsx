@@ -494,7 +494,7 @@ export class InputDatePicker
             >
               <calcite-input
                 aria-autocomplete="none"
-                aria-controls="date-picker"
+                aria-controls="date-picker-dialog"
                 aria-expanded={toAriaBoolean(this.open)}
                 aria-haspopup="dialog"
                 class={`input ${
@@ -527,6 +527,7 @@ export class InputDatePicker
                 [CSS.menu]: true,
                 [CSS.menuActive]: this.open
               }}
+              id="date-picker-dialog"
               role="dialog"
               // eslint-disable-next-line react/jsx-sort-props
               ref={this.setFloatingEl}
@@ -545,7 +546,6 @@ export class InputDatePicker
                   activeDate={this.datePickerActiveDate}
                   activeRange={this.focusedInput}
                   headingLevel={this.headingLevel}
-                  id="date-picker"
                   max={this.max}
                   maxAsDate={this.maxAsDate}
                   messageOverrides={this.messageOverrides}
@@ -586,7 +586,7 @@ export class InputDatePicker
               >
                 <calcite-input
                   aria-autocomplete="none"
-                  aria-controls="date-picker"
+                  aria-controls="date-picker-dialog"
                   aria-expanded={toAriaBoolean(this.open)}
                   aria-haspopup="dialog"
                   class={{
