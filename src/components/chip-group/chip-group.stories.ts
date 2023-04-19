@@ -18,7 +18,7 @@ export const simple = (): string => html`
     scale="${select("scale", ["s", "m", "l"], "m")}"
   >
     <calcite-chip value="forest">Forest</calcite-chip>
-    <calcite-chip value="tundra">Tundra/calcite-chip>
+    <calcite-chip value="tundra">Tundra</calcite-chip>
     <calcite-chip value="shore">Seashore</calcite-chip>
     <calcite-chip value="estuary">Estuary</calcite-chip>
   </calcite-chip-group>
@@ -28,7 +28,7 @@ export const darkThemeRTL_TestOnly = (): string => html`
   <div dir="rtl">
     <calcite-chip-group>
       <calcite-chip value="forest">Forest</calcite-chip>
-      <calcite-chip value="tundra">Tundra/calcite-chip>
+      <calcite-chip value="tundra">Tundra</calcite-chip>
       <calcite-chip value="shore">Seashore</calcite-chip>
       <calcite-chip value="estuary">Estuary</calcite-chip>
     </calcite-chip-group>

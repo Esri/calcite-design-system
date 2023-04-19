@@ -63,7 +63,7 @@
 
   &:not(.is-circle) {
     gap: var(--calcite-chip-spacing-s-internal);
-    padding-inline: var(--calcite-chip-spacing-s-internal);
+    padding-inline: calc(var(--calcite-chip-spacing-l-internal) / 2);
   }
   &.selectable {
     @apply cursor-pointer;
