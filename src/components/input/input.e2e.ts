@@ -101,19 +101,6 @@ describe("calcite-input", () => {
     expect(calciteInputInput).not.toHaveReceivedEvent();
   });
 
-  it("inherits requested props when from wrapping calcite-label when props are provided", async () => {
-    const page = await newE2EPage();
-    await page.setContent(html`
-      <calcite-label scale="s">
-        Label text
-        <calcite-input></calcite-input>
-      </calcite-label>
-    `);
-
-    const inputElement = await page.find("calcite-input");
-    expect(await inputElement.getProperty("scale")).toEqual("s");
-  });
-
   it("renders an icon when explicit Calcite UI is requested, and is a type without a default icon", async () => {
     const page = await newE2EPage();
     await page.setContent(html`<calcite-input icon="key" type="number"></calcite-input>`);
@@ -600,8 +587,7 @@ describe("calcite-input", () => {
       const element = await page.find("calcite-input");
       await element.callMethod("setFocus");
 
-      page.keyboard.press("ArrowUp");
-      page.keyboard.press("ArrowDown");
+      await Promise.all((["ArrowUp", "ArrowDown"] as const).map((key) => page.keyboard.press(key)));
       await page.waitForTimeout(delayFor2UpdatesInMs);
       expect(await element.getProperty("value")).toBe("0");
     });

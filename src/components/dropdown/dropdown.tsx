@@ -29,8 +29,7 @@ import {
   FloatingUIComponent,
   MenuPlacement,
   OverlayPositioning,
-  reposition,
-  updateAfterClose
+  reposition
 } from "../../utils/floating-ui";
 import { guid } from "../../utils/guid";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
@@ -89,14 +88,8 @@ export class Dropdown
     if (!this.disabled) {
       if (value) {
         this.reposition(true);
-      } else {
-        updateAfterClose(this.floatingEl);
       }
       return;
-    }
-
-    if (!value) {
-      updateAfterClose(this.floatingEl);
     }
 
     this.open = false;

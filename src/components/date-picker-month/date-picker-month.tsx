@@ -36,6 +36,13 @@ export class DatePickerMonth {
   //
   //--------------------------------------------------------------------------
 
+  /**
+   * The DateTimeFormat used to provide screen reader labels.
+   *
+   * @internal
+   */
+  @Prop() dateTimeFormat: Intl.DateTimeFormat;
+
   /** Already selected date.*/
   @Prop() selectedDate: Date;
 
@@ -418,36 +425,39 @@ export class DatePickerMonth {
       (!this.endDate && this.hoverRange && sameDate(this.hoverRange?.end, this.startDate));
 
     return (
-      <calcite-date-picker-day
-        active={active}
-        class={{
-          "hover--inside-range": this.startDate && isHoverInRange,
-          "hover--outside-range": this.startDate && !isHoverInRange,
-          "focused--start": isFocusedOnStart,
-          "focused--end": !isFocusedOnStart
-        }}
-        currentMonth={currentMonth}
-        day={day}
-        disabled={!inRange(date, this.min, this.max)}
-        endOfRange={this.isEndOfRange(date)}
-        highlighted={this.betweenSelectedRange(date)}
-        key={date.toDateString()}
-        onCalciteDaySelect={this.daySelect}
-        onCalciteInternalDayHover={this.dayHover}
-        range={!!this.startDate && !!this.endDate && !sameDate(this.startDate, this.endDate)}
-        rangeHover={this.isRangeHover(date)}
-        scale={this.scale}
-        selected={this.isSelected(date)}
-        startOfRange={this.isStartOfRange(date)}
-        value={date}
-        // eslint-disable-next-line react/jsx-sort-props
-        ref={(el: HTMLCalciteDatePickerDayElement) => {
-          // when moving via keyboard, focus must be updated on active date
-          if (ref && active && this.activeFocus) {
-            el?.focus();
-          }
-        }}
-      />
+      <div class="day" role="gridcell">
+        <calcite-date-picker-day
+          active={active}
+          class={{
+            "hover--inside-range": this.startDate && isHoverInRange,
+            "hover--outside-range": this.startDate && !isHoverInRange,
+            "focused--start": isFocusedOnStart,
+            "focused--end": !isFocusedOnStart
+          }}
+          currentMonth={currentMonth}
+          dateTimeFormat={this.dateTimeFormat}
+          day={day}
+          disabled={!inRange(date, this.min, this.max)}
+          endOfRange={this.isEndOfRange(date)}
+          highlighted={this.betweenSelectedRange(date)}
+          key={date.toDateString()}
+          onCalciteDaySelect={this.daySelect}
+          onCalciteInternalDayHover={this.dayHover}
+          range={!!this.startDate && !!this.endDate && !sameDate(this.startDate, this.endDate)}
+          rangeHover={this.isRangeHover(date)}
+          scale={this.scale}
+          selected={this.isSelected(date)}
+          startOfRange={this.isStartOfRange(date)}
+          value={date}
+          // eslint-disable-next-line react/jsx-sort-props
+          ref={(el: HTMLCalciteDatePickerDayElement) => {
+            // when moving via keyboard, focus must be updated on active date
+            if (ref && active && this.activeFocus) {
+              el?.focus();
+            }
+          }}
+        />
+      </div>
     );
   }
 

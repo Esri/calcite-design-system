@@ -203,55 +203,8 @@
         <div class="child">
           <calcite-dropdown id="langDropdown">
             <calcite-button appearance="outline" slot="trigger">Select Lang</calcite-button>
-            <calcite-dropdown-group>
-              <calcite-dropdown-item data-lang="ar">ar</calcite-dropdown-item>
-              <calcite-dropdown-item data-lang="bs">bs</calcite-dropdown-item>
-              <calcite-dropdown-item data-lang="ca">ca</calcite-dropdown-item>
-              <calcite-dropdown-item data-lang="cs">cs</calcite-dropdown-item>
-              <calcite-dropdown-item data-lang="da">da</calcite-dropdown-item>
-              <calcite-dropdown-item data-lang="de-CH">de-CH</calcite-dropdown-item>
-              <calcite-dropdown-item data-lang="de">de</calcite-dropdown-item>
-              <calcite-dropdown-item data-lang="el">el</calcite-dropdown-item>
-              <calcite-dropdown-item data-lang="en-AU">en-AU</calcite-dropdown-item>
-              <calcite-dropdown-item data-lang="en-CA">en-CA</calcite-dropdown-item>
-              <calcite-dropdown-item data-lang="en-GB">en-GB</calcite-dropdown-item>
-              <calcite-dropdown-item data-lang="en">en</calcite-dropdown-item>
-              <calcite-dropdown-item data-lang="es-MX">es-MX</calcite-dropdown-item>
-              <calcite-dropdown-item data-lang="es">es</calcite-dropdown-item>
-              <calcite-dropdown-item data-lang="et">et</calcite-dropdown-item>
-              <calcite-dropdown-item data-lang="fi">fi</calcite-dropdown-item>
-              <calcite-dropdown-item data-lang="fr-CH">fr-CH</calcite-dropdown-item>
-              <calcite-dropdown-item data-lang="fr">fr</calcite-dropdown-item>
-              <calcite-dropdown-item data-lang="he">he</calcite-dropdown-item>
-              <calcite-dropdown-item data-lang="hi">hi</calcite-dropdown-item>
-              <calcite-dropdown-item data-lang="hr">hr</calcite-dropdown-item>
-              <calcite-dropdown-item data-lang="hu">hu</calcite-dropdown-item>
-              <calcite-dropdown-item data-lang="id">id</calcite-dropdown-item>
-              <calcite-dropdown-item data-lang="it-CH">it-CH</calcite-dropdown-item>
-              <calcite-dropdown-item data-lang="it">it</calcite-dropdown-item>
-              <calcite-dropdown-item data-lang="ja">ja</calcite-dropdown-item>
-              <calcite-dropdown-item data-lang="ko">ko</calcite-dropdown-item>
-              <calcite-dropdown-item data-lang="lt">lt</calcite-dropdown-item>
-              <calcite-dropdown-item data-lang="lv">lv</calcite-dropdown-item>
-              <calcite-dropdown-item data-lang="mk">mk</calcite-dropdown-item>
-              <calcite-dropdown-item data-lang="nb">nb</calcite-dropdown-item>
-              <calcite-dropdown-item data-lang="nl">nl</calcite-dropdown-item>
-              <calcite-dropdown-item data-lang="pl">pl</calcite-dropdown-item>
-              <calcite-dropdown-item data-lang="pt-PT">pt-PT</calcite-dropdown-item>
-              <calcite-dropdown-item data-lang="pt">pt</calcite-dropdown-item>
-              <calcite-dropdown-item data-lang="ro">ro</calcite-dropdown-item>
-              <calcite-dropdown-item data-lang="ru">ru</calcite-dropdown-item>
-              <calcite-dropdown-item data-lang="sk">sk</calcite-dropdown-item>
-              <calcite-dropdown-item data-lang="sl">sl</calcite-dropdown-item>
-              <calcite-dropdown-item data-lang="sr">sr</calcite-dropdown-item>
-              <calcite-dropdown-item data-lang="sv">sv</calcite-dropdown-item>
-              <calcite-dropdown-item data-lang="th">th</calcite-dropdown-item>
-              <calcite-dropdown-item data-lang="tr">tr</calcite-dropdown-item>
-              <calcite-dropdown-item data-lang="uk">uk</calcite-dropdown-item>
-              <calcite-dropdown-item data-lang="vi">vi</calcite-dropdown-item>
-              <calcite-dropdown-item data-lang="zh-CN">zh-CN</calcite-dropdown-item>
-              <calcite-dropdown-item data-lang="zh-HK">zh-HK</calcite-dropdown-item>
-              <calcite-dropdown-item data-lang="zh-TW">zh-TW</calcite-dropdown-item>
+            <calcite-dropdown-group id="localeGroup">
+              <!-- locales added dynamically -->
             </calcite-dropdown-group>
           </calcite-dropdown>
 
@@ -262,7 +215,9 @@
         <div class="child" id="localeDatePickerContainerS"></div>
         <div class="child" id="localeDatePickerContainerL"></div>
       </div>
-      <script>
+      <script type="module">
+        import { locales } from "./_assets/locales.js";
+
         const numberingSystems = [
           "arab",
           "arabext",
@@ -295,6 +250,17 @@
         let localeDatePickerL;
         const localeDatePickerContainerS = document.getElementById("localeDatePickerContainerS");
         const localeDatePickerContainerL = document.getElementById("localeDatePickerContainerL");
+
+        const localeGroup = document.getElementById("localeGroup");
+
+        localeGroup.append(
+          ...locales.map(({ locale, name }) => {
+            const dropdownItem = document.createElement("calcite-dropdown-item");
+            dropdownItem.setAttribute("data-lang", locale);
+            dropdownItem.innerText = `${name} (${locale})`;
+            return dropdownItem;
+          })
+        );
 
         // creates the date picker with the selected lang/numberingSystem
         const createLocaleDatePicker = ({ lang, numberingSystem }) => {

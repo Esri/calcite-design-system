@@ -77,7 +77,7 @@ export class Button
   /**
    * The ID of the form that will be associated with the component.
    *
-   * When not set, the component will be associated with its ancestor `<form>` element, if any.
+   * When not set, the component will be associated with its ancestor form element, if any.
    */
   @Prop({ reflect: true })
   form: string;
@@ -188,6 +188,7 @@ export class Button
     disconnectLabel(this);
     disconnectLocalized(this);
     disconnectMessages(this);
+    this.resizeObserver?.disconnect();
     this.formEl = null;
   }
 
@@ -201,6 +202,7 @@ export class Button
 
   componentDidLoad(): void {
     setComponentLoaded(this);
+    this.setTooltipText();
   }
 
   componentDidRender(): void {
@@ -241,7 +243,7 @@ export class Button
     );
 
     const contentEl = (
-      <span class={CSS.content}>
+      <span class={CSS.content} ref={(el) => (this.contentEl = el)}>
         <slot />
       </span>
     );
@@ -260,12 +262,12 @@ export class Button
         href={childElType === "a" && this.href}
         name={childElType === "button" && this.name}
         onClick={this.handleClick}
+        ref={this.setChildEl}
         rel={childElType === "a" && this.rel}
         tabIndex={this.disabled || this.loading ? -1 : null}
         target={childElType === "a" && this.target}
+        title={this.tooltipText}
         type={childElType === "button" && this.type}
-        // eslint-disable-next-line react/jsx-sort-props
-        ref={(el) => (this.childEl = el)}
       >
         {loaderNode}
         {this.iconStart ? iconStartEl : null}
@@ -332,6 +334,14 @@ export class Button
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
   }
 
+  /** keeps track of the tooltipText */
+  @State() tooltipText: string;
+
+  /** keep track of the rendered contentEl */
+  private contentEl: HTMLSpanElement;
+
+  resizeObserver = createObserver("resize", () => this.setTooltipText());
+
   //--------------------------------------------------------------------------
   //
   //  Private Methods
@@ -356,6 +366,21 @@ export class Button
       submitForm(this);
     } else if (type === "reset") {
       resetForm(this);
+    }
+  };
+
+  private setTooltipText = (): void => {
+    const { contentEl } = this;
+    if (contentEl) {
+      this.tooltipText = contentEl.offsetWidth < contentEl.scrollWidth ? this.el.innerText : null;
+    }
+  };
+
+  private setChildEl = (el: HTMLElement): void => {
+    this.childEl = el;
+
+    if (el) {
+      this.resizeObserver?.observe(el);
     }
   };
 }

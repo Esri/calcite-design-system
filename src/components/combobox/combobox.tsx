@@ -26,8 +26,7 @@ import {
   FloatingUIComponent,
   LogicalPlacement,
   OverlayPositioning,
-  reposition,
-  updateAfterClose
+  reposition
 } from "../../utils/floating-ui";
 import {
   afterConnectDefaultValueSet,
@@ -116,11 +115,7 @@ export class Combobox
   @Prop({ reflect: true, mutable: true }) open = false;
 
   @Watch("open")
-  openHandler(value: boolean): void {
-    if (!value) {
-      updateAfterClose(this.floatingEl);
-    }
-
+  openHandler(): void {
     if (this.disabled) {
       this.open = false;
       return;
@@ -142,7 +137,7 @@ export class Combobox
   /**
    * The ID of the form that will be associated with the component.
    *
-   * When not set, the component will be associated with its ancestor `<form>` element, if any.
+   * When not set, the component will be associated with its ancestor form element, if any.
    */
   @Prop({ reflect: true })
   form: string;
@@ -398,7 +393,7 @@ export class Combobox
     this.setFilteredPlacements();
     this.reposition(true);
     if (this.open) {
-      this.openHandler(this.open);
+      this.openHandler();
     }
   }
 
