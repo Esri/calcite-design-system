@@ -7,11 +7,12 @@ export const CSS = {
   container: "container",
   imageSlotted: "image--slotted",
   closable: "closable",
-  hasIcon: "has-icon",
+  multiple: "multiple",
   selectable: "selectable",
   selectIcon: "select-icon",
   selectIconActive: "select-icon--active",
-  nonInteractive: "non-interactive"
+  nonInteractive: "non-interactive",
+  isCircle: "is-circle"
 };
 
 export const SLOTS = {

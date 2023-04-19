@@ -185,6 +185,7 @@ export class ChipGroup implements InteractiveComponent {
 
     this.items.forEach((el) => {
       el.interactive = true;
+      el.scale = this.scale;
       el.selectionMode = this.selectionMode;
     });
 

@@ -13,6 +13,14 @@
         padding: 35px 0;
       }
 
+      .parent.column {
+        flex-direction: column;
+      }
+
+      .parent.column calcite-chip-group {
+        margin: 10px 0;
+      }
+
       .child {
         flex: 0 0 15%;
         margin: 25px;
@@ -284,135 +292,332 @@
       <!-- A horizontal line -->
       <!-- Header -->
       <div class="child">
-        <h2>All combinations</h2>
+        <h2>All chip usage combinations</h2>
       </div>
 
       <!-- Examples -->
-      <div class="parent">
-        <div class="child">Group - no selection - navigation</div>
-        <calcite-chip-group label="demo-group-label" scale="s">
-          <calcite-chip scale="s" appearance="outline-fill" value="calcite chip">Text only</calcite-chip>
-          <calcite-chip scale="s" appearance="outline-fill" value="calcite chip" closable>Text closable</calcite-chip>
-          <calcite-chip scale="s" appearance="outline-fill" value="calcite chip" icon="layer"></calcite-chip>
-          <calcite-chip scale="s" appearance="outline-fill" value="calcite chip" icon="layer" closable></calcite-chip>
-          <calcite-chip scale="s" appearance="outline-fill" value="calcite chip">
-            <calcite-avatar slot="image" username="MJ"></calcite-avatar>Icon and text
-          </calcite-chip>
-          <calcite-chip scale="s" appearance="outline-fill" icon="layer" value="calcite chip"
-            >Image and text</calcite-chip
-          >
-          <calcite-chip scale="s" appearance="outline-fill" value="calcite chip" icon="layer">
-            <calcite-avatar slot="image" username="MJ"></calcite-avatar>Icon and text
-          </calcite-chip>
-          <calcite-chip scale="s" appearance="outline-fill" value="calcite chip" icon="layer" closable>
-            <calcite-avatar slot="image" username="MJ"></calcite-avatar>Icon and text
-          </calcite-chip>
-        </calcite-chip-group>
-      </div>
-
-      <div class="parent">
-        <div class="child">All combinations</div>
-        <calcite-chip-group label="demo-group-label">
-          <calcite-chip appearance="outline-fill" value="calcite chip">Text only</calcite-chip>
-          <calcite-chip appearance="outline-fill" value="calcite chip" closable>Text closable</calcite-chip>
+      <div class="parent column">
+        <div class="child">no selection, not closable</div>
+        <calcite-chip-group scale="s" label="demo-group-label">
+          <calcite-chip appearance="outline-fill" value="calcite chip">Chip</calcite-chip>
           <calcite-chip appearance="outline-fill" value="calcite chip" icon="layer"></calcite-chip>
-          <calcite-chip appearance="outline-fill" value="calcite chip" icon="layer" closable></calcite-chip>
           <calcite-chip appearance="outline-fill" value="calcite chip">
-            <calcite-avatar slot="image" username="MJ"></calcite-avatar>Icon and text
+            <calcite-avatar slot="image" username="MJ"></calcite-avatar>
           </calcite-chip>
-          <calcite-chip appearance="outline-fill" icon="layer" value="calcite chip">Image and text</calcite-chip>
-          <calcite-chip appearance="outline-fill" value="calcite chip" icon="layer">
-            <calcite-avatar slot="image" username="MJ"></calcite-avatar>Icon and text
+          <calcite-chip appearance="outline-fill" icon="layer" value="calcite chip">
+            <calcite-avatar slot="image" username="MJ"></calcite-avatar>
           </calcite-chip>
-          <calcite-chip appearance="outline-fill" value="calcite chip" icon="layer" closable>
-            <calcite-avatar slot="image" username="MJ"></calcite-avatar>Icon and text
-          </calcite-chip>
-        </calcite-chip-group>
-      </div>
-
-      <div class="parent">
-        <div class="child">All combinations</div>
-        <calcite-chip-group label="demo-group-label" scale="l">
-          <calcite-chip scale="l" appearance="outline-fill" value="calcite chip">Text only</calcite-chip>
-          <calcite-chip scale="l" appearance="outline-fill" value="calcite chip" closable>Text closable</calcite-chip>
-          <calcite-chip scale="l" appearance="outline-fill" value="calcite chip" icon="layer"></calcite-chip>
-          <calcite-chip scale="l" appearance="outline-fill" value="calcite chip" icon="layer" closable></calcite-chip>
-          <calcite-chip scale="l" appearance="outline-fill" value="calcite chip">
-            <calcite-avatar slot="image" username="MJ"></calcite-avatar>Icon and text
-          </calcite-chip>
-          <calcite-chip scale="l" appearance="outline-fill" icon="layer" value="calcite chip"
-            >Image and text</calcite-chip
+          <calcite-chip appearance="outline-fill" value="calcite chip">
+            <calcite-avatar slot="image" username="MJ"></calcite-avatar>Chip</calcite-chip
           >
-          <calcite-chip scale="l" appearance="outline-fill" value="calcite chip" icon="layer">
-            <calcite-avatar slot="image" username="MJ"></calcite-avatar>Icon and text
-          </calcite-chip>
-          <calcite-chip scale="l" appearance="outline-fill" value="calcite chip" icon="layer" closable>
-            <calcite-avatar slot="image" username="MJ"></calcite-avatar>Icon and text
-          </calcite-chip>
+          <calcite-chip appearance="outline-fill" icon="layer" value="calcite chip">Chip</calcite-chip>
+          <calcite-chip appearance="outline-fill" icon="layer" value="calcite chip">
+            <calcite-avatar slot="image" username="MJ"></calcite-avatar>Chip</calcite-chip
+          >
         </calcite-chip-group>
-      </div>
-
-      <div class="parent">
-        <div class="child">All combinations + multiple s</div>
-        <calcite-chip-group label="demo-group-label" scale="s" selection-mode="multiple">
-          <calcite-chip scale="s" appearance="outline-fill" value="calcite chip">Text only</calcite-chip>
-          <calcite-chip scale="s" appearance="outline-fill" value="calcite chip" closable>Text closable </calcite-chip>
-          <calcite-chip scale="s" appearance="outline-fill" value="calcite chip" icon="layer"></calcite-chip>
-          <calcite-chip scale="s" appearance="outline-fill" value="calcite chip" icon="layer" closable> </calcite-chip>
-          <calcite-chip scale="s" appearance="outline-fill" value="calcite chip">
-            <calcite-avatar slot="image" username="MJ"></calcite-avatar>Icon and text
-          </calcite-chip>
-          <calcite-chip scale="s" appearance="outline-fill" icon="layer" value="calcite chip"
-            >Image and text
-          </calcite-chip>
-          <calcite-chip scale="s" appearance="outline-fill" value="calcite chip" icon="layer">
-            <calcite-avatar slot="image" username="MJ"></calcite-avatar>Icon and text
-          </calcite-chip>
-          <calcite-chip scale="s" appearance="outline-fill" value="calcite chip" icon="layer" closable>
-            <calcite-avatar slot="image" username="MJ"></calcite-avatar>Icon and text
-          </calcite-chip>
-        </calcite-chip-group>
-      </div>
-
-      <div class="parent">
-        <div class="child">All combinations + multiple m</div>
-        <calcite-chip-group label="demo-group-label" selection-mode="multiple">
-          <calcite-chip appearance="outline-fill" value="calcite chip">Text only</calcite-chip>
-          <calcite-chip appearance="outline-fill" value="calcite chip" closable>Text closable</calcite-chip>
+        <calcite-chip-group scale="m" label="demo-group-label">
+          <calcite-chip appearance="outline-fill" value="calcite chip">Chip</calcite-chip>
           <calcite-chip appearance="outline-fill" value="calcite chip" icon="layer"></calcite-chip>
-          <calcite-chip appearance="outline-fill" value="calcite chip" icon="layer" closable></calcite-chip>
           <calcite-chip appearance="outline-fill" value="calcite chip">
-            <calcite-avatar slot="image" username="MJ"></calcite-avatar>Icon and text
+            <calcite-avatar slot="image" username="MJ"></calcite-avatar>
           </calcite-chip>
-          <calcite-chip appearance="outline-fill" icon="layer" value="calcite chip">Image and text</calcite-chip>
-          <calcite-chip appearance="outline-fill" value="calcite chip" icon="layer">
-            <calcite-avatar slot="image" username="MJ"></calcite-avatar>Icon and text
+          <calcite-chip appearance="outline-fill" icon="layer" value="calcite chip">
+            <calcite-avatar slot="image" username="MJ"></calcite-avatar>
           </calcite-chip>
-          <calcite-chip appearance="outline-fill" value="calcite chip" icon="layer" closable>
-            <calcite-avatar slot="image" username="MJ"></calcite-avatar>Icon and text
+          <calcite-chip appearance="outline-fill" value="calcite chip">
+            <calcite-avatar slot="image" username="MJ"></calcite-avatar>Chip</calcite-chip
+          >
+          <calcite-chip appearance="outline-fill" icon="layer" value="calcite chip">Chip</calcite-chip>
+          <calcite-chip appearance="outline-fill" icon="layer" value="calcite chip">
+            <calcite-avatar slot="image" username="MJ"></calcite-avatar>Chip</calcite-chip
+          >
+        </calcite-chip-group>
+        <calcite-chip-group scale="l" label="demo-group-label">
+          <calcite-chip appearance="outline-fill" value="calcite chip">Chip</calcite-chip>
+          <calcite-chip appearance="outline-fill" value="calcite chip" icon="layer"></calcite-chip>
+          <calcite-chip appearance="outline-fill" value="calcite chip">
+            <calcite-avatar slot="image" username="MJ"></calcite-avatar>
           </calcite-chip>
+          <calcite-chip appearance="outline-fill" icon="layer" value="calcite chip">
+            <calcite-avatar slot="image" username="MJ"></calcite-avatar>
+          </calcite-chip>
+          <calcite-chip appearance="outline-fill" value="calcite chip">
+            <calcite-avatar slot="image" username="MJ"></calcite-avatar>Chip</calcite-chip
+          >
+          <calcite-chip appearance="outline-fill" icon="layer" value="calcite chip">Chip</calcite-chip>
+          <calcite-chip appearance="outline-fill" icon="layer" value="calcite chip">
+            <calcite-avatar slot="image" username="MJ"></calcite-avatar>Chip</calcite-chip
+          >
         </calcite-chip-group>
       </div>
-
-      <div class="parent">
-        <div class="child">All combinations + multiple l</div>
-        <calcite-chip-group label="demo-group-label" scale="l" selection-mode="multiple">
-          <calcite-chip scale="l" appearance="outline-fill" value="calcite chip">Text only</calcite-chip>
-          <calcite-chip scale="l" appearance="outline-fill" value="calcite chip" closable>Text closable </calcite-chip>
-          <calcite-chip scale="l" appearance="outline-fill" value="calcite chip" icon="layer"></calcite-chip>
-          <calcite-chip scale="l" appearance="outline-fill" value="calcite chip" icon="layer" closable> </calcite-chip>
-          <calcite-chip scale="l" appearance="outline-fill" value="calcite chip">
-            <calcite-avatar slot="image" username="MJ"></calcite-avatar>Icon and text
+      <div class="parent column">
+        <div class="child">no selection, closable</div>
+        <calcite-chip-group scale="s" label="demo-group-label">
+          <calcite-chip closable appearance="outline-fill" value="calcite chip">Chip</calcite-chip>
+          <calcite-chip closable appearance="outline-fill" value="calcite chip" icon="layer"></calcite-chip>
+          <calcite-chip closable appearance="outline-fill" value="calcite chip">
+            <calcite-avatar slot="image" username="MJ"></calcite-avatar>
           </calcite-chip>
-          <calcite-chip scale="l" appearance="outline-fill" icon="layer" value="calcite chip"
-            >Image and text
+          <calcite-chip closable appearance="outline-fill" icon="layer" value="calcite chip">
+            <calcite-avatar slot="image" username="MJ"></calcite-avatar>
           </calcite-chip>
-          <calcite-chip scale="l" appearance="outline-fill" value="calcite chip" icon="layer">
-            <calcite-avatar slot="image" username="MJ"></calcite-avatar>Icon and text
+          <calcite-chip closable appearance="outline-fill" value="calcite chip">
+            <calcite-avatar slot="image" username="MJ"></calcite-avatar>Chip</calcite-chip
+          >
+          <calcite-chip closable appearance="outline-fill" icon="layer" value="calcite chip">Chip</calcite-chip>
+          <calcite-chip closable appearance="outline-fill" icon="layer" value="calcite chip">
+            <calcite-avatar slot="image" username="MJ"></calcite-avatar>Chip</calcite-chip
+          >
+        </calcite-chip-group>
+        <calcite-chip-group scale="m" label="demo-group-label">
+          <calcite-chip closable appearance="outline-fill" value="calcite chip">Chip</calcite-chip>
+          <calcite-chip closable appearance="outline-fill" value="calcite chip" icon="layer"></calcite-chip>
+          <calcite-chip closable appearance="outline-fill" value="calcite chip">
+            <calcite-avatar slot="image" username="MJ"></calcite-avatar>
           </calcite-chip>
-          <calcite-chip scale="l" appearance="outline-fill" value="calcite chip" icon="layer" closable>
-            <calcite-avatar slot="image" username="MJ"></calcite-avatar>Icon and text
+          <calcite-chip closable appearance="outline-fill" icon="layer" value="calcite chip">
+            <calcite-avatar slot="image" username="MJ"></calcite-avatar>
           </calcite-chip>
+          <calcite-chip closable appearance="outline-fill" value="calcite chip">
+            <calcite-avatar slot="image" username="MJ"></calcite-avatar>Chip</calcite-chip
+          >
+          <calcite-chip closable appearance="outline-fill" icon="layer" value="calcite chip">Chip</calcite-chip>
+          <calcite-chip closable appearance="outline-fill" icon="layer" value="calcite chip">
+            <calcite-avatar slot="image" username="MJ"></calcite-avatar>Chip</calcite-chip
+          >
+        </calcite-chip-group>
+        <calcite-chip-group scale="l" label="demo-group-label">
+          <calcite-chip closable appearance="outline-fill" value="calcite chip">Chip</calcite-chip>
+          <calcite-chip closable appearance="outline-fill" value="calcite chip" icon="layer"></calcite-chip>
+          <calcite-chip closable appearance="outline-fill" value="calcite chip">
+            <calcite-avatar slot="image" username="MJ"></calcite-avatar>
+          </calcite-chip>
+          <calcite-chip closable appearance="outline-fill" icon="layer" value="calcite chip">
+            <calcite-avatar slot="image" username="MJ"></calcite-avatar>
+          </calcite-chip>
+          <calcite-chip closable appearance="outline-fill" value="calcite chip">
+            <calcite-avatar slot="image" username="MJ"></calcite-avatar>Chip</calcite-chip
+          >
+          <calcite-chip closable appearance="outline-fill" icon="layer" value="calcite chip">Chip</calcite-chip>
+          <calcite-chip closable appearance="outline-fill" icon="layer" value="calcite chip">
+            <calcite-avatar slot="image" username="MJ"></calcite-avatar>Chip</calcite-chip
+          >
+        </calcite-chip-group>
+      </div>
+      <div class="parent column">
+        <div class="child">single selection, closable</div>
+        <calcite-chip-group selection-mode="single" scale="s" label="demo-group-label">
+          <calcite-chip closable appearance="outline-fill" value="calcite chip">Chip</calcite-chip>
+          <calcite-chip selected closable appearance="outline-fill" value="calcite chip" icon="layer"></calcite-chip>
+          <calcite-chip closable appearance="outline-fill" value="calcite chip">
+            <calcite-avatar slot="image" username="MJ"></calcite-avatar>
+          </calcite-chip>
+          <calcite-chip closable appearance="outline-fill" icon="layer" value="calcite chip">
+            <calcite-avatar slot="image" username="MJ"></calcite-avatar>
+          </calcite-chip>
+          <calcite-chip closable appearance="outline-fill" value="calcite chip">
+            <calcite-avatar slot="image" username="MJ"></calcite-avatar>Chip</calcite-chip
+          >
+          <calcite-chip closable appearance="outline-fill" icon="layer" value="calcite chip">Chip</calcite-chip>
+          <calcite-chip closable appearance="outline-fill" icon="layer" value="calcite chip">
+            <calcite-avatar slot="image" username="MJ"></calcite-avatar>Chip</calcite-chip
+          >
+        </calcite-chip-group>
+        <calcite-chip-group selection-mode="single" scale="m" label="demo-group-label">
+          <calcite-chip closable appearance="outline-fill" value="calcite chip">Chip</calcite-chip>
+          <calcite-chip selected closable appearance="outline-fill" value="calcite chip" icon="layer"></calcite-chip>
+          <calcite-chip closable appearance="outline-fill" value="calcite chip">
+            <calcite-avatar slot="image" username="MJ"></calcite-avatar>
+          </calcite-chip>
+          <calcite-chip closable appearance="outline-fill" icon="layer" value="calcite chip">
+            <calcite-avatar slot="image" username="MJ"></calcite-avatar>
+          </calcite-chip>
+          <calcite-chip closable appearance="outline-fill" value="calcite chip">
+            <calcite-avatar slot="image" username="MJ"></calcite-avatar>Chip</calcite-chip
+          >
+          <calcite-chip closable appearance="outline-fill" icon="layer" value="calcite chip">Chip</calcite-chip>
+          <calcite-chip closable appearance="outline-fill" icon="layer" value="calcite chip">
+            <calcite-avatar slot="image" username="MJ"></calcite-avatar>Chip</calcite-chip
+          >
+        </calcite-chip-group>
+        <calcite-chip-group selection-mode="single" scale="l" label="demo-group-label">
+          <calcite-chip closable appearance="outline-fill" value="calcite chip">Chip</calcite-chip>
+          <calcite-chip selected closable appearance="outline-fill" value="calcite chip" icon="layer"></calcite-chip>
+          <calcite-chip closable appearance="outline-fill" value="calcite chip">
+            <calcite-avatar slot="image" username="MJ"></calcite-avatar>
+          </calcite-chip>
+          <calcite-chip closable appearance="outline-fill" icon="layer" value="calcite chip">
+            <calcite-avatar slot="image" username="MJ"></calcite-avatar>
+          </calcite-chip>
+          <calcite-chip closable appearance="outline-fill" value="calcite chip">
+            <calcite-avatar slot="image" username="MJ"></calcite-avatar>Chip</calcite-chip
+          >
+          <calcite-chip closable appearance="outline-fill" icon="layer" value="calcite chip">Chip</calcite-chip>
+          <calcite-chip closable appearance="outline-fill" icon="layer" value="calcite chip">
+            <calcite-avatar slot="image" username="MJ"></calcite-avatar>Chip</calcite-chip
+          >
+        </calcite-chip-group>
+      </div>
+      <div class="parent column">
+        <div class="child">multiple selection, closable</div>
+        <calcite-chip-group selection-mode="multiple" scale="s" label="demo-group-label">
+          <calcite-chip closable appearance="outline-fill" value="calcite chip">Chip</calcite-chip>
+          <calcite-chip selected closable appearance="outline-fill" value="calcite chip" icon="layer"></calcite-chip>
+          <calcite-chip closable appearance="outline-fill" value="calcite chip">
+            <calcite-avatar slot="image" username="MJ"></calcite-avatar>
+          </calcite-chip>
+          <calcite-chip closable appearance="outline-fill" icon="layer" value="calcite chip">
+            <calcite-avatar slot="image" username="MJ"></calcite-avatar>
+          </calcite-chip>
+          <calcite-chip closable appearance="outline-fill" value="calcite chip">
+            <calcite-avatar slot="image" username="MJ"></calcite-avatar>Chip</calcite-chip
+          >
+          <calcite-chip closable appearance="outline-fill" icon="layer" value="calcite chip">Chip</calcite-chip>
+          <calcite-chip closable appearance="outline-fill" icon="layer" value="calcite chip">
+            <calcite-avatar slot="image" username="MJ"></calcite-avatar>Chip</calcite-chip
+          >
+        </calcite-chip-group>
+        <calcite-chip-group selection-mode="multiple" scale="m" label="demo-group-label">
+          <calcite-chip closable appearance="outline-fill" value="calcite chip">Chip</calcite-chip>
+          <calcite-chip selected closable appearance="outline-fill" value="calcite chip" icon="layer"></calcite-chip>
+          <calcite-chip closable appearance="outline-fill" value="calcite chip">
+            <calcite-avatar slot="image" username="MJ"></calcite-avatar>
+          </calcite-chip>
+          <calcite-chip closable appearance="outline-fill" icon="layer" value="calcite chip">
+            <calcite-avatar slot="image" username="MJ"></calcite-avatar>
+          </calcite-chip>
+          <calcite-chip closable appearance="outline-fill" value="calcite chip">
+            <calcite-avatar slot="image" username="MJ"></calcite-avatar>Chip</calcite-chip
+          >
+          <calcite-chip closable appearance="outline-fill" icon="layer" value="calcite chip">Chip</calcite-chip>
+          <calcite-chip closable appearance="outline-fill" icon="layer" value="calcite chip">
+            <calcite-avatar slot="image" username="MJ"></calcite-avatar>Chip</calcite-chip
+          >
+        </calcite-chip-group>
+        <calcite-chip-group selection-mode="multiple" scale="l" label="demo-group-label">
+          <calcite-chip closable appearance="outline-fill" value="calcite chip">Chip</calcite-chip>
+          <calcite-chip selected closable appearance="outline-fill" value="calcite chip" icon="layer"></calcite-chip>
+          <calcite-chip closable appearance="outline-fill" value="calcite chip">
+            <calcite-avatar slot="image" username="MJ"></calcite-avatar>
+          </calcite-chip>
+          <calcite-chip closable appearance="outline-fill" icon="layer" value="calcite chip">
+            <calcite-avatar slot="image" username="MJ"></calcite-avatar>
+          </calcite-chip>
+          <calcite-chip closable appearance="outline-fill" value="calcite chip">
+            <calcite-avatar slot="image" username="MJ"></calcite-avatar>Chip</calcite-chip
+          >
+          <calcite-chip closable appearance="outline-fill" icon="layer" value="calcite chip">Chip</calcite-chip>
+          <calcite-chip closable appearance="outline-fill" icon="layer" value="calcite chip">
+            <calcite-avatar slot="image" username="MJ"></calcite-avatar>Chip</calcite-chip
+          >
+        </calcite-chip-group>
+      </div>
+      <div class="parent column">
+        <div class="child">single selection,not closable</div>
+        <calcite-chip-group selection-mode="single" scale="s" label="demo-group-label">
+          <calcite-chip closable appearance="outline-fill" value="calcite chip">Chip</calcite-chip>
+          <calcite-chip selected closable appearance="outline-fill" value="calcite chip" icon="layer"></calcite-chip>
+          <calcite-chip closable appearance="outline-fill" value="calcite chip">
+            <calcite-avatar slot="image" username="MJ"></calcite-avatar>
+          </calcite-chip>
+          <calcite-chip closable appearance="outline-fill" icon="layer" value="calcite chip">
+            <calcite-avatar slot="image" username="MJ"></calcite-avatar>
+          </calcite-chip>
+          <calcite-chip closable appearance="outline-fill" value="calcite chip">
+            <calcite-avatar slot="image" username="MJ"></calcite-avatar>Chip</calcite-chip
+          >
+          <calcite-chip closable appearance="outline-fill" icon="layer" value="calcite chip">Chip</calcite-chip>
+          <calcite-chip closable appearance="outline-fill" icon="layer" value="calcite chip">
+            <calcite-avatar slot="image" username="MJ"></calcite-avatar>Chip</calcite-chip
+          >
+        </calcite-chip-group>
+        <calcite-chip-group selection-mode="single" scale="m" label="demo-group-label">
+          <calcite-chip closable appearance="outline-fill" value="calcite chip">Chip</calcite-chip>
+          <calcite-chip selected closable appearance="outline-fill" value="calcite chip" icon="layer"></calcite-chip>
+          <calcite-chip closable appearance="outline-fill" value="calcite chip">
+            <calcite-avatar slot="image" username="MJ"></calcite-avatar>
+          </calcite-chip>
+          <calcite-chip closable appearance="outline-fill" icon="layer" value="calcite chip">
+            <calcite-avatar slot="image" username="MJ"></calcite-avatar>
+          </calcite-chip>
+          <calcite-chip closable appearance="outline-fill" value="calcite chip">
+            <calcite-avatar slot="image" username="MJ"></calcite-avatar>Chip</calcite-chip
+          >
+          <calcite-chip closable appearance="outline-fill" icon="layer" value="calcite chip">Chip</calcite-chip>
+          <calcite-chip closable appearance="outline-fill" icon="layer" value="calcite chip">
+            <calcite-avatar slot="image" username="MJ"></calcite-avatar>Chip</calcite-chip
+          >
+        </calcite-chip-group>
+        <calcite-chip-group selection-mode="single" scale="l" label="demo-group-label">
+          <calcite-chip closable appearance="outline-fill" value="calcite chip">Chip</calcite-chip>
+          <calcite-chip selected closable appearance="outline-fill" value="calcite chip" icon="layer"></calcite-chip>
+          <calcite-chip closable appearance="outline-fill" value="calcite chip">
+            <calcite-avatar slot="image" username="MJ"></calcite-avatar>
+          </calcite-chip>
+          <calcite-chip closable appearance="outline-fill" icon="layer" value="calcite chip">
+            <calcite-avatar slot="image" username="MJ"></calcite-avatar>
+          </calcite-chip>
+          <calcite-chip closable appearance="outline-fill" value="calcite chip">
+            <calcite-avatar slot="image" username="MJ"></calcite-avatar>Chip</calcite-chip
+          >
+          <calcite-chip closable appearance="outline-fill" icon="layer" value="calcite chip">Chip</calcite-chip>
+          <calcite-chip closable appearance="outline-fill" icon="layer" value="calcite chip">
+            <calcite-avatar slot="image" username="MJ"></calcite-avatar>Chip</calcite-chip
+          >
+        </calcite-chip-group>
+      </div>
+      <div class="parent column">
+        <div class="child">multiple selection, not closable</div>
+        <calcite-chip-group selection-mode="multiple" scale="s" label="demo-group-label">
+          <calcite-chip closable appearance="outline-fill" value="calcite chip">Chip</calcite-chip>
+          <calcite-chip selected closable appearance="outline-fill" value="calcite chip" icon="layer"></calcite-chip>
+          <calcite-chip closable appearance="outline-fill" value="calcite chip">
+            <calcite-avatar slot="image" username="MJ"></calcite-avatar>
+          </calcite-chip>
+          <calcite-chip closable appearance="outline-fill" icon="layer" value="calcite chip">
+            <calcite-avatar slot="image" username="MJ"></calcite-avatar>
+          </calcite-chip>
+          <calcite-chip closable appearance="outline-fill" value="calcite chip">
+            <calcite-avatar slot="image" username="MJ"></calcite-avatar>Chip</calcite-chip
+          >
+          <calcite-chip closable appearance="outline-fill" icon="layer" value="calcite chip">Chip</calcite-chip>
+          <calcite-chip closable appearance="outline-fill" icon="layer" value="calcite chip">
+            <calcite-avatar slot="image" username="MJ"></calcite-avatar>Chip</calcite-chip
+          >
+        </calcite-chip-group>
+        <calcite-chip-group selection-mode="multiple" scale="m" label="demo-group-label">
+          <calcite-chip closable appearance="outline-fill" value="calcite chip">Chip</calcite-chip>
+          <calcite-chip selected closable appearance="outline-fill" value="calcite chip" icon="layer"></calcite-chip>
+          <calcite-chip closable appearance="outline-fill" value="calcite chip">
+            <calcite-avatar slot="image" username="MJ"></calcite-avatar>
+          </calcite-chip>
+          <calcite-chip closable appearance="outline-fill" icon="layer" value="calcite chip">
+            <calcite-avatar slot="image" username="MJ"></calcite-avatar>
+          </calcite-chip>
+          <calcite-chip closable appearance="outline-fill" value="calcite chip">
+            <calcite-avatar slot="image" username="MJ"></calcite-avatar>Chip</calcite-chip
+          >
+          <calcite-chip closable appearance="outline-fill" icon="layer" value="calcite chip">Chip</calcite-chip>
+          <calcite-chip closable appearance="outline-fill" icon="layer" value="calcite chip">
+            <calcite-avatar slot="image" username="MJ"></calcite-avatar>Chip</calcite-chip
+          >
+        </calcite-chip-group>
+        <calcite-chip-group selection-mode="multiple" scale="l" label="demo-group-label">
+          <calcite-chip closable appearance="outline-fill" value="calcite chip">Chip</calcite-chip>
+          <calcite-chip selected closable appearance="outline-fill" value="calcite chip" icon="layer"></calcite-chip>
+          <calcite-chip closable appearance="outline-fill" value="calcite chip">
+            <calcite-avatar slot="image" username="MJ"></calcite-avatar>
+          </calcite-chip>
+          <calcite-chip closable appearance="outline-fill" icon="layer" value="calcite chip">
+            <calcite-avatar slot="image" username="MJ"></calcite-avatar>
+          </calcite-chip>
+          <calcite-chip closable appearance="outline-fill" value="calcite chip">
+            <calcite-avatar slot="image" username="MJ"></calcite-avatar>Chip</calcite-chip
+          >
+          <calcite-chip closable appearance="outline-fill" icon="layer" value="calcite chip">Chip</calcite-chip>
+          <calcite-chip closable appearance="outline-fill" icon="layer" value="calcite chip">
+            <calcite-avatar slot="image" username="MJ"></calcite-avatar>Chip</calcite-chip
+          >
         </calcite-chip-group>
       </div>
       <hr />

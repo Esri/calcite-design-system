@@ -158,7 +158,7 @@ export class Chip
     updateMessages(this, this.effectiveLocale);
   }
 
-  @State() private hasContent = false;
+  @State() private hasText = false;
 
   @State() private hasImage = false;
 
@@ -168,7 +168,7 @@ export class Chip
 
   private parentGroupEl: HTMLCalciteChipGroupElement;
 
-  private mutationObserver = createObserver("mutation", () => this.updateHasContent());
+  private mutationObserver = createObserver("mutation", () => this.updateHasText());
 
   // --------------------------------------------------------------------------
   //
@@ -223,7 +223,7 @@ export class Chip
     setUpLoadableComponent(this);
     if (Build.isBrowser) {
       await setUpMessages(this);
-      this.updateHasContent();
+      this.updateHasText();
     }
   }
   //--------------------------------------------------------------------------
@@ -254,13 +254,6 @@ export class Chip
 
   @Listen("click")
   clickHandler(): void {
-    if (!this.interactive && this.closable) {
-      this.closeButtonEl.focus();
-    }
-  }
-
-  @Listen("focus")
-  focusHandler(): void {
     if (!this.interactive && this.closable) {
       this.closeButtonEl.focus();
     }
@@ -302,12 +295,8 @@ export class Chip
     }
   };
 
-  private updateHasContent() {
-    const slottedContent = this.el.textContent.trim().length > 0 || this.el.childNodes.length > 0;
-    this.hasContent =
-      this.el.childNodes.length > 0 && this.el.childNodes[0]?.nodeName === "#text"
-        ? this.el.textContent?.trim().length > 0
-        : slottedContent;
+  private updateHasText() {
+    this.hasText = this.el.textContent.trim().length > 0;
   }
 
   private setupTextContentObserver() {
@@ -332,7 +321,7 @@ export class Chip
 
   renderChipImage(): VNode {
     return (
-      <div class={CSS.imageContainer} key="image">
+      <div class={CSS.imageContainer}>
         <slot name={SLOTS.image} onSlotchange={this.handleSlotImageChange} />
       </div>
     );
@@ -376,14 +365,6 @@ export class Chip
     );
   }
 
-  renderImageSlot(): VNode {
-    return (
-      <div class={CSS.imageContainer} key="image">
-        <slot name={SLOTS.image} />
-      </div>
-    );
-  }
-
   renderIcon(): VNode {
     return (
       <calcite-icon class={CSS.chipIcon} flipRtl={this.iconFlipRtl} icon={this.icon} scale="s" />
@@ -400,12 +381,17 @@ export class Chip
           aria-labelledby={this.parentGroupEl.label}
           class={{
             [CSS.container]: true,
-            [CSS.contentSlotted]: this.hasContent,
+            [CSS.contentSlotted]: this.hasText,
             [CSS.imageSlotted]: this.hasImage,
             [CSS.selectable]: this.selectionMode !== "none",
+            [CSS.multiple]: this.selectionMode === "multiple",
             [CSS.closable]: this.closable,
-            [CSS.hasIcon]: !!this.icon,
-            [CSS.nonInteractive]: !this.interactive
+            [CSS.nonInteractive]: !this.interactive,
+            [CSS.isCircle]:
+              !this.closable &&
+              !this.hasText &&
+              this.selectionMode === "none" &&
+              (!this.icon || !this.hasImage)
           }}
           onClick={this.handleEmittingEvent}
           role={
@@ -415,7 +401,7 @@ export class Chip
               ? "radio"
               : undefined
           }
-          tabIndex={this.disabled ? -1 : 0}
+          tabIndex={this.disabled || !this.interactive ? -1 : 0}
           // eslint-disable-next-line react/jsx-sort-props
           ref={(el) => (this.containerEl = el)}
         >

@@ -2,8 +2,7 @@
 // todo update when new spacing modifiers are introduced to calcite-base
 :host([scale="s"]) {
   @apply text-n2 h-6;
-  --calcite-chip-spacing-unit-l-internal: theme("spacing[1]");
-  --calcite-chip-spacing-unit-s-internal: theme("spacing[0.5]");
+  --calcite-chip-spacing-unit-internal: 4px;
   .image-container,
   .close {
     @apply h-4 w-4;
@@ -11,15 +10,14 @@
   .select-icon--active {
     @apply w-6;
   }
-  .container:not(.closable):not(.content--slotted):not(.selectable) {
+  .container.is-circle {
     @apply w-6 h-6;
   }
 }
 
 :host([scale="m"]) {
   @apply text-n1 h-8;
-  --calcite-chip-spacing-unit-l-internal: theme("spacing[2]");
-  --calcite-chip-spacing-unit-s-internal: theme("spacing[1]");
+  --calcite-chip-spacing-unit-internal: 6px;
   .image-container,
   .close {
     @apply h-6 w-6;
@@ -27,15 +25,14 @@
   .select-icon--active {
     @apply w-6;
   }
-  .container:not(.closable):not(.content--slotted):not(.selectable) {
+  .container.is-circle {
     @apply w-8 h-8;
   }
 }
 
 :host([scale="l"]) {
   @apply text-0 h-11;
-  --calcite-chip-spacing-unit-l-internal: theme("spacing[4]");
-  --calcite-chip-spacing-unit-s-internal: theme("spacing[2]");
+  --calcite-chip-spacing-unit-internal: 8px;
   .image-container,
   .close {
     @apply h-8 w-8;
@@ -43,7 +40,7 @@
   .select-icon--active {
     @apply w-8;
   }
-  .container:not(.closable):not(.content--slotted):not(.selectable) {
+  .container.is-circle {
     @apply w-11 h-11;
   }
 }
@@ -63,11 +60,10 @@
 
 .container {
   @apply inline-flex h-full max-w-full items-center rounded-full focus-base justify-center;
-  gap: var(--calcite-chip-spacing-unit-s-internal);
-  padding-inline: var(--calcite-chip-spacing-unit-s-internal);
-  &:not(.closable):not(.content--slotted):not(.selectable) {
-    padding: 0;
-    gap: 0;
+
+  &:not(.is-circle) {
+    gap: var(--calcite-chip-spacing-unit-internal);
+    padding-inline: var(--calcite-chip-spacing-unit-internal);
   }
 
   &.selectable {
@@ -77,21 +73,20 @@
     @apply focus-outset;
   }
 }
+:host(:not([selected])) .container:not(.multiple).selectable {
+  padding-inline-start: 0;
+}
 
 .title {
   @apply truncate;
-  padding-inline: var(--calcite-chip-spacing-unit-s-internal);
+  padding-inline-start: var(--calcite-chip-spacing-unit-internal);
   &:last-child {
-    padding-inline-end: var(--calcite-chip-spacing-unit-l-internal);
+    padding-inline-end: var(--calcite-chip-spacing-unit-internal);
   }
 }
 
-.container:not(.closable):not(.selectable):not(.image--slotted) .title {
-  padding-inline: var(--calcite-chip-spacing-unit-l-internal);
-}
-.container:not(.closable):not(.selectable):not(.image--slotted) .chip-icon ~ .title {
-  padding-inline-start: var(--calcite-chip-spacing-unit-s-internal);
-  padding-inline-start: 0;
+.container.image--slotted .image-container ~ .title {
+  padding-inline-start: calc(var(--calcite-chip-spacing-unit-internal) / 2);
 }
 
 .container:not(.content--slotted) .title {
@@ -168,7 +163,7 @@ slot[name="image"]::slotted(*) {
 
 .chip-icon {
   @apply relative my-0 inline-flex duration-150 ease-in-out;
-  margin-inline: var(--calcite-chip-spacing-unit-s-internal);
+  margin-inline: var(--calcite-chip-spacing-unit-internal);
 }
 
 :host([kind="neutral"]) {
