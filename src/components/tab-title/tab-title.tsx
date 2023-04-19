@@ -219,6 +219,7 @@ export class TabTitle implements InteractiveComponent, T9nComponent {
           }}
           // eslint-disable-next-line react/jsx-sort-props
           ref={(el) => this.resizeObserver?.observe(el)}
+          tabindex={0}
         >
           <div class={{ [CSS.content]: true, [CSS.contentHasText]: this.hasText }}>
             {this.iconStart ? iconStartEl : null}
