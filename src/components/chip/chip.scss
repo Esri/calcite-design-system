@@ -2,8 +2,8 @@
 // todo update when new spacing modifiers are introduced to calcite-base
 :host([scale="s"]) {
   @apply text-n2 h-6;
-  --calcite-chip-spacing-s-internal: theme("spacing[0.5]");
-  --calcite-chip-spacing-l-internal: theme("spacing[1.5]");
+  --calcite-chip-spacing-s-internal: theme("spacing[1]");
+  --calcite-chip-spacing-l-internal: theme("spacing[2]");
   .image-container,
   .close,
   .select-icon--active {
@@ -17,7 +17,7 @@
 
 :host([scale="m"]) {
   @apply text-n1 h-8;
-  --calcite-chip-spacing-s-internal: theme("spacing[1]");
+  --calcite-chip-spacing-s-internal: theme("spacing[1.5]");
   --calcite-chip-spacing-l-internal: theme("spacing[2]");
   .image-container,
   .close,
@@ -32,8 +32,8 @@
 
 :host([scale="l"]) {
   @apply text-0 h-11;
-  --calcite-chip-spacing-s-internal: theme("spacing[1.5]");
-  --calcite-chip-spacing-l-internal: theme("spacing[2]");
+  --calcite-chip-spacing-s-internal: theme("spacing[2]");
+  --calcite-chip-spacing-l-internal: theme("spacing[3]");
 
   .image-container,
   .close,
@@ -62,10 +62,9 @@
   @apply inline-flex h-full max-w-full items-center rounded-full focus-base justify-center;
 
   &:not(.is-circle) {
-    gap: var(--calcite-chip-spacing-l-internal);
+    gap: var(--calcite-chip-spacing-s-internal);
     padding-inline: var(--calcite-chip-spacing-s-internal);
   }
-
   &.selectable {
     @apply cursor-pointer;
   }
@@ -84,9 +83,29 @@
     padding-inline-end: var(--calcite-chip-spacing-s-internal);
   }
 }
+.container:not(.text--slotted).is-circle .chip-icon:nth-last-child(2) {
+  margin-inline: 0;
+}
 
-.container.image--slotted .image-container ~ .title {
-  padding-inline-start: calc(var(--calcite-chip-spacing-s-internal) / 2);
+.container:not(.text--slotted):not(.is-circle) .chip-icon:nth-last-child(2) {
+  margin-inline-end: var(--calcite-chip-spacing-s-internal);
+}
+
+.container.image--slotted .image-container ~ .chip-icon {
+  margin-inline-start: var(--calcite-chip-spacing-s-internal);
+}
+
+.container:not(.image--slotted) .image-container ~ .chip-icon {
+  margin-inline-start: var(--calcite-chip-spacing-s-internal);
+}
+
+.container.selectable:not(.image--slotted) .image-container ~ .chip-icon {
+  margin-inline-start: var(--calcite-chip-spacing-s-internal);
+  margin-inline-end: var(--calcite-chip-spacing-s-internal);
+}
+
+.container:not(.is-circle):not(.image--slotted):not(.selectable) .image-container ~ .chip-icon {
+  margin-inline-start: var(--calcite-chip-spacing-s-internal);
 }
 
 .container:not(.text--slotted) .title {
@@ -164,7 +183,6 @@ slot[name="image"]::slotted(*) {
 
 .chip-icon {
   @apply relative my-0 inline-flex duration-150 ease-in-out;
-  margin-inline: var(--calcite-chip-spacing-l-internal) var(--calcite-chip-spacing-s-internal);
 }
 
 :host([kind="neutral"]) {

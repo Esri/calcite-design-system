@@ -390,8 +390,9 @@ export class Chip
             [CSS.isCircle]:
               !this.closable &&
               !this.hasText &&
-              this.selectionMode === "none" &&
-              (!this.icon || !this.hasImage)
+              (!this.icon || !this.hasImage) &&
+              (this.selectionMode === "none" ||
+                (!!this.selectionMode && this.selectionMode !== "multiple" && !this.selected))
           }}
           onClick={this.handleEmittingEvent}
           role={
