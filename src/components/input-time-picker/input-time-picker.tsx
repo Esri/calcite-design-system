@@ -281,10 +281,8 @@ export class InputTimePicker
     }
   };
 
-  private calciteInputInputHandler = (event: CustomEvent): void => {
+  private calciteInternalInputInputHandler = (event: CustomEvent): void => {
     const target = event.target as HTMLCalciteTimePickerElement;
-
-    this.parseInputString(target.value);
 
     numberStringFormatter.numberFormatOptions = {
       locale: this.effectiveLocale,
@@ -328,7 +326,7 @@ export class InputTimePicker
     const target = event.target as HTMLCalciteTimePickerElement;
     const value = target.value;
     this.setValue({ value, origin: "time-picker" });
-    this.parseInputString(this.calciteInputEl.value);
+    this.parseTest();
   };
 
   @Listen("calciteInternalTimePickerFocus")
@@ -370,6 +368,37 @@ export class InputTimePicker
   //
   // --------------------------------------------------------------------------
 
+  private parseTest() {
+    let valueToParse = this.calciteInputEl.value;
+    if (this.effectiveLocale.startsWith("ar") && this.numberingSystem === "arab") {
+      const numberMap = {
+        "١": "1",
+        "٢": "2",
+        "٣": "3",
+        "٤": "4",
+        "٥": "5",
+        "٦": "6",
+        "٧": "7",
+        "٨": "8",
+        "٩": "9",
+        "٠": "0"
+      };
+      valueToParse = this.calciteInputEl.value.replace(
+        /[١٢٣٤٥٦٧٨٩٠]/g,
+        (match) => numberMap[match]
+      );
+    }
+    const parsedValue = this.parseInputString(valueToParse);
+    console.log(
+      "source:",
+      this.calciteInputEl.value,
+      "valueToParse:",
+      valueToParse,
+      "parsed:",
+      parsedValue
+    );
+  }
+
   keyDownHandler = (event: KeyboardEvent): void => {
     const { defaultPrevented, key } = event;
 
@@ -402,12 +431,12 @@ export class InputTimePicker
         localeConfig = {
           meridiem: (hour) => (hour > 12 ? "م" : "ص"),
           formats: {
-            LT: this.numberingSystem === "arab" ? "A HH:mm" : "HH:mm A",
-            LTS: this.numberingSystem === "arab" ? "A HH:mm:ss" : "HH:mm:ss A",
+            LT: "HH:mm A",
+            LTS: "HH:mm:ss A",
             L: "DD/MM/YYYY",
             LL: "D MMMM YYYY",
-            LLL: "D MMMM YYYY A HH:mm",
-            LLLL: "dddd D MMMM YYYY A HH:mm"
+            LLL: "D MMMM YYYY HH:mm A",
+            LLLL: "dddd D MMMM YYYY HH:mm A"
           }
         };
         break;
@@ -577,7 +606,9 @@ export class InputTimePicker
   }
 
   async loadLocaleDefinition(): Promise<void> {
-    await import(getAssetPath(`assets/input-time-picker/${this.effectiveLocale.toLowerCase()}.js`));
+    await import(
+      getAssetPath(`assets/nls/dayjs/input-time-picker/${this.effectiveLocale.toLowerCase()}.js`)
+    );
   }
 
   async componentDidLoad(): Promise<void> {
@@ -618,7 +649,7 @@ export class InputTimePicker
             icon="clock"
             label={getLabelText(this)}
             lang={this.effectiveLocale}
-            onCalciteInputInput={this.calciteInputInputHandler}
+            onCalciteInputInput={this.calciteInternalInputInputHandler}
             onCalciteInternalInputBlur={this.calciteInternalInputBlurHandler}
             onCalciteInternalInputFocus={this.calciteInternalInputFocusHandler}
             readOnly={this.readOnly}
