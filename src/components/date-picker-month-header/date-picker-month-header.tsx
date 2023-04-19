@@ -194,8 +194,6 @@ export class DatePickerMonthHeader {
   //
   //--------------------------------------------------------------------------
 
-  @State() globalAttributes = {};
-
   private yearInput: HTMLInputElement;
 
   private parentDatePickerEl: HTMLCalciteDatePickerElement;
