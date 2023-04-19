@@ -22,6 +22,13 @@ function onPointerDown(event: PointerEvent): void {
   event.preventDefault();
 }
 
+const nonBubblingWhenDisabledMouseEvents = ["mousedown", "mouseup", "click"];
+
+function onNonBubblingWhenDisabledMouseEvent(event: MouseEvent): void {
+  // prevent disallowed mouse events from being emitted on the host (per https://github.com/whatwg/html/issues/5886)
+  event.stopImmediatePropagation();
+}
+
 /**
  * This helper updates the host element to prevent keyboard interaction on its subtree and sets the appropriate aria attribute for accessibility.
  *
@@ -48,11 +55,17 @@ export function updateHostInteraction(
     }
 
     component.el.addEventListener("pointerdown", onPointerDown, { capture: true });
+    nonBubblingWhenDisabledMouseEvents.forEach((event) =>
+      component.el.addEventListener(event, onNonBubblingWhenDisabledMouseEvent)
+    );
 
     return;
   }
 
   component.el.removeEventListener("pointerdown", onPointerDown, { capture: true });
+  nonBubblingWhenDisabledMouseEvents.forEach((event) =>
+    component.el.removeEventListener(event, onNonBubblingWhenDisabledMouseEvent)
+  );
 
   if (typeof hostIsTabbable === "function") {
     component.el.setAttribute("tabindex", hostIsTabbable.call(component) ? "0" : "-1");
