@@ -820,10 +820,7 @@ export class InputDatePicker
       locale: this.effectiveLocale,
       useGrouping: false
     };
-    this.localeData = Build.isTesting
-      ? /* reuse locale data for tests to avoid error caused by fetching files after test tear down */
-        this.localeData
-      : await getLocaleData(this.effectiveLocale);
+    this.localeData = await getLocaleData(this.effectiveLocale);
     this.localizeInputValues();
   }
 
