@@ -22,10 +22,11 @@ function onPointerDown(event: PointerEvent): void {
   event.preventDefault();
 }
 
-const nonBubblingWhenDisabledMouseEvents = ["mousedown", "mouseup", "click"];
+const nonBubblingWhenDisabledMouseEvents = ["mousemove", "mousedown", "mouseup", "click"];
 
 function onNonBubblingWhenDisabledMouseEvent(event: MouseEvent): void {
   // prevent disallowed mouse events from being emitted on the host (per https://github.com/whatwg/html/issues/5886)
+  //⚠ we generally avoid stopping propagation of events, but this is needed to adhere to the intended spec changes above ⚠
   event.stopImmediatePropagation();
 }
 

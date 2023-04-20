@@ -1,4 +1,4 @@
-import { E2EElement, E2EPage, newE2EPage } from "@stencil/core/testing";
+import { E2EElement, E2EPage, EventSpy, newE2EPage } from "@stencil/core/testing";
 import axe from "axe-core";
 import { toHaveNoViolations } from "jest-axe";
 import { config } from "../../stencil.config";
@@ -1066,7 +1066,17 @@ export async function disabled(
 
   component.setProperty("disabled", true);
   await page.waitForChanges();
-  const disabledComponentClickSpy = await component.spyOnEvent("click");
+
+  // only testing events from https://github.com/web-platform-tests/wpt/blob/master/html/semantics/disabled-elements/event-propagate-disabled.tentative.html#L66
+  const eventsExpectedToBubble = ["pointermove", "pointerdown", "pointerup"];
+  const eventsExpectedToNotBubble = ["mousemove", "mousedown", "mouseup", "click"];
+  const allEvents = [...eventsExpectedToBubble, ...eventsExpectedToNotBubble];
+
+  const eventSpies: EventSpy[] = [];
+
+  for (const event of allEvents) {
+    eventSpies.push(await component.spyOnEvent(event));
+  }
 
   expect(component.getAttribute("aria-disabled")).toBe("true");
 
@@ -1077,7 +1087,9 @@ export async function disabled(
   await page.mouse.click(shadowFocusableCenterX, shadowFocusableCenterY);
   await expectToBeFocused("body");
 
-  expect(disabledComponentClickSpy).toHaveReceivedEventTimes(1);
+  for (const spy of eventSpies) {
+    expect(spy).toHaveReceivedEventTimes(eventsExpectedToBubble.includes(spy.eventName) ? 1 : 0);
+  }
 }
 
 /**
