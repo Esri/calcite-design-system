@@ -370,23 +370,42 @@ export class InputTimePicker
 
   private parseTest() {
     let valueToParse = this.calciteInputEl.value;
-    if (this.effectiveLocale.startsWith("ar") && this.numberingSystem === "arab") {
-      const numberMap = {
-        "١": "1",
-        "٢": "2",
-        "٣": "3",
-        "٤": "4",
-        "٥": "5",
-        "٦": "6",
-        "٧": "7",
-        "٨": "8",
-        "٩": "9",
-        "٠": "0"
-      };
-      valueToParse = this.calciteInputEl.value.replace(
-        /[١٢٣٤٥٦٧٨٩٠]/g,
-        (match) => numberMap[match]
-      );
+    if (this.effectiveLocale.startsWith("ar")) {
+      if (this.numberingSystem === "arab") {
+        const arabNumberMap = {
+          "١": "1",
+          "٢": "2",
+          "٣": "3",
+          "٤": "4",
+          "٥": "5",
+          "٦": "6",
+          "٧": "7",
+          "٨": "8",
+          "٩": "9",
+          "٠": "0"
+        };
+        valueToParse = this.calciteInputEl.value.replace(
+          /[١٢٣٤٥٦٧٨٩٠]/g,
+          (match) => arabNumberMap[match]
+        );
+      } else if (this.numberingSystem === "arabext") {
+        const arabextNumberMap = {
+          "۱": "1",
+          "۲": "2",
+          "۳": "3",
+          "۴": "4",
+          "۵": "5",
+          "۶": "6",
+          "۷": "7",
+          "۸": "8",
+          "۹": "9",
+          "۰": "0"
+        };
+        valueToParse = this.calciteInputEl.value.replace(
+          /[۱۲۳۴۵۶۷۸۹۰]/g,
+          (match) => arabextNumberMap[match]
+        );
+      }
     }
     const parsedValue = this.parseInputString(valueToParse);
     console.log(
