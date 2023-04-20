@@ -57,7 +57,7 @@ export class Filter
    * This property is needed to conduct filtering.
    *
    */
-  @Prop({ mutable: true }) items: object[] = [];
+  @Prop() items: object[] = [];
 
   @Watch("items")
   watchItemsHandler(): void {
@@ -96,11 +96,13 @@ export class Filter
    *
    * @internal
    */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
   @Prop({ mutable: true }) messages: FilterMessages;
 
   /**
    * Use this property to override individual strings used by the component.
    */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
   @Prop({ mutable: true }) messageOverrides: Partial<FilterMessages>;
 
   @Watch("messageOverrides")

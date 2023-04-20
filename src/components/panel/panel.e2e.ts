@@ -61,7 +61,7 @@ describe("calcite-panel", () => {
 
     const calcitePanelClose = await page.spyOnEvent("calcitePanelClose", "window");
 
-    const closeButton = await page.find("calcite-panel >>> calcite-action");
+    const closeButton = await page.find("calcite-panel >>> calcite-action[data-test=close]");
 
     await closeButton.click();
 
@@ -71,6 +71,13 @@ describe("calcite-panel", () => {
   it("should be accessible", async () =>
     accessible(`
     <calcite-panel>
+      <calcite-action-bar slot="${SLOTS.actionBar}">
+        <calcite-action-group>
+          <calcite-action text="Add" icon="plus"> </calcite-action>
+          <calcite-action text="Save" icon="save"> </calcite-action>
+          <calcite-action text="Layers" icon="layers"> </calcite-action>
+        </calcite-action-group>
+      </calcite-action-bar>
       <div slot="${SLOTS.headerActionsStart}">test start</div>
       <div slot="${SLOTS.headerContent}">test content</div>
       <div slot="${SLOTS.headerActionsEnd}">test end</div>

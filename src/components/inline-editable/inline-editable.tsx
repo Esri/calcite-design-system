@@ -11,7 +11,7 @@ import {
   VNode,
   Watch
 } from "@stencil/core";
-import { getElementProp, getSlotted } from "../../utils/dom";
+import { getSlotted } from "../../utils/dom";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
 import {
@@ -110,11 +110,13 @@ export class InlineEditable
    *
    * @internal
    */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
   @Prop({ mutable: true }) messages: InlineEditableMessages;
 
   /**
    * Use this property to override individual strings used by the component.
    */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
   @Prop({ mutable: true }) messageOverrides: Partial<InlineEditableMessages>;
 
   @Watch("messageOverrides")
@@ -308,8 +310,7 @@ export class InlineEditable
 
   mutationObserverCallback(): void {
     this.updateSlottedInput();
-    this.scale =
-      this.scale || this.inputElement?.scale || getElementProp(this.el, "scale", undefined);
+    this.scale = this.scale || this.inputElement?.scale;
   }
 
   onLabelClick(): void {

@@ -55,8 +55,8 @@ import { ModalMessages } from "./assets/modal/t9n";
 /**
  * @slot header - A slot for adding header text.
  * @slot content - A slot for adding the component's content.
- * @slot contentTop - A slot for adding the component's content header.
- * @slot contentBottom - A slot for adding the component's content footer.
+ * @slot content-top - A slot for adding content to the component's sticky header, where content remains at the top of the component when scrolling up and down.
+ * @slot content-bottom - A slot for adding content to the component's sticky footer, where content remains at the bottom of the component when scrolling up and down.
  * @slot primary - A slot for adding a primary button.
  * @slot secondary - A slot for adding a secondary button.
  * @slot back - A slot for adding a back button.
@@ -140,11 +140,13 @@ export class Modal
    *
    * @internal
    */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
   @Prop({ mutable: true }) messages: ModalMessages;
 
   /**
    * Use this property to override individual strings used by the component.
    */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
   @Prop({ mutable: true }) messageOverrides: Partial<ModalMessages>;
 
   @Watch("messageOverrides")
@@ -188,6 +190,7 @@ export class Modal
     connectConditionalSlotComponent(this);
     connectLocalized(this);
     connectMessages(this);
+    connectFocusTrap(this);
   }
 
   disconnectedCallback(): void {
@@ -212,6 +215,7 @@ export class Modal
         <div
           class={{
             [CSS.container]: true,
+            [CSS.containerOpen]: this.isOpen,
             [CSS.slottedInShell]: this.slottedInShell
           }}
         >
@@ -219,8 +223,7 @@ export class Modal
           {this.renderStyle()}
           <div
             class={{
-              [CSS.modal]: true,
-              [CSS.modalOpen]: this.isOpen
+              [CSS.modal]: true
             }}
             // eslint-disable-next-line react/jsx-sort-props
             ref={this.setTransitionEl}
@@ -349,9 +352,9 @@ export class Modal
 
   modalContent: HTMLDivElement;
 
-  private mutationObserver: MutationObserver = createObserver("mutation", () => {
-    this.updateFooterVisibility();
-  });
+  private mutationObserver: MutationObserver = createObserver("mutation", () =>
+    this.handleMutationObserver()
+  );
 
   private cssVarObserver: MutationObserver = createObserver("mutation", () => {
     this.updateSizeCssVars();
@@ -364,8 +367,6 @@ export class Modal
   transitionEl: HTMLDivElement;
 
   focusTrap: FocusTrap;
-
-  focusTrapEl: HTMLDivElement;
 
   closeButtonEl: HTMLButtonElement;
 
@@ -441,7 +442,7 @@ export class Modal
   @Method()
   async setFocus(): Promise<void> {
     await componentLoaded(this);
-    focusFirstTabbable(this.focusTrapEl);
+    focusFirstTabbable(this.el);
   }
 
   /**
@@ -478,8 +479,6 @@ export class Modal
 
   private setTransitionEl = (el: HTMLDivElement): void => {
     this.transitionEl = el;
-    this.focusTrapEl = el;
-    connectFocusTrap(this);
   };
 
   onBeforeOpen(): void {
@@ -557,6 +556,11 @@ export class Modal
   private removeOverflowHiddenClass(): void {
     document.documentElement.classList.remove(CSS.overflowHidden);
   }
+
+  private handleMutationObserver = (): void => {
+    this.updateFooterVisibility();
+    this.updateFocusTrapElements();
+  };
 
   private updateFooterVisibility = (): void => {
     this.hasFooter = !!getSlotted(this.el, [SLOTS.back, SLOTS.primary, SLOTS.secondary]);

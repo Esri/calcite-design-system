@@ -1,12 +1,12 @@
 import { E2EElement, E2EPage, newE2EPage } from "@stencil/core/testing";
-import { JSX } from "../components";
-import { toHaveNoViolations } from "jest-axe";
 import axe from "axe-core";
+import { toHaveNoViolations } from "jest-axe";
 import { config } from "../../stencil.config";
-import { GlobalTestProps, skipAnimations } from "./utils";
-import { hiddenFormInputSlotName } from "../utils/form";
 import { html } from "../../support/formatting";
+import { JSX } from "../components";
+import { hiddenFormInputSlotName } from "../utils/form";
 import { MessageBundle } from "../utils/t9n";
+import { GlobalTestProps, skipAnimations } from "./utils";
 
 expect.extend(toHaveNoViolations);
 
@@ -213,14 +213,13 @@ export async function focusable(componentTagOrHTML: TagOrHTML, options?: Focusab
   const tag = getTag(componentTagOrHTML);
   const element = await page.find(tag);
   const focusTargetSelector = options?.focusTargetSelector || tag;
-
   await element.callMethod("setFocus", options?.focusId); // assumes element is FocusableElement
 
   if (options?.shadowFocusTargetSelector) {
     expect(
       await page.$eval(
         tag,
-        (element: HTMLElement, selector: string) => element.shadowRoot.activeElement.matches(selector),
+        (element: HTMLElement, selector: string) => element.shadowRoot.activeElement?.matches(selector),
         options?.shadowFocusTargetSelector
       )
     ).toBe(true);
@@ -229,7 +228,7 @@ export async function focusable(componentTagOrHTML: TagOrHTML, options?: Focusab
   // wait for next frame before checking focus
   await page.waitForTimeout(0);
 
-  expect(await page.evaluate((selector) => document.activeElement.matches(selector), focusTargetSelector)).toBe(true);
+  expect(await page.evaluate((selector) => document.activeElement?.matches(selector), focusTargetSelector)).toBe(true);
 }
 
 /**
@@ -510,44 +509,91 @@ interface FormAssociatedOptions {
  * @param {FormAssociatedOptions} options - form associated options
  */
 export async function formAssociated(componentTagOrHtml: TagOrHTML, options: FormAssociatedOptions): Promise<void> {
-  const componentTag = getTag(componentTagOrHtml);
-  const componentHtml = ensureName(
-    isHTML(componentTagOrHtml) ? componentTagOrHtml : `<${componentTag}></${componentTag}>`
-  );
+  await testAncestorFormAssociated();
+  await testIdFormAssociated();
 
-  function ensureName(html: string): string {
-    return html.includes("name=") ? html : html.replace(componentTag, `${componentTag} name="testName" `);
-  }
+  async function testAncestorFormAssociated(): Promise<void> {
+    const componentTag = getTag(componentTagOrHtml);
+    const componentHtml = ensureName(
+      isHTML(componentTagOrHtml) ? componentTagOrHtml : `<${componentTag}></${componentTag}>`,
+      componentTag
+    );
 
-  const page = await newE2EPage({
-    html: html`<form>
-      ${componentHtml}
-      <!--
+    const page = await newE2EPage({
+      html: html`<form>
+        ${componentHtml}
+        <!--
           keeping things simple by using submit-type input
           this should cover button and calcite-button submit cases
           -->
-      <input id="submitter" type="submit" />
-    </form>`
-  });
+        <input id="submitter" type="submit" />
+      </form>`
+    });
+    await page.waitForChanges();
+    const component = await page.find(componentTag);
 
-  await page.waitForChanges();
+    await assertValueSubmissionType(page, component, options);
+    await assertValueResetOnFormReset(page, component, options);
+    await assertValueSubmittedOnFormSubmit(page, component, options);
 
-  const component = await page.find(componentTag);
-  const checkable =
-    typeof options.testValue === "boolean" && (await page.$eval(componentTag, (component) => "checked" in component));
-  const resettablePropName = checkable ? "checked" : "value";
-  const initialValue = await component.getProperty(resettablePropName);
-  const name = await component.getProperty("name");
-
-  await assertValueSubmissionType();
-  await assertValueResetOnFormReset();
-  await assertValueSubmittedOnFormSubmit();
-
-  if (options.submitsOnEnter) {
-    await assertFormSubmitOnEnter();
+    if (options.submitsOnEnter) {
+      await assertFormSubmitOnEnter(page, component, options);
+    }
   }
 
-  async function assertValueSubmissionType(): Promise<void> {
+  async function testIdFormAssociated(): Promise<void> {
+    const componentTag = getTag(componentTagOrHtml);
+    const componentHtml = ensureForm(
+      ensureName(isHTML(componentTagOrHtml) ? componentTagOrHtml : `<${componentTag}></${componentTag}>`, componentTag),
+      componentTag
+    );
+
+    const page = await newE2EPage({
+      html: html`<form id="test-form"></form>
+        ${componentHtml}
+        <!--
+        keeping things simple by using submit-type input
+        this should cover button and calcite-button submit cases
+        -->
+        <input id="submitter" form="test-form" type="submit" />`
+    });
+    await page.waitForChanges();
+    const component = await page.find(componentTag);
+
+    await assertValueSubmissionType(page, component, options);
+    await assertValueResetOnFormReset(page, component, options);
+    await assertValueSubmittedOnFormSubmit(page, component, options);
+
+    if (options.submitsOnEnter) {
+      await assertFormSubmitOnEnter(page, component, options);
+    }
+  }
+
+  function ensureForm(html: string, componentTag: string): string {
+    return html.includes("form=") ? html : html.replace(componentTag, `${componentTag} form="test-form" `);
+  }
+
+  function ensureName(html: string, componentTag: string): string {
+    return html.includes("name=") ? html : html.replace(componentTag, `${componentTag} name="testName" `);
+  }
+
+  async function isCheckable(page: E2EPage, component: E2EElement, options: FormAssociatedOptions): Promise<boolean> {
+    return (
+      typeof options.testValue === "boolean" &&
+      (await page.$eval(component.tagName.toLowerCase(), (component) => "checked" in component))
+    );
+  }
+
+  function stringifyTestValue(value: any): string | string[] {
+    return Array.isArray(value) ? value.map((value) => value.toString()) : value.toString();
+  }
+
+  async function assertValueSubmissionType(
+    page: E2EPage,
+    component: E2EElement,
+    options: FormAssociatedOptions
+  ): Promise<void> {
+    const name = await component.getProperty("name");
     const inputType = options.inputType ?? "text";
 
     const hiddenFormInputType = await page.evaluate(
@@ -562,14 +608,20 @@ export async function formAssociated(componentTagOrHtml: TagOrHTML, options: For
       hiddenFormInputSlotName
     );
 
-    if (checkable) {
+    if (await isCheckable(page, component, options)) {
       expect(hiddenFormInputType).toMatch(/radio|checkbox/);
     } else {
       expect(hiddenFormInputType).toMatch(inputType);
     }
   }
 
-  async function assertValueResetOnFormReset(): Promise<void> {
+  async function assertValueResetOnFormReset(
+    page: E2EPage,
+    component: E2EElement,
+    options: FormAssociatedOptions
+  ): Promise<void> {
+    const resettablePropName = await isCheckable(page, component, options) ? "checked" : "value";
+    const initialValue = await component.getProperty(resettablePropName);
     component.setProperty(resettablePropName, options.testValue);
     await page.waitForChanges();
 
@@ -579,10 +631,15 @@ export async function formAssociated(componentTagOrHtml: TagOrHTML, options: For
     expect(await component.getProperty(resettablePropName)).toBe(initialValue);
   }
 
-  async function assertValueSubmittedOnFormSubmit(): Promise<void> {
+  async function assertValueSubmittedOnFormSubmit(
+    page: E2EPage,
+    component: E2EElement,
+    options: FormAssociatedOptions
+  ): Promise<void> {
     const stringifiedTestValue = stringifyTestValue(options.testValue);
+    const name = await component.getProperty("name");
 
-    if (checkable) {
+    if (await isCheckable(page, component, options)) {
       component.setProperty("checked", true);
       await page.waitForChanges();
       expect(await submitAndGetValue()).toEqual("on");
@@ -691,7 +748,11 @@ export async function formAssociated(componentTagOrHtml: TagOrHTML, options: For
     }
   }
 
-  async function assertFormSubmitOnEnter(): Promise<void> {
+  async function assertFormSubmitOnEnter(
+    page: E2EPage,
+    component: E2EElement,
+    options: FormAssociatedOptions
+  ): Promise<void> {
     type TestWindow = GlobalTestProps<{
       called: boolean;
     }>;
@@ -711,10 +772,6 @@ export async function formAssociated(componentTagOrHtml: TagOrHTML, options: For
     const called = await page.evaluate(() => (window as TestWindow).called);
 
     expect(called).toBe(true);
-  }
-
-  function stringifyTestValue(value: any): string | string[] {
-    return Array.isArray(value) ? value.map((value) => value.toString()) : value.toString();
   }
 }
 

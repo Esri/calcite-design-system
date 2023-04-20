@@ -71,6 +71,7 @@ export class DatePickerMonthHeader {
    * @internal
    * @readonly
    */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
   @Prop({ mutable: true }) messages: DatePickerMessages;
 
   //--------------------------------------------------------------------------
@@ -192,8 +193,6 @@ export class DatePickerMonthHeader {
   //  Private State/Props
   //
   //--------------------------------------------------------------------------
-
-  @State() globalAttributes = {};
 
   private yearInput: HTMLInputElement;
 

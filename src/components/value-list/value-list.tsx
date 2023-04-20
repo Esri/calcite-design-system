@@ -100,6 +100,7 @@ export class ValueList<
    *
    * @readonly
    */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by shared-list-logic module
   @Prop({ mutable: true }) filteredData: ItemData = [];
 
   /**
@@ -115,6 +116,7 @@ export class ValueList<
   /**
    * Text for the filter input field.
    */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by shared-list-logic module
   @Prop({ reflect: true, mutable: true }) filterText: string;
 
   /**
@@ -145,6 +147,7 @@ export class ValueList<
   /**
    * Use this property to override individual strings used by the component.
    */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
   @Prop({ mutable: true }) messageOverrides: Partial<ValueListMessages>;
 
   @Watch("messageOverrides")
@@ -157,6 +160,7 @@ export class ValueList<
    *
    * @internal
    */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
   @Prop({ mutable: true }) messages: ValueListMessages;
 
   // --------------------------------------------------------------------------

@@ -1,5 +1,5 @@
 import { Component, Element, h, Host, Prop, VNode, Watch } from "@stencil/core";
-import { getElementProp, setRequestedIcon } from "../../utils/dom";
+import { setRequestedIcon } from "../../utils/dom";
 import { Scale, Status } from "../interfaces";
 import { StatusIconDefaults } from "./interfaces";
 
@@ -33,10 +33,10 @@ export class InputMessage {
   @Prop({ reflect: true }) iconFlipRtl = false;
 
   /** Specifies the size of the component. */
-  @Prop({ reflect: true, mutable: true }) scale: Scale = "m";
+  @Prop({ reflect: true }) scale: Scale = "m";
 
   /** Specifies the status of the input field, which determines message and icons. */
-  @Prop({ reflect: true, mutable: true }) status: Status = "idle";
+  @Prop({ reflect: true }) status: Status = "idle";
 
   @Watch("status")
   @Watch("icon")
@@ -51,7 +51,6 @@ export class InputMessage {
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
-    this.scale = getElementProp(this.el, "scale", this.scale);
     this.requestedIcon = setRequestedIcon(StatusIconDefaults, this.icon, this.status);
   }
 

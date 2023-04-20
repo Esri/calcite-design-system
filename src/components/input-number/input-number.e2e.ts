@@ -93,19 +93,6 @@ describe("calcite-input-number", () => {
     expect(calciteInputInput).not.toHaveReceivedEvent();
   });
 
-  it("inherits requested props when from wrapping calcite-label when props are provided", async () => {
-    const page = await newE2EPage();
-    await page.setContent(html`
-      <calcite-label scale="s">
-        Label text
-        <calcite-input-number></calcite-input-number>
-      </calcite-label>
-    `);
-
-    const inputNumberElement = await page.find("calcite-input-number");
-    expect(await inputNumberElement.getProperty("scale")).toEqual("s");
-  });
-
   it("renders an icon when explicit Calcite UI is requested, and is a type without a default icon", async () => {
     const page = await newE2EPage();
     await page.setContent(html`<calcite-input-number icon="key"></calcite-input-number>`);
@@ -208,6 +195,55 @@ describe("calcite-input-number", () => {
     let page: E2EPage;
     beforeEach(async () => {
       page = await newE2EPage();
+    });
+
+    it("correctly increments/decrements numbers greater than MAX_SAFE_INTEGER", async () => {
+      await page.setContent(
+        html`<calcite-input-number
+          value="100000000000000000000000000000000000000000000000000."
+          step="10"
+        ></calcite-input-number>`
+      );
+      const element = await page.find("calcite-input-number");
+      const numberHorizontalItemDown = await page.find(
+        "calcite-input-number >>> .number-button-item[data-adjustment='down']"
+      );
+      const numberHorizontalItemUp = await page.find(
+        "calcite-input-number >>> .number-button-item[data-adjustment='up']"
+      );
+      expect(await element.getProperty("value")).toBe("100000000000000000000000000000000000000000000000000");
+      await numberHorizontalItemUp.click();
+      await page.waitForChanges();
+      expect(await element.getProperty("value")).toBe("100000000000000000000000000000000000000000000000010");
+      element.setProperty("step", 0.1);
+      await page.waitForChanges();
+      Array.from({ length: 10 }, async () => await numberHorizontalItemDown.click());
+      await page.waitForChanges();
+      expect(await element.getProperty("value")).toBe("100000000000000000000000000000000000000000000000009");
+    });
+
+    it("correctly increments/decrements exponential notation numbers without losing precision", async () => {
+      await page.setContent(html`<calcite-input-number value="1.23e-60"></calcite-input-number>`);
+      const element = await page.find("calcite-input-number");
+      const numberHorizontalItemDown = await page.find(
+        "calcite-input-number >>> .number-button-item[data-adjustment='down']"
+      );
+      const numberHorizontalItemUp = await page.find(
+        "calcite-input-number >>> .number-button-item[data-adjustment='up']"
+      );
+      expect(await element.getProperty("value")).toBe("1.23e-60");
+      await numberHorizontalItemUp.click();
+      await page.waitForChanges();
+      expect(await element.getProperty("value")).toBe(
+        "1.00000000000000000000000000000000000000000000000000000000000123"
+      );
+      element.setProperty("step", 0.1);
+      await page.waitForChanges();
+      Array.from({ length: 5 }, async () => await numberHorizontalItemDown.click());
+      await page.waitForChanges();
+      expect(await element.getProperty("value")).toBe(
+        "0.50000000000000000000000000000000000000000000000000000000000123"
+      );
     });
 
     it("correctly increments and decrements decimal value when number buttons are clicked and the step precision matches the precision of the initial value", async () => {
@@ -583,8 +619,7 @@ describe("calcite-input-number", () => {
       const element = await page.find("calcite-input-number");
       await element.callMethod("setFocus");
 
-      page.keyboard.press("ArrowUp");
-      page.keyboard.press("ArrowDown");
+      await Promise.all((["ArrowUp", "ArrowDown"] as const).map((key) => page.keyboard.press(key)));
       await page.waitForTimeout(delayFor2UpdatesInMs);
       expect(await element.getProperty("value")).toBe("0");
     });
