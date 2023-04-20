@@ -599,7 +599,7 @@ export class InputTimePicker
     connectForm(this);
   }
 
-  componentWillLoad() {
+  componentWillLoad(): void {
     setUpLoadableComponent(this);
     this.loadLocaleDefinition();
   }
