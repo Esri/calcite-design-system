@@ -1105,7 +1105,7 @@ export async function disabled(
       // so we check if at least one event is received
       expect(spy.length).toBeGreaterThanOrEqual(2);
     } else {
-      expect(spy).toHaveReceivedEventTimes(2);
+      expect(spy).toHaveReceivedEventTimes(eventsExpectedToBubble.includes(spy.eventName) ? 2 : 1);
     }
   });
 }
