@@ -1,5 +1,8 @@
 {
     "cSpell.words": [
         "typeof"
-    ]
+    ],
+    "search.exclude": {
+        "**/node_modules": false
+    }
 }

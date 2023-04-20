@@ -7,6 +7,6 @@ describe('integration tests', () => {
   });
 
   it('should generate a build directory', () => {
-    expect(existsSync('build')).toBe(true);
-  })
+    expect(existsSync('build')).toBeTruthy();
+  });
 });
