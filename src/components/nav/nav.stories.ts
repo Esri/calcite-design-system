@@ -14,11 +14,11 @@ export const simple = (): string =>
   html`
     <calcite-shell>
       <calcite-nav slot="header">
-        <calcite-nav-menu slot="primary-content-center">
-          <calcite-nav-menu-item text="Example nav item 1" text-enabled></calcite-nav-menu-item>
-          <calcite-nav-menu-item text="Example nav item 2" text-enabled active></calcite-nav-menu-item>
-          <calcite-nav-menu-item text="Example nav item 3" text-enabled></calcite-nav-menu-item>
-        </calcite-nav-menu>
+        <calcite-menu slot="primary-content-center">
+          <calcite-menu-item text="Example nav item 1" text-enabled></calcite-menu-item>
+          <calcite-menu-item text="Example nav item 2" text-enabled active></calcite-menu-item>
+          <calcite-menu-item text="Example nav item 3" text-enabled></calcite-menu-item>
+        </calcite-menu>
       </calcite-nav>
     </calcite-shell>
   `;
@@ -27,34 +27,34 @@ export const allSlots = (): string =>
   html`
     <calcite-shell>
       <calcite-nav slot="header">
-        <calcite-nav-menu slot="primary-content-start">
-          <calcite-nav-menu-item text="Example nav item 1" text-enabled></calcite-nav-menu-item>
-          <calcite-nav-menu-item text="Example nav item 2" text-enabled active></calcite-nav-menu-item>
-        </calcite-nav-menu>
-        <calcite-nav-menu slot="primary-content-center">
-          <calcite-nav-menu-item text="Example nav item 1" text-enabled></calcite-nav-menu-item>
-          <calcite-nav-menu-item text="Example nav item 2" text-enabled active></calcite-nav-menu-item>
-        </calcite-nav-menu>
-        <calcite-nav-menu slot="primary-content-end">
-          <calcite-nav-menu-item text="Example nav item 1" text-enabled></calcite-nav-menu-item>
-          <calcite-nav-menu-item text="Example nav item 2" text-enabled active></calcite-nav-menu-item>
-        </calcite-nav-menu>
-        <calcite-nav-menu slot="secondary-content-start">
-          <calcite-nav-menu-item text="Example nav item 1" text-enabled></calcite-nav-menu-item>
-          <calcite-nav-menu-item text="Example nav item 2" text-enabled active></calcite-nav-menu-item>
-        </calcite-nav-menu>
-        <calcite-nav-menu slot="secondary-content-end">
-          <calcite-nav-menu-item text="Example nav item 1" text-enabled></calcite-nav-menu-item>
-          <calcite-nav-menu-item text="Example nav item 2" text-enabled active></calcite-nav-menu-item>
-        </calcite-nav-menu>
-        <calcite-nav-menu slot="tertiary-content-start">
-          <calcite-nav-menu-item text="Example nav item 1" text-enabled></calcite-nav-menu-item>
-          <calcite-nav-menu-item text="Example nav item 2" text-enabled active></calcite-nav-menu-item>
-        </calcite-nav-menu>
-        <calcite-nav-menu slot="tertiary-content-end">
-          <calcite-nav-menu-item text="Example nav item 1" text-enabled></calcite-nav-menu-item>
-          <calcite-nav-menu-item text="Example nav item 2" text-enabled active></calcite-nav-menu-item>
-        </calcite-nav-menu>
+        <calcite-menu slot="primary-content-start">
+          <calcite-menu-item text="Example nav item 1" text-enabled></calcite-menu-item>
+          <calcite-menu-item text="Example nav item 2" text-enabled active></calcite-menu-item>
+        </calcite-menu>
+        <calcite-menu slot="primary-content-center">
+          <calcite-menu-item text="Example nav item 1" text-enabled></calcite-menu-item>
+          <calcite-menu-item text="Example nav item 2" text-enabled active></calcite-menu-item>
+        </calcite-menu>
+        <calcite-menu slot="primary-content-end">
+          <calcite-menu-item text="Example nav item 1" text-enabled></calcite-menu-item>
+          <calcite-menu-item text="Example nav item 2" text-enabled active></calcite-menu-item>
+        </calcite-menu>
+        <calcite-menu slot="secondary-content-start">
+          <calcite-menu-item text="Example nav item 1" text-enabled></calcite-menu-item>
+          <calcite-menu-item text="Example nav item 2" text-enabled active></calcite-menu-item>
+        </calcite-menu>
+        <calcite-menu slot="secondary-content-end">
+          <calcite-menu-item text="Example nav item 1" text-enabled></calcite-menu-item>
+          <calcite-menu-item text="Example nav item 2" text-enabled active></calcite-menu-item>
+        </calcite-menu>
+        <calcite-menu slot="tertiary-content-start">
+          <calcite-menu-item text="Example nav item 1" text-enabled></calcite-menu-item>
+          <calcite-menu-item text="Example nav item 2" text-enabled active></calcite-menu-item>
+        </calcite-menu>
+        <calcite-menu slot="tertiary-content-end">
+          <calcite-menu-item text="Example nav item 1" text-enabled></calcite-menu-item>
+          <calcite-menu-item text="Example nav item 2" text-enabled active></calcite-menu-item>
+        </calcite-menu>
       </calcite-nav>
     </calcite-shell>
   `;
