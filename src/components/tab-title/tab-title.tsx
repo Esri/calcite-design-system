@@ -19,8 +19,9 @@ import { InteractiveComponent, updateHostInteraction } from "../../utils/interac
 import { createObserver } from "../../utils/observers";
 import { FlipContext, Scale } from "../interfaces";
 import { TabChangeEventDetail } from "../tab/interfaces";
-import { CSS } from "./resources";
+import { CSS, ICONS } from "./resources";
 import { TabID, TabLayout, TabPosition } from "../tabs/interfaces";
+import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 import {
   connectMessages,
   disconnectMessages,
@@ -43,7 +44,7 @@ import { TabTitleMessages } from "./assets/tab-title/t9n";
   shadow: true,
   assetsDirs: ["assets"]
 })
-export class TabTitle implements InteractiveComponent, T9nComponent {
+export class TabTitle implements InteractiveComponent, LocalizedComponent, T9nComponent {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -74,6 +75,10 @@ export class TabTitle implements InteractiveComponent, T9nComponent {
 
   /** When `true`, a close button is added to the component. */
   @Prop({ reflect: true }) closable = false;
+
+  /** When `true`, hides the component. */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
+  @Prop({ reflect: true, mutable: true }) closed = false;
 
   /** The close button element. */
   @Prop({ reflect: false, mutable: true }) closeButtonEl?: HTMLButtonElement;
@@ -143,6 +148,7 @@ export class TabTitle implements InteractiveComponent, T9nComponent {
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
+    connectLocalized(this);
     connectMessages(this);
     this.setupTextContentObserver();
     this.parentTabNavEl = this.el.closest("calcite-tab-nav");
@@ -158,6 +164,7 @@ export class TabTitle implements InteractiveComponent, T9nComponent {
       })
     );
     this.resizeObserver?.disconnect();
+    disconnectLocalized(this);
     disconnectMessages(this);
   }
 
@@ -186,7 +193,7 @@ export class TabTitle implements InteractiveComponent, T9nComponent {
   }
 
   render(): VNode {
-    const { el } = this;
+    const { el, closed } = this;
     const id = el.id || this.guid;
 
     const iconStartEl = (
@@ -208,9 +215,11 @@ export class TabTitle implements InteractiveComponent, T9nComponent {
     );
 
     return (
+      // eslint-disable-next-line @esri/calcite-components/ban-props-on-host
       <Host
         aria-controls={this.controls}
         aria-selected={toAriaBoolean(this.selected)}
+        hidden={closed}
         id={id}
         role="tab"
         tabIndex={this.selected ? 0 : -1}
@@ -236,19 +245,19 @@ export class TabTitle implements InteractiveComponent, T9nComponent {
   }
 
   renderCloseButtonEl(): VNode {
-    const { messages, closable } = this;
+    const { closable, messages } = this;
 
     return closable ? (
       <button
         aria-label={messages.close}
         class={CSS.close}
         disabled={false}
-        onClick={this.close}
-        // eslint-disable-next-line react/jsx-sort-props
+        key={CSS.closeButton}
+        onClick={this.closeClickHandler}
         ref={(el) => (this.closeButtonEl = el)}
-        title={this.messages.close}
+        title={messages.close}
       >
-        <calcite-icon icon="x" scale={this.scale === "l" ? "m" : "s"} />
+        <calcite-icon icon={ICONS.close} scale={this.scale === "l" ? "m" : "s"} />
       </button>
     ) : null;
   }
@@ -421,13 +430,13 @@ export class TabTitle implements InteractiveComponent, T9nComponent {
 
   //--------------------------------------------------------------------------
   //
-  //  Private Method
+  //  Private Methods
   //
   //--------------------------------------------------------------------------
 
-  private close = (): void => {
+  closeClickHandler = (): void => {
+    this.closed = true;
     this.calciteInternalTabTitleClose.emit();
-    this.el.remove();
   };
 
   //--------------------------------------------------------------------------
@@ -444,7 +453,7 @@ export class TabTitle implements InteractiveComponent, T9nComponent {
   /** determine if there is slotted text for styling purposes */
   @State() hasText = false;
 
-  @State() effectiveLocale: string;
+  @State() effectiveLocale: "";
 
   @Watch("effectiveLocale")
   effectiveLocaleChange(): void {

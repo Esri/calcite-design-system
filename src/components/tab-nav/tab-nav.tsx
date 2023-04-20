@@ -118,6 +118,7 @@ export class TabNav {
     this.activeIndicatorEl.style.transitionDuration = `${this.animationActiveDuration}s`;
   }
 
+  // eslint-disable-next-line @stencil-community/strict-mutable
   @Prop({ mutable: true }) closedTabTitleEl: HTMLCalciteTabTitleElement;
 
   //--------------------------------------------------------------------------
@@ -129,10 +130,12 @@ export class TabNav {
   connectedCallback(): void {
     this.parentTabsEl = this.el.closest("calcite-tabs");
     this.resizeObserver?.observe(this.el);
+    this.mutationObserver.observe(this.el, { childList: true, subtree: true, attributes: true });
   }
 
   disconnectedCallback(): void {
     this.resizeObserver?.disconnect();
+    this.mutationObserver.disconnect();
   }
 
   componentWillLoad(): void {
@@ -196,7 +199,7 @@ export class TabNav {
               ref={(el) => (this.activeIndicatorEl = el as HTMLElement)}
             />
           </div>
-          <slot onSlotchange={this.handleClosable} />
+          <slot />
         </div>
       </Host>
     );
@@ -275,7 +278,7 @@ export class TabNav {
   }
 
   @Listen("calciteInternalTabTitleClose")
-  tabTitleCloseHandler(event: MouseEvent): void {
+  tabTitleCloseHandler(event: Event): void {
     this.closedTabTitleEl = event.target as HTMLCalciteTabTitleElement;
   }
 
@@ -307,6 +310,8 @@ export class TabNav {
 
   tabNavEl: HTMLDivElement;
 
+  tabTitlesList: HTMLCalciteTabTitleElement[] = [];
+
   activeIndicatorEl: HTMLElement;
 
   activeIndicatorContainerEl: HTMLDivElement;
@@ -322,6 +327,10 @@ export class TabNav {
     this.activeIndicatorEl.style.transitionDuration = "0s";
     this.updateActiveWidth();
     this.updateOffsetPosition();
+  });
+
+  mutationObserver = createObserver("mutation", () => {
+    this.handleTabTitleClose();
   });
 
   //--------------------------------------------------------------------------
@@ -374,41 +383,38 @@ export class TabNav {
   }
 
   get tabTitles(): HTMLCalciteTabTitleElement[] {
-    return filterDirectChildren<HTMLCalciteTabTitleElement>(this.el, "calcite-tab-title");
+    return filterDirectChildren<HTMLCalciteTabTitleElement>(
+      this.el,
+      "calcite-tab-title:not([closed])"
+    );
   }
 
   get enabledTabTitles(): HTMLCalciteTabTitleElement[] {
     return filterDirectChildren<HTMLCalciteTabTitleElement>(
       this.el,
-      "calcite-tab-title:not([disabled])"
+      "calcite-tab-title:not([disabled])" && "calcite-tab-title:not([closed])"
     );
   }
 
-  handleClosable = (): void => {
-    this.disableLastClosableTabTitle();
-    this.closingSelectedSequence();
-  };
+  handleTabTitleClose = (): void => {
+    this.tabTitlesList = this.tabTitles;
+    const { tabTitlesList } = this;
 
-  private disableLastClosableTabTitle = (): void => {
-    const { tabTitles } = this;
-    if (tabTitles.length === 1 && tabTitles[0].closable) {
-      tabTitles[0].disabled = true;
-    }
-  };
-
-  private closingSelectedSequence = (): void => {
-    const { selectedTabId, tabTitles } = this;
-    if (selectedTabId === tabTitles.length) {
-      tabTitles[tabTitles.length - 1].selected = true;
-      this.selectedTabId = tabTitles.length - 1;
-      return;
-    }
-    const selectedClosed = Array.from(tabTitles).some((tabTitle) => tabTitle.selected);
-
-    if (selectedTabId && !selectedClosed) {
-      tabTitles[selectedTabId].selected = true;
-      this.selectedTabId = selectedTabId;
-      return;
+    // disable last remaining item
+    if (tabTitlesList.length === 1 && tabTitlesList[0].closable) {
+      tabTitlesList[0].disabled = true;
+      this.closedTabTitleEl = null;
+    } else if (this.closedTabTitleEl.hasAttribute("selected")) {
+      //closedTabTitleEl is null here
+      // if last item closed is selected, fall back on previous
+      if (this.selectedTabId === tabTitlesList.length) {
+        this.selectedTabId = tabTitlesList.length - 1;
+        this.closedTabTitleEl = null;
+        return;
+      }
+      // if closed item is selected, fall back on next
+      const nextId = (this.selectedTabId as number)++;
+      this.selectedTabId = nextId;
     }
   };
 }
