@@ -1,6 +1,5 @@
 import { Component, Element, h, Host, Listen, Prop, State } from "@stencil/core";
-import { focusElementInGroup, slotChangeGetAssignedElements } from "../../utils/dom";
-// import { MenuItemEvent } from "../menu-item/interfaces";
+import { focusElement, focusElementInGroup, slotChangeGetAssignedElements } from "../../utils/dom";
 
 @Component({
   tag: "calcite-menu",
@@ -46,27 +45,9 @@ export class CalciteMenu {
   //  Private State/Props
   //
   //--------------------------------------------------------------------------
-  @State() childMenuItems?: HTMLCalciteMenuItemElement[];
+  @State() childMenuItems: HTMLCalciteMenuItemElement[];
 
   @State() overflowedNavMenuItems?: HTMLCalciteMenuItemElement[] = [];
-
-  // --------------------------------------------------------------------------
-  //
-  //  Lifecycle
-  //
-  // --------------------------------------------------------------------------
-  connectedCallback() {
-    // get host of menu which is added for nested submenu and is not part of lightDOM.
-    // const hostElement = getHost(getRootNode(this.el));
-    // this.childNavMenuItems = getSlotted(
-    //   hostElement ? hostElement : this.el,
-    //   hostElement ? "menu-item-dropdown" : "",
-    //   {
-    //     all: true,
-    //     matches: "calcite-menu-item"
-    //   }
-    // ) as HTMLCalciteMenuItemElement[];
-  }
 
   //--------------------------------------------------------------------------
   //
@@ -76,43 +57,66 @@ export class CalciteMenu {
 
   @Listen("calciteInternalNavItemKeyEvent")
   calciteInternalNavMenuItemKeyEvent(event: CustomEvent): void {
-    // const menuItemEvent: MenuItemEvent = event.detail;
-    const target = event.detail.event.target as HTMLCalciteMenuItemElement;
-    const menuItems = this.childMenuItems || event.detail.children;
-    event.detail.event.stopPropagation();
-    switch (event.detail.event.detail["key"]) {
+    const target = event.target as HTMLCalciteMenuItemElement;
+    const subMenuItems = event.detail.children;
+    event.stopPropagation();
+    switch (event.detail.event.key) {
       case "ArrowDown":
-        if (this.layout === "vertical") {
-          focusElementInGroup(menuItems, target, "next");
+        if (target.layout === "vertical") {
+          focusElementInGroup(this.childMenuItems, target, "next");
+        } else {
+          if (event.detail.isOpen) {
+            subMenuItems[0].setFocus();
+          }
         }
         break;
       case "ArrowUp":
         if (this.layout === "vertical") {
-          focusElementInGroup(menuItems, target, "previous");
+          focusElementInGroup(this.childMenuItems, target, "previous");
+        } else {
+          if (event.detail.isOpen) {
+            subMenuItems[subMenuItems.length - 1].setFocus();
+          }
         }
         break;
       case "ArrowRight":
         if (this.layout === "horizontal") {
-          focusElementInGroup(menuItems, target, "next");
+          focusElementInGroup(this.childMenuItems, target, "next");
+        } else {
+          if (event.detail.isOpen) {
+            subMenuItems[0].setFocus();
+          }
         }
         break;
       case "ArrowLeft":
         if (this.layout === "horizontal") {
-          focusElementInGroup(menuItems, target, "previous");
+          focusElementInGroup(this.childMenuItems, target, "previous");
+        } else {
+          if (event.detail.isOpen) {
+            this.focusParentElement(event.target as HTMLCalciteMenuItemElement);
+          }
         }
         break;
       case "Escape":
-        if (target.open) {
-          target.open = false;
-        }
+        this.focusParentElement(event.target as HTMLCalciteMenuItemElement);
         break;
     }
-    event.detail.event.preventDefault();
+    event.preventDefault();
   }
 
-  private handleMenuSlotChange(event: Event): void {
+  handleMenuSlotChange = (event: Event): void => {
     this.childMenuItems = slotChangeGetAssignedElements(event) as HTMLCalciteMenuItemElement[];
-  }
+    this.childMenuItems.forEach((item: HTMLCalciteMenuItemElement) => {
+      item.layout = this.layout;
+    });
+  };
+
+  focusParentElement = (el: Element): void => {
+    const parentEl = el.parentElement as HTMLCalciteMenuItemElement;
+    if (parentEl) {
+      focusElement(parentEl);
+    }
+  };
 
   // --------------------------------------------------------------------------
   //
