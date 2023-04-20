@@ -176,8 +176,6 @@ export class CalciteMenuItem implements LoadableComponent {
   connectedCallback() {
     this.active = this.active || this.editable;
     this.isFocused = this.active;
-    // todo just get any nav items in the default slot?
-    // for now to detect nesting only working two level for demo.need to just check if it has any parent originating at top lvel
     this.isTopLevelItem = !(
       this.el.parentElement?.slot === "menu-item-dropdown" || this.el.slot !== ""
     );
