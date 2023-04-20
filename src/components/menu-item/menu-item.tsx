@@ -151,7 +151,7 @@ export class CalciteMenuItem implements LoadableComponent {
   @Listen("click", { target: "window" })
   handleClickOut(event: Event): void {
     if (
-      this.layout !== "vertical" &&
+      this.topLevelLayout !== "vertical" &&
       this.hasSubMenu &&
       this.open &&
       !this.el.contains(event.target as Element)
@@ -400,7 +400,6 @@ export class CalciteMenuItem implements LoadableComponent {
         }
         onClick={this.clickHandler}
         onKeyDown={this.keyDownHandler}
-        // role="none"
         text="open-dropdown"
         // eslint-disable-next-line react/jsx-sort-props
         ref={(el) => (this.dropDownActionEl = el)}
