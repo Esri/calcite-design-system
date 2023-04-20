@@ -620,7 +620,7 @@ export async function formAssociated(componentTagOrHtml: TagOrHTML, options: For
     component: E2EElement,
     options: FormAssociatedOptions
   ): Promise<void> {
-    const resettablePropName = (await isCheckable(page, component, options)) ? "checked" : "value";
+    const resettablePropName = await isCheckable(page, component, options) ? "checked" : "value";
     const initialValue = await component.getProperty(resettablePropName);
     component.setProperty(resettablePropName, options.testValue);
     await page.waitForChanges();
