@@ -84,12 +84,23 @@
   padding-inline-start: 0;
 }
 
+.container:not(.is-circle).image--slotted {
+  padding-inline-start: calc(var(--calcite-chip-spacing-s-internal) / 2);
+}
+
+.container:not(.is-circle).closable {
+  padding-inline-end: calc(var(--calcite-chip-spacing-s-internal) / 2);
+}
+
 .title {
   @apply truncate;
   padding-inline-start: var(--calcite-chip-spacing-s-internal);
   &:last-child {
     padding-inline-end: var(--calcite-chip-spacing-s-internal);
   }
+}
+.container.closable .title {
+  padding-inline-end: var(--calcite-chip-spacing-s-internal);
 }
 
 .container.multiple:not(.image--slotted) .image-container ~ .title {
@@ -105,7 +116,7 @@
 }
 
 .container.closable.text--slotted:not(.is-circle) .title {
-  margin-inline-end: 0;
+  padding-inline-end: 0;
 }
 
 .container:not(.is-circle):not(.image--slotted):not(.selectable) .image-container ~ .chip-icon {
