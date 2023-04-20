@@ -99,17 +99,16 @@
   margin-inline-end: var(--calcite-chip-spacing-s-internal);
 }
 
-.container.image--slotted .image-container ~ .chip-icon {
-  margin-inline-start: var(--calcite-chip-spacing-s-internal);
+.container.image--slotted .image-container ~ .title {
+  margin-inline-end: var(--calcite-chip-spacing-s-internal);
+}
+
+.container.closable .title {
+  padding-inline-end: 0;
 }
 
 .container:not(.image--slotted) .image-container ~ .chip-icon {
-  margin-inline-start: var(--calcite-chip-spacing-s-internal);
-}
-
-.container.selectable:not(.image--slotted) .image-container ~ .chip-icon {
-  margin-inline-start: var(--calcite-chip-spacing-s-internal);
-  margin-inline-end: var(--calcite-chip-spacing-s-internal);
+  margin-inline: calc(var(--calcite-chip-spacing-s-internal) / 2);
 }
 
 .container:not(.is-circle):not(.image--slotted):not(.selectable) .image-container ~ .chip-icon {
