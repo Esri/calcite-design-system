@@ -508,6 +508,7 @@ export class InputDatePicker
                 onCalciteInputInput={this.calciteInternalInputInputHandler}
                 onCalciteInternalInputBlur={this.calciteInternalInputBlurHandler}
                 onCalciteInternalInputFocus={this.startInputFocus}
+                onFocus={this.startEndInputFocus}
                 placeholder={this.localeData?.placeholder}
                 readOnly={readOnly}
                 role="combobox"
@@ -600,6 +601,7 @@ export class InputDatePicker
                   onCalciteInputInput={this.calciteInternalInputInputHandler}
                   onCalciteInternalInputBlur={this.calciteInternalInputBlurHandler}
                   onCalciteInternalInputFocus={this.endInputFocus}
+                  onFocus={this.startEndInputFocus}
                   placeholder={this.localeData?.placeholder}
                   readOnly={readOnly}
                   role="combobox"
@@ -648,6 +650,8 @@ export class InputDatePicker
 
   @State() focusedInput: "start" | "end" = "start";
 
+  private lastBlurredInput: "start" | "end" | "none" = "none";
+
   @State() globalAttributes = {};
 
   @State() private localeData: DateLocaleData;
@@ -692,8 +696,13 @@ export class InputDatePicker
   //--------------------------------------------------------------------------
 
   private onInputWrapperClick = () => {
-    this.open = !this.open;
-    this.setFocus();
+    if (this.range && this.lastBlurredInput !== "none" && this.open) {
+      // we keep the date-picker open when moving between inputs
+    } else {
+      this.open = !this.open;
+    }
+
+    this.lastBlurredInput = "none";
   };
 
   setFilteredPlacements = (): void => {
@@ -739,6 +748,7 @@ export class InputDatePicker
 
   deactivate = (): void => {
     this.open = false;
+    this.lastBlurredInput = "none";
   };
 
   private commitValue(): void {
@@ -812,6 +822,12 @@ export class InputDatePicker
 
   startInputFocus = (): void => {
     this.focusedInput = "start";
+  };
+
+  startEndInputFocus = (event: FocusEvent): void => {
+    const blurredEl = event.relatedTarget as HTMLElement;
+    this.lastBlurredInput =
+      blurredEl === this.startInput ? "start" : blurredEl === this.endInput ? "end" : "none";
   };
 
   endInputFocus = (): void => {
