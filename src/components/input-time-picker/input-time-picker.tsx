@@ -418,6 +418,12 @@ export class InputTimePicker
     }
   };
 
+  private async loadLocaleDefinition(): Promise<void> {
+    await import(
+      getAssetPath(`assets/nls/dayjs/input-time-picker/${this.effectiveLocale.toLowerCase()}.js`)
+    );
+  }
+
   onLabelClick(): void {
     this.setFocus();
   }
@@ -426,81 +432,73 @@ export class InputTimePicker
     const locale = this.effectiveLocale.toLowerCase();
     let localeConfig;
 
-    switch (locale) {
-      case "ar":
-        localeConfig = {
-          meridiem: (hour) => (hour > 12 ? "م" : "ص"),
-          formats: {
-            LT: "HH:mm A",
-            LTS: "HH:mm:ss A",
-            L: "DD/MM/YYYY",
-            LL: "D MMMM YYYY",
-            LLL: "D MMMM YYYY HH:mm A",
-            LLLL: "dddd D MMMM YYYY HH:mm A"
-          }
-        };
-        break;
-      case "en-au":
-        localeConfig = {
-          meridiem: (hour) => (hour > 12 ? "pm" : "am")
-        };
-        break;
-      case "en-ca":
-        localeConfig = {
-          meridiem: (hour) => (hour > 12 ? "p.m." : "a.m.")
-        };
-        break;
-      case "el":
-        localeConfig = {
-          meridiem: (hour) => (hour > 12 ? "μ.μ." : "π.μ.")
-        };
-      case "hi":
-        localeConfig = {
-          formats: {
-            LT: "h:mm A",
-            LTS: "h:mm:ss A",
-            L: "DD/MM/YYYY",
-            LL: "D MMMM YYYY",
-            LLL: "D MMMM YYYY, h:mm A",
-            LLLL: "dddd, D MMMM YYYY, h:mm A"
-          },
-          meridiem: (hour) => (hour > 12 ? "pm" : "am")
-        };
-        break;
-      case "ko":
-        localeConfig = {
-          meridiem: (hour) => (hour > 12 ? "오후" : "오전")
-        };
-        break;
-      case "zh-tw":
-        localeConfig = {
-          formats: {
-            LT: "AHH:mm",
-            LTS: "AHH:mm:ss"
-          }
-        };
-        break;
-      case "zh-hk":
-        localeConfig = {
-          formats: {
-            LT: "AHH:mm",
-            LTS: "AHH:mm:ss"
-          },
-          meridiem: (hour) => (hour > 12 ? "下午" : "上午")
-        };
-        break;
+    if (locale === "ar") {
+      localeConfig = {
+        meridiem: (hour) => (hour > 12 ? "م" : "ص"),
+        formats: {
+          LT: "HH:mm A",
+          LTS: "HH:mm:ss A",
+          L: "DD/MM/YYYY",
+          LL: "D MMMM YYYY",
+          LLL: "D MMMM YYYY HH:mm A",
+          LLLL: "dddd D MMMM YYYY HH:mm A"
+        }
+      };
+    } else if (locale === "en-au") {
+      localeConfig = {
+        meridiem: (hour) => (hour > 12 ? "pm" : "am")
+      };
+    } else if (locale === "en-ca") {
+      localeConfig = {
+        meridiem: (hour) => (hour > 12 ? "p.m." : "a.m.")
+      };
+    } else if (locale === "el") {
+      localeConfig = {
+        meridiem: (hour) => (hour > 12 ? "μ.μ." : "π.μ.")
+      };
+    } else if (locale === "hi") {
+      localeConfig = {
+        formats: {
+          LT: "h:mm A",
+          LTS: "h:mm:ss A",
+          L: "DD/MM/YYYY",
+          LL: "D MMMM YYYY",
+          LLL: "D MMMM YYYY, h:mm A",
+          LLLL: "dddd, D MMMM YYYY, h:mm A"
+        },
+        meridiem: (hour) => (hour > 12 ? "pm" : "am")
+      };
+    } else if (locale === "ko") {
+      localeConfig = {
+        meridiem: (hour) => (hour > 12 ? "오후" : "오전")
+      };
+    } else if (locale === "zh-tw") {
+      localeConfig = {
+        formats: {
+          LT: "AHH:mm",
+          LTS: "AHH:mm:ss"
+        }
+      };
+    } else if (locale === "zh-hk") {
+      localeConfig = {
+        formats: {
+          LT: "AHH:mm",
+          LTS: "AHH:mm:ss"
+        },
+        meridiem: (hour) => (hour > 12 ? "下午" : "上午")
+      };
     }
 
     dayjs.updateLocale(locale, localeConfig);
 
-    const localParseResult = dayjs(
+    const dayjsParseResult = dayjs(
       value,
       this.shouldIncludeSeconds() ? "LTS" : "LT",
       locale.toLowerCase()
     );
-    const timeString = `${localParseResult.get("hour")}:${localParseResult.get(
+    const timeString = `${dayjsParseResult.get("hour")}:${dayjsParseResult.get(
       "minute"
-    )}:${localParseResult.get("seconds")}`;
+    )}:${dayjsParseResult.get("seconds")}`;
 
     return formatTimeString(timeString);
   }
@@ -605,13 +603,7 @@ export class InputTimePicker
     this.loadLocaleDefinition();
   }
 
-  async loadLocaleDefinition(): Promise<void> {
-    await import(
-      getAssetPath(`assets/nls/dayjs/input-time-picker/${this.effectiveLocale.toLowerCase()}.js`)
-    );
-  }
-
-  async componentDidLoad(): Promise<void> {
+  componentDidLoad() {
     setComponentLoaded(this);
     this.setInputValue(this.localizedValue);
   }
