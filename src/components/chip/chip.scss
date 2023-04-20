@@ -103,12 +103,8 @@
   padding-inline-end: var(--calcite-chip-spacing-s-internal);
 }
 
-.container.multiple:not(.image--slotted) .image-container ~ .title {
-  padding-inline-start: 0;
-}
-
 .container.multiple.image--slotted .image-container ~ .title {
-  padding-inline-start: 0;
+  padding-inline-start: var(--calcite-chip-spacing-s-internal);
 }
 
 .container:not(.text--slotted):not(.is-circle) .chip-icon {
