@@ -1099,9 +1099,15 @@ export async function disabled(
   await page.mouse.click(shadowFocusableCenterX, shadowFocusableCenterY);
   await expectToBeFocused("body");
 
-  assertOnMouseAndPointerEvents(eventSpies, (spy) =>
-    expect(spy).toHaveReceivedEventTimes(eventsExpectedToBubble.includes(spy.eventName) ? 1 : 0)
-  );
+  assertOnMouseAndPointerEvents(eventSpies, (spy) => {
+    if (spy.eventName === "click") {
+      // some components emit more than one click event (e.g., from calling `click()`),
+      // so we check if at least one event is received
+      expect(spy.length).toBeGreaterThanOrEqual(2);
+    } else {
+      expect(spy).toHaveReceivedEventTimes(2);
+    }
+  });
 }
 
 /**
