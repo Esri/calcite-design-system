@@ -13,7 +13,7 @@ jobs:
           node-version-file: package.json
       - name: generate doc
         run: |
-          npm ci --legacy-peer-deps
+          npm ci
           npx stencil build --docs
           npm run lint:md
       - name: commit readme files/create pull request

@@ -11,6 +11,7 @@ import {
   renders,
   t9n
 } from "../../tests/commonTests";
+import { selectText } from "../../tests/utils";
 
 describe("calcite-input-text", () => {
   it("is labelable", async () => labelable("calcite-input-text"));
@@ -56,19 +57,6 @@ describe("calcite-input-text", () => {
     ]));
 
   it("can be disabled", () => disabled("calcite-input-text"));
-
-  it("inherits requested props when from wrapping calcite-label when props are provided", async () => {
-    const page = await newE2EPage();
-    await page.setContent(html`
-      <calcite-label scale="s">
-        Label text
-        <calcite-input-text></calcite-input-text>
-      </calcite-label>
-    `);
-
-    const inputTextElement = await page.find("calcite-input-text");
-    expect(await inputTextElement.getProperty("scale")).toEqual("s");
-  });
 
   it("renders an icon when explicit Calcite UI is requested, and is a type without a default icon", async () => {
     const page = await newE2EPage();
@@ -159,6 +147,15 @@ describe("calcite-input-text", () => {
     expect(await element.getProperty("value")).toBe(programmaticSetValue);
     expect(calciteInputTextInput).toHaveReceivedEventTimes(10);
     expect(calciteInputTextChange).toHaveReceivedEventTimes(2);
+
+    await element.callMethod("setFocus");
+    await selectText(element);
+    await page.keyboard.press("Backspace");
+    await page.keyboard.press("Tab");
+
+    expect(await element.getProperty("value")).toBe("");
+    expect(calciteInputTextInput).toHaveReceivedEventTimes(11);
+    expect(calciteInputTextChange).toHaveReceivedEventTimes(3);
   });
 
   it("renders clear button when clearable is requested and value is populated at load", async () => {

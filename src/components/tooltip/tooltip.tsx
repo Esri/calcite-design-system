@@ -11,7 +11,7 @@ import {
   VNode,
   Watch
 } from "@stencil/core";
-import { queryElementRoots, toAriaBoolean } from "../../utils/dom";
+import { toAriaBoolean } from "../../utils/dom";
 import {
   connectFloatingUI,
   defaultOffsetDistance,
@@ -21,8 +21,7 @@ import {
   LogicalPlacement,
   OverlayPositioning,
   ReferenceElement,
-  reposition,
-  updateAfterClose
+  reposition
 } from "../../utils/floating-ui";
 import { guid } from "../../utils/guid";
 import {
@@ -33,6 +32,7 @@ import {
 import { ARIA_DESCRIBED_BY, CSS } from "./resources";
 
 import TooltipManager from "./TooltipManager";
+import { getEffectiveReferenceElement } from "./utils";
 
 const manager = new TooltipManager();
 
@@ -88,8 +88,6 @@ export class Tooltip implements FloatingUIComponent, OpenCloseComponent {
   openHandler(value: boolean): void {
     if (value) {
       this.reposition(true);
-    } else {
-      updateAfterClose(this.el);
     }
   }
 
@@ -264,7 +262,7 @@ export class Tooltip implements FloatingUIComponent, OpenCloseComponent {
 
   setUpReferenceElement = (warn = true): void => {
     this.removeReferences();
-    this.effectiveReferenceElement = this.getReferenceElement();
+    this.effectiveReferenceElement = getEffectiveReferenceElement(this.el);
     connectFloatingUI(this, this.effectiveReferenceElement, this.el);
 
     const { el, referenceElement, effectiveReferenceElement } = this;
@@ -311,16 +309,6 @@ export class Tooltip implements FloatingUIComponent, OpenCloseComponent {
     manager.unregisterElement(effectiveReferenceElement);
   };
 
-  getReferenceElement(): ReferenceElement {
-    const { referenceElement, el } = this;
-
-    return (
-      (typeof referenceElement === "string"
-        ? queryElementRoots(el, { id: referenceElement })
-        : referenceElement) || null
-    );
-  }
-
   // --------------------------------------------------------------------------
   //
   //  Render Methods
@@ -346,9 +334,14 @@ export class Tooltip implements FloatingUIComponent, OpenCloseComponent {
             [FloatingCSS.animation]: true,
             [FloatingCSS.animationActive]: displayed
           }}
+          // eslint-disable-next-line react/jsx-sort-props
           ref={this.setTransitionEl}
         >
-          <div class={CSS.arrow} ref={(arrowEl) => (this.arrowEl = arrowEl)} />
+          <div
+            class={CSS.arrow}
+            // eslint-disable-next-line react/jsx-sort-props
+            ref={(arrowEl) => (this.arrowEl = arrowEl)}
+          />
           <div class={CSS.container}>
             <slot />
           </div>

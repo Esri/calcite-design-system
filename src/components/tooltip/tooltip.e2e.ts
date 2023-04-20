@@ -1,9 +1,36 @@
-import { newE2EPage } from "@stencil/core/testing";
+import { E2EPage, newE2EPage } from "@stencil/core/testing";
 import { TOOLTIP_DELAY_MS } from "../tooltip/resources";
 import { accessible, defaults, hidden, floatingUIOwner, renders } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
+import { GlobalTestProps } from "../../tests/utils";
 
 describe("calcite-tooltip", () => {
+  type CanceledEscapeKeyPressTestWindow = GlobalTestProps<{
+    escapeKeyCanceled: boolean;
+  }>;
+
+  /**
+   * Helps assert the canceled Esc key press when closing tooltips
+   * Must be called before the tooltip is closed via keyboard.
+   *
+   * @param page
+   */
+  async function setUpEscapeKeyCancelListener(page: E2EPage): Promise<void> {
+    await page.evaluate(() => {
+      document.addEventListener(
+        "keydown",
+        (event) => {
+          (window as CanceledEscapeKeyPressTestWindow).escapeKeyCanceled = event.defaultPrevented;
+        },
+        { once: true }
+      );
+    });
+  }
+
+  async function assertEscapeKeyCanceled(page: E2EPage, expected: boolean): Promise<void> {
+    expect(await page.evaluate(() => (window as CanceledEscapeKeyPressTestWindow).escapeKeyCanceled)).toBe(expected);
+  }
+
   it("renders", async () => {
     await renders(`calcite-tooltip`, { visible: false, display: "block" });
     await renders(`<calcite-tooltip open reference-element="ref"></calcite-tooltip><div id="ref">😄</div>`, {
@@ -351,11 +378,13 @@ describe("calcite-tooltip", () => {
 
     expect(await tooltip.getProperty("open")).toBe(true);
 
+    await setUpEscapeKeyCancelListener(page);
     await referenceElement.press("Escape");
 
     await page.waitForChanges();
 
     expect(await tooltip.getProperty("open")).toBe(false);
+    await assertEscapeKeyCanceled(page, true);
   });
 
   it("should honor hovered tooltip closing with ESC key", async () => {
@@ -384,11 +413,13 @@ describe("calcite-tooltip", () => {
 
     expect(await tooltip.getProperty("open")).toBe(true);
 
+    await setUpEscapeKeyCancelListener(page);
     await page.keyboard.press("Escape");
 
     await page.waitForChanges();
 
     expect(await tooltip.getProperty("open")).toBe(false);
+    await assertEscapeKeyCanceled(page, false);
   });
 
   it("should honor hovered and focused tooltip closing with ESC key", async () => {
@@ -419,11 +450,13 @@ describe("calcite-tooltip", () => {
 
     expect(await tooltip.getProperty("open")).toBe(true);
 
+    await setUpEscapeKeyCancelListener(page);
     await page.keyboard.press("Escape");
 
     await page.waitForChanges();
 
     expect(await tooltip.getProperty("open")).toBe(false);
+    await assertEscapeKeyCanceled(page, true);
   });
 
   it("should only open the last focused tooltip", async () => {

@@ -22,6 +22,8 @@ import { RegistryEntry, RequestedItem } from "./interfaces";
 
 /**
  * @slot - A slot for adding custom content, including nested `calcite-accordion-item`s.
+ * @slot actions-end - A slot for adding `calcite-action`s or content to the end side of the component's header.
+ * @slot actions-start - A slot for adding `calcite-action`s or content to the start side of the component's header.
  */
 @Component({
   tag: "calcite-accordion-item",
@@ -90,7 +92,6 @@ export class AccordionItem implements ConditionalSlotComponent {
 
   connectedCallback(): void {
     this.parent = this.el.parentElement as HTMLCalciteAccordionElement;
-    this.selectionMode = getElementProp(this.el, "selection-mode", "multiple");
     this.iconType = getElementProp(this.el, "icon-type", "chevron");
     this.iconPosition = getElementProp(this.el, "icon-position", this.iconPosition);
     this.scale = getElementProp(this.el, "scale", this.scale);
@@ -272,6 +273,7 @@ export class AccordionItem implements ConditionalSlotComponent {
   //--------------------------------------------------------------------------
 
   private determineActiveItem(): void {
+    this.selectionMode = getElementProp(this.el, "selection-mode", "multiple");
     switch (this.selectionMode) {
       case "multiple":
         if (this.el === this.requestedAccordionItem) {

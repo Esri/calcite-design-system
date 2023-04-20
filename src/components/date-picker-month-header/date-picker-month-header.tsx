@@ -71,6 +71,7 @@ export class DatePickerMonthHeader {
    * @internal
    * @readonly
    */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
   @Prop({ mutable: true }) messages: DatePickerMessages;
 
   //--------------------------------------------------------------------------
@@ -163,9 +164,10 @@ export class DatePickerMonthHeader {
               onInput={this.onYearInput}
               onKeyDown={this.onYearKey}
               pattern="\d*"
-              ref={(el) => (this.yearInput = el)}
               type="text"
               value={localizedYear}
+              // eslint-disable-next-line react/jsx-sort-props
+              ref={(el) => (this.yearInput = el)}
             />
             {suffix && <span class={CSS.suffix}>{suffix}</span>}
           </span>
@@ -191,8 +193,6 @@ export class DatePickerMonthHeader {
   //  Private State/Props
   //
   //--------------------------------------------------------------------------
-
-  @State() globalAttributes = {};
 
   private yearInput: HTMLInputElement;
 

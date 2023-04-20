@@ -1,4 +1,4 @@
-# my-component
+# calcite-color-picker-swatch
 
 <!-- Auto Generated Below -->
 

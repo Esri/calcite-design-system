@@ -13,6 +13,9 @@ import { dateFromRange, HoverRange, inRange, sameDate } from "../../utils/date";
 import { DateLocaleData } from "../date-picker/utils";
 import { Scale } from "../interfaces";
 
+const DAYS_PER_WEEK = 7;
+const DAYS_MAXIMUM_INDEX = 6;
+
 @Component({
   tag: "calcite-date-picker-month",
   styleUrl: "date-picker-month.scss",
@@ -32,6 +35,13 @@ export class DatePickerMonth {
   //  Properties
   //
   //--------------------------------------------------------------------------
+
+  /**
+   * The DateTimeFormat used to provide screen reader labels.
+   *
+   * @internal
+   */
+  @Prop() dateTimeFormat: Intl.DateTimeFormat;
 
   /** Already selected date.*/
   @Prop() selectedDate: Date;
@@ -182,7 +192,7 @@ export class DatePickerMonth {
       this.scale === "s" ? narrow || short || abbreviated : short || abbreviated || narrow;
     const adjustedWeekDays = [...weekDays.slice(startOfWeek, 7), ...weekDays.slice(0, startOfWeek)];
     const curMonDays = this.getCurrentMonthDays(month, year);
-    const prevMonDays = this.getPrevMonthdays(month, year, startOfWeek);
+    const prevMonDays = this.getPreviousMonthDays(month, year, startOfWeek);
     const nextMonDays = this.getNextMonthDays(month, year, startOfWeek);
     const days = [
       ...prevMonDays.map((day) => {
@@ -207,7 +217,7 @@ export class DatePickerMonth {
 
     return (
       <Host onFocusOut={this.disableActiveFocus} onKeyDown={this.keyDownHandler}>
-        <div class="calender" role="grid">
+        <div class="calendar" role="grid">
           <div class="week-headers" role="row">
             {adjustedWeekDays.map((weekday) => (
               <span class="week-header" role="columnheader">
@@ -272,15 +282,21 @@ export class DatePickerMonth {
    * @param year
    * @param startOfWeek
    */
-  private getPrevMonthdays(month: number, year: number, startOfWeek: number): number[] {
+  private getPreviousMonthDays(month: number, year: number, startOfWeek: number): number[] {
     const lastDate = new Date(year, month, 0);
     const date = lastDate.getDate();
-    const day = lastDate.getDay();
+    const startDay = lastDate.getDay();
     const days = [];
-    if (day - 6 === startOfWeek) {
+
+    if (startDay === (startOfWeek + DAYS_MAXIMUM_INDEX) % DAYS_PER_WEEK) {
       return days;
     }
-    for (let i = lastDate.getDay() - startOfWeek; i >= 0; i--) {
+
+    if (startDay === startOfWeek) {
+      return [date];
+    }
+
+    for (let i = (DAYS_PER_WEEK + startDay - startOfWeek) % DAYS_PER_WEEK; i >= 0; i--) {
       days.push(date - i);
     }
     return days;
@@ -311,10 +327,10 @@ export class DatePickerMonth {
   private getNextMonthDays(month: number, year: number, startOfWeek: number): number[] {
     const endDay = new Date(year, month + 1, 0).getDay();
     const days = [];
-    if (endDay === (startOfWeek + 6) % 7) {
+    if (endDay === (startOfWeek + DAYS_MAXIMUM_INDEX) % DAYS_PER_WEEK) {
       return days;
     }
-    for (let i = 0; i < (6 - (endDay - startOfWeek)) % 7; i++) {
+    for (let i = 0; i < (DAYS_MAXIMUM_INDEX - (endDay - startOfWeek)) % DAYS_PER_WEEK; i++) {
       days.push(i + 1);
     }
     return days;
@@ -409,35 +425,39 @@ export class DatePickerMonth {
       (!this.endDate && this.hoverRange && sameDate(this.hoverRange?.end, this.startDate));
 
     return (
-      <calcite-date-picker-day
-        active={active}
-        class={{
-          "hover--inside-range": this.startDate && isHoverInRange,
-          "hover--outside-range": this.startDate && !isHoverInRange,
-          "focused--start": isFocusedOnStart,
-          "focused--end": !isFocusedOnStart
-        }}
-        currentMonth={currentMonth}
-        day={day}
-        disabled={!inRange(date, this.min, this.max)}
-        endOfRange={this.isEndOfRange(date)}
-        highlighted={this.betweenSelectedRange(date)}
-        key={date.toDateString()}
-        onCalciteDaySelect={this.daySelect}
-        onCalciteInternalDayHover={this.dayHover}
-        range={!!this.startDate && !!this.endDate && !sameDate(this.startDate, this.endDate)}
-        rangeHover={this.isRangeHover(date)}
-        ref={(el: HTMLCalciteDatePickerDayElement) => {
-          // when moving via keyboard, focus must be updated on active date
-          if (ref && active && this.activeFocus) {
-            el?.focus();
-          }
-        }}
-        scale={this.scale}
-        selected={this.isSelected(date)}
-        startOfRange={this.isStartOfRange(date)}
-        value={date}
-      />
+      <div class="day" role="gridcell">
+        <calcite-date-picker-day
+          active={active}
+          class={{
+            "hover--inside-range": this.startDate && isHoverInRange,
+            "hover--outside-range": this.startDate && !isHoverInRange,
+            "focused--start": isFocusedOnStart,
+            "focused--end": !isFocusedOnStart
+          }}
+          currentMonth={currentMonth}
+          dateTimeFormat={this.dateTimeFormat}
+          day={day}
+          disabled={!inRange(date, this.min, this.max)}
+          endOfRange={this.isEndOfRange(date)}
+          highlighted={this.betweenSelectedRange(date)}
+          key={date.toDateString()}
+          onCalciteDaySelect={this.daySelect}
+          onCalciteInternalDayHover={this.dayHover}
+          range={!!this.startDate && !!this.endDate && !sameDate(this.startDate, this.endDate)}
+          rangeHover={this.isRangeHover(date)}
+          scale={this.scale}
+          selected={this.isSelected(date)}
+          startOfRange={this.isStartOfRange(date)}
+          value={date}
+          // eslint-disable-next-line react/jsx-sort-props
+          ref={(el: HTMLCalciteDatePickerDayElement) => {
+            // when moving via keyboard, focus must be updated on active date
+            if (ref && active && this.activeFocus) {
+              el?.focus();
+            }
+          }}
+        />
+      </div>
     );
   }
 
@@ -471,8 +491,9 @@ export class DatePickerMonth {
       !insideRange &&
       ((!isStart && date >= this.endDate && (date < end || sameDate(date, end))) ||
         (isStart &&
-          (date < this.startDate || (this.endDate && sameDate(date, this.startDate))) &&
-          (date > start || sameDate(date, start))));
+          ((this.startDate && date < this.startDate) ||
+            (this.endDate && sameDate(date, this.startDate))) &&
+          ((start && date > start) || sameDate(date, start))));
     return cond1 || cond2;
   }
 }

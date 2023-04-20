@@ -12,6 +12,12 @@ import {
   Watch
 } from "@stencil/core";
 import {
+  componentLoaded,
+  LoadableComponent,
+  setComponentLoaded,
+  setUpLoadableComponent
+} from "../../utils/loadable";
+import {
   connectLocalized,
   disconnectLocalized,
   LocalizedComponent,
@@ -32,8 +38,8 @@ import { CSS } from "./resources";
 const maxPagesDisplayed = 5;
 export interface PaginationDetail {
   start: number;
-  total: number;
-  num: number;
+  totalItems: number;
+  startItem: number;
 }
 
 @Component({
@@ -44,7 +50,9 @@ export interface PaginationDetail {
   },
   assetsDirs: ["assets"]
 })
-export class Pagination implements LocalizedComponent, LocalizedComponent, T9nComponent {
+export class Pagination
+  implements LocalizedComponent, LocalizedComponent, LoadableComponent, T9nComponent
+{
   //--------------------------------------------------------------------------
   //
   //  Public Properties
@@ -59,6 +67,7 @@ export class Pagination implements LocalizedComponent, LocalizedComponent, T9nCo
   /**
    * Use this property to override individual strings used by the component.
    */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
   @Prop({ mutable: true }) messageOverrides: Partial<PaginationMessages>;
 
   @Watch("messageOverrides")
@@ -67,7 +76,7 @@ export class Pagination implements LocalizedComponent, LocalizedComponent, T9nCo
   }
 
   /** Specifies the number of items per page. */
-  @Prop({ reflect: true }) num = 20;
+  @Prop({ reflect: true }) pageSize = 20;
 
   /**
    * Specifies the Unicode numeral system used by the component for localization.
@@ -75,10 +84,10 @@ export class Pagination implements LocalizedComponent, LocalizedComponent, T9nCo
   @Prop() numberingSystem: NumberingSystem;
 
   /** Specifies the starting item number. */
-  @Prop({ mutable: true, reflect: true }) start = 1;
+  @Prop({ mutable: true, reflect: true }) startItem = 1;
 
   /** Specifies the total number of items. */
-  @Prop({ reflect: true }) total = 0;
+  @Prop({ reflect: true }) totalItems = 0;
 
   /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";
@@ -119,6 +128,7 @@ export class Pagination implements LocalizedComponent, LocalizedComponent, T9nCo
    *
    * @internal
    */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
   @Prop({ mutable: true }) messages: PaginationMessages;
 
   //--------------------------------------------------------------------------
@@ -145,6 +155,11 @@ export class Pagination implements LocalizedComponent, LocalizedComponent, T9nCo
 
   async componentWillLoad(): Promise<void> {
     await setUpMessages(this);
+    setUpLoadableComponent(this);
+  }
+
+  componentDidLoad(): void {
+    setComponentLoaded(this);
   }
 
   disconnectedCallback(): void {
@@ -158,16 +173,23 @@ export class Pagination implements LocalizedComponent, LocalizedComponent, T9nCo
   //
   // --------------------------------------------------------------------------
 
+  /** Sets focus on the component's first focusable element. */
+  @Method()
+  async setFocus(): Promise<void> {
+    await componentLoaded(this);
+    this.el.focus();
+  }
+
   /** Go to the next page of results. */
   @Method()
   async nextPage(): Promise<void> {
-    this.start = Math.min(this.getLastStart(), this.start + this.num);
+    this.startItem = Math.min(this.getLastStart(), this.startItem + this.pageSize);
   }
 
   /** Go to the previous page of results. */
   @Method()
   async previousPage(): Promise<void> {
-    this.start = Math.max(1, this.start - this.num);
+    this.startItem = Math.max(1, this.startItem - this.pageSize);
   }
 
   // --------------------------------------------------------------------------
@@ -177,8 +199,11 @@ export class Pagination implements LocalizedComponent, LocalizedComponent, T9nCo
   // --------------------------------------------------------------------------
 
   private getLastStart(): number {
-    const { total, num } = this;
-    const lastStart = total % num === 0 ? total - num : Math.floor(total / num) * num;
+    const { totalItems, pageSize } = this;
+    const lastStart =
+      totalItems % pageSize === 0
+        ? totalItems - pageSize
+        : Math.floor(totalItems / pageSize) * pageSize;
     return lastStart + 1;
   }
 
@@ -193,11 +218,11 @@ export class Pagination implements LocalizedComponent, LocalizedComponent, T9nCo
   };
 
   private showLeftEllipsis() {
-    return Math.floor(this.start / this.num) > 3;
+    return Math.floor(this.startItem / this.pageSize) > 3;
   }
 
   private showRightEllipsis() {
-    return (this.total - this.start) / this.num > 3;
+    return (this.totalItems - this.startItem) / this.pageSize > 3;
   }
 
   private emitUpdate() {
@@ -216,22 +241,22 @@ export class Pagination implements LocalizedComponent, LocalizedComponent, T9nCo
     let nextStart: number;
 
     // if we don't need ellipses render the whole set
-    if (this.total / this.num <= maxPagesDisplayed) {
-      nextStart = 1 + this.num;
-      end = lastStart - this.num;
+    if (this.totalItems / this.pageSize <= maxPagesDisplayed) {
+      nextStart = 1 + this.pageSize;
+      end = lastStart - this.pageSize;
     } else {
       // if we're within max pages of page 1
-      if (this.start / this.num < maxPagesDisplayed - 1) {
-        nextStart = 1 + this.num;
-        end = 1 + 4 * this.num;
+      if (this.startItem / this.pageSize < maxPagesDisplayed - 1) {
+        nextStart = 1 + this.pageSize;
+        end = 1 + 4 * this.pageSize;
       } else {
         // if we're within max pages of last page
-        if (this.start + 3 * this.num >= this.total) {
-          nextStart = lastStart - 4 * this.num;
-          end = lastStart - this.num;
+        if (this.startItem + 3 * this.pageSize >= this.totalItems) {
+          nextStart = lastStart - 4 * this.pageSize;
+          end = lastStart - this.pageSize;
         } else {
-          nextStart = this.start - this.num;
-          end = this.start + this.num;
+          nextStart = this.startItem - this.pageSize;
+          end = this.startItem + this.pageSize;
         }
       }
     }
@@ -239,14 +264,14 @@ export class Pagination implements LocalizedComponent, LocalizedComponent, T9nCo
     const pages = [];
     while (nextStart <= end) {
       pages.push(nextStart);
-      nextStart = nextStart + this.num;
+      nextStart = nextStart + this.pageSize;
     }
 
     return pages.map((page) => this.renderPage(page));
   }
 
   renderPage(start: number): VNode {
-    const page = Math.floor(start / this.num) + (this.num === 1 ? 0 : 1);
+    const page = Math.floor(start / this.pageSize) + (this.pageSize === 1 ? 0 : 1);
     numberStringFormatter.numberFormatOptions = {
       locale: this.effectiveLocale,
       numberingSystem: this.numberingSystem,
@@ -254,15 +279,17 @@ export class Pagination implements LocalizedComponent, LocalizedComponent, T9nCo
     };
 
     const displayedPage = numberStringFormatter.localize(page.toString());
+    const selected = start === this.startItem;
 
     return (
       <button
+        aria-current={selected ? "page" : "false"}
         class={{
           [CSS.page]: true,
-          [CSS.selected]: start === this.start
+          [CSS.selected]: selected
         }}
         onClick={() => {
-          this.start = start;
+          this.startItem = start;
           this.emitUpdate();
         }}
       >
@@ -272,21 +299,22 @@ export class Pagination implements LocalizedComponent, LocalizedComponent, T9nCo
   }
 
   renderLeftEllipsis(): VNode {
-    if (this.total / this.num > maxPagesDisplayed && this.showLeftEllipsis()) {
+    if (this.totalItems / this.pageSize > maxPagesDisplayed && this.showLeftEllipsis()) {
       return <span class={`${CSS.ellipsis} ${CSS.ellipsisStart}`}>&hellip;</span>;
     }
   }
 
   renderRightEllipsis(): VNode {
-    if (this.total / this.num > maxPagesDisplayed && this.showRightEllipsis()) {
+    if (this.totalItems / this.pageSize > maxPagesDisplayed && this.showRightEllipsis()) {
       return <span class={`${CSS.ellipsis} ${CSS.ellipsisEnd}`}>&hellip;</span>;
     }
   }
 
   render(): VNode {
-    const { total, num, start } = this;
-    const prevDisabled = num === 1 ? start <= num : start < num;
-    const nextDisabled = num === 1 ? start + num > total : start + num > total;
+    const { totalItems, pageSize, startItem } = this;
+    const prevDisabled = pageSize === 1 ? startItem <= pageSize : startItem < pageSize;
+    const nextDisabled =
+      pageSize === 1 ? startItem + pageSize > totalItems : startItem + pageSize > totalItems;
     return (
       <Fragment>
         <button
@@ -298,9 +326,9 @@ export class Pagination implements LocalizedComponent, LocalizedComponent, T9nCo
           disabled={prevDisabled}
           onClick={this.previousClicked}
         >
-          <calcite-icon flipRtl icon="chevronLeft" scale="s" />
+          <calcite-icon flipRtl icon="chevronLeft" scale={this.scale === "l" ? "m" : "s"} />
         </button>
-        {total > num ? this.renderPage(1) : null}
+        {totalItems > pageSize ? this.renderPage(1) : null}
         {this.renderLeftEllipsis()}
         {this.renderPages()}
         {this.renderRightEllipsis()}
@@ -314,7 +342,7 @@ export class Pagination implements LocalizedComponent, LocalizedComponent, T9nCo
           disabled={nextDisabled}
           onClick={this.nextClicked}
         >
-          <calcite-icon flipRtl icon="chevronRight" scale="s" />
+          <calcite-icon flipRtl icon="chevronRight" scale={this.scale === "l" ? "m" : "s"} />
         </button>
       </Fragment>
     );

@@ -27,6 +27,8 @@ export default {
   ...storyFilters()
 };
 
+const testDate = "2020-02-28";
+
 const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ exceptions } = { exceptions: [] }) => {
   return filterComponentAttributes(
     [
@@ -97,7 +99,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
       {
         name: "value",
         commit(): Attribute {
-          this.value = text("value", "2020-02-28");
+          this.value = text("value", testDate);
           delete this.build;
           return this;
         }
@@ -121,17 +123,11 @@ export const range = (): string =>
     )}
   </div>`;
 
-export const rangeRTL_TestOnly = (): string =>
-  html`<div style="width: 400px">
-    ${create(
-      "calcite-date-picker",
-      createAttributes({ exceptions: ["min", "range", "dir"] }).concat([
-        { name: "dir", value: "rtl" },
-        { name: "min", value: "2016-08-09" },
-        { name: "range", value: "true" }
-      ])
-    )}
-  </div>`;
+export const rangeRTL_TestOnly = (): string => html`
+  <div style="width: 400px">
+    <calcite-date-picker value="${testDate}" dir="rtl" range></calcite-date-picker>
+  </div>
+`;
 
 export const darkModeRTL_TestOnly = (): string =>
   html`<div style="width: 400px">
@@ -220,7 +216,8 @@ export const arabLangNumberingSystem_TestOnly = (): string =>
       "calcite-date-picker",
       createAttributes({ exceptions: ["lang", "numberingSystem"] }).concat([
         { name: "lang", value: "ar" },
-        { name: "numbering-system", value: "arab" }
+        { name: "numbering-system", value: "arab" },
+        { name: "value", value: "2022-08-11" }
       ])
     )}
   </div>`;

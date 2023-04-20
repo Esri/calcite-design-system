@@ -29,12 +29,17 @@ import {
   FloatingUIComponent,
   MenuPlacement,
   OverlayPositioning,
-  reposition,
-  updateAfterClose
+  reposition
 } from "../../utils/floating-ui";
 import { guid } from "../../utils/guid";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import { isActivationKey } from "../../utils/key";
+import {
+  componentLoaded,
+  LoadableComponent,
+  setComponentLoaded,
+  setUpLoadableComponent
+} from "../../utils/loadable";
 import { createObserver } from "../../utils/observers";
 import {
   connectOpenCloseComponent,
@@ -56,7 +61,9 @@ import { SLOTS } from "./resources";
     delegatesFocus: true
   }
 })
-export class Dropdown implements InteractiveComponent, OpenCloseComponent, FloatingUIComponent {
+export class Dropdown
+  implements InteractiveComponent, LoadableComponent, OpenCloseComponent, FloatingUIComponent
+{
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -81,14 +88,8 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent, Float
     if (!this.disabled) {
       if (value) {
         this.reposition(true);
-      } else {
-        updateAfterClose(this.floatingEl);
       }
       return;
-    }
-
-    if (!value) {
-      updateAfterClose(this.floatingEl);
     }
 
     this.open = false;
@@ -187,6 +188,19 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent, Float
 
   //--------------------------------------------------------------------------
   //
+  //  Public Methods
+  //
+  //--------------------------------------------------------------------------
+
+  /** Sets focus on the component's first focusable element. */
+  @Method()
+  async setFocus(): Promise<void> {
+    await componentLoaded(this);
+    this.el.focus();
+  }
+
+  //--------------------------------------------------------------------------
+  //
   //  Lifecycle
   //
   //--------------------------------------------------------------------------
@@ -201,7 +215,12 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent, Float
     connectOpenCloseComponent(this);
   }
 
+  componentWillLoad(): void {
+    setUpLoadableComponent(this);
+  }
+
   componentDidLoad(): void {
+    setComponentLoaded(this);
     this.reposition(true);
   }
 
@@ -225,6 +244,7 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent, Float
           id={`${guid}-menubutton`}
           onClick={this.openCalciteDropdown}
           onKeyDown={this.keyDownHandler}
+          // eslint-disable-next-line react/jsx-sort-props
           ref={this.setReferenceEl}
         >
           <slot
@@ -238,6 +258,7 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent, Float
         <div
           aria-hidden={toAriaBoolean(!open)}
           class="calcite-dropdown-wrapper"
+          // eslint-disable-next-line react/jsx-sort-props
           ref={this.setFloatingEl}
         >
           <div
@@ -248,8 +269,9 @@ export class Dropdown implements InteractiveComponent, OpenCloseComponent, Float
               [FloatingCSS.animationActive]: open
             }}
             id={`${guid}-menu`}
-            ref={this.setScrollerAndTransitionEl}
             role="menu"
+            // eslint-disable-next-line react/jsx-sort-props
+            ref={this.setScrollerAndTransitionEl}
           >
             <slot onSlotchange={this.updateGroups} />
           </div>

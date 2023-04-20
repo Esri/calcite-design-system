@@ -16,7 +16,7 @@ import {
 import { Build } from "@stencil/core";
 import { debounce } from "lodash-es";
 import { config } from "./config";
-import { closestElementCrossShadowBoundary, getElementDir } from "./dom";
+import { getElementDir } from "./dom";
 
 const floatingUIBrowserCheck = patchFloatingUiForNonChromiumBrowsers();
 
@@ -27,29 +27,44 @@ async function patchFloatingUiForNonChromiumBrowsers(): Promise<void> {
     platform: string;
   }
 
+  function getUAData(): NavigatorUAData | undefined {
+    return (navigator as any).userAgentData;
+  }
+
   function getUAString(): string {
-    const uaData = (navigator as any).userAgentData as NavigatorUAData | undefined;
+    const uaData = getUAData();
+
+    return uaData?.brands
+      ? uaData.brands.map(({ brand, version }) => `${brand}/${version}`).join(" ")
+      : navigator.userAgent;
+  }
+
+  function isChrome109OrAbove(): boolean {
+    const uaData = getUAData();
 
     if (uaData?.brands) {
-      return uaData.brands.map((item) => `${item.brand}/${item.version}`).join(" ");
+      return !!uaData.brands.find(
+        ({ brand, version }) => (brand === "Google Chrome" || brand === "Chromium") && Number(version) >= 109
+      );
     }
 
-    return navigator.userAgent;
+    return !!navigator.userAgent.split(" ").find((ua) => {
+      const [browser, version] = ua.split("/");
+
+      return browser === "Chrome" && parseInt(version) >= 109;
+    });
   }
 
   if (
     Build.isBrowser &&
     config.floatingUINonChromiumPositioningFix &&
     // ⚠️ browser-sniffing is not a best practice and should be avoided ⚠️
-    /firefox|safari/i.test(getUAString())
+    (/firefox|safari/i.test(getUAString()) || isChrome109OrAbove())
   ) {
-    const { getClippingRect, getElementRects, getOffsetParent } = await import(
-      "./floating-ui/nonChromiumPlatformUtils"
-    );
+    const { offsetParent } = await import("composed-offset-position");
 
-    platform.getClippingRect = getClippingRect;
-    platform.getOffsetParent = getOffsetParent;
-    platform.getElementRects = getElementRects as any;
+    const originalGetOffsetParent = platform.getOffsetParent;
+    platform.getOffsetParent = (element: Element) => originalGetOffsetParent(element, offsetParent);
   }
 }
 
@@ -436,18 +451,15 @@ export function connectFloatingUI(
 
   disconnectFloatingUI(component, referenceEl, floatingEl);
 
-  const position = component.overlayPositioning;
-
-  // ensure position matches for initial positioning
   Object.assign(floatingEl.style, {
     visibility: "hidden",
     pointerEvents: "none",
-    position
-  });
 
-  if (position === "absolute") {
-    resetPosition(floatingEl);
-  }
+    // initial positioning based on https://floating-ui.com/docs/computePosition#initial-layout
+    position: component.overlayPositioning,
+    top: "0",
+    left: "0"
+  });
 
   const runAutoUpdate = Build.isBrowser
     ? autoUpdate
@@ -480,8 +492,6 @@ export function disconnectFloatingUI(
     return;
   }
 
-  getTransitionTarget(floatingEl).removeEventListener("transitionend", handleTransitionElTransitionEnd);
-
   const cleanup = cleanupMap.get(component);
 
   if (cleanup) {
@@ -499,48 +509,3 @@ const visiblePointerSize = 4;
  * @default 6
  */
 export const defaultOffsetDistance = Math.ceil(Math.hypot(visiblePointerSize, visiblePointerSize));
-
-/**
- * This utils applies floating element styles to avoid affecting layout when closed.
- *
- * This should be called when the closing transition will start.
- *
- * @param floatingEl
- */
-export function updateAfterClose(floatingEl: HTMLElement): void {
-  if (!floatingEl || floatingEl.style.position !== "absolute") {
-    return;
-  }
-
-  getTransitionTarget(floatingEl).addEventListener("transitionend", handleTransitionElTransitionEnd);
-}
-
-function getTransitionTarget(floatingEl: HTMLElement): ShadowRoot | HTMLElement {
-  // assumes floatingEl w/ shadowRoot is a FloatingUIComponent
-  return floatingEl.shadowRoot || floatingEl;
-}
-
-function handleTransitionElTransitionEnd(event: TransitionEvent): void {
-  const floatingTransitionEl = event.target as HTMLElement;
-
-  if (
-    // using any prop from floating-ui transition
-    event.propertyName === "opacity" &&
-    floatingTransitionEl.classList.contains(FloatingCSS.animation)
-  ) {
-    const floatingEl = getFloatingElFromTransitionTarget(floatingTransitionEl);
-    resetPosition(floatingEl);
-    getTransitionTarget(floatingEl).removeEventListener("transitionend", handleTransitionElTransitionEnd);
-  }
-}
-
-function resetPosition(floatingEl: HTMLElement): void {
-  // resets position to better match https://floating-ui.com/docs/computePosition#initial-layout
-  floatingEl.style.transform = "";
-  floatingEl.style.top = "0";
-  floatingEl.style.left = "0";
-}
-
-function getFloatingElFromTransitionTarget(floatingTransitionEl: HTMLElement): HTMLElement {
-  return closestElementCrossShadowBoundary(floatingTransitionEl, `[${placementDataAttribute}]`);
-}

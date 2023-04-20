@@ -67,6 +67,7 @@ export const create: () => Config = () => ({
     { components: ["calcite-stepper", "calcite-stepper-item"] },
     { components: ["calcite-switch"] },
     { components: ["calcite-tab", "calcite-tab-title", "calcite-tab-nav", "calcite-tabs"] },
+    { components: ["calcite-text-area"] },
     { components: ["calcite-tip", "calcite-tip-group", "calcite-tip-manager"] },
     { components: ["calcite-tile"] },
     { components: ["calcite-tile-select-group", "calcite-tile-select"] },
@@ -128,6 +129,7 @@ export const create: () => Config = () => ({
   },
   preamble: `All material copyright ESRI, All Rights Reserved, unless otherwise specified.\nSee https://github.com/Esri/calcite-components/blob/master/LICENSE.md for details.\nv${version}`,
   extras: {
+    experimentalImportInjection: true,
     scriptDataOpts: true
   }
 });

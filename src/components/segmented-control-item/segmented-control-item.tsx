@@ -35,6 +35,7 @@ export class SegmentedControlItem {
   //--------------------------------------------------------------------------
 
   /** When `true`, the component is checked. */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by form module
   @Prop({ reflect: true, mutable: true }) checked = false;
 
   @Watch("checked")
@@ -54,6 +55,7 @@ export class SegmentedControlItem {
   /**
    * The component's value.
    */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by form module
   @Prop({ mutable: true })
   value: any | null;
 

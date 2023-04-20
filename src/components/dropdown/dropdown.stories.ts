@@ -480,3 +480,28 @@ export const flipPlacements_TestOnly = (): string => html`
     document.querySelector(".my-dropdown").flipPlacements = ["right"];
   </script>
 `;
+
+export const mediumIconForLargeDropdownItem_TestOnly = (): string => html`
+  <calcite-dropdown scale="l" width="m" open>
+    <calcite-dropdown-group group-title="View">
+      <calcite-dropdown-item scale="l">Table</calcite-dropdown-item>
+      <calcite-dropdown-item icon-start="grid" scale="l">Grid</calcite-dropdown-item>
+      <calcite-dropdown-item icon-start="grid" icon-end="grid" scale="l">Grid</calcite-dropdown-item>
+    </calcite-dropdown-group>
+  </calcite-dropdown>
+`;
+
+export const triggerWordBreak_TestOnly = (): string => html`<div style="width:300px;">
+<calcite-dropdown scale="m">
+  <calcite-button slot="trigger" alignment="icon-end-space-between" appearance="transparent" icon-end="chevronDown"
+    scale="m" type="button" width="full">BirdObservationCommentBirdObservationComment</calcite-button>
+  <calcite-dropdown-group role="group" selection-mode="single">
+    <calcite-dropdown-item>BirdObservationComment</calcite-dropdown-item>
+    <calcite-dropdown-item>BirdObservationComment-BirdObservationComment</calcite-dropdown-item>
+    <calcite-dropdown-item>BirdObservationCommentBirdObservationComment</calcite-dropdown-item>
+  </calcite-dropdown-group>
+  <calcite-dropdown-item>BirdObservationComment BirdObservationComment</calcite-dropdown-item>
+  <calcite-dropdown-item>Bird_Observation_Comment_Bird_Observation_Comment</calcite-dropdown-item>
+  </calcite-dropdown-group>
+</calcite-dropdown>
+</div>`;

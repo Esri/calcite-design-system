@@ -6,7 +6,8 @@ import {
   labelable,
   floatingUIOwner,
   renders,
-  hidden
+  hidden,
+  t9n
 } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { CSS } from "./resources";
@@ -33,6 +34,8 @@ describe("calcite-input-date-picker", () => {
   it("is labelable", async () => labelable("calcite-input-date-picker"));
 
   it("can be disabled", () => disabled("calcite-input-date-picker"));
+
+  it.skip("supports t9n", () => t9n("calcite-input-date-picker"));
 
   describe("event emitting when the value changes", () => {
     it("emits change event when value is committed for single date", async () => {
@@ -206,7 +209,7 @@ describe("calcite-input-date-picker", () => {
     for (let i = 0; i < 10; i++) {
       await input.press("Backspace");
     }
-    input.press("Enter");
+    await input.press("Enter");
 
     await page.waitForChanges();
 
@@ -228,54 +231,97 @@ describe("calcite-input-date-picker", () => {
     expect(await calendar.isVisible()).toBe(true);
   });
 
-  it("syncs lang changes to internal date-picker and input", async () => {
-    const lang = "it-CH";
-    const newLang = "nl";
-    const year = "2020";
-    const month = "4";
-    const day = "19";
+  describe("localization", () => {
+    it("renders arabic numerals while typing in the input when numbering-system is set to arab", async () => {
+      const page = await newE2EPage();
+      await page.setContent(
+        `<calcite-input-date-picker lang="ar" numbering-system="arab"></calcite-input-date-picker>`
+      );
+      const getInputValue = async () =>
+        await page.evaluate(
+          () =>
+            document
+              .querySelector("calcite-input-date-picker")
+              .shadowRoot.querySelector("calcite-input")
+              .shadowRoot.querySelector("input").value
+        );
 
-    const langTranslations = await import(`../date-picker/assets/date-picker/nls/${lang}.json`);
-    const newLangTranslations = await import(`../date-picker/assets/date-picker/nls/${newLang}.json`);
+      await page.keyboard.press("Tab");
+      await page.keyboard.type("1/");
+      await page.waitForChanges();
 
-    const page = await newE2EPage();
-    await page.setContent(
-      `<calcite-input-date-picker lang=${lang} value="${year}-${month}-${day}"></calcite-input-date-picker>`
-    );
-    const inputDatePicker = await page.find("calcite-input-date-picker");
+      expect(await getInputValue()).toBe("١‏/");
 
-    const getLocalizedMonth = async () =>
-      await page.evaluate(
-        async (MONTH_HEADER_CSS) =>
-          document
-            .querySelector("calcite-input-date-picker")
-            .shadowRoot.querySelector("calcite-date-picker")
-            .shadowRoot.querySelector("calcite-date-picker-month-header")
-            .shadowRoot.querySelector(`.${MONTH_HEADER_CSS.month}`).textContent,
-        MONTH_HEADER_CSS
+      await page.keyboard.type("2");
+      await page.waitForChanges();
+
+      // NOTE: This asserted value was copied from the received value in a test failure caused by
+      // typing these same values into the test file using an Arabic input source on macOS.
+      // Make sure to preserve this value when refactoring instead of typing these characters from scratch.
+      expect(await getInputValue()).toBe("١‏‏/٢");
+
+      await page.keyboard.type("/");
+      await page.waitForChanges();
+
+      expect(await getInputValue()).toBe("١‏‏‏/٢‏/");
+
+      await page.keyboard.type("1234");
+      await page.waitForChanges();
+
+      expect(await getInputValue()).toBe("١‏‏‏‏‏‏‏/٢‏‏‏‏‏/١٢٣٤");
+    });
+
+    it("syncs lang changes to internal date-picker and input", async () => {
+      // note that lang values should be available as bundles for both input-date-picker and date-picker
+      const lang = "en";
+      const newLang = "es";
+
+      const year = "2020";
+      const month = "4";
+      const day = "19";
+
+      const langTranslations = await import(`../date-picker/assets/date-picker/nls/${lang}.json`);
+      const newLangTranslations = await import(`../date-picker/assets/date-picker/nls/${newLang}.json`);
+
+      const page = await newE2EPage();
+      await page.setContent(
+        `<calcite-input-date-picker lang=${lang} value="${year}-${month}-${day}"></calcite-input-date-picker>`
+      );
+      const inputDatePicker = await page.find("calcite-input-date-picker");
+
+      const getLocalizedMonth = async () =>
+        await page.evaluate(
+          async (MONTH_HEADER_CSS) =>
+            document
+              .querySelector("calcite-input-date-picker")
+              .shadowRoot.querySelector("calcite-date-picker")
+              .shadowRoot.querySelector("calcite-date-picker-month-header")
+              .shadowRoot.querySelector(`.${MONTH_HEADER_CSS.month}`).textContent,
+          MONTH_HEADER_CSS
+        );
+
+      const getLocalizedInputValue = async () =>
+        await page.evaluate(
+          async () =>
+            document
+              .querySelector("calcite-input-date-picker")
+              .shadowRoot.querySelector("calcite-input")
+              .shadowRoot.querySelector("input").value
+        );
+
+      expect(await getLocalizedMonth()).toEqual(langTranslations.months.wide[Number(month) - 1]);
+      expect(await getLocalizedInputValue()).toBe(
+        langTranslations.placeholder.replace("DD", day).replace("MM", month).replace("YYYY", year)
       );
 
-    const getLocalizedInputValue = async () =>
-      await page.evaluate(
-        async () =>
-          document
-            .querySelector("calcite-input-date-picker")
-            .shadowRoot.querySelector("calcite-input")
-            .shadowRoot.querySelector("input").value
+      inputDatePicker.setProperty("lang", newLang);
+      await page.waitForChanges();
+
+      expect(await getLocalizedMonth()).toEqual(newLangTranslations.months.wide[Number(month) - 1]);
+      expect(await getLocalizedInputValue()).toBe(
+        newLangTranslations.placeholder.replace("DD", day).replace("MM", month).replace("YYYY", year)
       );
-
-    expect(await getLocalizedMonth()).toEqual(langTranslations.months.wide[Number(month) - 1]);
-    expect(await getLocalizedInputValue()).toBe(
-      langTranslations.placeholder.replace("DD", day).replace("MM", month).replace("YYYY", year)
-    );
-
-    inputDatePicker.setProperty("lang", newLang);
-    await page.waitForChanges();
-
-    expect(await getLocalizedMonth()).toEqual(newLangTranslations.months.wide[Number(month) - 1]);
-    expect(await getLocalizedInputValue()).toBe(
-      newLangTranslations.placeholder.replace("DD", day).replace("MM", month).replace("YYYY", year)
-    );
+    });
   });
 
   it("allows clicking a date in the calendar popup", async () => {

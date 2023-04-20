@@ -6,6 +6,7 @@ import {
   EventEmitter,
   h,
   Host,
+  Method,
   Prop,
   State,
   VNode,
@@ -20,8 +21,15 @@ import {
   setEndOfDay
 } from "../../utils/date";
 import {
+  componentLoaded,
+  LoadableComponent,
+  setComponentLoaded,
+  setUpLoadableComponent
+} from "../../utils/loadable";
+import {
   connectLocalized,
   disconnectLocalized,
+  getDateTimeFormat,
   LocalizedComponent,
   NumberingSystem,
   numberStringFormatter
@@ -35,7 +43,7 @@ import {
 } from "../../utils/t9n";
 import { HeadingLevel } from "../functional/Heading";
 import { DatePickerMessages } from "./assets/date-picker/t9n";
-import { HEADING_LEVEL } from "./resources";
+import { DATE_PICKER_FORMAT_OPTIONS, HEADING_LEVEL } from "./resources";
 import { DateLocaleData, getLocaleData, getValueAsDateRange } from "./utils";
 
 @Component({
@@ -46,7 +54,7 @@ import { DateLocaleData, getLocaleData, getValueAsDateRange } from "./utils";
     delegatesFocus: true
   }
 })
-export class DatePicker implements LocalizedComponent, T9nComponent {
+export class DatePicker implements LocalizedComponent, LoadableComponent, T9nComponent {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -108,7 +116,7 @@ export class DatePicker implements LocalizedComponent, T9nComponent {
   @Prop({ mutable: true }) maxAsDate: Date;
 
   /** Specifies the earliest allowed date (`"yyyy-mm-dd"`). */
-  @Prop({ mutable: true, reflect: true }) min: string;
+  @Prop({ reflect: true }) min: string;
 
   @Watch("min")
   onMinChanged(min: string): void {
@@ -118,7 +126,7 @@ export class DatePicker implements LocalizedComponent, T9nComponent {
   }
 
   /** Specifies the latest allowed date (`"yyyy-mm-dd"`). */
-  @Prop({ mutable: true, reflect: true }) max: string;
+  @Prop({ reflect: true }) max: string;
 
   @Watch("max")
   onMaxChanged(max: string): void {
@@ -145,6 +153,7 @@ export class DatePicker implements LocalizedComponent, T9nComponent {
   /**
    * Use this property to override individual strings used by the component.
    */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
   @Prop({ mutable: true }) messageOverrides: Partial<DatePickerMessages>;
 
   /**
@@ -152,6 +161,7 @@ export class DatePicker implements LocalizedComponent, T9nComponent {
    *
    * @internal
    */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
   @Prop({ mutable: true }) messages: DatePickerMessages;
 
   @Watch("messageOverrides")
@@ -174,19 +184,18 @@ export class DatePicker implements LocalizedComponent, T9nComponent {
    */
   @Event({ cancelable: false }) calciteDatePickerRangeChange: EventEmitter<void>;
 
-  /**
-   * Active start date.
-   */
-  @State() activeStartDate: Date;
+  //--------------------------------------------------------------------------
+  //
+  //  Public Methods
+  //
+  //--------------------------------------------------------------------------
 
-  /**
-   * Active end date.
-   */
-  @State() activeEndDate: Date;
-
-  @State() startAsDate: Date;
-
-  @State() endAsDate: Date;
+  /** Sets focus on the component's first focusable element. */
+  @Method()
+  async setFocus(): Promise<void> {
+    await componentLoaded(this);
+    this.el.focus();
+  }
 
   // --------------------------------------------------------------------------
   //
@@ -218,10 +227,15 @@ export class DatePicker implements LocalizedComponent, T9nComponent {
   }
 
   async componentWillLoad(): Promise<void> {
+    setUpLoadableComponent(this);
     await this.loadLocaleData();
     this.onMinChanged(this.min);
     this.onMaxChanged(this.max);
     await setUpMessages(this);
+  }
+
+  componentDidLoad(): void {
+    setComponentLoaded(this);
   }
 
   render(): VNode {
@@ -273,6 +287,25 @@ export class DatePicker implements LocalizedComponent, T9nComponent {
   //
   //--------------------------------------------------------------------------
 
+  /**
+   * Active end date.
+   */
+  @State() activeEndDate: Date;
+
+  /**
+   * Active start date.
+   */
+  @State() activeStartDate: Date;
+
+  /**
+   * The DateTimeFormat used to provide screen reader labels.
+   *
+   * @internal
+   */
+  @State() dateTimeFormat: Intl.DateTimeFormat;
+
+  @State() defaultMessages: DatePickerMessages;
+
   @State() effectiveLocale = "";
 
   @Watch("effectiveLocale")
@@ -280,13 +313,15 @@ export class DatePicker implements LocalizedComponent, T9nComponent {
     updateMessages(this, this.effectiveLocale);
   }
 
-  @State() defaultMessages: DatePickerMessages;
-
-  @State() private localeData: DateLocaleData;
+  @State() endAsDate: Date;
 
   @State() private hoverRange: HoverRange;
 
+  @State() private localeData: DateLocaleData;
+
   private mostRecentRangeValue?: Date;
+
+  @State() startAsDate: Date;
 
   //--------------------------------------------------------------------------
   //
@@ -322,6 +357,7 @@ export class DatePicker implements LocalizedComponent, T9nComponent {
     };
 
     this.localeData = await getLocaleData(this.effectiveLocale);
+    this.dateTimeFormat = getDateTimeFormat(this.effectiveLocale, DATE_PICKER_FORMAT_OPTIONS);
   }
 
   monthHeaderSelectChange = (event: CustomEvent<Date>): void => {
@@ -386,15 +422,17 @@ export class DatePicker implements LocalizedComponent, T9nComponent {
           this.hoverRange.focused = "end";
         }
       } else {
-        if (date < start) {
-          this.hoverRange = {
-            focused: "start",
-            start: date,
-            end: start
-          };
-        } else {
-          this.hoverRange.end = date;
-          this.hoverRange.focused = "end";
+        if (start) {
+          if (date < start) {
+            this.hoverRange = {
+              focused: "start",
+              start: date,
+              end: start
+            };
+          } else {
+            this.hoverRange.end = date;
+            this.hoverRange.focused = "end";
+          }
         }
       }
     } else {
@@ -453,6 +491,7 @@ export class DatePicker implements LocalizedComponent, T9nComponent {
         />,
         <calcite-date-picker-month
           activeDate={activeDate}
+          dateTimeFormat={this.dateTimeFormat}
           endDate={this.range ? endDate : undefined}
           hoverRange={this.hoverRange}
           localeData={this.localeData}
@@ -505,8 +544,10 @@ export class DatePicker implements LocalizedComponent, T9nComponent {
   }
 
   private setEndDate(date: Date): void {
+    const startDate = this.getStartDate();
     const newEndDate = date ? setEndOfDay(date) : date;
-    this.valueAsDate = [this.getStartDate(), date];
+    this.value = [dateToISO(startDate), dateToISO(date)];
+    this.valueAsDate = [startDate, date];
     this.mostRecentRangeValue = newEndDate;
     this.calciteDatePickerRangeChange.emit();
     this.activeEndDate = date || null;
@@ -517,7 +558,9 @@ export class DatePicker implements LocalizedComponent, T9nComponent {
   }
 
   private setStartDate(date: Date): void {
-    this.valueAsDate = [date, this.getEndDate()];
+    const endDate = this.getEndDate();
+    this.value = [dateToISO(date), dateToISO(endDate)];
+    this.valueAsDate = [date, endDate];
     this.mostRecentRangeValue = date;
     this.calciteDatePickerRangeChange.emit();
     this.activeStartDate = date || null;

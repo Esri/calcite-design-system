@@ -42,6 +42,7 @@
   }
   &:host([kind="inverse"]) {
     --calcite-split-button-divider: theme("colors.background.foreground.1");
+    --calcite-split-button-background: transparent;
   }
 }
 

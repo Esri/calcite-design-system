@@ -11,7 +11,7 @@ import {
   VNode,
   Watch
 } from "@stencil/core";
-import { getElementDir, getElementProp, getSlotted, setRequestedIcon } from "../../utils/dom";
+import { getElementDir, getSlotted, setRequestedIcon } from "../../utils/dom";
 import {
   connectForm,
   disconnectForm,
@@ -78,7 +78,7 @@ export class InputText
   @Prop({ reflect: true }) alignment: Position = "start";
 
   /**
-   * When `true`, the component is focused on page load.
+   * When `true`, the component is focused on page load. Only one element can contain `autofocus`. If multiple elements have `autofocus`, the first element will receive focus.
    *
    * @mdn [autofocus](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/autofocus)
    */
@@ -102,6 +102,14 @@ export class InputText
   }
 
   /**
+   * The ID of the form that will be associated with the component.
+   *
+   * When not set, the component will be associated with its ancestor form element, if any.
+   */
+  @Prop({ reflect: true })
+  form: string;
+
+  /**
    * When `true`, the component will not be visible.
    *
    * @mdn [hidden](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/hidden)
@@ -109,7 +117,9 @@ export class InputText
   @Prop({ reflect: true }) hidden = false;
 
   /**
-   * When `true`, shows a default recommended icon. Alternatively, pass a Calcite UI Icon name to display a specific icon.
+   * Specifies an icon to display.
+   *
+   * @futureBreaking Remove boolean type as it is not supported.
    */
   @Prop({ reflect: true }) icon: string | boolean;
 
@@ -139,6 +149,8 @@ export class InputText
   /**
    * Specifies the name of the component.
    *
+   * Required to pass the component's `value` on form submission.
+   *
    * @mdn [name](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#name)
    */
   @Prop({ reflect: true }) name: string;
@@ -164,10 +176,10 @@ export class InputText
   @Prop({ reflect: true }) required = false;
 
   /** Specifies the size of the component. */
-  @Prop({ mutable: true, reflect: true }) scale: Scale = "m";
+  @Prop({ reflect: true }) scale: Scale = "m";
 
   /** Specifies the status of the input field, which determines message and icons. */
-  @Prop({ mutable: true, reflect: true }) status: Status = "idle";
+  @Prop({ reflect: true }) status: Status = "idle";
 
   /**
    * Specifies the type of content to autocomplete, for use in forms.
@@ -217,11 +229,13 @@ export class InputText
    *
    * @internal
    */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
   @Prop({ mutable: true }) messages: InputTextMessages;
 
   /**
    * Use this property to override individual strings used by the component.
    */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
   @Prop({ mutable: true }) messageOverrides: Partial<InputTextMessages>;
 
   @Watch("messageOverrides")
@@ -301,7 +315,6 @@ export class InputText
     connectLocalized(this);
     connectMessages(this);
 
-    this.scale = getElementProp(this.el, "scale", this.scale);
     this.inlineEditableEl = this.el.closest("calcite-inline-editable");
     if (this.inlineEditableEl) {
       this.editingEnabled = this.inlineEditableEl.editingEnabled || false;
@@ -383,7 +396,7 @@ export class InputText
     this.childEl?.focus();
   }
 
-  /** Selects all text of the component's `value`. */
+  /** Selects the text of the component's `value`. */
   @Method()
   async selectText(): Promise<void> {
     this.childEl?.select();
@@ -425,8 +438,8 @@ export class InputText
   private emitChangeIfUserModified = (): void => {
     if (this.previousValueOrigin === "user" && this.value !== this.previousEmittedValue) {
       this.calciteInputTextChange.emit();
+      this.setPreviousEmittedValue(this.value);
     }
-    this.previousEmittedValue = this.value;
   };
 
   private inputTextBlurHandler = () => {
@@ -528,12 +541,12 @@ export class InputText
     this.childEl.value = newInputValue;
   };
 
-  private setPreviousEmittedValue = (newPreviousEmittedValue: string): void => {
-    this.previousEmittedValue = newPreviousEmittedValue;
+  private setPreviousEmittedValue = (value: string): void => {
+    this.previousEmittedValue = value;
   };
 
-  private setPreviousValue = (newPreviousValue: string): void => {
-    this.previousValue = newPreviousValue;
+  private setPreviousValue = (value: string): void => {
+    this.previousValue = value;
   };
 
   private setValue = ({
@@ -549,13 +562,14 @@ export class InputText
     previousValue?: string;
     value: string;
   }): void => {
-    this.setPreviousValue(previousValue || this.value);
+    this.setPreviousValue(previousValue ?? this.value);
     this.previousValueOrigin = origin;
     this.userChangedValue = origin === "user" && value !== this.value;
     this.value = value;
 
     if (origin === "direct") {
       this.setInputValue(value);
+      this.setPreviousEmittedValue(value);
     }
 
     if (nativeEvent) {
@@ -630,11 +644,12 @@ export class InputText
         pattern={this.pattern}
         placeholder={this.placeholder || ""}
         readOnly={this.readOnly}
-        ref={this.setChildElRef}
         required={this.required ? true : null}
         tabIndex={this.disabled || (this.inlineEditableEl && !this.editingEnabled) ? -1 : null}
         type="text"
         value={this.value}
+        // eslint-disable-next-line react/jsx-sort-props
+        ref={this.setChildElRef}
       />
     );
 

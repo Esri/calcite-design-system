@@ -182,12 +182,6 @@ export class StepperItem implements InteractiveComponent, LocalizedComponent, Lo
     if (this.selected) {
       this.emitRequestedItem();
     }
-
-    numberStringFormatter.numberFormatOptions = {
-      locale: this.effectiveLocale,
-      numberingSystem: this.parentStepperEl?.numberingSystem,
-      useGrouping: false
-    };
   }
 
   componentDidLoad(): void {
@@ -212,18 +206,15 @@ export class StepperItem implements InteractiveComponent, LocalizedComponent, Lo
         <div class="container">
           <div
             class="stepper-item-header"
-            ref={(el) => (this.headerEl = el)}
             tabIndex={
               /* additional tab index logic needed because of display: contents */
               this.layout === "horizontal" && !this.disabled ? 0 : null
             }
+            // eslint-disable-next-line react/jsx-sort-props
+            ref={(el) => (this.headerEl = el)}
           >
             {this.icon ? this.renderIcon() : null}
-            {this.numbered ? (
-              <div class="stepper-item-number">
-                {numberStringFormatter.numberFormatter.format(this.itemPosition + 1)}.
-              </div>
-            ) : null}
+            {this.numbered ? <div class="stepper-item-number">{this.renderNumbers()}.</div> : null}
             <div class="stepper-item-header-text">
               <span class="stepper-item-heading">{this.heading}</span>
               <span class="stepper-item-description">{this.description}</span>
@@ -371,5 +362,14 @@ export class StepperItem implements InteractiveComponent, LocalizedComponent, Lo
     return Array.from(this.parentStepperEl?.querySelectorAll("calcite-stepper-item")).indexOf(
       this.el
     );
+  }
+
+  renderNumbers(): string {
+    numberStringFormatter.numberFormatOptions = {
+      locale: this.effectiveLocale,
+      numberingSystem: this.parentStepperEl?.numberingSystem,
+      useGrouping: false
+    };
+    return numberStringFormatter.numberFormatter.format(this.itemPosition + 1);
   }
 }

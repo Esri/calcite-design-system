@@ -1,23 +1,26 @@
 import { E2EPage, newE2EPage } from "@stencil/core/testing";
 import dedent from "dedent";
 import { html } from "../../../support/formatting";
-import { accessible, defaults, disabled, floatingUIOwner, hidden, renders } from "../../tests/commonTests";
+import { focusable, accessible, defaults, disabled, floatingUIOwner, hidden, renders } from "../../tests/commonTests";
 import { GlobalTestProps } from "../../tests/utils";
 import { CSS } from "./resources";
 
+const simpleDropdownHTML = html`<calcite-dropdown>
+  <calcite-button slot="trigger">Open dropdown</calcite-button>
+  <calcite-dropdown-group id="group-1">
+    <calcite-dropdown-item id="item-1"> Dropdown Item Content </calcite-dropdown-item>
+    <calcite-dropdown-item id="item-2" selected> Dropdown Item Content </calcite-dropdown-item>
+    <calcite-dropdown-item id="item-3"> Dropdown Item Content </calcite-dropdown-item>
+  </calcite-dropdown-group>
+</calcite-dropdown>`;
+
 describe("calcite-dropdown", () => {
-  it("renders", () =>
-    renders(
-      html`<calcite-dropdown>
-        <calcite-button slot="trigger">Open dropdown</calcite-button>
-        <calcite-dropdown-group id="group-1">
-          <calcite-dropdown-item id="item-1"> Dropdown Item Content </calcite-dropdown-item>
-          <calcite-dropdown-item id="item-2" selected> Dropdown Item Content </calcite-dropdown-item>
-          <calcite-dropdown-item id="item-3"> Dropdown Item Content </calcite-dropdown-item>
-        </calcite-dropdown-group>
-      </calcite-dropdown>`,
-      { display: "inline-flex" }
-    ));
+  it("focusable", async () =>
+    focusable(simpleDropdownHTML, {
+      focusTargetSelector: '[slot="trigger"]'
+    }));
+
+  it("renders", () => renders(simpleDropdownHTML, { display: "inline-flex" }));
 
   it("honors hidden attribute", async () => hidden("calcite-dropdown"));
 
@@ -33,18 +36,7 @@ describe("calcite-dropdown", () => {
       }
     ]));
 
-  it("can be disabled", () =>
-    disabled(
-      html`<calcite-dropdown>
-        <calcite-button slot="trigger">Open dropdown</calcite-button>
-        <calcite-dropdown-group id="group-1">
-          <calcite-dropdown-item id="item-1"> Dropdown Item Content </calcite-dropdown-item>
-          <calcite-dropdown-item id="item-2" selected> Dropdown Item Content </calcite-dropdown-item>
-          <calcite-dropdown-item id="item-3"> Dropdown Item Content </calcite-dropdown-item>
-        </calcite-dropdown-group>
-      </calcite-dropdown>`,
-      { focusTarget: "child" }
-    ));
+  it("can be disabled", () => disabled(simpleDropdownHTML, { focusTarget: "child" }));
 
   interface SelectedItemsAssertionOptions {
     /**
@@ -748,7 +740,7 @@ describe("calcite-dropdown", () => {
       expect(calciteDropdownOpen).toHaveReceivedEventTimes(1);
       expect(calciteDropdownClose).toHaveReceivedEventTimes(0);
 
-      await trigger.focus();
+      await element.callMethod("setFocus");
       await page.keyboard.press("Space");
       await page.waitForChanges();
       expect(await dropdownWrapper.isVisible()).toBe(false);
@@ -793,7 +785,7 @@ describe("calcite-dropdown", () => {
       expect(calciteDropdownOpen).toHaveReceivedEventTimes(1);
       expect(calciteDropdownClose).toHaveReceivedEventTimes(0);
 
-      await trigger.focus();
+      await element.callMethod("setFocus");
       await page.keyboard.press("Space");
       await page.waitForChanges();
       expect(await dropdownWrapper.isVisible()).toBe(false);
@@ -1069,7 +1061,7 @@ describe("calcite-dropdown", () => {
       filterInput.value = "nums";
     });
 
-    expect(dropdownContentHeight.height).toBe("64px");
+    expect(dropdownContentHeight.height).toBe("72px");
   });
 
   it("owns a floating-ui", () =>

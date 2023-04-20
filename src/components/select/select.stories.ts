@@ -148,7 +148,9 @@ export const darkModeRTL_TestOnly = (): string =>
 
 darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
 
-export const disabled_TestOnly = (): string => html`<calcite-select disabled>
-  <calcite-option label="first" value="1"></calcite-option>
-  <calcite-option label="second" value="2"></calcite-option>
-</calcite-select>`;
+export const disabledAndLargeScaleGetsMediumChevron_TestOnly = (): string => html`
+  <calcite-select disabled scale="l">
+    <calcite-option label="first" value="1"></calcite-option>
+    <calcite-option label="second" value="2"></calcite-option>
+  </calcite-select>
+`;

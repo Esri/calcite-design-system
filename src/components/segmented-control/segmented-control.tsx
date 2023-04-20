@@ -64,6 +64,14 @@ export class SegmentedControl
   @Prop({ reflect: true }) disabled = false;
 
   /**
+   * The ID of the form that will be associated with the component.
+   *
+   * When not set, the component will be associated with its ancestor form element, if any.
+   */
+  @Prop({ reflect: true })
+  form: string;
+
+  /**
    * When `true`, the component must have a value in order for the form to submit.
    *
    * @internal
@@ -74,7 +82,9 @@ export class SegmentedControl
   @Prop({ reflect: true }) layout: Layout = "horizontal";
 
   /**
-   * Specifies the name of the component on form submission.
+   * Specifies the name of the component.
+   *
+   * Required to pass the component's `value` on form submission.
    */
   @Prop({ reflect: true }) name: string;
 
@@ -249,7 +259,7 @@ export class SegmentedControl
   //
   //--------------------------------------------------------------------------
 
-  /** Fires when the selected option changes, where the event detail is the new value. */
+  /** Fires when the `calcite-segmented-control-item` selection changes. */
   @Event({ cancelable: false }) calciteSegmentedControlChange: EventEmitter<void>;
 
   // --------------------------------------------------------------------------

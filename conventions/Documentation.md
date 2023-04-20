@@ -33,7 +33,7 @@ You can provide code snippets demonstrating a specific behavior or pattern for a
 
 ## Storybook
 
-Calcite Components uses [Storybook](https://storybook.js.org/) to provide an interactive showcase of components with accompanying documentation and also to provide previews for screenshot testing. Storybook is deployed during every `next` release, whereas the [SDK site](https://developers.arcgis.com/calcite-design-system/components/) is only updated after `beta` releases. Storybook is a great resource for testing the newest changes and viewing the newest API reference.
+Calcite Components uses [Storybook](https://storybook.js.org/) to provide an interactive showcase of components with accompanying documentation and also to provide previews for screenshot testing. Storybook is deployed with prerelease versions, whereas the [SDK site](https://developers.arcgis.com/calcite-design-system/components/) is only updated during releases. Storybook is a great resource for testing the newest changes and viewing the newest API reference.
 
 ### Writing stories
 

@@ -37,11 +37,10 @@ import { PickListItemMessages } from "./assets/pick-list-item/t9n";
 import { CSS, ICONS, SLOTS } from "./resources";
 
 /**
+ * @deprecated Use the `list` component instead.
  * @slot actions-end - A slot for adding `calcite-action`s or content to the end side of the component.
  * @slot actions-start - A slot for adding `calcite-action`s or content to the start side of the component.
  */
-
-/** @deprecated Use the `list` component instead. */
 @Component({
   tag: "calcite-pick-list-item",
   styleUrl: "pick-list-item.scss",
@@ -105,6 +104,7 @@ export class PickListItem
   /**
    * Use this property to override individual strings used by the component.
    */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
   @Prop({ mutable: true }) messageOverrides: Partial<PickListItemMessages>;
 
   /**
@@ -112,6 +112,7 @@ export class PickListItem
    *
    * @internal
    */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
   @Prop({ mutable: true }) messages: PickListItemMessages;
 
   @Watch("defaultMessages")
@@ -381,8 +382,9 @@ export class PickListItem
           class={CSS.label}
           onClick={this.pickListClickHandler}
           onKeyDown={this.pickListKeyDownHandler}
-          ref={(focusEl): HTMLLabelElement => (this.focusEl = focusEl)}
           tabIndex={0}
+          // eslint-disable-next-line react/jsx-sort-props
+          ref={(focusEl): HTMLLabelElement => (this.focusEl = focusEl)}
         >
           <div
             aria-checked={toAriaBoolean(this.selected)}

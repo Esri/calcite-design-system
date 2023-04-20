@@ -47,7 +47,7 @@ export class Tip implements ConditionalSlotComponent, LocalizedComponent, T9nCom
   /**
    * When `true`, the component does not display.
    */
-  @Prop({ reflect: true, mutable: true }) dismissed = false;
+  @Prop({ reflect: true, mutable: true }) closed = false;
 
   /**
    * When `true`, the close button is not present on the component.
@@ -76,11 +76,13 @@ export class Tip implements ConditionalSlotComponent, LocalizedComponent, T9nCom
    *
    * @internal
    */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
   @Prop({ mutable: true }) messages: TipMessages;
 
   /**
    * Use this property to override individual strings used by the component.
    */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
   @Prop({ mutable: true }) messageOverrides: Partial<TipMessages>;
 
   @Watch("messageOverrides")
@@ -134,7 +136,7 @@ export class Tip implements ConditionalSlotComponent, LocalizedComponent, T9nCom
   // --------------------------------------------------------------------------
 
   /**
-   * Emits when the component has been dismissed.
+   * Emits when the component has been closed.
    */
   @Event({ cancelable: false }) calciteTipDismiss: EventEmitter<void>;
 
@@ -145,7 +147,7 @@ export class Tip implements ConditionalSlotComponent, LocalizedComponent, T9nCom
   // --------------------------------------------------------------------------
 
   hideTip = (): void => {
-    this.dismissed = true;
+    this.closed = true;
 
     this.calciteTipDismiss.emit();
   };

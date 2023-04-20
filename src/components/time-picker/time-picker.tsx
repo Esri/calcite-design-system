@@ -88,6 +88,11 @@ export class TimePicker
   /** Specifies the granularity the `value` must adhere to (in seconds). */
   @Prop({ reflect: true }) step = 60;
 
+  @Watch("step")
+  stepChange(): void {
+    this.updateShowSecond();
+  }
+
   /**
    * Specifies the Unicode numeral system used by the component for localization.
    *
@@ -107,11 +112,13 @@ export class TimePicker
    *
    * @internal
    */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
   @Prop({ mutable: true }) messages: TimePickerMessages;
 
   /**
    * Use this property to override individual strings used by the component.
    */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
   @Prop({ mutable: true }) messageOverrides: Partial<TimePickerMessages>;
 
   @Watch("messageOverrides")
@@ -174,7 +181,7 @@ export class TimePicker
 
   @State() second: string;
 
-  @State() showSecond: boolean = this.step < 60;
+  @State() showSecond: boolean;
 
   @State() defaultMessages: TimePickerMessages;
 
@@ -298,6 +305,10 @@ export class TimePicker
   //  Private Methods
   //
   // --------------------------------------------------------------------------
+
+  private updateShowSecond(): void {
+    this.showSecond = this.step < 60;
+  }
 
   private async focusPart(target: TimePart): Promise<void> {
     await componentLoaded(this);
@@ -709,6 +720,7 @@ export class TimePicker
     connectLocalized(this);
     this.updateLocale();
     connectMessages(this);
+    this.updateShowSecond();
     this.meridiemOrder = this.getMeridiemOrder(
       getTimeParts({
         value: "0:00:00",
@@ -781,9 +793,10 @@ export class TimePicker
             }}
             onFocus={this.focusHandler}
             onKeyDown={this.hourKeyDownHandler}
-            ref={this.setHourEl}
             role="spinbutton"
             tabIndex={0}
+            // eslint-disable-next-line react/jsx-sort-props
+            ref={this.setHourEl}
           >
             {this.localizedHour || "--"}
           </span>
@@ -829,9 +842,10 @@ export class TimePicker
             }}
             onFocus={this.focusHandler}
             onKeyDown={this.minuteKeyDownHandler}
-            ref={this.setMinuteEl}
             role="spinbutton"
             tabIndex={0}
+            // eslint-disable-next-line react/jsx-sort-props
+            ref={this.setMinuteEl}
           >
             {this.localizedMinute || "--"}
           </span>
@@ -877,9 +891,10 @@ export class TimePicker
               }}
               onFocus={this.focusHandler}
               onKeyDown={this.secondKeyDownHandler}
-              ref={this.setSecondEl}
               role="spinbutton"
               tabIndex={0}
+              // eslint-disable-next-line react/jsx-sort-props
+              ref={this.setSecondEl}
             >
               {this.localizedSecond || "--"}
             </span>
@@ -935,9 +950,10 @@ export class TimePicker
               }}
               onFocus={this.focusHandler}
               onKeyDown={this.meridiemKeyDownHandler}
-              ref={this.setMeridiemEl}
               role="spinbutton"
               tabIndex={0}
+              // eslint-disable-next-line react/jsx-sort-props
+              ref={this.setMeridiemEl}
             >
               {this.localizedMeridiem || "--"}
             </span>

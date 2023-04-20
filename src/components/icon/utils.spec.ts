@@ -58,13 +58,36 @@ describe("utils", () => {
       expect(Object.keys(iconCache)).toHaveLength(4);
     });
 
-    it("normalizes icon name", () => {
-      // used internally by fetchIcon
-      expect(normalizeIconName("aZ")).toBe("aZ");
-      expect(normalizeIconName("a-z")).toBe("aZ");
-      expect(normalizeIconName("2d-explore")).toBe("i2DExplore");
+    it("normalizes icon name (used internally by fetchIcon)", () => {
+      expect(normalizeIconName("1-8x")).toBe("i18X");
+      expect(normalizeIconName("1-8X")).toBe("i18X");
+      expect(normalizeIconName("18X")).toBe("i18X");
+
+      expect(normalizeIconName("1x")).toBe("i1X");
+      expect(normalizeIconName("1X")).toBe("i1X");
+
       expect(normalizeIconName("2d-explore")).toBe("i2DExplore");
       expect(normalizeIconName("2DExplore")).toBe("i2DExplore");
+
+      expect(normalizeIconName("360-view")).toBe("i360View");
+      expect(normalizeIconName("360View")).toBe("i360View");
+
+      expect(normalizeIconName("a-z")).toBe("aZ");
+      expect(normalizeIconName("aZ")).toBe("aZ");
+
+      expect(normalizeIconName("attachment")).toBe("attachment");
+
+      expect(normalizeIconName("classify-pixels")).toBe("classifyPixels");
+      expect(normalizeIconName("classifyPixels")).toBe("classifyPixels");
+
+      expect(normalizeIconName("display-selection-lock")).toBe("displaySelectionLock");
+      expect(normalizeIconName("displaySelectionLock")).toBe("displaySelectionLock");
+
+      expect(normalizeIconName("number-circle-6")).toBe("numberCircle6");
+      expect(normalizeIconName("numberCircle6")).toBe("numberCircle6");
+
+      expect(normalizeIconName("x-axis-guide")).toBe("xAxisGuide");
+      expect(normalizeIconName("xAxisGuide")).toBe("xAxisGuide");
     });
   });
 });

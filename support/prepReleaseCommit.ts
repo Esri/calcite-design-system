@@ -1,26 +1,22 @@
-import type { Options } from "standard-version";
-import yargs from "yargs";
-
 (async function prepReleaseCommit(): Promise<void> {
   const childProcess = await import("child_process");
   const { promisify } = await import("util");
   const { promises: fs } = await import("fs");
-  const { default: gitSemverTags } = await import("git-semver-tags");
+  const { default: semver } = await import("semver");
   const { dirname, normalize } = await import("path");
   const prettier = await import("prettier");
-  const { default: semver } = await import("semver");
   const { quote } = await import("shell-quote");
-  const { default: standardVersion } = await import("standard-version");
   const { fileURLToPath } = await import("url");
   const exec = promisify(childProcess.exec);
 
-  const header = `# Changelog\n\nThis document maintains a list of released versions and changes introduced by them.\nThis project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html)\n`;
+  const header = `# Changelog\n\nThis document maintains a list of released versions and changes introduced by them.\nThis project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html)\n\n`;
   const unreleasedSectionTokenStart = "<!--@unreleased-section-start-->";
   const unreleasedSectionTokenEnd = "<!--@unreleased-section-end-->";
   const __filename = fileURLToPath(import.meta.url);
   const __dirname = dirname(__filename);
   const changelogPath = quote([normalize(`${__dirname}/../CHANGELOG.md`)]);
   const readmePath = quote([normalize(`${__dirname}/../readme.md`)]);
+  const packagePath = quote([normalize(`${__dirname}/../package.json`)]);
 
   // git sanity checks to prevent unapproved changes from making it into a release
   if ((await exec("git rev-parse --abbrev-ref HEAD")).stdout.trim() !== "master") {
@@ -31,90 +27,48 @@ import yargs from "yargs";
   ) {
     throw new Error("The master branch must be in sync with origin before releasing.");
   }
-  if ((await exec("git status --porcelain=v1")).stdout.trim()) {
-    throw new Error("There cannot be any uncommitted changes before releasing.");
-  }
-
-  const { next } = yargs(process.argv.slice(2))
-    .options({ next: { type: "boolean", default: false } })
-    .parseSync();
 
   // deepen the history when fetching tags due to shallow clone
   await exec("git fetch --deepen=250 --tags");
 
   const prereleaseVersionPattern = /-next\.\d+$/;
-  const semverTags = await promisify(gitSemverTags)();
-  const lastNonNextTag = semverTags.find((tag) => !prereleaseVersionPattern.test(tag));
-  let standardVersionOptions: Options;
+
+  const currentLatestVersion = (await exec("npm view @esri/calcite-components dist-tags.latest")).stdout.trim();
+  const currentNextVersion = (await exec("npm view @esri/calcite-components dist-tags.next")).stdout.trim();
+  const releaseVersion = JSON.parse(await fs.readFile(packagePath, "utf8"))?.version;
+  const next = prereleaseVersionPattern.test(releaseVersion);
+
+  if (
+    !semver.valid(releaseVersion) ||
+    (!next && semver.gte(currentLatestVersion, releaseVersion)) ||
+    (next && semver.gte(currentNextVersion, releaseVersion))
+  ) {
+    throw new Error("Version was not incremented correctly");
+  }
 
   const baseErrorMessage = "an error occurred generating the changelog";
 
-  try {
-    standardVersionOptions = await getStandardVersionOptions(next, semverTags);
-  } catch (error) {
-    console.log(baseErrorMessage);
-    process.exitCode = 1;
-    return;
-  }
-
-  const changelogGenerationErrorMessage = `${baseErrorMessage} (releasing as: ${standardVersionOptions.releaseAs})`;
+  const changelogGenerationErrorMessage = `${baseErrorMessage} (releasing as: ${releaseVersion})`;
 
   try {
-    await runStandardVersion(next, standardVersionOptions);
+    if (next) {
+      await appendUnreleasedNotesToChangelog();
+    } else {
+      await convertUnreleasedChangelogContent(releaseVersion);
+      await updateReadmeCdnUrls(releaseVersion);
+      await exec(`git add ${readmePath}`);
+    }
+    await exec(`git add ${changelogPath}`);
   } catch (error) {
     console.log(changelogGenerationErrorMessage);
     process.exitCode = 1;
   }
 
-  async function getStandardVersionOptions(next: boolean, semverTags: string[]): Promise<Options> {
-    const target = next ? "next" : "beta";
-    const targetVersionPattern = new RegExp(`-${target}\\.\\d+$`);
-
-    // we keep track of `beta` and `next` releases since `standard-version` resets the version number when going in between
-    // this should not be needed after v1.0.0 since there would no longer be a beta version to keep track of
-    const targetDescendingOrderTags = semverTags.filter((tag) => targetVersionPattern.test(tag)).sort(semver.rcompare);
-    const targetReleaseVersion = semver.inc(targetDescendingOrderTags[0], "prerelease", target);
-
-    if (!targetReleaseVersion) {
-      throw new Error("an error occurred determining the target release version");
-    }
-
-    if (!targetVersionPattern.test(targetReleaseVersion)) {
-      throw new Error(`target release version does not have prerelease identifier (${target})`);
-    }
-
-    const standardVersionOptions: Options = {
-      commitAll: true,
-      noVerify: true,
-      header,
-      releaseAs: targetReleaseVersion,
-      releaseCommitMessageFormat: "{{currentTag}}",
-      skip: { changelog: true }
-    };
-
-    return standardVersionOptions;
-  }
-
-  async function runStandardVersion(next: boolean, standardVersionOptions: Options): Promise<void> {
-    if (next) {
-      await appendUnreleasedNotesToChangelog();
-    } else {
-      if (!standardVersionOptions.releaseAs) {
-        throw new Error("an error occurred determining the target release version");
-      }
-      await convertUnreleasedChangelogContent(standardVersionOptions.releaseAs);
-      await updateReadmeCdnUrls(standardVersionOptions.releaseAs);
-      await exec(`git add ${readmePath}`);
-    }
-    await exec(`git add ${changelogPath}`);
-    await standardVersion(standardVersionOptions);
-  }
-
-  async function convertUnreleasedChangelogContent(releaseVersion: string): Promise<void> {
+  async function convertUnreleasedChangelogContent(version: string): Promise<void> {
     const changelogContent: string = await fs.readFile(changelogPath, { encoding: "utf8" });
     const date = new Date();
     const adjustedDate = new Date(date.getTime() - date.getTimezoneOffset() * 60 * 1000).toISOString().split("T")[0];
-    const versionHeader = `## [${releaseVersion}](https://github.com/Esri/calcite-components/compare/${lastNonNextTag}...${releaseVersion}) (${adjustedDate})`;
+    const versionHeader = `## [v${version}](https://github.com/Esri/calcite-components/compare/v${currentLatestVersion}...v${version}) (${adjustedDate})`;
     const unreleasedSectionPatternStart = new RegExp(`${unreleasedSectionTokenStart}.*## Unreleased`, "s");
     const updatedChangelogContent = `${header}${versionHeader}\n${changelogContent
       .replace(header, "")
@@ -196,7 +150,7 @@ import yargs from "yargs";
   async function updateReadmeCdnUrls(version: string): Promise<void> {
     const scriptTagPattern = /(<script\s+type="module"\s+src=").+("\s*><\/script>)/m;
     const linkTagPattern = /(<link\s+rel="stylesheet"\s+type="text\/css"\s+href=").+("\s*\/>)/m;
-    const baseCdnUrl = `https://unpkg.com/@esri/calcite-components@${version}/dist/calcite/calcite.`;
+    const baseCdnUrl = `https://cdn.jsdelivr.net/npm/@esri/calcite-components@${version}/dist/calcite/calcite.`;
 
     const readmeContent: string = await fs.readFile(readmePath, { encoding: "utf8" });
     const updatedReadmeContent = readmeContent
