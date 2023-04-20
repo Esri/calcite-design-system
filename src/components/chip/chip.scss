@@ -99,31 +99,25 @@
     padding-inline-end: var(--calcite-chip-spacing-s-internal);
   }
 }
-.container.closable .title {
-  padding-inline-end: var(--calcite-chip-spacing-s-internal);
-}
 
-.container.multiple.image--slotted .image-container ~ .title {
-  padding-inline-start: var(--calcite-chip-spacing-s-internal);
-}
-
-.container:not(.text--slotted):not(.is-circle) .chip-icon {
-  margin-inline-end: var(--calcite-chip-spacing-s-internal);
-}
-
-.container.closable.text--slotted:not(.is-circle) .title {
-  padding-inline-end: 0;
-}
-
-.container:not(.is-circle):not(.image--slotted):not(.selectable) .image-container ~ .chip-icon {
+.container:not(.image--slotted):not(.is-circle) .chip-icon {
   margin-inline-start: var(--calcite-chip-spacing-s-internal);
 }
 
-.container.selectable.closable:not(.text--slotted):not(.is-circle) .chip-icon {
-  margin-inline-start: var(--calcite-chip-spacing-l-internal);
+.container:not(.text--slotted):not(.is-circle) .chip-icon {
+  margin-inline-start: var(--calcite-chip-spacing-s-internal);
 }
-.container:not(.is-circle) .chip-icon {
-  margin-inline-start: calc(var(--calcite-chip-spacing-s-internal) / 2);
+
+.container.selectable.multiple:not(.image-slotted):not(.is-circle) .title {
+  padding-inline-start: 0;
+}
+
+:host([selected]) .container.selectable:not(.multiple):not(.image-slotted):not(.is-circle) .title {
+  padding-inline-start: 0;
+}
+
+.container.text--slotted.image--slotted:not(.is-circle) .chip-icon {
+  margin-inline: var(--calcite-chip-spacing-s-internal);
 }
 
 .container:not(.text--slotted) .title {
