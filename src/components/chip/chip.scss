@@ -107,7 +107,7 @@
 }
 
 .container:not(.is-circle):not(.image--slotted):not(.selectable) .image-container ~ .chip-icon {
-  margin-inline-start: var(--calcite-chip-spacing-l-internal);
+  margin-inline-start: var(--calcite-chip-spacing-s-internal);
 }
 
 .container:not(.is-circle) .chip-icon {
