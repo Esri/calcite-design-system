@@ -116,8 +116,15 @@
   padding-inline-start: 0;
 }
 
-.container.text--slotted.image--slotted:not(.is-circle) .chip-icon {
-  margin-inline: var(--calcite-chip-spacing-s-internal);
+.container.text--slotted:not(.is-circle) .chip-icon {
+  margin-inline: calc(var(--calcite-chip-spacing-s-internal) / 2);
+}
+.container:not(.text--slotted):not(.is-circle) .chip-icon {
+  margin-inline-end: var(--calcite-chip-spacing-s-internal);
+}
+
+.container.text--slotted:not(.is-circle) .chip-icon ~ .title {
+  padding-inline-start: 0;
 }
 
 .container:not(.text--slotted) .title {
@@ -147,7 +154,6 @@
   -webkit-appearance: none;
   display: flex;
   border-radius: 50%;
-  color: inherit;
   align-content: center;
   justify-content: center;
   --calcite-chip-transparent-hover: var(--calcite-button-transparent-hover);
@@ -161,6 +167,9 @@
   }
   &:active {
     background-color: var(--calcite-chip-transparent-press);
+  }
+  & calcite-icon {
+    @apply text-color-3;
   }
 }
 
