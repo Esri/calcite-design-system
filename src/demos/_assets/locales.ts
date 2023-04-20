@@ -1,7 +1,10 @@
+import { NumberingSystem } from "../../utils/locale";
+
 interface Locale {
   name: string;
   locale: string;
   dir?: "ltr" | "rtl";
+  numberingSystem?: NumberingSystem;
 }
 
 export const locales: Locale[] = [
@@ -10,7 +13,18 @@ export const locales: Locale[] = [
     locale: "ar",
     dir: "rtl"
   },
-  { name: "Arabic (Arab Numerals)", locale: "ar", dir: "rtl", numberingSystem: "arab" },
+  {
+    name: "Arabic (Arab Numerals)",
+    locale: "ar",
+    dir: "rtl",
+    numberingSystem: "arab"
+  },
+  {
+    name: "Arabic (Arab Ext Numerals)",
+    locale: "ar",
+    dir: "rtl",
+    numberingSystem: "arabext"
+  },
   {
     name: "Bosnian",
     locale: "bs"

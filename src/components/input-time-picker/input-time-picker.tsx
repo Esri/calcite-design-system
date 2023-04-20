@@ -326,7 +326,9 @@ export class InputTimePicker
     const target = event.target as HTMLCalciteTimePickerElement;
     const value = target.value;
     this.setValue({ value, origin: "time-picker" });
-    this.parseTest();
+
+    const parsedResult = this.parseInputString(this.calciteInputEl.value);
+    console.log("source:", this.calciteInputEl.value, "parsed:", parsedResult);
   };
 
   @Listen("calciteInternalTimePickerFocus")
@@ -368,56 +370,6 @@ export class InputTimePicker
   //
   // --------------------------------------------------------------------------
 
-  private parseTest() {
-    let valueToParse = this.calciteInputEl.value;
-    if (this.effectiveLocale.startsWith("ar")) {
-      if (this.numberingSystem === "arab") {
-        const arabNumberMap = {
-          "١": "1",
-          "٢": "2",
-          "٣": "3",
-          "٤": "4",
-          "٥": "5",
-          "٦": "6",
-          "٧": "7",
-          "٨": "8",
-          "٩": "9",
-          "٠": "0"
-        };
-        valueToParse = this.calciteInputEl.value.replace(
-          /[١٢٣٤٥٦٧٨٩٠]/g,
-          (match) => arabNumberMap[match]
-        );
-      } else if (this.numberingSystem === "arabext") {
-        const arabextNumberMap = {
-          "۱": "1",
-          "۲": "2",
-          "۳": "3",
-          "۴": "4",
-          "۵": "5",
-          "۶": "6",
-          "۷": "7",
-          "۸": "8",
-          "۹": "9",
-          "۰": "0"
-        };
-        valueToParse = this.calciteInputEl.value.replace(
-          /[۱۲۳۴۵۶۷۸۹۰]/g,
-          (match) => arabextNumberMap[match]
-        );
-      }
-    }
-    const parsedValue = this.parseInputString(valueToParse);
-    console.log(
-      "source:",
-      this.calciteInputEl.value,
-      "valueToParse:",
-      valueToParse,
-      "parsed:",
-      parsedValue
-    );
-  }
-
   keyDownHandler = (event: KeyboardEvent): void => {
     const { defaultPrevented, key } = event;
 
@@ -449,9 +401,39 @@ export class InputTimePicker
 
   private parseInputString(value: string): string {
     const locale = this.effectiveLocale.toLowerCase();
-    let localeConfig;
+    let localeConfig,
+      valueToParse = value;
 
     if (locale === "ar") {
+      if (this.numberingSystem === "arab") {
+        const arabNumberMap = {
+          "١": "1",
+          "٢": "2",
+          "٣": "3",
+          "٤": "4",
+          "٥": "5",
+          "٦": "6",
+          "٧": "7",
+          "٨": "8",
+          "٩": "9",
+          "٠": "0"
+        };
+        valueToParse = value.replace(/[١٢٣٤٥٦٧٨٩٠]/g, (match) => arabNumberMap[match]);
+      } else if (this.numberingSystem === "arabext") {
+        const arabextNumberMap = {
+          "۱": "1",
+          "۲": "2",
+          "۳": "3",
+          "۴": "4",
+          "۵": "5",
+          "۶": "6",
+          "۷": "7",
+          "۸": "8",
+          "۹": "9",
+          "۰": "0"
+        };
+        valueToParse = value.replace(/[۱۲۳۴۵۶۷۸۹۰]/g, (match) => arabextNumberMap[match]);
+      }
       localeConfig = {
         meridiem: (hour) => (hour > 12 ? "م" : "ص"),
         formats: {
@@ -511,7 +493,7 @@ export class InputTimePicker
     dayjs.updateLocale(locale, localeConfig);
 
     const dayjsParseResult = dayjs(
-      value,
+      valueToParse,
       this.shouldIncludeSeconds() ? "LTS" : "LT",
       locale.toLowerCase()
     );
