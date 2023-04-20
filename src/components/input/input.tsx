@@ -367,10 +367,6 @@ export class Input
 
   @Watch("value")
   valueWatcher(newValue: string, previousValue: string): void {
-    if (this.type === "file") {
-      this.files = (this.childEl as HTMLInputElement).files;
-    }
-
     if (!this.userChangedValue) {
       this.setValue({
         origin: "direct",
@@ -692,6 +688,12 @@ export class Input
 
   private inputFocusHandler = (): void => {
     this.calciteInternalInputFocus.emit();
+  };
+
+  private inputChangeHandler = (): void => {
+    if (this.type === "file") {
+      this.files = (this.childEl as HTMLInputElement).files;
+    }
   };
 
   private inputInputHandler = (nativeEvent: InputEvent): void => {
@@ -1159,6 +1161,7 @@ export class Input
               multiple={this.multiple}
               name={this.name}
               onBlur={this.inputBlurHandler}
+              onChange={this.inputChangeHandler}
               onFocus={this.inputFocusHandler}
               onInput={this.inputInputHandler}
               onKeyDown={this.inputKeyDownHandler}
