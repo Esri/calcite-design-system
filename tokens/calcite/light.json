@@ -1558,6 +1558,246 @@
             }
           }
         }
+      },
+      "slider-range": {
+        "font": {
+          "label": {
+            "value": "$slider-range.font.label.light",
+            "type": "color"
+          },
+          "tick-label": {
+            "value": "$slider-range.font.tick-label.light",
+            "type": "color"
+          }
+        },
+        "handle": {
+          "background": {
+            "value": "$slider-range.handle.background.light",
+            "type": "color"
+          },
+          "border": {
+            "value": "$slider-range.handle.border.light",
+            "type": "color"
+          }
+        },
+        "border": {
+          "default": {
+            "value": "$slider-range.border.default.light",
+            "type": "color"
+          },
+          "active": {
+            "value": "$slider-range.border.active.light",
+            "type": "color"
+          }
+        },
+        "tick": {
+          "default": {
+            "background": {
+              "value": "$slider-range.tick.default.background.light",
+              "type": "color"
+            },
+            "border": {
+              "value": "$slider-range.tick.default.border.light",
+              "type": "color"
+            }
+          },
+          "active": {
+            "background": {
+              "value": "$slider-range.tick.active.background.light",
+              "type": "color"
+            },
+            "border": {
+              "value": "$slider-range.tick.active.border.light",
+              "type": "color"
+            }
+          }
+        }
+      },
+      "slider-histogram": {
+        "font": {
+          "label": {
+            "value": "$slider-histogram.font.label.light",
+            "type": "color"
+          },
+          "tick-label": {
+            "value": "$slider-histogram.font.tick-label.light",
+            "type": "color"
+          }
+        },
+        "handle": {
+          "background": {
+            "value": "$slider-histogram.handle.background.light",
+            "type": "color"
+          },
+          "border": {
+            "value": "$slider-histogram.handle.border.light",
+            "type": "color"
+          }
+        },
+        "border": {
+          "default": {
+            "value": "$slider-histogram.border.default.light",
+            "type": "color"
+          },
+          "active": {
+            "value": "$slider-histogram.border.active.light",
+            "type": "color"
+          }
+        },
+        "tick": {
+          "default": {
+            "background": {
+              "value": "$slider-histogram.tick.default.background.light",
+              "type": "color"
+            },
+            "border": {
+              "value": "$slider-histogram.tick.default.border.light",
+              "type": "color"
+            }
+          },
+          "active": {
+            "background": {
+              "value": "$slider-histogram.tick.active.background.light",
+              "type": "color"
+            },
+            "border": {
+              "value": "$slider-histogram.tick.active.border.light",
+              "type": "color"
+            }
+          }
+        },
+        "area": {
+          "active": {
+            "background": {
+              "value": "$slider-histogram.area.active.background.light",
+              "type": "color"
+            }
+          }
+        },
+        "active-end": {
+          "background": {
+            "value": "$slider-histogram.active-end.background.light",
+            "type": "color"
+          }
+        }
+      },
+      "slider-histogram-range": {
+        "font": {
+          "label": {
+            "value": "$slider-histogram-range.font.label.light",
+            "type": "color"
+          },
+          "tick-label": {
+            "value": "$slider-histogram-range.font.tick-label.light",
+            "type": "color"
+          }
+        },
+        "handle": {
+          "background": {
+            "value": "$slider-histogram-range.handle.background.light",
+            "type": "color"
+          },
+          "border": {
+            "value": "$slider-histogram-range.handle.border.light",
+            "type": "color"
+          }
+        },
+        "border": {
+          "default": {
+            "value": "$slider-histogram-range.border.default.light",
+            "type": "color"
+          },
+          "active": {
+            "value": "$slider-histogram-range.border.active.light",
+            "type": "color"
+          }
+        },
+        "tick": {
+          "default": {
+            "background": {
+              "value": "$slider-histogram-range.tick.default.background.light",
+              "type": "color"
+            },
+            "border": {
+              "value": "$slider-histogram-range.tick.default.border.light",
+              "type": "color"
+            }
+          },
+          "active": {
+            "background": {
+              "value": "$slider-histogram-range.tick.active.background.light",
+              "type": "color"
+            },
+            "border": {
+              "value": "$slider-histogram-range.tick.active.border.light",
+              "type": "color"
+            }
+          }
+        },
+        "area": {
+          "active": {
+            "background": {
+              "value": "$slider-histogram-range.area.active.background.light",
+              "type": "color"
+            }
+          }
+        },
+        "active-end": {
+          "background": {
+            "value": "$slider-histogram.active-end.background.light",
+            "type": "color"
+          }
+        }
+      },
+      "filter": {
+        "font": {
+          "value": "$filter.font.light",
+          "type": "color"
+        },
+        "icon": {
+          "value": "$filter.icon.light",
+          "type": "color"
+        },
+        "border": {
+          "value": "$filter.border.light",
+          "type": "color"
+        },
+        "background": {
+          "value": "$filter.background.light",
+          "type": "color"
+        }
+      },
+      "scrim": {
+        "background": {
+          "value": "$scrim.background.light",
+          "type": "color"
+        }
+      },
+      "tip-manager": {
+        "font": {
+          "heading": {
+            "value": "$tip-manager.font.heading.light",
+            "type": "color"
+          }
+        },
+        "icon": {
+          "value": "$tip-manager.icon.light",
+          "type": "color"
+        },
+        "background": {
+          "default": {
+            "light": {
+              "value": "$tip-manager.background.default.light",
+              "type": "color"
+            }
+          }
+        },
+        "border": {
+          "default": {
+            "value": "$tip-manager.border.default.light",
+            "type": "color"
+          }
+        }
       }
     }
   }

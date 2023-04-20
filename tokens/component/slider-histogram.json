@@ -1,5 +1,5 @@
 {
-  "slider-range": {
+  "slider-histogram": {
     "font": {
       "label": {
         "light": {
@@ -176,6 +176,31 @@
         "type": "spacing"
       }
     },
+    "[specific-element]": {
+      "font": {
+        "sm": {
+          "value": {
+            "typography": "$[comp-name].font.sm",
+            "fontWeights": "$core.font.font-weight.medium-italic"
+          },
+          "type": "composition"
+        },
+        "md": {
+          "value": {
+            "typography": "$[comp-name].font.md",
+            "fontWeights": "$core.font.font-weight.medium-italic"
+          },
+          "type": "composition"
+        },
+        "lg": {
+          "value": {
+            "typography": "$[comp-name].font.lg",
+            "fontWeights": "$core.font.font-weight.medium-italic"
+          },
+          "type": "composition"
+        }
+      }
+    },
     "tick": {
       "default": {
         "background": {
@@ -219,6 +244,60 @@
             "value": "$semantic.ui.color.foreground.1.dark",
             "type": "color"
           }
+        }
+      }
+    },
+    "area": {
+      "active": {
+        "background": {
+          "light": {
+            "value": "#9BBDDF",
+            "type": "color"
+          },
+          "dark": {
+            "value": "#8DCEF7",
+            "type": "color"
+          }
+        }
+      }
+    },
+    "active-end": {
+      "width": {
+        "sm": {
+          "value": "$core.sizing.0",
+          "type": "sizing"
+        },
+        "md": {
+          "value": "$core.sizing.0",
+          "type": "sizing"
+        },
+        "lg": {
+          "value": "$core.sizing.0",
+          "type": "sizing"
+        }
+      },
+      "height": {
+        "sm": {
+          "value": "$core.sizing.15",
+          "type": "sizing"
+        },
+        "md": {
+          "value": "$core.sizing.15",
+          "type": "sizing"
+        },
+        "lg": {
+          "value": "$core.sizing.15",
+          "type": "sizing"
+        }
+      },
+      "background": {
+        "light": {
+          "value": "$semantic.ui.color.foreground.1.light",
+          "type": "color"
+        },
+        "dark": {
+          "value": "$semantic.ui.color.foreground.1.dark",
+          "type": "color"
         }
       }
     }

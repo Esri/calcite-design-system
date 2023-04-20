@@ -138,6 +138,36 @@
           "value": "$semantic.ui.color.text.1.dark",
           "type": "color"
         }
+      },
+      "space-around": {
+        "right": {
+          "sm": {
+            "value": "$core.spacing.none",
+            "type": "spacing"
+          },
+          "md": {
+            "value": "$core.spacing.1",
+            "type": "spacing"
+          },
+          "lg": {
+            "value": "$core.spacing.1",
+            "type": "spacing"
+          }
+        },
+        "left": {
+          "sm": {
+            "value": "$core.spacing.3",
+            "type": "spacing"
+          },
+          "md": {
+            "value": "$core.spacing.3",
+            "type": "spacing"
+          },
+          "lg": {
+            "value": "$core.spacing.5",
+            "type": "spacing"
+          }
+        }
       }
     },
     "background": {
@@ -237,11 +267,11 @@
           "type": "spacing"
         },
         "md": {
-          "value": "$core.spacing.2",
+          "value": "$core.spacing.1",
           "type": "spacing"
         },
         "lg": {
-          "value": "$core.spacing.3",
+          "value": "$core.spacing.1",
           "type": "spacing"
         }
       }
@@ -300,20 +330,6 @@
         }
       }
     },
-    "comp-size": {
-      "sm": {
-        "value": "$core.sizing.9",
-        "type": "sizing"
-      },
-      "md": {
-        "value": "$core.sizing.11",
-        "type": "sizing"
-      },
-      "lg": {
-        "value": "$core.sizing.14",
-        "type": "sizing"
-      }
-    },
     "space-around": {
       "sm": {
         "value": "$core.spacing.3",
@@ -345,6 +361,22 @@
     "border-width": {
       "value": "$core.border.border-width.0",
       "type": "borderWidth"
+    },
+    "text": {
+      "space-around": {
+        "sm": {
+          "value": "$core.spacing.3",
+          "type": "spacing"
+        },
+        "md": {
+          "value": "$core.spacing.3",
+          "type": "spacing"
+        },
+        "lg": {
+          "value": "$core.spacing.5",
+          "type": "spacing"
+        }
+      }
     }
   }
 }
