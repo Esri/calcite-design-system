@@ -1178,7 +1178,7 @@ export class Combobox
 
     return (
       <div
-        aria-hidden="true"
+        aria-hidden={toAriaBoolean(!this.open)}
         class={{
           "floating-ui-container": true,
           "floating-ui-container--active": open
