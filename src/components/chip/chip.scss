@@ -63,7 +63,7 @@
 
   &:not(.is-circle) {
     gap: var(--calcite-chip-spacing-s-internal);
-    padding-inline: calc(var(--calcite-chip-spacing-s-internal) / 2);
+    padding-inline: var(--calcite-chip-spacing-s-internal);
   }
   &.selectable {
     @apply cursor-pointer;
@@ -83,35 +83,24 @@
     padding-inline-end: var(--calcite-chip-spacing-s-internal);
   }
 }
-.container.closable .title {
-  padding-inline-end: var(--calcite-chip-spacing-s-internal);
-}
-
-.container:not(.text--slotted) .chip-icon .title {
-  margin-inline: 0;
-}
-
-.container:not(.text--slotted).is-circle .chip-icon:nth-last-child(2) {
-  margin-inline: 0;
-}
 
 .container:not(.text--slotted):not(.is-circle) .chip-icon:nth-last-child(2) {
   margin-inline-end: var(--calcite-chip-spacing-s-internal);
+}
+
+.container.closable.text--slotted:not(.is-circle) .title {
+  margin-inline-end: 0;
 }
 
 .container.image--slotted .image-container ~ .title {
   margin-inline-end: var(--calcite-chip-spacing-s-internal);
 }
 
-.container.closable .title {
-  padding-inline-end: 0;
-}
-
-.container:not(.image--slotted) .image-container ~ .chip-icon {
-  margin-inline: calc(var(--calcite-chip-spacing-s-internal) / 2);
-}
-
 .container:not(.is-circle):not(.image--slotted):not(.selectable) .image-container ~ .chip-icon {
+  margin-inline-start: var(--calcite-chip-spacing-s-internal);
+}
+
+.container:not(.is-circle) .chip-icon {
   margin-inline-start: var(--calcite-chip-spacing-s-internal);
 }
 
