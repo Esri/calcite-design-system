@@ -88,17 +88,18 @@ export const run = async (
   buildPath: string = 'build/css/',
   themes: Theme[] = defaultThemes
 ) => {
-  let referencedTokens: TokenRef[] = [];
+  let referencedTokens: Record<string, string[]> = {};
 
   StyleDictionary.registerFormat({
     name: 'calcite/json',
     formatter: (fileInfo) => {
       const { dictionary, platform, options, file } = fileInfo;
+      console.log(referencedTokens)
       return JSON.stringify(dictionary.tokens, null, 2);
     }
   });
 
-  const regexMatchSDVariable = new RegExp('\{[\w\.-]+\}', 'g');
+  const regexMatchSDVariable = /\{[\w.-]+\}/g;
   await registerTransforms(StyleDictionary, { expand: false });
   StyleDictionary.registerTransform({
     name: 'calcite/ref-tokens',
@@ -108,32 +109,22 @@ export const run = async (
     },
     transformer: (token, options) => {
       const tokenPath = token.path.join('.');
-      const matches = [...token.original.value.matchAll(/\{[\w\.-]+\}/g)];
+      const matches = token.original.value.match(/\{[\w.-]+\}/g).map((match) => match.slice(1, -1));
+      // const matches = [...token.original.value.matchAll(regexMatchSDVariable)];
       
-      debugger;
       matches.forEach((match) => {
-        const tokenRef: TokenRef = {
-          path: match.slice(1, -1),
-          referencedBy: [tokenPath]
-        };
-        const idx = referencedTokens.findIndex((tokenReference) => {
-          return tokenReference.path === `${tokenPath}`;
-        });
-  
-        if (idx === -1) {
-          referencedTokens.push(tokenRef);
+
+        if (referencedTokens[match]) {
+          referencedTokens[match].push(tokenPath)
         } else {
-          const updatedReferencedTokens = [...referencedTokens.splice(0, idx), tokenRef, ...referencedTokens.splice(idx+1)];
-          referencedTokens = updatedReferencedTokens;
+          referencedTokens[match] = [tokenPath]
         }
       });
-
-      return ({
-        ...token.attributes,
-        hasReference: token.value
-      });
+      token.attributes['hasReferences'] = matches;
+      return token;
     }
   })
+
   const _sd = StyleDictionary.extend({
     source,
     include,
