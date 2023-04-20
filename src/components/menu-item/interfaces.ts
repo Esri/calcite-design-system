@@ -1,4 +1,5 @@
-export interface MenuItemEvent {
+export interface MenuItemCustomEvent {
   event: KeyboardEvent;
-  children: HTMLCalciteMenuItemElement[];
+  children?: HTMLCalciteMenuItemElement[];
+  isOpen?: boolean;
 }

@@ -20,7 +20,7 @@ import {
   setComponentLoaded,
   setUpLoadableComponent
 } from "../../utils/loadable";
-import { MenuItemEvent } from "./interfaces";
+import { MenuItemCustomEvent } from "./interfaces";
 
 @Component({
   tag: "calcite-menu-item",
@@ -34,7 +34,7 @@ export class CalciteMenuItem implements LoadableComponent {
   //
   //--------------------------------------------------------------------------
 
-  @Element() el!: HTMLCalciteMenuItemElement;
+  @Element() el: HTMLCalciteMenuItemElement;
 
   //--------------------------------------------------------------------------
   //
@@ -88,6 +88,11 @@ export class CalciteMenuItem implements LoadableComponent {
    */
   @Prop({ mutable: true }) open = false;
 
+  /**
+   * @internal
+   */
+  @Prop({ reflect: true }) layout: "horizontal" | "vertical";
+
   //--------------------------------------------------------------------------
   //
   //  Private State/Props
@@ -132,7 +137,7 @@ export class CalciteMenuItem implements LoadableComponent {
   //--------------------------------------------------------------------------
   /** @internal */
   @Event({ cancelable: true })
-  calciteInternalNavItemKeyEvent: EventEmitter<MenuItemEvent>;
+  calciteInternalNavItemKeyEvent: EventEmitter<MenuItemCustomEvent>;
 
   /** @internal */
   @Event({ cancelable: false })
@@ -146,7 +151,7 @@ export class CalciteMenuItem implements LoadableComponent {
   @Listen("click", { target: "window" })
   handleClickOut(event: Event): void {
     if (
-      this.topLevelLayout !== "vertical" &&
+      this.layout !== "vertical" &&
       this.hasSubMenu &&
       this.open &&
       !this.el.contains(event.target as Element)
@@ -172,8 +177,6 @@ export class CalciteMenuItem implements LoadableComponent {
     this.active = this.active || this.editable;
     this.isFocused = this.active;
     // todo just get any nav items in the default slot?
-    // this.hasSubMenu = this.hasSlottedItems();
-
     // for now to detect nesting only working two level for demo.need to just check if it has any parent originating at top lvel
     this.isTopLevelItem = !(
       this.el.parentElement?.slot === "menu-item-dropdown" || this.el.slot !== ""
@@ -196,162 +199,73 @@ export class CalciteMenuItem implements LoadableComponent {
   // --------------------------------------------------------------------------
 
   private keyDownHandler = async (event: KeyboardEvent): Promise<void> => {
-    // todo refactor all of this
-    // probably need to maintain index of all "parents" and track where
-    // user currently is focused in
-    // probably move logic to parent menu, just emit key from here
+    // opening and closing of submenu is handled here. Any other fucntionality is bubbled to parent menu.
     switch (event.key) {
       case " ":
       case "Enter":
-        if (this.href) {
-          if (event.target === this.dropDownActionEl && this.hasSubMenu) {
-            if (!this.open) {
-              this.focusFirst();
-            }
-          }
-          return;
-        } else if (this.hasSubMenu && !this.open) {
-          this.open = true;
-          this.focusFirst();
-        } else if (this.hasSubMenu) {
-          this.open = false;
-        } else {
-          this.calciteInternalNavItemKeyEvent.emit({
-            event,
-            children: this.subMenuItems
-          });
+        if (
+          this.hasSubMenu &&
+          (!this.href || (this.href && event.target === this.dropDownActionEl))
+        ) {
+          this.open = !this.open;
         }
         event.preventDefault();
         break;
       case "Escape":
-        if (this.isTopLevelItem) {
-          this.calciteInternalNavItemKeyEvent.emit({
-            event: event,
-            children: this.subMenuItems
-          });
-          return;
-        }
         if (this.open) {
           this.open = false;
-        } else {
-          if (this.el.parentElement.nodeName === "CALCITE-MENU-ITEM") {
-            this.focusParentElement();
-          }
+          return;
         }
+        this.calciteInternalNavItemKeyEvent.emit({ event });
         break;
       case "ArrowDown":
-        if (this.topLevelLayout === "horizontal") {
-          if (this.isTopLevelItem && this.hasSubMenu) {
-            if (!!this.href && event.target !== this.dropDownActionEl) {
-              return;
-            }
-            this.open ? this.focusFirst() : (this.open = true);
-            return;
-          }
-          this.calciteInternalNavItemKeyEvent.emit({
-            event,
-            children: this.subMenuItems
-          });
-        }
-        if (this.topLevelLayout === "vertical") {
-          event.preventDefault();
-          this.calciteInternalNavItemKeyEvent.emit({
-            event: event,
-
-            children: this.subMenuItems
-          });
-        }
-        break;
-
       case "ArrowUp":
-        if (this.topLevelLayout === "horizontal") {
-          if (this.isTopLevelItem && this.hasSubMenu) {
-            if (!!this.href && event.target !== this.dropDownActionEl) {
-              return;
-            }
-            this.open ? this.focusLast() : (this.open = true);
-            return;
-          }
-          this.calciteInternalNavItemKeyEvent.emit({
-            event: event,
-            children: this.subMenuItems
-          });
+        if (
+          (event.target === this.dropDownActionEl || !this.href) &&
+          this.hasSubMenu &&
+          !this.open &&
+          this.layout === "horizontal"
+        ) {
+          this.open = true;
+          return;
         }
-
-        if (this.topLevelLayout === "vertical") {
-          event.preventDefault();
-          this.calciteInternalNavItemKeyEvent.emit({
-            event: event,
-            children: this.subMenuItems
-          });
-        }
+        this.calciteInternalNavItemKeyEvent.emit({
+          event,
+          children: this.subMenuItems,
+          isOpen: this.open && this.hasSubMenu
+        });
         break;
       case "ArrowLeft":
-        if (this.topLevelLayout === "horizontal") {
-          if (this.isTopLevelItem) {
-            this.calciteInternalNavItemKeyEvent.emit({
-              event: event,
-              children: this.subMenuItems
-            });
-            return;
-          }
-          if (this.el.parentElement.nodeName === "CALCITE-MENU-ITEM") {
-            this.focusParentElement();
-          }
-        } else {
-          if (this.hasSubMenu && this.open) {
-            this.open = false;
-            return;
-          }
-          if (this.el.parentElement.nodeName === "CALCITE-MENU-ITEM") {
-            const parentEl = this.el.parentElement as HTMLCalciteMenuItemElement;
-            parentEl.setFocus();
-          }
-        }
+        this.calciteInternalNavItemKeyEvent.emit({
+          event,
+          children: this.subMenuItems,
+          isOpen: true
+        });
         break;
 
       case "ArrowRight":
-        if (this.topLevelLayout === "horizontal") {
-          if (this.isTopLevelItem) {
-            this.calciteInternalNavItemKeyEvent.emit({
-              event: event,
-              children: this.subMenuItems
-            });
-            return;
-          }
-          if (this.hasSubMenu) {
-            this.open = true;
-            setTimeout(() => this.focusFirst(), 1000);
-          } else {
-            //this code block will close all the submenus and move on to the next item in menubar
-            // const menuBarItem = getMenubarItem(this.el);
-            // const childrenItems = getSlotted(this.el.closest("calcite-menu"), "", {
-            //   all: true,
-            //   matches: "calcite-menu-item"
-            // });
-            // focusElementInGroup(childrenItems, menuBarItem, "next");
-          }
-        } else {
-          if (this.hasSubMenu) {
-            if (!!this.href && event.target !== this.dropDownActionEl) {
-              return;
-            }
-            if (!this.open) {
-              this.open = true;
-            } else {
-              this.focusFirst();
-            }
-          }
+        if (
+          (event.target === this.dropDownActionEl || !this.href) &&
+          this.hasSubMenu &&
+          !this.open &&
+          this.layout === "vertical"
+        ) {
+          this.open = true;
+          return;
         }
-
+        this.calciteInternalNavItemKeyEvent.emit({
+          event,
+          children: this.subMenuItems,
+          isOpen: this.open && this.hasSubMenu
+        });
         break;
     }
   };
 
   private clickHandler = (event: MouseEvent): void => {
     this.calciteInternalNavItemClickEvent.emit(event);
-    if (this.href && this.open) {
-      this.open = false;
+    if (this.href && event.target === this.dropDownActionEl) {
+      this.open = !this.open;
     } else if (this.editable && !this.hasSubMenu) {
       this.editingActive = true;
     } else if (!this.href && this.hasSubMenu) {
@@ -364,23 +278,9 @@ export class CalciteMenuItem implements LoadableComponent {
   };
 
   private handleMenuItemSlotChange = (event: Event): void => {
-    // if (this.hasSubMenu) {
     this.subMenuItems = slotChangeGetAssignedElements(event) as HTMLCalciteMenuItemElement[];
     this.hasSubMenu = this.subMenuItems.length > 0;
-    // }
   };
-
-  // private hasSlottedItems(): boolean {
-  //   return this.el.querySelectorAll("[slot=menu-item-dropdown]").length > 0;
-  // }
-
-  private focusFirst(): void {
-    this.subMenuItems[0].setFocus();
-  }
-
-  private focusLast(): void {
-    this.subMenuItems[this.subMenuItems.length - 1].setFocus();
-  }
 
   private focusHandler(event: FocusEvent): void {
     const target = event.target as HTMLCalciteMenuItemElement;
@@ -392,12 +292,6 @@ export class CalciteMenuItem implements LoadableComponent {
 
   private blurHandler(): void {
     this.isFocused = false;
-  }
-
-  private focusParentElement(): void {
-    const parentEl = this.el.parentElement as HTMLCalciteMenuItemElement;
-    parentEl.setFocus();
-    parentEl.open = false;
   }
 
   //--------------------------------------------------------------------------
@@ -504,7 +398,7 @@ export class CalciteMenuItem implements LoadableComponent {
               : "chevron-down"
             : dirChevron
         }
-        onClick={() => (this.open = !this.open)}
+        onClick={this.clickHandler}
         onKeyDown={this.keyDownHandler}
         // role="none"
         text="open-dropdown"
