@@ -624,8 +624,6 @@ export class InputDatePicker
 
   @State() focusedInput: "start" | "end" = "start";
 
-  @State() globalAttributes = {};
-
   @State() private localeData: DateLocaleData;
 
   private startInput: HTMLCalciteInputElement;
