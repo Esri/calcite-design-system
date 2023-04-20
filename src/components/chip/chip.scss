@@ -84,7 +84,8 @@
     padding-inline-end: var(--calcite-chip-spacing-s-internal);
   }
 }
-.container:not(.image--slotted) .title:not(:nth-child(2)) {
+
+.container.multiple:not(.image--slotted) .image-container ~ .title:nth-child(3) {
   padding-inline-start: 0;
 }
 
