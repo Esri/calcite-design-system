@@ -644,6 +644,7 @@ export class InputDatePicker
 
   transitionEl: HTMLDivElement;
 
+  @Watch("open")
   @Watch("layout")
   @Watch("focusedInput")
   setReferenceEl(): void {

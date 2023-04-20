@@ -174,11 +174,6 @@ export const defaultMenuPlacement: MenuPlacement = "bottom-start";
 
 export interface FloatingUIComponent {
   /**
-   * The floating ui component element.
-   */
-  el: HTMLElement;
-
-  /**
    * Whether the component is opened.
    */
   open: boolean;
@@ -477,7 +472,7 @@ export function connectFloatingUI(
 
   cleanupMap.set(
     component,
-    runAutoUpdate(referenceEl, component.el, () => component.reposition())
+    runAutoUpdate(referenceEl, floatingEl, () => component.reposition())
   );
 }
 
