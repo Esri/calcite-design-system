@@ -972,7 +972,6 @@ export async function disabled(
   const { page, tag } = await getTagAndPage(componentSetup);
 
   const component = await page.find(tag);
-  const enabledComponentClickSpy = await component.spyOnEvent("click");
   await skipAnimations(page);
   await page.$eval(tag, (el) => {
     el.addEventListener(
@@ -990,9 +989,26 @@ export async function disabled(
     );
   });
 
+  // only testing events from https://github.com/web-platform-tests/wpt/blob/master/html/semantics/disabled-elements/event-propagate-disabled.tentative.html#L66
+  const eventsExpectedToBubble = ["pointermove", "pointerdown", "pointerup"];
+  const eventsExpectedToNotBubble = ["mousemove", "mousedown", "mouseup", "click"];
+  const allExpectedEvents = [...eventsExpectedToBubble, ...eventsExpectedToNotBubble];
+
+  const eventSpies: EventSpy[] = [];
+
+  for (const event of allExpectedEvents) {
+    eventSpies.push(await component.spyOnEvent(event));
+  }
+
   async function expectToBeFocused(tag: string): Promise<void> {
     const focusedTag = await page.evaluate(() => document.activeElement?.tagName.toLowerCase());
     expect(focusedTag).toBe(tag);
+  }
+
+  function assertOnMouseAndPointerEvents(spies: EventSpy[], expectCallback: (spy: EventSpy) => void): void {
+    for (const spy of eventSpies) {
+      expectCallback(spy);
+    }
   }
 
   expect(component.getAttribute("aria-disabled")).toBeNull();
@@ -1001,11 +1017,10 @@ export async function disabled(
     await page.click(tag);
     await expectToBeFocused("body");
 
-    expect(enabledComponentClickSpy).toHaveReceivedEventTimes(1);
+    assertOnMouseAndPointerEvents(eventSpies, (spy) => expect(spy).toHaveReceivedEventTimes(1));
 
     component.setProperty("disabled", true);
     await page.waitForChanges();
-    const disabledComponentClickSpy = await component.spyOnEvent("click");
 
     expect(component.getAttribute("aria-disabled")).toBe("true");
 
@@ -1015,7 +1030,9 @@ export async function disabled(
     await component.callMethod("click");
     await expectToBeFocused("body");
 
-    expect(disabledComponentClickSpy).toHaveReceivedEventTimes(2);
+    assertOnMouseAndPointerEvents(eventSpies, (spy) =>
+      expect(spy).toHaveReceivedEventTimes(eventsExpectedToBubble.includes(spy.eventName) ? 2 : 1)
+    );
 
     return;
   }
@@ -1060,23 +1077,18 @@ export async function disabled(
   await component.callMethod("click");
   await expectToBeFocused(clickFocusTarget);
 
-  // some components emit more than one click event,
-  // so we check if at least one event is received
-  expect(enabledComponentClickSpy.length).toBeGreaterThanOrEqual(2);
+  assertOnMouseAndPointerEvents(eventSpies, (spy) => {
+    if (spy.eventName === "click") {
+      // some components emit more than one click event (e.g., from calling `click()`),
+      // so we check if at least one event is received
+      expect(spy.length).toBeGreaterThanOrEqual(2);
+    } else {
+      expect(spy).toHaveReceivedEventTimes(1);
+    }
+  });
 
   component.setProperty("disabled", true);
   await page.waitForChanges();
-
-  // only testing events from https://github.com/web-platform-tests/wpt/blob/master/html/semantics/disabled-elements/event-propagate-disabled.tentative.html#L66
-  const eventsExpectedToBubble = ["pointermove", "pointerdown", "pointerup"];
-  const eventsExpectedToNotBubble = ["mousemove", "mousedown", "mouseup", "click"];
-  const allEvents = [...eventsExpectedToBubble, ...eventsExpectedToNotBubble];
-
-  const eventSpies: EventSpy[] = [];
-
-  for (const event of allEvents) {
-    eventSpies.push(await component.spyOnEvent(event));
-  }
 
   expect(component.getAttribute("aria-disabled")).toBe("true");
 
@@ -1087,9 +1099,9 @@ export async function disabled(
   await page.mouse.click(shadowFocusableCenterX, shadowFocusableCenterY);
   await expectToBeFocused("body");
 
-  for (const spy of eventSpies) {
-    expect(spy).toHaveReceivedEventTimes(eventsExpectedToBubble.includes(spy.eventName) ? 1 : 0);
-  }
+  assertOnMouseAndPointerEvents(eventSpies, (spy) =>
+    expect(spy).toHaveReceivedEventTimes(eventsExpectedToBubble.includes(spy.eventName) ? 1 : 0)
+  );
 }
 
 /**
