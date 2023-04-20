@@ -63,7 +63,7 @@
 
   &:not(.is-circle) {
     gap: var(--calcite-chip-spacing-s-internal);
-    padding-inline: calc(var(--calcite-chip-spacing-l-internal) / 2);
+    padding-inline: calc(var(--calcite-chip-spacing-s-internal) / 2);
   }
   &.selectable {
     @apply cursor-pointer;
@@ -83,6 +83,14 @@
     padding-inline-end: var(--calcite-chip-spacing-s-internal);
   }
 }
+.container.closable .title {
+  padding-inline-end: var(--calcite-chip-spacing-s-internal);
+}
+
+.container:not(.text--slotted) .chip-icon .title {
+  margin-inline: 0;
+}
+
 .container:not(.text--slotted).is-circle .chip-icon:nth-last-child(2) {
   margin-inline: 0;
 }

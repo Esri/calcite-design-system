@@ -376,7 +376,7 @@ export class Chip
       <Host>
         <div
           aria-checked={this.interactive ? toAriaBoolean(this.selected) : undefined}
-          aria-disabled={this.interactive ? toAriaBoolean(this.disabled) : undefined}
+          aria-disabled={this.disabled ? toAriaBoolean(this.disabled) : undefined}
           aria-label={this.label}
           aria-labelledby={this.parentGroupEl.label}
           class={{
@@ -402,7 +402,7 @@ export class Chip
               ? "radio"
               : undefined
           }
-          tabIndex={this.disabled || !this.interactive ? -1 : 0}
+          tabIndex={this.disabled ? -1 : 0}
           // eslint-disable-next-line react/jsx-sort-props
           ref={(el) => (this.containerEl = el)}
         >
