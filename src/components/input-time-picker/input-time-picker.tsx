@@ -260,7 +260,7 @@ export class InputTimePicker
       useGrouping: false
     };
 
-    const delocalizedValue = this.parseInputString(calciteInputEl.value);
+    const delocalizedValue = this.delocalizeTimeString(calciteInputEl.value);
 
     const localizedInputValue = localizeTimeString({
       value: delocalizedValue,
@@ -327,7 +327,7 @@ export class InputTimePicker
     const value = target.value;
     this.setValue({ value, origin: "time-picker" });
 
-    const parsedResult = this.parseInputString(this.calciteInputEl.value);
+    const parsedResult = this.delocalizeTimeString(this.calciteInputEl.value);
     console.log("source:", this.calciteInputEl.value, "parsed:", parsedResult);
   };
 
@@ -370,36 +370,7 @@ export class InputTimePicker
   //
   // --------------------------------------------------------------------------
 
-  keyDownHandler = (event: KeyboardEvent): void => {
-    const { defaultPrevented, key } = event;
-
-    if (defaultPrevented) {
-      return;
-    }
-
-    if (key === "Enter") {
-      if (submitForm(this)) {
-        event.preventDefault();
-      }
-    }
-
-    if (key === "Escape" && this.open) {
-      this.open = false;
-      event.preventDefault();
-    }
-  };
-
-  private async loadLocaleDefinition(): Promise<void> {
-    await import(
-      getAssetPath(`assets/nls/dayjs/input-time-picker/${this.effectiveLocale.toLowerCase()}.js`)
-    );
-  }
-
-  onLabelClick(): void {
-    this.setFocus();
-  }
-
-  private parseInputString(value: string): string {
+  private delocalizeTimeString(value: string): string {
     const locale = this.effectiveLocale.toLowerCase();
     let localeConfig,
       valueToParse = value;
@@ -502,6 +473,35 @@ export class InputTimePicker
     )}:${dayjsParseResult.get("seconds")}`;
 
     return formatTimeString(timeString);
+  }
+
+  keyDownHandler = (event: KeyboardEvent): void => {
+    const { defaultPrevented, key } = event;
+
+    if (defaultPrevented) {
+      return;
+    }
+
+    if (key === "Enter") {
+      if (submitForm(this)) {
+        event.preventDefault();
+      }
+    }
+
+    if (key === "Escape" && this.open) {
+      this.open = false;
+      event.preventDefault();
+    }
+  };
+
+  private async loadLocaleDefinition(): Promise<void> {
+    await import(
+      getAssetPath(`assets/nls/dayjs/input-time-picker/${this.effectiveLocale.toLowerCase()}.js`)
+    );
+  }
+
+  onLabelClick(): void {
+    this.setFocus();
   }
 
   private shouldIncludeSeconds(): boolean {
