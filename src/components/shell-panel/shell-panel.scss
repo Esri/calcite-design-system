@@ -21,16 +21,16 @@
   --calcite-shell-panel-detached-max-height: unset;
 }
 
+:host([layout="horizontal"]) .content {
+  --calcite-shell-panel-height-internal: var(--calcite-shell-panel-height, 20vh);
+  --calcite-shell-panel-max-height-internal: var(--calcite-shell-panel-max-height, 420px);
+  --calcite-shell-panel-min-height-internal: var(--calcite-shell-panel-min-height, 240px);
+}
+
 :host([layout="vertical"][width-scale="s"]) .content {
   --calcite-shell-panel-width-internal: var(--calcite-shell-panel-width, 12vw);
   --calcite-shell-panel-max-width-internal: var(--calcite-shell-panel-max-width, 300px);
   --calcite-shell-panel-min-width-internal: var(--calcite-shell-panel-min-width, 150px);
-}
-
-:host([layout="horizontal"][width-scale="s"]) .content {
-  --calcite-shell-panel-height-internal: var(--calcite-shell-panel-height, 12vw);
-  --calcite-shell-panel-max-height-internal: var(--calcite-shell-panel-max-height, 300px);
-  --calcite-shell-panel-min-width-internal: var(--calcite-shell-panel-min-height, 150px);
 }
 
 :host([layout="vertical"][width-scale="m"]) .content {
@@ -39,22 +39,10 @@
   --calcite-shell-panel-min-width-internal: var(--calcite-shell-panel-min-width, 240px);
 }
 
-:host([layout="horizontal"][width-scale="m"]) .content {
-  --calcite-shell-panel-height-internal: var(--calcite-shell-panel-height, 12vw);
-  --calcite-shell-panel-max-height-internal: var(--calcite-shell-panel-max-height, 420px);
-  --calcite-shell-panel-min-width-internal: var(--calcite-shell-panel-min-height, 240px);
-}
-
 :host([layout="vertical"][width-scale="l"]) .content {
   --calcite-shell-panel-width-internal: var(--calcite-shell-panel-width, 45vw);
   --calcite-shell-panel-max-width-internal: var(--calcite-shell-panel-max-width, 680px);
   --calcite-shell-panel-min-width-internal: var(--calcite-shell-panel-min-width, 340px);
-}
-
-:host([layout="horizontal"][width-scale="l"]) .content {
-  --calcite-shell-panel-height-internal: var(--calcite-shell-panel-height, 12vw);
-  --calcite-shell-panel-max-height-internal: var(--calcite-shell-panel-max-height, 680px);
-  --calcite-shell-panel-min-width-internal: var(--calcite-shell-panel-min-height, 340px);
 }
 
 :host([detached-height-scale="s"]) .content--detached {
