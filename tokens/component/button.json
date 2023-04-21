@@ -491,17 +491,33 @@
       }
     },
     "border-radius": {
-      "sm": {
-        "value": "$core.border.border-radius.none",
-        "type": "borderRadius"
+      "default": {
+        "sm": {
+          "value": "$core.border.border-radius.none",
+          "type": "borderRadius"
+        },
+        "md": {
+          "value": "$core.border.border-radius.none",
+          "type": "borderRadius"
+        },
+        "lg": {
+          "value": "$core.border.border-radius.none",
+          "type": "borderRadius"
+        }
       },
-      "md": {
-        "value": "$core.border.border-radius.none",
-        "type": "borderRadius"
-      },
-      "lg": {
-        "value": "$core.border.border-radius.none",
-        "type": "borderRadius"
+      "rounded": {
+        "sm": {
+          "value": "$core.border.border-radius.full",
+          "type": "borderRadius"
+        },
+        "md": {
+          "value": "$core.border.border-radius.full",
+          "type": "borderRadius"
+        },
+        "lg": {
+          "value": "$core.border.border-radius.full",
+          "type": "borderRadius"
+        }
       }
     },
     "border-width": {
@@ -561,17 +577,33 @@
       }
     },
     "space-around": {
-      "sm": {
-        "value": "$core.spacing.7",
-        "type": "spacing"
+      "left-right": {
+        "sm": {
+          "value": "$core.spacing.3",
+          "type": "spacing"
+        },
+        "md": {
+          "value": "$core.spacing.5",
+          "type": "spacing"
+        },
+        "lg": {
+          "value": "$core.spacing.7",
+          "type": "spacing"
+        }
       },
-      "md": {
-        "value": "$core.spacing.9",
-        "type": "spacing"
-      },
-      "lg": {
-        "value": "$core.spacing.11",
-        "type": "spacing"
+      "top-bottom": {
+        "sm": {
+          "value": "$core.spacing.1",
+          "type": "spacing"
+        },
+        "md": {
+          "value": "$core.spacing.3",
+          "type": "spacing"
+        },
+        "lg": {
+          "value": "$core.spacing.4",
+          "type": "spacing"
+        }
       }
     }
   }
