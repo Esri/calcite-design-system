@@ -19,7 +19,7 @@
 :host([scale="m"]) {
   @apply text-n1 h-8;
   --calcite-chip-spacing-s-internal: theme("spacing[1.5]");
-  --calcite-chip-spacing-l-internal: theme("spacing[2.5]");
+  --calcite-chip-spacing-l-internal: theme("spacing[2]");
 
   .close,
   .image-container,
@@ -98,36 +98,39 @@
   display: none;
 }
 
+.container:not(.is-circle) {
+  &.image--slotted {
+    padding-inline-start: calc(var(--calcite-chip-spacing-l-internal) / 2);
+  }
+
+  &.image--slotted .image-container {
+    margin-inline-end: var(--calcite-chip-spacing-s-internal);
+  }
+
+  &.image--slotted .image-container ~ .chip-icon {
+    margin-inline-start: var(--calcite-chip-spacing-s-internal);
+  }
+
+  &.selectable:not(.text--slotted) .chip-icon {
+    margin-inline-end: var(--calcite-chip-spacing-s-internal);
+  }
+
+  &:not(.selectable):not(.text--slotted) .chip-icon {
+    margin-inline-start: var(--calcite-chip-spacing-s-internal);
+  }
+
+  &:not(.text--slotted) .chip-icon {
+    margin-inline-end: var(--calcite-chip-spacing-s-internal);
+  }
+
+  &:not(.text-slotted).image--slotted .image-container {
+    margin-inline-end: var(--calcite-chip-spacing-s-internal);
+  }
+}
+
 .chip-icon {
   @apply relative my-0 inline-flex duration-150 ease-in-out;
   margin-inline: var(--calcite-chip-spacing-s-internal);
-}
-
-.container:not(.selectable):not(.is-circle):not(.text--slotted) .chip-icon {
-  margin-inline-start: var(--calcite-chip-spacing-s-internal);
-}
-
-.container:not(.is-circle):not(.text--slotted) .chip-icon {
-  margin-inline-end: var(--calcite-chip-spacing-s-internal);
-}
-
-.container:not(.is-circle).selectable:not(.text--slotted) .chip-icon {
-  margin-inline-end: var(--calcite-chip-spacing-s-internal);
-}
-
-.container:not(.is-circle).image--slotted .image-container {
-  margin-inline-end: var(--calcite-chip-spacing-s-internal);
-}
-
-.container:not(.is-circle):not(.text-slotted).image--slotted .image-container {
-  margin-inline-end: var(--calcite-chip-spacing-s-internal);
-}
-
-.container:not(.is-circle).image--slotted {
-  padding-inline-start: calc(var(--calcite-chip-spacing-l-internal) / 2);
-}
-.container:not(.is-circle).image--slotted .image-container ~ .chip-icon {
-  margin-inline-start: var(--calcite-chip-spacing-s-internal);
 }
 
 .image-container {
