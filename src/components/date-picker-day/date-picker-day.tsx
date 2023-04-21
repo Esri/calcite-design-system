@@ -88,7 +88,11 @@ export class DatePickerDay implements InteractiveComponent {
   //--------------------------------------------------------------------------
 
   onClick = (): void => {
-    !this.disabled && this.calciteDaySelect.emit();
+    if (this.disabled) {
+      return;
+    }
+
+    this.calciteDaySelect.emit();
   };
 
   keyDownHandler = (event: KeyboardEvent): void => {
@@ -99,7 +103,11 @@ export class DatePickerDay implements InteractiveComponent {
   };
 
   @Listen("pointerover")
-  mouseoverHandler(): void {
+  pointerOverHandler(): void {
+    if (this.disabled) {
+      return;
+    }
+
     this.calciteInternalDayHover.emit();
   }
 
@@ -159,7 +167,7 @@ export class DatePickerDay implements InteractiveComponent {
         onKeyDown={this.keyDownHandler}
         role="button"
       >
-        <div class={{ "day-v-wrapper": true, [CSS_UTILITY.rtl]: dir === "rtl" }}>
+        <div aria-hidden="true" class={{ "day-v-wrapper": true, [CSS_UTILITY.rtl]: dir === "rtl" }}>
           <div class="day-wrapper">
             <span class="day">
               <span class="text">{formattedDay}</span>

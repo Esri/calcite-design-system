@@ -326,10 +326,11 @@ export class StepperItem implements InteractiveComponent, LocalizedComponent, Lo
 
   private handleItemClick = (event: MouseEvent): void => {
     if (
-      this.layout === "horizontal" &&
-      event
-        .composedPath()
-        .some((el) => (el as HTMLElement).classList?.contains("stepper-item-content"))
+      this.disabled ||
+      (this.layout === "horizontal" &&
+        event
+          .composedPath()
+          .some((el) => (el as HTMLElement).classList?.contains("stepper-item-content")))
     ) {
       return;
     }

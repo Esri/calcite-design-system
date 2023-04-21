@@ -587,8 +587,7 @@ describe("calcite-input", () => {
       const element = await page.find("calcite-input");
       await element.callMethod("setFocus");
 
-      page.keyboard.press("ArrowUp");
-      page.keyboard.press("ArrowDown");
+      await Promise.all((["ArrowUp", "ArrowDown"] as const).map((key) => page.keyboard.press(key)));
       await page.waitForTimeout(delayFor2UpdatesInMs);
       expect(await element.getProperty("value")).toBe("0");
     });

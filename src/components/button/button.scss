@@ -50,11 +50,12 @@
   &:hover {
     @apply no-underline;
   }
+  & span {
+    @apply truncate;
+  }
 }
 
 .content {
-  @apply flex;
-  flex-basis: auto;
   margin-inline: var(--calcite-button-content-margin-internal);
 }
 
@@ -160,10 +161,11 @@
 @include disabled();
 
 :host([loading]) {
-  @apply pointer-events-none;
+  @extend %non-interactive-host-contents;
+
   button,
   a {
-    @apply opacity-disabled pointer-events-none;
+    @apply opacity-disabled;
   }
 }
 

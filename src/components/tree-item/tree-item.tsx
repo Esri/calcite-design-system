@@ -111,7 +111,7 @@ export class TreeItem
    *
    * @internal
    */
-  @Prop({ reflect: true }) indeterminate: boolean;
+  @Prop({ reflect: true }) indeterminate = false;
 
   /**
    * @internal
@@ -361,6 +361,10 @@ export class TreeItem
 
   @Listen("click")
   onClick(event: Event): void {
+    if (this.disabled) {
+      return;
+    }
+
     // Solve for if the item is clicked somewhere outside the slotted anchor.
     // Anchor is triggered anywhere you click
     const [link] = filterDirectChildren<HTMLAnchorElement>(this.el, "a");
@@ -496,18 +500,37 @@ export class TreeItem
     items.forEach((item) => (item.parentExpanded = expanded));
   };
 
-  private updateAncestorTree = (): void => {
-    if (this.selected && this.selectionMode === "ancestors") {
-      const ancestors: HTMLCalciteTreeItemElement[] = [];
-      let parent = this.parentTreeItem;
-      while (parent) {
-        ancestors.push(parent);
-        parent = parent.parentElement?.closest("calcite-tree-item");
-      }
-      ancestors.forEach((item) => (item.indeterminate = true));
+  /**
+   * This is meant to be called in `componentDidLoad` in order to take advantage of the hierarchical component lifecycle
+   * and help check for item selection as items are initialized
+   *
+   * @private
+   */
+  private updateAncestorTree(): void {
+    const parentItem = this.parentTreeItem;
+
+    if (this.selectionMode !== "ancestors" || !parentItem) {
       return;
     }
-  };
+
+    if (this.selected) {
+      const parentTree = this.el.parentElement;
+      const siblings = Array.from(parentTree?.children);
+      const selectedSiblings = siblings.filter(
+        (child: HTMLCalciteTreeItemElement) => child.selected
+      );
+
+      if (siblings.length === selectedSiblings.length) {
+        parentItem.selected = true;
+        parentItem.indeterminate = false;
+      } else if (selectedSiblings.length > 0) {
+        parentItem.indeterminate = true;
+      }
+    } else if (this.indeterminate) {
+      const parentItem = this.parentTreeItem;
+      parentItem.indeterminate = true;
+    }
+  }
 
   private actionsEndSlotChangeHandler = (event: Event): void => {
     this.hasEndActions = slotChangeHasAssignedElement(event);
