@@ -107,7 +107,11 @@ export class TabNav {
       tab: this.selectedTabId
     });
 
-    this.selectedTitle = await this.getTabTitleById(this.selectedTabId);
+    const selectedTitle = await this.getTabTitleById(this.selectedTabId);
+
+    if (selectedTitle) {
+      this.selectedTitle = selectedTitle;
+    }
   }
 
   @Watch("selectedTitle")
@@ -370,7 +374,9 @@ export class TabNav {
   }
 
   async getTabTitleById(id: TabID): Promise<HTMLCalciteTabTitleElement | null> {
-    return Promise.all(this.tabTitles.map((el) => el.getTabIdentifier())).then((ids) => {
+    return Promise.all(
+      this.tabTitles.filter((tabTitle) => !tabTitle.closed).map((el) => el.getTabIdentifier())
+    ).then((ids) => {
       return this.tabTitles[ids.indexOf(id)];
     });
   }
