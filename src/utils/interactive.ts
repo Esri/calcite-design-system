@@ -17,6 +17,10 @@ export interface InteractiveComponent {
 
 type HostIsTabbablePredicate = () => boolean;
 
+function noopClick(): void {
+  /** noop */
+}
+
 function onPointerDown(event: PointerEvent): void {
   // prevent click from moving focus on host
   event.preventDefault();
@@ -28,6 +32,7 @@ function onNonBubblingWhenDisabledMouseEvent(event: MouseEvent): void {
   // prevent disallowed mouse events from being emitted on the host (per https://github.com/whatwg/html/issues/5886)
   //⚠ we generally avoid stopping propagation of events, but this is needed to adhere to the intended spec changes above ⚠
   event.stopImmediatePropagation();
+  event.preventDefault();
 }
 
 const captureOnlyOptions = { capture: true } as const;
@@ -57,6 +62,7 @@ export function updateHostInteraction(
       (document.activeElement as HTMLElement).blur();
     }
 
+    component.el.click = noopClick;
     component.el.addEventListener("pointerdown", onPointerDown, captureOnlyOptions);
     nonBubblingWhenDisabledMouseEvents.forEach((event) =>
       component.el.addEventListener(event, onNonBubblingWhenDisabledMouseEvent, captureOnlyOptions)
@@ -65,6 +71,7 @@ export function updateHostInteraction(
     return;
   }
 
+  component.el.click = HTMLElement.prototype.click;
   component.el.removeEventListener("pointerdown", onPointerDown, captureOnlyOptions);
   nonBubblingWhenDisabledMouseEvents.forEach((event) =>
     component.el.removeEventListener(event, onNonBubblingWhenDisabledMouseEvent, captureOnlyOptions)
