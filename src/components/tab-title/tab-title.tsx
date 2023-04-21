@@ -229,6 +229,10 @@ export class TabTitle implements InteractiveComponent {
 
   @Listen("click")
   onClick(): void {
+    if (this.disabled) {
+      return;
+    }
+
     this.emitActiveTab();
   }
 
