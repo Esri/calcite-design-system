@@ -7,7 +7,8 @@ import {
   Listen,
   EventEmitter,
   Event,
-  Method
+  Method,
+  Watch
 } from "@stencil/core";
 import { focusElementInGroup, toAriaBoolean } from "../../utils/dom";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
@@ -44,13 +45,18 @@ export class ChipGroup implements InteractiveComponent {
   @Prop() label!: string;
 
   /** Specifies the size of the component. */
-  @Prop({ reflect: true }) scale: Scale = "m";
+  @Prop({ reflect: true }) scale: Scale;
 
   /** Specifies the selection mode of the component. */
   @Prop({ reflect: true }) selectionMode: Extract<
     "multiple" | "single" | "single-persist" | "none",
     SelectionMode
   > = "none";
+
+  @Watch("selectionMode")
+  onSelectionModeChange(): void {
+    this.updateItems();
+  }
 
   /**
    * Specifies the component's selected items.

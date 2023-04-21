@@ -367,7 +367,12 @@ export class Chip
 
   renderIcon(): VNode {
     return (
-      <calcite-icon class={CSS.chipIcon} flipRtl={this.iconFlipRtl} icon={this.icon} scale="s" />
+      <calcite-icon
+        class={CSS.chipIcon}
+        flipRtl={this.iconFlipRtl}
+        icon={this.icon}
+        scale={this.scale === "l" ? "m" : "s"}
+      />
     );
   }
 

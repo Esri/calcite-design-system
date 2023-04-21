@@ -1,13 +1,14 @@
-// scale
-// todo update when new spacing modifiers are introduced to calcite-base
 :host([scale="s"]) {
   @apply text-n2 h-6;
   --calcite-chip-spacing-s-internal: theme("spacing[1]");
   --calcite-chip-spacing-l-internal: theme("spacing[2]");
-  .image-container,
   .close,
   .select-icon--active {
     @apply h-4 w-4;
+  }
+
+  .image-container {
+    @apply h-5 w-5;
   }
 
   .container.is-circle {
@@ -19,8 +20,9 @@
   @apply text-n1 h-8;
   --calcite-chip-spacing-s-internal: theme("spacing[1.5]");
   --calcite-chip-spacing-l-internal: theme("spacing[2]");
-  .image-container,
+
   .close,
+  .image-container,
   .select-icon--active {
     @apply h-6 w-6;
   }
@@ -34,25 +36,21 @@
   @apply text-0 h-11;
   --calcite-chip-spacing-s-internal: theme("spacing[2]");
   --calcite-chip-spacing-l-internal: theme("spacing[3]");
-
   .image-container,
   .close,
   .select-icon--active {
     @apply h-8 w-8;
   }
+
   .container.is-circle {
     @apply w-11 h-11;
   }
 }
 
 :host {
-  @apply text-color-1
-    inline-flex
+  @apply inline-flex
     cursor-default
-    items-center
-    rounded-full
-    font-medium
-    box-border;
+    rounded-full;
 }
 
 .container {
@@ -66,11 +64,10 @@
   border
   border-solid
   border-color-1
-  box-border;
-
+  box-border
+  font-medium;
   &:not(.is-circle) {
-    gap: var(--calcite-chip-spacing-s-internal);
-    padding-inline: var(--calcite-chip-spacing-s-internal);
+    padding-inline: calc(var(--calcite-chip-spacing-l-internal) / 2);
   }
   &.selectable {
     @apply cursor-pointer;
@@ -80,51 +77,17 @@
   }
 }
 
-:host(:not([selected])) .container:not(.multiple).selectable {
-  padding-inline-start: 0;
+:host([scale="s"]) .container.image--slotted {
+  padding-inline-start: 1px;
 }
 
-.container:not(.is-circle).image--slotted {
-  padding-inline-start: calc(var(--calcite-chip-spacing-s-internal) / 2);
+:host([scale="s"]) .container.is-circle {
+  padding-inline: 0;
 }
 
-.container:not(.is-circle).closable {
-  padding-inline-end: calc(var(--calcite-chip-spacing-s-internal) / 2);
-}
-
-.title {
+.container.text--slotted .title {
   @apply truncate;
-  padding-inline-start: var(--calcite-chip-spacing-s-internal);
-  &:last-child {
-    padding-inline-end: var(--calcite-chip-spacing-s-internal);
-  }
-}
-
-.container:not(.image--slotted):not(.is-circle) .chip-icon {
-  margin-inline-start: var(--calcite-chip-spacing-s-internal);
-}
-
-.container:not(.text--slotted):not(.is-circle) .chip-icon {
-  margin-inline-start: var(--calcite-chip-spacing-s-internal);
-}
-
-.container.selectable.multiple:not(.image-slotted):not(.is-circle) .title {
-  padding-inline-start: 0;
-}
-
-:host([selected]) .container.selectable:not(.multiple):not(.image-slotted):not(.is-circle) .title {
-  padding-inline-start: 0;
-}
-
-.container.text--slotted:not(.is-circle) .chip-icon {
-  margin-inline: calc(var(--calcite-chip-spacing-s-internal) / 2);
-}
-.container:not(.text--slotted):not(.is-circle) .chip-icon {
-  margin-inline-end: var(--calcite-chip-spacing-s-internal);
-}
-
-.container.text--slotted:not(.is-circle) .chip-icon ~ .title {
-  padding-inline-start: 0;
+  padding-inline: var(--calcite-chip-spacing-s-internal);
 }
 
 .container:not(.text--slotted) .title {
@@ -133,6 +96,35 @@
 
 .container:not(.image--slotted) .image-container {
   display: none;
+}
+
+.chip-icon {
+  @apply relative my-0 inline-flex duration-150 ease-in-out;
+  margin-inline: var(--calcite-chip-spacing-s-internal);
+}
+
+.container:not(.selectable):not(.is-circle):not(.text--slotted) .chip-icon {
+  margin-inline-start: var(--calcite-chip-spacing-s-internal);
+}
+
+.container:not(.is-circle):not(.text--slotted) .chip-icon {
+  margin-inline-end: var(--calcite-chip-spacing-s-internal);
+}
+
+.container:not(.is-circle).selectable:not(.text--slotted) .chip-icon {
+  margin-inline-end: var(--calcite-chip-spacing-s-internal);
+}
+
+.container:not(.is-circle).image--slotted .image-container {
+  margin-inline-end: var(--calcite-chip-spacing-s-internal);
+}
+
+.container:not(.is-circle):not(.text-slotted).image--slotted .image-container {
+  margin-inline-end: var(--calcite-chip-spacing-s-internal);
+}
+
+.container:not(.is-circle).image--slotted .image-container ~ .chip-icon {
+  margin-inline-start: var(--calcite-chip-spacing-s-internal);
 }
 
 .image-container {
@@ -169,7 +161,7 @@
     background-color: var(--calcite-chip-transparent-press);
   }
   & calcite-icon {
-    @apply text-color-3;
+    color: inherit;
   }
 }
 
@@ -189,6 +181,9 @@
     opacity: 0.5;
   }
 }
+.container:not(.is-circle).image--slotted .select-icon.select-icon--active {
+  margin-inline-end: var(--calcite-chip-spacing-s-internal);
+}
 
 :host([selected]) .select-icon {
   opacity: 1;
@@ -200,10 +195,6 @@
 
 slot[name="image"]::slotted(*) {
   @apply rounded-half flex h-full w-full overflow-hidden;
-}
-
-.chip-icon {
-  @apply relative my-0 inline-flex duration-150 ease-in-out;
 }
 
 :host([kind="neutral"]) {
