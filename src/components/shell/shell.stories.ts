@@ -752,6 +752,11 @@ position:relative;
 export const resizableShellPanels = (): string => html`<calcite-shell
   style="
 width:100%;
+min-width:600px;
+height:500px;
+max-height:80%;
+position:relative;
+"
   <calcite-shell-panel resizable slot="panel-start" position="start">
     <calcite-action-bar slot="action-bar" class="calcite-mode-dark">
       <calcite-action-group>
