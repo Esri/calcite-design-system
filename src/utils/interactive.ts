@@ -30,6 +30,8 @@ function onNonBubblingWhenDisabledMouseEvent(event: MouseEvent): void {
   event.stopImmediatePropagation();
 }
 
+const captureOnlyOptions = { capture: true } as const;
+
 /**
  * This helper updates the host element to prevent keyboard interaction on its subtree and sets the appropriate aria attribute for accessibility.
  *
@@ -55,17 +57,17 @@ export function updateHostInteraction(
       (document.activeElement as HTMLElement).blur();
     }
 
-    component.el.addEventListener("pointerdown", onPointerDown, { capture: true });
+    component.el.addEventListener("pointerdown", onPointerDown, captureOnlyOptions);
     nonBubblingWhenDisabledMouseEvents.forEach((event) =>
-      component.el.addEventListener(event, onNonBubblingWhenDisabledMouseEvent)
+      component.el.addEventListener(event, onNonBubblingWhenDisabledMouseEvent, captureOnlyOptions)
     );
 
     return;
   }
 
-  component.el.removeEventListener("pointerdown", onPointerDown, { capture: true });
+  component.el.removeEventListener("pointerdown", onPointerDown, captureOnlyOptions);
   nonBubblingWhenDisabledMouseEvents.forEach((event) =>
-    component.el.removeEventListener(event, onNonBubblingWhenDisabledMouseEvent)
+    component.el.removeEventListener(event, onNonBubblingWhenDisabledMouseEvent, captureOnlyOptions)
   );
 
   if (typeof hostIsTabbable === "function") {
