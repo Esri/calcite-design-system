@@ -21,6 +21,11 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ### Bug Fixes
 
+- **input-date-picker:** implement dialog behavior to improve a11y ([#6669](https://github.com/Esri/calcite-components/issues/6669)) ([a013819](https://github.com/Esri/calcite-components/commit/a0138191e807e1fe2db43bc38c02eb8ab866bd72)), closes [#5582](https://github.com/Esri/calcite-components/issues/5582) [#6668](https://github.com/Esri/calcite-components/issues/6668)
+
+* **tree-item:** ensure tree-item properly reflect ancestor-mode selection on initialization ([#6795](https://github.com/Esri/calcite-components/issues/6795)) ([5591ab4](https://github.com/Esri/calcite-components/commit/5591ab45aaf728f3f62df47b4bc5a4f3733bbaf4)), closes [#5867](https://github.com/Esri/calcite-components/issues/5867)
+* **value-list-item:** add missing event emitter ([#6797](https://github.com/Esri/calcite-components/issues/6797)) ([c96d33e](https://github.com/Esri/calcite-components/commit/c96d33e17f879752121c2c43ba19c5f485c84442)), closes [#5167](https://github.com/Esri/calcite-components/issues/5167)
+
 - **button:** truncate long button text ([#6664](https://github.com/Esri/calcite-components/issues/6664)) ([5857e76](https://github.com/Esri/calcite-components/commit/5857e76a01835ee93dcd4753dbd0446afb330530)), closes [#5660](https://github.com/Esri/calcite-components/issues/5660)
 
 * **combobox, dropdown, input-date-picker, popover, tooltip:** fix misplaced floating-ui elements when associated-components are closed ([#6709](https://github.com/Esri/calcite-components/issues/6709)) ([e220686](https://github.com/Esri/calcite-components/commit/e220686fa366b86dda2647da25144eb45a4a193d)), closes [#6404](https://github.com/Esri/calcite-components/issues/6404)
