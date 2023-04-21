@@ -689,6 +689,8 @@ export class Combobox
 
   clickHandler = (event: MouseEvent): void => {
     if (event.composedPath().some((node: HTMLElement) => node.tagName === "CALCITE-CHIP")) {
+      this.open = false;
+      event.stopPropagation();
       return;
     }
     this.open = !this.open;
