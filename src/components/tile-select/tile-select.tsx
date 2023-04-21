@@ -203,7 +203,7 @@ export class TileSelect implements InteractiveComponent, LoadableComponent {
   }
 
   @Listen("click")
-  click(event: MouseEvent): void {
+  clickHandler(event: MouseEvent): void {
     const target = event.target as HTMLElement;
     const targets = ["calcite-tile", "calcite-tile-select"];
     if (targets.includes(target.localName)) {
@@ -212,22 +212,20 @@ export class TileSelect implements InteractiveComponent, LoadableComponent {
   }
 
   @Listen("pointerenter")
-  mouseenter(): void {
-    if (this.input.localName === "calcite-radio-button") {
-      (this.input as HTMLCalciteRadioButtonElement).hovered = true;
-    }
-    if (this.input.localName === "calcite-checkbox") {
-      (this.input as HTMLCalciteCheckboxElement).hovered = true;
+  pointerEnterHandler(): void {
+    const { localName } = this.input;
+
+    if (localName === "calcite-radio-button" || localName === "calcite-checkbox") {
+      (this.input as HTMLCalciteRadioButtonElement | HTMLCalciteCheckboxElement).hovered = true;
     }
   }
 
   @Listen("pointerleave")
-  mouseleave(): void {
-    if (this.input.localName === "calcite-radio-button") {
-      (this.input as HTMLCalciteRadioButtonElement).hovered = false;
-    }
-    if (this.input.localName === "calcite-checkbox") {
-      (this.input as HTMLCalciteCheckboxElement).hovered = false;
+  pointerLeaveHandler(): void {
+    const { localName } = this.input;
+
+    if (localName === "calcite-radio-button" || localName === "calcite-checkbox") {
+      (this.input as HTMLCalciteRadioButtonElement | HTMLCalciteCheckboxElement).hovered = false;
     }
   }
 

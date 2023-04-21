@@ -23,7 +23,7 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
       - name: e2e test
         run: |
-          npm ci --legacy-peer-deps
+          npm ci
           npm test
       - name: storybook/next deployment
         env:

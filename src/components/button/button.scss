@@ -50,11 +50,12 @@
   &:hover {
     @apply no-underline;
   }
+  & span {
+    @apply truncate;
+  }
 }
 
 .content {
-  @apply flex;
-  flex-basis: auto;
   margin-inline: var(--calcite-button-content-margin-internal);
 }
 

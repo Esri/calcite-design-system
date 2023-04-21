@@ -11,7 +11,7 @@ import {
   VNode,
   Watch
 } from "@stencil/core";
-import { focusFirstTabbable, toAriaBoolean } from "../../utils/dom";
+import { focusFirstTabbable, slotChangeGetAssignedElements, toAriaBoolean } from "../../utils/dom";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import {
   componentLoaded,
@@ -36,6 +36,7 @@ import { PanelMessages } from "./assets/panel/t9n";
 
 /**
  * @slot - A slot for adding custom content.
+ * @slot action-bar - A slot for adding a `calcite-action-bar` to the component.
  * @slot header-actions-start - A slot for adding actions or content to the start side of the header.
  * @slot header-actions-end - A slot for adding actions or content to the end side of the header.
  * @slot header-content - A slot for adding custom content to the header.
@@ -68,7 +69,7 @@ export class Panel
   @Prop({ reflect: true }) disabled = false;
 
   /** When `true`, displays a close button in the trailing side of the header. */
-  @Prop({ mutable: true, reflect: true }) closable = false;
+  @Prop({ reflect: true }) closable = false;
 
   /**
    * Specifies the number at which section headings should start.
@@ -96,6 +97,7 @@ export class Panel
   /**
    * Use this property to override individual strings used by the component.
    */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
   @Prop({ mutable: true }) messageOverrides: Partial<PanelMessages>;
 
   /**
@@ -103,6 +105,7 @@ export class Panel
    *
    * @internal
    */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
   @Prop({ mutable: true }) messages: PanelMessages;
 
   @Watch("messageOverrides")
@@ -165,6 +168,8 @@ export class Panel
   @State() hasMenuItems = false;
 
   @State() hasHeaderContent = false;
+
+  @State() hasActionBar = false;
 
   @State() hasFooterContent = false;
 
@@ -269,6 +274,16 @@ export class Panel
     this.hasMenuItems = !!elements.length;
   };
 
+  handleActionBarSlotChange = (event: Event): void => {
+    const actionBars = slotChangeGetAssignedElements(event).filter((el) =>
+      el?.matches("calcite-action-bar")
+    ) as HTMLCalciteActionBarElement[];
+
+    actionBars.forEach((actionBar) => (actionBar.layout = "horizontal"));
+
+    this.hasActionBar = !!actionBars.length;
+  };
+
   handleHeaderContentSlotChange = (event: Event): void => {
     const elements = (event.target as HTMLSlotElement).assignedElements({
       flatten: true
@@ -356,6 +371,14 @@ export class Panel
     ) : null;
   }
 
+  renderActionBar(): VNode {
+    return (
+      <div class={CSS.actionBarContainer} hidden={!this.hasActionBar}>
+        <slot name={SLOTS.actionBar} onSlotchange={this.handleActionBarSlotChange} />
+      </div>
+    );
+  }
+
   /**
    * Allows user to override the entire header-content node.
    */
@@ -385,12 +408,13 @@ export class Panel
   }
 
   renderHeaderActionsEnd(): VNode {
-    const { close, hasEndActions, messages, closable } = this;
+    const { close, hasEndActions, messages, closable, hasMenuItems } = this;
     const text = messages.close;
 
     const closableNode = closable ? (
       <calcite-action
         aria-label={text}
+        data-test="close"
         icon={ICONS.close}
         onClick={close}
         text={text}
@@ -403,7 +427,7 @@ export class Panel
       <slot name={SLOTS.headerActionsEnd} onSlotchange={this.handleHeaderActionsEndSlotChange} />
     );
 
-    const showContainer = hasEndActions || closableNode;
+    const showContainer = hasEndActions || closableNode || hasMenuItems;
 
     return (
       <div
@@ -412,6 +436,7 @@ export class Panel
         key="header-actions-end"
       >
         {slotNode}
+        {this.renderMenu()}
         {closableNode}
       </div>
     );
@@ -461,7 +486,6 @@ export class Panel
         {this.renderHeaderSlottedContent()}
         {headerContentNode}
         {this.renderHeaderActionsEnd()}
-        {this.renderMenu()}
       </header>
     );
   }
@@ -542,6 +566,7 @@ export class Panel
         ref={this.setContainerRef}
       >
         {this.renderHeaderNode()}
+        {this.renderActionBar()}
         {this.renderContent()}
         {this.renderFooterNode()}
       </article>

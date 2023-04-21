@@ -21,8 +21,7 @@ import {
   LogicalPlacement,
   OverlayPositioning,
   ReferenceElement,
-  reposition,
-  updateAfterClose
+  reposition
 } from "../../utils/floating-ui";
 import { guid } from "../../utils/guid";
 import {
@@ -89,8 +88,6 @@ export class Tooltip implements FloatingUIComponent, OpenCloseComponent {
   openHandler(value: boolean): void {
     if (value) {
       this.reposition(true);
-    } else {
-      updateAfterClose(this.el);
     }
   }
 
