@@ -21,6 +21,22 @@ function noopClick(): void {
   /** noop */
 }
 
+function onPointerDown(event: PointerEvent): void {
+  // prevent click from moving focus on host
+  event.preventDefault();
+}
+
+const nonBubblingWhenDisabledMouseEvents = ["mousedown", "mouseup", "click"];
+
+function onNonBubblingWhenDisabledMouseEvent(event: MouseEvent): void {
+  // prevent disallowed mouse events from being emitted on the host (per https://github.com/whatwg/html/issues/5886)
+  //⚠ we generally avoid stopping propagation of events, but this is needed to adhere to the intended spec changes above ⚠
+  event.stopImmediatePropagation();
+  event.preventDefault();
+}
+
+const captureOnlyOptions = { capture: true } as const;
+
 /**
  * This helper updates the host element to prevent keyboard interaction on its subtree and sets the appropriate aria attribute for accessibility.
  *
@@ -47,11 +63,19 @@ export function updateHostInteraction(
     }
 
     component.el.click = noopClick;
+    component.el.addEventListener("pointerdown", onPointerDown, captureOnlyOptions);
+    nonBubblingWhenDisabledMouseEvents.forEach((event) =>
+      component.el.addEventListener(event, onNonBubblingWhenDisabledMouseEvent, captureOnlyOptions)
+    );
 
     return;
   }
 
   component.el.click = HTMLElement.prototype.click;
+  component.el.removeEventListener("pointerdown", onPointerDown, captureOnlyOptions);
+  nonBubblingWhenDisabledMouseEvents.forEach((event) =>
+    component.el.removeEventListener(event, onNonBubblingWhenDisabledMouseEvent, captureOnlyOptions)
+  );
 
   if (typeof hostIsTabbable === "function") {
     component.el.setAttribute("tabindex", hostIsTabbable.call(component) ? "0" : "-1");
