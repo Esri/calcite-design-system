@@ -115,6 +115,7 @@ export class CalciteMenu {
     const parentEl = el.parentElement as HTMLCalciteMenuItemElement;
     if (parentEl) {
       focusElement(parentEl);
+      parentEl.open = false;
     }
   };
 

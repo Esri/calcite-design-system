@@ -107,4 +107,156 @@ describe("calcite-menu-item", () => {
       expect(await page.evaluate(() => document.activeElement.id)).not.toBe("ArcGISOnline");
     });
   });
+
+  describe("keyboard support", () => {
+    it("should open and close horizontal calcite-menu", async () => {
+      const page = await newE2EPage();
+      await page.setContent(html`<calcite-menu>
+        <calcite-menu-item id="Nature" text="Nature" href="#arcgisonline">
+          <calcite-menu-item id="Mountains" text="Mountains" slot="menu-item-dropdown">
+            <calcite-menu-item
+              text="Rocky Mountains"
+              id="Rocky Mountains"
+              slot="menu-item-dropdown"
+            ></calcite-menu-item>
+            <calcite-menu-item text="Smoky Mountains" id="Smoky Mountains" slot="menu-item-dropdown">
+            </calcite-menu-item>
+          </calcite-menu-item>
+          <calcite-menu-item text="Rivers" id="Rivers" slot="menu-item-dropdown"> </calcite-menu-item>
+        </calcite-menu-item>
+        <calcite-menu-item id="Planets" text="Planets"> </calcite-menu-item>
+      </calcite-menu>`);
+
+      const menuItemMenu = await page.find("calcite-menu-item[id='Nature'] >>> calcite-menu");
+      const subMenuItemMenu = await page.find("calcite-menu-item[id='Mountains'] >>> calcite-menu");
+      expect(await menuItemMenu.isVisible()).toBe(false);
+
+      await page.keyboard.press("Tab");
+      expect(await page.evaluate(() => document.activeElement.id)).toBe("Nature");
+
+      await page.keyboard.press("Enter");
+      expect(await menuItemMenu.isVisible()).toBe(false);
+
+      await page.keyboard.press("Tab");
+      await page.keyboard.press("Enter");
+      expect(await page.evaluate(() => document.activeElement.id)).toBe("Nature");
+      await page.waitForChanges();
+      expect(await menuItemMenu.isVisible()).toBe(true);
+
+      await page.keyboard.press("ArrowDown");
+      expect(await page.evaluate(() => document.activeElement.id)).toBe("Mountains");
+
+      await page.keyboard.press("ArrowDown");
+      expect(await page.evaluate(() => document.activeElement.id)).toBe("Rivers");
+
+      await page.keyboard.press("ArrowDown");
+      expect(await page.evaluate(() => document.activeElement.id)).toBe("Rivers");
+
+      await page.keyboard.press("ArrowUp");
+      expect(await page.evaluate(() => document.activeElement.id)).toBe("Mountains");
+
+      expect(await subMenuItemMenu.isVisible()).toBe(false);
+      await page.keyboard.press("Enter");
+      expect(await subMenuItemMenu.isVisible()).toBe(true);
+
+      await page.keyboard.press("ArrowRight");
+      expect(await page.evaluate(() => document.activeElement.id)).toBe("Rocky Mountains");
+
+      await page.keyboard.press("ArrowDown");
+      expect(await page.evaluate(() => document.activeElement.id)).toBe("Smoky Mountains");
+
+      await page.keyboard.press("ArrowUp");
+      expect(await page.evaluate(() => document.activeElement.id)).toBe("Rocky Mountains");
+
+      await page.keyboard.press("ArrowLeft");
+      expect(await page.evaluate(() => document.activeElement.id)).toBe("Mountains");
+      expect(await subMenuItemMenu.isVisible()).toBe(false);
+      expect(await menuItemMenu.isVisible()).toBe(true);
+
+      await page.keyboard.press("ArrowLeft");
+      expect(await page.evaluate(() => document.activeElement.id)).toBe("Nature");
+      expect(await menuItemMenu.isVisible()).toBe(false);
+
+      await page.keyboard.press("ArrowRight");
+      expect(await page.evaluate(() => document.activeElement.id)).toBe("Planets");
+
+      await page.keyboard.press("ArrowLeft");
+      expect(await page.evaluate(() => document.activeElement.id)).toBe("Nature");
+    });
+
+    it("should open and close vertical calcite-menu", async () => {
+      const page = await newE2EPage();
+      await page.setContent(html`<calcite-menu layout="vertical">
+        <calcite-menu-item id="Nature" text="Nature" href="#arcgisonline">
+          <calcite-menu-item id="Mountains" text="Mountains" slot="menu-item-dropdown">
+            <calcite-menu-item
+              text="Rocky Mountains"
+              id="Rocky Mountains"
+              slot="menu-item-dropdown"
+            ></calcite-menu-item>
+            <calcite-menu-item text="Smoky Mountains" id="Smoky Mountains" slot="menu-item-dropdown">
+            </calcite-menu-item>
+          </calcite-menu-item>
+          <calcite-menu-item text="Rivers" id="Rivers" slot="menu-item-dropdown"> </calcite-menu-item>
+        </calcite-menu-item>
+        <calcite-menu-item id="Planets" text="Planets"> </calcite-menu-item>
+      </calcite-menu>`);
+
+      const menuItemMenu = await page.find("calcite-menu-item[id='Nature'] >>> calcite-menu");
+      const subMenuItemMenu = await page.find("calcite-menu-item[id='Mountains'] >>> calcite-menu");
+      expect(await menuItemMenu.isVisible()).toBe(false);
+
+      await page.keyboard.press("Tab");
+      expect(await page.evaluate(() => document.activeElement.id)).toBe("Nature");
+
+      await page.keyboard.press("Enter");
+      expect(await menuItemMenu.isVisible()).toBe(false);
+
+      await page.keyboard.press("Tab");
+      await page.keyboard.press("Enter");
+      expect(await page.evaluate(() => document.activeElement.id)).toBe("Nature");
+      await page.waitForChanges();
+      expect(await menuItemMenu.isVisible()).toBe(true);
+
+      await page.keyboard.press("ArrowRight");
+      expect(await page.evaluate(() => document.activeElement.id)).toBe("Mountains");
+
+      await page.keyboard.press("ArrowDown");
+      expect(await page.evaluate(() => document.activeElement.id)).toBe("Rivers");
+
+      await page.keyboard.press("ArrowDown");
+      expect(await page.evaluate(() => document.activeElement.id)).toBe("Rivers");
+
+      await page.keyboard.press("ArrowUp");
+      expect(await page.evaluate(() => document.activeElement.id)).toBe("Mountains");
+
+      expect(await subMenuItemMenu.isVisible()).toBe(false);
+      await page.keyboard.press("Enter");
+      expect(await subMenuItemMenu.isVisible()).toBe(true);
+
+      await page.keyboard.press("ArrowRight");
+      expect(await page.evaluate(() => document.activeElement.id)).toBe("Rocky Mountains");
+
+      await page.keyboard.press("ArrowDown");
+      expect(await page.evaluate(() => document.activeElement.id)).toBe("Smoky Mountains");
+
+      await page.keyboard.press("ArrowUp");
+      expect(await page.evaluate(() => document.activeElement.id)).toBe("Rocky Mountains");
+
+      await page.keyboard.press("ArrowLeft");
+      expect(await page.evaluate(() => document.activeElement.id)).toBe("Mountains");
+      expect(await subMenuItemMenu.isVisible()).toBe(false);
+      expect(await menuItemMenu.isVisible()).toBe(true);
+
+      await page.keyboard.press("ArrowLeft");
+      expect(await page.evaluate(() => document.activeElement.id)).toBe("Nature");
+      expect(await menuItemMenu.isVisible()).toBe(false);
+
+      await page.keyboard.press("ArrowDown");
+      expect(await page.evaluate(() => document.activeElement.id)).toBe("Planets");
+
+      await page.keyboard.press("ArrowUp");
+      expect(await page.evaluate(() => document.activeElement.id)).toBe("Nature");
+    });
+  });
 });
