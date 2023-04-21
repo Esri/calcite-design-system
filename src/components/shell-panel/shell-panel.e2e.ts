@@ -351,50 +351,50 @@ describe("calcite-shell-panel", () => {
 
     expect(separator).toBeDefined();
     expect(content).toBeDefined();
-    expect(separator.getAttribute("aria-valuenow")).toBe("192");
-    expect((await content.getComputedStyle()).height).toBe("192px");
+    expect(separator.getAttribute("aria-valuenow")).toBe("240");
+    expect((await content.getComputedStyle()).height).toBe("240px");
 
     await separator.press("ArrowRight");
     await page.waitForChanges();
 
-    expect(separator.getAttribute("aria-valuenow")).toBe("193");
-    expect((await content.getComputedStyle()).height).toBe("193px");
+    expect(separator.getAttribute("aria-valuenow")).toBe("241");
+    expect((await content.getComputedStyle()).height).toBe("241px");
 
     await separator.press("ArrowUp");
     await page.waitForChanges();
 
-    expect(separator.getAttribute("aria-valuenow")).toBe("192");
-    expect((await content.getComputedStyle()).height).toBe("192px");
+    expect(separator.getAttribute("aria-valuenow")).toBe("240");
+    expect((await content.getComputedStyle()).height).toBe("240px");
 
     await separator.press("ArrowLeft");
     await page.waitForChanges();
 
-    expect(separator.getAttribute("aria-valuenow")).toBe("192");
-    expect((await content.getComputedStyle()).height).toBe("192px");
+    expect(separator.getAttribute("aria-valuenow")).toBe("240");
+    expect((await content.getComputedStyle()).height).toBe("240px");
 
     await separator.press("ArrowDown");
     await page.waitForChanges();
 
-    expect(separator.getAttribute("aria-valuenow")).toBe("193");
-    expect((await content.getComputedStyle()).height).toBe("193px");
+    expect(separator.getAttribute("aria-valuenow")).toBe("241");
+    expect((await content.getComputedStyle()).height).toBe("241px");
 
     await separator.press("PageDown");
     await page.waitForChanges();
 
-    expect(separator.getAttribute("aria-valuenow")).toBe("183");
-    expect((await content.getComputedStyle()).height).toBe("183px");
+    expect(separator.getAttribute("aria-valuenow")).toBe("240");
+    expect((await content.getComputedStyle()).height).toBe("240px");
 
     await separator.press("PageUp");
     await page.waitForChanges();
 
-    expect(separator.getAttribute("aria-valuenow")).toBe("193");
-    expect((await content.getComputedStyle()).height).toBe("193px");
+    expect(separator.getAttribute("aria-valuenow")).toBe("250");
+    expect((await content.getComputedStyle()).height).toBe("250px");
 
     await separator.press("Home");
     await page.waitForChanges();
 
-    expect(separator.getAttribute("aria-valuenow")).toBe("193");
-    expect((await content.getComputedStyle()).height).toBe("193px");
+    expect(separator.getAttribute("aria-valuenow")).toBe("240");
+    expect((await content.getComputedStyle()).height).toBe("240px");
 
     await separator.press("End");
     await page.waitForChanges();
@@ -465,8 +465,8 @@ describe("calcite-shell-panel", () => {
 
     expect(separator).toBeDefined();
     expect(content).toBeDefined();
-    expect(separator.getAttribute("aria-valuenow")).toBe("192");
-    expect((await content.getComputedStyle()).height).toBe("192px");
+    expect(separator.getAttribute("aria-valuenow")).toBe("240");
+    expect((await content.getComputedStyle()).height).toBe("240px");
 
     const [x, y] = await getElementXY(page, "calcite-shell-panel", `.${CSS.separator}`);
 
@@ -475,8 +475,8 @@ describe("calcite-shell-panel", () => {
     await page.mouse.move(x, y + 10);
     await page.waitForChanges();
 
-    expect(separator.getAttribute("aria-valuenow")).toBe("202");
-    expect((await content.getComputedStyle()).height).toBe("202px");
+    expect(separator.getAttribute("aria-valuenow")).toBe("250");
+    expect((await content.getComputedStyle()).height).toBe("250px");
   });
 
   it("click event should pass through host element", async () => {
