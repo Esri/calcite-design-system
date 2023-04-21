@@ -98,6 +98,10 @@
   display: none;
 }
 
+.container.closable {
+  padding-inline-end: calc(var(--calcite-chip-spacing-l-internal) / 2);
+}
+
 .container:not(.is-circle) {
   &.image--slotted {
     padding-inline-start: calc(var(--calcite-chip-spacing-l-internal) / 2);
