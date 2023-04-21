@@ -130,6 +130,13 @@
   &:not(.text-slotted).image--slotted .image-container {
     margin-inline-end: var(--calcite-chip-spacing-s-internal);
   }
+
+  &:not(.closable):not(.text--slotted).image--slotted.selectable .image-container {
+    margin-inline-end: 0;
+    ~ .chip-icon {
+      margin-inline-start: calc(var(--calcite-chip-spacing-s-internal) * 2);
+    }
+  }
 }
 
 .chip-icon {
