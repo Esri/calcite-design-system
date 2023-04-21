@@ -1006,7 +1006,7 @@ export async function disabled(
   }
 
   function assertOnMouseAndPointerEvents(spies: EventSpy[], expectCallback: (spy: EventSpy) => void): void {
-    for (const spy of eventSpies) {
+    for (const spy of spies) {
       expectCallback(spy);
     }
   }
