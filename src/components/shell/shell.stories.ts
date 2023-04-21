@@ -18,6 +18,9 @@ export default {
   parameters: {
     notes: [readme, panelReadme, centerRowReadme]
   },
+  chromatic: {
+    delay: 500
+  },
   ...storyFilters()
 };
 
