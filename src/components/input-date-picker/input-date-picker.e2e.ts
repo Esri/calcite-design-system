@@ -496,6 +496,8 @@ describe("calcite-input-date-picker", () => {
 
     await page.keyboard.press("Tab");
     await page.waitForChanges();
+    await page.keyboard.press("Tab");
+    await page.waitForChanges();
     await page.keyboard.press("ArrowDown");
     await page.waitForChanges();
     await page.keyboard.press("Tab");
