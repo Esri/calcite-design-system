@@ -990,8 +990,8 @@ export async function disabled(
   });
 
   // only testing events from https://github.com/web-platform-tests/wpt/blob/master/html/semantics/disabled-elements/event-propagate-disabled.tentative.html#L66
-  const eventsExpectedToBubble = ["pointermove", "pointerdown", "pointerup"];
-  const eventsExpectedToNotBubble = ["mousemove", "mousedown", "mouseup", "click"];
+  const eventsExpectedToBubble = ["mousemove", "pointermove", "pointerdown", "pointerup"];
+  const eventsExpectedToNotBubble = ["mousedown", "mouseup", "click"];
   const allExpectedEvents = [...eventsExpectedToBubble, ...eventsExpectedToNotBubble];
 
   const eventSpies: EventSpy[] = [];
