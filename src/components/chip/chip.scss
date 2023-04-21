@@ -78,7 +78,7 @@
 }
 
 :host([scale="s"]) .container.image--slotted {
-  padding-inline-start: 1px;
+  padding-inline-start: theme("spacing[0.5]");
 }
 
 :host([scale="s"]) .container.is-circle {
