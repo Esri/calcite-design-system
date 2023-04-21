@@ -45,7 +45,7 @@ export class ChipGroup implements InteractiveComponent {
   @Prop() label!: string;
 
   /** Specifies the size of the component. */
-  @Prop({ reflect: true }) scale: Scale;
+  @Prop({ reflect: true }) scale: Scale = "m";
 
   /** Specifies the selection mode of the component. */
   @Prop({ reflect: true }) selectionMode: Extract<
