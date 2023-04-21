@@ -1,6 +1,7 @@
 import { E2EPage, newE2EPage } from "@stencil/core/testing";
 import { renders, hidden } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
+import { numberingSystems, numberStringFormatter } from "../../utils/locale";
 
 // todo test the automatic setting of first item to selected
 describe("calcite-stepper", () => {
@@ -602,5 +603,39 @@ describe("calcite-stepper", () => {
 
     const stepper1Number = await page.find("calcite-stepper-item[id='step-one'] >>> .stepper-item-number");
     expect(stepper1Number.textContent).toBe("1.");
+  });
+
+  describe("numberingSystem support", () => {
+    numberingSystems
+      .filter((locale) => !locale.includes("latn"))
+      .forEach((locale) => {
+        it(`re-renders stepper item with ${locale} numberingSystem`, async () => {
+          const page = await newE2EPage();
+          await page.setContent(html`<calcite-stepper numbered numbering-system="latn">
+            <calcite-stepper-item heading="Add info" complete id="step-one"
+              >Step 1 Content here lorem ipsum</calcite-stepper-item
+            >
+          </calcite-stepper>`);
+
+          const stepperEl = await page.find("calcite-stepper");
+          const stepperItemNumber = await page.find("calcite-stepper-item[id='step-one'] >>> .stepper-item-number");
+          stepperEl.setAttribute("numbering-system", locale);
+          await page.waitForChanges();
+
+          const localizedStepperItemNumber = await page.find(
+            "calcite-stepper-item[id='step-one'] >>> .stepper-item-number"
+          );
+
+          numberStringFormatter.numberFormatOptions = {
+            locale,
+            numberingSystem: "latn",
+            useGrouping: false
+          };
+
+          expect(localizedStepperItemNumber.textContent).toBe(
+            numberStringFormatter.localize(stepperItemNumber.textContent)
+          );
+        });
+      });
   });
 });
