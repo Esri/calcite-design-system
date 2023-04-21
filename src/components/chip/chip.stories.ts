@@ -105,6 +105,21 @@ export const withAvatarAndIcon = (): string => {
   `;
 };
 
+export const withClosable = (): string => html`
+  <div style="background-color:white;padding:100px">
+    <calcite-chip
+      icon="${select("icon", iconNames, iconNames[0])}"
+      scale="${select("scale", ["s", "m", "l"], "m")}"
+      appearance="${select("appearance", ["outline", "outline-fill", "solid"], "solid")}"
+      kind="${select("kind", ["brand", "inverse", "neutral"], "neutral")}"
+      closable
+      ${boolean("selected", false)}
+    >
+      My great chip</calcite-chip
+    >
+  </div>
+`;
+
 export const withAvatarAndIconAndClosable = (): string => {
   const scale = select("scale", ["s", "m", "l"], "m");
 

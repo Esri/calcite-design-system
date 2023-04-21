@@ -19,7 +19,7 @@
 :host([scale="m"]) {
   @apply text-n1 h-8;
   --calcite-chip-spacing-s-internal: theme("spacing[1.5]");
-  --calcite-chip-spacing-l-internal: theme("spacing[2]");
+  --calcite-chip-spacing-l-internal: theme("spacing[2.5]");
 
   .close,
   .image-container,
@@ -67,7 +67,7 @@
   box-border
   font-medium;
   &:not(.is-circle) {
-    padding-inline: calc(var(--calcite-chip-spacing-l-internal) / 2);
+    padding-inline: var(--calcite-chip-spacing-s-internal);
   }
   &.selectable {
     @apply cursor-pointer;
@@ -78,7 +78,7 @@
 }
 
 :host([scale="s"]) .container.image--slotted {
-  padding-inline-start: theme("spacing[0.5]");
+  padding-inline-start: calc(theme("spacing[0.5]") / 2);
 }
 
 :host([scale="s"]) .container.is-circle {
