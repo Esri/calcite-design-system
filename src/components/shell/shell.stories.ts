@@ -18,9 +18,6 @@ export default {
   parameters: {
     notes: [readme, panelReadme, centerRowReadme]
   },
-  chromatic: {
-    delay: 500
-  },
   ...storyFilters()
 };
 
@@ -724,10 +721,7 @@ export const slottedPanelTopAndBottomAndSides = (): string =>
 
 export const shellPanelZIndex_TestOnly = (): string => html` <calcite-shell
   style="
-width:100%;
-min-width:600px;
-height:500px;
-max-height:80%;
+height:400px;
 position:relative;
 "
 >
@@ -746,9 +740,13 @@ position:relative;
     </calcite-action-bar>
   </calcite-shell-panel>
   <calcite-shell-center-row detached>
-    <div style="background-color:#000; height: 100%; width: 100%;"></div>
+    <div style="background-color:black; height: 100%; width: 600px;"></div>
   </calcite-shell-center-row>
 </calcite-shell>`;
+
+shellPanelZIndex_TestOnly.parameters = {
+  chromatic: { delay: 800 }
+};
 
 export const resizableShellPanels = (): string => html`<calcite-shell
   style="
