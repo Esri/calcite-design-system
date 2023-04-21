@@ -9,13 +9,11 @@
   relative 
   h-full 
   box-border;
-  // todo min height
-  &:hover > calcite-action {
-    border-inline-start-color: var(-calcite-ui-border-3);
-  }
-  --calcite-menu-item-font-weight: 400;
 }
 
+:host([layout="vertical"]) {
+  @apply w-full;
+}
 .container,
 .item-content {
   inline-size: 100%;
@@ -29,7 +27,7 @@
 .layout--vertical {
   display: flex;
   inline-size: 100%;
-  @apply py-4;
+  @apply py-4 w-full;
   justify-content: flex-start;
   border-block-end: 0;
 }
@@ -56,29 +54,29 @@ a:hover ~ calcite-action {
   text-0
   text-color-2 box-border;
   text-decoration: none;
-  font-weight: var(--calcite-menu-item-font-weight);
   border-block-end: 2px solid transparent;
 
   & span {
     display: inline-flex;
   }
 }
+
+:host([layout="vertical"]) a {
+  @apply justify-start;
+  border-block-end: 0;
+  border-inline-end: 4px solid transparent;
+}
+
 .icon.icon-nested-open {
   margin-inline-start: 1rem;
   color: var(--calcite-ui-border-2);
 }
 
-.editable-content {
-  display: flex;
-  flex-direction: row;
-  margin-inline-start: 12px;
-}
-
-:host([text-enabled]) a .icon-start {
+a .icon-start {
   @apply mr-3;
 }
 
-:host([text-enabled]) a .icon-end {
+a .icon-end {
   @apply ml-3;
 }
 
@@ -102,10 +100,11 @@ a:hover ~ calcite-action {
   inset-inline-start: 4px;
   position: relative;
 }
+
 :host calcite-action {
   block-size: auto;
-  border-inline-start: 1px solid var(--calcite-ui-foreground-1);
 }
+
 a {
   @apply bg-foreground-1;
 }
@@ -152,7 +151,6 @@ a:active {
   }
 }
 
-//  TEMP DROPDOWN
 .dropdown-menu-items {
   border-radius: 0 0 4px 4px;
   border: 1px solid var(--calcite-ui-border-3);
@@ -183,6 +181,7 @@ a:active {
 
 .nav-item-vertical {
   position: relative;
+  inline-size: 100%;
   flex-direction: column;
   border-block-end: 0;
 }
@@ -201,6 +200,7 @@ a:active {
   position: relative;
   block-size: auto;
   block-size: 100%;
+
   border-radius: 0;
   box-shadow: none;
   inset-block-start: 0;

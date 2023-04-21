@@ -20,6 +20,7 @@ import {
   setComponentLoaded,
   setUpLoadableComponent
 } from "../../utils/loadable";
+import { CSS } from "./resources";
 import { MenuItemCustomEvent } from "./interfaces";
 
 @Component({
@@ -47,9 +48,6 @@ export class CalciteMenuItem implements LoadableComponent {
 
   /** When true, the component displays a visual indication of breadcrumb */
   @Prop({ reflect: true }) breadcrumb: boolean;
-
-  /** When true and `textEnabled` is true, the `text` will be user-editable, and the component will emit an event. */
-  @Prop({ reflect: true }) editable: boolean;
 
   /** When true, provide a navigable href link */
   @Prop({ reflect: true }) href: string;
@@ -84,7 +82,7 @@ export class CalciteMenuItem implements LoadableComponent {
   @Prop({ reflect: true }) text: string;
 
   /**
-   * @internal
+  /* When true, the menu item will display any slotted Menu Item in an open overflow menu *
    */
   @Prop({ mutable: true }) open = false;
 
@@ -104,8 +102,6 @@ export class CalciteMenuItem implements LoadableComponent {
   private dropDownActionEl: HTMLCalciteActionElement;
 
   private isFocused: boolean;
-
-  @State() editingActive = false;
 
   @State() hasSubMenu = false;
 
@@ -162,7 +158,7 @@ export class CalciteMenuItem implements LoadableComponent {
 
   @Listen("focusout")
   handleFocusout(event: FocusEvent): void {
-    if (!this.el.contains(event.relatedTarget as Element)) {
+    if (this.topLevelLayout !== "vertical" && !this.el.contains(event.relatedTarget as Element)) {
       this.open = false;
     }
   }
@@ -174,7 +170,7 @@ export class CalciteMenuItem implements LoadableComponent {
   //--------------------------------------------------------------------------
 
   connectedCallback() {
-    this.active = this.active || this.editable;
+    this.active = this.active;
     this.isFocused = this.active;
     this.isTopLevelItem = !(
       this.el.parentElement?.slot === "menu-item-dropdown" || this.el.slot !== ""
@@ -197,7 +193,7 @@ export class CalciteMenuItem implements LoadableComponent {
   // --------------------------------------------------------------------------
 
   private keyDownHandler = async (event: KeyboardEvent): Promise<void> => {
-    // opening and closing of submenu is handled here. Any other fucntionality is bubbled to parent menu.
+    // opening and closing of submenu is handled here. Any other functionality is bubbled to parent menu.
     switch (event.key) {
       case " ":
       case "Enter":
@@ -218,6 +214,7 @@ export class CalciteMenuItem implements LoadableComponent {
         break;
       case "ArrowDown":
       case "ArrowUp":
+        event.preventDefault();
         if (
           (event.target === this.dropDownActionEl || !this.href) &&
           this.hasSubMenu &&
@@ -234,6 +231,7 @@ export class CalciteMenuItem implements LoadableComponent {
         });
         break;
       case "ArrowLeft":
+        event.preventDefault();
         this.calciteInternalNavItemKeyEvent.emit({
           event,
           children: this.subMenuItems,
@@ -242,6 +240,7 @@ export class CalciteMenuItem implements LoadableComponent {
         break;
 
       case "ArrowRight":
+        event.preventDefault();
         if (
           (event.target === this.dropDownActionEl || !this.href) &&
           this.hasSubMenu &&
@@ -262,17 +261,9 @@ export class CalciteMenuItem implements LoadableComponent {
 
   private clickHandler = (event: MouseEvent): void => {
     this.calciteInternalNavItemClickEvent.emit(event);
-    if (this.href && event.target === this.dropDownActionEl) {
-      this.open = !this.open;
-    } else if (this.editable && !this.hasSubMenu) {
-      this.editingActive = true;
-    } else if (!this.href && this.hasSubMenu) {
+    if ((this.href && event.target === this.dropDownActionEl) || (!this.href && this.hasSubMenu)) {
       this.open = !this.open;
     }
-  };
-
-  private toggleEditingState = (): void => {
-    this.editingActive = !this.editingActive;
   };
 
   private handleMenuItemSlotChange = (event: Event): void => {
@@ -283,7 +274,7 @@ export class CalciteMenuItem implements LoadableComponent {
   private focusHandler(event: FocusEvent): void {
     const target = event.target as HTMLCalciteMenuItemElement;
     this.isFocused = true;
-    if (target.open) {
+    if (target.open && !this.open) {
       target.open = false;
     }
   }
@@ -316,41 +307,6 @@ export class CalciteMenuItem implements LoadableComponent {
         flipRtl={this.iconFlipRtl === "end" || this.iconFlipRtl === "both"}
         icon={this.iconEnd}
         scale="s"
-      />
-    );
-  }
-
-  renderEditIcon(): VNode {
-    return (
-      <calcite-icon
-        class="icon icon-end"
-        flipRtl={this.iconFlipRtl === "end" || this.iconFlipRtl === "both"}
-        icon={"pencil"}
-        onClick={this.toggleEditingState}
-        scale="s"
-      />
-    );
-  }
-
-  renderEditSaveButton(): VNode {
-    return (
-      <calcite-button
-        appearance="outline-fill"
-        icon-start="save"
-        iconFlipRtl={this.iconFlipRtl}
-        onClick={this.toggleEditingState}
-        style={{ ["--calcite-ui-icon-color"]: "var(--calcite-ui-brand)" }}
-      />
-    );
-  }
-
-  renderEditCancelButton(): VNode {
-    return (
-      <calcite-button
-        appearance="transparent"
-        icon-start="trash"
-        onClick={this.toggleEditingState}
-        style={{ ["--calcite-ui-icon-color"]: "var(--calcite-ui-border-input)" }}
       />
     );
   }
@@ -405,7 +361,7 @@ export class CalciteMenuItem implements LoadableComponent {
     );
   }
 
-  rendersubMenuItems(dir: Direction): VNode {
+  renderSubMenuItems(dir: Direction): VNode {
     return (
       <calcite-menu
         class={{
@@ -427,17 +383,9 @@ export class CalciteMenuItem implements LoadableComponent {
     return (
       <Fragment>
         {this.iconStart && this.renderIconElStart()}
-        <div class="text-container">
-          <span contenteditable={this.editingActive ? true : undefined}>{this.text}</span>
-          {this.editingActive ? (
-            <div class="editable-content">
-              {this.renderEditCancelButton()}
-              {this.renderEditSaveButton()}
-            </div>
-          ) : null}
+        <div class={CSS.textContainer}>
+          <span>{this.text}</span>
         </div>
-        {this.iconEnd && !this.editingActive && this.renderIconElEnd()}
-        {this.editable && !this.editingActive && this.renderEditIcon()}
         {!this.href && this.hasSubMenu ? this.renderDropdownIcon(dir) : null}
         {this.breadcrumb ? this.renderBreadcrumbIcon(dir) : null}
       </Fragment>
@@ -450,20 +398,18 @@ export class CalciteMenuItem implements LoadableComponent {
       <Host onBlur={this.blurHandler} onFocus={this.focusHandler}>
         <li
           class={{
-            container: true,
-            "nav-item-vertical-parent": this.topLevelLayout === "vertical"
+            [CSS.container]: true,
+            [CSS.navVerticalParent]: this.topLevelLayout === "vertical"
           }}
           role="none"
         >
-          <div class="item-content">
+          <div class={CSS.itemContent}>
             <a
               aria-current={this.isFocused ? "page" : false}
               aria-expanded={this.open ? "true" : "false"}
               aria-haspopup={this.hasSubMenu ? "true" : undefined}
               aria-label={this.label || this.text}
-              class={{
-                "layout--vertical": true
-              }}
+              class={CSS.layoutVertical}
               href={this.href ? this.href : null}
               onClick={this.clickHandler}
               onKeyDown={this.keyDownHandler}
@@ -476,7 +422,7 @@ export class CalciteMenuItem implements LoadableComponent {
               {this.renderItemContent(dir)}
               {this.href && this.topLevelLayout === "vertical" ? (
                 <calcite-icon
-                  class="hover-href-icon"
+                  class={CSS.hoverHrefIcon}
                   icon={dir === "rtl" ? "arrow-left" : "arrow-right"}
                   scale="s"
                 />
@@ -484,7 +430,7 @@ export class CalciteMenuItem implements LoadableComponent {
             </a>
             {this.href && this.hasSubMenu ? this.renderDropdownAction(dir) : null}
           </div>
-          {this.rendersubMenuItems(dir)}
+          {this.renderSubMenuItems(dir)}
         </li>
       </Host>
     );
