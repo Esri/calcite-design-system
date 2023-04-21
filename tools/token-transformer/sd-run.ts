@@ -79,12 +79,8 @@ type TokenRef = {
 }
 
 export const run = async (
-  include: string[] = [
-    'tokens/core.json',
-    'tokens/semantic.json',
-    ...defaultThemes[0].enabled
-  ],
-  source: string[] = ['tokens/**/*.json'],
+  include: string[] = [],
+  source: string[] = defaultThemes[0].enabled.map(tokenFile => `tokens/${tokenFile}.json`),
   buildPath: string = 'build/css/',
   themes: Theme[] = defaultThemes
 ) => {
@@ -94,10 +90,14 @@ export const run = async (
     name: 'calcite/json',
     formatter: (fileInfo) => {
       const { dictionary, platform, options, file } = fileInfo;
-      console.log(referencedTokens)
       return JSON.stringify(dictionary.tokens, null, 2);
     }
   });
+
+  StyleDictionary.registerFilter({
+    name: 'isSource',
+    matcher: (token) => token.isSource,
+  })
 
   const regexMatchSDVariable = /\{[\w.-]+\}/g;
   await registerTransforms(StyleDictionary, { expand: false });
@@ -160,12 +160,14 @@ export const run = async (
           acc.push({
             destination: `debug/${name}.css`, 
             format: 'calcite/json',
+            filter: 'isSource',
             options,
           });
 
           acc.push({
             destination: `${name}.css`, 
             format: "css/variables",
+            filter: 'isSource',
             options,
           });
           return acc;
