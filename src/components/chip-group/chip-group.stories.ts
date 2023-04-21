@@ -33,12 +33,21 @@ export const singleWithIcon_TestOnly = (): string => html`
   </calcite-chip-group>
 `;
 
-export const singleWithIcon_TestOnly = (): string => html`
-  <calcite-chip-group selection-mode="single">
+export const multiple_TestOnly = (): string => html`
+  <calcite-chip-group selection-mode="multiple">
+    <calcite-chip value="forest">Forest</calcite-chip>
+    <calcite-chip selected value="tundra">Tundra</calcite-chip>
+    <calcite-chip value="shore">Seashore</calcite-chip>
+    <calcite-chip selected value="estuary">Estuary</calcite-chip>
+  </calcite-chip-group>
+`;
+
+export const multipleWithIcon_TestOnly = (): string => html`
+  <calcite-chip-group selection-mode="multiple">
     <calcite-chip icon="layer" value="forest">Forest</calcite-chip>
     <calcite-chip selected icon="layer" value="tundra">Tundra</calcite-chip>
     <calcite-chip icon="layer" value="shore">Seashore</calcite-chip>
-    <calcite-chip icon="layer" value="estuary">Estuary</calcite-chip>
+    <calcite-chip selected icon="layer" value="estuary">Estuary</calcite-chip>
   </calcite-chip-group>
 `;
 
@@ -60,15 +69,6 @@ export const multipleWithAvatar_TestOnly = (): string => html`
       <calcite-avatar slot="image" user-id="25684463a00c449585dbb32a065f6b74" full-name="user name"></calcite-avatar>
       Estuary</calcite-chip
     >
-  </calcite-chip-group>
-`;
-
-export const multipleWithIcon_TestOnly = (): string => html`
-  <calcite-chip-group selection-mode="multiple">
-    <calcite-chip icon="layer" value="forest">Forest</calcite-chip>
-    <calcite-chip icon="layer" value="tundra">Tundra</calcite-chip>
-    <calcite-chip icon="layer" value="shore">Seashore</calcite-chip>
-    <calcite-chip icon="layer" value="estuary">Estuary</calcite-chip>
   </calcite-chip-group>
 `;
 
