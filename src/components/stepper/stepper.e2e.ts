@@ -1,6 +1,7 @@
 import { E2EPage, newE2EPage } from "@stencil/core/testing";
 import { renders, hidden } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
+import { NumberStringFormatOptions } from "../../utils/locale";
 
 // todo test the automatic setting of first item to selected
 describe("calcite-stepper", () => {
@@ -606,6 +607,9 @@ describe("calcite-stepper", () => {
     stepper2.setProperty("numberingSystem", "thai");
     await page.waitForChanges();
     const stepper2Number = await page.find("calcite-stepper-item[id='step-two'] >>> .stepper-item-number");
-    expect(stepper2Number.textContent).toBe("๑.");
+    const thaiNumeral1 = new Intl.NumberFormat("th", { numberingSystem: "thai" } as NumberStringFormatOptions).format(
+      1
+    );
+    expect(stepper2Number.textContent).toBe(`${thaiNumeral1}.`);
   });
 });
