@@ -679,8 +679,6 @@ export class InputDatePicker
 
   private lastBlurredInput: "start" | "end" | "none" = "none";
 
-  @State() globalAttributes = {};
-
   @State() private localeData: DateLocaleData;
 
   private startInput: HTMLCalciteInputElement;
