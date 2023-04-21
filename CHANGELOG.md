@@ -9,6 +9,12 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ### Features
 
+- **input-date-picker:** allow toggling date picker by clicking the input or entering the down/escape key ([#6805](https://github.com/Esri/calcite-components/issues/6805)) ([233c22b](https://github.com/Esri/calcite-components/commit/233c22b174e5957415a0252a75f8da9078ed64ce)), closes [#6773](https://github.com/Esri/calcite-components/issues/6773)
+
+* **chip-group:** Add Chip Group component ([#6075](https://github.com/Esri/calcite-components/issues/6075)) ([77dec87](https://github.com/Esri/calcite-components/commit/77dec87b19ad369e2e262ec01004973ccd020dcd)), closes [#1933](https://github.com/Esri/calcite-components/issues/1933)
+* allow disabled elements to emit pointer events without triggering activation ([#6732](https://github.com/Esri/calcite-components/issues/6732)) ([c151025](https://github.com/Esri/calcite-components/commit/c151025069be81734b90371389eef717b2f686ed)), closes [#5318](https://github.com/Esri/calcite-components/issues/5318)
+* **shell-panel:** Place Action Bar in correct location when used in top / bottom Shell slots ([#6761](https://github.com/Esri/calcite-components/issues/6761)) ([6791f67](https://github.com/Esri/calcite-components/commit/6791f67a56e1f8ecfa846d3b7d23fa1bc628f7e6)), closes [#6447](https://github.com/Esri/calcite-components/issues/6447)
+
 - **list, list-item:** Adds the ability to close a list-item ([#6775](https://github.com/Esri/calcite-components/issues/6775)) ([66171ab](https://github.com/Esri/calcite-components/commit/66171ab203e34b565ad1e86c0c88531a2b39b1cf)), closes [#6555](https://github.com/Esri/calcite-components/issues/6555)
 
 * **date-picker:** add support for de-AT locale ([#6788](https://github.com/Esri/calcite-components/issues/6788)) ([be3a8b2](https://github.com/Esri/calcite-components/commit/be3a8b2414794562f5efa8a8223fdacd93192d1f)), closes [#6737](https://github.com/Esri/calcite-components/issues/6737)
