@@ -3,7 +3,6 @@ import {
   Element,
   Event,
   EventEmitter,
-  forceUpdate,
   h,
   Listen,
   Method,
@@ -55,11 +54,10 @@ export class Stepper {
   @Prop({ reflect: true }) numberingSystem?: NumberingSystem;
 
   @Watch("numberingSystem")
-  numberingSystemChange(): void {
-    for (const item of this.itemMap.keys()) {
-      // trigger item rendering to pick up parent numbering system
-      forceUpdate(item);
-    }
+  numberingSystemChange(value: NumberingSystem): void {
+    this.items.forEach((item) => {
+      item.numberingSystem = value;
+    });
   }
 
   /**
@@ -114,7 +112,9 @@ export class Stepper {
           const items = (event.currentTarget as HTMLSlotElement)
             .assignedElements()
             .filter((el) => el?.tagName === "CALCITE-STEPPER-ITEM");
-
+          items.forEach((item: HTMLCalciteStepperItemElement) => {
+            item.numberingSystem = this.numberingSystem;
+          });
           const spacing = Array(items.length).fill("1fr").join(" ");
           this.el.style.gridTemplateAreas = spacing;
           this.el.style.gridTemplateColumns = spacing;

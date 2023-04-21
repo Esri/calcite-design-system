@@ -24,7 +24,8 @@ import {
   numberStringFormatter,
   LocalizedComponent,
   disconnectLocalized,
-  connectLocalized
+  connectLocalized,
+  NumberingSystem
 } from "../../utils/locale";
 import {
   setUpLoadableComponent,
@@ -104,6 +105,11 @@ export class StepperItem implements InteractiveComponent, LocalizedComponent, Lo
   /** @internal */
   @Prop({ reflect: true, mutable: true }) scale: Scale = "m";
 
+  /**
+   * @internal
+   */
+  @Prop() numberingSystem: NumberingSystem;
+
   // watch for removal of disabled to register step
   @Watch("disabled")
   disabledWatcher(): void {
@@ -122,7 +128,7 @@ export class StepperItem implements InteractiveComponent, LocalizedComponent, Lo
   effectiveLocaleWatcher(locale: string): void {
     numberStringFormatter.numberFormatOptions = {
       locale,
-      numberingSystem: this.parentStepperEl?.numberingSystem,
+      numberingSystem: this.numberingSystem,
       useGrouping: false
     };
   }
@@ -367,7 +373,7 @@ export class StepperItem implements InteractiveComponent, LocalizedComponent, Lo
   renderNumbers(): string {
     numberStringFormatter.numberFormatOptions = {
       locale: this.effectiveLocale,
-      numberingSystem: this.parentStepperEl?.numberingSystem,
+      numberingSystem: this.numberingSystem,
       useGrouping: false
     };
     return numberStringFormatter.numberFormatter.format(this.itemPosition + 1);
