@@ -130,12 +130,10 @@ export class TabNav {
   connectedCallback(): void {
     this.parentTabsEl = this.el.closest("calcite-tabs");
     this.resizeObserver?.observe(this.el);
-    this.mutationObserver.observe(this.el, { childList: true, subtree: true, attributes: true });
   }
 
   disconnectedCallback(): void {
     this.resizeObserver?.disconnect();
-    this.mutationObserver.disconnect();
   }
 
   componentWillLoad(): void {
@@ -280,6 +278,7 @@ export class TabNav {
   @Listen("calciteInternalTabTitleClose")
   tabTitleCloseHandler(event: Event): void {
     this.closedTabTitleEl = event.target as HTMLCalciteTabTitleElement;
+    this.handleTabTitleClose();
   }
 
   //--------------------------------------------------------------------------
@@ -310,8 +309,6 @@ export class TabNav {
 
   tabNavEl: HTMLDivElement;
 
-  tabTitlesList: HTMLCalciteTabTitleElement[] = [];
-
   activeIndicatorEl: HTMLElement;
 
   activeIndicatorContainerEl: HTMLDivElement;
@@ -327,10 +324,6 @@ export class TabNav {
     this.activeIndicatorEl.style.transitionDuration = "0s";
     this.updateActiveWidth();
     this.updateOffsetPosition();
-  });
-
-  mutationObserver = createObserver("mutation", () => {
-    this.handleTabTitleClose();
   });
 
   //--------------------------------------------------------------------------
@@ -397,24 +390,21 @@ export class TabNav {
   }
 
   handleTabTitleClose = (): void => {
-    this.tabTitlesList = this.tabTitles;
-    const { tabTitlesList } = this;
-
+    const { tabTitles, closedTabTitleEl } = this;
+    const tabTitlesList = tabTitles.filter((el) => el !== closedTabTitleEl);
     // disable last remaining item
     if (tabTitlesList.length === 1 && tabTitlesList[0].closable) {
       tabTitlesList[0].disabled = true;
-      this.closedTabTitleEl = null;
-    } else if (this.closedTabTitleEl.hasAttribute("selected")) {
-      //closedTabTitleEl is null here
+    } else if (closedTabTitleEl === this.selectedTitle) {
       // if last item closed is selected, fall back on previous
       if (this.selectedTabId === tabTitlesList.length) {
         this.selectedTabId = tabTitlesList.length - 1;
-        this.closedTabTitleEl = null;
+        // this.selectedTitle =  this.getTabTitleById(this.selectedTabId);
         return;
       }
       // if closed item is selected, fall back on next
-      const nextId = (this.selectedTabId as number)++;
-      this.selectedTabId = nextId;
+      // const nextId = (this.selectedTabId as number)++;
+      // this.selectedTabId = nextId;
     }
   };
 }
