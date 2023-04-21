@@ -174,7 +174,7 @@ export class DatePickerMonth {
   };
 
   @Listen("pointerout")
-  mouseoutHandler(): void {
+  pointerOutHandler(): void {
     this.calciteInternalDatePickerMouseOut.emit();
   }
 

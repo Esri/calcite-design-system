@@ -139,6 +139,10 @@ export class Switch
   }
 
   private clickHandler = (): void => {
+    if (this.disabled) {
+      return;
+    }
+
     this.toggle();
   };
 

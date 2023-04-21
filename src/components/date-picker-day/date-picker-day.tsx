@@ -88,7 +88,11 @@ export class DatePickerDay implements InteractiveComponent {
   //--------------------------------------------------------------------------
 
   onClick = (): void => {
-    !this.disabled && this.calciteDaySelect.emit();
+    if (this.disabled) {
+      return;
+    }
+
+    this.calciteDaySelect.emit();
   };
 
   keyDownHandler = (event: KeyboardEvent): void => {
@@ -99,7 +103,11 @@ export class DatePickerDay implements InteractiveComponent {
   };
 
   @Listen("pointerover")
-  mouseoverHandler(): void {
+  pointerOverHandler(): void {
+    if (this.disabled) {
+      return;
+    }
+
     this.calciteInternalDayHover.emit();
   }
 

@@ -285,7 +285,7 @@ export class Combobox
 
   @Listen("pointerdown", { target: "document" })
   documentClickHandler(event: PointerEvent): void {
-    if (!isPrimaryPointerButton(event)) {
+    if (this.disabled || !isPrimaryPointerButton(event)) {
       return;
     }
 
@@ -1062,6 +1062,10 @@ export class Combobox
   }
 
   comboboxFocusHandler = (): void => {
+    if (this.disabled) {
+      return;
+    }
+
     this.textInput?.focus();
   };
 

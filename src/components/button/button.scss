@@ -161,10 +161,11 @@
 @include disabled();
 
 :host([loading]) {
-  @apply pointer-events-none;
+  @extend %non-interactive-host-contents;
+
   button,
   a {
-    @apply opacity-disabled pointer-events-none;
+    @apply opacity-disabled;
   }
 }
 
