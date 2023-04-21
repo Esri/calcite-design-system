@@ -725,7 +725,7 @@ height:400px;
 position:relative;
 "
 >
-  <calcite-shell-panel slot="panel-start" position="start">
+  <calcite-shell-panel slot="panel-start" position="start" collapsed>
     <calcite-action-bar slot="action-bar">
       <calcite-tooltip open slot="expand-tooltip">Expand</calcite-tooltip>
     </calcite-action-bar>
