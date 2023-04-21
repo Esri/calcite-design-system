@@ -24,8 +24,10 @@ export interface FocusTrapComponent {
 
   /**
    * Method to update the element(s) that are used within the FocusTrap component.
+   *
+   * This should be implemented for components that allow user content and/or have conditionally-rendered focusable elements within the trap.
    */
-  updateFocusTrapElements: () => Promise<void>;
+  updateFocusTrapElements?: () => Promise<void>;
 }
 
 export type FocusTrap = _FocusTrap;

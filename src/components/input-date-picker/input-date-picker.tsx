@@ -72,8 +72,7 @@ import {
   activateFocusTrap,
   connectFocusTrap,
   deactivateFocusTrap,
-  FocusTrapComponent,
-  updateFocusTrapElements
+  FocusTrapComponent
 } from "../../utils/focusTrapComponent";
 import { FocusTrap } from "focus-trap";
 
@@ -423,14 +422,6 @@ export class InputDatePicker
       },
       delayed
     );
-  }
-
-  /**
-   * Updates the element(s) that are used within the focus-trap of the component.
-   */
-  @Method()
-  async updateFocusTrapElements(): Promise<void> {
-    updateFocusTrapElements(this);
   }
 
   // --------------------------------------------------------------------------
