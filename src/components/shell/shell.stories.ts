@@ -746,9 +746,7 @@ position:relative;
     </calcite-action-bar>
   </calcite-shell-panel>
   <calcite-shell-center-row detached>
-    <calcite-panel>
-      <div style="background: maroon; height: 100%; width: 100%;"></div>
-    </calcite-panel>
+    <div style="background-color:#000; height: 100%; width: 100%;"></div>
   </calcite-shell-center-row>
 </calcite-shell>`;
 
