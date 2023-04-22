@@ -678,6 +678,10 @@ export class Input
   };
 
   private clickHandler = (event: MouseEvent): void => {
+    if (this.disabled) {
+      return;
+    }
+
     const slottedActionEl = getSlotted(this.el, "action");
     if (event.target !== slottedActionEl) {
       this.setFocus();

@@ -75,6 +75,7 @@ import {
   FocusTrapComponent
 } from "../../utils/focusTrapComponent";
 import { FocusTrap } from "focus-trap";
+import { guid } from "../../utils/guid";
 
 @Component({
   tag: "calcite-input-date-picker",
@@ -518,7 +519,7 @@ export class InputDatePicker
             >
               <calcite-input
                 aria-autocomplete="none"
-                aria-controls="date-picker-dialog"
+                aria-controls={this.dialogId}
                 aria-expanded={toAriaBoolean(this.open)}
                 aria-haspopup="dialog"
                 class={`input ${
@@ -551,7 +552,7 @@ export class InputDatePicker
                 [CSS.menu]: true,
                 [CSS.menuActive]: this.open
               }}
-              id="date-picker-dialog"
+              id={this.dialogId}
               role="dialog"
               // eslint-disable-next-line react/jsx-sort-props
               ref={this.setFloatingEl}
@@ -612,7 +613,7 @@ export class InputDatePicker
               >
                 <calcite-input
                   aria-autocomplete="none"
-                  aria-controls="date-picker-dialog"
+                  aria-controls={this.dialogId}
                   aria-expanded={toAriaBoolean(this.open)}
                   aria-haspopup="dialog"
                   class={{
@@ -660,6 +661,8 @@ export class InputDatePicker
   //--------------------------------------------------------------------------
 
   private datePickerEl: HTMLCalciteDatePickerElement;
+
+  private dialogId = `date-picker-dialog--${guid()}`;
 
   filteredFlipPlacements: EffectivePlacement[];
 
@@ -756,7 +759,7 @@ export class InputDatePicker
   }
 
   onOpen(): void {
-    activateFocusTrap(this, {
+    xactivateFocusTrap(this, {
       onActivate: () => {
         if (this.focusOnOpen) {
           this.datePickerEl.setFocus();
