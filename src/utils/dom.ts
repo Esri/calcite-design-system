@@ -367,6 +367,7 @@ export function isPrimaryPointerButton(event: PointerEvent): boolean {
  * @param elements An array of elements
  * @param currentElement The current element
  * @param destination The target destination element to focus
+ * @param cycle Should navigation cycle through options
  * @returns {Element} The focused element
  */
 
@@ -375,13 +376,13 @@ export type FocusElementInGroupDestination = "first" | "last" | "next" | "previo
 export const focusElementInGroup = (
   elements: Element[],
   currentElement: Element,
-  destination: FocusElementInGroupDestination
+  destination: FocusElementInGroupDestination,
+  cycle = true
 ): Element => {
   const currentIndex = elements.indexOf(currentElement);
   const isFirstItem = currentIndex === 0;
   const isLastItem = currentIndex === elements.length - 1;
-  destination =
-    destination === "previous" && isFirstItem ? "last" : destination === "next" && isLastItem ? "first" : destination;
+  destination === "previous" && isFirstItem ? "last" : destination === "next" && isLastItem ? "first" : destination;
 
   let focusTarget;
   switch (destination) {
@@ -392,10 +393,14 @@ export const focusElementInGroup = (
       focusTarget = elements[elements.length - 1];
       break;
     case "next":
-      focusTarget = elements[currentIndex + 1] || elements[0];
+      focusTarget = cycle
+        ? elements[currentIndex + 1] || elements[0]
+        : elements[currentIndex + 1] || elements[currentIndex];
       break;
     case "previous":
-      focusTarget = elements[currentIndex - 1] || elements[elements.length - 1];
+      focusTarget = cycle
+        ? elements[currentIndex - 1] || elements[elements.length - 1]
+        : elements[currentIndex - 1] || elements[currentIndex];
       break;
   }
 
