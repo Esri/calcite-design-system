@@ -759,7 +759,7 @@ export class InputDatePicker
   }
 
   onOpen(): void {
-    xactivateFocusTrap(this, {
+    activateFocusTrap(this, {
       onActivate: () => {
         if (this.focusOnOpen) {
           this.datePickerEl.setFocus();
