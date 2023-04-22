@@ -416,7 +416,7 @@ export class CalciteMenuItem implements LoadableComponent {
               aria-expanded={this.open ? "true" : "false"}
               aria-haspopup={this.hasSubMenu ? "true" : undefined}
               aria-label={this.label || this.text}
-              class={CSS.layoutVertical}
+              class={{ [CSS.layoutVertical]: this.layout === "vertical" }}
               href={this.href ? this.href : null}
               onClick={this.clickHandler}
               onKeyDown={this.keyDownHandler}

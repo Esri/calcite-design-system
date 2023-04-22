@@ -367,7 +367,7 @@ export function isPrimaryPointerButton(event: PointerEvent): boolean {
  * @param elements An array of elements
  * @param currentElement The current element
  * @param destination The target destination element to focus
- * @param cycle Should navigation cycle through options
+ * @param cycle Should navigation cycle through elements or stop at extent - defaults to true
  * @returns {Element} The focused element
  */
 

@@ -24,6 +24,7 @@
       <h2><code>calcite-menu</code></h2>
       <h3>The <code>calcite-menu</code> component is often placed in <code>calcite-nav</code> slots:</h3>
     </div>
+
     <calcite-shell>
       <calcite-nav slot="header">
         <calcite-chip slot="logo" scale="s">logo</calcite-chip>
@@ -35,6 +36,75 @@
         <calcite-chip kind="brand" slot="secondary-content-end" scale="s">secondary-content-end </calcite-chip>
         <calcite-chip kind="brand" slot="tertiary-content-start" scale="s">tertiary-content-start </calcite-chip>
         <calcite-chip kind="brand" slot="tertiary-content-end" scale="s">tertiary-content-end </calcite-chip>
+      </calcite-nav>
+    </calcite-shell>
+
+    <calcite-shell>
+      <calcite-nav slot="header">
+        <calcite-menu slot="primary-content-center">
+          <calcite-menu-item breadcrumb icon-start="home" text="Files" text-enabled></calcite-menu-item>
+          <calcite-menu-item breadcrumb text="Proposals" text-enabled> </calcite-menu-item>
+          <calcite-menu-item active text="Nav" text-enabled></calcite-menu-item>
+        </calcite-menu>
+
+        <calcite-menu slot="primary-content-end">
+          <calcite-menu-item text="Theming" href="#examples-theming" text-enabled icon-start="lightbulb">
+          </calcite-menu-item>
+        </calcite-menu>
+
+        <calcite-menu slot="secondary-content-start">
+          <calcite-menu-item href="#intro" text="Introduction" text-enabled></calcite-menu-item>
+          <calcite-menu-item href=" #calcite-nav" text="calcite-nav" text-enabled>
+            <calcite-menu-item
+              href="#calcite-nav-slots"
+              icon-start="add-in"
+              slot="menu-item-dropdown"
+              text="Slots"
+              text-enabled
+            ></calcite-menu-item>
+            <calcite-menu-item
+              href="#calcite-nav-css-vars"
+              icon-start="multiple-variables"
+              slot="menu-item-dropdown"
+              text="Css vars"
+              text-enabled
+            ></calcite-menu-item>
+          </calcite-menu-item>
+          <calcite-menu-item href="#calcite-nav-logo" text="calcite-nav-logo" text-enabled> </calcite-menu-item>
+          <calcite-menu-item href="#calcite-nav-user" text="calcite-nav-user" text-enabled> </calcite-menu-item>
+          <calcite-menu-item href="#calcite-menu" text="calcite-menu" text-enabled>
+            <calcite-menu-item
+              href="#calcite-menu-props"
+              slot="menu-item-dropdown"
+              icon-start="sliders"
+              text="Props"
+              text-enabled
+            ></calcite-menu-item>
+          </calcite-menu-item>
+          <calcite-menu-item href="#calcite-menu-item" text="calcite-menu-item" text-enabled>
+            <calcite-menu-item
+              href="#calcite-menu-item-slots"
+              icon-start="add-in"
+              slot="menu-item-dropdown"
+              text="Slots"
+              text-enabled
+            ></calcite-menu-item>
+            <calcite-menu-item
+              href="#calcite-menu-item-props"
+              icon-start="sliders"
+              slot="menu-item-dropdown"
+              text="Props"
+              text-enabled
+            ></calcite-menu-item>
+            <calcite-menu-item
+              href="#calcite-menu-item-events"
+              icon-start="activity-monitor"
+              slot="menu-item-dropdown"
+              text="Events"
+              text-enabled
+            ></calcite-menu-item>
+          </calcite-menu-item>
+        </calcite-menu>
       </calcite-nav>
     </calcite-shell>
 
