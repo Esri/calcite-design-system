@@ -3,14 +3,14 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-shell-panel-width: The width of the component.
- * @prop --calcite-shell-panel-max-width: The maximum width of the component.
- * @prop --calcite-shell-panel-min-width: The minimum width of the component.
- * @prop --calcite-shell-panel-height: The height of the component.
- * @prop --calcite-shell-panel-max-height: The maximum height of the component.
- * @prop --calcite-shell-panel-min-height: The minimum height of the component.
- * @prop --calcite-shell-panel-detached-max-height: The maximum height of the component when `detached` is true.
- * @prop --calcite-shell-panel-z-index: Sets the z-index value for the component.
+ * @prop --calcite-shell-panel-width: Specifies the width of the component.
+ * @prop --calcite-shell-panel-max-width: Specifies the maximum width of the component.
+ * @prop --calcite-shell-panel-min-width: Specifies the minimum width of the component.
+ * @prop --calcite-shell-panel-height: When `layout` is `"horizontal"`, specifies the height of the component.
+ * @prop --calcite-shell-panel-max-height: When `layout` is `"horizontal"`, specifies the maximum height of the component.
+ * @prop --calcite-shell-panel-min-height: When `layout` is `"horizontal"`, specifies the minimum height of the component.
+ * @prop --calcite-shell-panel-detached-max-height: When `detached` is `true`, specifies the maximum height of the component.
+ * @prop --calcite-shell-panel-z-index: Specifies the z-index value for the component.
  *
  */
 
