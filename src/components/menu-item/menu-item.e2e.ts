@@ -12,10 +12,6 @@ describe("calcite-menu-item", () => {
         value: "true"
       },
       {
-        propertyName: "editable",
-        value: "true"
-      },
-      {
         propertyName: "iconStart",
         value: "layers"
       },
