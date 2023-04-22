@@ -719,6 +719,26 @@ export const slottedPanelTopAndBottomAndSides = (): string =>
   </calcite-shell>
 `);
 
+export const shellPanelZIndex_TestOnly = (): string => html` <calcite-shell
+  style="
+height:400px;
+position:relative;
+"
+>
+  <calcite-shell-panel slot="panel-start" position="start" collapsed>
+    <calcite-action-bar slot="action-bar">
+      <calcite-tooltip open slot="expand-tooltip">Expand</calcite-tooltip>
+    </calcite-action-bar>
+  </calcite-shell-panel>
+  <calcite-shell-center-row slot="panel-bottom">
+    <div style="height: 100%; width: 600px; background-color: black;"></div>
+  </calcite-shell-center-row>
+</calcite-shell>`;
+
+shellPanelZIndex_TestOnly.parameters = {
+  chromatic: { delay: 800 }
+};
+
 export const resizableShellPanels = (): string => html`<calcite-shell
   style="
 width:100%;
