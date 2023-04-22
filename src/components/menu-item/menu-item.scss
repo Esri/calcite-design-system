@@ -12,11 +12,10 @@
 
 .container,
 .item-content {
-  inline-size: 100%;
-  min-inline-size: 100%;
   display: flex;
   flex-direction: row;
   block-size: 100%;
+  inline-size: 100%;
   align-items: stretch;
 }
 
@@ -48,7 +47,6 @@ a {
   &.layout--vertical {
     @apply py-4 w-full;
     display: flex;
-    inline-size: 100%;
     justify-content: flex-start;
     border-block-end: 0;
     border-inline-end: theme("spacing.1") solid transparent;
@@ -95,7 +93,6 @@ calcite-action {
     display: block;
     inline-size: 1px;
     content: "";
-    block-size: calc(100% - theme("spacing.6"));
     inset-block: theme("spacing.3");
     background-color: var(--calcite-ui-border-3);
     position: absolute;
@@ -144,47 +141,23 @@ a:hover ~ calcite-action {
   }
 }
 
-.nav-item-vertical {
-  position: relative;
-  inline-size: 100%;
-  flex-direction: column;
-  border-block-end: 0;
-}
-
-.container.nav-item-vertical-parent {
-  flex-direction: column;
-  block-size: unset;
-  display: block;
-}
-
 .nav-item-vertical-parent {
   flex-direction: column;
 }
 
 .is-vertical-dropdown-type.dropdown-menu-items {
-  flex-direction: column;
   position: relative;
-  block-size: auto;
-  block-size: 100%;
   border-radius: 0;
   box-shadow: none;
   inset-block-start: 0;
   transform: none;
-  &.nested {
-    transform: none;
-    position: relative;
-    border-radius: 0;
-    box-shadow: none;
-    border: none;
-    & ::slotted(calcite-menu-item) {
-      padding-inline-start: 28px;
-      inline-size: 100%;
-    }
-  }
   &:last-of-type {
-    border-block-end: 1px solid var(--calcite-ui-border-3);
-    border-block-start: 1px solid var(--calcite-ui-border-3);
+    border-inline: 0;
   }
+}
+
+:host([slot="menu-item-dropdown"]) .nav-item-vertical-parent {
+  padding-inline-start: theme("spacing.6");
 }
 
 .dropdown-menu-items.is-rtl.nested {
