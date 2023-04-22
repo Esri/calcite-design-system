@@ -303,3 +303,34 @@ export async function isElementFocused(
     shadowed
   );
 }
+
+type GetFocusedElementProp = {
+  /**
+   * Set to true to use the shadow root's active element instead of the light DOM's.
+   */
+  shadow: boolean;
+};
+
+/**
+ * This helps get serializable properties from the focused element.
+ *
+ * @param {E2EPage} page - the E2E test page
+ * @param {string} prop - the property to get from the focused element (note: must be serializable)
+ * @param {GetFocusedElementProp} options – additional configuration options
+ */
+export async function getFocusedElementProp(
+  page: E2EPage,
+  prop: keyof HTMLElement,
+  options?: GetFocusedElementProp
+): Promise<ReturnType<E2EPage["evaluate"]>> {
+  return await page.evaluate(
+    (by: string, shadow: boolean) => {
+      const { activeElement } = document;
+      const target = shadow ? activeElement?.shadowRoot?.activeElement : activeElement;
+
+      return target?.[by];
+    },
+    prop,
+    options?.shadow
+  );
+}
