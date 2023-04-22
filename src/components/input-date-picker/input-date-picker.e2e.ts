@@ -630,7 +630,6 @@ describe("calcite-input-date-picker", () => {
       const opening = page.waitForEvent("calciteInputDatePickerOpen");
       await page.keyboard.press("ArrowDown");
       await opening;
-      await page.keyboard.press("Tab");
       expect(await getFocusedElementProp(page, "tagName", { shadow: true })).toBe("CALCITE-DATE-PICKER");
 
       await page.keyboard.down("Shift");
@@ -681,7 +680,6 @@ describe("calcite-input-date-picker", () => {
       const startOpening = page.waitForEvent("calciteInputDatePickerOpen");
       await page.keyboard.press("ArrowDown");
       await startOpening;
-      await page.keyboard.press("Tab");
       expect(await getFocusedElementProp(page, "tagName", { shadow: true })).toBe("CALCITE-DATE-PICKER");
 
       await page.keyboard.down("Shift");
@@ -705,7 +703,6 @@ describe("calcite-input-date-picker", () => {
       const endOpening = page.waitForEvent("calciteInputDatePickerOpen");
       await page.keyboard.press("ArrowDown");
       await endOpening;
-      await page.keyboard.press("Tab");
       expect(await getFocusedElementProp(page, "tagName", { shadow: true })).toBe("CALCITE-DATE-PICKER");
 
       await page.keyboard.down("Shift");

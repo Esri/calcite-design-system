@@ -659,7 +659,11 @@ export class InputDatePicker
   //
   //--------------------------------------------------------------------------
 
+  private datePickerEl: HTMLCalciteDatePickerElement;
+
   filteredFlipPlacements: EffectivePlacement[];
+
+  private focusOnOpen = false;
 
   focusTrap: FocusTrap;
 
@@ -752,8 +756,15 @@ export class InputDatePicker
   }
 
   onOpen(): void {
+    activateFocusTrap(this, {
+      onActivate: () => {
+        if (this.focusOnOpen) {
+          this.datePickerEl.setFocus();
+          this.focusOnOpen = false;
+        }
+      }
+    });
     this.calciteInputDatePickerOpen.emit();
-    activateFocusTrap(this);
   }
 
   onBeforeClose(): void {
@@ -764,6 +775,7 @@ export class InputDatePicker
     this.calciteInputDatePickerClose.emit();
     deactivateFocusTrap(this);
     this.restoreInputFocus();
+    this.focusOnOpen = false;
   }
 
   setStartInput = (el: HTMLCalciteInputElement): void => {
@@ -844,6 +856,7 @@ export class InputDatePicker
       }
     } else if (key === "ArrowDown") {
       this.open = true;
+      this.focusOnOpen = true;
       event.preventDefault();
     } else if (key === "Escape") {
       this.open = false;
@@ -882,6 +895,7 @@ export class InputDatePicker
   };
 
   setDatePickerRef = (el: HTMLCalciteDatePickerElement): void => {
+    this.datePickerEl = el;
     connectFocusTrap(this, {
       focusTrapEl: el,
       focusTrapOptions: {
