@@ -66,13 +66,6 @@ export class TabTitle implements InteractiveComponent, LocalizedComponent, T9nCo
    */
   @Prop({ reflect: true, mutable: true }) selected = false;
 
-  @Watch("selected")
-  selectedHandler(): void {
-    if (this.selected) {
-      this.emitActiveTab(false);
-    }
-  }
-
   /** When `true`, a close button is added to the component. */
   @Prop({ reflect: true }) closable = false;
 
@@ -172,9 +165,6 @@ export class TabTitle implements InteractiveComponent, LocalizedComponent, T9nCo
     await setUpMessages(this);
     if (Build.isBrowser) {
       this.updateHasText();
-    }
-    if (this.tab && this.selected) {
-      this.emitActiveTab(false);
     }
   }
 
@@ -300,8 +290,12 @@ export class TabTitle implements InteractiveComponent, LocalizedComponent, T9nCo
   }
 
   @Listen("click")
-  onClick(): void {
-    this.emitActiveTab();
+  onClick(event: MouseEvent): void {
+    if (!event.isTrusted) {
+      this.emitActiveTab(false);
+    } else {
+      this.emitActiveTab();
+    }
   }
 
   @Listen("keydown")
@@ -405,7 +399,7 @@ export class TabTitle implements InteractiveComponent, LocalizedComponent, T9nCo
   @Method()
   async getTabIndex(): Promise<number> {
     return Array.prototype.indexOf.call(
-      this.el.parentElement.querySelectorAll("calcite-tab-title"),
+      this.el.parentElement.querySelectorAll("calcite-tab-title:not([closed])"),
       this.el
     );
   }
@@ -481,7 +475,7 @@ export class TabTitle implements InteractiveComponent, LocalizedComponent, T9nCo
   }
 
   emitActiveTab(userTriggered = true): void {
-    if (this.disabled) {
+    if (this.disabled || this.closed) {
       return;
     }
 
