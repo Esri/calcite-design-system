@@ -84,7 +84,7 @@ export class CalciteMenuItem implements LoadableComponent {
   /**
   /* When true, the menu item will display any slotted Menu Item in an open overflow menu *
    */
-  @Prop({ mutable: true }) open = false;
+  @Prop({ mutable: true, reflect: true }) open = false;
 
   /**
    * @internal
