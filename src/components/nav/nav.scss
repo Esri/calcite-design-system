@@ -33,7 +33,7 @@
 }
 
 .nav-tertiary {
-  @apply h-10;
+  @apply h-12;
   background-color: var(--calcite-nav-tertiary-background, var(--calcite-ui-foreground-1));
   border-block-end-color: var(--calcite-nav-tertiary-border-color, var(--calcite-ui-border-3));
 }

@@ -8,6 +8,11 @@
 
 :host(:not([layout="vertical"])) {
   flex-shrink: 0;
+  & .container,
+  & .item-content,
+  & a {
+    min-block-size: theme("spacing.12");
+  }
 }
 
 :host([layout="vertical"]) {
@@ -120,7 +125,6 @@ a:hover ~ calcite-action {
 }
 
 .dropdown-menu-items {
-  border-radius: 0 0 theme("spacing.1") theme("spacing.1");
   border: 1px solid var(--calcite-ui-border-3);
   position: absolute;
   background: var(--calcite-ui-foreground-1);
@@ -128,18 +132,17 @@ a:hover ~ calcite-action {
   block-size: auto;
   flex-direction: column;
   min-inline-size: 100%;
-  inline-size: max-content;
   display: none;
   transition: all var(--calcite-internal-animation-timing-slow) ease-in-out;
   overflow: visible;
   inset-block-start: 100%;
+
   &.open {
     display: block;
   }
   &.nested {
     z-index: 9;
-    inset-block-start: 0%;
-    border-radius: var(--calcite-border-radius);
+    inset-block-start: -1px;
     position: absolute;
     transform: translateX(calc(100% - 2px));
   }

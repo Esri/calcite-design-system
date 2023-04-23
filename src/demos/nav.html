@@ -25,7 +25,9 @@
       <h3>
         Calcite Nav is a positioning and layout component that supports consistent application and product navigation.
         It contains slots that position <code>calcite-nav-logo</code> and <code>calcite-nav-logo</code>. It has slots
-        for positioning <code>calcite-menu</code> as well as other interactive content.
+        for positioning <code>calcite-menu</code> as well as other interactive content. The primary level is larger and
+        more emphasized as it should be the first item populated and consistent across products. The secondary and
+        tertiary level is slightly shorter to provide visual hierarchy.
       </h3>
     </div>
     <calcite-shell>
@@ -666,6 +668,66 @@
         --calcite-nav-tertiary-background: blue;
         --calcite-nav-tertiary-border-color: darkblue;
       }
+
+      .example-theming-tiers calcite-action {
+        --calcite-ui-foreground-1: red;
+        --calcite-ui-foreground-2: darkred;
+        --calcite-ui-foreground-3: red;
+        --calcite-ui-text-1: white;
+        --calcite-ui-text-2: white;
+        --calcite-ui-text-3: white;
+        --calcite-ui-icon-color: white;
+      }
+
+      .example-theming-tiers calcite-nav-logo {
+        --calcite-ui-foreground-1: red;
+        --calcite-ui-foreground-2: darkred;
+        --calcite-ui-foreground-3: red;
+        --calcite-ui-text-1: white;
+        --calcite-ui-text-2: white;
+        --calcite-ui-text-3: white;
+        --calcite-ui-icon-color: white;
+      }
+
+      .example-theming-tiers calcite-nav-user {
+        --calcite-ui-foreground-1: red;
+        --calcite-ui-foreground-2: darkred;
+        --calcite-ui-foreground-3: red;
+        --calcite-ui-text-1: white;
+        --calcite-ui-text-2: white;
+        --calcite-ui-text-3: white;
+        --calcite-ui-icon-color: white;
+      }
+
+      calcite-menu.example-primary-theming {
+        --calcite-ui-foreground-1: red;
+        --calcite-ui-foreground-2: darkred;
+        --calcite-ui-foreground-3: red;
+        --calcite-ui-text-1: white;
+        --calcite-ui-text-2: white;
+        --calcite-ui-text-3: white;
+        --calcite-ui-icon-color: white;
+      }
+
+      calcite-menu.example-secondary-theming {
+        --calcite-ui-foreground-1: green;
+        --calcite-ui-foreground-2: darkgreen;
+        --calcite-ui-foreground-3: red;
+        --calcite-ui-text-1: white;
+        --calcite-ui-text-2: white;
+        --calcite-ui-text-3: white;
+        --calcite-ui-icon-color: white;
+      }
+
+      calcite-menu.example-tertiary-theming {
+        --calcite-ui-foreground-1: blue;
+        --calcite-ui-foreground-2: darkblue;
+        --calcite-ui-foreground-3: red;
+        --calcite-ui-text-1: white;
+        --calcite-ui-text-2: white;
+        --calcite-ui-text-3: white;
+        --calcite-ui-icon-color: white;
+      }
     </style>
     <calcite-shell>
       <calcite-nav class="example-theming-tiers" slot="header" style="--calcite-ui-brand: #974dff">
@@ -677,19 +739,19 @@
           href
         >
         </calcite-nav-logo>
-        <calcite-menu slot="primary-content-start">
+        <calcite-menu slot="primary-content-start" class="example-primary-theming">
           <calcite-menu-item active text="Documentation"></calcite-menu-item>
           <calcite-menu-item text="Features"></calcite-menu-item>
           <calcite-menu-item text="Pricing"></calcite-menu-item>
           <calcite-menu-item text="Support"></calcite-menu-item>
         </calcite-menu>
-        <calcite-menu slot="secondary-content-start">
+        <calcite-menu slot="secondary-content-start" class="example-secondary-theming">
           <calcite-menu-item breadcrumb text="Documentation"></calcite-menu-item>
           <calcite-menu-item breadcrumb text="Calcite Design System"></calcite-menu-item>
           <calcite-menu-item breadcrumb text="Components"></calcite-menu-item>
           <calcite-menu-item active text="Notice"></calcite-menu-item>
         </calcite-menu>
-        <calcite-menu slot="tertiary-content-start">
+        <calcite-menu slot="tertiary-content-start" class="example-tertiary-theming">
           <calcite-menu-item breadcrumb text="Documentation"></calcite-menu-item>
           <calcite-menu-item breadcrumb text="Calcite Design System"></calcite-menu-item>
           <calcite-menu-item breadcrumb text="Components"></calcite-menu-item>

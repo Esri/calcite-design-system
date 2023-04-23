@@ -50,10 +50,6 @@
           <calcite-menu-item active text="Nav"></calcite-menu-item>
         </calcite-menu>
 
-        <calcite-menu slot="primary-content-end">
-          <calcite-menu-item text="Theming" href="#examples-theming" icon-start="lightbulb"> </calcite-menu-item>
-        </calcite-menu>
-
         <calcite-menu slot="secondary-content-start">
           <calcite-menu-item href="#intro" text="Introduction"></calcite-menu-item>
           <calcite-menu-item href=" #calcite-nav" text="calcite-nav">
@@ -212,9 +208,9 @@
               </calcite-menu-item>
             </calcite-menu-item>
             <calcite-menu-item href="#" slot="menu-item-dropdown" text="It's stupendous">
-              <calcite-menu-item slot="menu-item-dropdown" text="Very nice example"> </calcite-menu-item>
-              <calcite-menu-item slot="menu-item-dropdown" text="Short one">
-                <calcite-menu-item slot="menu-item-dropdown" text="Another thing">
+              <calcite-menu-item slot="menu-item-dropdown" text="Very nice example" active> </calcite-menu-item>
+              <calcite-menu-item slot="menu-item-dropdown" text="Short one" open>
+                <calcite-menu-item slot="menu-item-dropdown" text="Another thing" open>
                   <calcite-menu-item slot="menu-item-dropdown" text="Great examples">
                     <calcite-menu-item slot="menu-item-dropdown" text="Great examples"> </calcite-menu-item>
                     <calcite-menu-item slot="menu-item-dropdown" text="Great examples"> </calcite-menu-item>
@@ -232,12 +228,37 @@
     </calcite-shell>
 
     <div class="text-box">
+      <h2><code>horizontal mode, not slotted in calcite-nav</code></h2>
+      <h3>But is a generic component useful outside of that context as well.</h3>
+    </div>
+
+    <calcite-menu>
+      <calcite-menu-item id="Nature" text="Nature" href="#arcgisonline" open>
+        <calcite-menu-item id="Mountains" text="Mountains" slot="menu-item-dropdown" active open>
+          <calcite-menu-item text="Rocky Mountains" id="Rocky Mountains" slot="menu-item-dropdown"></calcite-menu-item>
+          <calcite-menu-item text="Smoky Mountains" id="Smoky Mountains" slot="menu-item-dropdown"
+            ><calcite-menu-item
+              text="Rocky Mountains"
+              id="Rocky Mountains"
+              slot="menu-item-dropdown"
+            ></calcite-menu-item>
+            <calcite-menu-item text="Smoky Mountains" id="Smoky Mountains" slot="menu-item-dropdown">
+            </calcite-menu-item>
+          </calcite-menu-item>
+        </calcite-menu-item>
+        <calcite-menu-item text="Rivers" id="Rivers" slot="menu-item-dropdown"> </calcite-menu-item>
+      </calcite-menu-item>
+      <calcite-menu-item id="Planets" text="Planets"> </calcite-menu-item>
+    </calcite-menu>
+
+    <div class="text-box">
       <h2><code>vertical mode, not slotted in calcite-nav</code></h2>
       <h3>
         But is a generic component useful outside of that context as well. For instance, in `vertical` layout mode, or
         within a Panel to provide contextual breadcrumb or navigation.
       </h3>
     </div>
+
     <calcite-shell>
       <calcite-shell-panel slot="panel-start">
         <calcite-panel heading="Example simple vertical menu">
