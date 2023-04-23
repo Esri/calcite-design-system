@@ -22,7 +22,10 @@
   <body>
     <div id="calcite-nav-logo" class="text-box">
       <h2><code>calcite-menu</code></h2>
-      <h3>The <code>calcite-menu</code> component is often placed in <code>calcite-nav</code> slots:</h3>
+      <h3>
+        A generic menu component, the <code>calcite-menu</code> component is often placed in
+        <code>calcite-nav</code> slots:
+      </h3>
     </div>
 
     <calcite-shell>
@@ -185,25 +188,12 @@
         </calcite-menu>
       </calcite-nav>
     </calcite-shell>
-    <calcite-shell>
-      <calcite-nav slot="header">
-        <div slot="primary-content-end">
-          <calcite-chip scale="s" color="blue">Slotted Action</calcite-chip>
-        </div>
-
-        <calcite-menu slot="secondary-content-start">
-          <calcite-menu-item text="Capabilities" breadcrumb> </calcite-menu-item>
-          <calcite-menu-item text="Reference" active> </calcite-menu-item>
-        </calcite-menu>
-      </calcite-nav>
-    </calcite-shell>
 
     <calcite-shell>
       <calcite-nav slot="header">
         <div slot="primary-content-end">
           <calcite-chip scale="s" color="blue">Slotted Action</calcite-chip>
         </div>
-
         <calcite-menu slot="primary-content-start">
           <calcite-menu-item text="Home"> </calcite-menu-item>
           <calcite-menu-item slot="menu-item-dropdown"> </calcite-menu-item>

@@ -19,6 +19,5 @@ export const simple = (): string =>
       username="${text("text", "eabbey_123")}"
       thumbnail="${text("thumbnail", "")}"
       ${boolean("text-enabled", true)}
-      ${boolean("avatar-enabled", true)}
     />
   </calcite-nav>`;

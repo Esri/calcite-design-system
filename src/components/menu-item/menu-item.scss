@@ -6,6 +6,10 @@
   box-border;
 }
 
+:host(:not([layout="vertical"])) {
+  flex-shrink: 0;
+}
+
 :host([layout="vertical"]) {
   @apply w-full;
 }

@@ -20,6 +20,14 @@
   </head>
 
   <body>
+    <div class="text-box">
+      <h2><code>calcite-nav</code></h2>
+      <h3>
+        Calcite Nav is a positioning and layout component that supports consistent application and product navigation.
+        It contains slots that position <code>calcite-nav-logo</code> and <code>calcite-nav-logo</code>. It has slots
+        for positioning <code>calcite-menu</code> as well as other interactive content.
+      </h3>
+    </div>
     <calcite-shell>
       <calcite-nav slot="header">
         <calcite-chip slot="logo" scale="s">logo</calcite-chip>
@@ -92,21 +100,18 @@
           <calcite-menu-item text="Suppliers"></calcite-menu-item>
         </calcite-menu>
         <calcite-nav-user slot="user" text-enabled full-name="Walt McChipson"> </calcite-nav-user>
-        <calcite-menu slot="secondary-content-start">
-          <calcite-chip scale="s">Slotted Action</calcite-chip>
-        </calcite-menu>
-        <calcite-menu slot="secondary-content-end">
-          <calcite-chip scale="s">Slotted Action</calcite-chip>
-        </calcite-menu>
+        <calcite-chip slot="secondary-content-end" scale="s">Slotted Action</calcite-chip>
         <calcite-menu slot="primary-content-end">
           <calcite-menu-item text="Support"></calcite-menu-item>
         </calcite-menu>
+        <calcite-chip slot="secondary-content-start" scale="s">Slotted Action</calcite-chip>
         <calcite-menu slot="secondary-content-start">
           <calcite-menu-item icon-start="dashboard" text="Dashboard"> </calcite-menu-item>
           <calcite-menu-item icon-start="utility-network-trace" text="Distributors"> </calcite-menu-item>
           <calcite-menu-item icon-start="legend" text="Stockists"> </calcite-menu-item>
           <calcite-menu-item active icon-start="credit-card" text="Sales"> </calcite-menu-item>
         </calcite-menu>
+        <calcite-chip slot="secondary-content-start" scale="s">Slotted Action</calcite-chip>
         <calcite-menu slot="secondary-content-end">
           <calcite-menu-item text="US Sales"></calcite-menu-item>
           <calcite-menu-item active text-enabled text="International Sales"></calcite-menu-item>
@@ -139,12 +144,8 @@
           <calcite-menu-item icon-start="apps" text="Testing Flavors" breadcrumb> </calcite-menu-item>
           <calcite-menu-item active text="Sorel Pesto"> </calcite-menu-item>
         </calcite-menu>
-        <calcite-menu slot="tertiary-content-start">
-          <calcite-chip scale="s">Slotted Action</calcite-chip>
-        </calcite-menu>
-        <calcite-menu slot="tertiary-content-end">
-          <calcite-chip scale="s">Slotted Action</calcite-chip>
-        </calcite-menu>
+        <calcite-chip slot="tertiary-content-start" scale="s">Slotted Action</calcite-chip>
+        <calcite-chip slot="tertiary-content-end" scale="s">Slotted Action</calcite-chip>
         <calcite-menu slot="secondary-content-end">
           <calcite-menu-item icon-start="book" text="Tasting Notes"> </calcite-menu-item>
           <calcite-menu-item icon-start="legend" text="Ingredients"> </calcite-menu-item>
@@ -186,12 +187,8 @@
           <calcite-menu-item icon-start="apps" text="Testing Flavors" breadcrumb> </calcite-menu-item>
           <calcite-menu-item active text="Sorel Pesto"> </calcite-menu-item>
         </calcite-menu>
-        <calcite-menu slot="tertiary-content-start">
-          <calcite-chip scale="s">Slotted Action</calcite-chip>
-        </calcite-menu>
-        <calcite-menu slot="tertiary-content-end">
-          <calcite-chip scale="s">Slotted Action</calcite-chip>
-        </calcite-menu>
+        <calcite-chip slot="tertiary-content-end" scale="s">Slotted Action</calcite-chip>
+        <calcite-chip slot="tertiary-content-start" scale="s">Slotted Action</calcite-chip>
       </calcite-nav>
     </calcite-shell>
 
@@ -367,12 +364,12 @@
 
     <calcite-shell>
       <calcite-nav slot="header">
-        <calcite-nav-user slot="user" avatar-enabled text-enabled full-name="Wendell Berry"> </calcite-nav-user>
+        <calcite-nav-user slot="user" text-enabled full-name="Wendell Berry"> </calcite-nav-user>
       </calcite-nav>
     </calcite-shell>
     <calcite-shell>
       <calcite-nav slot="header">
-        <calcite-nav-user slot="user" avatar-enabled text-enabled full-name="Wendell Berry" username="wBerry_arcgis">
+        <calcite-nav-user slot="user" text-enabled full-name="Wendell Berry" username="wBerry_arcgis">
         </calcite-nav-user>
       </calcite-nav>
     </calcite-shell>
@@ -391,7 +388,6 @@
       <calcite-nav slot="header">
         <calcite-nav-user
           slot="user"
-          avatar-enabled
           text-enabled
           full-name="Wendell Berry"
           username="wBerry_arcgis"
@@ -402,13 +398,7 @@
     </calcite-shell>
     <calcite-shell>
       <calcite-nav slot="header">
-        <calcite-nav-user
-          slot="user"
-          avatar-enabled
-          text-enabled
-          full-name="Wendell Berry"
-          thumbnail="https://placebear.com/50/50"
-        >
+        <calcite-nav-user slot="user" text-enabled full-name="Wendell Berry" thumbnail="https://placebear.com/50/50">
         </calcite-nav-user>
       </calcite-nav>
     </calcite-shell>
@@ -437,15 +427,11 @@
           <calcite-menu-item icon-end="map" text="Map"></calcite-menu-item>
           <calcite-menu-item icon-start="superimpose" text="Sample Name"></calcite-menu-item>
         </calcite-menu>
-        <div slot="primary-content-start">
-          <calcite-chip style="margin-left: 12px" scale="s" color="yellow">Something else</calcite-chip>
-        </div>
-        <div slot="primary-content-end">
-          <calcite-action icon="save" scale="l">
-            <calcite-chip style="margin-left: 12px" scale="s" color="green">Saved</calcite-chip>
-          </calcite-action>
-        </div>
-        <calcite-nav-user slot="user" avatar-enabled text-enabled full-name="Allen Iverson"> </calcite-nav-user>
+        <calcite-chip slot="primary-content-start" style="margin-left: 12px" scale="s">Something else</calcite-chip>
+        <calcite-action icon="save" scale="l" slot="primary-content-end">
+          <calcite-chip style="margin-left: 12px" scale="s" color="green">Saved</calcite-chip>
+        </calcite-action>
+        <calcite-nav-user slot="user" text-enabled full-name="Allen Iverson"> </calcite-nav-user>
       </calcite-nav>
     </calcite-shell>
 
@@ -481,8 +467,7 @@
           text="Notifications"
         ></calcite-action>
         <calcite-action slot="primary-content-end" icon="app-launcher" scale="l" text="App Launcher"></calcite-action>
-        <calcite-nav-user slot="user" avatar-enabled text-enabled full-name="Peter Berg" username="pberg_021">
-        </calcite-nav-user>
+        <calcite-nav-user slot="user" text-enabled full-name="Peter Berg" username="pberg_021"> </calcite-nav-user>
       </calcite-nav>
     </calcite-shell>
 
@@ -518,7 +503,7 @@
           text="Notifications"
         ></calcite-action>
         <calcite-action slot="primary-content-end" icon="app-launcher" scale="l" text="App Launcher"></calcite-action>
-        <calcite-nav-user slot="user" avatar-enabled text-enabled full-name="Wendell Berry" username="wBerry_arcgis">
+        <calcite-nav-user slot="user" text-enabled full-name="Wendell Berry" username="wBerry_arcgis">
         </calcite-nav-user>
       </calcite-nav>
     </calcite-shell>
@@ -549,7 +534,7 @@
           text="Notifications"
         ></calcite-action>
         <calcite-action slot="primary-content-end" icon="app-launcher" scale="l" text="App Launcher"></calcite-action>
-        <calcite-nav-user slot="user" avatar-enabled text-enabled full-name="Urbano Monti" username="planisphere_admin">
+        <calcite-nav-user slot="user" text-enabled full-name="Urbano Monti" username="planisphere_admin">
         </calcite-nav-user>
       </calcite-nav>
     </calcite-shell>
@@ -570,7 +555,7 @@
           <calcite-menu-item active text-enabled text="My Excellent Application"></calcite-menu-item>
         </calcite-menu>
         <calcite-action slot="primary-content-end" icon="app-launcher" scale="l" text="App Launcher"></calcite-action>
-        <calcite-nav-user slot="user" avatar-enabled text-enabled full-name="Alice Waters" username="awaters_admin">
+        <calcite-nav-user slot="user" text-enabled full-name="Alice Waters" username="awaters_admin">
         </calcite-nav-user>
       </calcite-nav>
     </calcite-shell>
@@ -600,7 +585,7 @@
           text="Notifications"
         ></calcite-action>
         <calcite-action slot="primary-content-end" icon="app-launcher" scale="l" text="App Launcher"> </calcite-action>
-        <calcite-nav-user slot="user" avatar-enabled text-enabled full-name="Wendell Berry" username="wBerry_arcgis">
+        <calcite-nav-user slot="user" text-enabled full-name="Wendell Berry" username="wBerry_arcgis">
         </calcite-nav-user>
       </calcite-nav>
     </calcite-shell>
@@ -615,7 +600,7 @@
         >
         </calcite-nav-logo>
         <calcite-action slot="primary-content-end" icon="app-launcher" scale="l" text="App Launcher"></calcite-action>
-        <calcite-nav-user slot="user" avatar-enabled text-enabled full-name="Alice Waters" username="awaters_admin">
+        <calcite-nav-user slot="user" text-enabled full-name="Alice Waters" username="awaters_admin">
         </calcite-nav-user>
       </calcite-nav>
     </calcite-shell>
@@ -642,7 +627,7 @@
           </calcite-action>
         </div>
         <calcite-action slot="primary-content-end" icon="app-launcher" scale="l" text="App Launcher"></calcite-action>
-        <calcite-nav-user slot="user" avatar-enabled text-enabled full-name="Wendell Berry" username="wBerry_arcgis">
+        <calcite-nav-user slot="user" text-enabled full-name="Wendell Berry" username="wBerry_arcgis">
         </calcite-nav-user>
       </calcite-nav>
     </calcite-shell>
@@ -661,13 +646,11 @@
           <calcite-menu-item breadcrumb icon-start="home" text="Home" text-enabled> </calcite-menu-item>
           <calcite-menu-item active icon-start="open-book" text="A Great StoryMap" text-enabled> </calcite-menu-item>
         </calcite-menu>
-        <div slot="primary-content-end">
-          <calcite-action icon="save" scale="l">
-            <calcite-chip style="margin-left: 12px" scale="s" color="green">Up to date</calcite-chip>
-          </calcite-action>
-        </div>
+        <calcite-action icon="save" scale="l" slot="primary-content-end">
+          <calcite-chip style="margin-left: 12px" scale="s" color="green">Up to date</calcite-chip>
+        </calcite-action>
         <calcite-action slot="primary-content-end" icon="app-launcher" scale="l" text="App Launcher"></calcite-action>
-        <calcite-nav-user slot="user" avatar-enabled text-enabled full-name="Dennis Smith"> </calcite-nav-user>
+        <calcite-nav-user slot="user" text-enabled full-name="Dennis Smith"> </calcite-nav-user>
       </calcite-nav>
     </calcite-shell>
 
@@ -721,7 +704,7 @@
           text="Notifications"
         ></calcite-action>
         <calcite-action slot="primary-content-end" icon="app-launcher" scale="l" text="App Launcher"></calcite-action>
-        <calcite-nav-user slot="user" text-enabled avatar-enabled full-name="Peter Berg" username="Planet_drum_user">
+        <calcite-nav-user slot="user" text-enabled full-name="Peter Berg" username="Planet_drum_user">
         </calcite-nav-user>
       </calcite-nav>
     </calcite-shell>
