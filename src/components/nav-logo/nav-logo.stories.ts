@@ -20,6 +20,5 @@ export const simple = (): string =>
       text="${text("text", "City of AcmeCo")}"
       src="${placeholderImage({ width: 50, height: 50 })}"
       ${boolean("active", false)}
-      ${boolean("text-enabled", true)}
     />
   </calcite-logo>`;

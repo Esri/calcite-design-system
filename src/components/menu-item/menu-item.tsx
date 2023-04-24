@@ -28,6 +28,10 @@ import { MenuItemCustomEvent } from "./interfaces";
   styleUrl: "menu-item.scss",
   shadow: true
 })
+
+/**
+ * @slot sub-menu-item - A slot for adding `calcite-menu-item`s in submenu.
+ */
 export class CalciteMenuItem implements LoadableComponent {
   //--------------------------------------------------------------------------
   //
@@ -132,9 +136,6 @@ export class CalciteMenuItem implements LoadableComponent {
   /** @internal */
   @Event({ cancelable: true }) calciteInternalNavItemKeyEvent: EventEmitter<MenuItemCustomEvent>;
 
-  /** @internal */
-  @Event({ cancelable: false }) calciteInternalNavItemClickEvent: EventEmitter<MouseEvent>;
-
   //--------------------------------------------------------------------------
   //
   //  Event Listeners
@@ -221,7 +222,7 @@ export class CalciteMenuItem implements LoadableComponent {
         this.calciteInternalNavItemKeyEvent.emit({
           event,
           children: this.subMenuItems,
-          isOpen: this.open && this.hasSubMenu
+          isSubMenuOpen: this.open && this.hasSubMenu
         });
         break;
       case "ArrowLeft":
@@ -229,7 +230,7 @@ export class CalciteMenuItem implements LoadableComponent {
         this.calciteInternalNavItemKeyEvent.emit({
           event,
           children: this.subMenuItems,
-          isOpen: true
+          isSubMenuOpen: true
         });
         break;
 
@@ -247,14 +248,13 @@ export class CalciteMenuItem implements LoadableComponent {
         this.calciteInternalNavItemKeyEvent.emit({
           event,
           children: this.subMenuItems,
-          isOpen: this.open && this.hasSubMenu
+          isSubMenuOpen: this.open && this.hasSubMenu
         });
         break;
     }
   };
 
   private clickHandler = (event: MouseEvent): void => {
-    this.calciteInternalNavItemClickEvent.emit(event);
     if ((this.href && event.target === this.dropDownActionEl) || (!this.href && this.hasSubMenu)) {
       this.open = !this.open;
     }
@@ -376,6 +376,7 @@ export class CalciteMenuItem implements LoadableComponent {
           [CSS.isRtl]: dir === "rtl",
           [CSS.isVerticalDropdownType]: this.topLevelLayout === "vertical"
         }}
+        label="menu"
         layout="vertical"
         role="menu"
       >
