@@ -1,3 +1,11 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-block-padding: Specifies the padding of the block `default` slot.
+ */
+
 :host {
   @extend %component-host;
   @extend %component-spacing;
@@ -8,6 +16,7 @@
 
 @include disabled();
 
+@import "../../assets/styles/animation";
 @import "../../assets/styles/header";
 
 .header {
@@ -76,7 +85,7 @@ calcite-handle {
 }
 
 .description {
-  @apply text-n2
+  @apply text-n2-wrap
     text-color-3
     word-break
     mt-0.5
@@ -98,7 +107,7 @@ calcite-handle {
 }
 
 .status-icon.loading {
-  animation: spin calc(var(--calcite-internal-animation-timing-slow) * 2) linear infinite;
+  animation: spin scaleDuration(--calcite-internal-animation-timing-slow, 2) linear infinite;
 }
 
 @keyframes spin {

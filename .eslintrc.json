@@ -4,13 +4,13 @@
   },
   "extends": [
     "plugin:@esri/calcite-components/recommended",
-    "plugin:@stencil/recommended",
+    "plugin:@stencil-community/recommended",
     "plugin:@typescript-eslint/recommended",
     "plugin:jest/recommended",
     "plugin:jsdoc/recommended",
     "prettier"
   ],
-  "ignorePatterns": ["dist", "docs", "www"],
+  "ignorePatterns": ["dist", "docs", "hydrate", "www"],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "project": "./tsconfig-eslint.json",
@@ -38,14 +38,14 @@
         "message": "Use keydown instead for consistent interaction behavior (e.g., closing, moving focus, etc.)."
       }
     ],
-    "@stencil/decorators-context": "off",
-    "@stencil/decorators-style": "warn",
-    "@stencil/no-unused-watch": "off",
-    "@stencil/own-methods-must-be-private": "off",
-    "@stencil/own-props-must-be-private": "off",
-    "@stencil/prefer-vdom-listener": "warn",
-    "@stencil/required-jsdoc": "off",
-    "@stencil/strict-boolean-conditions": "off",
+    "@stencil-community/decorators-context": "off",
+    "@stencil-community/decorators-style": "warn",
+    "@stencil-community/no-unused-watch": "off",
+    "@stencil-community/own-methods-must-be-private": "off",
+    "@stencil-community/own-props-must-be-private": "off",
+    "@stencil-community/prefer-vdom-listener": "warn",
+    "@stencil-community/required-jsdoc": "off",
+    "@stencil-community/strict-boolean-conditions": "off",
     "@typescript-eslint/ban-types": "warn",
     "@typescript-eslint/explicit-module-boundary-types": [
       "error",
@@ -65,17 +65,23 @@
       }
     ],
     "@typescript-eslint/no-explicit-any": "off",
+    "@typescript-eslint/no-unused-vars": "error",
     "curly": "error",
     "jest/expect-expect": "off",
     "jest/no-export": "warn",
-    "jsdoc/require-jsdoc": "off",
     "jsdoc/check-tag-names": "off",
+    "jsdoc/require-jsdoc": "off",
     "lines-between-class-members": ["error", "always"],
-    "no-multiple-empty-lines": ["error", { "max": 1 }],
-    "no-unneeded-ternary": "error",
     "no-eval": "error",
     "no-implied-eval": "error",
+    "no-multiple-empty-lines": [
+      "error",
+      {
+        "max": 1
+      }
+    ],
     "no-new-func": "error",
+    "no-unneeded-ternary": "error",
     "react/forbid-component-props": [
       "warn",
       {
@@ -129,6 +135,10 @@
   "settings": {
     "react": {
       "pragma": "h"
+    },
+    "jsdoc": {
+      "ignoreInternal": true,
+      "ignorePrivate": true
     }
   }
 }

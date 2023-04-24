@@ -3,27 +3,26 @@ import {
   Element,
   Event,
   EventEmitter,
+  Fragment,
+  h,
   Method,
   Prop,
-  h,
-  VNode,
-  Fragment,
   State,
+  VNode,
   Watch
 } from "@stencil/core";
-import { CSS, ICONS, SLOTS } from "./resources";
-import { toAriaBoolean } from "../../utils/dom";
-import { Scale } from "../interfaces";
-import { HeadingLevel, Heading } from "../functional/Heading";
-import { SLOTS as ACTION_MENU_SLOTS } from "../action-menu/resources";
+import { focusFirstTabbable, slotChangeGetAssignedElements, toAriaBoolean } from "../../utils/dom";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
-import { createObserver } from "../../utils/observers";
 import {
-  setUpLoadableComponent,
-  setComponentLoaded,
+  componentLoaded,
   LoadableComponent,
-  componentLoaded
+  setComponentLoaded,
+  setUpLoadableComponent
 } from "../../utils/loadable";
+import { createObserver } from "../../utils/observers";
+import { SLOTS as ACTION_MENU_SLOTS } from "../action-menu/resources";
+import { Heading, HeadingLevel } from "../functional/Heading";
+import { CSS, ICONS, SLOTS } from "./resources";
 
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 import {
@@ -33,10 +32,11 @@ import {
   T9nComponent,
   updateMessages
 } from "../../utils/t9n";
-import { Messages } from "./assets/panel/t9n";
+import { PanelMessages } from "./assets/panel/t9n";
 
 /**
  * @slot - A slot for adding custom content.
+ * @slot action-bar - A slot for adding a `calcite-action-bar` to the component.
  * @slot header-actions-start - A slot for adding actions or content to the start side of the header.
  * @slot header-actions-end - A slot for adding actions or content to the end side of the header.
  * @slot header-content - A slot for adding custom content to the header.
@@ -69,7 +69,7 @@ export class Panel
   @Prop({ reflect: true }) disabled = false;
 
   /** When `true`, displays a close button in the trailing side of the header. */
-  @Prop({ mutable: true, reflect: true }) closable = false;
+  @Prop({ reflect: true }) closable = false;
 
   /**
    * Specifies the number at which section headings should start.
@@ -77,33 +77,9 @@ export class Panel
   @Prop({ reflect: true }) headingLevel: HeadingLevel;
 
   /**
-   * Specifies the maximum height of the component.
-   */
-  @Prop({ reflect: true }) heightScale: Scale;
-
-  /**
-   * Specifies the width of the component.
-   */
-  @Prop({ reflect: true }) widthScale: Scale;
-
-  /**
    * When `true`, a busy indicator is displayed.
    */
   @Prop({ reflect: true }) loading = false;
-
-  /**
-   * Accessible name for the component's close button. The close button will only be shown when `closeable` is `true`.
-   *
-   * @deprecated use `calcite-flow-item` instead.
-   */
-  @Prop() intlClose: string;
-
-  /**
-   * Accessible name for the component's actions menu.
-   *
-   * @deprecated use `calcite-flow-item` instead.
-   */
-  @Prop() intlOptions: string;
 
   /**
    * The component header text.
@@ -121,17 +97,17 @@ export class Panel
   /**
    * Use this property to override individual strings used by the component.
    */
-  @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
+  @Prop({ mutable: true }) messageOverrides: Partial<PanelMessages>;
 
   /**
    * Made into a prop for testing purposes only
    *
    * @internal
    */
-  @Prop({ mutable: true }) messages: Messages;
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
+  @Prop({ mutable: true }) messages: PanelMessages;
 
-  @Watch("intlClose")
-  @Watch("intlOptions")
   @Watch("messageOverrides")
   onMessagesChange(): void {
     /* wired up by t9n util */
@@ -193,13 +169,15 @@ export class Panel
 
   @State() hasHeaderContent = false;
 
+  @State() hasActionBar = false;
+
   @State() hasFooterContent = false;
 
   @State() hasFooterActions = false;
 
   @State() hasFab = false;
 
-  @State() defaultMessages: Messages;
+  @State() defaultMessages: PanelMessages;
 
   @State() effectiveLocale = "";
 
@@ -296,6 +274,16 @@ export class Panel
     this.hasMenuItems = !!elements.length;
   };
 
+  handleActionBarSlotChange = (event: Event): void => {
+    const actionBars = slotChangeGetAssignedElements(event).filter((el) =>
+      el?.matches("calcite-action-bar")
+    ) as HTMLCalciteActionBarElement[];
+
+    actionBars.forEach((actionBar) => (actionBar.layout = "horizontal"));
+
+    this.hasActionBar = !!actionBars.length;
+  };
+
   handleHeaderContentSlotChange = (event: Event): void => {
     const elements = (event.target as HTMLSlotElement).assignedElements({
       flatten: true
@@ -335,37 +323,12 @@ export class Panel
   // --------------------------------------------------------------------------
 
   /**
-   * Sets focus on the component.
-   *
-   * @param focusId
+   * Sets focus on the component's first focusable element.
    */
   @Method()
-  async setFocus(focusId?: "back-button" | "dismiss-button"): Promise<void> {
+  async setFocus(): Promise<void> {
     await componentLoaded(this);
-
-    const { backButtonEl, closeButtonEl, containerEl } = this;
-
-    if (focusId === "back-button") {
-      backButtonEl?.setFocus();
-      return;
-    }
-
-    if (focusId === "dismiss-button") {
-      closeButtonEl?.setFocus();
-      return;
-    }
-
-    if (backButtonEl) {
-      backButtonEl.setFocus();
-      return;
-    }
-
-    if (closeButtonEl) {
-      closeButtonEl.setFocus();
-      return;
-    }
-
-    containerEl?.focus();
+    focusFirstTabbable(this.containerEl);
   }
 
   /**
@@ -408,6 +371,14 @@ export class Panel
     ) : null;
   }
 
+  renderActionBar(): VNode {
+    return (
+      <div class={CSS.actionBarContainer} hidden={!this.hasActionBar}>
+        <slot name={SLOTS.actionBar} onSlotchange={this.handleActionBarSlotChange} />
+      </div>
+    );
+  }
+
   /**
    * Allows user to override the entire header-content node.
    */
@@ -437,16 +408,18 @@ export class Panel
   }
 
   renderHeaderActionsEnd(): VNode {
-    const { close, hasEndActions, messages, closable } = this;
+    const { close, hasEndActions, messages, closable, hasMenuItems } = this;
     const text = messages.close;
 
     const closableNode = closable ? (
       <calcite-action
         aria-label={text}
+        data-test="close"
         icon={ICONS.close}
         onClick={close}
-        ref={this.setCloseRef}
         text={text}
+        // eslint-disable-next-line react/jsx-sort-props
+        ref={this.setCloseRef}
       />
     ) : null;
 
@@ -454,7 +427,7 @@ export class Panel
       <slot name={SLOTS.headerActionsEnd} onSlotchange={this.handleHeaderActionsEndSlotChange} />
     );
 
-    const showContainer = hasEndActions || closableNode;
+    const showContainer = hasEndActions || closableNode || hasMenuItems;
 
     return (
       <div
@@ -463,6 +436,7 @@ export class Panel
         key="header-actions-end"
       >
         {slotNode}
+        {this.renderMenu()}
         {closableNode}
       </div>
     );
@@ -512,7 +486,6 @@ export class Panel
         {this.renderHeaderSlottedContent()}
         {headerContentNode}
         {this.renderHeaderActionsEnd()}
-        {this.renderMenu()}
       </header>
     );
   }
@@ -562,6 +535,7 @@ export class Panel
           [CSS.contentHeight]: hasFab
         }}
         onScroll={this.panelScrollHandler}
+        // eslint-disable-next-line react/jsx-sort-props
         ref={this.setPanelScrollEl}
       >
         {containerNode}
@@ -587,10 +561,12 @@ export class Panel
         class={CSS.container}
         hidden={closed}
         onKeyDown={panelKeyDownHandler}
-        ref={this.setContainerRef}
         tabIndex={closable ? 0 : -1}
+        // eslint-disable-next-line react/jsx-sort-props
+        ref={this.setContainerRef}
       >
         {this.renderHeaderNode()}
+        {this.renderActionBar()}
         {this.renderContent()}
         {this.renderFooterNode()}
       </article>

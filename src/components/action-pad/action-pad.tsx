@@ -3,23 +3,26 @@ import {
   Element,
   Event,
   EventEmitter,
-  Host,
-  Prop,
-  Watch,
   h,
-  VNode,
+  Host,
   Method,
-  State
+  Prop,
+  State,
+  VNode,
+  Watch
 } from "@stencil/core";
-import { Layout, Position, Scale } from "../interfaces";
-import { ExpandToggle, toggleChildActionText } from "../functional/ExpandToggle";
-import { focusElement, getSlotted } from "../../utils/dom";
-import { CSS, SLOTS } from "./resources";
 import {
   ConditionalSlotComponent,
   connectConditionalSlotComponent,
   disconnectConditionalSlotComponent
 } from "../../utils/conditionalSlot";
+import { getSlotted, slotChangeGetAssignedElements } from "../../utils/dom";
+import {
+  componentLoaded,
+  LoadableComponent,
+  setComponentLoaded,
+  setUpLoadableComponent
+} from "../../utils/loadable";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 import {
   connectMessages,
@@ -28,22 +31,22 @@ import {
   T9nComponent,
   updateMessages
 } from "../../utils/t9n";
-import { Messages } from "./assets/action-pad/t9n";
-import {
-  setUpLoadableComponent,
-  setComponentLoaded,
-  LoadableComponent,
-  componentLoaded
-} from "../../utils/loadable";
+import { ExpandToggle, toggleChildActionText } from "../functional/ExpandToggle";
+import { Layout, Position, Scale } from "../interfaces";
+import { ActionPadMessages } from "./assets/action-pad/t9n";
+import { CSS, SLOTS } from "./resources";
+import { createObserver } from "../../utils/observers";
 
 /**
  * @slot - A slot for adding `calcite-action`s to the component.
- * @slot expand-tooltip - Used to set the `calcite-tooltip` for the expand toggle.
+ * @slot expand-tooltip - A slot to set the `calcite-tooltip` for the expand toggle.
  */
 @Component({
   tag: "calcite-action-pad",
   styleUrl: "action-pad.scss",
-  shadow: true,
+  shadow: {
+    delegatesFocus: true
+  },
   assetsDirs: ["assets"]
 })
 export class ActionPad
@@ -75,6 +78,11 @@ export class ActionPad
    */
   @Prop({ reflect: true }) layout: Layout = "vertical";
 
+  @Watch("layout")
+  layoutHandler(): void {
+    this.updateGroups();
+  }
+
   /**
    * Arranges the component depending on the element's `dir` property.
    */
@@ -90,12 +98,14 @@ export class ActionPad
    *
    * @internal
    */
-  @Prop({ mutable: true }) messages: Messages;
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
+  @Prop({ mutable: true }) messages: ActionPadMessages;
 
   /**
    * Use this property to override individual strings used by the component.
    */
-  @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
+  @Prop({ mutable: true }) messageOverrides: Partial<ActionPadMessages>;
 
   @Watch("messageOverrides")
   onMessagesChange(): void {
@@ -121,6 +131,10 @@ export class ActionPad
 
   @Element() el: HTMLCalciteActionPadElement;
 
+  mutationObserver = createObserver("mutation", () =>
+    this.setGroupLayout(Array.from(this.el.querySelectorAll("calcite-action-group")))
+  );
+
   expandToggleEl: HTMLCalciteActionElement;
 
   @State() effectiveLocale = "";
@@ -130,7 +144,7 @@ export class ActionPad
     updateMessages(this, this.effectiveLocale);
   }
 
-  @State() defaultMessages: Messages;
+  @State() defaultMessages: ActionPadMessages;
 
   // --------------------------------------------------------------------------
   //
@@ -168,18 +182,11 @@ export class ActionPad
   // --------------------------------------------------------------------------
 
   /**
-   * Sets focus on the component.
-   *
-   * @param focusId
+   * Sets focus on the component's first focusable element.
    */
   @Method()
-  async setFocus(focusId?: "expand-toggle"): Promise<void> {
+  async setFocus(): Promise<void> {
     await componentLoaded(this);
-
-    if (focusId === "expand-toggle") {
-      await focusElement(this.expandToggleEl);
-      return;
-    }
 
     this.el?.focus();
   }
@@ -210,6 +217,22 @@ export class ActionPad
     this.expandToggleEl = el;
   };
 
+  updateGroups(): void {
+    this.setGroupLayout(Array.from(this.el.querySelectorAll("calcite-action-group")));
+  }
+
+  setGroupLayout(groups: HTMLCalciteActionGroupElement[]): void {
+    groups.forEach((group) => (group.layout = this.layout));
+  }
+
+  handleDefaultSlotChange = (event: Event): void => {
+    const groups = slotChangeGetAssignedElements(event).filter((el) =>
+      el?.matches("calcite-action-group")
+    ) as HTMLCalciteActionGroupElement[];
+
+    this.setGroupLayout(groups);
+  };
+
   // --------------------------------------------------------------------------
   //
   //  Component Methods
@@ -228,10 +251,11 @@ export class ActionPad
         intlCollapse={messages.collapse}
         intlExpand={messages.expand}
         position={position}
-        ref={this.setExpandToggleRef}
         scale={scale}
         toggle={toggleExpand}
         tooltip={tooltip}
+        // eslint-disable-next-line react/jsx-sort-props
+        ref={this.setExpandToggleRef}
       />
     ) : null;
 
@@ -247,7 +271,7 @@ export class ActionPad
     return (
       <Host onCalciteActionMenuOpen={this.actionMenuOpenHandler}>
         <div class={CSS.container}>
-          <slot />
+          <slot onSlotchange={this.handleDefaultSlotChange} />
           {this.renderBottomActionGroup()}
         </div>
       </Host>

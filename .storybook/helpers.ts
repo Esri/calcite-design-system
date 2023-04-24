@@ -1,8 +1,8 @@
 import * as icons from "@esri/calcite-ui-icons";
 import { boolean as booleanKnob } from "@storybook/addon-knobs";
-import { THEMES } from "../src/utils/resources";
-import { ThemeName } from "../src/components/interfaces";
 import { Parameters } from "@storybook/api";
+import { ModeName } from "../src/components/interfaces";
+import { MODES } from "../src/utils/resources";
 
 // we can get all unique icon names from all size 16 non-filled icons.
 export const iconNames = Object.keys(icons)
@@ -30,8 +30,8 @@ export const setKnobs = ({ story, knobs }: { story: string; knobs: { name: strin
     .join("")}"`;
 };
 
-export const setTheme = (value: ThemeName) => `${THEMES.map(
-  (theme) => `document.body.classList.toggle('${theme.className}', ${(theme.name === value).toString()});`
+export const setMode = (value: ModeName) => `${MODES.map(
+  (mode) => `document.body.classList.toggle('${mode.className}', ${(mode.name === value).toString()});`
 ).join("")}
 `;
 

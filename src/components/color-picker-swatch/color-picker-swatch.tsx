@@ -1,9 +1,9 @@
 import { Component, Element, h, Prop, VNode, Watch } from "@stencil/core";
 import Color from "color";
-import { COLORS, CSS } from "./resources";
+import { getModeName } from "../../utils/dom";
 import { Scale } from "../interfaces";
-import { getThemeName } from "../../utils/dom";
 import { hexify } from "../color-picker/utils";
+import { COLORS, CSS } from "./resources";
 
 const CHECKER_SQUARE_SIZE_IN_PX = 4;
 const CHECKER_SIZE_IN_PX = CHECKER_SQUARE_SIZE_IN_PX * 2;
@@ -71,11 +71,12 @@ export class ColorPickerSwatch {
   }
 
   render(): VNode {
-    const { el, internalColor } = this;
+    const { active, el, internalColor } = this;
     const alpha = internalColor.alpha();
+    const borderRadius = active ? "100%" : "0";
     const hex = hexify(internalColor);
     const hexa = hexify(internalColor, alpha < 1);
-    const theme = getThemeName(el);
+    const theme = getModeName(el);
     const borderColor = theme === "light" ? COLORS.borderLight : COLORS.borderDark;
     const commonSwatchProps = {
       height: "100%",
@@ -114,7 +115,7 @@ export class ColorPickerSwatch {
             />
           </pattern>
         </defs>
-        <rect fill="url(#checker)" height="100%" width="100%" />
+        <rect fill="url(#checker)" height="100%" rx={borderRadius} width="100%" />
         <rect
           fill={hex}
           style={{ "clip-path": "polygon(100% 0, 0 0, 0 100%)" }}

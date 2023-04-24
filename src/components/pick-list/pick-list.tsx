@@ -3,48 +3,49 @@ import {
   Element,
   Event,
   EventEmitter,
+  h,
   Listen,
   Method,
   Prop,
   State,
-  h,
   VNode
 } from "@stencil/core";
+import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import {
+  componentLoaded,
+  LoadableComponent,
+  setComponentLoaded,
+  setUpLoadableComponent
+} from "../../utils/loadable";
+import { createObserver } from "../../utils/observers";
+import { HeadingLevel } from "../functional/Heading";
 import { ICON_TYPES } from "./resources";
 import {
-  ListFocusId,
-  calciteListItemChangeHandler,
   calciteInternalListItemValueChangeHandler,
+  calciteListFocusOutHandler,
+  calciteListItemChangeHandler,
   cleanUpObserver,
-  deselectSiblingItems,
   deselectRemovedItems,
+  deselectSiblingItems,
   getItemData,
   handleFilter,
   handleFilterEvent,
   handleInitialFilter,
-  calciteListFocusOutHandler,
   initialize,
   initializeObserver,
-  mutationObserverCallback,
-  selectSiblings,
-  setUpItems,
-  keyDownHandler,
-  setFocus,
   ItemData,
-  removeItem
+  keyDownHandler,
+  ListFocusId,
+  mutationObserverCallback,
+  removeItem,
+  selectSiblings,
+  setFocus,
+  setUpItems
 } from "./shared-list-logic";
 import List from "./shared-list-render";
-import { HeadingLevel } from "../functional/Heading";
-import { createObserver } from "../../utils/observers";
-import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
-import {
-  setUpLoadableComponent,
-  setComponentLoaded,
-  LoadableComponent,
-  componentLoaded
-} from "../../utils/loadable";
 
 /**
+ * @deprecated Use the `list` component instead.
  * @slot - A slot for adding `calcite-pick-list-item` or `calcite-pick-list-group` elements. Items are displayed as a vertical list.
  * @slot menu-actions - A slot for adding a button and menu combination for performing actions, such as sorting.
  */
@@ -69,17 +70,18 @@ export class PickList<
   @Prop({ reflect: true }) disabled = false;
 
   /**
-   * **read-only** The currently filtered items
+   * The currently filtered items.
    *
    * @readonly
    */
   @Prop({ mutable: true }) filteredItems: HTMLCalcitePickListItemElement[] = [];
 
   /**
-   * **read-only** The currently filtered items
+   * The currently filtered data.
    *
    * @readonly
    */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by shared-list-logic
   @Prop({ mutable: true }) filteredData: ItemData = [];
 
   /**
@@ -95,6 +97,7 @@ export class PickList<
   /**
    * Text for the filter input field.
    */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by shared-list-logic
   @Prop({ reflect: true, mutable: true }) filterText: string;
 
   /**
@@ -268,7 +271,7 @@ export class PickList<
   }
 
   /**
-   * Sets focus on the component.
+   * Sets focus on the component's first focusable element.
    *
    * @param focusId
    */

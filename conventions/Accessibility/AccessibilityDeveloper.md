@@ -2,7 +2,7 @@
 
 1. **[Shadow DOM](#1-shadow-dom)**
 2. **[Tests](#2-tests)**: [Adding a test](#adding-a-test) | [Failed test example](#failed-test-example) | [How to test](#how-to-test)
-3. **[Storybook](#3-storybook)**: [Adding a new story](#add-a-new-story)
+3. **[Storybook](#3-storybook)**: [Adding a new story](#adding-a-new-story)
 
 ## 1. Shadow DOM
 
@@ -100,7 +100,7 @@ Multiple accessibility tests can be present in a component and be added to over 
 
 An example of a failed test:
 
-```
+```sh
 FAIL src/components/tree/tree.e2e.ts (23.34 s)
   ● calcite-tree › is accessible: with nested children
 

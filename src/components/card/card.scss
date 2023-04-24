@@ -88,11 +88,11 @@
   @apply min-w-full max-w-full;
 }
 
-@include slotted("footer-leading", "*") {
+@include slotted("footer-start", "*") {
   @apply text-n2-wrap self-center;
   margin-inline-end: auto;
 }
-@include slotted("footer-trailing", "*") {
+@include slotted("footer-end", "*") {
   @apply text-n2-wrap self-center;
 }
 
@@ -121,7 +121,7 @@
   }
 }
 
-slot[name="footer-leading"]::slotted(*),
-slot[name="footer-trailing"]::slotted(*) {
+slot[name="footer-start"]::slotted(*),
+slot[name="footer-end"]::slotted(*) {
   @apply flex gap-1;
 }

@@ -1,10 +1,10 @@
-import { Component, Prop, h, VNode, Element } from "@stencil/core";
-import { CSS } from "./resources";
-import { getAncestors, getDepth } from "../combobox/utils";
+import { Component, Element, h, Prop, VNode } from "@stencil/core";
+import { getElementProp } from "../../utils/dom";
 import { guid } from "../../utils/guid";
 import { ComboboxChildElement } from "../combobox/interfaces";
-import { getElementProp } from "../../utils/dom";
+import { getAncestors, getDepth } from "../combobox/utils";
 import { Scale } from "../interfaces";
+import { CSS } from "./resources";
 
 /**
  * @slot - A slot for adding `calcite-combobox-item`s.
@@ -58,7 +58,7 @@ export class ComboboxItemGroup {
 
   render(): VNode {
     const { el, scale } = this;
-    const indent = `${CSS.label}--indent-${getDepth(el)}`;
+    const depth = getDepth(el);
 
     return (
       <ul
@@ -66,7 +66,12 @@ export class ComboboxItemGroup {
         class={{ [CSS.list]: true, [`scale--${scale}`]: true }}
         role="group"
       >
-        <li class={{ [CSS.label]: true, [indent]: true }} id={this.guid} role="presentation">
+        <li
+          class={{ [CSS.label]: true }}
+          id={this.guid}
+          role="presentation"
+          style={{ "--calcite-combobox-item-spacing-indent-multiplier": `${depth}` }}
+        >
           <span class={CSS.title}>{this.label}</span>
         </li>
         <slot />

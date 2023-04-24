@@ -1,6 +1,6 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, renders, defaults, disabled, hidden } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
+import { accessible, defaults, disabled, focusable, hidden, renders } from "../../tests/commonTests";
 import { CSS } from "./resources";
 
 describe("calcite-split-button", () => {
@@ -21,6 +21,16 @@ describe("calcite-split-button", () => {
   it("renders", () => renders("calcite-split-button", { display: "inline-block" }));
 
   it("honors hidden attribute", async () => hidden("calcite-split-button"));
+
+  it("focusable", async () =>
+    focusable(
+      `<calcite-split-button primary-text="Button Text" dropdown-label="Show options">
+      ${content}
+      </calcite-split-button>`,
+      {
+        shadowFocusTargetSelector: "calcite-button"
+      }
+    ));
 
   it("is accessible", async () =>
     accessible(`<calcite-split-button
@@ -63,7 +73,7 @@ describe("calcite-split-button", () => {
       </calcite-split-button>`);
     const element = await page.find("calcite-split-button");
     expect(element).toEqualAttribute("scale", "m");
-    expect(element).toEqualAttribute("color", "blue");
+    expect(element).toEqualAttribute("kind", "brand");
     expect(element).toEqualAttribute("dropdown-icon-type", "chevron");
     expect(element).toEqualAttribute("width", "auto");
   });
@@ -87,7 +97,7 @@ describe("calcite-split-button", () => {
     await page.setContent(`
       <calcite-split-button
           scale="s"
-          color="red"
+          kind="danger"
           dropdown-icon-type="caret"
           loading
           disabled
@@ -99,7 +109,7 @@ describe("calcite-split-button", () => {
     const primaryButton = await page.find("calcite-split-button >>> calcite-button");
     const dropdownButton = await page.find("calcite-split-button >>> calcite-dropdown calcite-button");
     expect(element).toEqualAttribute("scale", "s");
-    expect(element).toEqualAttribute("color", "red");
+    expect(element).toEqualAttribute("kind", "danger");
     expect(element).toEqualAttribute("dropdown-icon-type", "caret");
     expect(element).toHaveAttribute("loading");
     expect(element).toHaveAttribute("disabled");

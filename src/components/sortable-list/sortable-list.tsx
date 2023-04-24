@@ -1,20 +1,20 @@
-import Sortable from "sortablejs";
 import {
   Component,
   Element,
   Event,
   EventEmitter,
+  h,
   Listen,
   Prop,
   State,
-  h,
   VNode
 } from "@stencil/core";
+import Sortable from "sortablejs";
+import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import { createObserver } from "../../utils/observers";
+import { HandleNudge } from "../handle/interfaces";
 import { Layout } from "../interfaces";
 import { CSS } from "./resources";
-import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
-import { HandleNudge } from "../handle/interfaces";
 
 /**
  * @slot - A slot for adding sortable items.

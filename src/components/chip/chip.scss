@@ -1,91 +1,170 @@
-// scale
-// todo update when new spacing modifiers are introduced to calcite-base
 :host([scale="s"]) {
   @apply text-n2 h-6;
-  --calcite-chip-spacing-unit-l: theme("spacing.2");
-  --calcite-chip-spacing-unit-s: theme("spacing.1");
+  --calcite-chip-spacing-s-internal: theme("spacing[1]");
+  --calcite-chip-spacing-l-internal: theme("spacing[2]");
+  .close,
+  .select-icon--active {
+    @apply h-4 w-4;
+  }
+
   .image-container {
     @apply h-5 w-5;
   }
+
+  .container.is-circle {
+    @apply w-6 h-6;
+  }
 }
+
 :host([scale="m"]) {
   @apply text-n1 h-8;
-  --calcite-chip-spacing-unit-l: theme("spacing.3");
-  --calcite-chip-spacing-unit-s: 6px;
-  .image-container {
+  --calcite-chip-spacing-s-internal: theme("spacing[1.5]");
+  --calcite-chip-spacing-l-internal: theme("spacing[2]");
+
+  .close,
+  .image-container,
+  .select-icon--active {
     @apply h-6 w-6;
-    padding-inline-start: theme("padding.1");
+  }
+
+  .container.is-circle {
+    @apply w-8 h-8;
   }
 }
 
 :host([scale="l"]) {
   @apply text-0 h-11;
-  --calcite-chip-spacing-unit-l: theme("spacing.4");
-  --calcite-chip-spacing-unit-s: theme("spacing.2");
-  .image-container {
+  --calcite-chip-spacing-s-internal: theme("spacing[2]");
+  --calcite-chip-spacing-l-internal: theme("spacing[3]");
+  .image-container,
+  .close,
+  .select-icon--active {
     @apply h-8 w-8;
-    padding-inline-start: theme("spacing.1");
+  }
+
+  .container.is-circle {
+    @apply w-11 h-11;
   }
 }
 
 :host {
-  @apply border-color-1
-    text-color-1
-    box-border
-    inline-flex
+  @apply inline-flex
     cursor-default
-    items-center
-    rounded-full
-    border
-    border-solid
-    font-medium;
+    rounded-full;
 }
 
 .container {
-  @apply inline-flex h-full max-w-full items-center;
+  @apply inline-flex
+  h-full
+  max-w-full
+  items-center
+  rounded-full
+  focus-base
+  justify-center
+  border
+  border-solid
+  border-color-1
+  box-border
+  font-medium;
+  &:not(.is-circle) {
+    padding-inline: var(--calcite-chip-spacing-s-internal);
+  }
+  &.selectable {
+    @apply cursor-pointer;
+  }
+  &:not(.non-interactive):focus {
+    @apply focus-outset;
+  }
 }
 
-.title {
+:host([scale="s"]) .container.image--slotted {
+  padding-inline-start: calc(theme("spacing[0.5]") / 2);
+}
+
+:host([scale="s"]) .container.is-circle {
+  padding-inline: 0;
+}
+
+.container.text--slotted .title {
   @apply truncate;
+  padding-inline: var(--calcite-chip-spacing-s-internal);
 }
 
-:host span {
-  padding-block: 0;
-  padding-inline: var(--calcite-chip-spacing-unit-l);
+.container:not(.text--slotted) .title {
+  display: none;
 }
 
-:host([closable]) span {
-  padding-inline: var(--calcite-chip-spacing-unit-l) var(--calcite-chip-spacing-unit-s);
+.container:not(.image--slotted) .image-container {
+  display: none;
 }
 
-:host([icon]:not([closable])) span {
-  padding-block: 0;
-  padding-inline: var(--calcite-chip-spacing-unit-l);
+.container.closable {
+  padding-inline-end: calc(var(--calcite-chip-spacing-l-internal) / 2);
 }
 
-:host button {
+.container:not(.is-circle) {
+  &.image--slotted {
+    padding-inline-start: calc(var(--calcite-chip-spacing-l-internal) / 2);
+  }
+
+  &.image--slotted .image-container {
+    margin-inline-end: var(--calcite-chip-spacing-s-internal);
+  }
+
+  &.image--slotted .image-container ~ .chip-icon {
+    margin-inline-start: var(--calcite-chip-spacing-s-internal);
+  }
+
+  &.selectable:not(.text--slotted) .chip-icon {
+    margin-inline-end: var(--calcite-chip-spacing-s-internal);
+  }
+
+  &:not(.selectable):not(.text--slotted) .chip-icon {
+    margin-inline-start: var(--calcite-chip-spacing-s-internal);
+  }
+
+  &:not(.text--slotted) .chip-icon {
+    margin-inline-end: var(--calcite-chip-spacing-s-internal);
+  }
+
+  &:not(.text-slotted).image--slotted .image-container {
+    margin-inline-end: var(--calcite-chip-spacing-s-internal);
+  }
+
+  &:not(.closable):not(.text--slotted).image--slotted.selectable .image-container {
+    margin-inline-end: 0;
+    ~ .chip-icon {
+      margin-inline-start: calc(var(--calcite-chip-spacing-s-internal) * 2);
+    }
+  }
+}
+
+.chip-icon {
+  @apply relative my-0 inline-flex duration-150 ease-in-out;
+  margin-inline: var(--calcite-chip-spacing-s-internal);
+}
+
+.image-container {
+  @apply inline-flex overflow-hidden;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.close {
   @apply focus-base
     transition-default
     text-color-1
     m-0
-    inline-flex
-    max-h-full
-    min-h-full
     cursor-pointer
     items-center
-    self-stretch
     border-none
     bg-transparent;
   -webkit-appearance: none;
-  border-start-start-radius: 0;
-  border-start-end-radius: 50px;
-  border-end-end-radius: 50px;
-  border-end-start-radius: 0;
-  padding-block: 0;
-  padding-inline: var(--calcite-chip-spacing-unit-s);
-  color: inherit;
-
-  // close button focus styles
+  display: flex;
+  border-radius: 50%;
+  align-content: center;
+  justify-content: center;
   --calcite-chip-transparent-hover: var(--calcite-button-transparent-hover);
   --calcite-chip-transparent-press: var(--calcite-button-transparent-press);
   &:hover {
@@ -98,117 +177,128 @@
   &:active {
     background-color: var(--calcite-chip-transparent-press);
   }
+  & calcite-icon {
+    color: inherit;
+  }
 }
 
-//slotted image
-.image-container {
-  @apply rounded-half inline-flex overflow-hidden;
+.select-icon {
+  align-self: center;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  inset-block-start: -1px;
+  position: relative;
+  visibility: hidden;
+  inline-size: 0;
+  opacity: 0;
+  transition: opacity 0.15s ease-in-out, inline-size 0.15s ease-in-out;
+  &.select-icon--active {
+    visibility: visible;
+    opacity: 0.5;
+  }
+}
+.container:not(.is-circle).image--slotted .select-icon.select-icon--active {
+  margin-inline-end: var(--calcite-chip-spacing-s-internal);
 }
 
-:host slot[name="image"]::slotted(*) {
+:host([selected]) .select-icon {
+  opacity: 1;
+}
+
+.container:hover .select-icon--active {
+  opacity: 1;
+}
+
+slot[name="image"]::slotted(*) {
   @apply rounded-half flex h-full w-full overflow-hidden;
 }
 
-//icon
-.chip-icon {
-  @apply relative
-    my-0
-    inline-flex
-    duration-150
-    ease-in-out;
-  margin-inline-end: 0;
-  margin-inline-start: var(--calcite-chip-spacing-unit-l);
-  border-start-start-radius: 0;
-  border-start-end-radius: 50px;
-  border-end-end-radius: 50px;
-  border-end-start-radius: 0;
-}
-
-// solid
-:host([color="blue"]) {
-  border-color: transparent;
-  background-color: var(--calcite-ui-info);
-  color: var(--calcite-ui-text-inverse);
-}
-
-:host([color="red"]) {
-  border-color: transparent;
-  background-color: var(--calcite-ui-danger);
-  color: var(--calcite-ui-text-inverse);
-}
-
-:host([color="yellow"]) {
-  border-color: transparent;
-  background-color: var(--calcite-ui-warning);
-  color: $blk-220;
-}
-
-:host([color="green"]) {
-  border-color: transparent;
-  background-color: var(--calcite-ui-success);
-  color: $blk-220;
-}
-
-:host([color="grey"]) {
-  border-color: transparent;
+:host([kind="neutral"]) {
   background-color: var(--calcite-ui-foreground-2);
   color: var(--calcite-ui-text-1);
-  button,
-  .close-icon {
+  .container {
+    border-color: transparent;
+  }
+  .close {
     color: var(--calcite-ui-text-3);
   }
-
   .chip-icon {
     color: var(--calcite-ui-icon-color, var(--calcite-ui-text-3));
   }
 }
 
-:host([appearance="clear"]),
-:host([appearance="transparent"]) {
-  @apply text-color-1 bg-transparent;
-}
-
-// clear is deprecated. use transparent instead.
-:host([color="blue"][appearance="clear"]),
-:host([color="blue"][appearance="transparent"]) {
-  border-color: var(--calcite-ui-info);
+:host([kind="inverse"]) {
+  background-color: var(--calcite-ui-inverse);
+  @apply text-color-inverse;
+  .container {
+    border-color: transparent;
+  }
+  .close {
+    @apply text-color-inverse;
+  }
   .chip-icon {
-    color: var(--calcite-ui-icon-color, var(--calcite-ui-info));
+    color: var(--calcite-ui-icon-color, var(--calcite-ui-text-inverse));
   }
 }
 
-:host([color="red"][appearance="clear"]),
-:host([color="red"][appearance="transparent"]) {
-  border-color: var(--calcite-ui-danger);
+:host([kind="brand"]) {
+  background-color: var(--calcite-ui-brand);
+  color: var(--calcite-ui-text-inverse);
+  .container {
+    border-color: transparent;
+  }
+  .close {
+    @apply text-color-inverse;
+  }
   .chip-icon {
-    color: var(--calcite-ui-icon-color, var(--calcite-ui-danger));
+    color: var(--calcite-ui-icon-color, var(--calcite-ui-text-inverse));
   }
 }
 
-:host([color="yellow"][appearance="clear"]),
-:host([color="yellow"][appearance="transparent"]) {
-  border-color: var(--calcite-ui-warning);
+:host([appearance="outline-fill"]),
+:host([appearance="outline"]) {
+  @apply text-color-1 bg-foreground-1;
+  .close {
+    @apply text-color-3;
+  }
   .chip-icon {
-    color: var(--calcite-ui-icon-color, var(--calcite-ui-warning));
+    color: var(--calcite-ui-icon-color, var(--calcite-ui-text-3));
   }
 }
 
-:host([color="green"][appearance="clear"]),
-:host([color="green"][appearance="transparent"]) {
-  border-color: var(--calcite-ui-success);
-  .chip-icon {
-    color: var(--calcite-ui-icon-color, var(--calcite-ui-success));
-  }
+:host([appearance="outline-fill"]) {
+  @apply bg-foreground-1;
 }
 
-:host([color="grey"][appearance="clear"]),
-:host([color="grey"][appearance="transparent"]) {
+:host([appearance="outline"]) {
+  @apply bg-transparent;
+}
+
+:host([kind="neutral"][appearance="outline-fill"]) .container,
+:host([kind="neutral"][appearance="outline"]) .container {
   border-color: var(--calcite-ui-border-1);
-  .chip-icon {
-    color: var(--calcite-ui-icon-color, var(--calcite-ui-text-3));
+}
+
+:host([kind="inverse"][appearance="outline-fill"]) .container,
+:host([kind="inverse"][appearance="outline"]) .container {
+  border-color: var(--calcite-ui-border-inverse);
+}
+
+:host([kind="brand"][appearance="outline-fill"]) .container,
+:host([kind="brand"][appearance="outline"]) .container {
+  border-color: var(--calcite-ui-brand);
+}
+
+:host([kind="brand"][appearance="solid"]),
+:host([kind="inverse"][appearance="solid"]) {
+  button {
+    outline-color: var(--calcite-ui-text-inverse);
   }
 }
 
 :host([closed]) {
   display: none;
 }
+
+@include disabled();

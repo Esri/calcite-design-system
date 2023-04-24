@@ -12,7 +12,7 @@ The `calcite-action-group` is a wrapper for multiple `calcite-action`s and house
 | `expanded`         | `expanded`          | When `true`, the component is expanded.                                 | `boolean`                              | `false`      |
 | `layout`           | `layout`            | Indicates the layout of the component.                                  | `"grid" \| "horizontal" \| "vertical"` | `"vertical"` |
 | `menuOpen`         | `menu-open`         | When `true`, the `calcite-action-menu` is open.                         | `boolean`                              | `false`      |
-| `messageOverrides` | `message-overrides` | Use this property to override individual strings used by the component. | `Messages`                             | `undefined`  |
+| `messageOverrides` | `message-overrides` | Use this property to override individual strings used by the component. | `ActionGroupMessages`                  | `undefined`  |
 | `scale`            | `scale`             | Specifies the size of the `calcite-action-menu`.                        | `"l" \| "m" \| "s"`                    | `undefined`  |
 
 ## Slots

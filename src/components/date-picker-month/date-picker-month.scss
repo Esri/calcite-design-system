@@ -1,4 +1,4 @@
-.calender {
+.calendar {
   @apply mb-1;
 }
 
@@ -16,6 +16,13 @@
   @apply text-color-3
     text-center
     font-bold;
+  inline-size: calc(100% / 7);
+}
+
+.day {
+  @apply flex
+  min-w-0
+  justify-center;
   inline-size: calc(100% / 7);
 }
 

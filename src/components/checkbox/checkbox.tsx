@@ -9,20 +9,24 @@ import {
   Prop,
   VNode
 } from "@stencil/core";
-import { guid } from "../../utils/guid";
-import { Scale } from "../interfaces";
-import { CheckableFormComponent, HiddenFormInputSlot } from "../../utils/form";
-import { LabelableComponent, connectLabel, disconnectLabel, getLabelText } from "../../utils/label";
-import { connectForm, disconnectForm } from "../../utils/form";
-import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import { toAriaBoolean } from "../../utils/dom";
-import { isActivationKey } from "../../utils/key";
 import {
-  setUpLoadableComponent,
-  setComponentLoaded,
+  CheckableFormComponent,
+  connectForm,
+  disconnectForm,
+  HiddenFormInputSlot
+} from "../../utils/form";
+import { guid } from "../../utils/guid";
+import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import { isActivationKey } from "../../utils/key";
+import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
+import {
+  componentLoaded,
   LoadableComponent,
-  componentLoaded
+  setComponentLoaded,
+  setUpLoadableComponent
 } from "../../utils/loadable";
+import { Scale } from "../interfaces";
 
 @Component({
   tag: "calcite-checkbox",
@@ -52,6 +56,14 @@ export class Checkbox
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @Prop({ reflect: true }) disabled = false;
 
+  /**
+   * The ID of the form that will be associated with the component.
+   *
+   * When not set, the component will be associated with its ancestor form element, if any.
+   */
+  @Prop({ reflect: true })
+  form: string;
+
   /** The `id` attribute of the component. When omitted, a globally unique identifier is used. */
   @Prop({ reflect: true, mutable: true }) guid: string;
 
@@ -60,7 +72,7 @@ export class Checkbox
    *
    * @internal
    */
-  @Prop({ reflect: true, mutable: true }) hovered = false;
+  @Prop({ reflect: true }) hovered = false;
 
   /**
    * When `true`, the component is initially indeterminate, which is independent from its `checked` value.
@@ -134,6 +146,10 @@ export class Checkbox
   //
   //--------------------------------------------------------------------------
 
+  syncHiddenFormInput(input: HTMLInputElement): void {
+    input.type = "checkbox";
+  }
+
   getPath = (): string =>
     this.indeterminate ? this.indeterminatePath : this.checked ? this.checkedPath : "";
 
@@ -154,6 +170,10 @@ export class Checkbox
   };
 
   clickHandler = (): void => {
+    if (this.disabled) {
+      return;
+    }
+
     this.toggle();
   };
 
@@ -242,9 +262,10 @@ export class Checkbox
           class="toggle"
           onBlur={this.onToggleBlur}
           onFocus={this.onToggleFocus}
-          ref={(toggleEl) => (this.toggleEl = toggleEl)}
           role="checkbox"
           tabIndex={this.disabled ? undefined : 0}
+          // eslint-disable-next-line react/jsx-sort-props
+          ref={(toggleEl) => (this.toggleEl = toggleEl)}
         >
           <svg aria-hidden="true" class="check-svg" viewBox="0 0 16 16">
             <path d={this.getPath()} />

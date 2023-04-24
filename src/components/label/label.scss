@@ -75,11 +75,9 @@
 
 @include disabled() {
   & > .container {
-    @apply opacity-disabled pointer-events-none;
+    @apply opacity-disabled;
   }
-  ::slotted(*) {
-    @apply pointer-events-none;
-  }
+
   // prevent opacity stacking with already disabled child elements
   ::slotted(*[disabled]),
   ::slotted(*[disabled] *) {

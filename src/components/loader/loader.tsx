@@ -79,13 +79,14 @@ export class Loader {
         {...(isDeterminate ? hostAttributes : {})}
       >
         <div class="loader__svgs">
-          <svg class="loader__svg loader__svg--1" viewBox={viewbox}>
+          <svg aria-hidden="true" class="loader__svg loader__svg--1" viewBox={viewbox}>
             <circle {...svgAttributes} />
           </svg>
-          <svg class="loader__svg loader__svg--2" viewBox={viewbox}>
+          <svg aria-hidden="true" class="loader__svg loader__svg--2" viewBox={viewbox}>
             <circle {...svgAttributes} />
           </svg>
           <svg
+            aria-hidden="true"
             class="loader__svg loader__svg--3"
             viewBox={viewbox}
             {...(isDeterminate ? { style: determinateStyle } : {})}

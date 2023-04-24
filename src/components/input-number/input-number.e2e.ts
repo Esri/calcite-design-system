@@ -1,20 +1,20 @@
 import { E2EPage, newE2EPage } from "@stencil/core/testing";
+import { KeyInput } from "puppeteer";
+import { html } from "../../../support/formatting";
 import {
   defaults,
   disabled,
   focusable,
   formAssociated,
+  hidden,
   labelable,
   reflects,
   renders,
-  hidden,
   t9n
 } from "../../tests/commonTests";
-import { html } from "../../../support/formatting";
+import { getElementXY, selectText } from "../../tests/utils";
 import { letterKeys, numberKeys } from "../../utils/key";
 import { locales, numberStringFormatter } from "../../utils/locale";
-import { getElementXY } from "../../tests/utils";
-import { KeyInput } from "puppeteer";
 
 describe("calcite-input-number", () => {
   const delayFor2UpdatesInMs = 200;
@@ -91,19 +91,6 @@ describe("calcite-input-number", () => {
     await numberButtonItem.click();
     await page.waitForChanges();
     expect(calciteInputInput).not.toHaveReceivedEvent();
-  });
-
-  it("inherits requested props when from wrapping calcite-label when props are provided", async () => {
-    const page = await newE2EPage();
-    await page.setContent(html`
-      <calcite-label scale="s">
-        Label text
-        <calcite-input-number></calcite-input-number>
-      </calcite-label>
-    `);
-
-    const inputNumberElement = await page.find("calcite-input-number");
-    expect(await inputNumberElement.getProperty("scale")).toEqual("s");
   });
 
   it("renders an icon when explicit Calcite UI is requested, and is a type without a default icon", async () => {
@@ -208,6 +195,55 @@ describe("calcite-input-number", () => {
     let page: E2EPage;
     beforeEach(async () => {
       page = await newE2EPage();
+    });
+
+    it("correctly increments/decrements numbers greater than MAX_SAFE_INTEGER", async () => {
+      await page.setContent(
+        html`<calcite-input-number
+          value="100000000000000000000000000000000000000000000000000."
+          step="10"
+        ></calcite-input-number>`
+      );
+      const element = await page.find("calcite-input-number");
+      const numberHorizontalItemDown = await page.find(
+        "calcite-input-number >>> .number-button-item[data-adjustment='down']"
+      );
+      const numberHorizontalItemUp = await page.find(
+        "calcite-input-number >>> .number-button-item[data-adjustment='up']"
+      );
+      expect(await element.getProperty("value")).toBe("100000000000000000000000000000000000000000000000000");
+      await numberHorizontalItemUp.click();
+      await page.waitForChanges();
+      expect(await element.getProperty("value")).toBe("100000000000000000000000000000000000000000000000010");
+      element.setProperty("step", 0.1);
+      await page.waitForChanges();
+      Array.from({ length: 10 }, async () => await numberHorizontalItemDown.click());
+      await page.waitForChanges();
+      expect(await element.getProperty("value")).toBe("100000000000000000000000000000000000000000000000009");
+    });
+
+    it("correctly increments/decrements exponential notation numbers without losing precision", async () => {
+      await page.setContent(html`<calcite-input-number value="1.23e-60"></calcite-input-number>`);
+      const element = await page.find("calcite-input-number");
+      const numberHorizontalItemDown = await page.find(
+        "calcite-input-number >>> .number-button-item[data-adjustment='down']"
+      );
+      const numberHorizontalItemUp = await page.find(
+        "calcite-input-number >>> .number-button-item[data-adjustment='up']"
+      );
+      expect(await element.getProperty("value")).toBe("1.23e-60");
+      await numberHorizontalItemUp.click();
+      await page.waitForChanges();
+      expect(await element.getProperty("value")).toBe(
+        "1.00000000000000000000000000000000000000000000000000000000000123"
+      );
+      element.setProperty("step", 0.1);
+      await page.waitForChanges();
+      Array.from({ length: 5 }, async () => await numberHorizontalItemDown.click());
+      await page.waitForChanges();
+      expect(await element.getProperty("value")).toBe(
+        "0.50000000000000000000000000000000000000000000000000000000000123"
+      );
     });
 
     it("correctly increments and decrements decimal value when number buttons are clicked and the step precision matches the precision of the initial value", async () => {
@@ -331,6 +367,38 @@ describe("calcite-input-number", () => {
       const totalNudgesDown = inputEventSpy.length - totalNudgesUp;
       const finalNudgedValue = totalNudgesUp - totalNudgesDown;
       expect(await input.getProperty("value")).toBe(`${finalNudgedValue * 0.01}`);
+    });
+
+    it("decrements to max when value is higher", async () => {
+      await page.setContent(html`<calcite-input-number max="10" value="20"></calcite-input-number>`);
+
+      const element = await page.find("calcite-input-number");
+      const numberHorizontalItemDown = await page.find(
+        "calcite-input-number >>> .number-button-item[data-adjustment='down']"
+      );
+
+      await numberHorizontalItemDown.click();
+      await page.waitForChanges();
+      expect(await element.getProperty("value")).toBe("10");
+      await numberHorizontalItemDown.click();
+      await page.waitForChanges();
+      expect(await element.getProperty("value")).toBe("9");
+    });
+
+    it("increments to min when value is lower", async () => {
+      await page.setContent(html`<calcite-input-number min="20" value="11"></calcite-input-number>`);
+
+      const element = await page.find("calcite-input-number");
+      const numberHorizontalItemDown = await page.find(
+        "calcite-input-number >>> .number-button-item[data-adjustment='down']"
+      );
+
+      await numberHorizontalItemDown.click();
+      await page.waitForChanges();
+      expect(await element.getProperty("value")).toBe("20");
+      await numberHorizontalItemDown.click();
+      await page.waitForChanges();
+      expect(await element.getProperty("value")).toBe("20");
     });
 
     it("correctly increments and decrements value by one when any is set for step", async () => {
@@ -551,8 +619,7 @@ describe("calcite-input-number", () => {
       const element = await page.find("calcite-input-number");
       await element.callMethod("setFocus");
 
-      page.keyboard.press("ArrowUp");
-      page.keyboard.press("ArrowDown");
+      await Promise.all((["ArrowUp", "ArrowDown"] as const).map((key) => page.keyboard.press(key)));
       await page.waitForTimeout(delayFor2UpdatesInMs);
       expect(await element.getProperty("value")).toBe("0");
     });
@@ -692,6 +759,15 @@ describe("calcite-input-number", () => {
       expect(await element.getProperty("value")).toBe(programmaticSetValue);
       expect(calciteInputNumberInput).toHaveReceivedEventTimes(10);
       expect(calciteInputNumberChange).toHaveReceivedEventTimes(2);
+
+      await element.callMethod("setFocus");
+      await selectText(element);
+      await page.keyboard.press("Backspace");
+      await page.keyboard.press("Tab");
+
+      expect(await element.getProperty("value")).toBe("");
+      expect(calciteInputNumberInput).toHaveReceivedEventTimes(11);
+      expect(calciteInputNumberChange).toHaveReceivedEventTimes(3);
     }
 
     it("emits events", () => assertChangeEvents());
@@ -882,13 +958,19 @@ describe("calcite-input-number", () => {
     expect(await input.getProperty("value")).toBe("1.005");
   });
 
-  it("allows clearing value with an empty string", async () => {
+  it("allows negative numbers after clearing value with an empty string", async () => {
     const page = await newE2EPage();
     await page.setContent(html`<calcite-input-number value="1"></calcite-input-number>`);
     const input = await page.find("calcite-input-number");
+
     input.setProperty("value", "");
     await page.waitForChanges();
     expect(await input.getProperty("value")).toBe("");
+
+    await input.callMethod("setFocus");
+    await typeNumberValue(page, "-123");
+    await page.waitForChanges();
+    expect(await input.getProperty("value")).toBe("-123");
   });
 
   describe("number locale support", () => {
@@ -1375,10 +1457,64 @@ describe("calcite-input-number", () => {
     });
   });
 
+  it("allows disabling slotted action", async () => {
+    const page = await newE2EPage();
+    await page.setContent(
+      `<calcite-input-number><calcite-button slot="action" disabled>Action</calcite-button></calcite-input-number>`
+    );
+
+    const input = await page.find("calcite-input-number");
+    const button = await page.find("calcite-button");
+
+    await input.callMethod("setFocus");
+    await typeNumberValue(page, "1");
+    await page.waitForChanges();
+    expect(await input.getProperty("value")).toBe("1");
+    expect(await button.getProperty("disabled")).toBe(true);
+    expect(await input.getProperty("disabled")).toBe(false);
+
+    await input.setProperty("disabled", true);
+    await input.callMethod("setFocus");
+    await page.waitForChanges();
+    await typeNumberValue(page, "2");
+    await page.waitForChanges();
+    expect(await input.getProperty("value")).toBe("1");
+    expect(await button.getProperty("disabled")).toBe(true);
+    expect(await input.getProperty("disabled")).toBe(true);
+
+    await input.setProperty("disabled", false);
+    await page.waitForChanges();
+    await input.callMethod("setFocus");
+    await typeNumberValue(page, "3");
+    await page.waitForChanges();
+    expect(await input.getProperty("value")).toBe("13");
+    expect(await button.getProperty("disabled")).toBe(true);
+    expect(await input.getProperty("disabled")).toBe(false);
+
+    await button.setProperty("disabled", false);
+    await page.waitForChanges();
+    await input.callMethod("setFocus");
+    await typeNumberValue(page, "4");
+    await page.waitForChanges();
+    expect(await input.getProperty("value")).toBe("134");
+    expect(await button.getProperty("disabled")).toBe(false);
+    expect(await input.getProperty("disabled")).toBe(false);
+
+    await input.setProperty("disabled", true);
+    await page.waitForChanges();
+    await input.callMethod("setFocus");
+    await page.keyboard.type("5");
+    await page.waitForChanges();
+    expect(await input.getProperty("value")).toBe("134");
+    expect(await button.getProperty("disabled")).toBe(true);
+    expect(await input.getProperty("disabled")).toBe(true);
+  });
+
   it("is form-associated", () =>
-    formAssociated("<calcite-input-number></calcite-input-number>", {
+    formAssociated("calcite-input-number", {
       testValue: 5,
-      submitsOnEnter: true
+      submitsOnEnter: true,
+      inputType: "number"
     }));
 
   it("supports translation", () => t9n("calcite-input-number"));

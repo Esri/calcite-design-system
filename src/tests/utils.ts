@@ -271,3 +271,66 @@ export async function skipAnimations(page: E2EPage): Promise<void> {
     content: `:root { --calcite-duration-factor: 0; }`
   });
 }
+
+interface MatchesFocusedElementOptions {
+  /**
+   * Set this to true when the focused element is expected to reside in the shadow DOM
+   */
+  shadowed: boolean;
+}
+
+/**
+ * This util helps determine if a selector matches the currently focused element.
+ *
+ * @param page – the E2E page
+ * @param selector – selector of element to match
+ * @param options - options to customize the utility behavior
+ */
+export async function isElementFocused(
+  page: E2EPage,
+  selector: string,
+  options?: MatchesFocusedElementOptions
+): Promise<boolean> {
+  const shadowed = options?.shadowed;
+
+  return page.evaluate(
+    (selector: string, shadowed: boolean): boolean => {
+      const targetDoc = shadowed ? document.activeElement?.shadowRoot : document;
+
+      return !!targetDoc?.activeElement?.matches(selector);
+    },
+    selector,
+    shadowed
+  );
+}
+
+type GetFocusedElementProp = {
+  /**
+   * Set to true to use the shadow root's active element instead of the light DOM's.
+   */
+  shadow: boolean;
+};
+
+/**
+ * This helps get serializable properties from the focused element.
+ *
+ * @param {E2EPage} page - the E2E test page
+ * @param {string} prop - the property to get from the focused element (note: must be serializable)
+ * @param {GetFocusedElementProp} options – additional configuration options
+ */
+export async function getFocusedElementProp(
+  page: E2EPage,
+  prop: keyof HTMLElement,
+  options?: GetFocusedElementProp
+): Promise<ReturnType<E2EPage["evaluate"]>> {
+  return await page.evaluate(
+    (by: string, shadow: boolean) => {
+      const { activeElement } = document;
+      const target = shadow ? activeElement?.shadowRoot?.activeElement : activeElement;
+
+      return target?.[by];
+    },
+    prop,
+    options?.shadow
+  );
+}

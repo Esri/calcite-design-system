@@ -15,17 +15,16 @@ import {
 import {
   getSlotted,
   setRequestedIcon,
-  toAriaBoolean,
-  slotChangeHasAssignedElement
+  slotChangeHasAssignedElement,
+  toAriaBoolean
 } from "../../utils/dom";
-import { CSS, DURATIONS, SLOTS } from "./resources";
-import { Scale } from "../interfaces";
-import { AlertDuration, AlertPlacement, StatusColor, StatusIcons, Sync } from "./interfaces";
+import { MenuPlacement } from "../../utils/floating-ui";
 import {
-  OpenCloseComponent,
-  connectOpenCloseComponent,
-  disconnectOpenCloseComponent
-} from "../../utils/openCloseComponent";
+  componentLoaded,
+  LoadableComponent,
+  setComponentLoaded,
+  setUpLoadableComponent
+} from "../../utils/loadable";
 import {
   connectLocalized,
   disconnectLocalized,
@@ -33,19 +32,22 @@ import {
   numberStringFormatter
 } from "../../utils/locale";
 import {
+  connectOpenCloseComponent,
+  disconnectOpenCloseComponent,
+  OpenCloseComponent
+} from "../../utils/openCloseComponent";
+import {
   connectMessages,
   disconnectMessages,
   setUpMessages,
   T9nComponent,
   updateMessages
 } from "../../utils/t9n";
-import { Messages } from "./assets/alert/t9n";
-import {
-  setUpLoadableComponent,
-  setComponentLoaded,
-  LoadableComponent,
-  componentLoaded
-} from "../../utils/loadable";
+import { Kind, Scale } from "../interfaces";
+import { KindIcons } from "../resources";
+import { AlertMessages } from "./assets/alert/t9n";
+import { AlertDuration, Sync } from "./interfaces";
+import { CSS, DURATIONS, SLOTS } from "./resources";
 
 /**
  * Alerts are meant to provide a way to communicate urgent or important information to users, frequently as a result of an action they took in your app. Alerts are positioned
@@ -56,7 +58,7 @@ import {
  * @slot title - A slot for adding a title to the component.
  * @slot message - A slot for adding main text to the component.
  * @slot link - A slot for adding a `calcite-action` to take from the component such as: "undo", "try again", "link to page", etc.
- * @slot actions-end - A slot for adding actions to the end of the component. It is recommended to use two or fewer actions.
+ * @slot actions-end - A slot for adding `calcite-action`s to the end of the component. It is recommended to use two or fewer actions.
  */
 
 @Component({
@@ -100,14 +102,20 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
   /** Specifies the duration before the component automatically closes (only use with `autoClose`). */
   @Prop({ reflect: true }) autoCloseDuration: AlertDuration = this.autoClose ? "medium" : null;
 
-  /** Specifies the color for the component (will apply to top border and icon). */
-  @Prop({ reflect: true }) color: StatusColor = "blue";
+  /** Specifies the kind of the component (will apply to top border and icon). */
+  @Prop({ reflect: true }) kind: Extract<
+    "brand" | "danger" | "info" | "success" | "warning",
+    Kind
+  > = "brand";
 
   /**
    * When `true`, shows a default recommended icon. Alternatively,
    * pass a Calcite UI Icon name to display a specific icon.
    */
   @Prop({ reflect: true }) icon: string | boolean;
+
+  /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
+  @Prop({ reflect: true }) iconFlipRtl = false;
 
   /** Specifies an accessible name for the component. */
   @Prop() label!: string;
@@ -118,7 +126,7 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
   @Prop({ reflect: true }) numberingSystem: NumberingSystem;
 
   /** Specifies the placement of the component */
-  @Prop({ reflect: true }) placement: AlertPlacement = "bottom";
+  @Prop({ reflect: true }) placement: MenuPlacement = "bottom";
 
   /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";
@@ -128,22 +136,32 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
    *
    * @internal
    */
-  @Prop({ mutable: true }) messages: Messages;
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
+  @Prop({ mutable: true }) messages: AlertMessages;
 
   /**
    * Use this property to override individual strings used by the component.
    */
-  @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
+  @Prop({ mutable: true }) messageOverrides: Partial<AlertMessages>;
 
   @Watch("messageOverrides")
   onMessagesChange(): void {
     /* wired up by t9n util */
   }
 
+  /**
+   * This internal property, managed by a containing calcite-shell, is used
+   * to inform the component if special configuration or styles are needed
+   *
+   * @internal
+   */
+  @Prop({ mutable: true }) slottedInShell: boolean;
+
   @Watch("icon")
-  @Watch("color")
+  @Watch("kind")
   updateRequestedIcon(): void {
-    this.requestedIcon = setRequestedIcon(StatusIcons, this.icon, this.color);
+    this.requestedIcon = setRequestedIcon(KindIcons, this.icon, this.kind);
   }
 
   @Watch("autoCloseDuration")
@@ -152,7 +170,7 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
       window.clearTimeout(this.autoCloseTimeoutId);
       this.autoCloseTimeoutId = window.setTimeout(
         () => this.closeAlert(),
-        DURATIONS[this.autoCloseDuration] - (Date.now() - this.trackTimer)
+        DURATIONS[this.autoCloseDuration]
       );
     }
   }
@@ -176,7 +194,7 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
 
   async componentWillLoad(): Promise<void> {
     setUpLoadableComponent(this);
-    this.requestedIcon = setRequestedIcon(StatusIcons, this.icon, this.color);
+    this.requestedIcon = setRequestedIcon(KindIcons, this.icon, this.kind);
     await setUpMessages(this);
   }
 
@@ -190,6 +208,7 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
     disconnectOpenCloseComponent(this);
     disconnectLocalized(this);
     disconnectMessages(this);
+    this.slottedInShell = false;
   }
 
   render(): VNode {
@@ -199,8 +218,9 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
         aria-label={this.messages.close}
         class="alert-close"
         onClick={this.closeAlert}
-        ref={(el) => (this.closeButton = el)}
         type="button"
+        // eslint-disable-next-line react/jsx-sort-props
+        ref={(el) => (this.closeButton = el)}
       >
         <calcite-icon icon="x" scale={this.scale === "l" ? "m" : "s"} />
       </button>
@@ -223,7 +243,7 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
       </div>
     );
 
-    const { open, autoClose, label, placement, queued, requestedIcon } = this;
+    const { open, autoClose, label, placement, queued, requestedIcon, iconFlipRtl } = this;
     const role = autoClose ? "alert" : "alertdialog";
     const hidden = !open;
 
@@ -246,15 +266,21 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
           class={{
             container: true,
             queued,
-            [placement]: true
+            [placement]: true,
+            [CSS.slottedInShell]: this.slottedInShell
           }}
-          onPointerOut={this.autoClose && this.autoCloseTimeoutId ? this.handleMouseLeave : null}
-          onPointerOver={this.autoClose && this.autoCloseTimeoutId ? this.handleMouseOver : null}
+          onPointerEnter={this.autoClose && this.autoCloseTimeoutId ? this.handleMouseOver : null}
+          onPointerLeave={this.autoClose && this.autoCloseTimeoutId ? this.handleMouseLeave : null}
+          // eslint-disable-next-line react/jsx-sort-props
           ref={this.setTransitionEl}
         >
           {requestedIcon ? (
             <div class="alert-icon">
-              <calcite-icon icon={requestedIcon} scale={this.scale === "l" ? "m" : "s"} />
+              <calcite-icon
+                flipRtl={iconFlipRtl}
+                icon={requestedIcon}
+                scale={this.scale === "l" ? "m" : "s"}
+              />
             </div>
           ) : null}
           <div class="alert-content">
@@ -333,7 +359,7 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
   //
   //--------------------------------------------------------------------------
 
-  /** Sets focus on the component. */
+  /** Sets focus on the component's "close" button (the first focusable item). */
   @Method()
   async setFocus(): Promise<void> {
     await componentLoaded(this);
@@ -362,7 +388,7 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
     updateMessages(this, this.effectiveLocale);
   }
 
-  @State() defaultMessages: Messages;
+  @State() defaultMessages: AlertMessages;
 
   @State() hasEndActions = false;
 
@@ -376,15 +402,19 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
   @State() queued = false;
 
   /** the close button element */
-  private closeButton?: HTMLButtonElement;
+  private closeButton: HTMLButtonElement;
 
   private autoCloseTimeoutId: number = null;
 
   private queueTimeout: number;
 
-  private trackTimer: number;
+  private initialOpenTime: number;
 
-  private remainingPausedTimeout = 0;
+  private lastMouseOverBegin: number;
+
+  private totalOpenTime = 0;
+
+  private totalHoverTime = 0;
 
   /** the computed icon to render */
   /* @internal */
@@ -410,7 +440,7 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
     if (this.queue?.[0] === this.el) {
       this.openAlert();
       if (this.autoClose && !this.autoCloseTimeoutId) {
-        this.trackTimer = Date.now();
+        this.initialOpenTime = Date.now();
         this.autoCloseTimeoutId = window.setTimeout(
           () => this.closeAlert(),
           DURATIONS[this.autoCloseDuration]
@@ -459,13 +489,15 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
 
   private handleMouseOver = (): void => {
     window.clearTimeout(this.autoCloseTimeoutId);
-    this.remainingPausedTimeout = DURATIONS[this.autoCloseDuration] - Date.now() - this.trackTimer;
+    this.totalOpenTime = Date.now() - this.initialOpenTime;
+    this.lastMouseOverBegin = Date.now();
   };
 
   private handleMouseLeave = (): void => {
-    this.autoCloseTimeoutId = window.setTimeout(
-      () => this.closeAlert(),
-      this.remainingPausedTimeout
-    );
+    const hoverDuration = Date.now() - this.lastMouseOverBegin;
+    const timeRemaining =
+      DURATIONS[this.autoCloseDuration] - this.totalOpenTime + this.totalHoverTime;
+    this.totalHoverTime = this.totalHoverTime ? hoverDuration + this.totalHoverTime : hoverDuration;
+    this.autoCloseTimeoutId = window.setTimeout(() => this.closeAlert(), timeRemaining);
   };
 }

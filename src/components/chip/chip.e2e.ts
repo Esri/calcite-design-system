@@ -1,6 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, renders, slots, hidden, t9n } from "../../tests/commonTests";
-
+import { accessible, disabled, focusable, hidden, renders, slots, t9n } from "../../tests/commonTests";
 import { CSS, SLOTS } from "./resources";
 
 describe("calcite-chip", () => {
@@ -11,6 +10,36 @@ describe("calcite-chip", () => {
   it("is accessible", async () => accessible(`<calcite-chip>doritos</calcite-chip>`));
 
   it("has slots", () => slots("calcite-chip", SLOTS));
+
+  it("is focusable when interactive", () => focusable("<calcite-chip interactive>doritos</calcite-chip>"));
+
+  it("can be disabled when interactive", () => disabled("<calcite-chip interactive>doritos</calcite-chip>"));
+
+  it("should not emit event after the chip is clicked if interactive if not set", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<calcite-chip id="chip-1" >cheetos</calcite-chip>`);
+
+    const eventSpy = await page.spyOnEvent("calciteChipSelect", "window");
+
+    const chip1 = await page.find("#chip-1");
+    await chip1.click();
+    await page.waitForChanges();
+
+    expect(eventSpy).not.toHaveReceivedEvent();
+  });
+
+  it("should emit event after the chip button is clicked when interactive", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<calcite-chip id="chip-1" interactive>cheetos</calcite-chip>`);
+
+    const eventSpy = await page.spyOnEvent("calciteChipSelect", "window");
+
+    const chip1 = await page.find("#chip-1");
+    await chip1.click();
+    await page.waitForChanges();
+
+    expect(eventSpy).toHaveReceivedEvent();
+  });
 
   it("should emit event after the close button is clicked", async () => {
     const page = await newE2EPage();
@@ -25,42 +54,44 @@ describe("calcite-chip", () => {
     expect(eventSpy).toHaveReceivedEvent();
   });
 
+  it("should receive focus when clicked", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<calcite-chip id="chip-1">cheetos</calcite-chip>`);
+
+    const chip1 = await page.find("#chip-1");
+    await chip1.click();
+    await page.waitForChanges();
+    expect(await page.evaluate(() => document.activeElement.id)).toEqual(chip1.id);
+  });
+
   it("renders default props when none are provided", async () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-chip>Chip content</calcite-chip>`);
 
     const element = await page.find("calcite-chip");
     expect(element).toEqualAttribute("appearance", "solid");
-    expect(element).toEqualAttribute("color", "grey");
+    expect(element).toEqualAttribute("kind", "neutral");
     expect(element).toEqualAttribute("scale", "m");
   });
 
   it("renders requested props when valid props are provided", async () => {
     const page = await newE2EPage();
-    await page.setContent(`<calcite-chip appearance="transparent" color="blue" scale="l">Chip content</calcite-chip>`);
+    await page.setContent(`<calcite-chip appearance="outline" kind="brand" scale="l">Chip content</calcite-chip>`);
 
     const element = await page.find("calcite-chip");
-    expect(element).toEqualAttribute("appearance", "transparent");
-    expect(element).toEqualAttribute("color", "blue");
+    expect(element).toEqualAttribute("appearance", "outline");
+    expect(element).toEqualAttribute("kind", "brand");
     expect(element).toEqualAttribute("scale", "l");
   });
 
-  it("renders transparent chip when appearance='transparent'", async () => {
+  it("renders outline-fill chip when appearance='outline-fill'", async () => {
     const page = await newE2EPage();
-    await page.setContent(`<calcite-chip appearance="transparent" color="blue" scale="l">Chip content</calcite-chip>`);
+    await page.setContent(`<calcite-chip appearance="outline-fill" kind="brand" scale="l">Chip content</calcite-chip>`);
 
     const element = await page.find("calcite-chip");
-    expect(element).toEqualAttribute("appearance", "transparent");
-    expect(element).toEqualAttribute("color", "blue");
+    expect(element).toEqualAttribute("appearance", "outline-fill");
+    expect(element).toEqualAttribute("kind", "brand");
     expect(element).toEqualAttribute("scale", "l");
-  });
-
-  it("renders a close button when requested (deprecated)", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<calcite-chip closable>Chip content</calcite-chip>`);
-
-    const close = await page.find("calcite-chip >>> button.close");
-    expect(close).not.toBeNull();
   });
 
   it("renders a close button when requested", async () => {
@@ -79,13 +110,13 @@ describe("calcite-chip", () => {
     expect(close).toBeNull();
   });
 
-  describe("CSS properties for light/dark themes", () => {
+  describe("CSS properties for light/dark mode", () => {
     const chipSnippet = `
       <calcite-chip
         class="layers"
         icon="layer"
-        appearance="transparent"
-        color="green"
+        appearance="solid"
+        kind="neutral"
         closable
       >
         Layers
@@ -111,8 +142,8 @@ describe("calcite-chip", () => {
       expect(chipStyles.active).toEqual("rgba(4, 10, 4, 0.31");
     });
 
-    describe("when theme attribute is not provided", () => {
-      it("should render chip pseudo classes with default values tied to light theme", async () => {
+    describe("when mode attribute is not provided", () => {
+      it("should render chip pseudo classes with default values tied to mode", async () => {
         page = await newE2EPage({ html: chipSnippet });
         chipCloseButton = await page.find("calcite-chip >>> button");
         await chipCloseButton.focus();
@@ -127,10 +158,10 @@ describe("calcite-chip", () => {
       });
     });
 
-    describe("when theme attribute is dark", () => {
-      it("should render button pseudo classes with value tied to dark theme", async () => {
+    describe("when mode attribute is dark", () => {
+      it("should render button pseudo classes with value tied to dark mode", async () => {
         page = await newE2EPage({
-          html: `<div class="calcite-theme-dark">${chipSnippet}</div>`
+          html: `<div class="calcite-mode-dark">${chipSnippet}</div>`
         });
         chipCloseButton = await page.find("calcite-chip >>> button");
         await chipCloseButton.focus();
@@ -170,7 +201,7 @@ describe("calcite-chip", () => {
 
     it("should not render chip when closed set to true", async () => {
       const page = await newE2EPage();
-      await page.setContent(`<div class="calcite-theme-dark">${chipSnippet}</div>`);
+      await page.setContent(`<div class="calcite-mode-dark">${chipSnippet}</div>`);
 
       const chipEl = await page.find(`calcite-chip`);
       chipEl.setAttribute("closed", true);

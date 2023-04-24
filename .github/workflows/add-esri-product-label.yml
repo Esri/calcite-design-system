@@ -56,17 +56,11 @@ jobs:
                 });
               }
 
-              /** remove any existing product label(s) */
-              const labels = currentLabels
-                .filter((l) => !/Issues logged by/.test(l.description))
-                .map((l) => l.name);
-
-              labels.push(product);
-
-              await github.rest.issues.setLabels({
+              /** add new product label */
+              await github.rest.issues.addLabels({
                 issue_number,
                 owner,
                 repo,
-                labels,
+                labels: [product],
               });
             }

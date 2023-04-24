@@ -1,33 +1,33 @@
 import {
   Component,
   Element,
-  h,
-  VNode,
-  Prop,
-  Method,
-  Listen,
-  Watch,
-  State,
   Event,
-  EventEmitter
+  EventEmitter,
+  h,
+  Listen,
+  Method,
+  Prop,
+  State,
+  VNode,
+  Watch
 } from "@stencil/core";
-import { CSS, debounceTimeout, SelectionAppearance, SelectionMode } from "./resources";
-import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
-
-import { createObserver } from "../../utils/observers";
-import { getListItemChildren, updateListItemChildren } from "../list-item/utils";
-import { toAriaBoolean } from "../../utils/dom";
 import { debounce } from "lodash-es";
+import { toAriaBoolean } from "../../utils/dom";
+import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import { createObserver } from "../../utils/observers";
+import { SelectionMode } from "../interfaces";
 import { ItemData } from "../list-item/interfaces";
 import { MAX_COLUMNS } from "../list-item/resources";
+import { getListItemChildren, updateListItemChildren } from "../list-item/utils";
+import { CSS, debounceTimeout, SelectionAppearance } from "./resources";
 
 const listItemSelector = "calcite-list-item";
 
 import {
-  setUpLoadableComponent,
-  setComponentLoaded,
+  componentLoaded,
   LoadableComponent,
-  componentLoaded
+  setComponentLoaded,
+  setUpLoadableComponent
 } from "../../utils/loadable";
 
 /**
@@ -104,7 +104,7 @@ export class List implements InteractiveComponent, LoadableComponent {
   @Prop() openable = false;
 
   /**
-   * **read-only** The currently selected items
+   * The currently selected items.
    *
    * @readonly
    */
@@ -113,7 +113,8 @@ export class List implements InteractiveComponent, LoadableComponent {
   /**
    * Specifies the selection mode - `"multiple"` (allow any number of selected items), `"single"` (allows and require one selected item), `"none"` (no selected items).
    */
-  @Prop({ reflect: true }) selectionMode: SelectionMode = "none";
+  @Prop({ reflect: true }) selectionMode: Extract<"none" | "multiple" | "single", SelectionMode> =
+    "none";
 
   /**
    * Specifies the selection appearance - `"icon"` (displays a checkmark or dot) or `"border"` (displays a border).
@@ -175,6 +176,11 @@ export class List implements InteractiveComponent, LoadableComponent {
     this.updateSelectedItems();
   }
 
+  @Listen("calciteListItemClose")
+  handleCalciteListItemClose(): void {
+    this.updateListItems();
+  }
+
   //--------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -234,7 +240,7 @@ export class List implements InteractiveComponent, LoadableComponent {
   //
   // --------------------------------------------------------------------------
 
-  /** Sets focus on the component. */
+  /** Sets focus on the component's first focusable element. */
   @Method()
   async setFocus(): Promise<void> {
     await componentLoaded(this);
@@ -277,8 +283,9 @@ export class List implements InteractiveComponent, LoadableComponent {
                     items={dataForFilter}
                     onCalciteFilterChange={this.handleFilter}
                     placeholder={filterPlaceholder}
-                    ref={(el) => (this.filterEl = el)}
                     value={filterText}
+                    // eslint-disable-next-line react/jsx-sort-props
+                    ref={(el) => (this.filterEl = el)}
                   />
                 </th>
               </tr>
@@ -390,7 +397,7 @@ export class List implements InteractiveComponent, LoadableComponent {
     }));
   };
 
-  private updateListItems = debounce((): void => {
+  private updateListItems(): void {
     const { selectionAppearance, selectionMode } = this;
     const items = this.queryListItems();
     items.forEach((item) => {
@@ -398,14 +405,14 @@ export class List implements InteractiveComponent, LoadableComponent {
       item.selectionMode = selectionMode;
     });
     this.listItems = items;
-    this.enabledListItems = items.filter((item) => !item.disabled);
+    this.enabledListItems = items.filter((item) => !item.disabled && !item.closed);
     if (this.filterEnabled) {
       this.dataForFilter = this.getItemData();
     }
     this.setActiveListItem();
     this.updateSelectedItems();
     this.updateFilteredItems();
-  }, debounceTimeout);
+  }
 
   queryListItems = (): HTMLCalciteListItemElement[] => {
     return Array.from(this.el.querySelectorAll(listItemSelector));

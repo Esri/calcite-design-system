@@ -3,20 +3,18 @@ import {
   Element,
   Event,
   EventEmitter,
-  Prop,
   h,
-  VNode,
   Host,
-  Watch,
-  State
+  Prop,
+  State,
+  VNode,
+  Watch
 } from "@stencil/core";
 
 import { getElementDir, toAriaBoolean } from "../../utils/dom";
-import { CSS, ICONS } from "./resources";
-import { BlockSectionToggleDisplay } from "./interfaces";
-import { Status } from "../interfaces";
 import { guid } from "../../utils/guid";
 import { isActivationKey } from "../../utils/key";
+import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 import {
   connectMessages,
   disconnectMessages,
@@ -24,11 +22,13 @@ import {
   T9nComponent,
   updateMessages
 } from "../../utils/t9n";
-import { Messages } from "./assets/block-section/t9n";
-import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
+import { Status } from "../interfaces";
+import { BlockSectionMessages } from "./assets/block-section/t9n";
+import { BlockSectionToggleDisplay } from "./interfaces";
+import { CSS, ICONS } from "./resources";
 
 /**
- * @slot - A slot for adding content to the component.
+ * @slot - A slot for adding custom content.
  */
 @Component({
   tag: "calcite-block-section",
@@ -72,12 +72,14 @@ export class BlockSection implements LocalizedComponent, T9nComponent {
    *
    * @internal
    */
-  @Prop({ mutable: true }) messages: Messages;
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
+  @Prop({ mutable: true }) messages: BlockSectionMessages;
 
   /**
    * Use this property to override individual strings used by the component.
    */
-  @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
+  @Prop({ mutable: true }) messageOverrides: Partial<BlockSectionMessages>;
 
   @Watch("messageOverrides")
   onMessagesChange(): void {
@@ -101,7 +103,7 @@ export class BlockSection implements LocalizedComponent, T9nComponent {
     updateMessages(this, this.effectiveLocale);
   }
 
-  @State() defaultMessages: Messages;
+  @State() defaultMessages: BlockSectionMessages;
 
   // --------------------------------------------------------------------------
   //

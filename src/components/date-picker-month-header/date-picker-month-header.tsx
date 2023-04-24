@@ -1,25 +1,25 @@
 import {
   Component,
   Element,
-  Prop,
   Event,
-  h,
   EventEmitter,
-  VNode,
+  Fragment,
+  h,
+  Prop,
   State,
-  Watch,
-  Fragment
+  VNode,
+  Watch
 } from "@stencil/core";
-import { dateFromRange, nextMonth, prevMonth, getOrder } from "../../utils/date";
+import { dateFromRange, getOrder, nextMonth, prevMonth } from "../../utils/date";
 
-import { DateLocaleData } from "../date-picker/utils";
-import { Scale } from "../interfaces";
-import { HeadingLevel, Heading } from "../functional/Heading";
-import { BUDDHIST_CALENDAR_YEAR_OFFSET, CSS, ICON } from "./resources";
+import { closestElementCrossShadowBoundary } from "../../utils/dom";
 import { isActivationKey } from "../../utils/key";
 import { numberStringFormatter } from "../../utils/locale";
-import { closestElementCrossShadowBoundary } from "../../utils/dom";
-import { Messages } from "../date-picker/assets/date-picker/t9n";
+import { DatePickerMessages } from "../date-picker/assets/date-picker/t9n";
+import { DateLocaleData } from "../date-picker/utils";
+import { Heading, HeadingLevel } from "../functional/Heading";
+import { Scale } from "../interfaces";
+import { BUDDHIST_CALENDAR_YEAR_OFFSET, CSS, ICON } from "./resources";
 
 @Component({
   tag: "calcite-date-picker-month-header",
@@ -71,7 +71,8 @@ export class DatePickerMonthHeader {
    * @internal
    * @readonly
    */
-  @Prop({ mutable: true }) messages: Messages;
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
+  @Prop({ mutable: true }) messages: DatePickerMessages;
 
   //--------------------------------------------------------------------------
   //
@@ -80,8 +81,10 @@ export class DatePickerMonthHeader {
   //--------------------------------------------------------------------------
   /**
    *  Changes to active date
+   *
+   * @internal
    */
-  @Event({ cancelable: false }) calciteDatePickerSelect: EventEmitter<Date>;
+  @Event({ cancelable: false }) calciteInternalDatePickerSelect: EventEmitter<Date>;
 
   //--------------------------------------------------------------------------
   //
@@ -161,9 +164,10 @@ export class DatePickerMonthHeader {
               onInput={this.onYearInput}
               onKeyDown={this.onYearKey}
               pattern="\d*"
-              ref={(el) => (this.yearInput = el)}
               type="text"
               value={localizedYear}
+              // eslint-disable-next-line react/jsx-sort-props
+              ref={(el) => (this.yearInput = el)}
             />
             {suffix && <span class={CSS.suffix}>{suffix}</span>}
           </span>
@@ -189,8 +193,6 @@ export class DatePickerMonthHeader {
   //  Private State/Props
   //
   //--------------------------------------------------------------------------
-
-  @State() globalAttributes = {};
 
   private yearInput: HTMLInputElement;
 
@@ -291,7 +293,7 @@ export class DatePickerMonthHeader {
    */
   private handleArrowClick = (event: MouseEvent | KeyboardEvent, date: Date): void => {
     event.preventDefault();
-    this.calciteDatePickerSelect.emit(date);
+    this.calciteInternalDatePickerSelect.emit(date);
   };
 
   private getInRangeDate({
@@ -338,7 +340,7 @@ export class DatePickerMonthHeader {
 
     // if you've supplied a year and it's in range, update active date
     if (inRangeDate) {
-      this.calciteDatePickerSelect.emit(inRangeDate);
+      this.calciteInternalDatePickerSelect.emit(inRangeDate);
     }
 
     if (commit) {

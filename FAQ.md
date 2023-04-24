@@ -61,14 +61,14 @@ The `option` elements are placed in `select`'s _default slot_. Additionally, the
 
 The `calcite-dropdown-item`s are placed in `calcite-dropdown`'s default slot. In many cases a default slot is all that is needed. However, as components become more complicated, the need arises to position and style child components differently. This is where _named slots_ come into play. In the example above, we are passing `calcite-button` into the dropdown's `trigger` slot. This informs the dropdown that the `calcite-button` component should be handled differently than the components in the default slot. If a Calcite Component has slots, they will be listed in the documentation. For example, [here are the slots](https://developers.arcgis.com/calcite-design-system/components/card/#component-api-slots) for `calcite-card`. For a more detailed explanation, I suggest reading the [MDN documentation](https://developer.mozilla.org/en-US/docs/Web/Web_Components/Using_templates_and_slots#adding_flexibility_with_slots) about slots.
 
-### How do I change themes?
+### How do I change modes?
 
-Calcite Components provide light and dark themes which can be changed using CSS classes: `calcite-theme-light` and `calcite-theme-dark`. There is also a `calcite-theme-auto` class which defers to the browser's CSS "prefers-color-scheme" media query to decide whether the light or dark theme will be used.
+Calcite Components provide light and dark modes which can be changed using CSS classes: `calcite-mode-light` and `calcite-mode-dark`. There is also a `calcite-mode-auto` class which defers to the browser's CSS "prefers-color-scheme" media query to decide whether the light or dark mode will be used.
 
-Setting the theme class on an element changes all of their child nodes as well. Therefore, to switch the whole app from light to dark, we can do the following:
+Setting the mode class on an element changes all of their child nodes as well. Therefore, to switch the whole app from light to dark, we can do the following:
 
 ```html
-<div class="calcite-theme-dark">
+<div class="calcite-mode-dark">
   <!-- your app -->
 </div>
 ```

@@ -1,6 +1,6 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, defaults, disabled, focusable, hidden, renders, slots, t9n } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
+import { accessible, defaults, disabled, focusable, hidden, renders, slots, t9n } from "../../tests/commonTests";
 import { CSS, SLOTS } from "./resources";
 
 const panelTemplate = (scrollable = false) => html`<div style="height: 200px; display: flex">
@@ -61,7 +61,7 @@ describe("calcite-panel", () => {
 
     const calcitePanelClose = await page.spyOnEvent("calcitePanelClose", "window");
 
-    const closeButton = await page.find("calcite-panel >>> calcite-action");
+    const closeButton = await page.find("calcite-panel >>> calcite-action[data-test=close]");
 
     await closeButton.click();
 
@@ -71,6 +71,13 @@ describe("calcite-panel", () => {
   it("should be accessible", async () =>
     accessible(`
     <calcite-panel>
+      <calcite-action-bar slot="${SLOTS.actionBar}">
+        <calcite-action-group>
+          <calcite-action text="Add" icon="plus"> </calcite-action>
+          <calcite-action text="Save" icon="save"> </calcite-action>
+          <calcite-action text="Layers" icon="layers"> </calcite-action>
+        </calcite-action-group>
+      </calcite-action-bar>
       <div slot="${SLOTS.headerActionsStart}">test start</div>
       <div slot="${SLOTS.headerContent}">test content</div>
       <div slot="${SLOTS.headerActionsEnd}">test end</div>
@@ -211,47 +218,6 @@ describe("calcite-panel", () => {
     const footer = await page.find(`calcite-panel >>> .${CSS.footer}`);
 
     expect(await footer.isVisible()).toBe(false);
-  });
-
-  it("should update width based on the multipier CSS variable", async () => {
-    const multipier = 2;
-
-    const page = await newE2EPage();
-    await page.setViewport({ width: 1600, height: 1200 });
-
-    await page.setContent(`
-      <calcite-panel width-scale="m">
-        test
-      </calcite-panel>
-    `);
-
-    await page.waitForChanges();
-
-    const content = await page.find(`calcite-panel >>> .${CSS.container}`);
-    const style = await content.getComputedStyle("width");
-    const widthDefault = parseFloat(style["width"]);
-
-    const page2 = await newE2EPage();
-    await page2.setViewport({ width: 1600, height: 1200 });
-
-    await page2.setContent(`
-      <style>
-        :root {
-          --calcite-panel-width-multiplier: ${multipier};
-        }
-      </style>
-      <calcite-panel width-scale="m">
-        test multiplied
-      </calcite-panel>
-    `);
-
-    await page2.waitForChanges();
-
-    const content2 = await page2.find(`calcite-panel >>> .${CSS.container}`);
-    const style2 = await content2.getComputedStyle("width");
-    const width2 = parseFloat(style2["width"]);
-
-    expect(width2).toEqual(widthDefault * multipier);
   });
 
   it("should set tabIndex of -1 on a non-scrollable panel", async () => {

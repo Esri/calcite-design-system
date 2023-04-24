@@ -1,16 +1,16 @@
 import { boolean, select, text } from "@storybook/addon-knobs";
+import { storyFilters } from "../../../.storybook/helpers";
+import { ATTRIBUTES } from "../../../.storybook/resources";
 import {
+  Attribute,
   Attributes,
   createComponentHTML as create,
-  Attribute,
   filterComponentAttributes,
-  themesDarkDefault
+  modesDarkDefault
 } from "../../../.storybook/utils";
-import { ATTRIBUTES } from "../../../.storybook/resources";
+import { html } from "../../../support/formatting";
 import readme from "./readme.md";
 import { SLOTS } from "./resources";
-import { html } from "../../../support/formatting";
-import { storyFilters } from "../../../.storybook/helpers";
 
 export default {
   title: "Components/Panel",
@@ -98,7 +98,7 @@ const contentHTML = html`
 `;
 
 const footerHTML = html`
-  <calcite-button slot="${SLOTS.footer}" width="half" appearance="clear">Naw.</calcite-button>
+  <calcite-button slot="${SLOTS.footer}" width="half" appearance="outline">Naw.</calcite-button>
   <calcite-button slot="${SLOTS.footer}" width="half">Yeah!</calcite-button>
 `;
 
@@ -145,7 +145,7 @@ export const disabledWithStyledSlot_TestOnly = (): string => html`
   </calcite-panel>
 `;
 
-export const darkThemeRTL_TestOnly = (): string =>
+export const darkModeRTL_TestOnly = (): string =>
   create(
     "calcite-panel",
     createAttributes({ exceptions: ["dir", "class"] }).concat([
@@ -155,10 +155,39 @@ export const darkThemeRTL_TestOnly = (): string =>
       },
       {
         name: "class",
-        value: "calcite-theme-dark"
+        value: "calcite-mode-dark"
       }
     ]),
     panelContent
   );
 
-darkThemeRTL_TestOnly.parameters = { themes: themesDarkDefault };
+export const closableWithActions_TestOnly = (): string => html`
+  <calcite-panel
+    style="height: 100%;"
+    closable
+    heading="Closable with actions"
+    description="A panel that can be closed"
+  >
+    <calcite-action text="information" text-enabled icon="information" slot="header-actions-start"></calcite-action>
+    <calcite-action text="banana" text-enabled icon="banana" slot="header-menu-actions"></calcite-action>
+    <calcite-action text="measure" text-enabled icon="measure" slot="header-menu-actions"></calcite-action>
+    <div id="content" style="height: 100%;">${contentHTML}</div>
+    ${footerHTML}
+  </calcite-panel>
+`;
+
+darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
+
+export const withActionBar_TestOnly = (): string => html`<div style="width: 300px;">
+  <calcite-panel height-scale="s">
+    <calcite-action-bar slot="action-bar">
+      <calcite-action-group>
+        <calcite-action text="Add" icon="plus"> </calcite-action>
+        <calcite-action text="Save" icon="save"> </calcite-action>
+        <calcite-action text="Layers" icon="layers"> </calcite-action>
+      </calcite-action-group>
+    </calcite-action-bar>
+    <div slot="header-content">Header!</div>
+    <p>Slotted content!</p>
+  </calcite-panel>
+</div>`;

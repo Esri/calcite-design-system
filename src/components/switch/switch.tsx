@@ -10,22 +10,22 @@ import {
   VNode
 } from "@stencil/core";
 import { focusElement, toAriaBoolean } from "../../utils/dom";
-import { Scale } from "../interfaces";
-import { LabelableComponent, connectLabel, disconnectLabel, getLabelText } from "../../utils/label";
 import {
+  CheckableFormComponent,
   connectForm,
   disconnectForm,
-  CheckableFormComponent,
   HiddenFormInputSlot
 } from "../../utils/form";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import { isActivationKey } from "../../utils/key";
+import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
 import {
-  setUpLoadableComponent,
-  setComponentLoaded,
+  componentLoaded,
   LoadableComponent,
-  componentLoaded
+  setComponentLoaded,
+  setUpLoadableComponent
 } from "../../utils/loadable";
+import { Scale } from "../interfaces";
 
 @Component({
   tag: "calcite-switch",
@@ -52,10 +52,22 @@ export class Switch
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @Prop({ reflect: true }) disabled = false;
 
+  /**
+   * The ID of the form that will be associated with the component.
+   *
+   * When not set, the component will be associated with its ancestor form element, if any.
+   */
+  @Prop({ reflect: true })
+  form: string;
+
   /** Accessible name for the component. */
   @Prop() label: string;
 
-  /** Specifies the name of the component on form submission. */
+  /**
+   * Specifies the name of the component.
+   *
+   * Required to pass the component's `value` on form submission.
+   */
   @Prop({ reflect: true }) name: string;
 
   /** Specifies the size of the component. */
@@ -103,6 +115,10 @@ export class Switch
   //
   //--------------------------------------------------------------------------
 
+  syncHiddenFormInput(input: HTMLInputElement): void {
+    input.type = "checkbox";
+  }
+
   keyDownHandler = (event: KeyboardEvent): void => {
     if (!this.disabled && isActivationKey(event.key)) {
       this.toggle();
@@ -123,6 +139,10 @@ export class Switch
   }
 
   private clickHandler = (): void => {
+    if (this.disabled) {
+      return;
+    }
+
     this.toggle();
   };
 
@@ -138,8 +158,6 @@ export class Switch
 
   /**
    * Fires when the `checked` value has changed.
-   *
-   * **Note:** The event payload is deprecated, use the component's `checked` property instead.
    */
   @Event({ cancelable: false }) calciteSwitchChange: EventEmitter<void>;
 
@@ -184,9 +202,10 @@ export class Switch
           aria-checked={toAriaBoolean(this.checked)}
           aria-label={getLabelText(this)}
           class="container"
-          ref={this.setSwitchEl}
           role="switch"
           tabIndex={0}
+          // eslint-disable-next-line react/jsx-sort-props
+          ref={this.setSwitchEl}
         >
           <div class="track">
             <div class="handle" />

@@ -3,21 +3,23 @@ import {
   Element,
   Event,
   EventEmitter,
-  Fragment,
   h,
-  Listen,
+  Host,
   Method,
   Prop,
   State,
-  VNode,
   Watch
 } from "@stencil/core";
-import { guid } from "../../utils/guid";
-import { Scale } from "../interfaces";
-import { LabelableComponent, connectLabel, disconnectLabel } from "../../utils/label";
 import { connectForm, disconnectForm, FormComponent, HiddenFormInputSlot } from "../../utils/form";
+import { guid } from "../../utils/guid";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
-import { isActivationKey } from "../../utils/key";
+import { connectLabel, disconnectLabel, LabelableComponent } from "../../utils/label";
+import {
+  componentLoaded,
+  LoadableComponent,
+  setComponentLoaded,
+  setUpLoadableComponent
+} from "../../utils/loadable";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 import {
   connectMessages,
@@ -26,13 +28,10 @@ import {
   T9nComponent,
   updateMessages
 } from "../../utils/t9n";
-import { Messages } from "./assets/rating/t9n";
-import {
-  setUpLoadableComponent,
-  setComponentLoaded,
-  LoadableComponent,
-  componentLoaded
-} from "../../utils/loadable";
+import { Scale } from "../interfaces";
+import { RatingMessages } from "./assets/rating/t9n";
+import { StarIcon } from "./function/star";
+import { Star } from "./interfaces";
 
 @Component({
   tag: "calcite-rating",
@@ -63,41 +62,51 @@ export class Rating
   //
   // --------------------------------------------------------------------------
 
-  /** Specifies the size of the component. */
-  @Prop({ reflect: true }) scale: Scale = "m";
-
-  /** The component's value. */
-  @Prop({ reflect: true, mutable: true }) value = 0;
-
-  /** When `true`, the component's value can be read, but cannot be modified. */
-  @Prop({ reflect: true }) readOnly = false;
-
-  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
-  @Prop({ reflect: true }) disabled = false;
-
-  /** When `true`, and if available, displays the `average` and/or `count` data summary in a `calcite-chip`. */
-  @Prop({ reflect: true }) showChip = false;
+  /** Specifies a cumulative average from previous ratings to display. */
+  @Prop({ reflect: true }) average: number;
 
   /** Specifies the number of previous ratings to display. */
   @Prop({ reflect: true }) count: number;
 
-  /** Specifies a cumulative average from previous ratings to display. */
-  @Prop({ reflect: true }) average: number;
+  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  @Prop({ reflect: true }) disabled = false;
 
-  /** Specifies the name of the component on form submission. */
-  @Prop({ reflect: true }) name: string;
+  /**
+   * The ID of the form that will be associated with the component.
+   *
+   * When not set, the component will be associated with its ancestor form element, if any.
+   */
+  @Prop({ reflect: true })
+  form: string;
 
   /**
    * Made into a prop for testing purposes only
    *
    * @internal
    */
-  @Prop({ mutable: true }) messages: Messages;
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
+  @Prop({ mutable: true }) messages: RatingMessages;
 
   /**
    * Use this property to override individual strings used by the component.
    */
-  @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
+  @Prop({ mutable: true }) messageOverrides: Partial<RatingMessages>;
+
+  @Watch("messageOverrides")
+  onMessagesChange(): void {
+    /* wired up by t9n util */
+  }
+
+  /**
+   * Specifies the name of the component.
+   *
+   * Required to pass the component's `value` on form submission.
+   */
+  @Prop({ reflect: true }) name: string;
+
+  /** When `true`, the component's value can be read, but cannot be modified. */
+  @Prop({ reflect: true }) readOnly = false;
 
   /**
    * When `true`, the component must have a value in order for the form to submit.
@@ -106,10 +115,57 @@ export class Rating
    */
   @Prop({ reflect: true }) required = false;
 
-  @Watch("messageOverrides")
-  onMessagesChange(): void {
-    /* wired up by t9n util */
+  /** Specifies the size of the component. */
+  @Prop({ reflect: true }) scale: Scale = "m";
+
+  /** When `true`, and if available, displays the `average` and/or `count` data summary in a `calcite-chip`. */
+  @Prop({ reflect: true }) showChip = false;
+
+  /** The component's value. */
+  @Prop({ reflect: true, mutable: true }) value = 0;
+
+  @Watch("value")
+  handleValueUpdate(newValue: number): void {
+    this.hoverValue = newValue;
+    this.focusValue = newValue;
+    if (this.emit) {
+      this.calciteRatingChange.emit();
+    }
+
+    this.emit = false;
   }
+
+  //--------------------------------------------------------------------------
+  //
+  //  Events
+  //
+  //--------------------------------------------------------------------------
+
+  /**
+   * Fires when the component's value changes.
+   */
+  @Event({ cancelable: false }) calciteRatingChange: EventEmitter<void>;
+
+  //--------------------------------------------------------------------------
+  //
+  //  Static
+  //
+  //--------------------------------------------------------------------------
+
+  @State() effectiveLocale = "";
+
+  @Watch("effectiveLocale")
+  effectiveLocaleChange(): void {
+    updateMessages(this, this.effectiveLocale);
+  }
+
+  @State() defaultMessages: RatingMessages;
+
+  @State() hoverValue: number;
+
+  @State() focusValue: number;
+
+  @State() hasFocus: boolean;
 
   //--------------------------------------------------------------------------
   //
@@ -127,6 +183,45 @@ export class Rating
   async componentWillLoad(): Promise<void> {
     await setUpMessages(this);
     setUpLoadableComponent(this);
+    this.inputRefs = Array(this.max);
+  }
+
+  componentWillRender(): void {
+    this.starsMap = Array.from({ length: this.max }, (_, i) => {
+      const value = i + 1;
+      const average =
+        !this.focusValue &&
+        !this.hoverValue &&
+        this.average &&
+        !this.value &&
+        value <= this.average;
+      const checked = value === this.value;
+      const focused = this.isKeyboardInteraction && this.hasFocus && this.focusValue === value;
+      const fraction = this.average && this.average + 1 - value;
+      const hovered = value <= this.hoverValue;
+      const id = `${this.guid}-${value}`;
+      const partial =
+        !this.focusValue &&
+        !this.hoverValue &&
+        !this.value &&
+        !hovered &&
+        fraction > 0 &&
+        fraction < 1;
+      const selected = this.value >= value;
+
+      return {
+        average,
+        checked,
+        focused,
+        fraction,
+        hovered,
+        id,
+        idx: i,
+        partial,
+        selected,
+        value
+      };
+    });
   }
 
   componentDidLoad(): void {
@@ -144,111 +239,88 @@ export class Rating
     updateHostInteraction(this);
   }
 
-  //--------------------------------------------------------------------------
-  //
-  //  Events
-  //
-  //--------------------------------------------------------------------------
-
-  /**
-   * Fires when the component's value changes.
-   */
-  @Event({ cancelable: false }) calciteRatingChange: EventEmitter<void>;
-
-  //--------------------------------------------------------------------------
-  //
-  //  Event Listeners
-  //
-  //--------------------------------------------------------------------------
-
-  @Listen("blur")
-  blurHandler(): void {
-    this.hasFocus = false;
-  }
-
-  // --------------------------------------------------------------------------
-  //
-  //  Render Methods
-  //
-  // --------------------------------------------------------------------------
-
-  renderStars(): VNode[] {
-    return [1, 2, 3, 4, 5].map((i) => {
-      const selected = this.value >= i;
-      const average = this.average && !this.value && i <= this.average;
-      const hovered = i <= this.hoverValue;
-      const fraction = this.average && this.average + 1 - i;
-      const partial = !this.value && !hovered && fraction > 0 && fraction < 1;
-      const focused = this.hasFocus && this.focusValue === i;
-      return (
-        <span class={{ wrapper: true }}>
-          <label
-            class={{ star: true, focused, selected, average, hovered, partial }}
-            htmlFor={`${this.guid}-${i}`}
-            onPointerOver={() => {
-              this.hoverValue = i;
-            }}
-          >
-            <calcite-icon
-              aria-hidden="true"
-              class="icon"
-              icon={selected || average || this.readOnly ? "star-f" : "star"}
-              scale={this.scale}
-            />
-            {partial && (
-              <div class="fraction" style={{ width: `${fraction * 100}%` }}>
-                <calcite-icon icon="star-f" scale={this.scale} />
-              </div>
-            )}
-            <span class="visually-hidden">{this.messages.stars.replace("${num}", `${i}`)}</span>
-          </label>
-          <input
-            checked={i === this.value}
-            class="visually-hidden"
-            disabled={this.disabled || this.readOnly}
-            id={`${this.guid}-${i}`}
-            name={this.guid}
-            onChange={() => this.updateValue(i)}
-            onClick={(event) =>
-              // click is fired from the component's label, so we treat this as an internal event
-              event.stopPropagation()
-            }
-            onFocus={() => this.onFocusChange(i)}
-            onKeyDown={this.onKeyboardPressed}
-            ref={(el) =>
-              (i === 1 || i === this.value) && (this.inputFocusRef = el as HTMLInputElement)
-            }
-            type="radio"
-            value={i}
-          />
-        </span>
-      );
-    });
-  }
-
   render() {
-    const { disabled, messages, showChip, scale, count, average } = this;
-
     return (
-      <Fragment>
-        <fieldset
-          class="fieldset"
-          disabled={disabled}
-          onBlur={() => (this.hoverValue = null)}
-          onPointerLeave={() => (this.hoverValue = null)}
-          onTouchEnd={() => (this.hoverValue = null)}
-        >
-          <legend class="visually-hidden">{messages.rating}</legend>
-          {this.renderStars()}
-        </fieldset>
-        {(count || average) && showChip ? (
-          <calcite-chip scale={scale} value={count?.toString()}>
-            {!!average && <span class="number--average">{average.toString()}</span>}
-            {!!count && <span class="number--count">({count?.toString()})</span>}
-          </calcite-chip>
-        ) : null}
-        <HiddenFormInputSlot component={this} />
-      </Fragment>
+      <Host
+        onBlur={this.handleRatingFocusLeave}
+        onFocus={this.handleRatingFocusIn}
+        onKeyDown={this.handleHostKeyDown}
+        onPointerOut={this.handleRatingPointerOut}
+        onPointerOver={this.handleRatingPointerOver}
+      >
+        <span class="wrapper">
+          <fieldset class="fieldset" disabled={this.disabled}>
+            <legend class="visually-hidden">{this.messages.rating}</legend>
+            {this.starsMap.map(
+              ({
+                average,
+                checked,
+                focused,
+                fraction,
+                hovered,
+                id,
+                idx,
+                partial,
+                selected,
+                value
+              }) => {
+                return (
+                  <label
+                    class={{
+                      star: true,
+                      focused,
+                      selected,
+                      hovered,
+                      average,
+                      partial
+                    }}
+                    htmlFor={id}
+                    onPointerDown={this.handleLabelPointerDown}
+                    onPointerOver={this.handleLabelPointerOver}
+                  >
+                    <input
+                      checked={checked}
+                      class="visually-hidden"
+                      disabled={this.disabled || this.readOnly}
+                      id={id}
+                      name={this.guid}
+                      onChange={this.handleInputChange}
+                      onKeyDown={this.handleInputKeyDown}
+                      type="radio"
+                      value={value}
+                      // eslint-disable-next-line react/jsx-sort-props
+                      ref={(el) => {
+                        this.inputRefs[idx] = el;
+                        return (
+                          (value === 1 || value === this.value) &&
+                          (this.inputFocusRef = el as HTMLInputElement)
+                        );
+                      }}
+                    />
+                    <StarIcon full={selected || average} scale={this.scale} />
+                    {partial && (
+                      <div class="fraction" style={{ width: `${fraction * 100}%` }}>
+                        <StarIcon full partial scale={this.scale} />
+                      </div>
+                    )}
+                    <span class="visually-hidden">
+                      {this.messages.stars.replace("${num}", `${value}`)}
+                    </span>
+                  </label>
+                );
+              }
+            )}
+
+            {(this.count || this.average) && this.showChip ? (
+              <calcite-chip scale={this.scale} value={this.count?.toString()}>
+                {!!this.average && <span class="number--average">{this.average.toString()}</span>}
+                {!!this.count && <span class="number--count">({this.count?.toString()})</span>}
+              </calcite-chip>
+            ) : null}
+          </fieldset>
+          <HiddenFormInputSlot component={this} />
+        </span>
+      </Host>
     );
   }
 
@@ -262,25 +334,99 @@ export class Rating
     this.setFocus();
   }
 
-  private updateValue(value: number) {
-    this.value = value;
-    this.calciteRatingChange.emit();
-  }
+  private handleRatingPointerOver = () => {
+    this.isKeyboardInteraction = false;
+  };
 
-  private onKeyboardPressed = (event: KeyboardEvent): void => {
-    if (!this.required && isActivationKey(event.key)) {
-      event.preventDefault();
-      this.updateValue(0);
+  private handleRatingPointerOut = () => {
+    this.isKeyboardInteraction = true;
+    this.hoverValue = null;
+    this.focusValue = null;
+    this.hasFocus = false;
+  };
+
+  private handleRatingFocusIn = (): void => {
+    const selectedInput = this.value > 0 ? this.value - 1 : 0;
+    const focusInput = this.inputRefs[selectedInput];
+    const focusValue = Number(focusInput.value);
+
+    focusInput.select();
+    this.focusValue = focusValue;
+    this.hoverValue = focusValue;
+    this.hasFocus = true;
+  };
+
+  private handleRatingFocusLeave = (): void => {
+    this.focusValue = null;
+    this.hoverValue = null;
+    this.hasFocus = false;
+  };
+
+  private handleHostKeyDown = () => {
+    this.isKeyboardInteraction = true;
+  };
+
+  private handleInputKeyDown = (event: KeyboardEvent) => {
+    const target = event.currentTarget as HTMLInputElement;
+    const inputVal = Number(target.value);
+    const key = event.key;
+    const numberKey = key == " " ? undefined : Number(key);
+
+    this.emit = true;
+    if (isNaN(numberKey)) {
+      switch (key) {
+        case "Enter":
+        case " ":
+          this.value = !this.required && this.value === inputVal ? 0 : inputVal;
+          break;
+        case "ArrowLeft":
+          this.value = inputVal - 1;
+          break;
+        case "ArrowRight":
+          this.value = inputVal + 1;
+          break;
+        case "Tab":
+          if (this.hasFocus) {
+            this.hasFocus = false;
+            this.focusValue = null;
+            this.hoverValue = null;
+          }
+        default:
+          break;
+      }
+    } else {
+      if (!this.required && numberKey >= 0 && numberKey <= this.max) {
+        this.value = numberKey;
+      } else if (this.required && numberKey > 0 && numberKey <= this.max) {
+        this.value = numberKey;
+      }
     }
   };
 
-  private onFocusChange = (selectedRatingValue: number): void => {
-    this.hasFocus = true;
-    if (!this.required && this.focusValue === selectedRatingValue) {
-      this.updateValue(0);
-    } else {
-      this.focusValue = selectedRatingValue;
+  private handleInputChange = (event: InputEvent) => {
+    if (this.isKeyboardInteraction === true) {
+      const inputVal = Number(event.target["value"]);
+      this.focusValue = inputVal;
+      this.hoverValue = inputVal;
+      this.value = inputVal;
     }
+  };
+
+  private handleLabelPointerOver = (event: PointerEvent) => {
+    const target = event.currentTarget as HTMLLabelElement;
+    const newPointerValue = Number(target.firstChild["value"] || 0);
+    this.hoverValue = newPointerValue;
+    this.focusValue = null;
+  };
+
+  private handleLabelPointerDown = (event: PointerEvent) => {
+    const target = event.currentTarget as HTMLLabelElement;
+    const inputVal = Number(target.firstChild["value"] || 0);
+
+    this.focusValue = null;
+    this.hoverValue = null;
+    this.emit = true;
+    this.value = !this.required && this.value === inputVal ? 0 : inputVal;
   };
 
   //--------------------------------------------------------------------------
@@ -309,22 +455,17 @@ export class Rating
 
   defaultValue: Rating["value"];
 
-  @State() effectiveLocale = "";
-
-  @Watch("effectiveLocale")
-  effectiveLocaleChange(): void {
-    updateMessages(this, this.effectiveLocale);
-  }
-
-  @State() defaultMessages: Messages;
-
-  @State() hoverValue: number;
-
-  @State() focusValue: number;
-
-  @State() hasFocus: boolean;
+  private emit = false;
 
   private guid = `calcite-ratings-${guid()}`;
 
+  private inputRefs: HTMLInputElement[];
+
   private inputFocusRef: HTMLInputElement;
+
+  private isKeyboardInteraction = true;
+
+  private max = 5;
+
+  private starsMap: Star[];
 }

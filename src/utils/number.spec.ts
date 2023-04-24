@@ -1,5 +1,11 @@
-import { BigDecimal, isValidNumber, parseNumberString, sanitizeNumberString } from "./number";
-import { numberStringFormatter, locales } from "./locale";
+import { locales, numberStringFormatter } from "./locale";
+import {
+  BigDecimal,
+  expandExponentialNumberString,
+  isValidNumber,
+  parseNumberString,
+  sanitizeNumberString
+} from "./number";
 
 describe("isValidNumber", () => {
   it("returns false for string values that can't compute to a number", () => {
@@ -135,5 +141,31 @@ describe("BigDecimal", () => {
       expect(parts.find((part) => part.type === "decimal").value).toBe(numberStringFormatter.decimal);
       expect(parts.find((part) => part.type === "minusSign").value).toBe(numberStringFormatter.minusSign);
     });
+  });
+});
+
+describe("expandExponentialNumberString", () => {
+  it("integer based exponential numbers", () => {
+    expect(expandExponentialNumberString("123e4")).toBe("1230000");
+    expect(expandExponentialNumberString("1e50")).toBe("100000000000000000000000000000000000000000000000000");
+  });
+  it("decimal based exponential number strings", () => {
+    expect(expandExponentialNumberString(".987e0")).toBe("0.987");
+    expect(expandExponentialNumberString(".00000000000000000000000000000000000000000000000001e50")).toBe("1");
+    expect(expandExponentialNumberString("1.2345678987654321000000000000000000000000000000000000000000e16")).toBe(
+      "12345678987654321"
+    );
+  });
+  it("exponential number strings with negative magnitude", () => {
+    expect(expandExponentialNumberString("1.23e-60")).toBe(
+      "0.00000000000000000000000000000000000000000000000000000000000123"
+    );
+    expect(expandExponentialNumberString("100000000000000000000000000000000000000000000000000e-50")).toBe("1");
+  });
+  it("handles non-exponential numbers", () => {
+    expect(expandExponentialNumberString("1100000000000000000000000000000000000000000000000000")).toBe(
+      "1100000000000000000000000000000000000000000000000000"
+    );
+    expect(expandExponentialNumberString("")).toBe("");
   });
 });

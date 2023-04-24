@@ -1,16 +1,15 @@
-import { boolean, text } from "@storybook/addon-knobs";
+import { boolean } from "@storybook/addon-knobs";
+import { storyFilters } from "../../../.storybook/helpers";
+import { placeholderImage } from "../../../.storybook/placeholderImage";
 import {
   Attribute,
-  filterComponentAttributes,
   Attributes,
   createComponentHTML as create,
-  themesDarkDefault
+  filterComponentAttributes,
+  modesDarkDefault
 } from "../../../.storybook/utils";
-import readme from "./readme.md";
-import { TEXT } from "./resources";
 import { html } from "../../../support/formatting";
-import { placeholderImage } from "../../../.storybook/placeholderImage";
-import { storyFilters } from "../../../.storybook/helpers";
+import readme from "./readme.md";
 
 export default {
   title: "Components/Tips/Tip Manager",
@@ -27,47 +26,6 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
         name: "closed",
         commit(): Attribute {
           this.value = boolean("closed", false);
-          delete this.build;
-          return this;
-        }
-      },
-
-      {
-        name: "intl-close",
-        commit(): Attribute {
-          this.value = text("intlClose", TEXT.close);
-          delete this.build;
-          return this;
-        }
-      },
-      {
-        name: "intl-default-title",
-        commit(): Attribute {
-          this.value = text("intlDefaultTitle", TEXT.defaultGroupTitle);
-          delete this.build;
-          return this;
-        }
-      },
-      {
-        name: "intl-pagination-label",
-        commit(): Attribute {
-          this.value = text("intlPaginationLabel", TEXT.defaultPaginationLabel);
-          delete this.build;
-          return this;
-        }
-      },
-      {
-        name: "intl-next",
-        commit(): Attribute {
-          this.value = text("intlNext", TEXT.next);
-          delete this.build;
-          return this;
-        }
-      },
-      {
-        name: "intl-previous",
-        commit(): Attribute {
-          this.value = text("intlPrevious", TEXT.previous);
           delete this.build;
           return this;
         }
@@ -123,13 +81,43 @@ const tipContent = html`
 
 export const simple = (): string => create("calcite-tip-manager", createAttributes(), tipContent);
 
-export const darkThemeRTL_TestOnly = (): string =>
+export const darkModeRTL_TestOnly = (): string =>
   create(
     "calcite-tip-manager",
     createAttributes({ exceptions: ["dir", "class"] }).concat([
       { name: "dir", value: "rtl" },
-      { name: "class", value: "calcite-theme-dark" }
+      { name: "class", value: "calcite-mode-dark" }
     ]),
     tipContent
   );
-darkThemeRTL_TestOnly.parameters = { themes: themesDarkDefault };
+darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
+
+export const hebrewLocale_TestOnly = (): string => html`<calcite-tip-manager heading-level="1" lang="he">
+  <calcite-tip id="one" heading="test"><p>no pre-selected attribute</p></calcite-tip>
+</calcite-tip-manager>`;
+
+export const norwegianLocale_TestOnly = (): string =>
+  html`<calcite-tip-manager lang="nb"
+    ><calcite-tip><p>basic render</p></calcite-tip></calcite-tip-manager
+  >`;
+
+export const FrenchLocale_TestOnly = (): string =>
+  html`<calcite-tip-manager lang="fr"
+    ><calcite-tip><p>basic render</p></calcite-tip></calcite-tip-manager
+  >`;
+
+export const hongKongLocale_TestOnly = (): string =>
+  html`<calcite-tip-manager lang="zh-HK"
+    ><calcite-tip><p>basic render</p></calcite-tip></calcite-tip-manager
+  >`;
+
+export const ukranianLocaleWithTipGroup_TestOnly = (): string => html`<calcite-tip-manager>
+<calcite-tip-group group-title="Tip Manager heading">
+    <calcite-tip heading="Example tip title">
+    <calcite-tip><p>basic render</p></calcite-tip>
+</calcite-tip-group>
+</calcite-tip-manager>`;
+
+export const bosnianLocale_TestOnly = (): string => html`<calcite-tip-manager heading-level="1" lang="bs">
+  <calcite-tip id="one" heading="test"><p>no pre-selected attribute</p></calcite-tip>
+</calcite-tip-manager>`;

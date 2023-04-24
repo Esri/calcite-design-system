@@ -1,4 +1,4 @@
-import { newE2EPage } from "@stencil/core/testing";
+import { E2EElement, E2EPage, newE2EPage } from "@stencil/core/testing";
 import {
   defaults,
   disabled,
@@ -6,15 +6,13 @@ import {
   labelable,
   floatingUIOwner,
   renders,
-  hidden
+  hidden,
+  t9n
 } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { CSS } from "./resources";
 import { CSS as MONTH_HEADER_CSS } from "../date-picker-month-header/resources";
-import { dateFromISO, setEndOfDay } from "../../utils/date";
-import englishTranslations from "../date-picker/assets/date-picker/nls/en.json";
-import arabicTranslations from "../date-picker/assets/date-picker/nls/ar.json";
-
+import { getFocusedElementProp, skipAnimations } from "../../tests/utils";
 const animationDurationInMs = 200;
 
 describe("calcite-input-date-picker", () => {
@@ -38,6 +36,8 @@ describe("calcite-input-date-picker", () => {
 
   it("can be disabled", () => disabled("calcite-input-date-picker"));
 
+  it.skip("supports t9n", () => t9n("calcite-input-date-picker"));
+
   describe("event emitting when the value changes", () => {
     it("emits change event when value is committed for single date", async () => {
       const page = await newE2EPage();
@@ -48,7 +48,7 @@ describe("calcite-input-date-picker", () => {
 
       expect(await input.getProperty("value")).toBe("");
 
-      await input.callMethod("setFocus");
+      await input.click();
       await page.waitForChanges();
       await page.waitForTimeout(animationDurationInMs);
       const wrapper = (
@@ -104,15 +104,12 @@ describe("calcite-input-date-picker", () => {
       await page.setContent(`<calcite-input-date-picker range></calcite-input-date-picker>`);
       const element = await page.find("calcite-input-date-picker");
       const changeEvent = await page.spyOnEvent("calciteInputDatePickerChange");
-      const deprecatedChangeEvent = await page.spyOnEvent("calciteDatePickerRangeChange");
       element.setProperty("value", ["2023-03-07", "2023-03-08"]);
       await page.waitForChanges();
       expect(changeEvent).toHaveReceivedEventTimes(0);
-      expect(deprecatedChangeEvent).toHaveReceivedEventTimes(0);
       element.setProperty("value", ["", ""]);
       await page.waitForChanges();
       expect(changeEvent).toHaveReceivedEventTimes(0);
-      expect(deprecatedChangeEvent).toHaveReceivedEventTimes(0);
     });
 
     it("emits when value is committed for date range", async () => {
@@ -120,9 +117,8 @@ describe("calcite-input-date-picker", () => {
       await page.setContent("<calcite-input-date-picker range></calcite-input-date-picker>");
       const input = await page.find("calcite-input-date-picker");
       const changeEvent = await page.spyOnEvent("calciteInputDatePickerChange");
-      const deprecatedChangeEvent = await page.spyOnEvent("calciteDatePickerRangeChange");
 
-      await input.callMethod("setFocus");
+      await input.click();
       await page.waitForChanges();
       await page.waitForTimeout(animationDurationInMs);
 
@@ -135,39 +131,26 @@ describe("calcite-input-date-picker", () => {
 
       const inputtedStartDate = "1/1/2020";
       const expectedStartDateComponentValue = "2020-01-01";
-      const expectedStartDateISO = dateFromISO(expectedStartDateComponentValue).toISOString();
 
       const inputtedEndDate = "2/2/2020";
       const expectedEndDateComponentValue = "2020-02-02";
-      const expectedEndDateISO = setEndOfDay(dateFromISO(expectedEndDateComponentValue)).toISOString();
 
       await page.keyboard.type(inputtedStartDate);
       await page.keyboard.press("Enter");
       await page.waitForChanges();
 
-      let expectedEventDetail = { startDate: expectedStartDateISO, endDate: null };
-
       expect(await input.getProperty("value")).toEqual([expectedStartDateComponentValue, ""]);
       expect(changeEvent).toHaveReceivedEventTimes(1);
-      expect(deprecatedChangeEvent).toHaveReceivedEventTimes(1);
-      expect(deprecatedChangeEvent).toHaveReceivedEventDetail(expectedEventDetail);
 
       await page.keyboard.type(inputtedEndDate);
       await page.keyboard.press("Enter");
       await page.waitForChanges();
-
-      expectedEventDetail = {
-        startDate: expectedStartDateISO,
-        endDate: expectedEndDateISO
-      };
 
       expect(await input.getProperty("value")).toEqual([
         expectedStartDateComponentValue,
         expectedEndDateComponentValue
       ]);
       expect(changeEvent).toHaveReceivedEventTimes(2);
-      expect(deprecatedChangeEvent).toHaveReceivedEventTimes(2);
-      expect(deprecatedChangeEvent).toHaveReceivedEventDetail(expectedEventDetail);
 
       await page.keyboard.press("Backspace");
       await page.keyboard.press("Backspace");
@@ -182,12 +165,8 @@ describe("calcite-input-date-picker", () => {
       await page.keyboard.press("Enter");
       await page.waitForChanges();
 
-      expectedEventDetail = { startDate: expectedStartDateISO, endDate: null };
-
       expect(await input.getProperty("value")).toEqual([expectedStartDateComponentValue, ""]);
       expect(changeEvent).toHaveReceivedEventTimes(3);
-      expect(deprecatedChangeEvent).toHaveReceivedEventTimes(3);
-      expect(deprecatedChangeEvent).toHaveReceivedEventDetail(expectedEventDetail);
     });
 
     it("doesn't emit change event and doesn't clear input when an invalid date is entered in input (allows free form typing)", async () => {
@@ -195,16 +174,14 @@ describe("calcite-input-date-picker", () => {
       await page.setContent("<calcite-input-date-picker></calcite-input-date-picker>");
       const inputDatePicker = await page.find("calcite-input-date-picker");
       const changeEvent = await page.spyOnEvent("calciteInputDatePickerChange");
-      const deprecatedChangeEvent = await page.spyOnEvent("calciteDatePickerRangeChange");
 
-      await inputDatePicker.callMethod("setFocus");
+      await inputDatePicker.click();
       await page.waitForChanges();
       await page.keyboard.type("3/7/");
       await page.keyboard.press("Enter");
       await page.waitForChanges();
 
       expect(changeEvent).toHaveReceivedEventTimes(0);
-      expect(deprecatedChangeEvent).toHaveReceivedEventTimes(0);
 
       const inputValue = await page.evaluate(() => {
         const inputDatePicker = document.querySelector("calcite-input-date-picker");
@@ -233,7 +210,7 @@ describe("calcite-input-date-picker", () => {
     for (let i = 0; i < 10; i++) {
       await input.press("Backspace");
     }
-    input.press("Enter");
+    await input.press("Enter");
 
     await page.waitForChanges();
 
@@ -241,46 +218,148 @@ describe("calcite-input-date-picker", () => {
     expect(await element.getProperty("value")).toBe("");
   });
 
-  it("displays a calendar when clicked", async () => {
-    const page = await newE2EPage({
-      html: "<calcite-input-date-picker value='2000-11-27'></calcite-input-date-picker>"
+  describe("toggling date picker", () => {
+    let page: E2EPage;
+    let inputDatePicker: E2EElement;
+
+    beforeEach(async () => {
+      page = await newE2EPage();
+      await page.setContent(html` <calcite-input-date-picker value="2000-11-27"></calcite-input-date-picker>`);
+      await skipAnimations(page);
+      await page.waitForChanges();
+      inputDatePicker = await page.find("calcite-input-date-picker");
     });
-    await page.waitForChanges();
-    const date = await page.find("calcite-input-date-picker");
 
-    await date.click();
-    await page.waitForChanges();
-    const calendar = await page.find("calcite-input-date-picker >>> .calendar-picker-wrapper");
+    it("toggles the date picker when clicked", async () => {
+      let calendar = await page.find("calcite-input-date-picker >>> .calendar-picker-wrapper");
 
-    expect(await calendar.isVisible()).toBe(true);
+      expect(await calendar.isVisible()).toBe(false);
+
+      await inputDatePicker.click();
+      await page.waitForChanges();
+      calendar = await page.find("calcite-input-date-picker >>> .calendar-picker-wrapper");
+
+      expect(await calendar.isVisible()).toBe(true);
+
+      await inputDatePicker.click();
+      await page.waitForChanges();
+      calendar = await page.find("calcite-input-date-picker >>> .calendar-picker-wrapper");
+
+      expect(await calendar.isVisible()).toBe(false);
+    });
+
+    it("toggles the date picker when using arrow down/escape key", async () => {
+      let calendar = await page.find("calcite-input-date-picker >>> .calendar-picker-wrapper");
+
+      expect(await calendar.isVisible()).toBe(false);
+
+      await inputDatePicker.callMethod("setFocus");
+      await page.waitForChanges();
+      await page.keyboard.press("ArrowDown");
+      await page.waitForChanges();
+      calendar = await page.find("calcite-input-date-picker >>> .calendar-picker-wrapper");
+
+      expect(await calendar.isVisible()).toBe(true);
+
+      await page.keyboard.press("Escape");
+      await page.waitForChanges();
+      calendar = await page.find("calcite-input-date-picker >>> .calendar-picker-wrapper");
+
+      expect(await calendar.isVisible()).toBe(false);
+    });
   });
 
-  it("syncs lang changes to internal date-picker", async () => {
-    const lang = "en";
-    const newLang = "ar";
-    const month = 4;
+  describe("localization", () => {
+    it("renders arabic numerals while typing in the input when numbering-system is set to arab", async () => {
+      const page = await newE2EPage();
+      await page.setContent(
+        `<calcite-input-date-picker lang="ar" numbering-system="arab"></calcite-input-date-picker>`
+      );
+      const getInputValue = async () =>
+        await page.evaluate(
+          () =>
+            document
+              .querySelector("calcite-input-date-picker")
+              .shadowRoot.querySelector("calcite-input")
+              .shadowRoot.querySelector("input").value
+        );
 
-    const page = await newE2EPage();
-    await page.setContent(
-      `<calcite-input-date-picker lang=${lang} value="2020-${month}-19"></calcite-input-date-picker>`
-    );
-    const inputDatePicker = await page.find("calcite-input-date-picker");
+      await page.keyboard.press("Tab");
+      await page.keyboard.type("1/");
+      await page.waitForChanges();
 
-    const getLocalizedMonth = async () =>
-      await page.evaluate(
-        async (MONTH_HEADER_CSS) =>
-          document
-            .querySelector("calcite-input-date-picker")
-            .shadowRoot.querySelector("calcite-date-picker")
-            .shadowRoot.querySelector("calcite-date-picker-month-header")
-            .shadowRoot.querySelector(`.${MONTH_HEADER_CSS.month}`).textContent,
-        MONTH_HEADER_CSS
+      expect(await getInputValue()).toBe("١‏/");
+
+      await page.keyboard.type("2");
+      await page.waitForChanges();
+
+      // NOTE: This asserted value was copied from the received value in a test failure caused by
+      // typing these same values into the test file using an Arabic input source on macOS.
+      // Make sure to preserve this value when refactoring instead of typing these characters from scratch.
+      expect(await getInputValue()).toBe("١‏‏/٢");
+
+      await page.keyboard.type("/");
+      await page.waitForChanges();
+
+      expect(await getInputValue()).toBe("١‏‏‏/٢‏/");
+
+      await page.keyboard.type("1234");
+      await page.waitForChanges();
+
+      expect(await getInputValue()).toBe("١‏‏‏‏‏‏‏/٢‏‏‏‏‏/١٢٣٤");
+    });
+
+    it("syncs lang changes to internal date-picker and input", async () => {
+      // note that lang values should be available as bundles for both input-date-picker and date-picker
+      const lang = "en";
+      const newLang = "es";
+
+      const year = "2020";
+      const month = "4";
+      const day = "19";
+
+      const langTranslations = await import(`../date-picker/assets/date-picker/nls/${lang}.json`);
+      const newLangTranslations = await import(`../date-picker/assets/date-picker/nls/${newLang}.json`);
+
+      const page = await newE2EPage();
+      await page.setContent(
+        `<calcite-input-date-picker lang=${lang} value="${year}-${month}-${day}"></calcite-input-date-picker>`
+      );
+      const inputDatePicker = await page.find("calcite-input-date-picker");
+
+      const getLocalizedMonth = async () =>
+        await page.evaluate(
+          async (MONTH_HEADER_CSS) =>
+            document
+              .querySelector("calcite-input-date-picker")
+              .shadowRoot.querySelector("calcite-date-picker")
+              .shadowRoot.querySelector("calcite-date-picker-month-header")
+              .shadowRoot.querySelector(`.${MONTH_HEADER_CSS.month}`).textContent,
+          MONTH_HEADER_CSS
+        );
+
+      const getLocalizedInputValue = async () =>
+        await page.evaluate(
+          async () =>
+            document
+              .querySelector("calcite-input-date-picker")
+              .shadowRoot.querySelector("calcite-input")
+              .shadowRoot.querySelector("input").value
+        );
+
+      expect(await getLocalizedMonth()).toEqual(langTranslations.months.wide[Number(month) - 1]);
+      expect(await getLocalizedInputValue()).toBe(
+        langTranslations.placeholder.replace("DD", day).replace("MM", month).replace("YYYY", year)
       );
 
-    expect(await getLocalizedMonth()).toEqual(englishTranslations.months.wide[month - 1]);
-    inputDatePicker.setProperty("lang", newLang);
-    await page.waitForChanges();
-    expect(await getLocalizedMonth()).toEqual(arabicTranslations.months.wide[month - 1]);
+      inputDatePicker.setProperty("lang", newLang);
+      await page.waitForChanges();
+
+      expect(await getLocalizedMonth()).toEqual(newLangTranslations.months.wide[Number(month) - 1]);
+      expect(await getLocalizedInputValue()).toBe(
+        newLangTranslations.placeholder.replace("DD", day).replace("MM", month).replace("YYYY", year)
+      );
+    });
   });
 
   it("allows clicking a date in the calendar popup", async () => {
@@ -288,7 +367,7 @@ describe("calcite-input-date-picker", () => {
     await page.setContent(`<calcite-input-date-picker value="2023-01-31"></calcite-input-date-picker>`);
     const inputDatePicker = await page.find("calcite-input-date-picker");
 
-    await inputDatePicker.callMethod("setFocus");
+    await inputDatePicker.click();
     await page.waitForChanges();
 
     await page.evaluate(() => {
@@ -347,7 +426,7 @@ describe("calcite-input-date-picker", () => {
 
     expect(await input.getProperty("value")).toBe("");
 
-    await component.callMethod("setFocus");
+    await component.click();
     await page.waitForChanges();
     const calendar = await page.find(`#canReadOnly >>> .${CSS.menu}`);
 
@@ -410,34 +489,19 @@ describe("calcite-input-date-picker", () => {
 
   it("should return endDate time as 23:59:999 when end value is typed", async () => {
     const page = await newE2EPage();
-    await page.setContent(html` <calcite-input-date-picker layout="horizontal" range />`);
-
-    const datepickerEl = await page.find("calcite-input-date-picker");
-    const eventSpy = await datepickerEl.spyOnEvent("calciteDatePickerRangeChange");
+    await page.setContent(html` <calcite-input-date-picker layout="horizontal" range></calcite-input-date-picker>`);
+    const changeEvent = await page.spyOnEvent("calciteInputDatePickerChange");
+    const datePickerEl = await page.find("calcite-input-date-picker");
     await page.waitForChanges();
 
     await page.keyboard.press("Tab");
-    await page.waitForChanges();
     await page.keyboard.press("Tab");
-    await page.waitForChanges();
-    await page.keyboard.press("Tab");
-    await page.waitForChanges();
-    await page.keyboard.press("Tab");
-    await page.waitForChanges();
-    await page.keyboard.press("Tab");
-    await page.waitForChanges();
-    await page.keyboard.press("Tab");
-    await page.waitForChanges();
-    await page.keyboard.press("Tab");
-    await page.waitForChanges();
-    await datepickerEl.type("08/30/2022");
+    await datePickerEl.type("08/30/2022");
     await page.keyboard.press("Enter");
     await page.waitForChanges();
 
-    expect(eventSpy).toHaveReceivedEventDetail({
-      startDate: null,
-      endDate: new Date(2022, 7, 30, 23, 59, 59, 999).toISOString()
-    });
+    expect(changeEvent).toHaveReceivedEventTimes(1);
+    expect(await datePickerEl.getProperty("value")).toEqual(["", "2022-08-30"]);
   });
 
   it("should update this.value and input value when valueAsDate is set", async () => {
@@ -504,14 +568,16 @@ describe("calcite-input-date-picker", () => {
 
   it("should return endDate time as 23:59:999 when valueAsDate property is parsed", async () => {
     const page = await newE2EPage();
-    await page.setContent(html` <calcite-input-date-picker layout="horizontal" range />`);
+    await page.setContent(html` <calcite-input-date-picker layout="horizontal" range></calcite-input-date-picker>`);
+
+    const changeEvent = await page.spyOnEvent("calciteInputDatePickerChange");
 
     const datepickerEl = await page.find("calcite-input-date-picker");
     datepickerEl.setProperty("value", ["2022-08-10", "2022-08-20"]);
-    const eventSpy = await datepickerEl.spyOnEvent("calciteDatePickerRangeChange");
 
     await page.keyboard.press("Tab");
     await page.waitForChanges();
+
     await page.keyboard.press("Backspace");
     await page.waitForChanges();
     await page.keyboard.press("Backspace");
@@ -537,9 +603,124 @@ describe("calcite-input-date-picker", () => {
     await page.keyboard.press("Enter");
     await page.waitForChanges();
 
-    expect(eventSpy).toHaveReceivedEventDetail({
-      startDate: new Date(2022, 7, 15).toISOString(),
-      endDate: new Date(2022, 7, 20, 23, 59, 59, 999).toISOString()
+    expect(changeEvent).toHaveReceivedEventTimes(1);
+    expect(await datepickerEl.getProperty("value")).toEqual(["2022-08-15", "2022-08-20"]);
+  });
+
+  describe("focus trapping", () => {
+    it("traps focus only when open", async () => {
+      const page = await newE2EPage();
+      await page.setContent(
+        html` <calcite-input-date-picker></calcite-input-date-picker>
+          <div id="next-sibling" tabindex="0">next sibling</div>`
+      );
+
+      await page.keyboard.press("Tab");
+      expect(await getFocusedElementProp(page, "tagName")).toBe("CALCITE-INPUT-DATE-PICKER");
+
+      await page.keyboard.press("Tab");
+      expect(await getFocusedElementProp(page, "id")).toBe("next-sibling");
+
+      await page.keyboard.down("Shift");
+      await page.keyboard.press("Tab");
+      await page.keyboard.up("Shift");
+      expect(await getFocusedElementProp(page, "tagName")).toBe("CALCITE-INPUT-DATE-PICKER");
+      expect(await getFocusedElementProp(page, "tagName", { shadow: true })).toBe("CALCITE-INPUT");
+
+      const opening = page.waitForEvent("calciteInputDatePickerOpen");
+      await page.keyboard.press("ArrowDown");
+      await opening;
+      expect(await getFocusedElementProp(page, "tagName", { shadow: true })).toBe("CALCITE-DATE-PICKER");
+
+      await page.keyboard.down("Shift");
+      await page.keyboard.press("Tab");
+      await page.keyboard.up("Shift");
+      expect(await getFocusedElementProp(page, "tagName", { shadow: true })).toBe("CALCITE-DATE-PICKER");
+
+      await page.keyboard.press("Tab");
+      expect(await getFocusedElementProp(page, "tagName", { shadow: true })).toBe("CALCITE-DATE-PICKER");
+
+      const closing = page.waitForEvent("calciteInputDatePickerClose");
+      await page.keyboard.press("Escape");
+      await closing;
+      expect(await getFocusedElementProp(page, "tagName")).toBe("CALCITE-INPUT-DATE-PICKER");
+      expect(await getFocusedElementProp(page, "tagName", { shadow: true })).toBe("CALCITE-INPUT");
+
+      await page.keyboard.press("Tab");
+      expect(await getFocusedElementProp(page, "id")).toBe("next-sibling");
+    });
+
+    it("traps focus only when open (range)", async () => {
+      const page = await newE2EPage();
+      await page.setContent(
+        html`<calcite-input-date-picker range></calcite-input-date-picker>
+          <div id="next-sibling" tabindex="0">next sibling</div>`
+      );
+
+      await page.keyboard.press("Tab");
+      expect(await getFocusedElementProp(page, "tagName")).toBe("CALCITE-INPUT-DATE-PICKER");
+
+      await page.keyboard.press("Tab");
+      expect(await getFocusedElementProp(page, "tagName")).toBe("CALCITE-INPUT-DATE-PICKER");
+
+      await page.keyboard.press("Tab");
+      expect(await getFocusedElementProp(page, "id")).toBe("next-sibling");
+
+      await page.keyboard.down("Shift");
+      await page.keyboard.press("Tab");
+      await page.keyboard.up("Shift");
+      expect(await getFocusedElementProp(page, "tagName")).toBe("CALCITE-INPUT-DATE-PICKER");
+
+      await page.keyboard.down("Shift");
+      await page.keyboard.press("Tab");
+      await page.keyboard.up("Shift");
+      expect(await getFocusedElementProp(page, "tagName")).toBe("CALCITE-INPUT-DATE-PICKER");
+      expect(await getFocusedElementProp(page, "tagName", { shadow: true })).toBe("CALCITE-INPUT");
+
+      const startOpening = page.waitForEvent("calciteInputDatePickerOpen");
+      await page.keyboard.press("ArrowDown");
+      await startOpening;
+      expect(await getFocusedElementProp(page, "tagName", { shadow: true })).toBe("CALCITE-DATE-PICKER");
+
+      await page.keyboard.down("Shift");
+      await page.keyboard.press("Tab");
+      await page.keyboard.up("Shift");
+      expect(await getFocusedElementProp(page, "tagName", { shadow: true })).toBe("CALCITE-DATE-PICKER");
+
+      await page.keyboard.press("Tab");
+      expect(await getFocusedElementProp(page, "tagName", { shadow: true })).toBe("CALCITE-DATE-PICKER");
+
+      const startClosing = page.waitForEvent("calciteInputDatePickerClose");
+      await page.keyboard.press("Escape");
+      await startClosing;
+      expect(await getFocusedElementProp(page, "tagName")).toBe("CALCITE-INPUT-DATE-PICKER");
+      expect(await getFocusedElementProp(page, "tagName", { shadow: true })).toBe("CALCITE-INPUT");
+
+      await page.keyboard.press("Tab");
+      expect(await getFocusedElementProp(page, "tagName")).toBe("CALCITE-INPUT-DATE-PICKER");
+      expect(await getFocusedElementProp(page, "tagName", { shadow: true })).toBe("CALCITE-INPUT");
+
+      const endOpening = page.waitForEvent("calciteInputDatePickerOpen");
+      await page.keyboard.press("ArrowDown");
+      await endOpening;
+      expect(await getFocusedElementProp(page, "tagName", { shadow: true })).toBe("CALCITE-DATE-PICKER");
+
+      await page.keyboard.down("Shift");
+      await page.keyboard.press("Tab");
+      await page.keyboard.up("Shift");
+      expect(await getFocusedElementProp(page, "tagName", { shadow: true })).toBe("CALCITE-DATE-PICKER");
+
+      await page.keyboard.press("Tab");
+      expect(await getFocusedElementProp(page, "tagName", { shadow: true })).toBe("CALCITE-DATE-PICKER");
+
+      const endClosing = page.waitForEvent("calciteInputDatePickerClose");
+      await page.keyboard.press("Escape");
+      await endClosing;
+      expect(await getFocusedElementProp(page, "tagName")).toBe("CALCITE-INPUT-DATE-PICKER");
+      expect(await getFocusedElementProp(page, "tagName", { shadow: true })).toBe("CALCITE-INPUT");
+
+      await page.keyboard.press("Tab");
+      expect(await getFocusedElementProp(page, "id")).toBe("next-sibling");
     });
   });
 });

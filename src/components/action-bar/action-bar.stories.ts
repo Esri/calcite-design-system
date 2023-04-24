@@ -1,15 +1,15 @@
-import { boolean, select, text } from "@storybook/addon-knobs";
-import {
-  Attributes,
-  Attribute,
-  filterComponentAttributes,
-  createComponentHTML as create,
-  themesDarkDefault
-} from "../../../.storybook/utils";
-import readme from "./readme.md";
-import { ATTRIBUTES } from "../../../.storybook/resources";
-import { html } from "../../../support/formatting";
+import { boolean, select } from "@storybook/addon-knobs";
 import { storyFilters } from "../../../.storybook/helpers";
+import { ATTRIBUTES } from "../../../.storybook/resources";
+import {
+  Attribute,
+  Attributes,
+  createComponentHTML as create,
+  filterComponentAttributes,
+  modesDarkDefault
+} from "../../../.storybook/utils";
+import { html } from "../../../support/formatting";
+import readme from "./readme.md";
 
 export default {
   title: "Components/Action Bar",
@@ -71,12 +71,12 @@ export const simple = (): string =>
 export const horizontal = (): string => html`
   <div style="width: 500px;">
     <calcite-action-bar layout="horizontal" style="width:100%">
-      <calcite-action-group layout="horizontal">
+      <calcite-action-group>
         <calcite-action text="Add" icon="plus"> </calcite-action>
         <calcite-action text="Save" icon="save"> </calcite-action>
         <calcite-action text="Layers" icon="layers"> </calcite-action>
       </calcite-action-group>
-      <calcite-action-group layout="horizontal">
+      <calcite-action-group>
         <calcite-action text="Add" icon="plus"> </calcite-action>
         <calcite-action text="Save" active icon="save"> </calcite-action>
         <calcite-action text="Layers" icon="layers"> </calcite-action>
@@ -89,12 +89,12 @@ export const horizontal = (): string => html`
 export const horizontalSmall = (): string => html`
   <div style="width: 250px;">
     <calcite-action-bar layout="horizontal" style="width:100%">
-      <calcite-action-group layout="horizontal">
+      <calcite-action-group>
         <calcite-action text="Add" icon="plus"> </calcite-action>
         <calcite-action text="Save" icon="save"> </calcite-action>
         <calcite-action text="Layers" icon="layers"> </calcite-action>
       </calcite-action-group>
-      <calcite-action-group layout="horizontal">
+      <calcite-action-group>
         <calcite-action text="Add" icon="plus"> </calcite-action>
         <calcite-action text="Save" active icon="save"> </calcite-action>
         <calcite-action text="Layers" icon="layers"> </calcite-action>
@@ -122,7 +122,7 @@ export const withDefinedWidths = (): string =>
     </calcite-action-bar>
   `;
 
-export const darkThemeRTL_TestOnly = (): string =>
+export const darkModeRTL_TestOnly = (): string =>
   create(
     "calcite-action-bar",
     createAttributes({ exceptions: ["dir", "class"] }).concat([
@@ -132,7 +132,7 @@ export const darkThemeRTL_TestOnly = (): string =>
       },
       {
         name: "class",
-        value: "calcite-theme-dark"
+        value: "calcite-mode-dark"
       }
     ]),
     html`
@@ -146,7 +146,7 @@ export const darkThemeRTL_TestOnly = (): string =>
     `
   );
 
-darkThemeRTL_TestOnly.parameters = { themes: themesDarkDefault };
+darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
 
 export const withTooltip_NoTest = (): string =>
   create(

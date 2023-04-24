@@ -191,8 +191,7 @@
   min-inline-size: 0;
   padding-block: var(--calcite-alert-spacing-token-small);
   padding-inline: 0 var(--calcite-alert-spacing-token-small);
-  border-end-start-radius: var(--calcite-border-radius);
-  border-end-end-radius: var(--calcite-border-radius);
+  border-radius: var(--calcite-border-radius);
 
   &:first-of-type:not(:only-child) {
     padding-inline-start: var(--calcite-alert-spacing-token-large);
@@ -209,6 +208,8 @@
     items-center
     self-stretch
     py-0;
+  border-start-start-radius: var(--calcite-border-radius);
+  border-end-start-radius: var(--calcite-border-radius);
 }
 
 .alert-close {
@@ -222,6 +223,7 @@
     py-0
     outline-none;
   border-end-end-radius: var(--calcite-border-radius);
+  border-start-end-radius: var(--calcite-border-radius);
 
   &:hover,
   &:focus {
@@ -283,19 +285,19 @@
   @apply flex self-stretch;
 }
 
-$alertColors: "blue" var(--calcite-ui-info), "red" var(--calcite-ui-danger), "yellow" var(--calcite-ui-warning),
-  "green" var(--calcite-ui-success);
+$alertKinds: "brand" var(--calcite-ui-brand), "info" var(--calcite-ui-info), "danger" var(--calcite-ui-danger),
+  "success" var(--calcite-ui-success), "warning" var(--calcite-ui-warning);
 
-@each $alertColor in $alertColors {
-  $name: nth($alertColor, 1);
-  $color: nth($alertColor, 2);
+@each $alertKind in $alertKinds {
+  $name: nth($alertKind, 1);
+  $kind: nth($alertKind, 2);
 
-  :host([color="#{$name}"]) {
+  :host([kind="#{$name}"]) {
     .container {
-      border-block-start-color: $color;
+      border-block-start-color: $kind;
 
       & .alert-icon {
-        color: $color;
+        color: $kind;
       }
     }
   }
@@ -322,4 +324,12 @@ $alertDurations: "fast" 6000ms, "medium" 10000ms, "slow" 14000ms;
   100% {
     @apply w-full opacity-100;
   }
+}
+
+/**
+ * Conditional styles for when Alert is slotted in Shell
+ */
+
+.container.slotted-in-shell {
+  position: absolute;
 }

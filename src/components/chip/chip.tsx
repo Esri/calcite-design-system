@@ -1,26 +1,34 @@
 import {
+  Build,
   Component,
-  h,
-  Prop,
+  Element,
   Event,
   EventEmitter,
-  Element,
-  VNode,
+  h,
+  Host,
+  Listen,
   Method,
-  Watch,
-  State
+  Prop,
+  State,
+  VNode,
+  Watch
 } from "@stencil/core";
-import { getSlotted } from "../../utils/dom";
-import { guid } from "../../utils/guid";
+import { toAriaBoolean } from "../../utils/dom";
 import { CSS, SLOTS, ICONS } from "./resources";
-import { ChipColor } from "./interfaces";
-import { Appearance, DeprecatedEventPayload, Scale } from "../interfaces";
+import { Appearance, Kind, Scale, SelectionMode } from "../interfaces";
 import {
   ConditionalSlotComponent,
   connectConditionalSlotComponent,
   disconnectConditionalSlotComponent
 } from "../../utils/conditionalSlot";
-import { Messages } from "./assets/chip/t9n";
+import { slotChangeHasAssignedElement } from "../../utils/dom";
+import {
+  componentLoaded,
+  LoadableComponent,
+  setComponentLoaded,
+  setUpLoadableComponent
+} from "../../utils/loadable";
+
 import {
   connectMessages,
   disconnectMessages,
@@ -28,13 +36,11 @@ import {
   T9nComponent,
   updateMessages
 } from "../../utils/t9n";
+import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
-import {
-  setUpLoadableComponent,
-  setComponentLoaded,
-  LoadableComponent,
-  componentLoaded
-} from "../../utils/loadable";
+import { createObserver } from "../../utils/observers";
+import { isActivationKey } from "../../utils/key";
+import { ChipMessages } from "./assets/chip/t9n";
 
 /**
  * @slot - A slot for adding text.
@@ -47,22 +53,38 @@ import {
   assetsDirs: ["assets"]
 })
 export class Chip
-  implements ConditionalSlotComponent, LoadableComponent, LocalizedComponent, T9nComponent
+  implements
+    ConditionalSlotComponent,
+    InteractiveComponent,
+    LoadableComponent,
+    LocalizedComponent,
+    T9nComponent
 {
+  //--------------------------------------------------------------------------
+  //
+  //  Element
+  //
+  //--------------------------------------------------------------------------
+
+  @Element() el: HTMLCalciteChipElement;
+
   //--------------------------------------------------------------------------
   //
   //  Public Properties
   //
   //--------------------------------------------------------------------------
+  /** When true, interaction is prevented and the component is displayed with lower opacity. */
+  @Prop({ reflect: true }) disabled = false;
 
   /** Specifies the appearance style of the component. */
-  @Prop({ reflect: true }) appearance: Extract<"solid" | "transparent", Appearance> = "solid";
+  @Prop({ reflect: true }) appearance: Extract<"outline" | "outline-fill" | "solid", Appearance> =
+    "solid";
 
-  /** Specifies the color for the component. */
-  @Prop({ reflect: true }) color: ChipColor = "grey";
+  /** Specifies the kind of the component (will apply to border and background if applicable). */
+  @Prop({ reflect: true }) kind: Extract<"brand" | "inverse" | "neutral", Kind> = "neutral";
 
   /** When `true`, a close button is added to the component. */
-  @Prop({ reflect: true, mutable: true }) closable = false;
+  @Prop({ reflect: true }) closable = false;
 
   /** Specifies an icon to display. */
   @Prop({ reflect: true }) icon: string;
@@ -73,6 +95,9 @@ export class Chip
   /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";
 
+  /** Accessible name for the component. */
+  @Prop() label: string;
+
   /** The component's value. */
   @Prop() value!: any;
 
@@ -80,31 +105,51 @@ export class Chip
   @Prop({ reflect: true, mutable: true }) closed = false;
 
   /**
+   * This internal property, managed by a containing `calcite-chip-group`, is
+   * conditionally set based on the `selectionMode` of the parent
+   *
+   * @internal
+   */
+  @Prop() selectionMode: Extract<"multiple" | "single" | "single-persist" | "none", SelectionMode> =
+    "none";
+
+  /** When true, the component is selected.  */
+  @Prop({ reflect: true, mutable: true }) selected = false;
+
+  /**
    * Use this property to override individual strings used by the component.
    */
-  @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
+  @Prop({ mutable: true }) messageOverrides: Partial<ChipMessages>;
 
   /**
    * Made into a prop for testing purposes only
    *
    * @internal
    */
-  @Prop({ mutable: true }) messages: Messages;
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
+  @Prop({ mutable: true }) messages: ChipMessages;
 
   @Watch("messageOverrides")
   onMessagesChange(): void {
     /* wired up by t9n util */
   }
 
-  // --------------------------------------------------------------------------
+  /**
+   * When true, enables the chip to be focused, and allows the `calciteChipSelect` to emit.
+   * This is set to `true` by a parent Chip Group component.
+   *
+   * @internal
+   */
+  @Prop() interactive = false;
+
+  //--------------------------------------------------------------------------
   //
-  //  Private State/Properties
+  //  Private State/Props
   //
   // --------------------------------------------------------------------------
 
-  @Element() el: HTMLCalciteChipElement;
-
-  @State() defaultMessages: Messages;
+  @State() defaultMessages: ChipMessages;
 
   @State() effectiveLocale: string;
 
@@ -113,6 +158,39 @@ export class Chip
     updateMessages(this, this.effectiveLocale);
   }
 
+  @State() private hasText = false;
+
+  @State() private hasImage = false;
+
+  private containerEl: HTMLDivElement;
+
+  private closeButtonEl: HTMLButtonElement;
+
+  private parentGroupEl: HTMLCalciteChipGroupElement;
+
+  private mutationObserver = createObserver("mutation", () => this.updateHasText());
+
+  // --------------------------------------------------------------------------
+  //
+  //  Events
+  //
+  // --------------------------------------------------------------------------
+
+  /**
+   * Fires when the component's close button is selected.
+   */
+  @Event({ cancelable: false }) calciteChipClose: EventEmitter<void>;
+
+  /**
+   * Fires when the selected state of the component changes.
+   */
+  @Event({ cancelable: false }) calciteChipSelect: EventEmitter<void>;
+
+  /**
+   * @internal
+   */
+  @Event({ cancelable: false }) calciteInternalChipKeyEvent: EventEmitter<KeyboardEvent>;
+
   // --------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -120,13 +198,19 @@ export class Chip
   // --------------------------------------------------------------------------
 
   connectedCallback(): void {
+    this.parentGroupEl = this.el.parentElement as HTMLCalciteChipGroupElement;
     connectConditionalSlotComponent(this);
     connectLocalized(this);
     connectMessages(this);
+    this.setupTextContentObserver();
   }
 
   componentDidLoad(): void {
     setComponentLoaded(this);
+  }
+
+  componentDidRender(): void {
+    updateHostInteraction(this);
   }
 
   disconnectedCallback(): void {
@@ -137,8 +221,44 @@ export class Chip
 
   async componentWillLoad(): Promise<void> {
     setUpLoadableComponent(this);
-    await setUpMessages(this);
+    if (Build.isBrowser) {
+      await setUpMessages(this);
+      this.updateHasText();
+    }
   }
+  //--------------------------------------------------------------------------
+  //
+  //  Event Listeners
+  //
+  //--------------------------------------------------------------------------
+
+  @Listen("keydown")
+  keyDownHandler(event: KeyboardEvent): void {
+    if (event.target === this.el) {
+      switch (event.key) {
+        case " ":
+        case "Enter":
+          this.handleEmittingEvent();
+          event.preventDefault();
+          break;
+        case "ArrowRight":
+        case "ArrowLeft":
+        case "Home":
+        case "End":
+          this.calciteInternalChipKeyEvent.emit(event);
+          event.preventDefault();
+          break;
+      }
+    }
+  }
+
+  @Listen("click")
+  clickHandler(): void {
+    if (!this.interactive && this.closable) {
+      this.closeButtonEl.focus();
+    }
+  }
+
   //--------------------------------------------------------------------------
   //
   //  Public Methods
@@ -149,22 +269,12 @@ export class Chip
   @Method()
   async setFocus(): Promise<void> {
     await componentLoaded(this);
-
-    this.closeButton?.focus();
+    if (!this.disabled && this.interactive) {
+      this.containerEl?.focus();
+    } else if (!this.disabled && this.closable) {
+      this.closeButtonEl?.focus();
+    }
   }
-
-  // --------------------------------------------------------------------------
-  //
-  //  Events
-  //
-  // --------------------------------------------------------------------------
-
-  /**
-   * Fires when the close button is clicked.
-   *
-   * **Note:**: The `el` event payload props is deprecated, please use the event's `target`/`currentTarget` instead.
-   */
-  @Event({ cancelable: false }) calciteChipClose: EventEmitter<DeprecatedEventPayload>;
 
   // --------------------------------------------------------------------------
   //
@@ -172,15 +282,36 @@ export class Chip
   //
   // --------------------------------------------------------------------------
 
-  closeClickHandler = (event: MouseEvent): void => {
-    event.preventDefault();
-    this.calciteChipClose.emit(this.el);
+  private close = (): void => {
+    this.calciteChipClose.emit();
+    this.selected = false;
     this.closed = true;
   };
 
-  private closeButton: HTMLButtonElement;
+  private closeButtonKeyDownHandler = (event: KeyboardEvent): void => {
+    if (isActivationKey(event.key)) {
+      event.preventDefault();
+      this.close();
+    }
+  };
 
-  private guid: string = guid();
+  private updateHasText() {
+    this.hasText = this.el.textContent.trim().length > 0;
+  }
+
+  private setupTextContentObserver() {
+    this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
+  }
+
+  private handleSlotImageChange = (event: Event): void => {
+    this.hasImage = slotChangeHasAssignedElement(event);
+  };
+
+  private handleEmittingEvent = (): void => {
+    if (this.interactive) {
+      this.calciteChipSelect.emit();
+    }
+  };
 
   //--------------------------------------------------------------------------
   //
@@ -189,42 +320,107 @@ export class Chip
   //--------------------------------------------------------------------------
 
   renderChipImage(): VNode {
-    const { el } = this;
-    const hasChipImage = getSlotted(el, SLOTS.image);
-
-    return hasChipImage ? (
-      <div class={CSS.imageContainer} key="image">
-        <slot name={SLOTS.image} />
+    return (
+      <div class={CSS.imageContainer}>
+        <slot name={SLOTS.image} onSlotchange={this.handleSlotImageChange} />
       </div>
-    ) : null;
+    );
+  }
+
+  renderSelectionIcon(): VNode {
+    const icon =
+      this.selectionMode === "multiple" && this.selected
+        ? ICONS.checked
+        : this.selectionMode === "multiple"
+        ? ICONS.unchecked
+        : this.selected
+        ? ICONS.checkedSingle
+        : undefined;
+
+    return (
+      <div
+        class={{
+          [CSS.selectIcon]: true,
+          [CSS.selectIconActive]: this.selectionMode === "multiple" || this.selected
+        }}
+      >
+        <calcite-icon icon={icon} scale={this.scale === "l" ? "m" : "s"} />
+      </div>
+    );
+  }
+
+  renderCloseButton(): VNode {
+    return (
+      <button
+        aria-label={this.messages.dismissLabel}
+        class={CSS.close}
+        onClick={this.close}
+        onKeyDown={this.closeButtonKeyDownHandler}
+        tabIndex={this.disabled ? -1 : 0}
+        // eslint-disable-next-line react/jsx-sort-props
+        ref={(el) => (this.closeButtonEl = el)}
+      >
+        <calcite-icon icon={ICONS.close} scale={this.scale === "l" ? "m" : "s"} />
+      </button>
+    );
+  }
+
+  renderIcon(): VNode {
+    return (
+      <calcite-icon
+        class={CSS.chipIcon}
+        flipRtl={this.iconFlipRtl}
+        icon={this.icon}
+        scale={this.scale === "l" ? "m" : "s"}
+      />
+    );
   }
 
   render(): VNode {
-    const iconEl = (
-      <calcite-icon class={CSS.chipIcon} flipRtl={this.iconFlipRtl} icon={this.icon} scale="s" />
-    );
-
-    const closeButton = (
-      <button
-        aria-describedby={this.guid}
-        aria-label={this.messages.dismissLabel}
-        class={CSS.close}
-        onClick={this.closeClickHandler}
-        ref={(el) => (this.closeButton = el)}
-      >
-        <calcite-icon class={CSS.closeIcon} icon={ICONS.close} scale="s" />
-      </button>
-    );
-
+    const disableInteraction = this.disabled || (!this.disabled && !this.interactive);
     return (
-      <div class="container">
-        {this.renderChipImage()}
-        {this.icon ? iconEl : null}
-        <span class={CSS.title} id={this.guid}>
-          <slot />
-        </span>
-        {this.closable ? closeButton : null}
-      </div>
+      <Host>
+        <div
+          aria-checked={this.interactive ? toAriaBoolean(this.selected) : undefined}
+          aria-disabled={disableInteraction ? toAriaBoolean(this.disabled) : undefined}
+          aria-label={this.label}
+          aria-labelledby={this.parentGroupEl.label}
+          class={{
+            [CSS.container]: true,
+            [CSS.textSlotted]: this.hasText,
+            [CSS.imageSlotted]: this.hasImage,
+            [CSS.selectable]: this.selectionMode !== "none",
+            [CSS.multiple]: this.selectionMode === "multiple",
+            [CSS.closable]: this.closable,
+            [CSS.nonInteractive]: !this.interactive,
+            [CSS.isCircle]:
+              !this.closable &&
+              !this.hasText &&
+              (!this.icon || !this.hasImage) &&
+              (this.selectionMode === "none" ||
+                (!!this.selectionMode && this.selectionMode !== "multiple" && !this.selected))
+          }}
+          onClick={this.handleEmittingEvent}
+          role={
+            this.selectionMode === "multiple" && this.interactive
+              ? "checkbox"
+              : this.interactive
+              ? "radio"
+              : undefined
+          }
+          tabIndex={disableInteraction ? -1 : 0}
+          // eslint-disable-next-line react/jsx-sort-props
+          ref={(el) => (this.containerEl = el)}
+        >
+          {this.selectionMode !== "none" && this.renderSelectionIcon()}
+          {this.renderChipImage()}
+          {this.icon && this.renderIcon()}
+          <span class={CSS.title}>
+            <slot />
+          </span>
+          {this.closable && this.renderCloseButton()}
+        </div>
+      </Host>
     );
   }
 }

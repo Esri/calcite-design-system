@@ -23,6 +23,7 @@ export const create: () => Config = () => ({
     { components: ["calcite-card"] },
     { components: ["calcite-checkbox"] },
     { components: ["calcite-chip"] },
+    { components: ["calcite-chip-group"] },
     { components: ["calcite-color-picker", "calcite-color-picker-hex-input", "calcite-color-picker-swatch"] },
     { components: ["calcite-combobox", "calcite-combobox-item-group", "calcite-combobox-item"] },
     {
@@ -56,9 +57,9 @@ export const create: () => Config = () => ({
     { components: ["calcite-pick-list", "calcite-pick-list-group", "calcite-pick-list-item"] },
     { components: ["calcite-radio-button"] },
     { components: ["calcite-radio-button-group"] },
-    { components: ["calcite-radio-group", "calcite-radio-group-item"] },
     { components: ["calcite-rating"] },
     { components: ["calcite-scrim"] },
+    { components: ["calcite-segmented-control", "calcite-segmented-control-item"] },
     { components: ["calcite-select", "calcite-option", "calcite-option-group"] },
     { components: ["calcite-shell", "calcite-shell-center-row", "calcite-shell-panel"] },
     { components: ["calcite-slider", "calcite-graph"] },
@@ -67,6 +68,7 @@ export const create: () => Config = () => ({
     { components: ["calcite-stepper", "calcite-stepper-item"] },
     { components: ["calcite-switch"] },
     { components: ["calcite-tab", "calcite-tab-title", "calcite-tab-nav", "calcite-tabs"] },
+    { components: ["calcite-text-area"] },
     { components: ["calcite-tip", "calcite-tip-group", "calcite-tip-manager"] },
     { components: ["calcite-tile"] },
     { components: ["calcite-tile-select-group", "calcite-tile-select"] },
@@ -80,6 +82,10 @@ export const create: () => Config = () => ({
     { type: "dist" },
     { type: "docs-readme" },
     { type: "docs-json", file: "./dist/extras/docs-json.json" },
+    {
+      type: "docs-vscode",
+      file: "./dist/extras/vscode-data.json"
+    },
     { type: "custom", name: "preact", generator: generatePreactTypes },
     {
       type: "www",
@@ -125,6 +131,7 @@ export const create: () => Config = () => ({
   },
   preamble: `All material copyright ESRI, All Rights Reserved, unless otherwise specified.\nSee https://github.com/Esri/calcite-components/blob/master/LICENSE.md for details.\nv${version}`,
   extras: {
+    experimentalImportInjection: true,
     scriptDataOpts: true
   }
 });

@@ -29,18 +29,18 @@ describe("calcite-accordion", () => {
     expect(element).toEqualAttribute("appearance", "solid");
     expect(element).toEqualAttribute("icon-position", "end");
     expect(element).toEqualAttribute("scale", "m");
-    expect(element).toEqualAttribute("selection-mode", "multi");
+    expect(element).toEqualAttribute("selection-mode", "multiple");
     expect(element).toEqualAttribute("icon-type", "chevron");
   });
 
   it("renders requested props when valid props are provided", async () => {
     const page = await newE2EPage();
     await page.setContent(`
-    <calcite-accordion appearance="minimal" icon-position="start"  scale="l" selection-mode="single-persist" icon-type="caret">
+    <calcite-accordion appearance="solid" icon-position="start" scale="l" selection-mode="single-persist" icon-type="caret">
     ${accordionContent}
     </calcite-accordion>`);
     const element = await page.find("calcite-accordion");
-    expect(element).toEqualAttribute("appearance", "minimal");
+    expect(element).toEqualAttribute("appearance", "solid");
     expect(element).toEqualAttribute("icon-position", "start");
     expect(element).toEqualAttribute("scale", "l");
     expect(element).toEqualAttribute("selection-mode", "single-persist");
@@ -50,7 +50,7 @@ describe("calcite-accordion", () => {
   it("renders icon if requested", async () => {
     const page = await newE2EPage();
     await page.setContent(`
-    <calcite-accordion appearance="minimal" icon-position="start"  scale="l" selection-mode="single-persist" icon-type="caret">
+    <calcite-accordion appearance="solid" icon-position="start"  scale="l" selection-mode="single-persist" icon-type="caret">
     <calcite-accordion-item heading="Accordion Title 1" icon-start="car" id="1">Accordion Item Content
     </calcite-accordion-item>
     <calcite-accordion-item heading="Accordion Title 1" id="2" expanded>Accordion Item Content
@@ -73,12 +73,10 @@ describe("calcite-accordion", () => {
     ${accordionContent}
     </calcite-accordion>`);
     const element = await page.find("calcite-accordion");
-    const item1 = await element.find("calcite-accordion-item[id='1']");
-    const item2 = await element.find("calcite-accordion-item[id='2']");
-    const item3 = await element.find("calcite-accordion-item[id='3']");
-    const item1Content = await element.find(`calcite-accordion-item[id='1'] >>> .${CSS.content}`);
-    const item2Content = await element.find(`calcite-accordion-item[id='2'] >>> .${CSS.content}`);
-    const item3Content = await element.find(`calcite-accordion-item[id='3'] >>> .${CSS.content} `);
+    const [item1, item2, item3] = await element.findAll("calcite-accordion-item");
+    const [item1Content, item2Content, item3Content] = await element.findAll(
+      `calcite-accordion-item >>> .${CSS.content}`
+    );
 
     expect(item1).not.toHaveAttribute("expanded");
 
@@ -98,13 +96,11 @@ describe("calcite-accordion", () => {
     ${accordionContent}
     </calcite-accordion>`);
     const element = await page.find("calcite-accordion");
-    expect(element).toEqualAttribute("selection-mode", "multi");
-    const item1 = await element.find("calcite-accordion-item[id='1']");
-    const item2 = await element.find("calcite-accordion-item[id='2']");
-    const item3 = await element.find("calcite-accordion-item[id='3']");
-    const item1Content = await element.find(`calcite-accordion-item[id='1'] >>> .${CSS.content}`);
-    const item2Content = await element.find(`calcite-accordion-item[id='2'] >>> .${CSS.content}`);
-    const item3Content = await element.find(`calcite-accordion-item[id='3'] >>> .${CSS.content}`);
+    expect(element).toEqualAttribute("selection-mode", "multiple");
+    const [item1, item2, item3] = await element.findAll("calcite-accordion-item");
+    const [item1Content, item2Content, item3Content] = await element.findAll(
+      `calcite-accordion-item >>> .${CSS.content}`
+    );
     await item1.click();
     await item3.click();
     expect(item1).toHaveAttribute("expanded");
@@ -126,12 +122,10 @@ describe("calcite-accordion", () => {
     </calcite-accordion>`);
     const element = await page.find("calcite-accordion");
     expect(element).toEqualAttribute("selection-mode", "single");
-    const item1 = await element.find("calcite-accordion-item[id='1']");
-    const item2 = await element.find("calcite-accordion-item[id='2']");
-    const item3 = await element.find("calcite-accordion-item[id='3']");
-    const item1Content = await element.find(`calcite-accordion-item[id='1'] >>> .${CSS.content}`);
-    const item2Content = await element.find(`calcite-accordion-item[id='2'] >>> .${CSS.content}`);
-    const item3Content = await element.find(`calcite-accordion-item[id='3'] >>> .${CSS.content}`);
+    const [item1, item2, item3] = await element.findAll("calcite-accordion-item");
+    const [item1Content, item2Content, item3Content] = await element.findAll(
+      `calcite-accordion-item >>> .${CSS.content}`
+    );
     await item1.click();
     await item3.click();
 
@@ -177,12 +171,10 @@ describe("calcite-accordion", () => {
 
     const element = await page.find("calcite-accordion");
     expect(element).toEqualAttribute("selection-mode", "single-persist");
-    const item1 = await element.find("calcite-accordion-item[id='1']");
-    const item2 = await element.find("calcite-accordion-item[id='2']");
-    const item3 = await element.find("calcite-accordion-item[id='3']");
-    const item1Content = await element.find(`calcite-accordion-item[id='1'] >>> .${CSS.content}`);
-    const item2Content = await element.find(`calcite-accordion-item[id='2'] >>> .${CSS.content}`);
-    const item3Content = await element.find(`calcite-accordion-item[id='3'] >>> .${CSS.content}`);
+    const [item1, item2, item3] = await element.findAll("calcite-accordion-item");
+    const [item1Content, item2Content, item3Content] = await element.findAll(
+      `calcite-accordion-item >>> .${CSS.content}`
+    );
     await item2.click();
 
     expect(item1).not.toHaveAttribute("expanded");
@@ -194,5 +186,32 @@ describe("calcite-accordion", () => {
     expect(await item1Content.isVisible()).toBe(false);
     expect(await item2Content.isVisible()).toBe(true);
     expect(await item3Content.isVisible()).toBe(false);
+  });
+
+  it("renders multiple expanded items when selection mode changes from single to multiple", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`
+    <calcite-accordion selection-mode="single">
+    ${accordionContent}
+    </calcite-accordion>`);
+    const element = await page.find("calcite-accordion");
+    expect(element).toEqualAttribute("selection-mode", "single");
+    element.setAttribute("selection-mode", "multiple");
+    await page.waitForChanges();
+    const [item1, item2, item3] = await element.findAll("calcite-accordion-item");
+    const [item1Content, item2Content, item3Content] = await element.findAll(
+      `calcite-accordion-item >>> .${CSS.content}`
+    );
+    await item1.click();
+    await item3.click();
+    expect(item1).toHaveAttribute("expanded");
+
+    expect(item2).toHaveAttribute("expanded");
+
+    expect(item3).toHaveAttribute("expanded");
+
+    expect(await item1Content.isVisible()).toBe(true);
+    expect(await item2Content.isVisible()).toBe(true);
+    expect(await item3Content.isVisible()).toBe(true);
   });
 });

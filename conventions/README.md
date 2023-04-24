@@ -48,7 +48,7 @@ All public events should be documented with [JSDoc](https://jsdoc.app/).
 Event names should be treated like global variables since they can collide with any other event names and global variables. As such follow these guidelines when naming events.
 
 - Name events list `Component + Event name` for example the `change` event on `<calcite-tabs>` should be named `calciteTabsChange`.
-- Always prefix event names with `calcite` and never use an event name used by existing DOM standards https://developer.mozilla.org/en-US/docs/Web/Events.
+- Always prefix event names with `calcite` and never use an event name used by existing DOM standards <https://developer.mozilla.org/en-US/docs/Web/Events>.
 - For example:
   - Bad: `change`
   - Good: `calciteTabChange`
@@ -57,7 +57,7 @@ Event names should be treated like global variables since they can collide with 
 
 **Discussed In:**
 
-- https://github.com/Esri/calcite-components/pull/24/files/3446c89010e3ef0421803d68d627aba2e7c4bfa0#r289430227
+- <https://github.com/Esri/calcite-components/pull/24/files/3446c89010e3ef0421803d68d627aba2e7c4bfa0#r289430227>
 
 ### Private/Internal Events
 
@@ -116,6 +116,28 @@ class CompositeOrParentComponent {
 
 Pointer events should be used in favor of mouse events to maximize device compatibility.
 
+### Event listeners
+
+There are a few ways to add event listeners within our components:
+
+1. `@Listen` decorator
+   - automatically cleaned up by component lifecycle
+   - can easily specify [different event listener options](https://stenciljs.com/docs/events#listen-decorator)
+   - does not provide event type information
+   - event name is not type checked
+2. JSX event listener props
+   - automatically cleaned up by component lifecycle
+   - cannot specify event listener options (some events may have a matching capture prop)
+   - provides event type information
+   - event name is type checked
+3. `addListener`
+   - not removed by the component lifecycle, so the listener needs to be explicitly removed to prevent memory leaks
+   - provides total flexibility regarding event listener options
+   - provides event type information
+   - event name is not type checked
+
+1 and 2 should be used whenever possible (which one you use will depend on convenience). 3 should only be used whenever 1 and 2 are not possible or ideal.
+
 ## Properties
 
 Private/internal properties should be annotated accordingly to avoid exposing them in the doc and/or API. You can do this by using the `@private`/`@internal` [JSDoc](https://jsdoc.app/) tags.
@@ -130,6 +152,20 @@ It is recommended to reflect properties that fit the following criteria:
 - required for internal styling or would make internal styling easier
 
 Doing so will give developers more flexibility when querying the DOM. This is important in framework environments where we can't safely assume components will have their attributes set vs properties.
+
+### `ref` usage
+
+Due to a [bug in Stencil](https://github.com/ionic-team/stencil/issues/4074), `ref` should be set as the last property in JSX to ensure the node's attributes/properties are up to date.
+
+```jsx
+<div
+  class={CSS.foo}
+  // ...
+  tabIndex={0}
+  // eslint-disable-next-line react/jsx-sort-props
+  ref={this.storeSomeElementRef}
+/>
+```
 
 ## Focus support
 
@@ -188,22 +224,22 @@ Notice `.card` does not appear anywhere. We would then apply styles to the host 
 Modifier classes on the "block" (host element) can often be written by reflecting the prop and selecting it directly via an attribute selector:
 
 ```scss
-:host([color="blue"]) {
+:host([kind="success"]) {
 }
 ```
 
 This builds a nice symmetry between the styling and the public API of a component.
 
-- https://github.com/ArcGIS/calcite-components/issues/28
-- https://github.com/ArcGIS/calcite-components/pull/24#discussion_r287462934
-- https://github.com/ArcGIS/calcite-components/pull/24#issuecomment-495788683
-- https://github.com/ArcGIS/calcite-components/pull/24#issuecomment-497962263
+- <https://github.com/ArcGIS/calcite-components/issues/28>
+- <https://github.com/ArcGIS/calcite-components/pull/24#discussion_r287462934>
+- <https://github.com/ArcGIS/calcite-components/pull/24#issuecomment-495788683>
+- <https://github.com/ArcGIS/calcite-components/pull/24#issuecomment-497962263>
 
 ## assets
 
 If a component needs assets, they should be placed under a `assets/<component-name>` subdirectory. For example,
 
-```
+```text
 my-component/
   assets/
     my-component/
@@ -214,7 +250,7 @@ my-component/
   ...
 ```
 
-The component's metadata should then include the following metadata prop `assetsDir: ["assets"]`.
+The component's metadata should then include the following metadata prop [`assetsDirs: ["assets"]`](https://stenciljs.com/docs/assets#assetsdirs).
 
 ```tsx
 import { Component, Host, h } from "@stencil/core";
@@ -222,7 +258,7 @@ import { Component, Host, h } from "@stencil/core";
 @Component({
   tag: "calcite-test",
   shadow: true,
-  assetsDir: ["assets"]
+  assetsDirs: ["assets"]
 })
 export class MyComponent {
   /* ... */

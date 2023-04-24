@@ -1,12 +1,32 @@
-import { Component, Element, Event, EventEmitter, Prop, h, VNode, Fragment } from "@stencil/core";
-import { CSS, ICONS, SLOTS, TEXT } from "./resources";
-import { getSlotted } from "../../utils/dom";
-import { HeadingLevel, Heading, constrainHeadingLevel } from "../functional/Heading";
+import {
+  Component,
+  Element,
+  Event,
+  EventEmitter,
+  Fragment,
+  h,
+  Prop,
+  State,
+  VNode,
+  Watch
+} from "@stencil/core";
 import {
   ConditionalSlotComponent,
   connectConditionalSlotComponent,
   disconnectConditionalSlotComponent
 } from "../../utils/conditionalSlot";
+import { getSlotted } from "../../utils/dom";
+import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
+import {
+  connectMessages,
+  disconnectMessages,
+  setUpMessages,
+  T9nComponent,
+  updateMessages
+} from "../../utils/t9n";
+import { constrainHeadingLevel, Heading, HeadingLevel } from "../functional/Heading";
+import { TipMessages } from "./assets/tip/t9n";
+import { CSS, ICONS, SLOTS } from "./resources";
 
 /**
  * @slot - A slot for adding text and a hyperlink.
@@ -15,9 +35,10 @@ import {
 @Component({
   tag: "calcite-tip",
   styleUrl: "tip.scss",
-  shadow: true
+  shadow: true,
+  assetsDirs: ["assets"]
 })
-export class Tip implements ConditionalSlotComponent {
+export class Tip implements ConditionalSlotComponent, LocalizedComponent, T9nComponent {
   // --------------------------------------------------------------------------
   //
   //  Properties
@@ -26,7 +47,7 @@ export class Tip implements ConditionalSlotComponent {
   /**
    * When `true`, the component does not display.
    */
-  @Prop({ reflect: true, mutable: true }) dismissed = false;
+  @Prop({ reflect: true, mutable: true }) closed = false;
 
   /**
    * When `true`, the close button is not present on the component.
@@ -51,9 +72,23 @@ export class Tip implements ConditionalSlotComponent {
   @Prop({ reflect: true }) selected = false;
 
   /**
-   * Accessible name for the component's close button.
+   * Made into a prop for testing purposes only
+   *
+   * @internal
    */
-  @Prop() intlClose: string;
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
+  @Prop({ mutable: true }) messages: TipMessages;
+
+  /**
+   * Use this property to override individual strings used by the component.
+   */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
+  @Prop({ mutable: true }) messageOverrides: Partial<TipMessages>;
+
+  @Watch("messageOverrides")
+  onMessagesChange(): void {
+    /* wired up by t9n util */
+  }
 
   // --------------------------------------------------------------------------
   //
@@ -63,6 +98,15 @@ export class Tip implements ConditionalSlotComponent {
 
   @Element() el: HTMLCalciteTipElement;
 
+  @State() defaultMessages: TipMessages;
+
+  @State() effectiveLocale = "";
+
+  @Watch("effectiveLocale")
+  effectiveLocaleChange(): void {
+    updateMessages(this, this.effectiveLocale);
+  }
+
   // --------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -71,10 +115,18 @@ export class Tip implements ConditionalSlotComponent {
 
   connectedCallback(): void {
     connectConditionalSlotComponent(this);
+    connectLocalized(this);
+    connectMessages(this);
+  }
+
+  async componentWillLoad(): Promise<void> {
+    await setUpMessages(this);
   }
 
   disconnectedCallback(): void {
     disconnectConditionalSlotComponent(this);
+    disconnectLocalized(this);
+    disconnectMessages(this);
   }
 
   // --------------------------------------------------------------------------
@@ -84,7 +136,7 @@ export class Tip implements ConditionalSlotComponent {
   // --------------------------------------------------------------------------
 
   /**
-   * Emits when the component has been dismissed.
+   * Emits when the component has been closed.
    */
   @Event({ cancelable: false }) calciteTipDismiss: EventEmitter<void>;
 
@@ -95,7 +147,7 @@ export class Tip implements ConditionalSlotComponent {
   // --------------------------------------------------------------------------
 
   hideTip = (): void => {
-    this.dismissed = true;
+    this.closed = true;
 
     this.calciteTipDismiss.emit();
   };
@@ -122,17 +174,14 @@ export class Tip implements ConditionalSlotComponent {
   }
 
   renderDismissButton(): VNode {
-    const { closeDisabled, hideTip, intlClose } = this;
-
-    const text = intlClose || TEXT.close;
-
+    const { closeDisabled, hideTip } = this;
     return !closeDisabled ? (
       <calcite-action
         class={CSS.close}
         icon={ICONS.close}
         onClick={hideTip}
         scale="l"
-        text={text}
+        text={this.messages.close}
       />
     ) : null;
   }

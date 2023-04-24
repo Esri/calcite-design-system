@@ -11,13 +11,17 @@ import {
   VNode,
   Watch
 } from "@stencil/core";
-import { getElementProp, getSlotted } from "../../utils/dom";
-import { Scale } from "../interfaces";
-import { CSS } from "./resources";
-import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
-import { createObserver } from "../../utils/observers";
+import { getSlotted } from "../../utils/dom";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
+import {
+  componentLoaded,
+  LoadableComponent,
+  setComponentLoaded,
+  setUpLoadableComponent
+} from "../../utils/loadable";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
+import { createObserver } from "../../utils/observers";
 import {
   connectMessages,
   disconnectMessages,
@@ -25,20 +29,18 @@ import {
   T9nComponent,
   updateMessages
 } from "../../utils/t9n";
-import { Messages } from "./assets/inline-editable/t9n";
-import {
-  setUpLoadableComponent,
-  setComponentLoaded,
-  LoadableComponent,
-  componentLoaded
-} from "../../utils/loadable";
+import { Scale } from "../interfaces";
+import { InlineEditableMessages } from "./assets/inline-editable/t9n";
+import { CSS } from "./resources";
 
 /**
  * @slot - A slot for adding a `calcite-input`.
  */
 @Component({
   tag: "calcite-inline-editable",
-  shadow: true,
+  shadow: {
+    delegatesFocus: true
+  },
   styleUrl: "inline-editable.scss",
   assetsDirs: ["assets"]
 })
@@ -108,12 +110,14 @@ export class InlineEditable
    *
    * @internal
    */
-  @Prop({ mutable: true }) messages: Messages;
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
+  @Prop({ mutable: true }) messages: InlineEditableMessages;
 
   /**
    * Use this property to override individual strings used by the component.
    */
-  @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
+  @Prop({ mutable: true }) messageOverrides: Partial<InlineEditableMessages>;
 
   @Watch("messageOverrides")
   onMessagesChange(): void {
@@ -168,46 +172,49 @@ export class InlineEditable
           <calcite-button
             appearance="transparent"
             class={CSS.enableEditingButton}
-            color="neutral"
             disabled={this.disabled}
             iconStart="pencil"
+            kind="neutral"
             label={this.messages.enableEditing}
             onClick={this.enableEditingHandler}
-            ref={(el) => (this.enableEditingButton = el)}
             scale={this.scale}
             style={{
               opacity: this.editingEnabled ? "0" : "1",
               width: this.editingEnabled ? "0" : "inherit"
             }}
             type="button"
+            // eslint-disable-next-line react/jsx-sort-props
+            ref={(el) => (this.enableEditingButton = el)}
           />
           {this.shouldShowControls && [
             <div class={CSS.cancelEditingButtonWrapper}>
               <calcite-button
                 appearance="transparent"
                 class={CSS.cancelEditingButton}
-                color="neutral"
                 disabled={this.disabled}
                 iconStart="x"
+                kind="neutral"
                 label={this.messages.cancelEditing}
                 onClick={this.cancelEditingHandler}
-                ref={(el) => (this.cancelEditingButton = el)}
                 scale={this.scale}
                 type="button"
+                // eslint-disable-next-line react/jsx-sort-props
+                ref={(el) => (this.cancelEditingButton = el)}
               />
             </div>,
             <calcite-button
               appearance="solid"
               class={CSS.confirmChangesButton}
-              color="blue"
               disabled={this.disabled}
               iconStart="check"
+              kind="brand"
               label={this.messages.confirmChanges}
               loading={this.loading}
               onClick={this.confirmChangesHandler}
-              ref={(el) => (this.confirmEditingButton = el)}
               scale={this.scale}
               type="button"
+              // eslint-disable-next-line react/jsx-sort-props
+              ref={(el) => (this.confirmEditingButton = el)}
             />
           ]}
         </div>
@@ -272,7 +279,7 @@ export class InlineEditable
 
   mutationObserver = createObserver("mutation", () => this.mutationObserverCallback());
 
-  @State() defaultMessages: Messages;
+  @State() defaultMessages: InlineEditableMessages;
 
   @State() effectiveLocale: string;
 
@@ -287,15 +294,12 @@ export class InlineEditable
   //
   //--------------------------------------------------------------------------
 
+  /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
     await componentLoaded(this);
 
-    if (this.editingEnabled) {
-      this.inputElement?.setFocus();
-    } else {
-      this.enableEditingButton?.setFocus();
-    }
+    this.el?.focus();
   }
 
   //--------------------------------------------------------------------------
@@ -306,8 +310,7 @@ export class InlineEditable
 
   mutationObserverCallback(): void {
     this.updateSlottedInput();
-    this.scale =
-      this.scale || this.inputElement?.scale || getElementProp(this.el, "scale", undefined);
+    this.scale = this.scale || this.inputElement?.scale;
   }
 
   onLabelClick(): void {

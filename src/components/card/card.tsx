@@ -9,14 +9,12 @@ import {
   VNode,
   Watch
 } from "@stencil/core";
-import { getSlotted, toAriaBoolean } from "../../utils/dom";
-import { CSS, SLOTS } from "./resources";
-import { LogicalFlowPosition } from "../interfaces";
 import {
+  ConditionalSlotComponent,
   connectConditionalSlotComponent,
-  disconnectConditionalSlotComponent,
-  ConditionalSlotComponent
+  disconnectConditionalSlotComponent
 } from "../../utils/conditionalSlot";
+import { getSlotted, toAriaBoolean } from "../../utils/dom";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 import {
   connectMessages,
@@ -25,7 +23,9 @@ import {
   T9nComponent,
   updateMessages
 } from "../../utils/t9n";
-import { Messages } from "./assets/card/t9n";
+import { LogicalFlowPosition } from "../interfaces";
+import { CardMessages } from "./assets/card/t9n";
+import { CSS, SLOTS } from "./resources";
 
 /**
  * Cards do not include a grid or bounding container
@@ -37,8 +37,8 @@ import { Messages } from "./assets/card/t9n";
  * @slot thumbnail - A slot for adding a thumbnail to the component.
  * @slot title - A slot for adding a title.
  * @slot subtitle - A slot for adding a subtitle or short summary.
- * @slot footer-leading - A slot for adding a leading footer.
- * @slot footer-trailing - A slot for adding a trailing footer.
+ * @slot footer-start - A slot for adding a leading footer.
+ * @slot footer-end - A slot for adding a trailing footer.
  */
 
 @Component({
@@ -79,12 +79,14 @@ export class Card implements ConditionalSlotComponent, LocalizedComponent, T9nCo
    *
    * @internal
    */
-  @Prop({ mutable: true }) messages: Messages;
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
+  @Prop({ mutable: true }) messages: CardMessages;
 
   /**
    * Use this property to override individual strings used by the component.
    */
-  @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
+  @Prop({ mutable: true }) messageOverrides: Partial<CardMessages>;
 
   @Watch("messageOverrides")
   onMessagesChange(): void {
@@ -158,7 +160,7 @@ export class Card implements ConditionalSlotComponent, LocalizedComponent, T9nCo
     updateMessages(this, this.effectiveLocale);
   }
 
-  @State() defaultMessages: Messages;
+  @State() defaultMessages: CardMessages;
 
   //--------------------------------------------------------------------------
   //
@@ -194,15 +196,13 @@ export class Card implements ConditionalSlotComponent, LocalizedComponent, T9nCo
   }
 
   private renderCheckbox(): VNode {
-    const checkboxLabel = this.selected ? this.messages.deselect : this.messages.select;
-
     return (
       <calcite-label
         class={CSS.checkboxWrapper}
         onClick={this.cardSelectClick}
         onKeyDown={this.cardSelectKeyDown}
       >
-        <calcite-checkbox checked={this.selected} label={checkboxLabel} />
+        <calcite-checkbox checked={this.selected} label={this.messages.select} />
       </calcite-label>
     );
   }
@@ -223,14 +223,14 @@ export class Card implements ConditionalSlotComponent, LocalizedComponent, T9nCo
 
   private renderFooter(): VNode {
     const { el } = this;
-    const leadingFooter = getSlotted(el, SLOTS.footerLeading);
-    const trailingFooter = getSlotted(el, SLOTS.footerTrailing);
+    const startFooter = getSlotted(el, SLOTS.footerStart);
+    const endFooter = getSlotted(el, SLOTS.footerEnd);
 
-    const hasFooter = leadingFooter || trailingFooter;
+    const hasFooter = startFooter || endFooter;
     return hasFooter ? (
       <footer class={CSS.footer}>
-        <slot name={SLOTS.footerLeading} />
-        <slot name={SLOTS.footerTrailing} />
+        <slot name={SLOTS.footerStart} />
+        <slot name={SLOTS.footerEnd} />
       </footer>
     ) : null;
   }

@@ -1,4 +1,4 @@
-import { accessible, renders, hidden } from "../../tests/commonTests";
+import { accessible, hidden, renders } from "../../tests/commonTests";
 
 describe("calcite-progress", () => {
   it("renders", () => renders("calcite-progress", { display: "block" }));

@@ -1,6 +1,6 @@
+import { closestElementCrossShadowBoundary, containsCrossShadowBoundary } from "./dom";
 import { BigDecimal, isValidNumber, sanitizeExponentialNumberString } from "./number";
 import { createObserver } from "./observers";
-import { closestElementCrossShadowBoundary, containsCrossShadowBoundary } from "./dom";
 
 export const defaultLocale = "en";
 
@@ -55,6 +55,7 @@ export const locales = [
   "cs",
   "da",
   "de",
+  "de-AT",
   "de-CH",
   "el",
   defaultLocale,
@@ -202,16 +203,6 @@ export interface LocalizedComponent {
   el: HTMLElement;
 
   /**
-   * BCP 47 language tag for desired language and country format
-   *
-   * **Note**: this prop was added exclusively for backwards-compatibility
-   *
-   * @deprecated set the global `lang` attribute on the element instead.
-   * @mdn [lang](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/lang)
-   */
-  locale?: string;
-
-  /**
    * Used to store the effective locale to avoid multiple lookups.
    *
    * This is an internal property and should:
@@ -283,10 +274,9 @@ const mutationObserver = createObserver("mutation", (records) => {
     const el = record.target as HTMLElement;
 
     connectedComponents.forEach((component) => {
-      const hasOverridingLocale = !!(component.locale && !component.el.lang);
       const inUnrelatedSubtree = !containsCrossShadowBoundary(el, component.el);
 
-      if (hasOverridingLocale || inUnrelatedSubtree) {
+      if (inUnrelatedSubtree) {
         return;
       }
 
@@ -315,7 +305,6 @@ const mutationObserver = createObserver("mutation", (records) => {
 function getLocale(component: LocalizedComponent): string {
   return (
     component.el.lang ||
-    component.locale ||
     closestElementCrossShadowBoundary<HTMLElement>(component.el, "[lang]")?.lang ||
     document.documentElement.lang ||
     defaultLocale
@@ -451,3 +440,64 @@ export class NumberStringFormat {
 }
 
 export const numberStringFormatter = new NumberStringFormat();
+
+export type LocaleDateTimeOptionKey = string;
+
+/**
+ * Exported for testing purposes only.
+ *
+ * @internal
+ */
+export let dateTimeFormatCache: Map<LocaleDateTimeOptionKey, Intl.DateTimeFormat>;
+
+/**
+ * Used to ensure all cached formats are for the same locale.
+ *
+ * @internal
+ */
+let previousLocaleUsedForCaching: string;
+
+/**
+ * Generates a cache key for date time format lookups.
+ *
+ * @internal
+ */
+function buildDateTimeFormatCacheKey(options: Intl.DateTimeFormatOptions = {}): string {
+  return Object.entries(options)
+    .sort(([key1], [key2]) => key1.localeCompare(key2))
+    .map((keyValue) => `${keyValue[0]}-${keyValue[1]}`)
+    .flat()
+    .join(":");
+}
+
+/**
+ * Returns an instance of Intl.DateTimeFormat and reuses it if requested with the same locale and options.
+ *
+ * **Note**: the cache will be cleared if a different locale is provided
+ *
+ * @internal
+ */
+export function getDateTimeFormat(locale: string, options?: Intl.DateTimeFormatOptions): Intl.DateTimeFormat {
+  locale = getSupportedLocale(locale);
+
+  if (!dateTimeFormatCache) {
+    dateTimeFormatCache = new Map();
+  }
+
+  if (previousLocaleUsedForCaching !== locale) {
+    dateTimeFormatCache.clear();
+    previousLocaleUsedForCaching = locale;
+  }
+
+  const key = buildDateTimeFormatCacheKey(options);
+  const cached = dateTimeFormatCache.get(key);
+
+  if (cached) {
+    return cached;
+  }
+
+  const format = new Intl.DateTimeFormat(locale, options);
+  dateTimeFormatCache.set(key, format);
+
+  return format;
+}

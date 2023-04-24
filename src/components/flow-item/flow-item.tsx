@@ -1,22 +1,24 @@
 import {
   Component,
   Element,
-  Prop,
-  h,
-  VNode,
-  Host,
-  Method,
   Event,
   EventEmitter,
+  h,
+  Host,
+  Method,
+  Prop,
   State,
+  VNode,
   Watch
 } from "@stencil/core";
 import { getElementDir } from "../../utils/dom";
-import { HeadingLevel } from "../functional/Heading";
-import { Scale } from "../interfaces";
-import { CSS, ICONS, SLOTS } from "./resources";
-import { SLOTS as PANEL_SLOTS } from "../panel/resources";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import {
+  componentLoaded,
+  LoadableComponent,
+  setComponentLoaded,
+  setUpLoadableComponent
+} from "../../utils/loadable";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 import {
   connectMessages,
@@ -25,13 +27,10 @@ import {
   T9nComponent,
   updateMessages
 } from "../../utils/t9n";
-import { Messages } from "./assets/flow-item/t9n";
-import {
-  setUpLoadableComponent,
-  setComponentLoaded,
-  LoadableComponent,
-  componentLoaded
-} from "../../utils/loadable";
+import { HeadingLevel } from "../functional/Heading";
+import { SLOTS as PANEL_SLOTS } from "../panel/resources";
+import { FlowItemMessages } from "./assets/flow-item/t9n";
+import { CSS, ICONS, SLOTS } from "./resources";
 
 /**
  * @slot - A slot for adding custom content.
@@ -59,10 +58,10 @@ export class FlowItem
   // --------------------------------------------------------------------------
 
   /** When `true`, displays a close button in the trailing side of the component's header. */
-  @Prop({ mutable: true, reflect: true }) closable = false;
+  @Prop({ reflect: true }) closable = false;
 
   /** When `true`, the component will be hidden. */
-  @Prop({ mutable: true, reflect: true }) closed = false;
+  @Prop({ reflect: true }) closed = false;
 
   /**
    * When provided, the method will be called before it is removed from its parent `calcite-flow`.
@@ -88,11 +87,6 @@ export class FlowItem
   @Prop({ reflect: true }) headingLevel: HeadingLevel;
 
   /**
-   * Specifies the maximum height of the component.
-   */
-  @Prop({ reflect: true }) heightScale: Scale;
-
-  /**
    * When `true`, a busy indicator is displayed.
    */
   @Prop({ reflect: true }) loading = false;
@@ -105,7 +99,8 @@ export class FlowItem
   /**
    * Use this property to override individual strings used by the component.
    */
-  @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
+  @Prop({ mutable: true }) messageOverrides: Partial<FlowItemMessages>;
 
   @Watch("messageOverrides")
   onMessagesChange(): void {
@@ -117,18 +112,15 @@ export class FlowItem
    *
    * @internal
    */
-  @Prop({ mutable: true }) messages: Messages;
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
+  @Prop({ mutable: true }) messages: FlowItemMessages;
 
   /**
-   * When true, displays a back button in the header.
    * When `true`, displays a back button in the component's header.
+   *
+   * @internal
    */
-  @Prop({ reflect: true }) showBackButton = false;
-
-  /**
-   * Specifies the width of the component.
-   */
-  @Prop({ reflect: true }) widthScale: Scale;
+  @Prop() showBackButton = false;
 
   //--------------------------------------------------------------------------
   //
@@ -193,7 +185,7 @@ export class FlowItem
   @State()
   backButtonEl: HTMLCalciteActionElement;
 
-  @State() defaultMessages: Messages;
+  @State() defaultMessages: FlowItemMessages;
 
   @State() effectiveLocale = "";
 
@@ -290,10 +282,11 @@ export class FlowItem
         icon={icon}
         key="flow-back-button"
         onClick={backButtonClick}
-        ref={this.setBackRef}
         scale="s"
         slot="header-actions-start"
         text={label}
+        // eslint-disable-next-line react/jsx-sort-props
+        ref={this.setBackRef}
       />
     ) : null;
   }
@@ -306,11 +299,9 @@ export class FlowItem
       disabled,
       heading,
       headingLevel,
-      heightScale,
       loading,
       menuOpen,
       messages,
-      widthScale,
       backButtonEl
     } = this;
     const label = messages.back;
@@ -323,14 +314,13 @@ export class FlowItem
           disabled={disabled}
           heading={heading}
           headingLevel={headingLevel}
-          heightScale={heightScale}
           loading={loading}
           menuOpen={menuOpen}
           messageOverrides={messages}
           onCalcitePanelClose={this.handlePanelClose}
           onCalcitePanelScroll={this.handlePanelScroll}
+          // eslint-disable-next-line react/jsx-sort-props
           ref={this.setContainerRef}
-          widthScale={widthScale}
         >
           {this.renderBackButton()}
           <slot name={SLOTS.headerActionsStart} slot={PANEL_SLOTS.headerActionsStart} />

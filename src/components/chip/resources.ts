@@ -3,7 +3,16 @@ export const CSS = {
   close: "close",
   imageContainer: "image-container",
   chipIcon: "chip-icon",
-  closeIcon: "close-icon"
+  textSlotted: "text--slotted",
+  container: "container",
+  imageSlotted: "image--slotted",
+  closable: "closable",
+  multiple: "multiple",
+  selectable: "selectable",
+  selectIcon: "select-icon",
+  selectIconActive: "select-icon--active",
+  nonInteractive: "non-interactive",
+  isCircle: "is-circle"
 };
 
 export const SLOTS = {
@@ -11,5 +20,8 @@ export const SLOTS = {
 };
 
 export const ICONS = {
-  close: "x"
+  close: "x",
+  unchecked: "circle",
+  checkedSingle: "circle-f",
+  checked: "check-circle-f"
 };

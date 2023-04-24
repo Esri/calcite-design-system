@@ -1,5 +1,5 @@
+import { getDateTimeFormat, getSupportedNumberingSystem, NumberingSystem } from "./locale";
 import { isValidNumber } from "./number";
-import { getSupportedLocale, getSupportedNumberingSystem, NumberingSystem } from "./locale";
 export type HourCycle = "12" | "24";
 
 export interface LocalizedTime {
@@ -31,20 +31,17 @@ function createLocaleDateTimeFormatter(
   numberingSystem: NumberingSystem,
   includeSeconds = true
 ): Intl.DateTimeFormat {
-  try {
-    const options: Intl.DateTimeFormatOptions = {
-      hour: "2-digit",
-      minute: "2-digit",
-      timeZone: "UTC",
-      numberingSystem: getSupportedNumberingSystem(numberingSystem)
-    };
-    if (includeSeconds) {
-      options.second = "2-digit";
-    }
-    return new Intl.DateTimeFormat(getSupportedLocale(locale), options);
-  } catch (error) {
-    throw new Error(`Invalid locale supplied while attempting to create a DateTime formatter: ${locale}`);
+  const options: Intl.DateTimeFormatOptions = {
+    hour: "2-digit",
+    minute: "2-digit",
+    timeZone: "UTC",
+    numberingSystem: getSupportedNumberingSystem(numberingSystem)
+  };
+  if (includeSeconds) {
+    options.second = "2-digit";
   }
+
+  return getDateTimeFormat(locale, options);
 }
 
 export function formatTimePart(number: number): string {

@@ -11,10 +11,23 @@ import {
   VNode,
   Watch
 } from "@stencil/core";
-import { Scale } from "../interfaces";
 import { isActivationKey, numberKeys } from "../../utils/key";
 import { isValidNumber } from "../../utils/number";
+import { Scale } from "../interfaces";
 
+import {
+  connectLocalized,
+  disconnectLocalized,
+  LocalizedComponent,
+  NumberingSystem
+} from "../../utils/locale";
+import {
+  connectMessages,
+  disconnectMessages,
+  setUpMessages,
+  T9nComponent,
+  updateMessages
+} from "../../utils/t9n";
 import {
   formatTimePart,
   getLocaleHourCycle,
@@ -30,27 +43,14 @@ import {
   parseTimeString,
   TimePart
 } from "../../utils/time";
+import { TimePickerMessages } from "./assets/time-picker/t9n";
 import { CSS } from "./resources";
-import {
-  connectLocalized,
-  disconnectLocalized,
-  LocalizedComponent,
-  NumberingSystem
-} from "../../utils/locale";
-import { Messages } from "./assets/time-picker/t9n";
-import {
-  connectMessages,
-  disconnectMessages,
-  setUpMessages,
-  T9nComponent,
-  updateMessages
-} from "../../utils/t9n";
 
 import {
-  setUpLoadableComponent,
-  setComponentLoaded,
+  componentLoaded,
   LoadableComponent,
-  componentLoaded
+  setComponentLoaded,
+  setUpLoadableComponent
 } from "../../utils/loadable";
 
 function capitalize(str: string): string {
@@ -60,7 +60,9 @@ function capitalize(str: string): string {
 @Component({
   tag: "calcite-time-picker",
   styleUrl: "time-picker.scss",
-  shadow: true,
+  shadow: {
+    delegatesFocus: true
+  },
   assetsDirs: ["assets"]
 })
 export class TimePicker
@@ -86,6 +88,11 @@ export class TimePicker
   /** Specifies the granularity the `value` must adhere to (in seconds). */
   @Prop({ reflect: true }) step = 60;
 
+  @Watch("step")
+  stepChange(): void {
+    this.updateShowSecond();
+  }
+
   /**
    * Specifies the Unicode numeral system used by the component for localization.
    *
@@ -105,12 +112,14 @@ export class TimePicker
    *
    * @internal
    */
-  @Prop({ mutable: true }) messages: Messages;
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
+  @Prop({ mutable: true }) messages: TimePickerMessages;
 
   /**
    * Use this property to override individual strings used by the component.
    */
-  @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
+  @Prop({ mutable: true }) messageOverrides: Partial<TimePickerMessages>;
 
   @Watch("messageOverrides")
   onMessagesChange(): void {
@@ -172,9 +181,9 @@ export class TimePicker
 
   @State() second: string;
 
-  @State() showSecond: boolean = this.step < 60;
+  @State() showSecond: boolean;
 
-  @State() defaultMessages: Messages;
+  @State() defaultMessages: TimePickerMessages;
 
   //--------------------------------------------------------------------------
   //
@@ -224,22 +233,22 @@ export class TimePicker
     switch (this.activeEl) {
       case this.hourEl:
         if (key === "ArrowRight") {
-          this.setFocus("minute");
+          this.focusPart("minute");
           event.preventDefault();
         }
         break;
       case this.minuteEl:
         switch (key) {
           case "ArrowLeft":
-            this.setFocus("hour");
+            this.focusPart("hour");
             event.preventDefault();
             break;
           case "ArrowRight":
             if (this.step !== 60) {
-              this.setFocus("second");
+              this.focusPart("second");
               event.preventDefault();
             } else if (this.hourCycle === "12") {
-              this.setFocus("meridiem");
+              this.focusPart("meridiem");
               event.preventDefault();
             }
             break;
@@ -248,12 +257,12 @@ export class TimePicker
       case this.secondEl:
         switch (key) {
           case "ArrowLeft":
-            this.setFocus("minute");
+            this.focusPart("minute");
             event.preventDefault();
             break;
           case "ArrowRight":
             if (this.hourCycle === "12") {
-              this.setFocus("meridiem");
+              this.focusPart("meridiem");
               event.preventDefault();
             }
             break;
@@ -263,10 +272,10 @@ export class TimePicker
         switch (key) {
           case "ArrowLeft":
             if (this.step !== 60) {
-              this.setFocus("second");
+              this.focusPart("second");
               event.preventDefault();
             } else {
-              this.setFocus("minute");
+              this.focusPart("minute");
               event.preventDefault();
             }
             break;
@@ -282,15 +291,13 @@ export class TimePicker
   //--------------------------------------------------------------------------
 
   /**
-   * Sets focus on the component.
-   *
-   * @param target
+   * Sets focus on the component's first focusable element.
    */
   @Method()
-  async setFocus(target: TimePart): Promise<void> {
+  async setFocus(): Promise<void> {
     await componentLoaded(this);
 
-    this[`${target || "hour"}El`]?.focus();
+    this.el?.focus();
   }
 
   // --------------------------------------------------------------------------
@@ -298,6 +305,16 @@ export class TimePicker
   //  Private Methods
   //
   // --------------------------------------------------------------------------
+
+  private updateShowSecond(): void {
+    this.showSecond = this.step < 60;
+  }
+
+  private async focusPart(target: TimePart): Promise<void> {
+    await componentLoaded(this);
+
+    this[`${target || "hour"}El`]?.focus();
+  }
 
   private buttonActivated(event: KeyboardEvent): boolean {
     const { key } = event;
@@ -703,6 +720,7 @@ export class TimePicker
     connectLocalized(this);
     this.updateLocale();
     connectMessages(this);
+    this.updateShowSecond();
     this.meridiemOrder = this.getMeridiemOrder(
       getTimeParts({
         value: "0:00:00",
@@ -775,9 +793,10 @@ export class TimePicker
             }}
             onFocus={this.focusHandler}
             onKeyDown={this.hourKeyDownHandler}
-            ref={this.setHourEl}
             role="spinbutton"
             tabIndex={0}
+            // eslint-disable-next-line react/jsx-sort-props
+            ref={this.setHourEl}
           >
             {this.localizedHour || "--"}
           </span>
@@ -823,9 +842,10 @@ export class TimePicker
             }}
             onFocus={this.focusHandler}
             onKeyDown={this.minuteKeyDownHandler}
-            ref={this.setMinuteEl}
             role="spinbutton"
             tabIndex={0}
+            // eslint-disable-next-line react/jsx-sort-props
+            ref={this.setMinuteEl}
           >
             {this.localizedMinute || "--"}
           </span>
@@ -871,9 +891,10 @@ export class TimePicker
               }}
               onFocus={this.focusHandler}
               onKeyDown={this.secondKeyDownHandler}
-              ref={this.setSecondEl}
               role="spinbutton"
               tabIndex={0}
+              // eslint-disable-next-line react/jsx-sort-props
+              ref={this.setSecondEl}
             >
               {this.localizedSecond || "--"}
             </span>
@@ -929,9 +950,10 @@ export class TimePicker
               }}
               onFocus={this.focusHandler}
               onKeyDown={this.meridiemKeyDownHandler}
-              ref={this.setMeridiemEl}
               role="spinbutton"
               tabIndex={0}
+              // eslint-disable-next-line react/jsx-sort-props
+              ref={this.setMeridiemEl}
             >
               {this.localizedMeridiem || "--"}
             </span>

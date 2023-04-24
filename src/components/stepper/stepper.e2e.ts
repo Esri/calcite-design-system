@@ -440,6 +440,12 @@ describe("calcite-stepper", () => {
       const eventSpy = await element.spyOnEvent("calciteStepperItemChange");
       const firstItem = await page.find("#step-1");
 
+      const getSelectedItemId = async (): Promise<string> => {
+        return await page.evaluate((): string => {
+          return document.querySelector("calcite-stepper")?.selectedItem?.id || "";
+        });
+      };
+
       let expectedEvents = 0;
 
       // non user interaction
@@ -454,7 +460,7 @@ describe("calcite-stepper", () => {
 
       await page.$eval("#step-2", itemClicker);
       expect(eventSpy).toHaveReceivedEventTimes(++expectedEvents);
-      expect(eventSpy.lastEvent.detail.position).toBe(1);
+      expect(await getSelectedItemId()).toBe("step-2");
 
       if (hasContent) {
         await page.$eval("#step-1", (item: HTMLCalciteStepperItemElement) =>
@@ -463,7 +469,7 @@ describe("calcite-stepper", () => {
 
         if (layout === "vertical") {
           expect(eventSpy).toHaveReceivedEventTimes(++expectedEvents);
-          expect(eventSpy.lastEvent.detail.position).toBe(0);
+          expect(await getSelectedItemId()).toBe("step-1");
         } else {
           // no events since horizontal layout moves content outside of item selection hit area
           expect(eventSpy).toHaveReceivedEventTimes(expectedEvents);
@@ -476,7 +482,7 @@ describe("calcite-stepper", () => {
 
       await page.$eval("#step-4", itemClicker);
       expect(eventSpy).toHaveReceivedEventTimes(++expectedEvents);
-      expect(eventSpy.lastEvent.detail.position).toBe(3);
+      expect(await getSelectedItemId()).toBe("step-4");
 
       await element.callMethod("prevStep");
       await page.waitForChanges();
@@ -570,5 +576,31 @@ describe("calcite-stepper", () => {
         await assertEmitting(page, false);
       });
     });
+  });
+
+  it("should render correct numbering-system with multiple stepper component", async () => {
+    const page = await newE2EPage();
+    await page.setContent(html`<calcite-stepper numbered>
+      <calcite-stepper-item heading="Add info" description="Subtitle lorem ipsum" complete id="step-one"
+        >Step 1 Content here lorem ipsum</calcite-stepper-item
+      >
+    </calcite-stepper>
+
+    <calcite-stepper numbered numbering-system="arab" lang="ar" dir="rtl" >
+      <calcite-stepper-item heading="الخطوةالاولى" complete>
+       الخطوة الأولى للمحتوى هنا
+    </calcite-stepper>`);
+    const [stepper1, stepper2] = await page.findAll("calcite-stepper");
+    expect(stepper2.getAttribute("numbering-system")).toEqual("arab");
+
+    await stepper1.click();
+    await page.waitForChanges();
+    await stepper2.click();
+    await page.waitForChanges();
+    await stepper1.click();
+    await page.waitForChanges();
+
+    const stepper1Number = await page.find("calcite-stepper-item[id='step-one'] >>> .stepper-item-number");
+    expect(stepper1Number.textContent).toBe("1.");
   });
 });

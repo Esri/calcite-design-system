@@ -11,11 +11,7 @@ import {
   VNode,
   Watch
 } from "@stencil/core";
-import { getElementDir, getElementProp, getSlotted, setRequestedIcon } from "../../utils/dom";
-import { CSS, SLOTS } from "./resources";
-import { Position, Scale, Status } from "../interfaces";
-import { SetValueOrigin } from "../input/interfaces";
-import { LabelableComponent, connectLabel, disconnectLabel, getLabelText } from "../../utils/label";
+import { getElementDir, getSlotted, setRequestedIcon } from "../../utils/dom";
 import {
   connectForm,
   disconnectForm,
@@ -23,10 +19,17 @@ import {
   HiddenFormInputSlot,
   submitForm
 } from "../../utils/form";
-import { CSS_UTILITY } from "../../utils/resources";
-import { createObserver } from "../../utils/observers";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
+import {
+  componentLoaded,
+  LoadableComponent,
+  setComponentLoaded,
+  setUpLoadableComponent
+} from "../../utils/loadable";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
+import { createObserver } from "../../utils/observers";
+import { CSS_UTILITY } from "../../utils/resources";
 import {
   connectMessages,
   disconnectMessages,
@@ -34,13 +37,10 @@ import {
   T9nComponent,
   updateMessages
 } from "../../utils/t9n";
-import { Messages } from "./assets/input-text/t9n";
-import {
-  setUpLoadableComponent,
-  setComponentLoaded,
-  LoadableComponent,
-  componentLoaded
-} from "../../utils/loadable";
+import { SetValueOrigin } from "../input/interfaces";
+import { Position, Scale, Status } from "../interfaces";
+import { InputTextMessages } from "./assets/input-text/t9n";
+import { CSS, SLOTS } from "./resources";
 
 /**
  * @slot action - A slot for positioning a button next to the component.
@@ -78,7 +78,7 @@ export class InputText
   @Prop({ reflect: true }) alignment: Position = "start";
 
   /**
-   * When `true`, the component is focused on page load.
+   * When `true`, the component is focused on page load. Only one element can contain `autofocus`. If multiple elements have `autofocus`, the first element will receive focus.
    *
    * @mdn [autofocus](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/autofocus)
    */
@@ -102,6 +102,14 @@ export class InputText
   }
 
   /**
+   * The ID of the form that will be associated with the component.
+   *
+   * When not set, the component will be associated with its ancestor form element, if any.
+   */
+  @Prop({ reflect: true })
+  form: string;
+
+  /**
    * When `true`, the component will not be visible.
    *
    * @mdn [hidden](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/hidden)
@@ -109,7 +117,9 @@ export class InputText
   @Prop({ reflect: true }) hidden = false;
 
   /**
-   * When `true`, shows a default recommended icon. Alternatively, pass a Calcite UI Icon name to display a specific icon.
+   * Specifies an icon to display.
+   *
+   * @futureBreaking Remove boolean type as it is not supported.
    */
   @Prop({ reflect: true }) icon: string | boolean;
 
@@ -139,6 +149,8 @@ export class InputText
   /**
    * Specifies the name of the component.
    *
+   * Required to pass the component's `value` on form submission.
+   *
    * @mdn [name](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#name)
    */
   @Prop({ reflect: true }) name: string;
@@ -164,10 +176,10 @@ export class InputText
   @Prop({ reflect: true }) required = false;
 
   /** Specifies the size of the component. */
-  @Prop({ mutable: true, reflect: true }) scale: Scale = "m";
+  @Prop({ reflect: true }) scale: Scale = "m";
 
   /** Specifies the status of the input field, which determines message and icons. */
-  @Prop({ mutable: true, reflect: true }) status: Status = "idle";
+  @Prop({ reflect: true }) status: Status = "idle";
 
   /**
    * Specifies the type of content to autocomplete, for use in forms.
@@ -217,12 +229,14 @@ export class InputText
    *
    * @internal
    */
-  @Prop({ mutable: true }) messages: Messages;
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
+  @Prop({ mutable: true }) messages: InputTextMessages;
 
   /**
    * Use this property to override individual strings used by the component.
    */
-  @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
+  @Prop({ mutable: true }) messageOverrides: Partial<InputTextMessages>;
 
   @Watch("messageOverrides")
   onMessagesChange(): void {
@@ -287,7 +301,9 @@ export class InputText
     updateMessages(this, this.effectiveLocale);
   }
 
-  @State() defaultMessages: Messages;
+  @State() defaultMessages: InputTextMessages;
+
+  @State() slottedActionElDisabledInternally = false;
 
   //--------------------------------------------------------------------------
   //
@@ -299,7 +315,6 @@ export class InputText
     connectLocalized(this);
     connectMessages(this);
 
-    this.scale = getElementProp(this.el, "scale", this.scale);
     this.inlineEditableEl = this.el.closest("calcite-inline-editable");
     if (this.inlineEditableEl) {
       this.editingEnabled = this.inlineEditableEl.editingEnabled || false;
@@ -381,7 +396,7 @@ export class InputText
     this.childEl?.focus();
   }
 
-  /** Selects all text of the component's `value`. */
+  /** Selects the text of the component's `value`. */
   @Method()
   async selectText(): Promise<void> {
     this.childEl?.select();
@@ -423,8 +438,8 @@ export class InputText
   private emitChangeIfUserModified = (): void => {
     if (this.previousValueOrigin === "user" && this.value !== this.previousEmittedValue) {
       this.calciteInputTextChange.emit();
+      this.setPreviousEmittedValue(this.value);
     }
-    this.previousEmittedValue = this.value;
   };
 
   private inputTextBlurHandler = () => {
@@ -437,6 +452,10 @@ export class InputText
   };
 
   private clickHandler = (event: MouseEvent): void => {
+    if (this.disabled) {
+      return;
+    }
+
     const slottedActionEl = getSlotted(this.el, "action");
     if (event.target !== slottedActionEl) {
       this.setFocus();
@@ -508,9 +527,15 @@ export class InputText
       return;
     }
 
-    this.disabled
-      ? slottedActionEl.setAttribute("disabled", "")
-      : slottedActionEl.removeAttribute("disabled");
+    if (this.disabled) {
+      if (slottedActionEl.getAttribute("disabled") == null) {
+        this.slottedActionElDisabledInternally = true;
+      }
+      slottedActionEl.setAttribute("disabled", "");
+    } else if (this.slottedActionElDisabledInternally) {
+      slottedActionEl.removeAttribute("disabled");
+      this.slottedActionElDisabledInternally = false;
+    }
   }
 
   private setInputValue = (newInputValue: string): void => {
@@ -520,12 +545,12 @@ export class InputText
     this.childEl.value = newInputValue;
   };
 
-  private setPreviousEmittedValue = (newPreviousEmittedValue: string): void => {
-    this.previousEmittedValue = newPreviousEmittedValue;
+  private setPreviousEmittedValue = (value: string): void => {
+    this.previousEmittedValue = value;
   };
 
-  private setPreviousValue = (newPreviousValue: string): void => {
-    this.previousValue = newPreviousValue;
+  private setPreviousValue = (value: string): void => {
+    this.previousValue = value;
   };
 
   private setValue = ({
@@ -541,13 +566,14 @@ export class InputText
     previousValue?: string;
     value: string;
   }): void => {
-    this.setPreviousValue(previousValue || this.value);
+    this.setPreviousValue(previousValue ?? this.value);
     this.previousValueOrigin = origin;
     this.userChangedValue = origin === "user" && value !== this.value;
     this.value = value;
 
     if (origin === "direct") {
       this.setInputValue(value);
+      this.setPreviousEmittedValue(value);
     }
 
     if (nativeEvent) {
@@ -584,7 +610,7 @@ export class InputText
         tabIndex={-1}
         type="button"
       >
-        <calcite-icon icon="x" scale="s" />
+        <calcite-icon icon="x" scale={this.scale === "l" ? "m" : "s"} />
       </button>
     );
     const iconEl = (
@@ -592,7 +618,7 @@ export class InputText
         class={CSS.inputIcon}
         flipRtl={this.iconFlipRtl}
         icon={this.requestedIcon}
-        scale="s"
+        scale={this.scale === "l" ? "m" : "s"}
       />
     );
     const prefixText = <div class={CSS.prefix}>{this.prefixText}</div>;
@@ -622,11 +648,12 @@ export class InputText
         pattern={this.pattern}
         placeholder={this.placeholder || ""}
         readOnly={this.readOnly}
-        ref={this.setChildElRef}
         required={this.required ? true : null}
         tabIndex={this.disabled || (this.inlineEditableEl && !this.editingEnabled) ? -1 : null}
         type="text"
         value={this.value}
+        // eslint-disable-next-line react/jsx-sort-props
+        ref={this.setChildElRef}
       />
     );
 

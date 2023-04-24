@@ -1,8 +1,8 @@
 import { FunctionalComponent, h } from "@stencil/core";
 import { getElementDir } from "../../utils/dom";
 import { queryActions } from "../action-bar/utils";
-import { Position, Scale } from "../interfaces";
 import { SLOTS as ACTION_GROUP_SLOTS } from "../action-group/resources";
+import { Position, Scale } from "../interfaces";
 
 interface ExpandToggleProps {
   expanded: boolean;
@@ -92,12 +92,13 @@ export const ExpandToggle: FunctionalComponent<ExpandToggleProps> = ({
     <calcite-action
       icon={expanded ? expandIcon : collapseIcon}
       onClick={toggle}
-      ref={(referenceElement): HTMLCalciteActionElement =>
-        setTooltipReference({ tooltip, referenceElement, expanded, ref })
-      }
       scale={scale}
       text={expandText}
       textEnabled={expanded}
+      // eslint-disable-next-line react/jsx-sort-props
+      ref={(referenceElement): HTMLCalciteActionElement =>
+        setTooltipReference({ tooltip, referenceElement, expanded, ref })
+      }
     />
   );
 

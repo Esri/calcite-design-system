@@ -12,8 +12,6 @@ import {
   Watch
 } from "@stencil/core";
 import { focusElement } from "../../utils/dom";
-import { Scale, Width } from "../interfaces";
-import { LabelableComponent, connectLabel, disconnectLabel } from "../../utils/label";
 import {
   afterConnectDefaultValueSet,
   connectForm,
@@ -21,15 +19,17 @@ import {
   FormComponent,
   HiddenFormInputSlot
 } from "../../utils/form";
-import { CSS } from "./resources";
-import { createObserver } from "../../utils/observers";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import { connectLabel, disconnectLabel, LabelableComponent, getLabelText } from "../../utils/label";
 import {
-  setUpLoadableComponent,
-  setComponentLoaded,
+  componentLoaded,
   LoadableComponent,
-  componentLoaded
+  setComponentLoaded,
+  setUpLoadableComponent
 } from "../../utils/loadable";
+import { createObserver } from "../../utils/observers";
+import { Scale, Width } from "../interfaces";
+import { CSS } from "./resources";
 
 type OptionOrGroup = HTMLCalciteOptionElement | HTMLCalciteOptionGroupElement;
 type NativeOptionOrGroup = HTMLOptionElement | HTMLOptGroupElement;
@@ -67,13 +67,23 @@ export class Select
   @Prop({ reflect: true }) disabled = false;
 
   /**
+   * The ID of the form that will be associated with the component.
+   *
+   * When not set, the component will be associated with its ancestor form element, if any.
+   */
+  @Prop({ reflect: true })
+  form: string;
+
+  /**
    * Accessible name for the component.
    *
    */
   @Prop() label!: string;
 
   /**
-   * Specifies the name of the component on form submission.
+   * Specifies the name of the component.
+   *
+   * Required to pass the component's `value` on form submission.
    */
   @Prop({ reflect: true }) name: string;
 
@@ -352,7 +362,7 @@ export class Select
   renderChevron(): VNode {
     return (
       <div class={CSS.iconContainer}>
-        <calcite-icon class={CSS.icon} icon="chevron-down" scale="s" />
+        <calcite-icon class={CSS.icon} icon="chevron-down" scale={this.scale === "l" ? "m" : "s"} />
       </div>
     );
   }
@@ -361,10 +371,11 @@ export class Select
     return (
       <Fragment>
         <select
-          aria-label={this.label}
+          aria-label={getLabelText(this)}
           class={CSS.select}
           disabled={this.disabled}
           onChange={this.handleInternalSelectChange}
+          // eslint-disable-next-line react/jsx-sort-props
           ref={this.storeSelectRef}
         >
           <slot />

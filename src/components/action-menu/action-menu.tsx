@@ -1,29 +1,29 @@
 import {
   Component,
-  h,
   Element,
   Event,
   EventEmitter,
+  h,
   Listen,
-  Prop,
-  Watch,
   Method,
-  State
+  Prop,
+  State,
+  Watch
 } from "@stencil/core";
-import { CSS, SLOTS, ICONS } from "./resources";
-import { focusElement, isPrimaryPointerButton, toAriaBoolean } from "../../utils/dom";
 import { Fragment, VNode } from "@stencil/core/internal";
 import { getRoundRobinIndex } from "../../utils/array";
+import { focusElement, isPrimaryPointerButton, toAriaBoolean } from "../../utils/dom";
+import { EffectivePlacement, LogicalPlacement, OverlayPositioning } from "../../utils/floating-ui";
 import { guid } from "../../utils/guid";
-import { Scale } from "../interfaces";
-import { LogicalPlacement, EffectivePlacement, OverlayPositioning } from "../../utils/floating-ui";
 import { isActivationKey } from "../../utils/key";
 import {
-  setUpLoadableComponent,
-  setComponentLoaded,
+  componentLoaded,
   LoadableComponent,
-  componentLoaded
+  setComponentLoaded,
+  setUpLoadableComponent
 } from "../../utils/loadable";
+import { Scale } from "../interfaces";
+import { CSS, ICONS, SLOTS } from "./resources";
 
 const SUPPORTED_MENU_NAV_KEYS = ["ArrowUp", "ArrowDown", "End", "Home"];
 
@@ -270,10 +270,11 @@ export class ActionMenu implements LoadableComponent {
         <calcite-action
           class={CSS.defaultTrigger}
           icon={ICONS.menu}
-          ref={this.setDefaultMenuButtonEl}
           scale={scale}
           text={label}
           textEnabled={expanded}
+          // eslint-disable-next-line react/jsx-sort-props
+          ref={this.setDefaultMenuButtonEl}
         />
       </slot>
     );

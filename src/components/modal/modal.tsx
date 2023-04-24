@@ -12,31 +12,35 @@ import {
   VNode,
   Watch
 } from "@stencil/core";
-import { ensureId, focusElement, getSlotted } from "../../utils/dom";
-import { Kind, Scale } from "../interfaces";
-import { ModalBackgroundColor } from "./interfaces";
-import { CSS, ICONS, SLOTS } from "./resources";
-import { createObserver } from "../../utils/observers";
 import {
   ConditionalSlotComponent,
   connectConditionalSlotComponent,
   disconnectConditionalSlotComponent
 } from "../../utils/conditionalSlot";
-import { OpenCloseComponent, onToggleOpenCloseComponent } from "../../utils/openCloseComponent";
 import {
-  FocusTrapComponent,
-  FocusTrap,
-  connectFocusTrap,
+  ensureId,
+  focusFirstTabbable,
+  getSlotted,
+  slotChangeHasAssignedElement
+} from "../../utils/dom";
+import {
   activateFocusTrap,
+  connectFocusTrap,
   deactivateFocusTrap,
-  focusFirstTabbable
+  FocusTrap,
+  FocusTrapComponent,
+  updateFocusTrapElements
 } from "../../utils/focusTrapComponent";
 import {
-  setUpLoadableComponent,
-  setComponentLoaded,
+  componentLoaded,
   LoadableComponent,
-  componentLoaded
+  setComponentLoaded,
+  setUpLoadableComponent
 } from "../../utils/loadable";
+import { createObserver } from "../../utils/observers";
+import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
+import { Kind, Scale } from "../interfaces";
+import { CSS, ICONS, SLOTS } from "./resources";
 
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 import {
@@ -46,11 +50,13 @@ import {
   T9nComponent,
   updateMessages
 } from "../../utils/t9n";
-import { Messages } from "./assets/modal/t9n";
+import { ModalMessages } from "./assets/modal/t9n";
 
 /**
  * @slot header - A slot for adding header text.
  * @slot content - A slot for adding the component's content.
+ * @slot content-top - A slot for adding content to the component's sticky header, where content remains at the top of the component when scrolling up and down.
+ * @slot content-bottom - A slot for adding content to the component's sticky footer, where content remains at the bottom of the component when scrolling up and down.
  * @slot primary - A slot for adding a primary button.
  * @slot secondary - A slot for adding a secondary button.
  * @slot back - A slot for adding a back button.
@@ -111,13 +117,6 @@ export class Modal
   /** When `true`, disables the closing of the component when clicked outside. */
   @Prop({ reflect: true }) outsideCloseDisabled = false;
 
-  /**
-   * Accessible name for the component's close button.
-   *
-   * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`.
-   */
-  @Prop() intlClose: string;
-
   /** When `true`, prevents the component from expanding to the entire screen on mobile devices. */
   @Prop({ reflect: true }) docked: boolean;
 
@@ -127,35 +126,41 @@ export class Modal
   /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";
 
-  /** Specifies the width of the component. Can use scale sizes or pass a number (displays in pixels). */
-  @Prop({ reflect: true }) width: Scale | number = "m";
+  /** Specifies the width of the component. */
+  @Prop({ reflect: true }) width: Scale = "m";
 
-  /** Sets the component to always be fullscreen (overrides `width`). */
+  /** Sets the component to always be fullscreen (overrides `width` and `--calcite-modal-width` / `--calcite-modal-height`). */
   @Prop({ reflect: true }) fullscreen: boolean;
 
   /** Specifies the kind of the component (will apply to top border). */
-  @Prop({ reflect: true }) kind: Kind;
-
-  /** Sets the background color of the component's content. */
-  @Prop({ reflect: true }) backgroundColor: ModalBackgroundColor = "white";
+  @Prop({ reflect: true }) kind: Extract<"brand" | "danger" | "info" | "success" | "warning", Kind>;
 
   /**
    * Made into a prop for testing purposes only
    *
    * @internal
    */
-  @Prop({ mutable: true }) messages: Messages;
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
+  @Prop({ mutable: true }) messages: ModalMessages;
 
   /**
    * Use this property to override individual strings used by the component.
    */
-  @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
+  @Prop({ mutable: true }) messageOverrides: Partial<ModalMessages>;
 
-  @Watch("intlClose")
   @Watch("messageOverrides")
   onMessagesChange(): void {
     /* wired up by t9n util */
   }
+
+  /**
+   * This internal property, managed by a containing calcite-shell, is used
+   * to inform the component if special configuration or styles are needed
+   *
+   * @internal
+   */
+  @Prop({ mutable: true }) slottedInShell: boolean;
 
   //--------------------------------------------------------------------------
   //
@@ -179,19 +184,24 @@ export class Modal
 
   connectedCallback(): void {
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
+    this.cssVarObserver?.observe(this.el, { attributeFilter: ["style"] });
+    this.updateSizeCssVars();
     this.updateFooterVisibility();
     connectConditionalSlotComponent(this);
     connectLocalized(this);
     connectMessages(this);
+    connectFocusTrap(this);
   }
 
   disconnectedCallback(): void {
     this.removeOverflowHiddenClass();
     this.mutationObserver?.disconnect();
+    this.cssVarObserver?.disconnect();
     disconnectConditionalSlotComponent(this);
     deactivateFocusTrap(this);
     disconnectLocalized(this);
     disconnectMessages(this);
+    this.slottedInShell = false;
   }
 
   render(): VNode {
@@ -202,31 +212,42 @@ export class Modal
         aria-modal="true"
         role="dialog"
       >
-        <calcite-scrim class={CSS.scrim} onClick={this.handleOutsideClose} />
-        {this.renderStyle()}
         <div
           class={{
-            [CSS.modal]: true,
-            [CSS.modalOpen]: this.isOpen
+            [CSS.container]: true,
+            [CSS.containerOpen]: this.isOpen,
+            [CSS.slottedInShell]: this.slottedInShell
           }}
-          ref={this.setTransitionEl}
         >
-          <div class={CSS.header}>
-            {this.renderCloseButton()}
-            <header class={CSS.title}>
-              <slot name={CSS.header} />
-            </header>
-          </div>
+          <calcite-scrim class={CSS.scrim} onClick={this.handleOutsideClose} />
+          {this.renderStyle()}
           <div
             class={{
-              content: true,
-              "content--no-footer": !this.hasFooter
+              [CSS.modal]: true
             }}
-            ref={(el) => (this.modalContent = el)}
+            // eslint-disable-next-line react/jsx-sort-props
+            ref={this.setTransitionEl}
           >
-            <slot name={SLOTS.content} />
+            <div class={CSS.header}>
+              {this.renderCloseButton()}
+              <header class={CSS.title}>
+                <slot name={CSS.header} />
+              </header>
+            </div>
+            {this.renderContentTop()}
+            <div
+              class={{
+                [CSS.content]: true,
+                [CSS.contentNoFooter]: !this.hasFooter
+              }}
+              // eslint-disable-next-line react/jsx-sort-props
+              ref={(el) => (this.modalContent = el)}
+            >
+              <slot name={SLOTS.content} />
+            </div>
+            {this.renderContentBottom()}
+            {this.renderFooter()}
           </div>
-          {this.renderFooter()}
         </div>
       </Host>
     );
@@ -248,6 +269,22 @@ export class Modal
     ) : null;
   }
 
+  renderContentTop(): VNode {
+    return (
+      <div class={CSS.contentTop} hidden={!this.hasContentTop}>
+        <slot name={SLOTS.contentTop} onSlotchange={this.contentTopSlotChangeHandler} />
+      </div>
+    );
+  }
+
+  renderContentBottom(): VNode {
+    return (
+      <div class={CSS.contentBottom} hidden={!this.hasContentBottom}>
+        <slot name={SLOTS.contentBottom} onSlotchange={this.contentBottomSlotChangeHandler} />
+      </div>
+    );
+  }
+
   renderCloseButton(): VNode {
     return !this.closeButtonDisabled ? (
       <button
@@ -255,8 +292,9 @@ export class Modal
         class={CSS.close}
         key="button"
         onClick={this.close}
-        ref={(el) => (this.closeButtonEl = el)}
         title={this.messages.close}
+        // eslint-disable-next-line react/jsx-sort-props
+        ref={(el) => (this.closeButtonEl = el)}
       >
         <calcite-icon
           icon={ICONS.close}
@@ -269,30 +307,41 @@ export class Modal
   }
 
   renderStyle(): VNode {
-    const hasCustomWidth = !isNaN(parseInt(`${this.width}`));
-    return hasCustomWidth ? (
-      <style>
-        {`
-        .${CSS.modal} {
-          max-width: ${this.width}px !important;
-        }
-        @media screen and (max-width: ${this.width}px) {
-          .${CSS.modal} {
-            height: 100% !important;
-            max-height: 100% !important;
-            width: 100% !important;
-            max-width: 100% !important;
-            margin: 0 !important;
-            border-radius: 0 !important;
-          }
-          .content {
-            flex: 1 1 auto !important;
-            max-height: unset !important;
-          }
-        }
-      `}
-      </style>
-    ) : null;
+    if (!this.fullscreen && (this.cssWidth || this.cssHeight)) {
+      return (
+        <style>
+          {`.${CSS.container} {
+              ${this.docked && this.cssWidth ? `align-items: center !important;` : ""}
+            }
+            .${CSS.modal} {
+              block-size: ${this.cssHeight ? this.cssHeight : "auto"} !important;
+              ${this.cssWidth ? `inline-size: ${this.cssWidth} !important;` : ""}
+              ${this.cssWidth ? `max-inline-size: ${this.cssWidth} !important;` : ""}
+              ${this.docked ? `border-radius: var(--calcite-border-radius) !important;` : ""}
+            }
+            @media screen and (max-width: ${this.cssWidth}) {
+              .${CSS.container} {
+                ${this.docked ? `align-items: flex-end !important;` : ""}
+              }
+              .${CSS.modal} {
+                max-block-size: 100% !important;
+                inline-size: 100% !important;
+                max-inline-size: 100% !important;
+                min-inline-size: 100% !important;
+                margin: 0 !important;
+                ${!this.docked ? `block-size: 100% !important;` : ""}
+                ${!this.docked ? `border-radius: 0 !important;` : ""}
+                ${
+                  this.docked
+                    ? `border-radius: var(--calcite-border-radius) var(--calcite-border-radius) 0 0 !important;`
+                    : ""
+                }
+              }
+            }
+          `}
+        </style>
+      );
+    }
   }
 
   //--------------------------------------------------------------------------
@@ -304,8 +353,12 @@ export class Modal
   modalContent: HTMLDivElement;
 
   private mutationObserver: MutationObserver = createObserver("mutation", () =>
-    this.updateFooterVisibility()
+    this.handleMutationObserver()
   );
+
+  private cssVarObserver: MutationObserver = createObserver("mutation", () => {
+    this.updateSizeCssVars();
+  });
 
   titleId: string;
 
@@ -315,13 +368,19 @@ export class Modal
 
   focusTrap: FocusTrap;
 
-  focusTrapEl: HTMLDivElement;
-
   closeButtonEl: HTMLButtonElement;
 
   contentId: string;
 
+  @State() cssWidth: string | number;
+
+  @State() cssHeight: string | number;
+
   @State() hasFooter = true;
+
+  @State() hasContentTop = false;
+
+  @State() hasContentBottom = false;
 
   /**
    * We use internal variable to make sure initially open modal can transition from closed state when rendered
@@ -337,7 +396,7 @@ export class Modal
     updateMessages(this, this.effectiveLocale);
   }
 
-  @State() defaultMessages: Messages;
+  @State() defaultMessages: ModalMessages;
 
   //--------------------------------------------------------------------------
   //
@@ -377,24 +436,21 @@ export class Modal
   //--------------------------------------------------------------------------
 
   /**
-   * Sets focus on the component.
+   * Sets focus on the component's "close" button (the first focusable item).
    *
-   * By default, tries to focus on focusable content. If there is none, it will focus on the close button.
-   * To focus on the close button, use the `close-button` focus ID.
-   *
-   * @param focusId
    */
   @Method()
-  async setFocus(focusId?: "close-button"): Promise<void> {
+  async setFocus(): Promise<void> {
     await componentLoaded(this);
+    focusFirstTabbable(this.el);
+  }
 
-    const { closeButtonEl } = this;
-
-    if (closeButtonEl && focusId === "close-button") {
-      return focusElement(closeButtonEl);
-    }
-
-    focusFirstTabbable(this);
+  /**
+   * Updates the element(s) that are used within the focus-trap of the component.
+   */
+  @Method()
+  async updateFocusTrapElements(): Promise<void> {
+    updateFocusTrapElements(this);
   }
 
   /**
@@ -423,8 +479,6 @@ export class Modal
 
   private setTransitionEl = (el: HTMLDivElement): void => {
     this.transitionEl = el;
-    this.focusTrapEl = el;
-    connectFocusTrap(this);
   };
 
   onBeforeOpen(): void {
@@ -477,7 +531,9 @@ export class Modal
     this.titleId = ensureId(titleEl);
     this.contentId = ensureId(contentEl);
 
-    document.documentElement.classList.add(CSS.overflowHidden);
+    if (!this.slottedInShell) {
+      document.documentElement.classList.add(CSS.overflowHidden);
+    }
   }
 
   handleOutsideClose = (): void => {
@@ -501,7 +557,25 @@ export class Modal
     document.documentElement.classList.remove(CSS.overflowHidden);
   }
 
+  private handleMutationObserver = (): void => {
+    this.updateFooterVisibility();
+    this.updateFocusTrapElements();
+  };
+
   private updateFooterVisibility = (): void => {
     this.hasFooter = !!getSlotted(this.el, [SLOTS.back, SLOTS.primary, SLOTS.secondary]);
+  };
+
+  private updateSizeCssVars = (): void => {
+    this.cssWidth = getComputedStyle(this.el).getPropertyValue("--calcite-modal-width");
+    this.cssHeight = getComputedStyle(this.el).getPropertyValue("--calcite-modal-height");
+  };
+
+  private contentTopSlotChangeHandler = (event: Event): void => {
+    this.hasContentTop = slotChangeHasAssignedElement(event);
+  };
+
+  private contentBottomSlotChangeHandler = (event: Event): void => {
+    this.hasContentBottom = slotChangeHasAssignedElement(event);
   };
 }

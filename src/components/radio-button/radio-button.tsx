@@ -11,25 +11,25 @@ import {
   VNode,
   Watch
 } from "@stencil/core";
-import { guid } from "../../utils/guid";
+import { getRoundRobinIndex } from "../../utils/array";
 import { focusElement, getElementDir, toAriaBoolean } from "../../utils/dom";
-import { Scale } from "../interfaces";
-import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
 import {
-  HiddenFormInputSlot,
+  CheckableFormComponent,
   connectForm,
   disconnectForm,
-  CheckableFormComponent
+  HiddenFormInputSlot
 } from "../../utils/form";
-import { CSS } from "./resources";
-import { getRoundRobinIndex } from "../../utils/array";
+import { guid } from "../../utils/guid";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
 import {
-  setUpLoadableComponent,
-  setComponentLoaded,
+  componentLoaded,
   LoadableComponent,
-  componentLoaded
+  setComponentLoaded,
+  setUpLoadableComponent
 } from "../../utils/loadable";
+import { Scale } from "../interfaces";
+import { CSS } from "./resources";
 
 @Component({
   tag: "calcite-radio-button",
@@ -75,6 +75,14 @@ export class RadioButton
    */
   @Prop({ mutable: true, reflect: true }) focused = false;
 
+  /**
+   * The ID of the form that will be associated with the component.
+   *
+   * When not set, the component will be associated with its ancestor form element, if any.
+   */
+  @Prop({ reflect: true })
+  form: string;
+
   /** The `id` of the component. When omitted, a globally unique identifier is used. */
   @Prop({ reflect: true, mutable: true }) guid: string;
 
@@ -95,7 +103,11 @@ export class RadioButton
    */
   @Prop() label?: string;
 
-  /** Specifies the name of the component, passed from the `calcite-radio-button-group` on form submission. */
+  /**
+   * Specifies the name of the component. Can be inherited from `calcite-radio-button-group`.
+   *
+   * Required to pass the component's `value` on form submission.
+   */
   @Prop({ reflect: true }) name: string;
 
   @Watch("name")
@@ -110,6 +122,7 @@ export class RadioButton
   @Prop({ reflect: true }) scale: Scale = "m";
 
   /** The component's value. */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by form module
   @Prop({ mutable: true }) value!: any;
 
   //--------------------------------------------------------------------------
@@ -152,6 +165,10 @@ export class RadioButton
   //
   //--------------------------------------------------------------------------
 
+  syncHiddenFormInput(input: HTMLInputElement): void {
+    input.type = "radio";
+  }
+
   selectItem = (items: HTMLCalciteRadioButtonElement[], selectedIndex: number): void => {
     items[selectedIndex].click();
   };
@@ -179,6 +196,10 @@ export class RadioButton
   };
 
   private clickHandler = (): void => {
+    if (this.disabled) {
+      return;
+    }
+
     this.check();
   };
 
@@ -300,12 +321,20 @@ export class RadioButton
   //--------------------------------------------------------------------------
 
   @Listen("pointerenter")
-  mouseenter(): void {
+  pointerEnterHandler(): void {
+    if (this.disabled) {
+      return;
+    }
+
     this.hovered = true;
   }
 
   @Listen("pointerleave")
-  mouseleave(): void {
+  pointerLeaveHandler(): void {
+    if (this.disabled) {
+      return;
+    }
+
     this.hovered = false;
   }
 
@@ -435,9 +464,10 @@ export class RadioButton
           class={CSS.container}
           onBlur={this.onContainerBlur}
           onFocus={this.onContainerFocus}
-          ref={this.setContainerEl}
           role="radio"
           tabIndex={tabIndex}
+          // eslint-disable-next-line react/jsx-sort-props
+          ref={this.setContainerEl}
         >
           <div class="radio" />
         </div>

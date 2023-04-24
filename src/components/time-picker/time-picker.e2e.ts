@@ -1,5 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, defaults, focusable, renders, hidden, t9n } from "../../tests/commonTests";
+import { accessible, defaults, focusable, hidden, renders, t9n } from "../../tests/commonTests";
 import { formatTimePart } from "../../utils/time";
 import { CSS } from "./resources";
 
@@ -50,9 +50,14 @@ describe("calcite-time-picker", () => {
       { propertyName: "step", defaultValue: 60 }
     ]));
 
-  it("should focus the first input when setFocus is called", async () =>
+  it("should focus the first focusable element when setFocus is called (ltr)", async () =>
     focusable(`calcite-time-picker`, {
-      shadowFocusTargetSelector: `.${CSS.hour}`
+      shadowFocusTargetSelector: `.${CSS.buttonHourUp}`
+    }));
+
+  it("should focus the first focusable element when setFocus is called (rtl)", async () =>
+    focusable(`<calcite-time-picker dir="rtl" lang="ar"></calcite-time-picker>`, {
+      shadowFocusTargetSelector: `.${CSS.buttonHourUp}`
     }));
 
   it("value displays correctly when value is programmatically changed", async () => {
@@ -1055,4 +1060,23 @@ describe("calcite-time-picker", () => {
   });
 
   it("suuports translation", () => t9n("<calcite-time-picker></calcite-time-picker>"));
+
+  it("toggles seconds display when step is < 60", async () => {
+    const page = await newE2EPage({
+      html: `<calcite-time-picker value="11:00:00"></calcite-time-picker>`
+    });
+    const timePicker = await page.find("calcite-time-picker");
+
+    expect(await page.find(`calcite-time-picker >>> .${CSS.second}`)).toBeNull();
+
+    timePicker.setProperty("step", 1);
+    await page.waitForChanges();
+
+    expect(await page.find(`calcite-time-picker >>> .${CSS.second}`)).not.toBeNull();
+
+    timePicker.setProperty("step", 60);
+    await page.waitForChanges();
+
+    expect(await page.find(`calcite-time-picker >>> .${CSS.second}`)).toBeNull();
+  });
 });

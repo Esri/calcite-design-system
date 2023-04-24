@@ -14,12 +14,6 @@
 | `scale`        | `scale`         | Specifies the size of the component.                                     | `"l" \| "m" \| "s"`          | `undefined` |
 | `selectedDate` | --              | Already selected date.                                                   | `Date`                       | `undefined` |
 
-## Events
-
-| Event                     | Description            | Type                |
-| ------------------------- | ---------------------- | ------------------- |
-| `calciteDatePickerSelect` | Changes to active date | `CustomEvent<Date>` |
-
 ## Dependencies
 
 ### Used by

@@ -12,11 +12,14 @@ import {
   Watch
 } from "@stencil/core";
 import { debounce } from "lodash-es";
-import { CSS, DEBOUNCE_TIMEOUT, ICONS } from "./resources";
-import { Scale } from "../interfaces";
-import { focusElement } from "../../utils/dom";
-import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import { filter } from "../../utils/filter";
+import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import {
+  componentLoaded,
+  LoadableComponent,
+  setComponentLoaded,
+  setUpLoadableComponent
+} from "../../utils/loadable";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 import {
   connectMessages,
@@ -25,18 +28,16 @@ import {
   T9nComponent,
   updateMessages
 } from "../../utils/t9n";
-import { Messages } from "./assets/filter/t9n";
-import {
-  setUpLoadableComponent,
-  setComponentLoaded,
-  LoadableComponent,
-  componentLoaded
-} from "../../utils/loadable";
+import { Scale } from "../interfaces";
+import { FilterMessages } from "./assets/filter/t9n";
+import { CSS, DEBOUNCE_TIMEOUT, ICONS } from "./resources";
 
 @Component({
   tag: "calcite-filter",
   styleUrl: "filter.scss",
-  shadow: true,
+  shadow: {
+    delegatesFocus: true
+  },
   assetsDirs: ["assets"]
 })
 export class Filter
@@ -56,7 +57,7 @@ export class Filter
    * This property is needed to conduct filtering.
    *
    */
-  @Prop({ mutable: true }) items: object[] = [];
+  @Prop() items: object[] = [];
 
   @Watch("items")
   watchItemsHandler(): void {
@@ -95,12 +96,14 @@ export class Filter
    *
    * @internal
    */
-  @Prop({ mutable: true }) messages: Messages;
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
+  @Prop({ mutable: true }) messages: FilterMessages;
 
   /**
    * Use this property to override individual strings used by the component.
    */
-  @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
+  @Prop({ mutable: true }) messageOverrides: Partial<FilterMessages>;
 
   @Watch("messageOverrides")
   onMessagesChange(): void {
@@ -129,7 +132,7 @@ export class Filter
     updateMessages(this, this.effectiveLocale);
   }
 
-  @State() defaultMessages: Messages;
+  @State() defaultMessages: FilterMessages;
 
   // --------------------------------------------------------------------------
   //
@@ -151,7 +154,6 @@ export class Filter
   async componentWillLoad(): Promise<void> {
     setUpLoadableComponent(this);
     this.updateFiltered(filter(this.items, this.value));
-    this.filter(this.value);
     await setUpMessages(this);
   }
 
@@ -184,7 +186,7 @@ export class Filter
   async setFocus(): Promise<void> {
     await componentLoaded(this);
 
-    focusElement(this.textInput);
+    this.el?.focus();
   }
 
   // --------------------------------------------------------------------------
@@ -251,12 +253,13 @@ export class Filter
               onCalciteInputInput={this.inputHandler}
               onKeyDown={this.keyDownHandler}
               placeholder={this.placeholder}
-              ref={(el): void => {
-                this.textInput = el;
-              }}
               scale={scale}
               type="text"
               value={this.value}
+              // eslint-disable-next-line react/jsx-sort-props
+              ref={(el): void => {
+                this.textInput = el;
+              }}
             />
           </label>
         </div>

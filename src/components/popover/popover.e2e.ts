@@ -720,19 +720,17 @@ describe("calcite-popover", () => {
     const createPopoverHTML = (contentHTML?: string, attrs?: string) =>
       `<calcite-popover open ${attrs} reference-element="ref">${contentHTML}</calcite-popover><button id="ref">Button</button>`;
 
-    const closeButtonFocusId = "close-button";
-
     const contentButtonClass = "my-button";
-    const contentHTML = `<button class="${contentButtonClass}">My Button</button>`;
+    const contentHTML = "Hello World!";
+    const buttonContentHTML = `<button class="${contentButtonClass}">My Button</button>`;
 
     it("should focus content by default", async () =>
-      focusable(createPopoverHTML(contentHTML), {
+      focusable(createPopoverHTML(buttonContentHTML), {
         focusTargetSelector: `.${contentButtonClass}`
       }));
 
-    it("should focus close button", async () =>
+    it.skip("should focus close button", async () =>
       focusable(createPopoverHTML(contentHTML, "closable"), {
-        focusId: closeButtonFocusId,
         shadowFocusTargetSelector: `.${CSS.closeButton}`
       }));
   });

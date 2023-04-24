@@ -6,7 +6,7 @@
 
 # Calcite Components
 
-Calcite Components, part of Esri's Calcite Design System, is a rich library of flexible, framework-agnostic web components for building applications. View the [documentation](https://developers.arcgis.com/calcite-design-system/components/) for component descriptions, examples, and API reference, which includes properties, slots, styles, and themes.
+Calcite Components, part of Esri's Calcite Design System, is a rich library of flexible, framework-agnostic web components for building applications. View the [documentation](https://developers.arcgis.com/calcite-design-system/components/) for component descriptions, examples, and API reference, which includes properties, slots, styles, and theming.
 
 ## Use the CDN
 
@@ -15,12 +15,12 @@ The most common approach for loading Calcite Components is to use the version ho
 ```html
 <script
   type="module"
-  src="https://unpkg.com/@esri/calcite-components@1.0.0-beta.98/dist/calcite/calcite.esm.js"
+  src="https://cdn.jsdelivr.net/npm/@esri/calcite-components@1.2.0/dist/calcite/calcite.esm.js"
 ></script>
 <link
   rel="stylesheet"
   type="text/css"
-  href="https://unpkg.com/@esri/calcite-components@1.0.0-beta.98/dist/calcite/calcite.css"
+  href="https://cdn.jsdelivr.net/npm/@esri/calcite-components@1.2.0/dist/calcite/calcite.css"
 />
 ```
 
@@ -45,7 +45,7 @@ Choose one of the two builds provided by Calcite Components.
 ```jsx
 import { setAssetPath } from "@esri/calcite-components/dist/components";
 // CDN hosted assets
-setAssetPath("https://unpkg.com/@esri/calcite-components/dist/calcite/assets");
+setAssetPath("https://cdn.jsdelivr.net/npm/@esri/calcite-components/dist/calcite/assets");
 
 // Local assets
 // setAssetPath(PATH); // PATH depends on framework, more info below
@@ -67,7 +67,7 @@ When using the [Distribution](https://stenciljs.com/docs/distribution) build, yo
 import { defineCustomElements } from "@esri/calcite-components/dist/loader";
 // CDN hosted assets
 defineCustomElements(window, {
-  resourcesUrl: "https://unpkg.com/@esri/calcite-components/dist/calcite/assets"
+  resourcesUrl: "https://cdn.jsdelivr.net/npm/@esri/calcite-components/dist/calcite/assets"
 });
 
 // Local assets
@@ -150,13 +150,13 @@ We welcome contributions to this project. See [CONTRIBUTING.md](./CONTRIBUTING.m
 
 ## License
 
-COPYRIGHT © 2020 Esri
+COPYRIGHT © 2023 Esri
 
 All rights reserved under the copyright laws of the United States and applicable international laws, treaties, and conventions.
 
 This material is licensed for use under the Esri Master License Agreement (MLA), and is bound by the terms of that agreement. You may redistribute and use this code without modification, provided you adhere to the terms of the MLA and include this copyright notice.
 
-See use restrictions at http://www.esri.com/legal/pdfs/mla_e204_e300/english
+See use restrictions at <http://www.esri.com/legal/pdfs/mla_e204_e300/english>
 
 For additional information, contact: Environmental Systems Research Institute, Inc. Attn: Contracts and Legal Services Department 380 New York Street Redlands, California, USA 92373 USA
 

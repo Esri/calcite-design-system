@@ -1,12 +1,12 @@
-import { E2EElement, E2EPage, newE2EPage } from "@stencil/core/testing";
-import { JSX } from "../components";
-import { toHaveNoViolations } from "jest-axe";
+import { E2EElement, E2EPage, EventSpy, newE2EPage } from "@stencil/core/testing";
 import axe from "axe-core";
+import { toHaveNoViolations } from "jest-axe";
 import { config } from "../../stencil.config";
-import { GlobalTestProps, skipAnimations } from "./utils";
-import { hiddenFormInputSlotName } from "../utils/form";
 import { html } from "../../support/formatting";
+import { JSX } from "../components";
+import { hiddenFormInputSlotName } from "../utils/form";
 import { MessageBundle } from "../utils/t9n";
+import { GlobalTestProps, skipAnimations } from "./utils";
 
 expect.extend(toHaveNoViolations);
 
@@ -184,7 +184,11 @@ export async function hidden(componentTagOrHTML: TagOrHTML): Promise<void> {
 }
 
 interface FocusableOptions {
-  /** use this to pass an ID to setFocus() */
+  /**
+   * use this to pass an ID to setFocus()
+   *
+   * @deprecated components should no longer use a focusId parameter for setFocus()
+   */
   focusId?: string;
 
   /**
@@ -209,14 +213,13 @@ export async function focusable(componentTagOrHTML: TagOrHTML, options?: Focusab
   const tag = getTag(componentTagOrHTML);
   const element = await page.find(tag);
   const focusTargetSelector = options?.focusTargetSelector || tag;
-
   await element.callMethod("setFocus", options?.focusId); // assumes element is FocusableElement
 
   if (options?.shadowFocusTargetSelector) {
     expect(
       await page.$eval(
         tag,
-        (element: HTMLElement, selector: string) => element.shadowRoot.activeElement.matches(selector),
+        (element: HTMLElement, selector: string) => element.shadowRoot.activeElement?.matches(selector),
         options?.shadowFocusTargetSelector
       )
     ).toBe(true);
@@ -225,7 +228,7 @@ export async function focusable(componentTagOrHTML: TagOrHTML, options?: Focusab
   // wait for next frame before checking focus
   await page.waitForTimeout(0);
 
-  expect(await page.evaluate((selector) => document.activeElement.matches(selector), focusTargetSelector)).toBe(true);
+  expect(await page.evaluate((selector) => document.activeElement?.matches(selector), focusTargetSelector)).toBe(true);
 }
 
 /**
@@ -489,6 +492,11 @@ interface FormAssociatedOptions {
   expectedSubmitValue?: any;
 
   /**
+   * Specifies the input type that will be used to capture the value.
+   */
+  inputType?: HTMLInputElement["type"];
+
+  /**
    * Specifies if the component supports submitting the form on Enter key press
    */
   submitsOnEnter?: boolean;
@@ -501,42 +509,119 @@ interface FormAssociatedOptions {
  * @param {FormAssociatedOptions} options - form associated options
  */
 export async function formAssociated(componentTagOrHtml: TagOrHTML, options: FormAssociatedOptions): Promise<void> {
-  const componentTag = getTag(componentTagOrHtml);
-  const componentHtml = ensureName(
-    isHTML(componentTagOrHtml) ? componentTagOrHtml : `<${componentTag}></${componentTag}>`
-  );
+  await testAncestorFormAssociated();
+  await testIdFormAssociated();
 
-  function ensureName(html: string): string {
-    return html.includes("name=") ? html : html.replace(componentTag, `${componentTag} name="testName" `);
-  }
+  async function testAncestorFormAssociated(): Promise<void> {
+    const componentTag = getTag(componentTagOrHtml);
+    const componentHtml = ensureName(
+      isHTML(componentTagOrHtml) ? componentTagOrHtml : `<${componentTag}></${componentTag}>`,
+      componentTag
+    );
 
-  const page = await newE2EPage({
-    html: html`<form>
-      ${componentHtml}
-      <!--
+    const page = await newE2EPage({
+      html: html`<form>
+        ${componentHtml}
+        <!--
           keeping things simple by using submit-type input
           this should cover button and calcite-button submit cases
           -->
-      <input id="submitter" type="submit" />
-    </form>`
-  });
+        <input id="submitter" type="submit" />
+      </form>`
+    });
+    await page.waitForChanges();
+    const component = await page.find(componentTag);
 
-  await page.waitForChanges();
+    await assertValueSubmissionType(page, component, options);
+    await assertValueResetOnFormReset(page, component, options);
+    await assertValueSubmittedOnFormSubmit(page, component, options);
 
-  const component = await page.find(componentTag);
-  const checkable =
-    typeof options.testValue === "boolean" && (await page.$eval(componentTag, (component) => "checked" in component));
-  const resettablePropName = checkable ? "checked" : "value";
-  const initialValue = await component.getProperty(resettablePropName);
-
-  await assertValueResetOnFormReset();
-  await assertValueSubmittedOnFormSubmit();
-
-  if (options.submitsOnEnter) {
-    await assertFormSubmitOnEnter();
+    if (options.submitsOnEnter) {
+      await assertFormSubmitOnEnter(page, component, options);
+    }
   }
 
-  async function assertValueResetOnFormReset(): Promise<void> {
+  async function testIdFormAssociated(): Promise<void> {
+    const componentTag = getTag(componentTagOrHtml);
+    const componentHtml = ensureForm(
+      ensureName(isHTML(componentTagOrHtml) ? componentTagOrHtml : `<${componentTag}></${componentTag}>`, componentTag),
+      componentTag
+    );
+
+    const page = await newE2EPage({
+      html: html`<form id="test-form"></form>
+        ${componentHtml}
+        <!--
+        keeping things simple by using submit-type input
+        this should cover button and calcite-button submit cases
+        -->
+        <input id="submitter" form="test-form" type="submit" />`
+    });
+    await page.waitForChanges();
+    const component = await page.find(componentTag);
+
+    await assertValueSubmissionType(page, component, options);
+    await assertValueResetOnFormReset(page, component, options);
+    await assertValueSubmittedOnFormSubmit(page, component, options);
+
+    if (options.submitsOnEnter) {
+      await assertFormSubmitOnEnter(page, component, options);
+    }
+  }
+
+  function ensureForm(html: string, componentTag: string): string {
+    return html.includes("form=") ? html : html.replace(componentTag, `${componentTag} form="test-form" `);
+  }
+
+  function ensureName(html: string, componentTag: string): string {
+    return html.includes("name=") ? html : html.replace(componentTag, `${componentTag} name="testName" `);
+  }
+
+  async function isCheckable(page: E2EPage, component: E2EElement, options: FormAssociatedOptions): Promise<boolean> {
+    return (
+      typeof options.testValue === "boolean" &&
+      (await page.$eval(component.tagName.toLowerCase(), (component) => "checked" in component))
+    );
+  }
+
+  function stringifyTestValue(value: any): string | string[] {
+    return Array.isArray(value) ? value.map((value) => value.toString()) : value.toString();
+  }
+
+  async function assertValueSubmissionType(
+    page: E2EPage,
+    component: E2EElement,
+    options: FormAssociatedOptions
+  ): Promise<void> {
+    const name = await component.getProperty("name");
+    const inputType = options.inputType ?? "text";
+
+    const hiddenFormInputType = await page.evaluate(
+      async (inputName: string, hiddenFormInputSlotName: string): Promise<string> => {
+        const hiddenFormInput = document.querySelector<HTMLInputElement>(
+          `[name="${inputName}"] input[slot=${hiddenFormInputSlotName}]`
+        );
+
+        return hiddenFormInput.type;
+      },
+      name,
+      hiddenFormInputSlotName
+    );
+
+    if (await isCheckable(page, component, options)) {
+      expect(hiddenFormInputType).toMatch(/radio|checkbox/);
+    } else {
+      expect(hiddenFormInputType).toMatch(inputType);
+    }
+  }
+
+  async function assertValueResetOnFormReset(
+    page: E2EPage,
+    component: E2EElement,
+    options: FormAssociatedOptions
+  ): Promise<void> {
+    const resettablePropName = (await isCheckable(page, component, options)) ? "checked" : "value";
+    const initialValue = await component.getProperty(resettablePropName);
     component.setProperty(resettablePropName, options.testValue);
     await page.waitForChanges();
 
@@ -546,11 +631,15 @@ export async function formAssociated(componentTagOrHtml: TagOrHTML, options: For
     expect(await component.getProperty(resettablePropName)).toBe(initialValue);
   }
 
-  async function assertValueSubmittedOnFormSubmit(): Promise<void> {
-    const inputName = await component.getProperty("name");
+  async function assertValueSubmittedOnFormSubmit(
+    page: E2EPage,
+    component: E2EElement,
+    options: FormAssociatedOptions
+  ): Promise<void> {
     const stringifiedTestValue = stringifyTestValue(options.testValue);
+    const name = await component.getProperty("name");
 
-    if (checkable) {
+    if (await isCheckable(page, component, options)) {
       component.setProperty("checked", true);
       await page.waitForChanges();
       expect(await submitAndGetValue()).toEqual("on");
@@ -575,7 +664,13 @@ export async function formAssociated(componentTagOrHtml: TagOrHTML, options: For
       component.setProperty("required", true);
       component.setProperty("value", null);
       await page.waitForChanges();
-      expect(await submitAndGetValue()).toBeUndefined();
+      expect(await submitAndGetValue()).toBe(
+        options.inputType === "color"
+          ? // `input[type="color"]` will set its value to #000000 when set to an invalid value
+            // see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/color#value
+            "#000000"
+          : undefined
+      );
 
       component.setProperty("required", false);
       component.setProperty("value", options.testValue);
@@ -647,13 +742,17 @@ export async function formAssociated(componentTagOrHtml: TagOrHTML, options: For
 
           return submitPromise;
         },
-        inputName,
+        name,
         hiddenFormInputSlotName
       );
     }
   }
 
-  async function assertFormSubmitOnEnter(): Promise<void> {
+  async function assertFormSubmitOnEnter(
+    page: E2EPage,
+    component: E2EElement,
+    options: FormAssociatedOptions
+  ): Promise<void> {
     type TestWindow = GlobalTestProps<{
       called: boolean;
     }>;
@@ -673,10 +772,6 @@ export async function formAssociated(componentTagOrHtml: TagOrHTML, options: For
     const called = await page.evaluate(() => (window as TestWindow).called);
 
     expect(called).toBe(true);
-  }
-
-  function stringifyTestValue(value: any): string | string[] {
-    return Array.isArray(value) ? value.map((value) => value.toString()) : value.toString();
   }
 }
 
@@ -718,7 +813,6 @@ export async function disabled(
   const { page, tag } = await getTagAndPage(componentSetup);
 
   const component = await page.find(tag);
-  const enabledComponentClickSpy = await component.spyOnEvent("click");
   await skipAnimations(page);
   await page.$eval(tag, (el) => {
     el.addEventListener(
@@ -736,9 +830,26 @@ export async function disabled(
     );
   });
 
+  // only testing events from https://github.com/web-platform-tests/wpt/blob/master/html/semantics/disabled-elements/event-propagate-disabled.tentative.html#L66
+  const eventsExpectedToBubble = ["mousemove", "pointermove", "pointerdown", "pointerup"];
+  const eventsExpectedToNotBubble = ["mousedown", "mouseup", "click"];
+  const allExpectedEvents = [...eventsExpectedToBubble, ...eventsExpectedToNotBubble];
+
+  const eventSpies: EventSpy[] = [];
+
+  for (const event of allExpectedEvents) {
+    eventSpies.push(await component.spyOnEvent(event));
+  }
+
   async function expectToBeFocused(tag: string): Promise<void> {
     const focusedTag = await page.evaluate(() => document.activeElement?.tagName.toLowerCase());
     expect(focusedTag).toBe(tag);
+  }
+
+  function assertOnMouseAndPointerEvents(spies: EventSpy[], expectCallback: (spy: EventSpy) => void): void {
+    for (const spy of spies) {
+      expectCallback(spy);
+    }
   }
 
   expect(component.getAttribute("aria-disabled")).toBeNull();
@@ -747,11 +858,10 @@ export async function disabled(
     await page.click(tag);
     await expectToBeFocused("body");
 
-    expect(enabledComponentClickSpy).toHaveReceivedEventTimes(1);
+    assertOnMouseAndPointerEvents(eventSpies, (spy) => expect(spy).toHaveReceivedEventTimes(1));
 
     component.setProperty("disabled", true);
     await page.waitForChanges();
-    const disabledComponentClickSpy = await component.spyOnEvent("click");
 
     expect(component.getAttribute("aria-disabled")).toBe("true");
 
@@ -761,7 +871,9 @@ export async function disabled(
     await component.callMethod("click");
     await expectToBeFocused("body");
 
-    expect(disabledComponentClickSpy).toHaveReceivedEventTimes(0);
+    assertOnMouseAndPointerEvents(eventSpies, (spy) =>
+      expect(spy).toHaveReceivedEventTimes(eventsExpectedToBubble.includes(spy.eventName) ? 2 : 1)
+    );
 
     return;
   }
@@ -806,13 +918,18 @@ export async function disabled(
   await component.callMethod("click");
   await expectToBeFocused(clickFocusTarget);
 
-  // some components emit more than one click event,
-  // so we check if at least one event is received
-  expect(enabledComponentClickSpy.length).toBeGreaterThanOrEqual(2);
+  assertOnMouseAndPointerEvents(eventSpies, (spy) => {
+    if (spy.eventName === "click") {
+      // some components emit more than one click event (e.g., from calling `click()`),
+      // so we check if at least one event is received
+      expect(spy.length).toBeGreaterThanOrEqual(2);
+    } else {
+      expect(spy).toHaveReceivedEventTimes(1);
+    }
+  });
 
   component.setProperty("disabled", true);
   await page.waitForChanges();
-  const disabledComponentClickSpy = await component.spyOnEvent("click");
 
   expect(component.getAttribute("aria-disabled")).toBe("true");
 
@@ -823,7 +940,15 @@ export async function disabled(
   await page.mouse.click(shadowFocusableCenterX, shadowFocusableCenterY);
   await expectToBeFocused("body");
 
-  expect(disabledComponentClickSpy).toHaveReceivedEventTimes(0);
+  assertOnMouseAndPointerEvents(eventSpies, (spy) => {
+    if (spy.eventName === "click") {
+      // some components emit more than one click event (e.g., from calling `click()`),
+      // so we check if at least one event is received
+      expect(spy.length).toBeGreaterThanOrEqual(2);
+    } else {
+      expect(spy).toHaveReceivedEventTimes(eventsExpectedToBubble.includes(spy.eventName) ? 2 : 1);
+    }
+  });
 }
 
 /**
@@ -913,19 +1038,12 @@ export async function floatingUIOwner(
  * Helper to test t9n component setup
  *
  * @param {TagOrHTML|TagAndPage} componentSetup - A component tag, html, or an object with e2e page and tag for setting up a test
- * @param intlProps
- * @param additionalMessages
  */
-export async function t9n(
-  componentSetup: TagOrHTML | TagAndPage,
-  intlProps = true,
-  additionalMessages?: string[]
-): Promise<void> {
+export async function t9n(componentSetup: TagOrHTML | TagAndPage): Promise<void> {
   const { page, tag } = await getTagAndPage(componentSetup);
   const component = await page.find(tag);
 
   await assertDefaultMessages();
-  intlProps ? await assertIntlPropAsOverrides() : await assertAdditionalMessagesAsOverrides();
 
   await assertOverrides();
   await assertLangSwitch();
@@ -936,33 +1054,6 @@ export async function t9n(
 
   async function assertDefaultMessages(): Promise<void> {
     expect(await getCurrentMessages()).toBeDefined();
-  }
-
-  async function assertIntlPropAsOverrides(): Promise<void> {
-    const intlProps = await page.$eval(tag, (component: HTMLElement) =>
-      Object.keys(component.constructor.prototype).filter((prop) => prop.startsWith("intl"))
-    );
-
-    if (intlProps.length > 0) {
-      const props: Partial<MessageBundle> = {};
-
-      for (const prop of intlProps) {
-        const index = intlProps.indexOf(prop);
-        const mappedPropName = prop.replace("intl", "");
-        props[mappedPropName[0].toLowerCase() + mappedPropName.slice(1)] = `${index}`;
-
-        component.setProperty(prop, `${index}`);
-        await page.waitForChanges();
-      }
-
-      expect(props).toEqual(await getCurrentMessages());
-
-      // reset test changes
-      for (const prop of intlProps) {
-        component.setProperty(prop, undefined);
-        await page.waitForChanges();
-      }
-    }
   }
 
   async function assertOverrides(): Promise<void> {
@@ -1017,26 +1108,5 @@ export async function t9n(
     // reset test changes
     component.removeAttribute("lang");
     await page.waitForChanges();
-  }
-
-  // util method for components which do not follow `intl` pattern of defining messages.
-  async function assertAdditionalMessagesAsOverrides(): Promise<void> {
-    if (additionalMessages.length > 0) {
-      const props: Partial<MessageBundle> = {};
-
-      for (const prop of additionalMessages) {
-        const index = `${additionalMessages.indexOf(prop)}`;
-        props[prop] = index;
-        component.setProperty(prop, index);
-        await page.waitForChanges();
-      }
-      expect(props).toEqual(await getCurrentMessages());
-
-      // reset test changes
-      for (const prop of additionalMessages) {
-        component.setProperty(prop, undefined);
-        await page.waitForChanges();
-      }
-    }
   }
 }

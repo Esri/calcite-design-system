@@ -1,8 +1,8 @@
 import { newE2EPage } from "@stencil/core/testing";
+import { html } from "../../../support/formatting";
 import { accessible, defaults, focusable, hidden, reflects, renders, slots, t9n } from "../../tests/commonTests";
 import { CSS, SLOTS } from "./resources";
 import { overflowActionsDebounceInMs } from "./utils";
-import { html } from "../../../support/formatting";
 
 describe("calcite-action-bar", () => {
   it("renders", async () => renders("calcite-action-bar", { display: "inline-flex" }));
@@ -236,8 +236,7 @@ describe("calcite-action-bar", () => {
         </calcite-action-bar>
       `,
       {
-        focusId: "expand-toggle",
-        focusTargetSelector: "calcite-action-bar"
+        focusTargetSelector: "calcite-action"
       }
     ));
 
@@ -384,4 +383,24 @@ describe("calcite-action-bar", () => {
   });
 
   it("supports translation", () => t9n("calcite-action-bar"));
+
+  it("should set layout on child action-groups", async () => {
+    const page = await newE2EPage();
+
+    await page.setContent(html`<calcite-action-bar layout="horizontal">
+      <calcite-action-group></calcite-action-group>
+    </calcite-action-bar>`);
+    await page.waitForChanges();
+
+    const group = await page.find("calcite-action-group");
+
+    expect(await group.getProperty("layout")).toBe("horizontal");
+
+    const actionBar = await page.find("calcite-action-bar");
+
+    actionBar.setProperty("layout", "vertical");
+    await page.waitForChanges();
+
+    expect(await group.getProperty("layout")).toBe("vertical");
+  });
 });

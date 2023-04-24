@@ -45,10 +45,6 @@ describe("calcite-color-picker", () => {
   it("reflects", async () =>
     reflects("calcite-color-picker", [
       {
-        propertyName: "appearance",
-        value: "minimal"
-      },
-      {
         propertyName: "scale",
         value: "m"
       }
@@ -93,82 +89,6 @@ describe("calcite-color-picker", () => {
       {
         propertyName: "hideSaved",
         defaultValue: false
-      },
-      {
-        propertyName: "intlB",
-        defaultValue: TEXT.b
-      },
-      {
-        propertyName: "intlBlue",
-        defaultValue: TEXT.blue
-      },
-      {
-        propertyName: "intlDeleteColor",
-        defaultValue: TEXT["deleteColor"]
-      },
-      {
-        propertyName: "intlG",
-        defaultValue: TEXT.g
-      },
-      {
-        propertyName: "intlGreen",
-        defaultValue: TEXT.green
-      },
-      {
-        propertyName: "intlH",
-        defaultValue: TEXT.h
-      },
-      {
-        propertyName: "intlHsv",
-        defaultValue: TEXT["hsv"]
-      },
-      {
-        propertyName: "intlHex",
-        defaultValue: TEXT.hex
-      },
-      {
-        propertyName: "intlHue",
-        defaultValue: TEXT.hue
-      },
-      {
-        propertyName: "intlNoColor",
-        defaultValue: TEXT.noColor
-      },
-      {
-        propertyName: "intlR",
-        defaultValue: TEXT.r
-      },
-      {
-        propertyName: "intlRed",
-        defaultValue: TEXT.red
-      },
-      {
-        propertyName: "intlRgb",
-        defaultValue: TEXT.rgb
-      },
-      {
-        propertyName: "intlS",
-        defaultValue: TEXT.s
-      },
-      {
-        propertyName: "intlSaturation",
-        defaultValue: TEXT.saturation
-      },
-      {
-        propertyName: "intlSaveColor",
-        defaultValue: TEXT.saveColor
-      },
-      {
-        propertyName: "intlSaved",
-        defaultValue: TEXT.saved
-      },
-      {
-        propertyName: "intlV",
-        defaultValue: TEXT.v
-      },
-      {
-        propertyName: "intlValue",
-        defaultValue: TEXT.value
       },
       {
         propertyName: "savedDisabled",

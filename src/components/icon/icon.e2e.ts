@@ -1,5 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, defaults, reflects, renders, hidden } from "../../tests/commonTests";
+import { accessible, defaults, hidden, reflects, renders } from "../../tests/commonTests";
 import { CSS } from "./resources";
 import { scaleToPx } from "./utils";
 

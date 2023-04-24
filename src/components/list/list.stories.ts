@@ -1,4 +1,4 @@
-import { themesDarkDefault } from "../../../.storybook/utils";
+import { modesDarkDefault } from "../../../.storybook/utils";
 import { placeholderImage } from "../../../.storybook/placeholderImage";
 import readme from "./readme.md";
 import itemReadme from "../list-item/readme.md";
@@ -26,7 +26,8 @@ const knobsHTML = (): string => html`selection-mode="${select(
   "none"
 )}"
 selection-appearance="${select("selection-appearance", ["icon", "border"], "icon")}" ${boolean("loading", false)}
-${boolean("filter-enabled", false)} ${boolean("disabled", false)} ${text("label", "My List")}`;
+${boolean("closable", false)} ${boolean("closed", false)} ${boolean("filter-enabled", false)}
+${boolean("disabled", false)} ${text("label", "My List")}`;
 
 export const simple = (): string => html`
   <calcite-list ${knobsHTML()}>
@@ -119,6 +120,10 @@ export const nestedItems = (): string => html`
   </calcite-list>
 `;
 
+nestedItems.parameters = {
+  chromatic: { diffThreshold: 1 }
+};
+
 export const groupedItems = (): string => html`
   <calcite-list ${knobsHTML()}>
     <calcite-list-item-group heading="Nested">
@@ -160,6 +165,10 @@ export const groupedItems = (): string => html`
   </calcite-list>
 `;
 
+groupedItems.parameters = {
+  chromatic: { diffThreshold: 1 }
+};
+
 export const startAndEndContentSlots = (): string => html`<calcite-list ${knobsHTML()}>
   <calcite-list-item>
     <calcite-action slot="actions-end" icon="ellipsis"> </calcite-action>
@@ -167,7 +176,7 @@ export const startAndEndContentSlots = (): string => html`<calcite-list ${knobsH
     <span slot="content-start">Some value or something and a <b>thing</b>.</span>
     <div slot="content-end" style="display: flex; justify-content: flex-end">
       <calcite-chip class="list-chip" icon="ribbon-rosette" scale="s">Review</calcite-chip>
-      <calcite-chip class="list-chip" icon="globe" scale="s" color="green">Good</calcite-chip>
+      <calcite-chip class="list-chip" icon="globe" scale="s">Good</calcite-chip>
     </div>
   </calcite-list-item>
   <calcite-list-item>
@@ -175,7 +184,7 @@ export const startAndEndContentSlots = (): string => html`<calcite-list ${knobsH
     <calcite-icon icon="user" scale="m" slot="content-start"></calcite-icon>
     <span slot="content-start">Some value or something and a <b>thing</b>.</span>
     <div slot="content-end" style="display: flex; justify-content: flex-end">
-      <calcite-chip class="list-chip" icon="globe" scale="s" color="green">Good</calcite-chip>
+      <calcite-chip class="list-chip" icon="globe" scale="s">Good</calcite-chip>
     </div>
   </calcite-list-item>
   <calcite-list-item>
@@ -183,7 +192,7 @@ export const startAndEndContentSlots = (): string => html`<calcite-list ${knobsH
     <calcite-icon icon="user" scale="m" slot="content-start"></calcite-icon>
     <span slot="content-start">Some value or something and a <b>thing</b>.</span>
     <div slot="content-end" style="display: flex; justify-content: flex-end">
-      <calcite-chip class="list-chip" icon="bell" color="red" scale="s">Halp!</calcite-chip>
+      <calcite-chip class="list-chip" icon="bell" scale="s">Halp!</calcite-chip>
     </div>
   </calcite-list-item>
 </calcite-list> `;
@@ -255,8 +264,8 @@ export const richContentFilterEnabled = (): string => html`
   </calcite-list>
 `;
 
-export const darkThemeRTL_TestOnly = (): string => html`
-  <calcite-list class="calcite-theme-dark" dir="rtl" ${knobsHTML()}>
+export const darkModeRTL_TestOnly = (): string => html`
+  <calcite-list class="calcite-mode-dark" dir="rtl" ${knobsHTML()}>
     <calcite-list-item label="Princess Bubblegum" description="Ruler of The Candy Kingdom">
       <calcite-action icon="drag" label="drag" scale="s" slot="actions-start"></calcite-action>
       <calcite-icon scale="l" icon="effects" slot="content-start"></calcite-icon>
@@ -289,7 +298,7 @@ export const darkThemeRTL_TestOnly = (): string => html`
   </calcite-list>
 `;
 
-darkThemeRTL_TestOnly.parameters = { themes: themesDarkDefault };
+darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
 
 export const disabled_TestOnly = (): string => html`<calcite-list disabled>
   <calcite-list-item
@@ -328,4 +337,27 @@ export const customContent_TestOnly = (): string => html`<calcite-list disabled>
       <div>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</div>
     </div></calcite-list-item
   >
+</calcite-list>`;
+
+export const closableListItems_TestOnly = (): string => html`<calcite-list
+  selection-mode="single"
+  label="test"
+  filter-enabled
+>
+  <calcite-list-item closable label="basic" value="basic" description="hello world">
+    <calcite-icon icon="banana" slot="content-start" style="color: var(--calcite-ui-success)"></calcite-icon>
+    <calcite-action
+      appearance="transparent"
+      icon="ellipsis"
+      text="menu"
+      label="menu"
+      slot="actions-end"
+    ></calcite-action>
+  </calcite-list-item>
+  <calcite-list-item closable disabled label="disabled" value="disabled" description="hello world">
+    <calcite-icon icon="compass" slot="content-start" style="color: var(--calcite-ui-success)"></calcite-icon>
+  </calcite-list-item>
+  <calcite-list-item closed closable label="closed" value="closed" description="hello world">
+    <calcite-icon icon="compass" slot="content-start" style="color: var(--calcite-ui-success)"></calcite-icon>
+  </calcite-list-item>
 </calcite-list>`;

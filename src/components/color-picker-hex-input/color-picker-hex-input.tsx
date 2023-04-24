@@ -21,19 +21,18 @@ import {
   rgbToHex,
   canConvertToHexa
 } from "../color-picker/utils";
-import Color from "color";
 import { CSS } from "./resources";
 import { Scale } from "../interfaces";
 import { RGB, RGBA } from "../color-picker/interfaces";
+import Color from "color";
 import { focusElement } from "../../utils/dom";
-import { TEXT } from "../color-picker/resources";
-import { NumberingSystem } from "../../utils/locale";
 import {
-  setUpLoadableComponent,
-  setComponentLoaded,
+  componentLoaded,
   LoadableComponent,
-  componentLoaded
+  setComponentLoaded,
+  setUpLoadableComponent
 } from "../../utils/loadable";
+import { NumberingSystem } from "../../utils/locale";
 
 const DEFAULT_COLOR = Color();
 
@@ -50,6 +49,11 @@ export class ColorPickerHexInput implements LoadableComponent {
   //--------------------------------------------------------------------------
 
   @Element() el: HTMLCalciteColorPickerHexInputElement;
+
+  /**
+   * Specifies accessible label for the input field.
+   */
+  @Prop() hexLabel = "Hex";
 
   //--------------------------------------------------------------------------
   //
@@ -100,21 +104,6 @@ export class ColorPickerHexInput implements LoadableComponent {
    * When true, the input will process and display hex characters for the alpha channel.
    */
   @Prop() alphaEnabled = false;
-
-  /**
-   * Label used for the hex input.
-   * Accessible name for the Hex input.
-   *
-   * @default "Hex"
-   */
-  @Prop() intlHex = TEXT.hex;
-
-  /**
-   * Accessible name for the Hex input when there is no color selected.
-   *
-   * @default "No color"
-   */
-  @Prop() intlNoColor = TEXT.noColor;
 
   /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";
@@ -256,14 +245,13 @@ export class ColorPickerHexInput implements LoadableComponent {
   //--------------------------------------------------------------------------
 
   render(): VNode {
-    const { alphaEnabled, intlHex, value } = this;
+    const { alphaEnabled, value } = this;
     const hexInputValue = this.formatForInternalInput(value);
-
     return (
       <div class={CSS.container}>
         <calcite-input
           class={CSS.hexInput}
-          label={intlHex}
+          label={this.hexLabel}
           maxLength={alphaEnabled ? 8 : 6}
           numberingSystem={this.numberingSystem}
           onCalciteInputChange={this.onInputChange}
@@ -271,9 +259,10 @@ export class ColorPickerHexInput implements LoadableComponent {
           onKeyDown={this.handleKeyDown}
           onPaste={this.onPaste}
           prefixText="#"
-          ref={this.storeInputRef}
           scale={this.scale}
           value={hexInputValue}
+          // eslint-disable-next-line react/jsx-sort-props
+          ref={this.storeInputRef}
         />
         {alphaEnabled ? (
           <calcite-input

@@ -1,15 +1,17 @@
-import { Component, Element, h, Prop, Watch } from "@stencil/core";
-import { ICONS, SLOTS } from "./resources";
-import { Fragment, State, VNode } from "@stencil/core/internal";
-import { getSlotted } from "../../utils/dom";
-import { SLOTS as ACTION_MENU_SLOTS } from "../action-menu/resources";
-import { Columns, Layout, Scale } from "../interfaces";
+import { Component, Element, Fragment, h, Method, Prop, State, VNode, Watch } from "@stencil/core";
+import { CalciteActionMenuCustomEvent } from "../../components";
 import {
   ConditionalSlotComponent,
   connectConditionalSlotComponent,
   disconnectConditionalSlotComponent
 } from "../../utils/conditionalSlot";
-import { CalciteActionMenuCustomEvent } from "../../components";
+import { getSlotted } from "../../utils/dom";
+import {
+  componentLoaded,
+  LoadableComponent,
+  setComponentLoaded,
+  setUpLoadableComponent
+} from "../../utils/loadable";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 import {
   connectMessages,
@@ -18,7 +20,10 @@ import {
   T9nComponent,
   updateMessages
 } from "../../utils/t9n";
-import { Messages } from "./assets/action-group/t9n";
+import { SLOTS as ACTION_MENU_SLOTS } from "../action-menu/resources";
+import { Columns, Layout, Scale } from "../interfaces";
+import { ActionGroupMessages } from "./assets/action-group/t9n";
+import { ICONS, SLOTS } from "./resources";
 
 /**
  * @slot - A slot for adding a group of `calcite-action`s.
@@ -28,10 +33,14 @@ import { Messages } from "./assets/action-group/t9n";
 @Component({
   tag: "calcite-action-group",
   styleUrl: "action-group.scss",
-  shadow: true,
+  shadow: {
+    delegatesFocus: true
+  },
   assetsDirs: ["assets"]
 })
-export class ActionGroup implements ConditionalSlotComponent, LocalizedComponent, T9nComponent {
+export class ActionGroup
+  implements ConditionalSlotComponent, LoadableComponent, LocalizedComponent, T9nComponent
+{
   // --------------------------------------------------------------------------
   //
   //  Properties
@@ -50,6 +59,8 @@ export class ActionGroup implements ConditionalSlotComponent, LocalizedComponent
 
   /**
    * Indicates the layout of the component.
+   *
+   * @deprecated Use the `layout` property on the component's parent instead.
    */
   @Prop({ reflect: true }) layout: Layout = "vertical";
 
@@ -73,12 +84,14 @@ export class ActionGroup implements ConditionalSlotComponent, LocalizedComponent
    *
    * @internal
    */
-  @Prop({ mutable: true }) messages: Messages;
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
+  @Prop({ mutable: true }) messages: ActionGroupMessages;
 
   /**
    * Use this property to override individual strings used by the component.
    */
-  @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
+  @Prop({ mutable: true }) messageOverrides: Partial<ActionGroupMessages>;
 
   @Watch("messageOverrides")
   onMessagesChange(): void {
@@ -99,8 +112,20 @@ export class ActionGroup implements ConditionalSlotComponent, LocalizedComponent
     updateMessages(this, this.effectiveLocale);
   }
 
-  @State() defaultMessages: Messages;
+  @State() defaultMessages: ActionGroupMessages;
 
+  //--------------------------------------------------------------------------
+  //
+  //  Public Methods
+  //
+  //--------------------------------------------------------------------------
+
+  /** Sets focus on the component's first focusable element. */
+  @Method()
+  async setFocus(): Promise<void> {
+    await componentLoaded(this);
+    this.el.focus();
+  }
   // --------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -120,7 +145,12 @@ export class ActionGroup implements ConditionalSlotComponent, LocalizedComponent
   }
 
   async componentWillLoad(): Promise<void> {
+    setUpLoadableComponent(this);
     await setUpMessages(this);
+  }
+
+  componentDidLoad(): void {
+    setComponentLoaded(this);
   }
 
   // --------------------------------------------------------------------------

@@ -1,9 +1,8 @@
 import { E2EElement, E2EPage, newE2EPage } from "@stencil/core/testing";
-import { accessible, defaults, focusable, reflects, renders, hidden } from "../../tests/commonTests";
-import { CSS } from "./resources";
-import { TEXT } from "../color-picker/resources";
-import { canConvertToHexa, isValidHex, normalizeHex } from "../color-picker/utils";
+import { accessible, defaults, focusable, hidden, reflects, renders } from "../../tests/commonTests";
 import { selectText } from "../../tests/utils";
+import { canConvertToHexa, isValidHex, normalizeHex } from "../color-picker/utils";
+import { CSS } from "./resources";
 
 describe("calcite-color-picker-hex-input", () => {
   it("renders", () => renders("calcite-color-picker-hex-input", { display: "block" }));
@@ -25,14 +24,6 @@ describe("calcite-color-picker-hex-input", () => {
       {
         propertyName: "alphaEnabled",
         defaultValue: false
-      },
-      {
-        propertyName: "intlHex",
-        defaultValue: TEXT.hex
-      },
-      {
-        propertyName: "intlNoColor",
-        defaultValue: TEXT.noColor
       },
       {
         propertyName: "value",

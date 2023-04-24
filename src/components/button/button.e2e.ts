@@ -20,8 +20,8 @@ describe("calcite-button", () => {
         defaultValue: undefined
       },
       {
-        propertyName: "color",
-        defaultValue: "blue"
+        propertyName: "kind",
+        defaultValue: "brand"
       },
       {
         propertyName: "disabled",
@@ -99,7 +99,7 @@ describe("calcite-button", () => {
     const loader = await page.find(`calcite-button >>> .${CSS.buttonLoader} calcite-loader`);
 
     expect(element).toHaveAttribute(HYDRATED_ATTR);
-    expect(element).toEqualAttribute("color", "blue");
+    expect(element).toEqualAttribute("kind", "brand");
     expect(element).toEqualAttribute("appearance", "solid");
     expect(element).toEqualAttribute("scale", "m");
     expect(element).toEqualAttribute("width", "auto");
@@ -115,7 +115,7 @@ describe("calcite-button", () => {
   it("is accessible: href", async () => accessible(`<calcite-button href="/">Continue</calcite-button>`));
 
   it("is accessible: style props", async () =>
-    accessible(`<calcite-button color="red" scale="l" width="half" appearance="outline">Continue</calcite-button>`));
+    accessible(`<calcite-button kind="danger" scale="l" width="half" appearance="outline">Continue</calcite-button>`));
 
   it("is accessible: href and target", async () =>
     accessible(
@@ -160,7 +160,7 @@ describe("calcite-button", () => {
     const loader = await page.find(`calcite-button >>> .${CSS.buttonLoader} calcite-loader`);
 
     expect(element).toHaveAttribute(HYDRATED_ATTR);
-    expect(element).toEqualAttribute("color", "blue");
+    expect(element).toEqualAttribute("kind", "brand");
     expect(element).toEqualAttribute("appearance", "solid");
     expect(element).toEqualAttribute("scale", "m");
     expect(element).toEqualAttribute("width", "auto");
@@ -174,7 +174,7 @@ describe("calcite-button", () => {
   it("renders as a button with requested props", async () => {
     const page = await newE2EPage();
     await page.setContent(
-      `<calcite-button color="red" scale="l" width="half" appearance="outline">Continue</calcite-button>`
+      `<calcite-button kind="danger" scale="l" width="half" appearance="outline">Continue</calcite-button>`
     );
     const element = await page.find("calcite-button");
     const elementAsButton = await page.find("calcite-button >>> button");
@@ -184,7 +184,7 @@ describe("calcite-button", () => {
     const loader = await page.find(`calcite-button >>> .${CSS.buttonLoader} calcite-loader`);
 
     expect(element).toHaveAttribute(HYDRATED_ATTR);
-    expect(element).toEqualAttribute("color", "red");
+    expect(element).toEqualAttribute("kind", "danger");
     expect(element).toEqualAttribute("appearance", "outline");
     expect(element).toEqualAttribute("scale", "l");
     expect(element).toEqualAttribute("width", "half");
@@ -198,7 +198,7 @@ describe("calcite-button", () => {
   it("renders as a link with requested props", async () => {
     const page = await newE2EPage();
     await page.setContent(
-      `<calcite-button href="/" color="red" scale="l" width="half" appearance="outline">Continue</calcite-button>`
+      `<calcite-button href="/" kind="danger" scale="l" width="half" appearance="outline">Continue</calcite-button>`
     );
     const element = await page.find("calcite-button");
     const elementAsButton = await page.find("calcite-button >>> button");
@@ -208,7 +208,7 @@ describe("calcite-button", () => {
     const loader = await page.find(`calcite-button >>> .${CSS.buttonLoader} calcite-loader`);
 
     expect(element).toHaveAttribute(HYDRATED_ATTR);
-    expect(element).toEqualAttribute("color", "red");
+    expect(element).toEqualAttribute("kind", "danger");
     expect(element).toEqualAttribute("appearance", "outline");
     expect(element).toEqualAttribute("scale", "l");
     expect(element).toEqualAttribute("width", "half");
@@ -414,14 +414,14 @@ describe("calcite-button", () => {
     expect(elementAsButton).not.toHaveClass(CSS.contentSlotted);
   });
 
-  describe("CSS properties for light/dark themes", () => {
+  describe("CSS properties for light/dark mode", () => {
     const buttonSnippet = `
       <calcite-button
         class="layers"
         icon-start="layer"
         icon-end="chevron-down"
         appearance="transparent"
-        color="blue"
+        kind="brand"
       >
         Layers
       </calcite-button>
@@ -446,8 +446,8 @@ describe("calcite-button", () => {
       expect(buttonStyles.active).toEqual("rgba(1, 20, 44, 0.1");
     });
 
-    describe("when theme attribute is not provided", () => {
-      it("should render button pseudo classes with default values tied to light theme", async () => {
+    describe("when mode attribute is not provided", () => {
+      it("should render button pseudo classes with default values tied to light mode", async () => {
         page = await newE2EPage({ html: buttonSnippet });
         buttonEl = await page.find("calcite-button >>> button");
         await buttonEl.focus();
@@ -462,10 +462,10 @@ describe("calcite-button", () => {
       });
     });
 
-    describe("when theme attribute is dark", () => {
-      it("should render button pseudo classes with value tied to dark theme", async () => {
+    describe("when mode attribute is dark", () => {
+      it("should render button pseudo classes with value tied to dark mode", async () => {
         page = await newE2EPage({
-          html: `<div class="calcite-theme-dark">${buttonSnippet}</div>`
+          html: `<div class="calcite-mode-dark">${buttonSnippet}</div>`
         });
         buttonEl = await page.find("calcite-button >>> button");
         await buttonEl.focus();
@@ -599,4 +599,28 @@ describe("calcite-button", () => {
   });
 
   it("supports translation", () => t9n("calcite-button"));
+
+  it("shows tooltip for buttons with truncated long text", async () => {
+    const shortText = "Hi!";
+    const longText =
+      "This_long_text_contains_a_coded_map_for_hidden_treasures_of_Edward_Teach_aka_Blackbeard_._If_only_you_could_access_it_you_could_buy_out_The_Magic_Castle_on_Franklin_ave_Los_Angeles_like_you_ve_always_wanted.";
+
+    const page = await newE2EPage();
+    await page.setContent(
+      html`
+        <calcite-button id="one" style="width: 100px">${longText}</calcite-button>
+        <calcite-button id="two" style="width: 100px">${shortText}</calcite-button>
+      `
+    );
+    await page.waitForChanges();
+
+    const button1 = await page.find(`calcite-button[id='one'] >>> button`);
+    const button2 = await page.find(`calcite-button[id='two'] >>> button`);
+
+    expect(button1).toHaveAttribute("title");
+    expect(button2).not.toHaveAttribute("title");
+
+    expect(button1.textContent.length).toBeLessThan(longText.length);
+    expect(button1.getAttribute("title")).toEqual(longText);
+  });
 });
