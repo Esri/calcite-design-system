@@ -27,3 +27,7 @@ export const CSS = {
   timePicker: "time-picker",
   meridiemStart: "meridiem--start"
 };
+
+export const HEADING_LEVEL = 2;
+
+export const DATE_PICKER_FORMAT_OPTIONS: Intl.DateTimeFormatOptions = { dateStyle: "full" };
