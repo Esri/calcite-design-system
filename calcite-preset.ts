@@ -1,6 +1,28 @@
 import flattenColorPalette from "tailwindcss/lib/util/flattenColorPalette";
 import plugin from "tailwindcss/plugin";
 
+/**
+ * This helper inverts a value based on a boolean CSS prop flag
+ *
+ * When the flag is 0, it will not be inverted. When 1, it will invert it (multiplied by -1)
+ *
+ * @param {string} value - the CSS value to invert
+ * @param {string} flagPropName - the boolean CSS prop (value must be 0 or 1)
+ */
+function invert(value: string, flagPropName: string): string {
+  return `calc(
+            ${value} *
+            calc(
+              1 -
+              2 * clamp(
+                0,
+                var(${flagPropName}),
+                1
+              )
+            )
+          )`;
+}
+
 export default {
   theme: {
     borderColor: ({ theme }): object => ({
@@ -233,23 +255,23 @@ export default {
           "outline-color": "transparent"
         },
         ".focus-normal": {
-          outline: "2px solid var(--calcite-ui-brand)"
+          outline: "2px solid var(--calcite-ui-focus-color)"
         },
         ".focus-outset": {
-          outline: "2px solid var(--calcite-ui-brand)",
-          "outline-offset": "2px"
+          outline: "2px solid var(--calcite-ui-focus-color)",
+          "outline-offset": invert("2px", "--calcite-ui-focus-offset-invert")
         },
         ".focus-inset": {
-          outline: "2px solid var(--calcite-ui-brand)",
-          "outline-offset": "-2px"
+          outline: "2px solid var(--calcite-ui-focus-color)",
+          "outline-offset": invert("-2px", "--calcite-ui-focus-offset-invert")
         },
         ".focus-outset-danger": {
           outline: "2px solid var(--calcite-ui-danger)",
-          "outline-offset": "2px"
+          "outline-offset": invert("2px", "--calcite-ui-focus-offset-invert")
         },
         ".focus-inset-danger": {
           outline: "2px solid var(--calcite-ui-danger)",
-          "outline-offset": "-2px"
+          "outline-offset": invert("-2px", "--calcite-ui-focus-offset-invert")
         },
         ".transition-default": {
           transition: "all var(--calcite-animation-timing) ease-in-out 0s, outline 0s, outline-offset 0s"
