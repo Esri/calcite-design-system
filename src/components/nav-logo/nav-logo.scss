@@ -37,20 +37,18 @@ img ~ .text-container {
 }
 
 .text-container {
-  @apply flex;
+  @apply flex  px-4 truncate;
   flex-direction: column;
   text-align: start;
-  @apply px-4;
 }
 
 .logo-text {
-  @apply text-0 ml-0
-  text-color-1;
+  @apply text-0 ml-0 truncate text-color-1;
   font-weight: 500;
   margin-block-start: 2px;
 }
 
 .logo-subtext {
-  @apply text-color-2;
+  @apply text-color-2 truncate;
   font-size: var(--calcite-font-size--1);
 }

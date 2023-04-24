@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -52,17 +52,17 @@
 
         <calcite-menu slot="secondary-content-start">
           <calcite-menu-item href="#intro" text="Introduction"></calcite-menu-item>
-          <calcite-menu-item href=" #calcite-nav" text="calcite-nav">
+          <calcite-menu-item text="calcite-nav">
             <calcite-menu-item
               href="#calcite-nav-slots"
               icon-start="add-in"
-              slot="menu-item-dropdown"
+              slot="sub-menu-item"
               text="Slots"
             ></calcite-menu-item>
             <calcite-menu-item
               href="#calcite-nav-css-vars"
               icon-start="multiple-variables"
-              slot="menu-item-dropdown"
+              slot="sub-menu-item"
               text="Css vars"
             ></calcite-menu-item>
           </calcite-menu-item>
@@ -71,7 +71,7 @@
           <calcite-menu-item href="#calcite-menu" text="calcite-menu">
             <calcite-menu-item
               href="#calcite-menu-props"
-              slot="menu-item-dropdown"
+              slot="sub-menu-item"
               icon-start="sliders"
               text="Props"
             ></calcite-menu-item>
@@ -80,19 +80,19 @@
             <calcite-menu-item
               href="#calcite-menu-item-slots"
               icon-start="add-in"
-              slot="menu-item-dropdown"
+              slot="sub-menu-item"
               text="Slots"
             ></calcite-menu-item>
             <calcite-menu-item
               href="#calcite-menu-item-props"
               icon-start="sliders"
-              slot="menu-item-dropdown"
+              slot="sub-menu-item"
               text="Props"
             ></calcite-menu-item>
             <calcite-menu-item
               href="#calcite-menu-item-events"
               icon-start="activity-monitor"
-              slot="menu-item-dropdown"
+              slot="sub-menu-item"
               text="Events"
             ></calcite-menu-item>
           </calcite-menu-item>
@@ -116,8 +116,6 @@
           <calcite-menu-item title text="Support"> </calcite-menu-item>
           <calcite-menu-item title text="Documentation"> </calcite-menu-item>
           <calcite-menu-item title text="Support"> </calcite-menu-item>
-        </calcite-menu>
-        <calcite-menu slot="primary-content-end">
           <calcite-menu-item title text="Something else"> </calcite-menu-item>
         </calcite-menu>
         <calcite-menu slot="secondary-content-end">
@@ -192,36 +190,36 @@
         </div>
         <calcite-menu slot="primary-content-start">
           <calcite-menu-item text="Home"> </calcite-menu-item>
-          <calcite-menu-item slot="menu-item-dropdown"> </calcite-menu-item>
+          <calcite-menu-item slot="sub-menu-item"> </calcite-menu-item>
           <calcite-menu-item text="Example nested" icon-start="layer">
-            <calcite-menu-item slot="menu-item-dropdown" title text="ArcGIS Online">
-              <calcite-menu-item slot="menu-item-dropdown" text="Capabilities">
-                <calcite-menu-item slot="menu-item-dropdown" text="Capabilities"> </calcite-menu-item>
+            <calcite-menu-item slot="sub-menu-item" title text="ArcGIS Online">
+              <calcite-menu-item slot="sub-menu-item" text="Capabilities">
+                <calcite-menu-item slot="sub-menu-item" text="Capabilities"> </calcite-menu-item>
               </calcite-menu-item>
-              <calcite-menu-item slot="menu-item-dropdown" text="Something else"> </calcite-menu-item>
-              <calcite-menu-item slot="menu-item-dropdown" text="Another thing">
-                <calcite-menu-item slot="menu-item-dropdown" text="Great examples">
-                  <calcite-menu-item slot="menu-item-dropdown" text="Great examples"> </calcite-menu-item>
-                  <calcite-menu-item slot="menu-item-dropdown" text="Great examples"> </calcite-menu-item>
-                  <calcite-menu-item slot="menu-item-dropdown" text="Great examples"> </calcite-menu-item>
+              <calcite-menu-item slot="sub-menu-item" text="Something else"> </calcite-menu-item>
+              <calcite-menu-item slot="sub-menu-item" text="Another thing">
+                <calcite-menu-item slot="sub-menu-item" text="Great examples">
+                  <calcite-menu-item slot="sub-menu-item" text="Great examples"> </calcite-menu-item>
+                  <calcite-menu-item slot="sub-menu-item" text="Great examples"> </calcite-menu-item>
+                  <calcite-menu-item slot="sub-menu-item" text="Great examples"> </calcite-menu-item>
                 </calcite-menu-item>
               </calcite-menu-item>
             </calcite-menu-item>
-            <calcite-menu-item href="#" slot="menu-item-dropdown" text="It's stupendous">
-              <calcite-menu-item slot="menu-item-dropdown" text="Very nice example" active> </calcite-menu-item>
-              <calcite-menu-item slot="menu-item-dropdown" text="Short one" open>
-                <calcite-menu-item slot="menu-item-dropdown" text="Another thing" open>
-                  <calcite-menu-item slot="menu-item-dropdown" text="Great examples">
-                    <calcite-menu-item slot="menu-item-dropdown" text="Great examples"> </calcite-menu-item>
-                    <calcite-menu-item slot="menu-item-dropdown" text="Great examples"> </calcite-menu-item>
-                    <calcite-menu-item slot="menu-item-dropdown" text="Great examples"> </calcite-menu-item>
+            <calcite-menu-item href="#" slot="sub-menu-item" text="It's stupendous">
+              <calcite-menu-item slot="sub-menu-item" text="Very nice example" active> </calcite-menu-item>
+              <calcite-menu-item slot="sub-menu-item" text="Short one" open>
+                <calcite-menu-item slot="sub-menu-item" text="Another thing" open>
+                  <calcite-menu-item slot="sub-menu-item" text="Great examples">
+                    <calcite-menu-item slot="sub-menu-item" text="Great examples"> </calcite-menu-item>
+                    <calcite-menu-item slot="sub-menu-item" text="Great examples"> </calcite-menu-item>
+                    <calcite-menu-item slot="sub-menu-item" text="Great examples"> </calcite-menu-item>
                   </calcite-menu-item>
                 </calcite-menu-item>
               </calcite-menu-item>
             </calcite-menu-item>
-            <calcite-menu-item slot="menu-item-dropdown" text="Capabilities"> </calcite-menu-item>
+            <calcite-menu-item slot="sub-menu-item" text="Capabilities"> </calcite-menu-item>
           </calcite-menu-item>
-          <calcite-menu-item slot="menu-item-dropdown" text="Capabilities"> </calcite-menu-item>
+          <calcite-menu-item slot="sub-menu-item" text="Capabilities"> </calcite-menu-item>
           <calcite-menu-item text="Reference" active> </calcite-menu-item>
         </calcite-menu>
       </calcite-nav>
@@ -234,19 +232,14 @@
 
     <calcite-menu>
       <calcite-menu-item id="Nature" text="Nature" href="#arcgisonline" open>
-        <calcite-menu-item id="Mountains" text="Mountains" slot="menu-item-dropdown" active open>
-          <calcite-menu-item text="Rocky Mountains" id="Rocky Mountains" slot="menu-item-dropdown"></calcite-menu-item>
-          <calcite-menu-item text="Smoky Mountains" id="Smoky Mountains" slot="menu-item-dropdown"
-            ><calcite-menu-item
-              text="Rocky Mountains"
-              id="Rocky Mountains"
-              slot="menu-item-dropdown"
-            ></calcite-menu-item>
-            <calcite-menu-item text="Smoky Mountains" id="Smoky Mountains" slot="menu-item-dropdown">
-            </calcite-menu-item>
+        <calcite-menu-item id="Mountains" text="Mountains" slot="sub-menu-item" active open>
+          <calcite-menu-item text="Rocky Mountains" id="Rocky Mountains" slot="sub-menu-item"></calcite-menu-item>
+          <calcite-menu-item text="Smoky Mountains" id="Smoky Mountains" slot="sub-menu-item"
+            ><calcite-menu-item text="Rocky Mountains" id="Rocky Mountains" slot="sub-menu-item"></calcite-menu-item>
+            <calcite-menu-item text="Smoky Mountains" id="Smoky Mountains" slot="sub-menu-item"> </calcite-menu-item>
           </calcite-menu-item>
         </calcite-menu-item>
-        <calcite-menu-item text="Rivers" id="Rivers" slot="menu-item-dropdown"> </calcite-menu-item>
+        <calcite-menu-item text="Rivers" id="Rivers" slot="sub-menu-item"> </calcite-menu-item>
       </calcite-menu-item>
       <calcite-menu-item id="Planets" text="Planets"> </calcite-menu-item>
     </calcite-menu>
@@ -265,9 +258,9 @@
           <calcite-menu layout="vertical">
             <calcite-menu-item text="Home"> </calcite-menu-item>
             <calcite-menu-item text="Reference">
-              <calcite-menu-item slot="menu-item-dropdown" text="an item"> </calcite-menu-item>
-              <calcite-menu-item slot="menu-item-dropdown" text="an item"> </calcite-menu-item>
-              <calcite-menu-item slot="menu-item-dropdown" text="an item"> </calcite-menu-item>
+              <calcite-menu-item slot="sub-menu-item" text="an item"> </calcite-menu-item>
+              <calcite-menu-item slot="sub-menu-item" text="an item"> </calcite-menu-item>
+              <calcite-menu-item slot="sub-menu-item" text="an item"> </calcite-menu-item>
             </calcite-menu-item>
             <calcite-menu-item text="Items of reference"> </calcite-menu-item>
             <calcite-menu-item text="Reference item" active> </calcite-menu-item>
@@ -284,9 +277,9 @@
           <calcite-menu layout="vertical">
             <calcite-menu-item text="Home"> </calcite-menu-item>
             <calcite-menu-item text="Reference" active>
-              <calcite-menu-item slot="menu-item-dropdown" text="an item"> </calcite-menu-item>
-              <calcite-menu-item slot="menu-item-dropdown" active text="an item"> </calcite-menu-item>
-              <calcite-menu-item slot="menu-item-dropdown" text="an item"> </calcite-menu-item>
+              <calcite-menu-item slot="sub-menu-item" text="an item"> </calcite-menu-item>
+              <calcite-menu-item slot="sub-menu-item" active text="an item"> </calcite-menu-item>
+              <calcite-menu-item slot="sub-menu-item" text="an item"> </calcite-menu-item>
             </calcite-menu-item>
             <calcite-menu-item text="Items of reference"> </calcite-menu-item>
             <calcite-menu-item text="Reference item"> </calcite-menu-item>
@@ -303,19 +296,19 @@
           <calcite-menu layout="vertical">
             <calcite-menu-item text="Home"> </calcite-menu-item>
             <calcite-menu-item text="Reference">
-              <calcite-menu-item slot="menu-item-dropdown" text="an item"> </calcite-menu-item>
-              <calcite-menu-item slot="menu-item-dropdown" text="an item"> </calcite-menu-item>
-              <calcite-menu-item slot="menu-item-dropdown" text="an item">
-                <calcite-menu-item slot="menu-item-dropdown" text="an item"> </calcite-menu-item>
-                <calcite-menu-item slot="menu-item-dropdown" text="an item"> </calcite-menu-item>
-                <calcite-menu-item slot="menu-item-dropdown" text="an item"> </calcite-menu-item>
+              <calcite-menu-item slot="sub-menu-item" text="an item"> </calcite-menu-item>
+              <calcite-menu-item slot="sub-menu-item" text="an item"> </calcite-menu-item>
+              <calcite-menu-item slot="sub-menu-item" text="an item">
+                <calcite-menu-item slot="sub-menu-item" text="an item"> </calcite-menu-item>
+                <calcite-menu-item slot="sub-menu-item" text="an item"> </calcite-menu-item>
+                <calcite-menu-item slot="sub-menu-item" text="an item"> </calcite-menu-item>
               </calcite-menu-item>
-              <calcite-menu-item slot="menu-item-dropdown" text="an item"> </calcite-menu-item>
+              <calcite-menu-item slot="sub-menu-item" text="an item"> </calcite-menu-item>
             </calcite-menu-item>
             <calcite-menu-item text="Items of reference"> </calcite-menu-item>
             <calcite-menu-item text="Reference item"> </calcite-menu-item>
             <calcite-menu-item text="Reference item">
-              <calcite-menu-item slot="menu-item-dropdown" text="an item"> </calcite-menu-item>
+              <calcite-menu-item slot="sub-menu-item" text="an item"> </calcite-menu-item>
             </calcite-menu-item>
             <calcite-menu-item text="Longer item"> </calcite-menu-item>
           </calcite-menu>
@@ -330,50 +323,47 @@
           <calcite-menu layout="vertical">
             <calcite-menu-item icon-start="layer" icon-end="layer" text="Home"> </calcite-menu-item>
             <calcite-menu-item icon-start="layer" icon-end="layer" href="#" text="Example nested" icon-start="layer">
-              <calcite-menu-item icon-end="layer" icon-start="layer" slot="menu-item-dropdown" text="Capabilities">
+              <calcite-menu-item icon-end="layer" icon-start="layer" slot="sub-menu-item" text="Capabilities">
               </calcite-menu-item>
-              <calcite-menu-item icon-start="layer" slot="menu-item-dropdown" title text="ArcGIS Online">
-                <calcite-menu-item icon-start="layer" slot="menu-item-dropdown" text="Capabilities">
-                  <calcite-menu-item icon-start="layer" slot="menu-item-dropdown" text="Capabilities">
-                  </calcite-menu-item>
-                  <calcite-menu-item icon-start="layer" slot="menu-item-dropdown" text="Capabilities">
-                  </calcite-menu-item>
-                  <calcite-menu-item icon-start="layer" slot="menu-item-dropdown" text="Capabilities">
-                  </calcite-menu-item>
+              <calcite-menu-item icon-start="layer" slot="sub-menu-item" title text="ArcGIS Online">
+                <calcite-menu-item icon-start="layer" slot="sub-menu-item" text="Capabilities">
+                  <calcite-menu-item icon-start="layer" slot="sub-menu-item" text="Capabilities"> </calcite-menu-item>
+                  <calcite-menu-item icon-start="layer" slot="sub-menu-item" text="Capabilities"> </calcite-menu-item>
+                  <calcite-menu-item icon-start="layer" slot="sub-menu-item" text="Capabilities"> </calcite-menu-item>
                 </calcite-menu-item>
               </calcite-menu-item>
             </calcite-menu-item>
             <calcite-menu-item text="Example nested" icon-start="layer">
-              <calcite-menu-item slot="menu-item-dropdown" title text="ArcGIS Online">
-                <calcite-menu-item slot="menu-item-dropdown" text="Great examples"> </calcite-menu-item>
-                <calcite-menu-item slot="menu-item-dropdown" text="Capabilities">
-                  <calcite-menu-item slot="menu-item-dropdown" text="Capabilities"> </calcite-menu-item>
-                  <calcite-menu-item slot="menu-item-dropdown" text="Great examples"> </calcite-menu-item>
+              <calcite-menu-item slot="sub-menu-item" title text="ArcGIS Online">
+                <calcite-menu-item slot="sub-menu-item" text="Great examples"> </calcite-menu-item>
+                <calcite-menu-item slot="sub-menu-item" text="Capabilities">
+                  <calcite-menu-item slot="sub-menu-item" text="Capabilities"> </calcite-menu-item>
+                  <calcite-menu-item slot="sub-menu-item" text="Great examples"> </calcite-menu-item>
                 </calcite-menu-item>
-                <calcite-menu-item slot="menu-item-dropdown" text="Something else"> </calcite-menu-item>
-                <calcite-menu-item slot="menu-item-dropdown" text="Another thing">
-                  <calcite-menu-item slot="menu-item-dropdown" text="Great examples">
-                    <calcite-menu-item slot="menu-item-dropdown" text="Great examples"> </calcite-menu-item>
-                    <calcite-menu-item slot="menu-item-dropdown" text="Great examples"> </calcite-menu-item>
-                    <calcite-menu-item slot="menu-item-dropdown" text="Great examples"> </calcite-menu-item>
+                <calcite-menu-item slot="sub-menu-item" text="Something else"> </calcite-menu-item>
+                <calcite-menu-item slot="sub-menu-item" text="Another thing">
+                  <calcite-menu-item slot="sub-menu-item" text="Great examples">
+                    <calcite-menu-item slot="sub-menu-item" text="Great examples"> </calcite-menu-item>
+                    <calcite-menu-item slot="sub-menu-item" text="Great examples"> </calcite-menu-item>
+                    <calcite-menu-item slot="sub-menu-item" text="Great examples"> </calcite-menu-item>
                   </calcite-menu-item>
                 </calcite-menu-item>
               </calcite-menu-item>
-              <calcite-menu-item href="#" slot="menu-item-dropdown" text="It's stupendous">
-                <calcite-menu-item slot="menu-item-dropdown" text="Very nice example"> </calcite-menu-item>
-                <calcite-menu-item slot="menu-item-dropdown" text="Short one">
-                  <calcite-menu-item slot="menu-item-dropdown" text="Another thing">
-                    <calcite-menu-item slot="menu-item-dropdown" text="Great examples">
-                      <calcite-menu-item slot="menu-item-dropdown" text="Great examples"> </calcite-menu-item>
-                      <calcite-menu-item slot="menu-item-dropdown" text="Great examples"> </calcite-menu-item>
-                      <calcite-menu-item slot="menu-item-dropdown" text="Great examples"> </calcite-menu-item>
+              <calcite-menu-item href="#" slot="sub-menu-item" text="It's stupendous">
+                <calcite-menu-item slot="sub-menu-item" text="Very nice example"> </calcite-menu-item>
+                <calcite-menu-item slot="sub-menu-item" text="Short one">
+                  <calcite-menu-item slot="sub-menu-item" text="Another thing">
+                    <calcite-menu-item slot="sub-menu-item" text="Great examples">
+                      <calcite-menu-item slot="sub-menu-item" text="Great examples"> </calcite-menu-item>
+                      <calcite-menu-item slot="sub-menu-item" text="Great examples"> </calcite-menu-item>
+                      <calcite-menu-item slot="sub-menu-item" text="Great examples"> </calcite-menu-item>
                     </calcite-menu-item>
                   </calcite-menu-item>
                 </calcite-menu-item>
               </calcite-menu-item>
-              <calcite-menu-item slot="menu-item-dropdown" text="Capabilities"> </calcite-menu-item>
+              <calcite-menu-item slot="sub-menu-item" text="Capabilities"> </calcite-menu-item>
             </calcite-menu-item>
-            <calcite-menu-item slot="menu-item-dropdown" text="Capabilities"> </calcite-menu-item>
+            <calcite-menu-item slot="sub-menu-item" text="Capabilities"> </calcite-menu-item>
             <calcite-menu-item text="Reference" active> </calcite-menu-item>
             <calcite-menu-item text="Reference"> </calcite-menu-item>
             <calcite-menu-item text="Reference"> </calcite-menu-item>
@@ -394,9 +384,9 @@
             >
               <calcite-menu-item text="Home"> </calcite-menu-item>
               <calcite-menu-item text="Reference">
-                <calcite-menu-item href="#" slot="menu-item-dropdown" text="an item"> </calcite-menu-item>
-                <calcite-menu-item href="#" slot="menu-item-dropdown" text="an item"> </calcite-menu-item>
-                <calcite-menu-item href="#" slot="menu-item-dropdown" text="an item"> </calcite-menu-item>
+                <calcite-menu-item href="#" slot="sub-menu-item" text="an item"> </calcite-menu-item>
+                <calcite-menu-item href="#" slot="sub-menu-item" text="an item"> </calcite-menu-item>
+                <calcite-menu-item href="#" slot="sub-menu-item" text="an item"> </calcite-menu-item>
               </calcite-menu-item>
               <calcite-menu-item href="#" text="Items of reference"> </calcite-menu-item>
               <calcite-menu-item href="#" text="Reference item" active> </calcite-menu-item>

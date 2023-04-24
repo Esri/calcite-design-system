@@ -48,7 +48,7 @@ a {
     @apply bg-foreground-2 text-color-2 focus-inset;
   }
   &:active {
-    @apply text-color-1;
+    @apply bg-foreground-3 text-color-1;
   }
   & span {
     display: inline-flex;
@@ -79,15 +79,18 @@ a {
 }
 
 .icon--dropdown {
-  @apply pl-3 mr-0 ml-auto;
+  @apply pl-2 mr-0 ml-auto;
   --calcite-ui-icon-color: var(--calcite-ui-text-3);
-  inset-inline-start: theme("spacing.1");
   position: relative;
+}
+
+:host([layout="vertical"]) .icon--dropdown {
+  inset-inline-start: theme("spacing.1");
 }
 
 .icon--breadcrumb {
   @apply pl-2 mr-0;
-  --calcite-ui-icon-color: var(--calcite-ui-border-input);
+  --calcite-ui-icon-color: var(--calcite-ui-text-3);
 }
 
 :host([breadcrumb]) a {
@@ -163,7 +166,7 @@ a:hover ~ calcite-action {
   }
 }
 
-:host([slot="menu-item-dropdown"]) .nav-item-vertical-parent {
+:host([slot="sub-menu-item"]) .nav-item-vertical-parent {
   padding-inline-start: theme("spacing.7");
 }
 

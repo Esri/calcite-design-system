@@ -1,4 +1,4 @@
-import { Component, Element, h, Host, Prop, VNode } from "@stencil/core";
+import { Component, Element, Event, EventEmitter, h, Host, Prop, VNode } from "@stencil/core";
 import { CSS } from "./resources";
 
 @Component({
@@ -34,11 +34,52 @@ export class CalciteNav {
   //--------------------------------------------------------------------------
   @Prop({ reflect: true }) hidden = false;
 
+  /**
+   * When true, display a menu visual and emit an event on user interaction.
+   */
+  @Prop({ reflect: true }) toggleEnabled = false;
+
+  /**
+   * Specifies a label to use when `toggleEnabled` is true.
+   */
+  @Prop({ reflect: true }) toggleLabel: string;
+
+  // --------------------------------------------------------------------------
+  //
+  //  Events
+  //
+  // --------------------------------------------------------------------------
+
+  /**
+   * Emits whenever the component is selected or unselected.
+   *
+   */
+  @Event({ cancelable: false }) calciteNavToggleSelect: EventEmitter<void>;
+
+  //--------------------------------------------------------------------------
+  //
+  //  Private Methods
+  //
+  //--------------------------------------------------------------------------
+
+  private handleToggleActionClick = () => {
+    this.calciteNavToggleSelect.emit();
+  };
   //--------------------------------------------------------------------------
   //
   //  Render Methods
   //
   //--------------------------------------------------------------------------
+
+  renderToggleAction(): VNode {
+    return (
+      <calcite-action
+        icon="hamburger"
+        onClick={this.handleToggleActionClick}
+        text={this.toggleLabel}
+      />
+    );
+  }
 
   renderNavLevel(level: "primary" | "secondary" | "tertiary"): VNode {
     const progress = this.el.querySelector('[slot="progress"]');
@@ -47,9 +88,8 @@ export class CalciteNav {
     const start = this.el.querySelector(`[slot="${level}-content-start"]`);
     const center = this.el.querySelector(`[slot="${level}-content-center"]`);
     const end = this.el.querySelector(`[slot="${level}-content-end"]`);
-
-    const showMenu = (level === "primary" && (logo || user)) || center || start || end;
-
+    const showMenu =
+      (level === "primary" && (logo || user || this.toggleEnabled)) || center || start || end;
     return showMenu ? (
       <div
         class={{
@@ -59,6 +99,7 @@ export class CalciteNav {
       >
         {progress ? <slot name="progress" /> : null}
         <div class={CSS.navContainerContent}>
+          {level === "primary" && this.toggleEnabled && this.renderToggleAction()}
           {level === "primary" && logo ? <slot name="logo" /> : null}
           {start ? <slot name={`${level}-content-start`} /> : null}
           {center ? <slot name={`${level}-content-center`} /> : null}

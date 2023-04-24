@@ -1,12 +1,28 @@
-import { Component, Element, h, Host, Listen, Prop, State } from "@stencil/core";
+import { Component, Element, h, Host, Listen, Method, Prop, State, Watch } from "@stencil/core";
 import { focusElement, focusElementInGroup, slotChangeGetAssignedElements } from "../../utils/dom";
+import {
+  componentLoaded,
+  LoadableComponent,
+  setComponentLoaded,
+  setUpLoadableComponent
+} from "../../utils/loadable";
+import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
+import {
+  connectMessages,
+  disconnectMessages,
+  setUpMessages,
+  T9nComponent,
+  updateMessages
+} from "../../utils/t9n";
+import { MenuMessages } from "./assets/menu/t9n";
 
 @Component({
   tag: "calcite-menu",
   styleUrl: "menu.scss",
-  shadow: true
+  shadow: true,
+  assetsDirs: ["assets"]
 })
-export class CalciteMenu {
+export class CalciteMenu implements LoadableComponent, LocalizedComponent, T9nComponent {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -21,9 +37,6 @@ export class CalciteMenu {
   //
   //--------------------------------------------------------------------------
   @Prop() collapsed: boolean;
-
-  // disable the automatic collapse based on width
-  @Prop({ reflect: true }) disableCollapse: boolean;
 
   /**
    * Specifies the layout of the component.
@@ -40,15 +53,87 @@ export class CalciteMenu {
    */
   @Prop() role = "menubar";
 
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @internal
+   */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
+  @Prop({ mutable: true }) messages: MenuMessages;
+
+  /**
+   * Use this property to override individual strings used by the component.
+   */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
+  @Prop({ mutable: true }) messageOverrides: Partial<MenuMessages>;
+
+  @Watch("messageOverrides")
+  onMessagesChange(): void {
+    /* wired up by t9n util */
+  }
+
   //--------------------------------------------------------------------------
   //
   //  Private State/Props
   //
   //--------------------------------------------------------------------------
-  @State() childMenuItems: HTMLCalciteMenuItemElement[];
 
-  @State() overflowedNavMenuItems?: HTMLCalciteMenuItemElement[] = [];
+  @State() menuItems: HTMLCalciteMenuItemElement[] = [];
 
+  @State() navigableItems: HTMLCalciteMenuItemElement[] = [];
+
+  @State() overflowedMenuItems?: HTMLCalciteMenuItemElement[] = [];
+
+  @State() overflowCalculationComplete? = false;
+
+  private menuItemOverflowEl: HTMLCalciteMenuItemElement;
+
+  @State() effectiveLocale = "";
+
+  @Watch("effectiveLocale")
+  effectiveLocaleChange(): void {
+    updateMessages(this, this.effectiveLocale);
+  }
+
+  @State() defaultMessages: MenuMessages;
+
+  //--------------------------------------------------------------------------
+  //
+  //  Lifecycle
+  //
+  //--------------------------------------------------------------------------
+
+  connectedCallback(): void {
+    connectLocalized(this);
+    connectMessages(this);
+  }
+
+  async componentWillLoad(): Promise<void> {
+    setUpLoadableComponent(this);
+    await setUpMessages(this);
+  }
+
+  disconnectedCallback(): void {
+    disconnectLocalized(this);
+    disconnectMessages(this);
+  }
+
+  componentDidLoad(): void {
+    setComponentLoaded(this);
+  }
+
+  //--------------------------------------------------------------------------
+  //
+  //  Public Methods
+  //
+  //--------------------------------------------------------------------------
+
+  /** Sets focus on the component's first focusable element. */
+  @Method()
+  async setFocus(): Promise<void> {
+    await componentLoaded(this);
+    this.el.focus();
+  }
   //--------------------------------------------------------------------------
   //
   //  Event Listeners
@@ -63,7 +148,7 @@ export class CalciteMenu {
     switch (event.detail.event.key) {
       case "ArrowDown":
         if (target.layout === "vertical") {
-          focusElementInGroup(this.childMenuItems, target, "next", false);
+          focusElementInGroup(this.navigableItems, target, "next", false);
         } else {
           if (event.detail.isOpen) {
             subMenuItems[0].setFocus();
@@ -72,7 +157,7 @@ export class CalciteMenu {
         break;
       case "ArrowUp":
         if (this.layout === "vertical") {
-          focusElementInGroup(this.childMenuItems, target, "previous", false);
+          focusElementInGroup(this.navigableItems, target, "previous", false);
         } else {
           if (event.detail.isOpen) {
             subMenuItems[subMenuItems.length - 1].setFocus();
@@ -81,7 +166,7 @@ export class CalciteMenu {
         break;
       case "ArrowRight":
         if (this.layout === "horizontal") {
-          focusElementInGroup(this.childMenuItems, target, "next", false);
+          focusElementInGroup(this.navigableItems, target, "next", false);
         } else {
           if (event.detail.isOpen) {
             subMenuItems[0].setFocus();
@@ -90,7 +175,7 @@ export class CalciteMenu {
         break;
       case "ArrowLeft":
         if (this.layout === "horizontal") {
-          focusElementInGroup(this.childMenuItems, target, "previous", false);
+          focusElementInGroup(this.navigableItems, target, "previous", false);
         } else {
           if (event.detail.isOpen) {
             this.focusParentElement(event.target as HTMLCalciteMenuItemElement);
@@ -105,10 +190,16 @@ export class CalciteMenu {
   }
 
   handleMenuSlotChange = (event: Event): void => {
-    this.childMenuItems = slotChangeGetAssignedElements(event) as HTMLCalciteMenuItemElement[];
-    this.childMenuItems.forEach((item: HTMLCalciteMenuItemElement) => {
+    this.menuItems = slotChangeGetAssignedElements(event) as HTMLCalciteMenuItemElement[];
+    this.menuItems.forEach((item: HTMLCalciteMenuItemElement) => {
       item.layout = this.layout;
     });
+
+    const visibleItems = this.menuItems.filter((el) => !el.hidden);
+    if (this.menuItemOverflowEl) {
+      visibleItems.push(this.menuItemOverflowEl);
+    }
+    this.navigableItems = visibleItems;
   };
 
   focusParentElement = (el: Element): void => {
@@ -129,9 +220,6 @@ export class CalciteMenu {
       <Host>
         <ul aria-label={this.label} role={this.role}>
           <slot onSlotchange={this.handleMenuSlotChange} />
-          {this.overflowedNavMenuItems.length > 0 && (
-            <calcite-menu-item icon-start="ellipsis" text="overflow" title="overflow-items" />
-          )}
         </ul>
       </Host>
     );

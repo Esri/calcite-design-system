@@ -63,8 +63,22 @@
         <calcite-chip slot="tertiary-content-end" scale="s">tertiary-content-end</calcite-chip>
       </calcite-nav>
     </calcite-shell>
+
     <calcite-shell>
-      <calcite-nav slot="header" style="--calcite-ui-brand: #bf390f">
+      <calcite-nav slot="header" toggle-enabled>
+        <calcite-chip slot="logo" scale="s">logo</calcite-chip>
+        <calcite-chip slot="user" text-enabled scale="s">user</calcite-chip>
+        <calcite-chip slot="primary-content-start" scale="s">primary-content-start</calcite-chip>
+        <calcite-chip slot="primary-content-center" scale="s">primary-content-center</calcite-chip>
+        <calcite-chip slot="primary-content-end" scale="s">primary-content-end </calcite-chip>
+        <calcite-chip slot="secondary-content-start" scale="s">secondary-content-start</calcite-chip>
+        <calcite-chip slot="secondary-content-end" scale="s">secondary-content-end</calcite-chip>
+        <calcite-chip slot="tertiary-content-start" scale="s">tertiary-content-start</calcite-chip>
+        <calcite-chip slot="tertiary-content-end" scale="s">tertiary-content-end</calcite-chip>
+      </calcite-nav>
+    </calcite-shell>
+    <calcite-shell>
+      <calcite-nav slot="header" style="--calcite-ui-brand: #bf390f" toggle-enabled>
         <calcite-nav-logo
           text-enabled
           text="Walt's Chips"
@@ -86,7 +100,7 @@
       </calcite-nav>
     </calcite-shell>
     <calcite-shell>
-      <calcite-nav slot="header" style="--calcite-ui-brand: #bf390f">
+      <calcite-nav slot="header" style="--calcite-ui-brand: #bf390f" toggle-enabled>
         <calcite-nav-logo
           text-enabled
           text="Walt's Chips"
@@ -258,6 +272,29 @@
       </calcite-nav>
     </calcite-shell>
 
+    <calcite-shell>
+      <calcite-nav toggle-enabled slot="header" style="--calcite-ui-brand: #bf390f; --calcite-nav-width: 1440px">
+        <calcite-nav-logo
+          text="Walt's Chips"
+          sub-text="Eastern Potato Chip Company"
+          slot="logo"
+          thumbnail="./_assets/images/acme-logo.svg"
+        >
+        </calcite-nav-logo>
+        <calcite-menu slot="primary-content-start">
+          <calcite-menu-item text="Potatoes"></calcite-menu-item>
+          <calcite-menu-item active text="Chips"></calcite-menu-item>
+          <calcite-menu-item text="Employees"></calcite-menu-item>
+          <calcite-menu-item text="Suppliers"></calcite-menu-item>
+        </calcite-menu>
+        <calcite-menu slot="primary-content-end">
+          <calcite-menu-item text="Support"></calcite-menu-item>
+        </calcite-menu>
+      </calcite-nav>
+    </calcite-shell>
+    <calcite-shell>
+      <calcite-nav toggle-enabled slot="header"> </calcite-nav>
+    </calcite-shell>
     <div id="calcite-nav-logo" class="text-box">
       <h2><code>calcite-nav-logo</code></h2>
       <h3>
@@ -366,13 +403,17 @@
 
     <calcite-shell>
       <calcite-nav slot="header">
-        <calcite-nav-user slot="user" text-enabled full-name="Wendell Berry"> </calcite-nav-user>
+        <calcite-nav-user slot="user"> </calcite-nav-user>
       </calcite-nav>
     </calcite-shell>
     <calcite-shell>
       <calcite-nav slot="header">
-        <calcite-nav-user slot="user" text-enabled full-name="Wendell Berry" username="wBerry_arcgis">
-        </calcite-nav-user>
+        <calcite-nav-user slot="user" full-name="Wendell Berry"> </calcite-nav-user>
+      </calcite-nav>
+    </calcite-shell>
+    <calcite-shell>
+      <calcite-nav slot="header">
+        <calcite-nav-user slot="user" username="wBerry_arcgis" text-enabled> </calcite-nav-user>
       </calcite-nav>
     </calcite-shell>
     <calcite-shell>

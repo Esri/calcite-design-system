@@ -168,9 +168,7 @@ export class CalciteMenuItem implements LoadableComponent {
   connectedCallback() {
     this.active = this.active;
     this.isFocused = this.active;
-    this.isTopLevelItem = !(
-      this.el.parentElement?.slot === "menu-item-dropdown" || this.el.slot !== ""
-    );
+    this.isTopLevelItem = !(this.el.parentElement?.slot === "sub-menu-item" || this.el.slot !== "");
     this.topLevelLayout = this.el.closest("calcite-menu")?.layout || "horizontal";
   }
 
@@ -381,7 +379,7 @@ export class CalciteMenuItem implements LoadableComponent {
         layout="vertical"
         role="menu"
       >
-        <slot name="menu-item-dropdown" onSlotchange={this.handleMenuItemSlotChange} />
+        <slot name="sub-menu-item" onSlotchange={this.handleMenuItemSlotChange} />
       </calcite-menu>
     );
   }

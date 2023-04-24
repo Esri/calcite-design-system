@@ -14,11 +14,11 @@ describe("calcite-menu", () => {
       const page = await newE2EPage();
       await page.setContent(html`<calcite-menu>
         <calcite-menu-item id="ArcGISOnline" text="ArcGISOnline">
-          <calcite-menu-item id="ArcGISJS" text="ArcGISJS" slot="menu-item-dropdown">
-            <calcite-menu-item text="API" id="API" slot="menu-item-dropdown"></calcite-menu-item>
-            <calcite-menu-item text="Widgets" id="Widgets" slot="menu-item-dropdown"> </calcite-menu-item>
+          <calcite-menu-item id="ArcGISJS" text="ArcGISJS" slot="sub-menu-item">
+            <calcite-menu-item text="API" id="API" slot="sub-menu-item"></calcite-menu-item>
+            <calcite-menu-item text="Widgets" id="Widgets" slot="sub-menu-item"> </calcite-menu-item>
           </calcite-menu-item>
-          <calcite-menu-item text="Calcite" id="Calcite" slot="menu-item-dropdown"> </calcite-menu-item>
+          <calcite-menu-item text="Calcite" id="Calcite" slot="sub-menu-item"> </calcite-menu-item>
         </calcite-menu-item>
       </calcite-menu>`);
 
@@ -45,8 +45,8 @@ describe("calcite-menu", () => {
       const page = await newE2EPage();
       await page.setContent(html`<calcite-menu>
         <calcite-menu-item id="ArcGISOnline" text="ArcGISOnline">
-          <calcite-menu-item text="ArcGISJS" slot="menu-item-dropdown"> </calcite-menu-item>
-          <calcite-menu-item text="Calcite" slot="menu-item-dropdown"> </calcite-menu-item>
+          <calcite-menu-item text="ArcGISJS" slot="sub-menu-item"> </calcite-menu-item>
+          <calcite-menu-item text="Calcite" slot="sub-menu-item"> </calcite-menu-item>
         </calcite-menu-item>
       </calcite-menu>`);
 
@@ -75,16 +75,11 @@ describe("calcite-menu", () => {
       const page = await newE2EPage();
       await page.setContent(html`<calcite-menu>
         <calcite-menu-item id="Nature" text="Nature" href="#arcgisonline">
-          <calcite-menu-item id="Mountains" text="Mountains" slot="menu-item-dropdown">
-            <calcite-menu-item
-              text="Rocky Mountains"
-              id="Rocky Mountains"
-              slot="menu-item-dropdown"
-            ></calcite-menu-item>
-            <calcite-menu-item text="Smoky Mountains" id="Smoky Mountains" slot="menu-item-dropdown">
-            </calcite-menu-item>
+          <calcite-menu-item id="Mountains" text="Mountains" slot="sub-menu-item">
+            <calcite-menu-item text="Rocky Mountains" id="Rocky Mountains" slot="sub-menu-item"></calcite-menu-item>
+            <calcite-menu-item text="Smoky Mountains" id="Smoky Mountains" slot="sub-menu-item"> </calcite-menu-item>
           </calcite-menu-item>
-          <calcite-menu-item text="Rivers" id="Rivers" slot="menu-item-dropdown"> </calcite-menu-item>
+          <calcite-menu-item text="Rivers" id="Rivers" slot="sub-menu-item"> </calcite-menu-item>
         </calcite-menu-item>
         <calcite-menu-item id="Planets" text="Planets"> </calcite-menu-item>
       </calcite-menu>`);
@@ -150,16 +145,11 @@ describe("calcite-menu", () => {
       const page = await newE2EPage();
       await page.setContent(html`<calcite-menu layout="vertical">
         <calcite-menu-item id="Nature" text="Nature" href="#arcgisonline">
-          <calcite-menu-item id="Mountains" text="Mountains" slot="menu-item-dropdown">
-            <calcite-menu-item
-              text="Rocky Mountains"
-              id="Rocky Mountains"
-              slot="menu-item-dropdown"
-            ></calcite-menu-item>
-            <calcite-menu-item text="Smoky Mountains" id="Smoky Mountains" slot="menu-item-dropdown">
-            </calcite-menu-item>
+          <calcite-menu-item id="Mountains" text="Mountains" slot="sub-menu-item">
+            <calcite-menu-item text="Rocky Mountains" id="Rocky Mountains" slot="sub-menu-item"></calcite-menu-item>
+            <calcite-menu-item text="Smoky Mountains" id="Smoky Mountains" slot="sub-menu-item"> </calcite-menu-item>
           </calcite-menu-item>
-          <calcite-menu-item text="Rivers" id="Rivers" slot="menu-item-dropdown"> </calcite-menu-item>
+          <calcite-menu-item text="Rivers" id="Rivers" slot="sub-menu-item"> </calcite-menu-item>
         </calcite-menu-item>
         <calcite-menu-item id="Planets" text="Planets"> </calcite-menu-item>
       </calcite-menu>`);

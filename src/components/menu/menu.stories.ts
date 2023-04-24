@@ -27,13 +27,13 @@ export const withNesting = (): string => html`<calcite-panel>
     <calcite-menu-item text="Example nav item 1" text-enabled></calcite-menu-item>
     <calcite-menu-item text="Example nav item 2" text-enabled active></calcite-menu-item>
     <calcite-menu-item text="Example nav item 3" text-enabled>
-      <calcite-menu-item slot="menu-item-dropdown" text="Example subnav item 1" text-enabled> </calcite-menu-item>
-      <calcite-menu-item slot="menu-item-dropdown" text="Example subnav item 2" text-enabled>
-        <calcite-menu-item slot="menu-item-dropdown" text="Example subnav item 1" text-enabled></calcite-menu-item>
-        <calcite-menu-item slot="menu-item-dropdown" text="Example subnav item 2" text-enabled></calcite-menu-item>
-        <calcite-menu-item slot="menu-item-dropdown" text="Example subnav item 3" text-enabled></calcite-menu-item>
+      <calcite-menu-item slot="sub-menu-item" text="Example subnav item 1" text-enabled> </calcite-menu-item>
+      <calcite-menu-item slot="sub-menu-item" text="Example subnav item 2" text-enabled>
+        <calcite-menu-item slot="sub-menu-item" text="Example subnav item 1" text-enabled></calcite-menu-item>
+        <calcite-menu-item slot="sub-menu-item" text="Example subnav item 2" text-enabled></calcite-menu-item>
+        <calcite-menu-item slot="sub-menu-item" text="Example subnav item 3" text-enabled></calcite-menu-item>
       </calcite-menu-item>
-      <calcite-menu-item slot="menu-item-dropdown" text="Example subnav item 3" text-enabled> </calcite-menu-item>
+      <calcite-menu-item slot="sub-menu-item" text="Example subnav item 3" text-enabled> </calcite-menu-item>
     </calcite-menu-item>
     <calcite-menu-item text="Example nav item 4" text-enabled></calcite-menu-item> </calcite-menu
 ></calcite-panel>`;
