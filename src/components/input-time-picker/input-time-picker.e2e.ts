@@ -11,6 +11,8 @@ import {
   reflects,
   renders
 } from "../../tests/commonTests";
+import { getFocusedElementProp } from "../../tests/utils";
+import { html } from "../../../support/formatting";
 
 describe("calcite-input-time-picker", () => {
   it("renders", async () => renders("calcite-input-time-picker", { display: "inline-block" }));
@@ -394,5 +396,54 @@ describe("calcite-input-time-picker", () => {
 
     expect(await inputTimePicker.getProperty("value")).toBe("11:00:00");
     expect(await input.getProperty("value")).toBe("11:00 AM");
+  });
+
+  describe("focus trapping", () => {
+    it("traps focus only when open", async () => {
+      const page = await newE2EPage();
+      await page.setContent(
+        html`<calcite-input-time-picker></calcite-input-time-picker>
+          <div id="next-sibling" tabindex="0">next sibling</div>`
+      );
+      let popover = await page.find("calcite-input-time-picker >>> calcite-popover");
+
+      await page.keyboard.press("Tab");
+      expect(await getFocusedElementProp(page, "tagName")).toBe("CALCITE-INPUT-TIME-PICKER");
+
+      await page.keyboard.press("Tab");
+      expect(await getFocusedElementProp(page, "id")).toBe("next-sibling");
+
+      await page.keyboard.down("Shift");
+      await page.keyboard.press("Tab");
+      await page.keyboard.up("Shift");
+      expect(await getFocusedElementProp(page, "tagName")).toBe("CALCITE-INPUT-TIME-PICKER");
+      expect(await getFocusedElementProp(page, "tagName", { shadow: true })).toBe("CALCITE-INPUT");
+
+      popover = await page.find("calcite-input-time-picker >>> calcite-popover");
+      await page.keyboard.press("ArrowDown");
+      await page.waitForChanges();
+
+      expect(await popover.isVisible()).toBe(true);
+      expect(await getFocusedElementProp(page, "tagName", { shadow: true })).toBe("CALCITE-TIME-PICKER");
+
+      await page.keyboard.down("Shift");
+      await page.keyboard.press("Tab");
+      await page.keyboard.up("Shift");
+      expect(await getFocusedElementProp(page, "tagName", { shadow: true })).toBe("CALCITE-TIME-PICKER");
+
+      await page.keyboard.press("Tab");
+      expect(await getFocusedElementProp(page, "tagName", { shadow: true })).toBe("CALCITE-TIME-PICKER");
+
+      popover = await page.find("calcite-input-time-picker >>> calcite-popover");
+      await page.keyboard.press("Escape");
+      await page.waitForChanges();
+
+      expect(await popover.isVisible()).toBe(false);
+      expect(await getFocusedElementProp(page, "tagName")).toBe("CALCITE-INPUT-TIME-PICKER");
+      expect(await getFocusedElementProp(page, "tagName", { shadow: true })).toBe("CALCITE-INPUT");
+
+      await page.keyboard.press("Tab");
+      expect(await getFocusedElementProp(page, "id")).toBe("next-sibling");
+    });
   });
 });
