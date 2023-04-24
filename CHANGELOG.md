@@ -29,6 +29,10 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ### Bug Fixes
 
+- **input-date-picker:** Correctly position open component when scrolling ([#6815](https://github.com/Esri/calcite-components/issues/6815)) ([d22f4f5](https://github.com/Esri/calcite-components/commit/d22f4f53078b2ee2ea79cdb702ef15b74ce30cfa)), closes [#6463](https://github.com/Esri/calcite-components/issues/6463)
+
+* **stepper:** rerender stepper items when parent numbering system changes ([#6563](https://github.com/Esri/calcite-components/issues/6563)) ([e817b03](https://github.com/Esri/calcite-components/commit/e817b036354bd38f696dafbdc281b3f7d988f5bb)), closes [#5979](https://github.com/Esri/calcite-components/issues/5979)
+
 - **shell-panel:** Side panels should appear over center panels ([#6787](https://github.com/Esri/calcite-components/issues/6787)) ([5e0b393](https://github.com/Esri/calcite-components/commit/5e0b393656748a2f2400f05aa425fc0180745f01)), closes [#5927](https://github.com/Esri/calcite-components/issues/5927)
 
 * **input-date-picker:** implement dialog behavior to improve a11y ([#6669](https://github.com/Esri/calcite-components/issues/6669)) ([a013819](https://github.com/Esri/calcite-components/commit/a0138191e807e1fe2db43bc38c02eb8ab866bd72)), closes [#5582](https://github.com/Esri/calcite-components/issues/5582) [#6668](https://github.com/Esri/calcite-components/issues/6668)
