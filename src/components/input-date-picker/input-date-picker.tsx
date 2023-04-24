@@ -716,7 +716,7 @@ export class InputDatePicker
         ? endWrapper || startWrapper
         : startWrapper || endWrapper;
 
-    connectFloatingUI(this, this.referenceEl, this.floatingEl);
+    requestAnimationFrame(() => connectFloatingUI(this, this.referenceEl, this.floatingEl));
   }
 
   private valueAsDateChangedExternally = false;
