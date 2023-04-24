@@ -115,6 +115,9 @@ export class InputTimePicker
     }
   }
 
+  /**
+   * Use this property to override individual strings used by the component.
+   */
   @Prop() messagesOverrides: Partial<TimePickerMessages>;
 
   /** Specifies the name of the component on form submission. */
@@ -170,15 +173,19 @@ export class InputTimePicker
   //
   //--------------------------------------------------------------------------
 
-  labelEl: HTMLCalciteLabelElement;
+  defaultValue: InputTimePicker["value"];
 
   formEl: HTMLFormElement;
 
-  defaultValue: InputTimePicker["value"];
+  labelEl: HTMLCalciteLabelElement;
+
+  popoverEl: HTMLCalcitePopoverElement;
 
   private calciteInputEl: HTMLCalciteInputElement;
 
   private calciteTimePickerEl: HTMLCalciteTimePickerElement;
+
+  private dialogId = `time-picker-dialog--${guid()}`;
 
   /** whether the value of the input was changed as a result of user typing or not */
   private internalValueChange = false;
@@ -186,10 +193,6 @@ export class InputTimePicker
   private previousValidValue: string = null;
 
   private referenceElementId = `input-time-picker-${guid()}`;
-
-  popoverEl: HTMLCalcitePopoverElement;
-
-  private dialogId = `time-picker-dialog--${guid()}`;
 
   //--------------------------------------------------------------------------
   //
