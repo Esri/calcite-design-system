@@ -54,10 +54,8 @@ export class Stepper {
   @Prop({ reflect: true }) numberingSystem?: NumberingSystem;
 
   @Watch("numberingSystem")
-  numberingSystemChange(value: NumberingSystem): void {
-    this.items.forEach((item) => {
-      item.numberingSystem = value;
-    });
+  numberingSystemChange(): void {
+    this.setNumberingSystem();
   }
 
   /**
@@ -112,12 +110,10 @@ export class Stepper {
           const items = (event.currentTarget as HTMLSlotElement)
             .assignedElements()
             .filter((el) => el?.tagName === "CALCITE-STEPPER-ITEM");
-          items.forEach((item: HTMLCalciteStepperItemElement) => {
-            item.numberingSystem = this.numberingSystem;
-          });
           const spacing = Array(items.length).fill("1fr").join(" ");
           this.el.style.gridTemplateAreas = spacing;
           this.el.style.gridTemplateColumns = spacing;
+          this.setNumberingSystem();
         }}
       />
     );
@@ -308,5 +304,11 @@ export class Stepper {
 
   private filterItems(): HTMLCalciteStepperItemElement[] {
     return this.items.filter((item) => !item.disabled);
+  }
+
+  private setNumberingSystem(): void {
+    this.items.forEach((item: HTMLCalciteStepperItemElement) => {
+      item.numberingSystem = this.numberingSystem;
+    });
   }
 }
