@@ -607,6 +607,41 @@ describe("calcite-input-date-picker", () => {
     expect(await datepickerEl.getProperty("value")).toEqual(["2022-08-15", "2022-08-20"]);
   });
 
+  it("should position on scroll when overlayPositioning is fixed", async () => {
+    const page = await newE2EPage();
+
+    await page.setContent(
+      html`<div id="scrollEl" style="max-height: 300px; height:300px; overflow: auto;">
+        <div style="height:100px"></div>
+        <calcite-input-date-picker open overlay-positioning="fixed"></calcite-input-date-picker>
+        <div style="height:400px"></div>
+      </div>`
+    );
+
+    await page.waitForChanges();
+
+    const scrollEl = await page.find("#scrollEl");
+
+    expect(await scrollEl.getProperty("scrollTop")).toBe(0);
+
+    const inputDatePicker = await page.find("calcite-input-date-picker");
+    const floatingEl = await page.find(`calcite-input-date-picker >>> .${CSS.menu}`);
+
+    expect(await inputDatePicker.isVisible()).toBe(true);
+    expect(await floatingEl.isVisible()).toBe(true);
+    expect((await floatingEl.getComputedStyle()).transform).toBe("matrix(1, 0, 0, 1, 8, 140)");
+
+    await page.$eval("#scrollEl", async (scrollEl: HTMLDivElement) => {
+      scrollEl.scrollTo({ top: 100 });
+    });
+
+    await page.waitForChanges();
+
+    expect(await inputDatePicker.isVisible()).toBe(true);
+    expect(await floatingEl.isVisible()).toBe(true);
+    expect((await floatingEl.getComputedStyle()).transform).toBe("matrix(1, 0, 0, 1, 8, 40)");
+  });
+
   describe("focus trapping", () => {
     it("traps focus only when open", async () => {
       const page = await newE2EPage();
