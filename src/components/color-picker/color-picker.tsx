@@ -479,9 +479,6 @@ export class ColorPicker
       this.hueScopeNode?.focus();
     }
 
-    // prevent text selection outside of color field & slider area
-    event.preventDefault();
-
     document.addEventListener("pointermove", this.globalPointerMoveHandler);
     document.addEventListener("pointerup", this.globalPointerUpHandler, { once: true });
 

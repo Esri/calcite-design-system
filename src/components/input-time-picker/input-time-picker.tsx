@@ -289,7 +289,7 @@ export class InputTimePicker
 
   @Listen("click")
   clickHandler(event: MouseEvent): void {
-    if (event.composedPath().includes(this.calciteTimePickerEl)) {
+    if (this.disabled || event.composedPath().includes(this.calciteTimePickerEl)) {
       return;
     }
     this.setFocus();

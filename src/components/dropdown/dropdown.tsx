@@ -332,7 +332,12 @@ export class Dropdown
 
   @Listen("pointerdown", { target: "window" })
   closeCalciteDropdownOnClick(event: PointerEvent): void {
-    if (!isPrimaryPointerButton(event) || !this.open || event.composedPath().includes(this.el)) {
+    if (
+      this.disabled ||
+      !isPrimaryPointerButton(event) ||
+      !this.open ||
+      event.composedPath().includes(this.el)
+    ) {
       return;
     }
 
@@ -355,17 +360,21 @@ export class Dropdown
   }
 
   @Listen("pointerenter")
-  mouseEnterHandler(): void {
-    if (this.type === "hover") {
-      this.openCalciteDropdown();
+  pointerEnterHandler(): void {
+    if (this.disabled || this.type !== "hover") {
+      return;
     }
+
+    this.openCalciteDropdown();
   }
 
   @Listen("pointerleave")
-  mouseLeaveHandler(): void {
-    if (this.type === "hover") {
-      this.closeCalciteDropdown();
+  pointerLeaveHandler(): void {
+    if (this.disabled || this.type !== "hover") {
+      return;
     }
+
+    this.closeCalciteDropdown();
   }
 
   @Listen("calciteInternalDropdownItemKeyEvent")

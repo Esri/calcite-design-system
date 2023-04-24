@@ -358,7 +358,7 @@ export const closedPanels = (): string =>
   </calcite-shell-panel>
 </calcite-shell>`);
 
-export const endPanelOnly = (): string =>
+export const endPanel_TestOnly = (): string =>
   html(`<calcite-shell content-behind>
     <header slot="header">
       <h2>My Shell Header</h2>
@@ -613,7 +613,7 @@ export const contentBehind = (): string =>
   ${footerHTML}
 </calcite-shell>`);
 
-export const slottedPanelTopOnly = (): string =>
+export const slottedPanelTop_TestOnly = (): string =>
   html(`<calcite-shell
     style="
     width:100%;
@@ -638,7 +638,7 @@ export const slottedPanelTopOnly = (): string =>
   </calcite-shell>
 `);
 
-export const slottedPanelBottomOnly = (): string =>
+export const slottedPanelBottom_TestOnly = (): string =>
   html(`
   <calcite-shell
     style="
@@ -718,3 +718,151 @@ export const slottedPanelTopAndBottomAndSides = (): string =>
     <footer slot="footer">Footer Example</footer>
   </calcite-shell>
 `);
+
+export const shellPanelZIndex_TestOnly = (): string => html` <calcite-shell
+  style="
+height:400px;
+position:relative;
+"
+>
+  <calcite-shell-panel slot="panel-start" position="start" collapsed>
+    <calcite-action-bar slot="action-bar">
+      <calcite-tooltip open slot="expand-tooltip">Expand</calcite-tooltip>
+    </calcite-action-bar>
+  </calcite-shell-panel>
+  <calcite-shell-center-row slot="panel-bottom">
+    <div style="height: 100%; width: 600px; background-color: black;"></div>
+  </calcite-shell-center-row>
+</calcite-shell>`;
+
+shellPanelZIndex_TestOnly.parameters = {
+  chromatic: { delay: 800 }
+};
+
+export const resizableShellPanels = (): string => html`<calcite-shell
+  style="
+width:100%;
+height:500px;
+max-height:80%;
+position:relative;
+"
+>
+  <calcite-shell-panel resizable slot="panel-start" position="start">
+    <calcite-action-bar slot="action-bar" class="calcite-mode-dark">
+      <calcite-action-group>
+        <calcite-action text="Save" icon="save" indicator> </calcite-action>
+        <calcite-action text-enabled icon="map" text="New" slot="menu-actions"> </calcite-action>
+        <calcite-action text-enabled icon="collection" text="Open" slot="menu-actions"> </calcite-action>
+      </calcite-action-group>
+      <calcite-action-group>
+        <calcite-action icon="layers" text="Layers" active> </calcite-action>
+        <calcite-action icon="basemap" text="Basemaps"> </calcite-action>
+        <calcite-action icon="legend" text="Legend"> </calcite-action>
+        <calcite-action icon="bookmark" text="Bookmarks"> </calcite-action>
+      </calcite-action-group>
+      <calcite-action-group>
+        <calcite-action text="Share" icon="share"></calcite-action>
+        <calcite-action text="Print" icon="print"></calcite-action>
+      </calcite-action-group>
+      <calcite-action-group slot="bottom-actions">
+        <calcite-action text="Feedback" icon="speech-bubble-plus"></calcite-action>
+        <calcite-action text="What's next" icon="mega-phone"></calcite-action>
+      </calcite-action-group>
+    </calcite-action-bar>
+    <calcite-panel heading="Layers"><p>Start Panel</p></calcite-panel>
+  </calcite-shell-panel>
+  <calcite-shell-panel resizable slot="panel-end" position="end">
+    <calcite-action-bar slot="action-bar">
+      <calcite-action-group>
+        <calcite-action text="Layer properties" icon="sliders-horizontal"> </calcite-action>
+        <calcite-action text="Styles" icon="shapes"> </calcite-action>
+        <calcite-action text="Filter" icon="layer-filter"> </calcite-action>
+        <calcite-action text="Configure pop-ups" icon="popup" active> </calcite-action>
+        <calcite-action text-enabled text="Configure attributes" icon="feature-details" slot="menu-actions">
+        </calcite-action>
+        <calcite-action text-enabled text="Labels" icon="label" slot="menu-actions"> </calcite-action>
+        <calcite-action text-enabled text="Tablew" icon="table" slot="menu-actions"> </calcite-action>
+      </calcite-action-group>
+      <calcite-action-group>
+        <calcite-action icon="search" text="Search"></calcite-action>
+        <calcite-action icon="measure" text="Measure"></calcite-action>
+        <calcite-action text-enabled icon="road-sign" text="Directions" slot="menu-actions"></calcite-action>
+        <calcite-action text-enabled icon="point" text="Location" slot="menu-actions"></calcite-action>
+        <calcite-action text-enabled icon="pencil-square" text="Edit" disabled slot="menu-actions"> </calcite-action>
+        <calcite-action text-enabled icon="clock" text="Time" disabled slot="menu-actions"></calcite-action>
+      </calcite-action-group>
+      <calcite-action-group slot="bottom-actions">
+        <calcite-action text="Tips" id="tip-manager-button">
+          <calcite-icon icon="lightbulb" scale="s"></calcite-icon>
+        </calcite-action>
+      </calcite-action-group>
+    </calcite-action-bar>
+    <calcite-flow id="flow">
+      <calcite-flow-item
+        heading="Configure popup"
+        description="Popular Demographics in the United States (Beta) - County"
+      >
+        <p>End Panel</p>
+      </calcite-flow-item>
+    </calcite-flow>
+  </calcite-shell-panel>
+  <div
+    style="
+      width:100%;
+      height:100%;
+      background-image: linear-gradient(45deg, #ccc 25%, transparent 25%),
+      linear-gradient(-45deg, #ccc 25%, transparent 25%),
+      linear-gradient(45deg, transparent 75%, #ccc 75%),
+      linear-gradient(-45deg, transparent 75%, #ccc 75%);
+      background-size: 20px 20px;
+      background-position: 0 0, 0 10px, 10px -10px, -10px 0px;"
+  ></div>
+  <calcite-shell-panel resizable layout="horizontal" slot="panel-top" position="start">
+    <calcite-action-bar slot="action-bar">
+      <calcite-action-group>
+        <calcite-action text="Save" icon="save" indicator> </calcite-action>
+        <calcite-action text-enabled icon="map" text="New" slot="menu-actions"> </calcite-action>
+        <calcite-action text-enabled icon="collection" text="Open" slot="menu-actions"> </calcite-action>
+      </calcite-action-group>
+      <calcite-action-group>
+        <calcite-action icon="layers" text="Layers" active> </calcite-action>
+        <calcite-action icon="basemap" text="Basemaps"> </calcite-action>
+        <calcite-action icon="legend" text="Legend"> </calcite-action>
+        <calcite-action icon="bookmark" text="Bookmarks"> </calcite-action>
+      </calcite-action-group>
+      <calcite-action-group>
+        <calcite-action text="Share" icon="share"></calcite-action>
+        <calcite-action text="Print" icon="print"></calcite-action>
+      </calcite-action-group>
+      <calcite-action-group slot="bottom-actions">
+        <calcite-action text="Feedback" icon="speech-bubble-plus"></calcite-action>
+        <calcite-action text="What's next" icon="mega-phone"></calcite-action>
+      </calcite-action-group>
+    </calcite-action-bar>
+    <p>Top Panel</p>
+  </calcite-shell-panel>
+  <calcite-shell-panel resizable layout="horizontal" slot="panel-bottom" position="end">
+    <calcite-action-bar slot="action-bar">
+      <calcite-action-group>
+        <calcite-action text="Save" icon="save" indicator> </calcite-action>
+        <calcite-action text-enabled icon="map" text="New" slot="menu-actions"> </calcite-action>
+        <calcite-action text-enabled icon="collection" text="Open" slot="menu-actions"> </calcite-action>
+      </calcite-action-group>
+      <calcite-action-group>
+        <calcite-action icon="layers" text="Layers" active> </calcite-action>
+        <calcite-action icon="basemap" text="Basemaps"> </calcite-action>
+        <calcite-action icon="legend" text="Legend"> </calcite-action>
+        <calcite-action icon="bookmark" text="Bookmarks"> </calcite-action>
+      </calcite-action-group>
+      <calcite-action-group>
+        <calcite-action text="Share" icon="share"></calcite-action>
+        <calcite-action text="Print" icon="print"></calcite-action>
+      </calcite-action-group>
+      <calcite-action-group slot="bottom-actions">
+        <calcite-action text="Feedback" icon="speech-bubble-plus"></calcite-action>
+        <calcite-action text="What's next" icon="mega-phone"></calcite-action>
+      </calcite-action-group>
+    </calcite-action-bar>
+    <p>Bottom Panel</p>
+  </calcite-shell-panel>
+</calcite-shell>`;

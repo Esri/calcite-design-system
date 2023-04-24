@@ -196,6 +196,10 @@ export class RadioButton
   };
 
   private clickHandler = (): void => {
+    if (this.disabled) {
+      return;
+    }
+
     this.check();
   };
 
@@ -317,12 +321,20 @@ export class RadioButton
   //--------------------------------------------------------------------------
 
   @Listen("pointerenter")
-  mouseenter(): void {
+  pointerEnterHandler(): void {
+    if (this.disabled) {
+      return;
+    }
+
     this.hovered = true;
   }
 
   @Listen("pointerleave")
-  mouseleave(): void {
+  pointerLeaveHandler(): void {
+    if (this.disabled) {
+      return;
+    }
+
     this.hovered = false;
   }
 
