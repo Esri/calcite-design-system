@@ -40,7 +40,8 @@ a {
   text-0
   text-color-2 box-border bg-foreground-1;
   text-decoration: none;
-  border-block-end: 2px solid transparent;
+  border-block-end: theme("spacing[0.5]") solid transparent;
+  padding-block-start: theme("spacing[0.5]");
   &:hover {
     @apply bg-foreground-2 text-color-2;
   }
