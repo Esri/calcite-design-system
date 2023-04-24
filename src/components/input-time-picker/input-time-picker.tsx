@@ -567,7 +567,6 @@ export class InputTimePicker
         </div>
         <calcite-popover
           aria-label={messages.chooseTime}
-          aria-live="polite"
           focusTrapDisabled={true}
           id={dialogId}
           label="Time Picker"
