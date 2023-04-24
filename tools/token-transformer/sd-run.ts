@@ -3,10 +3,12 @@ import * as StyleDictionary from 'style-dictionary';
 import { registerTransforms } from '@tokens-studio/sd-transforms';
 import { expandComposites } from './parse/expandComposites';
 import { Theme } from './getThemes'
-import { formatJS } from './format/javascript'
+import { formatJS } from './format/javascript';
+import { formatCSS } from './format/css';
+import { nameCamelCase } from './transform/nameCamelCase';
 
 const defaultThemes: Theme[] = [{
-  name: 'calcite-headless',
+  name: 'calcite-component-avatar',
   source: [
     "core",
     "semantic",
@@ -78,45 +80,66 @@ const matchFiles = (filePath: string, matchList: string[]) => {
 export const run = async (
   include: string[] = defaultThemes[0].source.map(tokenFile => `tokens/${tokenFile}.json`),
   source: string[] = defaultThemes[0].enabled.map(tokenFile => `tokens/${tokenFile}.json`),
-  buildPath: string = 'build/css/',
+  buildPath: string = 'build',
   themes: Theme[] = defaultThemes
 ) => {
 
+  await registerTransforms(StyleDictionary, { expand: false });
+
   StyleDictionary.registerFormat({
-    name: 'calcite/json',
+    name: 'calcite/js',
     formatter: formatJS
   });
-
-  StyleDictionary.registerFilter({
-    name: 'isSource',
-    matcher: (token) => token.isSource || token.isEnabled,
+  StyleDictionary.registerFormat({
+    name: 'calcite/css',
+    formatter: formatCSS
   })
 
   StyleDictionary.registerTransform({
-    name: 'calcite/setSource',
-    type: 'attribute',
-    matcher: (token) => {
-      return (!token.isSource);
-    },
-    transformer: (token, options) => {
-      if (options && options['enableIncludes']) {
-        token.isEnabled = true;
-      }
-      return token;
-    }
+    name: 'name/calcite/camel',
+    type: 'name',
+    transformer: nameCamelCase
   })
-
-  // const regexMatchSDVariable = /\{[\w.-]+\}/g;
-  await registerTransforms(StyleDictionary, { expand: false });
 
   const _sd = StyleDictionary.extend({
     source,
     include,
     platforms: {
+      js: {
+        prefix: "calcite",
+        transforms: [
+          'ts/descriptionToComment',
+          'ts/opacity',
+          'ts/size/lineheight',
+          'ts/type/fontWeight',
+          'ts/resolveMath',
+          'ts/size/css/letterspacing',
+          'ts/color/css/hexrgba',
+          'ts/color/modifiers',
+          'name/calcite/camel',
+        ],
+        buildPath: `${buildPath}/js/`,
+        files: themes.reduce((acc, theme) => {
+          const { name, enabled, source, disabled } = theme;
+          const options = {
+            enabled,
+            source,
+            disabled,
+            outputReferences: true,
+            sourceReferencesOnly: true,
+          };
+
+          acc.push({
+            destination: `${name}.js`, 
+            format: "calcite/js",
+            options,
+          });
+          return acc;
+        }, [])
+      },
       css: {
         prefix: "calcite",
         transforms: [
-          'calcite/setSource',
           'ts/descriptionToComment',
           'ts/size/px',
           'ts/opacity',
@@ -128,7 +151,7 @@ export const run = async (
           'ts/color/modifiers',
           'name/cti/kebab',
         ],
-        buildPath: `${buildPath}`,
+        buildPath: `${buildPath}/css/`,
         files: themes.reduce((acc, theme) => {
           const { name, enabled, source, disabled } = theme;
           const options = {
@@ -136,20 +159,12 @@ export const run = async (
             source,
             disabled,
             outputReferences: true,
-            enableIncludes: true,
+            sourceReferencesOnly: true,
           };
 
           acc.push({
-            destination: `debug/${name}.css`, 
-            format: 'calcite/json',
-            filter: 'isSource',
-            options,
-          });
-
-          acc.push({
             destination: `${name}.css`, 
-            format: "css/variables",
-            filter: 'isSource',
+            format: "calcite/css",
             options,
           });
           return acc;
