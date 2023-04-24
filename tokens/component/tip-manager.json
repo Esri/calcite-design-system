@@ -1,5 +1,5 @@
 {
-  "tip": {
+  "tip-manager": {
     "font": {
       "heading": {
         "light": {
@@ -92,18 +92,18 @@
             "type": "spacing"
           }
         }
-      },
-      "space-between": {
-        "md": {
-          "value": "{core.spacing.3}",
-          "type": "spacing"
-        }
       }
     },
     "border-width": {
       "md": {
         "value": "{core.border.border-width.0}",
         "type": "borderWidth"
+      }
+    },
+    "space-between": {
+      "md": {
+        "value": "{core.spacing.none}",
+        "type": "spacing"
       }
     },
     "space-around": {

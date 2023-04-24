@@ -61,6 +61,7 @@
     "component/stepper-item",
     "component/switch",
     "component/[template-comp-name]",
+    "component/time-picker",
     "component/scrim",
     "component/tree-item",
     "component/accordion_backup",
