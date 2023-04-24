@@ -86,8 +86,6 @@ export class CalciteMenu implements LoadableComponent, LocalizedComponent, T9nCo
 
   @State() overflowCalculationComplete? = false;
 
-  private menuItemOverflowEl: HTMLCalciteMenuItemElement;
-
   @State() effectiveLocale = "";
 
   @Watch("effectiveLocale")
@@ -148,7 +146,7 @@ export class CalciteMenu implements LoadableComponent, LocalizedComponent, T9nCo
     switch (event.detail.event.key) {
       case "ArrowDown":
         if (target.layout === "vertical") {
-          focusElementInGroup(this.navigableItems, target, "next", false);
+          focusElementInGroup(this.menuItems, target, "next", false);
         } else {
           if (event.detail.isOpen) {
             subMenuItems[0].setFocus();
@@ -157,7 +155,7 @@ export class CalciteMenu implements LoadableComponent, LocalizedComponent, T9nCo
         break;
       case "ArrowUp":
         if (this.layout === "vertical") {
-          focusElementInGroup(this.navigableItems, target, "previous", false);
+          focusElementInGroup(this.menuItems, target, "previous", false);
         } else {
           if (event.detail.isOpen) {
             subMenuItems[subMenuItems.length - 1].setFocus();
@@ -166,7 +164,7 @@ export class CalciteMenu implements LoadableComponent, LocalizedComponent, T9nCo
         break;
       case "ArrowRight":
         if (this.layout === "horizontal") {
-          focusElementInGroup(this.navigableItems, target, "next", false);
+          focusElementInGroup(this.menuItems, target, "next", false);
         } else {
           if (event.detail.isOpen) {
             subMenuItems[0].setFocus();
@@ -175,7 +173,7 @@ export class CalciteMenu implements LoadableComponent, LocalizedComponent, T9nCo
         break;
       case "ArrowLeft":
         if (this.layout === "horizontal") {
-          focusElementInGroup(this.navigableItems, target, "previous", false);
+          focusElementInGroup(this.menuItems, target, "previous", false);
         } else {
           if (event.detail.isOpen) {
             this.focusParentElement(event.target as HTMLCalciteMenuItemElement);
@@ -194,12 +192,6 @@ export class CalciteMenu implements LoadableComponent, LocalizedComponent, T9nCo
     this.menuItems.forEach((item: HTMLCalciteMenuItemElement) => {
       item.layout = this.layout;
     });
-
-    const visibleItems = this.menuItems.filter((el) => !el.hidden);
-    if (this.menuItemOverflowEl) {
-      visibleItems.push(this.menuItemOverflowEl);
-    }
-    this.navigableItems = visibleItems;
   };
 
   focusParentElement = (el: Element): void => {
