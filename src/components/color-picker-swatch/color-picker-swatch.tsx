@@ -118,14 +118,16 @@ export class ColorPickerSwatch {
         <rect fill="url(#checker)" height="100%" rx={borderRadius} width="100%" />
         <rect
           fill={hex}
-          style={{ "clip-path": "polygon(100% 0, 0 0, 0 100%)" }}
+          style={{ "clip-path": alpha < 1 ? "polygon(100% 0, 0 0, 0 100%)" : "" }}
           {...commonSwatchProps}
         />
-        <rect
-          fill={hexa}
-          style={{ "clip-path": "polygon(100% 0, 100% 100%, 0 100%)" }}
-          {...commonSwatchProps}
-        />
+        {alpha < 1 ? (
+          <rect
+            fill={hexa}
+            style={{ "clip-path": "polygon(100% 0, 100% 100%, 0 100%)" }}
+            {...commonSwatchProps}
+          />
+        ) : null}
       </svg>
     );
   }
