@@ -23,7 +23,7 @@ import {
 import { guid } from "../../utils/guid";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import { numberKeys } from "../../utils/key";
-import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
+import { connectLabel, disconnectLabel, LabelableComponent } from "../../utils/label";
 import {
   componentLoaded,
   LoadableComponent,
@@ -37,6 +37,13 @@ import {
   NumberingSystem,
   numberStringFormatter
 } from "../../utils/locale";
+import {
+  activateFocusTrap,
+  connectFocusTrap,
+  deactivateFocusTrap,
+  FocusTrapComponent
+} from "../../utils/focusTrapComponent";
+import { FocusTrap } from "focus-trap";
 import { formatTimeString, isValidTime, localizeTimeString } from "../../utils/time";
 import { Scale } from "../interfaces";
 import { TimePickerMessages } from "../time-picker/assets/time-picker/t9n";
@@ -50,12 +57,13 @@ import { TimePickerMessages } from "../time-picker/assets/time-picker/t9n";
 })
 export class InputTimePicker
   implements
-    LabelableComponent,
+    FloatingUIComponent,
+    FocusTrapComponent,
     FormComponent,
     InteractiveComponent,
-    FloatingUIComponent,
-    LocalizedComponent,
-    LoadableComponent
+    LabelableComponent,
+    LoadableComponent,
+    LocalizedComponent
 {
   //--------------------------------------------------------------------------
   //
@@ -84,11 +92,38 @@ export class InputTimePicker
 
     if (value) {
       this.reposition(true);
+
+      activateFocusTrap(this, {
+        onActivate: () => {
+          if (this.focusOnOpen) {
+            this.calciteTimePickerEl.setFocus();
+            this.focusOnOpen = false;
+          }
+        }
+      });
+    } else {
+      deactivateFocusTrap(this);
+      this.restoreInputFocus();
+      this.focusOnOpen = false;
     }
   }
 
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @Prop({ reflect: true }) disabled = false;
+
+  /**
+   * When `true`, prevents focus trapping.
+   */
+  @Prop({ reflect: true }) focusTrapDisabled = false;
+
+  @Watch("focusTrapDisabled")
+  handleFocusTrapDisabled(focusTrapDisabled: boolean): void {
+    if (!this.open) {
+      return;
+    }
+
+    focusTrapDisabled ? deactivateFocusTrap(this) : activateFocusTrap(this);
+  }
 
   /**
    * The ID of the form that will be associated with the component.
@@ -180,6 +215,10 @@ export class InputTimePicker
   private calciteInputEl: HTMLCalciteInputElement;
 
   private calciteTimePickerEl: HTMLCalciteTimePickerElement;
+
+  private focusOnOpen = false;
+
+  focusTrap: FocusTrap;
 
   /** whether the value of the input was changed as a result of user typing or not */
   private internalValueChange = false;
@@ -307,6 +346,7 @@ export class InputTimePicker
     const target = event.target as HTMLCalciteTimePickerElement;
     const value = target.value;
     this.setValue({ value, origin: "time-picker" });
+    this.restoreInputFocus();
   };
 
   @Listen("calciteInternalTimePickerFocus")
@@ -358,12 +398,16 @@ export class InputTimePicker
     if (key === "Enter") {
       if (submitForm(this)) {
         event.preventDefault();
+        this.restoreInputFocus();
       }
-    }
-
-    if (key === "Escape" && this.open) {
+    } else if (key === "ArrowDown") {
+      this.open = true;
+      this.focusOnOpen = true;
+      event.preventDefault();
+    } else if (key === "Escape" && this.open) {
       this.open = false;
       event.preventDefault();
+      this.restoreInputFocus();
     }
   };
 
@@ -385,6 +429,13 @@ export class InputTimePicker
 
   private setCalciteTimePickerEl = (el: HTMLCalciteTimePickerElement): void => {
     this.calciteTimePickerEl = el;
+    connectFocusTrap(this, {
+      focusTrapEl: el,
+      focusTrapOptions: {
+        initialFocus: false,
+        setReturnFocus: false
+      }
+    });
   };
 
   private setInputValue = (newInputValue: string): void => {
@@ -449,6 +500,11 @@ export class InputTimePicker
     }
   };
 
+  private restoreInputFocus(): void {
+    const { calciteInputEl } = this;
+    calciteInputEl.setFocus();
+  }
+
   //--------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -479,6 +535,7 @@ export class InputTimePicker
     disconnectLabel(this);
     disconnectForm(this);
     disconnectLocalized(this);
+    deactivateFocusTrap(this);
   }
 
   componentDidRender(): void {
@@ -506,7 +563,6 @@ export class InputTimePicker
           <calcite-input
             disabled={this.disabled}
             icon="clock"
-            label={getLabelText(this)}
             onCalciteInputInput={this.calciteInputInputHandler}
             onCalciteInternalInputBlur={this.calciteInternalInputBlurHandler}
             onCalciteInternalInputFocus={this.calciteInternalInputFocusHandler}
@@ -536,6 +592,7 @@ export class InputTimePicker
             onCalciteInternalTimePickerChange={this.timePickerChangeHandler}
             scale={this.scale}
             step={this.step}
+            tabIndex={this.open ? undefined : -1}
             value={this.value}
             // eslint-disable-next-line react/jsx-sort-props
             ref={this.setCalciteTimePickerEl}
