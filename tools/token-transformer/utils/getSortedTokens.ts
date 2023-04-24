@@ -10,15 +10,16 @@ function includeReferenceTokens(token: TransformedToken, dictionary: Dictionary,
     }
   }
 
-  const refs = dictionary.getReferences(token.original.value);
-  refs.forEach(ref => {
-    value = value.replace(ref.value, () => {
-      return `${ref.name}`;
+  try {
+    const refs = dictionary.getReferences(token.original.value);
+    refs.forEach(ref => {
+      tokenSets = includeReferenceTokens(ref, dictionary, tokenSets, pointer + 1);
     });
-    tokenSets = includeReferenceTokens(ref, dictionary, tokenSets, pointer + 1);
-  });
+  } catch (error) {
+    console.error(error)
+  }
 
-  const updatedToken = { ...token, value: JSON.parse(value) }
+  const updatedToken = { ...token, value }
   tokenSets[pointer][token.name] = updatedToken;
 
   return tokenSets;

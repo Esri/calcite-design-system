@@ -19,7 +19,7 @@
         "value": "$semantic.border.border-radius.pill",
         "type": "borderRadius"
       },
-      "value-text": {
+      "value_text": {
         "font": {
           "sm": {
             "value": "$semantic.font.default.bold.-2h",

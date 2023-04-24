@@ -1,5 +1,7 @@
 import { run } from "./sd-run";
-import { getThemes } from './getThemes'
+import { getThemes } from './getThemes';
 
-getThemes('tokens/$themes.json').then((themes) => run(['tokens'], 'build', themes))
-
+export const transformTokens = async () => {
+  const themes = await getThemes('tokens/$themes.json');
+  return Promise.all(themes.map((theme) => run('tokens', 'build', theme)));
+}

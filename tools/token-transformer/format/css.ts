@@ -10,7 +10,13 @@ export function customFormattedVariables(varInfo) {
   let {lineSeparator} = Object.assign({}, defaultFormatting, formatting);
   const tokens = getSortedTokens(dictionary, options);
   return tokens
-    .map(formatHelpers.createPropertyFormatter(varInfo))
+    .map(formatHelpers.createPropertyFormatter({
+      outputReferences: true,
+      dictionary,
+      format,
+      formatting,
+    }))
+    .map((token) => token.replaceAll('"', ''))
     .filter((strVal) => { return !!strVal })
     .join(lineSeparator);
 }
