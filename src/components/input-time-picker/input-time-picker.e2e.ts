@@ -167,36 +167,6 @@ describe("calcite-input-time-picker", () => {
     }
   });
 
-  it("value displays correctly in the input when it is programmatically changed for a 12-hour language (arabic lang/numberingSystem)", async () => {
-    const locale = "ar";
-    const numberingSystem = "arab";
-
-    const page = await newE2EPage({
-      html: `<calcite-input-time-picker lang="${locale}" numbering-system="${numberingSystem}" step="1"></calcite-input-time-picker>`
-    });
-
-    const inputTimePicker = await page.find("calcite-input-time-picker");
-    const input = await page.find("calcite-input-time-picker >>> calcite-input");
-
-    const date = new Date(0);
-    date.setHours(13);
-    date.setMinutes(59);
-    date.setSeconds(59);
-
-    const expectedValue = date.toISOString().substr(11, 8);
-    const expectedInputValue = localizeTimeString({ value: expectedValue, locale, numberingSystem });
-
-    inputTimePicker.setProperty("value", expectedValue);
-
-    await page.waitForChanges();
-
-    const inputValue = await input.getProperty("value");
-    const inputTimePickerValue = await inputTimePicker.getProperty("value");
-
-    expect(inputValue).toBe(expectedInputValue);
-    expect(inputTimePickerValue).toBe(expectedValue);
-  });
-
   it("value displays correctly in the input when it is programmatically changed for a 12-hour language when a default value is present", async () => {
     const locale = "en";
     const numberingSystem = "latn";
@@ -394,5 +364,67 @@ describe("calcite-input-time-picker", () => {
 
     expect(await inputTimePicker.getProperty("value")).toBe("11:00:00");
     expect(await input.getProperty("value")).toBe("11:00 AM");
+  });
+
+  it("allows editing just a portion of the time value in the input for a 12-hour locale", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<calcite-input-time-picker step="1" value="14:00:00"></calcite-input-time-picker>`);
+
+    const inputTimePicker = await page.find("calcite-input-time-picker");
+
+    await inputTimePicker.callMethod("setFocus");
+    await page.keyboard.press("ArrowLeft");
+    await page.keyboard.press("ArrowRight");
+    await page.keyboard.press("ArrowRight");
+    await page.keyboard.press("ArrowRight");
+    await page.keyboard.press("ArrowRight");
+    await page.keyboard.press("ArrowRight");
+    await page.keyboard.press("Backspace");
+    await page.keyboard.press("5");
+
+    const inputValue = await page.evaluate(() => {
+      const inputDatePicker = document.querySelector("calcite-input-time-picker");
+      const calciteInput = inputDatePicker.shadowRoot.querySelector("calcite-input");
+      const input = calciteInput.shadowRoot.querySelector("input");
+      return input.value;
+    });
+    expect(inputValue).toBe("02:05:00 PM");
+    expect(await inputTimePicker.getProperty("value")).toBe("14:00:00");
+
+    await page.keyboard.press("Enter");
+
+    expect(await inputTimePicker.getProperty("value")).toBe("14:05:00");
+  });
+
+  describe("arabic", () => {
+    it("value displays correctly in the input when it is directly changed for arabic lang and arab numberingSystem)", async () => {
+      const locale = "ar";
+      const numberingSystem = "arab";
+
+      const page = await newE2EPage({
+        html: `<calcite-input-time-picker lang="${locale}" numbering-system="${numberingSystem}" step="1"></calcite-input-time-picker>`
+      });
+
+      const inputTimePicker = await page.find("calcite-input-time-picker");
+      const input = await page.find("calcite-input-time-picker >>> calcite-input");
+
+      const date = new Date(0);
+      date.setHours(13);
+      date.setMinutes(59);
+      date.setSeconds(59);
+
+      const expectedValue = date.toISOString().substr(11, 8);
+      const expectedInputValue = localizeTimeString({ value: expectedValue, locale, numberingSystem });
+
+      inputTimePicker.setProperty("value", expectedValue);
+
+      await page.waitForChanges();
+
+      const inputValue = await input.getProperty("value");
+      const inputTimePickerValue = await inputTimePicker.getProperty("value");
+
+      expect(inputValue).toBe(expectedInputValue);
+      expect(inputTimePickerValue).toBe(expectedValue);
+    });
   });
 });
