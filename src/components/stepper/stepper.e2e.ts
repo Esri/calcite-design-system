@@ -1,6 +1,7 @@
 import { E2EPage, newE2EPage } from "@stencil/core/testing";
 import { renders, hidden } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
+import { NumberStringFormatOptions } from "../../utils/locale";
 
 // todo test the automatic setting of first item to selected
 describe("calcite-stepper", () => {
@@ -587,7 +588,7 @@ describe("calcite-stepper", () => {
     </calcite-stepper>
 
     <calcite-stepper numbered numbering-system="arab" lang="ar" dir="rtl" >
-      <calcite-stepper-item heading="الخطوةالاولى" complete>
+      <calcite-stepper-item heading="الخطوةالاولى" complete id="step-two">
        الخطوة الأولى للمحتوى هنا
     </calcite-stepper>`);
     const [stepper1, stepper2] = await page.findAll("calcite-stepper");
@@ -602,5 +603,13 @@ describe("calcite-stepper", () => {
 
     const stepper1Number = await page.find("calcite-stepper-item[id='step-one'] >>> .stepper-item-number");
     expect(stepper1Number.textContent).toBe("1.");
+
+    stepper2.setProperty("numberingSystem", "thai");
+    await page.waitForChanges();
+    const stepper2Number = await page.find("calcite-stepper-item[id='step-two'] >>> .stepper-item-number");
+    const thaiNumeral1 = new Intl.NumberFormat("th", { numberingSystem: "thai" } as NumberStringFormatOptions).format(
+      1
+    );
+    expect(stepper2Number.textContent).toBe(`${thaiNumeral1}.`);
   });
 });
