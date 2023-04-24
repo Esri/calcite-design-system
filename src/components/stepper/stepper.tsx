@@ -55,7 +55,7 @@ export class Stepper {
 
   @Watch("numberingSystem")
   numberingSystemChange(): void {
-    this.setNumberingSystem();
+    this.setStepperItemNumberingSystem();
   }
 
   /**
@@ -113,7 +113,7 @@ export class Stepper {
           const spacing = Array(items.length).fill("1fr").join(" ");
           this.el.style.gridTemplateAreas = spacing;
           this.el.style.gridTemplateColumns = spacing;
-          this.setNumberingSystem();
+          this.setStepperItemNumberingSystem();
         }}
       />
     );
@@ -306,7 +306,7 @@ export class Stepper {
     return this.items.filter((item) => !item.disabled);
   }
 
-  private setNumberingSystem(): void {
+  private setStepperItemNumberingSystem(): void {
     this.items.forEach((item: HTMLCalciteStepperItemElement) => {
       item.numberingSystem = this.numberingSystem;
     });
