@@ -41,7 +41,6 @@ import { formatTimeString, isValidTime, localizeTimeString } from "../../utils/t
 import { Scale } from "../interfaces";
 import { TimePickerMessages } from "../time-picker/assets/time-picker/t9n";
 import { connectMessages, disconnectMessages, setUpMessages, T9nComponent } from "../../utils/t9n";
-import { toAriaBoolean } from "../../utils/dom";
 import { InputTimePickerMessages } from "./assets/input-time-picker/t9n";
 
 @Component({
@@ -544,9 +543,7 @@ export class InputTimePicker
           />
         </div>
         <calcite-popover
-          aria-hidden={toAriaBoolean(!this.open)}
           aria-label={messages.chooseTime}
-          aria-modal="true"
           focusTrapDisabled={true}
           id={popoverId}
           label="Time Picker"
