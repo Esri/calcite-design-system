@@ -43,7 +43,7 @@ import {
 } from "../../utils/form";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import { numberKeys } from "../../utils/key";
-import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
+import { connectLabel, disconnectLabel, LabelableComponent } from "../../utils/label";
 import {
   componentLoaded,
   LoadableComponent,
@@ -68,6 +68,13 @@ import { HeadingLevel } from "../functional/Heading";
 import { CSS } from "./resources";
 import { connectMessages, disconnectMessages, setUpMessages, T9nComponent } from "../../utils/t9n";
 import { InputDatePickerMessages } from "./assets/input-date-picker/t9n";
+import {
+  activateFocusTrap,
+  connectFocusTrap,
+  deactivateFocusTrap,
+  FocusTrapComponent
+} from "../../utils/focusTrapComponent";
+import { FocusTrap } from "focus-trap";
 import { guid } from "../../utils/guid";
 
 @Component({
@@ -80,13 +87,14 @@ import { guid } from "../../utils/guid";
 })
 export class InputDatePicker
   implements
-    LabelableComponent,
+    FloatingUIComponent,
+    FocusTrapComponent,
     FormComponent,
     InteractiveComponent,
-    OpenCloseComponent,
-    FloatingUIComponent,
-    LocalizedComponent,
+    LabelableComponent,
     LoadableComponent,
+    LocalizedComponent,
+    OpenCloseComponent,
     T9nComponent
 {
   //--------------------------------------------------------------------------
@@ -101,10 +109,25 @@ export class InputDatePicker
   //  Public Properties
   //
   //--------------------------------------------------------------------------
+
   /**
    * When `true`, interaction is prevented and the component is displayed with lower opacity.
    */
   @Prop({ reflect: true }) disabled = false;
+
+  /**
+   * When `true`, prevents focus trapping.
+   */
+  @Prop({ reflect: true }) focusTrapDisabled = false;
+
+  @Watch("focusTrapDisabled")
+  handleFocusTrapDisabled(focusTrapDisabled: boolean): void {
+    if (!this.open) {
+      return;
+    }
+
+    focusTrapDisabled ? deactivateFocusTrap(this) : activateFocusTrap(this);
+  }
 
   /**
    * The ID of the form that will be associated with the component.
@@ -463,6 +486,7 @@ export class InputDatePicker
   }
 
   disconnectedCallback(): void {
+    deactivateFocusTrap(this);
     disconnectLabel(this);
     disconnectForm(this);
     disconnectFloatingUI(this, this.referenceEl, this.floatingEl);
@@ -503,7 +527,6 @@ export class InputDatePicker
                 }`}
                 disabled={disabled}
                 icon="calendar"
-                label={getLabelText(this)}
                 number-button-type="none"
                 numberingSystem={numberingSystem}
                 onCalciteInputInput={this.calciteInternalInputInputHandler}
@@ -559,8 +582,10 @@ export class InputDatePicker
                   proximitySelectionDisabled={this.proximitySelectionDisabled}
                   range={this.range}
                   scale={this.scale}
-                  tabIndex={0}
+                  tabIndex={this.open ? undefined : -1}
                   valueAsDate={this.valueAsDate}
+                  // eslint-disable-next-line react/jsx-sort-props
+                  ref={this.setDatePickerRef}
                 />
               </div>
             </div>
@@ -635,9 +660,15 @@ export class InputDatePicker
   //
   //--------------------------------------------------------------------------
 
+  private datePickerEl: HTMLCalciteDatePickerElement;
+
   private dialogId = `date-picker-dialog--${guid()}`;
 
   filteredFlipPlacements: EffectivePlacement[];
+
+  private focusOnOpen = false;
+
+  focusTrap: FocusTrap;
 
   labelEl: HTMLCalciteLabelElement;
 
@@ -685,7 +716,7 @@ export class InputDatePicker
         ? endWrapper || startWrapper
         : startWrapper || endWrapper;
 
-    connectFloatingUI(this, this.referenceEl, this.floatingEl);
+    requestAnimationFrame(() => connectFloatingUI(this, this.referenceEl, this.floatingEl));
   }
 
   private valueAsDateChangedExternally = false;
@@ -728,6 +759,14 @@ export class InputDatePicker
   }
 
   onOpen(): void {
+    activateFocusTrap(this, {
+      onActivate: () => {
+        if (this.focusOnOpen) {
+          this.datePickerEl.setFocus();
+          this.focusOnOpen = false;
+        }
+      }
+    });
     this.calciteInputDatePickerOpen.emit();
   }
 
@@ -737,6 +776,9 @@ export class InputDatePicker
 
   onClose(): void {
     this.calciteInputDatePickerClose.emit();
+    deactivateFocusTrap(this);
+    this.restoreInputFocus();
+    this.focusOnOpen = false;
   }
 
   setStartInput = (el: HTMLCalciteInputElement): void => {
@@ -804,20 +846,25 @@ export class InputDatePicker
 
     if (key === "Enter") {
       this.commitValue();
+
       if (this.shouldFocusRangeEnd()) {
         this.endInput?.setFocus();
       } else if (this.shouldFocusRangeStart()) {
         this.startInput?.setFocus();
       }
+
       if (submitForm(this)) {
         event.preventDefault();
+        this.restoreInputFocus();
       }
     } else if (key === "ArrowDown") {
       this.open = true;
+      this.focusOnOpen = true;
       event.preventDefault();
     } else if (key === "Escape") {
       this.open = false;
       event.preventDefault();
+      this.restoreInputFocus();
     }
   };
 
@@ -836,10 +883,8 @@ export class InputDatePicker
   };
 
   setFloatingEl = (el: HTMLDivElement): void => {
-    if (el) {
-      this.floatingEl = el;
-      connectFloatingUI(this, this.referenceEl, this.floatingEl);
-    }
+    this.floatingEl = el;
+    connectFloatingUI(this, this.referenceEl, this.floatingEl);
   };
 
   setStartWrapper = (el: HTMLDivElement): void => {
@@ -850,6 +895,17 @@ export class InputDatePicker
   setEndWrapper = (el: HTMLDivElement): void => {
     this.endWrapper = el;
     this.setReferenceEl();
+  };
+
+  setDatePickerRef = (el: HTMLCalciteDatePickerElement): void => {
+    this.datePickerEl = el;
+    connectFocusTrap(this, {
+      focusTrapEl: el,
+      focusTrapOptions: {
+        initialFocus: false,
+        setReturnFocus: false
+      }
+    });
   };
 
   @Watch("effectiveLocale")
@@ -880,17 +936,18 @@ export class InputDatePicker
 
     this.setValue((event.target as HTMLCalciteDatePickerElement).valueAsDate as Date);
     this.localizeInputValues();
+    this.restoreInputFocus();
   };
 
   private shouldFocusRangeStart(): boolean {
-    const startValue = this.value[0] || undefined;
-    const endValue = this.value[1] || undefined;
+    const startValue = this.value[0];
+    const endValue = this.value[1];
     return !!(endValue && !startValue && this.focusedInput === "end" && this.startInput);
   }
 
   private shouldFocusRangeEnd(): boolean {
-    const startValue = this.value[0] || undefined;
-    const endValue = this.value[1] || undefined;
+    const startValue = this.value[0];
+    const endValue = this.value[1];
     return !!(startValue && !endValue && this.focusedInput === "start" && this.endInput);
   }
 
@@ -905,13 +962,18 @@ export class InputDatePicker
 
     this.setRangeValue(value);
     this.localizeInputValues();
-
-    if (this.shouldFocusRangeEnd()) {
-      this.endInput?.setFocus();
-    } else if (this.shouldFocusRangeStart()) {
-      this.startInput?.setFocus();
-    }
+    this.restoreInputFocus();
   };
+
+  private restoreInputFocus(): void {
+    if (!this.range) {
+      this.startInput.setFocus();
+      return;
+    }
+
+    const focusedInput = this.focusedInput === "start" ? this.startInput : this.endInput;
+    focusedInput.setFocus();
+  }
 
   private localizeInputValues(): void {
     const date = dateFromRange(

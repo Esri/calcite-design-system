@@ -12,7 +12,7 @@ import {
 import { html } from "../../../support/formatting";
 import { CSS } from "./resources";
 import { CSS as MONTH_HEADER_CSS } from "../date-picker-month-header/resources";
-import { skipAnimations } from "../../tests/utils";
+import { getFocusedElementProp, skipAnimations } from "../../tests/utils";
 const animationDurationInMs = 200;
 
 describe("calcite-input-date-picker", () => {
@@ -495,19 +495,7 @@ describe("calcite-input-date-picker", () => {
     await page.waitForChanges();
 
     await page.keyboard.press("Tab");
-    await page.waitForChanges();
-    await page.keyboard.press("ArrowDown");
-    await page.waitForChanges();
     await page.keyboard.press("Tab");
-    await page.waitForChanges();
-    await page.keyboard.press("Tab");
-    await page.waitForChanges();
-    await page.keyboard.press("Tab");
-    await page.waitForChanges();
-    await page.keyboard.press("Tab");
-    await page.waitForChanges();
-    await page.keyboard.press("Tab");
-    await page.waitForChanges();
     await datePickerEl.type("08/30/2022");
     await page.keyboard.press("Enter");
     await page.waitForChanges();
@@ -617,5 +605,157 @@ describe("calcite-input-date-picker", () => {
 
     expect(changeEvent).toHaveReceivedEventTimes(1);
     expect(await datepickerEl.getProperty("value")).toEqual(["2022-08-15", "2022-08-20"]);
+  });
+
+  it("should position on scroll when overlayPositioning is fixed", async () => {
+    const page = await newE2EPage();
+
+    await page.setContent(
+      html`<div id="scrollEl" style="max-height: 300px; height:300px; overflow: auto;">
+        <div style="height:100px"></div>
+        <calcite-input-date-picker open overlay-positioning="fixed"></calcite-input-date-picker>
+        <div style="height:400px"></div>
+      </div>`
+    );
+
+    await page.waitForChanges();
+
+    const scrollEl = await page.find("#scrollEl");
+
+    expect(await scrollEl.getProperty("scrollTop")).toBe(0);
+
+    const inputDatePicker = await page.find("calcite-input-date-picker");
+    const floatingEl = await page.find(`calcite-input-date-picker >>> .${CSS.menu}`);
+
+    expect(await inputDatePicker.isVisible()).toBe(true);
+    expect(await floatingEl.isVisible()).toBe(true);
+    expect((await floatingEl.getComputedStyle()).transform).toBe("matrix(1, 0, 0, 1, 8, 140)");
+
+    await page.$eval("#scrollEl", async (scrollEl: HTMLDivElement) => {
+      scrollEl.scrollTo({ top: 100 });
+    });
+
+    await page.waitForChanges();
+
+    expect(await inputDatePicker.isVisible()).toBe(true);
+    expect(await floatingEl.isVisible()).toBe(true);
+    expect((await floatingEl.getComputedStyle()).transform).toBe("matrix(1, 0, 0, 1, 8, 40)");
+  });
+
+  describe("focus trapping", () => {
+    it("traps focus only when open", async () => {
+      const page = await newE2EPage();
+      await page.setContent(
+        html` <calcite-input-date-picker></calcite-input-date-picker>
+          <div id="next-sibling" tabindex="0">next sibling</div>`
+      );
+
+      await page.keyboard.press("Tab");
+      expect(await getFocusedElementProp(page, "tagName")).toBe("CALCITE-INPUT-DATE-PICKER");
+
+      await page.keyboard.press("Tab");
+      expect(await getFocusedElementProp(page, "id")).toBe("next-sibling");
+
+      await page.keyboard.down("Shift");
+      await page.keyboard.press("Tab");
+      await page.keyboard.up("Shift");
+      expect(await getFocusedElementProp(page, "tagName")).toBe("CALCITE-INPUT-DATE-PICKER");
+      expect(await getFocusedElementProp(page, "tagName", { shadow: true })).toBe("CALCITE-INPUT");
+
+      const opening = page.waitForEvent("calciteInputDatePickerOpen");
+      await page.keyboard.press("ArrowDown");
+      await opening;
+      expect(await getFocusedElementProp(page, "tagName", { shadow: true })).toBe("CALCITE-DATE-PICKER");
+
+      await page.keyboard.down("Shift");
+      await page.keyboard.press("Tab");
+      await page.keyboard.up("Shift");
+      expect(await getFocusedElementProp(page, "tagName", { shadow: true })).toBe("CALCITE-DATE-PICKER");
+
+      await page.keyboard.press("Tab");
+      expect(await getFocusedElementProp(page, "tagName", { shadow: true })).toBe("CALCITE-DATE-PICKER");
+
+      const closing = page.waitForEvent("calciteInputDatePickerClose");
+      await page.keyboard.press("Escape");
+      await closing;
+      expect(await getFocusedElementProp(page, "tagName")).toBe("CALCITE-INPUT-DATE-PICKER");
+      expect(await getFocusedElementProp(page, "tagName", { shadow: true })).toBe("CALCITE-INPUT");
+
+      await page.keyboard.press("Tab");
+      expect(await getFocusedElementProp(page, "id")).toBe("next-sibling");
+    });
+
+    it("traps focus only when open (range)", async () => {
+      const page = await newE2EPage();
+      await page.setContent(
+        html`<calcite-input-date-picker range></calcite-input-date-picker>
+          <div id="next-sibling" tabindex="0">next sibling</div>`
+      );
+
+      await page.keyboard.press("Tab");
+      expect(await getFocusedElementProp(page, "tagName")).toBe("CALCITE-INPUT-DATE-PICKER");
+
+      await page.keyboard.press("Tab");
+      expect(await getFocusedElementProp(page, "tagName")).toBe("CALCITE-INPUT-DATE-PICKER");
+
+      await page.keyboard.press("Tab");
+      expect(await getFocusedElementProp(page, "id")).toBe("next-sibling");
+
+      await page.keyboard.down("Shift");
+      await page.keyboard.press("Tab");
+      await page.keyboard.up("Shift");
+      expect(await getFocusedElementProp(page, "tagName")).toBe("CALCITE-INPUT-DATE-PICKER");
+
+      await page.keyboard.down("Shift");
+      await page.keyboard.press("Tab");
+      await page.keyboard.up("Shift");
+      expect(await getFocusedElementProp(page, "tagName")).toBe("CALCITE-INPUT-DATE-PICKER");
+      expect(await getFocusedElementProp(page, "tagName", { shadow: true })).toBe("CALCITE-INPUT");
+
+      const startOpening = page.waitForEvent("calciteInputDatePickerOpen");
+      await page.keyboard.press("ArrowDown");
+      await startOpening;
+      expect(await getFocusedElementProp(page, "tagName", { shadow: true })).toBe("CALCITE-DATE-PICKER");
+
+      await page.keyboard.down("Shift");
+      await page.keyboard.press("Tab");
+      await page.keyboard.up("Shift");
+      expect(await getFocusedElementProp(page, "tagName", { shadow: true })).toBe("CALCITE-DATE-PICKER");
+
+      await page.keyboard.press("Tab");
+      expect(await getFocusedElementProp(page, "tagName", { shadow: true })).toBe("CALCITE-DATE-PICKER");
+
+      const startClosing = page.waitForEvent("calciteInputDatePickerClose");
+      await page.keyboard.press("Escape");
+      await startClosing;
+      expect(await getFocusedElementProp(page, "tagName")).toBe("CALCITE-INPUT-DATE-PICKER");
+      expect(await getFocusedElementProp(page, "tagName", { shadow: true })).toBe("CALCITE-INPUT");
+
+      await page.keyboard.press("Tab");
+      expect(await getFocusedElementProp(page, "tagName")).toBe("CALCITE-INPUT-DATE-PICKER");
+      expect(await getFocusedElementProp(page, "tagName", { shadow: true })).toBe("CALCITE-INPUT");
+
+      const endOpening = page.waitForEvent("calciteInputDatePickerOpen");
+      await page.keyboard.press("ArrowDown");
+      await endOpening;
+      expect(await getFocusedElementProp(page, "tagName", { shadow: true })).toBe("CALCITE-DATE-PICKER");
+
+      await page.keyboard.down("Shift");
+      await page.keyboard.press("Tab");
+      await page.keyboard.up("Shift");
+      expect(await getFocusedElementProp(page, "tagName", { shadow: true })).toBe("CALCITE-DATE-PICKER");
+
+      await page.keyboard.press("Tab");
+      expect(await getFocusedElementProp(page, "tagName", { shadow: true })).toBe("CALCITE-DATE-PICKER");
+
+      const endClosing = page.waitForEvent("calciteInputDatePickerClose");
+      await page.keyboard.press("Escape");
+      await endClosing;
+      expect(await getFocusedElementProp(page, "tagName")).toBe("CALCITE-INPUT-DATE-PICKER");
+      expect(await getFocusedElementProp(page, "tagName", { shadow: true })).toBe("CALCITE-INPUT");
+
+      await page.keyboard.press("Tab");
+      expect(await getFocusedElementProp(page, "id")).toBe("next-sibling");
+    });
   });
 });

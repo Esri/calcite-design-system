@@ -18,6 +18,7 @@ src\components\inline-editable\assets\inline-editable\t9n
 src\components\input-date-picker\assets\input-date-picker\t9n
 src\components\input-number\assets\input-number\t9n
 src\components\input-text\assets\input-text\t9n
+src\components\input-time-picker\assets\input-time-picker\t9n
 src\components\input\assets\input\t9n
 src\components\list-item\assets\list-item\t9n
 src\components\menu\assets\menu\t9n
