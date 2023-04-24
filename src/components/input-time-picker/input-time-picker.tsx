@@ -42,6 +42,8 @@ import { Scale } from "../interfaces";
 import { TimePickerMessages } from "../time-picker/assets/time-picker/t9n";
 import { connectMessages, disconnectMessages, setUpMessages, T9nComponent } from "../../utils/t9n";
 import { InputTimePickerMessages } from "./assets/input-time-picker/t9n";
+import { CSS } from "./resources";
+import { toAriaBoolean } from "../../utils/dom";
 
 @Component({
   tag: "calcite-input-time-picker",
@@ -189,15 +191,19 @@ export class InputTimePicker
   //
   //--------------------------------------------------------------------------
 
-  labelEl: HTMLCalciteLabelElement;
+  defaultValue: InputTimePicker["value"];
 
   formEl: HTMLFormElement;
 
-  defaultValue: InputTimePicker["value"];
+  labelEl: HTMLCalciteLabelElement;
+
+  popoverEl: HTMLCalcitePopoverElement;
 
   private calciteInputEl: HTMLCalciteInputElement;
 
   private calciteTimePickerEl: HTMLCalciteTimePickerElement;
+
+  private dialogId = `time-picker-dialog--${guid()}`;
 
   /** whether the value of the input was changed as a result of user typing or not */
   private internalValueChange = false;
@@ -205,8 +211,6 @@ export class InputTimePicker
   private previousValidValue: string = null;
 
   private referenceElementId = `input-time-picker-${guid()}`;
-
-  popoverEl: HTMLCalcitePopoverElement;
 
   //--------------------------------------------------------------------------
   //
@@ -307,6 +311,10 @@ export class InputTimePicker
     this.setInputValue(localizedValue);
   };
 
+  inputFocus = (): void => {
+    this.open = false;
+  };
+
   @Listen("click")
   clickHandler(event: MouseEvent): void {
     if (this.disabled || event.composedPath().includes(this.calciteTimePickerEl)) {
@@ -348,7 +356,6 @@ export class InputTimePicker
   @Method()
   async setFocus(): Promise<void> {
     await componentLoaded(this);
-
     this.el.focus();
   }
 
@@ -379,9 +386,10 @@ export class InputTimePicker
       if (submitForm(this)) {
         event.preventDefault();
       }
-    }
-
-    if (key === "Escape" && this.open) {
+    } else if (key === "ArrowDown") {
+      this.open = true;
+      event.preventDefault();
+    } else if (key === "Escape" && this.open) {
       this.open = false;
       event.preventDefault();
     }
@@ -469,6 +477,14 @@ export class InputTimePicker
     }
   };
 
+  private onInputWrapperClick = () => {
+    this.open = !this.open;
+  };
+
+  deactivate = (): void => {
+    this.open = false;
+  };
+
   //--------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -515,37 +531,45 @@ export class InputTimePicker
   // --------------------------------------------------------------------------
 
   render(): VNode {
-    const popoverId = `${this.referenceElementId}-popover`;
-    const { disabled, messages, readOnly } = this;
-
+    const { disabled, messages, readOnly, dialogId } = this;
     return (
-      <Host onKeyDown={this.keyDownHandler}>
+      <Host onBlur={this.deactivate} onKeyDown={this.keyDownHandler}>
         <div
-          aria-controls={popoverId}
+          aria-controls={dialogId}
           aria-haspopup="dialog"
           aria-label={this.name}
-          aria-owns={popoverId}
+          aria-owns={dialogId}
           id={this.referenceElementId}
           role="combobox"
         >
-          <calcite-input
-            disabled={disabled}
-            icon="clock"
-            label={getLabelText(this)}
-            onCalciteInputInput={this.calciteInputInputHandler}
-            onCalciteInternalInputBlur={this.calciteInternalInputBlurHandler}
-            onCalciteInternalInputFocus={this.calciteInternalInputFocusHandler}
-            readOnly={readOnly}
-            scale={this.scale}
-            step={this.step}
-            // eslint-disable-next-line react/jsx-sort-props
-            ref={this.setCalciteInputEl}
-          />
+          <div class="input-wrapper" onClick={this.onInputWrapperClick}>
+            <calcite-input
+              aria-autocomplete="none"
+              aria-controls={this.dialogId}
+              aria-expanded={toAriaBoolean(this.open)}
+              aria-haspopup="dialog"
+              disabled={disabled}
+              icon="clock"
+              label={getLabelText(this)}
+              onCalciteInputInput={this.calciteInputInputHandler}
+              onCalciteInternalInputBlur={this.calciteInternalInputBlurHandler}
+              onCalciteInternalInputFocus={this.calciteInternalInputFocusHandler}
+              onFocus={this.inputFocus}
+              readOnly={readOnly}
+              role="combobox"
+              scale={this.scale}
+              step={this.step}
+              // eslint-disable-next-line react/jsx-sort-props
+              ref={this.setCalciteInputEl}
+            />
+            {this.renderToggleIcon(this.open)}
+          </div>
         </div>
         <calcite-popover
           aria-label={messages.chooseTime}
+          aria-live="polite"
           focusTrapDisabled={true}
-          id={popoverId}
+          id={dialogId}
           label="Time Picker"
           open={this.open}
           overlayPositioning={this.overlayPositioning}
@@ -570,6 +594,14 @@ export class InputTimePicker
         </calcite-popover>
         <HiddenFormInputSlot component={this} />
       </Host>
+    );
+  }
+
+  renderToggleIcon(open: boolean): VNode {
+    return (
+      <span class={CSS.toggleIcon}>
+        <calcite-icon icon={open ? "chevron-up" : "chevron-down"} scale="s" />
+      </span>
     );
   }
 }
