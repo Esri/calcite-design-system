@@ -1,14 +1,15 @@
 // import { registerTransforms } from '@tokens-studio/sd-transforms';
 import * as StyleDictionary from 'style-dictionary';
-import { excludeParentKeys, registerTransforms } from '@tokens-studio/sd-transforms';
+import { registerTransforms } from '@tokens-studio/sd-transforms';
 import { expandComposites } from './parse/expandComposites';
 import { Theme } from './getThemes'
+import { formatJS } from './format/javascript'
+
 const defaultThemes: Theme[] = [{
   name: 'calcite-headless',
-  enabled: [
+  source: [
     "core",
     "semantic",
-    "component/avatar",
     "component/checkbox",
     "component/chip",
     "component/loader",
@@ -63,67 +64,50 @@ const defaultThemes: Theme[] = [{
     "component/tree-item",
     "component/tile"
   ],
-  source: [],
+  enabled: [
+    "component/avatar"
+  ],
   disabled: [],
 }];
 
-const matchConfigFiles = /\/\$[.\w]+$/;
 const matchExclusions = /(backup|\[|\])(?=\.\w+$)/
 const matchFiles = (filePath: string, matchList: string[]) => {
   return matchList.some((value) =>  filePath.includes(value) && !matchExclusions.test(filePath));
 }
 
-type TokenRef = {
-  path: string;
-  referencedBy: string[];
-}
-
 export const run = async (
-  include: string[] = [],
+  include: string[] = defaultThemes[0].source.map(tokenFile => `tokens/${tokenFile}.json`),
   source: string[] = defaultThemes[0].enabled.map(tokenFile => `tokens/${tokenFile}.json`),
   buildPath: string = 'build/css/',
   themes: Theme[] = defaultThemes
 ) => {
-  let referencedTokens: Record<string, string[]> = {};
 
   StyleDictionary.registerFormat({
     name: 'calcite/json',
-    formatter: (fileInfo) => {
-      const { dictionary, platform, options, file } = fileInfo;
-      return JSON.stringify(dictionary.tokens, null, 2);
-    }
+    formatter: formatJS
   });
 
   StyleDictionary.registerFilter({
     name: 'isSource',
-    matcher: (token) => token.isSource,
+    matcher: (token) => token.isSource || token.isEnabled,
   })
 
-  const regexMatchSDVariable = /\{[\w.-]+\}/g;
-  await registerTransforms(StyleDictionary, { expand: false });
   StyleDictionary.registerTransform({
-    name: 'calcite/ref-tokens',
+    name: 'calcite/setSource',
     type: 'attribute',
     matcher: (token) => {
-      return regexMatchSDVariable.test(token.original.value);
+      return (!token.isSource);
     },
     transformer: (token, options) => {
-      const tokenPath = token.path.join('.');
-      const matches = token.original.value.match(/\{[\w.-]+\}/g).map((match) => match.slice(1, -1));
-      // const matches = [...token.original.value.matchAll(regexMatchSDVariable)];
-      
-      matches.forEach((match) => {
-
-        if (referencedTokens[match]) {
-          referencedTokens[match].push(tokenPath)
-        } else {
-          referencedTokens[match] = [tokenPath]
-        }
-      });
-      token.attributes['hasReferences'] = matches;
+      if (options && options['enableIncludes']) {
+        token.isEnabled = true;
+      }
       return token;
     }
   })
+
+  // const regexMatchSDVariable = /\{[\w.-]+\}/g;
+  await registerTransforms(StyleDictionary, { expand: false });
 
   const _sd = StyleDictionary.extend({
     source,
@@ -132,7 +116,7 @@ export const run = async (
       css: {
         prefix: "calcite",
         transforms: [
-          'calcite/ref-tokens',
+          'calcite/setSource',
           'ts/descriptionToComment',
           'ts/size/px',
           'ts/opacity',
@@ -140,9 +124,6 @@ export const run = async (
           'ts/type/fontWeight',
           'ts/resolveMath',
           'ts/size/css/letterspacing',
-          // 'ts/typography/css/shorthand',
-          // 'ts/border/css/shorthand',
-          // 'ts/shadow/css/shorthand',
           'ts/color/css/hexrgba',
           'ts/color/modifiers',
           'name/cti/kebab',
@@ -155,6 +136,7 @@ export const run = async (
             source,
             disabled,
             outputReferences: true,
+            enableIncludes: true,
           };
 
           acc.push({
