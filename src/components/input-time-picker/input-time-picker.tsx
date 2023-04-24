@@ -58,6 +58,8 @@ dayjs.extend(updateLocale);
 // This dayjs global is needed by the lazy-loaded locale files
 (window as any).dayjs = dayjs;
 
+type SetValueOrigin = "input" | "time-picker" | "external" | "loading";
+
 @Component({
   tag: "calcite-input-time-picker",
   styleUrl: "input-time-picker.scss",
@@ -262,12 +264,17 @@ export class InputTimePicker
 
     const delocalizedValue = this.delocalizeTimeString(calciteInputEl.value);
 
+    if (delocalizedValue !== this.value) {
+      this.commitValue("input");
+    }
+
     const localizedInputValue = localizeTimeString({
       value: delocalizedValue,
       includeSeconds: shouldIncludeSeconds,
       locale,
       numberingSystem
     });
+
     this.setInputValue(
       localizedInputValue ||
         localizeTimeString({ value, locale, numberingSystem, includeSeconds: shouldIncludeSeconds })
@@ -326,9 +333,6 @@ export class InputTimePicker
     const target = event.target as HTMLCalciteTimePickerElement;
     const value = target.value;
     this.setValue({ value, origin: "time-picker" });
-
-    const parsedResult = this.delocalizeTimeString(this.calciteInputEl.value);
-    console.log("source:", this.calciteInputEl.value, "parsed:", parsedResult);
   };
 
   @Listen("calciteInternalTimePickerFocus")
@@ -369,6 +373,21 @@ export class InputTimePicker
   //  Private Methods
   //
   // --------------------------------------------------------------------------
+
+  private commitValue(origin: SetValueOrigin): void {
+    const delocalizedTimeString =
+      origin === "time-picker"
+        ? this.calciteTimePickerEl.value
+        : this.delocalizeTimeString(this.calciteInputEl.value);
+
+    if (!delocalizedTimeString) {
+      return;
+    }
+    if (delocalizedTimeString === this.value) {
+      return;
+    }
+    this.setValue({ value: delocalizedTimeString });
+  }
 
   private delocalizeTimeString(value: string): string {
     const locale = this.effectiveLocale.toLowerCase();
@@ -483,6 +502,9 @@ export class InputTimePicker
     }
 
     if (key === "Enter") {
+      this.commitValue(
+        event.composedPath().includes(this.calciteTimePickerEl) ? "time-picker" : "input"
+      );
       if (submitForm(this)) {
         event.preventDefault();
       }
@@ -495,6 +517,9 @@ export class InputTimePicker
   };
 
   private async loadLocaleDefinition(): Promise<void> {
+    if (this.effectiveLocale === "en" || this.effectiveLocale === "en-US") {
+      return;
+    }
     await import(
       getAssetPath(`assets/nls/dayjs/input-time-picker/${this.effectiveLocale.toLowerCase()}.js`)
     );
@@ -532,7 +557,7 @@ export class InputTimePicker
     origin = "input"
   }: {
     value: string;
-    origin?: "input" | "time-picker" | "external" | "loading";
+    origin?: SetValueOrigin;
   }): void => {
     const previousValue = this.value;
     const newValue = formatTimeString(value);
