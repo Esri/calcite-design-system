@@ -6,6 +6,7 @@
     "component/accordion",
     "component/action",
     "component/button",
+    "component/split-button",
     "component/fab",
     "component/checkbox",
     "component/chip",
