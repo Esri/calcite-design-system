@@ -372,6 +372,11 @@
     </calcite-shell>
     <calcite-shell>
       <calcite-nav slot="header" style="--calcite-ui-brand: #bf390f">
+        <calcite-nav-logo active text-enabled sub-text="Eastern Potato Chip Company" slot="logo"> </calcite-nav-logo>
+      </calcite-nav>
+    </calcite-shell>
+    <calcite-shell>
+      <calcite-nav slot="header" style="--calcite-ui-brand: #bf390f">
         <calcite-nav-logo
           active
           text-enabled
@@ -702,18 +707,18 @@
     </div>
     <style>
       .example-theming-tiers {
-        --calcite-nav-primary-background: red;
-        --calcite-nav-primary-border-color: darkred;
-        --calcite-nav-secondary-background: green;
-        --calcite-nav-secondary-border-color: darkgreen;
-        --calcite-nav-tertiary-background: blue;
-        --calcite-nav-tertiary-border-color: darkblue;
+        --calcite-nav-primary-background: #130d4e;
+        --calcite-nav-primary-border-color: #130d4e;
+        --calcite-nav-secondary-background: #2d2670;
+        --calcite-nav-secondary-border-color: #241e59;
+        --calcite-nav-tertiary-background: #e8f2ff;
+        --calcite-nav-tertiary-border-color: #cfd9ff;
       }
 
       .example-theming-tiers calcite-action {
-        --calcite-ui-foreground-1: red;
-        --calcite-ui-foreground-2: darkred;
-        --calcite-ui-foreground-3: red;
+        --calcite-ui-foreground-1: #130d4e;
+        --calcite-ui-foreground-2: #1b1270;
+        --calcite-ui-foreground-3: #1b1270;
         --calcite-ui-text-1: white;
         --calcite-ui-text-2: white;
         --calcite-ui-text-3: white;
@@ -721,9 +726,9 @@
       }
 
       .example-theming-tiers calcite-nav-logo {
-        --calcite-ui-foreground-1: red;
-        --calcite-ui-foreground-2: darkred;
-        --calcite-ui-foreground-3: red;
+        --calcite-ui-foreground-1: #130d4e;
+        --calcite-ui-foreground-2: #1b1270;
+        --calcite-ui-foreground-3: #1b1270;
         --calcite-ui-text-1: white;
         --calcite-ui-text-2: white;
         --calcite-ui-text-3: white;
@@ -731,9 +736,9 @@
       }
 
       .example-theming-tiers calcite-nav-user {
-        --calcite-ui-foreground-1: red;
-        --calcite-ui-foreground-2: darkred;
-        --calcite-ui-foreground-3: red;
+        --calcite-ui-foreground-1: #130d4e;
+        --calcite-ui-foreground-2: #1b1270;
+        --calcite-ui-foreground-3: #1b1270;
         --calcite-ui-text-1: white;
         --calcite-ui-text-2: white;
         --calcite-ui-text-3: white;
@@ -741,9 +746,9 @@
       }
 
       calcite-menu.example-primary-theming {
-        --calcite-ui-foreground-1: red;
-        --calcite-ui-foreground-2: darkred;
-        --calcite-ui-foreground-3: red;
+        --calcite-ui-foreground-1: #130d4e;
+        --calcite-ui-foreground-2: #1b1270;
+        --calcite-ui-foreground-3: #1b1270;
         --calcite-ui-text-1: white;
         --calcite-ui-text-2: white;
         --calcite-ui-text-3: white;
@@ -751,9 +756,9 @@
       }
 
       calcite-menu.example-secondary-theming {
-        --calcite-ui-foreground-1: green;
-        --calcite-ui-foreground-2: darkgreen;
-        --calcite-ui-foreground-3: red;
+        --calcite-ui-foreground-1: #2d2670;
+        --calcite-ui-foreground-2: #47338c;
+        --calcite-ui-foreground-3: #2a208c;
         --calcite-ui-text-1: white;
         --calcite-ui-text-2: white;
         --calcite-ui-text-3: white;
@@ -761,16 +766,15 @@
       }
 
       calcite-menu.example-tertiary-theming {
-        --calcite-ui-foreground-1: blue;
-        --calcite-ui-foreground-2: darkblue;
-        --calcite-ui-foreground-3: red;
-        --calcite-ui-text-1: white;
-        --calcite-ui-text-2: white;
-        --calcite-ui-text-3: white;
-        --calcite-ui-icon-color: white;
+        --calcite-ui-foreground-1: #e8f2ff;
+        --calcite-ui-foreground-2: #cfd9ff;
+        --calcite-ui-foreground-3: #a0a8c6;
+        --calcite-ui-text-1: #555;
+        --calcite-ui-text-2: #333;
+        --calcite-ui-text-3: #222;
       }
     </style>
-    <calcite-shell>
+    <calcite-shell class="calcite-mode-dark">
       <calcite-nav class="example-theming-tiers" slot="header" style="--calcite-ui-brand: #974dff">
         <calcite-nav-logo
           text-enabled
@@ -793,10 +797,13 @@
           <calcite-menu-item active text="Notice"></calcite-menu-item>
         </calcite-menu>
         <calcite-menu slot="tertiary-content-start" class="example-tertiary-theming">
+          <calcite-menu-item text="Something"></calcite-menu-item>
+        </calcite-menu>
+        <calcite-menu slot="tertiary-content-end" class="example-tertiary-theming">
           <calcite-menu-item breadcrumb text="Documentation"></calcite-menu-item>
           <calcite-menu-item breadcrumb text="Calcite Design System"></calcite-menu-item>
-          <calcite-menu-item breadcrumb text="Components"></calcite-menu-item>
-          <calcite-menu-item active text="Notice"></calcite-menu-item>
+          <calcite-menu-item breadcrumb text="Something"></calcite-menu-item>
+          <calcite-menu-item active text="Another item"></calcite-menu-item>
         </calcite-menu>
         <calcite-action slot="primary-content-end" icon="search" scale="l" text="Search"></calcite-action>
         <calcite-action
