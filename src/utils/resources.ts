@@ -1,33 +1,33 @@
-import { ModeClass, ModeName } from "../components/interfaces";
+import { ThemeClass, ThemeName } from "../components/interfaces";
 
-export const autoMode = "calcite-mode-auto";
-export const darkMode = "calcite-mode-dark";
-const lightMode = "calcite-mode-light";
+export const autoTheme = "calcite-theme-auto";
+export const darkTheme = "calcite-theme-dark";
+const lightTheme = "calcite-theme-light";
 
-interface Mode {
-  name: ModeName;
-  className: ModeClass;
+interface Theme {
+  name: ThemeName;
+  className: ThemeClass;
 }
 
-export const MODES: Mode[] = [
+export const THEMES: Theme[] = [
   {
     name: "light",
-    className: lightMode
+    className: lightTheme
   },
   {
     name: "dark",
-    className: darkMode
+    className: darkTheme
   },
   {
     name: "auto",
-    className: autoMode
+    className: autoTheme
   }
 ];
 
 export const CSS_UTILITY = {
-  autoMode,
-  darkMode,
-  lightMode,
+  autoTheme,
+  darkTheme,
+  lightTheme,
   rtl: "calcite--rtl"
 };
 

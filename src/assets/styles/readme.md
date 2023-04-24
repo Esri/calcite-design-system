@@ -6,7 +6,7 @@ When building any component in calcite-components or [calcite-components](https:
 
 ### Color
 
-[`colors.scss`](https://github.com/Esri/calcite-colors/blob/master/dist/colors.scss): you'll find the global CSS variables for both light and dark mode.
+[`colors.scss`](https://github.com/Esri/calcite-colors/blob/master/dist/colors.scss): you'll find the global CSS variables for both light and dark theme.
 
 ## From [calcite-base](https://github.com/esri/calcite-base)
 

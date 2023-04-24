@@ -1,33 +1,33 @@
 import {
   Component,
   Element,
-  Event,
-  EventEmitter,
   h,
-  Listen,
-  Method,
-  Prop,
-  State,
   VNode,
-  Watch
+  Prop,
+  Method,
+  Listen,
+  Watch,
+  State,
+  Event,
+  EventEmitter
 } from "@stencil/core";
-import { debounce } from "lodash-es";
-import { toAriaBoolean } from "../../utils/dom";
+import { CSS, debounceTimeout, SelectionAppearance, SelectionMode } from "./resources";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+
 import { createObserver } from "../../utils/observers";
-import { SelectionMode } from "../interfaces";
+import { getListItemChildren, updateListItemChildren } from "../list-item/utils";
+import { toAriaBoolean } from "../../utils/dom";
+import { debounce } from "lodash-es";
 import { ItemData } from "../list-item/interfaces";
 import { MAX_COLUMNS } from "../list-item/resources";
-import { getListItemChildren, updateListItemChildren } from "../list-item/utils";
-import { CSS, debounceTimeout, SelectionAppearance } from "./resources";
 
 const listItemSelector = "calcite-list-item";
 
 import {
-  componentLoaded,
-  LoadableComponent,
+  setUpLoadableComponent,
   setComponentLoaded,
-  setUpLoadableComponent
+  LoadableComponent,
+  componentLoaded
 } from "../../utils/loadable";
 
 /**
@@ -104,7 +104,7 @@ export class List implements InteractiveComponent, LoadableComponent {
   @Prop() openable = false;
 
   /**
-   * The currently selected items.
+   * **read-only** The currently selected items
    *
    * @readonly
    */
@@ -113,8 +113,7 @@ export class List implements InteractiveComponent, LoadableComponent {
   /**
    * Specifies the selection mode - `"multiple"` (allow any number of selected items), `"single"` (allows and require one selected item), `"none"` (no selected items).
    */
-  @Prop({ reflect: true }) selectionMode: Extract<"none" | "multiple" | "single", SelectionMode> =
-    "none";
+  @Prop({ reflect: true }) selectionMode: SelectionMode = "none";
 
   /**
    * Specifies the selection appearance - `"icon"` (displays a checkmark or dot) or `"border"` (displays a border).
@@ -235,7 +234,7 @@ export class List implements InteractiveComponent, LoadableComponent {
   //
   // --------------------------------------------------------------------------
 
-  /** Sets focus on the component's first focusable element. */
+  /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
     await componentLoaded(this);

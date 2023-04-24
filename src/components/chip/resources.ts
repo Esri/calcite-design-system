@@ -3,10 +3,7 @@ export const CSS = {
   close: "close",
   imageContainer: "image-container",
   chipIcon: "chip-icon",
-  closeIcon: "close-icon",
-  contentSlotted: "content--slotted",
-  container: "container",
-  imageSlotted: "image--slotted"
+  closeIcon: "close-icon"
 };
 
 export const SLOTS = {

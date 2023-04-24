@@ -184,11 +184,7 @@ export async function hidden(componentTagOrHTML: TagOrHTML): Promise<void> {
 }
 
 interface FocusableOptions {
-  /**
-   * use this to pass an ID to setFocus()
-   *
-   * @deprecated components should no longer use a focusId parameter for setFocus()
-   */
+  /** use this to pass an ID to setFocus() */
   focusId?: string;
 
   /**
@@ -917,12 +913,19 @@ export async function floatingUIOwner(
  * Helper to test t9n component setup
  *
  * @param {TagOrHTML|TagAndPage} componentSetup - A component tag, html, or an object with e2e page and tag for setting up a test
+ * @param intlProps
+ * @param additionalMessages
  */
-export async function t9n(componentSetup: TagOrHTML | TagAndPage): Promise<void> {
+export async function t9n(
+  componentSetup: TagOrHTML | TagAndPage,
+  intlProps = true,
+  additionalMessages?: string[]
+): Promise<void> {
   const { page, tag } = await getTagAndPage(componentSetup);
   const component = await page.find(tag);
 
   await assertDefaultMessages();
+  intlProps ? await assertIntlPropAsOverrides() : await assertAdditionalMessagesAsOverrides();
 
   await assertOverrides();
   await assertLangSwitch();
@@ -933,6 +936,33 @@ export async function t9n(componentSetup: TagOrHTML | TagAndPage): Promise<void>
 
   async function assertDefaultMessages(): Promise<void> {
     expect(await getCurrentMessages()).toBeDefined();
+  }
+
+  async function assertIntlPropAsOverrides(): Promise<void> {
+    const intlProps = await page.$eval(tag, (component: HTMLElement) =>
+      Object.keys(component.constructor.prototype).filter((prop) => prop.startsWith("intl"))
+    );
+
+    if (intlProps.length > 0) {
+      const props: Partial<MessageBundle> = {};
+
+      for (const prop of intlProps) {
+        const index = intlProps.indexOf(prop);
+        const mappedPropName = prop.replace("intl", "");
+        props[mappedPropName[0].toLowerCase() + mappedPropName.slice(1)] = `${index}`;
+
+        component.setProperty(prop, `${index}`);
+        await page.waitForChanges();
+      }
+
+      expect(props).toEqual(await getCurrentMessages());
+
+      // reset test changes
+      for (const prop of intlProps) {
+        component.setProperty(prop, undefined);
+        await page.waitForChanges();
+      }
+    }
   }
 
   async function assertOverrides(): Promise<void> {
@@ -987,5 +1017,26 @@ export async function t9n(componentSetup: TagOrHTML | TagAndPage): Promise<void>
     // reset test changes
     component.removeAttribute("lang");
     await page.waitForChanges();
+  }
+
+  // util method for components which do not follow `intl` pattern of defining messages.
+  async function assertAdditionalMessagesAsOverrides(): Promise<void> {
+    if (additionalMessages.length > 0) {
+      const props: Partial<MessageBundle> = {};
+
+      for (const prop of additionalMessages) {
+        const index = `${additionalMessages.indexOf(prop)}`;
+        props[prop] = index;
+        component.setProperty(prop, index);
+        await page.waitForChanges();
+      }
+      expect(props).toEqual(await getCurrentMessages());
+
+      // reset test changes
+      for (const prop of additionalMessages) {
+        component.setProperty(prop, undefined);
+        await page.waitForChanges();
+      }
+    }
   }
 }

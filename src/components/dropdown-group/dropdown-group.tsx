@@ -10,18 +10,17 @@ import {
   VNode
 } from "@stencil/core";
 import { getElementProp } from "../../utils/dom";
-import { Scale, SelectionMode } from "../interfaces";
-import { RequestedItem } from "./interfaces";
+import { RequestedItem, SelectionMode } from "./interfaces";
+import { Scale } from "../interfaces";
 import { CSS } from "./resources";
+
 /**
  * @slot - A slot for adding `calcite-dropdown-item`s.
  */
 @Component({
   tag: "calcite-dropdown-group",
   styleUrl: "dropdown-group.scss",
-  shadow: {
-    delegatesFocus: true
-  }
+  shadow: true
 })
 export class DropdownGroup {
   //--------------------------------------------------------------------------
@@ -42,12 +41,11 @@ export class DropdownGroup {
 
   /**
    * Specifies the component's selection mode, where
-   * `"multiple"` allows any number of (or no) selected `calcite-dropdown-item`s,
+   * `"multi"` allows any number of (or no) selected `calcite-dropdown-item`s,
    * `"single"` allows and requires one selected `calcite-dropdown-item`, and
    * `"none"` does not allow selection on `calcite-dropdown-item`s.
    */
-  @Prop({ reflect: true }) selectionMode: Extract<"single" | "none" | "multiple", SelectionMode> =
-    "single";
+  @Prop({ reflect: true }) selectionMode: SelectionMode = "single";
 
   /**
    * Specifies the size of the component.

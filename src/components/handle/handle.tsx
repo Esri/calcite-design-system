@@ -1,13 +1,13 @@
-import { Component, Element, Event, EventEmitter, h, Method, Prop, VNode } from "@stencil/core";
+import { Component, Element, Event, EventEmitter, Method, Prop, h, VNode } from "@stencil/core";
 import { toAriaBoolean } from "../../utils/dom";
+import { CSS, ICONS } from "./resources";
 import {
-  componentLoaded,
-  LoadableComponent,
+  setUpLoadableComponent,
   setComponentLoaded,
-  setUpLoadableComponent
+  LoadableComponent,
+  componentLoaded
 } from "../../utils/loadable";
 import { HandleNudge } from "./interfaces";
-import { CSS, ICONS } from "./resources";
 
 @Component({
   tag: "calcite-handle",

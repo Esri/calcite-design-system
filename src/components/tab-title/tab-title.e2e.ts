@@ -1,11 +1,8 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { disabled, HYDRATED_ATTR, renders, hidden } from "../../tests/commonTests";
-import { CSS } from "./resources";
 
 describe("calcite-tab-title", () => {
   const tabTitleHtml = "<calcite-tab-title></calcite-tab-title>";
-  const iconStartHtml = `calcite-tab-title >>> .${CSS.titleIcon}.${CSS.iconStart}`;
-  const iconEndHtml = `calcite-tab-title >>> .${CSS.titleIcon}.${CSS.iconEnd}`;
 
   it("renders", async () => renders(tabTitleHtml, { display: "block" }));
 
@@ -17,8 +14,8 @@ describe("calcite-tab-title", () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-tab-title icon-start='plus'>Text</calcite-tab-title>`);
     const element = await page.find("calcite-tab-title");
-    const iconStart = await page.find(iconStartHtml);
-    const iconEnd = await page.find(iconEndHtml);
+    const iconStart = await page.find("calcite-tab-title >>> .calcite-tab-title--icon.icon-start");
+    const iconEnd = await page.find("calcite-tab-title >>> .calcite-tab-title--icon.icon-end");
     expect(element).toHaveAttribute(HYDRATED_ATTR);
     expect(iconStart).not.toBeNull();
     expect(iconEnd).toBeNull();
@@ -28,8 +25,8 @@ describe("calcite-tab-title", () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-tab-title icon-end='plus'>Text</calcite-tab-title>`);
     const element = await page.find("calcite-tab-title");
-    const iconStart = await page.find(iconStartHtml);
-    const iconEnd = await page.find(iconEndHtml);
+    const iconStart = await page.find("calcite-tab-title >>> .calcite-tab-title--icon.icon-start");
+    const iconEnd = await page.find("calcite-tab-title >>> .calcite-tab-title--icon.icon-end");
     expect(element).toHaveAttribute(HYDRATED_ATTR);
     expect(iconStart).toBeNull();
     expect(iconEnd).not.toBeNull();
@@ -39,8 +36,8 @@ describe("calcite-tab-title", () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-tab-title icon-start='plus' icon-end='plus'>Text</calcite-tab-title>`);
     const element = await page.find("calcite-tab-title");
-    const iconStart = await page.find(iconStartHtml);
-    const iconEnd = await page.find(iconEndHtml);
+    const iconStart = await page.find("calcite-tab-title >>> .calcite-tab-title--icon.icon-start");
+    const iconEnd = await page.find("calcite-tab-title >>> .calcite-tab-title--icon.icon-end");
     expect(element).toHaveAttribute(HYDRATED_ATTR);
     expect(iconStart).not.toBeNull();
     expect(iconEnd).not.toBeNull();

@@ -3,24 +3,25 @@ import {
   Element,
   Event,
   EventEmitter,
-  h,
   Host,
+  Method,
   Prop,
-  VNode,
-  Watch
+  h,
+  Watch,
+  VNode
 } from "@stencil/core";
-import {
-  ConditionalSlotComponent,
-  connectConditionalSlotComponent,
-  disconnectConditionalSlotComponent
-} from "../../utils/conditionalSlot";
 import { getElementProp, getSlotted } from "../../utils/dom";
+import { CSS } from "./resources";
 import { guid } from "../../utils/guid";
-import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import { ComboboxChildElement } from "../combobox/interfaces";
 import { getAncestors, getDepth } from "../combobox/utils";
-import { Scale } from "../interfaces";
-import { CSS } from "./resources";
+import { DeprecatedEventPayload, Scale } from "../interfaces";
+import {
+  connectConditionalSlotComponent,
+  disconnectConditionalSlotComponent,
+  ConditionalSlotComponent
+} from "../../utils/conditionalSlot";
+import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 
 /**
  * @slot - A slot for adding nested `calcite-combobox-item`s.
@@ -57,12 +58,9 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
   /** Specifies an icon to display. */
   @Prop({ reflect: true }) icon: string;
 
-  /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
-  @Prop({ reflect: true }) iconFlipRtl = false;
-
   @Watch("selected")
   selectedWatchHandler(): void {
-    this.calciteComboboxItemChange.emit();
+    this.calciteComboboxItemChange.emit(this.el);
   }
 
   /** The component's text. */
@@ -86,7 +84,6 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
 
   isNested: boolean;
 
-  /** Specifies the scale of the combobox-item controlled by parent, defaults to m */
   scale: Scale = "m";
 
   // --------------------------------------------------------------------------
@@ -118,21 +115,35 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
   /**
    * Emits whenever the component is selected or unselected.
    *
+   * **Note:**: The event's payload is deprecated, please use the event's `target`/`currentTarget` instead
    */
-  @Event({ cancelable: false }) calciteComboboxItemChange: EventEmitter<void>;
+  @Event({ cancelable: false }) calciteComboboxItemChange: EventEmitter<DeprecatedEventPayload>;
+
+  // --------------------------------------------------------------------------
+  //
+  //  Public Methods
+  //
+  // --------------------------------------------------------------------------
+
+  /**
+   * Used to toggle the selection state. By default this won't trigger an event.
+   * The first argument allows the value to be coerced, rather than swapping values.
+   *
+   * @param coerce
+   */
+  @Method()
+  async toggleSelected(coerce?: boolean): Promise<void> {
+    if (this.disabled) {
+      return;
+    }
+    this.selected = typeof coerce === "boolean" ? coerce : !this.selected;
+  }
 
   // --------------------------------------------------------------------------
   //
   //  Private Methods
   //
   // --------------------------------------------------------------------------
-
-  toggleSelected(coerce?: boolean): Promise<void> {
-    if (this.disabled) {
-      return;
-    }
-    this.selected = typeof coerce === "boolean" ? coerce : !this.selected;
-  }
 
   itemClickHandler = (event: MouseEvent): void => {
     event.preventDefault();
@@ -146,7 +157,7 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
   // --------------------------------------------------------------------------
 
   renderIcon(isSingle: boolean): VNode {
-    const { icon, disabled, selected, iconFlipRtl } = this;
+    const { icon, disabled, selected } = this;
     const level = `${CSS.icon}--indent`;
     const defaultIcon = isSingle ? "dot" : "check";
     const iconPath = disabled ? "circle-disallowed" : defaultIcon;
@@ -167,9 +178,8 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
           [CSS.iconActive]: icon && selected,
           [level]: true
         }}
-        flipRtl={iconFlipRtl}
         icon={icon || iconPath}
-        scale={this.scale === "l" ? "m" : "s"}
+        scale="s"
       />
     );
   }
@@ -187,7 +197,7 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
   }
 
   render(): VNode {
-    const isSingleSelect = getElementProp(this.el, "selection-mode", "multiple") === "single";
+    const isSingleSelect = getElementProp(this.el, "selection-mode", "multi") === "single";
     const classes = {
       [CSS.label]: true,
       [CSS.selected]: this.selected,

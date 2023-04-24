@@ -1,5 +1,5 @@
 import { boolean, select, text } from "@storybook/addon-knobs";
-import { modesDarkDefault } from "../../../.storybook/utils";
+import { themesDarkDefault } from "../../../.storybook/utils";
 import readme from "./readme.md";
 import { html } from "../../../support/formatting";
 import { locales } from "../../utils/locale";
@@ -31,6 +31,8 @@ export const range = (): string => html`
   <div style="width: 400px">
     <calcite-input-date-picker
       scale="${select("scale", ["s", "m", "l"], "m")}"
+      start="${text("start", "2020-12-12")}"
+      end="${text("end", "2020-12-16")}"
       min="${text("min", "2016-08-09")}"
       max="${text("max", "2023-12-18")}"
       lang="${select("locale", locales, "en")}"
@@ -64,29 +66,22 @@ export const flipPlacements_TestOnly = (): string => html`
   </script>
 `;
 
-export const laoNumberingSystemAndMediumIconForLargeInput_TestOnly = (): string => html`
+export const laoNumberingSystem_TestOnly = (): string => html`
   <div style="width: 400px">
     <calcite-input-date-picker
-      open
       value="1/1/1"
       lang="zh-CN"
       numbering-system="laoo"
-      scale="l"
-      start="2020-12-12"
-      end="2020-12-16"
-      range=""
-      layout="horizontal"
-    ></calcite-input-date-picker>
-  </div>
-`;
+    ></calcite-input-date-picker
+  </div>`;
 
-export const darkModeRTL_TestOnly = (): string => html`
+export const darkThemeRTL_TestOnly = (): string => html`
   <div style="width: 400px">
     <calcite-input-date-picker
-      class="calcite-mode-dark"
+      class="calcite-theme-dark"
       dir="rtl"
       value="2020-12-12"
     ></calcite-input-date-picker
   </div>
 `;
-darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
+darkThemeRTL_TestOnly.parameters = { themes: themesDarkDefault };

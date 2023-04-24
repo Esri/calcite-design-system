@@ -1,8 +1,8 @@
 import { E2EElement, E2EPage, newE2EPage } from "@stencil/core/testing";
+import { renders, accessible, HYDRATED_ATTR, hidden, t9n } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
-import { accessible, hidden, HYDRATED_ATTR, renders, t9n } from "../../tests/commonTests";
-import { getElementXY } from "../../tests/utils";
 import { CSS, DURATIONS } from "./resources";
+import { getElementXY } from "../../tests/utils";
 
 describe("calcite-alert", () => {
   const alertContent = `
@@ -38,7 +38,7 @@ describe("calcite-alert", () => {
     const element = await page.find("calcite-alert");
     const close = await page.find("calcite-alert >>> .alert-close");
     const icon = await page.find("calcite-alert >>> .alert-icon");
-    expect(element).toEqualAttribute("kind", "brand");
+    expect(element).toEqualAttribute("color", "blue");
     expect(close).not.toBeNull();
     expect(icon).toBeNull();
   });
@@ -46,14 +46,14 @@ describe("calcite-alert", () => {
   it("renders requested props when valid props are provided", async () => {
     const page = await newE2EPage();
     await page.setContent(`
-    <calcite-alert kind="warning" auto-close-duration="fast" auto-close>
+    <calcite-alert color="yellow" auto-close-duration="fast" auto-close>
     ${alertContent}
     </calcite-alert>`);
 
     const element = await page.find("calcite-alert");
     const icon = await page.find("calcite-alert >>> .alert-icon");
 
-    expect(element).toEqualAttribute("kind", "warning");
+    expect(element).toEqualAttribute("color", "yellow");
     expect(element).toEqualAttribute("auto-close-duration", "fast");
     expect(icon).toBeNull();
   });
@@ -80,7 +80,7 @@ describe("calcite-alert", () => {
         <calcite-button id="button-2" onclick="document.querySelector('#alert-2').setAttribute('open', '')"
           >open alert-1</calcite-button
         >
-        <calcite-alert label="this is a success" id="alert-2" scale="s" kind="success" auto-close icon>
+        <calcite-alert label="this is a success" id="alert-2" scale="s" color="green" auto-close icon>
           <div slot="title">Hello there!</div>
           <div slot="message">Get success!</div>
           <calcite-link slot="link" title="my action"> Do thing </calcite-link>
@@ -194,13 +194,13 @@ describe("calcite-alert", () => {
     expect(container).toHaveClass("top-end");
   });
 
-  describe("CSS properties for light/dark modes", () => {
+  describe("CSS properties for light/dark themes", () => {
     const alertSnippet = `
       <calcite-alert
         icon="i2DExplore"
         auto-close
         auto-close-duration="slow"
-        kind="danger"
+        color="red"
         open
       >
         <div slot="message">
@@ -231,8 +231,8 @@ describe("calcite-alert", () => {
       expect(progressBarStyles).toEqual("white");
     });
 
-    describe("when mode attribute is not provided", () => {
-      it("should render alert dismiss progress bar with default value tied to light mode", async () => {
+    describe("when theme attribute is not provided", () => {
+      it("should render alert dismiss progress bar with default value tied to light theme", async () => {
         page = await newE2EPage({ html: alertSnippet });
         await page.waitForTimeout(animationDurationInMs);
         alertDismissProgressBar = await page.find("calcite-alert[open] >>> .alert-dismiss-progress");
@@ -241,10 +241,10 @@ describe("calcite-alert", () => {
       });
     });
 
-    describe("when mode attribute is dark", () => {
-      it("should render alert dismiss progress bar with value tied to dark mode", async () => {
+    describe("when theme attribute is dark", () => {
+      it("should render alert dismiss progress bar with value tied to dark theme", async () => {
         page = await newE2EPage({
-          html: `<div class="calcite-mode-dark">${alertSnippet}</div>`
+          html: `<div class="calcite-theme-dark">${alertSnippet}</div>`
         });
         await page.waitForTimeout(animationDurationInMs);
         alertDismissProgressBar = await page.find("calcite-alert[open] >>> .alert-dismiss-progress");
@@ -379,7 +379,7 @@ describe("calcite-alert", () => {
           <calcite-button id="button" onclick="document.querySelector('#alert').setAttribute('open', '')"
             >open alert</calcite-button
           >
-          <calcite-alert label="this is a success" id="alert" auto-close icon kind="success">
+          <calcite-alert label="this is a success" id="alert" auto-close icon color="green">
             ${alertContent}</calcite-alert
           >
         </div>

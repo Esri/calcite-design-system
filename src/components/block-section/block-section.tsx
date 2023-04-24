@@ -3,18 +3,20 @@ import {
   Element,
   Event,
   EventEmitter,
-  h,
-  Host,
   Prop,
-  State,
+  h,
   VNode,
-  Watch
+  Host,
+  Watch,
+  State
 } from "@stencil/core";
 
 import { getElementDir, toAriaBoolean } from "../../utils/dom";
+import { CSS, ICONS } from "./resources";
+import { BlockSectionToggleDisplay } from "./interfaces";
+import { Status } from "../interfaces";
 import { guid } from "../../utils/guid";
 import { isActivationKey } from "../../utils/key";
-import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 import {
   connectMessages,
   disconnectMessages,
@@ -22,13 +24,11 @@ import {
   T9nComponent,
   updateMessages
 } from "../../utils/t9n";
-import { Status } from "../interfaces";
-import { BlockSectionMessages } from "./assets/block-section/t9n";
-import { BlockSectionToggleDisplay } from "./interfaces";
-import { CSS, ICONS } from "./resources";
+import { Messages } from "./assets/block-section/t9n";
+import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 
 /**
- * @slot - A slot for adding custom content.
+ * @slot - A slot for adding content to the component.
  */
 @Component({
   tag: "calcite-block-section",
@@ -72,12 +72,12 @@ export class BlockSection implements LocalizedComponent, T9nComponent {
    *
    * @internal
    */
-  @Prop({ mutable: true }) messages: BlockSectionMessages;
+  @Prop({ mutable: true }) messages: Messages;
 
   /**
    * Use this property to override individual strings used by the component.
    */
-  @Prop({ mutable: true }) messageOverrides: Partial<BlockSectionMessages>;
+  @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
 
   @Watch("messageOverrides")
   onMessagesChange(): void {
@@ -101,7 +101,7 @@ export class BlockSection implements LocalizedComponent, T9nComponent {
     updateMessages(this, this.effectiveLocale);
   }
 
-  @State() defaultMessages: BlockSectionMessages;
+  @State() defaultMessages: Messages;
 
   // --------------------------------------------------------------------------
   //

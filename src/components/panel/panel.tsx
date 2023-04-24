@@ -3,26 +3,27 @@ import {
   Element,
   Event,
   EventEmitter,
-  Fragment,
-  h,
   Method,
   Prop,
-  State,
+  h,
   VNode,
+  Fragment,
+  State,
   Watch
 } from "@stencil/core";
-import { focusFirstTabbable, toAriaBoolean } from "../../utils/dom";
-import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
-import {
-  componentLoaded,
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent
-} from "../../utils/loadable";
-import { createObserver } from "../../utils/observers";
-import { SLOTS as ACTION_MENU_SLOTS } from "../action-menu/resources";
-import { Heading, HeadingLevel } from "../functional/Heading";
 import { CSS, ICONS, SLOTS } from "./resources";
+import { toAriaBoolean } from "../../utils/dom";
+import { Scale } from "../interfaces";
+import { HeadingLevel, Heading } from "../functional/Heading";
+import { SLOTS as ACTION_MENU_SLOTS } from "../action-menu/resources";
+import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import { createObserver } from "../../utils/observers";
+import {
+  setUpLoadableComponent,
+  setComponentLoaded,
+  LoadableComponent,
+  componentLoaded
+} from "../../utils/loadable";
 
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 import {
@@ -32,7 +33,7 @@ import {
   T9nComponent,
   updateMessages
 } from "../../utils/t9n";
-import { PanelMessages } from "./assets/panel/t9n";
+import { Messages } from "./assets/panel/t9n";
 
 /**
  * @slot - A slot for adding custom content.
@@ -76,9 +77,33 @@ export class Panel
   @Prop({ reflect: true }) headingLevel: HeadingLevel;
 
   /**
+   * Specifies the maximum height of the component.
+   */
+  @Prop({ reflect: true }) heightScale: Scale;
+
+  /**
+   * Specifies the width of the component.
+   */
+  @Prop({ reflect: true }) widthScale: Scale;
+
+  /**
    * When `true`, a busy indicator is displayed.
    */
   @Prop({ reflect: true }) loading = false;
+
+  /**
+   * Accessible name for the component's close button. The close button will only be shown when `closeable` is `true`.
+   *
+   * @deprecated use `calcite-flow-item` instead.
+   */
+  @Prop() intlClose: string;
+
+  /**
+   * Accessible name for the component's actions menu.
+   *
+   * @deprecated use `calcite-flow-item` instead.
+   */
+  @Prop() intlOptions: string;
 
   /**
    * The component header text.
@@ -96,15 +121,17 @@ export class Panel
   /**
    * Use this property to override individual strings used by the component.
    */
-  @Prop({ mutable: true }) messageOverrides: Partial<PanelMessages>;
+  @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
 
   /**
    * Made into a prop for testing purposes only
    *
    * @internal
    */
-  @Prop({ mutable: true }) messages: PanelMessages;
+  @Prop({ mutable: true }) messages: Messages;
 
+  @Watch("intlClose")
+  @Watch("intlOptions")
   @Watch("messageOverrides")
   onMessagesChange(): void {
     /* wired up by t9n util */
@@ -172,7 +199,7 @@ export class Panel
 
   @State() hasFab = false;
 
-  @State() defaultMessages: PanelMessages;
+  @State() defaultMessages: Messages;
 
   @State() effectiveLocale = "";
 
@@ -308,12 +335,37 @@ export class Panel
   // --------------------------------------------------------------------------
 
   /**
-   * Sets focus on the component's first focusable element.
+   * Sets focus on the component.
+   *
+   * @param focusId
    */
   @Method()
-  async setFocus(): Promise<void> {
+  async setFocus(focusId?: "back-button" | "dismiss-button"): Promise<void> {
     await componentLoaded(this);
-    focusFirstTabbable(this.containerEl);
+
+    const { backButtonEl, closeButtonEl, containerEl } = this;
+
+    if (focusId === "back-button") {
+      backButtonEl?.setFocus();
+      return;
+    }
+
+    if (focusId === "dismiss-button") {
+      closeButtonEl?.setFocus();
+      return;
+    }
+
+    if (backButtonEl) {
+      backButtonEl.setFocus();
+      return;
+    }
+
+    if (closeButtonEl) {
+      closeButtonEl.setFocus();
+      return;
+    }
+
+    containerEl?.focus();
   }
 
   /**

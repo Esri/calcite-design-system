@@ -10,8 +10,9 @@ import {
   VNode
 } from "@stencil/core";
 import { focusElement, getRootNode, nodeListToArray } from "../../utils/dom";
-import { Scale, SelectionMode } from "../interfaces";
 import { TreeItemSelectDetail } from "../tree-item/interfaces";
+import { TreeSelectionMode } from "./interfaces";
+import { Scale } from "../interfaces";
 import { getEnabledSiblingItem } from "./utils";
 
 /**
@@ -52,8 +53,9 @@ export class Tree {
    * Customize how the component's selection works.
    *
    * @default "single"
+   * @see [TreeSelectionMode](https://github.com/Esri/calcite-components/blob/master/src/components/tree/interfaces.ts#L5)
    */
-  @Prop({ mutable: true, reflect: true }) selectionMode: SelectionMode = "single";
+  @Prop({ mutable: true, reflect: true }) selectionMode: TreeSelectionMode = "single";
 
   /**
    * Specifies the component's selected items.
@@ -83,7 +85,9 @@ export class Tree {
           this.child
             ? undefined
             : (
-                this.selectionMode === "multiple" || this.selectionMode === "multichildren"
+                this.selectionMode === "multi" ||
+                this.selectionMode === "multiple" ||
+                this.selectionMode === "multichildren"
               ).toString()
         }
         role={!this.child ? "tree" : undefined}
@@ -161,14 +165,18 @@ export class Tree {
     const shouldModifyToCurrentSelection =
       !isNoneSelectionMode &&
       event.detail.modifyCurrentSelection &&
-      (this.selectionMode === "multiple" || this.selectionMode === "multichildren");
+      (this.selectionMode === "multi" ||
+        this.selectionMode === "multiple" ||
+        this.selectionMode === "multichildren");
 
     const shouldSelectChildren =
       this.selectionMode === "multichildren" || this.selectionMode === "children";
 
     const shouldClearCurrentSelection =
       !shouldModifyToCurrentSelection &&
-      (((this.selectionMode === "single" || this.selectionMode === "multiple") &&
+      (((this.selectionMode === "single" ||
+        this.selectionMode === "multi" ||
+        this.selectionMode === "multiple") &&
         childItems.length <= 0) ||
         this.selectionMode === "children" ||
         this.selectionMode === "multichildren");

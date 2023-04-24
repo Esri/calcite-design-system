@@ -1,9 +1,9 @@
 import { Component, Element, Event, EventEmitter, h, Prop, VNode, Watch } from "@stencil/core";
+import { CSS } from "./resources";
+import { ButtonAppearance, ButtonColor, DropdownIconType } from "../button/interfaces";
+import { FlipContext, Scale, Width } from "../interfaces";
 import { OverlayPositioning } from "../../utils/floating-ui";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
-import { DropdownIconType } from "../button/interfaces";
-import { Appearance, FlipContext, Kind, Scale, Width } from "../interfaces";
-import { CSS } from "./resources";
 
 /**
  * @slot - A slot for adding `calcite-dropdown` content.
@@ -11,22 +11,16 @@ import { CSS } from "./resources";
 @Component({
   tag: "calcite-split-button",
   styleUrl: "split-button.scss",
-  shadow: {
-    delegatesFocus: true
-  }
+  shadow: true
 })
 export class SplitButton implements InteractiveComponent {
   @Element() el: HTMLCalciteSplitButtonElement;
 
   /** Specifies the appearance style of the component. */
-  @Prop({ reflect: true }) appearance: Extract<
-    "outline" | "outline-fill" | "solid" | "transparent",
-    Appearance
-  > = "solid";
+  @Prop({ reflect: true }) appearance: ButtonAppearance = "solid";
 
-  /** Specifies the kind of the component (will apply to border and background if applicable). */
-  @Prop({ reflect: true }) kind: Extract<"brand" | "danger" | "inverse" | "neutral", Kind> =
-    "brand";
+  /** Specifies the color of the component. */
+  @Prop({ reflect: true }) color: ButtonColor = "blue";
 
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @Prop({ reflect: true }) disabled = false;
@@ -76,7 +70,7 @@ export class SplitButton implements InteractiveComponent {
   /** Specifies an icon to display at the end of the primary button. */
   @Prop({ reflect: true }) primaryIconEnd: string;
 
-  /**  Displays the `primaryIconStart` and/or `primaryIconEnd` as flipped when the element direction is right-to-left (`"rtl"`). */
+  /**  When `true`, the primary button icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @Prop({ reflect: true }) primaryIconFlipRtl: FlipContext;
 
   /** Specifies an icon to display at the start of the primary button. */
@@ -129,11 +123,11 @@ export class SplitButton implements InteractiveComponent {
       <div class={widthClasses}>
         <calcite-button
           appearance={this.appearance}
+          color={this.color}
           disabled={this.disabled}
           icon-end={this.primaryIconEnd ? this.primaryIconEnd : null}
           icon-start={this.primaryIconStart ? this.primaryIconStart : null}
           iconFlipRtl={this.primaryIconFlipRtl ? this.primaryIconFlipRtl : null}
-          kind={this.kind}
           label={this.primaryLabel}
           loading={this.loading}
           onClick={this.calciteSplitButtonPrimaryClickHandler}
@@ -158,9 +152,9 @@ export class SplitButton implements InteractiveComponent {
         >
           <calcite-button
             appearance={this.appearance}
+            color={this.color}
             disabled={this.disabled}
             icon-start={this.dropdownIcon}
-            kind={this.kind}
             label={this.dropdownLabel}
             scale={this.scale}
             slot="trigger"

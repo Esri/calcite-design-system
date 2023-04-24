@@ -4,24 +4,24 @@ import {
   Event,
   EventEmitter,
   h,
-  Listen,
-  Method,
   Prop,
-  State,
+  Listen,
   VNode,
-  Watch
+  Watch,
+  State,
+  Method
 } from "@stencil/core";
-import { guid } from "../../utils/guid";
-import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
-import {
-  componentLoaded,
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent
-} from "../../utils/loadable";
 import { Alignment, Width } from "../interfaces";
 import { TileSelectType } from "./interfaces";
+import { guid } from "../../utils/guid";
 import { CSS } from "./resources";
+import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import {
+  setUpLoadableComponent,
+  setComponentLoaded,
+  LoadableComponent,
+  componentLoaded
+} from "../../utils/loadable";
 
 /**
  * @slot - A slot for adding custom content.
@@ -68,9 +68,6 @@ export class TileSelect implements InteractiveComponent, LoadableComponent {
 
   /** Specifies an icon to display. */
   @Prop({ reflect: true }) icon: string;
-
-  /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
-  @Prop({ reflect: true }) iconFlipRtl = false;
 
   /** Specifies the name of the component on form submission. */
   @Prop({ reflect: true }) name;
@@ -294,8 +291,7 @@ export class TileSelect implements InteractiveComponent, LoadableComponent {
       icon,
       inputAlignment,
       inputEnabled,
-      width,
-      iconFlipRtl
+      width
     } = this;
     return (
       <div
@@ -324,7 +320,6 @@ export class TileSelect implements InteractiveComponent, LoadableComponent {
           embed
           heading={heading}
           icon={icon}
-          iconFlipRtl={iconFlipRtl}
         />
         <slot />
       </div>

@@ -59,7 +59,7 @@
 :host([scale="l"]) {
   margin-inline-end: 1.5rem;
   .container {
-    @apply text-0h py-2.5;
+    @apply text-0h py-3;
   }
 }
 
@@ -77,7 +77,8 @@
     justify-center
     truncate
     border-b-2
-    px-0;
+    px-0
+    py-2;
   border-block-end-style: solid;
 }
 
@@ -167,9 +168,6 @@
 :host([bordered][scale="l"]) {
   .container {
     @apply px-4;
-  }
-  .icon-present {
-    padding-block: 11px;
   }
 }
 

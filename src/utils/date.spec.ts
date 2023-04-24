@@ -1,8 +1,8 @@
 import { DateLocaleData } from "../components/date-picker/utils";
-import { dateFromISO, dateFromRange, getOrder, inRange, nextMonth, parseDateString, prevMonth, sameDate } from "./date";
+import { inRange, dateFromRange, dateFromISO, sameDate, prevMonth, nextMonth, parseDateString, getOrder } from "./date";
 
-import arabic from "../components/date-picker/assets/date-picker/nls/ar.json";
 import english from "../components/date-picker/assets/date-picker/nls/en.json";
+import arabic from "../components/date-picker/assets/date-picker/nls/ar.json";
 import french from "../components/date-picker/assets/date-picker/nls/fr.json";
 import korean from "../components/date-picker/assets/date-picker/nls/ko.json";
 import { NumberingSystem, numberStringFormatter } from "./locale";

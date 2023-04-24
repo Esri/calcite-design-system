@@ -208,67 +208,6 @@
         </div>
       </div>
 
-      <!-- Standard slotted action -->
-      <div class="parent-flex">
-        <div class="child-flex font right-aligned-text">Standard with slotted action</div>
-        <div class="child-flex">
-          <calcite-label scale="s">
-            Input Label
-            <calcite-input type="text" placeholder="Placeholder" scale="s">
-              <calcite-button slot="action" scale="s">Action</calcite-button>
-            </calcite-input>
-          </calcite-label>
-        </div>
-
-        <div class="child-flex">
-          <calcite-label>
-            Input Label
-            <calcite-input type="text" placeholder="Placeholder" scale="m">
-              <calcite-button slot="action" scale="m">Action</calcite-button>
-            </calcite-input>
-          </calcite-label>
-        </div>
-
-        <div class="child-flex">
-          <calcite-label scale="l">
-            Input Label
-            <calcite-input type="text" placeholder="Placeholder" scale="l">
-              <calcite-button slot="action" scale="l">Action</calcite-button>
-            </calcite-input>
-          </calcite-label>
-        </div>
-      </div>
-
-      <!-- Standard disabled slotted action -->
-      <div class="parent-flex">
-        <div class="child-flex font right-aligned-text">Standard with disabled slotted action</div>
-        <div class="child-flex">
-          <calcite-label scale="s">
-            Input Label
-            <calcite-input type="text" placeholder="Placeholder" scale="s">
-              <calcite-button slot="action" scale="s" disabled>Action</calcite-button>
-            </calcite-input>
-          </calcite-label>
-        </div>
-
-        <div class="child-flex">
-          <calcite-label>
-            Input Label
-            <calcite-input type="text" placeholder="Placeholder" scale="m">
-              <calcite-button slot="action" scale="m" disabled>Action</calcite-button>
-            </calcite-input>
-          </calcite-label>
-        </div>
-
-        <div class="child-flex">
-          <calcite-label scale="l">
-            Input Label
-            <calcite-input type="text" placeholder="Placeholder" scale="l">
-              <calcite-button slot="action" scale="l" disabled>Action</calcite-button>
-            </calcite-input>
-          </calcite-label>
-        </div>
-      </div>
       <!-- Number Vertical -->
       <div class="parent-flex">
         <div class="child-flex font right-aligned-text">Number Vertical</div>
@@ -709,6 +648,8 @@
               value="2020-12-12"
               min="2016-08-09"
               max="2023-12-18"
+              intl-next-month="Next month"
+              intl-prev-month="Previous month"
               scale="s"
             ></calcite-input-date-picker>
           </calcite-label>
@@ -722,6 +663,8 @@
               value="2020-12-12"
               min="2016-08-09"
               max="2023-12-18"
+              intl-next-month="Next month"
+              intl-prev-month="Previous month"
               scale="m"
             ></calcite-input-date-picker>
           </calcite-label>
@@ -735,6 +678,8 @@
               value="2020-12-12"
               min="2016-08-09"
               max="2023-12-18"
+              intl-next-month="Next month"
+              intl-prev-month="Previous month"
               scale="l"
             ></calcite-input-date-picker>
           </calcite-label>
@@ -850,22 +795,46 @@
         <div class="child-flex font right-aligned-text">Start day of locale</div>
         <div class="child-flex">
           <calcite-label>
-            <calcite-input-date-picker icon="calendar" type="date" value="" min="2016-08-09" max="2023-12-18" scale="s">
-            </calcite-input-date-picker>
+            <calcite-input-date-picker
+              icon="calendar"
+              type="date"
+              value=""
+              min="2016-08-09"
+              max="2023-12-18"
+              intl-next-month="Next month"
+              intl-prev-month="Previous month"
+              scale="s"
+            ></calcite-input-date-picker>
           </calcite-label>
         </div>
 
         <div class="child-flex">
           <calcite-label>
-            <calcite-input-date-picker icon="calendar" type="date" value="" min="2016-08-09" max="2023-12-18" scale="m">
-            </calcite-input-date-picker>
+            <calcite-input-date-picker
+              icon="calendar"
+              type="date"
+              value=""
+              min="2016-08-09"
+              max="2023-12-18"
+              intl-next-month="Next month"
+              intl-prev-month="Previous month"
+              scale="m"
+            ></calcite-input-date-picker>
           </calcite-label>
         </div>
 
         <div class="child-flex">
           <calcite-label>
-            <calcite-input-date-picker icon="calendar" type="date" value="" min="2016-08-09" max="2023-12-18" scale="l">
-            </calcite-input-date-picker>
+            <calcite-input-date-picker
+              icon="calendar"
+              type="date"
+              value=""
+              min="2016-08-09"
+              max="2023-12-18"
+              intl-next-month="Next month"
+              intl-prev-month="Previous month"
+              scale="l"
+            ></calcite-input-date-picker>
           </calcite-label>
         </div>
       </div>

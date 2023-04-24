@@ -1,4 +1,3 @@
-import { waitForAnimationFrame } from "../tests/utils";
 import {
   cleanupMap,
   connectFloatingUI,
@@ -16,6 +15,7 @@ import {
   repositionDebounceTimeout,
   updateAfterClose
 } from "./floating-ui";
+import { waitForAnimationFrame } from "../tests/utils";
 
 import * as floatingUIDOM from "@floating-ui/dom";
 

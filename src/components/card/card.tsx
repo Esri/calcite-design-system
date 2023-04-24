@@ -9,12 +9,14 @@ import {
   VNode,
   Watch
 } from "@stencil/core";
-import {
-  ConditionalSlotComponent,
-  connectConditionalSlotComponent,
-  disconnectConditionalSlotComponent
-} from "../../utils/conditionalSlot";
 import { getSlotted, toAriaBoolean } from "../../utils/dom";
+import { CSS, SLOTS } from "./resources";
+import { LogicalFlowPosition } from "../interfaces";
+import {
+  connectConditionalSlotComponent,
+  disconnectConditionalSlotComponent,
+  ConditionalSlotComponent
+} from "../../utils/conditionalSlot";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 import {
   connectMessages,
@@ -23,9 +25,7 @@ import {
   T9nComponent,
   updateMessages
 } from "../../utils/t9n";
-import { LogicalFlowPosition } from "../interfaces";
-import { CardMessages } from "./assets/card/t9n";
-import { CSS, SLOTS } from "./resources";
+import { Messages } from "./assets/card/t9n";
 
 /**
  * Cards do not include a grid or bounding container
@@ -37,8 +37,8 @@ import { CSS, SLOTS } from "./resources";
  * @slot thumbnail - A slot for adding a thumbnail to the component.
  * @slot title - A slot for adding a title.
  * @slot subtitle - A slot for adding a subtitle or short summary.
- * @slot footer-start - A slot for adding a leading footer.
- * @slot footer-end - A slot for adding a trailing footer.
+ * @slot footer-leading - A slot for adding a leading footer.
+ * @slot footer-trailing - A slot for adding a trailing footer.
  */
 
 @Component({
@@ -79,12 +79,12 @@ export class Card implements ConditionalSlotComponent, LocalizedComponent, T9nCo
    *
    * @internal
    */
-  @Prop({ mutable: true }) messages: CardMessages;
+  @Prop({ mutable: true }) messages: Messages;
 
   /**
    * Use this property to override individual strings used by the component.
    */
-  @Prop({ mutable: true }) messageOverrides: Partial<CardMessages>;
+  @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
 
   @Watch("messageOverrides")
   onMessagesChange(): void {
@@ -158,7 +158,7 @@ export class Card implements ConditionalSlotComponent, LocalizedComponent, T9nCo
     updateMessages(this, this.effectiveLocale);
   }
 
-  @State() defaultMessages: CardMessages;
+  @State() defaultMessages: Messages;
 
   //--------------------------------------------------------------------------
   //
@@ -223,14 +223,14 @@ export class Card implements ConditionalSlotComponent, LocalizedComponent, T9nCo
 
   private renderFooter(): VNode {
     const { el } = this;
-    const startFooter = getSlotted(el, SLOTS.footerStart);
-    const endFooter = getSlotted(el, SLOTS.footerEnd);
+    const leadingFooter = getSlotted(el, SLOTS.footerLeading);
+    const trailingFooter = getSlotted(el, SLOTS.footerTrailing);
 
-    const hasFooter = startFooter || endFooter;
+    const hasFooter = leadingFooter || trailingFooter;
     return hasFooter ? (
       <footer class={CSS.footer}>
-        <slot name={SLOTS.footerStart} />
-        <slot name={SLOTS.footerEnd} />
+        <slot name={SLOTS.footerLeading} />
+        <slot name={SLOTS.footerTrailing} />
       </footer>
     ) : null;
   }

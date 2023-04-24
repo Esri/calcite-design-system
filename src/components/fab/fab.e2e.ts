@@ -16,7 +16,7 @@ describe("calcite-fab", () => {
       },
       {
         propertyName: "appearance",
-        defaultValue: "solid"
+        defaultValue: "outline"
       }
     ]));
 
@@ -86,20 +86,20 @@ describe("calcite-fab", () => {
     expect(await calciteButton.getProperty("label")).toBe("hi");
   });
 
-  it("should have appearance=solid", async () => {
+  it("should have appearance=outline", async () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-fab text="hello world"></calcite-fab>`);
 
     const fab = await page.find(`calcite-fab >>> .${CSS.button}`);
-    expect(fab.getAttribute("appearance")).toBe("solid");
+    expect(fab.getAttribute("appearance")).toBe("outline");
   });
 
-  it("should have appearance=outline-fill", async () => {
+  it("should have appearance=solid", async () => {
     const page = await newE2EPage();
-    await page.setContent(`<calcite-fab appearance="outline-fill" text="hello world"></calcite-fab>`);
+    await page.setContent(`<calcite-fab appearance="solid" text="hello world"></calcite-fab>`);
 
     const fab = await page.find(`calcite-fab >>> .${CSS.button}`);
-    expect(fab.getAttribute("appearance")).toBe("outline-fill");
+    expect(fab.getAttribute("appearance")).toBe("solid");
   });
 
   it("should be accessible", async () => {
@@ -109,7 +109,7 @@ describe("calcite-fab", () => {
 
   describe("when invalid appearance values are passed", () => {
     describe("when value is 'transparent'", () => {
-      it("should render with default 'outline-fill' appearance", async () => {
+      it("should render with default 'outline' appearance", async () => {
         const page = await newE2EPage({
           html: `
           <calcite-fab
@@ -120,23 +120,23 @@ describe("calcite-fab", () => {
           `
         });
         const fab = await page.find(`calcite-fab >>> .${CSS.button}`);
-        expect(fab.getAttribute("appearance")).toBe("outline-fill");
+        expect(fab.getAttribute("appearance")).toBe("outline");
       });
     });
 
     describe("when value is 'clear'", () => {
-      it("should render with default 'outline-fill' appearance", async () => {
+      it("should render with default 'outline' appearance", async () => {
         const page = await newE2EPage({
           html: `
           <calcite-fab
             text="FAB"
             text-enabled
-            appearance="outline"
+            appearance="clear"
           ></calcite-fab>
           `
         });
         const fab = await page.find(`calcite-fab >>> .${CSS.button}`);
-        expect(fab.getAttribute("appearance")).toBe("outline-fill");
+        expect(fab.getAttribute("appearance")).toBe("outline");
       });
     });
   });

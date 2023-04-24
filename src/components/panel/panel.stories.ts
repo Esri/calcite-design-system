@@ -1,16 +1,16 @@
 import { boolean, select, text } from "@storybook/addon-knobs";
-import { storyFilters } from "../../../.storybook/helpers";
-import { ATTRIBUTES } from "../../../.storybook/resources";
 import {
-  Attribute,
   Attributes,
   createComponentHTML as create,
+  Attribute,
   filterComponentAttributes,
-  modesDarkDefault
+  themesDarkDefault
 } from "../../../.storybook/utils";
-import { html } from "../../../support/formatting";
+import { ATTRIBUTES } from "../../../.storybook/resources";
 import readme from "./readme.md";
 import { SLOTS } from "./resources";
+import { html } from "../../../support/formatting";
+import { storyFilters } from "../../../.storybook/helpers";
 
 export default {
   title: "Components/Panel",
@@ -98,7 +98,7 @@ const contentHTML = html`
 `;
 
 const footerHTML = html`
-  <calcite-button slot="${SLOTS.footer}" width="half" appearance="outline">Naw.</calcite-button>
+  <calcite-button slot="${SLOTS.footer}" width="half" appearance="clear">Naw.</calcite-button>
   <calcite-button slot="${SLOTS.footer}" width="half">Yeah!</calcite-button>
 `;
 
@@ -145,7 +145,7 @@ export const disabledWithStyledSlot_TestOnly = (): string => html`
   </calcite-panel>
 `;
 
-export const darkModeRTL_TestOnly = (): string =>
+export const darkThemeRTL_TestOnly = (): string =>
   create(
     "calcite-panel",
     createAttributes({ exceptions: ["dir", "class"] }).concat([
@@ -155,10 +155,10 @@ export const darkModeRTL_TestOnly = (): string =>
       },
       {
         name: "class",
-        value: "calcite-mode-dark"
+        value: "calcite-theme-dark"
       }
     ]),
     panelContent
   );
 
-darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
+darkThemeRTL_TestOnly.parameters = { themes: themesDarkDefault };

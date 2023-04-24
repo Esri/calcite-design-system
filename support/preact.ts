@@ -1,9 +1,9 @@
+import { join } from "path";
 import {
   OutputTargetCustom,
   OutputTargetDist,
   OutputTargetDistTypes
 } from "@stencil/core/internal/stencil-public-compiler";
-import { join } from "path";
 
 export const generatePreactTypes: OutputTargetCustom["generator"] = async (
   config,

@@ -10,18 +10,15 @@ import {
   VNode,
   Watch
 } from "@stencil/core";
+import { CSS, SLOTS } from "./resources";
+import { Scale, Width } from "../interfaces";
+import { StatusColor, StatusIcons } from "../alert/interfaces";
+import { getSlotted, setRequestedIcon } from "../../utils/dom";
 import {
   ConditionalSlotComponent,
   connectConditionalSlotComponent,
   disconnectConditionalSlotComponent
 } from "../../utils/conditionalSlot";
-import { getSlotted, setRequestedIcon } from "../../utils/dom";
-import {
-  componentLoaded,
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent
-} from "../../utils/loadable";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 import {
   connectMessages,
@@ -30,23 +27,26 @@ import {
   T9nComponent,
   updateMessages
 } from "../../utils/t9n";
-import { Kind, Scale, Width } from "../interfaces";
-import { KindIcons } from "../resources";
-import { NoticeMessages } from "./assets/notice/t9n";
-import { CSS, SLOTS } from "./resources";
+import { Messages } from "./assets/notice/t9n";
+import {
+  setUpLoadableComponent,
+  setComponentLoaded,
+  LoadableComponent,
+  componentLoaded
+} from "../../utils/loadable";
 
 /**
  * Notices are intended to be used to present users with important-but-not-crucial contextual tips or copy. Because
  * notices are displayed inline, a common use case is displaying them on page-load to present users with short hints or contextual copy.
- * They are optionally closable - useful for keeping track of whether or not a user has closed the notice. You can also choose not
+ * They are optionally dismissible - useful for keeping track of whether or not a user has dismissed the notice. You can also choose not
  * to display a notice on page load and set the "active" attribute as needed to contextually provide inline messaging to users.
  */
 
 /**
  * @slot title - A slot for adding the title.
  * @slot message - A slot for adding the message.
- * @slot link - A slot for adding a `calcite-action` to take, such as: "undo", "try again", "link to page", etc.
- * @slot actions-end - A slot for adding `calcite-action`s to the end of the component. It is recommended to use two or less actions.
+ * @slot link - A slot for adding actions to take, such as: undo, try again, link to page, etc.
+ * @slot actions-end - A slot for adding actions to the end of the component. It is recommended to use two or less actions.
  */
 
 @Component({
@@ -72,25 +72,61 @@ export class Notice
   //
   //---------------------------------------------------------------------------
 
+  /**
+   * When `true`, the component is active.
+   *
+   * @deprecated Use `open` instead.
+   */
+  @Prop({ reflect: true, mutable: true }) active = false;
+
+  @Watch("active")
+  activeHandler(value: boolean): void {
+    this.open = value;
+  }
+
   /** When `true`, the component is visible. */
   @Prop({ reflect: true, mutable: true }) open = false;
 
-  /** Specifies the kind of the component (will apply to top border and icon). */
-  @Prop({ reflect: true }) kind: Extract<
-    "brand" | "danger" | "info" | "success" | "warning",
-    Kind
-  > = "brand";
+  @Watch("open")
+  openHandler(value: boolean): void {
+    this.active = value;
+  }
+
+  /** The color for the component's top border and icon. */
+  @Prop({ reflect: true }) color: StatusColor = "blue";
+
+  /**
+   * When `true`, a close button is added to the component.
+   *
+   * @deprecated use `closable` instead.
+   */
+  @Prop({ reflect: true }) dismissible = false;
+
+  @Watch("dismissible")
+  handleDismissible(value: boolean): void {
+    this.closable = value;
+  }
 
   /** When `true`, a close button is added to the component. */
   @Prop({ reflect: true }) closable = false;
+
+  @Watch("closable")
+  handleClosable(value: boolean): void {
+    this.dismissible = value;
+  }
 
   /**
    * When `true`, shows a default recommended icon. Alternatively, pass a Calcite UI Icon name to display a specific icon.
    */
   @Prop({ reflect: true }) icon: string | boolean;
 
-  /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
-  @Prop({ reflect: true }) iconFlipRtl = false;
+  /**
+   * Accessible name for the close button.
+   *
+   * @default "Close"
+   * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`.
+   */
+  @Prop({ reflect: false }) intlClose: string;
 
   /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";
@@ -103,22 +139,23 @@ export class Notice
    *
    * @internal
    */
-  @Prop({ mutable: true }) messages: NoticeMessages;
+  @Prop({ mutable: true }) messages: Messages;
 
   /**
    * Use this property to override individual strings used by the component.
    */
-  @Prop({ mutable: true }) messageOverrides: Partial<NoticeMessages>;
+  @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
 
+  @Watch("intlClose")
   @Watch("messageOverrides")
   onMessagesChange(): void {
     /* wired up by t9n util */
   }
 
   @Watch("icon")
-  @Watch("kind")
+  @Watch("color")
   updateRequestedIcon(): void {
-    this.requestedIcon = setRequestedIcon(KindIcons, this.icon, this.kind);
+    this.requestedIcon = setRequestedIcon(StatusIcons, this.icon, this.color);
   }
 
   //--------------------------------------------------------------------------
@@ -131,6 +168,19 @@ export class Notice
     connectConditionalSlotComponent(this);
     connectLocalized(this);
     connectMessages(this);
+
+    const isOpen = this.active || this.open;
+
+    if (isOpen) {
+      this.activeHandler(isOpen);
+      this.openHandler(isOpen);
+    }
+    if (this.dismissible) {
+      this.handleDismissible(this.dismissible);
+    }
+    if (this.closable) {
+      this.handleClosable(this.closable);
+    }
   }
 
   disconnectedCallback(): void {
@@ -141,7 +191,7 @@ export class Notice
 
   async componentWillLoad(): Promise<void> {
     setUpLoadableComponent(this);
-    this.requestedIcon = setRequestedIcon(KindIcons, this.icon, this.kind);
+    this.requestedIcon = setRequestedIcon(StatusIcons, this.icon, this.color);
     await setUpMessages(this);
   }
 
@@ -168,11 +218,7 @@ export class Notice
       <div class={CSS.container}>
         {this.requestedIcon ? (
           <div class={CSS.icon}>
-            <calcite-icon
-              flipRtl={this.iconFlipRtl}
-              icon={this.requestedIcon}
-              scale={this.scale === "l" ? "m" : "s"}
-            />
+            <calcite-icon icon={this.requestedIcon} scale={this.scale === "l" ? "m" : "s"} />
           </div>
         ) : null}
         <div class={CSS.content}>
@@ -208,7 +254,7 @@ export class Notice
   //
   //--------------------------------------------------------------------------
 
-  /** Sets focus on the component's first focusable element. */
+  /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
     await componentLoaded(this);
@@ -254,5 +300,5 @@ export class Notice
     updateMessages(this, this.effectiveLocale);
   }
 
-  @State() defaultMessages: NoticeMessages;
+  @State() defaultMessages: Messages;
 }

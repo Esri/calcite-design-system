@@ -27,6 +27,5 @@ section,
 }
 
 :host([scale="l"]) {
-  @apply text-0h;
-  padding-block: 13px;
+  @apply text-0h py-3;
 }

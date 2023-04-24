@@ -74,7 +74,13 @@
                 ><span> Shell Floating Panel Content </span>
               </calcite-panel>
 
-              <calcite-action-bar slot="action-bar" class="calcite-mode-dark" expand>
+              <calcite-action-bar
+                slot="action-bar"
+                class="calcite-theme-dark"
+                intl-collapse="Collapse"
+                intl-expand="Expand"
+                expand
+              >
                 <calcite-action-group class="js-action-group" slot="" calcite-hydrated="">
                   <calcite-action
                     id="adddata"
@@ -252,7 +258,13 @@
             </calcite-shell-panel>
 
             <calcite-shell-panel slot="panel-end" position="end">
-              <calcite-action-bar slot="action-bar" class="calcite-mode-light" expand>
+              <calcite-action-bar
+                slot="action-bar"
+                class="calcite-theme-light"
+                intl-collapse="Collapse"
+                intl-expand="Expand"
+                expand
+              >
                 <calcite-action-group class="js-action-group" slot="" calcite-hydrated="">
                   <calcite-action
                     id="layerproperties"
@@ -437,8 +449,8 @@
                     <calcite-button
                       width="full"
                       scale="s"
-                      appearance="outline"
-                      kind="inverse"
+                      appearance="clear"
+                      color="inverse"
                       class="combo-button__main"
                       text="Edit label style"
                       icon-end="pencil"
@@ -461,8 +473,8 @@
                       <calcite-button
                         width="full"
                         scale="s"
-                        appearance="outline"
-                        kind="inverse"
+                        appearance="clear"
+                        color="inverse"
                         class="combo-button__main"
                         text="Edit label style"
                         icon-end="pencil"
@@ -491,8 +503,8 @@
                       <calcite-button
                         width="full"
                         scale="s"
-                        appearance="outline"
-                        kind="inverse"
+                        appearance="clear"
+                        color="inverse"
                         class="combo-button__main"
                         text="Edit label style"
                         icon-end="pencil"
@@ -572,7 +584,7 @@
           add-click-handle
           class="popover"
         >
-          <calcite-panel class="calcite-mode-light">
+          <calcite-panel class="calcite-theme-light">
             <h3 class="heading" slot="header-content">WE CARE A LOT</h3>
             <calcite-pick-list filter-enabled filter-sticky>
               <calcite-action slot="menu-actions" text="options">
@@ -592,7 +604,7 @@
               ></calcite-pick-list-item>
             </calcite-pick-list>
             <calcite-button slot="footer" width="half">Yeah!</calcite-button>
-            <calcite-button slot="footer" width="half" appearance="outline">Naw.</calcite-button>
+            <calcite-button slot="footer" width="half" appearance="clear">Naw.</calcite-button>
           </calcite-panel>
         </calcite-popover>
         <script>

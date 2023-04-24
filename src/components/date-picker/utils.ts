@@ -1,6 +1,6 @@
 import { getAssetPath } from "@stencil/core";
-import { dateFromISO } from "../../utils/date";
 import { getSupportedLocale } from "../../utils/locale";
+import { dateFromISO } from "../../utils/date";
 
 /**
  * Translation resource data structure

@@ -1,5 +1,5 @@
 import { waitForAnimationFrame } from "../tests/utils";
-import { componentLoaded, setComponentLoaded, setUpLoadableComponent } from "./loadable";
+import { setUpLoadableComponent, setComponentLoaded, componentLoaded } from "./loadable";
 
 describe("loadable", () => {
   it("should honor loadable component lifecyce", async () => {

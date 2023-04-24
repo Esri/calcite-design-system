@@ -1,6 +1,6 @@
 import { forceUpdate } from "@stencil/core";
-import { SLOTS as ACTION_GROUP_SLOTS } from "../action-group/resources";
 import { SLOTS as ACTION_MENU_SLOTS } from "../action-menu/resources";
+import { SLOTS as ACTION_GROUP_SLOTS } from "../action-group/resources";
 import { Layout } from "../interfaces";
 
 export const overflowActionsDebounceInMs = 150;

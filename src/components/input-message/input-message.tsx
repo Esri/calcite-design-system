@@ -1,4 +1,4 @@
-import { Component, Element, h, Host, Prop, VNode, Watch } from "@stencil/core";
+import { Component, Element, Host, h, Prop, VNode, Watch } from "@stencil/core";
 import { getElementProp, setRequestedIcon } from "../../utils/dom";
 import { Scale, Status } from "../interfaces";
 import { StatusIconDefaults } from "./interfaces";
@@ -28,9 +28,6 @@ export class InputMessage {
 
   /** Specifies an icon to display. */
   @Prop({ reflect: true }) icon: boolean | string;
-
-  /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
-  @Prop({ reflect: true }) iconFlipRtl = false;
 
   /** Specifies the size of the component. */
   @Prop({ reflect: true, mutable: true }) scale: Scale = "m";
@@ -82,14 +79,7 @@ export class InputMessage {
 
   private renderIcon(iconName: string): VNode {
     if (iconName) {
-      return (
-        <calcite-icon
-          class="calcite-input-message-icon"
-          flipRtl={this.iconFlipRtl}
-          icon={iconName}
-          scale="s"
-        />
-      );
+      return <calcite-icon class="calcite-input-message-icon" icon={iconName} scale="s" />;
     }
   }
 }

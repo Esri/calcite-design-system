@@ -110,6 +110,12 @@ $inline-input-width: 31%;
   }
 }
 
+:host([appearance="minimal"]) {
+  .container {
+    border: none;
+  }
+}
+
 .container {
   @apply bg-foreground-1;
   display: inline-block;

@@ -1,6 +1,6 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { html } from "../../../support/formatting";
 import { renders } from "../../tests/commonTests";
+import { html } from "../../../support/formatting";
 
 describe("calcite-date-picker-month-header", () => {
   it("renders", async () => renders("calcite-date-picker-month-header", { display: "block" }));
@@ -67,7 +67,7 @@ describe("calcite-date-picker-month-header", () => {
     expect(await next.isVisible()).toBe(true);
   });
 
-  it("should set the input aria-label to year", async () => {
+  it("passes down the default intlYear prop to nested .year input to set it as aria-label", async () => {
     const page = await newE2EPage();
     await page.setContent(html`<calcite-date-picker></calcite-date-picker>`);
 

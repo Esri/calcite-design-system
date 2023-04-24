@@ -1,12 +1,15 @@
 import { Component, Element, h, Prop, Watch } from "@stencil/core";
+import { ICONS, SLOTS } from "./resources";
 import { Fragment, State, VNode } from "@stencil/core/internal";
-import { CalciteActionMenuCustomEvent } from "../../components";
+import { getSlotted } from "../../utils/dom";
+import { SLOTS as ACTION_MENU_SLOTS } from "../action-menu/resources";
+import { Columns, Layout, Scale } from "../interfaces";
 import {
   ConditionalSlotComponent,
   connectConditionalSlotComponent,
   disconnectConditionalSlotComponent
 } from "../../utils/conditionalSlot";
-import { getSlotted } from "../../utils/dom";
+import { CalciteActionMenuCustomEvent } from "../../components";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 import {
   connectMessages,
@@ -15,10 +18,7 @@ import {
   T9nComponent,
   updateMessages
 } from "../../utils/t9n";
-import { SLOTS as ACTION_MENU_SLOTS } from "../action-menu/resources";
-import { Columns, Layout, Scale } from "../interfaces";
-import { ActionGroupMessages } from "./assets/action-group/t9n";
-import { ICONS, SLOTS } from "./resources";
+import { Messages } from "./assets/action-group/t9n";
 
 /**
  * @slot - A slot for adding a group of `calcite-action`s.
@@ -28,9 +28,7 @@ import { ICONS, SLOTS } from "./resources";
 @Component({
   tag: "calcite-action-group",
   styleUrl: "action-group.scss",
-  shadow: {
-    delegatesFocus: true
-  },
+  shadow: true,
   assetsDirs: ["assets"]
 })
 export class ActionGroup implements ConditionalSlotComponent, LocalizedComponent, T9nComponent {
@@ -75,12 +73,12 @@ export class ActionGroup implements ConditionalSlotComponent, LocalizedComponent
    *
    * @internal
    */
-  @Prop({ mutable: true }) messages: ActionGroupMessages;
+  @Prop({ mutable: true }) messages: Messages;
 
   /**
    * Use this property to override individual strings used by the component.
    */
-  @Prop({ mutable: true }) messageOverrides: Partial<ActionGroupMessages>;
+  @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
 
   @Watch("messageOverrides")
   onMessagesChange(): void {
@@ -101,7 +99,7 @@ export class ActionGroup implements ConditionalSlotComponent, LocalizedComponent
     updateMessages(this, this.effectiveLocale);
   }
 
-  @State() defaultMessages: ActionGroupMessages;
+  @State() defaultMessages: Messages;
 
   // --------------------------------------------------------------------------
   //

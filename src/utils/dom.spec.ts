@@ -1,17 +1,17 @@
-import { ModeName } from "../../src/components/interfaces";
-import { html } from "../../support/formatting";
 import {
-  ensureId,
   getElementProp,
-  getModeName,
   getSlotted,
-  isPrimaryPointerButton,
   setRequestedIcon,
+  ensureId,
+  getThemeName,
+  toAriaBoolean,
+  isPrimaryPointerButton,
   slotChangeGetAssignedElements,
-  slotChangeHasAssignedElement,
-  toAriaBoolean
+  slotChangeHasAssignedElement
 } from "./dom";
 import { guidPattern } from "./guid.spec";
+import { html } from "../../support/formatting";
+import { ThemeName } from "../../src/components/interfaces";
 
 describe("dom", () => {
   describe("getElementProp()", () => {
@@ -301,63 +301,63 @@ describe("dom", () => {
     });
   });
 
-  describe("getModeName()", () => {
-    interface ModeElement extends HTMLElement {
-      foundModeName: ModeName;
+  describe("getThemeName()", () => {
+    interface ThemedElement extends HTMLElement {
+      foundThemeName: ThemeName;
     }
-    function getTestComponentMode(): string {
-      return document.body.querySelector<ModeElement>("mode-element").foundModeName;
+    function getTestComponentTheme(): string {
+      return document.body.querySelector<ThemedElement>("themed-element").foundThemeName;
     }
     function defineTestComponents(): void {
-      class ModeElement extends HTMLElement {
+      class ThemedElement extends HTMLElement {
         constructor() {
           super();
           this.attachShadow({ mode: "open" });
         }
 
-        foundModeName = null;
+        foundThemeName = null;
 
         connectedCallback(): void {
-          this.foundModeName = getModeName(this);
+          this.foundThemeName = getThemeName(this);
         }
       }
-      customElements.define("mode-element", ModeElement);
+      customElements.define("themed-element", ThemedElement);
     }
     beforeEach(() => {
       defineTestComponents();
     });
 
-    it("finds the closest mode if set (light)", () => {
+    it("finds the closest theme if set (light)", () => {
       document.body.innerHTML = html`
-        <div class="calcite-mode-dark">
-          <div class="calcite-mode-light">
-            <mode-element></mode-element>
+        <div class="calcite-theme-dark">
+          <div class="calcite-theme-light">
+            <themed-element></themed-element>
           </div>
         </div>
       `;
-      expect(getTestComponentMode()).toBe("light");
+      expect(getTestComponentTheme()).toBe("light");
     });
 
-    it("finds the closest mode if set (dark)", () => {
+    it("finds the closest theme if set (dark)", () => {
       document.body.innerHTML = html`
-        <div class="calcite-mode-light">
-          <div class="calcite-mode-dark">
-            <mode-element></mode-element>
+        <div class="calcite-theme-light">
+          <div class="calcite-theme-dark">
+            <themed-element></themed-element>
           </div>
         </div>
       `;
-      expect(getTestComponentMode()).toBe("dark");
+      expect(getTestComponentTheme()).toBe("dark");
     });
 
-    it("sets to default (light) if no mode is set", () => {
+    it("sets to default (light) if no theme is set", () => {
       document.body.innerHTML = html`
         <div>
           <div>
-            <mode-element></mode-element>
+            <themed-element></themed-element>
           </div>
         </div>
       `;
-      expect(getTestComponentMode()).toBe("light");
+      expect(getTestComponentTheme()).toBe("light");
     });
   });
 

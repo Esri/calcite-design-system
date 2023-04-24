@@ -1,6 +1,8 @@
 import { Component, Element, h, Prop, VNode, Watch } from "@stencil/core";
 import Color from "color";
-import { getModeName } from "../../utils/dom";
+import { COLORS, CSS } from "./resources";
+import { Scale } from "../interfaces";
+import { getThemeName } from "../../utils/dom";
 import { hexify } from "../color-picker/utils";
 
 const CHECKER_SQUARE_SIZE_IN_PX = 4;
@@ -73,7 +75,7 @@ export class ColorPickerSwatch {
     const borderRadius = active ? "100%" : "0";
     const alpha = internalColor.alpha();
     const hex = hexify(internalColor, alpha < 1);
-    const theme = getModeName(el);
+    const theme = getThemeName(el);
     const borderColor = theme === "light" ? COLORS.borderLight : COLORS.borderDark;
 
     return (

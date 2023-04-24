@@ -7,6 +7,18 @@ describe("calcite-shell", () => {
 
   it("honors hidden attribute", async () => hidden("calcite-shell"));
 
+  it("defaults", async () => {
+    const page = await newE2EPage();
+
+    await page.setContent("<calcite-shell></calcite-shell>");
+
+    const footer = await page.find(`calcite-shell >>> slot[name="${SLOTS.footer}"]`);
+    const header = await page.find(`calcite-shell >>> slot[name="${SLOTS.header}"]`);
+
+    expect(footer).toBeNull();
+    expect(header).toBeNull();
+  });
+
   it("has slots", () => slots("calcite-shell", SLOTS));
 
   it("content node should always be present", async () => {

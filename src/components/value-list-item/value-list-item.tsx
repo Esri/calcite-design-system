@@ -10,30 +10,28 @@ import {
   Prop,
   VNode
 } from "@stencil/core";
+import { ICON_TYPES } from "../pick-list/resources";
+import { guid } from "../../utils/guid";
+import { CSS, SLOTS as PICK_LIST_SLOTS } from "../pick-list-item/resources";
+import { ICONS, SLOTS } from "./resources";
+import { getSlotted } from "../../utils/dom";
 import {
   ConditionalSlotComponent,
   connectConditionalSlotComponent,
   disconnectConditionalSlotComponent
 } from "../../utils/conditionalSlot";
-import { getSlotted } from "../../utils/dom";
-import { guid } from "../../utils/guid";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import {
-  componentLoaded,
-  LoadableComponent,
+  setUpLoadableComponent,
   setComponentLoaded,
-  setUpLoadableComponent
+  LoadableComponent,
+  componentLoaded
 } from "../../utils/loadable";
-import { CSS, SLOTS as PICK_LIST_SLOTS } from "../pick-list-item/resources";
-import { ICON_TYPES } from "../pick-list/resources";
-import { ICONS, SLOTS } from "./resources";
 
 /**
- * @slot actions-end - A slot for adding `calcite-action`s or content to the end side of the component.
- * @slot actions-start - A slot for adding `calcite-action`s or content to the start side of the component.
+ * @slot actions-end - A slot for adding actions or content to the end side of the component.
+ * @slot actions-start - A slot for adding actions or content to the start side of the component.
  */
-
-/** @deprecated Use the `list` component instead. */
 @Component({
   tag: "calcite-value-list-item",
   styleUrl: "value-list-item.scss",
@@ -79,9 +77,6 @@ export class ValueListItem
    * @see [ICON_TYPES](https://github.com/Esri/calcite-components/blob/master/src/components/pick-list/resources.ts#L5)
    */
   @Prop({ reflect: true }) icon?: ICON_TYPES | null = null;
-
-  /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
-  @Prop({ reflect: true }) iconFlipRtl = false;
 
   /**
    * Label and accessible name for the component. Appears next to the icon.
@@ -237,7 +232,7 @@ export class ValueListItem
   }
 
   renderHandle(): VNode {
-    const { icon, iconFlipRtl } = this;
+    const { icon } = this;
     if (icon === ICON_TYPES.grip) {
       return (
         <span
@@ -251,7 +246,7 @@ export class ValueListItem
           role="button"
           tabindex="0"
         >
-          <calcite-icon flipRtl={iconFlipRtl} icon={ICONS.drag} scale="s" />
+          <calcite-icon icon={ICONS.drag} scale="s" />
         </span>
       );
     }

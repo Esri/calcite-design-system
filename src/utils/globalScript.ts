@@ -1,4 +1,4 @@
-import { initModeChangeEvent } from "./mode";
+import { initThemeChangeEvent } from "./theme";
 
 /**
  * This file is imported in Stencil's `globalScript` config option.
@@ -15,9 +15,9 @@ export default function (): void {
 
   if (isBrowser) {
     if (document.readyState === "interactive") {
-      initModeChangeEvent();
+      initThemeChangeEvent();
     } else {
-      document.addEventListener("DOMContentLoaded", () => initModeChangeEvent(), { once: true });
+      document.addEventListener("DOMContentLoaded", () => initThemeChangeEvent(), { once: true });
     }
   }
 }

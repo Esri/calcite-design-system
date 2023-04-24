@@ -1,10 +1,10 @@
-import { Component, Element, h, Prop, VNode } from "@stencil/core";
-import { getElementProp } from "../../utils/dom";
+import { Component, Prop, h, VNode, Element } from "@stencil/core";
+import { CSS } from "./resources";
+import { getAncestors, getDepth } from "../combobox/utils";
 import { guid } from "../../utils/guid";
 import { ComboboxChildElement } from "../combobox/interfaces";
-import { getAncestors, getDepth } from "../combobox/utils";
+import { getElementProp } from "../../utils/dom";
 import { Scale } from "../interfaces";
-import { CSS } from "./resources";
 
 /**
  * @slot - A slot for adding `calcite-combobox-item`s.

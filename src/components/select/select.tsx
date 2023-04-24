@@ -12,6 +12,8 @@ import {
   Watch
 } from "@stencil/core";
 import { focusElement } from "../../utils/dom";
+import { Scale, Width } from "../interfaces";
+import { LabelableComponent, connectLabel, disconnectLabel } from "../../utils/label";
 import {
   afterConnectDefaultValueSet,
   connectForm,
@@ -19,17 +21,15 @@ import {
   FormComponent,
   HiddenFormInputSlot
 } from "../../utils/form";
-import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
-import { connectLabel, disconnectLabel, LabelableComponent } from "../../utils/label";
-import {
-  componentLoaded,
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent
-} from "../../utils/loadable";
-import { createObserver } from "../../utils/observers";
-import { Scale, Width } from "../interfaces";
 import { CSS } from "./resources";
+import { createObserver } from "../../utils/observers";
+import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import {
+  setUpLoadableComponent,
+  setComponentLoaded,
+  LoadableComponent,
+  componentLoaded
+} from "../../utils/loadable";
 
 type OptionOrGroup = HTMLCalciteOptionElement | HTMLCalciteOptionGroupElement;
 type NativeOptionOrGroup = HTMLOptionElement | HTMLOptGroupElement;

@@ -71,7 +71,7 @@
         <div class="shell-container">
           <calcite-shell>
             <calcite-shell-panel id="primary-panel" slot="panel-start" position="start" detached>
-              <calcite-action-bar slot="action-bar" class="calcite-mode-dark">
+              <calcite-action-bar slot="action-bar" class="calcite-theme-dark">
                 <calcite-action-group>
                   <calcite-action text="Save" icon="save" indicator> </calcite-action>
                   <calcite-action text-enabled icon="map" text="New" slot="menu-actions"> </calcite-action>
@@ -164,7 +164,7 @@
                         ></calcite-value-list-item>
                       </calcite-value-list>
                       <div class="row">
-                        <calcite-button id="attribute-add" round icon="plus" scale="s" width="full" kind="neutral"
+                        <calcite-button id="attribute-add" round icon="plus" scale="s" width="full" color="neutral"
                           >Select attributes</calcite-button
                         >
                       </div>
@@ -296,7 +296,7 @@
           add-click-handle
           class="popover"
         >
-          <calcite-panel class="calcite-mode-light">
+          <calcite-panel class="calcite-theme-light">
             <h3 class="heading" slot="header-content">WE CARE A LOT</h3>
             <calcite-pick-list filter-enabled filter-sticky>
               <calcite-action slot="menu-actions" text="options">
@@ -316,7 +316,7 @@
               ></calcite-pick-list-item>
             </calcite-pick-list>
             <calcite-button slot="footer" width="half">Yeah!</calcite-button>
-            <calcite-button slot="footer" width="half" appearance="outline">Naw.</calcite-button>
+            <calcite-button slot="footer" width="half" appearance="clear">Naw.</calcite-button>
           </calcite-panel>
         </calcite-popover>
         <script>

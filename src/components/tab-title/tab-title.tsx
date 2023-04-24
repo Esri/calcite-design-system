@@ -13,14 +13,13 @@ import {
   VNode,
   Watch
 } from "@stencil/core";
-import { getElementDir, getElementProp, toAriaBoolean } from "../../utils/dom";
-import { guid } from "../../utils/guid";
-import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
-import { createObserver } from "../../utils/observers";
-import { FlipContext, Scale } from "../interfaces";
 import { TabChangeEventDetail } from "../tab/interfaces";
-import { CSS } from "./resources";
+import { guid } from "../../utils/guid";
+import { getElementDir, getElementProp, toAriaBoolean } from "../../utils/dom";
 import { TabID, TabLayout, TabPosition } from "../tabs/interfaces";
+import { FlipContext, Scale } from "../interfaces";
+import { createObserver } from "../../utils/observers";
+import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 
 /**
  * @slot - A slot for adding text.
@@ -65,7 +64,7 @@ export class TabTitle implements InteractiveComponent {
   /** Specifies an icon to display at the end of the component. */
   @Prop({ reflect: true }) iconEnd: string;
 
-  /** Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`). */
+  /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @Prop({ reflect: true }) iconFlipRtl: FlipContext;
 
   /** Specifies an icon to display at the start of the component. */
@@ -149,19 +148,19 @@ export class TabTitle implements InteractiveComponent {
 
     const iconStartEl = (
       <calcite-icon
-        class={{ [CSS.titleIcon]: true, [CSS.iconStart]: true }}
+        class="calcite-tab-title--icon icon-start"
         flipRtl={this.iconFlipRtl === "start" || this.iconFlipRtl === "both"}
         icon={this.iconStart}
-        scale={this.scale === "l" ? "m" : "s"}
+        scale="s"
       />
     );
 
     const iconEndEl = (
       <calcite-icon
-        class={{ [CSS.titleIcon]: true, [CSS.iconEnd]: true }}
+        class="calcite-tab-title--icon icon-end"
         flipRtl={this.iconFlipRtl === "end" || this.iconFlipRtl === "both"}
         icon={this.iconEnd}
-        scale={this.scale === "l" ? "m" : "s"}
+        scale="s"
       />
     );
 
@@ -176,8 +175,7 @@ export class TabTitle implements InteractiveComponent {
         <div
           class={{
             container: true,
-            [CSS.iconPresent]: this.iconStart || this.iconEnd ? true : null,
-            [CSS.containerHasText]: this.hasText
+            "container--has-text": this.hasText
           }}
           ref={(el) => this.resizeObserver?.observe(el)}
         >
@@ -273,7 +271,7 @@ export class TabTitle implements InteractiveComponent {
   //--------------------------------------------------------------------------
 
   /**
-   * Fires when a `calcite-tab` is selected.
+   * Fires when a `calcite-tab` is selected. Emits the `tab` property, or the index position.
    */
   @Event({ cancelable: false }) calciteTabsActivate: EventEmitter<void>;
 

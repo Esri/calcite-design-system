@@ -4,10 +4,11 @@ import {
   filterComponentAttributes,
   Attributes,
   createComponentHTML as create,
-  modesDarkDefault
+  themesDarkDefault
 } from "../../../.storybook/utils";
 import readme from "./readme.md";
 import groupReadme from "../tip-group/readme.md";
+import { TEXT } from "./resources";
 import { placeholderImage } from "../../../.storybook/placeholderImage";
 import { storyFilters } from "../../../.storybook/helpers";
 
@@ -23,9 +24,9 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
   return filterComponentAttributes(
     [
       {
-        name: "closed",
+        name: "dismissed",
         commit(): Attribute {
-          this.value = boolean("closed", false);
+          this.value = boolean("dismissed", false);
           delete this.build;
           return this;
         }
@@ -45,6 +46,14 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
           delete this.build;
           return this;
         }
+      },
+      {
+        name: "intl-close",
+        commit(): Attribute {
+          this.value = text("intlClose", TEXT.close);
+          delete this.build;
+          return this;
+        }
       }
     ],
     exceptions
@@ -58,13 +67,13 @@ const html = `<img slot="thumbnail" src="${placeholderImage({
 
 export const simple = (): string => create("calcite-tip", createAttributes(), html);
 
-export const darkModeRTL_TestOnly = (): string =>
+export const darkThemeRTL_TestOnly = (): string =>
   create(
     "calcite-tip",
     createAttributes({ exceptions: ["dir", "class"] }).concat([
       { name: "dir", value: "rtl" },
-      { name: "class", value: "calcite-mode-dark" }
+      { name: "class", value: "calcite-theme-dark" }
     ]),
     html
   );
-darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
+darkThemeRTL_TestOnly.parameters = { themes: themesDarkDefault };

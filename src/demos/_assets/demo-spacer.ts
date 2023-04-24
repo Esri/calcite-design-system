@@ -2,8 +2,7 @@ class DemoSpacer extends HTMLElement {
   constructor() {
     super();
     this.attachShadow({ mode: "open" });
-    if (this.shadowRoot) {
-      this.shadowRoot.innerHTML = `
+    this.shadowRoot.innerHTML = `
           <style>
             :host {
               display: grid;
@@ -13,7 +12,6 @@ class DemoSpacer extends HTMLElement {
           </style>
           <slot></slot>
         `;
-    }
   }
 }
 customElements.define("demo-spacer", DemoSpacer);

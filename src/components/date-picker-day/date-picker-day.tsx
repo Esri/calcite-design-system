@@ -1,22 +1,21 @@
 import {
   Component,
   Element,
+  Prop,
+  Host,
   Event,
   EventEmitter,
-  h,
-  Host,
   Listen,
-  Prop,
+  h,
   VNode
 } from "@stencil/core";
-import { dateToISO } from "../../utils/date";
 
 import { closestElementCrossShadowBoundary, getElementDir } from "../../utils/dom";
+import { Scale } from "../interfaces";
+import { CSS_UTILITY } from "../../utils/resources";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import { isActivationKey } from "../../utils/key";
 import { numberStringFormatter } from "../../utils/locale";
-import { CSS_UTILITY } from "../../utils/resources";
-import { Scale } from "../interfaces";
 
 @Component({
   tag: "calcite-date-picker-day",
@@ -128,7 +127,6 @@ export class DatePickerDay implements InteractiveComponent {
   }
 
   render(): VNode {
-    const dayId = dateToISO(this.value).replaceAll("-", "");
     if (this.parentDatePickerEl) {
       const { numberingSystem, lang: locale } = this.parentDatePickerEl;
 
@@ -141,7 +139,7 @@ export class DatePickerDay implements InteractiveComponent {
     const formattedDay = numberStringFormatter.localize(String(this.day));
     const dir = getElementDir(this.el);
     return (
-      <Host id={dayId} onClick={this.onClick} onKeyDown={this.keyDownHandler} role="gridcell">
+      <Host onClick={this.onClick} onKeyDown={this.keyDownHandler} role="gridcell">
         <div class={{ "day-v-wrapper": true, [CSS_UTILITY.rtl]: dir === "rtl" }}>
           <div class="day-wrapper">
             <span class="day">

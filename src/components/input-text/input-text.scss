@@ -143,7 +143,7 @@ input:focus {
 }
 
 :host([icon][scale="l"]) input {
-  padding-inline-start: theme("padding.14");
+  padding-inline-start: theme("padding.12");
 }
 
 // positioning wrapper for icon and loader

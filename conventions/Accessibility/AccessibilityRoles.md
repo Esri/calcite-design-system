@@ -381,12 +381,12 @@ Learn more about the radiogroup role on [W3C](https://www.w3.org/TR/wai-aria-1.1
 
 ```html
 <!-- Radiogroup role example -->
-<span id="segmented-control-label">What is the study of physical features on Earth?</span>
+<span id="radio-group-label">What is the study of physical features on Earth?</span>
 <ul
-  id="segmented-control"
+  id="radio-group"
   class="radiogroup"
   role="radiogroup"
-  aria-labelledby="segmented-control-label"
+  aria-labelledby="radio-group-label"
   aria-activedescendant="radio-geography"
   tabindex="0"
 >

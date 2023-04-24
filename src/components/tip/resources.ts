@@ -15,3 +15,7 @@ export const ICONS = {
 export const SLOTS = {
   thumbnail: "thumbnail"
 };
+
+export const TEXT = {
+  close: "Close"
+};

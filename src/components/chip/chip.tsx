@@ -1,31 +1,26 @@
 import {
-  Build,
   Component,
-  Element,
+  h,
+  Prop,
   Event,
   EventEmitter,
-  h,
-  Method,
-  Prop,
-  State,
+  Element,
   VNode,
-  Watch
+  Method,
+  Watch,
+  State
 } from "@stencil/core";
+import { getSlotted } from "../../utils/dom";
+import { guid } from "../../utils/guid";
+import { CSS, SLOTS, ICONS } from "./resources";
+import { ChipColor } from "./interfaces";
+import { Appearance, DeprecatedEventPayload, Scale } from "../interfaces";
 import {
   ConditionalSlotComponent,
   connectConditionalSlotComponent,
   disconnectConditionalSlotComponent
 } from "../../utils/conditionalSlot";
-import { slotChangeHasAssignedElement } from "../../utils/dom";
-import { guid } from "../../utils/guid";
-import {
-  componentLoaded,
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent
-} from "../../utils/loadable";
-import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
-import { createObserver } from "../../utils/observers";
+import { Messages } from "./assets/chip/t9n";
 import {
   connectMessages,
   disconnectMessages,
@@ -33,9 +28,13 @@ import {
   T9nComponent,
   updateMessages
 } from "../../utils/t9n";
-import { Appearance, Kind, Scale } from "../interfaces";
-import { ChipMessages } from "./assets/chip/t9n";
-import { CSS, ICONS, SLOTS } from "./resources";
+import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
+import {
+  setUpLoadableComponent,
+  setComponentLoaded,
+  LoadableComponent,
+  componentLoaded
+} from "../../utils/loadable";
 
 /**
  * @slot - A slot for adding text.
@@ -57,11 +56,10 @@ export class Chip
   //--------------------------------------------------------------------------
 
   /** Specifies the appearance style of the component. */
-  @Prop({ reflect: true }) appearance: Extract<"outline" | "outline-fill" | "solid", Appearance> =
-    "solid";
+  @Prop({ reflect: true }) appearance: Extract<"solid" | "transparent", Appearance> = "solid";
 
-  /** Specifies the kind of the component (will apply to border and background if applicable). */
-  @Prop({ reflect: true }) kind: Extract<"brand" | "inverse" | "neutral", Kind> = "neutral";
+  /** Specifies the color for the component. */
+  @Prop({ reflect: true }) color: ChipColor = "grey";
 
   /** When `true`, a close button is added to the component. */
   @Prop({ reflect: true, mutable: true }) closable = false;
@@ -84,14 +82,14 @@ export class Chip
   /**
    * Use this property to override individual strings used by the component.
    */
-  @Prop({ mutable: true }) messageOverrides: Partial<ChipMessages>;
+  @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
 
   /**
    * Made into a prop for testing purposes only
    *
    * @internal
    */
-  @Prop({ mutable: true }) messages: ChipMessages;
+  @Prop({ mutable: true }) messages: Messages;
 
   @Watch("messageOverrides")
   onMessagesChange(): void {
@@ -106,7 +104,7 @@ export class Chip
 
   @Element() el: HTMLCalciteChipElement;
 
-  @State() defaultMessages: ChipMessages;
+  @State() defaultMessages: Messages;
 
   @State() effectiveLocale: string;
 
@@ -125,7 +123,6 @@ export class Chip
     connectConditionalSlotComponent(this);
     connectLocalized(this);
     connectMessages(this);
-    this.setupTextContentObserver();
   }
 
   componentDidLoad(): void {
@@ -140,10 +137,7 @@ export class Chip
 
   async componentWillLoad(): Promise<void> {
     setUpLoadableComponent(this);
-    if (Build.isBrowser) {
-      await setUpMessages(this);
-      this.updateHasContent();
-    }
+    await setUpMessages(this);
   }
   //--------------------------------------------------------------------------
   //
@@ -151,7 +145,7 @@ export class Chip
   //
   //--------------------------------------------------------------------------
 
-  /** When `closable` is `true`, sets focus on the component's "close" button (the first focusable item). */
+  /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
     await componentLoaded(this);
@@ -167,8 +161,10 @@ export class Chip
 
   /**
    * Fires when the close button is clicked.
+   *
+   * **Note:**: The `el` event payload props is deprecated, please use the event's `target`/`currentTarget` instead.
    */
-  @Event({ cancelable: false }) calciteChipClose: EventEmitter<void>;
+  @Event({ cancelable: false }) calciteChipClose: EventEmitter<DeprecatedEventPayload>;
 
   // --------------------------------------------------------------------------
   //
@@ -178,44 +174,14 @@ export class Chip
 
   closeClickHandler = (event: MouseEvent): void => {
     event.preventDefault();
-    this.calciteChipClose.emit();
+    this.calciteChipClose.emit(this.el);
     this.closed = true;
   };
-
-  private updateHasContent() {
-    const slottedContent = this.el.textContent.trim().length > 0 || this.el.childNodes.length > 0;
-    this.hasContent =
-      this.el.childNodes.length > 0 && this.el.childNodes[0]?.nodeName === "#text"
-        ? this.el.textContent?.trim().length > 0
-        : slottedContent;
-  }
-
-  private setupTextContentObserver() {
-    this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
-  }
-
-  private handleSlotImageChange = (event: Event): void => {
-    this.hasImage = slotChangeHasAssignedElement(event);
-  };
-
-  //--------------------------------------------------------------------------
-  //
-  //  Private State/Props
-  //
-  //--------------------------------------------------------------------------
-
-  /** watches for changing text content */
-  private mutationObserver = createObserver("mutation", () => this.updateHasContent());
 
   private closeButton: HTMLButtonElement;
 
   private guid: string = guid();
 
-  /** determine if there is slotted content for styling purposes */
-  @State() private hasContent = false;
-
-  /** determine if there is slotted image for styling purposes */
-  @State() private hasImage = false;
   //--------------------------------------------------------------------------
   //
   //  Render Methods
@@ -223,21 +189,19 @@ export class Chip
   //--------------------------------------------------------------------------
 
   renderChipImage(): VNode {
-    return (
+    const { el } = this;
+    const hasChipImage = getSlotted(el, SLOTS.image);
+
+    return hasChipImage ? (
       <div class={CSS.imageContainer} key="image">
-        <slot name={SLOTS.image} onSlotchange={this.handleSlotImageChange} />
+        <slot name={SLOTS.image} />
       </div>
-    );
+    ) : null;
   }
 
   render(): VNode {
     const iconEl = (
-      <calcite-icon
-        class={CSS.chipIcon}
-        flipRtl={this.iconFlipRtl}
-        icon={this.icon}
-        scale={this.scale === "l" ? "m" : "s"}
-      />
+      <calcite-icon class={CSS.chipIcon} flipRtl={this.iconFlipRtl} icon={this.icon} scale="s" />
     );
 
     const closeButton = (
@@ -248,22 +212,12 @@ export class Chip
         onClick={this.closeClickHandler}
         ref={(el) => (this.closeButton = el)}
       >
-        <calcite-icon
-          class={CSS.closeIcon}
-          icon={ICONS.close}
-          scale={this.scale === "l" ? "m" : "s"}
-        />
+        <calcite-icon class={CSS.closeIcon} icon={ICONS.close} scale="s" />
       </button>
     );
 
     return (
-      <div
-        class={{
-          [CSS.container]: true,
-          [CSS.contentSlotted]: this.hasContent,
-          [CSS.imageSlotted]: this.hasImage
-        }}
-      >
+      <div class="container">
         {this.renderChipImage()}
         {this.icon ? iconEl : null}
         <span class={CSS.title} id={this.guid}>

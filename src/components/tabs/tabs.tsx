@@ -1,11 +1,11 @@
-import { Component, Element, Fragment, h, Listen, Prop, State, VNode } from "@stencil/core";
-import { Scale } from "../interfaces";
+import { Component, Prop, h, Element, Listen, State, VNode, Fragment } from "@stencil/core";
 import { TabLayout, TabPosition } from "./interfaces";
+import { Scale } from "../interfaces";
 import { SLOTS } from "./resources";
 
 /**
  * @slot - A slot for adding `calcite-tab`s.
- * @slot title-group - A slot for adding a `calcite-tab-nav`.
+ * @slot tab-nav - A slot for adding a `calcite-tab-nav`.
  */
 @Component({
   tag: "calcite-tabs",

@@ -18,7 +18,7 @@ import { CSS_UTILITY } from "../src/utils/resources";
 
 import { colors } from "../node_modules/@esri/calcite-colors/dist/colors";
 import { Description, DocsPage } from "@storybook/addon-docs";
-import { Theme as Mode } from "storybook-addon-themes/dist/models/Theme";
+import { Theme } from "storybook-addon-themes/dist/models/Theme";
 import React from "react";
 
 const autoValue = {
@@ -36,30 +36,30 @@ const darkValue = {
   value: colors["blk-210"]
 };
 
-const list: Mode[] = [
+const list: Theme[] = [
   {
     name: lightValue.name,
-    class: CSS_UTILITY.lightMode,
+    class: CSS_UTILITY.lightTheme,
     color: lightValue.value
   },
   {
     name: darkValue.name,
-    class: CSS_UTILITY.darkMode,
+    class: CSS_UTILITY.darkTheme,
     color: darkValue.value
   },
   {
     name: autoValue.name,
-    class: CSS_UTILITY.autoMode,
+    class: CSS_UTILITY.autoTheme,
     color: autoValue.value
   }
 ];
 
-export const modes = {
+export const themes = {
   default: lightValue.name,
   list
 };
 
-export const modesDarkDefault = {
+export const themesDarkDefault = {
   default: darkValue.name,
   list
 };

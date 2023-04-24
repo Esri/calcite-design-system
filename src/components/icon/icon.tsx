@@ -1,10 +1,10 @@
-import { CalciteIconPath, CalciteMultiPathEntry } from "@esri/calcite-ui-icons";
 import { Build, Component, Element, h, Host, Prop, State, VNode, Watch } from "@stencil/core";
-import { getElementDir, toAriaBoolean } from "../../utils/dom";
-import { createObserver } from "../../utils/observers";
-import { Scale } from "../interfaces";
 import { CSS } from "./resources";
+import { getElementDir, toAriaBoolean } from "../../utils/dom";
 import { fetchIcon, scaleToPx } from "./utils";
+import { Scale } from "../interfaces";
+import { CalciteIconPath, CalciteMultiPathEntry } from "@esri/calcite-ui-icons";
+import { createObserver } from "../../utils/observers";
 
 @Component({
   tag: "calcite-icon",
@@ -97,7 +97,6 @@ export class Icon {
         role={semantic ? "img" : null}
       >
         <svg
-          aria-hidden="true"
           class={{
             [CSS.flipRtl]: dir === "rtl" && flipRtl,
             svg: true

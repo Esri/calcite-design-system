@@ -1,6 +1,6 @@
 import { select, text, number } from "@storybook/addon-knobs";
 import { boolean, iconNames, storyFilters } from "../../../.storybook/helpers";
-import { modesDarkDefault } from "../../../.storybook/utils";
+import { themesDarkDefault } from "../../../.storybook/utils";
 import readme from "./readme.md";
 import { html } from "../../../support/formatting";
 
@@ -117,16 +117,16 @@ export const textarea = (): string => html`
 
 export const disabled_TestOnly = (): string => html`<calcite-input disabled value="disabled"></calcite-input>`;
 
-export const darkModeRTL_TestOnly = (): string => html`
+export const darkThemeRTL_TestOnly = (): string => html`
   <div dir="rtl" style="width:300px;max-width:100%;text-align:center;">
     <calcite-label
-      class="calcite-mode-dark"
+      class="calcite-theme-dark"
       status="${select("status", ["idle", "valid", "invalid"], "idle")}"
-      for="input-dark-mode"
+      for="input-dark-theme"
     >
       ${text("label text", "My great label")}
       <calcite-input
-        id="input-dark-mode"
+        id="input-dark-theme"
         type="${select(
           "type",
           ["text", "textarea", "email", "password", "tel", "number", "search", "file", "time", "date"],
@@ -153,7 +153,7 @@ export const darkModeRTL_TestOnly = (): string => html`
     </calcite-label>
   </div>
 `;
-darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
+darkThemeRTL_TestOnly.parameters = { themes: themesDarkDefault };
 
 export const hebrewNumberingSystem_TestOnly = (): string =>
   html` <calcite-input type="number" lang="ar-EG" numbering-system="hebr" value="123456"></calcite-input>`;

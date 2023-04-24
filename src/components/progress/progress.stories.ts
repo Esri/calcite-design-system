@@ -1,9 +1,9 @@
-import { number, select, text } from "@storybook/addon-knobs";
+import { select, number, text } from "@storybook/addon-knobs";
 
-import { storyFilters } from "../../../.storybook/helpers";
-import { modesDarkDefault } from "../../../.storybook/utils";
-import { html } from "../../../support/formatting";
+import { themesDarkDefault } from "../../../.storybook/utils";
 import readme from "./readme.md";
+import { html } from "../../../support/formatting";
+import { storyFilters } from "../../../.storybook/helpers";
 
 export default {
   title: "Components/Progress",
@@ -21,18 +21,13 @@ export const simple = (): string => html`
   ></calcite-progress>
 `;
 
-export const darkModeRTL_TestOnly = (): string => html`
-  <style>
-    :root {
-      --calcite-duration-factor: 0;
-    }
-  </style>
+export const darkThemeRTL_TestOnly = (): string => html`
   <calcite-progress
-    class="calcite-mode-dark"
-    type="determinate"
-    value="0.2"
-    text="% Complete (optional text)"
+    class="calcite-theme-dark"
+    type="${select("type", { determinate: "determinate", indeterminate: "indeterminate" }, "indeterminate")}"
+    value="${number("value", 0.2, { range: true, min: 0, max: 1, step: 0.01 })}"
+    text="${text("text", "% Complete (optional text)")}"
   ></calcite-progress>
 `;
 
-darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
+darkThemeRTL_TestOnly.parameters = { themes: themesDarkDefault };

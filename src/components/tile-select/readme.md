@@ -29,7 +29,6 @@
 | `heading`        | `heading`         | The component header text, which displays between the icon and description.                                | `string`                | `undefined` |
 | `hidden`         | `hidden`          | When `true`, the component is not displayed and is not focusable or checkable.                             | `boolean`               | `false`     |
 | `icon`           | `icon`            | Specifies an icon to display.                                                                              | `string`                | `undefined` |
-| `iconFlipRtl`    | `icon-flip-rtl`   | When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).               | `boolean`               | `false`     |
 | `inputAlignment` | `input-alignment` | When `inputEnabled` is `true`, specifies the placement of the interactive input on the component.          | `"end" \| "start"`      | `"start"`   |
 | `inputEnabled`   | `input-enabled`   | When `true`, displays an interactive input based on the `type` property.                                   | `boolean`               | `false`     |
 | `name`           | `name`            | Specifies the name of the component on form submission.                                                    | `any`                   | `undefined` |

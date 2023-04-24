@@ -121,9 +121,9 @@ export const checkbox_TestOnly = (): string =>
 export const radio_TestOnly = (): string =>
   html`<calcite-tile-select icon="list-radio" heading="test" value="one" type="radio"></calcite-tile-select>`;
 
-export const checkboxDarkModeRTL_TestOnly = (): string =>
+export const checkboxDarkThemeRTL_TestOnly = (): string =>
   html`<calcite-tile-select
-    class="calcite-mode-dark"
+    class="calcite-theme-dark"
     dir="rtl"
     icon="check"
     heading="test"
@@ -131,9 +131,9 @@ export const checkboxDarkModeRTL_TestOnly = (): string =>
     type="checkbox"
   ></calcite-tile-select>`;
 
-export const radiodarkModeRTL_TestOnly = (): string =>
+export const radioDarkThemeRTL_TestOnly = (): string =>
   html`<calcite-tile-select
-    class="calcite-mode-dark"
+    class="calcite-theme-dark"
     dir="rtl"
     icon="list-radio"
     heading="test"

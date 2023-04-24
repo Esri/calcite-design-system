@@ -1,8 +1,8 @@
 import { select } from "@storybook/addon-knobs";
 import { boolean, storyFilters } from "../../../.storybook/helpers";
-import { modesDarkDefault } from "../../../.storybook/utils";
-import { html } from "../../../support/formatting";
 import readme from "./readme.md";
+import { html } from "../../../support/formatting";
+import { themesDarkDefault } from "../../../.storybook/utils";
 
 export default {
   title: "Components/Controls/Switch",
@@ -22,9 +22,9 @@ export const simple = (): string => html`
   ></calcite-switch>
 `;
 
-export const darkModeRTL_TestOnly = (): string => html`
+export const darkThemeRTL_TestOnly = (): string => html`
   <calcite-switch
-    class="calcite-mode-dark"
+    class="calcite-theme-dark"
     name="setting"
     value="enabled"
     ${boolean("checked", true)}
@@ -32,6 +32,6 @@ export const darkModeRTL_TestOnly = (): string => html`
   ></calcite-switch>
 `;
 
-darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
+darkThemeRTL_TestOnly.parameters = { themes: themesDarkDefault };
 
 export const disabled_TestOnly = (): string => html`<calcite-switch disabled checked></calcite-switch>`;

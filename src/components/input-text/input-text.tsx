@@ -12,6 +12,10 @@ import {
   Watch
 } from "@stencil/core";
 import { getElementDir, getElementProp, getSlotted, setRequestedIcon } from "../../utils/dom";
+import { CSS, SLOTS } from "./resources";
+import { Position, Scale, Status } from "../interfaces";
+import { SetValueOrigin } from "../input/interfaces";
+import { LabelableComponent, connectLabel, disconnectLabel, getLabelText } from "../../utils/label";
 import {
   connectForm,
   disconnectForm,
@@ -19,17 +23,10 @@ import {
   HiddenFormInputSlot,
   submitForm
 } from "../../utils/form";
-import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
-import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
-import {
-  componentLoaded,
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent
-} from "../../utils/loadable";
-import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
-import { createObserver } from "../../utils/observers";
 import { CSS_UTILITY } from "../../utils/resources";
+import { createObserver } from "../../utils/observers";
+import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 import {
   connectMessages,
   disconnectMessages,
@@ -37,10 +34,13 @@ import {
   T9nComponent,
   updateMessages
 } from "../../utils/t9n";
-import { SetValueOrigin } from "../input/interfaces";
-import { Position, Scale, Status } from "../interfaces";
-import { InputTextMessages } from "./assets/input-text/t9n";
-import { CSS, SLOTS } from "./resources";
+import { Messages } from "./assets/input-text/t9n";
+import {
+  setUpLoadableComponent,
+  setComponentLoaded,
+  LoadableComponent,
+  componentLoaded
+} from "../../utils/loadable";
 
 /**
  * @slot action - A slot for positioning a button next to the component.
@@ -217,12 +217,12 @@ export class InputText
    *
    * @internal
    */
-  @Prop({ mutable: true }) messages: InputTextMessages;
+  @Prop({ mutable: true }) messages: Messages;
 
   /**
    * Use this property to override individual strings used by the component.
    */
-  @Prop({ mutable: true }) messageOverrides: Partial<InputTextMessages>;
+  @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
 
   @Watch("messageOverrides")
   onMessagesChange(): void {
@@ -287,9 +287,7 @@ export class InputText
     updateMessages(this, this.effectiveLocale);
   }
 
-  @State() defaultMessages: InputTextMessages;
-
-  @State() slottedActionElDisabledInternally = false;
+  @State() defaultMessages: Messages;
 
   //--------------------------------------------------------------------------
   //
@@ -510,15 +508,9 @@ export class InputText
       return;
     }
 
-    if (this.disabled) {
-      if (slottedActionEl.getAttribute("disabled") == null) {
-        this.slottedActionElDisabledInternally = true;
-      }
-      slottedActionEl.setAttribute("disabled", "");
-    } else if (this.slottedActionElDisabledInternally) {
-      slottedActionEl.removeAttribute("disabled");
-      this.slottedActionElDisabledInternally = false;
-    }
+    this.disabled
+      ? slottedActionEl.setAttribute("disabled", "")
+      : slottedActionEl.removeAttribute("disabled");
   }
 
   private setInputValue = (newInputValue: string): void => {
@@ -592,7 +584,7 @@ export class InputText
         tabIndex={-1}
         type="button"
       >
-        <calcite-icon icon="x" scale={this.scale === "l" ? "m" : "s"} />
+        <calcite-icon icon="x" scale="s" />
       </button>
     );
     const iconEl = (
@@ -600,7 +592,7 @@ export class InputText
         class={CSS.inputIcon}
         flipRtl={this.iconFlipRtl}
         icon={this.requestedIcon}
-        scale={this.scale === "l" ? "m" : "s"}
+        scale="s"
       />
     );
     const prefixText = <div class={CSS.prefix}>{this.prefixText}</div>;

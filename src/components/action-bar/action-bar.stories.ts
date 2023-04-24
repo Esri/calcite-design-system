@@ -1,15 +1,15 @@
-import { boolean, select } from "@storybook/addon-knobs";
-import { storyFilters } from "../../../.storybook/helpers";
-import { ATTRIBUTES } from "../../../.storybook/resources";
+import { boolean, select, text } from "@storybook/addon-knobs";
 import {
-  Attribute,
   Attributes,
-  createComponentHTML as create,
+  Attribute,
   filterComponentAttributes,
-  modesDarkDefault
+  createComponentHTML as create,
+  themesDarkDefault
 } from "../../../.storybook/utils";
-import { html } from "../../../support/formatting";
 import readme from "./readme.md";
+import { ATTRIBUTES } from "../../../.storybook/resources";
+import { html } from "../../../support/formatting";
+import { storyFilters } from "../../../.storybook/helpers";
 
 export default {
   title: "Components/Action Bar",
@@ -122,7 +122,7 @@ export const withDefinedWidths = (): string =>
     </calcite-action-bar>
   `;
 
-export const darkModeRTL_TestOnly = (): string =>
+export const darkThemeRTL_TestOnly = (): string =>
   create(
     "calcite-action-bar",
     createAttributes({ exceptions: ["dir", "class"] }).concat([
@@ -132,7 +132,7 @@ export const darkModeRTL_TestOnly = (): string =>
       },
       {
         name: "class",
-        value: "calcite-mode-dark"
+        value: "calcite-theme-dark"
       }
     ]),
     html`
@@ -146,7 +146,7 @@ export const darkModeRTL_TestOnly = (): string =>
     `
   );
 
-darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
+darkThemeRTL_TestOnly.parameters = { themes: themesDarkDefault };
 
 export const withTooltip_NoTest = (): string =>
   create(

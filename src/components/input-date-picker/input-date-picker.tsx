@@ -1,40 +1,31 @@
 import {
-  Build,
   Component,
+  h,
+  Prop,
   Element,
+  Host,
+  State,
+  Listen,
+  Watch,
+  VNode,
+  Method,
   Event,
   EventEmitter,
-  h,
-  Host,
-  Listen,
-  Method,
-  Prop,
-  State,
-  VNode,
-  Watch
+  Build
 } from "@stencil/core";
+import { getLocaleData, DateLocaleData, getValueAsDateRange } from "../date-picker/utils";
 import {
-  dateFromISO,
-  dateFromLocalizedString,
   dateFromRange,
-  datePartsFromLocalizedString,
+  inRange,
+  dateFromISO,
   dateToISO,
-  inRange
+  setEndOfDay,
+  dateFromLocalizedString,
+  datePartsFromLocalizedString
 } from "../../utils/date";
-import { toAriaBoolean } from "../../utils/dom";
-import {
-  connectFloatingUI,
-  defaultMenuPlacement,
-  disconnectFloatingUI,
-  EffectivePlacement,
-  filterComputedPlacements,
-  FloatingCSS,
-  FloatingUIComponent,
-  MenuPlacement,
-  OverlayPositioning,
-  reposition,
-  updateAfterClose
-} from "../../utils/floating-ui";
+import { HeadingLevel } from "../functional/Heading";
+import { CSS } from "./resources";
+import { LabelableComponent, connectLabel, disconnectLabel, getLabelText } from "../../utils/label";
 import {
   connectForm,
   disconnectForm,
@@ -42,15 +33,28 @@ import {
   HiddenFormInputSlot,
   submitForm
 } from "../../utils/form";
-import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
-import { numberKeys } from "../../utils/key";
-import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
 import {
-  componentLoaded,
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent
-} from "../../utils/loadable";
+  FloatingCSS,
+  OverlayPositioning,
+  FloatingUIComponent,
+  connectFloatingUI,
+  disconnectFloatingUI,
+  EffectivePlacement,
+  MenuPlacement,
+  defaultMenuPlacement,
+  filterComputedPlacements,
+  reposition,
+  updateAfterClose
+} from "../../utils/floating-ui";
+import { DateRangeChange } from "../date-picker/interfaces";
+import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import { toAriaBoolean } from "../../utils/dom";
+import {
+  OpenCloseComponent,
+  connectOpenCloseComponent,
+  disconnectOpenCloseComponent
+} from "../../utils/openCloseComponent";
+import { Messages } from "../date-picker/assets/date-picker/t9n";
 import {
   connectLocalized,
   disconnectLocalized,
@@ -58,22 +62,18 @@ import {
   NumberingSystem,
   numberStringFormatter
 } from "../../utils/locale";
+import { numberKeys } from "../../utils/key";
 import {
-  connectOpenCloseComponent,
-  disconnectOpenCloseComponent,
-  OpenCloseComponent
-} from "../../utils/openCloseComponent";
-import { DatePickerMessages } from "../date-picker/assets/date-picker/t9n";
-import { DateLocaleData, getLocaleData, getValueAsDateRange } from "../date-picker/utils";
-import { HeadingLevel } from "../functional/Heading";
-import { CSS } from "./resources";
+  setUpLoadableComponent,
+  setComponentLoaded,
+  LoadableComponent,
+  componentLoaded
+} from "../../utils/loadable";
 
 @Component({
   tag: "calcite-input-date-picker",
   styleUrl: "input-date-picker.scss",
-  shadow: {
-    delegatesFocus: true
-  }
+  shadow: true
 })
 export class InputDatePicker
   implements
@@ -126,6 +126,8 @@ export class InputDatePicker
       let newValueAsDate;
       if (Array.isArray(newValue)) {
         newValueAsDate = getValueAsDateRange(newValue);
+        this.start = newValue[0];
+        this.end = newValue[1];
       } else if (newValue) {
         newValueAsDate = dateFromISO(newValue);
       } else {
@@ -173,6 +175,20 @@ export class InputDatePicker
 
   /** The component's value as a full date object. */
   @Prop({ mutable: true }) valueAsDate: Date | Date[];
+
+  /**
+   * The component's start date as a full date object.
+   *
+   * @deprecated use `valueAsDate` instead.
+   */
+  @Prop({ mutable: true }) startAsDate: Date;
+
+  /**
+   * The component's end date as a full date object.
+   *
+   * @deprecated use `valueAsDate` instead.
+   */
+  @Prop({ mutable: true }) endAsDate: Date;
 
   /** Specifies the earliest allowed date as a full date object. */
   @Prop({ mutable: true }) minAsDate: Date;
@@ -252,6 +268,20 @@ export class InputDatePicker
   @Prop({ reflect: true }) required = false;
 
   /**
+   * The component's start date.
+   *
+   * @deprecated use `value` instead.
+   */
+  @Prop({ mutable: true, reflect: true }) start: string;
+
+  /**
+   * The component's end date.
+   *
+   * @deprecated use `value` instead.
+   */
+  @Prop({ mutable: true, reflect: true }) end: string;
+
+  /**
    * Determines the type of positioning to use for the overlaid content.
    *
    * Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.
@@ -278,7 +308,7 @@ export class InputDatePicker
   /**
    * Use this property to override individual strings used by the component.
    */
-  @Prop({ mutable: true }) messageOverrides: Partial<DatePickerMessages>;
+  @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
 
   //--------------------------------------------------------------------------
   //
@@ -322,6 +352,14 @@ export class InputDatePicker
   //--------------------------------------------------------------------------
 
   /**
+   * Fires when a user changes the date range.
+   *
+   * @see [DateRangeChange](https://github.com/Esri/calcite-components/blob/master/src/components/date-picker/interfaces.ts#L1)
+   * @deprecated use `calciteInputDatePickerChange` instead.
+   */
+  @Event({ cancelable: false }) calciteDatePickerRangeChange: EventEmitter<DateRangeChange>;
+
+  /**
    * Fires when the component's value changes.
    */
   @Event({ cancelable: false }) calciteInputDatePickerChange: EventEmitter<void>;
@@ -348,7 +386,8 @@ export class InputDatePicker
   @Method()
   async setFocus(): Promise<void> {
     await componentLoaded(this);
-    this.el.focus();
+
+    this.startInput?.setFocus();
   }
 
   /**
@@ -387,6 +426,8 @@ export class InputDatePicker
     open && this.openHandler(open);
     if (Array.isArray(this.value)) {
       this.valueAsDate = getValueAsDateRange(this.value);
+      this.start = this.value[0];
+      this.end = this.value[1];
     } else if (this.value) {
       try {
         this.valueAsDate = dateFromISO(this.value);
@@ -394,8 +435,18 @@ export class InputDatePicker
         this.warnAboutInvalidValue(this.value);
         this.value = "";
       }
+      this.start = "";
+      this.end = "";
     } else if (this.range && this.valueAsDate) {
       this.setRangeValue(this.valueAsDate as Date[]);
+    }
+
+    if (this.start) {
+      this.startAsDate = dateFromISO(this.start);
+    }
+
+    if (this.end) {
+      this.endAsDate = setEndOfDay(dateFromISO(this.end));
     }
 
     if (this.min) {
@@ -452,7 +503,6 @@ export class InputDatePicker
       locale: effectiveLocale,
       useGrouping: false
     };
-
     return (
       <Host onBlur={this.deactivate} onKeyDown={this.keyDownHandler} role="application">
         {this.localeData && (
@@ -499,6 +549,7 @@ export class InputDatePicker
                 <calcite-date-picker
                   activeDate={this.datePickerActiveDate}
                   activeRange={this.focusedInput}
+                  endAsDate={this.endAsDate}
                   headingLevel={this.headingLevel}
                   max={this.max}
                   maxAsDate={this.maxAsDate}
@@ -511,6 +562,7 @@ export class InputDatePicker
                   proximitySelectionDisabled={this.proximitySelectionDisabled}
                   range={this.range}
                   scale={this.scale}
+                  startAsDate={this.startAsDate}
                   tabIndex={0}
                   valueAsDate={this.valueAsDate}
                 />
@@ -519,16 +571,12 @@ export class InputDatePicker
 
             {this.range && this.layout === "horizontal" && (
               <div class="horizontal-arrow-container">
-                <calcite-icon
-                  flipRtl={true}
-                  icon="arrow-right"
-                  scale={this.scale === "l" ? "m" : "s"}
-                />
+                <calcite-icon flipRtl={true} icon="arrow-right" scale="s" />
               </div>
             )}
             {this.range && this.layout === "vertical" && this.scale !== "s" && (
               <div class="vertical-arrow-container">
-                <calcite-icon icon="arrow-down" scale={this.scale === "l" ? "m" : "s"} />
+                <calcite-icon icon="arrow-down" scale="s" />
               </div>
             )}
             {this.range && (
@@ -760,6 +808,16 @@ export class InputDatePicker
     this.setReferenceEl();
   };
 
+  @Watch("start")
+  startWatcher(start: string): void {
+    this.startAsDate = dateFromISO(start);
+  }
+
+  @Watch("end")
+  endWatcher(end: string): void {
+    this.endAsDate = end ? setEndOfDay(dateFromISO(end)) : dateFromISO(end);
+  }
+
   @Watch("effectiveLocale")
   private async loadLocaleData(): Promise<void> {
     if (!Build.isBrowser) {
@@ -771,7 +829,6 @@ export class InputDatePicker
       useGrouping: false
     };
     this.localeData = await getLocaleData(this.effectiveLocale);
-    this.localizeInputValues();
   }
 
   /**
@@ -791,15 +848,21 @@ export class InputDatePicker
   };
 
   private shouldFocusRangeStart(): boolean {
-    const startValue = this.value[0] || undefined;
-    const endValue = this.value[1] || undefined;
-    return !!(endValue && !startValue && this.focusedInput === "end" && this.startInput);
+    return !!(
+      this.endAsDate &&
+      !this.startAsDate &&
+      this.focusedInput === "end" &&
+      this.startInput
+    );
   }
 
   private shouldFocusRangeEnd(): boolean {
-    const startValue = this.value[0] || undefined;
-    const endValue = this.value[1] || undefined;
-    return !!(startValue && !endValue && this.focusedInput === "start" && this.endInput);
+    return !!(
+      this.startAsDate &&
+      !this.endAsDate &&
+      this.focusedInput === "start" &&
+      this.endInput
+    );
   }
 
   private handleDateRangeChange = (event: CustomEvent<void>): void => {
@@ -823,18 +886,12 @@ export class InputDatePicker
 
   private localizeInputValues(): void {
     const date = dateFromRange(
-      (this.range
-        ? (Array.isArray(this.valueAsDate) && this.valueAsDate[0]) || undefined
-        : this.valueAsDate) as Date,
+      this.range ? this.startAsDate : this.valueAsDate,
       this.minAsDate,
       this.maxAsDate
     );
     const endDate = this.range
-      ? dateFromRange(
-          (Array.isArray(this.valueAsDate) && this.valueAsDate[1]) || undefined,
-          this.minAsDate,
-          this.maxAsDate
-        )
+      ? dateFromRange(this.endAsDate, this.minAsDate, this.maxAsDate)
       : null;
 
     const localizedDate =
@@ -877,10 +934,21 @@ export class InputDatePicker
     this.userChangedValue = true;
     this.value = newValue;
     this.valueAsDate = newValue ? getValueAsDateRange(newValue) : undefined;
+    this.start = newStartDateISO;
+    this.end = newEndDateISO;
+
+    const eventDetail = {
+      startDate: newStartDate as Date,
+      endDate: newEndDate ? (setEndOfDay(newEndDate) as Date) : null
+    };
 
     const changeEvent = this.calciteInputDatePickerChange.emit();
+    const rangeChangeEvent = this.calciteDatePickerRangeChange.emit(eventDetail);
 
-    if (changeEvent && changeEvent.defaultPrevented) {
+    if (
+      (changeEvent && changeEvent.defaultPrevented) ||
+      (rangeChangeEvent && rangeChangeEvent.defaultPrevented)
+    ) {
       this.value = oldValue;
       if (oldValueIsArray) {
         this.setInputValue(oldValue[0], "start");
@@ -918,21 +986,17 @@ export class InputDatePicker
 
   private warnAboutInvalidValue(value: string): void {
     console.warn(
-      `The specified value "${value}" does not conform to the required format, "YYYY-MM-DD".`
+      `The specified value "${value}" does not conform to the required format, "yyyy-MM-dd".`
     );
   }
-
-  private commonDateSeparators = [".", "-", "/"];
 
   private formatNumerals = (value: string): string =>
     value
       ? value
           .split("")
           .map((char: string) =>
-            this.commonDateSeparators?.includes(char)
-              ? this.localeData?.separator
-              : numberKeys?.includes(char)
-              ? numberStringFormatter?.numberFormatter?.format(Number(char))
+            numberKeys.includes(char)
+              ? numberStringFormatter.numberFormatter.format(Number(char))
               : char
           )
           .join("")

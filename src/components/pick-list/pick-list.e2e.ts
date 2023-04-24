@@ -1,17 +1,17 @@
 import { E2EElement, E2EPage, newE2EPage } from "@stencil/core/testing";
-import { html } from "../../../support/formatting";
-import { accessible, defaults, hidden, renders } from "../../tests/commonTests";
-import { CSS as PICK_LIST_GROUP_CSS } from "../pick-list-group/resources";
 import { ICON_TYPES } from "./resources";
+import { accessible, hidden, renders, defaults } from "../../tests/commonTests";
 import {
-  disabling,
+  selectionAndDeselection,
   filterBehavior,
-  focusing,
-  itemRemoval,
-  keyboardNavigation,
   loadingState,
-  selectionAndDeselection
+  keyboardNavigation,
+  itemRemoval,
+  focusing,
+  disabling
 } from "./shared-list-tests";
+import { html } from "../../../support/formatting";
+import { CSS as PICK_LIST_GROUP_CSS } from "../pick-list-group/resources";
 
 describe("calcite-pick-list", () => {
   it("has property defaults", async () =>

@@ -1,6 +1,6 @@
-import globby from "globby";
-import { format } from "prettier";
 import { InputData, jsonInputForTargetLanguage, quicktype } from "quicktype-core";
+import { format } from "prettier";
+import globby from "globby";
 
 (async () => {
   const {
@@ -16,9 +16,7 @@ import { InputData, jsonInputForTargetLanguage, quicktype } from "quicktype-core
 
   const paths = await Promise.all(
     rootBundles.map(async (bundle) => {
-      const splitRootBundlePath = bundle.split("/");
-      const componentName = splitRootBundlePath[2];
-      const typeName = `${splitRootBundlePath.pop().replace(rootBundleFile, "")}-${componentName}-messages`;
+      const typeName = `${bundle.split("/").pop().replace(rootBundleFile, "")}-messages`;
       const jsonContents = await readFile(bundle, { encoding: "utf-8" });
 
       const jsonInput = jsonInputForTargetLanguage("typescript");

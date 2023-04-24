@@ -21,12 +21,11 @@ Displays a contextual message to a user. Allows the passing of content, links, e
 
 ## Properties
 
-| Property      | Attribute       | Description                                                                                  | Type                             | Default     |
-| ------------- | --------------- | -------------------------------------------------------------------------------------------- | -------------------------------- | ----------- |
-| `icon`        | `icon`          | Specifies an icon to display.                                                                | `boolean \| string`              | `undefined` |
-| `iconFlipRtl` | `icon-flip-rtl` | When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). | `boolean`                        | `false`     |
-| `scale`       | `scale`         | Specifies the size of the component.                                                         | `"l" \| "m" \| "s"`              | `"m"`       |
-| `status`      | `status`        | Specifies the status of the input field, which determines message and icons.                 | `"idle" \| "invalid" \| "valid"` | `"idle"`    |
+| Property | Attribute | Description                                                                  | Type                             | Default     |
+| -------- | --------- | ---------------------------------------------------------------------------- | -------------------------------- | ----------- |
+| `icon`   | `icon`    | Specifies an icon to display.                                                | `boolean \| string`              | `undefined` |
+| `scale`  | `scale`   | Specifies the size of the component.                                         | `"l" \| "m" \| "s"`              | `"m"`       |
+| `status` | `status`  | Specifies the status of the input field, which determines message and icons. | `"idle" \| "invalid" \| "valid"` | `"idle"`    |
 
 ## Slots
 

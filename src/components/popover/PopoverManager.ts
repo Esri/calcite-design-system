@@ -58,18 +58,18 @@ export default class PopoverManager {
     const togglePopover = this.queryPopover(composedPath);
 
     if (togglePopover && !togglePopover.triggerDisabled) {
-      togglePopover.open = !togglePopover.open;
+      togglePopover.toggle();
     }
 
     Array.from(this.registeredElements.values())
       .filter(
         (popover) => popover !== togglePopover && popover.autoClose && popover.open && !composedPath.includes(popover)
       )
-      .forEach((popover) => (popover.open = false));
+      .forEach((popover) => popover.toggle(false));
   };
 
   private closeAllPopovers(): void {
-    Array.from(this.registeredElements.values()).forEach((popover) => (popover.open = false));
+    Array.from(this.registeredElements.values()).forEach((popover) => popover.toggle(false));
   }
 
   private keyHandler = (event: KeyboardEvent): void => {

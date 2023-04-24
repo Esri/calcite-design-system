@@ -28,11 +28,39 @@ function throwMessageFetchError(): never {
   throw new Error("could not fetch component message bundle");
 }
 
+/**
+ * This util helps preserve existing intlProp usage when they have not been replaced by overrides.
+ *
+ * @param component
+ */
+export function overridesFromIntlProps(component: T9nComponent): MessageBundle {
+  const { el } = component;
+  const overrides = {};
+
+  Object.keys(el.constructor.prototype)
+    .filter((prop) => prop.startsWith("intl"))
+    .forEach((prop) => {
+      const assignedValue = el[prop];
+      if (assignedValue) {
+        let mappedProp = prop.replace("intl", "");
+        mappedProp = `${mappedProp[0].toLowerCase()}${mappedProp.slice(1)}`;
+        overrides[mappedProp] = assignedValue;
+      }
+    });
+
+  return overrides;
+}
+
 function mergeMessages(component: T9nComponent): void {
   component.messages = {
     ...component.defaultMessages,
-    ...component.messageOverrides
+    ...getEffectiveMessageOverrides(component),
+    ...component.getExtraMessageOverrides?.()
   };
+}
+
+function getEffectiveMessageOverrides(component: T9nComponent): MessageBundle {
+  return component.messageOverrides ?? overridesFromIntlProps(component);
 }
 
 /**
@@ -126,14 +154,23 @@ export interface T9nComponent extends LocalizedComponent {
   /**
    * This private method ensures messages are kept in sync.
    *
-   * This method should be empty and configured to watch for changes on  `messageOverrides` property.
+   * This method should be empty and configured to watch for changes on  `messageOverrides` and any associated Intl prop.
    *
+   * @Watch("intlMyPropA")
+   * @Watch("intlMyPropZ")
    * @Watch("messageOverrides")
    * onMessagesChange(): void {
    *  \/* wired up by t9n util *\/
    * }
    */
   onMessagesChange(): void;
+
+  /**
+   * This private method provides a hook for non-intl props to be merged into `messages`.
+   *
+   * For example, this helps merge strings from props exclusive for screen reader markup.
+   */
+  getExtraMessageOverrides?(): Partial<MessageBundle>;
 }
 
 function defaultOnMessagesChange(this: T9nComponent): void {

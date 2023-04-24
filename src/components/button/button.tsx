@@ -1,17 +1,14 @@
-import { Build, Component, Element, h, Method, Prop, State, VNode, Watch } from "@stencil/core";
 import "form-request-submit-polyfill/form-request-submit-polyfill";
+import { Component, Element, h, Method, Prop, Build, State, VNode, Watch } from "@stencil/core";
+import { CSS } from "./resources";
 import { closestElementCrossShadowBoundary } from "../../utils/dom";
-import { FormOwner, resetForm, submitForm } from "../../utils/form";
-import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
-import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
-import {
-  componentLoaded,
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent
-} from "../../utils/loadable";
-import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
+import { ButtonAlignment, ButtonAppearance, ButtonColor } from "./interfaces";
+import { FlipContext, Scale, Width } from "../interfaces";
+import { LabelableComponent, connectLabel, disconnectLabel, getLabelText } from "../../utils/label";
 import { createObserver } from "../../utils/observers";
+import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import { submitForm, resetForm, FormOwner } from "../../utils/form";
+import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 import {
   connectMessages,
   disconnectMessages,
@@ -19,10 +16,13 @@ import {
   T9nComponent,
   updateMessages
 } from "../../utils/t9n";
-import { Appearance, FlipContext, Kind, Scale, Width } from "../interfaces";
-import { ButtonMessages } from "./assets/button/t9n";
-import { ButtonAlignment } from "./interfaces";
-import { CSS } from "./resources";
+import { Messages } from "./assets/button/t9n";
+import {
+  setUpLoadableComponent,
+  setComponentLoaded,
+  LoadableComponent,
+  componentLoaded
+} from "../../utils/loadable";
 
 /** Passing a 'href' will render an anchor link, instead of a button. Role will be set to link, or button, depending on this. */
 /** It is the consumers responsibility to add aria information, rel, target, for links, and any button attributes for form submission */
@@ -61,17 +61,13 @@ export class Button
   @Prop({ reflect: true }) alignment: ButtonAlignment = "center";
 
   /** Specifies the appearance style of the component. */
-  @Prop({ reflect: true }) appearance: Extract<
-    "outline" | "outline-fill" | "solid" | "transparent",
-    Appearance
-  > = "solid";
+  @Prop({ reflect: true }) appearance: ButtonAppearance = "solid";
 
   /** Accessible name for the component. */
   @Prop() label: string;
 
-  /** Specifies the kind of the component (will apply to border and background if applicable). */
-  @Prop({ reflect: true }) kind: Extract<"brand" | "danger" | "inverse" | "neutral", Kind> =
-    "brand";
+  /** Specifies the color of the component. */
+  @Prop({ reflect: true }) color: ButtonColor = "blue";
 
   /**  When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @Prop({ reflect: true }) disabled = false;
@@ -84,7 +80,7 @@ export class Button
   /** Specifies an icon to display at the end of the component. */
   @Prop({ reflect: true }) iconEnd: string;
 
-  /** Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`). */
+  /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @Prop({ reflect: true }) iconFlipRtl: FlipContext;
 
   /** Specifies an icon to display at the start of the component. */
@@ -104,6 +100,13 @@ export class Button
    * @mdn [rel](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/rel)
    */
   @Prop({ reflect: true }) rel: string;
+
+  /**
+   * The form ID to associate with the component.
+   *
+   * @deprecated – The property is no longer needed if the component is placed inside a form.
+   */
+  @Prop() form: string;
 
   /** When `true`, adds a round style to the component. */
   @Prop({ reflect: true }) round = false;
@@ -136,12 +139,12 @@ export class Button
    *
    * @internal
    */
-  @Prop({ mutable: true }) messages: ButtonMessages;
+  @Prop({ mutable: true }) messages: Messages;
 
   /**
    * Use this property to override individual strings used by the component.
    */
-  @Prop({ mutable: true }) messageOverrides: Partial<ButtonMessages>;
+  @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
 
   @Watch("loading")
   loadingChanged(newValue: boolean, oldValue: boolean): void {
@@ -172,7 +175,10 @@ export class Button
     this.hasLoader = this.loading;
     this.setupTextContentObserver();
     connectLabel(this);
-    this.formEl = closestElementCrossShadowBoundary<HTMLFormElement>(this.el, "form");
+    this.formEl = closestElementCrossShadowBoundary<HTMLFormElement>(
+      this.el,
+      this.form ? `#${this.form}` : "form"
+    );
   }
 
   disconnectedCallback(): void {
@@ -309,7 +315,7 @@ export class Button
     updateMessages(this, this.effectiveLocale);
   }
 
-  @State() defaultMessages: ButtonMessages;
+  @State() defaultMessages: Messages;
 
   private updateHasContent() {
     const slottedContent = this.el.textContent.trim().length > 0 || this.el.childNodes.length > 0;

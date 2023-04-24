@@ -11,19 +11,15 @@ import {
   VNode,
   Watch
 } from "@stencil/core";
+import { CSS, ICONS, SLOTS } from "./resources";
+import { ICON_TYPES } from "../pick-list/resources";
+import { getSlotted, toAriaBoolean } from "../../utils/dom";
 import {
   ConditionalSlotComponent,
   connectConditionalSlotComponent,
   disconnectConditionalSlotComponent
 } from "../../utils/conditionalSlot";
-import { getSlotted, toAriaBoolean } from "../../utils/dom";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
-import {
-  componentLoaded,
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent
-} from "../../utils/loadable";
 import { connectLocalized, disconnectLocalized } from "../../utils/locale";
 import {
   connectMessages,
@@ -32,16 +28,18 @@ import {
   T9nComponent,
   updateMessages
 } from "../../utils/t9n";
-import { ICON_TYPES } from "../pick-list/resources";
-import { PickListItemMessages } from "./assets/pick-list-item/t9n";
-import { CSS, ICONS, SLOTS } from "./resources";
+import { Messages } from "./assets/pick-list-item/t9n";
+import {
+  setUpLoadableComponent,
+  setComponentLoaded,
+  LoadableComponent,
+  componentLoaded
+} from "../../utils/loadable";
 
 /**
  * @slot actions-end - A slot for adding `calcite-action`s or content to the end side of the component.
  * @slot actions-start - A slot for adding `calcite-action`s or content to the start side of the component.
  */
-
-/** @deprecated Use the `list` component instead. */
 @Component({
   tag: "calcite-pick-list-item",
   styleUrl: "pick-list-item.scss",
@@ -89,9 +87,6 @@ export class PickListItem
    */
   @Prop({ reflect: true }) icon: ICON_TYPES | null = null;
 
-  /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
-  @Prop({ reflect: true }) iconFlipRtl = false;
-
   /**
    * Label and accessible name for the component. Appears next to the icon.
    */
@@ -105,15 +100,16 @@ export class PickListItem
   /**
    * Use this property to override individual strings used by the component.
    */
-  @Prop({ mutable: true }) messageOverrides: Partial<PickListItemMessages>;
+  @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
 
   /**
    * Made into a prop for testing purposes only
    *
    * @internal
    */
-  @Prop({ mutable: true }) messages: PickListItemMessages;
+  @Prop({ mutable: true }) messages: Messages;
 
+  @Watch("intlRemove")
   @Watch("defaultMessages")
   @Watch("messageOverrides")
   onMessagesChange(): void {
@@ -153,6 +149,13 @@ export class PickListItem
   }
 
   /**
+   * When `removable` is `true`, the accessible name for the component's remove button.
+   *
+   * @deprecated – translations are now built-in, if you need to override a string, please use `messageOverrides`
+   */
+  @Prop({ reflect: true }) intlRemove: string;
+
+  /**
    * The component's value.
    */
   @Prop() value!: any;
@@ -174,7 +177,7 @@ export class PickListItem
 
   shiftPressed: boolean;
 
-  @State() defaultMessages: PickListItemMessages;
+  @State() defaultMessages: Messages;
 
   @State() effectiveLocale = "";
 
@@ -313,7 +316,7 @@ export class PickListItem
   // --------------------------------------------------------------------------
 
   renderIcon(): VNode {
-    const { icon, iconFlipRtl } = this;
+    const { icon } = this;
 
     if (!icon) {
       return null;
@@ -327,9 +330,7 @@ export class PickListItem
         }}
         onClick={this.pickListClickHandler}
       >
-        {icon === ICON_TYPES.square ? (
-          <calcite-icon flipRtl={iconFlipRtl} icon={ICONS.checked} scale="s" />
-        ) : null}
+        {icon === ICON_TYPES.square ? <calcite-icon icon={ICONS.checked} scale="s" /> : null}
       </span>
     );
   }

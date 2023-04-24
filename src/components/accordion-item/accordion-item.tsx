@@ -9,16 +9,16 @@ import {
   Prop,
   VNode
 } from "@stencil/core";
-import {
-  ConditionalSlotComponent,
-  connectConditionalSlotComponent,
-  disconnectConditionalSlotComponent
-} from "../../utils/conditionalSlot";
 import { getElementDir, getElementProp, getSlotted, toAriaBoolean } from "../../utils/dom";
+import {
+  connectConditionalSlotComponent,
+  disconnectConditionalSlotComponent,
+  ConditionalSlotComponent
+} from "../../utils/conditionalSlot";
 import { CSS_UTILITY } from "../../utils/resources";
 import { SLOTS, CSS } from "./resources";
-import { FlipContext, Position, Scale } from "../interfaces";
-import { RegistryEntry, RequestedItem } from "./interfaces";
+import { Position } from "../interfaces";
+import { ItemKeyEvent, RegistryEntry, RequestedItem } from "./interfaces";
 
 /**
  * @slot - A slot for adding custom content, including nested `calcite-accordion-item`s.
@@ -58,14 +58,16 @@ export class AccordionItem implements ConditionalSlotComponent {
   /** Specifies an icon to display at the end of the component. */
   @Prop({ reflect: true }) iconEnd: string;
 
-  /** Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`). */
-  @Prop({ reflect: true }) iconFlipRtl: FlipContext;
-
   //--------------------------------------------------------------------------
   //
   //  Events
   //
   //--------------------------------------------------------------------------
+
+  /**
+   * @internal
+   */
+  @Event({ cancelable: false }) calciteInternalAccordionItemKeyEvent: EventEmitter<ItemKeyEvent>;
 
   /**
    * @internal
@@ -90,10 +92,9 @@ export class AccordionItem implements ConditionalSlotComponent {
 
   connectedCallback(): void {
     this.parent = this.el.parentElement as HTMLCalciteAccordionElement;
-    this.selectionMode = getElementProp(this.el, "selection-mode", "multiple");
+    this.selectionMode = getElementProp(this.el, "selection-mode", "multi");
     this.iconType = getElementProp(this.el, "icon-type", "chevron");
     this.iconPosition = getElementProp(this.el, "icon-position", this.iconPosition);
-    this.scale = getElementProp(this.el, "scale", this.scale);
 
     connectConditionalSlotComponent(this);
   }
@@ -135,25 +136,12 @@ export class AccordionItem implements ConditionalSlotComponent {
   }
 
   render(): VNode {
-    const { iconFlipRtl } = this;
     const dir = getElementDir(this.el);
     const iconStartEl = this.iconStart ? (
-      <calcite-icon
-        class={CSS.iconStart}
-        flipRtl={iconFlipRtl === "both" || iconFlipRtl === "start"}
-        icon={this.iconStart}
-        key="icon-start"
-        scale={this.scale === "l" ? "m" : "s"}
-      />
+      <calcite-icon class={CSS.iconStart} icon={this.iconStart} key="icon-start" scale="s" />
     ) : null;
     const iconEndEl = this.iconEnd ? (
-      <calcite-icon
-        class={CSS.iconEnd}
-        flipRtl={iconFlipRtl === "both" || iconFlipRtl === "end"}
-        icon={this.iconEnd}
-        key="icon-end"
-        scale={this.scale === "l" ? "m" : "s"}
-      />
+      <calcite-icon class={CSS.iconEnd} icon={this.iconEnd} key="icon-end" scale="s" />
     ) : null;
     const { description } = this;
     return (
@@ -192,7 +180,7 @@ export class AccordionItem implements ConditionalSlotComponent {
                     ? "minus"
                     : "plus"
                 }
-                scale={this.scale === "l" ? "m" : "s"}
+                scale="s"
               />
             </div>
             {this.renderActionsEnd()}
@@ -218,6 +206,16 @@ export class AccordionItem implements ConditionalSlotComponent {
         case " ":
         case "Enter":
           this.emitRequestedItem();
+          event.preventDefault();
+          break;
+        case "ArrowUp":
+        case "ArrowDown":
+        case "Home":
+        case "End":
+          this.calciteInternalAccordionItemKeyEvent.emit({
+            parent: this.parent,
+            item: event
+          });
           event.preventDefault();
           break;
       }
@@ -261,10 +259,6 @@ export class AccordionItem implements ConditionalSlotComponent {
 
   /** handle clicks on item header */
   private itemHeaderClickHandler = (): void => this.emitRequestedItem();
-
-  /** Specifies the scale of the `accordion-item` controlled by the parent, defaults to m */
-  scale: Scale = "m";
-
   //--------------------------------------------------------------------------
   //
   //  Private Methods
@@ -273,6 +267,7 @@ export class AccordionItem implements ConditionalSlotComponent {
 
   private determineActiveItem(): void {
     switch (this.selectionMode) {
+      case "multi":
       case "multiple":
         if (this.el === this.requestedAccordionItem) {
           this.expanded = !this.expanded;

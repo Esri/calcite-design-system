@@ -1,10 +1,10 @@
-import { Component, Element, h, Listen, Method, State, VNode } from "@stencil/core";
-import { createObserver } from "../../utils/observers";
-import { FlowDirection } from "./interfaces";
+import { Component, Element, Listen, Method, State, h, VNode } from "@stencil/core";
 import { CSS } from "./resources";
+import { FlowDirection } from "./interfaces";
+import { createObserver } from "../../utils/observers";
 
 /**
- * @slot - A slot for adding `calcite-flow-item` elements to the component.
+ * @slot - A slot for adding `calcite-flow-item` to the component.
  */
 @Component({
   tag: "calcite-flow",

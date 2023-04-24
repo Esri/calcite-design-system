@@ -1,9 +1,9 @@
-import { Component, Element, h, Prop, VNode } from "@stencil/core";
-import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import { Component, h, VNode, Prop, Element } from "@stencil/core";
 import { TileSelectGroupLayout } from "./interfaces";
+import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 
 /**
- * @slot - A slot for adding `calcite-tile-select` elements.
+ * @slot - A slot for adding `calcite-tile-select`s.
  */
 @Component({
   tag: "calcite-tile-select-group",

@@ -1,8 +1,8 @@
 import { Component, Element, h, Prop, State } from "@stencil/core";
-import { getModeName } from "../../utils/dom";
 import { isValidHex } from "../color-picker/utils";
 import { Scale } from "../interfaces";
 import { hexToHue, stringToHex } from "./utils";
+import { getThemeName } from "../../utils/dom";
 
 @Component({
   tag: "calcite-avatar",
@@ -94,7 +94,7 @@ export class Avatar {
    */
   private generateFillColor() {
     const { userId, username, fullName, el } = this;
-    const theme = getModeName(el);
+    const theme = getThemeName(el);
     const id = userId && `#${userId.substr(userId.length - 6)}`;
     const name = username || fullName || "";
     const hex = id && isValidHex(id) ? id : stringToHex(name);

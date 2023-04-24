@@ -14,7 +14,11 @@ import {
 } from "@stencil/core";
 import { guid } from "../../utils/guid";
 
+import { ColorStop, DataSeries } from "../graph/interfaces";
 import { intersects, isPrimaryPointerButton } from "../../utils/dom";
+import { clamp, decimalPlaces } from "../../utils/math";
+import { Scale } from "../interfaces";
+import { LabelableComponent, connectLabel, disconnectLabel } from "../../utils/label";
 import {
   afterConnectDefaultValueSet,
   connectForm,
@@ -24,24 +28,20 @@ import {
 } from "../../utils/form";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import { isActivationKey } from "../../utils/key";
-import { connectLabel, disconnectLabel, LabelableComponent } from "../../utils/label";
-import {
-  componentLoaded,
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent
-} from "../../utils/loadable";
 import {
   connectLocalized,
   disconnectLocalized,
   LocalizedComponent,
-  NumberingSystem,
-  numberStringFormatter
+  numberStringFormatter,
+  NumberingSystem
 } from "../../utils/locale";
-import { clamp, decimalPlaces } from "../../utils/math";
-import { ColorStop, DataSeries } from "../graph/interfaces";
-import { Scale } from "../interfaces";
 import { CSS } from "./resources";
+import {
+  setUpLoadableComponent,
+  setComponentLoaded,
+  LoadableComponent,
+  componentLoaded
+} from "../../utils/loadable";
 
 type ActiveSliderProperty = "minValue" | "maxValue" | "value" | "minMaxValue";
 type SetValueProperty = Exclude<ActiveSliderProperty, "minMaxValue">;
@@ -53,9 +53,7 @@ function isRange(value: number | number[]): value is number[] {
 @Component({
   tag: "calcite-slider",
   styleUrl: "slider.scss",
-  shadow: {
-    delegatesFocus: true
-  }
+  shadow: true
 })
 export class Slider
   implements

@@ -1,23 +1,23 @@
 import {
   Component,
+  Prop,
   Element,
+  Listen,
+  Method,
   Event,
   EventEmitter,
   h,
-  Host,
-  Listen,
-  Method,
-  Prop,
   State,
+  Host,
   VNode
 } from "@stencil/core";
-import { nodeListToArray } from "../../utils/dom";
-import { guid } from "../../utils/guid";
-import { Scale } from "../interfaces";
 import { TabChangeEventDetail } from "./interfaces";
+import { guid } from "../../utils/guid";
+import { nodeListToArray } from "../../utils/dom";
+import { Scale } from "../interfaces";
 
 /**
- * @slot - A slot for adding custom content.
+ * @slot - A slot for adding content to the component.
  */
 @Component({
   tag: "calcite-tab",

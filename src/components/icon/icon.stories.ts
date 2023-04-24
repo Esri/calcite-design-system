@@ -1,8 +1,8 @@
 import { select } from "@storybook/addon-knobs";
-import { boolean, iconNames, storyFilters } from "../../../.storybook/helpers";
-import { modesDarkDefault } from "../../../.storybook/utils";
-import { html } from "../../../support/formatting";
+import { iconNames, boolean, storyFilters } from "../../../.storybook/helpers";
+import { themesDarkDefault } from "../../../.storybook/utils";
 import readme from "./readme.md";
+import { html } from "../../../support/formatting";
 
 export default {
   title: "Components/Icon",
@@ -19,12 +19,12 @@ export const simple = (): string => html`
   ></calcite-icon>
 `;
 
-export const darkModeRTL_TestOnly = (): string => html`
+export const darkThemeRTL_TestOnly = (): string => html`
   <calcite-icon
-    class="calcite-mode-dark"
+    class="calcite-theme-dark"
     dir="rtl"
     icon="${select("icon", iconNames, sampleIcon)}"
     ${boolean("flip-rtl", true)}
   ></calcite-icon>
 `;
-darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
+darkThemeRTL_TestOnly.parameters = { themes: themesDarkDefault };

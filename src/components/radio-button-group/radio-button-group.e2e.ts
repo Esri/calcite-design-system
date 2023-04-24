@@ -418,12 +418,6 @@ describe("calcite-radio-button-group", () => {
       </calcite-radio-button-group>
     `);
 
-    const getSelectedItemValue = async (): Promise<string> => {
-      return await page.evaluate((): string => {
-        return document.querySelector("calcite-radio-button-group")?.selectedItem?.value || "";
-      });
-    };
-
     const group = await page.find("calcite-radio-button-group");
     const firstRadio = await page.find('calcite-radio-button[value="one"]');
     const secondRadio = await page.find('calcite-radio-button[value="two"]');
@@ -435,14 +429,14 @@ describe("calcite-radio-button-group", () => {
 
     await firstRadio.click();
     expect(changeEvent).toHaveReceivedEventTimes(1);
-    expect(await getSelectedItemValue()).toBe("one");
+    expect(changeEvent).toHaveReceivedEventDetail("one");
 
     await secondRadio.click();
     expect(changeEvent).toHaveReceivedEventTimes(2);
-    expect(await getSelectedItemValue()).toBe("two");
+    expect(changeEvent).toHaveReceivedEventDetail("two");
 
     await thirdRadio.click();
     expect(changeEvent).toHaveReceivedEventTimes(3);
-    expect(await getSelectedItemValue()).toBe("three");
+    expect(changeEvent).toHaveReceivedEventDetail("three");
   });
 });

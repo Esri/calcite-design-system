@@ -11,23 +11,10 @@ import {
   VNode,
   Watch
 } from "@stencil/core";
+import { Scale } from "../interfaces";
 import { isActivationKey, numberKeys } from "../../utils/key";
 import { isValidNumber } from "../../utils/number";
-import { Scale } from "../interfaces";
 
-import {
-  connectLocalized,
-  disconnectLocalized,
-  LocalizedComponent,
-  NumberingSystem
-} from "../../utils/locale";
-import {
-  connectMessages,
-  disconnectMessages,
-  setUpMessages,
-  T9nComponent,
-  updateMessages
-} from "../../utils/t9n";
 import {
   formatTimePart,
   getLocaleHourCycle,
@@ -43,14 +30,27 @@ import {
   parseTimeString,
   TimePart
 } from "../../utils/time";
-import { TimePickerMessages } from "./assets/time-picker/t9n";
 import { CSS } from "./resources";
+import {
+  connectLocalized,
+  disconnectLocalized,
+  LocalizedComponent,
+  NumberingSystem
+} from "../../utils/locale";
+import { Messages } from "./assets/time-picker/t9n";
+import {
+  connectMessages,
+  disconnectMessages,
+  setUpMessages,
+  T9nComponent,
+  updateMessages
+} from "../../utils/t9n";
 
 import {
-  componentLoaded,
-  LoadableComponent,
+  setUpLoadableComponent,
   setComponentLoaded,
-  setUpLoadableComponent
+  LoadableComponent,
+  componentLoaded
 } from "../../utils/loadable";
 
 function capitalize(str: string): string {
@@ -60,9 +60,7 @@ function capitalize(str: string): string {
 @Component({
   tag: "calcite-time-picker",
   styleUrl: "time-picker.scss",
-  shadow: {
-    delegatesFocus: true
-  },
+  shadow: true,
   assetsDirs: ["assets"]
 })
 export class TimePicker
@@ -107,12 +105,12 @@ export class TimePicker
    *
    * @internal
    */
-  @Prop({ mutable: true }) messages: TimePickerMessages;
+  @Prop({ mutable: true }) messages: Messages;
 
   /**
    * Use this property to override individual strings used by the component.
    */
-  @Prop({ mutable: true }) messageOverrides: Partial<TimePickerMessages>;
+  @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
 
   @Watch("messageOverrides")
   onMessagesChange(): void {
@@ -176,7 +174,7 @@ export class TimePicker
 
   @State() showSecond: boolean = this.step < 60;
 
-  @State() defaultMessages: TimePickerMessages;
+  @State() defaultMessages: Messages;
 
   //--------------------------------------------------------------------------
   //
@@ -226,22 +224,22 @@ export class TimePicker
     switch (this.activeEl) {
       case this.hourEl:
         if (key === "ArrowRight") {
-          this.focusPart("minute");
+          this.setFocus("minute");
           event.preventDefault();
         }
         break;
       case this.minuteEl:
         switch (key) {
           case "ArrowLeft":
-            this.focusPart("hour");
+            this.setFocus("hour");
             event.preventDefault();
             break;
           case "ArrowRight":
             if (this.step !== 60) {
-              this.focusPart("second");
+              this.setFocus("second");
               event.preventDefault();
             } else if (this.hourCycle === "12") {
-              this.focusPart("meridiem");
+              this.setFocus("meridiem");
               event.preventDefault();
             }
             break;
@@ -250,12 +248,12 @@ export class TimePicker
       case this.secondEl:
         switch (key) {
           case "ArrowLeft":
-            this.focusPart("minute");
+            this.setFocus("minute");
             event.preventDefault();
             break;
           case "ArrowRight":
             if (this.hourCycle === "12") {
-              this.focusPart("meridiem");
+              this.setFocus("meridiem");
               event.preventDefault();
             }
             break;
@@ -265,10 +263,10 @@ export class TimePicker
         switch (key) {
           case "ArrowLeft":
             if (this.step !== 60) {
-              this.focusPart("second");
+              this.setFocus("second");
               event.preventDefault();
             } else {
-              this.focusPart("minute");
+              this.setFocus("minute");
               event.preventDefault();
             }
             break;
@@ -284,13 +282,15 @@ export class TimePicker
   //--------------------------------------------------------------------------
 
   /**
-   * Sets focus on the component's first focusable element.
+   * Sets focus on the component.
+   *
+   * @param target
    */
   @Method()
-  async setFocus(): Promise<void> {
+  async setFocus(target: TimePart): Promise<void> {
     await componentLoaded(this);
 
-    this.el?.focus();
+    this[`${target || "hour"}El`]?.focus();
   }
 
   // --------------------------------------------------------------------------
@@ -298,12 +298,6 @@ export class TimePicker
   //  Private Methods
   //
   // --------------------------------------------------------------------------
-
-  private async focusPart(target: TimePart): Promise<void> {
-    await componentLoaded(this);
-
-    this[`${target || "hour"}El`]?.focus();
-  }
 
   private buttonActivated(event: KeyboardEvent): boolean {
     const { key } = event;

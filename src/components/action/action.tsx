@@ -1,27 +1,24 @@
 import {
-  Build,
   Component,
   Element,
-  forceUpdate,
-  h,
   Host,
   Method,
   Prop,
-  State,
+  h,
+  forceUpdate,
   VNode,
-  Watch
+  Watch,
+  State,
+  Build
 } from "@stencil/core";
-import { toAriaBoolean } from "../../utils/dom";
+import { Alignment, Appearance, Scale } from "../interfaces";
+import { CSS, SLOTS } from "./resources";
 import { guid } from "../../utils/guid";
-import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
-import {
-  componentLoaded,
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent
-} from "../../utils/loadable";
-import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 import { createObserver } from "../../utils/observers";
+import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import { toAriaBoolean } from "../../utils/dom";
+import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
+import { Messages } from "./assets/action/t9n";
 import {
   connectMessages,
   disconnectMessages,
@@ -29,9 +26,12 @@ import {
   T9nComponent,
   updateMessages
 } from "../../utils/t9n";
-import { Alignment, Appearance, Scale } from "../interfaces";
-import { ActionMessages } from "./assets/action/t9n";
-import { CSS, SLOTS } from "./resources";
+import {
+  setUpLoadableComponent,
+  setComponentLoaded,
+  LoadableComponent,
+  componentLoaded
+} from "../../utils/loadable";
 
 /**
  * @slot - A slot for adding a `calcite-icon`.
@@ -77,9 +77,6 @@ export class Action
   /** Specifies an icon to display. */
   @Prop() icon: string;
 
-  /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
-  @Prop({ reflect: true }) iconFlipRtl = false;
-
   /**
    * When `true`, displays a visual indicator.
    */
@@ -115,12 +112,12 @@ export class Action
    *
    * @internal
    */
-  @Prop({ mutable: true }) messages: ActionMessages;
+  @Prop({ mutable: true }) messages: Messages;
 
   /**
    * Use this property to override individual strings used by the component.
    */
-  @Prop({ mutable: true }) messageOverrides: Partial<ActionMessages>;
+  @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
 
   @Watch("messageOverrides")
   onMessagesChange(): void {
@@ -146,7 +143,7 @@ export class Action
     updateMessages(this, this.effectiveLocale);
   }
 
-  @State() defaultMessages: ActionMessages;
+  @State() defaultMessages: Messages;
 
   guid = `calcite-action-${guid()}`;
 
@@ -238,15 +235,13 @@ export class Action
   }
 
   renderIconContainer(): VNode {
-    const { loading, icon, scale, el, iconFlipRtl } = this;
+    const { loading, icon, scale, el } = this;
     const iconScale = scale === "l" ? "m" : "s";
     const loaderScale = scale === "l" ? "l" : "m";
     const calciteLoaderNode = loading ? (
       <calcite-loader inline label={this.messages.loading} scale={loaderScale} />
     ) : null;
-    const calciteIconNode = icon ? (
-      <calcite-icon flipRtl={iconFlipRtl} icon={icon} scale={iconScale} />
-    ) : null;
+    const calciteIconNode = icon ? <calcite-icon icon={icon} scale={iconScale} /> : null;
     const iconNode = calciteLoaderNode || calciteIconNode;
     const hasIconToDisplay = iconNode || el.children?.length;
 

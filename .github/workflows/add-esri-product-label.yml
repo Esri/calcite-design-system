@@ -57,23 +57,16 @@ jobs:
               }
 
               /** remove any existing product label(s) */
-              const existingProductLabels = currentLabels
-                .filter((l) => /Issues logged by/.test(l.description) && l.name !== product)
-                .forEach(
-                  async (l) =>
-                    await github.rest.issues.removeLabel({
-                      issue_number,
-                      owner,
-                      repo,
-                      name: l.name,
-                    })
-                );
+              const labels = currentLabels
+                .filter((l) => !/Issues logged by/.test(l.description))
+                .map((l) => l.name);
 
-              /** add new product label */
-              await github.rest.issues.addLabels({
+              labels.push(product);
+
+              await github.rest.issues.setLabels({
                 issue_number,
                 owner,
                 repo,
-                labels: [product],
+                labels,
               });
             }

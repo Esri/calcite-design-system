@@ -12,14 +12,11 @@ import {
   Watch
 } from "@stencil/core";
 import { debounce } from "lodash-es";
-import { filter } from "../../utils/filter";
+import { CSS, DEBOUNCE_TIMEOUT, ICONS } from "./resources";
+import { Scale } from "../interfaces";
+import { focusElement } from "../../utils/dom";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
-import {
-  componentLoaded,
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent
-} from "../../utils/loadable";
+import { filter } from "../../utils/filter";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 import {
   connectMessages,
@@ -28,16 +25,18 @@ import {
   T9nComponent,
   updateMessages
 } from "../../utils/t9n";
-import { Scale } from "../interfaces";
-import { FilterMessages } from "./assets/filter/t9n";
-import { CSS, DEBOUNCE_TIMEOUT, ICONS } from "./resources";
+import { Messages } from "./assets/filter/t9n";
+import {
+  setUpLoadableComponent,
+  setComponentLoaded,
+  LoadableComponent,
+  componentLoaded
+} from "../../utils/loadable";
 
 @Component({
   tag: "calcite-filter",
   styleUrl: "filter.scss",
-  shadow: {
-    delegatesFocus: true
-  },
+  shadow: true,
   assetsDirs: ["assets"]
 })
 export class Filter
@@ -96,12 +95,12 @@ export class Filter
    *
    * @internal
    */
-  @Prop({ mutable: true }) messages: FilterMessages;
+  @Prop({ mutable: true }) messages: Messages;
 
   /**
    * Use this property to override individual strings used by the component.
    */
-  @Prop({ mutable: true }) messageOverrides: Partial<FilterMessages>;
+  @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
 
   @Watch("messageOverrides")
   onMessagesChange(): void {
@@ -130,7 +129,7 @@ export class Filter
     updateMessages(this, this.effectiveLocale);
   }
 
-  @State() defaultMessages: FilterMessages;
+  @State() defaultMessages: Messages;
 
   // --------------------------------------------------------------------------
   //
@@ -185,7 +184,7 @@ export class Filter
   async setFocus(): Promise<void> {
     await componentLoaded(this);
 
-    this.el?.focus();
+    focusElement(this.textInput);
   }
 
   // --------------------------------------------------------------------------

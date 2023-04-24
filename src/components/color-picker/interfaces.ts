@@ -1,5 +1,7 @@
 import type Color from "color";
 
+export type ColorAppearance = "default" | "minimal" | "solid";
+
 export type ColorMode = "rgb" | "hsv";
 
 // need to do this otherwise, stencil build doesn't pick up the type import

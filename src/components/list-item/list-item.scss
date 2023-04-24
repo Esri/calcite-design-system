@@ -19,7 +19,7 @@
   );
 }
 .container:hover {
-  @apply bg-foreground-2 cursor-pointer;
+  @apply bg-foreground-2;
 }
 
 .container--border-selected {
@@ -46,6 +46,10 @@
     font-normal
     items-stretch
     p-0;
+}
+
+.content-container--selectable {
+  @apply cursor-pointer;
 }
 
 tr,

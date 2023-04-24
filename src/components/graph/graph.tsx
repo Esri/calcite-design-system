@@ -1,8 +1,8 @@
-import { Component, Element, forceUpdate, h, Prop, VNode } from "@stencil/core";
+import { Component, Element, Prop, h, VNode, forceUpdate } from "@stencil/core";
+import { Point, ColorStop, DataSeries } from "./interfaces";
 import { guid } from "../../utils/guid";
-import { createObserver } from "../../utils/observers";
-import { ColorStop, DataSeries, Point } from "./interfaces";
 import { area, range, translate } from "./util";
+import { createObserver } from "../../utils/observers";
 
 @Component({
   tag: "calcite-graph",
@@ -71,7 +71,6 @@ export class Graph {
     if (!data || data.length === 0) {
       return (
         <svg
-          aria-hidden="true"
           class="svg"
           height={height}
           preserveAspectRatio="none"
@@ -101,7 +100,6 @@ export class Graph {
     const fill = colorStops ? `url(#linear-gradient-${id})` : undefined;
     return (
       <svg
-        aria-hidden="true"
         class="svg"
         height={height}
         preserveAspectRatio="none"

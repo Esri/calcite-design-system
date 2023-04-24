@@ -1,3 +1,4 @@
+import { Position, Scale, Status } from "../interfaces";
 import {
   Component,
   Element,
@@ -18,8 +19,10 @@ import {
   isPrimaryPointerButton,
   setRequestedIcon
 } from "../../utils/dom";
-import { Position, Scale, Status } from "../interfaces";
 
+import { CSS, SLOTS } from "./resources";
+import { InputPlacement, NumberNudgeDirection, SetValueOrigin } from "../input/interfaces";
+import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
 import {
   connectForm,
   disconnectForm,
@@ -27,27 +30,20 @@ import {
   HiddenFormInputSlot,
   submitForm
 } from "../../utils/form";
-import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
-import { numberKeys } from "../../utils/key";
-import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
 import {
-  componentLoaded,
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent
-} from "../../utils/loadable";
-import {
-  connectLocalized,
+  NumberingSystem,
+  numberStringFormatter,
   defaultNumberingSystem,
   disconnectLocalized,
-  LocalizedComponent,
-  NumberingSystem,
-  numberStringFormatter
+  connectLocalized,
+  LocalizedComponent
 } from "../../utils/locale";
-import { decimalPlaces } from "../../utils/math";
+import { numberKeys } from "../../utils/key";
 import { isValidNumber, parseNumberString, sanitizeNumberString } from "../../utils/number";
-import { createObserver } from "../../utils/observers";
 import { CSS_UTILITY } from "../../utils/resources";
+import { decimalPlaces } from "../../utils/math";
+import { createObserver } from "../../utils/observers";
+import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import {
   connectMessages,
   disconnectMessages,
@@ -55,9 +51,13 @@ import {
   T9nComponent,
   updateMessages
 } from "../../utils/t9n";
-import { InputPlacement, NumberNudgeDirection, SetValueOrigin } from "../input/interfaces";
-import { InputNumberMessages } from "./assets/input-number/t9n";
-import { CSS, SLOTS } from "./resources";
+import { Messages } from "./assets/input-number/t9n";
+import {
+  setUpLoadableComponent,
+  setComponentLoaded,
+  LoadableComponent,
+  componentLoaded
+} from "../../utils/loadable";
 
 /**
  * @slot action - A slot for positioning a button next to the component.
@@ -279,12 +279,12 @@ export class InputNumber
    *
    * @internal
    */
-  @Prop({ mutable: true }) messages: InputNumberMessages;
+  @Prop({ mutable: true }) messages: Messages;
 
   /**
    * Use this property to override individual strings used by the component.
    */
-  @Prop({ mutable: true }) messageOverrides: Partial<InputNumberMessages>;
+  @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
 
   @Watch("messageOverrides")
   onMessagesChange(): void {
@@ -372,11 +372,9 @@ export class InputNumber
     };
   }
 
-  @State() defaultMessages: InputNumberMessages;
+  @State() defaultMessages: Messages;
 
   @State() localizedValue: string;
-
-  @State() slottedActionElDisabledInternally = false;
 
   //--------------------------------------------------------------------------
   //
@@ -528,10 +526,9 @@ export class InputNumber
     const adjustment = direction === "up" ? 1 : -1;
     const nudgedValue = inputVal + inputStep * adjustment;
     const finalValue =
-      typeof inputMin === "number" && !isNaN(inputMin) && nudgedValue < inputMin
-        ? inputMin
-        : typeof inputMax === "number" && !isNaN(inputMax) && nudgedValue > inputMax
-        ? inputMax
+      (typeof inputMin === "number" && !isNaN(inputMin) && nudgedValue < inputMin) ||
+      (typeof inputMax === "number" && !isNaN(inputMax) && nudgedValue > inputMax)
+        ? inputVal
         : nudgedValue;
 
     const inputValPlaces = decimalPlaces(inputVal);
@@ -686,7 +683,7 @@ export class InputNumber
 
     const inputMax = this.maxString ? parseFloat(this.maxString) : null;
     const inputMin = this.minString ? parseFloat(this.minString) : null;
-    const valueNudgeDelayInMs = 150;
+    const valueNudgeDelayInMs = 100;
 
     this.incrementOrDecrementNumberValue(direction, inputMax, inputMin, nativeEvent);
 
@@ -758,15 +755,9 @@ export class InputNumber
       return;
     }
 
-    if (this.disabled) {
-      if (slottedActionEl.getAttribute("disabled") == null) {
-        this.slottedActionElDisabledInternally = true;
-      }
-      slottedActionEl.setAttribute("disabled", "");
-    } else if (this.slottedActionElDisabledInternally) {
-      slottedActionEl.removeAttribute("disabled");
-      this.slottedActionElDisabledInternally = false;
-    }
+    this.disabled
+      ? slottedActionEl.setAttribute("disabled", "")
+      : slottedActionEl.removeAttribute("disabled");
   }
 
   private setInputNumberValue = (newInputValue: string): void => {
@@ -877,7 +868,7 @@ export class InputNumber
         tabIndex={-1}
         type="button"
       >
-        <calcite-icon icon="x" scale={this.scale === "l" ? "m" : "s"} />
+        <calcite-icon icon="x" scale="s" />
       </button>
     );
     const iconEl = (
@@ -885,7 +876,7 @@ export class InputNumber
         class={CSS.inputIcon}
         flipRtl={this.iconFlipRtl}
         icon={this.requestedIcon}
-        scale={this.scale === "l" ? "m" : "s"}
+        scale="s"
       />
     );
 
@@ -906,7 +897,7 @@ export class InputNumber
         tabIndex={-1}
         type="button"
       >
-        <calcite-icon icon="chevron-up" scale={this.scale === "l" ? "m" : "s"} />
+        <calcite-icon icon="chevron-up" scale="s" />
       </button>
     );
 
@@ -925,7 +916,7 @@ export class InputNumber
         tabIndex={-1}
         type="button"
       >
-        <calcite-icon icon="chevron-down" scale={this.scale === "l" ? "m" : "s"} />
+        <calcite-icon icon="chevron-down" scale="s" />
       </button>
     );
 

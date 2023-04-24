@@ -74,7 +74,7 @@
                 ><span> Shell Floating Panel Content </span>
               </calcite-panel>
 
-              <calcite-action-bar slot="action-bar" class="calcite-mode-dark">
+              <calcite-action-bar slot="action-bar" class="calcite-theme-dark">
                 <calcite-action-group>
                   <calcite-action text="Add">
                     <calcite-icon icon="plus" scale="s"></calcite-icon>
@@ -131,7 +131,7 @@
               </calcite-action-bar>
               <calcite-button
                 slot="header"
-                kind="inverse"
+                color="inverse"
                 alignment="icon-end-space-between"
                 icon-end="caret-down"
                 width="full"
@@ -162,8 +162,8 @@
                       <calcite-button
                         width="full"
                         scale="s"
-                        appearance="outline"
-                        kind="inverse"
+                        appearance="clear"
+                        color="inverse"
                         class="combo-button__main"
                         text="Edit label style"
                         icon-end="pencil"
@@ -186,8 +186,8 @@
                         <calcite-button
                           width="full"
                           scale="s"
-                          appearance="outline"
-                          kind="inverse"
+                          appearance="clear"
+                          color="inverse"
                           class="combo-button__main"
                           text="Edit label style"
                           icon-end="pencil"
@@ -216,8 +216,8 @@
                         <calcite-button
                           width="full"
                           scale="s"
-                          appearance="outline"
-                          kind="inverse"
+                          appearance="clear"
+                          color="inverse"
                           class="combo-button__main"
                           text="Edit label style"
                           icon-end="pencil"
@@ -250,7 +250,7 @@
       </main>
     </demo-dom-swapper>
     <script>
-      document.addEventListener("calciteModeChange", (e) => console.log(e.detail.theme));
+      document.addEventListener("calciteThemeChange", (e) => console.log(e.detail.theme));
     </script>
   </body>
 </html>

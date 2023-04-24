@@ -4,7 +4,7 @@ import {
   filterComponentAttributes,
   Attributes,
   createComponentHTML as create,
-  modesDarkDefault
+  themesDarkDefault
 } from "../../../.storybook/utils";
 import colorReadme from "./readme.md";
 import { ATTRIBUTES } from "../../../.storybook/resources";
@@ -86,17 +86,17 @@ export const alphaSupport = (): string =>
 
 export const disabled_TestOnly = (): string => html`<calcite-color-picker disabled></calcite-color-picker>`;
 
-export const darkModeRTL_TestOnly = (): string =>
+export const darkThemeRTL_TestOnly = (): string =>
   create("calcite-color-picker", [
     ...createColorAttributes({ exceptions: ["dir"] }).concat({ name: "dir", value: "rtl" }),
-    { name: "class", value: "calcite-mode-dark" },
+    { name: "class", value: "calcite-theme-dark" },
     {
       name: "value",
       value: text("value", "#b33f33")
     }
   ]);
 
-darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
+darkThemeRTL_TestOnly.parameters = { themes: themesDarkDefault };
 
 export const thumbsOnEdgeDoNotOverflowContainer_TestOnly = (): string => html`<div
   style="overflow: auto; width: 274px;"

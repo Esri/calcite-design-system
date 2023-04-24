@@ -10,13 +10,13 @@ import {
   VNode
 } from "@stencil/core";
 
-import { focusElementInGroup } from "../../utils/dom";
-import { NumberingSystem } from "../../utils/locale";
 import { Layout, Scale } from "../interfaces";
 import { StepperItemChangeEventDetail, StepperItemKeyEventDetail } from "./interfaces";
+import { focusElement } from "../../utils/dom";
+import { NumberingSystem } from "../../utils/locale";
 
 /**
- * @slot - A slot for adding `calcite-stepper-item` elements.
+ * @slot - A slot for adding `calcite-stepper-item`s.
  */
 @Component({
   tag: "calcite-stepper",
@@ -52,13 +52,6 @@ export class Stepper {
    */
   @Prop({ reflect: true }) numberingSystem?: NumberingSystem;
 
-  /**
-   * Specifies the component's selected item.
-   *
-   * @readonly
-   */
-  @Prop({ mutable: true }) selectedItem: HTMLCalciteStepperItemElement = null;
-
   /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";
 
@@ -73,7 +66,7 @@ export class Stepper {
    *
    */
   @Event({ cancelable: false })
-  calciteStepperItemChange: EventEmitter<void>;
+  calciteStepperItemChange: EventEmitter<StepperItemChangeEventDetail>;
 
   /**
    * Fires when the active `calcite-stepper-item` changes.
@@ -123,21 +116,30 @@ export class Stepper {
   calciteInternalStepperItemKeyEvent(event: CustomEvent<StepperItemKeyEventDetail>): void {
     const item = event.detail.item;
     const itemToFocus = event.target as HTMLCalciteStepperItemElement;
-
+    const isFirstItem = this.itemIndex(itemToFocus) === 0;
+    const isLastItem = this.itemIndex(itemToFocus) === this.enabledItems.length - 1;
     switch (item.key) {
       case "ArrowDown":
       case "ArrowRight":
-        focusElementInGroup(this.enabledItems, itemToFocus, "next");
+        if (isLastItem) {
+          this.focusFirstItem();
+        } else {
+          this.focusNextItem(itemToFocus);
+        }
         break;
       case "ArrowUp":
       case "ArrowLeft":
-        focusElementInGroup(this.enabledItems, itemToFocus, "previous");
+        if (isFirstItem) {
+          this.focusLastItem();
+        } else {
+          this.focusPrevItem(itemToFocus);
+        }
         break;
       case "Home":
-        focusElementInGroup(this.enabledItems, itemToFocus, "first");
+        this.focusFirstItem();
         break;
       case "End":
-        focusElementInGroup(this.enabledItems, itemToFocus, "last");
+        this.focusLastItem();
         break;
     }
     event.stopPropagation();
@@ -158,7 +160,6 @@ export class Stepper {
 
     if (typeof position === "number") {
       this.currentPosition = position;
-      this.selectedItem = event.target as HTMLCalciteStepperItemElement;
     }
 
     this.calciteInternalStepperItemChange.emit({
@@ -167,8 +168,12 @@ export class Stepper {
   }
 
   @Listen("calciteInternalUserRequestedStepperItemSelect")
-  handleUserRequestedStepperItemSelect(): void {
-    this.calciteStepperItemChange.emit();
+  handleUserRequestedStepperItemSelect(event: CustomEvent<StepperItemChangeEventDetail>): void {
+    const { position } = event.detail;
+
+    this.calciteStepperItemChange.emit({
+      position
+    });
   }
 
   //--------------------------------------------------------------------------
@@ -284,6 +289,33 @@ export class Stepper {
     this.calciteInternalStepperItemChange.emit({
       position
     });
+  }
+
+  private focusFirstItem(): void {
+    const firstItem = this.enabledItems[0];
+    focusElement(firstItem);
+  }
+
+  private focusLastItem(): void {
+    const lastItem = this.enabledItems[this.enabledItems.length - 1];
+    focusElement(lastItem);
+  }
+
+  private focusNextItem(el: HTMLCalciteStepperItemElement): void {
+    const index = this.itemIndex(el);
+    const nextItem = this.enabledItems[index + 1] || this.enabledItems[0];
+    focusElement(nextItem);
+  }
+
+  private focusPrevItem(el: HTMLCalciteStepperItemElement): void {
+    const index = this.itemIndex(el);
+    const prevItem =
+      this.enabledItems[index - 1] || this.enabledItems[this.enabledItems.length - 1];
+    focusElement(prevItem);
+  }
+
+  private itemIndex(el: HTMLCalciteStepperItemElement): number {
+    return this.enabledItems.indexOf(el);
   }
 
   private sortItems(): HTMLCalciteStepperItemElement[] {

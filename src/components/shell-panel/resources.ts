@@ -11,3 +11,7 @@ export const SLOTS = {
   actionBar: "action-bar",
   header: "header"
 };
+
+export const TEXT = {
+  resize: "Resize"
+};

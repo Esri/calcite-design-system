@@ -1,8 +1,8 @@
 import { E2EElement, E2EPage, newE2EPage } from "@stencil/core/testing";
-import { html } from "../../../support/formatting";
 import { disabled, focusable } from "../../tests/commonTests";
-import { selectText } from "../../tests/utils";
+import { html } from "../../../support/formatting";
 import { CSS as PICK_LIST_ITEM_CSS } from "../pick-list-item/resources";
+import { selectText } from "../../tests/utils";
 
 type ListType = "pick" | "value";
 type ListElement = HTMLCalcitePickListElement | HTMLCalciteValueListElement;

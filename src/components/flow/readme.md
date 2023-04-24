@@ -48,9 +48,9 @@ Type: `Promise<HTMLCalciteFlowItemElement>`
 
 ## Slots
 
-| Slot | Description                                                      |
-| ---- | ---------------------------------------------------------------- |
-|      | A slot for adding `calcite-flow-item` elements to the component. |
+| Slot | Description                                             |
+| ---- | ------------------------------------------------------- |
+|      | A slot for adding `calcite-flow-item` to the component. |
 
 ---
 

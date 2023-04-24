@@ -48,10 +48,10 @@
 
 ## Slots
 
-| Slot            | Description                            |
-| --------------- | -------------------------------------- |
-|                 | A slot for adding `calcite-tab`s.      |
-| `"title-group"` | A slot for adding a `calcite-tab-nav`. |
+| Slot        | Description                            |
+| ----------- | -------------------------------------- |
+|             | A slot for adding `calcite-tab`s.      |
+| `"tab-nav"` | A slot for adding a `calcite-tab-nav`. |
 
 ## Dependencies
 

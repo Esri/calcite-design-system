@@ -67,17 +67,21 @@ Renders a panel with a header and a footer.
 
 ## Properties
 
-| Property           | Attribute           | Description                                                                              | Type                         | Default     |
-| ------------------ | ------------------- | ---------------------------------------------------------------------------------------- | ---------------------------- | ----------- |
-| `closable`         | `closable`          | When `true`, displays a close button in the trailing side of the header.                 | `boolean`                    | `false`     |
-| `closed`           | `closed`            | When `true`, the component will be hidden.                                               | `boolean`                    | `false`     |
-| `description`      | `description`       | A description for the component.                                                         | `string`                     | `undefined` |
-| `disabled`         | `disabled`          | When `true`, interaction is prevented and the component is displayed with lower opacity. | `boolean`                    | `false`     |
-| `heading`          | `heading`           | The component header text.                                                               | `string`                     | `undefined` |
-| `headingLevel`     | `heading-level`     | Specifies the number at which section headings should start.                             | `1 \| 2 \| 3 \| 4 \| 5 \| 6` | `undefined` |
-| `loading`          | `loading`           | When `true`, a busy indicator is displayed.                                              | `boolean`                    | `false`     |
-| `menuOpen`         | `menu-open`         | When `true`, the action menu items in the `header-menu-actions` slot are open.           | `boolean`                    | `false`     |
-| `messageOverrides` | `message-overrides` | Use this property to override individual strings used by the component.                  | `PanelMessages`              | `undefined` |
+| Property           | Attribute           | Description                                                                                                                                                                                                 | Type                         | Default     |
+| ------------------ | ------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------- | ----------- |
+| `closable`         | `closable`          | When `true`, displays a close button in the trailing side of the header.                                                                                                                                    | `boolean`                    | `false`     |
+| `closed`           | `closed`            | When `true`, the component will be hidden.                                                                                                                                                                  | `boolean`                    | `false`     |
+| `description`      | `description`       | A description for the component.                                                                                                                                                                            | `string`                     | `undefined` |
+| `disabled`         | `disabled`          | When `true`, interaction is prevented and the component is displayed with lower opacity.                                                                                                                    | `boolean`                    | `false`     |
+| `heading`          | `heading`           | The component header text.                                                                                                                                                                                  | `string`                     | `undefined` |
+| `headingLevel`     | `heading-level`     | Specifies the number at which section headings should start.                                                                                                                                                | `1 \| 2 \| 3 \| 4 \| 5 \| 6` | `undefined` |
+| `heightScale`      | `height-scale`      | Specifies the maximum height of the component.                                                                                                                                                              | `"l" \| "m" \| "s"`          | `undefined` |
+| `intlClose`        | `intl-close`        | <span style="color:red">**[DEPRECATED]**</span> use `calcite-flow-item` instead.<br/><br/>Accessible name for the component's close button. The close button will only be shown when `closeable` is `true`. | `string`                     | `undefined` |
+| `intlOptions`      | `intl-options`      | <span style="color:red">**[DEPRECATED]**</span> use `calcite-flow-item` instead.<br/><br/>Accessible name for the component's actions menu.                                                                 | `string`                     | `undefined` |
+| `loading`          | `loading`           | When `true`, a busy indicator is displayed.                                                                                                                                                                 | `boolean`                    | `false`     |
+| `menuOpen`         | `menu-open`         | When `true`, the action menu items in the `header-menu-actions` slot are open.                                                                                                                              | `boolean`                    | `false`     |
+| `messageOverrides` | `message-overrides` | Use this property to override individual strings used by the component.                                                                                                                                     | `Messages`                   | `undefined` |
+| `widthScale`       | `width-scale`       | Specifies the width of the component.                                                                                                                                                                       | `"l" \| "m" \| "s"`          | `undefined` |
 
 ## Events
 
@@ -96,9 +100,9 @@ Scrolls the component's content to a specified set of coordinates.
 
 Type: `Promise<void>`
 
-### `setFocus() => Promise<void>`
+### `setFocus(focusId?: "back-button" | "dismiss-button") => Promise<void>`
 
-Sets focus on the component's first focusable element.
+Sets focus on the component.
 
 #### Returns
 
@@ -116,6 +120,14 @@ Type: `Promise<void>`
 | `"header-actions-start"` | A slot for adding actions or content to the start side of the header.            |
 | `"header-content"`       | A slot for adding custom content to the header.                                  |
 | `"header-menu-actions"`  | A slot for adding an overflow menu with actions inside a `calcite-dropdown`.     |
+
+## CSS Custom Properties
+
+| Name                         | Description                          |
+| ---------------------------- | ------------------------------------ |
+| `--calcite-panel-max-height` | The maximum height of the component. |
+| `--calcite-panel-max-width`  | The maximum width of the component.  |
+| `--calcite-panel-min-width`  | The minimum width of the component.  |
 
 ## Dependencies
 

@@ -1,6 +1,6 @@
 import { select } from "@storybook/addon-knobs";
 import { boolean, storyFilters } from "../../../.storybook/helpers";
-import { modesDarkDefault } from "../../../.storybook/utils";
+import { themesDarkDefault } from "../../../.storybook/utils";
 import readme from "./readme.md";
 import { html } from "../../../support/formatting";
 
@@ -39,9 +39,9 @@ export const simple = (): string => html`
   </calcite-radio-button-group>
 `;
 
-export const darkModeRTL_TestOnly = (): string => html`
+export const darkThemeRTL_TestOnly = (): string => html`
   <calcite-radio-button-group
-    class="calcite-mode-dark"
+    class="calcite-theme-dark"
     dir="rtl"
     name="dark"
     ${boolean("disabled", false)}
@@ -68,4 +68,4 @@ export const darkModeRTL_TestOnly = (): string => html`
   </calcite-radio-button-group>
 `;
 
-darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
+darkThemeRTL_TestOnly.parameters = { themes: themesDarkDefault };

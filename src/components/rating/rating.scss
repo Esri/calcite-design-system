@@ -33,24 +33,20 @@
 }
 
 .fieldset {
-  margin: 0;
-  display: flex;
-  border-width: 0;
-  padding: 0;
-  align-items: center;
-  gap: var(--calcite-rating-spacing-unit);
+  @apply m-0 flex border-0 p-0;
 }
 
 .wrapper {
-  display: inline-block;
+  @apply inline-block;
+  margin-inline-end: var(--calcite-rating-spacing-unit);
 }
 
 .star {
-  @apply transition-default;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  cursor: pointer;
+  @apply focus-base
+  relative
+  flex
+  cursor-pointer
+  transition-default;
   color: theme("borderColor.color.input");
 }
 
@@ -64,31 +60,32 @@
 }
 
 .hovered,
-.selected {
+.selected,
+:host([read-only]) .average,
+:host([read-only]) .fraction {
   color: theme("colors.brand");
 }
 
-.fraction {
-  @apply transition-default;
-  position: absolute;
-  pointer-events: none;
-  inset-block-start: 0;
-  overflow: hidden;
+:host .fraction {
+  @apply pointer-events-none
+    absolute
+    top-0
+    overflow-hidden
+    transition-default;
   inset-inline-start: 0;
 }
 
 // rating count
 calcite-chip {
-  pointer-events: none;
-  cursor: default;
+  @apply pointer-events-none cursor-default;
 }
 
 .number--average {
-  font-weight: bold;
+  @apply font-bold;
 }
 
 .number--count {
-  color: var(--calcite-ui-text-2);
+  @apply text-color-2;
   font-style: italic;
   &:not(:first-child) {
     margin-inline-start: var(--calcite-rating-spacing-unit);

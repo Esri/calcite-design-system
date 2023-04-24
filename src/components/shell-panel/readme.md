@@ -78,31 +78,22 @@ Add `calcite-match-height` to a wrapping element to ensure proper height, scroll
 
 ## Properties
 
-| Property              | Attribute               | Description                                                                                                | Type                 | Default     |
-| --------------------- | ----------------------- | ---------------------------------------------------------------------------------------------------------- | -------------------- | ----------- |
-| `collapsed`           | `collapsed`             | When `true`, hides the component's content area.                                                           | `boolean`            | `false`     |
-| `detached`            | `detached`              | When `true`, the content area displays like a floating panel.                                              | `boolean`            | `false`     |
-| `detachedHeightScale` | `detached-height-scale` | When `detached`, specifies the maximum height of the component.                                            | `"l" \| "m" \| "s"`  | `"l"`       |
-| `messageOverrides`    | `message-overrides`     | Use this property to override individual strings used by the component.                                    | `ShellPanelMessages` | `undefined` |
-| `position`            | `position`              | Specifies the component's position. Will be flipped when the element direction is right-to-left (`"rtl"`). | `"end" \| "start"`   | `undefined` |
-| `resizable`           | `resizable`             | When `true` and not `detached`, the component's content area is resizable.                                 | `boolean`            | `false`     |
-| `widthScale`          | `width-scale`           | Specifies the width of the component's content area.                                                       | `"l" \| "m" \| "s"`  | `"m"`       |
+| Property              | Attribute               | Description                                                                                                | Type                | Default       |
+| --------------------- | ----------------------- | ---------------------------------------------------------------------------------------------------------- | ------------------- | ------------- |
+| `collapsed`           | `collapsed`             | When `true`, hides the component's content area.                                                           | `boolean`           | `false`       |
+| `detached`            | `detached`              | When `true`, the content area displays like a floating panel.                                              | `boolean`           | `false`       |
+| `detachedHeightScale` | `detached-height-scale` | When `detached`, specifies the maximum height of the component.                                            | `"l" \| "m" \| "s"` | `"l"`         |
+| `intlResize`          | `intl-resize`           | Accessible name for the resize separator.                                                                  | `string`            | `TEXT.resize` |
+| `position`            | `position`              | Specifies the component's position. Will be flipped when the element direction is right-to-left (`"rtl"`). | `"end" \| "start"`  | `undefined`   |
+| `resizable`           | `resizable`             | When `true` and not `detached`, the component's content area is resizable.                                 | `boolean`           | `false`       |
+| `widthScale`          | `width-scale`           | Specifies the width of the component's content area.                                                       | `"l" \| "m" \| "s"` | `"m"`         |
 
 ## Slots
 
 | Slot           | Description                                                |
 | -------------- | ---------------------------------------------------------- |
-|                | A slot for adding custom content.                          |
+|                | A slot for adding content to the component.                |
 | `"action-bar"` | A slot for adding a `calcite-action-bar` to the component. |
-
-## CSS Custom Properties
-
-| Name                                        | Description                                                  |
-| ------------------------------------------- | ------------------------------------------------------------ |
-| `--calcite-shell-panel-detached-max-height` | The maximum height of the component when `detached` is true. |
-| `--calcite-shell-panel-max-width`           | The maximum width of the component.                          |
-| `--calcite-shell-panel-min-width`           | The minimum width of the component.                          |
-| `--calcite-shell-panel-width`               | The width of the component.                                  |
 
 ---
 

@@ -1,15 +1,15 @@
 import { boolean } from "@storybook/addon-knobs";
-import { storyFilters } from "../../../.storybook/helpers";
 import {
   Attribute,
+  filterComponentAttributes,
   Attributes,
   createComponentHTML as create,
-  filterComponentAttributes,
-  modesDarkDefault
+  themesDarkDefault
 } from "../../../.storybook/utils";
-import { html } from "../../../support/formatting";
-import itemReadme from "../value-list-item/readme.md";
 import readme from "./readme.md";
+import itemReadme from "../value-list-item/readme.md";
+import { html } from "../../../support/formatting";
+import { storyFilters } from "../../../.storybook/helpers";
 
 export default {
   title: "Components/Value List",
@@ -80,7 +80,7 @@ const action = html`
     slot="actions-end"
     label="click-me"
     onClick="console.log('clicked');"
-    appearance="outline"
+    appearance="clear"
     scale="s"
     icon="ellipsis"
   ></calcite-action>
@@ -121,12 +121,12 @@ export const disabled_TestOnly = (): string => html`
   </calcite-value-list>
 `;
 
-export const darkModeRTL_TestOnly = (): string => html`
+export const darkThemeRTL_TestOnly = (): string => html`
   ${create(
     "calcite-value-list",
     createAttributes({ exceptions: ["dir", "class"] }).concat([
       { name: "dir", value: "rtl" },
-      { name: "class", value: "calcite-mode-dark" }
+      { name: "class", value: "calcite-theme-dark" }
     ]),
     html`
       <calcite-value-list-item label="Dogs" description="Man's best friend" value="dogs">
@@ -145,4 +145,4 @@ export const darkModeRTL_TestOnly = (): string => html`
     `
   )}
 `;
-darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
+darkThemeRTL_TestOnly.parameters = { themes: themesDarkDefault };

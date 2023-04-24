@@ -3,11 +3,11 @@ import readme from "./readme.md";
 import { html } from "../../../support/formatting";
 import { boolean, storyFilters } from "../../../.storybook/helpers";
 import { placements } from "../../utils/floating-ui";
-import { modesDarkDefault } from "../../../.storybook/utils";
+import { themesDarkDefault } from "../../../.storybook/utils";
 
 const contentHTML = `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua`;
 
-const referenceElementHTML = `Ut enim ad minim veniam, quis <calcite-button appearance="transparent" kind="neutral" id="reference-element">nostrud exercitation</calcite-button> ullamco laboris nisi ut aliquip ex ea commodo consequat.`;
+const referenceElementHTML = `Ut enim ad minim veniam, quis <calcite-button appearance="transparent" color="neutral" title="Reference element" id="reference-element">nostrud exercitation</calcite-button> ullamco laboris nisi ut aliquip ex ea commodo consequat.`;
 
 export default {
   title: "Components/Tooltip",
@@ -27,7 +27,7 @@ export const simple = (): string => html`
       offset-skidding="${number("offset-skidding", 0)}"
       ${boolean("open", false)}
     >
-      <span> ${contentHTML} </span>
+      ${contentHTML}
     </calcite-tooltip>
   </div>
 `;
@@ -42,16 +42,16 @@ export const open_TestOnly = (): string => html`
       offset-skidding="${number("offset-skidding", 0)}"
       ${boolean("open", true)}
     >
-      <span> ${contentHTML} </span>
+      ${contentHTML}
     </calcite-tooltip>
   </div>
 `;
 
-export const darkModeRTL_TestOnly = (): string => html`
+export const darkThemeRTL_TestOnly = (): string => html`
   <div style="width: 400px;">
     ${referenceElementHTML}
     <calcite-tooltip
-      class="calcite-mode-dark"
+      class="calcite-theme-dark"
       dir="rtl"
       reference-element="reference-element"
       placement="${select("placement", placements, "auto")}"
@@ -59,12 +59,12 @@ export const darkModeRTL_TestOnly = (): string => html`
       offset-skidding="${number("offset-skidding", 0)}"
       ${boolean("open", false)}
     >
-      <span> ${contentHTML} </span>
+      ${contentHTML}
     </calcite-tooltip>
   </div>
 `;
 
-darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
+darkThemeRTL_TestOnly.parameters = { themes: themesDarkDefault };
 
 export const rightAligned_TestOnly = (): string => html`<div style="text-align: right">
   <a href="#" id="tooltip-button">Hover for Tooltip</a>

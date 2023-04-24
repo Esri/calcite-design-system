@@ -3,6 +3,11 @@ export interface RegistryEntry {
   position: number;
 }
 
+export interface ItemKeyEvent {
+  parent: HTMLCalciteAccordionElement;
+  item: KeyboardEvent;
+}
+
 export interface RequestedItem {
   requestedAccordionItem: HTMLCalciteAccordionItemElement;
 }

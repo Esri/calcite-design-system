@@ -440,12 +440,6 @@ describe("calcite-stepper", () => {
       const eventSpy = await element.spyOnEvent("calciteStepperItemChange");
       const firstItem = await page.find("#step-1");
 
-      const getSelectedItemId = async (): Promise<string> => {
-        return await page.evaluate((): string => {
-          return document.querySelector("calcite-stepper")?.selectedItem?.id || "";
-        });
-      };
-
       let expectedEvents = 0;
 
       // non user interaction
@@ -460,7 +454,7 @@ describe("calcite-stepper", () => {
 
       await page.$eval("#step-2", itemClicker);
       expect(eventSpy).toHaveReceivedEventTimes(++expectedEvents);
-      expect(await getSelectedItemId()).toBe("step-2");
+      expect(eventSpy.lastEvent.detail.position).toBe(1);
 
       if (hasContent) {
         await page.$eval("#step-1", (item: HTMLCalciteStepperItemElement) =>
@@ -469,7 +463,7 @@ describe("calcite-stepper", () => {
 
         if (layout === "vertical") {
           expect(eventSpy).toHaveReceivedEventTimes(++expectedEvents);
-          expect(await getSelectedItemId()).toBe("step-1");
+          expect(eventSpy.lastEvent.detail.position).toBe(0);
         } else {
           // no events since horizontal layout moves content outside of item selection hit area
           expect(eventSpy).toHaveReceivedEventTimes(expectedEvents);
@@ -482,7 +476,7 @@ describe("calcite-stepper", () => {
 
       await page.$eval("#step-4", itemClicker);
       expect(eventSpy).toHaveReceivedEventTimes(++expectedEvents);
-      expect(await getSelectedItemId()).toBe("step-4");
+      expect(eventSpy.lastEvent.detail.position).toBe(3);
 
       await element.callMethod("prevStep");
       await page.waitForChanges();

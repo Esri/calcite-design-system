@@ -56,9 +56,9 @@ export const create: () => Config = () => ({
     { components: ["calcite-pick-list", "calcite-pick-list-group", "calcite-pick-list-item"] },
     { components: ["calcite-radio-button"] },
     { components: ["calcite-radio-button-group"] },
+    { components: ["calcite-radio-group", "calcite-radio-group-item"] },
     { components: ["calcite-rating"] },
     { components: ["calcite-scrim"] },
-    { components: ["calcite-segmented-control", "calcite-segmented-control-item"] },
     { components: ["calcite-select", "calcite-option", "calcite-option-group"] },
     { components: ["calcite-shell", "calcite-shell-center-row", "calcite-shell-panel"] },
     { components: ["calcite-slider", "calcite-graph"] },
@@ -80,10 +80,6 @@ export const create: () => Config = () => ({
     { type: "dist" },
     { type: "docs-readme" },
     { type: "docs-json", file: "./dist/extras/docs-json.json" },
-    {
-      type: "docs-vscode",
-      file: "./dist/extras/vscode-data.json"
-    },
     { type: "custom", name: "preact", generator: generatePreactTypes },
     {
       type: "www",
@@ -120,7 +116,8 @@ export const create: () => Config = () => ({
       "^/assets/(.*)$": "<rootDir>/src/tests/iconPathDataStub.ts",
       "^lodash-es$": "lodash"
     },
-    setupFilesAfterEnv: ["<rootDir>/src/tests/setupTests.ts"]
+    setupFilesAfterEnv: ["<rootDir>/src/tests/setupTests.ts"],
+    browserHeadless: false
   },
   hydratedFlag: {
     selector: "attribute",

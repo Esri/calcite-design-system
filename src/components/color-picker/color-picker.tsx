@@ -13,8 +13,16 @@ import {
 } from "@stencil/core";
 
 import Color from "color";
-import { ColorMode, ColorValue, HSLA, HSVA, InternalColor, RGBA } from "./interfaces";
-import { Appearance, Scale } from "../interfaces";
+import {
+  ColorAppearance,
+  ColorMode,
+  ColorValue,
+  HSLA,
+  HSVA,
+  InternalColor,
+  RGBA
+} from "./interfaces";
+import { Scale } from "../interfaces";
 import {
   CSS,
   DEFAULT_COLOR,
@@ -24,7 +32,7 @@ import {
   RGB_LIMITS
 } from "./resources";
 
-import { Direction, getElementDir, isPrimaryPointerButton } from "../../utils/dom";
+import { Direction, focusElement, getElementDir, isPrimaryPointerButton } from "../../utils/dom";
 import {
   alphaCompatible,
   alphaToOpacity,
@@ -43,21 +51,10 @@ import {
 } from "./utils";
 import { throttle } from "lodash-es";
 
-import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
-import { isActivationKey } from "../../utils/key";
-import {
-  componentLoaded,
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent
-} from "../../utils/loadable";
-import {
-  connectLocalized,
-  disconnectLocalized,
-  LocalizedComponent,
-  NumberingSystem
-} from "../../utils/locale";
 import { clamp } from "../../utils/math";
+import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import { Messages } from "./assets/color-picker/t9n";
+import { isActivationKey } from "../../utils/key";
 import {
   connectMessages,
   disconnectMessages,
@@ -65,16 +62,21 @@ import {
   T9nComponent,
   updateMessages
 } from "../../utils/t9n";
-import { ColorPickerMessages } from "./assets/color-picker/t9n";
+import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
+import { NumberingSystem } from "../../utils/locale";
+import {
+  setUpLoadableComponent,
+  setComponentLoaded,
+  LoadableComponent,
+  componentLoaded
+} from "../../utils/loadable";
 
 const throttleFor60FpsInMs = 16;
 
 @Component({
   tag: "calcite-color-picker",
   styleUrl: "color-picker.scss",
-  shadow: {
-    delegatesFocus: true
-  },
+  shadow: true,
   assetsDirs: ["assets"]
 })
 export class ColorPicker
@@ -120,8 +122,10 @@ export class ColorPicker
 
   /**
    * Specifies the appearance style of the component -
+   *
+   * `"solid"` (containing border) or `"minimal"` (no containing border).
    */
-  @Prop({ reflect: true }) appearance: Extract<"minimal" | "solid", Appearance> = "solid";
+  @Prop({ reflect: true }) appearance: ColorAppearance = "solid";
 
   /**
    * Internal prop for advanced use-cases.
@@ -163,6 +167,168 @@ export class ColorPicker
   /** When true, hides the hex input */
   @Prop() hexDisabled = false;
 
+  /**
+   * When `true`, hides the Hex input.
+   *
+   * @deprecated use `hexDisabled` instead
+   */
+  @Prop({ reflect: true }) hideHex = false;
+
+  /**
+   * When `true`, hides the RGB/HSV channel inputs.
+   *
+   * @deprecated use `channelsDisabled` instead
+   */
+  @Prop({ reflect: true }) hideChannels = false;
+
+  /**
+   * When `true`, hides the saved colors section.
+   *
+   * @deprecated use `savedDisabled` instead
+   */
+  @Prop({ reflect: true }) hideSaved = false;
+
+  /**
+   * Accessible name for the RGB section's blue channel.
+   *
+   * @default "B"
+   */
+  @Prop() intlB = TEXT.b;
+
+  /**
+   * Accessible name for the RGB section's blue channel description.
+   *
+   * @default "Blue"
+   */
+  @Prop() intlBlue = TEXT.blue;
+
+  /**
+   * Accessible name for the delete color button.
+   *
+   * @default "Delete color"
+   */
+  @Prop() intlDeleteColor = TEXT.deleteColor;
+
+  /**
+   * Accessible name for the RGB section's green channel.
+   *
+   * @default "G"
+   */
+  @Prop() intlG = TEXT.g;
+
+  /**
+   * Accessible name for the RGB section's green channel description.
+   *
+   * @default "Green"
+   */
+  @Prop() intlGreen = TEXT.green;
+
+  /**
+   * Accessible name for the HSV section's hue channel.
+   *
+   * @default "H"
+   */
+  @Prop() intlH = TEXT.h;
+
+  /**
+   * Accessible name for the HSV mode.
+   *
+   * @default "HSV"
+   */
+  @Prop() intlHsv = TEXT.hsv;
+
+  /**
+   * Accessible name for the Hex input.
+   *
+   * @default "Hex"
+   */
+  @Prop() intlHex = TEXT.hex;
+
+  /**
+   * Accessible name for the HSV section's hue channel description.
+   *
+   * @default "Hue"
+   */
+  @Prop() intlHue = TEXT.hue;
+
+  /**
+   * Accessible name for the Hex input when there is no color selected.
+   *
+   * @default "No color"
+   */
+  @Prop() intlNoColor = TEXT.noColor;
+
+  /**
+   * Label used for the opacity description.
+   *
+   * @default "Opacity"
+   */
+  @Prop() intlOpacity = TEXT.opacity;
+
+  /**
+   * Label used for the red channel
+   * Accessible name for the RGB section's red channel.
+   *
+   * @default "R"
+   */
+  @Prop() intlR = TEXT.r;
+
+  /**
+   * Accessible name for the RGB section's red channel description.
+   *
+   * @default "Red"
+   */
+  @Prop() intlRed = TEXT.red;
+
+  /**
+   * Accessible name for the RGB mode.
+   *
+   * @default "RGB"
+   */
+  @Prop() intlRgb = TEXT.rgb;
+
+  /**
+   * Accessible name for the HSV section's saturation channel.
+   *
+   * @default "S"
+   */
+  @Prop() intlS = TEXT.s;
+
+  /**
+   * Accessible name for the HSV section's saturation channel description.
+   *
+   * @default "Saturation"
+   */
+  @Prop() intlSaturation = TEXT.saturation;
+
+  /**
+   * Accessible name for the save color button.
+   *
+   * @default "Save color"
+   */
+  @Prop() intlSaveColor = TEXT.saveColor;
+
+  /**
+   * Accessible name for the saved colors section.
+   *
+   * @default "Saved"
+   */
+  @Prop() intlSaved = TEXT.saved;
+
+  /**
+   * Accessible name for the HSV section's value channel.
+   *
+   * @default "V"
+   */
+  @Prop() intlV = TEXT.v;
+
+  /**
+   * Accessible name for the HSV section's value channel description.
+   *
+   * @default "Value"
+   */
+  @Prop() intlValue = TEXT.value;
+
   /** When true, hides the saved colors section */
   @Prop({ reflect: true }) savedDisabled = false;
 
@@ -181,7 +347,7 @@ export class ColorPicker
   /**
    * Use this property to override individual strings used by the component.
    */
-  @Prop({ mutable: true }) messageOverrides: Partial<ColorPickerMessages>;
+  @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
 
   @Watch("messageOverrides")
   onMessagesChange(): void {
@@ -284,7 +450,7 @@ export class ColorPicker
 
   private sliderThumbState: "idle" | "hover" | "drag" = "idle";
 
-  @State() defaultMessages: ColorPickerMessages;
+  @State() defaultMessages: Messages;
 
   @State() colorFieldAndSliderInteractive = false;
 
@@ -306,7 +472,7 @@ export class ColorPicker
    *
    * @internal
    */
-  @Prop({ mutable: true }) messages: ColorPickerMessages;
+  @Prop({ mutable: true }) messages: Messages;
 
   @State() savedColors: string[] = [];
 
@@ -410,6 +576,7 @@ export class ColorPicker
 
   private handleChannelInput = (event: CustomEvent): void => {
     const input = event.currentTarget as HTMLCalciteInputElement;
+    const internalInput = event.detail.nativeEvent.target as HTMLInputElement;
     const channelIndex = Number(input.getAttribute("data-channel-index"));
 
     const limit =
@@ -429,10 +596,7 @@ export class ColorPicker
     }
 
     input.value = inputValue;
-
-    // TODO: refactor calcite-input so we don't need to sync the internals
-    // https://github.com/Esri/calcite-components/issues/6100
-    input.internalSyncChildElValue();
+    internalInput.value = inputValue;
   };
 
   // using @Listen as a workaround for VDOM listener not firing
@@ -746,11 +910,12 @@ export class ColorPicker
   //
   //--------------------------------------------------------------------------
 
-  /** Sets focus on the component's first focusable element. */
+  /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
     await componentLoaded(this);
-    this.el.focus();
+
+    return focusElement(this.colorFieldScopeNode);
   }
 
   //--------------------------------------------------------------------------
@@ -815,7 +980,23 @@ export class ColorPicker
   //--------------------------------------------------------------------------
 
   render(): VNode {
-    const { alphaEnabled, allowEmpty, color, savedColors, scale } = this;
+    const {
+      alphaEnabled,
+      allowEmpty,
+      channelsDisabled,
+      color,
+      intlDeleteColor,
+      hexDisabled,
+      hideHex,
+      hideChannels,
+      hideSaved,
+      intlHex,
+      intlSaved,
+      intlSaveColor,
+      savedColors,
+      savedDisabled,
+      scale
+    } = this;
     const selectedColorInHex = color ? hexify(color, alphaEnabled) : null;
     const hexInputScale = scale === "l" ? "m" : "s";
     const {
@@ -834,6 +1015,9 @@ export class ColorPicker
     const hueLeft = hueScopeLeft ?? (colorFieldWidth * DEFAULT_COLOR.hue()) / HSV_LIMITS.h;
     const noColor = color === null;
     const vertical = scopeOrientation === "vertical";
+    const noHex = hexDisabled || hideHex;
+    const noChannels = channelsDisabled || hideChannels;
+    const noSaved = savedDisabled || hideSaved;
 
     return (
       <div class={CSS.container}>
@@ -850,7 +1034,7 @@ export class ColorPicker
             ref={this.initColorFieldAndSlider}
           />
           <div
-            aria-label={vertical ? this.messages.value : this.messages.saturation}
+            aria-label={vertical ? messages.value : messages.saturation}
             aria-valuemax={vertical ? HSV_LIMITS.v : HSV_LIMITS.s}
             aria-valuemin="0"
             aria-valuenow={(vertical ? color?.saturationv() : color?.value()) || "0"}
@@ -862,7 +1046,7 @@ export class ColorPicker
             tabindex="0"
           />
           <div
-            aria-label={this.messages.hue}
+            aria-label={messages.hue}
             aria-valuemax={HSV_LIMITS.h}
             aria-valuemin="0"
             aria-valuenow={color?.round().hue() || DEFAULT_COLOR.round().hue()}
@@ -874,7 +1058,7 @@ export class ColorPicker
             tabindex="0"
           />
         </div>
-        {this.hexDisabled && this.channelsDisabled ? null : (
+        {noHex && noChannels ? null : (
           <div
             class={{
               [CSS.controlSection]: true,
@@ -882,7 +1066,7 @@ export class ColorPicker
             }}
           >
             <div class={CSS.hexAndChannelsGroup}>
-              {this.hexDisabled ? null : (
+              {noHex ? null : (
                 <div class={CSS.hexOptions}>
                   <span
                     class={{
@@ -890,13 +1074,12 @@ export class ColorPicker
                       [CSS.headerSpaced]: true
                     }}
                   >
-                    {this.messages.hex}
+                    {intlHex}
                   </span>
                   <calcite-color-picker-hex-input
                     allowEmpty={allowEmpty}
-                    alphaEnabled={this.alphaEnabled}
+                    alphaEnabled={alphaEnabled}
                     class={CSS.control}
-                    hexLabel={this.messages.hex}
                     numberingSystem={this.numberingSystem}
                     onCalciteColorPickerHexInputChange={this.handleHexInputChange}
                     scale={hexInputScale}
@@ -904,7 +1087,7 @@ export class ColorPicker
                   />
                 </div>
               )}
-              {this.channelsDisabled ? null : (
+              {noChannels ? null : (
                 <calcite-tabs
                   class={{
                     [CSS.colorModeContainer]: true,
@@ -912,7 +1095,7 @@ export class ColorPicker
                   }}
                   scale={hexInputScale}
                 >
-                  <calcite-tab-nav slot="title-group">
+                  <calcite-tab-nav slot="tab-nav">
                     {this.renderChannelsTabTitle("rgb")}
                     {this.renderChannelsTabTitle("hsv")}
                   </calcite-tab-nav>
@@ -921,21 +1104,20 @@ export class ColorPicker
                 </calcite-tabs>
               )}
             </div>
-            {this.alphaEnabled ? this.renderOpacitySection() : null}
-          </div>
+            {alphaEnabled ? this.renderOpacitySection() : null}
         )}
-        {this.savedDisabled ? null : (
+        {noSaved ? null : (
           <div class={{ [CSS.savedColorsSection]: true, [CSS.section]: true }}>
             <div class={CSS.header}>
-              <label>{this.messages.saved}</label>
+              <label>{messages.saved}</label>
               <div class={CSS.savedColorsButtons}>
                 <calcite-button
                   appearance="transparent"
                   class={CSS.deleteColor}
+                  color="neutral"
                   disabled={noColor}
                   iconStart="minus"
-                  kind="neutral"
-                  label={this.messages.deleteColor}
+                  label={messages.deleteColor}
                   onClick={this.deleteColor}
                   scale={hexInputScale}
                   type="button"
@@ -943,10 +1125,10 @@ export class ColorPicker
                 <calcite-button
                   appearance="transparent"
                   class={CSS.saveColor}
+                  color="neutral"
                   disabled={noColor}
                   iconStart="plus"
-                  kind="neutral"
-                  label={this.messages.saveColor}
+                  label={messages.saveColor}
                   onClick={this.saveColor}
                   scale={hexInputScale}
                   type="button"
@@ -978,7 +1160,10 @@ export class ColorPicker
   }
 
   private renderOpacitySection(): VNode {
-    const colorValue = alphaToOpacity((this.color ? this.color : this.previousColor).alpha());
+    const { color, intlOpacity, previousColor } = this;
+    const sliderOpacity = alphaToOpacity((color ? color : previousColor).alpha()); // slider keeps previous alpha when null
+    const inputOpacity = color ? alphaToOpacity(color.alpha()).toString() : undefined;
+
     return (
       <div class={CSS.hexOptions} key="opacity">
         <span
@@ -987,20 +1172,20 @@ export class ColorPicker
             [CSS.headerSpaced]: true
           }}
         >
-          {this.messages.opacity}
+          {intlOpacity}
         </span>
         <div class={CSS.opacityControlGroup}>
           <calcite-slider
-            aria-label={this.messages.opacity}
+            aria-label={intlOpacity}
             class={CSS.opacitySlider}
             max={100}
             min={0}
             onCalciteSliderInput={this.handleOpacitySliderInput}
             step={1}
-            value={colorValue}
+            value={sliderOpacity}
           />
           <calcite-input
-            aria-label={this.messages.opacity}
+            aria-label={intlOpacity}
             class={CSS.opacityInput}
             max={100}
             min={0}
@@ -1011,7 +1196,7 @@ export class ColorPicker
             step={1}
             suffixText="%"
             type="number"
-            value={colorValue.toString()}
+            value={inputOpacity}
           />
         </div>
       </div>

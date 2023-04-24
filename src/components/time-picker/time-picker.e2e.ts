@@ -1,5 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, defaults, focusable, hidden, renders, t9n } from "../../tests/commonTests";
+import { accessible, defaults, focusable, renders, hidden, t9n } from "../../tests/commonTests";
 import { formatTimePart } from "../../utils/time";
 import { CSS } from "./resources";
 
@@ -50,14 +50,9 @@ describe("calcite-time-picker", () => {
       { propertyName: "step", defaultValue: 60 }
     ]));
 
-  it("should focus the first focusable element when setFocus is called (ltr)", async () =>
+  it("should focus the first input when setFocus is called", async () =>
     focusable(`calcite-time-picker`, {
-      shadowFocusTargetSelector: `.${CSS.buttonHourUp}`
-    }));
-
-  it("should focus the first focusable element when setFocus is called (rtl)", async () =>
-    focusable(`<calcite-time-picker dir="rtl" lang="ar"></calcite-time-picker>`, {
-      shadowFocusTargetSelector: `.${CSS.buttonHourUp}`
+      shadowFocusTargetSelector: `.${CSS.hour}`
     }));
 
   it("value displays correctly when value is programmatically changed", async () => {

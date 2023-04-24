@@ -4,7 +4,7 @@ import {
   filterComponentAttributes,
   Attributes,
   createComponentHTML as create,
-  modesDarkDefault
+  themesDarkDefault
 } from "../../../.storybook/utils";
 import readme from "./readme.md";
 import { html } from "../../../support/formatting";
@@ -209,16 +209,16 @@ export const arabicLocale_TestOnly = (): string => html`
   ></calcite-action>
 `;
 
-export const darkModeRTL_TestOnly = (): string =>
+export const darkThemeRTL_TestOnly = (): string =>
   html`<div>
     ${create(
       "calcite-action",
       createAttributes({ exceptions: ["icon", "class", "dir"] }).concat([
         { name: "icon", value: "banana" },
-        { name: "class", value: "calcite-mode-dark" },
+        { name: "class", value: "calcite-theme-dark" },
         { name: "dir", value: "rtl" }
       ])
     )}
   </div>`;
 
-darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
+darkThemeRTL_TestOnly.parameters = { themes: themesDarkDefault };

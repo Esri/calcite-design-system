@@ -1,6 +1,7 @@
 import { E2EPage, newE2EPage } from "@stencil/core/testing";
-import { html } from "../../../support/formatting";
 import { accessible, defaults, hidden, renders } from "../../tests/commonTests";
+import { GlobalTestProps } from "../../tests/utils";
+import { html } from "../../../support/formatting";
 import { CSS } from "../tree-item/resources";
 import SpyInstance = jest.SpyInstance;
 

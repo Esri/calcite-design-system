@@ -1,6 +1,6 @@
 import readme from "./readme.md";
 import { boolean, select, text } from "@storybook/addon-knobs";
-import { modesDarkDefault } from "../../../.storybook/utils";
+import { themesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { storyFilters } from "../../../.storybook/helpers";
 
@@ -34,10 +34,10 @@ export const disabled_TestOnly = (): string => html`<calcite-inline-editable dis
   <calcite-input value="disabled"></calcite-input>
 </calcite-inline-editable>`;
 
-export const darkModeRTL_TestOnly = (): string => html`
+export const darkThemeRTL_TestOnly = (): string => html`
   <div dir="rtl" style="width:300px;max-width:100%;">
     <calcite-label
-      class="calcite-mode-dark"
+      class="calcite-theme-dark"
       status="${select("status", ["idle", "valid", "invalid"], "idle", "Label")}"
       scale="${select("scale", ["s", "m", "l"], "m", "Label")}"
       layout="${select("layout", ["default", "inline", "inline-space-between"], "default", "Label")}"
@@ -64,7 +64,7 @@ export const darkModeRTL_TestOnly = (): string => html`
     </calcite-label>
   </div>
 `;
-darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
+darkThemeRTL_TestOnly.parameters = { themes: themesDarkDefault };
 
 export const longValue_TestOnly = (): string => html`<div style="width: 300px;">
   <calcite-inline-editable>

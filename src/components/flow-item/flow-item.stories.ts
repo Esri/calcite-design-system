@@ -4,7 +4,7 @@ import {
   createComponentHTML as create,
   Attribute,
   filterComponentAttributes,
-  modesDarkDefault
+  themesDarkDefault
 } from "../../../.storybook/utils";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import readme from "./readme.md";
@@ -98,7 +98,7 @@ const contentHTML = html`
 `;
 
 const footerHTML = html`
-  <calcite-button slot="${SLOTS.footer}" width="half" appearance="outline">Naw.</calcite-button>
+  <calcite-button slot="${SLOTS.footer}" width="half" appearance="clear">Naw.</calcite-button>
   <calcite-button slot="${SLOTS.footer}" width="half">Yeah!</calcite-button>
 `;
 
@@ -145,7 +145,7 @@ export const disabledWithStyledSlot_TestOnly = (): string => html`
   </calcite-flow-item>
 `;
 
-export const darkModeRTL_TestOnly = (): string =>
+export const darkThemeRTL_TestOnly = (): string =>
   create(
     "calcite-flow-item",
     createAttributes({ exceptions: ["dir", "class"] }).concat([
@@ -155,13 +155,13 @@ export const darkModeRTL_TestOnly = (): string =>
       },
       {
         name: "class",
-        value: "calcite-mode-dark"
+        value: "calcite-theme-dark"
       }
     ]),
     flowItemContent
   );
 
-darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
+darkThemeRTL_TestOnly.parameters = { themes: themesDarkDefault };
 
 export const noDoubleScrollbars_TestOnly = (): string => html`
   <style>

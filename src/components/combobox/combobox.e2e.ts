@@ -586,20 +586,6 @@ describe("calcite-combobox", () => {
       expect(floatingUI).toBeNull();
     });
 
-    it("should not throw when typing custom value and pressing ArrowDown", async () => {
-      const combobox = await page.find("calcite-combobox");
-      combobox.setProperty("allowCustomValues", true);
-      await page.waitForChanges();
-      const inputEl = await page.find(`#myCombobox >>> input`);
-      await inputEl.focus();
-      await page.waitForChanges();
-      expect(await page.evaluate(() => document.activeElement.id)).toBe("myCombobox");
-      await page.keyboard.type("asdf");
-      await page.waitForChanges();
-      await page.keyboard.press("ArrowDown");
-      await page.waitForChanges();
-    });
-
     it(`ArrowDown opens the item group for combobox in focus and jumps to the first item`, async () => {
       const inputEl = await page.find(`#myCombobox >>> input`);
       await inputEl.focus();
@@ -1289,8 +1275,7 @@ describe("calcite-combobox", () => {
     </calcite-combobox>`);
     const item = await page.find("calcite-combobox-item");
 
-    item.setProperty("selected", true);
-    await page.waitForChanges();
+    await item.callMethod("toggleSelected");
     const focusedId = await page.evaluate(() => {
       const el = document.activeElement;
       return el.id;

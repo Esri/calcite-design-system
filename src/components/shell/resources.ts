@@ -2,9 +2,7 @@ export const CSS = {
   main: "main",
   content: "content",
   contentBehind: "content--behind",
-  footer: "footer",
-  positionedSlotWrapper: "positioned-slot-wrapper",
-  container: "container"
+  footer: "footer"
 };
 
 export const SLOTS = {
@@ -12,7 +10,5 @@ export const SLOTS = {
   panelStart: "panel-start",
   panelEnd: "panel-end",
   header: "header",
-  footer: "footer",
-  alerts: "alerts",
-  modals: "modals"
+  footer: "footer"
 };

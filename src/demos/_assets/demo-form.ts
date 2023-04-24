@@ -11,9 +11,7 @@ class DemoForm extends HTMLElement {
 
   onFormSubmit(event) {
     event.preventDefault();
-    if (event.target) {
-      new FormData(event.target);
-    }
+    new FormData(event.target);
   }
 
   onFormData(event) {

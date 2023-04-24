@@ -1,10 +1,10 @@
 import {
-  defaultLocale,
-  defaultNumberingSystem,
   locales,
   numberingSystems,
-  NumberStringFormatOptions,
-  numberStringFormatter
+  numberStringFormatter,
+  defaultLocale,
+  defaultNumberingSystem,
+  NumberStringFormatOptions
 } from "./locale";
 
 describe("NumberStringFormat", () => {

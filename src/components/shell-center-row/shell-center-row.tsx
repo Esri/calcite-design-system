@@ -1,12 +1,12 @@
-import { Component, Element, Fragment, h, Prop, VNode } from "@stencil/core";
+import { Component, Element, Prop, h, VNode, Fragment } from "@stencil/core";
+import { CSS, SLOTS } from "./resources";
+import { Position, Scale } from "../interfaces";
+import { getSlotted } from "../../utils/dom";
 import {
   ConditionalSlotComponent,
   connectConditionalSlotComponent,
   disconnectConditionalSlotComponent
 } from "../../utils/conditionalSlot";
-import { getSlotted } from "../../utils/dom";
-import { Position, Scale } from "../interfaces";
-import { CSS, SLOTS } from "./resources";
 
 /**
  * @slot - A slot for adding content to the `calcite-shell-panel`.

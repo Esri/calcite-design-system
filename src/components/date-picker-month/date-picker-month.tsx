@@ -1,15 +1,15 @@
 import {
   Component,
   Element,
+  Prop,
+  Host,
   Event,
   EventEmitter,
   h,
-  Host,
   Listen,
-  Prop,
   VNode
 } from "@stencil/core";
-import { dateFromRange, HoverRange, inRange, sameDate } from "../../utils/date";
+import { inRange, sameDate, dateFromRange, HoverRange } from "../../utils/date";
 import { DateLocaleData } from "../date-picker/utils";
 import { Scale } from "../interfaces";
 
@@ -72,10 +72,8 @@ export class DatePickerMonth {
 
   /**
    * Event emitted when user selects the date.
-   *
-   * @internal
    */
-  @Event({ cancelable: false }) calciteInternalDatePickerSelect: EventEmitter<Date>;
+  @Event({ cancelable: false }) calciteDatePickerSelect: EventEmitter<Date>;
 
   /**
    * Event emitted when user hovers the date.
@@ -86,10 +84,8 @@ export class DatePickerMonth {
 
   /**
    * Active date for the user keyboard access.
-   *
-   * @internal
    */
-  @Event({ cancelable: false }) calciteInternalDatePickerActiveDateChange: EventEmitter<Date>;
+  @Event({ cancelable: false }) calciteDatePickerActiveDateChange: EventEmitter<Date>;
 
   /**
    * @internal
@@ -245,9 +241,7 @@ export class DatePickerMonth {
   private addMonths(step: number) {
     const nextDate = new Date(this.activeDate);
     nextDate.setMonth(this.activeDate.getMonth() + step);
-    this.calciteInternalDatePickerActiveDateChange.emit(
-      dateFromRange(nextDate, this.min, this.max)
-    );
+    this.calciteDatePickerActiveDateChange.emit(dateFromRange(nextDate, this.min, this.max));
     this.activeFocus = true;
   }
 
@@ -259,9 +253,7 @@ export class DatePickerMonth {
   private addDays(step = 0) {
     const nextDate = new Date(this.activeDate);
     nextDate.setDate(this.activeDate.getDate() + step);
-    this.calciteInternalDatePickerActiveDateChange.emit(
-      dateFromRange(nextDate, this.min, this.max)
-    );
+    this.calciteDatePickerActiveDateChange.emit(dateFromRange(nextDate, this.min, this.max));
     this.activeFocus = true;
   }
 
@@ -384,7 +376,7 @@ export class DatePickerMonth {
 
   daySelect = (event: CustomEvent): void => {
     const target = event.target as HTMLCalciteDatePickerDayElement;
-    this.calciteInternalDatePickerSelect.emit(target.value);
+    this.calciteDatePickerSelect.emit(target.value);
   };
 
   /**

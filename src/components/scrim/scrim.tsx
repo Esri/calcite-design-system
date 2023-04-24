@@ -1,4 +1,5 @@
-import { Component, Element, h, Prop, State, VNode, Watch } from "@stencil/core";
+import { Component, Element, Prop, h, VNode, Watch, State } from "@stencil/core";
+import { CSS } from "./resources";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 import {
   connectMessages,
@@ -7,8 +8,7 @@ import {
   T9nComponent,
   updateMessages
 } from "../../utils/t9n";
-import { ScrimMessages } from "./assets/scrim/t9n";
-import { CSS } from "./resources";
+import { Messages } from "./assets/scrim/t9n";
 
 /**
  * @slot - A slot for adding custom content, primarily loading information.
@@ -27,6 +27,8 @@ export class Scrim implements LocalizedComponent, T9nComponent {
   // --------------------------------------------------------------------------
 
   /**
+   
+  /**
    * When `true`, a busy indicator is displayed.
    */
   @Prop({ reflect: true }) loading = false;
@@ -36,12 +38,12 @@ export class Scrim implements LocalizedComponent, T9nComponent {
    *
    * @internal
    */
-  @Prop({ mutable: true }) messages: ScrimMessages;
+  @Prop({ mutable: true }) messages: Messages;
 
   /**
    * Use this property to override individual strings used by the component.
    */
-  @Prop({ mutable: true }) messageOverrides: Partial<ScrimMessages>;
+  @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
 
   @Watch("messageOverrides")
   onMessagesChange(): void {
@@ -62,7 +64,7 @@ export class Scrim implements LocalizedComponent, T9nComponent {
   //
   // --------------------------------------------------------------------------
 
-  @State() defaultMessages: ScrimMessages;
+  @State() defaultMessages: Messages;
 
   @State() effectiveLocale = "";
 

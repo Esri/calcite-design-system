@@ -3,25 +3,17 @@ import {
   Element,
   Event,
   EventEmitter,
-  h,
   Method,
   Prop,
   State,
-  VNode,
-  Watch
+  Watch,
+  h,
+  VNode
 } from "@stencil/core";
+import { CSS, ICONS, TEXT } from "./resources";
 import { getElementDir, toAriaBoolean } from "../../utils/dom";
-import { connectLocalized, disconnectLocalized } from "../../utils/locale";
+import { HeadingLevel, Heading } from "../functional/Heading";
 import { createObserver } from "../../utils/observers";
-import {
-  connectMessages,
-  disconnectMessages,
-  setUpMessages,
-  updateMessages
-} from "../../utils/t9n";
-import { Heading, HeadingLevel } from "../functional/Heading";
-import { TipManagerMessages } from "./assets/tip-manager/t9n";
-import { CSS, ICONS } from "./resources";
 
 /**
  * @slot - A slot for adding `calcite-tip`s.
@@ -29,8 +21,7 @@ import { CSS, ICONS } from "./resources";
 @Component({
   tag: "calcite-tip-manager",
   styleUrl: "tip-manager.scss",
-  shadow: true,
-  assetsDirs: ["assets"]
+  shadow: true
 })
 export class TipManager {
   // --------------------------------------------------------------------------
@@ -54,21 +45,29 @@ export class TipManager {
   @Prop({ reflect: true }) headingLevel: HeadingLevel;
 
   /**
-   * Made into a prop for testing purposes only
-   *
-   * @internal
+   * Accessible name for the component's close button.
    */
-  @Prop({ mutable: true }) messages: TipManagerMessages;
+  @Prop() intlClose: string;
 
   /**
-   * Use this property to override individual strings used by the component.
+   * Accessible name for the `calcite-tip-group` title.
    */
-  @Prop({ mutable: true }) messageOverrides: Partial<TipManagerMessages>;
+  @Prop() intlDefaultTitle: string;
 
-  @Watch("messageOverrides")
-  onMessagesChange(): void {
-    /* wired up by t9n util */
-  }
+  /**
+   * Accessible name for navigating to the next tip.
+   */
+  @Prop() intlNext: string;
+
+  /**
+   * Text that accompanies the component's pagination.
+   */
+  @Prop() intlPaginationLabel: string;
+
+  /**
+   * Accessible name for navigating to the previous tip.
+   */
+  @Prop() intlPrevious: string;
 
   // --------------------------------------------------------------------------
   //
@@ -98,16 +97,6 @@ export class TipManager {
 
   container: HTMLDivElement;
 
-  @State() defaultMessages: TipManagerMessages;
-
-  @State() effectiveLocale = "";
-
-  @Watch("effectiveLocale")
-  async effectiveLocaleChange(): Promise<void> {
-    await updateMessages(this, this.effectiveLocale);
-    this.updateGroupTitle();
-  }
-
   // --------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -115,21 +104,12 @@ export class TipManager {
   // --------------------------------------------------------------------------
 
   connectedCallback(): void {
-    connectLocalized(this);
-    connectMessages(this);
     this.setUpTips();
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
   }
 
-  async componentWillLoad(): Promise<void> {
-    await setUpMessages(this);
-    this.updateGroupTitle();
-  }
-
   disconnectedCallback(): void {
     this.mutationObserver?.disconnect();
-    disconnectLocalized(this);
-    disconnectMessages(this);
   }
 
   // --------------------------------------------------------------------------
@@ -182,10 +162,11 @@ export class TipManager {
     this.tips = tips;
     this.selectedIndex = selectedTip ? tips.indexOf(selectedTip) : 0;
 
-    tips.forEach((tip: HTMLCalciteTipElement) => {
+    tips.forEach((tip) => {
       tip.closeDisabled = true;
     });
     this.showSelectedTip();
+    this.updateGroupTitle();
   }
 
   hideTipManager = (): void => {
@@ -202,11 +183,9 @@ export class TipManager {
   }
 
   updateGroupTitle(): void {
-    if (this.tips) {
-      const selectedTip = this.tips[this.selectedIndex];
-      const tipParent = selectedTip.closest("calcite-tip-group");
-      this.groupTitle = tipParent?.groupTitle || this.messages?.defaultGroupTitle;
-    }
+    const selectedTip = this.tips[this.selectedIndex];
+    const tipParent = selectedTip.closest("calcite-tip-group");
+    this.groupTitle = tipParent?.groupTitle || this.intlDefaultTitle || TEXT.defaultGroupTitle;
   }
 
   previousClicked = (): void => {
@@ -254,11 +233,11 @@ export class TipManager {
 
   renderPagination(): VNode {
     const dir = getElementDir(this.el);
-    const { selectedIndex, tips, total, messages } = this;
+    const { selectedIndex, tips, total, intlNext, intlPrevious, intlPaginationLabel } = this;
 
-    const nextLabel = messages.next;
-    const previousLabel = messages.previous;
-    const paginationLabel = messages.defaultPaginationLabel;
+    const nextLabel = intlNext || TEXT.next;
+    const previousLabel = intlPrevious || TEXT.previous;
+    const paginationLabel = intlPaginationLabel || TEXT.defaultPaginationLabel;
 
     return tips.length > 1 ? (
       <footer class={CSS.pagination}>
@@ -282,9 +261,9 @@ export class TipManager {
   }
 
   render(): VNode {
-    const { closed, direction, headingLevel, groupTitle, selectedIndex, messages, total } = this;
+    const { closed, direction, headingLevel, groupTitle, selectedIndex, intlClose, total } = this;
 
-    const closeLabel = messages.close;
+    const closeLabel = intlClose || TEXT.close;
 
     if (total === 0) {
       return null;

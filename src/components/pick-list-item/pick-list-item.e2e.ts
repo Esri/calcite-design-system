@@ -139,10 +139,10 @@ describe("calcite-pick-list-item", () => {
     await page.setContent(
       html`
         <calcite-pick-list style="width: 400px">
-          <calcite-pick-list-item label="apple" value="apple" icon="circle">
+          <calcite-pick-list-item label="apple" value="apple" icon="circle" intl-remove="Remove">
             <calcite-action slot="actions-end" icon="information"></calcite-action>
           </calcite-pick-list-item>
-          <calcite-pick-list-item label="mango" value="mango" selected="" icon="circle">
+          <calcite-pick-list-item label="mango" value="mango" selected="" icon="circle" intl-remove="Remove">
             <calcite-action slot="actions-end" icon="information"></calcite-action>
           </calcite-pick-list-item>
         </calcite-pick-list>

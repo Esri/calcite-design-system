@@ -1,8 +1,8 @@
 import { E2EElement, newE2EPage } from "@stencil/core/testing";
 
-import { accessible, defaults, hidden, renders, slots, t9n } from "../../tests/commonTests";
-import { getElementXY } from "../../tests/utils";
 import { CSS, SLOTS } from "./resources";
+import { accessible, defaults, hidden, renders, slots } from "../../tests/commonTests";
+import { getElementXY } from "../../tests/utils";
 
 describe("calcite-shell-panel", () => {
   it("renders", async () => renders("calcite-shell-panel", { display: "flex" }));
@@ -18,6 +18,10 @@ describe("calcite-shell-panel", () => {
       {
         propertyName: "resizable",
         defaultValue: false
+      },
+      {
+        propertyName: "intlResize",
+        defaultValue: "Resize"
       }
     ]));
 
@@ -146,8 +150,8 @@ describe("calcite-shell-panel", () => {
     expect(detachedElement).not.toBeNull();
   });
 
-  it("should update width based on the requested CSS variable override", async () => {
-    const override = "678px";
+  it("should update width based on the multipier CSS variable", async () => {
+    const multipier = 2;
 
     const page = await newE2EPage();
 
@@ -159,13 +163,15 @@ describe("calcite-shell-panel", () => {
 
     await page.waitForChanges();
 
+    const content = await page.find(`calcite-shell-panel >>> .${CSS.content}`);
+    const style = await content.getComputedStyle();
+    const widthDefault = parseFloat(style["width"]);
+
     const page2 = await newE2EPage();
     await page2.setContent(`
       <style>
         :root {
-          --calcite-shell-panel-min-width: ${override};
-          --calcite-shell-panel-max-width: ${override};
-          --calcite-shell-panel-width: ${override};
+          --calcite-panel-width-multiplier: ${multipier};
         }
       </style>
       <calcite-shell-panel>
@@ -179,7 +185,7 @@ describe("calcite-shell-panel", () => {
     const style2 = await content2.getComputedStyle();
     const width2 = parseFloat(style2["width"]);
 
-    expect(`${width2}px`).toEqual(override);
+    expect(width2).toEqual(widthDefault * multipier);
   });
 
   it("calcite-panel should render at the same height as the content__body.", async () => {
@@ -380,6 +386,4 @@ describe("calcite-shell-panel", () => {
     await page.waitForChanges();
     expect(await page.evaluate((selector) => document.activeElement.matches(selector), "calcite-action")).toBe(true);
   });
-
-  it("supports translations", () => t9n("calcite-shell-panel"));
 });

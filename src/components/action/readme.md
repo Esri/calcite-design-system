@@ -6,9 +6,9 @@ The `calcite-action` component lives in either a `calcite-action-bar` or `calcit
 
 ## Usage
 
-### Transparent-appearance
+### Clear-appearance
 
-Renders a `calcite-action` that is transparent.
+Renders a `calcite-action` that has a clear background.
 
 ```html
 <calcite-action appearance="transparent" text="Layers" icon="layers"></calcite-action>
@@ -50,11 +50,10 @@ Renders a `calcite-action` that displays only an icon.
 | `compact`           | `compact`           | When `true`, the side padding of the component is reduced. Compact mode is used internally by components, e.g. `calcite-block-section`. | `boolean`                      | `false`     |
 | `disabled`          | `disabled`          | When `true`, interaction is prevented and the component is displayed with lower opacity.                                                | `boolean`                      | `false`     |
 | `icon`              | `icon`              | Specifies an icon to display.                                                                                                           | `string`                       | `undefined` |
-| `iconFlipRtl`       | `icon-flip-rtl`     | When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).                                            | `boolean`                      | `false`     |
 | `indicator`         | `indicator`         | When `true`, displays a visual indicator.                                                                                               | `boolean`                      | `false`     |
 | `label`             | `label`             | Specifies the label of the component. If no label is provided, the label inherits what's provided for the `text` prop.                  | `string`                       | `undefined` |
 | `loading`           | `loading`           | When `true`, a busy indicator is displayed.                                                                                             | `boolean`                      | `false`     |
-| `messageOverrides`  | `message-overrides` | Use this property to override individual strings used by the component.                                                                 | `ActionMessages`               | `undefined` |
+| `messageOverrides`  | `message-overrides` | Use this property to override individual strings used by the component.                                                                 | `Messages`                     | `undefined` |
 | `scale`             | `scale`             | Specifies the size of the component.                                                                                                    | `"l" \| "m" \| "s"`            | `"m"`       |
 | `text` _(required)_ | `text`              | Specifies text that accompanies the icon.                                                                                               | `string`                       | `undefined` |
 | `textEnabled`       | `text-enabled`      | Indicates whether the text is displayed.                                                                                                | `boolean`                      | `false`     |

@@ -1,14 +1,15 @@
-import { Component, Element, h, Method, Prop, VNode } from "@stencil/core";
+import { Component, Element, Method, Prop, h, VNode } from "@stencil/core";
+import { Appearance, Scale } from "../interfaces";
+import { ButtonColor } from "../button/interfaces";
+import { CSS, ICONS } from "./resources";
 import { focusElement } from "../../utils/dom";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import {
-  componentLoaded,
-  LoadableComponent,
+  setUpLoadableComponent,
   setComponentLoaded,
-  setUpLoadableComponent
+  LoadableComponent,
+  componentLoaded
 } from "../../utils/loadable";
-import { Appearance, Kind, Scale } from "../interfaces";
-import { CSS, ICONS } from "./resources";
 
 @Component({
   tag: "calcite-fab",
@@ -25,13 +26,12 @@ export class Fab implements InteractiveComponent, LoadableComponent {
   /**
    * Specifies the appearance style of the component.
    */
-  @Prop({ reflect: true }) appearance: Extract<"solid" | "outline-fill", Appearance> = "solid";
+  @Prop({ reflect: true }) appearance: Extract<"solid" | "outline", Appearance> = "outline";
 
   /**
-   * Specifies the kind of the component (will apply to border and background).
+   * Specifies the color of the component.
    */
-  @Prop({ reflect: true }) kind: Extract<"brand" | "danger" | "inverse" | "neutral", Kind> =
-    "brand";
+  @Prop({ reflect: true }) color: ButtonColor = "neutral";
 
   /**
    * When `true`, interaction is prevented and the component is displayed with lower opacity.
@@ -44,9 +44,6 @@ export class Fab implements InteractiveComponent, LoadableComponent {
    * @default "plus"
    */
   @Prop({ reflect: true }) icon: string = ICONS.plus;
-
-  /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
-  @Prop({ reflect: true }) iconFlipRtl = false;
 
   /**
    * Accessible name for the component.
@@ -122,29 +119,16 @@ export class Fab implements InteractiveComponent, LoadableComponent {
   // --------------------------------------------------------------------------
 
   render(): VNode {
-    const {
-      appearance,
-      kind,
-      disabled,
-      loading,
-      scale,
-      textEnabled,
-      icon,
-      label,
-      text,
-      iconFlipRtl
-    } = this;
-
+    const { appearance, color, disabled, loading, scale, textEnabled, icon, label, text } = this;
     const title = !textEnabled ? label || text || null : null;
 
     return (
       <calcite-button
-        appearance={appearance === "solid" ? "solid" : "outline-fill"}
+        appearance={appearance === "solid" ? "solid" : "outline"}
         class={CSS.button}
+        color={color}
         disabled={disabled}
-        iconFlipRtl={iconFlipRtl ? "start" : null}
         iconStart={icon}
-        kind={kind}
         label={label}
         loading={loading}
         ref={(buttonEl): void => {

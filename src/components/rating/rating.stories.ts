@@ -1,8 +1,8 @@
-import { number, select } from "@storybook/addon-knobs";
+import { number, select, text } from "@storybook/addon-knobs";
 import { boolean, storyFilters } from "../../../.storybook/helpers";
-import { modesDarkDefault } from "../../../.storybook/utils";
-import { html } from "../../../support/formatting";
+import { themesDarkDefault } from "../../../.storybook/utils";
 import readme from "./readme.md";
+import { html } from "../../../support/formatting";
 
 export default {
   title: "Components/Controls/Rating",
@@ -24,9 +24,9 @@ export const simple = (): string => html`
   ></calcite-rating>
 `;
 
-export const darkModeRTL_TestOnly = (): string => html`
+export const darkThemeRTL_TestOnly = (): string => html`
   <calcite-rating
-    class="calcite-mode-dark"
+    class="calcite-theme-dark"
     dir="rtl"
     scale="${select("scale", ["s", "m", "l"], "m")}"
     value="${number("value", 2)}"
@@ -38,6 +38,6 @@ export const darkModeRTL_TestOnly = (): string => html`
   ></calcite-rating>
 `;
 
-darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
+darkThemeRTL_TestOnly.parameters = { themes: themesDarkDefault };
 
 export const disabled_TestOnly = (): string => html`<calcite-rating disabled value="3"></calcite-rating>`;

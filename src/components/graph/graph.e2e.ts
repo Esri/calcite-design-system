@@ -1,5 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, defaults, hidden, renders } from "../../tests/commonTests";
+import { accessible, defaults, renders, hidden } from "../../tests/commonTests";
 
 describe("calcite-graph", () => {
   it("renders", async () => renders(`<calcite-graph></calcite-graph>`, { display: "block" }));

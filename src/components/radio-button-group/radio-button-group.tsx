@@ -1,14 +1,14 @@
 import {
   Component,
+  Host,
+  h,
   Element,
+  Prop,
+  Watch,
+  VNode,
   Event,
   EventEmitter,
-  h,
-  Host,
-  Listen,
-  Prop,
-  VNode,
-  Watch
+  Listen
 } from "@stencil/core";
 import { createObserver } from "../../utils/observers";
 import { Layout, Scale } from "../interfaces";
@@ -19,9 +19,7 @@ import { Layout, Scale } from "../interfaces";
 @Component({
   tag: "calcite-radio-button-group",
   styleUrl: "radio-button-group.scss",
-  shadow: {
-    delegatesFocus: true
-  }
+  shadow: true
 })
 export class RadioButtonGroup {
   //--------------------------------------------------------------------------
@@ -68,13 +66,6 @@ export class RadioButtonGroup {
   /** When `true`, the component must have a value in order for the form to submit. */
   @Prop({ reflect: true }) required = false;
 
-  /**
-   * Specifies the component's selected item.
-   *
-   * @readonly
-   */
-  @Prop({ mutable: true }) selectedItem: HTMLCalciteRadioButtonElement = null;
-
   /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";
 
@@ -114,7 +105,6 @@ export class RadioButtonGroup {
 
   private passPropsToRadioButtons = (): void => {
     const radioButtons = this.el.querySelectorAll("calcite-radio-button");
-    this.selectedItem = Array.from(radioButtons).find((radioButton) => radioButton.checked) || null;
     if (radioButtons.length > 0) {
       radioButtons.forEach((radioButton) => {
         radioButton.disabled = this.disabled || radioButton.disabled;
@@ -135,7 +125,7 @@ export class RadioButtonGroup {
   /**
    * Fires when the component has changed.
    */
-  @Event({ cancelable: false }) calciteRadioButtonGroupChange: EventEmitter<void>;
+  @Event({ cancelable: false }) calciteRadioButtonGroupChange: EventEmitter<any>;
 
   //--------------------------------------------------------------------------
   //
@@ -145,8 +135,7 @@ export class RadioButtonGroup {
 
   @Listen("calciteRadioButtonChange")
   radioButtonChangeHandler(event: CustomEvent): void {
-    this.selectedItem = event.target as HTMLCalciteRadioButtonElement;
-    this.calciteRadioButtonGroupChange.emit();
+    this.calciteRadioButtonGroupChange.emit((event.target as HTMLCalciteRadioButtonElement).value);
   }
 
   // --------------------------------------------------------------------------

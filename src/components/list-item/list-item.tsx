@@ -1,32 +1,32 @@
 import {
   Component,
   Element,
-  Event,
-  EventEmitter,
+  Prop,
   h,
+  VNode,
   Host,
   Method,
-  Prop,
-  State,
-  VNode,
-  Watch
+  Event,
+  EventEmitter,
+  Watch,
+  State
 } from "@stencil/core";
+import { SLOTS, CSS, ICONS } from "./resources";
 import { getElementDir, slotChangeHasAssignedElement, toAriaBoolean } from "../../utils/dom";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
-import { SelectionMode } from "../interfaces";
-import { SelectionAppearance } from "../list/resources";
-import { CSS, ICONS, SLOTS } from "./resources";
+
 import { getDepth, getListItemChildren, updateListItemChildren } from "./utils";
+import { SelectionAppearance, SelectionMode } from "../list/resources";
 
 const focusMap = new Map<HTMLCalciteListElement, number>();
 
 const listSelector = "calcite-list";
 
 import {
-  componentLoaded,
-  LoadableComponent,
+  setUpLoadableComponent,
   setComponentLoaded,
-  setUpLoadableComponent
+  LoadableComponent,
+  componentLoaded
 } from "../../utils/loadable";
 
 /**
@@ -124,8 +124,7 @@ export class ListItem implements InteractiveComponent, LoadableComponent {
    *
    * @internal
    */
-  @Prop({ mutable: true }) selectionMode: Extract<"none" | "multiple" | "single", SelectionMode> =
-    null;
+  @Prop({ mutable: true }) selectionMode: SelectionMode = null;
 
   /**
    * Specifies the selection appearance - `"icon"` (displays a checkmark or dot) or `"border"` (displays a border).

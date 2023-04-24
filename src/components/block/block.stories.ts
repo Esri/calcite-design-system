@@ -162,13 +162,13 @@ export const paddingDisabled_TestOnly = (): string => html` <calcite-panel headi
   </calcite-block>
 </calcite-panel>`;
 
-export const darkModeRTL_TestOnly = (): string =>
+export const darkThemeRTL_TestOnly = (): string =>
   create(
     "calcite-block",
     createBlockAttributes({ exceptions: ["dir"] }).concat(
       {
         name: "class",
-        value: "calcite-mode-dark"
+        value: "calcite-theme-dark"
       },
       { name: "dir", value: "rtl" }
     ),

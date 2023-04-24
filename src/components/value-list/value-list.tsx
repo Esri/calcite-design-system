@@ -1,3 +1,4 @@
+import Sortable from "sortablejs";
 import {
   Component,
   Element,
@@ -11,30 +12,15 @@ import {
   VNode,
   Watch
 } from "@stencil/core";
-import Sortable from "sortablejs";
-import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import { CSS, ICON_TYPES } from "./resources";
 import {
-  componentLoaded,
-  LoadableComponent,
-  setComponentLoaded,
-  setUpLoadableComponent
-} from "../../utils/loadable";
-import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
-import { createObserver } from "../../utils/observers";
-import {
-  connectMessages,
-  disconnectMessages,
-  setUpMessages,
-  T9nComponent,
-  updateMessages
-} from "../../utils/t9n";
-import {
-  calciteInternalListItemValueChangeHandler,
+  ListFocusId,
   calciteListFocusOutHandler,
   calciteListItemChangeHandler,
+  calciteInternalListItemValueChangeHandler,
   cleanUpObserver,
-  deselectRemovedItems,
   deselectSiblingItems,
+  deselectRemovedItems,
   getItemData,
   handleFilter,
   handleFilterEvent,
@@ -43,25 +29,37 @@ import {
   initializeObserver,
   ItemData,
   keyDownHandler,
-  ListFocusId,
-  moveItemIndex,
   mutationObserverCallback,
   removeItem,
   selectSiblings,
   setFocus,
-  setUpItems
+  setUpItems,
+  moveItemIndex
 } from "../pick-list/shared-list-logic";
 import List from "../pick-list/shared-list-render";
-import { ValueListMessages } from "./assets/value-list/t9n";
-import { CSS, ICON_TYPES } from "./resources";
+import { createObserver } from "../../utils/observers";
+import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import { getHandleAndItemElement, getScreenReaderText } from "./utils";
+import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
+import {
+  connectMessages,
+  disconnectMessages,
+  setUpMessages,
+  T9nComponent,
+  updateMessages
+} from "../../utils/t9n";
+import { Messages } from "./assets/value-list/t9n";
+import {
+  setUpLoadableComponent,
+  setComponentLoaded,
+  LoadableComponent,
+  componentLoaded
+} from "../../utils/loadable";
 
 /**
  * @slot - A slot for adding `calcite-value-list-item` elements. List items are displayed as a vertical list.
  * @slot menu-actions - A slot for adding a button and menu combination for performing actions, such as sorting.
  */
-
-/** @deprecated Use the `list` component instead. */
 @Component({
   tag: "calcite-value-list",
   styleUrl: "value-list.scss",
@@ -89,14 +87,14 @@ export class ValueList<
   @Prop({ reflect: true }) dragEnabled = false;
 
   /**
-   * The currently filtered items.
+   * **read-only** The currently filtered items
    *
    * @readonly
    */
   @Prop({ mutable: true }) filteredItems: HTMLCalciteValueListItemElement[] = [];
 
   /**
-   * The currently filtered data.
+   * **read-only** The currently filtered items
    *
    * @readonly
    */
@@ -145,7 +143,7 @@ export class ValueList<
   /**
    * Use this property to override individual strings used by the component.
    */
-  @Prop({ mutable: true }) messageOverrides: Partial<ValueListMessages>;
+  @Prop({ mutable: true }) messageOverrides: Partial<Messages>;
 
   @Watch("messageOverrides")
   onMessagesChange(): void {
@@ -157,7 +155,7 @@ export class ValueList<
    *
    * @internal
    */
-  @Prop({ mutable: true }) messages: ValueListMessages;
+  @Prop({ mutable: true }) messages: Messages;
 
   // --------------------------------------------------------------------------
   //
@@ -167,7 +165,7 @@ export class ValueList<
 
   @State() dataForFilter: ItemData = [];
 
-  @State() defaultMessages: ValueListMessages;
+  @State() defaultMessages: Messages;
 
   @State() effectiveLocale = "";
 
@@ -414,7 +412,7 @@ export class ValueList<
   }
 
   /**
-   * Sets focus on the component's first focusable element.
+   * Sets focus on the component.
    *
    * @param focusId
    */

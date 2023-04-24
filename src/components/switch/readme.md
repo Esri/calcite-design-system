@@ -25,9 +25,9 @@
 
 ## Events
 
-| Event                 | Description                                 | Type                |
-| --------------------- | ------------------------------------------- | ------------------- |
-| `calciteSwitchChange` | Fires when the `checked` value has changed. | `CustomEvent<void>` |
+| Event                 | Description                                                                                                                            | Type                |
+| --------------------- | -------------------------------------------------------------------------------------------------------------------------------------- | ------------------- |
+| `calciteSwitchChange` | Fires when the `checked` value has changed. **Note:** The event payload is deprecated, use the component's `checked` property instead. | `CustomEvent<void>` |
 
 ## Methods
 

@@ -1,9 +1,9 @@
 import { E2EPage, newE2EPage } from "@stencil/core/testing";
+import { accessible, defaults, disabled, floatingUIOwner, renders, hidden } from "../../tests/commonTests";
 import dedent from "dedent";
 import { html } from "../../../support/formatting";
-import { accessible, defaults, disabled, floatingUIOwner, hidden, renders } from "../../tests/commonTests";
-import { GlobalTestProps } from "../../tests/utils";
 import { CSS } from "./resources";
+import { GlobalTestProps } from "../../tests/utils";
 
 describe("calcite-dropdown", () => {
   it("renders", () =>
@@ -1069,7 +1069,7 @@ describe("calcite-dropdown", () => {
       filterInput.value = "nums";
     });
 
-    expect(dropdownContentHeight.height).toBe("72px");
+    expect(dropdownContentHeight.height).toBe("64px");
   });
 
   it("owns a floating-ui", () =>

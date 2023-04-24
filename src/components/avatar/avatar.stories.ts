@@ -1,10 +1,10 @@
 import { select, text } from "@storybook/addon-knobs";
 
-import { storyFilters } from "../../../.storybook/helpers";
+import { themesDarkDefault } from "../../../.storybook/utils";
 import { placeholderImage } from "../../../.storybook/placeholderImage";
-import { modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import readme from "./readme.md";
+import { storyFilters } from "../../../.storybook/helpers";
 
 export default {
   title: "Components/Avatar",
@@ -35,10 +35,10 @@ export const missingThumbnail = (): string => html`
   </calcite-avatar>
 `;
 
-export const darkModeRTL_TestOnly = (): string => html`
+export const darkThemeRTL_TestOnly = (): string => html`
   <calcite-avatar
     dir="rtl"
-    class="calcite-mode-dark"
+    class="calcite-theme-dark"
     scale="${select("scale", ["s", "m", "l"], "m")}"
     full-name="${text("full-name", "John Doe")}"
     username="${text("username", "jdoe")}"
@@ -47,4 +47,4 @@ export const darkModeRTL_TestOnly = (): string => html`
   </calcite-avatar>
 `;
 
-darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
+darkThemeRTL_TestOnly.parameters = { themes: themesDarkDefault };

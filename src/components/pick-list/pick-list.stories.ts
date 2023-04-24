@@ -1,16 +1,16 @@
 import { boolean, text } from "@storybook/addon-knobs";
-import { storyFilters } from "../../../.storybook/helpers";
 import {
   Attribute,
+  filterComponentAttributes,
   Attributes,
   createComponentHTML as create,
-  filterComponentAttributes,
-  modesDarkDefault
+  themesDarkDefault
 } from "../../../.storybook/utils";
-import { html } from "../../../support/formatting";
-import groupReadme from "../pick-list-group/readme.md";
-import itemReadme from "../pick-list-item/readme.md";
 import readme from "./readme.md";
+import itemReadme from "../pick-list-item/readme.md";
+import groupReadme from "../pick-list-group/readme.md";
+import { html } from "../../../support/formatting";
+import { storyFilters } from "../../../.storybook/helpers";
 
 export default {
   title: "Components/Pick List",
@@ -73,7 +73,7 @@ const action = html`
     slot="actions-end"
     label="click-me"
     onClick="console.log('clicked');"
-    appearance="outline"
+    appearance="clear"
     scale="s"
     icon="information"
   ></calcite-action>
@@ -94,7 +94,7 @@ export const simple = (): string =>
     `
   );
 
-export const darkModeRTL_TestOnly = (): string =>
+export const darkThemeRTL_TestOnly = (): string =>
   create(
     "calcite-pick-list",
     createAttributes({ exceptions: ["dir", "class"] }).concat([
@@ -104,7 +104,7 @@ export const darkModeRTL_TestOnly = (): string =>
       },
       {
         name: "class",
-        value: "calcite-mode-dark"
+        value: "calcite-theme-dark"
       }
     ]),
     html`
@@ -118,7 +118,7 @@ export const darkModeRTL_TestOnly = (): string =>
     `
   );
 
-darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
+darkThemeRTL_TestOnly.parameters = { themes: themesDarkDefault };
 
 export const grouped = (): string =>
   create(
