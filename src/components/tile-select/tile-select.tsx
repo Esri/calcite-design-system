@@ -204,6 +204,10 @@ export class TileSelect implements InteractiveComponent, LoadableComponent {
 
   @Listen("click")
   clickHandler(event: MouseEvent): void {
+    if (this.disabled) {
+      return;
+    }
+
     const target = event.target as HTMLElement;
     const targets = ["calcite-tile", "calcite-tile-select"];
     if (targets.includes(target.localName)) {
@@ -213,6 +217,10 @@ export class TileSelect implements InteractiveComponent, LoadableComponent {
 
   @Listen("pointerenter")
   pointerEnterHandler(): void {
+    if (this.disabled) {
+      return;
+    }
+
     const { localName } = this.input;
 
     if (localName === "calcite-radio-button" || localName === "calcite-checkbox") {
@@ -222,6 +230,10 @@ export class TileSelect implements InteractiveComponent, LoadableComponent {
 
   @Listen("pointerleave")
   pointerLeaveHandler(): void {
+    if (this.disabled) {
+      return;
+    }
+
     const { localName } = this.input;
 
     if (localName === "calcite-radio-button" || localName === "calcite-checkbox") {

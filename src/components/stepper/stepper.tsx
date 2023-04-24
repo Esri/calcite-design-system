@@ -7,7 +7,8 @@ import {
   Listen,
   Method,
   Prop,
-  VNode
+  VNode,
+  Watch
 } from "@stencil/core";
 
 import { focusElementInGroup } from "../../utils/dom";
@@ -51,6 +52,11 @@ export class Stepper {
    * Specifies the Unicode numeral system used by the component for localization.
    */
   @Prop({ reflect: true }) numberingSystem?: NumberingSystem;
+
+  @Watch("numberingSystem")
+  numberingSystemChange(): void {
+    this.setStepperItemNumberingSystem();
+  }
 
   /**
    * Specifies the component's selected item.
@@ -104,10 +110,10 @@ export class Stepper {
           const items = (event.currentTarget as HTMLSlotElement)
             .assignedElements()
             .filter((el) => el?.tagName === "CALCITE-STEPPER-ITEM");
-
           const spacing = Array(items.length).fill("1fr").join(" ");
           this.el.style.gridTemplateAreas = spacing;
           this.el.style.gridTemplateColumns = spacing;
+          this.setStepperItemNumberingSystem();
         }}
       />
     );
@@ -298,5 +304,11 @@ export class Stepper {
 
   private filterItems(): HTMLCalciteStepperItemElement[] {
     return this.items.filter((item) => !item.disabled);
+  }
+
+  private setStepperItemNumberingSystem(): void {
+    this.items.forEach((item: HTMLCalciteStepperItemElement) => {
+      item.numberingSystem = this.numberingSystem;
+    });
   }
 }

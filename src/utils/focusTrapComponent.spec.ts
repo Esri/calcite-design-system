@@ -33,4 +33,25 @@ describe("focusTrapComponent", () => {
     deactivateFocusTrap(fakeComponent);
     expect(deactivateSpy).toHaveBeenCalledTimes(1);
   });
+
+  it("supports passing options", () => {
+    const fakeComponent = {} as any;
+    fakeComponent.el = document.createElement("div");
+
+    connectFocusTrap(fakeComponent);
+
+    const activateSpy = jest.fn();
+    fakeComponent.focusTrap.activate = activateSpy;
+
+    const deactivateSpy = jest.fn();
+    fakeComponent.focusTrap.deactivate = deactivateSpy;
+
+    const fakeActivateOptions = {};
+    activateFocusTrap(fakeComponent, fakeActivateOptions);
+    expect(activateSpy).toHaveBeenCalledWith(fakeActivateOptions);
+
+    const fakeDeactivateOptions = {};
+    deactivateFocusTrap(fakeComponent, fakeDeactivateOptions);
+    expect(deactivateSpy).toHaveBeenCalledWith(fakeDeactivateOptions);
+  });
 });

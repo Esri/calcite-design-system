@@ -106,7 +106,6 @@ $gap--large: 12px;
 .scope {
   @apply text-n1
     focus-base
-    pointer-events-none
     absolute;
 
   outline-offset: 14px;

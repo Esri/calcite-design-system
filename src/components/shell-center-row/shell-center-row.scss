@@ -3,7 +3,8 @@
   @apply flex
     flex-auto
     overflow-hidden
-    bg-transparent;
+    bg-transparent
+    z-default;
 }
 
 .content {
