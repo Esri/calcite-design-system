@@ -102,8 +102,12 @@ export class InputTimePicker
         }
       });
     } else {
-      deactivateFocusTrap(this);
-      this.restoreInputFocus();
+      deactivateFocusTrap(this, {
+        onDeactivate: () => {
+          this.calciteInputEl.setFocus();
+          this.focusOnOpen = true;
+        }
+      });
       this.focusOnOpen = false;
     }
   }
@@ -346,7 +350,7 @@ export class InputTimePicker
     const target = event.target as HTMLCalciteTimePickerElement;
     const value = target.value;
     this.setValue({ value, origin: "time-picker" });
-    this.restoreInputFocus();
+    this.calciteInputEl.setFocus();
   };
 
   @Listen("calciteInternalTimePickerFocus")
@@ -398,7 +402,7 @@ export class InputTimePicker
     if (key === "Enter") {
       if (submitForm(this)) {
         event.preventDefault();
-        this.restoreInputFocus();
+        this.calciteInputEl.setFocus();
       }
     } else if (key === "ArrowDown") {
       this.open = true;
@@ -407,7 +411,7 @@ export class InputTimePicker
     } else if (key === "Escape" && this.open) {
       this.open = false;
       event.preventDefault();
-      this.restoreInputFocus();
+      this.calciteInputEl.setFocus();
     }
   };
 
@@ -499,11 +503,6 @@ export class InputTimePicker
       }
     }
   };
-
-  private restoreInputFocus(): void {
-    const { calciteInputEl } = this;
-    calciteInputEl.setFocus();
-  }
 
   //--------------------------------------------------------------------------
   //
