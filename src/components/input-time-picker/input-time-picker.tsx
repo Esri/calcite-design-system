@@ -43,7 +43,6 @@ import { TimePickerMessages } from "../time-picker/assets/time-picker/t9n";
 import { connectMessages, disconnectMessages, setUpMessages, T9nComponent } from "../../utils/t9n";
 import { InputTimePickerMessages } from "./assets/input-time-picker/t9n";
 import { CSS } from "./resources";
-import { toAriaBoolean } from "../../utils/dom";
 
 @Component({
   tag: "calcite-input-time-picker",
@@ -545,8 +544,6 @@ export class InputTimePicker
           <div class="input-wrapper" onClick={this.onInputWrapperClick}>
             <calcite-input
               aria-autocomplete="none"
-              aria-controls={this.dialogId}
-              aria-expanded={toAriaBoolean(this.open)}
               aria-haspopup="dialog"
               disabled={disabled}
               icon="clock"
@@ -566,15 +563,13 @@ export class InputTimePicker
           </div>
         </div>
         <calcite-popover
-          aria-label={messages.chooseTime}
           focusTrapDisabled={true}
           id={dialogId}
-          label="Time Picker"
+          label={messages.chooseTime}
           open={this.open}
           overlayPositioning={this.overlayPositioning}
           placement={this.placement}
           referenceElement={this.referenceElementId}
-          role="dialog"
           triggerDisabled={true}
           // eslint-disable-next-line react/jsx-sort-props
           ref={this.setCalcitePopoverEl}
