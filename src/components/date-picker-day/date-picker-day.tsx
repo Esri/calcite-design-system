@@ -63,6 +63,13 @@ export class DatePickerDay implements InteractiveComponent {
   /** When `true`, activates the component's range mode to allow a start and end date. */
   @Prop({ reflect: true }) range = false;
 
+  /**
+   * When `true`, highlight styling for edge dates is applied.
+   *
+   * @internal
+   */
+  @Prop({ reflect: true }) rangeEdge: "start" | "end" | undefined;
+
   /** Date is the start of date range */
   @Prop({ reflect: true }) startOfRange = false;
 

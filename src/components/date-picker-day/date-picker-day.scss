@@ -404,57 +404,57 @@
   }
 }
 
-:host([highlighted]:last-child) :not(.calcite--rtl) .day-wrapper,
-:host([range-hover]:last-child) :not(.calcite--rtl) .day-wrapper,
-:host([highlighted]:first-child) .calcite--rtl .day-wrapper,
-:host([range-hover]:first-child) .calcite--rtl .day-wrapper {
+:host([highlighted][range-edge="end"]) :not(.calcite--rtl) .day-wrapper,
+:host([range-hover][range-edge="end"]) :not(.calcite--rtl) .day-wrapper,
+:host([highlighted][range-edge="start"]) .calcite--rtl .day-wrapper,
+:host([range-hover][range-edge="start"]) .calcite--rtl .day-wrapper {
   box-shadow: inset -4px 0px 0px 0px var(--calcite-ui-foreground-1);
 }
 
-:host([highlighted]:first-child) :not(.calcite--rtl) .day-wrapper,
-:host([range-hover]:first-child) :not(.calcite--rtl) .day-wrapper,
-:host([highlighted]:last-child) .calcite--rtl .day-wrapper,
-:host([range-hover]:last-child) .calcite--rtl .day-wrapper {
+:host([highlighted][range-edge="start"]) :not(.calcite--rtl) .day-wrapper,
+:host([range-hover][range-edge="start"]) :not(.calcite--rtl) .day-wrapper,
+:host([highlighted][range-edge="end"]) .calcite--rtl .day-wrapper,
+:host([range-hover][range-edge="end"]) .calcite--rtl .day-wrapper {
   box-shadow: inset 4px 0px 0px 0px var(--calcite-ui-foreground-1);
 }
 
-:host([scale="s"][highlighted]:last-child) :not(.calcite--rtl) .day-wrapper,
-:host([scale="s"][range-hover]:last-child) :not(.calcite--rtl) .day-wrapper,
-:host([scale="s"][highlighted]:first-child) .calcite--rtl .day-wrapper,
-:host([scale="s"][range-hover]:first-child) .calcite--rtl .day-wrapper {
+:host([scale="s"][highlighted][range-edge="end"]) :not(.calcite--rtl) .day-wrapper,
+:host([scale="s"][range-hover][range-edge="end"]) :not(.calcite--rtl) .day-wrapper,
+:host([scale="s"][highlighted][range-edge="start"]) .calcite--rtl .day-wrapper,
+:host([scale="s"][range-hover][range-edge="start"]) .calcite--rtl .day-wrapper {
   box-shadow: inset -1px 0px 0px 0px var(--calcite-ui-foreground-1);
 }
 
-:host([scale="s"][highlighted]:first-child) :not(.calcite--rtl) .day-wrapper,
-:host([scale="s"][range-hover]:first-child) :not(.calcite--rtl) .day-wrapper,
-:host([scale="s"][highlighted]:last-child) .calcite--rtl .day-wrapper,
-:host([scale="s"][range-hover]:last-child) .calcite--rtl .day-wrapper {
+:host([scale="s"][highlighted][range-edge="start"]) :not(.calcite--rtl) .day-wrapper,
+:host([scale="s"][range-hover][range-edge="start"]) :not(.calcite--rtl) .day-wrapper,
+:host([scale="s"][highlighted][range-edge="end"]) .calcite--rtl .day-wrapper,
+:host([scale="s"][range-hover][range-edge="end"]) .calcite--rtl .day-wrapper {
   box-shadow: inset 1px 0px 0px 0px var(--calcite-ui-foreground-1);
 }
 
-:host([scale="l"][highlighted]:first-child) :not(.calcite--rtl) .day-wrapper,
-:host([scale="l"][range-hover]:first-child) :not(.calcite--rtl) .day-wrapper,
-:host([scale="l"][highlighted]:last-child) .calcite--rtl .day-wrapper,
-:host([scale="l"][range-hover]:last-child) .calcite--rtl .day-wrapper {
+:host([scale="l"][highlighted][range-edge="start"]) :not(.calcite--rtl) .day-wrapper,
+:host([scale="l"][range-hover][range-edge="start"]) :not(.calcite--rtl) .day-wrapper,
+:host([scale="l"][highlighted][range-edge="end"]) .calcite--rtl .day-wrapper,
+:host([scale="l"][range-hover][range-edge="end"]) .calcite--rtl .day-wrapper {
   box-shadow: inset 6px 0px 0px 0px var(--calcite-ui-foreground-1);
 }
 
-:host([highlighted]:first-child) .day-wrapper,
-:host([range-hover]:first-child) .day-wrapper {
+:host([highlighted][range-edge="start"]) .day-wrapper,
+:host([range-hover][range-edge="start"]) .day-wrapper {
   border-start-start-radius: 45%;
   border-end-start-radius: 45%;
 }
 
-:host([highlighted]:last-child) .day-wrapper,
-:host([range-hover]:last-child) .day-wrapper {
+:host([highlighted][range-edge="end"]) .day-wrapper,
+:host([range-hover][range-edge="end"]) .day-wrapper {
   border-start-end-radius: 45%;
   border-end-end-radius: 45%;
 }
 
-:host([scale="l"][highlighted]:last-child) :not(.calcite--rtl) .day-wrapper,
-:host([scale="l"][range-hover]:last-child) :not(.calcite--rtl) .day-wrapper,
-:host([scale="l"][highlighted]:first-child) .calcite--rtl .day-wrapper,
-:host([scale="l"][range-hover]:first-child) .calcite--rtl .day-wrapper {
+:host([scale="l"][highlighted][range-edge="end"]) :not(.calcite--rtl) .day-wrapper,
+:host([scale="l"][range-hover][range-edge="end"]) :not(.calcite--rtl) .day-wrapper,
+:host([scale="l"][highlighted][range-edge="start"]) .calcite--rtl .day-wrapper,
+:host([scale="l"][range-hover][range-edge="start"]) .calcite--rtl .day-wrapper {
   box-shadow: inset -6px 0px 0px 0px var(--calcite-ui-foreground-1);
 }
 
