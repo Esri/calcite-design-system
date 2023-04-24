@@ -63,7 +63,6 @@ import { Position } from "../interfaces";
 import { InputMessages } from "./assets/input/t9n";
 import { InputPlacement, NumberNudgeDirection, SetValueOrigin } from "./interfaces";
 import { CSS, INPUT_TYPE_ICONS, SLOTS } from "./resources";
-import { unwatchGlobalAttributes, watchGlobalAttributes } from "../../utils/globalAttributes";
 
 /**
  * @slot action - A slot for positioning a `calcite-button` next to the component.
@@ -450,8 +449,6 @@ export class Input
     updateMessages(this, this.effectiveLocale);
   }
 
-  @State() globalAttributes = {};
-
   @State() localizedValue: string;
 
   @State() slottedActionElDisabledInternally = false;
@@ -472,7 +469,6 @@ export class Input
     }
     connectLabel(this);
     connectForm(this);
-    watchGlobalAttributes(this, ["role"]);
 
     this.setPreviousEmittedValue(this.value);
     this.setPreviousValue(this.value);
@@ -496,7 +492,6 @@ export class Input
     disconnectForm(this);
     disconnectLocalized(this);
     disconnectMessages(this);
-    unwatchGlobalAttributes(this);
 
     this.mutationObserver?.disconnect();
     this.el.removeEventListener("calciteInternalHiddenInputChange", this.hiddenInputChangeHandler);
@@ -1173,7 +1168,6 @@ export class Input
               value={this.value}
               // eslint-disable-next-line react/jsx-sort-props
               ref={this.setChildElRef}
-              {...this.globalAttributes}
             />,
             this.isTextarea ? (
               <div class={CSS.resizeIconWrapper}>
