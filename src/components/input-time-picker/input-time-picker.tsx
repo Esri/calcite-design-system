@@ -40,13 +40,17 @@ import {
 import { formatTimeString, isValidTime, localizeTimeString } from "../../utils/time";
 import { Scale } from "../interfaces";
 import { TimePickerMessages } from "../time-picker/assets/time-picker/t9n";
+import { connectMessages, disconnectMessages, setUpMessages, T9nComponent } from "../../utils/t9n";
+import { toAriaBoolean } from "../../utils/dom";
+import { InputTimePickerMessages } from "./assets/input-time-picker/t9n";
 
 @Component({
   tag: "calcite-input-time-picker",
   styleUrl: "input-time-picker.scss",
   shadow: {
     delegatesFocus: true
-  }
+  },
+  assetsDirs: ["assets"]
 })
 export class InputTimePicker
   implements
@@ -55,7 +59,8 @@ export class InputTimePicker
     InteractiveComponent,
     FloatingUIComponent,
     LocalizedComponent,
-    LoadableComponent
+    LoadableComponent,
+    T9nComponent
 {
   //--------------------------------------------------------------------------
   //
@@ -116,7 +121,21 @@ export class InputTimePicker
   /**
    * Use this property to override individual strings used by the component.
    */
-  @Prop() messagesOverrides: Partial<TimePickerMessages>;
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
+  @Prop({ mutable: true }) messageOverrides: Partial<InputTimePickerMessages & TimePickerMessages>;
+
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @internal
+   */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
+  @Prop({ mutable: true }) messages: InputTimePickerMessages;
+
+  @Watch("messageOverrides")
+  onMessagesChange(): void {
+    /* wired up by t9n util */
+  }
 
   /** Specifies the name of the component on form submission. */
   @Prop() name: string;
@@ -195,6 +214,8 @@ export class InputTimePicker
   //  State
   //
   //--------------------------------------------------------------------------
+
+  @State() defaultMessages: InputTimePickerMessages;
 
   @State() effectiveLocale = "";
 
@@ -464,10 +485,12 @@ export class InputTimePicker
 
     connectLabel(this);
     connectForm(this);
+    connectMessages(this);
   }
 
-  componentWillLoad(): void {
+  async componentWillLoad(): Promise<void> {
     setUpLoadableComponent(this);
+    await setUpMessages(this);
   }
 
   componentDidLoad() {
@@ -479,6 +502,7 @@ export class InputTimePicker
     disconnectLabel(this);
     disconnectForm(this);
     disconnectLocalized(this);
+    disconnectMessages(this);
   }
 
   componentDidRender(): void {
@@ -493,6 +517,8 @@ export class InputTimePicker
 
   render(): VNode {
     const popoverId = `${this.referenceElementId}-popover`;
+    const { disabled, messages, readOnly } = this;
+
     return (
       <Host onKeyDown={this.keyDownHandler}>
         <div
@@ -504,13 +530,13 @@ export class InputTimePicker
           role="combobox"
         >
           <calcite-input
-            disabled={this.disabled}
+            disabled={disabled}
             icon="clock"
             label={getLabelText(this)}
             onCalciteInputInput={this.calciteInputInputHandler}
             onCalciteInternalInputBlur={this.calciteInternalInputBlurHandler}
             onCalciteInternalInputFocus={this.calciteInternalInputFocusHandler}
-            readOnly={this.readOnly}
+            readOnly={readOnly}
             scale={this.scale}
             step={this.step}
             // eslint-disable-next-line react/jsx-sort-props
@@ -518,6 +544,9 @@ export class InputTimePicker
           />
         </div>
         <calcite-popover
+          aria-hidden={toAriaBoolean(!this.open)}
+          aria-label={messages.chooseTime}
+          aria-modal="true"
           focusTrapDisabled={true}
           id={popoverId}
           label="Time Picker"
@@ -525,13 +554,14 @@ export class InputTimePicker
           overlayPositioning={this.overlayPositioning}
           placement={this.placement}
           referenceElement={this.referenceElementId}
+          role="dialog"
           triggerDisabled={true}
           // eslint-disable-next-line react/jsx-sort-props
           ref={this.setCalcitePopoverEl}
         >
           <calcite-time-picker
             lang={this.effectiveLocale}
-            messageOverrides={this.messagesOverrides}
+            messageOverrides={this.messageOverrides}
             numberingSystem={this.numberingSystem}
             onCalciteInternalTimePickerChange={this.timePickerChangeHandler}
             scale={this.scale}
