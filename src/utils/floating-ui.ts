@@ -201,7 +201,12 @@ export interface FloatingUIComponent {
   reposition(delayed?: boolean): Promise<void>;
 
   /**
-   * Specifies the component's layout.
+   * Used to store the effective floating layout.
+   *
+   * This is an internal property and should:
+   *
+   * - use the `@State` decorator
+   * - be initialized to "vertical"
    *
    * Possible values: "vertical" or "horizontal".
    *
@@ -440,7 +445,7 @@ export async function positionFloatingUI(
     })
   });
 
-  if (arrowEl && middlewareData?.arrow) {
+  if (arrowEl && middlewareData.arrow) {
     const { x, y } = middlewareData.arrow;
     const side = effectivePlacement.split("-")[0] as Side;
     const alignment = x != null ? "left" : "top";
@@ -459,7 +464,7 @@ export async function positionFloatingUI(
     });
   }
 
-  const referenceHidden = middlewareData?.hide?.referenceHidden;
+  const referenceHidden = middlewareData.hide?.referenceHidden;
   const visibility = referenceHidden ? "hidden" : null;
   const pointerEvents = visibility ? "none" : null;
 
