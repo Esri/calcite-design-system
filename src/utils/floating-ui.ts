@@ -10,6 +10,7 @@ import {
   Placement,
   platform,
   shift,
+  Side,
   Strategy,
   VirtualElement
 } from "@floating-ui/dom";
@@ -339,7 +340,7 @@ const debouncedReposition = debounce(positionFloatingUI, repositionDebounceTimeo
   maxWait: repositionDebounceTimeout
 });
 
-const ARROW_ROTATION = {
+const ARROW_CSS_TRANSFORM = {
   top: "",
   left: "rotate(-90deg)",
   bottom: "rotate(180deg)",
@@ -440,19 +441,19 @@ export async function positionFloatingUI(
   });
 
   if (arrowEl && middlewareData?.arrow) {
-    const { x: arrowX, y: arrowY } = middlewareData.arrow;
-
-    const [side] = effectivePlacement?.split("-") || "";
+    const { x, y } = middlewareData.arrow;
+    const side = effectivePlacement.split("-")[0] as Side;
+    const alignment = x != null ? "left" : "top";
+    const transform = ARROW_CSS_TRANSFORM[side];
 
     if ("floatingLayout" in component) {
       component.floatingLayout = side === "left" || side === "right" ? "horizontal" : "vertical";
     }
 
     Object.assign(arrowEl.style, {
-      left: arrowX != null ? `${arrowX}px` : undefined,
-      top: arrowY != null ? `${arrowY}px` : undefined,
+      [alignment]: alignment == "left" ? `${x}px` : `${y}px`,
       [side]: "100%",
-      transform: `${ARROW_ROTATION[side]}`
+      transform
     });
   }
 
