@@ -369,6 +369,26 @@ export class InputTimePicker
   //
   // --------------------------------------------------------------------------
 
+  private popoverCloseHandler = () => {
+    deactivateFocusTrap(this, {
+      onDeactivate: () => {
+        this.calciteInputEl.setFocus();
+        this.focusOnOpen = false;
+      }
+    });
+  };
+
+  private popoverOpenHandler = () => {
+    activateFocusTrap(this, {
+      onActivate: () => {
+        if (this.focusOnOpen) {
+          this.calciteTimePickerEl.setFocus();
+          this.focusOnOpen = false;
+        }
+      }
+    });
+  };
+
   keyDownHandler = (event: KeyboardEvent): void => {
     const { defaultPrevented, key } = event;
 
@@ -590,26 +610,6 @@ export class InputTimePicker
       </Host>
     );
   }
-
-  private popoverCloseHandler = () => {
-    deactivateFocusTrap(this, {
-      onDeactivate: () => {
-        this.calciteInputEl.setFocus();
-        this.focusOnOpen = false;
-      }
-    });
-  };
-
-  private popoverOpenHandler = () => {
-    activateFocusTrap(this, {
-      onActivate: () => {
-        if (this.focusOnOpen) {
-          this.calciteTimePickerEl.setFocus();
-          this.focusOnOpen = false;
-        }
-      }
-    });
-  };
 
   renderToggleIcon(open: boolean): VNode {
     return (
