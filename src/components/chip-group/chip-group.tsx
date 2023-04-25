@@ -193,6 +193,7 @@ export class ChipGroup implements InteractiveComponent {
       el.interactive = true;
       el.scale = this.scale;
       el.selectionMode = this.selectionMode;
+      el.setAttribute("aria-labelledby", this.label);
     });
 
     this.setSelectedItems(false);
