@@ -533,34 +533,26 @@ export class InputTimePicker
     const { disabled, messages, readOnly, dialogId } = this;
     return (
       <Host onBlur={this.deactivate} onKeyDown={this.keyDownHandler}>
-        <div
-          aria-controls={dialogId}
-          aria-haspopup="dialog"
-          aria-label={this.name}
-          aria-owns={dialogId}
-          id={this.referenceElementId}
-          role="combobox"
-        >
-          <div class="input-wrapper" onClick={this.onInputWrapperClick}>
-            <calcite-input
-              aria-autocomplete="none"
-              aria-haspopup="dialog"
-              disabled={disabled}
-              icon="clock"
-              label={getLabelText(this)}
-              onCalciteInputInput={this.calciteInputInputHandler}
-              onCalciteInternalInputBlur={this.calciteInternalInputBlurHandler}
-              onCalciteInternalInputFocus={this.calciteInternalInputFocusHandler}
-              onFocus={this.inputFocus}
-              readOnly={readOnly}
-              role="combobox"
-              scale={this.scale}
-              step={this.step}
-              // eslint-disable-next-line react/jsx-sort-props
-              ref={this.setCalciteInputEl}
-            />
-            {this.renderToggleIcon(this.open)}
-          </div>
+        <div class="input-wrapper" onClick={this.onInputWrapperClick}>
+          <calcite-input
+            aria-autocomplete="none"
+            aria-haspopup="dialog"
+            disabled={disabled}
+            icon="clock"
+            id={this.referenceElementId}
+            label={getLabelText(this)}
+            onCalciteInputInput={this.calciteInputInputHandler}
+            onCalciteInternalInputBlur={this.calciteInternalInputBlurHandler}
+            onCalciteInternalInputFocus={this.calciteInternalInputFocusHandler}
+            onFocus={this.inputFocus}
+            readOnly={readOnly}
+            role="combobox"
+            scale={this.scale}
+            step={this.step}
+            // eslint-disable-next-line react/jsx-sort-props
+            ref={this.setCalciteInputEl}
+          />
+          {this.renderToggleIcon(this.open)}
         </div>
         <calcite-popover
           focusTrapDisabled={true}
