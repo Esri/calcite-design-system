@@ -174,8 +174,6 @@ export type MenuPlacement = Extract<
 export const defaultMenuPlacement: MenuPlacement = "bottom-start";
 
 export interface FloatingUIComponent {
-  floatingLayout?: FloatingLayout;
-
   /**
    * Whether the component is opened.
    */
@@ -200,6 +198,15 @@ export interface FloatingUIComponent {
    * @param delayed – (internal) when true, it will reposition the component after a delay. the default is false. This is useful for components that have multiple watched properties that schedule repositioning.
    */
   reposition(delayed?: boolean): Promise<void>;
+
+  /**
+   * Specifies the component's layout.
+   *
+   * Possible values: "vertical" or "horizontal".
+   *
+   * @readonly
+   */
+  floatingLayout?: FloatingLayout;
 }
 
 export type FloatingLayout = Extract<Layout, "vertical" | "horizontal">;
@@ -432,14 +439,16 @@ export async function positionFloatingUI(
     })
   });
 
-  const [side] = effectivePlacement?.split("-") || "";
-  const floatingLayout = side === "top" || side === "bottom" ? "vertical" : "horizontal";
-  component.floatingLayout = floatingLayout;
-
-  if (middlewareData?.arrow) {
+  if (arrowEl && middlewareData?.arrow) {
     const { x: arrowX, y: arrowY } = middlewareData.arrow;
 
-    Object.assign(arrowEl?.style, {
+    const [side] = effectivePlacement?.split("-") || "";
+
+    if ("floatingLayout" in component) {
+      component.floatingLayout = side === "left" || side === "right" ? "horizontal" : "vertical";
+    }
+
+    Object.assign(arrowEl.style, {
       left: arrowX != null ? `${arrowX}px` : undefined,
       top: arrowY != null ? `${arrowY}px` : undefined,
       [side]: "100%",
