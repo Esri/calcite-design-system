@@ -21,9 +21,10 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 - **date-picker:** add support for de-AT locale ([#6788](https://github.com/Esri/calcite-components/issues/6788)) ([be3a8b2](https://github.com/Esri/calcite-components/commit/be3a8b2414794562f5efa8a8223fdacd93192d1f)), closes [#6737](https://github.com/Esri/calcite-components/issues/6737)
 
-- **input-date-picker:** add focus trap support ([#6816](https://github.com/Esri/calcite-components/issues/6816)) ([0d9ddc9](https://github.com/Esri/calcite-components/commit/0d9ddc9018ff8c5eacee7592998189e59d512bf6)), closes [#6668](https://github.com/Esri/calcite-components/issues/6668)
+- **input-date-picker:**
 
-- **input-date-picker:** allow toggling date picker by clicking the input or entering the down/escape key ([#6805](https://github.com/Esri/calcite-components/issues/6805)) ([233c22b](https://github.com/Esri/calcite-components/commit/233c22b174e5957415a0252a75f8da9078ed64ce)), closes [#6773](https://github.com/Esri/calcite-components/issues/6773)
+  - add focus trap support ([#6816](https://github.com/Esri/calcite-components/issues/6816)) ([0d9ddc9](https://github.com/Esri/calcite-components/commit/0d9ddc9018ff8c5eacee7592998189e59d512bf6)), closes [#6668](https://github.com/Esri/calcite-components/issues/6668)
+  - allow toggling date picker by clicking the input or entering the down/escape key ([#6805](https://github.com/Esri/calcite-components/issues/6805)) ([233c22b](https://github.com/Esri/calcite-components/commit/233c22b174e5957415a0252a75f8da9078ed64ce)), closes [#6773](https://github.com/Esri/calcite-components/issues/6773)
 
 - **list, list-item:** Adds the ability to close a list-item ([#6775](https://github.com/Esri/calcite-components/issues/6775)) ([66171ab](https://github.com/Esri/calcite-components/commit/66171ab203e34b565ad1e86c0c88531a2b39b1cf)), closes [#6555](https://github.com/Esri/calcite-components/issues/6555)
 
