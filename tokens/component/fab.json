@@ -240,21 +240,21 @@
       "neutral": {
         "solid": {
           "light": {
-            "value": "$semantic.ui.color.border.1.light",
+            "value": "$semantic.ui.color.foreground.3.light",
             "type": "color"
           },
           "dark": {
-            "value": "$semantic.ui.color.border.3.dark",
+            "value": "$semantic.ui.color.foreground.3.dark",
             "type": "color"
           }
         },
         "outline-fill": {
           "light": {
-            "value": "$semantic.ui.color.border.1.light",
+            "value": "$semantic.ui.color.foreground.3.light",
             "type": "color"
           },
           "dark": {
-            "value": "$semantic.ui.color.border.3.dark",
+            "value": "$semantic.ui.color.foreground.3.dark",
             "type": "color"
           }
         }
