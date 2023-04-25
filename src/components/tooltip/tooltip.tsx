@@ -343,11 +343,14 @@ export class Tooltip implements FloatingUIComponent, OpenCloseComponent {
           // eslint-disable-next-line react/jsx-sort-props
           ref={this.setTransitionEl}
         >
-          <FloatingArrow
-            effectivePlacement={effectivePlacement}
-            // eslint-disable-next-line react/jsx-sort-props
-            ref={(arrowEl) => (this.arrowEl = arrowEl)}
-          />
+          {effectivePlacement ? (
+            <FloatingArrow
+              effectivePlacement={effectivePlacement}
+              key="floating-arrow"
+              // eslint-disable-next-line react/jsx-sort-props
+              ref={(arrowEl: SVGElement) => (this.arrowEl = arrowEl)}
+            />
+          ) : null}
           <div class={CSS.container}>
             <slot />
           </div>

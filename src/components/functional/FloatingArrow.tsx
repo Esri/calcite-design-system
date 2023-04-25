@@ -1,9 +1,9 @@
 import { FunctionalComponent, h } from "@stencil/core";
 import { EffectivePlacement } from "../../utils/floating-ui";
+import { JSXAttributes } from "@stencil/core/internal";
 
-interface FloatingArrowProps {
+interface FloatingArrowProps extends JSXAttributes {
   effectivePlacement: EffectivePlacement;
-  ref?: (el: SVGElement) => void;
 }
 
 const CSS = {
@@ -11,7 +11,7 @@ const CSS = {
   arrowStroke: "calcite-floating-ui-arrow__stroke"
 };
 
-const OPTIONS = {
+const DEFAULTS = {
   width: 12,
   height: 6,
   strokeWidth: 1
@@ -19,9 +19,10 @@ const OPTIONS = {
 
 export const FloatingArrow: FunctionalComponent<FloatingArrowProps> = ({
   effectivePlacement,
+  key,
   ref
 }) => {
-  const { width, height, strokeWidth } = OPTIONS;
+  const { width, height, strokeWidth } = DEFAULTS;
   const svgX = width / 2;
   const [side] = effectivePlacement?.split("-") || "";
   const isVerticalSide = side === "top" || side === "bottom";
@@ -45,6 +46,7 @@ export const FloatingArrow: FunctionalComponent<FloatingArrowProps> = ({
       aria-hidden="true"
       class={CSS.arrow}
       height={width}
+      key={key}
       ref={ref}
       style={{
         [side]: "100%",
