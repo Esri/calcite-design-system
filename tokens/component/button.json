@@ -591,7 +591,7 @@
     "space-around": {
       "left-right": {
         "sm": {
-          "value": "$core.spacing.7",
+          "value": "$core.spacing.3",
           "type": "spacing"
         },
         "md": {
@@ -599,7 +599,7 @@
           "type": "spacing"
         },
         "lg": {
-          "value": "$core.spacing.11",
+          "value": "$core.spacing.7",
           "type": "spacing"
         }
       },
