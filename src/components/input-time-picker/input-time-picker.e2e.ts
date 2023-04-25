@@ -384,7 +384,8 @@ describe("calcite-input-time-picker", () => {
         html`<calcite-input-time-picker></calcite-input-time-picker>
           <div id="next-sibling" tabindex="0">next sibling</div>`
       );
-      let popover = await page.find("calcite-input-time-picker >>> calcite-popover");
+      const popover = await page.find("calcite-input-time-picker >>> calcite-popover");
+      const stopgapDelayUntilOpenCloseEventsAreImplemented = 500;
 
       await page.keyboard.press("Tab");
       expect(await getFocusedElementProp(page, "tagName")).toBe("CALCITE-INPUT-TIME-PICKER");
@@ -398,9 +399,9 @@ describe("calcite-input-time-picker", () => {
       expect(await getFocusedElementProp(page, "tagName")).toBe("CALCITE-INPUT-TIME-PICKER");
       expect(await getFocusedElementProp(page, "tagName", { shadow: true })).toBe("CALCITE-INPUT");
 
-      popover = await page.find("calcite-input-time-picker >>> calcite-popover");
       await page.keyboard.press("ArrowDown");
       await page.waitForChanges();
+      await page.waitForTimeout(stopgapDelayUntilOpenCloseEventsAreImplemented);
 
       expect(await popover.isVisible()).toBe(true);
       expect(await getFocusedElementProp(page, "tagName", { shadow: true })).toBe("CALCITE-TIME-PICKER");
@@ -413,9 +414,9 @@ describe("calcite-input-time-picker", () => {
       await page.keyboard.press("Tab");
       expect(await getFocusedElementProp(page, "tagName", { shadow: true })).toBe("CALCITE-TIME-PICKER");
 
-      popover = await page.find("calcite-input-time-picker >>> calcite-popover");
       await page.keyboard.press("Escape");
       await page.waitForChanges();
+      await page.waitForTimeout(stopgapDelayUntilOpenCloseEventsAreImplemented);
 
       expect(await popover.isVisible()).toBe(false);
       expect(await getFocusedElementProp(page, "tagName")).toBe("CALCITE-INPUT-TIME-PICKER");

@@ -5,7 +5,6 @@ import {
   EventEmitter,
   h,
   Host,
-  Listen,
   Method,
   Prop,
   State,
@@ -97,22 +96,6 @@ export class InputTimePicker
 
     if (value) {
       this.reposition(true);
-
-      activateFocusTrap(this, {
-        onActivate: () => {
-          if (this.focusOnOpen) {
-            this.calciteTimePickerEl.setFocus();
-            this.focusOnOpen = false;
-          }
-        }
-      });
-    } else {
-      deactivateFocusTrap(this, {
-        onDeactivate: () => {
-          this.calciteInputEl.setFocus();
-          this.focusOnOpen = false;
-        }
-      });
     }
   }
 
@@ -296,7 +279,6 @@ export class InputTimePicker
   //--------------------------------------------------------------------------
 
   private calciteInternalInputBlurHandler = (): void => {
-    this.open = false;
     const shouldIncludeSeconds = this.shouldIncludeSeconds();
     const { effectiveLocale: locale, numberingSystem, value, calciteInputEl } = this;
 
@@ -322,7 +304,6 @@ export class InputTimePicker
 
   private calciteInternalInputFocusHandler = (event: CustomEvent): void => {
     if (!this.readOnly) {
-      this.open = true;
       event.stopPropagation();
     }
   };
@@ -352,41 +333,12 @@ export class InputTimePicker
     this.setInputValue(localizedValue);
   };
 
-  inputFocus = (): void => {
-    this.open = false;
-  };
-
-  @Listen("click")
-  clickHandler(event: MouseEvent): void {
-    if (this.disabled || event.composedPath().includes(this.calciteTimePickerEl)) {
-      return;
-    }
-    this.setFocus();
-  }
-
-  @Listen("calciteInternalTimePickerBlur")
-  timePickerBlurHandler(event: CustomEvent): void {
-    event.preventDefault();
-    event.stopPropagation();
-    this.open = false;
-  }
-
   private timePickerChangeHandler = (event: CustomEvent): void => {
     event.stopPropagation();
     const target = event.target as HTMLCalciteTimePickerElement;
     const value = target.value;
     this.setValue({ value, origin: "time-picker" });
-    this.calciteInputEl.setFocus();
   };
-
-  @Listen("calciteInternalTimePickerFocus")
-  timePickerFocusHandler(event: CustomEvent): void {
-    event.preventDefault();
-    event.stopPropagation();
-    if (!this.readOnly) {
-      this.open = true;
-    }
-  }
 
   // --------------------------------------------------------------------------
   //
@@ -598,7 +550,6 @@ export class InputTimePicker
             onCalciteInputInput={this.calciteInputInputHandler}
             onCalciteInternalInputBlur={this.calciteInternalInputBlurHandler}
             onCalciteInternalInputFocus={this.calciteInternalInputFocusHandler}
-            onFocus={this.inputFocus}
             readOnly={readOnly}
             role="combobox"
             scale={this.scale}
@@ -612,6 +563,8 @@ export class InputTimePicker
           focusTrapDisabled={true}
           id={dialogId}
           label={messages.chooseTime}
+          onCalcitePopoverClose={this.popoverCloseHandler}
+          onCalcitePopoverOpen={this.popoverOpenHandler}
           open={this.open}
           overlayPositioning={this.overlayPositioning}
           placement={this.placement}
@@ -637,6 +590,26 @@ export class InputTimePicker
       </Host>
     );
   }
+
+  private popoverCloseHandler = () => {
+    deactivateFocusTrap(this, {
+      onDeactivate: () => {
+        this.calciteInputEl.setFocus();
+        this.focusOnOpen = false;
+      }
+    });
+  };
+
+  private popoverOpenHandler = () => {
+    activateFocusTrap(this, {
+      onActivate: () => {
+        if (this.focusOnOpen) {
+          this.calciteTimePickerEl.setFocus();
+          this.focusOnOpen = false;
+        }
+      }
+    });
+  };
 
   renderToggleIcon(open: boolean): VNode {
     return (
