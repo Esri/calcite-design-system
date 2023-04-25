@@ -201,16 +201,17 @@ export interface FloatingUIComponent {
   reposition(delayed?: boolean): Promise<void>;
 
   /**
-   * Used to store the effective floating layout.
+   * Used to store the effective floating layout for components that use arrows.
    *
    * This is an internal property and should:
    *
+   * - only be used for components that support arrows
    * - use the `@State` decorator
    * - be initialized to "vertical"
    *
    * Possible values: "vertical" or "horizontal".
    *
-   * @readonly
+   * See [FloatingArrow](https://github.com/Esri/calcite-components/blob/master/src/components/functional/FloatingArrow.tsx)
    */
   floatingLayout?: FloatingLayout;
 }

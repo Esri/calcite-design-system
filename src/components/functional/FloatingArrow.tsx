@@ -17,6 +17,18 @@ const DEFAULTS = {
   strokeWidth: 1
 };
 
+/**
+ * Renders a SVG element to be used as a floating-ui arrow.
+ *
+ * This functional component should be rendered inside a `FloatingUIComponent` when it needs an arrow element.
+ *
+ * @param floatingLayout.floatingLayout
+ * @param floatingLayout – The effective floating layout to render the arrow vertically or horizontally. Possible values: `vertical` or `horizontal`.
+ *
+ * See [floating-ui](https://github.com/Esri/calcite-components/blob/master/src/utils/floating-ui.ts)
+ * @param floatingLayout.key
+ * @param floatingLayout.ref
+ */
 export const FloatingArrow: FunctionalComponent<FloatingArrowProps> = ({
   floatingLayout,
   key,
