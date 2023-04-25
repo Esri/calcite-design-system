@@ -1,9 +1,9 @@
 import { FunctionalComponent, h } from "@stencil/core";
-import { EffectivePlacement } from "../../utils/floating-ui";
 import { JSXAttributes } from "@stencil/core/internal";
+import { FloatingLayout } from "../../utils/floating-ui";
 
 interface FloatingArrowProps extends JSXAttributes {
-  effectivePlacement: EffectivePlacement;
+  floatingLayout: FloatingLayout;
 }
 
 const CSS = {
@@ -18,14 +18,13 @@ const DEFAULTS = {
 };
 
 export const FloatingArrow: FunctionalComponent<FloatingArrowProps> = ({
-  effectivePlacement,
+  floatingLayout,
   key,
   ref
 }) => {
   const { width, height, strokeWidth } = DEFAULTS;
   const svgX = width / 2;
-  const [side] = effectivePlacement?.split("-") || "";
-  const isVerticalSide = side === "top" || side === "bottom";
+  const isVertical = floatingLayout === "vertical";
 
   const dValue =
     "M0,0" +
@@ -41,8 +40,8 @@ export const FloatingArrow: FunctionalComponent<FloatingArrowProps> = ({
       height={width}
       key={key}
       ref={ref}
-      viewBox={`0 0 ${width} ${width + (!isVerticalSide ? strokeWidth : 0)}`}
-      width={width + (isVerticalSide ? strokeWidth : 0)}
+      viewBox={`0 0 ${width} ${width + (!isVertical ? strokeWidth : 0)}`}
+      width={width + (isVertical ? strokeWidth : 0)}
     >
       {strokeWidth > 0 && (
         <path

@@ -295,7 +295,7 @@ export class Dropdown
   async reposition(delayed = false): Promise<void> {
     const { floatingEl, referenceEl, placement, overlayPositioning, filteredFlipPlacements } = this;
 
-    await reposition(
+    return reposition(
       this,
       {
         floatingEl,

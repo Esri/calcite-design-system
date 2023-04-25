@@ -17,6 +17,7 @@ import { Build } from "@stencil/core";
 import { debounce } from "lodash-es";
 import { config } from "./config";
 import { getElementDir } from "./dom";
+import { Layout } from "../components/interfaces";
 
 const floatingUIBrowserCheck = patchFloatingUiForNonChromiumBrowsers();
 
@@ -173,6 +174,8 @@ export type MenuPlacement = Extract<
 export const defaultMenuPlacement: MenuPlacement = "bottom-start";
 
 export interface FloatingUIComponent {
+  floatingLayout?: FloatingLayout;
+
   /**
    * Whether the component is opened.
    */
@@ -199,9 +202,7 @@ export interface FloatingUIComponent {
   reposition(delayed?: boolean): Promise<void>;
 }
 
-interface RepositionResult {
-  effectivePlacement: EffectivePlacement;
-}
+export type FloatingLayout = Extract<Layout, "vertical" | "horizontal">;
 
 export const FloatingCSS = {
   animation: "calcite-floating-ui-anim",
@@ -316,14 +317,14 @@ export function getEffectivePlacement(floatingEl: HTMLElement, placement: Logica
  */
 export async function reposition(
   component: FloatingUIComponent,
-  options: Parameters<typeof positionFloatingUI>[0],
+  options: Parameters<typeof positionFloatingUI>[1],
   delayed = false
-): Promise<RepositionResult> {
+): Promise<void> {
   if (!component.open) {
-    return { effectivePlacement: null };
+    return;
   }
 
-  return delayed ? debouncedReposition(options) : positionFloatingUI(options);
+  return delayed ? debouncedReposition(component, options) : positionFloatingUI(component, options);
 }
 
 const debouncedReposition = debounce(positionFloatingUI, repositionDebounceTimeout, {
@@ -354,30 +355,54 @@ const ARROW_ROTATION = {
  * @param root0.offsetSkidding
  * @param root0.arrowEl
  * @param root0.type
+ * @param component
+ * @param root0.referenceEl.referenceEl
+ * @param root0.referenceEl.floatingEl
+ * @param root0.referenceEl.overlayPositioning
+ * @param root0.referenceEl.placement
+ * @param root0.referenceEl.flipDisabled
+ * @param root0.referenceEl.flipPlacements
+ * @param root0.referenceEl.offsetDistance
+ * @param root0.referenceEl.offsetSkidding
+ * @param root0.referenceEl.arrowEl
+ * @param root0.referenceEl.type
+ * @param component.referenceEl
+ * @param component.floatingEl
+ * @param component.overlayPositioning
+ * @param component.placement
+ * @param component.flipDisabled
+ * @param component.flipPlacements
+ * @param component.offsetDistance
+ * @param component.offsetSkidding
+ * @param component.arrowEl
+ * @param component.type
  */
-export async function positionFloatingUI({
-  referenceEl,
-  floatingEl,
-  overlayPositioning = "absolute",
-  placement,
-  flipDisabled,
-  flipPlacements,
-  offsetDistance,
-  offsetSkidding,
-  arrowEl,
-  type
-}: {
-  referenceEl: ReferenceElement;
-  floatingEl: HTMLElement;
-  overlayPositioning: Strategy;
-  placement: LogicalPlacement;
-  flipDisabled?: boolean;
-  flipPlacements?: EffectivePlacement[];
-  offsetDistance?: number;
-  offsetSkidding?: number;
-  arrowEl?: SVGElement;
-  type: UIType;
-}): Promise<RepositionResult> {
+export async function positionFloatingUI(
+  component: FloatingUIComponent,
+  {
+    referenceEl,
+    floatingEl,
+    overlayPositioning = "absolute",
+    placement,
+    flipDisabled,
+    flipPlacements,
+    offsetDistance,
+    offsetSkidding,
+    arrowEl,
+    type
+  }: {
+    referenceEl: ReferenceElement;
+    floatingEl: HTMLElement;
+    overlayPositioning: Strategy;
+    placement: LogicalPlacement;
+    flipDisabled?: boolean;
+    flipPlacements?: EffectivePlacement[];
+    offsetDistance?: number;
+    offsetSkidding?: number;
+    arrowEl?: SVGElement;
+    type: UIType;
+  }
+): Promise<void> {
   if (!referenceEl || !floatingEl) {
     return null;
   }
@@ -407,9 +432,12 @@ export async function positionFloatingUI({
     })
   });
 
+  const [side] = effectivePlacement?.split("-") || "";
+  const floatingLayout = side === "top" || side === "bottom" ? "vertical" : "horizontal";
+  component.floatingLayout = floatingLayout;
+
   if (middlewareData?.arrow) {
     const { x: arrowX, y: arrowY } = middlewareData.arrow;
-    const [side] = effectivePlacement?.split("-") || "";
 
     Object.assign(arrowEl?.style, {
       left: arrowX != null ? `${arrowX}px` : undefined,
@@ -435,8 +463,6 @@ export async function positionFloatingUI({
     left: "0",
     transform
   });
-
-  return { effectivePlacement };
 }
 
 /**

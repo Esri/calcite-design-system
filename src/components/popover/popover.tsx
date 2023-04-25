@@ -19,6 +19,7 @@ import {
   EffectivePlacement,
   filterComputedPlacements,
   FloatingCSS,
+  FloatingLayout,
   FloatingUIComponent,
   LogicalPlacement,
   OverlayPositioning,
@@ -264,7 +265,7 @@ export class Popover
 
   @State() effectiveLocale = "";
 
-  @State() effectivePlacement: EffectivePlacement = null;
+  @State() floatingLayout: FloatingLayout = "vertical";
 
   @Watch("effectiveLocale")
   effectiveLocaleChange(): void {
@@ -369,7 +370,7 @@ export class Popover
       offsetSkidding,
       arrowEl
     } = this;
-    const repositionResult = await reposition(
+    return reposition(
       this,
       {
         floatingEl: el,
@@ -385,8 +386,6 @@ export class Popover
       },
       delayed
     );
-
-    this.effectivePlacement = repositionResult?.effectivePlacement ?? null;
   }
 
   /**
@@ -568,13 +567,13 @@ export class Popover
   }
 
   render(): VNode {
-    const { effectiveReferenceElement, heading, label, open, pointerDisabled, effectivePlacement } =
+    const { effectiveReferenceElement, heading, label, open, pointerDisabled, floatingLayout } =
       this;
     const displayed = effectiveReferenceElement && open;
     const hidden = !displayed;
     const arrowNode = !pointerDisabled ? (
       <FloatingArrow
-        effectivePlacement={effectivePlacement}
+        floatingLayout={floatingLayout}
         key="floating-arrow"
         // eslint-disable-next-line react/jsx-sort-props
         ref={this.storeArrowEl}

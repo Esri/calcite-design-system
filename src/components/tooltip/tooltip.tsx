@@ -16,8 +16,8 @@ import {
   connectFloatingUI,
   defaultOffsetDistance,
   disconnectFloatingUI,
-  EffectivePlacement,
   FloatingCSS,
+  FloatingLayout,
   FloatingUIComponent,
   LogicalPlacement,
   OverlayPositioning,
@@ -142,7 +142,7 @@ export class Tooltip implements FloatingUIComponent, OpenCloseComponent {
 
   @State() effectiveReferenceElement: ReferenceElement;
 
-  @State() effectivePlacement: EffectivePlacement = null;
+  @State() floatingLayout: FloatingLayout = "vertical";
 
   arrowEl: SVGElement;
 
@@ -220,7 +220,7 @@ export class Tooltip implements FloatingUIComponent, OpenCloseComponent {
       arrowEl
     } = this;
 
-    const repositionResult = await reposition(
+    return reposition(
       this,
       {
         floatingEl: el,
@@ -234,8 +234,6 @@ export class Tooltip implements FloatingUIComponent, OpenCloseComponent {
       },
       delayed
     );
-
-    this.effectivePlacement = repositionResult?.effectivePlacement ?? null;
   }
 
   // --------------------------------------------------------------------------
@@ -321,7 +319,7 @@ export class Tooltip implements FloatingUIComponent, OpenCloseComponent {
   // --------------------------------------------------------------------------
 
   render(): VNode {
-    const { effectiveReferenceElement, label, open, effectivePlacement } = this;
+    const { effectiveReferenceElement, label, open, floatingLayout } = this;
     const displayed = effectiveReferenceElement && open;
     const hidden = !displayed;
 
@@ -343,8 +341,7 @@ export class Tooltip implements FloatingUIComponent, OpenCloseComponent {
           ref={this.setTransitionEl}
         >
           <FloatingArrow
-            effectivePlacement={effectivePlacement}
-            key="floating-arrow"
+            floatingLayout={floatingLayout}
             // eslint-disable-next-line react/jsx-sort-props
             ref={(arrowEl: SVGElement) => (this.arrowEl = arrowEl)}
           />
