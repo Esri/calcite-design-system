@@ -1,13 +1,15 @@
 {
   "dropdown": {
     "font": {
-      "light": {
-        "value": "$semantic.ui.color.text.3.light",
-        "type": "color"
-      },
-      "dark": {
-        "value": "$semantic.ui.color.text.3.dark",
-        "type": "color"
+      "default": {
+        "light": {
+          "value": "$semantic.ui.color.text.3.light",
+          "type": "color"
+        },
+        "dark": {
+          "value": "$semantic.ui.color.text.3.dark",
+          "type": "color"
+        }
       },
       "sm": {
         "value": "$semantic.font.default.bold.-3h",
@@ -20,38 +22,36 @@
       "lg": {
         "value": "$semantic.font.default.bold.0h",
         "type": "typography"
+      },
+      "group-title": {
+        "light": {
+          "value": "$semantic.ui.color.text.2.light",
+          "type": "color"
+        },
+        "dark": {
+          "value": "$semantic.ui.color.text.2.dark",
+          "type": "color"
+        }
       }
     },
     "icon": {
       "light": {
-        "value": "$semantic.ui.color.text.3.light",
+        "value": "$semantic.ui.color.brand.default.light",
         "type": "color"
       },
       "dark": {
-        "value": "$semantic.ui.color.text.3.dark",
+        "value": "$semantic.ui.color.brand.default.dark",
         "type": "color"
       }
     },
     "border": {
       "light": {
-        "value": "$semantic.ui.color.border.1.light",
+        "value": "$semantic.ui.color.border.3.light",
         "type": "color"
       },
       "dark": {
-        "value": "$semantic.ui.color.border.1.dark",
+        "value": "$semantic.ui.color.border.3.dark",
         "type": "color"
-      }
-    },
-    "background": {
-      "default": {
-        "light": {
-          "value": "$semantic.ui.color.background.light",
-          "type": "color"
-        },
-        "dark": {
-          "value": "$semantic.ui.color.background.dark",
-          "type": "color"
-        }
       }
     },
     "foreground": {
@@ -112,11 +112,11 @@
         "type": "sizing"
       },
       "md": {
-        "value": "$core.sizing.7",
+        "value": "$core.sizing.9",
         "type": "sizing"
       },
       "lg": {
-        "value": "$core.sizing.9",
+        "value": "$core.sizing.11",
         "type": "sizing"
       }
     },

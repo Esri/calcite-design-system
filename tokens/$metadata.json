@@ -11,6 +11,7 @@
     "component/checkbox",
     "component/chip",
     "component/dropdown",
+    "component/dropdown-item",
     "component/action-bar",
     "component/action-bar-grid",
     "component/action-pad",
