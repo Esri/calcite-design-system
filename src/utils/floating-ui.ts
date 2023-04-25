@@ -445,12 +445,14 @@ export async function positionFloatingUI(
     const side = effectivePlacement.split("-")[0] as Side;
     const alignment = x != null ? "left" : "top";
     const transform = ARROW_CSS_TRANSFORM[side];
+    const reset = { left: "", top: "", bottom: "", right: "" };
 
     if ("floatingLayout" in component) {
       component.floatingLayout = side === "left" || side === "right" ? "horizontal" : "vertical";
     }
 
     Object.assign(arrowEl.style, {
+      ...reset,
       [alignment]: alignment == "left" ? `${x}px` : `${y}px`,
       [side]: "100%",
       transform
