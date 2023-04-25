@@ -18,6 +18,6 @@ export const simple = (): string =>
       full-name="${text("full-name", "Edward Abbey")}"
       username="${text("text", "eabbey_123")}"
       thumbnail="${text("thumbnail", "")}"
-      ${boolean("text-enabled", true)}
+      ${boolean("hide-text", false)}
     />
   </calcite-nav>`;

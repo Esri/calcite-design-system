@@ -9,7 +9,7 @@ describe("calcite-nav-user", () => {
 
   it("should emit calciteNavUserSelect event on user click", async () => {
     const page = await newE2EPage();
-    await page.setContent(html` <calcite-nav-user id="batman" username="batman" text-enabled></calcite-nav-user> `);
+    await page.setContent(html` <calcite-nav-user id="batman" username="batman"></calcite-nav-user> `);
 
     const element = await page.find("calcite-nav-user");
     const eventSpy = await element.spyOnEvent("calciteNavUserSelect");
@@ -21,7 +21,7 @@ describe("calcite-nav-user", () => {
 
   it("should emit calciteNavUserSelect event when user select using Enter or Space key", async () => {
     const page = await newE2EPage();
-    await page.setContent(html` <calcite-nav-user username="batman" id="batman" text-enabled></calcite-nav-user> `);
+    await page.setContent(html` <calcite-nav-user username="batman" id="batman"></calcite-nav-user> `);
 
     const element = await page.find("calcite-nav-user");
     const eventSpy = await element.spyOnEvent("calciteNavUserSelect");
