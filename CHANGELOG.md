@@ -3,6 +3,16 @@
 This document maintains a list of released versions and changes introduced by them.
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
+<!--@unreleased-section-start-->
+
+## Unreleased
+
+### Bug Fixes
+
+- fix inheritance of default focus-color value ([#6859](https://github.com/Esri/calcite-components/issues/6859)) ([22b4c7a](https://github.com/Esri/calcite-components/commit/22b4c7abed0723c7fb0b99f1e6d3cf850ecee7d8)), closes [#6857](https://github.com/Esri/calcite-components/issues/6857)
+
+<!--@unreleased-section-end-->
+
 ## [v1.3.0](https://github.com/Esri/calcite-components/compare/v1.2.0...v1.3.0) (2023-04-24)
 
 ### Features
