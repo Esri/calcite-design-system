@@ -9,7 +9,8 @@ import {
   hidden,
   labelable,
   reflects,
-  renders
+  renders,
+  t9n
 } from "../../tests/commonTests";
 import { getFocusedElementProp } from "../../tests/utils";
 import { skipAnimations } from "../../tests/utils";
@@ -27,6 +28,8 @@ describe("calcite-input-time-picker", () => {
       <calcite-input-time-picker name="test"></calcite-input-time-picker>
     </calcite-label>
   `));
+
+  it.skip("supports t9n", () => t9n("calcite-input-time-picker"));
 
   it("has defaults", async () =>
     defaults("calcite-input-time-picker", [
