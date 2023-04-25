@@ -572,15 +572,14 @@ export class Popover
       this;
     const displayed = effectiveReferenceElement && open;
     const hidden = !displayed;
-    const arrowNode =
-      !pointerDisabled && effectivePlacement ? (
-        <FloatingArrow
-          effectivePlacement={effectivePlacement}
-          key="floating-arrow"
-          // eslint-disable-next-line react/jsx-sort-props
-          ref={this.storeArrowEl}
-        />
-      ) : null;
+    const arrowNode = !pointerDisabled ? (
+      <FloatingArrow
+        effectivePlacement={effectivePlacement}
+        key="floating-arrow"
+        // eslint-disable-next-line react/jsx-sort-props
+        ref={this.storeArrowEl}
+      />
+    ) : null;
 
     return (
       <Host

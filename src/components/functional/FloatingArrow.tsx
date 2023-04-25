@@ -34,13 +34,6 @@ export const FloatingArrow: FunctionalComponent<FloatingArrowProps> = ({
     ` Q${svgX},${height} ${svgX},${height}` +
     " Z";
 
-  const rotation = {
-    top: "",
-    left: "rotate(-90deg)",
-    bottom: "rotate(180deg)",
-    right: "rotate(90deg)"
-  }[side];
-
   return (
     <svg
       aria-hidden="true"
@@ -48,10 +41,6 @@ export const FloatingArrow: FunctionalComponent<FloatingArrowProps> = ({
       height={width}
       key={key}
       ref={ref}
-      style={{
-        [side]: "100%",
-        transform: `${rotation}`
-      }}
       viewBox={`0 0 ${width} ${width + (!isVerticalSide ? strokeWidth : 0)}`}
       width={width + (isVerticalSide ? strokeWidth : 0)}
     >

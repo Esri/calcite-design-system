@@ -331,6 +331,13 @@ const debouncedReposition = debounce(positionFloatingUI, repositionDebounceTimeo
   maxWait: repositionDebounceTimeout
 });
 
+const ARROW_ROTATION = {
+  top: "",
+  left: "rotate(-90deg)",
+  bottom: "rotate(180deg)",
+  right: "rotate(90deg)"
+};
+
 /**
  * Positions the floating element relative to the reference element.
  *
@@ -347,7 +354,6 @@ const debouncedReposition = debounce(positionFloatingUI, repositionDebounceTimeo
  * @param root0.offsetSkidding
  * @param root0.arrowEl
  * @param root0.type
- * @param root0.includeArrow
  */
 export async function positionFloatingUI({
   referenceEl,
@@ -370,7 +376,6 @@ export async function positionFloatingUI({
   offsetDistance?: number;
   offsetSkidding?: number;
   arrowEl?: SVGElement;
-  includeArrow?: boolean;
   type: UIType;
 }): Promise<RepositionResult> {
   if (!referenceEl || !floatingEl) {
@@ -402,12 +407,15 @@ export async function positionFloatingUI({
     })
   });
 
-  if (arrowEl && middlewareData?.arrow) {
+  if (middlewareData?.arrow) {
     const { x: arrowX, y: arrowY } = middlewareData.arrow;
+    const [side] = effectivePlacement?.split("-") || "";
 
-    Object.assign(arrowEl.style, {
-      left: arrowX != null ? `${arrowX}px` : "",
-      top: arrowY != null ? `${arrowY}px` : ""
+    Object.assign(arrowEl?.style, {
+      left: arrowX != null ? `${arrowX}px` : undefined,
+      top: arrowY != null ? `${arrowY}px` : undefined,
+      [side]: "100%",
+      transform: `${ARROW_ROTATION[side]}`
     });
   }
 
