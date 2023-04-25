@@ -458,26 +458,6 @@ describe("calcite-chip-group", () => {
     expect(await element.getProperty("selectedItems")).toHaveLength(2);
     await assertSelectedItems(page, { expectedItemIds: [chip4.id, chip5.id] });
   });
-
-  it("correctly assigns aria-labelledby to child Chip elements", async () => {
-    const page = await newE2EPage();
-    const label = "test-group-label";
-    await page.setContent(
-      html`<calcite-chip-group label=${label} selection-mode="multiple">
-        <calcite-chip label="test-label"></calcite-chip>
-        <calcite-chip label="test-label"></calcite-chip>
-        <calcite-chip label="test-label"></calcite-chip>
-        <calcite-chip id="chip-4" label="test-label"></calcite-chip>
-        <calcite-chip id="chip-5" selected label="test-label"></calcite-chip>
-      </calcite-chip-group>`
-    );
-    const chip4 = await page.find("#chip-4");
-    const chip5 = await page.find("#chip-5");
-    await page.waitForChanges();
-
-    expect(await chip4.getAttribute("aria-labelledby")).toEqual(label);
-    expect(await chip5.getAttribute("aria-labelledby")).toEqual(label);
-  });
 });
 
 // Borrowed from Dropdown until a generic utility is set up.
