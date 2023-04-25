@@ -21,38 +21,18 @@
             "value": "$semantic.ui.color.brand.default.dark",
             "type": "color"
           }
-        },
-        "clear": {
-          "light": {
-            "value": "$semantic.ui.color.brand.default.light",
-            "type": "color"
-          },
-          "dark": {
-            "value": "$semantic.ui.color.brand.default.dark",
-            "type": "color"
-          }
-        },
-        "transparent": {
-          "light": {
-            "value": "$semantic.ui.color.brand.default.light",
-            "type": "color"
-          },
-          "dark": {
-            "value": "$semantic.ui.color.brand.default.dark",
-            "type": "color"
-          }
         }
       },
       "sm": {
-        "value": "$semantic.font.default.bold.-3h",
+        "value": "$semantic.font.default.regular.-2h",
         "type": "typography"
       },
       "md": {
-        "value": "$semantic.font.default.bold.-1h",
+        "value": "$semantic.font.default.regular.-1h",
         "type": "typography"
       },
       "lg": {
-        "value": "$semantic.font.default.bold.0h",
+        "value": "$semantic.font.default.regular.0h",
         "type": "typography"
       },
       "inverse": {
@@ -67,26 +47,6 @@
           }
         },
         "outline": {
-          "light": {
-            "value": "$semantic.ui.color.text.1.light",
-            "type": "color"
-          },
-          "dark": {
-            "value": "$semantic.ui.color.text.1.dark",
-            "type": "color"
-          }
-        },
-        "clear": {
-          "light": {
-            "value": "$semantic.ui.color.text.1.light",
-            "type": "color"
-          },
-          "dark": {
-            "value": "$semantic.ui.color.text.1.dark",
-            "type": "color"
-          }
-        },
-        "transparent": {
           "light": {
             "value": "$semantic.ui.color.text.1.light",
             "type": "color"
@@ -117,26 +77,6 @@
             "value": "$semantic.ui.color.text.1.dark",
             "type": "color"
           }
-        },
-        "clear": {
-          "light": {
-            "value": "$semantic.ui.color.text.1.light",
-            "type": "color"
-          },
-          "dark": {
-            "value": "$semantic.ui.color.text.1.dark",
-            "type": "color"
-          }
-        },
-        "transparent": {
-          "light": {
-            "value": "$semantic.ui.color.text.1.light",
-            "type": "color"
-          },
-          "dark": {
-            "value": "$semantic.ui.color.text.1.dark",
-            "type": "color"
-          }
         }
       },
       "danger": {
@@ -151,26 +91,6 @@
           }
         },
         "outline": {
-          "light": {
-            "value": "$semantic.ui.color.danger.default.light",
-            "type": "color"
-          },
-          "dark": {
-            "value": "$semantic.ui.color.danger.default.dark",
-            "type": "color"
-          }
-        },
-        "clear": {
-          "light": {
-            "value": "$semantic.ui.color.danger.default.light",
-            "type": "color"
-          },
-          "dark": {
-            "value": "$semantic.ui.color.danger.default.dark",
-            "type": "color"
-          }
-        },
-        "transparent": {
           "light": {
             "value": "$semantic.ui.color.danger.default.light",
             "type": "color"
@@ -203,26 +123,6 @@
             "value": "$semantic.ui.color.brand.default.dark",
             "type": "color"
           }
-        },
-        "clear": {
-          "light": {
-            "value": "$semantic.ui.color.brand.default.light",
-            "type": "color"
-          },
-          "dark": {
-            "value": "$semantic.ui.color.brand.default.dark",
-            "type": "color"
-          }
-        },
-        "transparent": {
-          "light": {
-            "value": "$semantic.ui.color.brand.default.light",
-            "type": "color"
-          },
-          "dark": {
-            "value": "$semantic.ui.color.brand.default.dark",
-            "type": "color"
-          }
         }
       },
       "inverse": {
@@ -245,26 +145,6 @@
             "value": "$semantic.ui.color.text.1.dark",
             "type": "color"
           }
-        },
-        "clear": {
-          "light": {
-            "value": "$semantic.ui.color.text.1.light",
-            "type": "color"
-          },
-          "dark": {
-            "value": "$semantic.ui.color.text.1.dark",
-            "type": "color"
-          }
-        },
-        "transparent": {
-          "light": {
-            "value": "$semantic.ui.color.text.1.light",
-            "type": "color"
-          },
-          "dark": {
-            "value": "$semantic.ui.color.text.1.dark",
-            "type": "color"
-          }
         }
       },
       "neutral": {
@@ -279,26 +159,6 @@
           }
         },
         "outline": {
-          "light": {
-            "value": "$semantic.ui.color.text.1.light",
-            "type": "color"
-          },
-          "dark": {
-            "value": "$semantic.ui.color.text.1.dark",
-            "type": "color"
-          }
-        },
-        "clear": {
-          "light": {
-            "value": "$semantic.ui.color.text.1.light",
-            "type": "color"
-          },
-          "dark": {
-            "value": "$semantic.ui.color.text.1.dark",
-            "type": "color"
-          }
-        },
-        "transparent": {
           "light": {
             "value": "$semantic.ui.color.text.1.light",
             "type": "color"
@@ -329,124 +189,160 @@
             "value": "$semantic.ui.color.danger.default.dark",
             "type": "color"
           }
-        },
-        "clear": {
-          "light": {
-            "value": "$semantic.ui.color.danger.default.light",
-            "type": "color"
-          },
-          "dark": {
-            "value": "$semantic.ui.color.danger.default.dark",
-            "type": "color"
-          }
-        },
-        "transparent": {
-          "light": {
-            "value": "$semantic.ui.color.danger.default.light",
-            "type": "color"
-          },
-          "dark": {
-            "value": "$semantic.ui.color.danger.default.dark",
-            "type": "color"
-          }
         }
       }
     },
     "border": {
       "brand": {
-        "light": {
-          "value": "$semantic.ui.color.brand.default.light",
-          "type": "color"
-        },
-        "dark": {
-          "value": "$semantic.ui.color.brand.default.dark",
-          "type": "color"
+        "outline": {
+          "light": {
+            "value": "$semantic.ui.color.brand.default.light",
+            "type": "color"
+          },
+          "dark": {
+            "value": "$semantic.ui.color.brand.default.dark",
+            "type": "color"
+          }
         }
       },
       "inverse": {
-        "light": {
-          "value": "$semantic.ui.color.inverse.light",
-          "type": "color"
-        },
-        "dark": {
-          "value": "$semantic.ui.color.inverse.dark",
-          "type": "color"
+        "outline": {
+          "light": {
+            "value": "$semantic.ui.color.inverse.light",
+            "type": "color"
+          },
+          "dark": {
+            "value": "$semantic.ui.color.inverse.dark",
+            "type": "color"
+          }
         }
       },
       "neutral": {
-        "light": {
-          "value": "$semantic.ui.color.border.3.light",
-          "type": "color"
-        },
-        "dark": {
-          "value": "$semantic.ui.color.border.3.dark",
-          "type": "color"
+        "outline": {
+          "light": {
+            "value": "$semantic.ui.color.border.3.light",
+            "type": "color"
+          },
+          "dark": {
+            "value": "$semantic.ui.color.border.3.dark",
+            "type": "color"
+          }
         }
       },
       "danger": {
-        "light": {
-          "value": "$semantic.ui.color.danger.default.light",
-          "type": "color"
-        },
-        "dark": {
-          "value": "$semantic.ui.color.danger.default.dark",
-          "type": "color"
+        "outline": {
+          "light": {
+            "value": "$semantic.ui.color.danger.default.light",
+            "type": "color"
+          },
+          "dark": {
+            "value": "$semantic.ui.color.danger.default.dark",
+            "type": "color"
+          }
         }
       }
     },
     "background": {
       "brand": {
-        "light": {
-          "value": "$semantic.ui.color.brand.default.light",
-          "type": "color"
+        "solid": {
+          "light": {
+            "value": "$semantic.ui.color.brand.default.light",
+            "type": "color"
+          },
+          "dark": {
+            "value": "$semantic.ui.color.brand.default.dark",
+            "type": "color"
+          }
         },
-        "dark": {
-          "value": "$semantic.ui.color.brand.default.dark",
-          "type": "color"
+        "outline": {
+          "light": {
+            "value": "$semantic.ui.color.foreground.1.light",
+            "type": "color"
+          },
+          "dark": {
+            "value": "$semantic.ui.color.foreground.1.dark",
+            "type": "color"
+          }
         }
       },
       "inverse": {
-        "light": {
-          "value": "$semantic.ui.color.inverse.light",
-          "type": "color"
+        "solid": {
+          "light": {
+            "value": "$semantic.ui.color.inverse.light",
+            "type": "color"
+          },
+          "dark": {
+            "value": "$semantic.ui.color.inverse.dark",
+            "type": "color"
+          }
         },
-        "dark": {
-          "value": "$semantic.ui.color.inverse.dark",
-          "type": "color"
+        "outline": {
+          "light": {
+            "value": "$semantic.ui.color.foreground.1.light",
+            "type": "color"
+          },
+          "dark": {
+            "value": "$semantic.ui.color.foreground.1.dark",
+            "type": "color"
+          }
         }
       },
       "neutral": {
-        "light": {
-          "value": "$semantic.ui.color.foreground.1.light",
-          "type": "color"
+        "solid": {
+          "light": {
+            "value": "$semantic.ui.color.foreground.3.light",
+            "type": "color"
+          },
+          "dark": {
+            "value": "$semantic.ui.color.foreground.3.dark",
+            "type": "color"
+          }
         },
-        "dark": {
-          "value": "$semantic.ui.color.foreground.1.dark",
-          "type": "color"
+        "outline": {
+          "light": {
+            "value": "$semantic.ui.color.foreground.1.light",
+            "type": "color"
+          },
+          "dark": {
+            "value": "$semantic.ui.color.foreground.1.dark",
+            "type": "color"
+          }
         }
       },
       "danger": {
-        "light": {
-          "value": "$semantic.ui.color.danger.default.light",
-          "type": "color"
+        "solid": {
+          "light": {
+            "value": "$semantic.ui.color.danger.default.light",
+            "type": "color"
+          },
+          "dark": {
+            "value": "$semantic.ui.color.danger.default.dark",
+            "type": "color"
+          }
         },
-        "dark": {
-          "value": "$semantic.ui.color.danger.default.dark",
-          "type": "color"
+        "outline": {
+          "light": {
+            "value": "$semantic.ui.color.foreground.1.light",
+            "type": "color"
+          },
+          "dark": {
+            "value": "$semantic.ui.color.foreground.1.dark",
+            "type": "color"
+          }
         }
       }
     },
     "border-radius": {
       "sm": {
-        "value": "$core.border.border-radius.4",
+        "value": "$core.border.border-radius.full",
         "type": "borderRadius"
       },
       "md": {
-        "value": "$core.border.border-radius.5",
+        "value": "$core.border.border-radius.full",
         "type": "borderRadius"
       },
       "lg": {
-        "value": "$core.border.border-radius.6",
+        "value": "$core.border.border-radius.full",
         "type": "borderRadius"
       }
     },
@@ -456,11 +352,11 @@
         "type": "borderWidth"
       },
       "md": {
-        "value": "$core.border.border-width.2",
+        "value": "$core.border.border-width.0",
         "type": "borderWidth"
       },
       "lg": {
-        "value": "$core.border.border-width.4",
+        "value": "$core.border.border-width.0",
         "type": "borderWidth"
       }
     },
@@ -484,40 +380,70 @@
         "type": "sizing"
       },
       "md": {
-        "value": "$core.sizing.9",
+        "value": "$core.sizing.7",
         "type": "sizing"
       },
       "lg": {
-        "value": "$core.sizing.11",
+        "value": "$core.sizing.9",
         "type": "sizing"
       }
     },
     "space-between": {
       "sm": {
-        "value": "$core.spacing.9",
+        "value": "$core.spacing.3",
         "type": "spacing"
       },
       "md": {
-        "value": "$core.spacing.11",
+        "value": "$core.spacing.5",
         "type": "spacing"
       },
       "lg": {
-        "value": "$core.spacing.14",
+        "value": "$core.spacing.7",
         "type": "spacing"
       }
     },
     "space-around": {
-      "sm": {
-        "value": "$core.spacing.7",
-        "type": "spacing"
+      "left-right": {
+        "sm": {
+          "value": "$core.spacing.3",
+          "type": "spacing"
+        },
+        "md": {
+          "value": "$core.spacing.5",
+          "type": "spacing"
+        },
+        "lg": {
+          "value": "$core.spacing.7",
+          "type": "spacing"
+        }
       },
-      "md": {
-        "value": "$core.spacing.9",
-        "type": "spacing"
+      "top-bottom": {
+        "sm": {
+          "value": "$core.spacing.1",
+          "type": "spacing"
+        },
+        "md": {
+          "value": "$core.spacing.3",
+          "type": "spacing"
+        },
+        "lg": {
+          "value": "$core.spacing.5",
+          "type": "spacing"
+        }
       },
-      "lg": {
-        "value": "$core.spacing.11",
-        "type": "spacing"
+      "icon-only": {
+        "sm": {
+          "value": "$core.spacing.1",
+          "type": "spacing"
+        },
+        "md": {
+          "value": "$core.spacing.3",
+          "type": "spacing"
+        },
+        "lg": {
+          "value": "$core.spacing.4",
+          "type": "spacing"
+        }
       }
     }
   }
