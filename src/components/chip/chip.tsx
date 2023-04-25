@@ -166,8 +166,6 @@ export class Chip
 
   private closeButtonEl: HTMLButtonElement;
 
-  private parentGroupEl: HTMLCalciteChipGroupElement;
-
   private mutationObserver = createObserver("mutation", () => this.updateHasText());
 
   // --------------------------------------------------------------------------
@@ -198,7 +196,6 @@ export class Chip
   // --------------------------------------------------------------------------
 
   connectedCallback(): void {
-    this.parentGroupEl = this.el.parentElement as HTMLCalciteChipGroupElement;
     connectConditionalSlotComponent(this);
     connectLocalized(this);
     connectMessages(this);
@@ -384,7 +381,6 @@ export class Chip
           aria-checked={this.interactive ? toAriaBoolean(this.selected) : undefined}
           aria-disabled={disableInteraction ? toAriaBoolean(this.disabled) : undefined}
           aria-label={this.label}
-          aria-labelledby={this.parentGroupEl.label}
           class={{
             [CSS.container]: true,
             [CSS.textSlotted]: this.hasText,

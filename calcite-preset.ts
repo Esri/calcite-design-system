@@ -255,14 +255,14 @@ export default {
           "outline-color": "transparent"
         },
         ".focus-normal": {
-          outline: "2px solid var(--calcite-ui-focus-color)"
+          outline: "2px solid var(--calcite-ui-focus-color, var(--calcite-ui-brand))"
         },
         ".focus-outset": {
-          outline: "2px solid var(--calcite-ui-focus-color)",
+          outline: "2px solid var(--calcite-ui-focus-color, var(--calcite-ui-brand))",
           "outline-offset": invert("2px", "--calcite-ui-focus-offset-invert")
         },
         ".focus-inset": {
-          outline: "2px solid var(--calcite-ui-focus-color)",
+          outline: "2px solid var(--calcite-ui-focus-color, var(--calcite-ui-brand))",
           "outline-offset": invert("-2px", "--calcite-ui-focus-offset-invert")
         },
         ".focus-outset-danger": {
