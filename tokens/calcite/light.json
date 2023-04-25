@@ -1798,6 +1798,156 @@
             "type": "color"
           }
         }
+      },
+      "button": {
+        "font": {
+          "brand": {
+            "solid": {
+              "value": "$button.font.brand.solid.light",
+              "type": "color"
+            },
+            "outline-fill": {
+              "value": "$button.font.brand.outline-fill.light",
+              "type": "color"
+            },
+            "outline": {
+              "value": "$button.font.brand.outline.light",
+              "type": "color"
+            },
+            "transparent": {
+              "value": "$button.font.brand.transparent.light",
+              "type": "color"
+            }
+          },
+          "inverse": {
+            "solid": {
+              "value": "$button.font.inverse.solid.light",
+              "type": "color"
+            },
+            "outline-fill": {
+              "value": "$button.font.inverse.outline-fill.light",
+              "type": "color"
+            },
+            "outline": {
+              "value": "$button.font.inverse.outline.light",
+              "type": "color"
+            },
+            "transparent": {
+              "value": "$button.font.inverse.transparent.light",
+              "type": "color"
+            }
+          },
+          "neutral": {
+            "solid": {
+              "value": "$button.font.inverse.solid.light",
+              "type": "color"
+            },
+            "outline-fill": {
+              "value": "$button.font.inverse.outline-fill.light",
+              "type": "color"
+            },
+            "outline": {
+              "value": "$button.font.inverse.outline.light",
+              "type": "color"
+            },
+            "transparent": {
+              "value": "$button.font.inverse.transparent.light",
+              "type": "color"
+            }
+          },
+          "danger": {
+            "solid": {
+              "value": "$button.font.danger.solid.light",
+              "type": "color"
+            },
+            "outline-fill": {
+              "value": "$button.font.danger.outline-fill.light",
+              "type": "color"
+            },
+            "outline": {
+              "value": "$button.font.danger.outline.light",
+              "type": "color"
+            },
+            "transparent": {
+              "value": "$button.font.danger.transparent.light",
+              "type": "color"
+            }
+          }
+        },
+        "icon": {
+          "brand": {
+            "solid": {
+              "value": "$button.icon.brand.solid.light",
+              "type": "color"
+            },
+            "outline-fill": {
+              "value": "$button.font.brand.outline-fill.light",
+              "type": "color"
+            },
+            "outline": {
+              "value": "$button.font.brand.outline.light",
+              "type": "color"
+            },
+            "transparent": {
+              "value": "$button.font.brand.transparent.light",
+              "type": "color"
+            }
+          },
+          "inverse": {
+            "solid": {
+              "value": "$button.font.inverse.solid.light",
+              "type": "color"
+            },
+            "outline-fill": {
+              "value": "$button.font.inverse.outline-fill.light",
+              "type": "color"
+            },
+            "outline": {
+              "value": "$button.font.inverse.outline.light",
+              "type": "color"
+            },
+            "transparent": {
+              "value": "$button.font.inverse.transparent.light",
+              "type": "color"
+            }
+          },
+          "neutral": {
+            "solid": {
+              "value": "$button.font.inverse.solid.light",
+              "type": "color"
+            },
+            "outline-fill": {
+              "value": "$button.font.inverse.outline-fill.light",
+              "type": "color"
+            },
+            "outline": {
+              "value": "$button.font.inverse.outline.light",
+              "type": "color"
+            },
+            "transparent": {
+              "value": "$button.font.inverse.transparent.light",
+              "type": "color"
+            }
+          },
+          "danger": {
+            "solid": {
+              "value": "$button.font.danger.solid.light",
+              "type": "color"
+            },
+            "outline-fill": {
+              "value": "$button.font.danger.outline-fill.light",
+              "type": "color"
+            },
+            "outline": {
+              "value": "$button.font.danger.outline.light",
+              "type": "color"
+            },
+            "transparent": {
+              "value": "$button.font.danger.transparent.light",
+              "type": "color"
+            }
+          }
+        }
       }
     }
   }

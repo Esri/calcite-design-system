@@ -196,31 +196,31 @@
         },
         "outline-fill": {
           "light": {
-            "value": "$semantic.ui.color.danger.default.light",
+            "value": "$semantic.ui.color.brand.default.light",
             "type": "color"
           },
           "dark": {
-            "value": "$semantic.ui.color.danger.default.dark",
+            "value": "$semantic.ui.color.brand.default.dark",
             "type": "color"
           }
         },
         "outline": {
           "light": {
-            "value": "$semantic.ui.color.danger.default.light",
+            "value": "$semantic.ui.color.brand.default.light",
             "type": "color"
           },
           "dark": {
-            "value": "$semantic.ui.color.danger.default.dark",
+            "value": "$semantic.ui.color.brand.default.dark",
             "type": "color"
           }
         },
         "transparent": {
           "light": {
-            "value": "$semantic.ui.color.danger.default.light",
+            "value": "$semantic.ui.color.brand.default.light",
             "type": "color"
           },
           "dark": {
-            "value": "$semantic.ui.color.danger.default.dark",
+            "value": "$semantic.ui.color.brand.default.dark",
             "type": "color"
           }
         }
@@ -305,6 +305,48 @@
           },
           "dark": {
             "value": "$semantic.ui.color.text.1.dark",
+            "type": "color"
+          }
+        }
+      },
+      "danger": {
+        "solid": {
+          "light": {
+            "value": "$semantic.ui.color.foreground.1.light",
+            "type": "color"
+          },
+          "dark": {
+            "value": "$semantic.ui.color.foreground.1.dark",
+            "type": "color"
+          }
+        },
+        "outline-fill": {
+          "light": {
+            "value": "$semantic.ui.color.danger.default.light",
+            "type": "color"
+          },
+          "dark": {
+            "value": "$semantic.ui.color.danger.default.dark",
+            "type": "color"
+          }
+        },
+        "outline": {
+          "light": {
+            "value": "$semantic.ui.color.danger.default.light",
+            "type": "color"
+          },
+          "dark": {
+            "value": "$semantic.ui.color.danger.default.dark",
+            "type": "color"
+          }
+        },
+        "transparent": {
+          "light": {
+            "value": "$semantic.ui.color.danger.default.light",
+            "type": "color"
+          },
+          "dark": {
+            "value": "$semantic.ui.color.danger.default.dark",
             "type": "color"
           }
         }
