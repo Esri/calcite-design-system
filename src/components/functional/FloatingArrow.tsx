@@ -31,7 +31,7 @@ export const FloatingArrow: FunctionalComponent<FloatingArrowProps> = ({
     "M0,0" +
     ` H${width}` +
     ` L${width - svgX},${height}` +
-    ` Q${width / 2},${height} ${svgX},${height}` +
+    ` Q${svgX},${height} ${svgX},${height}` +
     " Z";
 
   const rotation = {
