@@ -14,8 +14,7 @@
 @include floatingUIArrow();
 
 .container {
-  @apply bg-foreground-1
-    text-color-1
+  @apply text-color-1
     text-n2-wrap
     relative
     overflow-hidden

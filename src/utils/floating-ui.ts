@@ -199,6 +199,10 @@ export interface FloatingUIComponent {
   reposition(delayed?: boolean): Promise<void>;
 }
 
+interface RepositionResult {
+  effectivePlacement: EffectivePlacement;
+}
+
 export const FloatingCSS = {
   animation: "calcite-floating-ui-anim",
   animationActive: "calcite-floating-ui-anim--active"
@@ -218,7 +222,7 @@ function getMiddleware({
   flipPlacements?: EffectivePlacement[];
   offsetDistance?: number;
   offsetSkidding?: number;
-  arrowEl?: HTMLElement;
+  arrowEl?: SVGElement;
   type: UIType;
 }): Middleware[] {
   const defaultMiddleware = [shift(), hide()];
@@ -314,9 +318,9 @@ export async function reposition(
   component: FloatingUIComponent,
   options: Parameters<typeof positionFloatingUI>[0],
   delayed = false
-): Promise<void> {
+): Promise<RepositionResult> {
   if (!component.open) {
-    return;
+    return { effectivePlacement: null };
   }
 
   return delayed ? debouncedReposition(options) : positionFloatingUI(options);
@@ -366,10 +370,10 @@ export async function positionFloatingUI({
   flipPlacements?: EffectivePlacement[];
   offsetDistance?: number;
   offsetSkidding?: number;
-  arrowEl?: HTMLElement;
+  arrowEl?: SVGElement;
   includeArrow?: boolean;
   type: UIType;
-}): Promise<void> {
+}): Promise<RepositionResult> {
   if (!referenceEl || !floatingEl || (includeArrow && !arrowEl)) {
     return null;
   }
@@ -424,6 +428,8 @@ export async function positionFloatingUI({
     left: "0",
     transform
   });
+
+  return { effectivePlacement };
 }
 
 /**

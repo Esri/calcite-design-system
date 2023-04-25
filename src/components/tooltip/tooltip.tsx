@@ -16,6 +16,7 @@ import {
   connectFloatingUI,
   defaultOffsetDistance,
   disconnectFloatingUI,
+  EffectivePlacement,
   FloatingCSS,
   FloatingUIComponent,
   LogicalPlacement,
@@ -33,6 +34,7 @@ import { ARIA_DESCRIBED_BY, CSS } from "./resources";
 
 import TooltipManager from "./TooltipManager";
 import { getEffectiveReferenceElement } from "./utils";
+import { FloatingArrow } from "../functional/FloatingArrow";
 
 const manager = new TooltipManager();
 
@@ -140,7 +142,9 @@ export class Tooltip implements FloatingUIComponent, OpenCloseComponent {
 
   @State() effectiveReferenceElement: ReferenceElement;
 
-  arrowEl: HTMLDivElement;
+  @State() effectivePlacement: EffectivePlacement = null;
+
+  arrowEl: SVGElement;
 
   guid = `calcite-tooltip-${guid()}`;
 
@@ -216,7 +220,7 @@ export class Tooltip implements FloatingUIComponent, OpenCloseComponent {
       arrowEl
     } = this;
 
-    return reposition(
+    const { effectivePlacement } = await reposition(
       this,
       {
         floatingEl: el,
@@ -231,6 +235,8 @@ export class Tooltip implements FloatingUIComponent, OpenCloseComponent {
       },
       delayed
     );
+
+    this.effectivePlacement = effectivePlacement;
   }
 
   // --------------------------------------------------------------------------
@@ -316,7 +322,7 @@ export class Tooltip implements FloatingUIComponent, OpenCloseComponent {
   // --------------------------------------------------------------------------
 
   render(): VNode {
-    const { effectiveReferenceElement, label, open } = this;
+    const { effectiveReferenceElement, label, open, effectivePlacement } = this;
     const displayed = effectiveReferenceElement && open;
     const hidden = !displayed;
 
@@ -337,8 +343,8 @@ export class Tooltip implements FloatingUIComponent, OpenCloseComponent {
           // eslint-disable-next-line react/jsx-sort-props
           ref={this.setTransitionEl}
         >
-          <div
-            class={CSS.arrow}
+          <FloatingArrow
+            effectivePlacement={effectivePlacement}
             // eslint-disable-next-line react/jsx-sort-props
             ref={(arrowEl) => (this.arrowEl = arrowEl)}
           />

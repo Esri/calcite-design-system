@@ -1,6 +1,5 @@
 export const CSS = {
-  container: "container",
-  arrow: "arrow"
+  container: "container"
 };
 
 export const TOOLTIP_DELAY_MS = 500;
