@@ -23,6 +23,7 @@ import {
   DEFAULT_STORAGE_KEY_PREFIX,
   DIMENSIONS,
   HSV_LIMITS,
+  OPACITY_LIMITS,
   RGB_LIMITS
 } from "./resources";
 import {
@@ -126,7 +127,7 @@ export class ColorPicker
 
   @Watch("color")
   handleColorChange(color: Color | null, oldColor: Color | null): void {
-    this.drawColorFieldAndSlider();
+    this.drawColorControls();
     this.updateChannelsFromColor(color);
     this.previousColor = oldColor;
   }
@@ -187,7 +188,10 @@ export class ColorPicker
   @Watch("scale")
   handleScaleChange(scale: Scale = "m"): void {
     this.updateDimensions(scale);
-    this.updateCanvasSize(this.fieldAndSliderRenderingContext?.canvas);
+    this.updateCanvasSize(this.colorFieldRenderingContext?.canvas, this.dimensions.colorField);
+    this.updateCanvasSize(this.hueSliderRenderingContext?.canvas, this.dimensions.slider);
+    this.updateCanvasSize(this.opacitySliderRenderingContext?.canvas, this.dimensions.slider);
+    this.drawColorControls();
   }
 
   /** Specifies the storage ID for colors. */
@@ -239,7 +243,7 @@ export class ColorPicker
       this.setMode(nextMode, true, this.internalColorUpdateContext === null);
     }
 
-    const dragging = this.sliderThumbState === "drag" || this.hueThumbState === "drag";
+    const dragging = this.activeCanvasInfo;
 
     if (this.internalColorUpdateContext === "initial") {
       return;
@@ -274,31 +278,34 @@ export class ColorPicker
   //
   //--------------------------------------------------------------------------
 
+  private activeCanvasInfo: {
+    context: CanvasRenderingContext2D;
+    bounds: DOMRect;
+  };
+
   private get baseColorFieldColor(): Color {
     return this.color || this.previousColor || DEFAULT_COLOR;
   }
 
-  private activeColorFieldAndSliderRect: DOMRect;
-
-  private colorFieldAndSliderHovered = false;
-
-  private fieldAndSliderRenderingContext: CanvasRenderingContext2D;
+  private colorFieldRenderingContext: CanvasRenderingContext2D;
 
   private colorFieldScopeNode: HTMLDivElement;
 
-  private hueThumbState: "idle" | "hover" | "drag" = "idle";
+  private hueSliderRenderingContext: CanvasRenderingContext2D;
 
   private hueScopeNode: HTMLDivElement;
 
   private internalColorUpdateContext: "internal" | "initial" | "user-interaction" | null = null;
 
-  private previousColor: InternalColor | null;
-
   private mode: SupportedMode = CSSColorMode.HEX;
 
-  private shiftKeyChannelAdjustment = 0;
+  private opacityScopeNode: HTMLDivElement;
 
-  private sliderThumbState: "idle" | "hover" | "drag" = "idle";
+  private opacitySliderRenderingContext: CanvasRenderingContext2D;
+
+  private previousColor: InternalColor | null;
+
+  private shiftKeyChannelAdjustment = 0;
 
   @State() defaultMessages: ColorPickerMessages;
 
@@ -331,11 +338,11 @@ export class ColorPicker
 
   @State() colorFieldScopeLeft: number;
 
-  @State() scopeOrientation: "vertical" | "horizontal";
-
   @State() hueScopeLeft: number;
 
-  @State() hueScopeTop: number;
+  @State() opacityScopeLeft: number;
+
+  @State() scopeOrientation: "vertical" | "horizontal";
 
   //--------------------------------------------------------------------------
   //
@@ -573,40 +580,60 @@ export class ColorPicker
     }
   };
 
-  private handleColorFieldAndSliderPointerLeave = (): void => {
-    this.colorFieldAndSliderInteractive = false;
-    this.colorFieldAndSliderHovered = false;
-
-    if (this.sliderThumbState !== "drag" && this.hueThumbState !== "drag") {
-      this.hueThumbState = "idle";
-      this.sliderThumbState = "idle";
-      this.drawColorFieldAndSlider();
-    }
-  };
-
-  private handleColorFieldAndSliderPointerDown = (event: PointerEvent): void => {
+  private handleColorFieldPointerDown = (event: PointerEvent): void => {
     if (!isPrimaryPointerButton(event)) {
       return;
     }
 
     const { offsetX, offsetY } = event;
-    const region = this.getCanvasRegion(offsetY);
 
-    if (region === "color-field") {
-      this.hueThumbState = "drag";
-      this.captureColorFieldColor(offsetX, offsetY);
-      this.colorFieldScopeNode?.focus();
-    } else if (region === "slider") {
-      this.sliderThumbState = "drag";
-      this.captureHueSliderColor(offsetX);
-      this.hueScopeNode?.focus();
-    }
+    this.captureColorFieldColor(offsetX, offsetY);
+    this.colorFieldScopeNode.focus();
 
     document.addEventListener("pointermove", this.globalPointerMoveHandler);
     document.addEventListener("pointerup", this.globalPointerUpHandler, { once: true });
 
-    this.activeColorFieldAndSliderRect =
-      this.fieldAndSliderRenderingContext.canvas.getBoundingClientRect();
+    this.activeCanvasInfo = {
+      context: this.colorFieldRenderingContext,
+      bounds: this.colorFieldRenderingContext.canvas.getBoundingClientRect()
+    };
+  };
+
+  private handleHueSliderPointerDown = (event: PointerEvent): void => {
+    if (!isPrimaryPointerButton(event)) {
+      return;
+    }
+
+    const { offsetX } = event;
+    this.captureHueSliderColor(offsetX);
+    this.hueScopeNode.focus();
+
+    document.addEventListener("pointermove", this.globalPointerMoveHandler);
+    document.addEventListener("pointerup", this.globalPointerUpHandler, { once: true });
+
+    this.activeCanvasInfo = {
+      context: this.hueSliderRenderingContext,
+      bounds: this.hueSliderRenderingContext.canvas.getBoundingClientRect()
+    };
+  };
+
+  private handleOpacitySliderPointerDown = (event: PointerEvent): void => {
+    if (!isPrimaryPointerButton(event)) {
+      return;
+    }
+
+    const { offsetX } = event;
+
+    this.captureOpacitySliderValue(offsetX);
+    this.opacityScopeNode.focus();
+
+    document.addEventListener("pointermove", this.globalPointerMoveHandler);
+    document.addEventListener("pointerup", this.globalPointerUpHandler, { once: true });
+
+    this.activeCanvasInfo = {
+      context: this.opacitySliderRenderingContext,
+      bounds: this.opacitySliderRenderingContext.canvas.getBoundingClientRect()
+    };
   };
 
   private globalPointerUpHandler = (event: PointerEvent): void => {
@@ -614,12 +641,9 @@ export class ColorPicker
       return;
     }
 
-    const previouslyDragging = this.sliderThumbState === "drag" || this.hueThumbState === "drag";
-
-    this.hueThumbState = "idle";
-    this.sliderThumbState = "idle";
-    this.activeColorFieldAndSliderRect = null;
-    this.drawColorFieldAndSlider();
+    const previouslyDragging = this.activeCanvasInfo;
+    this.activeCanvasInfo = null;
+    this.drawColorControls();
 
     if (previouslyDragging) {
       this.calciteColorPickerChange.emit();
@@ -627,130 +651,51 @@ export class ColorPicker
   };
 
   private globalPointerMoveHandler = (event: PointerEvent): void => {
-    const { el, dimensions } = this;
-    const sliderThumbDragging = this.sliderThumbState === "drag";
-    const hueThumbDragging = this.hueThumbState === "drag";
+    const { el } = this;
+    const activeCanvasInfo = this.activeCanvasInfo;
 
-    if (!el.isConnected || (!sliderThumbDragging && !hueThumbDragging)) {
+    if (!el.isConnected || !activeCanvasInfo || isPrimaryPointerButton(event)) {
       return;
     }
+
+    const { context, bounds } = activeCanvasInfo;
 
     let samplingX: number;
     let samplingY: number;
 
-    const colorFieldAndSliderRect = this.activeColorFieldAndSliderRect;
     const { clientX, clientY } = event;
 
-    if (this.colorFieldAndSliderHovered) {
-      samplingX = clientX - colorFieldAndSliderRect.x;
-      samplingY = clientY - colorFieldAndSliderRect.y;
+    if (context.canvas.matches(":hover")) {
+      samplingX = clientX - bounds.x;
+      samplingY = clientY - bounds.y;
     } else {
-      const colorFieldWidth = dimensions.colorField.width;
-      const colorFieldHeight = dimensions.colorField.height;
-      const hueSliderHeight = dimensions.slider.height;
+      // snap x and y to closest edge
 
-      if (
-        clientX < colorFieldAndSliderRect.x + colorFieldWidth &&
-        clientX > colorFieldAndSliderRect.x
-      ) {
-        samplingX = clientX - colorFieldAndSliderRect.x;
-      } else if (clientX < colorFieldAndSliderRect.x) {
+      if (clientX < bounds.x + bounds.width && clientX > bounds.x) {
+        samplingX = clientX - bounds.x;
+      } else if (clientX < bounds.x) {
         samplingX = 0;
       } else {
-        samplingX = colorFieldWidth - 1;
+        samplingX = bounds.width - 1;
       }
 
-      if (
-        clientY < colorFieldAndSliderRect.y + colorFieldHeight + hueSliderHeight &&
-        clientY > colorFieldAndSliderRect.y
-      ) {
-        samplingY = clientY - colorFieldAndSliderRect.y;
-      } else if (clientY < colorFieldAndSliderRect.y) {
+      if (clientY < bounds.y + bounds.height && clientY > bounds.y) {
+        samplingY = clientY - bounds.y;
+      } else if (clientY < bounds.y) {
         samplingY = 0;
       } else {
-        samplingY = colorFieldHeight + hueSliderHeight;
+        samplingY = bounds.height;
       }
     }
 
-    if (hueThumbDragging) {
+    console.log(samplingX, samplingY);
+
+    if (context === this.colorFieldRenderingContext) {
       this.captureColorFieldColor(samplingX, samplingY, false);
-    } else {
+    } else if (context === this.hueSliderRenderingContext) {
       this.captureHueSliderColor(samplingX);
-    }
-  };
-
-  private handleColorFieldAndSliderPointerEnterOrMove = ({
-    offsetX,
-    offsetY
-  }: PointerEvent): void => {
-    const {
-      dimensions: { colorField, slider, thumb }
-    } = this;
-
-    this.colorFieldAndSliderInteractive = offsetY <= colorField.height + slider.height;
-    this.colorFieldAndSliderHovered = true;
-
-    const region = this.getCanvasRegion(offsetY);
-
-    if (region === "color-field") {
-      const prevHueThumbState = this.hueThumbState;
-      const color = this.baseColorFieldColor.hsv();
-
-      const centerX = Math.round(color.saturationv() / (HSV_LIMITS.s / colorField.width));
-      const centerY = Math.round(
-        colorField.height - color.value() / (HSV_LIMITS.v / colorField.height)
-      );
-
-      const hoveringThumb = this.containsPoint(offsetX, offsetY, centerX, centerY, thumb.radius);
-
-      let transitionedBetweenHoverAndIdle = false;
-
-      if (prevHueThumbState === "idle" && hoveringThumb) {
-        this.hueThumbState = "hover";
-        transitionedBetweenHoverAndIdle = true;
-      } else if (prevHueThumbState === "hover" && !hoveringThumb) {
-        this.hueThumbState = "idle";
-        transitionedBetweenHoverAndIdle = true;
-      }
-
-      if (this.hueThumbState !== "drag") {
-        if (transitionedBetweenHoverAndIdle) {
-          // refresh since we won't update color and thus no redraw
-          this.drawColorFieldAndSlider();
-        }
-      }
-    } else if (region === "slider") {
-      const sliderThumbColor = this.baseColorFieldColor.hsv().saturationv(100).value(100);
-
-      const prevSliderThumbState = this.sliderThumbState;
-      const sliderThumbCenterX = Math.round(sliderThumbColor.hue() / (360 / slider.width));
-      const sliderThumbCenterY =
-        Math.round((slider.height + this.getSliderCapSpacing()) / 2) + colorField.height;
-
-      const hoveringSliderThumb = this.containsPoint(
-        offsetX,
-        offsetY,
-        sliderThumbCenterX,
-        sliderThumbCenterY,
-        thumb.radius
-      );
-
-      let sliderThumbTransitionedBetweenHoverAndIdle = false;
-
-      if (prevSliderThumbState === "idle" && hoveringSliderThumb) {
-        this.sliderThumbState = "hover";
-        sliderThumbTransitionedBetweenHoverAndIdle = true;
-      } else if (prevSliderThumbState === "hover" && !hoveringSliderThumb) {
-        this.sliderThumbState = "idle";
-        sliderThumbTransitionedBetweenHoverAndIdle = true;
-      }
-
-      if (this.sliderThumbState !== "drag") {
-        if (sliderThumbTransitionedBetweenHoverAndIdle) {
-          // refresh since we won't update color and thus no redraw
-          this.drawColorFieldAndSlider();
-        }
-      }
+    } else if (context === this.opacitySliderRenderingContext) {
+      this.captureOpacitySliderValue(samplingX);
     }
   };
 
@@ -850,15 +795,20 @@ export class ColorPicker
       colorFieldScopeTop,
       colorFieldScopeLeft,
       hueScopeLeft,
-      hueScopeTop,
+      opacityScopeLeft,
       scopeOrientation,
       dimensions: {
-        colorField: { height: colorFieldHeight, width: colorFieldWidth },
-        slider: { height: sliderHeight }
+        colorField: { width: colorFieldWidth },
+        slider: { width: sliderWidth },
+        thumb: { radius: thumbRadius }
       }
     } = this;
-    const hueTop = hueScopeTop ?? sliderHeight / 2 + colorFieldHeight;
-    const hueLeft = hueScopeLeft ?? (colorFieldWidth * DEFAULT_COLOR.hue()) / HSV_LIMITS.h;
+    const hueTop = thumbRadius;
+    const hueLeft = hueScopeLeft ?? (sliderWidth * DEFAULT_COLOR.hue()) / HSV_LIMITS.h;
+    const opacityTop = thumbRadius;
+    const opacityLeft =
+      opacityScopeLeft ??
+      (colorFieldWidth * alphaToOpacity(DEFAULT_COLOR.alpha())) / OPACITY_LIMITS.max;
     const noColor = color === null;
     const vertical = scopeOrientation === "vertical";
     const noHex = hexDisabled || hideHex;
@@ -867,16 +817,13 @@ export class ColorPicker
 
     return (
       <div class={CSS.container}>
-        <div class={CSS.colorFieldAndSliderWrap}>
+        <div class={CSS.controlAndScope}>
           <canvas
             class={{
               [CSS.colorFieldAndSlider]: true,
               [CSS.colorFieldAndSliderInteractive]: colorFieldAndSliderInteractive
             }}
-            onPointerDown={this.handleColorFieldAndSliderPointerDown}
-            onPointerEnter={this.handleColorFieldAndSliderPointerEnterOrMove}
-            onPointerLeave={this.handleColorFieldAndSliderPointerLeave}
-            onPointerMove={this.handleColorFieldAndSliderPointerEnterOrMove}
+            onPointerDown={this.handleColorFieldPointerDown}
             // eslint-disable-next-line react/jsx-sort-props
             ref={this.initColorFieldAndSlider}
           />
@@ -893,19 +840,73 @@ export class ColorPicker
             // eslint-disable-next-line react/jsx-sort-props
             ref={this.storeColorFieldScope}
           />
-          <div
-            aria-label={messages.hue}
-            aria-valuemax={HSV_LIMITS.h}
-            aria-valuemin="0"
-            aria-valuenow={color?.round().hue() || DEFAULT_COLOR.round().hue()}
-            class={{ [CSS.scope]: true, [CSS.hueScope]: true }}
-            onKeyDown={this.handleHueScopeKeyDown}
-            role="slider"
-            style={{ top: `${hueTop}px`, left: `${hueLeft}px` }}
-            tabindex="0"
-            // eslint-disable-next-line react/jsx-sort-props
-            ref={this.storeHueScope}
-          />
+        </div>
+        <div class={CSS.previewAndSliders}>
+          <calcite-color-picker-swatch class={CSS.preview} color={selectedColorInHex} scale="l" />
+          <div class={CSS.sliders}>
+            <div class={CSS.controlAndScope}>
+              <canvas
+                class={CSS.hueSlider}
+                onPointerDown={this.handleHueSliderPointerDown}
+                ref={(canvas) => {
+                  const { dimensions } = this;
+                  this.hueSliderRenderingContext = canvas.getContext("2d");
+                  this.updateCanvasSize(canvas, {
+                    width: dimensions.slider.width,
+                    height:
+                      dimensions.slider.height +
+                      (dimensions.thumb.radius - dimensions.slider.height / 2) * 2
+                  });
+                  this.drawHueSlider();
+                }}
+              />
+              <div
+                aria-label={messages.hue}
+                aria-valuemax={HSV_LIMITS.h}
+                aria-valuemin="0"
+                aria-valuenow={color?.round().hue() || DEFAULT_COLOR.round().hue()}
+                class={{ [CSS.scope]: true, [CSS.hueScope]: true }}
+                onKeyDown={this.handleHueScopeKeyDown}
+                role="slider"
+                style={{ top: `${hueTop}px`, left: `${hueLeft}px` }}
+                tabindex="0"
+                // eslint-disable-next-line react/jsx-sort-props
+                ref={this.storeHueScope}
+              />
+            </div>
+            {alphaEnabled ? (
+              <div class={CSS.controlAndScope}>
+                <canvas
+                  class={CSS.opacitySlider}
+                  onPointerDown={this.handleOpacitySliderPointerDown}
+                  ref={(canvas) => {
+                    const { dimensions } = this;
+                    this.opacitySliderRenderingContext = canvas.getContext("2d");
+                    this.updateCanvasSize(canvas, {
+                      width: dimensions.slider.width,
+                      height:
+                        dimensions.slider.height +
+                        (dimensions.thumb.radius - dimensions.slider.height / 2) * 2
+                    });
+                    this.drawOpacitySlider();
+                  }}
+                />
+                <div
+                  aria-label={messages.opacity}
+                  aria-valuemax={OPACITY_LIMITS.max}
+                  aria-valuemin={OPACITY_LIMITS.min}
+                  aria-valuenow={(color || DEFAULT_COLOR).round().alpha()}
+                  class={{ [CSS.scope]: true, [CSS.opacityScope]: true }}
+                  onKeyDown={this.handleOpacityScopeKeyDown}
+                  role="slider"
+                  style={{ top: `${opacityTop}px`, left: `${opacityLeft}px` }}
+                  tabindex="0"
+                  // eslint-disable-next-line react/jsx-sort-props
+                  ref={this.storeOpacityScope}
+                />
+              </div>
+            ) : null}
+          </div>
         </div>
         {noHex && noChannels ? null : (
           <div
@@ -923,7 +924,7 @@ export class ColorPicker
                       [CSS.headerSpaced]: true
                     }}
                   >
-                    {messages.hex}
+                    {/* intentionally empty, need to restructure */}
                   </span>
                   <calcite-color-picker-hex-input
                     allowEmpty={allowEmpty}
@@ -943,7 +944,7 @@ export class ColorPicker
                     [CSS.splitSection]: true
                   }}
                 >
-                  <calcite-tab-nav slot="tab-nav">
+                  <calcite-tab-nav slot="title-group">
                     {this.renderChannelsTabTitle("rgb")}
                     {this.renderChannelsTabTitle("hsv")}
                   </calcite-tab-nav>
@@ -952,7 +953,6 @@ export class ColorPicker
                 </calcite-tabs>
               )}
             </div>
-            {alphaEnabled ? this.renderOpacitySection() : null}
           </div>
         )}
         {noSaved ? null : (
@@ -1008,50 +1008,6 @@ export class ColorPicker
     );
   }
 
-  private renderOpacitySection(): VNode {
-    const { color, messages, previousColor } = this;
-    const sliderOpacity = alphaToOpacity((color ? color : previousColor).alpha()); // slider keeps previous alpha when null
-    const inputOpacity = color ? alphaToOpacity(color.alpha()).toString() : undefined;
-
-    return (
-      <div class={CSS.hexOptions} key="opacity">
-        <span
-          class={{
-            [CSS.header]: true,
-            [CSS.headerSpaced]: true
-          }}
-        >
-          {messages.opacity}
-        </span>
-        <div class={CSS.opacityControlGroup}>
-          <calcite-slider
-            aria-label={messages.opacity}
-            class={CSS.opacitySlider}
-            max={100}
-            min={0}
-            onCalciteSliderInput={this.handleOpacitySliderInput}
-            step={1}
-            value={sliderOpacity}
-          />
-          <calcite-input
-            aria-label={messages.opacity}
-            class={CSS.opacityInput}
-            max={100}
-            min={0}
-            numberButtonType="none"
-            onCalciteInputChange={this.handleOpacityInputChange}
-            onCalciteInputInput={this.handleOpacityInputInput}
-            scale={this.scale === "l" ? "m" : "s"}
-            step={1}
-            suffixText="%"
-            type="number"
-            value={inputOpacity}
-          />
-        </div>
-      </div>
-    );
-  }
-
   private storeColorFieldScope = (node: HTMLDivElement): void => {
     this.colorFieldScopeNode = node;
   };
@@ -1082,9 +1038,6 @@ export class ColorPicker
     const { channelMode: activeChannelMode, channels, messages } = this;
     const selected = channelMode === activeChannelMode;
     const isRgb = channelMode === "rgb";
-    const channelLabels = isRgb
-      ? [messages.r, messages.g, messages.b]
-      : [messages.h, messages.s, messages.v];
     const channelAriaLabels = isRgb
       ? [messages.red, messages.green, messages.blue]
       : [messages.hue, messages.saturation, messages.value];
@@ -1096,13 +1049,7 @@ export class ColorPicker
         <div class={CSS.channels} dir="ltr">
           {channels.map((channel, index) =>
             /* the channel container is ltr, so we apply the host's direction */
-            this.renderChannel(
-              channel,
-              index,
-              channelLabels[index],
-              channelAriaLabels[index],
-              direction
-            )
+            this.renderChannel(channel, index, channelAriaLabels[index], direction)
           )}
         </div>
       </calcite-tab>
@@ -1112,7 +1059,6 @@ export class ColorPicker
   private renderChannel = (
     value: number | null,
     index: number,
-    label: string,
     ariaLabel: string,
     direction: Direction
   ): VNode => (
@@ -1127,7 +1073,6 @@ export class ColorPicker
       onCalciteInputChange={this.handleChannelChange}
       onCalciteInputInput={this.handleChannelInput}
       onKeyDown={this.handleKeyDown}
-      prefixText={label}
       scale={this.scale === "l" ? "m" : "s"}
       type="number"
       value={value?.toString()}
@@ -1200,7 +1145,18 @@ export class ColorPicker
     this.internalColorSet(this.baseColorFieldColor.hue(hue), false);
   }
 
-  private getCanvasRegion(y: number): "color-field" | "slider" | "none" {
+  private captureOpacitySliderValue(x: number): void {
+    const {
+      dimensions: {
+        slider: { width }
+      }
+    } = this;
+    const alpha = opacityToAlpha((OPACITY_LIMITS.max / width) * x);
+
+    this.internalColorSet(this.baseColorFieldColor.alpha(alpha), false);
+  }
+
+  private getCanvasRegion(y: number): "color-field" | "hue-slider" | "opacity-slider" | "none" {
     const {
       dimensions: {
         colorField: { height: colorFieldHeight },
@@ -1212,8 +1168,14 @@ export class ColorPicker
       return "color-field";
     }
 
+    // TODO: fine-tune to include horizontal coords
+
     if (y <= colorFieldHeight + sliderHeight) {
-      return "slider";
+      return "hue-slider";
+    }
+
+    if (y <= colorFieldHeight + sliderHeight * 2) {
+      return "opacity-slider";
     }
 
     return "none";
@@ -1314,17 +1276,30 @@ export class ColorPicker
     }
   };
 
-  private drawColorFieldAndSlider = throttle((): void => {
-    if (!this.fieldAndSliderRenderingContext) {
-      return;
-    }
+  private drawColorControls = throttle(
+    (type: "all" | "color-field" | "hue-slider" | "opacity-slider" = "all"): void => {
+      if ((type === "all" || type === "color-field") && this.colorFieldRenderingContext) {
+        this.drawColorField();
+      }
 
-    this.drawColorField();
-    this.drawHueSlider();
-  }, throttleFor60FpsInMs);
+      if ((type === "all" || type === "hue-slider") && this.hueSliderRenderingContext) {
+        // TODO: allow specifying y coordinate for sliders based on alpha or not
+        this.drawHueSlider();
+      }
+
+      if (
+        this.alphaEnabled &&
+        (type === "all" || type === "opacity-slider") &&
+        this.opacitySliderRenderingContext
+      ) {
+        this.drawOpacitySlider();
+      }
+    },
+    throttleFor60FpsInMs
+  );
 
   private drawColorField(): void {
-    const context = this.fieldAndSliderRenderingContext;
+    const context = this.colorFieldRenderingContext;
     const {
       dimensions: {
         colorField: { height, width }
@@ -1385,24 +1360,20 @@ export class ColorPicker
   };
 
   private initColorFieldAndSlider = (canvas: HTMLCanvasElement): void => {
-    this.fieldAndSliderRenderingContext = canvas.getContext("2d");
-    this.updateCanvasSize(canvas);
+    this.colorFieldRenderingContext = canvas.getContext("2d");
+    this.updateCanvasSize(canvas, this.dimensions.colorField);
+    this.drawColorControls();
   };
 
-  private updateCanvasSize(canvas: HTMLCanvasElement) {
+  private updateCanvasSize(
+    canvas: HTMLCanvasElement,
+    { width, height }: { width: number; height: number }
+  ) {
     if (!canvas) {
       return;
     }
 
-    this.setCanvasContextSize(canvas, {
-      width: this.dimensions.colorField.width,
-      height:
-        this.dimensions.colorField.height +
-        this.dimensions.slider.height +
-        this.getSliderCapSpacing() * 2
-    });
-
-    this.drawColorFieldAndSlider();
+    this.setCanvasContextSize(canvas, { width, height });
   }
 
   private containsPoint(
@@ -1442,7 +1413,7 @@ export class ColorPicker
       this.colorFieldScopeTop = y;
     });
 
-    this.drawThumb(this.fieldAndSliderRenderingContext, radius, x, y, hsvColor, this.hueThumbState);
+    this.drawThumb(this.colorFieldRenderingContext, radius, x, y, hsvColor);
   }
 
   private drawThumb(
@@ -1450,23 +1421,23 @@ export class ColorPicker
     radius: number,
     x: number,
     y: number,
-    color: Color,
-    state: "idle" | "hover" | "drag"
+    color: Color
   ): void {
     const startAngle = 0;
     const endAngle = 2 * Math.PI;
+    const outlineWidth = 1;
+    radius = radius - outlineWidth;
 
     context.beginPath();
     context.arc(x, y, radius, startAngle, endAngle);
-    context.shadowBlur = state === "hover" ? 32 : 16;
-    context.shadowColor = `rgba(0, 0, 0, ${state === "drag" ? 0.32 : 0.16})`;
     context.fillStyle = "#fff";
     context.fill();
+    context.strokeStyle = "rgba(0,0,0,0.3)";
+    context.lineWidth = outlineWidth;
+    context.stroke();
 
     context.beginPath();
     context.arc(x, y, radius - 3, startAngle, endAngle);
-    context.shadowBlur = 0;
-    context.shadowColor = "transparent";
     context.fillStyle = color.rgb().alpha(1).string();
     context.fill();
   }
@@ -1482,38 +1453,32 @@ export class ColorPicker
 
     const {
       dimensions: {
-        colorField: { height: colorFieldHeight },
         slider: { height, width },
         thumb: { radius }
       }
     } = this;
 
     const x = hsvColor.hue() / (360 / width);
-    const y = height / 2 + colorFieldHeight;
+    const y = radius - height / 2 + height / 2;
 
     requestAnimationFrame(() => {
       this.hueScopeLeft = x;
-      this.hueScopeTop = y;
     });
 
-    this.drawThumb(
-      this.fieldAndSliderRenderingContext,
-      radius,
-      x,
-      y,
-      hsvColor,
-      this.sliderThumbState
-    );
+    this.drawThumb(this.hueSliderRenderingContext, radius, x, y, hsvColor);
   }
 
   private drawHueSlider(): void {
-    const context = this.fieldAndSliderRenderingContext;
+    const context = this.hueSliderRenderingContext;
     const {
       dimensions: {
-        colorField: { height: colorFieldHeight },
-        slider: { height, width }
+        slider: { height, width },
+        thumb: { radius: thumbRadius }
       }
     } = this;
+
+    const x = 0;
+    const y = thumbRadius - height / 2;
 
     const gradient = context.createLinearGradient(0, 0, width, 0);
 
@@ -1527,12 +1492,148 @@ export class ColorPicker
       currentOffset += offset;
     });
 
+    context.clearRect(0, 0, width, height + this.getSliderCapSpacing() * 2);
+
+    const radius = height / 2;
+    context.beginPath();
+    context.moveTo(x + radius, y);
+    context.lineTo(x + width - radius, y);
+    context.quadraticCurveTo(x + width, y, x + width, y + radius);
+    context.lineTo(x + width, y + height - radius);
+    context.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
+    context.lineTo(x + radius, y + height);
+    context.quadraticCurveTo(x, y + height, x, y + height - radius);
+    context.lineTo(x, y + radius);
+    context.quadraticCurveTo(x, y, x + radius, y);
+    context.closePath();
+
     context.fillStyle = gradient;
-    context.clearRect(0, colorFieldHeight, width, height + this.getSliderCapSpacing() * 2);
-    context.fillRect(0, colorFieldHeight, width, height);
+    context.fill();
+
+    context.strokeStyle = "rgba(0,0,0,0.3)";
+    context.lineWidth = 1;
+    context.stroke();
 
     this.drawActiveHueSliderColor();
   }
+
+  private drawOpacitySlider(): void {
+    const context = this.opacitySliderRenderingContext;
+    const {
+      color,
+      dimensions: {
+        slider: { height, width },
+        thumb: { radius: thumbRadius }
+      }
+    } = this;
+
+    const x = 0;
+    const y = thumbRadius - height / 2;
+
+    context.clearRect(0, y, width, height + this.getSliderCapSpacing() * 2);
+
+    const gradient = context.createLinearGradient(0, y, width, 0);
+    const startColor = color.rgb().alpha(0);
+    const midColor = color.rgb().alpha(0.5);
+    const endColor = color.rgb().alpha(1);
+
+    gradient.addColorStop(0, startColor.string());
+    gradient.addColorStop(0.5, midColor.string());
+    gradient.addColorStop(1, endColor.string());
+
+    function getCheckeredBackgroundPattern() {
+      // Create a canvas element for the pattern
+      const patternCanvas = document.createElement("canvas");
+      patternCanvas.width = 10;
+      patternCanvas.height = 10;
+      const patternContext = patternCanvas.getContext("2d");
+
+      // Draw the checkered pattern
+      patternContext.fillStyle = "#ccc";
+      patternContext.fillRect(0, 0, 10, 10);
+      patternContext.fillStyle = "#fff";
+      patternContext.fillRect(0, 0, 5, 5);
+      patternContext.fillRect(5, 5, 5, 5);
+
+      // Return the pattern canvas
+      return patternCanvas;
+    }
+
+    const radius = height / 2;
+    context.beginPath();
+    context.moveTo(x + radius, y);
+    context.lineTo(x + width - radius, y);
+    context.quadraticCurveTo(x + width, y, x + width, y + radius);
+    context.lineTo(x + width, y + height - radius);
+    context.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
+    context.lineTo(x + radius, y + height);
+    context.quadraticCurveTo(x, y + height, x, y + height - radius);
+    context.lineTo(x, y + radius);
+    context.quadraticCurveTo(x, y, x + radius, y);
+    context.closePath();
+
+    const pattern = context.createPattern(getCheckeredBackgroundPattern(), "repeat");
+    context.fillStyle = pattern;
+    context.fill();
+
+    context.fillStyle = gradient;
+    context.fill();
+
+    context.strokeStyle = "rgba(0,0,0,0.3)";
+    context.lineWidth = 1;
+    context.stroke();
+
+    this.drawActiveOpacitySliderColor();
+  }
+
+  private drawActiveOpacitySliderColor(): void {
+    const { color } = this;
+
+    if (!color) {
+      return;
+    }
+
+    const hsvColor = color;
+
+    const {
+      dimensions: {
+        slider: { height, width },
+        thumb: { radius }
+      }
+    } = this;
+
+    const x = alphaToOpacity(hsvColor.alpha()) / (OPACITY_LIMITS.max / width);
+    const y = radius - height / 2 + height / 2;
+
+    requestAnimationFrame(() => {
+      this.opacityScopeLeft = x;
+    });
+
+    this.drawThumb(this.opacitySliderRenderingContext, radius, x, y, hsvColor);
+  }
+
+  private storeOpacityScope = (node: HTMLDivElement): void => {
+    this.opacityScopeNode = node;
+  };
+
+  private handleOpacityScopeKeyDown = (event: KeyboardEvent): void => {
+    const modifier = event.shiftKey ? 10 : 1;
+    const { key } = event;
+    const arrowKeyToXOffset = {
+      ArrowUp: 1,
+      ArrowRight: 1,
+      ArrowDown: -1,
+      ArrowLeft: -1
+    };
+
+    if (arrowKeyToXOffset[key]) {
+      event.preventDefault();
+      const delta = opacityToAlpha(arrowKeyToXOffset[key] * modifier);
+      const alpha = this.baseColorFieldColor.alpha();
+      const color = this.baseColorFieldColor.alpha(alpha + delta);
+      this.internalColorSet(color, false);
+    }
+  };
 
   private updateColorFromChannels(channels: this["channels"]): void {
     this.internalColorSet(

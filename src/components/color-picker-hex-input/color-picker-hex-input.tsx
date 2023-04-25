@@ -19,7 +19,9 @@ import {
   isValidHex,
   normalizeHex,
   rgbToHex,
-  canConvertToHexa
+  canConvertToHexa,
+  alphaToOpacity,
+  opacityToAlpha
 } from "../color-picker/utils";
 import { CSS } from "./resources";
 import { Scale } from "../interfaces";
@@ -33,6 +35,7 @@ import {
   setUpLoadableComponent
 } from "../../utils/loadable";
 import { NumberingSystem } from "../../utils/locale";
+import { OPACITY_LIMITS } from "../color-picker/resources";
 
 const DEFAULT_COLOR = Color();
 
@@ -245,7 +248,7 @@ export class ColorPickerHexInput implements LoadableComponent {
   //--------------------------------------------------------------------------
 
   render(): VNode {
-    const { alphaEnabled, value } = this;
+    const { alphaEnabled, internalColor, value } = this;
     const hexInputValue = this.formatForInternalInput(value);
     return (
       <div class={CSS.container}>
@@ -265,16 +268,22 @@ export class ColorPickerHexInput implements LoadableComponent {
           ref={this.storeInputRef}
         />
         {alphaEnabled ? (
-          <calcite-input
+          <calcite-input-number
             class={CSS.opacityInput}
             label={"OPACITY"}
+            max={OPACITY_LIMITS.max}
             maxLength={3}
+            min={OPACITY_LIMITS.min}
+            numberButtonType="none"
             numberingSystem={this.numberingSystem}
-            onCalciteInputChange={this.onInputChange}
+            onCalciteInputNumberChange={(event) => {
+              const alpha = opacityToAlpha(Number(event.target.value));
+              this.internalSetValue(this.internalColor.rgb().alpha(alpha).hexa(), this.value);
+            }}
             onKeyDown={this.handleKeyDown}
             scale={this.scale}
             suffixText="%"
-            value="100"
+            value={`${alphaToOpacity(internalColor.alpha())}`}
           />
         ) : null}
       </div>

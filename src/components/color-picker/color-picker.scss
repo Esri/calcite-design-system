@@ -1,4 +1,5 @@
-$section-padding: 12px;
+$section-padding--small: 8px;
+$section-padding--medium: 12px;
 $section-padding--large: 16px;
 $gap: 8px;
 $gap--small: 4px;
@@ -12,6 +13,8 @@ $inline-input-width: 31%;
 @include disabled();
 
 :host([scale="s"]) {
+  --calcite-color-picker-section-padding: 8px;
+
   .container {
     inline-size: 160px;
   }
@@ -20,12 +23,7 @@ $inline-input-width: 31%;
     grid-template-columns: repeat(auto-fill, minmax(20px, 1fr));
   }
 
-  .channels {
-    flex-direction: column;
-  }
-
   .channel {
-    inline-size: 100%;
     margin-block-end: $gap--small;
 
     &:last-child {
@@ -39,6 +37,8 @@ $inline-input-width: 31%;
 }
 
 :host([scale="m"]) {
+  --calcite-color-picker-section-padding: 12px;
+
   .container {
     inline-size: 272px;
   }
@@ -55,20 +55,15 @@ $inline-input-width: 31%;
 }
 
 :host([scale="l"]) {
+  --calcite-color-picker-section-padding: 16px;
+
   @apply text-n1h;
 
   .container {
     inline-size: 464px;
   }
 
-  .color-field-and-slider {
-    margin-block-end: -20px;
-  }
-
   .section {
-    padding-block: 0 $section-padding--large;
-    padding-inline: $section-padding--large;
-
     &:first-of-type {
       padding-block-start: $section-padding--large;
     }
@@ -101,8 +96,6 @@ $inline-input-width: 31%;
       flex-shrink
       flex-col
       justify-around;
-    min-block-size: 98px;
-    inline-size: 160px;
   }
 
   .color-mode-container {
@@ -116,29 +109,23 @@ $inline-input-width: 31%;
   border: 1px solid var(--calcite-ui-border-1);
 }
 
-.color-field-and-slider-wrap {
-  position: relative;
+.preview {
+  // todo: drop?
+}
+
+.control-and-scope {
+  @apply flex relative cursor-pointer touch-none;
 }
 
 .scope {
   @apply text-n1
     focus-base
-    absolute;
-
-  outline-offset: 14px;
+    absolute
+    z-default;
 
   &:focus {
     @apply focus-outset;
     outline-offset: 16px;
-  }
-}
-
-.color-field-and-slider {
-  margin-block-end: -16px;
-  touch-action: none;
-
-  &--interactive {
-    cursor: pointer;
   }
 }
 
@@ -153,12 +140,22 @@ $inline-input-width: 31%;
 }
 
 .section {
-  padding-block: 0 $section-padding;
-  padding-inline: $section-padding;
+  padding-block: 0 $section-padding--small;
+  padding-inline: $section-padding--small;
 
   &:first-of-type {
-    padding-block-start: $section-padding;
+    padding-block-start: $section-padding--small;
   }
+}
+
+.sliders {
+  @apply flex flex-col justify-around;
+}
+
+.preview-and-sliders {
+  @apply flex gap-x-2;
+  padding-inline: theme("spacing.2");
+  margin-block: theme("spacing.2");
 }
 
 .color-hex-options,
@@ -184,22 +181,22 @@ $inline-input-width: 31%;
     pb-1;
 }
 
-.header--spaced,
 .color-mode-container {
-  padding-block-start: $section-padding;
+  padding-block-start: $section-padding--small;
 }
 
 .channels {
   display: flex;
-  justify-content: space-between;
 }
 
 .channel {
-  inline-size: $inline-input-width;
+  &:nth-child(n + 2) {
+    margin-inline-start: -1px;
+  }
 }
 
 .saved-colors {
-  padding-block-start: $section-padding;
+  padding-block-start: $section-padding--small;
   display: -ms-grid;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(24px, 1fr));
