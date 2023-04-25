@@ -380,7 +380,6 @@ export class Popover
         flipPlacements: filteredFlipPlacements,
         offsetDistance,
         offsetSkidding,
-        includeArrow: !this.pointerDisabled,
         arrowEl,
         type: "popover"
       },

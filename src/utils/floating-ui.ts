@@ -358,7 +358,6 @@ export async function positionFloatingUI({
   flipPlacements,
   offsetDistance,
   offsetSkidding,
-  includeArrow = false,
   arrowEl,
   type
 }: {
@@ -374,7 +373,7 @@ export async function positionFloatingUI({
   includeArrow?: boolean;
   type: UIType;
 }): Promise<RepositionResult> {
-  if (!referenceEl || !floatingEl || (includeArrow && !arrowEl)) {
+  if (!referenceEl || !floatingEl) {
     return null;
   }
 
@@ -403,7 +402,7 @@ export async function positionFloatingUI({
     })
   });
 
-  if (middlewareData?.arrow) {
+  if (arrowEl && middlewareData?.arrow) {
     const { x: arrowX, y: arrowY } = middlewareData.arrow;
 
     Object.assign(arrowEl.style, {

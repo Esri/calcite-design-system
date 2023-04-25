@@ -229,7 +229,6 @@ export class Tooltip implements FloatingUIComponent, OpenCloseComponent {
         placement,
         offsetDistance,
         offsetSkidding,
-        includeArrow: true,
         arrowEl,
         type: "tooltip"
       },
