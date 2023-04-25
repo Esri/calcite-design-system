@@ -194,6 +194,16 @@
     },
     "border": {
       "brand": {
+        "solid": {
+          "light": {
+            "value": "$semantic.ui.color.brand.default.light",
+            "type": "color"
+          },
+          "dark": {
+            "value": "$semantic.ui.color.brand.default.dark",
+            "type": "color"
+          }
+        },
         "outline-fill": {
           "light": {
             "value": "$semantic.ui.color.brand.default.light",
@@ -206,6 +216,16 @@
         }
       },
       "inverse": {
+        "solid": {
+          "light": {
+            "value": "$semantic.ui.color.inverse.light",
+            "type": "color"
+          },
+          "dark": {
+            "value": "$semantic.ui.color.inverse.dark",
+            "type": "color"
+          }
+        },
         "outline-fill": {
           "light": {
             "value": "$semantic.ui.color.inverse.light",
@@ -218,9 +238,19 @@
         }
       },
       "neutral": {
+        "solid": {
+          "light": {
+            "value": "$semantic.ui.color.border.1.light",
+            "type": "color"
+          },
+          "dark": {
+            "value": "$semantic.ui.color.border.3.dark",
+            "type": "color"
+          }
+        },
         "outline-fill": {
           "light": {
-            "value": "$semantic.ui.color.border.3.light",
+            "value": "$semantic.ui.color.border.1.light",
             "type": "color"
           },
           "dark": {
@@ -230,6 +260,16 @@
         }
       },
       "danger": {
+        "solid": {
+          "light": {
+            "value": "$semantic.ui.color.danger.default.light",
+            "type": "color"
+          },
+          "dark": {
+            "value": "$semantic.ui.color.danger.default.dark",
+            "type": "color"
+          }
+        },
         "outline-fill": {
           "light": {
             "value": "$semantic.ui.color.danger.default.light",
