@@ -369,7 +369,7 @@ export class Popover
       offsetSkidding,
       arrowEl
     } = this;
-    const { effectivePlacement } = await reposition(
+    const repositionResult = await reposition(
       this,
       {
         floatingEl: el,
@@ -386,7 +386,7 @@ export class Popover
       delayed
     );
 
-    this.effectivePlacement = effectivePlacement;
+    this.effectivePlacement = repositionResult?.effectivePlacement ?? null;
   }
 
   /**

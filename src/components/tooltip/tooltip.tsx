@@ -220,7 +220,7 @@ export class Tooltip implements FloatingUIComponent, OpenCloseComponent {
       arrowEl
     } = this;
 
-    const { effectivePlacement } = await reposition(
+    const repositionResult = await reposition(
       this,
       {
         floatingEl: el,
@@ -235,7 +235,7 @@ export class Tooltip implements FloatingUIComponent, OpenCloseComponent {
       delayed
     );
 
-    this.effectivePlacement = effectivePlacement;
+    this.effectivePlacement = repositionResult?.effectivePlacement ?? null;
   }
 
   // --------------------------------------------------------------------------
