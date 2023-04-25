@@ -380,11 +380,17 @@ export class Chip
         ? "checkbox"
         : this.selectionMode !== "none" && this.interactive
         ? "radio"
+        : this.interactive
+        ? "button"
         : undefined;
     return (
       <Host>
         <div
-          aria-checked={this.interactive ? toAriaBoolean(this.selected) : undefined}
+          aria-checked={
+            this.selectionMode !== "none" && this.interactive
+              ? toAriaBoolean(this.selected)
+              : undefined
+          }
           aria-disabled={disableInteraction ? toAriaBoolean(this.disabled) : undefined}
           aria-label={this.label}
           class={{
