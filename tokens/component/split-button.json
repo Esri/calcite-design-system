@@ -646,6 +646,14 @@
           "value": "$core.spacing.4",
           "type": "spacing"
         }
+      },
+      "divider": {
+        "solid": {
+          "top-bottom": {
+            "value": "$core.spacing.1",
+            "type": "spacing"
+          }
+        }
       }
     },
     "divider": {
