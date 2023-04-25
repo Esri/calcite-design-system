@@ -1776,6 +1776,240 @@
             "type": "color"
           }
         }
+      },
+      "button": {
+        "font": {
+          "brand": {
+            "solid": {
+              "value": "$button.font.brand.solid.dark",
+              "type": "color"
+            },
+            "outline-fill": {
+              "value": "$button.font.brand.outline-fill.dark",
+              "type": "color"
+            },
+            "outline": {
+              "value": "$button.font.brand.outline.dark",
+              "type": "color"
+            },
+            "transparent": {
+              "value": "$button.font.brand.transparent.dark",
+              "type": "color"
+            }
+          },
+          "inverse": {
+            "solid": {
+              "value": "$button.font.inverse.solid.dark",
+              "type": "color"
+            },
+            "outline-fill": {
+              "value": "$button.font.inverse.outline-fill.dark",
+              "type": "color"
+            },
+            "outline": {
+              "value": "$button.font.inverse.outline.dark",
+              "type": "color"
+            },
+            "transparent": {
+              "value": "$button.font.inverse.transparent.dark",
+              "type": "color"
+            }
+          },
+          "neutral": {
+            "solid": {
+              "value": "$button.font.inverse.solid.dark",
+              "type": "color"
+            },
+            "outline-fill": {
+              "value": "$button.font.inverse.outline-fill.dark",
+              "type": "color"
+            },
+            "outline": {
+              "value": "$button.font.inverse.outline.dark",
+              "type": "color"
+            },
+            "transparent": {
+              "value": "$button.font.inverse.transparent.dark",
+              "type": "color"
+            }
+          },
+          "danger": {
+            "solid": {
+              "value": "$button.font.danger.solid.dark",
+              "type": "color"
+            },
+            "outline-fill": {
+              "value": "$button.font.danger.outline-fill.dark",
+              "type": "color"
+            },
+            "outline": {
+              "value": "$button.font.danger.outline.dark",
+              "type": "color"
+            },
+            "transparent": {
+              "value": "$button.font.danger.transparent.dark",
+              "type": "color"
+            }
+          }
+        },
+        "icon": {
+          "brand": {
+            "solid": {
+              "value": "$button.icon.brand.solid.dark",
+              "type": "color"
+            },
+            "outline-fill": {
+              "value": "$button.icon.brand.outline-fill.dark",
+              "type": "color"
+            },
+            "outline": {
+              "value": "$button.icon.brand.outline.dark",
+              "type": "color"
+            },
+            "transparent": {
+              "value": "$button.icon.brand.transparent.dark",
+              "type": "color"
+            }
+          },
+          "inverse": {
+            "solid": {
+              "value": "$button.icon.inverse.solid.dark",
+              "type": "color"
+            },
+            "outline-fill": {
+              "value": "$button.icon.inverse.outline-fill.dark",
+              "type": "color"
+            },
+            "outline": {
+              "value": "$button.icon.inverse.outline.dark",
+              "type": "color"
+            },
+            "transparent": {
+              "value": "$button.icon.inverse.transparent.dark",
+              "type": "color"
+            }
+          },
+          "neutral": {
+            "solid": {
+              "value": "$button.icon.inverse.solid.dark",
+              "type": "color"
+            },
+            "outline-fill": {
+              "value": "$button.icon.inverse.outline-fill.dark",
+              "type": "color"
+            },
+            "outline": {
+              "value": "$button.icon.inverse.outline.dark",
+              "type": "color"
+            },
+            "transparent": {
+              "value": "$button.icon.inverse.transparent.dark",
+              "type": "color"
+            }
+          },
+          "danger": {
+            "solid": {
+              "value": "$button.icon.danger.solid.dark",
+              "type": "color"
+            },
+            "outline-fill": {
+              "value": "$button.icon.danger.outline-fill.dark",
+              "type": "color"
+            },
+            "outline": {
+              "value": "$button.icon.danger.outline.dark",
+              "type": "color"
+            },
+            "transparent": {
+              "value": "$button.icon.danger.transparent.dark",
+              "type": "color"
+            }
+          }
+        },
+        "background": {
+          "brand": {
+            "solid": {
+              "value": "$button.background.brand.solid.dark",
+              "type": "color"
+            },
+            "outline-fill": {
+              "value": "$button.background.brand.outline-fill.dark",
+              "type": "color"
+            }
+          },
+          "inverse": {
+            "solid": {
+              "value": "$button.background.inverse.solid.dark",
+              "type": "color"
+            },
+            "outline-fill": {
+              "value": "$button.background.inverse.outline-fill.dark",
+              "type": "color"
+            }
+          },
+          "neutral": {
+            "solid": {
+              "value": "$button.background.inverse.solid.dark",
+              "type": "color"
+            },
+            "outline-fill": {
+              "value": "$button.background.inverse.outline-fill.dark",
+              "type": "color"
+            }
+          },
+          "danger": {
+            "solid": {
+              "value": "$button.background.danger.solid.dark",
+              "type": "color"
+            },
+            "outline-fill": {
+              "value": "$button.background.danger.outline-fill.dark",
+              "type": "color"
+            }
+          }
+        },
+        "border": {
+          "brand": {
+            "outline-fill": {
+              "value": "$button.border.brand.outline-fill.dark",
+              "type": "color"
+            },
+            "outline": {
+              "value": "$button.border.brand.outline.dark",
+              "type": "color"
+            }
+          },
+          "inverse": {
+            "outline-fill": {
+              "value": "$button.border.inverse.outline-fill.dark",
+              "type": "color"
+            },
+            "outline": {
+              "value": "$button.border.inverse.outline.dark",
+              "type": "color"
+            }
+          },
+          "neutral": {
+            "outline-fill": {
+              "value": "$button.border.inverse.outline-fill.dark",
+              "type": "color"
+            },
+            "outline": {
+              "value": "$button.border.inverse.outline.dark",
+              "type": "color"
+            }
+          },
+          "danger": {
+            "outline-fill": {
+              "value": "$button.border.danger.outline-fill.dark",
+              "type": "color"
+            },
+            "outline": {
+              "value": "$button.border.danger.outline.dark",
+              "type": "color"
+            }
+          }
+        }
       }
     }
   }
