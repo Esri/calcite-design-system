@@ -1,4 +1,4 @@
-import { Component, Element, h, Host, Prop } from "@stencil/core";
+import { Component, Element, EventEmitter, h, Host, Prop, Event } from "@stencil/core";
 import { CSS } from "./resources";
 
 @Component({
@@ -25,17 +25,45 @@ export class CalciteNavLogo {
   /** Specifies the href destination of the component */
   @Prop({ reflect: true }) href: string;
 
-  /** Specifies the `src` to an image  */
-  @Prop({ reflect: true }) thumbnail: string;
+  /** Specifies accesible label for the component */
+  @Prop({ reflect: true }) label: string;
 
   /** Specifies the subtext to display, for example an organization or application description */
   @Prop({ reflect: true }) subText: string;
 
-  /** Specifies accesible label for the component */
-  @Prop({ reflect: true }) label: string;
-
   /** Specifies the text to display, for example a product name */
   @Prop({ reflect: true }) text: string;
+
+  /** When `true`, makes `text` and `subText` visible */
+  @Prop({ reflect: true }) textEnabled?: boolean;
+
+  /** Specifies the `src` to an image  */
+  @Prop({ reflect: true }) thumbnail: string;
+
+  //--------------------------------------------------------------------------
+  //
+  //  Events
+  //
+  //--------------------------------------------------------------------------
+
+  /** Emits when user select the component. */
+  @Event() calciteNavLogoSelect: EventEmitter<void>;
+
+  // --------------------------------------------------------------------------
+  //
+  //  Private Methods
+  //
+  // --------------------------------------------------------------------------
+
+  private clickHandler = (): void => {
+    this.calciteNavLogoSelect.emit();
+  };
+
+  private keyDownHandler = (event: KeyboardEvent): void => {
+    if (event.key === "Enter" || event.key === " ") {
+      this.calciteNavLogoSelect.emit();
+    }
+  };
 
   // --------------------------------------------------------------------------
   //
@@ -45,12 +73,20 @@ export class CalciteNavLogo {
   render() {
     return (
       <Host>
-        <a aria-label={this.label || this.text} href={this.href} tabIndex={0}>
+        <a
+          aria-label={this.label}
+          href={this.href}
+          onClick={this.clickHandler}
+          onKeyDown={this.keyDownHandler}
+          tabIndex={0}
+        >
           {this.thumbnail && <img src={this.thumbnail} />}
-          {(this.text || this.subText) && (
+          {(this.text || this.subText) && this.textEnabled && (
             <div class={CSS.textContainer}>
-              {!!this.text ? <span class={CSS.logoText}>{this.text}</span> : null}
-              {!!this.subText ? <span class={CSS.logoSubtext}>{this.subText}</span> : null}
+              {this.text && this.textEnabled ? <span class={CSS.logoText}>{this.text}</span> : null}
+              {this.subText && this.textEnabled ? (
+                <span class={CSS.logoSubtext}>{this.subText}</span>
+              ) : null}
             </div>
           )}
         </a>

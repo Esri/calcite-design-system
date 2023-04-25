@@ -137,7 +137,7 @@ export class CalciteMenu implements LoadableComponent, LocalizedComponent, T9nCo
   //
   //--------------------------------------------------------------------------
 
-  @Listen("calciteInternalNavItemKeyEvent")
+  @Listen("calciteInternalMenuItemKeyEvent")
   calciteInternalNavMenuItemKeyEvent(event: CustomEvent): void {
     const target = event.target as HTMLCalciteMenuItemElement;
     const subMenuItems = event.detail.children;

@@ -1,4 +1,4 @@
-import { storyFilters } from "../../../.storybook/helpers";
+import { boolean, storyFilters } from "../../../.storybook/helpers";
 import { text } from "@storybook/addon-knobs";
 import { html } from "../../../support/formatting";
 import readme from "./readme.md";
@@ -18,5 +18,6 @@ export const simple = (): string =>
       full-name="${text("full-name", "Edward Abbey")}"
       username="${text("text", "eabbey_123")}"
       thumbnail="${text("thumbnail", "")}"
+      ${boolean("text-enabled", true)}
     />
   </calcite-nav>`;

@@ -134,7 +134,10 @@ export class CalciteMenuItem implements LoadableComponent {
   //
   //--------------------------------------------------------------------------
   /** @internal */
-  @Event({ cancelable: true }) calciteInternalNavItemKeyEvent: EventEmitter<MenuItemCustomEvent>;
+  @Event({ cancelable: true }) calciteInternalMenuItemKeyEvent: EventEmitter<MenuItemCustomEvent>;
+
+  /** Emits when user selects the component. */
+  @Event({ cancelable: false }) calciteMenuItemSelect: EventEmitter<void>;
 
   //--------------------------------------------------------------------------
   //
@@ -192,6 +195,7 @@ export class CalciteMenuItem implements LoadableComponent {
     switch (event.key) {
       case " ":
       case "Enter":
+        this.selectMenuItem(event);
         if (
           this.hasSubMenu &&
           (!this.href || (this.href && event.target === this.dropDownActionEl))
@@ -205,7 +209,7 @@ export class CalciteMenuItem implements LoadableComponent {
           this.open = false;
           return;
         }
-        this.calciteInternalNavItemKeyEvent.emit({ event });
+        this.calciteInternalMenuItemKeyEvent.emit({ event });
         break;
       case "ArrowDown":
       case "ArrowUp":
@@ -219,7 +223,7 @@ export class CalciteMenuItem implements LoadableComponent {
           this.open = true;
           return;
         }
-        this.calciteInternalNavItemKeyEvent.emit({
+        this.calciteInternalMenuItemKeyEvent.emit({
           event,
           children: this.subMenuItems,
           isSubMenuOpen: this.open && this.hasSubMenu
@@ -227,7 +231,7 @@ export class CalciteMenuItem implements LoadableComponent {
         break;
       case "ArrowLeft":
         event.preventDefault();
-        this.calciteInternalNavItemKeyEvent.emit({
+        this.calciteInternalMenuItemKeyEvent.emit({
           event,
           children: this.subMenuItems,
           isSubMenuOpen: true
@@ -245,7 +249,7 @@ export class CalciteMenuItem implements LoadableComponent {
           this.open = true;
           return;
         }
-        this.calciteInternalNavItemKeyEvent.emit({
+        this.calciteInternalMenuItemKeyEvent.emit({
           event,
           children: this.subMenuItems,
           isSubMenuOpen: this.open && this.hasSubMenu
@@ -258,6 +262,7 @@ export class CalciteMenuItem implements LoadableComponent {
     if ((this.href && event.target === this.dropDownActionEl) || (!this.href && this.hasSubMenu)) {
       this.open = !this.open;
     }
+    this.selectMenuItem(event);
   };
 
   private handleMenuItemSlotChange = (event: Event): void => {
@@ -275,6 +280,12 @@ export class CalciteMenuItem implements LoadableComponent {
 
   private blurHandler(): void {
     this.isFocused = false;
+  }
+
+  private selectMenuItem(event: MouseEvent | KeyboardEvent): void {
+    if (event.target !== this.dropDownActionEl) {
+      this.calciteMenuItemSelect.emit();
+    }
   }
 
   //--------------------------------------------------------------------------
