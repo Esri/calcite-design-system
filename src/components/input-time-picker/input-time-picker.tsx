@@ -5,7 +5,6 @@ import {
   EventEmitter,
   h,
   Host,
-  Listen,
   Method,
   Prop,
   State,
@@ -37,6 +36,13 @@ import {
   NumberingSystem,
   numberStringFormatter
 } from "../../utils/locale";
+import {
+  activateFocusTrap,
+  connectFocusTrap,
+  deactivateFocusTrap,
+  FocusTrapComponent
+} from "../../utils/focusTrapComponent";
+import { FocusTrap } from "focus-trap";
 import { formatTimeString, isValidTime, localizeTimeString } from "../../utils/time";
 import { Scale } from "../interfaces";
 import { TimePickerMessages } from "../time-picker/assets/time-picker/t9n";
@@ -54,12 +60,13 @@ import { CSS } from "./resources";
 })
 export class InputTimePicker
   implements
-    LabelableComponent,
+    FloatingUIComponent,
+    FocusTrapComponent,
     FormComponent,
     InteractiveComponent,
-    FloatingUIComponent,
-    LocalizedComponent,
+    LabelableComponent,
     LoadableComponent,
+    LocalizedComponent,
     T9nComponent
 {
   //--------------------------------------------------------------------------
@@ -94,6 +101,20 @@ export class InputTimePicker
 
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @Prop({ reflect: true }) disabled = false;
+
+  /**
+   * When `true`, prevents focus trapping.
+   */
+  @Prop({ reflect: true }) focusTrapDisabled = false;
+
+  @Watch("focusTrapDisabled")
+  handleFocusTrapDisabled(focusTrapDisabled: boolean): void {
+    if (!this.open) {
+      return;
+    }
+
+    focusTrapDisabled ? deactivateFocusTrap(this) : activateFocusTrap(this);
+  }
 
   /**
    * The ID of the form that will be associated with the component.
@@ -202,6 +223,10 @@ export class InputTimePicker
 
   private calciteTimePickerEl: HTMLCalciteTimePickerElement;
 
+  private focusOnOpen = false;
+
+  focusTrap: FocusTrap;
+
   private dialogId = `time-picker-dialog--${guid()}`;
 
   /** whether the value of the input was changed as a result of user typing or not */
@@ -254,7 +279,6 @@ export class InputTimePicker
   //--------------------------------------------------------------------------
 
   private calciteInternalInputBlurHandler = (): void => {
-    this.open = false;
     const shouldIncludeSeconds = this.shouldIncludeSeconds();
     const { effectiveLocale: locale, numberingSystem, value, calciteInputEl } = this;
 
@@ -280,7 +304,6 @@ export class InputTimePicker
 
   private calciteInternalInputFocusHandler = (event: CustomEvent): void => {
     if (!this.readOnly) {
-      this.open = true;
       event.stopPropagation();
     }
   };
@@ -310,40 +333,12 @@ export class InputTimePicker
     this.setInputValue(localizedValue);
   };
 
-  inputFocus = (): void => {
-    this.open = false;
-  };
-
-  @Listen("click")
-  clickHandler(event: MouseEvent): void {
-    if (this.disabled || event.composedPath().includes(this.calciteTimePickerEl)) {
-      return;
-    }
-    this.setFocus();
-  }
-
-  @Listen("calciteInternalTimePickerBlur")
-  timePickerBlurHandler(event: CustomEvent): void {
-    event.preventDefault();
-    event.stopPropagation();
-    this.open = false;
-  }
-
   private timePickerChangeHandler = (event: CustomEvent): void => {
     event.stopPropagation();
     const target = event.target as HTMLCalciteTimePickerElement;
     const value = target.value;
     this.setValue({ value, origin: "time-picker" });
   };
-
-  @Listen("calciteInternalTimePickerFocus")
-  timePickerFocusHandler(event: CustomEvent): void {
-    event.preventDefault();
-    event.stopPropagation();
-    if (!this.readOnly) {
-      this.open = true;
-    }
-  }
 
   // --------------------------------------------------------------------------
   //
@@ -374,6 +369,26 @@ export class InputTimePicker
   //
   // --------------------------------------------------------------------------
 
+  private popoverCloseHandler = () => {
+    deactivateFocusTrap(this, {
+      onDeactivate: () => {
+        this.calciteInputEl.setFocus();
+        this.focusOnOpen = false;
+      }
+    });
+  };
+
+  private popoverOpenHandler = () => {
+    activateFocusTrap(this, {
+      onActivate: () => {
+        if (this.focusOnOpen) {
+          this.calciteTimePickerEl.setFocus();
+          this.focusOnOpen = false;
+        }
+      }
+    });
+  };
+
   keyDownHandler = (event: KeyboardEvent): void => {
     const { defaultPrevented, key } = event;
 
@@ -384,13 +399,16 @@ export class InputTimePicker
     if (key === "Enter") {
       if (submitForm(this)) {
         event.preventDefault();
+        this.calciteInputEl.setFocus();
       }
     } else if (key === "ArrowDown") {
       this.open = true;
+      this.focusOnOpen = true;
       event.preventDefault();
     } else if (key === "Escape" && this.open) {
       this.open = false;
       event.preventDefault();
+      this.calciteInputEl.setFocus();
     }
   };
 
@@ -412,6 +430,13 @@ export class InputTimePicker
 
   private setCalciteTimePickerEl = (el: HTMLCalciteTimePickerElement): void => {
     this.calciteTimePickerEl = el;
+    connectFocusTrap(this, {
+      focusTrapEl: el,
+      focusTrapOptions: {
+        initialFocus: false,
+        setReturnFocus: false
+      }
+    });
   };
 
   private setInputValue = (newInputValue: string): void => {
@@ -516,6 +541,7 @@ export class InputTimePicker
     disconnectLabel(this);
     disconnectForm(this);
     disconnectLocalized(this);
+    deactivateFocusTrap(this);
     disconnectMessages(this);
   }
 
@@ -544,7 +570,6 @@ export class InputTimePicker
             onCalciteInputInput={this.calciteInputInputHandler}
             onCalciteInternalInputBlur={this.calciteInternalInputBlurHandler}
             onCalciteInternalInputFocus={this.calciteInternalInputFocusHandler}
-            onFocus={this.inputFocus}
             readOnly={readOnly}
             role="combobox"
             scale={this.scale}
@@ -558,6 +583,8 @@ export class InputTimePicker
           focusTrapDisabled={true}
           id={dialogId}
           label={messages.chooseTime}
+          onCalcitePopoverClose={this.popoverCloseHandler}
+          onCalcitePopoverOpen={this.popoverOpenHandler}
           open={this.open}
           overlayPositioning={this.overlayPositioning}
           placement={this.placement}
@@ -573,6 +600,7 @@ export class InputTimePicker
             onCalciteInternalTimePickerChange={this.timePickerChangeHandler}
             scale={this.scale}
             step={this.step}
+            tabIndex={this.open ? undefined : -1}
             value={this.value}
             // eslint-disable-next-line react/jsx-sort-props
             ref={this.setCalciteTimePickerEl}
