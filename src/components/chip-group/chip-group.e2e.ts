@@ -461,7 +461,7 @@ describe("calcite-chip-group", () => {
 
   it("correctly assigns aria-labelledby to child Chip elements", async () => {
     const page = await newE2EPage();
-    const label = "test-label";
+    const label = "test-group-label";
     await page.setContent(
       html`<calcite-chip-group label=${label} selection-mode="multiple">
         <calcite-chip label="test-label"></calcite-chip>
