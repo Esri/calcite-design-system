@@ -66,7 +66,7 @@ export class CalciteMenuItem implements LoadableComponent {
   @Prop() iconFlipRtl: FlipContext;
 
   /** Accessible name for the component. */
-  @Prop() label: string;
+  @Prop() label!: string;
 
   /**
    * Defines the relationship between the `href` value and the current document.
@@ -376,7 +376,7 @@ export class CalciteMenuItem implements LoadableComponent {
           [CSS.isRtl]: dir === "rtl",
           [CSS.isVerticalDropdownType]: this.topLevelLayout === "vertical"
         }}
-        label="menu"
+        label="Submenu"
         layout="vertical"
         role="menu"
       >
@@ -414,7 +414,7 @@ export class CalciteMenuItem implements LoadableComponent {
               aria-current={this.isFocused ? "page" : false}
               aria-expanded={this.open ? "true" : "false"}
               aria-haspopup={this.hasSubMenu ? "true" : undefined}
-              aria-label={this.label || this.text}
+              aria-label={this.label}
               class={{ [CSS.layoutVertical]: this.layout === "vertical" }}
               href={this.href ? this.href : null}
               onClick={this.clickHandler}
