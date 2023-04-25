@@ -453,7 +453,7 @@ export async function positionFloatingUI(
 
     Object.assign(arrowEl.style, {
       ...reset,
-      [alignment]: alignment == "left" ? `${x}px` : `${y}px`,
+      [alignment]: `${alignment == "left" ? x : y}px`,
       [side]: "100%",
       transform
     });
