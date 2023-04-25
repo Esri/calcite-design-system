@@ -39,7 +39,9 @@ describe("calcite-rating", () => {
         shadowFocusTargetSelector: "input[value='3']"
       }));
 
-    it("is form-associated", () => formAssociated("calcite-rating", { testValue: 3 }));
+    describe("is form-associated", () => {
+      formAssociated("calcite-rating", { testValue: 3 });
+    });
   });
 
   describe("rendering", () => {

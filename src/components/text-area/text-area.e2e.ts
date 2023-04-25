@@ -60,12 +60,13 @@ describe("calcite-text-area", () => {
 
   it("is focusable", () => focusable("calcite-text-area"));
 
-  it("is form associated", () =>
+  describe("is form associated", () => {
     formAssociated("calcite-text-area", {
       testValue: "zion national park",
       expectedSubmitValue: "zion national park",
       submitsOnEnter: false
-    }));
+    });
+  });
 
   it("should emit calciteTextAreaInput event when user type in the textarea and emit calciteTextAreaChange when users tabs out", async () => {
     const page = await newE2EPage();

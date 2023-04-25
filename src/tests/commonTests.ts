@@ -505,14 +505,18 @@ interface FormAssociatedOptions {
 /**
  * Helper for testing form-associated components; specifically form submitting and resetting.
  *
+ * Note that this helper should be used within a describe block.
+ *
+ * describe("form-associated), () => {
+ *   formAssociated("calcite-component", { testValue: 1337 });
+ * });
+ *
  * @param {string} componentTagOrHtml - the component tag or HTML markup to test against
  * @param {FormAssociatedOptions} options - form associated options
  */
-export async function formAssociated(componentTagOrHtml: TagOrHTML, options: FormAssociatedOptions): Promise<void> {
-  describe("form-associated", () => {
-    it("supports association via ancestry", () => testAncestorFormAssociated());
-    it("supports association via form ID", () => testIdFormAssociated());
-  });
+export function formAssociated(componentTagOrHtml: TagOrHTML, options: FormAssociatedOptions): void {
+  it("supports association via ancestry", () => testAncestorFormAssociated());
+  it("supports association via form ID", () => testIdFormAssociated());
 
   async function testAncestorFormAssociated(): Promise<void> {
     const componentTag = getTag(componentTagOrHtml);
