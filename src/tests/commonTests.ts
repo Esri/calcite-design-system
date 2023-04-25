@@ -509,8 +509,10 @@ interface FormAssociatedOptions {
  * @param {FormAssociatedOptions} options - form associated options
  */
 export async function formAssociated(componentTagOrHtml: TagOrHTML, options: FormAssociatedOptions): Promise<void> {
-  await testAncestorFormAssociated();
-  await testIdFormAssociated();
+  describe("form-associated", () => {
+    it("supports association via ancestry", () => testAncestorFormAssociated());
+    it("supports association via form ID", () => testIdFormAssociated());
+  });
 
   async function testAncestorFormAssociated(): Promise<void> {
     const componentTag = getTag(componentTagOrHtml);
