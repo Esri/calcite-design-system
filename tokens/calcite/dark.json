@@ -2010,6 +2010,314 @@
             }
           }
         }
+      },
+      "split-button": {
+        "font": {
+          "brand": {
+            "solid": {
+              "value": "$split-button.font.brand.solid.dark",
+              "type": "color"
+            },
+            "outline-fill": {
+              "value": "$split-button.font.brand.outline-fill.dark",
+              "type": "color"
+            },
+            "outline": {
+              "value": "$split-button.font.brand.outline.dark",
+              "type": "color"
+            },
+            "transparent": {
+              "value": "$split-button.font.brand.transparent.dark",
+              "type": "color"
+            }
+          },
+          "inverse": {
+            "solid": {
+              "value": "$split-button.font.inverse.solid.dark",
+              "type": "color"
+            },
+            "outline-fill": {
+              "value": "$split-button.font.inverse.outline-fill.dark",
+              "type": "color"
+            },
+            "outline": {
+              "value": "$split-button.font.inverse.outline.dark",
+              "type": "color"
+            },
+            "transparent": {
+              "value": "$split-button.font.inverse.transparent.dark",
+              "type": "color"
+            }
+          },
+          "neutral": {
+            "solid": {
+              "value": "$split-button.font.inverse.solid.light",
+              "type": "color"
+            },
+            "outline-fill": {
+              "value": "$split-button.font.inverse.outline-fill.dark",
+              "type": "color"
+            },
+            "outline": {
+              "value": "$split-button.font.inverse.outline.dark",
+              "type": "color"
+            },
+            "transparent": {
+              "value": "$split-button.font.inverse.transparent.dark",
+              "type": "color"
+            }
+          },
+          "danger": {
+            "solid": {
+              "value": "$split-button.font.danger.solid.dark",
+              "type": "color"
+            },
+            "outline-fill": {
+              "value": "$split-button.font.danger.outline-fill.dark",
+              "type": "color"
+            },
+            "outline": {
+              "value": "$split-button.font.danger.outline.dark",
+              "type": "color"
+            },
+            "transparent": {
+              "value": "$split-button.font.danger.transparent.dark",
+              "type": "color"
+            }
+          }
+        },
+        "icon": {
+          "brand": {
+            "solid": {
+              "value": "$split-button.icon.brand.solid.dark",
+              "type": "color"
+            },
+            "outline-fill": {
+              "value": "$split-button.icon.brand.outline-fill.dark",
+              "type": "color"
+            },
+            "outline": {
+              "value": "$split-button.icon.brand.outline.dark",
+              "type": "color"
+            },
+            "transparent": {
+              "value": "$split-button.icon.brand.transparent.dark",
+              "type": "color"
+            }
+          },
+          "inverse": {
+            "solid": {
+              "value": "$split-button.icon.inverse.solid.dark",
+              "type": "color"
+            },
+            "outline-fill": {
+              "value": "$split-button.icon.inverse.outline-fill.dark",
+              "type": "color"
+            },
+            "outline": {
+              "value": "$split-button.icon.inverse.outline.dark",
+              "type": "color"
+            },
+            "transparent": {
+              "value": "$split-button.icon.inverse.transparent.dark",
+              "type": "color"
+            }
+          },
+          "neutral": {
+            "solid": {
+              "value": "$split-button.icon.inverse.solid.dark",
+              "type": "color"
+            },
+            "outline-fill": {
+              "value": "$split-button.icon.inverse.outline-fill.dark",
+              "type": "color"
+            },
+            "outline": {
+              "value": "$split-button.icon.inverse.outline.dark",
+              "type": "color"
+            },
+            "transparent": {
+              "value": "$split-button.icon.inverse.transparent.dark",
+              "type": "color"
+            }
+          },
+          "danger": {
+            "solid": {
+              "value": "$split-button.icon.danger.solid.dark",
+              "type": "color"
+            },
+            "outline-fill": {
+              "value": "$split-button.icon.danger.outline-fill.dark",
+              "type": "color"
+            },
+            "outline": {
+              "value": "$split-button.icon.danger.outline.dark",
+              "type": "color"
+            },
+            "transparent": {
+              "value": "$split-button.icon.danger.transparent.dark",
+              "type": "color"
+            }
+          }
+        },
+        "background": {
+          "brand": {
+            "solid": {
+              "value": "$split-button.background.brand.solid.dark",
+              "type": "color"
+            },
+            "outline-fill": {
+              "value": "$split-button.background.brand.outline-fill.dark",
+              "type": "color"
+            }
+          },
+          "inverse": {
+            "solid": {
+              "value": "$split-button.background.inverse.solid.dark",
+              "type": "color"
+            },
+            "outline-fill": {
+              "value": "$split-button.background.inverse.outline-fill.dark",
+              "type": "color"
+            }
+          },
+          "neutral": {
+            "solid": {
+              "value": "$split-button.background.inverse.solid.dark",
+              "type": "color"
+            },
+            "outline-fill": {
+              "value": "$split-button.background.inverse.outline-fill.dark",
+              "type": "color"
+            }
+          },
+          "danger": {
+            "solid": {
+              "value": "$split-button.background.danger.solid.dark",
+              "type": "color"
+            },
+            "outline-fill": {
+              "value": "$split-button.background.danger.outline-fill.dark",
+              "type": "color"
+            }
+          }
+        },
+        "border": {
+          "brand": {
+            "outline-fill": {
+              "value": "$split-button.border.brand.outline-fill.dark",
+              "type": "color"
+            },
+            "outline": {
+              "value": "$split-button.border.brand.outline.dark",
+              "type": "color"
+            }
+          },
+          "inverse": {
+            "outline-fill": {
+              "value": "$split-button.border.inverse.outline-fill.dark",
+              "type": "color"
+            },
+            "outline": {
+              "value": "$split-button.border.inverse.outline.dark",
+              "type": "color"
+            }
+          },
+          "neutral": {
+            "outline-fill": {
+              "value": "$button.border.inverse.outline-fill.dark",
+              "type": "color"
+            },
+            "outline": {
+              "value": "$split-button.border.inverse.outline.dark",
+              "type": "color"
+            }
+          },
+          "danger": {
+            "outline-fill": {
+              "value": "$split-button.border.danger.outline-fill.dark",
+              "type": "color"
+            },
+            "outline": {
+              "value": "$split-button.border.danger.outline.dark",
+              "type": "color"
+            }
+          }
+        },
+        "divider": {
+          "brand": {
+            "solid": {
+              "value": "$split-button.divider.brand.solid.dark",
+              "type": "color"
+            },
+            "outline-fill": {
+              "value": "$split-button.divider.brand.outline-fill.dark",
+              "type": "color"
+            },
+            "outline": {
+              "value": "$split-button.divider.brand.outline.dark",
+              "type": "color"
+            },
+            "transparent": {
+              "value": "$split-button.divider.brand.transparent.dark",
+              "type": "color"
+            }
+          },
+          "inverse": {
+            "solid": {
+              "value": "$split-button.divider.inverse.solid.dark",
+              "type": "color"
+            },
+            "outline-fill": {
+              "value": "$split-button.divider.inverse.outline-fill.dark",
+              "type": "color"
+            },
+            "outline": {
+              "value": "$split-button.divider.inverse.outline.dark",
+              "type": "color"
+            },
+            "transparent": {
+              "value": "$split-button.divider.inverse.transparent.dark",
+              "type": "color"
+            }
+          },
+          "neutral": {
+            "solid": {
+              "value": "$split-button.divider.inverse.solid.dark",
+              "type": "color"
+            },
+            "outline-fill": {
+              "value": "$split-button.divider.inverse.outline-fill.dark",
+              "type": "color"
+            },
+            "outline": {
+              "value": "$split-button.divider.inverse.outline.dark",
+              "type": "color"
+            },
+            "transparent": {
+              "value": "$split-button.divider.inverse.transparent.dark",
+              "type": "color"
+            }
+          },
+          "danger": {
+            "solid": {
+              "value": "$split-button.divider.danger.solid.dark",
+              "type": "color"
+            },
+            "outline-fill": {
+              "value": "$split-button.divider.danger.outline-fill.dark",
+              "type": "color"
+            },
+            "outline": {
+              "value": "$split-button.divider.danger.outline.dark",
+              "type": "color"
+            },
+            "transparent": {
+              "value": "$split-button.divider.danger.transparent.dark",
+              "type": "color"
+            }
+          }
+        }
       }
     }
   }
