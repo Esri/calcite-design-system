@@ -9,7 +9,9 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ### Bug Fixes
 
-- fix inheritance of default focus-color value ([#6859](https://github.com/Esri/calcite-components/issues/6859)) ([22b4c7a](https://github.com/Esri/calcite-components/commit/22b4c7abed0723c7fb0b99f1e6d3cf850ecee7d8)), closes [#6857](https://github.com/Esri/calcite-components/issues/6857)
+- **chip:** Ensure Chip displays without Chip Group label in Custom Element ([#6858](https://github.com/Esri/calcite-components/issues/6858)) ([8bf16b9](https://github.com/Esri/calcite-components/commit/8bf16b98e50bb2dd457454071f42306071c801d0)), closes [#6856](https://github.com/Esri/calcite-components/issues/6856)
+
+* fix inheritance of default focus-color value ([#6859](https://github.com/Esri/calcite-components/issues/6859)) ([22b4c7a](https://github.com/Esri/calcite-components/commit/22b4c7abed0723c7fb0b99f1e6d3cf850ecee7d8)), closes [#6857](https://github.com/Esri/calcite-components/issues/6857)
 
 <!--@unreleased-section-end-->
 
