@@ -12,20 +12,19 @@ import {
   Watch
 } from "@stencil/core";
 import {
-  hexify,
-  normalizeAlpha,
+  alphaToOpacity,
+  canConvertToHexa,
   hexChar,
+  hexify,
   isLonghandHex,
   isValidHex,
   normalizeHex,
-  rgbToHex,
-  canConvertToHexa,
-  alphaToOpacity,
-  opacityToAlpha
+  opacityToAlpha,
+  rgbToHex
 } from "../color-picker/utils";
 import { CSS } from "./resources";
 import { Scale } from "../interfaces";
-import { RGB, RGBA } from "../color-picker/interfaces";
+import { RGB } from "../color-picker/interfaces";
 import Color from "color";
 import { focusElement } from "../../utils/dom";
 import {
@@ -141,18 +140,12 @@ export class ColorPickerHexInput implements LoadableComponent {
     const node = this.inputNode;
     const inputValue = node.value;
     const hex = `#${inputValue}`;
-    const { allowEmpty, opacityEnabled } = this;
+    const { allowEmpty } = this;
     const willClearValue = allowEmpty && !inputValue;
     const isLonghand = isLonghandHex(hex);
 
-    if (willClearValue || (isValidHex(hex, opacityEnabled) && isLonghand)) {
+    if (willClearValue || (isValidHex(hex) && isLonghand)) {
       return;
-    }
-
-    if (opacityEnabled) {
-      if (canConvertToHexa(hex)) {
-        this.internalSetValue(`${hex}${isLonghand ? "ff" : "f"}`, this.value);
-      }
     }
 
     const { internalColor } = this;
@@ -163,15 +156,19 @@ export class ColorPickerHexInput implements LoadableComponent {
         ? ""
         : this.formatForInternalInput(
             rgbToHex(
-              opacityEnabled
-                ? normalizeAlpha<RGBA>(internalColor.object())
-                : (internalColor.object() as any as RGB)
+              // always display hex input in RRGGBB format
+              internalColor.object() as any as RGB
             )
           );
   };
 
   private onInputChange = (): void => {
-    this.internalSetValue(this.inputNode.value, this.value);
+    const normalized = normalizeHex(this.inputNode.value);
+    const newValue =
+      this.opacityEnabled && isValidHex(normalized)
+        ? `${normalized}${this.internalColor.hexa().slice(-2)}`
+        : normalized;
+    this.internalSetValue(newValue, this.value);
   };
 
   // using @Listen as a workaround for VDOM listener not firing
@@ -198,10 +195,18 @@ export class ColorPickerHexInput implements LoadableComponent {
 
       const direction = key === "ArrowUp" ? 1 : -1;
       const bump = shiftKey ? 10 : 1;
+      const composedPath = event.composedPath();
 
       this.internalSetValue(
         normalizeHex(
-          hexify(this.nudgeRGBChannels(internalColor, bump * direction), opacityEnabled)
+          hexify(
+            this.nudgeRGBChannels(
+              internalColor,
+              bump * direction,
+              composedPath.includes(this.inputNode) ? "rgb" : "opacity"
+            ),
+            opacityEnabled
+          )
         ),
         oldValue
       );
@@ -252,12 +257,13 @@ export class ColorPickerHexInput implements LoadableComponent {
   render(): VNode {
     const { opacityEnabled, internalColor, value } = this;
     const hexInputValue = this.formatForInternalInput(value);
+
     return (
       <div class={CSS.container}>
         <calcite-input
           class={CSS.hexInput}
           label={this.hexLabel}
-          maxLength={opacityEnabled ? 8 : 6}
+          maxLength={6}
           numberingSystem={this.numberingSystem}
           onCalciteInputChange={this.onInputChange}
           onCalciteInternalInputBlur={this.onCalciteInternalInputBlur}
@@ -278,10 +284,7 @@ export class ColorPickerHexInput implements LoadableComponent {
             min={OPACITY_LIMITS.min}
             numberButtonType="none"
             numberingSystem={this.numberingSystem}
-            onCalciteInputNumberChange={(event) => {
-              const alpha = opacityToAlpha(Number(event.target.value));
-              this.internalSetValue(this.internalColor.rgb().alpha(alpha).hexa(), this.value);
-            }}
+            onCalciteInputNumberChange={this.handleOpacityInputChange}
             onKeyDown={this.handleKeyDown}
             scale={this.scale}
             suffixText="%"
@@ -315,7 +318,7 @@ export class ColorPickerHexInput implements LoadableComponent {
   private internalSetValue(value: string | null, oldValue: string | null, emit = true): void {
     if (value) {
       const { opacityEnabled } = this;
-      const normalized = normalizeHex(value);
+      const normalized = normalizeHex(value, opacityEnabled);
 
       if (
         !opacityEnabled
@@ -325,14 +328,13 @@ export class ColorPickerHexInput implements LoadableComponent {
         const { internalColor: currentColor } = this;
         const nextColor = Color(normalized);
         const normalizedLonghand = normalizeHex(hexify(nextColor, opacityEnabled));
+        const changed =
+          !currentColor ||
+          normalizedLonghand !== normalizeHex(hexify(currentColor, opacityEnabled));
 
         this.internalColor = nextColor;
         this.previousNonNullValue = normalizedLonghand;
         this.value = normalizedLonghand;
-
-        const changed =
-          !currentColor ||
-          normalizedLonghand !== normalizeHex(hexify(currentColor, opacityEnabled));
 
         if (changed && emit) {
           this.calciteColorPickerHexInputChange.emit();
@@ -359,19 +361,33 @@ export class ColorPickerHexInput implements LoadableComponent {
   };
 
   private formatForInternalInput(hex: string): string {
-    return hex ? hex.replace("#", "") : "";
+    return hex ? hex.replace("#", "").slice(0, 6) : "";
   }
 
-  private nudgeRGBChannels(color: Color, amount: number): Color {
-    const nudgedRGBChannels = color.array().map((channel) => channel + amount);
-    const nudgedColor = Color.rgb(nudgedRGBChannels);
+  private nudgeRGBChannels(color: Color, amount: number, context: "rgb" | "opacity"): Color {
+    if (context === "rgb") {
+      const channels = color.array();
+      const nudgedRGBChannels = channels.slice(0, 3).map((channel) => channel + amount);
+      const rgbOrRgbaChannels = [
+        ...nudgedRGBChannels,
+        this.opacityEnabled ? channels[3] : undefined
+      ];
 
-    return this.opacityEnabled ? nudgedColor.alpha(color.alpha()) : nudgedColor;
+      return Color(rgbOrRgbaChannels);
+    }
+
+    const nudgedAlpha = opacityToAlpha(alphaToOpacity(color.alpha()) + amount);
+    return Color([color.array().slice(0, 3), nudgedAlpha]);
   }
 
-  handleKeyDown(event: KeyboardEvent): void {
+  private handleKeyDown(event: KeyboardEvent): void {
     if (event.key === "Enter") {
       event.preventDefault();
     }
   }
+
+  private handleOpacityInputChange = (event: CustomEvent): void => {
+    const alpha = opacityToAlpha(Number((event.target as HTMLCalciteInputNumberElement).value));
+    this.internalSetValue(this.internalColor.alpha(alpha).hexa(), this.value);
+  };
 }

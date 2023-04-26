@@ -517,62 +517,6 @@ export class ColorPicker
     this.updateColorFromChannels(channels);
   };
 
-  private handleOpacityInputChange = (event: CustomEvent): void => {
-    const input = event.currentTarget as HTMLCalciteInputElement;
-    const shouldClearInput = this.allowEmpty && !input.value;
-
-    if (shouldClearInput) {
-      this.value = "";
-      this.internalColorSet(null);
-      return;
-    }
-
-    const alpha = Number(input.value);
-
-    if (!this.color) {
-      this.internalColorSet(this.previousColor.alpha(opacityToAlpha(alpha)));
-      event.stopPropagation();
-      return;
-    }
-
-    this.color = this.color.alpha(opacityToAlpha(alpha));
-  };
-
-  private handleOpacityInputInput = (event: CustomEvent): void => {
-    const input = event.currentTarget as HTMLCalciteInputElement;
-    const internalInput = event.detail.nativeEvent.target as HTMLInputElement;
-    const limit = 100;
-
-    let inputValue: string;
-
-    if (this.allowEmpty && !input.value) {
-      inputValue = "";
-    } else {
-      const value = Number(input.value) + this.shiftKeyChannelAdjustment;
-      const clamped = clamp(value, 0, limit);
-
-      inputValue = clamped.toString();
-    }
-
-    input.value = inputValue;
-    internalInput.value = inputValue;
-  };
-
-  private handleOpacitySliderInput = (event: CustomEvent): void => {
-    const alpha =
-      Number((event.currentTarget as HTMLCalciteInputElement).value) +
-      this.shiftKeyChannelAdjustment;
-    const clamped = clamp(alpha, 0, 100);
-
-    if (!this.color) {
-      this.internalColorSet(this.previousColor.alpha(opacityToAlpha(clamped)));
-      event.stopPropagation();
-      return;
-    }
-
-    this.color = this.color.alpha(opacityToAlpha(clamped));
-  };
-
   private handleSavedColorKeyDown = (event: KeyboardEvent): void => {
     if (isActivationKey(event.key)) {
       event.preventDefault();
@@ -1156,31 +1100,6 @@ export class ColorPicker
     this.internalColorSet(this.baseColorFieldColor.alpha(alpha), false);
   }
 
-  private getCanvasRegion(y: number): "color-field" | "hue-slider" | "opacity-slider" | "none" {
-    const {
-      dimensions: {
-        colorField: { height: colorFieldHeight },
-        slider: { height: sliderHeight }
-      }
-    } = this;
-
-    if (y <= colorFieldHeight) {
-      return "color-field";
-    }
-
-    // TODO: fine-tune to include horizontal coords
-
-    if (y <= colorFieldHeight + sliderHeight) {
-      return "hue-slider";
-    }
-
-    if (y <= colorFieldHeight + sliderHeight * 2) {
-      return "opacity-slider";
-    }
-
-    return "none";
-  }
-
   private internalColorSet(
     color: Color | null,
     skipEqual = true,
@@ -1374,19 +1293,6 @@ export class ColorPicker
     }
 
     this.setCanvasContextSize(canvas, { width, height });
-  }
-
-  private containsPoint(
-    testPointX: number,
-    testPointY: number,
-    boundsX: number,
-    boundsY: number,
-    boundsRadius: number
-  ): boolean {
-    return (
-      Math.pow(testPointX - boundsX, 2) + Math.pow(testPointY - boundsY, 2) <=
-      Math.pow(boundsRadius, 2)
-    );
   }
 
   private drawActiveColorFieldColor(): void {
