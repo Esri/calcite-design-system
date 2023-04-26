@@ -1678,6 +1678,16 @@
           }
         }
       }
+    },
+    "spacing": {
+      "base": {
+        "value": "$core.spacing.0",
+        "type": "spacing"
+      },
+      "xs": {
+        "value": "$semantic.spacing.base * 2",
+        "type": "spacing"
+      }
     }
   }
 }
