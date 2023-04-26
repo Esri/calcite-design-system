@@ -149,11 +149,11 @@ $inline-input-width: 31%;
 }
 
 .sliders {
-  @apply flex flex-col justify-around;
+  @apply flex flex-col justify-between;
 }
 
 .preview-and-sliders {
-  @apply flex gap-x-2;
+  @apply flex items-center gap-x-2;
   padding-inline: theme("spacing.2");
   margin-block: theme("spacing.2");
 }
