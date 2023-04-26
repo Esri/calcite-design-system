@@ -1,4 +1,4 @@
-import { Component, Element, h, Host, Prop } from "@stencil/core";
+import { Component, Element, EventEmitter, h, Host, Prop, Event } from "@stencil/core";
 import { CSS } from "./resources";
 
 @Component({
@@ -20,22 +20,50 @@ export class CalciteNavLogo {
   //
   //--------------------------------------------------------------------------
   /** When `true`, visually highlight the component */
-  @Prop({ reflect: true }) active?;
+  @Prop({ reflect: true }) active: boolean;
 
   /** Specifies the href destination of the component */
-  @Prop({ reflect: true }) href?;
+  @Prop({ reflect: true }) href: string;
 
-  /** Specifies the `src` to an image  */
-  @Prop({ reflect: true }) thumbnail?;
+  /** Specifies accesible label for the component */
+  @Prop({ reflect: true }) label: string;
 
   /** Specifies the subtext to display, for example an organization or application description */
-  @Prop({ reflect: true }) subText?: string;
+  @Prop({ reflect: true }) subText: string;
 
   /** Specifies the text to display, for example a product name */
-  @Prop({ reflect: true }) text?: string;
+  @Prop({ reflect: true }) text: string;
 
   /** When `true`, makes `text` and `subText` visible */
-  @Prop({ reflect: true }) textEnabled?: boolean;
+  @Prop({ reflect: true }) textEnabled: boolean;
+
+  /** Specifies the `src` to an image  */
+  @Prop({ reflect: true }) thumbnail: string;
+
+  //--------------------------------------------------------------------------
+  //
+  //  Events
+  //
+  //--------------------------------------------------------------------------
+
+  /** Emits when user select the component. */
+  @Event() calciteNavLogoSelect: EventEmitter<void>;
+
+  // --------------------------------------------------------------------------
+  //
+  //  Private Methods
+  //
+  // --------------------------------------------------------------------------
+
+  private clickHandler = (): void => {
+    this.calciteNavLogoSelect.emit();
+  };
+
+  private keyDownHandler = (event: KeyboardEvent): void => {
+    if (event.key === "Enter" || event.key === " ") {
+      this.calciteNavLogoSelect.emit();
+    }
+  };
 
   // --------------------------------------------------------------------------
   //
@@ -45,7 +73,13 @@ export class CalciteNavLogo {
   render() {
     return (
       <Host>
-        <a href={this.href} tabIndex={0}>
+        <a
+          aria-label={this.label}
+          href={this.href}
+          onClick={this.clickHandler}
+          onKeyDown={this.keyDownHandler}
+          tabIndex={0}
+        >
           {this.thumbnail && <img src={this.thumbnail} />}
           {(this.text || this.subText) && this.textEnabled && (
             <div class={CSS.textContainer}>

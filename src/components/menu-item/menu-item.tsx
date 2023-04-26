@@ -28,6 +28,10 @@ import { MenuItemCustomEvent } from "./interfaces";
   styleUrl: "menu-item.scss",
   shadow: true
 })
+
+/**
+ * @slot sub-menu-item - A slot for adding `calcite-menu-item`s in submenu.
+ */
 export class CalciteMenuItem implements LoadableComponent {
   //--------------------------------------------------------------------------
   //
@@ -62,7 +66,7 @@ export class CalciteMenuItem implements LoadableComponent {
   @Prop() iconFlipRtl: FlipContext;
 
   /** Accessible name for the component. */
-  @Prop() label: string;
+  @Prop() label!: string;
 
   /**
    * Defines the relationship between the `href` value and the current document.
@@ -130,10 +134,10 @@ export class CalciteMenuItem implements LoadableComponent {
   //
   //--------------------------------------------------------------------------
   /** @internal */
-  @Event({ cancelable: true }) calciteInternalNavItemKeyEvent: EventEmitter<MenuItemCustomEvent>;
+  @Event({ cancelable: true }) calciteInternalMenuItemKeyEvent: EventEmitter<MenuItemCustomEvent>;
 
-  /** @internal */
-  @Event({ cancelable: false }) calciteInternalNavItemClickEvent: EventEmitter<MouseEvent>;
+  /** Emits when user selects the component. */
+  @Event({ cancelable: false }) calciteMenuItemSelect: EventEmitter<void>;
 
   //--------------------------------------------------------------------------
   //
@@ -191,6 +195,7 @@ export class CalciteMenuItem implements LoadableComponent {
     switch (event.key) {
       case " ":
       case "Enter":
+        this.selectMenuItem(event);
         if (
           this.hasSubMenu &&
           (!this.href || (this.href && event.target === this.dropDownActionEl))
@@ -204,7 +209,7 @@ export class CalciteMenuItem implements LoadableComponent {
           this.open = false;
           return;
         }
-        this.calciteInternalNavItemKeyEvent.emit({ event });
+        this.calciteInternalMenuItemKeyEvent.emit({ event });
         break;
       case "ArrowDown":
       case "ArrowUp":
@@ -218,18 +223,18 @@ export class CalciteMenuItem implements LoadableComponent {
           this.open = true;
           return;
         }
-        this.calciteInternalNavItemKeyEvent.emit({
+        this.calciteInternalMenuItemKeyEvent.emit({
           event,
           children: this.subMenuItems,
-          isOpen: this.open && this.hasSubMenu
+          isSubMenuOpen: this.open && this.hasSubMenu
         });
         break;
       case "ArrowLeft":
         event.preventDefault();
-        this.calciteInternalNavItemKeyEvent.emit({
+        this.calciteInternalMenuItemKeyEvent.emit({
           event,
           children: this.subMenuItems,
-          isOpen: true
+          isSubMenuOpen: true
         });
         break;
 
@@ -244,20 +249,20 @@ export class CalciteMenuItem implements LoadableComponent {
           this.open = true;
           return;
         }
-        this.calciteInternalNavItemKeyEvent.emit({
+        this.calciteInternalMenuItemKeyEvent.emit({
           event,
           children: this.subMenuItems,
-          isOpen: this.open && this.hasSubMenu
+          isSubMenuOpen: this.open && this.hasSubMenu
         });
         break;
     }
   };
 
   private clickHandler = (event: MouseEvent): void => {
-    this.calciteInternalNavItemClickEvent.emit(event);
     if ((this.href && event.target === this.dropDownActionEl) || (!this.href && this.hasSubMenu)) {
       this.open = !this.open;
     }
+    this.selectMenuItem(event);
   };
 
   private handleMenuItemSlotChange = (event: Event): void => {
@@ -275,6 +280,12 @@ export class CalciteMenuItem implements LoadableComponent {
 
   private blurHandler(): void {
     this.isFocused = false;
+  }
+
+  private selectMenuItem(event: MouseEvent | KeyboardEvent): void {
+    if (event.target !== this.dropDownActionEl) {
+      this.calciteMenuItemSelect.emit();
+    }
   }
 
   //--------------------------------------------------------------------------
@@ -376,6 +387,7 @@ export class CalciteMenuItem implements LoadableComponent {
           [CSS.isRtl]: dir === "rtl",
           [CSS.isVerticalDropdownType]: this.topLevelLayout === "vertical"
         }}
+        label="Submenu"
         layout="vertical"
         role="menu"
       >
@@ -413,7 +425,7 @@ export class CalciteMenuItem implements LoadableComponent {
               aria-current={this.isFocused ? "page" : false}
               aria-expanded={this.open ? "true" : "false"}
               aria-haspopup={this.hasSubMenu ? "true" : undefined}
-              aria-label={this.label || this.text}
+              aria-label={this.label}
               class={{ [CSS.layoutVertical]: this.layout === "vertical" }}
               href={this.href ? this.href : null}
               onClick={this.clickHandler}
