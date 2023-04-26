@@ -232,8 +232,6 @@ export class InputTimePicker
     this.loadLocaleDefinition();
   }
 
-  @State() localizedValue: string;
-
   //--------------------------------------------------------------------------
   //
   //  Events
@@ -289,19 +287,22 @@ export class InputTimePicker
   };
 
   private calciteInternalInputInputHandler = (event: CustomEvent): void => {
+    const { effectiveLocale: locale, numberingSystem } = this;
+
+    if (numberingSystem === "latn") {
+      return;
+    }
+
     const target = event.target as HTMLCalciteTimePickerElement;
 
     numberStringFormatter.numberFormatOptions = {
-      locale: this.effectiveLocale,
-      numberingSystem: this.numberingSystem,
+      locale,
+      numberingSystem,
       useGrouping: false
     };
 
-    const delocalizedValue = numberStringFormatter.delocalize(target.value);
-    this.setValue({ value: delocalizedValue });
-
-    // only translate the numerals until blur
-    const localizedValue = delocalizedValue
+    const translatedValue = numberStringFormatter
+      .delocalize(target.value)
       .split("")
       .map((char) =>
         numberKeys.includes(char)
@@ -310,7 +311,7 @@ export class InputTimePicker
       )
       .join("");
 
-    this.setInputValue(localizedValue);
+    this.setInputValue(translatedValue);
   };
 
   @Listen("click")
@@ -380,9 +381,6 @@ export class InputTimePicker
         ? this.calciteTimePickerEl.value
         : this.delocalizeTimeString(this.calciteInputEl.value);
 
-    if (!delocalizedTimeString) {
-      return;
-    }
     if (delocalizedTimeString === this.value) {
       return;
     }
@@ -491,7 +489,7 @@ export class InputTimePicker
       "minute"
     )}:${dayjsParseResult.get("seconds")}`;
 
-    return formatTimeString(timeString);
+    return formatTimeString(timeString) || "";
   }
 
   keyDownHandler = (event: KeyboardEvent): void => {
@@ -583,10 +581,8 @@ export class InputTimePicker
       if (newValue && newValue !== this.value) {
         this.value = newValue;
       }
-      this.localizedValue = newLocalizedValue;
     } else {
-      this.value = value;
-      this.localizedValue = null;
+      this.value = "";
     }
 
     if (origin === "time-picker" || origin === "external") {
@@ -631,7 +627,14 @@ export class InputTimePicker
 
   componentDidLoad() {
     setComponentLoaded(this);
-    this.setInputValue(this.localizedValue);
+    this.setInputValue(
+      localizeTimeString({
+        value: this.value,
+        locale: this.effectiveLocale,
+        numberingSystem: this.numberingSystem,
+        includeSeconds: this.shouldIncludeSeconds()
+      })
+    );
   }
 
   disconnectedCallback() {
