@@ -873,6 +873,7 @@ export class ColorPicker
                   <calcite-color-picker-hex-input
                     allowEmpty={allowEmpty}
                     class={CSS.control}
+                    messages={messages}
                     numberingSystem={this.numberingSystem}
                     onCalciteColorPickerHexInputChange={this.handleHexInputChange}
                     opacityEnabled={opacityEnabled}

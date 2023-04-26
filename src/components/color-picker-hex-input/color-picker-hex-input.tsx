@@ -35,6 +35,7 @@ import {
 } from "../../utils/loadable";
 import { NumberingSystem } from "../../utils/locale";
 import { OPACITY_LIMITS } from "../color-picker/resources";
+import { ColorPickerMessages } from "../color-picker/assets/color-picker/t9n";
 
 const DEFAULT_COLOR = Color();
 
@@ -51,11 +52,6 @@ export class ColorPickerHexInput implements LoadableComponent {
   //--------------------------------------------------------------------------
 
   @Element() el: HTMLCalciteColorPickerHexInputElement;
-
-  /**
-   * Specifies accessible label for the input field.
-   */
-  @Prop() hexLabel = "Hex";
 
   //--------------------------------------------------------------------------
   //
@@ -103,6 +99,23 @@ export class ColorPickerHexInput implements LoadableComponent {
   @Prop() allowEmpty = false;
 
   /**
+   * Specifies accessible label for the input field.
+   *
+   * @deprecated use `messages` instead
+   */
+  @Prop() hexLabel = "Hex";
+
+  /**
+   * Messages are passed by parent component for accessible labels.
+   *
+   * @internal
+   */
+  @Prop() messages: ColorPickerMessages;
+
+  /** Specifies the Unicode numeral system used by the component for localization. */
+  @Prop() numberingSystem?: NumberingSystem;
+
+  /**
    * When true, the input will process and display hex characters for the alpha channel.
    */
   @Prop() opacityEnabled = false;
@@ -116,9 +129,6 @@ export class ColorPickerHexInput implements LoadableComponent {
   @Prop({ mutable: true, reflect: true }) value: string = normalizeHex(
     hexify(DEFAULT_COLOR, this.opacityEnabled)
   );
-
-  /** Specifies the Unicode numeral system used by the component for localization. */
-  @Prop() numberingSystem?: NumberingSystem;
 
   @Watch("value")
   handleValueChange(value: string, oldValue: string): void {
@@ -255,14 +265,14 @@ export class ColorPickerHexInput implements LoadableComponent {
   //--------------------------------------------------------------------------
 
   render(): VNode {
-    const { opacityEnabled, internalColor, value } = this;
+    const { opacityEnabled, hexLabel, internalColor, messages, value } = this;
     const hexInputValue = this.formatForInternalInput(value);
 
     return (
       <div class={CSS.container}>
         <calcite-input
           class={CSS.hexInput}
-          label={this.hexLabel}
+          label={messages.hex || hexLabel}
           maxLength={6}
           numberingSystem={this.numberingSystem}
           onCalciteInputChange={this.onInputChange}
@@ -278,7 +288,7 @@ export class ColorPickerHexInput implements LoadableComponent {
         {opacityEnabled ? (
           <calcite-input-number
             class={CSS.opacityInput}
-            label={"OPACITY"}
+            label={messages.opacity}
             max={OPACITY_LIMITS.max}
             maxLength={3}
             min={OPACITY_LIMITS.min}
