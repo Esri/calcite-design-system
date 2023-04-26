@@ -14,9 +14,9 @@ export default class TooltipManager {
 
   private hoverTimeout: number = null;
 
-  private clickedTooltip: HTMLCalciteTooltipElement;
+  private clickedTooltip: HTMLCalciteTooltipElement = null;
 
-  private activeTooltipEl: HTMLCalciteTooltipElement;
+  private activeTooltipEl: HTMLCalciteTooltipElement = null;
 
   private registeredElementCount = 0;
 
@@ -64,9 +64,9 @@ export default class TooltipManager {
     if (event.key === "Escape" && !event.defaultPrevented) {
       const { activeTooltipEl } = this;
 
-      if (activeTooltipEl && activeTooltipEl.open) {
+      if (activeTooltipEl?.open) {
         this.clearHoverTimeout();
-        this.toggleTooltip(activeTooltipEl, false);
+        this.closeExistingTooltip();
 
         const referenceElement = getEffectiveReferenceElement(activeTooltipEl);
 
@@ -77,10 +77,12 @@ export default class TooltipManager {
     }
   };
 
-  private queryHoveredTooltip = (composedPath: EventTarget[]): void => {
+  private pointerMoveHandler = (event: PointerEvent): void => {
+    const composedPath = event.composedPath();
     const { activeTooltipEl } = this;
+    const hoveringActiveTooltip = activeTooltipEl?.open && composedPath.includes(activeTooltipEl);
 
-    if (activeTooltipEl && composedPath.includes(activeTooltipEl)) {
+    if (hoveringActiveTooltip) {
       this.clearHoverTimeout();
       return;
     }
@@ -90,16 +92,9 @@ export default class TooltipManager {
     if (tooltip) {
       this.toggleHoveredTooltip(tooltip, true);
     } else if (activeTooltipEl) {
+      this.clearHoverTimeout();
       this.toggleHoveredTooltip(activeTooltipEl, false);
     }
-  };
-
-  private pointerMoveHandler = (event: PointerEvent): void => {
-    const composedPath = event.composedPath();
-
-    this.clearHoverTimeout();
-
-    this.hoverTimeout = window.setTimeout(() => this.queryHoveredTooltip(composedPath), TOOLTIP_DELAY_MS || 0);
   };
 
   private pointerDownHandler = (event: PointerEvent): void => {
@@ -148,7 +143,7 @@ export default class TooltipManager {
   private closeExistingTooltip(): void {
     const { activeTooltipEl } = this;
 
-    if (activeTooltipEl) {
+    if (activeTooltipEl?.open) {
       this.toggleTooltip(activeTooltipEl, false);
     }
   }
@@ -172,11 +167,10 @@ export default class TooltipManager {
   }
 
   private toggleHoveredTooltip = (tooltip: HTMLCalciteTooltipElement, value: boolean): void => {
-    if (value) {
+    this.hoverTimeout = window.setTimeout(() => {
       this.closeExistingTooltip();
-    }
-
-    this.toggleTooltip(tooltip, value);
+      this.toggleTooltip(tooltip, value);
+    }, TOOLTIP_DELAY_MS);
   };
 
   private queryFocusedTooltip(event: FocusEvent, value: boolean): void {
