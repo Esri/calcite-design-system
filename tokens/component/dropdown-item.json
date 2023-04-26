@@ -23,6 +23,28 @@
           "type": "typography"
         }
       },
+      "selected": {
+        "sm": {
+          "value": "$semantic.font.default.medium.-2h",
+          "type": "typography"
+        },
+        "md": {
+          "value": "$semantic.font.default.medium.-1h",
+          "type": "typography"
+        },
+        "lg": {
+          "value": "$semantic.font.default.medium.0h",
+          "type": "typography"
+        },
+        "light": {
+          "value": "$semantic.ui.color.text.1.light",
+          "type": "color"
+        },
+        "dark": {
+          "value": "$semantic.ui.color.text.1.dark",
+          "type": "color"
+        }
+      },
       "group-title": {
         "light": {
           "value": "$semantic.ui.color.text.2.light",
