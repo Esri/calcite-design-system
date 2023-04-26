@@ -265,8 +265,9 @@ export class ColorPickerHexInput implements LoadableComponent {
   //--------------------------------------------------------------------------
 
   render(): VNode {
-    const { opacityEnabled, hexLabel, internalColor, messages, value } = this;
+    const { opacityEnabled, hexLabel, internalColor, messages, scale, value } = this;
     const hexInputValue = this.formatForInternalInput(value);
+    const inputScale = scale === "l" ? "m" : "s";
 
     return (
       <div class={CSS.container}>
@@ -280,7 +281,7 @@ export class ColorPickerHexInput implements LoadableComponent {
           onKeyDown={this.handleKeyDown}
           onPaste={this.onPaste}
           prefixText="#"
-          scale={this.scale}
+          scale={inputScale}
           value={hexInputValue}
           // eslint-disable-next-line react/jsx-sort-props
           ref={this.storeInputRef}
@@ -296,7 +297,7 @@ export class ColorPickerHexInput implements LoadableComponent {
             numberingSystem={this.numberingSystem}
             onCalciteInputNumberChange={this.handleOpacityInputChange}
             onKeyDown={this.handleKeyDown}
-            scale={this.scale}
+            scale={inputScale}
             suffixText="%"
             value={`${alphaToOpacity(internalColor.alpha())}`}
           />

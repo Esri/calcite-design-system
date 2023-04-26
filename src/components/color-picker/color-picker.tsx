@@ -731,7 +731,6 @@ export class ColorPicker
       scale
     } = this;
     const selectedColorInHex = color ? hexify(color, opacityEnabled) : null;
-    const hexInputScale = scale === "l" ? "m" : "s";
     const {
       colorFieldAndSliderInteractive,
       colorFieldScopeTop,
@@ -860,14 +859,6 @@ export class ColorPicker
             <div class={CSS.hexAndChannelsGroup}>
               {noHex ? null : (
                 <div class={CSS.hexOptions}>
-                  <span
-                    class={{
-                      [CSS.header]: true,
-                      [CSS.headerSpaced]: true
-                    }}
-                  >
-                    {/* intentionally empty, need to restructure */}
-                  </span>
                   <calcite-color-picker-hex-input
                     allowEmpty={allowEmpty}
                     class={CSS.control}
@@ -875,7 +866,7 @@ export class ColorPicker
                     numberingSystem={this.numberingSystem}
                     onCalciteColorPickerHexInputChange={this.handleHexInputChange}
                     opacityEnabled={opacityEnabled}
-                    scale={hexInputScale}
+                    scale={scale}
                     value={selectedColorInHex}
                   />
                 </div>
@@ -912,7 +903,7 @@ export class ColorPicker
                   kind="neutral"
                   label={messages.deleteColor}
                   onClick={this.deleteColor}
-                  scale={hexInputScale}
+                  scale={scale}
                   type="button"
                 />
                 <calcite-button
@@ -923,7 +914,7 @@ export class ColorPicker
                   kind="neutral"
                   label={messages.saveColor}
                   onClick={this.saveColor}
-                  scale={hexInputScale}
+                  scale={scale}
                   type="button"
                 />
               </div>

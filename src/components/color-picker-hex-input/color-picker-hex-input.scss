@@ -11,6 +11,23 @@
 }
 
 .opacity-input {
-  inline-size: 100%;
+  inline-size: 68px;
   margin-inline-start: -1px;
+}
+
+:host([scale="s"]) {
+  .container {
+    @apply flex-wrap gap-y-0.5;
+  }
+
+  .opacity-input {
+    inline-size: unset;
+    margin-inline-start: unset;
+  }
+}
+
+:host([scale="l"]) {
+  .opacity-input {
+    inline-size: 88px;
+  }
 }
