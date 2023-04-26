@@ -613,7 +613,7 @@ export class ColorPicker
       samplingX = clientX - bounds.x;
       samplingY = clientY - bounds.y;
     } else {
-      // snap x and y to closest edge
+      // snap x and y to the closest edge
 
       if (clientX < bounds.x + bounds.width && clientX > bounds.x) {
         samplingX = clientX - bounds.x;
