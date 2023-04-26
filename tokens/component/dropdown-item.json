@@ -69,13 +69,35 @@
       }
     },
     "icon": {
-      "light": {
-        "value": "$semantic.ui.color.brand.default.light",
-        "type": "color"
+      "default": {
+        "light": {
+          "value": "$semantic.ui.color.text.3.light",
+          "type": "color"
+        },
+        "dark": {
+          "value": "$semantic.ui.color.text.3.dark",
+          "type": "color"
+        },
+        "selected": {
+          "light": {
+            "value": "$semantic.ui.color.brand.default.light",
+            "type": "color"
+          },
+          "dark": {
+            "value": "$semantic.ui.color.brand.default.dark",
+            "type": "color"
+          }
+        }
       },
-      "dark": {
-        "value": "$semantic.ui.color.brand.default.dark",
-        "type": "color"
+      "select": {
+        "light": {
+          "value": "$semantic.ui.color.brand.default.light",
+          "type": "color"
+        },
+        "dark": {
+          "value": "$semantic.ui.color.brand.default.dark",
+          "type": "color"
+        }
       }
     },
     "border": {
@@ -117,17 +139,19 @@
       }
     },
     "space-between": {
-      "sm": {
-        "value": "$core.spacing.9",
-        "type": "spacing"
-      },
-      "md": {
-        "value": "$core.spacing.11",
-        "type": "spacing"
-      },
-      "lg": {
-        "value": "$core.spacing.14",
-        "type": "spacing"
+      "container": {
+        "sm": {
+          "value": "$core.spacing.1",
+          "type": "spacing"
+        },
+        "md": {
+          "value": "$core.spacing.3",
+          "type": "spacing"
+        },
+        "lg": {
+          "value": "$core.spacing.1",
+          "type": "spacing"
+        }
       }
     },
     "space-around": {
