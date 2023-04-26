@@ -233,11 +233,11 @@
         "single": {
           "left": {
             "sm": {
-              "value": "$core.spacing.9",
+              "value": "$core.spacing.1",
               "type": "spacing"
             },
             "md": {
-              "value": "$core.spacing.11",
+              "value": "$core.spacing.3",
               "type": "spacing"
             },
             "lg": {
@@ -277,11 +277,11 @@
         "multi": {
           "left": {
             "sm": {
-              "value": "$core.spacing.9",
+              "value": "$core.spacing.1",
               "type": "spacing"
             },
             "md": {
-              "value": "$core.spacing.11",
+              "value": "$core.spacing.3",
               "type": "spacing"
             },
             "lg": {
