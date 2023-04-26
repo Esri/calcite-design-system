@@ -1,6 +1,6 @@
 import { readFileSync } from "fs";
-import { parseName } from "./utils/parseName";
 import { Options } from "style-dictionary";
+import { parseName } from "./utils/parseName.js";
 
 export interface ThemeFileInterface {
   id: string;

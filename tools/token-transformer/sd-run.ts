@@ -1,12 +1,12 @@
 // import { registerTransforms } from '@tokens-studio/sd-transforms';
-import * as StyleDictionary from 'style-dictionary';
+import StyleDictionary from 'style-dictionary';
 import { registerTransforms } from '@tokens-studio/sd-transforms';
-import { expandComposites } from './parse/expandComposites';
-import { Theme } from './getThemes'
-import { formatJS } from './format/javascript';
-import { formatCSS } from './format/css';
-import { nameCamelCase } from './transform/nameCamelCase';
-import { parseName } from './utils/parseName';
+import { expandComposites } from './parse/expandComposites.js';
+import { Theme } from './getThemes.js';
+import { formatJS } from './format/javascript.js';
+import { formatCSS } from './format/css.js';
+import { nameCamelCase } from './transform/nameCamelCase.js';
+import { parseName } from './utils/parseName.js';
 
 const matchExclusions = /(backup|\[|\])(?=\.\w+$)/
 const matchFiles = (filePath: string, matchList: string[]) => {

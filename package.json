@@ -9,7 +9,22 @@
     "design tokens",
     "tokens"
   ],
-  "main": "dist/index.js",
+  "main": "./build/js/calciteHeadless.js",
+  "type": "module",
+  "exports": {
+    ".": "./build/js/calciteHeadless.js",
+    "./js/headless": "./build/js/calciteHeadless.js",
+    "./js/brand/light": "./build/js/brandLight.js",
+    "./js/brand/dark": "./build/js/brandDark.js",
+    "./js/calcite/light": "./build/js/calciteLight.js",
+    "./js/calcite/dark": "./build/js/calciteDark.js",
+    "./css": "./build/css/calciteHeadless.css",
+    "./css/headless": "./build/css/calciteHeadless.css",
+    "./css/brand/light": "./build/css/brandLight.css",
+    "./css/brand/dark": "./build/css/brandDark.css",
+    "./css/calcite/light": "./build/css/calciteLight.css",
+    "./css/calcite/dark": "./build/css/calciteDark.css"
+  },
   "repository": {
     "type": "git",
     "url": "git://github.com/Esri/calcite-styles.git"
@@ -46,8 +61,9 @@
   "scripts": {
     "test": "jest",
     "test:dev": "jest --watch",
-    "build": "tsc",
-    "build:sd": "style-dictionary build",
+    "build": "npm run build:ts && npm run build:tokens",
+    "build:ts": "tsc --project tsconfig.cjs.json",
+    "build:tokens": "node tools/build/index.js",
     "build:transformer": "token-transformer tokens sd-tokens/output.json",
     "release": "echo 'release is still TBD. Please message Ali Stump or Erik Harper-Dicianno for more information."
   },

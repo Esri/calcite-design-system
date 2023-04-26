@@ -34,11 +34,11 @@ git checkout -b designer/[yourname]
 ```
 
 ```bash
-# Use the calcite default branching pattern
+# or use the calcite default branching pattern
 git checkout -b [yourname]/[type]-[issue#]
 ```
 
-3. Be sure your code follows our practices.
+3. Be sure your code passes our checks
 
 ```bash
 # Test current code

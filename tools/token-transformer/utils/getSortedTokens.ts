@@ -1,5 +1,5 @@
-import { Dictionary, File, Options, Platform, TransformedToken, TransformedTokens } from "style-dictionary";
-import { reverse } from "./reverse";
+import sd, { Dictionary, File, Platform, Options, TransformedTokens, TransformedToken } from "style-dictionary";
+import { reverse } from "./reverse.js";
 
 function includeReferenceTokens(token: TransformedToken, dictionary: Dictionary, tokenSets: TransformedTokens[], pointer: number) {
   let value = JSON.stringify(token.value);

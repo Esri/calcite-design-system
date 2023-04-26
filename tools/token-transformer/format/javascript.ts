@@ -1,5 +1,7 @@
-import { Dictionary, File, Options, Platform, formatHelpers } from "style-dictionary";
-import { getSortedTokens } from "../utils/getSortedTokens";
+import sd, { Dictionary, File, Platform, Options } from "style-dictionary";
+import { getSortedTokens } from "../utils/getSortedTokens.js";
+
+const { formatHelpers } = sd;
 
 export function formatJS(fileInfo: { dictionary: Dictionary, file: File, platform: Platform, options: Options}) {
   const { dictionary, options, file } = fileInfo;

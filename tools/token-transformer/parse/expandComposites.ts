@@ -5,7 +5,7 @@ import {
   Expandables,
   ExpandablesAsStrings,
   expandablesAsStringsArr,
-} from '../TransformOptions';
+} from '../TransformOptions.js';
 
 const typeMaps = {
   boxShadow: {
