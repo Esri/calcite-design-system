@@ -164,23 +164,25 @@ describe("calcite-action-pad", () => {
     expect(await action.getProperty("textEnabled")).toBe(true);
   });
 
-  it("should be accessible", async () =>
+  describe("accessible", () => {
     accessible(`
-    <calcite-action-pad>
-       <calcite-action-group>
-        <calcite-action text="Add" icon="plus"></calcite-action>
-      </calcite-action-group>
-    </calcite-action-pad>
-    `));
+  <calcite-action-pad>
+     <calcite-action-group>
+      <calcite-action text="Add" icon="plus"></calcite-action>
+    </calcite-action-group>
+  </calcite-action-pad>
+  `);
+  });
 
-  it("should be accessible when expanded", async () =>
+  describe("should be accessible when expanded", () => {
     accessible(`
     <calcite-action-pad expanded>
       <calcite-action-group>
         <calcite-action text="Add" icon="plus"></calcite-action>
       </calcite-action-group>
     </calcite-action-pad>
-    `));
+    `);
+  });
 
   it("should focus on toggle button", async () =>
     focusable(

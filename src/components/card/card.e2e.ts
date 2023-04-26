@@ -12,13 +12,15 @@ describe("calcite-card", () => {
 
   it("honors hidden attribute", async () => hidden("calcite-card"));
 
-  it("is accessible", async () => accessible("calcite-card"));
+  describe("accessibile", () => {
+    accessible("calcite-card");
+  });
 
-  it("is accessible when selectable", async () =>
-    accessible(`
-      <calcite-card selectable>
-        <img slot="thumbnail" src="${placeholder}" alt="Test image" />
-      </calcite-card>`));
+  describe("accessibile when selectable", () => {
+    accessible(`<calcite-card selectable>
+    <img slot="thumbnail" src="${placeholder}" alt="Test image" />
+  </calcite-card>`);
+  });
 
   it("has slots", () => slots("calcite-card", SLOTS));
 

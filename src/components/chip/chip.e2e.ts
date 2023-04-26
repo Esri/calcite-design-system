@@ -7,7 +7,9 @@ describe("calcite-chip", () => {
 
   it("honors hidden attribute", async () => hidden("calcite-chip"));
 
-  it("is accessible", async () => accessible(`<calcite-chip>doritos</calcite-chip>`));
+  describe("ccessible without calcite-label", () => {
+    accessible(`<calcite-chip>doritos</calcite-chip>`);
+  });
 
   it("has slots", () => slots("calcite-chip", SLOTS));
 

@@ -1,4 +1,4 @@
-import { newE2EPage } from "@stencil/core/testing";
+import { newE2EPage, E2EPage } from "@stencil/core/testing";
 import { accessible, defaults, hidden, renders } from "../../tests/commonTests";
 
 describe("calcite-graph", () => {
@@ -6,26 +6,33 @@ describe("calcite-graph", () => {
 
   it("honors hidden attribute", async () => hidden("calcite-graph"));
 
-  it("is accessible", async () => accessible(`<calcite-graph></calcite-graph>`));
+  describe("accessible", () => {
+    accessible(`<calcite-graph></calcite-graph>`);
+  });
 
-  it("is accessible: with data", async () => {
-    const html = "<calcite-graph></calcite-graph>";
-    const page = await newE2EPage({
-      html
+  describe("accessible: with data", () => {
+    let html: string;
+    let page: E2EPage;
+
+    beforeEach(async () => {
+      const html = "<calcite-graph></calcite-graph>";
+      const page = await newE2EPage({
+        html
+      });
+
+      page.$eval("calcite-graph", (elm: any) => {
+        elm.data = [
+          [0, 4],
+          [1, 7],
+          [4, 6],
+          [6, 2]
+        ];
+      });
+
+      await page.waitForChanges();
     });
 
-    await page.$eval("calcite-graph", (elm: any) => {
-      elm.data = [
-        [0, 4],
-        [1, 7],
-        [4, 6],
-        [6, 2]
-      ];
-    });
-
-    await page.waitForChanges();
-
-    await accessible(html, page);
+    accessible(html, page);
   });
 
   it("has property defaults", async () =>

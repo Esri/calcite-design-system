@@ -17,7 +17,9 @@ describe("calcite-accordion", () => {
 
   it("honors hidden attribute", async () => hidden("calcite-accordion"));
 
-  it("is accessible", async () => accessible(`<calcite-accordion>${accordionContent}</calcite-accordion>`));
+  describe("accessible", () => {
+    accessible(`<calcite-accordion>${accordionContent}</calcite-accordion>`);
+  });
 
   it("renders default props when none are provided", async () => {
     const page = await newE2EPage();

@@ -30,16 +30,16 @@ describe("calcite-block-section", () => {
   it("supports translation", () => t9n("calcite-block-section"));
 
   describe("toggle-display = 'switch'", () => {
-    describe("accessibility", () => {
-      it("when open", async () =>
-        accessible(
-          `<calcite-block-section text="text" toggle-display="switch" open><div>some content</div></calcite-block-section>`
-        ));
+    describe("accessibile", () => {
+      accessible(
+        `<calcite-block-section text="text" toggle-display="switch" open><div>some content</div></calcite-block-section>`
+      );
+    });
 
-      it("when closed", async () =>
-        accessible(
-          `<calcite-block-section text="text" toggle-display="switch"><div>some content</div></calcite-block-section>`
-        ));
+    describe("accessibile when closed", () => {
+      accessible(
+        `<calcite-block-section text="text" toggle-display="switch"><div>some content</div></calcite-block-section>`
+      );
     });
 
     it("can display/hide content", async () => {

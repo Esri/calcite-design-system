@@ -208,23 +208,25 @@ describe("calcite-action-bar", () => {
     });
   });
 
-  it("should be accessible", async () =>
+  describe("accessible", () => {
     accessible(`
     <calcite-action-bar>
       <calcite-action-group>
         <calcite-action text="Add" icon="plus"></calcite-action>
       </calcite-action-group>
     </calcite-action-bar>
-    `));
+    `);
+  });
 
-  it("should be accessible when expanded", async () =>
+  describe("accessible when expanded", () => {
     accessible(`
     <calcite-action-bar expanded>
       <calcite-action-group>
         <calcite-action text="Add" icon="plus"></calcite-action>
       </calcite-action-group>
     </calcite-action-bar>
-    `));
+    `);
+  });
 
   it("should focus on toggle button", async () =>
     focusable(

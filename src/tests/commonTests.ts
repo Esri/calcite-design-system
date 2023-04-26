@@ -1,3 +1,4 @@
+/* eslint-disable jest/no-export */
 import { E2EElement, E2EPage, EventSpy, newE2EPage } from "@stencil/core/testing";
 import axe from "axe-core";
 import { toHaveNoViolations } from "jest-axe";
@@ -52,20 +53,22 @@ async function simplePageSetup(componentTagOrHTML: TagOrHTML): Promise<E2EPage> 
  * @param {string} componentTagOrHTML - the component tag or HTML markup to test against
  * @param {E2EPage} [page] - an e2e page
  */
-export async function accessible(componentTagOrHTML: TagOrHTML, page?: E2EPage): Promise<void> {
-  if (!page) {
-    page = await simplePageSetup(componentTagOrHTML);
-  }
+export function accessible(componentTagOrHTML: TagOrHTML, page?: E2EPage): void {
+  it("is accessible", async () => {
+    if (!page) {
+      page = await simplePageSetup(componentTagOrHTML);
+    }
 
-  await page.addScriptTag({ path: require.resolve("axe-core") });
-  await page.waitForFunction(() => (window as AxeOwningWindow).axe);
+    await page.addScriptTag({ path: require.resolve("axe-core") });
+    await page.waitForFunction(() => (window as AxeOwningWindow).axe);
 
-  expect(
-    await page.evaluate(
-      async (componentTag: ComponentTag) => (window as AxeOwningWindow).axe.run(componentTag),
-      getTag(componentTagOrHTML)
-    )
-  ).toHaveNoViolations();
+    expect(
+      await page.evaluate(
+        async (componentTag: ComponentTag) => (window as AxeOwningWindow).axe.run(componentTag),
+        getTag(componentTagOrHTML)
+      )
+    ).toHaveNoViolations();
+  });
 }
 
 /**

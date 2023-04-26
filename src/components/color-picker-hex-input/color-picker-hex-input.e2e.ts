@@ -9,10 +9,10 @@ describe("calcite-color-picker-hex-input", () => {
 
   it("honors hidden attribute", async () => hidden("calcite-color-picker-hex-input"));
 
-  it("is accessible", async () => {
-    await accessible("calcite-color-picker-hex-input");
-    await accessible("<calcite-color-picker-hex-input color='#c0ffee'></calcite-color-picker-hex-input>");
-    await accessible("<calcite-color-picker-hex-input allow-empty color=''></calcite-color-picker-hex-input>");
+  describe("accessible", () => {
+    accessible("calcite-color-picker-hex-input");
+    accessible("<calcite-color-picker-hex-input color='#c0ffee'></calcite-color-picker-hex-input>");
+    accessible("<calcite-color-picker-hex-input allow-empty color=''></calcite-color-picker-hex-input>");
   });
 
   it("has defaults", () =>

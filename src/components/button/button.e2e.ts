@@ -110,20 +110,27 @@ describe("calcite-button", () => {
     expect(loader).toBeNull();
   });
 
-  it("is accessible", async () => accessible(`<calcite-button>Continue</calcite-button>`));
+  describe("accessibile", () => {
+    accessible(`<calcite-button>Continue</calcite-button>`);
+  });
 
-  it("is accessible: href", async () => accessible(`<calcite-button href="/">Continue</calcite-button>`));
+  describe("accessibile: href", () => {
+    accessible(`<calcite-button href="/">Continue</calcite-button>`);
+  });
 
-  it("is accessible: style props", async () =>
-    accessible(`<calcite-button kind="danger" scale="l" width="half" appearance="outline">Continue</calcite-button>`));
+  describe("accessibile: style props", () => {
+    accessible(`<calcite-button kind="danger" scale="l" width="half" appearance="outline">Continue</calcite-button>`);
+  });
 
-  it("is accessible: href and target", async () =>
+  describe("accessibile: href and target", () => {
     accessible(
       `<calcite-button rel="noopener noreferrer" target="_blank" class="mycustomclass" href="google.com">Continue</calcite-button>`
-    ));
+    );
+  });
 
-  it("is accessible: icons and loading", async () =>
-    accessible(`<calcite-button loading icon-start='plus' icon-end='plus'>Continue</calcite-button>`));
+  describe("accessibile: icons and loading", () => {
+    accessible(`<calcite-button loading icon-start='plus' icon-end='plus'>Continue</calcite-button>`);
+  });
 
   it("is labelable", async () => labelable("calcite-button"));
 

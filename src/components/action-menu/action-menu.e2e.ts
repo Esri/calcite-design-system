@@ -9,20 +9,22 @@ describe("calcite-action-menu", () => {
 
   it("honors hidden attribute", async () => hidden("calcite-action-menu"));
 
-  it("should be accessible", async () =>
+  describe("accessible", () => {
     accessible(`
-    <calcite-action-menu label="test">
-      <calcite-action text="Add" icon="plus"></calcite-action>
-    </calcite-action-menu>
-    `));
+      <calcite-action-menu label="test">
+        <calcite-action text="Add" icon="plus"></calcite-action>
+      </calcite-action-menu>
+      `);
+  });
 
-  it("should be accessible: with tooltip", async () =>
+  describe("accessible with tooltip", () => {
     accessible(`
     <calcite-action-menu label="test">
       <calcite-tooltip slot="${SLOTS.tooltip}">Bits and bobs.</calcite-tooltip>
       <calcite-action text="Add" icon="plus"></calcite-action>
     </calcite-action-menu>
-    `));
+    `);
+  });
 
   it("has slots", () => slots("calcite-action-menu", SLOTS));
 

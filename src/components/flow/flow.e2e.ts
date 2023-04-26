@@ -211,14 +211,15 @@ describe("calcite-flow", () => {
       expect(showBackButton2).not.toBe(null);
     });
 
-    it("should be accessible", async () =>
+    describe("accessible", () => {
       accessible(html`
         <calcite-flow>
           <calcite-flow-item> </calcite-flow-item>
           <calcite-flow-item> </calcite-flow-item>
           <calcite-flow-item> </calcite-flow-item>
         </calcite-flow>
-      `));
+      `);
+    });
 
     it("should also work with descendant slotted items", async () => {
       const page = await newE2EPage();

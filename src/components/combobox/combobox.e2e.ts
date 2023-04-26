@@ -28,31 +28,35 @@ describe("calcite-combobox", () => {
       }
     ]));
   it("honors hidden attribute", async () => hidden("calcite-combobox"));
-  it("is accessible", async () =>
-    accessible(`
+
+  describe("accessible", () => {
+    accessible(html`
       <calcite-combobox label="Trees" value="Trees">
         <calcite-combobox-item value="Pine" text-label="Pine"></calcite-combobox-item>
       </calcite-combobox>
-  `));
+    `);
+  });
 
-  it("is accessible with item group", async () =>
-    accessible(`
+  describe("accessible with item group", () => {
+    accessible(html`
       <calcite-combobox label="Trees" value="Trees">
         <calcite-combobox-item-group label="Conifers">
           <calcite-combobox-item value="Pine" text-label="Pine"></calcite-combobox-item>
         </calcite-combobox-item-group>
       </calcite-combobox>
-  `));
+    `);
+  });
 
-  it("is accessible with open selected items", async () =>
-    accessible(`
-    <calcite-combobox open label="Trees" value="Trees">
-      <calcite-combobox-item-group label="Conifers">
-        <calcite-combobox-item selected value="Pine" text-label="Pine"></calcite-combobox-item>
-        <calcite-combobox-item selected value="Spruce" text-label="Spruce"></calcite-combobox-item>
-      </calcite-combobox-item-group>
-    </calcite-combobox>
-`));
+  describe("accessible with open selected items", () => {
+    accessible(html`
+      <calcite-combobox open label="Trees" value="Trees">
+        <calcite-combobox-item-group label="Conifers">
+          <calcite-combobox-item selected value="Pine" text-label="Pine"></calcite-combobox-item>
+          <calcite-combobox-item selected value="Spruce" text-label="Spruce"></calcite-combobox-item>
+        </calcite-combobox-item-group>
+      </calcite-combobox>
+    `);
+  });
 
   it("is labelable", async () => labelable("calcite-combobox"));
 
