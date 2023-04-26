@@ -196,6 +196,52 @@
           "value": "$core.spacing.7",
           "type": "spacing"
         }
+      },
+      "icon-start": {
+        "left": {
+          "sm": {
+            "value": "$core.spacing.1",
+            "type": "spacing"
+          },
+          "md": {
+            "value": "$core.spacing.1",
+            "type": "spacing"
+          },
+          "lg": {
+            "value": "$core.spacing.1",
+            "type": "spacing"
+          }
+        },
+        "right": {
+          "sm": {
+            "value": "$core.spacing.3",
+            "type": "spacing"
+          },
+          "md": {
+            "value": "$core.spacing.5",
+            "type": "spacing"
+          },
+          "lg": {
+            "value": "$core.spacing.7",
+            "type": "spacing"
+          }
+        }
+      },
+      "icon-end": {
+        "left": {
+          "sm": {
+            "value": "$core.spacing.3",
+            "type": "spacing"
+          },
+          "md": {
+            "value": "$core.spacing.3",
+            "type": "spacing"
+          },
+          "lg": {
+            "value": "$core.spacing.3",
+            "type": "spacing"
+          }
+        }
       }
     }
   }
