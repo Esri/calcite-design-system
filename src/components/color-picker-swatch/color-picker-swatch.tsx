@@ -34,11 +34,11 @@ export class ColorPickerSwatch {
    * @see https://developer.mozilla.org/en-US/docs/Web/CSS/color_value
    */
   @Prop()
-  color: string;
+  color: string | null;
 
   @Watch("color")
-  handleColorChange(color: string): void {
-    this.internalColor = Color(color);
+  handleColorChange(color: string | null): void {
+    this.internalColor = color ? Color(color) : null;
   }
 
   /**
@@ -72,10 +72,7 @@ export class ColorPickerSwatch {
 
   render(): VNode {
     const { active, el, internalColor } = this;
-    const alpha = internalColor.alpha();
     const borderRadius = active ? "100%" : "0";
-    const hex = hexify(internalColor);
-    const hexa = hexify(internalColor, alpha < 1);
     const theme = getModeName(el);
     const borderColor = theme === "light" ? COLORS.borderLight : COLORS.borderDark;
     const commonSwatchProps = {
@@ -87,8 +84,26 @@ export class ColorPickerSwatch {
       width: "100%"
     };
 
+    const classes = {
+      [CSS.swatch]: true,
+      [CSS.noColorIcon]: !internalColor
+    };
+
+    if (!internalColor) {
+      return (
+        <svg class={classes} xmlns="http://www.w3.org/2000/svg">
+          <rect rx={borderRadius} {...commonSwatchProps} />
+          <line stroke-width="3" x1="100%" x2="0" y1="0" y2="100%" />
+        </svg>
+      );
+    }
+
+    const alpha = internalColor.alpha();
+    const hex = hexify(internalColor);
+    const hexa = hexify(internalColor, alpha < 1);
+
     return (
-      <svg class={CSS.swatch} xmlns="http://www.w3.org/2000/svg">
+      <svg class={classes} xmlns="http://www.w3.org/2000/svg">
         <title>{hexa}</title>
         <defs>
           <pattern
