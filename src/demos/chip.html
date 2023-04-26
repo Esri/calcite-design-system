@@ -119,7 +119,6 @@
   <body>
     <demo-dom-swapper>
       <h1 style="margin: 0 auto; text-align: center">Chip</h1>
-
       <!-- Header -->
       <div class="parent">
         <div class="child"></div>
@@ -1014,6 +1013,20 @@
           </calcite-tooltip>
         </div>
       </div>
+      <div class="parent">
+        <div class="child right-aligned-text">Rendered programmatically</div>
+        <div class="child">
+          <div id="shadowEl"></div>
+        </div>
+      </div>
     </demo-dom-swapper>
   </body>
+  <script>
+    const chipHTML = `<calcite-chip appearance="outline" kind="neutral" icon="layers" value="layers">Layers</calcite-chip>`;
+
+    const shadowEl = document.getElementById("shadowEl");
+    const shadow = shadowEl.attachShadow({ mode: "open" });
+
+    shadow.innerHTML = chipHTML;
+  </script>
 </html>
