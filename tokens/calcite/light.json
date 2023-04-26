@@ -1552,6 +1552,958 @@
             }
           }
         }
+      },
+      "slider-range": {
+        "font": {
+          "label": {
+            "value": "$slider-range.font.label.light",
+            "type": "color"
+          },
+          "tick-label": {
+            "value": "$slider-range.font.tick-label.light",
+            "type": "color"
+          }
+        },
+        "handle": {
+          "background": {
+            "value": "$slider-range.handle.background.light",
+            "type": "color"
+          },
+          "border": {
+            "value": "$slider-range.handle.border.light",
+            "type": "color"
+          }
+        },
+        "border": {
+          "default": {
+            "value": "$slider-range.border.default.light",
+            "type": "color"
+          },
+          "active": {
+            "value": "$slider-range.border.active.light",
+            "type": "color"
+          }
+        },
+        "tick": {
+          "default": {
+            "background": {
+              "value": "$slider-range.tick.default.background.light",
+              "type": "color"
+            },
+            "border": {
+              "value": "$slider-range.tick.default.border.light",
+              "type": "color"
+            }
+          },
+          "active": {
+            "background": {
+              "value": "$slider-range.tick.active.background.light",
+              "type": "color"
+            },
+            "border": {
+              "value": "$slider-range.tick.active.border.light",
+              "type": "color"
+            }
+          }
+        }
+      },
+      "slider-histogram": {
+        "font": {
+          "label": {
+            "value": "$slider-histogram.font.label.light",
+            "type": "color"
+          },
+          "tick-label": {
+            "value": "$slider-histogram.font.tick-label.light",
+            "type": "color"
+          }
+        },
+        "handle": {
+          "background": {
+            "value": "$slider-histogram.handle.background.light",
+            "type": "color"
+          },
+          "border": {
+            "value": "$slider-histogram.handle.border.light",
+            "type": "color"
+          }
+        },
+        "border": {
+          "default": {
+            "value": "$slider-histogram.border.default.light",
+            "type": "color"
+          },
+          "active": {
+            "value": "$slider-histogram.border.active.light",
+            "type": "color"
+          }
+        },
+        "tick": {
+          "default": {
+            "background": {
+              "value": "$slider-histogram.tick.default.background.light",
+              "type": "color"
+            },
+            "border": {
+              "value": "$slider-histogram.tick.default.border.light",
+              "type": "color"
+            }
+          },
+          "active": {
+            "background": {
+              "value": "$slider-histogram.tick.active.background.light",
+              "type": "color"
+            },
+            "border": {
+              "value": "$slider-histogram.tick.active.border.light",
+              "type": "color"
+            }
+          }
+        },
+        "area": {
+          "active": {
+            "background": {
+              "value": "$slider-histogram.area.active.background.light",
+              "type": "color"
+            }
+          }
+        },
+        "active-end": {
+          "background": {
+            "value": "$slider-histogram.active-end.background.light",
+            "type": "color"
+          }
+        }
+      },
+      "slider-histogram-range": {
+        "font": {
+          "label": {
+            "value": "$slider-histogram-range.font.label.light",
+            "type": "color"
+          },
+          "tick-label": {
+            "value": "$slider-histogram-range.font.tick-label.light",
+            "type": "color"
+          }
+        },
+        "handle": {
+          "background": {
+            "value": "$slider-histogram-range.handle.background.light",
+            "type": "color"
+          },
+          "border": {
+            "value": "$slider-histogram-range.handle.border.light",
+            "type": "color"
+          }
+        },
+        "border": {
+          "default": {
+            "value": "$slider-histogram-range.border.default.light",
+            "type": "color"
+          },
+          "active": {
+            "value": "$slider-histogram-range.border.active.light",
+            "type": "color"
+          }
+        },
+        "tick": {
+          "default": {
+            "background": {
+              "value": "$slider-histogram-range.tick.default.background.light",
+              "type": "color"
+            },
+            "border": {
+              "value": "$slider-histogram-range.tick.default.border.light",
+              "type": "color"
+            }
+          },
+          "active": {
+            "background": {
+              "value": "$slider-histogram-range.tick.active.background.light",
+              "type": "color"
+            },
+            "border": {
+              "value": "$slider-histogram-range.tick.active.border.light",
+              "type": "color"
+            }
+          }
+        },
+        "area": {
+          "active": {
+            "background": {
+              "value": "$slider-histogram-range.area.active.background.light",
+              "type": "color"
+            }
+          }
+        },
+        "active-end": {
+          "background": {
+            "value": "$slider-histogram.active-end.background.light",
+            "type": "color"
+          }
+        }
+      },
+      "filter": {
+        "font": {
+          "value": "$filter.font.light",
+          "type": "color"
+        },
+        "icon": {
+          "value": "$filter.icon.light",
+          "type": "color"
+        },
+        "border": {
+          "value": "$filter.border.light",
+          "type": "color"
+        },
+        "background": {
+          "value": "$filter.background.light",
+          "type": "color"
+        }
+      },
+      "scrim": {
+        "background": {
+          "value": "$scrim.background.light",
+          "type": "color"
+        }
+      },
+      "tip-manager": {
+        "font": {
+          "heading": {
+            "value": "$tip-manager.font.heading.light",
+            "type": "color"
+          }
+        },
+        "icon": {
+          "value": "$tip-manager.icon.light",
+          "type": "color"
+        },
+        "background": {
+          "default": {
+            "light": {
+              "value": "$tip-manager.background.default.light",
+              "type": "color"
+            }
+          }
+        },
+        "border": {
+          "default": {
+            "value": "$tip-manager.border.default.light",
+            "type": "color"
+          }
+        }
+      },
+      "button": {
+        "font": {
+          "brand": {
+            "solid": {
+              "value": "$button.font.brand.solid.light",
+              "type": "color"
+            },
+            "outline-fill": {
+              "value": "$button.font.brand.outline-fill.light",
+              "type": "color"
+            },
+            "outline": {
+              "value": "$button.font.brand.outline.light",
+              "type": "color"
+            },
+            "transparent": {
+              "value": "$button.font.brand.transparent.light",
+              "type": "color"
+            }
+          },
+          "inverse": {
+            "solid": {
+              "value": "$button.font.inverse.solid.light",
+              "type": "color"
+            },
+            "outline-fill": {
+              "value": "$button.font.inverse.outline-fill.light",
+              "type": "color"
+            },
+            "outline": {
+              "value": "$button.font.inverse.outline.light",
+              "type": "color"
+            },
+            "transparent": {
+              "value": "$button.font.inverse.transparent.light",
+              "type": "color"
+            }
+          },
+          "neutral": {
+            "solid": {
+              "value": "$button.font.inverse.solid.light",
+              "type": "color"
+            },
+            "outline-fill": {
+              "value": "$button.font.inverse.outline-fill.light",
+              "type": "color"
+            },
+            "outline": {
+              "value": "$button.font.inverse.outline.light",
+              "type": "color"
+            },
+            "transparent": {
+              "value": "$button.font.inverse.transparent.light",
+              "type": "color"
+            }
+          },
+          "danger": {
+            "solid": {
+              "value": "$button.font.danger.solid.light",
+              "type": "color"
+            },
+            "outline-fill": {
+              "value": "$button.font.danger.outline-fill.light",
+              "type": "color"
+            },
+            "outline": {
+              "value": "$button.font.danger.outline.light",
+              "type": "color"
+            },
+            "transparent": {
+              "value": "$button.font.danger.transparent.light",
+              "type": "color"
+            }
+          }
+        },
+        "icon": {
+          "brand": {
+            "solid": {
+              "value": "$button.icon.brand.solid.light",
+              "type": "color"
+            },
+            "outline-fill": {
+              "value": "$button.icon.brand.outline-fill.light",
+              "type": "color"
+            },
+            "outline": {
+              "value": "$button.icon.brand.outline.light",
+              "type": "color"
+            },
+            "transparent": {
+              "value": "$button.icon.brand.transparent.light",
+              "type": "color"
+            }
+          },
+          "inverse": {
+            "solid": {
+              "value": "$button.icon.inverse.solid.light",
+              "type": "color"
+            },
+            "outline-fill": {
+              "value": "$button.icon.inverse.outline-fill.light",
+              "type": "color"
+            },
+            "outline": {
+              "value": "$button.icon.inverse.outline.light",
+              "type": "color"
+            },
+            "transparent": {
+              "value": "$button.icon.inverse.transparent.light",
+              "type": "color"
+            }
+          },
+          "neutral": {
+            "solid": {
+              "value": "$button.icon.inverse.solid.light",
+              "type": "color"
+            },
+            "outline-fill": {
+              "value": "$button.icon.inverse.outline-fill.light",
+              "type": "color"
+            },
+            "outline": {
+              "value": "$button.icon.inverse.outline.light",
+              "type": "color"
+            },
+            "transparent": {
+              "value": "$button.icon.inverse.transparent.light",
+              "type": "color"
+            }
+          },
+          "danger": {
+            "solid": {
+              "value": "$button.icon.danger.solid.light",
+              "type": "color"
+            },
+            "outline-fill": {
+              "value": "$button.icon.danger.outline-fill.light",
+              "type": "color"
+            },
+            "outline": {
+              "value": "$button.icon.danger.outline.light",
+              "type": "color"
+            },
+            "transparent": {
+              "value": "$button.icon.danger.transparent.light",
+              "type": "color"
+            }
+          }
+        },
+        "background": {
+          "brand": {
+            "solid": {
+              "value": "$button.background.brand.solid.light",
+              "type": "color"
+            },
+            "outline-fill": {
+              "value": "$button.background.brand.outline-fill.light",
+              "type": "color"
+            }
+          },
+          "inverse": {
+            "solid": {
+              "value": "$button.background.inverse.solid.light",
+              "type": "color"
+            },
+            "outline-fill": {
+              "value": "$button.background.inverse.outline-fill.light",
+              "type": "color"
+            }
+          },
+          "neutral": {
+            "solid": {
+              "value": "$button.background.inverse.solid.light",
+              "type": "color"
+            },
+            "outline-fill": {
+              "value": "$button.background.inverse.outline-fill.light",
+              "type": "color"
+            }
+          },
+          "danger": {
+            "solid": {
+              "value": "$button.background.danger.solid.light",
+              "type": "color"
+            },
+            "outline-fill": {
+              "value": "$button.background.danger.outline-fill.light",
+              "type": "color"
+            }
+          }
+        },
+        "border": {
+          "brand": {
+            "outline-fill": {
+              "value": "$button.border.brand.outline-fill.light",
+              "type": "color"
+            },
+            "outline": {
+              "value": "$button.border.brand.outline.light",
+              "type": "color"
+            }
+          },
+          "inverse": {
+            "outline-fill": {
+              "value": "$button.border.inverse.outline-fill.light",
+              "type": "color"
+            },
+            "outline": {
+              "value": "$button.border.inverse.outline.light",
+              "type": "color"
+            }
+          },
+          "neutral": {
+            "outline-fill": {
+              "value": "$button.border.inverse.outline-fill.light",
+              "type": "color"
+            },
+            "outline": {
+              "value": "$button.border.inverse.outline.light",
+              "type": "color"
+            }
+          },
+          "danger": {
+            "outline-fill": {
+              "value": "$button.border.danger.outline-fill.light",
+              "type": "color"
+            },
+            "outline": {
+              "value": "$button.border.danger.outline.light",
+              "type": "color"
+            }
+          }
+        }
+      },
+      "split-button": {
+        "font": {
+          "brand": {
+            "solid": {
+              "value": "$split-button.font.brand.solid.light",
+              "type": "color"
+            },
+            "outline-fill": {
+              "value": "$split-button.font.brand.outline-fill.light",
+              "type": "color"
+            },
+            "outline": {
+              "value": "$split-button.font.brand.outline.light",
+              "type": "color"
+            },
+            "transparent": {
+              "value": "$split-button.font.brand.transparent.light",
+              "type": "color"
+            }
+          },
+          "inverse": {
+            "solid": {
+              "value": "$split-button.font.inverse.solid.light",
+              "type": "color"
+            },
+            "outline-fill": {
+              "value": "$split-button.font.inverse.outline-fill.light",
+              "type": "color"
+            },
+            "outline": {
+              "value": "$split-button.font.inverse.outline.light",
+              "type": "color"
+            },
+            "transparent": {
+              "value": "$split-button.font.inverse.transparent.light",
+              "type": "color"
+            }
+          },
+          "neutral": {
+            "solid": {
+              "value": "$split-button.font.inverse.solid.light",
+              "type": "color"
+            },
+            "outline-fill": {
+              "value": "$split-button.font.inverse.outline-fill.light",
+              "type": "color"
+            },
+            "outline": {
+              "value": "$split-button.font.inverse.outline.light",
+              "type": "color"
+            },
+            "transparent": {
+              "value": "$split-button.font.inverse.transparent.light",
+              "type": "color"
+            }
+          },
+          "danger": {
+            "solid": {
+              "value": "$split-button.font.danger.solid.light",
+              "type": "color"
+            },
+            "outline-fill": {
+              "value": "$split-button.font.danger.outline-fill.light",
+              "type": "color"
+            },
+            "outline": {
+              "value": "$split-button.font.danger.outline.light",
+              "type": "color"
+            },
+            "transparent": {
+              "value": "$split-button.font.danger.transparent.light",
+              "type": "color"
+            }
+          }
+        },
+        "icon": {
+          "brand": {
+            "solid": {
+              "value": "$split-button.icon.brand.solid.light",
+              "type": "color"
+            },
+            "outline-fill": {
+              "value": "$split-button.icon.brand.outline-fill.light",
+              "type": "color"
+            },
+            "outline": {
+              "value": "$split-button.icon.brand.outline.light",
+              "type": "color"
+            },
+            "transparent": {
+              "value": "$split-button.icon.brand.transparent.light",
+              "type": "color"
+            }
+          },
+          "inverse": {
+            "solid": {
+              "value": "$split-button.icon.inverse.solid.light",
+              "type": "color"
+            },
+            "outline-fill": {
+              "value": "$split-button.icon.inverse.outline-fill.light",
+              "type": "color"
+            },
+            "outline": {
+              "value": "$split-button.icon.inverse.outline.light",
+              "type": "color"
+            },
+            "transparent": {
+              "value": "$split-button.icon.inverse.transparent.light",
+              "type": "color"
+            }
+          },
+          "neutral": {
+            "solid": {
+              "value": "$split-button.icon.inverse.solid.light",
+              "type": "color"
+            },
+            "outline-fill": {
+              "value": "$split-button.icon.inverse.outline-fill.light",
+              "type": "color"
+            },
+            "outline": {
+              "value": "$split-button.icon.inverse.outline.light",
+              "type": "color"
+            },
+            "transparent": {
+              "value": "$split-button.icon.inverse.transparent.light",
+              "type": "color"
+            }
+          },
+          "danger": {
+            "solid": {
+              "value": "$split-button.icon.danger.solid.light",
+              "type": "color"
+            },
+            "outline-fill": {
+              "value": "$split-button.icon.danger.outline-fill.light",
+              "type": "color"
+            },
+            "outline": {
+              "value": "$split-button.icon.danger.outline.light",
+              "type": "color"
+            },
+            "transparent": {
+              "value": "$split-button.icon.danger.transparent.light",
+              "type": "color"
+            }
+          }
+        },
+        "background": {
+          "brand": {
+            "solid": {
+              "value": "$split-button.background.brand.solid.light",
+              "type": "color"
+            },
+            "outline-fill": {
+              "value": "$split-button.background.brand.outline-fill.light",
+              "type": "color"
+            }
+          },
+          "inverse": {
+            "solid": {
+              "value": "$split-button.background.inverse.solid.light",
+              "type": "color"
+            },
+            "outline-fill": {
+              "value": "$split-button.background.inverse.outline-fill.light",
+              "type": "color"
+            }
+          },
+          "neutral": {
+            "solid": {
+              "value": "$split-button.background.inverse.solid.light",
+              "type": "color"
+            },
+            "outline-fill": {
+              "value": "$split-button.background.inverse.outline-fill.light",
+              "type": "color"
+            }
+          },
+          "danger": {
+            "solid": {
+              "value": "$split-button.background.danger.solid.light",
+              "type": "color"
+            },
+            "outline-fill": {
+              "value": "$split-button.background.danger.outline-fill.light",
+              "type": "color"
+            }
+          }
+        },
+        "border": {
+          "brand": {
+            "outline-fill": {
+              "value": "$split-button.border.brand.outline-fill.light",
+              "type": "color"
+            },
+            "outline": {
+              "value": "$split-button.border.brand.outline.light",
+              "type": "color"
+            }
+          },
+          "inverse": {
+            "outline-fill": {
+              "value": "$split-button.border.inverse.outline-fill.light",
+              "type": "color"
+            },
+            "outline": {
+              "value": "$split-button.border.inverse.outline.light",
+              "type": "color"
+            }
+          },
+          "neutral": {
+            "outline-fill": {
+              "value": "$button.border.inverse.outline-fill.light",
+              "type": "color"
+            },
+            "outline": {
+              "value": "$split-button.border.inverse.outline.light",
+              "type": "color"
+            }
+          },
+          "danger": {
+            "outline-fill": {
+              "value": "$split-button.border.danger.outline-fill.light",
+              "type": "color"
+            },
+            "outline": {
+              "value": "$split-button.border.danger.outline.light",
+              "type": "color"
+            }
+          }
+        },
+        "divider": {
+          "brand": {
+            "solid": {
+              "value": "$split-button.divider.brand.solid.light",
+              "type": "color"
+            },
+            "outline-fill": {
+              "value": "$split-button.divider.brand.outline-fill.light",
+              "type": "color"
+            },
+            "outline": {
+              "value": "$split-button.divider.brand.outline.light",
+              "type": "color"
+            },
+            "transparent": {
+              "value": "$split-button.divider.brand.transparent.light",
+              "type": "color"
+            }
+          },
+          "inverse": {
+            "solid": {
+              "value": "$split-button.divider.inverse.solid.light",
+              "type": "color"
+            },
+            "outline-fill": {
+              "value": "$split-button.divider.inverse.outline-fill.light",
+              "type": "color"
+            },
+            "outline": {
+              "value": "$split-button.divider.inverse.outline.light",
+              "type": "color"
+            },
+            "transparent": {
+              "value": "$split-button.divider.inverse.transparent.light",
+              "type": "color"
+            }
+          },
+          "neutral": {
+            "solid": {
+              "value": "$split-button.divider.inverse.solid.light",
+              "type": "color"
+            },
+            "outline-fill": {
+              "value": "$split-button.divider.inverse.outline-fill.light",
+              "type": "color"
+            },
+            "outline": {
+              "value": "$split-button.divider.inverse.outline.light",
+              "type": "color"
+            },
+            "transparent": {
+              "value": "$split-button.divider.inverse.transparent.light",
+              "type": "color"
+            }
+          },
+          "danger": {
+            "solid": {
+              "value": "$split-button.divider.danger.solid.light",
+              "type": "color"
+            },
+            "outline-fill": {
+              "value": "$split-button.divider.danger.outline-fill.light",
+              "type": "color"
+            },
+            "outline": {
+              "value": "$split-button.divider.danger.outline.light",
+              "type": "color"
+            },
+            "transparent": {
+              "value": "$split-button.divider.danger.transparent.light",
+              "type": "color"
+            }
+          }
+        }
+      },
+      "fab": {
+        "font": {
+          "brand": {
+            "solid": {
+              "value": "$fab.font.brand.solid.light",
+              "type": "color"
+            },
+            "outline-fill": {
+              "value": "$fab.font.brand.outline-fill.light",
+              "type": "color"
+            }
+          },
+          "inverse": {
+            "solid": {
+              "value": "$fab.font.inverse.solid.light",
+              "type": "color"
+            },
+            "outline-fill": {
+              "value": "$fab.font.inverse.outline-fill.light",
+              "type": "color"
+            }
+          },
+          "neutral": {
+            "solid": {
+              "value": "$fab.font.inverse.solid.light",
+              "type": "color"
+            },
+            "outline-fill": {
+              "value": "$fab.font.inverse.outline-fill.light",
+              "type": "color"
+            }
+          },
+          "danger": {
+            "solid": {
+              "value": "$fab.font.danger.solid.light",
+              "type": "color"
+            },
+            "outline-fill": {
+              "value": "$fab.font.danger.outline-fill.light",
+              "type": "color"
+            }
+          }
+        },
+        "icon": {
+          "brand": {
+            "solid": {
+              "value": "$fab.icon.brand.solid.light",
+              "type": "color"
+            },
+            "outline-fill": {
+              "value": "$fab.icon.brand.outline-fill.light",
+              "type": "color"
+            }
+          },
+          "inverse": {
+            "solid": {
+              "value": "$fab.icon.inverse.solid.light",
+              "type": "color"
+            },
+            "outline-fill": {
+              "value": "$fab.icon.inverse.outline-fill.light",
+              "type": "color"
+            }
+          },
+          "neutral": {
+            "solid": {
+              "value": "$fab.icon.inverse.solid.light",
+              "type": "color"
+            },
+            "outline-fill": {
+              "value": "$fab.icon.inverse.outline-fill.light",
+              "type": "color"
+            }
+          },
+          "danger": {
+            "solid": {
+              "value": "$fab.icon.danger.solid.light",
+              "type": "color"
+            },
+            "outline-fill": {
+              "value": "$fab.icon.danger.outline-fill.light",
+              "type": "color"
+            }
+          }
+        },
+        "background": {
+          "brand": {
+            "solid": {
+              "value": "$fab.background.brand.solid.light",
+              "type": "color"
+            },
+            "outline-fill": {
+              "value": "$fab.background.brand.outline-fill.light",
+              "type": "color"
+            }
+          },
+          "inverse": {
+            "solid": {
+              "value": "$fab.background.inverse.solid.light",
+              "type": "color"
+            },
+            "outline-fill": {
+              "value": "$fab.background.inverse.outline-fill.light",
+              "type": "color"
+            }
+          },
+          "neutral": {
+            "solid": {
+              "value": "$fab.background.inverse.solid.light",
+              "type": "color"
+            },
+            "outline-fill": {
+              "value": "$fab.background.inverse.outline-fill.light",
+              "type": "color"
+            }
+          },
+          "danger": {
+            "solid": {
+              "value": "$fab.background.danger.solid.light",
+              "type": "color"
+            },
+            "outline-fill": {
+              "value": "$fab.background.danger.outline-fill.light",
+              "type": "color"
+            }
+          }
+        },
+        "border": {
+          "brand": {
+            "outline-fill": {
+              "value": "$fab.border.brand.outline-fill.light",
+              "type": "color"
+            },
+            "solid": {
+              "value": "$fab.border.brand.solid.light",
+              "type": "color"
+            }
+          },
+          "inverse": {
+            "outline-fill": {
+              "value": "$fab.border.inverse.outline-fill.light",
+              "type": "color"
+            },
+            "solid": {
+              "value": "$fab.border.inverse.solid.light",
+              "type": "color"
+            }
+          },
+          "neutral": {
+            "outline-fill": {
+              "value": "$fab.border.inverse.outline-fill.light",
+              "type": "color"
+            },
+            "solid": {
+              "value": "$fab.border.inverse.solid.light",
+              "type": "color"
+            }
+          },
+          "danger": {
+            "outline-fill": {
+              "value": "$fab.border.danger.outline-fill.light",
+              "type": "color"
+            },
+            "solid": {
+              "value": "$fab.border.danger.solid.light",
+              "type": "color"
+            }
+          }
+        }
       }
     }
   }

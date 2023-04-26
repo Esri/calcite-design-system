@@ -1,5 +1,5 @@
 {
-  "slider-range": {
+  "slider-histogram-range": {
     "font": {
       "label": {
         "light": {
@@ -66,6 +66,20 @@
           "value": "$semantic.ui.color.border.input.dark",
           "type": "color"
         }
+      },
+      "border-width": {
+        "sm": {
+          "value": "$core.border.border-width.1",
+          "type": "borderWidth"
+        },
+        "md": {
+          "value": "$core.border.border-width.1",
+          "type": "borderWidth"
+        },
+        "lg": {
+          "value": "$core.border.border-width.1",
+          "type": "borderWidth"
+        }
       }
     },
     "border": {
@@ -88,20 +102,6 @@
           "value": "$semantic.ui.color.brand.default.dark",
           "type": "color"
         }
-      }
-    },
-    "border-width": {
-      "sm": {
-        "value": "$core.border.border-width.1",
-        "type": "borderWidth"
-      },
-      "md": {
-        "value": "$core.border.border-width.1",
-        "type": "borderWidth"
-      },
-      "lg": {
-        "value": "$core.border.border-width.1",
-        "type": "borderWidth"
       }
     },
     "tick-size": {
@@ -219,6 +219,64 @@
             "value": "$semantic.ui.color.foreground.1.dark",
             "type": "color"
           }
+        }
+      },
+      "border-width": {
+        "sm": {
+          "value": "$core.border.border-width.0",
+          "type": "borderWidth"
+        },
+        "md": {
+          "value": "$core.border.border-width.0",
+          "type": "borderWidth"
+        },
+        "lg": {
+          "value": "$core.border.border-width.0",
+          "type": "borderWidth"
+        }
+      }
+    },
+    "area": {
+      "active": {
+        "background": {
+          "light": {
+            "value": "#9BBDDF",
+            "type": "color"
+          },
+          "dark": {
+            "value": "#8DCEF7",
+            "type": "color"
+          }
+        }
+      }
+    },
+    "active-start-end": {
+      "width": {
+        "sm": {
+          "value": "$core.sizing.0",
+          "type": "sizing"
+        },
+        "md": {
+          "value": "$core.sizing.0",
+          "type": "sizing"
+        },
+        "lg": {
+          "value": "$core.sizing.0",
+          "type": "sizing"
+        }
+      },
+      "height": {
+        "sm": {
+          "value": "$core.sizing.15",
+          "type": "sizing"
+        },
+        "md": {
+          "value": "$core.sizing.15",
+          "type": "sizing"
+        },
+        "lg": {
+          "value": "$core.sizing.15",
+          "type": "sizing"
         }
       }
     }
