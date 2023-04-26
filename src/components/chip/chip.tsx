@@ -375,10 +375,22 @@ export class Chip
 
   render(): VNode {
     const disableInteraction = this.disabled || (!this.disabled && !this.interactive);
+    const role =
+      this.selectionMode === "multiple" && this.interactive
+        ? "checkbox"
+        : this.selectionMode !== "none" && this.interactive
+        ? "radio"
+        : this.interactive
+        ? "button"
+        : undefined;
     return (
       <Host>
         <div
-          aria-checked={this.interactive ? toAriaBoolean(this.selected) : undefined}
+          aria-checked={
+            this.selectionMode !== "none" && this.interactive
+              ? toAriaBoolean(this.selected)
+              : undefined
+          }
           aria-disabled={disableInteraction ? toAriaBoolean(this.disabled) : undefined}
           aria-label={this.label}
           class={{
@@ -397,13 +409,7 @@ export class Chip
                 (!!this.selectionMode && this.selectionMode !== "multiple" && !this.selected))
           }}
           onClick={this.handleEmittingEvent}
-          role={
-            this.selectionMode === "multiple" && this.interactive
-              ? "checkbox"
-              : this.interactive
-              ? "radio"
-              : undefined
-          }
+          role={role}
           tabIndex={disableInteraction ? -1 : 0}
           // eslint-disable-next-line react/jsx-sort-props
           ref={(el) => (this.containerEl = el)}
