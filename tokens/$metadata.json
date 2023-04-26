@@ -22,6 +22,7 @@
     "component/block-section",
     "component/card",
     "component/combobox",
+    "component/combobox-item",
     "component/date-picker",
     "component/color-picker",
     "component/input-date-picker",
