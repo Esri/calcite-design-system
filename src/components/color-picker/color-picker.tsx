@@ -1391,7 +1391,7 @@ export class ColorPicker
 
     context.clearRect(0, 0, width, height + this.getSliderCapSpacing() * 2);
 
-    const radius = height / 2;
+    const radius = height / 2 + 1;
     context.beginPath();
     context.moveTo(x + radius, y);
     context.lineTo(x + width - radius, y);
@@ -1427,7 +1427,7 @@ export class ColorPicker
     const x = 0;
     const y = thumbRadius - height / 2;
 
-    context.clearRect(0, y, width, height + this.getSliderCapSpacing() * 2);
+    context.clearRect(0, 0, width, height + this.getSliderCapSpacing() * 2);
 
     const gradient = context.createLinearGradient(0, y, width, 0);
     const startColor = color.rgb().alpha(0);
@@ -1456,7 +1456,7 @@ export class ColorPicker
       return patternCanvas;
     }
 
-    const radius = height / 2;
+    const radius = height / 2 + 1;
     context.beginPath();
     context.moveTo(x + radius, y);
     context.lineTo(x + width - radius, y);
