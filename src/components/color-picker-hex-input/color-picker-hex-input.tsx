@@ -234,14 +234,14 @@ export class ColorPickerHexInput implements LoadableComponent {
     }
   }
 
-  private onPaste(event: ClipboardEvent): void {
+  private onPaste = (event: ClipboardEvent): void => {
     const hex = event.clipboardData.getData("text");
 
     if (isValidHex(hex)) {
       event.preventDefault();
       this.inputNode.value = hex.slice(1);
     }
-  }
+  };
 
   //--------------------------------------------------------------------------
   //
