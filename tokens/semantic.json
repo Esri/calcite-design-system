@@ -1687,6 +1687,22 @@
       "xs": {
         "value": "$semantic.spacing.base * 2",
         "type": "spacing"
+      },
+      "sm": {
+        "value": "$semantic.spacing.base * 4",
+        "type": "spacing"
+      },
+      "md": {
+        "value": "$semantic.spacing.base *6",
+        "type": "spacing"
+      },
+      "lg": {
+        "value": "$semantic.spacing.base * 8",
+        "type": "spacing"
+      },
+      "xl": {
+        "value": "$semantic.spacing.base *10",
+        "type": "spacing"
       }
     }
   }
