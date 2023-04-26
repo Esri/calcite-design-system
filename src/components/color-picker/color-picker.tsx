@@ -886,6 +886,7 @@ export class ColorPicker
                     [CSS.colorModeContainer]: true,
                     [CSS.splitSection]: true
                   }}
+                  scale={scale === "l" ? "m" : "s"}
                 >
                   <calcite-tab-nav slot="title-group">
                     {this.renderChannelsTabTitle("rgb")}
