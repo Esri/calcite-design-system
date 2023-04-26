@@ -104,17 +104,17 @@ export class ColorPicker
   /**
    * When true, the color picker will process and display alpha characters.
    */
-  @Prop() alphaEnabled = false;
+  @Prop() opacityEnabled = false;
 
-  @Watch("alphaEnabled")
-  handleAlphaEnabledChange(alphaEnabled: boolean): void {
+  @Watch("opacityEnabled")
+  handleOpacityEnabledChange(opacityEnabled: boolean): void {
     const { format } = this;
 
-    if (alphaEnabled && format !== "auto" && !alphaCompatible(format)) {
+    if (opacityEnabled && format !== "auto" && !alphaCompatible(format)) {
       console.warn(
-        `ignoring alphaEnabled as the current format (${format}) does not support alpha`
+        `ignoring opacityEnabled as the current format (${format}) does not support alpha`
       );
-      this.alphaEnabled = false;
+      this.opacityEnabled = false;
     }
   }
 
@@ -221,7 +221,7 @@ export class ColorPicker
    * @see [ColorValue](https://github.com/Esri/calcite-components/blob/master/src/components/color-picker/interfaces.ts#L10)
    */
   @Prop({ mutable: true }) value: ColorValue | null = normalizeHex(
-    hexify(DEFAULT_COLOR, this.alphaEnabled)
+    hexify(DEFAULT_COLOR, this.opacityEnabled)
   );
 
   @Watch("value")
@@ -775,7 +775,7 @@ export class ColorPicker
 
   render(): VNode {
     const {
-      alphaEnabled,
+      opacityEnabled,
       allowEmpty,
       channelsDisabled,
       color,
@@ -788,7 +788,7 @@ export class ColorPicker
       savedDisabled,
       scale
     } = this;
-    const selectedColorInHex = color ? hexify(color, alphaEnabled) : null;
+    const selectedColorInHex = color ? hexify(color, opacityEnabled) : null;
     const hexInputScale = scale === "l" ? "m" : "s";
     const {
       colorFieldAndSliderInteractive,
@@ -874,7 +874,7 @@ export class ColorPicker
                 ref={this.storeHueScope}
               />
             </div>
-            {alphaEnabled ? (
+            {opacityEnabled ? (
               <div class={CSS.controlAndScope}>
                 <canvas
                   class={CSS.opacitySlider}
@@ -928,10 +928,10 @@ export class ColorPicker
                   </span>
                   <calcite-color-picker-hex-input
                     allowEmpty={allowEmpty}
-                    alphaEnabled={alphaEnabled}
                     class={CSS.control}
                     numberingSystem={this.numberingSystem}
                     onCalciteColorPickerHexInputChange={this.handleHexInputChange}
+                    opacityEnabled={opacityEnabled}
                     scale={hexInputScale}
                     value={selectedColorInHex}
                   />
@@ -1104,10 +1104,10 @@ export class ColorPicker
   }
 
   private ensureCompatibleMode(mode: SupportedMode, warn): SupportedMode {
-    const { alphaEnabled } = this;
+    const { opacityEnabled } = this;
     const isAlphaCompatible = alphaCompatible(mode);
 
-    if (alphaEnabled && !isAlphaCompatible) {
+    if (opacityEnabled && !isAlphaCompatible) {
       const alphaMode = toAlphaMode(mode);
 
       if (warn) {
@@ -1119,7 +1119,7 @@ export class ColorPicker
       return alphaMode;
     }
 
-    if (!alphaEnabled && isAlphaCompatible) {
+    if (!opacityEnabled && isAlphaCompatible) {
       const nonAlphaMode = toNonAlphaMode(mode);
 
       if (warn) {
@@ -1239,7 +1239,7 @@ export class ColorPicker
   }
 
   private deleteColor = (): void => {
-    const colorToDelete = hexify(this.color, this.alphaEnabled);
+    const colorToDelete = hexify(this.color, this.opacityEnabled);
     const inStorage = this.savedColors.indexOf(colorToDelete) > -1;
 
     if (!inStorage) {
@@ -1258,7 +1258,7 @@ export class ColorPicker
   };
 
   private saveColor = (): void => {
-    const colorToSave = hexify(this.color, this.alphaEnabled);
+    const colorToSave = hexify(this.color, this.opacityEnabled);
     const alreadySaved = this.savedColors.indexOf(colorToSave) > -1;
 
     if (alreadySaved) {
@@ -1288,7 +1288,7 @@ export class ColorPicker
       }
 
       if (
-        this.alphaEnabled &&
+        this.opacityEnabled &&
         (type === "all" || type === "opacity-slider") &&
         this.opacitySliderRenderingContext
       ) {
@@ -1638,7 +1638,7 @@ export class ColorPicker
   private updateColorFromChannels(channels: this["channels"]): void {
     this.internalColorSet(
       Color(
-        this.alphaEnabled && this.color ? [...channels, this.color.alpha()] : channels,
+        this.opacityEnabled && this.color ? [...channels, this.color.alpha()] : channels,
         this.channelMode
       )
     );
