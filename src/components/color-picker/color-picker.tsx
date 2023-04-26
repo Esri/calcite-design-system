@@ -632,8 +632,6 @@ export class ColorPicker
       }
     }
 
-    console.log(samplingX, samplingY);
-
     if (context === this.colorFieldRenderingContext) {
       this.captureColorFieldColor(samplingX, samplingY, false);
     } else if (context === this.hueSliderRenderingContext) {
