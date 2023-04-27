@@ -480,16 +480,18 @@ export class InputTimePicker
 
     dayjs.updateLocale(locale, localeConfig);
 
-    const dayjsParseResult = dayjs(
-      valueToParse,
-      this.shouldIncludeSeconds() ? "LTS" : "LT",
-      locale.toLowerCase()
-    );
-    const timeString = `${dayjsParseResult.get("hour")}:${dayjsParseResult.get(
-      "minute"
-    )}:${dayjsParseResult.get("seconds")}`;
+    const dayjsParseResult = dayjs(valueToParse, ["LTS", "LT"], locale.toLowerCase());
 
-    return formatTimeString(timeString) || "";
+    if (dayjsParseResult.isValid()) {
+      let timeString = `${dayjsParseResult.get("hour")}:${dayjsParseResult.get("minute")}`;
+
+      if (this.shouldIncludeSeconds()) {
+        timeString = `${timeString}:${dayjsParseResult.get("seconds")}`;
+      }
+
+      return formatTimeString(timeString) || "";
+    }
+    return "";
   }
 
   keyDownHandler = (event: KeyboardEvent): void => {
