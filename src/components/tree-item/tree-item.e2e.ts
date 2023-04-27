@@ -8,11 +8,12 @@ describe("calcite-tree-item", () => {
 
   it("honors hidden attribute", async () => hidden(`<calcite-tree-item expanded></calcite-tree-item>`));
 
-  it("is accessible", async () => accessible(`<calcite-tree-item></calcite-tree-item>`));
+  describe("accessible", () => {
+    accessible(`<calcite-tree-item></calcite-tree-item>`);
+  });
 
-  it("is accessible: nested children", async () =>
-    accessible(`
-    <calcite-tree lines>
+  describe("accessible: with nested children", () => {
+    accessible(html` <calcite-tree lines>
       <calcite-tree-item>
         <a href="#">Child 2</a>
         <calcite-tree slot="children">
@@ -20,8 +21,9 @@ describe("calcite-tree-item", () => {
             <a href="http://www.google.com">Grandchild 1</a>
           </calcite-tree-item>
         </calcite-tree>
-    </calcite-tree-item>
-  </calcite-tree>`));
+      </calcite-tree-item>
+    </calcite-tree>`);
+  });
 
   it("has property defaults", async () =>
     defaults("calcite-tree-item", [

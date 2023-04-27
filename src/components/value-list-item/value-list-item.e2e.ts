@@ -8,20 +8,14 @@ describe("calcite-value-list-item", () => {
 
   it("honors hidden attribute", async () => hidden("calcite-value-list-item"));
 
-  it.skip("is accessible", async () => {
-    await accessible(html`
+  describe("accessible", () => {
+    accessible(html`
       <calcite-value-list>
         <calcite-value-list-item label="test" description="a number" value="one"></calcite-value-list-item>
       </calcite-value-list>
     `);
 
-    await accessible(html`
-      <calcite-value-list>
-        <calcite-value-list-item label="test" description="a number" value="one" selected></calcite-value-list-item>
-      </calcite-value-list>
-    `);
-
-    await accessible(html`
+    accessible(html`
       <calcite-value-list>
         <calcite-value-list-item label="test" description="a number" value="one" removable></calcite-value-list-item>
       </calcite-value-list>

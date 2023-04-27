@@ -5,10 +5,11 @@ import { html } from "../../../support/formatting";
 describe("calcite-radio-button-group", () => {
   it("renders", async () => renders("calcite-radio-button-group", { display: "flex" }));
 
-  it("is accessible", async () =>
+  describe("accessibile", () => {
     accessible(
       `<calcite-radio-button-group><calcite-label><calcite-radio-button></calcite-radio-button>Label</calcite-label></calcite-radio-button-group>`
-    ));
+    );
+  });
 
   it("has defaults", async () =>
     defaults("calcite-radio-button-group", [

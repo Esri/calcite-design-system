@@ -76,7 +76,7 @@ describe("calcite-shell-center-row", () => {
     expect(element.shadowRoot.lastElementChild).toHaveClass(CSS.actionBarContainer);
   });
 
-  it("should be accessible", async () =>
+  describe("accessibile", () => {
     accessible(`
     <calcite-shell-center-row>
       <div>content</div>
@@ -84,5 +84,6 @@ describe("calcite-shell-center-row", () => {
         <calcite-action text="hello" icon="banana"></calcite-action>
       </calcite-action-bar>
     </calcite-shell-center-row>
-    `));
+    `);
+  });
 });

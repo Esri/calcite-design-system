@@ -5,7 +5,9 @@ import { html } from "../../../support/formatting";
 describe("calcite-tile-select", () => {
   it("renders", async () => renders("calcite-tile-select", { display: "block" }));
 
-  it("is accessible", async () => accessible(`<calcite-tile-select heading="label"></calcite-tile-select>`));
+  describe("accessible", () => {
+    accessible(`<calcite-tile-select heading="label"></calcite-tile-select>`);
+  });
 
   it("has defaults", async () =>
     defaults("calcite-tile-select", [

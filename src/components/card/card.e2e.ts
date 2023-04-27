@@ -2,6 +2,8 @@ import { newE2EPage } from "@stencil/core/testing";
 import { accessible, renders, slots, hidden, t9n } from "../../tests/commonTests";
 import { placeholderImage } from "../../../.storybook/placeholderImage";
 import { CSS, SLOTS } from "./resources";
+import { html } from "../../../support/formatting";
+
 const placeholder = placeholderImage({
   width: 350,
   height: 150
@@ -17,9 +19,9 @@ describe("calcite-card", () => {
   });
 
   describe("accessibile when selectable", () => {
-    accessible(`<calcite-card selectable>
-    <img slot="thumbnail" src="${placeholder}" alt="Test image" />
-  </calcite-card>`);
+    accessible(html`<calcite-card selectable>
+      <img slot="thumbnail" src="${placeholder}" alt="Test image" />
+    </calcite-card>`);
   });
 
   it("has slots", () => slots("calcite-card", SLOTS));

@@ -16,7 +16,9 @@ describe("calcite-rating", () => {
 
     it("honors hidden attribute", async () => hidden("calcite-rating"));
 
-    it("should be accessible", async () => accessible(`<calcite-rating></calcite-rating>`));
+    describe("accessibile", () => {
+      accessible(`<calcite-rating></calcite-rating>`);
+    });
 
     it("is labelable", async () => labelable("calcite-rating"));
 

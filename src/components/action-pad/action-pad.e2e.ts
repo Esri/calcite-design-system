@@ -165,22 +165,22 @@ describe("calcite-action-pad", () => {
   });
 
   describe("accessible", () => {
-    accessible(`
-  <calcite-action-pad>
-     <calcite-action-group>
-      <calcite-action text="Add" icon="plus"></calcite-action>
-    </calcite-action-group>
-  </calcite-action-pad>
-  `);
+    accessible(html`
+      <calcite-action-pad>
+        <calcite-action-group>
+          <calcite-action text="Add" icon="plus"></calcite-action>
+        </calcite-action-group>
+      </calcite-action-pad>
+    `);
   });
 
   describe("should be accessible when expanded", () => {
-    accessible(`
-    <calcite-action-pad expanded>
-      <calcite-action-group>
-        <calcite-action text="Add" icon="plus"></calcite-action>
-      </calcite-action-group>
-    </calcite-action-pad>
+    accessible(html`
+      <calcite-action-pad expanded>
+        <calcite-action-group>
+          <calcite-action text="Add" icon="plus"></calcite-action>
+        </calcite-action-group>
+      </calcite-action-pad>
     `);
   });
 

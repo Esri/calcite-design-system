@@ -18,12 +18,13 @@ describe("calcite-value-list", () => {
 
   it("honors hidden attribute", async () => hidden("calcite-value-list"));
 
-  it.skip("is accessible", () =>
+  describe("accessible", () => {
     accessible(html`
       <calcite-value-list>
         <calcite-value-list-item label="Sample" value="one"></calcite-value-list-item>
       </calcite-value-list>
-    `));
+    `);
+  });
 
   it("supports translations", () => t9n("calcite-value-list"));
 
@@ -248,7 +249,7 @@ describe("calcite-value-list", () => {
       expect(await ninth.getProperty("value")).toBe("f");
     });
 
-    it("is drag and drop list accessible", async () => {
+    it("accessible: drag and drop list", async () => {
       const page = await createSimpleValueList();
       let startIndex = 0;
 

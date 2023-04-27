@@ -20,7 +20,7 @@ describe("calcite-graph", () => {
         html
       });
 
-      page.$eval("calcite-graph", (elm: any) => {
+      await page.$eval("calcite-graph", (elm: any) => {
         elm.data = [
           [0, 4],
           [1, 7],

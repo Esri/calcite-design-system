@@ -1,6 +1,7 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { accessible, defaults, hidden, renders, t9n } from "../../tests/commonTests";
 import { CSS, TEXT } from "./resources";
+import { html } from "../../../support/formatting";
 
 describe("calcite-tip-manager", () => {
   it("renders", async () => renders("calcite-tip-manager", { display: "block" }));
@@ -31,10 +32,11 @@ describe("calcite-tip-manager", () => {
         }
       ]));
 
-    it("is accessible", async () =>
-      accessible(
-        `<calcite-tip-manager><calcite-tip heading="sample"><p>basic render</p></calcite-tip></calcite-tip-manager>`
-      ));
+    describe("accessible", () => {
+      accessible(html`<calcite-tip-manager
+        ><calcite-tip heading="sample"><p>basic render</p></calcite-tip></calcite-tip-manager
+      >`);
+    });
 
     it("should pre-select the correct tip if the selected attribute is set", async () => {
       const page = await newE2EPage();

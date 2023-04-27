@@ -39,10 +39,13 @@ describe("calcite-time-picker", () => {
 
   it("honors hidden attribute", async () => hidden("calcite-time-picker"));
 
-  it("is accessible", async () => accessible(`<calcite-time-picker></calcite-time-picker>`));
+  describe("accessible", () => {
+    accessible(`<calcite-time-picker></calcite-time-picker>`);
+  });
 
-  it("is accessible using seconds", async () =>
-    accessible(`<calcite-time-picker step="1" value="00:00:00"></calcite-time-picker>`));
+  describe("accessible using seconds", () => {
+    accessible(`<calcite-time-picker step="1" value="00:00:00"></calcite-time-picker>`);
+  });
 
   it("has defaults", async () =>
     defaults("calcite-time-picker", [

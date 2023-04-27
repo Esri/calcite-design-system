@@ -14,9 +14,13 @@ describe("calcite-switch", () => {
 
   it("honors hidden attribute", async () => hidden("calcite-switch"));
 
-  it("is accessible", async () => accessible(`<calcite-switch label="test-label"></calcite-switch>`));
+  describe("accessible", () => {
+    accessible(`<calcite-switch label="test-label"></calcite-switch>`);
+  });
 
-  it("is accessible: checked", async () => accessible(`<calcite-switch label="test-label" checked></calcite-switch>`));
+  describe("accessible: checked", () => {
+    accessible(`<calcite-switch label="test-label" checked></calcite-switch>`);
+  });
 
   it("is labelable", async () => labelable("calcite-switch", { propertyToToggle: "checked" }));
 

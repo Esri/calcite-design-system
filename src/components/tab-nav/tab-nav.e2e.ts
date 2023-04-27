@@ -9,7 +9,9 @@ describe("calcite-tab-nav", () => {
 
   it("honors hidden attribute", async () => hidden("calcite-tab-nav"));
 
-  it("is accessible", async () => await accessible(tabNavHtml));
+  describe("accessible: checked", () => {
+    accessible(tabNavHtml);
+  });
 
   it("emits on user interaction", async () => {
     const page = await newE2EPage();

@@ -1,4 +1,4 @@
-/* eslint-disable jest/no-export */
+/* eslint-disable jest/no-export -- util functions are now imported to be used as `it` blocks within `descirbe` instead of assertions within `it` blocks */
 import { E2EElement, E2EPage, EventSpy, newE2EPage } from "@stencil/core/testing";
 import axe from "axe-core";
 import { toHaveNoViolations } from "jest-axe";
@@ -48,7 +48,11 @@ async function simplePageSetup(componentTagOrHTML: TagOrHTML): Promise<E2EPage> 
 }
 
 /**
- * Helper for asserting that a component is accessible.
+ * Note that this helper should be used within a describe block.
+ *
+ * describe("accessible), () => {
+ *   accessible(`<calcite-tree></calcite-tree>`);
+ * });
  *
  * @param {string} componentTagOrHTML - the component tag or HTML markup to test against
  * @param {E2EPage} [page] - an e2e page

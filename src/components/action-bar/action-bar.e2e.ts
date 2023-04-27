@@ -209,22 +209,22 @@ describe("calcite-action-bar", () => {
   });
 
   describe("accessible", () => {
-    accessible(`
-    <calcite-action-bar>
-      <calcite-action-group>
-        <calcite-action text="Add" icon="plus"></calcite-action>
-      </calcite-action-group>
-    </calcite-action-bar>
+    accessible(html`
+      <calcite-action-bar>
+        <calcite-action-group>
+          <calcite-action text="Add" icon="plus"></calcite-action>
+        </calcite-action-group>
+      </calcite-action-bar>
     `);
   });
 
   describe("accessible when expanded", () => {
-    accessible(`
-    <calcite-action-bar expanded>
-      <calcite-action-group>
-        <calcite-action text="Add" icon="plus"></calcite-action>
-      </calcite-action-group>
-    </calcite-action-bar>
+    accessible(html`
+      <calcite-action-bar expanded>
+        <calcite-action-group>
+          <calcite-action text="Add" icon="plus"></calcite-action>
+        </calcite-action-group>
+      </calcite-action-bar>
     `);
   });
 

@@ -28,7 +28,9 @@ describe("calcite-tabs", () => {
       { propertyName: "scale", defaultValue: "m" }
     ]));
 
-  it("is accessible", async () => accessible(`<calcite-tabs>${tabsContent}</calcite-tabs>`));
+  describe("accessible: checked", () => {
+    accessible(`<calcite-tabs>${tabsContent}</calcite-tabs>`);
+  });
 
   it("sets up basic aria attributes", async () => {
     const page = await newE2EPage();

@@ -16,19 +16,13 @@ describe("calcite-alert", () => {
   it("honors hidden attribute", async () => hidden(`<calcite-alert open></calcite-alert>`));
 
   describe("accessible", () => {
-    accessible(`
-    <calcite-alert open label="test">
-    ${alertContent}
-    </calcite-alert>
-  `);
+    accessible(html` <calcite-alert open label="test"> ${alertContent} </calcite-alert> `);
   });
 
   describe("accessible with auto-close", () => {
-    accessible(`
-    <calcite-alert open auto-close auto-close-duration="slow" label="test">
-    ${alertContent}
-    </calcite-alert>
-  `);
+    accessible(html`
+      <calcite-alert open auto-close auto-close-duration="slow" label="test"> ${alertContent} </calcite-alert>
+    `);
   });
 
   it("renders default props when none are provided", async () => {

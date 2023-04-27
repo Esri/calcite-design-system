@@ -14,13 +14,15 @@ import {
 describe("calcite-radio-button", () => {
   it("renders", async () => renders("calcite-radio-button", { display: "block" }));
 
-  it("is accessible", async () =>
+  describe("accessibile", () => {
     accessible(
       `<calcite-label><calcite-radio-button id="example" name="example" value="one"></calcite-radio-button>label</calcite-label>`
-    ));
+    );
+  });
 
-  it("is accessible without calcite-label", async () =>
-    accessible(`<calcite-radio-button label="label" id="example" name="example" value="one"></calcite-radio-button>`));
+  describe("accessible without calcite-label", () => {
+    accessible(`<calcite-radio-button label="label" id="example" name="example" value="one"></calcite-radio-button>`);
+  });
 
   it("has defaults", async () => defaults("calcite-radio-button", [{ propertyName: "scale", defaultValue: "m" }]));
 
