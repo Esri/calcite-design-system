@@ -89,6 +89,12 @@ export default class TooltipManager {
 
     const tooltip = this.queryTooltip(composedPath);
 
+    if (this.isCloseOnClickTooltip(tooltip)) {
+      return;
+    } else {
+      this.clickedTooltip = null;
+    }
+
     if (tooltip) {
       this.toggleHoveredTooltip(tooltip, true);
     } else if (activeTooltipEl) {
@@ -138,6 +144,7 @@ export default class TooltipManager {
 
   private clearHoverTimeout(): void {
     window.clearTimeout(this.hoverTimeout);
+    this.hoverTimeout = null;
   }
 
   private closeExistingTooltip(): void {
@@ -168,6 +175,9 @@ export default class TooltipManager {
 
   private toggleHoveredTooltip = (tooltip: HTMLCalciteTooltipElement, value: boolean): void => {
     this.hoverTimeout = window.setTimeout(() => {
+      if (this.isCloseOnClickTooltip(tooltip) || this.hoverTimeout === null) {
+        return;
+      }
       this.closeExistingTooltip();
       this.toggleTooltip(tooltip, value);
     }, TOOLTIP_DELAY_MS);
@@ -176,11 +186,16 @@ export default class TooltipManager {
   private queryFocusedTooltip(event: FocusEvent, value: boolean): void {
     const tooltip = this.queryTooltip(event.composedPath());
 
-    if (!tooltip || tooltip === this.clickedTooltip) {
-      this.clickedTooltip = null;
+    if (this.isCloseOnClickTooltip(tooltip)) {
       return;
     }
 
     this.toggleFocusedTooltip(tooltip, value);
+  }
+
+  private isCloseOnClickTooltip(tooltip: HTMLCalciteTooltipElement): boolean {
+    const { clickedTooltip } = this;
+
+    return tooltip?.closeOnClick && clickedTooltip && tooltip === clickedTooltip;
   }
 }
