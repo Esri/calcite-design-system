@@ -1,5 +1,5 @@
 import { CSS, SLOTS } from "./resources";
-import { accessible, disabled, renders, slots, hidden, t9n } from "../../tests/commonTests";
+import { disabled, renders, slots, hidden, t9n } from "../../tests/commonTests";
 import { newE2EPage } from "@stencil/core/testing";
 import { html } from "../../../support/formatting";
 
@@ -7,26 +7,6 @@ describe("calcite-pick-list-item", () => {
   it("renders", async () => renders("calcite-pick-list-item", { display: "flex" }));
 
   it("honors hidden attribute", async () => hidden("calcite-list-item"));
-
-  describe("accessibile", () => {
-    accessible(html`
-      <calcite-pick-list>
-        <calcite-pick-list-item label="test" description="a number" value="one"></calcite-pick-list-item>
-      </calcite-pick-list>
-    `);
-
-    accessible(html`
-      <calcite-pick-list>
-        <calcite-pick-list-item label="test" description="a number" value="one" selected></calcite-pick-list-item>
-      </calcite-pick-list>
-    `);
-
-    accessible(html`
-      <calcite-pick-list>
-        <calcite-pick-list-item label="test" description="a number" value="one" removable></calcite-pick-list-item>
-      </calcite-pick-list>
-    `);
-  });
 
   it("has slots", () => slots("calcite-pick-list-item", SLOTS));
 

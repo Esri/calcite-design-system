@@ -1,6 +1,7 @@
 import { CSS, TEXT } from "./resources";
 import { accessible, defaults, hidden, reflects, renders, t9n } from "../../tests/commonTests";
 import { E2EPage, newE2EPage } from "@stencil/core/testing";
+import { html } from "../../../support/formatting";
 
 describe("calcite-block-section", () => {
   it("renders", async () => renders("calcite-block-section", { display: "block" }));
@@ -30,16 +31,20 @@ describe("calcite-block-section", () => {
   it("supports translation", () => t9n("calcite-block-section"));
 
   describe("toggle-display = 'switch'", () => {
-    describe("accessibile", () => {
-      accessible(
-        `<calcite-block-section text="text" toggle-display="switch" open><div>some content</div></calcite-block-section>`
-      );
+    describe("accessible", () => {
+      accessible(html`
+        <calcite-block-section text="text" toggle-display="switch" open>
+          <div>some content</div>
+        </calcite-block-section>
+      `);
     });
 
-    describe("accessibile when closed", () => {
-      accessible(
-        `<calcite-block-section text="text" toggle-display="switch"><div>some content</div></calcite-block-section>`
-      );
+    describe("accessible: when closed", () => {
+      accessible(html`
+        <calcite-block-section text="text" toggle-display="switch">
+          <div>some content</div>
+        </calcite-block-section>
+      `);
     });
 
     it("can display/hide content", async () => {
@@ -66,12 +71,13 @@ describe("calcite-block-section", () => {
   });
 
   describe("toggle-display = 'button' (default)", () => {
-    describe("accessibility", () => {
-      it("when open", async () =>
-        accessible(`<calcite-block-section text="text" open><div>some content</div></calcite-block-section>`));
+    describe("accessibile", () => {
+      it("when open", () =>
+        accessible(html`<calcite-block-section text="text" open><div>some content</div></calcite-block-section>`));
 
-      it("when closed", async () =>
-        accessible(`<calcite-block-section text="text"><div>some content</div></calcite-block-section>`));
+      it("when closed", () => {
+        accessible(html`<calcite-block-section text="text"><div>some content</div></calcite-block-section>`);
+      });
     });
 
     it("can display/hide content", async () => {

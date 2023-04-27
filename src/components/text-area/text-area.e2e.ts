@@ -1,4 +1,4 @@
-import { newE2EPage, E2EPage } from "@stencil/core/testing";
+import { newE2EPage } from "@stencil/core/testing";
 import {
   accessible,
   defaults,
@@ -12,6 +12,7 @@ import {
   t9n
 } from "../../tests/commonTests";
 import { CSS } from "./resources";
+import { html } from "../../../support/formatting";
 
 describe("calcite-text-area", () => {
   it("renders", async () => renders("calcite-text-area", { display: "inline-block" }));
@@ -51,15 +52,10 @@ describe("calcite-text-area", () => {
     ]));
 
   describe("accessible", () => {
-    let page: E2EPage;
-
-    beforeEach(async () => {
-      await page.setContent(
-        `<calcite-label>add notes<calcite-text-area max-length="50" required name="something" > </calcite-text-area></calcite-label>`
-      );
-    });
-
-    accessible("calcite-text-area", page);
+    accessible(html`<calcite-label>
+      add notes
+      <calcite-text-area max-length="50" required name="something"></calcite-text-area>
+    </calcite-label>`);
   });
 
   it("is focusable", () => focusable("calcite-text-area"));
