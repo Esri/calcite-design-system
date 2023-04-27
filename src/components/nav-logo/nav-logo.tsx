@@ -26,7 +26,7 @@ export class CalciteNavLogo {
   @Prop({ reflect: true }) href: string;
 
   /** Specifies accesible label for the component */
-  @Prop({ reflect: true }) label: string;
+  @Prop() label: string;
 
   /** Specifies the subtext to display, for example an organization or application description */
   @Prop({ reflect: true }) subText: string;

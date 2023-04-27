@@ -1,11 +1,33 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { html } from "../../../support/formatting";
-import { hidden, renders } from "../../tests/commonTests";
+import { accessible, hidden, reflects, renders } from "../../tests/commonTests";
 
 describe("calcite-nav-user", () => {
   it("renders", async () => renders("calcite-nav-user", { display: "inline-flex" }));
 
   it("honors hidden attribute", async () => hidden("calcite-nav-user"));
+
+  it("is accessible", async () => accessible("calcite-nav-user"));
+
+  it("reflects", async () =>
+    reflects("calcite-nav-user", [
+      {
+        propertyName: "active",
+        value: "true"
+      },
+      {
+        propertyName: "userId",
+        value: "123"
+      },
+      {
+        propertyName: "username",
+        value: "Spock123"
+      },
+      {
+        propertyName: "hideText",
+        value: ""
+      }
+    ]));
 
   it("should emit calciteNavUserSelect event on user click", async () => {
     const page = await newE2EPage();

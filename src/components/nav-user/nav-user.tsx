@@ -24,10 +24,10 @@ export class CalciteNavUser {
   @Prop({ reflect: true }) active: boolean;
 
   /** Specifies the text to display, for example a user name or full name */
-  @Prop({ reflect: true }) fullName: string;
+  @Prop() fullName: string;
 
   /** Specifies accesible label for the component */
-  @Prop({ reflect: true }) label: string;
+  @Prop() label: string;
 
   /** Specifies the unique id of the user. */
   @Prop({ reflect: true }) userId: string;
