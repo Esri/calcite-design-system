@@ -81,8 +81,6 @@ export class ColorPicker
   //--------------------------------------------------------------------------
 
   /**
-   * When `false`, an empty color (`null`) will be allowed as a `value`. Otherwise, a color value is enforced on the component.
-   *
    * When `true`, a color value is enforced, and clearing the input or blurring will restore the last valid `value`. When `false`, an empty color (`null`) will be allowed as a `value`.
    */
   @Prop({ reflect: true }) allowEmpty = false;
