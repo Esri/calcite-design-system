@@ -53,7 +53,7 @@ export class CalciteNav {
    * Emits whenever the component is selected or unselected.
    *
    */
-  @Event({ cancelable: false }) calciteNavMenuActionSelect: EventEmitter<void>;
+  @Event() calciteNavMenuActionSelect: EventEmitter<void>;
 
   //--------------------------------------------------------------------------
   //
