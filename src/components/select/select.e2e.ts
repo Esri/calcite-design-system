@@ -341,7 +341,7 @@ describe("calcite-select", () => {
     expect(selectedOptionId).toBe("2");
   });
 
-  it("is form-associated", () =>
+  describe("is form-associated", () => {
     formAssociated(
       html`
         <calcite-select>
@@ -351,5 +351,6 @@ describe("calcite-select", () => {
         </calcite-select>
       `,
       { testValue: "dos" }
-    ));
+    );
+  });
 });

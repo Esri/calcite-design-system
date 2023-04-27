@@ -351,8 +351,9 @@ describe("calcite-input-time-picker", () => {
     expect(await inputTimePicker.getProperty("value")).toBeUndefined();
   });
 
-  it("is form-associated", () =>
-    formAssociated("calcite-input-time-picker", { testValue: "03:23", submitsOnEnter: true }));
+  describe("is form-associated", () => {
+    formAssociated("calcite-input-time-picker", { testValue: "03:23", submitsOnEnter: true });
+  });
 
   it("toggles seconds display when step is < 60", async () => {
     const page = await newE2EPage({

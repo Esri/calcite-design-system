@@ -440,5 +440,7 @@ describe("calcite-radio-button", () => {
     expect(await inputs[1].getProperty("checked")).toBe(true);
   });
 
-  it("is form-associated", () => formAssociated("calcite-radio-button", { testValue: true, inputType: "radio" }));
+  describe("is form-associated", () => {
+    formAssociated("calcite-radio-button", { testValue: true, inputType: "radio" });
+  });
 });
