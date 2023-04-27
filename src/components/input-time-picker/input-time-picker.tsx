@@ -261,28 +261,25 @@ export class InputTimePicker
 
     const delocalizedInputValue = this.delocalizeTimeString(inputValue);
 
-    numberStringFormatter.numberFormatOptions = {
-      locale: this.effectiveLocale,
-      numberingSystem: this.numberingSystem,
-      useGrouping: false
-    };
-
     if (!delocalizedInputValue) {
       this.setValue("");
+      this.setInputValue("");
       return;
     }
 
     if (delocalizedInputValue !== this.value) {
       this.setValue(delocalizedInputValue);
-      const localizedTimeString = localizeTimeString({
-        value: this.value,
-        locale: this.effectiveLocale,
-        numberingSystem: this.numberingSystem,
-        includeSeconds: this.shouldIncludeSeconds()
-      });
-      if (localizedTimeString !== inputValue) {
-        this.setInputValue(localizedTimeString);
-      }
+    }
+
+    const localizedTimeString = localizeTimeString({
+      value: this.value,
+      locale: this.effectiveLocale,
+      numberingSystem: this.numberingSystem,
+      includeSeconds: this.shouldIncludeSeconds()
+    });
+
+    if (localizedTimeString !== inputValue) {
+      this.setInputValue(localizedTimeString);
     }
   };
 
@@ -308,7 +305,7 @@ export class InputTimePicker
       useGrouping: false
     };
 
-    const translatedValue = numberStringFormatter
+    const valueInNumberingSystem = numberStringFormatter
       .delocalize(target.value)
       .split("")
       .map((char) =>
@@ -318,7 +315,7 @@ export class InputTimePicker
       )
       .join("");
 
-    this.setInputValue(translatedValue);
+    this.setInputValue(valueInNumberingSystem);
   };
 
   @Listen("click")
