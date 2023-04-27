@@ -233,10 +233,6 @@ export function toAlphaMode(mode: SupportedMode): SupportedMode {
       ? ObjectColorMode.HSVA
       : mode;
 
-  // if (alphaMode === undefined) {
-  //   throw new Error(`invalid mode ${mode}`);
-  // }
-
   return alphaMode;
 }
 
@@ -255,10 +251,6 @@ export function toNonAlphaMode(mode: SupportedMode): SupportedMode {
       : mode === ObjectColorMode.HSVA
       ? ObjectColorMode.HSV
       : mode;
-
-  // if (nonAlphaMode === undefined) {
-  //   throw new Error(`invalid mode ${mode}`);
-  // }
 
   return nonAlphaMode;
 }
