@@ -976,7 +976,7 @@ export class ColorPicker
   };
 
   private renderChannelsTab = (channelMode: this["channelMode"]): VNode => {
-    const { channelMode: activeChannelMode, channels, messages, opacityEnabled } = this;
+    const { allowEmpty, channelMode: activeChannelMode, channels, messages, opacityEnabled } = this;
     const selected = channelMode === activeChannelMode;
     const isRgb = channelMode === "rgb";
     const channelAriaLabels = isRgb
@@ -993,7 +993,8 @@ export class ColorPicker
             const isAlphaChannel = index === 3;
 
             if (isAlphaChannel) {
-              channelValue = alphaToOpacity(channelValue);
+              channelValue =
+                allowEmpty && !channelValue ? channelValue : alphaToOpacity(channelValue);
             }
 
             /* the channel container is ltr, so we apply the host's direction */
@@ -1440,7 +1441,7 @@ export class ColorPicker
   private drawOpacitySlider(): void {
     const context = this.opacitySliderRenderingContext;
     const {
-      previousColor,
+      baseColorFieldColor: previousColor,
       dimensions: {
         slider: { height, width },
         thumb: { radius: thumbRadius }
@@ -1556,9 +1557,7 @@ export class ColorPicker
   };
 
   private updateColorFromChannels(channels: this["channels"]): void {
-    this.internalColorSet(
-      Color(this.opacityEnabled && this.color ? channels : channels.slice(0, 3), this.channelMode)
-    );
+    this.internalColorSet(Color(channels, this.channelMode));
   }
 
   private updateChannelsFromColor(color: Color | null): void {
@@ -1570,7 +1569,10 @@ export class ColorPicker
 
     const channels = color[channelMode]()
       .array()
-      .map((value) => Math.floor(value));
+      .map((value, index) => {
+        const isAlpha = index === 3;
+        return isAlpha ? value : Math.floor(value);
+      });
 
     if (channels.length === 3) {
       channels.push(1); // Color omits alpha when 1

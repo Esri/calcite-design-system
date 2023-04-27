@@ -184,6 +184,10 @@ $inline-input-width: 31%;
   &:nth-child(n + 2) {
     margin-inline-start: -1px;
   }
+
+  &[data-channel-index="3"] {
+    inline-size: 154px;
+  }
 }
 
 :host([scale="s"]) {
@@ -196,8 +200,17 @@ $inline-input-width: 31%;
     flex-grow: 1;
 
     &[data-channel-index="3"] {
+      inline-size: unset;
       flex-basis: 100%;
       margin-inline-start: unset;
+    }
+  }
+}
+
+:host([scale="l"]) {
+  .channel {
+    &[data-channel-index="3"] {
+      inline-size: 126px;
     }
   }
 }

@@ -146,8 +146,8 @@ export class ColorPickerHexInput implements LoadableComponent {
    */
   @Event({ cancelable: false }) calciteColorPickerHexInputChange: EventEmitter<void>;
 
-  private onCalciteInternalInputBlur = (): void => {
-    const node = this.inputNode;
+  private onHexInputBlur = (): void => {
+    const node = this.hexInputNode;
     const inputValue = node.value;
     const hex = `#${inputValue}`;
     const { allowEmpty } = this;
@@ -164,7 +164,7 @@ export class ColorPickerHexInput implements LoadableComponent {
     node.value =
       allowEmpty && !internalColor
         ? ""
-        : this.formatForInternalInput(
+        : this.formatHexForInternalInput(
             rgbToHex(
               // always display hex input in RRGGBB format
               internalColor.object() as any as RGB
@@ -172,14 +172,24 @@ export class ColorPickerHexInput implements LoadableComponent {
           );
   };
 
-  private onInputChange = (): void => {
-    const normalized = normalizeHex(this.inputNode.value);
-    const newValue =
-      this.opacityEnabled && isValidHex(normalized)
-        ? `${normalized}${this.internalColor.hexa().slice(-2)}`
-        : normalized;
-    this.internalSetValue(newValue, this.value);
+  private onOpacityInputBlur = (): void => {
+    const node = this.opacityInputNode;
+    const inputValue = node.value;
+    const { allowEmpty } = this;
+    const willClearValue = allowEmpty && !inputValue;
+
+    if (willClearValue) {
+      return;
+    }
+
+    const { internalColor } = this;
+
+    // manipulating DOM directly since rerender doesn't update input value
+    node.value =
+      allowEmpty && !internalColor ? "" : this.formatOpacityForInternalInput(internalColor);
   };
+
+  private onInputChange = (): void => this.internalSetValue(this.hexInputNode.value, this.value);
 
   // using @Listen as a workaround for VDOM listener not firing
   @Listen("keydown", { capture: true })
@@ -187,9 +197,15 @@ export class ColorPickerHexInput implements LoadableComponent {
     const { altKey, ctrlKey, metaKey, shiftKey } = event;
     const { opacityEnabled, internalColor, value } = this;
     const { key } = event;
+    const composedPath = event.composedPath();
 
     if (key === "Tab" || key === "Enter") {
-      this.onInputChange();
+      if (composedPath.includes(this.hexInputNode)) {
+        this.onInputChange();
+      } else {
+        this.onOpacityInputChange();
+      }
+
       return;
     }
 
@@ -205,7 +221,6 @@ export class ColorPickerHexInput implements LoadableComponent {
 
       const direction = key === "ArrowUp" ? 1 : -1;
       const bump = shiftKey ? 10 : 1;
-      const composedPath = event.composedPath();
 
       this.internalSetValue(
         normalizeHex(
@@ -213,7 +228,7 @@ export class ColorPickerHexInput implements LoadableComponent {
             this.nudgeRGBChannels(
               internalColor,
               bump * direction,
-              composedPath.includes(this.inputNode) ? "rgb" : "opacity"
+              composedPath.includes(this.hexInputNode) ? "rgb" : "opacity"
             ),
             opacityEnabled
           )
@@ -234,12 +249,12 @@ export class ColorPickerHexInput implements LoadableComponent {
     }
   }
 
-  private onPaste = (event: ClipboardEvent): void => {
+  private onHexInputPaste = (event: ClipboardEvent): void => {
     const hex = event.clipboardData.getData("text");
 
     if (isValidHex(hex)) {
       event.preventDefault();
-      this.inputNode.value = hex.slice(1);
+      this.hexInputNode.value = hex.slice(1);
     }
   };
 
@@ -249,12 +264,14 @@ export class ColorPickerHexInput implements LoadableComponent {
   //
   //--------------------------------------------------------------------------
 
-  private inputNode: HTMLCalciteInputElement;
+  private hexInputNode: HTMLCalciteInputElement;
 
   /**
    * The last valid/selected color. Used as a fallback if an invalid hex code is entered.
    */
   @State() internalColor: Color | null = DEFAULT_COLOR;
+
+  private opacityInputNode: HTMLCalciteInputElement;
 
   private previousNonNullValue: string = this.value;
 
@@ -266,7 +283,8 @@ export class ColorPickerHexInput implements LoadableComponent {
 
   render(): VNode {
     const { opacityEnabled, hexLabel, internalColor, messages, scale, value } = this;
-    const hexInputValue = this.formatForInternalInput(value);
+    const hexInputValue = this.formatHexForInternalInput(value);
+    const opacityInputValue = this.formatOpacityForInternalInput(internalColor);
     const inputScale = scale === "l" ? "m" : "s";
 
     return (
@@ -277,29 +295,33 @@ export class ColorPickerHexInput implements LoadableComponent {
           maxLength={6}
           numberingSystem={this.numberingSystem}
           onCalciteInputChange={this.onInputChange}
-          onCalciteInternalInputBlur={this.onCalciteInternalInputBlur}
+          onCalciteInternalInputBlur={this.onHexInputBlur}
           onKeyDown={this.handleKeyDown}
-          onPaste={this.onPaste}
+          onPaste={this.onHexInputPaste}
           prefixText="#"
           scale={inputScale}
           value={hexInputValue}
           // eslint-disable-next-line react/jsx-sort-props
-          ref={this.storeInputRef}
+          ref={this.storeHexInputRef}
         />
         {opacityEnabled ? (
           <calcite-input-number
             class={CSS.opacityInput}
+            key="opacity-input"
             label={messages.opacity}
             max={OPACITY_LIMITS.max}
             maxLength={3}
             min={OPACITY_LIMITS.min}
             numberButtonType="none"
             numberingSystem={this.numberingSystem}
-            onCalciteInputNumberChange={this.handleOpacityInputChange}
+            onCalciteInputNumberChange={this.onOpacityInputChange}
+            onCalciteInternalInputNumberBlur={this.onOpacityInputBlur}
             onKeyDown={this.handleKeyDown}
             scale={inputScale}
             suffixText="%"
-            value={`${alphaToOpacity(internalColor.alpha())}`}
+            value={opacityInputValue}
+            // eslint-disable-next-line react/jsx-sort-props
+            ref={this.storeOpacityInputRef}
           />
         ) : null}
       </div>
@@ -317,7 +339,7 @@ export class ColorPickerHexInput implements LoadableComponent {
   async setFocus(): Promise<void> {
     await componentLoaded(this);
 
-    focusElement(this.inputNode);
+    focusElement(this.hexInputNode);
   }
 
   //--------------------------------------------------------------------------
@@ -367,12 +389,20 @@ export class ColorPickerHexInput implements LoadableComponent {
     this.value = oldValue;
   }
 
-  private storeInputRef = (node: HTMLCalciteInputElement): void => {
-    this.inputNode = node;
+  private storeHexInputRef = (node: HTMLCalciteInputElement): void => {
+    this.hexInputNode = node;
   };
 
-  private formatForInternalInput(hex: string): string {
+  private storeOpacityInputRef = (node: HTMLCalciteInputElement): void => {
+    this.opacityInputNode = node;
+  };
+
+  private formatHexForInternalInput(hex: string): string {
     return hex ? hex.replace("#", "").slice(0, 6) : "";
+  }
+
+  private formatOpacityForInternalInput(color: Color): string {
+    return color ? `${alphaToOpacity(color.alpha())}` : "";
   }
 
   private nudgeRGBChannels(color: Color, amount: number, context: "rgb" | "opacity"): Color {
@@ -388,7 +418,7 @@ export class ColorPickerHexInput implements LoadableComponent {
     }
 
     const nudgedAlpha = opacityToAlpha(alphaToOpacity(color.alpha()) + amount);
-    return Color([color.array().slice(0, 3), nudgedAlpha]);
+    return Color([...color.array().slice(0, 3), nudgedAlpha]);
   }
 
   private handleKeyDown(event: KeyboardEvent): void {
@@ -397,8 +427,17 @@ export class ColorPickerHexInput implements LoadableComponent {
     }
   }
 
-  private handleOpacityInputChange = (event: CustomEvent): void => {
-    const alpha = opacityToAlpha(Number((event.target as HTMLCalciteInputNumberElement).value));
-    this.internalSetValue(this.internalColor.alpha(alpha).hexa(), this.value);
+  private onOpacityInputChange = (): void => {
+    const node = this.opacityInputNode;
+    let value: number | string;
+
+    if (!node.value) {
+      value = node.value;
+    } else {
+      const alpha = opacityToAlpha(Number(node.value));
+      value = this.internalColor.alpha(alpha).hexa();
+    }
+
+    this.internalSetValue(value, this.value);
   };
 }
