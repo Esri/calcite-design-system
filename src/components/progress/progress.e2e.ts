@@ -1,7 +1,9 @@
 import { accessible, hidden, renders } from "../../tests/commonTests";
 
 describe("calcite-progress", () => {
-  it("renders", () => renders("calcite-progress", { display: "block" }));
+  describe("renders", () => {
+    renders("calcite-progress", { display: "block" });
+  });
 
   it("honors hidden attribute", async () => hidden("calcite-progress"));
 

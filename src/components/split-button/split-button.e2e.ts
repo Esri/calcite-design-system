@@ -18,7 +18,9 @@ describe("calcite-split-button", () => {
     <calcite-dropdown-item id="item-2" active>Item2</calcite-dropdown-item>
   </calcite-dropdown-group>`;
 
-  it("renders", () => renders("calcite-split-button", { display: "inline-block" }));
+  describe("renders", () => {
+    renders("calcite-split-button", { display: "inline-block" });
+  });
 
   it("honors hidden attribute", async () => hidden("calcite-split-button"));
 

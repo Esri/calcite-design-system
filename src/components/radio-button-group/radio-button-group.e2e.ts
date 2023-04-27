@@ -3,7 +3,9 @@ import { accessible, defaults, hidden, reflects, renders } from "../../tests/com
 import { html } from "../../../support/formatting";
 
 describe("calcite-radio-button-group", () => {
-  it("renders", async () => renders("calcite-radio-button-group", { display: "flex" }));
+  describe("renders", () => {
+    renders("calcite-radio-button-group", { display: "flex" });
+  });
 
   it("is accessible", async () =>
     accessible(

@@ -17,7 +17,9 @@ describe("calcite-tabs", () => {
   `;
   const tabsSnippet = `<calcite-tabs>${tabsContent}</calcite-tabs>`;
 
-  it("renders", async () => renders(tabsSnippet, { display: "flex" }));
+  describe("renders", () => {
+    renders(tabsSnippet, { display: "flex" });
+  });
 
   it("honors hidden attribute", async () => hidden("calcite-tabs"));
 

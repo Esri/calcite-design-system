@@ -7,7 +7,9 @@ import { CSS } from "./resources";
 describe("calcite-slider", () => {
   const sliderWidthFor1To1PixelValueTrack = "114px";
 
-  it("renders", async () => renders("calcite-slider", { display: "block" }));
+  describe("renders", () => {
+    renders("calcite-slider", { display: "block" });
+  });
 
   it("honors hidden attribute", async () => hidden("calcite-slider"));
 

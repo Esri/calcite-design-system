@@ -5,7 +5,7 @@ import { CSS } from "./resources";
 import { html } from "../../../support/formatting";
 
 describe("calcite-inline-editable", () => {
-  it("renders", () =>
+  describe("renders", () => {
     renders(
       html`
         <calcite-inline-editable>
@@ -13,7 +13,8 @@ describe("calcite-inline-editable", () => {
         </calcite-inline-editable>
       `,
       { display: "block" }
-    ));
+    );
+  });
 
   it("honors hidden attribute", async () => hidden("calcite-inline-editable"));
 

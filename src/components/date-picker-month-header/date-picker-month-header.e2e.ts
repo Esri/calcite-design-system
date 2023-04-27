@@ -3,7 +3,9 @@ import { html } from "../../../support/formatting";
 import { renders } from "../../tests/commonTests";
 
 describe("calcite-date-picker-month-header", () => {
-  it("renders", async () => renders("calcite-date-picker-month-header", { display: "block" }));
+  describe("renders", () => {
+    renders("calcite-date-picker-month-header", { display: "block" });
+  });
 
   const localeDataFixture = {
     "default-calendar": "gregorian",

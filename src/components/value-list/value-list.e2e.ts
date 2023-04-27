@@ -14,7 +14,9 @@ import {
 import { CSS, ICON_TYPES } from "./resources";
 
 describe("calcite-value-list", () => {
-  it("renders", () => renders("calcite-value-list", { display: "flex" }));
+  describe("renders", () => {
+    renders("calcite-value-list", { display: "flex" });
+  });
 
   it("honors hidden attribute", async () => hidden("calcite-value-list"));
 

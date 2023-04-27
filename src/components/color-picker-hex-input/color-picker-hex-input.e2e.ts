@@ -5,7 +5,9 @@ import { isValidHex, normalizeHex } from "../color-picker/utils";
 import { CSS } from "./resources";
 
 describe("calcite-color-picker-hex-input", () => {
-  it("renders", () => renders("calcite-color-picker-hex-input", { display: "block" }));
+  describe("renders", () => {
+    renders("calcite-color-picker-hex-input", { display: "block" });
+  });
 
   it("honors hidden attribute", async () => hidden("calcite-color-picker-hex-input"));
 
