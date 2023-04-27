@@ -1,11 +1,37 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { html } from "../../../support/formatting";
-import { hidden, renders } from "../../tests/commonTests";
+import { accessible, hidden, reflects, renders } from "../../tests/commonTests";
 
 describe("calcite-nav-logo", () => {
   it("renders", async () => renders("calcite-nav-logo", { display: "inline-flex" }));
 
   it("honors hidden attribute", async () => hidden("calcite-nav-logo"));
+
+  it("is accessible", async () => accessible("calcite-nav-logo"));
+
+  it("reflects", async () =>
+    reflects("calcite-nav-logo", [
+      {
+        propertyName: "active",
+        value: "true"
+      },
+      {
+        propertyName: "href",
+        value: "#logo"
+      },
+      {
+        propertyName: "subText",
+        value: "organization"
+      },
+      {
+        propertyName: "text",
+        value: "esri"
+      },
+      {
+        propertyName: "textEnabled",
+        value: "true"
+      }
+    ]));
 
   it("should emit calciteNavLogoSelect event on user click", async () => {
     const page = await newE2EPage();

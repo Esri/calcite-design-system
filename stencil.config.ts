@@ -13,7 +13,6 @@ export const create: () => Config = () => ({
   bundles: [
     { components: ["calcite-accordion", "calcite-accordion-item"] },
     { components: ["calcite-action-bar"] },
-    { components: ["calcite-action-menu"] },
     { components: ["calcite-action-pad"] },
     { components: ["calcite-action"] },
     { components: ["calcite-alert"] },
@@ -48,7 +47,6 @@ export const create: () => Config = () => ({
     { components: ["calcite-link"] },
     { components: ["calcite-list", "calcite-list-item", "calcite-list-item-group"] },
     { components: ["calcite-loader"] },
-    { components: ["calcite-menu", "calcite-menu-item"] },
     { components: ["calcite-modal"] },
     { components: ["calcite-nav", "calcite-nav-user", "calcite-nav-logo"] },
     { components: ["calcite-notice"] },

@@ -16,8 +16,9 @@ export const simple = (): string =>
     <calcite-nav-user
       slot="user"
       full-name="${text("full-name", "Edward Abbey")}"
-      username="${text("text", "eabbey_123")}"
+      username="${text("username", "eabbey_123")}"
       thumbnail="${text("thumbnail", "")}"
       ${boolean("hide-text", false)}
+      ${boolean("active", true)}
     />
   </calcite-nav>`;
