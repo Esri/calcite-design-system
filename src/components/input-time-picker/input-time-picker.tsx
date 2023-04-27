@@ -274,9 +274,16 @@ export class InputTimePicker
 
     if (delocalizedInputValue !== this.value) {
       this.setValue(delocalizedInputValue);
+      const localizedTimeString = localizeTimeString({
+        value: this.value,
+        locale: this.effectiveLocale,
+        numberingSystem: this.numberingSystem,
+        includeSeconds: this.shouldIncludeSeconds()
+      });
+      if (localizedTimeString !== inputValue) {
+        this.setInputValue(localizedTimeString);
+      }
     }
-
-    // TODO: figure out the right logic here to set the input string correctly on blur
   };
 
   private calciteInternalInputFocusHandler = (event: CustomEvent): void => {
