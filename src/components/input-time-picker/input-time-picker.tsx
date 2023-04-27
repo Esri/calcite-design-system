@@ -267,6 +267,11 @@ export class InputTimePicker
       useGrouping: false
     };
 
+    if (!delocalizedInputValue) {
+      this.setValue("");
+      return;
+    }
+
     if (delocalizedInputValue !== this.value) {
       this.setValue(delocalizedInputValue);
     }
@@ -546,7 +551,7 @@ export class InputTimePicker
 
   private setValue = (value: string): void => {
     const oldValue = this.value;
-    const newValue = formatTimeString(value);
+    const newValue = formatTimeString(value) || "";
 
     if (newValue === oldValue) {
       return;
