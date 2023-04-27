@@ -1,0 +1,105 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-nav-width: Specifies the width of the component's content area.
+ * @prop --calcite-nav-primary-background: Specifies the background color of the primary navigation.
+ * @prop --calcite-nav-primary-border-color: Specifies the background color of the primary navigation.
+ * @prop --calcite-nav-secondary-background: Specifies the background color of the secondary navigation.
+ * @prop --calcite-nav-secondary-border-color: Specifies the background color of the primary navigation.
+ * @prop --calcite-nav-tertiary-background: Specifies the width of the component.
+ * @prop --calcite-nav-tertiary-border-color: Specifies the background color of the primary navigation.
+ */
+
+.nav-container {
+  @apply flex w-full;
+  flex-direction: column;
+  margin-block: 0;
+  margin-inline: auto;
+  border-block-end: 1px solid;
+  background-color: var(--calcite-nav-primary-background, var(--calcite-ui-foreground-1));
+  border-block-end-color: var(--calcite-nav-primary-border-color, var(--calcite-ui-border-3));
+}
+
+.nav-primary {
+  @apply h-16;
+}
+
+.nav-secondary {
+  @apply h-12;
+  background-color: var(--calcite-nav-secondary-background, var(--calcite-ui-foreground-1));
+  border-block-end-color: var(--calcite-nav-secondary-border-color, var(--calcite-ui-border-3));
+}
+
+.nav-tertiary {
+  @apply h-12;
+  background-color: var(--calcite-nav-tertiary-background, var(--calcite-ui-foreground-1));
+  border-block-end-color: var(--calcite-nav-tertiary-border-color, var(--calcite-ui-border-3));
+}
+
+.nav-container-content {
+  margin-block: 0;
+  margin-inline: auto;
+  @apply flex
+    w-full h-full;
+  inline-size: var(--calcite-nav-width, 100%);
+  max-inline-size: 100%;
+}
+
+slot[name] {
+  @apply flex flex-row;
+}
+
+slot[name="primary-content-start"]::slotted(*),
+slot[name="primary-content-center"]::slotted(*),
+slot[name="primary-content-end"]::slotted(*),
+slot[name="secondary-content-start"]::slotted(*),
+slot[name="secondary-content-end"]::slotted(*),
+slot[name="tertiary-content-start"]::slotted(*),
+slot[name="tertiary-content-end"]::slotted(*) {
+  @apply flex flex-row items-center;
+}
+
+slot[name="progress"],
+slot[name="progress"] calcite-progress {
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline: 0;
+}
+slot[name="primary-content-end"],
+slot[name="secondary-content-end"],
+slot[name="tertiary-content-end"] {
+  @apply ml-auto;
+}
+
+slot[name="primary-content-start"],
+slot[name="secondary-content-start"],
+slot[name="tertiary-content-start"] {
+  @apply mr-auto;
+}
+
+slot[name="primary-content-end"],
+slot[name="secondary-content-end"],
+slot[name="tertiary-content-end"],
+slot[name="logo"] ~ slot[name="user"],
+slot[name="user"]:only-child {
+  @apply ml-auto;
+}
+
+slot[name="primary-content-center"] {
+  @apply ml-auto mr-auto;
+}
+
+slot[name="primary-content-start"] ~ slot[name="primary-content-center"] {
+  margin-inline-start: 0;
+}
+
+slot[name="primary-content-start"] ~ slot[name="primary-content-end"],
+slot[name="secondary-content-start"] ~ slot[name="secondary-content-end"],
+slot[name="tertiary-content-end"] ~ slot[name="tertiary-content-end"],
+slot[name="primary-content-center"] ~ slot[name="primary-content-end"],
+slot[name="primary-content-center"] ~ slot[name="user"],
+slot[name="primary-content-end"] ~ slot[name="user"] {
+  margin: 0;
+}
