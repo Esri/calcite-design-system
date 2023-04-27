@@ -32,7 +32,8 @@
           "value": "$semantic.ui.color.text.1.dark",
           "type": "color"
         }
-      }
+      },
+      "type": "other"
     },
     "icon": {
       "default": {
@@ -74,20 +75,6 @@
       "dark": {
         "value": "$semantic.ui.color.background.dark",
         "type": "color"
-      }
-    },
-    "border-width": {
-      "sm": {
-        "value": "$core.border.border-width.0",
-        "type": "borderWidth"
-      },
-      "md": {
-        "value": "$core.border.border-width.0",
-        "type": "borderWidth"
-      },
-      "lg": {
-        "value": "$core.border.border-width.0",
-        "type": "borderWidth"
       }
     },
     "icon-size": {
