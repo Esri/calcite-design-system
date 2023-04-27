@@ -101,10 +101,6 @@ $inline-input-width: 31%;
   border: 1px solid var(--calcite-ui-border-1);
 }
 
-.preview {
-  // todo: drop?
-}
-
 .control-and-scope {
   @apply flex relative cursor-pointer touch-none;
 }
