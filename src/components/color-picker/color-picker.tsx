@@ -13,7 +13,7 @@ import {
 } from "@stencil/core";
 
 import Color from "color";
-import { ColorMode, ColorValue, HSLA, HSVA, InternalColor, RGBA } from "./interfaces";
+import { Channels, ColorMode, ColorValue, HSLA, HSVA, InternalColor, RGBA } from "./interfaces";
 import { throttle } from "lodash-es";
 import { Direction, getElementDir, isPrimaryPointerButton } from "../../utils/dom";
 import { Scale } from "../interfaces";
@@ -313,7 +313,7 @@ export class ColorPicker
 
   @State() channelMode: ColorMode = "rgb";
 
-  @State() channels: [number, number, number] = this.toChannels(DEFAULT_COLOR);
+  @State() channels: Channels = this.toChannels(DEFAULT_COLOR);
 
   @State() dimensions = DIMENSIONS.m;
 
@@ -435,19 +435,22 @@ export class ColorPicker
   private handleChannelInput = (event: CustomEvent): void => {
     const input = event.currentTarget as HTMLCalciteInputElement;
     const channelIndex = Number(input.getAttribute("data-channel-index"));
+    const isAlphaChannel = channelIndex === 3;
 
-    const limit =
-      this.channelMode === "rgb"
-        ? RGB_LIMITS[Object.keys(RGB_LIMITS)[channelIndex]]
-        : HSV_LIMITS[Object.keys(HSV_LIMITS)[channelIndex]];
+    const limit = isAlphaChannel
+      ? OPACITY_LIMITS.max
+      : this.channelMode === "rgb"
+      ? RGB_LIMITS[Object.keys(RGB_LIMITS)[channelIndex]]
+      : HSV_LIMITS[Object.keys(HSV_LIMITS)[channelIndex]];
 
     let inputValue: string;
 
     if (this.allowEmpty && !input.value) {
       inputValue = "";
     } else {
-      const value = Number(input.value) + this.shiftKeyChannelAdjustment;
-      const clamped = clamp(value, 0, limit);
+      const value = Number(input.value);
+      const adjustedValue = value + this.shiftKeyChannelAdjustment;
+      const clamped = clamp(adjustedValue, 0, limit);
 
       inputValue = clamped.toString();
     }
@@ -508,12 +511,15 @@ export class ColorPicker
     const shouldClearChannels = this.allowEmpty && !input.value;
 
     if (shouldClearChannels) {
-      this.channels = [null, null, null];
+      this.channels = [null, null, null, null];
       this.internalColorSet(null);
       return;
     }
 
-    channels[channelIndex] = Number(input.value);
+    const isAlphaChannel = channelIndex === 3;
+    const value = Number(input.value);
+
+    channels[channelIndex] = isAlphaChannel ? opacityToAlpha(value) : value;
     this.updateColorFromChannels(channels);
   };
 
@@ -970,22 +976,35 @@ export class ColorPicker
   };
 
   private renderChannelsTab = (channelMode: this["channelMode"]): VNode => {
-    const { channelMode: activeChannelMode, channels, messages } = this;
+    const { channelMode: activeChannelMode, channels, messages, opacityEnabled } = this;
     const selected = channelMode === activeChannelMode;
     const isRgb = channelMode === "rgb";
     const channelAriaLabels = isRgb
       ? [messages.red, messages.green, messages.blue]
       : [messages.hue, messages.saturation, messages.value];
     const direction = getElementDir(this.el);
+    const channelsToRender = opacityEnabled ? channels : channels.slice(0, 3);
 
     return (
       <calcite-tab class={CSS.control} key={channelMode} selected={selected}>
         {/* channel order should not be mirrored */}
         <div class={CSS.channels} dir="ltr">
-          {channels.map((channel, index) =>
+          {channelsToRender.map((channelValue, index) => {
+            const isAlphaChannel = index === 3;
+
+            if (isAlphaChannel) {
+              channelValue = alphaToOpacity(channelValue);
+            }
+
             /* the channel container is ltr, so we apply the host's direction */
-            this.renderChannel(channel, index, channelAriaLabels[index], direction)
-          )}
+            return this.renderChannel(
+              channelValue,
+              index,
+              channelAriaLabels[index],
+              direction,
+              isAlphaChannel ? "%" : ""
+            );
+          })}
         </div>
       </calcite-tab>
     );
@@ -995,24 +1014,29 @@ export class ColorPicker
     value: number | null,
     index: number,
     ariaLabel: string,
-    direction: Direction
-  ): VNode => (
-    <calcite-input
-      class={CSS.channel}
-      data-channel-index={index}
-      dir={direction}
-      label={ariaLabel}
-      lang={this.effectiveLocale}
-      numberButtonType="none"
-      numberingSystem={this.numberingSystem}
-      onCalciteInputChange={this.handleChannelChange}
-      onCalciteInputInput={this.handleChannelInput}
-      onKeyDown={this.handleKeyDown}
-      scale={this.scale === "l" ? "m" : "s"}
-      type="number"
-      value={value?.toString()}
-    />
-  );
+    direction: Direction,
+    suffix?: string
+  ): VNode => {
+    return (
+      <calcite-input
+        class={CSS.channel}
+        data-channel-index={index}
+        dir={direction}
+        key={index}
+        label={ariaLabel}
+        lang={this.effectiveLocale}
+        numberButtonType="none"
+        numberingSystem={this.numberingSystem}
+        onCalciteInputChange={this.handleChannelChange}
+        onCalciteInputInput={this.handleChannelInput}
+        onKeyDown={this.handleKeyDown}
+        scale={this.scale === "l" ? "m" : "s"}
+        suffixText={suffix}
+        type="number"
+        value={value?.toString()}
+      />
+    );
+  };
 
   // --------------------------------------------------------------------------
   //
@@ -1193,7 +1217,6 @@ export class ColorPicker
       }
 
       if ((type === "all" || type === "hue-slider") && this.hueSliderRenderingContext) {
-        // TODO: allow specifying y coordinate for sliders based on alpha or not
         this.drawHueSlider();
       }
 
@@ -1417,7 +1440,7 @@ export class ColorPicker
   private drawOpacitySlider(): void {
     const context = this.opacitySliderRenderingContext;
     const {
-      color,
+      previousColor,
       dimensions: {
         slider: { height, width },
         thumb: { radius: thumbRadius }
@@ -1430,9 +1453,9 @@ export class ColorPicker
     context.clearRect(0, 0, width, height + this.getSliderCapSpacing() * 2);
 
     const gradient = context.createLinearGradient(0, y, width, 0);
-    const startColor = color.rgb().alpha(0);
-    const midColor = color.rgb().alpha(0.5);
-    const endColor = color.rgb().alpha(1);
+    const startColor = previousColor.rgb().alpha(0);
+    const midColor = previousColor.rgb().alpha(0.5);
+    const endColor = previousColor.rgb().alpha(1);
 
     gradient.addColorStop(0, startColor.string());
     gradient.addColorStop(0.5, midColor.string());
@@ -1534,23 +1557,25 @@ export class ColorPicker
 
   private updateColorFromChannels(channels: this["channels"]): void {
     this.internalColorSet(
-      Color(
-        this.opacityEnabled && this.color ? [...channels, this.color.alpha()] : channels,
-        this.channelMode
-      )
+      Color(this.opacityEnabled && this.color ? channels : channels.slice(0, 3), this.channelMode)
     );
   }
 
   private updateChannelsFromColor(color: Color | null): void {
-    this.channels = color ? this.toChannels(color) : [null, null, null];
+    this.channels = color ? this.toChannels(color) : [null, null, null, null];
   }
 
-  private toChannels(color: Color): [number, number, number] {
+  private toChannels(color: Color): Channels {
     const { channelMode } = this;
 
-    return color[channelMode]()
+    const channels = color[channelMode]()
       .array()
-      .slice(0, 3) // drop any alpha channel value since we have a slider for that
-      .map((value) => Math.floor(value)) as [number, number, number];
+      .map((value) => Math.floor(value));
+
+    if (channels.length === 3) {
+      channels.push(1); // Color omits alpha when 1
+    }
+
+    return channels as Channels;
   }
 }
