@@ -1363,7 +1363,6 @@ describe("calcite-color-picker", () => {
 
           await updateColorWithAllInputs(page, async (value: ColorValue) => {
             expect(value).not.toMatchObject(hsvaObject);
-            console.log(value);
             expect(value).toMatchObject({
               h: toBeInteger(),
               s: toBeInteger(),

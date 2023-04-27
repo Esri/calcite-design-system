@@ -92,8 +92,6 @@ export function normalizeColor(alphaColorObject: RGBA | HSVA | HSLA): ReturnType
   const normalized = { ...alphaColorObject, alpha: alphaColorObject.a };
   delete normalized.a;
 
-  console.log(JSON.stringify(alphaColorObject, null, 2), JSON.stringify(normalized, null, 2));
-
   return normalized;
 }
 
