@@ -66,15 +66,32 @@
           locales.forEach(({ locale, name, numberingSystem, hourCycle }) => {
             let labelEl = document.createElement("calcite-label");
             let inputTimePickerEl = document.createElement("calcite-input-time-picker");
+
             inputTimePickerEl.setAttribute("lang", locale);
             inputTimePickerEl.setAttribute("numbering-system", numberingSystem || "latn");
-            inputTimePickerEl.setAttribute("step", 1);
             inputTimePickerEl.setAttribute("value", "10:00:00");
             labelEl.appendChild(document.createTextNode(`${name} (${locale})`));
             labelEl.appendChild(inputTimePickerEl);
             mainEl.appendChild(labelEl);
 
             const localeObject = new Intl.Locale(locale);
+            if (localeObject.hourCycles[0] === "h12") {
+              h12.appendChild(labelEl);
+            } else {
+              h23.appendChild(labelEl);
+            }
+
+            labelEl = document.createElement("calcite-label");
+            inputTimePickerEl = document.createElement("calcite-input-time-picker");
+
+            inputTimePickerEl.setAttribute("lang", locale);
+            inputTimePickerEl.setAttribute("numbering-system", numberingSystem || "latn");
+            inputTimePickerEl.setAttribute("step", 1);
+            inputTimePickerEl.setAttribute("value", "10:00:00");
+            labelEl.appendChild(document.createTextNode(`${name} (${locale}) (seconds)`));
+            labelEl.appendChild(inputTimePickerEl);
+            mainEl.appendChild(labelEl);
+
             if (localeObject.hourCycles[0] === "h12") {
               h12.appendChild(labelEl);
             } else {
