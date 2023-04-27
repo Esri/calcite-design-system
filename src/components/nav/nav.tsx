@@ -32,17 +32,16 @@ export class CalciteNav {
   //  Properties
   //
   //--------------------------------------------------------------------------
-  @Prop({ reflect: true }) hidden = false;
 
   /**
-   * When true, display a menu visual and emit an event on user interaction.
+   * When true, display a hamburger  icon and emits `calciteNavMenuActionSelect` event on user interaction.
    */
-  @Prop({ reflect: true }) toggleEnabled = false;
+  @Prop({ reflect: true }) displayMenuAction = false;
 
   /**
-   * Specifies a label to use when `toggleEnabled` is true.
+   * Specifies the label of the hamburger icon.
    */
-  @Prop({ reflect: true }) toggleLabel: string;
+  @Prop({ reflect: true }) label!: string;
 
   // --------------------------------------------------------------------------
   //
@@ -54,7 +53,7 @@ export class CalciteNav {
    * Emits whenever the component is selected or unselected.
    *
    */
-  @Event({ cancelable: false }) calciteNavToggleSelect: EventEmitter<void>;
+  @Event({ cancelable: false }) calciteNavMenuActionSelect: EventEmitter<void>;
 
   //--------------------------------------------------------------------------
   //
@@ -62,23 +61,18 @@ export class CalciteNav {
   //
   //--------------------------------------------------------------------------
 
-  private handleToggleActionClick = () => {
-    this.calciteNavToggleSelect.emit();
+  private clickHandler = () => {
+    this.calciteNavMenuActionSelect.emit();
   };
+
   //--------------------------------------------------------------------------
   //
   //  Render Methods
   //
   //--------------------------------------------------------------------------
 
-  renderToggleAction(): VNode {
-    return (
-      <calcite-action
-        icon="hamburger"
-        onClick={this.handleToggleActionClick}
-        text={this.toggleLabel}
-      />
-    );
+  renderMenuAction(): VNode {
+    return <calcite-action icon="hamburger" onClick={this.clickHandler} text={this.label} />;
   }
 
   renderNavLevel(level: "primary" | "secondary" | "tertiary"): VNode {
@@ -89,7 +83,7 @@ export class CalciteNav {
     const center = this.el.querySelector(`[slot="${level}-content-center"]`);
     const end = this.el.querySelector(`[slot="${level}-content-end"]`);
     const showMenu =
-      (level === "primary" && (logo || user || this.toggleEnabled)) || center || start || end;
+      (level === "primary" && (logo || user || this.displayMenuAction)) || center || start || end;
     return showMenu ? (
       <div
         class={{
@@ -99,7 +93,7 @@ export class CalciteNav {
       >
         {progress ? <slot name="progress" /> : null}
         <div class={CSS.navContainerContent}>
-          {level === "primary" && this.toggleEnabled && this.renderToggleAction()}
+          {level === "primary" && this.displayMenuAction && this.renderMenuAction()}
           {level === "primary" && logo ? <slot name="logo" /> : null}
           {start ? <slot name={`${level}-content-start`} /> : null}
           {center ? <slot name={`${level}-content-center`} /> : null}

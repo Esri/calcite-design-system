@@ -6,13 +6,26 @@ describe("calcite-nav", () => {
 
   it("honors hidden attribute", async () => hidden("calcite-nav"));
 
-  it("should emit an event when the toggle is requested and interacted with", async () => {
+  it("should emit an event when the menuIcon is displayed and user interacts", async () => {
     const page = await newE2EPage();
-    await page.setContent(`<calcite-nav toggle-enabled><calcite-nav-logo text="Test" /></calcite-nav>`);
-    const eventSpy = await page.spyOnEvent("calciteNavToggleSelect", "window");
-    const toggle = await page.find(`calcite-nav >>> calcite-action`);
-    await toggle.click();
+    await page.setContent(`<calcite-nav display-menu-action><calcite-nav-logo text="Test" /></calcite-nav>`);
+    const eventSpy = await page.spyOnEvent("calciteNavMenuActionSelect", "window");
+    const hamburgerMenu = await page.find(`calcite-nav >>> calcite-action`);
 
-    expect(eventSpy).toHaveReceivedEvent();
+    await page.keyboard.press("Tab");
+    expect(eventSpy).toHaveReceivedEventTimes(0);
+
+    await page.keyboard.press("Enter");
+    expect(eventSpy).toHaveReceivedEventTimes(1);
+
+    await page.keyboard.press("Space");
+    await page.waitForChanges();
+    expect(eventSpy).toHaveReceivedEventTimes(2);
+
+    await page.keyboard.press("Tab");
+    expect(eventSpy).toHaveReceivedEventTimes(2);
+
+    await hamburgerMenu.click();
+    expect(eventSpy).toHaveReceivedEventTimes(3);
   });
 });
