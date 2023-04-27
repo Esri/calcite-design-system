@@ -260,6 +260,7 @@ export class CalciteMenuItem implements LoadableComponent {
 
   private clickHandler = (event: MouseEvent): void => {
     if ((this.href && event.target === this.dropDownActionEl) || (!this.href && this.hasSubMenu)) {
+      console.log("clicked");
       this.open = !this.open;
     }
     this.selectMenuItem(event);
@@ -380,6 +381,7 @@ export class CalciteMenuItem implements LoadableComponent {
   renderSubMenuItems(dir: Direction): VNode {
     return (
       <calcite-menu
+        auto-collapse="false"
         class={{
           [CSS.dropdownMenuItems]: true,
           [CSS.open]: this.open,

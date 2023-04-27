@@ -7,6 +7,7 @@ import {
   setUpLoadableComponent
 } from "../../utils/loadable";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
+import { createObserver } from "../../utils/observers";
 import {
   connectMessages,
   disconnectMessages,
@@ -71,6 +72,11 @@ export class CalciteMenu implements LoadableComponent, LocalizedComponent, T9nCo
     /* wired up by t9n util */
   }
 
+  /**
+   * @internal
+   */
+  @Prop() autoCollapse = false;
+
   //--------------------------------------------------------------------------
   //
   //  Private State/Props
@@ -94,6 +100,14 @@ export class CalciteMenu implements LoadableComponent, LocalizedComponent, T9nCo
 
   @State() defaultMessages: MenuMessages;
 
+  private wrappEl: HTMLUListElement;
+
+  private collapseEl: HTMLCalciteMenuItemElement;
+
+  resizeObserver = createObserver("resize", (entries) => this.moveItems(entries));
+
+  @State() collapse = false;
+
   //--------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -103,6 +117,9 @@ export class CalciteMenu implements LoadableComponent, LocalizedComponent, T9nCo
   connectedCallback(): void {
     connectLocalized(this);
     connectMessages(this);
+    // if (this.autoCollapse) {
+    //   this.resizeObserver.observe(this.el);
+    // }
   }
 
   async componentWillLoad(): Promise<void> {
@@ -113,6 +130,7 @@ export class CalciteMenu implements LoadableComponent, LocalizedComponent, T9nCo
   disconnectedCallback(): void {
     disconnectLocalized(this);
     disconnectMessages(this);
+    this.resizeObserver?.disconnect();
   }
 
   componentDidLoad(): void {
@@ -201,6 +219,62 @@ export class CalciteMenu implements LoadableComponent, LocalizedComponent, T9nCo
     }
   };
 
+  moveItems = (entries: ResizeObserverEntry[]): void => {
+    console.log(entries);
+    entries.forEach((entry) => {
+      if (entry.target === this.el) {
+        const { width } = this.el.getBoundingClientRect();
+        const wrapperElWidth = this.wrappEl?.getBoundingClientRect().width;
+        console.log(width, this.wrappEl?.getBoundingClientRect().width);
+        if (width < wrapperElWidth) {
+          // const avgWidth = wrapperElWidth / this.menuItems.length;
+          // if (this.menuItems.length > 1 && width < avgWidth * 2) {
+          if (!this.collapse) {
+            this.collapse = true;
+
+            console.log("resolot menu");
+          }
+
+          // }
+        } else if (width > wrapperElWidth) {
+          if (this.collapse) {
+            this.collapse = false;
+            this.el.layout = "horizontal";
+            console.log("remove resolitting");
+            this.menuItems.forEach((item) => {
+              item.slot = "";
+            });
+          }
+        }
+      }
+    });
+  };
+
+  setListElement = (el: HTMLUListElement): void => {
+    this.wrappEl = el;
+    if (this.autoCollapse) {
+      this.resizeObserver.observe(this.el);
+    }
+  };
+
+  setCollapseElement = (el: HTMLCalciteMenuItemElement): void => {
+    this.collapseEl = el;
+    console.log("el", el);
+    this.reslotMenuItems();
+  };
+
+  reslotMenuItems = (): void => {
+    this.el.layout = "vertical";
+
+    this.menuItems.forEach((item) => {
+      item.slot = "sub-menu-item";
+      this.collapseEl.appendChild(item);
+      // menu.appendChild(item);
+    });
+    // const menu = this.collapseEl.shadowRoot.querySelector("calcite-menu");
+    // console.log(menu);
+  };
+
   // --------------------------------------------------------------------------
   //
   //  Render Methods
@@ -209,8 +283,11 @@ export class CalciteMenu implements LoadableComponent, LocalizedComponent, T9nCo
   render() {
     return (
       <Host>
-        <ul aria-label={this.label} role={this.role}>
+        <ul aria-label={this.label} ref={this.setListElement} role={this.role}>
           <slot onSlotchange={this.handleMenuSlotChange} />
+          {this.autoCollapse && this.collapse ? (
+            <calcite-menu-item label="more" ref={this.setCollapseElement} text="more" />
+          ) : null}
         </ul>
       </Host>
     );
