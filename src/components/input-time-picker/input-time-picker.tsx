@@ -58,8 +58,6 @@ dayjs.extend(updateLocale);
 // This dayjs global is needed by the lazy-loaded locale files
 (window as any).dayjs = dayjs;
 
-type SetValueOrigin = "input" | "time-picker" | "external" | "loading";
-
 @Component({
   tag: "calcite-input-time-picker",
   styleUrl: "input-time-picker.scss",
@@ -179,10 +177,20 @@ export class InputTimePicker
 
   @Watch("value")
   valueWatcher(newValue: string): void {
-    if (!this.internalValueChange) {
-      this.setValue({ value: newValue, origin: "external" });
+    if (!this.userChangedValue) {
+      this.value = isValidTime(newValue) ? newValue : "";
+      this.setInputValue(
+        this.value
+          ? localizeTimeString({
+              value: newValue,
+              includeSeconds: this.shouldIncludeSeconds(),
+              locale: this.effectiveLocale,
+              numberingSystem: this.numberingSystem
+            })
+          : ""
+      );
     }
-    this.internalValueChange = false;
+    this.userChangedValue = false;
   }
 
   //--------------------------------------------------------------------------
@@ -202,9 +210,7 @@ export class InputTimePicker
   private calciteTimePickerEl: HTMLCalciteTimePickerElement;
 
   /** whether the value of the input was changed as a result of user typing or not */
-  private internalValueChange = false;
-
-  private previousValidValue: string = null;
+  private userChangedValue = false;
 
   private referenceElementId = `input-time-picker-${guid()}`;
 
@@ -251,32 +257,21 @@ export class InputTimePicker
 
   private calciteInternalInputBlurHandler = (): void => {
     this.open = false;
-    const shouldIncludeSeconds = this.shouldIncludeSeconds();
-    const { effectiveLocale: locale, numberingSystem, value, calciteInputEl } = this;
+    const inputValue = this.calciteInputEl.value;
+
+    const delocalizedInputValue = this.delocalizeTimeString(inputValue);
 
     numberStringFormatter.numberFormatOptions = {
-      locale,
-      numberingSystem,
+      locale: this.effectiveLocale,
+      numberingSystem: this.numberingSystem,
       useGrouping: false
     };
 
-    const delocalizedValue = this.delocalizeTimeString(calciteInputEl.value);
-
-    if (delocalizedValue !== this.value) {
-      this.commitValue("input");
+    if (delocalizedInputValue !== this.value) {
+      this.setValue(delocalizedInputValue);
     }
 
-    const localizedInputValue = localizeTimeString({
-      value: delocalizedValue,
-      includeSeconds: shouldIncludeSeconds,
-      locale,
-      numberingSystem
-    });
-
-    this.setInputValue(
-      localizedInputValue ||
-        localizeTimeString({ value, locale, numberingSystem, includeSeconds: shouldIncludeSeconds })
-    );
+    // TODO: figure out the right logic here to set the input string correctly on blur
   };
 
   private calciteInternalInputFocusHandler = (event: CustomEvent): void => {
@@ -333,7 +328,15 @@ export class InputTimePicker
     event.stopPropagation();
     const target = event.target as HTMLCalciteTimePickerElement;
     const value = target.value;
-    this.setValue({ value, origin: "time-picker" });
+    this.setValue(value);
+    this.setInputValue(
+      localizeTimeString({
+        value,
+        locale: this.effectiveLocale,
+        numberingSystem: this.numberingSystem,
+        includeSeconds: this.shouldIncludeSeconds()
+      })
+    );
   };
 
   @Listen("calciteInternalTimePickerFocus")
@@ -374,18 +377,6 @@ export class InputTimePicker
   //  Private Methods
   //
   // --------------------------------------------------------------------------
-
-  private commitValue(origin: SetValueOrigin): void {
-    const delocalizedTimeString =
-      origin === "time-picker"
-        ? this.calciteTimePickerEl.value
-        : this.delocalizeTimeString(this.calciteInputEl.value);
-
-    if (delocalizedTimeString === this.value) {
-      return;
-    }
-    this.setValue({ value: delocalizedTimeString });
-  }
 
   private delocalizeTimeString(value: string): string {
     const locale = this.effectiveLocale.toLowerCase();
@@ -500,8 +491,11 @@ export class InputTimePicker
     }
 
     if (key === "Enter") {
-      this.commitValue(
-        event.composedPath().includes(this.calciteTimePickerEl) ? "time-picker" : "input"
+      const { calciteInputEl, calciteTimePickerEl } = this;
+      this.setValue(
+        event.composedPath().includes(calciteTimePickerEl)
+          ? calciteTimePickerEl.value
+          : this.delocalizeTimeString(calciteInputEl.value)
       );
       if (submitForm(this)) {
         event.preventDefault();
@@ -550,56 +544,25 @@ export class InputTimePicker
     this.calciteInputEl.value = newInputValue;
   };
 
-  private setValue = ({
-    value,
-    origin = "input"
-  }: {
-    value: string;
-    origin?: SetValueOrigin;
-  }): void => {
-    const previousValue = this.value;
+  private setValue = (value: string): void => {
+    const oldValue = this.value;
     const newValue = formatTimeString(value);
-    const newLocalizedValue = localizeTimeString({
-      value: newValue,
-      locale: this.effectiveLocale,
-      numberingSystem: this.numberingSystem,
-      includeSeconds: this.shouldIncludeSeconds()
-    });
-    this.internalValueChange = origin !== "external" && origin !== "loading";
 
-    const shouldEmit =
-      origin !== "loading" &&
-      origin !== "external" &&
-      ((value !== this.previousValidValue && !value) ||
-        !!(!this.previousValidValue && newValue) ||
-        (newValue !== this.previousValidValue && newValue));
-
-    if (value) {
-      if (shouldEmit) {
-        this.previousValidValue = newValue;
-      }
-      if (newValue && newValue !== this.value) {
-        this.value = newValue;
-      }
-    } else {
-      this.value = "";
+    if (newValue === oldValue) {
+      return;
     }
 
-    if (origin === "time-picker" || origin === "external") {
-      this.setInputValue(newLocalizedValue);
-    }
+    this.userChangedValue = true;
+    this.value = newValue || "";
 
-    if (shouldEmit) {
-      const changeEvent = this.calciteInputTimePickerChange.emit();
+    const changeEvent = this.calciteInputTimePickerChange.emit();
 
-      if (changeEvent.defaultPrevented) {
-        this.internalValueChange = false;
-        this.value = previousValue;
-        this.setInputValue(previousValue);
-        this.previousValidValue = previousValue;
-      } else {
-        this.previousValidValue = newValue;
-      }
+    if (changeEvent.defaultPrevented) {
+      this.userChangedValue = false;
+      this.value = oldValue;
+
+      // TODO: localize this, don't set it to the ISO format.
+      this.setInputValue(oldValue);
     }
   };
 
@@ -612,8 +575,17 @@ export class InputTimePicker
   connectedCallback() {
     connectLocalized(this);
 
-    if (this.value) {
-      this.setValue({ value: isValidTime(this.value) ? this.value : undefined, origin: "loading" });
+    if (isValidTime(this.value)) {
+      this.setInputValue(
+        localizeTimeString({
+          value: this.value,
+          includeSeconds: this.shouldIncludeSeconds(),
+          locale: this.effectiveLocale,
+          numberingSystem: this.numberingSystem
+        })
+      );
+    } else {
+      this.value = undefined;
     }
 
     connectLabel(this);
@@ -627,14 +599,16 @@ export class InputTimePicker
 
   componentDidLoad() {
     setComponentLoaded(this);
-    this.setInputValue(
-      localizeTimeString({
-        value: this.value,
-        locale: this.effectiveLocale,
-        numberingSystem: this.numberingSystem,
-        includeSeconds: this.shouldIncludeSeconds()
-      })
-    );
+    if (isValidTime(this.value)) {
+      this.setInputValue(
+        localizeTimeString({
+          value: this.value,
+          locale: this.effectiveLocale,
+          numberingSystem: this.numberingSystem,
+          includeSeconds: this.shouldIncludeSeconds()
+        })
+      );
+    }
   }
 
   disconnectedCallback() {
