@@ -189,7 +189,22 @@ export class ColorPickerHexInput implements LoadableComponent {
       allowEmpty && !internalColor ? "" : this.formatOpacityForInternalInput(internalColor);
   };
 
-  private onInputChange = (): void => this.internalSetValue(this.hexInputNode.value, this.value);
+  private onInputChange = (): void => {
+    const node = this.hexInputNode;
+    let value: string;
+
+    if (!node.value) {
+      value = node.value;
+    } else {
+      const normalized = isValidHex(normalizeHex(node.value));
+      if (normalized) {
+        const alphaHex = this.internalColor?.hexa().slice(-2) ?? "ff";
+        value = `${normalized + alphaHex}`;
+      }
+    }
+
+    this.internalSetValue(value, this.value);
+  };
 
   // using @Listen as a workaround for VDOM listener not firing
   @Listen("keydown", { capture: true })
