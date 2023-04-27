@@ -1510,12 +1510,13 @@ describe("calcite-input-number", () => {
     expect(await input.getProperty("disabled")).toBe(true);
   });
 
-  it("is form-associated", () =>
+  describe("is form-associated", () => {
     formAssociated("calcite-input-number", {
       testValue: 5,
       submitsOnEnter: true,
       inputType: "number"
-    }));
+    });
+  });
 
   it("supports translation", () => t9n("calcite-input-number"));
 });
