@@ -560,9 +560,14 @@ export class InputTimePicker
     if (changeEvent.defaultPrevented) {
       this.userChangedValue = false;
       this.value = oldValue;
-
-      // TODO: localize this, don't set it to the ISO format.
-      this.setInputValue(oldValue);
+      this.setInputValue(
+        localizeTimeString({
+          value: oldValue,
+          locale: this.effectiveLocale,
+          numberingSystem: this.numberingSystem,
+          includeSeconds: this.shouldIncludeSeconds()
+        })
+      );
     }
   };
 
