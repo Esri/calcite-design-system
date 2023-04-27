@@ -72,3 +72,16 @@ export const rightAligned_TestOnly = (): string => html`<div style="text-align: 
     <span>Tooltip content lorem ipsum</span>
   </calcite-tooltip>
 </div>`;
+
+export const transparentBG_TestOnly = (): string => html`
+  <style>
+    calcite-tooltip {
+      --calcite-ui-foreground-1: rgba(0, 0, 0, 0.5);
+      --calcite-ui-text-1: orange;
+    }
+  </style>
+  <div style="width: 400px;">
+    ${referenceElementHTML}
+    <calcite-tooltip reference-element="reference-element" placement="auto" open> ${contentHTML} </calcite-tooltip>
+  </div>
+`;

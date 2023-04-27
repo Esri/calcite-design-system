@@ -419,7 +419,9 @@ describe("calcite-input-text", () => {
     expect(await input.getProperty("disabled")).toBe(true);
   });
 
-  it("is form-associated", () => formAssociated("calcite-input-text", { testValue: "test", submitsOnEnter: true }));
+  describe("is form-associated", () => {
+    formAssociated("calcite-input-text", { testValue: "test", submitsOnEnter: true });
+  });
 
   it("supports translation", () => t9n("calcite-input-text"));
 });

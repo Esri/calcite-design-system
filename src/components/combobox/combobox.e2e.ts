@@ -1169,7 +1169,7 @@ describe("calcite-combobox", () => {
     expect(await combobox.getProperty("open")).toBe(true);
   });
 
-  it("is form-associated", () =>
+  describe("is form-associated", () => {
     formAssociated(
       html`<calcite-combobox selection-mode="single">
         <calcite-combobox-item id="one" icon="banana" value="one" text-label="One"></calcite-combobox-item>
@@ -1177,7 +1177,8 @@ describe("calcite-combobox", () => {
         <calcite-combobox-item id="three" value="three" text-label="Three"></calcite-combobox-item>
       </calcite-combobox>`,
       { testValue: "two", submitsOnEnter: true }
-    ));
+    );
+  });
 
   it("owns a floating-ui", () =>
     floatingUIOwner(
