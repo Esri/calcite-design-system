@@ -50,6 +50,10 @@
   }
 }
 
+:host([layout="horizontal"][expand-disabled]) ::slotted(calcite-action-group:last-of-type) {
+  @apply border-r-0;
+}
+
 ::slotted(calcite-action-group:last-child) {
   @apply border-b-0 border-r-0;
 }
