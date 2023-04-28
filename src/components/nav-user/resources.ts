@@ -1,5 +1,5 @@
 export const CSS = {
   textContainer: "text-container",
-  userFullName: "user-full-name",
-  userUsername: "user-username"
+  fullName: "full-name",
+  username: "username"
 };

@@ -4,7 +4,9 @@ import { CSS } from "./resources";
 @Component({
   tag: "calcite-nav-user",
   styleUrl: "nav-user.scss",
-  shadow: true
+  shadow: {
+    delegatesFocus: true
+  }
 })
 export class CalciteNavUser {
   //--------------------------------------------------------------------------
@@ -30,10 +32,10 @@ export class CalciteNavUser {
   @Prop() label: string;
 
   /** Specifies the unique id of the user. */
-  @Prop({ reflect: true }) userId: string;
+  @Prop() userId: string;
 
   /** Specifies the subtext to display, for example a user organization or role */
-  @Prop({ reflect: true }) username: string;
+  @Prop() username: string;
 
   /** When `true`, hides the `fullName` and `username`. */
   @Prop({ reflect: true }) hideText = false;
@@ -63,6 +65,7 @@ export class CalciteNavUser {
   private keyDownHandler = (event: KeyboardEvent): void => {
     if (event.key === "Enter" || event.key === " ") {
       this.calciteNavUserSelect.emit();
+      event.preventDefault();
     }
   };
 
@@ -90,10 +93,14 @@ export class CalciteNavUser {
           {(this.fullName || this.username) && !this.hideText && (
             <div class={CSS.textContainer}>
               {this.fullName && !this.hideText ? (
-                <span class={CSS.userFullName}>{this.fullName}</span>
+                <span class={CSS.fullName} key={CSS.fullName}>
+                  {this.fullName}
+                </span>
               ) : null}
               {this.username && !this.hideText ? (
-                <span class={CSS.userUsername}>{this.username}</span>
+                <span class={CSS.username} key={CSS.username}>
+                  {this.username}
+                </span>
               ) : null}
             </div>
           )}
