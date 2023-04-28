@@ -189,7 +189,7 @@ export class ColorPickerHexInput implements LoadableComponent {
       allowEmpty && !internalColor ? "" : this.formatOpacityForInternalInput(internalColor);
   };
 
-  private onInputChange = (): void => {
+  private onHexInputChange = (): void => {
     const nodeValue = this.hexInputNode.value;
     let value: string;
 
@@ -212,13 +212,13 @@ export class ColorPickerHexInput implements LoadableComponent {
   @Listen("keydown", { capture: true })
   protected onInputKeyDown(event: KeyboardEvent): void {
     const { altKey, ctrlKey, metaKey, shiftKey } = event;
-    const { opacityEnabled, internalColor, value } = this;
+    const { opacityEnabled, hexInputNode, internalColor, value } = this;
     const { key } = event;
     const composedPath = event.composedPath();
 
     if (key === "Tab" || key === "Enter") {
-      if (composedPath.includes(this.hexInputNode)) {
-        this.onInputChange();
+      if (composedPath.includes(hexInputNode)) {
+        this.onHexInputChange();
       } else {
         this.onOpacityInputChange();
       }
@@ -245,10 +245,11 @@ export class ColorPickerHexInput implements LoadableComponent {
             this.nudgeRGBChannels(
               internalColor,
               bump * direction,
-              composedPath.includes(this.hexInputNode) ? "rgb" : "opacity"
+              composedPath.includes(hexInputNode) ? "rgb" : "opacity"
             ),
             opacityEnabled
-          )
+          ),
+          opacityEnabled
         ),
         oldValue
       );
@@ -311,7 +312,7 @@ export class ColorPickerHexInput implements LoadableComponent {
           label={messages.hex || hexLabel}
           maxLength={6}
           numberingSystem={this.numberingSystem}
-          onCalciteInputChange={this.onInputChange}
+          onCalciteInputChange={this.onHexInputChange}
           onCalciteInternalInputBlur={this.onHexInputBlur}
           onKeyDown={this.handleKeyDown}
           onPaste={this.onHexInputPaste}
