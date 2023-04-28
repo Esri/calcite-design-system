@@ -73,7 +73,35 @@
           </div>
         </div>
       </div>
-
+      <!-- with action bar -->
+      <div class="parent">
+        <div class="child right-aligned-text">Slotted Action Bar action end</div>
+        <div class="child">
+          <div style="height: 200px; display: flex">
+            <calcite-panel height-scale="s" heading="Action bar example">
+              <calcite-action-bar slot="action-bar" expand-disabled>
+                <calcite-action-group>
+                  <calcite-action text="Add" icon="plus"> </calcite-action>
+                  <calcite-action text="Save" icon="save"> </calcite-action>
+                  <calcite-action text="Layers" icon="layers"> </calcite-action>
+                </calcite-action-group>
+                <calcite-action-group>
+                  <calcite-action text="Add" icon="plus"> </calcite-action>
+                </calcite-action-group>
+                <calcite-action-group slot="bottom-actions">
+                  <calcite-action text="Add" icon="plus"> </calcite-action>
+                  <calcite-action text="Save" icon="save"> </calcite-action>
+                  <calcite-action text="Layers" icon="layers"> </calcite-action>
+                </calcite-action-group>
+              </calcite-action-bar>
+              <p style="height: 400px">Hello world!</p>
+              <p style="height: 400px">Hello world!</p>
+              <p style="height: 400px">Hello world!</p>
+              <p slot="footer">Slotted content!</p>
+            </calcite-panel>
+          </div>
+        </div>
+      </div>
       <!-- disabled -->
       <div class="parent">
         <div class="child right-aligned-text">disabled</div>
