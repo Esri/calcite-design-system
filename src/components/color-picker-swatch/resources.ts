@@ -1,6 +1,6 @@
 export const CSS = {
   swatch: "swatch",
-  noColorIcon: "no-color-icon",
+  noColorSwatch: "swatch--no-color",
   checker: "checker"
 };
 

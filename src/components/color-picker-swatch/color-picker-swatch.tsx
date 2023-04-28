@@ -74,7 +74,7 @@ export class ColorPickerSwatch {
     const isEmpty = !this.internalColor;
     const classes = {
       [CSS.swatch]: true,
-      [CSS.noColorIcon]: isEmpty
+      [CSS.noColorSwatch]: isEmpty
     };
 
     return (
