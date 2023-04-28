@@ -48,6 +48,7 @@ import localeData from "dayjs/plugin/localeData";
 import localizedFormat from "dayjs/plugin/localizedFormat";
 import preParsePostFormat from "dayjs/plugin/preParsePostFormat";
 import updateLocale from "dayjs/plugin/updateLocale";
+import { parseTimeString } from "../../utils/time";
 
 dayjs.extend(customParseFormat);
 dayjs.extend(localeData);
@@ -598,10 +599,14 @@ export class InputTimePicker
     connectLocalized(this);
 
     if (isValidTime(this.value)) {
+      const { hour, minute, second } = parseTimeString(this.value);
+      const includeSeconds = this.shouldIncludeSeconds();
+
+      this.value = includeSeconds ? `${hour}:${minute}:${second || "00"}` : `${hour}:${minute}`;
       this.setInputValue(
         localizeTimeString({
           value: this.value,
-          includeSeconds: this.shouldIncludeSeconds(),
+          includeSeconds,
           locale: this.effectiveLocale,
           numberingSystem: this.numberingSystem
         })
