@@ -34,6 +34,7 @@ import { CSS, ICONS, SLOTS } from "./resources";
 
 /**
  * @slot - A slot for adding custom content.
+ * @slot action-bar - A slot for adding a `calcite-action-bar` to the component.
  * @slot header-actions-start - A slot for adding `calcite-action`s or content to the start side of the component's header.
  * @slot header-actions-end - A slot for adding `calcite-action`s or content to the end side of the component's header.
  * @slot header-content - A slot for adding custom content to the component's header.
@@ -323,6 +324,7 @@ export class FlowItem
           ref={this.setContainerRef}
         >
           {this.renderBackButton()}
+          <slot name={SLOTS.actionBar} slot={PANEL_SLOTS.actionBar} />
           <slot name={SLOTS.headerActionsStart} slot={PANEL_SLOTS.headerActionsStart} />
           <slot name={SLOTS.headerActionsEnd} slot={PANEL_SLOTS.headerActionsEnd} />
           <slot name={SLOTS.headerContent} slot={PANEL_SLOTS.headerContent} />
