@@ -20,6 +20,9 @@
   border-block-end: 1px solid;
   background-color: var(--calcite-nav-primary-background, var(--calcite-ui-foreground-1));
   border-block-end-color: var(--calcite-nav-primary-border-color, var(--calcite-ui-border-3));
+  &.hide {
+    display: none;
+  }
 }
 
 .nav-primary {
