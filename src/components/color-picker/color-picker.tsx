@@ -714,32 +714,30 @@ export class ColorPicker
 
   render(): VNode {
     const {
-      opacityEnabled,
       allowEmpty,
       channelsDisabled,
       color,
-      hexDisabled,
-      hideHex,
-      hideChannels,
-      hideSaved,
-      messages,
-      savedColors,
-      savedDisabled,
-      scale
-    } = this;
-    const selectedColorInHex = color ? hexify(color, opacityEnabled) : null;
-    const {
-      colorFieldScopeTop,
       colorFieldScopeLeft,
-      hueScopeLeft,
-      opacityScopeLeft,
-      scopeOrientation,
+      colorFieldScopeTop,
       dimensions: {
         colorField: { width: colorFieldWidth },
         slider: { width: sliderWidth },
         thumb: { radius: thumbRadius }
-      }
+      },
+      hexDisabled,
+      hideChannels,
+      hideHex,
+      hideSaved,
+      hueScopeLeft,
+      messages,
+      opacityEnabled,
+      opacityScopeLeft,
+      savedColors,
+      savedDisabled,
+      scale,
+      scopeOrientation
     } = this;
+    const selectedColorInHex = color ? hexify(color, opacityEnabled) : null;
     const hueTop = thumbRadius;
     const hueLeft = hueScopeLeft ?? (sliderWidth * DEFAULT_COLOR.hue()) / HSV_LIMITS.h;
     const opacityTop = thumbRadius;
