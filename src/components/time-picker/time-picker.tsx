@@ -678,8 +678,11 @@ export class TimePicker
       });
     }
     if (this.hour && this.minute) {
-      const showSeconds = this.second && this.showSecond;
-      this.value = `${this.hour}:${this.minute}:${showSeconds ? this.second : "00"}`;
+      let newValue = `${this.hour}:${this.minute}`;
+      if (this.showSecond) {
+        newValue = `${newValue}:${this.second ?? "00"}`;
+      }
+      this.value = newValue;
     } else {
       this.value = null;
     }
