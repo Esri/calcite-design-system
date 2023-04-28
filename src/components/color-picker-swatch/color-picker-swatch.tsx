@@ -77,6 +77,7 @@ export class ColorPickerSwatch {
     const borderColor = theme === "light" ? COLORS.borderLight : COLORS.borderDark;
     const commonSwatchProps = {
       height: "100%",
+      rx: borderRadius,
       stroke: borderColor,
       // stroke-width and clip-path are needed to hide overflowing portion of stroke
       // see https://stackoverflow.com/a/7273346/194216
@@ -92,8 +93,15 @@ export class ColorPickerSwatch {
     if (!internalColor) {
       return (
         <svg class={classes} xmlns="http://www.w3.org/2000/svg">
-          <rect rx={borderRadius} {...commonSwatchProps} />
-          <line stroke-width="3" x1="100%" x2="0" y1="0" y2="100%" />
+          <clipPath id="shape">
+            <rect height="100%" rx={borderRadius} width="100%" />
+          </clipPath>
+          <rect
+            clip-path={`inset(0 round ${borderRadius})`}
+            rx={borderRadius}
+            {...commonSwatchProps}
+          />
+          <line clip-path="url(#shape)" stroke-width="3" x1="100%" x2="0" y1="0" y2="100%" />
         </svg>
       );
     }
@@ -133,12 +141,16 @@ export class ColorPickerSwatch {
         <rect fill="url(#checker)" height="100%" rx={borderRadius} width="100%" />
         <rect
           fill={hex}
-          style={{ "clip-path": alpha < 1 ? "polygon(100% 0, 0 0, 0 100%)" : "" }}
+          style={{
+            "clip-path":
+              alpha < 1 ? "polygon(100% 0, 0 0, 0 100%)" : `inset(0 round ${borderRadius})`
+          }}
           {...commonSwatchProps}
         />
         {alpha < 1 ? (
           <rect
             fill={hexa}
+            key="opacity-fill"
             style={{ "clip-path": "polygon(100% 0, 100% 100%, 0 100%)" }}
             {...commonSwatchProps}
           />
