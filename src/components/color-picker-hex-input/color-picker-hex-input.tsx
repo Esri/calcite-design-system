@@ -4,7 +4,6 @@ import {
   Event,
   EventEmitter,
   h,
-  Listen,
   Method,
   Prop,
   State,
@@ -208,8 +207,6 @@ export class ColorPickerHexInput implements LoadableComponent {
     this.internalSetValue(value, this.value);
   };
 
-  // using @Listen as a workaround for VDOM listener not firing
-  @Listen("keydown", { capture: true })
   protected onInputKeyDown(event: KeyboardEvent): void {
     const { altKey, ctrlKey, metaKey, shiftKey } = event;
     const { opacityEnabled, hexInputNode, internalColor, value } = this;
@@ -221,6 +218,10 @@ export class ColorPickerHexInput implements LoadableComponent {
         this.onHexInputChange();
       } else {
         this.onOpacityInputChange();
+      }
+
+      if (key === "Enter") {
+        event.preventDefault();
       }
 
       return;
@@ -303,6 +304,7 @@ export class ColorPickerHexInput implements LoadableComponent {
     const { opacityEnabled, hexLabel, internalColor, messages, scale, value } = this;
     const hexInputValue = this.formatHexForInternalInput(value);
     const opacityInputValue = this.formatOpacityForInternalInput(internalColor);
+    console.log(opacityInputValue);
     const inputScale = scale === "l" ? "m" : "s";
 
     return (
@@ -435,11 +437,9 @@ export class ColorPickerHexInput implements LoadableComponent {
     return Color([...color.array().slice(0, 3), nudgedAlpha]);
   }
 
-  private handleKeyDown(event: KeyboardEvent): void {
-    if (event.key === "Enter") {
-      event.preventDefault();
-    }
-  }
+  private handleKeyDown = (event: KeyboardEvent): void => {
+    this.onInputKeyDown(event);
+  };
 
   private onOpacityInputChange = (): void => {
     const node = this.opacityInputNode;
