@@ -3,10 +3,7 @@ import Color from "color";
 import { getModeName } from "../../utils/dom";
 import { Scale } from "../interfaces";
 import { hexify } from "../color-picker/utils";
-import { COLORS, CSS } from "./resources";
-
-const CHECKER_SQUARE_SIZE_IN_PX = 4;
-const CHECKER_SIZE_IN_PX = CHECKER_SQUARE_SIZE_IN_PX * 2;
+import { CHECKER_DIMENSIONS, COLORS, CSS } from "./resources";
 
 @Component({
   tag: "calcite-color-picker-swatch",
@@ -126,26 +123,26 @@ export class ColorPickerSwatch {
         <title>{hexa}</title>
         <defs>
           <pattern
-            height={CHECKER_SIZE_IN_PX}
+            height={CHECKER_DIMENSIONS.size}
             id="checker"
             patternUnits="userSpaceOnUse"
-            width={CHECKER_SIZE_IN_PX}
+            width={CHECKER_DIMENSIONS.size}
             x="0"
             y="0"
           >
             <rect
               class={CSS.checker}
-              height={CHECKER_SQUARE_SIZE_IN_PX}
-              width={CHECKER_SQUARE_SIZE_IN_PX}
+              height={CHECKER_DIMENSIONS.squareSize}
+              width={CHECKER_DIMENSIONS.squareSize}
               x="0"
               y="0"
             />
             <rect
               class={CSS.checker}
-              height={CHECKER_SQUARE_SIZE_IN_PX}
-              width={CHECKER_SQUARE_SIZE_IN_PX}
-              x={CHECKER_SQUARE_SIZE_IN_PX}
-              y={CHECKER_SQUARE_SIZE_IN_PX}
+              height={CHECKER_DIMENSIONS.squareSize}
+              width={CHECKER_DIMENSIONS.squareSize}
+              x={CHECKER_DIMENSIONS.squareSize}
+              y={CHECKER_DIMENSIONS.squareSize}
             />
           </pattern>
         </defs>
