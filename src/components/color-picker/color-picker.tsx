@@ -163,7 +163,7 @@ export class ColorPicker
   @Prop({ reflect: true }) hideSaved = false;
 
   /**
-   * When true, the color picker will process and display alpha characters.
+   * When true, the component will display controls for the color's opacity value.
    */
   @Prop() opacityEnabled = false;
 

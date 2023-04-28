@@ -115,7 +115,7 @@ export class ColorPickerHexInput implements LoadableComponent {
   @Prop() numberingSystem?: NumberingSystem;
 
   /**
-   * When true, the input will process and display hex characters for the alpha channel.
+   * When true, the component will display an input for the color's opacity value.
    */
   @Prop() opacityEnabled = false;
 
