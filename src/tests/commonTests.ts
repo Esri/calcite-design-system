@@ -1,4 +1,4 @@
-/* eslint-disable jest/no-export -- util functions are now imported to be used as `it` blocks within `descirbe` instead of assertions within `it` blocks */
+/* eslint-disable jest/no-export -- util functions are now imported to be used as `it` blocks within `describe` instead of assertions within `it` blocks */
 import { E2EElement, E2EPage, EventSpy, newE2EPage } from "@stencil/core/testing";
 import axe from "axe-core";
 import { toHaveNoViolations } from "jest-axe";
@@ -90,7 +90,7 @@ export async function renders(
     display: string;
   }
 ): Promise<void> {
-  it(`renders ${componentTagOrHTML}`, async () => {
+  it(`renders`, async () => {
     const page = await simplePageSetup(componentTagOrHTML);
     const element = await page.find(getTag(componentTagOrHTML));
 
