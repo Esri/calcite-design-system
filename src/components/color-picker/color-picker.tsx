@@ -272,6 +272,7 @@ export class ColorPicker
       this.internalColorSet(color, true, "internal");
     }
   }
+
   //--------------------------------------------------------------------------
   //
   //  Internal State/Props
@@ -286,6 +287,8 @@ export class ColorPicker
   private get baseColorFieldColor(): Color {
     return this.color || this.previousColor || DEFAULT_COLOR;
   }
+
+  private checkerPattern: HTMLCanvasElement;
 
   private colorFieldRenderingContext: CanvasRenderingContext2D;
 
@@ -1405,18 +1408,7 @@ export class ColorPicker
 
     context.clearRect(0, 0, width, height + this.getSliderCapSpacing() * 2);
 
-    const radius = height / 2 + 1;
-    context.beginPath();
-    context.moveTo(x + radius, y);
-    context.lineTo(x + width - radius, y);
-    context.quadraticCurveTo(x + width, y, x + width, y + radius);
-    context.lineTo(x + width, y + height - radius);
-    context.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
-    context.lineTo(x + radius, y + height);
-    context.quadraticCurveTo(x, y + height, x, y + height - radius);
-    context.lineTo(x, y + radius);
-    context.quadraticCurveTo(x, y, x + radius, y);
-    context.closePath();
+    this.drawSliderPath(context, height, width, x, y);
 
     context.fillStyle = gradient;
     context.fill();
@@ -1452,24 +1444,29 @@ export class ColorPicker
     gradient.addColorStop(0.5, midColor.string());
     gradient.addColorStop(1, endColor.string());
 
-    function getCheckeredBackgroundPattern() {
-      // Create a canvas element for the pattern
-      const patternCanvas = document.createElement("canvas");
-      patternCanvas.width = 10;
-      patternCanvas.height = 10;
-      const patternContext = patternCanvas.getContext("2d");
+    this.drawSliderPath(context, height, width, x, y);
 
-      // Draw the checkered pattern
-      patternContext.fillStyle = "#ccc";
-      patternContext.fillRect(0, 0, 10, 10);
-      patternContext.fillStyle = "#fff";
-      patternContext.fillRect(0, 0, 5, 5);
-      patternContext.fillRect(5, 5, 5, 5);
+    const pattern = context.createPattern(this.getCheckeredBackgroundPattern(), "repeat");
+    context.fillStyle = pattern;
+    context.fill();
 
-      // Return the pattern canvas
-      return patternCanvas;
-    }
+    context.fillStyle = gradient;
+    context.fill();
 
+    context.strokeStyle = "rgba(0,0,0,0.3)";
+    context.lineWidth = 1;
+    context.stroke();
+
+    this.drawActiveOpacitySliderColor();
+  }
+
+  private drawSliderPath(
+    context: CanvasRenderingContext2D,
+    height: number,
+    width: number,
+    x: number,
+    y: number
+  ): void {
     const radius = height / 2 + 1;
     context.beginPath();
     context.moveTo(x + radius, y);
@@ -1482,19 +1479,27 @@ export class ColorPicker
     context.lineTo(x, y + radius);
     context.quadraticCurveTo(x, y, x + radius, y);
     context.closePath();
+  }
 
-    const pattern = context.createPattern(getCheckeredBackgroundPattern(), "repeat");
-    context.fillStyle = pattern;
-    context.fill();
+  private getCheckeredBackgroundPattern(): HTMLCanvasElement {
+    if (this.checkerPattern) {
+      return this.checkerPattern;
+    }
 
-    context.fillStyle = gradient;
-    context.fill();
+    const pattern = document.createElement("canvas");
+    pattern.width = 10;
+    pattern.height = 10;
+    const patternContext = pattern.getContext("2d");
 
-    context.strokeStyle = "rgba(0,0,0,0.3)";
-    context.lineWidth = 1;
-    context.stroke();
+    patternContext.fillStyle = "#ccc";
+    patternContext.fillRect(0, 0, 10, 10);
+    patternContext.fillStyle = "#fff";
+    patternContext.fillRect(0, 0, 5, 5);
+    patternContext.fillRect(5, 5, 5, 5);
 
-    this.drawActiveOpacitySliderColor();
+    this.checkerPattern = pattern;
+
+    return pattern;
   }
 
   private drawActiveOpacitySliderColor(): void {
