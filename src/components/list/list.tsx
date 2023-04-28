@@ -111,10 +111,12 @@ export class List implements InteractiveComponent, LoadableComponent {
   @Prop({ mutable: true }) selectedItems: HTMLCalciteListItemElement[] = [];
 
   /**
-   * Specifies the selection mode - `"multiple"` (allow any number of selected items), `"single"` (allows and require one selected item), `"none"` (no selected items).
+   * Specifies the selection mode - `"multiple"` (allow any number of selected items), `"single"` (allow one selected item), `"single-persist"` (allow one selected item and prevent de-selection), or `"none"` (no selected items).
    */
-  @Prop({ reflect: true }) selectionMode: Extract<"none" | "multiple" | "single", SelectionMode> =
-    "none";
+  @Prop({ reflect: true }) selectionMode: Extract<
+    "none" | "multiple" | "single" | "single-persist",
+    SelectionMode
+  > = "none";
 
   /**
    * Specifies the selection appearance - `"icon"` (displays a checkmark or dot) or `"border"` (displays a border).
@@ -168,7 +170,7 @@ export class List implements InteractiveComponent, LoadableComponent {
     const { listItems, selectionMode } = this;
 
     listItems.forEach((listItem) => {
-      if (selectionMode === "single") {
+      if (selectionMode === "single" || selectionMode === "single-persist") {
         listItem.selected = listItem === target;
       }
     });
