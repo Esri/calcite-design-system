@@ -76,11 +76,10 @@ export const simple = (): string =>
     }
   ]);
 
-export const alphaSupport = (): string =>
+export const opacitySupport = (): string =>
   create("calcite-color-picker", [
     ...createColorAttributes(),
     { name: "opacity-enabled", value: true },
-    { name: "hide-opacity", value: boolean("hex-disabled", false) },
     { name: "value", value: text("value", "#b33f3333") }
   ]);
 
