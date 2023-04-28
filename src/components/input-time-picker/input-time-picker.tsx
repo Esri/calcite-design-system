@@ -520,12 +520,18 @@ export class InputTimePicker
   };
 
   private async loadLocaleDefinition(): Promise<void> {
-    if (this.effectiveLocale === "en" || this.effectiveLocale === "en-US") {
+    const { effectiveLocale } = this;
+    if (effectiveLocale === "en" || effectiveLocale === "en-US") {
       return;
     }
-    await import(
-      getAssetPath(`assets/nls/dayjs/input-time-picker/${this.effectiveLocale.toLowerCase()}.js`)
-    );
+    let dayjsLocale = effectiveLocale.toLowerCase();
+    if (effectiveLocale === "pt-PT") {
+      dayjsLocale = "pt";
+    }
+    if (effectiveLocale === "no") {
+      dayjsLocale = "nb";
+    }
+    await import(getAssetPath(`assets/nls/dayjs/input-time-picker/${dayjsLocale}.js`));
   }
 
   onLabelClick(): void {
