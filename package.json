@@ -62,7 +62,7 @@
     "test": "jest",
     "test:dev": "jest --watch",
     "build": "npm run build:ts && npm run build:tokens",
-    "build:ts": "tsc --project tsconfig.cjs.json",
+    "build:ts": "tsc --project tsconfig.prod.json",
     "build:tokens": "node tools/build/index.js",
     "build:transformer": "token-transformer tokens sd-tokens/output.json",
     "release": "echo 'release is still TBD. Please message Ali Stump or Erik Harper-Dicianno for more information."

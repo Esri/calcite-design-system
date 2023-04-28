@@ -6,6 +6,7 @@ import { Theme } from './getThemes.js';
 import { formatJS } from './format/javascript.js';
 import { formatCSS } from './format/css.js';
 import { nameCamelCase } from './transform/nameCamelCase.js';
+import { nameKebabCase } from './transform/nameKebabCase.js';
 import { parseName } from './utils/parseName.js';
 
 const matchExclusions = /(backup|\[|\])(?=\.\w+$)/
@@ -25,8 +26,8 @@ export const run = async (
     enabled: theme.enabled,
     source: theme.source,
     disabled: theme.disabled,
-    outputReferences: true,
-    sourceReferencesOnly: true,
+    outputReferences: false,
+    sourceReferencesOnly: false,
   };
 
   await registerTransforms(StyleDictionary, { expand: false });
@@ -44,6 +45,17 @@ export const run = async (
     name: 'name/calcite/camel',
     type: 'name',
     transformer: nameCamelCase
+  })
+
+  StyleDictionary.registerTransform({
+    name: 'name/calcite/kebab',
+    type: 'name',
+    transformer: nameKebabCase
+  })
+
+  StyleDictionary.registerFilter({
+    name: 'filterSource',
+    matcher: (token) => token.isSource
   })
 
   const _sd = StyleDictionary.extend({
@@ -66,8 +78,9 @@ export const run = async (
         buildPath: `${buildPath}/js/`,
         files: [{
           destination: `${fileName}.js`, 
-          format: "calcite/js",
-          options,
+          format: "javascript/es6",
+          filter: /headless/gi.test(fileName) ? null : 'filterSource',
+          options: /headless/gi.test(fileName) ? { ...options, outputReferences: true } : options,
         }]
       },
       css: {
@@ -82,13 +95,14 @@ export const run = async (
           'ts/size/css/letterspacing',
           'ts/color/css/hexrgba',
           'ts/color/modifiers',
-          'name/cti/kebab',
+          'name/calcite/kebab',
         ],
         buildPath: `${buildPath}/css/`,
         files: [{
           destination: `${fileName}.css`, 
-          format: "calcite/css",
-          options,
+          format: "css/variables",
+          filter: /headless/gi.test(fileName) ? null : 'filterSource',
+          options: /headless/gi.test(fileName) ? { ...options, outputReferences: true } : options,
         }]
       }
     },
