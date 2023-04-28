@@ -1,6 +1,9 @@
-$section-padding--small: 8px;
-$section-padding--medium: 12px;
-$section-padding--large: 16px;
+$section-padding-inline--small: 8px;
+$section-padding-inline--medium: 12px;
+$section-padding-inline--large: 16px;
+$section-padding-block--small: 8px;
+$section-padding-block--medium: 12px;
+$section-padding-block--large: 16px;
 $gap: 8px;
 $gap--small: 4px;
 $gap--large: 12px;
@@ -13,7 +16,8 @@ $inline-input-width: 31%;
 @include disabled();
 
 :host([scale="s"]) {
-  --calcite-color-picker-section-padding: 8px;
+  --calcite-color-picker-section-padding-inline: 8px;
+  --calcite-color-picker-section-padding-block: 8px;
 
   .container {
     inline-size: 160px;
@@ -29,7 +33,8 @@ $inline-input-width: 31%;
 }
 
 :host([scale="m"]) {
-  --calcite-color-picker-section-padding: 12px;
+  --calcite-color-picker-section-padding-inline: 12px;
+  --calcite-color-picker-section-padding-block: 12px;
 
   .container {
     inline-size: 272px;
@@ -47,7 +52,8 @@ $inline-input-width: 31%;
 }
 
 :host([scale="l"]) {
-  --calcite-color-picker-section-padding: 16px;
+  --calcite-color-picker-section-padding-inline: 16px;
+  --calcite-color-picker-section-padding-block: 16px;
 
   @apply text-n1h;
 
@@ -57,14 +63,14 @@ $inline-input-width: 31%;
 
   .section {
     &:first-of-type {
-      padding-block-start: $section-padding--large;
+      padding-block-start: $section-padding-inline--large;
     }
   }
 
   .saved-colors {
     grid-template-columns: repeat(auto-fill, minmax(28px, 1fr));
     grid-gap: $gap--large;
-    padding-block-start: $section-padding--large;
+    padding-block-start: $section-padding-inline--large;
   }
 
   .control-section {
@@ -128,12 +134,16 @@ $inline-input-width: 31%;
 }
 
 .section {
-  padding-block: 0 $section-padding--small;
-  padding-inline: $section-padding--small;
+  padding-block: 0 var(--calcite-color-picker-section-padding-block);
+  padding-inline: var(--calcite-color-picker-section-padding-inline);
 
   &:first-of-type {
-    padding-block-start: $section-padding--small;
+    padding-block-start: var(--calcite-color-picker-section-padding-block);
   }
+}
+
+.slider {
+  margin-inline-start: var(--calcite-color-picker-section-padding-inline);
 }
 
 .sliders {
@@ -141,23 +151,13 @@ $inline-input-width: 31%;
 }
 
 .preview-and-sliders {
-  @apply flex items-center gap-x-2;
-  padding-inline: theme("spacing.2");
-  margin-block: theme("spacing.2");
+  @apply flex items-center;
+  padding: var(--calcite-color-picker-section-padding-inline);
 }
 
 .color-hex-options,
 .section--split {
   flex-grow: 1;
-}
-
-.opacity-control-group {
-  @apply flex
-  items-center
-  gap-4;
-}
-
-.opacity-slider {
 }
 
 .header {
@@ -169,7 +169,7 @@ $inline-input-width: 31%;
 }
 
 .color-mode-container {
-  padding-block-start: $section-padding--small;
+  padding-block-start: var(--calcite-color-picker-section-padding-block);
 }
 
 .channels {
@@ -212,7 +212,7 @@ $inline-input-width: 31%;
 }
 
 .saved-colors {
-  padding-block-start: $section-padding--small;
+  padding-block-start: $section-padding-inline--small;
   display: -ms-grid;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(24px, 1fr));

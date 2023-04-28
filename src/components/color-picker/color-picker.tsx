@@ -767,8 +767,8 @@ export class ColorPicker
         <div class={CSS.controlAndScope}>
           <canvas
             class={{
-              [CSS.colorFieldAndSlider]: true,
-              [CSS.colorFieldAndSliderInteractive]: colorFieldAndSliderInteractive
+              [CSS.colorField]: true,
+              [CSS.colorFieldInteractive]: colorFieldAndSliderInteractive
             }}
             onPointerDown={this.handleColorFieldPointerDown}
             // eslint-disable-next-line react/jsx-sort-props
@@ -793,7 +793,7 @@ export class ColorPicker
           <div class={CSS.sliders}>
             <div class={CSS.controlAndScope}>
               <canvas
-                class={CSS.hueSlider}
+                class={{ [CSS.slider]: true, [CSS.hueSlider]: true }}
                 onPointerDown={this.handleHueSliderPointerDown}
                 ref={(canvas) => {
                   const { dimensions } = this;
@@ -824,7 +824,7 @@ export class ColorPicker
             {opacityEnabled ? (
               <div class={CSS.controlAndScope}>
                 <canvas
-                  class={CSS.opacitySlider}
+                  class={{ [CSS.slider]: true, [CSS.opacitySlider]: true }}
                   onPointerDown={this.handleOpacitySliderPointerDown}
                   ref={(canvas) => {
                     const { dimensions } = this;

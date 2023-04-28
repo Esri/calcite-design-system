@@ -3,14 +3,15 @@ import Color from "color";
 export const CSS = {
   channel: "channel",
   channels: "channels",
-  colorFieldAndSlider: "color-field-and-slider",
-  colorFieldAndSliderInteractive: "color-field-and-slider--interactive",
-  colorFieldAndSliderWrap: "color-field-and-slider-wrap",
+  colorField: "color-field",
+  colorFieldInteractive: "color-field--interactive",
   colorFieldScope: "scope--color-field",
+  colorFieldWrap: "color-field-wrap",
   colorMode: "color-mode",
   colorModeContainer: "color-mode-container",
   container: "container",
   control: "control",
+  controlAndScope: "control-and-scope",
   controlSection: "control-section",
   deleteColor: "delete-color",
   header: "header",
@@ -24,6 +25,7 @@ export const CSS = {
   opacityScope: "scope--opacity",
   opacitySlider: "opacity-slider",
   preview: "preview",
+  previewAndSliders: "preview-and-sliders",
   saveColor: "save-color",
   savedColor: "saved-color",
   savedColors: "saved-colors",
@@ -31,10 +33,9 @@ export const CSS = {
   savedColorsSection: "saved-colors-section",
   scope: "scope",
   section: "section",
-  splitSection: "section--split",
+  slider: "slider",
   sliders: "sliders",
-  previewAndSliders: "preview-and-sliders",
-  controlAndScope: "control-and-scope"
+  splitSection: "section--split"
 };
 
 export const DEFAULT_COLOR = Color("#007AC2");
@@ -60,7 +61,6 @@ export const OPACITY_LIMITS = {
 export const DIMENSIONS = {
   s: {
     slider: {
-      offset: 48,
       height: 12,
       width: 104
     },
@@ -74,9 +74,8 @@ export const DIMENSIONS = {
   },
   m: {
     slider: {
-      offset: 56,
       height: 12,
-      width: 216
+      width: 204
     },
     colorField: {
       height: 150,
@@ -88,9 +87,8 @@ export const DIMENSIONS = {
   },
   l: {
     slider: {
-      offset: 64,
       height: 12,
-      width: 408
+      width: 384
     },
     colorField: {
       height: 200,

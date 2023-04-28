@@ -140,7 +140,7 @@ describe("calcite-color-picker", () => {
     await (await page.find(`calcite-color-picker >>> .${CSS.saveColor}`)).click();
 
     // change by clicking on field
-    await (await page.find(`calcite-color-picker >>> .${CSS.colorFieldAndSlider}`)).click();
+    await (await page.find(`calcite-color-picker >>> .${CSS.colorField}`)).click();
     expect(changeSpy).toHaveReceivedEventTimes(1);
     expect(inputSpy).toHaveReceivedEventTimes(1);
 
@@ -544,7 +544,7 @@ describe("calcite-color-picker", () => {
     const page = await newE2EPage();
     await page.setContent("<calcite-color-picker></calcite-color-picker>");
     const picker = await page.find(`calcite-color-picker`);
-    const colorFieldAndSlider = await page.find(`calcite-color-picker >>> .${CSS.colorFieldAndSlider}`);
+    const colorFieldAndSlider = await page.find(`calcite-color-picker >>> .${CSS.colorField}`);
 
     await colorFieldAndSlider.click(); // click middle color
 
