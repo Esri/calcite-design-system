@@ -18,9 +18,7 @@ describe("calcite-icon", () => {
       { propertyName: "scale", value: "m" }
     ]));
 
-  describe("accessible", () => {
-    accessible(`<calcite-icon icon="a-z" text-label="sort options"></calcite-icon>`);
-  });
+  it("is accessible", async () => accessible(`<calcite-icon icon="a-z" text-label="sort options"></calcite-icon>`));
 
   it("flips icon when enabled and in RTL", async () => {
     const page = await newE2EPage();
