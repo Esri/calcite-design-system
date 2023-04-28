@@ -1,4 +1,4 @@
-import { Component, Element, h, Prop, VNode, Watch } from "@stencil/core";
+import { Component, Element, Fragment, h, Prop, VNode, Watch } from "@stencil/core";
 import Color from "color";
 import { getModeName } from "../../utils/dom";
 import { Scale } from "../interfaces";
@@ -71,6 +71,20 @@ export class ColorPickerSwatch {
   }
 
   render(): VNode {
+    const isEmpty = !this.internalColor;
+    const classes = {
+      [CSS.swatch]: true,
+      [CSS.noColorIcon]: isEmpty
+    };
+
+    return (
+      <svg class={classes} xmlns="http://www.w3.org/2000/svg">
+        {this.renderSwatch()}
+      </svg>
+    );
+  }
+
+  renderSwatch(): VNode {
     const { active, el, internalColor } = this;
     const borderRadius = active ? "100%" : "0";
     const theme = getModeName(el);
@@ -85,14 +99,11 @@ export class ColorPickerSwatch {
       width: "100%"
     };
 
-    const classes = {
-      [CSS.swatch]: true,
-      [CSS.noColorIcon]: !internalColor
-    };
+    const isEmpty = !internalColor;
 
-    if (!internalColor) {
+    if (isEmpty) {
       return (
-        <svg class={classes} xmlns="http://www.w3.org/2000/svg">
+        <Fragment>
           <clipPath id="shape">
             <rect height="100%" rx={borderRadius} width="100%" />
           </clipPath>
@@ -102,7 +113,7 @@ export class ColorPickerSwatch {
             {...commonSwatchProps}
           />
           <line clip-path="url(#shape)" stroke-width="3" x1="100%" x2="0" y1="0" y2="100%" />
-        </svg>
+        </Fragment>
       );
     }
 
@@ -111,7 +122,7 @@ export class ColorPickerSwatch {
     const hexa = hexify(internalColor, alpha < 1);
 
     return (
-      <svg class={classes} xmlns="http://www.w3.org/2000/svg">
+      <Fragment>
         <title>{hexa}</title>
         <defs>
           <pattern
@@ -155,7 +166,7 @@ export class ColorPickerSwatch {
             {...commonSwatchProps}
           />
         ) : null}
-      </svg>
+      </Fragment>
     );
   }
 }
