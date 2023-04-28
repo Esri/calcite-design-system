@@ -89,7 +89,7 @@ export default class TooltipManager {
 
     const tooltip = this.queryTooltip(composedPath);
 
-    if (this.isCloseOnClickTooltip(tooltip)) {
+    if (this.isClosableClickedTooltip(tooltip)) {
       return;
     }
 
@@ -186,14 +186,14 @@ export default class TooltipManager {
   private queryFocusedTooltip(event: FocusEvent, value: boolean): void {
     const tooltip = this.queryTooltip(event.composedPath());
 
-    if (!tooltip || this.isCloseOnClickTooltip(tooltip)) {
+    if (!tooltip || this.isClosableClickedTooltip(tooltip)) {
       return;
     }
 
     this.toggleFocusedTooltip(tooltip, value);
   }
 
-  private isCloseOnClickTooltip(tooltip: HTMLCalciteTooltipElement): boolean {
+  private isClosableClickedTooltip(tooltip: HTMLCalciteTooltipElement): boolean {
     return tooltip?.closeOnClick && tooltip === this.clickedTooltip;
   }
 }

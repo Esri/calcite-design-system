@@ -122,10 +122,10 @@ describe("calcite-tooltip", () => {
 
     const element = await page.find("calcite-tooltip");
 
-    await page.$eval("calcite-tooltip", (elm: any) => {
+    await page.$eval("calcite-tooltip", (el: any) => {
       const referenceElement = document.createElement("div");
       document.body.appendChild(referenceElement);
-      elm.referenceElement = referenceElement;
+      el.referenceElement = referenceElement;
     });
 
     await page.waitForChanges();
@@ -481,8 +481,8 @@ describe("calcite-tooltip", () => {
 
     expect(await hoverTip.getProperty("open")).toBe(false);
 
-    await page.$eval("#hoverRef", (elm: HTMLElement) => {
-      elm.dispatchEvent(new Event("pointermove"));
+    await page.$eval("#hoverRef", (el: HTMLElement) => {
+      el.dispatchEvent(new Event("pointermove"));
     });
 
     await page.waitForTimeout(TOOLTIP_DELAY_MS);
@@ -538,8 +538,8 @@ describe("calcite-tooltip", () => {
 
     expect(await hoverTip.getProperty("open")).toBe(false);
 
-    await page.$eval("#hoverRef", (elm: HTMLElement) => {
-      elm.dispatchEvent(new Event("pointermove"));
+    await page.$eval("#hoverRef", (el: HTMLElement) => {
+      el.dispatchEvent(new Event("pointermove"));
     });
 
     await page.waitForTimeout(TOOLTIP_DELAY_MS);
@@ -757,8 +757,8 @@ describe("calcite-tooltip", () => {
 
     const hoverPromises: Promise<void>[] = pointerMoves.map(async ({ delay }) => {
       await page.waitForTimeout(delay);
-      await page.$eval("#ref", (elm: HTMLElement) => {
-        elm.dispatchEvent(new Event("pointermove"));
+      await page.$eval("#ref", (el: HTMLElement) => {
+        el.dispatchEvent(new Event("pointermove"));
       });
     });
 
