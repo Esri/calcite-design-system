@@ -7,6 +7,10 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ## Unreleased
 
+### Features
+
+- **list:** Add `single-persist` selection mode ([#6882](https://github.com/Esri/calcite-components/issues/6882)) ([dc332cb](https://github.com/Esri/calcite-components/commit/dc332cbc917026d3b6480fd9d0b6ff68cd8fe21b)), closes [#6382](https://github.com/Esri/calcite-components/issues/6382)
+
 ### Bug Fixes
 
 - **tooltip, popover:** Support transparent backgrounds [#6803](https://github.com/Esri/calcite-components/issues/6803) ([#6847](https://github.com/Esri/calcite-components/issues/6847)) ([7eec6fb](https://github.com/Esri/calcite-components/commit/7eec6fbd34f288fc5323b95d209e85f17240b9ce)), closes [#6798](https://github.com/Esri/calcite-components/issues/6798) [floating-ui/floating-ui#2195](https://github.com/floating-ui/floating-ui/issues/2195)
