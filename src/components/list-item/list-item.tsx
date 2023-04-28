@@ -121,7 +121,7 @@ export class ListItem
   @Prop() setPosition: number = null;
 
   /**
-   * When `true` and the parent `calcite-list`'s `selectionMode` is `"single"` or `"multiple"`, the component is selected.
+   * When `true` and the parent `calcite-list`'s `selectionMode` is `"single"`, `"single-persist"', or `"multiple"`, the component is selected.
    */
   @Prop({ reflect: true, mutable: true }) selected = false;
 
@@ -138,12 +138,14 @@ export class ListItem
   @Prop() value: any;
 
   /**
-   * Specifies the selection mode - `"multiple"` (allow any number of selected items), `"single"` (allows and require one selected item), `"none"` (no selected items).
+   * Specifies the selection mode - `"multiple"` (allow any number of selected items), `"single"` (allow one selected item), `"single-persist"` (allow one selected item and prevent de-selection), or `"none"` (no selected items).
    *
    * @internal
    */
-  @Prop({ mutable: true }) selectionMode: Extract<"none" | "multiple" | "single", SelectionMode> =
-    null;
+  @Prop({ mutable: true }) selectionMode: Extract<
+    "none" | "multiple" | "single" | "single-persist",
+    SelectionMode
+  > = null;
 
   /**
    * Specifies the selection appearance - `"icon"` (displays a checkmark or dot) or `"border"` (displays a border).
@@ -606,8 +608,10 @@ export class ListItem
       return;
     }
 
-    if (this.selectionMode !== "none") {
+    if (this.selectionMode === "multiple" || this.selectionMode === "single") {
       this.selected = !this.selected;
+    } else if (this.selectionMode === "single-persist") {
+      this.selected = true;
     }
 
     this.calciteListItemSelect.emit();
