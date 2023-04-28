@@ -10,11 +10,11 @@ describe("calcite-input-message", () => {
 
   it("honors hidden attribute", async () => hidden(`<calcite-input-message>Text</calcite-input-message>`));
 
-  describe("accessibile", () => {
+  describe("accessible", () => {
     accessible(`<calcite-input-message>Text</calcite-input-message>`);
   });
 
-  describe("accessibile with icon", () => {
+  describe("accessible with icon", () => {
     accessible(`<calcite-input-message icon>Text</calcite-input-message>`);
   });
 

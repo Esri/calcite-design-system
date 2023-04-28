@@ -76,7 +76,7 @@ describe("calcite-shell-center-row", () => {
     expect(element.shadowRoot.lastElementChild).toHaveClass(CSS.actionBarContainer);
   });
 
-  describe("accessibile", () => {
+  describe("accessible", () => {
     accessible(`
     <calcite-shell-center-row>
       <div>content</div>

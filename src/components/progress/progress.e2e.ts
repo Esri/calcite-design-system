@@ -5,7 +5,7 @@ describe("calcite-progress", () => {
 
   it("honors hidden attribute", async () => hidden("calcite-progress"));
 
-  describe("accessibile", () => {
+  describe("accessible", () => {
     accessible(`<calcite-progress label="my progress"></calcite-progress>`);
   });
 

@@ -71,11 +71,12 @@ describe("calcite-block-section", () => {
   });
 
   describe("toggle-display = 'button' (default)", () => {
-    describe("accessibile", () => {
-      it("when open", () =>
-        accessible(html`<calcite-block-section text="text" open><div>some content</div></calcite-block-section>`));
+    describe("accessible", () => {
+      describe("accessible: when open", () => {
+        accessible(html`<calcite-block-section text="text" open><div>some content</div></calcite-block-section>`);
+      });
 
-      it("when closed", () => {
+      describe("accessible: when closed", () => {
         accessible(html`<calcite-block-section text="text"><div>some content</div></calcite-block-section>`);
       });
     });

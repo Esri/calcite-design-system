@@ -13,7 +13,7 @@ describe("calcite-tree-item", () => {
   });
 
   describe("accessible: with nested children", () => {
-    accessible(html` <calcite-tree lines>
+    accessible(html`<calcite-tree lines>
       <calcite-tree-item>
         <a href="#">Child 2</a>
         <calcite-tree slot="children">

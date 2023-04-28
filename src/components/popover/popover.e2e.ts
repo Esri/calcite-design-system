@@ -33,7 +33,7 @@ describe("calcite-popover", () => {
     expect(style.zIndex).toBe("900");
   });
 
-  describe("accessibile", () => {
+  describe("accessible", () => {
     accessible(`<calcite-popover label="test" reference-element="ref"></calcite-popover><div id="ref">😄</div>`);
   });
 

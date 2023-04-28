@@ -72,7 +72,7 @@ describe("calcite-list", () => {
 
   it("honors hidden attribute", async () => hidden("calcite-list"));
 
-  describe("accessibile", () => {
+  describe("accessible", () => {
     accessible(html`<calcite-list>
       <calcite-list-item label="candy" description="kingdom">
         <calcite-action icon="banana" label="finn" slot="actions-start" />

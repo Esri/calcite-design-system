@@ -7,7 +7,7 @@ describe("calcite-scrim", () => {
 
   it("honors hidden attribute", async () => hidden("calcite-scrim"));
 
-  describe("accessibile", () => {
+  describe("accessible", () => {
     accessible("<calcite-scrim>My content</calcite-scrim>");
   });
 

@@ -112,7 +112,7 @@ describe("calcite-shell-panel", () => {
     expect(divElementIsFirst).toBe(true);
   });
 
-  describe("accessibile", () => {
+  describe("accessible", () => {
     accessible(`
     <calcite-shell-panel slot="panel-start" position="start">
       <calcite-action-bar slot="action-bar">

@@ -14,11 +14,11 @@ describe("calcite-card", () => {
 
   it("honors hidden attribute", async () => hidden("calcite-card"));
 
-  describe("accessibile", () => {
+  describe("accessible", () => {
     accessible("calcite-card");
   });
 
-  describe("accessibile when selectable", () => {
+  describe("accessible when selectable", () => {
     accessible(html`<calcite-card selectable>
       <img slot="thumbnail" src="${placeholder}" alt="Test image" />
     </calcite-card>`);

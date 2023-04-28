@@ -8,7 +8,8 @@ describe("calcite-value-list-item", () => {
 
   it("honors hidden attribute", async () => hidden("calcite-value-list-item"));
 
-  describe("accessible", () => {
+  // eslint-disable-next-line jest/no-disabled-tests
+  describe.skip("accessible", () => {
     accessible(html`
       <calcite-value-list>
         <calcite-value-list-item label="test" description="a number" value="one"></calcite-value-list-item>

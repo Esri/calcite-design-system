@@ -21,7 +21,7 @@ describe("calcite-input-time-picker", () => {
 
   it("honors hidden attribute", async () => hidden("calcite-input-time-picker"));
 
-  describe("accessibile", () => {
+  describe("accessible", () => {
     accessible(html`
       <calcite-label>
         Input Time Picker

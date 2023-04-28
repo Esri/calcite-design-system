@@ -32,7 +32,7 @@ describe("calcite-split-button", () => {
       }
     ));
 
-  describe("accessibile", () => {
+  describe("accessible", () => {
     accessible(html`<calcite-split-button primary-text="Button Text" dropdown-label="Show options">
       ${content}
     </calcite-split-button>`);

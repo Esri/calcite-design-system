@@ -20,7 +20,7 @@ describe("calcite-shell", () => {
     expect(content).not.toBeNull();
   });
 
-  describe("accessibile", () => {
+  describe("accessible", () => {
     accessible(html`
       <calcite-shell>
         <calcite-shell-panel slot="${SLOTS.panelStart}" position="start">

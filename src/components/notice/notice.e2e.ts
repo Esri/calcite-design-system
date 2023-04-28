@@ -13,15 +13,15 @@ describe("calcite-notice", () => {
 
   it("honors hidden attribute", async () => hidden("calcite-notice"));
 
-  describe("accessibile", () => {
+  describe("accessible", () => {
     accessible(`<calcite-notice open>${noticeContent}</calcite-notice>`);
   });
 
-  describe("accessibile with icon", () => {
+  describe("accessible with icon", () => {
     accessible(`<calcite-notice icon open>${noticeContent}</calcite-notice>`);
   });
 
-  describe("accessibile with icon with close button", () => {
+  describe("accessible with icon with close button", () => {
     accessible(`<calcite-notice closable open>${noticeContent}</calcite-notice>`);
   });
 

@@ -14,7 +14,7 @@ describe("calcite-link", () => {
       }
     ]));
 
-  describe("accessibile", () => {
+  describe("accessible", () => {
     accessible("<calcite-link href='/'>link</calcite-link>");
     accessible("<calcite-link>link</calcite-link>");
     accessible("<calcite-link icon-start='plus' icon-end='plus' href='/'>Go</calcite-link>");

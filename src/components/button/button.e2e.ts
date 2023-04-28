@@ -110,25 +110,25 @@ describe("calcite-button", () => {
     expect(loader).toBeNull();
   });
 
-  describe("accessibile", () => {
+  describe("accessible", () => {
     accessible(`<calcite-button>Continue</calcite-button>`);
   });
 
-  describe("accessibile: href", () => {
+  describe("accessible: href", () => {
     accessible(`<calcite-button href="/">Continue</calcite-button>`);
   });
 
-  describe("accessibile: style props", () => {
+  describe("accessible: style props", () => {
     accessible(`<calcite-button kind="danger" scale="l" width="half" appearance="outline">Continue</calcite-button>`);
   });
 
-  describe("accessibile: href and target", () => {
+  describe("accessible: href and target", () => {
     accessible(
       `<calcite-button rel="noopener noreferrer" target="_blank" class="mycustomclass" href="google.com">Continue</calcite-button>`
     );
   });
 
-  describe("accessibile: icons and loading", () => {
+  describe("accessible: icons and loading", () => {
     accessible(`<calcite-button loading icon-start='plus' icon-end='plus'>Continue</calcite-button>`);
   });
 

@@ -68,7 +68,7 @@ describe("calcite-panel", () => {
     expect(calcitePanelClose).toHaveReceivedEvent();
   });
 
-  describe("accessibile", () => {
+  describe("accessible", () => {
     accessible(html`
       <calcite-panel>
         <calcite-action-bar slot="${SLOTS.actionBar}">

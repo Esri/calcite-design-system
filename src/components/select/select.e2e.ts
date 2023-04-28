@@ -25,7 +25,7 @@ describe("calcite-select", () => {
 
   it("honors hidden attribute", async () => hidden("calcite-select"));
 
-  describe("accessibile", () => {
+  describe("accessible", () => {
     accessible(simpleTestMarkup);
   });
 

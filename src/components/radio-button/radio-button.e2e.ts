@@ -14,7 +14,7 @@ import {
 describe("calcite-radio-button", () => {
   it("renders", async () => renders("calcite-radio-button", { display: "block" }));
 
-  describe("accessibile", () => {
+  describe("accessible", () => {
     accessible(
       `<calcite-label><calcite-radio-button id="example" name="example" value="one"></calcite-radio-button>label</calcite-label>`
     );

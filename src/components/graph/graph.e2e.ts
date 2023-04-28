@@ -7,13 +7,15 @@ describe("calcite-graph", () => {
   it("honors hidden attribute", async () => hidden("calcite-graph"));
 
   describe("accessible", () => {
+    accessible("<calcite-graph></calcite-graph>");
+  });
+
+  describe("accessible: with data", () => {
     let html: "<calcite-graph></calcite-graph>";
     let page: E2EPage;
 
     beforeEach(async () => {
-      page = await newE2EPage();
-      await page.setContent(html);
-
+      page = await newE2EPage({ html });
       await page.$eval("calcite-graph", (elm: any) => {
         elm.data = [
           [0, 4],
@@ -26,11 +28,7 @@ describe("calcite-graph", () => {
       await page.waitForChanges();
     });
 
-    describe("accessible", () => {
-      accessible(html);
-    });
-
-    describe("accessible accessible: with data", () => {
+    describe("accessible: with data", () => {
       accessible(html, page);
     });
   });
