@@ -759,7 +759,7 @@ export class ColorPicker
             class={CSS.colorField}
             onPointerDown={this.handleColorFieldPointerDown}
             // eslint-disable-next-line react/jsx-sort-props
-            ref={this.initColorFieldAndSlider}
+            ref={this.initColorField}
           />
           <div
             aria-label={vertical ? messages.value : messages.saturation}
@@ -782,17 +782,8 @@ export class ColorPicker
               <canvas
                 class={{ [CSS.slider]: true, [CSS.hueSlider]: true }}
                 onPointerDown={this.handleHueSliderPointerDown}
-                ref={(canvas) => {
-                  const { dimensions } = this;
-                  this.hueSliderRenderingContext = canvas.getContext("2d");
-                  this.updateCanvasSize(canvas, {
-                    width: dimensions.slider.width,
-                    height:
-                      dimensions.slider.height +
-                      (dimensions.thumb.radius - dimensions.slider.height / 2) * 2
-                  });
-                  this.drawHueSlider();
-                }}
+                // eslint-disable-next-line react/jsx-sort-props
+                ref={this.initHueSlider}
               />
               <div
                 aria-label={messages.hue}
@@ -813,17 +804,8 @@ export class ColorPicker
                 <canvas
                   class={{ [CSS.slider]: true, [CSS.opacitySlider]: true }}
                   onPointerDown={this.handleOpacitySliderPointerDown}
-                  ref={(canvas) => {
-                    const { dimensions } = this;
-                    this.opacitySliderRenderingContext = canvas.getContext("2d");
-                    this.updateCanvasSize(canvas, {
-                      width: dimensions.slider.width,
-                      height:
-                        dimensions.slider.height +
-                        (dimensions.thumb.radius - dimensions.slider.height / 2) * 2
-                    });
-                    this.drawOpacitySlider();
-                  }}
+                  // eslint-disable-next-line react/jsx-sort-props
+                  ref={this.initOpacitySlider}
                 />
                 <div
                   aria-label={messages.opacity}
@@ -1280,10 +1262,32 @@ export class ColorPicker
     );
   };
 
-  private initColorFieldAndSlider = (canvas: HTMLCanvasElement): void => {
+  private initColorField = (canvas: HTMLCanvasElement): void => {
     this.colorFieldRenderingContext = canvas.getContext("2d");
     this.updateCanvasSize(canvas, this.dimensions.colorField);
     this.drawColorControls();
+  };
+
+  private initHueSlider = (canvas: HTMLCanvasElement): void => {
+    const { dimensions } = this;
+    this.hueSliderRenderingContext = canvas.getContext("2d");
+    this.updateCanvasSize(canvas, {
+      width: dimensions.slider.width,
+      height:
+        dimensions.slider.height + (dimensions.thumb.radius - dimensions.slider.height / 2) * 2
+    });
+    this.drawHueSlider();
+  };
+
+  private initOpacitySlider = (canvas: HTMLCanvasElement): void => {
+    const { dimensions } = this;
+    this.opacitySliderRenderingContext = canvas.getContext("2d");
+    this.updateCanvasSize(canvas, {
+      width: dimensions.slider.width,
+      height:
+        dimensions.slider.height + (dimensions.thumb.radius - dimensions.slider.height / 2) * 2
+    });
+    this.drawOpacitySlider();
   };
 
   private updateCanvasSize(
