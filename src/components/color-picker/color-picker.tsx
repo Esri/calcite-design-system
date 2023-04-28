@@ -312,8 +312,6 @@ export class ColorPicker
 
   @State() defaultMessages: ColorPickerMessages;
 
-  @State() colorFieldAndSliderInteractive = false;
-
   @State() channelMode: ColorMode = "rgb";
 
   @State() channels: Channels = this.toChannels(DEFAULT_COLOR);
@@ -731,7 +729,6 @@ export class ColorPicker
     } = this;
     const selectedColorInHex = color ? hexify(color, opacityEnabled) : null;
     const {
-      colorFieldAndSliderInteractive,
       colorFieldScopeTop,
       colorFieldScopeLeft,
       hueScopeLeft,
@@ -759,10 +756,7 @@ export class ColorPicker
       <div class={CSS.container}>
         <div class={CSS.controlAndScope}>
           <canvas
-            class={{
-              [CSS.colorField]: true,
-              [CSS.colorFieldInteractive]: colorFieldAndSliderInteractive
-            }}
+            class={CSS.colorField}
             onPointerDown={this.handleColorFieldPointerDown}
             // eslint-disable-next-line react/jsx-sort-props
             ref={this.initColorFieldAndSlider}
