@@ -471,14 +471,7 @@ export class ColorPicker
 
     if (
       (key !== "ArrowUp" && key !== "ArrowDown") ||
-      !event
-        .composedPath()
-        .some(
-          (node: HTMLElement) =>
-            node.classList?.contains(CSS.channel) ||
-            node.classList?.contains(CSS.opacityInput) ||
-            node.classList?.contains(CSS.opacitySlider)
-        )
+      !event.composedPath().some((node: HTMLElement) => node.classList?.contains(CSS.channel))
     ) {
       return;
     }

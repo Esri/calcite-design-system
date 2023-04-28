@@ -1,14 +1,3 @@
-$section-padding-inline--small: 8px;
-$section-padding-inline--medium: 12px;
-$section-padding-inline--large: 16px;
-$section-padding-block--small: 8px;
-$section-padding-block--medium: 12px;
-$section-padding-block--large: 16px;
-$gap: 8px;
-$gap--small: 4px;
-$gap--large: 12px;
-$inline-input-width: 31%;
-
 :host {
   @apply text-n2h inline-block font-normal;
 }
@@ -16,8 +5,7 @@ $inline-input-width: 31%;
 @include disabled();
 
 :host([scale="s"]) {
-  --calcite-color-picker-section-padding-inline: 8px;
-  --calcite-color-picker-section-padding-block: 8px;
+  --calcite-color-picker-spacing: 8px;
 
   .container {
     inline-size: 160px;
@@ -26,22 +14,13 @@ $inline-input-width: 31%;
   .saved-colors {
     grid-template-columns: repeat(auto-fill, minmax(20px, 1fr));
   }
-
-  .opacity-input {
-    inline-size: $inline-input-width + 20%;
-  }
 }
 
 :host([scale="m"]) {
-  --calcite-color-picker-section-padding-inline: 12px;
-  --calcite-color-picker-section-padding-block: 12px;
+  --calcite-color-picker-spacing: 12px;
 
   .container {
     inline-size: 272px;
-  }
-
-  .opacity-input {
-    inline-size: $inline-input-width;
   }
 }
 
@@ -52,8 +31,7 @@ $inline-input-width: 31%;
 }
 
 :host([scale="l"]) {
-  --calcite-color-picker-section-padding-inline: 16px;
-  --calcite-color-picker-section-padding-block: 16px;
+  --calcite-color-picker-spacing: 16px;
 
   @apply text-n1h;
 
@@ -63,30 +41,21 @@ $inline-input-width: 31%;
 
   .section {
     &:first-of-type {
-      padding-block-start: $section-padding-inline--large;
+      padding-block-start: var(--calcite-color-picker-spacing);
     }
   }
 
   .saved-colors {
     grid-template-columns: repeat(auto-fill, minmax(28px, 1fr));
-    grid-gap: $gap--large;
-    padding-block-start: $section-padding-inline--large;
+    padding-block-start: var(--calcite-color-picker-spacing);
   }
 
   .control-section {
     @apply flex-nowrap items-baseline;
-
-    > :nth-child(2) {
-      margin-inline-start: $gap--large;
-    }
   }
 
   .control-section {
     @apply flex-wrap;
-  }
-
-  .opacity-input {
-    inline-size: 25%;
   }
 
   .color-hex-options {
@@ -134,16 +103,16 @@ $inline-input-width: 31%;
 }
 
 .section {
-  padding-block: 0 var(--calcite-color-picker-section-padding-block);
-  padding-inline: var(--calcite-color-picker-section-padding-inline);
+  padding-block: 0 var(--calcite-color-picker-spacing);
+  padding-inline: var(--calcite-color-picker-spacing);
 
   &:first-of-type {
-    padding-block-start: var(--calcite-color-picker-section-padding-block);
+    padding-block-start: var(--calcite-color-picker-spacing);
   }
 }
 
 .slider {
-  margin-inline-start: var(--calcite-color-picker-section-padding-inline);
+  margin-inline-start: var(--calcite-color-picker-spacing);
 }
 
 .sliders {
@@ -152,7 +121,7 @@ $inline-input-width: 31%;
 
 .preview-and-sliders {
   @apply flex items-center;
-  padding: var(--calcite-color-picker-section-padding-inline);
+  padding: var(--calcite-color-picker-spacing);
 }
 
 .color-hex-options,
@@ -169,7 +138,7 @@ $inline-input-width: 31%;
 }
 
 .color-mode-container {
-  padding-block-start: var(--calcite-color-picker-section-padding-block);
+  padding-block-start: var(--calcite-color-picker-spacing);
 }
 
 .channels {
@@ -212,12 +181,9 @@ $inline-input-width: 31%;
 }
 
 .saved-colors {
-  padding-block-start: $section-padding-inline--small;
-  display: -ms-grid;
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(24px, 1fr));
-  grid-gap: $gap;
-  inline-size: 100%;
+  @apply grid gap-0.5;
+  padding-block-start: var(--calcite-color-picker-spacing);
+  grid-template-columns: repeat(auto-fill, minmax(20px, 1fr));
 }
 
 .saved-colors-buttons {
