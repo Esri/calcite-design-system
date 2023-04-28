@@ -52,7 +52,9 @@
       "component/split-button": "source",
       "component/dropdown-item": "source",
       "component/combobox-item": "source",
-      "component/flow-header": "source"
+      "component/flow-header": "source",
+      "component/notice": "source",
+      "component/alert": "source"
     },
     "$figmaStyleReferences": {
       "color.brand.default": "S:b28244f76fae4e504bbfa18bb30e111e02a00461,",
@@ -146,7 +148,9 @@
       "component/split-button": "source",
       "component/dropdown-item": "source",
       "component/combobox-item": "source",
-      "component/flow-header": "source"
+      "component/flow-header": "source",
+      "component/notice": "source",
+      "component/alert": "source"
     },
     "$figmaStyleReferences": {
       "color.brand.default": "S:4ae7e0e0a08b9109fef0b6c2cb45185a3b711de8,",
