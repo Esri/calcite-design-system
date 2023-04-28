@@ -190,16 +190,18 @@ export class ColorPickerHexInput implements LoadableComponent {
   };
 
   private onInputChange = (): void => {
-    const node = this.hexInputNode;
+    const nodeValue = this.hexInputNode.value;
     let value: string;
 
-    if (!node.value) {
-      value = node.value;
+    if (!nodeValue) {
+      value = nodeValue;
     } else {
-      const normalized = isValidHex(normalizeHex(node.value));
-      if (normalized) {
+      const normalized = normalizeHex(nodeValue);
+      if (isValidHex(normalized)) {
         const alphaHex = this.internalColor?.hexa().slice(-2) ?? "ff";
         value = `${normalized + alphaHex}`;
+      } else {
+        value = normalized;
       }
     }
 
@@ -368,11 +370,7 @@ export class ColorPickerHexInput implements LoadableComponent {
       const { opacityEnabled } = this;
       const normalized = normalizeHex(value, opacityEnabled);
 
-      if (
-        !opacityEnabled
-          ? isValidHex(normalized)
-          : isValidHex(normalized, true) || canConvertToHexa(normalized)
-      ) {
+      if (isValidHex(normalized) || isValidHex(normalized, true) || canConvertToHexa(normalized)) {
         const { internalColor: currentColor } = this;
         const nextColor = Color(normalized);
         const normalizedLonghand = normalizeHex(hexify(nextColor, opacityEnabled));
