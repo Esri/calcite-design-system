@@ -101,22 +101,8 @@ export class ColorPicker
    */
   @Prop({ reflect: true }) allowEmpty = false;
 
-  /**
-   * When true, the color picker will process and display alpha characters.
-   */
-  @Prop() opacityEnabled = false;
-
-  @Watch("opacityEnabled")
-  handleOpacityEnabledChange(opacityEnabled: boolean): void {
-    const { format } = this;
-
-    if (opacityEnabled && format !== "auto" && !alphaCompatible(format)) {
-      console.warn(
-        `ignoring opacityEnabled as the current format (${format}) does not support alpha`
-      );
-      this.opacityEnabled = false;
-    }
-  }
+  /** When true, hides the RGB/HSV channel inputs */
+  @Prop() channelsDisabled = false;
 
   /**
    * Internal prop for advanced use-cases.
@@ -131,9 +117,6 @@ export class ColorPicker
     this.updateChannelsFromColor(color);
     this.previousColor = oldColor;
   }
-
-  /** When true, hides the RGB/HSV channel inputs */
-  @Prop() channelsDisabled = false;
 
   /**
    * When `true`, interaction is prevented and the component is displayed with lower opacity.
@@ -155,16 +138,6 @@ export class ColorPicker
     this.internalColorSet(this.color, false, "internal");
   }
 
-  /** When true, hides the hex input */
-  @Prop() hexDisabled = false;
-
-  /**
-   * When `true`, hides the Hex input.
-   *
-   * @deprecated use `hexDisabled` instead
-   */
-  @Prop({ reflect: true }) hideHex = false;
-
   /**
    * When `true`, hides the RGB/HSV channel inputs.
    *
@@ -172,12 +145,39 @@ export class ColorPicker
    */
   @Prop({ reflect: true }) hideChannels = false;
 
+  /** When true, hides the hex input */
+  @Prop() hexDisabled = false;
+
+  /**
+   * When `true`, hides the hex input.
+   *
+   * @deprecated use `hexDisabled` instead
+   */
+  @Prop({ reflect: true }) hideHex = false;
+
   /**
    * When `true`, hides the saved colors section.
    *
    * @deprecated use `savedDisabled` instead
    */
   @Prop({ reflect: true }) hideSaved = false;
+
+  /**
+   * When true, the color picker will process and display alpha characters.
+   */
+  @Prop() opacityEnabled = false;
+
+  @Watch("opacityEnabled")
+  handleOpacityEnabledChange(opacityEnabled: boolean): void {
+    const { format } = this;
+
+    if (opacityEnabled && format !== "auto" && !alphaCompatible(format)) {
+      console.warn(
+        `ignoring opacityEnabled as the current format (${format}) does not support alpha`
+      );
+      this.opacityEnabled = false;
+    }
+  }
 
   /** When true, hides the saved colors section */
   @Prop({ reflect: true }) savedDisabled = false;
@@ -188,9 +188,7 @@ export class ColorPicker
   @Watch("scale")
   handleScaleChange(scale: Scale = "m"): void {
     this.updateDimensions(scale);
-    this.updateCanvasSize(this.colorFieldRenderingContext?.canvas, this.dimensions.colorField);
-    this.updateCanvasSize(this.hueSliderRenderingContext?.canvas, this.dimensions.slider);
-    this.updateCanvasSize(this.opacitySliderRenderingContext?.canvas, this.dimensions.slider);
+    this.updateCanvasSize("all");
     this.drawColorControls();
   }
 
@@ -1234,6 +1232,10 @@ export class ColorPicker
     canvas: HTMLCanvasElement,
     { height, width }: { height: number; width: number }
   ): void {
+    if (!canvas) {
+      return;
+    }
+
     const devicePixelRatio = window.devicePixelRatio || 1;
 
     canvas.width = width * devicePixelRatio;
@@ -1262,41 +1264,42 @@ export class ColorPicker
 
   private initColorField = (canvas: HTMLCanvasElement): void => {
     this.colorFieldRenderingContext = canvas.getContext("2d");
-    this.updateCanvasSize(canvas, this.dimensions.colorField);
+    this.updateCanvasSize("color-field");
     this.drawColorControls();
   };
 
   private initHueSlider = (canvas: HTMLCanvasElement): void => {
-    const { dimensions } = this;
     this.hueSliderRenderingContext = canvas.getContext("2d");
-    this.updateCanvasSize(canvas, {
-      width: dimensions.slider.width,
-      height:
-        dimensions.slider.height + (dimensions.thumb.radius - dimensions.slider.height / 2) * 2
-    });
+    this.updateCanvasSize("hue-slider");
     this.drawHueSlider();
   };
 
   private initOpacitySlider = (canvas: HTMLCanvasElement): void => {
-    const { dimensions } = this;
     this.opacitySliderRenderingContext = canvas.getContext("2d");
-    this.updateCanvasSize(canvas, {
-      width: dimensions.slider.width,
-      height:
-        dimensions.slider.height + (dimensions.thumb.radius - dimensions.slider.height / 2) * 2
-    });
+    this.updateCanvasSize("opacity-slider");
     this.drawOpacitySlider();
   };
 
   private updateCanvasSize(
-    canvas: HTMLCanvasElement,
-    { width, height }: { width: number; height: number }
-  ) {
-    if (!canvas) {
-      return;
+    context: "all" | "color-field" | "hue-slider" | "opacity-slider" = "all"
+  ): void {
+    const { dimensions } = this;
+
+    if (context === "all" || context === "color-field") {
+      this.setCanvasContextSize(this.colorFieldRenderingContext?.canvas, dimensions.colorField);
+    }
+    if (context === "all" || context === "hue-slider") {
+      this.setCanvasContextSize(this.hueSliderRenderingContext?.canvas, dimensions.slider);
     }
 
-    this.setCanvasContextSize(canvas, { width, height });
+    if (context === "all" || context === "opacity-slider") {
+      this.setCanvasContextSize(this.opacitySliderRenderingContext?.canvas, dimensions.slider);
+      // this.updateCanvasSize(canvas, {
+      //   width: dimensions.slider.width,
+      //   height:
+      //       dimensions.slider.height + (dimensions.thumb.radius - dimensions.slider.height / 2) * 2
+      // });
+    }
   }
 
   private drawActiveColorFieldColor(): void {
