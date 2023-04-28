@@ -111,12 +111,9 @@
   }
 }
 
-.slider {
-  margin-inline-start: var(--calcite-color-picker-spacing);
-}
-
 .sliders {
   @apply flex flex-col justify-between;
+  margin-inline-start: var(--calcite-color-picker-spacing);
 }
 
 .preview-and-sliders {

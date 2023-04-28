@@ -403,9 +403,7 @@ export class ColorPicker
     if (arrowKeyToXOffset[key]) {
       event.preventDefault();
       const delta = arrowKeyToXOffset[key] * modifier;
-      const hue = this.baseColorFieldColor.hue();
-      const color = this.baseColorFieldColor.hue(hue + delta);
-      this.internalColorSet(color, false);
+      this.captureHueSliderColor(this.hueScopeLeft + delta);
     }
   };
 
@@ -594,10 +592,9 @@ export class ColorPicker
   };
 
   private globalPointerMoveHandler = (event: PointerEvent): void => {
-    const { el } = this;
-    const activeCanvasInfo = this.activeCanvasInfo;
+    const { activeCanvasInfo, el } = this;
 
-    if (!el.isConnected || !activeCanvasInfo || isPrimaryPointerButton(event)) {
+    if (!el.isConnected || !activeCanvasInfo) {
       return;
     }
 
@@ -1543,9 +1540,7 @@ export class ColorPicker
     if (arrowKeyToXOffset[key]) {
       event.preventDefault();
       const delta = opacityToAlpha(arrowKeyToXOffset[key] * modifier);
-      const alpha = this.baseColorFieldColor.alpha();
-      const color = this.baseColorFieldColor.alpha(alpha + delta);
-      this.internalColorSet(color, false);
+      this.captureHueSliderColor(this.opacityScopeLeft + delta);
     }
   };
 
