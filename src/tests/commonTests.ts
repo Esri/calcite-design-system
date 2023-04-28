@@ -72,7 +72,7 @@ export async function accessible(componentTagOrHTML: TagOrHTML, page?: E2EPage):
 /**
  * Note that this helper should be used within a describe block.
  *
- * describe("renders), () => {
+ * describe("renders", () => {
  *   renders(`<calcite-tree></calcite-tree>`);
  * });
  *
@@ -90,7 +90,7 @@ export async function renders(
     display: string;
   }
 ): Promise<void> {
-  it("renders", async () => {
+  it(`renders ${componentTagOrHTML}`, async () => {
     const page = await simplePageSetup(componentTagOrHTML);
     const element = await page.find(getTag(componentTagOrHTML));
 
