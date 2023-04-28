@@ -4,7 +4,9 @@ import { CSS, SLOTS } from "./resources";
 import { html } from "../../../support/formatting";
 
 describe("calcite-action-pad", () => {
-  it("renders", async () => renders("calcite-action-pad", { display: "block" }));
+  describe("renders", () => {
+    renders("calcite-action-pad", { display: "block" });
+  });
 
   it("honors hidden attribute", async () => hidden("calcite-action-pad"));
 

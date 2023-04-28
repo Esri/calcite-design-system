@@ -5,7 +5,9 @@ import { CSS } from "../tree-item/resources";
 import SpyInstance = jest.SpyInstance;
 
 describe("calcite-tree", () => {
-  it("renders", () => renders("calcite-tree", { display: "block" }));
+  describe("renders", () => {
+    renders("calcite-tree", { display: "block" });
+  });
 
   it("honors hidden attribute", async () => hidden("calcite-tree"));
 

@@ -2,7 +2,9 @@ import { newE2EPage } from "@stencil/core/testing";
 import { focusable, renders, hidden } from "../../tests/commonTests";
 
 describe("calcite-dropdown-item", () => {
-  it("renders", () => renders("calcite-dropdown-item", { display: "flex" }));
+  describe("renders", () => {
+    renders("calcite-dropdown-item", { display: "flex" });
+  });
 
   it("honors hidden attribute", async () => hidden("calcite-dropdown-item"));
 

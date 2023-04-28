@@ -15,7 +15,10 @@ import { html } from "../../../support/formatting";
 import { CSS } from "./resources";
 
 describe("calcite-combobox", () => {
-  it("renders", async () => renders("calcite-combobox", { display: "block" }));
+  describe("renders", () => {
+    renders("calcite-combobox", { display: "block" });
+  });
+
   it("defaults", async () =>
     defaults("calcite-combobox", [
       {

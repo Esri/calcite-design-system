@@ -4,7 +4,9 @@ import { accessible, defaults, renders, slots, hidden } from "../../tests/common
 import { html } from "../../../support/formatting";
 
 describe("calcite-pick-list-group", () => {
-  it("renders", async () => renders("calcite-pick-list-group", { display: "block" }));
+  describe("renders", () => {
+    renders("calcite-pick-list-group", { display: "block" });
+  });
 
   it("honors hidden attribute", async () => hidden("calcite-pick-list-group"));
 

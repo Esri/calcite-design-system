@@ -3,7 +3,9 @@ import { html } from "../../../support/formatting";
 import { disabled, focusable, formAssociated, hidden, labelable, renders } from "../../tests/commonTests";
 
 describe("calcite-segmented-control", () => {
-  it("renders", () => renders("calcite-segmented-control", { display: "flex" }));
+  describe("renders", () => {
+    renders("calcite-segmented-control", { display: "flex" });
+  });
 
   it("honors hidden attribute", async () => hidden("calcite-segmented-control"));
 

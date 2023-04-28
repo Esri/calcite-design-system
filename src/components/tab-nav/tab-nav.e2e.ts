@@ -5,7 +5,9 @@ import { html } from "../../../support/formatting";
 describe("calcite-tab-nav", () => {
   const tabNavHtml = "<calcite-tab-nav></calcite-tab-nav>";
 
-  it("renders", async () => await renders(tabNavHtml, { display: "flex" }));
+  describe("renders", () => {
+    renders(tabNavHtml, { display: "flex" });
+  });
 
   it("honors hidden attribute", async () => hidden("calcite-tab-nav"));
 

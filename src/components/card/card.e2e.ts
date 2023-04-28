@@ -8,7 +8,9 @@ const placeholder = placeholderImage({
 });
 
 describe("calcite-card", () => {
-  it("renders", async () => renders("calcite-card", { display: "block" }));
+  describe("renders", () => {
+    renders("calcite-card", { display: "block" });
+  });
 
   it("honors hidden attribute", async () => hidden("calcite-card"));
 

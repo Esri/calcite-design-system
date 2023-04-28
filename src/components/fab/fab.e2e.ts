@@ -4,7 +4,9 @@ import { CSS } from "./resources";
 import { defaults } from "../../tests/commonTests";
 
 describe("calcite-fab", () => {
-  it("renders", async () => renders("calcite-fab", { display: "flex" }));
+  describe("renders", () => {
+    renders("calcite-fab", { display: "flex" });
+  });
 
   it("honors hidden attribute", async () => hidden("calcite-fab"));
 

@@ -13,7 +13,9 @@ const panelTemplate = (scrollable = false) => html`<div style="height: 200px; di
 </div>`;
 
 describe("calcite-panel", () => {
-  it("renders", async () => renders("calcite-panel", { display: "flex" }));
+  describe("renders", () => {
+    renders("calcite-panel", { display: "flex" });
+  });
 
   it("honors hidden attribute", async () => hidden("calcite-panel"));
 

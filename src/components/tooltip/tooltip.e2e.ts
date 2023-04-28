@@ -31,9 +31,9 @@ describe("calcite-tooltip", () => {
     expect(await page.evaluate(() => (window as CanceledEscapeKeyPressTestWindow).escapeKeyCanceled)).toBe(expected);
   }
 
-  it("renders", async () => {
-    await renders(`calcite-tooltip`, { visible: false, display: "block" });
-    await renders(`<calcite-tooltip open reference-element="ref"></calcite-tooltip><div id="ref">😄</div>`, {
+  describe("renders", () => {
+    renders(`calcite-tooltip`, { visible: false, display: "block" });
+    renders(`<calcite-tooltip open reference-element="ref"></calcite-tooltip><div id="ref">😄</div>`, {
       display: "block"
     });
   });

@@ -3,7 +3,9 @@ import { accessible, defaults, disabled, reflects, renders, slots, hidden } from
 import { SLOTS } from "./resources";
 
 describe("calcite-tile", () => {
-  it("renders", async () => renders("calcite-tile", { display: "inline-block" }));
+  describe("renders", () => {
+    renders("calcite-tile", { display: "inline-block" });
+  });
 
   it("honors hidden attribute", async () => hidden("calcite-tile"));
 

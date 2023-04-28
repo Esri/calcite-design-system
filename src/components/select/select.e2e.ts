@@ -21,7 +21,9 @@ describe("calcite-select", () => {
     </calcite-select>
   `;
 
-  it("renders", async () => renders(simpleTestMarkup, { display: "flex" }));
+  describe("renders", () => {
+    renders(simpleTestMarkup, { display: "flex" });
+  });
 
   it("honors hidden attribute", async () => hidden("calcite-select"));
 

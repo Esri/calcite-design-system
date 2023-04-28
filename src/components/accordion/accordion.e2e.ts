@@ -13,7 +13,10 @@ describe("calcite-accordion", () => {
     <calcite-accordion-item heading="Accordion Title 1" id="2" expanded>Accordion Item Content </calcite-accordion-item>
     <calcite-accordion-item heading="Accordion Title 3" id="3">Accordion Item Content </calcite-accordion-item>
   `;
-  it("renders", async () => renders("calcite-accordion", { display: "block" }));
+
+  describe("renders", () => {
+    renders("calcite-accordion", { display: "block" });
+  });
 
   it("honors hidden attribute", async () => hidden("calcite-accordion"));
 

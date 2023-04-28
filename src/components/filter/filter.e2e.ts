@@ -4,7 +4,9 @@ import { DEBOUNCE_TIMEOUT } from "./resources";
 import { CSS as INPUT_CSS } from "../input/resources";
 
 describe("calcite-filter", () => {
-  it("renders", async () => renders("calcite-filter", { display: "flex" }));
+  describe("renders", () => {
+    renders("calcite-filter", { display: "flex" });
+  });
 
   it("honors hidden attribute", async () => hidden("calcite-filter"));
 

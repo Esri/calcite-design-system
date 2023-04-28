@@ -58,7 +58,9 @@ describe("calcite-list", () => {
       }
     ]));
 
-  it("renders", async () => renders("calcite-list", { display: "block" }));
+  describe("renders", () => {
+    renders("calcite-list", { display: "block" });
+  });
 
   it("is focusable", () =>
     focusable(
