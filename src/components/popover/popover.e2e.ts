@@ -32,16 +32,19 @@ describe("calcite-popover", () => {
     expect(style.zIndex).toBe("900");
   });
 
-  it("is accessible when closed", async () =>
-    accessible(`<calcite-popover label="test" reference-element="ref"></calcite-popover><div id="ref">😄</div>`));
+  describe("accessible", () => {
+    accessible(`<calcite-popover label="test" reference-element="ref"></calcite-popover><div id="ref">😄</div>`);
+  });
 
-  it("is accessible when open", async () =>
-    accessible(`<calcite-popover label="test" open reference-element="ref"></calcite-popover><div id="ref">😄</div>`));
+  describe("accessible when open", () => {
+    accessible(`<calcite-popover label="test" open reference-element="ref"></calcite-popover><div id="ref">😄</div>`);
+  });
 
-  it("is accessible with close button", async () =>
+  describe("accessible with close button", () => {
     accessible(
       `<calcite-popover label="test" open closable reference-element="ref"></calcite-popover><div id="ref">😄</div>`
-    ));
+    );
+  });
 
   it("honors hidden attribute", async () => hidden(`<calcite-popover open></calcite-popover>`));
 

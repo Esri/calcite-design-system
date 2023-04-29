@@ -23,13 +23,14 @@ describe("calcite-input-time-picker", () => {
 
   it("honors hidden attribute", async () => hidden("calcite-input-time-picker"));
 
-  it("is accessible", async () =>
-    accessible(`
-    <calcite-label>
-      Input Time Picker
-      <calcite-input-time-picker name="test"></calcite-input-time-picker>
-    </calcite-label>
-  `));
+  describe("accessible", () => {
+    accessible(html`
+      <calcite-label>
+        Input Time Picker
+        <calcite-input-time-picker name="test"></calcite-input-time-picker>
+      </calcite-label>
+    `);
+  });
 
   it.skip("supports t9n", () => t9n("calcite-input-time-picker"));
 

@@ -22,7 +22,7 @@ describe("calcite-shell", () => {
     expect(content).not.toBeNull();
   });
 
-  it("should be accessible", async () =>
+  describe("accessible", () => {
     accessible(html`
       <calcite-shell>
         <calcite-shell-panel slot="${SLOTS.panelStart}" position="start">
@@ -32,7 +32,8 @@ describe("calcite-shell", () => {
           <p>Primary Content</p>
         </calcite-shell-panel>
       </calcite-shell>
-    `));
+    `);
+  });
 
   it("should place content behind", async () => {
     const page = await newE2EPage();

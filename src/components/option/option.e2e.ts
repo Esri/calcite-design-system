@@ -8,7 +8,9 @@ describe("calcite-option", () => {
 
   it("honors hidden attribute", async () => hidden("calcite-option"));
 
-  it("is accessible", async () => accessible("calcite-option"));
+  describe("accessible", () => {
+    accessible("calcite-option");
+  });
 
   it("has defaults", async () =>
     defaults("calcite-option", [

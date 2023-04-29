@@ -7,5 +7,7 @@ describe("calcite-tip-group", () => {
 
   it("honors hidden attribute", async () => hidden("calcite-tip-group"));
 
-  it("is accessible", async () => accessible(`calcite-tip-group`));
+  describe("accessible", () => {
+    accessible(`calcite-tip-group`);
+  });
 });

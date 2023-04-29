@@ -10,8 +10,13 @@ describe("calcite-input-message", () => {
 
   it("honors hidden attribute", async () => hidden(`<calcite-input-message>Text</calcite-input-message>`));
 
-  it("is accessible", async () => accessible(`<calcite-input-message>Text</calcite-input-message>`));
-  it("is accessible with icon", async () => accessible(`<calcite-input-message icon>Text</calcite-input-message>`));
+  describe("accessible", () => {
+    accessible(`<calcite-input-message>Text</calcite-input-message>`);
+  });
+
+  describe("accessible with icon", () => {
+    accessible(`<calcite-input-message icon>Text</calcite-input-message>`);
+  });
 
   it("renders default props when none are provided", async () => {
     const page = await newE2EPage();

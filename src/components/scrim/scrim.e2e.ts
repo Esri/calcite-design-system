@@ -9,9 +9,13 @@ describe("calcite-scrim", () => {
 
   it("honors hidden attribute", async () => hidden("calcite-scrim"));
 
-  it("is accessible", async () => accessible("<calcite-scrim>My content</calcite-scrim>"));
+  describe("accessible", () => {
+    accessible("<calcite-scrim>My content</calcite-scrim>");
+  });
 
-  it("is accessible when loading", async () => accessible("<calcite-scrim loading>My content</calcite-scrim>"));
+  describe("accessible when loading", () => {
+    accessible("<calcite-scrim loading>My content</calcite-scrim>");
+  });
 
   it("has property defaults", async () =>
     defaults("calcite-scrim", [

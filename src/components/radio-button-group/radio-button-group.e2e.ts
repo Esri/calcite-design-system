@@ -7,10 +7,11 @@ describe("calcite-radio-button-group", () => {
     renders("calcite-radio-button-group", { display: "flex" });
   });
 
-  it("is accessible", async () =>
+  describe("accessible", () => {
     accessible(
       `<calcite-radio-button-group><calcite-label><calcite-radio-button></calcite-radio-button>Label</calcite-label></calcite-radio-button-group>`
-    ));
+    );
+  });
 
   it("has defaults", async () =>
     defaults("calcite-radio-button-group", [

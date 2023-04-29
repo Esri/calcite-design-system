@@ -10,7 +10,9 @@ describe("calcite-filter", () => {
 
   it("honors hidden attribute", async () => hidden("calcite-filter"));
 
-  it("is accessible", async () => accessible("calcite-filter"));
+  describe("accessible", () => {
+    accessible("calcite-filter");
+  });
 
   it("is focusable", async () => focusable("calcite-filter"));
 
