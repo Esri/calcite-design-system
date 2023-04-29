@@ -48,9 +48,11 @@ async function simplePageSetup(componentTagOrHTML: TagOrHTML): Promise<E2EPage> 
 }
 
 /**
+ * Helper for asserting that a component is accessible.
+ *
  * Note that this helper should be used within a describe block.
  *
- * describe("accessible), () => {
+ * describe("accessible"), () => {
  *   accessible(`<calcite-tree></calcite-tree>`);
  * });
  *
