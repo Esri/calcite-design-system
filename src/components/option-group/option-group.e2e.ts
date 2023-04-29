@@ -6,7 +6,7 @@ describe("calcite-option-group", () => {
 
   it("honors hidden attribute", async () => hidden("calcite-option-group"));
 
-  describe("accessibile", () => {
+  describe("accessible", () => {
     accessible("calcite-option-group");
   });
 

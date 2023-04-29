@@ -12,13 +12,13 @@ import {
 describe("calcite-checkbox", () => {
   it("honors hidden attribute", async () => hidden("calcite-checkbox"));
 
-  describe("accessibile", () => {
+  describe("accessible", () => {
     accessible(
       `<calcite-label><calcite-checkbox id="example" name="example" value="one"></calcite-checkbox> label</calcite-label>`
     );
   });
 
-  describe("ccessible without calcite-label", () => {
+  describe("accessible without calcite-label", () => {
     accessible(`<calcite-checkbox label="label" id="example" name="example" value="one"></calcite-checkbox>`);
   });
 
