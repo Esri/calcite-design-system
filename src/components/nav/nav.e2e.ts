@@ -8,8 +8,8 @@ describe("calcite-nav", () => {
 
   it("should emit an event when the menuIcon is displayed and user interacts", async () => {
     const page = await newE2EPage();
-    await page.setContent(`<calcite-nav display-menu-action><calcite-nav-logo text="Test" /></calcite-nav>`);
-    const eventSpy = await page.spyOnEvent("calciteNavMenuActionSelect", "window");
+    await page.setContent(`<calcite-nav nav-action><calcite-nav-logo text="Test" /></calcite-nav>`);
+    const eventSpy = await page.spyOnEvent("calciteNavActionSelect");
     const hamburgerMenu = await page.find(`calcite-nav >>> calcite-action`);
 
     await page.keyboard.press("Tab");

@@ -16,14 +16,6 @@ describe("calcite-nav-user", () => {
         value: "true"
       },
       {
-        propertyName: "userId",
-        value: "123"
-      },
-      {
-        propertyName: "username",
-        value: "Spock123"
-      },
-      {
         propertyName: "hideText",
         value: ""
       }
