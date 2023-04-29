@@ -54,11 +54,11 @@ async function simplePageSetup(componentTagOrHTML: TagOrHTML): Promise<E2EPage> 
  *   accessible(`<calcite-tree></calcite-tree>`);
  * });
  *
- * @param {TagOrHTML|TagAndPage} componentSetup - A component tag, html, or the tag and e2e page for setting up a test
+ * @param {ComponentTestSetup} componentTestSetup - A component tag, html, or the tag and e2e page for setting up a test
  */
-export function accessible(componentSetup: ComponentTestSetup): void {
+export function accessible(componentTestSetup: ComponentTestSetup): void {
   it("is accessible", async () => {
-    const { page, tag } = await getTagAndPage(componentSetup);
+    const { page, tag } = await getTagAndPage(componentTestSetup);
 
     await page.addScriptTag({ path: require.resolve("axe-core") });
     await page.waitForFunction(() => (window as AxeOwningWindow).axe);
@@ -805,32 +805,32 @@ interface DisabledOptions {
 type ComponentTestSetupProvider = () => TagOrHTML | TagAndPage;
 type ComponentTestSetup = TagOrHTML | TagAndPage | ComponentTestSetupProvider;
 
-async function getTagAndPage(componentSetup: ComponentTestSetup): Promise<TagAndPage> {
-  if (typeof componentSetup === "function") {
-    componentSetup = componentSetup();
+async function getTagAndPage(componentTestSetup: ComponentTestSetup): Promise<TagAndPage> {
+  if (typeof componentTestSetup === "function") {
+    componentTestSetup = componentTestSetup();
   }
 
-  if (typeof componentSetup === "string") {
-    const page = await simplePageSetup(componentSetup);
-    const tag = getTag(componentSetup);
+  if (typeof componentTestSetup === "string") {
+    const page = await simplePageSetup(componentTestSetup);
+    const tag = getTag(componentTestSetup);
 
     return { page, tag };
   }
 
-  return componentSetup;
+  return componentTestSetup;
 }
 
 /**
  * Helper to test the disabled prop disabling user interaction.
  *
- * @param {TagOrHTML|TagAndPage} componentSetup - A component tag, html, or the tag and e2e page for setting up a test
+ * @param {ComponentTestSetup} componentTestSetup - A component tag, html, or the tag and e2e page for setting up a test
  * @param {DisabledOptions} [options={ focusTarget: "host" }] - disabled options
  */
 export async function disabled(
-  componentSetup: TagOrHTML | TagAndPage,
+  componentTestSetup: ComponentTestSetup,
   options: DisabledOptions = { focusTarget: "host" }
 ): Promise<void> {
-  const { page, tag } = await getTagAndPage(componentSetup);
+  const { page, tag } = await getTagAndPage(componentTestSetup);
 
   const component = await page.find(tag);
   await skipAnimations(page);
@@ -1057,10 +1057,10 @@ export async function floatingUIOwner(
 /**
  * Helper to test t9n component setup
  *
- * @param {TagOrHTML|TagAndPage} componentSetup - A component tag, html, or the tag and e2e page for setting up a test
+ * @param {ComponentTestSetup} componentTestSetup - A component tag, html, or the tag and e2e page for setting up a test
  */
-export async function t9n(componentSetup: TagOrHTML | TagAndPage): Promise<void> {
-  const { page, tag } = await getTagAndPage(componentSetup);
+export async function t9n(componentTestSetup: ComponentTestSetup): Promise<void> {
+  const { page, tag } = await getTagAndPage(componentTestSetup);
   const component = await page.find(tag);
 
   await assertDefaultMessages();
