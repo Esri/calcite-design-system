@@ -17,11 +17,13 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ### Bug Fixes
 
-- **block:** Corrects alignment of slotted icon ([#6883](https://github.com/Esri/calcite-components/issues/6883)) ([8fec45e](https://github.com/Esri/calcite-components/commit/8fec45e91b18b8a6252bb9eeed7b2a85289123b4)), closes [#6627](https://github.com/Esri/calcite-components/issues/6627)
+- **tooltip:** Open hovered tooltip while pointer is moving ([#6868](https://github.com/Esri/calcite-components/issues/6868)) ([76b02f6](https://github.com/Esri/calcite-components/commit/76b02f62c8c016e6cb59317def98341944bfad3a)), closes [#6278](https://github.com/Esri/calcite-components/issues/6278) [#6615](https://github.com/Esri/calcite-components/issues/6615) [#6785](https://github.com/Esri/calcite-components/issues/6785)
 
-* **tooltip, popover:** Support transparent backgrounds [#6803](https://github.com/Esri/calcite-components/issues/6803) ([#6847](https://github.com/Esri/calcite-components/issues/6847)) ([7eec6fb](https://github.com/Esri/calcite-components/commit/7eec6fbd34f288fc5323b95d209e85f17240b9ce)), closes [#6798](https://github.com/Esri/calcite-components/issues/6798) [floating-ui/floating-ui#2195](https://github.com/floating-ui/floating-ui/issues/2195)
+* **block:** Corrects alignment of slotted icon ([#6883](https://github.com/Esri/calcite-components/issues/6883)) ([8fec45e](https://github.com/Esri/calcite-components/commit/8fec45e91b18b8a6252bb9eeed7b2a85289123b4)), closes [#6627](https://github.com/Esri/calcite-components/issues/6627)
 
-- **chip:** Uses correct aria role in a selection-mode:none Chip Group ([#6862](https://github.com/Esri/calcite-components/issues/6862)) ([ab89ceb](https://github.com/Esri/calcite-components/commit/ab89ceb200cc6a5a2cc7015854b2fa78d36fec7d))
+- **tooltip, popover:** Support transparent backgrounds [#6803](https://github.com/Esri/calcite-components/issues/6803) ([#6847](https://github.com/Esri/calcite-components/issues/6847)) ([7eec6fb](https://github.com/Esri/calcite-components/commit/7eec6fbd34f288fc5323b95d209e85f17240b9ce)), closes [#6798](https://github.com/Esri/calcite-components/issues/6798) [floating-ui/floating-ui#2195](https://github.com/floating-ui/floating-ui/issues/2195)
+
+* **chip:** Uses correct aria role in a selection-mode:none Chip Group ([#6862](https://github.com/Esri/calcite-components/issues/6862)) ([ab89ceb](https://github.com/Esri/calcite-components/commit/ab89ceb200cc6a5a2cc7015854b2fa78d36fec7d))
 
 <!--@unreleased-section-end-->
 
