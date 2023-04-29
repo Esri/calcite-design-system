@@ -25,14 +25,10 @@ export const emptyActive_TestOnly = (): string =>
   html`<calcite-color-picker-swatch active></calcite-color-picker-swatch>`;
 
 export const withAlpha_TestOnly = (): string =>
-  html`<calcite-color-picker-swatch opacity-enabled color="rgba(255, 0, 255, 0.5)"></calcite-color-picker-swatch>`;
+  html`<calcite-color-picker-swatch alpha-channel color="rgba(255, 0, 255, 0.5)"></calcite-color-picker-swatch>`;
 
 export const withAlphaActive_TestOnly = (): string =>
-  html`<calcite-color-picker-swatch
-    active
-    opacity-enabled
-    color="rgba(255, 0, 255, 0.5)"
-  ></calcite-color-picker-swatch>`;
+  html`<calcite-color-picker-swatch active alpha-channel color="rgba(255, 0, 255, 0.5)"></calcite-color-picker-swatch>`;
 
 export const darkModeRTL_TestOnly = (): string =>
   html`<calcite-color-picker-swatch value="#c00f33"></calcite-color-picker-swatch>`;

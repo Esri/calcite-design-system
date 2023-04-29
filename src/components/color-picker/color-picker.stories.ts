@@ -76,10 +76,10 @@ export const simple = (): string =>
     }
   ]);
 
-export const opacitySupport = (): string =>
+export const alphaChannel = (): string =>
   create("calcite-color-picker", [
     ...createColorAttributes(),
-    { name: "opacity-enabled", value: true },
+    { name: "alpha-channel", value: true },
     { name: "value", value: text("value", "#b33f3333") }
   ]);
 
