@@ -16,8 +16,8 @@ describe("calcite-graph", () => {
 
     beforeEach(async () => {
       page = await newE2EPage({ html });
-      await page.$eval("calcite-graph", (elm: any) => {
-        elm.data = [
+      await page.$eval("calcite-graph", (el: any) => {
+        el.data = [
           [0, 4],
           [1, 7],
           [4, 6],
@@ -28,9 +28,7 @@ describe("calcite-graph", () => {
       await page.waitForChanges();
     });
 
-    describe("accessible: with data", () => {
-      accessible(html, page);
-    });
+    accessible({ tag: "calcite-graph", page });
   });
 
   it("has property defaults", async () =>

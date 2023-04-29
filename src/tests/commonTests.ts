@@ -54,23 +54,17 @@ async function simplePageSetup(componentTagOrHTML: TagOrHTML): Promise<E2EPage> 
  *   accessible(`<calcite-tree></calcite-tree>`);
  * });
  *
- * @param {string} componentTagOrHTML - the component tag or HTML markup to test against
- * @param {E2EPage} [page] - an e2e page
+ * @param {TagOrHTML|TagAndPage} componentSetup - A component tag, html, or the tag and e2e page for setting up a test
  */
-export function accessible(componentTagOrHTML: TagOrHTML, page?: E2EPage): void {
+export function accessible(componentSetup: TagOrHTML | TagAndPage): void {
   it("is accessible", async () => {
-    if (!page) {
-      page = await simplePageSetup(componentTagOrHTML);
-    }
+    const { page, tag } = await getTagAndPage(componentSetup);
 
     await page.addScriptTag({ path: require.resolve("axe-core") });
     await page.waitForFunction(() => (window as AxeOwningWindow).axe);
 
     expect(
-      await page.evaluate(
-        async (componentTag: ComponentTag) => (window as AxeOwningWindow).axe.run(componentTag),
-        getTag(componentTagOrHTML)
-      )
+      await page.evaluate(async (componentTag: ComponentTag) => (window as AxeOwningWindow).axe.run(componentTag), tag)
     ).toHaveNoViolations();
   });
 }
@@ -816,7 +810,7 @@ async function getTagAndPage(componentSetup: TagOrHTML | TagAndPage): Promise<Ta
 /**
  * Helper to test the disabled prop disabling user interaction.
  *
- * @param {TagOrHTML|TagAndPage} componentSetup - A component tag, html, or an e2e page for setting up a test
+ * @param {TagOrHTML|TagAndPage} componentSetup - A component tag, html, or the tag and e2e page for setting up a test
  * @param {DisabledOptions} [options={ focusTarget: "host" }] - disabled options
  */
 export async function disabled(
@@ -1050,7 +1044,7 @@ export async function floatingUIOwner(
 /**
  * Helper to test t9n component setup
  *
- * @param {TagOrHTML|TagAndPage} componentSetup - A component tag, html, or an object with e2e page and tag for setting up a test
+ * @param {TagOrHTML|TagAndPage} componentSetup - A component tag, html, or the tag and e2e page for setting up a test
  */
 export async function t9n(componentSetup: TagOrHTML | TagAndPage): Promise<void> {
   const { page, tag } = await getTagAndPage(componentSetup);
