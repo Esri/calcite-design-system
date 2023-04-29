@@ -20,7 +20,9 @@ describe("calcite-dropdown", () => {
       focusTargetSelector: '[slot="trigger"]'
     }));
 
-  it("renders", () => renders(simpleDropdownHTML, { display: "inline-flex" }));
+  describe("renders", () => {
+    renders(simpleDropdownHTML, { display: "inline-flex" });
+  });
 
   it("honors hidden attribute", async () => hidden("calcite-dropdown"));
 

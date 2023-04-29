@@ -4,7 +4,9 @@ import { accessible, defaults, disabled, hidden, renders, slots, t9n } from "../
 import { html } from "../../../support/formatting";
 
 describe("calcite-block", () => {
-  it("renders", async () => renders("calcite-block", { display: "flex" }));
+  describe("renders", () => {
+    renders("calcite-block", { display: "flex" });
+  });
 
   it("honors hidden attribute", async () => hidden("calcite-block"));
 

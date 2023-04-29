@@ -4,7 +4,9 @@ import { E2EPage, newE2EPage } from "@stencil/core/testing";
 import { html } from "../../../support/formatting";
 
 describe("calcite-value-list-item", () => {
-  it("renders", async () => renders("calcite-value-list-item", { display: "flex" }));
+  describe("renders", () => {
+    renders("calcite-value-list-item", { display: "flex" });
+  });
 
   it("honors hidden attribute", async () => hidden("calcite-value-list-item"));
 

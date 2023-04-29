@@ -4,7 +4,9 @@ import { CSS, SLOTS } from "./resources";
 import { html } from "../../../support/formatting";
 
 describe("calcite-shell", () => {
-  it("renders", async () => renders("calcite-shell", { display: "flex" }));
+  describe("renders", () => {
+    renders("calcite-shell", { display: "flex" });
+  });
 
   it("honors hidden attribute", async () => hidden("calcite-shell"));
 

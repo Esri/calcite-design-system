@@ -4,7 +4,9 @@ import { dragAndDrop } from "../../tests/utils";
 import { html } from "../../../support/formatting";
 
 describe("calcite-sortable-list", () => {
-  it("renders", async () => renders("calcite-sortable-list", { display: "flex" }));
+  describe("renders", () => {
+    renders("calcite-sortable-list", { display: "flex" });
+  });
 
   it("honors hidden attribute", async () => hidden("calcite-sortable-list"));
 

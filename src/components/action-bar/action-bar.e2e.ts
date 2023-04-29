@@ -5,7 +5,9 @@ import { CSS, SLOTS } from "./resources";
 import { overflowActionsDebounceInMs } from "./utils";
 
 describe("calcite-action-bar", () => {
-  it("renders", async () => renders("calcite-action-bar", { display: "inline-flex" }));
+  describe("renders", () => {
+    renders("calcite-action-bar", { display: "inline-flex" });
+  });
 
   it("honors hidden attribute", async () => hidden("calcite-action-bar"));
 

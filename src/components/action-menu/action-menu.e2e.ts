@@ -5,7 +5,9 @@ import { TOOLTIP_DELAY_MS } from "../tooltip/resources";
 import { CSS, SLOTS } from "./resources";
 
 describe("calcite-action-menu", () => {
-  it("renders", async () => renders("calcite-action-menu", { display: "flex" }));
+  describe("renders", () => {
+    renders("calcite-action-menu", { display: "flex" });
+  });
 
   it("honors hidden attribute", async () => hidden("calcite-action-menu"));
 

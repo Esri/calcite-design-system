@@ -35,7 +35,9 @@ const letterKeys = [
 export type NumericString = "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9";
 
 describe("calcite-time-picker", () => {
-  it("renders", async () => renders("calcite-time-picker", { display: "inline-block" }));
+  describe("renders", () => {
+    renders("calcite-time-picker", { display: "inline-block" });
+  });
 
   it("honors hidden attribute", async () => hidden("calcite-time-picker"));
 

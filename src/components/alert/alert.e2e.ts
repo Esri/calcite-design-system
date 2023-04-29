@@ -11,7 +11,9 @@ describe("calcite-alert", () => {
     <a slot="link" href="">Action</a>
   `;
 
-  it("renders", async () => renders("calcite-alert", { visible: false, display: "block" }));
+  describe("renders", () => {
+    renders("calcite-alert", { visible: false, display: "block" });
+  });
 
   it("honors hidden attribute", async () => hidden(`<calcite-alert open></calcite-alert>`));
 

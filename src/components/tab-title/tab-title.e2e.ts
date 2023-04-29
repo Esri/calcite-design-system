@@ -7,7 +7,9 @@ describe("calcite-tab-title", () => {
   const iconStartHtml = `calcite-tab-title >>> .${CSS.titleIcon}.${CSS.iconStart}`;
   const iconEndHtml = `calcite-tab-title >>> .${CSS.titleIcon}.${CSS.iconEnd}`;
 
-  it("renders", async () => renders(tabTitleHtml, { display: "block" }));
+  describe("renders", () => {
+    renders(tabTitleHtml, { display: "block" });
+  });
 
   it("honors hidden attribute", async () => hidden("calcite-tab-title"));
 

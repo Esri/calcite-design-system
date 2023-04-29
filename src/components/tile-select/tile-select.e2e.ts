@@ -3,7 +3,9 @@ import { accessible, defaults, disabled, focusable, hidden, reflects, renders } 
 import { html } from "../../../support/formatting";
 
 describe("calcite-tile-select", () => {
-  it("renders", async () => renders("calcite-tile-select", { display: "block" }));
+  describe("renders", () => {
+    renders("calcite-tile-select", { display: "block" });
+  });
 
   describe("accessible", () => {
     accessible(`<calcite-tile-select heading="label"></calcite-tile-select>`);

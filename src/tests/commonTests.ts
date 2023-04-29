@@ -1,4 +1,4 @@
-/* eslint-disable jest/no-export -- util functions are now imported to be used as `it` blocks within `descirbe` instead of assertions within `it` blocks */
+/* eslint-disable jest/no-export -- util functions are now imported to be used as `it` blocks within `describe` instead of assertions within `it` blocks */
 import { E2EElement, E2EPage, EventSpy, newE2EPage } from "@stencil/core/testing";
 import axe from "axe-core";
 import { toHaveNoViolations } from "jest-axe";
@@ -70,7 +70,11 @@ export function accessible(componentSetup: TagOrHTML | TagAndPage): void {
 }
 
 /**
- * Helper for asserting that a component renders and is hydrated
+ * Note that this helper should be used within a describe block.
+ *
+ * describe("renders", () => {
+ *   renders(`<calcite-tree></calcite-tree>`);
+ * });
  *
  * @param {string} componentTagOrHTML - the component tag or HTML markup to test against
  * @param {object} options - additional options to assert
@@ -86,12 +90,14 @@ export async function renders(
     display: string;
   }
 ): Promise<void> {
-  const page = await simplePageSetup(componentTagOrHTML);
-  const element = await page.find(getTag(componentTagOrHTML));
+  it(`renders`, async () => {
+    const page = await simplePageSetup(componentTagOrHTML);
+    const element = await page.find(getTag(componentTagOrHTML));
 
-  expect(element).toHaveAttribute(HYDRATED_ATTR);
-  expect(await element.isVisible()).toBe(options?.visible ?? true);
-  expect((await element.getComputedStyle()).display).toBe(options?.display ?? "inline");
+    expect(element).toHaveAttribute(HYDRATED_ATTR);
+    expect(await element.isVisible()).toBe(options?.visible ?? true);
+    expect((await element.getComputedStyle()).display).toBe(options?.display ?? "inline");
+  });
 }
 
 /**

@@ -5,10 +5,11 @@ import { GlobalTestProps } from "../../tests/utils";
 import { CSS as CHIP_CSS } from "../chip/resources";
 
 describe("calcite-chip-group", () => {
-  it("renders", async () =>
+  describe("renders", () => {
     renders("<calcite-chip-group><calcite-chip></calcite-chip></calcite-chip-group>", {
       display: "flex"
-    }));
+    });
+  });
 
   it("honors hidden attribute", async () => hidden("calcite-chip-group"));
 

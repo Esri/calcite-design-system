@@ -3,7 +3,9 @@ import { accessible, defaults, hidden, renders, t9n } from "../../tests/commonTe
 import { CSS } from "./resources";
 
 describe("calcite-scrim", () => {
-  it("renders", async () => renders("<calcite-scrim></calcite-scrim>", { display: "flex" }));
+  describe("renders", () => {
+    renders("<calcite-scrim></calcite-scrim>", { display: "flex" });
+  });
 
   it("honors hidden attribute", async () => hidden("calcite-scrim"));
 

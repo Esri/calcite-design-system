@@ -26,7 +26,9 @@ describe("calcite-input-date-picker", () => {
     `);
   });
 
-  it("renders", async () => renders("calcite-input-date-picker", { display: "inline-block" }));
+  describe("renders", () => {
+    renders("calcite-input-date-picker", { display: "inline-block" });
+  });
 
   it("honors hidden attribute", async () => hidden("calcite-input-date-picker"));
 

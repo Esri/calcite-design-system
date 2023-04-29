@@ -9,7 +9,10 @@ describe("calcite-notice", () => {
   <div slot="message">Message Text</div>
   <calcite-link slot="link" href="">Action</calcite-link>
 `;
-  it("renders", async () => renders(`<calcite-notice open>${noticeContent}</calcite-notice>`, { display: "flex" }));
+
+  describe("renders", () => {
+    renders(`<calcite-notice open>${noticeContent}</calcite-notice>`, { display: "flex" });
+  });
 
   it("honors hidden attribute", async () => hidden("calcite-notice"));
 

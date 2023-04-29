@@ -2,7 +2,9 @@ import { newE2EPage, E2EPage } from "@stencil/core/testing";
 import { accessible, defaults, hidden, renders } from "../../tests/commonTests";
 
 describe("calcite-graph", () => {
-  it("renders", async () => renders(`<calcite-graph></calcite-graph>`, { display: "block" }));
+  describe("renders", () => {
+    renders(`<calcite-graph></calcite-graph>`, { display: "block" });
+  });
 
   it("honors hidden attribute", async () => hidden("calcite-graph"));
 
