@@ -9,16 +9,16 @@ describe("calcite-graph", () => {
   it("honors hidden attribute", async () => hidden("calcite-graph"));
 
   describe("accessible", () => {
-    accessible("<calcite-graph></calcite-graph>");
+    accessible("calcite-graph");
   });
 
   describe("accessible: with data", () => {
-    let html: "<calcite-graph></calcite-graph>";
     let page: E2EPage;
 
     beforeEach(async () => {
-      page = await newE2EPage({ html });
-      await page.$eval("calcite-graph", (el: any) => {
+      page = await newE2EPage();
+      await page.setContent("<calcite-graph></calcite-graph>");
+      await page.$eval("calcite-graph", (el: HTMLCalciteGraphElement) => {
         el.data = [
           [0, 4],
           [1, 7],
@@ -30,7 +30,7 @@ describe("calcite-graph", () => {
       await page.waitForChanges();
     });
 
-    accessible({ tag: "calcite-graph", page });
+    accessible(() => ({ tag: "calcite-graph", page }));
   });
 
   it("has property defaults", async () =>

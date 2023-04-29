@@ -56,7 +56,7 @@ async function simplePageSetup(componentTagOrHTML: TagOrHTML): Promise<E2EPage> 
  *
  * @param {TagOrHTML|TagAndPage} componentSetup - A component tag, html, or the tag and e2e page for setting up a test
  */
-export function accessible(componentSetup: TagOrHTML | TagAndPage): void {
+export function accessible(componentSetup: ComponentTestSetup): void {
   it("is accessible", async () => {
     const { page, tag } = await getTagAndPage(componentSetup);
 
@@ -802,7 +802,14 @@ interface DisabledOptions {
   focusTarget: FocusTarget | TabAndClickTargets;
 }
 
-async function getTagAndPage(componentSetup: TagOrHTML | TagAndPage): Promise<TagAndPage> {
+type ComponentTestSetupProvider = () => TagOrHTML | TagAndPage;
+type ComponentTestSetup = TagOrHTML | TagAndPage | ComponentTestSetupProvider;
+
+async function getTagAndPage(componentSetup: ComponentTestSetup): Promise<TagAndPage> {
+  if (typeof componentSetup === "function") {
+    componentSetup = componentSetup();
+  }
+
   if (typeof componentSetup === "string") {
     const page = await simplePageSetup(componentSetup);
     const tag = getTag(componentSetup);
