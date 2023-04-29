@@ -3,7 +3,9 @@ import { accessible, disabled, focusable, hidden, renders, slots, t9n } from "..
 import { CSS, SLOTS } from "./resources";
 
 describe("calcite-chip", () => {
-  it("renders", async () => renders("<calcite-chip>doritos</calcite-chip>", { display: "inline-flex" }));
+  describe("renders", () => {
+    renders("<calcite-chip>doritos</calcite-chip>", { display: "inline-flex" });
+  });
 
   it("honors hidden attribute", async () => hidden("calcite-chip"));
 

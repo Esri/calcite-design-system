@@ -5,12 +5,11 @@ import { accessible, defaults, hidden, renders, floatingUIOwner, focusable, t9n 
 import { CSS } from "./resources";
 
 describe("calcite-popover", () => {
-  it("renders", async () => {
-    await renders("calcite-popover", { visible: false, display: "block" });
-    await renders(
-      `<calcite-popover label="test" open reference-element="ref"></calcite-popover><div id="ref">😄</div>`,
-      { display: "block" }
-    );
+  describe("renders", () => {
+    renders("calcite-popover", { visible: false, display: "block" });
+    renders(`<calcite-popover label="test" open reference-element="ref"></calcite-popover><div id="ref">😄</div>`, {
+      display: "block"
+    });
   });
 
   it("supports translations", () => t9n("calcite-popover"));

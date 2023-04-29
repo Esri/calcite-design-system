@@ -12,7 +12,9 @@ import {
 } from "../../tests/commonTests";
 
 describe("calcite-radio-button", () => {
-  it("renders", async () => renders("calcite-radio-button", { display: "block" }));
+  describe("renders", () => {
+    renders("calcite-radio-button", { display: "block" });
+  });
 
   it("is accessible", async () =>
     accessible(

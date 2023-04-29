@@ -3,7 +3,9 @@ import { CSS } from "./resources";
 import { accessible, defaults, reflects, renders, hidden } from "../../tests/commonTests";
 
 describe("calcite-color-picker-swatch", () => {
-  it("renders", () => renders("calcite-color-picker-swatch", { display: "inline-flex" }));
+  describe("renders", () => {
+    renders("calcite-color-picker-swatch", { display: "inline-flex" });
+  });
 
   it("honors hidden attribute", async () => hidden("calcite-color-picker-swatch"));
 

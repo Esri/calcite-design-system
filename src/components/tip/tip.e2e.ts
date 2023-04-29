@@ -3,7 +3,9 @@ import { accessible, hidden, renders, defaults, slots, t9n } from "../../tests/c
 import { CSS, SLOTS } from "./resources";
 
 describe("calcite-tip", () => {
-  it("renders", async () => renders("calcite-tip", { display: "flex" }));
+  describe("renders", () => {
+    renders("calcite-tip", { display: "flex" });
+  });
 
   it("honors hidden attribute", async () => hidden("calcite-tip"));
 

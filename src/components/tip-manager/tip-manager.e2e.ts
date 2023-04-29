@@ -3,7 +3,9 @@ import { accessible, defaults, hidden, renders, t9n } from "../../tests/commonTe
 import { CSS, TEXT } from "./resources";
 
 describe("calcite-tip-manager", () => {
-  it("renders", async () => renders("calcite-tip-manager", { display: "block" }));
+  describe("renders", () => {
+    renders("calcite-tip-manager", { display: "block" });
+  });
 
   it("honors hidden attribute", async () => hidden("calcite-tip-manager"));
 

@@ -36,7 +36,9 @@ describe("calcite-icon", () => {
   });
 
   describe("rendering", () => {
-    it("basic", async () => renders("calcite-icon", { display: "inline-flex" }));
+    describe("renders", () => {
+      renders("calcite-icon", { display: "inline-flex" });
+    });
 
     it("uses path data to render icon", async () => {
       const page = await newE2EPage();

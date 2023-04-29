@@ -6,7 +6,9 @@ import { CSS as ITEM_CSS } from "../flow-item/resources";
 import { CSS } from "./resources";
 
 describe("calcite-flow", () => {
-  it("renders", async () => renders("calcite-flow", { display: "flex" }));
+  describe("renders", () => {
+    renders("calcite-flow", { display: "flex" });
+  });
 
   it("honors hidden attribute", async () => hidden("calcite-flow"));
 

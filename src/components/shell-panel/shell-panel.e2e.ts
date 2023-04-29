@@ -5,7 +5,9 @@ import { getElementXY } from "../../tests/utils";
 import { CSS, SLOTS } from "./resources";
 
 describe("calcite-shell-panel", () => {
-  it("renders", async () => renders("calcite-shell-panel", { display: "flex" }));
+  describe("renders", () => {
+    renders("calcite-shell-panel", { display: "flex" });
+  });
 
   it("honors hidden attribute", async () => hidden("calcite-shell-panel"));
 

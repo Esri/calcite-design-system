@@ -5,7 +5,7 @@ import { NumberStringFormatOptions } from "../../utils/locale";
 
 // todo test the automatic setting of first item to selected
 describe("calcite-stepper", () => {
-  it("renders", () =>
+  describe("renders", () => {
     renders(
       html`<calcite-stepper>
         <calcite-stepper-item heading="Step 1" id="step-1">
@@ -22,7 +22,8 @@ describe("calcite-stepper", () => {
         </calcite-stepper-item>
       </calcite-stepper>`,
       { display: "grid" }
-    ));
+    );
+  });
 
   it("renders default props when none are provided", async () => {
     const page = await newE2EPage();

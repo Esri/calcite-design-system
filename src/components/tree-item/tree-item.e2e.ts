@@ -4,7 +4,9 @@ import { html } from "../../../support/formatting";
 import { SLOTS } from "./resources";
 
 describe("calcite-tree-item", () => {
-  it("renders", async () => renders("calcite-tree-item", { visible: false, display: "block" }));
+  describe("renders", () => {
+    renders("calcite-tree-item", { visible: false, display: "block" });
+  });
 
   it("honors hidden attribute", async () => hidden(`<calcite-tree-item expanded></calcite-tree-item>`));
 

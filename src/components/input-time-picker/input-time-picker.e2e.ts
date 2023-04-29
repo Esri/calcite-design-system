@@ -17,7 +17,9 @@ import { skipAnimations } from "../../tests/utils";
 import { html } from "../../../support/formatting";
 
 describe("calcite-input-time-picker", () => {
-  it("renders", async () => renders("calcite-input-time-picker", { display: "inline-block" }));
+  describe("renders", () => {
+    renders("calcite-input-time-picker", { display: "inline-block" });
+  });
 
   it("honors hidden attribute", async () => hidden("calcite-input-time-picker"));
 
