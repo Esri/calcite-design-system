@@ -52,7 +52,7 @@ export class CalciteNav {
   /**
    * When true, display a hamburger `calcite-action` and emits `calciteNavMenuActionSelect` event on user interaction.
    */
-  @Prop({ reflect: true }) menuAction = false;
+  @Prop({ reflect: true }) navAction = false;
 
   /**
    * Specifies the label of the hamburger icon.
@@ -85,7 +85,7 @@ export class CalciteNav {
    * Emits whenever the component is selected or unselected.
    *
    */
-  @Event() calciteNavMenuActionSelect: EventEmitter<void>;
+  @Event() calciteNavActionSelect: EventEmitter<void>;
 
   //--------------------------------------------------------------------------
   //
@@ -94,7 +94,7 @@ export class CalciteNav {
   //--------------------------------------------------------------------------
 
   private clickHandler = () => {
-    this.calciteNavMenuActionSelect.emit();
+    this.calciteNavActionSelect.emit();
   };
 
   private handleContentSlotChange = (event: Event, level: Level): void => {
@@ -118,14 +118,14 @@ export class CalciteNav {
   private handleMenuActionSlotChange = (event: Event): void => {
     const hasMenuAction = slotChangeHasAssignedElement(event);
     if (hasMenuAction) {
-      this.menuAction = false;
+      this.navAction = false;
     }
   };
 
   private displayNav(level: Level): boolean {
     if (level === "primary") {
       return (
-        this.menuAction ||
+        this.navAction ||
         this.userSlotHasElements ||
         this.logoSlotHasElements ||
         this.primarySlotHasElements
@@ -145,8 +145,8 @@ export class CalciteNav {
 
   renderMenuAction(): VNode {
     return (
-      <slot name={SLOTS.menuAction} onSlotchange={this.handleMenuActionSlotChange}>
-        {this.menuAction && (
+      <slot name={SLOTS.navAction} onSlotchange={this.handleMenuActionSlotChange}>
+        {this.navAction && (
           <calcite-action icon="hamburger" onClick={this.clickHandler} text={this.label} />
         )}
       </slot>

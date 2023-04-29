@@ -20,14 +20,6 @@ describe("calcite-nav-logo", () => {
         value: "#logo"
       },
       {
-        propertyName: "subText",
-        value: "organization"
-      },
-      {
-        propertyName: "text",
-        value: "esri"
-      },
-      {
         propertyName: "textEnabled",
         value: "true"
       }

@@ -7,5 +7,5 @@ export const SLOTS = {
   logo: "logo",
   user: "user",
   progress: "progress",
-  menuAction: "menu-action"
+  navAction: "nav-action"
 };
