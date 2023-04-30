@@ -114,7 +114,7 @@ describe("calcite-shell-panel", () => {
     expect(divElementIsFirst).toBe(true);
   });
 
-  it("should be accessible", async () =>
+  describe("accessible", () => {
     accessible(`
     <calcite-shell-panel slot="panel-start" position="start">
       <calcite-action-bar slot="action-bar">
@@ -126,7 +126,8 @@ describe("calcite-shell-panel", () => {
       </calcite-action-bar>
       <p>Primary Content</p>
     </calcite-shell-panel>
-    `));
+    `);
+  });
 
   it("should have detached class when detached", async () => {
     const page = await newE2EPage();

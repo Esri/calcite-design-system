@@ -10,10 +10,11 @@ describe("calcite-pick-list-group", () => {
 
   it("honors hidden attribute", async () => hidden("calcite-pick-list-group"));
 
-  it.skip("is accessible", async () => {
-    await accessible("<calcite-pick-list-group></calcite-pick-list-group>");
-    await accessible(`<calcite-pick-list-group group-title="awesome title, bruh"></calcite-pick-list-group>`);
-    await accessible(html`
+  // eslint-disable-next-line jest/no-disabled-tests
+  describe.skip("accessible", () => {
+    accessible("<calcite-pick-list-group></calcite-pick-list-group>");
+    accessible(`<calcite-pick-list-group title="awesome title, bruh"></calcite-pick-list-group>`);
+    accessible(html`
       <calcite-pick-list>
         <calcite-pick-list-group>
           <calcite-pick-list-item label="Sample" value="one"></calcite-pick-list-item>

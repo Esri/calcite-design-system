@@ -7,7 +7,9 @@ describe("calcite-tile-select", () => {
     renders("calcite-tile-select", { display: "block" });
   });
 
-  it("is accessible", async () => accessible(`<calcite-tile-select heading="label"></calcite-tile-select>`));
+  describe("accessible", () => {
+    accessible(`<calcite-tile-select heading="label"></calcite-tile-select>`);
+  });
 
   it("has defaults", async () =>
     defaults("calcite-tile-select", [

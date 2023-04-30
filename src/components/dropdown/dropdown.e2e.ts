@@ -900,8 +900,8 @@ describe("calcite-dropdown", () => {
     expect(await dropdownWrapper.isVisible()).toBe(false);
   });
 
-  it("is accessible", async () => {
-    await accessible(dedent`${dropdownSelectionModeContent}`);
+  describe("accessible", () => {
+    accessible(dedent`${dropdownSelectionModeContent}`);
   });
 
   it("correct role and aria properties are applied based on selection type", async () => {

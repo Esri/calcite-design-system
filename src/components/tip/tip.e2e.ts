@@ -17,7 +17,9 @@ describe("calcite-tip", () => {
       }
     ]));
 
-  it("is accessible", async () => accessible(`<calcite-tip heading="sample"><p>not dismissible</p></calcite-tip>`));
+  describe("accessible", () => {
+    accessible(`<calcite-tip heading="sample"><p>not dismissible</p></calcite-tip>`);
+  });
 
   it("has slots", () => slots("calcite-tip", SLOTS));
 

@@ -17,13 +17,14 @@ import { getFocusedElementProp, skipAnimations } from "../../tests/utils";
 const animationDurationInMs = 200;
 
 describe("calcite-input-date-picker", () => {
-  it("is accessible", () =>
+  describe("accessibility", () => {
     accessible(html`
       <calcite-label>
         Input Date Picker
         <calcite-input-date-picker></calcite-input-date-picker>
       </calcite-label>
-    `));
+    `);
+  });
 
   describe("renders", () => {
     renders("calcite-input-date-picker", { display: "inline-block" });

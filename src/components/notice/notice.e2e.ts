@@ -16,12 +16,21 @@ describe("calcite-notice", () => {
 
   it("honors hidden attribute", async () => hidden("calcite-notice"));
 
-  it("is accessible", async () => accessible(`<calcite-notice open>${noticeContent}</calcite-notice>`));
-  it("is accessible with icon", async () => accessible(`<calcite-notice icon open>${noticeContent}</calcite-notice>`));
-  it("is accessible with close button", async () =>
-    accessible(`<calcite-notice closable open>${noticeContent}</calcite-notice>`));
-  it("is accessible with icon and close button", async () =>
-    accessible(`<calcite-notice icon closable open>${noticeContent}</calcite-notice>`));
+  describe("accessible", () => {
+    accessible(`<calcite-notice open>${noticeContent}</calcite-notice>`);
+  });
+
+  describe("accessible with icon", () => {
+    accessible(`<calcite-notice icon open>${noticeContent}</calcite-notice>`);
+  });
+
+  describe("accessible with icon with close button", () => {
+    accessible(`<calcite-notice closable open>${noticeContent}</calcite-notice>`);
+  });
+
+  describe("accessible with icon and close button", () => {
+    accessible(`<calcite-notice icon closable open>${noticeContent}</calcite-notice>`);
+  });
 
   it("has slots", () => slots("calcite-notice", SLOTS));
 

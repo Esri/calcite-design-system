@@ -70,24 +70,25 @@ describe("calcite-panel", () => {
     expect(calcitePanelClose).toHaveReceivedEvent();
   });
 
-  it("should be accessible", async () =>
-    accessible(`
-    <calcite-panel>
-      <calcite-action-bar slot="${SLOTS.actionBar}">
-        <calcite-action-group>
-          <calcite-action text="Add" icon="plus"> </calcite-action>
-          <calcite-action text="Save" icon="save"> </calcite-action>
-          <calcite-action text="Layers" icon="layers"> </calcite-action>
-        </calcite-action-group>
-      </calcite-action-bar>
-      <div slot="${SLOTS.headerActionsStart}">test start</div>
-      <div slot="${SLOTS.headerContent}">test content</div>
-      <div slot="${SLOTS.headerActionsEnd}">test end</div>
-      <p>Content</p>
-      <calcite-button slot="${SLOTS.footerActions}">test button 1</calcite-button>
-      <calcite-button slot="${SLOTS.footerActions}">test button 2</calcite-button>
-    </calcite-panel>
-    `));
+  describe("accessible", () => {
+    accessible(html`
+      <calcite-panel>
+        <calcite-action-bar slot="${SLOTS.actionBar}">
+          <calcite-action-group>
+            <calcite-action text="Add" icon="plus"> </calcite-action>
+            <calcite-action text="Save" icon="save"> </calcite-action>
+            <calcite-action text="Layers" icon="layers"> </calcite-action>
+          </calcite-action-group>
+        </calcite-action-bar>
+        <div slot="${SLOTS.headerActionsStart}">test start</div>
+        <div slot="${SLOTS.headerContent}">test content</div>
+        <div slot="${SLOTS.headerActionsEnd}">test end</div>
+        <p>Content</p>
+        <calcite-button slot="${SLOTS.footerActions}">test button 1</calcite-button>
+        <calcite-button slot="${SLOTS.footerActions}">test button 2</calcite-button>
+      </calcite-panel>
+    `);
+  });
 
   it("should focus on close button )", async () =>
     focusable(`<calcite-panel closable>test</calcite-panel>`, {

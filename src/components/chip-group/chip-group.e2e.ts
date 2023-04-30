@@ -18,42 +18,40 @@ describe("calcite-chip-group", () => {
       focusTarget: "child"
     }));
 
-  describe("is accessible", () => {
-    it("is accessible in selection mode none (default)", async () => {
-      await accessible(
-        html`<calcite-chip-group label="test-label">
-          <calcite-chip label="test-label"></calcite-chip>
-          <calcite-chip label="test-label"></calcite-chip>
-        </calcite-chip-group>`
-      );
-    });
+  describe("is accessible in selection mode none (default)", () => {
+    accessible(
+      html`<calcite-chip-group label="test-label">
+        <calcite-chip label="test-label"></calcite-chip>
+        <calcite-chip label="test-label"></calcite-chip>
+      </calcite-chip-group>`
+    );
+  });
 
-    it("is accessible in selection mode single", async () => {
-      await accessible(
-        html` <calcite-chip-group label="test-label" selection-mode="single">
-          <calcite-chip label="test-label"></calcite-chip>
-          <calcite-chip label="test-label"></calcite-chip>
-        </calcite-chip-group>`
-      );
-    });
+  describe("is accessible in selection mode single", () => {
+    accessible(
+      html` <calcite-chip-group label="test-label" selection-mode="single">
+        <calcite-chip label="test-label"></calcite-chip>
+        <calcite-chip label="test-label"></calcite-chip>
+      </calcite-chip-group>`
+    );
+  });
 
-    it("is accessible in selection mode single-persist", async () => {
-      await accessible(
-        html`<calcite-chip-group label="test-label" selection-mode="single-persist">
-          <calcite-chip label="test-label"></calcite-chip>
-          <calcite-chip label="test-label"></calcite-chip>
-        </calcite-chip-group>`
-      );
-    });
+  describe("is selection mode single persists", () => {
+    accessible(
+      html`<calcite-chip-group label="test-label" selection-mode="single-persist">
+        <calcite-chip label="test-label"></calcite-chip>
+        <calcite-chip label="test-label"></calcite-chip>
+      </calcite-chip-group>`
+    );
+  });
 
-    it("is accessible in selection mode multiple", async () => {
-      await accessible(
-        html`<calcite-chip-group label="test-label" selection-mode="multiple">
-          <calcite-chip label="test-label"></calcite-chip>
-          <calcite-chip label="test-label"></calcite-chip>
-        </calcite-chip-group>`
-      );
-    });
+  describe("is accessible in selection mode multiple", () => {
+    accessible(
+      html`<calcite-chip-group label="test-label" selection-mode="multiple">
+        <calcite-chip label="test-label"></calcite-chip>
+        <calcite-chip label="test-label"></calcite-chip>
+      </calcite-chip-group>`
+    );
   });
 
   describe("selection modes function as intended", () => {

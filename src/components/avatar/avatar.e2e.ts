@@ -8,9 +8,9 @@ describe("calcite-avatar", () => {
 
   it("honors hidden attribute", async () => hidden("calcite-avatar"));
 
-  it("is accessible", async () => {
-    await accessible("calcite-avatar");
-    await accessible("<calcite-avatar thumbnail='http://placekitten.com/120/120'></calcite-avatar>");
+  describe("accessible", () => {
+    accessible("calcite-avatar");
+    accessible("<calcite-avatar thumbnail='http://placekitten.com/120/120'></calcite-avatar>");
   });
 
   it("has property defaults", async () =>

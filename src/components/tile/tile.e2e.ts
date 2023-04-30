@@ -9,7 +9,9 @@ describe("calcite-tile", () => {
 
   it("honors hidden attribute", async () => hidden("calcite-tile"));
 
-  it("is accessible", async () => accessible(`<calcite-tile></calcite-tile>`));
+  describe("accessible", () => {
+    accessible(`<calcite-tile></calcite-tile>`);
+  });
 
   it("has defaults", async () =>
     defaults("calcite-tile", [

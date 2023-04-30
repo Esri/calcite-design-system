@@ -28,14 +28,15 @@ describe("calcite-block", () => {
 
   it("has slots", () => slots("calcite-block", SLOTS));
 
-  it("is accessible", async () =>
-    accessible(`
+  describe("accessible", () => {
+    accessible(html`
       <calcite-block heading="heading" description="description" open collapsible>
         <div slot=${SLOTS.icon}>✅</div>
         <div>content</div>
-        <label slot=${SLOTS.control}>test <input placeholder="control"/></label>
+        <label slot=${SLOTS.control}>test <input placeholder="control" /></label>
       </calcite-block>
-  `));
+    `);
+  });
 
   it("can be disabled", () =>
     disabled(html`<calcite-block heading="heading" description="description" collapsible></calcite-block>`));

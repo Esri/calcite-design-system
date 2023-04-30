@@ -9,7 +9,9 @@ describe("calcite-handle", () => {
 
   it("honors hidden attribute", async () => hidden("calcite-handle"));
 
-  it("is accessible", async () => accessible(`<calcite-handle></calcite-handle>`));
+  describe("accessible", () => {
+    accessible(`<calcite-handle></calcite-handle>`);
+  });
 
   it("activates when focused and spacebar is pressed", async () => {
     const page = await newE2EPage();

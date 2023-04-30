@@ -34,37 +34,39 @@ describe("calcite-split-button", () => {
       }
     ));
 
-  it("is accessible", async () =>
-    accessible(`<calcite-split-button
-    primary-text="Button Text"
-    dropdown-label="Show options">
+  describe("accessible", () => {
+    accessible(html`<calcite-split-button primary-text="Button Text" dropdown-label="Show options">
       ${content}
-    </calcite-split-button>`));
+    </calcite-split-button>`);
+  });
 
-  it("is accessible when disabled", async () =>
+  describe("accessible when disabled", () => {
     accessible(`<calcite-split-button
     disabled
     primary-text="Button Text"
     dropdown-label="Show options">
       ${content}
-    </calcite-split-button>`));
+    </calcite-split-button>`);
+  });
 
-  it("is accessible when loading", async () =>
+  describe("accessible when loading", () => {
     accessible(`<calcite-split-button
     loading
     primary-text="Button Text"
     dropdown-label="Show options">
       ${content}
-    </calcite-split-button>`));
+    </calcite-split-button>`);
+  });
 
-  it("is accessible with icons and no text", async () =>
+  describe("accessible with icons and no text", () => {
     accessible(`<calcite-split-button
     icon-end="plus"
     icon-start="plus"
     primary-label="Button label"
     dropdown-label="Show options">
       ${content}
-    </calcite-split-button>`));
+    </calcite-split-button>`);
+  });
 
   it("can be disabled", () => disabled("calcite-split-button"));
 

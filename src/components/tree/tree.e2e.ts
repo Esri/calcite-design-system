@@ -11,7 +11,9 @@ describe("calcite-tree", () => {
 
   it("honors hidden attribute", async () => hidden("calcite-tree"));
 
-  it("is accessible", async () => accessible(`<calcite-tree></calcite-tree>`));
+  describe("accessible", () => {
+    accessible(`<calcite-tree></calcite-tree>`);
+  });
 
   it("has property defaults", async () =>
     defaults("calcite-tree", [
@@ -90,19 +92,20 @@ describe("calcite-tree", () => {
     });
   });
 
-  it("is accessible: with nested children", async () =>
-    accessible(`
-  <calcite-tree lines>
-    <calcite-tree-item>
-      <a href="#">Child 2</a>
-      <calcite-tree slot="children">
+  describe("accessible: with nested children", () => {
+    accessible(html`
+      <calcite-tree lines>
         <calcite-tree-item>
-          <a href="http://www.google.com">Grandchild 1</a>
+          <a href="#">Child 2</a>
+          <calcite-tree slot="children">
+            <calcite-tree-item>
+              <a href="http://www.google.com">Grandchild 1</a>
+            </calcite-tree-item>
+          </calcite-tree>
         </calcite-tree-item>
       </calcite-tree>
-    </calcite-tree-item>
-</calcite-tree>
-  `));
+    `);
+  });
 
   it("should correctly select tree in ancestors selection mode", async () => {
     const page = await newE2EPage();

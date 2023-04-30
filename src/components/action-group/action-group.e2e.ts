@@ -24,7 +24,9 @@ describe("calcite-action-group", () => {
 
   it("honors hidden attribute", async () => hidden("calcite-action-group"));
 
-  it("should be accessible", async () => accessible(actionGroupHTML));
+  describe("accessible", () => {
+    accessible(actionGroupHTML);
+  });
 
   it("has slots", () => slots("calcite-action-group", SLOTS));
 
