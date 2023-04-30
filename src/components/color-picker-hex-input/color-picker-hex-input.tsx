@@ -62,7 +62,7 @@ export class ColorPickerHexInput implements LoadableComponent {
     const { allowEmpty, alphaChannel, value } = this;
 
     if (value) {
-      const normalized = normalizeHex(value);
+      const normalized = normalizeHex(value, alphaChannel);
 
       if (isValidHex(normalized, alphaChannel)) {
         this.internalSetValue(normalized, normalized, false);
@@ -126,7 +126,9 @@ export class ColorPickerHexInput implements LoadableComponent {
    * The hex value.
    */
   @Prop({ mutable: true, reflect: true }) value: string = normalizeHex(
-    hexify(DEFAULT_COLOR, this.alphaChannel)
+    hexify(DEFAULT_COLOR, this.alphaChannel),
+    this.alphaChannel,
+    true
   );
 
   @Watch("value")
@@ -191,8 +193,8 @@ export class ColorPickerHexInput implements LoadableComponent {
     if (!nodeValue) {
       value = nodeValue;
     } else {
-      const normalized = normalizeHex(nodeValue);
-      if (isValidHex(normalized)) {
+      const normalized = normalizeHex(nodeValue, this.alphaChannel);
+      if (isValidHex(normalized) && this.alphaChannel) {
         const alphaHex = this.internalColor?.hexa().slice(-2) ?? "ff";
         value = `${normalized + alphaHex}`;
       } else {
@@ -217,7 +219,7 @@ export class ColorPickerHexInput implements LoadableComponent {
     this.internalSetValue(value, this.value);
   };
 
-  protected onInputKeyDown(event: KeyboardEvent): void {
+  protected onInputKeyDown = (event: KeyboardEvent): void => {
     const { altKey, ctrlKey, metaKey, shiftKey } = event;
     const { alphaChannel, hexInputNode, internalColor, value } = this;
     const { key } = event;
@@ -276,7 +278,7 @@ export class ColorPickerHexInput implements LoadableComponent {
     if (singleChar && !withModifiers && !validHexChar) {
       event.preventDefault();
     }
-  }
+  };
 
   private onHexInputPaste = (event: ClipboardEvent): void => {
     const hex = event.clipboardData.getData("text");
@@ -320,7 +322,7 @@ export class ColorPickerHexInput implements LoadableComponent {
       <div class={CSS.container}>
         <calcite-input
           class={CSS.hexInput}
-          label={messages.hex || hexLabel}
+          label={messages?.hex || hexLabel}
           maxLength={6}
           numberingSystem={this.numberingSystem}
           onCalciteInputChange={this.onHexInputChange}
@@ -337,7 +339,7 @@ export class ColorPickerHexInput implements LoadableComponent {
           <calcite-input-number
             class={CSS.opacityInput}
             key="opacity-input"
-            label={messages.opacity}
+            label={messages?.opacity}
             max={OPACITY_LIMITS.max}
             maxLength={3}
             min={OPACITY_LIMITS.min}
@@ -382,12 +384,17 @@ export class ColorPickerHexInput implements LoadableComponent {
       const { alphaChannel } = this;
       const normalized = normalizeHex(value, alphaChannel);
 
-      if (isValidHex(normalized) || isValidHex(normalized, true) || canConvertToHexa(normalized)) {
+      if (
+        isValidHex(normalized) ||
+        (alphaChannel && (isValidHex(normalized, true) || canConvertToHexa(normalized)))
+      ) {
         const { internalColor: currentColor } = this;
         const nextColor = Color(normalized);
-        const normalizedLonghand = normalizeHex(hexify(nextColor, alphaChannel));
+        const normalizedLonghand = normalizeHex(hexify(nextColor, alphaChannel), alphaChannel);
+
         const changed =
-          !currentColor || normalizedLonghand !== normalizeHex(hexify(currentColor, alphaChannel));
+          !currentColor ||
+          normalizedLonghand !== normalizeHex(hexify(currentColor, alphaChannel), alphaChannel);
 
         this.internalColor = nextColor;
         this.previousNonNullValue = normalizedLonghand;
