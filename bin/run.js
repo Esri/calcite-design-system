@@ -1,6 +1,6 @@
 import { readFileSync } from "fs";
-import { getThemes } from "../tools/build/getThemes.js";
-import { run } from "../tools/build/sd-run.js";
+import { getThemes } from "../tools/dist/getThemes.js";
+import { run } from "../tools/dist/sd-run.js";
 
 /**
  * Get all themes defined int the tokens/$themes.json and generate a Style Dictionary output for each theme

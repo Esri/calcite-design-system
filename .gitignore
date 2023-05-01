@@ -12,6 +12,7 @@ node_modules
 
 # Node Package distribution
 build
+dist
 
 # Transformation Directory
 tools/token-transformer/**/*.js

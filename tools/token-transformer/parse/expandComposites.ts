@@ -1,5 +1,5 @@
 import { DeepKeyTokenMap, SingleToken } from "@tokens-studio/types";
-import { TransformOptions, Expandables, ExpandablesAsStrings, expandablesAsStringsArr } from "../TransformOptions.js";
+import { TransformOptions, Expandables, ExpandablesAsStrings, expandablesAsStrings } from "../TransformOptions.js";
 import { matchPlaceholderElement, tokenStudioCustomVariableIndicator } from "../utils/regex.js";
 import { shouldExpand, expandToken } from "../utils/compositeTokens.js";
 import { convertTokenToStyleDictionaryFormat } from "../utils/convertTokenToStyleDictionaryFormat.js";
@@ -37,7 +37,8 @@ export function expandComposites(
     }
 
     if (token.value && type) {
-      if (typeof type === "string" && expandablesAsStringsArr.includes(type)) {
+      // @ts-expect-error - we can count on this type being a string
+      if (typeof type === "string" && expandablesAsStrings.includes(type)) {
         const expandType = (type as ExpandablesAsStrings) === "boxShadow" ? "shadow" : type;
         const expand = shouldExpand<Expandables>(token as Expandables, opts.expand[expandType], filePath);
         if (expand) {

@@ -1,5 +1,5 @@
 import { camelCase } from "change-case";
-import { parseTokenPath } from "../utils/parseTokenPath";
+import { parseTokenPath } from "../utils/parseTokenPath.js";
 
 /**
  *
