@@ -3,11 +3,10 @@ export function parseName(name: string, prefix?: string) {
 
   function createNewWord (acc: string, word: string, idx: number) {
     let newWord = '';
-    if(idx === 0) {
+    if (idx === 0) {
       if (prefix) {
         const firstLetter = word.charAt(0).toUpperCase();
-        const ord = word.slice(1).toLowerCase();
-        newWord =  prefix + firstLetter + ord;
+        newWord =  prefix + firstLetter + word.slice(1).toLowerCase();
       } else {
         newWord =  word.toLocaleLowerCase();
       }

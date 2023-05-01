@@ -6,12 +6,10 @@ export function handleFigmaTokens(key: string, value: any): DesignToken {
 
   if (typeof newValue === 'string') {
     const matches = [...newValue.matchAll(matchingGroup)];
-    if (matches.length > 0) {
-      matches.forEach((match) => {
-        const figmaVariable  = match[0];
-        newValue = newValue.replace(figmaVariable, `{${figmaVariable.slice(1)}}`);
-      });
-    }
+    matches.forEach((match) => {
+      const figmaVariable  = match[0];
+      newValue = newValue.replace(figmaVariable, `{${figmaVariable.slice(1)}}`);
+    });
   }
 
   return newValue;

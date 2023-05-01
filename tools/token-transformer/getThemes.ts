@@ -11,7 +11,6 @@ export interface ThemeFileInterface {
 
 export type Theme = {
   name: string;
-  fileName: string;
   enabled: string[];
   disabled: string[];
   source: string[];
@@ -32,7 +31,6 @@ export async function getThemes( themeFile: string ): Promise<Theme[]> {
 
     return {
       name,
-      fileName: parseName(name),
       id,
       enabled,
       disabled,

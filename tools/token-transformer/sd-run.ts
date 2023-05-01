@@ -1,10 +1,7 @@
-// import { registerTransforms } from '@tokens-studio/sd-transforms';
 import StyleDictionary from 'style-dictionary';
 import { registerTransforms } from '@tokens-studio/sd-transforms';
 import { expandComposites } from './parse/expandComposites.js';
 import { Theme } from './getThemes.js';
-import { formatJS } from './format/javascript.js';
-import { formatCSS } from './format/css.js';
 import { nameCamelCase } from './transform/nameCamelCase.js';
 import { nameKebabCase } from './transform/nameKebabCase.js';
 import { parseName } from './utils/parseName.js';
@@ -14,14 +11,25 @@ const matchFiles = (filePath: string, matchList: string[]) => {
   return matchList.some((value) =>  filePath.includes(value) && !matchExclusions.test(filePath));
 }
 
+/**
+ * Style Dictionary runner configuration overrides.
+ * 
+ * @param tokenDir the directory containing design token files
+ * @param buildPath the directory to write generated assets to
+ * @param theme
+ * @param theme.name the name of the theme. This will be used as the basis for the generated asset file names.
+ * @param theme.enabled an array of partial file names matching the token files which should be included in the output
+ * @param theme.disabled an array of partial file names matching the token files which should explicitly not be included in the output
+ * @param theme.source an array of partial file names matching the token files which should not always be included in the output but who's values should be used for variables references in the "enabled" files
+ */
 export const run = async (
   tokenDir: string = 'tokens',
   buildPath: string = 'build',
-  theme: Theme
+  theme: Pick<Theme, 'enabled' | 'disabled' | 'name' | 'source'>
 ) => {
   const fileName = parseName(theme.name);
-  const include = theme.source.map(tokenFile => `tokens/${tokenFile}.json`);
-  const source = theme.enabled.map(tokenFile => `tokens/${tokenFile}.json`);
+  const include = theme.source.map(tokenFile => `${tokenDir}/${tokenFile}.json`);
+  const source = theme.enabled.map(tokenFile => `${tokenDir}/${tokenFile}.json`);
   const options = {
     enabled: theme.enabled,
     source: theme.source,
@@ -30,17 +38,13 @@ export const run = async (
     sourceReferencesOnly: false,
   };
 
+  // Here we are registering the Transforms provided by Token Studio however, 
+  // we need to pass "expand: false" so that we can use our own custom JSON file parser.
+  // any references to "ts/..." below are references to these Token Studio transformers
+  // https://github.com/tokens-studio/sd-transforms
   await registerTransforms(StyleDictionary, { expand: false });
 
-  StyleDictionary.registerFormat({
-    name: 'calcite/js',
-    formatter: formatJS
-  });
-  StyleDictionary.registerFormat({
-    name: 'calcite/css',
-    formatter: formatCSS
-  })
-
+  // Registering Style Dictionary transformers https://amzn.github.io/style-dictionary/#/transforms?id=defining-custom-transforms
   StyleDictionary.registerTransform({
     name: 'name/calcite/camel',
     type: 'name',
@@ -58,7 +62,7 @@ export const run = async (
     matcher: (token) => token.isSource
   })
 
-  const _sd = StyleDictionary.extend({
+  const sd = StyleDictionary.extend({
     source,
     include,
     platforms: {
@@ -114,16 +118,16 @@ export const run = async (
           const expanded = expandComposites(obj, file.filePath);
           
           return expanded;
-        } else {
-          return {};
         }
+        
+        return {};
       }
     }]
   });
 
   try {
-    _sd.cleanAllPlatforms();
-    _sd.buildAllPlatforms();
+    sd.cleanAllPlatforms();
+    sd.buildAllPlatforms();
   } catch (error) {
     console.error(error)
   }

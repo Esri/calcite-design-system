@@ -18,7 +18,7 @@ export function customFormattedVariables(varInfo) {
       format,
       formatting,
     }))
-    .map((token) => token.replaceAll('"', ''))
+    .map((token) => token.replace(/\"/g, ''))
     .filter((strVal) => { return !!strVal })
     .join(lineSeparator);
 }
