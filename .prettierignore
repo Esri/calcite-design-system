@@ -1,0 +1,4 @@
+bin/
+build/
+tools/build/
+node_modules/
