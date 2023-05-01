@@ -2,9 +2,9 @@ import { newE2EPage } from "@stencil/core/testing";
 import { hidden, renders } from "../../tests/commonTests";
 
 describe("calcite-nav", () => {
-  it("renders", async () => renders("calcite-nav", { display: "inline" }));
+  it("renders", () => renders("calcite-nav", { display: "inline" }));
 
-  it("honors hidden attribute", async () => hidden("calcite-nav"));
+  it("honors hidden attribute", () => hidden("calcite-nav"));
 
   it("should emit an event when the menuIcon is displayed and user interacts", async () => {
     const page = await newE2EPage();
