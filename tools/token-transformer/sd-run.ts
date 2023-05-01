@@ -141,6 +141,29 @@ export const run = async (
             options: /headless/gi.test(fileName) ? { ...options, outputReferences: true } : options
           }
         ]
+      },
+      json: {
+        transforms: [
+          "ts/descriptionToComment",
+          "ts/size/px",
+          "ts/opacity",
+          "ts/size/lineheight",
+          "ts/type/fontWeight",
+          "ts/resolveMath",
+          "ts/size/css/letterspacing",
+          "ts/color/css/hexrgba",
+          "ts/color/modifiers",
+          "name/calcite/kebab"
+        ],
+        buildPath: `${buildPath}/json/`,
+        files: [
+          {
+            destination: `${fileName}.json`,
+            format: "json",
+            filter: /headless/gi.test(fileName) ? null : "filterSource",
+            options: /headless/gi.test(fileName) ? { ...options, outputReferences: true } : options
+          }
+        ]
       }
     },
     parsers: [
