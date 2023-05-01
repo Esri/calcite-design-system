@@ -9,11 +9,11 @@ Found a problem? Want a new feature?
 - See if your issue or idea has [already been reported](issues).
 - Provide detailed reproduction instructions as well as what behavior is expected.
 
-## Submitting Pull Requests
+## Contributing to tokens
 
-Pull requests are the greatest contributions, so be sure they are focused in scope.
+### Clone the repo
 
-1. To begin, [fork this project](fork), clone your fork, and add our upstream.
+To begin, [fork this project](fork), clone your fork, and add our upstream.
 
 ```bash
 # Clone your fork of the repo into the current directory
@@ -26,7 +26,7 @@ git remote add upstream https://github.com/esri/calcite-design-tokens
 npm install
 ```
 
-2. Create a branch for your feature or fix:
+### Create a branch for your feature or fix
 
 ```bash
 # If you are a designer setting up a branch for FigmaTokens Plugin, make sure your branch name starts with `designer/`.
@@ -38,14 +38,50 @@ git checkout -b designer/[yourname]
 git checkout -b [yourname]/[type]-[issue#]
 ```
 
-3. Be sure your code passes our checks
+### Understanding Token Files
+
+All token files may be updated by the Figma Token Studio plugin. These can also be updated in the code directly. Any changes to token files must be reviewed by the Calcite Design Team.
+
+#### tokens/$metadata.json
+
+This file is used by Figma Token Studio but is not used to determine final token asset output.
+
+#### tokens/$themes.json
+
+Each theme defined in this file will output a token asset in each format defined in the token transformer config.
+
+#### tokens/core.json
+
+The core design tokens upon which the rest of the tokens are built.
+
+#### tokens/semantic.json
+
+The semantic design tokens used by theme files and components.
+
+#### tokens/component/
+
+The component design tokens. These are used by themes.
+
+#### tokens/calcite/
+
+The Calcite themes. This currently consists of a light and dark theme.
+
+#### tokens/brand/
+
+The Brand themes. This currently consists of a set of global tokens as well as a light and dark theme.
+
+## Submitting Pull Requests
+
+Pull requests are the greatest contributions, so be sure they are focused in scope.
+
+### Be sure your code passes our checks
 
 ```bash
 # Test current code
 npm run test
 ```
 
-4. Push your branch up to your fork:
+### Push your branch up to your fork
 
 ```bash
 # Push a designer branch
@@ -57,7 +93,9 @@ git push origin designer/[yourname]
 git push origin [yourname]/[type]-[issue#]
 ```
 
-5. Now [open a pull request](https://help.github.com/articles/using-pull-requests/) with a clear title and description.
+### Open the pull request back to the token repo
+
+Make sure to use a clear title and descritions. See [open a pull request](https://help.github.com/articles/using-pull-requests/) for more information.
 
 ## Bumping the Version
 
