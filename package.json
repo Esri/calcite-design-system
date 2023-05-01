@@ -65,17 +65,17 @@
     "url": "https://github.com/esri/calcite-design-tokens/issues"
   },
   "scripts": {
-    "test": "jest",
-    "test:dev": "jest --watch",
-    "build": "npm run build:ts && npm run build:tokens",
-    "build:ts": "tsc --project tsconfig.prod.json",
     "build:tokens": "node bin/run.js",
-    "lint": "npm run lint:eslint && npm run lint:markdown && npm run lint:prettier",
+    "build:ts": "tsc --project tsconfig.prod.json",
+    "build": "npm run build:ts && npm run build:tokens",
     "lint:eslint": "eslint --ext .ts,.tsx --fix .",
-    "lint:prettier": "prettier --write .",
     "lint:markdown": "markdownlint --fix --disable MD024 MD013 MD041 MD033",
+    "lint:prettier": "prettier --write .",
     "lint:staged": "lint-staged",
-    "release": "echo 'release is still TBD. Please message Ali Stump or Erik Harper-Dicianno for more information."
+    "lint": "npm run lint:eslint && npm run lint:markdown && npm run lint:prettier",
+    "release": "echo 'release is still TBD. Please message Ali Stump for more information.",
+    "test:dev": "jest --watch",
+    "test": "jest"
   },
   "devDependencies": {
     "@tokens-studio/sd-transforms": "^0.8.2",

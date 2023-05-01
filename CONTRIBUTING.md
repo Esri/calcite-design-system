@@ -28,13 +28,15 @@ npm install
 
 ### Create a branch for your feature or fix
 
+If you are a designer setting up a branch for FigmaTokens Plugin, make sure your branch name starts with `designer/`.
+
 ```bash
-# If you are a designer setting up a branch for FigmaTokens Plugin, make sure your branch name starts with `designer/`.
 git checkout -b designer/[yourname]
 ```
 
+or use the calcite default branching pattern
+
 ```bash
-# or use the calcite default branching pattern
 git checkout -b [yourname]/[type]-[issue#]
 ```
 
@@ -74,7 +76,7 @@ The Brand themes. This currently consists of a set of global tokens as well as a
 
 Pull requests are the greatest contributions, so be sure they are focused in scope.
 
-### Be sure your code passes our checks
+### Be sure your code passes our integration and unit tests
 
 ```bash
 # Test current code

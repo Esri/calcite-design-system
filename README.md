@@ -11,20 +11,20 @@ npm install @esri/calcite-design-tokens
 Reference tokens in your CSS.
 
 ```css
-@import "@esri/calcite-design-tokens/css";
+@import "@esri/calcite-design-tokens/css/calcite-light";
 
 :root {
-  --my-custom-token: var(--calcite-semantic-ui-color-text-1-light);
+  --my-custom-token: var(--calcite-ui-brand);
 }
 ```
 
 Reference tokens in your JavaScript.
 
 ```js
-import { calciteSemanticUiColorText_1Light } from "@esri/calcite-design-tokens";
+import { calciteSemanticUiColorBrandLight } from "@esri/calcite-design-tokens";
 
 export function addTextStyle(component) {
-  component.style.color = calciteSemanticUiColorText_1Light;
+  component.style.color = calciteSemanticUiColorBrandLight;
 
   return component;
 }
