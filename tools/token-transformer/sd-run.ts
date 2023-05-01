@@ -5,11 +5,8 @@ import { Theme } from './getThemes.js';
 import { nameCamelCase } from './transform/nameCamelCase.js';
 import { nameKebabCase } from './transform/nameKebabCase.js';
 import { parseName } from './utils/parseName.js';
-
-const matchExclusions = /(backup|\[|\])(?=\.\w+$)/
-const matchFiles = (filePath: string, matchList: string[]) => {
-  return matchList.some((value) =>  filePath.includes(value) && !matchExclusions.test(filePath));
-}
+import { matchList } from './utils/matchList.js';
+import { matchExclusions } from './utils/regex.js';
 
 /**
  * Style Dictionary runner configuration overrides.
@@ -62,6 +59,8 @@ export const run = async (
     matcher: (token) => token.isSource
   })
 
+  // We are programtically creating the Style Dictionary configuration here
+  // https://amzn.github.io/style-dictionary/#/config
   const sd = StyleDictionary.extend({
     source,
     include,
@@ -113,7 +112,7 @@ export const run = async (
     parsers: [{
       pattern: /\.json$/,
       parse: (file) => {
-        if (matchFiles(file.filePath, [...include, ...theme.source, ...theme.enabled])) {
+        if (matchList(file.filePath, [...include, ...theme.source, ...theme.enabled], matchExclusions)) {
           const obj = JSON.parse(file.contents);
           const expanded = expandComposites(obj, file.filePath);
           
@@ -129,6 +128,6 @@ export const run = async (
     sd.cleanAllPlatforms();
     sd.buildAllPlatforms();
   } catch (error) {
-    console.error(error)
+    console.error(error);
   }
 }

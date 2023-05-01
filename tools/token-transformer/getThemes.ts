@@ -1,6 +1,4 @@
-import { readFileSync } from "fs";
 import { Options } from "style-dictionary";
-import { parseName } from "./utils/parseName.js";
 
 export interface ThemeFileInterface {
   id: string;
@@ -18,10 +16,13 @@ export type Theme = {
   options?: Options
 }
 
-export async function getThemes( themeFile: string ): Promise<Theme[]> {
-  const rawData = await readFileSync(themeFile, {encoding: 'utf-8'});
-  const data: ThemeFileInterface[] = JSON.parse(rawData);
-  return data.map((themeConfig) => {
+/**
+ * 
+ * @param themes an array of Figma Token Studio theme definition objects
+ * @returns an array of Style Dictionary theme definition objects
+ */
+export async function getThemes( themes: ThemeFileInterface[] ): Promise<Theme[]> {
+  return themes.map((themeConfig) => {
     const themeTypes = {enabled: [], disabled: [], source: []};
     const { name, id, selectedTokenSets} = themeConfig;
     const { enabled, disabled, source } = Object.entries(selectedTokenSets).reduce((acc, [key, value]) => {

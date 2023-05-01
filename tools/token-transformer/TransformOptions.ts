@@ -1,3 +1,5 @@
+// This file exists because these types were not exported by Style Dictionary but types need to match.
+
 import {
   SingleBorderToken,
   SingleBoxShadowToken,
@@ -12,16 +14,22 @@ export type Expandables =
   | SingleBorderToken
   | SingleBoxShadowToken;
 
-export const expandablesAsStringsArr = ['composition', 'typography', 'border', 'boxShadow'];
-export type ExpandablesAsStrings = (typeof expandablesAsStringsArr)[number];
+export const expandablesAsStrings = ['composition', 'typography', 'border', 'boxShadow'] as const;
+export type ExpandablesAsStrings = typeof expandablesAsStrings[number];
 
 export type ExpandFilter<T extends SingleToken> = (token: T, filePath: string) => boolean;
 
+/**
+ * @param {boolean} [typography=false]
+ * @param {boolean} [border=false]
+ * @param {boolean} [shadow=false]
+ * @param {boolean} [composition=true]
+ */
 export interface ExpandOptions {
-  typography?: boolean | ExpandFilter<SingleTypographyToken>; // default false
-  border?: boolean | ExpandFilter<SingleBorderToken>; // default false
-  shadow?: boolean | ExpandFilter<SingleBoxShadowToken>; // default false
-  composition?: boolean | ExpandFilter<SingleCompositionToken>; // default true
+  typography?: boolean | ExpandFilter<SingleTypographyToken>; 
+  border?: boolean | ExpandFilter<SingleBorderToken>;
+  shadow?: boolean | ExpandFilter<SingleBoxShadowToken>;
+  composition?: boolean | ExpandFilter<SingleCompositionToken>;
 }
 
 export interface TransformOptions {
