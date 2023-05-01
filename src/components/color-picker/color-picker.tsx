@@ -1288,17 +1288,22 @@ export class ColorPicker
     if (context === "all" || context === "color-field") {
       this.setCanvasContextSize(this.colorFieldRenderingContext?.canvas, dimensions.colorField);
     }
+
+    const adjustedSliderDimensions = {
+      width: dimensions.slider.width,
+      height:
+        dimensions.slider.height + (dimensions.thumb.radius - dimensions.slider.height / 2) * 2
+    };
+
     if (context === "all" || context === "hue-slider") {
-      this.setCanvasContextSize(this.hueSliderRenderingContext?.canvas, dimensions.slider);
+      this.setCanvasContextSize(this.hueSliderRenderingContext?.canvas, adjustedSliderDimensions);
     }
 
     if (context === "all" || context === "opacity-slider") {
-      this.setCanvasContextSize(this.opacitySliderRenderingContext?.canvas, dimensions.slider);
-      // this.updateCanvasSize(canvas, {
-      //   width: dimensions.slider.width,
-      //   height:
-      //       dimensions.slider.height + (dimensions.thumb.radius - dimensions.slider.height / 2) * 2
-      // });
+      this.setCanvasContextSize(
+        this.opacitySliderRenderingContext?.canvas,
+        adjustedSliderDimensions
+      );
     }
   }
 
