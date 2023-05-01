@@ -31,7 +31,9 @@ describe("calcite-input-number", () => {
 
   it("is labelable", async () => labelable("calcite-input-number"));
 
-  it("renders", () => renders("calcite-input-number", { display: "block" }));
+  describe("renders", () => {
+    renders("calcite-input-number", { display: "block" });
+  });
 
   it("honors hidden attribute", async () => hidden("calcite-input-number"));
 

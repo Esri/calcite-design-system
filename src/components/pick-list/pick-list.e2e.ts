@@ -22,16 +22,20 @@ describe("calcite-pick-list", () => {
       }
     ]));
 
-  it("renders", async () => renders("calcite-pick-list", { display: "flex" }));
+  describe("renders", () => {
+    renders("calcite-pick-list", { display: "flex" });
+  });
 
   it("honors hidden attribute", async () => hidden("calcite-pick-list"));
 
-  it.skip("is accessible", async () =>
+  // eslint-disable-next-line jest/no-disabled-tests
+  describe.skip("accessible", () => {
     accessible(html`
       <calcite-pick-list>
         <calcite-pick-list-item label="Sample" value="one"></calcite-pick-list-item>
       </calcite-pick-list>
-    `));
+    `);
+  });
 
   describe("disabling", () => {
     disabling("pick");

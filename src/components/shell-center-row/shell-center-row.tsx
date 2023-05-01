@@ -78,10 +78,6 @@ export class ShellCenterRow implements ConditionalSlotComponent {
 
     const actionBar = getSlotted<HTMLCalciteActionBarElement>(el, SLOTS.actionBar);
 
-    if (actionBar) {
-      actionBar.layout = "horizontal";
-    }
-
     const actionBarNode = actionBar ? (
       <div class={CSS.actionBarContainer} key="action-bar">
         <slot name={SLOTS.actionBar} />

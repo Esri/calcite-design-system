@@ -3,7 +3,9 @@ import { accessible, hidden, renders, defaults, slots, t9n } from "../../tests/c
 import { CSS, SLOTS } from "./resources";
 
 describe("calcite-tip", () => {
-  it("renders", async () => renders("calcite-tip", { display: "flex" }));
+  describe("renders", () => {
+    renders("calcite-tip", { display: "flex" });
+  });
 
   it("honors hidden attribute", async () => hidden("calcite-tip"));
 
@@ -15,7 +17,9 @@ describe("calcite-tip", () => {
       }
     ]));
 
-  it("is accessible", async () => accessible(`<calcite-tip heading="sample"><p>not dismissible</p></calcite-tip>`));
+  describe("accessible", () => {
+    accessible(`<calcite-tip heading="sample"><p>not dismissible</p></calcite-tip>`);
+  });
 
   it("has slots", () => slots("calcite-tip", SLOTS));
 

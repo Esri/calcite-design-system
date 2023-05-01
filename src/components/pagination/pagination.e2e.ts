@@ -4,7 +4,9 @@ import { accessible, focusable, hidden, renders, t9n } from "../../tests/commonT
 import { CSS } from "./resources";
 
 describe("calcite-pagination", () => {
-  it("renders", async () => renders("calcite-pagination", { display: "flex" }));
+  describe("renders", () => {
+    renders("calcite-pagination", { display: "flex" });
+  });
 
   it("focuses previous button when not on the first page", async () =>
     focusable('<calcite-pagination page-size="1" start-item="2" total-items="10"></calcite-pagination>', {
@@ -18,8 +20,9 @@ describe("calcite-pagination", () => {
 
   it("honors hidden attribute", async () => hidden("calcite-pagination"));
 
-  it("is accessible", async () =>
-    accessible(`<calcite-pagination page-size="10" start-item="50" total-items="100"></calcite-pagination>`));
+  describe("accessible", () => {
+    accessible(`<calcite-pagination page-size="10" start-item="50" total-items="100"></calcite-pagination>`);
+  });
 
   it("supports translations", () => t9n("calcite-pagination"));
 

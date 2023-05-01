@@ -209,3 +209,17 @@ export const noDoubleScrollbars_TestOnly = (): string => html`
     </calcite-flow>
   </div>
 `;
+
+export const withActionBar_TestOnly = (): string => html`<div style="width: 300px;">
+  <calcite-flow-item height-scale="s">
+    <calcite-action-bar slot="action-bar">
+      <calcite-action-group>
+        <calcite-action text="Add" icon="plus"> </calcite-action>
+        <calcite-action text="Save" icon="save"> </calcite-action>
+        <calcite-action text="Layers" icon="layers"> </calcite-action>
+      </calcite-action-group>
+    </calcite-action-bar>
+    <div slot="header-content">Header!</div>
+    <p>Slotted content!</p>
+  </calcite-flow-item>
+</div>`;

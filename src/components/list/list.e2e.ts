@@ -58,7 +58,9 @@ describe("calcite-list", () => {
       }
     ]));
 
-  it("renders", async () => renders("calcite-list", { display: "block" }));
+  describe("renders", () => {
+    renders("calcite-list", { display: "block" });
+  });
 
   it("is focusable", () =>
     focusable(
@@ -72,18 +74,18 @@ describe("calcite-list", () => {
 
   it("honors hidden attribute", async () => hidden("calcite-list"));
 
-  it("should be accessible", async () => {
-    await accessible(`<calcite-list>
-    <calcite-list-item label="candy" description="kingdom">
-      <calcite-action icon="banana" label="finn" slot="actions-start" />
-      <calcite-icon icon="banana" slot="content-start" />
-      <img slot="content-start" src="${placeholder}" alt="Test image" />
-      <calcite-icon icon="banana" slot="content-end" />
-      <calcite-action icon="banana" label="jake" slot="actions-end" />
-    </calcite-list-item>
-    <calcite-list-item label="test" non-interactive description="hello world"></calcite-list-item>
-    <calcite-list-item label="test" description="hello world"></calcite-list-item>
-  </calcite-list>`);
+  describe("accessible", () => {
+    accessible(html`<calcite-list>
+      <calcite-list-item label="candy" description="kingdom">
+        <calcite-action icon="banana" label="finn" slot="actions-start" />
+        <calcite-icon icon="banana" slot="content-start" />
+        <img slot="content-start" src="${placeholder}" alt="Test image" />
+        <calcite-icon icon="banana" slot="content-end" />
+        <calcite-action icon="banana" label="jake" slot="actions-end" />
+      </calcite-list-item>
+      <calcite-list-item label="test" non-interactive description="hello world"></calcite-list-item>
+      <calcite-list-item label="test" description="hello world"></calcite-list-item>
+    </calcite-list>`);
   });
 
   it("can be disabled", () =>
@@ -218,5 +220,77 @@ describe("calcite-list", () => {
     expect(await items[0].getProperty("active")).toBe(false);
     expect(await items[1].getProperty("active")).toBe(true);
     expect(await items[2].getProperty("active")).toBe(false);
+  });
+
+  it("should prevent de-selection of selected item in single-persist mode", async () => {
+    const page = await newE2EPage({
+      html: html`<calcite-list selection-mode="single-persist">
+        <calcite-list-item id="item-1" label="hello" description="world"></calcite-list-item>
+        <calcite-list-item id="item-2" label="hello 2" description="world 2"></calcite-list-item>
+        <calcite-list-item id="item-3" selected label="hello 3" description="world 3"></calcite-list-item>
+      </calcite-list>`
+    });
+
+    await page.waitForTimeout(debounceTimeout);
+    await page.waitForChanges();
+
+    const items = await page.findAll("calcite-list-item");
+
+    expect(await items[0].getProperty("selected")).toBe(false);
+    expect(await items[1].getProperty("selected")).toBe(false);
+    expect(await items[2].getProperty("selected")).toBe(true);
+
+    const eventSpy = await page.spyOnEvent("calciteListItemSelect");
+
+    await items[2].click();
+
+    await page.waitForTimeout(debounceTimeout);
+    await page.waitForChanges();
+    expect(eventSpy).toHaveReceivedEventTimes(1);
+
+    expect(await items[0].getProperty("selected")).toBe(false);
+    expect(await items[1].getProperty("selected")).toBe(false);
+    expect(await items[2].getProperty("selected")).toBe(true);
+  });
+
+  it("should correctly allow de-selection and change of selected item in single mode", async () => {
+    const page = await newE2EPage({
+      html: html`<calcite-list selection-mode="single">
+        <calcite-list-item id="item-1" label="hello" description="world"></calcite-list-item>
+        <calcite-list-item id="item-2" label="hello 2" description="world 2"></calcite-list-item>
+        <calcite-list-item id="item-3" selected label="hello 3" description="world 3"></calcite-list-item>
+      </calcite-list>`
+    });
+
+    await page.waitForTimeout(debounceTimeout);
+    await page.waitForChanges();
+
+    const items = await page.findAll("calcite-list-item");
+
+    expect(await items[0].getProperty("selected")).toBe(false);
+    expect(await items[1].getProperty("selected")).toBe(false);
+    expect(await items[2].getProperty("selected")).toBe(true);
+
+    const eventSpy = await page.spyOnEvent("calciteListItemSelect");
+
+    await items[2].click();
+
+    await page.waitForTimeout(debounceTimeout);
+    await page.waitForChanges();
+    expect(eventSpy).toHaveReceivedEventTimes(1);
+
+    expect(await items[0].getProperty("selected")).toBe(false);
+    expect(await items[1].getProperty("selected")).toBe(false);
+    expect(await items[2].getProperty("selected")).toBe(false);
+
+    await items[0].click();
+
+    await page.waitForTimeout(debounceTimeout);
+    await page.waitForChanges();
+    expect(eventSpy).toHaveReceivedEventTimes(2);
+
+    expect(await items[0].getProperty("selected")).toBe(true);
+    expect(await items[1].getProperty("selected")).toBe(false);
+    expect(await items[2].getProperty("selected")).toBe(false);
   });
 });

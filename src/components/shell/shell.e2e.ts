@@ -4,7 +4,9 @@ import { CSS, SLOTS } from "./resources";
 import { html } from "../../../support/formatting";
 
 describe("calcite-shell", () => {
-  it("renders", async () => renders("calcite-shell", { display: "flex" }));
+  describe("renders", () => {
+    renders("calcite-shell", { display: "flex" });
+  });
 
   it("honors hidden attribute", async () => hidden("calcite-shell"));
 
@@ -20,7 +22,7 @@ describe("calcite-shell", () => {
     expect(content).not.toBeNull();
   });
 
-  it("should be accessible", async () =>
+  describe("accessible", () => {
     accessible(html`
       <calcite-shell>
         <calcite-shell-panel slot="${SLOTS.panelStart}" position="start">
@@ -30,7 +32,8 @@ describe("calcite-shell", () => {
           <p>Primary Content</p>
         </calcite-shell-panel>
       </calcite-shell>
-    `));
+    `);
+  });
 
   it("should place content behind", async () => {
     const page = await newE2EPage();

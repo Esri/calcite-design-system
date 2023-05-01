@@ -4,7 +4,9 @@ import { CSS } from "./resources";
 import { defaults } from "../../tests/commonTests";
 
 describe("calcite-fab", () => {
-  it("renders", async () => renders("calcite-fab", { display: "flex" }));
+  describe("renders", () => {
+    renders("calcite-fab", { display: "flex" });
+  });
 
   it("honors hidden attribute", async () => hidden("calcite-fab"));
 
@@ -102,9 +104,9 @@ describe("calcite-fab", () => {
     expect(fab.getAttribute("appearance")).toBe("outline-fill");
   });
 
-  it("should be accessible", async () => {
-    await accessible(`<calcite-fab label="hello world" text="hello world"></calcite-fab>`);
-    await accessible(`<calcite-fab label="hello world" text="hello world" disabled text-enabled></calcite-fab>`);
+  describe("accessible", () => {
+    accessible(`<calcite-fab label="hello world" text="hello world"></calcite-fab>`);
+    accessible(`<calcite-fab label="hello world" text="hello world" disabled text-enabled></calcite-fab>`);
   });
 
   describe("when invalid appearance values are passed", () => {

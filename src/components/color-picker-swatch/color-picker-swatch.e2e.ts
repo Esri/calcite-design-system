@@ -3,15 +3,17 @@ import { CSS } from "./resources";
 import { accessible, defaults, reflects, renders, hidden } from "../../tests/commonTests";
 
 describe("calcite-color-picker-swatch", () => {
-  it("renders", () => renders("calcite-color-picker-swatch", { display: "inline-flex" }));
+  describe("renders", () => {
+    renders("calcite-color-picker-swatch", { display: "inline-flex" });
+  });
 
   it("honors hidden attribute", async () => hidden("calcite-color-picker-swatch"));
 
-  it("is accessible", async () => {
-    await accessible("calcite-color-picker-swatch");
-    await accessible(`<calcite-color-picker-swatch active></calcite-color-picker-swatch>`);
-    await accessible(`<calcite-color-picker-swatch color='#c0ffee'></calcite-color-picker-swatch>`);
-    await accessible(`<calcite-color-picker-swatch active color='#c0ffee'></calcite-color-picker-swatch>`);
+  describe("accessible", () => {
+    accessible("calcite-color-picker-swatch");
+    accessible(`<calcite-color-picker-swatch active></calcite-color-picker-swatch>`);
+    accessible(`<calcite-color-picker-swatch color='#c0ffee'></calcite-color-picker-swatch>`);
+    accessible(`<calcite-color-picker-swatch active color='#c0ffee'></calcite-color-picker-swatch>`);
   });
 
   it("has defaults", () =>

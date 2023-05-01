@@ -12,11 +12,15 @@ import {
 
 describe("calcite-rating", () => {
   describe("common tests", () => {
-    it("renders", async () => renders("<calcite-rating></calcite-rating>", { display: "flex" }));
+    describe("renders", () => {
+      renders("<calcite-rating></calcite-rating>", { display: "flex" });
+    });
 
     it("honors hidden attribute", async () => hidden("calcite-rating"));
 
-    it("should be accessible", async () => accessible(`<calcite-rating></calcite-rating>`));
+    describe("accessible", () => {
+      accessible(`<calcite-rating></calcite-rating>`);
+    });
 
     it("is labelable", async () => labelable("calcite-rating"));
 

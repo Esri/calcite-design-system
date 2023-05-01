@@ -2,7 +2,9 @@ import { newE2EPage } from "@stencil/core/testing";
 import { renders, hidden } from "../../tests/commonTests";
 
 describe("calcite-segmented-control-item", () => {
-  it("renders", () => renders("calcite-segmented-control-item", { display: "flex" }));
+  describe("renders", () => {
+    renders("calcite-segmented-control-item", { display: "flex" });
+  });
 
   it("honors hidden attribute", async () => hidden("calcite-segmented-control-item"));
 

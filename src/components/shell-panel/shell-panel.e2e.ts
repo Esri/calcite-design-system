@@ -5,7 +5,9 @@ import { getElementXY } from "../../tests/utils";
 import { CSS, SLOTS } from "./resources";
 
 describe("calcite-shell-panel", () => {
-  it("renders", async () => renders("calcite-shell-panel", { display: "flex" }));
+  describe("renders", () => {
+    renders("calcite-shell-panel", { display: "flex" });
+  });
 
   it("honors hidden attribute", async () => hidden("calcite-shell-panel"));
 
@@ -112,7 +114,7 @@ describe("calcite-shell-panel", () => {
     expect(divElementIsFirst).toBe(true);
   });
 
-  it("should be accessible", async () =>
+  describe("accessible", () => {
     accessible(`
     <calcite-shell-panel slot="panel-start" position="start">
       <calcite-action-bar slot="action-bar">
@@ -124,7 +126,8 @@ describe("calcite-shell-panel", () => {
       </calcite-action-bar>
       <p>Primary Content</p>
     </calcite-shell-panel>
-    `));
+    `);
+  });
 
   it("should have detached class when detached", async () => {
     const page = await newE2EPage();
