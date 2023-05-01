@@ -89,7 +89,7 @@ export function normalizeAlpha<T extends RGBA | HSVA | HSLA>(colorObject: Return
 }
 
 export function normalizeColor(alphaColorObject: RGBA | HSVA | HSLA): ReturnType<Color["object"]> {
-  const normalized = { ...alphaColorObject, alpha: alphaColorObject.a };
+  const normalized = { ...alphaColorObject, alpha: alphaColorObject.a ?? 1 };
   delete normalized.a;
 
   return normalized;

@@ -236,7 +236,7 @@ export class ColorPicker
       }
 
       modeChanged = this.mode !== nextMode;
-      this.setMode(nextMode, true, this.internalColorUpdateContext === null);
+      this.setMode(nextMode, this.internalColorUpdateContext === null);
     }
 
     const dragging = this.activeCanvasInfo;
@@ -265,7 +265,11 @@ export class ColorPicker
     const colorChanged = !colorEqual(color, this.color);
 
     if (modeChanged || colorChanged) {
-      this.internalColorSet(color, true, "internal");
+      this.internalColorSet(
+        color,
+        this.alphaChannel && !(this.mode.endsWith("a") || this.mode.endsWith("a-css")),
+        "internal"
+      );
     }
   }
 
@@ -668,7 +672,7 @@ export class ColorPicker
       this.showIncompatibleColorWarning(value, format);
     }
 
-    this.setMode(format, false, false);
+    this.setMode(format, false);
     this.internalColorSet(initialColor, false, "initial");
 
     this.updateDimensions(this.scale);
@@ -1020,8 +1024,7 @@ export class ColorPicker
     );
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  private setMode(format: ColorPicker["format"], _force = false, warn = true): void {
+  private setMode(format: ColorPicker["format"], warn = true): void {
     const mode = format === "auto" ? this.mode : format;
     this.mode = this.ensureCompatibleMode(mode, warn);
   }
@@ -1107,7 +1110,18 @@ export class ColorPicker
     }
 
     if (format.includes("-css")) {
-      return color[format.replace("-css", "").replace("a", "")]().round().string();
+      const value = color[format.replace("-css", "").replace("a", "")]().round().string();
+
+      // Color omits alpha values when alpha is 1
+      const needToInjectAlpha =
+        (format.endsWith("a") || format.endsWith("a-css")) && color.alpha() === 1;
+      if (needToInjectAlpha) {
+        const model = value.slice(0, 3);
+        const values = value.slice(4, -1);
+        return `${model}a(${values}, ${color.alpha()})`;
+      }
+
+      return value;
     }
 
     const colorObject =

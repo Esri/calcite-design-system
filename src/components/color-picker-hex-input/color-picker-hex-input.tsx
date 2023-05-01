@@ -12,7 +12,6 @@ import {
 } from "@stencil/core";
 import {
   alphaToOpacity,
-  canConvertToHexa,
   hexChar,
   hexify,
   isLonghandHex,
@@ -188,17 +187,14 @@ export class ColorPickerHexInput implements LoadableComponent {
 
   private onHexInputChange = (): void => {
     const nodeValue = this.hexInputNode.value;
-    let value: string;
+    let value = nodeValue;
 
-    if (!nodeValue) {
-      value = nodeValue;
-    } else {
-      const normalized = normalizeHex(nodeValue, this.alphaChannel);
-      if (isValidHex(normalized) && this.alphaChannel) {
-        const alphaHex = this.internalColor?.hexa().slice(-2) ?? "ff";
+    if (value) {
+      const normalized = normalizeHex(value, false);
+      const preserveExistingAlpha = isValidHex(normalized) && this.alphaChannel;
+      if (preserveExistingAlpha && this.internalColor) {
+        const alphaHex = normalizeHex(this.internalColor.hexa(), true).slice(-2);
         value = `${normalized + alphaHex}`;
-      } else {
-        value = normalized;
       }
     }
 
@@ -213,7 +209,7 @@ export class ColorPickerHexInput implements LoadableComponent {
       value = node.value;
     } else {
       const alpha = opacityToAlpha(Number(node.value));
-      value = this.internalColor.alpha(alpha).hexa();
+      value = this.internalColor?.alpha(alpha).hexa();
     }
 
     this.internalSetValue(value, this.value);
@@ -253,14 +249,11 @@ export class ColorPickerHexInput implements LoadableComponent {
       const bump = shiftKey ? 10 : 1;
 
       this.internalSetValue(
-        normalizeHex(
-          hexify(
-            this.nudgeRGBChannels(
-              internalColor,
-              bump * direction,
-              composedPath.includes(hexInputNode) ? "rgb" : "a"
-            ),
-            alphaChannel
+        hexify(
+          this.nudgeRGBChannels(
+            internalColor,
+            bump * direction,
+            composedPath.includes(hexInputNode) ? "rgb" : "a"
           ),
           alphaChannel
         ),
@@ -382,12 +375,9 @@ export class ColorPickerHexInput implements LoadableComponent {
   private internalSetValue(value: string | null, oldValue: string | null, emit = true): void {
     if (value) {
       const { alphaChannel } = this;
-      const normalized = normalizeHex(value, alphaChannel);
+      const normalized = normalizeHex(value, alphaChannel, alphaChannel);
 
-      if (
-        isValidHex(normalized) ||
-        (alphaChannel && (isValidHex(normalized, true) || canConvertToHexa(normalized)))
-      ) {
+      if (isValidHex(normalized, alphaChannel)) {
         const { internalColor: currentColor } = this;
         const nextColor = Color(normalized);
         const normalizedLonghand = normalizeHex(hexify(nextColor, alphaChannel), alphaChannel);
