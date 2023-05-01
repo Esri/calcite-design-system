@@ -1197,7 +1197,7 @@
           "type": "color"
         },
         "font": {
-          "value": "$action.font.dark",
+          "value": "$action.font.default.dark",
           "type": "color"
         },
         "icon": {
