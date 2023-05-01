@@ -744,7 +744,7 @@ export const slottedPanelTopAndBottomAndSides = (): string =>
   </calcite-shell>
 `);
 
-export const contentBehind_TestOnly = (): string =>
+export const shellCenterRowWithActionBar_TestOnly = (): string =>
   html(`<calcite-shell content-behind>
   ${headerHTML}
   <calcite-shell-panel slot="panel-start">${leadingPanelHTML}</calcite-shell-panel>
