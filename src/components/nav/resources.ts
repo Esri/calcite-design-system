@@ -9,3 +9,9 @@ export const SLOTS = {
   progress: "progress",
   navAction: "nav-action"
 };
+
+export const LEVEL = {
+  primary: "primary",
+  secondary: "secondary",
+  tertiary: "tertiary"
+};

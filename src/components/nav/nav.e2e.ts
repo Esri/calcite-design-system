@@ -8,7 +8,7 @@ describe("calcite-nav", () => {
 
   it("honors hidden attribute", () => hidden("calcite-nav"));
 
-  it("should emit an event when the menuIcon is displayed and user interacts", async () => {
+  it("should emit calciteNavActionSelect event when user interacts with nav-action", async () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-nav nav-action><calcite-nav-logo text="Test" /></calcite-nav>`);
     const eventSpy = await page.spyOnEvent("calciteNavActionSelect");
