@@ -24,14 +24,8 @@
         "type": "typography"
       },
       "value": {
-        "light": {
-          "value": "$semantic.ui.color.text.1.light",
-          "type": "color"
-        },
-        "dark": {
-          "value": "$semantic.ui.color.text.1.dark",
-          "type": "color"
-        }
+        "light": "[object Object]",
+        "dark": "[object Object]"
       },
       "type": "other"
     },
