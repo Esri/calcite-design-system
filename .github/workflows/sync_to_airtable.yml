@@ -2,7 +2,19 @@ name: Sync to Airtable
 
 on:
   issues:
-    types: [assigned, closed, demilestoned, edited, labeled, milestoned, opened, reopened, unassigned, unlabeled]
+    types:
+      [
+        assigned,
+        closed,
+        demilestoned,
+        edited,
+        labeled,
+        milestoned,
+        opened,
+        reopened,
+        unassigned,
+        unlabeled,
+      ]
 
 jobs:
   issue_assigned:

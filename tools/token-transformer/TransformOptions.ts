@@ -5,17 +5,13 @@ import {
   SingleBoxShadowToken,
   SingleCompositionToken,
   SingleToken,
-  SingleTypographyToken,
-} from '@tokens-studio/types';
+  SingleTypographyToken
+} from "@tokens-studio/types";
 
-export type Expandables =
-  | SingleCompositionToken
-  | SingleTypographyToken
-  | SingleBorderToken
-  | SingleBoxShadowToken;
+export type Expandables = SingleCompositionToken | SingleTypographyToken | SingleBorderToken | SingleBoxShadowToken;
 
-export const expandablesAsStrings = ['composition', 'typography', 'border', 'boxShadow'] as const;
-export type ExpandablesAsStrings = typeof expandablesAsStrings[number];
+export const expandablesAsStrings = ["composition", "typography", "border", "boxShadow"] as const;
+export type ExpandablesAsStrings = (typeof expandablesAsStrings)[number];
 
 export type ExpandFilter<T extends SingleToken> = (token: T, filePath: string) => boolean;
 
@@ -26,7 +22,7 @@ export type ExpandFilter<T extends SingleToken> = (token: T, filePath: string) =
  * @param {boolean} [composition=true]
  */
 export interface ExpandOptions {
-  typography?: boolean | ExpandFilter<SingleTypographyToken>; 
+  typography?: boolean | ExpandFilter<SingleTypographyToken>;
   border?: boolean | ExpandFilter<SingleBorderToken>;
   shadow?: boolean | ExpandFilter<SingleBoxShadowToken>;
   composition?: boolean | ExpandFilter<SingleCompositionToken>;

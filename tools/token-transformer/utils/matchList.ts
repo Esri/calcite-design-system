@@ -5,5 +5,5 @@
  * @returns boolean
  */
 export const matchList = (str: string, list: string[], regexExclude: RegExp) => {
-  return list.some((value) =>  str.includes(value) && !regexExclude.test(str));
-}
+  return list.some((value) => str.includes(value) && !regexExclude.test(str));
+};

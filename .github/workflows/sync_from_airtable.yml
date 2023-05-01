@@ -49,7 +49,7 @@ jobs:
   assigned_unassigned:
     name: Assign or Unassign
     needs: existing_issue
-    if:  needs.existing_issue.outputs.github_issue != '' && fromJSON(needs.existing_issue.outputs.github_issue).status == 200 && (github.event.client_payload.action == 'assigned/unassigned')
+    if: needs.existing_issue.outputs.github_issue != '' && fromJSON(needs.existing_issue.outputs.github_issue).status == 200 && (github.event.client_payload.action == 'assigned/unassigned')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/github-script@v6
@@ -114,7 +114,7 @@ jobs:
   labeled_unlabeled:
     name: Labeled or Unlabeled
     needs: existing_issue
-    if:  needs.existing_issue.outputs.github_issue != '' && fromJSON(needs.existing_issue.outputs.github_issue).status == 200 && (github.event.client_payload.action == 'labeled/unlabeled')
+    if: needs.existing_issue.outputs.github_issue != '' && fromJSON(needs.existing_issue.outputs.github_issue).status == 200 && (github.event.client_payload.action == 'labeled/unlabeled')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/github-script@v6
@@ -224,7 +224,7 @@ jobs:
   milestoned_demilestoned:
     name: Milestoned or Demilestoned
     needs: existing_issue
-    if:  needs.existing_issue.outputs.github_issue != '' && fromJSON(needs.existing_issue.outputs.github_issue).status == 200 && (github.event.client_payload.action == 'milestoned/demilestoned')
+    if: needs.existing_issue.outputs.github_issue != '' && fromJSON(needs.existing_issue.outputs.github_issue).status == 200 && (github.event.client_payload.action == 'milestoned/demilestoned')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/github-script@v6
@@ -292,7 +292,7 @@ jobs:
   edited:
     name: Edited
     needs: existing_issue
-    if:  needs.existing_issue.outputs.github_issue != '' && fromJSON(needs.existing_issue.outputs.github_issue).status == 200 && (github.event.client_payload.action == 'edited')
+    if: needs.existing_issue.outputs.github_issue != '' && fromJSON(needs.existing_issue.outputs.github_issue).status == 200 && (github.event.client_payload.action == 'edited')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/github-script@v6
@@ -369,4 +369,3 @@ jobs:
               core.info(JSON.stringify(issueCreateObject, null, 4))
               throw new Error(err)
             }
-

@@ -3,7 +3,7 @@ import { Options } from "style-dictionary";
 export interface ThemeFileInterface {
   id: string;
   name: string;
-  selectedTokenSets: Record<string, 'enabled' | 'disabled' | 'source'>;
+  selectedTokenSets: Record<string, "enabled" | "disabled" | "source">;
   $figmaStyleReferences?: Record<string, string>;
 }
 
@@ -13,18 +13,18 @@ export type Theme = {
   disabled: string[];
   source: string[];
   id?: string;
-  options?: Options
-}
+  options?: Options;
+};
 
 /**
- * 
+ *
  * @param themes an array of Figma Token Studio theme definition objects
  * @returns an array of Style Dictionary theme definition objects
  */
-export async function getThemes( themes: ThemeFileInterface[] ): Promise<Theme[]> {
+export async function getThemes(themes: ThemeFileInterface[]): Promise<Theme[]> {
   return themes.map((themeConfig) => {
-    const themeTypes = {enabled: [], disabled: [], source: []};
-    const { name, id, selectedTokenSets} = themeConfig;
+    const themeTypes = { enabled: [], disabled: [], source: [] };
+    const { name, id, selectedTokenSets } = themeConfig;
     const { enabled, disabled, source } = Object.entries(selectedTokenSets).reduce((acc, [key, value]) => {
       acc[value].push(key);
       return acc;
@@ -35,7 +35,7 @@ export async function getThemes( themes: ThemeFileInterface[] ): Promise<Theme[]
       id,
       enabled,
       disabled,
-      source,
+      source
     };
-  })
+  });
 }

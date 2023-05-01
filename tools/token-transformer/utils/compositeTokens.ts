@@ -1,37 +1,35 @@
-import { SingleToken } from '@tokens-studio/types';
-import {
-  ExpandFilter
-} from '../TransformOptions.js';
-import { matchPlaceholderElement } from './regex.js';
+import { SingleToken } from "@tokens-studio/types";
+import { ExpandFilter } from "../TransformOptions.js";
+import { matchPlaceholderElement } from "./regex.js";
 
-// A customized type map based off Token Studio. 
+// A customized type map based off Token Studio.
 // This determines the applied "type" associated with each Style Dictionary token value
 const typeMaps = {
   boxShadow: {
-    x: 'dimension',
-    y: 'dimension',
-    blur: 'dimension',
-    spread: 'dimension',
-    type: 'other',
+    x: "dimension",
+    y: "dimension",
+    blur: "dimension",
+    spread: "dimension",
+    type: "other"
   },
   border: {
-    width: 'borderWidth',
-    style: 'other',
+    width: "borderWidth",
+    style: "other"
   },
   composition: {
-    typography: 'fontSizes',
-    fontWeight: 'fontWeights',
+    typography: "fontSizes",
+    fontWeight: "fontWeights"
   },
   typography: {
-    fontFamily: 'fontFamilies',
-    fontWeight: 'fontWeights',
-    lineHeight: 'lineHeights',
-    fontSize: 'fontSizes',
-    letterSpacing: 'spacing',
-    paragraphSpacing: 'spacing',
-    textDecoration: 'fontStyle',
-    textCase: 'textCase',
-  },
+    fontFamily: "fontFamilies",
+    fontWeight: "fontWeights",
+    lineHeight: "lineHeights",
+    fontSize: "fontSizes",
+    letterSpacing: "spacing",
+    paragraphSpacing: "spacing",
+    textDecoration: "fontStyle",
+    textCase: "textCase"
+  }
 };
 
 /**
@@ -50,9 +48,9 @@ const typeMaps = {
  *      "type": "boxShadow"
  *    },
  * }
- * 
+ *
  * will become...
- * 
+ *
  * "box-shadow": {
  *    "0": {
  *      "x": {
@@ -77,11 +75,11 @@ const typeMaps = {
  *      },
  *    },
  * }
- * 
+ *
  * @param compositeToken the composite token object
  * @param isShadow is a drop shadow?
  * @param handleValue a function to determine how the final token value string should be passed to Style Dictionary
- * @returns 
+ * @returns
  */
 export function expandToken(compositeToken: SingleToken<false>, isShadow = false, handleValue = (v) => v) {
   const expandedObj = {} as SingleToken<false>;
@@ -96,7 +94,7 @@ export function expandToken(compositeToken: SingleToken<false>, isShadow = false
         }
         expandedObj[index + 1][key] = {
           value: `${handleValue(value)}`,
-          type: getType(key),
+          type: getType(key)
         };
       });
     });
@@ -107,7 +105,7 @@ export function expandToken(compositeToken: SingleToken<false>, isShadow = false
       }
       expandedObj[key] = {
         value: `${handleValue(value)}`,
-        type: getType(key),
+        type: getType(key)
       };
     });
   }
@@ -116,7 +114,7 @@ export function expandToken(compositeToken: SingleToken<false>, isShadow = false
 }
 
 /**
- * 
+ *
  * @param token Style Dictionary token object
  * @param condition check if the token should be expanded or not
  * @param filePath the file path where the token came from
@@ -125,9 +123,9 @@ export function expandToken(compositeToken: SingleToken<false>, isShadow = false
 export function shouldExpand<T extends SingleToken>(
   token: T,
   condition: boolean | ExpandFilter<T>,
-  filePath: string,
+  filePath: string
 ): boolean {
-  if (typeof condition === 'function') {
+  if (typeof condition === "function") {
     return condition(token, filePath);
   }
   return condition;
