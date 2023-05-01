@@ -124,6 +124,31 @@ const centerRowHTML = html`
   </calcite-panel>
 `;
 
+const centerRowWithActionBarHTML = html`
+  <calcite-action-bar slot="action-bar">
+    <calcite-action-group>
+      <calcite-action text="Save" icon="save" indicator> </calcite-action>
+      <calcite-action text-enabled icon="map" text="New" slot="menu-actions"> </calcite-action>
+      <calcite-action text-enabled icon="collection" text="Open" slot="menu-actions"> </calcite-action>
+    </calcite-action-group>
+    <calcite-action-group>
+      <calcite-action icon="layers" text="Layers" active> </calcite-action>
+      <calcite-action icon="basemap" text="Basemaps"> </calcite-action>
+      <calcite-action icon="legend" text="Legend"> </calcite-action>
+      <calcite-action icon="bookmark" text="Bookmarks"> </calcite-action>
+    </calcite-action-group>
+    <calcite-action-group>
+      <calcite-action text="Share" icon="share"></calcite-action>
+      <calcite-action text="Print" icon="print"></calcite-action>
+    </calcite-action-group>
+    <calcite-action-group slot="bottom-actions">
+      <calcite-action text="Feedback" icon="speech-bubble-plus"></calcite-action>
+      <calcite-action text="What's next" icon="mega-phone"></calcite-action>
+    </calcite-action-group>
+  </calcite-action-bar>
+  <calcite-panel heading="Center row content">Panel</calcite-panel>
+`;
+
 const trailingPanelHTML = html`
   ${actionBarEndHTML}
   <calcite-panel heading="Trailing panel content">
@@ -718,6 +743,16 @@ export const slottedPanelTopAndBottomAndSides = (): string =>
     <footer slot="footer">Footer Example</footer>
   </calcite-shell>
 `);
+
+export const shellCenterRowWithActionBar_TestOnly = (): string =>
+  html(`<calcite-shell content-behind>
+  ${headerHTML}
+  <calcite-shell-panel slot="panel-start">${leadingPanelHTML}</calcite-shell-panel>
+  ${contentHTML}
+  <calcite-shell-center-row slot="center-row">${centerRowWithActionBarHTML}</calcite-shell-center-row>
+  <calcite-shell-panel slot="panel-end">${trailingPanelHTML}</calcite-shell-panel>
+  ${footerHTML}
+</calcite-shell>`);
 
 export const shellPanelZIndex_TestOnly = (): string => html` <calcite-shell
   style="
