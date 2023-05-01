@@ -86,16 +86,16 @@ export class CalciteNavLogo {
           {this.thumbnail && <img src={this.thumbnail} />}
           {(this.text || this.subText) && this.textEnabled && (
             <div class={CSS.textContainer}>
-              {this.text && this.textEnabled ? (
+              {this.text && (
                 <span class={CSS.logoText} key={CSS.logoText}>
                   {this.text}
                 </span>
-              ) : null}
-              {this.subText && this.textEnabled ? (
+              )}
+              {this.subText && (
                 <span class={CSS.logoSubtext} key={CSS.logoSubtext}>
                   {this.subText}
                 </span>
-              ) : null}
+              )}
             </div>
           )}
         </a>

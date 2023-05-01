@@ -10,7 +10,7 @@ import {
   VNode
 } from "@stencil/core";
 import { slotChangeHasAssignedElement } from "../../utils/dom";
-import { CSS, SLOTS } from "./resources";
+import { CSS, LEVEL, SLOTS } from "./resources";
 
 type Level = "primary" | "secondary" | "tertiary";
 
@@ -98,9 +98,9 @@ export class CalciteNav {
   };
 
   private handleContentSlotChange = (event: Event, level: Level): void => {
-    if (level === "secondary") {
+    if (level === LEVEL.secondary) {
       this.secondarySlotHasElements = slotChangeHasAssignedElement(event);
-    } else if (level === "tertiary") {
+    } else if (level === LEVEL.tertiary) {
       this.teritiarySlotHasElements = slotChangeHasAssignedElement(event);
     } else {
       this.primarySlotHasElements = slotChangeHasAssignedElement(event);
@@ -122,15 +122,15 @@ export class CalciteNav {
     }
   };
 
-  private displayNav(level: Level): boolean {
-    if (level === "primary") {
+  private hasSlottedElements(level: Level): boolean {
+    if (level === LEVEL.primary) {
       return (
         this.navAction ||
         this.userSlotHasElements ||
         this.logoSlotHasElements ||
         this.primarySlotHasElements
       );
-    } else if (level === "secondary") {
+    } else if (level === LEVEL.secondary) {
       return this.secondarySlotHasElements;
     } else {
       return this.teritiarySlotHasElements;
@@ -154,19 +154,19 @@ export class CalciteNav {
   }
 
   renderNavLevel(level: Level): VNode {
-    const hideNav = !this.displayNav(level);
+    const hasElements = this.hasSlottedElements(level);
     return (
       <div
         class={{
           [CSS.navContainer]: true,
           [`nav-${level}`]: true,
-          hide: hideNav
+          hide: !hasElements
         }}
       >
         <slot name={SLOTS.progress} />
         <div class={CSS.navContainerContent}>
-          {level === "primary" && this.renderMenuAction()}
-          {level === "primary" && (
+          {level === LEVEL.primary && this.renderMenuAction()}
+          {level === LEVEL.primary && (
             <slot name={SLOTS.logo} onSlotchange={this.handleLogoSlotChange} />
           )}
           <slot
@@ -181,7 +181,7 @@ export class CalciteNav {
             name={`${level}-content-end`}
             onSlotchange={(event) => this.handleContentSlotChange(event, level)}
           />
-          {level === "primary" ? (
+          {level === LEVEL.primary ? (
             <slot name="user" onSlotchange={this.handleUserSlotChange} />
           ) : null}
         </div>

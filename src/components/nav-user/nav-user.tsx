@@ -85,23 +85,23 @@ export class CalciteNavUser {
           tabIndex={0}
         >
           <calcite-avatar
-            full-name={this.fullName ? this.fullName : null}
-            thumbnail={this.thumbnail ? this.thumbnail : null}
-            user-id={this.userId ? this.userId : null}
+            full-name={this.fullName}
+            thumbnail={this.thumbnail}
+            user-id={this.userId}
           />
 
           {(this.fullName || this.username) && !this.hideText && (
             <div class={CSS.textContainer}>
-              {this.fullName && !this.hideText ? (
+              {this.fullName && (
                 <span class={CSS.fullName} key={CSS.fullName}>
                   {this.fullName}
                 </span>
-              ) : null}
-              {this.username && !this.hideText ? (
+              )}
+              {this.username && (
                 <span class={CSS.username} key={CSS.username}>
                   {this.username}
                 </span>
-              ) : null}
+              )}
             </div>
           )}
         </a>
