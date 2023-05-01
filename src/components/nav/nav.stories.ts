@@ -26,9 +26,8 @@ export const simple = (): string =>
 export const primarySlots_TestOnly = (): string =>
   html`
     <calcite-shell>
-      <calcite-nav slot="header">
+      <calcite-nav slot="header" nav-action>
         <calcite-chip slot="logo"> logo </calcite-chip>
-        <calcite-action slot="nav-action" text="menu" icon="hamburger"> </calcite-action>
         <calcite-chip slot="primary-content-start"> content </calcite-chip>
         <calcite-chip slot="primary-content-center"> content </calcite-chip>
         <calcite-chip slot="primary-content-end"> content </calcite-chip>
@@ -44,7 +43,7 @@ export const primarySlots_TestOnly = (): string =>
 export const primaryAndSecondarySlots_TestOnly = (): string =>
   html`
     <calcite-shell>
-      <calcite-nav slot="header">
+      <calcite-nav slot="header" nav-action>
         <calcite-chip slot="logo"> logo </calcite-chip>
         <calcite-action slot="nav-action" text="menu" icon="hamburger"> </calcite-action>
         <calcite-chip slot="primary-content-start"> content </calcite-chip>
@@ -61,6 +60,7 @@ export const allSlots_TestOnly = (): string =>
   html`
     <calcite-shell>
       <calcite-nav slot="header">
+        <calcite-chip slot="nav-action"> Action </calcite-chip>
         <calcite-chip slot="logo"> logo </calcite-chip>
         <calcite-action slot="nav-action" text="menu" icon="hamburger"> </calcite-action>
         <calcite-chip slot="primary-content-start"> content </calcite-chip>
@@ -80,6 +80,7 @@ export const allSlots_darkModeRTL_TestOnly = (): string =>
       <div style="class="calcite-mode-dark" dir="rtl">
         <calcite-shell>
           <calcite-nav slot="header">
+            <calcite-chip slot="nav-action"> Action </calcite-chip>
             <calcite-chip slot="logo"> logo </calcite-chip>
             <calcite-action slot="nav-action" text="menu" icon="hamburger"> </calcite-action>
             <calcite-chip slot="primary-content-start"> content </calcite-chip>
