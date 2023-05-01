@@ -2,7 +2,9 @@ import { newE2EPage } from "@stencil/core/testing";
 import { hidden, renders } from "../../tests/commonTests";
 
 describe("calcite-nav", () => {
-  it("renders", () => renders("calcite-nav", { display: "inline" }));
+  describe("renders", () => {
+    renders("calcite-nav", { display: "inline" });
+  });
 
   it("honors hidden attribute", () => hidden("calcite-nav"));
 
