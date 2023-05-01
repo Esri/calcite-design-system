@@ -402,7 +402,9 @@ export class ColorPicker
     if (arrowKeyToXOffset[key]) {
       event.preventDefault();
       const delta = arrowKeyToXOffset[key] * modifier;
-      this.captureHueSliderColor(this.hueScopeLeft + delta);
+      const hue = this.baseColorFieldColor.hue();
+      const color = this.baseColorFieldColor.hue(hue + delta);
+      this.internalColorSet(color, false);
     }
   };
 
