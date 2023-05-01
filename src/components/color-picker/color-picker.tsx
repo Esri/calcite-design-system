@@ -1517,13 +1517,13 @@ export class ColorPicker
 
     const {
       dimensions: {
-        slider: { height, width },
+        slider: { width },
         thumb: { radius }
       }
     } = this;
 
     const x = alphaToOpacity(hsvColor.alpha()) / (OPACITY_LIMITS.max / width);
-    const y = radius - height / 2 + height / 2;
+    const y = radius;
 
     requestAnimationFrame(() => {
       this.opacityScopeLeft = x;
