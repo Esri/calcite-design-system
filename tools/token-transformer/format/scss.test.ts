@@ -1,22 +1,22 @@
+const createPropertyFormatterCallback = jest.fn((token, idx) => `--${token.name}: blue;`)
+const formattedVariables = jest.fn((tokens) => tokens.dictionary.allTokens.map(createPropertyFormatterCallback));
+const fileHeader = jest.fn(({file}) => '');
+
+jest.mock('style-dictionary', () => {
+  const originalModule = jest.requireActual('style-dictionary');
+
+  //Mock the default export and named export 'foo'
+  return {
+    __esModule: false,
+    ...originalModule,
+    formatHelpers: {
+      formattedVariables,
+      fileHeader,
+    },
+  };
+});
+
 import { formatSCSS } from "./scss";
-
-// const createPropertyFormatterCallback = jest.fn((token, idx) => `--mock-token-${idx}: blue;`)
-// const createPropertyFormatter = jest.fn(() => []);
-// const fileHeader = jest.fn(({file}) => '');
-
-// jest.mock('style-dictionary', () => {
-//   const originalModule = jest.requireActual('style-dictionary');
-
-//   //Mock the default export and named export 'foo'
-//   return {
-//     __esModule: true,
-//     ...originalModule,
-//     formatHelpers: {
-//       createPropertyFormatter,
-//       fileHeader,
-//     },
-//   };
-// });
 
 const mockTokens = [
   {
@@ -47,13 +47,14 @@ const mock = {
   file: {
     destination: "calciteLight.scss"
   },
-  formattedTokenSet: `@mixin calcite-theme-Light() {`,
+  formattedTokenSet: [`@mixin calcite-theme-light() {`, '--core-token-example: blue'],
   options: {}
 };
 
 describe("formatting CSS Variable output", () => {
   it("should format values", () => {
     const cssFile = formatSCSS({ dictionary: mock.dictionary, file: mock.file, options: mock.options });
-    expect(cssFile).toContain(mock.formattedTokenSet);
+    expect(cssFile).toContain(mock.formattedTokenSet[0]);
+    expect(cssFile).toContain(mock.formattedTokenSet[1]);
   });
 });
