@@ -615,7 +615,7 @@ export class ColorPicker
       } else if (clientX < bounds.x) {
         samplingX = 0;
       } else {
-        samplingX = bounds.width - 1;
+        samplingX = bounds.width;
       }
 
       if (clientY < bounds.y + bounds.height && clientY > bounds.y) {
