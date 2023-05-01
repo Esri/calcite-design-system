@@ -3,11 +3,15 @@ import { html } from "../../../support/formatting";
 import { accessible, hidden, reflects, renders } from "../../tests/commonTests";
 
 describe("calcite-nav-user", () => {
-  it("renders", () => renders("calcite-nav-user", { display: "inline-flex" }));
+  describe("renders", () => {
+    renders("calcite-nav-user", { display: "inline-flex" });
+  });
 
   it("honors hidden attribute", () => hidden("calcite-nav-user"));
 
-  it("is accessible", () => accessible("calcite-nav-user"));
+  describe("accessible", () => {
+    accessible("calcite-nav-user");
+  });
 
   it("reflects", () =>
     reflects("calcite-nav-user", [
