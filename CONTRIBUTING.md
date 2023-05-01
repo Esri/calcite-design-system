@@ -40,6 +40,19 @@ or use the calcite default branching pattern
 git checkout -b [yourname]/[type]-[issue#]
 ```
 
+### Setup the project
+
+#### install
+
+`npm install`
+
+#### build
+
+Build the tokens to platform assets
+
+`npm run build`
+
+
 ### Understanding Token Files
 
 All token files may be updated by the Figma Token Studio plugin. These can also be updated in the code directly. Any changes to token files must be reviewed by the Calcite Design Team.
