@@ -529,9 +529,6 @@ export class ColorPicker
 
     const { offsetX, offsetY } = event;
 
-    this.captureColorFieldColor(offsetX, offsetY);
-    this.colorFieldScopeNode.focus();
-
     document.addEventListener("pointermove", this.globalPointerMoveHandler);
     document.addEventListener("pointerup", this.globalPointerUpHandler, { once: true });
 
@@ -539,6 +536,8 @@ export class ColorPicker
       context: this.colorFieldRenderingContext,
       bounds: this.colorFieldRenderingContext.canvas.getBoundingClientRect()
     };
+    this.captureColorFieldColor(offsetX, offsetY);
+    this.colorFieldScopeNode.focus();
   };
 
   private handleHueSliderPointerDown = (event: PointerEvent): void => {
@@ -547,8 +546,6 @@ export class ColorPicker
     }
 
     const { offsetX } = event;
-    this.captureHueSliderColor(offsetX);
-    this.hueScopeNode.focus();
 
     document.addEventListener("pointermove", this.globalPointerMoveHandler);
     document.addEventListener("pointerup", this.globalPointerUpHandler, { once: true });
@@ -557,6 +554,8 @@ export class ColorPicker
       context: this.hueSliderRenderingContext,
       bounds: this.hueSliderRenderingContext.canvas.getBoundingClientRect()
     };
+    this.captureHueSliderColor(offsetX);
+    this.hueScopeNode.focus();
   };
 
   private handleOpacitySliderPointerDown = (event: PointerEvent): void => {
@@ -566,9 +565,6 @@ export class ColorPicker
 
     const { offsetX } = event;
 
-    this.captureOpacitySliderValue(offsetX);
-    this.opacityScopeNode.focus();
-
     document.addEventListener("pointermove", this.globalPointerMoveHandler);
     document.addEventListener("pointerup", this.globalPointerUpHandler, { once: true });
 
@@ -576,6 +572,8 @@ export class ColorPicker
       context: this.opacitySliderRenderingContext,
       bounds: this.opacitySliderRenderingContext.canvas.getBoundingClientRect()
     };
+    this.captureOpacitySliderValue(offsetX);
+    this.opacityScopeNode.focus();
   };
 
   private globalPointerUpHandler = (event: PointerEvent): void => {
