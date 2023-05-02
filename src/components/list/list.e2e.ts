@@ -10,6 +10,8 @@ const placeholder = placeholderImage({
   height: 100
 });
 
+const listDebounceTimeout = debounceTimeout + 1;
+
 describe("calcite-list", () => {
   it("defaults", async () =>
     defaults("calcite-list", [
@@ -117,7 +119,7 @@ describe("calcite-list", () => {
 
     const calciteListFilterEvent = page.waitForEvent("calciteListFilter");
     await page.keyboard.type("one");
-    await page.waitForTimeout(debounceTimeout);
+    await page.waitForTimeout(listDebounceTimeout);
     await page.waitForChanges();
     await calciteListFilterEvent;
     expect(await list.getProperty("filteredItems")).toHaveLength(1);
@@ -131,7 +133,7 @@ describe("calcite-list", () => {
 
     const calciteListFilterEvent2 = page.waitForEvent("calciteListFilter");
     await page.keyboard.type("two");
-    await page.waitForTimeout(debounceTimeout);
+    await page.waitForTimeout(listDebounceTimeout);
     await page.waitForChanges();
     await calciteListFilterEvent2;
     expect(await list.getProperty("filteredItems")).toHaveLength(1);
@@ -140,7 +142,7 @@ describe("calcite-list", () => {
 
     const calciteListFilterEvent3 = page.waitForEvent("calciteListFilter");
     await page.keyboard.type("blah");
-    await page.waitForTimeout(debounceTimeout);
+    await page.waitForTimeout(listDebounceTimeout);
     await page.waitForChanges();
     await calciteListFilterEvent3;
     expect(await list.getProperty("filteredItems")).toHaveLength(0);
@@ -181,7 +183,7 @@ describe("calcite-list", () => {
     });
 
     const list = await page.find("calcite-list");
-    await page.waitForTimeout(debounceTimeout + 10);
+    await page.waitForTimeout(listDebounceTimeout);
     await page.waitForChanges();
 
     expect(await list.getProperty("filteredData")).toHaveLength(3);
@@ -201,7 +203,7 @@ describe("calcite-list", () => {
       </calcite-list>`
     });
 
-    await page.waitForTimeout(debounceTimeout);
+    await page.waitForTimeout(listDebounceTimeout);
     await page.waitForChanges();
 
     const items = await page.findAll("calcite-list-item");
@@ -214,7 +216,7 @@ describe("calcite-list", () => {
 
     await items[1].click();
 
-    await page.waitForTimeout(debounceTimeout);
+    await page.waitForTimeout(listDebounceTimeout);
     await page.waitForChanges();
     expect(eventSpy).toHaveReceivedEventTimes(1);
 
@@ -232,7 +234,7 @@ describe("calcite-list", () => {
       </calcite-list>`
     });
 
-    await page.waitForTimeout(debounceTimeout);
+    await page.waitForTimeout(listDebounceTimeout);
     await page.waitForChanges();
 
     const items = await page.findAll("calcite-list-item");
@@ -245,7 +247,7 @@ describe("calcite-list", () => {
 
     await items[2].click();
 
-    await page.waitForTimeout(debounceTimeout);
+    await page.waitForTimeout(listDebounceTimeout);
     await page.waitForChanges();
     expect(eventSpy).toHaveReceivedEventTimes(1);
 
@@ -263,7 +265,7 @@ describe("calcite-list", () => {
       </calcite-list>`
     });
 
-    await page.waitForTimeout(debounceTimeout);
+    await page.waitForTimeout(listDebounceTimeout);
     await page.waitForChanges();
 
     const items = await page.findAll("calcite-list-item");
@@ -276,7 +278,7 @@ describe("calcite-list", () => {
 
     await items[2].click();
 
-    await page.waitForTimeout(debounceTimeout);
+    await page.waitForTimeout(listDebounceTimeout);
     await page.waitForChanges();
     expect(eventSpy).toHaveReceivedEventTimes(1);
 
@@ -286,7 +288,7 @@ describe("calcite-list", () => {
 
     await items[0].click();
 
-    await page.waitForTimeout(debounceTimeout);
+    await page.waitForTimeout(listDebounceTimeout);
     await page.waitForChanges();
     expect(eventSpy).toHaveReceivedEventTimes(2);
 
