@@ -1,34 +1,5 @@
 {
   "combobox": {
-    "font": {
-      "placeholder": {
-        "light": {
-          "value": "$semantic.ui.color.text.3.light",
-          "type": "color"
-        },
-        "dark": {
-          "value": "$semantic.ui.color.text.3.dark",
-          "type": "color"
-        }
-      },
-      "sm": {
-        "value": "$semantic.font.default.bold.-3h",
-        "type": "typography"
-      },
-      "md": {
-        "value": "$semantic.font.default.bold.-1h",
-        "type": "typography"
-      },
-      "lg": {
-        "value": "$semantic.font.default.bold.0h",
-        "type": "typography"
-      },
-      "value": {
-        "light": "[object Object]",
-        "dark": "[object Object]"
-      },
-      "type": "other"
-    },
     "icon": {
       "default": {
         "light": {
@@ -62,13 +33,25 @@
       }
     },
     "background": {
-      "light": {
-        "value": "$semantic.ui.color.background.light",
-        "type": "color"
+      "default": {
+        "light": {
+          "value": "$semantic.ui.color.background.light",
+          "type": "color"
+        },
+        "dark": {
+          "value": "$semantic.ui.color.background.dark",
+          "type": "color"
+        }
       },
-      "dark": {
-        "value": "$semantic.ui.color.background.dark",
-        "type": "color"
+      "item-container": {
+        "light": {
+          "value": "$semantic.ui.color.foreground.1.light",
+          "type": "color"
+        },
+        "dark": {
+          "value": "$semantic.ui.color.foreground.1.dark",
+          "type": "color"
+        }
       }
     },
     "icon-size": {
@@ -126,6 +109,54 @@
         "lg": {
           "value": "$core.spacing.4",
           "type": "spacing"
+        }
+      }
+    },
+    "font": {
+      "placeholder": {
+        "sm": {
+          "value": "$semantic.font.default.regular.-2h",
+          "type": "typography"
+        },
+        "md": {
+          "value": "$semantic.font.default.regular.-1h",
+          "type": "typography"
+        },
+        "lg": {
+          "value": "$semantic.font.default.regular.0h",
+          "type": "typography"
+        }
+      },
+      "placholder": {
+        "light": {
+          "value": "$semantic.ui.color.text.3.light",
+          "type": "color"
+        },
+        "dark": {
+          "value": "$semantic.ui.color.text.3.dark",
+          "type": "color"
+        }
+      },
+      "value": {
+        "light": {
+          "value": "$semantic.ui.color.text.1.light",
+          "type": "color"
+        },
+        "dark": {
+          "value": "$semantic.ui.color.text.1.dark",
+          "type": "color"
+        },
+        "sm": {
+          "value": "$semantic.font.default.regular.-2h",
+          "type": "typography"
+        },
+        "md": {
+          "value": "$semantic.font.default.regular.-1h",
+          "type": "typography"
+        },
+        "lg": {
+          "value": "$semantic.font.default.regular.0h",
+          "type": "typography"
         }
       }
     }

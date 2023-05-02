@@ -1412,7 +1412,7 @@
       "combobox.icon.dark": "S:2246d356a1f6f8b9706df17986f8452f8b93916d,",
       "combobox.border.light": "S:f30756a73cf9f3c9d0354d1bd5f7e654240f7611,",
       "combobox.border.dark": "S:fa33ba73a117ad370052cae12038283a83aa20a2,",
-      "combobox.background.default.light": "S:17451faade2ebea67ff0e851f135302108fb32be,",
+      "combobox.background.default.light": "S:e9f7aa7a393bae37122ffee08d9b2bdf9ba2b646,",
       "combobox.background.default.dark": "S:1e065f4788b100aeeaac9b51c1946d19703404e5,",
       "combobox.foreground.light": "S:03ddfd3782f4913e4f0cd6191da5b6cf9a6bd2ab,",
       "combobox.foreground.dark": "S:95112821a2e3ab109779fb1b496071bda8f75be2,",
@@ -2339,8 +2339,6 @@
       "combobox.icon.default.dark": "S:3dae607f383e8b2873c999e25876266505675bd5,",
       "combobox.icon.dropdown.light": "S:029e2b35c13cffd1a1afbc844b8b58fc3852dc94,",
       "combobox.icon.dropdown.dark": "S:f29ebf3665efba0f4a7a056fa542c9e224518616,",
-      "combobox.background.light": "S:e9f7aa7a393bae37122ffee08d9b2bdf9ba2b646,",
-      "combobox.background.dark": "S:ae675fa609e690e4af981c7796a6debf62e6f42f,",
       "flow-header.font.heading.md": "S:a753ee474e5276d2c3253cbf0c389bb17f0d993d,",
       "flow-header.font.description.md": "S:2e204d97e7e530c52c455d00cd8e6354b2a81230,",
       "combobox-item.font.default.sm": "S:a8532a7efd916961e051299aba6b625eeab28cd3,",
@@ -2373,7 +2371,8 @@
       "list-item.font.group-heading.default": "S:c90422ca5f91de42e8d36f84a34fd8c22452b94f,",
       "list-item.border.light": "S:f30756a73cf9f3c9d0354d1bd5f7e654240f7611,",
       "list-item.border.active.light": "S:0145e9638c1af5f66608a9fc48c57d875f179f5d,",
-      "list-item.border.active.dark": "S:08fcab70ea50e3be85231e7c195fbf97137be7b0,"
+      "list-item.border.active.dark": "S:08fcab70ea50e3be85231e7c195fbf97137be7b0,",
+      "combobox.backgrounddefault.dark": "S:ae675fa609e690e4af981c7796a6debf62e6f42f,"
     }
   }
 ]
