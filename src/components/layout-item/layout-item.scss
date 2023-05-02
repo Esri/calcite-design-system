@@ -1,0 +1,59 @@
+:host {
+  @apply flex flex-col flex-1;
+}
+
+.container {
+  @apply text-color-2
+  flex
+  flex-auto
+  font-sans
+  font-normal
+  items-stretch;
+}
+
+.content {
+  @apply flex
+    flex-auto
+    flex-col
+    justify-center;
+}
+
+.content-start {
+  @apply justify-start;
+}
+
+.content-end {
+  @apply justify-end;
+}
+
+.content-start,
+.content-end {
+  @apply flex-initial;
+}
+
+.actions-start,
+.actions-end,
+.content-start,
+.content-end {
+  @apply flex items-center;
+}
+
+.content-start,
+.content-end {
+  ::slotted(calcite-icon) {
+    @apply self-center mx-3;
+  }
+}
+
+.actions-start,
+.actions-end {
+  ::slotted(calcite-action) {
+    @apply self-stretch;
+
+    color: inherit;
+  }
+}
+
+[hidden] {
+  display: none;
+}

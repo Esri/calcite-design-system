@@ -43,6 +43,7 @@ export const create: () => Config = () => ({
     { components: ["calcite-input-message"] },
     { components: ["calcite-input-time-picker", "calcite-time-picker"] },
     { components: ["calcite-label"] },
+    { components: ["calcite-layout-item"] },
     { components: ["calcite-link"] },
     { components: ["calcite-loader"] },
     { components: ["calcite-list", "calcite-list-item", "calcite-list-item-group"] },
