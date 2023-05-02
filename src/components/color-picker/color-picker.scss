@@ -134,10 +134,6 @@
 }
 
 .channel {
-  &:nth-child(n + 2) {
-    margin-inline-start: -1px;
-  }
-
   &[data-channel-index="3"] {
     inline-size: 159px;
   }

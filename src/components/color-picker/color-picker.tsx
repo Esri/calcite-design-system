@@ -998,6 +998,10 @@ export class ColorPicker
         onCalciteInputInput={this.handleChannelInput}
         onKeyDown={this.handleKeyDown}
         scale={this.scale === "l" ? "m" : "s"}
+        // workaround to ensure input borders overlap as desired
+        // this is because the build transforms margin-left to its
+        // logical-prop, which is undesired as channels are always ltr
+        style={{ marginLeft: index > 0 ? "-1px" : "" }}
         suffixText={suffix}
         type="number"
         value={value?.toString()}
