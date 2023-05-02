@@ -2538,6 +2538,54 @@
             }
           }
         }
+      },
+      "combobox-item": {
+        "font": {
+          "default": {
+            "dark": {
+              "value": "$semantic.ui.color.text.3.dark",
+              "type": "color"
+            }
+          },
+          "selected": {
+            "dark": {
+              "value": "$semantic.ui.color.text.1.dark",
+              "type": "color"
+            }
+          },
+          "group-title": {
+            "dark": {
+              "value": "$semantic.ui.color.text.1.dark",
+              "type": "color"
+            }
+          }
+        },
+        "icon": {
+          "default": {
+            "dark": {
+              "value": "$semantic.ui.color.text.3.dark",
+              "type": "color"
+            },
+            "selected": {
+              "dark": {
+                "value": "$semantic.ui.color.text.1.dark",
+                "type": "color"
+              }
+            }
+          },
+          "select": {
+            "dark": {
+              "value": "$semantic.ui.color.brand.default.dark",
+              "type": "color"
+            }
+          }
+        },
+        "border": {
+          "dark": {
+            "value": "$semantic.ui.color.border.3.dark",
+            "type": "color"
+          }
+        }
       }
     }
   }
