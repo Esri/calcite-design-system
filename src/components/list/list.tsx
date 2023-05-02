@@ -136,6 +136,11 @@ export class List implements InteractiveComponent, LoadableComponent {
   //--------------------------------------------------------------------------
 
   /**
+   * Emits when any of the list item selections have changed.
+   */
+  @Event({ cancelable: false }) calciteListChange: EventEmitter<void>;
+
+  /**
    * Emits when the component's filter has changed.
    */
   @Event({ cancelable: false }) calciteListFilter: EventEmitter<void>;
@@ -155,7 +160,7 @@ export class List implements InteractiveComponent, LoadableComponent {
   }
 
   @Listen("calciteInternalListItemActive")
-  handleCalciteListItemActive(event: CustomEvent): void {
+  handleCalciteInternalListItemActive(event: CustomEvent): void {
     const target = event.target as HTMLCalciteListItemElement;
     const { listItems } = this;
 
@@ -164,8 +169,13 @@ export class List implements InteractiveComponent, LoadableComponent {
     });
   }
 
+  @Listen("calciteListItemSelect")
+  handleCalciteListItemSelect(): void {
+    this.updateSelectedItems(true);
+  }
+
   @Listen("calciteInternalListItemSelect")
-  handleCalciteListItemSelect(event: CustomEvent): void {
+  handleCalciteInternalListItemSelect(event: CustomEvent): void {
     const target = event.target as HTMLCalciteListItemElement;
     const { listItems, selectionMode } = this;
 
@@ -180,7 +190,7 @@ export class List implements InteractiveComponent, LoadableComponent {
 
   @Listen("calciteListItemClose")
   handleCalciteListItemClose(): void {
-    this.updateListItems();
+    this.updateListItems(true);
   }
 
   //--------------------------------------------------------------------------
@@ -215,7 +225,7 @@ export class List implements InteractiveComponent, LoadableComponent {
       this.filteredData = filteredItems;
     }
 
-    this.updateFilteredItems();
+    this.updateListItems();
   }
 
   // --------------------------------------------------------------------------
@@ -321,11 +331,14 @@ export class List implements InteractiveComponent, LoadableComponent {
     }
   };
 
-  private updateSelectedItems = debounce((): void => {
+  private updateSelectedItems = (emit = false): void => {
     this.selectedItems = this.enabledListItems.filter((item) => item.selected);
-  }, debounceTimeout);
+    if (emit) {
+      this.calciteListChange.emit();
+    }
+  };
 
-  private updateFilteredItems = debounce((): void => {
+  private updateFilteredItems = (emit = false): void => {
     const { listItems, filteredData, filterText } = this;
 
     const values = filteredData.map((item) => item.value);
@@ -353,8 +366,6 @@ export class List implements InteractiveComponent, LoadableComponent {
         return matches;
       }) || [];
 
-    this.filteredItems = filteredItems;
-
     groups.forEach((group) => {
       const hasAtLeastOneMatch = filteredItems.some((item) => group.contains(item));
       group.hidden = !hasAtLeastOneMatch;
@@ -377,17 +388,20 @@ export class List implements InteractiveComponent, LoadableComponent {
     });
 
     groups.clear();
-  });
+
+    this.filteredItems = filteredItems;
+
+    if (emit) {
+      this.calciteListFilter.emit();
+    }
+  };
 
   handleFilter = (event: CustomEvent): void => {
     event.stopPropagation();
     const { filteredItems, value } = event.currentTarget as HTMLCalciteFilterElement;
-
     this.filteredData = filteredItems as ItemData;
     this.filterText = value;
-    this.updateFilteredItems();
-
-    this.calciteListFilter.emit();
+    this.updateListItems(true);
   };
 
   getItemData = (): ItemData => {
@@ -399,7 +413,7 @@ export class List implements InteractiveComponent, LoadableComponent {
     }));
   };
 
-  private updateListItems(): void {
+  private updateListItems = debounce((emit = false): void => {
     const { selectionAppearance, selectionMode } = this;
     const items = this.queryListItems();
     items.forEach((item) => {
@@ -407,14 +421,15 @@ export class List implements InteractiveComponent, LoadableComponent {
       item.selectionMode = selectionMode;
     });
     this.listItems = items;
-    this.enabledListItems = items.filter((item) => !item.disabled && !item.closed);
     if (this.filterEnabled) {
       this.dataForFilter = this.getItemData();
+      this.filterEl.items = this.dataForFilter;
     }
+    this.updateFilteredItems(emit);
+    this.enabledListItems = items.filter((item) => !item.disabled && !item.closed);
     this.setActiveListItem();
-    this.updateSelectedItems();
-    this.updateFilteredItems();
-  }
+    this.updateSelectedItems(emit);
+  }, debounceTimeout);
 
   queryListItems = (): HTMLCalciteListItemElement[] => {
     return Array.from(this.el.querySelectorAll(listItemSelector));
