@@ -1,7 +1,7 @@
 import { camelCase } from "change-case";
-import { parseTokenPath } from "../utils/parseTokenPath.js";
 import { TransformedToken } from "style-dictionary/types/TransformedToken.js";
 import { Options } from "style-dictionary/types/Options.js";
+import { parseTokenPath } from "../utils/parseTokenPath.js";
 
 /**
  *
