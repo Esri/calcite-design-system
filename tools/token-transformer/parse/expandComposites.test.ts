@@ -1,22 +1,32 @@
-import { DeepKeyTokenMap } from "@tokens-studio/types";
-
-const mockCompoundToken = {
+const mockCorrectTypeCompoundToken = {
+  core: {
+    1: {
+      type: 'sizing',
+      value: "10",
+    }
+  },
   compound: {
-    type: 'color',
+    type: 'composition',
     value: {
-      token1: '$compound.token2',
-      token2: '#fff'
+      fontWeight: '$core.1',
+      lineHeight: '2'
     }
   }
 };
 const mockTransformedCompoundTokens = {
+  core: {
+    1: {
+      type: 'sizing',
+      value: "10",
+    }
+  },
   compound: {
-    token1: {
-      type: 'color',
-      value: '{compound.token2}'
+    fontWeight: {
+      type: 'font-weight',
+      value: '{core.1}'
     },
-    token2: {
-      type: 'color',
+    lineHeight: {
+      type: 'line-height',
       value: '#fff'
     }
   }
@@ -46,11 +56,76 @@ jest.mock('../utils/convertTokenToStyleDictionaryFormat.js', () => {
   };
 });
 
-import { expandComposites } from "./expandComposites";
+const expandCompositesSpy = jest.spyOn(expandComposites, 'expandComposites');
 
-it("should loop through a dictionary and run \"convertTokenToStyleDictionary\" on each composite token", () => {
+import * as expandComposites from "./expandComposites";
 
-  // @ts-expect-error - it's fine.
-  const testExpandComposite = expandComposites(mockCompoundToken, './fakePath')
-  expect(handleTokenStudioVariables).toBeCalled();
+describe("expand token dictionary", () => {
+
+  beforeEach(()=>{
+    jest.clearAllMocks();
+  });
+
+  it("should not add placeholder elements", () => {
+    const placeolderToken = {
+      "[placeholder-component]": {
+        type: 'other',
+        value: '#333'
+      }
+    };
+    const placeholderValue = {
+      "compoonent": {
+        type: 'other',
+        value: '[placholder-value]'
+      }
+    }
+  
+    // @ts-expect-error - it's fine.
+    const testExpandPlaceholderKey = expandComposites.expandComposites(placeolderToken, './fakePath');
+    // @ts-expect-error - it's fine.
+    const testExpandPlaceholderValue = expandComposites.expandComposites(placeholderValue, './fakePath');
+  
+    expect(testExpandPlaceholderKey).toMatchObject({});
+    expect(testExpandPlaceholderValue).toMatchObject({});
+  })
+  
+  it("should recursively call itself when dealing with neseted objects", () => {
+    const nestedTokens = {
+      "component": {
+        "nested1": {
+          type: 'other',
+          value: '1'
+        },
+        "nested2": {
+          type: 'other',
+          value: '2'
+        }
+      }
+    }
+    // @ts-expect-error - it's fine.
+    const testNestedToken = expandComposites.expandComposites(nestedTokens,  './fakePath');
+    expect(expandCompositesSpy).toBeCalledTimes(2);
+  })
+  
+  it("should loop through a dictionary and run \"shouldExpand\" and  \"expandToken\" on each composite token", () => {
+    // @ts-expect-error - it's fine.
+    const testExpandComposite = expandComposites.expandComposites(mockCorrectTypeCompoundToken, './fakePath')
+    expect(shouldExpand).toBeCalledTimes(1);
+    expect(expandToken).toBeCalledTimes(1);
+    expect(testExpandComposite).toMatchObject(mockTransformedCompoundTokens);
+  })
+  
+  it("should not run expand token on unrecognized types", () => {
+    const mockDictionary = {
+      'core': {
+        type: 'customType',
+        value: '#333'
+      }
+    };
+    // @ts-expect-error - it's fine this is a test
+    const testExpandComposite = expandComposites.expandComposites(mockDictionary, './fakePath')
+    expect(shouldExpand).not.toBeCalled();
+    expect(expandToken).not.toBeCalled();
+    expect(testExpandComposite).toMatchObject(mockDictionary)
+  })
 })

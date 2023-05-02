@@ -65,7 +65,7 @@ export const run = async (
     matcher: (token) => token.isSource
   });
 
-  // We are programtically creating the Style Dictionary configuration here
+  // We are programmatically creating the Style Dictionary configuration here
   // https://amzn.github.io/style-dictionary/#/config
   const sd = StyleDictionary.extend({
     source,
