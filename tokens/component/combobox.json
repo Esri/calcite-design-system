@@ -24,12 +24,24 @@
     },
     "border": {
       "light": {
-        "value": "$semantic.ui.color.border.1.light",
+        "value": "$semantic.ui.color.border.input.light",
         "type": "color"
       },
       "dark": {
-        "value": "$semantic.ui.color.border.1.dark",
+        "value": "$semantic.ui.color.border.input.dark",
         "type": "color"
+      },
+      "sm": {
+        "value": "$core.border.border-width.0",
+        "type": "borderWidth"
+      },
+      "md": {
+        "value": "$core.border.border-width.0",
+        "type": "borderWidth"
+      },
+      "lg": {
+        "value": "$core.border.border-width.0",
+        "type": "borderWidth"
       }
     },
     "background": {
@@ -119,7 +131,7 @@
           "type": "typography"
         },
         "md": {
-          "value": "$semantic.font.default.regular.-1h",
+          "value": "$semantic.font.default.light.-1h",
           "type": "typography"
         },
         "lg": {
@@ -158,6 +170,12 @@
           "value": "$semantic.font.default.regular.0h",
           "type": "typography"
         }
+      }
+    },
+    "item-container": {
+      "shadow": {
+        "value": "{core.box-shadow.2}",
+        "type": "boxShadow"
       }
     }
   }

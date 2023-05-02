@@ -47,11 +47,11 @@
       },
       "group-title": {
         "light": {
-          "value": "$semantic.ui.color.text.2.light",
+          "value": "$semantic.ui.color.text.1.light",
           "type": "color"
         },
         "dark": {
-          "value": "$semantic.ui.color.text.2.dark",
+          "value": "$semantic.ui.color.text.1.dark",
           "type": "color"
         }
       },

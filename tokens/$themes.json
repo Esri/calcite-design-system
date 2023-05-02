@@ -1412,7 +1412,7 @@
       "combobox.icon.dark": "S:2246d356a1f6f8b9706df17986f8452f8b93916d,",
       "combobox.border.light": "S:f30756a73cf9f3c9d0354d1bd5f7e654240f7611,",
       "combobox.border.dark": "S:fa33ba73a117ad370052cae12038283a83aa20a2,",
-      "combobox.background.default.light": "S:e9f7aa7a393bae37122ffee08d9b2bdf9ba2b646,",
+      "combobox.background.default.light": "S:17451faade2ebea67ff0e851f135302108fb32be,",
       "combobox.background.default.dark": "S:1e065f4788b100aeeaac9b51c1946d19703404e5,",
       "combobox.foreground.light": "S:03ddfd3782f4913e4f0cd6191da5b6cf9a6bd2ab,",
       "combobox.foreground.dark": "S:95112821a2e3ab109779fb1b496071bda8f75be2,",
@@ -2372,7 +2372,20 @@
       "list-item.border.light": "S:f30756a73cf9f3c9d0354d1bd5f7e654240f7611,",
       "list-item.border.active.light": "S:0145e9638c1af5f66608a9fc48c57d875f179f5d,",
       "list-item.border.active.dark": "S:08fcab70ea50e3be85231e7c195fbf97137be7b0,",
-      "combobox.backgrounddefault.dark": "S:ae675fa609e690e4af981c7796a6debf62e6f42f,"
+      "combobox.backgrounddefault.dark": "S:ae675fa609e690e4af981c7796a6debf62e6f42f,",
+      "combobox.font.placholder.light": "S:3d1d3f4e2f3964d2376ab9a9286f562420e990c4,",
+      "combobox.font.placholder.dark": "S:1400c6c07108c127fbd3f7d29b0c7f062f359c56,",
+      "combobox.font.value.light": "S:23909c9b4b92ecb74f2de9f29285336753c66a7b,",
+      "combobox.font.value.dark": "S:9959df201873adc552cadefa4f14dc4c379871a6,",
+      "combobox.background.item-container.light": "S:a0c393591ad7ac37b2e2311eb188c2595d868708,",
+      "combobox.background.item-container.dark": "S:af47c3bb6cb82101c0029f4999b6ea482391982b,",
+      "combobox.font.placeholder.sm": "S:b6ed6f5a3f6604f1c9a00add3537c712b124fed6,",
+      "combobox.font.placeholder.md": "S:cc361ae0ca454423a5cf984b9d602b6baae7bd9d,",
+      "combobox.font.placeholder.lg": "S:7bdee616745bbae469e6fa636fca28c9870ad4d7,",
+      "combobox.font.value.sm": "S:9d7007fb89ca8cb7ccffeb06c5ccc9c482b2e1bc,",
+      "combobox.font.value.md": "S:6caf430de21a8bb3993413cdd9f3b6ddbfaed3fa,",
+      "combobox.font.value.lg": "S:2c2e51e5ec5318c364250fcfa223481225d2a749,",
+      "combobox.item-container.shadow": "S:d2fef376e4a99dc52afc9d22fbd66488fa91c3cf,"
     }
   }
 ]
