@@ -11,11 +11,19 @@
   items-stretch;
 }
 
+:host([layout="vertical"]) .container {
+  @apply flex-col items-center;
+}
+
 .content {
   @apply flex
     flex-auto
     flex-col
     justify-center;
+}
+
+:host([layout="vertical"]) .content {
+  @apply flex-row justify-start;
 }
 
 .content-start {
@@ -24,6 +32,10 @@
 
 .content-end {
   @apply justify-end;
+}
+
+:host([layout="vertical"]) .content-end {
+  @apply justify-start;
 }
 
 .content-start,

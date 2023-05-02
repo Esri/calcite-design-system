@@ -1,6 +1,7 @@
-import { Component, h, Host, State, VNode } from "@stencil/core";
+import { Component, h, Host, Prop, State, VNode } from "@stencil/core";
 import { slotChangeHasAssignedElement } from "../../utils/dom";
 import { CSS, SLOTS } from "./resources";
+import { Layout } from "../interfaces";
 
 /**
  * @slot - A slot for adding content.
@@ -15,6 +16,15 @@ import { CSS, SLOTS } from "./resources";
   shadow: true
 })
 export class LayoutItem {
+  //--------------------------------------------------------------------------
+  //
+  //  Properties
+  //
+  //--------------------------------------------------------------------------
+
+  /** Specifies the text alignment of the component. */
+  @Prop({ reflect: true }) layout: Layout = "horizontal";
+
   // --------------------------------------------------------------------------
   //
   //  Private Properties
