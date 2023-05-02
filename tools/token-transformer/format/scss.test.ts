@@ -4,8 +4,6 @@ const fileHeader = jest.fn(({file}) => '');
 
 jest.mock('style-dictionary', () => {
   const originalModule = jest.requireActual('style-dictionary');
-
-  //Mock the default export and named export 'foo'
   return {
     __esModule: false,
     ...originalModule,
