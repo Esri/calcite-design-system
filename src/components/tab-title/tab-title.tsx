@@ -289,15 +289,6 @@ export class TabTitle implements InteractiveComponent, LocalizedComponent, T9nCo
     event.stopPropagation();
   }
 
-  @Listen("click")
-  onClick(): void {
-    if (this.disabled) {
-      return;
-    }
-
-    this.emitActiveTab();
-  }
-
   onClick(event: MouseEvent): void {
     if (!event.isTrusted) {
       this.emitActiveTab(false);
