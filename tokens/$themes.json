@@ -2351,7 +2351,28 @@
       "combobox-item.font.selected.lg": "S:2f1f90d9c97d65c8c6987300fad024e321bdbc38,",
       "combobox-item.font.group-label.sm": "S:dffdf12b2e2a5398ea9615f8ee13ac3029fd930a,",
       "combobox-item.font.group-label.md": "S:dcc86485ff3b666aa63f6ee85643190b6f8fa3cc,",
-      "combobox-item.font.group-label.lg": "S:8473e535cb4b48c81763861bc5f7cf39cfdbf0cc,"
+      "combobox-item.font.group-label.lg": "S:8473e535cb4b48c81763861bc5f7cf39cfdbf0cc,",
+      "list-item.font.label.light": "S:fe3861b31c9dd57205239064aadf1a80b6703ac8,",
+      "list-item.font.label.dark": "S:a136eb68011e64241edb98e0fade045293e72706,",
+      "list-item.font.description.light": "S:756bd2c5199ccad18c6ae14ee52345f24153dfa4,",
+      "list-item.font.description.dark": "S:82f969d559027f722de3d4c50d2fb72202a0fc39,",
+      "list-item.font.group-heading.light": "S:08404e476f328eb340684e7e42d23d6709655b9d,",
+      "list-item.font.group-heading.dark": "S:a36411fb0f7d1ef2470a11cb897f1d03292d17cd,",
+      "list-item.icon.dropdown.light": "S:029e2b35c13cffd1a1afbc844b8b58fc3852dc94,",
+      "list-item.icon.dropdown.dark": "S:f29ebf3665efba0f4a7a056fa542c9e224518616,",
+      "list-item.icon.select.light": "S:e1e32c1fe7ee7d08cb409d5dcd1dcc08c84e164c,",
+      "list-item.icon.select.dark": "S:b4c84785f94ba696d082f6c2059e29738f167449,",
+      "list-item.border.light": "S:f30756a73cf9f3c9d0354d1bd5f7e654240f7611,",
+      "list-item.border.dark": "S:fa33ba73a117ad370052cae12038283a83aa20a2,",
+      "list-item.background.light": "S:e9f7aa7a393bae37122ffee08d9b2bdf9ba2b646,",
+      "list-item.background.dark": "S:ae675fa609e690e4af981c7796a6debf62e6f42f,",
+      "list-item.background.group-heading.light": "S:31a5440180e9d223d23f6c12248ce2b794706185,",
+      "list-item.background.group-heading.dark": "S:f914ea9406405b8099946ab0e8cc2c7b8be86e6a,",
+      "list-item.icon.content-end-icon.light": "S:48ada955fc5d0b70980caca908e1ac41b3fe8384,",
+      "list-item.icon.content-end-icon.dark": "S:af6c2896b185263759e051e01bbfea5496a95420,",
+      "list-item.font.label.default": "S:7d7d6b93e179cf35a0583519cf0e0dfef6e30680,",
+      "list-item.font.description.default": "S:a2ea2fc7df6b80ab8c6a22a2fa028de390f696e7,",
+      "list-item.font.group-heading.default": "S:c90422ca5f91de42e8d36f84a34fd8c22452b94f,"
     }
   }
 ]
