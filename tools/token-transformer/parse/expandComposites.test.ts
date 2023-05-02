@@ -56,9 +56,9 @@ jest.mock('../utils/convertTokenToStyleDictionaryFormat.js', () => {
   };
 });
 
-const expandCompositesSpy = jest.spyOn(expandComposites, 'expandComposites');
-
 import * as expandComposites from "./expandComposites";
+
+const expandCompositesSpy = jest.spyOn(expandComposites, 'expandComposites');
 
 describe("expand token dictionary", () => {
 
@@ -109,7 +109,9 @@ describe("expand token dictionary", () => {
   
   it("should loop through a dictionary and run \"shouldExpand\" and  \"expandToken\" on each composite token", () => {
     // @ts-expect-error - it's fine.
-    const testExpandComposite = expandComposites.expandComposites(mockCorrectTypeCompoundToken, './fakePath')
+    const testExpandComposite = expandComposites.expandComposites(mockCorrectTypeCompoundToken, './fakePath');
+    expect(expandCompositesSpy).toBeCalledTimes(1);
+    expect(handleTokenStudioVariables).toBeCalledTimes(1);
     expect(shouldExpand).toBeCalledTimes(1);
     expect(expandToken).toBeCalledTimes(1);
     expect(testExpandComposite).toMatchObject(mockTransformedCompoundTokens);
