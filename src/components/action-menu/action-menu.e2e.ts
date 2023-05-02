@@ -5,24 +5,28 @@ import { TOOLTIP_DELAY_MS } from "../tooltip/resources";
 import { CSS, SLOTS } from "./resources";
 
 describe("calcite-action-menu", () => {
-  it("renders", async () => renders("calcite-action-menu", { display: "flex" }));
+  describe("renders", () => {
+    renders("calcite-action-menu", { display: "flex" });
+  });
 
   it("honors hidden attribute", async () => hidden("calcite-action-menu"));
 
-  it("should be accessible", async () =>
-    accessible(`
-    <calcite-action-menu label="test">
-      <calcite-action text="Add" icon="plus"></calcite-action>
-    </calcite-action-menu>
-    `));
+  describe("accessible", () => {
+    accessible(html`
+      <calcite-action-menu label="test">
+        <calcite-action text="Add" icon="plus"></calcite-action>
+      </calcite-action-menu>
+    `);
+  });
 
-  it("should be accessible: with tooltip", async () =>
-    accessible(`
-    <calcite-action-menu label="test">
-      <calcite-tooltip slot="${SLOTS.tooltip}">Bits and bobs.</calcite-tooltip>
-      <calcite-action text="Add" icon="plus"></calcite-action>
-    </calcite-action-menu>
-    `));
+  describe("accessible with tooltip", () => {
+    accessible(html`
+      <calcite-action-menu label="test">
+        <calcite-tooltip slot="${SLOTS.tooltip}">Bits and bobs.</calcite-tooltip>
+        <calcite-action text="Add" icon="plus"></calcite-action>
+      </calcite-action-menu>
+    `);
+  });
 
   it("has slots", () => slots("calcite-action-menu", SLOTS));
 

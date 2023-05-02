@@ -5,7 +5,9 @@ import { CSS, SLOTS } from "./resources";
 import { overflowActionsDebounceInMs } from "./utils";
 
 describe("calcite-action-bar", () => {
-  it("renders", async () => renders("calcite-action-bar", { display: "inline-flex" }));
+  describe("renders", () => {
+    renders("calcite-action-bar", { display: "inline-flex" });
+  });
 
   it("honors hidden attribute", async () => hidden("calcite-action-bar"));
 
@@ -208,23 +210,25 @@ describe("calcite-action-bar", () => {
     });
   });
 
-  it("should be accessible", async () =>
-    accessible(`
-    <calcite-action-bar>
-      <calcite-action-group>
-        <calcite-action text="Add" icon="plus"></calcite-action>
-      </calcite-action-group>
-    </calcite-action-bar>
-    `));
+  describe("accessible", () => {
+    accessible(html`
+      <calcite-action-bar>
+        <calcite-action-group>
+          <calcite-action text="Add" icon="plus"></calcite-action>
+        </calcite-action-group>
+      </calcite-action-bar>
+    `);
+  });
 
-  it("should be accessible when expanded", async () =>
-    accessible(`
-    <calcite-action-bar expanded>
-      <calcite-action-group>
-        <calcite-action text="Add" icon="plus"></calcite-action>
-      </calcite-action-group>
-    </calcite-action-bar>
-    `));
+  describe("accessible when expanded", () => {
+    accessible(html`
+      <calcite-action-bar expanded>
+        <calcite-action-group>
+          <calcite-action text="Add" icon="plus"></calcite-action>
+        </calcite-action-group>
+      </calcite-action-bar>
+    `);
+  });
 
   it("should focus on toggle button", async () =>
     focusable(

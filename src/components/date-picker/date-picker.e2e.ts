@@ -5,7 +5,9 @@ import { skipAnimations } from "../../tests/utils";
 import { formatTimePart } from "../../utils/time";
 
 describe("calcite-date-picker", () => {
-  it("renders", async () => renders("calcite-date-picker", { display: "inline-block" }));
+  describe("renders", () => {
+    renders("calcite-date-picker", { display: "inline-block" });
+  });
 
   it("honors hidden attribute", async () => hidden("calcite-date-picker"));
 

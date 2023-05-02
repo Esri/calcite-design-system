@@ -1,16 +1,49 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, hidden, renders, slots, t9n } from "../../tests/commonTests";
-
+import { accessible, disabled, focusable, hidden, renders, slots, t9n } from "../../tests/commonTests";
 import { CSS, SLOTS } from "./resources";
 
 describe("calcite-chip", () => {
-  it("renders", async () => renders("<calcite-chip>doritos</calcite-chip>", { display: "inline-flex" }));
+  describe("renders", () => {
+    renders("<calcite-chip>doritos</calcite-chip>", { display: "inline-flex" });
+  });
 
   it("honors hidden attribute", async () => hidden("calcite-chip"));
 
-  it("is accessible", async () => accessible(`<calcite-chip>doritos</calcite-chip>`));
+  describe("accessible without calcite-label", () => {
+    accessible(`<calcite-chip>doritos</calcite-chip>`);
+  });
 
   it("has slots", () => slots("calcite-chip", SLOTS));
+
+  it("is focusable when interactive", () => focusable("<calcite-chip interactive>doritos</calcite-chip>"));
+
+  it("can be disabled when interactive", () => disabled("<calcite-chip interactive>doritos</calcite-chip>"));
+
+  it("should not emit event after the chip is clicked if interactive if not set", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<calcite-chip id="chip-1" >cheetos</calcite-chip>`);
+
+    const eventSpy = await page.spyOnEvent("calciteChipSelect", "window");
+
+    const chip1 = await page.find("#chip-1");
+    await chip1.click();
+    await page.waitForChanges();
+
+    expect(eventSpy).not.toHaveReceivedEvent();
+  });
+
+  it("should emit event after the chip button is clicked when interactive", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<calcite-chip id="chip-1" interactive>cheetos</calcite-chip>`);
+
+    const eventSpy = await page.spyOnEvent("calciteChipSelect", "window");
+
+    const chip1 = await page.find("#chip-1");
+    await chip1.click();
+    await page.waitForChanges();
+
+    expect(eventSpy).toHaveReceivedEvent();
+  });
 
   it("should emit event after the close button is clicked", async () => {
     const page = await newE2EPage();
@@ -23,6 +56,16 @@ describe("calcite-chip", () => {
     await closeButton.click();
 
     expect(eventSpy).toHaveReceivedEvent();
+  });
+
+  it("should receive focus when clicked", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<calcite-chip id="chip-1">cheetos</calcite-chip>`);
+
+    const chip1 = await page.find("#chip-1");
+    await chip1.click();
+    await page.waitForChanges();
+    expect(await page.evaluate(() => document.activeElement.id)).toEqual(chip1.id);
   });
 
   it("renders default props when none are provided", async () => {

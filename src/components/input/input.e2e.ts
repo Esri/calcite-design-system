@@ -31,7 +31,9 @@ describe("calcite-input", () => {
 
   it("is labelable", async () => labelable("calcite-input"));
 
-  it("renders", () => renders("calcite-input", { display: "block" }));
+  describe("renders", () => {
+    renders("calcite-input", { display: "block" });
+  });
 
   it("honors hidden attribute", async () => hidden("calcite-input"));
 
@@ -1733,7 +1735,7 @@ describe("calcite-input", () => {
     expect(await input.getProperty("disabled")).toBe(true);
   });
 
-  it("is form-associated", async () => {
+  describe("is form-associated", () => {
     const supportedSubmissionTypes = [
       {
         type: "color",
@@ -1786,7 +1788,7 @@ describe("calcite-input", () => {
     ];
 
     for (const { type, value } of supportedSubmissionTypes) {
-      await formAssociated(`<calcite-input type="${type}"></calcite-input>`, {
+      formAssociated(`<calcite-input type="${type}"></calcite-input>`, {
         testValue: value,
         submitsOnEnter: true,
         inputType: type

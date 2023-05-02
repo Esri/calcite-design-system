@@ -2,13 +2,15 @@ import { newE2EPage } from "@stencil/core/testing";
 import { accessible, defaults, hidden, renders } from "../../tests/commonTests";
 
 describe("calcite-avatar", () => {
-  it("renders", async () => renders("calcite-avatar", { display: "inline-block" }));
+  describe("renders", () => {
+    renders("calcite-avatar", { display: "inline-block" });
+  });
 
   it("honors hidden attribute", async () => hidden("calcite-avatar"));
 
-  it("is accessible", async () => {
-    await accessible("calcite-avatar");
-    await accessible("<calcite-avatar thumbnail='http://placekitten.com/120/120'></calcite-avatar>");
+  describe("accessible", () => {
+    accessible("calcite-avatar");
+    accessible("<calcite-avatar thumbnail='http://placekitten.com/120/120'></calcite-avatar>");
   });
 
   it("has property defaults", async () =>

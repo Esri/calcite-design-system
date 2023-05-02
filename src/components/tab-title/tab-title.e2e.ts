@@ -10,7 +10,9 @@ describe("calcite-tab-title", () => {
   const closeHtml = `calcite-tab-title >>> .${CSS.close}`;
   const contentHtml = `calcite-tab-title >>> .${CSS.content}`;
 
-  it("renders", async () => renders(tabTitleHtml, { display: "block" }));
+  describe("renders", () => {
+    renders(tabTitleHtml, { display: "block" });
+  });
 
   it("honors hidden attribute", async () => hidden("calcite-tab-title"));
 

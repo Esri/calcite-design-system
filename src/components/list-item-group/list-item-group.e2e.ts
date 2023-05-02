@@ -2,7 +2,9 @@ import { hidden, renders, disabled } from "../../tests/commonTests";
 import { defaults } from "../../tests/commonTests";
 
 describe("calcite-list-item-group", () => {
-  it("renders", async () => renders("calcite-list-item-group", { display: "flex" }));
+  describe("renders", () => {
+    renders("calcite-list-item-group", { display: "flex" });
+  });
 
   it("honors hidden attribute", async () => hidden("calcite-list-item-group"));
 

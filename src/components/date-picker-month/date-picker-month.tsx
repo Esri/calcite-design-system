@@ -16,6 +16,15 @@ import { Scale } from "../interfaces";
 const DAYS_PER_WEEK = 7;
 const DAYS_MAXIMUM_INDEX = 6;
 
+interface Day {
+  active: boolean;
+  currentMonth?: boolean;
+  date: Date;
+  day: number;
+  dayInWeek?: number;
+  ref?: boolean;
+}
+
 @Component({
   tag: "calcite-date-picker-month",
   styleUrl: "date-picker-month.scss",
@@ -174,7 +183,7 @@ export class DatePickerMonth {
   };
 
   @Listen("pointerout")
-  mouseoutHandler(): void {
+  pointerOutHandler(): void {
     this.calciteInternalDatePickerMouseOut.emit();
   }
 
@@ -194,23 +203,41 @@ export class DatePickerMonth {
     const curMonDays = this.getCurrentMonthDays(month, year);
     const prevMonDays = this.getPreviousMonthDays(month, year, startOfWeek);
     const nextMonDays = this.getNextMonthDays(month, year, startOfWeek);
-    const days = [
+    let dayInWeek = 0;
+    const getDayInWeek = () => dayInWeek++ % 7;
+
+    const days: Day[] = [
       ...prevMonDays.map((day) => {
-        const date = new Date(year, month - 1, day);
-        return this.renderDateDay(false, day, date);
+        return {
+          active: false,
+          day,
+          dayInWeek: getDayInWeek(),
+          date: new Date(year, month - 1, day)
+        };
       }),
       ...curMonDays.map((day) => {
         const date = new Date(year, month, day);
         const active = sameDate(date, this.activeDate);
-        return this.renderDateDay(active, day, date, true, true);
+        return {
+          active,
+          currentMonth: true,
+          day,
+          dayInWeek: getDayInWeek(),
+          date,
+          ref: true
+        };
       }),
       ...nextMonDays.map((day) => {
-        const date = new Date(year, month + 1, day);
-        return this.renderDateDay(false, day, date);
+        return {
+          active: false,
+          day,
+          dayInWeek: getDayInWeek(),
+          date: new Date(year, month + 1, day)
+        };
       })
     ];
 
-    const weeks = [];
+    const weeks: Day[][] = [];
     for (let i = 0; i < days.length; i += 7) {
       weeks.push(days.slice(i, i + 7));
     }
@@ -227,7 +254,7 @@ export class DatePickerMonth {
           </div>
           {weeks.map((days) => (
             <div class="week-days" role="row">
-              {days}
+              {days.map((day) => this.renderDateDay(day))}
             </div>
           ))}
         </div>
@@ -406,26 +433,27 @@ export class DatePickerMonth {
   /**
    * Render calcite-date-picker-day
    *
+   * @param active.active
    * @param active
    * @param day
+   * @param dayInWeek
    * @param date
    * @param currentMonth
    * @param ref
+   * @param active.currentMonth
+   * @param active.date
+   * @param active.day
+   * @param active.dayInWeek
+   * @param active.ref
    */
-  private renderDateDay(
-    active: boolean,
-    day: number,
-    date: Date,
-    currentMonth?: boolean,
-    ref?: boolean
-  ) {
+  private renderDateDay({ active, currentMonth, date, day, dayInWeek, ref }: Day) {
     const isFocusedOnStart = this.isFocusedOnStart();
     const isHoverInRange =
       this.isHoverInRange() ||
       (!this.endDate && this.hoverRange && sameDate(this.hoverRange?.end, this.startDate));
 
     return (
-      <div class="day" role="gridcell">
+      <div class="day" key={date.toDateString()} role="gridcell">
         <calcite-date-picker-day
           active={active}
           class={{
@@ -440,10 +468,10 @@ export class DatePickerMonth {
           disabled={!inRange(date, this.min, this.max)}
           endOfRange={this.isEndOfRange(date)}
           highlighted={this.betweenSelectedRange(date)}
-          key={date.toDateString()}
           onCalciteDaySelect={this.daySelect}
           onCalciteInternalDayHover={this.dayHover}
           range={!!this.startDate && !!this.endDate && !sameDate(this.startDate, this.endDate)}
+          rangeEdge={dayInWeek === 0 ? "start" : dayInWeek === 6 ? "end" : undefined}
           rangeHover={this.isRangeHover(date)}
           scale={this.scale}
           selected={this.isSelected(date)}

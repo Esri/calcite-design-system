@@ -63,6 +63,13 @@ export class DatePickerDay implements InteractiveComponent {
   /** When `true`, activates the component's range mode to allow a start and end date. */
   @Prop({ reflect: true }) range = false;
 
+  /**
+   * When `true`, highlight styling for edge dates is applied.
+   *
+   * @internal
+   */
+  @Prop({ reflect: true }) rangeEdge: "start" | "end" | undefined;
+
   /** Date is the start of date range */
   @Prop({ reflect: true }) startOfRange = false;
 
@@ -88,7 +95,11 @@ export class DatePickerDay implements InteractiveComponent {
   //--------------------------------------------------------------------------
 
   onClick = (): void => {
-    !this.disabled && this.calciteDaySelect.emit();
+    if (this.disabled) {
+      return;
+    }
+
+    this.calciteDaySelect.emit();
   };
 
   keyDownHandler = (event: KeyboardEvent): void => {
@@ -99,7 +110,11 @@ export class DatePickerDay implements InteractiveComponent {
   };
 
   @Listen("pointerover")
-  mouseoverHandler(): void {
+  pointerOverHandler(): void {
+    if (this.disabled) {
+      return;
+    }
+
     this.calciteInternalDayHover.emit();
   }
 
@@ -159,7 +174,7 @@ export class DatePickerDay implements InteractiveComponent {
         onKeyDown={this.keyDownHandler}
         role="button"
       >
-        <div class={{ "day-v-wrapper": true, [CSS_UTILITY.rtl]: dir === "rtl" }}>
+        <div aria-hidden="true" class={{ "day-v-wrapper": true, [CSS_UTILITY.rtl]: dir === "rtl" }}>
           <div class="day-wrapper">
             <span class="day">
               <span class="text">{formattedDay}</span>

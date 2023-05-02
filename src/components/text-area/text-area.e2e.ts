@@ -12,9 +12,12 @@ import {
   t9n
 } from "../../tests/commonTests";
 import { CSS } from "./resources";
+import { html } from "../../../support/formatting";
 
 describe("calcite-text-area", () => {
-  it("renders", async () => renders("calcite-text-area", { display: "inline-block" }));
+  describe("renders", () => {
+    renders("calcite-text-area", { display: "inline-block" });
+  });
 
   it("defaults", async () =>
     defaults("calcite-text-area", [
@@ -50,22 +53,22 @@ describe("calcite-text-area", () => {
       }
     ]));
 
-  it("is accessible", async () => {
-    const page = await newE2EPage();
-    await page.setContent(
-      `<calcite-label>add notes<calcite-text-area max-length="50" required name="something" > </calcite-text-area></calcite-label>`
-    );
-    await accessible("calcite-text-area", page);
+  describe("accessible", () => {
+    accessible(html`<calcite-label>
+      add notes
+      <calcite-text-area max-length="50" required name="something"></calcite-text-area>
+    </calcite-label>`);
   });
 
   it("is focusable", () => focusable("calcite-text-area"));
 
-  it("is form associated", () =>
+  describe("is form associated", () => {
     formAssociated("calcite-text-area", {
       testValue: "zion national park",
       expectedSubmitValue: "zion national park",
       submitsOnEnter: false
-    }));
+    });
+  });
 
   it("should emit calciteTextAreaInput event when user type in the textarea and emit calciteTextAreaChange when users tabs out", async () => {
     const page = await newE2EPage();

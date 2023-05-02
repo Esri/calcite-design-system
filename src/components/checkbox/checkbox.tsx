@@ -170,6 +170,10 @@ export class Checkbox
   };
 
   clickHandler = (): void => {
+    if (this.disabled) {
+      return;
+    }
+
     this.toggle();
   };
 

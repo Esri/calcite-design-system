@@ -2,11 +2,15 @@ import { newE2EPage } from "@stencil/core/testing";
 import { accessible, defaults, reflects, renders, hidden } from "../../tests/commonTests";
 
 describe("calcite-option-group", () => {
-  it("renders", async () => renders("calcite-option-group", { display: "block" }));
+  describe("renders", () => {
+    renders("calcite-option-group", { display: "block" });
+  });
 
   it("honors hidden attribute", async () => hidden("calcite-option-group"));
 
-  it("is accessible", async () => accessible("calcite-option-group"));
+  describe("accessible", () => {
+    accessible("calcite-option-group");
+  });
 
   it("has defaults", async () =>
     defaults("calcite-option-group", [

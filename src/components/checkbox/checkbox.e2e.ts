@@ -12,18 +12,22 @@ import {
 describe("calcite-checkbox", () => {
   it("honors hidden attribute", async () => hidden("calcite-checkbox"));
 
-  it("is accessible", async () =>
+  describe("accessible", () => {
     accessible(
       `<calcite-label><calcite-checkbox id="example" name="example" value="one"></calcite-checkbox> label</calcite-label>`
-    ));
+    );
+  });
 
-  it("is accessible without calcite-label", async () =>
-    accessible(`<calcite-checkbox label="label" id="example" name="example" value="one"></calcite-checkbox>`));
+  describe("accessible without calcite-label", () => {
+    accessible(`<calcite-checkbox label="label" id="example" name="example" value="one"></calcite-checkbox>`);
+  });
 
   it("is labelable", async () =>
     labelable("calcite-checkbox", { propertyToToggle: "checked", shadowFocusTargetSelector: ".toggle" }));
 
-  it("is form-associated", async () => formAssociated("calcite-checkbox", { testValue: true, inputType: "checkbox" }));
+  describe("is form-associated", () => {
+    formAssociated("calcite-checkbox", { testValue: true, inputType: "checkbox" });
+  });
 
   it("can be disabled", () => disabled("calcite-checkbox"));
 

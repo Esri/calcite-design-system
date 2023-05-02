@@ -3,7 +3,9 @@ import { defaults, disabled, focusable, hidden, renders, slots } from "../../tes
 import { CSS, SLOTS } from "./resources";
 
 describe("calcite-list-item", () => {
-  it("renders", async () => renders("calcite-list-item", { display: "flex" }));
+  describe("renders", () => {
+    renders("calcite-list-item", { display: "flex" });
+  });
 
   it("is focusable", () =>
     focusable("<calcite-list-item active></calcite-list-item>", {

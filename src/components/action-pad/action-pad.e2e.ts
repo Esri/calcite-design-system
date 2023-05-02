@@ -4,7 +4,9 @@ import { CSS, SLOTS } from "./resources";
 import { html } from "../../../support/formatting";
 
 describe("calcite-action-pad", () => {
-  it("renders", async () => renders("calcite-action-pad", { display: "block" }));
+  describe("renders", () => {
+    renders("calcite-action-pad", { display: "block" });
+  });
 
   it("honors hidden attribute", async () => hidden("calcite-action-pad"));
 
@@ -164,23 +166,25 @@ describe("calcite-action-pad", () => {
     expect(await action.getProperty("textEnabled")).toBe(true);
   });
 
-  it("should be accessible", async () =>
-    accessible(`
-    <calcite-action-pad>
-       <calcite-action-group>
-        <calcite-action text="Add" icon="plus"></calcite-action>
-      </calcite-action-group>
-    </calcite-action-pad>
-    `));
+  describe("accessible", () => {
+    accessible(html`
+      <calcite-action-pad>
+        <calcite-action-group>
+          <calcite-action text="Add" icon="plus"></calcite-action>
+        </calcite-action-group>
+      </calcite-action-pad>
+    `);
+  });
 
-  it("should be accessible when expanded", async () =>
-    accessible(`
-    <calcite-action-pad expanded>
-      <calcite-action-group>
-        <calcite-action text="Add" icon="plus"></calcite-action>
-      </calcite-action-group>
-    </calcite-action-pad>
-    `));
+  describe("should be accessible when expanded", () => {
+    accessible(html`
+      <calcite-action-pad expanded>
+        <calcite-action-group>
+          <calcite-action text="Add" icon="plus"></calcite-action>
+        </calcite-action-group>
+      </calcite-action-pad>
+    `);
+  });
 
   it("should focus on toggle button", async () =>
     focusable(

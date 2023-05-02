@@ -98,44 +98,15 @@ $floating-ui-transform-right: translateX(-5px);
   @include calciteHydratedHidden();
 }
 
-$pointer_size: 8px;
-$pointer_offset: -$pointer_size * 0.5;
-
 @mixin floatingUIArrow {
-  .arrow,
-  .arrow::before {
-    position: absolute;
-    inline-size: $pointer_size;
-    block-size: $pointer_size;
-    @apply -z-default;
+  .calcite-floating-ui-arrow {
+    @apply -z-default
+    absolute
+    pointer-events-none
+    fill-background-foreground-1;
   }
 
-  .arrow::before {
-    content: "";
-    @apply shadow-1;
-    transform: rotate(45deg);
-    background: var(--calcite-ui-foreground-1);
-  }
-
-  :host([data-placement^="top"]) .arrow {
-    inset-block-end: $pointer_offset;
-  }
-
-  :host([data-placement^="bottom"]) .arrow {
-    inset-block-start: $pointer_offset;
-  }
-
-  :host([data-placement^="right"]) .arrow,
-  :host([data-placement^="left"]) .arrow {
-    direction: ltr;
-    text-align: start;
-  }
-
-  :host([data-placement^="left"]) .arrow {
-    inset-inline-end: $pointer_offset;
-  }
-
-  :host([data-placement^="right"]) .arrow {
-    inset-inline-start: $pointer_offset;
+  .calcite-floating-ui-arrow__stroke {
+    stroke: theme("borderColor.color.3");
   }
 }

@@ -35,9 +35,9 @@ describe("calcite-color-picker", () => {
       }));
   });
 
-  it("is accessible", async () => {
-    await accessible("calcite-color-picker");
-    await accessible("<calcite-color-picker allow-empty value=''></calcite-color-picker>");
+  describe("accessible", () => {
+    accessible("calcite-color-picker");
+    accessible("<calcite-color-picker allow-empty value=''></calcite-color-picker>");
   });
 
   it("can be hidden", async () => hidden("calcite-color-picker"));
@@ -50,7 +50,9 @@ describe("calcite-color-picker", () => {
       }
     ]));
 
-  it("renders", async () => renders("calcite-color-picker", { display: "inline-block" }));
+  describe("renders", () => {
+    renders("calcite-color-picker", { display: "inline-block" });
+  });
 
   it("has defaults", async () =>
     defaults("calcite-color-picker", [

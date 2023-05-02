@@ -19,6 +19,7 @@ import {
   EffectivePlacement,
   filterComputedPlacements,
   FloatingCSS,
+  FloatingLayout,
   FloatingUIComponent,
   LogicalPlacement,
   OverlayPositioning,
@@ -63,6 +64,7 @@ import {
   setUpLoadableComponent
 } from "../../utils/loadable";
 import { createObserver } from "../../utils/observers";
+import { FloatingArrow } from "../functional/FloatingArrow";
 
 const manager = new PopoverManager();
 
@@ -263,6 +265,8 @@ export class Popover
 
   @State() effectiveLocale = "";
 
+  @State() floatingLayout: FloatingLayout = "vertical";
+
   @Watch("effectiveLocale")
   effectiveLocaleChange(): void {
     updateMessages(this, this.effectiveLocale);
@@ -272,7 +276,7 @@ export class Popover
 
   @State() defaultMessages: PopoverMessages;
 
-  arrowEl: HTMLDivElement;
+  arrowEl: SVGElement;
 
   closeButtonEl: HTMLCalciteActionElement;
 
@@ -377,7 +381,6 @@ export class Popover
         flipPlacements: filteredFlipPlacements,
         offsetDistance,
         offsetSkidding,
-        includeArrow: !this.pointerDisabled,
         arrowEl,
         type: "popover"
       },
@@ -517,7 +520,7 @@ export class Popover
     deactivateFocusTrap(this);
   }
 
-  storeArrowEl = (el: HTMLDivElement): void => {
+  storeArrowEl = (el: SVGElement): void => {
     this.arrowEl = el;
     this.reposition(true);
   };
@@ -533,6 +536,7 @@ export class Popover
     return closable ? (
       <div class={CSS.closeButtonContainer} key={CSS.closeButtonContainer}>
         <calcite-action
+          appearance="transparent"
           class={CSS.closeButton}
           onClick={this.hide}
           scale={this.scale}
@@ -563,12 +567,14 @@ export class Popover
   }
 
   render(): VNode {
-    const { effectiveReferenceElement, heading, label, open, pointerDisabled } = this;
+    const { effectiveReferenceElement, heading, label, open, pointerDisabled, floatingLayout } =
+      this;
     const displayed = effectiveReferenceElement && open;
     const hidden = !displayed;
     const arrowNode = !pointerDisabled ? (
-      <div
-        class={CSS.arrow}
+      <FloatingArrow
+        floatingLayout={floatingLayout}
+        key="floating-arrow"
         // eslint-disable-next-line react/jsx-sort-props
         ref={this.storeArrowEl}
       />

@@ -35,14 +35,19 @@ const letterKeys = [
 export type NumericString = "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9";
 
 describe("calcite-time-picker", () => {
-  it("renders", async () => renders("calcite-time-picker", { display: "inline-block" }));
+  describe("renders", () => {
+    renders("calcite-time-picker", { display: "inline-block" });
+  });
 
   it("honors hidden attribute", async () => hidden("calcite-time-picker"));
 
-  it("is accessible", async () => accessible(`<calcite-time-picker></calcite-time-picker>`));
+  describe("accessible", () => {
+    accessible(`<calcite-time-picker></calcite-time-picker>`);
+  });
 
-  it("is accessible using seconds", async () =>
-    accessible(`<calcite-time-picker step="1" value="00:00:00"></calcite-time-picker>`));
+  describe("accessible using seconds", () => {
+    accessible(`<calcite-time-picker step="1" value="00:00:00"></calcite-time-picker>`);
+  });
 
   it("has defaults", async () =>
     defaults("calcite-time-picker", [
