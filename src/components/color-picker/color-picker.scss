@@ -12,7 +12,7 @@
   }
 
   .saved-colors {
-    grid-template-columns: repeat(auto-fill, minmax(20px, 1fr));
+    grid-template-columns: repeat(auto-fill, 20px);
   }
 }
 
@@ -46,8 +46,7 @@
   }
 
   .saved-colors {
-    grid-template-columns: repeat(auto-fill, minmax(28px, 1fr));
-    padding-block-start: var(--calcite-color-picker-spacing);
+    grid-template-columns: repeat(auto-fill, 32px);
   }
 
   .control-section {
@@ -177,9 +176,9 @@
 }
 
 .saved-colors {
-  @apply grid gap-0.5;
+  @apply grid gap-2;
   padding-block-start: var(--calcite-color-picker-spacing);
-  grid-template-columns: repeat(auto-fill, minmax(20px, 1fr));
+  grid-template-columns: repeat(auto-fill, 24px);
 }
 
 .saved-colors-buttons {
