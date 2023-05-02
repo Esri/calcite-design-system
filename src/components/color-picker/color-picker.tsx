@@ -897,7 +897,6 @@ export class ColorPicker
                 {[
                   ...savedColors.map((color) => (
                     <calcite-color-picker-swatch
-                      active={selectedColorInHex === color}
                       class={CSS.savedColor}
                       color={color}
                       key={color}
