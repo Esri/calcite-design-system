@@ -2515,33 +2515,33 @@
         "icon": {
           "default": {
             "light": {
-              "value": "$semantic.ui.color.text.1.light",
+              "value": "$combobox.icon.default.light",
               "type": "color"
             }
           },
           "dropdown": {
             "light": {
-              "value": "$semantic.ui.color.text.3.light",
+              "value": "$combobox.icon.dropdown.light",
               "type": "color"
             }
           }
         },
         "border": {
           "light": {
-            "value": "$semantic.ui.color.border.input.light",
+            "value": "$combobox.border.light",
             "type": "color"
           }
         },
         "background": {
           "default": {
             "light": {
-              "value": "$semantic.ui.color.background.light",
+              "value": "$combobox.background.default.light",
               "type": "color"
             }
           },
           "item-container": {
             "light": {
-              "value": "$semantic.ui.color.foreground.1.light",
+              "value": "$combobox.background.item-container.light",
               "type": "color"
             }
           }
@@ -2549,13 +2549,13 @@
         "font": {
           "placholder": {
             "light": {
-              "value": "$semantic.ui.color.text.3.light",
+              "value": "$combobox.font.placholder.light",
               "type": "color"
             }
           },
           "value": {
             "light": {
-              "value": "$semantic.ui.color.text.1.light",
+              "value": "$combobox.font.value.light",
               "type": "color"
             }
           }
@@ -2565,19 +2565,19 @@
         "font": {
           "default": {
             "light": {
-              "value": "$semantic.ui.color.text.3.light",
+              "value": "$combobox-item.font.default.light",
               "type": "color"
             }
           },
           "selected": {
             "light": {
-              "value": "$semantic.ui.color.text.1.light",
+              "value": "$combobox-item.font.selected.light",
               "type": "color"
             }
           },
           "group-title": {
             "light": {
-              "value": "$semantic.ui.color.text.1.light",
+              "value": "$combobox-item.font.group-title.light",
               "type": "color"
             }
           }
@@ -2585,26 +2585,26 @@
         "icon": {
           "default": {
             "light": {
-              "value": "$semantic.ui.color.text.3.light",
+              "value": "$combobox-item.icon.default.light",
               "type": "color"
             },
             "selected": {
               "light": {
-                "value": "$semantic.ui.color.text.1.light",
+                "value": "$combobox-item.icon.default.selected.light",
                 "type": "color"
               }
             }
           },
           "select": {
             "light": {
-              "value": "$semantic.ui.color.brand.default.light",
+              "value": "$combobox-item.icon.select.light",
               "type": "color"
             }
           }
         },
         "border": {
           "light": {
-            "value": "$semantic.ui.color.border.3.light",
+            "value": "$combobox-item.border.light",
             "type": "color"
           }
         }
@@ -2613,7 +2613,7 @@
         "background": {
           "default": {
             "light": {
-              "value": "$semantic.ui.color.foreground.1.light",
+              "value": "$dropdown.background.default.light",
               "type": "color"
             }
           }

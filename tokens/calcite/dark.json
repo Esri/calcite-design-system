@@ -2492,97 +2492,98 @@
       "combobox": {
         "icon": {
           "default": {
-            "dark": {
-              "value": "$semantic.ui.color.text.1.dark",
+            "light": {
+              "value": "$combobox.icon.default.dark",
               "type": "color"
             }
           },
           "dropdown": {
-            "dark": {
-              "value": "$semantic.ui.color.text.3.dark",
+            "light": {
+              "value": "$combobox.icon.dropdown.dark",
               "type": "color"
             }
           }
         },
         "border": {
-          "dark": {
-            "value": "$semantic.ui.color.border.input.dark",
+          "light": {
+            "value": "$combobox.border.dark",
             "type": "color"
           }
         },
         "background": {
           "default": {
-            "dark": {
-              "value": "$semantic.ui.color.background.dark",
+            "light": {
+              "value": "$combobox.background.default.dark",
               "type": "color"
             }
           },
           "item-container": {
-            "dark": {
-              "value": "$semantic.ui.color.foreground.1.dark",
+            "light": {
+              "value": "$combobox.background.item-container.dark",
               "type": "color"
             }
           }
         },
         "font": {
           "placholder": {
-            "dark": {
-              "value": "$semantic.ui.color.text.3.dark",
+            "light": {
+              "value": "$combobox.font.placholder.dark",
               "type": "color"
             }
           },
           "value": {
-            "dark": {
-              "value": "$semantic.ui.color.text.1.dark",
+            "light": {
+              "value": "$combobox.font.value.dark",
               "type": "color"
             }
-          }
+          },
+          "type": "color"
         }
       },
       "combobox-item": {
         "font": {
           "default": {
-            "dark": {
-              "value": "$semantic.ui.color.text.3.dark",
+            "light": {
+              "value": "$combobox-item.font.default.dark",
               "type": "color"
             }
           },
           "selected": {
-            "dark": {
-              "value": "$semantic.ui.color.text.1.dark",
+            "light": {
+              "value": "$combobox-item.font.selected.dark",
               "type": "color"
             }
           },
           "group-title": {
-            "dark": {
-              "value": "$semantic.ui.color.text.1.dark",
+            "light": {
+              "value": "$combobox-item.font.group-title.dark",
               "type": "color"
             }
           }
         },
         "icon": {
           "default": {
-            "dark": {
-              "value": "$semantic.ui.color.text.3.dark",
+            "light": {
+              "value": "$combobox-item.icon.default.dark",
               "type": "color"
             },
             "selected": {
-              "dark": {
-                "value": "$semantic.ui.color.text.1.dark",
+              "light": {
+                "value": "$combobox-item.icon.default.selected.light",
                 "type": "color"
               }
             }
           },
           "select": {
-            "dark": {
-              "value": "$semantic.ui.color.brand.default.dark",
+            "light": {
+              "value": "$combobox-item.icon.select.dark",
               "type": "color"
             }
           }
         },
         "border": {
-          "dark": {
-            "value": "$semantic.ui.color.border.3.dark",
+          "light": {
+            "value": "$combobox-item.border.dark",
             "type": "color"
           }
         }
@@ -2591,11 +2592,7 @@
         "background": {
           "default": {
             "light": {
-              "value": "$semantic.ui.color.foreground.1.light",
-              "type": "color"
-            },
-            "dark": {
-              "value": "$semantic.ui.color.foreground.1.dark",
+              "value": "$dropdown.background.default.dark",
               "type": "color"
             }
           }
@@ -2605,31 +2602,19 @@
         "font": {
           "default": {
             "light": {
-              "value": "$semantic.ui.color.text.3.light",
-              "type": "color"
-            },
-            "dark": {
-              "value": "$semantic.ui.color.text.3.dark",
+              "value": "$dropdown-item.font.default.dark",
               "type": "color"
             }
           },
           "selected": {
             "light": {
-              "value": "$semantic.ui.color.text.1.light",
-              "type": "color"
-            },
-            "dark": {
-              "value": "$semantic.ui.color.text.1.dark",
+              "value": "$dropdown-item.font.selected.dark",
               "type": "color"
             }
           },
           "group-title": {
             "light": {
-              "value": "$semantic.ui.color.text.2.light",
-              "type": "color"
-            },
-            "dark": {
-              "value": "$semantic.ui.color.text.2.dark",
+              "value": "$dropdown-item.font.group-title.dark",
               "type": "color"
             }
           }
@@ -2637,42 +2622,26 @@
         "icon": {
           "default": {
             "light": {
-              "value": "$semantic.ui.color.text.3.light",
-              "type": "color"
-            },
-            "dark": {
-              "value": "$semantic.ui.color.text.3.dark",
+              "value": "$dropdown-item.icon.default.dark",
               "type": "color"
             },
             "selected": {
               "light": {
-                "value": "$semantic.ui.color.brand.default.light",
-                "type": "color"
-              },
-              "dark": {
-                "value": "$semantic.ui.color.brand.default.dark",
+                "value": "$dropdown-item.icon.default.selected.light",
                 "type": "color"
               }
             }
           },
           "select": {
             "light": {
-              "value": "$semantic.ui.color.brand.default.light",
-              "type": "color"
-            },
-            "dark": {
-              "value": "$semantic.ui.color.brand.default.dark",
+              "value": "$dropdown-item.icon.select.dark",
               "type": "color"
             }
           }
         },
         "border": {
           "light": {
-            "value": "$semantic.ui.color.border.3.light",
-            "type": "color"
-          },
-          "dark": {
-            "value": "$semantic.ui.color.border.3.dark",
+            "value": "$dropdown-item.border.dark",
             "type": "color"
           }
         }
