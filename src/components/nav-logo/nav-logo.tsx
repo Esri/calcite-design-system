@@ -21,25 +21,25 @@ export class CalciteNavLogo {
   //  Public Properties
   //
   //--------------------------------------------------------------------------
-  /** When `true`, visually highlight the component */
+  /** When true, the component is highlighted. */
   @Prop({ reflect: true }) active: boolean;
 
-  /** Specifies the href destination of the component */
+  /** Specifies the URL destination of the component, which can be set as an absolute or relative path.*/
   @Prop({ reflect: true }) href: string;
 
-  /** Specifies accesible label for the component */
+  /** Describes the appearance or function of the `thumbnail`. If no label is provided, context will not be provided to assistive technologies. */
   @Prop() label: string;
 
-  /** Specifies the subtext to display, for example an organization or application description */
+  /** Specifies the subtext to display, such as an organization or application description. */
   @Prop() subText: string;
 
-  /** Specifies the text to display, for example a product name */
+  /** Specifies the text to display, such as a product name.*/
   @Prop() text: string;
 
-  /** When `true`, makes `text` and `subText` visible */
+  /** When `true`, displays the `text` and `subText` contents. */
   @Prop({ reflect: true }) textEnabled: boolean;
 
-  /** Specifies the `src` to an image  */
+  /** Specifies the `src` to an image. */
   @Prop() thumbnail: string;
 
   //--------------------------------------------------------------------------
@@ -48,7 +48,7 @@ export class CalciteNavLogo {
   //
   //--------------------------------------------------------------------------
 
-  /** Emits when user select the component. */
+  /** Emits when selecting the component. */
   @Event() calciteNavLogoSelect: EventEmitter<void>;
 
   // --------------------------------------------------------------------------
@@ -77,13 +77,12 @@ export class CalciteNavLogo {
     return (
       <Host>
         <a
-          aria-label={this.label}
           href={this.href}
           onClick={this.clickHandler}
           onKeyDown={this.keyDownHandler}
           tabIndex={0}
         >
-          {this.thumbnail && <img src={this.thumbnail} />}
+          {this.thumbnail && <img alt={this.label || ""} src={this.thumbnail} />}
           {(this.text || this.subText) && this.textEnabled && (
             <div class={CSS.textContainer}>
               {this.text && (

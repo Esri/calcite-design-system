@@ -22,22 +22,22 @@ export class CalciteNavUser {
   //  Public Properties
   //
   //--------------------------------------------------------------------------
-  /** When `true`, visually highlight the component */
+  /** When true, the component is highlighted. */
   @Prop({ reflect: true }) active: boolean;
 
-  /** Specifies the text to display, for example a user name or full name */
+  /** Specifies the text to display, such as a user name or full name. */
   @Prop() fullName: string;
 
-  /** Specifies accesible label for the component */
+  /** Describes the appearance of the avatar. If no label is provided, context will not be provided to assistive technologies. */
   @Prop() label: string;
 
   /** Specifies the unique id of the user. */
   @Prop() userId: string;
 
-  /** Specifies the subtext to display, for example a user organization or role */
+  /** Specifies the username of the user. */
   @Prop() username: string;
 
-  /** When `true`, hides the `fullName` and `username`. */
+  /** When `true`, hides the `fullName` and `username` contents. */
   @Prop({ reflect: true }) hideText = false;
 
   /** Specifies the `src` to an image to display in the Avatar (remember to add a token if the user is private). */
@@ -49,7 +49,7 @@ export class CalciteNavUser {
   //
   //--------------------------------------------------------------------------
 
-  /** Emits when user select the component. */
+  /** Emits when user selects the component. */
   @Event() calciteNavUserSelect: EventEmitter<void>;
 
   // --------------------------------------------------------------------------
@@ -78,12 +78,7 @@ export class CalciteNavUser {
   render() {
     return (
       <Host>
-        <a
-          aria-label={this.label}
-          onClick={this.clickHandler}
-          onKeyDown={this.keyDownHandler}
-          tabIndex={0}
-        >
+        <a onClick={this.clickHandler} onKeyDown={this.keyDownHandler} tabIndex={0}>
           <calcite-avatar
             full-name={this.fullName}
             thumbnail={this.thumbnail}
