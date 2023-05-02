@@ -2608,6 +2608,64 @@
             "type": "color"
           }
         }
+      },
+      "dropdown": {
+        "background": {
+          "default": {
+            "light": {
+              "value": "$semantic.ui.color.foreground.1.light",
+              "type": "color"
+            }
+          }
+        }
+      },
+      "dropdown-item": {
+        "font": {
+          "default": {
+            "light": {
+              "value": "$dropdown-item.font.default.light",
+              "type": "color"
+            }
+          },
+          "selected": {
+            "light": {
+              "value": "$dropdown-item.font.selected.light",
+              "type": "color"
+            }
+          },
+          "group-title": {
+            "light": {
+              "value": "$dropdown-item.font.group-title.light",
+              "type": "color"
+            }
+          }
+        },
+        "icon": {
+          "default": {
+            "light": {
+              "value": "$dropdown-item.icon.default.light",
+              "type": "color"
+            },
+            "selected": {
+              "light": {
+                "value": "$dropdown-item.icon.default.selected.light",
+                "type": "color"
+              }
+            }
+          },
+          "select": {
+            "light": {
+              "value": "$dropdown-item.icon.select.light",
+              "type": "color"
+            }
+          }
+        },
+        "border": {
+          "light": {
+            "value": "$dropdown-item.border.light",
+            "type": "color"
+          }
+        }
       }
     }
   }
