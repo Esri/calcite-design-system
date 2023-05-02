@@ -90,9 +90,12 @@ export class ColorPickerSwatch {
       height: "100%",
       rx: borderRadius,
       stroke: borderColor,
+
       // stroke-width and clip-path are needed to hide overflowing portion of stroke
       // see https://stackoverflow.com/a/7273346/194216
-      strokeWidth: "2",
+
+      // using attribute to work around Stencil using the prop name vs the attribute when rendering
+      ["stroke-width"]: "2",
       width: "100%"
     };
 
