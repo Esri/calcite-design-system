@@ -76,16 +76,6 @@
         }
       }
     },
-    "border": {
-      "light": {
-        "value": "$semantic.ui.color.brand.default.light",
-        "type": "color"
-      },
-      "dark": {
-        "value": "$semantic.ui.color.brand.default.dark",
-        "type": "color"
-      }
-    },
     "border-width": {
       "default": {
         "value": "$core.border.border-width.2",
@@ -204,6 +194,18 @@
         },
         "dark": {
           "value": "$semantic.ui.color.foreground.2.dark",
+          "type": "color"
+        }
+      }
+    },
+    "border": {
+      "active": {
+        "light": {
+          "value": "$semantic.ui.color.brand.default.light",
+          "type": "color"
+        },
+        "dark": {
+          "value": "$semantic.ui.color.brand.default.dark",
           "type": "color"
         }
       }
