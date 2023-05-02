@@ -181,7 +181,7 @@ describe("calcite-list", () => {
     });
 
     const list = await page.find("calcite-list");
-    await page.waitForTimeout(debounceTimeout);
+    await page.waitForTimeout(debounceTimeout + 10);
     await page.waitForChanges();
 
     expect(await list.getProperty("filteredData")).toHaveLength(3);
