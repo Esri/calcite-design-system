@@ -6,6 +6,6 @@ export const CSS = {
   sticky: "sticky-pos"
 };
 
-export const debounceTimeout = 100;
+export const debounceTimeout = 0;
 
 export type SelectionAppearance = "border" | "icon";
