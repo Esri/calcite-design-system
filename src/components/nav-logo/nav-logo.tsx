@@ -48,7 +48,7 @@ export class CalciteNavLogo {
   //
   //--------------------------------------------------------------------------
 
-  /** Emits when selecting the component. */
+  /** Emits when the component's selection changes. */
   @Event() calciteNavLogoSelect: EventEmitter<void>;
 
   // --------------------------------------------------------------------------

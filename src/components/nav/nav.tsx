@@ -50,7 +50,7 @@ export class CalciteNav {
   //--------------------------------------------------------------------------
 
   /**
-   * When `true`, displays a hamburger `calcite-action` and emits a `calciteNavMenuActionSelect` event on selection change.
+   * When `true`, displays a `calcite-action` menu and emits a `calciteNavActionSelect` event on selection change.
    */
   @Prop({ reflect: true }) navAction = false;
 
@@ -81,10 +81,7 @@ export class CalciteNav {
   //
   // --------------------------------------------------------------------------
 
-  /**
-   * When `navAction` is `true`, emits when the `navAction`'s selection changes.
-   *
-   */
+  /** When navAction is true, emits when the calcite-action menu selection changes.*/
   @Event() calciteNavActionSelect: EventEmitter<void>;
 
   //--------------------------------------------------------------------------

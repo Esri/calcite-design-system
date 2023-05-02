@@ -25,7 +25,7 @@ export class CalciteNavUser {
   /** When true, the component is highlighted. */
   @Prop({ reflect: true }) active: boolean;
 
-  /** Specifies the text to display, such as a user name or full name. */
+  /** Specifies the text to display, such as a username or full name. */
   @Prop() fullName: string;
 
   /** Describes the appearance of the avatar. If no label is provided, context will not be provided to assistive technologies. */
@@ -41,7 +41,7 @@ export class CalciteNavUser {
   @Prop({ reflect: true }) hideText = false;
 
   /** Specifies the `src` to an image to display in the Avatar (remember to add a token if the user is private). */
-  @Prop({ reflect: true }) thumbnail: string;
+  @Prop() thumbnail: string;
 
   //--------------------------------------------------------------------------
   //
@@ -49,7 +49,7 @@ export class CalciteNavUser {
   //
   //--------------------------------------------------------------------------
 
-  /** Emits when user selects the component. */
+  /** Emits when the component's selection changes. */
   @Event() calciteNavUserSelect: EventEmitter<void>;
 
   // --------------------------------------------------------------------------
