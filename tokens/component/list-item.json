@@ -99,17 +99,11 @@
       }
     },
     "space-between": {
-      "sm": {
-        "value": "$core.spacing.1",
-        "type": "spacing"
-      },
-      "md": {
-        "value": "$core.spacing.3",
-        "type": "spacing"
-      },
-      "lg": {
-        "value": "$core.spacing.1",
-        "type": "spacing"
+      "content": {
+        "default": {
+          "value": "$core.spacing.0",
+          "type": "spacing"
+        }
       }
     },
     "space-around": {
