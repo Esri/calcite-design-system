@@ -20,7 +20,7 @@ describe("calcite-nav-user", () => {
         value: "true"
       },
       {
-        propertyName: "hideText",
+        propertyName: "hideName",
         value: ""
       }
     ]));

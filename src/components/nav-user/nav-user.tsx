@@ -38,7 +38,7 @@ export class CalciteNavUser {
   @Prop() username: string;
 
   /** When `true`, hides the `fullName` and `username` contents. */
-  @Prop({ reflect: true }) hideText = false;
+  @Prop({ reflect: true }) hideName = false;
 
   /** Specifies the `src` to an image to display in the Avatar (remember to add a token if the user is private). */
   @Prop() thumbnail: string;
@@ -85,7 +85,7 @@ export class CalciteNavUser {
             user-id={this.userId}
           />
 
-          {(this.fullName || this.username) && !this.hideText && (
+          {(this.fullName || this.username) && !this.hideName && (
             <div class={CSS.textContainer}>
               {this.fullName && (
                 <span class={CSS.fullName} key={CSS.fullName}>
