@@ -38,7 +38,7 @@
         <div class="child right-aligned-text">simple list single selection</div>
 
         <div class="child">
-          <calcite-list id="myList" selection-mode="single" label="test" filter-enabled>
+          <calcite-list selection-mode="single" label="test" filter-enabled>
             <calcite-list-item label="test1" value="test1" description="hello world 1">
               <calcite-icon icon="banana" slot="content-start" style="color: var(--calcite-ui-success)"></calcite-icon>
             </calcite-list-item>
@@ -451,17 +451,5 @@
         </div>
       </div>
     </demo-dom-swapper>
-    <script>
-      const myList = document.getElementById("myList");
-
-      myList.addEventListener("calciteListChange", (event) => {
-        console.log("calciteListChange", event);
-        console.log("selectedItems", event.target.selectedItems);
-      });
-      myList.addEventListener("calciteListFilter", (event) => {
-        console.log("calciteListFilter", event);
-        console.log("fitleredItems", event.target.filteredItems);
-      });
-    </script>
   </body>
 </html>
