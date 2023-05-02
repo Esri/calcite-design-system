@@ -1,0 +1,13 @@
+:host {
+  display: flex;
+}
+
+:host ul {
+  @apply inline-flex items-center h-full m-0 p-0;
+}
+
+:host([layout="vertical"]) ul {
+  display: flex;
+  flex-direction: column;
+  inline-size: 100%;
+}
