@@ -18,7 +18,9 @@ describe("calcite-icon", () => {
       { propertyName: "scale", value: "m" }
     ]));
 
-  it("is accessible", async () => accessible(`<calcite-icon icon="a-z" text-label="sort options"></calcite-icon>`));
+  describe("accessible", () => {
+    accessible(`<calcite-icon icon="a-z" text-label="sort options"></calcite-icon>`);
+  });
 
   it("flips icon when enabled and in RTL", async () => {
     const page = await newE2EPage();
@@ -36,7 +38,9 @@ describe("calcite-icon", () => {
   });
 
   describe("rendering", () => {
-    it("basic", async () => renders("calcite-icon", { display: "inline-flex" }));
+    describe("renders", () => {
+      renders("calcite-icon", { display: "inline-flex" });
+    });
 
     it("uses path data to render icon", async () => {
       const page = await newE2EPage();

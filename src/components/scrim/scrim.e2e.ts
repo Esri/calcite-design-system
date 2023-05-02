@@ -3,13 +3,19 @@ import { accessible, defaults, hidden, renders, t9n } from "../../tests/commonTe
 import { CSS } from "./resources";
 
 describe("calcite-scrim", () => {
-  it("renders", async () => renders("<calcite-scrim></calcite-scrim>", { display: "flex" }));
+  describe("renders", () => {
+    renders("<calcite-scrim></calcite-scrim>", { display: "flex" });
+  });
 
   it("honors hidden attribute", async () => hidden("calcite-scrim"));
 
-  it("is accessible", async () => accessible("<calcite-scrim>My content</calcite-scrim>"));
+  describe("accessible", () => {
+    accessible("<calcite-scrim>My content</calcite-scrim>");
+  });
 
-  it("is accessible when loading", async () => accessible("<calcite-scrim loading>My content</calcite-scrim>"));
+  describe("accessible when loading", () => {
+    accessible("<calcite-scrim loading>My content</calcite-scrim>");
+  });
 
   it("has property defaults", async () =>
     defaults("calcite-scrim", [

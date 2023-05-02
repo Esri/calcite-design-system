@@ -142,8 +142,8 @@ export class Shell implements ConditionalSlotComponent {
     const deprecatedCenterRowSlotNode: VNode = (
       <slot key="center-row-slot" name={SLOTS.centerRow} />
     );
-    const panelBottomSlotNode: VNode = <slot key="panel-top-slot" name={SLOTS.panelBottom} />;
-    const panelTopSlotNode: VNode = <slot key="panel-bottom-slot" name={SLOTS.panelTop} />;
+    const panelBottomSlotNode: VNode = <slot key="panel-bottom-slot" name={SLOTS.panelBottom} />;
+    const panelTopSlotNode: VNode = <slot key="panel-top-slot" name={SLOTS.panelTop} />;
 
     const contentContainerKey = "content-container";
 

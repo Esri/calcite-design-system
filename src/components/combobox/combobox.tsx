@@ -285,7 +285,7 @@ export class Combobox
 
   @Listen("pointerdown", { target: "document" })
   documentClickHandler(event: PointerEvent): void {
-    if (!isPrimaryPointerButton(event)) {
+    if (this.disabled || !isPrimaryPointerButton(event)) {
       return;
     }
 
@@ -689,6 +689,8 @@ export class Combobox
 
   clickHandler = (event: MouseEvent): void => {
     if (event.composedPath().some((node: HTMLElement) => node.tagName === "CALCITE-CHIP")) {
+      this.open = false;
+      event.stopPropagation();
       return;
     }
     this.open = !this.open;
@@ -1062,6 +1064,10 @@ export class Combobox
   }
 
   comboboxFocusHandler = (): void => {
+    if (this.disabled) {
+      return;
+    }
+
     this.textInput?.focus();
   };
 

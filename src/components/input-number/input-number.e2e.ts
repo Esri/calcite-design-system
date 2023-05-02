@@ -31,7 +31,9 @@ describe("calcite-input-number", () => {
 
   it("is labelable", async () => labelable("calcite-input-number"));
 
-  it("renders", () => renders("calcite-input-number", { display: "block" }));
+  describe("renders", () => {
+    renders("calcite-input-number", { display: "block" });
+  });
 
   it("honors hidden attribute", async () => hidden("calcite-input-number"));
 
@@ -1510,12 +1512,13 @@ describe("calcite-input-number", () => {
     expect(await input.getProperty("disabled")).toBe(true);
   });
 
-  it("is form-associated", () =>
+  describe("is form-associated", () => {
     formAssociated("calcite-input-number", {
       testValue: 5,
       submitsOnEnter: true,
       inputType: "number"
-    }));
+    });
+  });
 
   it("supports translation", () => t9n("calcite-input-number"));
 });

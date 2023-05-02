@@ -15,7 +15,10 @@ import { html } from "../../../support/formatting";
 import { CSS } from "./resources";
 
 describe("calcite-combobox", () => {
-  it("renders", async () => renders("calcite-combobox", { display: "block" }));
+  describe("renders", () => {
+    renders("calcite-combobox", { display: "block" });
+  });
+
   it("defaults", async () =>
     defaults("calcite-combobox", [
       {
@@ -28,31 +31,35 @@ describe("calcite-combobox", () => {
       }
     ]));
   it("honors hidden attribute", async () => hidden("calcite-combobox"));
-  it("is accessible", async () =>
-    accessible(`
+
+  describe("accessible", () => {
+    accessible(html`
       <calcite-combobox label="Trees" value="Trees">
         <calcite-combobox-item value="Pine" text-label="Pine"></calcite-combobox-item>
       </calcite-combobox>
-  `));
+    `);
+  });
 
-  it("is accessible with item group", async () =>
-    accessible(`
+  describe("accessible with item group", () => {
+    accessible(html`
       <calcite-combobox label="Trees" value="Trees">
         <calcite-combobox-item-group label="Conifers">
           <calcite-combobox-item value="Pine" text-label="Pine"></calcite-combobox-item>
         </calcite-combobox-item-group>
       </calcite-combobox>
-  `));
+    `);
+  });
 
-  it("is accessible with open selected items", async () =>
-    accessible(`
-    <calcite-combobox open label="Trees" value="Trees">
-      <calcite-combobox-item-group label="Conifers">
-        <calcite-combobox-item selected value="Pine" text-label="Pine"></calcite-combobox-item>
-        <calcite-combobox-item selected value="Spruce" text-label="Spruce"></calcite-combobox-item>
-      </calcite-combobox-item-group>
-    </calcite-combobox>
-`));
+  describe("accessible with open selected items", () => {
+    accessible(html`
+      <calcite-combobox open label="Trees" value="Trees">
+        <calcite-combobox-item-group label="Conifers">
+          <calcite-combobox-item selected value="Pine" text-label="Pine"></calcite-combobox-item>
+          <calcite-combobox-item selected value="Spruce" text-label="Spruce"></calcite-combobox-item>
+        </calcite-combobox-item-group>
+      </calcite-combobox>
+    `);
+  });
 
   it("is labelable", async () => labelable("calcite-combobox"));
 
@@ -1169,7 +1176,7 @@ describe("calcite-combobox", () => {
     expect(await combobox.getProperty("open")).toBe(true);
   });
 
-  it("is form-associated", () =>
+  describe("is form-associated", () => {
     formAssociated(
       html`<calcite-combobox selection-mode="single">
         <calcite-combobox-item id="one" icon="banana" value="one" text-label="One"></calcite-combobox-item>
@@ -1177,7 +1184,8 @@ describe("calcite-combobox", () => {
         <calcite-combobox-item id="three" value="three" text-label="Three"></calcite-combobox-item>
       </calcite-combobox>`,
       { testValue: "two", submitsOnEnter: true }
-    ));
+    );
+  });
 
   it("owns a floating-ui", () =>
     floatingUIOwner(

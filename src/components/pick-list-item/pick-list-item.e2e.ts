@@ -4,24 +4,27 @@ import { newE2EPage } from "@stencil/core/testing";
 import { html } from "../../../support/formatting";
 
 describe("calcite-pick-list-item", () => {
-  it("renders", async () => renders("calcite-pick-list-item", { display: "flex" }));
+  describe("renders", () => {
+    renders("calcite-pick-list-item", { display: "flex" });
+  });
 
   it("honors hidden attribute", async () => hidden("calcite-list-item"));
 
-  it.skip("is accessible", async () => {
-    await accessible(html`
+  // eslint-disable-next-line jest/no-disabled-tests
+  describe.skip("accessible", () => {
+    accessible(html`
       <calcite-pick-list>
         <calcite-pick-list-item label="test" description="a number" value="one"></calcite-pick-list-item>
       </calcite-pick-list>
     `);
 
-    await accessible(html`
+    accessible(html`
       <calcite-pick-list>
         <calcite-pick-list-item label="test" description="a number" value="one" selected></calcite-pick-list-item>
       </calcite-pick-list>
     `);
 
-    await accessible(html`
+    accessible(html`
       <calcite-pick-list>
         <calcite-pick-list-item label="test" description="a number" value="one" removable></calcite-pick-list-item>
       </calcite-pick-list>

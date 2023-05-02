@@ -5,12 +5,11 @@ import { accessible, defaults, hidden, renders, floatingUIOwner, focusable, t9n 
 import { CSS } from "./resources";
 
 describe("calcite-popover", () => {
-  it("renders", async () => {
-    await renders("calcite-popover", { visible: false, display: "block" });
-    await renders(
-      `<calcite-popover label="test" open reference-element="ref"></calcite-popover><div id="ref">😄</div>`,
-      { display: "block" }
-    );
+  describe("renders", () => {
+    renders("calcite-popover", { visible: false, display: "block" });
+    renders(`<calcite-popover label="test" open reference-element="ref"></calcite-popover><div id="ref">😄</div>`, {
+      display: "block"
+    });
   });
 
   it("supports translations", () => t9n("calcite-popover"));
@@ -33,16 +32,19 @@ describe("calcite-popover", () => {
     expect(style.zIndex).toBe("900");
   });
 
-  it("is accessible when closed", async () =>
-    accessible(`<calcite-popover label="test" reference-element="ref"></calcite-popover><div id="ref">😄</div>`));
+  describe("accessible", () => {
+    accessible(`<calcite-popover label="test" reference-element="ref"></calcite-popover><div id="ref">😄</div>`);
+  });
 
-  it("is accessible when open", async () =>
-    accessible(`<calcite-popover label="test" open reference-element="ref"></calcite-popover><div id="ref">😄</div>`));
+  describe("accessible when open", () => {
+    accessible(`<calcite-popover label="test" open reference-element="ref"></calcite-popover><div id="ref">😄</div>`);
+  });
 
-  it("is accessible with close button", async () =>
+  describe("accessible with close button", () => {
     accessible(
       `<calcite-popover label="test" open closable reference-element="ref"></calcite-popover><div id="ref">😄</div>`
-    ));
+    );
+  });
 
   it("honors hidden attribute", async () => hidden(`<calcite-popover open></calcite-popover>`));
 

@@ -2,23 +2,29 @@ import { newE2EPage } from "@stencil/core/testing";
 import { accessible, renders, slots, hidden, t9n } from "../../tests/commonTests";
 import { placeholderImage } from "../../../.storybook/placeholderImage";
 import { CSS, SLOTS } from "./resources";
+import { html } from "../../../support/formatting";
+
 const placeholder = placeholderImage({
   width: 350,
   height: 150
 });
 
 describe("calcite-card", () => {
-  it("renders", async () => renders("calcite-card", { display: "block" }));
+  describe("renders", () => {
+    renders("calcite-card", { display: "block" });
+  });
 
   it("honors hidden attribute", async () => hidden("calcite-card"));
 
-  it("is accessible", async () => accessible("calcite-card"));
+  describe("accessible", () => {
+    accessible("calcite-card");
+  });
 
-  it("is accessible when selectable", async () =>
-    accessible(`
-      <calcite-card selectable>
-        <img slot="thumbnail" src="${placeholder}" alt="Test image" />
-      </calcite-card>`));
+  describe("accessible when selectable", () => {
+    accessible(html`<calcite-card selectable>
+      <img slot="thumbnail" src="${placeholder}" alt="Test image" />
+    </calcite-card>`);
+  });
 
   it("has slots", () => slots("calcite-card", SLOTS));
 

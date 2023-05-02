@@ -2,7 +2,9 @@ import { E2EElement, E2EPage, newE2EPage } from "@stencil/core/testing";
 import { accessible, defaults, disabled, hidden, renders } from "../../tests/commonTests";
 
 describe("calcite-link", () => {
-  it("renders", async () => renders("<calcite-link href='/'>link</calcite-link>", { display: "inline" }));
+  describe("renders", () => {
+    renders("<calcite-link href='/'>link</calcite-link>", { display: "inline" });
+  });
 
   it("honors hidden attribute", async () => hidden("calcite-link"));
 
@@ -14,10 +16,10 @@ describe("calcite-link", () => {
       }
     ]));
 
-  it("is accessible", async () => {
-    await accessible("<calcite-link href='/'>link</calcite-link>");
-    await accessible("<calcite-link>link</calcite-link>");
-    await accessible("<calcite-link icon-start='plus' icon-end='plus' href='/'>Go</calcite-link>");
+  describe("accessible", () => {
+    accessible("<calcite-link href='/'>link</calcite-link>");
+    accessible("<calcite-link>link</calcite-link>");
+    accessible("<calcite-link icon-start='plus' icon-end='plus' href='/'>Go</calcite-link>");
   });
 
   it("can be disabled", () => disabled(`<calcite-link href='/'>link</calcite-link>`));

@@ -65,11 +65,6 @@ slot[name="panel-end"]::slotted(calcite-shell-panel) {
   margin-inline-start: auto;
 }
 
-::slotted(calcite-shell-panel),
-::slotted(calcite-shell-center-row) {
-  @apply relative z-default;
-}
-
 ::slotted(calcite-panel),
 ::slotted(calcite-flow) {
   @apply border-color-3

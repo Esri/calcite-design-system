@@ -3,7 +3,9 @@ import { html } from "../../../support/formatting";
 import { disabled, focusable, formAssociated, hidden, labelable, renders } from "../../tests/commonTests";
 
 describe("calcite-segmented-control", () => {
-  it("renders", () => renders("calcite-segmented-control", { display: "flex" }));
+  describe("renders", () => {
+    renders("calcite-segmented-control", { display: "flex" });
+  });
 
   it("honors hidden attribute", async () => hidden("calcite-segmented-control"));
 
@@ -329,7 +331,7 @@ describe("calcite-segmented-control", () => {
   describe("is form-associated", () => {
     const formAssociatedOptions = { testValue: "2" };
 
-    it("unselected value", () =>
+    describe("unselected value", () => {
       formAssociated(
         html`
           <calcite-segmented-control>
@@ -339,9 +341,10 @@ describe("calcite-segmented-control", () => {
           </calcite-segmented-control>
         `,
         formAssociatedOptions
-      ));
+      );
+    });
 
-    it("selected-value", () =>
+    describe("selected-value", () => {
       formAssociated(
         html`
           <calcite-segmented-control>
@@ -351,6 +354,7 @@ describe("calcite-segmented-control", () => {
           </calcite-segmented-control>
         `,
         formAssociatedOptions
-      ));
+      );
+    });
   });
 });

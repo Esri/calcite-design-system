@@ -17,6 +17,7 @@ import {
   defaultOffsetDistance,
   disconnectFloatingUI,
   FloatingCSS,
+  FloatingLayout,
   FloatingUIComponent,
   LogicalPlacement,
   OverlayPositioning,
@@ -33,6 +34,7 @@ import { ARIA_DESCRIBED_BY, CSS } from "./resources";
 
 import TooltipManager from "./TooltipManager";
 import { getEffectiveReferenceElement } from "./utils";
+import { FloatingArrow } from "../functional/FloatingArrow";
 
 const manager = new TooltipManager();
 
@@ -140,7 +142,9 @@ export class Tooltip implements FloatingUIComponent, OpenCloseComponent {
 
   @State() effectiveReferenceElement: ReferenceElement;
 
-  arrowEl: HTMLDivElement;
+  @State() floatingLayout: FloatingLayout = "vertical";
+
+  arrowEl: SVGElement;
 
   guid = `calcite-tooltip-${guid()}`;
 
@@ -225,7 +229,6 @@ export class Tooltip implements FloatingUIComponent, OpenCloseComponent {
         placement,
         offsetDistance,
         offsetSkidding,
-        includeArrow: true,
         arrowEl,
         type: "tooltip"
       },
@@ -316,7 +319,7 @@ export class Tooltip implements FloatingUIComponent, OpenCloseComponent {
   // --------------------------------------------------------------------------
 
   render(): VNode {
-    const { effectiveReferenceElement, label, open } = this;
+    const { effectiveReferenceElement, label, open, floatingLayout } = this;
     const displayed = effectiveReferenceElement && open;
     const hidden = !displayed;
 
@@ -337,10 +340,10 @@ export class Tooltip implements FloatingUIComponent, OpenCloseComponent {
           // eslint-disable-next-line react/jsx-sort-props
           ref={this.setTransitionEl}
         >
-          <div
-            class={CSS.arrow}
+          <FloatingArrow
+            floatingLayout={floatingLayout}
             // eslint-disable-next-line react/jsx-sort-props
-            ref={(arrowEl) => (this.arrowEl = arrowEl)}
+            ref={(arrowEl: SVGElement) => (this.arrowEl = arrowEl)}
           />
           <div class={CSS.container}>
             <slot />

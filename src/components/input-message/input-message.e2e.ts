@@ -3,15 +3,20 @@ import { accessible, hidden, renders } from "../../tests/commonTests";
 import { StatusIconDefaults } from "./interfaces";
 
 describe("calcite-input-message", () => {
-  it("renders", async () => {
-    await renders(`<calcite-input-message hidden></calcite-input-message>`, { display: "none", visible: false });
-    await renders(`<calcite-input-message></calcite-input-message>`, { display: "flex", visible: true });
+  describe("renders", () => {
+    renders(`<calcite-input-message hidden></calcite-input-message>`, { display: "none", visible: false });
+    renders(`<calcite-input-message></calcite-input-message>`, { display: "flex", visible: true });
   });
 
   it("honors hidden attribute", async () => hidden(`<calcite-input-message>Text</calcite-input-message>`));
 
-  it("is accessible", async () => accessible(`<calcite-input-message>Text</calcite-input-message>`));
-  it("is accessible with icon", async () => accessible(`<calcite-input-message icon>Text</calcite-input-message>`));
+  describe("accessible", () => {
+    accessible(`<calcite-input-message>Text</calcite-input-message>`);
+  });
+
+  describe("accessible with icon", () => {
+    accessible(`<calcite-input-message icon>Text</calcite-input-message>`);
+  });
 
   it("renders default props when none are provided", async () => {
     const page = await newE2EPage();

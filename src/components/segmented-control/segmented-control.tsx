@@ -187,6 +187,10 @@ export class SegmentedControl
   //--------------------------------------------------------------------------
 
   protected handleClick = (event: MouseEvent): void => {
+    if (this.disabled) {
+      return;
+    }
+
     if ((event.target as HTMLElement).localName === "calcite-segmented-control-item") {
       this.selectItem(event.target as HTMLCalciteSegmentedControlItemElement, true);
     }

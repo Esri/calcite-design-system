@@ -1,4 +1,5 @@
-import { E2EElement, E2EPage, newE2EPage } from "@stencil/core/testing";
+/* eslint-disable jest/no-export -- util functions are now imported to be used as `it` blocks within `describe` instead of assertions within `it` blocks */
+import { E2EElement, E2EPage, EventSpy, newE2EPage } from "@stencil/core/testing";
 import axe from "axe-core";
 import { toHaveNoViolations } from "jest-axe";
 import { config } from "../../stencil.config";
@@ -49,27 +50,33 @@ async function simplePageSetup(componentTagOrHTML: TagOrHTML): Promise<E2EPage> 
 /**
  * Helper for asserting that a component is accessible.
  *
- * @param {string} componentTagOrHTML - the component tag or HTML markup to test against
- * @param {E2EPage} [page] - an e2e page
+ * Note that this helper should be used within a describe block.
+ *
+ * describe("accessible"), () => {
+ *   accessible(`<calcite-tree></calcite-tree>`);
+ * });
+ *
+ * @param {ComponentTestSetup} componentTestSetup - A component tag, html, or the tag and e2e page for setting up a test
  */
-export async function accessible(componentTagOrHTML: TagOrHTML, page?: E2EPage): Promise<void> {
-  if (!page) {
-    page = await simplePageSetup(componentTagOrHTML);
-  }
+export function accessible(componentTestSetup: ComponentTestSetup): void {
+  it("is accessible", async () => {
+    const { page, tag } = await getTagAndPage(componentTestSetup);
 
-  await page.addScriptTag({ path: require.resolve("axe-core") });
-  await page.waitForFunction(() => (window as AxeOwningWindow).axe);
+    await page.addScriptTag({ path: require.resolve("axe-core") });
+    await page.waitForFunction(() => (window as AxeOwningWindow).axe);
 
-  expect(
-    await page.evaluate(
-      async (componentTag: ComponentTag) => (window as AxeOwningWindow).axe.run(componentTag),
-      getTag(componentTagOrHTML)
-    )
-  ).toHaveNoViolations();
+    expect(
+      await page.evaluate(async (componentTag: ComponentTag) => (window as AxeOwningWindow).axe.run(componentTag), tag)
+    ).toHaveNoViolations();
+  });
 }
 
 /**
- * Helper for asserting that a component renders and is hydrated
+ * Note that this helper should be used within a describe block.
+ *
+ * describe("renders", () => {
+ *   renders(`<calcite-tree></calcite-tree>`);
+ * });
  *
  * @param {string} componentTagOrHTML - the component tag or HTML markup to test against
  * @param {object} options - additional options to assert
@@ -85,12 +92,14 @@ export async function renders(
     display: string;
   }
 ): Promise<void> {
-  const page = await simplePageSetup(componentTagOrHTML);
-  const element = await page.find(getTag(componentTagOrHTML));
+  it(`renders`, async () => {
+    const page = await simplePageSetup(componentTagOrHTML);
+    const element = await page.find(getTag(componentTagOrHTML));
 
-  expect(element).toHaveAttribute(HYDRATED_ATTR);
-  expect(await element.isVisible()).toBe(options?.visible ?? true);
-  expect((await element.getComputedStyle()).display).toBe(options?.display ?? "inline");
+    expect(element).toHaveAttribute(HYDRATED_ATTR);
+    expect(await element.isVisible()).toBe(options?.visible ?? true);
+    expect((await element.getComputedStyle()).display).toBe(options?.display ?? "inline");
+  });
 }
 
 /**
@@ -505,12 +514,18 @@ interface FormAssociatedOptions {
 /**
  * Helper for testing form-associated components; specifically form submitting and resetting.
  *
+ * Note that this helper should be used within a describe block.
+ *
+ * describe("form-associated), () => {
+ *   formAssociated("calcite-component", { testValue: 1337 });
+ * });
+ *
  * @param {string} componentTagOrHtml - the component tag or HTML markup to test against
  * @param {FormAssociatedOptions} options - form associated options
  */
-export async function formAssociated(componentTagOrHtml: TagOrHTML, options: FormAssociatedOptions): Promise<void> {
-  await testAncestorFormAssociated();
-  await testIdFormAssociated();
+export function formAssociated(componentTagOrHtml: TagOrHTML, options: FormAssociatedOptions): void {
+  it("supports association via ancestry", () => testAncestorFormAssociated());
+  it("supports association via form ID", () => testIdFormAssociated());
 
   async function testAncestorFormAssociated(): Promise<void> {
     const componentTag = getTag(componentTagOrHtml);
@@ -620,7 +635,7 @@ export async function formAssociated(componentTagOrHtml: TagOrHTML, options: For
     component: E2EElement,
     options: FormAssociatedOptions
   ): Promise<void> {
-    const resettablePropName = await isCheckable(page, component, options) ? "checked" : "value";
+    const resettablePropName = (await isCheckable(page, component, options)) ? "checked" : "value";
     const initialValue = await component.getProperty(resettablePropName);
     component.setProperty(resettablePropName, options.testValue);
     await page.waitForChanges();
@@ -789,31 +804,37 @@ interface DisabledOptions {
   focusTarget: FocusTarget | TabAndClickTargets;
 }
 
-async function getTagAndPage(componentSetup: TagOrHTML | TagAndPage): Promise<TagAndPage> {
-  if (typeof componentSetup === "string") {
-    const page = await simplePageSetup(componentSetup);
-    const tag = getTag(componentSetup);
+type ComponentTestSetupProvider = () => TagOrHTML | TagAndPage;
+type ComponentTestSetup = TagOrHTML | TagAndPage | ComponentTestSetupProvider;
+
+async function getTagAndPage(componentTestSetup: ComponentTestSetup): Promise<TagAndPage> {
+  if (typeof componentTestSetup === "function") {
+    componentTestSetup = componentTestSetup();
+  }
+
+  if (typeof componentTestSetup === "string") {
+    const page = await simplePageSetup(componentTestSetup);
+    const tag = getTag(componentTestSetup);
 
     return { page, tag };
   }
 
-  return componentSetup;
+  return componentTestSetup;
 }
 
 /**
  * Helper to test the disabled prop disabling user interaction.
  *
- * @param {TagOrHTML|TagAndPage} componentSetup - A component tag, html, or an e2e page for setting up a test
+ * @param {ComponentTestSetup} componentTestSetup - A component tag, html, or the tag and e2e page for setting up a test
  * @param {DisabledOptions} [options={ focusTarget: "host" }] - disabled options
  */
 export async function disabled(
-  componentSetup: TagOrHTML | TagAndPage,
+  componentTestSetup: ComponentTestSetup,
   options: DisabledOptions = { focusTarget: "host" }
 ): Promise<void> {
-  const { page, tag } = await getTagAndPage(componentSetup);
+  const { page, tag } = await getTagAndPage(componentTestSetup);
 
   const component = await page.find(tag);
-  const enabledComponentClickSpy = await component.spyOnEvent("click");
   await skipAnimations(page);
   await page.$eval(tag, (el) => {
     el.addEventListener(
@@ -831,9 +852,26 @@ export async function disabled(
     );
   });
 
+  // only testing events from https://github.com/web-platform-tests/wpt/blob/master/html/semantics/disabled-elements/event-propagate-disabled.tentative.html#L66
+  const eventsExpectedToBubble = ["mousemove", "pointermove", "pointerdown", "pointerup"];
+  const eventsExpectedToNotBubble = ["mousedown", "mouseup", "click"];
+  const allExpectedEvents = [...eventsExpectedToBubble, ...eventsExpectedToNotBubble];
+
+  const eventSpies: EventSpy[] = [];
+
+  for (const event of allExpectedEvents) {
+    eventSpies.push(await component.spyOnEvent(event));
+  }
+
   async function expectToBeFocused(tag: string): Promise<void> {
     const focusedTag = await page.evaluate(() => document.activeElement?.tagName.toLowerCase());
     expect(focusedTag).toBe(tag);
+  }
+
+  function assertOnMouseAndPointerEvents(spies: EventSpy[], expectCallback: (spy: EventSpy) => void): void {
+    for (const spy of spies) {
+      expectCallback(spy);
+    }
   }
 
   expect(component.getAttribute("aria-disabled")).toBeNull();
@@ -842,11 +880,10 @@ export async function disabled(
     await page.click(tag);
     await expectToBeFocused("body");
 
-    expect(enabledComponentClickSpy).toHaveReceivedEventTimes(1);
+    assertOnMouseAndPointerEvents(eventSpies, (spy) => expect(spy).toHaveReceivedEventTimes(1));
 
     component.setProperty("disabled", true);
     await page.waitForChanges();
-    const disabledComponentClickSpy = await component.spyOnEvent("click");
 
     expect(component.getAttribute("aria-disabled")).toBe("true");
 
@@ -856,7 +893,9 @@ export async function disabled(
     await component.callMethod("click");
     await expectToBeFocused("body");
 
-    expect(disabledComponentClickSpy).toHaveReceivedEventTimes(0);
+    assertOnMouseAndPointerEvents(eventSpies, (spy) =>
+      expect(spy).toHaveReceivedEventTimes(eventsExpectedToBubble.includes(spy.eventName) ? 2 : 1)
+    );
 
     return;
   }
@@ -901,13 +940,18 @@ export async function disabled(
   await component.callMethod("click");
   await expectToBeFocused(clickFocusTarget);
 
-  // some components emit more than one click event,
-  // so we check if at least one event is received
-  expect(enabledComponentClickSpy.length).toBeGreaterThanOrEqual(2);
+  assertOnMouseAndPointerEvents(eventSpies, (spy) => {
+    if (spy.eventName === "click") {
+      // some components emit more than one click event (e.g., from calling `click()`),
+      // so we check if at least one event is received
+      expect(spy.length).toBeGreaterThanOrEqual(2);
+    } else {
+      expect(spy).toHaveReceivedEventTimes(1);
+    }
+  });
 
   component.setProperty("disabled", true);
   await page.waitForChanges();
-  const disabledComponentClickSpy = await component.spyOnEvent("click");
 
   expect(component.getAttribute("aria-disabled")).toBe("true");
 
@@ -918,7 +962,15 @@ export async function disabled(
   await page.mouse.click(shadowFocusableCenterX, shadowFocusableCenterY);
   await expectToBeFocused("body");
 
-  expect(disabledComponentClickSpy).toHaveReceivedEventTimes(0);
+  assertOnMouseAndPointerEvents(eventSpies, (spy) => {
+    if (spy.eventName === "click") {
+      // some components emit more than one click event (e.g., from calling `click()`),
+      // so we check if at least one event is received
+      expect(spy.length).toBeGreaterThanOrEqual(2);
+    } else {
+      expect(spy).toHaveReceivedEventTimes(eventsExpectedToBubble.includes(spy.eventName) ? 2 : 1);
+    }
+  });
 }
 
 /**
@@ -1007,10 +1059,10 @@ export async function floatingUIOwner(
 /**
  * Helper to test t9n component setup
  *
- * @param {TagOrHTML|TagAndPage} componentSetup - A component tag, html, or an object with e2e page and tag for setting up a test
+ * @param {ComponentTestSetup} componentTestSetup - A component tag, html, or the tag and e2e page for setting up a test
  */
-export async function t9n(componentSetup: TagOrHTML | TagAndPage): Promise<void> {
-  const { page, tag } = await getTagAndPage(componentSetup);
+export async function t9n(componentTestSetup: ComponentTestSetup): Promise<void> {
+  const { page, tag } = await getTagAndPage(componentTestSetup);
   const component = await page.find(tag);
 
   await assertDefaultMessages();

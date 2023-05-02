@@ -7,7 +7,9 @@ import { CSS } from "./resources";
 describe("calcite-slider", () => {
   const sliderWidthFor1To1PixelValueTrack = "114px";
 
-  it("renders", async () => renders("calcite-slider", { display: "block" }));
+  describe("renders", () => {
+    renders("calcite-slider", { display: "block" });
+  });
 
   it("honors hidden attribute", async () => hidden("calcite-slider"));
 
@@ -757,9 +759,15 @@ describe("calcite-slider", () => {
     });
   });
 
-  it("is form-associated", () => formAssociated("calcite-slider", { testValue: 5 }));
+  describe("is form-associated", () => {
+    describe("single value", () => {
+      formAssociated("calcite-slider", { testValue: 5 });
+    });
 
-  it("is form-associated with range", () => formAssociated("calcite-slider", { testValue: [5, 10] }));
+    describe("range", () => {
+      formAssociated("calcite-slider", { testValue: [5, 10] });
+    });
+  });
 
   describe("number locale support", () => {
     let page: E2EPage;

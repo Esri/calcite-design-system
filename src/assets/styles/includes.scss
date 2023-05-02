@@ -56,7 +56,15 @@
 
 // used for host-specific styling when the `disabled` mixin cannot be applied on the host (e.g., `display: contents`)
 %disabled-host-only {
-  @apply opacity-disabled pointer-events-none cursor-default select-none;
+  @apply opacity-disabled cursor-default select-none;
+  @extend %non-interactive-host-contents;
+}
+
+%non-interactive-host-contents {
+  *,
+  ::slotted(*) {
+    @apply pointer-events-none;
+  }
 }
 
 // mixin to provide default invisibility and disabling of pointer events for components.

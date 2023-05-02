@@ -81,9 +81,7 @@ export class ColorPicker
   //--------------------------------------------------------------------------
 
   /**
-   * When `false`, an empty color (`null`) will be allowed as a `value`. Otherwise, a color value is enforced on the component.
-   *
-   * When `true`, a color value is enforced, and clearing the input or blurring will restore the last valid `value`. When `false`, an empty color (`null`) will be allowed as a `value`.
+   * When `true`, an empty color (`null`) will be allowed as a `value`. When `false`, a color value is enforced, and clearing the input or blurring will restore the last valid `value`.
    */
   @Prop({ reflect: true }) allowEmpty = false;
 
@@ -478,9 +476,6 @@ export class ColorPicker
       this.captureHueSliderColor(offsetX);
       this.hueScopeNode?.focus();
     }
-
-    // prevent text selection outside of color field & slider area
-    event.preventDefault();
 
     document.addEventListener("pointermove", this.globalPointerMoveHandler);
     document.addEventListener("pointerup", this.globalPointerUpHandler, { once: true });

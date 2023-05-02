@@ -3,11 +3,15 @@ import { accessible, hidden, renders, t9n } from "../../tests/commonTests";
 import { CSS } from "./resources";
 
 describe("calcite-handle", () => {
-  it("renders", async () => renders("calcite-handle", { display: "flex" }));
+  describe("renders", () => {
+    renders("calcite-handle", { display: "flex" });
+  });
 
   it("honors hidden attribute", async () => hidden("calcite-handle"));
 
-  it("is accessible", async () => accessible(`<calcite-handle></calcite-handle>`));
+  describe("accessible", () => {
+    accessible(`<calcite-handle></calcite-handle>`);
+  });
 
   it("activates when focused and spacebar is pressed", async () => {
     const page = await newE2EPage();

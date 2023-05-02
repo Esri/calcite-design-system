@@ -1,8 +1,8 @@
 import { createObserver } from "./observers";
 
 type AttributeObject = { [k: string]: any };
-type AllowedGlobalAttribute = "lang";
-const allowedGlobalAttributes = ["lang"];
+type AllowedGlobalAttribute = "lang" | "role";
+const allowedGlobalAttributes = ["lang", "role"];
 
 const elementToComponentAndObserverOptionsMap = new Map<
   HTMLElement,
