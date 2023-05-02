@@ -12,6 +12,7 @@
   }
 
   .saved-colors {
+    @apply gap-1;
     grid-template-columns: repeat(auto-fill, 20px);
   }
 }
