@@ -1,5 +1,5 @@
 import { SingleToken } from "@tokens-studio/types";
-import { ExpandFilter } from "@tokens-studio/sd-transforms/dist/TransformOptions.js";
+import { ExpandFilter } from "../utils/transformOptions";
 import { matchPlaceholderElement } from "./regex.js";
 
 // A customized type map based off Token Studio.

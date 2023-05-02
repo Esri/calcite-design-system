@@ -1,5 +1,5 @@
 import { DeepKeyTokenMap, SingleToken, TokenTypes } from "@tokens-studio/types";
-import { TransformOptions, ExpandablesAsStrings, Expandables, expandablesAsStringsArr } from "@tokens-studio/sd-transforms/dist/TransformOptions.js";
+import { TransformOptions, ExpandablesAsStrings, Expandables, expandablesAsStringsArr } from "../utils/transformOptions.js";
 import { matchPlaceholderElement, tokenStudioCustomVariableIndicator } from "../utils/regex.js";
 import { shouldExpand, expandToken } from "../utils/compositeTokens.js";
 import { convertTokenToStyleDictionaryFormat } from "../utils/convertTokenToStyleDictionaryFormat.js";
@@ -31,6 +31,7 @@ export function expandComposites(
   const handleTokenStudioVariables = convertTokenToStyleDictionaryFormat(tokenStudioCustomVariableIndicator);
   const newDictionary = Object.entries(dictionary).reduce((acc, [key, token]) => {
     const { type } = token;
+    
     if (matchPlaceholderElement.test(`${key}`) || matchPlaceholderElement.test(`${token.value}`)) {
       return acc;
     }
