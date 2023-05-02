@@ -2510,6 +2510,104 @@
             }
           }
         }
+      },
+      "combobox": {
+        "icon": {
+          "default": {
+            "light": {
+              "value": "$semantic.ui.color.text.1.light",
+              "type": "color"
+            }
+          },
+          "dropdown": {
+            "light": {
+              "value": "$semantic.ui.color.text.3.light",
+              "type": "color"
+            }
+          }
+        },
+        "border": {
+          "light": {
+            "value": "$semantic.ui.color.border.input.light",
+            "type": "color"
+          }
+        },
+        "background": {
+          "default": {
+            "light": {
+              "value": "$semantic.ui.color.background.light",
+              "type": "color"
+            }
+          },
+          "item-container": {
+            "light": {
+              "value": "$semantic.ui.color.foreground.1.light",
+              "type": "color"
+            }
+          }
+        },
+        "font": {
+          "placholder": {
+            "light": {
+              "value": "$semantic.ui.color.text.3.light",
+              "type": "color"
+            }
+          },
+          "value": {
+            "light": {
+              "value": "$semantic.ui.color.text.1.light",
+              "type": "color"
+            }
+          }
+        }
+      },
+      "combobox-item": {
+        "font": {
+          "default": {
+            "light": {
+              "value": "$semantic.ui.color.text.3.light",
+              "type": "color"
+            }
+          },
+          "selected": {
+            "light": {
+              "value": "$semantic.ui.color.text.1.light",
+              "type": "color"
+            }
+          },
+          "group-title": {
+            "light": {
+              "value": "$semantic.ui.color.text.1.light",
+              "type": "color"
+            }
+          }
+        },
+        "icon": {
+          "default": {
+            "light": {
+              "value": "$semantic.ui.color.text.3.light",
+              "type": "color"
+            },
+            "selected": {
+              "light": {
+                "value": "$semantic.ui.color.text.1.light",
+                "type": "color"
+              }
+            }
+          },
+          "select": {
+            "light": {
+              "value": "$semantic.ui.color.brand.default.light",
+              "type": "color"
+            }
+          }
+        },
+        "border": {
+          "light": {
+            "value": "$semantic.ui.color.border.3.light",
+            "type": "color"
+          }
+        }
       }
     }
   }
