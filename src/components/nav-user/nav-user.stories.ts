@@ -20,7 +20,7 @@ export const simple = (): string =>
       username="${text("username", "eabbey_123")}"
       thumbnail="${text("thumbnail", "")}"
       user-id="${text("user-id", "")}"
-      ${boolean("hide-text", false)}
+      ${boolean("hide-name", false)}
       ${boolean("active", true)}
     />
   </calcite-nav>`;

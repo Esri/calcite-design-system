@@ -143,9 +143,7 @@ export class CalciteNav {
   renderMenuAction(): VNode {
     return (
       <slot name={SLOTS.navAction} onSlotchange={this.handleMenuActionSlotChange}>
-        {this.navAction && (
-          <calcite-action icon="hamburger" onClick={this.clickHandler} text={this.label} />
-        )}
+        <calcite-action icon="hamburger" onClick={this.clickHandler} text={this.label} />
       </slot>
     );
   }
