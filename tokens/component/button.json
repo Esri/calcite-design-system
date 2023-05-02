@@ -613,7 +613,7 @@
           "type": "spacing"
         },
         "lg": {
-          "value": "$core.spacing.5",
+          "value": "$core.spacing.4",
           "type": "spacing"
         }
       },
