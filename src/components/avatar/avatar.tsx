@@ -39,6 +39,9 @@ export class Avatar {
   /** Specifies the unique id of the user. */
   @Prop({ reflect: true }) userId: string;
 
+  /** Specifies alternate text for thumbnail and accessible label for initials.*/
+  @Prop() label: string;
+
   //--------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -67,7 +70,7 @@ export class Avatar {
     if (this.thumbnail && !this.thumbnailFailedToLoad) {
       return (
         <img
-          alt=""
+          alt={this.label || ""}
           class="thumbnail"
           onError={() => (this.thumbnailFailedToLoad = true)}
           src={this.thumbnail}
@@ -77,7 +80,12 @@ export class Avatar {
     const initials = this.generateInitials();
     const backgroundColor = this.generateFillColor();
     return (
-      <span class="background" style={{ backgroundColor }}>
+      <span
+        aria-label={this.label || this.fullName}
+        class="background"
+        role="img"
+        style={{ backgroundColor }}
+      >
         {initials ? (
           <span aria-hidden="true" class="initials">
             {initials}
