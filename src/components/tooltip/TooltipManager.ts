@@ -221,6 +221,7 @@ export default class TooltipManager {
 
   private registerShadowRoot(shadowRoot: ShadowRoot): void {
     const { registeredShadowRootCounts } = this;
+
     const count = registeredShadowRootCounts.get(shadowRoot) || 0;
 
     if (count === 0) {
