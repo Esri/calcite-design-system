@@ -1,5 +1,5 @@
 export const CSS = {
   container: "container",
-  preview: "preview",
-  input: "input"
+  hexInput: "hex-input",
+  opacityInput: "opacity-input"
 };
