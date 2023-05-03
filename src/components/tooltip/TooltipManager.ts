@@ -12,7 +12,7 @@ export default class TooltipManager {
 
   private registeredElements = new WeakMap<ReferenceElement, HTMLCalciteTooltipElement>();
 
-  private registeredShadowRoots = new WeakMap<ReferenceElement, ShadowRoot>();
+  private registeredShadowRootCounts = new WeakMap<ShadowRoot, number>();
 
   private hoverTimeout: number = null;
 
@@ -30,14 +30,18 @@ export default class TooltipManager {
 
   registerElement(referenceEl: ReferenceElement, tooltip: HTMLCalciteTooltipElement): void {
     this.registeredElementCount++;
-
     this.registeredElements.set(referenceEl, tooltip);
-
-    const shadowRoot = referenceEl instanceof Element ? getShadowRootNode(referenceEl) : null;
+    const shadowRoot = this.getReferenceElShadowRootNode(referenceEl);
 
     if (shadowRoot) {
-      this.registeredShadowRoots.set(referenceEl, shadowRoot);
-      this.addShadowListeners(shadowRoot);
+      const { registeredShadowRootCounts } = this;
+      const count = registeredShadowRootCounts.get(shadowRoot) || 0;
+
+      if (count === 0) {
+        this.addShadowListeners(shadowRoot);
+      }
+
+      registeredShadowRootCounts.set(shadowRoot, count + 1);
     }
 
     if (this.registeredElementCount === 1) {
@@ -46,9 +50,10 @@ export default class TooltipManager {
   }
 
   unregisterElement(referenceEl: ReferenceElement): void {
-    const shadowRoot = this.registeredShadowRoots.get(referenceEl);
+    const shadowRoot = this.getReferenceElShadowRootNode(referenceEl);
+    const count = this.registeredShadowRootCounts.get(shadowRoot);
 
-    if (shadowRoot) {
+    if (!count) {
       this.removeShadowListeners(shadowRoot);
     }
 
@@ -220,5 +225,9 @@ export default class TooltipManager {
 
   private isClosableClickedTooltip(tooltip: HTMLCalciteTooltipElement): boolean {
     return tooltip?.closeOnClick && tooltip === this.clickedTooltip;
+  }
+
+  private getReferenceElShadowRootNode(referenceEl: ReferenceElement): ShadowRoot | null {
+    return referenceEl instanceof Element ? getShadowRootNode(referenceEl) : null;
   }
 }
