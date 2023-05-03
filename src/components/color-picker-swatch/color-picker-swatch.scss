@@ -19,7 +19,7 @@ $size-l: 28px;
 }
 
 .swatch {
-  @apply overflow-visible;
+  @apply overflow-hidden;
   block-size: inherit;
   inline-size: inherit;
 
@@ -28,9 +28,16 @@ $size-l: 28px;
   }
 }
 
-.no-color-icon {
-  @apply absolute
-    inset-0
-    h-full
-    w-full;
+.swatch--no-color {
+  rect {
+    fill: var(--calcite-ui-foreground-1);
+  }
+
+  line {
+    stroke: var(--calcite-ui-danger);
+  }
+}
+
+.checker {
+  fill: #cacaca;
 }

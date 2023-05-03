@@ -1,6 +1,6 @@
 {
   "name": "@esri/calcite-components",
-  "version": "1.4.0-next.5",
+  "version": "1.4.0-next.6",
   "description": "Web Components for Esri's Calcite Design System.",
   "main": "dist/index.cjs.js",
   "module": "dist/index.js",
@@ -162,7 +162,6 @@
   },
   "license": "SEE LICENSE IN copyright.txt",
   "volta": {
-    "node": "16.13.2",
-    "npm": "8.3.1"
+    "node": "16.20.0"
   }
 }
