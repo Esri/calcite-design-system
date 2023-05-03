@@ -223,3 +223,11 @@ export const withActionBar_TestOnly = (): string => html`<div style="width: 300p
     <p>Slotted content!</p>
   </calcite-flow-item>
 </div>`;
+
+export const footerPadding_TestOnly = (): string => html`<div style="width: 300px;">
+  <calcite-flow-item height-scale="s" style="--calcite-flow-item-footer-padding: 20px;">
+    <div slot="header-content">Header!</div>
+    <p>Slotted content!</p>
+    <div slot="footer">Footer!</div>
+  </calcite-flow-item>
+</div>`;

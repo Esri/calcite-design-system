@@ -45,22 +45,23 @@
             </calcite-flow-item>
             <calcite-flow-item heading="tell me that you love me more">
               <!-- image -->
+              <div slot="footer">test</div>
             </calcite-flow-item>
           </calcite-flow>
         </div>
       </div>
 
-      <!-- menu-actions & footer-actions -->
+      <!-- menu-actions & footer -->
       <div class="parent">
-        <div class="child right-aligned-text">menu-actions & footer-actions</div>
+        <div class="child right-aligned-text">menu-actions & footer</div>
 
         <div class="child">
           <calcite-flow>
             <calcite-flow-item heading="What are the most popular commute alternatives?">
               <button slot="header-menu-actions">Reset</button>
               <button slot="header-menu-actions">Rename</button>
-              <button slot="footer-actions">Save</button>
-              <button slot="footer-actions">Cancel</button>
+              <button slot="footer">Save</button>
+              <button slot="footer">Cancel</button>
             </calcite-flow-item>
           </calcite-flow>
         </div>
@@ -78,8 +79,8 @@
             >
               <button slot="menu-actions">Reset</button>
               <button slot="menu-actions">Rename</button>
-              <button slot="footer-actions" class="btn">Save</button>
-              <button slot="footer-actions" class="btn btn-secondary">Cancel</button>
+              <button slot="footer" class="btn">Save</button>
+              <button slot="footer" class="btn btn-secondary">Cancel</button>
               <p><img src="https://placeimg.com/300/200/nature" alt="placeholder" /></p>
               <p><img src="https://placeimg.com/300/200/nature" alt="placeholder" /></p>
             </calcite-flow-item>
@@ -111,8 +112,8 @@
           <p><img src="https://placeimg.com/300/200/nature" alt="nature" /></p>
           <p><img src="https://placeimg.com/300/200/nature" alt="nature" /></p>
           <calcite-action label="pencil icon" slot="menu-actions" icon="pencil"></calcite-action>
-          <button slot="footer-actions">Save</button>
-          <button slot="footer-actions">Cancel</button>
+          <button slot="footer">Save</button>
+          <button slot="footer">Cancel</button>
         `;
               flowNode.appendChild(newNode);
               setTimeout(function () {
