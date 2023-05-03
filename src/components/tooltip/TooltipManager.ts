@@ -34,14 +34,7 @@ export default class TooltipManager {
     const shadowRoot = this.getReferenceElShadowRootNode(referenceEl);
 
     if (shadowRoot) {
-      const { registeredShadowRootCounts } = this;
-      const count = registeredShadowRootCounts.get(shadowRoot) || 0;
-
-      if (count === 0) {
-        this.addShadowListeners(shadowRoot);
-      }
-
-      registeredShadowRootCounts.set(shadowRoot, count + 1);
+      this.registerShadowRoot(shadowRoot);
     }
 
     if (this.registeredElementCount === 1) {
@@ -51,10 +44,9 @@ export default class TooltipManager {
 
   unregisterElement(referenceEl: ReferenceElement): void {
     const shadowRoot = this.getReferenceElShadowRootNode(referenceEl);
-    const count = this.registeredShadowRootCounts.get(shadowRoot);
 
-    if (!count) {
-      this.removeShadowListeners(shadowRoot);
+    if (shadowRoot) {
+      this.unregisterShadowRoot(shadowRoot);
     }
 
     if (this.registeredElements.delete(referenceEl)) {
@@ -225,6 +217,23 @@ export default class TooltipManager {
 
   private isClosableClickedTooltip(tooltip: HTMLCalciteTooltipElement): boolean {
     return tooltip?.closeOnClick && tooltip === this.clickedTooltip;
+  }
+
+  private registerShadowRoot(shadowRoot: ShadowRoot): void {
+    const { registeredShadowRootCounts } = this;
+    const count = registeredShadowRootCounts.get(shadowRoot) || 0;
+
+    if (count === 0) {
+      this.addShadowListeners(shadowRoot);
+    }
+
+    registeredShadowRootCounts.set(shadowRoot, count + 1);
+  }
+
+  private unregisterShadowRoot(shadowRoot: ShadowRoot): void {
+    if (!this.registeredShadowRootCounts.get(shadowRoot)) {
+      this.removeShadowListeners(shadowRoot);
+    }
   }
 
   private getReferenceElShadowRootNode(referenceEl: ReferenceElement): ShadowRoot | null {
