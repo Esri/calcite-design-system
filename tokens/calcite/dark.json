@@ -2051,19 +2051,19 @@
           },
           "neutral": {
             "solid": {
-              "value": "$split-button.font.inverse.solid.light",
+              "value": "$split-button.font.neutral.solid.light",
               "type": "color"
             },
             "outline-fill": {
-              "value": "$split-button.font.inverse.outline-fill.dark",
+              "value": "$split-button.font.neutral.outline-fill.dark",
               "type": "color"
             },
             "outline": {
-              "value": "$split-button.font.inverse.outline.dark",
+              "value": "$split-button.font.neutral.outline.dark",
               "type": "color"
             },
             "transparent": {
-              "value": "$split-button.font.inverse.transparent.dark",
+              "value": "$split-button.font.neutral.transparent.dark",
               "type": "color"
             }
           },
@@ -2125,19 +2125,19 @@
           },
           "neutral": {
             "solid": {
-              "value": "$split-button.icon.inverse.solid.dark",
+              "value": "$split-button.icon.neutral.solid.dark",
               "type": "color"
             },
             "outline-fill": {
-              "value": "$split-button.icon.inverse.outline-fill.dark",
+              "value": "$split-button.icon.neutral.outline-fill.dark",
               "type": "color"
             },
             "outline": {
-              "value": "$split-button.icon.inverse.outline.dark",
+              "value": "$split-button.icon.neutral.outline.dark",
               "type": "color"
             },
             "transparent": {
-              "value": "$split-button.icon.inverse.transparent.dark",
+              "value": "$split-button.icon.neutral.transparent.dark",
               "type": "color"
             }
           },
