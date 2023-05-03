@@ -3,11 +3,15 @@ import { html } from "../../../support/formatting";
 import { accessible, hidden, renders } from "../../tests/commonTests";
 
 describe("calcite-menu", () => {
-  it("renders", async () => renders("calcite-menu", { display: "flex" }));
+  describe("renders", () => {
+    renders("calcite-menu", { display: "flex" });
+  });
 
   it("honors hidden attribute", async () => hidden("calcite-menu"));
 
-  it("is accessible", () => accessible("calcite-menu"));
+  describe("accessible", () => {
+    accessible(html`<calcite-menu> <calcite-menu-item text="calcite"> </calcite-menu-item> </calcite-menu>`);
+  });
 
   describe("mouse support", () => {
     it("should open the submenu on click", async () => {

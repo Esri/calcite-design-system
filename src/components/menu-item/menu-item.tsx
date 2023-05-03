@@ -48,7 +48,7 @@ export class CalciteMenuItem implements LoadableComponent {
   //--------------------------------------------------------------------------
 
   /** When `true`, the component is highlighted.  */
-  @Prop({ reflect: true, mutable: true }) active: boolean;
+  @Prop({ reflect: true }) active: boolean;
 
   /** When true, the component displays a visual indication of breadcrumb */
   @Prop({ reflect: true }) breadcrumb: boolean;
@@ -95,6 +95,11 @@ export class CalciteMenuItem implements LoadableComponent {
    */
   @Prop({ reflect: true }) layout: "horizontal" | "vertical";
 
+  /**
+   * @internal
+   */
+  @Prop({ reflect: true }) isTopLevelItem = false;
+
   //--------------------------------------------------------------------------
   //
   //  Private State/Props
@@ -109,7 +114,7 @@ export class CalciteMenuItem implements LoadableComponent {
 
   @State() hasSubMenu = false;
 
-  @State() isTopLevelItem: boolean;
+  // @State() isTopLevelItem: boolean;
 
   @State() topLevelLayout: "vertical" | "horizontal";
 
@@ -170,9 +175,8 @@ export class CalciteMenuItem implements LoadableComponent {
   //--------------------------------------------------------------------------
 
   connectedCallback() {
-    this.active = this.active;
     this.isFocused = this.active;
-    this.isTopLevelItem = !(this.el.parentElement?.slot === "sub-menu-item" || this.el.slot !== "");
+    // this.isTopLevelItem = !(this.el.parentElement?.slot === "sub-menu-item" || this.el.slot !== "");
     this.topLevelLayout = this.el.closest("calcite-menu")?.layout || "horizontal";
   }
 

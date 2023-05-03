@@ -43,7 +43,7 @@ export class CalciteMenu implements LoadableComponent, LocalizedComponent, T9nCo
   @Prop({ reflect: true }) layout: "horizontal" | "vertical" = "horizontal";
 
   /**
-   * Specifies accessible label for the component
+   * Specifies accessible label for the component.
    */
   @Prop() label!: string;
 
@@ -53,7 +53,7 @@ export class CalciteMenu implements LoadableComponent, LocalizedComponent, T9nCo
   @Prop() role = "menubar";
 
   /**
-   * Made into a prop for testing purposes only
+   * Made into a prop for testing purposes only.
    *
    * @internal
    */
@@ -78,12 +78,6 @@ export class CalciteMenu implements LoadableComponent, LocalizedComponent, T9nCo
   //--------------------------------------------------------------------------
 
   @State() menuItems: HTMLCalciteMenuItemElement[] = [];
-
-  @State() navigableItems: HTMLCalciteMenuItemElement[] = [];
-
-  @State() overflowedMenuItems?: HTMLCalciteMenuItemElement[] = [];
-
-  @State() overflowCalculationComplete? = false;
 
   @State() effectiveLocale = "";
 
@@ -190,6 +184,9 @@ export class CalciteMenu implements LoadableComponent, LocalizedComponent, T9nCo
     this.menuItems = slotChangeGetAssignedElements(event) as HTMLCalciteMenuItemElement[];
     this.menuItems.forEach((item: HTMLCalciteMenuItemElement) => {
       item.layout = this.layout;
+      if (this.role === "menubar") {
+        item.isTopLevelItem = true;
+      }
     });
   };
 
