@@ -4,13 +4,14 @@ import { html } from "../../../support/formatting";
 import { newE2EPage } from "@stencil/core/testing";
 import { debounceTimeout } from "./resources";
 import { CSS } from "../list-item/resources";
+import { DEBOUNCE_TIMEOUT } from "../filter/resources";
 
 const placeholder = placeholderImage({
   width: 140,
   height: 100
 });
 
-const listDebounceTimeout = debounceTimeout + 1;
+const listDebounceTimeout = debounceTimeout + DEBOUNCE_TIMEOUT;
 
 describe("calcite-list", () => {
   it("defaults", async () =>
