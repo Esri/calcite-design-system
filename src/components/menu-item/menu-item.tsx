@@ -47,13 +47,13 @@ export class CalciteMenuItem implements LoadableComponent {
   //
   //--------------------------------------------------------------------------
 
-  /** When `true`, the component is highlighted.  */
+  /** When `true`, the component is highlighted. */
   @Prop({ reflect: true }) active: boolean;
 
   /** When true, the component displays a visual indication of breadcrumb */
   @Prop({ reflect: true }) breadcrumb: boolean;
 
-  /** When true, provide a navigable href link */
+  /** Specifies the URL destination of the component, which can be set as an absolute or relative path.*/
   @Prop({ reflect: true }) href: string;
 
   /** Specifies an icon to display at the start of the component. */
@@ -65,7 +65,7 @@ export class CalciteMenuItem implements LoadableComponent {
   /** Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`). */
   @Prop() iconFlipRtl: FlipContext;
 
-  /** Accessible name for the component. */
+  /** Specifices accessible name for the component.*/
   @Prop() label!: string;
 
   /**
@@ -82,11 +82,11 @@ export class CalciteMenuItem implements LoadableComponent {
    */
   @Prop({ reflect: true }) target: string;
 
-  /** Specifies the text the component displays */
+  /** Specifies the text to display.*/
   @Prop({ reflect: true }) text: string;
 
   /**
-  /* When true, the menu item will display any slotted Menu Item in an open overflow menu *
+  /* When true, the menu item will display any slotted `calcite-menu-item` in an open overflow menu *
    */
   @Prop({ mutable: true, reflect: true }) open = false;
 
@@ -113,8 +113,6 @@ export class CalciteMenuItem implements LoadableComponent {
   private isFocused: boolean;
 
   @State() hasSubMenu = false;
-
-  // @State() isTopLevelItem: boolean;
 
   @State() topLevelLayout: "vertical" | "horizontal";
 
@@ -176,7 +174,6 @@ export class CalciteMenuItem implements LoadableComponent {
 
   connectedCallback() {
     this.isFocused = this.active;
-    // this.isTopLevelItem = !(this.el.parentElement?.slot === "sub-menu-item" || this.el.slot !== "");
     this.topLevelLayout = this.el.closest("calcite-menu")?.layout || "horizontal";
   }
 
@@ -193,6 +190,30 @@ export class CalciteMenuItem implements LoadableComponent {
   //  Private Methods
   //
   // --------------------------------------------------------------------------
+
+  private blurHandler(): void {
+    this.isFocused = false;
+  }
+
+  private clickHandler = (event: MouseEvent): void => {
+    if ((this.href && event.target === this.dropDownActionEl) || (!this.href && this.hasSubMenu)) {
+      this.open = !this.open;
+    }
+    this.selectMenuItem(event);
+  };
+
+  private focusHandler(event: FocusEvent): void {
+    const target = event.target as HTMLCalciteMenuItemElement;
+    this.isFocused = true;
+    if (target.open && !this.open) {
+      target.open = false;
+    }
+  }
+
+  private handleMenuItemSlotChange = (event: Event): void => {
+    this.subMenuItems = slotChangeGetAssignedElements(event) as HTMLCalciteMenuItemElement[];
+    this.hasSubMenu = this.subMenuItems.length > 0;
+  };
 
   private keyDownHandler = async (event: KeyboardEvent): Promise<void> => {
     // opening and closing of submenu is handled here. Any other functionality is bubbled to parent menu.
@@ -261,30 +282,6 @@ export class CalciteMenuItem implements LoadableComponent {
         break;
     }
   };
-
-  private clickHandler = (event: MouseEvent): void => {
-    if ((this.href && event.target === this.dropDownActionEl) || (!this.href && this.hasSubMenu)) {
-      this.open = !this.open;
-    }
-    this.selectMenuItem(event);
-  };
-
-  private handleMenuItemSlotChange = (event: Event): void => {
-    this.subMenuItems = slotChangeGetAssignedElements(event) as HTMLCalciteMenuItemElement[];
-    this.hasSubMenu = this.subMenuItems.length > 0;
-  };
-
-  private focusHandler(event: FocusEvent): void {
-    const target = event.target as HTMLCalciteMenuItemElement;
-    this.isFocused = true;
-    if (target.open && !this.open) {
-      target.open = false;
-    }
-  }
-
-  private blurHandler(): void {
-    this.isFocused = false;
-  }
 
   private selectMenuItem(event: MouseEvent | KeyboardEvent): void {
     if (event.target !== this.dropDownActionEl) {

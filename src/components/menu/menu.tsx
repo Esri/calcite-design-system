@@ -77,6 +77,8 @@ export class CalciteMenu implements LoadableComponent, LocalizedComponent, T9nCo
   //
   //--------------------------------------------------------------------------
 
+  @State() defaultMessages: MenuMessages;
+
   @State() menuItems: HTMLCalciteMenuItemElement[] = [];
 
   @State() effectiveLocale = "";
@@ -85,8 +87,6 @@ export class CalciteMenu implements LoadableComponent, LocalizedComponent, T9nCo
   effectiveLocaleChange(): void {
     updateMessages(this, this.effectiveLocale);
   }
-
-  @State() defaultMessages: MenuMessages;
 
   //--------------------------------------------------------------------------
   //
