@@ -4,14 +4,14 @@ import { html } from "../../../support/formatting";
 import { newE2EPage } from "@stencil/core/testing";
 import { debounceTimeout } from "./resources";
 import { CSS } from "../list-item/resources";
-import { DEBOUNCE_TIMEOUT } from "../filter/resources";
+import { DEBOUNCE_TIMEOUT as FILTER_DEBOUNCE_TIMEOUT } from "../filter/resources";
 
 const placeholder = placeholderImage({
   width: 140,
   height: 100
 });
 
-const listDebounceTimeout = debounceTimeout + DEBOUNCE_TIMEOUT;
+const listDebounceTimeout = debounceTimeout + FILTER_DEBOUNCE_TIMEOUT;
 
 describe("calcite-list", () => {
   it("defaults", async () =>
@@ -182,13 +182,14 @@ describe("calcite-list", () => {
         </calcite-list>
       `
     });
-
-    const list = await page.find("calcite-list");
-    await page.waitForTimeout(listDebounceTimeout);
     await page.waitForChanges();
 
-    expect(await list.getProperty("filteredData")).toHaveLength(3);
+    const list = await page.find("calcite-list");
+    await list.callMethod("setFocus");
+    await page.waitForTimeout(listDebounceTimeout);
+
     expect(await list.getProperty("filteredItems")).toHaveLength(3);
+    expect(await list.getProperty("filteredData")).toHaveLength(3);
 
     const visibleItems = await page.findAll("calcite-list-item:not([hidden])");
 
