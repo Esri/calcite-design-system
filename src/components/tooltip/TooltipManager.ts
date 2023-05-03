@@ -1,4 +1,4 @@
-import { isPrimaryPointerButton } from "../../utils/dom";
+import { getShadowRootNode, isPrimaryPointerButton } from "../../utils/dom";
 import { ReferenceElement } from "../../utils/floating-ui";
 import { TOOLTIP_DELAY_MS } from "./resources";
 import { getEffectiveReferenceElement } from "./utils";
@@ -11,6 +11,8 @@ export default class TooltipManager {
   // --------------------------------------------------------------------------
 
   private registeredElements = new WeakMap<ReferenceElement, HTMLCalciteTooltipElement>();
+
+  private registeredShadowRoots = new WeakMap<ReferenceElement, ShadowRoot>();
 
   private hoverTimeout: number = null;
 
@@ -31,12 +33,25 @@ export default class TooltipManager {
 
     this.registeredElements.set(referenceEl, tooltip);
 
+    const shadowRoot = referenceEl instanceof Element ? getShadowRootNode(referenceEl) : null;
+
+    if (shadowRoot) {
+      this.registeredShadowRoots.set(referenceEl, shadowRoot);
+      this.addShadowListeners(shadowRoot);
+    }
+
     if (this.registeredElementCount === 1) {
       this.addListeners();
     }
   }
 
   unregisterElement(referenceEl: ReferenceElement): void {
+    const shadowRoot = this.registeredShadowRoots.get(referenceEl);
+
+    if (shadowRoot) {
+      this.removeShadowListeners(shadowRoot);
+    }
+
     if (this.registeredElements.delete(referenceEl)) {
       this.registeredElementCount--;
     }
@@ -125,6 +140,16 @@ export default class TooltipManager {
   private focusOutHandler = (event: FocusEvent): void => {
     this.queryFocusedTooltip(event, false);
   };
+
+  private addShadowListeners(shadowRoot: ShadowRoot): void {
+    shadowRoot.addEventListener("focusin", this.focusInHandler, { capture: true });
+    shadowRoot.addEventListener("focusout", this.focusOutHandler, { capture: true });
+  }
+
+  private removeShadowListeners(shadowRoot: ShadowRoot): void {
+    shadowRoot.removeEventListener("focusin", this.focusInHandler, { capture: true });
+    shadowRoot.removeEventListener("focusout", this.focusOutHandler, { capture: true });
+  }
 
   private addListeners(): void {
     document.addEventListener("keydown", this.keyDownHandler, { capture: true });

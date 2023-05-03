@@ -52,6 +52,11 @@ export function getRootNode(el: Element): Document | ShadowRoot {
   return el.getRootNode() as Document | ShadowRoot;
 }
 
+export function getShadowRootNode(el: Element): ShadowRoot | null {
+  const rootNode = getRootNode(el);
+  return "host" in rootNode ? rootNode : null;
+}
+
 export function getHost(root: Document | ShadowRoot): Element | null {
   return (root as ShadowRoot).host || null;
 }
