@@ -173,10 +173,9 @@ export const run = async (
           if (matchList(file.filePath, [...include, ...theme.source, ...theme.enabled], matchExclusions)) {
             const obj = JSON.parse(file.contents);
             const expanded = expandComposites(obj, file.filePath);
-
             return expanded;
           }
-
+          
           return {};
         }
       }

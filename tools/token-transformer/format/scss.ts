@@ -7,7 +7,7 @@ const regexThemeGroup = /calcite|brand/gi;
 const regexFileNameWithoutExtension = /\w+(?=\.\w+$)/gi;
 
 /**
- * 
+ * Exports SCSS style formats
  * @param {object} fileInfo the file object
  * @param {Dictionary} fileInfo.dictionary the Style Dictionary object
  * @param {File} fileInfo.file information about the file to be generated

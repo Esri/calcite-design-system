@@ -28,7 +28,7 @@ npm install
 
 ### Create a branch for your feature or fix
 
-If you are a designer setting up a branch for FigmaTokens Plugin, make sure your branch name starts with `designer/`.
+If you are a designer setting up a branch for Figma Tokens Plugin, make sure your branch name starts with `designer/`.
 
 ```bash
 git checkout -b designer/[yourname]
@@ -53,37 +53,34 @@ Build the tokens to platform assets
 `npm run build`
 
 
-### Understanding Token Files
+## Understanding Token Files
 
 All token files may be updated by the Figma Token Studio plugin. These can also be updated in the code directly. Any changes to token files must be reviewed by the Calcite Design Team.
 
-#### tokens/$metadata.json
+### tokens/$metadata.json
 
 This file is used by Figma Token Studio but is not used to determine final token asset output.
 
-#### tokens/$themes.json
+### tokens/$themes.json
 
 Each theme defined in this file will output a token asset in each format defined in the token transformer config.
 
-#### tokens/core.json
+### tokens/core.json
 
 The core design tokens upon which the rest of the tokens are built.
 
-#### tokens/semantic.json
+### tokens/semantic.json
 
 The semantic design tokens used by theme files and components.
 
-#### tokens/component/
+### tokens/component/
 
 The component design tokens. These are used by themes.
 
-#### tokens/calcite/
+### tokens/calcite/
 
 The Calcite themes. This currently consists of a light and dark theme.
 
-#### tokens/brand/
-
-The Brand themes. This currently consists of a set of global tokens as well as a light and dark theme.
 
 ## Submitting Pull Requests
 
@@ -110,7 +107,7 @@ git push origin [yourname]/[type]-[issue#]
 
 ### Open the pull request back to the token repo
 
-Make sure to use a clear title and descritions. See [open a pull request](https://help.github.com/articles/using-pull-requests/) for more information.
+Make sure to use a clear title and description. See [open a pull request](https://help.github.com/articles/using-pull-requests/) for more information.
 
 ## Bumping the Version
 
