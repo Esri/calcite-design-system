@@ -1,5 +1,6 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { accessible, defaults, reflects, renders, hidden } from "../../tests/commonTests";
+import { html } from "../../../support/formatting";
 
 describe("calcite-option", () => {
   describe("renders", () => {
@@ -34,9 +35,8 @@ describe("calcite-option", () => {
 
   it("falls back to the text content when value/label is not specified", async () => {
     const optionText = "one";
-    const page = await newE2EPage({
-      html: `<calcite-option>${optionText}</calcite-option>`
-    });
+    const page = await newE2EPage();
+    await page.setContent(html`<calcite-option>${optionText}</calcite-option>`);
     const option = await page.find("calcite-option");
 
     expect(await option.getProperty("label")).toBe(optionText);

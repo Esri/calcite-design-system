@@ -36,11 +36,10 @@ describe("calcite-notice", () => {
 
   it("renders default props when none are provided", async () => {
     const page = await newE2EPage();
-    await page.setContent(`
-    <calcite-notice>
-    <div slot="title">Title Text</div>
-    <div slot="message">Message Text</div>
-    <calcite-link slot="link" href="">Action</calcite-link>
+    await page.setContent(html` <calcite-notice>
+      <div slot="title">Title Text</div>
+      <div slot="message">Message Text</div>
+      <calcite-link slot="link" href="">Action</calcite-link>
     </calcite-notice>`);
     const element = await page.find("calcite-notice");
     const close = await page.find(`calcite-notice >>> .${CSS.close}`);
@@ -52,10 +51,7 @@ describe("calcite-notice", () => {
 
   it("renders requested props when valid props are provided", async () => {
     const page = await newE2EPage();
-    await page.setContent(`
-    <calcite-notice kind="warning" closable>
-    ${noticeContent}
-    </calcite-notice>`);
+    await page.setContent(html` <calcite-notice kind="warning" closable> ${noticeContent} </calcite-notice>`);
 
     const element = await page.find("calcite-notice");
     const close = await page.find(`calcite-notice >>> .${CSS.close}`);
@@ -68,10 +64,7 @@ describe("calcite-notice", () => {
 
   it("renders an icon and close button when requested", async () => {
     const page = await newE2EPage();
-    await page.setContent(`
-    <calcite-notice icon closable>
-    ${noticeContent}
-    </calcite-notice>`);
+    await page.setContent(html` <calcite-notice icon closable> ${noticeContent} </calcite-notice>`);
 
     const close = await page.find(`calcite-notice >>> .${CSS.close}`);
     const icon = await page.find(`calcite-notice >>> .${CSS.icon}`);
@@ -81,11 +74,7 @@ describe("calcite-notice", () => {
 
   it("successfully closes a closable notice", async () => {
     const page = await newE2EPage();
-    await page.setContent(`
-    <calcite-notice id="notice-1" open closable>
-    ${noticeContent}
-    </calcite-notice>
-    `);
+    await page.setContent(html` <calcite-notice id="notice-1" open closable> ${noticeContent} </calcite-notice> `);
 
     const notice1 = await page.find("#notice-1 >>> .container");
     const noticeclose1 = await page.find(`#notice-1 >>> .${CSS.close}`);

@@ -392,8 +392,7 @@ describe("calcite-stepper", () => {
         <calcite-button id="next">Next Step</calcite-button>
       `;
 
-      const page = await newE2EPage({ html: templateHTML });
-
+      const page = await newE2EPage();
       await page.waitForChanges();
 
       const finalSelectedItem = await page.evaluate(

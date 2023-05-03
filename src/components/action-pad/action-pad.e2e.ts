@@ -49,10 +49,7 @@ describe("calcite-action-pad", () => {
   describe("expand functionality", () => {
     it("should be expandable by default", async () => {
       const page = await newE2EPage();
-
       await page.setContent("<calcite-action-pad></calcite-action-pad>");
-
-      await page.waitForChanges();
 
       const expandAction = await page.find("calcite-action-pad >>> calcite-action");
 
@@ -61,10 +58,7 @@ describe("calcite-action-pad", () => {
 
     it("allows disabling expandable behavior", async () => {
       const page = await newE2EPage();
-
       await page.setContent("<calcite-action-pad expand-disabled></calcite-action-pad>");
-
-      await page.waitForChanges();
 
       const expandAction = await page.find("calcite-action-pad >>> calcite-action");
 
@@ -72,7 +66,8 @@ describe("calcite-action-pad", () => {
     });
 
     it("should toggle expanded", async () => {
-      const page = await newE2EPage({ html: "<calcite-action-pad></calcite-action-pad>" });
+      const page = await newE2EPage();
+      await page.setContent("<calcite-action-pad></calcite-action-pad>");
 
       const pad = await page.find("calcite-action-pad");
 
@@ -138,7 +133,7 @@ describe("calcite-action-pad", () => {
   it("should not have bottomGroup when not expandable", async () => {
     const page = await newE2EPage();
 
-    await page.setContent(`<calcite-action-pad expand-disabled></calcite-action-pad>`);
+    await page.setContent(html`<calcite-action-pad expand-disabled></calcite-action-pad>`);
 
     const buttonGroup = await page.find(`calcite-action-pad >>> .${CSS.actionGroupBottom}`);
 
@@ -203,25 +198,24 @@ describe("calcite-action-pad", () => {
   it("has slots", () => slots("calcite-action-pad", SLOTS));
 
   it("'calciteActionMenuOpen' event should set other 'calcite-action-group' - 'menuOpen' to false", async () => {
-    const page = await newE2EPage({
-      html: `<calcite-action-pad>
-          <calcite-action-group>
-            <calcite-action text="Add" icon="plus"></calcite-action>
-            <calcite-action text="Add" icon="plus"></calcite-action>
-            <calcite-action text="Add" icon="plus"></calcite-action>
-            <calcite-action text="Add" icon="plus" slot="menu-actions"></calcite-action>
-            <calcite-action text="Add" icon="plus" slot="menu-actions"></calcite-action>
-          </calcite-action-group>
-          <calcite-action-group menu-open>
-            <calcite-action text="Add" icon="plus"></calcite-action>
-            <calcite-action text="Add" icon="plus"></calcite-action>
-            <calcite-action text="Add" icon="plus"></calcite-action>
-            <calcite-action text="Add" icon="plus"></calcite-action>
-            <calcite-action text="Add" icon="plus" slot="menu-actions"></calcite-action>
-            <calcite-action text="Add" icon="plus" slot="menu-actions"></calcite-action>
-          </calcite-action-group>
-        </calcite-action-pad>`
-    });
+    const page = await newE2EPage();
+    await page.setContent(html`<calcite-action-pad>
+      <calcite-action-group>
+        <calcite-action text="Add" icon="plus"></calcite-action>
+        <calcite-action text="Add" icon="plus"></calcite-action>
+        <calcite-action text="Add" icon="plus"></calcite-action>
+        <calcite-action text="Add" icon="plus" slot="menu-actions"></calcite-action>
+        <calcite-action text="Add" icon="plus" slot="menu-actions"></calcite-action>
+      </calcite-action-group>
+      <calcite-action-group menu-open>
+        <calcite-action text="Add" icon="plus"></calcite-action>
+        <calcite-action text="Add" icon="plus"></calcite-action>
+        <calcite-action text="Add" icon="plus"></calcite-action>
+        <calcite-action text="Add" icon="plus"></calcite-action>
+        <calcite-action text="Add" icon="plus" slot="menu-actions"></calcite-action>
+        <calcite-action text="Add" icon="plus" slot="menu-actions"></calcite-action>
+      </calcite-action-group>
+    </calcite-action-pad>`);
 
     const eventSpy = await page.spyOnEvent("calciteActionMenuOpen", "window");
 
@@ -246,7 +240,8 @@ describe("calcite-action-pad", () => {
   });
 
   it("should honor scale of expand icon", async () => {
-    const page = await newE2EPage({ html: `<calcite-action-pad scale="l"></calcite-action-pad>` });
+    const page = await newE2EPage();
+    await page.setContent(html`<calcite-action-pad scale="l"></calcite-action-pad>`);
 
     const buttonGroup = await page.find(`calcite-action-pad >>> .${CSS.actionGroupBottom}`);
 

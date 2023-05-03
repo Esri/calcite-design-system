@@ -52,7 +52,7 @@ describe("calcite-pick-list", () => {
   describe("icon logic", () => {
     it("should be 'circle' when multi-select is disabled", async () => {
       const page = await newE2EPage();
-      await page.setContent(`<calcite-pick-list>
+      await page.setContent(html`<calcite-pick-list>
         <calcite-pick-list-item value="one"></calcite-pick-list-item>
       </calcite-pick-list>`);
 
@@ -63,7 +63,7 @@ describe("calcite-pick-list", () => {
 
     it("should be 'square' when multi-select is enabled", async () => {
       const page = await newE2EPage();
-      await page.setContent(`<calcite-pick-list multiple>
+      await page.setContent(html`<calcite-pick-list multiple>
         <calcite-pick-list-item value="one"></calcite-pick-list-item>
       </calcite-pick-list>`);
 
@@ -107,14 +107,13 @@ describe("calcite-pick-list", () => {
 
     describe("filtering with groups", () => {
       beforeEach(async () => {
-        page = await newE2EPage({
-          html: `<calcite-pick-list filter-enabled>
+        page = await newE2EPage();
+        await page.setContent(html`<calcite-pick-list filter-enabled>
           <calcite-pick-list-group group-title="Numbers">
             <calcite-pick-list-item value="1" label="One" description="uno"></calcite-pick-list-item>
             <calcite-pick-list-item value="2" label="Two" description="dos"></calcite-pick-list-item>
           </calcite-pick-list-group>
-        </calcite-pick-list>`
-        });
+        </calcite-pick-list>`);
 
         groupOrParentItem = await page.find(`calcite-pick-list-group`);
         item1 = await page.find(`calcite-pick-list-item[value="1"]`);
@@ -140,15 +139,14 @@ describe("calcite-pick-list", () => {
 
     describe("filtering with groups (nested)", () => {
       beforeEach(async () => {
-        page = await newE2EPage({
-          html: `<calcite-pick-list filter-enabled>
+        page = await newE2EPage();
+        await page.setContent(html`<calcite-pick-list filter-enabled>
           <calcite-pick-list-group>
             <calcite-pick-list-item slot="parent-item" value="nums" label="Numbers"></calcite-pick-list-item>
             <calcite-pick-list-item value="1" label="One" description="uno"></calcite-pick-list-item>
             <calcite-pick-list-item value="2" label="Two" description="dos"></calcite-pick-list-item>
           </calcite-pick-list-group>
-        </calcite-pick-list>`
-        });
+        </calcite-pick-list>`);
 
         groupOrParentItem = await page.find(`calcite-pick-list-item[slot="parent-item"]`);
         item1 = await page.find(`calcite-pick-list-item[value="1"]`);
@@ -201,14 +199,13 @@ describe("calcite-pick-list", () => {
   });
 
   it("should set headingLevel of tip", async () => {
-    const page = await newE2EPage({
-      html: `<calcite-pick-list heading-level="1">
+    const page = await newE2EPage();
+    await page.setContent(html`<calcite-pick-list heading-level="1">
       <calcite-pick-list-group group-title="test">
         <calcite-pick-list-item value="1" label="One" description="uno"></calcite-pick-list-item>
         <calcite-pick-list-item value="2" label="Two" description="dos"></calcite-pick-list-item>
       </calcite-pick-list-group>
-    </calcite-pick-list>`
-    });
+    </calcite-pick-list>`);
 
     await page.waitForChanges();
 

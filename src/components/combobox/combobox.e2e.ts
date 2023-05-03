@@ -66,16 +66,13 @@ describe("calcite-combobox", () => {
   it("can be disabled", () => disabled("calcite-combobox"));
 
   it("filtering does not match property with value of undefined", async () => {
-    const page = await newE2EPage({
-      html: html`
-        <calcite-combobox id="myCombobox">
-          <calcite-combobox-item value="Raising Arizona" text-label="Raising Arizona"></calcite-combobox-item>
-          <calcite-combobox-item value="Miller's Crossing" text-label="Miller's Crossing"></calcite-combobox-item>
-          <calcite-combobox-item value="The Hudsucker Proxy" text-label="The Hudsucker Proxy"></calcite-combobox-item>
-          <calcite-combobox-item value="Inside Llewyn Davis" text-label="Inside Llewyn Davis"></calcite-combobox-item>
-        </calcite-combobox>
-      `
-    });
+    const page = await newE2EPage();
+    await page.setContent(html`<calcite-combobox id="myCombobox">
+      <calcite-combobox-item value="Raising Arizona" text-label="Raising Arizona"></calcite-combobox-item>
+      <calcite-combobox-item value="Miller's Crossing" text-label="Miller's Crossing"></calcite-combobox-item>
+      <calcite-combobox-item value="The Hudsucker Proxy" text-label="The Hudsucker Proxy"></calcite-combobox-item>
+      <calcite-combobox-item value="Inside Llewyn Davis" text-label="Inside Llewyn Davis"></calcite-combobox-item>
+    </calcite-combobox>`);
 
     const combobox = await page.find("calcite-combobox");
     const input = await page.find("calcite-combobox >>> input");
@@ -93,16 +90,13 @@ describe("calcite-combobox", () => {
   });
 
   it("should filter the items in listbox when typing into the input", async () => {
-    const page = await newE2EPage({
-      html: html`
-        <calcite-combobox id="myCombobox">
-          <calcite-combobox-item value="Raising Arizona" text-label="Raising Arizona"></calcite-combobox-item>
-          <calcite-combobox-item value="Miller's Crossing" text-label="Miller's Crossing"></calcite-combobox-item>
-          <calcite-combobox-item value="The Hudsucker Proxy" text-label="The Hudsucker Proxy"></calcite-combobox-item>
-          <calcite-combobox-item value="Inside Llewyn Davis" text-label="Inside Llewyn Davis"></calcite-combobox-item>
-        </calcite-combobox>
-      `
-    });
+    const page = await newE2EPage();
+    await page.setContent(html`<calcite-combobox id="myCombobox">
+      <calcite-combobox-item value="Raising Arizona" text-label="Raising Arizona"></calcite-combobox-item>
+      <calcite-combobox-item value="Miller's Crossing" text-label="Miller's Crossing"></calcite-combobox-item>
+      <calcite-combobox-item value="The Hudsucker Proxy" text-label="The Hudsucker Proxy"></calcite-combobox-item>
+      <calcite-combobox-item value="Inside Llewyn Davis" text-label="Inside Llewyn Davis"></calcite-combobox-item>
+    </calcite-combobox>`);
 
     const combobox = await page.find("calcite-combobox");
     const input = await page.find("calcite-combobox >>> input");
@@ -154,7 +148,7 @@ describe("calcite-combobox", () => {
 
     const maxItems = 7;
 
-    await page.setContent(`
+    await page.setContent(html`
       <calcite-combobox max-items="${maxItems}">
         <calcite-combobox-item id="item-0" value="item-0" text-label="item-0">
           <calcite-combobox-item id="item-1" value="item-1" text-label="item-1"></calcite-combobox-item>
@@ -189,7 +183,7 @@ describe("calcite-combobox", () => {
 
     const maxItems = 8;
 
-    await page.setContent(`
+    await page.setContent(html`
       <calcite-combobox max-items="${maxItems}">
         <calcite-combobox-item id="item-0" value="item-0" text-label="item-0">
           <calcite-combobox-item id="item-1" value="item-1" text-label="item-1"></calcite-combobox-item>
@@ -224,29 +218,29 @@ describe("calcite-combobox", () => {
 
     const maxItems = 6;
 
-    await page.setContent(`
-    <calcite-combobox label="custom values" allow-custom-values placeholder="placeholder" max-items="6">
-      <calcite-combobox-item value="Trees" text-label="Trees" selected>
-        <calcite-combobox-item value="Pine" text-label="Pine">
-          <calcite-combobox-item value="Pine Nested" text-label="Pine Nested"></calcite-combobox-item>
+    await page.setContent(html`
+      <calcite-combobox label="custom values" allow-custom-values placeholder="placeholder" max-items="6">
+        <calcite-combobox-item value="Trees" text-label="Trees" selected>
+          <calcite-combobox-item value="Pine" text-label="Pine">
+            <calcite-combobox-item value="Pine Nested" text-label="Pine Nested"></calcite-combobox-item>
+          </calcite-combobox-item>
+          <calcite-combobox-item value="Sequoia" disabled text-label="Sequoia"></calcite-combobox-item>
+          <calcite-combobox-item value="Douglas Fir" text-label="Douglas Fir"></calcite-combobox-item>
         </calcite-combobox-item>
-        <calcite-combobox-item value="Sequoia" disabled text-label="Sequoia"></calcite-combobox-item>
-        <calcite-combobox-item value="Douglas Fir" text-label="Douglas Fir"></calcite-combobox-item>
-      </calcite-combobox-item>
-      <calcite-combobox-item value="Flowers" text-label="Flowers">
-        <calcite-combobox-item value="Daffodil" text-label="Daffodil"></calcite-combobox-item>
-        <calcite-combobox-item value="Black Eyed Susan" text-label="Black Eyed Susan"></calcite-combobox-item>
-        <calcite-combobox-item value="Nasturtium" text-label="Nasturtium"></calcite-combobox-item>
-      </calcite-combobox-item>
-      <calcite-combobox-item value="Animals" text-label="Animals">
-        <calcite-combobox-item value="Birds" text-label="Birds"></calcite-combobox-item>
-        <calcite-combobox-item value="Reptiles" text-label="Reptiles"></calcite-combobox-item>
-        <calcite-combobox-item value="Amphibians" text-label="Amphibians"></calcite-combobox-item>
-      </calcite-combobox-item>
-      <calcite-combobox-item value="Rocks" text-label="Rocks"></calcite-combobox-item>
-      <calcite-combobox-item value="Insects" text-label="Insects"></calcite-combobox-item>
-      <calcite-combobox-item value="Rivers" text-label="Rivers"></calcite-combobox-item>
-    </calcite-combobox>
+        <calcite-combobox-item value="Flowers" text-label="Flowers">
+          <calcite-combobox-item value="Daffodil" text-label="Daffodil"></calcite-combobox-item>
+          <calcite-combobox-item value="Black Eyed Susan" text-label="Black Eyed Susan"></calcite-combobox-item>
+          <calcite-combobox-item value="Nasturtium" text-label="Nasturtium"></calcite-combobox-item>
+        </calcite-combobox-item>
+        <calcite-combobox-item value="Animals" text-label="Animals">
+          <calcite-combobox-item value="Birds" text-label="Birds"></calcite-combobox-item>
+          <calcite-combobox-item value="Reptiles" text-label="Reptiles"></calcite-combobox-item>
+          <calcite-combobox-item value="Amphibians" text-label="Amphibians"></calcite-combobox-item>
+        </calcite-combobox-item>
+        <calcite-combobox-item value="Rocks" text-label="Rocks"></calcite-combobox-item>
+        <calcite-combobox-item value="Insects" text-label="Insects"></calcite-combobox-item>
+        <calcite-combobox-item value="Rivers" text-label="Rivers"></calcite-combobox-item>
+      </calcite-combobox>
     `);
     await page.waitForChanges();
 
@@ -426,11 +420,10 @@ describe("calcite-combobox", () => {
     });
 
     it("should honor calciteComboboxChipClose", async () => {
-      const page = await newE2EPage({
-        html: `<calcite-combobox>
+      const page = await newE2EPage();
+      await page.setContent(html`<calcite-combobox>
         <calcite-combobox-item value="one" selected text-label="one"></calcite-combobox-item>
-      </calcite-combobox>`
-      });
+      </calcite-combobox>`);
 
       const eventSpy = await page.spyOnEvent("calciteComboboxChipClose", "window");
 
@@ -1128,10 +1121,10 @@ describe("calcite-combobox", () => {
 
   it("respects the filterDisabled item property", async () => {
     const page = await newE2EPage();
-    await page.setContent(`
+    await page.setContent(html`
       <calcite-combobox selection-mode="single">
         <calcite-combobox-item id="one" value="one" text-label="One"></calcite-combobox-item>
-        <calcite-combobox-item id="two" value="two" text-label="Two" ></calcite-combobox-item>
+        <calcite-combobox-item id="two" value="two" text-label="Two"></calcite-combobox-item>
         <calcite-combobox-item id="three" value="three" text-label="Three" filter-disabled></calcite-combobox-item>
       </calcite-combobox>
     `);
@@ -1151,7 +1144,7 @@ describe("calcite-combobox", () => {
 
   it("works correctly inside a shadowRoot", async () => {
     const page = await newE2EPage();
-    await page.setContent(`
+    await page.setContent(html`
       <div></div>
       <template>
         <calcite-combobox selection-mode="single">

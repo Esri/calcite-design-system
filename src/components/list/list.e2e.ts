@@ -100,14 +100,11 @@ describe("calcite-list", () => {
     ));
 
   it("navigating items after filtering", async () => {
-    const page = await newE2EPage({
-      html: html`
-        <calcite-list filter-enabled>
-          <calcite-list-item value="one" label="One" description="hello world"></calcite-list-item>
-          <calcite-list-item value="two" label="Two" description="hello world"></calcite-list-item>
-        </calcite-list>
-      `
-    });
+    const page = await newE2EPage();
+    await page.setContent(html`<calcite-list filter-enabled>
+      <calcite-list-item value="one" label="One" description="hello world"></calcite-list-item>
+      <calcite-list-item value="two" label="Two" description="hello world"></calcite-list-item>
+    </calcite-list>`);
     await page.waitForChanges();
     const list = await page.find("calcite-list");
     const filter = await page.find(`calcite-list >>> calcite-filter`);
@@ -151,36 +148,13 @@ describe("calcite-list", () => {
   });
 
   it("filters initially", async () => {
-    const page = await newE2EPage({
-      html: html`
-        <calcite-list filter-enabled filter-text="match">
-          <calcite-list-item
-            id="label-match"
-            label="match"
-            description="description-1"
-            value="value-1"
-          ></calcite-list-item>
-          <calcite-list-item
-            id="description-match"
-            label="label-2"
-            description="match"
-            value="value-1"
-          ></calcite-list-item>
-          <calcite-list-item
-            id="value-match"
-            label="label-3"
-            description="description-3"
-            value="match"
-          ></calcite-list-item>
-          <calcite-list-item
-            id="no-match"
-            label="label-4"
-            description="description-4"
-            value="value-4"
-          ></calcite-list-item>
-        </calcite-list>
-      `
-    });
+    const page = await newE2EPage();
+    await page.setContent(html`<calcite-list filter-enabled filter-text="match">
+      <calcite-list-item id="label-match" label="match" description="description-1" value="value-1"></calcite-list-item>
+      <calcite-list-item id="description-match" label="label-2" description="match" value="value-1"></calcite-list-item>
+      <calcite-list-item id="value-match" label="label-3" description="description-3" value="match"></calcite-list-item>
+      <calcite-list-item id="no-match" label="label-4" description="description-4" value="value-4"></calcite-list-item>
+    </calcite-list>`);
 
     const list = await page.find("calcite-list");
     await page.waitForTimeout(listDebounceTimeout);
@@ -195,13 +169,12 @@ describe("calcite-list", () => {
   });
 
   it("should update active item on init and click", async () => {
-    const page = await newE2EPage({
-      html: html`<calcite-list selection-mode="none">
-        <calcite-list-item id="item-1" label="hello" description="world"></calcite-list-item>
-        <calcite-list-item id="item-2" label="hello 2" description="world 2"></calcite-list-item>
-        <calcite-list-item id="item-3" label="hello 3" description="world 3"></calcite-list-item>
-      </calcite-list>`
-    });
+    const page = await newE2EPage();
+    await page.setContent(html`<calcite-list selection-mode="none">
+      <calcite-list-item id="item-1" label="hello" description="world"></calcite-list-item>
+      <calcite-list-item id="item-2" label="hello 2" description="world 2"></calcite-list-item>
+      <calcite-list-item id="item-3" label="hello 3" description="world 3"></calcite-list-item>
+    </calcite-list>`);
 
     await page.waitForTimeout(listDebounceTimeout);
     await page.waitForChanges();
@@ -226,13 +199,12 @@ describe("calcite-list", () => {
   });
 
   it("should prevent de-selection of selected item in single-persist mode", async () => {
-    const page = await newE2EPage({
-      html: html`<calcite-list selection-mode="single-persist">
-        <calcite-list-item id="item-1" label="hello" description="world"></calcite-list-item>
-        <calcite-list-item id="item-2" label="hello 2" description="world 2"></calcite-list-item>
-        <calcite-list-item id="item-3" selected label="hello 3" description="world 3"></calcite-list-item>
-      </calcite-list>`
-    });
+    const page = await newE2EPage();
+    await page.setContent(html`<calcite-list selection-mode="single-persist">
+      <calcite-list-item id="item-1" label="hello" description="world"></calcite-list-item>
+      <calcite-list-item id="item-2" label="hello 2" description="world 2"></calcite-list-item>
+      <calcite-list-item id="item-3" selected label="hello 3" description="world 3"></calcite-list-item>
+    </calcite-list>`);
 
     await page.waitForTimeout(listDebounceTimeout);
     await page.waitForChanges();
@@ -257,13 +229,12 @@ describe("calcite-list", () => {
   });
 
   it("should correctly allow de-selection and change of selected item in single mode", async () => {
-    const page = await newE2EPage({
-      html: html`<calcite-list selection-mode="single">
-        <calcite-list-item id="item-1" label="hello" description="world"></calcite-list-item>
-        <calcite-list-item id="item-2" label="hello 2" description="world 2"></calcite-list-item>
-        <calcite-list-item id="item-3" selected label="hello 3" description="world 3"></calcite-list-item>
-      </calcite-list>`
-    });
+    const page = await newE2EPage();
+    await page.setContent(html`<calcite-list selection-mode="single">
+      <calcite-list-item id="item-1" label="hello" description="world"></calcite-list-item>
+      <calcite-list-item id="item-2" label="hello 2" description="world 2"></calcite-list-item>
+      <calcite-list-item id="item-3" selected label="hello 3" description="world 3"></calcite-list-item>
+    </calcite-list>`);
 
     await page.waitForTimeout(listDebounceTimeout);
     await page.waitForChanges();
@@ -298,14 +269,11 @@ describe("calcite-list", () => {
   });
 
   it("should emit calciteListChange on selection change", async () => {
-    const page = await newE2EPage({
-      html: html`
-        <calcite-list selection-mode="single">
-          <calcite-list-item value="one" label="One" description="hello world"></calcite-list-item>
-          <calcite-list-item value="two" label="Two" description="hello world"></calcite-list-item>
-        </calcite-list>
-      `
-    });
+    const page = await newE2EPage();
+    await page.setContent(html`<calcite-list selection-mode="single">
+      <calcite-list-item value="one" label="One" description="hello world"></calcite-list-item>
+      <calcite-list-item value="two" label="Two" description="hello world"></calcite-list-item>
+    </calcite-list>`);
     await page.waitForChanges();
     const list = await page.find("calcite-list");
     const listItemOne = await page.find(`calcite-list-item[value=one]`);

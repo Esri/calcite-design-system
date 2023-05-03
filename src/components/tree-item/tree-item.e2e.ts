@@ -97,7 +97,7 @@ describe("calcite-tree-item", () => {
   it("should allow starting expanded", async () => {
     const page = await newE2EPage();
 
-    await page.setContent(`<calcite-tree lines id="parentTree">
+    await page.setContent(html`<calcite-tree lines id="parentTree">
       <calcite-tree-item id="firstItem" expanded>
         <a href="#">Child 2</a>
 
@@ -117,7 +117,7 @@ describe("calcite-tree-item", () => {
   it("should navigate when the link inside the tree item is clicked", async () => {
     const page = await newE2EPage();
 
-    await page.setContent(`<calcite-tree lines id="parentTree">
+    await page.setContent(html`<calcite-tree lines id="parentTree">
       <calcite-tree-item id="firstItem">
         <a href="#">Child 1</a>
       </calcite-tree-item>
@@ -133,7 +133,7 @@ describe("calcite-tree-item", () => {
   it("should navigate to the link url when the item but not the link is clicked", async () => {
     const page = await newE2EPage();
 
-    await page.setContent(`<calcite-tree lines id="parentTree">
+    await page.setContent(html`<calcite-tree lines id="parentTree">
       <calcite-tree-item id="firstItem">
         <a href="#">Child 1</a>
       </calcite-tree-item>
@@ -149,7 +149,7 @@ describe("calcite-tree-item", () => {
   it("should navigate to the inner link when a child item is clicked and not the outer link", async () => {
     const page = await newE2EPage();
 
-    await page.setContent(`<calcite-tree lines id="parentTree">
+    await page.setContent(html`<calcite-tree lines id="parentTree">
       <calcite-tree-item expanded>
         <a href="#outer">Child 2</a>
 
@@ -199,7 +199,6 @@ describe("calcite-tree-item", () => {
       `;
       const page = await newE2EPage();
       await page.setContent(tree);
-      await page.waitForChanges();
       const ancestors = await page.findAll(`calcite-tree-item[data-id="ancestor"]`);
 
       for (const node of ancestors) {
@@ -234,7 +233,6 @@ describe("calcite-tree-item", () => {
       `;
       const page = await newE2EPage();
       await page.setContent(tree);
-      await page.waitForChanges();
       const [indeterminateAncestor, selectedAncestor] = await page.findAll(`calcite-tree-item[data-id="ancestor"]`);
 
       expect(await indeterminateAncestor.getProperty("indeterminate")).toBe(true);
@@ -248,11 +246,12 @@ describe("calcite-tree-item", () => {
   describe("when a parent tree-item is expanded and a new item is appended into it", () => {
     it("should render the visible, keyboard navigable item", async () => {
       const page = await newE2EPage();
-      await page.setContent(`<calcite-panel>
-        <calcite-button id='add-item-btn'>Add item to tree</calcite-button>
+      await page.setContent(html`<calcite-panel>
+        <calcite-button id="add-item-btn">Add item to tree</calcite-button>
         <calcite-tree>
-          <calcite-tree-item expanded><span>Element 1</span>
-            <calcite-tree slot='children' id='target-tree'>
+          <calcite-tree-item expanded
+            ><span>Element 1</span>
+            <calcite-tree slot="children" id="target-tree">
               <calcite-tree-item>Child 1</calcite-tree-item>
             </calcite-tree>
           </calcite-tree-item>
@@ -351,19 +350,18 @@ describe("calcite-tree-item", () => {
   });
 
   it("right arrow key expands subtree and left arrow collapses it", async () => {
-    const page = await newE2EPage({
-      html: `
-        <calcite-tree>
-          <calcite-tree-item id="cables">
-            Cables
-            <calcite-tree slot="children">
-              <calcite-tree-item id="xlr">XLR Cable</calcite-tree-item>
-              <calcite-tree-item id="instrument">Instrument Cable</calcite-tree-item>
-            </calcite-tree>
-          </calcite-tree-item>
-        </calcite-tree>
-    `
-    });
+    const page = await newE2EPage();
+    await page.setContent(html`
+      <calcite-tree>
+        <calcite-tree-item id="cables">
+          Cables
+          <calcite-tree slot="children">
+            <calcite-tree-item id="xlr">XLR Cable</calcite-tree-item>
+            <calcite-tree-item id="instrument">Instrument Cable</calcite-tree-item>
+          </calcite-tree>
+        </calcite-tree-item>
+      </calcite-tree>
+    `);
 
     await page.keyboard.press("Tab");
 
@@ -382,19 +380,18 @@ describe("calcite-tree-item", () => {
   });
 
   it("right arrow key focuses first item in expanded subtree", async () => {
-    const page = await newE2EPage({
-      html: `
-        <calcite-tree>
-          <calcite-tree-item id="cables" expanded>
-            Cables
-            <calcite-tree slot="children">
-              <calcite-tree-item id="xlr">XLR Cable</calcite-tree-item>
-              <calcite-tree-item id="instrument">Instrument Cable</calcite-tree-item>
-            </calcite-tree>
-          </calcite-tree-item>
-        </calcite-tree>
-    `
-    });
+    const page = await newE2EPage();
+    await page.setContent(html`
+      <calcite-tree>
+        <calcite-tree-item id="cables" expanded>
+          Cables
+          <calcite-tree slot="children">
+            <calcite-tree-item id="xlr">XLR Cable</calcite-tree-item>
+            <calcite-tree-item id="instrument">Instrument Cable</calcite-tree-item>
+          </calcite-tree>
+        </calcite-tree-item>
+      </calcite-tree>
+    `);
 
     await page.keyboard.press("Tab");
 

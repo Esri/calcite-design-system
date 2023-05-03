@@ -82,7 +82,8 @@ describe("calcite-input-text", () => {
     }));
 
   it("does not fire any input or change events when a focused input is blurred after its value is set directly", async () => {
-    const page = await newE2EPage({ html: "<calcite-input-text></calcite-input-text>" });
+    const page = await newE2EPage();
+    await page.setContent("<calcite-input-text></calcite-input-text>");
     const input = await page.find("calcite-input-text");
     const inputEventSpy = await input.spyOnEvent("calciteInputTextInput");
     const changeEventSpy = await input.spyOnEvent("calciteInputTextChange");
@@ -350,7 +351,7 @@ describe("calcite-input-text", () => {
     };
 
     const page = await newE2EPage();
-    await page.setContent(`<calcite-input-text></calcite-input-text>`);
+    await page.setContent(html`<calcite-input-text></calcite-input-text>`);
     const element = await page.find("calcite-input-text");
 
     await element.callMethod("setFocus");

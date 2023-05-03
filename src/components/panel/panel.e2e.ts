@@ -59,7 +59,8 @@ describe("calcite-panel", () => {
   });
 
   it("close event should fire when closed", async () => {
-    const page = await newE2EPage({ html: "<calcite-panel closable>test</calcite-panel>" });
+    const page = await newE2EPage();
+    await page.setContent("<calcite-panel closable>test</calcite-panel>");
 
     const calcitePanelClose = await page.spyOnEvent("calcitePanelClose", "window");
 
@@ -101,9 +102,8 @@ describe("calcite-panel", () => {
     }));
 
   it("honors calcitePanelScroll event", async () => {
-    const page = await newE2EPage({
-      html: "<calcite-panel>test</calcite-panel>"
-    });
+    const page = await newE2EPage();
+    await page.setContent("<calcite-panel>test</calcite-panel>");
 
     const scrollSpy = await page.spyOnEvent("calcitePanelScroll");
 

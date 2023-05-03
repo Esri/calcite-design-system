@@ -1,5 +1,6 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { focusable, renders, hidden } from "../../tests/commonTests";
+import { html } from "../../../support/formatting";
 
 describe("calcite-dropdown-item", () => {
   describe("renders", () => {
@@ -12,7 +13,7 @@ describe("calcite-dropdown-item", () => {
 
   it("should emit calciteDropdownItemSelect", async () => {
     const page = await newE2EPage();
-    await page.setContent(`<calcite-dropdown-item id="item-1"> Dropdown Item Content </calcite-dropdown-item>`);
+    await page.setContent(html`<calcite-dropdown-item id="item-1"> Dropdown Item Content </calcite-dropdown-item>`);
 
     const element = await page.find("calcite-dropdown-item");
     const itemChangeSpy = await element.spyOnEvent("calciteDropdownItemSelect");

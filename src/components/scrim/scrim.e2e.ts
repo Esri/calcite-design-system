@@ -1,6 +1,7 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { accessible, defaults, hidden, renders, t9n } from "../../tests/commonTests";
 import { CSS } from "./resources";
+import { html } from "../../../support/formatting";
 
 describe("calcite-scrim", () => {
   describe("renders", () => {
@@ -50,7 +51,7 @@ describe("calcite-scrim", () => {
   it("does not allow clicks in underlying nodes", async () => {
     const page = await newE2EPage();
 
-    await page.setContent(`
+    await page.setContent(html`
       <calcite-panel>
         <calcite-button>Test</calcite-button>
         <calcite-scrim></calcite-scrim>
@@ -67,7 +68,7 @@ describe("calcite-scrim", () => {
   it("does allow clicks inside default node", async () => {
     const page = await newE2EPage();
 
-    await page.setContent(`
+    await page.setContent(html`
       <calcite-scrim>
         <calcite-button>Test</calcite-button>
       </calcite-scrim>
@@ -85,7 +86,7 @@ describe("calcite-scrim", () => {
   it("does not render content if the default slot if it is empty", async () => {
     const page = await newE2EPage();
 
-    await page.setContent(`<calcite-scrim></calcite-scrim>`);
+    await page.setContent(html`<calcite-scrim></calcite-scrim>`);
 
     const contentNode = await page.find(`calcite-scrim >>> .${CSS.content}`);
 
@@ -95,7 +96,7 @@ describe("calcite-scrim", () => {
   it("renders conent in the default slot has content", async () => {
     const page = await newE2EPage();
 
-    await page.setContent(`<calcite-scrim>This is a test.</calcite-scrim>`);
+    await page.setContent(html`<calcite-scrim>This is a test.</calcite-scrim>`);
 
     const contentNode = await page.find(`calcite-scrim >>> .${CSS.content}`);
 
@@ -117,7 +118,8 @@ describe("calcite-scrim", () => {
     let scrimBgStyle;
 
     it("should have defined CSS custom properties", async () => {
-      page = await newE2EPage({ html: scrimSnippet });
+      page = await newE2EPage();
+      await page.setContent(scrimSnippet);
       scrimBgStyle = await page.evaluate(() => {
         scrim = document.querySelector("calcite-scrim");
         scrim.style.setProperty("--calcite-scrim-background", "green");
@@ -128,7 +130,8 @@ describe("calcite-scrim", () => {
 
     describe("when mode attribute is not provided", () => {
       it("should render scrim background with default value tied to mode", async () => {
-        page = await newE2EPage({ html: scrimSnippet });
+        page = await newE2EPage();
+        await page.setContent(scrimSnippet);
         scrim = await page.find("calcite-scrim >>> .scrim");
         scrimStyles = await scrim.getComputedStyle();
         scrimBgStyle = await scrimStyles.getPropertyValue("background-color");
@@ -138,9 +141,8 @@ describe("calcite-scrim", () => {
 
     describe("when mode attribute is dark", () => {
       it("should render scrim background with value tied to dark mode", async () => {
-        page = await newE2EPage({
-          html: `<div class="calcite-mode-dark">${scrimSnippet}</div>`
-        });
+        page = await newE2EPage();
+        await page.setContent(html`<div class="calcite-mode-dark">${scrimSnippet}</div>`);
         scrim = await page.find("calcite-scrim >>> .scrim");
         scrimStyles = await scrim.getComputedStyle();
         scrimBgStyle = await scrimStyles.getPropertyValue("background-color");
@@ -150,16 +152,15 @@ describe("calcite-scrim", () => {
 
     it("should allow the CSS custom property to be overridden when applied to :root", async () => {
       const overrideStyle = "rgb(128, 0, 128)";
-      page = await newE2EPage({
-        html: `
+      page = await newE2EPage();
+      await page.setContent(html`
         <style>
           :root {
             --calcite-scrim-background: ${overrideStyle};
           }
         </style>
         ${scrimSnippet}
-        `
-      });
+      `);
       scrim = await page.find("calcite-scrim >>> .scrim");
       scrimStyles = await scrim.getComputedStyle();
       scrimBgStyle = await scrimStyles.getPropertyValue("background-color");
@@ -168,16 +169,15 @@ describe("calcite-scrim", () => {
 
     it("should allow the CSS custom property to be overridden when applied to element", async () => {
       const overrideStyle = "rgb(128, 0, 128)";
-      page = await newE2EPage({
-        html: `
+      page = await newE2EPage();
+      await page.setContent(html`
         <style>
           calcite-scrim {
             --calcite-scrim-background: ${overrideStyle};
           }
         </style>
         ${scrimSnippet}
-        `
-      });
+      `);
       scrim = await page.find("calcite-scrim >>> .scrim");
       scrimStyles = await scrim.getComputedStyle();
       scrimBgStyle = await scrimStyles.getPropertyValue("background-color");

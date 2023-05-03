@@ -1,5 +1,6 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { accessible, defaults, reflects, renders, hidden } from "../../tests/commonTests";
+import { html } from "../../../support/formatting";
 
 describe("calcite-option-group", () => {
   describe("renders", () => {
@@ -29,9 +30,8 @@ describe("calcite-option-group", () => {
     ]));
 
   it("has a label", async () => {
-    const page = await newE2EPage({
-      html: `<calcite-option-group label="test-group"></calcite-option-group>`
-    });
+    const page = await newE2EPage();
+    await page.setContent(html`<calcite-option-group label="test-group"></calcite-option-group>`);
 
     const group = await page.find("calcite-option-group");
     expect(group.shadowRoot.textContent).toBe("test-group");

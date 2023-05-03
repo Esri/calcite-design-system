@@ -21,16 +21,15 @@ export function keyboardNavigation(listType: ListType): void {
 
   describe("multi selection", () => {
     it("keyboard interaction", async () => {
-      const page = await newE2EPage({
-        html: `
+      const page = await newE2EPage();
+      await page.setContent(html`
         <calcite-${listType}-list multiple>
           <calcite-${listType}-list-item disabled value="zero" label="Zero (disabled)"></calcite-${listType}-list-item>
           <calcite-${listType}-list-item value="one" label="One"></calcite-${listType}-list-item>
           <calcite-${listType}-list-item value="two" label="Two"></calcite-${listType}-list-item>
           <calcite-${listType}-list-item disabled value="three" label="Three (disabled)"></calcite-${listType}-list-item>
         </calcite-${listType}-list>
-      `
-      });
+      `);
       const list = await page.find(`calcite-${listType}-list`);
       await list.callMethod("setFocus");
 
@@ -71,14 +70,13 @@ export function keyboardNavigation(listType: ListType): void {
   describe("single selection", () => {
     describe("with selected item", () => {
       it("keyboard interaction", async () => {
-        const page = await newE2EPage({
-          html: `
+        const page = await newE2EPage();
+        await page.setContent(html`
         <calcite-${listType}-list>
           <calcite-${listType}-list-item id="one" value="one" label="One"></calcite-${listType}-list-item>
           <calcite-${listType}-list-item id="two" value="two" label="Two"></calcite-${listType}-list-item>
         </calcite-${listType}-list>
-      `
-        });
+      `);
         const list = await page.find(`calcite-${listType}-list`);
         const firstItem = await page.find("#one");
         const secondItem = await page.find("#two");
@@ -127,14 +125,13 @@ export function keyboardNavigation(listType: ListType): void {
       });
 
       it("keyboard interaction + selectionFollowsFocus", async () => {
-        const page = await newE2EPage({
-          html: `
+        const page = await newE2EPage();
+        await page.setContent(html`
         <calcite-${listType}-list selection-follows-focus>
           <calcite-${listType}-list-item value="one" label="One"></calcite-${listType}-list-item>
           <calcite-${listType}-list-item value="two" label="Two"></calcite-${listType}-list-item>
         </calcite-${listType}-list>
-      `
-        });
+      `);
         const list = await page.find(`calcite-${listType}-list`);
 
         expect(await getFocusedItemValue(page)).toBeNull();
@@ -169,14 +166,13 @@ export function keyboardNavigation(listType: ListType): void {
     });
 
     it.skip("should honor filterText", async () => {
-      const page = await newE2EPage({
-        html: `
+      const page = await newE2EPage();
+      await page.setContent(html`
         <calcite-${listType}-list filter-enabled filter-text="one">
           <calcite-${listType}-list-item value="one" label="One" selected></calcite-${listType}-list-item>
           <calcite-${listType}-list-item value="two" label="Two"></calcite-${listType}-list-item>
         </calcite-${listType}-list>
-      `
-      });
+      `);
       const list = await page.find(`calcite-${listType}-list`);
       expect(await list.getProperty("filteredItems")).toHaveLength(1);
       expect(await list.getProperty("filteredData")).toHaveLength(1);
@@ -184,14 +180,13 @@ export function keyboardNavigation(listType: ListType): void {
     });
 
     it.skip("navigating items after filtering", async () => {
-      const page = await newE2EPage({
-        html: `
+      const page = await newE2EPage();
+      await page.setContent(html`
         <calcite-${listType}-list filter-enabled>
           <calcite-${listType}-list-item value="one" label="One" selected></calcite-${listType}-list-item>
           <calcite-${listType}-list-item value="two" label="Two"></calcite-${listType}-list-item>
         </calcite-${listType}-list>
-      `
-      });
+      `);
       const list = await page.find(`calcite-${listType}-list`);
       expect(await list.getProperty("filteredItems")).toHaveLength(2);
       expect(await list.getProperty("filteredData")).toHaveLength(2);
@@ -268,7 +263,7 @@ export function selectionAndDeselection(listType: ListType): void {
   describe("when multiple is false and an item is clicked", () => {
     it("should emit an event with the last selected item data", async () => {
       const page = await newE2EPage();
-      await page.setContent(`<calcite-${listType}-list>
+      await page.setContent(html`<calcite-${listType}-list>
           <calcite-${listType}-list-item value="one" label="One"></calcite-${listType}-list-item>
           <calcite-${listType}-list-item value="two" label="Two"></calcite-${listType}-list-item>
         </calcite-${listType}-list>`);
@@ -287,7 +282,7 @@ export function selectionAndDeselection(listType: ListType): void {
   describe("when multiple is true and a item is clicked", () => {
     it("should emit an event with each selected item's data", async () => {
       const page = await newE2EPage();
-      await page.setContent(`<calcite-${listType}-list multiple>
+      await page.setContent(html`<calcite-${listType}-list multiple>
           <calcite-${listType}-list-item value="one" label="One"></calcite-${listType}-list-item>
           <calcite-${listType}-list-item value="two" label="Two"></calcite-${listType}-list-item>
         </calcite-${listType}-list>`);
@@ -307,7 +302,7 @@ export function selectionAndDeselection(listType: ListType): void {
   describe("preselected items", () => {
     it("should be included in the list of selected items", async () => {
       const page = await newE2EPage();
-      await page.setContent(`<calcite-${listType}-list multiple>
+      await page.setContent(html`<calcite-${listType}-list multiple>
           <calcite-${listType}-list-item value="one" label="One" selected></calcite-${listType}-list-item>
           <calcite-${listType}-list-item value="two" label="Two"></calcite-${listType}-list-item>
         </calcite-${listType}-list>`);
@@ -325,7 +320,7 @@ export function selectionAndDeselection(listType: ListType): void {
   describe("shift click behavior", () => {
     it("should multi-select", async () => {
       const page = await newE2EPage();
-      await page.setContent(`<calcite-${listType}-list multiple>
+      await page.setContent(html`<calcite-${listType}-list multiple>
           <calcite-${listType}-list-item value="one" label="One"></calcite-${listType}-list-item>
           <calcite-${listType}-list-item value="two" label="Two"></calcite-${listType}-list-item>
           <calcite-${listType}-list-item value="three" label="Three"></calcite-${listType}-list-item>
@@ -350,7 +345,7 @@ export function selectionAndDeselection(listType: ListType): void {
 
     it("should multi de-select", async () => {
       const page = await newE2EPage();
-      await page.setContent(`<calcite-${listType}-list multiple>
+      await page.setContent(html`<calcite-${listType}-list multiple>
           <calcite-${listType}-list-item value="one" label="One" selected></calcite-${listType}-list-item>
           <calcite-${listType}-list-item value="two" label="Two" selected></calcite-${listType}-list-item>
           <calcite-${listType}-list-item value="three" label="Three" selected></calcite-${listType}-list-item>
@@ -377,7 +372,7 @@ export function selectionAndDeselection(listType: ListType): void {
     it("should fire event when a selection changed", async () => {
       const page = await newE2EPage();
 
-      await page.setContent(`<calcite-${listType}-list>
+      await page.setContent(html`<calcite-${listType}-list>
           <calcite-${listType}-list-item label="test" value="example"></calcite-${listType}-list-item>
         </calcite-${listType}-list>`);
       const item = await page.find(`calcite-${listType}-list-item`);
@@ -408,7 +403,7 @@ export function selectionAndDeselection(listType: ListType): void {
   describe("when an item is selected and then gets removed", () => {
     it("should deselect the removed item from the selectedValues map", async () => {
       const page = await newE2EPage();
-      await page.setContent(`<calcite-${listType}-list multiple>
+      await page.setContent(html`<calcite-${listType}-list multiple>
           <calcite-${listType}-list-item value="one" label="One"></calcite-${listType}-list-item>
           <calcite-${listType}-list-item id="item2" value="two" label="Two" selected></calcite-${listType}-list-item>
         </calcite-${listType}-list>`);
@@ -426,7 +421,7 @@ export function selectionAndDeselection(listType: ListType): void {
   describe("value changes after item is selected", () => {
     it("should update the value in selectedValues map", async () => {
       const page = await newE2EPage();
-      await page.setContent(`<calcite-${listType}-list>
+      await page.setContent(html`<calcite-${listType}-list>
           <calcite-${listType}-list-item value="one" label="One" selected></calcite-${listType}-list-item>
           <calcite-${listType}-list-item value="two" label="Two" selected></calcite-${listType}-list-item>
           <calcite-${listType}-list-item value="three" label="Three" selected></calcite-${listType}-list-item>
@@ -470,7 +465,7 @@ export function filterBehavior(listType: ListType): void {
 
   beforeEach(async () => {
     page = await newE2EPage();
-    await page.setContent(`<calcite-${listType}-list filter-enabled>
+    await page.setContent(html`<calcite-${listType}-list filter-enabled>
         <calcite-${listType}-list-item value="1" label="One" description="uno"></calcite-${listType}-list-item>
         <calcite-${listType}-list-item value="2" label="Two [regex chars]" description="dos (regex chars)"></calcite-${listType}-list-item>
       </calcite-${listType}-list>`);
@@ -540,7 +535,7 @@ export function filterBehavior(listType: ListType): void {
 export function loadingState(listType: ListType): void {
   it("loading", async () => {
     const page = await newE2EPage();
-    await page.setContent(`<calcite-${listType}-list loading>
+    await page.setContent(html`<calcite-${listType}-list loading>
         <calcite-${listType}-list-item value="one" label="One"></calcite-${listType}-list-item>
       </calcite-${listType}-list>`);
 
@@ -570,14 +565,11 @@ export function itemRemoval(listType: ListType): void {
     </calcite-pick-list-group>`;
 
   it("handles removing items", async () => {
-    const page = await newE2EPage({
-      html: html`
-      <calcite-${listType}-list>
+    const page = await newE2EPage();
+    await page.setContent(html`<calcite-${listType}-list>
         ${listType === "value" ? "" : pickListGroupHtml}
         <calcite-${listType}-list-item value="remove-me" label="Remove me!" removable></calcite-${listType}-list-item>
-      </calcite-${listType}-list>
-    `
-    });
+      </calcite-${listType}-list>`);
     const list = await page.find(`calcite-${listType}-list`);
     const removeItemSpy = await list.spyOnEvent("calciteListItemRemove");
     const listChangeSpy = await list.spyOnEvent("calciteListChange");

@@ -1,4 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
+import { html } from "../../../support/formatting";
 import {
   accessible,
   defaults,
@@ -40,7 +41,7 @@ describe("calcite-radio-button", () => {
 
   it("focusing skips over hidden radio-buttons", async () => {
     const page = await newE2EPage();
-    await page.setContent(`
+    await page.setContent(html`
       <calcite-radio-button name="hidden" value="first"></calcite-radio-button>
       <calcite-radio-button name="hidden" value="second" hidden></calcite-radio-button>
       <calcite-radio-button name="hidden" value="third"></calcite-radio-button>
@@ -75,7 +76,7 @@ describe("calcite-radio-button", () => {
 
   it("does not require an item to be checked", async () => {
     const page = await newE2EPage();
-    await page.setContent(`
+    await page.setContent(html`
       <calcite-radio-button name="none-checked" value="1"></calcite-radio-button>
       <calcite-radio-button name="none-checked" value="2"></calcite-radio-button>
       <calcite-radio-button name="none-checked" value="3"></calcite-radio-button>
@@ -89,7 +90,7 @@ describe("calcite-radio-button", () => {
 
   it("when multiple items are checked, last one wins", async () => {
     const page = await newE2EPage();
-    await page.setContent(`
+    await page.setContent(html`
       <calcite-radio-button name="multiple-checked" value="1" checked></calcite-radio-button>
       <calcite-radio-button name="multiple-checked" value="2" checked></calcite-radio-button>
       <calcite-radio-button name="multiple-checked" value="3" checked></calcite-radio-button>
@@ -103,7 +104,7 @@ describe("calcite-radio-button", () => {
 
   it("selects item with left and arrow keys", async () => {
     const page = await newE2EPage();
-    await page.setContent(`
+    await page.setContent(html`
       <calcite-radio-button name="keyboard" value="1" checked></calcite-radio-button>
       <calcite-radio-button name="keyboard" value="2"></calcite-radio-button>
       <calcite-radio-button name="keyboard" value="3"></calcite-radio-button>
@@ -142,7 +143,7 @@ describe("calcite-radio-button", () => {
 
   it("selects item with up and down keys", async () => {
     const page = await newE2EPage();
-    await page.setContent(`
+    await page.setContent(html`
       <calcite-radio-button name="up-down-keys" value="1" checked></calcite-radio-button>
       <calcite-radio-button name="up-down-keys" value="2"></calcite-radio-button>
       <calcite-radio-button name="up-down-keys" value="3"></calcite-radio-button>
@@ -179,7 +180,7 @@ describe("calcite-radio-button", () => {
 
   it("clicking a radio updates its checked status", async () => {
     const page = await newE2EPage();
-    await page.setContent(`
+    await page.setContent(html`
       <calcite-radio-button name="radio" value="one" checked></calcite-radio-button>
       <calcite-radio-button name="radio" value="two"></calcite-radio-button>
     `);
@@ -215,7 +216,7 @@ describe("calcite-radio-button", () => {
 
   it("programmatically checking a radio button updates the group's state correctly", async () => {
     const page = await newE2EPage();
-    await page.setContent(`
+    await page.setContent(html`
       <calcite-radio-button name="radio" value="one" checked></calcite-radio-button>
       <calcite-radio-button name="radio" value="two"></calcite-radio-button>
       <calcite-radio-button name="radio" value="three"></calcite-radio-button>
@@ -235,7 +236,7 @@ describe("calcite-radio-button", () => {
 
   it("programmatically un-checking a radio button updates the group's state correctly", async () => {
     const page = await newE2EPage();
-    await page.setContent(`
+    await page.setContent(html`
       <calcite-radio-button name="radio" value="one" checked></calcite-radio-button>
       <calcite-radio-button name="radio" value="two"></calcite-radio-button>
       <calcite-radio-button name="radio" value="three"></calcite-radio-button>
@@ -252,7 +253,7 @@ describe("calcite-radio-button", () => {
 
   it("appropriately triggers the custom change event", async () => {
     const page = await newE2EPage();
-    await page.setContent(`<calcite-radio-button></calcite-radio-button>`);
+    await page.setContent(html`<calcite-radio-button></calcite-radio-button>`);
 
     const radio = await page.find("calcite-radio-button");
 
@@ -378,7 +379,7 @@ describe("calcite-radio-button", () => {
 
   it("resets to initial value when form reset event is triggered", async () => {
     const page = await newE2EPage();
-    await page.setContent(`
+    await page.setContent(html`
       <form id="form">
         <calcite-radio-button id="unchecked" name="reset" value="unchecked"></calcite-radio-button>
         <calcite-radio-button id="checked" name="reset" value="checked" checked></calcite-radio-button>
@@ -408,7 +409,7 @@ describe("calcite-radio-button", () => {
 
   it("works correctly inside a shadowRoot", async () => {
     const page = await newE2EPage();
-    await page.setContent(`
+    await page.setContent(html`
       <div></div>
       <template>
         <calcite-radio-button name="in-shadow" value="one"></calcite-radio-button>

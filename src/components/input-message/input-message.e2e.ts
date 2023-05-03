@@ -1,4 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
+import { html } from "../../../support/formatting";
 import { accessible, hidden, renders } from "../../tests/commonTests";
 import { StatusIconDefaults } from "./interfaces";
 
@@ -20,9 +21,7 @@ describe("calcite-input-message", () => {
 
   it("renders default props when none are provided", async () => {
     const page = await newE2EPage();
-    await page.setContent(`
-    <calcite-input-message></calcite-input-message>
-    `);
+    await page.setContent(html` <calcite-input-message></calcite-input-message> `);
 
     const element = await page.find("calcite-input-message");
     expect(element).toEqualAttribute("status", "idle");
@@ -30,9 +29,7 @@ describe("calcite-input-message", () => {
 
   it("renders requested props when valid props are provided", async () => {
     const page = await newE2EPage();
-    await page.setContent(`
-    <calcite-input-message status="valid">Text</calcite-input-message>
-    `);
+    await page.setContent(html` <calcite-input-message status="valid">Text</calcite-input-message> `);
 
     const element = await page.find("calcite-input-message");
     expect(element).toEqualAttribute("status", "valid");
@@ -40,9 +37,7 @@ describe("calcite-input-message", () => {
 
   it("does not render an icon if not requested", async () => {
     const page = await newE2EPage();
-    await page.setContent(`
-    <calcite-input-message>Text</calcite-input-message>
-    `);
+    await page.setContent(html` <calcite-input-message>Text</calcite-input-message> `);
 
     const icon = await page.find("calcite-input-message >>> .calcite-input-message-icon");
     expect(icon).toBeNull();
@@ -61,9 +56,7 @@ describe("calcite-input-message", () => {
     describe("when it's a boolean type", () => {
       describe("when value is true", () => {
         it("should render the default status icon", async () => {
-          await page.setContent(`
-          <calcite-input-message icon>Text</calcite-input-message>
-          `);
+          await page.setContent(html` <calcite-input-message icon>Text</calcite-input-message> `);
           iconEl = await page.find("calcite-input-message >>> .calcite-input-message-icon");
           requestedIcon = await iconEl.getAttribute("icon");
           expect(requestedIcon).toEqual(StatusIconDefaults.idle);
@@ -72,7 +65,7 @@ describe("calcite-input-message", () => {
 
         describe("when element status is changed", () => {
           it("should render icon based on new status", async () => {
-            await page.setContent(`
+            await page.setContent(html`
               <calcite-input-message icon status="invalid">An example with icon</calcite-input-message>
             `);
             element = await page.find("calcite-input-message");
@@ -95,9 +88,7 @@ describe("calcite-input-message", () => {
       describe("when value is false", () => {
         it("should render no icon", async () => {
           const page = await newE2EPage();
-          await page.setContent(`
-          <calcite-input-message !icon>Text</calcite-input-message>
-          `);
+          await page.setContent(html` <calcite-input-message !icon>Text</calcite-input-message> `);
           iconEl = await page.find("calcite-input-message >>> .calcite-input-message-icon");
           expect(iconEl).toBeNull();
         });

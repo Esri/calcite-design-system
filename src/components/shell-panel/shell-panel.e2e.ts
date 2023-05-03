@@ -1,4 +1,5 @@
 import { E2EElement, newE2EPage } from "@stencil/core/testing";
+import { html } from "../../../support/formatting";
 
 import { accessible, defaults, hidden, renders, slots, t9n } from "../../tests/commonTests";
 import { getElementXY } from "../../tests/utils";
@@ -151,19 +152,11 @@ describe("calcite-shell-panel", () => {
 
   it("should update width based on the requested CSS variable override", async () => {
     const override = "678px";
-
     const page = await newE2EPage();
-
-    await page.setContent(`
-      <calcite-shell-panel>
-        test
-      </calcite-shell-panel>
-    `);
-
-    await page.waitForChanges();
+    await page.setContent(html` <calcite-shell-panel> test </calcite-shell-panel> `);
 
     const page2 = await newE2EPage();
-    await page2.setContent(`
+    await page2.setContent(html`
       <style>
         :root {
           --calcite-shell-panel-min-width: ${override};
@@ -171,12 +164,8 @@ describe("calcite-shell-panel", () => {
           --calcite-shell-panel-width: ${override};
         }
       </style>
-      <calcite-shell-panel>
-        test multiplied
-      </calcite-shell-panel>
+      <calcite-shell-panel> test multiplied </calcite-shell-panel>
     `);
-
-    await page2.waitForChanges();
 
     const content2 = await page2.find(`calcite-shell-panel >>> .${CSS.content}`);
     const style2 = await content2.getComputedStyle();
@@ -189,14 +178,12 @@ describe("calcite-shell-panel", () => {
     const page = await newE2EPage();
 
     await page.setViewport({ width: 1600, height: 1200 });
-    await page.setContent(`
+    await page.setContent(html`
       <div style="width: 100%; height: 100%;">
         <calcite-shell>
           <calcite-shell-panel slot="panel-start">
             <calcite-button slot="headder">Header test</calcite-button>
-            <calcite-panel>
-              Content test
-            </calcite-panel>
+            <calcite-panel> Content test </calcite-panel>
           </calcite-shell-panel>
         </calcite-shell>
       </div>
@@ -219,14 +206,12 @@ describe("calcite-shell-panel", () => {
     const page = await newE2EPage();
 
     await page.setViewport({ width: 1600, height: 1200 });
-    await page.setContent(`
+    await page.setContent(html`
       <div style="width: 100%; height: 100%;">
         <calcite-shell>
           <calcite-shell-panel slot="panel-start">
             <calcite-button slot="headder">Header test</calcite-button>
-            <calcite-panel>
-              Content test
-            </calcite-panel>
+            <calcite-panel> Content test </calcite-panel>
           </calcite-shell-panel>
         </calcite-shell>
       </div>
@@ -258,14 +243,12 @@ describe("calcite-shell-panel", () => {
     const page = await newE2EPage();
 
     await page.setViewport({ width: 1600, height: 1200 });
-    await page.setContent(`
+    await page.setContent(html`
       <div style="width: 100%; height: 100%;">
         <calcite-shell>
           <calcite-shell-panel slot="panel-start" resizable>
             <calcite-button slot="headder">Header test</calcite-button>
-            <calcite-panel>
-              Content test
-            </calcite-panel>
+            <calcite-panel> Content test </calcite-panel>
           </calcite-shell-panel>
         </calcite-shell>
       </div>
@@ -334,14 +317,12 @@ describe("calcite-shell-panel", () => {
     const page = await newE2EPage();
 
     await page.setViewport({ width: 1600, height: 1200 });
-    await page.setContent(`
+    await page.setContent(html`
       <div style="width: 100%; height: 100%;">
         <calcite-shell>
           <calcite-shell-panel slot="panel-top" resizable layout="horizontal">
             <calcite-button slot="headder">Header test</calcite-button>
-            <calcite-panel>
-              Content test
-            </calcite-panel>
+            <calcite-panel> Content test </calcite-panel>
           </calcite-shell-panel>
         </calcite-shell>
       </div>
@@ -410,14 +391,12 @@ describe("calcite-shell-panel", () => {
     const page = await newE2EPage();
 
     await page.setViewport({ width: 1600, height: 1200 });
-    await page.setContent(`
+    await page.setContent(html`
       <div style="width: 100%; height: 100%;">
         <calcite-shell>
           <calcite-shell-panel slot="panel-start" resizable>
             <calcite-button slot="headder">Header test</calcite-button>
-            <calcite-panel>
-              Content test
-            </calcite-panel>
+            <calcite-panel> Content test </calcite-panel>
           </calcite-shell-panel>
         </calcite-shell>
       </div>
@@ -448,14 +427,12 @@ describe("calcite-shell-panel", () => {
     const page = await newE2EPage();
 
     await page.setViewport({ width: 1600, height: 1200 });
-    await page.setContent(`
+    await page.setContent(html`
       <div style="width: 100%; height: 100%;">
         <calcite-shell>
           <calcite-shell-panel slot="panel-top" resizable layout="horizontal">
             <calcite-button slot="headder">Header test</calcite-button>
-            <calcite-panel>
-              Content test
-            </calcite-panel>
+            <calcite-panel> Content test </calcite-panel>
           </calcite-shell-panel>
         </calcite-shell>
       </div>

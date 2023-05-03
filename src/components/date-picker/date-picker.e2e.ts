@@ -49,7 +49,7 @@ describe("calcite-date-picker", () => {
 
   it("updates the calendar immediately as a new year is typed but doesn't change the year", async () => {
     const page = await newE2EPage();
-    await page.setContent(`<calcite-date-picker value="2015-02-28" active></calcite-date-picker>`);
+    await page.setContent(html`<calcite-date-picker value="2015-02-28" active></calcite-date-picker>`);
     const datePicker = await page.find("calcite-date-picker");
     await page.waitForTimeout(animationDurationInMs);
 
@@ -245,8 +245,7 @@ describe("calcite-date-picker", () => {
 
   it("fires calciteDatePickerRangeChange event on user change", async () => {
     const page = await newE2EPage();
-    await page.setContent(`<calcite-date-picker range></calcite-date-picker>`);
-    await page.waitForChanges();
+    await page.setContent(html`<calcite-date-picker range></calcite-date-picker>`);
     const date = await page.find("calcite-date-picker");
     date.setProperty("value", ["2020-09-08", "2020-09-23"]);
 
@@ -277,10 +276,8 @@ describe("calcite-date-picker", () => {
 
   describe("when the lang is set to Slovak calendar", () => {
     it("should start the week on Monday", async () => {
-      const page = await newE2EPage({
-        html: `<calcite-date-picker scale="m" lang="sk" value="2000-11-27"></calcite-date-picker>`
-      });
-      await page.waitForChanges();
+      const page = await newE2EPage();
+      await page.setContent(html`<calcite-date-picker scale="m" lang="sk" value="2000-11-27"></calcite-date-picker>`);
       const text: string = await page.evaluate(
         () =>
           document

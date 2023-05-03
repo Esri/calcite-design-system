@@ -1,5 +1,6 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { hidden, renders } from "../../tests/commonTests";
+import { html } from "../../../support/formatting";
 
 describe("calcite-loader", () => {
   describe("renders", () => {
@@ -11,14 +12,14 @@ describe("calcite-loader", () => {
 
   it("displays label from text prop", async () => {
     const page = await newE2EPage();
-    await page.setContent(`<calcite-loader text="testing"></calcite-loader>`);
+    await page.setContent(html`<calcite-loader text="testing"></calcite-loader>`);
     const elm = await page.find("calcite-loader >>> .loader__text");
     expect(elm).toEqualText("testing");
   });
 
   it("sets aria attributes properly for indeterminate loader", async () => {
     const page = await newE2EPage();
-    await page.setContent(`<calcite-loader></calcite-loader>`);
+    await page.setContent(html`<calcite-loader></calcite-loader>`);
     const loader = await page.find("calcite-loader");
     expect(loader).toEqualAttribute("role", "progressbar");
     expect(loader).not.toHaveAttribute("aria-valuemin");
@@ -28,7 +29,7 @@ describe("calcite-loader", () => {
 
   it("sets aria attributes properly for determinate loader", async () => {
     const page = await newE2EPage();
-    await page.setContent(`<calcite-loader type="determinate"></calcite-loader>`);
+    await page.setContent(html`<calcite-loader type="determinate"></calcite-loader>`);
     const loader = await page.find("calcite-loader");
     expect(loader).toHaveAttribute("aria-valuenow");
     expect(loader).toEqualAttribute("aria-valuenow", 0);
@@ -41,14 +42,14 @@ describe("calcite-loader", () => {
 
   it("displays inline with text from inline prop", async () => {
     const page = await newE2EPage();
-    await page.setContent(`<calcite-loader inline></calcite-loader>`);
+    await page.setContent(html`<calcite-loader inline></calcite-loader>`);
     const rect = await page.find("calcite-loader >>> circle");
     expect(rect).toEqualAttribute("r", "7.2");
   });
 
   it("sets a default id when none is provided", async () => {
     const page = await newE2EPage();
-    await page.setContent(`<calcite-loader></calcite-loader>`);
+    await page.setContent(html`<calcite-loader></calcite-loader>`);
     const loader = await page.find("calcite-loader");
     expect(loader).toHaveAttribute("id");
     expect(loader.getAttribute("id").length).toEqual(36);

@@ -1,6 +1,7 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { html } from "../../../support/formatting";
 import { accessible, defaults, hidden, renders } from "../../tests/commonTests";
+import { newProgrammaticE2EPage } from "../../tests/utils";
 
 describe("calcite-tabs", () => {
   const tabsContent = `
@@ -37,13 +38,13 @@ describe("calcite-tabs", () => {
   it("sets up basic aria attributes", async () => {
     const page = await newE2EPage();
 
-    await page.setContent(`
+    await page.setContent(html`
       <calcite-tabs>
         <calcite-tab-nav slot="title-group">
           <calcite-tab-title id="title-1" selected>Tab 1 Title</calcite-tab-title>
-          <calcite-tab-title id="title-2" >Tab 2 Title</calcite-tab-title>
-          <calcite-tab-title id="title-3" >Tab 3 Title</calcite-tab-title>
-          <calcite-tab-title id="title-4" >Tab 4 Title</calcite-tab-title>
+          <calcite-tab-title id="title-2">Tab 2 Title</calcite-tab-title>
+          <calcite-tab-title id="title-3">Tab 3 Title</calcite-tab-title>
+          <calcite-tab-title id="title-4">Tab 4 Title</calcite-tab-title>
         </calcite-tab-nav>
 
         <calcite-tab id="tab-1" selected>Tab 1 Content</calcite-tab>
@@ -74,7 +75,7 @@ describe("calcite-tabs", () => {
   it("keeps aria attributes in sync across DOM mutations", async () => {
     const page = await newE2EPage();
 
-    await page.setContent(`
+    await page.setContent(html`
       <calcite-tabs>
         <calcite-tab-nav slot="title-group">
           <calcite-tab-title selected>Tab 1 Title</calcite-tab-title>
@@ -115,9 +116,8 @@ describe("calcite-tabs", () => {
 
   describe("when no scale is provided", () => {
     it("should render itself and child tab elements with default medium scale", async () => {
-      const page = await newE2EPage({
-        html: `<calcite-tabs>${tabsContent}</calcite-tabs>`
-      });
+      const page = await newE2EPage();
+      await page.setContent(html`<calcite-tabs>${tabsContent}</calcite-tabs>`);
       expect(await page.find("calcite-tabs")).toEqualAttribute("scale", "m");
       expect(await page.find("calcite-tab-nav")).toEqualAttribute("scale", "m");
       expect(await page.find("calcite-tab-title")).toEqualAttribute("scale", "m");
@@ -127,9 +127,8 @@ describe("calcite-tabs", () => {
 
   describe("when scale is provided", () => {
     it("should render itself and child tab elements with corresponding scale (small)", async () => {
-      const page = await newE2EPage({
-        html: `<calcite-tabs scale="s">${tabsContent}</calcite-tabs>`
-      });
+      const page = await newE2EPage();
+      await page.setContent(html`<calcite-tabs scale="s">${tabsContent}</calcite-tabs>`);
       expect(await page.find("calcite-tabs")).toEqualAttribute("scale", "s");
       expect(await page.find("calcite-tab-nav")).toEqualAttribute("scale", "s");
       expect(await page.find("calcite-tab-title")).toEqualAttribute("scale", "s");
@@ -137,9 +136,8 @@ describe("calcite-tabs", () => {
     });
 
     it("should render itself and child tab elements with corresponding scale (medium)", async () => {
-      const page = await newE2EPage({
-        html: `<calcite-tabs scale="m">${tabsContent}</calcite-tabs>`
-      });
+      const page = await newE2EPage();
+      await page.setContent(html`<calcite-tabs scale="m">${tabsContent}</calcite-tabs>`);
       expect(await page.find("calcite-tabs")).toEqualAttribute("scale", "m");
       expect(await page.find("calcite-tab-nav")).toEqualAttribute("scale", "m");
       expect(await page.find("calcite-tab-title")).toEqualAttribute("scale", "m");
@@ -147,9 +145,8 @@ describe("calcite-tabs", () => {
     });
 
     it("should render itself and child tab elements with corresponding scale (large)", async () => {
-      const page = await newE2EPage({
-        html: `<calcite-tabs scale="l">${tabsContent}</calcite-tabs>`
-      });
+      const page = await newE2EPage();
+      await page.setContent(html`<calcite-tabs scale="l">${tabsContent}</calcite-tabs>`);
       expect(await page.find("calcite-tabs")).toEqualAttribute("scale", "l");
       expect(await page.find("calcite-tab-nav")).toEqualAttribute("scale", "l");
       expect(await page.find("calcite-tab-title")).toEqualAttribute("scale", "l");
@@ -159,9 +156,8 @@ describe("calcite-tabs", () => {
 
   describe("when layout is inline and bordered is true", () => {
     it("should render tabs, tab-nav, and tab-title with bordered attribute", async () => {
-      const page = await newE2EPage({
-        html: `<calcite-tabs bordered>${tabsContent}</calcite-tabs>`
-      });
+      const page = await newE2EPage();
+      await page.setContent(html`<calcite-tabs bordered>${tabsContent}</calcite-tabs>`);
       expect(await page.find("calcite-tabs")).toEqualAttribute("bordered", "");
       expect(await page.find("calcite-tab-nav")).toEqualAttribute("bordered", "");
       expect(await page.find("calcite-tab-title")).toEqualAttribute("bordered", "");
@@ -169,18 +165,17 @@ describe("calcite-tabs", () => {
     });
 
     it("should render tab-nav's blue active indicator on top", async () => {
-      const page = await newE2EPage({
-        html: `
+      const page = await newE2EPage();
+      await page.setContent(html`
         <calcite-tabs bordered>
           <calcite-tab-nav slot="title-group">
             <calcite-tab-title icon-start="arrow-left" icon-end="arrow-right">Tab 1 Title</calcite-tab-title>
-            <calcite-tab-title icon-start="arrow-left" icon-end="arrow-right" >Tab 2 Title</calcite-tab-title>
+            <calcite-tab-title icon-start="arrow-left" icon-end="arrow-right">Tab 2 Title</calcite-tab-title>
           </calcite-tab-nav>
           <calcite-tab>Tab 1 Content</calcite-tab>
           <calcite-tab>Tab 2 Content</calcite-tab>
         </calcite-tabs>
-        `
-      });
+      `);
       const indicator = await page.find("calcite-tab-nav >>> .tab-nav-active-indicator-container");
       const indicatorStyles = await indicator.getComputedStyle();
       expect(indicatorStyles.top).toEqual("0px");
@@ -188,18 +183,17 @@ describe("calcite-tabs", () => {
     });
 
     it("should render tab-nav's blue active indicator on bottom when position is bottom", async () => {
-      const page = await newE2EPage({
-        html: `
+      const page = await newE2EPage();
+      await page.setContent(html`
         <calcite-tabs bordered position="bottom">
           <calcite-tab-nav slot="title-group">
             <calcite-tab-title icon-start="arrow-left" icon-end="arrow-right">Tab 1 Title</calcite-tab-title>
-            <calcite-tab-title icon-start="arrow-left" icon-end="arrow-right" >Tab 2 Title</calcite-tab-title>
+            <calcite-tab-title icon-start="arrow-left" icon-end="arrow-right">Tab 2 Title</calcite-tab-title>
           </calcite-tab-nav>
           <calcite-tab>Tab 1 Content</calcite-tab>
           <calcite-tab>Tab 2 Content</calcite-tab>
         </calcite-tabs>
-        `
-      });
+      `);
       const indicator = await page.find("calcite-tab-nav >>> .tab-nav-active-indicator-container");
       const indicatorStyles = await indicator.getComputedStyle();
       expect(indicatorStyles.bottom).toEqual("0px");
@@ -208,9 +202,8 @@ describe("calcite-tabs", () => {
   });
 
   it("should not ignore bordered attribute when layout is center", async () => {
-    const page = await newE2EPage({
-      html: `<calcite-tabs layout="center" bordered>${tabsContent}</calcite-tabs>`
-    });
+    const page = await newE2EPage();
+    await page.setContent(html`<calcite-tabs layout="center" bordered>${tabsContent}</calcite-tabs>`);
     expect(await page.find("calcite-tabs")).toHaveAttribute("bordered");
   });
 
@@ -226,12 +219,7 @@ describe("calcite-tabs", () => {
       </calcite-tabs>
     `;
 
-    const page = await newE2EPage({
-      // load page with the tab template,
-      // so they're available in the browser-evaluated fn below
-      html: wrappedTabTemplateHTML
-    });
-
+    const page = await newProgrammaticE2EPage();
     await page.waitForChanges();
 
     const finalSelectedItem = await page.evaluate(
@@ -269,29 +257,26 @@ describe("calcite-tabs", () => {
   });
 
   it("item selection should work with nested tabs", async () => {
-    const page = await newE2EPage({
-      html: html`
-        <calcite-tabs id="parentTabs">
+    const page = await newE2EPage();
+    await page.setContent(html`<calcite-tabs id="parentTabs">
+      <calcite-tab-nav slot="title-group">
+        <calcite-tab-title id="parentA">Parent 1</calcite-tab-title>
+        <calcite-tab-title>Parent 2</calcite-tab-title>
+      </calcite-tab-nav>
+      <calcite-tab id="parentTabA">
+        <calcite-tabs>
           <calcite-tab-nav slot="title-group">
-            <calcite-tab-title id="parentA">Parent 1</calcite-tab-title>
-            <calcite-tab-title>Parent 2</calcite-tab-title>
+            <calcite-tab-title>Child 1</calcite-tab-title>
+            <calcite-tab-title id="kidB">Child 2</calcite-tab-title>
+            <calcite-tab-title>Child 3</calcite-tab-title>
           </calcite-tab-nav>
-          <calcite-tab id="parentTabA">
-            <calcite-tabs>
-              <calcite-tab-nav slot="title-group">
-                <calcite-tab-title>Child 1</calcite-tab-title>
-                <calcite-tab-title id="kidB">Child 2</calcite-tab-title>
-                <calcite-tab-title>Child 3</calcite-tab-title>
-              </calcite-tab-nav>
-              <calcite-tab>child content 1</calcite-tab>
-              <calcite-tab id="kidBTab">child content 2</calcite-tab>
-              <calcite-tab>child content 3</calcite-tab>
-            </calcite-tabs>
-          </calcite-tab>
-          <calcite-tab>Parent content 2</calcite-tab>
+          <calcite-tab>child content 1</calcite-tab>
+          <calcite-tab id="kidBTab">child content 2</calcite-tab>
+          <calcite-tab>child content 3</calcite-tab>
         </calcite-tabs>
-      `
-    });
+      </calcite-tab>
+      <calcite-tab>Parent content 2</calcite-tab>
+    </calcite-tabs>`);
 
     await page.waitForChanges();
 

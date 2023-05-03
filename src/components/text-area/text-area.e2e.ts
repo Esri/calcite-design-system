@@ -131,9 +131,10 @@ describe("calcite-text-area", () => {
 
   it("should have footer--slotted class when slotted at both start and end", async () => {
     const page = await newE2EPage();
-    await page.setContent(`<calcite-text-area>
-    <calcite-button slot="footer-start">CLEAR</calcite-button>
-    <calcite-button slot="footer-end">RESET</calcite-button></calcite-text-area>`);
+    await page.setContent(html`<calcite-text-area>
+      <calcite-button slot="footer-start">CLEAR</calcite-button>
+      <calcite-button slot="footer-end">RESET</calcite-button></calcite-text-area
+    >`);
 
     const element = await page.find("calcite-text-area >>> textarea");
     await page.waitForChanges();
@@ -146,7 +147,7 @@ describe("calcite-text-area", () => {
   describe("resize", () => {
     it("should set CSS resize property to horizontal", async () => {
       const page = await newE2EPage();
-      await page.setContent(`<calcite-text-area resize="horizontal"></calcite-text-area>`);
+      await page.setContent(html`<calcite-text-area resize="horizontal"></calcite-text-area>`);
 
       const element = await page.find("calcite-text-area >>> textarea");
       await page.waitForChanges();
@@ -156,7 +157,7 @@ describe("calcite-text-area", () => {
 
     it("should set CSS resize property to vertical", async () => {
       const page = await newE2EPage();
-      await page.setContent(`<calcite-text-area resize="vertical"></calcite-text-area>`);
+      await page.setContent(html`<calcite-text-area resize="vertical"></calcite-text-area>`);
 
       const element = await page.find("calcite-text-area >>> textarea");
       await page.waitForChanges();

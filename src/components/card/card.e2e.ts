@@ -30,10 +30,9 @@ describe("calcite-card", () => {
 
   it("renders with default props if none are provided", async () => {
     const page = await newE2EPage();
-    await page.setContent(`
-      <calcite-card>
-        <img slot="thumbnail" src="${placeholder}" alt="Test image" />
-      </calcite-card>`);
+    await page.setContent(html` <calcite-card>
+      <img slot="thumbnail" src="${placeholder}" alt="Test image" />
+    </calcite-card>`);
 
     const element = await page.find("calcite-card");
     expect(element).not.toHaveAttribute("disabled");
@@ -44,10 +43,9 @@ describe("calcite-card", () => {
 
   it("renders with requsted props", async () => {
     const page = await newE2EPage();
-    await page.setContent(`
-      <calcite-card loading selectable selected disabled>
-        <img slot="thumbnail" src="${placeholder}" alt="Test image" />
-      </calcite-card>`);
+    await page.setContent(html` <calcite-card loading selectable selected disabled>
+      <img slot="thumbnail" src="${placeholder}" alt="Test image" />
+    </calcite-card>`);
 
     const element = await page.find("calcite-card");
     expect(element).toHaveAttribute("disabled");
@@ -58,7 +56,7 @@ describe("calcite-card", () => {
 
   it("should have a thumbnail container", async () => {
     const page = await newE2EPage();
-    await page.setContent(`
+    await page.setContent(html`
       <calcite-card>
         <img slot="thumbnail" src="${placeholder}" alt="Test image" />
       </calcite-card>
@@ -71,9 +69,9 @@ describe("calcite-card", () => {
 
   it("should render a checkbox if selectable", async () => {
     const page = await newE2EPage();
-    await page.setContent(`
+    await page.setContent(html`
       <calcite-card selectable>
-      <img slot="thumbnail" src="${placeholder}" alt="Test image" />
+        <img slot="thumbnail" src="${placeholder}" alt="Test image" />
       </calcite-card>
     `);
 
@@ -85,15 +83,15 @@ describe("calcite-card", () => {
   describe("when a card is selectable", () => {
     it("should update the card's selected state when its checkbox is clicked", async () => {
       const page = await newE2EPage();
-      await page.setContent(`
-      <div style="width:260px">
-        <calcite-card selectable>
-          <h3 slot="title">ArcGIS Online: Gallery and Organization pages</h3>
-          <span slot="subtitle">
-            A great example of a study description that might wrap to a line or two, but isn't overly verbose.
-          </span>
-        </calcite-card>
-      </div>
+      await page.setContent(html`
+        <div style="width:260px">
+          <calcite-card selectable>
+            <h3 slot="title">ArcGIS Online: Gallery and Organization pages</h3>
+            <span slot="subtitle">
+              A great example of a study description that might wrap to a line or two, but isn't overly verbose.
+            </span>
+          </calcite-card>
+        </div>
       `);
       const card = await page.find("calcite-card");
       const checkbox = await page.find(`calcite-card >>> .${CSS.checkboxWrapper} calcite-checkbox`);

@@ -38,6 +38,7 @@ function getTag(tagOrHTML: string): ComponentTag {
 
 async function simplePageSetup(componentTagOrHTML: TagOrHTML): Promise<E2EPage> {
   const componentTag = getTag(componentTagOrHTML);
+  // eslint-disable-next-line no-restricted-syntax -- basic test page requires additional options
   const page = await newE2EPage({
     html: isHTML(componentTagOrHTML) ? componentTagOrHTML : `<${componentTag}></${componentTag}>`,
     failOnConsoleError: true
@@ -386,8 +387,8 @@ export async function labelable(componentTagOrHtml: TagOrHTML, options?: Labelab
   }
 
   const wrappedHtml = html`<calcite-label> ${labelTitle} ${componentHtml}</calcite-label>`;
-  const wrappedPage: E2EPage = await newE2EPage({ html: wrappedHtml });
-  await wrappedPage.waitForChanges();
+  const wrappedPage: E2EPage = await newE2EPage();
+  await wrappedPage.setContent(wrappedHtml);
 
   await assertLabelable({
     page: wrappedPage,
@@ -401,8 +402,8 @@ export async function labelable(componentTagOrHtml: TagOrHTML, options?: Labelab
     <calcite-label for="${id}">${labelTitle}</calcite-label>
     ${componentHtml}
   `;
-  const siblingPage: E2EPage = await newE2EPage({ html: siblingHtml });
-  await siblingPage.waitForChanges();
+  const siblingPage: E2EPage = await newE2EPage();
+  await siblingPage.setContent(siblingHtml);
 
   await assertLabelable({
     page: siblingPage,
@@ -413,8 +414,7 @@ export async function labelable(componentTagOrHtml: TagOrHTML, options?: Labelab
   });
 
   const labelFirstSiblingPage: E2EPage = await newE2EPage();
-  await labelFirstSiblingPage.setContent(`<calcite-label for="${id}"></calcite-label>`);
-  await labelFirstSiblingPage.waitForChanges();
+  await labelFirstSiblingPage.setContent(html`<calcite-label for="${id}"></calcite-label>`);
   await labelFirstSiblingPage.evaluate((componentHtml: string) => {
     const template = document.createElement("template");
     template.innerHTML = `${componentHtml}`.trim();
@@ -432,8 +432,7 @@ export async function labelable(componentTagOrHtml: TagOrHTML, options?: Labelab
   });
 
   const labelFirstWrappedPage: E2EPage = await newE2EPage();
-  await labelFirstWrappedPage.setContent(`<calcite-label for="${id}"></calcite-label>`);
-  await labelFirstWrappedPage.waitForChanges();
+  await labelFirstWrappedPage.setContent(html`<calcite-label for="${id}"></calcite-label>`);
   await labelFirstWrappedPage.evaluate((componentHtml: string) => {
     const template = document.createElement("template");
     template.innerHTML = `${componentHtml}`.trim();
@@ -451,8 +450,8 @@ export async function labelable(componentTagOrHtml: TagOrHTML, options?: Labelab
     shadowFocusTargetSelector
   });
 
-  const componentFirstSiblingPage: E2EPage = await newE2EPage({ html: componentHtml });
-  await componentFirstSiblingPage.waitForChanges();
+  const componentFirstSiblingPage: E2EPage = await newE2EPage();
+  await componentFirstSiblingPage.setContent(componentHtml);
   await componentFirstSiblingPage.evaluate((id: string) => {
     const label = document.createElement("calcite-label");
     label.setAttribute("for", `${id}`);
@@ -469,8 +468,7 @@ export async function labelable(componentTagOrHtml: TagOrHTML, options?: Labelab
   });
 
   const componentFirstWrappedPage: E2EPage = await newE2EPage();
-  await componentFirstWrappedPage.setContent(`${componentHtml}`);
-  await componentFirstWrappedPage.waitForChanges();
+  await componentFirstWrappedPage.setContent(html`${componentHtml}`);
   await componentFirstWrappedPage.evaluate((id: string) => {
     const componentEl = document.querySelector(`[id='${id}']`);
     const labelEl = document.createElement("calcite-label");
@@ -534,16 +532,15 @@ export function formAssociated(componentTagOrHtml: TagOrHTML, options: FormAssoc
       componentTag
     );
 
-    const page = await newE2EPage({
-      html: html`<form>
-        ${componentHtml}
-        <!--
+    const page = await newE2EPage();
+    await page.setContent(html`<form>
+      ${componentHtml}
+      <!--
           keeping things simple by using submit-type input
           this should cover button and calcite-button submit cases
           -->
-        <input id="submitter" type="submit" />
-      </form>`
-    });
+      <input id="submitter" type="submit" />
+    </form>`);
     await page.waitForChanges();
     const component = await page.find(componentTag);
 
@@ -563,15 +560,14 @@ export function formAssociated(componentTagOrHtml: TagOrHTML, options: FormAssoc
       componentTag
     );
 
-    const page = await newE2EPage({
-      html: html`<form id="test-form"></form>
-        ${componentHtml}
-        <!--
+    const page = await newE2EPage();
+    await page.setContent(html`<form id="test-form"></form>
+      ${componentHtml}
+      <!--
         keeping things simple by using submit-type input
         this should cover button and calcite-button submit cases
         -->
-        <input id="submitter" form="test-form" type="submit" />`
-    });
+      <input id="submitter" form="test-form" type="submit" />`);
     await page.waitForChanges();
     const component = await page.find(componentTag);
 

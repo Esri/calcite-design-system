@@ -63,14 +63,8 @@ describe("calcite-slider", () => {
 
   it("sets aria attributes properly for single value", async () => {
     const page = await newE2EPage();
-    await page.setContent(`
-      <calcite-slider
-        value="23"
-        min="0"
-        max="100"
-        min-label="Yeah! Slider!"
-      >
-      </calcite-slider>
+    await page.setContent(html`
+      <calcite-slider value="23" min="0" max="100" min-label="Yeah! Slider!"> </calcite-slider>
     `);
     const button = await page.find("calcite-slider >>> .thumb");
     expect(button).toEqualAttribute("role", "slider");
@@ -83,15 +77,8 @@ describe("calcite-slider", () => {
 
   it("sets aria attributes properly for range values", async () => {
     const page = await newE2EPage();
-    await page.setContent(`
-      <calcite-slider
-        min-value="23"
-        max-value="47"
-        min="0"
-        max="100"
-        min-label="Min Label"
-        max-label="Max Label"
-      >
+    await page.setContent(html`
+      <calcite-slider min-value="23" max-value="47" min="0" max="100" min-label="Min Label" max-label="Max Label">
       </calcite-slider>
     `);
     const maxButton = await page.find("calcite-slider >>> .thumb--value");
@@ -112,15 +99,8 @@ describe("calcite-slider", () => {
 
   it("can be controlled via keyboard", async () => {
     const page = await newE2EPage();
-    await page.setContent(`
-      <calcite-slider
-        value="30"
-        min="0"
-        max="100"
-        step="1"
-        page-step="10"
-      >
-      </calcite-slider>
+    await page.setContent(html`
+      <calcite-slider value="30" min="0" max="100" step="1" page-step="10"> </calcite-slider>
     `);
     const slider = await page.find("calcite-slider");
     const handle = await page.find("calcite-slider >>> .thumb");
@@ -191,16 +171,7 @@ describe("calcite-slider", () => {
 
   it("only selects values on step interval when snap prop is passed", async () => {
     const page = await newE2EPage();
-    await page.setContent(`
-      <calcite-slider
-        value="23"
-        min="0"
-        max="100"
-        step="10"
-        snap
-      >
-      </calcite-slider>
-    `);
+    await page.setContent(html` <calcite-slider value="23" min="0" max="100" step="10" snap> </calcite-slider> `);
     const slider = await page.find("calcite-slider");
     const handle = await page.find("calcite-slider >>> .thumb--value");
     await page.waitForChanges();
@@ -213,32 +184,15 @@ describe("calcite-slider", () => {
 
   it("displays tick marks when ticks prop is passed", async () => {
     const page = await newE2EPage();
-    await page.setContent(`
-      <calcite-slider
-        value="23"
-        min="0"
-        max="100"
-        step="1"
-        ticks="10"
-      >
-      </calcite-slider>
-    `);
+    await page.setContent(html` <calcite-slider value="23" min="0" max="100" step="1" ticks="10"> </calcite-slider> `);
     const ticks = await page.findAll("calcite-slider >>> .tick");
     expect(ticks.length).toBe(11);
   });
 
   it("should cap the rendered last tick label to the slider's provided max", async () => {
     const page = await newE2EPage();
-    await page.setContent(`
-      <calcite-slider
-      min="5"
-      max="100"
-      step="10"
-      ticks="10"
-      label-handles
-      label-ticks
-      >
-      </calcite-slider>
+    await page.setContent(html`
+      <calcite-slider min="5" max="100" step="10" ticks="10" label-handles label-ticks> </calcite-slider>
     `);
     const slider = await page.find("calcite-slider");
     const maxTickLabel = await page.find("calcite-slider >>> .tick:nth-of-type(11)");
@@ -247,16 +201,7 @@ describe("calcite-slider", () => {
 
   it("key press should change the value and emit input and change events", async () => {
     const page = await newE2EPage();
-    await page.setContent(`
-      <calcite-slider
-        value="23"
-        min="0"
-        max="100"
-        step="1"
-        ticks="10"
-      >
-      </calcite-slider>
-    `);
+    await page.setContent(html` <calcite-slider value="23" min="0" max="100" step="1" ticks="10"> </calcite-slider> `);
     const slider = await page.find("calcite-slider");
     const handle = await page.find("calcite-slider >>> .thumb");
     const inputEvent = await slider.spyOnEvent("calciteSliderInput");
@@ -337,10 +282,8 @@ describe("calcite-slider", () => {
     ></calcite-slider>`;
 
     it("should focus the min thumb when clicked on track close to minValue", async () => {
-      const page = await newE2EPage({
-        html: `${sliderForThumbFocusTests}`
-      });
-      await page.waitForChanges();
+      const page = await newE2EPage();
+      await page.setContent(html`${sliderForThumbFocusTests}`);
       const slider = await page.find("calcite-slider");
       const [trackX, trackY] = await getElementXY(page, "calcite-slider", ".track");
 
@@ -359,10 +302,8 @@ describe("calcite-slider", () => {
     });
 
     it("should focus the max thumb when clicked on track close to maxValue", async () => {
-      const page = await newE2EPage({
-        html: `${sliderForThumbFocusTests}`
-      });
-      await page.waitForChanges();
+      const page = await newE2EPage();
+      await page.setContent(html`${sliderForThumbFocusTests}`);
       const slider = await page.find("calcite-slider");
       const [trackX, trackY] = await getElementXY(page, "calcite-slider", ".track");
 
@@ -381,10 +322,8 @@ describe("calcite-slider", () => {
     });
 
     it("should focus the max thumb when clicked on middle of the track", async () => {
-      const page = await newE2EPage({
-        html: `${sliderForThumbFocusTests}`
-      });
-      await page.waitForChanges();
+      const page = await newE2EPage();
+      await page.setContent(html`${sliderForThumbFocusTests}`);
       const slider = await page.find("calcite-slider");
       const [trackX, trackY] = await getElementXY(page, "calcite-slider", ".track");
 
@@ -405,9 +344,10 @@ describe("calcite-slider", () => {
 
   describe("mouse interaction", () => {
     it("single handle: clicking the track changes value on mousedown, emits on mouseup", async () => {
-      const page = await newE2EPage({
-        html: `<calcite-slider snap style="width:${sliderWidthFor1To1PixelValueTrack}"></calcite-slider>`
-      });
+      const page = await newE2EPage();
+      await page.setContent(
+        `<calcite-slider snap style="width:${sliderWidthFor1To1PixelValueTrack}"></calcite-slider>`
+      );
       await page.waitForChanges();
       const slider = await page.find("calcite-slider");
       const changeEvent = await slider.spyOnEvent("calciteSliderChange");
@@ -427,9 +367,10 @@ describe("calcite-slider", () => {
     });
 
     it("single handle: clicking and dragging the track changes and emits the value", async () => {
-      const page = await newE2EPage({
-        html: `<calcite-slider snap style="width:${sliderWidthFor1To1PixelValueTrack}"></calcite-slider>`
-      });
+      const page = await newE2EPage();
+      await page.setContent(
+        `<calcite-slider snap style="width:${sliderWidthFor1To1PixelValueTrack}"></calcite-slider>`
+      );
       await page.waitForChanges();
       const slider = await page.find("calcite-slider");
       const inputEvent = await slider.spyOnEvent("calciteSliderInput");
@@ -453,9 +394,10 @@ describe("calcite-slider", () => {
     });
 
     it("range: clicking the track to the left of the min handle changes minValue on mousedown, emits on mouseup", async () => {
-      const page = await newE2EPage({
-        html: `<calcite-slider min-value="50" max-value="75" snap style="width:${sliderWidthFor1To1PixelValueTrack}"></calcite-slider>`
-      });
+      const page = await newE2EPage();
+      await page.setContent(
+        `<calcite-slider min-value="50" max-value="75" snap style="width:${sliderWidthFor1To1PixelValueTrack}"></calcite-slider>`
+      );
       await page.waitForChanges();
 
       const slider = await page.find("calcite-slider");
@@ -482,9 +424,10 @@ describe("calcite-slider", () => {
     });
 
     it("range: clicking and dragging the track to the left of the min handle changes minValue and emits", async () => {
-      const page = await newE2EPage({
-        html: `<calcite-slider min-value="50" max-value="75" snap style="width:${sliderWidthFor1To1PixelValueTrack}"></calcite-slider>`
-      });
+      const page = await newE2EPage();
+      await page.setContent(
+        `<calcite-slider min-value="50" max-value="75" snap style="width:${sliderWidthFor1To1PixelValueTrack}"></calcite-slider>`
+      );
       await page.waitForChanges();
 
       const slider = await page.find("calcite-slider");
@@ -511,9 +454,10 @@ describe("calcite-slider", () => {
     });
 
     it("range: clicking the track to the right of the max handle changes maxValue on mousedown, emits on mouseup", async () => {
-      const page = await newE2EPage({
-        html: `<calcite-slider min-value="25" max-value="50" snap style="width:${sliderWidthFor1To1PixelValueTrack}"></calcite-slider>`
-      });
+      const page = await newE2EPage();
+      await page.setContent(
+        `<calcite-slider min-value="25" max-value="50" snap style="width:${sliderWidthFor1To1PixelValueTrack}"></calcite-slider>`
+      );
       await page.waitForChanges();
 
       const slider = await page.find("calcite-slider");
@@ -537,9 +481,10 @@ describe("calcite-slider", () => {
     });
 
     it("range: clicking and dragging the track to the right of the max handle changes maxValue on mousedown, emits on mouseup", async () => {
-      const page = await newE2EPage({
-        html: `<calcite-slider min-value="25" max-value="50" snap style="width:${sliderWidthFor1To1PixelValueTrack}"></calcite-slider>`
-      });
+      const page = await newE2EPage();
+      await page.setContent(
+        `<calcite-slider min-value="25" max-value="50" snap style="width:${sliderWidthFor1To1PixelValueTrack}"></calcite-slider>`
+      );
       await page.waitForChanges();
       const slider = await page.find("calcite-slider");
       const inputEvent = await slider.spyOnEvent("calciteSliderInput");
@@ -599,7 +544,8 @@ describe("calcite-slider", () => {
 
   describe("histogram", () => {
     it("creates calcite-graph with color stops", async () => {
-      const page = await newE2EPage({ html: `<calcite-slider></calcite-slider>` });
+      const page = await newE2EPage();
+      await page.setContent(html`<calcite-slider></calcite-slider>`);
 
       const props = {
         histogram: [
@@ -657,10 +603,8 @@ describe("calcite-slider", () => {
       style="width:${sliderWidthFor1To1PixelValueTrack}"`;
 
     it("click/tap should grab the max value thumb", async () => {
-      const page = await newE2EPage({
-        html: `<calcite-slider ${commonSliderAttrs}></calcite-slider>`
-      });
-      await page.waitForChanges();
+      const page = await newE2EPage();
+      await page.setContent(html`<calcite-slider ${commonSliderAttrs}></calcite-slider>`);
       const element = await page.find("calcite-slider");
       const changeEvent = await element.spyOnEvent("calciteSliderChange");
       const inputEvent = await element.spyOnEvent("calciteSliderInput");
@@ -683,9 +627,8 @@ describe("calcite-slider", () => {
     });
 
     it("mirrored: click/tap should grab the max value thumb", async () => {
-      const page = await newE2EPage({
-        html: `<calcite-slider ${commonSliderAttrs} mirrored></calcite-slider>`
-      });
+      const page = await newE2EPage();
+      await page.setContent(html`<calcite-slider ${commonSliderAttrs} mirrored></calcite-slider>`);
       const element = await page.find("calcite-slider");
       const changeEvent = await element.spyOnEvent("calciteSliderChange");
       const inputEvent = await element.spyOnEvent("calciteSliderInput");
@@ -718,7 +661,8 @@ describe("calcite-slider", () => {
     const mirroredSlider = `<div style="width: 300px; margin: 1rem;">${slider} mirrored></calcite-slider></div>`;
 
     it("should position the minValue thumb beside the maxValue thumb", async () => {
-      const page = await newE2EPage({ html: nonMirroredSlider });
+      const page = await newE2EPage();
+      await page.setContent(nonMirroredSlider);
       const minValueThumb = await page.find("calcite-slider >>> .thumb--minValue");
       const maxValueThumb = await page.find("calcite-slider >>> .thumb--value");
       const minHandleLeft = await (await minValueThumb.getComputedStyle()).left;
@@ -728,7 +672,8 @@ describe("calcite-slider", () => {
     });
 
     it("should position the minValue thumb beside the maxValue thumb when mirrored", async () => {
-      const page = await newE2EPage({ html: mirroredSlider });
+      const page = await newE2EPage();
+      await page.setContent(mirroredSlider);
       const minValueThumb = await page.find("calcite-slider >>> .thumb--minValue");
       const maxValueThumb = await page.find("calcite-slider >>> .thumb--value");
       const minHandleLeft = await (await minValueThumb.getComputedStyle()).left;
@@ -738,7 +683,8 @@ describe("calcite-slider", () => {
     });
 
     it("should position the minValue thumb beside the maxValue thumb when it's a histogram range", async () => {
-      const page = await newE2EPage({ html: nonMirroredSlider });
+      const page = await newE2EPage();
+      await page.setContent(nonMirroredSlider);
       await page.$eval("calcite-slider", (slider: HTMLCalciteSliderElement) => {
         slider.histogram = [
           [0, 0],
