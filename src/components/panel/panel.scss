@@ -1,8 +1,17 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-panel-footer-padding: Specifies the padding of the component's footer.
+ */
+
 :host {
   @extend %component-host;
   @apply relative flex w-full h-full flex-auto overflow-hidden;
 
   --calcite-min-header-height: calc(var(--calcite-icon-size) * 3);
+  --calcite-panel-footer-padding: theme("spacing.2");
 }
 
 @include disabled();
@@ -109,7 +118,7 @@
 
   flex: 0 0 auto;
   min-block-size: theme("spacing.12");
-  padding: theme("spacing.2");
+  padding: var(--calcite-panel-footer-padding);
 }
 
 .fab-container {
