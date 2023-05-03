@@ -503,14 +503,27 @@ export class InputTimePicker
     }
 
     if (key === "Enter") {
-      const { calciteInputEl, calciteTimePickerEl } = this;
-      this.setValue(
-        event.composedPath().includes(calciteTimePickerEl)
-          ? calciteTimePickerEl.value
-          : this.delocalizeTimeString(calciteInputEl.value)
-      );
       if (submitForm(this)) {
         event.preventDefault();
+      }
+
+      if (event.composedPath().includes(this.calciteTimePickerEl)) {
+        return;
+      }
+
+      const newValue = this.delocalizeTimeString(this.calciteInputEl.value);
+
+      this.setValue(newValue);
+
+      const localizedTimeString = localizeTimeString({
+        value: this.value,
+        locale: this.effectiveLocale,
+        numberingSystem: this.numberingSystem,
+        includeSeconds: this.shouldIncludeSeconds()
+      });
+
+      if (newValue && this.calciteInputEl.value !== localizedTimeString) {
+        this.setInputValue(localizedTimeString);
       }
     }
 

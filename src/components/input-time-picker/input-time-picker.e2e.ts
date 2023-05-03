@@ -1,4 +1,4 @@
-import { newE2EPage } from "@stencil/core/testing";
+import { E2EPage, newE2EPage } from "@stencil/core/testing";
 import { localizeTimeString } from "../../utils/time";
 import {
   accessible,
@@ -11,6 +11,15 @@ import {
   reflects,
   renders
 } from "../../tests/commonTests";
+
+async function getInputValue(page: E2EPage): Promise<string> {
+  return await page.evaluate(() => {
+    const inputDatePicker = document.querySelector("calcite-input-time-picker");
+    const calciteInput = inputDatePicker.shadowRoot.querySelector("calcite-input");
+    const input = calciteInput.shadowRoot.querySelector("input");
+    return input.value;
+  });
+}
 
 describe("calcite-input-time-picker", () => {
   it("renders", async () => renders("calcite-input-time-picker", { display: "inline-block" }));
@@ -267,9 +276,37 @@ describe("calcite-input-time-picker", () => {
     expect(await getLocalizedTime()).toBe(newLangLocalized.substring(0, newLangLocalized.indexOf(" ")));
   });
 
-  it("appropriately triggers calciteInputTimePickerChange event when the user commits a value with the Enter key", async () => {
+  it("committing the value with the Enter key works as expected for a 12-hour locale", async () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-input-time-picker step="1"></calcite-input-time-picker>`);
+
+    const inputTimePicker = await page.find("calcite-input-time-picker");
+    const changeEvent = await inputTimePicker.spyOnEvent("calciteInputTimePickerChange");
+
+    expect(changeEvent).toHaveReceivedEventTimes(0);
+
+    await page.keyboard.press("Tab");
+    await page.keyboard.type("1:2:3 AM");
+    await page.waitForChanges();
+
+    expect(changeEvent).toHaveReceivedEventTimes(0);
+
+    await page.keyboard.press("Enter");
+    await page.waitForChanges();
+
+    expect(changeEvent).toHaveReceivedEventTimes(1);
+    expect(await inputTimePicker.getProperty("value")).toBe("01:02:03");
+    expect(await getInputValue(page)).toBe("01:02:03 AM");
+
+    await page.keyboard.press("Enter");
+    await page.waitForChanges();
+
+    expect(changeEvent).toHaveReceivedEventTimes(1);
+  });
+
+  it("committing the value with the Enter key works as expected for a 24-hour locale", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<calcite-input-time-picker step="1" lang="fr"></calcite-input-time-picker>`);
 
     const inputTimePicker = await page.find("calcite-input-time-picker");
     const changeEvent = await inputTimePicker.spyOnEvent("calciteInputTimePickerChange");
@@ -305,15 +342,7 @@ describe("calcite-input-time-picker", () => {
     await page.waitForChanges();
 
     expect(await inputTimePicker.getProperty("value")).toBe("14:03:04");
-
-    const inputValue = await page.evaluate(() => {
-      const inputDatePicker = document.querySelector("calcite-input-time-picker");
-      const calciteInput = inputDatePicker.shadowRoot.querySelector("calcite-input");
-      const input = calciteInput.shadowRoot.querySelector("input");
-      return input.value;
-    });
-
-    expect(inputValue).toBe("02:03:04 PM");
+    expect(await getInputValue(page)).toBe("02:03:04 PM");
   });
 
   it("commits and formats valid typed time value appropriately on blur for 24-hour locale", async () => {
@@ -327,14 +356,7 @@ describe("calcite-input-time-picker", () => {
     await page.keyboard.press("Tab");
     await page.waitForChanges();
 
-    const inputValue = await page.evaluate(() => {
-      const inputDatePicker = document.querySelector("calcite-input-time-picker");
-      const calciteInput = inputDatePicker.shadowRoot.querySelector("calcite-input");
-      const input = calciteInput.shadowRoot.querySelector("input");
-      return input.value;
-    });
-
-    expect(inputValue).toBe("02:03:04");
+    expect(await getInputValue(page)).toBe("02:03:04");
     expect(await inputTimePicker.getProperty("value")).toBe("02:03:04");
   });
 
@@ -413,13 +435,7 @@ describe("calcite-input-time-picker", () => {
     await page.keyboard.press("Backspace");
     await page.keyboard.press("5");
 
-    const inputValue = await page.evaluate(() => {
-      const inputDatePicker = document.querySelector("calcite-input-time-picker");
-      const calciteInput = inputDatePicker.shadowRoot.querySelector("calcite-input");
-      const input = calciteInput.shadowRoot.querySelector("input");
-      return input.value;
-    });
-    expect(inputValue).toBe("02:05:00 PM");
+    expect(await getInputValue(page)).toBe("02:05:00 PM");
     expect(await inputTimePicker.getProperty("value")).toBe("14:00:00");
 
     await page.keyboard.press("Enter");
