@@ -1001,7 +1001,10 @@ export class ColorPicker
         // workaround to ensure input borders overlap as desired
         // this is because the build transforms margin-left to its
         // logical-prop, which is undesired as channels are always ltr
-        style={{ marginLeft: this.scale != "s" && index > 0 ? "-1px" : "" }}
+        style={{
+          marginLeft:
+            index > 0 && !(this.scale === "s" && this.alphaChannel && index === 3) ? "-1px" : ""
+        }}
         suffixText={suffix}
         type="number"
         value={value?.toString()}
