@@ -220,7 +220,6 @@ describe("calcite-tabs", () => {
     `;
 
     const page = await newProgrammaticE2EPage();
-    await page.waitForChanges();
 
     const finalSelectedItem = await page.evaluate(
       async (templateHTML: string): Promise<{ titleTab: string; contentTab: string }> => {
@@ -252,6 +251,7 @@ describe("calcite-tabs", () => {
       },
       [wrappedTabTemplateHTML]
     );
+    await page.waitForChanges();
     expect(finalSelectedItem.titleTab).toBe("title-2");
     expect(finalSelectedItem.contentTab).toBe("tab-2");
   });

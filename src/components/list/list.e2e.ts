@@ -106,7 +106,6 @@ describe("calcite-list", () => {
       <calcite-list-item value="one" label="One" description="hello world"></calcite-list-item>
       <calcite-list-item value="two" label="Two" description="hello world"></calcite-list-item>
     </calcite-list>`);
-    await page.waitForChanges();
     const list = await page.find("calcite-list");
     const filter = await page.find(`calcite-list >>> calcite-filter`);
     expect(await list.getProperty("filteredItems")).toHaveLength(2);

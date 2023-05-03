@@ -2,6 +2,7 @@ import { E2EPage, newE2EPage } from "@stencil/core/testing";
 import { renders, hidden } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { NumberStringFormatOptions } from "../../utils/locale";
+import { newProgrammaticE2EPage } from "../../tests/utils";
 
 // todo test the automatic setting of first item to selected
 describe("calcite-stepper", () => {
@@ -392,8 +393,7 @@ describe("calcite-stepper", () => {
         <calcite-button id="next">Next Step</calcite-button>
       `;
 
-      const page = await newE2EPage();
-      await page.waitForChanges();
+      const page = await newProgrammaticE2EPage();
 
       const finalSelectedItem = await page.evaluate(
         async (templateHTML: string): Promise<string> => {
@@ -428,6 +428,7 @@ describe("calcite-stepper", () => {
         },
         [templateHTML]
       );
+      await page.waitForChanges();
 
       expect(finalSelectedItem).toBe("item-3");
     });

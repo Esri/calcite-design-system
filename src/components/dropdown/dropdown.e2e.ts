@@ -988,7 +988,7 @@ describe("calcite-dropdown", () => {
       return wrapper.shadowRoot.querySelector("calcite-dropdown-item[selected]").id;
     }, wrapperName);
 
-    await expect(finalSelectedItem).toBe("item-3");
+    expect(finalSelectedItem).toBe("item-3");
   });
 
   it.skip("dropdown should not overflow when wrapped inside a tab #3007", async () => {
