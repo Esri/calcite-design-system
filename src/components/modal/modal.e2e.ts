@@ -27,7 +27,7 @@ describe("calcite-modal properties", () => {
     const page = await newE2EPage();
     // set large page to ensure test modal isn't becoming fullscreen
     await page.setViewport({ width: 1440, height: 1440 });
-    await page.setContent(`<calcite-modal style="--calcite-modal-width:600px;"></calcite-modal>`);
+    await page.setContent(html`<calcite-modal style="--calcite-modal-width:600px;"></calcite-modal>`);
     const modal = await page.find("calcite-modal");
     await modal.setProperty("open", true);
     await page.waitForChanges();
@@ -42,7 +42,7 @@ describe("calcite-modal properties", () => {
     const page = await newE2EPage();
     // set large page to ensure test modal isn't becoming fullscreen
     await page.setViewport({ width: 1440, height: 1440 });
-    await page.setContent(`<calcite-modal style="--calcite-modal-height:600px;" open></calcite-modal>`);
+    await page.setContent(html`<calcite-modal style="--calcite-modal-height:600px;" open></calcite-modal>`);
     const modal = await page.find("calcite-modal");
     await modal.setProperty("open", true);
     await page.waitForChanges();
@@ -57,7 +57,7 @@ describe("calcite-modal properties", () => {
     const page = await newE2EPage();
     // set large page to ensure test modal isn't becoming fullscreen
     await page.setViewport({ width: 1440, height: 1440 });
-    await page.setContent(`<calcite-modal style="--calcite-modal-width:600px;" fullscreen open></calcite-modal>`);
+    await page.setContent(html`<calcite-modal style="--calcite-modal-width:600px;" fullscreen open></calcite-modal>`);
     const modal = await page.find("calcite-modal");
     await modal.setProperty("open", true);
     await page.waitForChanges();
@@ -72,7 +72,7 @@ describe("calcite-modal properties", () => {
     const page = await newE2EPage();
     // set large page to ensure test modal isn't becoming fullscreen
     await page.setViewport({ width: 1440, height: 1440 });
-    await page.setContent(`<calcite-modal style="--calcite-modal-height:600px;" fullscreen open></calcite-modal>`);
+    await page.setContent(html`<calcite-modal style="--calcite-modal-height:600px;" fullscreen open></calcite-modal>`);
     const modal = await page.find("calcite-modal");
     await modal.setProperty("open", true);
     await page.waitForChanges();
@@ -109,9 +109,7 @@ describe("calcite-modal properties", () => {
     const page = await newE2EPage();
     const mockCallBack = jest.fn();
     await page.exposeFunction("beforeClose", mockCallBack);
-    await page.setContent(`
-      <calcite-modal open></calcite-modal>
-    `);
+    await page.setContent(html` <calcite-modal open></calcite-modal> `);
     const modal = await page.find("calcite-modal");
     await page.$eval(
       "calcite-modal",
@@ -414,7 +412,7 @@ describe("calcite-modal accessibility checks", () => {
 
   it("has correct aria role/attribute", async () => {
     const page = await newE2EPage();
-    await page.setContent(`<calcite-modal></calcite-modal>`);
+    await page.setContent(html`<calcite-modal></calcite-modal>`);
     const modal = await page.find("calcite-modal");
     expect(modal).toEqualAttribute("role", "dialog");
     expect(modal).toEqualAttribute("aria-modal", "true");
@@ -422,7 +420,7 @@ describe("calcite-modal accessibility checks", () => {
 
   it("closes and allows re-opening when Escape key is pressed", async () => {
     const page = await newE2EPage();
-    await page.setContent(`<calcite-modal ></calcite-modal>`);
+    await page.setContent(html`<calcite-modal></calcite-modal>`);
     await skipAnimations(page);
     const modal = await page.find("calcite-modal");
     await modal.setProperty("open", true);
@@ -439,7 +437,7 @@ describe("calcite-modal accessibility checks", () => {
 
   it("closes when Escape key is pressed and modal is open on page load", async () => {
     const page = await newE2EPage();
-    await page.setContent(`<calcite-modal  open></calcite-modal>`);
+    await page.setContent(html`<calcite-modal open></calcite-modal>`);
     const modal = await page.find("calcite-modal");
     await page.waitForChanges();
     expect(modal).toHaveAttribute("open");
@@ -456,7 +454,7 @@ describe("calcite-modal accessibility checks", () => {
 
   it("closes and allows re-opening when Close button is clicked", async () => {
     const page = await newE2EPage();
-    await page.setContent(`<calcite-modal ></calcite-modal>`);
+    await page.setContent(html`<calcite-modal></calcite-modal>`);
     await skipAnimations(page);
     const modal = await page.find("calcite-modal");
     modal.setProperty("open", true);
@@ -474,7 +472,7 @@ describe("calcite-modal accessibility checks", () => {
 
   it("should close when the scrim is clicked", async () => {
     const page = await newE2EPage();
-    await page.setContent(`<calcite-modal ></calcite-modal>`);
+    await page.setContent(html`<calcite-modal></calcite-modal>`);
     const modal = await page.find("calcite-modal");
     modal.setProperty("open", true);
     await page.waitForChanges();
@@ -486,7 +484,7 @@ describe("calcite-modal accessibility checks", () => {
 
   it("should not close when the scrim is clicked", async () => {
     const page = await newE2EPage();
-    await page.setContent(`<calcite-modal outside-close-disabled ></calcite-modal>`);
+    await page.setContent(html`<calcite-modal outside-close-disabled></calcite-modal>`);
     const modal = await page.find("calcite-modal");
     modal.setProperty("open", true);
     await page.waitForChanges();
@@ -498,7 +496,7 @@ describe("calcite-modal accessibility checks", () => {
 
   it("does not close when Escape is pressed and escape-disabled is set", async () => {
     const page = await newE2EPage();
-    await page.setContent(`<calcite-modal escape-disabled></calcite-modal>`);
+    await page.setContent(html`<calcite-modal escape-disabled></calcite-modal>`);
     const modal = await page.find("calcite-modal");
     await modal.setProperty("open", true);
     await page.waitForChanges();
@@ -510,7 +508,7 @@ describe("calcite-modal accessibility checks", () => {
 
   it("correctly adds overflow class on document when open", async () => {
     const page = await newE2EPage();
-    await page.setContent(`<calcite-modal></calcite-modal>`);
+    await page.setContent(html`<calcite-modal></calcite-modal>`);
     const modal = await page.find("calcite-modal");
     await modal.setProperty("open", true);
     await page.waitForChanges();
@@ -522,7 +520,7 @@ describe("calcite-modal accessibility checks", () => {
 
   it("correctly does not add overflow class on document when open and slotted in shell modals slot", async () => {
     const page = await newE2EPage();
-    await page.setContent(`<calcite-shell><calcite-modal slot="modals"></calcite-modal></calcite-shell>`);
+    await page.setContent(html`<calcite-shell><calcite-modal slot="modals"></calcite-modal></calcite-shell>`);
     const modal = await page.find("calcite-modal");
     await modal.setProperty("open", true);
     await page.waitForChanges();
@@ -534,7 +532,7 @@ describe("calcite-modal accessibility checks", () => {
 
   it("correctly removes overflow class on document once closed", async () => {
     const page = await newE2EPage();
-    await page.setContent(`<calcite-modal></calcite-modal>`);
+    await page.setContent(html`<calcite-modal></calcite-modal>`);
     const modal = await page.find("calcite-modal");
     await modal.setProperty("open", true);
     await page.waitForChanges();
@@ -548,7 +546,7 @@ describe("calcite-modal accessibility checks", () => {
 
   it("renders correctly with no footer", async () => {
     const page = await newE2EPage();
-    await page.setContent(`
+    await page.setContent(html`
       <calcite-modal>
         <calcite-button slot="primary">TEST</calcite-button>
       </calcite-modal>
@@ -562,8 +560,8 @@ describe("calcite-modal accessibility checks", () => {
   });
 
   it("should render calcite-scrim with default background color", async () => {
-    const page = await newE2EPage({
-      html: `
+    const page = await newE2EPage();
+    await page.setContent(html`
       <calcite-modal aria-labelledby="modal-title" open>
         <h3 slot="header" id="modal-title">Title of the modal</h3>
         <div slot="content">The actual content of the modal</div>
@@ -573,8 +571,7 @@ describe("calcite-modal accessibility checks", () => {
         <calcite-button slot="secondary" width="full" appearance="outline"> Cancel </calcite-button>
         <calcite-button slot="primary" width="full"> Save </calcite-button>
       </calcite-modal>
-      `
-    });
+    `);
     const scrimStyles = await page.evaluate(() => {
       const scrim = document.querySelector("calcite-modal").shadowRoot.querySelector(".scrim");
       return window.getComputedStyle(scrim).getPropertyValue("--calcite-scrim-background");
@@ -584,8 +581,8 @@ describe("calcite-modal accessibility checks", () => {
 
   it("when modal css override set, scrim should adhere to requested color", async () => {
     const overrideStyle = "rgba(160, 20, 10, 0.5)";
-    const page = await newE2EPage({
-      html: `
+    const page = await newE2EPage();
+    await page.setContent(html`
       <calcite-modal aria-labelledby="modal-title" open style="--calcite-modal-scrim-background:${overrideStyle}">
         <h3 slot="header" id="modal-title">Title of the modal</h3>
         <div slot="content">The actual content of the modal</div>
@@ -595,8 +592,7 @@ describe("calcite-modal accessibility checks", () => {
         <calcite-button slot="secondary" width="full" appearance="outline"> Cancel </calcite-button>
         <calcite-button slot="primary" width="full"> Save </calcite-button>
       </calcite-modal>
-      `
-    });
+    `);
     const scrimStyles = await page.evaluate(() => {
       const scrim = document.querySelector("calcite-modal").shadowRoot.querySelector(".scrim");
       return window.getComputedStyle(scrim).getPropertyValue("--calcite-scrim-background");

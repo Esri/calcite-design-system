@@ -81,6 +81,13 @@
       }
     ],
     "no-new-func": "error",
+    "no-restricted-syntax": [
+      "error",
+      {
+        "selector": "CallExpression[callee.name='newE2EPage'][arguments.length>0]",
+        "message": "Calling newE2EPage with arguments is not allowed. Use setContent to pass the test page content"
+      }
+    ],
     "no-unneeded-ternary": "error",
     "react/forbid-component-props": [
       "warn",

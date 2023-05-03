@@ -120,7 +120,10 @@ describe("calcite-tooltip", () => {
   it("open tooltip should be visible", async () => {
     const page = await newE2EPage();
 
-    await page.setContent(`<calcite-tooltip></calcite-tooltip><div>referenceElement</div>`);
+    await page.setContent(
+      html`<calcite-tooltip></calcite-tooltip>
+        <div>referenceElement</div>`
+    );
 
     const element = await page.find("calcite-tooltip");
 
@@ -168,7 +171,7 @@ describe("calcite-tooltip", () => {
   it("should accept referenceElement as virtual element", async () => {
     const page = await newE2EPage();
 
-    await page.setContent(`<calcite-tooltip open>content</calcite-tooltip>`);
+    await page.setContent(html`<calcite-tooltip open>content</calcite-tooltip>`);
 
     await page.$eval("calcite-tooltip", (tooltip: HTMLCalciteTooltipElement) => {
       const virtualElement = {

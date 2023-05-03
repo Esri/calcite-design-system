@@ -1,5 +1,6 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { renders, hidden } from "../../tests/commonTests";
+import { html } from "../../../support/formatting";
 
 describe("calcite-segmented-control-item", () => {
   describe("renders", () => {
@@ -45,7 +46,7 @@ describe("calcite-segmented-control-item", () => {
 
   it("renders icon at start if requested", async () => {
     const page = await newE2EPage();
-    await page.setContent(`
+    await page.setContent(html`
     <calcite-segmented-control-item icon-start="car">Content</calcite-accordion-item>`);
     const icon = await page.find("calcite-segmented-control-item >>> .segmented-control-item-icon");
     expect(icon).not.toBe(null);
@@ -53,7 +54,7 @@ describe("calcite-segmented-control-item", () => {
 
   it("does not render icon if not requested", async () => {
     const page = await newE2EPage();
-    await page.setContent(`
+    await page.setContent(html`
     <calcite-segmented-control-item>Content</calcite-accordion-item>`);
     const icon = await page.find("calcite-segmented-control-item >>> .segmented-control-item-icon");
     expect(icon).toBe(null);

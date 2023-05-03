@@ -29,7 +29,7 @@ describe("calcite-pagination", () => {
   describe("page links", () => {
     it("should render only one page when totalItems is less than pageSize", async () => {
       const page = await newE2EPage();
-      await page.setContent(`<calcite-pagination total-items="10" page-size="11"></calcite-pagination>`);
+      await page.setContent(html`<calcite-pagination total-items="10" page-size="11"></calcite-pagination>`);
       const links = await page.findAll(`calcite-pagination >>> .${CSS.page}`);
       expect(links.length).toBe(1);
     });
@@ -38,7 +38,7 @@ describe("calcite-pagination", () => {
   describe("ellipsis rendering", () => {
     it("should not render either ellipsis when total pages is less than or equal to 5", async () => {
       const page = await newE2EPage();
-      await page.setContent(`<calcite-pagination total-items="80"></calcite-pagination>`);
+      await page.setContent(html`<calcite-pagination total-items="80"></calcite-pagination>`);
 
       const startEllipsis = await page.find(`calcite-pagination >>> .${CSS.ellipsis}.${CSS.ellipsisStart}`);
       const endEllipsis = await page.find(`calcite-pagination >>> .${CSS.ellipsis}.${CSS.ellipsisEnd}`);
@@ -132,7 +132,9 @@ describe("calcite-pagination", () => {
   describe("page buttons", () => {
     it("should switch selected page to the page that's clicked", async () => {
       const page = await newE2EPage();
-      await page.setContent(`<calcite-pagination start-item="1" total-items="36" page-size="10"></calcite-pagination>`);
+      await page.setContent(
+        html`<calcite-pagination start-item="1" total-items="36" page-size="10"></calcite-pagination>`
+      );
       const toggleSpy = await page.spyOnEvent("calcitePaginationChange");
       const pages = await page.findAll("calcite-pagination >>> .page");
       await pages[1].click();
@@ -155,7 +157,9 @@ describe("calcite-pagination", () => {
     let pagination: E2EElement;
     beforeEach(async () => {
       page = await newE2EPage();
-      await page.setContent(`<calcite-pagination start-item="1" total-items="5" page-size="1"></calcite-pagination>`);
+      await page.setContent(
+        html`<calcite-pagination start-item="1" total-items="5" page-size="1"></calcite-pagination>`
+      );
       pagination = await page.find("calcite-pagination");
     });
     it("should show the first page", async () => {

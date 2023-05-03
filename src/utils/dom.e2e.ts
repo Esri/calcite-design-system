@@ -36,9 +36,8 @@ describe("queries", () => {
   let page: E2EPage;
 
   beforeEach(async () => {
-    page = await newE2EPage({
-      html: outsideHostHTML
-    });
+    page = await newE2EPage();
+    await page.setContent(outsideHostHTML);
 
     function setUpTestComponent({ insideHostHTML, componentTag, insideShadowHTML }: SetUpTestComponentOptions) {
       class TestComponent extends HTMLElement {

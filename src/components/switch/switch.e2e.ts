@@ -1,4 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
+import { html } from "../../../support/formatting";
 import { accessible, disabled, formAssociated, hidden, HYDRATED_ATTR, labelable } from "../../tests/commonTests";
 
 describe("calcite-switch", () => {
@@ -67,7 +68,7 @@ describe("calcite-switch", () => {
 
   it("appropriately triggers the custom change event", async () => {
     const page = await newE2EPage();
-    await page.setContent(`<calcite-switch></calcite-switch>`);
+    await page.setContent(html`<calcite-switch></calcite-switch>`);
 
     const calciteSwitch = await page.find("calcite-switch");
 
@@ -95,7 +96,7 @@ describe("calcite-switch", () => {
 
   it("toggles the checked attributes when the checkbox is toggled", async () => {
     const page = await newE2EPage();
-    await page.setContent(`<calcite-switch></calcite-switch>`);
+    await page.setContent(html`<calcite-switch></calcite-switch>`);
 
     const calciteSwitch = await page.find("calcite-switch");
 
@@ -109,7 +110,7 @@ describe("calcite-switch", () => {
 
   it("renders requested props", async () => {
     const page = await newE2EPage();
-    await page.setContent(`<calcite-switch scale="l" ></calcite-switch>`);
+    await page.setContent(html`<calcite-switch scale="l"></calcite-switch>`);
     const element = await page.find("calcite-switch");
 
     expect(element).toEqualAttribute("scale", "l");
@@ -117,10 +118,7 @@ describe("calcite-switch", () => {
 
   it("renders default props", async () => {
     const page = await newE2EPage();
-    await page.setContent(`
-    <calcite-switch></calcite-switch>`);
-
-    await page.waitForChanges();
+    await page.setContent(html` <calcite-switch></calcite-switch>`);
 
     const element = await page.find("calcite-switch");
     expect(element).toEqualAttribute("scale", "m");

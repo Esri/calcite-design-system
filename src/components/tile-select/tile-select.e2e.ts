@@ -77,9 +77,7 @@ describe("calcite-tile-select", () => {
 
   it("removing a tile-select also removes its corresponding calcite-radio-button", async () => {
     const page = await newE2EPage();
-    await page.setContent(`
-      <calcite-tile-select name="radio" value="first"></calcite-tile-select>
-    `);
+    await page.setContent(html` <calcite-tile-select name="radio" value="first"></calcite-tile-select> `);
 
     let firstRadioButton = await page.find("calcite-radio-button");
     expect(await firstRadioButton.getProperty("name")).toBe("radio");
@@ -97,7 +95,7 @@ describe("calcite-tile-select", () => {
 
   it("removing a tile-select also removes its corresponding calcite-checkbox", async () => {
     const page = await newE2EPage();
-    await page.setContent(`
+    await page.setContent(html`
       <calcite-tile-select name="checky" value="first" type="checkbox"></calcite-tile-select>
     `);
 
@@ -126,9 +124,8 @@ describe("calcite-tile-select", () => {
     }));
 
   it("emits change event on checkbox toggle and suppresses internal checkbox change event", async () => {
-    const page = await newE2EPage({
-      html: html`<calcite-tile-select type="checkbox" input-enabled></calcite-tile-select>`
-    });
+    const page = await newE2EPage();
+    await page.setContent(html`<calcite-tile-select type="checkbox" input-enabled></calcite-tile-select>`);
 
     const tileSelectSpy = await page.spyOnEvent("calciteTileSelectChange");
     const checkboxSpy = await page.spyOnEvent("calciteCheckboxChange");
@@ -150,12 +147,14 @@ describe("calcite-tile-select", () => {
   });
 
   it("emits change event on radio check and suppresses internal radio change event", async () => {
-    const page = await newE2EPage({
-      html: html`
-        <calcite-tile-select name="change" type="radio" input-enabled value="one"></calcite-tile-select>
-        <calcite-tile-select name="change" type="radio" input-enabled value="two"></calcite-tile-select>
-      `
-    });
+    const page = await newE2EPage();
+    await page.setContent(html`<calcite-tile-select
+        name="change"
+        type="radio"
+        input-enabled
+        value="one"
+      ></calcite-tile-select>
+      <calcite-tile-select name="change" type="radio" input-enabled value="two"></calcite-tile-select>`);
 
     const tileSelectSpy = await page.spyOnEvent("calciteTileSelectChange");
     const radioButtonSpy = await page.spyOnEvent("calciteRadioButtonChange");

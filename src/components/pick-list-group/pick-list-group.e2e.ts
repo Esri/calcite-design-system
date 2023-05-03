@@ -36,7 +36,7 @@ describe("calcite-pick-list-group", () => {
   it("should render", async () => {
     const page = await newE2EPage();
 
-    await page.setContent(`<calcite-pick-list-group></calcite-pick-list-group>`);
+    await page.setContent(html`<calcite-pick-list-group></calcite-pick-list-group>`);
     const pickList = await page.find("calcite-pick-list-group");
     expect(pickList).not.toBeNull();
     const isVisible = await pickList.isVisible();
@@ -47,7 +47,7 @@ describe("calcite-pick-list-group", () => {
     const page = await newE2EPage();
     const headingText = "testing";
 
-    await page.setContent(`<calcite-pick-list-group group-title=${headingText}></calcite-pick-list-group>`);
+    await page.setContent(html`<calcite-pick-list-group group-title=${headingText}></calcite-pick-list-group>`);
     const heading = await page.find(`calcite-pick-list-group >>> .${CSS.heading}`);
     const isVisible = await heading.isVisible();
     expect(isVisible).toBe(true);
@@ -56,7 +56,7 @@ describe("calcite-pick-list-group", () => {
 
   it("should indent children if a parent slot is passed", async () => {
     const page = await newE2EPage();
-    await page.setContent(`<calcite-pick-list filter-enabled>
+    await page.setContent(html`<calcite-pick-list filter-enabled>
       <calcite-pick-list-group>
         <calcite-pick-list-item slot="parent-item" value="nums" label="Numbers"></calcite-pick-list-item>
         <calcite-pick-list-item value="1" label="One" description="uno"></calcite-pick-list-item>

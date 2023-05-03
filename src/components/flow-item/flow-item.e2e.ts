@@ -146,9 +146,8 @@ describe("calcite-flow-item", () => {
   });
 
   it("honors calciteFlowItemScroll event", async () => {
-    const page = await newE2EPage({
-      html: "<calcite-flow-item>test</calcite-flow-item>"
-    });
+    const page = await newE2EPage();
+    await page.setContent("<calcite-flow-item>test</calcite-flow-item>");
 
     const scrollSpy = await page.spyOnEvent("calciteFlowItemScroll");
 

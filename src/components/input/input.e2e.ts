@@ -678,7 +678,8 @@ describe("calcite-input", () => {
     });
 
     it("does not fire any input or change events when a focused input is blurred after its value is set directly", async () => {
-      const page = await newE2EPage({ html: "<calcite-input></calcite-input>" });
+      const page = await newE2EPage();
+      await page.setContent("<calcite-input></calcite-input>");
       const input = await page.find("calcite-input");
       const inputEventSpy = await input.spyOnEvent("calciteInputInput");
       const changeEventSpy = await input.spyOnEvent("calciteInputChange");
@@ -1520,9 +1521,7 @@ describe("calcite-input", () => {
 
   it("input event fires when number ends with a decimal", async () => {
     const page = await newE2EPage();
-    await page.setContent(`
-    <calcite-input type="number" value="1.2"></calcite-input>
-    `);
+    await page.setContent(html` <calcite-input type="number" value="1.2"></calcite-input> `);
 
     const calciteInputInput = await page.spyOnEvent("calciteInputInput");
     const element = await page.find("calcite-input");
@@ -1537,9 +1536,7 @@ describe("calcite-input", () => {
 
   it("sanitize leading zeros from number input value", async () => {
     const page = await newE2EPage();
-    await page.setContent(`
-    <calcite-input type="number"></calcite-input>
-    `);
+    await page.setContent(html` <calcite-input type="number"></calcite-input> `);
 
     const element = await page.find("calcite-input");
     await element.callMethod("setFocus");
@@ -1558,7 +1555,7 @@ describe("calcite-input", () => {
 
   it("sanitize extra dashes from number input value", async () => {
     const page = await newE2EPage();
-    await page.setContent(`<calcite-input type="number"></calcite-input>`);
+    await page.setContent(html`<calcite-input type="number"></calcite-input>`);
 
     const element = await page.find("calcite-input");
     await element.callMethod("setFocus");
@@ -1598,7 +1595,7 @@ describe("calcite-input", () => {
     });
 
     it("works for type textarea", async () => {
-      await page.setContent(`<calcite-input type="textarea"></calcite-input>`);
+      await page.setContent(html`<calcite-input type="textarea"></calcite-input>`);
       const element = await page.find("calcite-input");
 
       await element.callMethod("setFocus");
@@ -1617,7 +1614,7 @@ describe("calcite-input", () => {
     });
 
     it("works for type text", async () => {
-      await page.setContent(`<calcite-input type="text"></calcite-input>`);
+      await page.setContent(html`<calcite-input type="text"></calcite-input>`);
       const element = await page.find("calcite-input");
 
       await element.callMethod("setFocus");
@@ -1636,7 +1633,7 @@ describe("calcite-input", () => {
     });
 
     it("should not work for type number, but increment instead", async () => {
-      await page.setContent(`<calcite-input type="number"></calcite-input>`);
+      await page.setContent(html`<calcite-input type="number"></calcite-input>`);
       const element = await page.find("calcite-input");
 
       await element.callMethod("setFocus");

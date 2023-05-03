@@ -8,6 +8,7 @@ import {
   labelable,
   hidden
 } from "../../tests/commonTests";
+import { html } from "../../../support/formatting";
 
 describe("calcite-checkbox", () => {
   it("honors hidden attribute", async () => hidden("calcite-checkbox"));
@@ -67,7 +68,7 @@ describe("calcite-checkbox", () => {
 
   it("appropriately triggers the custom change event", async () => {
     const page = await newE2EPage();
-    await page.setContent(`<calcite-checkbox></calcite-checkbox>`);
+    await page.setContent(html`<calcite-checkbox></calcite-checkbox>`);
 
     const calciteCheckbox = await page.find("calcite-checkbox");
 
@@ -108,7 +109,7 @@ describe("calcite-checkbox", () => {
 
   it("behaves as expected when wrapped in a calcite-label with inline layout mode", async () => {
     const page = await newE2EPage();
-    await page.setContent(`
+    await page.setContent(html`
       <calcite-label layout="inline"><calcite-checkbox></calcite-checkbox>Label</calcite-label>
     `);
 
@@ -118,7 +119,7 @@ describe("calcite-checkbox", () => {
 
   it("behaves as expected when wrapped in a calcite-label with inline-space-between layout mode", async () => {
     const page = await newE2EPage();
-    await page.setContent(`
+    await page.setContent(html`
       <calcite-label layout="inline-space-between"><calcite-checkbox></calcite-checkbox>Label</calcite-label>
     `);
 
@@ -128,7 +129,7 @@ describe("calcite-checkbox", () => {
 
   it("resets to initial value when form reset event is triggered", async () => {
     const page = await newE2EPage();
-    await page.setContent(`
+    await page.setContent(html`
       <form>
         <calcite-checkbox id="unchecked"></calcite-checkbox>
         <calcite-checkbox id="checked" checked></calcite-checkbox>

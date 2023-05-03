@@ -114,7 +114,10 @@ describe("calcite-popover", () => {
   it("open popover should be visible", async () => {
     const page = await newE2EPage();
 
-    await page.setContent(`<calcite-popover placement="auto"></calcite-popover><div>referenceElement</div>`);
+    await page.setContent(
+      html`<calcite-popover placement="auto"></calcite-popover>
+        <div>referenceElement</div>`
+    );
 
     const element = await page.find("calcite-popover");
 
@@ -162,7 +165,7 @@ describe("calcite-popover", () => {
   it("should accept referenceElement as a virtual element", async () => {
     const page = await newE2EPage();
 
-    await page.setContent(`<calcite-popover placement="auto" open>content</calcite-popover>`);
+    await page.setContent(html`<calcite-popover placement="auto" open>content</calcite-popover>`);
 
     await page.$eval("calcite-popover", (popover: HTMLCalcitePopoverElement) => {
       const virtualElement = {

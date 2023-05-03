@@ -1342,9 +1342,7 @@ describe("calcite-input-number", () => {
 
   it("input event fires when number ends with a decimal", async () => {
     const page = await newE2EPage();
-    await page.setContent(`
-    <calcite-input-number value="1.2"></calcite-input-number>
-    `);
+    await page.setContent(html` <calcite-input-number value="1.2"></calcite-input-number> `);
 
     const calciteInputNumberInput = await page.spyOnEvent("calciteInputNumberInput");
     const element = await page.find("calcite-input-number");
@@ -1359,9 +1357,7 @@ describe("calcite-input-number", () => {
 
   it("sanitize leading zeros from value", async () => {
     const page = await newE2EPage();
-    await page.setContent(`
-    <calcite-input-number></calcite-input-number>
-    `);
+    await page.setContent(html` <calcite-input-number></calcite-input-number> `);
 
     const element = await page.find("calcite-input-number");
     await element.callMethod("setFocus");
@@ -1380,7 +1376,7 @@ describe("calcite-input-number", () => {
 
   it("sanitize extra dashes from value", async () => {
     const page = await newE2EPage();
-    await page.setContent(`<calcite-input-number></calcite-input-number>`);
+    await page.setContent(html`<calcite-input-number></calcite-input-number>`);
 
     const element = await page.find("calcite-input-number");
     await element.callMethod("setFocus");
@@ -1413,7 +1409,7 @@ describe("calcite-input-number", () => {
     });
 
     it("should not work, but increment instead", async () => {
-      await page.setContent(`<calcite-input-number></calcite-input-number>`);
+      await page.setContent(html`<calcite-input-number></calcite-input-number>`);
       const element = await page.find("calcite-input-number");
 
       await element.callMethod("setFocus");

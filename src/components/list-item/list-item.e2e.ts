@@ -1,4 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
+import { html } from "../../../support/formatting";
 import { defaults, disabled, focusable, hidden, renders, slots } from "../../tests/commonTests";
 import { CSS, SLOTS } from "./resources";
 
@@ -47,7 +48,8 @@ describe("calcite-list-item", () => {
   it("can be disabled", () => disabled(`<calcite-list-item label="test" active></calcite-list-item>`));
 
   it("renders content node when label is provided", async () => {
-    const page = await newE2EPage({ html: `<calcite-list-item label="test"></calcite-list-item>` });
+    const page = await newE2EPage();
+    await page.setContent(html`<calcite-list-item label="test"></calcite-list-item>`);
 
     const contentNode = await page.find(`calcite-list-item >>> .${CSS.content}`);
 
@@ -55,7 +57,8 @@ describe("calcite-list-item", () => {
   });
 
   it("renders content node when description is provided", async () => {
-    const page = await newE2EPage({ html: `<calcite-list-item description="test"></calcite-list-item>` });
+    const page = await newE2EPage();
+    await page.setContent(html`<calcite-list-item description="test"></calcite-list-item>`);
 
     const contentNode = await page.find(`calcite-list-item >>> .${CSS.content}`);
 
@@ -63,7 +66,8 @@ describe("calcite-list-item", () => {
   });
 
   it("does not render content node when description and label is not provided", async () => {
-    const page = await newE2EPage({ html: `<calcite-list-item></calcite-list-item>` });
+    const page = await newE2EPage();
+    await page.setContent(html`<calcite-list-item></calcite-list-item>`);
 
     const contentNode = await page.find(`calcite-list-item >>> .${CSS.content}`);
 
@@ -71,9 +75,10 @@ describe("calcite-list-item", () => {
   });
 
   it("renders custom content in place of label and description", async () => {
-    const page = await newE2EPage({
-      html: `<calcite-list-item label="test" description="test"><div slot="content">My custom content</div></calcite-list-item>`
-    });
+    const page = await newE2EPage();
+    await page.setContent(
+      `<calcite-list-item label="test" description="test"><div slot="content">My custom content</div></calcite-list-item>`
+    );
 
     await page.waitForChanges();
 
@@ -87,11 +92,8 @@ describe("calcite-list-item", () => {
   });
 
   it("emits calciteListItemSelect on click", async () => {
-    const page = await newE2EPage({
-      html: `<calcite-list-item label="hello" description="world"></calcite-list-item>`
-    });
-
-    await page.waitForChanges();
+    const page = await newE2EPage();
+    await page.setContent(html`<calcite-list-item label="hello" description="world"></calcite-list-item>`);
 
     const contentContainer = await page.find(`calcite-list-item >>> .${CSS.contentContainer}`);
 
@@ -103,9 +105,10 @@ describe("calcite-list-item", () => {
   });
 
   it("emits calciteInternalListItemActive on click", async () => {
-    const page = await newE2EPage({
-      html: `<calcite-list-item selection-mode="none" label="hello" description="world"></calcite-list-item>`
-    });
+    const page = await newE2EPage();
+    await page.setContent(
+      `<calcite-list-item selection-mode="none" label="hello" description="world"></calcite-list-item>`
+    );
 
     await page.waitForChanges();
 
@@ -140,7 +143,8 @@ describe("calcite-list-item", () => {
   });
 
   it("should fire close event when closed", async () => {
-    const page = await newE2EPage({ html: "<calcite-list-item closable>test</calcite-list-item>" });
+    const page = await newE2EPage();
+    await page.setContent("<calcite-list-item closable>test</calcite-list-item>");
 
     const calciteListItemClose = await page.spyOnEvent("calciteListItemClose", "window");
 

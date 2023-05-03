@@ -1,5 +1,6 @@
 import { newE2EPage, E2EPage } from "@stencil/core/testing";
 import { accessible, defaults, hidden, renders } from "../../tests/commonTests";
+import { html } from "../../../support/formatting";
 
 describe("calcite-graph", () => {
   describe("renders", () => {
@@ -44,7 +45,7 @@ describe("calcite-graph", () => {
   it("draws an area graph", async () => {
     const dimensionsStyle = `style="height:100px; width:300px;"`;
     const page = await newE2EPage();
-    await page.setContent(`<calcite-graph ${dimensionsStyle}></calcite-graph>`);
+    await page.setContent(html`<calcite-graph ${dimensionsStyle}></calcite-graph>`);
     await page.$eval("calcite-graph", (elm: any) => {
       elm.data = [
         [0, 4],
@@ -63,7 +64,7 @@ describe("calcite-graph", () => {
 
   it("uses color-stops when provided", async () => {
     const page = await newE2EPage();
-    await page.setContent(`<calcite-graph></calcite-graph>`);
+    await page.setContent(html`<calcite-graph></calcite-graph>`);
     await page.$eval("calcite-graph", (elm: any) => {
       elm.data = [
         [0, 4],

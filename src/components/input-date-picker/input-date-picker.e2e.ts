@@ -100,7 +100,7 @@ describe("calcite-input-date-picker", () => {
 
     it("doesn't emit when cleared programmatically for single date", async () => {
       const page = await newE2EPage();
-      await page.setContent(`<calcite-input-date-picker value="2023-03-07"></calcite-input-date-picker>`);
+      await page.setContent(html`<calcite-input-date-picker value="2023-03-07"></calcite-input-date-picker>`);
       const element = await page.find("calcite-input-date-picker");
       element.setProperty("value", "");
       await page.waitForChanges();
@@ -113,7 +113,7 @@ describe("calcite-input-date-picker", () => {
 
     it("doesn't emit when cleared programmatically for date range", async () => {
       const page = await newE2EPage();
-      await page.setContent(`<calcite-input-date-picker range></calcite-input-date-picker>`);
+      await page.setContent(html`<calcite-input-date-picker range></calcite-input-date-picker>`);
       const element = await page.find("calcite-input-date-picker");
       const changeEvent = await page.spyOnEvent("calciteInputDatePickerChange");
       element.setProperty("value", ["2023-03-07", "2023-03-08"]);
@@ -207,7 +207,7 @@ describe("calcite-input-date-picker", () => {
 
   it("should clear active date properly when deleted and committed via keyboard", async () => {
     const page = await newE2EPage();
-    await page.setContent(`<calcite-input-date-picker value="2021-12-08"></calcite-input-date-picker>`);
+    await page.setContent(html`<calcite-input-date-picker value="2021-12-08"></calcite-input-date-picker>`);
     const input = (
       await page.waitForFunction(() =>
         document
@@ -376,7 +376,7 @@ describe("calcite-input-date-picker", () => {
 
   it("allows clicking a date in the calendar popup", async () => {
     const page = await newE2EPage();
-    await page.setContent(`<calcite-input-date-picker value="2023-01-31"></calcite-input-date-picker>`);
+    await page.setContent(html`<calcite-input-date-picker value="2023-01-31"></calcite-input-date-picker>`);
     const inputDatePicker = await page.find("calcite-input-date-picker");
 
     await inputDatePicker.click();
@@ -434,7 +434,7 @@ describe("calcite-input-date-picker", () => {
 
   it("when set to readOnly, element still focusable but won't display the controls or allow for changing the value", async () => {
     const page = await newE2EPage();
-    await page.setContent(`<calcite-input-date-picker read-only id="canReadOnly"></calcite-input-date-picker>`);
+    await page.setContent(html`<calcite-input-date-picker read-only id="canReadOnly"></calcite-input-date-picker>`);
 
     const component = await page.find("#canReadOnly");
     const input = await page.find("#canReadOnly >>> calcite-input");

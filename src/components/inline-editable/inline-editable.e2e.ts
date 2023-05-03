@@ -32,10 +32,10 @@ describe("calcite-inline-editable", () => {
     let page: E2EPage;
     beforeEach(async () => {
       page = await newE2EPage();
-      await page.setContent(`
-      <calcite-inline-editable>
-        <calcite-input/>
-      </calcite-inline-editable>
+      await page.setContent(html`
+        <calcite-inline-editable>
+          <calcite-input />
+        </calcite-inline-editable>
       `);
     });
 
@@ -48,11 +48,10 @@ describe("calcite-inline-editable", () => {
     });
 
     it(`should set all internal calcite-button types to 'button'`, async () => {
-      const page = await newE2EPage({
-        html: html`<calcite-inline-editable controls editing-enabled>
-          <calcite-input />
-        </calcite-inline-editable>`
-      });
+      const page = await newE2EPage();
+      await page.setContent(html`<calcite-inline-editable controls editing-enabled>
+        <calcite-input />
+      </calcite-inline-editable>`);
 
       const buttons = await page.findAll("calcite-inline-editable >>> calcite-button");
 
@@ -65,12 +64,12 @@ describe("calcite-inline-editable", () => {
 
     it("uses a child input's scale when none are provided", async () => {
       page = await newE2EPage();
-      await page.setContent(`
-      <calcite-label>
-        <calcite-inline-editable>
-          <calcite-input scale="l"/>
-        </calcite-inline-editable>
-      </calcite-label>
+      await page.setContent(html`
+        <calcite-label>
+          <calcite-inline-editable>
+            <calcite-input scale="l" />
+          </calcite-inline-editable>
+        </calcite-label>
       `);
       await page.waitForChanges();
       const element = await page.find("calcite-inline-editable");
@@ -79,10 +78,10 @@ describe("calcite-inline-editable", () => {
 
     it("renders requested props when valid props are provided", async () => {
       page = await newE2EPage();
-      await page.setContent(`
-      <calcite-inline-editable controls editing-enabled loading disabled scale="l" >
-        <calcite-input/>
-      </calcite-inline-editable>
+      await page.setContent(html`
+        <calcite-inline-editable controls editing-enabled loading disabled scale="l">
+          <calcite-input />
+        </calcite-inline-editable>
       `);
       await page.waitForChanges();
       const element = await page.find("calcite-inline-editable");
@@ -98,10 +97,10 @@ describe("calcite-inline-editable", () => {
     let page: E2EPage;
     beforeEach(async () => {
       page = await newE2EPage();
-      await page.setContent(`
-      <calcite-inline-editable>
-        <calcite-input value="John Doe"/>
-      </calcite-inline-editable>
+      await page.setContent(html`
+        <calcite-inline-editable>
+          <calcite-input value="John Doe" />
+        </calcite-inline-editable>
       `);
     });
 
@@ -162,10 +161,10 @@ describe("calcite-inline-editable", () => {
     let page: E2EPage;
     beforeEach(async () => {
       page = await newE2EPage();
-      await page.setContent(`
-      <calcite-inline-editable controls>
-        <calcite-input value="John Doe"/>
-      </calcite-inline-editable>
+      await page.setContent(html`
+        <calcite-inline-editable controls>
+          <calcite-input value="John Doe" />
+        </calcite-inline-editable>
       `);
     });
 

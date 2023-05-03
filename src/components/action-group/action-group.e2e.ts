@@ -31,7 +31,8 @@ describe("calcite-action-group", () => {
   it("has slots", () => slots("calcite-action-group", SLOTS));
 
   it("should honor scale of expand icon", async () => {
-    const page = await newE2EPage({ html: actionGroupHTML });
+    const page = await newE2EPage();
+    await page.setContent(actionGroupHTML);
     const menu = await page.find(`calcite-action-group >>> calcite-action-menu`);
     expect(await menu.getProperty("scale")).toBe("l");
   });

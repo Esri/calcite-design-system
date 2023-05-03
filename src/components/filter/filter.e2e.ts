@@ -2,6 +2,7 @@ import { E2EPage, newE2EPage } from "@stencil/core/testing";
 import { accessible, defaults, disabled, focusable, hidden, reflects, renders, t9n } from "../../tests/commonTests";
 import { DEBOUNCE_TIMEOUT } from "./resources";
 import { CSS as INPUT_CSS } from "../input/resources";
+import { html } from "../../../support/formatting";
 
 describe("calcite-filter", () => {
   describe("renders", () => {
@@ -49,7 +50,7 @@ describe("calcite-filter", () => {
   it("sets scale on the input", async () => {
     const scale = "s";
     const page = await newE2EPage();
-    await page.setContent(`<calcite-filter scale="${scale}"></calcite-filter>`);
+    await page.setContent(html`<calcite-filter scale="${scale}"></calcite-filter>`);
 
     const input = await page.find(`calcite-filter >>> calcite-input`);
     expect(await input.getProperty("scale")).toBe(scale);
@@ -59,7 +60,7 @@ describe("calcite-filter", () => {
     it("should update the filter placeholder when a string is provided", async () => {
       const page = await newE2EPage();
       const placeholderText = "placeholder";
-      await page.setContent(`<calcite-filter placeholder="${placeholderText}"></calcite-filter>`);
+      await page.setContent(html`<calcite-filter placeholder="${placeholderText}"></calcite-filter>`);
 
       const input = await page.find(`calcite-filter >>> calcite-input`);
       expect(await input.getProperty("placeholder")).toBe(placeholderText);
@@ -239,7 +240,7 @@ describe("calcite-filter", () => {
 
     beforeEach(async () => {
       page = await newE2EPage();
-      await page.setContent(`<calcite-filter value="harry"></calcite-filter>`);
+      await page.setContent(html`<calcite-filter value="harry"></calcite-filter>`);
       await page.evaluate(() => {
         const filter = document.querySelector("calcite-filter");
         filter.items = [

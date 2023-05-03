@@ -15,7 +15,7 @@ describe("calcite-shell", () => {
   it("content node should always be present", async () => {
     const page = await newE2EPage();
 
-    await page.setContent(`<calcite-shell></calcite-shell>`);
+    await page.setContent(html`<calcite-shell></calcite-shell>`);
 
     const content = await page.find(`calcite-shell >>> .${CSS.content}`);
 

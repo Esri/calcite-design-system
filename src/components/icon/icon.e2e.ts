@@ -2,6 +2,7 @@ import { newE2EPage } from "@stencil/core/testing";
 import { accessible, defaults, hidden, reflects, renders } from "../../tests/commonTests";
 import { CSS } from "./resources";
 import { scaleToPx } from "./utils";
+import { html } from "../../../support/formatting";
 
 describe("calcite-icon", () => {
   it("honors hidden attribute", async () => hidden("calcite-icon"));
@@ -24,7 +25,7 @@ describe("calcite-icon", () => {
 
   it("flips icon when enabled and in RTL", async () => {
     const page = await newE2EPage();
-    await page.setContent(`<calcite-icon icon="a-z"></calcite-icon>`);
+    await page.setContent(html`<calcite-icon icon="a-z"></calcite-icon>`);
     const icon = await page.find(`calcite-icon`);
     const flipRtlIconSelector = `calcite-icon >>> .${CSS.flipRtl}`;
 
@@ -44,8 +45,7 @@ describe("calcite-icon", () => {
 
     it("uses path data to render icon", async () => {
       const page = await newE2EPage();
-      await page.setContent(`<calcite-icon icon="a-z"></calcite-icon>`);
-      await page.waitForChanges();
+      await page.setContent(html`<calcite-icon icon="a-z"></calcite-icon>`);
       const path = await page.find(`calcite-icon >>> path`);
 
       expect(path.getAttribute("d")).toBeTruthy();
@@ -53,8 +53,7 @@ describe("calcite-icon", () => {
 
     it("supports both camelcase and kebab case for icon name", async () => {
       const page = await newE2EPage();
-      await page.setContent(`<calcite-icon icon="a-z"></calcite-icon>`);
-      await page.waitForChanges();
+      await page.setContent(html`<calcite-icon icon="a-z"></calcite-icon>`);
       const icon = await page.find(`calcite-icon`);
       const path = await page.find(`calcite-icon >>> path`);
       const iconPathData = path.getAttribute("d");
@@ -67,9 +66,7 @@ describe("calcite-icon", () => {
 
     it.skip("loads icon when it's close to viewport", async () => {
       const page = await newE2EPage();
-      await page.setContent(`<calcite-icon icon="a-z" style="margin-top: 1000px"></calcite-icon>`);
-      await page.waitForChanges();
-
+      await page.setContent(html`<calcite-icon icon="a-z" style="margin-top: 1000px"></calcite-icon>`);
       const icon = await page.find(`calcite-icon`);
       const path = await page.find(`calcite-icon >>> path`);
 
@@ -87,7 +84,7 @@ describe("calcite-icon", () => {
       scales.forEach((scale) =>
         it(`${scale} scale`, async () => {
           const page = await newE2EPage();
-          await page.setContent(`<calcite-icon icon="a-z" scale="${scale}"></calcite-icon>`);
+          await page.setContent(html`<calcite-icon icon="a-z" scale="${scale}"></calcite-icon>`);
           const calciteIcon = await page.find(`calcite-icon`);
           const calciteIconComputedStyle = await calciteIcon.getComputedStyle();
           const svg = await page.find(`calcite-icon >>> svg`);

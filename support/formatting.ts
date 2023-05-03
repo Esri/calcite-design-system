@@ -8,15 +8,14 @@ import dedent from "dedent";
  *
  * ```ts
  * // select.e2e.ts
- * const page = await newE2EPage({
- *   html: html`
- *     <calcite-select>
- *       <calcite-option id="1">uno</calcite-option>
- *       <calcite-option id="2">dos</calcite-option>
- *       <calcite-option id="3">tres</calcite-option>
- *     </calcite-select>
- *   `
- * });
+ * const page = await newE2EPage();
+ * await page.setContent(html`
+ *   <calcite-select>
+ *     <calcite-option id="1">uno</calcite-option>
+ *     <calcite-option id="2">dos</calcite-option>
+ *     <calcite-option id="3">tres</calcite-option>
+ *   </calcite-select>
+ * `});
  * ```
  *
  * ```ts

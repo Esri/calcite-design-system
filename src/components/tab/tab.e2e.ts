@@ -1,5 +1,6 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { defaults, renders, hidden } from "../../tests/commonTests";
+import { html } from "../../../support/formatting";
 
 describe("calcite-tab", () => {
   const tabHtml = "<calcite-tab>A tab</calcite-tab>";
@@ -20,9 +21,8 @@ describe("calcite-tab", () => {
 
   describe("when nested within calcite-tabs component", () => {
     it("should render with medium scale", async () => {
-      const page = await newE2EPage({
-        html: `<calcite-tabs>${tabHtml}</calcite-tabs>`
-      });
+      const page = await newE2EPage();
+      await page.setContent(html`<calcite-tabs>${tabHtml}</calcite-tabs>`);
       const element = await page.find("calcite-tab");
       expect(element).toEqualAttribute("scale", "m");
       expect(await (await element.getComputedStyle())["font-size"]).toEqual("14px");
@@ -31,9 +31,8 @@ describe("calcite-tab", () => {
 
     describe("when tabs scale is small", () => {
       it("should render with small scale", async () => {
-        const page = await newE2EPage({
-          html: `<calcite-tabs scale="s">${tabHtml}</calcite-tabs>`
-        });
+        const page = await newE2EPage();
+        await page.setContent(html`<calcite-tabs scale="s">${tabHtml}</calcite-tabs>`);
         const element = await page.find("calcite-tab");
         expect(element).toEqualAttribute("scale", "s");
         expect(await (await element.getComputedStyle())["font-size"]).toEqual("12px");
@@ -43,9 +42,8 @@ describe("calcite-tab", () => {
 
     describe("when tabs scale is large", () => {
       it("should render with large scale", async () => {
-        const page = await newE2EPage({
-          html: `<calcite-tabs scale="l">${tabHtml}</calcite-tabs>`
-        });
+        const page = await newE2EPage();
+        await page.setContent(html`<calcite-tabs scale="l">${tabHtml}</calcite-tabs>`);
         const element = await page.find("calcite-tab");
         expect(element).toEqualAttribute("scale", "l");
         expect(await (await element.getComputedStyle())["font-size"]).toEqual("16px");

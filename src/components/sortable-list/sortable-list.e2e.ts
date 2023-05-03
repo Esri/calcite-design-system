@@ -45,13 +45,12 @@ describe("calcite-sortable-list", () => {
   describe("drag and drop", () => {
     let page: E2EPage;
     beforeEach(async () => {
-      page = await newE2EPage({
-        html: `<calcite-sortable-list>
+      page = await newE2EPage();
+      await page.setContent(html`<calcite-sortable-list>
         <div id="one"><calcite-handle></calcite-handle>1</div>
         <div id="two"><calcite-handle></calcite-handle>2</div>
         <div id="three"><calcite-handle></calcite-handle>3</div>
-      </calcite-sortable-list>`
-      });
+      </calcite-sortable-list>`);
     });
 
     it("works using a mouse", () => worksUsingMouse(page));
@@ -62,13 +61,12 @@ describe("calcite-sortable-list", () => {
   describe("drag and drop with dragSelector", () => {
     let page: E2EPage;
     beforeEach(async () => {
-      page = await newE2EPage({
-        html: `<calcite-sortable-list drag-selector=".calcite-sortable">
+      page = await newE2EPage();
+      await page.setContent(html`<calcite-sortable-list drag-selector=".calcite-sortable">
         <div class="calcite-sortable" id="one"><calcite-handle></calcite-handle>1</div>
         <div class="calcite-sortable" id="two"><calcite-handle></calcite-handle>2</div>
         <div class="calcite-sortable" id="three"><calcite-handle></calcite-handle>3</div>
-      </calcite-sortable-list>`
-      });
+      </calcite-sortable-list>`);
     });
 
     it("works using a mouse", () => worksUsingMouse(page));
