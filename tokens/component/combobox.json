@@ -170,7 +170,8 @@
           "value": "$semantic.font.default.regular.0h",
           "type": "typography"
         }
-      }
+      },
+      "type": "other"
     },
     "item-container": {
       "shadow": {

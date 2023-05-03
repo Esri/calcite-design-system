@@ -2558,7 +2558,8 @@
               "value": "$combobox.font.value.light",
               "type": "color"
             }
-          }
+          },
+          "type": "color"
         }
       },
       "combobox-item": {
