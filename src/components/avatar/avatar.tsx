@@ -39,7 +39,7 @@ export class Avatar {
   /** Specifies the unique id of the user. */
   @Prop({ reflect: true }) userId: string;
 
-  /** Specifies alternate text for thumbnail and accessible label for initials.*/
+  /** When `thumbnail` is defined, specifies alternate text for the image. Otherwise specifies accessible label for the component.*/
   @Prop() label: string;
 
   //--------------------------------------------------------------------------
