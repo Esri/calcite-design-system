@@ -88,11 +88,11 @@
         },
         "transparent": {
           "light": {
-            "value": "$semantic.ui.color.text.1.light",
+            "value": "$semantic.ui.color.text.inverse.light",
             "type": "color"
           },
           "dark": {
-            "value": "$semantic.ui.color.text.1.dark",
+            "value": "$semantic.ui.color.text.inverse.dark",
             "type": "color"
           }
         }
