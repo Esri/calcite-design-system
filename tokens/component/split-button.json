@@ -786,11 +786,11 @@
       "danger": {
         "solid": {
           "light": {
-            "value": "$semantic.ui.color.danger.default.light",
+            "value": "$semantic.ui.color.foreground.1.light",
             "type": "color"
           },
           "dark": {
-            "value": "$semantic.ui.color.danger.default.dark",
+            "value": "$semantic.ui.color.foreground.1.dark",
             "type": "color"
           }
         },
