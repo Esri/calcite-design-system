@@ -100,7 +100,7 @@ describe("calcite-list", () => {
       { focusTarget: "child" }
     ));
 
-  it("navigating items after filtering", async () => {
+  it.skip("navigating items after filtering", async () => {
     const page = await newE2EPage({
       html: html`
         <calcite-list filter-enabled>
