@@ -282,8 +282,8 @@ const advancedTrailingPanelHTMl = html(`
           </calcite-block-section>
         </calcite-block-content>
       </calcite-block>
-      <calcite-button slot="footer-actions" width="half" appearance="outline">Cancel</calcite-button>
-      <calcite-button slot="footer-actions" width="half">Save</calcite-button>
+      <calcite-button slot="footer" width="half" appearance="outline">Cancel</calcite-button>
+      <calcite-button slot="footer" width="half">Save</calcite-button>
     </calcite-flow-item>
     <calcite-flow-item heading="Deeper flow item">
       <calcite-block collapsible open heading="End Content" summary="Select goodness">
@@ -316,8 +316,8 @@ const advancedTrailingPanelHTMl = html(`
           </calcite-block-section>
         </calcite-block-content>
       </calcite-block>
-      <calcite-button slot="footer-actions" width="half" appearance="outline">Cancel</calcite-button>
-      <calcite-button slot="footer-actions" width="half">Save</calcite-button>
+      <calcite-button slot="footer" width="half" appearance="outline">Cancel</calcite-button>
+      <calcite-button slot="footer" width="half">Save</calcite-button>
     </calcite-flow-item>
   </calcite-flow>
 `);
@@ -465,7 +465,7 @@ background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
             </calcite-block-content>
           </calcite-block>
           <calcite-button
-            slot="footer-actions"
+            slot="footer"
             width="half"
             appearance="outline"
             alignment="center"
@@ -475,7 +475,7 @@ background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
             Cancel
           </calcite-button>
           <calcite-button
-            slot="footer-actions"
+            slot="footer"
             width="half"
             alignment="center"
             appearance="solid"
@@ -525,7 +525,7 @@ background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
             </calcite-block-content>
           </calcite-block>
           <calcite-button
-            slot="footer-actions"
+            slot="footer"
             width="half"
             appearance="outline"
             alignment="center"
@@ -535,7 +535,7 @@ background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
             Cancel
           </calcite-button>
           <calcite-button
-            slot="footer-actions"
+            slot="footer"
             width="half"
             alignment="center"
             appearance="solid"

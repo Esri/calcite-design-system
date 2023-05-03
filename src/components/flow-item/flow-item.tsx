@@ -40,7 +40,7 @@ import { CSS, ICONS, SLOTS } from "./resources";
  * @slot header-content - A slot for adding custom content to the component's header.
  * @slot header-menu-actions - A slot for adding an overflow menu with `calcite-action`s inside a `calcite-dropdown`.
  * @slot fab - A slot for adding a `calcite-fab` (floating action button) to perform an action.
- * @slot footer-actions - A slot for adding `calcite-button`s to the component's footer.
+ * @slot footer-actions - [Deprecated] A slot for adding `calcite-button`s to the component's footer.
  * @slot footer - A slot for adding custom content to the component's footer.
  */
 @Component({
