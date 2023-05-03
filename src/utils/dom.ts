@@ -16,7 +16,7 @@ export const tabbableOptions = {
  *
  * If it already has an ID, it will be preserved, otherwise a unique one will be generated and assigned.
  *
- * @param {Element} el A HTML element.
+ * @param {Element} el An element.
  * @returns {string} The element's ID.
  */
 export function ensureId(el: Element): string {
@@ -30,7 +30,7 @@ export function ensureId(el: Element): string {
 /**
  * This helper returns an array from a NodeList.
  *
- * @param {NodeList} nodeList a NodeList.
+ * @param {NodeList} nodeList A NodeList.
  * @returns {Element[]} An array of elements.
  */
 export function nodeListToArray<T extends Element>(nodeList: HTMLCollectionOf<T> | NodeListOf<T> | T[]): T[] {
@@ -42,8 +42,8 @@ export type Direction = "ltr" | "rtl";
 /**
  * This helper returns the Calcite "mode" of an element.
  *
- * @param {HTMLElement} el A HTML element.
- * @returns {"light"|"dark"} An array of elements.
+ * @param {HTMLElement} el An element.
+ * @returns {"light"|"dark"} The Calcite mode.
  */
 export function getModeName(el: HTMLElement): "light" | "dark" {
   const closestElWithMode = closestElementCrossShadowBoundary(
@@ -67,7 +67,7 @@ export function getElementDir(el: HTMLElement): Direction {
 }
 
 /**
- * This helper returns the direction of a HTML element.
+ * This helper returns the value of an attribute on an element.
  *
  * @param {HTMLElement} el An element.
  * @param {string} attribute An attribute name.
@@ -85,7 +85,7 @@ export function getElementProp(el: Element, attribute: string, fallbackValue: an
  * This helper returns the rootNode of an element.
  *
  * @param {Element} el An element.
- * @returns {Document|ShadowRoot} The node's root.
+ * @returns {Document|ShadowRoot} The element's root node.
  */
 export function getRootNode(el: Element): Document | ShadowRoot {
   return el.getRootNode() as Document | ShadowRoot;
@@ -94,7 +94,7 @@ export function getRootNode(el: Element): Document | ShadowRoot {
 /**
  * This helper returns the host of a ShadowRoot.
  *
- * @param {Document | ShadowRoot} root A Root element.
+ * @param {Document | ShadowRoot} root A root element.
  * @returns {Element | null} The host element.
  */
 export function getHost(root: Document | ShadowRoot): Element | null {
@@ -106,11 +106,11 @@ export function getHost(root: Document | ShadowRoot): Element | null {
  *
  * If both an 'id' and 'selector' are supplied, 'id' will take precedence over 'selector'.
  *
- * @param element
+ * @param {Element} element An element.
  * @param root0
  * @param root0.selector
  * @param root0.id
- * @returns {Element} The element.
+ * @returns {Element} An element.
  */
 export function queryElementRoots<T extends Element = Element>(
   element: Element,
@@ -179,7 +179,7 @@ export function closestElementCrossShadowBoundary<T extends Element = Element>(
  *
  * Returning early or undefined in `onVisit` will continue traversing up the DOM tree. Otherwise, traversal will halt with the returned value as the result of the function
  *
- * @param {Element} element The element.
+ * @param {Element} element An element.
  * @param {(node: Node) => Element} onVisit The callback.
  * @returns {Element} The result.
  */
@@ -203,28 +203,28 @@ function visit<T = any>(node: Node, onVisit: (node: Node) => T): T {
 }
 
 /**
- * This helper returns true when the element has the descendant in question.
+ * This helper returns true when an element has the descendant in question.
  *
  * @param {Element} element The starting element.
  * @param {Element} maybeDescendant The descendant.
- * @returns {boolean} The boolean result.
+ * @returns {boolean} The result.
  */
 export function containsCrossShadowBoundary(element: Element, maybeDescendant: Element): boolean {
   return !!walkUpAncestry(maybeDescendant, (node) => (node === element ? true : undefined));
 }
 
 /**
- * Interface for an element with the setFocus method.
+ * An element which may contain a `setFocus` method.
  */
 export interface FocusableElement extends HTMLElement {
   setFocus?: () => Promise<void>;
 }
 
 /**
- * This helper returns true when the element has a setFocus method.
+ * This helper returns true when an element has a setFocus method.
  *
- * @param {Element} el The element.
- * @returns {boolean} The boolean result.
+ * @param {Element} el An element.
+ * @returns {boolean} The result.
  */
 export function isCalciteFocusable(el: FocusableElement): boolean {
   return typeof el?.setFocus === "function";
@@ -233,7 +233,7 @@ export function isCalciteFocusable(el: FocusableElement): boolean {
 /**
  * This helper focuses an element using the `setFocus` method if available and falls back to using the `focus` method if not available.
  *
- * @param {Element} el The element.
+ * @param {Element} el An element.
  */
 export async function focusElement(el: FocusableElement): Promise<void> {
   if (!el) {
@@ -268,7 +268,7 @@ const defaultSlotSelector = ":not([slot])";
 /**
  * Gets slotted elements for a named slot.
  *
- * @param {Element} element The element.
+ * @param {Element} element An element.
  * @param {string} slotName The slot name.
  * @param {GetSlottedOptions & { all: true }} options The options.
  * @returns {Element | Element[] | null} returns element(s) or null.
@@ -359,7 +359,7 @@ function querySingle<T extends Element = Element>(
 /**
  * Filters direct children.
  *
- * @param {Element} el The element.
+ * @param {Element} el An element.
  * @param {string} selector The selector.
  * @returns {Element[]} An array of elements.
  */
@@ -451,7 +451,7 @@ export function slotChangeGetAssignedElements(event: Event): Element[] {
  * See https://www.w3.org/TR/pointerevents/#the-button-property.
  *
  * @param {PointerEvent} event The pointer event.
- * @returns {boolean} Returns a boolean value.
+ * @returns {boolean} The value.
  */
 export function isPrimaryPointerButton(event: PointerEvent): boolean {
   return !!(event.isPrimary && event.button === 0);
@@ -462,9 +462,9 @@ export type FocusElementInGroupDestination = "first" | "last" | "next" | "previo
 /**
  * This helper sets focus on and returns a destination element from within a group of provided elements.
  *
- * @param {Element[]} elements An array of elements
- * @param {Element} currentElement The current element
- * @param {FocusElementInGroupDestination} destination The target destination element to focus
+ * @param {Element[]} elements An array of elements.
+ * @param {Element} currentElement The current element.
+ * @param {FocusElementInGroupDestination} destination The target destination element to focus.
  * @returns {Element} The focused element
  */
 export const focusElementInGroup = (
