@@ -80,12 +80,7 @@ export class Avatar {
     const initials = this.generateInitials();
     const backgroundColor = this.generateFillColor();
     return (
-      <span
-        aria-label={this.label || this.fullName}
-        class="background"
-        role="img"
-        style={{ backgroundColor }}
-      >
+      <span aria-label={this.label || this.fullName} class="background" style={{ backgroundColor }}>
         {initials ? (
           <span aria-hidden="true" class="initials">
             {initials}
