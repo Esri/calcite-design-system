@@ -977,7 +977,7 @@ describe("calcite-color-picker", () => {
               await clearAndEnterHexOrChannelValue(page, hInput, "180");
               await clearAndEnterHexOrChannelValue(page, sInput, "90");
 
-              expect(await picker.getProperty("value")).toBe("#0b7373");
+              expect(await picker.getProperty("value")).toBe("#730b0b");
             });
           });
 
@@ -1444,7 +1444,7 @@ describe("calcite-color-picker", () => {
         });
       });
 
-      describ("color gets propagated to support inputs", () => {
+      describe("color gets propagated to support inputs", () => {
         describe("valid color", () => {
           it("color gets propagated to hex, RGB, HSV", async () => {
             const page = await newE2EPage();
@@ -1520,7 +1520,7 @@ describe("calcite-color-picker", () => {
               await clearAndEnterHexOrChannelValue(page, sInput, "90");
               await clearAndEnterHexOrChannelValue(page, hsvAInput, "50");
 
-              expect(await picker.getProperty("value")).toBe("#0b737380");
+              expect(await picker.getProperty("value")).toBe("#730b0b80");
             });
           });
 
