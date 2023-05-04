@@ -11,13 +11,18 @@ node_modules
 
 # Pre-build Folders
 tokens
+tools
+support
 
 # Documentation
 CONTRIBUTING.md
 
 # Configurations
 .editorconfig
+.eslintrc.json
 .gitignore
-config.bak.json
-config.json
-
+.lintstagedrc.json
+.prettierignore
+.prettierrc
+jest.config.json
+tsconfig*

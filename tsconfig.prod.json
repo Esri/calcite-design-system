@@ -5,5 +5,5 @@
     "outDir": "./tools/dist",
     "sourceMap": true
   },
-  "exclude": ["**/*.test.*"]
+  "exclude": ["**/*.test.*", "support/**"]
 }
