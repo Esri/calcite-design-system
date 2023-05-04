@@ -6,7 +6,8 @@
       "core": "source",
       "semantic": "source",
       "brand/global": "enabled",
-      "brand/light": "enabled"
+      "brand/light": "enabled",
+      "component/select": "disabled"
     },
     "$figmaStyleReferences": {}
   },
@@ -17,7 +18,8 @@
       "core": "source",
       "semantic": "source",
       "brand/global": "enabled",
-      "brand/dark": "enabled"
+      "brand/dark": "enabled",
+      "component/select": "disabled"
     },
     "$figmaStyleReferences": {}
   },
@@ -56,7 +58,8 @@
       "component/notice": "source",
       "component/alert": "source",
       "component/list-item": "source",
-      "component/segmented-control-item": "source"
+      "component/segmented-control-item": "source",
+      "component/select": "source"
     },
     "$figmaStyleReferences": {
       "color.brand.default": "S:b28244f76fae4e504bbfa18bb30e111e02a00461,",
@@ -643,7 +646,8 @@
       "component/notice": "source",
       "component/alert": "source",
       "component/list-item": "source",
-      "component/segmented-control-item": "source"
+      "component/segmented-control-item": "source",
+      "component/select": "source"
     },
     "$figmaStyleReferences": {
       "color.brand.default": "S:4ae7e0e0a08b9109fef0b6c2cb45185a3b711de8,",
@@ -780,7 +784,8 @@
       "component/combobox-item": "enabled",
       "component/flow-header": "enabled",
       "component/list-item": "enabled",
-      "component/segmented-control-item": "enabled"
+      "component/segmented-control-item": "enabled",
+      "component/select": "enabled"
     },
     "$figmaStyleReferences": {
       "semantic.ui.color.brand.default.light": "S:2717eb49f745b15201e304a9a0417cab2b0be01f,",

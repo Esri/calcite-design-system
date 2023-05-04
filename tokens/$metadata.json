@@ -25,6 +25,7 @@
     "component/card",
     "component/list-item",
     "component/date-picker",
+    "component/select",
     "component/color-picker",
     "component/input-date-picker",
     "component/input-datetime-local",
