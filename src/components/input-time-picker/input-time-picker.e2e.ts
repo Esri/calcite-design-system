@@ -650,7 +650,9 @@ describe("calcite-input-time-picker", () => {
       expect(await inputTimePicker.getProperty("value")).toBe("16:30:13");
       expect(await getInputValue(page)).toBe("16.30.13");
     });
+  });
 
+  describe("australian english locale support", () => {
     it("allows typing in australian english format", async () => {
       const page = await newE2EPage();
       await page.setContent(`<calcite-input-time-picker step="1" lang="en-AU"></calcite-input-time-picker>`);
