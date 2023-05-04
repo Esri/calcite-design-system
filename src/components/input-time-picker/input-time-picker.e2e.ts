@@ -629,15 +629,19 @@ describe("calcite-input-time-picker", () => {
       await inputTimePicker.callMethod("setFocus");
       await page.keyboard.type("1.2.3");
       await page.keyboard.press("Enter");
-      await page.waitForChanges();
 
-      expect(await inputTimePicker.getProperty("value")).toBe("01:02:03");
-      expect(changeEvent).toHaveReceivedEventTimes(1);
       expect(await getInputValue(page)).toBe("01.02.03");
+      expect(changeEvent).toHaveReceivedEventTimes(1);
+      expect(await inputTimePicker.getProperty("value")).toBe("01:02:03");
 
-      await page.keyboard.down("Meta");
-      await page.keyboard.press("a");
-      await page.keyboard.up("Meta");
+      await page.keyboard.press("Backspace");
+      await page.keyboard.press("Backspace");
+      await page.keyboard.press("Backspace");
+      await page.keyboard.press("Backspace");
+      await page.keyboard.press("Backspace");
+      await page.keyboard.press("Backspace");
+      await page.keyboard.press("Backspace");
+      await page.keyboard.press("Backspace");
       await page.keyboard.type("16.30.13");
       await page.keyboard.press("Tab");
       await page.waitForChanges();
@@ -645,6 +649,41 @@ describe("calcite-input-time-picker", () => {
       expect(changeEvent).toHaveReceivedEventTimes(2);
       expect(await inputTimePicker.getProperty("value")).toBe("16:30:13");
       expect(await getInputValue(page)).toBe("16.30.13");
+    });
+
+    it("allows typing in australian english format", async () => {
+      const page = await newE2EPage();
+      await page.setContent(`<calcite-input-time-picker step="1" lang="en-AU"></calcite-input-time-picker>`);
+
+      const inputTimePicker = await page.find("calcite-input-time-picker");
+      const changeEvent = await inputTimePicker.spyOnEvent("calciteInputTimePickerChange");
+
+      await inputTimePicker.callMethod("setFocus");
+      await page.keyboard.type("2:3:5 am");
+      await page.keyboard.press("Enter");
+
+      expect(await getInputValue(page)).toBe("02:03:05 am");
+      expect(changeEvent).toHaveReceivedEventTimes(1);
+      expect(await inputTimePicker.getProperty("value")).toBe("02:03:05");
+
+      await page.keyboard.press("Backspace");
+      await page.keyboard.press("Backspace");
+      await page.keyboard.press("Backspace");
+      await page.keyboard.press("Backspace");
+      await page.keyboard.press("Backspace");
+      await page.keyboard.press("Backspace");
+      await page.keyboard.press("Backspace");
+      await page.keyboard.press("Backspace");
+      await page.keyboard.press("Backspace");
+      await page.keyboard.press("Backspace");
+      await page.keyboard.press("Backspace");
+      await page.keyboard.type("4:3:5 pm");
+      await page.keyboard.press("Tab");
+      await page.waitForChanges();
+
+      expect(await getInputValue(page)).toBe("04:03:05 pm");
+      expect(await inputTimePicker.getProperty("value")).toBe("16:03:05");
+      expect(changeEvent).toHaveReceivedEventTimes(2);
     });
   });
 });

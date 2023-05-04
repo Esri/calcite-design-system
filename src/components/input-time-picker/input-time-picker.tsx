@@ -143,7 +143,7 @@ export class InputTimePicker
   /**
    * Specifies the Unicode numeral system used by the component for localization.
    */
-  @Prop() numberingSystem: NumberingSystem;
+  @Prop() numberingSystem: NumberingSystem = "latn";
 
   /**
    * When `true`, the component must have a value in order for the form to submit.
