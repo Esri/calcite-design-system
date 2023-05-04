@@ -225,26 +225,6 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
         : null
       : null;
 
-    const contentNode = (
-      <div
-        class={{
-          [CSS.content]: true,
-          [CSS.contentOverlaid]: overlaid,
-          [CSS.contentDetached]: detached
-        }}
-        hidden={collapsed}
-        key="content"
-        style={style}
-        // eslint-disable-next-line react/jsx-sort-props
-        ref={this.storeContentEl}
-      >
-        {this.renderHeader()}
-        <div class={CSS.contentBody}>
-          <slot />
-        </div>
-      </div>
-    );
-
     const separatorNode = allowResizing ? (
       <div
         aria-label={this.messages.resize}
@@ -267,11 +247,32 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
       />
     ) : null;
 
+    const contentNode = (
+      <div
+        class={{
+          [CSS.content]: true,
+          [CSS.contentOverlaid]: overlaid,
+          [CSS.contentDetached]: detached
+        }}
+        hidden={collapsed}
+        key="content"
+        style={style}
+        // eslint-disable-next-line react/jsx-sort-props
+        ref={this.storeContentEl}
+      >
+        {this.renderHeader()}
+        <div class={CSS.contentBody}>
+          <slot />
+        </div>
+        {separatorNode}
+      </div>
+    );
+
     const actionBarNode = (
       <slot key="action-bar" name={SLOTS.actionBar} onSlotchange={this.handleActionBarSlotChange} />
     );
 
-    const mainNodes = [actionBarNode, contentNode, separatorNode];
+    const mainNodes = [actionBarNode, contentNode];
 
     if (position === "end") {
       mainNodes.reverse();
