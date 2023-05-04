@@ -4,6 +4,8 @@ import { E2EElement, E2EPage, EventSpy, newE2EPage } from "@stencil/core/testing
 import { ColorValue } from "./interfaces";
 import SpyInstance = jest.SpyInstance;
 import { GlobalTestProps, selectText, getElementXY, newProgrammaticE2EPage } from "../../tests/utils";
+import { html } from "../../../support/formatting";
+
 describe("calcite-color-picker", () => {
   let consoleSpy: SpyInstance;
 
@@ -110,7 +112,7 @@ describe("calcite-color-picker", () => {
 
   it(`should set all internal calcite-button types to 'button'`, async () => {
     const page = await newE2EPage();
-    await page.setContent("<calcite-color-picker></calcite-color-picker>");
+    await page.setContent(html`<calcite-color-picker></calcite-color-picker>`);
 
     const buttons = await page.findAll("calcite-color-picker >>> calcite-button");
 
@@ -123,7 +125,7 @@ describe("calcite-color-picker", () => {
 
   it("emits event when value changes via user interaction and not programmatically", async () => {
     const page = await newE2EPage();
-    await page.setContent("<calcite-color-picker></calcite-color-picker>");
+    await page.setContent(html`<calcite-color-picker></calcite-color-picker>`);
     const picker = await page.find("calcite-color-picker");
     const changeSpy = await picker.spyOnEvent("calciteColorPickerChange");
     const inputSpy = await picker.spyOnEvent("calciteColorPickerInput");
@@ -307,7 +309,7 @@ describe("calcite-color-picker", () => {
       // this suite uses a subset of supported formats as other tests cover the rest
 
       it("changes the default value to the format", async () => {
-        await page.setContent("<calcite-color-picker format='rgb'></calcite-color-picker>");
+        await page.setContent(html`<calcite-color-picker format="rgb"></calcite-color-picker>`);
         const color = await page.find("calcite-color-picker");
 
         expect(await color.getProperty("value")).toEqual(DEFAULT_COLOR.rgb().round().object());
@@ -333,7 +335,7 @@ describe("calcite-color-picker", () => {
       });
 
       it("falls back to format-compliant default if initial value is not compatible with initial format", async () => {
-        await page.setContent("<calcite-color-picker format='hsl-css' value='#f00f00'></calcite-color-picker>");
+        await page.setContent(html`<calcite-color-picker format="hsl-css" value="#f00f00"></calcite-color-picker>`);
         const color = await page.find("calcite-color-picker");
 
         expect(await color.getProperty("value")).toEqual(DEFAULT_COLOR.hsl().round().string());
@@ -343,7 +345,7 @@ describe("calcite-color-picker", () => {
 
     it("allows specifying the color value format", async () => {
       const page = await newE2EPage();
-      await page.setContent("<calcite-color-picker></calcite-color-picker>");
+      await page.setContent(html`<calcite-color-picker></calcite-color-picker>`);
 
       const color = await page.find("calcite-color-picker");
 
@@ -385,7 +387,7 @@ describe("calcite-color-picker", () => {
   describe("accepts multiple color value formats", () => {
     it("default", async () => {
       const page = await newE2EPage();
-      await page.setContent("<calcite-color-picker></calcite-color-picker>");
+      await page.setContent(html`<calcite-color-picker></calcite-color-picker>`);
       const picker = await page.find("calcite-color-picker");
 
       const supportedStringFormats = [
@@ -417,7 +419,7 @@ describe("calcite-color-picker", () => {
 
     it("keeps value in alpha-compatible format when applying updates", async () => {
       const page = await newE2EPage();
-      await page.setContent("<calcite-color-picker alpha-channel></calcite-color-picker>");
+      await page.setContent(html`<calcite-color-picker alpha-channel></calcite-color-picker>`);
       const picker = await page.find("calcite-color-picker");
 
       const supportedStringFormats: [string, string][] = [
@@ -456,7 +458,7 @@ describe("calcite-color-picker", () => {
 
   it("allows selecting colors via color field/slider", async () => {
     const page = await newE2EPage();
-    await page.setContent("<calcite-color-picker value='#000' scale='m'></calcite-color-picker>");
+    await page.setContent(html`<calcite-color-picker value="#000" scale="m"></calcite-color-picker>`);
     const picker = await page.find(`calcite-color-picker`);
     const spy = await picker.spyOnEvent("calciteColorPickerChange");
     let changes = 0;
@@ -555,7 +557,7 @@ describe("calcite-color-picker", () => {
 
   it("keeps tracking mouse movement when a thumb is actively dragged", async () => {
     const page = await newE2EPage();
-    await page.setContent("<calcite-color-picker></calcite-color-picker>");
+    await page.setContent(html`<calcite-color-picker></calcite-color-picker>`);
     const picker = await page.find(`calcite-color-picker`);
     const colorFieldAndSlider = await page.find(`calcite-color-picker >>> .${CSS.colorField}`);
 
@@ -666,7 +668,7 @@ describe("calcite-color-picker", () => {
 
     beforeEach(async () => {
       page = await newE2EPage();
-      await page.setContent("<calcite-color-picker></calcite-color-picker>");
+      await page.setContent(html`<calcite-color-picker></calcite-color-picker>`);
     });
 
     it("ignores unsupported value types", () => assertUnsupportedValue(page, "unsupported-color-format"));
@@ -677,7 +679,7 @@ describe("calcite-color-picker", () => {
   describe("normalizes shorthand CSS hex", () => {
     it("normal", async () => {
       const page = await newE2EPage();
-      await page.setContent("<calcite-color-picker></calcite-color-picker>");
+      await page.setContent(html`<calcite-color-picker></calcite-color-picker>`);
       const picker = await page.find("calcite-color-picker");
 
       picker.setProperty("value", "#ABC");
@@ -688,7 +690,7 @@ describe("calcite-color-picker", () => {
 
     it("alpha channel", async () => {
       const page = await newE2EPage();
-      await page.setContent("<calcite-color-picker alpha-channel></calcite-color-picker>");
+      await page.setContent(html`<calcite-color-picker alpha-channel></calcite-color-picker>`);
       const picker = await page.find("calcite-color-picker");
 
       picker.setProperty("value", "#ABCD");
@@ -700,7 +702,7 @@ describe("calcite-color-picker", () => {
 
   it("has backdoor color prop for advanced use cases", async () => {
     const page = await newE2EPage();
-    await page.setContent("<calcite-color-picker></calcite-color-picker>");
+    await page.setContent(html`<calcite-color-picker></calcite-color-picker>`);
     const picker = await page.find("calcite-color-picker");
 
     expect(await picker.getProperty("color")).toBeTruthy();
@@ -774,7 +776,7 @@ describe("calcite-color-picker", () => {
 
         beforeEach(async () => {
           page = await newE2EPage();
-          await page.setContent("<calcite-color-picker></calcite-color-picker>");
+          await page.setContent(html`<calcite-color-picker></calcite-color-picker>`);
           picker = await page.find("calcite-color-picker");
         });
 
@@ -905,7 +907,7 @@ describe("calcite-color-picker", () => {
         describe("valid color", () => {
           it("color gets propagated to hex, RGB & HSV inputs", async () => {
             const page = await newE2EPage();
-            await page.setContent("<calcite-color-picker value='#fff000'></calcite-color-picker>");
+            await page.setContent(html`<calcite-color-picker value="#fff000"></calcite-color-picker>`);
 
             const hexInput = await page.find(`calcite-color-picker >>> calcite-color-picker-hex-input`);
 
@@ -929,39 +931,85 @@ describe("calcite-color-picker", () => {
             expect(await vInput.getProperty("value")).toBe("100");
           });
 
-          it("allows modifying color via hex, RGB, HSV inputs", async () => {
-            const page = await newE2EPage();
-            await page.setContent("<calcite-color-picker value='#fff'></calcite-color-picker>");
-            const picker = await page.find("calcite-color-picker");
+          describe("allows modifying color via hex, RGB, HSV inputs", () => {
+            let page: E2EPage;
+            let picker: E2EElement;
 
-            const hexInput = await page.find(`calcite-color-picker >>> calcite-color-picker-hex-input`);
-            await clearAndEnterHexOrChannelValue(page, hexInput, "abc");
+            beforeEach(async () => {
+              page = await newE2EPage();
+              await page.setContent(html`<calcite-color-picker value="#fff"></calcite-color-picker>`);
+              picker = await page.find("calcite-color-picker");
+            });
 
-            expect(await picker.getProperty("value")).toBe("#aabbcc");
+            it("allows modifying color via hex input", async () => {
+              const hexInput = await page.find(`calcite-color-picker >>> calcite-color-picker-hex-input`);
+              await clearAndEnterHexOrChannelValue(page, hexInput, "abc");
 
-            const [rgbModeButton, hsvModeButton] = await page.findAll(`calcite-color-picker >>> .${CSS.colorMode}`);
-            const [rInput, gInput, bInput, hInput, sInput, vInput] = await page.findAll(
-              `calcite-color-picker >>> calcite-input.${CSS.channel}`
-            );
+              expect(await picker.getProperty("value")).toBe("#aabbcc");
+            });
 
-            await rgbModeButton.click();
+            it("allows modifying color via RGB inputs", async () => {
+              const [rgbModeButton] = await page.findAll(`calcite-color-picker >>> .${CSS.colorMode}`);
+              const [rInput, gInput, bInput] = await page.findAll(
+                `calcite-color-picker >>> calcite-input.${CSS.channel}`
+              );
+              await rgbModeButton.click();
 
-            await clearAndEnterHexOrChannelValue(page, rInput, "128");
-            await clearAndEnterHexOrChannelValue(page, gInput, "64");
-            await clearAndEnterHexOrChannelValue(page, bInput, "32");
+              await clearAndEnterHexOrChannelValue(page, rInput, "128");
+              await clearAndEnterHexOrChannelValue(page, gInput, "64");
+              await clearAndEnterHexOrChannelValue(page, bInput, "32");
 
-            expect(await picker.getProperty("value")).toBe("#804020");
+              expect(await picker.getProperty("value")).toBe("#804020");
+            });
 
-            await hsvModeButton.click();
+            it("allows modifying color via HSV inputs", async () => {
+              const [, hsvModeButton] = await page.findAll(`calcite-color-picker >>> .${CSS.colorMode}`);
+              const [, , , hInput, sInput, vInput] = await page.findAll(
+                `calcite-color-picker >>> calcite-input.${CSS.channel}`
+              );
+              await hsvModeButton.click();
 
-            await clearAndEnterHexOrChannelValue(page, hInput, "180");
-            await clearAndEnterHexOrChannelValue(page, sInput, "90");
-            await clearAndEnterHexOrChannelValue(page, vInput, "45");
+              await clearAndEnterHexOrChannelValue(page, hInput, "180");
+              await clearAndEnterHexOrChannelValue(page, sInput, "90");
+              await clearAndEnterHexOrChannelValue(page, vInput, "45");
 
-            expect(await picker.getProperty("value")).toBe("#0b7373");
+              expect(await picker.getProperty("value")).toBe("#0b7373");
+            });
           });
 
-          it("allows nudging values", async () => {
+          describe("allows nudging values", () => {
+            let page: E2EPage;
+
+            beforeEach(async () => {
+              page = await newE2EPage();
+              await page.setContent(html`<calcite-color-picker value="#408048"></calcite-color-picker>`);
+            });
+
+            it("allows nudging RGB values", async () => {
+              const [rgbModeButton] = await page.findAll(`calcite-color-picker >>> .${CSS.colorMode}`);
+              const [rInput, gInput, bInput] = await page.findAll(
+                `calcite-color-picker >>> calcite-input.${CSS.channel}`
+              );
+              await rgbModeButton.click();
+
+              await assertChannelValueNudge(page, rInput);
+              await assertChannelValueNudge(page, bInput);
+              await assertChannelValueNudge(page, gInput);
+            });
+
+            it("allows nudging HSV values", async () => {
+              const [, hsvModeButton] = await page.findAll(`calcite-color-picker >>> .${CSS.colorMode}`);
+
+              const [, , , hInput, sInput, vInput] = await page.findAll(
+                `calcite-color-picker >>> calcite-input.${CSS.channel}`
+              );
+              await hsvModeButton.click();
+
+              await assertChannelValueNudge(page, hInput);
+              await assertChannelValueNudge(page, vInput);
+              await assertChannelValueNudge(page, sInput);
+            });
+
             const assertChannelValueNudge = async (page: E2EPage, calciteInput: E2EElement): Promise<void> => {
               await calciteInput.callMethod("setFocus");
               const currentValue = await calciteInput.getProperty("value");
@@ -986,35 +1034,13 @@ describe("calcite-color-picker", () => {
               await page.waitForChanges();
               expect(await calciteInput.getProperty("value")).toBe(currentValue);
             };
-
-            const page = await newE2EPage();
-            await page.setContent("<calcite-color-picker value='#408048'></calcite-color-picker>");
-
-            // TODO: revisit – hex values sometimes can't be remapped back because of loss of precision when nudging channels back and forth
-
-            const [/*rgbModeButton,*/ hsvModeButton] = await page.findAll(`calcite-color-picker >>> .${CSS.colorMode}`);
-            const [/*rInput, gInput, bInput, */ hInput, sInput, vInput] = await page.findAll(
-              `calcite-color-picker >>> calcite-input.${CSS.channel}`
-            );
-
-            // await rgbModeButton.click();
-
-            // await assertChannelValueNudge(page, rInput);
-            // await assertChannelValueNudge(page, gInput);
-            // await assertChannelValueNudge(page, bInput);
-
-            await hsvModeButton.click();
-
-            await assertChannelValueNudge(page, hInput);
-            await assertChannelValueNudge(page, sInput);
-            await assertChannelValueNudge(page, vInput);
           });
         });
 
         describe("when no-color", () => {
           it("color gets propagated to hex, RGB & HSV inputs", async () => {
             const page = await newE2EPage();
-            await page.setContent("<calcite-color-picker allow-empty value=''></calcite-color-picker>");
+            await page.setContent(html`<calcite-color-picker allow-empty value=""></calcite-color-picker>`);
 
             const hexInput = await page.find(`calcite-color-picker >>> calcite-color-picker-hex-input`);
 
@@ -1038,9 +1064,41 @@ describe("calcite-color-picker", () => {
             expect(await vInput.getProperty("value")).toBe("");
           });
 
-          it("restores previous color value when a nudge key is pressed", async () => {
+          describe("restores previous color value when a nudge key is pressed", () => {
             const consistentRgbHsvChannelValue = "0";
             const initialValue = "#".padEnd(7, consistentRgbHsvChannelValue);
+            let page: E2EPage;
+
+            beforeEach(async () => {
+              page = await newE2EPage();
+              await page.setContent(
+                `<calcite-color-picker allow-empty value='${initialValue}'></calcite-color-picker>`
+              );
+            });
+
+            it("restores previous color to RGB inputs", async () => {
+              const [rgbModeButton] = await page.findAll(`calcite-color-picker >>> .${CSS.colorMode}`);
+              const [rInput, gInput, bInput] = await page.findAll(
+                `calcite-color-picker >>> calcite-input.${CSS.channel}`
+              );
+              await rgbModeButton.click();
+
+              await assertChannelValueNudge(page, rInput);
+              await assertChannelValueNudge(page, gInput);
+              await assertChannelValueNudge(page, bInput);
+            });
+
+            it("restores previous color to HSV inputs", async () => {
+              const [, hsvModeButton] = await page.findAll(`calcite-color-picker >>> .${CSS.colorMode}`);
+              const [, , , hInput, sInput, vInput] = await page.findAll(
+                `calcite-color-picker >>> calcite-input.${CSS.channel}`
+              );
+              await hsvModeButton.click();
+
+              await assertChannelValueNudge(page, hInput);
+              await assertChannelValueNudge(page, sInput);
+              await assertChannelValueNudge(page, vInput);
+            });
 
             const assertChannelValueNudge = async (page: E2EPage, calciteInput: E2EElement): Promise<void> => {
               await calciteInput.callMethod("setFocus");
@@ -1074,31 +1132,13 @@ describe("calcite-color-picker", () => {
               await page.waitForChanges();
               expect(await calciteInput.getProperty("value")).toBe(consistentRgbHsvChannelValue);
             };
-
-            const page = await newE2EPage();
-            await page.setContent(`<calcite-color-picker allow-empty value='${initialValue}'></calcite-color-picker>`);
-
-            const [rgbModeButton, hsvModeButton] = await page.findAll(`calcite-color-picker >>> .${CSS.colorMode}`);
-            const [rInput, gInput, bInput, hInput, sInput, vInput] = await page.findAll(
-              `calcite-color-picker >>> calcite-input.${CSS.channel}`
-            );
-
-            await rgbModeButton.click();
-
-            await assertChannelValueNudge(page, rInput);
-            await assertChannelValueNudge(page, gInput);
-            await assertChannelValueNudge(page, bInput);
-
-            await hsvModeButton.click();
-
-            await assertChannelValueNudge(page, hInput);
-            await assertChannelValueNudge(page, sInput);
-            await assertChannelValueNudge(page, vInput);
           });
 
           it("changes the value to the specified format after being empty", async () => {
             const page = await newE2EPage();
-            await page.setContent("<calcite-color-picker allow-empty value='' format='rgb'></calcite-color-picker>");
+            await page.setContent(
+              html`<calcite-color-picker allow-empty value="" format="rgb"></calcite-color-picker>`
+            );
             const color = await page.find("calcite-color-picker");
 
             const hexInput = await page.find(`calcite-color-picker >>> calcite-color-picker-hex-input`);
@@ -1110,7 +1150,7 @@ describe("calcite-color-picker", () => {
           describe("clearing color via supporting inputs", () => {
             it("clears color via hex input", async () => {
               const page = await newE2EPage();
-              await page.setContent("<calcite-color-picker allow-empty value='#c0ff33'></calcite-color-picker>");
+              await page.setContent(html`<calcite-color-picker allow-empty value="#c0ff33"></calcite-color-picker>`);
               const picker = await page.find("calcite-color-picker");
               const hexInput = await page.find(`calcite-color-picker >>> calcite-color-picker-hex-input`);
 
@@ -1121,7 +1161,7 @@ describe("calcite-color-picker", () => {
 
             it("clears color via RGB channel inputs", async () => {
               const page = await newE2EPage();
-              await page.setContent("<calcite-color-picker allow-empty value='#c0ff33'></calcite-color-picker>");
+              await page.setContent(html`<calcite-color-picker allow-empty value="#c0ff33"></calcite-color-picker>`);
               const picker = await page.find("calcite-color-picker");
 
               const [rgbModeButton] = await page.findAll(`calcite-color-picker >>> .${CSS.colorMode}`);
@@ -1142,7 +1182,7 @@ describe("calcite-color-picker", () => {
 
             it("clears color via HSV channel inputs", async () => {
               const page = await newE2EPage();
-              await page.setContent("<calcite-color-picker allow-empty value='#c0ff33'></calcite-color-picker>");
+              await page.setContent(html`<calcite-color-picker allow-empty value="#c0ff33"></calcite-color-picker>`);
               const picker = await page.find("calcite-color-picker");
 
               const [, hsvModeButton] = await page.findAll(`calcite-color-picker >>> .${CSS.colorMode}`);
@@ -1173,7 +1213,7 @@ describe("calcite-color-picker", () => {
 
         beforeEach(async () => {
           page = await newE2EPage();
-          await page.setContent("<calcite-color-picker alpha-channel></calcite-color-picker>");
+          await page.setContent(html`<calcite-color-picker alpha-channel></calcite-color-picker>`);
           picker = await page.find("calcite-color-picker");
           await page.waitForChanges();
         });
@@ -1398,11 +1438,11 @@ describe("calcite-color-picker", () => {
         });
       });
 
-      describe("color gets propagated to support inputs", () => {
+      describ("color gets propagated to support inputs", () => {
         describe("valid color", () => {
           it("color gets propagated to hex, RGB, HSV", async () => {
             const page = await newE2EPage();
-            await page.setContent("<calcite-color-picker  alpha-channel value='#fff00000'></calcite-color-picker>");
+            await page.setContent(html`<calcite-color-picker alpha-channel value="#fff00000"></calcite-color-picker>`);
 
             const hexInput = await page.find(`calcite-color-picker >>> calcite-color-picker-hex-input`);
 
@@ -1428,106 +1468,131 @@ describe("calcite-color-picker", () => {
             expect(await hsvAInput.getProperty("value")).toBe("0");
           });
 
-          it("allows modifying color via hex, RGB, HSV", async () => {
-            const page = await newE2EPage();
-            await page.setContent("<calcite-color-picker alpha-channel value='#ffff'></calcite-color-picker>");
-            const picker = await page.find("calcite-color-picker");
+          describe("allows modifying color via hex, RGBA, HSVA inputs", () => {
+            let page: E2EPage;
+            let picker: E2EElement;
 
-            const hexInput = await page.find(`calcite-color-picker >>> calcite-color-picker-hex-input`);
-            await clearAndEnterHexOrChannelValue(page, hexInput, "abcf");
+            beforeEach(async () => {
+              page = await newE2EPage();
+              await page.setContent(html`<calcite-color-picker alpha-channel value="#ffff"></calcite-color-picker>`);
+              picker = await page.find("calcite-color-picker");
+            });
 
-            expect(await picker.getProperty("value")).toBe("#aabbccff");
+            it("allows modifying color via hex input", async () => {
+              const hexInput = await page.find(`calcite-color-picker >>> calcite-color-picker-hex-input`);
+              await clearAndEnterHexOrChannelValue(page, hexInput, "abcf");
 
-            const [rgbModeButton, hsvModeButton] = await page.findAll(`calcite-color-picker >>> .${CSS.colorMode}`);
-            const [rInput, gInput, bInput, rgbAInput, hInput, sInput, vInput, hsvAInput] = await page.findAll(
-              `calcite-color-picker >>> calcite-input.${CSS.channel}`
-            );
+              expect(await picker.getProperty("value")).toBe("#aabbccff");
+            });
 
-            await rgbModeButton.click();
+            it("allows modifying color via RGBA inputs", async () => {
+              const [rgbModeButton] = await page.findAll(`calcite-color-picker >>> .${CSS.colorMode}`);
+              const [rInput, gInput, bInput, rgbAInput] = await page.findAll(
+                `calcite-color-picker >>> calcite-input.${CSS.channel}`
+              );
+              await rgbModeButton.click();
 
-            await clearAndEnterHexOrChannelValue(page, rInput, "128");
-            await clearAndEnterHexOrChannelValue(page, gInput, "64");
-            await clearAndEnterHexOrChannelValue(page, bInput, "32");
-            await clearAndEnterHexOrChannelValue(page, rgbAInput, "50");
+              await clearAndEnterHexOrChannelValue(page, rInput, "128");
+              await clearAndEnterHexOrChannelValue(page, gInput, "64");
+              await clearAndEnterHexOrChannelValue(page, bInput, "32");
+              await clearAndEnterHexOrChannelValue(page, rgbAInput, "50");
 
-            expect(await picker.getProperty("value")).toBe("#80402080");
+              expect(await picker.getProperty("value")).toBe("#80402080");
+            });
 
-            await hsvModeButton.click();
+            it("allows modifying color via HSVA inputs", async () => {
+              const [, hsvModeButton] = await page.findAll(`calcite-color-picker >>> .${CSS.colorMode}`);
+              const [, , , , hInput, sInput, vInput, hsvAInput] = await page.findAll(
+                `calcite-color-picker >>> calcite-input.${CSS.channel}`
+              );
+              await hsvModeButton.click();
 
-            await clearAndEnterHexOrChannelValue(page, hInput, "180");
-            await clearAndEnterHexOrChannelValue(page, sInput, "90");
-            await clearAndEnterHexOrChannelValue(page, vInput, "45");
-            await clearAndEnterHexOrChannelValue(page, hsvAInput, "50");
+              await clearAndEnterHexOrChannelValue(page, hInput, "180");
+              await clearAndEnterHexOrChannelValue(page, sInput, "90");
+              await clearAndEnterHexOrChannelValue(page, vInput, "45");
+              await clearAndEnterHexOrChannelValue(page, hsvAInput, "50");
 
-            expect(await picker.getProperty("value")).toBe("#0b737380");
+              expect(await picker.getProperty("value")).toBe("#7307380");
+            });
           });
 
-          it("allows nudging values", async () => {
-            const assertChannelValueNudge = async (page: E2EPage, calciteInputOrSlider: E2EElement): Promise<void> => {
-              await calciteInputOrSlider.callMethod("setFocus");
-              const currentValue = await calciteInputOrSlider.getProperty("value");
+          describe("allows nudging values", () => {
+            let page: E2EPage;
 
-              function ensureValueType(value: string | number): number | string {
-                return typeof currentValue === "string" ? `${value}` : value;
-              }
-
-              function nudgeValue(value: string | number, amount: number): number | string {
-                return Number(value) + amount;
-              }
-
-              await page.keyboard.press("ArrowUp");
-              await page.waitForChanges();
-              expect(await calciteInputOrSlider.getProperty("value")).toBe(
-                ensureValueType(nudgeValue(currentValue, 1))
+            beforeEach(async () => {
+              page = await newE2EPage();
+              await page.setContent(
+                html`<calcite-color-picker alpha-channel value="#40804880"></calcite-color-picker>`
               );
+            });
 
-              await page.keyboard.press("ArrowDown");
-              await page.waitForChanges();
-              expect(await calciteInputOrSlider.getProperty("value")).toBe(ensureValueType(currentValue));
-
-              await page.keyboard.down("Shift");
-              await page.keyboard.press("ArrowUp");
-              await page.keyboard.up("Shift");
-              await page.waitForChanges();
-              expect(await calciteInputOrSlider.getProperty("value")).toBe(
-                ensureValueType(nudgeValue(currentValue, 10))
+            it("allows nudging RGBA values", async () => {
+              const [rgbModeButton] = await page.findAll(`calcite-color-picker >>> .${CSS.colorMode}`);
+              const [rInput, gInput, bInput, rgbAInput] = await page.findAll(
+                `calcite-color-picker >>> calcite-input.${CSS.channel}`
               );
+              await rgbModeButton.click();
 
-              await page.keyboard.down("Shift");
-              await page.keyboard.press("ArrowDown");
-              await page.keyboard.up("Shift");
-              await page.waitForChanges();
-              expect(await calciteInputOrSlider.getProperty("value")).toBe(ensureValueType(currentValue));
-            };
+              await assertChannelValueNudge(page, rInput);
+              await assertChannelValueNudge(page, gInput);
+              await assertChannelValueNudge(page, bInput);
+              await assertChannelValueNudge(page, rgbAInput);
+            });
 
-            const page = await newE2EPage();
-            await page.setContent("<calcite-color-picker alpha-channel value='#40804880'></calcite-color-picker>");
+            it("allows nudging HSVA values", async () => {
+              const [, hsvModeButton] = await page.findAll(`calcite-color-picker >>> .${CSS.colorMode}`);
+              const [, , , , hInput, sInput, vInput, hsvAInput] = await page.findAll(
+                `calcite-color-picker >>> calcite-input.${CSS.channel}`
+              );
+              await hsvModeButton.click();
 
-            const [rgbModeButton, hsvModeButton] = await page.findAll(`calcite-color-picker >>> .${CSS.colorMode}`);
-            const [rInput, gInput, bInput, rgbAInput, hInput, sInput, vInput, hsvAInput] = await page.findAll(
-              `calcite-color-picker >>> calcite-input.${CSS.channel}`
-            );
-
-            await rgbModeButton.click();
-
-            await assertChannelValueNudge(page, rInput);
-            await assertChannelValueNudge(page, gInput);
-            await assertChannelValueNudge(page, bInput);
-            await assertChannelValueNudge(page, rgbAInput);
-
-            await hsvModeButton.click();
-
-            await assertChannelValueNudge(page, hInput);
-            await assertChannelValueNudge(page, sInput);
-            await assertChannelValueNudge(page, vInput);
-            await assertChannelValueNudge(page, hsvAInput);
+              await assertChannelValueNudge(page, hInput);
+              await assertChannelValueNudge(page, sInput);
+              await assertChannelValueNudge(page, vInput);
+              await assertChannelValueNudge(page, hsvAInput);
+            });
           });
+
+          const assertChannelValueNudge = async (page: E2EPage, calciteInputOrSlider: E2EElement): Promise<void> => {
+            await calciteInputOrSlider.callMethod("setFocus");
+            const currentValue = await calciteInputOrSlider.getProperty("value");
+
+            function ensureValueType(value: string | number): number | string {
+              return typeof currentValue === "string" ? `${value}` : value;
+            }
+
+            function nudgeValue(value: string | number, amount: number): number | string {
+              return Number(value) + amount;
+            }
+
+            await page.keyboard.press("ArrowUp");
+            await page.waitForChanges();
+            expect(await calciteInputOrSlider.getProperty("value")).toBe(ensureValueType(nudgeValue(currentValue, 1)));
+
+            await page.keyboard.press("ArrowDown");
+            await page.waitForChanges();
+            expect(await calciteInputOrSlider.getProperty("value")).toBe(ensureValueType(currentValue));
+
+            await page.keyboard.down("Shift");
+            await page.keyboard.press("ArrowUp");
+            await page.keyboard.up("Shift");
+            await page.waitForChanges();
+            expect(await calciteInputOrSlider.getProperty("value")).toBe(ensureValueType(nudgeValue(currentValue, 10)));
+
+            await page.keyboard.down("Shift");
+            await page.keyboard.press("ArrowDown");
+            await page.keyboard.up("Shift");
+            await page.waitForChanges();
+            expect(await calciteInputOrSlider.getProperty("value")).toBe(ensureValueType(currentValue));
+          };
         });
 
         describe("when no-color", () => {
           it("color gets propagated to hex, RGB, HSV & opacity inputs", async () => {
             const page = await newE2EPage();
-            await page.setContent("<calcite-color-picker alpha-channel allow-empty value=''></calcite-color-picker>");
+            await page.setContent(
+              html`<calcite-color-picker alpha-channel allow-empty value=""></calcite-color-picker>`
+            );
 
             const hexInput = await page.find(`calcite-color-picker >>> calcite-color-picker-hex-input`);
 
@@ -1553,9 +1618,43 @@ describe("calcite-color-picker", () => {
             expect(await hsvAInput.getProperty("value")).toBe("");
           });
 
-          it("restores previous color value when a nudge key is pressed", async () => {
+          describe("restores previous color value when a nudge key is pressed", () => {
             const consistentRgbHsvChannelValue = "0";
             const initialValue = "#".padEnd(9, consistentRgbHsvChannelValue);
+            let page: E2EPage;
+
+            beforeEach(async () => {
+              page = await newE2EPage();
+              await page.setContent(
+                `<calcite-color-picker alpha-channel allow-empty value='${initialValue}'></calcite-color-picker>`
+              );
+            });
+
+            it("restores color to RGBA inputs", async () => {
+              const [rgbModeButton] = await page.findAll(`calcite-color-picker >>> .${CSS.colorMode}`);
+              const [rInput, gInput, bInput, rgbAInput] = await page.findAll(
+                `calcite-color-picker >>> calcite-input.${CSS.channel}`
+              );
+              await rgbModeButton.click();
+
+              await assertChannelValueNudge(page, rInput);
+              await assertChannelValueNudge(page, gInput);
+              await assertChannelValueNudge(page, bInput);
+              await assertChannelValueNudge(page, rgbAInput);
+            });
+
+            it("restores color to HSVA inputs", async () => {
+              const [, hsvModeButton] = await page.findAll(`calcite-color-picker >>> .${CSS.colorMode}`);
+              const [, , , , hInput, sInput, vInput, hsvAInput] = await page.findAll(
+                `calcite-color-picker >>> calcite-input.${CSS.channel}`
+              );
+              await hsvModeButton.click();
+
+              await assertChannelValueNudge(page, hInput);
+              await assertChannelValueNudge(page, sInput);
+              await assertChannelValueNudge(page, vInput);
+              await assertChannelValueNudge(page, hsvAInput);
+            });
 
             const assertChannelValueNudge = async (
               page: E2EPage,
@@ -1614,30 +1713,6 @@ describe("calcite-color-picker", () => {
                 ensureValueType(consistentRgbHsvChannelValue)
               );
             };
-
-            const page = await newE2EPage();
-            await page.setContent(
-              `<calcite-color-picker alpha-channel allow-empty value='${initialValue}'></calcite-color-picker>`
-            );
-
-            const [rgbModeButton, hsvModeButton] = await page.findAll(`calcite-color-picker >>> .${CSS.colorMode}`);
-            const [rInput, gInput, bInput, rgbAInput, hInput, sInput, vInput, hsvAInput] = await page.findAll(
-              `calcite-color-picker >>> calcite-input.${CSS.channel}`
-            );
-
-            await rgbModeButton.click();
-
-            await assertChannelValueNudge(page, rInput);
-            await assertChannelValueNudge(page, gInput);
-            await assertChannelValueNudge(page, bInput);
-            await assertChannelValueNudge(page, rgbAInput);
-
-            await hsvModeButton.click();
-
-            await assertChannelValueNudge(page, hInput);
-            await assertChannelValueNudge(page, sInput);
-            await assertChannelValueNudge(page, vInput);
-            await assertChannelValueNudge(page, hsvAInput);
           });
 
           it("changes the value to the specified format after being empty", async () => {
@@ -1730,7 +1805,7 @@ describe("calcite-color-picker", () => {
       async function clearStorage(): Promise<void> {
         const storageKey = `${DEFAULT_STORAGE_KEY_PREFIX}${storageId}`;
         const page = await newE2EPage();
-        await page.setContent("<calcite-color-picker></calcite-color-picker>");
+        await page.setContent(html`<calcite-color-picker></calcite-color-picker>`);
         await page.evaluate((storageKey) => localStorage.removeItem(storageKey), [storageKey]);
       }
 
@@ -1830,7 +1905,7 @@ describe("calcite-color-picker", () => {
       async function clearStorage(): Promise<void> {
         const storageKey = `${DEFAULT_STORAGE_KEY_PREFIX}${storageId}`;
         const page = await newE2EPage();
-        await page.setContent("<calcite-color-picker></calcite-color-picker>");
+        await page.setContent(html`<calcite-color-picker></calcite-color-picker>`);
         await page.evaluate((storageKey) => localStorage.removeItem(storageKey), [storageKey]);
       }
 
