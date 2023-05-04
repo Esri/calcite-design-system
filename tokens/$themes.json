@@ -2388,7 +2388,32 @@
       "combobox.font.value.sm": "S:9d7007fb89ca8cb7ccffeb06c5ccc9c482b2e1bc,",
       "combobox.font.value.md": "S:6caf430de21a8bb3993413cdd9f3b6ddbfaed3fa,",
       "combobox.font.value.lg": "S:2c2e51e5ec5318c364250fcfa223481225d2a749,",
-      "combobox.item-container.shadow": "S:d2fef376e4a99dc52afc9d22fbd66488fa91c3cf,"
+      "combobox.item-container.shadow": "S:d2fef376e4a99dc52afc9d22fbd66488fa91c3cf,",
+      "segmented-control.background.light": "S:e9f7aa7a393bae37122ffee08d9b2bdf9ba2b646,",
+      "segmented-control.background.dark": "S:ae675fa609e690e4af981c7796a6debf62e6f42f,",
+      "segmented-control-item.font.solid.default.light": "S:642fc328ed86aa94e29f6f2759dbba1712c9269e,",
+      "segmented-control-item.font.solid.default.dark": "S:a89792bec81124cea362db5e8b0fb78c037581ff,",
+      "segmented-control-item.font.outline.default.light": "S:905673d3e3526665241c2c878e451a8457f41d57,",
+      "segmented-control-item.font.outline.default.dark": "S:68abf0c4557368dca8e3448ea038f8ca4879b07c,",
+      "segmented-control-item.icon.solid.default.light": "S:9c8ed4ff26439af5b2860e5a0cff1e74746267f7,",
+      "segmented-control-item.icon.solid.default.dark": "S:49b450729c3f3260c5a2f2a1ed695b83ee1756a1,",
+      "segmented-control-item.icon.outline.checked.light": "S:4aee22379b0e9f6447f5d55e54b614fa813eb6d9,",
+      "segmented-control-item.icon.outline.checked.dark": "S:abf936a4d9354626e0d4f19821a138f6d47e5fc7,",
+      "segmented-control-item.border.outline.checked.light": "S:12aa76300c0fe24e498e868ae5f7eb576d491b33,",
+      "segmented-control-item.border.outline.checked.dark": "S:793004104d0cc84702feaa2b25fe133e67dc2ea6,",
+      "segmented-control-item.background.solid.checked.light": "S:88a179e6edd745b991744ceda002358c1eb6da97,",
+      "segmented-control-item.background.solid.checked.dark": "S:03ffc624e01c7f1e35e82affcfdd37f838f2a6ba,",
+      "segmented-control-item.font.solid.checked.light": "S:f49db657f940c34986ff48b31e38bebf4d5d8867,",
+      "segmented-control-item.font.solid.checked.dark": "S:36466bc5e0d86168d2659eba98af2a3f7c25cf5b,",
+      "segmented-control-item.font.outline.checked.light": "S:c79f9d3635521967235d83da3d315e7c9e12374d,",
+      "segmented-control-item.font.outline.checked.dark": "S:76fde4af0688068534837931e0578e69d326603f,",
+      "segmented-control-item.icon.solid.checked.light": "S:6cd8ed86efae7fc021e6763a8cf985577b01b74b,",
+      "segmented-control-item.icon.solid.checked.dark": "S:26e58e479b3fc6e831e37df57ad9b2c793af39e7,",
+      "segmented-control-item.icon.outline.default.light": "S:ff5d8b6ff22ac0c2db72a575a5ce2fc759e7996b,",
+      "segmented-control-item.icon.outline.default.dark": "S:fc16513ab811a61d2e0f76f81be7de6485b0ca41,",
+      "segmented-control-item.font.sm": "S:50ab9ea96bec50d6263e920d0728510c10ab56ce,",
+      "segmented-control-item.font.md": "S:c602d768d7022f3395aee2c01228a93b72a1350e,",
+      "segmented-control-item.font.lg": "S:8ed332016edb7a425ae6fb4fea8f5b80a57ca359,"
     }
   }
 ]

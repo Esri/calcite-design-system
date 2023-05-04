@@ -2665,6 +2665,20 @@
           }
         }
       },
+      "segmented-control": {
+        "border": {
+          "light": {
+            "value": "$segmented-control.border.light",
+            "type": "color"
+          }
+        },
+        "background": {
+          "light": {
+            "value": "$segmented-control.background.light",
+            "type": "color"
+          }
+        }
+      },
       "segmented-control-item": {
         "font": {
           "solid": {

@@ -2643,6 +2643,20 @@
           }
         }
       },
+      "segmented-control": {
+        "border": {
+          "light": {
+            "value": "$segmented-control.border.dark",
+            "type": "color"
+          }
+        },
+        "background": {
+          "light": {
+            "value": "$segmented-control.background.dark",
+            "type": "color"
+          }
+        }
+      },
       "segmented-control-item-": {
         "font": {
           "solid": {
