@@ -51,6 +51,11 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
   @Prop({ reflect: true }) detached = false;
 
   /**
+   * When `true`, the content will position over any content adjacent to it.
+   */
+  @Prop({ reflect: true }) overlaid = false;
+
+  /**
    * When `detached`, specifies the maximum height of the component.
    */
   @Prop({ reflect: true }) detachedHeightScale: Scale = "l";
@@ -204,7 +209,8 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
       contentHeightMax,
       contentHeightMin,
       resizable,
-      layout
+      layout,
+      overlaid
     } = this;
 
     const allowResizing = !detached && resizable;
@@ -221,7 +227,11 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
 
     const contentNode = (
       <div
-        class={{ [CSS.content]: true, [CSS.contentDetached]: detached }}
+        class={{
+          [CSS.content]: true,
+          [CSS.contentOverlaid]: overlaid,
+          [CSS.contentDetached]: detached
+        }}
         hidden={collapsed}
         key="content"
         style={style}

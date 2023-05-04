@@ -194,6 +194,35 @@
   overflow-hidden;
 }
 
+.content--overlaid {
+  @apply absolute
+  shadow-0;
+}
+
+:host([layout="vertical"]) .content--overlaid {
+  @apply top-0 h-full;
+}
+
+:host([layout="vertical"][position="start"]) .content--overlaid {
+  inset-inline-start: 100%;
+}
+
+:host([layout="vertical"][position="end"]) .content--overlaid {
+  inset-inline-end: 100%;
+}
+
+:host([layout="horizontal"]) .content--overlaid {
+  @apply left-0 w-full;
+}
+
+:host([layout="horizontal"][position="start"]) .content--overlaid {
+  inset-block-start: 100%;
+}
+
+:host([layout="horizontal"][position="end"]) .content--overlaid {
+  inset-block-end: 100%;
+}
+
 .content--detached {
   @apply shadow-0
   mx-2

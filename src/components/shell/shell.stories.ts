@@ -45,6 +45,10 @@ const createShellPanelAttributes: (group: "Leading Panel" | "Trailing Panel", re
       value: boolean("detached", false, group)
     },
     {
+      name: "overlaid",
+      value: boolean("detached", false, group)
+    },
+    {
       name: "position",
       value: select(
         "position",

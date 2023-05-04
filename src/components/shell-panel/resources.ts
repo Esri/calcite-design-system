@@ -4,6 +4,7 @@ export const CSS = {
   contentHeader: "content__header",
   contentBody: "content__body",
   contentDetached: "content--detached",
+  contentOverlaid: "content--overlaid",
   separator: "separator"
 };
 
