@@ -100,8 +100,8 @@ describe("calcite-menu", () => {
 
       await page.keyboard.press("Tab");
       await page.keyboard.press("Enter");
-      expect(await page.evaluate(() => document.activeElement.id)).toBe("Nature");
       await page.waitForChanges();
+      expect(await page.evaluate(() => document.activeElement.id)).toBe("Nature");
       expect(await menuItemMenu.isVisible()).toBe(true);
 
       await page.keyboard.press("ArrowDown");
