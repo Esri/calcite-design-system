@@ -1,4 +1,5 @@
 import { DeepKeyTokenMap, SingleToken, TokenTypes } from "@tokens-studio/types";
+import { DesignToken } from "style-dictionary/types/DesignToken.js";
 import { TransformOptions, ExpandablesAsStrings, Expandables, expandablesAsStringsArr } from "../utils/transformOptions.js";
 import { matchPlaceholderElement, tokenStudioCustomVariableIndicator } from "../utils/regex.js";
 import { shouldExpand, expandToken } from "../utils/compositeTokens.js";
@@ -32,24 +33,28 @@ export function expandComposites(
   const newDictionary = Object.entries(dictionary).reduce((acc, [key, token]) => {
     const { type } = token;
     
-    if (matchPlaceholderElement.test(`${key}`) || matchPlaceholderElement.test(`${token.value}`)) {
+    if (matchPlaceholderElement.test(`${key}`) || (typeof token.value === 'string' && matchPlaceholderElement.test(`${token.value}`))) {
       return acc;
     }
 
     if (token.value && type) {
-      if (typeof type === "string" && expandablesAsStringsArr.includes(TokenTypes[type])) {
+      const includesType = expandablesAsStringsArr.includes(`${type}`);
+
+      if (includesType) {
         const expandType = (type as ExpandablesAsStrings) === "boxShadow" ? "shadow" : type;
-        const expand = shouldExpand<Expandables>(token as Expandables, opts.expand[expandType], filePath);
+        const expand = shouldExpand<Expandables>(token as Expandables, opts.expand[`${expandType}`], filePath);
         if (expand) {
           const expandedToken = expandToken(
-            token,
+            token as DesignToken,
             expandType === "shadow",
             handleTokenStudioVariables
           );
-          acc[key] = expandedToken as SingleToken;
+          return expandedToken;
         }
+      } else if (typeof token.value === 'string') {
+        token.value = handleTokenStudioVariables(token.value);
+        acc[key] = token;
       } else {
-        token.value = handleTokenStudioVariables(token.value as string);
         acc[key] = token;
       }
     } else if (typeof token === "object") {
@@ -58,5 +63,5 @@ export function expandComposites(
     return acc;
   }, returnSlice);
 
-  return newDictionary;
+  return newDictionary || {};
 }

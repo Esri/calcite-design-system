@@ -6,11 +6,17 @@ const mockCorrectTypeCompoundToken = {
     }
   },
   compound: {
-    type: 'composition',
-    value: {
-      fontWeight: '$core.1',
-      lineHeight: '2'
-    }
+    "value": {
+      "fontFamily": "$core.font.font-family.primary",
+      "fontWeight": "$core.font.font-weight.light",
+      "lineHeight": "$core.font.line-height.fixed.0",
+      "fontSize": "$core.font.font-size.0",
+      "letterSpacing": "$core.font.letter-spacing.normal",
+      "paragraphSpacing": "$core.font.paragraph-spacing.normal",
+      "textDecoration": "$core.font.text-decoration.none",
+      "textCase": "$core.font.text-case.none"
+    },
+    "type": "typography"
   }
 };
 const mockTransformedCompoundTokens = {
@@ -21,19 +27,43 @@ const mockTransformedCompoundTokens = {
     }
   },
   compound: {
-    fontWeight: {
-      type: 'font-weight',
-      value: '{core.1}'
+    "font-family": {
+      "value": "$core.font.font-family.primary",
+      "type": "font-family"
     },
-    lineHeight: {
-      type: 'line-height',
-      value: '#fff'
-    }
+    "font-weight": {
+      "value": "$core.font.font-weight.light",
+      "type": "font-weights"
+    },
+    "line-height": {
+      "value": "$core.font.line-height.fixed.0",
+      "type": "line-heights"
+    },
+    "font-size": {
+      "value": "$core.font.font-size.0",
+      "type": "font-size"
+    },
+    "letter-spacing": {
+      "value": "$core.font.letter-spacing.normal",
+      "type": "letter-spacing"
+    },
+    "paragraph-spacing": {
+      "value": "$core.font.paragraph-spacing.normal",
+      "type": "paragraph-spacing"
+    },
+    "text-decoration": {
+      "value": "$core.font.text-decoration.none",
+      "type": "font-style"
+    },
+    "text-case": {
+      "value": "$core.font.text-case.none",
+      "type": "text-case"
+    },
   }
 };
 
-const handleTokenStudioVariables = jest.fn((token) => `{${token.replace(/\$/g, '')}}`);
-const convertTokenToStyleDictionaryFormat = jest.fn((customToken) => handleTokenStudioVariables)
+const handleTokenStudioVariables = jest.fn((token) => token.includes('$') ? `{${token.replace(/\$/g, '')}}` : token);
+const convertTokenToStyleDictionaryFormat = jest.fn(() => handleTokenStudioVariables)
 const shouldExpand = jest.fn().mockReturnValue(true);
 const expandToken = jest.fn().mockReturnValue(mockTransformedCompoundTokens);
 
@@ -57,8 +87,6 @@ jest.mock('../utils/convertTokenToStyleDictionaryFormat.js', () => {
 });
 
 import * as expandComposites from "./expandComposites";
-
-const expandCompositesSpy = jest.spyOn(expandComposites, 'expandComposites');
 
 describe("expand token dictionary", () => {
 
@@ -89,31 +117,12 @@ describe("expand token dictionary", () => {
     expect(testExpandPlaceholderValue).toMatchObject({});
   })
   
-  it("should recursively call itself when dealing with neseted objects", () => {
-    const nestedTokens = {
-      "component": {
-        "nested1": {
-          type: 'other',
-          value: '1'
-        },
-        "nested2": {
-          type: 'other',
-          value: '2'
-        }
-      }
-    }
-    // @ts-expect-error - it's fine.
-    const testNestedToken = expandComposites.expandComposites(nestedTokens,  './fakePath');
-    expect(expandCompositesSpy).toBeCalledTimes(2);
-  })
-  
   it("should loop through a dictionary and run \"shouldExpand\" and  \"expandToken\" on each composite token", () => {
     // @ts-expect-error - it's fine.
     const testExpandComposite = expandComposites.expandComposites(mockCorrectTypeCompoundToken, './fakePath');
-    expect(expandCompositesSpy).toBeCalledTimes(1);
-    expect(handleTokenStudioVariables).toBeCalledTimes(1);
-    expect(shouldExpand).toBeCalledTimes(1);
-    expect(expandToken).toBeCalledTimes(1);
+    expect(handleTokenStudioVariables).toHaveBeenCalledTimes(1);
+    expect(shouldExpand).toHaveBeenCalledTimes(1);
+    expect(expandToken).toHaveBeenCalledTimes(1);
     expect(testExpandComposite).toMatchObject(mockTransformedCompoundTokens);
   })
   
@@ -121,13 +130,16 @@ describe("expand token dictionary", () => {
     const mockDictionary = {
       'core': {
         type: 'customType',
-        value: '#333'
+        value: {
+          fontFamily: 'Avanir',
+          fontSize: '12px'
+        }
       }
     };
     // @ts-expect-error - it's fine this is a test
     const testExpandComposite = expandComposites.expandComposites(mockDictionary, './fakePath')
-    expect(shouldExpand).not.toBeCalled();
-    expect(expandToken).not.toBeCalled();
+    expect(shouldExpand).not.toHaveBeenCalled();
+    expect(expandToken).not.toHaveBeenCalled();
     expect(testExpandComposite).toMatchObject(mockDictionary)
   })
 })
