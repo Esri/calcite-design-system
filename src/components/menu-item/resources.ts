@@ -1,13 +1,13 @@
 export const CSS = {
   container: "container",
-  navVerticalParent: "nav-item-vertical-parent",
+  isParentVertical: "parent--vertical",
   layoutVertical: "layout--vertical",
   hoverHrefIcon: "hover-href-icon",
   itemContent: "item-content",
   textContainer: "text-container",
   dropdownMenuItems: "dropdown-menu-items",
   isRtl: "is-rtl",
-  isVerticalDropdownType: "is-vertical-dropdown-type",
+  isDropdownVerticalType: "dropdown--vertical",
   open: "open",
   nested: "nested",
   icon: "icon",
@@ -15,5 +15,5 @@ export const CSS = {
   iconEnd: "icon--end",
   iconBreadcrumb: "icon--breadcrumb",
   iconDropdown: "icon--dropdown",
-  dropdownWithHrefToggle: "dropdown-with-href-toggle"
+  dropdownAction: "dropdown-action"
 };

@@ -124,7 +124,7 @@ a:hover ~ calcite-action {
   border-inline-start: 1px solid var(--calcite-ui-border-3);
 }
 
-.container:hover .dropdown-with-href-toggle {
+.container:hover .dropdown-action {
   @apply bg-foreground-2;
 }
 
@@ -152,11 +152,7 @@ a:hover ~ calcite-action {
   }
 }
 
-.nav-item-vertical-parent {
-  flex-direction: column;
-}
-
-.is-vertical-dropdown-type.dropdown-menu-items {
+.dropdown--vertical {
   position: relative;
   border-radius: 0;
   box-shadow: none;
@@ -167,7 +163,15 @@ a:hover ~ calcite-action {
   }
 }
 
-:host([slot="sub-menu-item"]) .nav-item-vertical-parent {
+.dropdown--vertical.is-rtl.nested {
+  transform: none;
+}
+
+.parent--vertical {
+  flex-direction: column;
+}
+
+:host([slot="sub-menu-item"]) .parent--vertical {
   padding-inline-start: theme("spacing.7");
 }
 
@@ -175,11 +179,7 @@ a:hover ~ calcite-action {
   transform: translateX(calc(-100% + 2px));
 }
 
-.is-vertical-dropdown-type.dropdown-menu-items.is-rtl.nested {
-  transform: none;
-}
-
-.dropdown-with-href-toggle {
+.dropdown-action {
   z-index: 0;
 }
 

@@ -361,7 +361,7 @@ export class CalciteMenuItem implements LoadableComponent {
     const dirChevron = dir === "rtl" ? "chevron-left" : "chevron-right";
     return (
       <calcite-action
-        class={CSS.dropdownWithHrefToggle}
+        class={CSS.dropdownAction}
         icon={
           this.topLevelLayout === "vertical" || this.isTopLevelItem
             ? this.open
@@ -386,7 +386,7 @@ export class CalciteMenuItem implements LoadableComponent {
           [CSS.open]: this.open,
           [CSS.nested]: !this.isTopLevelItem,
           [CSS.isRtl]: dir === "rtl",
-          [CSS.isVerticalDropdownType]: this.topLevelLayout === "vertical"
+          [CSS.isDropdownVerticalType]: this.topLevelLayout === "vertical"
         }}
         label="Submenu"
         layout="vertical"
@@ -417,7 +417,7 @@ export class CalciteMenuItem implements LoadableComponent {
         <li
           class={{
             [CSS.container]: true,
-            [CSS.navVerticalParent]: this.topLevelLayout === "vertical"
+            [CSS.isParentVertical]: this.topLevelLayout === "vertical"
           }}
           role="none"
         >
