@@ -199,3 +199,22 @@ export const footerPadding_TestOnly = (): string => html`<div style="width: 300p
     <div slot="footer">Footer!</div>
   </calcite-panel>
 </div>`;
+
+export const actionBarBackgroundColor_TestOnly = (): string => html`<calcite-panel
+  height-scale="s"
+  style="width: 300px;"
+>
+  <calcite-action-bar slot="action-bar" expand-disabled>
+    <calcite-action-group>
+      <calcite-action text="Add" icon="plus"> </calcite-action>
+      <calcite-action text="Save" icon="save"> </calcite-action>
+      <calcite-action text="Layers" icon="layers"> </calcite-action>
+    </calcite-action-group>
+  </calcite-action-bar>
+  <div slot="header-content">Header!</div>
+  <p>Slotted content!</p>
+  <p style="height: 400px">Hello world!</p>
+  <p style="height: 400px">Hello world!</p>
+  <p style="height: 400px">Hello world!</p>
+  <p slot="footer">Slotted content!</p>
+</calcite-panel>`;
