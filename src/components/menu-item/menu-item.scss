@@ -152,7 +152,11 @@ a:hover ~ calcite-action {
   }
 }
 
-.dropdown--vertical {
+.parent--vertical {
+  flex-direction: column;
+}
+
+.dropdown--vertical.dropdown-menu-items {
   position: relative;
   border-radius: 0;
   box-shadow: none;
@@ -163,20 +167,16 @@ a:hover ~ calcite-action {
   }
 }
 
-.dropdown--vertical.is-rtl.nested {
-  transform: none;
-}
-
-.parent--vertical {
-  flex-direction: column;
-}
-
 :host([slot="sub-menu-item"]) .parent--vertical {
   padding-inline-start: theme("spacing.7");
 }
 
 .dropdown-menu-items.is-rtl.nested {
   transform: translateX(calc(-100% + 2px));
+}
+
+.dropdown--vertical.dropdown-menu-items.is-rtl.nested {
+  transform: none;
 }
 
 .dropdown-action {
