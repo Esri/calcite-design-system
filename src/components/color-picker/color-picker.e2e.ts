@@ -805,7 +805,7 @@ describe("calcite-color-picker", () => {
 
           await hsvModeButton.click();
 
-          // modifying V channel first to ensure other channel changes affect the underlying color
+          // modifying value channel first to ensure other channel changes affect the underlying color
           await clearAndEnterHexOrChannelValue(page, vInput, "45");
 
           await clearAndEnterHexOrChannelValue(page, hInput, "180");
