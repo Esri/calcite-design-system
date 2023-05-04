@@ -90,7 +90,7 @@
     "util:prep-next": "npm run util:is-working-tree-clean && standard-version --prerelease next && npm run build",
     "util:publish-next": "npm run util:test-types && npm publish --tag next && npm run util:push-tags",
     "util:check-squash-mergeable-branch": "ts-node --esm support/checkSquashMergeableBranch.ts",
-    "util:push-tags": "git push --atomic origin master \"$(git describe --tags --abbrev=0)\"",
+    "util:push-tags": "git push --atomic origin main \"$(git describe --tags --abbrev=0)\"",
     "util:test-types": "tsc --esModuleInterop dist/types/**/*.d.ts dist/components/*.d.ts && ! grep -rnw 'dist/types' -e '<reference types='",
     "util:is-working-tree-clean": "[ -z \"$(git status --porcelain=v1)\" ]"
   },
