@@ -34,54 +34,16 @@ const typeMaps = {
 
 /**
  * This is a recursive function to dig into composite tokens and lift up the token values in a Style Dictionary format.
- * Composite token example
- *  "box-shadow": {
- *    "0": {
- *      "value": {
- *        "x": "0",
- *        "y": "0",
- *        "blur": "0",
- *        "spread": "0",
- *        "color": "rgba($core.color.neutral.blk-240, $core.opacity.0)",
- *        "type": "dropShadow"
- *      },
- *      "type": "boxShadow"
- *    },
- * }
- *
- * will become...
- *
- * "box-shadow": {
- *    "0": {
- *      "x": {
- *        "value": "0",
- *        "type": "dropShadow"
- *      },
- *      "y": {
- *        "value": "0",
- *        "type": "dropShadow"
- *      },
- *      "blur": {
- *        "value": "0",
- *        "type": "dropShadow"
- *      },
- *      "spread": {
- *        "value": "0",
- *        "type": "dropShadow"
- *      },
- *      "color": {
- *        "value": "rgba($core.color.neutral.blk-240, $core.opacity.0)",
- *        "type": "dropShadow"
- *      },
- *    },
- * }
- *
- * @param compositeToken the composite token object
- * @param isShadow is a drop shadow?
- * @param handleValue a function to determine how the final token value string should be passed to Style Dictionary
- * @returns
+ * @param {SingleToken<false>} compositeToken the composite token object
+ * @param {boolean} isShadow is a drop shadow?
+ * @param {Function} handleValue a function to determine how the final token value string should be passed to Style Dictionary
+ * @returns {SingleToken<false>} a single Style Dictionary token object
  */
-export function expandToken(compositeToken: SingleToken<false>, isShadow = false, handleValue = (v) => v) {
+export function expandToken(
+  compositeToken: SingleToken<false>,
+  isShadow = false,
+  handleValue = (v) => v
+): SingleToken<false> {
   const expandedObj = {} as SingleToken<false>;
   const getType = (key: string) => typeMaps[compositeToken.type][key] ?? key;
 
@@ -115,10 +77,10 @@ export function expandToken(compositeToken: SingleToken<false>, isShadow = false
 
 /**
  *
- * @param token Style Dictionary token object
- * @param condition check if the token should be expanded or not
- * @param filePath the file path where the token came from
- * @returns boolean
+ * @param {SingleToken} token Style Dictionary token object
+ * @param {boolean |  ExpandFilter<SingleToken>} condition check if the token should be expanded or not
+ * @param {string} filePath the file path where the token came from
+ * @returns {boolean} if the token should be expanded
  */
 export function shouldExpand<T extends SingleToken>(
   token: T,

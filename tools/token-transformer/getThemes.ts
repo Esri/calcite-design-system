@@ -18,8 +18,8 @@ export type Theme = {
 
 /**
  *
- * @param themes an array of Figma Token Studio theme definition objects
- * @returns an array of Style Dictionary theme definition objects
+ * @param {ThemeFileInterface} themes an array of Figma Token Studio theme definition objects
+ * @returns {Array} an array of Style Dictionary theme definition objects
  */
 export async function getThemes(themes: ThemeFileInterface[]): Promise<Theme[]> {
   return themes.map((themeConfig) => {

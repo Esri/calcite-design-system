@@ -1,29 +1,29 @@
-import StyleDictionary from "style-dictionary";
 import { registerTransforms } from "@tokens-studio/sd-transforms";
+import StyleDictionary from "style-dictionary";
 import { expandComposites } from "./parse/expandComposites.js";
-import { Theme } from "./getThemes.js";
+import { formatSCSS } from "./format/scss.js";
+import { matchExclusions } from "./utils/regex.js";
+import { matchList } from "./utils/matchList.js";
 import { nameCamelCase } from "./transform/nameCamelCase.js";
 import { nameKebabCase } from "./transform/nameKebabCase.js";
 import { parseName } from "./utils/parseName.js";
-import { matchList } from "./utils/matchList.js";
-import { matchExclusions } from "./utils/regex.js";
+import { Theme } from "./getThemes.js";
 
 /**
  * Style Dictionary runner configuration overrides.
- *
- * @param tokenDir the directory containing design token files
- * @param buildPath the directory to write generated assets to
- * @param theme
- * @param theme.name the name of the theme. This will be used as the basis for the generated asset file names.
- * @param theme.enabled an array of partial file names matching the token files which should be included in the output
- * @param theme.disabled an array of partial file names matching the token files which should explicitly not be included in the output
- * @param theme.source an array of partial file names matching the token files which should not always be included in the output but who's values should be used for variables references in the "enabled" files
+ * @param {string} tokenDir the directory containing design token files
+ * @param {string} buildPath the directory to write generated assets to
+ * @param {Theme} theme the theme configuration to use to generate the platform asset files
+ * @param {string} theme.name the name of the theme. This will be used as the basis for the generated asset file names.
+ * @param {string[]} theme.enabled an array of partial file names matching the token files which should be included in the output
+ * @param {string[]} theme.disabled an array of partial file names matching the token files which should explicitly not be included in the output
+ * @param {string[]} theme.source an array of partial file names matching the token files which should not always be included in the output but who's values should be used for variables references in the "enabled" files
  */
 export const run = async (
-  tokenDir: string = "tokens",
-  buildPath: string = "build",
+  tokenDir = "tokens",
+  buildPath = "build",
   theme: Pick<Theme, "enabled" | "disabled" | "name" | "source">
-) => {
+): Promise<void> => {
   const fileName = parseName(theme.name);
   const include = theme.source.map((tokenFile) => `${tokenDir}/${tokenFile}.json`);
   const source = theme.enabled.map((tokenFile) => `${tokenDir}/${tokenFile}.json`);
@@ -40,6 +40,12 @@ export const run = async (
   // any references to "ts/..." below are references to these Token Studio transformers
   // https://github.com/tokens-studio/sd-transforms
   await registerTransforms(StyleDictionary, { expand: false });
+
+  // Register custom formatter https://amzn.github.io/style-dictionary/#/formats?id=custom-formats
+  StyleDictionary.registerFormat({
+    name: "calcite/scss",
+    formatter: formatSCSS
+  });
 
   // Registering Style Dictionary transformers https://amzn.github.io/style-dictionary/#/transforms?id=defining-custom-transforms
   StyleDictionary.registerTransform({
@@ -107,6 +113,30 @@ export const run = async (
           {
             destination: `${fileName}.css`,
             format: "css/variables",
+            filter: /headless/gi.test(fileName) ? null : "filterSource",
+            options: /headless/gi.test(fileName) ? { ...options, outputReferences: true } : options
+          }
+        ]
+      },
+      scss: {
+        prefix: "calcite",
+        transforms: [
+          "ts/descriptionToComment",
+          "ts/size/px",
+          "ts/opacity",
+          "ts/size/lineheight",
+          "ts/type/fontWeight",
+          "ts/resolveMath",
+          "ts/size/css/letterspacing",
+          "ts/color/css/hexrgba",
+          "ts/color/modifiers",
+          "name/calcite/kebab"
+        ],
+        buildPath: `${buildPath}/scss/`,
+        files: [
+          {
+            destination: `${fileName}.scss`,
+            format: "calcite/scss",
             filter: /headless/gi.test(fileName) ? null : "filterSource",
             options: /headless/gi.test(fileName) ? { ...options, outputReferences: true } : options
           }

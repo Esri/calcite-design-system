@@ -15,15 +15,7 @@
     "ecmaVersion": 2018,
     "sourceType": "module"
   },
-  "plugins": [
-    "@esri/calcite-components",
-    "@typescript-eslint",
-    "eslint-plugin-react",
-    "jest",
-    "jsdoc",
-    "prettier",
-    "unicorn"
-  ],
+  "plugins": ["@typescript-eslint", "jest", "jsdoc", "prettier", "unicorn"],
   "rules": {
     "@typescript-eslint/ban-types": "warn",
     "@typescript-eslint/explicit-module-boundary-types": [
