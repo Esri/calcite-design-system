@@ -805,9 +805,11 @@ describe("calcite-color-picker", () => {
 
           await hsvModeButton.click();
 
+          // modifying V channel first to ensure other channel changes affect the underlying color
+          await clearAndEnterHexOrChannelValue(page, vInput, "45");
+
           await clearAndEnterHexOrChannelValue(page, hInput, "180");
           await clearAndEnterHexOrChannelValue(page, sInput, "90");
-          await clearAndEnterHexOrChannelValue(page, vInput, "45");
 
           assertColorUpdate(await picker.getProperty("value"));
         };
@@ -969,9 +971,11 @@ describe("calcite-color-picker", () => {
               );
               await hsvModeButton.click();
 
+              // modifying value channel first to ensure other channel changes affect the underlying color
+              await clearAndEnterHexOrChannelValue(page, vInput, "45");
+
               await clearAndEnterHexOrChannelValue(page, hInput, "180");
               await clearAndEnterHexOrChannelValue(page, sInput, "90");
-              await clearAndEnterHexOrChannelValue(page, vInput, "45");
 
               expect(await picker.getProperty("value")).toBe("#0b7373");
             });
@@ -1244,9 +1248,11 @@ describe("calcite-color-picker", () => {
 
           await hsvModeButton.click();
 
+          // modifying value channel first to ensure other channel changes affect the underlying color
+          await clearAndEnterHexOrChannelValue(page, vInput, "45");
+
           await clearAndEnterHexOrChannelValue(page, hInput, "180");
           await clearAndEnterHexOrChannelValue(page, sInput, "90");
-          await clearAndEnterHexOrChannelValue(page, vInput, "45");
           await clearAndEnterHexOrChannelValue(page, hsvAInput, "75");
 
           await assertColorUpdate(await picker.getProperty("value"));
@@ -1507,12 +1513,14 @@ describe("calcite-color-picker", () => {
               );
               await hsvModeButton.click();
 
+              // modifying value channel first to ensure other channel changes affect the underlying color
+              await clearAndEnterHexOrChannelValue(page, vInput, "45");
+
               await clearAndEnterHexOrChannelValue(page, hInput, "180");
               await clearAndEnterHexOrChannelValue(page, sInput, "90");
-              await clearAndEnterHexOrChannelValue(page, vInput, "45");
               await clearAndEnterHexOrChannelValue(page, hsvAInput, "50");
 
-              expect(await picker.getProperty("value")).toBe("#7307380");
+              expect(await picker.getProperty("value")).toBe("#0b737380");
             });
           });
 
