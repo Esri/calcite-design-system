@@ -2642,6 +2642,88 @@
             "type": "color"
           }
         }
+      },
+      "segmented-control-item-": {
+        "font": {
+          "solid": {
+            "default": {
+              "light": {
+                "value": "$segmented-control-item.font.solid.default.dark",
+                "type": "color"
+              }
+            },
+            "checked": {
+              "light": {
+                "value": "$segmented-control-item.font.solid.checked.dark",
+                "type": "color"
+              }
+            }
+          },
+          "outline": {
+            "default": {
+              "light": {
+                "value": "$segmented-control-item.font.outline.default.dark",
+                "type": "color"
+              }
+            },
+            "checked": {
+              "light": {
+                "value": "$segmented-control-item.font.outline.checked.dark",
+                "type": "color"
+              }
+            }
+          }
+        },
+        "icon": {
+          "solid": {
+            "default": {
+              "light": {
+                "value": "$segmented-control-item.icon.solid.default.dark",
+                "type": "color"
+              }
+            },
+            "checked": {
+              "light": {
+                "value": "$segmented-control-item.icon.solid.checked.dark",
+                "type": "color"
+              }
+            }
+          },
+          "outline": {
+            "checked": {
+              "light": {
+                "value": "$segmented-control-item.icon.outline.checked.dark",
+                "type": "color"
+              }
+            },
+            "default": {
+              "light": {
+                "value": "$segmented-control-item.icon.outline.default.dark",
+                "type": "color"
+              }
+            }
+          }
+        },
+        "border": {
+          "outline": {
+            "checked": {
+              "light": {
+                "value": "$segmented-control-item.border.outline.checked.dark",
+                "type": "color"
+              }
+            }
+          }
+        },
+        "background": {
+          "solid": {
+            "checked": {
+              "light": {
+                "value": "$segmented-control-item.background.solid.checked.dark",
+                "type": "color"
+              }
+            }
+          }
+        }
       }
     }
   }

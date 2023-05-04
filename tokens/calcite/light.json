@@ -2664,6 +2664,88 @@
             "type": "color"
           }
         }
+      },
+      "segmented-control-item": {
+        "font": {
+          "solid": {
+            "default": {
+              "light": {
+                "value": "$segmented-control-item.font.solid.default.light",
+                "type": "color"
+              }
+            },
+            "checked": {
+              "light": {
+                "value": "$segmented-control-item.font.solid.checked.light",
+                "type": "color"
+              }
+            }
+          },
+          "outline": {
+            "default": {
+              "light": {
+                "value": "$segmented-control-item.font.outline.default.light",
+                "type": "color"
+              }
+            },
+            "checked": {
+              "light": {
+                "value": "$segmented-control-item.font.outline.checked.light",
+                "type": "color"
+              }
+            }
+          }
+        },
+        "icon": {
+          "solid": {
+            "default": {
+              "light": {
+                "value": "$segmented-control-item.icon.solid.default.light",
+                "type": "color"
+              }
+            },
+            "checked": {
+              "light": {
+                "value": "$segmented-control-item.icon.solid.checked.light",
+                "type": "color"
+              }
+            }
+          },
+          "outline": {
+            "checked": {
+              "light": {
+                "value": "$segmented-control-item.icon.outline.checked.light",
+                "type": "color"
+              }
+            },
+            "default": {
+              "light": {
+                "value": "$segmented-control-item.icon.outline.default.light",
+                "type": "color"
+              }
+            }
+          }
+        },
+        "border": {
+          "outline": {
+            "checked": {
+              "light": {
+                "value": "$segmented-control-item.border.outline.checked.light",
+                "type": "color"
+              }
+            }
+          }
+        },
+        "background": {
+          "solid": {
+            "checked": {
+              "light": {
+                "value": "$segmented-control-item.background.solid.checked.light",
+                "type": "color"
+              }
+            }
+          }
+        }
       }
     }
   }
