@@ -73,7 +73,7 @@ export function getElementDir(el: HTMLElement): Direction {
  * @param {string} attribute An attribute name.
  * @param {any} fallbackValue A fallback value.
  * @returns {any} The value.
- * @depecated
+ * @deprecated
  */
 export function getElementProp(el: Element, attribute: string, fallbackValue: any): any {
   const selector = `[${attribute}]`;
