@@ -180,20 +180,6 @@
         "type": "sizing"
       }
     },
-    "space-between": {
-      "sm": {
-        "value": "$core.spacing.3",
-        "type": "spacing"
-      },
-      "md": {
-        "value": "$core.spacing.3",
-        "type": "spacing"
-      },
-      "lg": {
-        "value": "$core.spacing.3",
-        "type": "spacing"
-      }
-    },
     "default": {
       "space-around": {
         "left-right": {

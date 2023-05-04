@@ -375,12 +375,6 @@
           }
         },
         "chip": {
-          "value-text": {
-            "font": {
-              "value": "$rating.chip.value-text.font.dark",
-              "type": "color"
-            }
-          },
           "count": {
             "font": {
               "value": "$rating.chip.count.font.dark",
@@ -420,7 +414,7 @@
         },
         "icon": {
           "default": {
-            "value": "$accordion-item.icon.default.dark",
+            "value": "$accordion-item.icon.dark",
             "type": "color"
           },
           "expanded": {
@@ -1197,7 +1191,7 @@
           "type": "color"
         },
         "font": {
-          "value": "$action.font.dark",
+          "value": "$action.font.default.dark",
           "type": "color"
         },
         "icon": {
@@ -1272,7 +1266,7 @@
         },
         "icon": {
           "default": {
-            "value": "$action.icon.default.dark",
+            "value": "$action.icon.dark",
             "type": "color"
           },
           "active": {

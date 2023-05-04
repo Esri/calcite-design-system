@@ -9,10 +9,8 @@ node_modules
 # macOS metadata
 .DS_Store
 
-# Pre-Build Folders
-sd-example
+# Pre-build Folders
 tokens
-sd-transform
 
 # Documentation
 CONTRIBUTING.md
