@@ -155,3 +155,7 @@ Automated Steps
 1. Watch for pull requests with the label `automated-tokens-pr`.
 1. Wait to confirm the pull request passes required checks.
 1. Merge the pull request with the commit message `chore: automatic merge`.
+
+## Commit message format
+
+This project follows [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/), which are used to generate the changelog. Be sure to provide clear and sufficient information in commit messages. This is important because the commit messages are used to automatically update the changelog.
