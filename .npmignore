@@ -14,6 +14,9 @@ tokens
 tools
 support
 
+# token-transformer runner
+bin
+
 # Documentation
 CONTRIBUTING.md
 
@@ -21,6 +24,9 @@ CONTRIBUTING.md
 .editorconfig
 .eslintrc.json
 .gitignore
+.github
+.husky
+.vscode
 .lintstagedrc.json
 .prettierignore
 .prettierrc
