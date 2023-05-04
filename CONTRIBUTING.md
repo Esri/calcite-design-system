@@ -113,7 +113,7 @@ Make sure to use a clear title and description. See [open a pull request](https:
 
 1. Following the rules of [SEMVER](https://semver.org/), change the version number in `package.json` to the appropriate version number.
 2. Write a description of the changes, additions, and bug fixes in `CHANGELOG.md`.
-3. Run `npm run build` to make sure the `build/` files are updated.
+3. Run `npm run build` to make sure the `dist/` files are updated.
 4. Make sure `Esri/calcite-design-tokens` is up-to-date with your changes (via Pull Request).
 5. Run `npm run release`. If prompted enter your GitHub credentials.
 

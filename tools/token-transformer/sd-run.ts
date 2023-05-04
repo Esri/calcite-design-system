@@ -21,7 +21,7 @@ import { Theme } from "./getThemes.js";
  */
 export const run = async (
   tokenDir = "tokens",
-  buildPath = "build",
+  buildPath = "dist",
   theme: Pick<Theme, "enabled" | "disabled" | "name" | "source">
 ): Promise<void> => {
   const fileName = parseName(theme.name);

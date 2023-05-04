@@ -12,7 +12,6 @@ node_modules
 .DS_Store
 
 # Node Package distribution
-build
 dist
 
 # Transformation Directory

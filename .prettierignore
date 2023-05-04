@@ -1,4 +1,4 @@
 bin/
-build/
-tools/build/
+dist/
+tools/dist/
 node_modules/
