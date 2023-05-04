@@ -33,7 +33,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/Esri/calcite-styles.git"
+    "url": "git://github.com/Esri/calcite-design-tokens.git"
   },
   "author": {
     "name": "Esri"
@@ -62,7 +62,7 @@
   ],
   "license": "SEE LICENSE IN README.md",
   "bugs": {
-    "url": "https://github.com/esri/calcite-design-tokens/issues"
+    "url": "https://github.com/Esri/calcite-design-tokens/issues"
   },
   "scripts": {
     "build:tokens": "node bin/run.js",
