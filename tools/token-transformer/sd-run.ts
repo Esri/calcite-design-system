@@ -71,29 +71,6 @@ export const run = async (
     source,
     include,
     platforms: {
-      js: {
-        prefix: "calcite",
-        transforms: [
-          "ts/descriptionToComment",
-          "ts/opacity",
-          "ts/size/lineheight",
-          "ts/type/fontWeight",
-          "ts/resolveMath",
-          "ts/size/css/letterspacing",
-          "ts/color/css/hexrgba",
-          "ts/color/modifiers",
-          "name/calcite/camel"
-        ],
-        buildPath: `${buildPath}/js/`,
-        files: [
-          {
-            destination: `${fileName}.js`,
-            format: "javascript/es6",
-            filter: /headless/gi.test(fileName) ? null : "filterSource",
-            options: /headless/gi.test(fileName) ? { ...options, outputReferences: true } : options
-          }
-        ]
-      },
       css: {
         prefix: "calcite",
         transforms: [
@@ -141,29 +118,6 @@ export const run = async (
             options: /headless/gi.test(fileName) ? { ...options, outputReferences: true } : options
           }
         ]
-      },
-      json: {
-        transforms: [
-          "ts/descriptionToComment",
-          "ts/size/px",
-          "ts/opacity",
-          "ts/size/lineheight",
-          "ts/type/fontWeight",
-          "ts/resolveMath",
-          "ts/size/css/letterspacing",
-          "ts/color/css/hexrgba",
-          "ts/color/modifiers",
-          "name/calcite/kebab"
-        ],
-        buildPath: `${buildPath}/json/`,
-        files: [
-          {
-            destination: `${fileName}.json`,
-            format: "json",
-            filter: /headless/gi.test(fileName) ? null : "filterSource",
-            options: /headless/gi.test(fileName) ? { ...options, outputReferences: true } : options
-          }
-        ]
       }
     },
     parsers: [
@@ -175,7 +129,7 @@ export const run = async (
             const expanded = expandComposites(obj, file.filePath);
             return expanded;
           }
-          
+
           return {};
         }
       }
