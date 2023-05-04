@@ -16,9 +16,11 @@ export default class TooltipManager {
 
   private hoverTimeout: number = null;
 
+  private hoveredTooltip: HTMLCalciteTooltipElement = null;
+
   private clickedTooltip: HTMLCalciteTooltipElement = null;
 
-  private activeTooltipEl: HTMLCalciteTooltipElement = null;
+  private activeTooltip: HTMLCalciteTooltipElement = null;
 
   private registeredElementCount = 0;
 
@@ -74,13 +76,13 @@ export default class TooltipManager {
 
   private keyDownHandler = (event: KeyboardEvent): void => {
     if (event.key === "Escape" && !event.defaultPrevented) {
-      const { activeTooltipEl } = this;
+      const { activeTooltip } = this;
 
-      if (activeTooltipEl?.open) {
+      if (activeTooltip?.open) {
         this.clearHoverTimeout();
         this.closeExistingTooltip();
 
-        const referenceElement = getEffectiveReferenceElement(activeTooltipEl);
+        const referenceElement = getEffectiveReferenceElement(activeTooltip);
 
         if (referenceElement instanceof Element && referenceElement.contains(event.target as HTMLElement)) {
           event.preventDefault();
@@ -91,8 +93,8 @@ export default class TooltipManager {
 
   private pointerMoveHandler = (event: PointerEvent): void => {
     const composedPath = event.composedPath();
-    const { activeTooltipEl } = this;
-    const hoveringActiveTooltip = activeTooltipEl?.open && composedPath.includes(activeTooltipEl);
+    const { activeTooltip } = this;
+    const hoveringActiveTooltip = activeTooltip?.open && composedPath.includes(activeTooltip);
 
     if (hoveringActiveTooltip) {
       this.clearHoverTimeout();
@@ -100,6 +102,7 @@ export default class TooltipManager {
     }
 
     const tooltip = this.queryTooltip(composedPath);
+    this.hoveredTooltip = tooltip;
 
     if (this.isClosableClickedTooltip(tooltip)) {
       return;
@@ -109,9 +112,8 @@ export default class TooltipManager {
 
     if (tooltip) {
       this.toggleHoveredTooltip(tooltip, true);
-    } else if (activeTooltipEl) {
-      this.clearHoverTimeout();
-      this.toggleHoveredTooltip(activeTooltipEl, false);
+    } else if (activeTooltip) {
+      this.toggleHoveredTooltip(activeTooltip, false);
     }
   };
 
@@ -170,10 +172,10 @@ export default class TooltipManager {
   }
 
   private closeExistingTooltip(): void {
-    const { activeTooltipEl } = this;
+    const { activeTooltip } = this;
 
-    if (activeTooltipEl?.open) {
-      this.toggleTooltip(activeTooltipEl, false);
+    if (activeTooltip?.open) {
+      this.toggleTooltip(activeTooltip, false);
     }
   }
 
@@ -191,7 +193,7 @@ export default class TooltipManager {
     tooltip.open = value;
 
     if (value) {
-      this.activeTooltipEl = tooltip;
+      this.activeTooltip = tooltip;
     }
   }
 
@@ -200,7 +202,13 @@ export default class TooltipManager {
       if (this.hoverTimeout === null) {
         return;
       }
+
       this.closeExistingTooltip();
+
+      if (tooltip !== this.hoveredTooltip) {
+        return;
+      }
+
       this.toggleTooltip(tooltip, value);
     }, TOOLTIP_DELAY_MS);
   };

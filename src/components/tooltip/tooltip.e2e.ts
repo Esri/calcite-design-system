@@ -4,6 +4,13 @@ import { accessible, defaults, hidden, floatingUIOwner, renders } from "../../te
 import { html } from "../../../support/formatting";
 import { GlobalTestProps } from "../../tests/utils";
 
+interface PointerMoveOptions {
+  delay: number;
+  selector: string;
+  property: string;
+  value: boolean;
+}
+
 describe("calcite-tooltip", () => {
   type CanceledEscapeKeyPressTestWindow = GlobalTestProps<{
     escapeKeyCanceled: boolean;
@@ -734,32 +741,42 @@ describe("calcite-tooltip", () => {
     const tooltip = await page.find("calcite-tooltip");
     expect(await tooltip.getProperty("open")).toBe(false);
 
-    const pointerMoves: { delay: number; value: boolean }[] = [
+    const pointerMoves: PointerMoveOptions[] = [
       {
         delay: 0,
-        value: false
+        property: "open",
+        value: false,
+        selector: "#ref"
       },
       {
         delay: TOOLTIP_DELAY_MS * 0.25,
-        value: false
+        property: "open",
+        value: false,
+        selector: "#ref"
       },
       {
         delay: TOOLTIP_DELAY_MS * 0.5,
-        value: false
+        property: "open",
+        value: false,
+        selector: "#ref"
       },
       {
         delay: TOOLTIP_DELAY_MS,
-        value: true
+        property: "open",
+        value: true,
+        selector: "#ref"
       },
       {
         delay: TOOLTIP_DELAY_MS + TOOLTIP_DELAY_MS * 0.5,
-        value: true
+        property: "open",
+        value: true,
+        selector: "#ref"
       }
     ];
 
-    const hoverPromises: Promise<void>[] = pointerMoves.map(async ({ delay }) => {
+    const hoverPromises: Promise<void>[] = pointerMoves.map(async ({ delay, selector }) => {
       await page.waitForTimeout(delay);
-      await page.$eval("#ref", (el: HTMLElement) => {
+      await page.$eval(selector, (el: HTMLElement) => {
         el.dispatchEvent(new Event("pointermove"));
       });
     });
@@ -767,7 +784,73 @@ describe("calcite-tooltip", () => {
     for (let i = 0; i < pointerMoves.length; i++) {
       await hoverPromises[i];
       await page.waitForChanges();
-      expect(await tooltip.getProperty("open")).toBe(pointerMoves[i].value);
+      expect(await tooltip.getProperty(pointerMoves[i].property)).toBe(pointerMoves[i].value);
+    }
+  });
+
+  it("should close non hovered tooltip while pointer is moving", async () => {
+    const page = await newE2EPage();
+
+    await page.setContent(
+      html`
+        <calcite-tooltip reference-element="ref">Content</calcite-tooltip>
+        <p>
+          <button id="ref">Button</button>
+        </p>
+        <p>
+          <button id="ref2">No tooltip button</button>
+        </p>
+      `
+    );
+
+    await page.waitForChanges();
+    const tooltip = await page.find("calcite-tooltip");
+    expect(await tooltip.getProperty("open")).toBe(false);
+
+    const pointerMoves: PointerMoveOptions[] = [
+      {
+        delay: 0,
+        property: "open",
+        value: false,
+        selector: "#ref"
+      },
+      {
+        delay: TOOLTIP_DELAY_MS,
+        property: "open",
+        value: true,
+        selector: "#ref"
+      },
+      {
+        delay: TOOLTIP_DELAY_MS + 1,
+        property: "open",
+        value: true,
+        selector: "#ref2"
+      },
+      {
+        delay: TOOLTIP_DELAY_MS + TOOLTIP_DELAY_MS * 0.25,
+        property: "open",
+        value: true,
+        selector: "#ref2"
+      },
+      {
+        delay: TOOLTIP_DELAY_MS * 2,
+        property: "open",
+        value: false,
+        selector: "#ref2"
+      }
+    ];
+
+    const hoverPromises: Promise<void>[] = pointerMoves.map(async ({ delay, selector }) => {
+      await page.waitForTimeout(delay);
+      await page.$eval(selector, (el: HTMLElement) => {
+        el.dispatchEvent(new Event("pointermove"));
+      });
+    });
+
+    for (let i = 0; i < pointerMoves.length; i++) {
+      await hoverPromises[i];
+      await page.waitForChanges();
+      expect(await tooltip.getProperty(pointerMoves[i].property)).toBe(pointerMoves[i].value);
     }
   });
 });
