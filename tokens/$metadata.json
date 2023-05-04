@@ -53,6 +53,7 @@
     "component/tip",
     "component/tip-manager",
     "component/tooltip",
+    "component/segmented-control-item",
     "component/panel-header",
     "component/flow-header",
     "component/popover",

@@ -2554,10 +2554,7 @@
             }
           },
           "value": {
-            "light": {
-              "value": "$combobox.font.value.light",
-              "type": "color"
-            }
+            "light": "[object Object]"
           },
           "type": "color"
         }
