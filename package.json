@@ -77,19 +77,7 @@
     "prepare": "husky install",
     "prepublishOnly": "ts-node --esm ./support/prepublish.ts",
     "release": "echo 'release is still TBD. Please message Ali Stump for more information.",
-    "release:next": "npm ci && npm test && npm run util:deploy-next",
-    "release:prepare": "npm run util:is-working-tree-clean && npm ci && npm test && standard-version && npm run build",
-    "release:publish": "npm run util:push-tags && npm publish && ts-node --esm ./support/releaseToGitHub.ts",
-    "test": "jest",
-    "util:clean-tested-build": "npm ci && npm test && npm run build",
-    "util:deploy-next": "npm run util:prep-next && npm run util:publish-next",
-    "util:deploy-next-from-ci": "ts-node --esm support/deployNextFromCI.ts",
-    "util:is-next-deployable": "ts-node --esm support/isNextDeployable.ts",
-    "util:prep-next": "npm run util:is-working-tree-clean && standard-version --prerelease next && npm run build",
-    "util:publish-next": "npm publish --tag next && npm run util:push-tags",
-    "util:check-squash-mergeable-branch": "ts-node --esm support/checkSquashMergeableBranch.ts",
-    "util:push-tags": "git push --atomic origin main \"$(git describe --tags --abbrev=0)\"",
-    "util:is-working-tree-clean": "[ -z \"$(git status --porcelain=v1)\" ]"
+    "test": "jest"
   },
   "devDependencies": {
     "@tokens-studio/sd-transforms": "^0.8.2",
