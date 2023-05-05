@@ -66,20 +66,18 @@
     </script>
   </head>
 
-  <!--
-
-  - Docked (full height, displays adjacent to center content)
-  - Detached (not full height, panel + flow detached from action bar) displays on top of center content)
-  - Overlaid (full height, displays on top of center content)
-
--->
-
   <body>
     <demo-dom-swapper>
       <main>
         <div class="shell-container">
           <calcite-shell>
-            <calcite-shell-panel overlaid resizable id="primary-panel" slot="panel-start" position="start">
+            <calcite-shell-panel
+              display-mode="overlaid"
+              resizable
+              id="primary-panel"
+              slot="panel-start"
+              position="start"
+            >
               <calcite-action-bar slot="action-bar" class="calcite-mode-dark">
                 <calcite-action-group>
                   <calcite-action text="Save" icon="save" indicator> </calcite-action>
@@ -110,7 +108,7 @@
               </calcite-panel>
             </calcite-shell-panel>
 
-            <calcite-shell-panel overlaid resizable slot="panel-end" position="end">
+            <calcite-shell-panel display-mode="overlaid" resizable slot="panel-end" position="end">
               <calcite-action-bar slot="action-bar">
                 <calcite-tooltip slot="expand-tooltip" label="tooltip" pointer-disabled>Add layers</calcite-tooltip>
                 <calcite-action-group>
@@ -248,7 +246,14 @@
             </div>
 
             <div id="viewDiv"></div>
-            <calcite-shell-panel collapsed overlaid resizable layout="horizontal" slot="panel-top" position="start">
+            <calcite-shell-panel
+              collapsed
+              display-mode="overlaid"
+              resizable
+              layout="horizontal"
+              slot="panel-top"
+              position="start"
+            >
               <calcite-action-bar slot="action-bar">
                 <calcite-action-group>
                   <calcite-action text="Save" icon="save" indicator> </calcite-action>
@@ -273,7 +278,14 @@
               <calcite-panel heading="Example"> Example </calcite-panel>
             </calcite-shell-panel>
 
-            <calcite-shell-panel collapsed overlaid resizable layout="horizontal" slot="panel-bottom" position="end">
+            <calcite-shell-panel
+              collapsed
+              display-mode="overlaid"
+              resizable
+              layout="horizontal"
+              slot="panel-bottom"
+              position="end"
+            >
               <calcite-action-bar slot="action-bar">
                 <calcite-action-group>
                   <calcite-action text="Save" icon="save" indicator> </calcite-action>

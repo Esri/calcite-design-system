@@ -22,6 +22,7 @@ import {
 import { Layout, Position, Scale } from "../interfaces";
 import { ShellPanelMessages } from "./assets/shell-panel/t9n";
 import { CSS, SLOTS } from "./resources";
+import { DisplayMode } from "./interfaces";
 
 /**
  * @slot - A slot for adding custom content.
@@ -47,13 +48,30 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
 
   /**
    * When `true`, the content area displays like a floating panel.
+   *
+   * @deprecated use `displayMode` instead.
    */
   @Prop({ reflect: true }) detached = false;
 
+  @Watch("detached")
+  handleDetached(value: boolean): void {
+    if (value) {
+      this.displayMode = "detached";
+    } else if (this.displayMode === "detached") {
+      this.displayMode = "docked";
+    }
+  }
+
   /**
-   * When `true`, the content will position over any content adjacent to it.
+   * Specifies the display mode - `"docked"` (full height, displays adjacent to center content), `"detached"` (not full height, content separated detached from action bar, displays on top of center content),
+   * or `"overlaid"` (full height, displays on top of center content).
    */
-  @Prop({ reflect: true }) overlaid = false;
+  @Prop({ reflect: true }) displayMode: DisplayMode = "docked";
+
+  @Watch("displayMode")
+  handleDisplayMode(value: DisplayMode): void {
+    this.detached = value === "detached";
+  }
 
   /**
    * When `detached`, specifies the maximum height of the component.
@@ -82,7 +100,7 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
   @Prop({ reflect: true }) position: Position;
 
   /**
-   * When `true` and not `detached`, the component's content area is resizable.
+   * When `true` and `displayMode` is not `detached`, the component's content area is resizable.
    */
   @Prop({ reflect: true }) resizable = false;
 
@@ -198,7 +216,6 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
   render(): VNode {
     const {
       collapsed,
-      detached,
       position,
       initialContentWidth,
       initialContentHeight,
@@ -210,10 +227,10 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
       contentHeightMin,
       resizable,
       layout,
-      overlaid
+      displayMode
     } = this;
 
-    const allowResizing = !detached && resizable;
+    const allowResizing = displayMode !== "detached" && resizable;
 
     const style = allowResizing
       ? layout === "horizontal"
@@ -251,8 +268,8 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
       <div
         class={{
           [CSS.content]: true,
-          [CSS.contentOverlaid]: overlaid,
-          [CSS.contentDetached]: detached
+          [CSS.contentOverlaid]: displayMode === "overlaid",
+          [CSS.contentDetached]: displayMode === "detached"
         }}
         hidden={collapsed}
         key="content"
