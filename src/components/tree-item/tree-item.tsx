@@ -361,7 +361,8 @@ export class TreeItem
 
   @Listen("click")
   onClick(event: Event): void {
-    if (this.disabled) {
+    const isActionClick = (event.target as HTMLCalciteActionElement).slot === "actions-end";
+    if (this.disabled || isActionClick) {
       return;
     }
 

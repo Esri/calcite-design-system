@@ -165,13 +165,13 @@ export class Tree {
         (target.hasChildren &&
           (this.selectionMode === "children" || this.selectionMode === "multichildren")));
 
+    // deselecting a parent in multichildren should deselect all the children
+    const shouldDeselectAllChildren = this.selectionMode === "multichildren" && target.hasChildren;
+
     const shouldModifyToCurrentSelection =
       !isNoneSelectionMode &&
       event.detail.modifyCurrentSelection &&
       (this.selectionMode === "multiple" || this.selectionMode === "multichildren");
-
-    const shouldSelectChildren =
-      this.selectionMode === "multichildren" || this.selectionMode === "children";
 
     const shouldClearCurrentSelection =
       !shouldModifyToCurrentSelection &&
@@ -180,20 +180,17 @@ export class Tree {
         this.selectionMode === "children" ||
         this.selectionMode === "multichildren");
 
-    const shouldExpandTarget =
-      this.selectionMode === "children" || this.selectionMode === "multichildren";
+    const shouldUpdateExpand =
+      ["children", "multichildren"].includes(this.selectionMode) ||
+      (["single", "multiple"].includes(this.selectionMode) &&
+        target.hasChildren &&
+        !event.detail.forceToggle);
 
     if (!this.child) {
       const targetItems: HTMLCalciteTreeItemElement[] = [];
 
       if (shouldSelect) {
         targetItems.push(target);
-      }
-
-      if (shouldSelectChildren) {
-        childItems.forEach((treeItem) => {
-          targetItems.push(treeItem);
-        });
       }
 
       if (shouldClearCurrentSelection) {
@@ -208,18 +205,29 @@ export class Tree {
         });
       }
 
-      if (shouldExpandTarget && !event.detail.forceToggle) {
-        target.expanded = true;
+      if (shouldUpdateExpand) {
+        if (["single", "multiple"].includes(this.selectionMode)) {
+          target.expanded = !target.expanded;
+        } else if (this.selectionMode === "multichildren") {
+          target.expanded = !target.selected;
+        } else if (this.selectionMode === "children") {
+          target.expanded = target.selected ? !target.expanded : true;
+        }
+      }
+
+      if (shouldDeselectAllChildren) {
+        childItems.forEach((item) => {
+          item.selected = false;
+          if (item.hasChildren) {
+            item.expanded = false;
+          }
+        });
       }
 
       if (shouldModifyToCurrentSelection) {
         window.getSelection().removeAllRanges();
       }
-
-      if (
-        (shouldModifyToCurrentSelection && target.selected) ||
-        (shouldSelectChildren && event.detail.forceToggle)
-      ) {
+      if ((shouldModifyToCurrentSelection && target.selected) || event.detail.forceToggle) {
         targetItems.forEach((treeItem) => {
           if (!treeItem.disabled) {
             treeItem.selected = false;
