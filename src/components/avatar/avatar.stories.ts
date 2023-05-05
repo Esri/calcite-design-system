@@ -17,6 +17,7 @@ export const simple = (): string => html`
   <calcite-avatar
     scale="${select("scale", ["s", "m", "l"], "m")}"
     full-name="${text("full-name", "John Doe")}"
+    label="${text("label", "John Doe")}"
     username="${text("username", "jdoe")}"
     user-id="${text("user-id", "9a7c50e6b3ce4b859f7b31e302437164")}"
     thumbnail="${text("thumbnail", placeholderImage({ width: 120, height: 120 }))}"
