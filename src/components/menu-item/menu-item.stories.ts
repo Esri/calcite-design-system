@@ -11,66 +11,62 @@ export default {
   ...storyFilters()
 };
 
-export const simple = (): string => html`<calcite-nav
-  ><calcite-menu slot="primary-content-center">
-    <calcite-menu-item
-      text="${text("text", "My nav item")}"
-      src="${text("src", "")}"
-      href="${text("href", "")}"
-      rel="${text("rel", "")}"
-      target="${text("target", "")}"
-      label="${text("label", "")}"
-      ${boolean("active", false)}
-      ${boolean("breadcrumb", false)}
-      ${boolean("text-enabled", true)}
-    /> </calcite-menu
-></calcite-nav>`;
+export const simple = (): string => html` <calcite-menu>
+  <calcite-menu-item
+    text="${text("text", "My nav item")}"
+    src="${text("src", "")}"
+    href="${text("href", "")}"
+    rel="${text("rel", "")}"
+    target="${text("target", "")}"
+    label="${text("label", "")}"
+    ${boolean("active", false)}
+    ${boolean("breadcrumb", false)}
+    ${boolean("text-enabled", true)}
+  />
+</calcite-menu>`;
 
-export const iconStart = (): string => html`<calcite-nav
-  ><calcite-menu slot="primary-content-center">
-    <calcite-menu-item
-      text="${text("text", "My nav item")}"
-      src="${text("src", "")}"
-      href="${text("href", "")}"
-      rel="${text("rel", "")}"
-      target="${text("target", "")}"
-      label="${text("label", "")}"
-      icon-start="${select("icon-start", iconNames, iconNames[0])}"
-      ${boolean("active", false)}
-      ${boolean("breadcrumb", false)}
-      ${boolean("text-enabled", true)}
-    /> </calcite-menu
-></calcite-nav>`;
+export const iconStart = (): string => html` <calcite-menu>
+  <calcite-menu-item
+    text="${text("text", "My nav item")}"
+    src="${text("src", "")}"
+    href="${text("href", "")}"
+    rel="${text("rel", "")}"
+    target="${text("target", "")}"
+    label="${text("label", "")}"
+    icon-start="${select("icon-start", iconNames, iconNames[0])}"
+    ${boolean("active", false)}
+    ${boolean("breadcrumb", false)}
+    ${boolean("text-enabled", true)}
+  />
+</calcite-menu>`;
 
-export const iconEnd = (): string => html`<calcite-nav
-  ><calcite-menu slot="primary-content-center">
-    <calcite-menu-item
-      text="${text("text", "My nav item")}"
-      src="${text("src", "")}"
-      href="${text("href", "")}"
-      rel="${text("rel", "")}"
-      target="${text("target", "")}"
-      label="${text("label", "")}"
-      icon-end="${select("icon-end", iconNames, iconNames[0])}"
-      ${boolean("active", false)}
-      ${boolean("breadcrumb", false)}
-      ${boolean("text-enabled", true)}
-    /> </calcite-menu
-></calcite-nav>`;
+export const iconEnd = (): string => html` <calcite-menu>
+  <calcite-menu-item
+    text="${text("text", "My nav item")}"
+    src="${text("src", "")}"
+    href="${text("href", "")}"
+    rel="${text("rel", "")}"
+    target="${text("target", "")}"
+    label="${text("label", "")}"
+    icon-end="${select("icon-end", iconNames, iconNames[0])}"
+    ${boolean("active", false)}
+    ${boolean("breadcrumb", false)}
+    ${boolean("text-enabled", true)}
+  />
+</calcite-menu>`;
 
-export const iconsBoth = (): string => html`<calcite-nav
-  ><calcite-menu slot="primary-content-center">
-    <calcite-menu-item
-      text="${text("text", "My nav item")}"
-      src="${text("src", "")}"
-      href="${text("href", "")}"
-      rel="${text("rel", "")}"
-      target="${text("target", "")}"
-      label="${text("label", "")}"
-      icon-end="${select("icon-end", iconNames, "")}"
-      icon-start="${select("icon-start", iconNames, "")}"
-      ${boolean("active", false)}
-      ${boolean("breadcrumb", false)}
-      ${boolean("text-enabled", true)}
-    /> </calcite-menu
-></calcite-nav>`;
+export const iconsBoth = (): string => html` <calcite-menu>
+  <calcite-menu-item
+    text="${text("text", "My nav item")}"
+    src="${text("src", "")}"
+    href="${text("href", "")}"
+    rel="${text("rel", "")}"
+    target="${text("target", "")}"
+    label="${text("label", "")}"
+    icon-end="${select("icon-end", iconNames, "")}"
+    icon-start="${select("icon-start", iconNames, "")}"
+    ${boolean("active", false)}
+    ${boolean("breadcrumb", false)}
+    ${boolean("text-enabled", true)}
+  />
+</calcite-menu>`;

@@ -11,16 +11,13 @@ export default {
   ...storyFilters()
 };
 
-export const simple = (): string => html`
-  <calcite-nav>
-    <calcite-menu slot="primary-content-center" layout="${select("layout", ["horizontal", "vertical"], "horizontal")}">
-      <calcite-menu-item text="Example nav item 1" text-enabled></calcite-menu-item>
-      <calcite-menu-item text="Example nav item 2" text-enabled active></calcite-menu-item>
-      <calcite-menu-item
-        text="Example nav item 3"
-        text-enabled
-      ></calcite-menu-item> </calcite-menu></calcite-nav
-></calcite-nav>`;
+export const simple = (): string => html` <calcite-menu
+  layout="${select("layout", ["horizontal", "vertical"], "horizontal")}"
+>
+  <calcite-menu-item text="Example nav item 1" text-enabled></calcite-menu-item>
+  <calcite-menu-item text="Example nav item 2" text-enabled active></calcite-menu-item>
+  <calcite-menu-item text="Example nav item 3" text-enabled></calcite-menu-item>
+</calcite-menu>`;
 
 export const withNesting = (): string => html`<calcite-panel>
   <calcite-menu layout="${select("layout", ["horizontal", "vertical"], "horizontal")}">
@@ -38,8 +35,8 @@ export const withNesting = (): string => html`<calcite-panel>
     <calcite-menu-item text="Example nav item 4" text-enabled></calcite-menu-item> </calcite-menu
 ></calcite-panel>`;
 
-export const WithSubMenuOpen_TestOnly = (): string => html`<calcite-nav
-  ><calcite-menu slot="primary-content-center">
+export const WithSubMenuOpen_TestOnly = (): string => html`
+  <calcite-menu slot="primary-content-center">
     <calcite-menu-item
       text="My nav item"
       href="#mynav"
@@ -51,10 +48,10 @@ export const WithSubMenuOpen_TestOnly = (): string => html`<calcite-nav
     </calcite-menu-item>
     </calcite-menu-item>
     </calcite-menu
-></calcite-nav>`;
+>`;
 
-export const WithSubMenuOpenInVerticalLayout_TestOnly = (): string => html`<calcite-nav
-  ><calcite-menu slot="primary-content-center" layout="vertical">
+export const WithSubMenuOpenInVerticalLayout_TestOnly = (): string => html`
+  <calcite-menu slot="primary-content-center" layout="vertical">
     <calcite-menu-item
       text="My nav item"
       href="#mynav"
@@ -66,4 +63,4 @@ export const WithSubMenuOpenInVerticalLayout_TestOnly = (): string => html`<calc
     </calcite-menu-item>
     </calcite-menu-item>
     </calcite-menu
-></calcite-nav>`;
+>`;
