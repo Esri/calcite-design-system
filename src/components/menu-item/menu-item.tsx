@@ -53,7 +53,7 @@ export class CalciteMenuItem implements LoadableComponent {
   /** When `true`, the component is highlighted. */
   @Prop({ reflect: true }) active: boolean;
 
-  /** When true, the component displays a visual indication of breadcrumb */
+  /** When `true`, the component displays a breadcrumb trail for use as a navigational aid. */
   @Prop({ reflect: true }) breadcrumb: boolean;
 
   /** Specifies the URL destination of the component, which can be set as an absolute or relative path.*/
@@ -68,8 +68,11 @@ export class CalciteMenuItem implements LoadableComponent {
   /** Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`). */
   @Prop() iconFlipRtl: FlipContext;
 
-  /** Specifices accessible name for the component.*/
+  /** Accessible name for the component.*/
   @Prop() label!: string;
+
+  /** When true, the component will display any slotted calcite-menu-item in an open overflow menu.*/
+  @Prop({ mutable: true, reflect: true }) open = false;
 
   /**
    * Defines the relationship between the `href` value and the current document.
@@ -87,9 +90,6 @@ export class CalciteMenuItem implements LoadableComponent {
 
   /** Specifies the text to display.*/
   @Prop({ reflect: true }) text: string;
-
-  /** When `true`, the menu item will display any slotted `calcite-menu-item` in an open overflow menu.*/
-  @Prop({ mutable: true, reflect: true }) open = false;
 
   /**
    * @internal
@@ -143,8 +143,8 @@ export class CalciteMenuItem implements LoadableComponent {
   /** @internal */
   @Event({ cancelable: true }) calciteInternalMenuItemKeyEvent: EventEmitter<MenuItemCustomEvent>;
 
-  /** Emits when user selects the component. */
-  @Event({ cancelable: false }) calciteMenuItemSelect: EventEmitter<void>;
+  /** Emits when the component is selected.*/
+  @Event() calciteMenuItemSelect: EventEmitter<void>;
 
   //--------------------------------------------------------------------------
   //
