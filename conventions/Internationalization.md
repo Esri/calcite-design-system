@@ -29,7 +29,7 @@ The following section covers how to add built-in translation support to componen
 
 This pattern enables components to support built-in translations. In order to support this, a component must:
 
-1. Add the following translation bundles as component assets under a `t9n` folder (please refer to <https://github.com/Esri/calcite-components/blob/master/conventions/README.md#assets> for additional info on assets)
+1. Add the following translation bundles as component assets under a `t9n` folder (please refer to <https://github.com/Esri/calcite-components/blob/main/conventions/README.md#assets> for additional info on assets)
    1. `messages.json` – main bundle
    2. `messages_en.json` – locale-specific bundle (kept in sync with main one via scripts)
 2. Implement the `T9nComponent` interface

@@ -19,7 +19,7 @@
     await exec(`npm run util:prep-next`, { maxBuffer });
 
     const changesCommitted =
-      (await exec(`git rev-parse HEAD`, { maxBuffer })) !== (await exec(`git rev-parse origin/master`, { maxBuffer }));
+      (await exec(`git rev-parse HEAD`, { maxBuffer })) !== (await exec(`git rev-parse origin/main`, { maxBuffer }));
     if (!changesCommitted) {
       throw new Error("Failed to commit changes");
     }

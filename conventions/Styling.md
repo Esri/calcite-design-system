@@ -32,7 +32,7 @@ Add a class to handle the logic in the component class.
 
 ## Light Mode/Dark Mode
 
-In the [global CSS file](https://github.com/Esri/calcite-components/blob/master/src/assets/styles/global.scss), we specify the values of each color for both light and dark mode. This enables theming to be inherited throughout a component tree. Consider this valid example:
+In the [global CSS file](https://github.com/Esri/calcite-components/blob/main/src/assets/styles/global.scss), we specify the values of each color for both light and dark mode. This enables theming to be inherited throughout a component tree. Consider this valid example:
 
 ```html
 <div class="calcite-mode-dark">

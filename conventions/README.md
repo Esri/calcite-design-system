@@ -11,7 +11,7 @@ Generally adhere to and follow these best practices for authoring components.
 
 ## Structure
 
-We follow Stencil's suggested component structure. See their [style guide](https://github.com/ionic-team/stencil/blob/master/STYLE_GUIDE.md#file-structure) for more details.
+We follow Stencil's suggested component structure. See their [style guide](https://github.com/ionic-team/stencil/blob/main/STYLE_GUIDE.md#file-structure) for more details.
 
 ## Component Responsibilities
 
@@ -277,7 +277,7 @@ This is required in order to have a unified assets folder in the distributable.
 
 Stencil has the capability to build and distribute a large variety of outputs based on our needs. You can read more about this in the [output targets](https://github.com/ionic-team/stencil/blob/cc55401555ff5c28757cf99edf372dcada2c0b25/src/compiler/output-targets/readme.md) documentation.
 
-As a best practice we should follow [Ionic's configuration](https://github.com/ionic-team/ionic/blob/master/core/stencil.config.ts) and generate a `bundle` for each component. Stencil will then generate a loader that will dynamically load the components used on the page.
+As a best practice we should follow [Ionic's configuration](https://github.com/ionic-team/ionic/blob/main/core/stencil.config.ts) and generate a `bundle` for each component. Stencil will then generate a loader that will dynamically load the components used on the page.
 
 **Note:** This is highly likely to change as we move closer to our first release and as Stencil improves their documentation around their specific methods and build processes.
 
@@ -408,4 +408,4 @@ The [`globalAttributes`](../src/utils/globalAttributes.ts) util was specifically
 
 ### BigDecimal
 
-`BigDecimal` is a [number util](https://github.com/Esri/calcite-components/blob/master/src/utils/number.ts) that helps with [arbitrary precision arithmetic](https://en.wikipedia.org/wiki/Arbitrary-precision_arithmetic). The util is adopted from a [Stack Overflow answer](https://stackoverflow.com/a/66939244) with some small changes. There are some usage examples in [`number.spec.ts`](../src/utils/number.spec.ts).
+`BigDecimal` is a [number util](https://github.com/Esri/calcite-components/blob/main/src/utils/number.ts) that helps with [arbitrary precision arithmetic](https://en.wikipedia.org/wiki/Arbitrary-precision_arithmetic). The util is adopted from a [Stack Overflow answer](https://stackoverflow.com/a/66939244) with some small changes. There are some usage examples in [`number.spec.ts`](../src/utils/number.spec.ts).

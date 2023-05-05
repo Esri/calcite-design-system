@@ -14,7 +14,7 @@ This ensures a conventional commit message when PRs are squash-merged.
 
   const currentBranch = (await exec(`git rev-parse --abbrev-ref HEAD`, { encoding: "utf-8" })).stdout.trim();
 
-  const commits = (await exec(`git log --format=%B ${currentBranch} --not master`, { encoding: "utf-8" })).stdout
+  const commits = (await exec(`git log --format=%B ${currentBranch} --not main`, { encoding: "utf-8" })).stdout
     .trim()
     .split("\n")
     .filter((commit: string) => !!commit);
@@ -23,7 +23,7 @@ This ensures a conventional commit message when PRs are squash-merged.
 
   if (process.exitCode === 1) {
     console.log(
-      `https://github.com/Esri/calcite-components/blob/master/CONTRIBUTING.md#commit-message-format\nError: please amend your commit message using the conventional commit format\n\ngit commit --amend -m "conventional commit message"\n`
+      `https://github.com/Esri/calcite-components/blob/main/CONTRIBUTING.md#commit-message-format\nError: please amend your commit message using the conventional commit format\n\ngit commit --amend -m "conventional commit message"\n`
     );
   }
 })();

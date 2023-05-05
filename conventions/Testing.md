@@ -4,7 +4,7 @@ Components should have an automated test for any incoming features or bug fixes.
 
 We encourage writing expressive test cases and code that indicates intent. Use comments sparingly when the aforementioned can't be fully achieved. Keep it clean!
 
-Please see Stencil's doc for more info on [end-to-end](https://stenciljs.com/docs/end-to-end-testing) testing. See one of our test examples [here](https://github.com/Esri/calcite-components/blob/master/src/components/block/block.e2e.ts).
+Please see Stencil's doc for more info on [end-to-end](https://stenciljs.com/docs/end-to-end-testing) testing. See one of our test examples [here](https://github.com/Esri/calcite-components/blob/main/src/components/block/block.e2e.ts).
 
 ## Choosing which tests to write
 
@@ -24,7 +24,7 @@ You don't have to worry about writing visual regression tests. We cover those au
 
 ### Helpers and utilities
 
-There are helpers and utilities to make testing common workflows easier. [`commonTests.ts`](https://github.com/Esri/calcite-components/blob/master/src/tests/commonTests.ts) contains common tests that you can import and use for your component. For example, every component should have an [`accessible`](https://github.com/Esri/calcite-components/blob/35f5aaf165b54d3f139e1ff2978a7c0246a0bf69/src/tests/commonTests.ts#L48-L62) test. To use the test in your component, import the helper and assert that the component is accessible.
+There are helpers and utilities to make testing common workflows easier. [`commonTests.ts`](https://github.com/Esri/calcite-components/blob/main/src/tests/commonTests.ts) contains common tests that you can import and use for your component. For example, every component should have an [`accessible`](https://github.com/Esri/calcite-components/blob/35f5aaf165b54d3f139e1ff2978a7c0246a0bf69/src/tests/commonTests.ts#L48-L62) test. To use the test in your component, import the helper and assert that the component is accessible.
 
 ```js
 import { accessible } from "../../tests/commonTests";
@@ -36,7 +36,7 @@ Here is an example of the helper test usage in [`accordion.e2e.ts`](https://gith
 
 There are many more useful, common tests that you should use in specific scenarios. In most IDEs or text editors, you can search the function name of a common test to find usage examples in component's end-to-end test files.
 
-In addition to the common tests, there are also test utilities in [`utils.ts`](https://github.com/Esri/calcite-components/blob/master/src/tests/utils.ts). These utilities are created to avoid duplicate code in component end-to-end test files. If you find yourself creating the same test function for different components, then it should be moved to `utils.ts`. A good example is [`getElementXY`](https://github.com/Esri/calcite-components/blob/35f5aaf165b54d3f139e1ff2978a7c0246a0bf69/src/tests/utils.ts#L124-L139). Determining the screen location of an element can be very important when testing interactive components. Here are some end-to-end tests where the utility is used in [`color-picker.e2e.ts`](https://github.com/Esri/calcite-components/blob/35f5aaf165b54d3f139e1ff2978a7c0246a0bf69/src/components/color-picker/color-picker.e2e.ts#L232-L236), [`input-e2e.ts`](https://github.com/Esri/calcite-components/blob/35f5aaf165b54d3f139e1ff2978a7c0246a0bf69/src/components/input/input.e2e.ts#L289-L293), [`shell-panel.e2e.ts`](https://github.com/Esri/calcite-components/blob/35f5aaf165b54d3f139e1ff2978a7c0246a0bf69/src/components/shell-panel/shell-panel.e2e.ts#L381), and [`slider.e2e.ts`](https://github.com/Esri/calcite-components/blob/35f5aaf165b54d3f139e1ff2978a7c0246a0bf69/src/components/slider/slider.e2e.ts#L176).
+In addition to the common tests, there are also test utilities in [`utils.ts`](https://github.com/Esri/calcite-components/blob/main/src/tests/utils.ts). These utilities are created to avoid duplicate code in component end-to-end test files. If you find yourself creating the same test function for different components, then it should be moved to `utils.ts`. A good example is [`getElementXY`](https://github.com/Esri/calcite-components/blob/35f5aaf165b54d3f139e1ff2978a7c0246a0bf69/src/tests/utils.ts#L124-L139). Determining the screen location of an element can be very important when testing interactive components. Here are some end-to-end tests where the utility is used in [`color-picker.e2e.ts`](https://github.com/Esri/calcite-components/blob/35f5aaf165b54d3f139e1ff2978a7c0246a0bf69/src/components/color-picker/color-picker.e2e.ts#L232-L236), [`input-e2e.ts`](https://github.com/Esri/calcite-components/blob/35f5aaf165b54d3f139e1ff2978a7c0246a0bf69/src/components/input/input.e2e.ts#L289-L293), [`shell-panel.e2e.ts`](https://github.com/Esri/calcite-components/blob/35f5aaf165b54d3f139e1ff2978a7c0246a0bf69/src/components/shell-panel/shell-panel.e2e.ts#L381), and [`slider.e2e.ts`](https://github.com/Esri/calcite-components/blob/35f5aaf165b54d3f139e1ff2978a7c0246a0bf69/src/components/slider/slider.e2e.ts#L176).
 
 ### Prevent unnecessary logging in the build
 

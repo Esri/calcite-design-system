@@ -19,7 +19,7 @@ jobs:
       - name: commit readme files/create pull request
         uses: peter-evans/create-pull-request@v4
         with:
-          base: master
+          base: main
           branch: doc-update
           commit-message: "docs: update component READMEs"
           token: ${{ secrets.ADMIN_TOKEN }}
