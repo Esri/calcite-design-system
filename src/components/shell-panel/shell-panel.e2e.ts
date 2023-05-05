@@ -20,6 +20,14 @@ describe("calcite-shell-panel", () => {
       {
         propertyName: "resizable",
         defaultValue: false
+      },
+      {
+        propertyName: "detached",
+        defaultValue: false
+      },
+      {
+        propertyName: "displayMode",
+        defaultValue: "docked"
       }
     ]));
 
@@ -140,9 +148,13 @@ describe("calcite-shell-panel", () => {
 
     const panel = await page.find("calcite-shell-panel");
 
-    panel.setProperty("detached", true);
+    expect(await panel.getProperty("detached")).toBe(false);
+
+    panel.setProperty("displayMode", "detached");
 
     await page.waitForChanges();
+
+    expect(await panel.getProperty("detached")).toBe(true);
 
     detachedElement = await page.find(`calcite-shell-panel >>> .${CSS.contentDetached}`);
 
@@ -486,7 +498,7 @@ describe("calcite-shell-panel", () => {
     const page = await newE2EPage();
     await page.setContent(
       `<calcite-shell content-behind>
-        <calcite-shell-panel slot="panel-start" position="start" detached></calcite-shell-panel>
+        <calcite-shell-panel slot="panel-start" position="start" display-mode="detached"></calcite-shell-panel>
         <calcite-action text="test" style="height: 100%; width: 100%;" text-enabled></calcite-action>
       </calcite-shell>`
     );

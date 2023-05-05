@@ -41,12 +41,8 @@ const createShellPanelAttributes: (group: "Leading Panel" | "Trailing Panel", re
       value: boolean("collapsed", false, group)
     },
     {
-      name: "detached",
-      value: boolean("detached", false, group)
-    },
-    {
-      name: "overlaid",
-      value: boolean("detached", false, group)
+      name: "displayMode",
+      value: select("displayMode", ["docked", "detached", "overlaid"], "docked")
     },
     {
       name: "position",
@@ -361,7 +357,7 @@ darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
 
 export const closedPanels = (): string =>
   html(`<calcite-shell content-behind>
-  <calcite-shell-panel slot="panel-start" detached>
+  <calcite-shell-panel slot="panel-start" display-mode="detached">
     <calcite-action-bar slot="action-bar">
       <calcite-action data-action-id="layers" icon="layers" text="Layers"></calcite-action>
       <calcite-action data-action-id="basemaps" icon="basemap" text="Basemaps"></calcite-action>
@@ -404,7 +400,7 @@ background-size: 20px 20px;
 background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
 "
     ></div>
-    <calcite-shell-panel slot="panel-end" position="end" detached>
+    <calcite-shell-panel slot="panel-end" position="end" display-mode="detached">
       <calcite-action-bar slot="action-bar">
         <calcite-action-group>
           <calcite-action text="Idea" label="Add Item" icon="lightbulb" appearance="solid" scale="m"></calcite-action>
