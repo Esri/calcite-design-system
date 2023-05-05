@@ -107,10 +107,8 @@
                 >
               </calcite-panel>
             </calcite-shell-panel>
-
             <calcite-shell-panel display-mode="overlaid" resizable slot="panel-end" position="end">
               <calcite-action-bar slot="action-bar">
-                <calcite-tooltip slot="expand-tooltip" label="tooltip" pointer-disabled>Add layers</calcite-tooltip>
                 <calcite-action-group>
                   <calcite-action text="Layer properties" icon="sliders-horizontal"> </calcite-action>
                   <calcite-action text="Styles" icon="shapes"> </calcite-action>
@@ -244,7 +242,6 @@
             <div class="gnav" slot="header">
               <h2>Boomer v Millennial - California</h2>
             </div>
-
             <div id="viewDiv"></div>
             <calcite-shell-panel
               collapsed
@@ -277,7 +274,6 @@
               </calcite-action-bar>
               <calcite-panel heading="Example"> Example </calcite-panel>
             </calcite-shell-panel>
-
             <calcite-shell-panel
               collapsed
               display-mode="overlaid"
@@ -312,36 +308,7 @@
             <footer slot="footer">Footer</footer>
           </calcite-shell>
         </div>
-        <calcite-popover
-          label="right start popover"
-          placement="right-start"
-          reference-element="action-pad-button"
-          add-click-handle
-          class="popover"
-        >
-          <calcite-panel class="calcite-mode-light">
-            <h3 class="heading" slot="header-content">WE CARE A LOT</h3>
-            <calcite-pick-list filter-enabled filter-sticky>
-              <calcite-action slot="menu-actions" text="options">
-                <calcite-icon icon="ellipsis" scale="s"></calcite-icon>
-              </calcite-action>
-              <calcite-pick-list-item label="about disasters, fires, floods and killer bees" value="1">
-              </calcite-pick-list-item>
-              <calcite-pick-list-item
-                label="about the NASA shuttle falling in the sea"
-                value="2"
-              ></calcite-pick-list-item>
-              <calcite-pick-list-item label="about starvation and the food that Live Aid bought" value="3">
-              </calcite-pick-list-item>
-              <calcite-pick-list-item
-                label="about disease, baby rock, Hudson, rock,"
-                value="4"
-              ></calcite-pick-list-item>
-            </calcite-pick-list>
-            <calcite-button slot="footer" width="half">Yeah!</calcite-button>
-            <calcite-button slot="footer" width="half" appearance="outline">Naw.</calcite-button>
-          </calcite-panel>
-        </calcite-popover>
+
         <script>
           const tipManagerButton = document.getElementById("tip-manager-button");
           const tipManager = document.getElementById("tip-manager");
