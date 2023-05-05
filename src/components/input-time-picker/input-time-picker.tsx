@@ -38,7 +38,12 @@ import {
   NumberingSystem,
   numberStringFormatter
 } from "../../utils/locale";
-import { formatTimeString, isValidTime, localizeTimeString } from "../../utils/time";
+import {
+  formatTimePart,
+  formatTimeString,
+  isValidTime,
+  localizeTimeString
+} from "../../utils/time";
 import { Scale } from "../interfaces";
 import { TimePickerMessages } from "../time-picker/assets/time-picker/t9n";
 
@@ -614,7 +619,9 @@ export class InputTimePicker
       const { hour, minute, second } = parseTimeString(this.value);
       const includeSeconds = this.shouldIncludeSeconds();
 
-      this.value = includeSeconds ? `${hour}:${minute}:${second || "00"}` : `${hour}:${minute}`;
+      this.value = `${formatTimePart(parseInt(hour))}:${formatTimePart(
+        parseInt(minute)
+      )}:${formatTimePart(parseInt((includeSeconds && second) || "0"))}`;
       this.setInputValue(
         localizeTimeString({
           value: this.value,
