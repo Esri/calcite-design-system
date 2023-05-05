@@ -9,17 +9,26 @@ node_modules
 # macOS metadata
 .DS_Store
 
-# Pre-Build Folders
-sd-example
+# Pre-build Folders
 tokens
-sd-transform
+tools
+support
+
+# token-transformer runner
+bin
 
 # Documentation
 CONTRIBUTING.md
 
 # Configurations
 .editorconfig
+.eslintrc.json
 .gitignore
-config.bak.json
-config.json
-
+.github
+.husky
+.vscode
+.lintstagedrc.json
+.prettierignore
+.prettierrc
+jest.config.json
+tsconfig*

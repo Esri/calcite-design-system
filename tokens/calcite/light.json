@@ -375,12 +375,6 @@
           }
         },
         "chip": {
-          "value-text": {
-            "font": {
-              "value": "$rating.chip.value-text.font.light",
-              "type": "color"
-            }
-          },
           "count": {
             "font": {
               "value": "$rating.chip.count.font.light",
@@ -420,7 +414,7 @@
         },
         "icon": {
           "default": {
-            "value": "$accordion-item.icon.default.light",
+            "value": "$accordion-item.icon.light",
             "type": "color"
           },
           "expanded": {
@@ -1229,7 +1223,7 @@
       },
       "action": {
         "font": {
-          "value": "$action.font.light",
+          "value": "$action.font.default.light",
           "type": "color"
         },
         "icon": {
