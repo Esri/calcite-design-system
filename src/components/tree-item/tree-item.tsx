@@ -365,9 +365,7 @@ export class TreeItem
 
   @Listen("click")
   onClick(event: Event): void {
-    const composedPath = event.composedPath();
-    const isActionClick = composedPath.includes(this.actionSlotWrapper);
-    if (this.disabled || isActionClick) {
+    if (this.disabled || this.isActionEndEvent(event)) {
       return;
     }
 
@@ -394,6 +392,10 @@ export class TreeItem
   @Listen("keydown")
   keyDownHandler(event: KeyboardEvent): void {
     let root;
+
+    if (this.isActionEndEvent(event)) {
+      return;
+    }
 
     switch (event.key) {
       case " ":
@@ -499,6 +501,11 @@ export class TreeItem
   //  Private Methods
   //
   //--------------------------------------------------------------------------
+
+  private isActionEndEvent(event: Event): boolean {
+    const composedPath = event.composedPath();
+    return composedPath.includes(this.actionSlotWrapper);
+  }
 
   private updateParentIsExpanded = (el: HTMLCalciteTreeItemElement, expanded: boolean): void => {
     const items = getSlotted<HTMLCalciteTreeItemElement>(el, SLOTS.children, {
