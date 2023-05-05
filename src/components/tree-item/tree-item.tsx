@@ -326,7 +326,11 @@ export class TreeItem
               {this.iconStart ? iconStartEl : null}
               {checkbox ? checkbox : defaultSlotNode}
             </div>
-            <div class={CSS.actionsEnd} hidden={!hasEndActions}>
+            <div
+              class={CSS.actionsEnd}
+              hidden={!hasEndActions}
+              ref={(el) => (this.actionSlotWrapper = el as HTMLElement)}
+            >
               {slotNode}
             </div>
           </div>
@@ -361,7 +365,8 @@ export class TreeItem
 
   @Listen("click")
   onClick(event: Event): void {
-    const isActionClick = (event.target as HTMLCalciteActionElement).slot === "actions-end";
+    const composedPath = event.composedPath();
+    const isActionClick = composedPath.includes(this.actionSlotWrapper);
     if (this.disabled || isActionClick) {
       return;
     }
@@ -482,6 +487,8 @@ export class TreeItem
   childrenSlotWrapper!: HTMLElement;
 
   defaultSlotWrapper!: HTMLElement;
+
+  actionSlotWrapper!: HTMLElement;
 
   private parentTreeItem?: HTMLCalciteTreeItemElement;
 
