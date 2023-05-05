@@ -66,15 +66,19 @@ export class TabTitle implements InteractiveComponent, LocalizedComponent, T9nCo
    */
   @Prop({ reflect: true, mutable: true }) selected = false;
 
+  @Watch("selected")
+  selectedHandler(): void {
+    if (this.selected) {
+      this.emitActiveTab(false);
+    }
+  }
+
   /** When `true`, a close button is added to the component. */
   @Prop({ reflect: true }) closable = false;
 
   /** When `true`, hides the component. */
   // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
   @Prop({ reflect: true, mutable: true }) closed = false;
-
-  /** The close button element. */
-  @Prop({ reflect: false, mutable: true }) closeButtonEl?: HTMLButtonElement;
 
   /** When `true`, interaction is prevented and the component is displayed with lower opacity.  */
   @Prop({ reflect: true }) disabled = false;
@@ -165,6 +169,9 @@ export class TabTitle implements InteractiveComponent, LocalizedComponent, T9nCo
     await setUpMessages(this);
     if (Build.isBrowser) {
       this.updateHasText();
+    }
+    if (this.tab && this.selected) {
+      this.emitActiveTab(false);
     }
   }
 
@@ -289,20 +296,26 @@ export class TabTitle implements InteractiveComponent, LocalizedComponent, T9nCo
     event.stopPropagation();
   }
 
-  onClick(event: MouseEvent): void {
-    if (!event.isTrusted) {
-      this.emitActiveTab(false);
-    } else {
-      this.emitActiveTab();
+  @Listen("click")
+  onClick(): void {
+    if (this.disabled) {
+      return;
     }
+    this.emitActiveTab();
   }
 
+  // eslint-disable-next-line @stencil-community/prefer-vdom-listener
   @Listen("keydown")
   keyDownHandler(event: KeyboardEvent): void {
+    const target = event.target as HTMLElement;
     switch (event.key) {
       case " ":
       case "Enter":
-        this.emitActiveTab();
+        if (target === this.closeButtonEl) {
+          this.emitCloseTab();
+        } else {
+          this.emitActiveTab();
+        }
         event.preventDefault();
         break;
       case "ArrowRight":
@@ -352,8 +365,21 @@ export class TabTitle implements InteractiveComponent, LocalizedComponent, T9nCo
   @Event({ cancelable: false }) calciteInternalTabsActivate: EventEmitter<TabChangeEventDetail>;
 
   /**
+   * Fires when a `calcite-tab` is closed.
+   */
+  @Event({ cancelable: false }) calciteTabsClose: EventEmitter<void>;
+
+  /**
+   * Fires when `calcite-tab` is closed (`event.details`).
+   *
+   * @see [TabChangeEventDetail](https://github.com/Esri/calcite-components/blob/master/src/components/tab/interfaces.ts)
    * @internal
    */
+  @Event({ cancelable: false }) calciteInternalTabsClose: EventEmitter<TabChangeEventDetail>;
+  /**
+   * @internal
+   */
+
   @Event({ cancelable: false }) calciteInternalTabsFocusNext: EventEmitter<void>;
 
   /**
@@ -381,11 +407,6 @@ export class TabTitle implements InteractiveComponent, LocalizedComponent, T9nCo
    */
   @Event({ cancelable: false }) calciteInternalTabIconChanged: EventEmitter<void>;
 
-  /**
-   * Fires when the close button is clicked.
-   */
-  @Event({ cancelable: false }) calciteInternalTabTitleClose: EventEmitter<void>;
-
   //--------------------------------------------------------------------------
   //
   //  Public Methods
@@ -398,7 +419,7 @@ export class TabTitle implements InteractiveComponent, LocalizedComponent, T9nCo
   @Method()
   async getTabIndex(): Promise<number> {
     return Array.prototype.indexOf.call(
-      this.el.parentElement.querySelectorAll("calcite-tab-title:not([closed])"),
+      this.el.parentElement.querySelectorAll(":not([closed]):not([hidden])"),
       this.el
     );
   }
@@ -427,9 +448,9 @@ export class TabTitle implements InteractiveComponent, LocalizedComponent, T9nCo
   //
   //--------------------------------------------------------------------------
 
-  closeClickHandler = (): void => {
-    this.closed = true;
-    this.calciteInternalTabTitleClose.emit();
+  closeClickHandler = (event: MouseEvent): void => {
+    event.stopPropagation();
+    this.emitCloseTab();
   };
 
   //--------------------------------------------------------------------------
@@ -461,6 +482,9 @@ export class TabTitle implements InteractiveComponent, LocalizedComponent, T9nCo
 
   containerEl: HTMLDivElement;
 
+  /** The close button element. */
+  private closeButtonEl: HTMLButtonElement;
+
   resizeObserver = createObserver("resize", () => {
     this.calciteInternalTabIconChanged.emit();
   });
@@ -477,14 +501,18 @@ export class TabTitle implements InteractiveComponent, LocalizedComponent, T9nCo
     if (this.disabled || this.closed) {
       return;
     }
-
     const payload = { tab: this.tab };
-
     this.calciteInternalTabsActivate.emit(payload);
 
     if (userTriggered) {
       this.calciteTabsActivate.emit();
     }
+  }
+
+  emitCloseTab(): void {
+    this.closed = true;
+    this.calciteInternalTabsClose.emit(this.el);
+    this.calciteTabsClose.emit();
   }
 
   guid = `calcite-tab-title-${guid()}`;

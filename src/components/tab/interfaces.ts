@@ -4,3 +4,9 @@ export interface TabChangeEventDetail {
    */
   tab: number | string;
 }
+export interface TabCloseEventDetail {
+  /**
+   * The tab that just became closed
+   */
+  tab: number | string;
+}

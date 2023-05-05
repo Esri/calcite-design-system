@@ -19,7 +19,7 @@ import {
 } from "../../utils/dom";
 import { createObserver } from "../../utils/observers";
 import { Scale } from "../interfaces";
-import { TabChangeEventDetail } from "../tab/interfaces";
+import { TabChangeEventDetail, TabCloseEventDetail } from "../tab/interfaces";
 import { TabID, TabLayout, TabPosition } from "../tabs/interfaces";
 
 /**
@@ -121,9 +121,6 @@ export class TabNav {
     // reset the animation time on tab selection
     this.activeIndicatorEl.style.transitionDuration = `${this.animationActiveDuration}s`;
   }
-
-  // eslint-disable-next-line @stencil-community/strict-mutable
-  @Prop({ mutable: true }) closedTabTitleEl: HTMLCalciteTabTitleElement;
 
   //--------------------------------------------------------------------------
   //
@@ -242,8 +239,18 @@ export class TabNav {
     event.preventDefault();
   }
 
-  @Listen("calciteTabsActivate") activateTabHandler(event: CustomEvent<void>): void {
+  @Listen("calciteTabsActivate")
+  activateTabHandler(event: CustomEvent<void>): void {
     this.calciteTabChange.emit();
+
+    event.stopPropagation();
+    event.preventDefault();
+  }
+
+  @Listen("calciteInternalTabsClose")
+  internalCloseTabHandler(event: CustomEvent<TabCloseEventDetail>): void {
+    const closedTabTitleEl = event.target as HTMLCalciteTabTitleElement;
+    this.handleTabTitleClose(closedTabTitleEl);
 
     event.stopPropagation();
     event.preventDefault();
@@ -277,12 +284,6 @@ export class TabNav {
   @Listen("calciteInternalTabIconChanged")
   iconStartChangeHandler(): void {
     this.updateActiveWidth();
-  }
-
-  @Listen("calciteInternalTabTitleClose")
-  tabTitleCloseHandler(event: Event): void {
-    this.closedTabTitleEl = event.target as HTMLCalciteTabTitleElement;
-    this.handleTabTitleClose();
   }
 
   //--------------------------------------------------------------------------
@@ -382,35 +383,36 @@ export class TabNav {
   }
 
   get tabTitles(): HTMLCalciteTabTitleElement[] {
-    return filterDirectChildren<HTMLCalciteTabTitleElement>(
+    const directChildren = filterDirectChildren<HTMLCalciteTabTitleElement>(
       this.el,
-      "calcite-tab-title:not([closed])"
+      "calcite-tab-title"
     );
+    return directChildren.filter((tabTitle) => !tabTitle.closed);
   }
 
   get enabledTabTitles(): HTMLCalciteTabTitleElement[] {
-    return filterDirectChildren<HTMLCalciteTabTitleElement>(
+    const directEndabled = filterDirectChildren<HTMLCalciteTabTitleElement>(
       this.el,
-      "calcite-tab-title:not([disabled])" && "calcite-tab-title:not([closed])"
+      "calcite-tab-title:not([disabled])"
     );
+    return directEndabled.filter((tabTitle) => !tabTitle.closed);
   }
 
-  handleTabTitleClose = (): void => {
-    const { tabTitles, closedTabTitleEl } = this;
-    const tabTitlesList = tabTitles.filter((el) => el !== closedTabTitleEl);
+  handleTabTitleClose = (closedTabTitleEl: HTMLCalciteTabTitleElement): void => {
+    const { tabTitles } = this;
+
     // disable last remaining item
-    if (tabTitlesList.length === 1 && tabTitlesList[0].closable) {
-      tabTitlesList[0].disabled = true;
-    } else if (closedTabTitleEl === this.selectedTitle) {
-      // if last item closed is selected, fall back on previous
-      if (this.selectedTabId === tabTitlesList.length) {
-        this.selectedTabId = tabTitlesList.length - 1;
-        // this.selectedTitle =  this.getTabTitleById(this.selectedTabId);
-        return;
+    if (tabTitles.length === 1 && tabTitles[0].closable) {
+      tabTitles[0].disabled = true;
+    }
+
+    if (closedTabTitleEl && closedTabTitleEl.selected && closedTabTitleEl.closed) {
+      while (this.selectedTabId !== tabTitles.length) {
+        // if closed item is selected, fall back on next
+        this.selectedTabId = (this.selectedTabId as number) + 1;
       }
-      // if closed item is selected, fall back on next
-      // const nextId = (this.selectedTabId as number)++;
-      // this.selectedTabId = nextId;
+      // last item fall back on previous
+      this.selectedTabId = tabTitles.length - 1;
     }
   };
 }
