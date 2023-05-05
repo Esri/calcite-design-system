@@ -161,6 +161,26 @@ describe("calcite-shell-panel", () => {
     expect(detachedElement).not.toBeNull();
   });
 
+  it("should have overlaid class when overlaid", async () => {
+    const page = await newE2EPage();
+
+    await page.setContent("<calcite-shell-panel><div>content</div></calcite-shell-panel>");
+
+    let detachedElement = await page.find(`calcite-shell-panel >>> .${CSS.contentOverlaid}`);
+
+    expect(detachedElement).toBeNull();
+
+    const panel = await page.find("calcite-shell-panel");
+
+    panel.setProperty("displayMode", "overlaid");
+
+    await page.waitForChanges();
+
+    detachedElement = await page.find(`calcite-shell-panel >>> .${CSS.contentOverlaid}`);
+
+    expect(detachedElement).not.toBeNull();
+  });
+
   it("should update width based on the requested CSS variable override", async () => {
     const override = "678px";
 
