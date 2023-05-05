@@ -38,7 +38,7 @@ export class CalciteNavUser {
   @Prop() username: string;
 
   /** When `true`, hides the `fullName` and `username` contents. */
-  @Prop({ reflect: true }) hideName = false;
+  @Prop({ reflect: true }) textDisabled = false;
 
   /** Specifies the `src` to an image to display in the Avatar (remember to add a token if the user is private). */
   @Prop() thumbnail: string;
@@ -81,11 +81,12 @@ export class CalciteNavUser {
         <a onClick={this.clickHandler} onKeyDown={this.keyDownHandler} tabIndex={0}>
           <calcite-avatar
             full-name={this.fullName}
+            label={this.label}
             thumbnail={this.thumbnail}
             user-id={this.userId}
           />
 
-          {(this.fullName || this.username) && !this.hideName && (
+          {(this.fullName || this.username) && !this.textDisabled && (
             <div class={CSS.textContainer}>
               {this.fullName && (
                 <span class={CSS.fullName} key={CSS.fullName}>
