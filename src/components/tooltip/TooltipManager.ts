@@ -230,25 +230,25 @@ export default class TooltipManager {
   private registerShadowRoot(shadowRoot: ShadowRoot): void {
     const { registeredShadowRootCounts } = this;
 
-    const count = registeredShadowRootCounts.get(shadowRoot) || 0;
+    const newCount = (registeredShadowRootCounts.get(shadowRoot) ?? 0) + 1;
 
-    if (count === 0) {
+    if (newCount === 1) {
       this.addShadowListeners(shadowRoot);
     }
 
-    registeredShadowRootCounts.set(shadowRoot, count + 1);
+    registeredShadowRootCounts.set(shadowRoot, newCount);
   }
 
   private unregisterShadowRoot(shadowRoot: ShadowRoot): void {
     const { registeredShadowRootCounts } = this;
 
-    const count = registeredShadowRootCounts.get(shadowRoot);
+    const newCount = registeredShadowRootCounts.get(shadowRoot) - 1;
 
-    if (count === 1) {
+    if (newCount === 0) {
       this.removeShadowListeners(shadowRoot);
     }
 
-    registeredShadowRootCounts.set(shadowRoot, count - 1);
+    registeredShadowRootCounts.set(shadowRoot, newCount);
   }
 
   private getReferenceElShadowRootNode(referenceEl: ReferenceElement): ShadowRoot | null {
