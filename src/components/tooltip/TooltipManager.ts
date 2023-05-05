@@ -240,9 +240,15 @@ export default class TooltipManager {
   }
 
   private unregisterShadowRoot(shadowRoot: ShadowRoot): void {
-    if (!this.registeredShadowRootCounts.get(shadowRoot)) {
+    const { registeredShadowRootCounts } = this;
+
+    const count = registeredShadowRootCounts.get(shadowRoot);
+
+    if (count === 1) {
       this.removeShadowListeners(shadowRoot);
     }
+
+    registeredShadowRootCounts.set(shadowRoot, count - 1);
   }
 
   private getReferenceElShadowRootNode(referenceEl: ReferenceElement): ShadowRoot | null {
