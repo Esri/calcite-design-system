@@ -2,36 +2,44 @@
 
 <!-- Auto Generated Below -->
 
+## Usage
+
+### Basic
+
+```html
+<calcite-menu> <calcite-menu-item id="Nature" text="Nature"> </calcite-menu-item></calcite-menu>
+```
+
 ## Properties
 
-| Property            | Attribute             | Description | Type                         | Default     |
-| ------------------- | --------------------- | ----------- | ---------------------------- | ----------- |
-| `collapsed`         | `collapsed`           |             | `any`                        | `undefined` |
-| `disableCollapse`   | `disable-collapse`    |             | `any`                        | `undefined` |
-| `layout`            | `layout`              |             | `"horizontal" \| "vertical"` | `undefined` |
-| `minCollapsedItems` | `min-collapsed-items` |             | `any`                        | `undefined` |
+| Property             | Attribute | Description                                                             | Type                         | Default        |
+| -------------------- | --------- | ----------------------------------------------------------------------- | ---------------------------- | -------------- |
+| `label` _(required)_ | `label`   | Specifies accessible label for the component.                           | `string`                     | `undefined`    |
+| `layout`             | `layout`  | Specifies the layout of the component.                                  | `"horizontal" \| "vertical"` | `"horizontal"` |
+| `messageOverrides`   | --        | Use this property to override individual strings used by the component. | `{ more?: string; }`         | `undefined`    |
+
+## Methods
+
+### `setFocus() => Promise<void>`
+
+Sets focus on the component's first focusable element.
+
+#### Returns
+
+Type: `Promise<void>`
 
 ## Dependencies
 
 ### Used by
 
-- [calcite-nav-menu-item](../nav-menu-item)
-
-### Depends on
-
-- [calcite-nav-menu-item](../nav-menu-item)
+- [calcite-menu-item](../menu-item)
 
 ### Graph
 
 ```mermaid
 graph TD;
-  calcite-nav-menu --> calcite-nav-menu-item
-  calcite-nav-menu-item --> calcite-nav-menu
-  calcite-button --> calcite-loader
-  calcite-button --> calcite-icon
-  calcite-action --> calcite-loader
-  calcite-action --> calcite-icon
-  style calcite-nav-menu fill:#f9f,stroke:#333,stroke-width:4px
+  calcite-menu-item --> calcite-menu
+  style calcite-menu fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
 ---
