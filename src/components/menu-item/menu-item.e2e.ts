@@ -57,7 +57,6 @@ describe("calcite-menu-item", () => {
 
     await menuItem.click();
     await page.waitForChanges();
-
     expect(await page.evaluate(() => document.activeElement.id)).toBe("Nature");
     expect(eventSpy).toHaveReceivedEventTimes(1);
   });
