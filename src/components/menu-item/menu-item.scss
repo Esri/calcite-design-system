@@ -110,7 +110,6 @@ calcite-action {
     background-color: var(--calcite-ui-border-3);
     position: absolute;
     inset-inline-start: -1px;
-    z-index: 9;
   }
   &:hover:after {
     block-size: 100%;
@@ -132,20 +131,17 @@ a:hover ~ calcite-action {
   border: 1px solid var(--calcite-ui-border-3);
   position: absolute;
   background: var(--calcite-ui-foreground-1);
-  z-index: 9;
   block-size: auto;
   flex-direction: column;
   min-inline-size: 100%;
   display: none;
-  transition: all var(--calcite-internal-animation-timing-slow) ease-in-out;
   overflow: visible;
   inset-block-start: 100%;
-
+  z-index: theme("zIndex.dropdown");
   &.open {
     display: block;
   }
   &.nested {
-    z-index: 9;
     inset-block-start: -1px;
     position: absolute;
     transform: translateX(calc(100% - 2px));
@@ -179,16 +175,11 @@ a:hover ~ calcite-action {
   transform: none;
 }
 
-.dropdown-action {
-  z-index: 0;
-}
-
 .hover-href-icon {
   opacity: 0;
   padding-inline-start: 2rem;
   margin-inline-start: auto;
-  transition: opacity var(--calcite-internal-animation-timing-medium) ease-in-out,
-    inset-inline-end var(--calcite-internal-animation-timing-slow) ease-in-out;
+  transition: all var(--calcite-internal-animation-timing-medium) ease-in-out;
   inset-inline-end: 0.25rem;
   position: relative;
 }
