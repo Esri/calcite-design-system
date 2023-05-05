@@ -306,6 +306,9 @@ describe("calcite-tree", () => {
       const action = await page.find("calcite-action");
       await action.click();
 
+      await action.focus();
+      await page.keyboard.press("Enter");
+
       const changeSpy = await action.spyOnEvent("calciteTreeSelect");
       await page.waitForChanges();
 
