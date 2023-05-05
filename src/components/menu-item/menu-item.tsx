@@ -98,7 +98,12 @@ export class CalciteMenuItem implements LoadableComponent {
   /**
    * @internal
    */
-  @Prop({ reflect: true }) isTopLevelItem = false;
+  @Prop() isTopLevelItem = false;
+
+  /**
+   * @internal
+   */
+  @Prop() topLevelMenuLayout: "vertical" | "horizontal";
 
   //--------------------------------------------------------------------------
   //
@@ -113,8 +118,6 @@ export class CalciteMenuItem implements LoadableComponent {
   private isFocused: boolean;
 
   @State() hasSubMenu = false;
-
-  @State() topLevelLayout: "vertical" | "horizontal";
 
   @State() subMenuItems: HTMLCalciteMenuItemElement[];
 
@@ -150,7 +153,7 @@ export class CalciteMenuItem implements LoadableComponent {
   @Listen("click", { target: "window" })
   handleClickOut(event: Event): void {
     if (
-      this.topLevelLayout !== "vertical" &&
+      this.topLevelMenuLayout !== "vertical" &&
       this.hasSubMenu &&
       this.open &&
       !this.el.contains(event.target as Element)
@@ -161,7 +164,10 @@ export class CalciteMenuItem implements LoadableComponent {
 
   @Listen("focusout")
   handleFocusout(event: FocusEvent): void {
-    if (this.topLevelLayout !== "vertical" && !this.el.contains(event.relatedTarget as Element)) {
+    if (
+      this.topLevelMenuLayout !== "vertical" &&
+      !this.el.contains(event.relatedTarget as Element)
+    ) {
       this.open = false;
     }
   }
@@ -174,7 +180,6 @@ export class CalciteMenuItem implements LoadableComponent {
 
   connectedCallback() {
     this.isFocused = this.active;
-    this.topLevelLayout = this.el.closest("calcite-menu")?.layout || "horizontal";
   }
 
   componentWillLoad(): void {
@@ -212,6 +217,11 @@ export class CalciteMenuItem implements LoadableComponent {
 
   private handleMenuItemSlotChange = (event: Event): void => {
     this.subMenuItems = slotChangeGetAssignedElements(event) as HTMLCalciteMenuItemElement[];
+    this.subMenuItems.forEach((item) => {
+      if (!item.topLevelMenuLayout) {
+        item.topLevelMenuLayout = this.topLevelMenuLayout;
+      }
+    });
     this.hasSubMenu = this.subMenuItems.length > 0;
   };
 
@@ -345,7 +355,7 @@ export class CalciteMenuItem implements LoadableComponent {
           [CSS.iconDropdown]: true
         }}
         icon={
-          this.topLevelLayout === "vertical" || this.isTopLevelItem
+          this.topLevelMenuLayout === "vertical" || this.isTopLevelItem
             ? this.open
               ? "chevron-up"
               : "chevron-down"
@@ -363,7 +373,7 @@ export class CalciteMenuItem implements LoadableComponent {
       <calcite-action
         class={CSS.dropdownAction}
         icon={
-          this.topLevelLayout === "vertical" || this.isTopLevelItem
+          this.topLevelMenuLayout === "vertical" || this.isTopLevelItem
             ? this.open
               ? "chevron-up"
               : "chevron-down"
@@ -386,7 +396,7 @@ export class CalciteMenuItem implements LoadableComponent {
           [CSS.open]: this.open,
           [CSS.nested]: !this.isTopLevelItem,
           [CSS.isRtl]: dir === "rtl",
-          [CSS.isDropdownVerticalType]: this.topLevelLayout === "vertical"
+          [CSS.isDropdownVerticalType]: this.topLevelMenuLayout === "vertical"
         }}
         label="Submenu"
         layout="vertical"
@@ -417,7 +427,7 @@ export class CalciteMenuItem implements LoadableComponent {
         <li
           class={{
             [CSS.container]: true,
-            [CSS.isParentVertical]: this.topLevelLayout === "vertical"
+            [CSS.isParentVertical]: this.topLevelMenuLayout === "vertical"
           }}
           role="none"
         >
@@ -439,7 +449,7 @@ export class CalciteMenuItem implements LoadableComponent {
               ref={(el) => (this.anchorEl = el)}
             >
               {this.renderItemContent(dir)}
-              {this.href && this.topLevelLayout === "vertical" ? (
+              {this.href && this.topLevelMenuLayout === "vertical" ? (
                 <calcite-icon
                   class={CSS.hoverHrefIcon}
                   icon={dir === "rtl" ? "arrow-left" : "arrow-right"}

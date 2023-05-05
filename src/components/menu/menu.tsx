@@ -16,6 +16,8 @@ import {
 } from "../../utils/t9n";
 import { MenuMessages } from "./assets/menu/t9n";
 
+type Layout = "horizontal" | "vertical";
+
 @Component({
   tag: "calcite-menu",
   styleUrl: "menu.scss",
@@ -40,7 +42,7 @@ export class CalciteMenu implements LoadableComponent, LocalizedComponent, T9nCo
   /**
    * Specifies the layout of the component.
    */
-  @Prop({ reflect: true }) layout: "horizontal" | "vertical" = "horizontal";
+  @Prop({ reflect: true }) layout: Layout = "horizontal";
 
   /**
    * Specifies accessible label for the component.
@@ -69,6 +71,11 @@ export class CalciteMenu implements LoadableComponent, LocalizedComponent, T9nCo
   @Watch("messageOverrides")
   onMessagesChange(): void {
     /* wired up by t9n util */
+  }
+
+  @Watch("layout")
+  handleLayoutChange(value: Layout): void {
+    this.setMenuItemLayout(this.menuItems, value);
   }
 
   //--------------------------------------------------------------------------
@@ -182,12 +189,7 @@ export class CalciteMenu implements LoadableComponent, LocalizedComponent, T9nCo
 
   handleMenuSlotChange = (event: Event): void => {
     this.menuItems = slotChangeGetAssignedElements(event) as HTMLCalciteMenuItemElement[];
-    this.menuItems.forEach((item: HTMLCalciteMenuItemElement) => {
-      item.layout = this.layout;
-      if (this.role === "menubar") {
-        item.isTopLevelItem = true;
-      }
-    });
+    this.setMenuItemLayout(this.menuItems, this.layout);
   };
 
   focusParentElement = (el: Element): void => {
@@ -195,6 +197,18 @@ export class CalciteMenu implements LoadableComponent, LocalizedComponent, T9nCo
     if (parentEl) {
       focusElement(parentEl);
       parentEl.open = false;
+    }
+  };
+
+  setMenuItemLayout = (items: HTMLCalciteMenuItemElement[], layout: Layout): void => {
+    if (items.length > 0) {
+      items.forEach((item) => {
+        item.layout = layout;
+        if (this.role === "menubar") {
+          item.isTopLevelItem = true;
+          item.topLevelMenuLayout = this.layout;
+        }
+      });
     }
   };
 
