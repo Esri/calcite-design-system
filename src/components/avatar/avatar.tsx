@@ -30,7 +30,7 @@ export class Avatar {
   /** Specifies the `src` to an image (remember to add a token if the user is private). */
   @Prop({ reflect: true }) thumbnail: string;
 
-  /** Specifies the full name of the user. */
+  /** Specifies the full name of the user. When `label` and `thumbnail` are not defined, specifies the accessible name for the component. */
   @Prop({ reflect: true }) fullName: string;
 
   /** Specifies the username of the user. */
@@ -38,6 +38,9 @@ export class Avatar {
 
   /** Specifies the unique id of the user. */
   @Prop({ reflect: true }) userId: string;
+
+  /** Specifies alternative text when `thumbnail` is defined, otherwise specifies an accessible label.*/
+  @Prop() label: string;
 
   //--------------------------------------------------------------------------
   //
@@ -67,7 +70,7 @@ export class Avatar {
     if (this.thumbnail && !this.thumbnailFailedToLoad) {
       return (
         <img
-          alt=""
+          alt={this.label || ""}
           class="thumbnail"
           onError={() => (this.thumbnailFailedToLoad = true)}
           src={this.thumbnail}
@@ -77,7 +80,12 @@ export class Avatar {
     const initials = this.generateInitials();
     const backgroundColor = this.generateFillColor();
     return (
-      <span class="background" style={{ backgroundColor }}>
+      <span
+        aria-label={this.label || this.fullName}
+        class="background"
+        role="figure"
+        style={{ backgroundColor }}
+      >
         {initials ? (
           <span aria-hidden="true" class="initials">
             {initials}
