@@ -9,33 +9,37 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ### Features
 
-- **panel, flow-item:** Add CSS custom property to define footer padding and deprecate "footer-actions" slot. ([#6906](https://github.com/Esri/calcite-components/issues/6906)) ([cfa5689](https://github.com/Esri/calcite-components/commit/cfa56894f1217c3a0ce975b1cad9d64dcba97a3f)), closes [#6892](https://github.com/Esri/calcite-components/issues/6892)
+- **avatar:** add label prop for alternative text & aria-label ([#6910](https://github.com/Esri/calcite-components/issues/6910)) ([e8d78e7](https://github.com/Esri/calcite-components/commit/e8d78e783e9137870747a1a9513c335f9470ca51)), closes [#5564](https://github.com/Esri/calcite-components/issues/5564)
 
-* **color-picker:** add support for alpha channel (deprecates `hideChannels`, `hideHex`, `hideSaved`) ([#2841](https://github.com/Esri/calcite-components/issues/2841)) ([83c5808](https://github.com/Esri/calcite-components/commit/83c58080ddfcf7ca487f30c3c3057a907fcc2960)), closes [#749](https://github.com/Esri/calcite-components/issues/749)
-* **list:** adds `calciteListChange` event to get `selectedItems`. ([#6894](https://github.com/Esri/calcite-components/issues/6894)) ([37959ce](https://github.com/Esri/calcite-components/commit/37959ce01fdd4263adaf8479d230d02c9942c871)), closes [#6362](https://github.com/Esri/calcite-components/issues/6362)
+* **panel, flow-item:** Add CSS custom property to define footer padding and deprecate "footer-actions" slot. ([#6906](https://github.com/Esri/calcite-components/issues/6906)) ([cfa5689](https://github.com/Esri/calcite-components/commit/cfa56894f1217c3a0ce975b1cad9d64dcba97a3f)), closes [#6892](https://github.com/Esri/calcite-components/issues/6892)
 
-- **action-bar:** Improve border display in horizontal layout ([#6888](https://github.com/Esri/calcite-components/issues/6888)) ([62e4665](https://github.com/Esri/calcite-components/commit/62e4665ccec30ae3e37325bcc2dff2e4000d382a)), closes [#6758](https://github.com/Esri/calcite-components/issues/6758)
+- **color-picker:** add support for alpha channel (deprecates `hideChannels`, `hideHex`, `hideSaved`) ([#2841](https://github.com/Esri/calcite-components/issues/2841)) ([83c5808](https://github.com/Esri/calcite-components/commit/83c58080ddfcf7ca487f30c3c3057a907fcc2960)), closes [#749](https://github.com/Esri/calcite-components/issues/749)
+- **list:** adds `calciteListChange` event to get `selectedItems`. ([#6894](https://github.com/Esri/calcite-components/issues/6894)) ([37959ce](https://github.com/Esri/calcite-components/commit/37959ce01fdd4263adaf8479d230d02c9942c871)), closes [#6362](https://github.com/Esri/calcite-components/issues/6362)
 
-* **flow-item:** Add action bar slot ([#6887](https://github.com/Esri/calcite-components/issues/6887)) ([aa8b46c](https://github.com/Esri/calcite-components/commit/aa8b46c5c0cf19080d45b1d38b911f5d83a1dd05)), closes [#6886](https://github.com/Esri/calcite-components/issues/6886)
+* **action-bar:** Improve border display in horizontal layout ([#6888](https://github.com/Esri/calcite-components/issues/6888)) ([62e4665](https://github.com/Esri/calcite-components/commit/62e4665ccec30ae3e37325bcc2dff2e4000d382a)), closes [#6758](https://github.com/Esri/calcite-components/issues/6758)
 
-- **list:** Add `single-persist` selection mode ([#6882](https://github.com/Esri/calcite-components/issues/6882)) ([dc332cb](https://github.com/Esri/calcite-components/commit/dc332cbc917026d3b6480fd9d0b6ff68cd8fe21b)), closes [#6382](https://github.com/Esri/calcite-components/issues/6382)
+- **flow-item:** Add action bar slot ([#6887](https://github.com/Esri/calcite-components/issues/6887)) ([aa8b46c](https://github.com/Esri/calcite-components/commit/aa8b46c5c0cf19080d45b1d38b911f5d83a1dd05)), closes [#6886](https://github.com/Esri/calcite-components/issues/6886)
+
+* **list:** Add `single-persist` selection mode ([#6882](https://github.com/Esri/calcite-components/issues/6882)) ([dc332cb](https://github.com/Esri/calcite-components/commit/dc332cbc917026d3b6480fd9d0b6ff68cd8fe21b)), closes [#6382](https://github.com/Esri/calcite-components/issues/6382)
 
 ### Bug Fixes
 
-- **action-bar:** Set background color on action-bar ([#6917](https://github.com/Esri/calcite-components/issues/6917)) ([0062cbf](https://github.com/Esri/calcite-components/commit/0062cbf0e3464611d7fb93296e5625c95c2d1a08)), closes [#6865](https://github.com/Esri/calcite-components/issues/6865)
-- **panel:** Remove min-block-size from footer ([#6907](https://github.com/Esri/calcite-components/issues/6907)) ([c2681e7](https://github.com/Esri/calcite-components/commit/c2681e7b168b0983026b34ec640166aa7a1a016e)), closes [#6733](https://github.com/Esri/calcite-components/issues/6733)
+- **tooltip:** close tooltip when pointer is moving ([#6922](https://github.com/Esri/calcite-components/issues/6922)) ([dd2c98c](https://github.com/Esri/calcite-components/commit/dd2c98cee2126afc055766b86b50f78cfbcfa7b2)), closes [#6785](https://github.com/Esri/calcite-components/issues/6785)
 
-* **deps:** move `composed-offset-position` to dependencies ([#6895](https://github.com/Esri/calcite-components/issues/6895)) ([747e471](https://github.com/Esri/calcite-components/commit/747e4714b0d42bf7d582b998f38d7a0c211bd308)), closes [#6875](https://github.com/Esri/calcite-components/issues/6875)
+* **action-bar:** Set background color on action-bar ([#6917](https://github.com/Esri/calcite-components/issues/6917)) ([0062cbf](https://github.com/Esri/calcite-components/commit/0062cbf0e3464611d7fb93296e5625c95c2d1a08)), closes [#6865](https://github.com/Esri/calcite-components/issues/6865)
+* **panel:** Remove min-block-size from footer ([#6907](https://github.com/Esri/calcite-components/issues/6907)) ([c2681e7](https://github.com/Esri/calcite-components/commit/c2681e7b168b0983026b34ec640166aa7a1a016e)), closes [#6733](https://github.com/Esri/calcite-components/issues/6733)
 
-- **shell-center-row:** Correctly do not set Action Bar layout ([#6891](https://github.com/Esri/calcite-components/issues/6891)) ([7e96dd0](https://github.com/Esri/calcite-components/commit/7e96dd04841ab3ac8a2571b680807bb27ac2311e)), closes [#6890](https://github.com/Esri/calcite-components/issues/6890)
+- **deps:** move `composed-offset-position` to dependencies ([#6895](https://github.com/Esri/calcite-components/issues/6895)) ([747e471](https://github.com/Esri/calcite-components/commit/747e4714b0d42bf7d582b998f38d7a0c211bd308)), closes [#6875](https://github.com/Esri/calcite-components/issues/6875)
 
-* **tooltip:** Open hovered tooltip while pointer is moving ([#6868](https://github.com/Esri/calcite-components/issues/6868)) ([76b02f6](https://github.com/Esri/calcite-components/commit/76b02f62c8c016e6cb59317def98341944bfad3a)), closes [#6278](https://github.com/Esri/calcite-components/issues/6278) [#6615](https://github.com/Esri/calcite-components/issues/6615) [#6785](https://github.com/Esri/calcite-components/issues/6785)
+* **shell-center-row:** Correctly do not set Action Bar layout ([#6891](https://github.com/Esri/calcite-components/issues/6891)) ([7e96dd0](https://github.com/Esri/calcite-components/commit/7e96dd04841ab3ac8a2571b680807bb27ac2311e)), closes [#6890](https://github.com/Esri/calcite-components/issues/6890)
 
-- **block:** Corrects alignment of slotted icon ([#6883](https://github.com/Esri/calcite-components/issues/6883)) ([8fec45e](https://github.com/Esri/calcite-components/commit/8fec45e91b18b8a6252bb9eeed7b2a85289123b4)), closes [#6627](https://github.com/Esri/calcite-components/issues/6627)
+- **tooltip:** Open hovered tooltip while pointer is moving ([#6868](https://github.com/Esri/calcite-components/issues/6868)) ([76b02f6](https://github.com/Esri/calcite-components/commit/76b02f62c8c016e6cb59317def98341944bfad3a)), closes [#6278](https://github.com/Esri/calcite-components/issues/6278) [#6615](https://github.com/Esri/calcite-components/issues/6615) [#6785](https://github.com/Esri/calcite-components/issues/6785)
 
-* **tooltip, popover:** Support transparent backgrounds [#6803](https://github.com/Esri/calcite-components/issues/6803) ([#6847](https://github.com/Esri/calcite-components/issues/6847)) ([7eec6fb](https://github.com/Esri/calcite-components/commit/7eec6fbd34f288fc5323b95d209e85f17240b9ce)), closes [#6798](https://github.com/Esri/calcite-components/issues/6798) [floating-ui/floating-ui#2195](https://github.com/floating-ui/floating-ui/issues/2195)
+* **block:** Corrects alignment of slotted icon ([#6883](https://github.com/Esri/calcite-components/issues/6883)) ([8fec45e](https://github.com/Esri/calcite-components/commit/8fec45e91b18b8a6252bb9eeed7b2a85289123b4)), closes [#6627](https://github.com/Esri/calcite-components/issues/6627)
 
-- **chip:** Uses correct aria role in a selection-mode:none Chip Group ([#6862](https://github.com/Esri/calcite-components/issues/6862)) ([ab89ceb](https://github.com/Esri/calcite-components/commit/ab89ceb200cc6a5a2cc7015854b2fa78d36fec7d))
+- **tooltip, popover:** Support transparent backgrounds [#6803](https://github.com/Esri/calcite-components/issues/6803) ([#6847](https://github.com/Esri/calcite-components/issues/6847)) ([7eec6fb](https://github.com/Esri/calcite-components/commit/7eec6fbd34f288fc5323b95d209e85f17240b9ce)), closes [#6798](https://github.com/Esri/calcite-components/issues/6798) [floating-ui/floating-ui#2195](https://github.com/floating-ui/floating-ui/issues/2195)
+
+* **chip:** Uses correct aria role in a selection-mode:none Chip Group ([#6862](https://github.com/Esri/calcite-components/issues/6862)) ([ab89ceb](https://github.com/Esri/calcite-components/commit/ab89ceb200cc6a5a2cc7015854b2fa78d36fec7d))
 
 <!--@unreleased-section-end-->
 
