@@ -7,7 +7,7 @@ export const CSS = {
   textContainer: "text-container",
   dropdownMenuItems: "dropdown-menu-items",
   isRtl: "is-rtl",
-  isDropdownVerticalType: "dropdown--vertical",
+  dropdownVertical: "dropdown--vertical",
   open: "open",
   nested: "nested",
   icon: "icon",

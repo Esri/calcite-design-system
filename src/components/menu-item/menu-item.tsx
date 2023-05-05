@@ -23,6 +23,8 @@ import {
 import { CSS } from "./resources";
 import { MenuItemCustomEvent } from "./interfaces";
 
+type Layout = "horizontal" | "vertical";
+
 @Component({
   tag: "calcite-menu-item",
   styleUrl: "menu-item.scss",
@@ -92,7 +94,7 @@ export class CalciteMenuItem implements LoadableComponent {
   /**
    * @internal
    */
-  @Prop({ reflect: true }) layout: "horizontal" | "vertical";
+  @Prop() layout: Layout;
 
   /**
    * @internal
@@ -102,7 +104,7 @@ export class CalciteMenuItem implements LoadableComponent {
   /**
    * @internal
    */
-  @Prop() topLevelMenuLayout: "vertical" | "horizontal";
+  @Prop() topLevelMenuLayout: Layout;
 
   //--------------------------------------------------------------------------
   //
@@ -395,7 +397,7 @@ export class CalciteMenuItem implements LoadableComponent {
           [CSS.open]: this.open,
           [CSS.nested]: !this.isTopLevelItem,
           [CSS.isRtl]: dir === "rtl",
-          [CSS.isDropdownVerticalType]: this.topLevelMenuLayout === "vertical"
+          [CSS.dropdownVertical]: this.topLevelMenuLayout === "vertical"
         }}
         label="Submenu"
         layout="vertical"
