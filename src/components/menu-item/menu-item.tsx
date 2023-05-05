@@ -415,6 +415,7 @@ export class CalciteMenuItem implements LoadableComponent {
         </div>
         {!this.href && this.hasSubMenu ? this.renderDropdownIcon(dir) : null}
         {this.breadcrumb ? this.renderBreadcrumbIcon(dir) : null}
+        {this.iconEnd && this.renderIconElEnd()}
       </Fragment>
     );
   }

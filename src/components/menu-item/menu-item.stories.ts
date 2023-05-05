@@ -4,7 +4,7 @@ import { html } from "../../../support/formatting";
 import { select, text } from "@storybook/addon-knobs";
 
 export default {
-  title: "Components/Nav/Nav Menu Item",
+  title: "Components/Menu Item",
   parameters: {
     notes: readme
   },
