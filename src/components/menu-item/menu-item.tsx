@@ -26,7 +26,8 @@ import { MenuItemCustomEvent } from "./interfaces";
 @Component({
   tag: "calcite-menu-item",
   styleUrl: "menu-item.scss",
-  shadow: true
+  shadow: true,
+  assetsDirs: ["assets"]
 })
 
 /**
