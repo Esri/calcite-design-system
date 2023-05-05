@@ -1,5 +1,5 @@
 {
-  "combobox": {
+  "select": {
     "icon": {
       "default": {
         "light": {
@@ -45,25 +45,13 @@
       }
     },
     "background": {
-      "default": {
-        "light": {
-          "value": "$semantic.ui.color.background.light",
-          "type": "color"
-        },
-        "dark": {
-          "value": "$semantic.ui.color.background.dark",
-          "type": "color"
-        }
+      "light": {
+        "value": "$semantic.ui.color.foreground.1.light",
+        "type": "color"
       },
-      "item-container": {
-        "light": {
-          "value": "$semantic.ui.color.foreground.1.light",
-          "type": "color"
-        },
-        "dark": {
-          "value": "$semantic.ui.color.foreground.1.dark",
-          "type": "color"
-        }
+      "dark": {
+        "value": "$semantic.ui.color.foreground.1.dark",
+        "type": "color"
       }
     },
     "icon-size": {
@@ -157,12 +145,6 @@
         "lg": "[object Object]"
       },
       "type": "other"
-    },
-    "item-container": {
-      "shadow": {
-        "value": "{core.box-shadow.2}",
-        "type": "boxShadow"
-      }
     }
   }
 }
