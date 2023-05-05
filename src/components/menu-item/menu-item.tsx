@@ -94,7 +94,7 @@ export class CalciteMenuItem implements LoadableComponent {
   /**
    * @internal
    */
-  @Prop() layout: Layout;
+  @Prop({ reflect: true }) layout: Layout;
 
   /**
    * @internal
