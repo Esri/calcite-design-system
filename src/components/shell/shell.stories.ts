@@ -904,9 +904,8 @@ position:relative;
 
 export const overlaidDisplayMode_TestOnly = (): string => html`<calcite-shell
   style="
-width:100%;
-height:500px;
-max-height:80%;
+width:800px;
+height:600px;
 position:relative;
 "
 >
