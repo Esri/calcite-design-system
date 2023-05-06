@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0" />
 
-    <title>Boomer v Millennial - California</title>
+    <title>Shell Panel Display Mode Configuration</title>
 
     <script src="../_assets/head.js"></script>
     <script>
@@ -25,14 +25,24 @@
         width: 100%;
         height: 100%;
       }
-    </style>
-    <style>
+
       #viewDiv {
         padding: 0;
         margin: 0;
         height: 100%;
         width: 100%;
         overflow: hidden;
+      }
+
+      calcite-notice {
+        margin-block: 1rem;
+      }
+
+      .gnav {
+        display: flex;
+        flex-direction: row;
+        padding: 1rem;
+        justify-content: space-between;
       }
     </style>
 
@@ -71,13 +81,23 @@
       <main>
         <div class="shell-container">
           <calcite-shell>
-            <calcite-shell-panel
-              display-mode="overlaid"
-              resizable
-              id="primary-panel"
-              slot="panel-start"
-              position="start"
-            >
+            <div class="gnav" slot="header">
+              <calcite-segmented-control id="control-content-behind">
+                <calcite-segmented-control-item value="not-content-behind" checked>
+                  Not content behind
+                </calcite-segmented-control-item>
+                <calcite-segmented-control-item value="content-behind"> Content behind </calcite-segmented-control-item>
+              </calcite-segmented-control>
+              <calcite-segmented-control id="control-resizable">
+                <calcite-segmented-control-item value="not-resizable" checked>
+                  Not resizable
+                </calcite-segmented-control-item>
+                <calcite-segmented-control-item value="resizable"> Resizable </calcite-segmented-control-item>
+              </calcite-segmented-control>
+            </div>
+
+            <div id="viewDiv"></div>
+            <calcite-shell-panel slot="panel-start" position="start">
               <calcite-action-bar slot="action-bar" class="calcite-mode-dark">
                 <calcite-action-group>
                   <calcite-action text="Save" icon="save" indicator> </calcite-action>
@@ -99,16 +119,20 @@
                   <calcite-action text="What's next" icon="mega-phone"></calcite-action>
                 </calcite-action-group>
               </calcite-action-bar>
-              <calcite-panel heading="Layers" height-scale="l" width-scale="m">
-                <div id="layerlist-container"></div>
-                <calcite-fab slot="fab" id="layer-fab" text="Add layers"></calcite-fab>
-                <calcite-tooltip label="tooltip" reference-element="layer-fab" pointer-disabled
-                  >Add layers</calcite-tooltip
-                >
+              <calcite-panel closable heading="Layers" height-scale="l" width-scale="m" id="panel-start">
+                <calcite-block open heading="Preview display-mode">
+                  <calcite-chip-group id="chip-group-panel-start" selection-mode="single-persist">
+                    <calcite-chip selected value="docked">Docked</calcite-chip>
+                    <calcite-chip value="detached">Detached</calcite-chip>
+                    <calcite-chip value="overlaid">Overlaid</calcite-chip>
+                  </calcite-chip-group>
+                </calcite-block>
               </calcite-panel>
             </calcite-shell-panel>
-            <calcite-shell-panel display-mode="overlaid" resizable slot="panel-end" position="end">
+
+            <calcite-shell-panel slot="panel-end" position="end">
               <calcite-action-bar slot="action-bar">
+                <calcite-tooltip slot="expand-tooltip" label="tooltip" pointer-disabled>Add layers</calcite-tooltip>
                 <calcite-action-group>
                   <calcite-action text="Layer properties" icon="sliders-horizontal"> </calcite-action>
                   <calcite-action text="Styles" icon="shapes"> </calcite-action>
@@ -117,7 +141,7 @@
                   <calcite-action text-enabled text="Configure attributes" icon="feature-details" slot="menu-actions">
                   </calcite-action>
                   <calcite-action text-enabled text="Labels" icon="label" slot="menu-actions"> </calcite-action>
-                  <calcite-action text-enabled text="Tablew" icon="table" slot="menu-actions"> </calcite-action>
+                  <calcite-action text-enabled text="Tables" icon="table" slot="menu-actions"> </calcite-action>
                 </calcite-action-group>
                 <calcite-action-group>
                   <calcite-action icon="search" text="Search"></calcite-action>
@@ -134,124 +158,25 @@
                   </calcite-action>
                 </calcite-action-group>
               </calcite-action-bar>
-              <calcite-flow id="flow">
-                <calcite-flow-item
-                  heading="Configure popup"
-                  description="Popular Demographics in the United States (Beta) - County"
-                  width-scale="m"
-                >
-                  <calcite-action slot="header-actions-end" icon="x" text="Close"> </calcite-action>
-
-                  <calcite-block heading="Title" summary="County: {NAME}" collapsible>
-                    <calcite-icon icon="title" scale="m" slot="icon"></calcite-icon>
-                    <div class="combo-control">
-                      <div class="combo-button">
-                        <button class="combo-button__main">County: {NAME}</button>
-                        <calcite-action label="code icon" class="combo-action" scale="s" icon="code"></calcite-action>
-                      </div>
-                    </div>
-                  </calcite-block>
-                  <calcite-sortable-list>
-                    <calcite-block drag-handle heading="Attributes" summary="2/98" collapsible>
-                      <calcite-icon icon="feature-details" scale="m" slot="icon"></calcite-icon>
-                      <calcite-action label="ellipsis" slot="control" icon="ellipsis" scale="m"></calcite-action>
-
-                      <calcite-value-list drag-enabled>
-                        <calcite-value-list-item
-                          label="2018 Total Households (Esri)"
-                          value="Households"
-                          description="{TOTHH_CY}"
-                        ></calcite-value-list-item>
-                        <calcite-value-list-item
-                          label="2018 Average Household Size (Esri)"
-                          value="Household"
-                          description="{AVGHHSZ_CY}"
-                        ></calcite-value-list-item>
-                      </calcite-value-list>
-                      <div class="row">
-                        <calcite-button id="attribute-add" round icon="plus" scale="s" width="full" kind="neutral"
-                          >Select attributes</calcite-button
-                        >
-                      </div>
-                    </calcite-block>
-                    <calcite-block drag-handle heading="Image" collapsible>
-                      <calcite-icon icon="image" scale="m" slot="icon"></calcite-icon>
-                      <calcite-action label="ellipsis" slot="control" icon="ellipsis" scale="m"></calcite-action>
-                      <section class="form-section">
-                        <label>
-                          URL
-                          <input type="text" value="https://ca-times.brightspotcdn.com/dims4/default/" />
-                        </label>
-                      </section>
-                      <calcite-block-section text="Options">
-                        <section class="form-section">
-                          <label>
-                            Title
-                            <input type="text" placeholder="My cool title" />
-                          </label>
-                          <label>
-                            Caption
-                            <input type="text" placeholder="My cool caption" />
-                          </label>
-                          <label>
-                            State
-                            <select placeholder="My cool caption">
-                              <option value="Denial">Denial</option>
-                              <option value="Grace">Grace</option>
-                              <option value="Confusion">Confusion</option>
-                            </select>
-                          </label>
-                        </section>
-                      </calcite-block-section>
-                      <calcite-block-section text="Advanced options">
-                        <section class="form-section">
-                          <label>
-                            Title
-                            <input type="text" placeholder="My cool title" />
-                          </label>
-                          <label>
-                            Caption
-                            <input type="text" placeholder="My cool caption" />
-                          </label>
-                          <label>
-                            State
-                            <select placeholder="My cool caption">
-                              <option value="Denial">Denial</option>
-                              <option value="Grace">Grace</option>
-                              <option value="Confusion">Confusion</option>
-                            </select>
-                          </label>
-                        </section>
-                      </calcite-block-section>
-                    </calcite-block>
-                    <calcite-block drag-handle heading="Text" summary="Cool. he {expression/..." collapsible>
-                      <calcite-icon icon="image" scale="m" slot="icon"></calcite-icon>
-                      <calcite-action label="ellipsis" slot="control" icon="ellipsis" scale="m"></calcite-action>
-                      <button class="multiline-button">
-                        Cool. he {expression/expr1} population is {expression/expr2}%...
-                      </button>
-                    </calcite-block>
-                  </calcite-sortable-list>
-                  <calcite-fab slot="fab" id="label-fab" text="Add label class"></calcite-fab>
-                  <calcite-tooltip label="tootltip" reference-element="label-fab" pointer-disabled>
-                    Add label class
-                  </calcite-tooltip>
-                </calcite-flow-item>
-              </calcite-flow>
+              <calcite-panel
+                id="panel-end"
+                closable
+                heading="Configure popup"
+                description="Popular Demographics in the United States (Beta) - County"
+                width-scale="m"
+              >
+                <calcite-block open heading="Preview display-mode">
+                  <calcite-chip-group id="chip-group-panel-end" selection-mode="single-persist">
+                    <calcite-chip selected value="docked">Docked</calcite-chip>
+                    <calcite-chip value="detached">Detached</calcite-chip>
+                    <calcite-chip value="overlaid">Overlaid</calcite-chip>
+                  </calcite-chip-group>
+                </calcite-block>
+              </calcite-panel>
             </calcite-shell-panel>
-            <div class="gnav" slot="header">
-              <h2>Boomer v Millennial - California</h2>
-            </div>
-            <div id="viewDiv"></div>
-            <calcite-shell-panel
-              collapsed
-              display-mode="overlaid"
-              resizable
-              layout="horizontal"
-              slot="panel-top"
-              position="start"
-            >
-              <calcite-action-bar slot="action-bar">
+
+            <calcite-shell-panel layout="horizontal" slot="panel-top" position="start">
+              <calcite-action-bar slot="action-bar" expand-disabled>
                 <calcite-action-group>
                   <calcite-action text="Save" icon="save" indicator> </calcite-action>
                   <calcite-action text-enabled icon="map" text="New" slot="menu-actions"> </calcite-action>
@@ -272,17 +197,19 @@
                   <calcite-action text="What's next" icon="mega-phone"></calcite-action>
                 </calcite-action-group>
               </calcite-action-bar>
-              <calcite-panel heading="Example"> Example </calcite-panel>
+              <calcite-panel heading="Example" closable id="panel-top">
+                <calcite-block open heading="Preview display-mode">
+                  <calcite-chip-group id="chip-group-panel-top" selection-mode="single-persist">
+                    <calcite-chip selected value="docked">Docked</calcite-chip>
+                    <calcite-chip value="detached">Detached</calcite-chip>
+                    <calcite-chip value="overlaid">Overlaid</calcite-chip>
+                  </calcite-chip-group>
+                </calcite-block></calcite-panel
+              >
             </calcite-shell-panel>
-            <calcite-shell-panel
-              collapsed
-              display-mode="overlaid"
-              resizable
-              layout="horizontal"
-              slot="panel-bottom"
-              position="end"
-            >
-              <calcite-action-bar slot="action-bar">
+
+            <calcite-shell-panel layout="horizontal" slot="panel-bottom" position="end">
+              <calcite-action-bar slot="action-bar" expand-disabled>
                 <calcite-action-group>
                   <calcite-action text="Save" icon="save" indicator> </calcite-action>
                   <calcite-action text-enabled icon="map" text="New" slot="menu-actions"> </calcite-action>
@@ -303,22 +230,68 @@
                   <calcite-action text="What's next" icon="mega-phone"></calcite-action>
                 </calcite-action-group>
               </calcite-action-bar>
-              <calcite-panel heading="Example"> Example </calcite-panel>
+              <calcite-panel heading="Example" closable id="panel-bottom">
+                <calcite-block open heading="Preview display-mode">
+                  <calcite-chip-group id="chip-group-panel-bottom" selection-mode="single-persist">
+                    <calcite-chip selected value="docked">Docked</calcite-chip>
+                    <calcite-chip value="detached">Detached</calcite-chip>
+                    <calcite-chip value="overlaid">Overlaid</calcite-chip>
+                  </calcite-chip-group>
+                </calcite-block>
+              </calcite-panel>
             </calcite-shell-panel>
             <footer slot="footer">Footer</footer>
           </calcite-shell>
         </div>
 
         <script>
-          const tipManagerButton = document.getElementById("tip-manager-button");
-          const tipManager = document.getElementById("tip-manager");
-          tipManagerButton.addEventListener("click", function () {
-            tipManager.hasAttribute("hidden")
-              ? tipManager.removeAttribute("hidden")
-              : tipManager.setAttribute("hidden", "");
+          const shell = document.querySelector("calcite-shell");
+          const shellPanels = document.querySelectorAll("calcite-shell-panel");
+
+          const segmentedControlContentBehind = document.getElementById("control-content-behind");
+          const segmentedControlResize = document.getElementById("control-resizable");
+
+          segmentedControlContentBehind.addEventListener("calciteSegmentedControlChange", function () {
+            shell.contentBehind = !shell.contentBehind;
           });
 
-          const flowNode = document.getElementById("flow");
+          segmentedControlResize.addEventListener("calciteSegmentedControlChange", function () {
+            shellPanels.forEach((el) => (el.resizable = !el.resizable));
+          });
+
+          const chipsTop = document.getElementById("chip-group-panel-top");
+          const chipsBottom = document.getElementById("chip-group-panel-bottom");
+          const chipsStart = document.getElementById("chip-group-panel-start");
+          const chipsEnd = document.getElementById("chip-group-panel-end");
+
+          [chipsTop, chipsBottom, chipsStart, chipsEnd].forEach((chipGroup) => {
+            chipGroup.addEventListener("calciteChipGroupSelect", function (event) {
+              const shellPanel = event.target.closest("calcite-shell-panel");
+              const prop = event.target.selectedItems[0].value;
+              shellPanel.displayMode = prop;
+            });
+          });
+
+          const panelTop = document.getElementById("panel-top");
+          const panelBottom = document.getElementById("panel-bottom");
+          const panelStart = document.getElementById("panel-start");
+          const panelEnd = document.getElementById("panel-end");
+          const actions = document.querySelectorAll("calcite-action");
+
+          [panelTop, panelBottom, panelStart, panelEnd].forEach((panel) => {
+            panel.addEventListener("calcitePanelClose", function (event) {
+              event.target.closest("calcite-shell-panel").collapsed = true;
+            });
+          });
+
+          actions.forEach((el) => {
+            el.addEventListener("click", function (event) {
+              const shellPanel = event.target.closest("calcite-shell-panel");
+              const panel = shellPanel.querySelector("calcite-panel");
+              shellPanel.collapsed = !shellPanel.collapsed;
+              panel.closed = !panel.closed;
+            });
+          });
         </script>
       </main>
     </demo-dom-swapper>
