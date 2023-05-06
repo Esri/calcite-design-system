@@ -231,14 +231,15 @@
   h-auto
   overflow-hidden
   rounded;
-}
-
-.content--detached {
   max-block-size: var(--calcite-shell-panel-detached-max-height-internal);
   ::slotted(calcite-panel),
   ::slotted(calcite-flow) {
     max-block-size: unset;
   }
+}
+
+:host([layout="horizontal"]) .content--detached {
+  @apply my-2;
 }
 
 :host([position="start"]) .content--detached,
