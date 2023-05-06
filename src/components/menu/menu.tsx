@@ -45,7 +45,7 @@ export class CalciteMenu implements LoadableComponent, LocalizedComponent, T9nCo
   @Prop({ reflect: true }) layout: Layout = "horizontal";
 
   /**
-   * Specifies accessible label for the component.
+   * Accessible name for the component.
    */
   @Prop() label!: string;
 
@@ -192,7 +192,7 @@ export class CalciteMenu implements LoadableComponent, LocalizedComponent, T9nCo
     this.setMenuItemLayout(this.menuItems, this.layout);
   };
 
-  focusParentElement = (el: Element): void => {
+  focusParentElement = (el: HTMLCalciteMenuItemElement): void => {
     const parentEl = el.parentElement as HTMLCalciteMenuItemElement;
     if (parentEl) {
       focusElement(parentEl);

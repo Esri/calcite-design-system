@@ -71,7 +71,7 @@ export class CalciteMenuItem implements LoadableComponent {
   /** Accessible name for the component.*/
   @Prop() label!: string;
 
-  /** When true, the component will display any slotted calcite-menu-item in an open overflow menu.*/
+  /** When `true`, the component will display any slotted `calcite-menu-item` in an open overflow menu.*/
   @Prop({ mutable: true, reflect: true }) open = false;
 
   /**
@@ -157,14 +157,14 @@ export class CalciteMenuItem implements LoadableComponent {
       this.topLevelMenuLayout !== "vertical" &&
       this.hasSubMenu &&
       this.open &&
-      !this.el.contains(event.target as Element)
+      !event.composedPath().includes(this.el)
     ) {
       this.open = false;
     }
   }
 
   @Listen("focusout")
-  handleFocusout(event: FocusEvent): void {
+  handleFocusOut(event: FocusEvent): void {
     if (
       this.topLevelMenuLayout !== "vertical" &&
       !this.el.contains(event.relatedTarget as Element)
@@ -362,7 +362,6 @@ export class CalciteMenuItem implements LoadableComponent {
               : "chevron-down"
             : dirChevron
         }
-        id="render-dropdown-icon"
         scale="s"
       />
     );
@@ -382,7 +381,7 @@ export class CalciteMenuItem implements LoadableComponent {
         }
         onClick={this.clickHandler}
         onKeyDown={this.keyDownHandler}
-        text="open-dropdown"
+        text="open"
         // eslint-disable-next-line react/jsx-sort-props
         ref={(el) => (this.dropDownActionEl = el)}
       />
