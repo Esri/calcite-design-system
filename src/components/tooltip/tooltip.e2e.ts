@@ -2,7 +2,7 @@ import { E2EPage, newE2EPage } from "@stencil/core/testing";
 import { TOOLTIP_DELAY_MS } from "../tooltip/resources";
 import { accessible, defaults, hidden, floatingUIOwner, renders } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
-import { GlobalTestProps, skipAnimations } from "../../tests/utils";
+import { GlobalTestProps } from "../../tests/utils";
 
 interface PointerMoveOptions {
   delay: number;
@@ -733,7 +733,6 @@ describe("calcite-tooltip", () => {
         <button id="ref">Button</button>
       `
     );
-    await skipAnimations(page);
 
     const tooltip = await page.find("calcite-tooltip");
     expect(await tooltip.getProperty("open")).toBe(false);
@@ -795,7 +794,6 @@ describe("calcite-tooltip", () => {
         </p>
       `
     );
-    await skipAnimations(page);
 
     const tooltip = await page.find("calcite-tooltip");
     expect(await tooltip.getProperty("open")).toBe(false);
@@ -841,7 +839,6 @@ describe("calcite-tooltip", () => {
       });
 
       expect(await tooltip.getProperty(pointerMoves[i].property)).toBe(pointerMoves[i].value);
-      console.log("index", i);
     }
   });
 });
