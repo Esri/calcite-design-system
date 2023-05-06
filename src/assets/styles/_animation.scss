@@ -29,6 +29,28 @@
   }
 }
 
+@keyframes in-right {
+  0% {
+    opacity: 0;
+    transform: translate3D(-5px, 0, 0);
+  }
+  100% {
+    opacity: 1;
+    transform: translate3D(0, 0, 0);
+  }
+}
+
+@keyframes in-left {
+  0% {
+    opacity: 0;
+    transform: translate3D(5px, 0, 0);
+  }
+  100% {
+    opacity: 1;
+    transform: translate3D(0, 0, 0);
+  }
+}
+
 @keyframes in-scale {
   0% {
     opacity: 0;
@@ -66,6 +88,14 @@
 
 .calcite-animate__in-up {
   animation-name: in-up;
+}
+
+.calcite-animate__in-right {
+  animation-name: in-right;
+}
+
+.calcite-animate__in-left {
+  animation-name: in-left;
 }
 
 .calcite-animate__in-scale {
