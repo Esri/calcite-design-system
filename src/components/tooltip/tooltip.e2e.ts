@@ -700,7 +700,6 @@ describe("calcite-tooltip", () => {
     await page.setContent(
       `<calcite-tooltip placement="auto" reference-element="ref" open>content</calcite-tooltip><div id="ref">referenceElement</div>`
     );
-    await skipAnimations(page);
 
     const tooltip = await page.find("calcite-tooltip");
 
