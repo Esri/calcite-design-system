@@ -35,19 +35,20 @@
             const triggerAnimation = (animationName) => {
               const noticeEl = document.querySelector(`#${animationName}`);
               const noticePreEl = document.querySelector(`#${animationName} pre`);
-              if (!noticeEl.hasAttribute("active")) {
-                noticeEl.setAttribute("active", "");
+              if (!noticeEl.hasAttribute("open")) {
+                noticeEl.setAttribute("open", "");
               }
               noticeEl.classList.add(`calcite-animate__${animationName}`);
               noticePreEl.innerHTML = noticeEl.classList;
             };
+            const resetAnimations = () => {
+              document.querySelectorAll("calcite-notice").forEach((node) => {
+                node.open = false;
+                node.classList.remove(`calcite-animate__${node.id}`);
+              });
+            };
           </script>
-          <calcite-button
-            kind="danger"
-            onclick="document.querySelectorAll('calcite-notice').forEach(node => node.active = false)"
-          >
-            Reset
-          </calcite-button>
+          <calcite-button kind="danger" onclick="resetAnimations()"> Reset </calcite-button>
           <br />
           <br />
           <article>
@@ -77,6 +78,30 @@
           <article>
             <calcite-button onclick="triggerAnimation('in-down')">in-down</calcite-button>
             <calcite-notice width="half" id="in-down" class="calcite-animate">
+              <div slot="title">Hello world</div>
+              <div slot="message">
+                Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the
+                blind texts.
+                <pre></pre>
+              </div>
+            </calcite-notice>
+          </article>
+          <br />
+          <article>
+            <calcite-button onclick="triggerAnimation('in-left')">in-left</calcite-button>
+            <calcite-notice width="half" id="in-left" class="calcite-animate">
+              <div slot="title">Hello world</div>
+              <div slot="message">
+                Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the
+                blind texts.
+                <pre></pre>
+              </div>
+            </calcite-notice>
+          </article>
+          <br />
+          <article>
+            <calcite-button onclick="triggerAnimation('in-right')">in-right</calcite-button>
+            <calcite-notice width="half" id="in-right" class="calcite-animate">
               <div slot="title">Hello world</div>
               <div slot="message">
                 Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the
