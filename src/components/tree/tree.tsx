@@ -165,7 +165,6 @@ export class Tree {
         (target.hasChildren &&
           (this.selectionMode === "children" || this.selectionMode === "multichildren")));
 
-    // deselecting a parent in multichildren should deselect all the children
     const shouldDeselectAllChildren = this.selectionMode === "multichildren" && target.hasChildren;
 
     const shouldModifyToCurrentSelection =
