@@ -242,27 +242,28 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
         : null
       : null;
 
-    const separatorNode = allowResizing ? (
-      <div
-        aria-label={this.messages.resize}
-        aria-orientation={layout === "horizontal" ? "vertical" : "horizontal"}
-        aria-valuemax={layout == "horizontal" ? contentHeightMax : contentWidthMax}
-        aria-valuemin={layout == "horizontal" ? contentHeightMin : contentWidthMin}
-        aria-valuenow={
-          layout == "horizontal"
-            ? contentHeight ?? initialContentHeight
-            : contentWidth ?? initialContentWidth
-        }
-        class={CSS.separator}
-        key="separator"
-        onKeyDown={this.separatorKeyDown}
-        role="separator"
-        tabIndex={0}
-        touch-action="none"
-        // eslint-disable-next-line react/jsx-sort-props
-        ref={this.connectSeparator}
-      />
-    ) : null;
+    const separatorNode =
+      !collapsed && allowResizing ? (
+        <div
+          aria-label={this.messages.resize}
+          aria-orientation={layout === "horizontal" ? "vertical" : "horizontal"}
+          aria-valuemax={layout == "horizontal" ? contentHeightMax : contentWidthMax}
+          aria-valuemin={layout == "horizontal" ? contentHeightMin : contentWidthMin}
+          aria-valuenow={
+            layout == "horizontal"
+              ? contentHeight ?? initialContentHeight
+              : contentWidth ?? initialContentWidth
+          }
+          class={CSS.separator}
+          key="separator"
+          onKeyDown={this.separatorKeyDown}
+          role="separator"
+          tabIndex={0}
+          touch-action="none"
+          // eslint-disable-next-line react/jsx-sort-props
+          ref={this.connectSeparator}
+        />
+      ) : null;
 
     const contentNode = (
       <div
@@ -581,7 +582,7 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
   connectSeparator = (separatorEl: HTMLDivElement): void => {
     this.disconnectSeparator();
     this.separatorEl = separatorEl;
-    separatorEl.addEventListener("pointerdown", this.separatorPointerDown);
+    separatorEl?.addEventListener("pointerdown", this.separatorPointerDown);
   };
 
   disconnectSeparator = (): void => {
