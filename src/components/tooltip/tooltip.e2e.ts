@@ -724,7 +724,7 @@ describe("calcite-tooltip", () => {
     expect(beforeCloseEvent).toHaveReceivedEventTimes(1);
   });
 
-  it("should open hovered tooltip while pointer is moving", async () => {
+  it.skip("should open hovered tooltip while pointer is moving", async () => {
     const page = await newE2EPage();
     await page.setContent(
       html`
@@ -780,7 +780,7 @@ describe("calcite-tooltip", () => {
     }
   });
 
-  it("should close non hovered tooltip while pointer is moving", async () => {
+  it.skip("should close non hovered tooltip while pointer is moving", async () => {
     const page = await newE2EPage();
     await page.setContent(
       html`

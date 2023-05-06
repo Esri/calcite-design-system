@@ -199,6 +199,57 @@
         </div>
       </div>
 
+      <!-- children select -->
+      <div class="parent">
+        <div class="child right-aligned-text">children select</div>
+
+        <div class="child">
+          <calcite-tree lines selection-mode="children" scale="s">
+            <calcite-tree-item> Child 1 </calcite-tree-item>
+
+            <calcite-tree-item>
+              Child 2
+
+              <calcite-tree slot="children">
+                <calcite-tree-item> Grandchild 1 </calcite-tree-item>
+
+                <calcite-tree-item>
+                  Grandchild 2
+                  <calcite-tree slot="children">
+                    <calcite-tree-item> Great-Grandchild 1 </calcite-tree-item>
+                    <calcite-tree-item> Great-Grandchild 2 </calcite-tree-item>
+                  </calcite-tree>
+                </calcite-tree-item>
+              </calcite-tree>
+            </calcite-tree-item>
+          </calcite-tree>
+        </div>
+
+        <div class="child">
+          <calcite-tree lines selection-mode="children" scale="m">
+            <calcite-tree-item>
+              Child 1 <calcite-action slot="actions-end" text="Save" icon="360-view" scale="s"></calcite-action
+            ></calcite-tree-item>
+
+            <calcite-tree-item>
+              Child 2
+
+              <calcite-tree slot="children">
+                <calcite-tree-item> Grandchild 1 </calcite-tree-item>
+
+                <calcite-tree-item>
+                  Grandchild 2
+                  <calcite-tree slot="children">
+                    <calcite-tree-item> Great-Grandchild 1 </calcite-tree-item>
+                    <calcite-tree-item> Great-Grandchild 2 </calcite-tree-item>
+                  </calcite-tree>
+                </calcite-tree-item>
+              </calcite-tree>
+            </calcite-tree-item>
+          </calcite-tree>
+        </div>
+      </div>
+
       <!-- active and expanded state -->
       <div class="parent">
         <div class="child right-aligned-text">active and expanded state</div>
@@ -475,24 +526,12 @@
         <div class="child">
           <p id="tree-events-demo-result-medium">0 Selected</p>
           <calcite-tree id="tree-events-demo-tree-medium" lines selection-mode="multichildren" scale="m">
-            <calcite-tree-item> Child 1 </calcite-tree-item>
-
-            <calcite-tree-item>
+            <calcite-tree-item id="1"> Child 1 </calcite-tree-item>
+            <calcite-tree-item id="2">
               Child 2
-
               <calcite-tree slot="children">
-                <calcite-tree-item> Grandchild 1 </calcite-tree-item>
-
-                <calcite-tree-item> Grandchild 2 </calcite-tree-item>
-
-                <calcite-tree-item>
-                  Grandchild 3
-                  <calcite-tree slot="children">
-                    <calcite-tree-item> Great-Grandchild 1 </calcite-tree-item>
-                    <calcite-tree-item> Great-Grandchild 2 </calcite-tree-item>
-                    <calcite-tree-item> Great-Grandchild 3 </calcite-tree-item>
-                  </calcite-tree>
-                </calcite-tree-item>
+                <calcite-tree-item id="3" disabled> Grandchild 1 </calcite-tree-item>
+                <calcite-tree-item id="4"> Grandchild 2 </calcite-tree-item>
               </calcite-tree>
             </calcite-tree-item>
           </calcite-tree>
