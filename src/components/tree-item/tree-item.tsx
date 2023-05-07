@@ -326,7 +326,11 @@ export class TreeItem
               {this.iconStart ? iconStartEl : null}
               {checkbox ? checkbox : defaultSlotNode}
             </div>
-            <div class={CSS.actionsEnd} hidden={!hasEndActions}>
+            <div
+              class={CSS.actionsEnd}
+              hidden={!hasEndActions}
+              ref={(el) => (this.actionSlotWrapper = el as HTMLElement)}
+            >
               {slotNode}
             </div>
           </div>
@@ -361,7 +365,7 @@ export class TreeItem
 
   @Listen("click")
   onClick(event: Event): void {
-    if (this.disabled) {
+    if (this.disabled || this.isActionEndEvent(event)) {
       return;
     }
 
@@ -388,6 +392,10 @@ export class TreeItem
   @Listen("keydown")
   keyDownHandler(event: KeyboardEvent): void {
     let root;
+
+    if (this.isActionEndEvent(event)) {
+      return;
+    }
 
     switch (event.key) {
       case " ":
@@ -482,6 +490,8 @@ export class TreeItem
 
   defaultSlotWrapper!: HTMLElement;
 
+  actionSlotWrapper!: HTMLElement;
+
   private parentTreeItem?: HTMLCalciteTreeItemElement;
 
   @State() hasEndActions = false;
@@ -491,6 +501,11 @@ export class TreeItem
   //  Private Methods
   //
   //--------------------------------------------------------------------------
+
+  private isActionEndEvent(event: Event): boolean {
+    const composedPath = event.composedPath();
+    return composedPath.includes(this.actionSlotWrapper);
+  }
 
   private updateParentIsExpanded = (el: HTMLCalciteTreeItemElement, expanded: boolean): void => {
     const items = getSlotted<HTMLCalciteTreeItemElement>(el, SLOTS.children, {
