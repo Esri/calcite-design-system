@@ -102,7 +102,6 @@ export class TabNav {
     ) {
       localStorage.setItem(`calcite-tab-nav-${this.storageId}`, JSON.stringify(this.selectedTabId));
     }
-
     this.calciteInternalTabChange.emit({
       tab: this.selectedTabId
     });
@@ -250,7 +249,11 @@ export class TabNav {
   @Listen("calciteInternalTabsClose")
   internalCloseTabHandler(event: CustomEvent<TabCloseEventDetail>): void {
     const closedTabTitleEl = event.target as HTMLCalciteTabTitleElement;
-    this.handleTabTitleClose(closedTabTitleEl);
+    const closedTabTitleId = event.detail.tab
+      ? event.detail.tab
+      : this.getIndexOfTabTitle(event.target as HTMLCalciteTabTitleElement);
+
+    this.handleTabTitleClose(closedTabTitleId, closedTabTitleEl);
 
     event.stopPropagation();
     event.preventDefault();
@@ -398,7 +401,10 @@ export class TabNav {
     return directEndabled.filter((tabTitle) => !tabTitle.closed);
   }
 
-  handleTabTitleClose = (closedTabTitleEl: HTMLCalciteTabTitleElement): void => {
+  handleTabTitleClose = (
+    closedTabTitleId: string | number,
+    closedTabTitleEl: HTMLCalciteTabTitleElement
+  ): void => {
     const { tabTitles } = this;
 
     // disable last remaining item
@@ -407,9 +413,10 @@ export class TabNav {
     }
 
     if (closedTabTitleEl && closedTabTitleEl.selected && closedTabTitleEl.closed) {
-      while (this.selectedTabId !== tabTitles.length) {
+      if (closedTabTitleId !== tabTitles.length) {
         // if closed item is selected, fall back on next
-        this.selectedTabId = (this.selectedTabId as number) + 1;
+
+        this.selectedTabId = closedTabTitleId;
       }
       // last item fall back on previous
       this.selectedTabId = tabTitles.length - 1;
