@@ -16,7 +16,9 @@ describe("calcite-inline-editable", () => {
     );
   });
 
-  it("honors hidden attribute", async () => hidden("calcite-inline-editable"));
+  describe("honors hidden attribute", () => {
+    hidden("calcite-inline-editable");
+  });
 
   it("can be disabled", () =>
     disabled(

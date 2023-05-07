@@ -21,7 +21,9 @@ describe("calcite-tabs", () => {
     renders(tabsSnippet, { display: "flex" });
   });
 
-  it("honors hidden attribute", async () => hidden("calcite-tabs"));
+  describe("honors hidden attribute", () => {
+    hidden("calcite-tabs");
+  });
 
   it("has defaults", async () =>
     defaults("calcite-tabs", [

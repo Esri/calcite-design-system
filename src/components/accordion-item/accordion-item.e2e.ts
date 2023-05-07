@@ -6,7 +6,9 @@ describe("calcite-accordion-item", () => {
     renders("calcite-accordion-item", { display: "flex" });
   });
 
-  it("honors hidden attribute", async () => hidden("calcite-accordion-item"));
+  describe("honors hidden attribute", () => {
+    hidden("calcite-accordion-item");
+  });
 
   describe("accessible", () => {
     accessible(`<calcite-accordion-item heading="My Heading"></calcite-accordion-item>`);

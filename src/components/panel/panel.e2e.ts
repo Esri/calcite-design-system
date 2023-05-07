@@ -17,7 +17,9 @@ describe("calcite-panel", () => {
     renders("calcite-panel", { display: "flex" });
   });
 
-  it("honors hidden attribute", async () => hidden("calcite-panel"));
+  describe("honors hidden attribute", () => {
+    hidden("calcite-panel");
+  });
 
   it("has property defaults", async () =>
     defaults("calcite-panel", [

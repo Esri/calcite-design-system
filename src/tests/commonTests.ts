@@ -189,7 +189,7 @@ export async function defaults(
  * @param {string} componentTagOrHTML - the component tag or HTML markup to test against
  */
 export async function hidden(componentTagOrHTML: TagOrHTML): Promise<void> {
-  it("hidden", async () => {
+  it("is hidden", async () => {
     const page = await simplePageSetup(componentTagOrHTML);
     const element = await page.find(getTag(componentTagOrHTML));
 

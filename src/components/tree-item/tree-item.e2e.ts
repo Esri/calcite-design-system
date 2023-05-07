@@ -8,7 +8,9 @@ describe("calcite-tree-item", () => {
     renders("calcite-tree-item", { visible: false, display: "block" });
   });
 
-  it("honors hidden attribute", async () => hidden(`<calcite-tree-item expanded></calcite-tree-item>`));
+  describe("honors hidden attribute", () => {
+    hidden(`<calcite-tree-item expanded></calcite-tree-item>`);
+  });
 
   describe("accessible", () => {
     accessible(`<calcite-tree-item></calcite-tree-item>`);
