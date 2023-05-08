@@ -1,111 +1,111 @@
 {
   "color": {
     "blk-000": {
-      "value": "#ffffff",
+      "value": "$core.color.neutral.blk-000",
       "type": "color"
     },
     "blk-005": {
-      "value": "#f8f8f8",
+      "value": "$core.color.neutral.blk-005",
       "type": "color"
     },
     "blk-010": {
-      "value": "#f3f3f3",
+      "value": "{core.color.neutral.blk-010}",
       "type": "color"
     },
     "blk-020": {
-      "value": "#eaeaea",
+      "value": "$core.color.neutral.blk-020",
       "type": "color"
     },
     "blk-030": {
-      "value": "#dfdfdf",
+      "value": "$core.color.neutral.blk-030",
       "type": "color"
     },
     "blk-040": {
-      "value": "#d4d4d4",
+      "value": "$core.color.neutral.blk-040",
       "type": "color"
     },
     "blk-050": {
-      "value": "#cacaca",
+      "value": "$core.color.neutral.blk-050",
       "type": "color"
     },
     "blk-060": {
-      "value": "#bfbfbf",
+      "value": "$core.color.neutral.blk-060",
       "type": "color"
     },
     "blk-070": {
-      "value": "#b5b5b5",
+      "value": "$core.color.neutral.blk-070",
       "type": "color"
     },
     "blk-080": {
-      "value": "#aaaaaa",
+      "value": "$core.color.neutral.blk-080",
       "type": "color"
     },
     "blk-090": {
-      "value": "#9f9f9f",
+      "value": "$core.color.neutral.blk-090",
       "type": "color"
     },
     "blk-100": {
-      "value": "#949494",
+      "value": "$core.color.neutral.blk-100",
       "type": "color"
     },
     "blk-110": {
-      "value": "#8a8a8a",
+      "value": "$core.color.neutral.blk-110",
       "type": "color"
     },
     "blk-120": {
-      "value": "#808080",
+      "value": "$core.color.neutral.blk-120",
       "type": "color"
     },
     "blk-130": {
-      "value": "#757575",
+      "value": "$core.color.neutral.blk-130",
       "type": "color"
     },
     "blk-140": {
-      "value": "#6a6a6a",
+      "value": "$core.color.neutral.blk-140",
       "type": "color"
     },
     "blk-150": {
-      "value": "#606060",
+      "value": "$core.color.neutral.blk-150",
       "type": "color"
     },
     "blk-160": {
-      "value": "#555555",
+      "value": "$core.color.neutral.blk-160",
       "type": "color"
     },
     "blk-170": {
-      "value": "#4a4a4a",
+      "value": "$core.color.neutral.blk-170",
       "type": "color"
     },
     "blk-180": {
-      "value": "#404040",
+      "value": "$core.color.neutral.blk-180",
       "type": "color"
     },
     "blk-190": {
-      "value": "#353535",
+      "value": "$core.color.neutral.blk-190",
       "type": "color"
     },
     "blk-200": {
-      "value": "#2b2b2b",
+      "value": "$core.color.neutral.blk-200",
       "type": "color"
     },
     "blk-210": {
-      "value": "#202020",
+      "value": "$core.color.neutral.blk-210",
       "type": "color"
     },
     "blk-220": {
-      "value": "#151515",
+      "value": "$core.color.neutral.blk-220",
       "type": "color"
     },
     "blk-230": {
-      "value": "#0b0b0b",
+      "value": "$core.color.neutral.blk-230",
       "type": "color"
     },
     "blk-235": {
-      "value": "#060606",
+      "value": "$core.color.neutral.blk-235",
       "type": "color"
     },
     "blk-240": {
-      "value": "#000000",
+      "value": "$core.color.neutral.blk-240",
       "type": "color"
     }
   }
