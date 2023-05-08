@@ -9,7 +9,9 @@ describe("calcite-action-bar", () => {
     renders("calcite-action-bar", { display: "inline-flex" });
   });
 
-  it("honors hidden attribute", async () => hidden("calcite-action-bar"));
+  describe("honors hidden attribute", () => {
+    hidden("calcite-action-bar");
+  });
 
   it("defaults", async () =>
     defaults("calcite-action-bar", [

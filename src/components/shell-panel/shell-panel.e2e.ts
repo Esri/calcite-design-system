@@ -10,7 +10,9 @@ describe("calcite-shell-panel", () => {
     renders("calcite-shell-panel", { display: "flex" });
   });
 
-  it("honors hidden attribute", async () => hidden("calcite-shell-panel"));
+  describe("honors hidden attribute", () => {
+    hidden("calcite-shell-panel");
+  });
 
   it("defaults", async () =>
     defaults("calcite-shell-panel", [
