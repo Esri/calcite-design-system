@@ -16,7 +16,9 @@ import { selectText } from "../../tests/utils";
 describe("calcite-input-text", () => {
   it("is labelable", async () => labelable("calcite-input-text"));
 
-  it("renders", () => renders("calcite-input-text", { display: "block" }));
+  describe("renders", () => {
+    renders("calcite-input-text", { display: "block" });
+  });
 
   it("honors hidden attribute", async () => hidden("calcite-input-text"));
 
@@ -419,7 +421,9 @@ describe("calcite-input-text", () => {
     expect(await input.getProperty("disabled")).toBe(true);
   });
 
-  it("is form-associated", () => formAssociated("calcite-input-text", { testValue: "test", submitsOnEnter: true }));
+  describe("is form-associated", () => {
+    formAssociated("calcite-input-text", { testValue: "test", submitsOnEnter: true });
+  });
 
   it("supports translation", () => t9n("calcite-input-text"));
 });

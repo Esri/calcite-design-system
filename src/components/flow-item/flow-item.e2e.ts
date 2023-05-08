@@ -4,7 +4,9 @@ import { CSS, SLOTS } from "./resources";
 import { html } from "../../../support/formatting";
 
 describe("calcite-flow-item", () => {
-  it("renders", async () => renders("calcite-flow-item", { display: "flex" }));
+  describe("renders", () => {
+    renders("calcite-flow-item", { display: "flex" });
+  });
 
   it("honors hidden attribute", async () => hidden("calcite-flow-item"));
 
@@ -40,7 +42,7 @@ describe("calcite-flow-item", () => {
 
   it("can be disabled", () => disabled(`<calcite-flow-item closable>scrolling content</calcite-flow-item>`));
 
-  it("should be accessible", async () =>
+  describe("accessible", () => {
     accessible(`
     <calcite-flow-item>
       <div slot="${SLOTS.headerActionsStart}">test start</div>
@@ -50,7 +52,8 @@ describe("calcite-flow-item", () => {
       <calcite-button slot="${SLOTS.footerActions}">test button 1</calcite-button>
       <calcite-button slot="${SLOTS.footerActions}">test button 2</calcite-button>
     </calcite-flow-item>
-    `));
+    `);
+  });
 
   it("should focus on back button", async () =>
     focusable(`<calcite-flow-item show-back-button>test</calcite-flow-item>`, {

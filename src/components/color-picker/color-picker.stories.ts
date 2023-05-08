@@ -27,25 +27,25 @@ const createColorAttributes: (options?: { exceptions: string[] }) => Attributes 
   return filterComponentAttributes(
     [
       {
-        name: "hide-channels",
+        name: "channels-disabled",
         commit(): Attribute {
-          this.value = boolean("hide-channels", false);
+          this.value = boolean("channels-disabled", false);
           delete this.build;
           return this;
         }
       },
       {
-        name: "hide-hex",
+        name: "hex-disabled",
         commit(): Attribute {
-          this.value = boolean("hide-hex", false);
+          this.value = boolean("hex-disabled", false);
           delete this.build;
           return this;
         }
       },
       {
-        name: "hide-saved",
+        name: "saved-disabled",
         commit(): Attribute {
-          this.value = boolean("hide-saved", false);
+          this.value = boolean("saved-disabled", false);
           delete this.build;
           return this;
         }
@@ -74,6 +74,13 @@ export const simple = (): string =>
       name: "value",
       value: text("value", "#b33f33")
     }
+  ]);
+
+export const alphaChannel = (): string =>
+  create("calcite-color-picker", [
+    ...createColorAttributes(),
+    { name: "alpha-channel", value: true },
+    { name: "value", value: text("value", "#b33f3333") }
   ]);
 
 export const disabled_TestOnly = (): string => html`<calcite-color-picker disabled></calcite-color-picker>`;

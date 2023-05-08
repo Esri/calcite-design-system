@@ -39,7 +39,9 @@ describe("calcite-action", () => {
       }
     ]));
 
-  it("renders", async () => renders("calcite-action", { display: "flex" }));
+  describe("renders", () => {
+    renders("calcite-action", { display: "flex" });
+  });
 
   it("honors hidden attribute", async () => hidden("calcite-action"));
 
@@ -155,10 +157,10 @@ describe("calcite-action", () => {
     expect(action.getAttribute("appearance")).toBe("solid");
   });
 
-  it("should be accessible", async () => {
-    await accessible(`<calcite-action text="hello world"></calcite-action>`);
-    await accessible(`<calcite-action text="hello world" disabled text-enabled></calcite-action>`);
-    await accessible(`<calcite-action indicator text="hello world"></calcite-action>`);
+  describe("accessible", () => {
+    accessible(`<calcite-action text="hello world"></calcite-action>`);
+    accessible(`<calcite-action text="hello world" disabled text-enabled></calcite-action>`);
+    accessible(`<calcite-action indicator text="hello world"></calcite-action>`);
   });
 
   it("should have a tooltip", async () => {

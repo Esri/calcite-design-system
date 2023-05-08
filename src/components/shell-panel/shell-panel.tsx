@@ -19,7 +19,7 @@ import {
   T9nComponent,
   updateMessages
 } from "../../utils/t9n";
-import { Position, Scale } from "../interfaces";
+import { Layout, Position, Scale } from "../interfaces";
 import { ShellPanelMessages } from "./assets/shell-panel/t9n";
 import { CSS, SLOTS } from "./resources";
 
@@ -60,6 +60,16 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
    */
 
   @Prop({ reflect: true }) widthScale: Scale = "m";
+
+  /**
+   *  The direction of the component.
+   */
+  @Prop({ reflect: true }) layout: Extract<"horizontal" | "vertical", Layout> = "vertical";
+
+  @Watch("layout")
+  layoutHandler(): void {
+    this.setActionBarsLayout(this.actionBars);
+  }
 
   /**
    * Specifies the component's position. Will be flipped when the element direction is right-to-left (`"rtl"`).
@@ -126,9 +136,15 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
 
   @State() contentWidth: number = null;
 
+  @State() contentHeight: number = null;
+
   initialContentWidth: number = null;
 
+  initialContentHeight: number = null;
+
   initialClientX: number = null;
+
+  initialClientY: number = null;
 
   contentEl: HTMLDivElement;
 
@@ -138,9 +154,15 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
 
   contentWidthMin: number = null;
 
+  contentHeightMax: number = null;
+
+  contentHeightMin: number = null;
+
   step = 1;
 
   stepMultiplier = 10;
+
+  actionBars: HTMLCalciteActionBarElement[] = [];
 
   @State() defaultMessages: ShellPanelMessages;
 
@@ -174,20 +196,35 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
       detached,
       position,
       initialContentWidth,
+      initialContentHeight,
       contentWidth,
       contentWidthMax,
       contentWidthMin,
-      resizable
+      contentHeight,
+      contentHeightMax,
+      contentHeightMin,
+      resizable,
+      layout
     } = this;
 
     const allowResizing = !detached && resizable;
+
+    const style = allowResizing
+      ? layout === "horizontal"
+        ? contentHeight
+          ? { height: `${contentHeight}px` }
+          : null
+        : contentWidth
+        ? { width: `${contentWidth}px` }
+        : null
+      : null;
 
     const contentNode = (
       <div
         class={{ [CSS.content]: true, [CSS.contentDetached]: detached }}
         hidden={collapsed}
         key="content"
-        style={allowResizing && contentWidth ? { width: `${contentWidth}px` } : null}
+        style={style}
         // eslint-disable-next-line react/jsx-sort-props
         ref={this.storeContentEl}
       >
@@ -201,10 +238,14 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
     const separatorNode = allowResizing ? (
       <div
         aria-label={this.messages.resize}
-        aria-orientation="horizontal"
-        aria-valuemax={contentWidthMax}
-        aria-valuemin={contentWidthMin}
-        aria-valuenow={contentWidth ?? initialContentWidth}
+        aria-orientation={layout === "horizontal" ? "vertical" : "horizontal"}
+        aria-valuemax={layout == "horizontal" ? contentHeightMax : contentWidthMax}
+        aria-valuemin={layout == "horizontal" ? contentHeightMin : contentWidthMin}
+        aria-valuenow={
+          layout == "horizontal"
+            ? contentHeight ?? initialContentHeight
+            : contentWidth ?? initialContentWidth
+        }
         class={CSS.separator}
         key="separator"
         onKeyDown={this.separatorKeyDown}
@@ -254,6 +295,25 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
       return;
     }
 
+    this.layout === "horizontal"
+      ? this.updateHeights(computedStyle)
+      : this.updateWidths(computedStyle);
+
+    forceUpdate(this);
+  }
+
+  setContentHeight(height: number): void {
+    const { contentHeightMax, contentHeightMin } = this;
+
+    const roundedWidth = Math.round(height);
+
+    this.contentHeight =
+      typeof contentHeightMax === "number" && typeof contentHeightMin === "number"
+        ? clamp(roundedWidth, contentHeightMin, contentHeightMax)
+        : roundedWidth;
+  }
+
+  updateWidths(computedStyle: CSSStyleDeclaration): void {
     const max = parseInt(computedStyle.getPropertyValue("max-width"), 10);
     const min = parseInt(computedStyle.getPropertyValue("min-width"), 10);
     const valueNow = parseInt(computedStyle.getPropertyValue("width"), 10);
@@ -269,23 +329,43 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
     if (typeof min === "number" && !isNaN(min)) {
       this.contentWidthMin = min;
     }
+  }
 
-    forceUpdate(this);
+  updateHeights(computedStyle: CSSStyleDeclaration): void {
+    const max = parseInt(computedStyle.getPropertyValue("max-height"), 10);
+    const min = parseInt(computedStyle.getPropertyValue("min-height"), 10);
+    const valueNow = parseInt(computedStyle.getPropertyValue("height"), 10);
+
+    if (typeof valueNow === "number" && !isNaN(valueNow)) {
+      this.initialContentHeight = valueNow;
+    }
+
+    if (typeof max === "number" && !isNaN(max)) {
+      this.contentHeightMax = max;
+    }
+
+    if (typeof min === "number" && !isNaN(min)) {
+      this.contentHeightMin = min;
+    }
   }
 
   storeContentEl = (contentEl: HTMLDivElement): void => {
     this.contentEl = contentEl;
   };
 
-  getKeyAdjustedWidth = (event: KeyboardEvent): number | null => {
+  getKeyAdjustedSize = (event: KeyboardEvent): number | null => {
     const { key } = event;
     const {
       el,
       step,
       stepMultiplier,
+      layout,
       contentWidthMin,
       contentWidthMax,
       initialContentWidth,
+      initialContentHeight,
+      contentHeightMin,
+      contentHeightMax,
       position
     } = this;
     const multipliedStep = step * stepMultiplier;
@@ -307,70 +387,127 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
 
     const dir = getElementDir(el);
 
-    const directionKeys = ["ArrowLeft", "ArrowRight"];
-    const directionFactor = dir === "rtl" && directionKeys.includes(key) ? -1 : 1;
+    const horizontalKeys = ["ArrowLeft", "ArrowRight"];
+    const verticalKeys = ["ArrowDown", "ArrowUp"];
+    const directionFactor = dir === "rtl" && horizontalKeys.includes(key) ? -1 : 1;
 
     const increaseKeys =
-      key === "ArrowUp" ||
-      (position === "end" ? key === directionKeys[0] : key === directionKeys[1]);
+      layout === "horizontal"
+        ? position === "end"
+          ? key === verticalKeys[1] || key === horizontalKeys[0]
+          : key === verticalKeys[0] || key === horizontalKeys[1]
+        : key === verticalKeys[1] ||
+          (position === "end" ? key === horizontalKeys[0] : key === horizontalKeys[1]);
 
     if (increaseKeys) {
       const stepValue = event.shiftKey ? multipliedStep : step;
 
-      return initialContentWidth + directionFactor * stepValue;
+      return layout === "horizontal"
+        ? initialContentHeight + directionFactor * stepValue
+        : initialContentWidth + directionFactor * stepValue;
     }
 
     const decreaseKeys =
-      key === "ArrowDown" ||
-      (position === "end" ? key === directionKeys[1] : key === directionKeys[0]);
+      layout === "horizontal"
+        ? position === "end"
+          ? key === verticalKeys[0] || key === horizontalKeys[0]
+          : key === verticalKeys[1] || key === horizontalKeys[1]
+        : key === verticalKeys[0] ||
+          (position === "end" ? key === horizontalKeys[1] : key === horizontalKeys[0]);
 
     if (decreaseKeys) {
       const stepValue = event.shiftKey ? multipliedStep : step;
 
-      return initialContentWidth - directionFactor * stepValue;
+      return layout === "horizontal"
+        ? initialContentHeight - directionFactor * stepValue
+        : initialContentWidth - directionFactor * stepValue;
     }
 
-    if (typeof contentWidthMin === "number" && key === "Home") {
+    if (key === "Home" && layout === "horizontal" && typeof contentHeightMin === "number") {
+      return contentHeightMin;
+    }
+
+    if (key === "Home" && layout === "vertical" && typeof contentWidthMin === "number") {
       return contentWidthMin;
     }
 
-    if (typeof contentWidthMax === "number" && key === "End") {
+    if (key === "End" && layout === "horizontal" && typeof contentHeightMax === "number") {
+      return contentHeightMax;
+    }
+
+    if (key === "End" && layout === "vertical" && typeof contentWidthMax === "number") {
       return contentWidthMax;
     }
 
     if (key === "PageDown") {
-      return initialContentWidth - multipliedStep;
+      return layout === "horizontal"
+        ? initialContentHeight - multipliedStep
+        : initialContentWidth - multipliedStep;
     }
 
     if (key === "PageUp") {
-      return initialContentWidth + multipliedStep;
+      return layout === "horizontal"
+        ? initialContentHeight + multipliedStep
+        : initialContentWidth + multipliedStep;
     }
 
     return null;
   };
 
-  separatorKeyDown = (event: KeyboardEvent): void => {
+  initialKeydownWidth = (event: KeyboardEvent): void => {
     this.setInitialContentWidth();
-    const width = this.getKeyAdjustedWidth(event);
+    const width = this.getKeyAdjustedSize(event);
 
     if (typeof width === "number") {
       this.setContentWidth(width);
     }
   };
 
+  initialKeydownHeight = (event: KeyboardEvent): void => {
+    this.setInitialContentHeight();
+    const height = this.getKeyAdjustedSize(event);
+
+    if (typeof height === "number") {
+      this.setContentHeight(height);
+    }
+  };
+
+  separatorKeyDown = (event: KeyboardEvent): void => {
+    this.layout === "horizontal"
+      ? this.initialKeydownHeight(event)
+      : this.initialKeydownWidth(event);
+  };
+
   separatorPointerMove = (event: PointerEvent): void => {
     event.preventDefault();
 
-    const { el, initialContentWidth, position, initialClientX } = this;
-    const offset = event.clientX - initialClientX;
-    const dir = getElementDir(el);
+    const {
+      el,
+      layout,
+      initialContentWidth,
+      initialContentHeight,
+      position,
+      initialClientX,
+      initialClientY
+    } = this;
 
-    const adjustmentDirection = dir === "rtl" ? -1 : 1;
+    const offset =
+      layout === "horizontal" ? event.clientY - initialClientY : event.clientX - initialClientX;
+
+    const adjustmentDirection = layout === "vertical" && getElementDir(el) === "rtl" ? -1 : 1;
+
     const adjustedOffset =
-      position === "end" ? -adjustmentDirection * offset : adjustmentDirection * offset;
-    const width = initialContentWidth + adjustedOffset;
+      layout === "horizontal"
+        ? position === "end"
+          ? -adjustmentDirection * offset
+          : adjustmentDirection * offset
+        : position === "end"
+        ? -adjustmentDirection * offset
+        : adjustmentDirection * offset;
 
-    this.setContentWidth(width);
+    layout === "horizontal"
+      ? this.setContentHeight(initialContentHeight + adjustedOffset)
+      : this.setContentWidth(initialContentWidth + adjustedOffset);
   };
 
   separatorPointerUp = (event: PointerEvent): void => {
@@ -381,6 +518,10 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
     event.preventDefault();
     document.removeEventListener("pointerup", this.separatorPointerUp);
     document.removeEventListener("pointermove", this.separatorPointerMove);
+  };
+
+  setInitialContentHeight = (): void => {
+    this.initialContentHeight = this.contentEl?.getBoundingClientRect().height;
   };
 
   setInitialContentWidth = (): void => {
@@ -397,8 +538,13 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
 
     separatorEl && document.activeElement !== separatorEl && separatorEl.focus();
 
-    this.setInitialContentWidth();
-    this.initialClientX = event.clientX;
+    if (this.layout === "horizontal") {
+      this.setInitialContentHeight();
+      this.initialClientY = event.clientY;
+    } else {
+      this.setInitialContentWidth();
+      this.initialClientX = event.clientX;
+    }
 
     document.addEventListener("pointerup", this.separatorPointerUp);
     document.addEventListener("pointermove", this.separatorPointerMove);
@@ -414,11 +560,16 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
     this.separatorEl?.removeEventListener("pointerdown", this.separatorPointerDown);
   };
 
+  setActionBarsLayout = (actionBars: HTMLCalciteActionBarElement[]): void => {
+    actionBars.forEach((actionBar) => (actionBar.layout = this.layout));
+  };
+
   handleActionBarSlotChange = (event: Event): void => {
-    (
-      slotChangeGetAssignedElements(event).filter((el) =>
-        el?.matches("calcite-action-bar")
-      ) as HTMLCalciteActionBarElement[]
-    ).forEach((actionBar) => (actionBar.layout = "vertical"));
+    const actionBars = slotChangeGetAssignedElements(event).filter((el) =>
+      el?.matches("calcite-action-bar")
+    ) as HTMLCalciteActionBarElement[];
+
+    this.actionBars = actionBars;
+    this.setActionBarsLayout(actionBars);
   };
 }

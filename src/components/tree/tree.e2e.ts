@@ -5,11 +5,15 @@ import { CSS } from "../tree-item/resources";
 import SpyInstance = jest.SpyInstance;
 
 describe("calcite-tree", () => {
-  it("renders", () => renders("calcite-tree", { display: "block" }));
+  describe("renders", () => {
+    renders("calcite-tree", { display: "block" });
+  });
 
   it("honors hidden attribute", async () => hidden("calcite-tree"));
 
-  it("is accessible", async () => accessible(`<calcite-tree></calcite-tree>`));
+  describe("accessible", () => {
+    accessible(`<calcite-tree></calcite-tree>`);
+  });
 
   it("has property defaults", async () =>
     defaults("calcite-tree", [
@@ -88,19 +92,20 @@ describe("calcite-tree", () => {
     });
   });
 
-  it("is accessible: with nested children", async () =>
-    accessible(`
-  <calcite-tree lines>
-    <calcite-tree-item>
-      <a href="#">Child 2</a>
-      <calcite-tree slot="children">
+  describe("accessible: with nested children", () => {
+    accessible(html`
+      <calcite-tree lines>
         <calcite-tree-item>
-          <a href="http://www.google.com">Grandchild 1</a>
+          <a href="#">Child 2</a>
+          <calcite-tree slot="children">
+            <calcite-tree-item>
+              <a href="http://www.google.com">Grandchild 1</a>
+            </calcite-tree-item>
+          </calcite-tree>
         </calcite-tree-item>
       </calcite-tree>
-    </calcite-tree-item>
-</calcite-tree>
-  `));
+    `);
+  });
 
   it("should correctly select tree in ancestors selection mode", async () => {
     const page = await newE2EPage();
@@ -288,6 +293,28 @@ describe("calcite-tree", () => {
       expect(changeSpy).toHaveReceivedEventTimes(0);
     });
 
+    it("does not emit calciteTreeSelect on click of slotted action", async () => {
+      const page = await newE2EPage();
+      await page.setContent(html`
+        <calcite-tree selection-mode="multichildren">
+          <calcite-tree-item>
+            Cables
+            <calcite-action slot="actions-end" text="Save" icon="360-view" scale="s"></calcite-action>
+          </calcite-tree-item>
+        </calcite-tree>
+      `);
+      const action = await page.find("calcite-action");
+      await action.click();
+
+      await action.focus();
+      await page.keyboard.press("Enter");
+
+      const changeSpy = await action.spyOnEvent("calciteTreeSelect");
+      await page.waitForChanges();
+
+      expect(changeSpy).toHaveReceivedEventTimes(0);
+    });
+
     describe("has selected items in the selection event payload", () => {
       it("contains current selection when selection=multiple", async () => {
         const page = await newE2EPage({
@@ -343,15 +370,15 @@ describe("calcite-tree", () => {
 
         await item2.click();
 
-        expect(await tree.getProperty("selectedItems")).toHaveLength(3);
+        expect(await tree.getProperty("selectedItems")).toHaveLength(2);
 
         await item3.click();
 
-        expect(await tree.getProperty("selectedItems")).toHaveLength(3);
+        expect(await tree.getProperty("selectedItems")).toHaveLength(2);
 
         await item4.click();
 
-        expect(await tree.getProperty("selectedItems")).toHaveLength(2);
+        expect(await tree.getProperty("selectedItems")).toHaveLength(3);
       });
     });
 

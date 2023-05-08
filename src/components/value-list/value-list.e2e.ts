@@ -14,16 +14,20 @@ import {
 import { CSS, ICON_TYPES } from "./resources";
 
 describe("calcite-value-list", () => {
-  it("renders", () => renders("calcite-value-list", { display: "flex" }));
+  describe("renders", () => {
+    renders("calcite-value-list", { display: "flex" });
+  });
 
   it("honors hidden attribute", async () => hidden("calcite-value-list"));
 
-  it.skip("is accessible", () =>
+  // eslint-disable-next-line jest/no-disabled-tests
+  describe.skip("accessible", () => {
     accessible(html`
       <calcite-value-list>
         <calcite-value-list-item label="Sample" value="one"></calcite-value-list-item>
       </calcite-value-list>
-    `));
+    `);
+  });
 
   it("supports translations", () => t9n("calcite-value-list"));
 

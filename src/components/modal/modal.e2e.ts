@@ -5,7 +5,9 @@ import { CSS, SLOTS, DURATIONS } from "./resources";
 import { isElementFocused, newProgrammaticE2EPage, skipAnimations } from "../../tests/utils";
 
 describe("calcite-modal properties", () => {
-  it("renders", () => renders("calcite-modal", { display: "flex", visible: false }));
+  describe("renders", () => {
+    renders("calcite-modal", { display: "flex", visible: false });
+  });
 
   it("honors hidden attribute", async () => hidden("calcite-modal"));
 

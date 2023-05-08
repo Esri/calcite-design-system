@@ -879,7 +879,7 @@ export class Slider
 
   @Listen("pointerdown")
   pointerDownHandler(event: PointerEvent): void {
-    if (!isPrimaryPointerButton(event)) {
+    if (this.disabled || !isPrimaryPointerButton(event)) {
       return;
     }
 
@@ -1069,6 +1069,10 @@ export class Slider
   }
 
   private dragUpdate = (event: PointerEvent): void => {
+    if (this.disabled) {
+      return;
+    }
+
     event.preventDefault();
     if (this.dragProp) {
       const value = this.translate(event.clientX || event.pageX);
@@ -1106,7 +1110,7 @@ export class Slider
   }
 
   private pointerUpDragEnd = (event: PointerEvent): void => {
-    if (!isPrimaryPointerButton(event)) {
+    if (this.disabled || !isPrimaryPointerButton(event)) {
       return;
     }
 
@@ -1114,6 +1118,10 @@ export class Slider
   };
 
   private dragEnd = (event: PointerEvent): void => {
+    if (this.disabled) {
+      return;
+    }
+
     this.removeDragListeners();
     this.focusActiveHandle(event.clientX);
     if (this.lastDragPropValue != this[this.dragProp]) {

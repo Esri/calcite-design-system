@@ -54,7 +54,7 @@ describe("repositioning", () => {
   let fakeFloatingUiComponent: FloatingUIComponent;
   let floatingEl: HTMLDivElement;
   let referenceEl: HTMLButtonElement;
-  let positionOptions: Parameters<typeof positionFloatingUI>[0];
+  let positionOptions: Parameters<typeof positionFloatingUI>[1];
 
   beforeEach(() => {
     fakeFloatingUiComponent = {

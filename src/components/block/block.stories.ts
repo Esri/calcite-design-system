@@ -190,6 +190,25 @@ export const contentCanTakeFullHeight_TestOnly = (): string =>
     <div style="background: red; height: 100%;">should take full width of the content area</div>
   </calcite-block>`;
 
+export const alignmentHeading_TestOnly = (): string => html`<calcite-block heading="Heading"></calcite-block>`;
+
+export const alignmentDescription_TestOnly = (): string =>
+  html`<calcite-block description="description"></calcite-block>`;
+
+export const alignmentHeadingAndDescription_TestOnly = (): string =>
+  html`<calcite-block heading="Heading" description="description"></calcite-block>`;
+
+export const alignmentIconHeading_TestOnly = (): string =>
+  html`<calcite-block heading="Heading"><calcite-icon scale="s" slot="icon" icon="layer" /></calcite-block>`;
+
+export const alignmentIconDescription_TestOnly = (): string =>
+  html`<calcite-block description="description"><calcite-icon scale="s" slot="icon" icon="layer" /></calcite-block>`;
+
+export const alignmentIconHeadingAndDescription_TestOnly = (): string =>
+  html`<calcite-block heading="Heading" description="description"
+    ><calcite-icon scale="s" slot="icon" icon="layer"
+  /></calcite-block>`;
+
 export const contentSpacing_TestOnly = (): string =>
   html`
     <calcite-block heading="Block heading" open>

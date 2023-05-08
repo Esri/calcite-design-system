@@ -6,7 +6,9 @@ import { CSS as ITEM_CSS } from "../flow-item/resources";
 import { CSS } from "./resources";
 
 describe("calcite-flow", () => {
-  it("renders", async () => renders("calcite-flow", { display: "flex" }));
+  describe("renders", () => {
+    renders("calcite-flow", { display: "flex" });
+  });
 
   it("honors hidden attribute", async () => hidden("calcite-flow"));
 
@@ -211,14 +213,15 @@ describe("calcite-flow", () => {
       expect(showBackButton2).not.toBe(null);
     });
 
-    it("should be accessible", async () =>
+    describe("accessible", () => {
       accessible(html`
         <calcite-flow>
           <calcite-flow-item> </calcite-flow-item>
           <calcite-flow-item> </calcite-flow-item>
           <calcite-flow-item> </calcite-flow-item>
         </calcite-flow>
-      `));
+      `);
+    });
 
     it("should also work with descendant slotted items", async () => {
       const page = await newE2EPage();

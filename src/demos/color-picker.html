@@ -35,7 +35,7 @@
 
   <body>
     <demo-dom-swapper>
-      <h1 style="margin: 0 auto; text-align: center">Alert</h1>
+      <h1 style="margin: 0 auto; text-align: center">Color picker</h1>
 
       <!-- Headers -->
       <div class="parent">
@@ -74,6 +74,22 @@
 
         <div class="child">
           <calcite-color-picker scale="l" allow-empty value=""></calcite-color-picker>
+        </div>
+      </div>
+
+      <!-- With opacity -->
+      <div class="parent">
+        <div class="child right-aligned-text">With opacity</div>
+        <div class="child">
+          <calcite-color-picker alpha-channel allow-empty scale="s" value="#beefeeff"></calcite-color-picker>
+        </div>
+
+        <div class="child">
+          <calcite-color-picker alpha-channel scale="m" allow-empty value="#beefeeff"></calcite-color-picker>
+        </div>
+
+        <div class="child">
+          <calcite-color-picker alpha-channel scale="l" allow-empty value="#beefeeff"></calcite-color-picker>
         </div>
       </div>
 

@@ -340,6 +340,13 @@ export class Input
   @Prop({ mutable: true }) value = "";
 
   /**
+   * When `type` is `"file"`, specifies the component's selected files.
+   *
+   * @mdn https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement/files
+   */
+  @Prop() files: FileList | undefined;
+
+  /**
    * Made into a prop for testing purposes only
    *
    * @internal
@@ -440,14 +447,14 @@ export class Input
   //
   //--------------------------------------------------------------------------
 
+  @State() defaultMessages: InputMessages;
+
   @State() effectiveLocale = "";
 
   @Watch("effectiveLocale")
   effectiveLocaleChange(): void {
     updateMessages(this, this.effectiveLocale);
   }
-
-  @State() defaultMessages: InputMessages;
 
   @State() localizedValue: string;
 
@@ -673,6 +680,10 @@ export class Input
   };
 
   private clickHandler = (event: MouseEvent): void => {
+    if (this.disabled) {
+      return;
+    }
+
     const slottedActionEl = getSlotted(this.el, "action");
     if (event.target !== slottedActionEl) {
       this.setFocus();
@@ -681,6 +692,12 @@ export class Input
 
   private inputFocusHandler = (): void => {
     this.calciteInternalInputFocus.emit();
+  };
+
+  private inputChangeHandler = (): void => {
+    if (this.type === "file") {
+      this.files = (this.childEl as HTMLInputElement).files;
+    }
   };
 
   private inputInputHandler = (nativeEvent: InputEvent): void => {
@@ -1148,6 +1165,7 @@ export class Input
               multiple={this.multiple}
               name={this.name}
               onBlur={this.inputBlurHandler}
+              onChange={this.inputChangeHandler}
               onFocus={this.inputFocusHandler}
               onInput={this.inputInputHandler}
               onKeyDown={this.inputKeyDownHandler}

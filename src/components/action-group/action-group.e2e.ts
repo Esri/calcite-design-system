@@ -16,13 +16,17 @@ describe("calcite-action-group", () => {
       }
     ]));
 
-  it("renders", async () => renders("calcite-action-group", { display: "flex" }));
+  describe("renders", () => {
+    renders("calcite-action-group", { display: "flex" });
+  });
 
   it("focusable", async () => focusable(actionGroupHTML, { shadowFocusTargetSelector: "calcite-action" }));
 
   it("honors hidden attribute", async () => hidden("calcite-action-group"));
 
-  it("should be accessible", async () => accessible(actionGroupHTML));
+  describe("accessible", () => {
+    accessible(actionGroupHTML);
+  });
 
   it("has slots", () => slots("calcite-action-group", SLOTS));
 

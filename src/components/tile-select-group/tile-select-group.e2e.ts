@@ -2,11 +2,15 @@ import { accessible, defaults, disabled, reflects, renders, hidden } from "../..
 import { html } from "../../../support/formatting";
 
 describe("calcite-tile-select-group", () => {
-  it("renders", async () => renders("calcite-tile-select-group", { display: "flex" }));
+  describe("renders", () => {
+    renders("calcite-tile-select-group", { display: "flex" });
+  });
 
   it("honors hidden attribute", async () => hidden("calcite-tile-select-group"));
 
-  it("is accessible", async () => accessible(`<calcite-tile-select-group></calcite-tile-select-group>`));
+  describe("accessible", () => {
+    accessible(`<calcite-tile-select-group></calcite-tile-select-group>`);
+  });
 
   it("has defaults", async () =>
     defaults("calcite-tile-select-group", [{ propertyName: "layout", defaultValue: "horizontal" }]));

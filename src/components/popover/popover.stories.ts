@@ -202,3 +202,25 @@ export const largeScaleLayout_TestOnly = (): string => html`
     </calcite-popover>
   </div>
 `;
+
+export const transparentBG_TestOnly = (): string => html`
+  <style>
+    calcite-popover {
+      --calcite-ui-foreground-1: rgba(0, 0, 0, 0.5);
+      --calcite-ui-text-1: orange;
+    }
+  </style>
+  <div style="width: 400px;">
+    ${referenceElementHTML}
+    <calcite-popover
+      heading="these 🥨s are making me thirsty"
+      reference-element="reference-element"
+      placement="auto"
+      open
+      closable
+      scale="l"
+    >
+      ${contentHTML}
+    </calcite-popover>
+  </div>
+`;

@@ -93,9 +93,9 @@ calcite-handle {
 }
 
 .icon {
+  display: flex;
   margin-inline-start: theme("spacing.3");
   margin-inline-end: 0px;
-  margin-block: theme("spacing.3");
 }
 
 .status-icon.valid {

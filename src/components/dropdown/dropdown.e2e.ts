@@ -20,7 +20,9 @@ describe("calcite-dropdown", () => {
       focusTargetSelector: '[slot="trigger"]'
     }));
 
-  it("renders", () => renders(simpleDropdownHTML, { display: "inline-flex" }));
+  describe("renders", () => {
+    renders(simpleDropdownHTML, { display: "inline-flex" });
+  });
 
   it("honors hidden attribute", async () => hidden("calcite-dropdown"));
 
@@ -898,8 +900,8 @@ describe("calcite-dropdown", () => {
     expect(await dropdownWrapper.isVisible()).toBe(false);
   });
 
-  it("is accessible", async () => {
-    await accessible(dedent`${dropdownSelectionModeContent}`);
+  describe("accessible", () => {
+    accessible(dedent`${dropdownSelectionModeContent}`);
   });
 
   it("correct role and aria properties are applied based on selection type", async () => {
