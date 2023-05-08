@@ -1700,12 +1700,24 @@
           }
         },
         "transparent-hover": {
-          "value": "$core.color.neutral.blk-240, 0.04",
-          "type": "color"
+          "light": {
+            "value": "$core.color.neutral.blk-240, 0.04",
+            "type": "color"
+          },
+          "dark": {
+            "value": "$core.color.neutral.blk-000, 0.04",
+            "type": "color"
+          }
         },
         "transparent-press": {
-          "value": "$core.color.neutral.blk-240, 0.08",
-          "type": "color"
+          "light": {
+            "value": "$core.color.neutral.blk-240, 0.08",
+            "type": "color"
+          },
+          "dark": {
+            "value": "$core.color.neutral.blk-000, 0.08",
+            "type": "color"
+          }
         }
       }
     },

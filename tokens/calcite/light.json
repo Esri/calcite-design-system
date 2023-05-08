@@ -105,11 +105,11 @@
       "type": "color"
     },
     "button-transparent-hover": {
-      "value": "$semantic.ui.color.transparent-hover",
+      "value": "{semantic.ui.color.transparent-hover.light}",
       "type": "color"
     },
     "button-transparent-press": {
-      "value": "$semantic.ui.color.transparent-press",
+      "value": "{semantic.ui.color.transparent-press.light}",
       "type": "color"
     },
     "component": {
