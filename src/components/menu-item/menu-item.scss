@@ -2,9 +2,9 @@
   @apply flex
   items-center 
   relative 
-  h-full 
   box-border;
   flex-shrink: 0;
+  block-size: 100%;
   & .container,
   & .item-content,
   & a {
@@ -13,7 +13,7 @@
 }
 
 :host([layout="vertical"]) {
-  @apply w-full;
+  inline-size: 100%;
 }
 
 .container,
@@ -27,18 +27,18 @@
 
 a {
   @apply flex
-  h-full
   items-center
   relative
   justify-center
   cursor-pointer 
-  px-4 
   outline-none
   text-0
   text-color-2 box-border bg-foreground-1;
   text-decoration: none;
   border-block-end: theme("spacing[0.5]") solid transparent;
   padding-block-start: theme("spacing[0.5]");
+  padding-inline: 1rem;
+  block-size: 100%;
   &:hover {
     @apply bg-foreground-2 text-color-2;
   }
@@ -52,7 +52,8 @@ a {
     display: inline-flex;
   }
   &.layout--vertical {
-    @apply py-4 w-full;
+    padding-block: 1rem;
+    inline-size: 100%;
     display: flex;
     justify-content: flex-start;
     border-block-end: 0;
@@ -69,15 +70,16 @@ a {
 }
 
 .icon--start {
-  @apply mr-3;
+  margin-inline-end: 0.75rem;
 }
 
 .icon--end {
-  @apply ml-3;
+  margin-inline-start: 0.75rem;
 }
 
 .icon--dropdown {
-  @apply pl-2 mr-0 ml-auto;
+  margin-inline: auto 0px;
+  padding-inline-start: 0.5rem;
   --calcite-ui-icon-color: var(--calcite-ui-text-3);
   position: relative;
 }
@@ -87,12 +89,13 @@ a {
 }
 
 .icon--breadcrumb {
-  @apply pl-2 mr-0;
+  padding-inline-start: 0.5rem;
+  margin-inline-end: 0px;
   --calcite-ui-icon-color: var(--calcite-ui-text-3);
 }
 
 :host([breadcrumb]) a {
-  @apply pr-3;
+  padding-inline-end: 0.75rem;
 }
 
 calcite-action {

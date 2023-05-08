@@ -57,13 +57,13 @@ export class CalciteMenuItem implements LoadableComponent {
   @Prop({ reflect: true }) breadcrumb: boolean;
 
   /** Specifies the URL destination of the component, which can be set as an absolute or relative path.*/
-  @Prop({ reflect: true }) href: string;
+  @Prop() href: string;
 
   /** Specifies an icon to display at the start of the component. */
-  @Prop({ reflect: true }) iconStart: string;
+  @Prop() iconStart: string;
 
   /** Specifies an icon to display at the end of the component. */
-  @Prop({ reflect: true }) iconEnd: string;
+  @Prop() iconEnd: string;
 
   /** Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`). */
   @Prop() iconFlipRtl: FlipContext;
@@ -89,7 +89,7 @@ export class CalciteMenuItem implements LoadableComponent {
   @Prop({ reflect: true }) target: string;
 
   /** Specifies the text to display.*/
-  @Prop({ reflect: true }) text: string;
+  @Prop() text: string;
 
   /**
    * @internal

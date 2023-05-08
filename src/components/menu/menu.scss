@@ -3,7 +3,10 @@
 }
 
 :host ul {
-  @apply inline-flex items-center h-full m-0 p-0;
+  @apply inline-flex items-center h-full;
+  block-size: 100%;
+  margin: 0px;
+  padding: 0px;
 }
 
 :host([layout="vertical"]) ul {
