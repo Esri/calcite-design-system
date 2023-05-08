@@ -17,7 +17,7 @@ import { skipAnimations } from "../../tests/utils";
 import { html } from "../../../support/formatting";
 
 async function getInputValue(page: E2EPage): Promise<string> {
-  return await page.evaluate(() => {
+  return page.evaluate(() => {
     const inputDatePicker = document.querySelector("calcite-input-time-picker");
     const calciteInput = inputDatePicker.shadowRoot.querySelector("calcite-input");
     const input = calciteInput.shadowRoot.querySelector("input");
