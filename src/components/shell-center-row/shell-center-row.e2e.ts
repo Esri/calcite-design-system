@@ -8,7 +8,9 @@ describe("calcite-shell-center-row", () => {
     renders("calcite-shell-center-row", { display: "flex" });
   });
 
-  it("honors hidden attribute", async () => hidden("calcite-shell-center-row"));
+  describe("honors hidden attribute", () => {
+    hidden("calcite-shell-center-row");
+  });
 
   it("defaults", async () =>
     defaults("calcite-shell-center-row", [

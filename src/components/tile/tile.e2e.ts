@@ -7,7 +7,9 @@ describe("calcite-tile", () => {
     renders("calcite-tile", { display: "inline-block" });
   });
 
-  it("honors hidden attribute", async () => hidden("calcite-tile"));
+  describe("honors hidden attribute", () => {
+    hidden("calcite-tile");
+  });
 
   describe("accessible", () => {
     accessible(`<calcite-tile></calcite-tile>`);

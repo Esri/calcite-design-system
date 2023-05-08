@@ -11,7 +11,9 @@ describe("calcite-chip-group", () => {
     });
   });
 
-  it("honors hidden attribute", async () => hidden("calcite-chip-group"));
+  describe("honors hidden attribute", () => {
+    hidden("calcite-chip-group");
+  });
 
   it("can be disabled", () =>
     disabled("<calcite-chip-group><calcite-chip></calcite-chip></calcite-chip-group>", {

@@ -22,7 +22,9 @@ describe("calcite-action-group", () => {
 
   it("focusable", async () => focusable(actionGroupHTML, { shadowFocusTargetSelector: "calcite-action" }));
 
-  it("honors hidden attribute", async () => hidden("calcite-action-group"));
+  describe("honors hidden attribute", () => {
+    hidden("calcite-action-group");
+  });
 
   describe("accessible", () => {
     accessible(actionGroupHTML);

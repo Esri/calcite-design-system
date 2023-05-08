@@ -6,7 +6,9 @@ describe("calcite-list-item-group", () => {
     renders("calcite-list-item-group", { display: "flex" });
   });
 
-  it("honors hidden attribute", async () => hidden("calcite-list-item-group"));
+  describe("honors hidden attribute", () => {
+    hidden("calcite-list-item-group");
+  });
 
   it("can be disabled", () => disabled("calcite-list-item-group", { focusTarget: "none" }));
 

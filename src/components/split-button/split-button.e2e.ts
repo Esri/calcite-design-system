@@ -22,7 +22,9 @@ describe("calcite-split-button", () => {
     renders("calcite-split-button", { display: "inline-block" });
   });
 
-  it("honors hidden attribute", async () => hidden("calcite-split-button"));
+  describe("honors hidden attribute", () => {
+    hidden("calcite-split-button");
+  });
 
   it("focusable", async () =>
     focusable(

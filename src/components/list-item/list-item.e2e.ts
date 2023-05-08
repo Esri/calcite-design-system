@@ -12,7 +12,9 @@ describe("calcite-list-item", () => {
       shadowFocusTargetSelector: `.${CSS.container}`
     }));
 
-  it("honors hidden attribute", async () => hidden("calcite-list-item"));
+  describe("honors hidden attribute", () => {
+    hidden("calcite-list-item");
+  });
 
   it("has property defaults", async () =>
     defaults("calcite-list-item", [

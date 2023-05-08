@@ -30,7 +30,9 @@ describe("calcite-input-date-picker", () => {
     renders("calcite-input-date-picker", { display: "inline-block" });
   });
 
-  it("honors hidden attribute", async () => hidden("calcite-input-date-picker"));
+  describe("honors hidden attribute", () => {
+    hidden("calcite-input-date-picker");
+  });
 
   it("defaults", async () =>
     defaults("calcite-input-date-picker", [

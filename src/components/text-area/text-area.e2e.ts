@@ -31,7 +31,9 @@ describe("calcite-text-area", () => {
       }
     ]));
 
-  it("honors hidden attribute", () => hidden("calcite-text-area"));
+  describe("honors hidden attribute", () => {
+    hidden("calcite-text-area");
+  });
 
   it("is labelable", () => labelable("calcite-text-area"));
 
