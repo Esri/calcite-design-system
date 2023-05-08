@@ -3,6 +3,7 @@ import {
   Element,
   Event,
   EventEmitter,
+  forceUpdate,
   h,
   Host,
   Listen,
@@ -406,16 +407,14 @@ export class TabNav {
     closedTabTitleEl: HTMLCalciteTabTitleElement
   ): void => {
     const { tabTitles } = this;
-
-    // disable last remaining item
-    if (tabTitles.length === 1 && tabTitles[0].closable) {
+    if (closedTabTitleEl && !closedTabTitleEl.selected) {
+      forceUpdate(this.el);
+    } else if (tabTitles.length === 1 && tabTitles[0].closable) {
+      // disable last remaining item
       tabTitles[0].disabled = true;
-    }
-
-    if (closedTabTitleEl && closedTabTitleEl.selected && closedTabTitleEl.closed) {
+    } else if (closedTabTitleEl && closedTabTitleEl.selected && closedTabTitleEl.closed) {
       if (closedTabTitleId !== tabTitles.length) {
         // if closed item is selected, fall back on next
-
         this.selectedTabId = closedTabTitleId;
       }
       // last item fall back on previous
