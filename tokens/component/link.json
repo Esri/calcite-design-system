@@ -39,12 +39,6 @@
         "value": "$core.border.border-width.0",
         "type": "borderWidth"
       }
-    },
-    "opacity": {
-      "underline": {
-        "value": "$core.opacity.40",
-        "type": "opacity"
-      }
     }
   }
 }

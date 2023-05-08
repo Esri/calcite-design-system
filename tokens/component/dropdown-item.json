@@ -180,7 +180,7 @@
             "type": "spacing"
           },
           "lg": {
-            "value": "$core.spacing.none",
+            "value": "$core.spacing.0",
             "type": "spacing"
           }
         }
@@ -232,33 +232,17 @@
         },
         "single": {
           "left": {
-            "default": {
-              "sm": {
-                "value": "$core.spacing.9",
-                "type": "spacing"
-              },
-              "md": {
-                "value": "$core.spacing.11",
-                "type": "spacing"
-              },
-              "lg": {
-                "value": "$core.spacing.13",
-                "type": "spacing"
-              }
+            "sm": {
+              "value": "$core.spacing.9",
+              "type": "spacing"
             },
-            "selected": {
-              "sm": {
-                "value": "$core.spacing.1",
-                "type": "spacing"
-              },
-              "md": {
-                "value": "$core.spacing.3",
-                "type": "spacing"
-              },
-              "lg": {
-                "value": "$core.spacing.5",
-                "type": "spacing"
-              }
+            "md": {
+              "value": "$core.spacing.11",
+              "type": "spacing"
+            },
+            "lg": {
+              "value": "$core.spacing.13",
+              "type": "spacing"
             }
           },
           "right": {
@@ -292,33 +276,17 @@
         },
         "multi": {
           "left": {
-            "default": {
-              "sm": {
-                "value": "$core.spacing.9",
-                "type": "spacing"
-              },
-              "md": {
-                "value": "$core.spacing.11",
-                "type": "spacing"
-              },
-              "lg": {
-                "value": "$core.spacing.13",
-                "type": "spacing"
-              }
+            "sm": {
+              "value": "$core.spacing.9",
+              "type": "spacing"
             },
-            "selected": {
-              "sm": {
-                "value": "$core.spacing.1",
-                "type": "spacing"
-              },
-              "md": {
-                "value": "$core.spacing.3",
-                "type": "spacing"
-              },
-              "lg": {
-                "value": "$core.spacing.5",
-                "type": "spacing"
-              }
+            "md": {
+              "value": "$core.spacing.11",
+              "type": "spacing"
+            },
+            "lg": {
+              "value": "$core.spacing.13",
+              "type": "spacing"
             }
           },
           "right": {
