@@ -32,7 +32,9 @@ describe("calcite-label", () => {
     expect(element).toEqualAttribute("layout", "inline-space-between");
   });
 
-  it("honors hidden attribute", async () => hidden("calcite-label"));
+  describe("honors hidden attribute", () => {
+    hidden("calcite-label");
+  });
 
   describe("alignment prop", () => {
     let page;

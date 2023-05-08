@@ -8,7 +8,9 @@ describe("calcite-tip-manager", () => {
     renders("calcite-tip-manager", { display: "block" });
   });
 
-  it("honors hidden attribute", async () => hidden("calcite-tip-manager"));
+  describe("honors hidden attribute", () => {
+    hidden("calcite-tip-manager");
+  });
 
   describe("first render", () => {
     it("should render and show the default title", async () => {

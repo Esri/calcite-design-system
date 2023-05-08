@@ -14,7 +14,9 @@ describe("calcite-tab-title", () => {
     renders(tabTitleHtml, { display: "block" });
   });
 
-  it("honors hidden attribute", async () => hidden("calcite-tab-title"));
+  describe("honors hidden attribute", () => {
+    hidden("calcite-tab-title");
+  });
 
   it("can be disabled", () => disabled("<calcite-tab-title selected></calcite-tab-title>"));
 

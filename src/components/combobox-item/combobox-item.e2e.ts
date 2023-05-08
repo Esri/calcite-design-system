@@ -5,7 +5,9 @@ describe("calcite-combobox-item", () => {
     renders("calcite-combobox-item", { display: "flex" });
   });
 
-  it("honors hidden attribute", async () => hidden("calcite-combobox-item"));
+  describe("honors hidden attribute", () => {
+    hidden("calcite-combobox-item");
+  });
 
   it("has slots", () => slots("calcite-combobox-item", [], true));
 

@@ -10,7 +10,9 @@ import {
 } from "../../tests/commonTests";
 
 describe("calcite-checkbox", () => {
-  it("honors hidden attribute", async () => hidden("calcite-checkbox"));
+  describe("honors hidden attribute", () => {
+    hidden("calcite-checkbox");
+  });
 
   describe("accessible", () => {
     accessible(

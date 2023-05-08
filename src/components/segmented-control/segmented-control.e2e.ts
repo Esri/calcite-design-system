@@ -7,7 +7,9 @@ describe("calcite-segmented-control", () => {
     renders("calcite-segmented-control", { display: "flex" });
   });
 
-  it("honors hidden attribute", async () => hidden("calcite-segmented-control"));
+  describe("honors hidden attribute", () => {
+    hidden("calcite-segmented-control");
+  });
 
   it("is labelable", async () =>
     labelable(

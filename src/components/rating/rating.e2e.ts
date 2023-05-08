@@ -16,7 +16,9 @@ describe("calcite-rating", () => {
       renders("<calcite-rating></calcite-rating>", { display: "flex" });
     });
 
-    it("honors hidden attribute", async () => hidden("calcite-rating"));
+    describe("honors hidden attribute", () => {
+      hidden("calcite-rating");
+    });
 
     describe("accessible", () => {
       accessible(`<calcite-rating></calcite-rating>`);
