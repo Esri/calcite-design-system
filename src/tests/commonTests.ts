@@ -182,7 +182,7 @@ export async function defaults(
  *
  * Note that this helper should be used within a describe block
  *
- * describe("honors hidden attribute"), () => {
+ * describe("honors hidden attribute", () => {
  *    hidden("calcite-accordion")
  * });
  *
