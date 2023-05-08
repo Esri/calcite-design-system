@@ -39,10 +39,10 @@ import {
   numberStringFormatter
 } from "../../utils/locale";
 import {
-  formatTimePart,
   formatTimeString,
   isValidTime,
-  localizeTimeString
+  localizeTimeString,
+  toISOTimeString
 } from "../../utils/time";
 import { Scale } from "../interfaces";
 import { TimePickerMessages } from "../time-picker/assets/time-picker/t9n";
@@ -53,7 +53,6 @@ import localeData from "dayjs/plugin/localeData";
 import localizedFormat from "dayjs/plugin/localizedFormat";
 import preParsePostFormat from "dayjs/plugin/preParsePostFormat";
 import updateLocale from "dayjs/plugin/updateLocale";
-import { parseTimeString } from "../../utils/time";
 
 dayjs.extend(customParseFormat);
 dayjs.extend(localeData);
@@ -342,7 +341,7 @@ export class InputTimePicker
     event.stopPropagation();
     const target = event.target as HTMLCalciteTimePickerElement;
     const value = target.value;
-    this.setValue(value);
+    this.setValue(toISOTimeString(value));
     this.setInputValue(
       localizeTimeString({
         value,
@@ -488,11 +487,11 @@ export class InputTimePicker
     const dayjsParseResult = dayjs(valueToParse, ["LTS", "LT"], locale.toLowerCase());
 
     if (dayjsParseResult.isValid()) {
-      const timeString = `${dayjsParseResult.get("hour")}:${dayjsParseResult.get("minute")}:${
-        this.shouldIncludeSeconds() ? dayjsParseResult.get("seconds") : 0
-      }`;
+      const unformattedTimeString = `${dayjsParseResult.get("hour")}:${dayjsParseResult.get(
+        "minute"
+      )}:${this.shouldIncludeSeconds() ? dayjsParseResult.get("seconds") : 0}`;
 
-      return formatTimeString(timeString) || "";
+      return formatTimeString(unformattedTimeString) || "";
     }
     return "";
   }
@@ -614,12 +613,8 @@ export class InputTimePicker
     connectLocalized(this);
 
     if (isValidTime(this.value)) {
-      const { hour, minute, second } = parseTimeString(this.value);
       const includeSeconds = this.shouldIncludeSeconds();
-
-      this.value = `${formatTimePart(parseInt(hour))}:${formatTimePart(
-        parseInt(minute)
-      )}:${formatTimePart(parseInt((includeSeconds && second) || "0"))}`;
+      this.value = toISOTimeString(this.value, includeSeconds);
       this.setInputValue(
         localizeTimeString({
           value: this.value,
