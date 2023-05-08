@@ -74,6 +74,7 @@
     "component/accordion_backup",
     "calcite/light",
     "calcite/dark",
+    "calcite/grayscale",
     "brand/global",
     "brand/light",
     "brand/dark"
