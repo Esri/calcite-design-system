@@ -4,9 +4,6 @@
   relative 
   h-full 
   box-border;
-}
-
-:host(:not([layout="vertical"])) {
   flex-shrink: 0;
   & .container,
   & .item-content,

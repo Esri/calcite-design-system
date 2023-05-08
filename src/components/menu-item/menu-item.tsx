@@ -246,6 +246,7 @@ export class CalciteMenuItem implements LoadableComponent {
           return;
         }
         this.calciteInternalMenuItemKeyEvent.emit({ event });
+        event.preventDefault();
         break;
       case "ArrowDown":
       case "ArrowUp":
