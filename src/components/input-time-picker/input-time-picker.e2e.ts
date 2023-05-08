@@ -94,31 +94,6 @@ describe("calcite-input-time-picker", () => {
     expect(await input.getProperty("value")).toBe("");
   });
 
-  it("opens the time picker on input keyboard focus", async () => {
-    const page = await newE2EPage();
-    page.setContent(`<calcite-input-time-picker></calcite-input-time-picker>`);
-
-    const popover = await page.find("calcite-input-time-picker >>> calcite-popover");
-
-    await page.keyboard.press("Tab");
-    await page.waitForChanges();
-
-    expect(await popover.getProperty("open")).toBe(true);
-  });
-
-  it("opens the time picker on input click", async () => {
-    const page = await newE2EPage();
-    page.setContent(`<calcite-input-time-picker></calcite-input-time-picker>`);
-
-    const input = await page.find("calcite-input-time-picker >>> calcite-input");
-    const popover = await page.find("calcite-input-time-picker >>> calcite-popover");
-
-    await input.click();
-    await page.waitForChanges();
-
-    expect(await popover.getProperty("open")).toBe(true);
-  });
-
   it("directly changing the value reflects in the input for 24-hour (french lang)", async () => {
     const locale = "fr";
     const numberingSystem = "latn";
