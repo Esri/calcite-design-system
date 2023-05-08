@@ -618,7 +618,7 @@ export class InputTimePicker
       this.setInputValue(
         localizeTimeString({
           value: this.value,
-          includeSeconds,
+          includeSeconds: this.shouldIncludeSeconds(),
           locale: this.effectiveLocale,
           numberingSystem: this.numberingSystem
         })

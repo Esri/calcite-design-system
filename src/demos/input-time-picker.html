@@ -68,7 +68,9 @@
             let inputTimePickerEl = document.createElement("calcite-input-time-picker");
 
             inputTimePickerEl.setAttribute("lang", locale);
-            inputTimePickerEl.setAttribute("numbering-system", numberingSystem || "latn");
+            if (numberingSystem) {
+              inputTimePickerEl.setAttribute("numbering-system", numberingSystem);
+            }
             inputTimePickerEl.setAttribute("value", "10:00:00");
             labelEl.appendChild(document.createTextNode(`${name} (${locale})`));
             labelEl.appendChild(inputTimePickerEl);
@@ -85,7 +87,9 @@
             inputTimePickerEl = document.createElement("calcite-input-time-picker");
 
             inputTimePickerEl.setAttribute("lang", locale);
-            inputTimePickerEl.setAttribute("numbering-system", numberingSystem || "latn");
+            if (numberingSystem) {
+              inputTimePickerEl.setAttribute("numbering-system", numberingSystem);
+            }
             inputTimePickerEl.setAttribute("step", 1);
             inputTimePickerEl.setAttribute("value", "10:00");
             labelEl.appendChild(document.createTextNode(`${name} (${locale}) (seconds)`));
