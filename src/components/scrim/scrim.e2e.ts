@@ -7,7 +7,9 @@ describe("calcite-scrim", () => {
     renders("<calcite-scrim></calcite-scrim>", { display: "flex" });
   });
 
-  it("honors hidden attribute", async () => hidden("calcite-scrim"));
+  describe("honors hidden attribute", () => {
+    hidden("calcite-scrim");
+  });
 
   describe("accessible", () => {
     accessible("<calcite-scrim>My content</calcite-scrim>");

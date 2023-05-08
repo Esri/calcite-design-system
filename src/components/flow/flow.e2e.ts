@@ -10,7 +10,9 @@ describe("calcite-flow", () => {
     renders("calcite-flow", { display: "flex" });
   });
 
-  it("honors hidden attribute", async () => hidden("calcite-flow"));
+  describe("honors hidden attribute", () => {
+    hidden("calcite-flow");
+  });
 
   it("frame defaults", async () => {
     const page = await newE2EPage();

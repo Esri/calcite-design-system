@@ -12,7 +12,9 @@ describe("calcite-switch", () => {
     expect(calciteSwitch).toHaveAttribute("checked");
   });
 
-  it("honors hidden attribute", async () => hidden("calcite-switch"));
+  describe("honors hidden attribute", () => {
+    hidden("calcite-switch");
+  });
 
   describe("accessible", () => {
     accessible(`<calcite-switch label="test-label"></calcite-switch>`);

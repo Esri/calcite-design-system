@@ -9,7 +9,9 @@ describe("calcite-tab-nav", () => {
     renders(tabNavHtml, { display: "flex" });
   });
 
-  it("honors hidden attribute", async () => hidden("calcite-tab-nav"));
+  describe("honors hidden attribute", () => {
+    hidden("calcite-tab-nav");
+  });
 
   describe("accessible: checked", () => {
     accessible(tabNavHtml);

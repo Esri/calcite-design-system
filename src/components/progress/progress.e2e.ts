@@ -5,7 +5,9 @@ describe("calcite-progress", () => {
     renders("calcite-progress", { display: "block" });
   });
 
-  it("honors hidden attribute", async () => hidden("calcite-progress"));
+  describe("honors hidden attribute", () => {
+    hidden("calcite-progress");
+  });
 
   describe("accessible", () => {
     accessible(`<calcite-progress label="my progress"></calcite-progress>`);

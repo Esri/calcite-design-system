@@ -43,7 +43,9 @@ describe("calcite-color-picker", () => {
     accessible("<calcite-color-picker allow-empty value=''></calcite-color-picker>");
   });
 
-  it("can be hidden", async () => hidden("calcite-color-picker"));
+  describe("honors hidden attribute", () => {
+    hidden("calcite-color-picker");
+  });
 
   it("reflects", async () =>
     reflects("calcite-color-picker", [
