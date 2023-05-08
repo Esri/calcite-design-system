@@ -56,21 +56,18 @@ import { connectMessages, disconnectMessages, setUpMessages, T9nComponent } from
 import { InputTimePickerMessages } from "./assets/input-time-picker/t9n";
 import { CSS } from "./resources";
 
-import dayjs from "dayjs";
-import customParseFormat from "dayjs/plugin/customParseFormat";
-import localeData from "dayjs/plugin/localeData";
-import localizedFormat from "dayjs/plugin/localizedFormat";
-import preParsePostFormat from "dayjs/plugin/preParsePostFormat";
-import updateLocale from "dayjs/plugin/updateLocale";
+import dayjs from "dayjs/esm";
+import customParseFormat from "dayjs/esm/plugin/customParseFormat";
+import localeData from "dayjs/esm/plugin/localeData";
+import localizedFormat from "dayjs/esm/plugin/localizedFormat";
+import preParsePostFormat from "dayjs/esm/plugin/preParsePostFormat";
+import updateLocale from "dayjs/esm/plugin/updateLocale";
 
 dayjs.extend(customParseFormat);
 dayjs.extend(localeData);
 dayjs.extend(localizedFormat);
 dayjs.extend(preParsePostFormat);
 dayjs.extend(updateLocale);
-
-// This dayjs global is needed by the lazy-loaded locale files
-(window as any).dayjs = dayjs;
 
 @Component({
   tag: "calcite-input-time-picker",
@@ -503,7 +500,7 @@ export class InputTimePicker
 
     dayjs.updateLocale(locale, localeConfig);
 
-    const dayjsParseResult = dayjs(valueToParse, ["LTS", "LT"], locale.toLowerCase());
+    const dayjsParseResult = dayjs(valueToParse, ["LTS", "LT"], locale);
 
     if (dayjsParseResult.isValid()) {
       const unformattedTimeString = `${dayjsParseResult.get("hour")}:${dayjsParseResult.get(
@@ -589,7 +586,11 @@ export class InputTimePicker
     if (effectiveLocale === "no") {
       dayjsLocale = "nb";
     }
-    await import(getAssetPath(`assets/nls/dayjs/input-time-picker/${dayjsLocale}.js`));
+
+    const locale = await import(
+      getAssetPath(`./assets/input-time-picker/nls/dayjs/locale/${dayjsLocale}.js`)
+    );
+    dayjs.locale(locale, null, true);
   }
 
   onLabelClick(): void {
@@ -692,8 +693,10 @@ export class InputTimePicker
 
   async componentWillLoad(): Promise<void> {
     setUpLoadableComponent(this);
-    this.loadLocaleDefinition();
-    await setUpMessages(this);
+    await Promise.all([
+      setUpMessages(this),
+      this.loadLocaleDefinition()
+    ]);
   }
 
   componentDidLoad() {
