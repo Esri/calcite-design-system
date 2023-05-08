@@ -8,7 +8,9 @@ describe("calcite-dropdown-item", () => {
 
   it("honors hidden attribute", async () => hidden("calcite-dropdown-item"));
 
-  it("can be focused", async () => focusable(`calcite-dropdown-item`));
+  describe("can be focused", () => {
+    focusable(`calcite-dropdown-item`);
+  });
 
   it("should emit calciteDropdownItemSelect", async () => {
     const page = await newE2EPage();

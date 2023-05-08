@@ -14,7 +14,9 @@ describe("calcite-filter", () => {
     accessible("calcite-filter");
   });
 
-  it("is focusable", async () => focusable("calcite-filter"));
+  describe("is focused", () => {
+    focusable("calcite-filter");
+  });
 
   it("can be disabled", () => disabled("calcite-filter"));
 

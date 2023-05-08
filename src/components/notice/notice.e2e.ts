@@ -99,12 +99,13 @@ describe("calcite-notice", () => {
   });
 
   describe("focusable", () => {
-    it("with link and closable => focuses on link", () =>
+    describe("with link and closable => focuses on link", () => {
       focusable(html` <calcite-notice id="notice-1" open closable> ${noticeContent}</calcite-notice>`, {
         focusTargetSelector: `calcite-link`
-      }));
+      });
+    });
 
-    it("when closable => focuses on close button", () =>
+    describe("when closable => focuses on close button", () => {
       focusable(
         html` <calcite-notice id="notice-1" open closable>
           <div slot="title">Title Text</div>
@@ -113,7 +114,8 @@ describe("calcite-notice", () => {
         {
           shadowFocusTargetSelector: `.${CSS.close}`
         }
-      ));
+      );
+    });
   });
 
   it("supports translations", () => t9n("calcite-notice"));

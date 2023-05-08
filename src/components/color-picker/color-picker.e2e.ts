@@ -31,11 +31,10 @@ describe("calcite-color-picker", () => {
 
   afterEach(() => consoleSpy.mockClear());
 
-  describe("is focusable", () => {
-    it("should focus scope by default", async () =>
-      focusable("<calcite-color-picker></calcite-color-picker>", {
-        shadowFocusTargetSelector: `.${CSS.colorFieldScope}`
-      }));
+  describe("should focus scope by default", () => {
+    focusable("<calcite-color-picker></calcite-color-picker>", {
+      shadowFocusTargetSelector: `.${CSS.colorFieldScope}`
+    });
   });
 
   describe("accessible", () => {

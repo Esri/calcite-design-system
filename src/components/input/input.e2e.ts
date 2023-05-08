@@ -212,10 +212,11 @@ describe("calcite-input", () => {
     expect(numberHorizontalItemUp).toBeNull();
   });
 
-  it("is focusable", async () =>
+  describe("is focusable", () => {
     focusable(`calcite-input`, {
       shadowFocusTargetSelector: "input"
-    }));
+    });
+  });
 
   describe("input type number increment/decrement functionality", () => {
     let page: E2EPage;

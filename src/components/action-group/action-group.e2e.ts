@@ -20,7 +20,9 @@ describe("calcite-action-group", () => {
     renders("calcite-action-group", { display: "flex" });
   });
 
-  it("focusable", async () => focusable(actionGroupHTML, { shadowFocusTargetSelector: "calcite-action" }));
+  describe("focusable", () => {
+    focusable(actionGroupHTML, { shadowFocusTargetSelector: "calcite-action" });
+  });
 
   it("honors hidden attribute", async () => hidden("calcite-action-group"));
 

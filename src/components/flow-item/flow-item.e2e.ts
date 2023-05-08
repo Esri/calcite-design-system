@@ -55,10 +55,11 @@ describe("calcite-flow-item", () => {
     `);
   });
 
-  it("should focus on back button", async () =>
+  describe("should focus on back button", () => {
     focusable(`<calcite-flow-item show-back-button>test</calcite-flow-item>`, {
       shadowFocusTargetSelector: "calcite-action"
-    }));
+    });
+  });
 
   it("supports translations", () => t9n("calcite-flow-item"));
 

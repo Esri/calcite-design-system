@@ -15,10 +15,11 @@ const simpleDropdownHTML = html`<calcite-dropdown>
 </calcite-dropdown>`;
 
 describe("calcite-dropdown", () => {
-  it("focusable", async () =>
+  describe("focusable", () => {
     focusable(simpleDropdownHTML, {
       focusTargetSelector: '[slot="trigger"]'
-    }));
+    });
+  });
 
   describe("renders", () => {
     renders(simpleDropdownHTML, { display: "inline-flex" });

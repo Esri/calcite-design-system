@@ -157,8 +157,9 @@ describe("calcite-checkbox", () => {
     expect(await checked.getProperty("checked")).toBe(true);
   });
 
-  it("is focusable", () =>
+  describe("is focusable", () => {
     focusable("calcite-checkbox", {
       shadowFocusTargetSelector: ".toggle"
-    }));
+    });
+  });
 });

@@ -41,7 +41,9 @@ describe("calcite-color-picker-hex-input", () => {
       }
     ]));
 
-  it("can be focused", async () => focusable("calcite-color-picker-hex-input"));
+  describe("can be focused", () => {
+    focusable("calcite-color-picker-hex-input");
+  });
 
   it("supports no color", async () => {
     const page = await newE2EPage();
