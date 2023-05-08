@@ -19,7 +19,7 @@
         "value": "$semantic.border.border-radius.pill",
         "type": "borderRadius"
       },
-      "value_text": {
+      "value-text": {
         "font": {
           "sm": {
             "value": "$semantic.font.default.bold.-2h",
@@ -47,21 +47,21 @@
         "font": {
           "sm": {
             "value": {
-              "typography": "$core.font.font-size.1",
+              "typography": "$rating.chip.value-text.font.sm",
               "fontWeights": "$core.font.font-weight.medium-italic"
             },
             "type": "composition"
           },
           "md": {
             "value": {
-              "typography": "$core.font.font-size.2",
+              "typography": "$rating.chip.value-text.font.md",
               "fontWeights": "$core.font.font-weight.medium-italic"
             },
             "type": "composition"
           },
           "lg": {
             "value": {
-              "typography": "$core.font.font-size.3",
+              "typography": "$rating.chip.value-text.font.lg",
               "fontWeights": "$core.font.font-weight.medium-italic"
             },
             "type": "composition"

@@ -1,140 +1,116 @@
 {
   "color": {
-    "brand": {
-      "default": {
-        "value": "$semantic.ui.color.brand.default.light",
-        "type": "color"
-      },
-      "hover": {
-        "value": "$semantic.ui.color.brand.hover.light",
-        "type": "color"
-      },
-      "press": {
-        "value": "$semantic.ui.color.brand.press.light",
-        "type": "color"
-      }
+    "ui-background": {
+      "value": "$semantic.ui.color.background.light",
+      "type": "color"
     },
-    "background": {
-      "1": {
-        "value": "$semantic.ui.color.background.light",
-        "type": "color"
-      }
+    "ui-foreground-1": {
+      "value": "$semantic.ui.color.foreground.1.light",
+      "type": "color"
     },
-    "foreground": {
-      "1": {
-        "value": "$semantic.ui.color.foreground.1.light",
-        "type": "color"
-      },
-      "2": {
-        "value": "$semantic.ui.color.foreground.2.light",
-        "type": "color"
-      },
-      "3": {
-        "value": "{semantic.ui.color.foreground.current.light}",
-        "type": "color"
-      }
+    "ui-foreground-2": {
+      "value": "$semantic.ui.color.foreground.2.light",
+      "type": "color"
     },
-    "text": {
-      "1": {
-        "value": "$semantic.ui.color.text.1.light",
-        "type": "color"
-      },
-      "2": {
-        "value": "$semantic.ui.color.text.2.light",
-        "type": "color"
-      },
-      "3": {
-        "value": "$semantic.ui.color.text.3.light",
-        "type": "color"
-      },
-      "inverse": {
-        "value": "$semantic.ui.color.text.inverse.light",
-        "type": "color"
-      },
-      "link": {
-        "value": "$semantic.ui.color.text.link.light",
-        "type": "color"
-      }
+    "ui-foreground-3": {
+      "value": "{semantic.ui.color.foreground.current.light}",
+      "type": "color"
     },
-    "border": {
-      "1": {
-        "value": "$semantic.ui.color.border.1.light",
-        "type": "color"
-      },
-      "2": {
-        "value": "$semantic.ui.color.border.2.light",
-        "type": "color"
-      },
-      "3": {
-        "value": "$semantic.ui.color.border.3.light",
-        "type": "color"
-      },
-      "input": {
-        "value": "$semantic.ui.color.border.input.light",
-        "type": "color"
-      }
+    "ui-foreground-current": {
+      "value": "$semantic.ui.color.foreground.current.light",
+      "type": "color"
     },
-    "info": {
-      "default": {
-        "value": "$semantic.ui.color.info.default.light",
-        "type": "color"
-      },
-      "hover": {
-        "value": "$semantic.ui.color.info.hover.light",
-        "type": "color"
-      },
-      "press": {
-        "value": "$semantic.ui.color.info.press.light",
-        "type": "color"
-      }
+    "ui-brand": {
+      "value": "$semantic.ui.color.brand.default.light",
+      "type": "color"
     },
-    "success": {
-      "default": {
-        "value": "$semantic.ui.color.success.default.light",
-        "type": "color"
-      },
-      "hover": {
-        "value": "$semantic.ui.color.success.hover.light",
-        "type": "color"
-      },
-      "press": {
-        "value": "$semantic.ui.color.success.press.light",
-        "type": "color"
-      }
+    "ui-brand-hover": {
+      "value": "$semantic.ui.color.brand.hover.light",
+      "type": "color"
     },
-    "warning": {
-      "default": {
-        "value": "$semantic.ui.color.warning.default.light",
-        "type": "color"
-      },
-      "hover": {
-        "value": "$semantic.ui.color.warning.hover.light",
-        "type": "color"
-      },
-      "press": {
-        "value": "$semantic.ui.color.warning.press.light",
-        "type": "color"
-      }
+    "ui-brand-press": {
+      "value": "$semantic.ui.color.brand.press.light",
+      "type": "color"
     },
-    "danger": {
-      "default": {
-        "value": "$semantic.ui.color.danger.default.light",
-        "type": "color"
-      },
-      "hover": {
-        "value": "$semantic.ui.color.danger.hover.light",
-        "type": "color"
-      },
-      "press": {
-        "value": "$semantic.ui.color.danger.press.light",
-        "type": "color"
-      }
+    "ui-info": {
+      "value": "$semantic.ui.color.info.default.light",
+      "type": "color"
     },
-    "inverse": {
-      "default": {
-        "value": "$semantic.ui.color.inverse.light",
-        "type": "color"
-      }
+    "ui-success": {
+      "value": "$semantic.ui.color.success.default.light",
+      "type": "color"
+    },
+    "ui-warning": {
+      "value": "$semantic.ui.color.warning.default.light",
+      "type": "color"
+    },
+    "ui-danger": {
+      "value": "$semantic.ui.color.danger.default.light",
+      "type": "color"
+    },
+    "ui-danger-hover": {
+      "value": "$semantic.ui.color.danger.hover.light",
+      "type": "color"
+    },
+    "ui-danger-press": {
+      "value": "$semantic.ui.color.danger.press.light",
+      "type": "color"
+    },
+    "ui-inverse": {
+      "value": "{semantic.ui.color.inverse.default.light}",
+      "type": "color"
+    },
+    "ui-inverse-press": {
+      "value": "$semantic.ui.color.inverse.press.light",
+      "type": "color"
+    },
+    "ui-inverse-hover": {
+      "value": "$semantic.ui.color.inverse.hover.light",
+      "type": "color"
+    },
+    "ui-text-1": {
+      "value": "$semantic.ui.color.text.1.light",
+      "type": "color"
+    },
+    "ui-text-2": {
+      "value": "$semantic.ui.color.text.2.light",
+      "type": "color"
+    },
+    "ui-text-3": {
+      "value": "$semantic.ui.color.text.3.light",
+      "type": "color"
+    },
+    "ui-text-inverse": {
+      "value": "$semantic.ui.color.text.inverse.light",
+      "type": "color"
+    },
+    "ui-text-link": {
+      "value": "$semantic.ui.color.text.link.light",
+      "type": "color"
+    },
+    "ui-border-1": {
+      "value": "$semantic.ui.color.border.1.light",
+      "type": "color"
+    },
+    "ui-border-2": {
+      "value": "$semantic.ui.color.border.2.light",
+      "type": "color"
+    },
+    "ui-border-3": {
+      "value": "$semantic.ui.color.border.3.light",
+      "type": "color"
+    },
+    "ui-border-input": {
+      "value": "$semantic.ui.color.border.input.light",
+      "type": "color"
+    },
+    "button-transparent-hover": {
+      "value": "$semantic.ui.color.transparent-hover",
+      "type": "color"
+    },
+    "button-transparent-press": {
+      "value": "$semantic.ui.color.transparent-press",
+      "type": "color"
     },
     "component": {
       "avatar": {
@@ -375,6 +351,12 @@
           }
         },
         "chip": {
+          "value-text": {
+            "font": {
+              "value": "$rating.chip.value-text.font.light",
+              "type": "color"
+            }
+          },
           "count": {
             "font": {
               "value": "$rating.chip.count.font.light",
@@ -414,7 +396,7 @@
         },
         "icon": {
           "default": {
-            "value": "$accordion-item.icon.light",
+            "value": "$accordion-item.icon.default.light",
             "type": "color"
           },
           "expanded": {
@@ -1223,7 +1205,7 @@
       },
       "action": {
         "font": {
-          "value": "$action.font.default.light",
+          "value": "$action.font.light",
           "type": "color"
         },
         "icon": {
@@ -2751,6 +2733,166 @@
                 "value": "$segmented-control-item.background.solid.checked.light",
                 "type": "color"
               }
+            }
+          }
+        }
+      },
+      "select": {
+        "font": {
+          "light": {
+            "value": "$select.font.light",
+            "type": "color"
+          }
+        },
+        "icon": {
+          "light": {
+            "value": "$select.icon.light",
+            "type": "color"
+          }
+        },
+        "border": {
+          "light": {
+            "value": "$select.border.light",
+            "type": "color"
+          }
+        },
+        "background": {
+          "light": {
+            "value": "$select.background.light",
+            "type": "color"
+          }
+        }
+      },
+      "stepper-item": {
+        "font": {
+          "heading": {
+            "default": {
+              "light": {
+                "value": "$stepper-item.font.heading.default.light",
+                "type": "color"
+              }
+            },
+            "active": {
+              "light": {
+                "value": "$stepper-item.font.heading.active.light",
+                "type": "color"
+              }
+            },
+            "error": {
+              "light": {
+                "value": "$stepper-item.font.heading.error.light",
+                "type": "color"
+              }
+            },
+            "complete": {
+              "light": {
+                "value": "$stepper-item.font.heading.complete.light",
+                "type": "color"
+              }
+            }
+          },
+          "description": {
+            "default": {
+              "light": {
+                "value": "$stepper-item.font.description.default.light",
+                "type": "color"
+              }
+            },
+            "active": {
+              "light": {
+                "value": "$stepper-item.font.description.active.light",
+                "type": "color"
+              }
+            },
+            "error": {
+              "light": {
+                "value": "$stepper-item.font.description.error.light",
+                "type": "color"
+              }
+            },
+            "complete": {
+              "light": {
+                "value": "$stepper-item.font.description.complete.light",
+                "type": "color"
+              }
+            }
+          },
+          "context": {
+            "default": {
+              "light": {
+                "value": "$stepper-item.font.context.default.light",
+                "type": "color"
+              }
+            },
+            "active": {
+              "light": {
+                "value": "$stepper-item.font.context.active.light",
+                "type": "color"
+              }
+            },
+            "error": {
+              "light": {
+                "value": "$stepper-item.font.context.error.light",
+                "type": "color"
+              }
+            },
+            "complete": {
+              "light": {
+                "value": "$stepper-item.font.context.complete.light",
+                "type": "color"
+              }
+            }
+          }
+        },
+        "icon": {
+          "default": {
+            "light": {
+              "value": "$stepper-item.icon.default.light",
+              "type": "color"
+            }
+          },
+          "active": {
+            "light": {
+              "value": "$stepper-item.icon.active.light",
+              "type": "color"
+            }
+          },
+          "error": {
+            "light": {
+              "value": "$stepper-item.icon.error.light",
+              "type": "color"
+            }
+          },
+          "complete": {
+            "light": {
+              "value": "$stepper-item.icon.complete.light",
+              "type": "color"
+            }
+          }
+        },
+        "border": {
+          "default": {
+            "light": {
+              "value": "$stepper-item.border.default.light",
+              "type": "color"
+            }
+          },
+          "active": {
+            "light": {
+              "value": "$stepper-item.border.active.light",
+              "type": "color"
+            }
+          },
+          "error": {
+            "light": {
+              "value": "$stepper-item.border.error.light",
+              "type": "color"
+            }
+          },
+          "complete": {
+            "light": {
+              "value": "$stepper-item.border.complete.light",
+              "type": "color"
             }
           }
         }
