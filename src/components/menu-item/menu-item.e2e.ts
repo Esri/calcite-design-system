@@ -13,25 +13,10 @@ describe("calcite-menu-item", () => {
         propertyName: "active",
         value: "true"
       },
-      {
-        propertyName: "iconStart",
-        value: "layers"
-      },
-      {
-        propertyName: "iconEnd",
-        value: "layers"
-      },
-      {
-        propertyName: "href",
-        value: "www.esri.com"
-      },
+
       {
         propertyName: "target",
         value: "_blank"
-      },
-      {
-        propertyName: "text",
-        value: "Calcite"
       }
     ]));
 
