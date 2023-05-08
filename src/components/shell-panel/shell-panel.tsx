@@ -22,6 +22,7 @@ import {
 import { Layout, Position, Scale } from "../interfaces";
 import { ShellPanelMessages } from "./assets/shell-panel/t9n";
 import { CSS, SLOTS } from "./resources";
+import { CSS_UTILITY } from "../../utils/resources";
 import { DisplayMode } from "./interfaces";
 
 /**
@@ -230,6 +231,8 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
       displayMode
     } = this;
 
+    const dir = getElementDir(this.el);
+
     const allowResizing = displayMode !== "detached" && resizable;
 
     const style = allowResizing
@@ -265,12 +268,27 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
         />
       ) : null;
 
+    const getAnimationDir = (): string => {
+      if (layout === "horizontal") {
+        return position === "start"
+          ? CSS_UTILITY.calciteAnimateInDown
+          : CSS_UTILITY.calciteAnimateInUp;
+      } else {
+        const isStart =
+          (dir === "ltr" && position === "end") || (dir === "rtl" && position === "start");
+        return isStart ? CSS_UTILITY.calciteAnimateInLeft : CSS_UTILITY.calciteAnimateInRight;
+      }
+    };
+
     const contentNode = (
       <div
         class={{
+          [CSS_UTILITY.rtl]: dir === "rtl",
           [CSS.content]: true,
           [CSS.contentOverlaid]: displayMode === "overlaid",
-          [CSS.contentDetached]: displayMode === "detached"
+          [CSS.contentDetached]: displayMode === "detached",
+          [CSS_UTILITY.calciteAnimate]: displayMode === "overlaid",
+          [getAnimationDir()]: displayMode === "overlaid"
         }}
         hidden={collapsed}
         key="content"

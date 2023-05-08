@@ -3,6 +3,7 @@ import { E2EElement, newE2EPage } from "@stencil/core/testing";
 import { accessible, defaults, hidden, renders, slots, t9n } from "../../tests/commonTests";
 import { getElementXY } from "../../tests/utils";
 import { CSS, SLOTS } from "./resources";
+import { CSS_UTILITY } from "../../utils/resources";
 
 describe("calcite-shell-panel", () => {
   describe("renders", () => {
@@ -179,6 +180,44 @@ describe("calcite-shell-panel", () => {
     detachedElement = await page.find(`calcite-shell-panel >>> .${CSS.contentOverlaid}`);
 
     expect(detachedElement).not.toBeNull();
+  });
+
+  it("should have correct animation class when overlaid, layout vertical, and ltr", async () => {
+    const page = await newE2EPage();
+
+    await page.setContent("<calcite-shell-panel><div>content</div></calcite-shell-panel>");
+
+    const panel = await page.find("calcite-shell-panel");
+
+    panel.setProperty("displayMode", "overlaid");
+
+    await page.waitForChanges();
+
+    const animationClassRight = await page.find(`calcite-shell-panel >>> .${CSS_UTILITY.calciteAnimateInRight}`);
+    const animationClassLeft = await page.find(`calcite-shell-panel >>> .${CSS_UTILITY.calciteAnimateInLeft}`);
+
+    expect(animationClassRight).not.toBeNull();
+    expect(animationClassLeft).toBeNull();
+  });
+
+  it("should have correct animation class when overlaid, layout vertical, and rtl, position start", async () => {
+    const page = await newE2EPage();
+
+    await page.setContent(
+      "<div dir='rtl'><calcite-shell-panel position='start'><div>content</div></calcite-shell-panel></div>"
+    );
+
+    const panel = await page.find("calcite-shell-panel");
+
+    panel.setProperty("displayMode", "overlaid");
+
+    await page.waitForChanges();
+
+    const animationClassRight = await page.find(`calcite-shell-panel >>> .${CSS_UTILITY.calciteAnimateInRight}`);
+    const animationClassLeft = await page.find(`calcite-shell-panel >>> .${CSS_UTILITY.calciteAnimateInLeft}`);
+
+    expect(animationClassRight).toBeNull();
+    expect(animationClassLeft).not.toBeNull();
   });
 
   it("should update width based on the requested CSS variable override", async () => {

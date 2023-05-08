@@ -20,8 +20,23 @@
     flex
     flex-initial
     items-stretch;
-  --calcite-shell-panel-detached-max-height: unset;
   z-index: var(--calcite-shell-panel-z-index, theme("zIndex.default"));
+  --calcite-shell-panel-detached-max-height: unset;
+  --calcite-shell-panel-shadow-block-start-internal: 0 4px 8px -1px rgba(0, 0, 0, 0.08),
+    0 2px 4px -1px rgba(0, 0, 0, 0.04);
+  --calcite-shell-panel-shadow-block-end-internal: 0 -4px 8px -1px rgba(0, 0, 0, 0.08),
+    0 -2px 4px -1px rgba(0, 0, 0, 0.04);
+  --calcite-shell-panel-shadow-inline-start-internal: 4px 0 8px -1px rgba(0, 0, 0, 0.08),
+    2px 0 4px -1px rgba(0, 0, 0, 0.04);
+  --calcite-shell-panel-shadow-inline-end-internal: -4px 0 8px -1px rgba(0, 0, 0, 0.08),
+    -2px 0 4px -1px rgba(0, 0, 0, 0.04);
+}
+
+.calcite--rtl.content--overlaid {
+  --calcite-shell-panel-shadow-inline-start-internal: -4px 0 8px -1px rgba(0, 0, 0, 0.08),
+    -2px 0 4px -1px rgba(0, 0, 0, 0.04);
+  --calcite-shell-panel-shadow-inline-end-internal: 4px 0 8px -1px rgba(0, 0, 0, 0.08),
+    2px 0 4px -1px rgba(0, 0, 0, 0.04);
 }
 
 :host([layout="vertical"]) {
@@ -203,24 +218,28 @@
   @apply top-0 h-full;
 }
 
-:host([layout="vertical"][position="start"]) .content--overlaid {
-  inset-inline-start: 100%;
-}
-
-:host([layout="vertical"][position="end"]) .content--overlaid {
-  inset-inline-end: 100%;
-}
-
 :host([layout="horizontal"]) .content--overlaid {
   @apply left-0 w-full;
 }
 
+:host([layout="vertical"][position="start"]) .content--overlaid {
+  inset-inline-start: 100%;
+  box-shadow: var(--calcite-shell-panel-shadow-inline-start-internal);
+}
+
+:host([layout="vertical"][position="end"]) .content--overlaid {
+  inset-inline-end: 100%;
+  box-shadow: var(--calcite-shell-panel-shadow-inline-end-internal);
+}
+
 :host([layout="horizontal"][position="start"]) .content--overlaid {
   inset-block-start: 100%;
+  box-shadow: var(--calcite-shell-panel-shadow-block-start-internal);
 }
 
 :host([layout="horizontal"][position="end"]) .content--overlaid {
   inset-block-end: 100%;
+  box-shadow: var(--calcite-shell-panel-shadow-block-end-internal);
 }
 
 .content--detached {
