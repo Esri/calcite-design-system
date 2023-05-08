@@ -455,7 +455,7 @@ describe("calcite-input-time-picker", () => {
     expect(changeEvent).toHaveReceivedEventTimes(1);
   });
 
-  it("attempting to commit an invalid time value works as expected", async () => {
+  it("attempting to commit an invalid time value fails, but leaves the typed value intact", async () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-input-time-picker step="1"></calcite-input-time-picker>`);
 
