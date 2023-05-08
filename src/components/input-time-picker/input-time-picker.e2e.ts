@@ -244,7 +244,119 @@ describe("calcite-input-time-picker", () => {
     expect(inputTimePickerValue).toBe(expectedValue);
   });
 
-  it("committing the value with the Enter key works as expected for a 12-hour locale", async () => {
+  it("committing hh:mm value when step=60 with the Enter key works as expected for a 12-hour locale", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<calcite-input-time-picker></calcite-input-time-picker>`);
+
+    const inputTimePicker = await page.find("calcite-input-time-picker");
+    const changeEvent = await inputTimePicker.spyOnEvent("calciteInputTimePickerChange");
+
+    expect(changeEvent).toHaveReceivedEventTimes(0);
+
+    await inputTimePicker.callMethod("setFocus");
+    await page.keyboard.type("5:4 PM");
+    await page.waitForChanges();
+
+    expect(changeEvent).toHaveReceivedEventTimes(0);
+
+    await page.keyboard.press("Enter");
+    await page.waitForChanges();
+
+    expect(changeEvent).toHaveReceivedEventTimes(1);
+    expect(await inputTimePicker.getProperty("value")).toBe("17:04:00");
+    expect(await getInputValue(page)).toBe("05:04 PM");
+
+    await page.keyboard.press("Enter");
+    await page.waitForChanges();
+
+    expect(changeEvent).toHaveReceivedEventTimes(1);
+  });
+
+  it("committing hh:mm value when step=60 with the Enter key works as expected for a 24-hour locale", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<calcite-input-time-picker lang="fr"></calcite-input-time-picker>`);
+
+    const inputTimePicker = await page.find("calcite-input-time-picker");
+    const changeEvent = await inputTimePicker.spyOnEvent("calciteInputTimePickerChange");
+
+    expect(changeEvent).toHaveReceivedEventTimes(0);
+
+    await inputTimePicker.callMethod("setFocus");
+    await page.keyboard.type("5:4");
+    await page.waitForChanges();
+
+    expect(changeEvent).toHaveReceivedEventTimes(0);
+
+    await page.keyboard.press("Enter");
+    await page.waitForChanges();
+
+    expect(changeEvent).toHaveReceivedEventTimes(1);
+    expect(await inputTimePicker.getProperty("value")).toBe("05:04:00");
+    expect(await getInputValue(page)).toBe("05:04");
+
+    await page.keyboard.press("Enter");
+    await page.waitForChanges();
+
+    expect(changeEvent).toHaveReceivedEventTimes(1);
+  });
+
+  it("committing hh:mm:ss value when step=60 with the Enter key works as expected for a 12-hour locale", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<calcite-input-time-picker></calcite-input-time-picker>`);
+
+    const inputTimePicker = await page.find("calcite-input-time-picker");
+    const changeEvent = await inputTimePicker.spyOnEvent("calciteInputTimePickerChange");
+
+    expect(changeEvent).toHaveReceivedEventTimes(0);
+
+    await inputTimePicker.callMethod("setFocus");
+    await page.keyboard.type("5:4:3 PM");
+    await page.waitForChanges();
+
+    expect(changeEvent).toHaveReceivedEventTimes(0);
+
+    await page.keyboard.press("Enter");
+    await page.waitForChanges();
+
+    expect(changeEvent).toHaveReceivedEventTimes(1);
+    expect(await inputTimePicker.getProperty("value")).toBe("17:04:00");
+    expect(await getInputValue(page)).toBe("05:04 PM");
+
+    await page.keyboard.press("Enter");
+    await page.waitForChanges();
+
+    expect(changeEvent).toHaveReceivedEventTimes(1);
+  });
+
+  it("committing hh:mm:ss value when step=60 with the Enter key works as expected for a 24-hour locale", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<calcite-input-time-picker lang="fr"></calcite-input-time-picker>`);
+
+    const inputTimePicker = await page.find("calcite-input-time-picker");
+    const changeEvent = await inputTimePicker.spyOnEvent("calciteInputTimePickerChange");
+
+    expect(changeEvent).toHaveReceivedEventTimes(0);
+
+    await inputTimePicker.callMethod("setFocus");
+    await page.keyboard.type("5:4:3");
+    await page.waitForChanges();
+
+    expect(changeEvent).toHaveReceivedEventTimes(0);
+
+    await page.keyboard.press("Enter");
+    await page.waitForChanges();
+
+    expect(changeEvent).toHaveReceivedEventTimes(1);
+    expect(await inputTimePicker.getProperty("value")).toBe("05:04:00");
+    expect(await getInputValue(page)).toBe("05:04");
+
+    await page.keyboard.press("Enter");
+    await page.waitForChanges();
+
+    expect(changeEvent).toHaveReceivedEventTimes(1);
+  });
+
+  it("committing hh:mm:ss value when step=1 with the Enter key works as expected for a 12-hour locale", async () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-input-time-picker step="1"></calcite-input-time-picker>`);
 
@@ -272,7 +384,7 @@ describe("calcite-input-time-picker", () => {
     expect(changeEvent).toHaveReceivedEventTimes(1);
   });
 
-  it("committing the value with the Enter key works as expected for a 24-hour locale", async () => {
+  it("committing hh:mm:ss value when step=1 with the Enter key works as expected for a 24-hour locale", async () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-input-time-picker step="1" lang="fr"></calcite-input-time-picker>`);
 

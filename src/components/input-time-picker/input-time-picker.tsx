@@ -488,11 +488,9 @@ export class InputTimePicker
     const dayjsParseResult = dayjs(valueToParse, ["LTS", "LT"], locale.toLowerCase());
 
     if (dayjsParseResult.isValid()) {
-      let timeString = `${dayjsParseResult.get("hour")}:${dayjsParseResult.get("minute")}`;
-
-      if (this.shouldIncludeSeconds()) {
-        timeString = `${timeString}:${dayjsParseResult.get("seconds")}`;
-      }
+      const timeString = `${dayjsParseResult.get("hour")}:${dayjsParseResult.get("minute")}:${
+        this.shouldIncludeSeconds() ? dayjsParseResult.get("seconds") : 0
+      }`;
 
       return formatTimeString(timeString) || "";
     }
