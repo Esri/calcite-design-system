@@ -71,7 +71,10 @@ describe("calcite-stepper", () => {
     expect(element).toHaveAttribute("icon");
   });
 
-  it.skip("honors hidden attribute", async () => hidden("calcite-stepper"));
+  // eslint-disable-next-line jest/no-disabled-tests
+  describe.skip("honors hidden attribute", () => {
+    hidden("calcite-stepper");
+  });
 
   it("adds selected attribute to requested item", async () => {
     const page = await newE2EPage();

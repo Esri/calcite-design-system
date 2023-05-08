@@ -8,7 +8,9 @@ describe("calcite-filter", () => {
     renders("calcite-filter", { display: "flex" });
   });
 
-  it("honors hidden attribute", async () => hidden("calcite-filter"));
+  describe("honors hidden attribute", () => {
+    hidden("calcite-filter");
+  });
 
   describe("accessible", () => {
     accessible("calcite-filter");

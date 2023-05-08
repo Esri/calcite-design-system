@@ -24,7 +24,9 @@ describe("calcite-dropdown", () => {
     renders(simpleDropdownHTML, { display: "inline-flex" });
   });
 
-  it("honors hidden attribute", async () => hidden("calcite-dropdown"));
+  describe("honors hidden attribute", () => {
+    hidden("calcite-dropdown");
+  });
 
   it("defaults", async () =>
     defaults("calcite-dropdown", [

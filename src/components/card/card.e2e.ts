@@ -14,7 +14,9 @@ describe("calcite-card", () => {
     renders("calcite-card", { display: "block" });
   });
 
-  it("honors hidden attribute", async () => hidden("calcite-card"));
+  describe("honors hidden attribute", () => {
+    hidden("calcite-card");
+  });
 
   describe("accessible", () => {
     accessible("calcite-card");

@@ -34,7 +34,9 @@ describe("calcite-tile-select", () => {
       { propertyName: "width", value: "auto" }
     ]));
 
-  it("honors hidden attribute", async () => hidden("calcite-tile-select"));
+  describe("honors hidden attribute", () => {
+    hidden("calcite-tile-select");
+  });
 
   it("can be disabled", () =>
     disabled(

@@ -53,7 +53,9 @@ describe("calcite-tooltip", () => {
     accessible(`<calcite-tooltip label="test" open reference-element="ref"></calcite-tooltip><div id="ref">😄</div>`);
   });
 
-  it("honors hidden attribute", async () => hidden(`<calcite-tooltip open></calcite-tooltip >`));
+  describe("honors hidden attribute", () => {
+    hidden(`<calcite-tooltip open></calcite-tooltip >`);
+  });
 
   it("has property defaults", async () =>
     defaults("calcite-tooltip", [

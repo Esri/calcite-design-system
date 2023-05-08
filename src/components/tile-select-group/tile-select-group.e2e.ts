@@ -6,7 +6,9 @@ describe("calcite-tile-select-group", () => {
     renders("calcite-tile-select-group", { display: "flex" });
   });
 
-  it("honors hidden attribute", async () => hidden("calcite-tile-select-group"));
+  describe("honors hidden attribute", () => {
+    hidden("calcite-tile-select-group");
+  });
 
   describe("accessible", () => {
     accessible(`<calcite-tile-select-group></calcite-tile-select-group>`);

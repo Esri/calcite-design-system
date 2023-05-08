@@ -18,7 +18,9 @@ describe("calcite-value-list", () => {
     renders("calcite-value-list", { display: "flex" });
   });
 
-  it("honors hidden attribute", async () => hidden("calcite-value-list"));
+  describe("honors hidden attribute", () => {
+    hidden("calcite-value-list");
+  });
 
   // eslint-disable-next-line jest/no-disabled-tests
   describe.skip("accessible", () => {
