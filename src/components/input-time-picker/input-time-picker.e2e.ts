@@ -99,7 +99,7 @@ describe("calcite-input-time-picker", () => {
     const numberingSystem = "latn";
 
     const page = await newE2EPage();
-    page.setContent(
+    await page.setContent(
       `<calcite-input-time-picker lang="${locale}" numbering-system="${numberingSystem}" step="1"></calcite-input-time-picker>`
     );
 
@@ -166,7 +166,7 @@ describe("calcite-input-time-picker", () => {
     const numberingSystem = "latn";
 
     const page = await newE2EPage();
-    page.setContent(
+    await page.setContent(
       `<calcite-input-time-picker step="1" lang="${locale}" numbering-system="${numberingSystem}" value="11:00:00"></calcite-input-time-picker>`
     );
 
@@ -201,7 +201,7 @@ describe("calcite-input-time-picker", () => {
     const initialValue = "11:00:00";
 
     const page = await newE2EPage();
-    page.setContent(
+    await page.setContent(
       `<calcite-input-time-picker step="1" lang="${locale}" numbering-system="${numberingSystem}" value=${initialValue}></calcite-input-time-picker>`
     );
 
@@ -521,7 +521,7 @@ describe("calcite-input-time-picker", () => {
 
   it("resets to previous value when default event behavior is prevented", async () => {
     const page = await newE2EPage();
-    page.setContent(`<calcite-input-time-picker value="14:59"></calcite-input-time-picker>`);
+    await page.setContent(`<calcite-input-time-picker value="14:59"></calcite-input-time-picker>`);
 
     const inputTimePicker = await page.find("calcite-input-time-picker");
 
@@ -544,7 +544,7 @@ describe("calcite-input-time-picker", () => {
 
   it("emptys initial value when it is not a valid time value", async () => {
     const page = await newE2EPage();
-    page.setContent(`<calcite-input-time-picker value="invalid"></calcite-input-time-picker>`);
+    await page.setContent(`<calcite-input-time-picker value="invalid"></calcite-input-time-picker>`);
 
     const inputTimePicker = await page.find("calcite-input-time-picker");
 

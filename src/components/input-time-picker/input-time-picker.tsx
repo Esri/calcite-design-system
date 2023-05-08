@@ -186,7 +186,7 @@ export class InputTimePicker
   /**
    * Specifies the Unicode numeral system used by the component for localization.
    */
-  @Prop() numberingSystem: NumberingSystem = "latn";
+  @Prop() numberingSystem: NumberingSystem;
 
   /**
    * When `true`, the component must have a value in order for the form to submit.
@@ -343,29 +343,27 @@ export class InputTimePicker
   private calciteInternalInputInputHandler = (event: CustomEvent): void => {
     const { effectiveLocale: locale, numberingSystem } = this;
 
-    if (numberingSystem === "latn") {
-      return;
+    if (numberingSystem !== "latn") {
+      const target = event.target as HTMLCalciteTimePickerElement;
+
+      numberStringFormatter.numberFormatOptions = {
+        locale,
+        numberingSystem,
+        useGrouping: false
+      };
+
+      const valueInNumberingSystem = numberStringFormatter
+        .delocalize(target.value)
+        .split("")
+        .map((char) =>
+          numberKeys.includes(char)
+            ? numberStringFormatter.numberFormatter.format(Number(char))
+            : char
+        )
+        .join("");
+
+      this.setInputValue(valueInNumberingSystem);
     }
-
-    const target = event.target as HTMLCalciteTimePickerElement;
-
-    numberStringFormatter.numberFormatOptions = {
-      locale,
-      numberingSystem,
-      useGrouping: false
-    };
-
-    const valueInNumberingSystem = numberStringFormatter
-      .delocalize(target.value)
-      .split("")
-      .map((char) =>
-        numberKeys.includes(char)
-          ? numberStringFormatter.numberFormatter.format(Number(char))
-          : char
-      )
-      .join("");
-
-    this.setInputValue(valueInNumberingSystem);
   };
 
   private timePickerChangeHandler = (event: CustomEvent): void => {
