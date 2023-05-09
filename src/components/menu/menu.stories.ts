@@ -19,6 +19,22 @@ export const simple = (): string => html` <calcite-menu
   <calcite-menu-item text="Example nav item 3" text-enabled></calcite-menu-item>
 </calcite-menu>`;
 
+export const darkModeRTL_TestOnly = (): string => html`<calcite-menu dir="rtl" class="calcite-mode-dark">
+  <calcite-menu-item text="Example nav item 1" text-enabled></calcite-menu-item>
+  <calcite-menu-item text="Example nav item 2" text-enabled active></calcite-menu-item>
+  <calcite-menu-item text="Example nav item 3" text-enabled></calcite-menu-item>
+</calcite-menu>`;
+
+export const verticalLyoutInDarkModeRTL_TestOnly = (): string => html`<calcite-menu
+  layout="vertical"
+  dir="rtl"
+  class="calcite-mode-dark"
+>
+  <calcite-menu-item text="Example nav item 1" text-enabled></calcite-menu-item>
+  <calcite-menu-item text="Example nav item 2" text-enabled active></calcite-menu-item>
+  <calcite-menu-item text="Example nav item 3" text-enabled></calcite-menu-item>
+</calcite-menu>`;
+
 export const withNesting = (): string => html`<calcite-panel>
   <calcite-menu layout="${select("layout", ["horizontal", "vertical"], "horizontal")}">
     <calcite-menu-item text="Example nav item 1" text-enabled></calcite-menu-item>

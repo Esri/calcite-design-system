@@ -21,9 +21,18 @@ export const simple = (): string => html` <calcite-menu>
     label="${text("label", "")}"
     ${boolean("active", false)}
     ${boolean("breadcrumb", false)}
-    ${boolean("text-enabled", true)}
   />
 </calcite-menu>`;
+
+export const darkModeRTL_TestOnly = (): string =>
+  html`<calcite-menu-item
+    text="My nav item"
+    active
+    dir="rtl"
+    class="calcite-mode-dark"
+    icon-start="Layers"
+    icon-end="Layers"
+  />`;
 
 export const iconStart = (): string => html` <calcite-menu>
   <calcite-menu-item
@@ -36,7 +45,6 @@ export const iconStart = (): string => html` <calcite-menu>
     icon-start="${select("icon-start", iconNames, iconNames[0])}"
     ${boolean("active", false)}
     ${boolean("breadcrumb", false)}
-    ${boolean("text-enabled", true)}
   />
 </calcite-menu>`;
 
@@ -51,7 +59,6 @@ export const iconEnd = (): string => html` <calcite-menu>
     icon-end="${select("icon-end", iconNames, iconNames[0])}"
     ${boolean("active", false)}
     ${boolean("breadcrumb", false)}
-    ${boolean("text-enabled", true)}
   />
 </calcite-menu>`;
 
@@ -67,6 +74,5 @@ export const iconsBoth = (): string => html` <calcite-menu>
     icon-start="${select("icon-start", iconNames, iconNames[0])}"
     ${boolean("active", false)}
     ${boolean("breadcrumb", false)}
-    ${boolean("text-enabled", true)}
   />
 </calcite-menu>`;
