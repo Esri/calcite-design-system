@@ -10,7 +10,8 @@ import {
   setRequestedIcon,
   slotChangeGetAssignedElements,
   slotChangeHasAssignedElement,
-  toAriaBoolean
+  toAriaBoolean,
+  getShadowRootNode
 } from "./dom";
 import { guidPattern } from "./guid.spec";
 
@@ -430,6 +431,34 @@ describe("dom", () => {
       const elements = [document.createElement("div"), document.createElement("div"), document.createElement("div")];
       expect(focusElementInGroup(elements, elements[0], "previous", false)).toBe(elements[0]);
       expect(focusElementInGroup(elements, elements[2], "next", false)).toBe(elements[2]);
+  });
+  describe("getShadowRootNode()", () => {
+    function defineTestComponents(): void {
+      class ShadowElement extends HTMLElement {
+        constructor() {
+          super();
+          const shadow = this.attachShadow({ mode: "open" });
+          shadow.innerHTML = `<button>Hello</button>`;
+        }
+      }
+      customElements.define("shadow-element", ShadowElement);
+    }
+    beforeEach(() => {
+      defineTestComponents();
+    });
+
+    it("should return shadowRoot for shadowed element", () => {
+      document.body.innerHTML = html` <shadow-element></shadow-element> `;
+      const shadowElement = document.body.querySelector("shadow-element");
+      const shadowRoot = shadowElement.shadowRoot;
+      const button = shadowElement.shadowRoot.querySelector("button");
+      expect(button).toBeDefined();
+      expect(getShadowRootNode(button)).toEqual(shadowRoot);
+    });
+
+    it("should return null for non shadowed element", () => {
+      document.body.innerHTML = html` <div></div> `;
+      expect(getShadowRootNode(document.body.querySelector("div"))).toBe(null);
     });
   });
 });

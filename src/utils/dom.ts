@@ -92,6 +92,17 @@ export function getRootNode(el: Element): Document | ShadowRoot {
 }
 
 /**
+ * This helper returns the node's shadowRoot root node if it exists.
+ *
+ * @param {Element} el The element.
+ * @returns {ShadowRoot|null} The element's root node ShadowRoot.
+ */
+export function getShadowRootNode(el: Element): ShadowRoot | null {
+  const rootNode = getRootNode(el);
+  return "host" in rootNode ? rootNode : null;
+}
+
+/**
  * This helper returns the host of a ShadowRoot.
  *
  * @param {Document | ShadowRoot} root A root element.
