@@ -1,4 +1,4 @@
 {
-  "invalid": "Sobimatu",
-  "tooLong": "Tähemärkide piirang on ületatud"
+  "invalid": "Invalid",
+  "tooLong": "Character limit exceeded"
 }

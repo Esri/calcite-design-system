@@ -1,4 +1,4 @@
 {
-  "invalid": "غير صالح",
-  "tooLong": "تم تجاوز حد الأحرف"
+  "invalid": "Invalid",
+  "tooLong": "Character limit exceeded"
 }

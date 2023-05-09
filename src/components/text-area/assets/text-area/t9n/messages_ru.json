@@ -1,4 +1,4 @@
 {
-  "invalid": "Недопустимый",
-  "tooLong": "Превышен лимит символов"
+  "invalid": "Invalid",
+  "tooLong": "Character limit exceeded"
 }

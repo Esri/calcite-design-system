@@ -1,4 +1,4 @@
 {
-  "invalid": "Tidak valid",
-  "tooLong": "Batas karakter terlampaui"
+  "invalid": "Invalid",
+  "tooLong": "Character limit exceeded"
 }

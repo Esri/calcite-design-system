@@ -1,4 +1,4 @@
 {
-  "invalid": "Niepoprawny",
-  "tooLong": "Przekroczono limit liczby znaków"
+  "invalid": "Invalid",
+  "tooLong": "Character limit exceeded"
 }

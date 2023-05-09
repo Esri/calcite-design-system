@@ -1,4 +1,4 @@
 {
-  "invalid": "Неприпустимий",
-  "tooLong": "Перевищено обмеження кількості символів"
+  "invalid": "Invalid",
+  "tooLong": "Character limit exceeded"
 }
