@@ -1,4 +1,6 @@
-@import "./node_modules/@esri/calcite-colors/dist/colors.scss";
+@import "./node_modules/@esri/calcite-design-tokens/dist/scss/calcite-light.scss";
+@import "./node_modules/@esri/calcite-design-tokens/dist/scss/calcite-dark.scss";
+@import "./node_modules/@esri/calcite-design-tokens/dist/scss/calcite-headless.scss";
 @import "./node_modules/@esri/calcite-base/dist/_index.scss";
 
 /* CSS vars (@include in global) */
