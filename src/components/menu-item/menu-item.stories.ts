@@ -63,8 +63,8 @@ export const iconsBoth = (): string => html` <calcite-menu>
     rel="${text("rel", "")}"
     target="${text("target", "")}"
     label="${text("label", "")}"
-    icon-end="${select("icon-end", iconNames, "")}"
-    icon-start="${select("icon-start", iconNames, "")}"
+    icon-end="${select("icon-end", iconNames, iconNames[0])}"
+    icon-start="${select("icon-start", iconNames, iconNames[0])}"
     ${boolean("active", false)}
     ${boolean("breadcrumb", false)}
     ${boolean("text-enabled", true)}
