@@ -1,7 +1,14 @@
 :host {
   @apply inline-flex outline-none;
   & a {
-    @apply flex m-0 items-center justify-center cursor-pointer transition-default focus-base no-underline;
+    @apply flex 
+    m-0 
+    items-center 
+    justify-center 
+    cursor-pointer 
+    transition-default 
+    focus-base 
+    no-underline;
     border-block-end: 2px solid transparent;
   }
   & img {
@@ -20,7 +27,7 @@ a:active {
   @apply bg-foreground-3;
 }
 img {
-  @apply px-4 pl-4;
+  @apply px-4;
 }
 img ~ .text-container {
   @apply pl-0;
@@ -30,7 +37,6 @@ img ~ .text-container {
 }
 :host([active]) a {
   z-index: 9;
-
   @apply text-color-1;
   border-color: var(--calcite-ui-brand);
   --calcite-ui-icon-color: var(--calcite-ui-brand);

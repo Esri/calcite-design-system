@@ -42,10 +42,11 @@
 }
 
 .nav-container-content {
+  @apply flex 
+  w-full 
+  h-full 
+  mx-auto;
   margin-block: 0;
-  margin-inline: auto;
-  @apply flex
-    w-full h-full;
   inline-size: var(--calcite-nav-width, 100%);
   max-inline-size: 100%;
 }

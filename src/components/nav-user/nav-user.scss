@@ -1,10 +1,14 @@
 :host {
   @apply inline-flex outline-none;
   & a {
-    @apply flex m-0
-  items-center
-  justify-center
-  cursor-pointer transition-default focus-base no-underline;
+    @apply flex 
+    m-0
+    items-center 
+    justify-center
+    cursor-pointer 
+    transition-default 
+    focus-base 
+    no-underline;
     border-block-end: 2px solid transparent;
   }
 }
@@ -20,7 +24,7 @@
   @apply bg-foreground-3;
 }
 calcite-avatar {
-  @apply px-4 pl-4;
+  @apply px-4;
 }
 calcite-avatar ~ .text-container {
   @apply pl-0;
@@ -37,15 +41,13 @@ calcite-avatar ~ .text-container {
 }
 
 .text-container {
-  @apply flex;
+  @apply flex px-4;
   flex-direction: column;
   text-align: start;
-  @apply px-4;
 }
 
 .full-name {
-  @apply text-0 ml-0
-  text-color-1;
+  @apply text-0 ml-0 text-color-1;
   font-weight: 500;
   margin-block-start: 2px;
 }

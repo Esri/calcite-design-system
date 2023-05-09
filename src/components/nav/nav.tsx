@@ -55,7 +55,7 @@ export class CalciteNav {
   @Prop({ reflect: true }) navAction = false;
 
   /**
-   * Specifies the label of the hamburger icon.
+   * When `navAction` is `true`, specifies the label of the `calcite-action`.
    */
   @Prop() label!: string;
 
