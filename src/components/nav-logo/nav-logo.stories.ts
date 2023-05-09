@@ -26,13 +26,13 @@ export const simple = (): string =>
 
 export const text_TestOnly = (): string => html` <calcite-shell>
   <calcite-nav slot="header">
-    <calcite-nav-logo slot="logo" text="ArcGIS Online" />
+    <calcite-nav-logo slot="logo" text="ArcGIS Online" text-enabled />
   </calcite-nav>
 </calcite-shell>`;
 
 export const subText_TestOnly = (): string => html` <calcite-shell>
   <calcite-nav slot="header">
-    <calcite-nav-logo slot="logo" sub-text="City of AcmeCo" />
+    <calcite-nav-logo slot="logo" sub-text="City of AcmeCo" text-enabled />
   </calcite-nav>
 </calcite-shell>`;
 
@@ -54,6 +54,7 @@ export const subTextAndThumbnail_TestOnly = (): string => html` <calcite-shell>
       slot="logo"
       sub-text="City of AcmeCo"
       thumbnail="${placeholderImage({ width: 50, height: 50 })}"
+      text-enabled
     />
   </calcite-nav>
 </calcite-shell>`;
@@ -65,6 +66,7 @@ export const All_TestOnly = (): string => html` <calcite-shell>
       text="ArcGIS Online"
       sub-text="City of AcmeCo"
       thumbnail="${placeholderImage({ width: 50, height: 50 })}"
+      text-enabled
     />
   </calcite-nav>
 </calcite-shell>`;

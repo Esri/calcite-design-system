@@ -26,7 +26,7 @@ type Level = "primary" | "secondary" | "tertiary";
  * @slot logo - A slot for adding a `calcite-logo` component to the primary nav level.
  * @slot user - A slot for adding a `calcite-user` component to the primary nav level.
  * @slot progress - A slot for adding a `calcite-progress` component to the primary nav level.
- * @slot menu-action - A slot for adding a `calcite-action` component to the primary nav level.
+ * @slot nav-action - A slot for adding a `calcite-action` component to the primary nav level.
  * @slot primary-content-start - A slot for adding a `calcite-menu`, `calcite-action`, or other interactive elements in the start position of the primary nav level.
  * @slot primary-content-center - A slot for adding a `calcite-menu`, `calcite-action`, or other interactive elements in the center position of the primary nav level.
  * @slot primary-content-end - A slot for adding a `calcite-menu`, `calcite-action`, or other interactive elements in the end position of the primary nav level.
@@ -143,7 +143,9 @@ export class CalciteNav {
   renderMenuAction(): VNode {
     return (
       <slot name={SLOTS.navAction} onSlotchange={this.handleMenuActionSlotChange}>
-        <calcite-action icon="hamburger" onClick={this.clickHandler} text={this.label} />
+        {this.navAction && (
+          <calcite-action icon="hamburger" onClick={this.clickHandler} text={this.label} />
+        )}
       </slot>
     );
   }

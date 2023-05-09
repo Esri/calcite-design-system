@@ -32,10 +32,6 @@ export const primarySlots_TestOnly = (): string =>
         <calcite-chip slot="primary-content-center"> content </calcite-chip>
         <calcite-chip slot="primary-content-end"> content </calcite-chip>
         <calcite-chip slot="user"> user </calcite-chip>
-        <calcite-chip slot="secondary-content-start"> content </calcite-chip>
-        <calcite-chip slot="secondary-content-center"> content </calcite-chip>
-        <calcite-chip slot="tertiary-content-start"> content </calcite-chip>
-        <calcite-chip slot="tertiary-content-center"> content </calcite-chip>
       </calcite-nav>
     </calcite-shell>
   `;
@@ -51,7 +47,7 @@ export const primaryAndSecondarySlots_TestOnly = (): string =>
         <calcite-chip slot="primary-content-end"> content </calcite-chip>
         <calcite-chip slot="user"> user </calcite-chip>
         <calcite-chip slot="secondary-content-start"> content </calcite-chip>
-        <calcite-chip slot="secondary-content-center"> content </calcite-chip>
+        <calcite-chip slot="secondary-content-end"> content </calcite-chip>
       </calcite-nav>
     </calcite-shell>
   `;
@@ -68,9 +64,9 @@ export const allSlots_TestOnly = (): string =>
         <calcite-chip slot="primary-content-end"> content </calcite-chip>
         <calcite-chip slot="user"> user </calcite-chip>
         <calcite-chip slot="secondary-content-start"> content </calcite-chip>
-        <calcite-chip slot="secondary-content-center"> content </calcite-chip>
+        <calcite-chip slot="secondary-content-end"> content </calcite-chip>
         <calcite-chip slot="tertiary-content-start"> content </calcite-chip>
-        <calcite-chip slot="tertiary-content-center"> content </calcite-chip>
+        <calcite-chip slot="tertiary-content-end"> content </calcite-chip>
       </calcite-nav>
     </calcite-shell>
   `;
@@ -88,9 +84,9 @@ export const allSlots_darkModeRTL_TestOnly = (): string =>
             <calcite-chip slot="primary-content-end"> content </calcite-chip>
             <calcite-chip slot="user"> user </calcite-chip>
             <calcite-chip slot="secondary-content-start"> content </calcite-chip>
-            <calcite-chip slot="secondary-content-center"> content </calcite-chip>
+            <calcite-chip slot="secondary-content-end"> content </calcite-chip>
             <calcite-chip slot="tertiary-content-start"> content </calcite-chip>
-            <calcite-chip slot="tertiary-content-center"> content </calcite-chip>
+            <calcite-chip slot="tertiary-content-end"> content </calcite-chip>
           </calcite-nav>
         </calcite-shell>
       </div>
