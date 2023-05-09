@@ -4,7 +4,7 @@ on:
     branches: [master]
   pull_request:
     branches: [master]
-    types: [labeled]
+    types: [labeled, synchronize]
 jobs:
   run:
     if: |
@@ -63,7 +63,9 @@ jobs:
           state: success
           sha: ${{github.event.pull_request.head.sha || github.sha}}
   skip:
-    if: github.event_name == 'pull_request' && github.actor == 'dependabot[bot]' && github.event.action != 'labeled'
+    if: |
+      (github.event_name == 'pull_request' && github.actor == 'dependabot[bot]' && github.event.action != 'labeled') ||
+      (contains(github.event.pull_request.labels.*.name, 'skip visual snapshots'))
     runs-on: ubuntu-latest
     steps:
       - name: skip chromatic for dependabot PRs or no visual changes
