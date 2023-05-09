@@ -326,7 +326,7 @@ describe("calcite-segmented-control", () => {
           </calcite-segmented-control>
         `,
         {
-          focusTargetSelector: "#child-1"
+          focusTargetSelector: "#child-3"
         }
       );
     });

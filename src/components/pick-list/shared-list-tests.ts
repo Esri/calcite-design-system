@@ -609,9 +609,10 @@ export function itemRemoval(listType: ListType): void {
   });
 }
 
+// eslint-disable-next-line jest/no-export
 export function focusing(listType: ListType): void {
   describe("when setFocus method is called", () => {
-    it("should focus filter", () =>
+    describe("should focus filter", () => {
       focusable(
         html`
         <calcite-${listType}-list filter-enabled>
@@ -622,7 +623,8 @@ export function focusing(listType: ListType): void {
           focusId: "filter",
           shadowFocusTargetSelector: "calcite-filter"
         }
-      ));
+      );
+    });
   });
 }
 
