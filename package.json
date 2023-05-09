@@ -93,7 +93,7 @@
     "@stencil/state-tunnel": "^1.0.1",
     "@storybook/addon-a11y": "6.5.16",
     "@storybook/addon-docs": "6.5.15",
-    "@storybook/addon-interactions": "6.5.16",
+    "@storybook/addon-interactions": "7.0.9",
     "@storybook/addon-knobs": "6.4.0",
     "@storybook/html": "6.5.15",
     "@storybook/storybook-deployer": "2.8.16",
