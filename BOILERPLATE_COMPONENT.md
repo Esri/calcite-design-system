@@ -1,6 +1,6 @@
 # Boilerplate Example Component
 
-Get started building a new Calcite Component using this boilerplate example. Thee following files are common for building a new component.
+Get started building a new Calcite Component using this boilerplate example. The following files are common for building a new component.
 
 ## Component
 
@@ -146,11 +146,17 @@ import { CSS, TEXT } from "./resources";
 import { accessible, hidden, renders } from "../../tests/commonTests";
 
 describe.skip("calcite-example", () => {
-  it("renders", async () => renders("calcite-example"));
+  describe("renders", () => {
+    renders("calcite-example");
+  });
 
-  it("honors hidden attribute", async () => hidden("calcite-example"));
+  describe("honors hidden attribute", () => {
+    hidden("calcite-example");
+  });
 
-  it("is accessible", async () => accessible("calcite-example"));
+  describe("accessible", () => {
+    accessible("calcite-example");
+  });
 
   it("shows myString by default", async () => {
     const page = await newE2EPage();
