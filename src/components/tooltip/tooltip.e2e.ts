@@ -20,7 +20,7 @@ describe("calcite-tooltip", () => {
    * Helps assert the canceled Esc key press when closing tooltips
    * Must be called before the tooltip is closed via keyboard.
    *
-   * @param page
+   * @param {E2EPage} page - The E2EPage
    */
   async function setUpEscapeKeyCancelListener(page: E2EPage): Promise<void> {
     await page.evaluate(() => {
@@ -841,5 +841,69 @@ describe("calcite-tooltip", () => {
 
       expect(await tooltip.getProperty(pointerMoves[i].property)).toBe(pointerMoves[i].value);
     }
+  });
+
+  describe("within shadowRoot", () => {
+    async function defineTestComponents(page: E2EPage): Promise<void> {
+      await page.setContent("<calcite-tooltip></calcite-tooltip>");
+      await page.evaluate((): void => {
+        const customComponents: { name: string; html: string }[] = [
+          {
+            name: "shadow-component-a",
+            html: `<button id="tooltip-button">Data disclaimer</button>
+        <calcite-tooltip label="Data disclaimer" reference-element="tooltip-button">
+          <span>This data was collected over a 24 hour period</span>
+        </calcite-tooltip>`
+          },
+          {
+            name: "shadow-component-b",
+            html: "<shadow-component-a></shadow-component-a>"
+          }
+        ];
+
+        for (let i = 0; i < customComponents.length; i++) {
+          customElements.define(
+            customComponents[i].name,
+            class extends HTMLElement {
+              constructor() {
+                super();
+                const shadow = this.attachShadow({ mode: "open" });
+                shadow.innerHTML = customComponents[i].html;
+              }
+            }
+          );
+        }
+
+        document.body.innerHTML = "<shadow-component-b></shadow-component-b>";
+      });
+      await page.waitForChanges();
+    }
+
+    function isTooltipOpen(page: E2EPage): Promise<boolean> {
+      return page.evaluate((): boolean => {
+        return document
+          .querySelector("shadow-component-b")
+          .shadowRoot.querySelector("shadow-component-a")
+          .shadowRoot.querySelector("calcite-tooltip").open;
+      });
+    }
+
+    async function focusReferenceElement(page: E2EPage): Promise<void> {
+      await page.evaluate((): void => {
+        const referenceElement = document
+          .querySelector("shadow-component-b")
+          .shadowRoot.querySelector("shadow-component-a")
+          .shadowRoot.querySelector("button");
+        referenceElement.dispatchEvent(new Event("focusin"));
+      });
+    }
+
+    it("should open focused tooltips within shadowRoots", async () => {
+      const page = await newE2EPage();
+      await defineTestComponents(page);
+      expect(await isTooltipOpen(page)).toBe(false);
+      await focusReferenceElement(page);
+      expect(await isTooltipOpen(page)).toBe(true);
+    });
   });
 });

@@ -9,7 +9,8 @@ import {
   setRequestedIcon,
   slotChangeGetAssignedElements,
   slotChangeHasAssignedElement,
-  toAriaBoolean
+  toAriaBoolean,
+  getShadowRootNode
 } from "./dom";
 import { guidPattern } from "./guid.spec";
 
@@ -415,6 +416,36 @@ describe("dom", () => {
       const event = new Event("onSlotchange");
       target.dispatchEvent(event);
       expect(slotChangeHasAssignedElement(event)).toBe(false);
+    });
+  });
+
+  describe("getShadowRootNode()", () => {
+    function defineTestComponents(): void {
+      class ShadowElement extends HTMLElement {
+        constructor() {
+          super();
+          const shadow = this.attachShadow({ mode: "open" });
+          shadow.innerHTML = `<button>Hello</button>`;
+        }
+      }
+      customElements.define("shadow-element", ShadowElement);
+    }
+    beforeEach(() => {
+      defineTestComponents();
+    });
+
+    it("should return shadowRoot for shadowed element", () => {
+      document.body.innerHTML = html` <shadow-element></shadow-element> `;
+      const shadowElement = document.body.querySelector("shadow-element");
+      const shadowRoot = shadowElement.shadowRoot;
+      const button = shadowElement.shadowRoot.querySelector("button");
+      expect(button).toBeDefined();
+      expect(getShadowRootNode(button)).toEqual(shadowRoot);
+    });
+
+    it("should return null for non shadowed element", () => {
+      document.body.innerHTML = html` <div></div> `;
+      expect(getShadowRootNode(document.body.querySelector("div"))).toBe(null);
     });
   });
 });
