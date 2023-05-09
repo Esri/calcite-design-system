@@ -20,7 +20,7 @@ describe("calcite-tooltip", () => {
    * Helps assert the canceled Esc key press when closing tooltips
    * Must be called before the tooltip is closed via keyboard.
    *
-   * @param page
+   * @param {E2EPage} page - The E2EPage
    */
   async function setUpEscapeKeyCancelListener(page: E2EPage): Promise<void> {
     await page.evaluate(() => {
@@ -890,8 +890,8 @@ describe("calcite-tooltip", () => {
       await page.waitForChanges();
     }
 
-    async function isTooltipOpen(page: E2EPage): Promise<boolean> {
-      return await page.evaluate((): boolean => {
+    function isTooltipOpen(page: E2EPage): Promise<boolean> {
+      return page.evaluate((): boolean => {
         return document
           .querySelector("shadow-component-b")
           .shadowRoot.querySelector("shadow-component-a")
