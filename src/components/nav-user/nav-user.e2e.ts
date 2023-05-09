@@ -7,7 +7,9 @@ describe("calcite-nav-user", () => {
     renders("calcite-nav-user", { display: "inline-flex" });
   });
 
-  it("honors hidden attribute", () => hidden("calcite-nav-user"));
+  describe("honors hidden attribute", () => {
+    hidden("calcite-nav-user");
+  });
 
   describe("accessible", () => {
     accessible("calcite-nav-user");

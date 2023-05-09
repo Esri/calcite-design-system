@@ -7,7 +7,9 @@ describe("calcite-nav-logo", () => {
     renders("calcite-nav-logo", { display: "inline-flex" });
   });
 
-  it("honors hidden attribute", () => hidden("calcite-nav-logo"));
+  describe("honors hidden attribute", () => {
+    hidden("calcite-nav-logo");
+  });
 
   describe("accessible", () => {
     accessible("calcite-nav-logo");

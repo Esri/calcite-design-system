@@ -6,7 +6,9 @@ describe("calcite-nav", () => {
     renders("calcite-nav", { display: "inline" });
   });
 
-  it("honors hidden attribute", () => hidden("calcite-nav"));
+  describe("honors hidden attribute", () => {
+    hidden("calcite-nav");
+  });
 
   it("should emit calciteNavActionSelect event when user interacts with nav-action", async () => {
     const page = await newE2EPage();
