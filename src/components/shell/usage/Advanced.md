@@ -2,7 +2,7 @@ Renders a shell with leading and trailing floating panels, action bar/pad, block
 
 ```html
 <calcite-shell>
-  <calcite-shell-panel slot="panel-start" position="start" detached>
+  <calcite-shell-panel slot="panel-start" position="start" display-mode="detached">
     <calcite-action-bar slot="action-bar">
       <calcite-action-group>
         <calcite-action text="Add" icon="plus"></calcite-action>
@@ -28,7 +28,7 @@ Renders a shell with leading and trailing floating panels, action bar/pad, block
     </calcite-block>
   </calcite-shell-panel>
 
-   <calcite-shell-panel slot="panel-end" position="end" detached height-scale="l">
+   <calcite-shell-panel slot="panel-end" position="end" display-mode="detached" height-scale="l">
       <calcite-action-bar slot="action-bar">
         <calcite-action-group>
           <calcite-action text="Add" active icon="plus"></calcite-action>
