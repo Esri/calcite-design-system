@@ -7,7 +7,9 @@ describe("calcite-handle", () => {
     renders("calcite-handle", { display: "flex" });
   });
 
-  it("honors hidden attribute", async () => hidden("calcite-handle"));
+  describe("honors hidden attribute", () => {
+    hidden("calcite-handle");
+  });
 
   describe("accessible", () => {
     accessible(`<calcite-handle></calcite-handle>`);

@@ -26,7 +26,9 @@ describe("calcite-pick-list", () => {
     renders("calcite-pick-list", { display: "flex" });
   });
 
-  it("honors hidden attribute", async () => hidden("calcite-pick-list"));
+  describe("honors hidden attribute", () => {
+    hidden("calcite-pick-list");
+  });
 
   // eslint-disable-next-line jest/no-disabled-tests
   describe.skip("accessible", () => {

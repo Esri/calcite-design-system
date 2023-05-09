@@ -8,7 +8,9 @@ describe("calcite-flow-item", () => {
     renders("calcite-flow-item", { display: "flex" });
   });
 
-  it("honors hidden attribute", async () => hidden("calcite-flow-item"));
+  describe("honors hidden attribute", () => {
+    hidden("calcite-flow-item");
+  });
 
   it("has property defaults", async () =>
     defaults("calcite-flow-item", [

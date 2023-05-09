@@ -6,7 +6,9 @@ describe("calcite-option-group", () => {
     renders("calcite-option-group", { display: "block" });
   });
 
-  it("honors hidden attribute", async () => hidden("calcite-option-group"));
+  describe("honors hidden attribute", () => {
+    hidden("calcite-option-group");
+  });
 
   describe("accessible", () => {
     accessible("calcite-option-group");

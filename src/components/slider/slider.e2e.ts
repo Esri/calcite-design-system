@@ -11,7 +11,9 @@ describe("calcite-slider", () => {
     renders("calcite-slider", { display: "block" });
   });
 
-  it("honors hidden attribute", async () => hidden("calcite-slider"));
+  describe("honors hidden attribute", () => {
+    hidden("calcite-slider");
+  });
 
   it("has defaults", async () =>
     defaults("calcite-slider", [

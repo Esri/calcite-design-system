@@ -7,7 +7,9 @@ describe("calcite-loader", () => {
     renders(`<calcite-loader inline></calcite-loader>`, { display: "flex", visible: true });
   });
 
-  it("honors hidden attribute", async () => hidden("calcite-loader"));
+  describe("honors hidden attribute", () => {
+    hidden("calcite-loader");
+  });
 
   it("displays label from text prop", async () => {
     const page = await newE2EPage();

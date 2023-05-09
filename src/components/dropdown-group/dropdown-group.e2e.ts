@@ -5,5 +5,7 @@ describe("calcite-dropdown-group", () => {
     renders("calcite-dropdown-group", { display: "block" });
   });
 
-  it("honors hidden attribute", async () => hidden("calcite-dropdown-group"));
+  describe("honors hidden attribute", () => {
+    hidden("calcite-dropdown-group");
+  });
 });

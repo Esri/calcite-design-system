@@ -85,7 +85,9 @@ describe("calcite-button", () => {
       }
     ]));
 
-  it("honors hidden attribute", async () => hidden("calcite-button"));
+  describe("honors hidden attribute", () => {
+    hidden("calcite-button");
+  });
 
   it("renders as a button with default props", async () => {
     const page = await newE2EPage();
