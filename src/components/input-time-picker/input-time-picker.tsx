@@ -305,7 +305,6 @@ export class InputTimePicker
   //--------------------------------------------------------------------------
 
   private calciteInternalInputBlurHandler = (): void => {
-    this.open = false;
     const inputValue = this.calciteInputEl.value;
 
     const delocalizedInputValue = this.delocalizeTimeString(inputValue);
@@ -693,10 +692,7 @@ export class InputTimePicker
 
   async componentWillLoad(): Promise<void> {
     setUpLoadableComponent(this);
-    await Promise.all([
-      setUpMessages(this),
-      this.loadLocaleDefinition()
-    ]);
+    await Promise.all([setUpMessages(this), this.loadLocaleDefinition()]);
   }
 
   componentDidLoad() {
