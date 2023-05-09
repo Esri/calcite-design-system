@@ -250,11 +250,7 @@ export class TabNav {
   @Listen("calciteInternalTabsClose")
   internalCloseTabHandler(event: CustomEvent<TabCloseEventDetail>): void {
     const closedTabTitleEl = event.target as HTMLCalciteTabTitleElement;
-    const closedTabTitleId = event.detail.tab
-      ? event.detail.tab
-      : this.getIndexOfTabTitle(event.target as HTMLCalciteTabTitleElement);
-
-    this.handleTabTitleClose(closedTabTitleId, closedTabTitleEl);
+    this.handleTabTitleClose(closedTabTitleEl);
 
     event.stopPropagation();
     event.preventDefault();
@@ -395,17 +391,14 @@ export class TabNav {
   }
 
   get enabledTabTitles(): HTMLCalciteTabTitleElement[] {
-    const directEndabled = filterDirectChildren<HTMLCalciteTabTitleElement>(
+    const directEnabled = filterDirectChildren<HTMLCalciteTabTitleElement>(
       this.el,
       "calcite-tab-title:not([disabled])"
     );
-    return directEndabled.filter((tabTitle) => !tabTitle.closed);
+    return directEnabled.filter((tabTitle) => !tabTitle.closed);
   }
 
-  handleTabTitleClose = (
-    closedTabTitleId: string | number,
-    closedTabTitleEl: HTMLCalciteTabTitleElement
-  ): void => {
+  handleTabTitleClose(closedTabTitleEl: HTMLCalciteTabTitleElement): void {
     const { tabTitles } = this;
     if (closedTabTitleEl && !closedTabTitleEl.selected) {
       forceUpdate(this.el);
@@ -413,12 +406,12 @@ export class TabNav {
       // disable last remaining item
       tabTitles[0].disabled = true;
     } else if (closedTabTitleEl && closedTabTitleEl.selected && closedTabTitleEl.closed) {
-      if (closedTabTitleId !== tabTitles.length) {
-        // if closed item is selected, fall back on next
-        this.selectedTabId = closedTabTitleId;
-      }
       // last item fall back on previous
       this.selectedTabId = tabTitles.length - 1;
     }
-  };
+    requestAnimationFrame(() => {
+      this.updateOffsetPosition();
+      this.updateActiveWidth();
+    });
+  }
 }

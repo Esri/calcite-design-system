@@ -218,6 +218,7 @@ export class TabTitle implements InteractiveComponent, LocalizedComponent, T9nCo
         aria-selected={toAriaBoolean(this.selected)}
         hidden={closed}
         id={id}
+        ref={(el) => (this.tabTitleEl = el as HTMLCalciteTabTitleElement)}
         role="tab"
         tabIndex={this.selected ? 0 : -1}
       >
@@ -482,8 +483,9 @@ export class TabTitle implements InteractiveComponent, LocalizedComponent, T9nCo
 
   containerEl: HTMLDivElement;
 
-  /** The close button element. */
   private closeButtonEl: HTMLButtonElement;
+
+  private tabTitleEl: HTMLCalciteTabTitleElement;
 
   resizeObserver = createObserver("resize", () => {
     this.calciteInternalTabIconChanged.emit();
@@ -511,7 +513,7 @@ export class TabTitle implements InteractiveComponent, LocalizedComponent, T9nCo
 
   emitCloseTab(): void {
     this.closed = true;
-    this.calciteInternalTabsClose.emit(this.el);
+    this.calciteInternalTabsClose.emit(this.tabTitleEl);
     this.calciteTabsClose.emit();
   }
 
