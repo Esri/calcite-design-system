@@ -431,7 +431,9 @@ describe("dom", () => {
       const elements = [document.createElement("div"), document.createElement("div"), document.createElement("div")];
       expect(focusElementInGroup(elements, elements[0], "previous", false)).toBe(elements[0]);
       expect(focusElementInGroup(elements, elements[2], "next", false)).toBe(elements[2]);
+    });
   });
+
   describe("getShadowRootNode()", () => {
     function defineTestComponents(): void {
       class ShadowElement extends HTMLElement {
