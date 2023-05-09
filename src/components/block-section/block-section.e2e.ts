@@ -8,7 +8,9 @@ describe("calcite-block-section", () => {
     renders("calcite-block-section", { display: "block" });
   });
 
-  it("honors hidden attribute", async () => hidden("calcite-block-section"));
+  describe("honors hidden attribute", () => {
+    hidden("calcite-block-section");
+  });
 
   it("reflects properties", async () =>
     reflects("calcite-block-section", [

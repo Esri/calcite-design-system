@@ -13,6 +13,8 @@ describe("global styles", () => {
       "calcite-animate__in",
       "calcite-animate__in-down",
       "calcite-animate__in-up",
+      "calcite-animate__in-left",
+      "calcite-animate__in-right",
       "calcite-animate__in-scale"
     ];
 

@@ -180,16 +180,24 @@ export async function defaults(
 /**
  * Helper for asserting that a component is not visible when hidden
  *
+ * Note that this helper should be used within a describe block
+ *
+ * describe("honors hidden attribute", () => {
+ *    hidden("calcite-accordion")
+ * });
+ *
  * @param {string} componentTagOrHTML - the component tag or HTML markup to test against
  */
 export async function hidden(componentTagOrHTML: TagOrHTML): Promise<void> {
-  const page = await simplePageSetup(componentTagOrHTML);
-  const element = await page.find(getTag(componentTagOrHTML));
+  it("is hidden", async () => {
+    const page = await simplePageSetup(componentTagOrHTML);
+    const element = await page.find(getTag(componentTagOrHTML));
 
-  element.setAttribute("hidden", "");
-  await page.waitForChanges();
+    element.setAttribute("hidden", "");
+    await page.waitForChanges();
 
-  expect(await element.isVisible()).toBe(false);
+    expect(await element.isVisible()).toBe(false);
+  });
 }
 
 interface FocusableOptions {

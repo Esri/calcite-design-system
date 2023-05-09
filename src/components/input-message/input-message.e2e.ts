@@ -8,7 +8,9 @@ describe("calcite-input-message", () => {
     renders(`<calcite-input-message></calcite-input-message>`, { display: "flex", visible: true });
   });
 
-  it("honors hidden attribute", async () => hidden(`<calcite-input-message>Text</calcite-input-message>`));
+  describe("honors hidden attribute", () => {
+    hidden(`<calcite-input-message>Text</calcite-input-message>`);
+  });
 
   describe("accessible", () => {
     accessible(`<calcite-input-message>Text</calcite-input-message>`);

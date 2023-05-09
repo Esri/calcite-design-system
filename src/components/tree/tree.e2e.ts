@@ -9,7 +9,9 @@ describe("calcite-tree", () => {
     renders("calcite-tree", { display: "block" });
   });
 
-  it("honors hidden attribute", async () => hidden("calcite-tree"));
+  describe("honors hidden attribute", () => {
+    hidden("calcite-tree");
+  });
 
   describe("accessible", () => {
     accessible(`<calcite-tree></calcite-tree>`);
@@ -293,6 +295,28 @@ describe("calcite-tree", () => {
       expect(changeSpy).toHaveReceivedEventTimes(0);
     });
 
+    it("does not emit calciteTreeSelect on click of slotted action", async () => {
+      const page = await newE2EPage();
+      await page.setContent(html`
+        <calcite-tree selection-mode="multichildren">
+          <calcite-tree-item>
+            Cables
+            <calcite-action slot="actions-end" text="Save" icon="360-view" scale="s"></calcite-action>
+          </calcite-tree-item>
+        </calcite-tree>
+      `);
+      const action = await page.find("calcite-action");
+      await action.click();
+
+      await action.focus();
+      await page.keyboard.press("Enter");
+
+      const changeSpy = await action.spyOnEvent("calciteTreeSelect");
+      await page.waitForChanges();
+
+      expect(changeSpy).toHaveReceivedEventTimes(0);
+    });
+
     describe("has selected items in the selection event payload", () => {
       it("contains current selection when selection=multiple", async () => {
         const page = await newE2EPage({
@@ -348,15 +372,15 @@ describe("calcite-tree", () => {
 
         await item2.click();
 
-        expect(await tree.getProperty("selectedItems")).toHaveLength(3);
+        expect(await tree.getProperty("selectedItems")).toHaveLength(2);
 
         await item3.click();
 
-        expect(await tree.getProperty("selectedItems")).toHaveLength(3);
+        expect(await tree.getProperty("selectedItems")).toHaveLength(2);
 
         await item4.click();
 
-        expect(await tree.getProperty("selectedItems")).toHaveLength(2);
+        expect(await tree.getProperty("selectedItems")).toHaveLength(3);
       });
     });
 

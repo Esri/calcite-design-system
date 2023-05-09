@@ -8,7 +8,9 @@ describe("calcite-block", () => {
     renders("calcite-block", { display: "flex" });
   });
 
-  it("honors hidden attribute", async () => hidden("calcite-block"));
+  describe("honors hidden attribute", () => {
+    hidden("calcite-block");
+  });
 
   it("has property defaults", async () =>
     defaults("calcite-block", [

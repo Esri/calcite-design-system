@@ -2,15 +2,21 @@ import { tabbable } from "tabbable";
 import { guid } from "./guid";
 import { CSS_UTILITY } from "./resources";
 
+/**
+ * The default `focus-trap/tabbable` options.
+ *
+ * See https://github.com/focus-trap/tabbable#tabbable
+ */
 export const tabbableOptions = {
   getShadowRoot: true
 };
+
 /**
  * This helper will guarantee an ID on the provided element.
  *
  * If it already has an ID, it will be preserved, otherwise a unique one will be generated and assigned.
  *
- * @param el
+ * @param {Element} el An element.
  * @returns {string} The element's ID.
  */
 export function ensureId(el: Element): string {
@@ -21,12 +27,24 @@ export function ensureId(el: Element): string {
   return (el.id = el.id || `${el.tagName.toLowerCase()}-${guid()}`);
 }
 
+/**
+ * This helper returns an array from a NodeList.
+ *
+ * @param {NodeList} nodeList A NodeList.
+ * @returns {Element[]} An array of elements.
+ */
 export function nodeListToArray<T extends Element>(nodeList: HTMLCollectionOf<T> | NodeListOf<T> | T[]): T[] {
   return Array.isArray(nodeList) ? nodeList : Array.from(nodeList);
 }
 
 export type Direction = "ltr" | "rtl";
 
+/**
+ * This helper returns the Calcite "mode" of an element.
+ *
+ * @param {HTMLElement} el An element.
+ * @returns {"light"|"dark"} The Calcite mode.
+ */
 export function getModeName(el: HTMLElement): "light" | "dark" {
   const closestElWithMode = closestElementCrossShadowBoundary(
     el,
@@ -35,6 +53,12 @@ export function getModeName(el: HTMLElement): "light" | "dark" {
   return closestElWithMode?.classList.contains("calcite-mode-dark") ? "dark" : "light";
 }
 
+/**
+ * This helper returns the direction of a HTML element.
+ *
+ * @param {HTMLElement} el An element.
+ * @returns {Direction} The direction.
+ */
 export function getElementDir(el: HTMLElement): Direction {
   const prop = "dir";
   const selector = `[${prop}]`;
@@ -42,16 +66,37 @@ export function getElementDir(el: HTMLElement): Direction {
   return closest ? (closest.getAttribute(prop) as Direction) : "ltr";
 }
 
-export function getElementProp(el: Element, prop: string, fallbackValue: any): any {
-  const selector = `[${prop}]`;
+/**
+ * This helper returns the value of an attribute on an element.
+ *
+ * @param {HTMLElement} el An element.
+ * @param {string} attribute An attribute name.
+ * @param {any} fallbackValue A fallback value.
+ * @returns {any} The value.
+ * @deprecated
+ */
+export function getElementProp(el: Element, attribute: string, fallbackValue: any): any {
+  const selector = `[${attribute}]`;
   const closest = el.closest(selector);
-  return closest ? closest.getAttribute(prop) : fallbackValue;
+  return closest ? closest.getAttribute(attribute) : fallbackValue;
 }
 
+/**
+ * This helper returns the rootNode of an element.
+ *
+ * @param {Element} el An element.
+ * @returns {Document|ShadowRoot} The element's root node.
+ */
 export function getRootNode(el: Element): Document | ShadowRoot {
   return el.getRootNode() as Document | ShadowRoot;
 }
 
+/**
+ * This helper returns the host of a ShadowRoot.
+ *
+ * @param {Document | ShadowRoot} root A root element.
+ * @returns {Element | null} The host element.
+ */
 export function getHost(root: Document | ShadowRoot): Element | null {
   return (root as ShadowRoot).host || null;
 }
@@ -61,11 +106,11 @@ export function getHost(root: Document | ShadowRoot): Element | null {
  *
  * If both an 'id' and 'selector' are supplied, 'id' will take precedence over 'selector'.
  *
- * @param element
+ * @param {Element} element An element.
  * @param root0
  * @param root0.selector
  * @param root0.id
- * @returns {Element} The element.
+ * @returns {Element} An element.
  */
 export function queryElementRoots<T extends Element = Element>(
   element: Element,
@@ -110,6 +155,13 @@ export function queryElementRoots<T extends Element = Element>(
   return queryFrom(element);
 }
 
+/**
+ * This helper returns the closest element matching the selector by crossing he shadow boundary if necessary.
+ *
+ * @param {Element} element The starting element.
+ * @param {string} selector The selector.
+ * @returns {Element} The targeted element.
+ */
 export function closestElementCrossShadowBoundary<T extends Element = Element>(
   element: Element,
   selector: string
@@ -127,8 +179,9 @@ export function closestElementCrossShadowBoundary<T extends Element = Element>(
  *
  * Returning early or undefined in `onVisit` will continue traversing up the DOM tree. Otherwise, traversal will halt with the returned value as the result of the function
  *
- * @param element
- * @param onVisit
+ * @param {Element} element An element.
+ * @param {(node: Node) => Element} onVisit The callback.
+ * @returns {Element} The result.
  */
 export function walkUpAncestry<T = any>(element: Element, onVisit: (node: Node) => T): T {
   return visit(element, onVisit);
@@ -149,18 +202,39 @@ function visit<T = any>(node: Node, onVisit: (node: Node) => T): T {
   return visit(parentNode instanceof ShadowRoot ? parentNode.host : parentNode, onVisit);
 }
 
+/**
+ * This helper returns true when an element has the descendant in question.
+ *
+ * @param {Element} element The starting element.
+ * @param {Element} maybeDescendant The descendant.
+ * @returns {boolean} The result.
+ */
 export function containsCrossShadowBoundary(element: Element, maybeDescendant: Element): boolean {
   return !!walkUpAncestry(maybeDescendant, (node) => (node === element ? true : undefined));
 }
 
+/**
+ * An element which may contain a `setFocus` method.
+ */
 export interface FocusableElement extends HTMLElement {
   setFocus?: () => Promise<void>;
 }
 
+/**
+ * This helper returns true when an element has a setFocus method.
+ *
+ * @param {Element} el An element.
+ * @returns {boolean} The result.
+ */
 export function isCalciteFocusable(el: FocusableElement): boolean {
   return typeof el?.setFocus === "function";
 }
 
+/**
+ * This helper focuses an element using the `setFocus` method if available and falls back to using the `focus` method if not available.
+ *
+ * @param {Element} el An element.
+ */
 export async function focusElement(el: FocusableElement): Promise<void> {
   if (!el) {
     return;
@@ -194,9 +268,10 @@ const defaultSlotSelector = ":not([slot])";
 /**
  * Gets slotted elements for a named slot.
  *
- * @param element
- * @param slotName
- * @param options
+ * @param {Element} element An element.
+ * @param {string} slotName The slot name.
+ * @param {GetSlottedOptions & { all: true }} options The options.
+ * @returns {Element | Element[] | null} returns element(s) or null.
  * @deprecated Use `onSlotchange` event instead.
  *
  * ```
@@ -281,16 +356,30 @@ function querySingle<T extends Element = Element>(
   return selector ? match?.querySelector<T>(selector) : match;
 }
 
+/**
+ * Filters direct children.
+ *
+ * @param {Element} el An element.
+ * @param {string} selector The selector.
+ * @returns {Element[]} An array of elements.
+ */
 export function filterDirectChildren<T extends Element>(el: Element, selector: string): T[] {
   return Array.from(el.children).filter((child): child is T => child.matches(selector));
 }
 
-// set a default icon from a defined set or allow an override with an icon name string
+/**
+ * Set a default icon from a defined set or allow an override with an icon name string
+ *
+ * @param {Record<string, string>} iconObject The icon object.
+ * @param {string | boolean} iconValue The icon value.
+ * @param {string} matchedValue The matched value.
+ * @returns {string|undefined} The resulting icon value.
+ */
 export function setRequestedIcon(
   iconObject: Record<string, string>,
   iconValue: string | boolean,
   matchedValue: string
-): string {
+): string | undefined {
   if (typeof iconValue === "string" && iconValue !== "") {
     return iconValue;
   } else if (iconValue === "") {
@@ -298,6 +387,13 @@ export function setRequestedIcon(
   }
 }
 
+/**
+ * This helper returns true when two rectangles intersect.
+ *
+ * @param {DOMRect} rect1 The first rectangle.
+ * @param {DOMRect} rect2 The second rectangle.
+ * @returns {boolean} The result.
+ */
 export function intersects(rect1: DOMRect, rect2: DOMRect): boolean {
   return !(
     rect2.left > rect1.right ||
@@ -312,7 +408,7 @@ export function intersects(rect1: DOMRect, rect2: DOMRect): boolean {
  *
  * It should only be used for aria attributes that require a string value of "true" or "false".
  *
- * @param value
+ * @param {boolean} value The value.
  * @returns {string} The string conversion of a boolean value ("true" | "false").
  */
 export function toAriaBoolean(value: boolean): string {
@@ -326,7 +422,7 @@ export function toAriaBoolean(value: boolean): string {
  * <slot onSlotchange={(event) => this.mySlotHasElement = slotChangeHasAssignedElement(event)} />}
  * ```
  *
- * @param event
+ * @param {Event} event The event.
  * @returns {boolean} Whether the slot has any assigned elements.
  */
 export function slotChangeHasAssignedElement(event: Event): boolean {
@@ -340,7 +436,7 @@ export function slotChangeHasAssignedElement(event: Event): boolean {
  * <slot onSlotchange={(event) => this.mySlotElements = slotChangeGetAssignedElements(event)} />}
  * ```
  *
- * @param event
+ * @param {Event} event The event.
  * @returns {boolean} Whether the slot has any assigned elements.
  */
 export function slotChangeGetAssignedElements(event: Event): Element[] {
@@ -354,24 +450,23 @@ export function slotChangeGetAssignedElements(event: Event): Element[] {
  *
  * See https://www.w3.org/TR/pointerevents/#the-button-property.
  *
- * @param event
- * @returns {boolean}
+ * @param {PointerEvent} event The pointer event.
+ * @returns {boolean} The value.
  */
 export function isPrimaryPointerButton(event: PointerEvent): boolean {
   return !!(event.isPrimary && event.button === 0);
 }
 
+export type FocusElementInGroupDestination = "first" | "last" | "next" | "previous";
+
 /**
  * This helper sets focus on and returns a destination element from within a group of provided elements.
  *
- * @param elements An array of elements
- * @param currentElement The current element
- * @param destination The target destination element to focus
+ * @param {Element[]} elements An array of elements.
+ * @param {Element} currentElement The current element.
+ * @param {FocusElementInGroupDestination} destination The target destination element to focus.
  * @returns {Element} The focused element
  */
-
-export type FocusElementInGroupDestination = "first" | "last" | "next" | "previous";
-
 export const focusElementInGroup = (
   elements: Element[],
   currentElement: Element,

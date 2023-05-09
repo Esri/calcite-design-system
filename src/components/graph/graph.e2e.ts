@@ -6,7 +6,9 @@ describe("calcite-graph", () => {
     renders(`<calcite-graph></calcite-graph>`, { display: "block" });
   });
 
-  it("honors hidden attribute", async () => hidden("calcite-graph"));
+  describe("honors hidden attribute", () => {
+    hidden("calcite-graph");
+  });
 
   describe("accessible", () => {
     accessible("calcite-graph");

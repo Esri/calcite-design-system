@@ -6,7 +6,9 @@ describe("calcite-segmented-control-item", () => {
     renders("calcite-segmented-control-item", { display: "flex" });
   });
 
-  it("honors hidden attribute", async () => hidden("calcite-segmented-control-item"));
+  describe("honors hidden attribute", () => {
+    hidden("calcite-segmented-control-item");
+  });
 
   it("is un-checked by default", async () => {
     const page = await newE2EPage();
