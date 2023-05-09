@@ -14,7 +14,9 @@ describe("calcite-notice", () => {
     renders(`<calcite-notice open>${noticeContent}</calcite-notice>`, { display: "flex" });
   });
 
-  it("honors hidden attribute", async () => hidden("calcite-notice"));
+  describe("honors hidden attribute", () => {
+    hidden("calcite-notice");
+  });
 
   describe("accessible", () => {
     accessible(`<calcite-notice open>${noticeContent}</calcite-notice>`);

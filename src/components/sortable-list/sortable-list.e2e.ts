@@ -8,7 +8,9 @@ describe("calcite-sortable-list", () => {
     renders("calcite-sortable-list", { display: "flex" });
   });
 
-  it("honors hidden attribute", async () => hidden("calcite-sortable-list"));
+  describe("honors hidden attribute", () => {
+    hidden("calcite-sortable-list");
+  });
 
   describe("accessible", () => {
     accessible(`<calcite-sortable-list></calcite-sortable-list>`);

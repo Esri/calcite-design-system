@@ -20,7 +20,9 @@ describe("calcite-input-text", () => {
     renders("calcite-input-text", { display: "block" });
   });
 
-  it("honors hidden attribute", async () => hidden("calcite-input-text"));
+  describe("honors hidden attribute", () => {
+    hidden("calcite-input-text");
+  });
 
   it("reflects", async () =>
     reflects("calcite-input-text", [

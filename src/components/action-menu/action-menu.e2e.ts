@@ -9,7 +9,9 @@ describe("calcite-action-menu", () => {
     renders("calcite-action-menu", { display: "flex" });
   });
 
-  it("honors hidden attribute", async () => hidden("calcite-action-menu"));
+  describe("honors hidden attribute", () => {
+    hidden("calcite-action-menu");
+  });
 
   describe("accessible", () => {
     accessible(html`

@@ -9,7 +9,9 @@ describe("calcite-modal properties", () => {
     renders("calcite-modal", { display: "flex", visible: false });
   });
 
-  it("honors hidden attribute", async () => hidden("calcite-modal"));
+  describe("honors hidden attribute", () => {
+    hidden("calcite-modal");
+  });
 
   it("has slots", () => slots("calcite-modal", SLOTS));
 

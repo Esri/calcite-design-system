@@ -46,7 +46,9 @@ describe("calcite-popover", () => {
     );
   });
 
-  it("honors hidden attribute", async () => hidden(`<calcite-popover open></calcite-popover>`));
+  describe("honors hidden attribute", () => {
+    hidden(`<calcite-popover open></calcite-popover>`);
+  });
 
   it("has property defaults", async () =>
     defaults("calcite-popover", [

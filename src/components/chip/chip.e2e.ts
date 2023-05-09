@@ -7,7 +7,9 @@ describe("calcite-chip", () => {
     renders("<calcite-chip>doritos</calcite-chip>", { display: "inline-flex" });
   });
 
-  it("honors hidden attribute", async () => hidden("calcite-chip"));
+  describe("honors hidden attribute", () => {
+    hidden("calcite-chip");
+  });
 
   describe("accessible without calcite-label", () => {
     accessible(`<calcite-chip>doritos</calcite-chip>`);

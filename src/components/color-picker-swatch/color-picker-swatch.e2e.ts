@@ -7,7 +7,9 @@ describe("calcite-color-picker-swatch", () => {
     renders("calcite-color-picker-swatch", { display: "inline-flex" });
   });
 
-  it("honors hidden attribute", async () => hidden("calcite-color-picker-swatch"));
+  describe("honors hidden attribute", () => {
+    hidden("calcite-color-picker-swatch");
+  });
 
   describe("accessible", () => {
     accessible("calcite-color-picker-swatch");

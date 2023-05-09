@@ -9,7 +9,9 @@ describe("calcite-date-picker", () => {
     renders("calcite-date-picker", { display: "inline-block" });
   });
 
-  it("honors hidden attribute", async () => hidden("calcite-date-picker"));
+  describe("honors hidden attribute", () => {
+    hidden("calcite-date-picker");
+  });
 
   it("has property defaults", async () =>
     defaults("calcite-date-picker", [

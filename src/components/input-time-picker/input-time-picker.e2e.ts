@@ -21,7 +21,9 @@ describe("calcite-input-time-picker", () => {
     renders("calcite-input-time-picker", { display: "inline-block" });
   });
 
-  it("honors hidden attribute", async () => hidden("calcite-input-time-picker"));
+  describe("honors hidden attribute", () => {
+    hidden("calcite-input-time-picker");
+  });
 
   describe("accessible", () => {
     accessible(html`

@@ -8,7 +8,9 @@ describe("calcite-shell", () => {
     renders("calcite-shell", { display: "flex" });
   });
 
-  it("honors hidden attribute", async () => hidden("calcite-shell"));
+  describe("honors hidden attribute", () => {
+    hidden("calcite-shell");
+  });
 
   it("has slots", () => slots("calcite-shell", SLOTS));
 

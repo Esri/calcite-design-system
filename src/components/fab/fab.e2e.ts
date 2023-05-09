@@ -8,7 +8,9 @@ describe("calcite-fab", () => {
     renders("calcite-fab", { display: "flex" });
   });
 
-  it("honors hidden attribute", async () => hidden("calcite-fab"));
+  describe("honors hidden attribute", () => {
+    hidden("calcite-fab");
+  });
 
   it("has property defaults", async () =>
     defaults("calcite-fab", [

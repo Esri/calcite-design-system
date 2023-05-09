@@ -6,7 +6,9 @@ describe("calcite-dropdown-item", () => {
     renders("calcite-dropdown-item", { display: "flex" });
   });
 
-  it("honors hidden attribute", async () => hidden("calcite-dropdown-item"));
+  describe("honors hidden attribute", () => {
+    hidden("calcite-dropdown-item");
+  });
 
   describe("can be focused", () => {
     focusable(`calcite-dropdown-item`);

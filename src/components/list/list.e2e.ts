@@ -77,7 +77,9 @@ describe("calcite-list", () => {
     );
   });
 
-  it("honors hidden attribute", async () => hidden("calcite-list"));
+  describe("honors hidden attribute", () => {
+    hidden("calcite-list");
+  });
 
   describe("accessible", () => {
     accessible(html`<calcite-list>

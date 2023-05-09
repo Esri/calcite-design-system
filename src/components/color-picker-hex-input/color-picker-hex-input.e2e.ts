@@ -9,7 +9,9 @@ describe("calcite-color-picker-hex-input", () => {
     renders("calcite-color-picker-hex-input", { display: "block" });
   });
 
-  it("honors hidden attribute", async () => hidden("calcite-color-picker-hex-input"));
+  describe("honors hidden attribute", () => {
+    hidden("calcite-color-picker-hex-input");
+  });
 
   describe("accessible", () => {
     accessible("calcite-color-picker-hex-input");
