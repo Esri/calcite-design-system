@@ -30,7 +30,10 @@ describe("calcite-combobox", () => {
         defaultValue: undefined
       }
     ]));
-  it("honors hidden attribute", async () => hidden("calcite-combobox"));
+
+  describe("honors hidden attribute", () => {
+    hidden("calcite-combobox");
+  });
 
   describe("accessible", () => {
     accessible(html`

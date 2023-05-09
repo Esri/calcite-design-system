@@ -9,7 +9,9 @@ describe("calcite-tab", () => {
     renders("<calcite-tab selected></calcite-tab>", { display: "block", visible: true });
   });
 
-  it("honors hidden attribute", async () => hidden("calcite-tab"));
+  describe("honors hidden attribute", () => {
+    hidden("calcite-tab");
+  });
 
   it("has defaults", async () =>
     defaults("calcite-tab", [

@@ -43,7 +43,9 @@ describe("calcite-action", () => {
     renders("calcite-action", { display: "flex" });
   });
 
-  it("honors hidden attribute", async () => hidden("calcite-action"));
+  describe("honors hidden attribute", () => {
+    hidden("calcite-action");
+  });
 
   it("can be disabled", () => disabled("calcite-action"));
 

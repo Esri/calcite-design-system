@@ -8,7 +8,9 @@ describe("calcite-pick-list-group", () => {
     renders("calcite-pick-list-group", { display: "block" });
   });
 
-  it("honors hidden attribute", async () => hidden("calcite-pick-list-group"));
+  describe("honors hidden attribute", () => {
+    hidden("calcite-pick-list-group");
+  });
 
   // eslint-disable-next-line jest/no-disabled-tests
   describe.skip("accessible", () => {

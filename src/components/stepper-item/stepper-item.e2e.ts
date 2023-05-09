@@ -5,7 +5,9 @@ describe("calcite-stepper-item", () => {
     renders("calcite-stepper-item", { display: "flex" });
   });
 
-  it("honors hidden attribute", async () => hidden("calcite-stepper-item"));
+  describe("honors hidden attribute", () => {
+    hidden("calcite-stepper-item");
+  });
 
   it("can be disabled", () => disabled("calcite-stepper-item"));
 });
