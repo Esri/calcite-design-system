@@ -7,7 +7,9 @@ describe("calcite-menu", () => {
     renders("calcite-menu", { display: "flex" });
   });
 
-  it("honors hidden attribute", async () => hidden("calcite-menu"));
+  describe("honors hidden attribute", () => {
+    hidden("calcite-menu");
+  });
 
   describe("accessible", () => {
     accessible(html`<calcite-menu> <calcite-menu-item text="calcite"> </calcite-menu-item> </calcite-menu>`);
