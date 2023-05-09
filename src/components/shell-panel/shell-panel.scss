@@ -9,7 +9,8 @@
  * @prop --calcite-shell-panel-height: When `layout` is `"horizontal"`, specifies the height of the component.
  * @prop --calcite-shell-panel-max-height: When `layout` is `"horizontal"`, specifies the maximum height of the component.
  * @prop --calcite-shell-panel-min-height: When `layout` is `"horizontal"`, specifies the minimum height of the component.
- * @prop --calcite-shell-panel-detached-max-height: When `displayMode` is `float`, specifies the maximum height of the component.
+ * @prop [Deprecated] --calcite-shell-panel-detached-max-height: When `displayMode` is `float`, specifies the maximum height of the component.
+* @prop --calcite-shell-panel-max-height: When `displayMode` is `float`, specifies the maximum height of the component.
  * @prop --calcite-shell-panel-z-index: Specifies the z-index value for the component.
  *
  */
@@ -22,6 +23,7 @@
     items-stretch;
   z-index: var(--calcite-shell-panel-z-index, theme("zIndex.default"));
   --calcite-shell-panel-detached-max-height: unset;
+  --calcite-shell-panel-max-height: unset;
   --calcite-shell-panel-shadow-block-start-internal: 0 4px 8px -1px rgba(0, 0, 0, 0.08),
     0 2px 4px -1px rgba(0, 0, 0, 0.04);
   --calcite-shell-panel-shadow-block-end-internal: 0 -4px 8px -1px rgba(0, 0, 0, 0.08),
@@ -68,15 +70,24 @@
 }
 
 :host([height-scale="s"]) .content--float {
-  --calcite-shell-panel-detached-max-height-internal: var(--calcite-shell-panel-detached-max-height, 40vh);
+  --calcite-shell-panel-max-height-internal: var(
+    --calcite-shell-panel-max-height,
+    var(--calcite-shell-panel-detached-max-height, 40vh)
+  );
 }
 
 :host([height-scale="m"]) .content--float {
-  --calcite-shell-panel-detached-max-height-internal: var(--calcite-shell-panel-detached-max-height, 60vh);
+  --calcite-shell-panel-max-height-internal: var(
+    --calcite-shell-panel-max-height,
+    var(--calcite-shell-panel-detached-max-height, 60vh)
+  );
 }
 
 :host([height-scale="l"]) .content--float {
-  --calcite-shell-panel-detached-max-height-internal: var(--calcite-shell-panel-detached-max-height, 80vh);
+  --calcite-shell-panel-max-height-internal: var(
+    --calcite-shell-panel-max-height,
+    var(--calcite-shell-panel-detached-max-height, 80vh)
+  );
 }
 
 .container {
@@ -250,7 +261,7 @@
   h-auto
   overflow-hidden
   rounded;
-  max-block-size: var(--calcite-shell-panel-detached-max-height-internal);
+  max-block-size: var(--calcite-shell-panel-max-height-internal);
   ::slotted(calcite-panel),
   ::slotted(calcite-flow) {
     max-block-size: unset;
