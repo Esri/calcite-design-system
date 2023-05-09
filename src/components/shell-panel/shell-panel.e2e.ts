@@ -30,7 +30,7 @@ describe("calcite-shell-panel", () => {
       },
       {
         propertyName: "displayMode",
-        defaultValue: "docked"
+        defaultValue: "dock"
       }
     ]));
 
@@ -145,7 +145,7 @@ describe("calcite-shell-panel", () => {
 
     await page.setContent("<calcite-shell-panel><div>content</div></calcite-shell-panel>");
 
-    let detachedElement = await page.find(`calcite-shell-panel >>> .${CSS.contentDetached}`);
+    let detachedElement = await page.find(`calcite-shell-panel >>> .${CSS.contentFloat}`);
 
     expect(detachedElement).toBeNull();
 
@@ -153,13 +153,13 @@ describe("calcite-shell-panel", () => {
 
     expect(await panel.getProperty("detached")).toBe(false);
 
-    panel.setProperty("displayMode", "detached");
+    panel.setProperty("displayMode", "float");
 
     await page.waitForChanges();
 
     expect(await panel.getProperty("detached")).toBe(true);
 
-    detachedElement = await page.find(`calcite-shell-panel >>> .${CSS.contentDetached}`);
+    detachedElement = await page.find(`calcite-shell-panel >>> .${CSS.contentFloat}`);
 
     expect(detachedElement).not.toBeNull();
   });
@@ -169,17 +169,17 @@ describe("calcite-shell-panel", () => {
 
     await page.setContent("<calcite-shell-panel><div>content</div></calcite-shell-panel>");
 
-    let detachedElement = await page.find(`calcite-shell-panel >>> .${CSS.contentOverlaid}`);
+    let detachedElement = await page.find(`calcite-shell-panel >>> .${CSS.contentOverlay}`);
 
     expect(detachedElement).toBeNull();
 
     const panel = await page.find("calcite-shell-panel");
 
-    panel.setProperty("displayMode", "overlaid");
+    panel.setProperty("displayMode", "overlay");
 
     await page.waitForChanges();
 
-    detachedElement = await page.find(`calcite-shell-panel >>> .${CSS.contentOverlaid}`);
+    detachedElement = await page.find(`calcite-shell-panel >>> .${CSS.contentOverlay}`);
 
     expect(detachedElement).not.toBeNull();
   });
@@ -191,7 +191,7 @@ describe("calcite-shell-panel", () => {
 
     const panel = await page.find("calcite-shell-panel");
 
-    panel.setProperty("displayMode", "overlaid");
+    panel.setProperty("displayMode", "overlay");
 
     await page.waitForChanges();
 
@@ -211,7 +211,7 @@ describe("calcite-shell-panel", () => {
 
     const panel = await page.find("calcite-shell-panel");
 
-    panel.setProperty("displayMode", "overlaid");
+    panel.setProperty("displayMode", "overlay");
 
     await page.waitForChanges();
 
@@ -559,7 +559,7 @@ describe("calcite-shell-panel", () => {
     const page = await newE2EPage();
     await page.setContent(
       `<calcite-shell content-behind>
-        <calcite-shell-panel slot="panel-start" position="start" display-mode="detached"></calcite-shell-panel>
+        <calcite-shell-panel slot="panel-start" position="start" display-mode="float"></calcite-shell-panel>
         <calcite-action text="test" style="height: 100%; width: 100%;" text-enabled></calcite-action>
       </calcite-shell>`
     );

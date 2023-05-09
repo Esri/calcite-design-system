@@ -42,7 +42,7 @@ const createShellPanelAttributes: (group: "Leading Panel" | "Trailing Panel", re
     },
     {
       name: "displayMode",
-      value: select("displayMode", ["docked", "detached", "overlaid"], "docked")
+      value: select("displayMode", ["dock", "float", "overlay"], "dock")
     },
     {
       name: "position",
@@ -357,7 +357,7 @@ darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
 
 export const closedPanels = (): string =>
   html(`<calcite-shell content-behind>
-  <calcite-shell-panel slot="panel-start" display-mode="detached">
+  <calcite-shell-panel slot="panel-start" display-mode="float">
     <calcite-action-bar slot="action-bar">
       <calcite-action data-action-id="layers" icon="layers" text="Layers"></calcite-action>
       <calcite-action data-action-id="basemaps" icon="basemap" text="Basemaps"></calcite-action>
@@ -400,7 +400,7 @@ background-size: 20px 20px;
 background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
 "
     ></div>
-    <calcite-shell-panel slot="panel-end" position="end" display-mode="detached">
+    <calcite-shell-panel slot="panel-end" position="end" display-mode="float">
       <calcite-action-bar slot="action-bar">
         <calcite-action-group>
           <calcite-action text="Idea" label="Add Item" icon="lightbulb" appearance="solid" scale="m"></calcite-action>
@@ -909,7 +909,7 @@ height:600px;
 position:relative;
 "
 >
-  <calcite-shell-panel display-mode="overlaid" resizable id="primary-panel" slot="panel-start" position="start">
+  <calcite-shell-panel display-mode="overlay" resizable id="primary-panel" slot="panel-start" position="start">
     <calcite-action-bar slot="action-bar" class="calcite-mode-dark">
       <calcite-action-group>
         <calcite-action text="Save" icon="save" indicator> </calcite-action>
@@ -936,7 +936,7 @@ position:relative;
       <calcite-tooltip label="tooltip" reference-element="layer-fab" pointer-disabled>Add layers</calcite-tooltip>
     </calcite-panel>
   </calcite-shell-panel>
-  <calcite-shell-panel display-mode="overlaid" resizable slot="panel-end" position="end">
+  <calcite-shell-panel display-mode="overlay" resizable slot="panel-end" position="end">
     <calcite-action-bar slot="action-bar">
       <calcite-action-group>
         <calcite-action text="Layer properties" icon="sliders-horizontal"> </calcite-action>
@@ -1074,14 +1074,7 @@ position:relative;
       background-size: 20px 20px;
       background-position: 0 0, 0 10px, 10px -10px, -10px 0px;"
   ></div>
-  <calcite-shell-panel
-    collapsed
-    display-mode="overlaid"
-    resizable
-    layout="horizontal"
-    slot="panel-top"
-    position="start"
-  >
+  <calcite-shell-panel collapsed display-mode="overlay" resizable layout="horizontal" slot="panel-top" position="start">
     <calcite-action-bar slot="action-bar">
       <calcite-action-group>
         <calcite-action text="Save" icon="save" indicator> </calcite-action>
@@ -1107,7 +1100,7 @@ position:relative;
   </calcite-shell-panel>
   <calcite-shell-panel
     collapsed
-    display-mode="overlaid"
+    display-mode="overlay"
     resizable
     layout="horizontal"
     slot="panel-bottom"

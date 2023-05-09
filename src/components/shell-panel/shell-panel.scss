@@ -9,7 +9,7 @@
  * @prop --calcite-shell-panel-height: When `layout` is `"horizontal"`, specifies the height of the component.
  * @prop --calcite-shell-panel-max-height: When `layout` is `"horizontal"`, specifies the maximum height of the component.
  * @prop --calcite-shell-panel-min-height: When `layout` is `"horizontal"`, specifies the minimum height of the component.
- * @prop --calcite-shell-panel-detached-max-height: When `displayMode` is `detached`, specifies the maximum height of the component.
+ * @prop --calcite-shell-panel-detached-max-height: When `displayMode` is `float`, specifies the maximum height of the component.
  * @prop --calcite-shell-panel-z-index: Specifies the z-index value for the component.
  *
  */
@@ -32,7 +32,7 @@
     -2px 0 4px -1px rgba(0, 0, 0, 0.04);
 }
 
-.calcite--rtl.content--overlaid {
+.calcite--rtl.content--overlay {
   --calcite-shell-panel-shadow-inline-start-internal: -4px 0 8px -1px rgba(0, 0, 0, 0.08),
     -2px 0 4px -1px rgba(0, 0, 0, 0.04);
   --calcite-shell-panel-shadow-inline-end-internal: 4px 0 8px -1px rgba(0, 0, 0, 0.08),
@@ -67,15 +67,15 @@
   --calcite-shell-panel-min-width-internal: var(--calcite-shell-panel-min-width, 340px);
 }
 
-:host([detached-height-scale="s"]) .content--detached {
+:host([detached-height-scale="s"]) .content--float {
   --calcite-shell-panel-detached-max-height-internal: var(--calcite-shell-panel-detached-max-height, 40vh);
 }
 
-:host([detached-height-scale="m"]) .content--detached {
+:host([detached-height-scale="m"]) .content--float {
   --calcite-shell-panel-detached-max-height-internal: var(--calcite-shell-panel-detached-max-height, 60vh);
 }
 
-:host([detached-height-scale="l"]) .content--detached {
+:host([detached-height-scale="l"]) .content--float {
   --calcite-shell-panel-detached-max-height-internal: var(--calcite-shell-panel-detached-max-height, 80vh);
 }
 
@@ -209,40 +209,40 @@
   overflow-hidden;
 }
 
-.content--overlaid {
+.content--overlay {
   @apply absolute
   shadow-0;
 }
 
-:host([layout="vertical"]) .content--overlaid {
+:host([layout="vertical"]) .content--overlay {
   @apply top-0 h-full;
 }
 
-:host([layout="horizontal"]) .content--overlaid {
+:host([layout="horizontal"]) .content--overlay {
   @apply left-0 w-full;
 }
 
-:host([layout="vertical"][position="start"]) .content--overlaid {
+:host([layout="vertical"][position="start"]) .content--overlay {
   inset-inline-start: 100%;
   box-shadow: var(--calcite-shell-panel-shadow-inline-start-internal);
 }
 
-:host([layout="vertical"][position="end"]) .content--overlaid {
+:host([layout="vertical"][position="end"]) .content--overlay {
   inset-inline-end: 100%;
   box-shadow: var(--calcite-shell-panel-shadow-inline-end-internal);
 }
 
-:host([layout="horizontal"][position="start"]) .content--overlaid {
+:host([layout="horizontal"][position="start"]) .content--overlay {
   inset-block-start: 100%;
   box-shadow: var(--calcite-shell-panel-shadow-block-start-internal);
 }
 
-:host([layout="horizontal"][position="end"]) .content--overlaid {
+:host([layout="horizontal"][position="end"]) .content--overlay {
   inset-block-end: 100%;
   box-shadow: var(--calcite-shell-panel-shadow-block-end-internal);
 }
 
-.content--detached {
+.content--float {
   @apply shadow-0
   mx-2
   mt-2
@@ -257,12 +257,12 @@
   }
 }
 
-:host([layout="horizontal"]) .content--detached {
+:host([layout="horizontal"]) .content--float {
   @apply my-2;
 }
 
-:host([position="start"]) .content--detached,
-:host([position="end"]) .content--detached {
+:host([position="start"]) .content--float,
+:host([position="end"]) .content--float {
   ::slotted(calcite-panel),
   ::slotted(calcite-flow) {
     @apply border-none;
