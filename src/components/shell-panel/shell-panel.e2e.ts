@@ -29,6 +29,10 @@ describe("calcite-shell-panel", () => {
         defaultValue: false
       },
       {
+        propertyName: "heightScale",
+        defaultValue: "l"
+      },
+      {
         propertyName: "displayMode",
         defaultValue: "dock"
       }

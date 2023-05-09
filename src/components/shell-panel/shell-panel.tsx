@@ -75,9 +75,26 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
   }
 
   /**
-   * When `detached`, specifies the maximum height of the component.
+   * When `displayMode` is `float`, specifies the maximum height of the component.
+   *
+   * @deprecated use `heightScale` instead.
    */
   @Prop({ reflect: true }) detachedHeightScale: Scale = "l";
+
+  @Watch("detachedHeightScale")
+  handleDetachedHeightScale(value: Scale): void {
+    this.heightScale = value;
+  }
+
+  /**
+   * When `displayMode` is `float`, specifies the maximum height of the component.
+   */
+  @Prop({ reflect: true }) heightScale: Scale = "l";
+
+  @Watch("heightScale")
+  handleHeightScale(value: Scale): void {
+    this.detachedHeightScale = value;
+  }
 
   /**
    * Specifies the width of the component's content area.

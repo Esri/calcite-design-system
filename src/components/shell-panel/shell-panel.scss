@@ -67,15 +67,15 @@
   --calcite-shell-panel-min-width-internal: var(--calcite-shell-panel-min-width, 340px);
 }
 
-:host([detached-height-scale="s"]) .content--float {
+:host([height-scale="s"]) .content--float {
   --calcite-shell-panel-detached-max-height-internal: var(--calcite-shell-panel-detached-max-height, 40vh);
 }
 
-:host([detached-height-scale="m"]) .content--float {
+:host([height-scale="m"]) .content--float {
   --calcite-shell-panel-detached-max-height-internal: var(--calcite-shell-panel-detached-max-height, 60vh);
 }
 
-:host([detached-height-scale="l"]) .content--float {
+:host([height-scale="l"]) .content--float {
   --calcite-shell-panel-detached-max-height-internal: var(--calcite-shell-panel-detached-max-height, 80vh);
 }
 
