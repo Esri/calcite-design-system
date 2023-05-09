@@ -62,7 +62,9 @@ describe("calcite-text-area", () => {
     </calcite-label>`);
   });
 
-  it("is focusable", () => focusable("calcite-text-area"));
+  describe("is focusable", () => {
+    focusable("calcite-text-area");
+  });
 
   describe("is form associated", () => {
     formAssociated("calcite-text-area", {
