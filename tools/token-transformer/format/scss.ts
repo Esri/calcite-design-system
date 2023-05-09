@@ -48,8 +48,24 @@ export function formatSCSS(fileInfo: {
         const sassToken = { ...token };
         const path = sassToken.path.filter((p) => !/(core|default|font$)/.test(p));
         sassToken.name = sassToken.type === "color" ? path.slice(-1).join("-") : path.join("-");
+        sassToken.original.value = sassToken.original.value[0] === "{" ? sassToken.value : sassToken.original.value;
         acc[0].push(sassProps(sassToken));
       }
+
+      if (/dark|light/.test(token.filePath) && !token.path.includes("component")) {
+        const sassToken = { ...token };
+        const path = sassToken.path.reduce((acc, p) => {
+          if (p === "default") {
+            return acc;
+          }
+          acc.push(p === "color" ? "ui" : p);
+          return acc;
+        }, []);
+        path.push(token.filePath.includes("dark") ? "dark" : "light");
+        sassToken.name = path.join("-");
+        acc[0].push(sassProps(sassToken));
+      }
+
       return acc;
     },
     [[], []]
