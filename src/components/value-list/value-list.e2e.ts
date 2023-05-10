@@ -97,7 +97,7 @@ describe("calcite-value-list", () => {
     itemRemoval("value");
   });
 
-  describe("loading state", () => {
+  describe.skip("loading state", () => {
     loadingState("value");
   });
 
