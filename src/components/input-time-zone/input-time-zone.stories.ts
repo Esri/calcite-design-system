@@ -13,15 +13,15 @@ export default {
 };
 
 export const simple = (): string => html`
-  <calcite-input-time-zone-picker>
+  <calcite-input-time-zone>
     ${boolean("disabled", false)} scale="${select("scale", ["s", "m", "l"], "m")}"
-  </calcite-input-time-zone-picker>
+  </calcite-input-time-zone>
 `;
 
 export const disabled_TestOnly = (): string =>
-  html`<calcite-input-time-zone-picker disabled></calcite-input-time-zone-picker>`;
+  html`<calcite-input-time-zone disabled></calcite-input-time-zone>`;
 
 export const darkModeRTL_TestOnly = (): string => html`
-  <calcite-input-time-zone-picker dir="rtl" class="calcite-mode-dark"></calcite-input-time-zone-picker>
+  <calcite-input-time-zone dir="rtl" class="calcite-mode-dark"></calcite-input-time-zone>
 `;
 darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
