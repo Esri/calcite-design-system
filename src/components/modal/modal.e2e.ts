@@ -403,15 +403,17 @@ describe("calcite-modal accessibility checks", () => {
     const focusableContentHTML = html`<h3 slot="header">Title</h3>
       <p slot="content">This is the content <button class=${focusableContentTargetClass}>test</button></p>`;
 
-    it("focuses close button by default", async () =>
+    describe("focuses close button by default", () => {
       focusable(createModalHTML(focusableContentHTML), {
         shadowFocusTargetSelector: closeButtonTargetSelector
-      }));
+      });
+    });
 
-    it("focuses content if there is no close button", async () =>
+    describe("focuses content if there is no close button", () => {
       focusable(createModalHTML(focusableContentHTML, "close-button-disabled"), {
         focusTargetSelector: `.${focusableContentTargetClass}`
-      }));
+      });
+    });
   });
 
   it("has correct aria role/attribute", async () => {
