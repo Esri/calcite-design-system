@@ -44,7 +44,7 @@ export class ChipGroup implements InteractiveComponent {
   /** Accessible name for the component. */
   @Prop() label!: string;
 
-  /** Specifies the size of the component. Child `calcite-chip`s inherit the component's value and display consistent spacing. */
+  /** Specifies the size of the component. Child `calcite-chip`s inherit the component's value. */
   @Prop({ reflect: true }) scale: Scale = "m";
 
   /** Specifies the selection mode of the component. */

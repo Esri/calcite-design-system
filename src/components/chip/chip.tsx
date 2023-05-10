@@ -92,7 +92,7 @@ export class Chip
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @Prop({ reflect: true }) iconFlipRtl = false;
 
-  /** Specifies the size of the component. When contained in a parent `calcite-chip-group` inherits the parent's `scale` value and displays consistent spacing. */
+  /** Specifies the size of the component. When contained in a parent `calcite-chip-group` inherits the parent's `scale` value. */
   @Prop({ reflect: true }) scale: Scale = "m";
 
   /** Accessible name for the component. */
