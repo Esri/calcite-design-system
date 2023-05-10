@@ -276,7 +276,7 @@ export class InputTimePicker
   @Watch("effectiveLocale")
   @Watch("step")
   async valueRelatedPropChange(): Promise<void> {
-    await this.loadLocaleDefinition();
+    await this.loadDateTimeLocaleData();
     this.setInputValue(
       localizeTimeString({
         value: this.value,
@@ -516,7 +516,7 @@ export class InputTimePicker
     }
   };
 
-  private async loadLocaleDefinition(): Promise<void> {
+  private async loadDateTimeLocaleData(): Promise<void> {
     const { effectiveLocale } = this;
 
     if (effectiveLocale === "en" || effectiveLocale === "en-US") {
@@ -716,7 +716,7 @@ export class InputTimePicker
 
   async componentWillLoad(): Promise<void> {
     setUpLoadableComponent(this);
-    await Promise.all([setUpMessages(this), this.loadLocaleDefinition()]);
+    await Promise.all([setUpMessages(this), this.loadDateTimeLocaleData()]);
   }
 
   componentDidLoad() {
