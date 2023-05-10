@@ -666,7 +666,6 @@ export class Combobox
 
   onClose(): void {
     this.calciteComboboxClose.emit();
-    this.setFocus();
   }
 
   setMaxScrollerHeight = async (): Promise<void> => {
