@@ -72,15 +72,15 @@
               inputTimePickerEl.setAttribute("numbering-system", numberingSystem);
             }
             inputTimePickerEl.setAttribute("value", "10:00:00");
-            labelEl.appendChild(document.createTextNode(`${name} (${locale})`));
-            labelEl.appendChild(inputTimePickerEl);
-            mainEl.appendChild(labelEl);
+            labelEl.append(document.createTextNode(`${name} (${locale})`));
+            labelEl.append(inputTimePickerEl);
+            mainEl.append(labelEl);
 
             const localeObject = new Intl.Locale(locale);
             if (localeObject.hourCycles[0] === "h12") {
-              h12.appendChild(labelEl);
+              h12.append(labelEl);
             } else {
-              h23.appendChild(labelEl);
+              h23.append(labelEl);
             }
 
             labelEl = document.createElement("calcite-label");
@@ -92,14 +92,14 @@
             }
             inputTimePickerEl.setAttribute("step", 1);
             inputTimePickerEl.setAttribute("value", "10:00");
-            labelEl.appendChild(document.createTextNode(`${name} (${locale}) (seconds)`));
-            labelEl.appendChild(inputTimePickerEl);
-            mainEl.appendChild(labelEl);
+            labelEl.append(document.createTextNode(`${name} (${locale}) (seconds)`));
+            labelEl.append(inputTimePickerEl);
+            mainEl.append(labelEl);
 
             if (localeObject.hourCycles[0] === "h12") {
-              h12.appendChild(labelEl);
+              h12.append(labelEl);
             } else {
-              h23.appendChild(labelEl);
+              h23.append(labelEl);
             }
           });
         })();
