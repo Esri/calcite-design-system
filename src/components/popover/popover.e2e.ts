@@ -734,7 +734,6 @@ describe("calcite-popover", () => {
       });
     });
 
-    // eslint-disable-next-line jest/no-disabled-tests
     describe.skip("should focus close button", () => {
       focusable(createPopoverHTML(contentHTML, "closable"), {
         shadowFocusTargetSelector: `.${CSS.closeButton}`

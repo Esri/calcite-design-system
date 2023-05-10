@@ -180,7 +180,7 @@ export async function defaults(
 /**
  * Helper for asserting that a component is not visible when hidden
  *
- * Note that this helper should be used within a describe block
+ * Note that this helper should be used within a describe block.
  *
  * describe("honors hidden attribute", () => {
  *    hidden("calcite-accordion")
@@ -222,10 +222,10 @@ interface FocusableOptions {
 /**
  * Helper for asserting that a component is focusable
  *
- * Note that this helper should be used within a describe block
+ * Note that this helper should be used within a describe block.
  *
  * describe("is focusable", () => {
- *    focusable(`calcite-input-number`, {shadowFocusTargetSelector: "input" })
+ *    focusable(`calcite-input-number`, { shadowFocusTargetSelector: "input" })
  * });
  *
  * @param {string} componentTagOrHTML - the component tag or HTML markup to test against
