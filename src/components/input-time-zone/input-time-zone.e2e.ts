@@ -17,6 +17,10 @@ describe("calcite-input-time-zone", () => {
     accessible("calcite-input-time-zone");
   });
 
+  describe("focusable", () => {
+    focusable("calcite-input-time-zone");
+  });
+
   describe("hidden", () => {
     hidden("calcite-input-time-zone");
   });
@@ -24,8 +28,6 @@ describe("calcite-input-time-zone", () => {
   describe("renders", () => {
     renders("calcite-input-time-zone", { display: "block" });
   });
-
-  it("is focusable", () => focusable("calcite-input-time-zone"));
 
   it("is labelable", () => labelable("calcite-input-time-zone"));
 

@@ -820,7 +820,7 @@ interface DisabledOptions {
   /**
    *  Use this to specify whether the test should cover focusing.
    */
-  focusTarget: FocusTarget | TabAndClickTargets;
+  focusTarget?: FocusTarget | TabAndClickTargets;
 
   /**
    *  Use this to specify the main wrapped component in shadow DOM that handles disabling interaction.
