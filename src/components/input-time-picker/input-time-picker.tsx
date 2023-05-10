@@ -339,7 +339,7 @@ export class InputTimePicker
   private calciteInternalInputInputHandler = (event: CustomEvent): void => {
     const { effectiveLocale: locale, numberingSystem } = this;
 
-    if (numberingSystem !== "latn") {
+    if (numberingSystem && numberingSystem !== "latn") {
       const target = event.target as HTMLCalciteTimePickerElement;
 
       numberStringFormatter.numberFormatOptions = {
