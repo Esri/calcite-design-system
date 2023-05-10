@@ -38,13 +38,13 @@ export class ChipGroup implements InteractiveComponent {
   //
   //--------------------------------------------------------------------------
 
-  /** When true, interaction is prevented and the component is displayed with lower opacity. */
+  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @Prop({ reflect: true }) disabled = false;
 
   /** Accessible name for the component. */
   @Prop() label!: string;
 
-  /** Specifies the size of the component. */
+  /** Specifies the size of the component. Child `calcite-chip`s inherit the component's value and display consistent spacing. */
   @Prop({ reflect: true }) scale: Scale = "m";
 
   /** Specifies the selection mode of the component. */

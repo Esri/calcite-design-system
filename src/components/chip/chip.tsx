@@ -73,7 +73,7 @@ export class Chip
   //  Public Properties
   //
   //--------------------------------------------------------------------------
-  /** When true, interaction is prevented and the component is displayed with lower opacity. */
+  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @Prop({ reflect: true }) disabled = false;
 
   /** Specifies the appearance style of the component. */
@@ -92,7 +92,7 @@ export class Chip
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @Prop({ reflect: true }) iconFlipRtl = false;
 
-  /** Specifies the size of the component. */
+  /** Specifies the size of the component. When contained in a parent `calcite-chip-group` inherits the parent's `scale` value and displays consistent spacing. */
   @Prop({ reflect: true }) scale: Scale = "m";
 
   /** Accessible name for the component. */
@@ -113,7 +113,7 @@ export class Chip
   @Prop() selectionMode: Extract<"multiple" | "single" | "single-persist" | "none", SelectionMode> =
     "none";
 
-  /** When true, the component is selected.  */
+  /** When `true`, the component is selected.  */
   @Prop({ reflect: true, mutable: true }) selected = false;
 
   /**
