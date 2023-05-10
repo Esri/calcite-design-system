@@ -12,6 +12,12 @@ export default {
 
 export const simple = (): string =>
   html`
+    <style>
+      calcite-chip {
+        align-self: center;
+        margin: 0 8px;
+      }
+    </style>
     <calcite-shell>
       <calcite-nav slot="header">
         <calcite-chip-group slot="primary-content-center">
@@ -25,6 +31,12 @@ export const simple = (): string =>
 
 export const primarySlots_TestOnly = (): string =>
   html`
+    <style>
+      calcite-chip {
+        align-self: center;
+        margin: 0 8px;
+      }
+    </style>
     <calcite-shell>
       <calcite-nav slot="header" nav-action>
         <calcite-chip slot="logo"> logo </calcite-chip>
@@ -38,6 +50,12 @@ export const primarySlots_TestOnly = (): string =>
 
 export const primaryAndSecondarySlots_TestOnly = (): string =>
   html`
+    <style>
+      calcite-chip {
+        align-self: center;
+        margin: 0 8px;
+      }
+    </style>
     <calcite-shell>
       <calcite-nav slot="header" nav-action>
         <calcite-chip slot="logo"> logo </calcite-chip>
@@ -54,6 +72,12 @@ export const primaryAndSecondarySlots_TestOnly = (): string =>
 
 export const allSlots_TestOnly = (): string =>
   html`
+    <style>
+      calcite-chip {
+        align-self: center;
+        margin: 0 8px;
+      }
+    </style>
     <calcite-shell>
       <calcite-nav slot="header">
         <calcite-chip slot="nav-action"> Action </calcite-chip>
@@ -73,6 +97,12 @@ export const allSlots_TestOnly = (): string =>
 
 export const allSlots_darkModeRTL_TestOnly = (): string =>
   html`
+  <style>
+      calcite-chip {
+        align-self: center;
+        margin: 0 8px;
+      }
+    </style>
       <div style="class="calcite-mode-dark" dir="rtl">
         <calcite-shell>
           <calcite-nav slot="header">
@@ -94,6 +124,12 @@ export const allSlots_darkModeRTL_TestOnly = (): string =>
 
 export const withBothNavActionPropAndSlot_TestOnly = (): string =>
   html`
+  <style>
+      calcite-chip {
+        align-self: center;
+        margin: 0 8px;
+      }
+    </style>
       <div style="class="calcite-mode-dark" dir="rtl">
         <calcite-shell>
           <calcite-nav slot="header" nav-action>

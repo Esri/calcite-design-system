@@ -44,7 +44,12 @@ export const thumbnail_TestOnly = (): string => html` <calcite-shell>
 
 export const textAndThumbnail_TestOnly = (): string => html` <calcite-shell>
   <calcite-nav slot="header">
-    <calcite-nav-logo slot="logo" text="ArcGIS Online" thumbnail="${placeholderImage({ width: 50, height: 50 })}" />
+    <calcite-nav-logo
+      slot="logo"
+      text="ArcGIS Online"
+      thumbnail="${placeholderImage({ width: 50, height: 50 })}"
+      text-enabled
+    />
   </calcite-nav>
 </calcite-shell>`;
 
