@@ -180,16 +180,24 @@ export async function defaults(
 /**
  * Helper for asserting that a component is not visible when hidden
  *
+ * Note that this helper should be used within a describe block.
+ *
+ * describe("honors hidden attribute", () => {
+ *    hidden("calcite-accordion")
+ * });
+ *
  * @param {string} componentTagOrHTML - the component tag or HTML markup to test against
  */
 export async function hidden(componentTagOrHTML: TagOrHTML): Promise<void> {
-  const page = await simplePageSetup(componentTagOrHTML);
-  const element = await page.find(getTag(componentTagOrHTML));
+  it("is hidden", async () => {
+    const page = await simplePageSetup(componentTagOrHTML);
+    const element = await page.find(getTag(componentTagOrHTML));
 
-  element.setAttribute("hidden", "");
-  await page.waitForChanges();
+    element.setAttribute("hidden", "");
+    await page.waitForChanges();
 
-  expect(await element.isVisible()).toBe(false);
+    expect(await element.isVisible()).toBe(false);
+  });
 }
 
 interface FocusableOptions {
@@ -214,30 +222,41 @@ interface FocusableOptions {
 /**
  * Helper for asserting that a component is focusable
  *
+ * Note that this helper should be used within a describe block.
+ *
+ * describe("is focusable", () => {
+ *    focusable(`calcite-input-number`, { shadowFocusTargetSelector: "input" })
+ * });
+ *
  * @param {string} componentTagOrHTML - the component tag or HTML markup to test against
  * @param {FocusableOptions} [options] - additional options for asserting focus
  */
-export async function focusable(componentTagOrHTML: TagOrHTML, options?: FocusableOptions): Promise<void> {
-  const page = await simplePageSetup(componentTagOrHTML);
-  const tag = getTag(componentTagOrHTML);
-  const element = await page.find(tag);
-  const focusTargetSelector = options?.focusTargetSelector || tag;
-  await element.callMethod("setFocus", options?.focusId); // assumes element is FocusableElement
+export function focusable(componentTagOrHTML: TagOrHTML, options?: FocusableOptions): void {
+  it("is focusable", async () => {
+    const page = await simplePageSetup(componentTagOrHTML);
+    const tag = getTag(componentTagOrHTML);
+    const element = await page.find(tag);
+    const focusTargetSelector = options?.focusTargetSelector || tag;
+    await element.callMethod("setFocus", options?.focusId); // assumes element is FocusableElement
 
-  if (options?.shadowFocusTargetSelector) {
-    expect(
-      await page.$eval(
-        tag,
-        (element: HTMLElement, selector: string) => element.shadowRoot.activeElement?.matches(selector),
-        options?.shadowFocusTargetSelector
-      )
-    ).toBe(true);
-  }
+    if (options?.shadowFocusTargetSelector) {
+      // eslint-disable-next-line jest/no-conditional-expect
+      expect(
+        await page.$eval(
+          tag,
+          (element: HTMLElement, selector: string) => element.shadowRoot.activeElement?.matches(selector),
+          options?.shadowFocusTargetSelector
+        )
+      ).toBe(true);
+    }
 
-  // wait for next frame before checking focus
-  await page.waitForTimeout(0);
+    // wait for next frame before checking focus
+    await page.waitForTimeout(0);
 
-  expect(await page.evaluate((selector) => document.activeElement?.matches(selector), focusTargetSelector)).toBe(true);
+    expect(await page.evaluate((selector) => document.activeElement?.matches(selector), focusTargetSelector)).toBe(
+      true
+    );
+  });
 }
 
 /**

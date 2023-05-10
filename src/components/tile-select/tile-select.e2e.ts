@@ -34,7 +34,9 @@ describe("calcite-tile-select", () => {
       { propertyName: "width", value: "auto" }
     ]));
 
-  it("honors hidden attribute", async () => hidden("calcite-tile-select"));
+  describe("honors hidden attribute", () => {
+    hidden("calcite-tile-select");
+  });
 
   it("can be disabled", () =>
     disabled(
@@ -115,15 +117,17 @@ describe("calcite-tile-select", () => {
     expect(firstRadioButton).toBeNull();
   });
 
-  it("focuses calcite-checkbox when setFocus method is called", async () =>
+  describe("focuses calcite-checkbox when setFocus method is called", () => {
     focusable(html`<calcite-tile-select type="checkbox"></calcite-tile-select>`, {
       focusTargetSelector: "calcite-checkbox"
-    }));
+    });
+  });
 
-  it("focuses calcite-radio-button when setFocus method is called", async () =>
+  describe("focuses calcite-radio-button when setFocus method is called", () => {
     focusable(html`<calcite-tile-select type="radio"></calcite-tile-select>`, {
       focusTargetSelector: "calcite-radio-button"
-    }));
+    });
+  });
 
   it("emits change event on checkbox toggle and suppresses internal checkbox change event", async () => {
     const page = await newE2EPage({

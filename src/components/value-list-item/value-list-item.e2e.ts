@@ -8,7 +8,9 @@ describe("calcite-value-list-item", () => {
     renders("calcite-value-list-item", { display: "flex" });
   });
 
-  it("honors hidden attribute", async () => hidden("calcite-value-list-item"));
+  describe("honors hidden attribute", () => {
+    hidden("calcite-value-list-item");
+  });
 
   // eslint-disable-next-line jest/no-disabled-tests
   describe.skip("accessible", () => {
@@ -27,7 +29,9 @@ describe("calcite-value-list-item", () => {
 
   it("has slots", () => slots("calcite-value-list-item", SLOTS));
 
-  it("is focusable", async () => focusable("calcite-value-list-item"));
+  describe("is focusable", () => {
+    focusable("calcite-value-list-item");
+  });
 
   it("can be disabled", async () => disabled("calcite-value-list-item"));
 

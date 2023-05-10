@@ -28,7 +28,9 @@ describe("calcite-radio-button", () => {
 
   it("has defaults", async () => defaults("calcite-radio-button", [{ propertyName: "scale", defaultValue: "m" }]));
 
-  it("honors hidden attribute", async () => hidden("calcite-radio-button"));
+  describe("honors hidden attribute", () => {
+    hidden("calcite-radio-button");
+  });
 
   it("is labelable", async () =>
     labelable("<calcite-radio-button name='group-name'></calcite-radio-button>", {
@@ -56,10 +58,11 @@ describe("calcite-radio-button", () => {
     expect(value).toBe("third");
   });
 
-  it("is focusable", () =>
+  describe("is focusable", () => {
     focusable("calcite-radio-button", {
       shadowFocusTargetSelector: ".container"
-    }));
+    });
+  });
 
   it("reflects", async () =>
     reflects("calcite-radio-button", [

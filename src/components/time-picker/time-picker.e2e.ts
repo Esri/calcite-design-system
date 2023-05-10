@@ -39,7 +39,9 @@ describe("calcite-time-picker", () => {
     renders("calcite-time-picker", { display: "inline-block" });
   });
 
-  it("honors hidden attribute", async () => hidden("calcite-time-picker"));
+  describe("honors hidden attribute", () => {
+    hidden("calcite-time-picker");
+  });
 
   describe("accessible", () => {
     accessible(`<calcite-time-picker></calcite-time-picker>`);
@@ -55,15 +57,17 @@ describe("calcite-time-picker", () => {
       { propertyName: "step", defaultValue: 60 }
     ]));
 
-  it("should focus the first focusable element when setFocus is called (ltr)", async () =>
+  describe("should focus the first focusable element when setFocus is called (ltr)", () => {
     focusable(`calcite-time-picker`, {
       shadowFocusTargetSelector: `.${CSS.buttonHourUp}`
-    }));
+    });
+  });
 
-  it("should focus the first focusable element when setFocus is called (rtl)", async () =>
+  describe("should focus the first focusable element when setFocus is called (rtl)", () => {
     focusable(`<calcite-time-picker dir="rtl" lang="ar"></calcite-time-picker>`, {
       shadowFocusTargetSelector: `.${CSS.buttonHourUp}`
-    }));
+    });
+  });
 
   it("value displays correctly when value is programmatically changed", async () => {
     const originalValue = "11:00:00";

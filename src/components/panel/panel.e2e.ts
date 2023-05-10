@@ -17,7 +17,9 @@ describe("calcite-panel", () => {
     renders("calcite-panel", { display: "flex" });
   });
 
-  it("honors hidden attribute", async () => hidden("calcite-panel"));
+  describe("honors hidden attribute", () => {
+    hidden("calcite-panel");
+  });
 
   it("has property defaults", async () =>
     defaults("calcite-panel", [
@@ -90,15 +92,17 @@ describe("calcite-panel", () => {
     `);
   });
 
-  it("should focus on close button )", async () =>
+  describe("should focus on close button", () => {
     focusable(`<calcite-panel closable>test</calcite-panel>`, {
       shadowFocusTargetSelector: "calcite-action"
-    }));
+    });
+  });
 
-  it("should focus on container", async () =>
+  describe("should focus on container", () => {
     focusable(`<calcite-panel>test</calcite-panel>`, {
       shadowFocusTargetSelector: "article"
-    }));
+    });
+  });
 
   it("honors calcitePanelScroll event", async () => {
     const page = await newE2EPage({

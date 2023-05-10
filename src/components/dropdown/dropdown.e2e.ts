@@ -15,16 +15,19 @@ const simpleDropdownHTML = html`<calcite-dropdown>
 </calcite-dropdown>`;
 
 describe("calcite-dropdown", () => {
-  it("focusable", async () =>
+  describe("focusable", () => {
     focusable(simpleDropdownHTML, {
       focusTargetSelector: '[slot="trigger"]'
-    }));
+    });
+  });
 
   describe("renders", () => {
     renders(simpleDropdownHTML, { display: "inline-flex" });
   });
 
-  it("honors hidden attribute", async () => hidden("calcite-dropdown"));
+  describe("honors hidden attribute", () => {
+    hidden("calcite-dropdown");
+  });
 
   it("defaults", async () =>
     defaults("calcite-dropdown", [

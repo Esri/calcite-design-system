@@ -16,7 +16,9 @@ describe("calcite-rating", () => {
       renders("<calcite-rating></calcite-rating>", { display: "flex" });
     });
 
-    it("honors hidden attribute", async () => hidden("calcite-rating"));
+    describe("honors hidden attribute", () => {
+      hidden("calcite-rating");
+    });
 
     describe("accessible", () => {
       accessible(`<calcite-rating></calcite-rating>`);
@@ -28,10 +30,11 @@ describe("calcite-rating", () => {
 
     it("supports translations", () => t9n("calcite-rating"));
 
-    it("should focus input element in shadow DOM", () =>
+    describe("should focus input element in shadow DOM", () => {
       focusable("calcite-rating", {
         shadowFocusTargetSelector: "input"
-      }));
+      });
+    });
 
     it("focuses the first star when the label is clicked and no-rating value exists", () =>
       labelable("calcite-rating", {

@@ -6,7 +6,9 @@ describe("calcite-avatar", () => {
     renders("calcite-avatar", { display: "inline-block" });
   });
 
-  it("honors hidden attribute", async () => hidden("calcite-avatar"));
+  describe("honors hidden attribute", () => {
+    hidden("calcite-avatar");
+  });
 
   describe("accessible", () => {
     accessible("calcite-avatar");

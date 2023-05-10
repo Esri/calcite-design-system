@@ -8,17 +8,21 @@ describe("calcite-pagination", () => {
     renders("calcite-pagination", { display: "flex" });
   });
 
-  it("focuses previous button when not on the first page", async () =>
+  describe("focuses previous button when not on the first page", () => {
     focusable('<calcite-pagination page-size="1" start-item="2" total-items="10"></calcite-pagination>', {
       shadowFocusTargetSelector: `.${CSS.previous}`
-    }));
+    });
+  });
 
-  it("focuses page number 1 when on the first page", async () =>
+  describe("focuses page number 1 when on the first page", () => {
     focusable('<calcite-pagination page-size="1" start-item="1" total-items="10"></calcite-pagination>', {
       shadowFocusTargetSelector: `.${CSS.page}`
-    }));
+    });
+  });
 
-  it("honors hidden attribute", async () => hidden("calcite-pagination"));
+  describe("honors hidden attribute", () => {
+    hidden("calcite-pagination");
+  });
 
   describe("accessible", () => {
     accessible(`<calcite-pagination page-size="10" start-item="50" total-items="100"></calcite-pagination>`);

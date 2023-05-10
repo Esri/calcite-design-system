@@ -9,7 +9,9 @@ describe("calcite-action-bar", () => {
     renders("calcite-action-bar", { display: "inline-flex" });
   });
 
-  it("honors hidden attribute", async () => hidden("calcite-action-bar"));
+  describe("honors hidden attribute", () => {
+    hidden("calcite-action-bar");
+  });
 
   it("defaults", async () =>
     defaults("calcite-action-bar", [
@@ -230,7 +232,7 @@ describe("calcite-action-bar", () => {
     `);
   });
 
-  it("should focus on toggle button", async () =>
+  describe("should focus on toggle button", () => {
     focusable(
       html`
         <calcite-action-bar>
@@ -242,7 +244,8 @@ describe("calcite-action-bar", () => {
       {
         focusTargetSelector: "calcite-action"
       }
-    ));
+    );
+  });
 
   it("has slots", () => slots("calcite-action-bar", SLOTS));
 

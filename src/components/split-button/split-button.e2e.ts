@@ -22,17 +22,20 @@ describe("calcite-split-button", () => {
     renders("calcite-split-button", { display: "inline-block" });
   });
 
-  it("honors hidden attribute", async () => hidden("calcite-split-button"));
+  describe("honors hidden attribute", () => {
+    hidden("calcite-split-button");
+  });
 
-  it("focusable", async () =>
+  describe("focusable", () => {
     focusable(
       `<calcite-split-button primary-text="Button Text" dropdown-label="Show options">
-      ${content}
-      </calcite-split-button>`,
+        ${content}
+        </calcite-split-button>`,
       {
         shadowFocusTargetSelector: "calcite-button"
       }
-    ));
+    );
+  });
 
   describe("accessible", () => {
     accessible(html`<calcite-split-button primary-text="Button Text" dropdown-label="Show options">

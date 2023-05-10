@@ -9,7 +9,9 @@ describe("calcite-color-picker-hex-input", () => {
     renders("calcite-color-picker-hex-input", { display: "block" });
   });
 
-  it("honors hidden attribute", async () => hidden("calcite-color-picker-hex-input"));
+  describe("honors hidden attribute", () => {
+    hidden("calcite-color-picker-hex-input");
+  });
 
   describe("accessible", () => {
     accessible("calcite-color-picker-hex-input");
@@ -41,7 +43,9 @@ describe("calcite-color-picker-hex-input", () => {
       }
     ]));
 
-  it("can be focused", async () => focusable("calcite-color-picker-hex-input"));
+  describe("can be focused", () => {
+    focusable("calcite-color-picker-hex-input");
+  });
 
   it("supports no color", async () => {
     const page = await newE2EPage();

@@ -9,7 +9,9 @@ describe("calcite-action-menu", () => {
     renders("calcite-action-menu", { display: "flex" });
   });
 
-  it("honors hidden attribute", async () => hidden("calcite-action-menu"));
+  describe("honors hidden attribute", () => {
+    hidden("calcite-action-menu");
+  });
 
   describe("accessible", () => {
     accessible(html`
@@ -94,7 +96,7 @@ describe("calcite-action-menu", () => {
     expect(clickSpy).toHaveReceivedEventTimes(1);
   });
 
-  it("should focus on menu button", async () =>
+  describe("should focus on menu button", () => {
     focusable(
       html`
         <calcite-action-menu>
@@ -106,7 +108,8 @@ describe("calcite-action-menu", () => {
       {
         focusTargetSelector: `#triggerAction`
       }
-    ));
+    );
+  });
 
   it("should close menu if clicked outside", async () => {
     const page = await newE2EPage({

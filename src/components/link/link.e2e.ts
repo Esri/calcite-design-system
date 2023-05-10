@@ -6,7 +6,9 @@ describe("calcite-link", () => {
     renders("<calcite-link href='/'>link</calcite-link>", { display: "inline" });
   });
 
-  it("honors hidden attribute", async () => hidden("calcite-link"));
+  describe("honors hidden attribute", () => {
+    hidden("calcite-link");
+  });
 
   it("defaults", async () =>
     defaults("calcite-link", [

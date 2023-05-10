@@ -25,13 +25,17 @@ describe("calcite-select", () => {
     renders(simpleTestMarkup, { display: "flex" });
   });
 
-  it("honors hidden attribute", async () => hidden("calcite-select"));
+  describe("honors hidden attribute", () => {
+    hidden("calcite-select");
+  });
 
   describe("accessible", () => {
     accessible(simpleTestMarkup);
   });
 
-  it("is focusable", async () => focusable(simpleTestMarkup));
+  describe("is focusable", () => {
+    focusable(simpleTestMarkup);
+  });
 
   it("reflects", async () =>
     reflects(simpleTestMarkup, [

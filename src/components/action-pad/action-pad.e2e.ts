@@ -8,7 +8,9 @@ describe("calcite-action-pad", () => {
     renders("calcite-action-pad", { display: "block" });
   });
 
-  it("honors hidden attribute", async () => hidden("calcite-action-pad"));
+  describe("honors hidden attribute", () => {
+    hidden("calcite-action-pad");
+  });
 
   it("defaults", async () =>
     defaults("calcite-action-pad", [
@@ -186,7 +188,7 @@ describe("calcite-action-pad", () => {
     `);
   });
 
-  it("should focus on toggle button", async () =>
+  describe("should focus on toggle button", () => {
     focusable(
       html`
         <calcite-action-pad>
@@ -198,7 +200,8 @@ describe("calcite-action-pad", () => {
       {
         focusTargetSelector: "calcite-action"
       }
-    ));
+    );
+  });
 
   it("has slots", () => slots("calcite-action-pad", SLOTS));
 

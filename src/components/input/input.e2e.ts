@@ -35,7 +35,9 @@ describe("calcite-input", () => {
     renders("calcite-input", { display: "block" });
   });
 
-  it("honors hidden attribute", async () => hidden("calcite-input"));
+  describe("honors hidden attribute", () => {
+    hidden("calcite-input");
+  });
 
   it("reflects", async () =>
     reflects("calcite-input", [
@@ -212,10 +214,11 @@ describe("calcite-input", () => {
     expect(numberHorizontalItemUp).toBeNull();
   });
 
-  it("is focusable", async () =>
+  describe("is focusable", () => {
     focusable(`calcite-input`, {
       shadowFocusTargetSelector: "input"
-    }));
+    });
+  });
 
   describe("input type number increment/decrement functionality", () => {
     let page: E2EPage;

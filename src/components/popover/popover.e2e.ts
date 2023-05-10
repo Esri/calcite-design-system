@@ -46,7 +46,9 @@ describe("calcite-popover", () => {
     );
   });
 
-  it("honors hidden attribute", async () => hidden(`<calcite-popover open></calcite-popover>`));
+  describe("honors hidden attribute", () => {
+    hidden(`<calcite-popover open></calcite-popover>`);
+  });
 
   it("has property defaults", async () =>
     defaults("calcite-popover", [
@@ -726,14 +728,16 @@ describe("calcite-popover", () => {
     const contentHTML = "Hello World!";
     const buttonContentHTML = `<button class="${contentButtonClass}">My Button</button>`;
 
-    it("should focus content by default", async () =>
+    describe("should focus content by default", () => {
       focusable(createPopoverHTML(buttonContentHTML), {
         focusTargetSelector: `.${contentButtonClass}`
-      }));
+      });
+    });
 
-    it.skip("should focus close button", async () =>
+    describe.skip("should focus close button", () => {
       focusable(createPopoverHTML(contentHTML, "closable"), {
         shadowFocusTargetSelector: `.${CSS.closeButton}`
-      }));
+      });
+    });
   });
 });

@@ -7,7 +7,9 @@ describe("calcite-tip", () => {
     renders("calcite-tip", { display: "flex" });
   });
 
-  it("honors hidden attribute", async () => hidden("calcite-tip"));
+  describe("honors hidden attribute", () => {
+    hidden("calcite-tip");
+  });
 
   it("has property defaults", async () =>
     defaults("calcite-tip", [

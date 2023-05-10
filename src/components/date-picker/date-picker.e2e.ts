@@ -9,7 +9,9 @@ describe("calcite-date-picker", () => {
     renders("calcite-date-picker", { display: "inline-block" });
   });
 
-  it("honors hidden attribute", async () => hidden("calcite-date-picker"));
+  describe("honors hidden attribute", () => {
+    hidden("calcite-date-picker");
+  });
 
   it("has property defaults", async () =>
     defaults("calcite-date-picker", [
@@ -19,10 +21,11 @@ describe("calcite-date-picker", () => {
       }
     ]));
 
-  it("focusable", async () =>
+  describe("focusable", () => {
     focusable("calcite-date-picker", {
       shadowFocusTargetSelector: "calcite-date-picker-month-header"
-    }));
+    });
+  });
 
   const animationDurationInMs = 200;
 

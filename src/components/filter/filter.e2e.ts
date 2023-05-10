@@ -8,13 +8,17 @@ describe("calcite-filter", () => {
     renders("calcite-filter", { display: "flex" });
   });
 
-  it("honors hidden attribute", async () => hidden("calcite-filter"));
+  describe("honors hidden attribute", () => {
+    hidden("calcite-filter");
+  });
 
   describe("accessible", () => {
     accessible("calcite-filter");
   });
 
-  it("is focusable", async () => focusable("calcite-filter"));
+  describe("is focused", () => {
+    focusable("calcite-filter");
+  });
 
   it("can be disabled", () => disabled("calcite-filter"));
 

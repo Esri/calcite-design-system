@@ -31,7 +31,9 @@ describe("calcite-text-area", () => {
       }
     ]));
 
-  it("honors hidden attribute", () => hidden("calcite-text-area"));
+  describe("honors hidden attribute", () => {
+    hidden("calcite-text-area");
+  });
 
   it("is labelable", () => labelable("calcite-text-area"));
 
@@ -60,7 +62,9 @@ describe("calcite-text-area", () => {
     </calcite-label>`);
   });
 
-  it("is focusable", () => focusable("calcite-text-area"));
+  describe("is focusable", () => {
+    focusable("calcite-text-area");
+  });
 
   describe("is form associated", () => {
     formAssociated("calcite-text-area", {

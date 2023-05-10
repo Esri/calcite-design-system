@@ -4,7 +4,9 @@ import { CSS } from "./resources";
 import { scaleToPx } from "./utils";
 
 describe("calcite-icon", () => {
-  it("honors hidden attribute", async () => hidden("calcite-icon"));
+  describe("honors hidden attribute", () => {
+    hidden("calcite-icon");
+  });
 
   it("has defaults", async () =>
     defaults("calcite-icon", [
