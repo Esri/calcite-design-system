@@ -15,10 +15,8 @@
       }
     },
     "background": {
-      "1": {
-        "value": "$semantic.ui.color.background.light",
-        "type": "color"
-      }
+      "value": "$semantic.ui.color.background.light",
+      "type": "color"
     },
     "foreground": {
       "1": {
