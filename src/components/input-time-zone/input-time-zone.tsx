@@ -101,7 +101,7 @@ export class InputTimeZone
   //--------------------------------------------------------------------------
 
   @Event({ cancelable: false })
-  calciteInputTimeZonePickerChange: EventEmitter<void>;
+  calciteInputTimeZoneChange: EventEmitter<void>;
 
   //--------------------------------------------------------------------------
   //
@@ -185,7 +185,7 @@ export class InputTimeZone
 
             this.value = selected.offsetValue;
             this.selectedTimeZoneGroup = selected;
-            this.calciteInputTimeZonePickerChange.emit();
+            this.calciteInputTimeZoneChange.emit();
           }}
           scale={this.scale}
           selectionMode="single"

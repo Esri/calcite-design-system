@@ -13,9 +13,9 @@
 
 ## Events
 
-| Event                              | Description | Type                |
-| ---------------------------------- | ----------- | ------------------- |
-| `calciteInputTimeZonePickerChange` |             | `CustomEvent<void>` |
+| Event                        | Description | Type                |
+| ---------------------------- | ----------- | ------------------- |
+| `calciteInputTimeZoneChange` |             | `CustomEvent<void>` |
 
 ## Methods
 
