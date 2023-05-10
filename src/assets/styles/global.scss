@@ -9,6 +9,7 @@
 @mixin calcite-mode-light-extended {
   // todo update include when calcite-colors updates to "mode" nomenclature
   @include calcite-theme-light();
+  --calcite-ui-background: var(--calcite-ui-background-1);
   --calcite-mode-name: "light";
   --calcite-ui-foreground-current: #{$h-bb-010};
   --calcite-ui-inverse: #{$blk-190};
@@ -24,6 +25,7 @@
 @mixin calcite-mode-dark-extended {
   // todo update include when calcite-colors updates to "mode" nomenclature
   @include calcite-theme-dark();
+  --calcite-ui-background: var(--calcite-ui-background-1);
   --calcite-mode-name: "dark";
   --calcite-ui-foreground-current: var(--calcite-semantic-ui-color-foreground-current-dark);
   --calcite-ui-inverse: #{$blk-005};
@@ -44,7 +46,6 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-
   --calcite-border-radius: var(--calcite-semantic-border-border-radius-round, 4px);
   --calcite-border-radius-base: 0;
   --calcite-panel-width-multiplier: 1;
