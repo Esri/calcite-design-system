@@ -601,6 +601,35 @@ describe("calcite-input-time-picker", () => {
     expect(await inputTimePicker.getProperty("value")).toBe("14:05:00");
   });
 
+  it("correctly relocalizes the display value when the lang and numbering systems change", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<calcite-input-time-picker step="1" value="14:30:25"></calcite-input-time-picker>`);
+    const inputTimePicker = await page.find("calcite-input-time-picker");
+
+    expect(await getInputValue(page)).toBe("02:30:25 PM");
+
+    inputTimePicker.setProperty("lang", "da");
+    await page.waitForChanges();
+
+    expect(await getInputValue(page)).toBe("14.30.25");
+
+    inputTimePicker.setProperty("lang", "ar");
+    await page.waitForChanges();
+
+    expect(await getInputValue(page)).toBe("02:30:25 م");
+
+    inputTimePicker.setProperty("numberingSystem", "arab");
+    await page.waitForChanges();
+
+    expect(await getInputValue(page)).toBe("٠٢:٣٠:٢٥ م");
+
+    inputTimePicker.setProperty("lang", "zh-HK");
+    inputTimePicker.setProperty("numberingSystem", "hanidec");
+    await page.waitForChanges();
+
+    expect(await getInputValue(page)).toBe("下午〇二:三〇:二五");
+  });
+
   describe("arabic locale support", () => {
     it("localizes initial display value in arab numbering system", async () => {
       const page = await newE2EPage();

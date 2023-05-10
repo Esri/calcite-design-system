@@ -274,6 +274,7 @@ export class InputTimePicker
   @State() effectiveLocale = "";
 
   @Watch("effectiveLocale")
+  @Watch("numberingSystem")
   @Watch("step")
   async valueRelatedPropChange(): Promise<void> {
     await this.loadDateTimeLocaleData();
