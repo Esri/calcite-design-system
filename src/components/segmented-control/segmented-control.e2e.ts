@@ -301,7 +301,7 @@ describe("calcite-segmented-control", () => {
   });
 
   describe("setFocus()", () => {
-    it("focuses the first item if there is no selection", async () =>
+    describe("focuses the first item if there is no selection", () => {
       focusable(
         html`
           <calcite-segmented-control>
@@ -313,9 +313,10 @@ describe("calcite-segmented-control", () => {
         {
           focusTargetSelector: "#child-1"
         }
-      ));
+      );
+    });
 
-    it("focuses the selected item", async () =>
+    describe("focuses the selected item", () => {
       focusable(
         html`
           <calcite-segmented-control>
@@ -327,7 +328,8 @@ describe("calcite-segmented-control", () => {
         {
           focusTargetSelector: "#child-3"
         }
-      ));
+      );
+    });
   });
 
   describe("is form-associated", () => {

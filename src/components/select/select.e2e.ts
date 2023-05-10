@@ -33,7 +33,9 @@ describe("calcite-select", () => {
     accessible(simpleTestMarkup);
   });
 
-  it("is focusable", async () => focusable(simpleTestMarkup));
+  describe("is focusable", () => {
+    focusable(simpleTestMarkup);
+  });
 
   it("reflects", async () =>
     reflects(simpleTestMarkup, [

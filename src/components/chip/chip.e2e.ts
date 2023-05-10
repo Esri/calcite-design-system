@@ -17,7 +17,9 @@ describe("calcite-chip", () => {
 
   it("has slots", () => slots("calcite-chip", SLOTS));
 
-  it("is focusable when interactive", () => focusable("<calcite-chip interactive>doritos</calcite-chip>"));
+  describe("is focusable when interactive", () => {
+    focusable("<calcite-chip interactive>doritos</calcite-chip>");
+  });
 
   it("can be disabled when interactive", () => disabled("<calcite-chip interactive>doritos</calcite-chip>"));
 

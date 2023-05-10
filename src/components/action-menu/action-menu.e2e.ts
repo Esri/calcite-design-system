@@ -96,7 +96,7 @@ describe("calcite-action-menu", () => {
     expect(clickSpy).toHaveReceivedEventTimes(1);
   });
 
-  it("should focus on menu button", async () =>
+  describe("should focus on menu button", () => {
     focusable(
       html`
         <calcite-action-menu>
@@ -108,7 +108,8 @@ describe("calcite-action-menu", () => {
       {
         focusTargetSelector: `#triggerAction`
       }
-    ));
+    );
+  });
 
   it("should close menu if clicked outside", async () => {
     const page = await newE2EPage({

@@ -728,14 +728,16 @@ describe("calcite-popover", () => {
     const contentHTML = "Hello World!";
     const buttonContentHTML = `<button class="${contentButtonClass}">My Button</button>`;
 
-    it("should focus content by default", async () =>
+    describe("should focus content by default", () => {
       focusable(createPopoverHTML(buttonContentHTML), {
         focusTargetSelector: `.${contentButtonClass}`
-      }));
+      });
+    });
 
-    it.skip("should focus close button", async () =>
+    describe.skip("should focus close button", () => {
       focusable(createPopoverHTML(contentHTML, "closable"), {
         shadowFocusTargetSelector: `.${CSS.closeButton}`
-      }));
+      });
+    });
   });
 });
