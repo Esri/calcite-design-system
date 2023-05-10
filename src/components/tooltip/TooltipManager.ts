@@ -1,4 +1,4 @@
-import { isPrimaryPointerButton } from "../../utils/dom";
+import { getShadowRootNode, isPrimaryPointerButton } from "../../utils/dom";
 import { ReferenceElement } from "../../utils/floating-ui";
 import { TOOLTIP_DELAY_MS } from "./resources";
 import { getEffectiveReferenceElement } from "./utils";
@@ -11,6 +11,8 @@ export default class TooltipManager {
   // --------------------------------------------------------------------------
 
   private registeredElements = new WeakMap<ReferenceElement, HTMLCalciteTooltipElement>();
+
+  private registeredShadowRootCounts = new WeakMap<ShadowRoot, number>();
 
   private hoverTimeout: number = null;
 
@@ -30,8 +32,12 @@ export default class TooltipManager {
 
   registerElement(referenceEl: ReferenceElement, tooltip: HTMLCalciteTooltipElement): void {
     this.registeredElementCount++;
-
     this.registeredElements.set(referenceEl, tooltip);
+    const shadowRoot = this.getReferenceElShadowRootNode(referenceEl);
+
+    if (shadowRoot) {
+      this.registerShadowRoot(shadowRoot);
+    }
 
     if (this.registeredElementCount === 1) {
       this.addListeners();
@@ -39,6 +45,12 @@ export default class TooltipManager {
   }
 
   unregisterElement(referenceEl: ReferenceElement): void {
+    const shadowRoot = this.getReferenceElShadowRootNode(referenceEl);
+
+    if (shadowRoot) {
+      this.unregisterShadowRoot(shadowRoot);
+    }
+
     if (this.registeredElements.delete(referenceEl)) {
       this.registeredElementCount--;
     }
@@ -128,6 +140,16 @@ export default class TooltipManager {
     this.queryFocusedTooltip(event, false);
   };
 
+  private addShadowListeners(shadowRoot: ShadowRoot): void {
+    shadowRoot.addEventListener("focusin", this.focusInHandler, { capture: true });
+    shadowRoot.addEventListener("focusout", this.focusOutHandler, { capture: true });
+  }
+
+  private removeShadowListeners(shadowRoot: ShadowRoot): void {
+    shadowRoot.removeEventListener("focusin", this.focusInHandler, { capture: true });
+    shadowRoot.removeEventListener("focusout", this.focusOutHandler, { capture: true });
+  }
+
   private addListeners(): void {
     document.addEventListener("keydown", this.keyDownHandler, { capture: true });
     document.addEventListener("pointermove", this.pointerMoveHandler, { capture: true });
@@ -203,5 +225,33 @@ export default class TooltipManager {
 
   private isClosableClickedTooltip(tooltip: HTMLCalciteTooltipElement): boolean {
     return tooltip?.closeOnClick && tooltip === this.clickedTooltip;
+  }
+
+  private registerShadowRoot(shadowRoot: ShadowRoot): void {
+    const { registeredShadowRootCounts } = this;
+
+    const newCount = (registeredShadowRootCounts.get(shadowRoot) ?? 0) + 1;
+
+    if (newCount === 1) {
+      this.addShadowListeners(shadowRoot);
+    }
+
+    registeredShadowRootCounts.set(shadowRoot, newCount);
+  }
+
+  private unregisterShadowRoot(shadowRoot: ShadowRoot): void {
+    const { registeredShadowRootCounts } = this;
+
+    const newCount = registeredShadowRootCounts.get(shadowRoot) - 1;
+
+    if (newCount === 0) {
+      this.removeShadowListeners(shadowRoot);
+    }
+
+    registeredShadowRootCounts.set(shadowRoot, newCount);
+  }
+
+  private getReferenceElShadowRootNode(referenceEl: ReferenceElement): ShadowRoot | null {
+    return referenceEl instanceof Element ? getShadowRootNode(referenceEl) : null;
   }
 }
