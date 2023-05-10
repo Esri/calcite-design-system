@@ -30,6 +30,7 @@ import {
 } from "../../utils/t9n";
 import { InputTimeZoneMessages } from "./assets/input-time-zone/t9n";
 import { generateTimeZoneGroups, getUserTimeZoneOffset, isBasicTimeZoneGroup } from "./utils";
+import { OverlayPositioning } from "../../utils/floating-ui";
 
 @Component({
   tag: "calcite-input-time-zone",
@@ -55,6 +56,9 @@ export class InputTimeZone
   //
   //--------------------------------------------------------------------------
 
+  /**
+   * When `true`, interaction is prevented and the component is displayed with lower opacity.
+   */
   @Prop({ reflect: true })
   disabled = false;
 
@@ -77,9 +81,27 @@ export class InputTimeZone
     /* wired up by t9n util */
   }
 
+  /**When `true`, displays and positions the component. */
+  @Prop({ mutable: true, reflect: true }) open = false;
+
+  /**
+   * Determines the type of positioning to use for the overlaid content.
+   *
+   * Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.
+   *
+   * `"fixed"` should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
+   *
+   */
+  @Prop({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
+
   /** Specifies the size of the component. */
   @Prop({ reflect: true }) scale: Scale = "m";
 
+  /**
+   * The component's value, where the value is the time zone offset or the difference, in minutes, between today's date as evaluated in the UTC time zone, and the same date as evaluated in the local time zone.
+   *
+   * @mdn https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/getTimezoneOffset
+   */
   @Prop({ mutable: true })
   value: number | null = null;
 
@@ -100,8 +122,15 @@ export class InputTimeZone
   //
   //--------------------------------------------------------------------------
 
-  @Event({ cancelable: false })
-  calciteInputTimeZoneChange: EventEmitter<void>;
+  @Event({ cancelable: false }) calciteInputTimeZoneBeforeClose: EventEmitter<void>;
+
+  @Event({ cancelable: false }) calciteInputTimeZoneBeforeOpen: EventEmitter<void>;
+
+  @Event({ cancelable: false }) calciteInputTimeZoneChange: EventEmitter<void>;
+
+  @Event({ cancelable: false }) calciteInputTimeZoneClose: EventEmitter<void>;
+
+  @Event({ cancelable: false }) calciteInputTimeZoneOpen: EventEmitter<void>;
 
   //--------------------------------------------------------------------------
   //
@@ -141,6 +170,48 @@ export class InputTimeZone
     this.comboboxEl = el;
   };
 
+  private onComboboxBeforeClose = (event: CustomEvent): void => {
+    event.stopPropagation();
+    this.calciteInputTimeZoneBeforeClose.emit();
+  };
+
+  private onComboboxBeforeOpen = (event: CustomEvent): void => {
+    event.stopPropagation();
+    this.calciteInputTimeZoneBeforeOpen.emit();
+  };
+
+  private onComboboxChange = (event: CustomEvent): void => {
+    event.stopPropagation();
+    const combobox = event.target as HTMLCalciteComboboxElement;
+    const selected = this.timeZoneGroups.find(
+      ({ offsetValue }) => combobox.value === offsetValue.toString()
+    );
+
+    // workaround to prevent deselecting of item
+    if (!selected) {
+      requestAnimationFrame(() => {
+        combobox.value = this.selectedTimeZoneGroup.offsetValue.toString();
+      });
+      return;
+    }
+
+    this.value = selected.offsetValue;
+    this.selectedTimeZoneGroup = selected;
+    this.calciteInputTimeZoneChange.emit();
+  };
+
+  private onComboboxClose = (event: CustomEvent): void => {
+    event.stopPropagation();
+    this.open = false;
+    this.calciteInputTimeZoneClose.emit();
+  };
+
+  private onComboboxOpen = (event: CustomEvent): void => {
+    this.open = true;
+    event.stopPropagation();
+    this.calciteInputTimeZoneOpen.emit();
+  };
+
   // --------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -177,16 +248,13 @@ export class InputTimeZone
         <calcite-combobox
           disabled={this.disabled}
           label={this.messages.chooseTimeZone}
-          onCalciteComboboxChange={(event) => {
-            event.stopPropagation();
-            const selected = this.timeZoneGroups.find(
-              ({ offsetValue }) => event.target.value === offsetValue.toString()
-            );
-
-            this.value = selected.offsetValue;
-            this.selectedTimeZoneGroup = selected;
-            this.calciteInputTimeZoneChange.emit();
-          }}
+          onCalciteComboboxBeforeClose={this.onComboboxBeforeClose}
+          onCalciteComboboxBeforeOpen={this.onComboboxBeforeOpen}
+          onCalciteComboboxChange={this.onComboboxChange}
+          onCalciteComboboxClose={this.onComboboxClose}
+          onCalciteComboboxOpen={this.onComboboxOpen}
+          open={this.open}
+          overlayPositioning={this.overlayPositioning}
           scale={this.scale}
           selectionMode="single"
           // eslint-disable-next-line react/jsx-sort-props
