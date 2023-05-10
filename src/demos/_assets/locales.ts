@@ -26,32 +26,16 @@ export const locales: Locale[] = [
     numberingSystem: "arabext"
   },
   {
-    name: "Bosnian",
-    locale: "bs"
-  },
-  {
     name: "Bulgarian",
     locale: "bg"
   },
   {
+    name: "Bosnian",
+    locale: "bs"
+  },
+  {
     name: "Catalan",
     locale: "ca"
-  },
-  {
-    name: "Chinese (China)",
-    locale: "zh-CN"
-  },
-  {
-    name: "Chinese (Hong Kong)",
-    locale: "zh-HK"
-  },
-  {
-    name: "Chinese (Taiwan)",
-    locale: "zh-TW"
-  },
-  {
-    name: "Croatian",
-    locale: "hr"
   },
   {
     name: "Czech",
@@ -62,8 +46,20 @@ export const locales: Locale[] = [
     locale: "da"
   },
   {
-    name: "Dutch",
-    locale: "nl"
+    name: "German",
+    locale: "de"
+  },
+  {
+    name: "German (Austria)",
+    locale: "de-AT"
+  },
+  {
+    name: "German (Switzerland)",
+    locale: "de-CH"
+  },
+  {
+    name: "Greek",
+    locale: "el"
   },
   {
     name: "English",
@@ -86,6 +82,14 @@ export const locales: Locale[] = [
     locale: "en-US"
   },
   {
+    name: "Spanish",
+    locale: "es"
+  },
+  {
+    name: "Spanish (Mexico)",
+    locale: "es-MX"
+  },
+  {
     name: "Estonian",
     locale: "et"
   },
@@ -102,20 +106,16 @@ export const locales: Locale[] = [
     locale: "fr-CH"
   },
   {
-    name: "German",
-    locale: "de"
+    name: "Hebrew",
+    locale: "he"
   },
   {
-    name: "German (Austria)",
-    locale: "de-AT"
+    name: "Hindi",
+    locale: "hi"
   },
   {
-    name: "German (Switzerland)",
-    locale: "de-CH"
-  },
-  {
-    name: "Greek",
-    locale: "el"
+    name: "Croatian",
+    locale: "hr"
   },
   {
     name: "Hungarian",
@@ -142,12 +142,12 @@ export const locales: Locale[] = [
     locale: "ko"
   },
   {
-    name: "Latvian",
-    locale: "lv"
-  },
-  {
     name: "Lithuanian",
     locale: "lt"
+  },
+  {
+    name: "Latvian",
+    locale: "lv"
   },
   {
     name: "Macedonian",
@@ -156,6 +156,10 @@ export const locales: Locale[] = [
   {
     name: "Norwegian",
     locale: "no"
+  },
+  {
+    name: "Dutch",
+    locale: "nl"
   },
   {
     name: "Polish",
@@ -182,10 +186,6 @@ export const locales: Locale[] = [
     locale: "ru"
   },
   {
-    name: "Serbian",
-    locale: "sr"
-  },
-  {
     name: "Slovak",
     locale: "sk"
   },
@@ -194,12 +194,8 @@ export const locales: Locale[] = [
     locale: "sl"
   },
   {
-    name: "Spanish",
-    locale: "es"
-  },
-  {
-    name: "Spanish (Mexico)",
-    locale: "es-MX"
+    name: "Serbian",
+    locale: "sr"
   },
   {
     name: "Swedish",
@@ -208,6 +204,11 @@ export const locales: Locale[] = [
   {
     name: "Thai",
     locale: "th"
+  },
+  {
+    name: "Thai (Thai digits)",
+    locale: "th",
+    numberingSystem: "thai"
   },
   {
     name: "Turkish",
@@ -220,5 +221,32 @@ export const locales: Locale[] = [
   {
     name: "Vietnamese",
     locale: "vi"
+  },
+  {
+    name: "Chinese (China)",
+    locale: "zh-CN"
+  },
+  {
+    name: "Chinese (China) (Hanidec numerals)",
+    locale: "zh-CN",
+    numberingSystem: "hanidec"
+  },
+  {
+    name: "Chinese (Hong Kong)",
+    locale: "zh-HK"
+  },
+  {
+    name: "Chinese (Hong Kong) (Hanidec numerals)",
+    locale: "zh-HK",
+    numberingSystem: "hanidec"
+  },
+  {
+    name: "Chinese (Taiwan)",
+    locale: "zh-TW"
+  },
+  {
+    name: "Chinese (Taiwan) (Hanidec numerals)",
+    locale: "zh-TW",
+    numberingSystem: "hanidec"
   }
 ];
