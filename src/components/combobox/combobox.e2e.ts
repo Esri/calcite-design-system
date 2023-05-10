@@ -13,6 +13,7 @@ import {
 
 import { html } from "../../../support/formatting";
 import { CSS } from "./resources";
+import { skipAnimations } from "../../tests/utils";
 
 describe("calcite-combobox", () => {
   describe("renders", () => {
@@ -699,17 +700,29 @@ describe("calcite-combobox", () => {
       const element = await page.find("calcite-combobox");
       await element.click();
       expect(await item1.getProperty("active")).toBe(true);
+      expect(await item2.getProperty("active")).toBe(false);
+      expect(await item3.getProperty("active")).toBe(false);
       await element.press("ArrowDown");
-      expect(await item1.getProperty("active")).toBe(true);
-      await element.press("ArrowUp");
-      expect(await item3.getProperty("active")).toBe(true);
       expect(await item1.getProperty("active")).toBe(false);
+      expect(await item2.getProperty("active")).toBe(true);
+      expect(await item3.getProperty("active")).toBe(false);
       await element.press("ArrowUp");
+      expect(await item1.getProperty("active")).toBe(true);
+      expect(await item2.getProperty("active")).toBe(false);
+      expect(await item3.getProperty("active")).toBe(false);
+      await element.press("ArrowUp");
+      expect(await item1.getProperty("active")).toBe(false);
+      expect(await item2.getProperty("active")).toBe(false);
+      expect(await item3.getProperty("active")).toBe(true);
+      await element.press("ArrowUp");
+      expect(await item1.getProperty("active")).toBe(false);
       expect(await item2.getProperty("active")).toBe(true);
       expect(await item3.getProperty("active")).toBe(false);
       await element.press("ArrowDown");
       await element.press("ArrowDown");
       expect(await item1.getProperty("active")).toBe(true);
+      expect(await item2.getProperty("active")).toBe(false);
+      expect(await item3.getProperty("active")).toBe(false);
       await element.press("Enter");
       expect(await item1.getProperty("selected")).toBe(true);
       expect(eventSpy).toHaveReceivedEventTimes(1);
@@ -738,17 +751,17 @@ describe("calcite-combobox", () => {
       });
 
       it("should cycle through chips on left/right keys", async () => {
-        expect(chips[0]).not.toBeNull();
-        expect(chips[1]).not.toBeNull();
-        expect(chips[2]).not.toBeNull();
-
         await element.click();
+        await page.waitForChanges();
 
         await element.press("ArrowLeft");
+        expect(chips[0]).not.toHaveClass("chip--active");
+        expect(chips[1]).not.toHaveClass("chip--active");
         expect(chips[2]).toHaveClass("chip--active");
 
         await element.press("ArrowLeft");
-        expect(await chips[1]).toHaveClass("chip--active");
+        expect(chips[0]).not.toHaveClass("chip--active");
+        expect(chips[1]).toHaveClass("chip--active");
         expect(chips[2]).not.toHaveClass("chip--active");
 
         await element.press("Delete");
@@ -757,10 +770,6 @@ describe("calcite-combobox", () => {
       });
 
       it("should delete last chip on Delete", async () => {
-        expect(chips[0]).not.toBeNull();
-        expect(chips[1]).not.toBeNull();
-        expect(chips[2]).not.toBeNull();
-
         await element.click();
 
         await element.press("Backspace");
@@ -1316,6 +1325,7 @@ describe("calcite-combobox", () => {
     await page.setContent(html` <calcite-combobox id="demoId">
       <calcite-combobox-item value="test-value" text-label="test"> </calcite-combobox-item>
     </calcite-combobox>`);
+    await skipAnimations(page);
     const item = await page.find("calcite-combobox-item");
     await item.click();
     await page.waitForChanges();
@@ -1332,6 +1342,7 @@ describe("calcite-combobox", () => {
     await page.setContent(html` <calcite-combobox id="demoId">
       <calcite-combobox-item value="test-value" text-label="test"> </calcite-combobox-item>
     </calcite-combobox>`);
+    await skipAnimations(page);
     await page.keyboard.press("Tab");
     await page.keyboard.press("ArrowDown");
     await page.keyboard.press("Enter");

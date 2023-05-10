@@ -568,12 +568,13 @@ export class Combobox
         break;
       case "ArrowDown":
         event.preventDefault();
-        if (!this.open) {
+        if (this.open) {
+          this.shiftActiveItemIndex(1);
+        } else {
           this.open = true;
           this.ensureRecentSelectedItemIsActive();
-        } else {
-          this.shiftActiveItemIndex(1);
         }
+
         if (!this.comboboxInViewport()) {
           this.el.scrollIntoView();
         }
@@ -705,9 +706,11 @@ export class Combobox
   };
 
   private ensureRecentSelectedItemIsActive(): void {
-    this.updateActiveItemIndex(
-      this.items.indexOf(this.selectedItems[this.selectedItems.length - 1])
-    );
+    const { selectedItems } = this;
+    const targetIndex =
+      selectedItems.length === 0 ? 0 : this.items.indexOf(selectedItems[selectedItems.length - 1]);
+
+    this.updateActiveItemIndex(targetIndex);
   }
 
   setInactiveIfNotContained = (event: Event): void => {
