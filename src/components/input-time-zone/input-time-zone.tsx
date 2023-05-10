@@ -98,9 +98,9 @@ export class InputTimeZone
   @Prop({ reflect: true }) scale: Scale = "m";
 
   /**
-   * The component's value, where the value is the time zone offset or the difference, in minutes, between today's date as evaluated in the UTC time zone, and the same date as evaluated in the local time zone.
+   * The component's value, where the value is the time zone offset or the difference, in minutes, between the selected time zone and UTC.
    *
-   * @mdn https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/getTimezoneOffset
+   * @see https://www.w3.org/International/core/2005/09/timezone.html#:~:text=What%20is%20a%20%22zone%20offset,or%20%22%2D%22%20from%20UTC.
    */
   @Prop({ mutable: true })
   value: number | null = null;
