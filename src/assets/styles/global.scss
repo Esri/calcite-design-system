@@ -46,6 +46,7 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  --calcite-popover-z-index: var(--calcite-app-z-index-popup);
   --calcite-border-radius: var(--calcite-semantic-border-border-radius-round, 4px);
   --calcite-border-radius-base: 0;
   --calcite-panel-width-multiplier: 1;
