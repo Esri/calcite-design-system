@@ -1,4 +1,4 @@
 {
-  "invalid": "Μη έγκυρο",
-  "tooLong": "Υπέρβαση ορίου χαρακτήρων"
+  "invalid": "Invalid",
+  "tooLong": "Character limit exceeded"
 }

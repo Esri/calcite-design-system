@@ -1,4 +1,4 @@
 {
-  "invalid": "無効",
-  "tooLong": "文字制限を超えています"
+  "invalid": "Invalid",
+  "tooLong": "Character limit exceeded"
 }

@@ -1,4 +1,4 @@
 {
-  "invalid": "Neteisingas",
-  "tooLong": "Viršytas simbolių limitas"
+  "invalid": "Invalid",
+  "tooLong": "Character limit exceeded"
 }
