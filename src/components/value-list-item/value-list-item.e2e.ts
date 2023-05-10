@@ -29,7 +29,9 @@ describe("calcite-value-list-item", () => {
 
   it("has slots", () => slots("calcite-value-list-item", SLOTS));
 
-  it("is focusable", async () => focusable("calcite-value-list-item"));
+  describe("is focusable", () => {
+    focusable("calcite-value-list-item");
+  });
 
   it("can be disabled", async () => disabled("calcite-value-list-item"));
 

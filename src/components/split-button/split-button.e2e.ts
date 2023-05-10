@@ -26,15 +26,16 @@ describe("calcite-split-button", () => {
     hidden("calcite-split-button");
   });
 
-  it("focusable", async () =>
+  describe("focusable", () => {
     focusable(
       `<calcite-split-button primary-text="Button Text" dropdown-label="Show options">
-      ${content}
-      </calcite-split-button>`,
+        ${content}
+        </calcite-split-button>`,
       {
         shadowFocusTargetSelector: "calcite-button"
       }
-    ));
+    );
+  });
 
   describe("accessible", () => {
     accessible(html`<calcite-split-button primary-text="Button Text" dropdown-label="Show options">
