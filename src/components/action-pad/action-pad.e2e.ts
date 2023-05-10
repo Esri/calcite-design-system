@@ -188,7 +188,7 @@ describe("calcite-action-pad", () => {
     `);
   });
 
-  it("should focus on toggle button", async () =>
+  describe("should focus on toggle button", () => {
     focusable(
       html`
         <calcite-action-pad>
@@ -200,7 +200,8 @@ describe("calcite-action-pad", () => {
       {
         focusTargetSelector: "calcite-action"
       }
-    ));
+    );
+  });
 
   it("has slots", () => slots("calcite-action-pad", SLOTS));
 

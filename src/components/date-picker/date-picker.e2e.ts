@@ -21,10 +21,11 @@ describe("calcite-date-picker", () => {
       }
     ]));
 
-  it("focusable", async () =>
+  describe("focusable", () => {
     focusable("calcite-date-picker", {
       shadowFocusTargetSelector: "calcite-date-picker-month-header"
-    }));
+    });
+  });
 
   const animationDurationInMs = 200;
 
