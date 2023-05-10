@@ -7,10 +7,11 @@ describe("calcite-list-item", () => {
     renders("calcite-list-item", { display: "flex" });
   });
 
-  it("is focusable", () =>
+  describe("is focusable", () => {
     focusable("<calcite-list-item active></calcite-list-item>", {
       shadowFocusTargetSelector: `.${CSS.container}`
-    }));
+    });
+  });
 
   describe("honors hidden attribute", () => {
     hidden("calcite-list-item");
