@@ -145,7 +145,7 @@ import { newE2EPage } from "@stencil/core/testing";
 import { CSS, TEXT } from "./resources";
 import { accessible, hidden, renders } from "../../tests/commonTests";
 
-describe.skip("calcite-example", () => {
+describe("calcite-example", () => {
   describe("renders", () => {
     renders("calcite-example");
   });
