@@ -491,7 +491,8 @@ export const mediumIconForLargeDropdownItem_TestOnly = (): string => html`
   </calcite-dropdown>
 `;
 
-export const triggerWordBreak_TestOnly = (): string => html`<div style="width:300px;">
+export const triggerWordBreak_TestOnly = (): string => html`
+<div style="width:300px;">
 <calcite-dropdown scale="m">
   <calcite-button slot="trigger" alignment="icon-end-space-between" appearance="transparent" icon-end="chevronDown"
     scale="m" type="button" width="full">BirdObservationCommentBirdObservationComment</calcite-button>
@@ -505,3 +506,34 @@ export const triggerWordBreak_TestOnly = (): string => html`<div style="width:30
   </calcite-dropdown-group>
 </calcite-dropdown>
 </div>`;
+
+export const triggerButtonWidthFull_TestOnly = (): string => html`
+  <div style="width: 300px; border: red 1px solid">
+    <calcite-block open collapsible heading="Example block heading">
+      <calcite-dropdown max-items="0" type="click" style="border: 1px solid blue" open>
+        <calcite-button id="button" _slot="dropdown-trigger" slot="trigger" icon-end="chevronDown" width="full"
+          >BirdObservationCommentBirdObservationComment</calcite-button
+        >
+        <calcite-dropdown-group role="group" selection-mode="single" calcite-hydrated="">
+          <calcite-dropdown-item aria-checked="true" role="menuitemradio" onClick="onClickHndl(event)"
+            >BirdObservationComment</calcite-dropdown-item
+          >
+          <calcite-dropdown-item aria-checked="true" role="menuitemradio" onClick="onClickHndl(event)"
+            >BirdObservationComment-BirdObservationComment</calcite-dropdown-item
+          >
+          <calcite-dropdown-item aria-checked="true" role="menuitemradio" onClick="onClickHndl(event)"
+            >BirdObservationCommentBirdObservationComment</calcite-dropdown-item
+          >
+        </calcite-dropdown-group>
+        <calcite-dropdown-group>
+          <calcite-dropdown-item aria-checked="true" role="menuitemradio" onClick="onClickHndl(event)"
+            >BirdObservationComment BirdObservationComment</calcite-dropdown-item
+          >
+          <calcite-dropdown-item aria-checked="true" role="menuitemradio" onClick="onClickHndl(event)"
+            >Bird_Observation_Comment_Bird_Observation_Comment</calcite-dropdown-item
+          >
+        </calcite-dropdown-group>
+      </calcite-dropdown>
+    </calcite-block>
+  </div>
+`;
