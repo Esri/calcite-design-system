@@ -263,7 +263,11 @@ export function toISOTimeString(value: string, includeSeconds = true): string {
   }
   const { hour, minute, second } = parseTimeString(value);
 
-  return `${formatTimePart(parseInt(hour))}:${formatTimePart(parseInt(minute))}:${formatTimePart(
-    parseInt((includeSeconds && second) || "0")
-  )}`;
+  let result = `${formatTimePart(parseInt(hour))}:${formatTimePart(parseInt(minute))}`;
+
+  if (includeSeconds) {
+    result += `:${formatTimePart(parseInt((includeSeconds && second) || "0"))}`;
+  }
+
+  return result;
 }

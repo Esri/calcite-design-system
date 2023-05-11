@@ -226,34 +226,22 @@ export class InputTimePicker
   @Prop() step = 60;
 
   @Watch("step")
-  stepWatcher(): void {
-    this.setInputValue(
-      localizeTimeString({
-        value: this.value,
-        locale: this.effectiveLocale,
-        numberingSystem: this.numberingSystem,
-        includeSeconds: this.shouldIncludeSeconds()
-      })
-    );
+  stepWatcher(newStep: number, oldStep: number): void {
+    if (
+      (oldStep >= 60 && newStep > 0 && newStep < 60) ||
+      (newStep >= 60 && oldStep > 0 && oldStep < 60)
+    ) {
+      this.setValueDirectly(this.value);
+    }
   }
 
-  /** The component's value in UTC (always 24-hour format). */
+  /** The time value in ISO (24-hour) format. */
   @Prop({ mutable: true }) value: string = null;
 
   @Watch("value")
   valueWatcher(newValue: string): void {
     if (!this.userChangedValue) {
-      this.value = isValidTime(newValue) ? newValue : "";
-      this.setInputValue(
-        this.value
-          ? localizeTimeString({
-              value: newValue,
-              includeSeconds: this.shouldIncludeSeconds(),
-              locale: this.effectiveLocale,
-              numberingSystem: this.numberingSystem
-            })
-          : ""
-      );
+      this.setValueDirectly(newValue);
     }
     this.userChangedValue = false;
   }
@@ -390,13 +378,14 @@ export class InputTimePicker
     event.stopPropagation();
     const target = event.target as HTMLCalciteTimePickerElement;
     const value = target.value;
-    this.setValue(toISOTimeString(value));
+    const includeSeconds = this.shouldIncludeSeconds();
+    this.setValue(toISOTimeString(value, includeSeconds));
     this.setInputValue(
       localizeTimeString({
         value,
         locale: this.effectiveLocale,
         numberingSystem: this.numberingSystem,
-        includeSeconds: this.shouldIncludeSeconds()
+        includeSeconds
       })
     );
   };
@@ -678,6 +667,12 @@ export class InputTimePicker
     this.calciteInputEl.value = newInputValue;
   };
 
+  /**
+   * Sets the value and emits a change event.
+   * This is used to update the value as a result of user interaction.
+   *
+   * @param value
+   */
   private setValue = (value: string): void => {
     const oldValue = this.value;
     const newValue = formatTimeString(value) || "";
@@ -703,6 +698,27 @@ export class InputTimePicker
         })
       );
     }
+  };
+
+  /**
+   * Sets the value directly without emitting a change event.
+   * This is used to update the value on initial load and when props change that are not the result of user interaction.
+   *
+   * @param value
+   */
+  private setValueDirectly = (value: string): void => {
+    const includeSeconds = this.shouldIncludeSeconds();
+    this.value = toISOTimeString(value, includeSeconds);
+    this.setInputValue(
+      this.value
+        ? localizeTimeString({
+            value: this.value,
+            includeSeconds,
+            locale: this.effectiveLocale,
+            numberingSystem: this.numberingSystem
+          })
+        : ""
+    );
   };
 
   private onInputWrapperClick = () => {
@@ -735,16 +751,7 @@ export class InputTimePicker
     this.effectiveLocale = effectiveLocale;
 
     if (isValidTime(this.value)) {
-      const includeSeconds = this.shouldIncludeSeconds();
-      this.value = toISOTimeString(this.value, includeSeconds);
-      this.setInputValue(
-        localizeTimeString({
-          value: this.value,
-          includeSeconds: this.shouldIncludeSeconds(),
-          locale: this.effectiveLocale,
-          numberingSystem: this.numberingSystem
-        })
-      );
+      this.setValueDirectly(this.value);
     } else {
       this.value = undefined;
     }

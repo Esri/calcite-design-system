@@ -535,14 +535,15 @@ describe("calcite-input-time-picker", () => {
       });
     });
 
-    expect(await inputTimePicker.getProperty("value")).toBe("14:59:00");
+    expect(await inputTimePicker.getProperty("value")).toBe("14:59");
 
-    await page.keyboard.press("Tab");
-    await page.keyboard.press(":");
+    await inputTimePicker.callMethod("setFocus");
+    await page.keyboard.press("Backspace");
     await page.keyboard.press("5");
+    await page.keyboard.press("Enter");
     await page.waitForChanges();
 
-    expect(await inputTimePicker.getProperty("value")).toBe("14:59:00");
+    expect(await inputTimePicker.getProperty("value")).toBe("14:59");
   });
 
   it("emptys initial value when it is not a valid time value", async () => {
@@ -558,13 +559,13 @@ describe("calcite-input-time-picker", () => {
     formAssociated("calcite-input-time-picker", { testValue: "03:23", submitsOnEnter: true });
   });
 
-  it("toggles seconds display appropriately as step changes", async () => {
+  it("updates value appropriately as step changes", async () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-input-time-picker value="1:2:3"></calcite-input-time-picker>`);
 
     const inputTimePicker = await page.find("calcite-input-time-picker");
 
-    expect(await inputTimePicker.getProperty("value")).toBe("01:02:00");
+    expect(await inputTimePicker.getProperty("value")).toBe("01:02");
     expect(await getInputValue(page)).toBe("01:02 AM");
 
     inputTimePicker.setProperty("step", 1);
@@ -576,7 +577,7 @@ describe("calcite-input-time-picker", () => {
     inputTimePicker.setProperty("step", 60);
     await page.waitForChanges();
 
-    expect(await inputTimePicker.getProperty("value")).toBe("01:02:00");
+    expect(await inputTimePicker.getProperty("value")).toBe("01:02");
     expect(await getInputValue(page)).toBe("01:02 AM");
   });
 
