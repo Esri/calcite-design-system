@@ -67,14 +67,7 @@ export function connectFocusTrap(component: FocusTrapComponent, options?: Connec
 
   const focusTrapOptions: FocusTrapOptions = {
     clickOutsideDeactivates: (event) => {
-      const target = event.target as FocusableElement;
-      const deactivateFocusTrap = !event.composedPath().includes(component.focusTrapContentEl ?? el);
-
-      if (!deactivateFocusTrap && target !== el) {
-        focusElement(target);
-      }
-
-      return deactivateFocusTrap;
+      return !event.composedPath().includes(component.focusTrapContentEl ?? el);
     },
     escapeDeactivates: false,
     fallbackFocus: focusTrapNode,
