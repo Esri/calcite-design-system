@@ -58,10 +58,11 @@ describe("calcite-radio-button", () => {
     expect(value).toBe("third");
   });
 
-  it("is focusable", () =>
+  describe("is focusable", () => {
     focusable("calcite-radio-button", {
       shadowFocusTargetSelector: ".container"
-    }));
+    });
+  });
 
   it("reflects", async () =>
     reflects("calcite-radio-button", [
