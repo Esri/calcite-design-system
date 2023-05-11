@@ -92,6 +92,30 @@ export const darkModeRTL_TestOnly = (): string =>
   );
 darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
 
+export const tipWithoutGroup_TestOnly = (): string => html`<calcite-tip-manager>
+  <calcite-tip id="one" heading="test"><p>no pre-selected attribute</p></calcite-tip>
+</calcite-tip-manager>`;
+
+export const tipWithGroup_TestOnly = (): string => html`<calcite-tip-manager>
+  <calcite-tip-group group-title="Group Title"
+    ><calcite-tip id="one" heading="test"><p>no pre-selected attribute</p></calcite-tip></calcite-tip-group
+  >
+</calcite-tip-manager>`;
+
+export const tipWithoutGroupMaxWidth_TestOnly = (): string => html`<calcite-tip-manager
+  style="width:500px; --calcite-tip-max-width:200px;"
+>
+  <calcite-tip id="one" heading="test"><p>no pre-selected attribute</p></calcite-tip>
+</calcite-tip-manager>`;
+
+export const tipWithGroupMaxWidth_TestOnly = (): string => html`<calcite-tip-manager
+  style="width:500px; --calcite-tip-max-width:200px;"
+>
+  <calcite-tip-group group-title="Group Title"
+    ><calcite-tip id="one" heading="test"><p>no pre-selected attribute</p></calcite-tip></calcite-tip-group
+  >
+</calcite-tip-manager>`;
+
 export const hebrewLocale_TestOnly = (): string => html`<calcite-tip-manager heading-level="1" lang="he">
   <calcite-tip id="one" heading="test"><p>no pre-selected attribute</p></calcite-tip>
 </calcite-tip-manager>`;
