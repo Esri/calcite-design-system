@@ -14,6 +14,8 @@ export interface FocusTrapComponent {
 
   /**
    * The focus trap content element.
+   *
+   * When set, this element prevents clicked child elements from deactivating the focus trap.
    */
   focusTrapContentEl?: HTMLElement;
 
