@@ -13,6 +13,11 @@ export interface FocusTrapComponent {
   el: HTMLElement;
 
   /**
+   * The focus trap content element.
+   */
+  focusTrapContentEl?: HTMLElement;
+
+  /**
    * When `true`, prevents focus trapping.
    */
   focusTrapDisabled: boolean;
@@ -59,11 +64,20 @@ export function connectFocusTrap(component: FocusTrapComponent, options?: Connec
   }
 
   const focusTrapOptions: FocusTrapOptions = {
-    clickOutsideDeactivates: true,
+    clickOutsideDeactivates: (event) => {
+      const target = event.target as FocusableElement;
+      const deactivateFocusTrap = !event.composedPath().includes(component.focusTrapContentEl ?? el);
+
+      if (!deactivateFocusTrap && target !== el) {
+        focusElement(target);
+      }
+
+      return deactivateFocusTrap;
+    },
     escapeDeactivates: false,
     fallbackFocus: focusTrapNode,
-    setReturnFocus: (el) => {
-      focusElement(el as FocusableElement);
+    setReturnFocus: (target) => {
+      focusElement(target as FocusableElement);
       return false;
     },
     ...options?.focusTrapOptions,

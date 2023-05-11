@@ -372,6 +372,8 @@ export class Modal
 
   contentId: string;
 
+  focusTrapContentEl: HTMLElement;
+
   @State() cssWidth: string | number;
 
   @State() cssHeight: string | number;
@@ -479,6 +481,7 @@ export class Modal
 
   private setTransitionEl = (el: HTMLDivElement): void => {
     this.transitionEl = el;
+    this.focusTrapContentEl = el;
   };
 
   onBeforeOpen(): void {
