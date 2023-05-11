@@ -6,9 +6,9 @@
  * @prop --calcite-shell-panel-width: Specifies the width of the component.
  * @prop --calcite-shell-panel-max-width: Specifies the maximum width of the component.
  * @prop --calcite-shell-panel-min-width: Specifies the minimum width of the component.
- * @prop --calcite-shell-panel-height: When `layout` is `"horizontal"`, specifies the height of the component.
- * @prop --calcite-shell-panel-max-height: When `layout` is `"horizontal"`, specifies the maximum height of the component.
- * @prop --calcite-shell-panel-min-height: When `layout` is `"horizontal"`, specifies the minimum height of the component.
+ * @prop --calcite-shell-panel-height: When `layout` is `horizontal`, or `layout` is `vertical` and `displayMode` is `float`, specifies the height of the component.
+ * @prop --calcite-shell-panel-max-height: When `layout` is `horizontal`, or `layout` is `vertical` and `displayMode` is `float`, specifies the maximum height of the component.
+ * @prop --calcite-shell-panel-min-height: When `layout` is `horizontal`, or `layout` is `vertical` and `displayMode` is `float`, specifies the minimum height of the component.
  * @prop [Deprecated] --calcite-shell-panel-detached-max-height: When `displayMode` is `float`, specifies the maximum height of the component.
  * @prop --calcite-shell-panel-z-index: Specifies the z-index value for the component.
  *
@@ -44,12 +44,6 @@
   z-index: var(--calcite-shell-panel-z-index, calc(theme("zIndex.default") + 1));
 }
 
-:host([layout="horizontal"]) .content {
-  --calcite-shell-panel-height-internal: var(--calcite-shell-panel-height, 20vh);
-  --calcite-shell-panel-max-height-internal: var(--calcite-shell-panel-max-height, 420px);
-  --calcite-shell-panel-min-height-internal: var(--calcite-shell-panel-min-height, 240px);
-}
-
 :host([layout="vertical"][width-scale="s"]) .content {
   --calcite-shell-panel-width-internal: var(--calcite-shell-panel-width, 12vw);
   --calcite-shell-panel-max-width-internal: var(--calcite-shell-panel-max-width, 300px);
@@ -68,24 +62,24 @@
   --calcite-shell-panel-min-width-internal: var(--calcite-shell-panel-min-width, 340px);
 }
 
-:host([height-scale="s"]) .content--float {
+:host([layout="horizontal"][height-scale="s"]) .content {
+  --calcite-shell-panel-max-height-internal: var(
+    --calcite-shell-panel-max-height,
+    var(--calcite-shell-panel-detached-max-height, 20vh)
+  );
+}
+
+:host([layout="horizontal"]) .content {
+  --calcite-shell-panel-max-height-internal: var(
+    --calcite-shell-panel-max-height,
+    var(--calcite-shell-panel-detached-max-height, 30vh)
+  );
+}
+
+:host([layout="horizontal"][height-scale="l"]) .content {
   --calcite-shell-panel-max-height-internal: var(
     --calcite-shell-panel-max-height,
     var(--calcite-shell-panel-detached-max-height, 40vh)
-  );
-}
-
-:host([height-scale="m"]) .content--float {
-  --calcite-shell-panel-max-height-internal: var(
-    --calcite-shell-panel-max-height,
-    var(--calcite-shell-panel-detached-max-height, 60vh)
-  );
-}
-
-:host([height-scale="l"]) .content--float {
-  --calcite-shell-panel-max-height-internal: var(
-    --calcite-shell-panel-max-height,
-    var(--calcite-shell-panel-detached-max-height, 80vh)
   );
 }
 
@@ -260,7 +254,7 @@
   h-auto
   overflow-hidden
   rounded;
-  max-block-size: var(--calcite-shell-panel-max-height-internal);
+  max-block-size: var(--calcite-shell-panel-max-height-internal, calc(100% - 1rem));
   ::slotted(calcite-panel),
   ::slotted(calcite-flow) {
     max-block-size: unset;

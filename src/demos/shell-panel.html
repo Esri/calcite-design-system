@@ -4,9 +4,9 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0" />
 
-    <title>Shell Panel Display Mode Configuration</title>
+    <title>Shell Panel</title>
 
-    <script src="../_assets/head.js"></script>
+    <script src="./_assets/head.js"></script>
     <script>
       const dojoConfig = {
         has: {
@@ -43,6 +43,14 @@
         flex-direction: row;
         padding: 1rem;
         justify-content: space-between;
+      }
+
+      .big-boi {
+        display: block;
+        margin: 1rem 0;
+        background: var(--calcite-ui-foreground-2);
+        height: 100rem;
+        overflow: scroll;
       }
     </style>
 
@@ -88,6 +96,12 @@
                 </calcite-segmented-control-item>
                 <calcite-segmented-control-item value="content-behind"> Content behind </calcite-segmented-control-item>
               </calcite-segmented-control>
+              <calcite-segmented-control id="control-tall-content">
+                <calcite-segmented-control-item value="not-tall-content" checked>
+                  Not tall content
+                </calcite-segmented-control-item>
+                <calcite-segmented-control-item value="tall-content">Tall content</calcite-segmented-control-item>
+              </calcite-segmented-control>
               <calcite-segmented-control id="control-resizable">
                 <calcite-segmented-control-item value="not-resizable" checked>
                   Not resizable
@@ -97,7 +111,7 @@
             </div>
 
             <div id="viewDiv"></div>
-            <calcite-shell-panel slot="panel-start">
+            <calcite-shell-panel slot="panel-start" style="--calcite-shell-panel-height: 40vh">
               <calcite-action-bar slot="action-bar" class="calcite-mode-dark">
                 <calcite-action-group>
                   <calcite-action text="Save" icon="save" indicator> </calcite-action>
@@ -126,6 +140,7 @@
                     <calcite-chip value="float">float</calcite-chip>
                     <calcite-chip value="overlay">overlay</calcite-chip>
                   </calcite-chip-group>
+                  <div class="big-boi" style="display: none"></div>
                 </calcite-block>
               </calcite-panel>
             </calcite-shell-panel>
@@ -171,6 +186,7 @@
                     <calcite-chip value="float">float</calcite-chip>
                     <calcite-chip value="overlay">overlay</calcite-chip>
                   </calcite-chip-group>
+                  <div class="big-boi" style="display: none"></div>
                 </calcite-block>
               </calcite-panel>
             </calcite-shell-panel>
@@ -204,8 +220,9 @@
                     <calcite-chip value="float">float</calcite-chip>
                     <calcite-chip value="overlay">overlay</calcite-chip>
                   </calcite-chip-group>
-                </calcite-block></calcite-panel
-              >
+                  <div class="big-boi" style="display: none"></div>
+                </calcite-block>
+              </calcite-panel>
             </calcite-shell-panel>
 
             <calcite-shell-panel layout="horizontal" slot="panel-bottom" position="end">
@@ -237,6 +254,7 @@
                     <calcite-chip value="float">float</calcite-chip>
                     <calcite-chip value="overlay">overlay</calcite-chip>
                   </calcite-chip-group>
+                  <div class="big-boi" style="display: none"></div>
                 </calcite-block>
               </calcite-panel>
             </calcite-shell-panel>
@@ -257,6 +275,13 @@
 
           segmentedControlResize.addEventListener("calciteSegmentedControlChange", function () {
             shellPanels.forEach((el) => (el.resizable = !el.resizable));
+          });
+
+          const segmentedControlTallContent = document.getElementById("control-tall-content");
+          const bigBois = document.querySelectorAll(".big-boi");
+
+          segmentedControlTallContent.addEventListener("calciteSegmentedControlChange", function () {
+            bigBois.forEach((el) => (el.style.display = el.style.display === "none" ? "block" : "none"));
           });
 
           const chipsTop = document.getElementById("chip-group-panel-top");
