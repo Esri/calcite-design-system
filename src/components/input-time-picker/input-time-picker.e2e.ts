@@ -253,7 +253,7 @@ describe("calcite-input-time-picker", () => {
     await page.waitForChanges();
 
     expect(changeEvent).toHaveReceivedEventTimes(1);
-    expect(await inputTimePicker.getProperty("value")).toBe("17:04:00");
+    expect(await inputTimePicker.getProperty("value")).toBe("17:04");
     expect(await getInputValue(page)).toBe("05:04 PM");
 
     await page.keyboard.press("Enter");
@@ -281,7 +281,7 @@ describe("calcite-input-time-picker", () => {
     await page.waitForChanges();
 
     expect(changeEvent).toHaveReceivedEventTimes(1);
-    expect(await inputTimePicker.getProperty("value")).toBe("05:04:00");
+    expect(await inputTimePicker.getProperty("value")).toBe("05:04");
     expect(await getInputValue(page)).toBe("05:04");
 
     await page.keyboard.press("Enter");
@@ -309,7 +309,7 @@ describe("calcite-input-time-picker", () => {
     await page.waitForChanges();
 
     expect(changeEvent).toHaveReceivedEventTimes(1);
-    expect(await inputTimePicker.getProperty("value")).toBe("17:04:00");
+    expect(await inputTimePicker.getProperty("value")).toBe("17:04");
     expect(await getInputValue(page)).toBe("05:04 PM");
 
     await page.keyboard.press("Enter");
@@ -337,7 +337,7 @@ describe("calcite-input-time-picker", () => {
     await page.waitForChanges();
 
     expect(changeEvent).toHaveReceivedEventTimes(1);
-    expect(await inputTimePicker.getProperty("value")).toBe("05:04:00");
+    expect(await inputTimePicker.getProperty("value")).toBe("05:04");
     expect(await getInputValue(page)).toBe("05:04");
 
     await page.keyboard.press("Enter");

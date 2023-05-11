@@ -35,7 +35,8 @@ import {
   disconnectLocalized,
   LocalizedComponent,
   NumberingSystem,
-  numberStringFormatter
+  numberStringFormatter,
+  SupportedLocales
 } from "../../utils/locale";
 import {
   activateFocusTrap,
@@ -140,8 +141,7 @@ export class InputTimePicker
    *
    * When not set, the component will be associated with its ancestor form element, if any.
    */
-  @Prop({ reflect: true })
-  form: string;
+  @Prop({ reflect: true }) form: string;
 
   /**
    * When `true`, the component's value can be read, but controls are not accessible and the value cannot be modified.
@@ -185,6 +185,18 @@ export class InputTimePicker
    */
   @Prop() numberingSystem: NumberingSystem;
 
+  @Watch("numberingSystem")
+  numberingSystemWatcher(numberingSystem: NumberingSystem): void {
+    this.setInputValue(
+      localizeTimeString({
+        value: this.value,
+        locale: this.effectiveLocale,
+        numberingSystem,
+        includeSeconds: this.shouldIncludeSeconds()
+      })
+    );
+  }
+
   /**
    * When `true`, the component must have a value in order for the form to submit.
    *
@@ -212,6 +224,18 @@ export class InputTimePicker
 
   /** Specifies the granularity the component's `value` must adhere to (in seconds). */
   @Prop() step = 60;
+
+  @Watch("step")
+  stepWatcher(): void {
+    this.setInputValue(
+      localizeTimeString({
+        value: this.value,
+        locale: this.effectiveLocale,
+        numberingSystem: this.numberingSystem,
+        includeSeconds: this.shouldIncludeSeconds()
+      })
+    );
+  }
 
   /** The component's value in UTC (always 24-hour format). */
   @Prop({ mutable: true }) value: string = null;
@@ -274,14 +298,12 @@ export class InputTimePicker
   @State() effectiveLocale = "";
 
   @Watch("effectiveLocale")
-  @Watch("numberingSystem")
-  @Watch("step")
-  async valueRelatedPropChange(): Promise<void> {
+  async effectiveLocaleWatcher(locale: SupportedLocales): Promise<void> {
     await this.loadDateTimeLocaleData();
     this.setInputValue(
       localizeTimeString({
         value: this.value,
-        locale: this.effectiveLocale,
+        locale,
         numberingSystem: this.numberingSystem,
         includeSeconds: this.shouldIncludeSeconds()
       })
@@ -305,9 +327,8 @@ export class InputTimePicker
   //
   //--------------------------------------------------------------------------
 
-  private calciteInternalInputBlurHandler = (): void => {
+  private hostBlurHandler = (): void => {
     const inputValue = this.calciteInputEl.value;
-
     const delocalizedInputValue = this.delocalizeTimeString(inputValue);
 
     if (!delocalizedInputValue) {
@@ -329,6 +350,8 @@ export class InputTimePicker
     if (localizedTimeString !== inputValue) {
       this.setInputValue(localizedTimeString);
     }
+
+    this.deactivate();
   };
 
   private calciteInternalInputFocusHandler = (event: CustomEvent): void => {
@@ -446,9 +469,13 @@ export class InputTimePicker
     const dayjsParseResult = dayjs(valueToParse, ["LTS", "LT"], locale);
 
     if (dayjsParseResult.isValid()) {
-      const unformattedTimeString = `${dayjsParseResult.get("hour")}:${dayjsParseResult.get(
+      let unformattedTimeString = `${dayjsParseResult.get("hour")}:${dayjsParseResult.get(
         "minute"
-      )}:${this.shouldIncludeSeconds() ? dayjsParseResult.get("seconds") : 0}`;
+      )}`;
+
+      if (this.shouldIncludeSeconds()) {
+        unformattedTimeString += `:${dayjsParseResult.get("seconds") || 0}`;
+      }
 
       return formatTimeString(unformattedTimeString) || "";
     }
@@ -695,6 +722,18 @@ export class InputTimePicker
   connectedCallback() {
     connectLocalized(this);
 
+    let { effectiveLocale } = this;
+    if (effectiveLocale === "en-US") {
+      effectiveLocale = "en";
+    }
+    if (effectiveLocale === "pt-PT") {
+      effectiveLocale = "pt";
+    }
+    if (effectiveLocale === "no") {
+      effectiveLocale = "nb";
+    }
+    this.effectiveLocale = effectiveLocale;
+
     if (isValidTime(this.value)) {
       const includeSeconds = this.shouldIncludeSeconds();
       this.value = toISOTimeString(this.value, includeSeconds);
@@ -755,7 +794,7 @@ export class InputTimePicker
   render(): VNode {
     const { disabled, messages, readOnly, dialogId } = this;
     return (
-      <Host onBlur={this.deactivate} onKeyDown={this.keyDownHandler}>
+      <Host onBlur={this.hostBlurHandler} onKeyDown={this.keyDownHandler}>
         <div class="input-wrapper" onClick={this.onInputWrapperClick}>
           <calcite-input
             aria-autocomplete="none"
@@ -766,7 +805,6 @@ export class InputTimePicker
             label={getLabelText(this)}
             lang={this.effectiveLocale}
             onCalciteInputInput={this.calciteInternalInputInputHandler}
-            onCalciteInternalInputBlur={this.calciteInternalInputBlurHandler}
             onCalciteInternalInputFocus={this.calciteInternalInputFocusHandler}
             readOnly={readOnly}
             role="combobox"
