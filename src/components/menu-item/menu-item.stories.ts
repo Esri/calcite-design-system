@@ -24,16 +24,6 @@ export const simple = (): string => html` <calcite-menu>
   />
 </calcite-menu>`;
 
-export const darkModeRTL_TestOnly = (): string =>
-  html`<calcite-menu-item
-    text="My nav item"
-    active
-    dir="rtl"
-    class="calcite-mode-dark"
-    icon-start="Layers"
-    icon-end="Layers"
-  />`;
-
 export const iconStart = (): string => html` <calcite-menu>
   <calcite-menu-item
     text="${text("text", "My nav item")}"
@@ -76,3 +66,13 @@ export const iconsBoth = (): string => html` <calcite-menu>
     ${boolean("breadcrumb", false)}
   />
 </calcite-menu>`;
+
+export const darkModeRTL_TestOnly = (): string =>
+  html`<calcite-menu-item
+    text="My nav item"
+    active
+    dir="rtl"
+    class="calcite-mode-dark"
+    icon-start="Layers"
+    icon-end="Layers"
+  />`;

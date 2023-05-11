@@ -1,6 +1,7 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { html } from "../../../support/formatting";
-import { accessible, focusable, hidden, reflects, renders } from "../../tests/commonTests";
+import { accessible, focusable, hidden, reflects, renders, t9n } from "../../tests/commonTests";
+import { getFocusedElementProp } from "../../tests/utils";
 
 describe("calcite-menu-item", () => {
   describe("renders", () => {
@@ -28,7 +29,11 @@ describe("calcite-menu-item", () => {
     accessible(html`<calcite-menu> <calcite-menu-item text="calcite"> </calcite-menu-item> </calcite-menu>`);
   });
 
-  it("is focusable", () => focusable("calcite-menu-item"));
+  describe("is focusable", () => {
+    focusable("calcite-menu-item");
+  });
+
+  it("supports translations", () => t9n("calcite-menu-item"));
 
   //todo : debug why calcite-menu-item requires calite-menu as parent for the click to emit event in test.
   it("should emit calciteMenuItemSelect event on user click", async () => {
@@ -44,7 +49,7 @@ describe("calcite-menu-item", () => {
 
     await menuItem.click();
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("Nature");
+    expect(await getFocusedElementProp(page, "id")).toBe("Nature");
     expect(eventSpy).toHaveReceivedEventTimes(1);
   });
 
@@ -53,8 +58,8 @@ describe("calcite-menu-item", () => {
     await page.setContent(html`
       <calcite-menu>
         <calcite-menu-item id="Nature" text="Nature" href="#nature">
-          <calcite-menu-item id="Mountains" text="Mountains" slot="sub-menu-item"> </calcite-menu-item>
-          <calcite-menu-item id="Rivers" text="Rivers" slot="sub-menu-item"> </calcite-menu-item>
+          <calcite-menu-item id="Mountains" text="Mountains" slot="submenu-item"> </calcite-menu-item>
+          <calcite-menu-item id="Rivers" text="Rivers" slot="submenu-item"> </calcite-menu-item>
         </calcite-menu-item>
       </calcite-menu>
     `);
@@ -64,7 +69,7 @@ describe("calcite-menu-item", () => {
 
     await page.keyboard.press("Tab");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("Nature");
+    expect(await getFocusedElementProp(page, "id")).toBe("Nature");
     expect(eventSpy).not.toHaveReceivedEvent();
 
     await page.keyboard.press("Enter");
@@ -77,7 +82,7 @@ describe("calcite-menu-item", () => {
 
     await page.keyboard.press("Tab");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("Nature");
+    expect(await getFocusedElementProp(page, "id")).toBe("Nature");
     expect(eventSpy).toHaveReceivedEventTimes(2);
   });
 });

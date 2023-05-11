@@ -1,4 +1,4 @@
-import { Component, Element, h, Host, Listen, Method, Prop, State, Watch } from "@stencil/core";
+import { Component, Element, h, Host, Listen, Prop, State, Watch, Method } from "@stencil/core";
 import { focusElement, focusElementInGroup, slotChangeGetAssignedElements } from "../../utils/dom";
 import {
   componentLoaded,
@@ -21,10 +21,12 @@ type Layout = "horizontal" | "vertical";
 @Component({
   tag: "calcite-menu",
   styleUrl: "menu.scss",
-  shadow: true,
+  shadow: {
+    delegatesFocus: true
+  },
   assetsDirs: ["assets"]
 })
-export class CalciteMenu implements LoadableComponent, LocalizedComponent, T9nComponent {
+export class CalciteMenu implements LocalizedComponent, T9nComponent, LoadableComponent {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -40,27 +42,19 @@ export class CalciteMenu implements LoadableComponent, LocalizedComponent, T9nCo
   //--------------------------------------------------------------------------
 
   /**
-   * Specifies the layout of the component.
-   */
-  @Prop({ reflect: true }) layout: Layout = "horizontal";
-
-  /**
    * Accessible name for the component.
    */
   @Prop() label!: string;
 
   /**
-   * @internal
+   * Specifies the layout of the component.
    */
-  @Prop() role = "menubar";
+  @Prop({ reflect: true }) layout: Layout = "horizontal";
 
-  /**
-   * Made into a prop for testing purposes only.
-   *
-   * @internal
-   */
-  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
-  @Prop({ mutable: true }) messages: MenuMessages;
+  @Watch("layout")
+  handleLayoutChange(value: Layout): void {
+    this.setMenuItemLayout(this.menuItems, value);
+  }
 
   /**
    * Use this property to override individual strings used by the component.
@@ -73,10 +67,21 @@ export class CalciteMenu implements LoadableComponent, LocalizedComponent, T9nCo
     /* wired up by t9n util */
   }
 
-  @Watch("layout")
-  handleLayoutChange(value: Layout): void {
-    this.setMenuItemLayout(this.menuItems, value);
-  }
+  /**
+   * Made into a prop for testing purposes only.
+   *
+   * @internal
+   */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
+  @Prop({ mutable: true }) messages: MenuMessages;
+
+  /**
+   * Specifies the role of `menu` component. Marked as internal for parsing the role attribute in `menu-item` component shadowDOM.
+   * This property falls outside of the `globalAttribute` interface pattern because it is immutable and has a default value.
+   * @internal
+   *
+   */
+  @Prop() role = "menubar";
 
   //--------------------------------------------------------------------------
   //
@@ -86,14 +91,14 @@ export class CalciteMenu implements LoadableComponent, LocalizedComponent, T9nCo
 
   @State() defaultMessages: MenuMessages;
 
-  @State() menuItems: HTMLCalciteMenuItemElement[] = [];
-
   @State() effectiveLocale = "";
 
   @Watch("effectiveLocale")
   effectiveLocaleChange(): void {
     updateMessages(this, this.effectiveLocale);
   }
+
+  menuItems: HTMLCalciteMenuItemElement[] = [];
 
   //--------------------------------------------------------------------------
   //
@@ -111,13 +116,13 @@ export class CalciteMenu implements LoadableComponent, LocalizedComponent, T9nCo
     await setUpMessages(this);
   }
 
+  componentDidLoad(): void {
+    setComponentLoaded(this);
+  }
+
   disconnectedCallback(): void {
     disconnectLocalized(this);
     disconnectMessages(this);
-  }
-
-  componentDidLoad(): void {
-    setComponentLoaded(this);
   }
 
   //--------------------------------------------------------------------------
@@ -187,36 +192,41 @@ export class CalciteMenu implements LoadableComponent, LocalizedComponent, T9nCo
     event.preventDefault();
   }
 
+  //--------------------------------------------------------------------------
+  //
+  //  Private Methods
+  //
+  //--------------------------------------------------------------------------
+
   handleMenuSlotChange = (event: Event): void => {
     this.menuItems = slotChangeGetAssignedElements(event) as HTMLCalciteMenuItemElement[];
     this.setMenuItemLayout(this.menuItems, this.layout);
   };
 
-  focusParentElement = (el: HTMLCalciteMenuItemElement): void => {
+  focusParentElement(el: HTMLCalciteMenuItemElement): void {
     const parentEl = el.parentElement as HTMLCalciteMenuItemElement;
     if (parentEl) {
       focusElement(parentEl);
       parentEl.open = false;
     }
-  };
+  }
 
-  setMenuItemLayout = (items: HTMLCalciteMenuItemElement[], layout: Layout): void => {
-    if (items.length > 0) {
-      items.forEach((item) => {
-        item.layout = layout;
-        if (this.role === "menubar") {
-          item.isTopLevelItem = true;
-          item.topLevelMenuLayout = this.layout;
-        }
-      });
-    }
-  };
+  setMenuItemLayout(items: HTMLCalciteMenuItemElement[], layout: Layout): void {
+    items.forEach((item) => {
+      item.layout = layout;
+      if (this.role === "menubar") {
+        item.isTopLevelItem = true;
+        item.topLevelMenuLayout = this.layout;
+      }
+    });
+  }
 
   // --------------------------------------------------------------------------
   //
   //  Render Methods
   //
   // --------------------------------------------------------------------------
+
   render() {
     return (
       <Host>

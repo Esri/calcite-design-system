@@ -2,30 +2,26 @@
   @apply flex
   items-center 
   relative 
-  box-border;
+  box-border
+  h-full;
   flex-shrink: 0;
-  block-size: 100%;
   & .container,
   & .item-content,
-  & a {
+  & .content {
     min-block-size: theme("spacing.12");
   }
 }
 
 :host([layout="vertical"]) {
-  inline-size: 100%;
+  @apply w-full;
 }
 
 .container,
 .item-content {
-  display: flex;
-  flex-direction: row;
-  block-size: 100%;
-  inline-size: 100%;
-  align-items: stretch;
+  @apply flex flex-row w-full h-full items-stretch;
 }
 
-a {
+.content {
   @apply flex
   items-center
   relative
@@ -33,12 +29,14 @@ a {
   cursor-pointer 
   outline-none
   text-0
-  text-color-2 box-border bg-foreground-1;
+  text-color-2 
+  box-border 
+  bg-foreground-1
+  px-4 
+  h-full;
   text-decoration: none;
   border-block-end: theme("spacing[0.5]") solid transparent;
   padding-block-start: theme("spacing[0.5]");
-  padding-inline: 1rem;
-  block-size: 100%;
   &:hover {
     @apply bg-foreground-2 text-color-2;
   }
@@ -52,16 +50,14 @@ a {
     display: inline-flex;
   }
   &.layout--vertical {
+    @apply flex w-full justify-start;
     padding-block: 1rem;
-    inline-size: 100%;
-    display: flex;
-    justify-content: flex-start;
     border-block-end: 0;
     border-inline-end: theme("spacing.1") solid transparent;
   }
 }
 
-:host([active]) a {
+:host([active]) .content {
   @apply text-color-1;
   border-color: var(--calcite-ui-brand);
   .icon {
@@ -70,18 +66,16 @@ a {
 }
 
 .icon--start {
-  margin-inline-end: 0.75rem;
+  @apply me-3;
 }
 
 .icon--end {
-  margin-inline-start: 0.75rem;
+  @apply ms-3;
 }
 
 .icon--dropdown {
-  margin-inline: auto 0px;
-  padding-inline-start: 0.5rem;
+  @apply ms-auto me-0 ps-2 relative;
   --calcite-ui-icon-color: var(--calcite-ui-text-3);
-  position: relative;
 }
 
 :host([layout="vertical"]) .icon--dropdown {
@@ -89,30 +83,25 @@ a {
 }
 
 .icon--breadcrumb {
-  padding-inline-start: 0.5rem;
-  margin-inline-end: 0px;
+  @apply ps-2 me-0;
   --calcite-ui-icon-color: var(--calcite-ui-text-3);
 }
 
-:host([breadcrumb]) a {
-  padding-inline-end: 0.75rem;
+:host([breadcrumb]) .content {
+  @apply pe-3;
 }
 
 calcite-action {
-  block-size: auto;
-  position: relative;
+  @apply relative h-auto;
   border-inline-start: 1px solid var(--calcite-ui-foreground-1);
   &:after {
-    display: block;
-    inline-size: 1px;
+    @apply block w-px  absolute -start-px;
     content: "";
     inset-block: theme("spacing.3");
     background-color: var(--calcite-ui-border-3);
-    position: absolute;
-    inset-inline-start: -1px;
   }
   &:hover:after {
-    block-size: 100%;
+    @apply h-full;
     inset-block: 0;
   }
 }
@@ -128,33 +117,27 @@ a:hover ~ calcite-action {
 }
 
 .dropdown-menu-items {
+  @apply absolute h-auto flex-col hidden overflow-visible min-w-full;
   border: 1px solid var(--calcite-ui-border-3);
-  position: absolute;
   background: var(--calcite-ui-foreground-1);
-  block-size: auto;
-  flex-direction: column;
-  min-inline-size: 100%;
-  display: none;
-  overflow: visible;
   inset-block-start: 100%;
   z-index: theme("zIndex.dropdown");
   &.open {
-    display: block;
+    @apply block;
   }
   &.nested {
+    @apply absolute;
     inset-block-start: -1px;
-    position: absolute;
     transform: translateX(calc(100% - 2px));
   }
 }
 
 .parent--vertical {
-  flex-direction: column;
+  @apply flex-col;
 }
 
 .dropdown--vertical.dropdown-menu-items {
-  position: relative;
-  border-radius: 0;
+  @apply relative rounded-none;
   box-shadow: none;
   inset-block-start: 0;
   transform: none;
@@ -163,29 +146,24 @@ a:hover ~ calcite-action {
   }
 }
 
-:host([slot="sub-menu-item"]) .parent--vertical {
+:host([slot="submenu-item"]) .parent--vertical {
   padding-inline-start: theme("spacing.7");
 }
 
-.dropdown-menu-items.is-rtl.nested {
+.dropdown-menu-items.nested.calcite--rtl {
   transform: translateX(calc(-100% + 2px));
 }
 
-.dropdown--vertical.dropdown-menu-items.is-rtl.nested {
+.dropdown--vertical.dropdown-menu-items.nested.calcite--rtl {
   transform: none;
 }
 
 .hover-href-icon {
-  opacity: 0;
-  padding-inline-start: 2rem;
-  margin-inline-start: auto;
+  @apply ps-8 ms-auto relative end-1 opacity-0;
   transition: all var(--calcite-internal-animation-timing-medium) ease-in-out;
-  inset-inline-end: 0.25rem;
-  position: relative;
 }
 
-a:focus .hover-href-icon,
-a:hover .hover-href-icon {
-  opacity: 1;
-  inset-inline-end: -0.25rem;
+content:focus .hover-href-icon,
+content:hover .hover-href-icon {
+  @apply opacity-100 -end-1;
 }
