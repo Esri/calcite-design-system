@@ -57,6 +57,7 @@
 
 .calcite-mode-dark {
   @include calcite-mode-dark-extended();
+  --calcite-ui-background: var(--calcite-ui-background-1);
 }
 
 .calcite-mode-light {
