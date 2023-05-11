@@ -1701,21 +1701,21 @@
         },
         "transparent-hover": {
           "light": {
-            "value": "$core.color.neutral.blk-240, 0.04",
+            "value": "$core.color.neutral.blk-240, $core.opacity.4",
             "type": "color"
           },
           "dark": {
-            "value": "$core.color.neutral.blk-000, 0.04",
+            "value": "$core.color.neutral.blk-000, $core.opacity.4",
             "type": "color"
           }
         },
         "transparent-press": {
           "light": {
-            "value": "$core.color.neutral.blk-240, 0.08",
+            "value": "$core.color.neutral.blk-240, $core.opacity.8",
             "type": "color"
           },
           "dark": {
-            "value": "$core.color.neutral.blk-000, 0.08",
+            "value": "$core.color.neutral.blk-000, $core.opacity.8",
             "type": "color"
           }
         }
