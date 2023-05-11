@@ -1718,6 +1718,16 @@
             "value": "$core.color.neutral.blk-000, $core.opacity.8",
             "type": "color"
           }
+        },
+        "ui-text-highlight": {
+          "light": {
+            "value": "#BBD5FA",
+            "type": "color"
+          },
+          "dark": {
+            "value": "#375F95",
+            "type": "color"
+          }
         }
       }
     },

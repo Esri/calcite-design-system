@@ -20,6 +20,10 @@
       "value": "$semantic.ui.color.foreground.current.light",
       "type": "color"
     },
+    "ui-text-highlight": {
+      "value": "$semantic.ui.color.ui-text-highlight.light",
+      "type": "color"
+    },
     "ui-brand": {
       "value": "$semantic.ui.color.brand.default.light",
       "type": "color"
