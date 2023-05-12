@@ -297,20 +297,7 @@ export class SegmentedControl
   }
 
   private getItems(): HTMLCalciteSegmentedControlItemElement[] {
-    const items = Array.from(this.el.querySelectorAll("calcite-segmented-control-item"));
-
-    const filteredItems = items.filter(
-      (item, index, a) => a.findIndex((item2) => item2.value === item.value) === index
-    );
-
-    if (items.length > filteredItems.length) {
-      console.warn(`Multiple segmented-control-items with the same "value" exist.`, {
-        component: this.el,
-        items
-      });
-    }
-
-    return filteredItems;
+    return Array.from(this.el.querySelectorAll("calcite-segmented-control-item"));
   }
 
   private selectItem(selected: HTMLCalciteSegmentedControlItemElement, emit = false): void {
@@ -322,7 +309,7 @@ export class SegmentedControl
     let match: HTMLCalciteSegmentedControlItemElement = null;
 
     items.forEach((item) => {
-      const matches = item.value === selected.value && !match;
+      const matches = item === selected;
 
       if ((matches && !item.checked) || (!matches && item.checked)) {
         item.checked = matches;
