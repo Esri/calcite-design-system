@@ -231,15 +231,15 @@ export default {
         menu: "45vh"
       },
       zIndex: {
-        deep: "-999999",
-        default: "1",
-        sticky: "300",
-        header: "400",
-        toast: "500",
-        dropdown: "600",
-        overlay: "700",
-        modal: "800",
-        popover: "900",
+        deep: "var(--calcite-app-z-index-deep)",
+        default: "var(--calcite-app-z-index)",
+        sticky: "var(--calcite-app-z-index-sticky)",
+        header: "var(--calcite-app-z-index-header)",
+        toast: "var(--calcite-app-z-index-toast)",
+        dropdown: "var(--calcite-app-z-index-dropdown)",
+        overlay: "var(--calcite-app-z-index-overlay)",
+        modal: "var(--calcite-app-z-index-modal)",
+        popover: "var(--calcite-app-z-index-popup)",
         tooltip: "901"
       }
     }
