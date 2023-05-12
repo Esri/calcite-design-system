@@ -420,42 +420,10 @@ export class InputTimePicker
   // --------------------------------------------------------------------------
 
   private delocalizeTimeString(value: string): string {
-    const locale = this.effectiveLocale.toLowerCase();
-    let valueToParse = value;
+    // Parsing won't work with the correct locale unless you call this right before dayjs()
+    dayjs.locale(this.effectiveLocale.toLowerCase());
 
-    if (locale === "ar") {
-      if (this.numberingSystem === "arab") {
-        const arabNumberMap = {
-          "١": "1",
-          "٢": "2",
-          "٣": "3",
-          "٤": "4",
-          "٥": "5",
-          "٦": "6",
-          "٧": "7",
-          "٨": "8",
-          "٩": "9",
-          "٠": "0"
-        };
-        valueToParse = value.replace(/[١٢٣٤٥٦٧٨٩٠]/g, (match) => arabNumberMap[match]);
-      } else if (this.numberingSystem === "arabext") {
-        const arabextNumberMap = {
-          "۱": "1",
-          "۲": "2",
-          "۳": "3",
-          "۴": "4",
-          "۵": "5",
-          "۶": "6",
-          "۷": "7",
-          "۸": "8",
-          "۹": "9",
-          "۰": "0"
-        };
-        valueToParse = value.replace(/[۱۲۳۴۵۶۷۸۹۰]/g, (match) => arabextNumberMap[match]);
-      }
-    }
-
-    const dayjsParseResult = dayjs(valueToParse, ["LTS", "LT"], locale);
+    const dayjsParseResult = dayjs(value, ["LTS", "LT"]);
 
     if (dayjsParseResult.isValid()) {
       let unformattedTimeString = `${dayjsParseResult.get("hour")}:${dayjsParseResult.get(

@@ -559,7 +559,7 @@ describe("calcite-input-time-picker", () => {
     formAssociated("calcite-input-time-picker", { testValue: "03:23", submitsOnEnter: true });
   });
 
-  it("updates value appropriately as step changes", async () => {
+  it("updates value appropriately as step changes.", async () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-input-time-picker value="1:2:3"></calcite-input-time-picker>`);
 
@@ -649,20 +649,6 @@ describe("calcite-input-time-picker", () => {
       expect(await inputTimePicker.getProperty("value")).toBe("14:02:30");
     });
 
-    it("localizes initial display value in arabext numbering system", async () => {
-      const page = await newE2EPage();
-      await page.setContent(
-        `<calcite-input-time-picker step="1" lang="ar" numbering-system="arabext" value="14:02:30"></calcite-input-time-picker>`
-      );
-
-      const inputTimePicker = await page.find("calcite-input-time-picker");
-      const changeEvent = await inputTimePicker.spyOnEvent("calciteInputTimePickerChange");
-
-      expect(changeEvent).toHaveReceivedEventTimes(0);
-      expect(await getInputValue(page)).toBe("۰۲:۰۲:۳۰ م");
-      expect(await inputTimePicker.getProperty("value")).toBe("14:02:30");
-    });
-
     it("converts latn numbers to arab while typing", async () => {
       const page = await newE2EPage();
       await page.setContent(
@@ -675,20 +661,6 @@ describe("calcite-input-time-picker", () => {
       await page.keyboard.type("0123456789");
 
       expect(await getInputValue(page)).toBe("٠١٢٣٤٥٦٧٨٩");
-    });
-
-    it("converts latn numbers to arabext while typing", async () => {
-      const page = await newE2EPage();
-      await page.setContent(
-        `<calcite-input-time-picker step="1" lang="ar" numbering-system="arabext"></calcite-input-time-picker>`
-      );
-
-      const inputTimePicker = await page.find("calcite-input-time-picker");
-
-      await inputTimePicker.callMethod("setFocus");
-      await page.keyboard.type("0123456789");
-
-      expect(await getInputValue(page)).toBe("۰۱۲۳۴۵۶۷۸۹");
     });
 
     it("committing typed value works as expected in arab numbering system", async () => {
@@ -706,24 +678,6 @@ describe("calcite-input-time-picker", () => {
 
       expect(changeEvent).toHaveReceivedEventTimes(1);
       expect(await getInputValue(page)).toBe("٠٢:٤٥:٣٠ م");
-      expect(await inputTimePicker.getProperty("value")).toBe("14:45:30");
-    });
-
-    it("committing typed value works as expected in arabext numbering system", async () => {
-      const page = await newE2EPage();
-      await page.setContent(
-        `<calcite-input-time-picker step="1" lang="ar" numbering-system="arabext"></calcite-input-time-picker>`
-      );
-
-      const inputTimePicker = await page.find("calcite-input-time-picker");
-      const changeEvent = await inputTimePicker.spyOnEvent("calciteInputTimePickerChange");
-
-      await inputTimePicker.callMethod("setFocus");
-      await page.keyboard.type("2:45:30 م");
-      await page.keyboard.press("Enter");
-
-      expect(changeEvent).toHaveReceivedEventTimes(1);
-      expect(await getInputValue(page)).toBe("۰۲:۴۵:۳۰ م");
       expect(await inputTimePicker.getProperty("value")).toBe("14:45:30");
     });
 
