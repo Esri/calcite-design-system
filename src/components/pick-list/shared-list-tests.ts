@@ -609,20 +609,20 @@ export function itemRemoval(listType: ListType): void {
   });
 }
 
+// eslint-disable-next-line jest/no-export -- util functions are now imported to be used as `it` blocks within `describe` instead of assertions within `it` blocks */
 export function focusing(listType: ListType): void {
-  describe("when setFocus method is called", () => {
-    it("should focus filter", () =>
-      focusable(
-        html`
+  describe("should focus filter when setFocus method is called", () => {
+    focusable(
+      html`
         <calcite-${listType}-list filter-enabled>
           <calcite-${listType}-list-item label="Sample" value="one"></calcite-${listType}-list-item>
         </calcite-${listType}-list>
       `,
-        {
-          focusId: "filter",
-          shadowFocusTargetSelector: "calcite-filter"
-        }
-      ));
+      {
+        focusId: "filter",
+        shadowFocusTargetSelector: "calcite-filter"
+      }
+    );
   });
 }
 
