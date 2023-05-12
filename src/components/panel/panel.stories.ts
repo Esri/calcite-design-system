@@ -220,7 +220,7 @@ export const actionBarBackgroundColor_TestOnly = (): string => html`<calcite-pan
 </calcite-panel>`;
 
 export const headerShouldNotAppearOver_TestOnly = (): string =>
-  html`<div style="height:400px; width: 400px;">
+  html`<div style="position:relative; height:400px; width: 400px;">
     <calcite-notice style="position:absolute; top:0; left:0; width:400px; z-index: 2;" icon kind="info" scale="s" open>
       <div slot="title">Title lorem ispum</div>
       <div slot="message">Body lorem ispum</div>
