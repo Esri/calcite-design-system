@@ -1,6 +1,6 @@
 export const CSS = {
-  navContainer: "nav-container",
-  navContainerContent: "nav-container-content"
+  container: "container",
+  containerContent: "container-content"
 };
 
 export const SLOTS = {

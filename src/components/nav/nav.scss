@@ -12,7 +12,7 @@
  * @prop --calcite-nav-tertiary-border-color: Specifies the background color of the primary navigation.
  */
 
-.nav-container {
+.container {
   @apply flex w-full;
   flex-direction: column;
   margin-block: 0;
@@ -41,7 +41,7 @@
   border-block-end-color: var(--calcite-nav-tertiary-border-color, var(--calcite-ui-border-3));
 }
 
-.nav-container-content {
+.container-content {
   @apply flex 
   w-full 
   h-full 

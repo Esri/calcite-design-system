@@ -73,7 +73,7 @@ export class CalciteNav {
 
   @State() secondarySlotHasElements: boolean;
 
-  @State() teritiarySlotHasElements: boolean;
+  @State() tertiarySlotHasElements: boolean;
 
   // --------------------------------------------------------------------------
   //
@@ -98,7 +98,7 @@ export class CalciteNav {
     if (level === LEVEL.secondary) {
       this.secondarySlotHasElements = slotChangeHasAssignedElement(event);
     } else if (level === LEVEL.tertiary) {
-      this.teritiarySlotHasElements = slotChangeHasAssignedElement(event);
+      this.tertiarySlotHasElements = slotChangeHasAssignedElement(event);
     } else {
       this.primarySlotHasElements = slotChangeHasAssignedElement(event);
     }
@@ -130,7 +130,7 @@ export class CalciteNav {
     } else if (level === LEVEL.secondary) {
       return this.secondarySlotHasElements;
     } else {
-      return this.teritiarySlotHasElements;
+      return this.tertiarySlotHasElements;
     }
   }
 
@@ -155,13 +155,13 @@ export class CalciteNav {
     return (
       <div
         class={{
-          [CSS.navContainer]: true,
+          [CSS.container]: true,
           [`nav-${level}`]: true,
           hide: !hasElements
         }}
       >
         <slot name={SLOTS.progress} />
-        <div class={CSS.navContainerContent}>
+        <div class={CSS.containerContent}>
           {level === LEVEL.primary && this.renderMenuAction()}
           {level === LEVEL.primary && (
             <slot name={SLOTS.logo} onSlotchange={this.handleLogoSlotChange} />
