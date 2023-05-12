@@ -147,47 +147,43 @@ export class CalciteMenu implements LocalizedComponent, T9nComponent, LoadableCo
   calciteInternalNavMenuItemKeyEvent(event: CustomEvent): void {
     const target = event.target as HTMLCalciteMenuItemElement;
     const subMenuItems = event.detail.children;
+    const key = event.detail.event.key;
     event.stopPropagation();
-    switch (event.detail.event.key) {
-      case "ArrowDown":
-        if (target.layout === "vertical") {
-          focusElementInGroup(this.menuItems, target, "next", false);
-        } else {
-          if (event.detail.isSubMenuOpen) {
-            subMenuItems[0].setFocus();
-          }
+
+    if (key === "ArrowDown") {
+      if (target.layout === "vertical") {
+        focusElementInGroup(this.menuItems, target, "next", false);
+      } else {
+        if (event.detail.isSubMenuOpen) {
+          subMenuItems[0].setFocus();
         }
-        break;
-      case "ArrowUp":
-        if (this.layout === "vertical") {
-          focusElementInGroup(this.menuItems, target, "previous", false);
-        } else {
-          if (event.detail.isSubMenuOpen) {
-            subMenuItems[subMenuItems.length - 1].setFocus();
-          }
+      }
+    } else if (key === "ArrowUp") {
+      if (this.layout === "vertical") {
+        focusElementInGroup(this.menuItems, target, "previous", false);
+      } else {
+        if (event.detail.isSubMenuOpen) {
+          subMenuItems[subMenuItems.length - 1].setFocus();
         }
-        break;
-      case "ArrowRight":
-        if (this.layout === "horizontal") {
-          focusElementInGroup(this.menuItems, target, "next", false);
-        } else {
-          if (event.detail.isSubMenuOpen) {
-            subMenuItems[0].setFocus();
-          }
+      }
+    } else if (key === "ArrowRight") {
+      if (this.layout === "horizontal") {
+        focusElementInGroup(this.menuItems, target, "next", false);
+      } else {
+        if (event.detail.isSubMenuOpen) {
+          subMenuItems[0].setFocus();
         }
-        break;
-      case "ArrowLeft":
-        if (this.layout === "horizontal") {
-          focusElementInGroup(this.menuItems, target, "previous", false);
-        } else {
-          if (event.detail.isSubMenuOpen) {
-            this.focusParentElement(event.target as HTMLCalciteMenuItemElement);
-          }
+      }
+    } else if (key === "ArrowLeft") {
+      if (this.layout === "horizontal") {
+        focusElementInGroup(this.menuItems, target, "previous", false);
+      } else {
+        if (event.detail.isSubMenuOpen) {
+          this.focusParentElement(event.target as HTMLCalciteMenuItemElement);
         }
-        break;
-      case "Escape":
-        this.focusParentElement(event.target as HTMLCalciteMenuItemElement);
-        break;
+      }
+    } else if (key === "Escape") {
+      this.focusParentElement(event.target as HTMLCalciteMenuItemElement);
     }
     event.preventDefault();
   }

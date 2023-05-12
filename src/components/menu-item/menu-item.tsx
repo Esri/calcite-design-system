@@ -271,70 +271,61 @@ export class CalciteMenuItem implements LoadableComponent, T9nComponent {
 
   private keyDownHandler = async (event: KeyboardEvent): Promise<void> => {
     // opening and closing of submenu is handled here. Any other functionality is bubbled to parent menu.
-    switch (event.key) {
-      case " ":
-      case "Enter":
-        this.selectMenuItem(event);
-        if (
-          this.hasSubMenu &&
-          (!this.href || (this.href && event.target === this.dropdownActionEl))
-        ) {
-          this.open = !this.open;
-        }
-        event.preventDefault();
-        break;
-      case "Escape":
-        if (this.open) {
-          this.open = false;
-          return;
-        }
-        this.calciteInternalMenuItemKeyEvent.emit({ event });
-        event.preventDefault();
-        break;
-      case "ArrowDown":
-      case "ArrowUp":
-        event.preventDefault();
-        if (
-          (event.target === this.dropdownActionEl || !this.href) &&
-          this.hasSubMenu &&
-          !this.open &&
-          this.layout === "horizontal"
-        ) {
-          this.open = true;
-          return;
-        }
-        this.calciteInternalMenuItemKeyEvent.emit({
-          event,
-          children: this.subMenuItems,
-          isSubMenuOpen: this.open && this.hasSubMenu
-        });
-        break;
-      case "ArrowLeft":
-        event.preventDefault();
-        this.calciteInternalMenuItemKeyEvent.emit({
-          event,
-          children: this.subMenuItems,
-          isSubMenuOpen: true
-        });
-        break;
-
-      case "ArrowRight":
-        event.preventDefault();
-        if (
-          (event.target === this.dropdownActionEl || !this.href) &&
-          this.hasSubMenu &&
-          !this.open &&
-          this.layout === "vertical"
-        ) {
-          this.open = true;
-          return;
-        }
-        this.calciteInternalMenuItemKeyEvent.emit({
-          event,
-          children: this.subMenuItems,
-          isSubMenuOpen: this.open && this.hasSubMenu
-        });
-        break;
+    if (event.key === " " || event.key === "Enter") {
+      this.selectMenuItem(event);
+      if (
+        this.hasSubMenu &&
+        (!this.href || (this.href && event.target === this.dropdownActionEl))
+      ) {
+        this.open = !this.open;
+      }
+      event.preventDefault();
+    } else if (event.key === "Escape") {
+      if (this.open) {
+        this.open = false;
+        return;
+      }
+      this.calciteInternalMenuItemKeyEvent.emit({ event });
+      event.preventDefault();
+    } else if (event.key === "ArrowDown" || event.key === "ArrowUp") {
+      event.preventDefault();
+      if (
+        (event.target === this.dropdownActionEl || !this.href) &&
+        this.hasSubMenu &&
+        !this.open &&
+        this.layout === "horizontal"
+      ) {
+        this.open = true;
+        return;
+      }
+      this.calciteInternalMenuItemKeyEvent.emit({
+        event,
+        children: this.subMenuItems,
+        isSubMenuOpen: this.open && this.hasSubMenu
+      });
+    } else if (event.key === "ArrowLeft") {
+      event.preventDefault();
+      this.calciteInternalMenuItemKeyEvent.emit({
+        event,
+        children: this.subMenuItems,
+        isSubMenuOpen: true
+      });
+    } else if (event.key === "ArrowRight") {
+      event.preventDefault();
+      if (
+        (event.target === this.dropdownActionEl || !this.href) &&
+        this.hasSubMenu &&
+        !this.open &&
+        this.layout === "vertical"
+      ) {
+        this.open = true;
+        return;
+      }
+      this.calciteInternalMenuItemKeyEvent.emit({
+        event,
+        children: this.subMenuItems,
+        isSubMenuOpen: this.open && this.hasSubMenu
+      });
     }
   };
 

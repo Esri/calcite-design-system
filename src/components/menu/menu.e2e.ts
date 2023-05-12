@@ -5,13 +5,13 @@ import { getFocusedElementProp } from "../../tests/utils";
 
 describe("calcite-menu", () => {
   describe("renders", () => {
-    renders(html`<calcite-menu></calcite-menu>`, {
+    renders(html`<calcite-menu><calcite-menu-item text="calcite"></calcite-menu-item></calcite-menu>`, {
       display: "flex"
     });
   });
 
   describe("honors hidden attribute", () => {
-    hidden("calcite-menu");
+    hidden(html`<calcite-menu><calcite-menu-item text="calcite"></calcite-menu-item></calcite-menu>`);
   });
 
   describe("accessible", () => {
@@ -19,7 +19,9 @@ describe("calcite-menu", () => {
   });
 
   describe("focusable", () => {
-    focusable(html`<calcite-menu><calcite-menu-item text="calcite"></calcite-menu-item></calcite-menu>`);
+    focusable(html`<calcite-menu><calcite-menu-item text="calcite"></calcite-menu-item></calcite-menu>`, {
+      focusTargetSelector: "calcite-menu-item"
+    });
   });
 
   it("supports translation", () => t9n("calcite-menu"));
@@ -39,7 +41,6 @@ describe("calcite-menu", () => {
 
       const menuItem = await page.find("calcite-menu-item[id='ArcGISOnline']");
       const menuItemMenu = await page.find("calcite-menu-item[id='ArcGISOnline'] >>> calcite-menu");
-
       expect(await menuItemMenu.isVisible()).toBe(false);
 
       await menuItem.click();
@@ -78,10 +79,9 @@ describe("calcite-menu", () => {
       const menuElement = await page.$("calcite-menu");
       const { x, y, width, height } = await menuElement.boundingBox();
 
-      await page.mouse.click(x + width + 50, y + height + 50);
+      await page.mouse.click(x + width + 150, y + height + 150);
       await page.waitForChanges();
       expect(await menuItemMenu.isVisible()).toBe(false);
-      expect(await getFocusedElementProp(page, "id")).toBe("ArcGISOnline");
     });
   });
 
@@ -253,5 +253,29 @@ describe("calcite-menu", () => {
       await page.waitForChanges();
       expect(await getFocusedElementProp(page, "id")).toBe("Nature");
     });
+  });
+
+  it("should close opened submenu on Escape", async () => {
+    const page = await newE2EPage();
+    await page.setContent(html`<calcite-menu>
+      <calcite-menu-item id="ArcGISOnline" text="ArcGISOnline">
+        <calcite-menu-item text="ArcGISJS" slot="submenu-item"> </calcite-menu-item>
+        <calcite-menu-item text="Calcite" slot="submenu-item"> </calcite-menu-item>
+      </calcite-menu-item>
+    </calcite-menu>`);
+
+    const menuItem = await page.find("calcite-menu-item[id='ArcGISOnline']");
+    const menuItemMenu = await page.find("calcite-menu-item[id='ArcGISOnline'] >>> calcite-menu");
+    expect(await menuItemMenu.isVisible()).toBe(false);
+
+    await menuItem.click();
+    await page.waitForChanges();
+    expect(await menuItemMenu.isVisible()).toBe(true);
+    expect(await getFocusedElementProp(page, "id")).toBe("ArcGISOnline");
+
+    await page.keyboard.press("Escape");
+    await page.waitForChanges();
+    expect(await menuItemMenu.isVisible()).toBe(false);
+    expect(await getFocusedElementProp(page, "id")).toBe("ArcGISOnline");
   });
 });

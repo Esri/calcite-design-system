@@ -488,23 +488,21 @@ export const focusElementInGroup = (
   const currentIndex = elements.indexOf(currentElement);
   const isFirstItem = currentIndex === 0;
   const isLastItem = currentIndex === elements.length - 1;
-  destination =
-    destination === "previous" && isFirstItem ? "last" : destination === "next" && isLastItem ? "first" : destination;
-  let focusTarget;
 
-  switch (destination) {
-    case "first":
-      focusTarget = elements[0];
-      break;
-    case "last":
-      focusTarget = elements[elements.length - 1];
-      break;
-    case "next":
-      focusTarget = elements[currentIndex + 1] || elements[cycle ? 0 : currentIndex];
-      break;
-    case "previous":
-      focusTarget = elements[currentIndex - 1] || elements[cycle ? elements.length - 1 : currentIndex];
-      break;
+  if (cycle) {
+    destination =
+      destination === "previous" && isFirstItem ? "last" : destination === "next" && isLastItem ? "first" : destination;
+  }
+
+  let focusTarget;
+  if (destination === "previous") {
+    focusTarget = elements[currentIndex - 1] || elements[cycle ? elements.length - 1 : currentIndex];
+  } else if (destination === "next") {
+    focusTarget = elements[currentIndex + 1] || elements[cycle ? 0 : currentIndex];
+  } else if (destination === "last") {
+    focusTarget = elements[elements.length - 1];
+  } else {
+    focusTarget = elements[0];
   }
 
   focusElement(focusTarget);
