@@ -151,9 +151,9 @@ export class CalciteMenuItem implements LoadableComponent, T9nComponent, Localiz
     updateMessages(this, this.effectiveLocale);
   }
 
-  @State() hasSubMenu = false;
+  @State() hasSubmenu = false;
 
-  @State() subMenuItems: HTMLCalciteMenuItemElement[];
+  @State() submenuItems: HTMLCalciteMenuItemElement[];
 
   anchorEl: HTMLAnchorElement;
 
@@ -194,7 +194,7 @@ export class CalciteMenuItem implements LoadableComponent, T9nComponent, Localiz
   handleClickOut(event: Event): void {
     if (
       this.topLevelMenuLayout !== "vertical" &&
-      this.hasSubMenu &&
+      this.hasSubmenu &&
       this.open &&
       !event.composedPath().includes(this.el)
     ) {
@@ -248,7 +248,7 @@ export class CalciteMenuItem implements LoadableComponent, T9nComponent, Localiz
   }
 
   private clickHandler = (event: MouseEvent): void => {
-    if ((this.href && event.target === this.dropdownActionEl) || (!this.href && this.hasSubMenu)) {
+    if ((this.href && event.target === this.dropdownActionEl) || (!this.href && this.hasSubmenu)) {
       this.open = !this.open;
     }
     this.selectMenuItem(event);
@@ -263,13 +263,13 @@ export class CalciteMenuItem implements LoadableComponent, T9nComponent, Localiz
   }
 
   private handleMenuItemSlotChange = (event: Event): void => {
-    this.subMenuItems = slotChangeGetAssignedElements(event) as HTMLCalciteMenuItemElement[];
-    this.subMenuItems.forEach((item) => {
+    this.submenuItems = slotChangeGetAssignedElements(event) as HTMLCalciteMenuItemElement[];
+    this.submenuItems.forEach((item) => {
       if (!item.topLevelMenuLayout) {
         item.topLevelMenuLayout = this.topLevelMenuLayout;
       }
     });
-    this.hasSubMenu = this.subMenuItems.length > 0;
+    this.hasSubmenu = this.submenuItems.length > 0;
   };
 
   private keyDownHandler = async (event: KeyboardEvent): Promise<void> => {
@@ -277,7 +277,7 @@ export class CalciteMenuItem implements LoadableComponent, T9nComponent, Localiz
     if (event.key === " " || event.key === "Enter") {
       this.selectMenuItem(event);
       if (
-        this.hasSubMenu &&
+        this.hasSubmenu &&
         (!this.href || (this.href && event.target === this.dropdownActionEl))
       ) {
         this.open = !this.open;
@@ -294,7 +294,7 @@ export class CalciteMenuItem implements LoadableComponent, T9nComponent, Localiz
       event.preventDefault();
       if (
         (event.target === this.dropdownActionEl || !this.href) &&
-        this.hasSubMenu &&
+        this.hasSubmenu &&
         !this.open &&
         this.layout === "horizontal"
       ) {
@@ -303,21 +303,21 @@ export class CalciteMenuItem implements LoadableComponent, T9nComponent, Localiz
       }
       this.calciteInternalMenuItemKeyEvent.emit({
         event,
-        children: this.subMenuItems,
-        isSubMenuOpen: this.open && this.hasSubMenu
+        children: this.submenuItems,
+        isSubmenuOpen: this.open && this.hasSubmenu
       });
     } else if (event.key === "ArrowLeft") {
       event.preventDefault();
       this.calciteInternalMenuItemKeyEvent.emit({
         event,
-        children: this.subMenuItems,
-        isSubMenuOpen: true
+        children: this.submenuItems,
+        isSubmenuOpen: true
       });
     } else if (event.key === "ArrowRight") {
       event.preventDefault();
       if (
         (event.target === this.dropdownActionEl || !this.href) &&
-        this.hasSubMenu &&
+        this.hasSubmenu &&
         !this.open &&
         this.layout === "vertical"
       ) {
@@ -326,8 +326,8 @@ export class CalciteMenuItem implements LoadableComponent, T9nComponent, Localiz
       }
       this.calciteInternalMenuItemKeyEvent.emit({
         event,
-        children: this.subMenuItems,
-        isSubMenuOpen: this.open && this.hasSubMenu
+        children: this.submenuItems,
+        isSubmenuOpen: this.open && this.hasSubmenu
       });
     }
   };
@@ -419,7 +419,7 @@ export class CalciteMenuItem implements LoadableComponent, T9nComponent, Localiz
     );
   }
 
-  renderSubMenuItems(dir: Direction): VNode {
+  renderSubmenuItems(dir: Direction): VNode {
     return (
       <calcite-menu
         class={{
@@ -445,7 +445,7 @@ export class CalciteMenuItem implements LoadableComponent, T9nComponent, Localiz
         <div class={CSS.textContainer}>
           <span>{this.text}</span>
         </div>
-        {!this.href && this.hasSubMenu ? this.renderDropdownIcon(dir) : null}
+        {!this.href && this.hasSubmenu ? this.renderDropdownIcon(dir) : null}
         {this.breadcrumb ? this.renderBreadcrumbIcon(dir) : null}
         {this.iconEnd && this.renderIconEnd()}
       </Fragment>
@@ -467,7 +467,7 @@ export class CalciteMenuItem implements LoadableComponent, T9nComponent, Localiz
             <a
               aria-current={this.isFocused ? "page" : false}
               aria-expanded={this.open}
-              aria-haspopup={this.hasSubMenu}
+              aria-haspopup={this.hasSubmenu}
               aria-label={this.label}
               class={{ [CSS.layoutVertical]: this.layout === "vertical", [CSS.content]: true }}
               href={this.href}
@@ -489,9 +489,9 @@ export class CalciteMenuItem implements LoadableComponent, T9nComponent, Localiz
                 />
               ) : null}
             </a>
-            {this.href && this.hasSubMenu ? this.renderDropdownAction(dir) : null}
+            {this.href && this.hasSubmenu ? this.renderDropdownAction(dir) : null}
           </div>
-          {this.renderSubMenuItems(dir)}
+          {this.renderSubmenuItems(dir)}
         </li>
       </Host>
     );

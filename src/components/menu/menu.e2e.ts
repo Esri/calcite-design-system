@@ -48,13 +48,13 @@ describe("calcite-menu", () => {
       expect(await menuItemMenu.isVisible()).toBe(true);
       expect(await getFocusedElementProp(page, "id")).toBe("ArcGISOnline");
 
-      const subMenuItem = await page.find("calcite-menu-item[text='ArcGISJS']");
-      const subMenuItemMenu = await page.find("calcite-menu-item[text='ArcGISJS'] >>> calcite-menu");
-      expect(await subMenuItemMenu.isVisible()).toBe(false);
+      const submenuItem = await page.find("calcite-menu-item[text='ArcGISJS']");
+      const submenuItemMenu = await page.find("calcite-menu-item[text='ArcGISJS'] >>> calcite-menu");
+      expect(await submenuItemMenu.isVisible()).toBe(false);
 
-      await subMenuItem.click();
+      await submenuItem.click();
       await page.waitForChanges();
-      expect(await subMenuItemMenu.isVisible()).toBe(true);
+      expect(await submenuItemMenu.isVisible()).toBe(true);
       expect(await getFocusedElementProp(page, "id")).toBe("ArcGISJS");
     });
 
@@ -100,7 +100,7 @@ describe("calcite-menu", () => {
       </calcite-menu>`);
 
       const menuItemMenu = await page.find("calcite-menu-item[id='Nature'] >>> calcite-menu");
-      const subMenuItemMenu = await page.find("calcite-menu-item[id='Mountains'] >>> calcite-menu");
+      const submenuItemMenu = await page.find("calcite-menu-item[id='Mountains'] >>> calcite-menu");
       expect(await menuItemMenu.isVisible()).toBe(false);
 
       await page.keyboard.press("Tab");
@@ -132,11 +132,11 @@ describe("calcite-menu", () => {
       await page.keyboard.press("ArrowUp");
       await page.waitForChanges();
       expect(await getFocusedElementProp(page, "id")).toBe("Mountains");
-      expect(await subMenuItemMenu.isVisible()).toBe(false);
+      expect(await submenuItemMenu.isVisible()).toBe(false);
 
       await page.keyboard.press("Enter");
       await page.waitForChanges();
-      expect(await subMenuItemMenu.isVisible()).toBe(true);
+      expect(await submenuItemMenu.isVisible()).toBe(true);
 
       await page.keyboard.press("ArrowRight");
       await page.waitForChanges();
@@ -153,7 +153,7 @@ describe("calcite-menu", () => {
       await page.keyboard.press("ArrowLeft");
       await page.waitForChanges();
       expect(await getFocusedElementProp(page, "id")).toBe("Mountains");
-      expect(await subMenuItemMenu.isVisible()).toBe(false);
+      expect(await submenuItemMenu.isVisible()).toBe(false);
       expect(await menuItemMenu.isVisible()).toBe(true);
 
       await page.keyboard.press("ArrowLeft");
@@ -184,7 +184,7 @@ describe("calcite-menu", () => {
       </calcite-menu>`);
 
       const menuItemMenu = await page.find("calcite-menu-item[id='Nature'] >>> calcite-menu");
-      const subMenuItemMenu = await page.find("calcite-menu-item[id='Mountains'] >>> calcite-menu");
+      const submenuItemMenu = await page.find("calcite-menu-item[id='Mountains'] >>> calcite-menu");
       expect(await menuItemMenu.isVisible()).toBe(false);
 
       await page.keyboard.press("Tab");
@@ -216,11 +216,11 @@ describe("calcite-menu", () => {
       await page.keyboard.press("ArrowUp");
       await page.waitForChanges();
       expect(await getFocusedElementProp(page, "id")).toBe("Mountains");
-      expect(await subMenuItemMenu.isVisible()).toBe(false);
+      expect(await submenuItemMenu.isVisible()).toBe(false);
 
       await page.keyboard.press("Enter");
       await page.waitForChanges();
-      expect(await subMenuItemMenu.isVisible()).toBe(true);
+      expect(await submenuItemMenu.isVisible()).toBe(true);
 
       await page.keyboard.press("ArrowRight");
       await page.waitForChanges();
@@ -237,7 +237,7 @@ describe("calcite-menu", () => {
       await page.keyboard.press("ArrowLeft");
       await page.waitForChanges();
       expect(await getFocusedElementProp(page, "id")).toBe("Mountains");
-      expect(await subMenuItemMenu.isVisible()).toBe(false);
+      expect(await submenuItemMenu.isVisible()).toBe(false);
       expect(await menuItemMenu.isVisible()).toBe(true);
 
       await page.keyboard.press("ArrowLeft");

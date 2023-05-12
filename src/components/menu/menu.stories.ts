@@ -35,13 +35,13 @@ export const withNesting = (): string => html`<calcite-panel>
     <calcite-menu-item text="Example nav item 4" text-enabled></calcite-menu-item> </calcite-menu
 ></calcite-panel>`;
 
-export const WithSubMenuOpen_TestOnly = (): string => html`<calcite-menu>
+export const WithSubmenuOpen_TestOnly = (): string => html`<calcite-menu>
   <calcite-menu-item text="My nav item" href="#mynav" open>
     <calcite-menu-item text="item1" slot="submenu-item" active> </calcite-menu-item>
   </calcite-menu-item>
 </calcite-menu>`;
 
-export const WithSubMenuOpenInVerticalLayout_TestOnly = (): string => html` <calcite-menu layout="vertical">
+export const WithSubmenuOpenInVerticalLayout_TestOnly = (): string => html` <calcite-menu layout="vertical">
   <calcite-menu-item text="My nav item" href="#mynav" open>
     <calcite-menu-item text="item1" slot="submenu-item" active> </calcite-menu-item>
   </calcite-menu-item>

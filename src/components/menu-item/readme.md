@@ -12,7 +12,7 @@
 
 ### Nested-With-Href
 
-Nested SubMenu with href.
+Nested submenu with href.
 
 ```html
 <calcite-menu>

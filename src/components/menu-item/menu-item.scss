@@ -107,8 +107,8 @@ calcite-action {
   }
 }
 
-a:focus ~ calcite-action,
-a:hover ~ calcite-action {
+.content:focus ~ calcite-action,
+.content:hover ~ calcite-action {
   @apply text-color-1;
   border-inline-start: 1px solid var(--calcite-ui-border-3);
 }
