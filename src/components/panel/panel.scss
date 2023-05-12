@@ -19,7 +19,7 @@
 @import "../../assets/styles/header";
 
 .container {
-  @apply bg-background m-0 flex w-full flex-auto flex-col items-stretch p-0;
+  @apply relative z-default bg-background m-0 flex w-full flex-auto flex-col items-stretch p-0;
 
   transition: max-block-size var(--calcite-animation-timing), inline-size var(--calcite-animation-timing);
 }
