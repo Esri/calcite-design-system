@@ -31,9 +31,22 @@ describe("calcite-input-time-zone", () => {
 
   it("is labelable", () => labelable("calcite-input-time-zone"));
 
-  it("is reflects", () => reflects("calcite-input-time-zone", []));
+  it("is reflects", () =>
+    reflects("calcite-input-time-zone", [
+      { propertyName: "disabled", value: false },
+      { propertyName: "open", value: false },
+      { propertyName: "scale", value: "s" },
+      { propertyName: "overlayPositioning", value: "absolute" }
+    ]));
 
-  it("has defaults", () => defaults("calcite-input-time-zone", []));
+  it("has defaults", () =>
+    defaults("calcite-input-time-zone", [
+      { propertyName: "disabled", defaultValue: false },
+      { propertyName: "messageOverrides", defaultValue: undefined },
+      { propertyName: "open", defaultValue: false },
+      { propertyName: "overlayPositioning", defaultValue: "absolute" },
+      { propertyName: "scale", defaultValue: "s" }
+    ]));
 
   it("can be disabled", () =>
     disabled("calcite-input-time-zone", { shadowAriaAttributeTargetSelector: "calcite-combobox" }));
