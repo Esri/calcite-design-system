@@ -121,7 +121,7 @@ export class Tab {
   //--------------------------------------------------------------------------
 
   @Listen("calciteInternalTabChange", { target: "body" })
-  async internalTabChangeHandler(event: CustomEvent<TabChangeEventDetail>): Promise<void> {
+  internalTabChangeHandler(event: CustomEvent<TabChangeEventDetail>): Promise<void> {
     const targetTabsEl = event
       .composedPath()
       .find((el: HTMLElement) => el.tagName === "CALCITE-TABS");
@@ -136,7 +136,7 @@ export class Tab {
       if (this.tab) {
         this.selected = this.tab === event.detail.tab;
       } else {
-        const matchingId = await this.labeledBy;
+        const matchingId = this.labeledBy;
         this.selected = event.detail.tabElId === matchingId;
       }
     }
