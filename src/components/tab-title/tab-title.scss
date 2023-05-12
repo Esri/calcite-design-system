@@ -17,6 +17,10 @@
   border-block-start-style: solid;
 }
 
+:host([closed]) {
+  @apply hidden;
+}
+
 // focus styles
 .tab-title-close,
 .container {

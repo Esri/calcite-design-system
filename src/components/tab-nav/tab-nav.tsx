@@ -103,8 +103,11 @@ export class TabNav {
     ) {
       localStorage.setItem(`calcite-tab-nav-${this.storageId}`, JSON.stringify(this.selectedTabId));
     }
+    const selectedTabTitleElementId = this.tabTitles[this.selectedTabId].id;
+
     this.calciteInternalTabChange.emit({
-      tab: this.selectedTabId
+      tab: this.selectedTabId,
+      tabElId: selectedTabTitleElementId
     });
 
     const selectedTitle = await this.getTabTitleById(this.selectedTabId);
@@ -242,7 +245,6 @@ export class TabNav {
   @Listen("calciteTabsActivate")
   activateTabHandler(event: CustomEvent<void>): void {
     this.calciteTabChange.emit();
-
     event.stopPropagation();
     event.preventDefault();
   }
@@ -375,19 +377,13 @@ export class TabNav {
   }
 
   async getTabTitleById(id: TabID): Promise<HTMLCalciteTabTitleElement | null> {
-    return Promise.all(
-      this.tabTitles.filter((tabTitle) => !tabTitle.closed).map((el) => el.getTabIdentifier())
-    ).then((ids) => {
+    return Promise.all(this.tabTitles.map((el) => el.getTabIdentifier())).then((ids) => {
       return this.tabTitles[ids.indexOf(id)];
     });
   }
 
   get tabTitles(): HTMLCalciteTabTitleElement[] {
-    const directChildren = filterDirectChildren<HTMLCalciteTabTitleElement>(
-      this.el,
-      "calcite-tab-title"
-    );
-    return directChildren.filter((tabTitle) => !tabTitle.closed);
+    return filterDirectChildren<HTMLCalciteTabTitleElement>(this.el, "calcite-tab-title");
   }
 
   get enabledTabTitles(): HTMLCalciteTabTitleElement[] {
@@ -398,17 +394,40 @@ export class TabNav {
     return directEnabled.filter((tabTitle) => !tabTitle.closed);
   }
 
+  // interferes with the click selection
   handleTabTitleClose(closedTabTitleEl: HTMLCalciteTabTitleElement): void {
     const { tabTitles } = this;
-    if (closedTabTitleEl && !closedTabTitleEl.selected) {
+
+    let visibleTabTitlesIndices = tabTitles.reduce((acc, curr, i) => {
+      if (!curr.closed) {
+        acc.push(i);
+      }
+      return acc;
+    }, []);
+
+    const closedTabTitleIndex = tabTitles.findIndex((el) => el === closedTabTitleEl);
+
+    visibleTabTitlesIndices = visibleTabTitlesIndices.filter(
+      (index) => index !== closedTabTitleIndex
+    );
+
+    if (visibleTabTitlesIndices.length > 1) {
+      const nextTabTitleIndex = visibleTabTitlesIndices.find(
+        (value) => value > closedTabTitleIndex
+      );
+      this.selectedTabId = nextTabTitleIndex
+        ? nextTabTitleIndex
+        : visibleTabTitlesIndices.length - 1;
       forceUpdate(this.el);
-    } else if (tabTitles.length === 1 && tabTitles[0].closable) {
-      // disable last remaining item
-      tabTitles[0].disabled = true;
-    } else if (closedTabTitleEl && closedTabTitleEl.selected && closedTabTitleEl.closed) {
-      // last item fall back on previous
-      this.selectedTabId = tabTitles.length - 1;
+    } else if (
+      visibleTabTitlesIndices.length === 1 &&
+      tabTitles[visibleTabTitlesIndices[0]].closable
+    ) {
+      tabTitles[visibleTabTitlesIndices[0]].closable = false;
+      this.selectedTabId = visibleTabTitlesIndices[0];
+      forceUpdate(this.el);
     }
+
     requestAnimationFrame(() => {
       this.updateOffsetPosition();
       this.updateActiveWidth();

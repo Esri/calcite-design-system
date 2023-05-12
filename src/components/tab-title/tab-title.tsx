@@ -76,7 +76,7 @@ export class TabTitle implements InteractiveComponent, LocalizedComponent, T9nCo
   /** When `true`, a close button is added to the component. */
   @Prop({ reflect: true }) closable = false;
 
-  /** When `true`, hides the component. */
+  /** When `true`, does not display or position the component. */
   // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
   @Prop({ reflect: true, mutable: true }) closed = false;
 

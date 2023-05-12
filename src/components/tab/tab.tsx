@@ -86,6 +86,10 @@ export class Tab {
     this.calciteInternalTabRegister.emit();
   }
 
+  componentWillUpdate(): void {
+    this.isFirstLoad = false;
+  }
+
   componentWillRender(): void {
     this.scale = this.parentTabsEl?.scale;
   }
@@ -117,7 +121,7 @@ export class Tab {
   //--------------------------------------------------------------------------
 
   @Listen("calciteInternalTabChange", { target: "body" })
-  internalTabChangeHandler(event: CustomEvent<TabChangeEventDetail>): void {
+  async internalTabChangeHandler(event: CustomEvent<TabChangeEventDetail>): Promise<void> {
     const targetTabsEl = event
       .composedPath()
       .find((el: HTMLElement) => el.tagName === "CALCITE-TABS");
@@ -128,13 +132,13 @@ export class Tab {
     if (targetTabsEl !== this.parentTabsEl) {
       return;
     }
-
-    if (this.tab) {
-      this.selected = this.tab === event.detail.tab;
-    } else {
-      this.getTabIndex().then((index) => {
-        this.selected = index === event.detail.tab;
-      });
+    if (!this.isFirstLoad) {
+      if (this.tab) {
+        this.selected = this.tab === event.detail.tab;
+      } else {
+        const matchingId = await this.labeledBy;
+        this.selected = event.detail.tabElId === matchingId;
+      }
     }
     event.stopPropagation();
   }
@@ -161,6 +165,8 @@ export class Tab {
   //  Private State/Props
   //
   //--------------------------------------------------------------------------
+
+  private isFirstLoad = true;
 
   parentTabsEl: HTMLCalciteTabsElement;
 
