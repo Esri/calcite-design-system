@@ -26,7 +26,7 @@ describe("calcite-menu-item", () => {
   });
 
   describe("accessible", () => {
-    accessible(html`<calcite-menu> <calcite-menu-item text="calcite"> </calcite-menu-item> </calcite-menu>`);
+    accessible(html`<calcite-menu><calcite-menu-item text="calcite"></calcite-menu-item></calcite-menu>`);
   });
 
   describe("is focusable", () => {
@@ -35,14 +35,9 @@ describe("calcite-menu-item", () => {
 
   it("supports translations", () => t9n("calcite-menu-item"));
 
-  //todo : debug why calcite-menu-item requires calite-menu as parent for the click to emit event in test.
   it("should emit calciteMenuItemSelect event on user click", async () => {
     const page = await newE2EPage();
-    await page.setContent(
-      html`<calcite-menu>
-        <calcite-menu-item id="Nature" text="Nature" href="#nature"> </calcite-menu-item>
-      </calcite-menu>`
-    );
+    await page.setContent(html` <calcite-menu-item id="Nature" text="Nature" href="#nature"> </calcite-menu-item> `);
 
     const menuItem = await page.find("calcite-menu-item");
     const eventSpy = await menuItem.spyOnEvent("calciteMenuItemSelect");

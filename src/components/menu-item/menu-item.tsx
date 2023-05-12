@@ -84,6 +84,14 @@ export class CalciteMenuItem implements LoadableComponent, T9nComponent, Localiz
    */
   @Prop() isTopLevelItem = false;
 
+  /** Accessible name for the component.*/
+  @Prop() label!: string;
+
+  /**
+   * @internal
+   */
+  @Prop({ reflect: true }) layout: Layout;
+
   /**
    * Use this property to override individual strings used by the component.
    */
@@ -102,14 +110,6 @@ export class CalciteMenuItem implements LoadableComponent, T9nComponent, Localiz
    */
   // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
   @Prop({ mutable: true }) messages: MenuItemMessages;
-
-  /** Accessible name for the component.*/
-  @Prop() label!: string;
-
-  /**
-   * @internal
-   */
-  @Prop({ reflect: true }) layout: Layout;
 
   /** When `true`, the component will display any slotted `calcite-menu-item` in an open overflow menu.*/
   @Prop({ mutable: true, reflect: true }) open = false;
