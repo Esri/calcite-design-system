@@ -44,6 +44,10 @@
   z-index: var(--calcite-shell-panel-z-index, calc(theme("zIndex.default") + 1));
 }
 
+:host([layout="vertical"][display-mode="overlay"]) {
+  z-index: var(--calcite-shell-panel-z-index, calc(theme("zIndex.header") + 1));
+}
+
 :host([layout="vertical"][width-scale="s"]) .content {
   --calcite-shell-panel-width-internal: var(--calcite-shell-panel-width, 12vw);
   --calcite-shell-panel-max-width-internal: var(--calcite-shell-panel-max-width, 300px);
