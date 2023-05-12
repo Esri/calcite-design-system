@@ -43,9 +43,18 @@ function getFallbackTimeZoneGroups(): BasicTimeZoneGroup[] {
   return timeZoneOffsets.map((offset) => {
     return {
       offsetValue: offset * hourToMinutes,
-      offsetLabel: `GMT${offset.toLocaleString("en", { signDisplay: "always" })}`
+      offsetLabel: toGMTLabel(offset)
     };
   });
+}
+
+/**
+ * Exported for testing-purposes only
+ *
+ * @internal
+ */
+export function toGMTLabel(offsetInHours: number): string {
+  return `GMT${offsetInHours.toLocaleString("en", { signDisplay: "always" })}`;
 }
 
 export async function generateTimeZoneGroups(

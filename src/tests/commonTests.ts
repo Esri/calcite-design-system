@@ -108,7 +108,7 @@ export async function renders(
  * @param {string} componentTagOrHTML - the component tag or HTML markup to test against
  * @param {object[]} propsToTest - the properties to test
  * @param {string} propsToTest.propertyName - the property name
- * @param {any} propsToTest.value - the property value
+ * @param {any} propsToTest.value - the property value (if boolean, needs to be `true` to ensure reflection)
  */
 export async function reflects(
   componentTagOrHTML: TagOrHTML,

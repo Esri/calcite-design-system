@@ -11,6 +11,7 @@ import {
   t9n
 } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
+import { toGMTLabel } from "./utils";
 
 describe("calcite-input-time-zone", () => {
   describe("accessible", () => {
@@ -33,9 +34,9 @@ describe("calcite-input-time-zone", () => {
 
   it("is reflects", () =>
     reflects("calcite-input-time-zone", [
-      { propertyName: "disabled", value: false },
-      { propertyName: "open", value: false },
-      { propertyName: "scale", value: "s" },
+      { propertyName: "disabled", value: true },
+      { propertyName: "open", value: true },
+      { propertyName: "scale", value: "m" },
       { propertyName: "overlayPositioning", value: "absolute" }
     ]));
 
@@ -45,7 +46,7 @@ describe("calcite-input-time-zone", () => {
       { propertyName: "messageOverrides", defaultValue: undefined },
       { propertyName: "open", defaultValue: false },
       { propertyName: "overlayPositioning", defaultValue: "absolute" },
-      { propertyName: "scale", defaultValue: "s" }
+      { propertyName: "scale", defaultValue: "m" }
     ]));
 
   it("can be disabled", () =>
@@ -53,32 +54,47 @@ describe("calcite-input-time-zone", () => {
 
   it("supports translations", () => t9n("calcite-input-time-zone"));
 
-  it("selects user's matching timezone offset by default", async () => {
-    const page = await newE2EPage();
-    await page.emulateTimezone("America/Los_Angeles");
-    await page.setContent(html`<calcite-input-time-zone></calcite-input-time-zone>`);
+  describe("fallback time zone offset list", () => {
+    /*
+     * We can only test the fallback list due to the lack of support for `Intl.DateTimeFormatOptions#timeZoneName` in Chromium v92 (bundled in Puppeteer v10).
+     */
 
-    const input = await page.find("calcite-input-time-zone");
+    describe("selects user's matching timezone offset by default", () => {
+      const timeZoneNamesAndOffsets = [
+        { name: "America/Los_Angeles", offset: -420 },
+        { name: "Europe/London", offset: 60 }
+      ];
 
-    expect(await input.getProperty("value")).toBe(-420);
+      timeZoneNamesAndOffsets.forEach(({ name, offset }) => {
+        it(`selects default timezone for "${name}"`, async () => {
+          const page = await newE2EPage();
+          await page.emulateTimezone(name);
+          await page.setContent(html`<calcite-input-time-zone></calcite-input-time-zone>`);
+          await page.waitForTimeout(1000);
 
-    const timeZoneItem = await page.find("calcite-input-time-zone >>> calcite-combobox-item[selected]");
+          const input = await page.find("calcite-input-time-zone");
 
-    expect(await timeZoneItem.getProperty("textLabel")).toMatch("GMT-7");
-  });
+          expect(await input.getProperty("value")).toBe(offset);
 
-  it("allows users to preselect a timezone offset", async () => {
-    const page = await newE2EPage();
-    await page.emulateTimezone("America/Los_Angeles");
-    await page.setContent(html`<calcite-input-time-zone value="-360"></calcite-input-time-zone>`);
+          const timeZoneItem = await page.find("calcite-input-time-zone >>> calcite-combobox-item[selected]");
 
-    const input = await page.find("calcite-input-time-zone");
+          expect(await timeZoneItem.getProperty("textLabel")).toMatch(toGMTLabel(offset / 60));
+        });
+      });
+    });
 
-    expect(await input.getProperty("value")).toBe(-360);
+    it("allows users to preselect a timezone offset", async () => {
+      const page = await newE2EPage();
+      await page.emulateTimezone("America/Los_Angeles");
+      await page.setContent(html`<calcite-input-time-zone value="-360"></calcite-input-time-zone>`);
 
-    const timeZoneItem = await page.find("calcite-input-time-zone >>> calcite-combobox-item[selected]");
+      const input = await page.find("calcite-input-time-zone");
 
-    // we assert on the fallback item as our current Stencil/Puppeteer setup doesn't support time zone options in Intl.
-    expect(await timeZoneItem.getProperty("textLabel")).toMatch("GMT-6");
+      expect(await input.getProperty("value")).toBe(-360);
+
+      const timeZoneItem = await page.find("calcite-input-time-zone >>> calcite-combobox-item[selected]");
+
+      expect(await timeZoneItem.getProperty("textLabel")).toMatch("GMT-6");
+    });
   });
 });

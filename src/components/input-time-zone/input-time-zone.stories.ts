@@ -7,7 +7,10 @@ import readme from "./readme.md";
 export default {
   title: "Components/Controls/InputTimeZone",
   parameters: {
-    notes: readme
+    notes: readme,
+    options: {
+      timezone: "America/Los_Angeles"
+    }
   },
   ...storyFilters()
 };
@@ -18,8 +21,7 @@ export const simple = (): string => html`
   </calcite-input-time-zone>
 `;
 
-export const disabled_TestOnly = (): string =>
-  html`<calcite-input-time-zone disabled></calcite-input-time-zone>`;
+export const disabled_TestOnly = (): string => html`<calcite-input-time-zone disabled></calcite-input-time-zone>`;
 
 export const darkModeRTL_TestOnly = (): string => html`
   <calcite-input-time-zone dir="rtl" class="calcite-mode-dark"></calcite-input-time-zone>
