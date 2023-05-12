@@ -61,7 +61,8 @@
     flex
     items-start
     justify-center
-    overflow-auto;
+    overflow-auto
+    p-4;
   animation-name: none;
   animation-duration: var(--calcite-animation-timing);
   block-size: var(--calcite-tip-manager-height);
@@ -71,7 +72,7 @@
 }
 
 ::slotted(calcite-tip) {
-  @apply border-none p-3;
+  @apply m-0 border-none;
   max-inline-size: var(--calcite-tip-max-width);
 }
 
