@@ -66,7 +66,7 @@ export async function generateTimeZoneGroups(
 
       const offsetLabel = getTimeZoneOffset(locale, timeZone);
       const offsetValue = toOffsetValue(offsetLabel);
-      const offsetGroupLabel = messages.timeZoneLabel.replace("{offset}", offsetLabel).replace("{cities}", groupLabel);
+      const offsetGroupLabel = createGroupLabel(messages, offsetLabel, groupLabel);
 
       return {
         offsetLabel,
@@ -81,4 +81,26 @@ export async function generateTimeZoneGroups(
 
 export function isBasicTimeZoneGroup(group: TimeZoneGroup | BasicTimeZoneGroup): group is BasicTimeZoneGroup {
   return !("offsetGroupRepTimeZone" in group);
+}
+
+function createGroupLabel(messages: InputTimeZoneMessages, offsetLabel: string, groupLabel: string): string {
+  return messages.timeZoneLabel.replace("{offset}", offsetLabel).replace("{cities}", groupLabel);
+}
+
+export function createBasicGroupLabel(
+  messages: InputTimeZoneMessages,
+  offsetLabel: string,
+  offsetValue: number
+): string {
+  const millisInHour = 60 * 1000;
+  const sampleDate = new Date();
+  const timeZoneSampleDate = new Date(
+    sampleDate.getTime() - sampleDate.getTimezoneOffset() * millisInHour + -offsetValue * millisInHour
+  );
+
+  return createGroupLabel(
+    messages,
+    offsetLabel,
+    timeZoneSampleDate.toLocaleTimeString(undefined, { hour: "numeric", minute: "numeric" })
+  );
 }
