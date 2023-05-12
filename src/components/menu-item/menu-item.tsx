@@ -32,6 +32,7 @@ import {
   updateMessages
 } from "../../utils/t9n";
 import { MenuItemMessages } from "./assets/menu-item/t9n";
+import { LocalizedComponent, connectLocalized, disconnectLocalized } from "../../utils/locale";
 
 type Layout = "horizontal" | "vertical";
 
@@ -45,7 +46,7 @@ type Layout = "horizontal" | "vertical";
 /**
  * @slot submenu-item - A slot for adding `calcite-menu-item`s in submenu.
  */
-export class CalciteMenuItem implements LoadableComponent, T9nComponent {
+export class CalciteMenuItem implements LoadableComponent, T9nComponent, LocalizedComponent {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -218,6 +219,7 @@ export class CalciteMenuItem implements LoadableComponent, T9nComponent {
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
+    connectLocalized(this);
     connectMessages(this);
   }
 
@@ -231,6 +233,7 @@ export class CalciteMenuItem implements LoadableComponent, T9nComponent {
   }
 
   disconnectedCallback(): void {
+    disconnectLocalized(this);
     disconnectMessages(this);
   }
 
