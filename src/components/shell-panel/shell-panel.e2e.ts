@@ -29,10 +29,6 @@ describe("calcite-shell-panel", () => {
         defaultValue: false
       },
       {
-        propertyName: "heightScale",
-        defaultValue: "l"
-      },
-      {
         propertyName: "displayMode",
         defaultValue: "dock"
       }
@@ -270,7 +266,6 @@ describe("calcite-shell-panel", () => {
       <div style="width: 100%; height: 100%;">
         <calcite-shell>
           <calcite-shell-panel slot="panel-start">
-            <calcite-button slot="headder">Header test</calcite-button>
             <calcite-panel>
               Content test
             </calcite-panel>
@@ -300,7 +295,6 @@ describe("calcite-shell-panel", () => {
       <div style="width: 100%; height: 100%;">
         <calcite-shell>
           <calcite-shell-panel slot="panel-start">
-            <calcite-button slot="headder">Header test</calcite-button>
             <calcite-panel>
               Content test
             </calcite-panel>
@@ -339,7 +333,6 @@ describe("calcite-shell-panel", () => {
       <div style="width: 100%; height: 100%;">
         <calcite-shell>
           <calcite-shell-panel slot="panel-start" resizable>
-            <calcite-button slot="headder">Header test</calcite-button>
             <calcite-panel>
               Content test
             </calcite-panel>
@@ -415,7 +408,6 @@ describe("calcite-shell-panel", () => {
       <div style="width: 100%; height: 100%;">
         <calcite-shell>
           <calcite-shell-panel slot="panel-top" resizable layout="horizontal">
-            <calcite-button slot="headder">Header test</calcite-button>
             <calcite-panel>
               Content test
             </calcite-panel>
@@ -428,59 +420,60 @@ describe("calcite-shell-panel", () => {
 
     const separator: E2EElement = await page.find(`calcite-shell-panel >>> .${CSS.separator}`);
     const content = await page.find(`calcite-shell-panel >>> .${CSS.content}`);
+    const initialHeight = parseInt((await content.getComputedStyle()).height);
 
     expect(separator).toBeDefined();
     expect(content).toBeDefined();
-    expect(separator.getAttribute("aria-valuenow")).toBe("240");
-    expect((await content.getComputedStyle()).height).toBe("240px");
+    expect(separator.getAttribute("aria-valuenow")).toBe(`${initialHeight}`);
+    expect((await content.getComputedStyle()).height).toBe(`${initialHeight}px`);
 
     await separator.press("ArrowRight");
     await page.waitForChanges();
 
-    expect(separator.getAttribute("aria-valuenow")).toBe("241");
-    expect((await content.getComputedStyle()).height).toBe("241px");
+    expect(separator.getAttribute("aria-valuenow")).toBe(`${initialHeight + 1}`);
+    expect((await content.getComputedStyle()).height).toBe(`${initialHeight + 1}px`);
 
     await separator.press("ArrowUp");
     await page.waitForChanges();
 
-    expect(separator.getAttribute("aria-valuenow")).toBe("240");
-    expect((await content.getComputedStyle()).height).toBe("240px");
+    expect(separator.getAttribute("aria-valuenow")).toBe(`${initialHeight}`);
+    expect((await content.getComputedStyle()).height).toBe(`${initialHeight}px`);
 
     await separator.press("ArrowLeft");
     await page.waitForChanges();
 
-    expect(separator.getAttribute("aria-valuenow")).toBe("240");
-    expect((await content.getComputedStyle()).height).toBe("240px");
+    expect(separator.getAttribute("aria-valuenow")).toBe(`${initialHeight}`);
+    expect((await content.getComputedStyle()).height).toBe(`${initialHeight}px`);
 
     await separator.press("ArrowDown");
     await page.waitForChanges();
 
-    expect(separator.getAttribute("aria-valuenow")).toBe("241");
-    expect((await content.getComputedStyle()).height).toBe("241px");
+    expect(separator.getAttribute("aria-valuenow")).toBe(`${initialHeight + 1}`);
+    expect((await content.getComputedStyle()).height).toBe(`${initialHeight + 1}px`);
 
     await separator.press("PageDown");
     await page.waitForChanges();
 
-    expect(separator.getAttribute("aria-valuenow")).toBe("240");
-    expect((await content.getComputedStyle()).height).toBe("240px");
+    expect(separator.getAttribute("aria-valuenow")).toBe(`${initialHeight}`);
+    expect((await content.getComputedStyle()).height).toBe(`${initialHeight}px`);
 
     await separator.press("PageUp");
     await page.waitForChanges();
 
-    expect(separator.getAttribute("aria-valuenow")).toBe("250");
-    expect((await content.getComputedStyle()).height).toBe("250px");
+    expect(separator.getAttribute("aria-valuenow")).toBe(`${initialHeight + 10}`);
+    expect((await content.getComputedStyle()).height).toBe(`${initialHeight + 10}px`);
 
     await separator.press("Home");
     await page.waitForChanges();
 
-    expect(separator.getAttribute("aria-valuenow")).toBe("240");
-    expect((await content.getComputedStyle()).height).toBe("240px");
+    expect(separator.getAttribute("aria-valuenow")).toBe(`${initialHeight}`);
+    expect((await content.getComputedStyle()).height).toBe(`${initialHeight}px`);
 
     await separator.press("End");
     await page.waitForChanges();
 
-    expect(separator.getAttribute("aria-valuenow")).toBe("420");
-    expect((await content.getComputedStyle()).height).toBe("420px");
+    expect(separator.getAttribute("aria-valuenow")).toBe(separator.getAttribute("aria-valuemax"));
+    expect((await content.getComputedStyle()).height.replace("px", "")).toBe(separator.getAttribute("aria-valuemax"));
   });
 
   it("Should resize via mouse", async () => {
@@ -491,7 +484,6 @@ describe("calcite-shell-panel", () => {
       <div style="width: 100%; height: 100%;">
         <calcite-shell>
           <calcite-shell-panel slot="panel-start" resizable>
-            <calcite-button slot="headder">Header test</calcite-button>
             <calcite-panel>
               Content test
             </calcite-panel>
@@ -529,7 +521,6 @@ describe("calcite-shell-panel", () => {
       <div style="width: 100%; height: 100%;">
         <calcite-shell>
           <calcite-shell-panel slot="panel-top" resizable layout="horizontal">
-            <calcite-button slot="headder">Header test</calcite-button>
             <calcite-panel>
               Content test
             </calcite-panel>
@@ -542,12 +533,12 @@ describe("calcite-shell-panel", () => {
 
     const separator: E2EElement = await page.find(`calcite-shell-panel >>> .${CSS.separator}`);
     const content = await page.find(`calcite-shell-panel >>> .${CSS.content}`);
+    const initialHeight = parseInt((await content.getComputedStyle()).height.replace("px", ""));
 
     expect(separator).toBeDefined();
     expect(content).toBeDefined();
-    expect(separator.getAttribute("aria-valuenow")).toBe("240");
-    expect((await content.getComputedStyle()).height).toBe("240px");
-
+    expect(separator.getAttribute("aria-valuenow")).toBe(`${initialHeight}`);
+    expect((await content.getComputedStyle()).height.replace("px", "")).toBe(`${initialHeight}`);
     const [x, y] = await getElementXY(page, "calcite-shell-panel", `.${CSS.separator}`);
 
     await page.mouse.move(x, y);
@@ -555,8 +546,8 @@ describe("calcite-shell-panel", () => {
     await page.mouse.move(x, y + 10);
     await page.waitForChanges();
 
-    expect(separator.getAttribute("aria-valuenow")).toBe("250");
-    expect((await content.getComputedStyle()).height).toBe("250px");
+    expect(separator.getAttribute("aria-valuenow")).toBe(`${initialHeight + 10}`);
+    expect((await content.getComputedStyle()).height.replace("px", "")).toBe(`${initialHeight + 10}`);
   });
 
   it("click event should pass through host element", async () => {

@@ -70,6 +70,7 @@
 }
 
 :host([layout="horizontal"]) .content {
+  --calcite-shell-panel-min-height-internal: var(--calcite-shell-panel-min-height, 5vh);
   --calcite-shell-panel-max-height-internal: var(
     --calcite-shell-panel-max-height,
     var(--calcite-shell-panel-detached-max-height, 30vh)

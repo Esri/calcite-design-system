@@ -45,7 +45,7 @@
         justify-content: space-between;
       }
 
-      .big-boi {
+      .tall-content-example {
         display: block;
         margin: 1rem 0;
         background: var(--calcite-ui-foreground-2);
@@ -140,7 +140,7 @@
                     <calcite-chip value="float">float</calcite-chip>
                     <calcite-chip value="overlay">overlay</calcite-chip>
                   </calcite-chip-group>
-                  <div class="big-boi" style="display: none"></div>
+                  <div class="tall-content-example" style="display: none"></div>
                 </calcite-block>
               </calcite-panel>
             </calcite-shell-panel>
@@ -186,7 +186,7 @@
                     <calcite-chip value="float">float</calcite-chip>
                     <calcite-chip value="overlay">overlay</calcite-chip>
                   </calcite-chip-group>
-                  <div class="big-boi" style="display: none"></div>
+                  <div class="tall-content-example" style="display: none"></div>
                 </calcite-block>
               </calcite-panel>
             </calcite-shell-panel>
@@ -220,7 +220,7 @@
                     <calcite-chip value="float">float</calcite-chip>
                     <calcite-chip value="overlay">overlay</calcite-chip>
                   </calcite-chip-group>
-                  <div class="big-boi" style="display: none"></div>
+                  <div class="tall-content-example" style="display: none"></div>
                 </calcite-block>
               </calcite-panel>
             </calcite-shell-panel>
@@ -254,7 +254,7 @@
                     <calcite-chip value="float">float</calcite-chip>
                     <calcite-chip value="overlay">overlay</calcite-chip>
                   </calcite-chip-group>
-                  <div class="big-boi" style="display: none"></div>
+                  <div class="tall-content-example" style="display: none"></div>
                 </calcite-block>
               </calcite-panel>
             </calcite-shell-panel>
@@ -278,7 +278,7 @@
           });
 
           const segmentedControlTallContent = document.getElementById("control-tall-content");
-          const bigBois = document.querySelectorAll(".big-boi");
+          const bigBois = document.querySelectorAll(".tall-content-example");
 
           segmentedControlTallContent.addEventListener("calciteSegmentedControlChange", function () {
             bigBois.forEach((el) => (el.style.display = el.style.display === "none" ? "block" : "none"));
