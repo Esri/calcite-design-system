@@ -492,7 +492,7 @@ describe("calcite-input-time-picker", () => {
     expect(await getInputValue(page)).toBe("26:0:0");
   });
 
-  it("blurring the input with a valid time value works as expected for 12-hour locale", async () => {
+  it("blurring the input with a valid time commits the value for 12-hour locale", async () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-input-time-picker step="1"></calcite-input-time-picker>`);
 
@@ -507,7 +507,7 @@ describe("calcite-input-time-picker", () => {
     expect(await getInputValue(page)).toBe("02:03:04 PM");
   });
 
-  it("blurring the input with a valid time value works as expected for 24-hour locale", async () => {
+  it("blurring the input with a valid time commits the value for 24-hour locale", async () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-input-time-picker step="1" lang="fr"></calcite-input-time-picker>`);
 
@@ -559,7 +559,7 @@ describe("calcite-input-time-picker", () => {
     formAssociated("calcite-input-time-picker", { testValue: "03:23", submitsOnEnter: true });
   });
 
-  it("updates value appropriately as step changes.", async () => {
+  it("updates value appropriately as step changes", async () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-input-time-picker value="1:2:3"></calcite-input-time-picker>`);
 

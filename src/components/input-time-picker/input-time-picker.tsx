@@ -420,7 +420,7 @@ export class InputTimePicker
   // --------------------------------------------------------------------------
 
   private delocalizeTimeString(value: string): string {
-    // Parsing won't work with the correct locale unless you call this right before dayjs()
+    // we need to set the corresponding locale before parsing, otherwise it defaults to English (possible dayjs bug)
     dayjs.locale(this.effectiveLocale.toLowerCase());
 
     const dayjsParseResult = dayjs(value, ["LTS", "LT"]);
