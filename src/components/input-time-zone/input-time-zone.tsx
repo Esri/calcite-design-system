@@ -36,6 +36,12 @@ import {
   isBasicTimeZoneGroup
 } from "./utils";
 import { OverlayPositioning } from "../../utils/floating-ui";
+import {
+  componentLoaded,
+  LoadableComponent,
+  setComponentLoaded,
+  setUpLoadableComponent
+} from "../../utils/loadable";
 
 @Component({
   tag: "calcite-input-time-zone",
@@ -44,7 +50,12 @@ import { OverlayPositioning } from "../../utils/floating-ui";
   shadow: true
 })
 export class InputTimeZone
-  implements InteractiveComponent, LabelableComponent, LocalizedComponent, T9nComponent
+  implements
+    InteractiveComponent,
+    LabelableComponent,
+    LoadableComponent,
+    LocalizedComponent,
+    T9nComponent
 {
   //--------------------------------------------------------------------------
   //
@@ -120,6 +131,7 @@ export class InputTimeZone
 
   @Method()
   async setFocus(): Promise<void> {
+    await componentLoaded(this);
     await this.comboboxEl.setFocus();
   }
 
@@ -238,6 +250,7 @@ export class InputTimeZone
   }
 
   async componentWillLoad(): Promise<void> {
+    setUpLoadableComponent(this);
     await setUpMessages(this);
 
     const timeZoneGroups = await generateTimeZoneGroups(this.effectiveLocale, this.messages);
@@ -247,6 +260,10 @@ export class InputTimeZone
       ({ offsetValue }) => offsetValue === offsetToMatch
     );
     this.value = this.selectedTimeZoneGroup.offsetValue;
+  }
+
+  componentDidLoad(): void {
+    setComponentLoaded(this);
   }
 
   render(): VNode {
