@@ -63,8 +63,7 @@ export class InputTimeZone
   //
   //--------------------------------------------------------------------------
 
-  @Element()
-  el: HTMLCalciteInputTimeZoneElement;
+  @Element() el: HTMLCalciteInputTimeZoneElement;
 
   //--------------------------------------------------------------------------
   //
@@ -75,8 +74,7 @@ export class InputTimeZone
   /**
    * When `true`, interaction is prevented and the component is displayed with lower opacity.
    */
-  @Prop({ reflect: true })
-  disabled = false;
+  @Prop({ reflect: true }) disabled = false;
 
   /**
    * Made into a prop for testing purposes only
@@ -120,8 +118,7 @@ export class InputTimeZone
    *
    * @see https://www.w3.org/International/core/2005/09/timezone.html#:~:text=What%20is%20a%20%22zone%20offset,or%20%22%2D%22%20from%20UTC.
    */
-  @Prop({ mutable: true })
-  value: number | null = null;
+  @Prop({ mutable: true }) value: number | null = null;
 
   //--------------------------------------------------------------------------
   //
@@ -161,8 +158,7 @@ export class InputTimeZone
 
   @State() defaultMessages: InputTimeZoneMessages;
 
-  @State()
-  effectiveLocale: SupportedLocales = "";
+  @State() effectiveLocale: SupportedLocales = "";
 
   @Watch("effectiveLocale")
   effectiveLocaleWatcher(): void {
