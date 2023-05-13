@@ -374,6 +374,30 @@ describe("calcite-input-date-picker", () => {
         newLangTranslations.placeholder.replace("DD", day).replace("MM", month).replace("YYYY", year)
       );
     });
+
+    it("parses/formats buddhist calendar locales when date is selected", async () => {
+      const page = await newE2EPage();
+      await page.setContent(`<calcite-input-date-picker lang="th" value="2023-05-31"></calcite-input-date-picker>`);
+      const inputDatePicker = await page.find("calcite-input-date-picker");
+      const calciteInputDatePickerOpenEvent = page.waitForEvent("calciteInputDatePickerOpen");
+
+      await inputDatePicker.click();
+      await calciteInputDatePickerOpenEvent;
+
+      await page.evaluate(async () =>
+        // select first day of month
+        document
+          .querySelector<HTMLCalciteInputDatePickerElement>("calcite-input-date-picker")
+          .shadowRoot.querySelector<HTMLCalciteDatePickerElement>("calcite-date-picker")
+          .shadowRoot.querySelector<HTMLCalciteDatePickerMonthElement>("calcite-date-picker-month")
+          .shadowRoot.querySelector<HTMLCalciteDatePickerDayElement>("calcite-date-picker-day[current-month]")
+          .click()
+      );
+      await page.waitForChanges();
+      await inputDatePicker.callMethod("blur");
+
+      expect(await inputDatePicker.getProperty("value")).toBe("2023-05-01");
+    });
   });
 
   it("allows clicking a date in the calendar popup", async () => {
