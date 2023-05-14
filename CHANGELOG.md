@@ -9,6 +9,10 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ### Features
 
+- **menu, menu-item:** Adds menu & menu-item components. ([#6901](https://github.com/Esri/calcite-components/issues/6901)) ([0990bf6](https://github.com/Esri/calcite-components/commit/0990bf62b39d00f9bd05abd513ddbd854edce2ea)), closes [#6531](https://github.com/Esri/calcite-components/issues/6531)
+
+* tailwind to use calcite-design-tokens instead of calcite-colors ([#6884](https://github.com/Esri/calcite-components/issues/6884)) ([28d6e92](https://github.com/Esri/calcite-components/commit/28d6e92441baf862cda59d24ad794803b463f9e4))
+
 - **styles:** Add additional animation classes ([#6928](https://github.com/Esri/calcite-components/issues/6928)) ([7b2b62e](https://github.com/Esri/calcite-components/commit/7b2b62e823495b2e57e35d6843469ab2b6117fee))
 
 * **avatar:** add label prop for alternative text & aria-label ([#6910](https://github.com/Esri/calcite-components/issues/6910)) ([e8d78e7](https://github.com/Esri/calcite-components/commit/e8d78e783e9137870747a1a9513c335f9470ca51)), closes [#5564](https://github.com/Esri/calcite-components/issues/5564)
@@ -25,6 +29,10 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 - **list:** Add `single-persist` selection mode ([#6882](https://github.com/Esri/calcite-components/issues/6882)) ([dc332cb](https://github.com/Esri/calcite-components/commit/dc332cbc917026d3b6480fd9d0b6ff68cd8fe21b)), closes [#6382](https://github.com/Esri/calcite-components/issues/6382)
 
 ### Bug Fixes
+
+- **input-time-picker:** allow entering localized time formats ([#6936](https://github.com/Esri/calcite-components/issues/6936)) ([ad1f71a](https://github.com/Esri/calcite-components/commit/ad1f71a26db8aaf8f9513e41890675b8b8815d09)), closes [#6398](https://github.com/Esri/calcite-components/issues/6398)
+
+* **tip-manager:** Set padding for tips and tip-groups consistently ([#6959](https://github.com/Esri/calcite-components/issues/6959)) ([fbd2f3f](https://github.com/Esri/calcite-components/commit/fbd2f3fe6d53929bc3dd34bad1a7a6a7d9b2d3f0)), closes [#6464](https://github.com/Esri/calcite-components/issues/6464)
 
 - **tooltip:** fix focusing tooltip when a referenceElement is within a shadowDOM ([#6915](https://github.com/Esri/calcite-components/issues/6915)) ([453d527](https://github.com/Esri/calcite-components/commit/453d52765f38af06a8d0bb9ffecb77d338814d62)), closes [#6893](https://github.com/Esri/calcite-components/issues/6893)
 
