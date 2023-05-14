@@ -13,7 +13,7 @@ import {
   VNode,
   Watch
 } from "@stencil/core";
-import { getElementDir, getElementProp, toAriaBoolean } from "../../utils/dom";
+import { getElementDir, getElementProp, toAriaBoolean, nodeListToArray } from "../../utils/dom";
 import { guid } from "../../utils/guid";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import { createObserver } from "../../utils/observers";
@@ -420,7 +420,9 @@ export class TabTitle implements InteractiveComponent, LocalizedComponent, T9nCo
   @Method()
   async getTabIndex(): Promise<number> {
     return Array.prototype.indexOf.call(
-      this.el.parentElement.querySelectorAll(":not([closed]):not([hidden])"),
+      nodeListToArray(this.el.parentElement.children).filter((el) =>
+        el.matches("calcite-tab-title")
+      ),
       this.el
     );
   }
