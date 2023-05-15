@@ -24,4 +24,12 @@ describe("calcite-navigation-user", () => {
         value: ""
       }
     ]));
+
+  it("defaults", async () =>
+    defaults("calcite-navigation-logo", [
+      {
+        propertyName: "textDisabled",
+        defaultValue: false
+      }
+    ]));
 });

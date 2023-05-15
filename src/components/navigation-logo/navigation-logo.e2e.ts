@@ -1,4 +1,4 @@
-import { accessible, hidden, reflects, renders } from "../../tests/commonTests";
+import { accessible, defaults, hidden, reflects, renders } from "../../tests/commonTests";
 
 describe("calcite-navigation-logo", () => {
   describe("renders", () => {
@@ -26,6 +26,14 @@ describe("calcite-navigation-logo", () => {
       {
         propertyName: "textEnabled",
         value: "true"
+      }
+    ]));
+
+  it("defaults", async () =>
+    defaults("calcite-navigation-logo", [
+      {
+        propertyName: "textEnabled",
+        defaultValue: false
       }
     ]));
 });

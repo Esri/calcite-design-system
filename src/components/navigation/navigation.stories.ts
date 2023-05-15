@@ -13,39 +13,39 @@ export default {
 export const simple = (): string =>
   html`
     <calcite-navigation>
-      <calcite-navigation-logo slot="logo" text="Walt's Chips" text-enabled> </calcite-navigation-logo>
+      <calcite-navigation-logo slot="logo" text="Walt's Chips" text-enabled></calcite-navigation-logo>
       <calcite-menu slot="primary-content-end">
         <calcite-menu-item text="Support"></calcite-menu-item>
         <calcite-menu-item icon-start="services" text="Sales"></calcite-menu-item>
       </calcite-menu>
       <calcite-menu slot="primary-content-start">
         <calcite-menu-item text="Groups"></calcite-menu-item>
-        <calcite-menu-item active icon-start="gallery" text="Gallery" text-enabled> </calcite-menu-item>
+        <calcite-menu-item active icon-start="gallery" text="Gallery" text-enabled></calcite-menu-item>
         <calcite-menu-item icon-end="map" text="Map"></calcite-menu-item>
         <calcite-menu-item icon-start="superimpose" text="Sample Name"></calcite-menu-item>
       </calcite-menu>
-      <calcite-navigation-user slot="user" full-name="Allen Iverson"> </calcite-navigation-user>
+      <calcite-navigation-user slot="user" full-name="Allen Iverson"></calcite-navigation-user>
     </calcite-navigation>
   `;
 
 export const primarySlots_TestOnly = (): string =>
   html`
     <calcite-navigation>
-      <calcite-navigation-logo slot="logo" text="Walt's Chips" text-enabled> </calcite-navigation-logo>
+      <calcite-navigation-logo slot="logo" text="Walt's Chips" text-enabled></calcite-navigation-logo>
       <calcite-menu slot="primary-content-end">
         <calcite-menu-item text="Support"></calcite-menu-item>
         <calcite-menu-item icon-start="services" text="Sales"></calcite-menu-item>
       </calcite-menu>
       <calcite-menu slot="primary-content-start">
         <calcite-menu-item text="Groups"></calcite-menu-item>
-        <calcite-menu-item active icon-start="gallery" text="Gallery" text-enabled> </calcite-menu-item>
+        <calcite-menu-item active icon-start="gallery" text="Gallery" text-enabled></calcite-menu-item>
         <calcite-menu-item icon-end="map" text="Map"></calcite-menu-item>
         <calcite-menu-item icon-start="superimpose" text="Sample Name"></calcite-menu-item>
       </calcite-menu>
       <calcite-menu slot="primary-content-center">
         <calcite-menu-item text="Contact"></calcite-menu-item>
       </calcite-menu>
-      <calcite-navigation-user slot="user" full-name="Allen Iverson"> </calcite-navigation-user>
+      <calcite-navigation-user slot="user" full-name="Allen Iverson"></calcite-navigation-user>
     </calcite-navigation>
   `;
 
@@ -60,15 +60,15 @@ export const primaryAndSecondarySlots_TestOnly = (): string =>
         <calcite-menu-item text="Employees"></calcite-menu-item>
         <calcite-menu-item text="Suppliers"></calcite-menu-item>
       </calcite-menu>
-      <calcite-navigation-user slot="user" text-enabled full-name="Walt McChipson"> </calcite-navigation-user>
+      <calcite-navigation-user slot="user" text-enabled full-name="Walt McChipson"></calcite-navigation-user>
       <calcite-menu slot="primary-content-end">
         <calcite-menu-item text="Support"></calcite-menu-item>
       </calcite-menu>
       <calcite-menu slot="secondary-content-start">
-        <calcite-menu-item icon-start="dashboard" text="Dashboard"> </calcite-menu-item>
-        <calcite-menu-item icon-start="utility-network-trace" text="Distributors"> </calcite-menu-item>
-        <calcite-menu-item icon-start="legend" text="Stockists"> </calcite-menu-item>
-        <calcite-menu-item active icon-start="credit-card" text="Sales"> </calcite-menu-item>
+        <calcite-menu-item icon-start="dashboard" text="Dashboard"></calcite-menu-item>
+        <calcite-menu-item icon-start="utility-network-trace" text="Distributors"></calcite-menu-item>
+        <calcite-menu-item icon-start="legend" text="Stockists"></calcite-menu-item>
+        <calcite-menu-item active icon-start="credit-card" text="Sales"></calcite-menu-item>
       </calcite-menu>
       <calcite-menu slot="secondary-content-end">
         <calcite-menu-item text="US Sales"></calcite-menu-item>
@@ -88,21 +88,19 @@ export const allSlots_TestOnly = (): string =>
         <calcite-menu-item text="Employees"></calcite-menu-item>
         <calcite-menu-item text="Suppliers"></calcite-menu-item>
       </calcite-menu>
-      <calcite-navigation-user slot="user" full-name="Walt McChipson"> </calcite-navigation-user>
-
+      <calcite-navigation-user slot="user" full-name="Walt McChipson"></calcite-navigation-user>
       <calcite-menu slot="primary-content-end">
         <calcite-menu-item text="Support"></calcite-menu-item>
       </calcite-menu>
       <calcite-menu slot="secondary-content-start">
-        <calcite-menu-item icon-start="app-launcher" text="All" breadcrumb> </calcite-menu-item>
-        <calcite-menu-item icon-start="apps" text="Testing Flavors" breadcrumb> </calcite-menu-item>
-        <calcite-menu-item active text="Sorel Pesto"> </calcite-menu-item>
+        <calcite-menu-item icon-start="app-launcher" text="All" breadcrumb></calcite-menu-item>
+        <calcite-menu-item icon-start="apps" text="Testing Flavors" breadcrumb></calcite-menu-item>
+        <calcite-menu-item active text="Sorel Pesto"></calcite-menu-item>
       </calcite-menu>
-
       <calcite-menu slot="secondary-content-end">
-        <calcite-menu-item icon-start="book" text="Tasting Notes"> </calcite-menu-item>
-        <calcite-menu-item icon-start="legend" text="Ingredients"> </calcite-menu-item>
-        <calcite-menu-item active icon-start="activity-monitor" text="Health Benefits"> </calcite-menu-item>
+        <calcite-menu-item icon-start="book" text="Tasting Notes"></calcite-menu-item>
+        <calcite-menu-item icon-start="legend" text="Ingredients"></calcite-menu-item>
+        <calcite-menu-item active icon-start="activity-monitor" text="Health Benefits"></calcite-menu-item>
       </calcite-menu>
       <calcite-menu slot="tertiary-content-start">
         <calcite-menu-item text="Vitamins"></calcite-menu-item>
@@ -127,21 +125,19 @@ export const allSlots_darkModeRTL_TestOnly = (): string =>
           <calcite-menu-item text="Employees"></calcite-menu-item>
           <calcite-menu-item text="Suppliers"></calcite-menu-item>
         </calcite-menu>
-        <calcite-navigation-user slot="user" full-name="Walt McChipson"> </calcite-navigation-user>
-
+        <calcite-navigation-user slot="user" full-name="Walt McChipson"></calcite-navigation-user>
         <calcite-menu slot="primary-content-end">
           <calcite-menu-item text="Support"></calcite-menu-item>
         </calcite-menu>
         <calcite-menu slot="secondary-content-start">
-          <calcite-menu-item icon-start="app-launcher" text="All" breadcrumb> </calcite-menu-item>
-          <calcite-menu-item icon-start="apps" text="Testing Flavors" breadcrumb> </calcite-menu-item>
+          <calcite-menu-item icon-start="app-launcher" text="All" breadcrumb></calcite-menu-item>
+          <calcite-menu-item icon-start="apps" text="Testing Flavors" breadcrumb></calcite-menu-item>
           <calcite-menu-item active text="Sorel Pesto"> </calcite-menu-item>
         </calcite-menu>
-
         <calcite-menu slot="secondary-content-end">
-          <calcite-menu-item icon-start="book" text="Tasting Notes"> </calcite-menu-item>
-          <calcite-menu-item icon-start="legend" text="Ingredients"> </calcite-menu-item>
-          <calcite-menu-item active icon-start="activity-monitor" text="Health Benefits"> </calcite-menu-item>
+          <calcite-menu-item icon-start="book" text="Tasting Notes"></calcite-menu-item>
+          <calcite-menu-item icon-start="legend" text="Ingredients"></calcite-menu-item>
+          <calcite-menu-item active icon-start="activity-monitor" text="Health Benefits"></calcite-menu-item>
         </calcite-menu>
         <calcite-menu slot="tertiary-content-start">
           <calcite-menu-item text="Vitamins"></calcite-menu-item>
@@ -159,17 +155,17 @@ export const withBothNavActionPropAndSlot_TestOnly = (): string =>
   html`
     <calcite-navigation nav-action>
       <calcite-action icon="layers" appearance="solid" slot="nav-action" text="anvesh" scale="m"></calcite-action>
-      <calcite-navigation-logo slot="logo" text="Walt's Chips" text-enabled> </calcite-navigation-logo>
+      <calcite-navigation-logo slot="logo" text="Walt's Chips" text-enabled></calcite-navigation-logo>
       <calcite-menu slot="primary-content-end">
         <calcite-menu-item text="Support"></calcite-menu-item>
         <calcite-menu-item icon-start="services" text="Sales"></calcite-menu-item>
       </calcite-menu>
       <calcite-menu slot="primary-content-start">
         <calcite-menu-item text="Groups"></calcite-menu-item>
-        <calcite-menu-item active icon-start="gallery" text="Gallery" text-enabled> </calcite-menu-item>
+        <calcite-menu-item active icon-start="gallery" text="Gallery" text-enabled></calcite-menu-item>
         <calcite-menu-item icon-end="map" text="Map"></calcite-menu-item>
         <calcite-menu-item icon-start="superimpose" text="Sample Name"></calcite-menu-item>
       </calcite-menu>
-      <calcite-navigation-user slot="user" full-name="Allen Iverson"> </calcite-navigation-user>
+      <calcite-navigation-user slot="user" full-name="Allen Iverson"></calcite-navigation-user>
     </calcite-navigation>
   `;

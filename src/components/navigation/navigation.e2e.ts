@@ -1,5 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, hidden, reflects, renders } from "../../tests/commonTests";
+import { accessible, defaults, hidden, reflects, renders } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 
 describe("calcite-navigation", () => {
@@ -18,6 +18,15 @@ describe("calcite-navigation", () => {
         value: ""
       }
     ]));
+
+  it("defaults", async () =>
+    defaults("calcite-navigation", [
+      {
+        propertyName: "navAction",
+        defaultValue: false
+      }
+    ]));
+
   describe("accessible", () => {
     accessible(html`<calcite-navigation nav-action><calcite-navigation-logo text="Test" /></calcite-navigation>`);
   });

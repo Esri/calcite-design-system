@@ -37,7 +37,7 @@ export class CalciteNavigationLogo {
   @Prop() text: string;
 
   /** When `true`, displays the `text` and `subText` contents. */
-  @Prop({ reflect: true }) textEnabled: boolean;
+  @Prop({ reflect: true }) textEnabled = false;
 
   /** Specifies the `src` to an image. */
   @Prop() thumbnail: string;

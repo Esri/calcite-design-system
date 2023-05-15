@@ -196,9 +196,7 @@ export class CalciteNavigation {
             }
             onSlotchange={this.handleContentSlotChange}
           />
-          {isPrimaryLevel ? (
-            <slot name={SLOTS.user} onSlotchange={this.handleUserSlotChange} />
-          ) : null}
+          {isPrimaryLevel && <slot name={SLOTS.user} onSlotchange={this.handleUserSlotChange} />}
         </div>
       </div>
     );
