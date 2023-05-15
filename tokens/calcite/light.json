@@ -2053,19 +2053,19 @@
           },
           "neutral": {
             "solid": {
-              "value": "$split-button.font.neutral.solid.light",
+              "value": "$split-button.font.inverse.solid.light",
               "type": "color"
             },
             "outline-fill": {
-              "value": "$split-button.font.neutral.outline-fill.light",
+              "value": "$split-button.font.inverse.outline-fill.light",
               "type": "color"
             },
             "outline": {
-              "value": "$split-button.font.neutral.outline.light",
+              "value": "$split-button.font.inverse.outline.light",
               "type": "color"
             },
             "transparent": {
-              "value": "$split-button.font.neutral.transparent.light",
+              "value": "$split-button.font.inverse.transparent.light",
               "type": "color"
             }
           },
@@ -2127,19 +2127,19 @@
           },
           "neutral": {
             "solid": {
-              "value": "$split-button.icon.neutral.solid.light",
+              "value": "$split-button.icon.inverse.solid.light",
               "type": "color"
             },
             "outline-fill": {
-              "value": "$split-button.icon.neutral.outline-fill.light",
+              "value": "$split-button.icon.inverse.outline-fill.light",
               "type": "color"
             },
             "outline": {
-              "value": "$split-button.icon.neutral.outline.light",
+              "value": "$split-button.icon.inverse.outline.light",
               "type": "color"
             },
             "transparent": {
-              "value": "$split-button.icon.neutral.transparent.light",
+              "value": "$split-button.icon.inverse.transparent.light",
               "type": "color"
             }
           },

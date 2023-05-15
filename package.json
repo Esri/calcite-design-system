@@ -1,6 +1,6 @@
 {
   "name": "@esri/calcite-design-tokens",
-  "version": "1.0.0-beta.0",
+  "version": "1.0.0",
   "description": "Esri's Calcite Design System Tokens",
   "homepage": "https://github.com/Esri/calcite-design-tokens",
   "keywords": [

@@ -52,7 +52,6 @@ Build the tokens to platform assets
 
 `npm run build`
 
-
 ## Understanding Token Files
 
 All token files may be updated by the Figma Token Studio plugin. These can also be updated in the code directly. Any changes to token files must be reviewed by the Calcite Design Team.
@@ -80,7 +79,6 @@ The component design tokens. These are used by themes.
 ### tokens/calcite/
 
 The Calcite themes. This currently consists of a light and dark theme.
-
 
 ## Submitting Pull Requests
 

@@ -1,7 +1,6 @@
 import { pascalCase, sentenceCase } from "change-case";
-import sd, { Dictionary, File, Platform, Options } from "style-dictionary";
-
-const { formatHelpers } = sd;
+import StyleDictionary, { Dictionary, File, Platform, Options } from "style-dictionary";
+import { sortAllTokens } from "../utils/sortAllTokens.js";
 
 const regexThemeGroup = /calcite|brand/gi;
 const regexFileNameWithoutExtension = /\w+(?=\.\w+$)/gi;
@@ -28,11 +27,54 @@ export function formatSCSS(fileInfo: {
       .split(" ")
       .filter((n) => !regexThemeGroup.test(n))
       .join(" ")
-    ).toLowerCase();
-  return (
-    formatHelpers.fileHeader({ file }) +
-    `@mixin calcite-theme-${themeName}() {\n` +
-    formatHelpers.formattedVariables({ format: "css", dictionary, outputReferences }) +
-    `\n}\n`
+  ).toLowerCase();
+  const sassProps = StyleDictionary.formatHelpers.createPropertyFormatter({
+    outputReferences,
+    dictionary,
+    format: "sass"
+  });
+  const cssProps = StyleDictionary.formatHelpers.createPropertyFormatter({
+    outputReferences,
+    dictionary,
+    format: "css"
+  });
+  const sortedTokens = sortAllTokens(dictionary, outputReferences);
+  const coreTokens = [...sortedTokens].reduce(
+    (acc, token) => {
+      token.value = token.value.includes(" ") ? `"${token.value}"` : token.value === "Demi" ? 600 : token.value;
+      acc[1].push(cssProps(token));
+
+      if (token.filePath.includes("core")) {
+        const sassToken = { ...token };
+        const path = sassToken.path.filter((p) => !/(core|default|font$)/.test(p));
+        sassToken.name = sassToken.type === "color" ? path.slice(-1).join("-") : path.join("-");
+        sassToken.original.value = sassToken.original.value[0] === "{" ? sassToken.value : sassToken.original.value;
+        acc[0].push(sassProps(sassToken));
+      }
+
+      if (/dark|light/.test(token.filePath) && !token.path.includes("component")) {
+        const sassToken = { ...token };
+        const path = sassToken.path.reduce((acc, p) => {
+          if (p === "default") {
+            return acc;
+          }
+          acc.push(p === "color" ? "ui" : p);
+          return acc;
+        }, []);
+        path.push(token.filePath.includes("dark") ? "dark" : "light");
+        sassToken.name = path.join("-");
+        acc[0].push(sassProps(sassToken));
+      }
+
+      return acc;
+    },
+    [[], []]
   );
+
+  return `${StyleDictionary.formatHelpers.fileHeader({ file })}
+${coreTokens[0].join("\n")}
+
+@mixin calcite-theme-${themeName}() {
+${coreTokens[1].join("\n")}
+}`;
 }

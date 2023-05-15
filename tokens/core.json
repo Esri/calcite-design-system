@@ -1628,6 +1628,10 @@
       "popup": {
         "value": "900",
         "type": "other"
+      },
+      "tooltip": {
+        "value": "901",
+        "type": "other"
       }
     },
     "box-shadow": {

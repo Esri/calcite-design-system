@@ -13,7 +13,7 @@ const typeMaps = {
     blur: "dimension",
     spread: "dimension",
     type: "other",
-    color: "color",
+    color: "color"
   },
   border: {
     width: "border-width",
@@ -39,7 +39,7 @@ const typeMaps = {
  * Get type from type map
  * @param {string} key type
  * @param {DesignToken} compositeToken a Style Dictionary token
- * @returns a string
+ * @returns {string} approved token type
  */
 export const getType = (key: string, compositeToken: DesignToken): string => typeMaps[compositeToken.type][key] ?? key;
 
@@ -50,18 +50,14 @@ export const getType = (key: string, compositeToken: DesignToken): string => typ
  * @param {Function} handleValue a function to determine how the final token value string should be passed to Style Dictionary
  * @returns {DesignToken} a single Style Dictionary token object
  */
-export function expandToken(
-  compositeToken: DesignToken,
-  isShadow = false,
-  handleValue = (v) => v
-): DesignToken {
+export function expandToken(compositeToken: DesignToken, isShadow = false, handleValue = (v) => v): DesignToken {
   const expandedObj = {} as DesignToken;
 
   if (isShadow && Array.isArray(compositeToken.value)) {
     compositeToken.value.forEach((shadow, index) => {
       expandedObj[index + 1] = {};
       Object.entries(shadow).forEach(([key, value]) => {
-        if (matchPlaceholderElement.test(`${value}`) || key === 'type') {
+        if (matchPlaceholderElement.test(`${value}`) || key === "type") {
           return;
         }
         expandedObj[index + 1][key] = {

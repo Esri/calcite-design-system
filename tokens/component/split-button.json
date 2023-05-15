@@ -4,11 +4,11 @@
       "brand": {
         "solid": {
           "light": {
-            "value": "$semantic.ui.color.foreground.1.light",
+            "value": "$semantic.ui.color.text.inverse.light",
             "type": "color"
           },
           "dark": {
-            "value": "$semantic.ui.color.foreground.1.dark",
+            "value": "$semantic.ui.color.text.inverse.dark",
             "type": "color"
           }
         },
@@ -88,11 +88,11 @@
         },
         "transparent": {
           "light": {
-            "value": "$semantic.ui.color.text.inverse.light",
+            "value": "$semantic.ui.color.text.1.light",
             "type": "color"
           },
           "dark": {
-            "value": "$semantic.ui.color.text.inverse.dark",
+            "value": "$semantic.ui.color.text.1.dark",
             "type": "color"
           }
         }
@@ -258,11 +258,11 @@
         },
         "transparent": {
           "light": {
-            "value": "$semantic.ui.color.text.inverse.light",
+            "value": "$semantic.ui.color.text.1.light",
             "type": "color"
           },
           "dark": {
-            "value": "$semantic.ui.color.text.inverse.dark",
+            "value": "$semantic.ui.color.text.1.dark",
             "type": "color"
           }
         }
@@ -653,12 +653,6 @@
             "value": "$core.spacing.1",
             "type": "spacing"
           }
-        },
-        "transparent": {
-          "top-bottom": {
-            "value": "$core.spacing.1",
-            "type": "spacing"
-          }
         }
       }
     },
@@ -738,11 +732,11 @@
         },
         "transparent": {
           "light": {
-            "value": "$semantic.ui.color.text.inverse.light",
+            "value": "$semantic.ui.color.inverse.light",
             "type": "color"
           },
           "dark": {
-            "value": "$semantic.ui.color.text.inverse.dark",
+            "value": "$semantic.ui.color.inverse.dark",
             "type": "color"
           }
         }
@@ -780,7 +774,7 @@
         },
         "transparent": {
           "light": {
-            "value": "{semantic.ui.color.inverse.default.light}",
+            "value": "$semantic.ui.color.inverse.light",
             "type": "color"
           },
           "dark": {
@@ -792,11 +786,11 @@
       "danger": {
         "solid": {
           "light": {
-            "value": "$semantic.ui.color.foreground.1.light",
+            "value": "$semantic.ui.color.danger.default.light",
             "type": "color"
           },
           "dark": {
-            "value": "$semantic.ui.color.foreground.1.dark",
+            "value": "$semantic.ui.color.danger.default.dark",
             "type": "color"
           }
         },

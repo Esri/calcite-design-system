@@ -1,6 +1,11 @@
 import { DeepKeyTokenMap } from "@tokens-studio/types";
 import { DesignToken } from "style-dictionary/types/DesignToken.js";
-import { TransformOptions, ExpandablesAsStrings, Expandables, expandablesAsStringsArr } from "../utils/transformOptions.js";
+import {
+  TransformOptions,
+  ExpandablesAsStrings,
+  Expandables,
+  expandablesAsStringsArr
+} from "../utils/transformOptions.js";
 import { matchPlaceholderElement, tokenStudioCustomVariableIndicator } from "../utils/regex.js";
 import { shouldExpand, expandToken } from "../utils/compositeTokens.js";
 import { convertTokenToStyleDictionaryFormat } from "../utils/convertTokenToStyleDictionaryFormat.js";
@@ -32,8 +37,11 @@ export function expandComposites(
   const handleTokenStudioVariables = convertTokenToStyleDictionaryFormat(tokenStudioCustomVariableIndicator);
   const newDictionary = Object.entries(dictionary).reduce((acc, [key, token]) => {
     const { type } = token;
-    
-    if (matchPlaceholderElement.test(`${key}`) || (typeof token.value === 'string' && matchPlaceholderElement.test(`${token.value}`))) {
+
+    if (
+      matchPlaceholderElement.test(`${key}`) ||
+      (typeof token.value === "string" && matchPlaceholderElement.test(`${token.value}`))
+    ) {
       return acc;
     }
 
@@ -44,14 +52,10 @@ export function expandComposites(
         const expandType = (type as ExpandablesAsStrings) === "boxShadow" ? "shadow" : type;
         const expand = shouldExpand<Expandables>(token as Expandables, opts.expand[`${expandType}`], filePath);
         if (expand) {
-          const expandedToken = expandToken(
-            token as DesignToken,
-            expandType === "shadow",
-            handleTokenStudioVariables
-          );
+          const expandedToken = expandToken(token as DesignToken, expandType === "shadow", handleTokenStudioVariables);
           return expandedToken;
         }
-      } else if (typeof token.value === 'string') {
+      } else if (typeof token.value === "string") {
         token.value = handleTokenStudioVariables(token.value);
         acc[key] = token;
       } else {
