@@ -175,6 +175,10 @@ export class TabTitle implements InteractiveComponent, LocalizedComponent, T9nCo
     }
   }
 
+  componentWillUpdate(): void {
+    this.isFirstLoad = false;
+  }
+
   componentWillRender(): void {
     if (this.parentTabsEl) {
       this.layout = this.parentTabsEl.layout;
@@ -285,13 +289,14 @@ export class TabTitle implements InteractiveComponent, LocalizedComponent, T9nCo
     if (targetTabsEl !== this.parentTabsEl) {
       return;
     }
-
-    if (this.tab) {
-      this.selected = this.tab === event.detail.tab;
-    } else {
-      this.getTabIndex().then((index) => {
-        this.selected = index === event.detail.tab;
-      });
+    if (!this.isFirstLoad) {
+      if (this.tab) {
+        this.selected = this.tab === event.detail.tab;
+      } else {
+        this.getTabIndex().then((index) => {
+          this.selected = index === event.detail.tab;
+        });
+      }
     }
 
     event.stopPropagation();
@@ -461,6 +466,8 @@ export class TabTitle implements InteractiveComponent, LocalizedComponent, T9nCo
   //  Private State/Props
   //
   //--------------------------------------------------------------------------
+
+  private isFirstLoad = true;
 
   /** watches for changing text content */
   mutationObserver: MutationObserver = createObserver("mutation", () => this.updateHasText());
