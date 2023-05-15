@@ -138,55 +138,64 @@ describe("calcite-tab-title", () => {
   });
 
   describe("closing sequence", () => {
-    it("works when closing tab-titles in sequence 1 though 4", async () => {
-      const page = await newE2EPage();
+    let page: E2EPage;
+    let arrayOfIds: string[];
+
+    type loop = () => Promise<void>;
+    let loopTabTitles: loop;
+
+    beforeEach(async () => {
+      page = await newE2EPage();
       await page.setContent(multiTabTitleClosableHtml);
+      arrayOfIds = ["embark", "car", "plane", "biking"];
 
-      await page.waitForChanges();
+      loopTabTitles = async () => {
+        for (let i = 0; i < arrayOfIds.length - 1; i++) {
+          let tabTitleEl: E2EElement;
+          let tabEl: E2EElement;
 
-      const arrayOfIds = ["embark", "car", "plane", "biking"];
+          const id = arrayOfIds[i];
 
-      // as you close tab one, it hides tab-title and corresponding tab, moving the selection to the next tab, and so forth
-      for (let i = 0; i < arrayOfIds.length - 1; i++) {
-        console.log("id", arrayOfIds[i]);
-        let tabTitleEl: E2EElement;
-        let tabEl: E2EElement;
+          tabTitleEl = await page.find(`#${id}`);
+          tabEl = await page.find(`#${id}`);
+          const close = await page.find(`calcite-tab-title[id='${id}'] >>> .${CSS.close}`);
 
-        const id = arrayOfIds[i];
+          expect(tabTitleEl).not.toHaveAttribute("hidden");
+          expect(tabEl).not.toHaveAttribute("hidden");
 
-        tabTitleEl = await page.find(`#${id}`);
-        tabEl = await page.find(`#${id}`);
-        const close = await page.find(`calcite-tab-title[id='${id}'] >>> .${CSS.close}`);
+          close.click();
+          await page.waitForChanges();
 
-        expect(close).not.toBeNull();
-        console.log("tabTitleEl", tabTitleEl);
+          tabTitleEl = await page.find(`#${id}`);
+          tabEl = await page.find(`#${id}`);
 
-        expect(tabTitleEl).not.toHaveAttribute("hidden");
-        expect(tabEl).not.toHaveAttribute("hidden");
+          expect(tabTitleEl).toHaveAttribute("hidden");
+          expect(tabTitleEl).not.toHaveAttribute("selected");
+          expect(tabEl).not.toHaveAttribute("selected");
 
-        close.click();
-        await page.waitForChanges();
+          const nextId = arrayOfIds[i + 1];
+          const nextTabTitleEl = await page.find(`#${nextId}`);
+          const nextTabEl = await page.find(`#${nextId}`);
 
-        tabTitleEl = await page.find(`#${id}`);
-        tabEl = await page.find(`#${id}`);
+          expect(nextTabTitleEl).not.toHaveAttribute("hidden");
+          expect(nextTabTitleEl).toHaveAttribute("selected");
+          expect(nextTabEl).toHaveAttribute("selected");
+        }
+      };
+    });
 
-        expect(tabTitleEl).toHaveAttribute("hidden");
-        expect(tabTitleEl).not.toHaveAttribute("selected");
-        expect(tabEl).not.toHaveAttribute("selected");
+    it(`when closing tab-titles in sequence 1 though 4, 
+        tab-title and corresponding tab become hidden, 
+        and selection fallback is the next tab`, async () => {
+      await loopTabTitles();
+    });
 
-        console.log("end of the loop");
-
-        const nextId = arrayOfIds[i + 1];
-        const nextTabTitleEl = await page.find(`#${nextId}`);
-        const nextTabEl = await page.find(`#${nextId}`);
-
-        console.log("nextTabTitleEl", nextTabTitleEl);
-        console.log("nextTabEl", nextTabEl);
-
-        expect(nextTabTitleEl).not.toHaveAttribute("hidden");
-        expect(nextTabTitleEl).toHaveAttribute("selected");
-        expect(nextTabEl).toHaveAttribute("selected");
-      }
+    it(`when closing tab-titles in sequence 4 though 1, 
+        tab-title and corresponding tab become hidden, 
+        and selection fallback is the previous tab`, async () => {
+      arrayOfIds = ["embark", "car", "plane", "biking"].reverse();
+      // as you close tab one, it hides tab-title and corresponding tab, moving the selection to the previous tab, and so forth
+      await loopTabTitles();
     });
   });
 
