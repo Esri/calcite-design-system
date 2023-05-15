@@ -6,10 +6,10 @@
  * @prop --calcite-shell-panel-width: Specifies the width of the component.
  * @prop --calcite-shell-panel-max-width: Specifies the maximum width of the component.
  * @prop --calcite-shell-panel-min-width: Specifies the minimum width of the component.
- * @prop --calcite-shell-panel-height: When `layout` is `"horizontal"`, specifies the height of the component.
- * @prop --calcite-shell-panel-max-height: When `layout` is `"horizontal"`, specifies the maximum height of the component.
- * @prop --calcite-shell-panel-min-height: When `layout` is `"horizontal"`, specifies the minimum height of the component.
- * @prop --calcite-shell-panel-detached-max-height: When `detached` is `true`, specifies the maximum height of the component.
+ * @prop --calcite-shell-panel-height: When `layout` is `horizontal`, or `layout` is `vertical` and `displayMode` is `float`, specifies the height of the component.
+ * @prop --calcite-shell-panel-max-height: When `layout` is `horizontal`, or `layout` is `vertical` and `displayMode` is `float`, specifies the maximum height of the component.
+ * @prop --calcite-shell-panel-min-height: When `layout` is `horizontal`, or `layout` is `vertical` and `displayMode` is `float`, specifies the minimum height of the component.
+ * @prop [Deprecated] --calcite-shell-panel-detached-max-height: When `displayMode` is `float`, specifies the maximum height of the component.
  * @prop --calcite-shell-panel-z-index: Specifies the z-index value for the component.
  *
  */
@@ -20,18 +20,32 @@
     flex
     flex-initial
     items-stretch;
-  --calcite-shell-panel-detached-max-height: unset;
   z-index: var(--calcite-shell-panel-z-index, theme("zIndex.default"));
+  --calcite-shell-panel-detached-max-height: unset;
+  --calcite-shell-panel-max-height: unset;
+  --calcite-shell-panel-shadow-block-start-internal: 0 4px 8px -1px rgba(0, 0, 0, 0.08),
+    0 2px 4px -1px rgba(0, 0, 0, 0.04);
+  --calcite-shell-panel-shadow-block-end-internal: 0 -4px 8px -1px rgba(0, 0, 0, 0.08),
+    0 -2px 4px -1px rgba(0, 0, 0, 0.04);
+  --calcite-shell-panel-shadow-inline-start-internal: 4px 0 8px -1px rgba(0, 0, 0, 0.08),
+    2px 0 4px -1px rgba(0, 0, 0, 0.04);
+  --calcite-shell-panel-shadow-inline-end-internal: -4px 0 8px -1px rgba(0, 0, 0, 0.08),
+    -2px 0 4px -1px rgba(0, 0, 0, 0.04);
+}
+
+.calcite--rtl.content--overlay {
+  --calcite-shell-panel-shadow-inline-start-internal: -4px 0 8px -1px rgba(0, 0, 0, 0.08),
+    -2px 0 4px -1px rgba(0, 0, 0, 0.04);
+  --calcite-shell-panel-shadow-inline-end-internal: 4px 0 8px -1px rgba(0, 0, 0, 0.08),
+    2px 0 4px -1px rgba(0, 0, 0, 0.04);
 }
 
 :host([layout="vertical"]) {
   z-index: var(--calcite-shell-panel-z-index, calc(theme("zIndex.default") + 1));
 }
 
-:host([layout="horizontal"]) .content {
-  --calcite-shell-panel-height-internal: var(--calcite-shell-panel-height, 20vh);
-  --calcite-shell-panel-max-height-internal: var(--calcite-shell-panel-max-height, 420px);
-  --calcite-shell-panel-min-height-internal: var(--calcite-shell-panel-min-height, 240px);
+:host([layout="vertical"][display-mode="overlay"]) {
+  z-index: var(--calcite-shell-panel-z-index, calc(theme("zIndex.header") + 1));
 }
 
 :host([layout="vertical"][width-scale="s"]) .content {
@@ -52,16 +66,26 @@
   --calcite-shell-panel-min-width-internal: var(--calcite-shell-panel-min-width, 340px);
 }
 
-:host([detached-height-scale="s"]) .content--detached {
-  --calcite-shell-panel-detached-max-height-internal: var(--calcite-shell-panel-detached-max-height, 40vh);
+:host([layout="horizontal"][height-scale="s"]) .content {
+  --calcite-shell-panel-max-height-internal: var(
+    --calcite-shell-panel-max-height,
+    var(--calcite-shell-panel-detached-max-height, 20vh)
+  );
 }
 
-:host([detached-height-scale="m"]) .content--detached {
-  --calcite-shell-panel-detached-max-height-internal: var(--calcite-shell-panel-detached-max-height, 60vh);
+:host([layout="horizontal"]) .content {
+  --calcite-shell-panel-min-height-internal: var(--calcite-shell-panel-min-height, 5vh);
+  --calcite-shell-panel-max-height-internal: var(
+    --calcite-shell-panel-max-height,
+    var(--calcite-shell-panel-detached-max-height, 30vh)
+  );
 }
 
-:host([detached-height-scale="l"]) .content--detached {
-  --calcite-shell-panel-detached-max-height-internal: var(--calcite-shell-panel-detached-max-height, 80vh);
+:host([layout="horizontal"][height-scale="l"]) .content {
+  --calcite-shell-panel-max-height-internal: var(
+    --calcite-shell-panel-max-height,
+    var(--calcite-shell-panel-detached-max-height, 40vh)
+  );
 }
 
 .container {
@@ -194,7 +218,40 @@
   overflow-hidden;
 }
 
-.content--detached {
+.content--overlay {
+  @apply absolute
+  shadow-0;
+}
+
+:host([layout="vertical"]) .content--overlay {
+  @apply top-0 h-full;
+}
+
+:host([layout="horizontal"]) .content--overlay {
+  @apply left-0 w-full;
+}
+
+:host([layout="vertical"][position="start"]) .content--overlay {
+  inset-inline-start: 100%;
+  box-shadow: var(--calcite-shell-panel-shadow-inline-start-internal);
+}
+
+:host([layout="vertical"][position="end"]) .content--overlay {
+  inset-inline-end: 100%;
+  box-shadow: var(--calcite-shell-panel-shadow-inline-end-internal);
+}
+
+:host([layout="horizontal"][position="start"]) .content--overlay {
+  inset-block-start: 100%;
+  box-shadow: var(--calcite-shell-panel-shadow-block-start-internal);
+}
+
+:host([layout="horizontal"][position="end"]) .content--overlay {
+  inset-block-end: 100%;
+  box-shadow: var(--calcite-shell-panel-shadow-block-end-internal);
+}
+
+.content--float {
   @apply shadow-0
   mx-2
   mt-2
@@ -202,18 +259,19 @@
   h-auto
   overflow-hidden
   rounded;
-}
-
-.content--detached {
-  max-block-size: var(--calcite-shell-panel-detached-max-height-internal);
+  max-block-size: var(--calcite-shell-panel-max-height-internal, calc(100% - 1rem));
   ::slotted(calcite-panel),
   ::slotted(calcite-flow) {
     max-block-size: unset;
   }
 }
 
-:host([position="start"]) .content--detached,
-:host([position="end"]) .content--detached {
+:host([layout="horizontal"]) .content--float {
+  @apply my-2;
+}
+
+:host([position="start"]) .content--float,
+:host([position="end"]) .content--float {
   ::slotted(calcite-panel),
   ::slotted(calcite-flow) {
     @apply border-none;
