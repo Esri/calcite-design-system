@@ -474,35 +474,35 @@ export type FocusElementInGroupDestination = "first" | "last" | "next" | "previo
  * This helper sets focus on and returns a destination element from within a group of provided elements.
  *
  * @param {Element[]} elements An array of elements.
- * @param {Element} currentElement The current element.
- * @param {FocusElementInGroupDestination} destination The target destination element to focus.
- * @returns {Element} The focused element
+ * @param {Element}  currentElement The current element.
+ * @param {FocusElementInGroupDestination} destination target destination element to focus.
+ * @param {boolean} cycle Should navigation cycle through elements or stop at extent - defaults to true.
+ * @returns {Element} The focused element.
  */
 export const focusElementInGroup = (
   elements: Element[],
   currentElement: Element,
-  destination: FocusElementInGroupDestination
+  destination: FocusElementInGroupDestination,
+  cycle = true
 ): Element => {
   const currentIndex = elements.indexOf(currentElement);
   const isFirstItem = currentIndex === 0;
   const isLastItem = currentIndex === elements.length - 1;
-  destination =
-    destination === "previous" && isFirstItem ? "last" : destination === "next" && isLastItem ? "first" : destination;
+
+  if (cycle) {
+    destination =
+      destination === "previous" && isFirstItem ? "last" : destination === "next" && isLastItem ? "first" : destination;
+  }
 
   let focusTarget;
-  switch (destination) {
-    case "first":
-      focusTarget = elements[0];
-      break;
-    case "last":
-      focusTarget = elements[elements.length - 1];
-      break;
-    case "next":
-      focusTarget = elements[currentIndex + 1] || elements[0];
-      break;
-    case "previous":
-      focusTarget = elements[currentIndex - 1] || elements[elements.length - 1];
-      break;
+  if (destination === "previous") {
+    focusTarget = elements[currentIndex - 1] || elements[cycle ? elements.length - 1 : currentIndex];
+  } else if (destination === "next") {
+    focusTarget = elements[currentIndex + 1] || elements[cycle ? 0 : currentIndex];
+  } else if (destination === "last") {
+    focusTarget = elements[elements.length - 1];
+  } else {
+    focusTarget = elements[0];
   }
 
   focusElement(focusTarget);
