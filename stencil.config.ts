@@ -50,6 +50,7 @@ export const create: () => Config = () => ({
     { components: ["calcite-loader"] },
     { components: ["calcite-modal"] },
     { components: ["calcite-nav", "calcite-nav-user", "calcite-nav-logo"] },
+    { components: ["calcite-menu", "calcite-menu-item"] },
     { components: ["calcite-notice"] },
     { components: ["calcite-pagination"] },
     { components: ["calcite-panel"] },
