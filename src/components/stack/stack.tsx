@@ -1,7 +1,6 @@
 import { Component, h, Host, Prop, State, VNode } from "@stencil/core";
 import { slotChangeHasAssignedElement } from "../../utils/dom";
 import { CSS, SLOTS } from "./resources";
-import { Layout } from "../interfaces";
 
 /**
  * @slot - A slot for adding content.
@@ -11,19 +10,19 @@ import { Layout } from "../interfaces";
  * @slot actions-end - A slot for adding actionable `calcite-action` elements after the content of the component.
  */
 @Component({
-  tag: "calcite-layout-item",
-  styleUrl: "layout-item.scss",
+  tag: "calcite-stack",
+  styleUrl: "stack.scss",
   shadow: true
 })
-export class LayoutItem {
+export class Stack {
   //--------------------------------------------------------------------------
   //
   //  Properties
   //
   //--------------------------------------------------------------------------
 
-  /** Specifies the text alignment of the component. */
-  @Prop({ reflect: true }) layout: Layout = "horizontal";
+  /**  When `true`, content interaction is prevented and the displayed with lower opacity. */
+  @Prop({ reflect: true }) disabled = false;
 
   // --------------------------------------------------------------------------
   //

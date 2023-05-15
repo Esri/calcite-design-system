@@ -4,30 +4,22 @@ import { html } from "../../../support/formatting";
 import { storyFilters } from "../../../.storybook/helpers";
 
 export default {
-  title: "Components/LayoutItem",
+  title: "Components/Stack",
   parameters: {
     notes: [readme]
   },
   ...storyFilters()
 };
 
-const simpleHTML = html`<calcite-layout-item>
+const simpleHTML = html`<calcite-stack>
   <calcite-action appearance="transparent" text="banana" icon="banana" slot="actions-start"></calcite-action>
   Hello World
   <calcite-avatar slot="content-end" thumbnail="http://placekitten.com/105/105" scale="s"> </calcite-avatar>
   <calcite-chip slot="content-start" value="chip" scale="s" appearance="outline">My great chip</calcite-chip>
   <calcite-action appearance="transparent" text="Close" icon="x" slot="actions-end"></calcite-action>
-</calcite-layout-item>`;
+</calcite-stack>`;
 
 export const simple = (): string => simpleHTML;
-
-export const verticalSimple = (): string => html`<calcite-layout-item layout="vertical">
-  <calcite-action appearance="transparent" text="banana" icon="banana" slot="actions-start"></calcite-action>
-  Hello World
-  <calcite-avatar slot="content-end" thumbnail="http://placekitten.com/105/105" scale="s"> </calcite-avatar>
-  <calcite-chip slot="content-start" value="chip" scale="s" appearance="outline">My great chip</calcite-chip>
-  <calcite-action appearance="transparent" text="Close" icon="x" slot="actions-end"></calcite-action>
-</calcite-layout-item>`;
 
 export const simpleDarkMode_TestOnly = (): string => simpleHTML;
 simpleDarkMode_TestOnly.parameters = { modes: modesDarkDefault };
@@ -35,11 +27,11 @@ simpleDarkMode_TestOnly.parameters = { modes: modesDarkDefault };
 export const panelFooter_TestOnly = (): string => html`<calcite-panel>
   <div slot="header-content">My Panel</div>
   <p>My content</p>
-  <calcite-layout-item slot="footer">
+  <calcite-stack slot="footer">
     <calcite-action text="select" icon="check" slot="actions-start"></calcite-action>
     <calcite-input disabled></calcite-input>
     <calcite-avatar slot="content-start" thumbnail="http://placekitten.com/105/105" scale="s"> </calcite-avatar>
     <calcite-chip slot="content-end" value="chip" scale="s" appearance="outline">My great chip</calcite-chip>
     <calcite-action text="delete" icon="trash" slot="actions-end"></calcite-action>
-  </calcite-layout-item>
+  </calcite-stack>
 </calcite-panel>`;
