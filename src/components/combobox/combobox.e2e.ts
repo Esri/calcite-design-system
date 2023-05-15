@@ -13,6 +13,7 @@ import {
 
 import { html } from "../../../support/formatting";
 import { CSS } from "./resources";
+import { CSS as XButtonCSS } from "../functional/XButton";
 
 describe("calcite-combobox", () => {
   describe("renders", () => {
@@ -302,33 +303,86 @@ describe("calcite-combobox", () => {
   });
 
   describe("item selection", () => {
-    it("should add/remove item to the selected items when an item is clicked", async () => {
-      const page = await newE2EPage();
-      await page.setContent(
-        html`
-          <calcite-combobox>
-            <calcite-combobox-item value="one" text-label="one"></calcite-combobox-item>
-            <calcite-combobox-item value="two" text-label="two"></calcite-combobox-item>
-          </calcite-combobox>
-        `
-      );
-      const cbox = await page.find("calcite-combobox");
-      const openEvent = page.waitForEvent("calciteComboboxOpen");
-      await cbox.click();
-      await openEvent;
+    describe("toggling items", () => {
+      it("single-selection mode does not allow toggling selection once the selected item is clicked", async () => {
+        const page = await newE2EPage();
+        await page.setContent(
+          html`
+            <calcite-combobox>
+              <calcite-combobox-item value="one" text-label="one"></calcite-combobox-item>
+              <calcite-combobox-item value="two" text-label="two"></calcite-combobox-item>
+            </calcite-combobox>
+          `
+        );
+        const cbox = await page.find("calcite-combobox");
+        const openEvent = page.waitForEvent("calciteComboboxOpen");
+        await cbox.click();
+        await openEvent;
 
-      let item1 = await cbox.find("calcite-combobox-item[value=one]");
-      await item1.click();
+        const item1 = await cbox.find("calcite-combobox-item[value=one]");
 
-      let chip = await page.find("calcite-combobox >>> calcite-chip");
-      expect(chip).toBeDefined();
+        await item1.click();
+        expect(await page.find("calcite-combobox >>> calcite-chip")).toBeDefined();
 
-      item1 = await cbox.find("calcite-combobox-item[value=one]");
-      await item1.click();
-      await page.waitForChanges();
+        await item1.click();
+        expect(await page.find("calcite-combobox >>> calcite-chip")).toBeDefined();
+      });
 
-      chip = await page.find("calcite-combobox >>> calcite-chip");
-      expect(chip).toBeNull();
+      it("multiple-selection mode allows toggling selection once the selected item is clicked", async () => {
+        const page = await newE2EPage();
+        await page.setContent(
+          html`
+            <calcite-combobox selection-mode="multiple">
+              <calcite-combobox-item value="one" text-label="one"></calcite-combobox-item>
+              <calcite-combobox-item value="two" text-label="two"></calcite-combobox-item>
+            </calcite-combobox>
+          `
+        );
+        const cbox = await page.find("calcite-combobox");
+        const openEvent = page.waitForEvent("calciteComboboxOpen");
+        await cbox.click();
+        await openEvent;
+
+        const item1 = await cbox.find("calcite-combobox-item[value=one]");
+
+        await item1.click();
+        expect(await page.find("calcite-combobox >>> calcite-chip")).toBeDefined();
+
+        await item1.click();
+        expect(await page.find("calcite-combobox >>> calcite-chip")).toBeNull();
+
+        await item1.click();
+        expect(await page.find("calcite-combobox >>> calcite-chip")).toBeDefined();
+      });
+
+      it("ancestors-selection mode allows toggling selection once the selected item is clicked", async () => {
+        const page = await newE2EPage();
+        await page.setContent(
+          html`
+            <calcite-combobox selection-mode="ancestors">
+              <calcite-combobox-item value="one" text-label="parent">
+                <calcite-combobox-item value="two" text-label="child1"></calcite-combobox-item>
+                <calcite-combobox-item value="three" text-label="child2"></calcite-combobox-item>
+              </calcite-combobox-item>
+            </calcite-combobox>
+          `
+        );
+        const cbox = await page.find("calcite-combobox");
+        const openEvent = page.waitForEvent("calciteComboboxOpen");
+        await cbox.click();
+        await openEvent;
+
+        const item1 = await cbox.find("calcite-combobox-item[value=one]");
+
+        await item1.click();
+        expect(await page.find("calcite-combobox >>> calcite-chip")).toBeDefined();
+
+        await item1.click();
+        expect(await page.find("calcite-combobox >>> calcite-chip")).toBeNull();
+
+        await item1.click();
+        expect(await page.find("calcite-combobox >>> calcite-chip")).toBeDefined();
+      });
     });
 
     it("should select parent in ancestor selection mode", async () => {
@@ -537,6 +591,47 @@ describe("calcite-combobox", () => {
       expect(await item2.getProperty("selected")).toBe(true);
       expect(await item3.getProperty("selected")).toBe(true);
     });
+  });
+
+  describe("clearable", () => {
+    async function assertClearable(html: string): Promise<void> {
+      const page = await newE2EPage();
+      await page.setContent(html);
+      const combobox = await page.find("calcite-combobox");
+      const xButton = await page.find(`calcite-combobox >>> .${XButtonCSS.button}`);
+
+      await xButton.click();
+
+      expect(await combobox.getProperty("value")).toBe("");
+    }
+
+    it("clears the value in single-selection mode", async () =>
+      assertClearable(html`
+        <calcite-combobox clearable selection-mode="single">
+          <calcite-combobox-item selected id="one" value="one" text-label="one"></calcite-combobox-item>
+          <calcite-combobox-item id="two" value="two" text-label="two"></calcite-combobox-item>
+          <calcite-combobox-item id="three" value="three" text-label="three"></calcite-combobox-item>
+        </calcite-combobox>
+      `));
+
+    it("clears the value in multiple-selection mode", async () =>
+      assertClearable(html`
+        <calcite-combobox clearable selection-mode="multiple">
+          <calcite-combobox-item selected id="one" value="one" text-label="one"></calcite-combobox-item>
+          <calcite-combobox-item selected id="two" value="two" text-label="two"></calcite-combobox-item>
+          <calcite-combobox-item selected id="three" value="three" text-label="three"></calcite-combobox-item>
+        </calcite-combobox>
+      `));
+
+    it("clears the value in ancestors-selection mode", async () =>
+      assertClearable(html`
+        <calcite-combobox clearable selection-mode="ancestors">
+          <calcite-combobox-item value="parent" text-label="parent">
+            <calcite-combobox-item value="child1" text-label="child1"></calcite-combobox-item>
+            <calcite-combobox-item selected value="child2" text-label="child2"></calcite-combobox-item>
+          </calcite-combobox-item>
+        </calcite-combobox>
+      `));
   });
 
   describe("keyboard navigation", () => {

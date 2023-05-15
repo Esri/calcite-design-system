@@ -11,6 +11,7 @@
 }
 
 @include disabled();
+@include xButton();
 
 :host([scale="s"]) {
   @apply text-n2;

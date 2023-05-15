@@ -74,3 +74,57 @@
     pointer-events: none;
   }
 }
+
+@mixin xButton() {
+  :host([scale="s"]) {
+    .x-button {
+      inline-size: theme("spacing.4");
+      block-size: theme("spacing.4");
+    }
+  }
+
+  :host([scale="m"]) {
+    .x-button {
+      inline-size: theme("spacing.6");
+      block-size: theme("spacing.6");
+    }
+  }
+
+  :host([scale="l"]) {
+    .x-button {
+      inline-size: theme("spacing.8");
+      block-size: theme("spacing.8");
+    }
+  }
+
+  .x-button {
+    @apply flex
+    self-center
+    focus-base
+    transition-default
+    text-color-1
+    m-0
+    cursor-pointer
+    items-center
+    border-none
+    bg-transparent;
+    -webkit-appearance: none;
+    display: flex;
+    border-radius: 50%;
+    align-content: center;
+    justify-content: center;
+    &:hover {
+      background-color: var(--calcite-button-transparent-hover);
+    }
+    &:focus {
+      background-color: var(--calcite-button-transparent-press);
+      @apply focus-inset;
+    }
+    &:active {
+      background-color: var(--calcite-button-transparent-press);
+    }
+    & calcite-icon {
+      color: inherit;
+    }
+  }
+}
