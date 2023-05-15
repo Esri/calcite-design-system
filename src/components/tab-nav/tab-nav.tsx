@@ -394,7 +394,6 @@ export class TabNav {
     return directEnabled.filter((tabTitle) => !tabTitle.closed);
   }
 
-  // interferes with the click selection
   handleTabTitleClose(closedTabTitleEl: HTMLCalciteTabTitleElement): void {
     const { tabTitles } = this;
 

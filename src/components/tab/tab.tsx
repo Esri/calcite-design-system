@@ -86,10 +86,6 @@ export class Tab {
     this.calciteInternalTabRegister.emit();
   }
 
-  componentWillUpdate(): void {
-    this.isFirstLoad = false;
-  }
-
   componentWillRender(): void {
     this.scale = this.parentTabsEl?.scale;
   }
@@ -132,13 +128,11 @@ export class Tab {
     if (targetTabsEl !== this.parentTabsEl) {
       return;
     }
-    if (!this.isFirstLoad) {
-      if (this.tab) {
-        this.selected = this.tab === event.detail.tab;
-      } else {
-        const matchingId = this.labeledBy;
-        this.selected = event.detail.tabElId === matchingId;
-      }
+    if (this.tab) {
+      this.selected = this.tab === event.detail.tab;
+    } else {
+      const matchingId = this.labeledBy;
+      this.selected = event.detail.tabElId === matchingId;
     }
     event.stopPropagation();
   }
@@ -165,8 +159,6 @@ export class Tab {
   //  Private State/Props
   //
   //--------------------------------------------------------------------------
-
-  private isFirstLoad = true;
 
   parentTabsEl: HTMLCalciteTabsElement;
 

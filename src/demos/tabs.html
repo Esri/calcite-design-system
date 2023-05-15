@@ -47,15 +47,35 @@
 
   <body>
     <demo-dom-swapper>
+      <calcite-tabs id="parentTabs">
+        <calcite-tab-nav slot="title-group">
+          <calcite-tab-title id="parentA">Parent 1</calcite-tab-title>
+          <calcite-tab-title>Parent 2</calcite-tab-title>
+        </calcite-tab-nav>
+        <calcite-tab id="parentTabA">
+          <calcite-tabs>
+            <calcite-tab-nav slot="title-group">
+              <calcite-tab-title>Child 1</calcite-tab-title>
+              <calcite-tab-title id="kidB">Child 2</calcite-tab-title>
+              <calcite-tab-title>Child 3</calcite-tab-title>
+            </calcite-tab-nav>
+            <calcite-tab>child content 1</calcite-tab>
+            <calcite-tab id="kidBTab">child content 2</calcite-tab>
+            <calcite-tab>child content 3</calcite-tab>
+          </calcite-tabs>
+        </calcite-tab>
+        <calcite-tab>Parent content 2</calcite-tab>
+      </calcite-tabs>
+
       <p>Bordered Top</p>
       <calcite-tabs bordered position="top">
         <calcite-tab-nav slot="title-group">
-          <calcite-tab-title selected closable> Watercraft </calcite-tab-title>
+          <calcite-tab-title closable> Watercraft </calcite-tab-title>
           <calcite-tab-title closable>Automobiles</calcite-tab-title>
           <calcite-tab-title closable>Aircrafts</calcite-tab-title>
           <calcite-tab-title closable>Bicycles</calcite-tab-title>
         </calcite-tab-nav>
-        <calcite-tab selected>
+        <calcite-tab>
           <calcite-notice icon="embark" open>
             <div slot="message">Recommended for coastal use</div>
           </calcite-notice>
@@ -80,12 +100,12 @@
       <p>Bordered Top</p>
       <calcite-tabs bordered position="top">
         <calcite-tab-nav slot="title-group">
-          <calcite-tab-title selected icon-end="1-2x" icon-start="1-2x" closable> Watercraft </calcite-tab-title>
+          <calcite-tab-title icon-end="1-2x" icon-start="1-2x" closable> Watercraft </calcite-tab-title>
           <calcite-tab-title closable>Automobiles</calcite-tab-title>
           <calcite-tab-title closable>Aircrafts</calcite-tab-title>
           <calcite-tab-title closable>Bicycles</calcite-tab-title>
         </calcite-tab-nav>
-        <calcite-tab selected>
+        <calcite-tab>
           <calcite-notice icon="embark" open>
             <div slot="message">Recommended for coastal use</div>
           </calcite-notice>

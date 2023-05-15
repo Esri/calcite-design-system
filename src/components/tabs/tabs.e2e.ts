@@ -258,7 +258,8 @@ describe("calcite-tabs", () => {
         const wrapper = document.querySelector(wrapperName);
         wrapper.shadowRoot.querySelector<HTMLElement>("#title-2").click();
         await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
-        await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
+
+        await page.waitForChanges();
 
         const titleTab = wrapper.shadowRoot.querySelector("calcite-tab-title[selected]").id;
         const contentTab = wrapper.shadowRoot.querySelector("calcite-tab[selected]").id;
@@ -299,7 +300,6 @@ describe("calcite-tabs", () => {
 
     const kidB = await page.find("#kidB");
     await kidB.click();
-
     await page.waitForChanges();
 
     const parentTabA = await page.find("#parentTabA");

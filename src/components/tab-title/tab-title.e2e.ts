@@ -1,10 +1,41 @@
-import { newE2EPage, E2EPage } from "@stencil/core/testing";
+import { newE2EPage, E2EPage, E2EElement } from "@stencil/core/testing";
 import { disabled, HYDRATED_ATTR, renders, hidden } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { CSS } from "./resources";
 
 describe("calcite-tab-title", () => {
   const tabTitleHtml = "<calcite-tab-title></calcite-tab-title>";
+  const tabTitleClosableHtml = "<calcite-tab-title closable></calcite-tab-title>";
+  const multiTabTitleClosableHtml = `
+    <calcite-tabs bordered position="top">
+      <calcite-tab-nav slot="title-group">
+        <calcite-tab-title id="embark" closable>Watercraft</calcite-tab-title>
+        <calcite-tab-title id="car" closable>Automobiles</calcite-tab-title>
+        <calcite-tab-title id="plane" closable>Aircrafts</calcite-tab-title>
+        <calcite-tab-title id="biking" closable>Bicycles</calcite-tab-title>
+      </calcite-tab-nav>
+      <calcite-tab id="embarkTab">
+        <calcite-notice icon="embark" open>
+          <div slot="message">Recommended for coastal use</div>
+        </calcite-notice>
+      </calcite-tab>
+      <calcite-tab id="carTab">
+        <calcite-notice icon="car" open>
+          <div slot="message">A good choice for inland adventure</div>
+        </calcite-notice>
+      </calcite-tab>
+      <calcite-tab id="planeTab">
+        <calcite-notice icon="plane" open>
+          <div slot="message">Cross continents quickly</div>
+        </calcite-notice>
+      </calcite-tab>
+      <calcite-tab id="bikingTab">
+        <calcite-notice icon="biking" open>
+          <div slot="message">Healthy and gets you from point A to B</div>
+        </calcite-notice>
+      </calcite-tab>
+    </calcite-tabs>
+  `;
   const iconStartHtml = `calcite-tab-title >>> .${CSS.titleIcon}.${CSS.iconStart}`;
   const iconEndHtml = `calcite-tab-title >>> .${CSS.titleIcon}.${CSS.iconEnd}`;
   const closeHtml = `calcite-tab-title >>> .${CSS.close}`;
@@ -12,6 +43,7 @@ describe("calcite-tab-title", () => {
 
   describe("renders", () => {
     renders(tabTitleHtml, { display: "block" });
+    renders(multiTabTitleClosableHtml, { display: "flex" });
   });
 
   describe("honors hidden attribute", () => {
@@ -53,12 +85,12 @@ describe("calcite-tab-title", () => {
     expect(iconEnd).not.toBeNull();
   });
 
-  describe("closing behavior", () => {
+  describe("basic closing behavior", () => {
     let page: E2EPage;
 
     beforeEach(async () => {
       page = await newE2EPage();
-      await page.setContent(html`<calcite-tab-title closable>Text</calcite-tab-title>`);
+      await page.setContent(tabTitleClosableHtml);
     });
 
     it("renders with close button when set to closable", async () => {
@@ -71,16 +103,15 @@ describe("calcite-tab-title", () => {
     it("clicking on close button closes the tab", async () => {
       let element = await page.find("calcite-tab-title");
       const close = await page.find(closeHtml);
-      expect(element).toHaveAttribute(HYDRATED_ATTR);
 
       await close.click();
       await page.waitForChanges();
 
       element = await page.find("calcite-tab-title");
-      expect(element).toBeNull();
+      expect(element).toHaveAttribute("hidden");
     });
 
-    it("when last remaining button is closable, it becomes disabled", async () => {
+    it("becomes no longer closable when it's the last remaining tab", async () => {
       page = await newE2EPage();
       await page.setContent(
         html`
@@ -99,19 +130,63 @@ describe("calcite-tab-title", () => {
       await page.waitForChanges();
 
       elementOne = await page.find(`calcite-tab-title[id='one']`);
-      expect(elementOne).toBeNull();
+      expect(elementOne).toHaveAttribute("hidden");
 
-      let elementTwo = await page.find(`calcite-tab-title[id='two']`);
       const closeTwo = await page.find(`calcite-tab-title[id='two'] >>> .${CSS.close}`);
-      expect(elementTwo).toHaveAttribute(HYDRATED_ATTR);
+      expect(closeTwo).not.toHaveAttribute("closable");
+    });
+  });
 
-      await closeTwo.click();
+  describe("closing sequence", () => {
+    it("works when closing tab-titles in sequence 1 though 4", async () => {
+      const page = await newE2EPage();
+      await page.setContent(multiTabTitleClosableHtml);
+
       await page.waitForChanges();
 
-      elementTwo = await page.find(`calcite-tab-title[id='two']`);
-      expect(elementTwo).toBeNull();
+      const arrayOfIds = ["embark", "car", "plane", "biking"];
 
-      (await closeTwo.getProperty("disabled")) === true;
+      // as you close tab one, it hides tab-title and corresponding tab, moving the selection to the next tab, and so forth
+      for (let i = 0; i < arrayOfIds.length - 1; i++) {
+        console.log("id", arrayOfIds[i]);
+        let tabTitleEl: E2EElement;
+        let tabEl: E2EElement;
+
+        const id = arrayOfIds[i];
+
+        tabTitleEl = await page.find(`#${id}`);
+        tabEl = await page.find(`#${id}`);
+        const close = await page.find(`calcite-tab-title[id='${id}'] >>> .${CSS.close}`);
+
+        expect(close).not.toBeNull();
+        console.log("tabTitleEl", tabTitleEl);
+
+        expect(tabTitleEl).not.toHaveAttribute("hidden");
+        expect(tabEl).not.toHaveAttribute("hidden");
+
+        close.click();
+        await page.waitForChanges();
+
+        tabTitleEl = await page.find(`#${id}`);
+        tabEl = await page.find(`#${id}`);
+
+        expect(tabTitleEl).toHaveAttribute("hidden");
+        expect(tabTitleEl).not.toHaveAttribute("selected");
+        expect(tabEl).not.toHaveAttribute("selected");
+
+        console.log("end of the loop");
+
+        const nextId = arrayOfIds[i + 1];
+        const nextTabTitleEl = await page.find(`#${nextId}`);
+        const nextTabEl = await page.find(`#${nextId}`);
+
+        console.log("nextTabTitleEl", nextTabTitleEl);
+        console.log("nextTabEl", nextTabEl);
+
+        expect(nextTabTitleEl).not.toHaveAttribute("hidden");
+        expect(nextTabTitleEl).toHaveAttribute("selected");
+        expect(nextTabEl).toHaveAttribute("selected");
+      }
     });
   });
 
