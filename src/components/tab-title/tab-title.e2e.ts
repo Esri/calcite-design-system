@@ -273,57 +273,68 @@ describe("calcite-tab-title", () => {
 
     describe("scale property", () => {
       let page: E2EPage;
-      let tabNavEl: E2EElement;
 
       beforeEach(async () => {
         page = await newE2EPage();
+      });
+
+      it("should inherit default medium scale from tab-nav", async () => {
         await page.setContent(
           html`
-            <calcite-tab-nav>
+            <calcite-tab-nav scale="m">
               <calcite-tab-title selected>Tab Title</calcite-tab-title>
               <calcite-tab-title>Tab 2 Title</calcite-tab-title>
             </calcite-tab-nav>
           `
         );
-        tabNavEl = await page.find("calcite-tab-nav");
-      });
 
-      it("should inherit default medium scale from tab-nav", async () => {
-        await page.waitForChanges();
+        expect(await page.find("calcite-tab-nav")).toEqualAttribute("scale", "m");
+        expect(await page.find("calcite-tab-title")).toEqualAttribute("scale", "m");
 
-        const content = await page.find(`calicite-tab-title >>> .${CSS.content}`);
+        const content = await page.find(`calcite-tab-title >>> .${CSS.content}`);
         const contentStyles = await content.getComputedStyle();
-
-        const tabTitleEl = await page.find("calcite-tab-title");
-        expect(tabTitleEl).toEqualAttribute("scale", "m");
 
         expect(contentStyles.fontSize).toEqual("12px");
         expect(contentStyles.lineHeight).toEqual("16px"); // 1rem
       });
 
       it("should inherit small scale from tab-nav", async () => {
-        tabNavEl.setProperty("scale", "s");
+        await page.setContent(
+          html`
+            <calcite-tab-nav scale="s">
+              <calcite-tab-title selected>Tab Title</calcite-tab-title>
+              <calcite-tab-title>Tab 2 Title</calcite-tab-title>
+            </calcite-tab-nav>
+          `
+        );
         await page.waitForChanges();
 
-        const content = await page.find(`calicite-tab-title >>> .${CSS.content}`);
-        const contentStyles = await content.getComputedStyle();
+        expect(await page.find("calcite-tab-nav")).toEqualAttribute("scale", "s");
+        expect(await page.find("calcite-tab-title")).toEqualAttribute("scale", "s");
 
-        const tabTitleEl = await page.find("calcite-tab-title");
-        expect(tabTitleEl).toEqualAttribute("scale", "s");
+        const content = await page.find(`calcite-tab-title >>> .${CSS.content}`);
+        const contentStyles = await content.getComputedStyle();
 
         expect(contentStyles.fontSize).toEqual("12px");
         expect(contentStyles.lineHeight).toEqual("16px"); // 1rem
       });
 
       it("should inherit large scale from tab-nav", async () => {
-        tabNavEl.setProperty("scale", "l");
+        await page.setContent(
+          html`
+            <calcite-tab-nav scale="l">
+              <calcite-tab-title selected>Tab Title</calcite-tab-title>
+              <calcite-tab-title>Tab 2 Title</calcite-tab-title>
+            </calcite-tab-nav>
+          `
+        );
         await page.waitForChanges();
 
-        const content = await page.find(`calicite-tab-title >>> .${CSS.content}`);
-        const contentStyles = await content.getComputedStyle();
+        expect(await page.find("calcite-tab-nav")).toEqualAttribute("scale", "l");
+        expect(await page.find("calcite-tab-title")).toEqualAttribute("scale", "l");
 
-        const tabTitleEl = await page.find("calcite-tab-title");
-        expect(tabTitleEl).toEqualAttribute("scale", "l");
+        const content = await page.find(`calcite-tab-title >>> .${CSS.content}`);
+        const contentStyles = await content.getComputedStyle();
 
         expect(contentStyles.fontSize).toEqual("12px");
         expect(contentStyles.lineHeight).toEqual("16px"); // 1.25rem
