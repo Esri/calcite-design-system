@@ -2,20 +2,20 @@ import { Component, Element, h, Host, Prop, VNode } from "@stencil/core";
 import { CSS } from "./resources";
 
 @Component({
-  tag: "calcite-nav-user",
-  styleUrl: "nav-user.scss",
+  tag: "calcite-navigation-user",
+  styleUrl: "navigation-user.scss",
   shadow: {
     delegatesFocus: true
   }
 })
-export class CalciteNavUser {
+export class CalciteNavigationUser {
   //--------------------------------------------------------------------------
   //
   //  Element
   //
   //--------------------------------------------------------------------------
 
-  @Element() el: HTMLCalciteNavUserElement;
+  @Element() el: HTMLCalciteNavigationUserElement;
 
   //--------------------------------------------------------------------------
   //

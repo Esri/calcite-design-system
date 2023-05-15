@@ -13,22 +13,22 @@
     <script src="https://js.arcgis.com/4.19/"></script>
     <link rel="stylesheet" href="https://js.arcgis.com/4.19/esri/themes/light/main.css" />
 
-    <link rel="stylesheet" href="/demos/_assets/nav-demos.css" />
+    <link rel="stylesheet" href="/demos/_assets/navigation-demos.css" />
   </head>
 
   <body>
-    <div id="calcite-nav-logo" class="text-box">
+    <div id="calcite-navigation-logo" class="text-box">
       <h2><code>calcite-menu</code></h2>
       <h3>
         A generic menu component, the <code>calcite-menu</code> component is often placed in
-        <code>calcite-nav</code> slots:
+        <code>calcite-navigation</code> slots:
       </h3>
     </div>
 
     <calcite-shell>
-      <calcite-nav slot="header">
-        <calcite-chip slot="logo" scale="s">logo</calcite-chip>
-        <calcite-chip slot="user" scale="s">user</calcite-chip>
+      <calcite-navigation slot="header">
+        <calcite-navigation-logo slot="logo" text="logo" text-enabled>logo</calcite-navigation-logo>
+        <calcite-navigation-user slot="user" username="Jhon Doe">user</calcite-navigation-user>
         <calcite-chip kind="brand" slot="primary-content-start" scale="s">primary-content-start</calcite-chip>
         <calcite-chip kind="brand" slot="primary-content-center" scale="s">primary-content-center</calcite-chip>
         <calcite-chip kind="brand" slot="primary-content-end" scale="s">primary-content-end </calcite-chip>
@@ -36,11 +36,11 @@
         <calcite-chip kind="brand" slot="secondary-content-end" scale="s">secondary-content-end </calcite-chip>
         <calcite-chip kind="brand" slot="tertiary-content-start" scale="s">tertiary-content-start </calcite-chip>
         <calcite-chip kind="brand" slot="tertiary-content-end" scale="s">tertiary-content-end </calcite-chip>
-      </calcite-nav>
+      </calcite-navigation>
     </calcite-shell>
 
     <calcite-shell>
-      <calcite-nav slot="header">
+      <calcite-navigation slot="header">
         <calcite-menu slot="primary-content-center">
           <calcite-menu-item breadcrumb icon-start="home" text="Files"></calcite-menu-item>
           <calcite-menu-item breadcrumb text="Proposals"> </calcite-menu-item>
@@ -49,22 +49,22 @@
 
         <calcite-menu slot="secondary-content-start">
           <calcite-menu-item href="#intro" text="Introduction"></calcite-menu-item>
-          <calcite-menu-item text="calcite-nav">
+          <calcite-menu-item text="calcite-navigation">
             <calcite-menu-item
-              href="#calcite-nav-slots"
+              href="#calcite-navigation-slots"
               icon-start="add-in"
               slot="submenu-item"
               text="Slots"
             ></calcite-menu-item>
             <calcite-menu-item
-              href="#calcite-nav-css-vars"
+              href="#calcite-navigation-css-vars"
               icon-start="multiple-variables"
               slot="submenu-item"
               text="Css vars"
             ></calcite-menu-item>
           </calcite-menu-item>
-          <calcite-menu-item href="#calcite-nav-logo" text="calcite-nav-logo"> </calcite-menu-item>
-          <calcite-menu-item href="#calcite-nav-user" text="calcite-nav-user"> </calcite-menu-item>
+          <calcite-menu-item href="#calcite-navigation-logo" text="calcite-navigation-logo"> </calcite-menu-item>
+          <calcite-menu-item href="#calcite-navigation-user" text="calcite-navigation-user"> </calcite-menu-item>
           <calcite-menu-item href="#calcite-menu" text="calcite-menu">
             <calcite-menu-item
               href="#calcite-menu-props"
@@ -94,11 +94,11 @@
             ></calcite-menu-item>
           </calcite-menu-item>
         </calcite-menu>
-      </calcite-nav>
+      </calcite-navigation>
     </calcite-shell>
 
     <calcite-shell>
-      <calcite-nav slot="header">
+      <calcite-navigation slot="header">
         <calcite-menu slot="primary-content-start">
           <calcite-menu-item active text="Products"></calcite-menu-item>
           <calcite-menu-item text="Industries"> </calcite-menu-item>
@@ -134,20 +134,20 @@
         <calcite-menu slot="tertiary-content-end">
           <calcite-menu-item text="Reference" active></calcite-menu-item>
         </calcite-menu>
-      </calcite-nav>
+      </calcite-navigation>
     </calcite-shell>
 
     <calcite-shell>
-      <calcite-nav slot="header">
+      <calcite-navigation slot="header">
         <calcite-menu slot="primary-content-start">
           <calcite-menu-item text="Products"></calcite-menu-item>
           <calcite-menu-item active text="Industries"> </calcite-menu-item>
         </calcite-menu>
-      </calcite-nav>
+      </calcite-navigation>
     </calcite-shell>
 
     <calcite-shell>
-      <calcite-nav slot="header">
+      <calcite-navigation slot="header">
         <calcite-menu slot="primary-content-start">
           <calcite-menu-item breadcrumb text="Home"> </calcite-menu-item>
           <calcite-menu-item breadcrumb text="Products"> </calcite-menu-item>
@@ -155,20 +155,20 @@
           <calcite-menu-item breadcrumb text="Capabilities"> </calcite-menu-item>
           <calcite-menu-item text="Reference" active> </calcite-menu-item>
         </calcite-menu>
-      </calcite-nav>
+      </calcite-navigation>
     </calcite-shell>
 
     <calcite-shell>
-      <calcite-nav slot="header">
+      <calcite-navigation slot="header">
         <calcite-menu slot="primary-content-start">
           <calcite-menu-item text="Capabilities" breadcrumb> </calcite-menu-item>
           <calcite-menu-item text="Reference" active> </calcite-menu-item>
         </calcite-menu>
-      </calcite-nav>
+      </calcite-navigation>
     </calcite-shell>
 
     <calcite-shell>
-      <calcite-nav slot="header">
+      <calcite-navigation slot="header">
         <div slot="primary-content-end">
           <calcite-chip scale="s" color="blue">Slotted Action</calcite-chip>
         </div>
@@ -177,11 +177,11 @@
           <calcite-menu-item text="Capabilities" breadcrumb> </calcite-menu-item>
           <calcite-menu-item text="Reference" active> </calcite-menu-item>
         </calcite-menu>
-      </calcite-nav>
+      </calcite-navigation>
     </calcite-shell>
 
     <calcite-shell>
-      <calcite-nav slot="header">
+      <calcite-navigation slot="header">
         <div slot="primary-content-end">
           <calcite-chip scale="s" color="blue">Slotted Action</calcite-chip>
         </div>
@@ -219,11 +219,11 @@
           <calcite-menu-item slot="submenu-item" text="Capabilities"> </calcite-menu-item>
           <calcite-menu-item text="Reference" active> </calcite-menu-item>
         </calcite-menu>
-      </calcite-nav>
+      </calcite-navigation>
     </calcite-shell>
 
     <div class="text-box">
-      <h2><code>horizontal mode, not slotted in calcite-nav</code></h2>
+      <h2><code>horizontal mode, not slotted in calcite-navigation</code></h2>
       <h3>But is a generic component useful outside of that context as well.</h3>
     </div>
 
@@ -242,10 +242,10 @@
     </calcite-menu>
 
     <div class="text-box">
-      <h2><code>vertical mode, not slotted in calcite-nav</code></h2>
+      <h2><code>vertical mode, not slotted in calcite-navigation</code></h2>
       <h3>
         But is a generic component useful outside of that context as well. For instance, in `vertical` layout mode, or
-        within a Panel to provide contextual breadcrumb or navigation.
+        within a Panel to provide contextual breadcrumb or navigationigation.
       </h3>
     </div>
 

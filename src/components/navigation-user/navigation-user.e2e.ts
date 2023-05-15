@@ -1,31 +1,27 @@
 import { accessible, hidden, reflects, renders } from "../../tests/commonTests";
 
-describe("calcite-nav-logo", () => {
+describe("calcite-navigation-user", () => {
   describe("renders", () => {
-    renders("calcite-nav-logo", { display: "inline-flex" });
+    renders("calcite-navigation-user", { display: "inline-flex" });
   });
 
   describe("honors hidden attribute", () => {
-    hidden("calcite-nav-logo");
+    hidden("calcite-navigation-user");
   });
 
   describe("accessible", () => {
-    accessible("calcite-nav-logo");
+    accessible("calcite-navigation-user");
   });
 
   it("reflects", () =>
-    reflects("calcite-nav-logo", [
+    reflects("calcite-navigation-user", [
       {
         propertyName: "active",
         value: "true"
       },
       {
-        propertyName: "href",
-        value: "#logo"
-      },
-      {
-        propertyName: "textEnabled",
-        value: "true"
+        propertyName: "textDisabled",
+        value: ""
       }
     ]));
 });

@@ -2,31 +2,33 @@ import { newE2EPage } from "@stencil/core/testing";
 import { accessible, hidden, reflects, renders } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 
-describe("calcite-nav", () => {
+describe("calcite-navigation", () => {
   describe("renders", () => {
-    renders("calcite-nav", { display: "inline" });
+    renders("calcite-navigation", { display: "inline" });
   });
 
   describe("honors hidden attribute", () => {
-    hidden("calcite-nav");
+    hidden("calcite-navigation");
   });
 
   it("reflects", async () =>
-    reflects("calcite-nav", [
+    reflects("calcite-navigation", [
       {
         propertyName: "navAction",
         value: ""
       }
     ]));
   describe("accessible", () => {
-    accessible(html`<calcite-nav nav-action><calcite-nav-logo text="Test" /></calcite-nav>`);
+    accessible(html`<calcite-navigation nav-action><calcite-navigation-logo text="Test" /></calcite-navigation>`);
   });
 
   it("should emit calciteNavActionSelect event when user interacts with nav-action", async () => {
     const page = await newE2EPage();
-    await page.setContent(`<calcite-nav nav-action><calcite-nav-logo text="Test" /></calcite-nav>`);
+    await page.setContent(
+      `<calcite-navigation nav-action><calcite-navigation-logo text="Test" /></calcite-navigation>`
+    );
     const eventSpy = await page.spyOnEvent("calciteNavActionSelect");
-    const hamburgerMenu = await page.find(`calcite-nav >>> calcite-action`);
+    const hamburgerMenu = await page.find(`calcite-navigation >>> calcite-action`);
 
     await page.keyboard.press("Tab");
     expect(eventSpy).toHaveReceivedEventTimes(0);

@@ -15,8 +15,8 @@ import { CSS, LEVEL, SLOTS } from "./resources";
 type Level = "primary" | "secondary" | "tertiary";
 
 @Component({
-  tag: "calcite-nav",
-  styleUrl: "nav.scss",
+  tag: "calcite-navigation",
+  styleUrl: "navigation.scss",
   shadow: {
     delegatesFocus: true
   }
@@ -35,13 +35,13 @@ type Level = "primary" | "secondary" | "tertiary";
  * @slot tertiary-content-start - A slot for adding a `calcite-menu`, `calcite-action`, or other interactive elements in the start position of the tertiary nav level.
  * @slot tertiary-content-end - A slot for adding a `calcite-menu`, `calcite-action`, or other interactive elements in the end position of the tertiary nav level.
  */
-export class CalciteNav {
+export class CalciteNavigation {
   //--------------------------------------------------------------------------
   //
   //  Element
   //
   //--------------------------------------------------------------------------
-  @Element() el: HTMLCalciteNavElement;
+  @Element() el: HTMLCalciteNavigationElement;
 
   //--------------------------------------------------------------------------
   //

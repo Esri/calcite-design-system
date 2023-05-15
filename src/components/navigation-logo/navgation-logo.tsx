@@ -2,19 +2,19 @@ import { Component, Element, h, Host, Prop, VNode } from "@stencil/core";
 import { CSS } from "./resources";
 
 @Component({
-  tag: "calcite-nav-logo",
-  styleUrl: "nav-logo.scss",
+  tag: "calcite-navigation-logo",
+  styleUrl: "navigation-logo.scss",
   shadow: {
     delegatesFocus: true
   }
 })
-export class CalciteNavLogo {
+export class CalciteNavigationLogo {
   //--------------------------------------------------------------------------
   //
   //  Element
   //
   //--------------------------------------------------------------------------
-  @Element() el: HTMLCalciteNavLogoElement;
+  @Element() el: HTMLCalciteNavigationLogoElement;
 
   //--------------------------------------------------------------------------
   //
@@ -31,7 +31,7 @@ export class CalciteNavLogo {
   @Prop() label: string;
 
   /** Specifies the subtext to display, such as an organization or application description. */
-  @Prop() subText: string;
+  @Prop() subtext: string;
 
   /** Specifies the text to display, such as a product name.*/
   @Prop() text: string;
@@ -52,16 +52,16 @@ export class CalciteNavLogo {
       <Host>
         <a href={this.href} tabIndex={0}>
           {this.thumbnail && <img alt={this.label || ""} src={this.thumbnail} />}
-          {(this.text || this.subText) && this.textEnabled && (
+          {(this.text || this.subtext) && this.textEnabled && (
             <div class={CSS.textContainer}>
               {this.text && (
                 <span class={CSS.logoText} key={CSS.logoText}>
                   {this.text}
                 </span>
               )}
-              {this.subText && (
+              {this.subtext && (
                 <span class={CSS.logoSubtext} key={CSS.logoSubtext}>
-                  {this.subText}
+                  {this.subtext}
                 </span>
               )}
             </div>

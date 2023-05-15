@@ -11,6 +11,30 @@
     no-underline;
     border-block-end: 2px solid transparent;
   }
+  & calcite-button {
+    @apply flex 
+    m-0
+    items-center 
+    justify-center
+    cursor-pointer 
+    transition-default 
+    focus-base 
+    no-underline;
+    border-block-end: 2px solid transparent;
+  }
+  & button {
+    background-color: Transparent;
+    background-repeat: no-repeat;
+    border: none;
+    cursor: pointer;
+    overflow: hidden;
+    outline: none;
+  }
+}
+
+:host(:hover) a,
+:host(:focus) a {
+  @apply bg-foreground-2;
 }
 
 :host(:hover) a,

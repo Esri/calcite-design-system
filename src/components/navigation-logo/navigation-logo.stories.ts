@@ -5,7 +5,7 @@ import { html } from "../../../support/formatting";
 import { text } from "@storybook/addon-knobs";
 
 export default {
-  title: "Components/Nav/Nav Logo",
+  title: "Components/Navigation/Navigation Logo",
   parameters: {
     notes: readme
   },
@@ -13,41 +13,41 @@ export default {
 };
 
 export const simple = (): string =>
-  html`<calcite-nav-logo
-    sub-text="${text("sub-text", "City of AcmeCo")}"
+  html`<calcite-navigation-logo
+    subtext="${text("subtext", "City of AcmeCo")}"
     text="${text("text", "ArcGIS Online")}"
     thumbnail="${placeholderImage({ width: 50, height: 50 })}"
     ${boolean("active", false)}
     ${boolean("text-enabled", true)}
   />`;
 
-export const text_TestOnly = (): string => html`<calcite-nav-logo text="ArcGIS Online" text-enabled />`;
+export const text_TestOnly = (): string => html`<calcite-navigation-logo text="ArcGIS Online" text-enabled />`;
 
-export const subText_TestOnly = (): string =>
-  html`<calcite-nav-logo
-    sub-text="City of AcmeCo"
+export const subtext_TestOnly = (): string =>
+  html`<calcite-navigation-logo
+    subtext="City of AcmeCo"
     text-enabled
     thumbnail="${placeholderImage({ width: 50, height: 50 })}"
   />`;
 
 export const thumbnail_TestOnly = (): string =>
-  html`<calcite-nav-logo thumbnail="${placeholderImage({ width: 50, height: 50 })}" />`;
+  html`<calcite-navigation-logo thumbnail="${placeholderImage({ width: 50, height: 50 })}" />`;
 
-export const textAndThumbnail_TestOnly = (): string => html`<calcite-nav-logo
+export const textAndThumbnail_TestOnly = (): string => html`<calcite-navigation-logo
   text="ArcGIS Online"
   thumbnail="${placeholderImage({ width: 50, height: 50 })}"
   text-enabled
 />`;
 
-export const subTextAndThumbnail_TestOnly = (): string => html`<calcite-nav-logo
-  sub-text="City of AcmeCo"
+export const subtextAndThumbnail_TestOnly = (): string => html`<calcite-navigation-logo
+  subtext="City of AcmeCo"
   thumbnail="${placeholderImage({ width: 50, height: 50 })}"
   text-enabled
 />`;
 
-export const All_TestOnly = (): string => html`<calcite-nav-logo
+export const All_TestOnly = (): string => html`<calcite-navigation-logo
   text="ArcGIS Online"
-  sub-text="City of AcmeCo"
+  subtext="City of AcmeCo"
   thumbnail="${placeholderImage({ width: 50, height: 50 })}"
   text-enabled
 />`;
