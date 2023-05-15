@@ -310,7 +310,6 @@ export class TabTitle implements InteractiveComponent, LocalizedComponent, T9nCo
     this.emitActiveTab();
   }
 
-  // eslint-disable-next-line @stencil-community/prefer-vdom-listener
   @Listen("keydown")
   keyDownHandler(event: KeyboardEvent): void {
     const target = event.target as HTMLElement;
