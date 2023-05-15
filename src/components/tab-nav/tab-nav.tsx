@@ -253,7 +253,6 @@ export class TabNav {
   internalCloseTabHandler(event: CustomEvent<TabCloseEventDetail>): void {
     const closedTabTitleEl = event.target as HTMLCalciteTabTitleElement;
     this.handleTabTitleClose(closedTabTitleEl);
-
     event.stopPropagation();
     event.preventDefault();
   }
