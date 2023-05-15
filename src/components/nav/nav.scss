@@ -13,8 +13,10 @@
  */
 
 .container {
-  @apply flex w-full;
-  flex-direction: column;
+  @apply flex 
+  flex-col 
+  mx-auto 
+  w-full;
   margin-block: 0;
   margin-inline: auto;
   border-block-end: 1px solid;
@@ -74,13 +76,13 @@ slot[name="progress"] calcite-progress {
 slot[name="primary-content-end"],
 slot[name="secondary-content-end"],
 slot[name="tertiary-content-end"] {
-  @apply ml-auto;
+  @apply ms-auto;
 }
 
 slot[name="primary-content-start"],
 slot[name="secondary-content-start"],
 slot[name="tertiary-content-start"] {
-  @apply mr-auto;
+  @apply me-auto;
 }
 
 slot[name="primary-content-end"],
@@ -88,15 +90,15 @@ slot[name="secondary-content-end"],
 slot[name="tertiary-content-end"],
 slot[name="logo"] ~ slot[name="user"],
 slot[name="user"]:only-child {
-  @apply ml-auto;
+  @apply ms-auto;
 }
 
 slot[name="primary-content-center"] {
-  @apply ml-auto mr-auto;
+  @apply ms-auto me-auto;
 }
 
 slot[name="primary-content-start"] ~ slot[name="primary-content-center"] {
-  margin-inline-start: 0;
+  @apply ms-0;
 }
 
 slot[name="primary-content-start"] ~ slot[name="primary-content-end"],
@@ -105,5 +107,5 @@ slot[name="tertiary-content-end"] ~ slot[name="tertiary-content-end"],
 slot[name="primary-content-center"] ~ slot[name="primary-content-end"],
 slot[name="primary-content-center"] ~ slot[name="user"],
 slot[name="primary-content-end"] ~ slot[name="user"] {
-  margin: 0;
+  @apply m-0;
 }

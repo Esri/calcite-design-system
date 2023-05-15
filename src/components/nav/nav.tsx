@@ -50,14 +50,14 @@ export class CalciteNav {
   //--------------------------------------------------------------------------
 
   /**
-   * When `true`, displays a `calcite-action` and emits a `calciteNavActionSelect` event on selection change.
-   */
-  @Prop({ reflect: true }) navAction = false;
-
-  /**
    * When `navAction` is `true`, specifies the label of the `calcite-action`.
    */
   @Prop() label!: string;
+
+  /**
+   * When `true`, displays a `calcite-action` and emits a `calciteNavActionSelect` event on selection change.
+   */
+  @Prop({ reflect: true }) navAction = false;
 
   //--------------------------------------------------------------------------
   //
@@ -82,7 +82,7 @@ export class CalciteNav {
   // --------------------------------------------------------------------------
 
   /** When navAction is true, emits when the displayed action selection changes.*/
-  @Event() calciteNavActionSelect: EventEmitter<void>;
+  @Event({ cancelable: false }) calciteNavActionSelect: EventEmitter<void>;
 
   //--------------------------------------------------------------------------
   //
@@ -94,7 +94,9 @@ export class CalciteNav {
     this.calciteNavActionSelect.emit();
   };
 
-  private handleContentSlotChange = (event: Event, level: Level): void => {
+  private handleContentSlotChange = (event: Event): void => {
+    const element = event.target as Element;
+    const level = element.getAttribute("data-level");
     if (level === LEVEL.secondary) {
       this.secondarySlotHasElements = slotChangeHasAssignedElement(event);
     } else if (level === LEVEL.tertiary) {
@@ -152,6 +154,7 @@ export class CalciteNav {
 
   renderNavLevel(level: Level): VNode {
     const hasElements = this.hasSlottedElements(level);
+    const isPrimaryLevel = level === LEVEL.primary;
     return (
       <div
         class={{
@@ -162,24 +165,39 @@ export class CalciteNav {
       >
         <slot name={SLOTS.progress} />
         <div class={CSS.containerContent}>
-          {level === LEVEL.primary && this.renderMenuAction()}
-          {level === LEVEL.primary && (
-            <slot name={SLOTS.logo} onSlotchange={this.handleLogoSlotChange} />
+          {isPrimaryLevel && this.renderMenuAction()}
+          {isPrimaryLevel && <slot name={SLOTS.logo} onSlotchange={this.handleLogoSlotChange} />}
+          <slot
+            data-level={level}
+            name={
+              isPrimaryLevel
+                ? SLOTS.primaryContentStart
+                : level === LEVEL.secondary
+                ? SLOTS.secondaryContentStart
+                : SLOTS.tertiaryContentStart
+            }
+            onSlotchange={this.handleContentSlotChange}
+          />
+          {isPrimaryLevel && (
+            <slot
+              data-level={level}
+              name={SLOTS.primaryContentCenter}
+              onSlotchange={this.handleContentSlotChange}
+            />
           )}
           <slot
-            name={`${level}-content-start`}
-            onSlotchange={(event) => this.handleContentSlotChange(event, level)}
+            data-level={level}
+            name={
+              isPrimaryLevel
+                ? SLOTS.primaryContentEnd
+                : level === LEVEL.secondary
+                ? SLOTS.secondaryContentEnd
+                : SLOTS.tertiaryContentEnd
+            }
+            onSlotchange={this.handleContentSlotChange}
           />
-          <slot
-            name={`${level}-content-center`}
-            onSlotchange={(event) => this.handleContentSlotChange(event, level)}
-          />
-          <slot
-            name={`${level}-content-end`}
-            onSlotchange={(event) => this.handleContentSlotChange(event, level)}
-          />
-          {level === LEVEL.primary ? (
-            <slot name="user" onSlotchange={this.handleUserSlotChange} />
+          {isPrimaryLevel ? (
+            <slot name={SLOTS.user} onSlotchange={this.handleUserSlotChange} />
           ) : null}
         </div>
       </div>

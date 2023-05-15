@@ -1,5 +1,6 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { hidden, renders } from "../../tests/commonTests";
+import { accessible, hidden, reflects, renders } from "../../tests/commonTests";
+import { html } from "../../../support/formatting";
 
 describe("calcite-nav", () => {
   describe("renders", () => {
@@ -8,6 +9,17 @@ describe("calcite-nav", () => {
 
   describe("honors hidden attribute", () => {
     hidden("calcite-nav");
+  });
+
+  it("reflects", async () =>
+    reflects("calcite-nav", [
+      {
+        propertyName: "navAction",
+        value: ""
+      }
+    ]));
+  describe("accessible", () => {
+    accessible(html`<calcite-nav nav-action><calcite-nav-logo text="Test" /></calcite-nav>`);
   });
 
   it("should emit calciteNavActionSelect event when user interacts with nav-action", async () => {

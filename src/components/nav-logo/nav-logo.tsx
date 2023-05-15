@@ -1,4 +1,4 @@
-import { Component, Element, EventEmitter, h, Host, Prop, Event } from "@stencil/core";
+import { Component, Element, h, Host, Prop, VNode } from "@stencil/core";
 import { CSS } from "./resources";
 
 @Component({
@@ -42,46 +42,15 @@ export class CalciteNavLogo {
   /** Specifies the `src` to an image. */
   @Prop() thumbnail: string;
 
-  //--------------------------------------------------------------------------
-  //
-  //  Events
-  //
-  //--------------------------------------------------------------------------
-
-  /** Emits when the component's selection changes. */
-  @Event() calciteNavLogoSelect: EventEmitter<void>;
-
-  // --------------------------------------------------------------------------
-  //
-  //  Private Methods
-  //
-  // --------------------------------------------------------------------------
-
-  private clickHandler = (): void => {
-    this.calciteNavLogoSelect.emit();
-  };
-
-  private keyDownHandler = (event: KeyboardEvent): void => {
-    if (event.key === "Enter" || event.key === " ") {
-      this.calciteNavLogoSelect.emit();
-      event.preventDefault();
-    }
-  };
-
   // --------------------------------------------------------------------------
   //
   //  Render Methods
   //
   // --------------------------------------------------------------------------
-  render() {
+  render(): VNode {
     return (
       <Host>
-        <a
-          href={this.href}
-          onClick={this.clickHandler}
-          onKeyDown={this.keyDownHandler}
-          tabIndex={0}
-        >
+        <a href={this.href} tabIndex={0}>
           {this.thumbnail && <img alt={this.label || ""} src={this.thumbnail} />}
           {(this.text || this.subText) && this.textEnabled && (
             <div class={CSS.textContainer}>

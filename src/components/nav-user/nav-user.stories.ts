@@ -13,7 +13,7 @@ export default {
 };
 
 export const simple = (): string =>
-  html`<calcite-nav>
+  html`
     <calcite-nav-user
       slot="user"
       full-name="${text("full-name", "Edward Abbey")}"
@@ -23,45 +23,23 @@ export const simple = (): string =>
       ${boolean("text-disabled", false)}
       ${boolean("active", true)}
     />
-  </calcite-nav>`;
+  `;
 
-export const fullName = (): string => html` <calcite-shell>
-  <calcite-nav slot="header">
-    <calcite-nav-user slot="user" full-name="Edward Abbey" />
-  </calcite-nav>
-</calcite-shell>`;
+export const fullName = (): string => html`<calcite-nav-user full-name="Edward Abbey" />`;
 
-export const username_TestOnly = (): string => html` <calcite-shell>
-  <calcite-nav slot="header">
-    <calcite-nav-user slot="user" username="eabbey_123" />
-  </calcite-nav>
-</calcite-shell>`;
+export const username_TestOnly = (): string => html`<calcite-nav-user username="eabbey_123" />`;
 
-export const thumbnail_TestOnly = (): string => html` <calcite-shell>
-  <calcite-nav slot="header">
-    <calcite-nav-user slot="user" thumbnail="${placeholderImage({ width: 50, height: 50 })}" />
-  </calcite-nav>
-</calcite-shell>`;
+export const thumbnail_TestOnly = (): string =>
+  html`<calcite-nav-user thumbnail="${placeholderImage({ width: 50, height: 50 })}" />`;
 
-export const fullNameAndThumbnail_TestOnly = (): string => html` <calcite-shell>
-  <calcite-nav slot="header">
-    <calcite-nav-user slot="user" full-name="Edward Abbey" thumbnail="${placeholderImage({ width: 50, height: 50 })}" />
-  </calcite-nav>
-</calcite-shell>`;
+export const fullNameAndThumbnail_TestOnly = (): string =>
+  html`<calcite-nav-user full-name="Edward Abbey" thumbnail="${placeholderImage({ width: 50, height: 50 })}" />`;
 
-export const usernameAndThumbnail_TestOnly = (): string => html` <calcite-shell>
-  <calcite-nav slot="header">
-    <calcite-nav-user slot="user" username="eabbey_123" thumbnail="${placeholderImage({ width: 50, height: 50 })}" />
-  </calcite-nav>
-</calcite-shell>`;
+export const usernameAndThumbnail_TestOnly = (): string =>
+  html`<calcite-nav-user username="eabbey_123" thumbnail="${placeholderImage({ width: 50, height: 50 })}" />`;
 
-export const All_TestOnly = (): string => html` <calcite-shell>
-  <calcite-nav slot="header">
-    <calcite-nav-user
-      slot="user"
-      full-name="Edward Abbey"
-      username="eabbey_123"
-      thumbnail="${placeholderImage({ width: 50, height: 50 })}"
-    />
-  </calcite-nav>
-</calcite-shell>`;
+export const All_TestOnly = (): string => html`<calcite-nav-user
+  full-name="Edward Abbey"
+  username="eabbey_123"
+  thumbnail="${placeholderImage({ width: 50, height: 50 })}"
+/>`;
