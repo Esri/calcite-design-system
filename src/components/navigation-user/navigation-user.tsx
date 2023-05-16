@@ -52,7 +52,7 @@ export class CalciteNavigationUser {
   render(): VNode {
     return (
       <Host>
-        <a href="#">
+        <button aria-label={this.label}>
           <calcite-avatar
             full-name={this.fullName}
             label={this.label}
@@ -74,7 +74,7 @@ export class CalciteNavigationUser {
               )}
             </div>
           )}
-        </a>
+        </button>
       </Host>
     );
   }

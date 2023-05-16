@@ -1,3 +1,4 @@
+import { html } from "../../../support/formatting";
 import { accessible, defaults, hidden, reflects, renders } from "../../tests/commonTests";
 
 describe("calcite-navigation-user", () => {
@@ -10,7 +11,7 @@ describe("calcite-navigation-user", () => {
   });
 
   describe("accessible", () => {
-    accessible("calcite-navigation-user");
+    accessible(html`<calcite-navigation-user label="user"></calcite-navigation-user>`);
   });
 
   it("reflects", () =>
