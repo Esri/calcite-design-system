@@ -4,43 +4,32 @@
  * These properties can be overridden using the component's tag as selector.
  *
  * @prop --calcite-navigation-width: Specifies the width of the component's content area.
- * @prop --calcite-navigation-primary-background: Specifies the background color of the primary navigation.
- * @prop --calcite-navigation-primary-border-color: Specifies the background color of the primary navigation.
- * @prop --calcite-navigation-secondary-background: Specifies the background color of the secondary navigation.
- * @prop --calcite-navigation-secondary-border-color: Specifies the background color of the primary navigation.
- * @prop --calcite-navigation-tertiary-background: Specifies the width of the component.
- * @prop --calcite-navigation-tertiary-border-color: Specifies the background color of the primary navigation.
+ * @prop --calcite-navigation-background: Specifies the background color of the component.
+ * @prop --calcite-navigation-border-color: Specifies the border color of the component.
  */
 
 .container {
   @apply flex 
   flex-col 
   mx-auto 
-  w-full;
+  w-full
+  h-16;
   margin-block: 0;
   margin-inline: auto;
   border-block-end: 1px solid;
-  background-color: var(--calcite-navigation-primary-background, var(--calcite-ui-foreground-1));
-  border-block-end-color: var(--calcite-navigation-primary-border-color, var(--calcite-ui-border-3));
+  background-color: var(--calcite-navigation-background, var(--calcite-ui-foreground-1));
+  border-block-end-color: var(--calcite-navigation-border-color, var(--calcite-ui-border-3));
   &.hide {
     display: none;
   }
 }
 
-.primary {
-  @apply h-16;
-}
-
 .secondary {
   @apply h-12;
-  background-color: var(--calcite-navigation-secondary-background, var(--calcite-ui-foreground-1));
-  border-block-end-color: var(--calcite-navigation-secondary-border-color, var(--calcite-ui-border-3));
 }
 
 .tertiary {
   @apply h-12;
-  background-color: var(--calcite-navigation-tertiary-background, var(--calcite-ui-foreground-1));
-  border-block-end-color: var(--calcite-navigation-tertiary-border-color, var(--calcite-ui-border-3));
 }
 
 .container-content {
@@ -57,13 +46,14 @@ slot[name] {
   @apply flex flex-row;
 }
 
-slot[name="primary-content-start"]::slotted(*),
-slot[name="primary-content-center"]::slotted(*),
-slot[name="primary-content-end"]::slotted(*),
-slot[name="secondary-content-start"]::slotted(*),
-slot[name="secondary-content-end"]::slotted(*),
-slot[name="tertiary-content-start"]::slotted(*),
-slot[name="tertiary-content-end"]::slotted(*) {
+slot[name="navigation-secondary"]::slotted(calcite-navigation),
+slot[name="navigation-tertiary"]::slotted(calcite-navigation) {
+  @apply w-full;
+}
+
+slot[name="content-start"]::slotted(*),
+slot[name="content-center"]::slotted(*),
+slot[name="content-end"]::slotted(*) {
   @apply flex flex-row items-center;
 }
 
@@ -73,39 +63,31 @@ slot[name="progress"] calcite-progress {
   inset-block-start: 0;
   inset-inline: 0;
 }
-slot[name="primary-content-end"],
-slot[name="secondary-content-end"],
-slot[name="tertiary-content-end"] {
+slot[name="content-end"] {
   @apply ms-auto;
 }
 
-slot[name="primary-content-start"],
-slot[name="secondary-content-start"],
-slot[name="tertiary-content-start"] {
+slot[name="content-start"] {
   @apply me-auto;
 }
 
-slot[name="primary-content-end"],
-slot[name="secondary-content-end"],
-slot[name="tertiary-content-end"],
+slot[name="content-end"],
 slot[name="logo"] ~ slot[name="user"],
 slot[name="user"]:only-child {
   @apply ms-auto;
 }
 
-slot[name="primary-content-center"] {
+slot[name="content-center"] {
   @apply ms-auto me-auto;
 }
 
-slot[name="primary-content-start"] ~ slot[name="primary-content-center"] {
+slot[name="content-start"] ~ slot[name="content-center"] {
   @apply ms-0;
 }
 
-slot[name="primary-content-start"] ~ slot[name="primary-content-end"],
-slot[name="secondary-content-start"] ~ slot[name="secondary-content-end"],
-slot[name="tertiary-content-end"] ~ slot[name="tertiary-content-end"],
-slot[name="primary-content-center"] ~ slot[name="primary-content-end"],
-slot[name="primary-content-center"] ~ slot[name="user"],
-slot[name="primary-content-end"] ~ slot[name="user"] {
+slot[name="content-start"] ~ slot[name="content-end"],
+slot[name="content-center"] ~ slot[name="content-end"],
+slot[name="content-center"] ~ slot[name="user"],
+slot[name="content-end"] ~ slot[name="user"] {
   @apply m-0;
 }
