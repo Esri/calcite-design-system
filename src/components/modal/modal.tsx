@@ -115,9 +115,14 @@ export class Modal
   }
 
   /**
-   * The global focus trap stack. This makes it possible to share the same focus trap stack.
+   * The global focus trap stack. This makes it possible to define and share the same global focus trap stack.
    *
-   * @see [FocusTrap Options](https://github.com/focus-trap/focus-trap#createoptions)
+   * @see [FocusTrap Options](https://github.com/focus-trap/focus-trap#createoptions) `trapStack`
+   * @example
+   * const myFocusTrapStack = [];
+   * document.querySelectorAll("calcite-modal").forEach((modal) => {
+   *  modal.focusTrapStack = myFocusTrapStack;
+   * });
    */
   @Prop() focusTrapStack: FocusTrap[];
 
