@@ -26,7 +26,7 @@ describe("calcite-navigation-user", () => {
     ]));
 
   it("defaults", async () =>
-    defaults("calcite-navigation-logo", [
+    defaults("calcite-navigation-user", [
       {
         propertyName: "textDisabled",
         defaultValue: false
