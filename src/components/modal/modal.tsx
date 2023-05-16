@@ -114,6 +114,13 @@ export class Modal
     focusTrapDisabled ? deactivateFocusTrap(this) : activateFocusTrap(this);
   }
 
+  /**
+   * The global focus trap stack. This makes it possible to share the same focus trap stack.
+   *
+   * @see [FocusTrap Options](https://github.com/focus-trap/focus-trap#createoptions)
+   */
+  @Prop() focusTrapStack: FocusTrap[];
+
   /** When `true`, disables the closing of the component when clicked outside. */
   @Prop({ reflect: true }) outsideCloseDisabled = false;
 

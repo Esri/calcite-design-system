@@ -23,6 +23,13 @@ export interface FocusTrapComponent {
   focusTrap: FocusTrap;
 
   /**
+   * The global focus trap stack. This makes it possible to share the same focus trap stack.
+   *
+   * @see [FocusTrap Options](https://github.com/focus-trap/focus-trap#createoptions)
+   */
+  focusTrapStack: FocusTrap[];
+
+  /**
    * Method to update the element(s) that are used within the FocusTrap component.
    *
    * This should be implemented for components that allow user content and/or have conditionally-rendered focusable elements within the trap.
@@ -51,7 +58,7 @@ interface ConnectFocusTrapOptions {
  * @param options
  */
 export function connectFocusTrap(component: FocusTrapComponent, options?: ConnectFocusTrapOptions): void {
-  const { el } = component;
+  const { el, focusTrapStack } = component;
   const focusTrapNode = options?.focusTrapEl || el;
 
   if (!focusTrapNode) {
@@ -71,7 +78,7 @@ export function connectFocusTrap(component: FocusTrapComponent, options?: Connec
     // the following options are not overrideable
     document: el.ownerDocument,
     tabbableOptions,
-    trapStack
+    trapStack: focusTrapStack ? [...focusTrapStack, ...trapStack] : trapStack
   };
 
   component.focusTrap = createFocusTrap(focusTrapNode, focusTrapOptions);

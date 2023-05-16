@@ -137,6 +137,13 @@ export class InputTimePicker
   }
 
   /**
+   * The global focus trap stack. This makes it possible to share the same focus trap stack.
+   *
+   * @see [FocusTrap Options](https://github.com/focus-trap/focus-trap#createoptions)
+   */
+  @Prop() focusTrapStack: FocusTrap[];
+
+  /**
    * The ID of the form that will be associated with the component.
    *
    * When not set, the component will be associated with its ancestor form element, if any.

@@ -120,6 +120,13 @@ export class Popover
   }
 
   /**
+   * The global focus trap stack. This makes it possible to share the same focus trap stack.
+   *
+   * @see [FocusTrap Options](https://github.com/focus-trap/focus-trap#createoptions)
+   */
+  @Prop() focusTrapStack: FocusTrap[];
+
+  /**
    * When `true`, removes the caret pointer.
    */
   @Prop({ reflect: true }) pointerDisabled = false;
