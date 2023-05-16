@@ -17,9 +17,11 @@ individual `calcite-accordion` item
 
 ## Slots
 
-| Slot | Description                                                                   |
-| ---- | ----------------------------------------------------------------------------- |
-|      | A slot for adding custom content, including nested `calcite-accordion-item`s. |
+| Slot              | Description                                                                                 |
+| ----------------- | ------------------------------------------------------------------------------------------- |
+|                   | A slot for adding custom content, including nested `calcite-accordion-item`s.               |
+| `"actions-end"`   | A slot for adding `calcite-action`s or content to the end side of the component's header.   |
+| `"actions-start"` | A slot for adding `calcite-action`s or content to the start side of the component's header. |
 
 ## Dependencies
 

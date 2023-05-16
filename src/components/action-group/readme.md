@@ -6,14 +6,24 @@ The `calcite-action-group` is a wrapper for multiple `calcite-action`s and house
 
 ## Properties
 
-| Property           | Attribute           | Description                                                             | Type                                   | Default      |
-| ------------------ | ------------------- | ----------------------------------------------------------------------- | -------------------------------------- | ------------ |
-| `columns`          | `columns`           | Indicates number of columns.                                            | `1 \| 2 \| 3 \| 4 \| 5 \| 6`           | `undefined`  |
-| `expanded`         | `expanded`          | When `true`, the component is expanded.                                 | `boolean`                              | `false`      |
-| `layout`           | `layout`            | Indicates the layout of the component.                                  | `"grid" \| "horizontal" \| "vertical"` | `"vertical"` |
-| `menuOpen`         | `menu-open`         | When `true`, the `calcite-action-menu` is open.                         | `boolean`                              | `false`      |
-| `messageOverrides` | `message-overrides` | Use this property to override individual strings used by the component. | `ActionGroupMessages`                  | `undefined`  |
-| `scale`            | `scale`             | Specifies the size of the `calcite-action-menu`.                        | `"l" \| "m" \| "s"`                    | `undefined`  |
+| Property           | Attribute   | Description                                                                                                                                                  | Type                                   | Default      |
+| ------------------ | ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ | -------------------------------------- | ------------ |
+| `columns`          | `columns`   | Indicates number of columns.                                                                                                                                 | `1 \| 2 \| 3 \| 4 \| 5 \| 6`           | `undefined`  |
+| `expanded`         | `expanded`  | When `true`, the component is expanded.                                                                                                                      | `boolean`                              | `false`      |
+| `layout`           | `layout`    | <span style="color:red">**[DEPRECATED]**</span> Use the `layout` property on the component's parent instead.<br/><br/>Indicates the layout of the component. | `"grid" \| "horizontal" \| "vertical"` | `"vertical"` |
+| `menuOpen`         | `menu-open` | When `true`, the `calcite-action-menu` is open.                                                                                                              | `boolean`                              | `false`      |
+| `messageOverrides` | --          | Use this property to override individual strings used by the component.                                                                                      | `{ more?: string; }`                   | `undefined`  |
+| `scale`            | `scale`     | Specifies the size of the `calcite-action-menu`.                                                                                                             | `"l" \| "m" \| "s"`                    | `undefined`  |
+
+## Methods
+
+### `setFocus() => Promise<void>`
+
+Sets focus on the component's first focusable element.
+
+#### Returns
+
+Type: `Promise<void>`
 
 ## Slots
 

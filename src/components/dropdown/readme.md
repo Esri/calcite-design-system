@@ -94,6 +94,14 @@ Updates the position of the component.
 
 Type: `Promise<void>`
 
+### `setFocus() => Promise<void>`
+
+Sets focus on the component's first focusable element.
+
+#### Returns
+
+Type: `Promise<void>`
+
 ## Slots
 
 | Slot        | Description                                                                                                                                                                   |

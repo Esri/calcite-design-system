@@ -20,14 +20,14 @@ Renders a close-disabled tip with a heading, thumbnail, info and a link.
 
 ## Properties
 
-| Property           | Attribute           | Description                                                                                                                                            | Type                         | Default     |
-| ------------------ | ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------- | ----------- |
-| `closeDisabled`    | `close-disabled`    | When `true`, the close button is not present on the component.                                                                                         | `boolean`                    | `false`     |
-| `closed`           | `closed`            | When `true`, the component does not display.                                                                                                           | `boolean`                    | `false`     |
-| `heading`          | `heading`           | The component header text.                                                                                                                             | `string`                     | `undefined` |
-| `headingLevel`     | `heading-level`     | Specifies the number at which section headings should start.                                                                                           | `1 \| 2 \| 3 \| 4 \| 5 \| 6` | `undefined` |
-| `messageOverrides` | `message-overrides` | Use this property to override individual strings used by the component.                                                                                | `TipMessages`                | `undefined` |
-| `selected`         | `selected`          | When `true`, the component is selected if it has a parent `calcite-tip-manager`. Only one tip can be selected within the `calcite-tip-manager` parent. | `boolean`                    | `false`     |
+| Property           | Attribute        | Description                                                                                                                                            | Type                         | Default     |
+| ------------------ | ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------- | ----------- |
+| `closeDisabled`    | `close-disabled` | When `true`, the close button is not present on the component.                                                                                         | `boolean`                    | `false`     |
+| `closed`           | `closed`         | When `true`, the component does not display.                                                                                                           | `boolean`                    | `false`     |
+| `heading`          | `heading`        | The component header text.                                                                                                                             | `string`                     | `undefined` |
+| `headingLevel`     | `heading-level`  | Specifies the number at which section headings should start.                                                                                           | `1 \| 2 \| 3 \| 4 \| 5 \| 6` | `undefined` |
+| `messageOverrides` | --               | Use this property to override individual strings used by the component.                                                                                | `{ close?: string; }`        | `undefined` |
+| `selected`         | `selected`       | When `true`, the component is selected if it has a parent `calcite-tip-manager`. Only one tip can be selected within the `calcite-tip-manager` parent. | `boolean`                    | `false`     |
 
 ## Events
 

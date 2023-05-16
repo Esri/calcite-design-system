@@ -64,7 +64,7 @@ modal.beforeClose = beforeClose;
 | `focusTrapDisabled`    | `focus-trap-disabled`    | When `true`, prevents focus trapping.                                                                                  | `boolean`                                                 | `false`                   |
 | `fullscreen`           | `fullscreen`             | Sets the component to always be fullscreen (overrides `width` and `--calcite-modal-width` / `--calcite-modal-height`). | `boolean`                                                 | `undefined`               |
 | `kind`                 | `kind`                   | Specifies the kind of the component (will apply to top border).                                                        | `"brand" \| "danger" \| "info" \| "success" \| "warning"` | `undefined`               |
-| `messageOverrides`     | `message-overrides`      | Use this property to override individual strings used by the component.                                                | `ModalMessages`                                           | `undefined`               |
+| `messageOverrides`     | --                       | Use this property to override individual strings used by the component.                                                | `{ close?: string; }`                                     | `undefined`               |
 | `open`                 | `open`                   | When `true`, displays and positions the component.                                                                     | `boolean`                                                 | `false`                   |
 | `outsideCloseDisabled` | `outside-close-disabled` | When `true`, disables the closing of the component when clicked outside.                                               | `boolean`                                                 | `false`                   |
 | `scale`                | `scale`                  | Specifies the size of the component.                                                                                   | `"l" \| "m" \| "s"`                                       | `"m"`                     |
@@ -107,13 +107,15 @@ Type: `Promise<void>`
 
 ## Slots
 
-| Slot          | Description                                |
-| ------------- | ------------------------------------------ |
-| `"back"`      | A slot for adding a back button.           |
-| `"content"`   | A slot for adding the component's content. |
-| `"header"`    | A slot for adding header text.             |
-| `"primary"`   | A slot for adding a primary button.        |
-| `"secondary"` | A slot for adding a secondary button.      |
+| Slot               | Description                                                                                                                                  |
+| ------------------ | -------------------------------------------------------------------------------------------------------------------------------------------- |
+| `"back"`           | A slot for adding a back button.                                                                                                             |
+| `"content"`        | A slot for adding the component's content.                                                                                                   |
+| `"content-bottom"` | A slot for adding content to the component's sticky footer, where content remains at the bottom of the component when scrolling up and down. |
+| `"content-top"`    | A slot for adding content to the component's sticky header, where content remains at the top of the component when scrolling up and down.    |
+| `"header"`         | A slot for adding header text.                                                                                                               |
+| `"primary"`        | A slot for adding a primary button.                                                                                                          |
+| `"secondary"`      | A slot for adding a secondary button.                                                                                                        |
 
 ## CSS Custom Properties
 

@@ -4,9 +4,10 @@
 
 ## Properties
 
-| Property    | Attribute    | Description                          | Type     | Default    |
-| ----------- | ------------ | ------------------------------------ | -------- | ---------- |
-| `textTitle` | `text-title` | Value for the button title attribute | `string` | `"handle"` |
+| Property           | Attribute     | Description                                                             | Type                       | Default     |
+| ------------------ | ------------- | ----------------------------------------------------------------------- | -------------------------- | ----------- |
+| `dragHandle`       | `drag-handle` | Value for the button title attribute                                    | `string`                   | `undefined` |
+| `messageOverrides` | --            | Use this property to override individual strings used by the component. | `{ dragHandle?: string; }` | `undefined` |
 
 ## Events
 

@@ -31,7 +31,7 @@ You can also add range property to activate date range mode. In this mode, you w
 | `headingLevel`               | `heading-level`                | Specifies the number at which section headings should start.                                                                                                                 | `1 \| 2 \| 3 \| 4 \| 5 \| 6`                                                                                                                                                                                                            | `undefined` |
 | `max`                        | `max`                          | Specifies the latest allowed date (`"yyyy-mm-dd"`).                                                                                                                          | `string`                                                                                                                                                                                                                                | `undefined` |
 | `maxAsDate`                  | --                             | Specifies the latest allowed date as a full date object (`new Date("yyyy-mm-dd")`).                                                                                          | `Date`                                                                                                                                                                                                                                  | `undefined` |
-| `messageOverrides`           | `message-overrides`            | Use this property to override individual strings used by the component.                                                                                                      | `DatePickerMessages`                                                                                                                                                                                                                    | `undefined` |
+| `messageOverrides`           | --                             | Use this property to override individual strings used by the component.                                                                                                      | `{ nextMonth?: string; prevMonth?: string; year?: string; }`                                                                                                                                                                            | `undefined` |
 | `min`                        | `min`                          | Specifies the earliest allowed date (`"yyyy-mm-dd"`).                                                                                                                        | `string`                                                                                                                                                                                                                                | `undefined` |
 | `minAsDate`                  | --                             | Specifies the earliest allowed date as a full date object (`new Date("yyyy-mm-dd")`).                                                                                        | `Date`                                                                                                                                                                                                                                  | `undefined` |
 | `numberingSystem`            | `numbering-system`             | Specifies the Unicode numeral system used by the component for localization. This property cannot be dynamically changed.                                                    | `"arab" \| "arabext" \| "bali" \| "beng" \| "deva" \| "fullwide" \| "gujr" \| "guru" \| "hanidec" \| "khmr" \| "knda" \| "laoo" \| "latn" \| "limb" \| "mlym" \| "mong" \| "mymr" \| "orya" \| "tamldec" \| "telu" \| "thai" \| "tibt"` | `undefined` |
@@ -47,6 +47,16 @@ You can also add range property to activate date range mode. In this mode, you w
 | ------------------------------ | --------------------------------------------------------------------------------------------------------------------- | ------------------- |
 | `calciteDatePickerChange`      | Emits when a user changes the component's date. For `range` events, use `calciteDatePickerRangeChange`.               | `CustomEvent<void>` |
 | `calciteDatePickerRangeChange` | Emits when a user changes the component's date `range`. For components without `range` use `calciteDatePickerChange`. | `CustomEvent<void>` |
+
+## Methods
+
+### `setFocus() => Promise<void>`
+
+Sets focus on the component's first focusable element.
+
+#### Returns
+
+Type: `Promise<void>`
 
 ## Dependencies
 
