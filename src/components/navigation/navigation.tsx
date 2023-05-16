@@ -154,8 +154,8 @@ export class CalciteNavigation {
         <div
           class={{
             [CSS.container]: true,
-            ["secondary"]: this.el.slot === SLOTS.navSecondary,
-            ["tertiary"]: this.el.slot === SLOTS.navTertiary
+            [SLOTS.navSecondary]: this.el.slot === SLOTS.navSecondary,
+            [SLOTS.navTertiary]: this.el.slot === SLOTS.navTertiary
           }}
         >
           {isPrimaryLevel && <slot name={SLOTS.progress} />}
