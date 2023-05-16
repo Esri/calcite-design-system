@@ -216,7 +216,7 @@ describe("calcite-tabs", () => {
     expect(await page.find("calcite-tabs")).toHaveAttribute("bordered");
   });
 
-  it("item selection should work when placed inside shadow DOM (#992)", async () => {
+  it("item selection should work when placed inside shadow DOM", async () => {
     const wrappedTabTemplateHTML = html`
       <calcite-tabs>
         <calcite-tab-nav slot="title-group">
@@ -237,7 +237,7 @@ describe("calcite-tabs", () => {
     await page.waitForChanges();
 
     const finalSelectedItem = await page.evaluate(
-      async (templateHTML: string): Promise<{ titleTab: string; contentTab: string }> => {
+      async (templateHTML: string): Promise<{ tabTitle: string; tab: string }> => {
         const wrapperName = "tab-wrapping-component";
 
         customElements.define(
@@ -258,17 +258,16 @@ describe("calcite-tabs", () => {
         const wrapper = document.querySelector(wrapperName);
         wrapper.shadowRoot.querySelector<HTMLElement>("#title-2").click();
         await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
+        await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
 
-        await page.waitForChanges();
-
-        const titleTab = wrapper.shadowRoot.querySelector("calcite-tab-title[selected]").id;
-        const contentTab = wrapper.shadowRoot.querySelector("calcite-tab[selected]").id;
-        return { titleTab, contentTab };
+        const tabTitle = wrapper.shadowRoot.querySelector("calcite-tab-title[selected]").id;
+        const tab = wrapper.shadowRoot.querySelector("calcite-tab[selected]").id;
+        return { tabTitle, tab };
       },
       [wrappedTabTemplateHTML]
     );
-    expect(finalSelectedItem.titleTab).toBe("title-2");
-    expect(finalSelectedItem.contentTab).toBe("tab-2");
+    expect(finalSelectedItem.tabTitle).toBe("title-2");
+    expect(finalSelectedItem.tab).toBe("tab-2");
   });
 
   it("item selection should work with nested tabs", async () => {

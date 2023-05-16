@@ -220,7 +220,6 @@ export class TabTitle implements InteractiveComponent, LocalizedComponent, T9nCo
       <Host
         aria-controls={this.controls}
         aria-selected={toAriaBoolean(this.selected)}
-        hidden={closed}
         id={id}
         ref={(el) => (this.tabTitleEl = el as HTMLCalciteTabTitleElement)}
         role="tab"
@@ -231,6 +230,7 @@ export class TabTitle implements InteractiveComponent, LocalizedComponent, T9nCo
             container: true,
             [CSS.iconPresent]: this.iconStart || this.iconEnd ? true : null
           }}
+          hidden={closed}
           // eslint-disable-next-line react/jsx-sort-props
           ref={(el) => this.resizeObserver?.observe(el)}
           tabindex={0}

@@ -101,14 +101,13 @@ describe("calcite-tab-title", () => {
     });
 
     it("clicking on close button closes the tab", async () => {
-      let element = await page.find("calcite-tab-title");
       const close = await page.find(closeHtml);
 
       await close.click();
       await page.waitForChanges();
 
-      element = await page.find("calcite-tab-title");
-      expect(element).toHaveAttribute("hidden");
+      const contentainerEl = await page.find(`calcite-tab-title >>> .${CSS.container}`);
+      expect(contentainerEl).toHaveAttribute("hidden");
     });
 
     it("becomes no longer closable when it's the last remaining tab", async () => {
@@ -122,15 +121,15 @@ describe("calcite-tab-title", () => {
         `
       );
 
-      let elementOne = await page.find(`calcite-tab-title[id='one']`);
+      let containerElOne = await page.find(`calcite-tab-title[id='one']`);
       const closeOne = await page.find(`calcite-tab-title[id='one'] >>> .${CSS.close}`);
-      expect(elementOne).toHaveAttribute(HYDRATED_ATTR);
+      expect(containerElOne).toHaveAttribute(HYDRATED_ATTR);
 
       await closeOne.click();
       await page.waitForChanges();
 
-      elementOne = await page.find(`calcite-tab-title[id='one']`);
-      expect(elementOne).toHaveAttribute("hidden");
+      containerElOne = await page.find(`calcite-tab-title[id='one']>>> .${CSS.container}`);
+      expect(containerElOne).toHaveAttribute("hidden");
 
       const closeTwo = await page.find(`calcite-tab-title[id='two'] >>> .${CSS.close}`);
       expect(closeTwo).not.toHaveAttribute("closable");
@@ -151,33 +150,34 @@ describe("calcite-tab-title", () => {
 
       loopTabTitles = async () => {
         for (let i = 0; i < arrayOfIds.length - 1; i++) {
-          let tabTitleEl: E2EElement;
           let tabEl: E2EElement;
+          let tabTitleContainerEl: E2EElement;
 
           const id = arrayOfIds[i];
 
-          tabTitleEl = await page.find(`#${id}`);
           tabEl = await page.find(`#${id}`);
+          tabTitleContainerEl = await page.find(`calcite-tab-title[id='${id}'] >>> .${CSS.container}`);
           const close = await page.find(`calcite-tab-title[id='${id}'] >>> .${CSS.close}`);
 
-          expect(tabTitleEl).not.toHaveAttribute("hidden");
-          expect(tabEl).not.toHaveAttribute("hidden");
+          expect(tabTitleContainerEl).not.toHaveAttribute("hidden");
 
           close.click();
           await page.waitForChanges();
 
-          tabTitleEl = await page.find(`#${id}`);
+          const tabTitleEl = await page.find(`#${id}`);
           tabEl = await page.find(`#${id}`);
+          tabTitleContainerEl = await page.find(`calcite-tab-title[id='${id}'] >>> .${CSS.container}`);
 
-          expect(tabTitleEl).toHaveAttribute("hidden");
+          expect(tabTitleContainerEl).toHaveAttribute("hidden");
           expect(tabTitleEl).not.toHaveAttribute("selected");
           expect(tabEl).not.toHaveAttribute("selected");
 
           const nextId = arrayOfIds[i + 1];
           const nextTabTitleEl = await page.find(`#${nextId}`);
           const nextTabEl = await page.find(`#${nextId}`);
+          const nextTabTitleContainerEl = await page.find(`calcite-tab-title[id='${nextId}'] >>> .${CSS.container}`);
 
-          expect(nextTabTitleEl).not.toHaveAttribute("hidden");
+          expect(nextTabTitleContainerEl).not.toHaveAttribute("hidden");
           expect(nextTabTitleEl).toHaveAttribute("selected");
           expect(nextTabEl).toHaveAttribute("selected");
         }

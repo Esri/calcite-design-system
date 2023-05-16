@@ -246,7 +246,6 @@ export class TabNav {
   activateTabHandler(event: CustomEvent<void>): void {
     this.calciteTabChange.emit();
     event.stopPropagation();
-    event.preventDefault();
   }
 
   @Listen("calciteInternalTabsClose")
