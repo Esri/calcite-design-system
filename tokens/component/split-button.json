@@ -780,7 +780,7 @@
         },
         "transparent": {
           "light": {
-            "value": "$semantic.ui.color.inverse.light",
+            "value": "$semantic.ui.color.inverse.default.light",
             "type": "color"
           },
           "dark": {
