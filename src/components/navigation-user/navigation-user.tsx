@@ -52,7 +52,7 @@ export class CalciteNavigationUser {
   render(): VNode {
     return (
       <Host>
-        <a tabindex={0}>
+        <a href="#">
           <calcite-avatar
             full-name={this.fullName}
             label={this.label}

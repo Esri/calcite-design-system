@@ -3,13 +3,13 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-nav-width: Specifies the width of the component's content area.
- * @prop --calcite-nav-primary-background: Specifies the background color of the primary navigation.
- * @prop --calcite-nav-primary-border-color: Specifies the background color of the primary navigation.
- * @prop --calcite-nav-secondary-background: Specifies the background color of the secondary navigation.
- * @prop --calcite-nav-secondary-border-color: Specifies the background color of the primary navigation.
- * @prop --calcite-nav-tertiary-background: Specifies the width of the component.
- * @prop --calcite-nav-tertiary-border-color: Specifies the background color of the primary navigation.
+ * @prop --calcite-navigation-width: Specifies the width of the component's content area.
+ * @prop --calcite-navigation-primary-background: Specifies the background color of the primary navigation.
+ * @prop --calcite-navigation-primary-border-color: Specifies the background color of the primary navigation.
+ * @prop --calcite-navigation-secondary-background: Specifies the background color of the secondary navigation.
+ * @prop --calcite-navigation-secondary-border-color: Specifies the background color of the primary navigation.
+ * @prop --calcite-navigation-tertiary-background: Specifies the width of the component.
+ * @prop --calcite-navigation-tertiary-border-color: Specifies the background color of the primary navigation.
  */
 
 .container {
@@ -20,27 +20,27 @@
   margin-block: 0;
   margin-inline: auto;
   border-block-end: 1px solid;
-  background-color: var(--calcite-nav-primary-background, var(--calcite-ui-foreground-1));
-  border-block-end-color: var(--calcite-nav-primary-border-color, var(--calcite-ui-border-3));
+  background-color: var(--calcite-navigation-primary-background, var(--calcite-ui-foreground-1));
+  border-block-end-color: var(--calcite-navigation-primary-border-color, var(--calcite-ui-border-3));
   &.hide {
     display: none;
   }
 }
 
-.nav-primary {
+.primary {
   @apply h-16;
 }
 
-.nav-secondary {
+.secondary {
   @apply h-12;
-  background-color: var(--calcite-nav-secondary-background, var(--calcite-ui-foreground-1));
-  border-block-end-color: var(--calcite-nav-secondary-border-color, var(--calcite-ui-border-3));
+  background-color: var(--calcite-navigation-secondary-background, var(--calcite-ui-foreground-1));
+  border-block-end-color: var(--calcite-navigation-secondary-border-color, var(--calcite-ui-border-3));
 }
 
-.nav-tertiary {
+.tertiary {
   @apply h-12;
-  background-color: var(--calcite-nav-tertiary-background, var(--calcite-ui-foreground-1));
-  border-block-end-color: var(--calcite-nav-tertiary-border-color, var(--calcite-ui-border-3));
+  background-color: var(--calcite-navigation-tertiary-background, var(--calcite-ui-foreground-1));
+  border-block-end-color: var(--calcite-navigation-tertiary-border-color, var(--calcite-ui-border-3));
 }
 
 .container-content {
@@ -49,7 +49,7 @@
   h-full 
   mx-auto;
   margin-block: 0;
-  inline-size: var(--calcite-nav-width, 100%);
+  inline-size: var(--calcite-navigation-width, 100%);
   max-inline-size: 100%;
 }
 
@@ -69,7 +69,7 @@ slot[name="tertiary-content-end"]::slotted(*) {
 
 slot[name="progress"],
 slot[name="progress"] calcite-progress {
-  position: absolute;
+  @apply absolute;
   inset-block-start: 0;
   inset-inline: 0;
 }

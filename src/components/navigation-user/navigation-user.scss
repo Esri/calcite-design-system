@@ -11,25 +11,6 @@
     no-underline;
     border-block-end: 2px solid transparent;
   }
-  & calcite-button {
-    @apply flex 
-    m-0
-    items-center 
-    justify-center
-    cursor-pointer 
-    transition-default 
-    focus-base 
-    no-underline;
-    border-block-end: 2px solid transparent;
-  }
-  & button {
-    background-color: Transparent;
-    background-repeat: no-repeat;
-    border: none;
-    cursor: pointer;
-    overflow: hidden;
-    outline: none;
-  }
 }
 
 :host(:hover) a,
@@ -37,19 +18,18 @@
   @apply bg-foreground-2;
 }
 
-:host(:hover) a,
-:host(:focus) a {
-  @apply bg-foreground-2;
-}
 :host(:focus) a {
   @apply focus-inset;
 }
+
 :host(:active) a {
   @apply bg-foreground-3;
 }
+
 calcite-avatar {
-  @apply px-4;
+  padding-inline: 1rem;
 }
+
 calcite-avatar ~ .text-container {
   @apply ps-0;
 }
@@ -65,8 +45,8 @@ calcite-avatar ~ .text-container {
 .text-container {
   @apply flex 
   flex-col 
-  text-start 
-  px-4;
+  text-start;
+  padding-inline: 1rem;
 }
 
 .full-name {

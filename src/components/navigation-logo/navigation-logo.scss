@@ -20,21 +20,27 @@ a:hover,
 a:focus {
   @apply bg-foreground-2;
 }
+
 a:focus {
   @apply focus-inset;
 }
+
 a:active {
   @apply bg-foreground-3;
 }
+
 img {
-  @apply px-4;
+  padding-inline: 1rem;
 }
+
 img ~ .text-container {
   @apply ps-0;
 }
+
 :host(:active) a {
   @apply text-color-1;
 }
+
 :host([active]) a {
   @apply text-color-1;
   border-color: var(--calcite-ui-brand);
@@ -44,9 +50,9 @@ img ~ .text-container {
 .text-container {
   @apply flex 
   flex-col 
-  px-4 
   truncate 
   text-start;
+  padding-inline: 1rem;
 }
 
 .logo-text {

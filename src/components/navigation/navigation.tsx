@@ -10,7 +10,7 @@ import {
   VNode
 } from "@stencil/core";
 import { slotChangeHasAssignedElement } from "../../utils/dom";
-import { CSS, LEVEL, SLOTS } from "./resources";
+import { CSS, ICONS, LEVEL, SLOTS } from "./resources";
 
 type Level = "primary" | "secondary" | "tertiary";
 
@@ -146,7 +146,7 @@ export class CalciteNavigation {
     return (
       <slot name={SLOTS.navAction} onSlotchange={this.handleMenuActionSlotChange}>
         {this.navAction && (
-          <calcite-action icon="hamburger" onClick={this.clickHandler} text={this.label} />
+          <calcite-action icon={ICONS.hamburger} onClick={this.clickHandler} text={this.label} />
         )}
       </slot>
     );
@@ -159,7 +159,7 @@ export class CalciteNavigation {
       <div
         class={{
           [CSS.container]: true,
-          [`nav-${level}`]: true,
+          [level]: true,
           hide: !hasElements
         }}
       >

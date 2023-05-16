@@ -47,10 +47,11 @@ export class CalciteNavigationLogo {
   //  Render Methods
   //
   // --------------------------------------------------------------------------
+
   render(): VNode {
     return (
       <Host>
-        <a href={this.href} tabIndex={0}>
+        <a href={this.href || "#"}>
           {this.thumbnail && <img alt={this.label || ""} src={this.thumbnail} />}
           {(this.text || this.subtext) && this.textEnabled && (
             <div class={CSS.textContainer}>

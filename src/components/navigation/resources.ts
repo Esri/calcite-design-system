@@ -22,3 +22,7 @@ export const LEVEL = {
   secondary: "secondary",
   tertiary: "tertiary"
 };
+
+export const ICONS = {
+  hamburger: "hamburger"
+};
