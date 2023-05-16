@@ -455,8 +455,7 @@ export class TabTitle implements InteractiveComponent, LocalizedComponent, T9nCo
   //
   //--------------------------------------------------------------------------
 
-  closeClickHandler = (event: MouseEvent): void => {
-    event.stopPropagation();
+  closeClickHandler = (): void => {
     this.emitCloseTab();
   };
 
