@@ -2515,16 +2515,22 @@
           }
         },
         "font": {
-          "placholder": {
+          "placeholder": {
             "light": {
-              "value": "$combobox.font.placholder.light",
+              "value": "$combobox.font.placeholder.light",
               "type": "color"
             }
           },
-          "value": {
-            "light": "[object Object]"
-          },
-          "type": "color"
+          "default": {
+            "light": {
+              "value": "[object Object]",
+              "type": "color"
+            },
+            "dark": {
+              "value": "[object Object]",
+              "type": "color"
+            }
+          }
         }
       },
       "combobox-item": {

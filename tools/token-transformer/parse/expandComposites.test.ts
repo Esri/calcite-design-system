@@ -103,7 +103,7 @@ describe("expand token dictionary", () => {
     const placeholderValue = {
       compoonent: {
         type: "other",
-        value: "[placholder-value]"
+        value: "[placeholder-value]"
       }
     };
 
