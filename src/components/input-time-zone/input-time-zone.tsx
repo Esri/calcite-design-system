@@ -47,7 +47,9 @@ import {
   tag: "calcite-input-time-zone",
   styleUrl: "input-time-zone.scss",
   assetsDirs: ["assets"],
-  shadow: true
+  shadow: {
+    delegatesFocus: true
+  }
 })
 export class InputTimeZone
   implements
