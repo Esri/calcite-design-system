@@ -1,110 +1,110 @@
 {
-  "color": {
-    "ui-background": {
+  "ui": {
+    "background": {
       "value": "$semantic.ui.color.background.light",
       "type": "color"
     },
-    "ui-foreground-1": {
+    "foreground-1": {
       "value": "$semantic.ui.color.foreground.1.light",
       "type": "color"
     },
-    "ui-foreground-2": {
+    "foreground-2": {
       "value": "$semantic.ui.color.foreground.2.light",
       "type": "color"
     },
-    "ui-foreground-3": {
+    "foreground-3": {
       "value": "{semantic.ui.color.foreground.current.light}",
       "type": "color"
     },
-    "ui-foreground-current": {
+    "foreground-current": {
       "value": "$semantic.ui.color.foreground.current.light",
       "type": "color"
     },
-    "ui-text-highlight": {
+    "text-highlight": {
       "value": "$semantic.ui.color.ui-text-highlight.light",
       "type": "color"
     },
-    "ui-brand": {
+    "brand": {
       "value": "$semantic.ui.color.brand.default.light",
       "type": "color"
     },
-    "ui-brand-hover": {
+    "brand-hover": {
       "value": "$semantic.ui.color.brand.hover.light",
       "type": "color"
     },
-    "ui-brand-press": {
+    "brand-press": {
       "value": "$semantic.ui.color.brand.press.light",
       "type": "color"
     },
-    "ui-info": {
+    "info": {
       "value": "$semantic.ui.color.info.default.light",
       "type": "color"
     },
-    "ui-success": {
+    "success": {
       "value": "$semantic.ui.color.success.default.light",
       "type": "color"
     },
-    "ui-warning": {
+    "warning": {
       "value": "$semantic.ui.color.warning.default.light",
       "type": "color"
     },
-    "ui-danger": {
+    "danger": {
       "value": "$semantic.ui.color.danger.default.light",
       "type": "color"
     },
-    "ui-danger-hover": {
+    "danger-hover": {
       "value": "$semantic.ui.color.danger.hover.light",
       "type": "color"
     },
-    "ui-danger-press": {
+    "danger-press": {
       "value": "$semantic.ui.color.danger.press.light",
       "type": "color"
     },
-    "ui-inverse": {
+    "inverse": {
       "value": "{semantic.ui.color.inverse.default.light}",
       "type": "color"
     },
-    "ui-inverse-press": {
+    "inverse-press": {
       "value": "$semantic.ui.color.inverse.press.light",
       "type": "color"
     },
-    "ui-inverse-hover": {
+    "inverse-hover": {
       "value": "$semantic.ui.color.inverse.hover.light",
       "type": "color"
     },
-    "ui-text-1": {
+    "text-1": {
       "value": "$semantic.ui.color.text.1.light",
       "type": "color"
     },
-    "ui-text-2": {
+    "text-2": {
       "value": "$semantic.ui.color.text.2.light",
       "type": "color"
     },
-    "ui-text-3": {
+    "text-3": {
       "value": "$semantic.ui.color.text.3.light",
       "type": "color"
     },
-    "ui-text-inverse": {
+    "text-inverse": {
       "value": "$semantic.ui.color.text.inverse.light",
       "type": "color"
     },
-    "ui-text-link": {
+    "text-link": {
       "value": "$semantic.ui.color.text.link.light",
       "type": "color"
     },
-    "ui-border-1": {
+    "border-1": {
       "value": "$semantic.ui.color.border.1.light",
       "type": "color"
     },
-    "ui-border-2": {
+    "border-2": {
       "value": "$semantic.ui.color.border.2.light",
       "type": "color"
     },
-    "ui-border-3": {
+    "border-3": {
       "value": "$semantic.ui.color.border.3.light",
       "type": "color"
     },
-    "ui-border-input": {
+    "border-input": {
       "value": "$semantic.ui.color.border.input.light",
       "type": "color"
     },
