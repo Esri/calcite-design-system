@@ -218,21 +218,21 @@
       "inverse": {
         "solid": {
           "light": {
-            "value": "$semantic.ui.color.inverse.light",
+            "value": "{semantic.ui.color.inverse.default.light}",
             "type": "color"
           },
           "dark": {
-            "value": "$semantic.ui.color.inverse.dark",
+            "value": "{semantic.ui.color.inverse.default.dark}",
             "type": "color"
           }
         },
         "outline-fill": {
           "light": {
-            "value": "$semantic.ui.color.inverse.light",
+            "value": "{semantic.ui.color.inverse.default.light}",
             "type": "color"
           },
           "dark": {
-            "value": "$semantic.ui.color.inverse.dark",
+            "value": "{semantic.ui.color.inverse.default.dark}",
             "type": "color"
           }
         }
@@ -308,11 +308,11 @@
       "inverse": {
         "solid": {
           "light": {
-            "value": "$semantic.ui.color.inverse.light",
+            "value": "{semantic.ui.color.inverse.default.light}",
             "type": "color"
           },
           "dark": {
-            "value": "$semantic.ui.color.inverse.dark",
+            "value": "{semantic.ui.color.inverse.default.dark}",
             "type": "color"
           }
         },

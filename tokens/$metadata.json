@@ -48,6 +48,7 @@
     "component/tab-title",
     "component/tabs",
     "component/rating",
+    "component/select",
     "component/tip",
     "component/tip-manager",
     "component/tooltip",
@@ -69,6 +70,7 @@
     "component/accordion_backup",
     "calcite/light",
     "calcite/dark",
+    "calcite/grayscale",
     "brand/global",
     "brand/light",
     "brand/dark"

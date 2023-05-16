@@ -1,6 +1,14 @@
 {
   "action": {
     "font": {
+      "light": {
+        "value": "$semantic.ui.color.text.3.light",
+        "type": "color"
+      },
+      "dark": {
+        "value": "$semantic.ui.color.text.3.dark",
+        "type": "color"
+      },
       "sm": {
         "value": "$semantic.font.default.regular.-2h",
         "type": "typography"
@@ -35,13 +43,15 @@
       }
     },
     "icon": {
-      "light": {
-        "value": "$semantic.ui.color.text.3.light",
-        "type": "color"
-      },
-      "dark": {
-        "value": "$semantic.ui.color.text.3.dark",
-        "type": "color"
+      "default": {
+        "light": {
+          "value": "$semantic.ui.color.text.3.light",
+          "type": "color"
+        },
+        "dark": {
+          "value": "$semantic.ui.color.text.3.dark",
+          "type": "color"
+        }
       },
       "active": {
         "light": {
