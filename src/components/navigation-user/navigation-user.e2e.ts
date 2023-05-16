@@ -1,4 +1,4 @@
-import { accessible, hidden, reflects, renders } from "../../tests/commonTests";
+import { accessible, defaults, hidden, reflects, renders } from "../../tests/commonTests";
 
 describe("calcite-navigation-user", () => {
   describe("renders", () => {
