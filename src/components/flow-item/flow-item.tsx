@@ -336,6 +336,7 @@ export class FlowItem
         </calcite-panel>
         {backButtonEl ? (
           <calcite-tooltip
+            closeOnClick={true}
             label={label}
             overlayPositioning="fixed"
             placement="top"
