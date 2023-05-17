@@ -113,7 +113,7 @@ export class Combobox
   //--------------------------------------------------------------------------
 
   /**
-   * When `true`, a clear button is displayed when the component has a value. The clear button shows by default for `"search"`, `"time"`, and `"date"` types, and will not display for the `"textarea"` type.
+   * When `true`, a clear button is displayed when the component has a value.
    */
   @Prop({ reflect: true }) clearable = false;
 
