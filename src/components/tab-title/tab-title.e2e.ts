@@ -92,21 +92,14 @@ describe("calcite-tab-title", () => {
       await page.setContent(tabTitleClosableHtml);
     });
 
-    it("renders with close button when set to closable", async () => {
-      const element = await page.find("calcite-tab-title");
-      const close = await page.find(closeHtml);
-      expect(element).toHaveAttribute(HYDRATED_ATTR);
-      expect(close).not.toBeNull();
-    });
-
     it("clicking on close button closes the tab", async () => {
       const close = await page.find(closeHtml);
 
       await close.click();
       await page.waitForChanges();
 
-      const contentainerEl = await page.find(`calcite-tab-title >>> .${CSS.container}`);
-      expect(contentainerEl).toHaveAttribute("hidden");
+      const containerEl = await page.find(`calcite-tab-title >>> .${CSS.container}`);
+      expect(containerEl).toHaveAttribute("hidden");
     });
 
     it("becomes no longer closable when it's the last remaining tab", async () => {
@@ -142,8 +135,7 @@ describe("calcite-tab-title", () => {
     let matchingTabEl: E2EElement;
     let close: E2EElement;
 
-    type loop = () => Promise<void>;
-    let loopTabTitles: loop;
+    let loopTabTitles: () => Promise<void>;
 
     beforeEach(async () => {
       page = await newE2EPage();
@@ -163,7 +155,7 @@ describe("calcite-tab-title", () => {
 
           expect(tabTitleContainerEl).not.toHaveAttribute("hidden");
 
-          close.click();
+          await close.click();
           await page.waitForChanges();
 
           const tabTitleEl = await page.find(`#${id}`);
@@ -211,7 +203,7 @@ describe("calcite-tab-title", () => {
       matchingTabEl = await page.find("#carTab");
       close = await page.find(`#car >>> .${CSS.closeButton}`);
 
-      close.click();
+      await close.click();
       await page.waitForChanges();
 
       expect(carTabTitleContainerEl).toHaveAttribute("hidden");
@@ -224,7 +216,7 @@ describe("calcite-tab-title", () => {
       matchingTabEl = await page.find("#planeTab");
       close = await page.find(`#plane >>> .${CSS.closeButton}`);
 
-      close.click();
+      await close.click();
       await page.waitForChanges();
 
       expect(carTabTitleContainerEl).toHaveAttribute("hidden");
@@ -238,7 +230,7 @@ describe("calcite-tab-title", () => {
       matchingTabEl = await page.find("#bikingTab");
       close = await page.find(`#biking >>> .${CSS.closeButton}`);
 
-      close.click();
+      await close.click();
       await page.waitForChanges();
 
       expect(carTabTitleContainerEl).toHaveAttribute("hidden");
@@ -263,7 +255,7 @@ describe("calcite-tab-title", () => {
       const embarkTabTitleContainerEl = await page.find(`#embark >>> .${CSS.container}`);
       close = await page.find(`#embark >>> .${CSS.closeButton}`);
 
-      close.click();
+      await close.click();
       await page.waitForChanges();
 
       expect(embarkTabTitleContainerEl).toHaveAttribute("hidden");
@@ -275,7 +267,7 @@ describe("calcite-tab-title", () => {
       matchingTabEl = await page.find("#planeTab");
       close = await page.find(`#car >>> .${CSS.closeButton}`);
 
-      close.click();
+      await close.click();
       await page.waitForChanges();
 
       expect(carTabTitleContainerEl).toHaveAttribute("hidden");
@@ -297,7 +289,7 @@ describe("calcite-tab-title", () => {
       const embarkTabTitleContainerEl = await page.find(`#embark >>> .${CSS.container}`);
       close = await page.find(`#embark >>> .${CSS.closeButton}`);
 
-      close.click();
+      await close.click();
       await page.waitForChanges();
 
       expect(embarkTabTitleContainerEl).toHaveAttribute("hidden");
@@ -317,7 +309,7 @@ describe("calcite-tab-title", () => {
       matchingTabEl = await page.find("#planeTab");
       close = await page.find(`#car >>> .${CSS.closeButton}`);
 
-      close.click();
+      await close.click();
       await page.waitForChanges();
 
       expect(planeTabTitleContainerEl).not.toHaveAttribute("hidden");
