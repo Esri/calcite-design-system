@@ -21,7 +21,7 @@ Renders a basic flow with a couple `calcite-panel`s.
 </calcite-flow>
 ```
 
-### Menu-actions-and-footer-actions
+### Menu-actions-and-footer
 
 Renders a flow with menu-actions and footer in the form of buttons.
 

@@ -55,10 +55,8 @@ To use a custom color for the icon fill, you can add a class to the `calcite-ico
 - [calcite-input-message](../input-message)
 - [calcite-input-number](../input-number)
 - [calcite-input-text](../input-text)
-- [calcite-input-time-picker](../input-time-picker)
 - [calcite-link](../link)
 - [calcite-list-item](../list-item)
-- [calcite-menu-item](../menu-item)
 - [calcite-modal](../modal)
 - [calcite-notice](../notice)
 - [calcite-pagination](../pagination)
@@ -97,10 +95,8 @@ graph TD;
   calcite-input-message --> calcite-icon
   calcite-input-number --> calcite-icon
   calcite-input-text --> calcite-icon
-  calcite-input-time-picker --> calcite-icon
   calcite-link --> calcite-icon
   calcite-list-item --> calcite-icon
-  calcite-menu-item --> calcite-icon
   calcite-modal --> calcite-icon
   calcite-notice --> calcite-icon
   calcite-pagination --> calcite-icon
