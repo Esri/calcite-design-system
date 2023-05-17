@@ -253,7 +253,6 @@ export class TabTitle implements InteractiveComponent, LocalizedComponent, T9nCo
         key={CSS.closeButton}
         onClick={this.closeClickHandler}
         onKeyDown={this.closeKeyHandler}
-        ref={(el) => (this.closeButtonEl = el)}
         tabIndex={0}
         title={messages.close}
       >
@@ -488,8 +487,6 @@ export class TabTitle implements InteractiveComponent, LocalizedComponent, T9nCo
   parentTabsEl: HTMLCalciteTabsElement;
 
   containerEl: HTMLDivElement;
-
-  private closeButtonEl: HTMLButtonElement;
 
   resizeObserver = createObserver("resize", () => {
     this.calciteInternalTabIconChanged.emit();

@@ -139,6 +139,9 @@ describe("calcite-tab-title", () => {
     let page: E2EPage;
     let arrayOfIds: string[];
 
+    let matchingTabEl: E2EElement;
+    let close: E2EElement;
+
     type loop = () => Promise<void>;
     let loopTabTitles: loop;
 
@@ -201,9 +204,6 @@ describe("calcite-tab-title", () => {
     });
 
     it(`closing an unselected tab-title does not deselect the current selection`, async () => {
-      let matchingTabEl: E2EElement;
-      let close: E2EElement;
-
       const selectedEmbarkTabEl = await page.find("#embarkTab");
       const selectedEmbarkTabTitleContainerEl = await page.find(`#embark >>> .${CSS.container}`);
 
@@ -248,6 +248,84 @@ describe("calcite-tab-title", () => {
 
       expect(selectedEmbarkTabTitleContainerEl).not.toHaveAttribute("hidden");
       expect(selectedEmbarkTabEl).toHaveAttribute("selected");
+    });
+
+    it(`case 1: works with randomized closing sequence with mixed selected and not`, async () => {
+      const carTabTitleEl = await page.find(`#car`);
+      const carTabTitleContainerEl = await page.find(`#car >>> .${CSS.container}`);
+      matchingTabEl = await page.find("#carTab");
+
+      carTabTitleEl.setAttribute("selected", true);
+      await page.waitForChanges();
+
+      expect(matchingTabEl).toHaveAttribute("selected");
+
+      const embarkTabTitleContainerEl = await page.find(`#embark >>> .${CSS.container}`);
+      close = await page.find(`#embark >>> .${CSS.close}`);
+
+      close.click();
+      await page.waitForChanges();
+
+      expect(embarkTabTitleContainerEl).toHaveAttribute("hidden");
+      expect(carTabTitleContainerEl).not.toHaveAttribute("hidden");
+      expect(carTabTitleEl).toHaveAttribute("selected");
+      expect(matchingTabEl).toHaveAttribute("selected");
+
+      const planeTabTitleContainerEl = await page.find(`#plane >>> .${CSS.container}`);
+      matchingTabEl = await page.find("#planeTab");
+      close = await page.find(`#car >>> .${CSS.close}`);
+
+      close.click();
+      await page.waitForChanges();
+
+      expect(carTabTitleContainerEl).toHaveAttribute("hidden");
+      expect(planeTabTitleContainerEl).not.toHaveAttribute("hidden");
+      expect(carTabTitleEl).not.toHaveAttribute("selected");
+      expect(matchingTabEl).toHaveAttribute("selected");
+    });
+
+    it(`case 2: works with randomized closing sequence with mixed selected and not`, async () => {
+      const carTabTitleEl = await page.find(`#car`);
+      const carTabTitleContainerEl = await page.find(`#car >>> .${CSS.container}`);
+      matchingTabEl = await page.find("#carTab");
+
+      carTabTitleEl.setAttribute("selected", true);
+      await page.waitForChanges();
+
+      expect(matchingTabEl).toHaveAttribute("selected");
+
+      const embarkTabTitleContainerEl = await page.find(`#embark >>> .${CSS.container}`);
+      close = await page.find(`#embark >>> .${CSS.close}`);
+
+      close.click();
+      await page.waitForChanges();
+
+      expect(embarkTabTitleContainerEl).toHaveAttribute("hidden");
+      expect(carTabTitleContainerEl).not.toHaveAttribute("hidden");
+      expect(carTabTitleEl).toHaveAttribute("selected");
+      expect(matchingTabEl).toHaveAttribute("selected");
+
+      const planeTabTitleEl = await page.find(`#plane`);
+
+      planeTabTitleEl.setAttribute("selected", true);
+      await page.waitForChanges();
+
+      expect(planeTabTitleEl).toHaveAttribute("selected");
+
+      const planeTabTitleContainerEl = await page.find(`#plane >>> .${CSS.container}`);
+      const bikingTabTitleContainerEl = await page.find(`#biking >>> .${CSS.container}`);
+      matchingTabEl = await page.find("#planeTab");
+      close = await page.find(`#car >>> .${CSS.close}`);
+
+      close.click();
+      await page.waitForChanges();
+
+      expect(planeTabTitleContainerEl).not.toHaveAttribute("hidden");
+      expect(carTabTitleContainerEl).toHaveAttribute("hidden");
+      expect(bikingTabTitleContainerEl).not.toHaveAttribute("hidden");
+
+      expect(planeTabTitleEl).toHaveAttribute("selected");
+      expect(matchingTabEl).toHaveAttribute("selected");
     });
   });
 
