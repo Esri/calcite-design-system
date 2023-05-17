@@ -10,7 +10,14 @@ import {
   VNode,
   Watch
 } from "@stencil/core";
-import { dateFromRange, getOrder, nextMonth, prevMonth } from "../../utils/date";
+import {
+  dateFromRange,
+  parseCalendarYear,
+  getOrder,
+  nextMonth,
+  prevMonth,
+  formatCalendarYear
+} from "../../utils/date";
 
 import { closestElementCrossShadowBoundary } from "../../utils/dom";
 import { isActivationKey } from "../../utils/key";
@@ -19,7 +26,7 @@ import { DatePickerMessages } from "../date-picker/assets/date-picker/t9n";
 import { DateLocaleData } from "../date-picker/utils";
 import { Heading, HeadingLevel } from "../functional/Heading";
 import { Scale } from "../interfaces";
-import { BUDDHIST_CALENDAR_YEAR_OFFSET, CSS, ICON } from "./resources";
+import { CSS, ICON } from "./resources";
 
 @Component({
   tag: "calcite-date-picker-month-header",
@@ -239,20 +246,13 @@ export class DatePickerMonthHeader {
   };
 
   private formatCalendarYear(year: number): string {
-    const { localeData } = this;
-    const buddhistCalendar = localeData["default-calendar"] === "buddhist";
-    const yearOffset = buddhistCalendar ? BUDDHIST_CALENDAR_YEAR_OFFSET : 0;
-
-    return numberStringFormatter.localize(`${year + yearOffset}`);
+    return numberStringFormatter.localize(`${formatCalendarYear(year, this.localeData)}`);
   }
 
   private parseCalendarYear(year: string): string {
-    const { localeData } = this;
-    const buddhistCalendar = localeData["default-calendar"] === "buddhist";
-    const yearOffset = buddhistCalendar ? BUDDHIST_CALENDAR_YEAR_OFFSET : 0;
-
-    const parsedYear = Number(numberStringFormatter.delocalize(year)) - yearOffset;
-    return numberStringFormatter.localize(`${parsedYear}`);
+    return numberStringFormatter.localize(
+      `${parseCalendarYear(Number(numberStringFormatter.delocalize(year)), this.localeData)}`
+    );
   }
 
   private onYearChange = (event: Event): void => {
