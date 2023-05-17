@@ -91,6 +91,7 @@ export default class PopoverManager {
   };
 
   private addListeners(): void {
+    // using pointerup to allow elements to become focused before shifting focus to the popover
     document.addEventListener("pointerup", this.clickHandler, { capture: true });
     document.addEventListener("keydown", this.keyHandler, { capture: true });
   }
