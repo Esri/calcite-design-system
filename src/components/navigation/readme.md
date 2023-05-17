@@ -2,30 +2,46 @@
 
 <!-- Auto Generated Below -->
 
+## Usage
+
+### Basic
+
+```html
+<calcite-shell>
+  <calcite-navigation slot="header">
+    <calcite-chip-group slot="primary-content-center">
+      <calcite-chip>nav item 1</calcite-chip>
+      <calcite-chip>nav item 2</calcite-chip>
+      <calcite-chip>nav item 3</calcite-chip>
+    </calcite-chip-group>
+  </calcite-navigation>
+</calcite-shell>
+```
+
 ## Properties
 
-| Property             | Attribute             | Description                                                                                           | Type      | Default     |
-| -------------------- | --------------------- | ----------------------------------------------------------------------------------------------------- | --------- | ----------- |
-| `displayMenuAction`  | `display-menu-action` | When true, display a hamburger icon and emits `calciteNavMenuActionSelect` event on user interaction. | `boolean` | `false`     |
-| `label` _(required)_ | `label`               | Specifies the label of the hamburger icon.                                                            | `string`  | `undefined` |
+| Property             | Attribute    | Description                                                                                              | Type      | Default     |
+| -------------------- | ------------ | -------------------------------------------------------------------------------------------------------- | --------- | ----------- |
+| `label` _(required)_ | `label`      | When `navAction` is `true`, specifies the label of the `calcite-action`.                                 | `string`  | `undefined` |
+| `navAction`          | `nav-action` | When `true`, displays a `calcite-action` and emits a `calciteNavActionSelect` event on selection change. | `boolean` | `false`     |
 
 ## Events
 
-| Event                        | Description                                             | Type                |
-| ---------------------------- | ------------------------------------------------------- | ------------------- |
-| `calciteNavMenuActionSelect` | Emits whenever the component is selected or unselected. | `CustomEvent<void>` |
+| Event                    | Description                                                                | Type                |
+| ------------------------ | -------------------------------------------------------------------------- | ------------------- |
+| `calciteNavActionSelect` | When navAction is true, emits when the displayed action selection changes. | `CustomEvent<void>` |
 
 ## CSS Custom Properties
 
-| Name                                   | Description                                                 |
-| -------------------------------------- | ----------------------------------------------------------- |
-| `--calcite-nav-primary-background`     | Specifies the background color of the primary navigation.   |
-| `--calcite-nav-primary-border-color`   | Specifies the background color of the primary navigation.   |
-| `--calcite-nav-secondary-background`   | Specifies the background color of the secondary navigation. |
-| `--calcite-nav-secondary-border-color` | Specifies the background color of the primary navigation.   |
-| `--calcite-nav-tertiary-background`    | Specifies the width of the component.                       |
-| `--calcite-nav-tertiary-border-color`  | Specifies the background color of the primary navigation.   |
-| `--calcite-nav-width`                  | Specifies the width of the component's content area.        |
+| Name                                          | Description                                                 |
+| --------------------------------------------- | ----------------------------------------------------------- |
+| `--calcite-navigation-primary-background`     | Specifies the background color of the primary navigation.   |
+| `--calcite-navigation-primary-border-color`   | Specifies the background color of the primary navigation.   |
+| `--calcite-navigation-secondary-background`   | Specifies the background color of the secondary navigation. |
+| `--calcite-navigation-secondary-border-color` | Specifies the background color of the primary navigation.   |
+| `--calcite-navigation-tertiary-background`    | Specifies the width of the component.                       |
+| `--calcite-navigation-tertiary-border-color`  | Specifies the background color of the primary navigation.   |
+| `--calcite-navigation-width`                  | Specifies the width of the component's content area.        |
 
 ## Dependencies
 
@@ -37,10 +53,10 @@
 
 ```mermaid
 graph TD;
-  calcite-nav --> calcite-action
+  calcite-navigation --> calcite-action
   calcite-action --> calcite-loader
   calcite-action --> calcite-icon
-  style calcite-nav fill:#f9f,stroke:#333,stroke-width:4px
+  style calcite-navigation fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
 ---
