@@ -528,7 +528,7 @@
       </div>
 
       <div class="parent">
-        <div class="child right-aligned-text">Multi select (clearable</div>
+        <div class="child right-aligned-text">Multi select (clearable)</div>
 
         <div class="child">
           <calcite-label for="labelTen">label</calcite-label>
@@ -866,6 +866,106 @@
 
         <div class="child">
           <calcite-combobox label="test" placeholder="placeholder" max-items="8" selection-mode="ancestors" scale="l">
+            <calcite-combobox-item value="Grand 1" text-label="Grand 1">
+              <calcite-combobox-item value="Parent 1" text-label="Parent 1">
+                <calcite-combobox-item value="Child 1" text-label="Child 1"></calcite-combobox-item>
+                <calcite-combobox-item value="Child 2" text-label="Child 2"></calcite-combobox-item>
+              </calcite-combobox-item>
+              <calcite-combobox-item value="Parent 2" text-label="Parent 2">
+                <calcite-combobox-item value="Child 3" text-label="Child 3"></calcite-combobox-item>
+                <calcite-combobox-item value="Child 4" text-label="Child 4"></calcite-combobox-item>
+              </calcite-combobox-item>
+            </calcite-combobox-item>
+            <calcite-combobox-item value="Grand 2" text-label="Grand 2">
+              <calcite-combobox-item value="Parent 3" text-label="Parent 3">
+                <calcite-combobox-item value="Child 5" text-label="Child 5"></calcite-combobox-item>
+                <calcite-combobox-item value="Child 6" text-label="Child 6"></calcite-combobox-item>
+              </calcite-combobox-item>
+              <calcite-combobox-item value="Parent 2" text-label="Parent 2">
+                <calcite-combobox-item value="Child 7" text-label="Child 7"></calcite-combobox-item>
+                <calcite-combobox-item value="Child 8" text-label="Child 8"></calcite-combobox-item>
+              </calcite-combobox-item>
+            </calcite-combobox-item>
+          </calcite-combobox>
+        </div>
+      </div>
+
+      <div class="parent">
+        <div class="child right-aligned-text">Ancestors Selection Mode (clearable)</div>
+
+        <div class="child">
+          <calcite-combobox
+            clearable
+            label="test"
+            placeholder="placeholder"
+            max-items="8"
+            selection-mode="ancestors"
+            scale="s"
+          >
+            <calcite-combobox-item value="Grand 1" text-label="Grand 1">
+              <calcite-combobox-item value="Parent 1" text-label="Parent 1">
+                <calcite-combobox-item value="Child 1" text-label="Child 1"></calcite-combobox-item>
+                <calcite-combobox-item value="Child 2" text-label="Child 2"></calcite-combobox-item>
+              </calcite-combobox-item>
+              <calcite-combobox-item value="Parent 2" text-label="Parent 2">
+                <calcite-combobox-item value="Child 3" text-label="Child 3"></calcite-combobox-item>
+                <calcite-combobox-item value="Child 4" text-label="Child 4"></calcite-combobox-item>
+              </calcite-combobox-item>
+            </calcite-combobox-item>
+            <calcite-combobox-item value="Grand 2" text-label="Grand 2">
+              <calcite-combobox-item value="Parent 3" text-label="Parent 3">
+                <calcite-combobox-item value="Child 5" text-label="Child 5"></calcite-combobox-item>
+                <calcite-combobox-item value="Child 6" text-label="Child 6"></calcite-combobox-item>
+              </calcite-combobox-item>
+              <calcite-combobox-item value="Parent 2" text-label="Parent 2">
+                <calcite-combobox-item value="Child 7" text-label="Child 7"></calcite-combobox-item>
+                <calcite-combobox-item value="Child 8" text-label="Child 8"></calcite-combobox-item>
+              </calcite-combobox-item>
+            </calcite-combobox-item>
+          </calcite-combobox>
+        </div>
+
+        <div class="child">
+          <calcite-combobox
+            clearable
+            label="test"
+            placeholder="placeholder"
+            max-items="8"
+            selection-mode="ancestors"
+            scale="m"
+          >
+            <calcite-combobox-item value="Grand 1" text-label="Grand 1">
+              <calcite-combobox-item value="Parent 1" text-label="Parent 1">
+                <calcite-combobox-item value="Child 1" text-label="Child 1"></calcite-combobox-item>
+                <calcite-combobox-item value="Child 2" text-label="Child 2"></calcite-combobox-item>
+              </calcite-combobox-item>
+              <calcite-combobox-item value="Parent 2" text-label="Parent 2">
+                <calcite-combobox-item value="Child 3" text-label="Child 3"></calcite-combobox-item>
+                <calcite-combobox-item value="Child 4" text-label="Child 4"></calcite-combobox-item>
+              </calcite-combobox-item>
+            </calcite-combobox-item>
+            <calcite-combobox-item value="Grand 2" text-label="Grand 2">
+              <calcite-combobox-item value="Parent 3" text-label="Parent 3">
+                <calcite-combobox-item value="Child 5" text-label="Child 5"></calcite-combobox-item>
+                <calcite-combobox-item value="Child 6" text-label="Child 6"></calcite-combobox-item>
+              </calcite-combobox-item>
+              <calcite-combobox-item value="Parent 2" text-label="Parent 2">
+                <calcite-combobox-item value="Child 7" text-label="Child 7"></calcite-combobox-item>
+                <calcite-combobox-item value="Child 8" text-label="Child 8"></calcite-combobox-item>
+              </calcite-combobox-item>
+            </calcite-combobox-item>
+          </calcite-combobox>
+        </div>
+
+        <div class="child">
+          <calcite-combobox
+            clearable
+            label="test"
+            placeholder="placeholder"
+            max-items="8"
+            selection-mode="ancestors"
+            scale="l"
+          >
             <calcite-combobox-item value="Grand 1" text-label="Grand 1">
               <calcite-combobox-item value="Parent 1" text-label="Parent 1">
                 <calcite-combobox-item value="Child 1" text-label="Child 1"></calcite-combobox-item>
