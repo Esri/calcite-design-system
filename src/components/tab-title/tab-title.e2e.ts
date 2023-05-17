@@ -183,17 +183,71 @@ describe("calcite-tab-title", () => {
       };
     });
 
-    it(`when closing tab-titles in sequence 1 through 4, 
+    it(`when closing tab-titles in sequence 1 (first selected) through 4, 
         tab-title and corresponding tab become hidden, 
         and selection fallback is the next tab`, async () => {
       await loopTabTitles();
     });
 
-    it(`when closing tab-titles in sequence 4 through 1, 
+    it(`when closing tab-titles in sequence 4 (last selected) through 1, 
         tab-title and corresponding tab become hidden, 
         and selection fallback is the previous tab`, async () => {
       arrayOfIds = ["embark", "car", "plane", "biking"].reverse();
+
+      const bikingTabTitleEl = await page.find(`#biking`);
+      bikingTabTitleEl.setAttribute("selected", true);
+
       await loopTabTitles();
+    });
+
+    it(`closing an unselected tab-title does not deselect the current selection`, async () => {
+      let matchingTabEl: E2EElement;
+      let close: E2EElement;
+
+      const selectedEmbarkTabEl = await page.find("#embarkTab");
+      const selectedEmbarkTabTitleContainerEl = await page.find(`#embark >>> .${CSS.container}`);
+
+      const carTabTitleContainerEl = await page.find(`#car >>> .${CSS.container}`);
+      matchingTabEl = await page.find("#carTab");
+      close = await page.find(`#car >>> .${CSS.close}`);
+
+      close.click();
+      await page.waitForChanges();
+
+      expect(carTabTitleContainerEl).toHaveAttribute("hidden");
+      expect(matchingTabEl).not.toHaveAttribute("selected");
+
+      expect(selectedEmbarkTabTitleContainerEl).not.toHaveAttribute("hidden");
+      expect(selectedEmbarkTabEl).toHaveAttribute("selected");
+
+      const planeTabTitleContainerEl = await page.find(`#plane >>> .${CSS.container}`);
+      matchingTabEl = await page.find("#planeTab");
+      close = await page.find(`#plane >>> .${CSS.close}`);
+
+      close.click();
+      await page.waitForChanges();
+
+      expect(carTabTitleContainerEl).toHaveAttribute("hidden");
+      expect(planeTabTitleContainerEl).toHaveAttribute("hidden");
+      expect(matchingTabEl).not.toHaveAttribute("selected");
+
+      expect(selectedEmbarkTabTitleContainerEl).not.toHaveAttribute("hidden");
+      expect(selectedEmbarkTabEl).toHaveAttribute("selected");
+
+      const bikingTabTitleContainerEl = await page.find(`#biking >>> .${CSS.container}`);
+      matchingTabEl = await page.find("#bikingTab");
+      close = await page.find(`#biking >>> .${CSS.close}`);
+
+      close.click();
+      await page.waitForChanges();
+
+      expect(carTabTitleContainerEl).toHaveAttribute("hidden");
+      expect(planeTabTitleContainerEl).toHaveAttribute("hidden");
+      expect(bikingTabTitleContainerEl).toHaveAttribute("hidden");
+      expect(matchingTabEl).not.toHaveAttribute("selected");
+
+      expect(selectedEmbarkTabTitleContainerEl).not.toHaveAttribute("hidden");
+      expect(selectedEmbarkTabEl).toHaveAttribute("selected");
     });
   });
 

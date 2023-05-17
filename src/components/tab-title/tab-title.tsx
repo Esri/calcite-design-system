@@ -216,12 +216,10 @@ export class TabTitle implements InteractiveComponent, LocalizedComponent, T9nCo
     );
 
     return (
-      // eslint-disable-next-line @esri/calcite-components/ban-props-on-host
       <Host
         aria-controls={this.controls}
         aria-selected={toAriaBoolean(this.selected)}
         id={id}
-        ref={(el) => (this.tabTitleEl = el as HTMLCalciteTabTitleElement)}
         role="tab"
         tabIndex={this.selected ? 0 : -1}
       >
@@ -231,7 +229,6 @@ export class TabTitle implements InteractiveComponent, LocalizedComponent, T9nCo
             [CSS.iconPresent]: this.iconStart || this.iconEnd ? true : null
           }}
           hidden={closed}
-          // eslint-disable-next-line react/jsx-sort-props
           ref={(el) => this.resizeObserver?.observe(el)}
           tabindex={0}
         >
@@ -492,8 +489,6 @@ export class TabTitle implements InteractiveComponent, LocalizedComponent, T9nCo
 
   private closeButtonEl: HTMLButtonElement;
 
-  private tabTitleEl: HTMLCalciteTabTitleElement;
-
   resizeObserver = createObserver("resize", () => {
     this.calciteInternalTabIconChanged.emit();
   });
@@ -520,7 +515,7 @@ export class TabTitle implements InteractiveComponent, LocalizedComponent, T9nCo
 
   emitCloseTab(): void {
     this.closed = true;
-    this.calciteInternalTabsClose.emit(this.tabTitleEl);
+    this.calciteInternalTabsClose.emit(this.el);
     this.calciteTabsClose.emit();
   }
 

@@ -412,10 +412,12 @@ export class TabNav {
       const nextTabTitleIndex = visibleTabTitlesIndices.find(
         (value) => value > closedTabTitleIndex
       );
-      this.selectedTabId = nextTabTitleIndex
-        ? nextTabTitleIndex
-        : visibleTabTitlesIndices.length - 1;
-      forceUpdate(this.el);
+      if (this.selectedTabId === closedTabTitleIndex) {
+        this.selectedTabId = nextTabTitleIndex
+          ? nextTabTitleIndex
+          : visibleTabTitlesIndices.length - 1;
+        forceUpdate(this.el);
+      }
     } else if (
       visibleTabTitlesIndices.length === 1 &&
       tabTitles[visibleTabTitlesIndices[0]].closable
