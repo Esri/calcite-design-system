@@ -130,69 +130,67 @@ describe("calcite-tab-title", () => {
 
   describe("closing sequence", () => {
     let page: E2EPage;
-    let arrayOfIds: string[];
 
     let matchingTabEl: E2EElement;
     let close: E2EElement;
 
-    let loopTabTitles: () => Promise<void>;
+    const closeTabsInSequenceOfGivenArrayOfIds = async (arrayOfIds: string[]): Promise<void> => {
+      for (let i = 0; i < arrayOfIds.length - 1; i++) {
+        let tabEl: E2EElement;
+        let tabTitleContainerEl: E2EElement;
+
+        const id = arrayOfIds[i];
+
+        tabEl = await page.find(`#${id}`);
+        tabTitleContainerEl = await page.find(`calcite-tab-title[id='${id}'] >>> .${CSS.container}`);
+        const close = await page.find(`calcite-tab-title[id='${id}'] >>> .${CSS.closeButton}`);
+
+        expect(tabTitleContainerEl).not.toHaveAttribute("hidden");
+
+        await close.click();
+        await page.waitForChanges();
+
+        const tabTitleEl = await page.find(`#${id}`);
+        tabEl = await page.find(`#${id}`);
+        tabTitleContainerEl = await page.find(`calcite-tab-title[id='${id}'] >>> .${CSS.container}`);
+
+        expect(tabTitleContainerEl).toHaveAttribute("hidden");
+        expect(tabTitleEl).not.toHaveAttribute("selected");
+        expect(tabEl).not.toHaveAttribute("selected");
+
+        const nextId = arrayOfIds[i + 1];
+        const nextTabTitleEl = await page.find(`#${nextId}`);
+        const nextTabEl = await page.find(`#${nextId}`);
+        const nextTabTitleContainerEl = await page.find(`calcite-tab-title[id='${nextId}'] >>> .${CSS.container}`);
+
+        expect(nextTabTitleContainerEl).not.toHaveAttribute("hidden");
+        expect(nextTabTitleEl).toHaveAttribute("selected");
+        expect(nextTabEl).toHaveAttribute("selected");
+      }
+    };
 
     beforeEach(async () => {
       page = await newE2EPage();
       await page.setContent(multiTabTitleClosableHtml);
-      arrayOfIds = ["embark", "car", "plane", "biking"];
-
-      loopTabTitles = async () => {
-        for (let i = 0; i < arrayOfIds.length - 1; i++) {
-          let tabEl: E2EElement;
-          let tabTitleContainerEl: E2EElement;
-
-          const id = arrayOfIds[i];
-
-          tabEl = await page.find(`#${id}`);
-          tabTitleContainerEl = await page.find(`calcite-tab-title[id='${id}'] >>> .${CSS.container}`);
-          const close = await page.find(`calcite-tab-title[id='${id}'] >>> .${CSS.closeButton}`);
-
-          expect(tabTitleContainerEl).not.toHaveAttribute("hidden");
-
-          await close.click();
-          await page.waitForChanges();
-
-          const tabTitleEl = await page.find(`#${id}`);
-          tabEl = await page.find(`#${id}`);
-          tabTitleContainerEl = await page.find(`calcite-tab-title[id='${id}'] >>> .${CSS.container}`);
-
-          expect(tabTitleContainerEl).toHaveAttribute("hidden");
-          expect(tabTitleEl).not.toHaveAttribute("selected");
-          expect(tabEl).not.toHaveAttribute("selected");
-
-          const nextId = arrayOfIds[i + 1];
-          const nextTabTitleEl = await page.find(`#${nextId}`);
-          const nextTabEl = await page.find(`#${nextId}`);
-          const nextTabTitleContainerEl = await page.find(`calcite-tab-title[id='${nextId}'] >>> .${CSS.container}`);
-
-          expect(nextTabTitleContainerEl).not.toHaveAttribute("hidden");
-          expect(nextTabTitleEl).toHaveAttribute("selected");
-          expect(nextTabEl).toHaveAttribute("selected");
-        }
-      };
     });
 
     it(`when closing tab-titles in sequence 1 (first selected) through 4, 
         tab-title and corresponding tab become hidden, 
         and selection fallback is the next tab`, async () => {
-      await loopTabTitles();
+      await closeTabsInSequenceOfGivenArrayOfIds(["embark", "car", "plane", "biking"]);
     });
 
     it(`when closing tab-titles in sequence 4 (last selected) through 1, 
         tab-title and corresponding tab become hidden, 
         and selection fallback is the previous tab`, async () => {
-      arrayOfIds = ["embark", "car", "plane", "biking"].reverse();
+      const arrayOfReversedIds = ["embark", "car", "plane", "biking"].reverse();
 
       const bikingTabTitleEl = await page.find(`#biking`);
       bikingTabTitleEl.setAttribute("selected", true);
 
-      await loopTabTitles();
+      await page.waitForChanges();
+
+      await closeTabsInSequenceOfGivenArrayOfIds(arrayOfReversedIds);
     });
 
     it(`closing an unselected tab-title does not deselect the current selection`, async () => {
