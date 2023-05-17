@@ -558,17 +558,23 @@ export class Combobox
         break;
       case "ArrowUp":
         event.preventDefault();
-        this.shiftActiveItemIndex(-1);
+        if (this.open) {
+          this.shiftActiveItemIndex(-1);
+        }
+
         if (!this.comboboxInViewport()) {
           this.el.scrollIntoView();
         }
         break;
       case "ArrowDown":
         event.preventDefault();
-        if (!this.open) {
+        if (this.open) {
+          this.shiftActiveItemIndex(1);
+        } else {
           this.open = true;
+          this.ensureRecentSelectedItemIsActive();
         }
-        this.shiftActiveItemIndex(1);
+
         if (!this.comboboxInViewport()) {
           this.el.scrollIntoView();
         }
@@ -646,6 +652,7 @@ export class Combobox
   };
 
   onBeforeOpen(): void {
+    this.scrollToActiveItem();
     this.calciteComboboxBeforeOpen.emit();
   }
 
@@ -694,9 +701,16 @@ export class Combobox
       return;
     }
     this.open = !this.open;
-    this.updateActiveItemIndex(0);
-    this.setFocus();
+    this.ensureRecentSelectedItemIsActive();
   };
+
+  private ensureRecentSelectedItemIsActive(): void {
+    const { selectedItems } = this;
+    const targetIndex =
+      selectedItems.length === 0 ? 0 : this.items.indexOf(selectedItems[selectedItems.length - 1]);
+
+    this.updateActiveItemIndex(targetIndex);
+  }
 
   setInactiveIfNotContained = (event: Event): void => {
     const composedPath = event.composedPath();
@@ -1116,6 +1130,7 @@ export class Combobox
     const single = selectionMode === "single";
     const selectedItem = selectedItems[0];
     const showLabel = !open && single && !!selectedItem;
+
     return (
       <span
         class={{
