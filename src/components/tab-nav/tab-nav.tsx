@@ -239,7 +239,6 @@ export class TabNav {
       ? event.detail.tab
       : this.getIndexOfTabTitle(event.target as HTMLCalciteTabTitleElement);
     event.stopPropagation();
-    event.preventDefault();
   }
 
   @Listen("calciteTabsActivate")
@@ -253,7 +252,6 @@ export class TabNav {
     const closedTabTitleEl = event.target as HTMLCalciteTabTitleElement;
     this.handleTabTitleClose(closedTabTitleEl);
     event.stopPropagation();
-    event.preventDefault();
   }
 
   /**
@@ -345,7 +343,6 @@ export class TabNav {
     focusElementInGroup(this.enabledTabTitles, el, destination);
 
     event.stopPropagation();
-    event.preventDefault();
   };
 
   handleContainerScroll = (): void => {
