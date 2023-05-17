@@ -22,13 +22,13 @@ import { CSS, ICONS, SLOTS } from "./resources";
 })
 
 /**
- * @slot logo - A slot for adding a `calcite-logo` component to the primary nav level.
- * @slot user - A slot for adding a `calcite-user` component to the primary nav level.
- * @slot progress - A slot for adding a `calcite-progress` component to the primary nav level.
- * @slot nav-action - A slot for adding a `calcite-action` component to the primary nav level.
- * @slot content-start - A slot for adding a `calcite-menu`, `calcite-action`, or other interactive elements in the start position of the primary nav level.
- * @slot content-center - A slot for adding a `calcite-menu`, `calcite-action`, or other interactive elements in the center position of the primary nav level.
- * @slot content-end - A slot for adding a `calcite-menu`, `calcite-action`, or other interactive elements in the end position of the primary nav level.
+ * @slot logo - A slot for adding a `calcite-logo` component to the primary navigation level.
+ * @slot user - A slot for adding a `calcite-user` component to the primary navigation level.
+ * @slot progress - A slot for adding a `calcite-progress` component to the primary navigation level.
+ * @slot nav-action - A slot for adding a `calcite-action` component to the primary navigation level.
+ * @slot content-start - A slot for adding a `calcite-menu`, `calcite-action`, or other interactive elements in the start position of any navigation level.
+ * @slot content-center - A slot for adding a `calcite-menu`, `calcite-action`, or other interactive elements in the center position of the primary navigation level.
+ * @slot content-end - A slot for adding a `calcite-menu`, `calcite-action`, or other interactive elements in the end position of any navigation level.
  * @slot navigation-secondary - A slot for adding a `calcite-navigation` component in the secondary navigation level. Components rendered here will not display `calcite-navigation-logo` or `calcite-navigation-user` components.
  * @slot navigation-tertiary - A slot for adding a `calcite-navigation` component in the tertiary navigation level.  Components rendered here will not display `calcite-navigation-logo` or `calcite-navigation-user` components.
  */
@@ -72,9 +72,9 @@ export class CalciteNavigation {
 
   @State() contentEndSlotHasElements: boolean;
 
-  @State() secondaryNavSlotHasElements: boolean;
+  @State() secondarySlotHasElements: boolean;
 
-  @State() tertiarySlotTertiaryHasElements: boolean;
+  @State() tertiarySlotHasElements: boolean;
 
   // --------------------------------------------------------------------------
   //
@@ -116,11 +116,11 @@ export class CalciteNavigation {
   };
 
   private handleSecondaryNavSlotChange = (event: Event): void => {
-    this.secondaryNavSlotHasElements = slotChangeHasAssignedElement(event);
+    this.secondarySlotHasElements = slotChangeHasAssignedElement(event);
   };
 
   private handleTertiaryNavSlotChange = (event: Event): void => {
-    this.tertiarySlotTertiaryHasElements = slotChangeHasAssignedElement(event);
+    this.tertiarySlotHasElements = slotChangeHasAssignedElement(event);
   };
 
   private handleMenuActionSlotChange = (event: Event): void => {
@@ -163,7 +163,9 @@ export class CalciteNavigation {
             {isPrimaryLevel && this.renderMenuAction()}
             {isPrimaryLevel && <slot name={SLOTS.logo} onSlotchange={this.handleLogoSlotChange} />}
             <slot name={SLOTS.contentStart} onSlotchange={this.handleContentStartSlotChange} />
-            <slot name={SLOTS.contentCenter} onSlotchange={this.handleContentCenterSlotChange} />
+            {isPrimaryLevel && (
+              <slot name={SLOTS.contentCenter} onSlotchange={this.handleContentCenterSlotChange} />
+            )}
             <slot name={SLOTS.contentEnd} onSlotchange={this.handleContentEndSlotChange} />
             {isPrimaryLevel && <slot name={SLOTS.user} onSlotchange={this.handleUserSlotChange} />}
           </div>
