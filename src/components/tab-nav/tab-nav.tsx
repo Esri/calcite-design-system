@@ -103,18 +103,12 @@ export class TabNav {
     ) {
       localStorage.setItem(`calcite-tab-nav-${this.storageId}`, JSON.stringify(this.selectedTabId));
     }
-    const selectedTabTitleElementId = this.tabTitles[this.selectedTabId].id;
 
     this.calciteInternalTabChange.emit({
-      tab: this.selectedTabId,
-      tabElId: selectedTabTitleElementId
+      tab: this.selectedTabId
     });
 
-    const selectedTitle = await this.getTabTitleById(this.selectedTabId);
-
-    if (selectedTitle) {
-      this.selectedTitle = selectedTitle;
-    }
+    this.selectedTitle = await this.getTabTitleById(this.selectedTabId);
   }
 
   @Watch("selectedTitle")

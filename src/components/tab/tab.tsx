@@ -131,8 +131,9 @@ export class Tab {
     if (this.tab) {
       this.selected = this.tab === event.detail.tab;
     } else {
-      const matchingId = this.labeledBy;
-      this.selected = event.detail.tabElId === matchingId;
+      this.getTabIndex().then((index) => {
+        this.selected = index === event.detail.tab;
+      });
     }
     event.stopPropagation();
   }
