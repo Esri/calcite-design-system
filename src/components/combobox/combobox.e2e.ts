@@ -12,6 +12,7 @@ import {
 } from "../../tests/commonTests";
 
 import { html } from "../../../support/formatting";
+import { CSS as ComboboxItemCSS } from "../combobox-item/resources";
 import { CSS } from "./resources";
 
 describe("calcite-combobox", () => {
@@ -618,7 +619,7 @@ describe("calcite-combobox", () => {
 
       await page.keyboard.press("ArrowDown");
       await page.waitForChanges();
-      const firstFocusedGroupItem = await page.find("#one >>> .label--active");
+      const firstFocusedGroupItem = await page.find(`#one >>> .${ComboboxItemCSS.active}`);
       expect(firstFocusedGroupItem).toBeTruthy();
     });
 
@@ -649,7 +650,7 @@ describe("calcite-combobox", () => {
 
       await page.keyboard.press("Space");
       await page.waitForChanges();
-      const firstFocusedGroupItem = await page.find("#one >>> .label--active");
+      const firstFocusedGroupItem = await page.find(`#one >>> .${ComboboxItemCSS.active}`);
       expect(firstFocusedGroupItem).toBeTruthy();
 
       const visible = await firstFocusedGroupItem.isVisible();
@@ -868,7 +869,7 @@ describe("calcite-combobox", () => {
     });
 
     it("clicking on Listbox item focuses on the item and closes out of Listbox with tab", async () => {
-      expect(itemNestedLi).toHaveClass(CSS.labelActive);
+      expect(itemNestedLi).toHaveClass(ComboboxItemCSS.active);
 
       await element.press("Tab");
       await closeEvent;
@@ -877,15 +878,15 @@ describe("calcite-combobox", () => {
     });
 
     it("after click interaction with listbox, user can transition to using keyboard “enter” to toggle selected on/off", async () => {
-      expect(itemNestedLi).toHaveClass(CSS.labelActive);
+      expect(itemNestedLi).toHaveClass(ComboboxItemCSS.active);
 
       await itemNestedLi.press("Enter");
-      expect(itemNestedLi).not.toHaveClass(CSS.labelSelected);
-      expect(itemNestedLi).toHaveClass(CSS.labelActive);
+      expect(itemNestedLi).not.toHaveClass(ComboboxItemCSS.selected);
+      expect(itemNestedLi).toHaveClass(ComboboxItemCSS.active);
 
       await itemNestedLi.press("Enter");
-      expect(itemNestedLi).toHaveClass(CSS.labelSelected);
-      expect(itemNestedLi).toHaveClass(CSS.labelActive);
+      expect(itemNestedLi).toHaveClass(ComboboxItemCSS.selected);
+      expect(itemNestedLi).toHaveClass(ComboboxItemCSS.active);
 
       await element.press("Tab");
       await closeEvent;

@@ -62,7 +62,7 @@ import {
 import { Scale, SelectionMode } from "../interfaces";
 import { ComboboxMessages } from "./assets/combobox/t9n";
 import { ComboboxChildElement } from "./interfaces";
-import { ComboboxChildSelector, ComboboxItem, ComboboxItemGroup } from "./resources";
+import { ComboboxChildSelector, ComboboxItem, ComboboxItemGroup, CSS } from "./resources";
 import { getItemAncestors, getItemChildren, hasActiveChildren } from "./utils";
 
 interface ItemData {
@@ -1177,7 +1177,7 @@ export class Combobox
   renderFloatingUIContainer(): VNode {
     const { setFloatingEl, setContainerEl, open } = this;
     const classes = {
-      "list-container": true,
+      [CSS.listContainer]: true,
       [FloatingCSS.animation]: true,
       [FloatingCSS.animationActive]: open
     };
