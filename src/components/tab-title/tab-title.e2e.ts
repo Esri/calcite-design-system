@@ -38,7 +38,7 @@ describe("calcite-tab-title", () => {
   `;
   const iconStartHtml = `calcite-tab-title >>> .${CSS.titleIcon}.${CSS.iconStart}`;
   const iconEndHtml = `calcite-tab-title >>> .${CSS.titleIcon}.${CSS.iconEnd}`;
-  const closeHtml = `calcite-tab-title >>> .${CSS.close}`;
+  const closeHtml = `calcite-tab-title >>> .${CSS.closeButton}`;
 
   describe("renders", () => {
     renders(tabTitleHtml, { display: "block" });
@@ -121,7 +121,7 @@ describe("calcite-tab-title", () => {
       );
 
       let containerElOne = await page.find(`calcite-tab-title[id='one']`);
-      const closeOne = await page.find(`calcite-tab-title[id='one'] >>> .${CSS.close}`);
+      const closeOne = await page.find(`calcite-tab-title[id='one'] >>> .${CSS.closeButton}`);
       expect(containerElOne).toHaveAttribute(HYDRATED_ATTR);
 
       await closeOne.click();
@@ -130,7 +130,7 @@ describe("calcite-tab-title", () => {
       containerElOne = await page.find(`calcite-tab-title[id='one']>>> .${CSS.container}`);
       expect(containerElOne).toHaveAttribute("hidden");
 
-      const closeTwo = await page.find(`calcite-tab-title[id='two'] >>> .${CSS.close}`);
+      const closeTwo = await page.find(`calcite-tab-title[id='two'] >>> .${CSS.closeButton}`);
       expect(closeTwo).not.toHaveAttribute("closable");
     });
   });
@@ -159,7 +159,7 @@ describe("calcite-tab-title", () => {
 
           tabEl = await page.find(`#${id}`);
           tabTitleContainerEl = await page.find(`calcite-tab-title[id='${id}'] >>> .${CSS.container}`);
-          const close = await page.find(`calcite-tab-title[id='${id}'] >>> .${CSS.close}`);
+          const close = await page.find(`calcite-tab-title[id='${id}'] >>> .${CSS.closeButton}`);
 
           expect(tabTitleContainerEl).not.toHaveAttribute("hidden");
 
@@ -209,7 +209,7 @@ describe("calcite-tab-title", () => {
 
       const carTabTitleContainerEl = await page.find(`#car >>> .${CSS.container}`);
       matchingTabEl = await page.find("#carTab");
-      close = await page.find(`#car >>> .${CSS.close}`);
+      close = await page.find(`#car >>> .${CSS.closeButton}`);
 
       close.click();
       await page.waitForChanges();
@@ -222,7 +222,7 @@ describe("calcite-tab-title", () => {
 
       const planeTabTitleContainerEl = await page.find(`#plane >>> .${CSS.container}`);
       matchingTabEl = await page.find("#planeTab");
-      close = await page.find(`#plane >>> .${CSS.close}`);
+      close = await page.find(`#plane >>> .${CSS.closeButton}`);
 
       close.click();
       await page.waitForChanges();
@@ -236,7 +236,7 @@ describe("calcite-tab-title", () => {
 
       const bikingTabTitleContainerEl = await page.find(`#biking >>> .${CSS.container}`);
       matchingTabEl = await page.find("#bikingTab");
-      close = await page.find(`#biking >>> .${CSS.close}`);
+      close = await page.find(`#biking >>> .${CSS.closeButton}`);
 
       close.click();
       await page.waitForChanges();
@@ -261,7 +261,7 @@ describe("calcite-tab-title", () => {
       expect(matchingTabEl).toHaveAttribute("selected");
 
       const embarkTabTitleContainerEl = await page.find(`#embark >>> .${CSS.container}`);
-      close = await page.find(`#embark >>> .${CSS.close}`);
+      close = await page.find(`#embark >>> .${CSS.closeButton}`);
 
       close.click();
       await page.waitForChanges();
@@ -273,7 +273,7 @@ describe("calcite-tab-title", () => {
 
       const planeTabTitleContainerEl = await page.find(`#plane >>> .${CSS.container}`);
       matchingTabEl = await page.find("#planeTab");
-      close = await page.find(`#car >>> .${CSS.close}`);
+      close = await page.find(`#car >>> .${CSS.closeButton}`);
 
       close.click();
       await page.waitForChanges();
@@ -295,7 +295,7 @@ describe("calcite-tab-title", () => {
       expect(matchingTabEl).toHaveAttribute("selected");
 
       const embarkTabTitleContainerEl = await page.find(`#embark >>> .${CSS.container}`);
-      close = await page.find(`#embark >>> .${CSS.close}`);
+      close = await page.find(`#embark >>> .${CSS.closeButton}`);
 
       close.click();
       await page.waitForChanges();
@@ -315,7 +315,7 @@ describe("calcite-tab-title", () => {
       const planeTabTitleContainerEl = await page.find(`#plane >>> .${CSS.container}`);
       const bikingTabTitleContainerEl = await page.find(`#biking >>> .${CSS.container}`);
       matchingTabEl = await page.find("#planeTab");
-      close = await page.find(`#car >>> .${CSS.close}`);
+      close = await page.find(`#car >>> .${CSS.closeButton}`);
 
       close.click();
       await page.waitForChanges();
