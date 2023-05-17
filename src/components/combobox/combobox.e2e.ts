@@ -1351,4 +1351,86 @@ describe("calcite-combobox", () => {
     const focusedId = await page.evaluate(() => document.activeElement.id);
     expect(focusedId).toBe("demoId");
   });
+
+  describe("active item when opened", () => {
+    async function assertActiveItem(html: string, expectedActiveItemValue: string): Promise<void> {
+      const page = await newE2EPage();
+      await skipAnimations(page);
+      await page.setContent(html);
+      await page.click("calcite-combobox");
+      await page.waitForChanges();
+
+      const activeItem = await page.find("calcite-combobox-item[active]");
+      expect(await activeItem.getProperty("value")).toBe(expectedActiveItemValue);
+    }
+
+    describe("single-selection", () => {
+      it("shows the first item as active if there is no previous selection", async () =>
+        assertActiveItem(
+          html`<calcite-combobox selection-mode="single">
+            <calcite-combobox-item value="item1" text-label="item1"></calcite-combobox-item>
+            <calcite-combobox-item value="item2" text-label="item2"></calcite-combobox-item>
+          </calcite-combobox>`,
+          "item1"
+        ));
+
+      it("shows the selected item as active when opened", async () =>
+        assertActiveItem(
+          html`<calcite-combobox selection-mode="single">
+            <calcite-combobox-item value="item1" text-label="item1"></calcite-combobox-item>
+            <calcite-combobox-item value="item2" text-label="item2"></calcite-combobox-item>
+            <calcite-combobox-item value="item3" text-label="item3" selected></calcite-combobox-item>
+          </calcite-combobox>`,
+          "item3"
+        ));
+    });
+
+    describe("multiple-selection", () => {
+      it("shows the first item as active if there is no previous selection", async () =>
+        assertActiveItem(
+          html` <calcite-combobox selection-mode="multiple">
+            <calcite-combobox-item value="item1" text-label="item1"></calcite-combobox-item>
+            <calcite-combobox-item value="item2" text-label="item2"></calcite-combobox-item>
+            <calcite-combobox-item value="item3" text-label="item3"></calcite-combobox-item>
+          </calcite-combobox>`,
+          "item1"
+        ));
+
+      it("shows the last selected item as active", async () =>
+        assertActiveItem(
+          html` <calcite-combobox selection-mode="multiple">
+            <calcite-combobox-item selected value="item1" text-label="item1"></calcite-combobox-item>
+            <calcite-combobox-item value="item2" text-label="item2" selected></calcite-combobox-item>
+            <calcite-combobox-item selected value="item3" text-label="item3"></calcite-combobox-item>
+          </calcite-combobox>`,
+          "item3"
+        ));
+    });
+
+    describe("ancestors-selection", () => {
+      it("shows the first item as active if there is no previous selection", async () =>
+        assertActiveItem(
+          html` <calcite-combobox selection-mode="ancestors">
+            <calcite-combobox-item value="item1" text-label="parent">
+              <calcite-combobox-item value="item1_1" text-label="item1_1"></calcite-combobox-item>
+            </calcite-combobox-item>
+            <calcite-combobox-item value="item2" text-label="item2"></calcite-combobox-item>
+            <calcite-combobox-item value="item3" text-label="item3"></calcite-combobox-item>
+          </calcite-combobox>`,
+          "item1"
+        ));
+
+      it("shows the last selected item as active", async () =>
+        assertActiveItem(
+          html` <calcite-combobox selection-mode="ancestors">
+            <calcite-combobox-item value="item1" text-label="parent" selected>
+              <calcite-combobox-item value="item1_1" text-label="item1_1"></calcite-combobox-item>
+            </calcite-combobox-item>
+            <calcite-combobox-item value="item2" text-label="item2"></calcite-combobox-item>
+            <calcite-combobox-item value="item3" text-label="item3" selected></calcite-combobox-item>
+          </calcite-combobox>`,
+          "item3"
+        ));
+    });
+  });
 });
