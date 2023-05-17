@@ -230,7 +230,6 @@ export class TabTitle implements InteractiveComponent, LocalizedComponent, T9nCo
           }}
           hidden={closed}
           ref={(el) => this.resizeObserver?.observe(el)}
-          tabindex={0}
         >
           <div class={{ [CSS.content]: true, [CSS.contentHasText]: this.hasText }}>
             {this.iconStart ? iconStartEl : null}
@@ -253,7 +252,9 @@ export class TabTitle implements InteractiveComponent, LocalizedComponent, T9nCo
         disabled={false}
         key={CSS.closeButton}
         onClick={this.closeClickHandler}
+        onKeyDown={this.closeKeyHandler}
         ref={(el) => (this.closeButtonEl = el)}
+        tabIndex={0}
         title={messages.close}
       >
         <calcite-icon icon={ICONS.close} scale={this.scale === "l" ? "m" : "s"} />
@@ -309,15 +310,10 @@ export class TabTitle implements InteractiveComponent, LocalizedComponent, T9nCo
 
   @Listen("keydown")
   keyDownHandler(event: KeyboardEvent): void {
-    const target = event.target as HTMLElement;
     switch (event.key) {
       case " ":
       case "Enter":
-        if (target === this.closeButtonEl) {
-          this.emitCloseTab();
-        } else {
-          this.emitActiveTab();
-        }
+        this.emitActiveTab();
         event.preventDefault();
         break;
       case "ArrowRight":
@@ -454,6 +450,12 @@ export class TabTitle implements InteractiveComponent, LocalizedComponent, T9nCo
 
   closeClickHandler = (): void => {
     this.emitCloseTab();
+  };
+
+  private closeKeyHandler = async (event: KeyboardEvent) => {
+    if (event.key === "Enter") {
+      this.emitCloseTab();
+    }
   };
 
   //--------------------------------------------------------------------------

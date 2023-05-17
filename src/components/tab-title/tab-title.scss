@@ -21,16 +21,12 @@
   @apply hidden;
 }
 
-// focus styles
-.tab-title-close,
 .container {
   @apply focus-base;
-  &:focus {
-    @apply focus-inset;
-  }
 }
-.content:focus {
-  outline: none;
+
+:host(:focus) .container {
+  @apply focus-inset;
 }
 
 :host(:active),
