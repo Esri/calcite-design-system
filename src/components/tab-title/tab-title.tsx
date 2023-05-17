@@ -77,7 +77,6 @@ export class TabTitle implements InteractiveComponent, LocalizedComponent, T9nCo
   @Prop({ reflect: true }) closable = false;
 
   /** When `true`, does not display or position the component. */
-  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
   @Prop({ reflect: true, mutable: true }) closed = false;
 
   /** When `true`, interaction is prevented and the component is displayed with lower opacity.  */
@@ -229,6 +228,7 @@ export class TabTitle implements InteractiveComponent, LocalizedComponent, T9nCo
             [CSS.iconPresent]: this.iconStart || this.iconEnd ? true : null
           }}
           hidden={closed}
+          // eslint-disable-next-line react/jsx-sort-props
           ref={(el) => this.resizeObserver?.observe(el)}
         >
           <div class={{ [CSS.content]: true, [CSS.contentHasText]: this.hasText }}>
