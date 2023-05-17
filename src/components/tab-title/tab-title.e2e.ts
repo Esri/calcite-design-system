@@ -187,6 +187,7 @@ describe("calcite-tab-title", () => {
 
       const bikingTabTitleEl = await page.find(`#biking`);
       bikingTabTitleEl.setAttribute("selected", true);
+      await page.waitForChanges();
 
       await page.waitForChanges();
 
