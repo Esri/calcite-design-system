@@ -117,7 +117,7 @@ export class Tab {
   //--------------------------------------------------------------------------
 
   @Listen("calciteInternalTabChange", { target: "body" })
-  internalTabChangeHandler(event: CustomEvent<TabChangeEventDetail>): Promise<void> {
+  internalTabChangeHandler(event: CustomEvent<TabChangeEventDetail>): void {
     const targetTabsEl = event
       .composedPath()
       .find((el: HTMLElement) => el.tagName === "CALCITE-TABS");

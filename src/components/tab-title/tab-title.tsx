@@ -18,7 +18,7 @@ import { guid } from "../../utils/guid";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import { createObserver } from "../../utils/observers";
 import { FlipContext, Scale } from "../interfaces";
-import { TabChangeEventDetail } from "../tab/interfaces";
+import { TabChangeEventDetail, TabCloseEventDetail } from "../tab/interfaces";
 import { CSS, ICONS } from "./resources";
 import { TabID, TabLayout, TabPosition } from "../tabs/interfaces";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
@@ -372,7 +372,7 @@ export class TabTitle implements InteractiveComponent, LocalizedComponent, T9nCo
    * @see [TabChangeEventDetail](https://github.com/Esri/calcite-components/blob/master/src/components/tab/interfaces.ts)
    * @internal
    */
-  @Event({ cancelable: false }) calciteInternalTabsClose: EventEmitter<TabChangeEventDetail>;
+  @Event({ cancelable: false }) calciteInternalTabsClose: EventEmitter<TabCloseEventDetail>;
   /**
    * @internal
    */
