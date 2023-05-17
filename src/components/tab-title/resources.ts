@@ -1,5 +1,4 @@
 export const CSS = {
-  close: "tab-title-close",
   closeButton: "close-button",
   container: "container",
   content: "content",

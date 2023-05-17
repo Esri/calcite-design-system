@@ -46,14 +46,14 @@
 :host([scale="s"]) {
   margin-inline-end: 1rem;
   .content,
-  .tab-title-close {
+  .close-button {
     @apply text-n2h py-1; // 12px (0.75rem) line-height 16px
   }
 }
 
 :host([scale="m"]) {
   .content,
-  .tab-title-close {
+  .close-button {
     @apply text-n1h py-2; // 14px (0.875rem) line-height 16px
   }
 }
@@ -61,7 +61,7 @@
 :host([scale="l"]) {
   margin-inline-end: 1.5rem;
   .content,
-  .tab-title-close {
+  .close-button {
     @apply text-0h py-2.5; // 16px (1rem) line-height 20px
   }
 }
@@ -115,11 +115,11 @@
 }
 
 @mixin tab-title-element-base() {
-  @apply transition-default 
-      text-color-3 
+  @apply transition-default
+      text-color-3
       box-border
       flex
-      cursor-pointer 
+      cursor-pointer
       self-stretch
       h-full
       appearance-none
@@ -129,7 +129,7 @@
       items-center;
 }
 
-.tab-title-close {
+.close-button {
   @include tab-title-element-base;
   @apply bg-foreground-1 text-color-1;
   margin-inline-start: auto;
@@ -201,7 +201,7 @@
 }
 
 :host([bordered]) {
-  .tab-title-close:hover,
+  .close-button:hover,
   .container:hover {
     @apply text-color-1;
     background-color: var(--calcite-button-transparent-hover);

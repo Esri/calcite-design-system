@@ -248,7 +248,7 @@ export class TabTitle implements InteractiveComponent, LocalizedComponent, T9nCo
     return closable ? (
       <button
         aria-label={messages.close}
-        class={CSS.close}
+        class={CSS.closeButton}
         disabled={false}
         key={CSS.closeButton}
         onClick={this.closeClickHandler}
