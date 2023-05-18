@@ -18,6 +18,10 @@
   --calcite-combobox-item-spacing-unit-l: theme("spacing.2");
   --calcite-combobox-item-spacing-unit-s: theme("spacing.1");
   --calcite-combobox-input-height: theme("spacing.6");
+
+  .x-button {
+    margin-inline-end: theme("spacing.2");
+  }
 }
 
 :host([scale="m"]) {
@@ -25,6 +29,10 @@
   --calcite-combobox-item-spacing-unit-l: theme("spacing.3");
   --calcite-combobox-item-spacing-unit-s: theme("spacing.2");
   --calcite-combobox-input-height: theme("spacing.8");
+
+  .x-button {
+    margin-inline-end: theme("spacing.4");
+  }
 }
 
 :host([scale="l"]) {
@@ -32,6 +40,10 @@
   --calcite-combobox-item-spacing-unit-l: theme("spacing.4");
   --calcite-combobox-item-spacing-unit-s: theme("spacing.3");
   --calcite-combobox-input-height: theme("spacing.11");
+
+  .x-button {
+    margin-inline-end: theme("spacing.6");
+  }
 }
 
 .wrapper {

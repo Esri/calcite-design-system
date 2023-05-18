@@ -104,25 +104,28 @@
     transition-default
     text-color-1
     m-0
+    border-2
     cursor-pointer
     items-center
-    border-none
     bg-transparent;
     -webkit-appearance: none;
     display: flex;
     border-radius: 50%;
     align-content: center;
     justify-content: center;
+    border-color: transparent;
+    background-color: var(--calcite-ui-foreground-2);
+
     &:hover {
-      background-color: var(--calcite-button-transparent-hover);
+      background-color: var(--calcite-ui-foreground-3);
     }
-    &:focus {
-      background-color: var(--calcite-button-transparent-press);
-      @apply focus-inset;
-    }
+
     &:active {
-      background-color: var(--calcite-button-transparent-press);
+      @apply border-solid;
+      border-color: theme("borderColor.color-brand");
+      background-color: var(--calcite-ui-foreground-3);
     }
+
     & calcite-icon {
       color: inherit;
     }
