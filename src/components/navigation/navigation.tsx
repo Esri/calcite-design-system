@@ -129,11 +129,11 @@ export class CalciteNavigation {
     }
   };
 
-  private handleSecondaryNavSlotChange = (event: Event): void => {
+  private handleSecondarySlotChange = (event: Event): void => {
     this.secondarySlotHasElements = slotChangeHasAssignedElement(event);
   };
 
-  private handleTertiaryNavSlotChange = (event: Event): void => {
+  private handleTertiarySlotChange = (event: Event): void => {
     this.tertiarySlotHasElements = slotChangeHasAssignedElement(event);
   };
 
@@ -212,8 +212,8 @@ export class CalciteNavigation {
         </div>
 
         <Fragment>
-          <slot name={SLOTS.navSecondary} onSlotchange={this.handleSecondaryNavSlotChange} />
-          <slot name={SLOTS.navTertiary} onSlotchange={this.handleTertiaryNavSlotChange} />
+          <slot name={SLOTS.navSecondary} onSlotchange={this.handleSecondarySlotChange} />
+          <slot name={SLOTS.navTertiary} onSlotchange={this.handleTertiarySlotChange} />
         </Fragment>
       </Host>
     );
