@@ -47,14 +47,14 @@
   margin-inline-end: 1rem;
   .content,
   .close-button {
-    @apply text-n2h py-1; // 12px (0.75rem) line-height 16px
+    @apply text-n2h py-1;
   }
 }
 
 :host([scale="m"]) {
   .content,
   .close-button {
-    @apply text-n1h py-2; // 14px (0.875rem) line-height 16px
+    @apply text-n1h py-2;
   }
 }
 
@@ -62,7 +62,7 @@
   margin-inline-end: 1.5rem;
   .content,
   .close-button {
-    @apply text-0h py-2.5; // 16px (1rem) line-height 20px
+    @apply text-0h py-2.5;
   }
 }
 
