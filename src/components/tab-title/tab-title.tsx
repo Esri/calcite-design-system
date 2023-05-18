@@ -250,8 +250,8 @@ export class TabTitle implements InteractiveComponent, LocalizedComponent, T9nCo
         key={CSS.closeButton}
         onClick={this.closeClickHandler}
         onKeyDown={this.closeKeyHandler}
-        tabIndex={0}
         title={messages.close}
+        type="button"
       >
         <calcite-icon icon={ICONS.close} scale={this.scale === "l" ? "m" : "s"} />
       </button>
