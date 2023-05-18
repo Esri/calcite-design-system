@@ -99,7 +99,7 @@ describe("calcite-tab-title", () => {
       await page.waitForChanges();
 
       const containerEl = await page.find(`calcite-tab-title >>> .${CSS.container}`);
-      expect(containerEl).toHaveAttribute("hidden");
+      expect(await containerEl.getProperty("hidden")).toBe(true);
     });
 
     it("becomes no longer closable when it's the last remaining tab", async () => {
@@ -121,10 +121,10 @@ describe("calcite-tab-title", () => {
       await page.waitForChanges();
 
       containerElOne = await page.find(`calcite-tab-title[id='one']>>> .${CSS.container}`);
-      expect(containerElOne).toHaveAttribute("hidden");
+      expect(await containerElOne.getProperty("hidden")).toBe(true);
 
       const closeTwo = await page.find(`calcite-tab-title[id='two'] >>> .${CSS.closeButton}`);
-      expect(closeTwo).not.toHaveAttribute("closable");
+      expect(await closeTwo.getProperty("closable")).not.toBe(true);
     });
   });
 
@@ -145,7 +145,7 @@ describe("calcite-tab-title", () => {
         tabTitleContainerEl = await page.find(`calcite-tab-title[id='${id}'] >>> .${CSS.container}`);
         const close = await page.find(`calcite-tab-title[id='${id}'] >>> .${CSS.closeButton}`);
 
-        expect(tabTitleContainerEl).not.toHaveAttribute("hidden");
+        expect(await tabTitleContainerEl.getProperty("hidden")).not.toBe(true);
 
         await close.click();
         await page.waitForChanges();
@@ -154,18 +154,18 @@ describe("calcite-tab-title", () => {
         tabEl = await page.find(`#${id}`);
         tabTitleContainerEl = await page.find(`calcite-tab-title[id='${id}'] >>> .${CSS.container}`);
 
-        expect(tabTitleContainerEl).toHaveAttribute("hidden");
-        expect(tabTitleEl).not.toHaveAttribute("selected");
-        expect(tabEl).not.toHaveAttribute("selected");
+        expect(await tabTitleContainerEl.getProperty("hidden")).toBe(true);
+        expect(await tabTitleEl.getProperty("selected")).not.toBe(true);
+        expect(await tabEl.getProperty("selected")).not.toBe(true);
 
         const nextId = arrayOfIds[i + 1];
         const nextTabTitleEl = await page.find(`#${nextId}`);
         const nextTabEl = await page.find(`#${nextId}`);
         const nextTabTitleContainerEl = await page.find(`calcite-tab-title[id='${nextId}'] >>> .${CSS.container}`);
 
-        expect(nextTabTitleContainerEl).not.toHaveAttribute("hidden");
-        expect(nextTabTitleEl).toHaveAttribute("selected");
-        expect(nextTabEl).toHaveAttribute("selected");
+        expect(await nextTabTitleContainerEl.getProperty("hidden")).not.toBe(true);
+        expect(await nextTabTitleEl.getProperty("selected")).toBe(true);
+        expect(await nextTabEl.getProperty("selected")).toBe(true);
       }
     };
 
@@ -186,8 +186,7 @@ describe("calcite-tab-title", () => {
       const arrayOfReversedIds = ["embark", "car", "plane", "biking"].reverse();
 
       const bikingTabTitleEl = await page.find(`#biking`);
-      bikingTabTitleEl.setAttribute("selected", true);
-      await page.waitForChanges();
+      bikingTabTitleEl.setProperty("selected", true);
 
       await page.waitForChanges();
 
@@ -205,11 +204,11 @@ describe("calcite-tab-title", () => {
       await close.click();
       await page.waitForChanges();
 
-      expect(carTabTitleContainerEl).toHaveAttribute("hidden");
-      expect(matchingTabEl).not.toHaveAttribute("selected");
+      expect(await carTabTitleContainerEl.getProperty("hidden")).toBe(true);
+      expect(await matchingTabEl.getProperty("selected")).not.toBe(true);
 
-      expect(selectedEmbarkTabTitleContainerEl).not.toHaveAttribute("hidden");
-      expect(selectedEmbarkTabEl).toHaveAttribute("selected");
+      expect(await selectedEmbarkTabTitleContainerEl.getProperty("hidden")).not.toBe(true);
+      expect(await selectedEmbarkTabEl.getProperty("selected")).toBe(true);
 
       const planeTabTitleContainerEl = await page.find(`#plane >>> .${CSS.container}`);
       matchingTabEl = await page.find("#planeTab");
@@ -218,12 +217,13 @@ describe("calcite-tab-title", () => {
       await close.click();
       await page.waitForChanges();
 
-      expect(carTabTitleContainerEl).toHaveAttribute("hidden");
-      expect(planeTabTitleContainerEl).toHaveAttribute("hidden");
-      expect(matchingTabEl).not.toHaveAttribute("selected");
+      expect(await carTabTitleContainerEl.getProperty("hidden")).toBe(true);
 
-      expect(selectedEmbarkTabTitleContainerEl).not.toHaveAttribute("hidden");
-      expect(selectedEmbarkTabEl).toHaveAttribute("selected");
+      expect(await planeTabTitleContainerEl.getProperty("hidden")).toBe(true);
+      expect(await matchingTabEl.getProperty("selected")).not.toBe(true);
+
+      expect(await selectedEmbarkTabTitleContainerEl.getProperty("hidden")).not.toBe(true);
+      expect(await selectedEmbarkTabEl.getProperty("selected")).toBe(true);
 
       const bikingTabTitleContainerEl = await page.find(`#biking >>> .${CSS.container}`);
       matchingTabEl = await page.find("#bikingTab");
@@ -232,13 +232,13 @@ describe("calcite-tab-title", () => {
       await close.click();
       await page.waitForChanges();
 
-      expect(carTabTitleContainerEl).toHaveAttribute("hidden");
-      expect(planeTabTitleContainerEl).toHaveAttribute("hidden");
-      expect(bikingTabTitleContainerEl).toHaveAttribute("hidden");
-      expect(matchingTabEl).not.toHaveAttribute("selected");
+      expect(await carTabTitleContainerEl.getProperty("hidden")).toBe(true);
+      expect(await planeTabTitleContainerEl.getProperty("hidden")).toBe(true);
+      expect(await bikingTabTitleContainerEl.getProperty("hidden")).toBe(true);
+      expect(await matchingTabEl.getProperty("selected")).not.toBe(true);
 
-      expect(selectedEmbarkTabTitleContainerEl).not.toHaveAttribute("hidden");
-      expect(selectedEmbarkTabEl).toHaveAttribute("selected");
+      expect(await selectedEmbarkTabTitleContainerEl.getProperty("hidden")).not.toBe(true);
+      expect(await selectedEmbarkTabEl.getProperty("selected")).toBe(true);
     });
 
     it(`case 1: works with randomized closing sequence with mixed selected and not`, async () => {
@@ -246,10 +246,10 @@ describe("calcite-tab-title", () => {
       const carTabTitleContainerEl = await page.find(`#car >>> .${CSS.container}`);
       matchingTabEl = await page.find("#carTab");
 
-      carTabTitleEl.setAttribute("selected", true);
+      carTabTitleEl.setProperty("selected", true);
       await page.waitForChanges();
 
-      expect(matchingTabEl).toHaveAttribute("selected");
+      expect(await matchingTabEl.getProperty("selected")).toBe(true);
 
       const embarkTabTitleContainerEl = await page.find(`#embark >>> .${CSS.container}`);
       close = await page.find(`#embark >>> .${CSS.closeButton}`);
@@ -257,10 +257,10 @@ describe("calcite-tab-title", () => {
       await close.click();
       await page.waitForChanges();
 
-      expect(embarkTabTitleContainerEl).toHaveAttribute("hidden");
-      expect(carTabTitleContainerEl).not.toHaveAttribute("hidden");
-      expect(carTabTitleEl).toHaveAttribute("selected");
-      expect(matchingTabEl).toHaveAttribute("selected");
+      expect(await embarkTabTitleContainerEl.getProperty("hidden")).toBe(true);
+      expect(await carTabTitleContainerEl.getProperty("hidden")).not.toBe(true);
+      expect(await carTabTitleEl.getProperty("selected")).toBe(true);
+      expect(await matchingTabEl.getProperty("selected")).toBe(true);
 
       const planeTabTitleContainerEl = await page.find(`#plane >>> .${CSS.container}`);
       matchingTabEl = await page.find("#planeTab");
@@ -269,10 +269,10 @@ describe("calcite-tab-title", () => {
       await close.click();
       await page.waitForChanges();
 
-      expect(carTabTitleContainerEl).toHaveAttribute("hidden");
-      expect(planeTabTitleContainerEl).not.toHaveAttribute("hidden");
-      expect(carTabTitleEl).not.toHaveAttribute("selected");
-      expect(matchingTabEl).toHaveAttribute("selected");
+      expect(await carTabTitleContainerEl.getProperty("hidden")).toBe(true);
+      expect(await planeTabTitleContainerEl.getProperty("hidden")).not.toBe(true);
+      expect(await carTabTitleEl.getProperty("selected")).not.toBe(true);
+      expect(await matchingTabEl.getProperty("selected")).toBe(true);
     });
 
     it(`case 2: works with randomized closing sequence with mixed selected and not`, async () => {
@@ -280,10 +280,10 @@ describe("calcite-tab-title", () => {
       const carTabTitleContainerEl = await page.find(`#car >>> .${CSS.container}`);
       matchingTabEl = await page.find("#carTab");
 
-      carTabTitleEl.setAttribute("selected", true);
+      carTabTitleEl.setProperty("selected", true);
       await page.waitForChanges();
 
-      expect(matchingTabEl).toHaveAttribute("selected");
+      expect(await matchingTabEl.getProperty("selected")).toBe(true);
 
       const embarkTabTitleContainerEl = await page.find(`#embark >>> .${CSS.container}`);
       close = await page.find(`#embark >>> .${CSS.closeButton}`);
@@ -291,17 +291,17 @@ describe("calcite-tab-title", () => {
       await close.click();
       await page.waitForChanges();
 
-      expect(embarkTabTitleContainerEl).toHaveAttribute("hidden");
-      expect(carTabTitleContainerEl).not.toHaveAttribute("hidden");
-      expect(carTabTitleEl).toHaveAttribute("selected");
-      expect(matchingTabEl).toHaveAttribute("selected");
+      expect(await embarkTabTitleContainerEl.getProperty("hidden")).toBe(true);
+      expect(await carTabTitleContainerEl.getProperty("hidden")).not.toBe(true);
+      expect(await carTabTitleEl.getProperty("selected")).toBe(true);
+      expect(await matchingTabEl.getProperty("selected")).toBe(true);
 
       const planeTabTitleEl = await page.find(`#plane`);
 
-      planeTabTitleEl.setAttribute("selected", true);
+      planeTabTitleEl.setProperty("selected", true);
       await page.waitForChanges();
 
-      expect(planeTabTitleEl).toHaveAttribute("selected");
+      expect(await planeTabTitleEl.getProperty("selected")).toBe(true);
 
       const planeTabTitleContainerEl = await page.find(`#plane >>> .${CSS.container}`);
       const bikingTabTitleContainerEl = await page.find(`#biking >>> .${CSS.container}`);
@@ -311,12 +311,11 @@ describe("calcite-tab-title", () => {
       await close.click();
       await page.waitForChanges();
 
-      expect(planeTabTitleContainerEl).not.toHaveAttribute("hidden");
-      expect(carTabTitleContainerEl).toHaveAttribute("hidden");
-      expect(bikingTabTitleContainerEl).not.toHaveAttribute("hidden");
-
-      expect(planeTabTitleEl).toHaveAttribute("selected");
-      expect(matchingTabEl).toHaveAttribute("selected");
+      expect(await planeTabTitleContainerEl.getProperty("hidden")).not.toBe(true);
+      expect(await carTabTitleContainerEl.getProperty("hidden")).toBe(true);
+      expect(await bikingTabTitleContainerEl.getProperty("hidden")).not.toBe(true);
+      expect(await planeTabTitleEl.getProperty("selected")).toBe(true);
+      expect(await matchingTabEl.getProperty("selected")).toBe(true);
     });
   });
 
