@@ -92,6 +92,11 @@ describe("calcite-flow-item", () => {
 
     expect(backButtonNew).not.toBeNull();
 
+    const backButtonTooltip = await page.find(`calcite-flow-item >>> calcite-tooltip`);
+
+    expect(backButtonTooltip).not.toBeNull();
+    expect(await backButtonTooltip.getProperty("closeOnClick")).toBe(true);
+
     expect(await backButtonNew.isVisible()).toBe(true);
 
     const calciteFlowItemBack = await page.spyOnEvent("calciteFlowItemBack", "window");

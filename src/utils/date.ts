@@ -86,7 +86,11 @@ export function dateFromLocalizedString(value: string, localeData: DateLocaleDat
     return null;
   }
   const { separator } = localeData;
-  const { day, month, year } = parseDateString(value, localeData);
+  const parts = parseDateString(value, localeData);
+
+  const { day, month } = parts;
+  const year = parseCalendarYear(parts.year, localeData);
+
   const date = new Date(year, month, day);
   date.setFullYear(year);
 
@@ -100,6 +104,25 @@ export function dateFromLocalizedString(value: string, localeData: DateLocaleDat
     return date;
   }
   return null;
+}
+
+export function parseCalendarYear(year: number, localeData: DateLocaleData): number {
+  return processCalendarYear(year, localeData, "read");
+}
+
+export function formatCalendarYear(year: number, localeData: DateLocaleData): number {
+  return processCalendarYear(year, localeData, "write");
+}
+
+function processCalendarYear(year: number, localeData: DateLocaleData, mode: "read" | "write"): number {
+  if (localeData["default-calendar"] !== "buddhist") {
+    return year;
+  }
+
+  const BUDDHIST_CALENDAR_YEAR_OFFSET = 543;
+  const yearOffset = BUDDHIST_CALENDAR_YEAR_OFFSET * (mode === "read" ? -1 : 1);
+
+  return year + yearOffset;
 }
 
 /**

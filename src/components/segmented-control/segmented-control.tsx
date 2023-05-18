@@ -117,9 +117,7 @@ export class SegmentedControl
       return;
     }
     const items = this.getItems();
-    const match = Array.from(items)
-      .filter((item) => item === newItem)
-      .pop();
+    const match = items.filter((item) => item === newItem).pop();
 
     if (match) {
       this.selectItem(match);
@@ -141,9 +139,7 @@ export class SegmentedControl
     setUpLoadableComponent(this);
 
     const items = this.getItems();
-    const lastChecked = Array.from(items)
-      .filter((item) => item.checked)
-      .pop();
+    const lastChecked = items.filter((item) => item.checked).pop();
 
     if (lastChecked) {
       this.selectItem(lastChecked);
@@ -237,15 +233,13 @@ export class SegmentedControl
       case "ArrowLeft":
       case "ArrowUp":
         event.preventDefault();
-        const previous =
-          selectedIndex < 1 ? items.item(items.length - 1) : items.item(selectedIndex - 1);
+        const previous = selectedIndex < 1 ? items[items.length - 1] : items[selectedIndex - 1];
         this.selectItem(previous, true);
         return;
       case "ArrowRight":
       case "ArrowDown":
         event.preventDefault();
-        const next =
-          selectedIndex === -1 ? items.item(1) : items.item(selectedIndex + 1) || items.item(0);
+        const next = selectedIndex === -1 ? items[1] : items[selectedIndex + 1] || items[0];
         this.selectItem(next, true);
         return;
       case " ":
@@ -302,8 +296,8 @@ export class SegmentedControl
     this.setFocus();
   }
 
-  private getItems(): NodeListOf<HTMLCalciteSegmentedControlItemElement> {
-    return this.el.querySelectorAll("calcite-segmented-control-item");
+  private getItems(): HTMLCalciteSegmentedControlItemElement[] {
+    return Array.from(this.el.querySelectorAll("calcite-segmented-control-item"));
   }
 
   private selectItem(selected: HTMLCalciteSegmentedControlItemElement, emit = false): void {
@@ -315,7 +309,7 @@ export class SegmentedControl
     let match: HTMLCalciteSegmentedControlItemElement = null;
 
     items.forEach((item) => {
-      const matches = item.value === selected.value;
+      const matches = item === selected;
 
       if ((matches && !item.checked) || (!matches && item.checked)) {
         item.checked = matches;
