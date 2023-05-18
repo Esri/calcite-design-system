@@ -1,14 +1,17 @@
 export const CSS = {
   container: "container",
   containerContent: "container-content",
-  hide: "hide"
+  hasProgress: "progress-bar",
+  hide: "hide",
+  primary: "primary",
+  secondary: "secondary",
+  tertiary: "tertiary"
 };
 
 export const SLOTS = {
   logo: "logo",
   user: "user",
   progress: "progress",
-  primary: "primary",
   navAction: "nav-action",
   contentStart: "content-start",
   contentEnd: "content-end",

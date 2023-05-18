@@ -153,7 +153,7 @@ export class CalciteNavigation {
   };
 
   private isPrimaryLevel = (): boolean => {
-    return this.el.slot !== SLOTS.navSecondary && this.el.slot !== SLOTS.navSecondary;
+    return this.el.slot !== SLOTS.navSecondary && this.el.slot !== SLOTS.navTertiary;
   };
 
   //--------------------------------------------------------------------------
@@ -187,15 +187,17 @@ export class CalciteNavigation {
         <div
           class={{
             [CSS.container]: true,
-            [SLOTS.navSecondary]: slotName === SLOTS.navSecondary,
-            [SLOTS.navTertiary]: slotName === SLOTS.navTertiary,
-            [SLOTS.primary]: primaryLevelHasElements
+            [CSS.secondary]: slotName === SLOTS.navSecondary,
+            [CSS.tertiary]: slotName === SLOTS.navTertiary,
+            [CSS.primary]: primaryLevelHasElements
           }}
         >
           <div class={{ [CSS.hide]: !this.progressSlotHasElement, [SLOTS.progress]: true }}>
             <slot name={SLOTS.progress} onSlotchange={this.handleProgressSlotChange} />
           </div>
-          <div class={CSS.containerContent}>
+          <div
+            class={{ [CSS.containerContent]: true, [CSS.hasProgress]: this.progressSlotHasElement }}
+          >
             {this.renderMenuAction()}
             <div class={{ [CSS.hide]: !this.userSlotHasElements, [SLOTS.logo]: true }}>
               <slot name={SLOTS.logo} onSlotchange={this.handleLogoSlotChange} />
