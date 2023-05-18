@@ -1285,7 +1285,7 @@ export class Combobox
   render(): VNode {
     const { guid, label, open } = this;
     const single = this.selectionMode === "single";
-    const isClearable = !this.clearDisabled && this.value.length > 0;
+    const isClearable = !this.clearDisabled && this.value?.length > 0;
 
     return (
       <Host onClick={this.comboboxFocusHandler}>

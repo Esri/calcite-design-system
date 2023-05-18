@@ -98,27 +98,27 @@
   }
 
   .x-button {
-    @apply flex
-    self-center
-    focus-base
-    transition-default
-    text-color-3
-    m-0
+    @apply appearance-none
+    bg-transparent
     border-2
+    content-center
     cursor-pointer
+    flex
+    focus-base
     items-center
-    bg-transparent;
-    -webkit-appearance: none;
-    display: flex;
+    justify-center
+    m-0
+    self-center
+    text-color-3
+    transition-default;
+
     border-radius: 50%;
-    align-content: center;
-    justify-content: center;
     border-color: transparent;
     background-color: var(--calcite-ui-foreground-2);
 
     &:active,
     &:hover {
-      @apply text-color-3;
+      @apply text-color-1;
       background-color: var(--calcite-ui-foreground-3);
     }
 
