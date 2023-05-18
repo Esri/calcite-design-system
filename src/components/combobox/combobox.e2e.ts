@@ -49,10 +49,6 @@ describe("calcite-combobox", () => {
         value: true
       },
       {
-        propertyName: "disabled",
-        value: true
-      },
-      {
         propertyName: "form",
         value: "test-form"
       },
@@ -69,6 +65,11 @@ describe("calcite-combobox", () => {
         value: true
       },
       {
+        // needs to run after `open` since it resets `open` after it's asserted value
+        propertyName: "disabled",
+        value: true
+      },
+      {
         propertyName: "placeholderIcon",
         value: "banana"
       },
@@ -82,7 +83,7 @@ describe("calcite-combobox", () => {
       },
       {
         propertyName: "scale",
-        value: "m"
+        value: "s"
       },
       {
         propertyName: "selectionMode",
@@ -590,6 +591,7 @@ describe("calcite-combobox", () => {
 
     it("should replace current value to new custom value in single selection mode", async () => {
       const page = await newE2EPage();
+      await skipAnimations(page);
       await page.setContent(
         html`
           <calcite-combobox allow-custom-values selection-mode="single">
@@ -605,7 +607,6 @@ describe("calcite-combobox", () => {
       await input.click();
       await input.press("K");
       await input.press("Enter");
-      await input.press("Escape");
       await page.waitForChanges();
 
       const item1 = await page.find("calcite-combobox-item#one");
@@ -652,69 +653,134 @@ describe("calcite-combobox", () => {
   });
 
   describe("clearing values", () => {
-    const testCases = [
-      {
-        selectionMode: "single",
-        html: html`
-          <calcite-combobox selection-mode="single">
-            <calcite-combobox-item selected id="one" value="one" text-label="one"></calcite-combobox-item>
-            <calcite-combobox-item id="two" value="two" text-label="two"></calcite-combobox-item>
-            <calcite-combobox-item id="three" value="three" text-label="three"></calcite-combobox-item>
-          </calcite-combobox>
-        `
-      },
-      {
-        selectionMode: "multiple",
-        html: html`
-          <calcite-combobox selection-mode="multiple">
-            <calcite-combobox-item selected id="one" value="one" text-label="one"></calcite-combobox-item>
-            <calcite-combobox-item selected id="two" value="two" text-label="two"></calcite-combobox-item>
-            <calcite-combobox-item selected id="three" value="three" text-label="three"></calcite-combobox-item>
-          </calcite-combobox>
-        `
-      },
-      {
-        selectionMode: "ancestors",
-        html: html`
-          <calcite-combobox selection-mode="ancestors">
-            <calcite-combobox-item value="parent" text-label="parent">
-              <calcite-combobox-item value="child1" text-label="child1"></calcite-combobox-item>
-              <calcite-combobox-item selected value="child2" text-label="child2"></calcite-combobox-item>
-            </calcite-combobox-item>
-          </calcite-combobox>
-        `
-      }
-    ];
+    describe("enabled", () => {
+      const testCases = [
+        {
+          selectionMode: "single",
+          html: html`
+            <calcite-combobox selection-mode="single">
+              <calcite-combobox-item selected id="one" value="one" text-label="one"></calcite-combobox-item>
+              <calcite-combobox-item id="two" value="two" text-label="two"></calcite-combobox-item>
+              <calcite-combobox-item id="three" value="three" text-label="three"></calcite-combobox-item>
+            </calcite-combobox>
+          `
+        },
+        {
+          selectionMode: "multiple",
+          html: html`
+            <calcite-combobox selection-mode="multiple">
+              <calcite-combobox-item selected id="one" value="one" text-label="one"></calcite-combobox-item>
+              <calcite-combobox-item selected id="two" value="two" text-label="two"></calcite-combobox-item>
+              <calcite-combobox-item selected id="three" value="three" text-label="three"></calcite-combobox-item>
+            </calcite-combobox>
+          `
+        },
+        {
+          selectionMode: "ancestors",
+          html: html`
+            <calcite-combobox selection-mode="ancestors">
+              <calcite-combobox-item value="parent" text-label="parent">
+                <calcite-combobox-item value="child1" text-label="child1"></calcite-combobox-item>
+                <calcite-combobox-item selected value="child2" text-label="child2"></calcite-combobox-item>
+              </calcite-combobox-item>
+            </calcite-combobox>
+          `
+        }
+      ];
 
-    async function assertValueClearing(html: string, mode: "mouse" | "keyboard"): Promise<void> {
+      describe("via mouse", () => {
+        testCases.forEach((testCase) => {
+          it(`clears the value in ${testCase.selectionMode}-selection mode`, () =>
+            assertValueClearing(testCase.html, "mouse", "clear"));
+        });
+      });
+
+      describe("via keyboard", () => {
+        testCases.forEach((testCase) => {
+          it(`clears the value in ${testCase.selectionMode}-selection mode`, () =>
+            assertValueClearing(testCase.html, "keyboard", "clear"));
+        });
+      });
+    });
+
+    describe("disabled", () => {
+      const testCases = [
+        {
+          selectionMode: "single",
+          html: html`
+            <calcite-combobox clear-disabled selection-mode="single">
+              <calcite-combobox-item selected id="one" value="one" text-label="one"></calcite-combobox-item>
+              <calcite-combobox-item id="two" value="two" text-label="two"></calcite-combobox-item>
+              <calcite-combobox-item id="three" value="three" text-label="three"></calcite-combobox-item>
+            </calcite-combobox>
+          `
+        },
+        {
+          selectionMode: "multiple",
+          html: html`
+            <calcite-combobox clear-disabled selection-mode="multiple">
+              <calcite-combobox-item selected id="one" value="one" text-label="one"></calcite-combobox-item>
+              <calcite-combobox-item selected id="two" value="two" text-label="two"></calcite-combobox-item>
+              <calcite-combobox-item selected id="three" value="three" text-label="three"></calcite-combobox-item>
+            </calcite-combobox>
+          `
+        },
+        {
+          selectionMode: "ancestors",
+          html: html`
+            <calcite-combobox clear-disabled selection-mode="ancestors">
+              <calcite-combobox-item value="parent" text-label="parent">
+                <calcite-combobox-item value="child1" text-label="child1"></calcite-combobox-item>
+                <calcite-combobox-item selected value="child2" text-label="child2"></calcite-combobox-item>
+              </calcite-combobox-item>
+            </calcite-combobox>
+          `
+        }
+      ];
+
+      describe("via mouse", () => {
+        testCases.forEach((testCase) => {
+          it(`clears the value in ${testCase.selectionMode}-selection mode`, () =>
+            assertValueClearing(testCase.html, "mouse", "no-clear"));
+        });
+      });
+
+      describe("via keyboard", () => {
+        testCases.forEach((testCase) => {
+          it(`clears the value in ${testCase.selectionMode}-selection mode`, () =>
+            assertValueClearing(testCase.html, "keyboard", "no-clear"));
+        });
+      });
+    });
+
+    async function assertValueClearing(
+      html: string,
+      mode: "mouse" | "keyboard",
+      expectedBehavior: "clear" | "no-clear"
+    ): Promise<void> {
       const page = await newE2EPage();
       await page.setContent(html);
 
       const combobox = await page.find("calcite-combobox");
       if (mode === "mouse") {
         const xButton = await page.find(`calcite-combobox >>> .${XButtonCSS.button}`);
-        await xButton.click();
+
+        if (expectedBehavior === "clear") {
+          await xButton.click();
+        } else {
+          expect(xButton).toBeNull();
+        }
       } else {
         await combobox.callMethod("setFocus");
         await page.keyboard.press("Escape");
       }
 
-      expect(await combobox.getProperty("value")).toBe("");
+      if (expectedBehavior === "clear") {
+        expect(await combobox.getProperty("value")).toBe("");
+      } else {
+        expect(await combobox.getProperty("value")).not.toBe("");
+      }
     }
-
-    describe("via mouse", () => {
-      testCases.forEach((testCase) => {
-        it(`clears the value in ${testCase.selectionMode}-selection mode`, () =>
-          assertValueClearing(testCase.html, "mouse"));
-      });
-    });
-
-    describe("via keyboard", () => {
-      testCases.forEach((testCase) => {
-        it(`clears the value in ${testCase.selectionMode}-selection mode`, () =>
-          assertValueClearing(testCase.html, "keyboard"));
-      });
-    });
   });
 
   describe("keyboard navigation", () => {

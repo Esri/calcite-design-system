@@ -628,7 +628,7 @@ export class Combobox
         }
         break;
       case "Escape":
-        if (!this.open) {
+        if (!this.clearDisabled && !this.open) {
           this.clearValue();
         }
 
