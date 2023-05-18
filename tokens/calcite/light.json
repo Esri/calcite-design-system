@@ -45,7 +45,7 @@
       "type": "color"
     },
     "warning": {
-      "value": "$block-section.icon.invalid.dark",
+      "value": "$semantic.ui.color.warning.default.light",
       "type": "color"
     },
     "danger": {
