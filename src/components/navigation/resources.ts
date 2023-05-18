@@ -1,6 +1,11 @@
 export const CSS = {
   container: "container",
-  containerContent: "container-content"
+  containerContent: "container-content",
+  hasProgress: "progress-bar",
+  hide: "hide",
+  primary: "primary",
+  secondary: "secondary",
+  tertiary: "tertiary"
 };
 
 export const SLOTS = {
@@ -8,19 +13,11 @@ export const SLOTS = {
   user: "user",
   progress: "progress",
   navAction: "nav-action",
-  primaryContentStart: "primary-content-start",
-  primaryContentEnd: "primary-content-end",
-  primaryContentCenter: "primary-content-center",
-  secondaryContentStart: "secondary-content-start",
-  secondaryContentEnd: "secondary-content-end",
-  tertiaryContentStart: "tertiary-content-start",
-  tertiaryContentEnd: "tertiary-content-end"
-};
-
-export const LEVEL = {
-  primary: "primary",
-  secondary: "secondary",
-  tertiary: "tertiary"
+  contentStart: "content-start",
+  contentEnd: "content-end",
+  contentCenter: "content-center",
+  navSecondary: "navigation-secondary",
+  navTertiary: "navigation-tertiary"
 };
 
 export const ICONS = {
