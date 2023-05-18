@@ -163,9 +163,7 @@ export class CalciteNavigation {
             {isPrimaryLevel && this.renderMenuAction()}
             {isPrimaryLevel && <slot name={SLOTS.logo} onSlotchange={this.handleLogoSlotChange} />}
             <slot name={SLOTS.contentStart} onSlotchange={this.handleContentStartSlotChange} />
-            {isPrimaryLevel && (
-              <slot name={SLOTS.contentCenter} onSlotchange={this.handleContentCenterSlotChange} />
-            )}
+            <slot name={SLOTS.contentCenter} onSlotchange={this.handleContentCenterSlotChange} />
             <slot name={SLOTS.contentEnd} onSlotchange={this.handleContentEndSlotChange} />
             {isPrimaryLevel && <slot name={SLOTS.user} onSlotchange={this.handleUserSlotChange} />}
           </div>
