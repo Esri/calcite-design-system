@@ -113,9 +113,9 @@ export class Combobox
   //--------------------------------------------------------------------------
 
   /**
-   * When `true`, a clear button is displayed when the component has a value.
+   * When `true`, the clear-value button will not be displayed when the component has a value.
    */
-  @Prop({ reflect: true }) clearable = false;
+  @Prop({ reflect: true }) clearDisabled = false;
 
   /**When `true`, displays and positions the component. */
   @Prop({ reflect: true, mutable: true }) open = false;
@@ -1270,7 +1270,7 @@ export class Combobox
   render(): VNode {
     const { guid, label, open } = this;
     const single = this.selectionMode === "single";
-    const isClearable = this.clearable && this.value.length > 0;
+    const isClearable = !this.clearDisabled && this.value.length > 0;
 
     return (
       <Host onClick={this.comboboxFocusHandler}>

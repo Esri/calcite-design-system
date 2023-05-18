@@ -8,7 +8,8 @@ import {
   floatingUIOwner,
   formAssociated,
   disabled,
-  t9n
+  t9n,
+  reflects
 } from "../../tests/commonTests";
 
 import { html } from "../../../support/formatting";
@@ -23,12 +24,68 @@ describe("calcite-combobox", () => {
   it("defaults", async () =>
     defaults("calcite-combobox", [
       {
+        propertyName: "clearDisabled",
+        defaultValue: false
+      },
+      {
         propertyName: "overlayPositioning",
         defaultValue: "absolute"
       },
       {
         propertyName: "flipPlacements",
         defaultValue: undefined
+      }
+    ]));
+
+  it("reflects", async () =>
+    reflects("calcite-combobox", [
+      {
+        propertyName: "allowCustomValues",
+        value: true
+      },
+      {
+        propertyName: "clearDisabled",
+        value: true
+      },
+      {
+        propertyName: "disabled",
+        value: true
+      },
+      {
+        propertyName: "form",
+        value: "test-form"
+      },
+      {
+        propertyName: "maxItems",
+        value: 1
+      },
+      {
+        propertyName: "name",
+        value: "test-name"
+      },
+      {
+        propertyName: "open",
+        value: true
+      },
+      {
+        propertyName: "placeholderIcon",
+        value: "banana"
+      },
+      {
+        propertyName: "placeholderIconFlipRtl",
+        value: true
+      },
+      {
+        propertyName: "required",
+        value: true
+      },
+      {
+        propertyName: "scale",
+        value: "m"
+      },
+      {
+        propertyName: "selectionMode",
+        value: "single"
       }
     ]));
 
@@ -593,8 +650,8 @@ describe("calcite-combobox", () => {
     });
   });
 
-  describe("clearable", () => {
-    async function assertClearable(html: string): Promise<void> {
+  describe("clearing values", () => {
+    async function assertValueClearing(html: string): Promise<void> {
       const page = await newE2EPage();
       await page.setContent(html);
       const combobox = await page.find("calcite-combobox");
@@ -606,8 +663,8 @@ describe("calcite-combobox", () => {
     }
 
     it("clears the value in single-selection mode", async () =>
-      assertClearable(html`
-        <calcite-combobox clearable selection-mode="single">
+      assertValueClearing(html`
+        <calcite-combobox selection-mode="single">
           <calcite-combobox-item selected id="one" value="one" text-label="one"></calcite-combobox-item>
           <calcite-combobox-item id="two" value="two" text-label="two"></calcite-combobox-item>
           <calcite-combobox-item id="three" value="three" text-label="three"></calcite-combobox-item>
@@ -615,8 +672,8 @@ describe("calcite-combobox", () => {
       `));
 
     it("clears the value in multiple-selection mode", async () =>
-      assertClearable(html`
-        <calcite-combobox clearable selection-mode="multiple">
+      assertValueClearing(html`
+        <calcite-combobox selection-mode="multiple">
           <calcite-combobox-item selected id="one" value="one" text-label="one"></calcite-combobox-item>
           <calcite-combobox-item selected id="two" value="two" text-label="two"></calcite-combobox-item>
           <calcite-combobox-item selected id="three" value="three" text-label="three"></calcite-combobox-item>
@@ -624,8 +681,8 @@ describe("calcite-combobox", () => {
       `));
 
     it("clears the value in ancestors-selection mode", async () =>
-      assertClearable(html`
-        <calcite-combobox clearable selection-mode="ancestors">
+      assertValueClearing(html`
+        <calcite-combobox selection-mode="ancestors">
           <calcite-combobox-item value="parent" text-label="parent">
             <calcite-combobox-item value="child1" text-label="child1"></calcite-combobox-item>
             <calcite-combobox-item selected value="child2" text-label="child2"></calcite-combobox-item>
