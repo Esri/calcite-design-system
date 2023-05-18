@@ -102,7 +102,7 @@
     self-center
     focus-base
     transition-default
-    text-color-1
+    text-color-3
     m-0
     border-2
     cursor-pointer
@@ -116,14 +116,15 @@
     border-color: transparent;
     background-color: var(--calcite-ui-foreground-2);
 
+    &:active,
     &:hover {
+      @apply text-color-3;
       background-color: var(--calcite-ui-foreground-3);
     }
 
     &:active {
       @apply border-solid;
       border-color: theme("borderColor.color-brand");
-      background-color: var(--calcite-ui-foreground-3);
     }
 
     & calcite-icon {
