@@ -652,44 +652,69 @@ describe("calcite-combobox", () => {
   });
 
   describe("clearing values", () => {
-    async function assertValueClearing(html: string): Promise<void> {
+    const testCases = [
+      {
+        selectionMode: "single",
+        html: html`
+          <calcite-combobox selection-mode="single">
+            <calcite-combobox-item selected id="one" value="one" text-label="one"></calcite-combobox-item>
+            <calcite-combobox-item id="two" value="two" text-label="two"></calcite-combobox-item>
+            <calcite-combobox-item id="three" value="three" text-label="three"></calcite-combobox-item>
+          </calcite-combobox>
+        `
+      },
+      {
+        selectionMode: "multiple",
+        html: html`
+          <calcite-combobox selection-mode="multiple">
+            <calcite-combobox-item selected id="one" value="one" text-label="one"></calcite-combobox-item>
+            <calcite-combobox-item selected id="two" value="two" text-label="two"></calcite-combobox-item>
+            <calcite-combobox-item selected id="three" value="three" text-label="three"></calcite-combobox-item>
+          </calcite-combobox>
+        `
+      },
+      {
+        selectionMode: "ancestors",
+        html: html`
+          <calcite-combobox selection-mode="ancestors">
+            <calcite-combobox-item value="parent" text-label="parent">
+              <calcite-combobox-item value="child1" text-label="child1"></calcite-combobox-item>
+              <calcite-combobox-item selected value="child2" text-label="child2"></calcite-combobox-item>
+            </calcite-combobox-item>
+          </calcite-combobox>
+        `
+      }
+    ];
+
+    async function assertValueClearing(html: string, mode: "mouse" | "keyboard"): Promise<void> {
       const page = await newE2EPage();
       await page.setContent(html);
-      const combobox = await page.find("calcite-combobox");
-      const xButton = await page.find(`calcite-combobox >>> .${XButtonCSS.button}`);
 
-      await xButton.click();
+      const combobox = await page.find("calcite-combobox");
+      if (mode === "mouse") {
+        const xButton = await page.find(`calcite-combobox >>> .${XButtonCSS.button}`);
+        await xButton.click();
+      } else {
+        await combobox.callMethod("setFocus");
+        await page.keyboard.press("Escape");
+      }
 
       expect(await combobox.getProperty("value")).toBe("");
     }
 
-    it("clears the value in single-selection mode", async () =>
-      assertValueClearing(html`
-        <calcite-combobox selection-mode="single">
-          <calcite-combobox-item selected id="one" value="one" text-label="one"></calcite-combobox-item>
-          <calcite-combobox-item id="two" value="two" text-label="two"></calcite-combobox-item>
-          <calcite-combobox-item id="three" value="three" text-label="three"></calcite-combobox-item>
-        </calcite-combobox>
-      `));
+    describe("via mouse", () => {
+      testCases.forEach((testCase) => {
+        it(`clears the value in ${testCase.selectionMode}-selection mode`, () =>
+          assertValueClearing(testCase.html, "mouse"));
+      });
+    });
 
-    it("clears the value in multiple-selection mode", async () =>
-      assertValueClearing(html`
-        <calcite-combobox selection-mode="multiple">
-          <calcite-combobox-item selected id="one" value="one" text-label="one"></calcite-combobox-item>
-          <calcite-combobox-item selected id="two" value="two" text-label="two"></calcite-combobox-item>
-          <calcite-combobox-item selected id="three" value="three" text-label="three"></calcite-combobox-item>
-        </calcite-combobox>
-      `));
-
-    it("clears the value in ancestors-selection mode", async () =>
-      assertValueClearing(html`
-        <calcite-combobox selection-mode="ancestors">
-          <calcite-combobox-item value="parent" text-label="parent">
-            <calcite-combobox-item value="child1" text-label="child1"></calcite-combobox-item>
-            <calcite-combobox-item selected value="child2" text-label="child2"></calcite-combobox-item>
-          </calcite-combobox-item>
-        </calcite-combobox>
-      `));
+    describe("via keyboard", () => {
+      testCases.forEach((testCase) => {
+        it(`clears the value in ${testCase.selectionMode}-selection mode`, () =>
+          assertValueClearing(testCase.html, "keyboard"));
+      });
+    });
   });
 
   describe("keyboard navigation", () => {

@@ -113,7 +113,7 @@ export class Combobox
   //--------------------------------------------------------------------------
 
   /**
-   * When `true`, the clear-value button will not be displayed when the component has a value.
+   * When `true`, the value-clearing will be disabled.
    */
   @Prop({ reflect: true }) clearDisabled = false;
 
@@ -552,7 +552,7 @@ export class Combobox
     );
   }
 
-  keydownHandler = (event: KeyboardEvent): void => {
+  private keyDownHandler = (event: KeyboardEvent): void => {
     const { key } = event;
 
     switch (key) {
@@ -628,6 +628,10 @@ export class Combobox
         }
         break;
       case "Escape":
+        if (!this.open) {
+          this.clearValue();
+        }
+
         this.open = false;
         event.preventDefault();
         break;
@@ -1303,7 +1307,7 @@ export class Combobox
             "wrapper--active": open
           }}
           onClick={this.clickHandler}
-          onKeyDown={this.keydownHandler}
+          onKeyDown={this.keyDownHandler}
           role="combobox"
           // eslint-disable-next-line react/jsx-sort-props
           ref={this.setReferenceEl}
