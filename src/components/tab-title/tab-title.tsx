@@ -222,7 +222,7 @@ export class TabTitle implements InteractiveComponent, LocalizedComponent, T9nCo
         <div
           class={{
             container: true,
-            [CSS.iconPresent]: this.iconStart || this.iconEnd ? true : null
+            [CSS.iconPresent]: !!this.iconStart || !!this.iconEnd
           }}
           hidden={closed}
           // eslint-disable-next-line react/jsx-sort-props

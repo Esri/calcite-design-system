@@ -3,7 +3,6 @@ import {
   Element,
   Event,
   EventEmitter,
-  forceUpdate,
   h,
   Host,
   Listen,
@@ -386,18 +385,11 @@ export class TabNav {
   handleTabTitleClose(closedTabTitleEl: HTMLCalciteTabTitleElement): void {
     const { tabTitles } = this;
 
-    let visibleTabTitlesIndices = tabTitles.reduce((acc, curr, i) => {
-      if (!curr.closed) {
-        acc.push(i);
-      }
-      return acc;
+    const visibleTabTitlesIndices = tabTitles.reduce((acc, curr, i) => {
+      return !curr.closed ? [...acc, i] : acc;
     }, []);
 
     const closedTabTitleIndex = tabTitles.findIndex((el) => el === closedTabTitleEl);
-
-    visibleTabTitlesIndices = visibleTabTitlesIndices.filter(
-      (index) => index !== closedTabTitleIndex
-    );
 
     if (visibleTabTitlesIndices.length > 1) {
       const nextTabTitleIndex = visibleTabTitlesIndices.find(
@@ -407,7 +399,6 @@ export class TabNav {
         this.selectedTabId = nextTabTitleIndex
           ? nextTabTitleIndex
           : visibleTabTitlesIndices.length - 1;
-        forceUpdate(this.el);
       }
     } else if (
       visibleTabTitlesIndices.length === 1 &&
@@ -415,7 +406,6 @@ export class TabNav {
     ) {
       tabTitles[visibleTabTitlesIndices[0]].closable = false;
       this.selectedTabId = visibleTabTitlesIndices[0];
-      forceUpdate(this.el);
     }
 
     requestAnimationFrame(() => {

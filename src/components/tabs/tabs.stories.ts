@@ -83,34 +83,23 @@ borderedDarkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
 
 const selectedIcon = iconNames[0];
 
-export const withIconsClosable = (): string => html`
+export const withIcons = (): string => html`
   <calcite-tabs
     layout="${select("layout", ["inline", "center"], "inline")}"
     position="${select("position", ["top", "bottom"], "top")}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
   >
     <calcite-tab-nav slot="title-group">
-      <calcite-tab-title
-        selected
-        closable="${boolean("closable", true)}"
-        icon-start="${select("tab 1 icon-start", iconNames, selectedIcon)}"
+      <calcite-tab-title selected icon-start="${select("tab 1 icon-start", iconNames, selectedIcon)}"
         >Tab 1 Title</calcite-tab-title
       >
+      <calcite-tab-title icon-end="${select("tab 2 icon-end", iconNames, selectedIcon)}">Tab 2 Title</calcite-tab-title>
       <calcite-tab-title
-        closable="${boolean("closable", true)}"
-        icon-end="${select("tab 2 icon-end", iconNames, selectedIcon)}"
-        >Tab 2 Title</calcite-tab-title
-      >
-      <calcite-tab-title
-        closable="${boolean("closable", false)}"
         icon-start="${select("tab 3 icon-start", iconNames, selectedIcon)}"
         icon-end="${select("tab 3 icon-end", iconNames, selectedIcon)}"
         >Tab 3 Title</calcite-tab-title
       >
-      <calcite-tab-title
-        closable="${boolean("closable", false)}"
-        icon-start="${select("tab 4 icon-start", iconNames, selectedIcon)}"
-      ></calcite-tab-title>
+      <calcite-tab-title icon-start="${select("tab 4 icon-start", iconNames, selectedIcon)}"></calcite-tab-title>
     </calcite-tab-nav>
 
     <calcite-tab selected><p>Tab 1 Content</p></calcite-tab>
