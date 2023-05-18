@@ -128,6 +128,7 @@ export class Tab {
     if (targetTabsEl !== this.parentTabsEl) {
       return;
     }
+
     if (this.tab) {
       this.selected = this.tab === event.detail.tab;
     } else {
