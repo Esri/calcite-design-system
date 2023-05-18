@@ -1,6 +1,7 @@
 export const CSS = {
   container: "container",
-  containerContent: "container-content"
+  containerContent: "container-content",
+  hide: "hide"
 };
 
 export const SLOTS = {

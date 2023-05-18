@@ -100,31 +100,31 @@ export class CalciteNavigation {
   };
 
   private handleUserSlotChange = (event: Event): void => {
-    if (this.isPrimaryLevel(this.el)) {
+    if (this.isPrimaryLevel()) {
       this.userSlotHasElements = slotChangeHasAssignedElement(event);
     }
   };
 
   private handleLogoSlotChange = (event: Event): void => {
-    if (this.isPrimaryLevel(this.el)) {
+    if (this.isPrimaryLevel()) {
       this.logoSlotHasElements = slotChangeHasAssignedElement(event);
     }
   };
 
   private handleContentStartSlotChange = (event: Event): void => {
-    if (this.isPrimaryLevel(this.el)) {
+    if (this.isPrimaryLevel()) {
       this.primaryContentStartSlotHasElements = slotChangeHasAssignedElement(event);
     }
   };
 
   private handleContentEndSlotChange = (event: Event): void => {
-    if (this.isPrimaryLevel(this.el)) {
+    if (this.isPrimaryLevel()) {
       this.primaryContentEndSlotHasElements = slotChangeHasAssignedElement(event);
     }
   };
 
   private handleContentCenterSlotChange = (event: Event): void => {
-    if (this.isPrimaryLevel(this.el)) {
+    if (this.isPrimaryLevel()) {
       this.primaryContentCenterSlotHasElements = slotChangeHasAssignedElement(event);
     }
   };
@@ -138,7 +138,7 @@ export class CalciteNavigation {
   };
 
   private handleMenuActionSlotChange = (event: Event): void => {
-    if (this.isPrimaryLevel(this.el)) {
+    if (this.isPrimaryLevel()) {
       this.navActionSlotHasElements = slotChangeHasAssignedElement(event);
       if (this.navActionSlotHasElements) {
         this.navAction = false;
@@ -147,14 +147,14 @@ export class CalciteNavigation {
   };
 
   private handleProgressSlotChange = (event: Event): void => {
-    if (this.isPrimaryLevel(this.el)) {
+    if (this.isPrimaryLevel()) {
       this.progressSlotHasElement = slotChangeHasAssignedElement(event);
     }
   };
 
-  private isPrimaryLevel(el: HTMLCalciteNavigationElement): boolean {
-    return el.slot !== SLOTS.navSecondary && el.slot !== SLOTS.navSecondary;
-  }
+  private isPrimaryLevel = (): boolean => {
+    return this.el.slot !== SLOTS.navSecondary && this.el.slot !== SLOTS.navSecondary;
+  };
 
   //--------------------------------------------------------------------------
   //
@@ -181,28 +181,29 @@ export class CalciteNavigation {
       this.primaryContentEndSlotHasElements ||
       this.primaryContentStartSlotHasElements ||
       this.navAction;
+    const slotName = this.el.slot;
     return (
       <Host>
         <div
           class={{
             [CSS.container]: true,
-            [SLOTS.navSecondary]: this.el.slot === SLOTS.navSecondary,
-            [SLOTS.navTertiary]: this.el.slot === SLOTS.navTertiary,
+            [SLOTS.navSecondary]: slotName === SLOTS.navSecondary,
+            [SLOTS.navTertiary]: slotName === SLOTS.navTertiary,
             [SLOTS.primary]: primaryLevelHasElements
           }}
         >
-          <div class={{ hide: !this.progressSlotHasElement, progress: true }}>
+          <div class={{ [CSS.hide]: !this.progressSlotHasElement, [SLOTS.progress]: true }}>
             <slot name={SLOTS.progress} onSlotchange={this.handleProgressSlotChange} />
           </div>
           <div class={CSS.containerContent}>
             {this.renderMenuAction()}
-            <div class={{ hide: !this.userSlotHasElements, logo: true }}>
+            <div class={{ [CSS.hide]: !this.userSlotHasElements, [SLOTS.logo]: true }}>
               <slot name={SLOTS.logo} onSlotchange={this.handleLogoSlotChange} />
             </div>
             <slot name={SLOTS.contentStart} onSlotchange={this.handleContentStartSlotChange} />
             <slot name={SLOTS.contentCenter} onSlotchange={this.handleContentCenterSlotChange} />
             <slot name={SLOTS.contentEnd} onSlotchange={this.handleContentEndSlotChange} />
-            <div class={{ hide: !this.userSlotHasElements, user: true }}>
+            <div class={{ [CSS.hide]: !this.userSlotHasElements, [SLOTS.user]: true }}>
               <slot name={SLOTS.user} onSlotchange={this.handleUserSlotChange} />
             </div>
           </div>

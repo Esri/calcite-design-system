@@ -30,7 +30,7 @@
 }
 
 .hide {
-  display: none;
+  @apply hidden;
 }
 
 .primary {
