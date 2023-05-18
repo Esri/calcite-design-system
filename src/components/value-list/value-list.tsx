@@ -56,6 +56,13 @@ import { ListItemAndHandle } from "../value-list-item/interfaces";
 import { ValueListMessages } from "./assets/value-list/t9n";
 import { CSS, ICON_TYPES } from "./resources";
 import { getHandleAndItemElement, getScreenReaderText } from "./utils";
+import {
+  connectSortableComponent,
+  disconnectSortableComponent,
+  startSorting,
+  SortableComponent,
+  stopSorting
+} from "../../utils/sortableComponent";
 
 /**
  * @deprecated Use the `list` component instead.
@@ -70,7 +77,12 @@ import { getHandleAndItemElement, getScreenReaderText } from "./utils";
 })
 export class ValueList<
   ItemElement extends HTMLCalciteValueListItemElement = HTMLCalciteValueListItemElement
-> implements InteractiveComponent, LoadableComponent, LocalizedComponent, T9nComponent
+> implements
+    InteractiveComponent,
+    LoadableComponent,
+    LocalizedComponent,
+    T9nComponent,
+    SortableComponent
 {
   // --------------------------------------------------------------------------
   //
@@ -207,6 +219,7 @@ export class ValueList<
   // --------------------------------------------------------------------------
 
   connectedCallback(): void {
+    connectSortableComponent(this);
     connectLocalized(this);
     connectMessages(this);
     initialize.call(this);
@@ -229,6 +242,7 @@ export class ValueList<
   }
 
   disconnectedCallback(): void {
+    disconnectSortableComponent(this);
     disconnectLocalized(this);
     disconnectMessages(this);
     cleanUpObserver.call(this);
@@ -296,7 +310,9 @@ export class ValueList<
   }
 
   setUpItems(): void {
+    this.cleanUpDragAndDrop();
     setUpItems.call(this, "calcite-value-list-item");
+    this.setUpDragAndDrop();
   }
 
   setUpFilter(): void {
@@ -313,6 +329,14 @@ export class ValueList<
     this.filteredItems = filteredItems;
   };
 
+  onEnableSorting = (): void => {
+    initializeObserver.call(this);
+  };
+
+  onDisableSorting = (): void => {
+    cleanUpObserver.call(this);
+  };
+
   setUpDragAndDrop(): void {
     this.cleanUpDragAndDrop();
 
@@ -325,7 +349,16 @@ export class ValueList<
       handle: `.${CSS.handle}`,
       draggable: "calcite-value-list-item",
       group: this.group,
-      onSort: () => {
+      direction: "vertical",
+      onStart: () => {
+        cleanUpObserver.call(this);
+        startSorting(this);
+      },
+      onEnd: () => {
+        stopSorting(this);
+        initializeObserver.call(this);
+      },
+      onUpdate: () => {
         this.items = Array.from(this.el.querySelectorAll<ItemElement>("calcite-value-list-item"));
         const values = this.items.map((item) => item.value);
         this.calciteListOrderChange.emit(values);

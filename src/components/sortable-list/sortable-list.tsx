@@ -15,6 +15,14 @@ import { createObserver } from "../../utils/observers";
 import { HandleNudge } from "../handle/interfaces";
 import { Layout } from "../interfaces";
 import { CSS } from "./resources";
+import {
+  connectSortableComponent,
+  disconnectSortableComponent,
+  startSorting,
+  SortableComponent,
+  stopSorting
+} from "../../utils/sortableComponent";
+import { focusElement } from "../../utils/dom";
 
 /**
  * @slot - A slot for adding sortable items.
@@ -24,7 +32,7 @@ import { CSS } from "./resources";
   styleUrl: "sortable-list.scss",
   shadow: true
 })
-export class SortableList implements InteractiveComponent {
+export class SortableList implements InteractiveComponent, SortableComponent {
   // --------------------------------------------------------------------------
   //
   //  Properties
@@ -76,8 +84,6 @@ export class SortableList implements InteractiveComponent {
   items: Element[] = [];
 
   mutationObserver = createObserver("mutation", () => {
-    this.cleanUpDragAndDrop();
-    this.items = Array.from(this.el.children);
     this.setUpDragAndDrop();
   });
 
@@ -90,12 +96,13 @@ export class SortableList implements InteractiveComponent {
   // --------------------------------------------------------------------------
 
   connectedCallback(): void {
-    this.items = Array.from(this.el.children);
+    connectSortableComponent(this);
     this.setUpDragAndDrop();
     this.beginObserving();
   }
 
   disconnectedCallback(): void {
+    disconnectSortableComponent(this);
     this.mutationObserver?.disconnect();
     this.cleanUpDragAndDrop();
   }
@@ -166,17 +173,20 @@ export class SortableList implements InteractiveComponent {
     this.items = Array.from(this.el.children);
 
     handle.activated = true;
-    handle.setFocus();
+    focusElement(handle);
     this.beginObserving();
   }
 
   setUpDragAndDrop(): void {
     this.cleanUpDragAndDrop();
 
+    this.items = Array.from(this.el.children);
+
     const options: Sortable.Options = {
       dataIdAttr: "id",
       group: this.group,
       handle: this.handleSelector,
+      direction: "vertical",
       // Changed sorting within list
       onUpdate: () => {
         this.items = Array.from(this.el.children);
@@ -185,9 +195,11 @@ export class SortableList implements InteractiveComponent {
       // Element dragging started
       onStart: () => {
         this.mutationObserver?.disconnect();
+        startSorting(this);
       },
       // Element dragging ended
       onEnd: () => {
+        stopSorting(this);
         this.beginObserving();
       }
     };
@@ -207,6 +219,14 @@ export class SortableList implements InteractiveComponent {
   beginObserving(): void {
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
   }
+
+  onEnableSorting = (): void => {
+    this.beginObserving();
+  };
+
+  onDisableSorting = (): void => {
+    this.mutationObserver?.disconnect();
+  };
 
   // --------------------------------------------------------------------------
   //
