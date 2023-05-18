@@ -13,7 +13,7 @@
   flex-col 
   mx-auto 
   w-full
-  h-16;
+  h-auto;
   margin-block: 0;
   margin-inline: auto;
   border-block-end: 1px solid;
@@ -22,6 +22,19 @@
   &.hide {
     display: none;
   }
+}
+
+.user,
+.logo {
+  @apply flex;
+}
+
+.hide {
+  display: none;
+}
+
+.primary {
+  @apply h-16;
 }
 
 .navigation-secondary {
@@ -59,7 +72,6 @@ slot[name="content-end"]::slotted(*) {
 
 slot[name="progress"],
 slot[name="progress"] calcite-progress {
-  @apply absolute;
   inset-block-start: 0;
   inset-inline: 0;
 }

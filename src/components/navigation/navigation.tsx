@@ -64,17 +64,21 @@ export class CalciteNavigation {
 
   @State() logoSlotHasElements: boolean;
 
-  @State() userSlotHasElements: boolean;
+  @State() navActionSlotHasElements: boolean;
 
-  @State() contentStartSlotHasElements: boolean;
+  @State() primaryContentCenterSlotHasElements: boolean;
 
-  @State() contentCenterSlotHasElements: boolean;
+  @State() primaryContentEndSlotHasElements: boolean;
 
-  @State() contentEndSlotHasElements: boolean;
+  @State() primaryContentStartSlotHasElements: boolean;
+
+  @State() progressSlotHasElement: boolean;
 
   @State() secondarySlotHasElements: boolean;
 
   @State() tertiarySlotHasElements: boolean;
+
+  @State() userSlotHasElements: boolean;
 
   // --------------------------------------------------------------------------
   //
@@ -96,23 +100,33 @@ export class CalciteNavigation {
   };
 
   private handleUserSlotChange = (event: Event): void => {
-    this.userSlotHasElements = slotChangeHasAssignedElement(event);
+    if (this.isPrimaryLevel(this.el)) {
+      this.userSlotHasElements = slotChangeHasAssignedElement(event);
+    }
   };
 
   private handleLogoSlotChange = (event: Event): void => {
-    this.logoSlotHasElements = slotChangeHasAssignedElement(event);
+    if (this.isPrimaryLevel(this.el)) {
+      this.logoSlotHasElements = slotChangeHasAssignedElement(event);
+    }
   };
 
   private handleContentStartSlotChange = (event: Event): void => {
-    this.contentStartSlotHasElements = slotChangeHasAssignedElement(event);
+    if (this.isPrimaryLevel(this.el)) {
+      this.primaryContentStartSlotHasElements = slotChangeHasAssignedElement(event);
+    }
   };
 
   private handleContentEndSlotChange = (event: Event): void => {
-    this.contentEndSlotHasElements = slotChangeHasAssignedElement(event);
+    if (this.isPrimaryLevel(this.el)) {
+      this.primaryContentEndSlotHasElements = slotChangeHasAssignedElement(event);
+    }
   };
 
   private handleContentCenterSlotChange = (event: Event): void => {
-    this.contentCenterSlotHasElements = slotChangeHasAssignedElement(event);
+    if (this.isPrimaryLevel(this.el)) {
+      this.primaryContentCenterSlotHasElements = slotChangeHasAssignedElement(event);
+    }
   };
 
   private handleSecondaryNavSlotChange = (event: Event): void => {
@@ -124,11 +138,23 @@ export class CalciteNavigation {
   };
 
   private handleMenuActionSlotChange = (event: Event): void => {
-    const hasMenuAction = slotChangeHasAssignedElement(event);
-    if (hasMenuAction) {
-      this.navAction = false;
+    if (this.isPrimaryLevel(this.el)) {
+      this.navActionSlotHasElements = slotChangeHasAssignedElement(event);
+      if (this.navActionSlotHasElements) {
+        this.navAction = false;
+      }
     }
   };
+
+  private handleProgressSlotChange = (event: Event): void => {
+    if (this.isPrimaryLevel(this.el)) {
+      this.progressSlotHasElement = slotChangeHasAssignedElement(event);
+    }
+  };
+
+  private isPrimaryLevel(el: HTMLCalciteNavigationElement): boolean {
+    return el.slot !== SLOTS.navSecondary && el.slot !== SLOTS.navSecondary;
+  }
 
   //--------------------------------------------------------------------------
   //
@@ -147,34 +173,45 @@ export class CalciteNavigation {
   }
 
   render(): VNode {
-    const isPrimaryLevel =
-      this.el.slot !== SLOTS.navSecondary && this.el.slot !== SLOTS.navTertiary;
+    const primaryLevelHasElements =
+      this.logoSlotHasElements ||
+      this.userSlotHasElements ||
+      this.navActionSlotHasElements ||
+      this.primaryContentCenterSlotHasElements ||
+      this.primaryContentEndSlotHasElements ||
+      this.primaryContentStartSlotHasElements ||
+      this.navAction;
     return (
       <Host>
         <div
           class={{
             [CSS.container]: true,
             [SLOTS.navSecondary]: this.el.slot === SLOTS.navSecondary,
-            [SLOTS.navTertiary]: this.el.slot === SLOTS.navTertiary
+            [SLOTS.navTertiary]: this.el.slot === SLOTS.navTertiary,
+            [SLOTS.primary]: primaryLevelHasElements
           }}
         >
-          {isPrimaryLevel && <slot name={SLOTS.progress} />}
+          <div class={{ hide: !this.progressSlotHasElement, progress: true }}>
+            <slot name={SLOTS.progress} onSlotchange={this.handleProgressSlotChange} />
+          </div>
           <div class={CSS.containerContent}>
-            {isPrimaryLevel && this.renderMenuAction()}
-            {isPrimaryLevel && <slot name={SLOTS.logo} onSlotchange={this.handleLogoSlotChange} />}
+            {this.renderMenuAction()}
+            <div class={{ hide: !this.userSlotHasElements, logo: true }}>
+              <slot name={SLOTS.logo} onSlotchange={this.handleLogoSlotChange} />
+            </div>
             <slot name={SLOTS.contentStart} onSlotchange={this.handleContentStartSlotChange} />
             <slot name={SLOTS.contentCenter} onSlotchange={this.handleContentCenterSlotChange} />
             <slot name={SLOTS.contentEnd} onSlotchange={this.handleContentEndSlotChange} />
-            {isPrimaryLevel && <slot name={SLOTS.user} onSlotchange={this.handleUserSlotChange} />}
+            <div class={{ hide: !this.userSlotHasElements, user: true }}>
+              <slot name={SLOTS.user} onSlotchange={this.handleUserSlotChange} />
+            </div>
           </div>
         </div>
 
-        {isPrimaryLevel && (
-          <Fragment>
-            <slot name={SLOTS.navSecondary} onSlotchange={this.handleSecondaryNavSlotChange} />
-            <slot name={SLOTS.navTertiary} onSlotchange={this.handleTertiaryNavSlotChange} />
-          </Fragment>
-        )}
+        <Fragment>
+          <slot name={SLOTS.navSecondary} onSlotchange={this.handleSecondaryNavSlotChange} />
+          <slot name={SLOTS.navTertiary} onSlotchange={this.handleTertiaryNavSlotChange} />
+        </Fragment>
       </Host>
     );
   }
