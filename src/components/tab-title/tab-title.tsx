@@ -30,6 +30,7 @@ import {
   updateMessages
 } from "../../utils/t9n";
 import { TabTitleMessages } from "./assets/tab-title/t9n";
+import { isActivationKey } from "../../utils/key";
 
 /**
  * Tab-titles are optionally individually closable.
@@ -442,13 +443,14 @@ export class TabTitle implements InteractiveComponent, LocalizedComponent, T9nCo
   //
   //--------------------------------------------------------------------------
 
-  closeClickHandler = (): void => {
+  private closeClickHandler = (): void => {
     this.closeTabTitleAndNotify();
   };
 
-  private closeKeyHandler = async (event: KeyboardEvent) => {
-    if (event.key === "Enter") {
+  private closeKeyHandler = (event: KeyboardEvent): void => {
+    if (isActivationKey(event.key)) {
       this.closeTabTitleAndNotify();
+      event.preventDefault();
     }
   };
 
