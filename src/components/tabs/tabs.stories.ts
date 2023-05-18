@@ -46,10 +46,10 @@ export const borderedClosable = (): string => html`
     bordered
   >
     <calcite-tab-nav slot="title-group">
-      <calcite-tab-title tab="tab1" closable="${boolean("closable", true)}"> Tab 1 Title </calcite-tab-title>
-      <calcite-tab-title tab="tab2" closable="${boolean("closable", true)}">Tab 2 Title</calcite-tab-title>
-      <calcite-tab-title tab="tab3" closable="${boolean("closable", false)}">Tab 3 Title</calcite-tab-title>
-      <calcite-tab-title tab="tab4" closable="${boolean("closable", false)}" selected>Tab 4 Title</calcite-tab-title>
+      <calcite-tab-title tab="tab1" ${boolean("closable", true)}> Tab 1 Title </calcite-tab-title>
+      <calcite-tab-title tab="tab2" ${boolean("closable", true)}>Tab 2 Title</calcite-tab-title>
+      <calcite-tab-title tab="tab3" ${boolean("closable", false)}>Tab 3 Title</calcite-tab-title>
+      <calcite-tab-title tab="tab4" ${boolean("closable", false)} selected>Tab 4 Title</calcite-tab-title>
     </calcite-tab-nav>
     <calcite-tab tab="tab1">Tab 1 Content</calcite-tab>
     <calcite-tab tab="tab2">Tab 2 Content</calcite-tab>
