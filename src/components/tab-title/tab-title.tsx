@@ -30,7 +30,6 @@ import {
   updateMessages
 } from "../../utils/t9n";
 import { TabTitleMessages } from "./assets/tab-title/t9n";
-import { isActivationKey } from "../../utils/key";
 
 /**
  * Tab-titles are optionally individually closable.
@@ -233,13 +232,13 @@ export class TabTitle implements InteractiveComponent, LocalizedComponent, T9nCo
             <slot />
             {this.iconEnd ? iconEndEl : null}
           </div>
-          {this.renderCloseButtonEl()}
+          {this.renderCloseButton()}
         </div>
       </Host>
     );
   }
 
-  renderCloseButtonEl(): VNode {
+  renderCloseButton(): VNode {
     const { closable, messages } = this;
 
     return closable ? (
@@ -249,9 +248,10 @@ export class TabTitle implements InteractiveComponent, LocalizedComponent, T9nCo
         disabled={false}
         key={CSS.closeButton}
         onClick={this.closeClickHandler}
-        onKeyDown={this.closeKeyHandler}
         title={messages.close}
         type="button"
+        // eslint-disable-next-line react/jsx-sort-props
+        ref={(el) => (this.closeButtonEl = el)}
       >
         <calcite-icon icon={ICONS.close} scale={this.scale === "l" ? "m" : "s"} />
       </button>
@@ -309,8 +309,10 @@ export class TabTitle implements InteractiveComponent, LocalizedComponent, T9nCo
     switch (event.key) {
       case " ":
       case "Enter":
-        this.emitActiveTab();
-        event.preventDefault();
+        if (!event.composedPath().includes(this.closeButtonEl)) {
+          this.emitActiveTab();
+          event.preventDefault();
+        }
         break;
       case "ArrowRight":
         event.preventDefault();
@@ -448,13 +450,6 @@ export class TabTitle implements InteractiveComponent, LocalizedComponent, T9nCo
     this.closeTabTitleAndNotify();
   };
 
-  private closeKeyHandler = (event: KeyboardEvent): void => {
-    if (isActivationKey(event.key)) {
-      this.closeTabTitleAndNotify();
-      event.preventDefault();
-    }
-  };
-
   //--------------------------------------------------------------------------
   //
   //  Private State/Props
@@ -478,11 +473,13 @@ export class TabTitle implements InteractiveComponent, LocalizedComponent, T9nCo
   /** determine if there is slotted text for styling purposes */
   @State() hasText = false;
 
+  closeButtonEl: HTMLButtonElement;
+
+  containerEl: HTMLDivElement;
+
   parentTabNavEl: HTMLCalciteTabNavElement;
 
   parentTabsEl: HTMLCalciteTabsElement;
-
-  containerEl: HTMLDivElement;
 
   resizeObserver = createObserver("resize", () => {
     this.calciteInternalTabIconChanged.emit();
