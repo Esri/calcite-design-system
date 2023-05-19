@@ -1,4 +1,6 @@
-@import "./node_modules/@esri/calcite-colors/dist/colors.scss";
+@import "./node_modules/@esri/calcite-design-tokens/dist/scss/calcite-light.scss";
+@import "./node_modules/@esri/calcite-design-tokens/dist/scss/calcite-dark.scss";
+@import "./node_modules/@esri/calcite-design-tokens/dist/scss/calcite-headless.scss";
 @import "./node_modules/@esri/calcite-base/dist/_index.scss";
 
 /* CSS vars (@include in global) */
@@ -8,7 +10,7 @@
   // todo update include when calcite-colors updates to "mode" nomenclature
   @include calcite-theme-light();
   --calcite-mode-name: "light";
-  --calcite-ui-foreground-current: #c7eaff;
+  --calcite-ui-foreground-current: var(--calcite-semantic-ui-color-foreground-current-light);
   --calcite-ui-inverse: #{$blk-190};
   --calcite-ui-inverse-hover: #{$blk-200};
   --calcite-ui-inverse-press: #{$blk-210};
@@ -23,7 +25,7 @@
   // todo update include when calcite-colors updates to "mode" nomenclature
   @include calcite-theme-dark();
   --calcite-mode-name: "dark";
-  --calcite-ui-foreground-current: #214155;
+  --calcite-ui-foreground-current: var(--calcite-semantic-ui-color-foreground-current-dark);
   --calcite-ui-inverse: #{$blk-005};
   --calcite-ui-inverse-hover: #{$blk-000};
   --calcite-ui-inverse-press: #{$blk-010};
@@ -36,24 +38,26 @@
 
 :root {
   @extend %type-vars;
+  @include calcite-theme-headless();
   @include calcite-mode-light-extended();
 
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-
-  --calcite-border-radius: 4px;
+  --calcite-popover-z-index: var(--calcite-app-z-index-popup);
+  --calcite-border-radius: var(--calcite-semantic-border-border-radius-round, 4px);
   --calcite-border-radius-base: 0;
   --calcite-panel-width-multiplier: 1;
   --calcite-ui-focus-offset-invert: 0; // should be 0 or 1
   --calcite-ui-icon-color: currentColor;
-  --calcite-ui-opacity-disabled: 0.5;
+  --calcite-ui-opacity-disabled: var(--calcite-core-opacity-50, 0.5);
 
   @apply font-sans;
 }
 
 .calcite-mode-dark {
   @include calcite-mode-dark-extended();
+  --calcite-ui-background: var(--calcite-ui-background-1);
 }
 
 .calcite-mode-light {

@@ -3,9 +3,11 @@ import {
   dateFromISO,
   dateFromRange,
   dateToISO,
+  formatCalendarYear,
   getOrder,
   inRange,
   nextMonth,
+  parseCalendarYear,
   parseDateString,
   prevMonth,
   sameDate
@@ -232,5 +234,19 @@ describe("getOrder", () => {
     expect(getOrder("MM/DD/YYYY")).toEqual(["m", "d", "y"]);
     expect(getOrder("YYYY/MM/DD")).toEqual(["y", "m", "d"]);
     expect(getOrder("YYYY. MM. DD.")).toEqual(["y", "m", "d"]);
+  });
+});
+
+describe("formatCalendarYear", () => {
+  it("formats calendar years for display", () => {
+    expect(formatCalendarYear(2023, { "default-calendar": "gregorian" } as DateLocaleData)).toBe(2023);
+    expect(formatCalendarYear(2023, { "default-calendar": "buddhist" } as DateLocaleData)).toBe(2566);
+  });
+});
+
+describe("parseCalendarYear", () => {
+  it("parses display calendar years", () => {
+    expect(parseCalendarYear(2023, { "default-calendar": "gregorian" } as DateLocaleData)).toBe(2023);
+    expect(parseCalendarYear(2566, { "default-calendar": "buddhist" } as DateLocaleData)).toBe(2023);
   });
 });

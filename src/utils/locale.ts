@@ -419,7 +419,6 @@ export class NumberStringFormat {
     this._numberFormatOptions
       ? sanitizeExponentialNumberString(numberString, (nonExpoNumString: string): string =>
           nonExpoNumString
-            .trim()
             .replace(new RegExp(`[${this._minusSign}]`, "g"), "-")
             .replace(new RegExp(`[${this._group}]`, "g"), "")
             .replace(new RegExp(`[${this._decimal}]`, "g"), ".")
