@@ -186,7 +186,6 @@ export class SortableList implements InteractiveComponent, SortableComponent {
       dataIdAttr: "id",
       group: this.group,
       handle: this.handleSelector,
-      direction: "vertical",
       // Changed sorting within list
       onUpdate: () => {
         this.items = Array.from(this.el.children);

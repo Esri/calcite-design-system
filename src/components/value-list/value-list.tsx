@@ -349,7 +349,6 @@ export class ValueList<
       handle: `.${CSS.handle}`,
       draggable: "calcite-value-list-item",
       group: this.group,
-      direction: "vertical",
       onStart: () => {
         cleanUpObserver.call(this);
         onSortingStart(this);
