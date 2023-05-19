@@ -1,5 +1,5 @@
 import { html } from "../../../support/formatting";
-import { accessible, defaults, hidden, reflects, renders } from "../../tests/commonTests";
+import { accessible, defaults, focusable, hidden, reflects, renders } from "../../tests/commonTests";
 
 describe("calcite-navigation-user", () => {
   describe("renders", () => {
@@ -26,11 +26,15 @@ describe("calcite-navigation-user", () => {
       }
     ]));
 
-  it("defaults", async () =>
+  it("defaults", () =>
     defaults("calcite-navigation-user", [
       {
         propertyName: "textDisabled",
         defaultValue: false
       }
     ]));
+
+  describe("is focusable", () => {
+    focusable("calcite-navigation-user");
+  });
 });

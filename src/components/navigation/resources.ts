@@ -12,7 +12,7 @@ export const SLOTS = {
   logo: "logo",
   user: "user",
   progress: "progress",
-  navAction: "nav-action",
+  navigationAction: "navigation-action",
   contentStart: "content-start",
   contentEnd: "content-end",
   contentCenter: "content-center",

@@ -1,5 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, defaults, hidden, reflects, renders } from "../../tests/commonTests";
+import { accessible, defaults, focusable, hidden, reflects, renders } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 
 describe("calcite-navigation", () => {
@@ -11,32 +11,40 @@ describe("calcite-navigation", () => {
     hidden("calcite-navigation");
   });
 
-  it("reflects", async () =>
+  it("reflects", () =>
     reflects("calcite-navigation", [
       {
-        propertyName: "navAction",
+        propertyName: "navigationAction",
         value: ""
       }
     ]));
 
-  it("defaults", async () =>
+  it("defaults", () =>
     defaults("calcite-navigation", [
       {
-        propertyName: "navAction",
+        propertyName: "navigationAction",
         defaultValue: false
       }
     ]));
 
-  describe("accessible", () => {
-    accessible(html`<calcite-navigation nav-action><calcite-navigation-logo text="Test" /></calcite-navigation>`);
+  describe("is focusable", () => {
+    focusable(html`<calcite-navigation navigation-action></calcite-navigation>`, {
+      shadowFocusTargetSelector: "calcite-action"
+    });
   });
 
-  it("should emit calciteNavActionSelect event when user interacts with nav-action", async () => {
+  describe("accessible", () => {
+    accessible(
+      html`<calcite-navigation navigation-action><calcite-navigation-logo text="Test" /></calcite-navigation>`
+    );
+  });
+
+  it("should emit calciteNavigationActionSelect event when user interacts with navigation-action", async () => {
     const page = await newE2EPage();
     await page.setContent(
-      `<calcite-navigation nav-action><calcite-navigation-logo text="Test" /></calcite-navigation>`
+      `<calcite-navigation navigation-action><calcite-navigation-logo text="Test" /></calcite-navigation>`
     );
-    const eventSpy = await page.spyOnEvent("calciteNavActionSelect");
+    const eventSpy = await page.spyOnEvent("calciteNavigationActionSelect");
     const hamburgerMenu = await page.find(`calcite-navigation >>> calcite-action`);
 
     await page.keyboard.press("Tab");

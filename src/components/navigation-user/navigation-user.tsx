@@ -1,5 +1,11 @@
-import { Component, Element, h, Host, Prop, VNode } from "@stencil/core";
+import { Component, Element, h, Host, Prop, VNode, Method } from "@stencil/core";
 import { CSS } from "./resources";
+import {
+  LoadableComponent,
+  componentLoaded,
+  setComponentLoaded,
+  setUpLoadableComponent
+} from "../../utils/loadable";
 
 @Component({
   tag: "calcite-navigation-user",
@@ -8,7 +14,7 @@ import { CSS } from "./resources";
     delegatesFocus: true
   }
 })
-export class CalciteNavigationUser {
+export class CalciteNavigationUser implements LoadableComponent {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -22,10 +28,11 @@ export class CalciteNavigationUser {
   //  Public Properties
   //
   //--------------------------------------------------------------------------
+
   /** When true, the component is highlighted.*/
   @Prop({ reflect: true }) active: boolean;
 
-  /** Specifies the text to display, such as a username or full name.*/
+  /** Specifies the full name of the user.*/
   @Prop() fullName: string;
 
   /** Describes the appearance of the avatar. If no label is provided, context will not be provided to assistive technologies.*/
@@ -42,6 +49,33 @@ export class CalciteNavigationUser {
 
   /** Specifies the username of the user.*/
   @Prop() username: string;
+
+  //--------------------------------------------------------------------------
+  //
+  //  Public Methods
+  //
+  //--------------------------------------------------------------------------
+
+  /** Sets focus on the component. */
+  @Method()
+  async setFocus(): Promise<void> {
+    await componentLoaded(this);
+    this.el.focus();
+  }
+
+  //--------------------------------------------------------------------------
+  //
+  //  Lifecycle
+  //
+  //--------------------------------------------------------------------------
+
+  componentWillLoad(): void {
+    setUpLoadableComponent(this);
+  }
+
+  componentDidLoad(): void {
+    setComponentLoaded(this);
+  }
 
   // --------------------------------------------------------------------------
   //

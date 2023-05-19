@@ -163,8 +163,14 @@ export const allSlots_darkModeRTL_TestOnly = (): string =>
 
 export const withBothNavActionPropAndSlot_TestOnly = (): string =>
   html`
-    <calcite-navigation nav-action>
-      <calcite-action icon="layers" appearance="solid" slot="nav-action" text="anvesh" scale="m"></calcite-action>
+    <calcite-navigation navigation-action>
+      <calcite-action
+        icon="layers"
+        appearance="solid"
+        slot="navigation-action"
+        text="anvesh"
+        scale="m"
+      ></calcite-action>
       <calcite-navigation-logo slot="logo" text="Walt's Chips" text-enabled></calcite-navigation-logo>
       <calcite-menu slot="content-end">
         <calcite-menu-item text="Support"></calcite-menu-item>

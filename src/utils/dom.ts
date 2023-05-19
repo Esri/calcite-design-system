@@ -488,8 +488,6 @@ export const focusElementInGroup = (
   const currentIndex = elements.indexOf(currentElement);
   const isFirstItem = currentIndex === 0;
   const isLastItem = currentIndex === elements.length - 1;
-
-
   if (cycle) {
     destination =
       destination === "previous" && isFirstItem ? "last" : destination === "next" && isLastItem ? "first" : destination;

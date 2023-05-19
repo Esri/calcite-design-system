@@ -8,31 +8,36 @@ import {
   Host,
   Prop,
   State,
-  VNode
+  VNode,
+  Method
 } from "@stencil/core";
 import { slotChangeHasAssignedElement } from "../../utils/dom";
 import { CSS, ICONS, SLOTS } from "./resources";
+import {
+  LoadableComponent,
+  componentLoaded,
+  setComponentLoaded,
+  setUpLoadableComponent
+} from "../../utils/loadable";
 
 @Component({
   tag: "calcite-navigation",
   styleUrl: "navigation.scss",
-  shadow: {
-    delegatesFocus: true
-  }
+  shadow: true
 })
 
 /**
  * @slot logo - A slot for adding a `calcite-logo` component to the primary navigation level.
  * @slot user - A slot for adding a `calcite-user` component to the primary navigation level.
  * @slot progress - A slot for adding a `calcite-progress` component to the primary navigation level.
- * @slot nav-action - A slot for adding a `calcite-action` component to the primary navigation level.
+ * @slot navigation-action - A slot for adding a `calcite-action` component to the primary navigation level.
  * @slot content-start - A slot for adding a `calcite-menu`, `calcite-action`, or other interactive elements in the start position of any navigation level.
  * @slot content-center - A slot for adding a `calcite-menu`, `calcite-action`, or other interactive elements in the center position of the primary navigation level.
  * @slot content-end - A slot for adding a `calcite-menu`, `calcite-action`, or other interactive elements in the end position of any navigation level.
  * @slot navigation-secondary - A slot for adding a `calcite-navigation` component in the secondary navigation level. Components rendered here will not display `calcite-navigation-logo` or `calcite-navigation-user` components.
  * @slot navigation-tertiary - A slot for adding a `calcite-navigation` component in the tertiary navigation level.  Components rendered here will not display `calcite-navigation-logo` or `calcite-navigation-user` components.
  */
-export class CalciteNavigation {
+export class CalciteNavigation implements LoadableComponent {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -47,14 +52,14 @@ export class CalciteNavigation {
   //--------------------------------------------------------------------------
 
   /**
-   * When `navAction` is `true`, specifies the label of the `calcite-action`.
+   * When `navigationAction` is `true`, specifies the label of the `calcite-action`.
    */
   @Prop() label!: string;
 
   /**
    * When `true`, displays a `calcite-action` and emits a `calciteNavActionSelect` event on selection change.
    */
-  @Prop({ reflect: true }) navAction = false;
+  @Prop({ reflect: true }) navigationAction = false;
 
   //--------------------------------------------------------------------------
   //
@@ -64,7 +69,7 @@ export class CalciteNavigation {
 
   @State() logoSlotHasElements: boolean;
 
-  @State() navActionSlotHasElements: boolean;
+  @State() navigationActionSlotHasElements: boolean;
 
   @State() primaryContentCenterSlotHasElements: boolean;
 
@@ -80,14 +85,43 @@ export class CalciteNavigation {
 
   @State() userSlotHasElements: boolean;
 
+  navigationActionEl: HTMLCalciteActionElement;
+
   // --------------------------------------------------------------------------
   //
   //  Events
   //
   // --------------------------------------------------------------------------
 
-  /** When navAction is true, emits when the displayed action selection changes.*/
-  @Event({ cancelable: false }) calciteNavActionSelect: EventEmitter<void>;
+  /** When `navigationAction` is true, emits when the displayed action selection changes.*/
+  @Event({ cancelable: false }) calciteNavigationActionSelect: EventEmitter<void>;
+
+  //--------------------------------------------------------------------------
+  //
+  //  Public Methods
+  //
+  //--------------------------------------------------------------------------
+
+  /** When `navigation-action` is `true`, sets focus on the component's action element. */
+  @Method()
+  async setFocus(): Promise<void> {
+    await componentLoaded(this);
+    await this.navigationActionEl?.setFocus();
+  }
+
+  //--------------------------------------------------------------------------
+  //
+  //  Lifecycle
+  //
+  //--------------------------------------------------------------------------
+
+  componentWillLoad(): void {
+    setUpLoadableComponent(this);
+  }
+
+  componentDidLoad(): void {
+    setComponentLoaded(this);
+  }
 
   //--------------------------------------------------------------------------
   //
@@ -95,8 +129,8 @@ export class CalciteNavigation {
   //
   //--------------------------------------------------------------------------
 
-  private clickHandler = () => {
-    this.calciteNavActionSelect.emit();
+  private actionClickHandler = () => {
+    this.calciteNavigationActionSelect.emit();
   };
 
   private handleUserSlotChange = (event: Event): void => {
@@ -139,9 +173,9 @@ export class CalciteNavigation {
 
   private handleMenuActionSlotChange = (event: Event): void => {
     if (this.isPrimaryLevel()) {
-      this.navActionSlotHasElements = slotChangeHasAssignedElement(event);
-      if (this.navActionSlotHasElements) {
-        this.navAction = false;
+      this.navigationActionSlotHasElements = slotChangeHasAssignedElement(event);
+      if (this.navigationActionSlotHasElements) {
+        this.navigationAction = false;
       }
     }
   };
@@ -164,9 +198,15 @@ export class CalciteNavigation {
 
   renderMenuAction(): VNode {
     return (
-      <slot name={SLOTS.navAction} onSlotchange={this.handleMenuActionSlotChange}>
-        {this.navAction && (
-          <calcite-action icon={ICONS.hamburger} onClick={this.clickHandler} text={this.label} />
+      <slot name={SLOTS.navigationAction} onSlotchange={this.handleMenuActionSlotChange}>
+        {this.navigationAction && (
+          <calcite-action
+            icon={ICONS.hamburger}
+            onClick={this.actionClickHandler}
+            text={this.label}
+            // eslint-disable-next-line react/jsx-sort-props
+            ref={(el: HTMLCalciteActionElement) => (this.navigationActionEl = el)}
+          />
         )}
       </slot>
     );
@@ -176,11 +216,11 @@ export class CalciteNavigation {
     const primaryLevelHasElements =
       this.logoSlotHasElements ||
       this.userSlotHasElements ||
-      this.navActionSlotHasElements ||
+      this.navigationActionSlotHasElements ||
       this.primaryContentCenterSlotHasElements ||
       this.primaryContentEndSlotHasElements ||
       this.primaryContentStartSlotHasElements ||
-      this.navAction;
+      this.navigationAction;
     const slotName = this.el.slot;
     return (
       <Host>

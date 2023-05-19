@@ -1,5 +1,11 @@
-import { Component, Element, h, Host, Prop, VNode } from "@stencil/core";
+import { Component, Element, h, Host, Prop, VNode, Method } from "@stencil/core";
 import { CSS } from "./resources";
+import {
+  LoadableComponent,
+  componentLoaded,
+  setComponentLoaded,
+  setUpLoadableComponent
+} from "../../utils/loadable";
 
 @Component({
   tag: "calcite-navigation-logo",
@@ -8,7 +14,7 @@ import { CSS } from "./resources";
     delegatesFocus: true
   }
 })
-export class CalciteNavigationLogo {
+export class CalciteNavigationLogo implements LoadableComponent {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -21,6 +27,7 @@ export class CalciteNavigationLogo {
   //  Public Properties
   //
   //--------------------------------------------------------------------------
+
   /** When true, the component is highlighted. */
   @Prop({ reflect: true }) active: boolean;
 
@@ -42,6 +49,33 @@ export class CalciteNavigationLogo {
   /** Specifies the `src` to an image. */
   @Prop() thumbnail: string;
 
+  //--------------------------------------------------------------------------
+  //
+  //  Public Methods
+  //
+  //--------------------------------------------------------------------------
+
+  /** Sets focus on the component. */
+  @Method()
+  async setFocus(): Promise<void> {
+    await componentLoaded(this);
+    this.el.focus();
+  }
+
+  //--------------------------------------------------------------------------
+  //
+  //  Lifecycle
+  //
+  //--------------------------------------------------------------------------
+
+  componentWillLoad(): void {
+    setUpLoadableComponent(this);
+  }
+
+  componentDidLoad(): void {
+    setComponentLoaded(this);
+  }
+
   // --------------------------------------------------------------------------
   //
   //  Render Methods
@@ -49,20 +83,21 @@ export class CalciteNavigationLogo {
   // --------------------------------------------------------------------------
 
   render(): VNode {
+    const { text, subtext, thumbnail } = this;
     return (
       <Host>
         <a href={this.href} tabindex={0}>
-          {this.thumbnail && <img alt={this.label || ""} src={this.thumbnail} />}
-          {(this.text || this.subtext) && this.textEnabled && (
+          {thumbnail && <img alt={this.label || ""} src={thumbnail} />}
+          {(text || subtext) && this.textEnabled && (
             <div class={CSS.textContainer}>
-              {this.text && (
+              {text && (
                 <span class={CSS.logoText} key={CSS.logoText}>
-                  {this.text}
+                  {text}
                 </span>
               )}
-              {this.subtext && (
+              {subtext && (
                 <span class={CSS.logoSubtext} key={CSS.logoSubtext}>
-                  {this.subtext}
+                  {subtext}
                 </span>
               )}
             </div>

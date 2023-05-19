@@ -20,16 +20,16 @@
 
 ## Properties
 
-| Property             | Attribute    | Description                                                                                              | Type      | Default     |
-| -------------------- | ------------ | -------------------------------------------------------------------------------------------------------- | --------- | ----------- |
-| `label` _(required)_ | `label`      | When `navAction` is `true`, specifies the label of the `calcite-action`.                                 | `string`  | `undefined` |
-| `navAction`          | `nav-action` | When `true`, displays a `calcite-action` and emits a `calciteNavActionSelect` event on selection change. | `boolean` | `false`     |
+| Property             | Attribute           | Description                                                                                              | Type      | Default     |
+| -------------------- | ------------------- | -------------------------------------------------------------------------------------------------------- | --------- | ----------- |
+| `label` _(required)_ | `label`             | When `navigationAction` is `true`, specifies the label of the `calcite-action`.                          | `string`  | `undefined` |
+| `navigationAction`   | `navigation-action` | When `true`, displays a `calcite-action` and emits a `calciteNavActionSelect` event on selection change. | `boolean` | `false`     |
 
 ## Events
 
-| Event                    | Description                                                                | Type                |
-| ------------------------ | -------------------------------------------------------------------------- | ------------------- |
-| `calciteNavActionSelect` | When navAction is true, emits when the displayed action selection changes. | `CustomEvent<void>` |
+| Event                           | Description                                                                       | Type                |
+| ------------------------------- | --------------------------------------------------------------------------------- | ------------------- |
+| `calciteNavigationActionSelect` | When navigationAction is true, emits when the displayed action selection changes. | `CustomEvent<void>` |
 
 ## CSS Custom Properties
 

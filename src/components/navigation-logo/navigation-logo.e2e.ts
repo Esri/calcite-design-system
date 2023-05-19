@@ -1,4 +1,4 @@
-import { accessible, defaults, hidden, reflects, renders } from "../../tests/commonTests";
+import { accessible, defaults, focusable, hidden, reflects, renders } from "../../tests/commonTests";
 
 describe("calcite-navigation-logo", () => {
   describe("renders", () => {
@@ -29,11 +29,15 @@ describe("calcite-navigation-logo", () => {
       }
     ]));
 
-  it("defaults", async () =>
+  it("defaults", () =>
     defaults("calcite-navigation-logo", [
       {
         propertyName: "textEnabled",
         defaultValue: false
       }
     ]));
+
+  describe("is focusable", () => {
+    focusable("calcite-navigation-logo");
+  });
 });
