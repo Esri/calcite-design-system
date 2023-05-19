@@ -26,6 +26,14 @@ describe("calcite-navigation-logo", () => {
       {
         propertyName: "textEnabled",
         value: "true"
+      },
+      {
+        propertyName: "rel",
+        value: "external"
+      },
+      {
+        propertyName: "target",
+        value: "_self"
       }
     ]));
 

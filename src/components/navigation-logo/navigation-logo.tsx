@@ -37,8 +37,22 @@ export class CalciteNavigationLogo implements LoadableComponent {
   /** Describes the appearance or function of the `thumbnail`. If no label is provided, context will not be provided to assistive technologies. */
   @Prop() label: string;
 
+  /**
+   * Defines the relationship between the `href` value and the current document.
+   *
+   * @mdn [rel](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/rel)
+   */
+  @Prop({ reflect: true }) rel: string;
+
   /** Specifies the subtext to display, such as an organization or application description. */
   @Prop() subtext: string;
+
+  /**
+   * Specifies where to open the linked document defined in the `href` property.
+   *
+   * @mdn [target](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#attr-target)
+   */
+  @Prop({ reflect: true }) target: string;
 
   /** Specifies the text to display, such as a product name.*/
   @Prop() text: string;
@@ -86,7 +100,7 @@ export class CalciteNavigationLogo implements LoadableComponent {
     const { text, subtext, thumbnail } = this;
     return (
       <Host>
-        <a href={this.href} tabindex={0}>
+        <a href={this.href} rel={this.rel} tabindex={0} target={this.target}>
           {thumbnail && <img alt={this.label || ""} src={thumbnail} />}
           {(text || subtext) && this.textEnabled && (
             <div class={CSS.textContainer}>
