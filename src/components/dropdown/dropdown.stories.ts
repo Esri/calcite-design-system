@@ -508,9 +508,9 @@ export const triggerWordBreak_TestOnly = (): string => html`
 </div>`;
 
 export const triggerButtonWidthFull_TestOnly = (): string => html`
-  <div style="width: 300px; border: red 1px solid">
+  <div style="width: 300px">
     <calcite-block open collapsible heading="Example block heading">
-      <calcite-dropdown max-items="0" type="click" style="border: 1px solid blue" open>
+      <calcite-dropdown max-items="0" type="click" open>
         <calcite-button id="button" _slot="dropdown-trigger" slot="trigger" icon-end="chevronDown" width="full"
           >BirdObservationCommentBirdObservationComment</calcite-button
         >
