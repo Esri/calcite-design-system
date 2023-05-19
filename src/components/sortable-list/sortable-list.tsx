@@ -207,14 +207,6 @@ export class SortableList implements InteractiveComponent, SortableComponent {
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
   }
 
-  onSortingEnabled = (): void => {
-    this.beginObserving();
-  };
-
-  onSortingDisabled = (): void => {
-    this.mutationObserver?.disconnect();
-  };
-
   // --------------------------------------------------------------------------
   //
   //  Render Methods

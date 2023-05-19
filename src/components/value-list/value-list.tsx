@@ -328,14 +328,6 @@ export class ValueList<
     this.filteredItems = filteredItems;
   };
 
-  onSortingEnabled = (): void => {
-    initializeObserver.call(this);
-  };
-
-  onSortingDisabled = (): void => {
-    cleanUpObserver.call(this);
-  };
-
   setUpSorting(): void {
     if (!this.dragEnabled) {
       return;

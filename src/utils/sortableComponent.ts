@@ -10,23 +10,6 @@ export interface SortableComponent {
    * The Sortable instance.
    */
   sortable: Sortable;
-
-  /**
-   * Method to set up Sortable within the SortableComponent.
-   *
-   * This should be implemented for components that allow users to drag and sort content within the component.
-   */
-  setUpSorting: () => void;
-
-  /**
-   * Defines method for the `onSortingDisabled` event handler.
-   */
-  onSortingDisabled: () => void;
-
-  /**
-   * Defines method for the `onSortingEnabled` event handler.
-   */
-  onSortingEnabled: () => void;
 }
 
 /**
@@ -57,7 +40,6 @@ export function onSortingStart(activeComponent: SortableComponent): void {
   sortableComponentSet.forEach((component) => {
     if (component !== activeComponent) {
       inactiveSortableComponentSet.add(component);
-      component.onSortingDisabled();
     }
   });
 }
@@ -71,7 +53,6 @@ export function onSortingEnd(activeComponent: SortableComponent): void {
   sortableComponentSet.forEach((component) => {
     if (component !== activeComponent) {
       inactiveSortableComponentSet.delete(component);
-      component.onSortingEnabled();
     }
   });
 }
