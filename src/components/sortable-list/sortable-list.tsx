@@ -89,6 +89,8 @@ export class SortableList implements InteractiveComponent, SortableComponent {
 
   sortable: Sortable;
 
+  sortingDisabled = false;
+
   // --------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -178,6 +180,10 @@ export class SortableList implements InteractiveComponent, SortableComponent {
   }
 
   setUpSorting(): void {
+    if (this.sortingDisabled) {
+      return;
+    }
+
     this.cleanUpSorting();
 
     this.items = Array.from(this.el.children);
@@ -211,6 +217,10 @@ export class SortableList implements InteractiveComponent, SortableComponent {
   }
 
   cleanUpSorting(): void {
+    if (this.sortingDisabled) {
+      return;
+    }
+
     this.sortable?.destroy();
     this.sortable = null;
   }
@@ -224,6 +234,7 @@ export class SortableList implements InteractiveComponent, SortableComponent {
   };
 
   onSortingDisabled = (): void => {
+    this.sortingDisabled = true;
     this.mutationObserver?.disconnect();
   };
 

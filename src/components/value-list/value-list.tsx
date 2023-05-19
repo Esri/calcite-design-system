@@ -248,9 +248,7 @@ export class ValueList<
     disconnectLocalized(this);
     disconnectMessages(this);
     cleanUpObserver.call(this);
-    if (!this.sortingDisabled) {
-      this.cleanUpSorting();
-    }
+    this.cleanUpSorting();
   }
 
   // --------------------------------------------------------------------------
@@ -374,6 +372,10 @@ export class ValueList<
   }
 
   cleanUpSorting(): void {
+    if (this.sortingDisabled) {
+      return;
+    }
+
     this.sortable?.destroy();
     this.sortable = null;
   }
