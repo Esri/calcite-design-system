@@ -9,27 +9,27 @@ describe("calcite-tab-title", () => {
   const multiTabTitleClosableMarkup = `
     <calcite-tabs bordered position="top">
       <calcite-tab-nav slot="title-group">
-        <calcite-tab-title id="embark" closable>Watercraft</calcite-tab-title>
-        <calcite-tab-title id="car" closable>Automobiles</calcite-tab-title>
-        <calcite-tab-title id="plane" closable>Aircrafts</calcite-tab-title>
-        <calcite-tab-title id="biking" closable>Bicycles</calcite-tab-title>
+        <calcite-tab-title id="title1-embark" closable>Watercraft</calcite-tab-title>
+        <calcite-tab-title id="title2-car" closable>Automobiles</calcite-tab-title>
+        <calcite-tab-title id="title3-plane" closable>Aircrafts</calcite-tab-title>
+        <calcite-tab-title id="title4-biking" closable>Bicycles</calcite-tab-title>
       </calcite-tab-nav>
-      <calcite-tab id="embarkTab">
+      <calcite-tab id="tab1-embark">
         <calcite-notice icon="embark" open>
           <div slot="message">Recommended for coastal use</div>
         </calcite-notice>
       </calcite-tab>
-      <calcite-tab id="carTab">
+      <calcite-tab id="tab2-car">
         <calcite-notice icon="car" open>
           <div slot="message">A good choice for inland adventure</div>
         </calcite-notice>
       </calcite-tab>
-      <calcite-tab id="planeTab">
+      <calcite-tab id="tab3-plane">
         <calcite-notice icon="plane" open>
           <div slot="message">Cross continents quickly</div>
         </calcite-notice>
       </calcite-tab>
-      <calcite-tab id="bikingTab">
+      <calcite-tab id="tab4-biking">
         <calcite-notice icon="biking" open>
           <div slot="message">Healthy and gets you from point A to B</div>
         </calcite-notice>
@@ -177,15 +177,15 @@ describe("calcite-tab-title", () => {
     it(`when closing tab-titles in sequence 1 (first selected) through 4, 
         tab-title and corresponding tab become hidden, 
         and selection fallback is the next tab`, async () => {
-      await closeTabsInSequenceOfGivenArrayOfIds(["embark", "car", "plane", "biking"]);
+      await closeTabsInSequenceOfGivenArrayOfIds(["title1-embark", "title2-car", "title3-plane", "title4-biking"]);
     });
 
     it(`when closing tab-titles in sequence 4 (last selected) through 1, 
         tab-title and corresponding tab become hidden, 
         and selection fallback is the previous tab`, async () => {
-      const arrayOfReversedIds = ["embark", "car", "plane", "biking"].reverse();
+      const arrayOfReversedIds = ["title1-embark", "title2-car", "title3-plane", "title4-biking"].reverse();
 
-      const bikingTabTitleEl = await page.find(`#biking`);
+      const bikingTabTitleEl = await page.find(`#title4-biking`);
       bikingTabTitleEl.setProperty("selected", true);
 
       await page.waitForChanges();
@@ -194,12 +194,12 @@ describe("calcite-tab-title", () => {
     });
 
     it(`closing an unselected tab-title does not deselect the current selection`, async () => {
-      const selectedEmbarkTabEl = await page.find("#embarkTab");
-      const selectedEmbarkTabTitleContainerEl = await page.find(`#embark >>> .${CSS.container}`);
+      const selectedEmbarkTabEl = await page.find("#tab1-embark");
+      const selectedEmbarkTabTitleContainerEl = await page.find(`#title1-embark>>> .${CSS.container}`);
 
-      const carTabTitleContainerEl = await page.find(`#car >>> .${CSS.container}`);
-      matchingTabEl = await page.find("#carTab");
-      tabTitleCloseButtonEl = await page.find(`#car >>> .${CSS.closeButton}`);
+      const carTabTitleContainerEl = await page.find(`#title2-car >>> .${CSS.container}`);
+      matchingTabEl = await page.find("#tab2-car");
+      tabTitleCloseButtonEl = await page.find(`#title2-car >>> .${CSS.closeButton}`);
 
       await tabTitleCloseButtonEl.click();
       await page.waitForChanges();
@@ -210,9 +210,9 @@ describe("calcite-tab-title", () => {
       expect(await selectedEmbarkTabTitleContainerEl.getProperty("hidden")).not.toBe(true);
       expect(await selectedEmbarkTabEl.getProperty("selected")).toBe(true);
 
-      const planeTabTitleContainerEl = await page.find(`#plane >>> .${CSS.container}`);
-      matchingTabEl = await page.find("#planeTab");
-      tabTitleCloseButtonEl = await page.find(`#plane >>> .${CSS.closeButton}`);
+      const planeTabTitleContainerEl = await page.find(`#title3-plane >>> .${CSS.container}`);
+      matchingTabEl = await page.find("#tab3-plane");
+      tabTitleCloseButtonEl = await page.find(`#title3-plane >>> .${CSS.closeButton}`);
 
       await tabTitleCloseButtonEl.click();
       await page.waitForChanges();
@@ -225,9 +225,9 @@ describe("calcite-tab-title", () => {
       expect(await selectedEmbarkTabTitleContainerEl.getProperty("hidden")).not.toBe(true);
       expect(await selectedEmbarkTabEl.getProperty("selected")).toBe(true);
 
-      const bikingTabTitleContainerEl = await page.find(`#biking >>> .${CSS.container}`);
-      matchingTabEl = await page.find("#bikingTab");
-      tabTitleCloseButtonEl = await page.find(`#biking >>> .${CSS.closeButton}`);
+      const bikingTabTitleContainerEl = await page.find(`#title4-biking >>> .${CSS.container}`);
+      matchingTabEl = await page.find("#tab4-biking");
+      tabTitleCloseButtonEl = await page.find(`#title4-biking >>> .${CSS.closeButton}`);
 
       await tabTitleCloseButtonEl.click();
       await page.waitForChanges();
@@ -242,17 +242,17 @@ describe("calcite-tab-title", () => {
     });
 
     it(`case 1: works with randomized closing sequence with mixed selected and not`, async () => {
-      const carTabTitleEl = await page.find(`#car`);
-      const carTabTitleContainerEl = await page.find(`#car >>> .${CSS.container}`);
-      matchingTabEl = await page.find("#carTab");
+      const carTabTitleEl = await page.find(`#title2-car`);
+      const carTabTitleContainerEl = await page.find(`#title2-car >>> .${CSS.container}`);
+      matchingTabEl = await page.find("#tab2-car");
 
       carTabTitleEl.setProperty("selected", true);
       await page.waitForChanges();
 
       expect(await matchingTabEl.getProperty("selected")).toBe(true);
 
-      const embarkTabTitleContainerEl = await page.find(`#embark >>> .${CSS.container}`);
-      tabTitleCloseButtonEl = await page.find(`#embark >>> .${CSS.closeButton}`);
+      const embarkTabTitleContainerEl = await page.find(`#title1-embark >>> .${CSS.container}`);
+      tabTitleCloseButtonEl = await page.find(`#title1-embark >>> .${CSS.closeButton}`);
 
       await tabTitleCloseButtonEl.click();
       await page.waitForChanges();
@@ -262,9 +262,9 @@ describe("calcite-tab-title", () => {
       expect(await carTabTitleEl.getProperty("selected")).toBe(true);
       expect(await matchingTabEl.getProperty("selected")).toBe(true);
 
-      const planeTabTitleContainerEl = await page.find(`#plane >>> .${CSS.container}`);
-      matchingTabEl = await page.find("#planeTab");
-      tabTitleCloseButtonEl = await page.find(`#car >>> .${CSS.closeButton}`);
+      const planeTabTitleContainerEl = await page.find(`#title3-plane >>> .${CSS.container}`);
+      matchingTabEl = await page.find("#tab3-plane");
+      tabTitleCloseButtonEl = await page.find(`#title2-car >>> .${CSS.closeButton}`);
 
       await tabTitleCloseButtonEl.click();
       await page.waitForChanges();
@@ -276,17 +276,17 @@ describe("calcite-tab-title", () => {
     });
 
     it(`case 2: works with randomized closing sequence with mixed selected and not`, async () => {
-      const carTabTitleEl = await page.find(`#car`);
-      const carTabTitleContainerEl = await page.find(`#car >>> .${CSS.container}`);
-      matchingTabEl = await page.find("#carTab");
+      const carTabTitleEl = await page.find(`#title2-car`);
+      const carTabTitleContainerEl = await page.find(`#title2-car >>> .${CSS.container}`);
+      matchingTabEl = await page.find("#tab2-car");
 
       carTabTitleEl.setProperty("selected", true);
       await page.waitForChanges();
 
       expect(await matchingTabEl.getProperty("selected")).toBe(true);
 
-      const embarkTabTitleContainerEl = await page.find(`#embark >>> .${CSS.container}`);
-      tabTitleCloseButtonEl = await page.find(`#embark >>> .${CSS.closeButton}`);
+      const embarkTabTitleContainerEl = await page.find(`#title1-embark >>> .${CSS.container}`);
+      tabTitleCloseButtonEl = await page.find(`#title1-embark >>> .${CSS.closeButton}`);
 
       await tabTitleCloseButtonEl.click();
       await page.waitForChanges();
@@ -296,17 +296,17 @@ describe("calcite-tab-title", () => {
       expect(await carTabTitleEl.getProperty("selected")).toBe(true);
       expect(await matchingTabEl.getProperty("selected")).toBe(true);
 
-      const planeTabTitleEl = await page.find(`#plane`);
+      const planeTabTitleEl = await page.find(`#title3-plane`);
 
       planeTabTitleEl.setProperty("selected", true);
       await page.waitForChanges();
 
       expect(await planeTabTitleEl.getProperty("selected")).toBe(true);
 
-      const planeTabTitleContainerEl = await page.find(`#plane >>> .${CSS.container}`);
-      const bikingTabTitleContainerEl = await page.find(`#biking >>> .${CSS.container}`);
-      matchingTabEl = await page.find("#planeTab");
-      tabTitleCloseButtonEl = await page.find(`#car >>> .${CSS.closeButton}`);
+      const planeTabTitleContainerEl = await page.find(`#title3-plane >>> .${CSS.container}`);
+      const bikingTabTitleContainerEl = await page.find(`#title4-biking >>> .${CSS.container}`);
+      matchingTabEl = await page.find("#title3-plane");
+      tabTitleCloseButtonEl = await page.find(`#title2-car >>> .${CSS.closeButton}`);
 
       await tabTitleCloseButtonEl.click();
       await page.waitForChanges();
