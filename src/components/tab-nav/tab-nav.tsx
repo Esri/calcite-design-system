@@ -408,6 +408,7 @@ export class TabNav {
     requestAnimationFrame(() => {
       this.updateOffsetPosition();
       this.updateActiveWidth();
+      tabTitles[this.selectedTabId].focus();
     });
   }
 }
