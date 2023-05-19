@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0" />
+    <title>Sortable-list nested example</title>
+    <style>
+      .parent {
+        display: flex;
+        align-items: center;
+        margin: 25px 0;
+      }
+
+      .child {
+        flex: 0 0 40%;
+        margin: 0 25px;
+        color: var(--calcite-ui-text-3);
+        font-family: var(--calcite-sans-family);
+        font-size: var(--calcite-font-size-0);
+        font-weight: var(--calcite-font-weight-medium);
+        padding: 10px 0;
+      }
+
+      .right-aligned-text {
+        text-align: right;
+        flex: 0 0 15%;
+      }
+
+      hr {
+        margin: 35px 0;
+        border-top: 1px solid var(--calcite-ui-border-2);
+      }
+    </style>
+
+    <script src="./_assets/head.js"></script>
+  </head>
+
+  <body>
+    <calcite-shell content-behind="true" style="background-color: grey">
+      <div id="viewDiv"></div>
+      <calcite-shell-panel slot="panel-start" id="shell-panel">
+        <calcite-panel>
+          <calcite-sortable-list drag-selector="calcite-block">
+            <calcite-block drag-handle="true" heading="Block A" collapsible="" calcite-hydrated="" open>
+              <calcite-label alignment="start" scale="m" layout="default" calcite-hydrated="">content A </calcite-label>
+            </calcite-block>
+            <calcite-block
+              drag-handle="true"
+              heading="Block B"
+              intl-collapse="Collapse"
+              intl-expand="Expand"
+              collapsible=""
+              calcite-hydrated=""
+              open
+            >
+              <calcite-label alignment="start" scale="m" layout="default" calcite-hydrated="">content B </calcite-label>
+              <calcite-value-list drag-enabled>
+                <calcite-value-list-item label="Rent" description="Mortgage + housing costs" value="rent">
+                </calcite-value-list-item>
+                <calcite-value-list-item label="Food" description="its what you eat." value="food">
+                </calcite-value-list-item>
+                <calcite-value-list-item label="Utilities" value="utilities"> </calcite-value-list-item>
+                <calcite-value-list-item label="Entertainment" description="Toys and leisure" value="entertainment">
+                </calcite-value-list-item>
+              </calcite-value-list>
+            </calcite-block>
+            <calcite-block drag-handle="true" heading="Block C" collapsible="" calcite-hydrated="" open>
+              <calcite-label alignment="start" scale="m" layout="default" calcite-hydrated="">content C </calcite-label>
+            </calcite-block>
+          </calcite-sortable-list>
+        </calcite-panel>
+      </calcite-shell-panel>
+    </calcite-shell>
+  </body>
+</html>
