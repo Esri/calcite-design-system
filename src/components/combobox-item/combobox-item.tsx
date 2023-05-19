@@ -127,11 +127,14 @@ export class ComboboxItem implements ConditionalSlotComponent, InteractiveCompon
   //
   // --------------------------------------------------------------------------
 
-  toggleSelected(coerce?: boolean): Promise<void> {
-    if (this.disabled) {
+  toggleSelected(): Promise<void> {
+    const isSingleSelect = getElementProp(this.el, "selection-mode", "multiple") === "single";
+
+    if (this.disabled || (isSingleSelect && this.selected)) {
       return;
     }
-    this.selected = typeof coerce === "boolean" ? coerce : !this.selected;
+
+    this.selected = !this.selected;
   }
 
   itemClickHandler = (event: MouseEvent): void => {

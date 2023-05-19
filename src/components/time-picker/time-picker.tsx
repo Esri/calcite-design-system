@@ -780,7 +780,6 @@ export class TimePicker
             onClick={this.incrementHour}
             onKeyDown={this.hourUpButtonKeyDownHandler}
             role="button"
-            tabIndex={-1}
           >
             <calcite-icon icon="chevron-up" scale={iconScale} />
           </span>
@@ -813,7 +812,6 @@ export class TimePicker
             onClick={this.decrementHour}
             onKeyDown={this.hourDownButtonKeyDownHandler}
             role="button"
-            tabIndex={-1}
           >
             <calcite-icon icon="chevron-down" scale={iconScale} />
           </span>
@@ -861,7 +859,6 @@ export class TimePicker
             onClick={this.decrementMinute}
             onKeyDown={this.minuteDownButtonKeyDownHandler}
             role="button"
-            tabIndex={-1}
           >
             <calcite-icon icon="chevron-down" scale={iconScale} />
           </span>
@@ -878,7 +875,6 @@ export class TimePicker
               onClick={this.incrementSecond}
               onKeyDown={this.secondUpButtonKeyDownHandler}
               role="button"
-              tabIndex={-1}
             >
               <calcite-icon icon="chevron-up" scale={iconScale} />
             </span>
@@ -910,7 +906,6 @@ export class TimePicker
               onClick={this.decrementSecond}
               onKeyDown={this.secondDownButtonKeyDownHandler}
               role="button"
-              tabIndex={-1}
             >
               <calcite-icon icon="chevron-down" scale={iconScale} />
             </span>
@@ -937,7 +932,6 @@ export class TimePicker
               onClick={this.incrementMeridiem}
               onKeyDown={this.meridiemUpButtonKeyDownHandler}
               role="button"
-              tabIndex={-1}
             >
               <calcite-icon icon="chevron-up" scale={iconScale} />
             </span>
@@ -970,7 +964,6 @@ export class TimePicker
               onClick={this.decrementMeridiem}
               onKeyDown={this.meridiemDownButtonKeyDownHandler}
               role="button"
-              tabIndex={-1}
             >
               <calcite-icon icon="chevron-down" scale={iconScale} />
             </span>
