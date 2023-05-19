@@ -2,7 +2,7 @@ import Sortable from "sortablejs";
 const sortableComponentSet = new Set<SortableComponent>();
 
 /**
- * Defines interface for components with Sortable functionality.
+ * Defines interface for components with sorting functionality.
  */
 export interface SortableComponent {
   /**
