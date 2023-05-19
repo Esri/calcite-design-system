@@ -375,37 +375,34 @@ export class TabNav {
   }
 
   get enabledTabTitles(): HTMLCalciteTabTitleElement[] {
-    const directEnabled = filterDirectChildren<HTMLCalciteTabTitleElement>(
+    return filterDirectChildren<HTMLCalciteTabTitleElement>(
       this.el,
       "calcite-tab-title:not([disabled])"
-    );
-    return directEnabled.filter((tabTitle) => !tabTitle.closed);
+    ).filter((tabTitle) => !tabTitle.closed);
   }
 
-  handleTabTitleClose(closedTabTitleEl: HTMLCalciteTabTitleElement): void {
+  private handleTabTitleClose(closedTabTitleEl: HTMLCalciteTabTitleElement): void {
     const { tabTitles } = this;
 
-    const visibleTabTitlesIndices = tabTitles.reduce((acc, curr, i) => {
-      return !curr.closed ? [...acc, i] : acc;
-    }, []);
+    const visibleTabTitlesIndices = tabTitles.reduce(
+      (tabTitleIndices, tabTitle, index) =>
+        !tabTitle.closed ? [...tabTitleIndices, index] : tabTitleIndices,
+      []
+    );
+    const totalVisibleTabTitles = visibleTabTitlesIndices.length;
 
-    const closedTabTitleIndex = tabTitles.findIndex((el) => el === closedTabTitleEl);
-
-    if (visibleTabTitlesIndices.length > 1) {
+    if (totalVisibleTabTitles === 1 && tabTitles[visibleTabTitlesIndices[0]].closable) {
+      tabTitles[visibleTabTitlesIndices[0]].closable = false;
+      this.selectedTabId = visibleTabTitlesIndices[0];
+    } else if (totalVisibleTabTitles > 1) {
+      const closedTabTitleIndex = tabTitles.findIndex((el) => el === closedTabTitleEl);
       const nextTabTitleIndex = visibleTabTitlesIndices.find(
         (value) => value > closedTabTitleIndex
       );
+
       if (this.selectedTabId === closedTabTitleIndex) {
-        this.selectedTabId = nextTabTitleIndex
-          ? nextTabTitleIndex
-          : visibleTabTitlesIndices.length - 1;
+        this.selectedTabId = nextTabTitleIndex ? nextTabTitleIndex : totalVisibleTabTitles - 1;
       }
-    } else if (
-      visibleTabTitlesIndices.length === 1 &&
-      tabTitles[visibleTabTitlesIndices[0]].closable
-    ) {
-      tabTitles[visibleTabTitlesIndices[0]].closable = false;
-      this.selectedTabId = visibleTabTitlesIndices[0];
     }
 
     requestAnimationFrame(() => {
