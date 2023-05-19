@@ -59,9 +59,9 @@ import { getHandleAndItemElement, getScreenReaderText } from "./utils";
 import {
   connectSortableComponent,
   disconnectSortableComponent,
-  startSorting,
+  onSortingStart,
   SortableComponent,
-  stopSorting
+  onSortingEnd
 } from "../../utils/sortableComponent";
 
 /**
@@ -233,7 +233,7 @@ export class ValueList<
 
   componentDidLoad(): void {
     setComponentLoaded(this);
-    this.setUpDragAndDrop();
+    this.setUpSorting();
     handleInitialFilter.call(this);
   }
 
@@ -246,7 +246,7 @@ export class ValueList<
     disconnectLocalized(this);
     disconnectMessages(this);
     cleanUpObserver.call(this);
-    this.cleanUpDragAndDrop();
+    this.cleanUpSorting();
   }
 
   // --------------------------------------------------------------------------
@@ -310,9 +310,9 @@ export class ValueList<
   }
 
   setUpItems(): void {
-    this.cleanUpDragAndDrop();
+    this.cleanUpSorting();
     setUpItems.call(this, "calcite-value-list-item");
-    this.setUpDragAndDrop();
+    this.setUpSorting();
   }
 
   setUpFilter(): void {
@@ -329,16 +329,16 @@ export class ValueList<
     this.filteredItems = filteredItems;
   };
 
-  onEnableSorting = (): void => {
+  onSortingEnabled = (): void => {
     initializeObserver.call(this);
   };
 
-  onDisableSorting = (): void => {
+  onSortingDisabled = (): void => {
     cleanUpObserver.call(this);
   };
 
-  setUpDragAndDrop(): void {
-    this.cleanUpDragAndDrop();
+  setUpSorting(): void {
+    this.cleanUpSorting();
 
     if (!this.dragEnabled) {
       return;
@@ -352,10 +352,10 @@ export class ValueList<
       direction: "vertical",
       onStart: () => {
         cleanUpObserver.call(this);
-        startSorting(this);
+        onSortingStart(this);
       },
       onEnd: () => {
-        stopSorting(this);
+        onSortingEnd(this);
         initializeObserver.call(this);
       },
       onUpdate: () => {
@@ -366,7 +366,7 @@ export class ValueList<
     });
   }
 
-  cleanUpDragAndDrop(): void {
+  cleanUpSorting(): void {
     this.sortable?.destroy();
     this.sortable = null;
   }
