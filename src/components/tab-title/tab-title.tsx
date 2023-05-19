@@ -300,6 +300,7 @@ export class TabTitle implements InteractiveComponent, LocalizedComponent, T9nCo
     if (this.disabled) {
       return;
     }
+
     this.emitActiveTab();
   }
 
@@ -465,8 +466,7 @@ export class TabTitle implements InteractiveComponent, LocalizedComponent, T9nCo
 
   @State() controls: string;
 
-  /** determine if there is slotted text for styling purposes */
-  @State() hasText = false;
+  @State() defaultMessages: TabTitleMessages;
 
   @State() effectiveLocale: "";
 
@@ -475,7 +475,8 @@ export class TabTitle implements InteractiveComponent, LocalizedComponent, T9nCo
     updateMessages(this, this.effectiveLocale);
   }
 
-  @State() defaultMessages: TabTitleMessages;
+  /** determine if there is slotted text for styling purposes */
+  @State() hasText = false;
 
   parentTabNavEl: HTMLCalciteTabNavElement;
 

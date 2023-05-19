@@ -6,7 +6,7 @@ import { CSS } from "./resources";
 describe("calcite-tab-title", () => {
   const tabTitleHtml = "<calcite-tab-title></calcite-tab-title>";
   const tabTitleClosableHtml = "<calcite-tab-title closable></calcite-tab-title>";
-  const multiTabTitleClosableHtml = `
+  const multiTabTitleClosableMarkup = `
     <calcite-tabs bordered position="top">
       <calcite-tab-nav slot="title-group">
         <calcite-tab-title id="embark" closable>Watercraft</calcite-tab-title>
@@ -36,13 +36,13 @@ describe("calcite-tab-title", () => {
       </calcite-tab>
     </calcite-tabs>
   `;
-  const iconStartHtml = `calcite-tab-title >>> .${CSS.titleIcon}.${CSS.iconStart}`;
-  const iconEndHtml = `calcite-tab-title >>> .${CSS.titleIcon}.${CSS.iconEnd}`;
-  const closeHtml = `calcite-tab-title >>> .${CSS.closeButton}`;
+  const iconStartSelector = `calcite-tab-title >>> .${CSS.titleIcon}.${CSS.iconStart}`;
+  const iconEndSelector = `calcite-tab-title >>> .${CSS.titleIcon}.${CSS.iconEnd}`;
+  const closeSelector = `calcite-tab-title >>> .${CSS.closeButton}`;
 
   describe("renders", () => {
     renders(tabTitleHtml, { display: "block" });
-    renders(multiTabTitleClosableHtml, { display: "flex" });
+    renders(multiTabTitleClosableMarkup, { display: "flex" });
   });
 
   describe("honors hidden attribute", () => {
@@ -55,8 +55,8 @@ describe("calcite-tab-title", () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-tab-title icon-start='plus'>Text</calcite-tab-title>`);
     const element = await page.find("calcite-tab-title");
-    const iconStart = await page.find(iconStartHtml);
-    const iconEnd = await page.find(iconEndHtml);
+    const iconStart = await page.find(iconStartSelector);
+    const iconEnd = await page.find(iconEndSelector);
     expect(element).toHaveAttribute(HYDRATED_ATTR);
     expect(iconStart).not.toBeNull();
     expect(iconEnd).toBeNull();
@@ -66,8 +66,8 @@ describe("calcite-tab-title", () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-tab-title icon-end='plus'>Text</calcite-tab-title>`);
     const element = await page.find("calcite-tab-title");
-    const iconStart = await page.find(iconStartHtml);
-    const iconEnd = await page.find(iconEndHtml);
+    const iconStart = await page.find(iconStartSelector);
+    const iconEnd = await page.find(iconEndSelector);
     expect(element).toHaveAttribute(HYDRATED_ATTR);
     expect(iconStart).toBeNull();
     expect(iconEnd).not.toBeNull();
@@ -77,8 +77,8 @@ describe("calcite-tab-title", () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-tab-title icon-start='plus' icon-end='plus'>Text</calcite-tab-title>`);
     const element = await page.find("calcite-tab-title");
-    const iconStart = await page.find(iconStartHtml);
-    const iconEnd = await page.find(iconEndHtml);
+    const iconStart = await page.find(iconStartSelector);
+    const iconEnd = await page.find(iconEndSelector);
     expect(element).toHaveAttribute(HYDRATED_ATTR);
     expect(iconStart).not.toBeNull();
     expect(iconEnd).not.toBeNull();
@@ -93,7 +93,7 @@ describe("calcite-tab-title", () => {
     });
 
     it("clicking on close button closes the tab", async () => {
-      const close = await page.find(closeHtml);
+      const close = await page.find(closeSelector);
 
       await close.click();
       await page.waitForChanges();
@@ -132,7 +132,7 @@ describe("calcite-tab-title", () => {
     let page: E2EPage;
 
     let matchingTabEl: E2EElement;
-    let close: E2EElement;
+    let tabTitleCloseButtonEl: E2EElement;
 
     const closeTabsInSequenceOfGivenArrayOfIds = async (arrayOfIds: string[]): Promise<void> => {
       for (let i = 0; i < arrayOfIds.length - 1; i++) {
@@ -143,11 +143,11 @@ describe("calcite-tab-title", () => {
 
         tabEl = await page.find(`#${id}`);
         tabTitleContainerEl = await page.find(`calcite-tab-title[id='${id}'] >>> .${CSS.container}`);
-        const close = await page.find(`calcite-tab-title[id='${id}'] >>> .${CSS.closeButton}`);
+        const tabTitleCloseButtonEl = await page.find(`calcite-tab-title[id='${id}'] >>> .${CSS.closeButton}`);
 
         expect(await tabTitleContainerEl.getProperty("hidden")).not.toBe(true);
 
-        await close.click();
+        await tabTitleCloseButtonEl.click();
         await page.waitForChanges();
 
         const tabTitleEl = await page.find(`#${id}`);
@@ -171,7 +171,7 @@ describe("calcite-tab-title", () => {
 
     beforeEach(async () => {
       page = await newE2EPage();
-      await page.setContent(multiTabTitleClosableHtml);
+      await page.setContent(multiTabTitleClosableMarkup);
     });
 
     it(`when closing tab-titles in sequence 1 (first selected) through 4, 
@@ -199,9 +199,9 @@ describe("calcite-tab-title", () => {
 
       const carTabTitleContainerEl = await page.find(`#car >>> .${CSS.container}`);
       matchingTabEl = await page.find("#carTab");
-      close = await page.find(`#car >>> .${CSS.closeButton}`);
+      tabTitleCloseButtonEl = await page.find(`#car >>> .${CSS.closeButton}`);
 
-      await close.click();
+      await tabTitleCloseButtonEl.click();
       await page.waitForChanges();
 
       expect(await carTabTitleContainerEl.getProperty("hidden")).toBe(true);
@@ -212,9 +212,9 @@ describe("calcite-tab-title", () => {
 
       const planeTabTitleContainerEl = await page.find(`#plane >>> .${CSS.container}`);
       matchingTabEl = await page.find("#planeTab");
-      close = await page.find(`#plane >>> .${CSS.closeButton}`);
+      tabTitleCloseButtonEl = await page.find(`#plane >>> .${CSS.closeButton}`);
 
-      await close.click();
+      await tabTitleCloseButtonEl.click();
       await page.waitForChanges();
 
       expect(await carTabTitleContainerEl.getProperty("hidden")).toBe(true);
@@ -227,9 +227,9 @@ describe("calcite-tab-title", () => {
 
       const bikingTabTitleContainerEl = await page.find(`#biking >>> .${CSS.container}`);
       matchingTabEl = await page.find("#bikingTab");
-      close = await page.find(`#biking >>> .${CSS.closeButton}`);
+      tabTitleCloseButtonEl = await page.find(`#biking >>> .${CSS.closeButton}`);
 
-      await close.click();
+      await tabTitleCloseButtonEl.click();
       await page.waitForChanges();
 
       expect(await carTabTitleContainerEl.getProperty("hidden")).toBe(true);
@@ -252,9 +252,9 @@ describe("calcite-tab-title", () => {
       expect(await matchingTabEl.getProperty("selected")).toBe(true);
 
       const embarkTabTitleContainerEl = await page.find(`#embark >>> .${CSS.container}`);
-      close = await page.find(`#embark >>> .${CSS.closeButton}`);
+      tabTitleCloseButtonEl = await page.find(`#embark >>> .${CSS.closeButton}`);
 
-      await close.click();
+      await tabTitleCloseButtonEl.click();
       await page.waitForChanges();
 
       expect(await embarkTabTitleContainerEl.getProperty("hidden")).toBe(true);
@@ -264,9 +264,9 @@ describe("calcite-tab-title", () => {
 
       const planeTabTitleContainerEl = await page.find(`#plane >>> .${CSS.container}`);
       matchingTabEl = await page.find("#planeTab");
-      close = await page.find(`#car >>> .${CSS.closeButton}`);
+      tabTitleCloseButtonEl = await page.find(`#car >>> .${CSS.closeButton}`);
 
-      await close.click();
+      await tabTitleCloseButtonEl.click();
       await page.waitForChanges();
 
       expect(await carTabTitleContainerEl.getProperty("hidden")).toBe(true);
@@ -286,9 +286,9 @@ describe("calcite-tab-title", () => {
       expect(await matchingTabEl.getProperty("selected")).toBe(true);
 
       const embarkTabTitleContainerEl = await page.find(`#embark >>> .${CSS.container}`);
-      close = await page.find(`#embark >>> .${CSS.closeButton}`);
+      tabTitleCloseButtonEl = await page.find(`#embark >>> .${CSS.closeButton}`);
 
-      await close.click();
+      await tabTitleCloseButtonEl.click();
       await page.waitForChanges();
 
       expect(await embarkTabTitleContainerEl.getProperty("hidden")).toBe(true);
@@ -306,9 +306,9 @@ describe("calcite-tab-title", () => {
       const planeTabTitleContainerEl = await page.find(`#plane >>> .${CSS.container}`);
       const bikingTabTitleContainerEl = await page.find(`#biking >>> .${CSS.container}`);
       matchingTabEl = await page.find("#planeTab");
-      close = await page.find(`#car >>> .${CSS.closeButton}`);
+      tabTitleCloseButtonEl = await page.find(`#car >>> .${CSS.closeButton}`);
 
-      await close.click();
+      await tabTitleCloseButtonEl.click();
       await page.waitForChanges();
 
       expect(await planeTabTitleContainerEl.getProperty("hidden")).not.toBe(true);
@@ -393,12 +393,13 @@ describe("calcite-tab-title", () => {
           `
         );
 
-        expect(await page.find("calcite-tab-nav")).toEqualAttribute("scale", "m");
-        expect(await page.find("calcite-tab-title")).toEqualAttribute("scale", "m");
-
+        const tabTitleNav = await page.find("calcite-tab-nav");
+        const tabTitleEl = await page.find("calcite-tab-title");
         const content = await page.find(`calcite-tab-title >>> .${CSS.content}`);
         const contentStyles = await content.getComputedStyle();
 
+        expect(tabTitleEl).toEqualAttribute("scale", "m");
+        expect(tabTitleNav).toEqualAttribute("scale", "m");
         expect(contentStyles.fontSize).toEqual("14px");
         expect(contentStyles.lineHeight).toEqual("16px");
       });
@@ -412,14 +413,14 @@ describe("calcite-tab-title", () => {
             </calcite-tab-nav>
           `
         );
-        await page.waitForChanges();
 
-        expect(await page.find("calcite-tab-nav")).toEqualAttribute("scale", "s");
-        expect(await page.find("calcite-tab-title")).toEqualAttribute("scale", "s");
-
+        const tabTitleNav = await page.find("calcite-tab-nav");
+        const tabTitleEl = await page.find("calcite-tab-title");
         const content = await page.find(`calcite-tab-title >>> .${CSS.content}`);
         const contentStyles = await content.getComputedStyle();
 
+        expect(tabTitleEl).toEqualAttribute("scale", "s");
+        expect(tabTitleNav).toEqualAttribute("scale", "s");
         expect(contentStyles.fontSize).toEqual("12px");
         expect(contentStyles.lineHeight).toEqual("16px");
       });
@@ -433,14 +434,14 @@ describe("calcite-tab-title", () => {
             </calcite-tab-nav>
           `
         );
-        await page.waitForChanges();
 
-        expect(await page.find("calcite-tab-nav")).toEqualAttribute("scale", "l");
-        expect(await page.find("calcite-tab-title")).toEqualAttribute("scale", "l");
-
+        const tabTitleNav = await page.find("calcite-tab-nav");
+        const tabTitleEl = await page.find("calcite-tab-title");
         const content = await page.find(`calcite-tab-title >>> .${CSS.content}`);
         const contentStyles = await content.getComputedStyle();
 
+        expect(tabTitleEl).toEqualAttribute("scale", "l");
+        expect(tabTitleNav).toEqualAttribute("scale", "l");
         expect(contentStyles.fontSize).toEqual("16px");
         expect(contentStyles.lineHeight).toEqual("20px");
       });

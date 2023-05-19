@@ -114,24 +114,20 @@
   margin-inline-start: theme("margin.2");
 }
 
-@mixin tab-title-element-base() {
-  @apply transition-default
-      text-color-3
-      box-border
-      flex
-      cursor-pointer
-      self-stretch
-      h-full
-      appearance-none
-      overflow-hidden
-      border-none
-      justify-center
-      items-center;
-}
-
 .close-button {
-  @include tab-title-element-base;
-  @apply bg-foreground-1 text-color-1;
+  @apply bg-foreground-1 
+  text-color-3
+  transition-default
+  box-border
+  flex
+  cursor-pointer
+  self-stretch
+  h-full
+  appearance-none
+  overflow-hidden
+  border-none
+  justify-center
+  items-center;
   margin-inline-start: auto;
   background-color: var(--calcite-button-transparent-1);
 }
