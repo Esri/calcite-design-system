@@ -1,4 +1,4 @@
 {
-  "invalid": "Invalid",
-  "tooLong": "Character limit exceeded"
+  "invalid": "לא תקין",
+  "tooLong": "חריגה ממגבלת מספר התווים"
 }

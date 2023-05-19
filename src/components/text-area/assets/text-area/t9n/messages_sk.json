@@ -1,4 +1,4 @@
 {
-  "invalid": "Invalid",
-  "tooLong": "Character limit exceeded"
+  "invalid": "Neplatné",
+  "tooLong": "Bol prekročený limit počtu znakov"
 }

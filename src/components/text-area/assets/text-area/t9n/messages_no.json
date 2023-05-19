@@ -1,4 +1,4 @@
 {
-  "invalid": "Invalid",
-  "tooLong": "Character limit exceeded"
+  "invalid": "Ugyldig",
+  "tooLong": "Maksimumsgrensen for antall tegn er overskredet"
 }
