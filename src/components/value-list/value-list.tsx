@@ -202,6 +202,8 @@ export class ValueList<
 
   sortable: Sortable;
 
+  sortingDisabled = false;
+
   @Element() el: HTMLCalciteValueListElement;
 
   emitCalciteListChange: () => void;
@@ -224,6 +226,7 @@ export class ValueList<
     connectMessages(this);
     initialize.call(this);
     initializeObserver.call(this);
+    this.setUpSorting();
   }
 
   async componentWillLoad(): Promise<void> {
@@ -233,7 +236,6 @@ export class ValueList<
 
   componentDidLoad(): void {
     setComponentLoaded(this);
-    this.setUpSorting();
     handleInitialFilter.call(this);
   }
 
@@ -246,7 +248,9 @@ export class ValueList<
     disconnectLocalized(this);
     disconnectMessages(this);
     cleanUpObserver.call(this);
-    this.cleanUpSorting();
+    if (!this.sortingDisabled) {
+      this.cleanUpSorting();
+    }
   }
 
   // --------------------------------------------------------------------------
@@ -310,7 +314,6 @@ export class ValueList<
   }
 
   setUpItems(): void {
-    this.cleanUpSorting();
     setUpItems.call(this, "calcite-value-list-item");
     this.setUpSorting();
   }
@@ -334,10 +337,15 @@ export class ValueList<
   };
 
   onSortingDisabled = (): void => {
+    this.sortingDisabled = true;
     cleanUpObserver.call(this);
   };
 
   setUpSorting(): void {
+    if (this.sortingDisabled) {
+      return;
+    }
+
     this.cleanUpSorting();
 
     if (!this.dragEnabled) {
