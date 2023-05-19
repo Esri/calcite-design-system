@@ -179,3 +179,5 @@ export const withBothNavActionPropAndSlot_TestOnly = (): string =>
       <calcite-navigation-user slot="user" full-name="Allen Iverson"></calcite-navigation-user>
     </calcite-navigation>
   `;
+
+export const WithNoSlottedContent_TestOnly = (): string => html`<calcite-navigation></calcite-navigation>`;

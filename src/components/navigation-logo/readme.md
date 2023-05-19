@@ -1,4 +1,4 @@
-# calcite-nav-logo
+# calcite-navigation-logo
 
 <!-- Auto Generated Below -->
 
