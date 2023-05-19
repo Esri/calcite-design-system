@@ -20,7 +20,8 @@ import {
   disconnectSortableComponent,
   onSortingStart,
   SortableComponent,
-  onSortingEnd
+  onSortingEnd,
+  sortableCreate
 } from "../../utils/sortableComponent";
 import { focusElement } from "../../utils/dom";
 
@@ -89,8 +90,6 @@ export class SortableList implements InteractiveComponent, SortableComponent {
 
   sortable: Sortable;
 
-  sortingDisabled = false;
-
   // --------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -106,7 +105,6 @@ export class SortableList implements InteractiveComponent, SortableComponent {
   disconnectedCallback(): void {
     disconnectSortableComponent(this);
     this.mutationObserver?.disconnect();
-    this.cleanUpSorting();
   }
 
   componentDidRender(): void {
@@ -180,16 +178,11 @@ export class SortableList implements InteractiveComponent, SortableComponent {
   }
 
   setUpSorting(): void {
-    if (this.sortingDisabled) {
-      return;
-    }
-
-    this.cleanUpSorting();
-
     this.items = Array.from(this.el.children);
 
-    const options: Sortable.Options = {
+    sortableCreate(this, this.el, {
       dataIdAttr: "id",
+      draggable: this.dragSelector,
       group: this.group,
       handle: this.handleSelector,
       // Changed sorting within list
@@ -207,22 +200,7 @@ export class SortableList implements InteractiveComponent, SortableComponent {
         onSortingEnd(this);
         this.beginObserving();
       }
-    };
-
-    if (this.dragSelector) {
-      options.draggable = this.dragSelector;
-    }
-
-    this.sortable = Sortable.create(this.el, options);
-  }
-
-  cleanUpSorting(): void {
-    if (this.sortingDisabled) {
-      return;
-    }
-
-    this.sortable?.destroy();
-    this.sortable = null;
+    });
   }
 
   beginObserving(): void {
@@ -234,7 +212,6 @@ export class SortableList implements InteractiveComponent, SortableComponent {
   };
 
   onSortingDisabled = (): void => {
-    this.sortingDisabled = true;
     this.mutationObserver?.disconnect();
   };
 

@@ -61,7 +61,8 @@ import {
   disconnectSortableComponent,
   onSortingStart,
   SortableComponent,
-  onSortingEnd
+  onSortingEnd,
+  sortableCreate
 } from "../../utils/sortableComponent";
 
 /**
@@ -202,8 +203,6 @@ export class ValueList<
 
   sortable: Sortable;
 
-  sortingDisabled = false;
-
   @Element() el: HTMLCalciteValueListElement;
 
   emitCalciteListChange: () => void;
@@ -248,7 +247,6 @@ export class ValueList<
     disconnectLocalized(this);
     disconnectMessages(this);
     cleanUpObserver.call(this);
-    this.cleanUpSorting();
   }
 
   // --------------------------------------------------------------------------
@@ -335,22 +333,15 @@ export class ValueList<
   };
 
   onSortingDisabled = (): void => {
-    this.sortingDisabled = true;
     cleanUpObserver.call(this);
   };
 
   setUpSorting(): void {
-    if (this.sortingDisabled) {
-      return;
-    }
-
-    this.cleanUpSorting();
-
     if (!this.dragEnabled) {
       return;
     }
 
-    this.sortable = Sortable.create(this.el, {
+    sortableCreate(this, this.el, {
       dataIdAttr: "id",
       handle: `.${CSS.handle}`,
       draggable: "calcite-value-list-item",
@@ -369,15 +360,6 @@ export class ValueList<
         this.calciteListOrderChange.emit(values);
       }
     });
-  }
-
-  cleanUpSorting(): void {
-    if (this.sortingDisabled) {
-      return;
-    }
-
-    this.sortable?.destroy();
-    this.sortable = null;
   }
 
   deselectRemovedItems = deselectRemovedItems.bind(this);

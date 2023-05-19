@@ -1,5 +1,6 @@
 import Sortable from "sortablejs";
 const sortableComponentSet = new Set<SortableComponent>();
+const inactiveSortableComponentSet = new WeakSet<SortableComponent>();
 
 /**
  * Defines interface for components with sorting functionality.
@@ -16,13 +17,6 @@ export interface SortableComponent {
    * This should be implemented for components that allow users to drag and sort content within the component.
    */
   setUpSorting: () => void;
-
-  /**
-   * Method to tear down Sortable within the SortableComponent.
-   *
-   * This should be implemented for components that allow users to drag and sort content within the component.
-   */
-  cleanUpSorting: () => void;
 
   /**
    * Defines method for the `onSortingDisabled` event handler.
@@ -50,6 +44,7 @@ export function connectSortableComponent(component: SortableComponent): void {
  * @param {SortableComponent} component - The sortable component.
  */
 export function disconnectSortableComponent(component: SortableComponent): void {
+  sortableDestroy(component);
   sortableComponentSet.delete(component);
 }
 
@@ -61,6 +56,7 @@ export function disconnectSortableComponent(component: SortableComponent): void 
 export function onSortingStart(activeComponent: SortableComponent): void {
   sortableComponentSet.forEach((component) => {
     if (component !== activeComponent) {
+      inactiveSortableComponentSet.add(component);
       component.onSortingDisabled();
     }
   });
@@ -74,7 +70,46 @@ export function onSortingStart(activeComponent: SortableComponent): void {
 export function onSortingEnd(activeComponent: SortableComponent): void {
   sortableComponentSet.forEach((component) => {
     if (component !== activeComponent) {
+      inactiveSortableComponentSet.delete(component);
       component.onSortingEnabled();
     }
   });
+}
+
+/**
+ * Method to set up Sortable within the SortableComponent.
+ *
+ * This should be implemented for components that allow users to drag and sort content within the component.
+ *
+ * @param {SortableComponent} component - The sortable component.
+ * @param {HTMLElement} element - Any variety of HTMLElement.
+ * @param {SortableComponent} [options] - Sortable options object.
+ */
+export function sortableCreate(
+  component: SortableComponent,
+  element: HTMLElement,
+  options?: Sortable.Options
+): Sortable {
+  if (inactiveSortableComponentSet.has(component)) {
+    return;
+  }
+
+  sortableDestroy(component);
+  component.sortable = Sortable.create(element, options);
+}
+
+/**
+ * Method to tear down Sortable within the SortableComponent.
+ *
+ * This should be implemented for components that allow users to drag and sort content within the component.
+ *
+ * @param {SortableComponent} component - The sortable component.
+ */
+function sortableDestroy(component: SortableComponent): Sortable {
+  if (inactiveSortableComponentSet.has(component)) {
+    return;
+  }
+
+  component.sortable?.destroy();
+  component.sortable = null;
 }
