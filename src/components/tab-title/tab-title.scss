@@ -118,6 +118,7 @@
 .close-button {
   @apply appearance-none
   bg-foreground-1
+  border-none
   content-center
   cursor-pointer
   flex
@@ -131,12 +132,12 @@
 
   background-color: var(--calcite-button-transparent-1);
   margin-inline-start: auto;
-  border: none;
 
   &:focus {
     @apply focus-inset;
   }
 
+  &:focus,
   &:hover {
     @apply text-color-1;
     background-color: var(--calcite-ui-foreground-2);
