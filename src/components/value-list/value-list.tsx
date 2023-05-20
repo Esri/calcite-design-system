@@ -63,6 +63,7 @@ import {
   SortableComponent,
   onSortingEnd
 } from "../../utils/sortableComponent";
+import { focusElement } from "../../utils/dom";
 
 /**
  * @deprecated Use the `list` component instead.
@@ -409,7 +410,7 @@ export class ValueList<
     this.items = this.getItems();
     this.calciteListOrderChange.emit(this.items.map(({ value }) => value));
 
-    requestAnimationFrame(() => handle?.focus());
+    requestAnimationFrame(() => focusElement(handle));
     item.handleActivated = true;
 
     this.updateHandleAriaLabel(handle, getScreenReaderText(item, "change", this));

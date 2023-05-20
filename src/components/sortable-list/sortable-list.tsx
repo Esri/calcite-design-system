@@ -1,14 +1,4 @@
-import {
-  Component,
-  Element,
-  Event,
-  EventEmitter,
-  h,
-  Listen,
-  Prop,
-  State,
-  VNode
-} from "@stencil/core";
+import { Component, Element, Event, EventEmitter, h, Listen, Prop, VNode } from "@stencil/core";
 import Sortable from "sortablejs";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import { createObserver } from "../../utils/observers";
@@ -79,8 +69,6 @@ export class SortableList implements InteractiveComponent, SortableComponent {
 
   @Element() el: HTMLCalciteSortableListElement;
 
-  @State() handleActivated = false;
-
   items: Element[] = [];
 
   mutationObserver = createObserver("mutation", () => {
@@ -133,7 +121,10 @@ export class SortableList implements InteractiveComponent, SortableComponent {
 
   handleNudgeEvent(event: CustomEvent<HandleNudge>): void {
     const { direction } = event.detail;
-    const handle = event.target as HTMLCalciteHandleElement;
+
+    const handle = event
+      .composedPath()
+      .find((el: HTMLElement) => el.matches(this.handleSelector)) as HTMLElement;
 
     const sortItem = this.items.find((item) => {
       return item.contains(handle) || event.composedPath().includes(item);
@@ -170,9 +161,12 @@ export class SortableList implements InteractiveComponent, SortableComponent {
 
     this.items = Array.from(this.el.children);
 
-    handle.activated = true;
-    focusElement(handle);
     this.beginObserving();
+    requestAnimationFrame(() => focusElement(handle));
+
+    if ("activated" in handle) {
+      handle.activated = true;
+    }
   }
 
   setUpSorting(): void {
