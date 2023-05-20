@@ -182,6 +182,7 @@ export class TabNav {
           // eslint-disable-next-line react/jsx-sort-props
           ref={(el: HTMLDivElement) => (this.tabNavEl = el)}
         >
+          <slot />
           <div
             class="tab-nav-active-indicator-container"
             // eslint-disable-next-line react/jsx-sort-props
@@ -194,7 +195,6 @@ export class TabNav {
               ref={(el) => (this.activeIndicatorEl = el as HTMLElement)}
             />
           </div>
-          <slot />
         </div>
       </Host>
     );
