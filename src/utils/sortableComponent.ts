@@ -13,7 +13,7 @@ export interface SortableComponent {
 }
 
 /**
- * Helper to keep track of a SortableComponent.
+ * Helper to keep track of a SortableComponent. This should be called in the `connectedCallback` lifecycle method.
  *
  * @param {SortableComponent} component - The sortable component.
  */
@@ -22,7 +22,7 @@ export function connectSortableComponent(component: SortableComponent): void {
 }
 
 /**
- * Helper to remove track of a SortableComponent.
+ * Helper to remove track of a SortableComponent. This should be called in the `disconnectedCallback` lifecycle method.
  *
  * @param {SortableComponent} component - The sortable component.
  */
