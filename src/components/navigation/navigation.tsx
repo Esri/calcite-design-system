@@ -239,7 +239,7 @@ export class CalciteNavigation implements LoadableComponent {
             class={{ [CSS.containerContent]: true, [CSS.hasProgress]: this.progressSlotHasElement }}
           >
             {this.renderMenuAction()}
-            <div class={{ [CSS.hide]: !this.userSlotHasElements, [SLOTS.logo]: true }}>
+            <div class={{ [CSS.hide]: !this.logoSlotHasElements, [SLOTS.logo]: true }}>
               <slot name={SLOTS.logo} onSlotchange={this.handleLogoSlotChange} />
             </div>
             <slot name={SLOTS.contentStart} onSlotchange={this.handleContentStartSlotChange} />
