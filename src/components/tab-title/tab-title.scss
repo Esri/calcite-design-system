@@ -84,8 +84,8 @@
     text-color-3
     text-n1h
     transition-default
-    truncate
     w-full;
+
   border-block-end-style: solid;
 }
 
@@ -123,18 +123,21 @@
   cursor-pointer
   flex
   focus-base
-  h-full
   items-center
   justify-center
   self-center
   text-color-3
   transition-default;
 
+  block-size: calc(100% - 2px); // fit within top/bottom borders
   background-color: var(--calcite-button-transparent-1);
   margin-inline-start: auto;
 
   &:focus {
     @apply focus-inset;
+
+    // ⚠️overriding outline-offset should be avoided as it won't honor --calcite-ui-focus-offset-invert
+    outline-offset: -1px;
   }
 
   &:focus,
@@ -188,8 +191,9 @@
 }
 
 .container {
-  @apply border border-solid;
-  border-color: transparent;
+  border-block-end-style: unset;
+  border-inline-start: 1px solid transparent;
+  border-inline-end: 1px solid transparent;
 }
 
 :host([position="bottom"]) .container {
