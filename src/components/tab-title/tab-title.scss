@@ -190,13 +190,15 @@
   }
 }
 
-.container {
+:host([closable]) .container,
+:host([bordered]) .container {
   border-block-end-style: unset;
   border-inline-start: 1px solid transparent;
   border-inline-end: 1px solid transparent;
 }
 
-:host([position="bottom"]) .container {
+:host([closable][position="bottom"]) .container,
+:host([bordered][position="bottom"]) .container {
   border-block-start-style: unset;
 }
 
