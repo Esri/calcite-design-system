@@ -184,20 +184,17 @@ export class SortableList implements InteractiveComponent, SortableComponent {
       dataIdAttr: "id",
       group,
       handle: handleSelector,
-      // Changed sorting within list
-      onUpdate: () => {
-        this.items = Array.from(this.el.children);
-        this.calciteListOrderChange.emit();
-      },
-      // Element dragging started
       onStart: () => {
         this.endObserving();
         onSortingStart(this);
       },
-      // Element dragging ended
       onEnd: () => {
         onSortingEnd(this);
         this.beginObserving();
+      },
+      onUpdate: () => {
+        this.items = Array.from(this.el.children);
+        this.calciteListOrderChange.emit();
       }
     };
 

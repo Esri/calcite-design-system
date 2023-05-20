@@ -327,15 +327,17 @@ export class ValueList<
   };
 
   setUpSorting(): void {
-    if (!this.dragEnabled) {
+    const { dragEnabled, group } = this;
+
+    if (!dragEnabled) {
       return;
     }
 
     connectSortableComponent(this, this.el, {
       dataIdAttr: "id",
+      group,
       handle: `.${CSS.handle}`,
       draggable: "calcite-value-list-item",
-      group: this.group,
       onStart: () => {
         cleanUpObserver.call(this);
         onSortingStart(this);
