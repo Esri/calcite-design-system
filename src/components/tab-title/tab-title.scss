@@ -173,14 +173,6 @@
   box-shadow: inset 0 2px 0 var(--calcite-ui-foreground-1);
 }
 
-:host([bordered]:hover),
-:host([bordered]:focus),
-:host([bordered]:active) {
-  .container {
-    @apply relative;
-  }
-}
-
 :host([bordered]:hover) {
   .container {
     background-color: var(--calcite-button-transparent-hover);
@@ -197,7 +189,8 @@
 }
 
 :host([selected][bordered]) .container {
-  border-inline: var(--calcite-ui-border-1);
+  border-inline-start-color: var(--calcite-ui-border-1);
+  border-inline-end-color: var(--calcite-ui-border-1);
 }
 
 :host([bordered]) {
