@@ -61,8 +61,7 @@ import {
   disconnectSortableComponent,
   onSortingStart,
   SortableComponent,
-  onSortingEnd,
-  sortableSetUp
+  onSortingEnd
 } from "../../utils/sortableComponent";
 
 /**
@@ -220,7 +219,6 @@ export class ValueList<
   // --------------------------------------------------------------------------
 
   connectedCallback(): void {
-    connectSortableComponent(this);
     connectLocalized(this);
     connectMessages(this);
     initialize.call(this);
@@ -333,7 +331,7 @@ export class ValueList<
       return;
     }
 
-    sortableSetUp(this, this.el, {
+    connectSortableComponent(this, this.el, {
       dataIdAttr: "id",
       handle: `.${CSS.handle}`,
       draggable: "calcite-value-list-item",

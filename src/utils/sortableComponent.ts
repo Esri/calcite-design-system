@@ -13,12 +13,25 @@ export interface SortableComponent {
 }
 
 /**
- * Helper to keep track of a SortableComponent. This should be called in the `connectedCallback` lifecycle method.
+ * Helper to keep track of a SortableComponent. This should be called in the `connectedCallback` lifecycle method as well as any other method necessary to rebuild the sortable instance.
  *
  * @param {SortableComponent} component - The sortable component.
+ * @param {HTMLElement} element - Any variety of HTMLElement.
+ * @param {SortableComponent} [options] - Sortable options object.
  */
-export function connectSortableComponent(component: SortableComponent): void {
+export function connectSortableComponent(
+  component: SortableComponent,
+  element: HTMLElement,
+  options?: Sortable.Options
+): void {
+  disconnectSortableComponent(component);
   sortableComponentSet.add(component);
+
+  if (inactiveSortableComponentSet.has(component)) {
+    return;
+  }
+
+  component.sortable = Sortable.create(element, options);
 }
 
 /**
@@ -27,8 +40,14 @@ export function connectSortableComponent(component: SortableComponent): void {
  * @param {SortableComponent} component - The sortable component.
  */
 export function disconnectSortableComponent(component: SortableComponent): void {
-  sortableDestroy(component);
   sortableComponentSet.delete(component);
+
+  if (inactiveSortableComponentSet.has(component)) {
+    return;
+  }
+
+  component.sortable?.destroy();
+  component.sortable = null;
 }
 
 /**
@@ -55,35 +74,4 @@ export function onSortingEnd(activeComponent: SortableComponent): void {
       inactiveSortableComponentSet.delete(component);
     }
   });
-}
-
-/**
- * Method to set up Sortable within the SortableComponent.
- *
- * This should be implemented for components that allow users to drag and sort content within the component.
- *
- * @param {SortableComponent} component - The sortable component.
- * @param {HTMLElement} element - Any variety of HTMLElement.
- * @param {SortableComponent} [options] - Sortable options object.
- */
-export function sortableSetUp(
-  component: SortableComponent,
-  element: HTMLElement,
-  options?: Sortable.Options
-): Sortable {
-  if (inactiveSortableComponentSet.has(component)) {
-    return;
-  }
-
-  sortableDestroy(component);
-  component.sortable = Sortable.create(element, options);
-}
-
-function sortableDestroy(component: SortableComponent): Sortable {
-  if (inactiveSortableComponentSet.has(component)) {
-    return;
-  }
-
-  component.sortable?.destroy();
-  component.sortable = null;
 }

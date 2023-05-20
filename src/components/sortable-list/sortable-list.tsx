@@ -20,8 +20,7 @@ import {
   disconnectSortableComponent,
   onSortingStart,
   SortableComponent,
-  onSortingEnd,
-  sortableSetUp
+  onSortingEnd
 } from "../../utils/sortableComponent";
 import { focusElement } from "../../utils/dom";
 
@@ -97,14 +96,13 @@ export class SortableList implements InteractiveComponent, SortableComponent {
   // --------------------------------------------------------------------------
 
   connectedCallback(): void {
-    connectSortableComponent(this);
     this.setUpSorting();
     this.beginObserving();
   }
 
   disconnectedCallback(): void {
     disconnectSortableComponent(this);
-    this.mutationObserver?.disconnect();
+    this.endObserving();
   }
 
   componentDidRender(): void {
@@ -162,7 +160,7 @@ export class SortableList implements InteractiveComponent, SortableComponent {
       }
     }
 
-    this.mutationObserver?.disconnect();
+    this.endObserving();
 
     if (appendInstead) {
       sortItem.parentElement.appendChild(sortItem);
@@ -193,7 +191,7 @@ export class SortableList implements InteractiveComponent, SortableComponent {
       },
       // Element dragging started
       onStart: () => {
-        this.mutationObserver?.disconnect();
+        this.endObserving();
         onSortingStart(this);
       },
       // Element dragging ended
@@ -207,11 +205,15 @@ export class SortableList implements InteractiveComponent, SortableComponent {
       sortableOptions.draggable = dragSelector;
     }
 
-    sortableSetUp(this, this.el, sortableOptions);
+    connectSortableComponent(this, this.el, sortableOptions);
   }
 
   beginObserving(): void {
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
+  }
+
+  endObserving(): void {
+    this.mutationObserver?.disconnect();
   }
 
   // --------------------------------------------------------------------------
