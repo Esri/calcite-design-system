@@ -22,6 +22,8 @@ import {
 import { Layout, Position, Scale } from "../interfaces";
 import { ShellPanelMessages } from "./assets/shell-panel/t9n";
 import { CSS, SLOTS } from "./resources";
+import { CSS_UTILITY } from "../../utils/resources";
+import { DisplayMode } from "./interfaces";
 
 /**
  * @slot - A slot for adding custom content.
@@ -47,16 +49,55 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
 
   /**
    * When `true`, the content area displays like a floating panel.
+   *
+   * @deprecated use `displayMode` instead.
    */
   @Prop({ reflect: true }) detached = false;
 
-  /**
-   * When `detached`, specifies the maximum height of the component.
-   */
-  @Prop({ reflect: true }) detachedHeightScale: Scale = "l";
+  @Watch("detached")
+  handleDetached(value: boolean): void {
+    if (value) {
+      this.displayMode = "float";
+    } else if (this.displayMode === "float") {
+      this.displayMode = "dock";
+    }
+  }
 
   /**
-   * Specifies the width of the component's content area.
+   * Specifies the display mode - `"dock"` (full height, displays adjacent to center content), `"float"` (not full height, content is separated detached from `calcite-action-bar`, displays on top of center content),
+   * or `"overlay"` (full height, displays on top of center content).
+   */
+  @Prop({ reflect: true }) displayMode: DisplayMode = "dock";
+
+  @Watch("displayMode")
+  handleDisplayMode(value: DisplayMode): void {
+    this.detached = value === "float";
+  }
+
+  /**
+   * When `displayMode` is `float`, specifies the maximum height of the component.
+   *
+   * @deprecated use `heightScale` instead.
+   */
+  @Prop({ reflect: true }) detachedHeightScale: Scale;
+
+  @Watch("detachedHeightScale")
+  handleDetachedHeightScale(value: Scale): void {
+    this.heightScale = value;
+  }
+
+  /**
+   * When `layout` is `horizontal`, or `layout` is `vertical` and `displayMode` is `float`, specifies the maximum height of the component.
+   */
+  @Prop({ reflect: true }) heightScale: Scale;
+
+  @Watch("heightScale")
+  handleHeightScale(value: Scale): void {
+    this.detachedHeightScale = value;
+  }
+
+  /**
+   * When `layout` is `vertical`, specifies the width of the component.
    */
 
   @Prop({ reflect: true }) widthScale: Scale = "m";
@@ -74,10 +115,10 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
   /**
    * Specifies the component's position. Will be flipped when the element direction is right-to-left (`"rtl"`).
    */
-  @Prop({ reflect: true }) position: Position;
+  @Prop({ reflect: true }) position: Position = "start";
 
   /**
-   * When `true` and not `detached`, the component's content area is resizable.
+   * When `true` and `displayMode` is not `float`, the component's content area is resizable.
    */
   @Prop({ reflect: true }) resizable = false;
 
@@ -193,7 +234,6 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
   render(): VNode {
     const {
       collapsed,
-      detached,
       position,
       initialContentWidth,
       initialContentHeight,
@@ -204,10 +244,13 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
       contentHeightMax,
       contentHeightMin,
       resizable,
-      layout
+      layout,
+      displayMode
     } = this;
 
-    const allowResizing = !detached && resizable;
+    const dir = getElementDir(this.el);
+
+    const allowResizing = displayMode !== "float" && resizable;
 
     const style = allowResizing
       ? layout === "horizontal"
@@ -219,9 +262,51 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
         : null
       : null;
 
+    const separatorNode =
+      !collapsed && allowResizing ? (
+        <div
+          aria-label={this.messages.resize}
+          aria-orientation={layout === "horizontal" ? "vertical" : "horizontal"}
+          aria-valuemax={layout == "horizontal" ? contentHeightMax : contentWidthMax}
+          aria-valuemin={layout == "horizontal" ? contentHeightMin : contentWidthMin}
+          aria-valuenow={
+            layout == "horizontal"
+              ? contentHeight ?? initialContentHeight
+              : contentWidth ?? initialContentWidth
+          }
+          class={CSS.separator}
+          key="separator"
+          onKeyDown={this.separatorKeyDown}
+          role="separator"
+          tabIndex={0}
+          touch-action="none"
+          // eslint-disable-next-line react/jsx-sort-props
+          ref={this.connectSeparator}
+        />
+      ) : null;
+
+    const getAnimationDir = (): string => {
+      if (layout === "horizontal") {
+        return position === "start"
+          ? CSS_UTILITY.calciteAnimateInDown
+          : CSS_UTILITY.calciteAnimateInUp;
+      } else {
+        const isStart =
+          (dir === "ltr" && position === "end") || (dir === "rtl" && position === "start");
+        return isStart ? CSS_UTILITY.calciteAnimateInLeft : CSS_UTILITY.calciteAnimateInRight;
+      }
+    };
+
     const contentNode = (
       <div
-        class={{ [CSS.content]: true, [CSS.contentDetached]: detached }}
+        class={{
+          [CSS_UTILITY.rtl]: dir === "rtl",
+          [CSS.content]: true,
+          [CSS.contentOverlay]: displayMode === "overlay",
+          [CSS.contentFloat]: displayMode === "float",
+          [CSS_UTILITY.calciteAnimate]: displayMode === "overlay",
+          [getAnimationDir()]: displayMode === "overlay"
+        }}
         hidden={collapsed}
         key="content"
         style={style}
@@ -232,36 +317,15 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
         <div class={CSS.contentBody}>
           <slot />
         </div>
+        {separatorNode}
       </div>
     );
-
-    const separatorNode = allowResizing ? (
-      <div
-        aria-label={this.messages.resize}
-        aria-orientation={layout === "horizontal" ? "vertical" : "horizontal"}
-        aria-valuemax={layout == "horizontal" ? contentHeightMax : contentWidthMax}
-        aria-valuemin={layout == "horizontal" ? contentHeightMin : contentWidthMin}
-        aria-valuenow={
-          layout == "horizontal"
-            ? contentHeight ?? initialContentHeight
-            : contentWidth ?? initialContentWidth
-        }
-        class={CSS.separator}
-        key="separator"
-        onKeyDown={this.separatorKeyDown}
-        role="separator"
-        tabIndex={0}
-        touch-action="none"
-        // eslint-disable-next-line react/jsx-sort-props
-        ref={this.connectSeparator}
-      />
-    ) : null;
 
     const actionBarNode = (
       <slot key="action-bar" name={SLOTS.actionBar} onSlotchange={this.handleActionBarSlotChange} />
     );
 
-    const mainNodes = [actionBarNode, contentNode, separatorNode];
+    const mainNodes = [actionBarNode, contentNode];
 
     if (position === "end") {
       mainNodes.reverse();
@@ -553,7 +617,7 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
   connectSeparator = (separatorEl: HTMLDivElement): void => {
     this.disconnectSeparator();
     this.separatorEl = separatorEl;
-    separatorEl.addEventListener("pointerdown", this.separatorPointerDown);
+    separatorEl?.addEventListener("pointerdown", this.separatorPointerDown);
   };
 
   disconnectSeparator = (): void => {

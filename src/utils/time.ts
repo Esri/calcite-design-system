@@ -256,3 +256,18 @@ export function parseTimeString(value: string): Time {
     second: null
   };
 }
+
+export function toISOTimeString(value: string, includeSeconds = true): string {
+  if (!isValidTime(value)) {
+    return "";
+  }
+  const { hour, minute, second } = parseTimeString(value);
+
+  let isoTimeString = `${formatTimePart(parseInt(hour))}:${formatTimePart(parseInt(minute))}`;
+
+  if (includeSeconds) {
+    isoTimeString += `:${formatTimePart(parseInt((includeSeconds && second) || "0"))}`;
+  }
+
+  return isoTimeString;
+}

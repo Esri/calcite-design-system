@@ -8,7 +8,6 @@
   interface Script {
     src: string;
     type?: "module";
-    noModule?: boolean;
   }
 
   const SCRIPTS: Script[] = [

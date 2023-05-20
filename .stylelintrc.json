@@ -13,6 +13,13 @@
       }
     ],
     "property-case": "lower",
+    "selector-disallowed-list": [
+      ["/:host-context/"],
+      {
+        "message": ":host-context is not supported in all browsers, so it should be avoided",
+        "severity": "error"
+      }
+    ],
     "selector-max-specificity": [
       "0,5,5",
       {

@@ -16,6 +16,7 @@ export default {
 export const simple = (): string => html`
   <div style="width:400px;max-width:100%;background-color:white;padding:100px">
     <calcite-combobox
+      ${boolean("clear-disabled", false)}
       label="demo combobox"
       placeholder="${text("placeholder", "placeholder")}"
       label="${text("label (for screen readers)", "demo")}"
@@ -459,3 +460,24 @@ export const nestedGroups_TestOnly =
       </calcite-combobox-item>
     </calcite-combobox-item-group>
 </calcite-combobox>`;
+
+export const clearDisabled_TestOnly = (): string => html`
+  <calcite-combobox clear-disabled selection-mode="single" style="width:400px">
+    <calcite-combobox-item selected id="one" value="one" text-label="one"></calcite-combobox-item>
+    <calcite-combobox-item id="two" value="two" text-label="two"></calcite-combobox-item>
+    <calcite-combobox-item id="three" value="three" text-label="three"></calcite-combobox-item>
+  </calcite-combobox>
+  <br />
+  <calcite-combobox clear-disabled selection-mode="multiple" style="width:400px">
+    <calcite-combobox-item selected id="one" value="one" text-label="one"></calcite-combobox-item>
+    <calcite-combobox-item selected id="two" value="two" text-label="two"></calcite-combobox-item>
+    <calcite-combobox-item selected id="three" value="three" text-label="three"></calcite-combobox-item>
+  </calcite-combobox>
+  <br />
+  <calcite-combobox clear-disabled selection-mode="ancestors">
+    <calcite-combobox-item value="parent" text-label="parent" style="width:400px">
+      <calcite-combobox-item value="child1" text-label="child1"></calcite-combobox-item>
+      <calcite-combobox-item selected value="child2" text-label="child2"></calcite-combobox-item>
+    </calcite-combobox-item>
+  </calcite-combobox>
+`;

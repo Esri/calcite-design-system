@@ -1,0 +1,74 @@
+body {
+  margin: 0;
+  text-align: left;
+}
+
+h2 {
+  color: #333;
+  margin: 48px 24px;
+}
+
+h3 {
+  color: #555;
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 1.6;
+  margin: 48px 24px;
+}
+
+h4 {
+  margin: 0 24px 24px;
+  font-weight: 400;
+}
+
+h4:only-of-type {
+  margin: 48px 24px;
+}
+
+h4:last-of-type {
+  margin-bottom: 48px;
+}
+
+calcite-chip {
+  align-self: center;
+  margin: 0 8px;
+}
+
+calcite-tab-nav {
+  padding: 0 24px;
+}
+
+.text-box {
+  max-width: 80vh;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.footer-container {
+  padding: 12px;
+  width: 100%;
+  background-color: #f8f8f8;
+  border-top: 1px solid #e0e0e0;
+}
+
+calcite-shell {
+  height: auto;
+  position: relative;
+  overflow: visible;
+  margin-bottom: 48px;
+}
+
+.shell-demo {
+  height: 60vh;
+}
+
+.content-shell {
+  height: 100%;
+  background-color: #f9f9f9;
+  position: fixed;
+}
+
+h3 code {
+  background-color: #eee;
+  border: 8px solid #eee;
+}
