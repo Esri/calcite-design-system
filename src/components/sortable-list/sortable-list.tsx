@@ -178,13 +178,14 @@ export class SortableList implements InteractiveComponent, SortableComponent {
   }
 
   setUpSorting(): void {
+    const { dragSelector, group, handleSelector } = this;
+
     this.items = Array.from(this.el.children);
 
-    sortableSetUp(this, this.el, {
+    const sortableOptions: Sortable.Options = {
       dataIdAttr: "id",
-      draggable: this.dragSelector,
-      group: this.group,
-      handle: this.handleSelector,
+      group,
+      handle: handleSelector,
       // Changed sorting within list
       onUpdate: () => {
         this.items = Array.from(this.el.children);
@@ -200,7 +201,13 @@ export class SortableList implements InteractiveComponent, SortableComponent {
         onSortingEnd(this);
         this.beginObserving();
       }
-    });
+    };
+
+    if (dragSelector) {
+      sortableOptions.draggable = dragSelector;
+    }
+
+    sortableSetUp(this, this.el, sortableOptions);
   }
 
   beginObserving(): void {
