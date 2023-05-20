@@ -27,6 +27,10 @@
 
 :host(:focus) .container {
   @apply focus-inset;
+
+  &:focus-within {
+    @apply focus-base;
+  }
 }
 
 :host(:active),
@@ -37,6 +41,10 @@
   }
 }
 
+:host([selected]) .container {
+  @apply text-color-1 border-color-transparent;
+}
+
 @include disabled() {
   .container {
     @apply pointer-events-none opacity-50;
@@ -45,51 +53,45 @@
 
 :host([scale="s"]) {
   margin-inline-end: 1rem;
-  .content,
-  .close-button {
+  .content {
     @apply text-n2h py-1;
   }
 }
 
 :host([scale="m"]) {
-  .content,
-  .close-button {
+  .content {
     @apply text-n1h py-2;
   }
 }
 
 :host([scale="l"]) {
   margin-inline-end: 1.5rem;
-  .content,
-  .close-button {
+  .content {
     @apply text-0h py-2.5;
   }
 }
 
 .container {
-  @apply flex justify-between;
+  @apply appearance-none
+    border-b-2
+    box-border
+    content-center
+    cursor-pointer
+    flex
+    h-full
+    justify-between
+    px-0
+    text-color-3
+    text-n1h
+    transition-default
+    truncate
+    w-full
+    border-b-color-transparent;
   border-block-end-style: solid;
-  border-block-end-color: transparent;
-  padding-inline-end: 0;
 }
 
 .content {
-  @apply text-color-3
-    text-n1h
-    transition-default
-    box-border
-    flex-1
-    w-full
-    cursor-pointer
-    appearance-none
-    justify-center
-    items-center
-    truncate
-    px-0;
-}
-.container {
-  @apply border-b-color-transparent;
-  border-block-end-style: solid;
+  @apply flex items-center justify-center;
 }
 
 .calcite-tab-title--icon {
@@ -115,21 +117,40 @@
 }
 
 .close-button {
-  @apply bg-foreground-1 
-  text-color-3
-  transition-default
-  box-border
-  flex
+  @apply appearance-none
+  bg-foreground-1
+  content-center
   cursor-pointer
-  self-stretch
+  flex
+  focus-base
   h-full
-  appearance-none
-  overflow-hidden
-  border-none
+  items-center
   justify-center
-  items-center;
-  margin-inline-start: auto;
+  self-center
+  text-color-3
+  transition-default;
+
   background-color: var(--calcite-button-transparent-1);
+  margin-inline-start: auto;
+  border: none;
+
+  &:focus {
+    @apply focus-inset;
+  }
+
+  &:hover {
+    @apply text-color-1;
+    background-color: var(--calcite-ui-foreground-2);
+  }
+
+  &:active {
+    @apply text-color-1;
+    background-color: var(--calcite-ui-foreground-3);
+  }
+
+  & calcite-icon {
+    color: inherit;
+  }
 }
 
 // compensate for spacing when no hastext and two icons
@@ -142,9 +163,6 @@
 // bordered styles
 :host([bordered]) {
   margin-inline-end: 0;
-  .content {
-    @apply mb-0;
-  }
 }
 
 :host([bordered][selected]) {
@@ -169,38 +187,34 @@
   }
 }
 
-:host([bordered]) .container {
-  border-block-end-style: unset;
-  border-inline-start: 1px solid transparent;
-  border-inline-end: 1px solid transparent;
+.container {
+  @apply border border-solid;
+  border-color: transparent;
 }
 
-:host([bordered][position="bottom"]) .container {
+:host([position="bottom"]) .container {
   border-block-start-style: unset;
 }
 
 :host([selected][bordered]) .container {
-  border-inline-start-color: var(--calcite-ui-border-1);
-  border-inline-end-color: var(--calcite-ui-border-1);
+  border-inline: var(--calcite-ui-border-1);
 }
 
 :host([bordered]) {
-  .container {
-    @apply relative;
+  .content {
+    @apply px-3;
+  }
+}
+
+:host([bordered][scale="s"]) {
+  .content {
+    @apply px-2;
   }
 }
 
 :host([bordered][scale="l"]) {
-  .icon-present {
-    padding-block: 11px;
-  }
-}
-
-:host([bordered]) {
-  .close-button:hover,
-  .container:hover {
-    @apply text-color-1;
-    background-color: var(--calcite-button-transparent-hover);
+  .content {
+    @apply px-4;
   }
 }
 
