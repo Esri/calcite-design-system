@@ -66,7 +66,7 @@ export function onSortingEnd(activeComponent: SortableComponent): void {
  * @param {HTMLElement} element - Any variety of HTMLElement.
  * @param {SortableComponent} [options] - Sortable options object.
  */
-export function sortableCreate(
+export function sortableSetUp(
   component: SortableComponent,
   element: HTMLElement,
   options?: Sortable.Options
@@ -79,13 +79,6 @@ export function sortableCreate(
   component.sortable = Sortable.create(element, options);
 }
 
-/**
- * Method to tear down Sortable within the SortableComponent.
- *
- * This should be implemented for components that allow users to drag and sort content within the component.
- *
- * @param {SortableComponent} component - The sortable component.
- */
 function sortableDestroy(component: SortableComponent): Sortable {
   if (inactiveSortableComponentSet.has(component)) {
     return;

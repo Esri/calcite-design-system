@@ -62,7 +62,7 @@ import {
   onSortingStart,
   SortableComponent,
   onSortingEnd,
-  sortableCreate
+  sortableSetUp
 } from "../../utils/sortableComponent";
 
 /**
@@ -333,7 +333,7 @@ export class ValueList<
       return;
     }
 
-    sortableCreate(this, this.el, {
+    sortableSetUp(this, this.el, {
       dataIdAttr: "id",
       handle: `.${CSS.handle}`,
       draggable: "calcite-value-list-item",

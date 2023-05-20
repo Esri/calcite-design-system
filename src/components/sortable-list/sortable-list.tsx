@@ -21,7 +21,7 @@ import {
   onSortingStart,
   SortableComponent,
   onSortingEnd,
-  sortableCreate
+  sortableSetUp
 } from "../../utils/sortableComponent";
 import { focusElement } from "../../utils/dom";
 
@@ -180,7 +180,7 @@ export class SortableList implements InteractiveComponent, SortableComponent {
   setUpSorting(): void {
     this.items = Array.from(this.el.children);
 
-    sortableCreate(this, this.el, {
+    sortableSetUp(this, this.el, {
       dataIdAttr: "id",
       draggable: this.dragSelector,
       group: this.group,
