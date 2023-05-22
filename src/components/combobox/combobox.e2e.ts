@@ -8,11 +8,14 @@ import {
   floatingUIOwner,
   formAssociated,
   disabled,
-  t9n
+  t9n,
+  reflects
 } from "../../tests/commonTests";
 
 import { html } from "../../../support/formatting";
+import { CSS as ComboboxItemCSS } from "../combobox-item/resources";
 import { CSS } from "./resources";
+import { CSS as XButtonCSS } from "../functional/XButton";
 import { skipAnimations } from "../../tests/utils";
 
 describe("calcite-combobox", () => {
@@ -23,12 +26,69 @@ describe("calcite-combobox", () => {
   it("defaults", async () =>
     defaults("calcite-combobox", [
       {
+        propertyName: "clearDisabled",
+        defaultValue: false
+      },
+      {
         propertyName: "overlayPositioning",
         defaultValue: "absolute"
       },
       {
         propertyName: "flipPlacements",
         defaultValue: undefined
+      }
+    ]));
+
+  it("reflects", async () =>
+    reflects("calcite-combobox", [
+      {
+        propertyName: "allowCustomValues",
+        value: true
+      },
+      {
+        propertyName: "clearDisabled",
+        value: true
+      },
+      {
+        propertyName: "form",
+        value: "test-form"
+      },
+      {
+        propertyName: "maxItems",
+        value: 1
+      },
+      {
+        propertyName: "name",
+        value: "test-name"
+      },
+      {
+        propertyName: "open",
+        value: true
+      },
+      {
+        // needs to run after `open` since it resets `open` after it's asserted value
+        propertyName: "disabled",
+        value: true
+      },
+      {
+        propertyName: "placeholderIcon",
+        value: "banana"
+      },
+      {
+        propertyName: "placeholderIconFlipRtl",
+        value: true
+      },
+      {
+        propertyName: "required",
+        value: true
+      },
+      {
+        propertyName: "scale",
+        value: "s"
+      },
+      {
+        propertyName: "selectionMode",
+        value: "single"
       }
     ]));
 
@@ -303,33 +363,86 @@ describe("calcite-combobox", () => {
   });
 
   describe("item selection", () => {
-    it("should add/remove item to the selected items when an item is clicked", async () => {
-      const page = await newE2EPage();
-      await page.setContent(
-        html`
-          <calcite-combobox>
-            <calcite-combobox-item value="one" text-label="one"></calcite-combobox-item>
-            <calcite-combobox-item value="two" text-label="two"></calcite-combobox-item>
-          </calcite-combobox>
-        `
-      );
-      const cbox = await page.find("calcite-combobox");
-      const openEvent = page.waitForEvent("calciteComboboxOpen");
-      await cbox.click();
-      await openEvent;
+    describe("toggling items", () => {
+      it("single-selection mode does not allow toggling selection once the selected item is clicked", async () => {
+        const page = await newE2EPage();
+        await page.setContent(
+          html`
+            <calcite-combobox>
+              <calcite-combobox-item value="one" text-label="one"></calcite-combobox-item>
+              <calcite-combobox-item value="two" text-label="two"></calcite-combobox-item>
+            </calcite-combobox>
+          `
+        );
+        const cbox = await page.find("calcite-combobox");
+        const openEvent = page.waitForEvent("calciteComboboxOpen");
+        await cbox.click();
+        await openEvent;
 
-      let item1 = await cbox.find("calcite-combobox-item[value=one]");
-      await item1.click();
+        const item1 = await cbox.find("calcite-combobox-item[value=one]");
 
-      let chip = await page.find("calcite-combobox >>> calcite-chip");
-      expect(chip).toBeDefined();
+        await item1.click();
+        expect(await page.find("calcite-combobox >>> calcite-chip")).toBeDefined();
 
-      item1 = await cbox.find("calcite-combobox-item[value=one]");
-      await item1.click();
-      await page.waitForChanges();
+        await item1.click();
+        expect(await page.find("calcite-combobox >>> calcite-chip")).toBeDefined();
+      });
 
-      chip = await page.find("calcite-combobox >>> calcite-chip");
-      expect(chip).toBeNull();
+      it("multiple-selection mode allows toggling selection once the selected item is clicked", async () => {
+        const page = await newE2EPage();
+        await page.setContent(
+          html`
+            <calcite-combobox selection-mode="multiple">
+              <calcite-combobox-item value="one" text-label="one"></calcite-combobox-item>
+              <calcite-combobox-item value="two" text-label="two"></calcite-combobox-item>
+            </calcite-combobox>
+          `
+        );
+        const cbox = await page.find("calcite-combobox");
+        const openEvent = page.waitForEvent("calciteComboboxOpen");
+        await cbox.click();
+        await openEvent;
+
+        const item1 = await cbox.find("calcite-combobox-item[value=one]");
+
+        await item1.click();
+        expect(await page.find("calcite-combobox >>> calcite-chip")).toBeDefined();
+
+        await item1.click();
+        expect(await page.find("calcite-combobox >>> calcite-chip")).toBeNull();
+
+        await item1.click();
+        expect(await page.find("calcite-combobox >>> calcite-chip")).toBeDefined();
+      });
+
+      it("ancestors-selection mode allows toggling selection once the selected item is clicked", async () => {
+        const page = await newE2EPage();
+        await page.setContent(
+          html`
+            <calcite-combobox selection-mode="ancestors">
+              <calcite-combobox-item value="one" text-label="parent">
+                <calcite-combobox-item value="two" text-label="child1"></calcite-combobox-item>
+                <calcite-combobox-item value="three" text-label="child2"></calcite-combobox-item>
+              </calcite-combobox-item>
+            </calcite-combobox>
+          `
+        );
+        const cbox = await page.find("calcite-combobox");
+        const openEvent = page.waitForEvent("calciteComboboxOpen");
+        await cbox.click();
+        await openEvent;
+
+        const item1 = await cbox.find("calcite-combobox-item[value=one]");
+
+        await item1.click();
+        expect(await page.find("calcite-combobox >>> calcite-chip")).toBeDefined();
+
+        await item1.click();
+        expect(await page.find("calcite-combobox >>> calcite-chip")).toBeNull();
+
+        await item1.click();
+        expect(await page.find("calcite-combobox >>> calcite-chip")).toBeDefined();
+      });
     });
 
     it("should select parent in ancestor selection mode", async () => {
@@ -479,6 +592,7 @@ describe("calcite-combobox", () => {
 
     it("should replace current value to new custom value in single selection mode", async () => {
       const page = await newE2EPage();
+      await skipAnimations(page);
       await page.setContent(
         html`
           <calcite-combobox allow-custom-values selection-mode="single">
@@ -494,7 +608,6 @@ describe("calcite-combobox", () => {
       await input.click();
       await input.press("K");
       await input.press("Enter");
-      await input.press("Escape");
       await page.waitForChanges();
 
       const item1 = await page.find("calcite-combobox-item#one");
@@ -538,6 +651,137 @@ describe("calcite-combobox", () => {
       expect(await item2.getProperty("selected")).toBe(true);
       expect(await item3.getProperty("selected")).toBe(true);
     });
+  });
+
+  describe("clearing values", () => {
+    describe("enabled", () => {
+      const testCases = [
+        {
+          selectionMode: "single",
+          html: html`
+            <calcite-combobox selection-mode="single">
+              <calcite-combobox-item selected id="one" value="one" text-label="one"></calcite-combobox-item>
+              <calcite-combobox-item id="two" value="two" text-label="two"></calcite-combobox-item>
+              <calcite-combobox-item id="three" value="three" text-label="three"></calcite-combobox-item>
+            </calcite-combobox>
+          `
+        },
+        {
+          selectionMode: "multiple",
+          html: html`
+            <calcite-combobox selection-mode="multiple">
+              <calcite-combobox-item selected id="one" value="one" text-label="one"></calcite-combobox-item>
+              <calcite-combobox-item selected id="two" value="two" text-label="two"></calcite-combobox-item>
+              <calcite-combobox-item selected id="three" value="three" text-label="three"></calcite-combobox-item>
+            </calcite-combobox>
+          `
+        },
+        {
+          selectionMode: "ancestors",
+          html: html`
+            <calcite-combobox selection-mode="ancestors">
+              <calcite-combobox-item value="parent" text-label="parent">
+                <calcite-combobox-item value="child1" text-label="child1"></calcite-combobox-item>
+                <calcite-combobox-item selected value="child2" text-label="child2"></calcite-combobox-item>
+              </calcite-combobox-item>
+            </calcite-combobox>
+          `
+        }
+      ];
+
+      describe("via mouse", () => {
+        testCases.forEach((testCase) => {
+          it(`clears the value in ${testCase.selectionMode}-selection mode`, () =>
+            assertValueClearing(testCase.html, "mouse", "clear"));
+        });
+      });
+
+      describe("via keyboard", () => {
+        testCases.forEach((testCase) => {
+          it(`clears the value in ${testCase.selectionMode}-selection mode`, () =>
+            assertValueClearing(testCase.html, "keyboard", "clear"));
+        });
+      });
+    });
+
+    describe("disabled", () => {
+      const testCases = [
+        {
+          selectionMode: "single",
+          html: html`
+            <calcite-combobox clear-disabled selection-mode="single">
+              <calcite-combobox-item selected id="one" value="one" text-label="one"></calcite-combobox-item>
+              <calcite-combobox-item id="two" value="two" text-label="two"></calcite-combobox-item>
+              <calcite-combobox-item id="three" value="three" text-label="three"></calcite-combobox-item>
+            </calcite-combobox>
+          `
+        },
+        {
+          selectionMode: "multiple",
+          html: html`
+            <calcite-combobox clear-disabled selection-mode="multiple">
+              <calcite-combobox-item selected id="one" value="one" text-label="one"></calcite-combobox-item>
+              <calcite-combobox-item selected id="two" value="two" text-label="two"></calcite-combobox-item>
+              <calcite-combobox-item selected id="three" value="three" text-label="three"></calcite-combobox-item>
+            </calcite-combobox>
+          `
+        },
+        {
+          selectionMode: "ancestors",
+          html: html`
+            <calcite-combobox clear-disabled selection-mode="ancestors">
+              <calcite-combobox-item value="parent" text-label="parent">
+                <calcite-combobox-item value="child1" text-label="child1"></calcite-combobox-item>
+                <calcite-combobox-item selected value="child2" text-label="child2"></calcite-combobox-item>
+              </calcite-combobox-item>
+            </calcite-combobox>
+          `
+        }
+      ];
+
+      describe("via mouse", () => {
+        testCases.forEach((testCase) => {
+          it(`clears the value in ${testCase.selectionMode}-selection mode`, () =>
+            assertValueClearing(testCase.html, "mouse", "no-clear"));
+        });
+      });
+
+      describe("via keyboard", () => {
+        testCases.forEach((testCase) => {
+          it(`clears the value in ${testCase.selectionMode}-selection mode`, () =>
+            assertValueClearing(testCase.html, "keyboard", "no-clear"));
+        });
+      });
+    });
+
+    async function assertValueClearing(
+      html: string,
+      mode: "mouse" | "keyboard",
+      expectedBehavior: "clear" | "no-clear"
+    ): Promise<void> {
+      const page = await newE2EPage();
+      await page.setContent(html);
+
+      const combobox = await page.find("calcite-combobox");
+      if (mode === "mouse") {
+        const xButton = await page.find(`calcite-combobox >>> .${XButtonCSS.button}`);
+
+        if (expectedBehavior === "clear") {
+          await xButton.click();
+        } else {
+          expect(xButton).toBeNull();
+        }
+      } else {
+        await combobox.callMethod("setFocus");
+        await page.keyboard.press("Escape");
+      }
+
+      if (expectedBehavior === "clear") {
+        expect(await combobox.getProperty("value")).toBe("");
+      } else {
+        expect(await combobox.getProperty("value")).not.toBe("");
+      }
+    }
   });
 
   describe("keyboard navigation", () => {
@@ -619,7 +863,7 @@ describe("calcite-combobox", () => {
 
       await page.keyboard.press("ArrowDown");
       await page.waitForChanges();
-      const firstFocusedGroupItem = await page.find("#one >>> .label--active");
+      const firstFocusedGroupItem = await page.find(`#one >>> .${ComboboxItemCSS.active}`);
       expect(firstFocusedGroupItem).toBeTruthy();
     });
 
@@ -650,7 +894,7 @@ describe("calcite-combobox", () => {
 
       await page.keyboard.press("Space");
       await page.waitForChanges();
-      const firstFocusedGroupItem = await page.find("#one >>> .label--active");
+      const firstFocusedGroupItem = await page.find(`#one >>> .${ComboboxItemCSS.active}`);
       expect(firstFocusedGroupItem).toBeTruthy();
 
       const visible = await firstFocusedGroupItem.isVisible();
@@ -877,7 +1121,7 @@ describe("calcite-combobox", () => {
     });
 
     it("clicking on Listbox item focuses on the item and closes out of Listbox with tab", async () => {
-      expect(itemNestedLi).toHaveClass(CSS.labelActive);
+      expect(itemNestedLi).toHaveClass(ComboboxItemCSS.active);
 
       await element.press("Tab");
       await closeEvent;
@@ -886,15 +1130,15 @@ describe("calcite-combobox", () => {
     });
 
     it("after click interaction with listbox, user can transition to using keyboard “enter” to toggle selected on/off", async () => {
-      expect(itemNestedLi).toHaveClass(CSS.labelActive);
+      expect(itemNestedLi).toHaveClass(ComboboxItemCSS.active);
 
       await itemNestedLi.press("Enter");
-      expect(itemNestedLi).not.toHaveClass(CSS.labelSelected);
-      expect(itemNestedLi).toHaveClass(CSS.labelActive);
+      expect(itemNestedLi).not.toHaveClass(ComboboxItemCSS.selected);
+      expect(itemNestedLi).toHaveClass(ComboboxItemCSS.active);
 
       await itemNestedLi.press("Enter");
-      expect(itemNestedLi).toHaveClass(CSS.labelSelected);
-      expect(itemNestedLi).toHaveClass(CSS.labelActive);
+      expect(itemNestedLi).toHaveClass(ComboboxItemCSS.selected);
+      expect(itemNestedLi).toHaveClass(ComboboxItemCSS.active);
 
       await element.press("Tab");
       await closeEvent;
