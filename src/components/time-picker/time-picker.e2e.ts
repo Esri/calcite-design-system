@@ -59,13 +59,13 @@ describe("calcite-time-picker", () => {
 
   describe("should focus the first focusable element when setFocus is called (ltr)", () => {
     focusable(`calcite-time-picker`, {
-      shadowFocusTargetSelector: `.${CSS.buttonHourUp}`
+      shadowFocusTargetSelector: `.${CSS.input}.${CSS.hour}`
     });
   });
 
   describe("should focus the first focusable element when setFocus is called (rtl)", () => {
     focusable(`<calcite-time-picker dir="rtl" lang="ar"></calcite-time-picker>`, {
-      shadowFocusTargetSelector: `.${CSS.buttonHourUp}`
+      shadowFocusTargetSelector: `.${CSS.input}.${CSS.hour}`
     });
   });
 

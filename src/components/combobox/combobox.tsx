@@ -62,8 +62,9 @@ import {
 import { Scale, SelectionMode } from "../interfaces";
 import { ComboboxMessages } from "./assets/combobox/t9n";
 import { ComboboxChildElement } from "./interfaces";
-import { ComboboxChildSelector, ComboboxItem, ComboboxItemGroup } from "./resources";
+import { ComboboxChildSelector, ComboboxItem, ComboboxItemGroup, CSS } from "./resources";
 import { getItemAncestors, getItemChildren, hasActiveChildren } from "./utils";
+import { XButton, CSS as XButtonCSS } from "../functional/XButton";
 
 interface ItemData {
   label: string;
@@ -110,6 +111,11 @@ export class Combobox
   //  Public Properties
   //
   //--------------------------------------------------------------------------
+
+  /**
+   * When `true`, the value-clearing will be disabled.
+   */
+  @Prop({ reflect: true }) clearDisabled = false;
 
   /**When `true`, displays and positions the component. */
   @Prop({ reflect: true, mutable: true }) open = false;
@@ -506,6 +512,19 @@ export class Combobox
   //
   // --------------------------------------------------------------------------
 
+  private clearValue(): void {
+    this.ignoreSelectedEventsFlag = true;
+    this.items.forEach((el) => (el.selected = false));
+    this.ignoreSelectedEventsFlag = false;
+    this.selectedItems = [];
+    this.emitComboboxChange();
+    this.open = false;
+    this.updateActiveItemIndex(-1);
+    this.resetText();
+    this.filterItems("");
+    this.setFocus();
+  }
+
   setFilteredPlacements = (): void => {
     const { el, flipPlacements } = this;
 
@@ -533,7 +552,7 @@ export class Combobox
     );
   }
 
-  keydownHandler = (event: KeyboardEvent): void => {
+  private keyDownHandler = (event: KeyboardEvent): void => {
     const { key } = event;
 
     switch (key) {
@@ -609,6 +628,10 @@ export class Combobox
         }
         break;
       case "Escape":
+        if (!this.clearDisabled && !this.open) {
+          this.clearValue();
+        }
+
         this.open = false;
         event.preventDefault();
         break;
@@ -695,11 +718,20 @@ export class Combobox
   };
 
   clickHandler = (event: MouseEvent): void => {
-    if (event.composedPath().some((node: HTMLElement) => node.tagName === "CALCITE-CHIP")) {
+    const composedPath = event.composedPath();
+
+    if (composedPath.some((node: HTMLElement) => node.tagName === "CALCITE-CHIP")) {
       this.open = false;
-      event.stopPropagation();
+      event.preventDefault();
       return;
     }
+
+    if (composedPath.some((node: HTMLElement) => node.classList?.contains(XButtonCSS.button))) {
+      this.clearValue();
+      event.preventDefault();
+      return;
+    }
+
     this.open = !this.open;
     this.ensureRecentSelectedItemIsActive();
   };
@@ -1192,7 +1224,7 @@ export class Combobox
   renderFloatingUIContainer(): VNode {
     const { setFloatingEl, setContainerEl, open } = this;
     const classes = {
-      "list-container": true,
+      [CSS.listContainer]: true,
       [FloatingCSS.animation]: true,
       [FloatingCSS.animationActive]: open
     };
@@ -1257,6 +1289,7 @@ export class Combobox
   render(): VNode {
     const { guid, label, open } = this;
     const single = this.selectionMode === "single";
+    const isClearable = !this.clearDisabled && this.value?.length > 0;
 
     return (
       <Host onClick={this.comboboxFocusHandler}>
@@ -1274,7 +1307,7 @@ export class Combobox
             "wrapper--active": open
           }}
           onClick={this.clickHandler}
-          onKeyDown={this.keydownHandler}
+          onKeyDown={this.keyDownHandler}
           role="combobox"
           // eslint-disable-next-line react/jsx-sort-props
           ref={this.setReferenceEl}
@@ -1291,6 +1324,14 @@ export class Combobox
             </label>
             {this.renderInput()}
           </div>
+          {isClearable ? (
+            <XButton
+              disabled={this.disabled}
+              key="close-button"
+              label={this.messages.clear}
+              scale={this.scale}
+            />
+          ) : null}
           {this.renderIconEnd()}
         </div>
         <ul
