@@ -21,7 +21,7 @@ export class Stack {
   //
   //--------------------------------------------------------------------------
 
-  /**  When `true`, content interaction is prevented and the displayed with lower opacity. */
+  /**  When `true`, content interaction is prevented and displayed with lower opacity. */
   @Prop({ reflect: true }) disabled = false;
 
   // --------------------------------------------------------------------------

@@ -4,7 +4,7 @@ import { html } from "../../../support/formatting";
 import { storyFilters } from "../../../.storybook/helpers";
 
 export default {
-  title: "Components/Stack",
+  title: "Components/Support/Stack",
   parameters: {
     notes: [readme]
   },
