@@ -70,7 +70,9 @@ export class CalciteNavigationLogo implements LoadableComponent {
   @Method()
   async setFocus(): Promise<void> {
     await componentLoaded(this);
-    this.el.focus();
+    if (this.href) {
+      this.el.focus();
+    }
   }
 
   //--------------------------------------------------------------------------
@@ -97,17 +99,17 @@ export class CalciteNavigationLogo implements LoadableComponent {
     const { heading, description, thumbnail } = this;
     return (
       <Host>
-        <a href={this.href} rel={this.rel} tabindex={0} target={this.target}>
+        <a href={this.href} rel={this.rel} target={this.target}>
           {thumbnail && <img alt={this.label || ""} src={thumbnail} />}
           {(heading || description) && (
             <div class={CSS.container}>
               {heading && (
-                <span class={CSS.heading} key={CSS.heading}>
+                <span aria-label={this.heading} class={CSS.heading} key={CSS.heading}>
                   {heading}
                 </span>
               )}
               {description && (
-                <span class={CSS.description} key={CSS.description}>
+                <span aria-label={this.description} class={CSS.description} key={CSS.description}>
                   {description}
                 </span>
               )}

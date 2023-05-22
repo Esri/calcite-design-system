@@ -1,3 +1,4 @@
+import { html } from "../../../support/formatting";
 import { accessible, focusable, hidden, reflects, renders } from "../../tests/commonTests";
 
 describe("calcite-navigation-logo", () => {
@@ -34,6 +35,6 @@ describe("calcite-navigation-logo", () => {
     ]));
 
   describe("is focusable", () => {
-    focusable("calcite-navigation-logo");
+    focusable(html`<calcite-navigation-logo href=" " heading="esri"></calcite-navigation-logo>`);
   });
 });
