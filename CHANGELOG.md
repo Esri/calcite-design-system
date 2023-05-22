@@ -63,8 +63,6 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 * **panel:** Remove min-block-size from footer ([#6907](https://github.com/Esri/calcite-components/issues/6907)) ([c2681e7](https://github.com/Esri/calcite-components/commit/c2681e7b168b0983026b34ec640166aa7a1a016e)), closes [#6733](https://github.com/Esri/calcite-components/issues/6733)
 
-* **popover:** change event listener to 'pointerup' ([#6985](https://github.com/Esri/calcite-components/issues/6985)) ([bd1deed](https://github.com/Esri/calcite-components/commit/bd1deedc85f46e0cb205bce6f0054c8bd87a45c3)), closes [#6977](https://github.com/Esri/calcite-components/issues/6977)
-
 * **segmented-control:** handle segmented-control-items with duplicate values ([#6963](https://github.com/Esri/calcite-components/issues/6963)) ([3a5ad87](https://github.com/Esri/calcite-components/commit/3a5ad87e49ed09fed70eb2be05f2668ad308a28b)), closes [#6283](https://github.com/Esri/calcite-components/issues/6283)
 
 * **shell-center-row:** Correctly do not set Action Bar layout ([#6891](https://github.com/Esri/calcite-components/issues/6891)) ([7e96dd0](https://github.com/Esri/calcite-components/commit/7e96dd04841ab3ac8a2571b680807bb27ac2311e)), closes [#6890](https://github.com/Esri/calcite-components/issues/6890)
