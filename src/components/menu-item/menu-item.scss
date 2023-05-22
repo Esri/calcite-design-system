@@ -2,8 +2,7 @@
   @apply flex
   items-center 
   relative 
-  box-border
-  h-full;
+  box-border;
   flex-shrink: 0;
   & .container,
   & .item-content,
@@ -14,6 +13,10 @@
 
 :host([layout="vertical"]) {
   @apply w-full;
+}
+
+:host(:not([layout="vertical"])) {
+  @apply h-full;
 }
 
 .container,

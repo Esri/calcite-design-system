@@ -13,7 +13,7 @@ export default {
 
 export const simple = (): string => html` <calcite-menu>
   <calcite-menu-item
-    text="${text("text", "My nav item")}"
+    text="${text("text", "Menu item")}"
     src="${text("src", "")}"
     href="${text("href", "")}"
     rel="${text("rel", "")}"
@@ -26,7 +26,7 @@ export const simple = (): string => html` <calcite-menu>
 
 export const iconStart = (): string => html` <calcite-menu>
   <calcite-menu-item
-    text="${text("text", "My nav item")}"
+    text="${text("text", "Menu item")}"
     src="${text("src", "")}"
     href="${text("href", "")}"
     rel="${text("rel", "")}"
@@ -40,7 +40,7 @@ export const iconStart = (): string => html` <calcite-menu>
 
 export const iconEnd = (): string => html` <calcite-menu>
   <calcite-menu-item
-    text="${text("text", "My nav item")}"
+    text="${text("text", "Menu item")}"
     src="${text("src", "")}"
     href="${text("href", "")}"
     rel="${text("rel", "")}"
@@ -54,7 +54,7 @@ export const iconEnd = (): string => html` <calcite-menu>
 
 export const iconsBoth = (): string => html` <calcite-menu>
   <calcite-menu-item
-    text="${text("text", "My nav item")}"
+    text="${text("text", "Menu item")}"
     src="${text("src", "")}"
     href="${text("href", "")}"
     rel="${text("rel", "")}"
@@ -69,7 +69,7 @@ export const iconsBoth = (): string => html` <calcite-menu>
 
 export const darkModeRTL_TestOnly = (): string =>
   html`<calcite-menu-item
-    text="My nav item"
+    text="Menu item"
     active
     dir="rtl"
     class="calcite-mode-dark"

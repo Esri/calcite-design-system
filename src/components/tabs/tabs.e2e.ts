@@ -1,6 +1,7 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { html } from "../../../support/formatting";
 import { accessible, defaults, hidden, renders } from "../../tests/commonTests";
+import { GlobalTestProps } from "../../tests/utils";
 
 describe("calcite-tabs", () => {
   const tabsContent = `
@@ -313,5 +314,35 @@ describe("calcite-tabs", () => {
     expect(childContent).toBe("kidBTab");
     expect(parentTitle).toBe("parentA");
     expect(parentContent).toBe("parentTabA");
+  });
+
+  it("should set selected title when tab change is emitted", async () => {
+    const page = await newE2EPage();
+    await page.setContent(html`
+      <calcite-tab-nav slot="title-group">
+        <calcite-tab-title tab="boats">Boats</calcite-tab-title>
+        <calcite-tab-title selected tab="ships">Ships</calcite-tab-title>
+        <calcite-tab-title tab="yachts">Yachts</calcite-tab-title>
+      </calcite-tab-nav>
+    `);
+
+    type TestWindow = GlobalTestProps<{ selectedTitleTab: string }>;
+
+    await page.evaluate(() =>
+      document.addEventListener(
+        "calciteTabChange",
+        (event) =>
+          ((window as TestWindow).selectedTitleTab = (event.target as HTMLCalciteTabNavElement).selectedTitle.tab),
+        { once: true }
+      )
+    );
+
+    const tabChange = page.waitForEvent("calciteTabChange");
+    await page.click("calcite-tab-title");
+    await tabChange;
+
+    const selectedTitleOnEmit = await page.evaluate(() => (window as TestWindow).selectedTitleTab);
+
+    expect(selectedTitleOnEmit).toBe("boats");
   });
 });

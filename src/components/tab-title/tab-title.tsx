@@ -501,7 +501,8 @@ export class TabTitle implements InteractiveComponent, LocalizedComponent, T9nCo
     this.calciteInternalTabsActivate.emit(payload);
 
     if (userTriggered) {
-      this.calciteTabsActivate.emit();
+      // emit in the next frame to let internal events sync up
+      requestAnimationFrame(() => this.calciteTabsActivate.emit());
     }
   }
 

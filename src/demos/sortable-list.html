@@ -142,6 +142,42 @@
           </calcite-sortable-list>
         </div>
       </div>
+
+      <!-- nested -->
+      <div class="parent">
+        <div class="child">Nested Example</div>
+
+        <div class="child">
+          <calcite-sortable-list>
+            <calcite-block drag-handle="true" heading="Block A" collapsible="" calcite-hydrated="" open>
+              <calcite-label alignment="start" scale="m" layout="default" calcite-hydrated="">content A </calcite-label>
+            </calcite-block>
+            <calcite-block
+              drag-handle="true"
+              heading="Block B"
+              intl-collapse="Collapse"
+              intl-expand="Expand"
+              collapsible=""
+              calcite-hydrated=""
+              open
+            >
+              <calcite-label alignment="start" scale="m" layout="default" calcite-hydrated="">content B </calcite-label>
+              <calcite-value-list drag-enabled>
+                <calcite-value-list-item label="Rent" description="Mortgage + housing costs" value="rent">
+                </calcite-value-list-item>
+                <calcite-value-list-item label="Food" description="its what you eat." value="food">
+                </calcite-value-list-item>
+                <calcite-value-list-item label="Utilities" value="utilities"> </calcite-value-list-item>
+                <calcite-value-list-item label="Entertainment" description="Toys and leisure" value="entertainment">
+                </calcite-value-list-item>
+              </calcite-value-list>
+            </calcite-block>
+            <calcite-block drag-handle="true" heading="Block C" collapsible="" calcite-hydrated="" open>
+              <calcite-label alignment="start" scale="m" layout="default" calcite-hydrated="">content C </calcite-label>
+            </calcite-block>
+          </calcite-sortable-list>
+        </div>
+      </div>
     </demo-dom-swapper>
   </body>
 </html>
