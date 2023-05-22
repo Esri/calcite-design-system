@@ -1,5 +1,5 @@
 import { select } from "@storybook/addon-knobs";
-import { iconNames, storyFilters } from "../../../.storybook/helpers";
+import { boolean, iconNames, storyFilters } from "../../../.storybook/helpers";
 import { placeholderImage } from "../../../.storybook/placeholderImage";
 import { modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
@@ -50,6 +50,26 @@ export const bordered = (): string => html`
       <calcite-tab-title tab="tab2">Tab 2 Title</calcite-tab-title>
       <calcite-tab-title tab="tab3">Tab 3 Title</calcite-tab-title>
       <calcite-tab-title tab="tab4" selected>Tab 4 Title</calcite-tab-title>
+    </calcite-tab-nav>
+    <calcite-tab tab="tab1">Tab 1 Content</calcite-tab>
+    <calcite-tab tab="tab2">Tab 2 Content</calcite-tab>
+    <calcite-tab tab="tab3">Tab 3 Content</calcite-tab>
+    <calcite-tab tab="tab4" selected>Tab 4 Content</calcite-tab>
+  </calcite-tabs>
+`;
+
+export const closable = (): string => html`
+  <calcite-tabs
+    layout="${select("layout", ["inline", "center"], "inline")}"
+    position="${select("position", ["top", "bottom"], "top")}"
+    scale="${select("scale", ["s", "m", "l"], "m")}"
+    ${boolean("bordered", false)}
+  >
+    <calcite-tab-nav slot="title-group">
+      <calcite-tab-title tab="tab1" closable> Tab 1 Title </calcite-tab-title>
+      <calcite-tab-title tab="tab2" closable>Tab 2 Title</calcite-tab-title>
+      <calcite-tab-title tab="tab3" closable>Tab 3 Title</calcite-tab-title>
+      <calcite-tab-title tab="tab4" closable selected>Tab 4 Title</calcite-tab-title>
     </calcite-tab-nav>
     <calcite-tab tab="tab1">Tab 1 Content</calcite-tab>
     <calcite-tab tab="tab2">Tab 2 Content</calcite-tab>
