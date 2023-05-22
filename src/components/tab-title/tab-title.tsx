@@ -397,7 +397,8 @@ export class TabTitle implements InteractiveComponent {
     this.calciteInternalTabsActivate.emit(payload);
 
     if (userTriggered) {
-      this.calciteTabsActivate.emit();
+      // emit in the next frame to let internal events sync up
+      requestAnimationFrame(() => this.calciteTabsActivate.emit());
     }
   }
 
