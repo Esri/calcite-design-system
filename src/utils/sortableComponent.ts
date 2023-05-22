@@ -1,4 +1,5 @@
 import Sortable from "sortablejs";
+import { containsCrossShadowBoundary } from "./dom";
 const sortableComponentSet = new Set<SortableComponent>();
 const inactiveSortableComponentSet = new WeakSet<SortableComponent>();
 
@@ -50,28 +51,30 @@ export function disconnectSortableComponent(component: SortableComponent): void 
   component.sortable = null;
 }
 
+function getNestedSortableComponents(activeComponent: SortableComponent): SortableComponent[] {
+  return Array.from(sortableComponentSet).filter(
+    (component) => component !== activeComponent && containsCrossShadowBoundary(activeComponent.el, component.el)
+  );
+}
+
 /**
- * Helper to handle other SortableComponent listeners on `Sortable.onStart`.
+ * Helper to handle nested SortableComponents on `Sortable.onStart`.
  *
  * @param {SortableComponent} activeComponent - The active sortable component.
  */
 export function onSortingStart(activeComponent: SortableComponent): void {
-  sortableComponentSet.forEach((component) => {
-    if (component !== activeComponent) {
-      inactiveSortableComponentSet.add(component);
-    }
+  getNestedSortableComponents(activeComponent).forEach((component) => {
+    inactiveSortableComponentSet.add(component);
   });
 }
 
 /**
- * Helper to handle other SortableComponent listeners on `Sortable.onEnd`.
+ * Helper to handle nested SortableComponents on `Sortable.onEnd`.
  *
  * @param {SortableComponent} activeComponent - The active sortable component.
  */
 export function onSortingEnd(activeComponent: SortableComponent): void {
-  sortableComponentSet.forEach((component) => {
-    if (component !== activeComponent) {
-      inactiveSortableComponentSet.delete(component);
-    }
+  getNestedSortableComponents(activeComponent).forEach((component) => {
+    inactiveSortableComponentSet.delete(component);
   });
 }
