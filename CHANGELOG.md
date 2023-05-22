@@ -38,8 +38,6 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 * **segmented-control:** handle segmented-control-items with duplicate values ([#6963](https://github.com/Esri/calcite-components/issues/6963)) ([3a5ad87](https://github.com/Esri/calcite-components/commit/3a5ad87e49ed09fed70eb2be05f2668ad308a28b)), closes [#6283](https://github.com/Esri/calcite-components/issues/6283)
 
-- **popover:** change event listener to 'pointerup' ([#6977](https://github.com/Esri/calcite-components/issues/6977)) ([626d046](https://github.com/Esri/calcite-components/commit/626d046fdf043411565b43bdbcc18fc31f29122f)), closes [#6455](https://github.com/Esri/calcite-components/issues/6455)
-
 * **combobox:** ensure most recent selected item is active when combobox is opened ([#6973](https://github.com/Esri/calcite-components/issues/6973)) ([8476595](https://github.com/Esri/calcite-components/commit/84765950a1b476d14b699c542f0651ce2379df78))
 
 - **flow-item:** Close back button tooltip on click ([#6978](https://github.com/Esri/calcite-components/issues/6978)) ([224b695](https://github.com/Esri/calcite-components/commit/224b69547689c1809f8a0974311be4fdc9c97190))
