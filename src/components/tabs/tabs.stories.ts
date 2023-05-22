@@ -1,5 +1,5 @@
 import { select } from "@storybook/addon-knobs";
-import { iconNames, storyFilters } from "../../../.storybook/helpers";
+import { boolean, iconNames, storyFilters } from "../../../.storybook/helpers";
 import { placeholderImage } from "../../../.storybook/placeholderImage";
 import { modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
@@ -63,6 +63,7 @@ export const closable = (): string => html`
     layout="${select("layout", ["inline", "center"], "inline")}"
     position="${select("position", ["top", "bottom"], "top")}"
     scale="${select("scale", ["s", "m", "l"], "m")}"
+    ${boolean("bordered", false)}
   >
     <calcite-tab-nav slot="title-group">
       <calcite-tab-title tab="tab1" closable> Tab 1 Title </calcite-tab-title>
