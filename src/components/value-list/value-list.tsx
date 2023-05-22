@@ -334,7 +334,7 @@ export class ValueList<
       return;
     }
 
-    connectSortableComponent(this, this.el, {
+    connectSortableComponent(this, {
       dataIdAttr: "id",
       group,
       handle: `.${CSS.handle}`,

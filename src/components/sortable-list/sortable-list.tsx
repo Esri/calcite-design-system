@@ -196,7 +196,7 @@ export class SortableList implements InteractiveComponent, SortableComponent {
       sortableOptions.draggable = dragSelector;
     }
 
-    connectSortableComponent(this, this.el, sortableOptions);
+    connectSortableComponent(this, sortableOptions);
   }
 
   beginObserving(): void {

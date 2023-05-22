@@ -7,6 +7,11 @@ const inactiveSortableComponentSet = new WeakSet<SortableComponent>();
  */
 export interface SortableComponent {
   /**
+   * The host element.
+   */
+  readonly el: HTMLElement;
+
+  /**
    * The Sortable instance.
    */
   sortable: Sortable;
@@ -16,14 +21,9 @@ export interface SortableComponent {
  * Helper to keep track of a SortableComponent. This should be called in the `connectedCallback` lifecycle method as well as any other method necessary to rebuild the sortable instance.
  *
  * @param {SortableComponent} component - The sortable component.
- * @param {HTMLElement} element - Any variety of HTMLElement.
  * @param {SortableComponent} [options] - Sortable options object.
  */
-export function connectSortableComponent(
-  component: SortableComponent,
-  element: HTMLElement,
-  options?: Sortable.Options
-): void {
+export function connectSortableComponent(component: SortableComponent, options?: Sortable.Options): void {
   disconnectSortableComponent(component);
   sortableComponentSet.add(component);
 
@@ -31,7 +31,7 @@ export function connectSortableComponent(
     return;
   }
 
-  component.sortable = Sortable.create(element, options);
+  component.sortable = Sortable.create(component.el, options);
 }
 
 /**
@@ -51,7 +51,7 @@ export function disconnectSortableComponent(component: SortableComponent): void 
 }
 
 /**
- * Helper to deactivate other SortableComponent listeners on `Sortable.onStart`.
+ * Helper to handle other SortableComponent listeners on `Sortable.onStart`.
  *
  * @param {SortableComponent} activeComponent - The active sortable component.
  */
@@ -64,7 +64,7 @@ export function onSortingStart(activeComponent: SortableComponent): void {
 }
 
 /**
- * Helper to reactivate other SortableComponent listeners on `Sortable.onEnd`.
+ * Helper to handle other SortableComponent listeners on `Sortable.onEnd`.
  *
  * @param {SortableComponent} activeComponent - The active sortable component.
  */
