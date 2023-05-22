@@ -56,6 +56,14 @@ import { ListItemAndHandle } from "../value-list-item/interfaces";
 import { ValueListMessages } from "./assets/value-list/t9n";
 import { CSS, ICON_TYPES } from "./resources";
 import { getHandleAndItemElement, getScreenReaderText } from "./utils";
+import {
+  connectSortableComponent,
+  disconnectSortableComponent,
+  onSortingStart,
+  SortableComponent,
+  onSortingEnd
+} from "../../utils/sortableComponent";
+import { focusElement } from "../../utils/dom";
 
 /**
  * @deprecated Use the `list` component instead.
@@ -70,7 +78,12 @@ import { getHandleAndItemElement, getScreenReaderText } from "./utils";
 })
 export class ValueList<
   ItemElement extends HTMLCalciteValueListItemElement = HTMLCalciteValueListItemElement
-> implements InteractiveComponent, LoadableComponent, LocalizedComponent, T9nComponent
+> implements
+    InteractiveComponent,
+    LoadableComponent,
+    LocalizedComponent,
+    T9nComponent,
+    SortableComponent
 {
   // --------------------------------------------------------------------------
   //
@@ -211,6 +224,7 @@ export class ValueList<
     connectMessages(this);
     initialize.call(this);
     initializeObserver.call(this);
+    this.setUpSorting();
   }
 
   async componentWillLoad(): Promise<void> {
@@ -220,7 +234,6 @@ export class ValueList<
 
   componentDidLoad(): void {
     setComponentLoaded(this);
-    this.setUpDragAndDrop();
     handleInitialFilter.call(this);
   }
 
@@ -229,10 +242,10 @@ export class ValueList<
   }
 
   disconnectedCallback(): void {
+    disconnectSortableComponent(this);
     disconnectLocalized(this);
     disconnectMessages(this);
     cleanUpObserver.call(this);
-    this.cleanUpDragAndDrop();
   }
 
   // --------------------------------------------------------------------------
@@ -297,6 +310,7 @@ export class ValueList<
 
   setUpItems(): void {
     setUpItems.call(this, "calcite-value-list-item");
+    this.setUpSorting();
   }
 
   setUpFilter(): void {
@@ -313,29 +327,32 @@ export class ValueList<
     this.filteredItems = filteredItems;
   };
 
-  setUpDragAndDrop(): void {
-    this.cleanUpDragAndDrop();
+  setUpSorting(): void {
+    const { dragEnabled, group } = this;
 
-    if (!this.dragEnabled) {
+    if (!dragEnabled) {
       return;
     }
 
-    this.sortable = Sortable.create(this.el, {
+    connectSortableComponent(this, {
       dataIdAttr: "id",
+      group,
       handle: `.${CSS.handle}`,
       draggable: "calcite-value-list-item",
-      group: this.group,
-      onSort: () => {
+      onStart: () => {
+        cleanUpObserver.call(this);
+        onSortingStart(this);
+      },
+      onEnd: () => {
+        onSortingEnd(this);
+        initializeObserver.call(this);
+      },
+      onUpdate: () => {
         this.items = Array.from(this.el.querySelectorAll<ItemElement>("calcite-value-list-item"));
         const values = this.items.map((item) => item.value);
         this.calciteListOrderChange.emit(values);
       }
     });
-  }
-
-  cleanUpDragAndDrop(): void {
-    this.sortable?.destroy();
-    this.sortable = null;
   }
 
   deselectRemovedItems = deselectRemovedItems.bind(this);
@@ -393,7 +410,7 @@ export class ValueList<
     this.items = this.getItems();
     this.calciteListOrderChange.emit(this.items.map(({ value }) => value));
 
-    requestAnimationFrame(() => handle?.focus());
+    requestAnimationFrame(() => focusElement(handle));
     item.handleActivated = true;
 
     this.updateHandleAriaLabel(handle, getScreenReaderText(item, "change", this));
