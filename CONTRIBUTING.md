@@ -49,7 +49,7 @@ There are four issue lifecycle labels:
 - `0 - new`: Issues that are up for grabs.
 - `1 - assigned`: Issues that someone will work on soon.
 - `2 - in development`: Issues are currently being worked on.
-- `3 - installed`: Issues that have been merged to master.
+- `3 - installed`: Issues that have been merged to main.
 - `4 - verified`: Issues that have been tested and are ready to close.
 
 An issue can only have one of the lifecycle labels at any time. Please make sure to keep these up to date.
@@ -192,7 +192,7 @@ johndoe/feature/add-something-to-modal
 
 This project follows [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/), which are used to generate the changelog. Be sure to provide clear and sufficient information in commit messages. This is important because the commit messages are used to automatically update the changelog.
 
-[Stencil's contributing document](https://github.com/ionic-team/stencil/blob/master/.github/CONTRIBUTING.md#commit-message-format) explains this in great detail, so please refer to this for more details and examples.
+[Stencil's contributing document](https://github.com/ionic-team/stencil/blob/main/.github/CONTRIBUTING.md#commit-message-format) explains this in great detail, so please refer to this for more details and examples.
 
 ## Breaking changes
 

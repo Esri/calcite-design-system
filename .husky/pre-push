@@ -1,19 +1,14 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # from https://riptutorial.com/git/example/16164/pre-push
 
-protected_branch="master"
+protected_branch="main"
 current_branch=$(git rev-parse --abbrev-ref HEAD)
 
-if [ "$protected_branch" = "$current_branch" ] && bash -c ': >/dev/tty'
-then
-    read -p "You're about to push master, is that what you intended? [y|n] " -n 1 -r < /dev/tty
+if [ "$protected_branch" = "$current_branch" ] && bash -c ': >/dev/tty'; then
+    read -p "You're about to push main, is that what you intended? [y|n] " -n 1 -r </dev/tty
     echo
-    if echo "$REPLY" | grep -E "^[Yy]$" > /dev/null
-    then
+    if echo "$REPLY" | grep -E "^[Yy]$" >/dev/null; then
         exit 0
     fi
     exit 1
-else
-    npm run util:check-squash-mergeable-branch
-    exit
 fi

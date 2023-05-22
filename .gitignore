@@ -1,37 +1,36 @@
-# Directories
-dist/
-www/
-hydrate/
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# General #
+###########
 node_modules/
-docs/
-
-# Compiled files
-src/**/components.d.ts
-src/**/*.js
-__docs-temp__/*
-
-# User Settings, Caches & Temp Files
-*~
-*.sw[mnpcod]
-*.log
-*.lock
+.turbo
+.*cache*
 *.tmp
-*.tmp.*
-*.sublime-project
-*.sublime-workspace
 *.bak
 *.orig
-.stencil/
-.idea/
-.sass-cache/
-.versions/
+*.lock
+*.temp.*
+*_BASE_*
+*_LOCAL_*
+*_REMOTE_*
+*_BACKUP_*
+
+# Logs #
+########
+logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS generated files #
+######################
 .DS_Store
-.env
-$RECYCLE.BIN/
+*.pem
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
 Thumbs.db
 UserInterfaceState.xcuserstate
 Dockerfile
 log.txt
-src/components.d.ts
-src/components/icon/assets
-src/components/*/assets/*/t9n/index.d.ts

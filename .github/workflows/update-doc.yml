@@ -13,13 +13,14 @@ jobs:
           node-version-file: package.json
       - name: generate doc
         run: |
+          cd packages/calcite-components
           npm ci
           npx stencil build --docs
           npm run lint:md
       - name: commit readme files/create pull request
         uses: peter-evans/create-pull-request@v4
         with:
-          base: master
+          base: main
           branch: doc-update
           commit-message: "docs: update component READMEs"
           token: ${{ secrets.ADMIN_TOKEN }}

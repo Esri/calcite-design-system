@@ -13,6 +13,31 @@ updates:
     # Conventional commits
     commit-message:
       prefix: "build(deps): "
+    ignore:
+      - dependency-name: "typescript"
+
+  - package-ecosystem: "npm"
+    directory: "packages/calcite-components-react"
+    schedule:
+      interval: "weekly"
+      day: "tuesday"
+      time: "05:00"
+      timezone: "America/Los_Angeles"
+    commit-message:
+      prefix: "build(deps): "
+    ignore:
+      - dependency-name: "typescript"
+      - dependency-name: "@esri/calcite-components"
+
+  - package-ecosystem: "npm"
+    directory: "packages/calcite-components"
+    schedule:
+      interval: "weekly"
+      day: "tuesday"
+      time: "05:00"
+      timezone: "America/Los_Angeles"
+    commit-message:
+      prefix: "build(deps): "
     # Ignore updates to packages below
     ignore:
       - dependency-name: "chalk"
