@@ -23,7 +23,7 @@ jobs:
       - name: create pull request
         uses: peter-evans/create-pull-request@v4
         with:
-          base: main
+          base: master
           branch: update-browserslist-db
           commit-message: "build: update browserslist db"
           title: "build: update browserslist db"

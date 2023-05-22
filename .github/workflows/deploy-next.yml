@@ -5,7 +5,7 @@ concurrency:
 on:
   workflow_dispatch:
   push:
-    branches: [main]
+    branches: [master]
 jobs:
   build:
     runs-on: ubuntu-20.04
@@ -14,7 +14,7 @@ jobs:
         with:
           fetch-depth: 0
           token: ${{ secrets.ADMIN_TOKEN }}
-          ref: main
+          ref: master
       - uses: actions/setup-node@v3
         with:
           node-version-file: package.json
@@ -36,9 +36,9 @@ jobs:
               git config --global user.email "github-actions[bot]@users.noreply.github.com"
               git config --global user.name "github-actions[bot]"
               # deploy storybook, but still release next if it fails
-              # { npm run --workspace=@esri/calcite-components build-storybook &&
-              #   npx --workspace=@esri/calcite-components storybook-to-ghpages \
-              #      --host-token-env-variable=GH_TOKEN_FOR_STORYBOOK --existing-output-dir=docs --ci; } || true
+              { npm run --workspace=@esri/calcite-components build-storybook &&
+                npx --workspace=@esri/calcite-components storybook-to-ghpages \
+                   --host-token-env-variable=GH_TOKEN_FOR_STORYBOOK --existing-output-dir=docs --ci; } || true
 
               # remove the build to docs after storybook deploys to gh-pages
               git reset --hard

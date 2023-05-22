@@ -1,8 +1,7 @@
 name: Deploy Latest
 on:
   push:
-    branches:
-      - main
+    branches: [master]
 permissions:
   contents: write
   pull-requests: write
@@ -15,7 +14,7 @@ jobs:
         with:
           command: manifest
           token: ${{ secrets.ADMIN_TOKEN }}
-          default-branch: main
+          default-branch: master
           extra-files: |
             packages/calcite-components/readme.md
       - name: Checkout Repository

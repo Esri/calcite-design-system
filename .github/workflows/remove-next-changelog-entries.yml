@@ -1,7 +1,7 @@
 on:
   push:
     branches:
-      - release-please--branches--main
+      - release-please--branches--master
 permissions:
   contents: write
   pull-requests: write
