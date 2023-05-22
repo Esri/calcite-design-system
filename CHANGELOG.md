@@ -3,9 +3,7 @@
 This document maintains a list of released versions and changes introduced by them.
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
-<!--@unreleased-section-start-->
-
-## Unreleased
+## [v1.4.0](https://github.com/Esri/calcite-components/compare/v1.3.1...v1.4.0) (2023-05-22)
 
 ### Features
 
@@ -86,8 +84,6 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
   - Open hovered tooltip while pointer is moving ([#6868](https://github.com/Esri/calcite-components/issues/6868)) ([76b02f6](https://github.com/Esri/calcite-components/commit/76b02f62c8c016e6cb59317def98341944bfad3a)), closes [#6278](https://github.com/Esri/calcite-components/issues/6278) [#6615](https://github.com/Esri/calcite-components/issues/6615) [#6785](https://github.com/Esri/calcite-components/issues/6785)
 
 * **tree:** allow selection of parent category w/out selecting children ([#6926](https://github.com/Esri/calcite-components/issues/6926)) ([601ec67](https://github.com/Esri/calcite-components/commit/601ec679426c7145f7a40fb5982437df5cc99a97)), closes [#6912](https://github.com/Esri/calcite-components/issues/6912) [#6444](https://github.com/Esri/calcite-components/issues/6444) [#6509](https://github.com/Esri/calcite-components/issues/6509) [#6444](https://github.com/Esri/calcite-components/issues/6444) [#6912](https://github.com/Esri/calcite-components/issues/6912) [#6509](https://github.com/Esri/calcite-components/issues/6509)
-
-<!--@unreleased-section-end-->
 
 ## [v1.3.1](https://github.com/Esri/calcite-components/compare/v1.3.0...v1.3.1) (2023-04-25)
 
