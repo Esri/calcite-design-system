@@ -9,7 +9,11 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ### Features
 
-- **stack:** Adds new `Stack` component to arrange content and actions ([#6903](https://github.com/Esri/calcite-components/issues/6903)) ([bbced3a](https://github.com/Esri/calcite-components/commit/bbced3ab4961023b18b11f5e2416196c4b6ba2b3)), closes [#6743](https://github.com/Esri/calcite-components/issues/6743) [#5664](https://github.com/Esri/calcite-components/issues/5664)
+- **tab-nav**: adds optional closable functionality to individual `tab-titles` ([#6740](https://github.com/Esri/calcite-components/pull/6740)) ([d30792d](https://github.com/Esri/calcite-components/commit/d30792d21285b1c99e3f093373e7a4a639fc25e9)), closes [#2620](https://github.com/Esri/calcite-components/issues/2620)
+
+- **navigation, navigation-logo, navigation-user:** Add navigation, navigation-logo & navigation-user components. ([#6873](https://github.com/Esri/calcite-components/pull/6873)) ([167f9f8](https://github.com/Esri/calcite-components/commit/167f9f803b0616cf1d89df222ca2eab8c09a6aa7)), closes [#6531](https://github.com/Esri/calcite-components/issues/6531)
+
+- **stack:** Adds new `Stack` component to arrange content and actions ([#6903](https://github.com/Esri/calcite-components/pull/6903)) ([bbced3a](https://github.com/Esri/calcite-components/commit/bbced3ab4961023b18b11f5e2416196c4b6ba2b3)), closes [#6743](https://github.com/Esri/calcite-components/issues/6743) [#5664](https://github.com/Esri/calcite-components/issues/5664)
 
 * **combobox:** make combobox clearable ([#6972](https://github.com/Esri/calcite-components/issues/6972)) ([ee5444c](https://github.com/Esri/calcite-components/commit/ee5444c6fd986c7ea87c0daf56054f64c13d525d)), closes [#4738](https://github.com/Esri/calcite-components/issues/4738)
 
@@ -36,7 +40,9 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ### Bug Fixes
 
-- **popover:** change event listener to 'pointerup' ([#6985](https://github.com/Esri/calcite-components/issues/6985)) ([bd1deed](https://github.com/Esri/calcite-components/commit/bd1deedc85f46e0cb205bce6f0054c8bd87a45c3)), closes [Esri/calcite-components#6977](https://github.com/Esri/calcite-components/issues/6977)
+- **tab-nav:** ensure selected title is set when tab change event is emitted ([#6986](https://github.com/Esri/calcite-components/pull/6986)) ([1fd5b9b](https://github.com/Esri/calcite-components/commit/1fd5b9bc4c2676b291c546aa4d3893d5f9639d31)), closes [#6299](https://github.com/Esri/calcite-components/issues/6299)
+
+- **popover:** change event listener to 'pointerup' ([#6985](https://github.com/Esri/calcite-components/issues/6985)) ([bd1deed](https://github.com/Esri/calcite-components/commit/bd1deedc85f46e0cb205bce6f0054c8bd87a45c3)), closes [#6977](https://github.com/Esri/calcite-components/issues/6977)
 - **value-list, sortable-list:** fix nested sorting components ([#6983](https://github.com/Esri/calcite-components/issues/6983)) ([b4bbdf3](https://github.com/Esri/calcite-components/commit/b4bbdf3d709b8b1adb04fe090957451f731f48bb)), closes [#6024](https://github.com/Esri/calcite-components/issues/6024)
 
 * **time-picker:** prevent time part steppers from being focusable ([#6982](https://github.com/Esri/calcite-components/issues/6982)) ([41701a5](https://github.com/Esri/calcite-components/commit/41701a51d6a7363277601840956885dad7982497)), closes [#6851](https://github.com/Esri/calcite-components/issues/6851)
