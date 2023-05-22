@@ -63,9 +63,7 @@ function getNestedSortableComponents(activeComponent: SortableComponent): Sortab
  * @param {SortableComponent} activeComponent - The active sortable component.
  */
 export function onSortingStart(activeComponent: SortableComponent): void {
-  getNestedSortableComponents(activeComponent).forEach((component) => {
-    inactiveSortableComponentSet.add(component);
-  });
+  getNestedSortableComponents(activeComponent).forEach((component) => inactiveSortableComponentSet.add(component));
 }
 
 /**
@@ -74,7 +72,5 @@ export function onSortingStart(activeComponent: SortableComponent): void {
  * @param {SortableComponent} activeComponent - The active sortable component.
  */
 export function onSortingEnd(activeComponent: SortableComponent): void {
-  getNestedSortableComponents(activeComponent).forEach((component) => {
-    inactiveSortableComponentSet.delete(component);
-  });
+  getNestedSortableComponents(activeComponent).forEach((component) => inactiveSortableComponentSet.delete(component));
 }
