@@ -14,7 +14,6 @@ describe("calcite-menu-item", () => {
         propertyName: "active",
         value: "true"
       },
-
       {
         propertyName: "target",
         value: "_blank"

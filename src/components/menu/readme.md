@@ -1,4 +1,4 @@
-# calcite-nav-menu
+# calcite-menu
 
 <!-- Auto Generated Below -->
 
