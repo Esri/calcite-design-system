@@ -18,15 +18,13 @@ export const simple = (): string =>
     heading="${text("heading", "ArcGIS Online")}"
     thumbnail="${placeholderImage({ width: 50, height: 50 })}"
     ${boolean("active", false)}
-    ${boolean("text-enabled", true)}
   />`;
 
-export const heading_TestOnly = (): string => html`<calcite-navigation-logo heading="ArcGIS Online" text-enabled />`;
+export const heading_TestOnly = (): string => html`<calcite-navigation-logo heading="ArcGIS Online" />`;
 
 export const description_TestOnly = (): string =>
   html`<calcite-navigation-logo
     description="City of AcmeCo"
-    text-enabled
     thumbnail="${placeholderImage({ width: 50, height: 50 })}"
   />`;
 
@@ -36,18 +34,15 @@ export const thumbnail_TestOnly = (): string =>
 export const headingAndThumbnail_TestOnly = (): string => html`<calcite-navigation-logo
   heading="ArcGIS Online"
   thumbnail="${placeholderImage({ width: 50, height: 50 })}"
-  text-enabled
 />`;
 
 export const descriptionAndThumbnail_TestOnly = (): string => html`<calcite-navigation-logo
   description="City of AcmeCo"
   thumbnail="${placeholderImage({ width: 50, height: 50 })}"
-  text-enabled
 />`;
 
 export const All_TestOnly = (): string => html`<calcite-navigation-logo
   heading="ArcGIS Online"
   description="City of AcmeCo"
   thumbnail="${placeholderImage({ width: 50, height: 50 })}"
-  text-enabled
 />`;

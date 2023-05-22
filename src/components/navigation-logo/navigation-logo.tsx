@@ -57,9 +57,6 @@ export class CalciteNavigationLogo implements LoadableComponent {
   /** Specifies heading text for the component, such as a product or organization name.*/
   @Prop() heading: string;
 
-  /** When `true`, displays the `heading` and `description`. */
-  @Prop({ reflect: true }) textEnabled = false;
-
   /** Specifies the `src` to an image. */
   @Prop() thumbnail: string;
 
@@ -102,7 +99,7 @@ export class CalciteNavigationLogo implements LoadableComponent {
       <Host>
         <a href={this.href} rel={this.rel} tabindex={0} target={this.target}>
           {thumbnail && <img alt={this.label || ""} src={thumbnail} />}
-          {(heading || description) && this.textEnabled && (
+          {(heading || description) && (
             <div class={CSS.container}>
               {heading && (
                 <span class={CSS.heading} key={CSS.heading}>
