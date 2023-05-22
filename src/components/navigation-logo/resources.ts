@@ -1,5 +1,5 @@
 export const CSS = {
-  textContainer: "text-container",
-  logoText: "logo-text",
-  logoSubtext: "logo-subtext"
+  container: "container",
+  heading: "heading",
+  description: "description"
 };

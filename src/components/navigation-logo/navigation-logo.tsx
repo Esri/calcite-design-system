@@ -44,8 +44,8 @@ export class CalciteNavigationLogo implements LoadableComponent {
    */
   @Prop({ reflect: true }) rel: string;
 
-  /** Specifies the subtext to display, such as an organization or application description. */
-  @Prop() subtext: string;
+  /** A description for the component, which displays below the `heading`.*/
+  @Prop() description: string;
 
   /**
    * Specifies where to open the linked document defined in the `href` property.
@@ -54,10 +54,10 @@ export class CalciteNavigationLogo implements LoadableComponent {
    */
   @Prop({ reflect: true }) target: string;
 
-  /** Specifies the text to display, such as a product name.*/
-  @Prop() text: string;
+  /** Specifies heading text for the component, such as a product or organization name.*/
+  @Prop() heading: string;
 
-  /** When `true`, displays the `text` and `subText` contents. */
+  /** When `true`, displays the `heading` and `description`. */
   @Prop({ reflect: true }) textEnabled = false;
 
   /** Specifies the `src` to an image. */
@@ -97,21 +97,21 @@ export class CalciteNavigationLogo implements LoadableComponent {
   // --------------------------------------------------------------------------
 
   render(): VNode {
-    const { text, subtext, thumbnail } = this;
+    const { heading, description, thumbnail } = this;
     return (
       <Host>
         <a href={this.href} rel={this.rel} tabindex={0} target={this.target}>
           {thumbnail && <img alt={this.label || ""} src={thumbnail} />}
-          {(text || subtext) && this.textEnabled && (
-            <div class={CSS.textContainer}>
-              {text && (
-                <span class={CSS.logoText} key={CSS.logoText}>
-                  {text}
+          {(heading || description) && this.textEnabled && (
+            <div class={CSS.container}>
+              {heading && (
+                <span class={CSS.heading} key={CSS.heading}>
+                  {heading}
                 </span>
               )}
-              {subtext && (
-                <span class={CSS.logoSubtext} key={CSS.logoSubtext}>
-                  {subtext}
+              {description && (
+                <span class={CSS.description} key={CSS.description}>
+                  {description}
                 </span>
               )}
             </div>

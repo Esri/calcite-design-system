@@ -14,18 +14,18 @@ export default {
 
 export const simple = (): string =>
   html`<calcite-navigation-logo
-    subtext="${text("subtext", "City of AcmeCo")}"
-    text="${text("text", "ArcGIS Online")}"
+    description="${text("description", "City of AcmeCo")}"
+    heading="${text("heading", "ArcGIS Online")}"
     thumbnail="${placeholderImage({ width: 50, height: 50 })}"
     ${boolean("active", false)}
     ${boolean("text-enabled", true)}
   />`;
 
-export const text_TestOnly = (): string => html`<calcite-navigation-logo text="ArcGIS Online" text-enabled />`;
+export const heading_TestOnly = (): string => html`<calcite-navigation-logo heading="ArcGIS Online" text-enabled />`;
 
-export const subtext_TestOnly = (): string =>
+export const description_TestOnly = (): string =>
   html`<calcite-navigation-logo
-    subtext="City of AcmeCo"
+    description="City of AcmeCo"
     text-enabled
     thumbnail="${placeholderImage({ width: 50, height: 50 })}"
   />`;
@@ -33,21 +33,21 @@ export const subtext_TestOnly = (): string =>
 export const thumbnail_TestOnly = (): string =>
   html`<calcite-navigation-logo thumbnail="${placeholderImage({ width: 50, height: 50 })}" />`;
 
-export const textAndThumbnail_TestOnly = (): string => html`<calcite-navigation-logo
-  text="ArcGIS Online"
+export const headingAndThumbnail_TestOnly = (): string => html`<calcite-navigation-logo
+  heading="ArcGIS Online"
   thumbnail="${placeholderImage({ width: 50, height: 50 })}"
   text-enabled
 />`;
 
-export const subtextAndThumbnail_TestOnly = (): string => html`<calcite-navigation-logo
-  subtext="City of AcmeCo"
+export const descriptionAndThumbnail_TestOnly = (): string => html`<calcite-navigation-logo
+  description="City of AcmeCo"
   thumbnail="${placeholderImage({ width: 50, height: 50 })}"
   text-enabled
 />`;
 
 export const All_TestOnly = (): string => html`<calcite-navigation-logo
-  text="ArcGIS Online"
-  subtext="City of AcmeCo"
+  heading="ArcGIS Online"
+  description="City of AcmeCo"
   thumbnail="${placeholderImage({ width: 50, height: 50 })}"
   text-enabled
 />`;

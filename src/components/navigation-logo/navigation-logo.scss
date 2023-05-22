@@ -33,7 +33,7 @@ img {
   padding-inline: 1rem;
 }
 
-img ~ .text-container {
+img ~ .container {
   @apply ps-0;
 }
 
@@ -47,7 +47,7 @@ img ~ .text-container {
   --calcite-ui-icon-color: var(--calcite-ui-brand);
 }
 
-.text-container {
+.container {
   @apply flex 
   flex-col 
   truncate 
@@ -55,7 +55,7 @@ img ~ .text-container {
   padding-inline: 1rem;
 }
 
-.logo-text {
+.heading {
   @apply text-0 
   ms-0 
   truncate
@@ -64,7 +64,7 @@ img ~ .text-container {
   margin-block-start: 2px;
 }
 
-.logo-subtext {
+.description {
   @apply text-color-2 truncate;
   font-size: var(--calcite-font-size--1);
 }
