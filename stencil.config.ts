@@ -66,6 +66,7 @@ export const create: () => Config = () => ({
     { components: ["calcite-slider", "calcite-graph"] },
     { components: ["calcite-sortable-list"] },
     { components: ["calcite-split-button"] },
+    { components: ["calcite-stack"] },
     { components: ["calcite-stepper", "calcite-stepper-item"] },
     { components: ["calcite-switch"] },
     { components: ["calcite-tab", "calcite-tab-title", "calcite-tab-nav", "calcite-tabs"] },
