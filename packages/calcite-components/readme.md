@@ -12,17 +12,21 @@ Calcite Components, part of Esri's Calcite Design System, is a rich library of f
 
 The most common approach for loading Calcite Components is to use the version hosted on the CDN. The components can be loaded via `<script>` and `<link>` tags in the head of your HTML document:
 
+<!-- x-release-please-start-version -->
+
 ```html
 <script
   type="module"
-  src="https://cdn.jsdelivr.net/npm/@esri/calcite-components@1.2.0/dist/calcite/calcite.esm.js"
+  src="https://cdn.jsdelivr.net/npm/@esri/calcite-components@1.4.0/dist/calcite/calcite.esm.js"
 ></script>
 <link
   rel="stylesheet"
   type="text/css"
-  href="https://cdn.jsdelivr.net/npm/@esri/calcite-components@1.2.0/dist/calcite/calcite.css"
+  href="https://cdn.jsdelivr.net/npm/@esri/calcite-components@1.4.0/dist/calcite/calcite.css"
 />
 ```
+
+<!-- x-release-please-end -->
 
 Once these tags are added, components can be used like any other HTML element. Only components that are used in the application will be loaded.
 
