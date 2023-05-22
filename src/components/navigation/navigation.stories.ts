@@ -147,7 +147,7 @@ export const allSlots_darkModeRTL_TestOnly = (): string =>
             <calcite-menu-item active icon-start="activity-monitor" text="Health Benefits"></calcite-menu-item>
           </calcite-menu>
         </calcite-navigation>
-        <calcite-navigation slot="navigation-tertiary">
+        <calcite-navigation slot="tertiary">
           <calcite-menu slot="-content-start">
             <calcite-menu-item text="Vitamins"></calcite-menu-item>
             <calcite-menu-item active text-enabled text="Minerals"></calcite-menu-item>
