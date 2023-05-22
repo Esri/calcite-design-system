@@ -41,7 +41,7 @@ export class CalciteNavigationUser implements LoadableComponent {
   /** When `true`, hides the `fullName` and `username` contents.*/
   @Prop({ reflect: true }) textDisabled = false;
 
-  /** Specifies the `src` to an image to display in the Avatar.*/
+  /** Specifies the `src` to an image (remember to add a token if the user is private).*/
   @Prop() thumbnail: string;
 
   /** Specifies the unique id of the user.*/

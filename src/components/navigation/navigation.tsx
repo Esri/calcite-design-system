@@ -186,9 +186,9 @@ export class CalciteNavigation implements LoadableComponent {
     }
   };
 
-  private isPrimaryLevel = (): boolean => {
+  private isPrimaryLevel(): boolean {
     return this.el.slot !== SLOTS.navSecondary && this.el.slot !== SLOTS.navTertiary;
-  };
+  }
 
   //--------------------------------------------------------------------------
   //
