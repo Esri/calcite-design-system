@@ -2,10 +2,10 @@ name: Close Completed Milestone
 on:
   workflow_dispatch:
   # pull_request:
-  #   branches: [ master ]
-  #   types: [ closed ]
+  #   branches: [master]
+  #   types: [closed]
   # issues:
-  #   types: [ closed, demilestoned ]
+  #   types: [closed, demilestoned]
 jobs:
   close-milestone:
     runs-on: ubuntu-latest

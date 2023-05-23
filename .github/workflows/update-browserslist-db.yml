@@ -16,7 +16,6 @@ jobs:
           cache: npm
       - name: Run update-browserslist-db
         run: |
-          cd packages/calcite-components
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git config --global user.name "github-actions[bot]"
           npx update-browserslist-db@latest
