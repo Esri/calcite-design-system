@@ -51,9 +51,9 @@ export interface GlobalAttrComponent {
   readonly el: HTMLElement;
 
   /**
-   * The watched attributes object.
-   * Should be stateful.
-   * '@State() inheritedAttributes = {};'
+   * The object that stores global attributes to apply internally during rendering.
+   *
+   * This prop should use the `@State` decorator.
    */
   globalAttributes: AttributeObject;
 }
@@ -62,8 +62,9 @@ export interface GlobalAttrComponent {
  * Helper to set up listening for changes to global attributes.
  *
  * render(): VNode {
- * const lang = this.inheritedAttributes['lang'] ?? 'en';
- * return <div>My lang is {lang}</div>;
+ * return (<Host>
+ * <ul {...this.globalAttributes}></div>
+ * </Host>);
  * }
  * @param component
  * @param attributeFilter
