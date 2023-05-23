@@ -1,7 +1,6 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, disabled, hidden, renders } from "../../tests/commonTests";
+import { accessible, disabled, hidden, renders, defaults } from "../../tests/commonTests";
 import { CSS } from "./resources";
-import { defaults } from "../../tests/commonTests";
 
 describe("calcite-fab", () => {
   describe("renders", () => {

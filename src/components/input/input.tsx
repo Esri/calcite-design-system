@@ -17,7 +17,7 @@ import {
   isPrimaryPointerButton,
   setRequestedIcon
 } from "../../utils/dom";
-import { Scale, Status } from "../interfaces";
+import { Scale, Status, Position } from "../interfaces";
 
 import {
   connectForm,
@@ -59,7 +59,6 @@ import {
   T9nComponent,
   updateMessages
 } from "../../utils/t9n";
-import { Position } from "../interfaces";
 import { InputMessages } from "./assets/input/t9n";
 import { InputPlacement, NumberNudgeDirection, SetValueOrigin } from "./interfaces";
 import { CSS, INPUT_TYPE_ICONS, SLOTS } from "./resources";
