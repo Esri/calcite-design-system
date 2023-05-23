@@ -20,12 +20,6 @@ import {
   setUpLoadableComponent
 } from "../../utils/loadable";
 
-@Component({
-  tag: "calcite-navigation",
-  styleUrl: "navigation.scss",
-  shadow: true
-})
-
 /**
  * @slot logo - A slot for adding a `calcite-logo` component to the primary navigation level.
  * @slot user - A slot for adding a `calcite-user` component to the primary navigation level.
@@ -37,6 +31,11 @@ import {
  * @slot navigation-secondary - A slot for adding a `calcite-navigation` component in the secondary navigation level. Components rendered here will not display `calcite-navigation-logo` or `calcite-navigation-user` components.
  * @slot navigation-tertiary - A slot for adding a `calcite-navigation` component in the tertiary navigation level.  Components rendered here will not display `calcite-navigation-logo` or `calcite-navigation-user` components.
  */
+@Component({
+  tag: "calcite-navigation",
+  styleUrl: "navigation.scss",
+  shadow: true
+})
 export class CalciteNavigation implements LoadableComponent {
   //--------------------------------------------------------------------------
   //
