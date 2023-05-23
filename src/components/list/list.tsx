@@ -352,7 +352,7 @@ export class List implements InteractiveComponent, LoadableComponent {
   }): void {
     const isVisible = filteredItems.includes(el as HTMLCalciteListItemElement) || visible;
 
-    el.filtered = visibleParents.has(el) ? false : !isVisible;
+    el.hidden = visibleParents.has(el) ? false : !isVisible;
 
     if (isVisible) {
       visibleParents.add(el);

@@ -29,13 +29,6 @@ export class ListItemGroup implements InteractiveComponent {
    */
   @Prop({ reflect: true }) heading: string;
 
-  /**
-   * When `true`, group is hidden.
-   *
-   * @internal
-   */
-  @Prop({ reflect: true }) filtered = false;
-
   // --------------------------------------------------------------------------
   //
   //  Lifecycle
