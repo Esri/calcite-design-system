@@ -13,7 +13,7 @@ import {
   VNode,
   Watch
 } from "@stencil/core";
-import { toAriaBoolean } from "../../utils/dom";
+import { toAriaBoolean, slotChangeHasAssignedElement } from "../../utils/dom";
 import { CSS, SLOTS, ICONS } from "./resources";
 import { Appearance, Kind, Scale, SelectionMode } from "../interfaces";
 import {
@@ -21,7 +21,6 @@ import {
   connectConditionalSlotComponent,
   disconnectConditionalSlotComponent
 } from "../../utils/conditionalSlot";
-import { slotChangeHasAssignedElement } from "../../utils/dom";
 import {
   componentLoaded,
   LoadableComponent,

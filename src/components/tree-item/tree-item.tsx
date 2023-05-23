@@ -11,19 +11,19 @@ import {
   VNode,
   Watch
 } from "@stencil/core";
-import { slotChangeHasAssignedElement } from "../../utils/dom";
 import {
-  ConditionalSlotComponent,
-  connectConditionalSlotComponent,
-  disconnectConditionalSlotComponent
-} from "../../utils/conditionalSlot";
-import {
+  slotChangeHasAssignedElement,
   filterDirectChildren,
   getElementDir,
   getSlotted,
   nodeListToArray,
   toAriaBoolean
 } from "../../utils/dom";
+import {
+  ConditionalSlotComponent,
+  connectConditionalSlotComponent,
+  disconnectConditionalSlotComponent
+} from "../../utils/conditionalSlot";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
 import { CSS_UTILITY } from "../../utils/resources";

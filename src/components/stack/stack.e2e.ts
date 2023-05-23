@@ -1,4 +1,3 @@
-import { html } from "../../../support/formatting";
 import { hidden, renders, slots, defaults } from "../../tests/commonTests";
 import { SLOTS } from "./resources";
 
@@ -15,7 +14,7 @@ describe("calcite-stack", () => {
     renders("calcite-stack", { display: "flex" });
   });
 
-   describe("honors hidden attribute", () => {
+  describe("honors hidden attribute", () => {
     hidden("calcite-stack");
   });
 
