@@ -3,9 +3,7 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-<!--@unreleased-section-start-->
-
-## Unreleased
+## [v1.4.0](https://github.com/Esri/calcite-components/compare/v1.3.1...v1.4.0) (2023-05-22)
 
 ### Features
 
@@ -65,9 +63,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 - **panel:** Remove min-block-size from footer ([#6907](https://github.com/Esri/calcite-components/issues/6907)) ([c2681e7](https://github.com/Esri/calcite-components/commit/c2681e7b168b0983026b34ec640166aa7a1a016e)), closes [#6733](https://github.com/Esri/calcite-components/issues/6733)
 
-- **popover:** change event listener to 'pointerup' ([#6985](https://github.com/Esri/calcite-components/issues/6985)) ([bd1deed](https://github.com/Esri/calcite-components/commit/bd1deedc85f46e0cb205bce6f0054c8bd87a45c3)), closes [#6977](https://github.com/Esri/calcite-components/issues/6977)
-
-- **segmented-control:** handle segmented-control-items with duplicate values ([#6963](https://github.com/Esri/calcite-components/issues/6963)) ([3a5ad87](https://github.com/Esri/calcite-components/commit/3a5ad87e49ed09fed70eb2be05f2668ad308a28b)), closes [#6283](https://github.com/Esri/calcite-components/issues/6283)
+* **segmented-control:** handle segmented-control-items with duplicate values ([#6963](https://github.com/Esri/calcite-components/issues/6963)) ([3a5ad87](https://github.com/Esri/calcite-components/commit/3a5ad87e49ed09fed70eb2be05f2668ad308a28b)), closes [#6283](https://github.com/Esri/calcite-components/issues/6283)
 
 - **shell-center-row:** Correctly do not set Action Bar layout ([#6891](https://github.com/Esri/calcite-components/issues/6891)) ([7e96dd0](https://github.com/Esri/calcite-components/commit/7e96dd04841ab3ac8a2571b680807bb27ac2311e)), closes [#6890](https://github.com/Esri/calcite-components/issues/6890)
 
@@ -86,8 +82,6 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
   - Open hovered tooltip while pointer is moving ([#6868](https://github.com/Esri/calcite-components/issues/6868)) ([76b02f6](https://github.com/Esri/calcite-components/commit/76b02f62c8c016e6cb59317def98341944bfad3a)), closes [#6278](https://github.com/Esri/calcite-components/issues/6278) [#6615](https://github.com/Esri/calcite-components/issues/6615) [#6785](https://github.com/Esri/calcite-components/issues/6785)
 
 - **tree:** allow selection of parent category w/out selecting children ([#6926](https://github.com/Esri/calcite-components/issues/6926)) ([601ec67](https://github.com/Esri/calcite-components/commit/601ec679426c7145f7a40fb5982437df5cc99a97)), closes [#6912](https://github.com/Esri/calcite-components/issues/6912) [#6444](https://github.com/Esri/calcite-components/issues/6444) [#6509](https://github.com/Esri/calcite-components/issues/6509) [#6444](https://github.com/Esri/calcite-components/issues/6444) [#6912](https://github.com/Esri/calcite-components/issues/6912) [#6509](https://github.com/Esri/calcite-components/issues/6509)
-
-<!--@unreleased-section-end-->
 
 ## [v1.3.1](https://github.com/Esri/calcite-components/compare/v1.3.0...v1.3.1) (2023-04-25)
 
