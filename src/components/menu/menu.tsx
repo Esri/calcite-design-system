@@ -76,12 +76,19 @@ export class CalciteMenu implements LocalizedComponent, T9nComponent, LoadableCo
   @Prop({ mutable: true }) messages: MenuMessages;
 
   /**
-   * Specifies the role of `menu` component. Marked as internal for parsing the role attribute in `menu-item` component shadowDOM.
-   * This property falls outside of the `globalAttribute` interface pattern because it is immutable and has a default value.
-   * @internal
+   * Specifies the role of the component.
    *
+   * This property falls outside the `globalAttribute` interface pattern because it is:
+   *
+   *  * set internally by the `menu-item` component
+   *  * or not set and relies on the default value
+   *  * its value is not modified after initial render
+   *
+   * Marked as optional to ensure it is compatible with Stencil's `HTMLAttributes` type.
+   *
+   * @internal
    */
-  @Prop() role = "menubar";
+  @Prop() role? = "menubar";
 
   //--------------------------------------------------------------------------
   //
