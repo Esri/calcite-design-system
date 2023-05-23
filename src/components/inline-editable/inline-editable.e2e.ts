@@ -1,6 +1,5 @@
 import { accessible, disabled, labelable, renders, hidden, t9n } from "../../tests/commonTests";
-import { E2EPage } from "@stencil/core/testing";
-import { newE2EPage } from "@stencil/core/testing";
+import { E2EPage, newE2EPage } from "@stencil/core/testing";
 import { CSS } from "./resources";
 import { html } from "../../../support/formatting";
 

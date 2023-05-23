@@ -12,8 +12,7 @@ import {
   renders,
   t9n
 } from "../../tests/commonTests";
-import { getFocusedElementProp } from "../../tests/utils";
-import { skipAnimations } from "../../tests/utils";
+import { getFocusedElementProp, skipAnimations } from "../../tests/utils";
 import { html } from "../../../support/formatting";
 
 async function getInputValue(page: E2EPage): Promise<string> {

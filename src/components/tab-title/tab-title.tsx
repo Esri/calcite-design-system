@@ -13,14 +13,27 @@ import {
   VNode,
   Watch
 } from "@stencil/core";
-import { getElementDir, getElementProp, toAriaBoolean } from "../../utils/dom";
+import { getElementDir, getElementProp, toAriaBoolean, nodeListToArray } from "../../utils/dom";
 import { guid } from "../../utils/guid";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import { createObserver } from "../../utils/observers";
 import { FlipContext, Scale } from "../interfaces";
-import { TabChangeEventDetail } from "../tab/interfaces";
-import { CSS } from "./resources";
+import { TabChangeEventDetail, TabCloseEventDetail } from "../tab/interfaces";
+import { CSS, ICONS } from "./resources";
 import { TabID, TabLayout, TabPosition } from "../tabs/interfaces";
+import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
+import {
+  connectMessages,
+  disconnectMessages,
+  setUpMessages,
+  T9nComponent,
+  updateMessages
+} from "../../utils/t9n";
+import { TabTitleMessages } from "./assets/tab-title/t9n";
+
+/**
+ * Tab-titles are optionally individually closable.
+ */
 
 /**
  * @slot - A slot for adding text.
@@ -28,9 +41,10 @@ import { TabID, TabLayout, TabPosition } from "../tabs/interfaces";
 @Component({
   tag: "calcite-tab-title",
   styleUrl: "tab-title.scss",
-  shadow: true
+  shadow: true,
+  assetsDirs: ["assets"]
 })
-export class TabTitle implements InteractiveComponent {
+export class TabTitle implements InteractiveComponent, LocalizedComponent, T9nComponent {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -58,6 +72,12 @@ export class TabTitle implements InteractiveComponent {
       this.emitActiveTab(false);
     }
   }
+
+  /** When `true`, a close button is added to the component. */
+  @Prop({ reflect: true }) closable = false;
+
+  /** When `true`, does not display or position the component. */
+  @Prop({ reflect: true, mutable: true }) closed = false;
 
   /** When `true`, interaction is prevented and the component is displayed with lower opacity.  */
   @Prop({ reflect: true }) disabled = false;
@@ -98,6 +118,25 @@ export class TabTitle implements InteractiveComponent {
    */
   @Prop({ reflect: true }) tab: string;
 
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @internal
+   */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
+  @Prop({ mutable: true }) messages: TabTitleMessages;
+
+  /**
+   * Use this property to override individual strings used by the component.
+   */
+  // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
+  @Prop({ mutable: true }) messageOverrides: Partial<TabTitleMessages>;
+
+  @Watch("messageOverrides")
+  onMessagesChange(): void {
+    /* wired up by t9n util */
+  }
+
   //--------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -105,6 +144,8 @@ export class TabTitle implements InteractiveComponent {
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
+    connectLocalized(this);
+    connectMessages(this);
     this.setupTextContentObserver();
     this.parentTabNavEl = this.el.closest("calcite-tab-nav");
     this.parentTabsEl = this.el.closest("calcite-tabs");
@@ -119,9 +160,12 @@ export class TabTitle implements InteractiveComponent {
       })
     );
     this.resizeObserver?.disconnect();
+    disconnectLocalized(this);
+    disconnectMessages(this);
   }
 
-  componentWillLoad(): void {
+  async componentWillLoad(): Promise<void> {
+    await setUpMessages(this);
     if (Build.isBrowser) {
       this.updateHasText();
     }
@@ -145,7 +189,8 @@ export class TabTitle implements InteractiveComponent {
   }
 
   render(): VNode {
-    const id = this.el.id || this.guid;
+    const { el, closed } = this;
+    const id = el.id || this.guid;
 
     const iconStartEl = (
       <calcite-icon
@@ -176,18 +221,41 @@ export class TabTitle implements InteractiveComponent {
         <div
           class={{
             container: true,
-            [CSS.iconPresent]: this.iconStart || this.iconEnd ? true : null,
-            [CSS.containerHasText]: this.hasText
+            [CSS.iconPresent]: !!this.iconStart || !!this.iconEnd
           }}
+          hidden={closed}
           // eslint-disable-next-line react/jsx-sort-props
           ref={(el) => this.resizeObserver?.observe(el)}
         >
-          {this.iconStart ? iconStartEl : null}
-          <slot />
-          {this.iconEnd ? iconEndEl : null}
+          <div class={{ [CSS.content]: true, [CSS.contentHasText]: this.hasText }}>
+            {this.iconStart ? iconStartEl : null}
+            <slot />
+            {this.iconEnd ? iconEndEl : null}
+          </div>
+          {this.renderCloseButton()}
         </div>
       </Host>
     );
+  }
+
+  renderCloseButton(): VNode {
+    const { closable, messages } = this;
+
+    return closable ? (
+      <button
+        aria-label={messages.close}
+        class={CSS.closeButton}
+        disabled={false}
+        key={CSS.closeButton}
+        onClick={this.closeClickHandler}
+        title={messages.close}
+        type="button"
+        // eslint-disable-next-line react/jsx-sort-props
+        ref={(el) => (this.closeButtonEl = el)}
+      >
+        <calcite-icon icon={ICONS.close} scale={this.scale === "l" ? "m" : "s"} />
+      </button>
+    ) : null;
   }
 
   async componentDidLoad(): Promise<void> {
@@ -241,8 +309,10 @@ export class TabTitle implements InteractiveComponent {
     switch (event.key) {
       case " ":
       case "Enter":
-        this.emitActiveTab();
-        event.preventDefault();
+        if (!event.composedPath().includes(this.closeButtonEl)) {
+          this.emitActiveTab();
+          event.preventDefault();
+        }
         break;
       case "ArrowRight":
         event.preventDefault();
@@ -291,8 +361,21 @@ export class TabTitle implements InteractiveComponent {
   @Event({ cancelable: false }) calciteInternalTabsActivate: EventEmitter<TabChangeEventDetail>;
 
   /**
+   * Fires when a `calcite-tab` is closed.
+   */
+  @Event({ cancelable: false }) calciteTabsClose: EventEmitter<void>;
+
+  /**
+   * Fires when `calcite-tab` is closed (`event.details`).
+   *
+   * @see [TabChangeEventDetail](https://github.com/Esri/calcite-components/blob/master/src/components/tab/interfaces.ts)
    * @internal
    */
+  @Event({ cancelable: false }) calciteInternalTabsClose: EventEmitter<TabCloseEventDetail>;
+  /**
+   * @internal
+   */
+
   @Event({ cancelable: false }) calciteInternalTabsFocusNext: EventEmitter<void>;
 
   /**
@@ -332,7 +415,9 @@ export class TabTitle implements InteractiveComponent {
   @Method()
   async getTabIndex(): Promise<number> {
     return Array.prototype.indexOf.call(
-      this.el.parentElement.querySelectorAll("calcite-tab-title"),
+      nodeListToArray(this.el.parentElement.children).filter((el) =>
+        el.matches("calcite-tab-title")
+      ),
       this.el
     );
   }
@@ -357,6 +442,16 @@ export class TabTitle implements InteractiveComponent {
 
   //--------------------------------------------------------------------------
   //
+  //  Private Methods
+  //
+  //--------------------------------------------------------------------------
+
+  private closeClickHandler = (): void => {
+    this.closeTabTitleAndNotify();
+  };
+
+  //--------------------------------------------------------------------------
+  //
   //  Private State/Props
   //
   //--------------------------------------------------------------------------
@@ -366,14 +461,25 @@ export class TabTitle implements InteractiveComponent {
 
   @State() controls: string;
 
+  @State() defaultMessages: TabTitleMessages;
+
+  @State() effectiveLocale: "";
+
+  @Watch("effectiveLocale")
+  effectiveLocaleChange(): void {
+    updateMessages(this, this.effectiveLocale);
+  }
+
   /** determine if there is slotted text for styling purposes */
   @State() hasText = false;
+
+  closeButtonEl: HTMLButtonElement;
+
+  containerEl: HTMLDivElement;
 
   parentTabNavEl: HTMLCalciteTabNavElement;
 
   parentTabsEl: HTMLCalciteTabsElement;
-
-  containerEl: HTMLDivElement;
 
   resizeObserver = createObserver("resize", () => {
     this.calciteInternalTabIconChanged.emit();
@@ -388,18 +494,22 @@ export class TabTitle implements InteractiveComponent {
   }
 
   emitActiveTab(userTriggered = true): void {
-    if (this.disabled) {
+    if (this.disabled || this.closed) {
       return;
     }
-
     const payload = { tab: this.tab };
-
     this.calciteInternalTabsActivate.emit(payload);
 
     if (userTriggered) {
       // emit in the next frame to let internal events sync up
       requestAnimationFrame(() => this.calciteTabsActivate.emit());
     }
+  }
+
+  closeTabTitleAndNotify(): void {
+    this.closed = true;
+    this.calciteInternalTabsClose.emit({ tab: this.tab });
+    this.calciteTabsClose.emit();
   }
 
   guid = `calcite-tab-title-${guid()}`;

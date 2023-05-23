@@ -474,10 +474,10 @@ export type FocusElementInGroupDestination = "first" | "last" | "next" | "previo
  * This helper sets focus on and returns a destination element from within a group of provided elements.
  *
  * @param {Element[]} elements An array of elements.
- * @param {Element}  currentElement The current element.
- * @param {FocusElementInGroupDestination} destination target destination element to focus.
+ * @param {Element} currentElement The current element.
+ * @param {FocusElementInGroupDestination} destination The target destination element to focus.
  * @param {boolean} cycle Should navigation cycle through elements or stop at extent - defaults to true.
- * @returns {Element} The focused element.
+ * @returns {Element} The focused element
  */
 export const focusElementInGroup = (
   elements: Element[],
@@ -488,7 +488,6 @@ export const focusElementInGroup = (
   const currentIndex = elements.indexOf(currentElement);
   const isFirstItem = currentIndex === 0;
   const isLastItem = currentIndex === elements.length - 1;
-
   if (cycle) {
     destination =
       destination === "previous" && isFirstItem ? "last" : destination === "next" && isLastItem ? "first" : destination;

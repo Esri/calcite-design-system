@@ -1,8 +1,14 @@
 export const CSS = {
+  closeButton: "close-button",
   container: "container",
-  containerHasText: "container--has-text",
+  content: "content",
+  contentHasText: "content--has-text",
   iconEnd: "icon-end",
   iconStart: "icon-start",
   iconPresent: "icon-present",
   titleIcon: "calcite-tab-title--icon"
+};
+
+export const ICONS = {
+  close: "x"
 };

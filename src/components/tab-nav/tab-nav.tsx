@@ -19,7 +19,7 @@ import {
 } from "../../utils/dom";
 import { createObserver } from "../../utils/observers";
 import { Scale } from "../interfaces";
-import { TabChangeEventDetail } from "../tab/interfaces";
+import { TabChangeEventDetail, TabCloseEventDetail } from "../tab/interfaces";
 import { TabID, TabLayout, TabPosition } from "../tabs/interfaces";
 
 /**
@@ -110,7 +110,8 @@ export class TabNav {
     this.selectedTitle = await this.getTabTitleById(this.selectedTabId);
   }
 
-  @Watch("selectedTitle") selectedTitleChanged(): void {
+  @Watch("selectedTitle")
+  selectedTitleChanged(): void {
     this.updateOffsetPosition();
     this.updateActiveWidth();
     // reset the animation time on tab selection
@@ -181,6 +182,7 @@ export class TabNav {
           // eslint-disable-next-line react/jsx-sort-props
           ref={(el: HTMLDivElement) => (this.tabNavEl = el)}
         >
+          <slot />
           <div
             class="tab-nav-active-indicator-container"
             // eslint-disable-next-line react/jsx-sort-props
@@ -193,7 +195,6 @@ export class TabNav {
               ref={(el) => (this.activeIndicatorEl = el as HTMLElement)}
             />
           </div>
-          <slot />
         </div>
       </Host>
     );
@@ -231,14 +232,19 @@ export class TabNav {
       ? event.detail.tab
       : this.getIndexOfTabTitle(event.target as HTMLCalciteTabTitleElement);
     event.stopPropagation();
-    event.preventDefault();
   }
 
-  @Listen("calciteTabsActivate") activateTabHandler(event: CustomEvent<void>): void {
+  @Listen("calciteTabsActivate")
+  activateTabHandler(event: CustomEvent<void>): void {
     this.calciteTabChange.emit();
-
     event.stopPropagation();
-    event.preventDefault();
+  }
+
+  @Listen("calciteInternalTabsClose")
+  internalCloseTabHandler(event: CustomEvent<TabCloseEventDetail>): void {
+    const closedTabTitleEl = event.target as HTMLCalciteTabTitleElement;
+    this.handleTabTitleClose(closedTabTitleEl);
+    event.stopPropagation();
   }
 
   /**
@@ -330,7 +336,6 @@ export class TabNav {
     focusElementInGroup(this.enabledTabTitles, el, destination);
 
     event.stopPropagation();
-    event.preventDefault();
   };
 
   handleContainerScroll = (): void => {
@@ -373,6 +378,37 @@ export class TabNav {
     return filterDirectChildren<HTMLCalciteTabTitleElement>(
       this.el,
       "calcite-tab-title:not([disabled])"
+    ).filter((tabTitle) => !tabTitle.closed);
+  }
+
+  private handleTabTitleClose(closedTabTitleEl: HTMLCalciteTabTitleElement): void {
+    const { tabTitles } = this;
+
+    const visibleTabTitlesIndices = tabTitles.reduce(
+      (tabTitleIndices, tabTitle, index) =>
+        !tabTitle.closed ? [...tabTitleIndices, index] : tabTitleIndices,
+      []
     );
+    const totalVisibleTabTitles = visibleTabTitlesIndices.length;
+
+    if (totalVisibleTabTitles === 1 && tabTitles[visibleTabTitlesIndices[0]].closable) {
+      tabTitles[visibleTabTitlesIndices[0]].closable = false;
+      this.selectedTabId = visibleTabTitlesIndices[0];
+    } else if (totalVisibleTabTitles > 1) {
+      const closedTabTitleIndex = tabTitles.findIndex((el) => el === closedTabTitleEl);
+      const nextTabTitleIndex = visibleTabTitlesIndices.find(
+        (value) => value > closedTabTitleIndex
+      );
+
+      if (this.selectedTabId === closedTabTitleIndex) {
+        this.selectedTabId = nextTabTitleIndex ? nextTabTitleIndex : totalVisibleTabTitles - 1;
+      }
+    }
+
+    requestAnimationFrame(() => {
+      this.updateOffsetPosition();
+      this.updateActiveWidth();
+      tabTitles[this.selectedTabId].focus();
+    });
   }
 }
