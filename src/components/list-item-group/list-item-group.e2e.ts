@@ -1,5 +1,4 @@
-import { hidden, renders, disabled } from "../../tests/commonTests";
-import { defaults } from "../../tests/commonTests";
+import { hidden, renders, disabled, defaults } from "../../tests/commonTests";
 
 describe("calcite-list-item-group", () => {
   describe("renders", () => {
