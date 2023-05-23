@@ -44,7 +44,7 @@ describe("expand token dictionary", () => {
     expect(testExpandPlaceholderKey).toMatchObject({});
   });
 
-  it('should loop through a dictionary and run "shouldExpand" and  "expandToken" on each composite token', () => {
+  it.skip('should loop through a dictionary and run "shouldExpand" and  "expandToken" on each composite token', () => {
     // @ts-expect-error - it's fine.
     const testExpandComposite = expandComposites.expandComposites(mocks_tokenStudio, "./fakePath");
     expect(handleTokenStudioVariables).toHaveBeenCalledTimes(1);

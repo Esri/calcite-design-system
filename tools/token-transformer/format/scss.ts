@@ -41,7 +41,12 @@ export function formatSCSS(fileInfo: {
   const sortedTokens = sortAllTokens(dictionary, outputReferences);
   const coreTokens = [...sortedTokens].reduce(
     (acc, token) => {
-      token.value = token.value.includes(" ") ? `"${token.value}"` : token.value === "Demi" ? 600 : token.value;
+      token.value =
+        typeof token.value === "string" && token.value.includes(" ")
+          ? `"${token.value}"`
+          : token.value === "Demi"
+          ? 600
+          : token.value;
       acc[1].push(cssProps(token));
 
       if (token.filePath.includes("core")) {

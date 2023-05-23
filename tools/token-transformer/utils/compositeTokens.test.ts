@@ -1,8 +1,10 @@
 import { tokens as mock_tokenStudioTokens } from "../../_mocks_/mockTokensFromTokenStudio";
 import { tokens as mock_expandedTokens } from "../../_mocks_/mockTransformedTokens";
+import { tokenStudioCustomVariableIndicator } from "../utils/regex.js";
 import { expandToken, shouldExpand } from "./compositeTokens";
+import { convertTokenToStyleDictionaryFormat } from "./convertTokenToStyleDictionaryFormat";
 
-const mockHandleValue = jest.fn((val) => val);
+const mockHandleValue = jest.fn(convertTokenToStyleDictionaryFormat(tokenStudioCustomVariableIndicator));
 
 describe("expand composite token", () => {
   it("should expand a non-shadow token", () => {
@@ -11,7 +13,7 @@ describe("expand composite token", () => {
   });
   it("should expand a shadow token", () => {
     const testExpandToken = expandToken(mock_tokenStudioTokens.boxShadow, true, mockHandleValue);
-    expect(testExpandToken).toMatchObject(mock_expandedTokens.boxShadow);
+    expect(testExpandToken).toMatchObject(mock_expandedTokens["box-shadow"]);
   });
 });
 

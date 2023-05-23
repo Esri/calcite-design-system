@@ -8,9 +8,11 @@ export const tokens = {
     value: "[placeholder-value]"
   },
   core: {
-    1: {
-      type: "sizing",
-      value: "10"
+    sizing: {
+      1: {
+        type: "sizing",
+        value: "10"
+      }
     },
     color: {
       neutral: {
@@ -117,6 +119,12 @@ export const tokens = {
         textCase: "$core.font.text-case.none"
       },
       type: "typography"
+    }
+  },
+  component: {
+    shadow: {
+      value: "$boxShadow",
+      type: "shadow"
     }
   }
 };

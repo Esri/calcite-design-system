@@ -1,7 +1,7 @@
 import { ExpandFilter } from "../utils/transformOptions";
 import { matchPlaceholderElement } from "./regex.js";
 import { DesignToken } from "style-dictionary/types/DesignToken";
-import { SingleToken } from "@tokens-studio/types";
+import { SingleToken, TokenBoxshadowValue } from "@tokens-studio/types";
 import { paramCase } from "change-case";
 
 // A customized type map based off Token Studio.
@@ -24,14 +24,14 @@ const typeMaps = {
     fontWeight: "font-weight"
   },
   typography: {
-    fontFamily: "font-family",
-    fontWeight: "font-weights",
-    lineHeight: "line-heights",
-    fontSize: "font-size",
-    letterSpacing: "letter-spacing",
-    paragraphSpacing: "paragraph-spacing",
-    textDecoration: "font-style",
-    textCase: "text-case"
+    fontFamily: "typography/font-family",
+    fontWeight: "typography/font-weights",
+    lineHeight: "typography/line-heights",
+    fontSize: "typography/font-size",
+    letterSpacing: "typography/letter-spacing",
+    paragraphSpacing: "typography/paragraph-spacing",
+    textDecoration: "typography/text-decoration",
+    textCase: "typography/text-case"
   }
 };
 
@@ -51,21 +51,24 @@ export const getType = (key: string, compositeToken: DesignToken): string => typ
  * @returns {DesignToken} a single Style Dictionary token object
  */
 export function expandToken(compositeToken: DesignToken, isShadow = false, handleValue = (v) => v): DesignToken {
-  const expandedObj = {} as DesignToken;
+  let expandedObj = {} as DesignToken;
 
   if (isShadow && Array.isArray(compositeToken.value)) {
-    compositeToken.value.forEach((shadow, index) => {
-      expandedObj[index + 1] = {};
-      Object.entries(shadow).forEach(([key, value]) => {
-        if (matchPlaceholderElement.test(`${value}`) || key === "type") {
-          return;
-        }
-        expandedObj[index + 1][key] = {
-          value: `${handleValue(value)}`,
-          type: getType(key, compositeToken)
-        };
-      });
-    });
+    const transformedBoxShadow: Partial<TokenBoxshadowValue> & { type?: string }[] = [];
+    const newValue = compositeToken.value.reduce(
+      (acc, compoundToken: Partial<TokenBoxshadowValue> & { type?: string }) => {
+        compoundToken = Object.entries(compoundToken).reduce((acc, [key, value]) => {
+          acc[key] = key === "type" ? "shadow" : handleValue(value);
+          return acc;
+        }, {});
+        acc.push(compoundToken);
+        return acc;
+      },
+      transformedBoxShadow
+    );
+    compositeToken.value = newValue;
+    compositeToken.type = "boxShadow";
+    expandedObj = compositeToken;
   } else {
     Object.entries(compositeToken.value).forEach(([key, value]) => {
       const newKey = paramCase(key);

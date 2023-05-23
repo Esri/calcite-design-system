@@ -1,8 +1,10 @@
 export const tokens = {
   core: {
-    1: {
-      type: "sizing",
-      value: "10"
+    sizing: {
+      1: {
+        type: "sizing",
+        value: "10"
+      }
     },
     color: {
       neutral: {
@@ -15,51 +17,51 @@ export const tokens = {
     font: {
       "font-family": {
         primary: {
-          type: "typography",
+          type: "typography/font-family",
           value: "Robato"
         }
       },
       "font-weight": {
         light: {
-          type: "typography",
+          type: "typography/font-weights",
           value: 300
         }
       },
       "line-height": {
         fixed: {
           "0": {
-            type: "typography",
+            type: "typography/line-heights",
             value: "1rem"
           }
         }
       },
       "font-size": {
         "0": {
-          type: "typography",
+          type: "typography/font-size",
           value: "14px"
         }
       },
       "letter-spacing": {
         normal: {
-          type: "typography",
+          type: "typography/letter-spacing",
           value: "1rem"
         }
       },
       "paragraph-spacing": {
         normal: {
-          type: "typography",
+          type: "typography/paragraph-spacing",
           value: "1rem"
         }
       },
       "text-decoration": {
         none: {
-          type: "typography",
+          type: "typography/font-style",
           value: "none"
         }
       },
       "text-case": {
         none: {
-          type: "typography",
+          type: "typography/text-case",
           value: "none"
         }
       }
@@ -109,7 +111,7 @@ export const tokens = {
       type: "typography"
     }
   },
-  boxShadow: {
+  "box-shadow": {
     value: [
       {
         x: "0",
@@ -134,35 +136,35 @@ export const tokens = {
     1: {
       "font-family": {
         value: "{core.font.font-family.primary}",
-        type: "typography"
+        type: "typography/font-family"
       },
       "font-weight": {
         value: "{core.font.font-weight.light}",
-        type: "typography"
+        type: "typography/font-weights"
       },
       "line-height": {
         value: "{core.font.line-height.fixed.0}",
-        type: "typography"
+        type: "typography/line-heights"
       },
       "font-size": {
         value: "{core.font.font-size.0}",
-        type: "typography"
+        type: "typography/font-size"
       },
       "letter-spacing": {
         value: "{core.font.letter-spacing.normal}",
-        type: "typography"
+        type: "typography/letter-spacing"
       },
       "paragraph-spacing": {
         value: "{core.font.paragraph-spacing.normal}",
-        type: "typography"
+        type: "typography/paragraph-spacing"
       },
       "text-decoration": {
         value: "{core.font.text-decoration.none}",
-        type: "typography"
+        type: "typography/text-decoration"
       },
       "text-case": {
         value: "{core.font.text-case.none}",
-        type: "typography"
+        type: "typography/text-case"
       }
     }
   }
