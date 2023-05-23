@@ -22,6 +22,7 @@ import { getListItemChildren, updateListItemChildren } from "../list-item/utils"
 import { CSS, debounceTimeout, SelectionAppearance } from "./resources";
 
 const listItemSelector = "calcite-list-item";
+const parentSelector = "calcite-list-item-group, calcite-list-item";
 
 import {
   componentLoaded,
@@ -351,17 +352,19 @@ export class List implements InteractiveComponent, LoadableComponent {
   }): void {
     const isVisible = filteredItems.includes(el as HTMLCalciteListItemElement) || visible;
 
-    el.hidden = visibleParents.has(el) ? false : !isVisible;
+    el.filtered = visibleParents.has(el) ? false : !isVisible;
 
     if (isVisible) {
       visibleParents.add(el);
     }
 
-    const parent = el.parentElement as HTMLCalciteListItemElement | HTMLCalciteListItemGroupElement;
+    const closestParent = el.parentElement.closest(parentSelector) as
+      | HTMLCalciteListItemElement
+      | HTMLCalciteListItemGroupElement;
 
-    if (parent?.matches("calcite-list-item-group, calcite-list-item")) {
+    if (closestParent) {
       this.filterElements({
-        el: parent,
+        el: closestParent,
         filteredItems,
         visibleParents,
         visible: isVisible

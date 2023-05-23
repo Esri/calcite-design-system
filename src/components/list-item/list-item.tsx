@@ -92,6 +92,13 @@ export class ListItem
   @Prop({ reflect: true }) disabled = false;
 
   /**
+   * When `true`, item is hidden.
+   *
+   * @internal
+   */
+  @Prop({ reflect: true }) filtered = false;
+
+  /**
    * The label text of the component. Displays above the description text.
    */
   @Prop() label: string;
