@@ -1,4 +1,15 @@
-import { Component, Element, h, Host, Listen, Prop, State, Watch, Method } from "@stencil/core";
+import {
+  Component,
+  Element,
+  h,
+  Host,
+  Listen,
+  Prop,
+  State,
+  Watch,
+  Method,
+  VNode
+} from "@stencil/core";
 import { focusElement, focusElementInGroup, slotChangeGetAssignedElements } from "../../utils/dom";
 import {
   componentLoaded,
@@ -15,6 +26,11 @@ import {
   updateMessages
 } from "../../utils/t9n";
 import { MenuMessages } from "./assets/menu/t9n";
+import {
+  GlobalAttrComponent,
+  unwatchGlobalAttributes,
+  watchGlobalAttributes
+} from "../../utils/globalAttributes";
 
 type Layout = "horizontal" | "vertical";
 
@@ -26,7 +42,9 @@ type Layout = "horizontal" | "vertical";
   },
   assetsDirs: ["assets"]
 })
-export class CalciteMenu implements LocalizedComponent, T9nComponent, LoadableComponent {
+export class CalciteMenu
+  implements GlobalAttrComponent, LocalizedComponent, T9nComponent, LoadableComponent
+{
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -75,21 +93,6 @@ export class CalciteMenu implements LocalizedComponent, T9nComponent, LoadableCo
   // eslint-disable-next-line @stencil-community/strict-mutable -- updated by t9n module
   @Prop({ mutable: true }) messages: MenuMessages;
 
-  /**
-   * Specifies the role of the component.
-   *
-   * This property falls outside the `globalAttribute` interface pattern because it is:
-   *
-   *  * set internally by the `menu-item` component
-   *  * or not set and relies on the default value
-   *  * its value is not modified after initial render
-   *
-   * Marked as optional to ensure it is compatible with Stencil's `HTMLAttributes` type.
-   *
-   * @internal
-   */
-  @Prop() role? = "menubar";
-
   //--------------------------------------------------------------------------
   //
   //  Private State/Props
@@ -105,6 +108,10 @@ export class CalciteMenu implements LocalizedComponent, T9nComponent, LoadableCo
     updateMessages(this, this.effectiveLocale);
   }
 
+  @State() globalAttributes = {
+    role: "menubar"
+  };
+
   menuItems: HTMLCalciteMenuItemElement[] = [];
 
   //--------------------------------------------------------------------------
@@ -116,6 +123,7 @@ export class CalciteMenu implements LocalizedComponent, T9nComponent, LoadableCo
   connectedCallback(): void {
     connectLocalized(this);
     connectMessages(this);
+    watchGlobalAttributes(this, ["role"]);
   }
 
   async componentWillLoad(): Promise<void> {
@@ -130,6 +138,7 @@ export class CalciteMenu implements LocalizedComponent, T9nComponent, LoadableCo
   disconnectedCallback(): void {
     disconnectLocalized(this);
     disconnectMessages(this);
+    unwatchGlobalAttributes(this);
   }
 
   //--------------------------------------------------------------------------
@@ -217,7 +226,7 @@ export class CalciteMenu implements LocalizedComponent, T9nComponent, LoadableCo
   setMenuItemLayout(items: HTMLCalciteMenuItemElement[], layout: Layout): void {
     items.forEach((item) => {
       item.layout = layout;
-      if (this.role === "menubar") {
+      if (this.globalAttributes.role === "menubar") {
         item.isTopLevelItem = true;
         item.topLevelMenuLayout = this.layout;
       }
@@ -230,10 +239,10 @@ export class CalciteMenu implements LocalizedComponent, T9nComponent, LoadableCo
   //
   // --------------------------------------------------------------------------
 
-  render() {
+  render(): VNode {
     return (
       <Host>
-        <ul aria-label={this.label} role={this.role}>
+        <ul aria-label={this.label} {...this.globalAttributes}>
           <slot onSlotchange={this.handleMenuSlotChange} />
         </ul>
       </Host>
