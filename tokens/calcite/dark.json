@@ -13,7 +13,7 @@
       "type": "color"
     },
     "foreground-3-dark": {
-      "value": "{semantic.ui.color.foreground.current.dark}",
+      "value": "$semantic.ui.color.foreground.3.dark",
       "type": "color"
     },
     "foreground-current-dark": {
@@ -109,11 +109,11 @@
       "type": "color"
     },
     "button-transparent-hover-dark": {
-      "value": "{semantic.ui.color.transparent-hover.light}",
+      "value": "$semantic.ui.color.transparent-hover.light",
       "type": "color"
     },
     "button-transparent-press-dark": {
-      "value": "{semantic.ui.color.transparent-press.light}",
+      "value": "$semantic.ui.color.transparent-press.light",
       "type": "color"
     },
     "component": {
