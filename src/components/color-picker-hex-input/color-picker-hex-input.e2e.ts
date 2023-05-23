@@ -19,7 +19,7 @@ describe("calcite-color-picker-hex-input", () => {
     accessible("<calcite-color-picker-hex-input allow-empty color=''></calcite-color-picker-hex-input>");
   });
 
-  it("has defaults", () =>
+  describe("defaults", () => {
     defaults("calcite-color-picker-hex-input", [
       {
         propertyName: "allowEmpty",
@@ -33,7 +33,8 @@ describe("calcite-color-picker-hex-input", () => {
         propertyName: "value",
         defaultValue: "#000000"
       }
-    ]));
+    ]);
+  });
 
   it("reflects", () =>
     reflects("calcite-color-picker-hex-input", [

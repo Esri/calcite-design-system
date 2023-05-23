@@ -35,13 +35,14 @@ describe("calcite-graph", () => {
     accessible(() => ({ tag: "calcite-graph", page }));
   });
 
-  it("has property defaults", async () =>
+  describe("defaults", () => {
     defaults("calcite-graph", [
       {
         propertyName: "data",
         defaultValue: []
       }
-    ]));
+    ]);
+  });
 
   it("draws an area graph", async () => {
     const dimensionsStyle = `style="height:100px; width:300px;"`;

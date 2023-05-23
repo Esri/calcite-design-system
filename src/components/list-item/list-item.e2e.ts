@@ -17,7 +17,7 @@ describe("calcite-list-item", () => {
     hidden("calcite-list-item");
   });
 
-  it("has property defaults", async () =>
+  describe("defaults", () => {
     defaults("calcite-list-item", [
       {
         propertyName: "description",
@@ -43,7 +43,8 @@ describe("calcite-list-item", () => {
         propertyName: "open",
         defaultValue: false
       }
-    ]));
+    ]);
+  });
 
   it("has slots", () => slots("calcite-list-item", SLOTS));
 

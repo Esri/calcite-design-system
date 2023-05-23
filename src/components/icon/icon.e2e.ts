@@ -8,11 +8,12 @@ describe("calcite-icon", () => {
     hidden("calcite-icon");
   });
 
-  it("has defaults", async () =>
+  describe("defaults", () => {
     defaults("calcite-icon", [
       { propertyName: "flipRtl", defaultValue: false },
       { propertyName: "scale", defaultValue: "m" }
-    ]));
+    ]);
+  });
 
   it("reflects", async () =>
     reflects("calcite-icon", [

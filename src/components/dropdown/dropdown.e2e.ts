@@ -29,7 +29,7 @@ describe("calcite-dropdown", () => {
     hidden("calcite-dropdown");
   });
 
-  it("defaults", async () =>
+  describe("defaults", () => {
     defaults("calcite-dropdown", [
       {
         propertyName: "overlayPositioning",
@@ -39,7 +39,8 @@ describe("calcite-dropdown", () => {
         propertyName: "flipPlacements",
         defaultValue: undefined
       }
-    ]));
+    ]);
+  });
 
   it("can be disabled", () => disabled(simpleDropdownHTML, { focusTarget: "child" }));
 
@@ -54,7 +55,6 @@ describe("calcite-dropdown", () => {
    * Test helper for selected calcite-dropdown items. Expects items to have IDs to test against.
    *
    * Note: assertSelectedItems.setUpEvents must be called before using this method
-   *
    * @param page
    * @param root0
    * @param root0.expectedItemIds
@@ -75,7 +75,6 @@ describe("calcite-dropdown", () => {
 
   /**
    * Helper to wire up the page to assert on the event detail
-   *
    * @param page
    */
   assertSelectedItems.setUpEvents = async (page: E2EPage) => {

@@ -21,7 +21,6 @@ describe("calcite-input-number", () => {
 
   /**
    * This helper wraps number typing to work around test instability
-   *
    * @param page
    * @param numberAsText
    */
@@ -59,7 +58,7 @@ describe("calcite-input-number", () => {
       }
     ]));
 
-  it("has defaults", async () =>
+  describe("defaults", () => {
     defaults("calcite-input-number", [
       {
         propertyName: "status",
@@ -81,7 +80,8 @@ describe("calcite-input-number", () => {
         propertyName: "value",
         defaultValue: ""
       }
-    ]));
+    ]);
+  });
 
   it("can be disabled", () => disabled("calcite-input-number"));
 

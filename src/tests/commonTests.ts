@@ -155,16 +155,16 @@ function propToAttr(name: string): string {
  * Note that this helper should be used within a describe block.
  *
  * describe("defaults", () => {
- *   defaults("calcite-action", [
- *     {
- *       propertyName: "active",
- *       defaultValue: false
- *     },
- *     {
- *       propertyName: "appearance",
- *       defaultValue: "solid"
- *      }
- *   ])
+ * defaults("calcite-action", [
+ * {
+ * propertyName: "active",
+ * defaultValue: false
+ * },
+ * {
+ * propertyName: "appearance",
+ * defaultValue: "solid"
+ * }
+ * ])
  * })
  * @param {string} componentTagOrHTML - the component tag or HTML markup to test against
  * @param {object[]} propsToTest - the properties to test

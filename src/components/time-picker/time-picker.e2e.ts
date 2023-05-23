@@ -51,11 +51,12 @@ describe("calcite-time-picker", () => {
     accessible(`<calcite-time-picker step="1" value="00:00:00"></calcite-time-picker>`);
   });
 
-  it("has defaults", async () =>
+  describe("defaults", () => {
     defaults("calcite-time-picker", [
       { propertyName: "scale", defaultValue: "m" },
       { propertyName: "step", defaultValue: 60 }
-    ]));
+    ]);
+  });
 
   describe("should focus the first focusable element when setFocus is called (ltr)", () => {
     focusable(`calcite-time-picker`, {

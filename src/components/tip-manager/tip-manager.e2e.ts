@@ -28,13 +28,14 @@ describe("calcite-tip-manager", () => {
       expect(title.innerText).toBe(TEXT.defaultGroupTitle);
     });
 
-    it("has property defaults", async () =>
+    describe("defaults", () => {
       defaults("calcite-tip-manager", [
         {
           propertyName: "headingLevel",
           defaultValue: undefined
         }
-      ]));
+      ]);
+    });
 
     describe("accessible", () => {
       accessible(html`<calcite-tip-manager

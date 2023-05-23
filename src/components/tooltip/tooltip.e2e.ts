@@ -19,7 +19,6 @@ describe("calcite-tooltip", () => {
   /**
    * Helps assert the canceled Esc key press when closing tooltips
    * Must be called before the tooltip is closed via keyboard.
-   *
    * @param {E2EPage} page - The E2EPage
    */
   async function setUpEscapeKeyCancelListener(page: E2EPage): Promise<void> {
@@ -57,7 +56,7 @@ describe("calcite-tooltip", () => {
     hidden(`<calcite-tooltip open></calcite-tooltip >`);
   });
 
-  it("has property defaults", async () =>
+  describe("defaults", () => {
     defaults("calcite-tooltip", [
       {
         propertyName: "open",
@@ -83,7 +82,8 @@ describe("calcite-tooltip", () => {
         propertyName: "overlayPositioning",
         defaultValue: "absolute"
       }
-    ]));
+    ]);
+  });
 
   it("should have zIndex of 901", async () => {
     const page = await newE2EPage();
