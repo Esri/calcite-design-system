@@ -17,7 +17,9 @@ describe("calcite-tile-select-group", () => {
   it("has defaults", async () =>
     defaults("calcite-tile-select-group", [{ propertyName: "layout", defaultValue: "horizontal" }]));
 
-  it("reflects", async () => reflects("calcite-tile-select-group", [{ propertyName: "layout", value: "horizontal" }]));
+  describe("reflects", () => {
+    reflects("calcite-tile-select-group", [{ propertyName: "layout", value: "horizontal" }]);
+  });
 
   it("can be disabled", () =>
     disabled(

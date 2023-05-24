@@ -22,7 +22,7 @@ describe("calcite-filter", () => {
 
   it("can be disabled", () => disabled("calcite-filter"));
 
-  it("reflects", async () =>
+  describe("reflects", () => {
     reflects("calcite-filter", [
       {
         propertyName: "disabled",
@@ -32,7 +32,8 @@ describe("calcite-filter", () => {
         propertyName: "scale",
         value: "s"
       }
-    ]));
+    ]);
+  });
 
   it("has defaults", async () =>
     defaults("calcite-filter", [

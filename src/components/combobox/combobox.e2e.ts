@@ -39,7 +39,7 @@ describe("calcite-combobox", () => {
       }
     ]));
 
-  it("reflects", async () =>
+  describe("reflects", () => {
     reflects("calcite-combobox", [
       {
         propertyName: "allowCustomValues",
@@ -90,7 +90,8 @@ describe("calcite-combobox", () => {
         propertyName: "selectionMode",
         value: "single"
       }
-    ]));
+    ]);
+  });
 
   describe("honors hidden attribute", () => {
     hidden("calcite-combobox");

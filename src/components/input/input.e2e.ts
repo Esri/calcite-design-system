@@ -21,7 +21,6 @@ describe("calcite-input", () => {
 
   /**
    * This helper wraps number typing to work around test instability
-   *
    * @param page
    * @param numberAsText
    */
@@ -39,7 +38,7 @@ describe("calcite-input", () => {
     hidden("calcite-input");
   });
 
-  it("reflects", async () =>
+  describe("reflects", () => {
     reflects("calcite-input", [
       {
         propertyName: "status",
@@ -61,7 +60,8 @@ describe("calcite-input", () => {
         propertyName: "scale",
         value: "s"
       }
-    ]));
+    ]);
+  });
 
   it("has defaults", async () =>
     defaults("calcite-input", [

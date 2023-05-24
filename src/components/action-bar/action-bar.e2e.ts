@@ -33,7 +33,7 @@ describe("calcite-action-bar", () => {
       }
     ]));
 
-  it("reflects", async () =>
+  describe("reflects", () => {
     reflects("calcite-action-bar", [
       {
         propertyName: "expandDisabled",
@@ -43,7 +43,8 @@ describe("calcite-action-bar", () => {
         propertyName: "expanded",
         value: true
       }
-    ]));
+    ]);
+  });
 
   describe("expand functionality", () => {
     it("should not modify actions within an action-menu", async () => {

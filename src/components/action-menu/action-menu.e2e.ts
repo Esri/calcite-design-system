@@ -60,7 +60,7 @@ describe("calcite-action-menu", () => {
       }
     ]));
 
-  it("reflects", async () =>
+  describe("reflects", () => {
     reflects("calcite-action-menu", [
       {
         propertyName: "expanded",
@@ -74,7 +74,8 @@ describe("calcite-action-menu", () => {
         propertyName: "placement",
         value: "auto"
       }
-    ]));
+    ]);
+  });
 
   it("should emit 'calciteActionMenuOpen' event", async () => {
     const page = await newE2EPage({

@@ -64,7 +64,7 @@ describe("calcite-radio-button", () => {
     });
   });
 
-  it("reflects", async () =>
+  describe("reflects", () => {
     reflects("calcite-radio-button", [
       { propertyName: "checked", value: true },
       { propertyName: "disabled", value: true },
@@ -74,7 +74,8 @@ describe("calcite-radio-button", () => {
       { propertyName: "name", value: "reflects-name" },
       { propertyName: "required", value: true },
       { propertyName: "scale", value: "m" }
-    ]));
+    ]);
+  });
 
   it("does not require an item to be checked", async () => {
     const page = await newE2EPage();

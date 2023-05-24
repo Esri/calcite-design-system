@@ -39,7 +39,7 @@ describe("calcite-text-area", () => {
 
   it("can be disabled", () => disabled("calcite-text-area"));
 
-  it("reflects", async () =>
+  describe("reflects", () => {
     reflects("calcite-text-area", [
       {
         propertyName: "columns",
@@ -53,7 +53,8 @@ describe("calcite-text-area", () => {
         propertyName: "scale",
         value: "s"
       }
-    ]));
+    ]);
+  });
 
   describe("accessible", () => {
     accessible(html`<calcite-label>

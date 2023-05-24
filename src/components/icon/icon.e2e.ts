@@ -14,11 +14,12 @@ describe("calcite-icon", () => {
       { propertyName: "scale", defaultValue: "m" }
     ]));
 
-  it("reflects", async () =>
+  describe("reflects", () => {
     reflects("calcite-icon", [
       { propertyName: "flipRtl", value: true },
       { propertyName: "scale", value: "m" }
-    ]));
+    ]);
+  });
 
   describe("accessible", () => {
     accessible(`<calcite-icon icon="a-z" text-label="sort options"></calcite-icon>`);

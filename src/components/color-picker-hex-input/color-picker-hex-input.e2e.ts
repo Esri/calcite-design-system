@@ -35,13 +35,14 @@ describe("calcite-color-picker-hex-input", () => {
       }
     ]));
 
-  it("reflects", () =>
+  describe("reflects", () => {
     reflects("calcite-color-picker-hex-input", [
       {
         propertyName: "value",
         value: "#ffffff"
       }
-    ]));
+    ]);
+  });
 
   describe("can be focused", () => {
     focusable("calcite-color-picker-hex-input");
