@@ -1,6 +1,6 @@
 :host {
   @apply inline-flex outline-none;
-  & button {
+  & .button {
     background-color: transparent;
     border: none;
     @apply flex 
@@ -10,47 +10,44 @@
       cursor-pointer 
       transition-default 
       focus-base
-      font-sans;
+      font-sans
+      text-0h;
     border-block-end: 2px solid transparent;
   }
 }
 
-:host(:hover) button,
-:host(:focus) button {
+:host(:hover) .button,
+:host(:focus) .button {
   @apply bg-foreground-2;
 }
 
-:host(:focus) button {
+:host(:focus) .button {
   @apply focus-inset;
 }
 
-:host(:active) button {
-  @apply bg-foreground-3;
+:host(:active) .button {
+  @apply bg-foreground-3 text-color-1;
 }
 
 calcite-avatar {
-  padding-inline: 1rem;
+  @apply px-4;
 }
 
 calcite-avatar ~ .text-container {
   @apply ps-0;
 }
 
-:host(:active) button {
-  @apply text-color-1;
-}
-
-:host([active]) button {
-  @apply text-color-1;
-  border-color: var(--calcite-ui-brand);
+:host([active]) .button {
+  @apply text-color-1 border-color-brand;
   --calcite-ui-icon-color: var(--calcite-ui-brand);
 }
 
 .text-container {
   @apply flex 
   flex-col 
-  text-start;
-  padding-inline: 1rem;
+  text-start
+  px-4
+  mt-0.5;
 }
 
 .full-name {
@@ -58,7 +55,6 @@ calcite-avatar ~ .text-container {
   ms-0 
   text-color-1
   font-medium;
-  margin-block-start: 2px;
 }
 
 .username {
