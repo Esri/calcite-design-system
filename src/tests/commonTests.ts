@@ -8,6 +8,7 @@ import { JSX } from "../components";
 import { hiddenFormInputSlotName } from "../utils/form";
 import { MessageBundle } from "../utils/t9n";
 import { GlobalTestProps, skipAnimations } from "./utils";
+import { InteractiveHTMLElement } from "../utils/interactive";
 
 expect.extend(toHaveNoViolations);
 
@@ -981,11 +982,17 @@ export async function disabled(
   await page.mouse.click(shadowFocusableCenterX, shadowFocusableCenterY);
   await expectToBeFocused("body");
 
+  // this needs to run in the browser context to ensure clicks happen right after re-enabling the component
+  await page.$eval(tag, (component: InteractiveHTMLElement) => {
+    component.disabled = false;
+    component.click();
+  });
+
   assertOnMouseAndPointerEvents(eventSpies, (spy) => {
     if (spy.eventName === "click") {
       // some components emit more than one click event (e.g., from calling `click()`),
       // so we check if at least one event is received
-      expect(spy.length).toBeGreaterThanOrEqual(2);
+      expect(spy.length).toBeGreaterThanOrEqual(3);
     } else {
       expect(spy).toHaveReceivedEventTimes(eventsExpectedToBubble.includes(spy.eventName) ? 2 : 1);
     }
