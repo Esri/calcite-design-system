@@ -91,7 +91,7 @@ describe("calcite-list-item", () => {
 
   it("emits calciteListItemSelect on click", async () => {
     const page = await newE2EPage({
-      html: `<calcite-list-item selection-mode="none" label="hello" description="world"></calcite-list-item>`
+      html: `<calcite-list-item selection-mode="single" label="hello" description="world"></calcite-list-item>`
     });
 
     await page.waitForChanges();
