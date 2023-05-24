@@ -431,7 +431,8 @@ export class TextArea
   syncHiddenFormInput(input: HTMLInputElement): void {
     input.setCustomValidity("");
     if (this.value?.length > this.maxLength) {
-      input.setCustomValidity(this.messages.tooLong);
+      const errorMessage = this.replacePlaceholderText();
+      input.setCustomValidity(errorMessage);
     }
   }
 
@@ -484,4 +485,16 @@ export class TextArea
       footerWidth
     };
   }
+
+  private replacePlaceholderText = (): string => {
+    const replaceMaxLength = this.messages.tooLong.replace(
+      "${maxLength}",
+      this.maxLength.toString()
+    );
+    const replaceCurrentLength = replaceMaxLength.replace(
+      "${currentLength}",
+      this.value?.length.toString()
+    );
+    return replaceCurrentLength;
+  };
 }
