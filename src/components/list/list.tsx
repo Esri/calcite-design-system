@@ -461,6 +461,10 @@ export class List implements InteractiveComponent, LoadableComponent {
   };
 
   handleListKeydown = (event: KeyboardEvent): void => {
+    if (event.defaultPrevented) {
+      return;
+    }
+
     const { key } = event;
     const filteredItems = this.enabledListItems.filter((listItem) => this.isNavigable(listItem));
     const currentIndex = filteredItems.findIndex((listItem) => listItem.active);
