@@ -11,9 +11,13 @@ const elementToComponentAndObserverOptionsMap = new Map<
 
 let mutationObserver: MutationObserver;
 
-function updateGlobalAttributes(component: GlobalAttrComponent, attributeFilter: AllowedGlobalAttribute[]): void {
+function updateGlobalAttributes(
+  component: GlobalAttrComponent,
+  attributeFilter: AllowedGlobalAttribute[],
+  reuseAttributes = false
+): void {
   const { el } = component;
-  const updatedAttributes: AttributeObject = {};
+  const updatedAttributes: AttributeObject = reuseAttributes ? component.globalAttributes : {};
 
   attributeFilter
     .filter((attr) => !!allowedGlobalAttributes.includes(attr) && !!el.hasAttribute(attr))
@@ -47,9 +51,9 @@ export interface GlobalAttrComponent {
   readonly el: HTMLElement;
 
   /**
-   * The watched attributes object.
-   * Should be stateful.
-   * '@State() inheritedAttributes = {};'
+   * The object that stores global attributes to apply internally during rendering.
+   *
+   * This prop should use the `@State` decorator.
    */
   globalAttributes: AttributeObject;
 }
@@ -58,10 +62,10 @@ export interface GlobalAttrComponent {
  * Helper to set up listening for changes to global attributes.
  *
  * render(): VNode {
- *   const lang = this.inheritedAttributes['lang'] ?? 'en';
- *   return <div>My lang is {lang}</div>;
+ * return (<Host>
+ * <ul {...this.globalAttributes}></div>
+ * </Host>);
  * }
- *
  * @param component
  * @param attributeFilter
  */
@@ -71,7 +75,7 @@ export function watchGlobalAttributes(component: GlobalAttrComponent, attributeF
 
   elementToComponentAndObserverOptionsMap.set(el, [component, observerOptions]);
 
-  updateGlobalAttributes(component, attributeFilter);
+  updateGlobalAttributes(component, attributeFilter, true);
 
   if (!mutationObserver) {
     mutationObserver = createObserver("mutation", processMutations);
@@ -82,7 +86,6 @@ export function watchGlobalAttributes(component: GlobalAttrComponent, attributeF
 
 /**
  * Helper remove listening for changes to inherited attributes.
- *
  * @param component
  */
 export function unwatchGlobalAttributes(component: GlobalAttrComponent): void {
