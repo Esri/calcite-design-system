@@ -103,9 +103,6 @@ export const thumbsOnEdgeDoNotOverflowContainer_TestOnly = (): string => html`<d
   <calcite-color-picker value="#04006e"></calcite-color-picker>
 </div>`;
 
-export const thumbsOnEdgeDoNotSnapToFrontOfContainer_TestOnly = (): string =>
-  html`<calcite-color-picker value="#824142"></calcite-color-picker>`;
-
 export const ArabicLocale_TestOnly = (): string => html` <calcite-color-picker lang="ar"></calcite-color-picker> `;
 
 export const NorwegianLocale_TestOnly = (): string => html` <calcite-color-picker lang="no"></calcite-color-picker> `;
