@@ -7,7 +7,9 @@
 :host([layout="center"]) {
   @apply my-0 mx-5 text-center;
   flex-basis: theme("spacing.48");
-  margin: auto;
+  .content {
+    @apply m-auto;
+  }
 }
 
 :host([position="bottom"]) .container {
