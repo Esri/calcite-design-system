@@ -22,3 +22,7 @@
 ::slotted(calcite-list-item:last-child) {
   @apply shadow-none;
 }
+
+[hidden] {
+  display: none;
+}

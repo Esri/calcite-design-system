@@ -361,3 +361,185 @@ export const closableListItems_TestOnly = (): string => html`<calcite-list
     <calcite-icon icon="compass" slot="content-start" style="color: var(--calcite-ui-success)"></calcite-icon>
   </calcite-list-item>
 </calcite-list>`;
+
+export const filteredChildListItems_TestOnly = (): string => html` <calcite-list
+    filter-enabled
+    filter-text="est"
+    filter-placeholder="Find content"
+    selection-appearance="border"
+    selection-mode="single"
+  >
+    <calcite-list-item-group heading="Layers">
+      <calcite-list-item label="Hiking trails" value="hiking-trails">
+        <calcite-dropdown slot="actions-end" overlay-positioning="fixed" placement="bottom-end" scale="s">
+          <calcite-action
+            slot="trigger"
+            appearance="transparent"
+            icon="ellipsis"
+            scale="s"
+            text="Trails layer"
+          ></calcite-action>
+          <calcite-dropdown-group scale="s" selection-mode="none">
+            <calcite-dropdown-item icon-start="trash">Remove</calcite-dropdown-item>
+          </calcite-dropdown-group>
+        </calcite-dropdown>
+      </calcite-list-item>
+      <calcite-list-item disabled label="Waterfalls" value="waterfalls">
+        <calcite-icon slot="content-end" icon="circle-disallowed" scale="s"></calcite-icon>
+        <calcite-dropdown slot="actions-end" overlay-positioning="fixed" placement="bottom-end" scale="s">
+          <calcite-action
+            slot="trigger"
+            appearance="transparent"
+            icon="ellipsis"
+            scale="s"
+            text="Trails layer"
+          ></calcite-action>
+          <calcite-dropdown-group scale="s" selection-mode="none">
+            <calcite-dropdown-item icon-start="trash">Remove</calcite-dropdown-item>
+          </calcite-dropdown-group>
+        </calcite-dropdown>
+      </calcite-list-item>
+      <calcite-list-item label="Rivers" value="rivers" open>
+        <calcite-list-item label="Estuaries" value="estuaries">
+          <calcite-dropdown slot="actions-end" overlay-positioning="fixed" placement="bottom-end" scale="s">
+            <calcite-action
+              slot="trigger"
+              appearance="transparent"
+              icon="ellipsis"
+              scale="s"
+              text="Trails layer"
+            ></calcite-action>
+            <calcite-dropdown-group scale="s" selection-mode="none">
+              <calcite-dropdown-item icon-start="trash">Remove</calcite-dropdown-item>
+            </calcite-dropdown-group>
+          </calcite-dropdown>
+        </calcite-list-item>
+      </calcite-list-item>
+    </calcite-list-item-group>
+    <calcite-list-item-group heading="Tables">
+      <calcite-list-item label="Hiking trails table" value="hiking-trails-table">
+        <calcite-dropdown slot="actions-end" overlay-positioning="fixed" placement="bottom-end" scale="s">
+          <calcite-action
+            slot="trigger"
+            appearance="transparent"
+            icon="ellipsis"
+            scale="s"
+            text="Trails layer"
+          ></calcite-action>
+          <calcite-dropdown-group scale="s" selection-mode="none">
+            <calcite-dropdown-item icon-start="trash">Remove</calcite-dropdown-item>
+          </calcite-dropdown-group>
+        </calcite-dropdown>
+      </calcite-list-item>
+      <calcite-list-item label="Waterfalls table" value="waterfalls-table">
+        <calcite-icon slot="content-end" icon="exclamation-mark-circle-f" scale="s"></calcite-icon>
+        <calcite-dropdown slot="actions-end" overlay-positioning="fixed" placement="bottom-end" scale="s">
+          <calcite-action
+            slot="trigger"
+            appearance="transparent"
+            icon="ellipsis"
+            scale="s"
+            text="Trails layer"
+          ></calcite-action>
+          <calcite-dropdown-group scale="s" selection-mode="none">
+            <calcite-dropdown-item icon-start="trash">Remove</calcite-dropdown-item>
+          </calcite-dropdown-group>
+        </calcite-dropdown>
+      </calcite-list-item>
+    </calcite-list-item-group>
+    <calcite-list-item-group heading="Basemaps">
+      <calcite-list-item disabled label="Waterfalls" value="waterfalls">
+        <calcite-icon slot="content-end" icon="circle-disallowed" scale="s"></calcite-icon>
+      </calcite-list-item>
+    </calcite-list-item-group> </calcite-list
+  ><calcite-list
+    filter-enabled
+    filter-text="water"
+    filter-placeholder="Find content"
+    selection-appearance="border"
+    selection-mode="single"
+  >
+    <calcite-list-item-group heading="Layers">
+      <calcite-list-item label="Hiking trails" value="hiking-trails">
+        <calcite-dropdown slot="actions-end" overlay-positioning="fixed" placement="bottom-end" scale="s">
+          <calcite-action
+            slot="trigger"
+            appearance="transparent"
+            icon="ellipsis"
+            scale="s"
+            text="Trails layer"
+          ></calcite-action>
+          <calcite-dropdown-group scale="s" selection-mode="none">
+            <calcite-dropdown-item icon-start="trash">Remove</calcite-dropdown-item>
+          </calcite-dropdown-group>
+        </calcite-dropdown>
+      </calcite-list-item>
+      <calcite-list-item disabled label="Waterfalls" value="waterfalls">
+        <calcite-icon slot="content-end" icon="circle-disallowed" scale="s"></calcite-icon>
+        <calcite-dropdown slot="actions-end" overlay-positioning="fixed" placement="bottom-end" scale="s">
+          <calcite-action
+            slot="trigger"
+            appearance="transparent"
+            icon="ellipsis"
+            scale="s"
+            text="Trails layer"
+          ></calcite-action>
+          <calcite-dropdown-group scale="s" selection-mode="none">
+            <calcite-dropdown-item icon-start="trash">Remove</calcite-dropdown-item>
+          </calcite-dropdown-group>
+        </calcite-dropdown>
+      </calcite-list-item>
+      <calcite-list-item label="Rivers" value="rivers" open>
+        <calcite-list-item label="Estuaries" value="estuaries">
+          <calcite-dropdown slot="actions-end" overlay-positioning="fixed" placement="bottom-end" scale="s">
+            <calcite-action
+              slot="trigger"
+              appearance="transparent"
+              icon="ellipsis"
+              scale="s"
+              text="Trails layer"
+            ></calcite-action>
+            <calcite-dropdown-group scale="s" selection-mode="none">
+              <calcite-dropdown-item icon-start="trash">Remove</calcite-dropdown-item>
+            </calcite-dropdown-group>
+          </calcite-dropdown>
+        </calcite-list-item>
+      </calcite-list-item>
+    </calcite-list-item-group>
+    <calcite-list-item-group heading="Tables">
+      <calcite-list-item label="Hiking trails table" value="hiking-trails-table">
+        <calcite-dropdown slot="actions-end" overlay-positioning="fixed" placement="bottom-end" scale="s">
+          <calcite-action
+            slot="trigger"
+            appearance="transparent"
+            icon="ellipsis"
+            scale="s"
+            text="Trails layer"
+          ></calcite-action>
+          <calcite-dropdown-group scale="s" selection-mode="none">
+            <calcite-dropdown-item icon-start="trash">Remove</calcite-dropdown-item>
+          </calcite-dropdown-group>
+        </calcite-dropdown>
+      </calcite-list-item>
+      <calcite-list-item label="Waterfalls table" value="waterfalls-table">
+        <calcite-icon slot="content-end" icon="exclamation-mark-circle-f" scale="s"></calcite-icon>
+        <calcite-dropdown slot="actions-end" overlay-positioning="fixed" placement="bottom-end" scale="s">
+          <calcite-action
+            slot="trigger"
+            appearance="transparent"
+            icon="ellipsis"
+            scale="s"
+            text="Trails layer"
+          ></calcite-action>
+          <calcite-dropdown-group scale="s" selection-mode="none">
+            <calcite-dropdown-item icon-start="trash">Remove</calcite-dropdown-item>
+          </calcite-dropdown-group>
+        </calcite-dropdown>
+      </calcite-list-item>
+    </calcite-list-item-group>
+    <calcite-list-item-group heading="Basemaps">
+      <calcite-list-item disabled label="Waterfalls" value="waterfalls">
+        <calcite-icon slot="content-end" icon="circle-disallowed" scale="s"></calcite-icon>
+      </calcite-list-item>
+    </calcite-list-item-group>
+  </calcite-list>`;
