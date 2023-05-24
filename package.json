@@ -122,7 +122,6 @@
     "chromatic": "6.17.3",
     "concurrently": "7.6.0",
     "conventional-changelog-cli": "2.2.2",
-    "cpy": "10.0.0",
     "cpy-cli": "4.2.0",
     "dedent": "0.7.0",
     "eslint": "8.36.0",
