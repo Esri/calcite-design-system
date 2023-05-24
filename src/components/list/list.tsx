@@ -342,34 +342,34 @@ export class List implements InteractiveComponent, LoadableComponent {
   private filterElements({
     el,
     filteredItems,
-    visibleParents,
-    visible
+    visibleParents
   }: {
     el: HTMLCalciteListItemElement | HTMLCalciteListItemGroupElement;
     filteredItems: HTMLCalciteListItemElement[];
-    visibleParents: WeakSet<HTMLElement>;
-    visible?: boolean;
+    visibleParents: WeakSet<HTMLCalciteListItemElement | HTMLCalciteListItemGroupElement>;
   }): void {
-    const isVisible = filteredItems.includes(el as HTMLCalciteListItemElement) || visible;
+    const hidden =
+      !visibleParents.has(el) && !filteredItems.includes(el as HTMLCalciteListItemElement);
 
-    el.hidden = visibleParents.has(el) ? false : !isVisible;
-
-    if (isVisible) {
-      visibleParents.add(el);
-    }
+    el.hidden = hidden;
 
     const closestParent = el.parentElement.closest(parentSelector) as
       | HTMLCalciteListItemElement
       | HTMLCalciteListItemGroupElement;
 
-    if (closestParent) {
-      this.filterElements({
-        el: closestParent,
-        filteredItems,
-        visibleParents,
-        visible: isVisible
-      });
+    if (!closestParent) {
+      return;
     }
+
+    if (!hidden) {
+      visibleParents.add(closestParent);
+    }
+
+    this.filterElements({
+      el: closestParent,
+      filteredItems,
+      visibleParents
+    });
   }
 
   private updateFilteredItems = (emit = false): void => {
@@ -378,11 +378,11 @@ export class List implements InteractiveComponent, LoadableComponent {
     const values = filteredData.map((item) => item.value);
 
     const lastDescendantItems = listItems?.filter((listItem) =>
-      listItems.every((li) => (li !== listItem ? !listItem.contains(li) : true))
+      listItems.every((li) => li === listItem || !listItem.contains(li))
     );
 
     const filteredItems =
-      listItems.filter((item) => (filterText ? values.includes(item.value) : true)) || [];
+      listItems.filter((item) => !filterText || values.includes(item.value)) || [];
 
     const visibleParents = new WeakSet<HTMLElement>();
 
