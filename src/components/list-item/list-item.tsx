@@ -604,13 +604,15 @@ export class ListItem
   };
 
   toggleSelected = (): void => {
-    if (this.disabled) {
+    const { selectionMode, selected } = this;
+
+    if (this.disabled || selectionMode === "none" || !selectionMode) {
       return;
     }
 
-    if (this.selectionMode === "multiple" || this.selectionMode === "single") {
-      this.selected = !this.selected;
-    } else if (this.selectionMode === "single-persist") {
+    if (selectionMode === "multiple" || selectionMode === "single") {
+      this.selected = !selected;
+    } else if (selectionMode === "single-persist") {
       this.selected = true;
     }
 
@@ -620,12 +622,13 @@ export class ListItem
   handleItemKeyDown = (event: KeyboardEvent): void => {
     const { key } = event;
     const composedPath = event.composedPath();
-    const { containerEl, contentEl, actionsStartEl, actionsEndEl, open, openable } = this;
+    const { containerEl, contentEl, actionsStartEl, actionsEndEl, open, openable, selectionMode } =
+      this;
 
     const cells = [actionsStartEl, contentEl, actionsEndEl].filter(Boolean);
     const currentIndex = cells.findIndex((cell) => composedPath.includes(cell));
 
-    if (key === " ") {
+    if (key === " " && selectionMode && selectionMode !== "none") {
       event.preventDefault();
       this.toggleSelected();
     } else if (key === "ArrowRight") {
