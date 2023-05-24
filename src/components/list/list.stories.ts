@@ -399,7 +399,7 @@ export const filteredChildListItems_TestOnly = (): string => html` <calcite-list
           </calcite-dropdown-group>
         </calcite-dropdown>
       </calcite-list-item>
-      <calcite-list-item label="Rivers" value="rivers">
+      <calcite-list-item label="Rivers" value="rivers" open>
         <calcite-list-item label="Estuaries" value="estuaries">
           <calcite-dropdown slot="actions-end" overlay-positioning="fixed" placement="bottom-end" scale="s">
             <calcite-action
@@ -489,7 +489,7 @@ export const filteredChildListItems_TestOnly = (): string => html` <calcite-list
           </calcite-dropdown-group>
         </calcite-dropdown>
       </calcite-list-item>
-      <calcite-list-item label="Rivers" value="rivers">
+      <calcite-list-item label="Rivers" value="rivers" open>
         <calcite-list-item label="Estuaries" value="estuaries">
           <calcite-dropdown slot="actions-end" overlay-positioning="fixed" placement="bottom-end" scale="s">
             <calcite-action
