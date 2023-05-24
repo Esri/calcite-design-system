@@ -3,6 +3,16 @@
 This document maintains a list of released versions and changes introduced by them.
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
+<!--@unreleased-section-start-->
+
+## Unreleased
+
+### Bug Fixes
+
+- **hydrate:** fix errors caused by message bundle fetch attempts during prerendering ([#7002](https://github.com/Esri/calcite-components/issues/7002)) ([c482a7f](https://github.com/Esri/calcite-components/commit/c482a7f7e5aa2cd279a0c48f7f120a5c54937800)), closes [#7001](https://github.com/Esri/calcite-components/issues/7001)
+
+<!--@unreleased-section-end-->
+
 ## [v1.4.0](https://github.com/Esri/calcite-components/compare/v1.3.1...v1.4.0) (2023-05-22)
 
 ### Features
