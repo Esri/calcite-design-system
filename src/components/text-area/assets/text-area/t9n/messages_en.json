@@ -1,4 +1,5 @@
 {
   "invalid": "Invalid",
-  "tooLong": "Current character length is ${currentLength} which exceeds maximum character length ${maxLength}"
+  "tooLong": "Character limit exceeded",
+  "longText": "Current character length is ${currentLength} which exceeds maximum character length ${maxLength}"
 }
