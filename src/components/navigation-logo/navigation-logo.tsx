@@ -39,7 +39,6 @@ export class CalciteNavigationLogo implements LoadableComponent {
 
   /**
    * Defines the relationship between the `href` value and the current document.
-   *
    * @mdn [rel](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/rel)
    */
   @Prop({ reflect: true }) rel: string;
@@ -49,7 +48,6 @@ export class CalciteNavigationLogo implements LoadableComponent {
 
   /**
    * Specifies where to open the linked document defined in the `href` property.
-   *
    * @mdn [target](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#attr-target)
    */
   @Prop({ reflect: true }) target: string;
@@ -99,8 +97,8 @@ export class CalciteNavigationLogo implements LoadableComponent {
     const { heading, description, thumbnail } = this;
     return (
       <Host>
-        <a href={this.href} rel={this.rel} target={this.target}>
-          {thumbnail && <img alt={this.label || ""} src={thumbnail} />}
+        <a class={CSS.anchor} href={this.href} rel={this.rel} target={this.target}>
+          {thumbnail && <img alt={this.label || ""} class={CSS.image} src={thumbnail} />}
           {(heading || description) && (
             <div class={CSS.container}>
               {heading && (
