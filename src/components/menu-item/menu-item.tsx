@@ -36,16 +36,15 @@ import { LocalizedComponent, connectLocalized, disconnectLocalized } from "../..
 
 type Layout = "horizontal" | "vertical";
 
+/**
+ * @slot submenu-item - A slot for adding `calcite-menu-item`s in a submenu.
+ */
 @Component({
   tag: "calcite-menu-item",
   styleUrl: "menu-item.scss",
   shadow: true,
   assetsDirs: ["assets"]
 })
-
-/**
- * @slot submenu-item - A slot for adding `calcite-menu-item`s in submenu.
- */
 export class CalciteMenuItem implements LoadableComponent, T9nComponent, LocalizedComponent {
   //--------------------------------------------------------------------------
   //
