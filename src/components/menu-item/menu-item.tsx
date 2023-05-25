@@ -480,7 +480,7 @@ export class CalciteMenuItem implements LoadableComponent, T9nComponent, Localiz
               ref={(el) => (this.anchorEl = el)}
             >
               {this.renderItemContent(dir)}
-              {this.href && this.topLevelMenuLayout === "vertical" ? (
+              {this.href && (this.topLevelMenuLayout === "vertical" || !this.isTopLevelItem) ? (
                 <calcite-icon
                   class={CSS.hoverHrefIcon}
                   icon={dir === "rtl" ? "arrow-left" : "arrow-right"}
