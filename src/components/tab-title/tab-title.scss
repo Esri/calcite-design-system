@@ -192,11 +192,21 @@
   }
 }
 
+:host([closable]) {
+  .content {
+    padding-inline-start: 1.5rem;
+    padding-inline-end: 1.25rem;
+  }
+}
+
 :host([closable]) .container,
 :host([bordered]) .container {
   border-block-end-style: unset;
   border-inline-start: 1px solid transparent;
   border-inline-end: 1px solid transparent;
+  .close-button {
+    margin-inline: 0;
+  }
 }
 
 :host([closable][position="bottom"]) .container,
