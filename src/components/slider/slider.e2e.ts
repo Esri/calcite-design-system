@@ -15,7 +15,7 @@ describe("calcite-slider", () => {
     hidden("calcite-slider");
   });
 
-  it("has defaults", async () =>
+  describe("defaults", () => {
     defaults("calcite-slider", [
       {
         propertyName: "mirrored",
@@ -57,7 +57,8 @@ describe("calcite-slider", () => {
         propertyName: "value",
         defaultValue: 0
       }
-    ]));
+    ]);
+  });
 
   it("is labelable", async () => labelable("calcite-slider"));
 

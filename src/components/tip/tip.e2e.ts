@@ -11,13 +11,14 @@ describe("calcite-tip", () => {
     hidden("calcite-tip");
   });
 
-  it("has property defaults", async () =>
+  describe("defaults", () => {
     defaults("calcite-tip", [
       {
         propertyName: "headingLevel",
         defaultValue: undefined
       }
-    ]));
+    ]);
+  });
 
   describe("accessible", () => {
     accessible(`<calcite-tip heading="sample"><p>not dismissible</p></calcite-tip>`);

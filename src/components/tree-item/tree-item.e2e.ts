@@ -29,7 +29,7 @@ describe("calcite-tree-item", () => {
     </calcite-tree>`);
   });
 
-  it("has property defaults", async () =>
+  describe("defaults", () => {
     defaults("calcite-tree-item", [
       {
         propertyName: "selected",
@@ -55,7 +55,8 @@ describe("calcite-tree-item", () => {
         propertyName: "indeterminate",
         defaultValue: false
       }
-    ]));
+    ]);
+  });
 
   it("has slots", () => slots("calcite-tree-item", SLOTS));
 

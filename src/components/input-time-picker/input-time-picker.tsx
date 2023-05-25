@@ -3,7 +3,6 @@ import {
   Element,
   Event,
   EventEmitter,
-  getAssetPath,
   h,
   Host,
   Method,
@@ -55,7 +54,7 @@ import { Scale } from "../interfaces";
 import { TimePickerMessages } from "../time-picker/assets/time-picker/t9n";
 import { connectMessages, disconnectMessages, setUpMessages, T9nComponent } from "../../utils/t9n";
 import { InputTimePickerMessages } from "./assets/input-time-picker/t9n";
-import { CSS } from "./resources";
+import { CSS, supportedDayJsLocaleToLocaleConfigImport } from "./resources";
 
 import dayjs from "dayjs/esm";
 import customParseFormat from "dayjs/esm/plugin/customParseFormat";
@@ -518,9 +517,9 @@ export class InputTimePicker
       dayjsLocale = "nb";
     }
 
-    const { default: localeConfig } = await import(
-      getAssetPath(`./assets/input-time-picker/nls/dayjs/locale/${dayjsLocale}.js`)
-    );
+    const { default: localeConfig } = await supportedDayJsLocaleToLocaleConfigImport.get(
+      dayjsLocale
+    )();
 
     dayjs.locale(localeConfig, null, true);
     dayjs.updateLocale(dayjsLocale, this.getExtendedLocaleConfig(dayjsLocale));

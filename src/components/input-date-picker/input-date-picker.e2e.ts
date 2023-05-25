@@ -34,7 +34,7 @@ describe("calcite-input-date-picker", () => {
     hidden("calcite-input-date-picker");
   });
 
-  it("defaults", async () =>
+  describe("defaults", () => {
     defaults("calcite-input-date-picker", [
       {
         propertyName: "overlayPositioning",
@@ -44,7 +44,8 @@ describe("calcite-input-date-picker", () => {
         propertyName: "flipPlacements",
         defaultValue: undefined
       }
-    ]));
+    ]);
+  });
 
   it("is labelable", async () => labelable("calcite-input-date-picker"));
 
@@ -332,8 +333,10 @@ describe("calcite-input-date-picker", () => {
       const month = "4";
       const day = "19";
 
+      /* eslint-disable import/no-dynamic-require -- allowing dynamic asset path for maintainability */
       const langTranslations = await import(`../date-picker/assets/date-picker/nls/${lang}.json`);
       const newLangTranslations = await import(`../date-picker/assets/date-picker/nls/${newLang}.json`);
+      /* eslint-enable import/no-dynamic-require */
 
       const page = await newE2EPage();
       await page.setContent(

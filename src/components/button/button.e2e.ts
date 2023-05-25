@@ -5,7 +5,7 @@ import { GlobalTestProps } from "../../tests/utils";
 import { html } from "../../../support/formatting";
 
 describe("calcite-button", () => {
-  it("defaults", async () =>
+  describe("defaults", () => {
     defaults("calcite-button", [
       {
         propertyName: "alignment",
@@ -83,7 +83,8 @@ describe("calcite-button", () => {
         propertyName: "width",
         defaultValue: "auto"
       }
-    ]));
+    ]);
+  });
 
   describe("honors hidden attribute", () => {
     hidden("calcite-button");

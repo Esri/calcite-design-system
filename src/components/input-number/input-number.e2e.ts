@@ -59,7 +59,7 @@ describe("calcite-input-number", () => {
       }
     ]));
 
-  it("has defaults", async () =>
+  describe("defaults", () => {
     defaults("calcite-input-number", [
       {
         propertyName: "status",
@@ -81,7 +81,8 @@ describe("calcite-input-number", () => {
         propertyName: "value",
         defaultValue: ""
       }
-    ]));
+    ]);
+  });
 
   it("can be disabled", () => disabled("calcite-input-number"));
 

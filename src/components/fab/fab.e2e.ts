@@ -11,7 +11,7 @@ describe("calcite-fab", () => {
     hidden("calcite-fab");
   });
 
-  it("has property defaults", async () =>
+  describe("defaults", () => {
     defaults("calcite-fab", [
       {
         propertyName: "scale",
@@ -21,7 +21,8 @@ describe("calcite-fab", () => {
         propertyName: "appearance",
         defaultValue: "solid"
       }
-    ]));
+    ]);
+  });
 
   it("can be disabled", () => disabled("calcite-fab"));
 
