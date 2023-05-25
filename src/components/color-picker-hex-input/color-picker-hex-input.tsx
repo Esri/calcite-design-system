@@ -154,6 +154,7 @@ export class ColorPickerHexInput implements LoadableComponent {
     const willClearValue = allowEmpty && !inputValue;
     const isLonghand = isLonghandHex(hex);
 
+    // ensure modified pasted hex values are committed since we prevent default to remove the # char.
     this.onHexInputChange();
 
     if (willClearValue || (isValidHex(hex) && isLonghand)) {
