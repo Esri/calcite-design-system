@@ -460,7 +460,7 @@ export class ListItem
           [CSS.contentContainerHasCenterContent]: hasCenterContent
         }}
         key="content-container"
-        onClick={this.itemContentClicked}
+        onClick={this.itemClicked}
         role="gridcell"
         // eslint-disable-next-line react/jsx-sort-props
         ref={(el) => (this.contentEl = el)}
@@ -598,15 +598,11 @@ export class ListItem
     this.open = !this.open;
   };
 
-  itemContentClicked = (event: Event): void => {
+  itemClicked = (event: Event): void => {
     if (event.defaultPrevented) {
       return;
     }
 
-    this.itemClicked();
-  };
-
-  itemClicked = (): void => {
     this.toggleSelected();
     this.calciteInternalListItemActive.emit();
   };
