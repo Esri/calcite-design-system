@@ -66,6 +66,7 @@ export interface GlobalAttrComponent {
  * <ul {...this.globalAttributes}></div>
  * </Host>);
  * }
+ *
  * @param component
  * @param attributeFilter
  */
@@ -86,6 +87,7 @@ export function watchGlobalAttributes(component: GlobalAttrComponent, attributeF
 
 /**
  * Helper remove listening for changes to inherited attributes.
+ *
  * @param component
  */
 export function unwatchGlobalAttributes(component: GlobalAttrComponent): void {
