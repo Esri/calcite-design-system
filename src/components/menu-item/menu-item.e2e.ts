@@ -8,7 +8,7 @@ describe("calcite-menu-item", () => {
     renders("calcite-menu-item", { display: "flex" });
   });
 
-  it("reflects", async () =>
+  describe("reflects", () => {
     reflects("calcite-menu-item", [
       {
         propertyName: "active",
@@ -18,7 +18,8 @@ describe("calcite-menu-item", () => {
         propertyName: "target",
         value: "_blank"
       }
-    ]));
+    ]);
+  });
 
   describe("honors hidden attribute", () => {
     hidden("calcite-menu-item");

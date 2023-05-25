@@ -20,7 +20,7 @@ describe("calcite-tile-select", () => {
     ]);
   });
 
-  it("reflects", async () =>
+  describe("reflects", () => {
     reflects("calcite-tile-select", [
       { propertyName: "checked", value: true },
       { propertyName: "description", value: "My Tile Select Description." },
@@ -33,7 +33,8 @@ describe("calcite-tile-select", () => {
       { propertyName: "inputEnabled", value: true },
       { propertyName: "type", value: "radio" },
       { propertyName: "width", value: "auto" }
-    ]));
+    ]);
+  });
 
   describe("honors hidden attribute", () => {
     hidden("calcite-tile-select");

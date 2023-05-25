@@ -33,7 +33,7 @@ describe("calcite-action-pad", () => {
     ]);
   });
 
-  it("reflects", async () =>
+  describe("reflects", () => {
     reflects("calcite-action-pad", [
       {
         propertyName: "expandDisabled",
@@ -47,7 +47,8 @@ describe("calcite-action-pad", () => {
         propertyName: "layout",
         value: "horizontal"
       }
-    ]));
+    ]);
+  });
 
   describe("expand functionality", () => {
     it("should be expandable by default", async () => {
