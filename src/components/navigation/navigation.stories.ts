@@ -79,6 +79,21 @@ export const primaryAndSecondarySlots_TestOnly = (): string =>
     </calcite-navigation>
   `;
 
+export const primaryWithAllLogoAndUserSlots_TestOnly = (): string =>
+  html`
+      <calcite-navigation style="--calcite-ui-brand: #bf390f">
+        <calcite-navigation-logo heading="Walt's Chips" description="Eastern Potato Chip Company" slot="logo">
+        </calcite-navigation-logo>
+        <calcite-menu slot="content-start">
+          <calcite-menu-item text="Potatoes"></calcite-menu-item>
+          <calcite-menu-item active text="Chips"></calcite-menu-item>
+          <calcite-menu-item text="Employees"></calcite-menu-item>
+          <calcite-menu-item text="Suppliers"></calcite-menu-item>
+        </calcite-menu>
+        <calcite-navigation-user slot="user" full-name="Walt McChipson" username="m_chipson></calcite-navigation-user>
+      </calcite-navigation>
+    `;
+
 export const allSlots_TestOnly = (): string =>
   html`
     <calcite-navigation style="--calcite-ui-brand: #bf390f">

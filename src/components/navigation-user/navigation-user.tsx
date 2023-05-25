@@ -86,7 +86,7 @@ export class CalciteNavigationUser implements LoadableComponent {
   render(): VNode {
     return (
       <Host>
-        <button aria-label={this.label}>
+        <button aria-label={this.label} class={CSS.button}>
           <calcite-avatar
             full-name={this.fullName}
             label={this.label}

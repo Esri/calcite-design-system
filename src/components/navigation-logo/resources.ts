@@ -1,5 +1,7 @@
 export const CSS = {
   container: "container",
   heading: "heading",
-  description: "description"
+  description: "description",
+  anchor: "anchor",
+  image: "image"
 };

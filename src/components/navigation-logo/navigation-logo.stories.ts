@@ -46,3 +46,15 @@ export const All_TestOnly = (): string => html`<calcite-navigation-logo
   description="City of AcmeCo"
   thumbnail="${placeholderImage({ width: 50, height: 50 })}"
 />`;
+
+export const slottedInNav_TestOnly = (): string =>
+  html`
+    <calcite-navigation style="--calcite-ui-brand: #bf390f">
+      <calcite-navigation-logo
+        heading="ArcGIS Online"
+        description="City of AcmeCo"
+        thumbnail="${placeholderImage({ width: 50, height: 50 })}"
+        slot="logo"
+      />
+    </calcite-navigation>
+  `;

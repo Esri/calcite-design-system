@@ -651,6 +651,34 @@ describe("calcite-color-picker", () => {
     expect(afterDragHsv.v).toBe(beforeDragHsv.v);
   });
 
+  it("does not wrap the hue slider thumb when dragging past the edge", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<calcite-color-picker></calcite-color-picker>`);
+    const [hueSliderX] = await getElementXY(page, "calcite-color-picker", `.${CSS.hueSlider}`);
+
+    let [hueScopeX, hueScopeY] = await getElementXY(page, "calcite-color-picker", `.${CSS.hueScope}`);
+
+    await page.mouse.move(hueScopeX, hueScopeY);
+    await page.mouse.down();
+    await page.mouse.move(0, hueScopeY);
+    await page.mouse.up();
+    await page.waitForChanges();
+
+    [hueScopeX, hueScopeY] = await getElementXY(page, "calcite-color-picker", `.${CSS.hueScope}`);
+
+    expect(hueScopeX).toBe(hueSliderX);
+
+    await page.mouse.move(hueScopeX, hueScopeY);
+    await page.mouse.down();
+    await page.mouse.move(hueScopeX + DIMENSIONS.m.slider.width, hueScopeY);
+    await page.mouse.up();
+    await page.waitForChanges();
+
+    [hueScopeX] = await getElementXY(page, "calcite-color-picker", `.${CSS.hueScope}`);
+
+    expect(hueScopeX).toBe(hueSliderX + DIMENSIONS.m.slider.width - 1);
+  });
+
   describe("unsupported value handling", () => {
     let page: E2EPage;
 

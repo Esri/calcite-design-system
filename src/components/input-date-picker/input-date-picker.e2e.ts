@@ -333,8 +333,10 @@ describe("calcite-input-date-picker", () => {
       const month = "4";
       const day = "19";
 
+      /* eslint-disable import/no-dynamic-require -- allowing dynamic asset path for maintainability */
       const langTranslations = await import(`../date-picker/assets/date-picker/nls/${lang}.json`);
       const newLangTranslations = await import(`../date-picker/assets/date-picker/nls/${newLang}.json`);
+      /* eslint-enable import/no-dynamic-require */
 
       const page = await newE2EPage();
       await page.setContent(
