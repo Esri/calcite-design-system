@@ -14,7 +14,13 @@ import {
   connectConditionalSlotComponent,
   disconnectConditionalSlotComponent
 } from "../../utils/conditionalSlot";
-import { getElementDir, getElementProp, getSlotted, toAriaBoolean } from "../../utils/dom";
+import {
+  closestElementCrossShadowBoundary,
+  getElementDir,
+  getElementProp,
+  getSlotted,
+  toAriaBoolean
+} from "../../utils/dom";
 import { CSS_UTILITY } from "../../utils/resources";
 import { SLOTS, CSS } from "./resources";
 import { FlipContext, Position, Scale } from "../interfaces";
@@ -298,9 +304,12 @@ export class AccordionItem implements ConditionalSlotComponent {
   }
 
   private getItemPosition(): number {
-    return Array.prototype.indexOf.call(
-      this.parent.querySelectorAll("calcite-accordion-item"),
-      this.el
-    );
+    const { el } = this;
+
+    return Array.from(
+      closestElementCrossShadowBoundary(el, "calcite-accordion")?.querySelectorAll(
+        "calcite-accordion-item"
+      )
+    ).indexOf(el);
   }
 }
