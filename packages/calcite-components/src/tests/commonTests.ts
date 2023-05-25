@@ -8,6 +8,7 @@ import { JSX } from "../components";
 import { hiddenFormInputSlotName } from "../utils/form";
 import { MessageBundle } from "../utils/t9n";
 import { GlobalTestProps, skipAnimations } from "./utils";
+import { InteractiveHTMLElement } from "../utils/interactive";
 
 expect.extend(toHaveNoViolations);
 
@@ -988,6 +989,29 @@ export async function disabled(
       expect(spy.length).toBeGreaterThanOrEqual(2);
     } else {
       expect(spy).toHaveReceivedEventTimes(eventsExpectedToBubble.includes(spy.eventName) ? 2 : 1);
+    }
+  });
+
+  // this needs to run in the browser context to ensure disabling and events fire immediately after being set
+  await page.$eval(
+    tag,
+    (component: InteractiveHTMLElement, allExpectedEvents: string[]) => {
+      component.disabled = false;
+      allExpectedEvents.forEach((event) => component.dispatchEvent(new MouseEvent(event)));
+
+      component.disabled = true;
+      allExpectedEvents.forEach((event) => component.dispatchEvent(new MouseEvent(event)));
+    },
+    allExpectedEvents
+  );
+
+  assertOnMouseAndPointerEvents(eventSpies, (spy) => {
+    if (spy.eventName === "click") {
+      // some components emit more than one click event (e.g., from calling `click()`),
+      // so we check if at least one event is received
+      expect(spy.length).toBeGreaterThanOrEqual(3);
+    } else {
+      expect(spy).toHaveReceivedEventTimes(eventsExpectedToBubble.includes(spy.eventName) ? 4 : 2);
     }
   });
 }

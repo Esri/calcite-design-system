@@ -36,16 +36,15 @@ import { LocalizedComponent, connectLocalized, disconnectLocalized } from "../..
 
 type Layout = "horizontal" | "vertical";
 
+/**
+ * @slot submenu-item - A slot for adding `calcite-menu-item`s in a submenu.
+ */
 @Component({
   tag: "calcite-menu-item",
   styleUrl: "menu-item.scss",
   shadow: true,
   assetsDirs: ["assets"]
 })
-
-/**
- * @slot submenu-item - A slot for adding `calcite-menu-item`s in submenu.
- */
 export class CalciteMenuItem implements LoadableComponent, T9nComponent, LocalizedComponent {
   //--------------------------------------------------------------------------
   //
@@ -481,7 +480,7 @@ export class CalciteMenuItem implements LoadableComponent, T9nComponent, Localiz
               ref={(el) => (this.anchorEl = el)}
             >
               {this.renderItemContent(dir)}
-              {this.href && this.topLevelMenuLayout === "vertical" ? (
+              {this.href && (this.topLevelMenuLayout === "vertical" || !this.isTopLevelItem) ? (
                 <calcite-icon
                   class={CSS.hoverHrefIcon}
                   icon={dir === "rtl" ? "arrow-left" : "arrow-right"}

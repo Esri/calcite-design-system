@@ -43,3 +43,15 @@ export const All_TestOnly = (): string => html`<calcite-navigation-user
   username="eabbey_123"
   thumbnail="${placeholderImage({ width: 50, height: 50 })}"
 />`;
+
+export const slottedInNav_TestOnly = (): string =>
+  html`
+    <calcite-navigation style="--calcite-ui-brand: #bf390f">
+      <calcite-navigation-user
+        full-name="Edward Abbey"
+        username="eabbey_123"
+        thumbnail="${placeholderImage({ width: 50, height: 50 })}"
+        slot="user"
+      />
+    </calcite-navigation>
+  `;

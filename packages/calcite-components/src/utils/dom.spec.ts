@@ -419,6 +419,21 @@ describe("dom", () => {
       expect(slotChangeHasAssignedElement(event)).toBe(false);
     });
   });
+
+  describe("focusElementInGroup()", () => {
+    it("should cycle through the array by default", () => {
+      const elements = [document.createElement("div"), document.createElement("div"), document.createElement("div")];
+      expect(focusElementInGroup(elements, elements[0], "previous")).toBe(elements[2]);
+      expect(focusElementInGroup(elements, elements[2], "next")).toBe(elements[0]);
+    });
+
+    it("should not cycle through the array", () => {
+      const elements = [document.createElement("div"), document.createElement("div"), document.createElement("div")];
+      expect(focusElementInGroup(elements, elements[0], "previous", false)).toBe(elements[0]);
+      expect(focusElementInGroup(elements, elements[2], "next", false)).toBe(elements[2]);
+    });
+  });
+
   describe("getShadowRootNode()", () => {
     function defineTestComponents(): void {
       class ShadowElement extends HTMLElement {
@@ -446,20 +461,6 @@ describe("dom", () => {
     it("should return null for non shadowed element", () => {
       document.body.innerHTML = html` <div></div> `;
       expect(getShadowRootNode(document.body.querySelector("div"))).toBe(null);
-    });
-  });
-
-  describe("focusElementInGroup()", () => {
-    it("should cycle through the array by default", () => {
-      const elements = [document.createElement("div"), document.createElement("div"), document.createElement("div")];
-      expect(focusElementInGroup(elements, elements[0], "previous")).toBe(elements[2]);
-      expect(focusElementInGroup(elements, elements[2], "next")).toBe(elements[0]);
-    });
-
-    it("should not cycle through the array", () => {
-      const elements = [document.createElement("div"), document.createElement("div"), document.createElement("div")];
-      expect(focusElementInGroup(elements, elements[0], "previous", false)).toBe(elements[0]);
-      expect(focusElementInGroup(elements, elements[2], "next", false)).toBe(elements[2]);
     });
   });
 });

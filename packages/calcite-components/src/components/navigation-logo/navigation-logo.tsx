@@ -99,8 +99,8 @@ export class CalciteNavigationLogo implements LoadableComponent {
     const { heading, description, thumbnail } = this;
     return (
       <Host>
-        <a href={this.href} rel={this.rel} target={this.target}>
-          {thumbnail && <img alt={this.label || ""} src={thumbnail} />}
+        <a class={CSS.anchor} href={this.href} rel={this.rel} target={this.target}>
+          {thumbnail && <img alt={this.label || ""} class={CSS.image} src={thumbnail} />}
           {(heading || description) && (
             <div class={CSS.container}>
               {heading && (
