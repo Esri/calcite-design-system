@@ -42,7 +42,7 @@
     "util:build-docs": "npm run util:prep-build-reqs && stencil build --docs --config stencil.storybook.config.ts",
     "util:clean-tested-build": "npm ci && npm test && npm run build",
     "util:copy-assets": "npm run util:copy-icons",
-    "util:copy-icons": "cpy \"./node_modules/@esri/calcite-ui-icons/js/*.json\" \"./src/components/icon/assets/icon/\" --flat",
+    "util:copy-icons": "cpy \"../../node_modules/@esri/calcite-ui-icons/js/*.json\" \"./src/components/icon/assets/icon/\" --flat",
     "util:generate-t9n-types": "ts-node --esm support/generateT9nTypes.ts",
     "util:hydration-styles": "ts-node --esm support/hydrationStyles.ts",
     "util:patch": "npm run util:patch-esm-resolution && npm run util:patch-tree-shaking",
@@ -71,7 +71,8 @@
     "sortablejs": "1.15.0"
   },
   "devDependencies": {
-    "@esri/calcite-design-tokens": "1.0.0"
+    "@esri/calcite-design-tokens": "1.0.0",
+    "@esri/calcite-ui-icons": "3.22.8"
   },
   "license": "SEE LICENSE.md",
   "volta": {
