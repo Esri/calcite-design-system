@@ -13,7 +13,7 @@ describe("calcite-action-bar", () => {
     hidden("calcite-action-bar");
   });
 
-  it("defaults", async () =>
+  describe("defaults", () => {
     defaults("calcite-action-bar", [
       {
         propertyName: "expandDisabled",
@@ -31,7 +31,8 @@ describe("calcite-action-bar", () => {
         propertyName: "layout",
         defaultValue: "vertical"
       }
-    ]));
+    ]);
+  });
 
   describe("reflects", () => {
     reflects("calcite-action-bar", [

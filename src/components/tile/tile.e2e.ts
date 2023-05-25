@@ -15,13 +15,14 @@ describe("calcite-tile", () => {
     accessible(`<calcite-tile></calcite-tile>`);
   });
 
-  it("has defaults", async () =>
+  describe("defaults", () => {
     defaults("calcite-tile", [
       { propertyName: "disabled", defaultValue: false },
       { propertyName: "embed", defaultValue: false },
       { propertyName: "focused", defaultValue: false },
       { propertyName: "hidden", defaultValue: false }
-    ]));
+    ]);
+  });
 
   it("has slots", async () => slots("calcite-tile", SLOTS));
 

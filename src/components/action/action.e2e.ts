@@ -3,7 +3,7 @@ import { accessible, disabled, hidden, renders, slots, t9n, defaults } from "../
 import { CSS, SLOTS } from "./resources";
 
 describe("calcite-action", () => {
-  it("has property defaults", async () =>
+  describe("defaults", () => {
     defaults("calcite-action", [
       {
         propertyName: "active",
@@ -37,7 +37,8 @@ describe("calcite-action", () => {
         propertyName: "textEnabled",
         defaultValue: false
       }
-    ]));
+    ]);
+  });
 
   describe("renders", () => {
     renders("calcite-action", { display: "flex" });

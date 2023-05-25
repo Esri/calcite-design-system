@@ -14,12 +14,13 @@ describe("calcite-tab", () => {
     hidden("calcite-tab");
   });
 
-  it("has defaults", async () =>
+  describe("defaults", () => {
     defaults("calcite-tab", [
       { propertyName: "tab", defaultValue: undefined },
       { propertyName: "selected", defaultValue: false },
       { propertyName: "scale", defaultValue: undefined }
-    ]));
+    ]);
+  });
 
   describe("when nested within calcite-tabs component", () => {
     it("should render with medium scale", async () => {

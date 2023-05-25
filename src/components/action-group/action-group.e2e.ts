@@ -8,13 +8,14 @@ const actionGroupHTML = `<calcite-action-group scale="l">
       </calcite-action-group>`;
 
 describe("calcite-action-group", () => {
-  it("defaults", async () =>
+  describe("defaults", () => {
     defaults("calcite-action-group", [
       {
         propertyName: "layout",
         defaultValue: "vertical"
       }
-    ]));
+    ]);
+  });
 
   describe("renders", () => {
     renders("calcite-action-group", { display: "flex" });

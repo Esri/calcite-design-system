@@ -12,7 +12,7 @@ describe("calcite-action-pad", () => {
     hidden("calcite-action-pad");
   });
 
-  it("defaults", async () =>
+  describe("defaults", () => {
     defaults("calcite-action-pad", [
       {
         propertyName: "expandDisabled",
@@ -30,7 +30,8 @@ describe("calcite-action-pad", () => {
         propertyName: "scale",
         defaultValue: undefined
       }
-    ]));
+    ]);
+  });
 
   describe("reflects", () => {
     reflects("calcite-action-pad", [

@@ -21,7 +21,7 @@ describe("calcite-block-section", () => {
     ]);
   });
 
-  it("has property defaults", async () =>
+  describe("defaults", () => {
     defaults("calcite-block-section", [
       {
         propertyName: "open",
@@ -31,7 +31,8 @@ describe("calcite-block-section", () => {
         propertyName: "toggleDisplay",
         defaultValue: "button"
       }
-    ]));
+    ]);
+  });
 
   it("supports translation", () => t9n("calcite-block-section"));
 

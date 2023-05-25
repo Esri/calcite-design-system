@@ -11,7 +11,7 @@ describe("calcite-list-item-group", () => {
 
   it("can be disabled", () => disabled("calcite-list-item-group", { focusTarget: "none" }));
 
-  it("has property defaults", async () =>
+  describe("defaults", () => {
     defaults("calcite-list-item-group", [
       {
         propertyName: "heading",
@@ -25,5 +25,6 @@ describe("calcite-list-item-group", () => {
         propertyName: "disabled",
         defaultValue: false
       }
-    ]));
+    ]);
+  });
 });

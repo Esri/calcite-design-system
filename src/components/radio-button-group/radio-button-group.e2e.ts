@@ -13,11 +13,12 @@ describe("calcite-radio-button-group", () => {
     );
   });
 
-  it("has defaults", async () =>
+  describe("defaults", () => {
     defaults("calcite-radio-button-group", [
       { propertyName: "layout", defaultValue: "horizontal" },
       { propertyName: "scale", defaultValue: "m" }
-    ]));
+    ]);
+  });
 
   describe("honors hidden attribute", () => {
     hidden("calcite-radio-button");

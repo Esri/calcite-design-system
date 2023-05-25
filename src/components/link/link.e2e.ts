@@ -10,13 +10,14 @@ describe("calcite-link", () => {
     hidden("calcite-link");
   });
 
-  it("defaults", async () =>
+  describe("defaults", () => {
     defaults("calcite-link", [
       {
         propertyName: "download",
         defaultValue: false
       }
-    ]));
+    ]);
+  });
 
   describe("accessible", () => {
     accessible("<calcite-link href='/'>link</calcite-link>");

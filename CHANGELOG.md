@@ -9,6 +9,12 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ### Bug Fixes
 
+- **list:** filter nested children correctly ([#6989](https://github.com/Esri/calcite-components/issues/6989)) ([67ca03b](https://github.com/Esri/calcite-components/commit/67ca03b40707e0b242efa0761f2105e248f7ef74)), closes [#6574](https://github.com/Esri/calcite-components/issues/6574)
+
+* **color-picker:** prevent hue slider thumb from wrapping when dragged near/past the edge ([#7009](https://github.com/Esri/calcite-components/issues/7009)) ([2d14a16](https://github.com/Esri/calcite-components/commit/2d14a160e8d11facf6478297db29455e5bf5ebbe)), closes [#7004](https://github.com/Esri/calcite-components/issues/7004) [#2841](https://github.com/Esri/calcite-components/issues/2841)
+* **menu:** ensure role type is compatible with Stencil's HTMLAttributes interface ([#6993](https://github.com/Esri/calcite-components/issues/6993)) ([0231983](https://github.com/Esri/calcite-components/commit/0231983d0387298ed64c6f9c3dc01ef0d41807e6)), closes [#7000](https://github.com/Esri/calcite-components/issues/7000)
+* **navigation-logo, navigation-user:** Prevent inheriting line-height ([#7011](https://github.com/Esri/calcite-components/issues/7011)) ([e8cb96b](https://github.com/Esri/calcite-components/commit/e8cb96bc7b00f84eb993e1dfda9c9cb441e818c0)), closes [#7010](https://github.com/Esri/calcite-components/issues/7010)
+
 - **hydrate:** fix errors caused by message bundle fetch attempts during prerendering ([#7002](https://github.com/Esri/calcite-components/issues/7002)) ([c482a7f](https://github.com/Esri/calcite-components/commit/c482a7f7e5aa2cd279a0c48f7f120a5c54937800)), closes [#7001](https://github.com/Esri/calcite-components/issues/7001)
 
 <!--@unreleased-section-end-->

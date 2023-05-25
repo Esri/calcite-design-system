@@ -26,7 +26,9 @@ describe("calcite-radio-button", () => {
     accessible(`<calcite-radio-button label="label" id="example" name="example" value="one"></calcite-radio-button>`);
   });
 
-  it("has defaults", async () => defaults("calcite-radio-button", [{ propertyName: "scale", defaultValue: "m" }]));
+  describe("defaults", () => {
+    defaults("calcite-radio-button", [{ propertyName: "scale", defaultValue: "m" }]);
+  });
 
   describe("honors hidden attribute", () => {
     hidden("calcite-radio-button");

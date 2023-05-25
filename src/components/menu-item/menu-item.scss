@@ -167,7 +167,7 @@ calcite-action {
   transition: all var(--calcite-internal-animation-timing-medium) ease-in-out;
 }
 
-content:focus .hover-href-icon,
-content:hover .hover-href-icon {
+.content:focus .hover-href-icon,
+.content:hover .hover-href-icon {
   @apply opacity-100 -end-1;
 }

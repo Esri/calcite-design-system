@@ -32,7 +32,7 @@ describe("calcite-action-menu", () => {
 
   it("has slots", () => slots("calcite-action-menu", SLOTS));
 
-  it("defaults", async () =>
+  describe("defaults", () => {
     defaults("calcite-action-menu", [
       {
         propertyName: "expanded",
@@ -58,7 +58,8 @@ describe("calcite-action-menu", () => {
         propertyName: "scale",
         defaultValue: undefined
       }
-    ]));
+    ]);
+  });
 
   describe("reflects", () => {
     reflects("calcite-action-menu", [
