@@ -37,6 +37,7 @@ function mergeMessages(component: T9nComponent): void {
 
 /**
  * This utility sets up the messages used by the component. It should be awaited in the `componentWillLoad` lifecycle hook.
+ *
  * @param component
  */
 export async function setUpMessages(component: T9nComponent): Promise<void> {
@@ -63,6 +64,7 @@ async function fetchMessages(component: T9nComponent, lang: string): Promise<Mes
  *
  * 1. called from `LocalizedComponent`'s `onLocaleChange` method or
  * 2. called from a watcher configured to watch `LocalizedComponent`'s `effectiveLocale` prop
+ *
  * @param component
  * @param lang
  */
@@ -77,6 +79,7 @@ export async function updateMessages(component: T9nComponent, lang: string): Pro
  * It needs to be called in `connectedCallback`
  *
  * **Note**: this must be called after `LocalizedComponent`'s `connectLocalized` method.
+ *
  * @param component
  */
 export function connectMessages(component: T9nComponent): void {
@@ -87,6 +90,7 @@ export function connectMessages(component: T9nComponent): void {
  * This utility tears down internals for messages support.
  *
  * It needs to be called in `disconnectedCallback`
+ *
  * @param component
  */
 export function disconnectMessages(component: T9nComponent): void {
@@ -127,6 +131,7 @@ export interface T9nComponent extends LocalizedComponent {
    * This private method ensures messages are kept in sync.
    *
    * This method should be empty and configured to watch for changes on  `messageOverrides` property.
+   *
    * @Watch("messageOverrides")
    * onMessagesChange(): void {
    *  \/* wired up by t9n util *\/
