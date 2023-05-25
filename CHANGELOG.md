@@ -410,4 +410,4 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ## beta versions
 
-See [`BETA_CHANGELOG.md`](./BETA_CHANGELOG.md) for pre-v1 changes.
+See [`CHANGELOG_BETA.md`](./CHANGELOG_BETA.md) for pre-v1 changes.
