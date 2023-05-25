@@ -139,7 +139,7 @@ export class ColorPicker
   @Prop({ reflect: true }) disabled = false;
 
   /**
-   * The format of `value`
+   * The format of `value`.
    *
    * When `"auto"`, the format will be inferred from `value` when set.
    *
