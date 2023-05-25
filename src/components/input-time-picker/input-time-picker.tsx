@@ -502,18 +502,17 @@ export class InputTimePicker
 
   private async loadDateTimeLocaleData(): Promise<void> {
     const { effectiveLocale } = this;
+    let dayjsLocale = effectiveLocale.toLowerCase();
 
-    if (effectiveLocale === "en" || effectiveLocale === "en-US") {
+    if (dayjsLocale === "en" || dayjsLocale === "en-us") {
       return;
     }
 
-    let dayjsLocale = effectiveLocale.toLowerCase();
-
-    if (effectiveLocale === "pt-PT") {
+    if (dayjsLocale === "pt-PT") {
       dayjsLocale = "pt";
     }
 
-    if (effectiveLocale === "no") {
+    if (dayjsLocale === "no") {
       dayjsLocale = "nb";
     }
 
@@ -706,13 +705,15 @@ export class InputTimePicker
     connectLocalized(this);
 
     let { effectiveLocale } = this;
-    if (effectiveLocale === "en-US") {
+    const normalizedLocale = effectiveLocale.toLowerCase();
+
+    if (normalizedLocale === "en-us") {
       effectiveLocale = "en";
     }
-    if (effectiveLocale === "pt-PT") {
+    if (normalizedLocale === "pt-pt") {
       effectiveLocale = "pt";
     }
-    if (effectiveLocale === "no") {
+    if (normalizedLocale === "no") {
       effectiveLocale = "nb";
     }
     this.effectiveLocale = effectiveLocale;
