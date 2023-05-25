@@ -50,7 +50,7 @@ describe("calcite-popover", () => {
     hidden(`<calcite-popover open></calcite-popover>`);
   });
 
-  it("has property defaults", async () =>
+  describe("defaults", () => {
     defaults("calcite-popover", [
       {
         propertyName: "placement",
@@ -88,7 +88,8 @@ describe("calcite-popover", () => {
         propertyName: "overlayPositioning",
         defaultValue: "absolute"
       }
-    ]));
+    ]);
+  });
 
   it("popover positions when referenceElement is set", async () => {
     const page = await newE2EPage();

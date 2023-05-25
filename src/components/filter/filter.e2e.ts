@@ -34,7 +34,7 @@ describe("calcite-filter", () => {
       }
     ]));
 
-  it("has defaults", async () =>
+  describe("defaults", () => {
     defaults("calcite-filter", [
       {
         propertyName: "disabled",
@@ -48,7 +48,8 @@ describe("calcite-filter", () => {
         propertyName: "scale",
         defaultValue: "m"
       }
-    ]));
+    ]);
+  });
 
   it("sets scale on the input", async () => {
     const scale = "s";

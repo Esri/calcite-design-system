@@ -4,13 +4,14 @@ import { accessible, defaults, disabled, focusable, hidden, renders } from "../.
 import { CSS } from "./resources";
 
 describe("calcite-split-button", () => {
-  it("has defaults", async () =>
+  describe("defaults", () => {
     defaults("calcite-split-button", [
       {
         propertyName: "overlayPositioning",
         defaultValue: "absolute"
       }
-    ]));
+    ]);
+  });
 
   const content = `
   <calcite-dropdown-group>

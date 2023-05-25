@@ -12,7 +12,7 @@ describe("calcite-shell-center-row", () => {
     hidden("calcite-shell-center-row");
   });
 
-  it("defaults", async () =>
+  describe("defaults", () => {
     defaults("calcite-shell-center-row", [
       {
         propertyName: "detached",
@@ -26,7 +26,8 @@ describe("calcite-shell-center-row", () => {
         propertyName: "position",
         defaultValue: "end"
       }
-    ]));
+    ]);
+  });
 
   it("has slots", () => slots("calcite-shell-center-row", SLOTS));
 
