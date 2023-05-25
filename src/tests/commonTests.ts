@@ -52,8 +52,9 @@ async function simplePageSetup(componentTagOrHTML: TagOrHTML): Promise<E2EPage> 
  *
  * Note that this helper should be used within a describe block.
  *
+ * @example
  * describe("accessible"), () => {
- * accessible(`<calcite-tree></calcite-tree>`);
+ *    accessible(`<calcite-tree></calcite-tree>`);
  * });
  *
  * @param {ComponentTestSetup} componentTestSetup - A component tag, html, or the tag and e2e page for setting up a test
@@ -74,8 +75,9 @@ export function accessible(componentTestSetup: ComponentTestSetup): void {
 /**
  * Note that this helper should be used within a describe block.
  *
+ * @example
  * describe("renders", () => {
- * renders(`<calcite-tree></calcite-tree>`);
+ *    renders(`<calcite-tree></calcite-tree>`);
  * });
  *
  * @param {string} componentTagOrHTML - the component tag or HTML markup to test against
