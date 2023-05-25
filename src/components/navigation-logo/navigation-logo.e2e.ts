@@ -14,7 +14,7 @@ describe("calcite-navigation-logo", () => {
     accessible("calcite-navigation-logo");
   });
 
-  it("reflects", () =>
+  describe("reflects", () => {
     reflects("calcite-navigation-logo", [
       {
         propertyName: "active",
@@ -32,7 +32,8 @@ describe("calcite-navigation-logo", () => {
         propertyName: "target",
         value: "_self"
       }
-    ]));
+    ]);
+  });
 
   describe("is focusable", () => {
     focusable(html`<calcite-navigation-logo href=" " heading="esri"></calcite-navigation-logo>`);

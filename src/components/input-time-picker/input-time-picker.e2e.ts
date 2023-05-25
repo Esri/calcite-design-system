@@ -44,19 +44,21 @@ describe("calcite-input-time-picker", () => {
 
   it.skip("supports t9n", () => t9n("calcite-input-time-picker"));
 
-  it("has defaults", async () =>
+  describe("defaults", () => {
     defaults("calcite-input-time-picker", [
       { propertyName: "scale", defaultValue: "m" },
       { propertyName: "step", defaultValue: 60 },
       { propertyName: "overlayPositioning", defaultValue: "absolute" }
-    ]));
+    ]);
+  });
 
-  it("reflects", async () =>
+  describe("reflects", () => {
     reflects(`calcite-input-time-picker`, [
       { propertyName: "open", value: true },
       { propertyName: "disabled", value: true },
       { propertyName: "scale", value: "m" }
-    ]));
+    ]);
+  });
 
   it("is labelable", async () => labelable("calcite-input-time-picker"));
 

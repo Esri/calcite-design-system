@@ -15,13 +15,14 @@ describe("calcite-avatar", () => {
     accessible("<calcite-avatar thumbnail='http://placekitten.com/120/120'></calcite-avatar>");
   });
 
-  it("has property defaults", async () =>
+  describe("defaults", () => {
     defaults("calcite-avatar", [
       {
         propertyName: "scale",
         defaultValue: "m"
       }
-    ]));
+    ]);
+  });
 
   it("renders thumbnail when provided", async () => {
     const page = await newE2EPage();

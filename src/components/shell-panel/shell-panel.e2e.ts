@@ -14,7 +14,7 @@ describe("calcite-shell-panel", () => {
     hidden("calcite-shell-panel");
   });
 
-  it("defaults", async () =>
+  describe("defaults", () => {
     defaults("calcite-shell-panel", [
       {
         propertyName: "collapsed",
@@ -32,7 +32,8 @@ describe("calcite-shell-panel", () => {
         propertyName: "displayMode",
         defaultValue: "dock"
       }
-    ]));
+    ]);
+  });
 
   it("has slots", () => slots("calcite-shell-panel", SLOTS));
 

@@ -19,7 +19,7 @@ describe("calcite-text-area", () => {
     renders("calcite-text-area", { display: "inline-block" });
   });
 
-  it("defaults", async () =>
+  describe("defaults", () => {
     defaults("calcite-text-area", [
       {
         propertyName: "wrap",
@@ -29,7 +29,8 @@ describe("calcite-text-area", () => {
         propertyName: "scale",
         defaultValue: "m"
       }
-    ]));
+    ]);
+  });
 
   describe("honors hidden attribute", () => {
     hidden("calcite-text-area");
@@ -39,7 +40,7 @@ describe("calcite-text-area", () => {
 
   it("can be disabled", () => disabled("calcite-text-area"));
 
-  it("reflects", async () =>
+  describe("reflects", () => {
     reflects("calcite-text-area", [
       {
         propertyName: "columns",
@@ -53,7 +54,8 @@ describe("calcite-text-area", () => {
         propertyName: "scale",
         value: "s"
       }
-    ]));
+    ]);
+  });
 
   describe("accessible", () => {
     accessible(html`<calcite-label>

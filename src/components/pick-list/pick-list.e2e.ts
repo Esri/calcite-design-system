@@ -14,13 +14,14 @@ import {
 } from "./shared-list-tests";
 
 describe("calcite-pick-list", () => {
-  it("has property defaults", async () =>
+  describe("defaults", () => {
     defaults("calcite-pick-list", [
       {
         propertyName: "headingLevel",
         defaultValue: undefined
       }
-    ]));
+    ]);
+  });
 
   describe("renders", () => {
     renders("calcite-pick-list", { display: "flex" });

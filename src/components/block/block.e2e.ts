@@ -12,7 +12,7 @@ describe("calcite-block", () => {
     hidden("calcite-block");
   });
 
-  it("has property defaults", async () =>
+  describe("defaults", () => {
     defaults("calcite-block", [
       {
         propertyName: "collapsible",
@@ -26,7 +26,8 @@ describe("calcite-block", () => {
         propertyName: "open",
         defaultValue: false
       }
-    ]));
+    ]);
+  });
 
   it("has slots", () => slots("calcite-block", SLOTS));
 

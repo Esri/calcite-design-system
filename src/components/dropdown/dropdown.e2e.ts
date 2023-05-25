@@ -29,7 +29,7 @@ describe("calcite-dropdown", () => {
     hidden("calcite-dropdown");
   });
 
-  it("defaults", async () =>
+  describe("defaults", () => {
     defaults("calcite-dropdown", [
       {
         propertyName: "overlayPositioning",
@@ -39,7 +39,8 @@ describe("calcite-dropdown", () => {
         propertyName: "flipPlacements",
         defaultValue: undefined
       }
-    ]));
+    ]);
+  });
 
   it("can be disabled", () => disabled(simpleDropdownHTML, { focusTarget: "child" }));
 

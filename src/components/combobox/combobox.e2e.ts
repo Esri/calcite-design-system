@@ -23,7 +23,7 @@ describe("calcite-combobox", () => {
     renders("calcite-combobox", { display: "block" });
   });
 
-  it("defaults", async () =>
+  describe("defaults", () => {
     defaults("calcite-combobox", [
       {
         propertyName: "clearDisabled",
@@ -37,9 +37,10 @@ describe("calcite-combobox", () => {
         propertyName: "flipPlacements",
         defaultValue: undefined
       }
-    ]));
+    ]);
+  });
 
-  it("reflects", async () =>
+  describe("reflects", () => {
     reflects("calcite-combobox", [
       {
         propertyName: "allowCustomValues",
@@ -90,7 +91,8 @@ describe("calcite-combobox", () => {
         propertyName: "selectionMode",
         value: "single"
       }
-    ]));
+    ]);
+  });
 
   describe("honors hidden attribute", () => {
     hidden("calcite-combobox");

@@ -17,7 +17,7 @@ describe("calcite-tree", () => {
     accessible(`<calcite-tree></calcite-tree>`);
   });
 
-  it("has property defaults", async () =>
+  describe("defaults", () => {
     defaults("calcite-tree", [
       {
         propertyName: "lines",
@@ -31,7 +31,8 @@ describe("calcite-tree", () => {
         propertyName: "selectionMode",
         defaultValue: "single"
       }
-    ]));
+    ]);
+  });
 
   describe("it forwards focus", () => {
     it("to first selected item", async () => {

@@ -142,6 +142,7 @@ export class ColorPicker
    * The format of `value`.
    *
    * When `"auto"`, the format will be inferred from `value` when set.
+   *
    * @default "auto"
    */
   @Prop({ reflect: true }) format: Format = "auto";
@@ -154,6 +155,7 @@ export class ColorPicker
 
   /**
    * When `true`, hides the RGB/HSV channel inputs.
+   *
    * @deprecated use `channelsDisabled` instead
    */
   @Prop({ reflect: true }) hideChannels = false;
@@ -163,12 +165,14 @@ export class ColorPicker
 
   /**
    * When `true`, hides the hex input.
+   *
    * @deprecated use `hexDisabled` instead
    */
   @Prop({ reflect: true }) hideHex = false;
 
   /**
    * When `true`, hides the saved colors section.
+   *
    * @deprecated use `savedDisabled` instead
    */
   @Prop({ reflect: true }) hideSaved = false;
@@ -207,6 +211,7 @@ export class ColorPicker
    * The component's value, where the value can be a CSS color string, or a RGB, HSL or HSV object.
    *
    * The type will be preserved as the color is updated.
+   *
    * @default "#007ac2"
    * @see [CSS Color](https://developer.mozilla.org/en-US/docs/Web/CSS/color)
    * @see [ColorValue](https://github.com/Esri/calcite-components/blob/master/src/components/color-picker/interfaces.ts#L10)

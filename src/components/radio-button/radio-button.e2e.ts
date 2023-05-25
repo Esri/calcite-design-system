@@ -26,7 +26,9 @@ describe("calcite-radio-button", () => {
     accessible(`<calcite-radio-button label="label" id="example" name="example" value="one"></calcite-radio-button>`);
   });
 
-  it("has defaults", async () => defaults("calcite-radio-button", [{ propertyName: "scale", defaultValue: "m" }]));
+  describe("defaults", () => {
+    defaults("calcite-radio-button", [{ propertyName: "scale", defaultValue: "m" }]);
+  });
 
   describe("honors hidden attribute", () => {
     hidden("calcite-radio-button");
@@ -64,7 +66,7 @@ describe("calcite-radio-button", () => {
     });
   });
 
-  it("reflects", async () =>
+  describe("reflects", () => {
     reflects("calcite-radio-button", [
       { propertyName: "checked", value: true },
       { propertyName: "disabled", value: true },
@@ -74,7 +76,8 @@ describe("calcite-radio-button", () => {
       { propertyName: "name", value: "reflects-name" },
       { propertyName: "required", value: true },
       { propertyName: "scale", value: "m" }
-    ]));
+    ]);
+  });
 
   it("does not require an item to be checked", async () => {
     const page = await newE2EPage();
