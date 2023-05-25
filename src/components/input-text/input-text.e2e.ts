@@ -40,7 +40,7 @@ describe("calcite-input-text", () => {
       }
     ]));
 
-  it("has defaults", async () =>
+  describe("defaults", () => {
     defaults("calcite-input-text", [
       {
         propertyName: "status",
@@ -58,7 +58,8 @@ describe("calcite-input-text", () => {
         propertyName: "value",
         defaultValue: ""
       }
-    ]));
+    ]);
+  });
 
   it("can be disabled", () => disabled("calcite-input-text"));
 

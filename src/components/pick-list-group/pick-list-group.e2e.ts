@@ -25,13 +25,14 @@ describe("calcite-pick-list-group", () => {
     `);
   });
 
-  it("has property defaults", async () =>
+  describe("defaults", () => {
     defaults("calcite-pick-list-group", [
       {
         propertyName: "headingLevel",
         defaultValue: undefined
       }
-    ]));
+    ]);
+  });
 
   it("has slots", () => slots("calcite-pick-list-group", SLOTS));
 

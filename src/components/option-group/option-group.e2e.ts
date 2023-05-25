@@ -14,13 +14,14 @@ describe("calcite-option-group", () => {
     accessible("calcite-option-group");
   });
 
-  it("has defaults", async () =>
+  describe("defaults", () => {
     defaults("calcite-option-group", [
       {
         propertyName: "disabled",
         defaultValue: false
       }
-    ]));
+    ]);
+  });
 
   it("reflects", async () =>
     reflects("calcite-option-group", [

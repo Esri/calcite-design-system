@@ -26,13 +26,14 @@ describe("calcite-navigation-user", () => {
       }
     ]));
 
-  it("defaults", () =>
+  describe("defaults", () => {
     defaults("calcite-navigation-user", [
       {
         propertyName: "textDisabled",
         defaultValue: false
       }
-    ]));
+    ]);
+  });
 
   describe("is focusable", () => {
     focusable("calcite-navigation-user");
