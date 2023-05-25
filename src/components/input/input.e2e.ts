@@ -21,6 +21,7 @@ describe("calcite-input", () => {
 
   /**
    * This helper wraps number typing to work around test instability
+   *
    * @param page
    * @param numberAsText
    */

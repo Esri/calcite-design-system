@@ -55,6 +55,7 @@ async function simplePageSetup(componentTagOrHTML: TagOrHTML): Promise<E2EPage> 
  * describe("accessible"), () => {
  * accessible(`<calcite-tree></calcite-tree>`);
  * });
+ *
  * @param {ComponentTestSetup} componentTestSetup - A component tag, html, or the tag and e2e page for setting up a test
  */
 export function accessible(componentTestSetup: ComponentTestSetup): void {
@@ -76,6 +77,7 @@ export function accessible(componentTestSetup: ComponentTestSetup): void {
  * describe("renders", () => {
  * renders(`<calcite-tree></calcite-tree>`);
  * });
+ *
  * @param {string} componentTagOrHTML - the component tag or HTML markup to test against
  * @param {object} options - additional options to assert
  * @param {string} employee.visible - is the component visible
@@ -102,6 +104,7 @@ export async function renders(
 
 /**
  * Helper for asserting that a component reflects
+ *
  * @param {string} componentTagOrHTML - the component tag or HTML markup to test against
  * @param {object[]} propsToTest - the properties to test
  * @param {string} propsToTest.propertyName - the property name
@@ -154,18 +157,20 @@ function propToAttr(name: string): string {
  *
  * Note that this helper should be used within a describe block.
  *
+ * @example
  * describe("defaults", () => {
- * defaults("calcite-action", [
- * {
- * propertyName: "active",
- * defaultValue: false
- * },
- * {
- * propertyName: "appearance",
- * defaultValue: "solid"
- * }
- * ])
+ *    defaults("calcite-action", [
+ *      {
+ *        propertyName: "active",
+ *        defaultValue: false
+ *      },
+ *      {
+ *        propertyName: "appearance",
+ *        defaultValue: "solid"
+ *      }
+ *    ])
  * })
+ *
  * @param {string} componentTagOrHTML - the component tag or HTML markup to test against
  * @param {object[]} propsToTest - the properties to test
  * @param {string} propsToTest.propertyName - the property name
@@ -195,9 +200,11 @@ export function defaults(
  *
  * Note that this helper should be used within a describe block.
  *
+ * @example
  * describe("honors hidden attribute", () => {
- * hidden("calcite-accordion")
+ *    hidden("calcite-accordion")
  * });
+ *
  * @param {string} componentTagOrHTML - the component tag or HTML markup to test against
  */
 export async function hidden(componentTagOrHTML: TagOrHTML): Promise<void> {
@@ -215,6 +222,7 @@ export async function hidden(componentTagOrHTML: TagOrHTML): Promise<void> {
 interface FocusableOptions {
   /**
    * use this to pass an ID to setFocus()
+   *
    * @deprecated components should no longer use a focusId parameter for setFocus()
    */
   focusId?: string;
@@ -235,9 +243,11 @@ interface FocusableOptions {
  *
  * Note that this helper should be used within a describe block.
  *
+ * @example
  * describe("is focusable", () => {
- * focusable(`calcite-input-number`, { shadowFocusTargetSelector: "input" })
+ *    focusable(`calcite-input-number`, { shadowFocusTargetSelector: "input" })
  * });
+ *
  * @param {string} componentTagOrHTML - the component tag or HTML markup to test against
  * @param {FocusableOptions} [options] - additional options for asserting focus
  */
@@ -271,6 +281,7 @@ export function focusable(componentTagOrHTML: TagOrHTML, options?: FocusableOpti
 
 /**
  * Helper for asserting slots.
+ *
  * @param {string} componentTagOrHTML - the component tag or HTML markup to test against
  * @param slots - a component's SLOTS resource object or an array of slot names
  * @param includeDefaultSlot - when true, it will run assertions on the default slot
@@ -394,6 +405,7 @@ interface LabelableOptions extends Pick<FocusableOptions, "focusTargetSelector" 
 
 /**
  * Helper for asserting label clicking functionality works.
+ *
  * @param {string} componentTagOrHtml - the component tag or HTML used to test label support
  * @param {LabelableOptions} [options] - labelable options
  */
@@ -543,9 +555,11 @@ interface FormAssociatedOptions {
  *
  * Note that this helper should be used within a describe block.
  *
+ * @example
  * describe("form-associated), () => {
- * formAssociated("calcite-component", { testValue: 1337 });
+ *    formAssociated("calcite-component", { testValue: 1337 });
  * });
+ *
  * @param {string} componentTagOrHtml - the component tag or HTML markup to test against
  * @param {FormAssociatedOptions} options - form associated options
  */
@@ -850,6 +864,7 @@ async function getTagAndPage(componentTestSetup: ComponentTestSetup): Promise<Ta
 
 /**
  * Helper to test the disabled prop disabling user interaction.
+ *
  * @param {ComponentTestSetup} componentTestSetup - A component tag, html, or the tag and e2e page for setting up a test
  * @param {DisabledOptions} [options={ focusTarget: "host" }] - disabled options
  */
@@ -1001,6 +1016,7 @@ export async function disabled(
 /**
  * This helper will test if a floating-ui-owning component has configured the floating-ui correctly.
  * At the moment, this only tests if the scroll event listeners are only active when the floating-ui is displayed.
+ *
  * @param componentTagOrHTML - the component tag or HTML markup to test against
  * @param togglePropName - the component property that toggles the floating-ui
  * @param options - the floating-ui owner test configuration
@@ -1082,6 +1098,7 @@ export async function floatingUIOwner(
 
 /**
  * Helper to test t9n component setup
+ *
  * @param {ComponentTestSetup} componentTestSetup - A component tag, html, or the tag and e2e page for setting up a test
  */
 export async function t9n(componentTestSetup: ComponentTestSetup): Promise<void> {
