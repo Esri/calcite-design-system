@@ -982,11 +982,18 @@ export async function disabled(
   await page.mouse.click(shadowFocusableCenterX, shadowFocusableCenterY);
   await expectToBeFocused("body");
 
-  // this needs to run in the browser context to ensure clicks happen right after re-enabling the component
-  await page.$eval(tag, (component: InteractiveHTMLElement) => {
-    component.disabled = false;
-    component.click();
-  });
+  // this needs to run in the browser context to ensure disabling and events fire immediately after being set
+  await page.$eval(
+    tag,
+    (component: InteractiveHTMLElement, allExpectedEvents: string[]) => {
+      component.disabled = false;
+      allExpectedEvents.forEach((event) => component.dispatchEvent(new MouseEvent(event)));
+
+      component.disabled = true;
+      allExpectedEvents.forEach((event) => component.dispatchEvent(new MouseEvent(event)));
+    },
+    allExpectedEvents
+  );
 
   assertOnMouseAndPointerEvents(eventSpies, (spy) => {
     if (spy.eventName === "click") {
@@ -994,7 +1001,7 @@ export async function disabled(
       // so we check if at least one event is received
       expect(spy.length).toBeGreaterThanOrEqual(3);
     } else {
-      expect(spy).toHaveReceivedEventTimes(eventsExpectedToBubble.includes(spy.eventName) ? 2 : 1);
+      expect(spy).toHaveReceivedEventTimes(eventsExpectedToBubble.includes(spy.eventName) ? 4 : 2);
     }
   });
 }
