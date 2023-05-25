@@ -57,6 +57,7 @@ async function simplePageSetup(componentTagOrHTML: TagOrHTML): Promise<E2EPage> 
  * describe("accessible"), () => {
  *    accessible(`<calcite-tree></calcite-tree>`);
  * });
+ *
  * @param {ComponentTestSetup} componentTestSetup - A component tag, html, or the tag and e2e page for setting up a test
  */
 export function accessible(componentTestSetup: ComponentTestSetup): void {
@@ -79,6 +80,7 @@ export function accessible(componentTestSetup: ComponentTestSetup): void {
  * describe("renders", () => {
  *    renders(`<calcite-tree></calcite-tree>`);
  * });
+ *
  * @param {string} componentTagOrHTML - the component tag or HTML markup to test against
  * @param {object} options - additional options to assert
  * @param {string} employee.visible - is the component visible
@@ -104,21 +106,23 @@ export async function renders(
 }
 
 /**
+ *
  * Helper for asserting that a component reflects
  *
  * Note that this helper should be used within a describe block.
  *
+ * @example
  * describe("reflects", () => {
- * reflects("calcite-action-bar", [
- * {
- * propertyName: "expandDisabled",
- * value: true
- * },
- * {
- * propertyName: "expanded",
- * value: true
- * }
- * ])
+ *    reflects("calcite-action-bar", [
+ *      {
+ *        propertyName: "expandDisabled",
+ *        value: true
+ *      },
+ *      {
+ *        propertyName: "expanded",
+ *        value: true
+ *      }
+ *    ])
  * })
  *
  * @param {string} componentTagOrHTML - the component tag or HTML markup to test against
@@ -222,8 +226,9 @@ export function defaults(
  *
  * @example
  * describe("honors hidden attribute", () => {
- * hidden("calcite-accordion")
+ *    hidden("calcite-accordion")
  * });
+ *
  * @param {string} componentTagOrHTML - the component tag or HTML markup to test against
  */
 export async function hidden(componentTagOrHTML: TagOrHTML): Promise<void> {
@@ -264,8 +269,9 @@ interface FocusableOptions {
  *
  * @example
  * describe("is focusable", () => {
- * focusable(`calcite-input-number`, { shadowFocusTargetSelector: "input" })
+ *    focusable(`calcite-input-number`, { shadowFocusTargetSelector: "input" })
  * });
+ *
  * @param {string} componentTagOrHTML - the component tag or HTML markup to test against
  * @param {FocusableOptions} [options] - additional options for asserting focus
  */
@@ -577,6 +583,7 @@ interface FormAssociatedOptions {
  * describe("form-associated), () => {
  *    formAssociated("calcite-component", { testValue: 1337 });
  * });
+ *
  * @param {string} componentTagOrHtml - the component tag or HTML markup to test against
  * @param {FormAssociatedOptions} options - form associated options
  */
