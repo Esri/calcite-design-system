@@ -39,7 +39,7 @@ describe("calcite-input", () => {
     hidden("calcite-input");
   });
 
-  it("reflects", async () =>
+  describe("reflects", () => {
     reflects("calcite-input", [
       {
         propertyName: "status",
@@ -61,7 +61,8 @@ describe("calcite-input", () => {
         propertyName: "scale",
         value: "s"
       }
-    ]));
+    ]);
+  });
 
   describe("defaults", () => {
     defaults("calcite-input", [

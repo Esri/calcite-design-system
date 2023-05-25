@@ -106,49 +106,70 @@ export async function renders(
 }
 
 /**
+ *
  * Helper for asserting that a component reflects
+ *
+ * Note that this helper should be used within a describe block.
+ *
+ * @example
+ * describe("reflects", () => {
+ *    reflects("calcite-action-bar", [
+ *      {
+ *        propertyName: "expandDisabled",
+ *        value: true
+ *      },
+ *      {
+ *        propertyName: "expanded",
+ *        value: true
+ *      }
+ *    ])
+ * })
  *
  * @param {string} componentTagOrHTML - the component tag or HTML markup to test against
  * @param {object[]} propsToTest - the properties to test
  * @param {string} propsToTest.propertyName - the property name
  * @param {any} propsToTest.value - the property value
  */
-export async function reflects(
+export function reflects(
   componentTagOrHTML: TagOrHTML,
   propsToTest: {
     propertyName: string;
     value: any;
   }[]
-): Promise<void> {
-  const page = await simplePageSetup(componentTagOrHTML);
-  const componentTag = getTag(componentTagOrHTML);
-  const element = await page.find(componentTag);
+): void {
+  it(`reflects`, async () => {
+    const page = await simplePageSetup(componentTagOrHTML);
+    const componentTag = getTag(componentTagOrHTML);
+    const element = await page.find(componentTag);
 
-  for (const propAndValue of propsToTest) {
-    const { propertyName, value } = propAndValue;
-    const attrName = propToAttr(propertyName);
-    const componentAttributeSelector = `${componentTag}[${attrName}]`;
-
-    element.setProperty(propertyName, value);
-    await page.waitForChanges();
-
-    expect(await page.find(componentAttributeSelector)).toBeTruthy();
-
-    if (typeof value === "boolean") {
-      const getExpectedValue = (propValue: boolean): string | null => (propValue ? "" : null);
-      const negated = !value;
-
-      element.setProperty(propertyName, negated);
-      await page.waitForChanges();
-
-      expect(element.getAttribute(attrName)).toBe(getExpectedValue(negated));
+    for (const propAndValue of propsToTest) {
+      const { propertyName, value } = propAndValue;
+      const attrName = propToAttr(propertyName);
+      const componentAttributeSelector = `${componentTag}[${attrName}]`;
 
       element.setProperty(propertyName, value);
       await page.waitForChanges();
 
-      expect(element.getAttribute(attrName)).toBe(getExpectedValue(value));
+      expect(await page.find(componentAttributeSelector)).toBeTruthy();
+
+      if (typeof value === "boolean") {
+        const getExpectedValue = (propValue: boolean): string | null => (propValue ? "" : null);
+        const negated = !value;
+
+        element.setProperty(propertyName, negated);
+        await page.waitForChanges();
+
+        // eslint-disable-next-line jest/no-conditional-expect
+        expect(element.getAttribute(attrName)).toBe(getExpectedValue(negated));
+
+        element.setProperty(propertyName, value);
+        await page.waitForChanges();
+
+        // eslint-disable-next-line jest/no-conditional-expect
+        expect(element.getAttribute(attrName)).toBe(getExpectedValue(value));
+      }
     }
-  }
+  });
 }
 
 function propToAttr(name: string): string {

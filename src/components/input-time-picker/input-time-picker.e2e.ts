@@ -52,12 +52,13 @@ describe("calcite-input-time-picker", () => {
     ]);
   });
 
-  it("reflects", async () =>
+  describe("reflects", () => {
     reflects(`calcite-input-time-picker`, [
       { propertyName: "open", value: true },
       { propertyName: "disabled", value: true },
       { propertyName: "scale", value: "m" }
-    ]));
+    ]);
+  });
 
   it("is labelable", async () => labelable("calcite-input-time-picker"));
 

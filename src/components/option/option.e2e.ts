@@ -23,7 +23,7 @@ describe("calcite-option", () => {
     ]);
   });
 
-  it("reflects", async () =>
+  describe("reflects", () => {
     reflects("calcite-option", [
       {
         propertyName: "disabled",
@@ -33,7 +33,8 @@ describe("calcite-option", () => {
         propertyName: "selected",
         value: true
       }
-    ]));
+    ]);
+  });
 
   it("falls back to the text content when value/label is not specified", async () => {
     const optionText = "one";

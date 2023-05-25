@@ -46,13 +46,14 @@ describe("calcite-color-picker", () => {
     hidden("calcite-color-picker");
   });
 
-  it("reflects", async () =>
+  describe("reflects", () => {
     reflects("calcite-color-picker", [
       {
         propertyName: "scale",
         value: "m"
       }
-    ]));
+    ]);
+  });
 
   describe("renders", () => {
     renders("calcite-color-picker", { display: "inline-block" });
