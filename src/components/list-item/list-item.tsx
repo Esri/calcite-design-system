@@ -37,7 +37,6 @@ import {
   setComponentLoaded,
   setUpLoadableComponent
 } from "../../utils/loadable";
-import { isActivationKey } from "../../utils/key";
 
 /**
  * @slot - A slot for adding `calcite-list-item` and `calcite-list-item-group` elements.
@@ -641,7 +640,7 @@ export class ListItem
     const cells = [actionsStartEl, contentEl, actionsEndEl].filter(Boolean);
     const currentIndex = cells.findIndex((cell) => composedPath.includes(cell));
 
-    if (isActivationKey(key) && selectionMode && selectionMode !== "none") {
+    if (key === "Enter" && selectionMode && selectionMode !== "none") {
       event.preventDefault();
       this.toggleSelected();
     } else if (key === "ArrowRight") {
