@@ -187,39 +187,47 @@ export const disabledTabsAndMediumIconsForLargeTabsTitle_TestOnly = (): string =
 export const centered_TestOnly = (): string => html`
   <calcite-tabs layout="center">
     <calcite-tab-nav slot="title-group">
-      <calcite-tab-title icon-start="arrow-left">Tab 1 Title</calcite-tab-title>
+      <calcite-tab-title>Tab 1 Title</calcite-tab-title>
       <calcite-tab-title icon-start="arrow-left">Tab 2 Title</calcite-tab-title>
-      <calcite-tab-title icon-start="arrow-left" selected>Tab 3 Title</calcite-tab-title>
+      <calcite-tab-title icon-end="arrow-right">Tab 3 Title</calcite-tab-title>
+      <calcite-tab-title icon-start="arrow-left" icon-end="arrow-right" selected>Tab 4 Title</calcite-tab-title>
     </calcite-tab-nav>
     <calcite-tab><p>Tab 1 Content</p></calcite-tab>
     <calcite-tab><p>Tab 2 Content</p></calcite-tab>
     <calcite-tab><p>Tab 3 Content</p></calcite-tab>
+    <calcite-tab><p>Tab 4 Content</p></calcite-tab>
   </calcite-tabs>
 `;
 
 export const centeredClosable_TestOnly = (): string => html`
   <calcite-tabs layout="center">
     <calcite-tab-nav slot="title-group">
-      <calcite-tab-title icon-start="arrow-left" closable>Tab 1 Title</calcite-tab-title>
+      <calcite-tab-title closable>Tab 1 Title</calcite-tab-title>
       <calcite-tab-title icon-start="arrow-left" closable>Tab 2 Title</calcite-tab-title>
-      <calcite-tab-title icon-start="arrow-left" closable selected>Tab 3 Title</calcite-tab-title>
+      <calcite-tab-title icon-end="arrow-right" closable>Tab 3 Title</calcite-tab-title>
+      <calcite-tab-title icon-start="arrow-left" icon-end="arrow-right" selected>Tab 4 Title</calcite-tab-title>
     </calcite-tab-nav>
     <calcite-tab><p>Tab 1 Content</p></calcite-tab>
     <calcite-tab><p>Tab 2 Content</p></calcite-tab>
     <calcite-tab><p>Tab 3 Content</p></calcite-tab>
+    <calcite-tab><p>Tab 4 Content</p></calcite-tab>
   </calcite-tabs>
 `;
 
 export const centeredBorderedClosable_TestOnly = (): string => html`
   <calcite-tabs layout="center" bordered>
     <calcite-tab-nav slot="title-group">
-      <calcite-tab-title icon-start="arrow-left" closable>Tab 1 Title</calcite-tab-title>
+      <calcite-tab-title closable>Tab 1 Title</calcite-tab-title>
       <calcite-tab-title icon-start="arrow-left" closable>Tab 2 Title</calcite-tab-title>
-      <calcite-tab-title icon-start="arrow-left" closable selected>Tab 3 Title</calcite-tab-title>
+      <calcite-tab-title icon-end="arrow-right" closable>Tab 3 Title</calcite-tab-title>
+      <calcite-tab-title icon-start="arrow-left" icon-end="arrow-right" closable selected
+        >Tab 4 Title</calcite-tab-title
+      >
     </calcite-tab-nav>
     <calcite-tab><p>Tab 1 Content</p></calcite-tab>
     <calcite-tab><p>Tab 2 Content</p></calcite-tab>
     <calcite-tab><p>Tab 3 Content</p></calcite-tab>
+    <calcite-tab><p>Tab 4 Content</p></calcite-tab>
   </calcite-tabs>
 `;
 
