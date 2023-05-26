@@ -2,6 +2,7 @@ import { Component, Element, h, Listen, Method, State, VNode } from "@stencil/co
 import { createObserver } from "../../utils/observers";
 import { FlowDirection } from "./interfaces";
 import { CSS } from "./resources";
+import { autoResolvingFunction } from "../../utils/promise";
 
 /**
  * @slot - A slot for adding `calcite-flow-item` elements to the component.
@@ -31,11 +32,7 @@ export class Flow {
       return;
     }
 
-    const beforeBack = lastItem.beforeBack
-      ? lastItem.beforeBack
-      : (): Promise<void> => Promise.resolve();
-
-    return beforeBack.call(lastItem).then(() => {
+    return (lastItem.beforeBack ?? autoResolvingFunction).call(lastItem).then(() => {
       lastItem.remove();
 
       return lastItem;

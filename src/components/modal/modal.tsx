@@ -51,6 +51,7 @@ import {
   updateMessages
 } from "../../utils/t9n";
 import { ModalMessages } from "./assets/modal/t9n";
+import { autoResolvingFunction } from "../../utils/promise";
 
 /**
  * @slot header - A slot for adding header text.
@@ -94,8 +95,7 @@ export class Modal
   @Prop({ mutable: true, reflect: true }) open = false;
 
   /** Passes a function to run before the component closes. */
-  @Prop()
-  beforeClose: (el: HTMLElement) => Promise<void> = () => Promise.resolve();
+  @Prop() beforeClose: (el: HTMLCalciteModalElement) => Promise<void>;
 
   /** When `true`, disables the component's close button. */
   @Prop({ reflect: true }) closeButtonDisabled = false;
@@ -436,6 +436,16 @@ export class Modal
   //--------------------------------------------------------------------------
 
   /**
+   * Closes the modal, first running the `beforeClose` method.
+   *
+   * @returns {Promise<void>}
+   */
+  @Method()
+  async close(): Promise<void> {
+    return (this.beforeClose ?? autoResolvingFunction)(this.el).then(this.closeHandler);
+  }
+
+  /**
    * Sets focus on the component's "close" button (the first focusable item).
    *
    */
@@ -511,7 +521,7 @@ export class Modal
       this.openModal();
     } else {
       this.transitionEl?.classList.add(CSS.closingIdle);
-      this.close();
+      this.closeHandler();
     }
   }
 
@@ -544,13 +554,10 @@ export class Modal
     this.close();
   };
 
-  /** Close the modal, first running the `beforeClose` method */
-  close = (): Promise<void> => {
-    return this.beforeClose(this.el).then(() => {
-      this.open = false;
-      this.isOpen = false;
-      this.removeOverflowHiddenClass();
-    });
+  closeHandler = (): void => {
+    this.open = false;
+    this.isOpen = false;
+    this.removeOverflowHiddenClass();
   };
 
   private removeOverflowHiddenClass(): void {
