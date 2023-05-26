@@ -4,8 +4,11 @@
   margin-inline-end: theme("margin.5");
 }
 
-:host([layout="center"]) {
+:host([layout="center"][scale="s"]),
+:host([layout="center"][scale="m"]),
+:host([layout="center"][scale="l"]) {
   @apply my-0 text-center;
+  margin-inline-end: theme("margin.0");
   flex-basis: theme("spacing.48");
   .content {
     @apply m-auto;
