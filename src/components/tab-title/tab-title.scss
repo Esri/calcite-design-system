@@ -5,7 +5,7 @@
 }
 
 :host([layout="center"]) {
-  @apply my-0 mx-5 text-center;
+  @apply my-0 text-center;
   flex-basis: theme("spacing.48");
   .content {
     @apply m-auto;
