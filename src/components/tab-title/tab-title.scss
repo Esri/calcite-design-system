@@ -19,6 +19,12 @@
   }
 }
 
+:host([layout="center"][bordered][closable][scale="s"]) {
+  .content {
+    padding-inline-start: 36px; //28px button width + 0.5rem padding
+  }
+}
+
 :host([layout="center"][bordered][closable][scale="m"]) {
   .content {
     padding-inline-start: 40px; //28px button width + 0.75rem padding
