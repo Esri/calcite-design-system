@@ -17,7 +17,7 @@
 .tab-nav {
   @apply flex
     w-full
-    justify-evenly
+    justify-start
     overflow-auto;
 }
 
@@ -39,6 +39,10 @@
     h-0.5
     transition-all
     ease-out;
+}
+
+:host([layout="center"]) {
+  @apply justify-evenly;
 }
 
 :host([position="bottom"]) .tab-nav-active-indicator {
