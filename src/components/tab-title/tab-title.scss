@@ -192,10 +192,19 @@
   }
 }
 
-:host([closable]) {
+:host([closable]),
+:host([bordered][closable]) {
   .content {
-    padding-inline-start: 1.5rem;
-    padding-inline-end: 1.25rem;
+    padding-inline-start: 24px;
+    padding-inline-end: 0px;
+  }
+}
+
+:host([closable][scale="l"]),
+:host([closable][bordered][scale="l"]) {
+  .content {
+    padding-inline-start: 32px;
+    padding-inline-end: 0px;
   }
 }
 
