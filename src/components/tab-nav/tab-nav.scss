@@ -41,7 +41,7 @@
     ease-out;
 }
 
-:host([layout="center"]) {
+:host([layout="center"]) .tab-nav {
   @apply justify-evenly;
 }
 
