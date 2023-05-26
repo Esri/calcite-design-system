@@ -11,6 +11,21 @@
     @apply m-auto;
   }
 }
+:host([layout="center"][closable]),
+:host([layout="center"][bordered][closable]) {
+  .content {
+    padding-inline-start: 24px;
+    padding-inline-end: 0px;
+  }
+}
+
+:host([layout="center"][closable][scale="l"]),
+:host([layout="center"][closable][bordered][scale="l"]) {
+  .content {
+    padding-inline-start: 32px;
+    padding-inline-end: 0px;
+  }
+}
 
 :host([position="bottom"]) .container {
   @apply border-t-color-transparent
@@ -189,22 +204,6 @@
 :host([bordered]:hover) {
   .container {
     background-color: var(--calcite-button-transparent-hover);
-  }
-}
-
-:host([closable]),
-:host([bordered][closable]) {
-  .content {
-    padding-inline-start: 24px;
-    padding-inline-end: 0px;
-  }
-}
-
-:host([closable][scale="l"]),
-:host([closable][bordered][scale="l"]) {
-  .content {
-    padding-inline-start: 32px;
-    padding-inline-end: 0px;
   }
 }
 
