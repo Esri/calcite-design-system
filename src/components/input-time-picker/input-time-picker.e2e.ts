@@ -33,6 +33,10 @@ describe("calcite-input-time-picker", () => {
     renders(`<calcite-input-time-picker lang="en-us"></calcite-input-time-picker>`, { display: "inline-block" });
   });
 
+  describe("renders with base lang when region code is unsupported", () => {
+    renders(`<calcite-input-time-picker lang="nl-nl"></calcite-input-time-picker>`, { display: "inline-block" });
+  });
+
   describe("honors hidden attribute", () => {
     hidden("calcite-input-time-picker");
   });
@@ -643,7 +647,7 @@ describe("calcite-input-time-picker", () => {
     it("localizes initial display value in arab numbering system", async () => {
       const page = await newE2EPage();
       await page.setContent(
-        `<calcite-input-time-picker step="1" lang="ar" numbering-system="arab" value="14:02:30"></calcite-input-time-picker>`
+        `<calcite-input-time-picker step="1" lang="ar" numbering-system  ="arab" value="14:02:30"></calcite-input-time-picker>`
       );
 
       const inputTimePicker = await page.find("calcite-input-time-picker");

@@ -62,6 +62,7 @@ import localeData from "dayjs/esm/plugin/localeData";
 import localizedFormat from "dayjs/esm/plugin/localizedFormat";
 import preParsePostFormat from "dayjs/esm/plugin/preParsePostFormat";
 import updateLocale from "dayjs/esm/plugin/updateLocale";
+import { getSupportedLocale } from "../../utils/locale";
 
 // some bundlers (e.g., Webpack) need dynamic import paths to be static
 const supportedDayJsLocaleToLocaleConfigImport = new Map([
@@ -555,18 +556,16 @@ export class InputTimePicker
   };
 
   private async loadDateTimeLocaleData(): Promise<void> {
-    const normalizedLocale = this.getNormalizedLocale();
+    const supportedLocale = getSupportedLocale(this.effectiveLocale).toLowerCase();
 
-    if (normalizedLocale === "en" || normalizedLocale === "en-us") {
-      return;
+    if (supportedDayJsLocaleToLocaleConfigImport.has(supportedLocale)) {
+      const { default: localeConfig } = await supportedDayJsLocaleToLocaleConfigImport.get(
+        supportedLocale
+      )();
+
+      dayjs.locale(localeConfig, null, true);
+      dayjs.updateLocale(supportedLocale, this.getExtendedLocaleConfig(supportedLocale));
     }
-
-    const { default: localeConfig } = await supportedDayJsLocaleToLocaleConfigImport.get(
-      normalizedLocale
-    )();
-
-    dayjs.locale(localeConfig, null, true);
-    dayjs.updateLocale(normalizedLocale, this.getExtendedLocaleConfig(normalizedLocale));
   }
 
   private getExtendedLocaleConfig(
@@ -642,22 +641,6 @@ export class InputTimePicker
         meridiem: (hour) => (hour > 12 ? "下午" : "上午")
       };
     }
-  }
-
-  private getNormalizedLocale(): string {
-    const { effectiveLocale } = this;
-    let normalizedLocale = effectiveLocale ? effectiveLocale.toLowerCase() : "en";
-
-    if (normalizedLocale === "en-us") {
-      normalizedLocale = "en";
-    }
-    if (normalizedLocale === "pt-pt") {
-      normalizedLocale = "pt";
-    }
-    if (normalizedLocale === "no") {
-      normalizedLocale = "nb";
-    }
-    return normalizedLocale;
   }
 
   onLabelClick(): void {
@@ -764,8 +747,6 @@ export class InputTimePicker
 
   connectedCallback() {
     connectLocalized(this);
-
-    this.effectiveLocale = this.getNormalizedLocale();
 
     if (isValidTime(this.value)) {
       this.setValueDirectly(this.value);
