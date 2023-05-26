@@ -556,7 +556,15 @@ export class InputTimePicker
   };
 
   private async loadDateTimeLocaleData(): Promise<void> {
-    const supportedLocale = getSupportedLocale(this.effectiveLocale).toLowerCase();
+    let supportedLocale = getSupportedLocale(this.effectiveLocale).toLowerCase();
+
+    if (supportedLocale === "no") {
+      supportedLocale = "nb";
+    }
+
+    if (supportedLocale === "pt-pt") {
+      supportedLocale = "pt";
+    }
 
     if (supportedDayJsLocaleToLocaleConfigImport.has(supportedLocale)) {
       const { default: localeConfig } = await supportedDayJsLocaleToLocaleConfigImport.get(
