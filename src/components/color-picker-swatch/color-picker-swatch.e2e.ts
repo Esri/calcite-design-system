@@ -27,13 +27,14 @@ describe("calcite-color-picker-swatch", () => {
     ]);
   });
 
-  it("reflects", () =>
+  describe("reflects", () => {
     reflects("calcite-color-picker-swatch", [
       {
         propertyName: "active",
         value: true
       }
-    ]));
+    ]);
+  });
 
   describe("accepts CSS color strings", () => {
     let page: E2EPage;

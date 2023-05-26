@@ -23,13 +23,14 @@ describe("calcite-option-group", () => {
     ]);
   });
 
-  it("reflects", async () =>
+  describe("reflects", () => {
     reflects("calcite-option-group", [
       {
         propertyName: "disabled",
         value: true
       }
-    ]));
+    ]);
+  });
 
   it("has a label", async () => {
     const page = await newE2EPage({

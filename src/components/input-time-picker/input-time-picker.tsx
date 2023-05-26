@@ -54,7 +54,7 @@ import { Scale } from "../interfaces";
 import { TimePickerMessages } from "../time-picker/assets/time-picker/t9n";
 import { connectMessages, disconnectMessages, setUpMessages, T9nComponent } from "../../utils/t9n";
 import { InputTimePickerMessages } from "./assets/input-time-picker/t9n";
-import { CSS, supportedDayJsLocaleToLocaleConfigImport } from "./resources";
+import { CSS } from "./resources";
 
 import dayjs from "dayjs/esm";
 import customParseFormat from "dayjs/esm/plugin/customParseFormat";
@@ -62,6 +62,60 @@ import localeData from "dayjs/esm/plugin/localeData";
 import localizedFormat from "dayjs/esm/plugin/localizedFormat";
 import preParsePostFormat from "dayjs/esm/plugin/preParsePostFormat";
 import updateLocale from "dayjs/esm/plugin/updateLocale";
+
+// some bundlers (e.g., Webpack) need dynamic import paths to be static
+const supportedDayJsLocaleToLocaleConfigImport = new Map([
+  ["ar", () => import("dayjs/esm/locale/ar.js")],
+  ["bg", () => import("dayjs/esm/locale/bg.js")],
+  ["bs", () => import("dayjs/esm/locale/bs.js")],
+  ["ca", () => import("dayjs/esm/locale/ca.js")],
+  ["cs", () => import("dayjs/esm/locale/cs.js")],
+  ["da", () => import("dayjs/esm/locale/da.js")],
+  ["de", () => import("dayjs/esm/locale/de.js")],
+  ["de-at", () => import("dayjs/esm/locale/de-at.js")],
+  ["de-ch", () => import("dayjs/esm/locale/de-ch.js")],
+  ["el", () => import("dayjs/esm/locale/el.js")],
+  ["en", () => import("dayjs/esm/locale/en.js")],
+  ["en-au", () => import("dayjs/esm/locale/en-au.js")],
+  ["en-ca", () => import("dayjs/esm/locale/en-ca.js")],
+  ["en-gb", () => import("dayjs/esm/locale/en-gb.js")],
+  ["es", () => import("dayjs/esm/locale/es.js")],
+  ["es-mx", () => import("dayjs/esm/locale/es-mx.js")],
+  ["et", () => import("dayjs/esm/locale/et.js")],
+  ["fi", () => import("dayjs/esm/locale/fi.js")],
+  ["fr", () => import("dayjs/esm/locale/fr.js")],
+  ["fr-ch", () => import("dayjs/esm/locale/fr-ch.js")],
+  ["he", () => import("dayjs/esm/locale/he.js")],
+  ["hi", () => import("dayjs/esm/locale/hi.js")],
+  ["hr", () => import("dayjs/esm/locale/hr.js")],
+  ["hu", () => import("dayjs/esm/locale/hu.js")],
+  ["id", () => import("dayjs/esm/locale/id.js")],
+  ["it", () => import("dayjs/esm/locale/it.js")],
+  ["it-ch", () => import("dayjs/esm/locale/it-ch.js")],
+  ["ja", () => import("dayjs/esm/locale/ja.js")],
+  ["ko", () => import("dayjs/esm/locale/ko.js")],
+  ["lt", () => import("dayjs/esm/locale/lt.js")],
+  ["lv", () => import("dayjs/esm/locale/lv.js")],
+  ["mk", () => import("dayjs/esm/locale/mk.js")],
+  ["nl", () => import("dayjs/esm/locale/nl.js")],
+  ["nb", () => import("dayjs/esm/locale/nb.js")],
+  ["pl", () => import("dayjs/esm/locale/pl.js")],
+  ["pt", () => import("dayjs/esm/locale/pt.js")],
+  ["pt-br", () => import("dayjs/esm/locale/pt-br.js")],
+  ["ro", () => import("dayjs/esm/locale/ro.js")],
+  ["ru", () => import("dayjs/esm/locale/ru.js")],
+  ["sk", () => import("dayjs/esm/locale/sk.js")],
+  ["sl", () => import("dayjs/esm/locale/sl.js")],
+  ["sr", () => import("dayjs/esm/locale/sr.js")],
+  ["sv", () => import("dayjs/esm/locale/sv.js")],
+  ["th", () => import("dayjs/esm/locale/th.js")],
+  ["tr", () => import("dayjs/esm/locale/tr.js")],
+  ["uk", () => import("dayjs/esm/locale/uk.js")],
+  ["vi", () => import("dayjs/esm/locale/vi.js")],
+  ["zh-cn", () => import("dayjs/esm/locale/zh-cn.js")],
+  ["zh-hk", () => import("dayjs/esm/locale/zh-hk.js")],
+  ["zh-tw", () => import("dayjs/esm/locale/zh-tw.js")]
+]);
 
 dayjs.extend(customParseFormat);
 dayjs.extend(localeData);
@@ -501,28 +555,18 @@ export class InputTimePicker
   };
 
   private async loadDateTimeLocaleData(): Promise<void> {
-    const { effectiveLocale } = this;
+    const normalizedLocale = this.getNormalizedLocale();
 
-    if (effectiveLocale === "en" || effectiveLocale === "en-US") {
+    if (normalizedLocale === "en" || normalizedLocale === "en-us") {
       return;
     }
 
-    let dayjsLocale = effectiveLocale.toLowerCase();
-
-    if (effectiveLocale === "pt-PT") {
-      dayjsLocale = "pt";
-    }
-
-    if (effectiveLocale === "no") {
-      dayjsLocale = "nb";
-    }
-
     const { default: localeConfig } = await supportedDayJsLocaleToLocaleConfigImport.get(
-      dayjsLocale
+      normalizedLocale
     )();
 
     dayjs.locale(localeConfig, null, true);
-    dayjs.updateLocale(dayjsLocale, this.getExtendedLocaleConfig(dayjsLocale));
+    dayjs.updateLocale(normalizedLocale, this.getExtendedLocaleConfig(normalizedLocale));
   }
 
   private getExtendedLocaleConfig(
@@ -598,6 +642,22 @@ export class InputTimePicker
         meridiem: (hour) => (hour > 12 ? "下午" : "上午")
       };
     }
+  }
+
+  private getNormalizedLocale(): string {
+    const { effectiveLocale } = this;
+    let normalizedLocale = effectiveLocale ? effectiveLocale.toLowerCase() : "en";
+
+    if (normalizedLocale === "en-us") {
+      normalizedLocale = "en";
+    }
+    if (normalizedLocale === "pt-pt") {
+      normalizedLocale = "pt";
+    }
+    if (normalizedLocale === "no") {
+      normalizedLocale = "nb";
+    }
+    return normalizedLocale;
   }
 
   onLabelClick(): void {
@@ -705,17 +765,7 @@ export class InputTimePicker
   connectedCallback() {
     connectLocalized(this);
 
-    let { effectiveLocale } = this;
-    if (effectiveLocale === "en-US") {
-      effectiveLocale = "en";
-    }
-    if (effectiveLocale === "pt-PT") {
-      effectiveLocale = "pt";
-    }
-    if (effectiveLocale === "no") {
-      effectiveLocale = "nb";
-    }
-    this.effectiveLocale = effectiveLocale;
+    this.effectiveLocale = this.getNormalizedLocale();
 
     if (isValidTime(this.value)) {
       this.setValueDirectly(this.value);

@@ -40,7 +40,7 @@ describe("calcite-combobox", () => {
     ]);
   });
 
-  it("reflects", async () =>
+  describe("reflects", () => {
     reflects("calcite-combobox", [
       {
         propertyName: "allowCustomValues",
@@ -91,7 +91,8 @@ describe("calcite-combobox", () => {
         propertyName: "selectionMode",
         value: "single"
       }
-    ]));
+    ]);
+  });
 
   describe("honors hidden attribute", () => {
     hidden("calcite-combobox");
@@ -365,28 +366,32 @@ describe("calcite-combobox", () => {
 
   describe("item selection", () => {
     describe("toggling items", () => {
-      it("single-selection mode does not allow toggling selection once the selected item is clicked", async () => {
+      it("single-selection mode allows toggling selection once the selected item is clicked", async () => {
         const page = await newE2EPage();
         await page.setContent(
           html`
-            <calcite-combobox>
+            <calcite-combobox selection-mode="single">
               <calcite-combobox-item value="one" text-label="one"></calcite-combobox-item>
               <calcite-combobox-item value="two" text-label="two"></calcite-combobox-item>
             </calcite-combobox>
           `
         );
-        const cbox = await page.find("calcite-combobox");
-        const openEvent = page.waitForEvent("calciteComboboxOpen");
-        await cbox.click();
-        await openEvent;
+        const combobox = await page.find("calcite-combobox");
+        const firstOpenEvent = page.waitForEvent("calciteComboboxOpen");
+        await combobox.click();
+        await firstOpenEvent;
 
-        const item1 = await cbox.find("calcite-combobox-item[value=one]");
-
-        await item1.click();
-        expect(await page.find("calcite-combobox >>> calcite-chip")).toBeDefined();
+        const item1 = await combobox.find("calcite-combobox-item[value=one]");
 
         await item1.click();
-        expect(await page.find("calcite-combobox >>> calcite-chip")).toBeDefined();
+        expect(await combobox.getProperty("value")).toBe("one");
+
+        const secondOpenEvent = page.waitForEvent("calciteComboboxOpen");
+        await combobox.click();
+        await secondOpenEvent;
+
+        await item1.click();
+        expect(await combobox.getProperty("value")).toBe("");
       });
 
       it("multiple-selection mode allows toggling selection once the selected item is clicked", async () => {

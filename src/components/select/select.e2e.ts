@@ -37,7 +37,7 @@ describe("calcite-select", () => {
     focusable(simpleTestMarkup);
   });
 
-  it("reflects", async () =>
+  describe("reflects", () => {
     reflects(simpleTestMarkup, [
       {
         propertyName: "disabled",
@@ -47,7 +47,8 @@ describe("calcite-select", () => {
         propertyName: "scale",
         value: "m"
       }
-    ]));
+    ]);
+  });
 
   async function assertSelectedOption(page: E2EPage, selectedOption: E2EElement): Promise<void> {
     const selectedOptionValue = await page.$eval(

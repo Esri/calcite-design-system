@@ -83,7 +83,7 @@ describe("calcite-radio-button-group", () => {
     });
   });
 
-  it("reflects", async () =>
+  describe("reflects", () => {
     reflects("calcite-radio-button-group", [
       { propertyName: "disabled", value: true },
       { propertyName: "hidden", value: true },
@@ -91,7 +91,8 @@ describe("calcite-radio-button-group", () => {
       { propertyName: "name", value: "reflects-name" },
       { propertyName: "required", value: true },
       { propertyName: "scale", value: "m" }
-    ]));
+    ]);
+  });
 
   it("has a radio input for form compatibility", async () => {
     const page = await newE2EPage();

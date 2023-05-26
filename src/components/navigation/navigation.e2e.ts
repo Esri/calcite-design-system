@@ -11,13 +11,14 @@ describe("calcite-navigation", () => {
     hidden("calcite-navigation");
   });
 
-  it("reflects", () =>
+  describe("reflects", () => {
     reflects("calcite-navigation", [
       {
         propertyName: "navigationAction",
         value: ""
       }
-    ]));
+    ]);
+  });
 
   describe("defaults", () => {
     defaults("calcite-navigation", [

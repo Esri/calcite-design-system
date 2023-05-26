@@ -29,6 +29,10 @@ describe("calcite-input-time-picker", () => {
     renders("calcite-input-time-picker", { display: "inline-block" });
   });
 
+  describe("renders with en-us lowercase locale code", () => {
+    renders(`<calcite-input-time-picker lang="en-us"></calcite-input-time-picker>`, { display: "inline-block" });
+  });
+
   describe("honors hidden attribute", () => {
     hidden("calcite-input-time-picker");
   });
@@ -52,12 +56,13 @@ describe("calcite-input-time-picker", () => {
     ]);
   });
 
-  it("reflects", async () =>
+  describe("reflects", () => {
     reflects(`calcite-input-time-picker`, [
       { propertyName: "open", value: true },
       { propertyName: "disabled", value: true },
       { propertyName: "scale", value: "m" }
-    ]));
+    ]);
+  });
 
   it("is labelable", async () => labelable("calcite-input-time-picker"));
 

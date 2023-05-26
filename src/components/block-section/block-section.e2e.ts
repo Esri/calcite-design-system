@@ -12,13 +12,14 @@ describe("calcite-block-section", () => {
     hidden("calcite-block-section");
   });
 
-  it("reflects properties", async () =>
+  describe("reflects", () => {
     reflects("calcite-block-section", [
       {
         propertyName: "open",
         value: true
       }
-    ]));
+    ]);
+  });
 
   describe("defaults", () => {
     defaults("calcite-block-section", [
