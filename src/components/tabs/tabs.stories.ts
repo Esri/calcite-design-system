@@ -220,7 +220,6 @@ export const centeredBorderedClosable_TestOnly = (): string => html`
   <calcite-tabs layout="center" bordered>
     <calcite-tab-nav slot="title-group">
       <calcite-tab-title closable>Tab 1 Title</calcite-tab-title>
-      <calcite-tab-title icon-start="arrow-left" closable>Tab 2 Title</calcite-tab-title>
       <calcite-tab-title icon-end="arrow-right" closable>Tab 3 Title</calcite-tab-title>
       <calcite-tab-title icon-start="arrow-left" icon-end="arrow-right" closable selected
         >Tab 4 Title</calcite-tab-title
@@ -230,6 +229,21 @@ export const centeredBorderedClosable_TestOnly = (): string => html`
     <calcite-tab><p>Tab 2 Content</p></calcite-tab>
     <calcite-tab><p>Tab 3 Content</p></calcite-tab>
     <calcite-tab><p>Tab 4 Content</p></calcite-tab>
+  </calcite-tabs>
+`;
+
+export const centeredTabsAreEvenlyJustifiedAcrossNavWidth_TestOnly = (): string => html`
+  <calcite-tabs layout="center">
+    <calcite-tab-nav slot="title-group">
+      <calcite-tab-title closable>Tab 1 Title</calcite-tab-title>
+      <calcite-tab-title icon-end="arrow-right" closable>Tab 2 Title</calcite-tab-title>
+      <calcite-tab-title icon-start="arrow-left" icon-end="arrow-right" closable selected
+        >Tab 3 Title</calcite-tab-title
+      >
+    </calcite-tab-nav>
+    <calcite-tab><p>Tab 1 Content</p></calcite-tab>
+    <calcite-tab><p>Tab 2 Content</p></calcite-tab>
+    <calcite-tab><p>Tab 3 Content</p></calcite-tab>
   </calcite-tabs>
 `;
 
