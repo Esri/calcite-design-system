@@ -555,28 +555,18 @@ export class InputTimePicker
   };
 
   private async loadDateTimeLocaleData(): Promise<void> {
-    const { effectiveLocale } = this;
+    const normalizedLocale = this.getNormalizedLocale();
 
-    if (effectiveLocale === "en" || effectiveLocale === "en-US") {
+    if (normalizedLocale === "en" || normalizedLocale === "en-us") {
       return;
     }
 
-    let dayjsLocale = effectiveLocale.toLowerCase();
-
-    if (effectiveLocale === "pt-PT") {
-      dayjsLocale = "pt";
-    }
-
-    if (effectiveLocale === "no") {
-      dayjsLocale = "nb";
-    }
-
     const { default: localeConfig } = await supportedDayJsLocaleToLocaleConfigImport.get(
-      dayjsLocale
+      normalizedLocale
     )();
 
     dayjs.locale(localeConfig, null, true);
-    dayjs.updateLocale(dayjsLocale, this.getExtendedLocaleConfig(dayjsLocale));
+    dayjs.updateLocale(normalizedLocale, this.getExtendedLocaleConfig(normalizedLocale));
   }
 
   private getExtendedLocaleConfig(
@@ -652,6 +642,22 @@ export class InputTimePicker
         meridiem: (hour) => (hour > 12 ? "下午" : "上午")
       };
     }
+  }
+
+  private getNormalizedLocale(): string {
+    const { effectiveLocale } = this;
+    let normalizedLocale = effectiveLocale ? effectiveLocale.toLowerCase() : "en";
+
+    if (normalizedLocale === "en-us") {
+      normalizedLocale = "en";
+    }
+    if (normalizedLocale === "pt-pt") {
+      normalizedLocale = "pt";
+    }
+    if (normalizedLocale === "no") {
+      normalizedLocale = "nb";
+    }
+    return normalizedLocale;
   }
 
   onLabelClick(): void {
@@ -759,17 +765,7 @@ export class InputTimePicker
   connectedCallback() {
     connectLocalized(this);
 
-    let { effectiveLocale } = this;
-    if (effectiveLocale === "en-US") {
-      effectiveLocale = "en";
-    }
-    if (effectiveLocale === "pt-PT") {
-      effectiveLocale = "pt";
-    }
-    if (effectiveLocale === "no") {
-      effectiveLocale = "nb";
-    }
-    this.effectiveLocale = effectiveLocale;
+    this.effectiveLocale = this.getNormalizedLocale();
 
     if (isValidTime(this.value)) {
       this.setValueDirectly(this.value);

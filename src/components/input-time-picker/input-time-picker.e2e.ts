@@ -29,6 +29,10 @@ describe("calcite-input-time-picker", () => {
     renders("calcite-input-time-picker", { display: "inline-block" });
   });
 
+  describe("renders with en-us lowercase locale code", () => {
+    renders(`<calcite-input-time-picker lang="en-us"></calcite-input-time-picker>`, { display: "inline-block" });
+  });
+
   describe("honors hidden attribute", () => {
     hidden("calcite-input-time-picker");
   });
