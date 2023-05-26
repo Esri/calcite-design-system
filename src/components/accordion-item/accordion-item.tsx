@@ -306,10 +306,10 @@ export class AccordionItem implements ConditionalSlotComponent {
   private getItemPosition(): number {
     const { el } = this;
 
-    return Array.from(
-      closestElementCrossShadowBoundary(el, "calcite-accordion")?.querySelectorAll(
-        "calcite-accordion-item"
-      )
-    ).indexOf(el);
+    const items = closestElementCrossShadowBoundary(el, "calcite-accordion")?.querySelectorAll(
+      "calcite-accordion-item"
+    );
+
+    return items ? Array.from(items).indexOf(el) : -1;
   }
 }
