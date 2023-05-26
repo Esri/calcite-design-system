@@ -566,14 +566,12 @@ export class InputTimePicker
       supportedLocale = "pt";
     }
 
-    if (supportedDayJsLocaleToLocaleConfigImport.has(supportedLocale)) {
-      const { default: localeConfig } = await supportedDayJsLocaleToLocaleConfigImport.get(
-        supportedLocale
-      )();
+    const { default: localeConfig } = await supportedDayJsLocaleToLocaleConfigImport.get(
+      supportedLocale
+    )();
 
-      dayjs.locale(localeConfig, null, true);
-      dayjs.updateLocale(supportedLocale, this.getExtendedLocaleConfig(supportedLocale));
-    }
+    dayjs.locale(localeConfig, null, true);
+    dayjs.updateLocale(supportedLocale, this.getExtendedLocaleConfig(supportedLocale));
   }
 
   private getExtendedLocaleConfig(
