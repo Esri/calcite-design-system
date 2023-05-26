@@ -186,7 +186,7 @@ export class SortableList implements InteractiveComponent, SortableComponent {
         onSortingEnd(this);
         this.beginObserving();
       },
-      onUpdate: () => {
+      onSort: () => {
         this.items = Array.from(this.el.children);
         this.calciteListOrderChange.emit();
       }
