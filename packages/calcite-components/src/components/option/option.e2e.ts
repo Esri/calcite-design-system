@@ -14,15 +14,16 @@ describe("calcite-option", () => {
     accessible("calcite-option");
   });
 
-  it("has defaults", async () =>
+  describe("defaults", () => {
     defaults("calcite-option", [
       {
         propertyName: "disabled",
         defaultValue: false
       }
-    ]));
+    ]);
+  });
 
-  it("reflects", async () =>
+  describe("reflects", () => {
     reflects("calcite-option", [
       {
         propertyName: "disabled",
@@ -32,7 +33,8 @@ describe("calcite-option", () => {
         propertyName: "selected",
         value: true
       }
-    ]));
+    ]);
+  });
 
   it("falls back to the text content when value/label is not specified", async () => {
     const optionText = "one";

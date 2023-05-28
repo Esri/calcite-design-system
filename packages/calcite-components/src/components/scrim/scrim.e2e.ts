@@ -19,13 +19,14 @@ describe("calcite-scrim", () => {
     accessible("<calcite-scrim loading>My content</calcite-scrim>");
   });
 
-  it("has property defaults", async () =>
+  describe("defaults", () => {
     defaults("calcite-scrim", [
       {
         propertyName: "loading",
         defaultValue: false
       }
-    ]));
+    ]);
+  });
 
   it("supports translations", () => t9n("calcite-scrim"));
 

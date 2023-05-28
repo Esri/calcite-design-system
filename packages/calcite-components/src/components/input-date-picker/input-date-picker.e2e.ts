@@ -34,7 +34,7 @@ describe("calcite-input-date-picker", () => {
     hidden("calcite-input-date-picker");
   });
 
-  it("defaults", async () =>
+  describe("defaults", () => {
     defaults("calcite-input-date-picker", [
       {
         propertyName: "overlayPositioning",
@@ -44,7 +44,8 @@ describe("calcite-input-date-picker", () => {
         propertyName: "flipPlacements",
         defaultValue: undefined
       }
-    ]));
+    ]);
+  });
 
   it("is labelable", async () => labelable("calcite-input-date-picker"));
 

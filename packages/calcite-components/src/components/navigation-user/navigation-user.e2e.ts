@@ -14,7 +14,7 @@ describe("calcite-navigation-user", () => {
     accessible(html`<calcite-navigation-user label="user"></calcite-navigation-user>`);
   });
 
-  it("reflects", () =>
+  describe("reflects", () => {
     reflects("calcite-navigation-user", [
       {
         propertyName: "active",
@@ -24,15 +24,17 @@ describe("calcite-navigation-user", () => {
         propertyName: "textDisabled",
         value: ""
       }
-    ]));
+    ]);
+  });
 
-  it("defaults", () =>
+  describe("defaults", () => {
     defaults("calcite-navigation-user", [
       {
         propertyName: "textDisabled",
         defaultValue: false
       }
-    ]));
+    ]);
+  });
 
   describe("is focusable", () => {
     focusable("calcite-navigation-user");

@@ -2,13 +2,14 @@ import { hidden, renders, slots, defaults } from "../../tests/commonTests";
 import { SLOTS } from "./resources";
 
 describe("calcite-stack", () => {
-  it("has defaults", async () =>
+  describe("defaults", () => {
     defaults("calcite-stack", [
       {
         propertyName: "disabled",
         defaultValue: false
       }
-    ]));
+    ]);
+  });
 
   describe("renders", () => {
     renders("calcite-stack", { display: "flex" });

@@ -41,6 +41,10 @@
     ease-out;
 }
 
+:host([layout="center"]) .tab-nav {
+  @apply justify-evenly;
+}
+
 :host([position="bottom"]) .tab-nav-active-indicator {
   inset-block-end: unset;
   @apply top-0;

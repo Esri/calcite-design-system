@@ -53,8 +53,9 @@ async function simplePageSetup(componentTagOrHTML: TagOrHTML): Promise<E2EPage> 
  *
  * Note that this helper should be used within a describe block.
  *
+ * @example
  * describe("accessible"), () => {
- *   accessible(`<calcite-tree></calcite-tree>`);
+ *    accessible(`<calcite-tree></calcite-tree>`);
  * });
  *
  * @param {ComponentTestSetup} componentTestSetup - A component tag, html, or the tag and e2e page for setting up a test
@@ -75,8 +76,9 @@ export function accessible(componentTestSetup: ComponentTestSetup): void {
 /**
  * Note that this helper should be used within a describe block.
  *
+ * @example
  * describe("renders", () => {
- *   renders(`<calcite-tree></calcite-tree>`);
+ *    renders(`<calcite-tree></calcite-tree>`);
  * });
  *
  * @param {string} componentTagOrHTML - the component tag or HTML markup to test against
@@ -104,49 +106,70 @@ export async function renders(
 }
 
 /**
+ *
  * Helper for asserting that a component reflects
+ *
+ * Note that this helper should be used within a describe block.
+ *
+ * @example
+ * describe("reflects", () => {
+ *    reflects("calcite-action-bar", [
+ *      {
+ *        propertyName: "expandDisabled",
+ *        value: true
+ *      },
+ *      {
+ *        propertyName: "expanded",
+ *        value: true
+ *      }
+ *    ])
+ * })
  *
  * @param {string} componentTagOrHTML - the component tag or HTML markup to test against
  * @param {object[]} propsToTest - the properties to test
  * @param {string} propsToTest.propertyName - the property name
  * @param {any} propsToTest.value - the property value
  */
-export async function reflects(
+export function reflects(
   componentTagOrHTML: TagOrHTML,
   propsToTest: {
     propertyName: string;
     value: any;
   }[]
-): Promise<void> {
-  const page = await simplePageSetup(componentTagOrHTML);
-  const componentTag = getTag(componentTagOrHTML);
-  const element = await page.find(componentTag);
+): void {
+  it(`reflects`, async () => {
+    const page = await simplePageSetup(componentTagOrHTML);
+    const componentTag = getTag(componentTagOrHTML);
+    const element = await page.find(componentTag);
 
-  for (const propAndValue of propsToTest) {
-    const { propertyName, value } = propAndValue;
-    const attrName = propToAttr(propertyName);
-    const componentAttributeSelector = `${componentTag}[${attrName}]`;
-
-    element.setProperty(propertyName, value);
-    await page.waitForChanges();
-
-    expect(await page.find(componentAttributeSelector)).toBeTruthy();
-
-    if (typeof value === "boolean") {
-      const getExpectedValue = (propValue: boolean): string | null => (propValue ? "" : null);
-      const negated = !value;
-
-      element.setProperty(propertyName, negated);
-      await page.waitForChanges();
-
-      expect(element.getAttribute(attrName)).toBe(getExpectedValue(negated));
+    for (const propAndValue of propsToTest) {
+      const { propertyName, value } = propAndValue;
+      const attrName = propToAttr(propertyName);
+      const componentAttributeSelector = `${componentTag}[${attrName}]`;
 
       element.setProperty(propertyName, value);
       await page.waitForChanges();
 
-      expect(element.getAttribute(attrName)).toBe(getExpectedValue(value));
+      expect(await page.find(componentAttributeSelector)).toBeTruthy();
+
+      if (typeof value === "boolean") {
+        const getExpectedValue = (propValue: boolean): string | null => (propValue ? "" : null);
+        const negated = !value;
+
+        element.setProperty(propertyName, negated);
+        await page.waitForChanges();
+
+        // eslint-disable-next-line jest/no-conditional-expect
+        expect(element.getAttribute(attrName)).toBe(getExpectedValue(negated));
+
+        element.setProperty(propertyName, value);
+        await page.waitForChanges();
+
+        // eslint-disable-next-line jest/no-conditional-expect
+        expect(element.getAttribute(attrName)).toBe(getExpectedValue(value));
+      }
     }
-  }
+  });
 }
 
 function propToAttr(name: string): string {
@@ -156,26 +179,44 @@ function propToAttr(name: string): string {
 /**
  * Helper for asserting that a property's value is its default
  *
+ * Note that this helper should be used within a describe block.
+ *
+ * @example
+ * describe("defaults", () => {
+ *    defaults("calcite-action", [
+ *      {
+ *        propertyName: "active",
+ *        defaultValue: false
+ *      },
+ *      {
+ *        propertyName: "appearance",
+ *        defaultValue: "solid"
+ *      }
+ *    ])
+ * })
+ *
  * @param {string} componentTagOrHTML - the component tag or HTML markup to test against
  * @param {object[]} propsToTest - the properties to test
  * @param {string} propsToTest.propertyName - the property name
  * @param {any} propsToTest.value - the property value
  */
-export async function defaults(
+export function defaults(
   componentTagOrHTML: TagOrHTML,
   propsToTest: {
     propertyName: string;
     defaultValue: any;
   }[]
-): Promise<void> {
-  const page = await simplePageSetup(componentTagOrHTML);
-  const element = await page.find(getTag(componentTagOrHTML));
+): void {
+  it("has property defaults", async () => {
+    const page = await simplePageSetup(componentTagOrHTML);
+    const element = await page.find(getTag(componentTagOrHTML));
 
-  for (const propAndValue of propsToTest) {
-    const { propertyName, defaultValue } = propAndValue;
-    const prop = await element.getProperty(propertyName);
-    expect(prop).toEqual(defaultValue);
-  }
+    for (const propAndValue of propsToTest) {
+      const { propertyName, defaultValue } = propAndValue;
+      const prop = await element.getProperty(propertyName);
+      expect(prop).toEqual(defaultValue);
+    }
+  });
 }
 
 /**
@@ -183,6 +224,7 @@ export async function defaults(
  *
  * Note that this helper should be used within a describe block.
  *
+ * @example
  * describe("honors hidden attribute", () => {
  *    hidden("calcite-accordion")
  * });
@@ -225,6 +267,7 @@ interface FocusableOptions {
  *
  * Note that this helper should be used within a describe block.
  *
+ * @example
  * describe("is focusable", () => {
  *    focusable(`calcite-input-number`, { shadowFocusTargetSelector: "input" })
  * });
@@ -536,8 +579,9 @@ interface FormAssociatedOptions {
  *
  * Note that this helper should be used within a describe block.
  *
+ * @example
  * describe("form-associated), () => {
- *   formAssociated("calcite-component", { testValue: 1337 });
+ *    formAssociated("calcite-component", { testValue: 1337 });
  * });
  *
  * @param {string} componentTagOrHtml - the component tag or HTML markup to test against

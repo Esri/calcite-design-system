@@ -26,12 +26,13 @@ describe("calcite-tabs", () => {
     hidden("calcite-tabs");
   });
 
-  it("has defaults", async () =>
+  describe("defaults", () => {
     defaults("calcite-tabs", [
       { propertyName: "layout", defaultValue: "inline" },
       { propertyName: "position", defaultValue: "top" },
       { propertyName: "scale", defaultValue: "m" }
-    ]));
+    ]);
+  });
 
   describe("accessible: checked", () => {
     accessible(`<calcite-tabs>${tabsContent}</calcite-tabs>`);

@@ -33,7 +33,7 @@ Nested submenu with href.
 | `iconFlipRtl`        | `icon-flip-rtl` | Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`). | `"both" \| "end" \| "start"` | `undefined` |
 | `iconStart`          | `icon-start`    | Specifies an icon to display at the start of the component.                                                 | `string`                     | `undefined` |
 | `label` _(required)_ | `label`         | Specifices accessible name for the component.                                                               | `string`                     | `undefined` |
-| `open`               | `open`          | /_ When true, the menu item will display any slotted `calcite-menu-item` in an open overflow menu _         | `boolean`                    | `false`     |
+| `open`               | `open`          | /_When true, the menu item will display any slotted `calcite-menu-item` in an open overflow menu_           | `boolean`                    | `false`     |
 | `rel`                | `rel`           | Defines the relationship between the `href` value and the current document.                                 | `string`                     | `undefined` |
 | `target`             | `target`        | Specifies where to open the linked document defined in the `href` property.                                 | `string`                     | `undefined` |
 | `text`               | `text`          | Specifies the text to display.                                                                              | `string`                     | `undefined` |

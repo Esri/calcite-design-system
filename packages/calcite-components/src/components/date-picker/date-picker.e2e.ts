@@ -13,13 +13,14 @@ describe("calcite-date-picker", () => {
     hidden("calcite-date-picker");
   });
 
-  it("has property defaults", async () =>
+  describe("defaults", () => {
     defaults("calcite-date-picker", [
       {
         propertyName: "scale",
         defaultValue: "m"
       }
-    ]));
+    ]);
+  });
 
   describe("focusable", () => {
     focusable("calcite-date-picker", {

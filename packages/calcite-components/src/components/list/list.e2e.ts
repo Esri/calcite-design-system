@@ -14,7 +14,7 @@ const placeholder = placeholderImage({
 const listDebounceTimeout = debounceTimeout + FILTER_DEBOUNCE_TIMEOUT;
 
 describe("calcite-list", () => {
-  it("defaults", async () =>
+  describe("defaults", () => {
     defaults("calcite-list", [
       {
         propertyName: "disabled",
@@ -60,7 +60,8 @@ describe("calcite-list", () => {
         propertyName: "filterPlaceholder",
         defaultValue: undefined
       }
-    ]));
+    ]);
+  });
 
   describe("renders", () => {
     renders("calcite-list", { display: "block" });
