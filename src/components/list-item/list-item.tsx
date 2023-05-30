@@ -598,19 +598,25 @@ export class ListItem
     this.open = !this.open;
   };
 
-  itemClicked = (): void => {
+  itemClicked = (event: Event): void => {
+    if (event.defaultPrevented) {
+      return;
+    }
+
     this.toggleSelected();
     this.calciteInternalListItemActive.emit();
   };
 
   toggleSelected = (): void => {
+    const { selectionMode, selected } = this;
+
     if (this.disabled) {
       return;
     }
 
-    if (this.selectionMode === "multiple" || this.selectionMode === "single") {
-      this.selected = !this.selected;
-    } else if (this.selectionMode === "single-persist") {
+    if (selectionMode === "multiple" || selectionMode === "single") {
+      this.selected = !selected;
+    } else if (selectionMode === "single-persist") {
       this.selected = true;
     }
 
@@ -618,6 +624,10 @@ export class ListItem
   };
 
   handleItemKeyDown = (event: KeyboardEvent): void => {
+    if (event.defaultPrevented) {
+      return;
+    }
+
     const { key } = event;
     const composedPath = event.composedPath();
     const { containerEl, contentEl, actionsStartEl, actionsEndEl, open, openable } = this;
@@ -625,7 +635,7 @@ export class ListItem
     const cells = [actionsStartEl, contentEl, actionsEndEl].filter(Boolean);
     const currentIndex = cells.findIndex((cell) => composedPath.includes(cell));
 
-    if (key === " ") {
+    if (key === "Enter") {
       event.preventDefault();
       this.toggleSelected();
     } else if (key === "ArrowRight") {

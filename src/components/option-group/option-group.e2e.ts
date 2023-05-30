@@ -14,21 +14,23 @@ describe("calcite-option-group", () => {
     accessible("calcite-option-group");
   });
 
-  it("has defaults", async () =>
+  describe("defaults", () => {
     defaults("calcite-option-group", [
       {
         propertyName: "disabled",
         defaultValue: false
       }
-    ]));
+    ]);
+  });
 
-  it("reflects", async () =>
+  describe("reflects", () => {
     reflects("calcite-option-group", [
       {
         propertyName: "disabled",
         value: true
       }
-    ]));
+    ]);
+  });
 
   it("has a label", async () => {
     const page = await newE2EPage({

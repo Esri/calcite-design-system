@@ -12,7 +12,7 @@ describe("calcite-flow-item", () => {
     hidden("calcite-flow-item");
   });
 
-  it("has property defaults", async () =>
+  describe("defaults", () => {
     defaults("calcite-flow-item", [
       {
         propertyName: "closable",
@@ -38,7 +38,8 @@ describe("calcite-flow-item", () => {
         propertyName: "showBackButton",
         defaultValue: false
       }
-    ]));
+    ]);
+  });
 
   it("has slots", () => slots("calcite-flow-item", SLOTS));
 

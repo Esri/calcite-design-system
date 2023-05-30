@@ -17,8 +17,19 @@ export interface InteractiveComponent {
 
 type HostIsTabbablePredicate = () => boolean;
 
-function noopClick(): void {
-  /** noop */
+/**
+ * Exported for testing purposes only.
+ *
+ * @internal
+ */
+export type InteractiveHTMLElement = HTMLElement & Pick<InteractiveComponent, "disabled">;
+
+function interceptedClick(): void {
+  const { disabled } = this as InteractiveHTMLElement;
+
+  if (!disabled) {
+    HTMLElement.prototype.click.call(this);
+  }
 }
 
 function onPointerDown(event: PointerEvent): void {
@@ -29,10 +40,14 @@ function onPointerDown(event: PointerEvent): void {
 const nonBubblingWhenDisabledMouseEvents = ["mousedown", "mouseup", "click"];
 
 function onNonBubblingWhenDisabledMouseEvent(event: MouseEvent): void {
-  // prevent disallowed mouse events from being emitted on the host (per https://github.com/whatwg/html/issues/5886)
+  const { disabled } = event.target as InteractiveHTMLElement;
+
+  // prevent disallowed mouse events from being emitted on the disabled host (per https://github.com/whatwg/html/issues/5886)
   //⚠ we generally avoid stopping propagation of events, but this is needed to adhere to the intended spec changes above ⚠
-  event.stopImmediatePropagation();
-  event.preventDefault();
+  if (disabled) {
+    event.stopImmediatePropagation();
+    event.preventDefault();
+  }
 }
 
 const captureOnlyOptions = { capture: true } as const;
@@ -62,7 +77,7 @@ export function updateHostInteraction(
       (document.activeElement as HTMLElement).blur();
     }
 
-    component.el.click = noopClick;
+    component.el.click = interceptedClick;
     component.el.addEventListener("pointerdown", onPointerDown, captureOnlyOptions);
     nonBubblingWhenDisabledMouseEvents.forEach((event) =>
       component.el.addEventListener(event, onNonBubblingWhenDisabledMouseEvent, captureOnlyOptions)

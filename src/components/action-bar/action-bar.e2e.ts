@@ -13,7 +13,7 @@ describe("calcite-action-bar", () => {
     hidden("calcite-action-bar");
   });
 
-  it("defaults", async () =>
+  describe("defaults", () => {
     defaults("calcite-action-bar", [
       {
         propertyName: "expandDisabled",
@@ -31,9 +31,10 @@ describe("calcite-action-bar", () => {
         propertyName: "layout",
         defaultValue: "vertical"
       }
-    ]));
+    ]);
+  });
 
-  it("reflects", async () =>
+  describe("reflects", () => {
     reflects("calcite-action-bar", [
       {
         propertyName: "expandDisabled",
@@ -43,7 +44,8 @@ describe("calcite-action-bar", () => {
         propertyName: "expanded",
         value: true
       }
-    ]));
+    ]);
+  });
 
   describe("expand functionality", () => {
     it("should not modify actions within an action-menu", async () => {

@@ -46,19 +46,20 @@ describe("calcite-color-picker", () => {
     hidden("calcite-color-picker");
   });
 
-  it("reflects", async () =>
+  describe("reflects", () => {
     reflects("calcite-color-picker", [
       {
         propertyName: "scale",
         value: "m"
       }
-    ]));
+    ]);
+  });
 
   describe("renders", () => {
     renders("calcite-color-picker", { display: "inline-block" });
   });
 
-  it("has defaults", async () =>
+  describe("defaults", () => {
     defaults("calcite-color-picker", [
       {
         propertyName: "allowEmpty",
@@ -104,7 +105,8 @@ describe("calcite-color-picker", () => {
         propertyName: "value",
         defaultValue: "#007ac2"
       }
-    ]));
+    ]);
+  });
 
   // #408047 is a color in the middle of the color field
   it("can be disabled", () => disabled("<calcite-color-picker value='#408047'></calcite-color-picker>"));

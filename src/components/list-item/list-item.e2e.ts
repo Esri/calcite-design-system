@@ -17,7 +17,7 @@ describe("calcite-list-item", () => {
     hidden("calcite-list-item");
   });
 
-  it("has property defaults", async () =>
+  describe("defaults", () => {
     defaults("calcite-list-item", [
       {
         propertyName: "description",
@@ -43,7 +43,8 @@ describe("calcite-list-item", () => {
         propertyName: "open",
         defaultValue: false
       }
-    ]));
+    ]);
+  });
 
   it("has slots", () => slots("calcite-list-item", SLOTS));
 
@@ -89,9 +90,26 @@ describe("calcite-list-item", () => {
     expect(customContentNode).not.toBeNull();
   });
 
+  it("emits calciteListItemSelect on Enter", async () => {
+    const page = await newE2EPage({
+      html: `<calcite-list-item selection-mode="single" label="hello" description="world" active></calcite-list-item>`
+    });
+
+    await page.waitForChanges();
+
+    const container = await page.find(`calcite-list-item >>> .${CSS.container}`);
+
+    const eventSpy = await page.spyOnEvent("calciteListItemSelect");
+
+    await container.focus();
+    await page.keyboard.press("Enter");
+
+    expect(eventSpy).toHaveReceivedEventTimes(1);
+  });
+
   it("emits calciteListItemSelect on click", async () => {
     const page = await newE2EPage({
-      html: `<calcite-list-item label="hello" description="world"></calcite-list-item>`
+      html: `<calcite-list-item selection-mode="single" label="hello" description="world"></calcite-list-item>`
     });
 
     await page.waitForChanges();
@@ -103,6 +121,47 @@ describe("calcite-list-item", () => {
     await contentContainer.click();
 
     expect(eventSpy).toHaveReceivedEventTimes(1);
+  });
+
+  it("emits calciteListItemSelect on click when selectionMode is none", async () => {
+    const page = await newE2EPage({
+      html: `<calcite-list-item selection-mode="none" label="hello" description="world"></calcite-list-item>`
+    });
+
+    await page.waitForChanges();
+
+    const contentContainer = await page.find(`calcite-list-item >>> .${CSS.contentContainer}`);
+
+    const eventSpy = await page.spyOnEvent("calciteListItemSelect");
+
+    await contentContainer.click();
+
+    expect(eventSpy).toHaveReceivedEventTimes(1);
+  });
+
+  it("honors defaultPrevented on click", async () => {
+    const page = await newE2EPage({
+      html: `<calcite-list-item selection-mode="single" label="hello" description="world">
+      <div slot="content">Hi</div>
+      </calcite-list-item>`
+    });
+
+    await page.waitForChanges();
+
+    await page.$eval("div", (div: HTMLDivElement) => {
+      div.addEventListener("click", (event) => event.preventDefault());
+      div.addEventListener("keydown", (event) => event.preventDefault());
+    });
+
+    const div = await page.find("div");
+
+    const eventSpy = await page.spyOnEvent("calciteListItemSelect");
+
+    await div.click();
+    await div.focus();
+    await page.keyboard.press("Enter");
+
+    expect(eventSpy).toHaveReceivedEventTimes(0);
   });
 
   it("emits calciteInternalListItemActive on click", async () => {

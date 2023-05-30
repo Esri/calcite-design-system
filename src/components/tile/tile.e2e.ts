@@ -15,17 +15,18 @@ describe("calcite-tile", () => {
     accessible(`<calcite-tile></calcite-tile>`);
   });
 
-  it("has defaults", async () =>
+  describe("defaults", () => {
     defaults("calcite-tile", [
       { propertyName: "disabled", defaultValue: false },
       { propertyName: "embed", defaultValue: false },
       { propertyName: "focused", defaultValue: false },
       { propertyName: "hidden", defaultValue: false }
-    ]));
+    ]);
+  });
 
   it("has slots", async () => slots("calcite-tile", SLOTS));
 
-  it("reflects", async () =>
+  describe("reflects", () => {
     reflects("calcite-tile", [
       { propertyName: "active", value: true },
       { propertyName: "disabled", value: true },
@@ -33,7 +34,8 @@ describe("calcite-tile", () => {
       { propertyName: "focused", value: true },
       { propertyName: "href", value: "http://www.esri.com" },
       { propertyName: "icon", value: "layers" }
-    ]));
+    ]);
+  });
 
   it("can be disabled", () => disabled("<calcite-tile heading='test' href='http://www.esri.com'></calcite-tile>"));
 

@@ -18,21 +18,23 @@ describe("calcite-color-picker-swatch", () => {
     accessible(`<calcite-color-picker-swatch active color='#c0ffee'></calcite-color-picker-swatch>`);
   });
 
-  it("has defaults", () =>
+  describe("defaults", () => {
     defaults("calcite-color-picker-swatch", [
       {
         propertyName: "active",
         defaultValue: false
       }
-    ]));
+    ]);
+  });
 
-  it("reflects", () =>
+  describe("reflects", () => {
     reflects("calcite-color-picker-swatch", [
       {
         propertyName: "active",
         value: true
       }
-    ]));
+    ]);
+  });
 
   describe("accepts CSS color strings", () => {
     let page: E2EPage;

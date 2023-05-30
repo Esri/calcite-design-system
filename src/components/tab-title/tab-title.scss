@@ -4,10 +4,46 @@
   margin-inline-end: theme("margin.5");
 }
 
-:host([layout="center"]) {
-  @apply my-0 mx-5 text-center;
+:host([layout="center"][scale="s"]),
+:host([layout="center"][scale="m"]),
+:host([layout="center"][scale="l"]) {
+  @apply my-0 text-center;
+  margin-inline-end: theme("margin.0");
   flex-basis: theme("spacing.48");
-  margin: auto;
+  .content {
+    @apply m-auto;
+  }
+}
+
+// center the text visually and not affected by the x button so as to avoid moving when on or off
+:host([layout="center"][closable]) {
+  .content {
+    padding-inline-start: 32px; //28px button width + 0.25rem padding
+  }
+}
+
+:host([layout="center"][bordered][closable][scale="s"]) {
+  .content {
+    padding-inline-start: 36px; //28px button width + 0.5rem padding
+  }
+}
+
+:host([layout="center"][bordered][closable][scale="m"]) {
+  .content {
+    padding-inline-start: 40px; //28px button width + 0.75rem padding
+  }
+}
+
+:host([layout="center"][closable][scale="l"]) {
+  .content {
+    padding-inline-start: 40px; //36px button width + .25 padding
+  }
+}
+
+:host([layout="center"][closable][bordered][scale="l"]) {
+  .content {
+    padding-inline-start: 52px; //36px button width + 1rem padding
+  }
 }
 
 :host([position="bottom"]) .container {
@@ -192,9 +228,15 @@
 
 :host([closable]) .container,
 :host([bordered]) .container {
-  border-block-end-style: unset;
   border-inline-start: 1px solid transparent;
   border-inline-end: 1px solid transparent;
+  .close-button {
+    margin-inline: 0;
+  }
+}
+
+:host([closable]) .content {
+  @apply h-full box-border border-b-color-transparent;
 }
 
 :host([closable][position="bottom"]) .container,

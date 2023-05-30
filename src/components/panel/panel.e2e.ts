@@ -21,7 +21,7 @@ describe("calcite-panel", () => {
     hidden("calcite-panel");
   });
 
-  it("has property defaults", async () =>
+  describe("defaults", () => {
     defaults("calcite-panel", [
       {
         propertyName: "widthScale",
@@ -31,7 +31,8 @@ describe("calcite-panel", () => {
         propertyName: "headingLevel",
         defaultValue: undefined
       }
-    ]));
+    ]);
+  });
 
   it("has slots", () => slots("calcite-panel", SLOTS));
 
