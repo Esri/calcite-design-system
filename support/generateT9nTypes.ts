@@ -61,7 +61,7 @@ import { InputData, jsonInputForTargetLanguage, quicktype } from "quicktype-core
 
   const manifestFileContents = paths
     .sort((pathA, pathB) => {
-      // ensure paths are sorted per component-name `globby` does not guarantee order (see https://github.com/sindresorhus/globby/issues/131)
+      // ensure paths are sorted per component-name as `globby` does not guarantee order (see https://github.com/sindresorhus/globby/issues/131)
       const componentAName = pathA.split(manifestFilePathSeparator)[2];
       const componentBName = pathB.split(manifestFilePathSeparator)[2];
       return componentAName.localeCompare(componentBName);
