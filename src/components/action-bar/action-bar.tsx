@@ -83,8 +83,9 @@ export class ActionBar
   @Prop({ reflect: true, mutable: true }) expanded = false;
 
   @Watch("expanded")
-  expandedHandler(expanded: boolean): void {
-    toggleChildActionText({ parent: this.el, expanded });
+  expandedHandler(): void {
+    const { el, expanded } = this;
+    toggleChildActionText({ el, expanded });
     this.overflowActions();
   }
 
@@ -160,7 +161,7 @@ export class ActionBar
 
   mutationObserver = createObserver("mutation", () => {
     const { el, expanded } = this;
-    toggleChildActionText({ parent: el, expanded });
+    toggleChildActionText({ el, expanded });
     this.overflowActions();
   });
 
@@ -184,7 +185,10 @@ export class ActionBar
   // --------------------------------------------------------------------------
 
   componentDidLoad(): void {
+    const { el, expanded } = this;
+
     setComponentLoaded(this);
+    toggleChildActionText({ el, expanded });
     this.overflowActions();
   }
 
@@ -193,7 +197,7 @@ export class ActionBar
 
     connectLocalized(this);
     connectMessages(this);
-    toggleChildActionText({ parent: el, expanded });
+    toggleChildActionText({ el, expanded });
 
     this.mutationObserver?.observe(el, { childList: true, subtree: true });
 
