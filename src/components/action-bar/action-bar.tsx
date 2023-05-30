@@ -235,9 +235,7 @@ export class ActionBar
    */
   @Method()
   async overflowActions(): Promise<void> {
-    requestAnimationFrame(() =>
-      this.resize({ width: this.el.clientWidth, height: this.el.clientHeight })
-    );
+    this.resize({ width: this.el.clientWidth, height: this.el.clientHeight });
   }
 
   /**
@@ -268,7 +266,7 @@ export class ActionBar
   };
 
   resizeHandlerEntries = (entries: ResizeObserverEntry[]): void => {
-    requestAnimationFrame(() => entries.forEach(this.resizeHandler));
+    entries.forEach(this.resizeHandler);
   };
 
   resizeHandler = (entry: ResizeObserverEntry): void => {
