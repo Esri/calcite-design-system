@@ -48,6 +48,7 @@ jobs:
         uses: chromaui/action@v1
         with:
           projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
+          zip: true
           exitOnceUploaded: true
           autoAcceptChanges: master
           workingDir: packages/calcite-components
