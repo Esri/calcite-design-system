@@ -74,7 +74,7 @@ export class ActionBar
 
   @Watch("expandDisabled")
   expandHandler(): void {
-    this.conditionallyOverflowActions();
+    this.overflowActions();
   }
 
   /**
@@ -85,7 +85,7 @@ export class ActionBar
   @Watch("expanded")
   expandedHandler(expanded: boolean): void {
     toggleChildActionText({ parent: this.el, expanded });
-    this.conditionallyOverflowActions();
+    this.overflowActions();
   }
 
   /**
@@ -161,7 +161,7 @@ export class ActionBar
   mutationObserver = createObserver("mutation", () => {
     const { el, expanded } = this;
     toggleChildActionText({ parent: el, expanded });
-    this.conditionallyOverflowActions();
+    this.overflowActions();
   });
 
   resizeObserver = createObserver("resize", (entries) => this.resizeHandlerEntries(entries));
@@ -185,7 +185,7 @@ export class ActionBar
 
   componentDidLoad(): void {
     setComponentLoaded(this);
-    this.conditionallyOverflowActions();
+    this.overflowActions();
   }
 
   connectedCallback(): void {
@@ -201,7 +201,7 @@ export class ActionBar
       this.resizeObserver?.observe(el);
     }
 
-    this.conditionallyOverflowActions();
+    this.overflowActions();
     connectConditionalSlotComponent(this);
   }
 
@@ -231,7 +231,9 @@ export class ActionBar
    */
   @Method()
   async overflowActions(): Promise<void> {
-    this.resize({ width: this.el.clientWidth, height: this.el.clientHeight });
+    requestAnimationFrame(() =>
+      this.resize({ width: this.el.clientWidth, height: this.el.clientHeight })
+    );
   }
 
   /**
@@ -262,7 +264,7 @@ export class ActionBar
   };
 
   resizeHandlerEntries = (entries: ResizeObserverEntry[]): void => {
-    entries.forEach(this.resizeHandler);
+    requestAnimationFrame(() => entries.forEach(this.resizeHandler));
   };
 
   resizeHandler = (entry: ResizeObserverEntry): void => {
@@ -271,9 +273,13 @@ export class ActionBar
   };
 
   private resize = debounce(({ width, height }: { width: number; height: number }): void => {
-    const { el, expanded, expandDisabled, layout } = this;
+    const { el, expanded, expandDisabled, layout, overflowActionsDisabled } = this;
 
-    if ((layout === "vertical" && !height) || (layout === "horizontal" && !width)) {
+    if (
+      overflowActionsDisabled ||
+      (layout === "vertical" && !height) ||
+      (layout === "horizontal" && !width)
+    ) {
       return;
     }
 
@@ -306,12 +312,6 @@ export class ActionBar
       overflowCount
     });
   }, overflowActionsDebounceInMs);
-
-  conditionallyOverflowActions = (): void => {
-    if (!this.overflowActionsDisabled) {
-      this.overflowActions();
-    }
-  };
 
   toggleExpand = (): void => {
     this.expanded = !this.expanded;
