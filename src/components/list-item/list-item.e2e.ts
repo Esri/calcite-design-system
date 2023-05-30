@@ -123,7 +123,7 @@ describe("calcite-list-item", () => {
     expect(eventSpy).toHaveReceivedEventTimes(1);
   });
 
-  it("does not emit calciteListItemSelect on click when selection-mode is none", async () => {
+  it("emits calciteListItemSelect on click when selectionMode is none", async () => {
     const page = await newE2EPage({
       html: `<calcite-list-item selection-mode="none" label="hello" description="world"></calcite-list-item>`
     });
@@ -136,7 +136,7 @@ describe("calcite-list-item", () => {
 
     await contentContainer.click();
 
-    expect(eventSpy).toHaveReceivedEventTimes(0);
+    expect(eventSpy).toHaveReceivedEventTimes(1);
   });
 
   it("honors defaultPrevented on click", async () => {

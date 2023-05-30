@@ -610,7 +610,7 @@ export class ListItem
   toggleSelected = (): void => {
     const { selectionMode, selected } = this;
 
-    if (this.disabled || selectionMode === "none" || !selectionMode) {
+    if (this.disabled) {
       return;
     }
 
@@ -630,13 +630,12 @@ export class ListItem
 
     const { key } = event;
     const composedPath = event.composedPath();
-    const { containerEl, contentEl, actionsStartEl, actionsEndEl, open, openable, selectionMode } =
-      this;
+    const { containerEl, contentEl, actionsStartEl, actionsEndEl, open, openable } = this;
 
     const cells = [actionsStartEl, contentEl, actionsEndEl].filter(Boolean);
     const currentIndex = cells.findIndex((cell) => composedPath.includes(cell));
 
-    if (key === "Enter" && selectionMode && selectionMode !== "none") {
+    if (key === "Enter") {
       event.preventDefault();
       this.toggleSelected();
     } else if (key === "ArrowRight") {
