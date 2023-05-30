@@ -11,6 +11,7 @@ import { InputData, jsonInputForTargetLanguage, quicktype } from "quicktype-core
   const rootBundlePattern = `src/components/**/t9n/${rootBundleFile}`;
 
   const rootBundles = await globby([rootBundlePattern]);
+  const translationBuildPathSeparator = "\\";
 
   console.log("starting generation of t9n string typings...", rootBundlePattern);
 
@@ -52,12 +53,20 @@ import { InputData, jsonInputForTargetLanguage, quicktype } from "quicktype-core
         })
       );
       const t9nPath = `${bundle.split("/t9n")[0]}/t9n`;
-      return t9nPath.replace(/\//g, "\\");
+      return t9nPath.replace(/\//g, translationBuildPathSeparator);
     })
   );
 
   console.log("finished generating t9n string typings");
-  const manifestFileContents = paths.sort().join("\n");
+
+  const manifestFileContents = paths
+    .sort((pathA, pathB) => {
+      // ensure paths are sorted per component-name `globby` does not guarantee order (see https://github.com/sindresorhus/globby/issues/131)
+      const componentAName = pathA.split(translationBuildPathSeparator)[2];
+      const componentBName = pathB.split(translationBuildPathSeparator)[2];
+      return componentAName.localeCompare(componentBName);
+    })
+    .join("\n");
   await writeFile("t9nmanifest.txt", manifestFileContents);
   console.log("finished writing manifest");
 })();
