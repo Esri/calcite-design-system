@@ -3,6 +3,12 @@
 This document maintains a list of released versions and changes introduced by them.
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
+## [v1.4.2](https://github.com/Esri/calcite-components/compare/v1.4.1...v1.4.2) (2023-05-30)
+
+### Bug Fixes
+
+- **list-item:** always emit calciteListItemSelect on activation ([#7058](https://github.com/Esri/calcite-components/issues/7058)) ([cdbc35e](https://github.com/Esri/calcite-components/commit/cdbc35e199ace95e6e4f6c09e1b32cd34a035959))
+
 ## [v1.4.1](https://github.com/Esri/calcite-components/compare/v1.4.0...v1.4.1) (2023-05-26)
 
 ### Bug Fixes
