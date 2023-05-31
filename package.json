@@ -1,6 +1,6 @@
 {
   "name": "@esri/calcite-components",
-  "version": "1.4.2",
+  "version": "1.4.3-next.0",
   "description": "Web Components for Esri's Calcite Design System.",
   "main": "dist/index.cjs.js",
   "module": "dist/index.js",
@@ -120,7 +120,7 @@
     "cheerio": "1.0.0-rc.10",
     "chokidar": "3.5.3",
     "chromatic": "6.17.4",
-    "concurrently": "7.6.0",
+    "concurrently": "8.0.1",
     "conventional-changelog-cli": "2.2.2",
     "cpy-cli": "4.2.0",
     "dedent": "0.7.0",
