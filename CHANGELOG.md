@@ -3,19 +3,31 @@
 This document maintains a list of released versions and changes introduced by them.
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
-<!--@unreleased-section-start-->
-
-## Unreleased
+## [v1.4.2](https://github.com/Esri/calcite-components/compare/v1.4.1...v1.4.2) (2023-05-30)
 
 ### Bug Fixes
 
+- **list-item:** always emit calciteListItemSelect on activation ([#7058](https://github.com/Esri/calcite-components/issues/7058)) ([cdbc35e](https://github.com/Esri/calcite-components/commit/cdbc35e199ace95e6e4f6c09e1b32cd34a035959))
+
+## [v1.4.1](https://github.com/Esri/calcite-components/compare/v1.4.0...v1.4.1) (2023-05-26)
+
+### Bug Fixes
+
+- **tab-nav:** justify centered `tab-titles` evenly to extend across the width of `tab-nav` ([#7047](https://github.com/Esri/calcite-components/issues/7047)) ([8ef0421](https://github.com/Esri/calcite-components/commit/8ef04219b8e63d6053106cedc2449e58e7123660)), closes [#7025](https://github.com/Esri/calcite-components/issues/7025) [#7026](https://github.com/Esri/calcite-components/issues/7026)
+
+- **input-time-picker:** only load valid dayjs locale files and fallback to base lang when region code is unsupported ([#7049](https://github.com/Esri/calcite-components/issues/7049)) ([d6a99d5](https://github.com/Esri/calcite-components/commit/d6a99d595f4a583794e1b190db2920159cf3ec5b)), closes [#7040](https://github.com/Esri/calcite-components/issues/7040)
+
+- **combobox:** restore toggling of single-select combobox items ([#7044](https://github.com/Esri/calcite-components/issues/7044)) ([bb8df53](https://github.com/Esri/calcite-components/commit/bb8df53f54bcbb55aac3f2429aeb081f58002606)), closes [#4738](https://github.com/Esri/calcite-components/issues/4738) [#3074](https://github.com/Esri/calcite-components/issues/3074) [#4738](https://github.com/Esri/calcite-components/issues/4738)
+- **input-time-picker:** allow en-us and other supported lowercase locale codes ([#7038](https://github.com/Esri/calcite-components/issues/7038)) ([3fdee43](https://github.com/Esri/calcite-components/commit/3fdee4398d9b9134e319e48cad6bb81b6c310ae7)), closes [#7036](https://github.com/Esri/calcite-components/issues/7036)
+- **list-item:** Improve item toggle behavior ([#7016](https://github.com/Esri/calcite-components/issues/7016)) ([004d0ee](https://github.com/Esri/calcite-components/commit/004d0ee8c5fb19a80f33986c864e79ae13bd733f)), closes [#7017](https://github.com/Esri/calcite-components/issues/7017)
+
 - **tab-title:** tabs center when set to `layout='center'` ([#7026](https://github.com/Esri/calcite-components/issues/7026)) ([0bd677b](https://github.com/Esri/calcite-components/commit/0bd677b7290f5fbc2b39bf1c0d9827d82950837a)), closes [#7025](https://github.com/Esri/calcite-components/issues/7025)
 
-* **color-picker:** fix pasting hex with leading # character ([#7030](https://github.com/Esri/calcite-components/issues/7030)) ([1c8f3d7](https://github.com/Esri/calcite-components/commit/1c8f3d7058f7a04cc480d92a5f954eac8631e441)), closes [#4072](https://github.com/Esri/calcite-components/issues/4072) [/github.com/Esri/calcite-components/pull/5189#issue-1344620750](https://github.com/Esri//github.com/Esri/calcite-components/pull/5189/issues/issue-1344620750)
-* **input-time-picker:** resolve dayjs type error ([#7037](https://github.com/Esri/calcite-components/issues/7037)) ([7cb1445](https://github.com/Esri/calcite-components/commit/7cb144555b871d8541ffc87c28ee60fb39038b29)), closes [#6990](https://github.com/Esri/calcite-components/issues/6990)
-* ensure mouse events are blocked only when components are disabled ([#7031](https://github.com/Esri/calcite-components/issues/7031)) ([308ccda](https://github.com/Esri/calcite-components/commit/308ccda4a119d23f5692d8a7fbe441b0b633c460)), closes [#7022](https://github.com/Esri/calcite-components/issues/7022)
-* **input-time-picker:** ensure dynamic date/time locale config imports are compatible with bundlers that require static import paths ([#6990](https://github.com/Esri/calcite-components/issues/6990)) ([9aa094a](https://github.com/Esri/calcite-components/commit/9aa094a77457bc54b24e06f7fd4d5857c2029cbe)), closes [#7019](https://github.com/Esri/calcite-components/issues/7019)
-* **menu-item:** Ensure icon displays when `href` is populated ([#7028](https://github.com/Esri/calcite-components/issues/7028)) ([ad25cbe](https://github.com/Esri/calcite-components/commit/ad25cbe11a5576932543f984d0ce877c85653ae6)), closes [#7027](https://github.com/Esri/calcite-components/issues/7027)
+- **color-picker:** fix pasting hex with leading # character ([#7030](https://github.com/Esri/calcite-components/issues/7030)) ([1c8f3d7](https://github.com/Esri/calcite-components/commit/1c8f3d7058f7a04cc480d92a5f954eac8631e441)), closes [#4072](https://github.com/Esri/calcite-components/issues/4072) [/github.com/Esri/calcite-components/pull/5189#issue-1344620750](https://github.com/Esri//github.com/Esri/calcite-components/pull/5189/issues/issue-1344620750)
+- **input-time-picker:** resolve dayjs type error ([#7037](https://github.com/Esri/calcite-components/issues/7037)) ([7cb1445](https://github.com/Esri/calcite-components/commit/7cb144555b871d8541ffc87c28ee60fb39038b29)), closes [#6990](https://github.com/Esri/calcite-components/issues/6990)
+- ensure mouse events are blocked only when components are disabled ([#7031](https://github.com/Esri/calcite-components/issues/7031)) ([308ccda](https://github.com/Esri/calcite-components/commit/308ccda4a119d23f5692d8a7fbe441b0b633c460)), closes [#7022](https://github.com/Esri/calcite-components/issues/7022)
+- **input-time-picker:** ensure dynamic date/time locale config imports are compatible with bundlers that require static import paths ([#6990](https://github.com/Esri/calcite-components/issues/6990)) ([9aa094a](https://github.com/Esri/calcite-components/commit/9aa094a77457bc54b24e06f7fd4d5857c2029cbe)), closes [#7019](https://github.com/Esri/calcite-components/issues/7019)
+- **menu-item:** Ensure icon displays when `href` is populated ([#7028](https://github.com/Esri/calcite-components/issues/7028)) ([ad25cbe](https://github.com/Esri/calcite-components/commit/ad25cbe11a5576932543f984d0ce877c85653ae6)), closes [#7027](https://github.com/Esri/calcite-components/issues/7027)
 
 - **list:** filter nested children correctly ([#6989](https://github.com/Esri/calcite-components/issues/6989)) ([67ca03b](https://github.com/Esri/calcite-components/commit/67ca03b40707e0b242efa0761f2105e248f7ef74)), closes [#6574](https://github.com/Esri/calcite-components/issues/6574)
 
@@ -28,8 +40,6 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ### Reverts
 
 - Revert "fix test" ([c8d07c0](https://github.com/Esri/calcite-components/commit/c8d07c0b157267392667dcd8dbe72c860369e08f))
-
-<!--@unreleased-section-end-->
 
 ## [v1.4.0](https://github.com/Esri/calcite-components/compare/v1.3.1...v1.4.0) (2023-05-22)
 
