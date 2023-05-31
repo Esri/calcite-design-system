@@ -1,10 +1,10 @@
+src\components\action\assets\action\t9n
 src\components\action-bar\assets\action-bar\t9n
 src\components\action-group\assets\action-group\t9n
 src\components\action-pad\assets\action-pad\t9n
-src\components\action\assets\action\t9n
 src\components\alert\assets\alert\t9n
-src\components\block-section\assets\block-section\t9n
 src\components\block\assets\block\t9n
+src\components\block-section\assets\block-section\t9n
 src\components\button\assets\button\t9n
 src\components\card\assets\card\t9n
 src\components\chip\assets\chip\t9n
@@ -15,12 +15,12 @@ src\components\filter\assets\filter\t9n
 src\components\flow-item\assets\flow-item\t9n
 src\components\handle\assets\handle\t9n
 src\components\inline-editable\assets\inline-editable\t9n
+src\components\input\assets\input\t9n
 src\components\input-date-picker\assets\input-date-picker\t9n
 src\components\input-number\assets\input-number\t9n
 src\components\input-text\assets\input-text\t9n
 src\components\input-time-picker\assets\input-time-picker\t9n
 src\components\input-time-zone\assets\input-time-zone\t9n
-src\components\input\assets\input\t9n
 src\components\list-item\assets\list-item\t9n
 src\components\menu\assets\menu\t9n
 src\components\menu-item\assets\menu-item\t9n
@@ -36,6 +36,6 @@ src\components\shell-panel\assets\shell-panel\t9n
 src\components\tab-title\assets\tab-title\t9n
 src\components\text-area\assets\text-area\t9n
 src\components\time-picker\assets\time-picker\t9n
-src\components\tip-manager\assets\tip-manager\t9n
 src\components\tip\assets\tip\t9n
+src\components\tip-manager\assets\tip-manager\t9n
 src\components\value-list\assets\value-list\t9n
