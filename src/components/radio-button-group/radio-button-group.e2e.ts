@@ -1,5 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, defaults, hidden, reflects, renders } from "../../tests/commonTests";
+import { accessible, defaults, focusable, hidden, reflects, renders } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 
 describe("calcite-radio-button-group", () => {
@@ -18,6 +18,22 @@ describe("calcite-radio-button-group", () => {
       { propertyName: "layout", defaultValue: "horizontal" },
       { propertyName: "scale", defaultValue: "m" }
     ]);
+  });
+
+  describe("is focusable", () => {
+    focusable(
+      html`<calcite-radio-button-group name="Options" layout="vertical">
+        <calcite-label layout="inline">
+          <calcite-radio-button value="flowers" disabled></calcite-radio-button>
+          Flowers
+        </calcite-label>
+        <calcite-label layout="inline">
+          <calcite-radio-button value="trees"></calcite-radio-button>
+          Trees
+        </calcite-label>
+      </calcite-radio-button-group>`,
+      { focusTargetSelector: "calcite-radio-button" }
+    );
   });
 
   describe("honors hidden attribute", () => {
