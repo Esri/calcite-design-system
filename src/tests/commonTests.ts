@@ -889,174 +889,195 @@ async function getTagAndPage(componentTestSetup: ComponentTestSetup): Promise<Ta
 /**
  * Helper to test the disabled prop disabling user interaction.
  *
- * @param {ComponentTestSetup} componentTestSetup - A component tag, html, or the tag and e2e page for setting up a test
- * @param {DisabledOptions} [options={ focusTarget: "host" }] - disabled options
+ * Note that this helper should be used within a describe block.
+ *
+ * @example
+ * describe("disabled", () => {
+ *    disabled("calcite-input")
+ * });
+ *
+ * @param {ComponentTestSetup} componentTestSetup - A component tag, html, or the tag and e2e page for setting up a test.
+ * @param {DisabledOptions} [options={ focusTarget: "host" }] - Disabled options.
  */
-export async function disabled(
+export function disabled(
   componentTestSetup: ComponentTestSetup,
   options: DisabledOptions = { focusTarget: "host" }
-): Promise<void> {
-  const { page, tag } = await getTagAndPage(componentTestSetup);
+): void {
+  it("can be disabled", async () => {
+    const { page, tag } = await getTagAndPage(componentTestSetup);
 
-  const component = await page.find(tag);
-  await skipAnimations(page);
-  await page.$eval(tag, (el) => {
-    el.addEventListener(
-      "click",
-      (event) => {
-        const path = event.composedPath() as HTMLElement[];
-        const anchor = path.find((el) => el?.tagName === "A");
+    const component = await page.find(tag);
+    await skipAnimations(page);
+    await page.$eval(tag, (el) => {
+      el.addEventListener(
+        "click",
+        (event) => {
+          const path = event.composedPath() as HTMLElement[];
+          const anchor = path.find((el) => el?.tagName === "A");
 
-        if (anchor) {
-          // we prevent the default behavior to avoid a page redirect
-          anchor.addEventListener("click", (event) => event.preventDefault(), { once: true });
-        }
-      },
-      true
-    );
-  });
+          if (anchor) {
+            // we prevent the default behavior to avoid a page redirect
+            anchor.addEventListener("click", (event) => event.preventDefault(), { once: true });
+          }
+        },
+        true
+      );
+    });
 
-  // only testing events from https://github.com/web-platform-tests/wpt/blob/master/html/semantics/disabled-elements/event-propagate-disabled.tentative.html#L66
-  const eventsExpectedToBubble = ["mousemove", "pointermove", "pointerdown", "pointerup"];
-  const eventsExpectedToNotBubble = ["mousedown", "mouseup", "click"];
-  const allExpectedEvents = [...eventsExpectedToBubble, ...eventsExpectedToNotBubble];
+    // only testing events from https://github.com/web-platform-tests/wpt/blob/master/html/semantics/disabled-elements/event-propagate-disabled.tentative.html#L66
+    const eventsExpectedToBubble = ["mousemove", "pointermove", "pointerdown", "pointerup"];
+    const eventsExpectedToNotBubble = ["mousedown", "mouseup", "click"];
+    const allExpectedEvents = [...eventsExpectedToBubble, ...eventsExpectedToNotBubble];
 
-  const eventSpies: EventSpy[] = [];
+    const eventSpies: EventSpy[] = [];
 
-  for (const event of allExpectedEvents) {
-    eventSpies.push(await component.spyOnEvent(event));
-  }
-
-  async function expectToBeFocused(tag: string): Promise<void> {
-    const focusedTag = await page.evaluate(() => document.activeElement?.tagName.toLowerCase());
-    expect(focusedTag).toBe(tag);
-  }
-
-  function assertOnMouseAndPointerEvents(spies: EventSpy[], expectCallback: (spy: EventSpy) => void): void {
-    for (const spy of spies) {
-      expectCallback(spy);
+    for (const event of allExpectedEvents) {
+      eventSpies.push(await component.spyOnEvent(event));
     }
-  }
 
-  expect(component.getAttribute("aria-disabled")).toBeNull();
+    async function expectToBeFocused(tag: string): Promise<void> {
+      const focusedTag = await page.evaluate(() => document.activeElement?.tagName.toLowerCase());
+      expect(focusedTag).toBe(tag);
+    }
 
-  if (options.focusTarget === "none") {
-    await page.click(tag);
+    function assertOnMouseAndPointerEvents(spies: EventSpy[], expectCallback: (spy: EventSpy) => void): void {
+      for (const spy of spies) {
+        expectCallback(spy);
+      }
+    }
+
+    expect(component.getAttribute("aria-disabled")).toBeNull();
+
+    if (options.focusTarget === "none") {
+      await page.click(tag);
+      await expectToBeFocused("body");
+
+      // eslint-disable-next-line jest/no-conditional-expect
+      assertOnMouseAndPointerEvents(eventSpies, (spy) => expect(spy).toHaveReceivedEventTimes(1));
+
+      component.setProperty("disabled", true);
+      await page.waitForChanges();
+
+      // eslint-disable-next-line jest/no-conditional-expect
+      expect(component.getAttribute("aria-disabled")).toBe("true");
+
+      await page.click(tag);
+      await expectToBeFocused("body");
+
+      await component.callMethod("click");
+      await expectToBeFocused("body");
+
+      assertOnMouseAndPointerEvents(eventSpies, (spy) =>
+        // eslint-disable-next-line jest/no-conditional-expect
+        expect(spy).toHaveReceivedEventTimes(eventsExpectedToBubble.includes(spy.eventName) ? 2 : 1)
+      );
+
+      return;
+    }
+
+    async function getFocusTarget(focusTarget: FocusTarget): Promise<string> {
+      return focusTarget === "host" ? tag : await page.evaluate(() => document.activeElement?.tagName.toLowerCase());
+    }
+
+    await page.keyboard.press("Tab");
+
+    let tabFocusTarget: string;
+    let clickFocusTarget: string;
+
+    if (typeof options.focusTarget === "object") {
+      tabFocusTarget = options.focusTarget.tab;
+      clickFocusTarget = options.focusTarget.click;
+    } else {
+      tabFocusTarget = clickFocusTarget = await getFocusTarget(options.focusTarget);
+    }
+
+    expect(tabFocusTarget).not.toBe("body");
+    await expectToBeFocused(tabFocusTarget);
+
+    const [shadowFocusableCenterX, shadowFocusableCenterY] = await page.$eval(
+      tabFocusTarget,
+      (element: HTMLElement) => {
+        const focusTarget = element.shadowRoot.activeElement || element;
+        const rect = focusTarget.getBoundingClientRect();
+
+        return [rect.x + rect.width / 2, rect.y + rect.height / 2];
+      }
+    );
+
+    async function resetFocusOrder(): Promise<void> {
+      // test page has default margin, so clicking on 0,0 will not hit the test element
+      await page.mouse.click(0, 0);
+    }
+
+    await resetFocusOrder();
     await expectToBeFocused("body");
 
-    assertOnMouseAndPointerEvents(eventSpies, (spy) => expect(spy).toHaveReceivedEventTimes(1));
+    await page.mouse.click(shadowFocusableCenterX, shadowFocusableCenterY);
+    await expectToBeFocused(clickFocusTarget);
+
+    await component.callMethod("click");
+    await expectToBeFocused(clickFocusTarget);
+
+    assertOnMouseAndPointerEvents(eventSpies, (spy) => {
+      if (spy.eventName === "click") {
+        // some components emit more than one click event (e.g., from calling `click()`),
+        // so we check if at least one event is received
+        // eslint-disable-next-line jest/no-conditional-expect
+        expect(spy.length).toBeGreaterThanOrEqual(2);
+      } else {
+        // eslint-disable-next-line jest/no-conditional-expect
+        expect(spy).toHaveReceivedEventTimes(1);
+      }
+    });
 
     component.setProperty("disabled", true);
     await page.waitForChanges();
 
     expect(component.getAttribute("aria-disabled")).toBe("true");
 
-    await page.click(tag);
+    await resetFocusOrder();
+    await page.keyboard.press("Tab");
     await expectToBeFocused("body");
 
-    await component.callMethod("click");
+    await page.mouse.click(shadowFocusableCenterX, shadowFocusableCenterY);
     await expectToBeFocused("body");
 
-    assertOnMouseAndPointerEvents(eventSpies, (spy) =>
-      expect(spy).toHaveReceivedEventTimes(eventsExpectedToBubble.includes(spy.eventName) ? 2 : 1)
+    assertOnMouseAndPointerEvents(eventSpies, (spy) => {
+      if (spy.eventName === "click") {
+        // some components emit more than one click event (e.g., from calling `click()`),
+        // so we check if at least one event is received
+        // eslint-disable-next-line jest/no-conditional-expect
+        expect(spy.length).toBeGreaterThanOrEqual(2);
+      } else {
+        // eslint-disable-next-line jest/no-conditional-expect
+        expect(spy).toHaveReceivedEventTimes(eventsExpectedToBubble.includes(spy.eventName) ? 2 : 1);
+      }
+    });
+
+    // this needs to run in the browser context to ensure disabling and events fire immediately after being set
+    await page.$eval(
+      tag,
+      (component: InteractiveHTMLElement, allExpectedEvents: string[]) => {
+        component.disabled = false;
+        allExpectedEvents.forEach((event) => component.dispatchEvent(new MouseEvent(event)));
+
+        component.disabled = true;
+        allExpectedEvents.forEach((event) => component.dispatchEvent(new MouseEvent(event)));
+      },
+      allExpectedEvents
     );
 
-    return;
-  }
-
-  async function getFocusTarget(focusTarget: FocusTarget): Promise<string> {
-    return focusTarget === "host" ? tag : await page.evaluate(() => document.activeElement?.tagName.toLowerCase());
-  }
-
-  await page.keyboard.press("Tab");
-
-  let tabFocusTarget: string;
-  let clickFocusTarget: string;
-
-  if (typeof options.focusTarget === "object") {
-    tabFocusTarget = options.focusTarget.tab;
-    clickFocusTarget = options.focusTarget.click;
-  } else {
-    tabFocusTarget = clickFocusTarget = await getFocusTarget(options.focusTarget);
-  }
-
-  expect(tabFocusTarget).not.toBe("body");
-  await expectToBeFocused(tabFocusTarget);
-
-  const [shadowFocusableCenterX, shadowFocusableCenterY] = await page.$eval(tabFocusTarget, (element: HTMLElement) => {
-    const focusTarget = element.shadowRoot.activeElement || element;
-    const rect = focusTarget.getBoundingClientRect();
-
-    return [rect.x + rect.width / 2, rect.y + rect.height / 2];
-  });
-
-  async function resetFocusOrder(): Promise<void> {
-    // test page has default margin, so clicking on 0,0 will not hit the test element
-    await page.mouse.click(0, 0);
-  }
-
-  await resetFocusOrder();
-  await expectToBeFocused("body");
-
-  await page.mouse.click(shadowFocusableCenterX, shadowFocusableCenterY);
-  await expectToBeFocused(clickFocusTarget);
-
-  await component.callMethod("click");
-  await expectToBeFocused(clickFocusTarget);
-
-  assertOnMouseAndPointerEvents(eventSpies, (spy) => {
-    if (spy.eventName === "click") {
-      // some components emit more than one click event (e.g., from calling `click()`),
-      // so we check if at least one event is received
-      expect(spy.length).toBeGreaterThanOrEqual(2);
-    } else {
-      expect(spy).toHaveReceivedEventTimes(1);
-    }
-  });
-
-  component.setProperty("disabled", true);
-  await page.waitForChanges();
-
-  expect(component.getAttribute("aria-disabled")).toBe("true");
-
-  await resetFocusOrder();
-  await page.keyboard.press("Tab");
-  await expectToBeFocused("body");
-
-  await page.mouse.click(shadowFocusableCenterX, shadowFocusableCenterY);
-  await expectToBeFocused("body");
-
-  assertOnMouseAndPointerEvents(eventSpies, (spy) => {
-    if (spy.eventName === "click") {
-      // some components emit more than one click event (e.g., from calling `click()`),
-      // so we check if at least one event is received
-      expect(spy.length).toBeGreaterThanOrEqual(2);
-    } else {
-      expect(spy).toHaveReceivedEventTimes(eventsExpectedToBubble.includes(spy.eventName) ? 2 : 1);
-    }
-  });
-
-  // this needs to run in the browser context to ensure disabling and events fire immediately after being set
-  await page.$eval(
-    tag,
-    (component: InteractiveHTMLElement, allExpectedEvents: string[]) => {
-      component.disabled = false;
-      allExpectedEvents.forEach((event) => component.dispatchEvent(new MouseEvent(event)));
-
-      component.disabled = true;
-      allExpectedEvents.forEach((event) => component.dispatchEvent(new MouseEvent(event)));
-    },
-    allExpectedEvents
-  );
-
-  assertOnMouseAndPointerEvents(eventSpies, (spy) => {
-    if (spy.eventName === "click") {
-      // some components emit more than one click event (e.g., from calling `click()`),
-      // so we check if at least one event is received
-      expect(spy.length).toBeGreaterThanOrEqual(3);
-    } else {
-      expect(spy).toHaveReceivedEventTimes(eventsExpectedToBubble.includes(spy.eventName) ? 4 : 2);
-    }
+    assertOnMouseAndPointerEvents(eventSpies, (spy) => {
+      if (spy.eventName === "click") {
+        // some components emit more than one click event (e.g., from calling `click()`),
+        // so we check if at least one event is received
+        // eslint-disable-next-line jest/no-conditional-expect
+        expect(spy.length).toBeGreaterThanOrEqual(3);
+      } else {
+        // eslint-disable-next-line jest/no-conditional-expect
+        expect(spy).toHaveReceivedEventTimes(eventsExpectedToBubble.includes(spy.eventName) ? 4 : 2);
+      }
+    });
   });
 }
 
