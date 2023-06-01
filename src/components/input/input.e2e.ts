@@ -29,7 +29,9 @@ describe("calcite-input", () => {
     await page.keyboard.type(numberAsText, numberAsText.length > 1 ? { delay: 100 } : undefined);
   }
 
-  it("is labelable", async () => labelable("calcite-input"));
+  describe("labelable", () => {
+    labelable("calcite-input");
+  });
 
   describe("renders", () => {
     renders("calcite-input", { display: "block" });

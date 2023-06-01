@@ -14,7 +14,9 @@ import {
 import { selectText } from "../../tests/utils";
 
 describe("calcite-input-text", () => {
-  it("is labelable", async () => labelable("calcite-input-text"));
+  describe("labelable", () => {
+    labelable("calcite-input-text");
+  });
 
   describe("renders", () => {
     renders("calcite-input-text", { display: "block" });
