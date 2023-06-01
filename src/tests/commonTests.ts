@@ -430,125 +430,134 @@ interface LabelableOptions extends Pick<FocusableOptions, "focusTargetSelector" 
 /**
  * Helper for asserting label clicking functionality works.
  *
- * @param {string} componentTagOrHtml - the component tag or HTML used to test label support
- * @param {LabelableOptions} [options] - labelable options
+ * Note that this helper should be used within a describe block.
+ *
+ * @example
+ * describe("labelable", () => {
+ *    async () => labelable("calcite-button")
+ * })
+ *
+ * @param {string} componentTagOrHtml - The component tag or HTML used to test label support.
+ * @param {LabelableOptions} [options] - Labelable options.
  */
-export async function labelable(componentTagOrHtml: TagOrHTML, options?: LabelableOptions): Promise<void> {
-  const id = "labelable-id";
-  const labelTitle = "My Component";
-  const propertyToToggle = options?.propertyToToggle;
-  const focusTargetSelector = options?.focusTargetSelector || `#${id}`;
-  const shadowFocusTargetSelector = options?.shadowFocusTargetSelector;
-  const componentTag = getTag(componentTagOrHtml);
-  const componentHtml = isHTML(componentTagOrHtml)
-    ? ensureId(componentTagOrHtml)
-    : `<${componentTag} id="${id}"></${componentTag}>`;
+export function labelable(componentTagOrHtml: TagOrHTML, options?: LabelableOptions): void {
+  it("is labelable", async () => {
+    const id = "labelable-id";
+    const labelTitle = "My Component";
+    const propertyToToggle = options?.propertyToToggle;
+    const focusTargetSelector = options?.focusTargetSelector || `#${id}`;
+    const shadowFocusTargetSelector = options?.shadowFocusTargetSelector;
+    const componentTag = getTag(componentTagOrHtml);
+    const componentHtml = isHTML(componentTagOrHtml)
+      ? ensureId(componentTagOrHtml)
+      : `<${componentTag} id="${id}"></${componentTag}>`;
 
-  function ensureId(html: string): string {
-    return html.includes("id=") ? html : html.replace(componentTag, `${componentTag} id="${id}" `);
-  }
+    function ensureId(html: string): string {
+      return html.includes("id=") ? html : html.replace(componentTag, `${componentTag} id="${id}" `);
+    }
 
-  const wrappedHtml = html`<calcite-label> ${labelTitle} ${componentHtml}</calcite-label>`;
-  const wrappedPage: E2EPage = await newE2EPage({ html: wrappedHtml });
-  await wrappedPage.waitForChanges();
+    const wrappedHtml = html`<calcite-label> ${labelTitle} ${componentHtml}</calcite-label>`;
+    const wrappedPage: E2EPage = await newE2EPage({ html: wrappedHtml });
+    await wrappedPage.waitForChanges();
 
-  await assertLabelable({
-    page: wrappedPage,
-    componentTag,
-    propertyToToggle,
-    focusTargetSelector,
-    shadowFocusTargetSelector
-  });
+    await assertLabelable({
+      page: wrappedPage,
+      componentTag,
+      propertyToToggle,
+      focusTargetSelector,
+      shadowFocusTargetSelector
+    });
 
-  const siblingHtml = html`
-    <calcite-label for="${id}">${labelTitle}</calcite-label>
-    ${componentHtml}
-  `;
-  const siblingPage: E2EPage = await newE2EPage({ html: siblingHtml });
-  await siblingPage.waitForChanges();
+    const siblingHtml = html`
+      <calcite-label for="${id}">${labelTitle}</calcite-label>
+      ${componentHtml}
+    `;
+    const siblingPage: E2EPage = await newE2EPage({ html: siblingHtml });
+    await siblingPage.waitForChanges();
 
-  await assertLabelable({
-    page: siblingPage,
-    componentTag,
-    propertyToToggle,
-    focusTargetSelector,
-    shadowFocusTargetSelector
-  });
+    await assertLabelable({
+      page: siblingPage,
+      componentTag,
+      propertyToToggle,
+      focusTargetSelector,
+      shadowFocusTargetSelector
+    });
 
-  const labelFirstSiblingPage: E2EPage = await newE2EPage();
-  await labelFirstSiblingPage.setContent(`<calcite-label for="${id}"></calcite-label>`);
-  await labelFirstSiblingPage.waitForChanges();
-  await labelFirstSiblingPage.evaluate((componentHtml: string) => {
-    const template = document.createElement("template");
-    template.innerHTML = `${componentHtml}`.trim();
-    const componentNode = template.content.firstChild;
-    document.body.append(componentNode);
-  }, componentHtml);
-  await labelFirstSiblingPage.waitForChanges();
+    const labelFirstSiblingPage: E2EPage = await newE2EPage();
+    await labelFirstSiblingPage.setContent(`<calcite-label for="${id}"></calcite-label>`);
+    await labelFirstSiblingPage.waitForChanges();
+    await labelFirstSiblingPage.evaluate((componentHtml: string) => {
+      const template = document.createElement("template");
+      template.innerHTML = `${componentHtml}`.trim();
+      const componentNode = template.content.firstChild;
+      document.body.append(componentNode);
+    }, componentHtml);
+    await labelFirstSiblingPage.waitForChanges();
 
-  await assertLabelable({
-    page: labelFirstSiblingPage,
-    componentTag,
-    propertyToToggle,
-    focusTargetSelector,
-    shadowFocusTargetSelector
-  });
+    await assertLabelable({
+      page: labelFirstSiblingPage,
+      componentTag,
+      propertyToToggle,
+      focusTargetSelector,
+      shadowFocusTargetSelector
+    });
 
-  const labelFirstWrappedPage: E2EPage = await newE2EPage();
-  await labelFirstWrappedPage.setContent(`<calcite-label for="${id}"></calcite-label>`);
-  await labelFirstWrappedPage.waitForChanges();
-  await labelFirstWrappedPage.evaluate((componentHtml: string) => {
-    const template = document.createElement("template");
-    template.innerHTML = `${componentHtml}`.trim();
-    const componentNode = template.content.firstChild;
-    const labelEl = document.querySelector("calcite-label");
-    labelEl.append(componentNode);
-  }, componentHtml);
-  await labelFirstWrappedPage.waitForChanges();
+    const labelFirstWrappedPage: E2EPage = await newE2EPage();
+    await labelFirstWrappedPage.setContent(`<calcite-label for="${id}"></calcite-label>`);
+    await labelFirstWrappedPage.waitForChanges();
+    await labelFirstWrappedPage.evaluate((componentHtml: string) => {
+      const template = document.createElement("template");
+      template.innerHTML = `${componentHtml}`.trim();
+      const componentNode = template.content.firstChild;
+      const labelEl = document.querySelector("calcite-label");
+      labelEl.append(componentNode);
+    }, componentHtml);
+    await labelFirstWrappedPage.waitForChanges();
 
-  await assertLabelable({
-    page: labelFirstWrappedPage,
-    componentTag,
-    propertyToToggle,
-    focusTargetSelector,
-    shadowFocusTargetSelector
-  });
+    await assertLabelable({
+      page: labelFirstWrappedPage,
+      componentTag,
+      propertyToToggle,
+      focusTargetSelector,
+      shadowFocusTargetSelector
+    });
 
-  const componentFirstSiblingPage: E2EPage = await newE2EPage({ html: componentHtml });
-  await componentFirstSiblingPage.waitForChanges();
-  await componentFirstSiblingPage.evaluate((id: string) => {
-    const label = document.createElement("calcite-label");
-    label.setAttribute("for", `${id}`);
-    document.body.append(label);
-  }, id);
-  await componentFirstSiblingPage.waitForChanges();
+    const componentFirstSiblingPage: E2EPage = await newE2EPage({ html: componentHtml });
+    await componentFirstSiblingPage.waitForChanges();
+    await componentFirstSiblingPage.evaluate((id: string) => {
+      const label = document.createElement("calcite-label");
+      label.setAttribute("for", `${id}`);
+      document.body.append(label);
+    }, id);
+    await componentFirstSiblingPage.waitForChanges();
 
-  await assertLabelable({
-    page: componentFirstSiblingPage,
-    componentTag,
-    propertyToToggle,
-    focusTargetSelector,
-    shadowFocusTargetSelector
-  });
+    await assertLabelable({
+      page: componentFirstSiblingPage,
+      componentTag,
+      propertyToToggle,
+      focusTargetSelector,
+      shadowFocusTargetSelector
+    });
 
-  const componentFirstWrappedPage: E2EPage = await newE2EPage();
-  await componentFirstWrappedPage.setContent(`${componentHtml}`);
-  await componentFirstWrappedPage.waitForChanges();
-  await componentFirstWrappedPage.evaluate((id: string) => {
-    const componentEl = document.querySelector(`[id='${id}']`);
-    const labelEl = document.createElement("calcite-label");
-    labelEl.setAttribute("for", `${id}`);
-    document.body.append(labelEl);
-    labelEl.append(componentEl);
-  }, id);
-  await componentFirstWrappedPage.waitForChanges();
+    const componentFirstWrappedPage: E2EPage = await newE2EPage();
+    await componentFirstWrappedPage.setContent(`${componentHtml}`);
+    await componentFirstWrappedPage.waitForChanges();
+    await componentFirstWrappedPage.evaluate((id: string) => {
+      const componentEl = document.querySelector(`[id='${id}']`);
+      const labelEl = document.createElement("calcite-label");
+      labelEl.setAttribute("for", `${id}`);
+      document.body.append(labelEl);
+      labelEl.append(componentEl);
+    }, id);
+    await componentFirstWrappedPage.waitForChanges();
 
-  await assertLabelable({
-    page: componentFirstWrappedPage,
-    componentTag,
-    propertyToToggle,
-    focusTargetSelector,
-    shadowFocusTargetSelector
+    await assertLabelable({
+      page: componentFirstWrappedPage,
+      componentTag,
+      propertyToToggle,
+      focusTargetSelector,
+      shadowFocusTargetSelector
+    });
   });
 }
 
