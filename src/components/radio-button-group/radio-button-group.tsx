@@ -129,11 +129,11 @@ export class RadioButtonGroup implements LoadableComponent {
   //--------------------------------------------------------------------------
 
   private passPropsToRadioButtons = (): void => {
-    const radioButtons = this.el.querySelectorAll("calcite-radio-button");
-    this.selectedItem = Array.from(radioButtons).find((radioButton) => radioButton.checked) || null;
-    if (radioButtons.length > 0) {
-      radioButtons.forEach((radioButton) => {
-        this.radioButtons.push(radioButton);
+    this.radioButtons = Array.from(this.el.querySelectorAll("calcite-radio-button"));
+    this.selectedItem =
+      Array.from(this.radioButtons).find((radioButton) => radioButton.checked) || null;
+    if (this.radioButtons.length > 0) {
+      this.radioButtons.forEach((radioButton) => {
         radioButton.disabled = this.disabled || radioButton.disabled;
         radioButton.hidden = this.hidden;
         radioButton.name = this.name;
@@ -146,11 +146,15 @@ export class RadioButtonGroup implements LoadableComponent {
   getFocusableRadioButton(): HTMLCalciteRadioButtonElement | null {
     let index = 0;
     let focusableEle = this.radioButtons[index];
-    while (index < this.radioButtons.length && focusableEle.disabled) {
+    while (focusableEle.disabled) {
       index++;
-      focusableEle = this.radioButtons[index];
+      if (index < this.radioButtons.length) {
+        focusableEle = this.radioButtons[index];
+      } else {
+        return null;
+      }
     }
-    return focusableEle.disabled ? null : focusableEle;
+    return focusableEle;
   }
 
   //--------------------------------------------------------------------------
@@ -179,9 +183,9 @@ export class RadioButtonGroup implements LoadableComponent {
       return;
     }
 
-    const focusableRadioButton = this.getFocusableRadioButton();
-    if (this.radioButtons.length > 0 && focusableRadioButton !== null) {
-      focusableRadioButton.setFocus();
+    if (this.radioButtons.length > 0) {
+      const focusableRadioButton = this.getFocusableRadioButton();
+      focusableRadioButton !== null && focusableRadioButton.setFocus();
     }
   }
 
