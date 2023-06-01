@@ -66,7 +66,9 @@ describe("calcite-tree-item", () => {
       <calcite-tree-item>😃</calcite-tree-item>
     </calcite-tree>`);
 
-    await disabled({ page, tag: "calcite-tree-item" });
+    describe("disabled", () => {
+      disabled({ page, tag: "calcite-tree-item" });
+    });
   });
 
   it("should expand/collapse children when the icon is clicked, but not select/deselect group", async () => {

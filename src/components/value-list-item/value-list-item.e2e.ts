@@ -33,7 +33,9 @@ describe("calcite-value-list-item", () => {
     focusable("calcite-value-list-item");
   });
 
-  it("can be disabled", async () => disabled("calcite-value-list-item"));
+  describe("disabled", () => {
+    disabled("calcite-value-list-item");
+  });
 
   it("should toggle selected attribute when clicked", async () => {
     const page = await newE2EPage({ html: `<calcite-value-list-item label="test"></calcite-value-list-item>` });

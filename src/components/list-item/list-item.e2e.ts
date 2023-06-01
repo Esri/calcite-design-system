@@ -48,7 +48,9 @@ describe("calcite-list-item", () => {
 
   it("has slots", () => slots("calcite-list-item", SLOTS));
 
-  it("can be disabled", () => disabled(`<calcite-list-item label="test" active></calcite-list-item>`));
+  describe("disabled", () => {
+    disabled(`<calcite-list-item label="test" active></calcite-list-item>`);
+  });
 
   it("renders content node when label is provided", async () => {
     const page = await newE2EPage({ html: `<calcite-list-item label="test"></calcite-list-item>` });

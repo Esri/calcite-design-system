@@ -40,7 +40,9 @@ describe("calcite-radio-button", () => {
       propertyToToggle: "checked"
     }));
 
-  it("can be disabled", () => disabled("calcite-radio-button"));
+  describe("disabled", () => {
+    disabled("calcite-radio-button");
+  });
 
   it("focusing skips over hidden radio-buttons", async () => {
     const page = await newE2EPage();

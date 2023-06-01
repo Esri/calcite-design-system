@@ -35,7 +35,9 @@ describe("calcite-pick-list-item", () => {
 
   it("has slots", () => slots("calcite-pick-list-item", SLOTS));
 
-  it("can be disabled", async () => disabled("calcite-pick-list-item"));
+  describe("disabled", () => {
+    disabled("calcite-pick-list-item");
+  });
 
   it("supports translations", () => t9n("calcite-pick-list-item"));
 

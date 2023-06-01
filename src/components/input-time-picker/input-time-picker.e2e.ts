@@ -84,7 +84,9 @@ describe("calcite-input-time-picker", () => {
     });
   });
 
-  it("can be disabled", () => disabled("calcite-input-time-picker"));
+  describe("disabled", () => {
+    disabled("calcite-input-time-picker");
+  });
 
   it("when set to readOnly, element still focusable but won't display the controls or allow for changing the value", async () => {
     const page = await newE2EPage();

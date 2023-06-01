@@ -37,7 +37,9 @@ describe("calcite-tile", () => {
     ]);
   });
 
-  it("can be disabled", () => disabled("<calcite-tile heading='test' href='http://www.esri.com'></calcite-tile>"));
+  describe("disabled", () => {
+    disabled("<calcite-tile heading='test' href='http://www.esri.com'></calcite-tile>");
+  });
 
   it("renders without a link by default", async () => {
     const page = await newE2EPage();

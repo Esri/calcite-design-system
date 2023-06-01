@@ -48,7 +48,9 @@ describe("calcite-action", () => {
     hidden("calcite-action");
   });
 
-  it("can be disabled", () => disabled("calcite-action"));
+  describe("disabled", () => {
+    disabled("calcite-action");
+  });
 
   it("has slots", () => slots("calcite-action", SLOTS));
 

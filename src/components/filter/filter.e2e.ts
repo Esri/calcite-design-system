@@ -20,7 +20,9 @@ describe("calcite-filter", () => {
     focusable("calcite-filter");
   });
 
-  it("can be disabled", () => disabled("calcite-filter"));
+  describe("disabled", () => {
+    disabled("calcite-filter");
+  });
 
   describe("reflects", () => {
     reflects("calcite-filter", [

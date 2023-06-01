@@ -26,7 +26,9 @@ describe("calcite-rating", () => {
 
     it("is labelable", async () => labelable("calcite-rating"));
 
-    it("can be disabled", () => disabled("<calcite-rating value='3'></calcite-rating>"));
+    describe("disabled", () => {
+      disabled("<calcite-rating value='3'></calcite-rating>");
+    });
 
     it("supports translations", () => t9n("calcite-rating"));
 

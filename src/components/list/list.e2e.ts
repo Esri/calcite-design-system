@@ -96,13 +96,14 @@ describe("calcite-list", () => {
     </calcite-list>`);
   });
 
-  it("can be disabled", () =>
+  describe("disabled", () => {
     disabled(
       html`<calcite-list>
         <calcite-list-item label="test" description="hello world"></calcite-list-item>
       </calcite-list>`,
       { focusTarget: "child" }
-    ));
+    );
+  });
 
   it.skip("navigating items after filtering", async () => {
     const page = await newE2EPage({

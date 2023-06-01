@@ -62,7 +62,9 @@ describe("calcite-input-text", () => {
     ]);
   });
 
-  it("can be disabled", () => disabled("calcite-input-text"));
+  describe("disabled", () => {
+    disabled("calcite-input-text");
+  });
 
   it("renders an icon when explicit Calcite UI is requested, and is a type without a default icon", async () => {
     const page = await newE2EPage();

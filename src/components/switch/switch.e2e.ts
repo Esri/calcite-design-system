@@ -30,7 +30,9 @@ describe("calcite-switch", () => {
     formAssociated("calcite-switch", { testValue: true, inputType: "checkbox" });
   });
 
-  it("can be disabled", () => disabled("calcite-switch"));
+  describe("disabled", () => {
+    disabled("calcite-switch");
+  });
 
   it("toggles the checked attributes appropriately when clicked", async () => {
     const page = await newE2EPage();

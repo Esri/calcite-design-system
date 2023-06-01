@@ -137,7 +137,9 @@ describe("calcite-button", () => {
 
   it("is labelable", async () => labelable("calcite-button"));
 
-  it("can be disabled", () => disabled("calcite-button"));
+  describe("disabled", () => {
+    disabled("calcite-button");
+  });
 
   it("should update childElType when href changes", async () => {
     const page = await newE2EPage({ html: `<calcite-button>Continue</calcite-button>` });

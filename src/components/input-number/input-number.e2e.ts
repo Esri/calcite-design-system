@@ -85,7 +85,9 @@ describe("calcite-input-number", () => {
     ]);
   });
 
-  it("can be disabled", () => disabled("calcite-input-number"));
+  describe("disabled", () => {
+    disabled("calcite-input-number");
+  });
 
   it("when disabled, spinner buttons  should not be interactive/should not nudge the number", async () => {
     const page = await newE2EPage();

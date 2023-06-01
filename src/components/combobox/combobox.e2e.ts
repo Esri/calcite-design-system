@@ -129,7 +129,9 @@ describe("calcite-combobox", () => {
 
   it("is labelable", async () => labelable("calcite-combobox"));
 
-  it("can be disabled", () => disabled("calcite-combobox"));
+  describe("disabled", () => {
+    disabled("calcite-combobox");
+  });
 
   it("filtering does not match property with value of undefined", async () => {
     const page = await newE2EPage({
