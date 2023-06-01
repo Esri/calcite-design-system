@@ -182,7 +182,6 @@ export class RadioButtonGroup implements LoadableComponent {
       this.selectedItem.setFocus();
       return;
     }
-
     if (this.radioButtons.length > 0) {
       const focusableRadioButton = this.getFocusableRadioButton();
       focusableRadioButton !== null && focusableRadioButton.setFocus();
