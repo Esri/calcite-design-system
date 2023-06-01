@@ -143,7 +143,7 @@ export class RadioButtonGroup implements LoadableComponent {
     }
   };
 
-  getFocusableRadioButton(): HTMLCalciteRadioButtonElement | null {
+  private getFocusableRadioButton(): HTMLCalciteRadioButtonElement | null {
     let index = 0;
     let focusableEle = this.radioButtons[index];
     while (focusableEle.disabled) {
