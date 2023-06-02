@@ -14,5 +14,7 @@ describe("calcite-accordion-item", () => {
     accessible(`<calcite-accordion-item heading="My Heading"></calcite-accordion-item>`);
   });
 
-  it("has slots", () => slots("calcite-accordion-item", SLOTS));
+  describe("slots", () => {
+    slots("calcite-accordion-item", SLOTS);
+  });
 });

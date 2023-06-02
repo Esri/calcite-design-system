@@ -9,7 +9,9 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ### Bug Fixes
 
-- **accordion-item:** support items working across shadowDOM ([#7035](https://github.com/Esri/calcite-components/issues/7035)) ([6378e35](https://github.com/Esri/calcite-components/commit/6378e351bad4aff1aefe62b7c52262ae57c48907)), closes [#6167](https://github.com/Esri/calcite-components/issues/6167)
+- **menu-item:** Ensure correct order of rendered icons ([#7098](https://github.com/Esri/calcite-components/issues/7098)) ([fd344e9](https://github.com/Esri/calcite-components/commit/fd344e91fb02b5dcb3e7ef6565fc679935c078c2)), closes [#7097](https://github.com/Esri/calcite-components/issues/7097)
+
+* **accordion-item:** support items working across shadowDOM ([#7035](https://github.com/Esri/calcite-components/issues/7035)) ([6378e35](https://github.com/Esri/calcite-components/commit/6378e351bad4aff1aefe62b7c52262ae57c48907)), closes [#6167](https://github.com/Esri/calcite-components/issues/6167)
 
 <!--@unreleased-section-end-->
 

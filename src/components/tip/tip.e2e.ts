@@ -24,7 +24,9 @@ describe("calcite-tip", () => {
     accessible(`<calcite-tip heading="sample"><p>not dismissible</p></calcite-tip>`);
   });
 
-  it("has slots", () => slots("calcite-tip", SLOTS));
+  describe("slots", () => {
+    slots("calcite-tip", SLOTS);
+  });
 
   it("should remove the closeButton if closeDisabled prop is true", async () => {
     const page = await newE2EPage();
