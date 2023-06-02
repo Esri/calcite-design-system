@@ -34,11 +34,12 @@ describe("calcite-radio-button", () => {
     hidden("calcite-radio-button");
   });
 
-  it("is labelable", async () =>
+  describe("labelable", () => {
     labelable("<calcite-radio-button name='group-name'></calcite-radio-button>", {
       shadowFocusTargetSelector: ".container",
       propertyToToggle: "checked"
-    }));
+    });
+  });
 
   it("can be disabled", () => disabled("calcite-radio-button"));
 

@@ -24,7 +24,9 @@ describe("calcite-switch", () => {
     accessible(`<calcite-switch label="test-label" checked></calcite-switch>`);
   });
 
-  it("is labelable", async () => labelable("calcite-switch", { propertyToToggle: "checked" }));
+  describe("labelable", () => {
+    labelable("calcite-switch", { propertyToToggle: "checked" });
+  });
 
   describe("is form-associated", () => {
     formAssociated("calcite-switch", { testValue: true, inputType: "checkbox" });

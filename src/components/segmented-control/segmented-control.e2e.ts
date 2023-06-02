@@ -11,7 +11,7 @@ describe("calcite-segmented-control", () => {
     hidden("calcite-segmented-control");
   });
 
-  it("is labelable", async () =>
+  describe("labelable", () => {
     labelable(
       html`<calcite-segmented-control>
         <calcite-segmented-control-item value="1"></calcite-segmented-control-item>
@@ -19,7 +19,8 @@ describe("calcite-segmented-control", () => {
         <calcite-segmented-control-item value="3"></calcite-segmented-control-item>
       </calcite-segmented-control>`,
       { focusTargetSelector: "calcite-segmented-control-item" }
-    ));
+    );
+  });
 
   it("can be disabled", () =>
     disabled(
