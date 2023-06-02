@@ -535,7 +535,7 @@ export class Modal
     }
   }
 
-  handleOutsideClose = (): void => {
+  private handleOutsideClose = (): void => {
     if (this.outsideCloseDisabled) {
       return;
     }
@@ -543,19 +543,19 @@ export class Modal
     this.handleClose();
   };
 
-  private async handleClose(): Promise<void> {
+  private handleClose = async (): Promise<void> => {
     if (this.beforeClose) {
       await this.beforeClose(this.el);
     }
 
     this.closeModal();
-  }
+  };
 
-  closeModal = (): void => {
+  private closeModal(): void {
     this.open = false;
     this.isOpen = false;
     this.removeOverflowHiddenClass();
-  };
+  }
 
   private removeOverflowHiddenClass(): void {
     document.documentElement.classList.remove(CSS.overflowHidden);
