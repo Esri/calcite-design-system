@@ -121,9 +121,10 @@ describe("calcite-modal properties", () => {
         (elm.beforeClose = (window as typeof window & Pick<typeof elm, "beforeClose">).beforeClose)
     );
     await page.waitForChanges();
-    await modal.setProperty("open", true);
+    modal.setProperty("open", true);
     await page.waitForChanges();
-    await modal.setProperty("open", false);
+    const closeButton = await page.find(`calcite-modal >>> .${CSS.close}`);
+    await closeButton.click();
     await page.waitForChanges();
     expect(mockCallBack).toHaveBeenCalled();
   });

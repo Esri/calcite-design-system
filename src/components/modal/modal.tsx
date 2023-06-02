@@ -51,7 +51,6 @@ import {
   updateMessages
 } from "../../utils/t9n";
 import { ModalMessages } from "./assets/modal/t9n";
-import { autoResolvingFunction } from "../../utils/promise";
 
 /**
  * @slot header - A slot for adding header text.
@@ -545,7 +544,11 @@ export class Modal
   };
 
   private async handleClose(): Promise<void> {
-    return (this.beforeClose ?? autoResolvingFunction)(this.el).then(this.closeModal);
+    if (this.beforeClose) {
+      await this.beforeClose(this.el);
+    }
+
+    this.closeModal();
   }
 
   closeModal = (): void => {
