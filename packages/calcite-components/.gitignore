@@ -1,6 +1,6 @@
-www/
-hydrate/
-docs/
 __docs-temp__/*
-src/components/icon/assets
+docs/
+hydrate/
 src/**/*.js
+src/components/icon/assets
+www/
