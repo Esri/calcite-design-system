@@ -185,14 +185,20 @@ export class RadioButton
   };
 
   check = (): void => {
-    if (this.disabled || this.checked) {
+    if (this.disabled) {
       return;
     }
+
+    this.focused = true;
+    this.setFocus();
+
+    if (this.checked) {
+      return;
+    }
+
     this.uncheckAllRadioButtonsInGroup();
     this.checked = true;
-    this.focused = true;
     this.calciteRadioButtonChange.emit();
-    this.setFocus();
   };
 
   private clickHandler = (): void => {
@@ -204,30 +210,34 @@ export class RadioButton
   };
 
   onLabelClick(event: CustomEvent): void {
-    if (!this.disabled && !this.hidden) {
-      const label = event.currentTarget as HTMLCalciteLabelElement;
-      const radioButton = label.for
-        ? this.rootNode.querySelector<HTMLCalciteRadioButtonElement>(
-            `calcite-radio-button[id="${label.for}"]`
-          )
-        : label.querySelector<HTMLCalciteRadioButtonElement>(
-            `calcite-radio-button[name="${this.name}"]`
-          );
-
-      if (radioButton?.checked) {
-        return;
-      }
-
-      this.uncheckOtherRadioButtonsInGroup();
-
-      if (radioButton) {
-        radioButton.checked = true;
-        radioButton.focused = true;
-      }
-
-      this.calciteRadioButtonChange.emit();
-      this.setFocus();
+    if (this.disabled || this.hidden) {
+      return;
     }
+
+    const label = event.currentTarget as HTMLCalciteLabelElement;
+
+    const radioButton = label.for
+      ? this.rootNode.querySelector<HTMLCalciteRadioButtonElement>(
+          `calcite-radio-button[id="${label.for}"]`
+        )
+      : label.querySelector<HTMLCalciteRadioButtonElement>(
+          `calcite-radio-button[name="${this.name}"]`
+        );
+
+    if (!radioButton) {
+      return;
+    }
+
+    radioButton.focused = true;
+    this.setFocus();
+
+    if (radioButton.checked) {
+      return;
+    }
+
+    this.uncheckOtherRadioButtonsInGroup();
+    radioButton.checked = true;
+    this.calciteRadioButtonChange.emit();
   }
 
   private checkLastRadioButton(): void {
