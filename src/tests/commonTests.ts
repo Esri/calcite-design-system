@@ -446,7 +446,6 @@ export function labelable(componentTagOrHtml: TagOrHTML, options?: LabelableOpti
   const propertyToToggle = options?.propertyToToggle;
   const focusTargetSelector = options?.focusTargetSelector || `#${id}`;
   const shadowFocusTargetSelector = options?.shadowFocusTargetSelector;
-
   const componentTag = getTag(componentTagOrHtml);
   const componentHtml = isHTML(componentTagOrHtml)
     ? ensureId(componentTagOrHtml)
@@ -456,7 +455,7 @@ export function labelable(componentTagOrHtml: TagOrHTML, options?: LabelableOpti
     return html.includes("id=") ? html : html.replace(componentTag, `${componentTag} id="${id}" `);
   }
 
-  it("is labeleable when component is wrapped in a label", async () => {
+  it("is labelable when component is wrapped in a label", async () => {
     const wrappedHtml = html`<calcite-label> ${labelTitle} ${componentHtml}</calcite-label>`;
     const wrappedPage: E2EPage = await newE2EPage({ html: wrappedHtml });
     await wrappedPage.waitForChanges();
@@ -470,7 +469,7 @@ export function labelable(componentTagOrHtml: TagOrHTML, options?: LabelableOpti
     });
   });
 
-  it("is labeleable with label set as a sibling to the component", async () => {
+  it("is labelable with label set as a sibling to the component", async () => {
     const siblingHtml = html`
       <calcite-label for="${id}">${labelTitle}</calcite-label>
       ${componentHtml}
@@ -487,7 +486,7 @@ export function labelable(componentTagOrHtml: TagOrHTML, options?: LabelableOpti
     });
   });
 
-  it("is labeleable when sibling label is set prior to component", async () => {
+  it("is labelable when sibling label is set prior to component", async () => {
     const labelFirstSiblingPage: E2EPage = await newE2EPage();
     await labelFirstSiblingPage.setContent(`<calcite-label for="${id}"></calcite-label>`);
     await labelFirstSiblingPage.waitForChanges();
@@ -508,7 +507,7 @@ export function labelable(componentTagOrHtml: TagOrHTML, options?: LabelableOpti
     });
   });
 
-  it("is labeleable when wrapping label is set prior to component", async () => {
+  it("is labelable when wrapping label is set prior to component", async () => {
     const labelFirstWrappedPage: E2EPage = await newE2EPage();
     await labelFirstWrappedPage.setContent(`<calcite-label for="${id}"></calcite-label>`);
     await labelFirstWrappedPage.waitForChanges();
@@ -530,7 +529,7 @@ export function labelable(componentTagOrHtml: TagOrHTML, options?: LabelableOpti
     });
   });
 
-  it("is labelable for a component is set before sibling label", async () => {
+  it("is labelable for a component set before sibling label", async () => {
     const componentFirstSiblingPage: E2EPage = await newE2EPage({ html: componentHtml });
     await componentFirstSiblingPage.waitForChanges();
     await componentFirstSiblingPage.evaluate((id: string) => {
