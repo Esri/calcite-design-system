@@ -444,9 +444,9 @@ export class CalciteMenuItem implements LoadableComponent, T9nComponent, Localiz
         <div class={CSS.textContainer}>
           <span>{this.text}</span>
         </div>
-        {!this.href && this.hasSubmenu ? this.renderDropdownIcon(dir) : null}
-        {this.breadcrumb ? this.renderBreadcrumbIcon(dir) : null}
         {this.iconEnd && this.renderIconEnd()}
+        {this.breadcrumb ? this.renderBreadcrumbIcon(dir) : null}
+        {!this.href && this.hasSubmenu ? this.renderDropdownIcon(dir) : null}
       </Fragment>
     );
   }
