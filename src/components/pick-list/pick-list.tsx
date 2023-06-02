@@ -10,7 +10,12 @@ import {
   State,
   VNode
 } from "@stencil/core";
-import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import {
+  connectInteractive,
+  disconnectInteractive,
+  InteractiveComponent,
+  updateHostInteraction
+} from "../../utils/interactive";
 import {
   componentLoaded,
   LoadableComponent,
@@ -156,10 +161,12 @@ export class PickList<
   connectedCallback(): void {
     initialize.call(this);
     initializeObserver.call(this);
+    connectInteractive(this);
   }
 
   disconnectedCallback(): void {
     cleanUpObserver.call(this);
+    disconnectInteractive(this);
   }
 
   componentWillLoad(): void {

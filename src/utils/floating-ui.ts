@@ -19,49 +19,32 @@ import { debounce } from "lodash-es";
 import { config } from "./config";
 import { getElementDir } from "./dom";
 import { Layout } from "../components/interfaces";
+import { getUserAgentData, getUserAgentString } from "./browser";
 
 const floatingUIBrowserCheck = patchFloatingUiForNonChromiumBrowsers();
 
+export function isChrome109OrAbove(): boolean {
+  const uaData = getUserAgentData();
+
+  if (uaData?.brands) {
+    return !!uaData.brands.find(
+      ({ brand, version }) => (brand === "Google Chrome" || brand === "Chromium") && Number(version) >= 109
+    );
+  }
+
+  return !!navigator.userAgent.split(" ").find((ua) => {
+    const [browser, version] = ua.split("/");
+
+    return browser === "Chrome" && parseInt(version) >= 109;
+  });
+}
+
 async function patchFloatingUiForNonChromiumBrowsers(): Promise<void> {
-  interface NavigatorUAData {
-    brands: Array<{ brand: string; version: string }>;
-    mobile: boolean;
-    platform: string;
-  }
-
-  function getUAData(): NavigatorUAData | undefined {
-    return (navigator as any).userAgentData;
-  }
-
-  function getUAString(): string {
-    const uaData = getUAData();
-
-    return uaData?.brands
-      ? uaData.brands.map(({ brand, version }) => `${brand}/${version}`).join(" ")
-      : navigator.userAgent;
-  }
-
-  function isChrome109OrAbove(): boolean {
-    const uaData = getUAData();
-
-    if (uaData?.brands) {
-      return !!uaData.brands.find(
-        ({ brand, version }) => (brand === "Google Chrome" || brand === "Chromium") && Number(version) >= 109
-      );
-    }
-
-    return !!navigator.userAgent.split(" ").find((ua) => {
-      const [browser, version] = ua.split("/");
-
-      return browser === "Chrome" && parseInt(version) >= 109;
-    });
-  }
-
   if (
     Build.isBrowser &&
     config.floatingUINonChromiumPositioningFix &&
     // ⚠️ browser-sniffing is not a best practice and should be avoided ⚠️
-    (/firefox|safari/i.test(getUAString()) || isChrome109OrAbove())
+    (/firefox|safari/i.test(getUserAgentString()) || isChrome109OrAbove())
   ) {
     const { offsetParent } = await import("composed-offset-position");
 

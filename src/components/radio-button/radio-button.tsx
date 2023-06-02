@@ -20,7 +20,12 @@ import {
   HiddenFormInputSlot
 } from "../../utils/form";
 import { guid } from "../../utils/guid";
-import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import {
+  connectInteractive,
+  disconnectInteractive,
+  InteractiveComponent,
+  updateHostInteraction
+} from "../../utils/interactive";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
 import {
   componentLoaded,
@@ -423,6 +428,7 @@ export class RadioButton
     if (this.name) {
       this.checkLastRadioButton();
     }
+    connectInteractive(this);
     connectLabel(this);
     connectForm(this);
   }
@@ -440,6 +446,7 @@ export class RadioButton
   }
 
   disconnectedCallback(): void {
+    disconnectInteractive(this);
     disconnectLabel(this);
     disconnectForm(this);
   }
