@@ -370,7 +370,10 @@ export function slots(
         return defaultSlotted.assignedSlot?.name === "" && defaultSlotted.slot === "";
       });
 
-      // eslint-disable-next-line jest/no-conditional-expect
+      /* eslint-disable-next-line jest/no-conditional-expect --
+       * Conditional logic here is confined to a test helper and its purpose is to handle specific scenarios/variations in the test setup.
+       * The goal is to reduce duplication and strike a balance between test readability and maintainability.
+       **/
       expect(hasDefaultSlotted).toBe(true);
     }
   });
