@@ -1,7 +1,5 @@
 # Calcite Components React
 
-- test123
-
 A set of React components that wrap [Calcite Components](https://developers.arcgis.com/calcite-design-system/components/). An application using this package is provided in the [`calcite-components-examples`](https://github.com/Esri/calcite-components-examples) repo.
 
 ## Installation
@@ -18,7 +16,7 @@ There are two builds that are provided by the standard `calcite-components` pack
 
 ### Custom Elements build
 
-[Custom Elements](https://stenciljs.com/docs/custom-elements) is the recomended build when using frontend frameworks, such as React. To use this build, you will need to set the path to the `calcite-components` assets. You can either use local assets, which will be explained in a subsequent step, or assets hosted on a CDN.
+[Custom Elements](https://stenciljs.com/docs/custom-elements) is the recommended build when using frontend frameworks, such as React. To use this build, you will need to set the path to the `calcite-components` assets. You can either use local assets, which will be explained in a subsequent step, or assets hosted on a CDN.
 
 ```jsx
 import { setAssetPath } from "@esri/calcite-components/dist/components";

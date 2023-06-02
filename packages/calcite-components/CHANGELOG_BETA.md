@@ -1,7 +1,7 @@
-# Beta Changelog
+# Change Log
 
-This document maintains a list of pre-v1 released versions and changes introduced by them.
-This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
+All notable changes to this project will be documented in this file.
+See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
 See [`CHANGELOG.md`](./CHANGELOG.md) for post-v1 changes.
 

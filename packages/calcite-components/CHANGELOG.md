@@ -3,15 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-<!--@unreleased-section-start-->
-
-## Unreleased
+## [v1.4.3-next.0](https://github.com/Esri/calcite-components/compare/v1.4.2...v1.4.3-next.0) (2023-05-30)
 
 ### Bug Fixes
 
-- **accordion-item:** support items working across shadowDOM ([#7035](https://github.com/Esri/calcite-components/issues/7035)) ([6378e35](https://github.com/Esri/calcite-components/commit/6378e351bad4aff1aefe62b7c52262ae57c48907)), closes [#6167](https://github.com/Esri/calcite-components/issues/6167)
+- **menu-item:** Ensure correct order of rendered icons ([#7098](https://github.com/Esri/calcite-components/issues/7098)) ([fd344e9](https://github.com/Esri/calcite-components/commit/fd344e91fb02b5dcb3e7ef6565fc679935c078c2)), closes [#7097](https://github.com/Esri/calcite-components/issues/7097)
 
-<!--@unreleased-section-end-->
+- **accordion-item:** support items working across shadowDOM ([#7035](https://github.com/Esri/calcite-components/issues/7035)) ([6378e35](https://github.com/Esri/calcite-components/commit/6378e351bad4aff1aefe62b7c52262ae57c48907)), closes [#6167](https://github.com/Esri/calcite-components/issues/6167)
 
 ## [v1.4.2](https://github.com/Esri/calcite-components/compare/v1.4.1...v1.4.2) (2023-05-30)
 
@@ -196,7 +194,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 ### Bug Fixes
 
 - **card:** provide more meaningful screen reader label for selectable cards (deprecates `deselect` message override) ([#6657](https://github.com/Esri/calcite-components/issues/6657)) ([8ee37d2](https://github.com/Esri/calcite-components/commit/8ee37d2d5e7c14223837d0be80e79df6a71e7e56)), closes [#5585](https://github.com/Esri/calcite-components/issues/5585)
-- **modal:** prevent error when calling setFocus on a recently rendered and opened modal (`dist-custom-elements`) ([#6666](https://github.com/Esri/calcite-components/issues/6666)) ([aa1f3d1](https://github.com/Esri/calcite-components/commit/aa1f3d1b53e40db295edb135f03ef9ef48eb23db)), closes [#6188](https://github.com/Esri/calcite-components/issues/6188) [ionic-team/ionic-framework/blob/main/core/src/utils/helpers.ts#L72-L79](https://github.com/ionic-team/ionic-framework/blob/c1eabb7333bf6e807de5bce166b287834fb60f32/core/src/utils/helpers.ts#L72-L79) [ionic-team/stencil/issues/3246#issuecomment-1048802446](https://github.com/ionic-team/stencil/issues/3246#issuecomment-1048802446)
+- **modal:** prevent error when calling setFocus on a recently rendered and opened modal (`dist-custom-elements`) ([#6666](https://github.com/Esri/calcite-components/issues/6666)) ([aa1f3d1](https://github.com/Esri/calcite-components/commit/aa1f3d1b53e40db295edb135f03ef9ef48eb23db)), closes [#6188](https://github.com/Esri/calcite-components/issues/6188) [/github.com/ionic-team/ionic-framework/blob/main/core/src/utils/helpers.ts#L72-L79](https://github.com/Esri//github.com/ionic-team/ionic-framework/blob/main/core/src/utils/helpers.ts/issues/L72-L79) [/github.com/ionic-team/stencil/issues/3246#issuecomment-1048802446](https://github.com/Esri//github.com/ionic-team/stencil/issues/3246/issues/issuecomment-1048802446)
 - **pagination:** add current page information for screen readers ([#6637](https://github.com/Esri/calcite-components/issues/6637)) ([335f947](https://github.com/Esri/calcite-components/commit/335f947e8a0b692b5d0b5a6d9a47e68c9b8297e9)), closes [#5590](https://github.com/Esri/calcite-components/issues/5590)
 - **tile-select:** fix click not firing in custom-elements build ([#6665](https://github.com/Esri/calcite-components/issues/6665)) ([71aa826](https://github.com/Esri/calcite-components/commit/71aa8261f9e8d05f11142652a1b66293a968ddf8)), closes [#6185](https://github.com/Esri/calcite-components/issues/6185)
 
@@ -253,7 +251,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 - **tree-item:** preserves consistent height with or w/t actions-end ([#6403](https://github.com/Esri/calcite-components/issues/6403)) ([728f42b](https://github.com/Esri/calcite-components/commit/728f42b4ad219f5c947cfd5226db7959c3cfd9c1)), closes [#6361](https://github.com/Esri/calcite-components/issues/6361) [#3127](https://github.com/Esri/calcite-components/issues/3127)
 - **vite:** getting the dist build to work correctly with vite again ([#6452](https://github.com/Esri/calcite-components/issues/6452)) ([cc44984](https://github.com/Esri/calcite-components/commit/cc44984966d21a8537e03daa0fe66d90bff38385)), closes [#6419](https://github.com/Esri/calcite-components/issues/6419)
 
-## [1.0.5](https://github.com/Esri/calcite-components/compare/v1.0.4...v1.0.5) (2023-02-09)
+## [v1.0.5](https://github.com/Esri/calcite-components/compare/v1.0.4...v1.0.5) (2023-02-09)
 
 ### Bug Fixes
 

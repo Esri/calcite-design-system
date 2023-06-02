@@ -22,8 +22,8 @@ src\components\input-text\assets\input-text\t9n
 src\components\input-time-picker\assets\input-time-picker\t9n
 src\components\input-time-zone\assets\input-time-zone\t9n
 src\components\list-item\assets\list-item\t9n
-src\components\menu-item\assets\menu-item\t9n
 src\components\menu\assets\menu\t9n
+src\components\menu-item\assets\menu-item\t9n
 src\components\modal\assets\modal\t9n
 src\components\notice\assets\notice\t9n
 src\components\pagination\assets\pagination\t9n
