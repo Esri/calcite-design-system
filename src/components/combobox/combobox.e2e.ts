@@ -127,7 +127,9 @@ describe("calcite-combobox", () => {
     `);
   });
 
-  it("is labelable", async () => labelable("calcite-combobox"));
+  describe("labelable", () => {
+    labelable("calcite-combobox");
+  });
 
   it("can be disabled", () => disabled("calcite-combobox"));
 

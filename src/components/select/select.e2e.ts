@@ -59,7 +59,9 @@ describe("calcite-select", () => {
     expect(selectedOptionValue).toBe(await selectedOption.getProperty("value"));
   }
 
-  it("is labelable", async () => labelable("calcite-select"));
+  describe("labelable", () => {
+    labelable("calcite-select");
+  });
 
   it("can be disabled", () => disabled("calcite-select"));
 

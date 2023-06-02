@@ -24,8 +24,9 @@ describe("calcite-checkbox", () => {
     accessible(`<calcite-checkbox label="label" id="example" name="example" value="one"></calcite-checkbox>`);
   });
 
-  it("is labelable", async () =>
-    labelable("calcite-checkbox", { propertyToToggle: "checked", shadowFocusTargetSelector: ".toggle" }));
+  describe("labelable", () => {
+    labelable("calcite-checkbox", { propertyToToggle: "checked", shadowFocusTargetSelector: ".toggle" });
+  });
 
   describe("is form-associated", () => {
     formAssociated("calcite-checkbox", { testValue: true, inputType: "checkbox" });

@@ -24,7 +24,9 @@ describe("calcite-rating", () => {
       accessible(`<calcite-rating></calcite-rating>`);
     });
 
-    it("is labelable", async () => labelable("calcite-rating"));
+    describe("labelable", () => {
+      labelable("calcite-rating");
+    });
 
     it("can be disabled", () => disabled("<calcite-rating value='3'></calcite-rating>"));
 
@@ -36,15 +38,17 @@ describe("calcite-rating", () => {
       });
     });
 
-    it("focuses the first star when the label is clicked and no-rating value exists", () =>
+    describe("focuses the first star when the label is clicked and no-rating value exists", () => {
       labelable("calcite-rating", {
         shadowFocusTargetSelector: "input[value='1']"
-      }));
+      });
+    });
 
-    it("focuses the value-matching star when the label is clicked", () =>
+    describe("focuses the value-matching star when the label is clicked", () => {
       labelable("<calcite-rating value='3'></calcite-rating>", {
         shadowFocusTargetSelector: "input[value='3']"
-      }));
+      });
+    });
 
     describe("is form-associated", () => {
       formAssociated("calcite-rating", { testValue: 3 });

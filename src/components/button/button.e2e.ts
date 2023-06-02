@@ -135,7 +135,9 @@ describe("calcite-button", () => {
     accessible(`<calcite-button loading icon-start='plus' icon-end='plus'>Continue</calcite-button>`);
   });
 
-  it("is labelable", async () => labelable("calcite-button"));
+  describe("labelable", () => {
+    labelable("calcite-button");
+  });
 
   it("can be disabled", () => disabled("calcite-button"));
 
