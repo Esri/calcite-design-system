@@ -436,16 +436,6 @@ export class Modal
   //--------------------------------------------------------------------------
 
   /**
-   * Closes the modal, first running the `beforeClose` method.
-   *
-   * @returns {Promise<void>}
-   */
-  @Method()
-  async close(): Promise<void> {
-    return (this.beforeClose ?? autoResolvingFunction)(this.el).then(this.closeHandler);
-  }
-
-  /**
    * Sets focus on the component's "close" button (the first focusable item).
    *
    */
@@ -553,6 +543,10 @@ export class Modal
 
     this.close();
   };
+
+  private async close(): Promise<void> {
+    return (this.beforeClose ?? autoResolvingFunction)(this.el).then(this.closeHandler);
+  }
 
   closeHandler = (): void => {
     this.open = false;
