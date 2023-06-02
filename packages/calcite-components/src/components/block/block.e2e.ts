@@ -29,7 +29,9 @@ describe("calcite-block", () => {
     ]);
   });
 
-  it("has slots", () => slots("calcite-block", SLOTS));
+  describe("slots", () => {
+    slots("calcite-block", SLOTS);
+  });
 
   describe("accessible", () => {
     accessible(html`

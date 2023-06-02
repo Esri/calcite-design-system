@@ -46,7 +46,9 @@ describe("calcite-list-item", () => {
     ]);
   });
 
-  it("has slots", () => slots("calcite-list-item", SLOTS));
+  describe("slots", () => {
+    slots("calcite-list-item", SLOTS);
+  });
 
   it("can be disabled", () => disabled(`<calcite-list-item label="test" active></calcite-list-item>`));
 

@@ -34,7 +34,9 @@ describe("calcite-pick-list-group", () => {
     ]);
   });
 
-  it("has slots", () => slots("calcite-pick-list-group", SLOTS));
+  describe("slots", () => {
+    slots("calcite-pick-list-group", SLOTS);
+  });
 
   it("should render", async () => {
     const page = await newE2EPage();

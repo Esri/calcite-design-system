@@ -27,7 +27,9 @@ describe("calcite-value-list-item", () => {
     `);
   });
 
-  it("has slots", () => slots("calcite-value-list-item", SLOTS));
+  describe("slots", () => {
+    slots("calcite-value-list-item", SLOTS);
+  });
 
   describe("is focusable", () => {
     focusable("calcite-value-list-item");

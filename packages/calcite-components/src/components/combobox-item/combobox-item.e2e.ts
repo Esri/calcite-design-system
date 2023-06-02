@@ -9,7 +9,9 @@ describe("calcite-combobox-item", () => {
     hidden("calcite-combobox-item");
   });
 
-  it("has slots", () => slots("calcite-combobox-item", [], true));
+  describe("slots", () => {
+    slots("calcite-combobox-item", [], true);
+  });
 
   it("can be disabled", () => disabled("calcite-combobox-item", { focusTarget: "none" }));
 });

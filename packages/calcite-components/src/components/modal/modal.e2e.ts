@@ -13,7 +13,9 @@ describe("calcite-modal properties", () => {
     hidden("calcite-modal");
   });
 
-  it("has slots", () => slots("calcite-modal", SLOTS));
+  describe("slots", () => {
+    slots("calcite-modal", SLOTS);
+  });
 
   it("should hide closeButton when disabled", async () => {
     const page = await newE2EPage();

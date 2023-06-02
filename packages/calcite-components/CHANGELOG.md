@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<!--@unreleased-section-start-->
+
+## Unreleased
+
+### Bug Fixes
+
+- **accordion-item:** support items working across shadowDOM ([#7035](https://github.com/Esri/calcite-components/issues/7035)) ([6378e35](https://github.com/Esri/calcite-components/commit/6378e351bad4aff1aefe62b7c52262ae57c48907)), closes [#6167](https://github.com/Esri/calcite-components/issues/6167)
+
+<!--@unreleased-section-end-->
+
 ## [v1.4.2](https://github.com/Esri/calcite-components/compare/v1.4.1...v1.4.2) (2023-05-30)
 
 ### Bug Fixes

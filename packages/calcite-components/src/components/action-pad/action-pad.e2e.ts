@@ -205,7 +205,9 @@ describe("calcite-action-pad", () => {
     );
   });
 
-  it("has slots", () => slots("calcite-action-pad", SLOTS));
+  describe("slots", () => {
+    slots("calcite-action-pad", SLOTS);
+  });
 
   it("'calciteActionMenuOpen' event should set other 'calcite-action-group' - 'menuOpen' to false", async () => {
     const page = await newE2EPage({

@@ -34,7 +34,9 @@ describe("calcite-notice", () => {
     accessible(`<calcite-notice icon closable open>${noticeContent}</calcite-notice>`);
   });
 
-  it("has slots", () => slots("calcite-notice", SLOTS));
+  describe("slots", () => {
+    slots("calcite-notice", SLOTS);
+  });
 
   it("renders default props when none are provided", async () => {
     const page = await newE2EPage();

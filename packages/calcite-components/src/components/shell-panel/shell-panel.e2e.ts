@@ -35,7 +35,9 @@ describe("calcite-shell-panel", () => {
     ]);
   });
 
-  it("has slots", () => slots("calcite-shell-panel", SLOTS));
+  describe("slots", () => {
+    slots("calcite-shell-panel", SLOTS);
+  });
 
   it("has a slot", async () => {
     const page = await newE2EPage();
