@@ -441,21 +441,22 @@ interface LabelableOptions extends Pick<FocusableOptions, "focusTargetSelector" 
  * @param {LabelableOptions} [options] - Labelable options.
  */
 export function labelable(componentTagOrHtml: TagOrHTML, options?: LabelableOptions): void {
-  it("is labelable", async () => {
-    const id = "labelable-id";
-    const labelTitle = "My Component";
-    const propertyToToggle = options?.propertyToToggle;
-    const focusTargetSelector = options?.focusTargetSelector || `#${id}`;
-    const shadowFocusTargetSelector = options?.shadowFocusTargetSelector;
-    const componentTag = getTag(componentTagOrHtml);
-    const componentHtml = isHTML(componentTagOrHtml)
-      ? ensureId(componentTagOrHtml)
-      : `<${componentTag} id="${id}"></${componentTag}>`;
+  const id = "labelable-id";
+  const labelTitle = "My Component";
+  const propertyToToggle = options?.propertyToToggle;
+  const focusTargetSelector = options?.focusTargetSelector || `#${id}`;
+  const shadowFocusTargetSelector = options?.shadowFocusTargetSelector;
 
-    function ensureId(html: string): string {
-      return html.includes("id=") ? html : html.replace(componentTag, `${componentTag} id="${id}" `);
-    }
+  const componentTag = getTag(componentTagOrHtml);
+  const componentHtml = isHTML(componentTagOrHtml)
+    ? ensureId(componentTagOrHtml)
+    : `<${componentTag} id="${id}"></${componentTag}>`;
 
+  function ensureId(html: string): string {
+    return html.includes("id=") ? html : html.replace(componentTag, `${componentTag} id="${id}" `);
+  }
+
+  it("is labeleable when component is wrapped in a label", async () => {
     const wrappedHtml = html`<calcite-label> ${labelTitle} ${componentHtml}</calcite-label>`;
     const wrappedPage: E2EPage = await newE2EPage({ html: wrappedHtml });
     await wrappedPage.waitForChanges();
@@ -467,7 +468,9 @@ export function labelable(componentTagOrHtml: TagOrHTML, options?: LabelableOpti
       focusTargetSelector,
       shadowFocusTargetSelector
     });
+  });
 
+  it("is labeleable with label set as a sibling to the component", async () => {
     const siblingHtml = html`
       <calcite-label for="${id}">${labelTitle}</calcite-label>
       ${componentHtml}
@@ -482,7 +485,9 @@ export function labelable(componentTagOrHtml: TagOrHTML, options?: LabelableOpti
       focusTargetSelector,
       shadowFocusTargetSelector
     });
+  });
 
+  it("is labeleable when sibling label is set prior to component", async () => {
     const labelFirstSiblingPage: E2EPage = await newE2EPage();
     await labelFirstSiblingPage.setContent(`<calcite-label for="${id}"></calcite-label>`);
     await labelFirstSiblingPage.waitForChanges();
@@ -501,7 +506,9 @@ export function labelable(componentTagOrHtml: TagOrHTML, options?: LabelableOpti
       focusTargetSelector,
       shadowFocusTargetSelector
     });
+  });
 
+  it("is labeleable when wrapping label is set prior to component", async () => {
     const labelFirstWrappedPage: E2EPage = await newE2EPage();
     await labelFirstWrappedPage.setContent(`<calcite-label for="${id}"></calcite-label>`);
     await labelFirstWrappedPage.waitForChanges();
@@ -521,7 +528,9 @@ export function labelable(componentTagOrHtml: TagOrHTML, options?: LabelableOpti
       focusTargetSelector,
       shadowFocusTargetSelector
     });
+  });
 
+  it("is labelable for a component is set before sibling label", async () => {
     const componentFirstSiblingPage: E2EPage = await newE2EPage({ html: componentHtml });
     await componentFirstSiblingPage.waitForChanges();
     await componentFirstSiblingPage.evaluate((id: string) => {
@@ -538,7 +547,9 @@ export function labelable(componentTagOrHtml: TagOrHTML, options?: LabelableOpti
       focusTargetSelector,
       shadowFocusTargetSelector
     });
+  });
 
+  it("is labelable when a component is set first before being wrapped in a label", async () => {
     const componentFirstWrappedPage: E2EPage = await newE2EPage();
     await componentFirstWrappedPage.setContent(`${componentHtml}`);
     await componentFirstWrappedPage.waitForChanges();

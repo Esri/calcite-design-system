@@ -361,6 +361,7 @@ describe("calcite-inline-editable", () => {
             </calcite-inline-editable>`
         );
       });
+
       describe("when editing is enabled", () => {
         labelable(
           `<calcite-inline-editable controls editing-enabled>
