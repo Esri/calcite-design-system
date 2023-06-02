@@ -204,8 +204,7 @@ export class RadioButton
   };
 
   onLabelClick(event: CustomEvent): void {
-    if (!this.disabled && !this.hidden && !this.checked) {
-      this.uncheckOtherRadioButtonsInGroup();
+    if (!this.disabled && !this.hidden) {
       const label = event.currentTarget as HTMLCalciteLabelElement;
       const radioButton = label.for
         ? this.rootNode.querySelector<HTMLCalciteRadioButtonElement>(
@@ -214,6 +213,12 @@ export class RadioButton
         : label.querySelector<HTMLCalciteRadioButtonElement>(
             `calcite-radio-button[name="${this.name}"]`
           );
+
+      if (radioButton?.checked) {
+        return;
+      }
+
+      this.uncheckOtherRadioButtonsInGroup();
 
       if (radioButton) {
         radioButton.checked = true;
