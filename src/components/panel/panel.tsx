@@ -42,7 +42,7 @@ import { PanelMessages } from "./assets/panel/t9n";
  * @slot header-content - A slot for adding custom content to the header.
  * @slot header-menu-actions - A slot for adding an overflow menu with actions inside a `calcite-dropdown`.
  * @slot fab - A slot for adding a `calcite-fab` (floating action button) to perform an action.
- * @slot footer-actions - [Deprecated] A slot for adding buttons to the footer.
+ * @slot footer-actions - [Deprecated] Use the `"footer"` slot instead. A slot for adding `calcite-button`s to the component's footer.
  * @slot footer - A slot for adding custom content to the footer.
  */
 @Component({
