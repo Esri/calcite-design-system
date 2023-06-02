@@ -30,7 +30,9 @@ describe("calcite-action-menu", () => {
     `);
   });
 
-  it("has slots", () => slots("calcite-action-menu", SLOTS));
+  describe("slots", () => {
+    slots("calcite-action-menu", SLOTS);
+  });
 
   describe("defaults", () => {
     defaults("calcite-action-menu", [

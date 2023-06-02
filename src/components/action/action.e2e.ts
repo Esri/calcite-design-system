@@ -50,7 +50,9 @@ describe("calcite-action", () => {
 
   it("can be disabled", () => disabled("calcite-action"));
 
-  it("has slots", () => slots("calcite-action", SLOTS));
+  describe("slots", () => {
+    slots("calcite-action", SLOTS);
+  });
 
   it("should have visible text when text is enabled", async () => {
     const page = await newE2EPage();
