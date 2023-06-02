@@ -19,5 +19,7 @@ describe("calcite-stack", () => {
     hidden("calcite-stack");
   });
 
-  it("has slots", () => slots("calcite-stack", SLOTS));
+  describe("slots", () => {
+    slots("calcite-stack", SLOTS);
+  });
 });

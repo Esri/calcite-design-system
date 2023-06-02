@@ -58,7 +58,9 @@ describe("calcite-tree-item", () => {
     ]);
   });
 
-  it("has slots", () => slots("calcite-tree-item", SLOTS));
+  describe("slots", () => {
+    slots("calcite-tree-item", SLOTS);
+  });
 
   it("can be disabled (within a tree)", async () => {
     const page = await newE2EPage();

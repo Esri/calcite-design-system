@@ -28,7 +28,9 @@ describe("calcite-card", () => {
     </calcite-card>`);
   });
 
-  it("has slots", () => slots("calcite-card", SLOTS));
+  describe("slots", () => {
+    slots("calcite-card", SLOTS);
+  });
 
   it("renders with default props if none are provided", async () => {
     const page = await newE2EPage();

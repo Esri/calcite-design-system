@@ -249,7 +249,9 @@ describe("calcite-action-bar", () => {
     );
   });
 
-  it("has slots", () => slots("calcite-action-bar", SLOTS));
+  describe("slots", () => {
+    slots("calcite-action-bar", SLOTS);
+  });
 
   it("should set other 'calcite-action-group' - 'menuOpen' to false", async () => {
     const page = await newE2EPage();
