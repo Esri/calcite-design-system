@@ -185,7 +185,7 @@ export class RadioButton
   };
 
   check = (): void => {
-    if (this.disabled) {
+    if (this.disabled || this.checked) {
       return;
     }
     this.uncheckAllRadioButtonsInGroup();
@@ -204,7 +204,7 @@ export class RadioButton
   };
 
   onLabelClick(event: CustomEvent): void {
-    if (!this.disabled && !this.hidden) {
+    if (!this.disabled && !this.hidden && !this.checked) {
       this.uncheckOtherRadioButtonsInGroup();
       const label = event.currentTarget as HTMLCalciteLabelElement;
       const radioButton = label.for

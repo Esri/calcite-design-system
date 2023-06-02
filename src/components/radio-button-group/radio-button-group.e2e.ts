@@ -441,15 +441,15 @@ describe("calcite-radio-button-group", () => {
     expect(changeEvent).toHaveReceivedEventTimes(0);
 
     await firstRadio.click();
-    expect(changeEvent).toHaveReceivedEventTimes(1);
+    expect(changeEvent).toHaveReceivedEventTimes(0);
     expect(await getSelectedItemValue()).toBe("one");
 
     await secondRadio.click();
-    expect(changeEvent).toHaveReceivedEventTimes(2);
+    expect(changeEvent).toHaveReceivedEventTimes(1);
     expect(await getSelectedItemValue()).toBe("two");
 
     await thirdRadio.click();
-    expect(changeEvent).toHaveReceivedEventTimes(3);
+    expect(changeEvent).toHaveReceivedEventTimes(2);
     expect(await getSelectedItemValue()).toBe("three");
   });
 });
