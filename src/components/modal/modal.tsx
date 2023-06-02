@@ -291,7 +291,7 @@ export class Modal
         aria-label={this.messages.close}
         class={CSS.close}
         key="button"
-        onClick={this.close}
+        onClick={this.handleClose}
         title={this.messages.close}
         // eslint-disable-next-line react/jsx-sort-props
         ref={(el) => (this.closeButtonEl = el)}
@@ -407,7 +407,7 @@ export class Modal
   @Listen("keydown", { target: "window" })
   handleEscape(event: KeyboardEvent): void {
     if (this.open && !this.escapeDisabled && event.key === "Escape" && !event.defaultPrevented) {
-      this.close();
+      this.handleClose();
       event.preventDefault();
     }
   }
@@ -511,7 +511,7 @@ export class Modal
       this.openModal();
     } else {
       this.transitionEl?.classList.add(CSS.closingIdle);
-      this.closeHandler();
+      this.closeModal();
     }
   }
 
@@ -541,14 +541,14 @@ export class Modal
       return;
     }
 
-    this.close();
+    this.handleClose();
   };
 
-  private async close(): Promise<void> {
-    return (this.beforeClose ?? autoResolvingFunction)(this.el).then(this.closeHandler);
+  private async handleClose(): Promise<void> {
+    return (this.beforeClose ?? autoResolvingFunction)(this.el).then(this.closeModal);
   }
 
-  closeHandler = (): void => {
+  closeModal = (): void => {
     this.open = false;
     this.isOpen = false;
     this.removeOverflowHiddenClass();
