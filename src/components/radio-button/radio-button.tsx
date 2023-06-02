@@ -179,9 +179,12 @@ export class RadioButton
     ) as HTMLCalciteRadioButtonElement[];
   };
 
-  isDefaultSelectable = (): boolean => {
+  isFocusable = (): boolean => {
     const radioButtons = this.queryButtons();
-    return !radioButtons.some((radioButton) => radioButton.checked) && radioButtons[0] === this.el;
+    return (
+      !radioButtons.some((radioButton) => radioButton.checked) &&
+      !radioButtons.some((radioButton) => radioButton.tabIndex === 0)
+    );
   };
 
   check = (): void => {
@@ -275,7 +278,7 @@ export class RadioButton
     if (this.disabled) {
       return undefined;
     }
-    return this.checked || this.isDefaultSelectable() ? 0 : -1;
+    return this.checked || this.isFocusable() ? 0 : -1;
   }
 
   //--------------------------------------------------------------------------
