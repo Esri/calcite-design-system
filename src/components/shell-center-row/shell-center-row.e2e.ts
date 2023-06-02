@@ -29,7 +29,9 @@ describe("calcite-shell-center-row", () => {
     ]);
   });
 
-  it("has slots", () => slots("calcite-shell-center-row", SLOTS));
+  describe("slots", () => {
+    slots("calcite-shell-center-row", SLOTS);
+  });
 
   it("should not render action bar container when there is no action-bar", async () => {
     const page = await newE2EPage();

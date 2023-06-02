@@ -24,7 +24,9 @@ describe("calcite-tile", () => {
     ]);
   });
 
-  it("has slots", async () => slots("calcite-tile", SLOTS));
+  describe("slots", () => {
+    slots("calcite-tile", SLOTS);
+  });
 
   describe("reflects", () => {
     reflects("calcite-tile", [

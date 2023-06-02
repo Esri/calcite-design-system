@@ -33,7 +33,9 @@ describe("calcite-action-group", () => {
     accessible(actionGroupHTML);
   });
 
-  it("has slots", () => slots("calcite-action-group", SLOTS));
+  describe("slots", () => {
+    slots("calcite-action-group", SLOTS);
+  });
 
   it("should honor scale of expand icon", async () => {
     const page = await newE2EPage({ html: actionGroupHTML });

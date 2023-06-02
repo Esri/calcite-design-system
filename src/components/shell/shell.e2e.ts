@@ -12,7 +12,9 @@ describe("calcite-shell", () => {
     hidden("calcite-shell");
   });
 
-  it("has slots", () => slots("calcite-shell", SLOTS));
+  describe("slots", () => {
+    slots("calcite-shell", SLOTS);
+  });
 
   it("content node should always be present", async () => {
     const page = await newE2EPage();
