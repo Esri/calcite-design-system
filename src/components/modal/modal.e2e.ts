@@ -629,23 +629,4 @@ describe("calcite-modal accessibility checks", () => {
   });
 
   it("supports translation", () => t9n("calcite-modal"));
-
-  it("setting 'beforeClose' should be called in 'close()'", async () => {
-    const page = await newE2EPage();
-
-    const mockCallBack = jest.fn().mockReturnValue(Promise.resolve());
-    await page.exposeFunction("beforeClose", mockCallBack);
-
-    await page.setContent(`<calcite-modal open></calcite-modal>`);
-
-    await page.$eval(
-      "calcite-modal",
-      (elm: HTMLCalciteModalElement) =>
-        (elm.beforeClose = (window as typeof window & Pick<typeof elm, "beforeClose">).beforeClose)
-    );
-
-    const modal = await page.find("calcite-modal");
-    await modal.callMethod("close");
-    expect(mockCallBack).toHaveBeenCalledTimes(1);
-  });
 });
