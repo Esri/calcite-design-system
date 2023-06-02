@@ -1,37 +1,6 @@
-# Directories
-dist/
 www/
 hydrate/
-node_modules/
 docs/
-
-# Compiled files
-src/**/components.d.ts
-src/**/*.js
 __docs-temp__/*
-
-# User Settings, Caches & Temp Files
-*~
-*.sw[mnpcod]
-*.log
-*.lock
-*.tmp
-*.tmp.*
-*.sublime-project
-*.sublime-workspace
-*.bak
-*.orig
-.stencil/
-.idea/
-.sass-cache/
-.versions/
-.DS_Store
-.env
-$RECYCLE.BIN/
-Thumbs.db
-UserInterfaceState.xcuserstate
-Dockerfile
-log.txt
-src/components.d.ts
 src/components/icon/assets
-src/components/*/assets/*/t9n/index.d.ts
+src/**/*.js

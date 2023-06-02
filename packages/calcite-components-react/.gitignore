@@ -1,6 +1,2 @@
-.DS_Store
-.idea/
-node_modules/
-dist/
 src/components.ts
 src/react-component-lib/
