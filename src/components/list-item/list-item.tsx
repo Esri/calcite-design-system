@@ -92,6 +92,13 @@ export class ListItem
   @Prop({ reflect: true }) disabled = false;
 
   /**
+   * When `true`, the component is sortable via a draggable button.
+   *
+   * @internal
+   */
+  @Prop() dragEnabled = false;
+
+  /**
    * The label text of the component. Displays above the description text.
    */
   @Prop() label: string;
@@ -333,6 +340,14 @@ export class ListItem
     );
   }
 
+  renderDragHandle(): VNode {
+    return this.dragEnabled ? (
+      <td class={CSS.openContainer} key="drag-handle-container">
+        <calcite-handle />
+      </td>
+    ) : null;
+  }
+
   renderOpen(): VNode {
     const { el, open, openable, parentListEl } = this;
     const dir = getElementDir(el);
@@ -512,6 +527,7 @@ export class ListItem
           // eslint-disable-next-line react/jsx-sort-props
           ref={(el) => (this.containerEl = el)}
         >
+          {this.renderDragHandle()}
           {this.renderSelected()}
           {this.renderOpen()}
           {this.renderActionsStart()}

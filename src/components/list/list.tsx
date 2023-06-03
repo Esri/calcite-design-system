@@ -11,6 +11,7 @@ import {
   VNode,
   Watch
 } from "@stencil/core";
+import Sortable from "sortablejs";
 import { debounce } from "lodash-es";
 import { toAriaBoolean } from "../../utils/dom";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
@@ -20,6 +21,11 @@ import { ItemData } from "../list-item/interfaces";
 import { MAX_COLUMNS } from "../list-item/resources";
 import { getListItemChildren, updateListItemChildren } from "../list-item/utils";
 import { CSS, debounceTimeout, SelectionAppearance } from "./resources";
+import {
+  connectSortableComponent,
+  disconnectSortableComponent,
+  SortableComponent
+} from "../../utils/sortableComponent";
 
 const listItemSelector = "calcite-list-item";
 const parentSelector = "calcite-list-item-group, calcite-list-item";
@@ -41,7 +47,7 @@ import {
   styleUrl: "list.scss",
   shadow: true
 })
-export class List implements InteractiveComponent, LoadableComponent {
+export class List implements InteractiveComponent, LoadableComponent, SortableComponent {
   // --------------------------------------------------------------------------
   //
   //  Properties
@@ -52,6 +58,18 @@ export class List implements InteractiveComponent, LoadableComponent {
    * When `true`, interaction is prevented and the component is displayed with lower opacity.
    */
   @Prop({ reflect: true }) disabled = false;
+
+  /**
+   * When `true`, `calcite-list-item`s are sortable via a draggable button.
+   */
+  @Prop({ reflect: true }) dragEnabled = false;
+
+  /**
+   * The list's group identifier.
+   *
+   * To drag elements from one list into another, both lists must have the same group value.
+   */
+  @Prop({ reflect: true }) group?: string;
 
   /**
    * When `true`, an input appears at the top of the component that can be used by end users to filter `calcite-list-item`s.
@@ -124,6 +142,7 @@ export class List implements InteractiveComponent, LoadableComponent {
    */
   @Prop({ reflect: true }) selectionAppearance: SelectionAppearance = "icon";
 
+  @Watch("dragEnabled")
   @Watch("selectionMode")
   @Watch("selectionAppearance")
   handleSelectionAppearanceChange(): void {
@@ -145,6 +164,11 @@ export class List implements InteractiveComponent, LoadableComponent {
    * Emits when the component's filter has changed.
    */
   @Event({ cancelable: false }) calciteListFilter: EventEmitter<void>;
+
+  /**
+   * Emitted when the order of the list has changed.
+   */
+  @Event({ cancelable: false }) calciteListOrderChange: EventEmitter<void>;
 
   @Listen("calciteInternalFocusPreviousItem")
   handleCalciteInternalFocusPreviousItem(event: CustomEvent): void {
@@ -201,12 +225,14 @@ export class List implements InteractiveComponent, LoadableComponent {
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
-    this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
+    this.connectObserver();
     this.updateListItems();
+    this.setUpSorting();
   }
 
   disconnectedCallback(): void {
-    this.mutationObserver?.disconnect();
+    this.disconnectObserver();
+    disconnectSortableComponent(this);
   }
 
   componentWillLoad(): void {
@@ -236,6 +262,12 @@ export class List implements InteractiveComponent, LoadableComponent {
   // --------------------------------------------------------------------------
 
   @Element() el: HTMLCalciteListElement;
+
+  sortable: Sortable;
+
+  handleSelector = "calcite-handle";
+
+  dragSelector: "calcite-list-item";
 
   listItems: HTMLCalciteListItemElement[] = [];
 
@@ -317,6 +349,37 @@ export class List implements InteractiveComponent, LoadableComponent {
   //  Private Methods
   //
   // --------------------------------------------------------------------------
+
+  connectObserver(): void {
+    this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
+  }
+
+  disconnectObserver(): void {
+    this.mutationObserver?.disconnect();
+  }
+
+  setUpSorting(): void {
+    const { dragEnabled } = this;
+
+    if (!dragEnabled) {
+      return;
+    }
+
+    connectSortableComponent(this);
+  }
+
+  onDragStart(): void {
+    this.disconnectObserver();
+  }
+
+  onDragEnd(): void {
+    this.connectObserver();
+  }
+
+  onDragUpdate(): void {
+    this.updateListItems();
+    this.calciteListOrderChange.emit();
+  }
 
   handleDefaultSlotChange = (event: Event): void => {
     updateListItemChildren(getListItemChildren(event));
@@ -415,11 +478,12 @@ export class List implements InteractiveComponent, LoadableComponent {
   };
 
   private updateListItems = debounce((emit = false): void => {
-    const { selectionAppearance, selectionMode } = this;
+    const { selectionAppearance, selectionMode, dragEnabled } = this;
     const items = this.queryListItems();
     items.forEach((item) => {
       item.selectionAppearance = selectionAppearance;
       item.selectionMode = selectionMode;
+      item.dragEnabled = dragEnabled;
     });
     this.listItems = items;
     if (this.filterEnabled) {
@@ -432,6 +496,7 @@ export class List implements InteractiveComponent, LoadableComponent {
     this.enabledListItems = items.filter((item) => !item.disabled && !item.closed);
     this.setActiveListItem();
     this.updateSelectedItems(emit);
+    this.setUpSorting();
   }, debounceTimeout);
 
   queryListItems = (): HTMLCalciteListItemElement[] => {

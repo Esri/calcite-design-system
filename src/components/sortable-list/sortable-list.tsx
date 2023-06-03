@@ -8,9 +8,7 @@ import { CSS } from "./resources";
 import {
   connectSortableComponent,
   disconnectSortableComponent,
-  onSortingStart,
-  SortableComponent,
-  onSortingEnd
+  SortableComponent
 } from "../../utils/sortableComponent";
 import { focusElement } from "../../utils/dom";
 
@@ -77,6 +75,10 @@ export class SortableList implements InteractiveComponent, SortableComponent {
 
   sortable: Sortable;
 
+  dragEnabled = true;
+
+  draggableSelector = "calcite-value-list-item";
+
   // --------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -118,6 +120,19 @@ export class SortableList implements InteractiveComponent, SortableComponent {
   //  Private Methods
   //
   // --------------------------------------------------------------------------
+
+  onDragStart(): void {
+    this.endObserving();
+  }
+
+  onDragEnd(): void {
+    this.beginObserving();
+  }
+
+  onDragUpdate(): void {
+    this.items = Array.from(this.el.children);
+    this.calciteListOrderChange.emit();
+  }
 
   handleNudgeEvent(event: CustomEvent<HandleNudge>): void {
     const { direction } = event.detail;
@@ -170,33 +185,9 @@ export class SortableList implements InteractiveComponent, SortableComponent {
   }
 
   setUpSorting(): void {
-    const { dragSelector, group, handleSelector } = this;
-
     this.items = Array.from(this.el.children);
 
-    const sortableOptions: Sortable.Options = {
-      dataIdAttr: "id",
-      group,
-      handle: handleSelector,
-      onStart: () => {
-        this.endObserving();
-        onSortingStart(this);
-      },
-      onEnd: () => {
-        onSortingEnd(this);
-        this.beginObserving();
-      },
-      onUpdate: () => {
-        this.items = Array.from(this.el.children);
-        this.calciteListOrderChange.emit();
-      }
-    };
-
-    if (dragSelector) {
-      sortableOptions.draggable = dragSelector;
-    }
-
-    connectSortableComponent(this, sortableOptions);
+    connectSortableComponent(this);
   }
 
   beginObserving(): void {

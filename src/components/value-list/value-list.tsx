@@ -59,9 +59,7 @@ import { getHandleAndItemElement, getScreenReaderText } from "./utils";
 import {
   connectSortableComponent,
   disconnectSortableComponent,
-  onSortingStart,
-  SortableComponent,
-  onSortingEnd
+  SortableComponent
 } from "../../utils/sortableComponent";
 import { focusElement } from "../../utils/dom";
 
@@ -213,6 +211,10 @@ export class ValueList<
 
   assistiveTextEl: HTMLSpanElement;
 
+  handleSelector = `.${CSS.handle}`;
+
+  dragSelector = "calcite-value-list-item";
+
   // --------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -304,6 +306,20 @@ export class ValueList<
   //
   // --------------------------------------------------------------------------
 
+  onDragStart(): void {
+    cleanUpObserver.call(this);
+  }
+
+  onDragEnd(): void {
+    initializeObserver.call(this);
+  }
+
+  onDragUpdate(): void {
+    this.items = Array.from(this.el.querySelectorAll<ItemElement>("calcite-value-list-item"));
+    const values = this.items.map((item) => item.value);
+    this.calciteListOrderChange.emit(values);
+  }
+
   getItems(): ItemElement[] {
     return Array.from(this.el.querySelectorAll<ItemElement>("calcite-value-list-item"));
   }
@@ -328,31 +344,13 @@ export class ValueList<
   };
 
   setUpSorting(): void {
-    const { dragEnabled, group } = this;
+    const { dragEnabled } = this;
 
     if (!dragEnabled) {
       return;
     }
 
-    connectSortableComponent(this, {
-      dataIdAttr: "id",
-      group,
-      handle: `.${CSS.handle}`,
-      draggable: "calcite-value-list-item",
-      onStart: () => {
-        cleanUpObserver.call(this);
-        onSortingStart(this);
-      },
-      onEnd: () => {
-        onSortingEnd(this);
-        initializeObserver.call(this);
-      },
-      onUpdate: () => {
-        this.items = Array.from(this.el.querySelectorAll<ItemElement>("calcite-value-list-item"));
-        const values = this.items.map((item) => item.value);
-        this.calciteListOrderChange.emit(values);
-      }
-    });
+    connectSortableComponent(this);
   }
 
   deselectRemovedItems = deselectRemovedItems.bind(this);

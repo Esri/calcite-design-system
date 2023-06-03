@@ -13,18 +13,52 @@ export interface SortableComponent {
   readonly el: HTMLElement;
 
   /**
+   * When `true`, dragging is enabled.
+   */
+  dragEnabled: boolean;
+
+  /**
+   * Specifies which items inside the element should be draggable.
+   */
+  dragSelector?: string;
+
+  /**
+   * The list's group identifier.
+   */
+  group?: string;
+
+  /**
+   * The selector for the handle elements.
+   */
+  handleSelector: string;
+
+  /**
    * The Sortable instance.
    */
   sortable: Sortable;
+
+  /**
+   *
+   */
+  onDragStart: (event: Sortable.SortableEvent) => void;
+
+  /**
+   *
+   */
+  onDragEnd: (event: Sortable.SortableEvent) => void;
+
+  /**
+   *
+   */
+  onDragUpdate: (event: Sortable.SortableEvent) => void;
 }
 
 /**
  * Helper to keep track of a SortableComponent. This should be called in the `connectedCallback` lifecycle method as well as any other method necessary to rebuild the sortable instance.
  *
  * @param {SortableComponent} component - The sortable component.
- * @param {SortableComponent} [options] - Sortable options object.
  */
-export function connectSortableComponent(component: SortableComponent, options?: Sortable.Options): void {
+export function connectSortableComponent(component: SortableComponent): void {
   disconnectSortableComponent(component);
   sortableComponentSet.add(component);
 
@@ -32,7 +66,28 @@ export function connectSortableComponent(component: SortableComponent, options?:
     return;
   }
 
-  component.sortable = Sortable.create(component.el, options);
+  const sortableOptions: Sortable.Options = {
+    dataIdAttr: "id",
+    group: component.group,
+    handle: component.handleSelector,
+    onStart: (event) => {
+      onSortingStart(component);
+      component.onDragStart(event);
+    },
+    onEnd: (event) => {
+      onSortingEnd(component);
+      component.onDragEnd(event);
+    },
+    onUpdate: (event) => {
+      component.onDragUpdate(event);
+    }
+  };
+
+  if (component.dragSelector) {
+    sortableOptions.draggable = component.dragSelector;
+  }
+
+  component.sortable = Sortable.create(component.el, sortableOptions);
 }
 
 /**
@@ -62,7 +117,7 @@ function getNestedSortableComponents(activeComponent: SortableComponent): Sortab
  *
  * @param {SortableComponent} activeComponent - The active sortable component.
  */
-export function onSortingStart(activeComponent: SortableComponent): void {
+function onSortingStart(activeComponent: SortableComponent): void {
   getNestedSortableComponents(activeComponent).forEach((component) => inactiveSortableComponentSet.add(component));
 }
 
@@ -71,6 +126,6 @@ export function onSortingStart(activeComponent: SortableComponent): void {
  *
  * @param {SortableComponent} activeComponent - The active sortable component.
  */
-export function onSortingEnd(activeComponent: SortableComponent): void {
+function onSortingEnd(activeComponent: SortableComponent): void {
   getNestedSortableComponents(activeComponent).forEach((component) => inactiveSortableComponentSet.delete(component));
 }
