@@ -1,0 +1,28 @@
+{
+  "$schema": "https://raw.githubusercontent.com/googleapis/release-please/main/schemas/config.json",
+  "release-type": "node",
+  "tag-separator": "@",
+  "packages": {
+    "packages/calcite-components": {
+      "component": "@esri/calcite-components",
+      "extra-files": ["readme.md"]
+    },
+    "packages/calcite-components-react": {
+      "component": "@esri/calcite-components-react"
+    }
+  },
+  "plugins": [
+    {
+      "type": "node-workspace",
+      "merge": false
+    },
+    {
+      "type": "linked-versions",
+      "group-name": "components",
+      "components": ["@esri/calcite-components", "@esri/calcite-components-react"]
+    },
+    {
+      "type": "sentence-case"
+    }
+  ]
+}
