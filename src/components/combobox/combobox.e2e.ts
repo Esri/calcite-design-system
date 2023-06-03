@@ -1552,7 +1552,9 @@ describe("calcite-combobox", () => {
     expect(await inputEl.getProperty("value")).toBe("Blue");
   });
 
-  it("supports translation", () => t9n("calcite-combobox"));
+  describe("translation support", () => {
+    t9n("calcite-combobox");
+  });
 
   it("should not focus on the combobox when items are programmatically selected", async () => {
     const page = await newE2EPage();

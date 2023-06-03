@@ -247,5 +247,7 @@ describe("calcite-tip-manager", () => {
     expect(heading.tagName).toEqual("H2");
   });
 
-  it("supports translations", () => t9n("calcite-tip-manager"));
+  describe("translation support", () => {
+    t9n("calcite-tip-manager");
+  });
 });

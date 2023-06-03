@@ -12,7 +12,9 @@ describe("calcite-popover", () => {
     });
   });
 
-  it("supports translations", () => t9n("calcite-popover"));
+  describe("translation support", () => {
+    t9n("calcite-popover");
+  });
 
   it("should have zIndex of 900", async () => {
     const page = await newE2EPage();

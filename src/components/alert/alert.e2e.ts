@@ -422,5 +422,7 @@ describe("calcite-alert", () => {
     });
   });
 
-  it("supports translation", () => t9n("calcite-alert"));
+  describe("translation support", () => {
+    t9n("calcite-alert");
+  });
 });

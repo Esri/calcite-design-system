@@ -262,7 +262,9 @@ describe("calcite-action-pad", () => {
     expect(await button.getProperty("scale")).toBe("l");
   });
 
-  it("supports translation", () => t9n("calcite-action-pad"));
+  describe("translation support", () => {
+    t9n("calcite-action-pad");
+  });
 
   it("should set layout on child action-groups", async () => {
     const page = await newE2EPage();

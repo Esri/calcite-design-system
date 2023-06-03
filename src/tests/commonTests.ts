@@ -1176,18 +1176,24 @@ export async function floatingUIOwner(
 }
 
 /**
- * Helper to test t9n component setup
+ * Helper to test t9n component setup.
  *
- * @param {ComponentTestSetup} componentTestSetup - A component tag, html, or the tag and e2e page for setting up a test
+ * Note that this helper should be used within a describe block.
+ *
+ * @example
+ * describe("translation support", () => {
+ *   t9n("calcite-action");
+ * });
+ *
+ * @param {ComponentTestSetup} componentTestSetup - A component tag, html, or the tag and e2e page for setting up a test.
  */
 export async function t9n(componentTestSetup: ComponentTestSetup): Promise<void> {
   const { page, tag } = await getTagAndPage(componentTestSetup);
   const component = await page.find(tag);
 
-  await assertDefaultMessages();
-
-  await assertOverrides();
-  await assertLangSwitch();
+  it("has defined default messages", () => assertDefaultMessages());
+  it("overrides messages", () => assertOverrides());
+  it("switches messages", () => assertLangSwitch());
 
   async function getCurrentMessages(): Promise<MessageBundle> {
     return page.$eval(tag, (component: HTMLElement & { messages: MessageBundle }) => component.messages);

@@ -272,5 +272,7 @@ describe("calcite-filter", () => {
     });
   });
 
-  it("supports translation", () => t9n("calcite-filter"));
+  describe("translation support", () => {
+    t9n("calcite-filter");
+  });
 });
