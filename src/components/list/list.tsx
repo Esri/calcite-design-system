@@ -267,7 +267,7 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
 
   handleSelector = "calcite-handle";
 
-  dragSelector: "calcite-list-item";
+  dragSelector = "calcite-list-item";
 
   listItems: HTMLCalciteListItemElement[] = [];
 
