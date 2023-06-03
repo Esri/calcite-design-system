@@ -7,6 +7,7 @@ module.exports = {
     "prettier --write"
   ],
   "packages/**/*.{ts,tsx}": [
+    // prevents an error due to tsconfig.json not being in the root directory
     // https://github.com/okonet/lint-staged/issues/825#issuecomment-620018284
     () => "eslint --ext .ts,.tsx --fix",
     "prettier --write"

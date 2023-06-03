@@ -62,10 +62,6 @@
            * NOTE: the first replace is required for new packages because the
            * initial changelog version header doesn't have a github link
            * comparing the new version to the (nonexistent) previous one.
-           *
-           * TODO: This may be refactorable with git to use different patterns depending
-           * on if changelog file is added (first replace) or modified (second replace).
-           * Or by escaping the versions for a regex expression.
            */
           .replace(`## ${trackingPackageData.version}`, `## ${headPackageData.version}`)
           .replace(`## [${trackingPackageData.version}]`, `## [${headPackageData.version}]`)
