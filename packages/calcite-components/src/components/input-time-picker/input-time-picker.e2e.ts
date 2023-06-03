@@ -76,7 +76,9 @@ describe("calcite-input-time-picker", () => {
     ]);
   });
 
-  it("is labelable", async () => labelable("calcite-input-time-picker"));
+  describe("labelable", () => {
+    labelable("calcite-input-time-picker");
+  });
 
   describe("should focus the input when setFocus is called", () => {
     focusable(`calcite-input-time-picker`, {

@@ -354,14 +354,15 @@ describe("calcite-inline-editable", () => {
     });
 
     describe("labelable", () => {
-      it("default", async () =>
+      describe("default", () => {
         labelable(
           `<calcite-inline-editable controls>
               <calcite-input value="John Doe"></calcite-input>
             </calcite-inline-editable>`
-        ));
+        );
+      });
 
-      it("when editing is enabled", async () =>
+      describe("when editing is enabled", () => {
         labelable(
           `<calcite-inline-editable controls editing-enabled>
             <calcite-input value="John Doe"></calcite-input>
@@ -369,7 +370,8 @@ describe("calcite-inline-editable", () => {
           {
             focusTargetSelector: "calcite-input"
           }
-        ));
+        );
+      });
     });
   });
 

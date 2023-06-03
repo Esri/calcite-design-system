@@ -60,7 +60,9 @@ describe("calcite-slider", () => {
     ]);
   });
 
-  it("is labelable", async () => labelable("calcite-slider"));
+  describe("labelable", () => {
+    labelable("calcite-slider");
+  });
 
   it("can be disabled", () => disabled("calcite-slider"));
 

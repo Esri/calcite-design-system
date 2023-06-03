@@ -36,7 +36,9 @@ describe("calcite-text-area", () => {
     hidden("calcite-text-area");
   });
 
-  it("is labelable", () => labelable("calcite-text-area"));
+  describe("labelable", () => {
+    labelable("calcite-text-area");
+  });
 
   it("can be disabled", () => disabled("calcite-text-area"));
 
