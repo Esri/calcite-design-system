@@ -3,21 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-## [v1.4.3-next.0](https://github.com/Esri/calcite-components/compare/v1.4.2...v1.4.3-next.0) (2023-05-30)
+## [v1.4.3-next.1](https://github.com/Esri/calcite-components/compare/v1.4.3-next.0...v1.4.3-next.1) (2023-06-02)
 
 ### Bug Fixes
 
 - **menu-item:** Ensure correct order of rendered icons ([#7098](https://github.com/Esri/calcite-components/issues/7098)) ([fd344e9](https://github.com/Esri/calcite-components/commit/fd344e91fb02b5dcb3e7ef6565fc679935c078c2)), closes [#7097](https://github.com/Esri/calcite-components/issues/7097)
 
+## [v1.4.3-next.0](https://github.com/Esri/calcite-components/compare/@esri/calcite-components@1.4.2...v1.4.3-next.0) (2023-05-31)
+
+### Bug Fixes
+
 - **accordion-item:** support items working across shadowDOM ([#7035](https://github.com/Esri/calcite-components/issues/7035)) ([6378e35](https://github.com/Esri/calcite-components/commit/6378e351bad4aff1aefe62b7c52262ae57c48907)), closes [#6167](https://github.com/Esri/calcite-components/issues/6167)
 
-## [v1.4.2](https://github.com/Esri/calcite-components/compare/v1.4.1...v1.4.2) (2023-05-30)
+## [v1.4.2](https://github.com/Esri/calcite-components/compare/@esri/calcite-components@1.4.1...@esri/calcite-components@1.4.2) (2023-05-30)
 
 ### Bug Fixes
 
 - **list-item:** always emit calciteListItemSelect on activation ([#7058](https://github.com/Esri/calcite-components/issues/7058)) ([cdbc35e](https://github.com/Esri/calcite-components/commit/cdbc35e199ace95e6e4f6c09e1b32cd34a035959))
 
-## [v1.4.1](https://github.com/Esri/calcite-components/compare/v1.4.0...v1.4.1) (2023-05-26)
+## [v1.4.1](https://github.com/Esri/calcite-components/compare/v1.4.0...@esri/calcite-components@1.4.1) (2023-05-26)
 
 ### Bug Fixes
 
