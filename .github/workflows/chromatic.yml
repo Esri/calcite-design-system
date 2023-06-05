@@ -18,7 +18,7 @@ jobs:
       - name: skip for markdown only prs
         id: markdown-check
         run: |
-          current_branch=$(git rev-parse --abbrev-ref HEAD)
+          current_branch="$(git rev-parse --abbrev-ref HEAD)"
           echo "branch: $current_branch"
           if [ "$current_branch" == "master" ]; then
             # diff of last commit excluding md (assumes squash merge)
@@ -48,8 +48,10 @@ jobs:
         uses: chromaui/action@v1
         with:
           projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
+          zip: true
           exitOnceUploaded: true
           autoAcceptChanges: master
+          workingDir: packages/calcite-components
         env:
           STORYBOOK_SCREENSHOT_TEST_BUILD: true
           CHROMATIC_DIFF_THRESHOLD: ${{ secrets.CHROMATIC_DIFF_THRESHOLD }}
@@ -73,6 +75,6 @@ jobs:
         with:
           authToken: ${{ secrets.GITHUB_TOKEN }}
           context: UI Tests
-          description: Chromatic run skipped (not ready for snapshots or dependabot PR)
+          description: Chromatic run skipped
           state: success
           sha: ${{github.event.pull_request.head.sha || github.sha}}
