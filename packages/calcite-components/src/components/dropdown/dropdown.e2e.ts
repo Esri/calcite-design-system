@@ -1070,21 +1070,24 @@ describe("calcite-dropdown", () => {
     expect(dropdownContentHeight.height).toBe("72px");
   });
 
-  it("owns a floating-ui", () =>
+  describe("owns a floating-ui", () => {
     floatingUIOwner(
-      html` <calcite-dropdown>
-        <calcite-button slot="trigger">Open</calcite-button>
-        <calcite-dropdown-group selection-mode="single">
-          <calcite-dropdown-item id="item-1" selected>1</calcite-dropdown-item>
-          <calcite-dropdown-item id="item-2">2</calcite-dropdown-item>
-          <calcite-dropdown-item id="item-3">3</calcite-dropdown-item>
-        </calcite-dropdown-group>
-      </calcite-dropdown>`,
+      html`
+        <calcite-dropdown>
+          <calcite-button slot="trigger">Open</calcite-button>
+          <calcite-dropdown-group selection-mode="single">
+            <calcite-dropdown-item id="item-1" selected>1</calcite-dropdown-item>
+            <calcite-dropdown-item id="item-2">2</calcite-dropdown-item>
+            <calcite-dropdown-item id="item-3">3</calcite-dropdown-item>
+          </calcite-dropdown-group>
+        </calcite-dropdown>
+      `,
       "open",
       {
         shadowSelector: ".calcite-dropdown-wrapper"
       }
-    ));
+    );
+  });
 
   it("should emit component status for transition-chained events: 'calciteDropdownBeforeOpen', 'calciteDropdownOpen', 'calciteDropdownBeforeClose', 'calciteDropdownClose'", async () => {
     const page = await newE2EPage();
