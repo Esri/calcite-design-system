@@ -9,7 +9,6 @@
     "build": "turbo run build",
     "clean": "turbo run clean && rimraf node_modules",
     "lint": "turbo run lint",
-    "postinstall": "rimraf packages/calcite-components/node_modules/@stencil && rimraf packages/calcite-components/node_modules/.bin/stencil",
     "publish:next": "lerna publish from-package --dist-tag next --yes",
     "publish:latest": "lerna publish from-package --yes",
     "version:next": "lerna version --conventional-prerelease --preid next --no-git-tag-version --no-push --yes && npm run util:sync-linked-package-versions",
