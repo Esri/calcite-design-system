@@ -1,12 +1,4 @@
-# Calcite Design System
-
-This is a monorepo containing Calcite Design System packages. Please see the package-specific readmes for more information.
-
-## Contributing
-
-We welcome contributions to this project. See [CONTRIBUTING.md](./CONTRIBUTING.md) for an overview of contribution guidelines.
-
-## License
+# Licensing
 
 COPYRIGHT © 2023 Esri
 
