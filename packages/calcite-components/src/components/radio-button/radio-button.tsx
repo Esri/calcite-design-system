@@ -183,7 +183,7 @@ export class RadioButton
     const radioButtons = this.queryButtons();
     return (
       !radioButtons.some((radioButton) => radioButton.checked) &&
-      (radioButtons[0] === this.el || radioButtons[0].disabled)
+      (radioButtons[0] === this.el || radioButtons[0]?.disabled)
     );
   };
 
