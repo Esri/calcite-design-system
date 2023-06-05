@@ -23,7 +23,7 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
       - name: e2e test
         run: |
-          npm ci
+          npm install
           npm test
       - name: storybook/next deployment
         env:
@@ -36,12 +36,15 @@ jobs:
               git config --global user.email "github-actions[bot]@users.noreply.github.com"
               git config --global user.name "github-actions[bot]"
               # deploy storybook, but still release next if it fails
-              { npm run build-storybook && npx storybook-to-ghpages --host-token-env-variable=GH_TOKEN_FOR_STORYBOOK --existing-output-dir=docs --ci; } || true
+              { npm run --workspace=@esri/calcite-components build-storybook &&
+                npx --workspace=@esri/calcite-components storybook-to-ghpages \
+                   --host-token-env-variable=GH_TOKEN_FOR_STORYBOOK --existing-output-dir=docs --ci; } || true
 
               # remove the build to docs after storybook deploys to gh-pages
-              # if there are changes the git sanity checks will prevent deployment
-              git reset --hard && git checkout master && git pull
-              npm run util:deploy-next-from-ci
+              git reset --hard
+              npm run version:next
+              npm run publish:next
+              npm run util:push-tags
             fi
           else
             echo "Next release is disabled"
