@@ -28,7 +28,6 @@
     "@esri/calcite-base": "^1.2.0",
     "@esri/calcite-colors": "6.1.0",
     "@esri/eslint-plugin-calcite-components": "0.2.2",
-    "@stencil-community/eslint-plugin": "0.5.0",
     "@storybook/addon-a11y": "6.5.16",
     "@storybook/addon-docs": "6.5.15",
     "@storybook/addon-interactions": "6.5.16",
