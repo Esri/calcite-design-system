@@ -87,7 +87,7 @@
     "quicktype-core": "23.0.12",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "rimraf": "4.1.2",
+    "rimraf": "5.0.1",
     "semver": "7.3.8",
     "shell-quote": "1.8.1",
     "stencil-eslint-core": "0.3.1",
