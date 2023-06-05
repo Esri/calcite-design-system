@@ -61,7 +61,7 @@ export class Filter
 
   @Watch("items")
   watchItemsHandler(): void {
-    this.filter(this.value);
+    this.filterDebounced(this.value);
   }
 
   /**
@@ -112,7 +112,7 @@ export class Filter
 
   @Watch("value")
   valueHandler(value: string): void {
-    this.filter(value);
+    this.filterDebounced(value);
   }
 
   // --------------------------------------------------------------------------
@@ -181,6 +181,16 @@ export class Filter
   //
   // --------------------------------------------------------------------------
 
+  /**
+   * Sets focus on the component.
+   *
+   * @param {string} value - The filter text value.
+   */
+  @Method()
+  async filter(value: string = this.value): Promise<void> {
+    this.updateFiltered(filter(this.items, value));
+  }
+
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
@@ -195,7 +205,7 @@ export class Filter
   //
   // --------------------------------------------------------------------------
 
-  private filter = debounce(
+  private filterDebounced = debounce(
     (value: string, emit = false): void => this.updateFiltered(filter(this.items, value), emit),
     DEBOUNCE_TIMEOUT
   );
@@ -203,7 +213,7 @@ export class Filter
   inputHandler = (event: CustomEvent): void => {
     const target = event.target as HTMLCalciteInputElement;
     this.value = target.value;
-    this.filter(target.value, true);
+    this.filterDebounced(target.value, true);
   };
 
   keyDownHandler = (event: KeyboardEvent): void => {
@@ -219,7 +229,7 @@ export class Filter
 
   clear = (): void => {
     this.value = "";
-    this.filter("", true);
+    this.filterDebounced("", true);
     this.setFocus();
   };
 
