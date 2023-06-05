@@ -25,8 +25,5 @@
   },
   "volta": {
     "extends": "../../package.json"
-  },
-  "devDependencies": {
-    "@stencil/react-output-target": "0.4.0"
   }
 }
