@@ -30,7 +30,7 @@
     "@esri/eslint-plugin-calcite-components": "0.2.2",
     "@storybook/addon-a11y": "6.5.16",
     "@storybook/addon-docs": "6.5.15",
-    "@storybook/addon-interactions": "6.5.16",
+    "@storybook/addon-interactions": "7.0.18",
     "@storybook/addon-knobs": "6.4.0",
     "@storybook/html": "6.5.15",
     "@storybook/storybook-deployer": "2.8.16",
