@@ -88,8 +88,8 @@ export class List implements InteractiveComponent, LoadableComponent {
   @Prop({ reflect: true, mutable: true }) filterText: string;
 
   @Watch("filterText")
-  async handleFilterTextChange(filterText: string): Promise<void> {
-    this.performFilter(filterText);
+  async handleFilterTextChange(): Promise<void> {
+    this.performFilter();
   }
 
   /**
@@ -408,8 +408,8 @@ export class List implements InteractiveComponent, LoadableComponent {
     this.updateListItems(emit);
   }
 
-  private async performFilter(filterText = this.filterText): Promise<void> {
-    const { filterEl } = this;
+  private async performFilter(): Promise<void> {
+    const { filterEl, filterText } = this;
 
     if (!filterEl) {
       return;

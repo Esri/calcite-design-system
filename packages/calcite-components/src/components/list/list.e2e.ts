@@ -115,6 +115,7 @@ describe("calcite-list", () => {
     await page.waitForChanges();
     const list = await page.find("calcite-list");
     const filter = await page.find(`calcite-list >>> calcite-filter`);
+    await page.waitForTimeout(listDebounceTimeout);
     expect(await list.getProperty("filteredItems")).toHaveLength(2);
     expect(await list.getProperty("filteredData")).toHaveLength(2);
     expect(await list.getProperty("filterText")).toBeUndefined();
@@ -186,13 +187,11 @@ describe("calcite-list", () => {
     `);
 
     await page.waitForChanges();
-
     const list = await page.find("calcite-list");
-    await page.waitForChanges();
     await page.waitForTimeout(listDebounceTimeout);
 
-    expect(await list.getProperty("filteredData")).toHaveLength(3);
     expect(await list.getProperty("filteredItems")).toHaveLength(3);
+    expect(await list.getProperty("filteredData")).toHaveLength(3);
 
     const visibleItems = await page.findAll("calcite-list-item:not([hidden])");
 
