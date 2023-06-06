@@ -53,7 +53,7 @@ export class CalciteNavigation implements LoadableComponent {
   /**
    * When `navigationAction` is `true`, specifies the label of the `calcite-action`.
    */
-  @Prop() label!: string;
+  @Prop() label: string;
 
   /**
    * When `true`, displays a `calcite-action` and emits a `calciteNavActionSelect` event on selection change.
