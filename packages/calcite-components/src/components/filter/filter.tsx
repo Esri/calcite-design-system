@@ -185,10 +185,14 @@ export class Filter
    * Sets focus on the component.
    *
    * @param {string} value - The filter text value.
+   * @returns {Promise<void>}
    */
   @Method()
   async filter(value: string = this.value): Promise<void> {
-    this.updateFiltered(filter(this.items, value));
+    return new Promise((resolve) => {
+      this.value = value;
+      this.filterDebounced(value, false, resolve);
+    });
   }
 
   /** Sets focus on the component. */
@@ -206,7 +210,8 @@ export class Filter
   // --------------------------------------------------------------------------
 
   private filterDebounced = debounce(
-    (value: string, emit = false): void => this.updateFiltered(filter(this.items, value), emit),
+    (value: string, emit = false, callback?: () => void): void =>
+      this.updateFiltered(filter(this.items, value), emit, callback),
     DEBOUNCE_TIMEOUT
   );
 
@@ -233,12 +238,13 @@ export class Filter
     this.setFocus();
   };
 
-  updateFiltered(filtered: any[], emit = false): void {
+  updateFiltered(filtered: any[], emit = false, callback?: () => void): void {
     this.filteredItems.length = 0;
     this.filteredItems = this.filteredItems.concat(filtered);
     if (emit) {
       this.calciteFilterChange.emit();
     }
+    callback?.();
   }
 
   // --------------------------------------------------------------------------
