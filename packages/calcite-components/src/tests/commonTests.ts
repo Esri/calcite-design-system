@@ -1201,9 +1201,9 @@ export async function t9n(componentTestSetup: ComponentTestSetup): Promise<void>
   const { page, tag } = await getTagAndPage(componentTestSetup);
   const component = await page.find(tag);
 
-  it("has defined default messages", () => assertDefaultMessages());
-  it("overrides messages", () => assertOverrides());
-  it("switches messages", () => assertLangSwitch());
+  it("has defined default messages", async () => await assertDefaultMessages());
+  it("overrides messages", async () => await assertOverrides());
+  it("switches messages", async () => await assertLangSwitch());
 
   async function getCurrentMessages(): Promise<MessageBundle> {
     return page.$eval(tag, (component: HTMLElement & { messages: MessageBundle }) => component.messages);
