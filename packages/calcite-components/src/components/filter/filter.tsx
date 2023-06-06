@@ -239,9 +239,8 @@ export class Filter
     this.setFocus();
   };
 
-  updateFiltered(filtered: any[], emit = false, callback?: () => void): void {
-    this.filteredItems.length = 0;
-    this.filteredItems = this.filteredItems.concat(filtered);
+  updateFiltered(filtered: object[], emit = false, callback?: () => void): void {
+    this.filteredItems = [...filtered];
     if (emit) {
       this.calciteFilterChange.emit();
     }
