@@ -456,12 +456,13 @@ describe("calcite-input-date-picker", () => {
     expect(minDateAsTime).toEqual(new Date(minDateString).getTime());
   });
 
-  it("owns a floating-ui", () =>
+  describe("owns a floating-ui", () => {
     floatingUIOwner(
       `<calcite-input-date-picker value="2022-11-27" min="2022-11-15" max="2024-11-15"></calcite-input-date-picker>`,
       "open",
       { shadowSelector: ".menu-container" }
-    ));
+    );
+  });
 
   it("when set to readOnly, element still focusable but won't display the controls or allow for changing the value", async () => {
     const page = await newE2EPage();
