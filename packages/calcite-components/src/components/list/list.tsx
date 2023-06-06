@@ -12,14 +12,15 @@ import {
   Watch
 } from "@stencil/core";
 import { debounce } from "lodash-es";
-import { toAriaBoolean } from "../../utils/dom";
+import { slotChangeHasAssignedElement, toAriaBoolean } from "../../utils/dom";
 import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
 import { createObserver } from "../../utils/observers";
 import { SelectionMode } from "../interfaces";
 import { ItemData } from "../list-item/interfaces";
 import { MAX_COLUMNS } from "../list-item/resources";
 import { getListItemChildren, updateListItemChildren } from "../list-item/utils";
-import { CSS, debounceTimeout, SelectionAppearance } from "./resources";
+import { CSS, debounceTimeout, SelectionAppearance, SLOTS } from "./resources";
+import { SLOTS as STACK_SLOTS } from "../stack/resources";
 
 const listItemSelector = "calcite-list-item";
 const parentSelector = "calcite-list-item-group, calcite-list-item";
@@ -35,6 +36,8 @@ import {
  * A general purpose list that enables users to construct list items that conform to Calcite styling.
  *
  * @slot - A slot for adding `calcite-list-item` elements.
+ * @slot filter-actions-end - A slot for adding actionable `calcite-action` elements before the filter component.
+ * @slot filter-actions-end - A slot for adding actionable `calcite-action` elements after the filter component.
  */
 @Component({
   tag: "calcite-list",
@@ -245,6 +248,10 @@ export class List implements InteractiveComponent, LoadableComponent {
 
   @State() dataForFilter: ItemData = [];
 
+  @State() hasFilterActionsStart = false;
+
+  @State() hasFilterActionsEnd = false;
+
   filterEl: HTMLCalciteFilterElement;
 
   // --------------------------------------------------------------------------
@@ -274,7 +281,9 @@ export class List implements InteractiveComponent, LoadableComponent {
       dataForFilter,
       filterEnabled,
       filterPlaceholder,
-      filterText
+      filterText,
+      hasFilterActionsStart,
+      hasFilterActionsEnd
     } = this;
     return (
       <div class={CSS.container}>
@@ -286,20 +295,32 @@ export class List implements InteractiveComponent, LoadableComponent {
           onKeyDown={this.handleListKeydown}
           role="treegrid"
         >
-          {filterEnabled ? (
+          {filterEnabled || hasFilterActionsStart || hasFilterActionsEnd ? (
             <thead>
               <tr class={{ [CSS.sticky]: true }}>
                 <th colSpan={MAX_COLUMNS}>
-                  <calcite-filter
-                    aria-label={filterPlaceholder}
-                    disabled={loading || disabled}
-                    items={dataForFilter}
-                    onCalciteFilterChange={this.handleFilter}
-                    placeholder={filterPlaceholder}
-                    value={filterText}
-                    // eslint-disable-next-line react/jsx-sort-props
-                    ref={(el) => (this.filterEl = el)}
-                  />
+                  <calcite-stack class={CSS.stack}>
+                    <slot
+                      name={SLOTS.filterActionsStart}
+                      onSlotchange={this.handleFilterActionsStartSlotChange}
+                      slot={STACK_SLOTS.actionsStart}
+                    />
+                    <calcite-filter
+                      aria-label={filterPlaceholder}
+                      disabled={loading || disabled}
+                      items={dataForFilter}
+                      onCalciteFilterChange={this.handleFilter}
+                      placeholder={filterPlaceholder}
+                      value={filterText}
+                      // eslint-disable-next-line react/jsx-sort-props
+                      ref={(el) => (this.filterEl = el)}
+                    />
+                    <slot
+                      name={SLOTS.filterActionsEnd}
+                      onSlotchange={this.handleFilterActionsEndSlotChange}
+                      slot={STACK_SLOTS.actionsEnd}
+                    />
+                  </calcite-stack>
                 </th>
               </tr>
             </thead>
@@ -320,6 +341,14 @@ export class List implements InteractiveComponent, LoadableComponent {
 
   handleDefaultSlotChange = (event: Event): void => {
     updateListItemChildren(getListItemChildren(event));
+  };
+
+  handleFilterActionsStartSlotChange = (event: Event): void => {
+    this.hasFilterActionsStart = slotChangeHasAssignedElement(event);
+  };
+
+  handleFilterActionsEndSlotChange = (event: Event): void => {
+    this.hasFilterActionsEnd = slotChangeHasAssignedElement(event);
   };
 
   setActiveListItem = (): void => {
