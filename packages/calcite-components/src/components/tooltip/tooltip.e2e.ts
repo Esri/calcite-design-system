@@ -514,11 +514,12 @@ describe("calcite-tooltip", () => {
     expect(await hoverTip.getProperty("open")).toBe(false);
   });
 
-  it("owns a floating-ui", () =>
+  describe("owns a floating-ui", () => {
     floatingUIOwner(
       `<calcite-tooltip reference-element="ref">content</calcite-tooltip><div id="ref">referenceElement</div>`,
       "open"
-    ));
+    );
+  });
 
   it("should only open the last hovered tooltip", async () => {
     const page = await newE2EPage();
