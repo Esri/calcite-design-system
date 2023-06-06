@@ -295,7 +295,7 @@ export class List implements InteractiveComponent, LoadableComponent {
                     placeholder={filterPlaceholder}
                     value={filterText}
                     // eslint-disable-next-line react/jsx-sort-props
-                    ref={this.handleFilterEl}
+                    ref={this.setFilterEl}
                   />
                 </th>
               </tr>
@@ -420,7 +420,7 @@ export class List implements InteractiveComponent, LoadableComponent {
     this.updateFilteredData();
   }
 
-  private handleFilterEl = (el: HTMLCalciteFilterElement): void => {
+  private setFilterEl = (el: HTMLCalciteFilterElement): void => {
     this.filterEl = el;
     this.performFilter();
   };
