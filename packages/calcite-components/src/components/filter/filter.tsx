@@ -169,6 +169,7 @@ export class Filter
   disconnectedCallback(): void {
     disconnectLocalized(this);
     disconnectMessages(this);
+    this.filterDebounced.cancel();
   }
 
   componentDidLoad(): void {
