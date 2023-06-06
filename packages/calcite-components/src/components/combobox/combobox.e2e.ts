@@ -1451,16 +1451,19 @@ describe("calcite-combobox", () => {
     );
   });
 
-  it("owns a floating-ui", () =>
+  describe("owns a floating-ui", () => {
     floatingUIOwner(
-      html` <calcite-combobox>
-        <calcite-combobox-item id="one" icon="banana" value="one" text-label="One"></calcite-combobox-item>
-        <calcite-combobox-item id="two" icon="beaker" value="two" text-label="Two" selected></calcite-combobox-item>
-        <calcite-combobox-item id="three" value="three" text-label="Three"></calcite-combobox-item>
-      </calcite-combobox>`,
+      html`
+        <calcite-combobox>
+          <calcite-combobox-item id="one" icon="banana" value="one" text-label="One"></calcite-combobox-item>
+          <calcite-combobox-item id="two" icon="beaker" value="two" text-label="Two" selected></calcite-combobox-item>
+          <calcite-combobox-item id="three" value="three" text-label="Three"></calcite-combobox-item>
+        </calcite-combobox>
+      `,
       "open",
       { shadowSelector: ".floating-ui-container" }
-    ));
+    );
+  });
 
   it("should emit component status for transition-chained events: 'calciteComoboxBeforeOpen', 'calciteComboboxOpen', 'calciteComboboxBeforeClose', 'calciteComboboxClose'", async () => {
     const page = await newE2EPage();
