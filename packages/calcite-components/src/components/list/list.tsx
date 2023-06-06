@@ -36,7 +36,7 @@ import {
  * A general purpose list that enables users to construct list items that conform to Calcite styling.
  *
  * @slot - A slot for adding `calcite-list-item` elements.
- * @slot filter-actions-end - A slot for adding actionable `calcite-action` elements before the filter component.
+ * @slot filter-actions-start - A slot for adding actionable `calcite-action` elements before the filter component.
  * @slot filter-actions-end - A slot for adding actionable `calcite-action` elements after the filter component.
  */
 @Component({
