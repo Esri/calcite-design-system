@@ -67,6 +67,6 @@ import { InputData, jsonInputForTargetLanguage, quicktype } from "quicktype-core
       return componentAName.localeCompare(componentBName);
     })
     .join("\n");
-  await writeFile("t9nmanifest.txt", manifestFileContents);
+  await writeFile("../../t9nmanifest.txt", manifestFileContents);
   console.log("finished writing manifest");
 })();
