@@ -609,11 +609,12 @@ describe("calcite-popover", () => {
     expect(await popover.getProperty("open")).toBe(false);
   });
 
-  it("owns a floating-ui", () =>
+  describe("owns a floating-ui", () => {
     floatingUIOwner(
       `<calcite-popover placement="auto" reference-element="ref">content</calcite-popover><div id="ref">referenceElement</div>`,
       "open"
-    ));
+    );
+  });
 
   it("should autoClose shadow popovers when clicked outside", async () => {
     const page = await newE2EPage();
