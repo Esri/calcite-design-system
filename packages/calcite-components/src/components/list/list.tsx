@@ -89,15 +89,7 @@ export class List implements InteractiveComponent, LoadableComponent {
 
   @Watch("filterText")
   async handleFilterTextChange(filterText: string): Promise<void> {
-    const { filterEl } = this;
-
-    if (!filterEl) {
-      return;
-    }
-
-    filterEl.value = filterText;
-    await filterEl.filter(filterText);
-    this.updateFilteredData();
+    this.performFilter(filterText);
   }
 
   /**
@@ -299,7 +291,7 @@ export class List implements InteractiveComponent, LoadableComponent {
                     aria-label={filterPlaceholder}
                     disabled={loading || disabled}
                     items={dataForFilter}
-                    onCalciteFilterChange={this.handleFilter}
+                    onCalciteFilterChange={this.handleFilterChange}
                     placeholder={filterPlaceholder}
                     value={filterText}
                     // eslint-disable-next-line react/jsx-sort-props
@@ -416,12 +408,24 @@ export class List implements InteractiveComponent, LoadableComponent {
     this.updateListItems(emit);
   }
 
+  private async performFilter(filterText = this.filterText): Promise<void> {
+    const { filterEl } = this;
+
+    if (!filterEl) {
+      return;
+    }
+
+    filterEl.value = filterText;
+    await filterEl.filter(filterText);
+    this.updateFilteredData();
+  }
+
   private handleFilterEl = (el: HTMLCalciteFilterElement): void => {
     this.filterEl = el;
-    this.updateFilteredData();
+    this.performFilter();
   };
 
-  private handleFilter = (event: CustomEvent): void => {
+  private handleFilterChange = (event: CustomEvent): void => {
     event.stopPropagation();
     const { value } = event.currentTarget as HTMLCalciteFilterElement;
     this.filterText = value;
