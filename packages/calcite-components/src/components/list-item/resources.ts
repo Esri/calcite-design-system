@@ -28,6 +28,7 @@ export const SLOTS = {
   actionsEnd: "actions-end"
 };
 
+// Set to zero to extend until the end of the table section.
 export const MAX_COLUMNS = 0;
 
 export const ICONS = {
