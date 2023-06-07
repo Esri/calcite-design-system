@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.4.3-next.3](https://github.com/Esri/calcite-components/compare/@esri/calcite-components@1.4.3-next.2...@esri/calcite-components@1.4.3-next.3) (2023-06-07)
+
+### Bug Fixes
+
+- **radio-button-group:** no longer focus first radio button on label click and adds `setFocus` method. ([#7050](https://github.com/Esri/calcite-components/issues/7050)) ([4267b8c](https://github.com/Esri/calcite-components/commit/4267b8ca26db8047d42659d6062b606a90819abc)), closes [#6698](https://github.com/Esri/calcite-components/issues/6698) [#6357](https://github.com/Esri/calcite-components/issues/6357) [#6698](https://github.com/Esri/calcite-components/issues/6698)
+
 ## [1.4.3-next.2](https://github.com/Esri/calcite-components/compare/@esri/calcite-components@1.4.2...@esri/calcite-components@1.4.3-next.2) (2023-06-07)
 
 ### Bug Fixes
