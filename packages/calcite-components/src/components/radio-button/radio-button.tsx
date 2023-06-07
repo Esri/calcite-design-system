@@ -3,6 +3,7 @@ import {
   Element,
   Event,
   EventEmitter,
+  forceUpdate,
   h,
   Host,
   Listen,
@@ -179,9 +180,11 @@ export class RadioButton
     ) as HTMLCalciteRadioButtonElement[];
   };
 
-  isDefaultSelectable = (): boolean => {
+  isFocusable = (): boolean => {
     const radioButtons = this.queryButtons();
-    return !radioButtons.some((radioButton) => radioButton.checked) && radioButtons[0] === this.el;
+    const firstFocusable = radioButtons.find((radiobutton) => !radiobutton.disabled);
+    const checked = radioButtons.find((radiobutton) => radiobutton.checked);
+    return firstFocusable === this.el && !checked;
   };
 
   check = (): void => {
@@ -271,11 +274,26 @@ export class RadioButton
     });
   }
 
+  private updateTabIndexOfOtherRadioButtonsInGroup(): void {
+    const radioButtons = this.queryButtons();
+    const otherFocusableRadioButtons = radioButtons.filter(
+      (radioButton) => radioButton.guid !== this.guid && !radioButton.disabled
+    );
+    otherFocusableRadioButtons.forEach((radiobutton) => {
+      forceUpdate(radiobutton);
+    });
+  }
+
   private getTabIndex(): number | undefined {
     if (this.disabled) {
       return undefined;
     }
-    return this.checked || this.isDefaultSelectable() ? 0 : -1;
+    if (this.checked || this.isFocusable()) {
+      this.updateTabIndexOfOtherRadioButtonsInGroup();
+      return 0;
+    } else {
+      return -1;
+    }
   }
 
   //--------------------------------------------------------------------------
