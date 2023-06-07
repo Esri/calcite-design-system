@@ -74,5 +74,7 @@ describe("calcite-tip", () => {
     expect(header).not.toBeNull();
   });
 
-  it("supports translations", () => t9n("calcite-tip"));
+  describe("translation support", () => {
+    t9n("calcite-tip");
+  });
 });
