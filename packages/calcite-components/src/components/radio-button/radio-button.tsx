@@ -171,7 +171,6 @@ export class RadioButton
 
   selectItem = (items: HTMLCalciteRadioButtonElement[], selectedIndex: number): void => {
     items[selectedIndex].click();
-    items[selectedIndex].focused = true;
   };
 
   queryButtons = (): HTMLCalciteRadioButtonElement[] => {
@@ -180,18 +179,15 @@ export class RadioButton
     ) as HTMLCalciteRadioButtonElement[];
   };
 
-  isFocusable = (): boolean => {
+  isDefaultSelectable = (): boolean => {
     const radioButtons = this.queryButtons();
-    const firstFocusable = radioButtons.find((radiobutton) => !radiobutton.disabled);
-    const checked = radioButtons.find((radiobutton) => radiobutton.checked);
-    return firstFocusable === this.el && !checked;
+    return !radioButtons.some((radioButton) => radioButton.checked) && radioButtons[0] === this.el;
   };
 
   check = (): void => {
     if (this.disabled) {
       return;
     }
-    this.el.tabIndex = 0;
     this.uncheckAllRadioButtonsInGroup();
     this.checked = true;
     this.focused = true;
@@ -203,6 +199,7 @@ export class RadioButton
     if (this.disabled) {
       return;
     }
+
     this.check();
   };
 
@@ -274,22 +271,11 @@ export class RadioButton
     });
   }
 
-  private updateTabIndexOfOtherRadioButtonsInGroup(): void {
-    const radioButtons = this.queryButtons();
-    const otherRadioButtons = radioButtons.filter((radioButton) => radioButton.guid !== this.guid);
-    otherRadioButtons.forEach((radiobutton) => (radiobutton.tabIndex = -1));
-  }
-
   private getTabIndex(): number | undefined {
     if (this.disabled) {
       return undefined;
     }
-    if (this.checked || this.isFocusable()) {
-      this.updateTabIndexOfOtherRadioButtonsInGroup();
-      return 0;
-    } else {
-      return -1;
-    }
+    return this.checked || this.isDefaultSelectable() ? 0 : -1;
   }
 
   //--------------------------------------------------------------------------
