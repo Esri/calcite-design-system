@@ -66,7 +66,9 @@ describe("calcite-flow-item", () => {
     });
   });
 
-  it("supports translations", () => t9n("calcite-flow-item"));
+  describe("translation support", () => {
+    t9n("calcite-flow-item");
+  });
 
   it("showBackButton", async () => {
     const page = await newE2EPage();

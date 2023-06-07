@@ -630,5 +630,7 @@ describe("calcite-modal accessibility checks", () => {
     expect(closeIcon).not.toBe(null);
   });
 
-  it("supports translation", () => t9n("calcite-modal"));
+  describe("translation support", () => {
+    t9n("calcite-modal");
+  });
 });
