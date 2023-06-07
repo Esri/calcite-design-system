@@ -39,6 +39,7 @@ import {
 } from "../../utils/loadable";
 
 // todo: keyboard nav sorting
+// todo: child sorting
 
 /**
  * A general purpose list that enables users to construct list items that conform to Calcite styling.
@@ -493,7 +494,7 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
     items.forEach((item) => {
       item.selectionAppearance = selectionAppearance;
       item.selectionMode = selectionMode;
-      item.dragHandle = dragEnabled; // todo: get from parent.
+      item.dragHandle = dragEnabled;
       item.group = group;
     });
     this.listItems = items;
