@@ -432,5 +432,7 @@ describe("calcite-input-text", () => {
     formAssociated("calcite-input-text", { testValue: "test", submitsOnEnter: true });
   });
 
-  it("supports translation", () => t9n("calcite-input-text"));
+  describe("translation support", () => {
+    t9n("calcite-input-text");
+  });
 });

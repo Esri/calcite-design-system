@@ -375,5 +375,7 @@ describe("calcite-inline-editable", () => {
     });
   });
 
-  it("supports translation", () => t9n("calcite-inline-editable"));
+  describe("translation support", () => {
+    t9n("calcite-inline-editable");
+  });
 });
