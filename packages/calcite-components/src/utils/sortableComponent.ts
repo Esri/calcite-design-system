@@ -69,9 +69,10 @@ export function connectSortableComponent(component: SortableComponent): void {
   const dataIdAttr = "id";
   const { group, handleSelector: handle, dragSelector: draggable } = component;
 
-  const sortableOptions: Sortable.Options = {
+  component.sortable = Sortable.create(component.el, {
     dataIdAttr,
-    group,
+    ...(draggable && { draggable }),
+    ...(group && { group }),
     handle,
     onStart: (event) => {
       onSortingStart(component);
@@ -84,13 +85,7 @@ export function connectSortableComponent(component: SortableComponent): void {
     onUpdate: (event) => {
       component.onDragUpdate(event);
     }
-  };
-
-  if (draggable) {
-    sortableOptions.draggable = draggable;
-  }
-
-  component.sortable = Sortable.create(component.el, sortableOptions);
+  });
 }
 
 /**

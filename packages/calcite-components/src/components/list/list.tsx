@@ -76,11 +76,6 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
    */
   @Prop({ reflect: true }) filterEnabled = false;
 
-  @Watch("filterEnabled")
-  handleFilterEnabledChange(): void {
-    this.updateListItems();
-  }
-
   /**
    * The currently filtered `calcite-list-item`s.
    *
@@ -142,6 +137,8 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
    */
   @Prop({ reflect: true }) selectionAppearance: SelectionAppearance = "icon";
 
+  @Watch("filterEnabled")
+  @Watch("group")
   @Watch("dragEnabled")
   @Watch("selectionMode")
   @Watch("selectionAppearance")
