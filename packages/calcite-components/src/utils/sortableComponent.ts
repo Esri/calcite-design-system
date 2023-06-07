@@ -3,6 +3,12 @@ import { containsCrossShadowBoundary } from "./dom";
 const sortableComponentSet = new Set<SortableComponent>();
 const inactiveSortableComponentSet = new WeakSet<SortableComponent>();
 
+interface CanDragEvent {
+  toEl: HTMLElement;
+  fromEl: HTMLElement;
+  dragEl: HTMLElement;
+}
+
 /**
  * Defines interface for components with sorting functionality.
  */
@@ -51,6 +57,17 @@ export interface SortableComponent {
    *
    */
   onDragUpdate: (event: Sortable.SortableEvent) => void;
+
+  /**
+   *
+   */
+  onCanPull?: (event: CanDragEvent) => boolean;
+
+  // todo
+  /**
+   *
+   */
+  onCanPut?: (event: CanDragEvent) => boolean;
 }
 
 /**
@@ -71,8 +88,18 @@ export function connectSortableComponent(component: SortableComponent): void {
 
   component.sortable = Sortable.create(component.el, {
     dataIdAttr,
-    ...(draggable && { draggable }),
-    ...(group && { group }),
+    ...(!!draggable && { draggable }),
+    ...(!!group && {
+      group: {
+        name: group,
+        ...(!!component.onCanPull && {
+          pull: (to, from, dragEl) => component.onCanPull({ toEl: to.el, fromEl: from.el, dragEl })
+        }),
+        ...(!!component.onCanPut && {
+          put: (to, from, dragEl) => component.onCanPut({ toEl: to.el, fromEl: from.el, dragEl })
+        })
+      }
+    }),
     handle,
     onStart: (event) => {
       onSortingStart(component);
