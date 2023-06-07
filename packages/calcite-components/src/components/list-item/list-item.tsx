@@ -75,6 +75,12 @@ export class ListItem
     }
   }
 
+  /**
+   * When `true`, the component's child list-items are sortable via a draggable button.
+   *
+   */
+  @Prop() childrenDragEnabled = false;
+
   /** When `true`, a close button is added to the component. */
   @Prop({ reflect: true }) closable = false;
 
@@ -92,11 +98,18 @@ export class ListItem
   @Prop({ reflect: true }) disabled = false;
 
   /**
-   * When `true`, the component is sortable via a draggable button.
+   * When `true`, the component displays a draggable button.
    *
    * @internal
    */
-  @Prop() dragEnabled = false;
+  @Prop() dragHandle = false;
+
+  /**
+   * The list's group identifier.
+   *
+   * @internal
+   */
+  @Prop({ reflect: true }) group?: string;
 
   /**
    * The label text of the component. Displays above the description text.
@@ -257,6 +270,12 @@ export class ListItem
 
   actionsEndEl: HTMLTableCellElement;
 
+  // --------------------------------------------------------------------------
+  //
+  //  Lifecycle
+  //
+  // --------------------------------------------------------------------------
+
   connectedCallback(): void {
     connectLocalized(this);
     connectMessages(this);
@@ -341,7 +360,7 @@ export class ListItem
   }
 
   renderDragHandle(): VNode {
-    return this.dragEnabled ? (
+    return this.dragHandle ? (
       <td class={CSS.dragContainer} key="drag-handle-container">
         <calcite-handle />
       </td>

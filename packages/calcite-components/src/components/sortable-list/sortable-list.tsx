@@ -6,6 +6,7 @@ import { HandleNudge } from "../handle/interfaces";
 import { Layout } from "../interfaces";
 import { CSS } from "./resources";
 import {
+  CanDragEvent,
   connectSortableComponent,
   disconnectSortableComponent,
   SortableComponent
@@ -26,6 +27,16 @@ export class SortableList implements InteractiveComponent, SortableComponent {
   //  Properties
   //
   // --------------------------------------------------------------------------
+
+  /**
+   * When provided, the method will be called to determine whether the element can  move from the list.
+   */
+  @Prop() dragCanPull: (event: CanDragEvent) => boolean;
+
+  /**
+   * When provided, the method will be called to determine whether the element can be added from another list.
+   */
+  @Prop() dragCanPut: (event: CanDragEvent) => boolean;
 
   /**
    * Specifies which items inside the element should be draggable.

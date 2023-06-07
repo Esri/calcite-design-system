@@ -3,7 +3,7 @@ import { containsCrossShadowBoundary } from "./dom";
 const sortableComponentSet = new Set<SortableComponent>();
 const inactiveSortableComponentSet = new WeakSet<SortableComponent>();
 
-interface CanDragEvent {
+export interface CanDragEvent {
   toEl: HTMLElement;
   fromEl: HTMLElement;
   dragEl: HTMLElement;
@@ -44,14 +44,14 @@ export interface SortableComponent {
   sortable: Sortable;
 
   /**
-   * Element dragging started.
+   * Whether the element can  move from the list.
    */
-  onDragStart: (event: Sortable.SortableEvent) => void;
+  dragCanPull: (event: CanDragEvent) => boolean;
 
   /**
-   * Element dragging ended.
+   * Whether the element can be added from another list.
    */
-  onDragEnd: (event: Sortable.SortableEvent) => void;
+  dragCanPut: (event: CanDragEvent) => boolean;
 
   /**
    * Called by any change to the list (add / update / remove).
@@ -59,14 +59,14 @@ export interface SortableComponent {
   onDragSort: (event: Sortable.SortableEvent) => void;
 
   /**
-   * Ability to move from the list.
+   * Element dragging started.
    */
-  onCanPull?: (event: CanDragEvent) => boolean;
+  onDragStart?: (event: Sortable.SortableEvent) => void;
 
   /**
-   * Whether elements can be added from other lists.
+   * Element dragging ended.
    */
-  onCanPut?: (event: CanDragEvent) => boolean;
+  onDragEnd?: (event: Sortable.SortableEvent) => void;
 }
 
 /**
@@ -91,11 +91,11 @@ export function connectSortableComponent(component: SortableComponent): void {
     ...(!!group && {
       group: {
         name: group,
-        ...(!!component.onCanPull && {
-          pull: (to, from, dragEl) => component.onCanPull({ toEl: to.el, fromEl: from.el, dragEl })
+        ...(!!component.dragCanPull && {
+          pull: (to, from, dragEl) => component.dragCanPull({ toEl: to.el, fromEl: from.el, dragEl })
         }),
-        ...(!!component.onCanPut && {
-          put: (to, from, dragEl) => component.onCanPut({ toEl: to.el, fromEl: from.el, dragEl })
+        ...(!!component.dragCanPut && {
+          put: (to, from, dragEl) => component.dragCanPut({ toEl: to.el, fromEl: from.el, dragEl })
         })
       }
     }),

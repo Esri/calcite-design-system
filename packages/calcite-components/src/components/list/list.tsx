@@ -22,6 +22,7 @@ import { MAX_COLUMNS } from "../list-item/resources";
 import { getListItemChildren, updateListItemChildren } from "../list-item/utils";
 import { CSS, debounceTimeout, SelectionAppearance } from "./resources";
 import {
+  CanDragEvent,
   connectSortableComponent,
   disconnectSortableComponent,
   SortableComponent
@@ -36,6 +37,8 @@ import {
   setComponentLoaded,
   setUpLoadableComponent
 } from "../../utils/loadable";
+
+// todo: keyboard nav sorting
 
 /**
  * A general purpose list that enables users to construct list items that conform to Calcite styling.
@@ -58,6 +61,16 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
    * When `true`, interaction is prevented and the component is displayed with lower opacity.
    */
   @Prop({ reflect: true }) disabled = false;
+
+  /**
+   * When provided, the method will be called to determine whether the element can  move from the list.
+   */
+  @Prop() dragCanPull: (event: CanDragEvent) => boolean;
+
+  /**
+   * When provided, the method will be called to determine whether the element can be added from another list.
+   */
+  @Prop() dragCanPut: (event: CanDragEvent) => boolean;
 
   /**
    * When `true`, `calcite-list-item`s are sortable via a draggable button.
@@ -475,12 +488,13 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
   };
 
   private updateListItems = debounce((emit = false): void => {
-    const { selectionAppearance, selectionMode, dragEnabled } = this;
+    const { selectionAppearance, selectionMode, dragEnabled, group } = this;
     const items = this.queryListItems();
     items.forEach((item) => {
       item.selectionAppearance = selectionAppearance;
       item.selectionMode = selectionMode;
-      item.dragEnabled = dragEnabled;
+      item.dragHandle = dragEnabled; // todo: get from parent.
+      item.group = group;
     });
     this.listItems = items;
     if (this.filterEnabled) {
