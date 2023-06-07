@@ -44,28 +44,27 @@ export interface SortableComponent {
   sortable: Sortable;
 
   /**
-   *
+   * Element dragging started.
    */
   onDragStart: (event: Sortable.SortableEvent) => void;
 
   /**
-   *
+   * Element dragging ended.
    */
   onDragEnd: (event: Sortable.SortableEvent) => void;
 
   /**
-   *
+   * Called by any change to the list (add / update / remove).
    */
-  onDragUpdate: (event: Sortable.SortableEvent) => void;
+  onDragSort: (event: Sortable.SortableEvent) => void;
 
   /**
-   *
+   * Ability to move from the list.
    */
   onCanPull?: (event: CanDragEvent) => boolean;
 
-  // todo
   /**
-   *
+   * Whether elements can be added from other lists.
    */
   onCanPut?: (event: CanDragEvent) => boolean;
 }
@@ -109,8 +108,8 @@ export function connectSortableComponent(component: SortableComponent): void {
       onSortingEnd(component);
       component.onDragEnd(event);
     },
-    onUpdate: (event) => {
-      component.onDragUpdate(event);
+    onSort: (event) => {
+      component.onDragSort(event);
     }
   });
 }

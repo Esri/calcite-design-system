@@ -16,7 +16,8 @@ export const CSS = {
   contentEnd: "content-end",
   actionsEnd: "actions-end",
   selectionContainer: "selection-container",
-  openContainer: "open-container"
+  openContainer: "open-container",
+  dragContainer: "drag-container"
 };
 
 export const SLOTS = {
@@ -27,7 +28,7 @@ export const SLOTS = {
   actionsEnd: "actions-end"
 };
 
-export const MAX_COLUMNS = 5;
+export const MAX_COLUMNS = 0;
 
 export const ICONS = {
   selectedMultiple: "check-circle-f",

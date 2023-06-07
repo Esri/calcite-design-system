@@ -373,7 +373,7 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
     this.connectObserver();
   }
 
-  onDragUpdate(): void {
+  onDragSort(): void {
     this.updateListItems();
     this.calciteListOrderChange.emit();
   }

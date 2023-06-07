@@ -342,7 +342,7 @@ export class ListItem
 
   renderDragHandle(): VNode {
     return this.dragEnabled ? (
-      <td class={CSS.openContainer} key="drag-handle-container">
+      <td class={CSS.dragContainer} key="drag-handle-container">
         <calcite-handle />
       </td>
     ) : null;
