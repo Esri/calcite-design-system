@@ -458,54 +458,54 @@ describe("calcite-radio-button", () => {
   it("focuses first focusable item on Tab", async () => {
     const page = await newE2EPage();
     await page.setContent(html`
-      <calcite-radio-button-group name="Options" layout="vertical">
+      <div>
         <calcite-label layout="inline">
-          <calcite-radio-button value="trees" disabled id="trees"></calcite-radio-button>
+          <calcite-radio-button value="trees" disabled id="trees" name="Options"></calcite-radio-button>
           Trees
         </calcite-label>
         <calcite-label layout="inline">
-          <calcite-radio-button value="shrubs" id="shrubs"></calcite-radio-button>
+          <calcite-radio-button value="shrubs" id="shrubs" name="Options"></calcite-radio-button>
           Shrubs
         </calcite-label>
         <calcite-label layout="inline">
-          <calcite-radio-button value="flowers" id="flowers"></calcite-radio-button>
+          <calcite-radio-button value="flowers" id="flowers" name="Options"></calcite-radio-button>
           Flowers
         </calcite-label>
-      </calcite-radio-button-group>
-      <calcite-button id="submit">submit</calcite-button>
+        <calcite-button id="submit">submit</calcite-button>
+      </div>
     `);
-    const group = await page.find("calcite-radio-button-group");
-    await group.press("Tab");
+    const container = await page.find("div");
+    await container.press("Tab");
     await page.waitForChanges();
     expect(await getFocusedElementProp(page, "id")).toBe("shrubs");
-    await group.press("Tab");
+    await container.press("Tab");
     expect(await getFocusedElementProp(page, "id")).toBe("submit");
   });
 
   it("focuses checked item on Tab", async () => {
     const page = await newE2EPage();
     await page.setContent(html`
-      <calcite-radio-button-group name="Options" layout="vertical">
+      <div>
         <calcite-label layout="inline">
-          <calcite-radio-button value="trees" disabled id="trees"></calcite-radio-button>
+          <calcite-radio-button value="trees" disabled id="trees" name="Options"></calcite-radio-button>
           Trees
         </calcite-label>
         <calcite-label layout="inline">
-          <calcite-radio-button value="shrubs" id="shrubs"></calcite-radio-button>
+          <calcite-radio-button value="shrubs" id="shrubs" name="Options"></calcite-radio-button>
           Shrubs
         </calcite-label>
         <calcite-label layout="inline">
-          <calcite-radio-button value="flowers" id="flowers" checked></calcite-radio-button>
+          <calcite-radio-button value="flowers" id="flowers" checked name="Options"></calcite-radio-button>
           Flowers
         </calcite-label>
-      </calcite-radio-button-group>
-      <calcite-button id="submit">submit</calcite-button>
+        <calcite-button id="submit">submit</calcite-button>
+      </div>
     `);
-    const group = await page.find("calcite-radio-button-group");
-    await group.press("Tab");
+    const container = await page.find("div");
+    await container.press("Tab");
     await page.waitForChanges();
     expect(await getFocusedElementProp(page, "id")).toBe("flowers");
-    await group.press("Tab");
+    await container.press("Tab");
     expect(await getFocusedElementProp(page, "id")).toBe("submit");
   });
 });
