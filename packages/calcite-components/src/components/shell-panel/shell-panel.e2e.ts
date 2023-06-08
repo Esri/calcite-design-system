@@ -569,5 +569,7 @@ describe("calcite-shell-panel", () => {
     expect(await page.evaluate((selector) => document.activeElement.matches(selector), "calcite-action")).toBe(true);
   });
 
-  it("supports translations", () => t9n("calcite-shell-panel"));
+  describe("translation support", () => {
+    t9n("calcite-shell-panel");
+  });
 });

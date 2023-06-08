@@ -34,7 +34,9 @@ describe("calcite-block-section", () => {
     ]);
   });
 
-  it("supports translation", () => t9n("calcite-block-section"));
+  describe("translation support", () => {
+    t9n("calcite-block-section");
+  });
 
   describe("toggle-display = 'switch'", () => {
     describe("accessible", () => {

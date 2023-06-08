@@ -611,8 +611,6 @@ interface FormAssociatedOptions {
  *
  * Note that this helper should be used within a describe block.
  *
-
- *
  * @param {string} componentTagOrHtml - the component tag or HTML markup to test against
  * @param {FormAssociatedOptions} options - form associated options
  */
@@ -1186,22 +1184,35 @@ export function floatingUIOwner(
 }
 
 /**
- * Helper to test t9n component setup
+ * Helper to test t9n component setup.
  *
- * @param {ComponentTestSetup} componentTestSetup - A component tag, html, or the tag and e2e page for setting up a test
+ * Note that this helper should be used within a describe block.
+ *
+ * @example
+ * describe("translation support", () => {
+ *   t9n("calcite-action");
+ * });
+ *
+ * @param {ComponentTestSetup} componentTestSetup - A component tag, html, or the tag and e2e page for setting up a test.
  */
+
 export async function t9n(componentTestSetup: ComponentTestSetup): Promise<void> {
-  const { page, tag } = await getTagAndPage(componentTestSetup);
-  const component = await page.find(tag);
+  let component: E2EElement;
+  let E2Epage: E2EPage;
+  let getCurrentMessages: () => Promise<MessageBundle>;
 
-  await assertDefaultMessages();
+  beforeEach(async () => {
+    const { page, tag } = await getTagAndPage(componentTestSetup);
+    E2Epage = page;
+    component = await page.find(tag);
+    getCurrentMessages = async (): Promise<MessageBundle> => {
+      return page.$eval(tag, (component: HTMLElement & { messages: MessageBundle }) => component.messages);
+    };
+  });
 
-  await assertOverrides();
-  await assertLangSwitch();
-
-  async function getCurrentMessages(): Promise<MessageBundle> {
-    return page.$eval(tag, (component: HTMLElement & { messages: MessageBundle }) => component.messages);
-  }
+  it("has defined default messages", async () => await assertDefaultMessages());
+  it("overrides messages", async () => await assertOverrides());
+  it("switches messages", async () => await assertLangSwitch());
 
   async function assertDefaultMessages(): Promise<void> {
     expect(await getCurrentMessages()).toBeDefined();
@@ -1213,7 +1224,7 @@ export async function t9n(componentTestSetup: ComponentTestSetup): Promise<void>
     const messageOverride = { [firstMessageProp]: "override test" };
 
     component.setProperty("messageOverrides", messageOverride);
-    await page.waitForChanges();
+    await E2Epage.waitForChanges();
 
     expect(await getCurrentMessages()).toEqual({
       ...messages,
@@ -1222,13 +1233,13 @@ export async function t9n(componentTestSetup: ComponentTestSetup): Promise<void>
 
     // reset test changes
     component.setProperty("messageOverrides", undefined);
-    await page.waitForChanges();
+    await E2Epage.waitForChanges();
   }
 
   async function assertLangSwitch(): Promise<void> {
     const enMessages = await getCurrentMessages();
     const fakeBundleIdentifier = "__fake__";
-    await page.evaluate(
+    await E2Epage.evaluate(
       (enMessages, fakeBundleIdentifier) => {
         const orig = window.fetch;
         window.fetch = async function (input, init) {
@@ -1250,14 +1261,14 @@ export async function t9n(componentTestSetup: ComponentTestSetup): Promise<void>
     );
 
     component.setAttribute("lang", "es");
-    await page.waitForChanges();
-    await page.waitForTimeout(3000);
+    await E2Epage.waitForChanges();
+    await E2Epage.waitForTimeout(3000);
     const esMessages = await getCurrentMessages();
 
     expect(esMessages).toHaveProperty(fakeBundleIdentifier);
 
     // reset test changes
     component.removeAttribute("lang");
-    await page.waitForChanges();
+    await E2Epage.waitForChanges();
   }
 }

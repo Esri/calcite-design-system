@@ -122,5 +122,7 @@ describe("calcite-notice", () => {
     });
   });
 
-  it("supports translations", () => t9n("calcite-notice"));
+  describe("translation support", () => {
+    t9n("calcite-notice");
+  });
 });

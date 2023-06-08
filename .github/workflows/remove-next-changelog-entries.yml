@@ -21,6 +21,7 @@ jobs:
           node-version: 16
       - name: Remove Next Changelog Entries
         run: |
+          git pull
           npm install
           npm run util:remove-next-changelog-entries
       - name: Push Changes

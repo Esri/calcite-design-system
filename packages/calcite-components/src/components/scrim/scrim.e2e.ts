@@ -28,7 +28,9 @@ describe("calcite-scrim", () => {
     ]);
   });
 
-  it("supports translations", () => t9n("calcite-scrim"));
+  describe("translation support", () => {
+    t9n("calcite-scrim");
+  });
 
   it("shows loading component", async () => {
     const page = await newE2EPage();

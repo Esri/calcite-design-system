@@ -52,5 +52,7 @@ describe("calcite-handle", () => {
     expect(calciteHandleNudgeSpy).toHaveReceivedEventTimes(2);
   });
 
-  it("supports translation", () => t9n("calcite-handle"));
+  describe("translation support", () => {
+    t9n("calcite-handle");
+  });
 });
