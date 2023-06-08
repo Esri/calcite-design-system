@@ -28,7 +28,9 @@ describe("calcite-pagination", () => {
     accessible(`<calcite-pagination page-size="10" start-item="50" total-items="100"></calcite-pagination>`);
   });
 
-  it("supports translations", () => t9n("calcite-pagination"));
+  describe("translation support", () => {
+    t9n("calcite-pagination");
+  });
 
   describe("page links", () => {
     it("should render only one page when totalItems is less than pageSize", async () => {

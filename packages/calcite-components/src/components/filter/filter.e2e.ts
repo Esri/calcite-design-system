@@ -272,8 +272,6 @@ describe("calcite-filter", () => {
     });
   });
 
-  it("supports translation", () => t9n("calcite-filter"));
-
   describe("filter method", () => {
     let page: E2EPage;
 
@@ -318,5 +316,9 @@ describe("calcite-filter", () => {
       expect(filterChangeSpy).toHaveReceivedEventTimes(0);
       assertMatchingItems(await filter.getProperty("filteredItems"), ["harry"]);
     });
+  });
+
+  describe("translation support", () => {
+    t9n("calcite-filter");
   });
 });
