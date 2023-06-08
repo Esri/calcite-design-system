@@ -8,9 +8,7 @@
     <link rel="stylesheet" href="https://webapps-cdn.esri.com/CDN/fonts/v1.4.1/fonts.css" />
     <link rel="stylesheet" href="../build/calcite.css" />
     <script type="module" src="../build/calcite.esm.js"></script>
-    <script nomodule src="../build/calcite.js"></script>
     <script src="./_assets/head.js"></script>
-    <script src="./_assets/locales.js"></script>
     <style>
       .demo-header {
         margin-bottom: unset !important;
@@ -23,12 +21,13 @@
         height: calc(100vh - 82px);
         overflow-y: scroll;
       }
-      main {
+      .grid {
         display: grid;
         grid-template-columns: repeat(4, 1fr);
         gap: 1em;
         align-items: flex-start;
         justify-items: center;
+        padding: 1em;
       }
       .column {
         display: flex;
@@ -38,146 +37,72 @@
     </style>
   </head>
   <body>
-    <div id="main-container">
-      <div id="locales">
-        <calcite-tile-select-group layout="vertical"></calcite-tile-select-group>
+    <demo-dom-swapper>
+      <div id="main-container">
+        <main>
+          <h3>12-Hour Locales</h3>
+          <div id="h12" class="grid"></div>
+          <h3>24-Hour Locales</h3>
+          <div id="h23" class="grid"></div>
+        </main>
       </div>
-      <main>
-        <!-- spacer row -->
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
 
-        <!-- column heading row -->
-        <div></div>
-        <calcite-label scale="l">small</calcite-label>
-        <calcite-label scale="l">medium</calcite-label>
-        <calcite-label scale="l">large</calcite-label>
+      <script type="module">
+        import { locales } from "./_assets/locales.js";
 
-        <div></div>
-        <calcite-label scale="s">
-          Default
-          <calcite-input-time scale="s"></calcite-input-time>
-        </calcite-label>
-        <calcite-label scale="m">
-          Default
-          <calcite-input-time scale="m"></calcite-input-time>
-        </calcite-label>
-        <calcite-label scale="l">
-          Default
-          <calcite-input-time scale="l"></calcite-input-time>
-        </calcite-label>
+        (async () => {
+          await customElements.whenDefined("calcite-label");
+          await customElements.whenDefined("calcite-input-time");
 
-        <div></div>
-        <calcite-label scale="s">
-          Seconds
-          <calcite-input-time scale="s" step="1"></calcite-input-time>
-        </calcite-label>
-        <calcite-label scale="m">
-          Seconds
-          <calcite-input-time scale="m" step="1"></calcite-input-time>
-        </calcite-label>
-        <calcite-label scale="l">
-          Seconds
-          <calcite-input-time scale="l" step="1"></calcite-input-time>
-        </calcite-label>
+          document.addEventListener("calciteInputTimePickerChange", (event) => {
+            console.log("calciteInputTimePickerChange", event.target.value);
+          });
 
-        <div></div>
-        <calcite-label scale="s">
-          24-hour
-          <calcite-input-time scale="s" value="23:59" lang="fr"></calcite-input-time>
-        </calcite-label>
-        <calcite-label scale="m">
-          24-hour
-          <calcite-input-time scale="m" value="23:59" lang="fr"></calcite-input-time>
-        </calcite-label>
-        <calcite-label scale="l">
-          24-hour
-          <calcite-input-time scale="l" value="23:59" lang="fr"></calcite-input-time>
-        </calcite-label>
+          const mainEl = document.querySelector("main");
+          const currentDate = new Date();
+          const currentTime = `${currentDate.getHours()}:${currentDate.getMinutes()}:${currentDate.getSeconds()}`;
 
-        <div></div>
-        <calcite-label scale="s">
-          24-hour seconds
-          <calcite-input-time scale="s" value="23:59" lang="fr" step="1"></calcite-input-time>
-        </calcite-label>
-        <calcite-label scale="m">
-          24-hour seconds
-          <calcite-input-time scale="m" value="23:59" lang="fr" step="1"></calcite-input-time>
-        </calcite-label>
-        <calcite-label scale="l">
-          24-hour seconds
-          <calcite-input-time scale="l" value="23:59" lang="fr" step="1"></calcite-input-time>
-        </calcite-label>
+          locales.forEach(({ locale, name, numberingSystem, hourCycle }) => {
+            let labelEl = document.createElement("calcite-label");
+            let inputTimePickerEl = document.createElement("calcite-input-time");
 
-        <div></div>
-        <calcite-label scale="s">
-          readonly
-          <calcite-input-time scale="s" value="23:59" readonly></calcite-input-time>
-        </calcite-label>
-        <calcite-label scale="m">
-          readonly
-          <calcite-input-time scale="m" value="23:59" readonly></calcite-input-time>
-        </calcite-label>
-        <calcite-label scale="l">
-          readonly
-          <calcite-input-time scale="l" value="23:59" readonly></calcite-input-time>
-        </calcite-label>
+            inputTimePickerEl.setAttribute("lang", locale);
+            if (numberingSystem) {
+              inputTimePickerEl.setAttribute("numbering-system", numberingSystem);
+            }
+            inputTimePickerEl.setAttribute("value", "10:00:00");
+            labelEl.append(document.createTextNode(`${name} (${locale})`));
+            labelEl.append(inputTimePickerEl);
+            mainEl.append(labelEl);
 
-        <div></div>
-        <calcite-label scale="s">
-          disabled
-          <calcite-input-time scale="s" value="23:59" step="1" disabled></calcite-input-time>
-        </calcite-label>
-        <calcite-label scale="m">
-          disabled
-          <calcite-input-time scale="m" value="23:59" step="1" disabled></calcite-input-time>
-        </calcite-label>
-        <calcite-label scale="l">
-          disabled
-          <calcite-input-time scale="l" value="23:59" step="1" disabled></calcite-input-time>
-        </calcite-label>
-      </main>
-    </div>
+            const localeObject = new Intl.Locale(locale);
+            if (localeObject.hourCycles[0] === "h12") {
+              h12.append(labelEl);
+            } else {
+              h23.append(labelEl);
+            }
 
-    <script>
-      (async () => {
-        await customElements.whenDefined("calcite-input-time");
-        await customElements.whenDefined("calcite-tile-select-group");
-        await customElements.whenDefined("calcite-tile-select");
-        const inputTime = document.querySelector("calcite-input-time");
-        await inputTime.componentOnReady();
-        const tileSelectGroup = document.querySelector("calcite-tile-select-group");
-        await tileSelectGroup.componentOnReady();
-        const inputTimeEls = Array.from(document.querySelectorAll("calcite-input-time"));
-        document.addEventListener("calciteInputTimeChange", (event) => {
-          console.log("calciteInputTimeChange", event.target.value);
-        });
-        document.addEventListener("calciteTileSelectChange", (event) => {
-          inputTimeEls.forEach((inputTimeEl) => (inputTimeEl.locale = event.target.value));
-        });
-        locales.forEach(({ locale, name }) => {
-          let localeEl = document.createElement("calcite-tile-select");
-          localeEl.setAttribute("heading", name);
-          localeEl.setAttribute("name", "locales");
-          localeEl.setAttribute("scale", "s");
-          localeEl.setAttribute("width", "full");
-          localeEl.setAttribute("value", locale);
-          tileSelectGroup.appendChild(localeEl);
-        });
-        const htmlEl = document.querySelector("html");
-        const htmlElObserver = new MutationObserver((mutations) => {
-          mutations.forEach((mutation) => {
-            if (mutation.type == "attributes" && mutation.attributeName === "dir") {
-              inputTimeEls.forEach((inputTimeEl) => inputTimeEl.setAttribute("dir", htmlEl.getAttribute("dir")));
+            labelEl = document.createElement("calcite-label");
+            inputTimePickerEl = document.createElement("calcite-input-time");
+
+            inputTimePickerEl.setAttribute("lang", locale);
+            if (numberingSystem) {
+              inputTimePickerEl.setAttribute("numbering-system", numberingSystem);
+            }
+            inputTimePickerEl.setAttribute("step", 1);
+            inputTimePickerEl.setAttribute("value", "10:00");
+            labelEl.append(document.createTextNode(`${name} (${locale}) (seconds)`));
+            labelEl.append(inputTimePickerEl);
+            mainEl.append(labelEl);
+
+            if (localeObject.hourCycles[0] === "h12") {
+              h12.append(labelEl);
+            } else {
+              h23.append(labelEl);
             }
           });
-        });
-        htmlElObserver.observe(htmlEl, {
-          attributes: true
-        });
-      })();
-    </script>
+        })();
+      </script>
+    </demo-dom-swapper>
   </body>
 </html>
