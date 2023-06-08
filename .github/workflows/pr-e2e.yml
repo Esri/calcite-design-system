@@ -12,7 +12,7 @@ jobs:
       - name: skip for markdown only prs
         id: markdown-check
         run: |
-          current_branch=$(git rev-parse --abbrev-ref HEAD)
+          current_branch="$(git rev-parse --abbrev-ref HEAD)"
           # diff of branch excluding md
           testable_changes=$(git diff --name-only "$current_branch" $(git merge-base "$current_branch" origin/master) -- . ':(exclude)*.md*')
           echo "changed files: $testable_changes"
@@ -27,6 +27,6 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version-file: package.json
-      - run: npm ci --legacy-peer-deps
+      - run: npm install
       - if: steps.markdown-check.outputs.SKIP == 'false'
-        run: npm test
+        run: npm run build && npm run test

@@ -1,7 +1,0 @@
-:host {
-  @apply inline-block
-    select-none;
-}
-
-@include disabled();
-@include hidden-form-input();

@@ -15,7 +15,6 @@ updates:
       prefix: "build(deps): "
     # Ignore updates to packages below
     ignore:
-      - dependency-name: "chalk"
       - dependency-name: "cheerio"
       - dependency-name: "typescript"
       - dependency-name: "@types/jest"
@@ -24,3 +23,13 @@ updates:
       - dependency-name: "ts-jest"
       - dependency-name: "puppeteer"
       - dependency-name: "@whitespace/storybook-addon-html"
+
+  - package-ecosystem: "npm"
+    directory: "packages/calcite-components"
+    schedule:
+      interval: "weekly"
+      day: "tuesday"
+      time: "05:00"
+      timezone: "America/Los_Angeles"
+    commit-message:
+      prefix: "build(deps): "

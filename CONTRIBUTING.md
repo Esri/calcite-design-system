@@ -17,13 +17,17 @@ Calcite Components is still in its early stages. You can help most by:
 
 If you aren't familiar with the basics of Web Components and Shadow DOM, please read through some of the following resources before contributing:
 
-- [Google - Custom Elements v1: Reusable Web Components ](https://developers.google.com/web/fundamentals/web-components/customelements)
-- [Google - Shadow DOM v1: Self-Contained Web Components ](https://developers.google.com/web/fundamentals/web-components/shadowdom)
-- [CSS Tricks - An Introduction to Web Components ](https://css-tricks.com/an-introduction-to-web-components/)
+- [Google - Custom Elements v1: Reusable Web Components](https://developers.google.com/web/fundamentals/web-components/customelements)
+- [Google - Shadow DOM v1: Self-Contained Web Components](https://developers.google.com/web/fundamentals/web-components/shadowdom)
+- [CSS Tricks - An Introduction to Web Components](https://css-tricks.com/an-introduction-to-web-components/)
 
 ## Before filing an issue
 
-If something isn't working the way you expect, please take a look at the [existing issues](https://github.com/Esri/calcite-components/issues) before logging a new one. Have you found a new bug? Want to request a new feature? We'd love to hear from you! Please make sure to provide all of the requested info from the appropriate [issue template](https://github.com/Esri/calcite-components/issues/new/choose) so we can work on resolving the issue as soon as possible. A sample that reproduces the issue is required for logging bugs, we created templates in [codepen](https://codepen.io/pen?template=RwgrjEx), [codesandbox](https://codesandbox.io/s/calcite-template-p95kp?file=/src/App.js), and [jsbin](https://jsbin.com/lopumatiru/edit?html,output) (with the ArcGIS API for JavaScript) to help get started. Alternatively, a [documentation](https://developers.arcgis.com/calcite-design-system/components/) sample can be used if the issue is reproducible. Some other things to consider:
+Have you found a new bug? Want to request a new feature? We'd love to hear from you!
+
+If something isn't working the way you expect, take a look at the [existing issues](https://github.com/Esri/calcite-components/issues) before logging a new one. You can also report a bug or request an enhancement with [Esri Support](https://support.esri.com/en-us/contact), or ask questions, share ideas, and collaborate with others on [Esri Community](https://community.esri.com/t5/calcite-design-system/ct-p/calcite-design-system).
+
+When filing an issue, provide all of the requested info from the appropriate [issue template](https://github.com/Esri/calcite-components/issues/new/choose) so we can work on resolving the issue as soon as possible. A sample that reproduces the issue is required for logging bugs, we created templates in [codepen](https://codepen.io/pen?template=RwgrjEx), [codesandbox](https://codesandbox.io/s/calcite-template-p95kp?file=/src/App.js), and [jsbin](https://jsbin.com/lopumatiru/edit?html,output) (with the ArcGIS Maps SDK for JavaScript) to help get started. Alternatively, a [documentation](https://developers.arcgis.com/calcite-design-system/components/) sample can be used if the issue is reproducible. Some other things to consider:
 
 - Use a clear and descriptive title
 - Detail what is happening now vs what should happen
@@ -54,7 +58,7 @@ An issue can only have one of the lifecycle labels at any time. Please make sure
 
 There are three labels that mean an issue is not ready for development:
 
-- `design`: Issues that need design consultation, such as interaction research/feedback, visual mockups, and general approval. Once design completes their review, the `design` label will be removed, which means a developer can pick up the issue.
+- `design`: Issues that need design consultation, such as interaction research/feedback, visual mockups, and general approval. Once design completes their review, the `design` label will be removed and replaced with `design-complete`, which means a developer can pick up the issue.
 - `need more info`: Issues that are missing information and/or a clear, actionable description. This can mean we are waiting on a user to provide additional context, we can't reproduce the issue, or further discussion is needed in order to determine a solution.
 - `blocked`: Issues that cannot be worked on until a different issue is resolved. The blocking issue may be from an external library (Stencil, Storybook, Jest, etc.) or a Calcite Components issue. The blocking issue should be linked to in the blocked issue's body or comment.
 
@@ -97,12 +101,14 @@ An installation of Node is required for development. If you don't have Node inst
 
 We also recommend installing the following extensions in your editor of choice: TypeScript, TailwindCSS, ESLint, Stylelint, and Prettier. If you use VS Code, you will see a pop up in the bottom right corner prompting you to install or view the workspaces's recommended extensions. Here are instructions for manually installing the extensions in a variety of editors:
 
-- https://tailwindcss.com/docs/intellisense
-- https://eslint.org/docs/latest/user-guide/integrations
-- https://stylelint.io/user-guide/integrations/editor
-- https://prettier.io/docs/en/editors.html
+- <https://tailwindcss.com/docs/intellisense>
+- <https://eslint.org/docs/latest/user-guide/integrations>
+- <https://stylelint.io/user-guide/integrations/editor>
+- <https://prettier.io/docs/en/editors.html>
 
 If your IDE supports the [Language Server Protocol (LSP) specification](https://microsoft.github.io/language-server-protocol/) but isn't mentioned in the links above, ask Ben for help getting set up.
+
+**NOTE:** If you are on Windows, we strongly recommend using the Bash emulation that ships with [Git for Windows](https://gitforwindows.org/). Or better yet, use [Ubuntu in WSL](https://ubuntu.com/wsl)! Otherwise, keep in mind that some of the scripts used by maintainers (such as for releasing) likely won't work in Command Prompt or PowerShell. However, please log an issue if scripts used for normal development (start/test/build/etc) don't work in your Windows environment.
 
 ## Starting the demos
 
@@ -113,16 +119,6 @@ git clone git@github.com:Esri/calcite-components.git
 cd calcite-components
 npm install
 ```
-
-> **NOTE**
->
-> The first time installing dependencies, you may need to use the `legacy-peer-deps` flag due to an Stencil/ESLint dependency conflict:
->
-> ```sh
-> npm install --legacy-peer-deps
-> ```
->
-> Hopefully this will no longer be an issue once [`@stencil/eslint-plugin`](https://github.com/ionic-team/stencil-eslint) supports ESLint v8.
 
 Next, start the local Stencil development server on localhost:
 
@@ -172,7 +168,7 @@ When submitting a pull request, please use one of the following formats for your
 
 For pull requests associated with an existing issue:
 
-```
+```text
 <username>/<issue-id><issue-description>
 johndoe/15-update-modal
 johndoe/update-modal-15
@@ -180,12 +176,12 @@ johndoe/update-modal-15
 
 For pull requests without an associated issue:
 
-```
+```text
 <username>/<issue-description>
 johndoe/modal-styling
 ```
 
-```
+```text
 <username>/<type-of-pr><issue-description>
 johndoe/docs/update-modal-docs
 johndoe/feature/add-something-to-modal
@@ -202,7 +198,7 @@ This project follows [conventional commits](https://www.conventionalcommits.org/
 
 Commit messages for breaking changes should use both the header (`!`) and body (`BREAKING CHANGE:`) syntax:
 
-```
+```text
 <type>!: <descriptive summary>
 
 <optional info>
