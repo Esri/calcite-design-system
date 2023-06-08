@@ -88,8 +88,6 @@ export class SortableList implements InteractiveComponent, SortableComponent {
 
   dragEnabled = true;
 
-  draggableSelector = "calcite-value-list-item";
-
   // --------------------------------------------------------------------------
   //
   //  Lifecycle

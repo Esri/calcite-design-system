@@ -75,12 +75,6 @@ export class ListItem
     }
   }
 
-  /**
-   * When `true`, the component's child list-items are sortable via a draggable button.
-   *
-   */
-  @Prop() childrenDragEnabled = false;
-
   /** When `true`, a close button is added to the component. */
   @Prop({ reflect: true }) closable = false;
 
@@ -103,13 +97,6 @@ export class ListItem
    * @internal
    */
   @Prop() dragHandle = false;
-
-  /**
-   * The list's group identifier.
-   *
-   * @internal
-   */
-  @Prop({ reflect: true }) group?: string;
 
   /**
    * The label text of the component. Displays above the description text.

@@ -489,13 +489,12 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
   };
 
   private updateListItems = debounce((emit = false): void => {
-    const { selectionAppearance, selectionMode, dragEnabled, group } = this;
+    const { selectionAppearance, selectionMode, dragEnabled } = this;
     const items = this.queryListItems();
     items.forEach((item) => {
       item.selectionAppearance = selectionAppearance;
       item.selectionMode = selectionMode;
       item.dragHandle = dragEnabled;
-      item.group = group;
     });
     this.listItems = items;
     if (this.filterEnabled) {
