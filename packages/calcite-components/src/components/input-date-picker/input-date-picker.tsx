@@ -158,8 +158,10 @@ export class InputDatePicker
   @Watch("value")
   valueWatcher(newValue: string | string[]): void {
     if (!this.userChangedValue) {
-      let newValueAsDate;
-      if (Array.isArray(newValue)) {
+      const valueIsArray = Array.isArray(newValue);
+      let newValueAsDate: Date | Date[];
+
+      if (valueIsArray) {
         newValueAsDate = getValueAsDateRange(newValue);
       } else if (newValue) {
         newValueAsDate = dateFromISO(newValue);
@@ -167,12 +169,20 @@ export class InputDatePicker
         newValueAsDate = undefined;
       }
 
+      const { focusedInput } = this;
+
+      this.setInputValue(
+        valueIsArray ? newValue[focusedInput === "end" ? 1 : 0] : newValue,
+        focusedInput
+      );
+
       if (!this.valueAsDateChangedExternally && newValueAsDate !== this.valueAsDate) {
         this.valueAsDate = newValueAsDate;
       }
 
       this.localizeInputValues();
     }
+
     this.userChangedValue = false;
   }
 
