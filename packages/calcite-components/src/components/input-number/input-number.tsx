@@ -848,7 +848,10 @@ export class InputNumber
         : sanitizedValue;
 
     const newLocalizedValue = numberStringFormatter.localize(newValue);
-    this.localizedValue = newLocalizedValue;
+    this.localizedValue =
+      value.charAt(value.length - 1) === numberStringFormatter.decimal
+        ? `${newLocalizedValue}${numberStringFormatter.decimal}`
+        : newLocalizedValue;
 
     this.setPreviousNumberValue(previousValue ?? this.value);
     this.previousValueOrigin = origin;

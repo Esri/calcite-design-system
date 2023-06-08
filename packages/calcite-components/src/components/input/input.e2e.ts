@@ -701,6 +701,21 @@ describe("calcite-input", () => {
       expect(inputEventSpy).not.toHaveReceivedEvent();
       expect(changeEventSpy).not.toHaveReceivedEvent();
     });
+
+    it("allows trailing decimal separator", async () => {
+      const page = await newE2EPage();
+      await page.setContent(html`<calcite-input value="1.1"></calcite-input>`);
+      const calciteInput = await page.find("calcite-input");
+      const inputEventSpy = await calciteInput.spyOnEvent("calciteInputInput");
+
+      await calciteInput.click();
+      await page.keyboard.press("Backspace");
+      await page.waitForChanges();
+      expect(inputEventSpy).toHaveReceivedEvent();
+      const input = await page.find("calcite-input >>> input");
+
+      expect(await input.getProperty("value")).toBe("1.");
+    });
   });
 
   describe("emits events when value is modified", () => {

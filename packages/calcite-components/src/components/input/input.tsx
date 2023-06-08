@@ -984,7 +984,10 @@ export class Input
           : sanitizedValue;
 
       const newLocalizedValue = numberStringFormatter.localize(newValue);
-      this.localizedValue = newLocalizedValue;
+      this.localizedValue =
+        value.charAt(value.length - 1) === numberStringFormatter.decimal
+          ? `${newLocalizedValue}${numberStringFormatter.decimal}`
+          : newLocalizedValue;
 
       this.userChangedValue = origin === "user" && this.value !== newValue;
       // don't sanitize the start of negative/decimal numbers, but
