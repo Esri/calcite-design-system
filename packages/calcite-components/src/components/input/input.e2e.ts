@@ -1803,5 +1803,7 @@ describe("calcite-input", () => {
     }
   });
 
-  it("supports translation", () => t9n("calcite-input"));
+  describe("translation support", () => {
+    t9n("calcite-input");
+  });
 });
