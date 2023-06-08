@@ -43,5 +43,7 @@ describe("calcite-action-group", () => {
     expect(await menu.getProperty("scale")).toBe("l");
   });
 
-  it("support translation", () => t9n("calcite-action-group"));
+  describe("translation support", () => {
+    t9n("calcite-action-group");
+  });
 });

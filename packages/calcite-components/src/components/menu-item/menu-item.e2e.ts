@@ -33,7 +33,9 @@ describe("calcite-menu-item", () => {
     focusable("calcite-menu-item");
   });
 
-  it("supports translations", () => t9n("calcite-menu-item"));
+  describe("translation support", () => {
+    t9n("calcite-menu-item");
+  });
 
   it("should emit calciteMenuItemSelect event on user click", async () => {
     const page = await newE2EPage();
