@@ -78,7 +78,8 @@ export const create: () => Config = () => ({
     { components: ["calcite-tip", "calcite-tip-group", "calcite-tip-manager"] },
     { components: ["calcite-tooltip"] },
     { components: ["calcite-tree", "calcite-tree-item"] },
-    { components: ["calcite-value-list", "calcite-value-list-item"] }
+    { components: ["calcite-value-list", "calcite-value-list-item"] },
+    { components: ["calcite-video"] }
   ],
   outputTargets: [
     reactOutputTarget({
