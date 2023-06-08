@@ -1069,7 +1069,9 @@ describe("calcite-time-picker", () => {
     });
   });
 
-  it("suuports translation", () => t9n("<calcite-time-picker></calcite-time-picker>"));
+  describe("translation support", () => {
+    t9n("<calcite-time-picker></calcite-time-picker>");
+  });
 
   it("toggles seconds display when step is < 60", async () => {
     const page = await newE2EPage({

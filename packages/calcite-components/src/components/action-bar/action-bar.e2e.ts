@@ -393,7 +393,9 @@ describe("calcite-action-bar", () => {
     });
   });
 
-  it("supports translation", () => t9n("calcite-action-bar"));
+  describe("translation support", () => {
+    t9n("calcite-action-bar");
+  });
 
   it("should set layout on child action-groups", async () => {
     const page = await newE2EPage();

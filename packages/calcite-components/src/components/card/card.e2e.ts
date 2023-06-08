@@ -113,5 +113,7 @@ describe("calcite-card", () => {
     });
   });
 
-  it("supports translations", () => t9n("calcite-card"));
+  describe("translation support", () => {
+    t9n("calcite-card");
+  });
 });
