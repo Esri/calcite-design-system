@@ -128,7 +128,7 @@ describe("calcite-modal properties", () => {
     const closeButton = await page.find(`calcite-modal >>> .${CSS.close}`);
     await closeButton.click();
     await page.waitForChanges();
-    expect(mockCallBack).toHaveBeenCalled();
+    expect(mockCallBack).toHaveBeenCalledTimes(1);
   });
 });
 
