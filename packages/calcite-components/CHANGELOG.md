@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.4.3-next.4](https://github.com/Esri/calcite-components/compare/@esri/calcite-components@1.4.3-next.3...@esri/calcite-components@1.4.3-next.4) (2023-06-09)
+
+### Bug Fixes
+
+- **list:** No longer has incorrect border width ([#7160](https://github.com/Esri/calcite-components/issues/7160)) ([a810943](https://github.com/Esri/calcite-components/commit/a810943fdea2c1f90f5deca35ab0501287e45489))
+
 ## [1.4.3-next.3](https://github.com/Esri/calcite-components/compare/@esri/calcite-components@1.4.3-next.2...@esri/calcite-components@1.4.3-next.3) (2023-06-07)
 
 ### Bug Fixes
