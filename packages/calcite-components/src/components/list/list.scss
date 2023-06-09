@@ -35,6 +35,9 @@
 
 .sticky-pos {
   @apply sticky top-0 z-sticky;
+  & th {
+    @apply p-0;
+  }
 }
 
 calcite-filter {
