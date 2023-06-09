@@ -7,7 +7,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ### Bug Fixes
 
-- **list:** Improve border styling ([#7160](https://github.com/Esri/calcite-components/issues/7160)) ([a810943](https://github.com/Esri/calcite-components/commit/a810943fdea2c1f90f5deca35ab0501287e45489))
+- **list:** No longer has incorrect border width ([#7160](https://github.com/Esri/calcite-components/issues/7160)) ([a810943](https://github.com/Esri/calcite-components/commit/a810943fdea2c1f90f5deca35ab0501287e45489))
 
 ## [1.4.3-next.3](https://github.com/Esri/calcite-components/compare/@esri/calcite-components@1.4.3-next.2...@esri/calcite-components@1.4.3-next.3) (2023-06-07)
 
