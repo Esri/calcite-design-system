@@ -79,6 +79,14 @@ export class InputTime
   /** The disabled state of the time input */
   @Prop({ reflect: true }) disabled = false;
 
+  /**
+   * The ID of the form that will be associated with the component.
+   *
+   * When not set, the component will be associated with its ancestor form element, if any.
+   */
+  @Prop({ reflect: true })
+  form: string;
+
   /** When true, the icon is flipped in RTL. */
   @Prop({ reflect: true }) iconFlipRtl = false;
 
