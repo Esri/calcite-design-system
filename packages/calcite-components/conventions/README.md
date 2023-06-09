@@ -153,6 +153,22 @@ It is recommended to reflect properties that fit the following criteria:
 
 Doing so will give developers more flexibility when querying the DOM. This is important in framework environments where we can't safely assume components will have their attributes set vs properties.
 
+### Property defaults
+
+Properties should have static default values. There should be no conditional logic when defining the default value of a property.
+
+#### Incorrect example
+
+```ts
+@Prop({ reflect: true }) autoCloseDuration: AlertDuration = this.autoClose ? "medium" : null;
+```
+
+#### Correct example
+
+```ts
+@Prop({ reflect: true }) autoCloseDuration: AlertDuration = "medium";
+```
+
 ### `ref` usage
 
 Due to a [bug in Stencil](https://github.com/ionic-team/stencil/issues/4074), `ref` should be set as the last property in JSX to ensure the node's attributes/properties are up to date.
