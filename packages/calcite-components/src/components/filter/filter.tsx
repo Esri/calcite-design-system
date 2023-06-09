@@ -240,7 +240,7 @@ export class Filter
   };
 
   updateFiltered(filtered: object[], emit = false, callback?: () => void): void {
-    this.filteredItems = [...filtered];
+    this.filteredItems = filtered;
     if (emit) {
       this.calciteFilterChange.emit();
     }
