@@ -22,7 +22,7 @@
 }
 
 .table {
-  @apply w-full;
+  @apply w-full border-collapse;
 }
 
 ::slotted(calcite-list-item) {
