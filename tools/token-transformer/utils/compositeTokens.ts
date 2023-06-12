@@ -1,7 +1,7 @@
 import { ExpandFilter } from "../utils/transformOptions";
 import { matchPlaceholderElement } from "./regex.js";
 import { DesignToken } from "style-dictionary/types/DesignToken";
-import { SingleToken, TokenBoxshadowValue } from "@tokens-studio/types";
+import { SingleToken, TokenBoxshadowValue, SingleBoxShadowToken } from "@tokens-studio/types";
 import { paramCase } from "change-case";
 
 // A customized type map based off Token Studio.
@@ -43,6 +43,11 @@ const typeMaps = {
  */
 export const getType = (key: string, compositeToken: DesignToken): string => typeMaps[compositeToken.type][key] ?? key;
 
+// type ShadowToken = {
+//   x: string;
+//   y: string;
+
+// }
 /**
  * This is a recursive function to dig into composite tokens and lift up the token values in a Style Dictionary format.
  * @param {DesignToken} compositeToken the composite token object
@@ -51,24 +56,26 @@ export const getType = (key: string, compositeToken: DesignToken): string => typ
  * @returns {DesignToken} a single Style Dictionary token object
  */
 export function expandToken(compositeToken: DesignToken, isShadow = false, handleValue = (v) => v): DesignToken {
-  let expandedObj = {} as DesignToken;
+  const expandedObj = {} as DesignToken;
 
   if (isShadow && Array.isArray(compositeToken.value)) {
-    const transformedBoxShadow: Partial<TokenBoxshadowValue> & { type?: string }[] = [];
-    const newValue = compositeToken.value.reduce(
-      (acc, compoundToken: Partial<TokenBoxshadowValue> & { type?: string }) => {
-        compoundToken = Object.entries(compoundToken).reduce((acc, [key, value]) => {
-          acc[key] = key === "type" ? "shadow" : handleValue(value);
-          return acc;
-        }, {});
-        acc.push(compoundToken);
-        return acc;
-      },
-      transformedBoxShadow
-    );
-    compositeToken.value = newValue;
-    compositeToken.type = "boxShadow";
-    expandedObj = compositeToken;
+    const boxShadowComposite = compositeToken as SingleBoxShadowToken<true | false, { value: TokenBoxshadowValue[] }>;
+    boxShadowComposite.value.forEach((shadow: SingleBoxShadowToken["value"], idx) => {
+      Object.entries(shadow).forEach(([key, value]) => {
+        // Remove "type" from shadow tokens value object
+        if (key !== "type") {
+          shadow[key] = handleValue(value);
+        } else {
+          delete shadow[key];
+        }
+      });
+      expandedObj[`${idx}`] = {
+        type: boxShadowComposite.type,
+        value: shadow
+      };
+    });
+
+    expandedObj.default = compositeToken;
   } else {
     Object.entries(compositeToken.value).forEach(([key, value]) => {
       const newKey = paramCase(key);

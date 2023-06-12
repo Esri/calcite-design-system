@@ -1,6 +1,8 @@
 import { tokens as mockTokens } from "../../_mocks_/mockStyleDictionaryTokens";
 import * as platformMocks from "../../_mocks_/mockPlatformTokens";
-
+/**
+ * Test Setup
+ */
 const createPropertyFormatterCallback = jest.fn((token) => `--${token.name}: blue;`);
 const formattedVariables = jest.fn((tokens) => tokens.dictionary.allTokens.map(createPropertyFormatterCallback));
 const fileHeader = jest.fn(() => "");
@@ -41,14 +43,30 @@ const mock = {
   file: {
     destination: "calciteLight.scss"
   },
-  formattedTokenSet: [...platformMocks.scssBase, "", ...platformMocks.scssMixins, "", ...platformMocks.scssCSSRoot],
+  formattedTokenSet: [
+    ...platformMocks.scssBase,
+    "",
+    ...platformMocks.scssMixins,
+    "",
+    ...platformMocks.scssCSSRoot("calcite-theme-light")
+  ],
   options: {}
 };
 
+/**
+ * END Test Setup
+ */
+let scssFile;
 describe("formatting SCSS Variable output", () => {
-  it("should format values", () => {
-    const cssFile = formatSCSS({ dictionary: mock.dictionary, file: mock.file, options: mock.options });
-    expect(cssFile).toContain(mock.formattedTokenSet[0]);
-    expect(cssFile).toContain(mock.formattedTokenSet[1]);
+  beforeAll(() => {
+    scssFile = formatSCSS({ dictionary: mock.dictionary, file: mock.file, options: mock.options });
+  });
+  it("should transform token names and values into SCSS variables", () => {
+    expect(scssFile).toContain(platformMocks.scssBase[0]);
+    expect(scssFile).toContain(platformMocks.scssBase[1]);
+  });
+
+  it("should contain a mixin", () => {
+    expect(scssFile).toContain(platformMocks.scssMixins[0]);
   });
 });

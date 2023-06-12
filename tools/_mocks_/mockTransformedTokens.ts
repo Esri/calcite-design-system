@@ -112,25 +112,45 @@ export const tokens = {
     }
   },
   "box-shadow": {
-    value: [
-      {
+    default: {
+      value: [
+        {
+          x: "0",
+          y: "2",
+          blur: "8",
+          spread: "0",
+          color: "rgba({core.color.neutral.blk-240}, {core.opacity.4})"
+        },
+        {
+          x: "0",
+          y: "4",
+          blur: "16",
+          spread: "0",
+          color: "rgba({core.color.neutral.blk-240}, {core.opacity.8})"
+        }
+      ],
+      type: "boxShadow"
+    },
+    "0": {
+      type: "boxShadow",
+      value: {
         x: "0",
         y: "2",
         blur: "8",
         spread: "0",
-        color: "rgba({core.color.neutral.blk-240}, {core.opacity.4})",
-        type: "shadow"
-      },
-      {
+        color: "rgba({core.color.neutral.blk-240}, {core.opacity.4})"
+      }
+    },
+    "1": {
+      type: "boxShadow",
+      value: {
         x: "0",
         y: "4",
         blur: "16",
         spread: "0",
-        color: "rgba({core.color.neutral.blk-240}, {core.opacity.8})",
-        type: "shadow"
+        color: "rgba({core.color.neutral.blk-240}, {core.opacity.8})"
       }
-    ],
-    type: "boxShadow"
+    }
   },
   type: {
     1: {

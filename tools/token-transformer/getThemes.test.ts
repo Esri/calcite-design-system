@@ -38,7 +38,7 @@ const mockTransformedThemes = [
   }
 ];
 
-describe("Get themes from $themes", () => {
+describe("Get themes", () => {
   it("should map over each theme and return an array of theme objects", async () => {
     const testThemes = await getThemes(mockThemes);
     expect(testThemes).toMatchObject(mockTransformedThemes);

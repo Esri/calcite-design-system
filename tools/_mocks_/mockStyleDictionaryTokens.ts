@@ -307,51 +307,73 @@ export const transformedTokens = {
     }
   },
   "box-shadow": {
-    name: "compound-text-case",
-    value: [
-      {
-        x: "0",
-        y: "2",
-        blur: "8",
-        spread: "0",
-        color: "rgba({core.color.neutral.blk-240}, {core.opacity.4})",
-        type: "shadow"
+    default: {
+      name: "box-shadow",
+      value:
+        "0 2 8 0 rgba({core.color.neutral.blk-240}, {core.opacity.4}), 0 4 16 0 rgba({core.color.neutral.blk-240}, {core.opacity.8})",
+      attribute: {
+        type: "boxShadow"
       },
-      {
-        x: "0",
-        y: "4",
-        blur: "16",
-        spread: "0",
-        color: "rgba({core.color.neutral.blk-240}, {core.opacity.8})",
-        type: "shadow"
-      }
-    ],
-    attribute: {
-      type: "boxShadow"
+      path: ["box-shadow", "default"],
+      original: {
+        value: [
+          {
+            x: "0",
+            y: "2",
+            blur: "8",
+            spread: "0",
+            color: "rgba({core.color.neutral.blk-240}, {core.opacity.4})"
+          },
+          {
+            x: "0",
+            y: "4",
+            blur: "16",
+            spread: "0",
+            color: "rgba({core.color.neutral.blk-240}, {core.opacity.8})"
+          }
+        ]
+      },
+      filePath: "core.json",
+      isSource: true
     },
-    path: ["core", "compound", "text-case"],
-    original: {
-      value: [
-        {
+    "0": {
+      name: "box-shadow-0",
+      value: "0 2 8 0 rgba({core.color.neutral.blk-240}, {core.opacity.4})",
+      attribute: {
+        type: "boxShadow"
+      },
+      path: ["box-shadow", "0"],
+      original: {
+        value: {
           x: "0",
           y: "2",
           blur: "8",
           spread: "0",
-          color: "rgba({core.color.neutral.blk-240}, {core.opacity.4})",
-          type: "shadow"
-        },
-        {
+          color: "rgba({core.color.neutral.blk-240}, {core.opacity.4})"
+        }
+      },
+      filePath: "core.json",
+      isSource: true
+    },
+    "1": {
+      name: "box-shadow-1",
+      value: "0 4 16 0 rgba({core.color.neutral.blk-240}, {core.opacity.8})",
+      attribute: {
+        type: "boxShadow"
+      },
+      path: ["box-shadow", "1"],
+      original: {
+        value: {
           x: "0",
           y: "4",
           blur: "16",
           spread: "0",
-          color: "rgba({core.color.neutral.blk-240}, {core.opacity.8})",
-          type: "shadow"
+          color: "rgba({core.color.neutral.blk-240}, {core.opacity.8})"
         }
-      ]
-    },
-    filePath: "core.json",
-    isSource: true
+      },
+      filePath: "core.json",
+      isSource: true
+    }
   },
   type: {
     1: {
@@ -465,12 +487,12 @@ export const transformedTokens = {
 
 export const transformedTokenArray = [
   {
-    name: "sizing",
+    name: "sizing-1",
     value: "10",
     attribute: {
       type: "sizing"
     },
-    path: ["core", "sizing"],
+    path: ["core", "sizing", "1"],
     original: {
       value: "10"
     },
@@ -725,6 +747,77 @@ export const transformedTokenArray = [
     isSource: true
   },
   {
+    name: "box-shadow",
+    value:
+      "0 2 8 0 rgba({core.color.neutral.blk-240}, {core.opacity.4}), 0 4 16 0 rgba({core.color.neutral.blk-240}, {core.opacity.8})",
+    attribute: {
+      type: "boxShadow"
+    },
+    path: ["box-shadow", "default"],
+    original: {
+      value: [
+        {
+          x: "0",
+          y: "2",
+          blur: "8",
+          spread: "0",
+          color: "rgba({core.color.neutral.blk-240}, {core.opacity.4})",
+          type: "shadow"
+        },
+        {
+          x: "0",
+          y: "4",
+          blur: "16",
+          spread: "0",
+          color: "rgba({core.color.neutral.blk-240}, {core.opacity.8})",
+          type: "shadow"
+        }
+      ]
+    },
+    filePath: "core.json",
+    isSource: true
+  },
+  {
+    name: "box-shadow-0",
+    value: "0 2 8 0 rgba({core.color.neutral.blk-240}, {core.opacity.4})",
+    attribute: {
+      type: "boxShadow"
+    },
+    path: ["box-shadow", "0"],
+    original: {
+      value: {
+        x: "0",
+        y: "2",
+        blur: "8",
+        spread: "0",
+        color: "rgba({core.color.neutral.blk-240}, {core.opacity.4})",
+        type: "shadow"
+      }
+    },
+    filePath: "core.json",
+    isSource: true
+  },
+  {
+    name: "box-shadow-1",
+    value: "0 4 16 0 rgba({core.color.neutral.blk-240}, {core.opacity.8})",
+    attribute: {
+      type: "boxShadow"
+    },
+    path: ["box-shadow", "1"],
+    original: {
+      value: {
+        x: "0",
+        y: "4",
+        blur: "16",
+        spread: "0",
+        color: "rgba({core.color.neutral.blk-240}, {core.opacity.8})",
+        type: "shadow"
+      }
+    },
+    filePath: "core.json",
+    isSource: true
+  },
+  {
     name: "type-1-font-family",
     value: "{core.font.font-family.primary}",
     attribute: {
@@ -746,53 +839,6 @@ export const transformedTokenArray = [
     path: ["core", "type", "1", "font-weight"],
     original: {
       value: "{core.font.font-family.primary}"
-    },
-    filePath: "core.json",
-    isSource: true
-  },
-  {
-    name: "compound-text-case",
-    value: [
-      {
-        x: "0",
-        y: "2",
-        blur: "8",
-        spread: "0",
-        color: "rgba({core.color.neutral.blk-240}, {core.opacity.4})",
-        type: "shadow"
-      },
-      {
-        x: "0",
-        y: "4",
-        blur: "16",
-        spread: "0",
-        color: "rgba({core.color.neutral.blk-240}, {core.opacity.8})",
-        type: "shadow"
-      }
-    ],
-    attribute: {
-      type: "boxShadow"
-    },
-    path: ["core", "compound", "text-case"],
-    original: {
-      value: [
-        {
-          x: "0",
-          y: "2",
-          blur: "8",
-          spread: "0",
-          color: "rgba({core.color.neutral.blk-240}, {core.opacity.4})",
-          type: "shadow"
-        },
-        {
-          x: "0",
-          y: "4",
-          blur: "16",
-          spread: "0",
-          color: "rgba({core.color.neutral.blk-240}, {core.opacity.8})",
-          type: "shadow"
-        }
-      ]
     },
     filePath: "core.json",
     isSource: true

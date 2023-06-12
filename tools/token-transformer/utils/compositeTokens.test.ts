@@ -11,6 +11,7 @@ describe("expand composite token", () => {
     const testExpandToken = expandToken(mock_tokenStudioTokens.type["1"], false, mockHandleValue);
     expect(testExpandToken).toMatchObject(mock_expandedTokens.type["1"]);
   });
+
   it("should expand a shadow token", () => {
     const testExpandToken = expandToken(mock_tokenStudioTokens.boxShadow, true, mockHandleValue);
     expect(testExpandToken).toMatchObject(mock_expandedTokens["box-shadow"]);
