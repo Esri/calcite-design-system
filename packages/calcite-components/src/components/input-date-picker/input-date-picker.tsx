@@ -158,23 +158,15 @@ export class InputDatePicker
   @Watch("value")
   valueWatcher(newValue: string | string[]): void {
     if (!this.userChangedValue) {
-      const valueIsArray = Array.isArray(newValue);
       let newValueAsDate: Date | Date[];
 
-      if (valueIsArray) {
+      if (Array.isArray(newValue)) {
         newValueAsDate = getValueAsDateRange(newValue);
       } else if (newValue) {
         newValueAsDate = dateFromISO(newValue);
       } else {
         newValueAsDate = undefined;
       }
-
-      const { focusedInput } = this;
-
-      this.setInputValue(
-        valueIsArray ? newValue[focusedInput === "end" ? 1 : 0] : newValue,
-        focusedInput
-      );
 
       if (!this.valueAsDateChangedExternally && newValueAsDate !== this.valueAsDate) {
         this.valueAsDate = newValueAsDate;
@@ -1006,8 +998,8 @@ export class InputDatePicker
     const localizedEndDate =
       endDate && this.formatNumerals(endDate.toLocaleDateString(this.effectiveLocale));
 
-    localizedDate && this.setInputValue(localizedDate, "start");
-    this.range && localizedEndDate && this.setInputValue(localizedEndDate, "end");
+    this.setInputValue(localizedDate ?? "", "start");
+    this.setInputValue((this.range && localizedEndDate) ?? "", "end");
   }
 
   private setInputValue = (newValue: string, input: "start" | "end" = "start"): void => {
