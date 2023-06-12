@@ -174,7 +174,6 @@ export class InputDatePicker
 
       this.localizeInputValues();
     }
-
     this.userChangedValue = false;
   }
 
