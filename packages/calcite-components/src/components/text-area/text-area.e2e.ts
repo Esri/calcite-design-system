@@ -175,5 +175,7 @@ describe("calcite-text-area", () => {
     });
   });
 
-  it("supports translations", () => t9n("calcite-text-area"));
+  describe("translation support", () => {
+    t9n("calcite-text-area");
+  });
 });

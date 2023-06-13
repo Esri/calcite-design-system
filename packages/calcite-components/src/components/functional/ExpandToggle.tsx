@@ -26,20 +26,18 @@ function getCalcitePosition(position: Position, el: HTMLElement): Position {
 }
 
 export function toggleChildActionText({
-  parent,
+  el,
   expanded
 }: {
-  parent: HTMLElement;
+  el: HTMLElement;
   expanded: boolean;
 }): void {
-  queryActions(parent)
+  queryActions(el)
     .filter((el) => el.slot !== ACTION_GROUP_SLOTS.menuActions)
     .forEach((action) => (action.textEnabled = expanded));
-  parent
-    .querySelectorAll("calcite-action-group, calcite-action-menu")
-    .forEach(
-      (el: HTMLCalciteActionMenuElement | HTMLCalciteActionGroupElement) => (el.expanded = expanded)
-    );
+  el.querySelectorAll("calcite-action-group, calcite-action-menu").forEach(
+    (el: HTMLCalciteActionMenuElement | HTMLCalciteActionGroupElement) => (el.expanded = expanded)
+  );
 }
 
 const setTooltipReference = ({

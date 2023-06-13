@@ -182,7 +182,9 @@ describe("calcite-action", () => {
     expect(referenceElement).toBeDefined();
   });
 
-  it("support translation", () => t9n("calcite-action"));
+  describe("translation support", () => {
+    t9n("calcite-action");
+  });
 
   it("should have a indicator live region", async () => {
     const page = await newE2EPage();

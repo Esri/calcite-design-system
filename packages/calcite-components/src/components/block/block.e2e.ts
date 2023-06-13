@@ -280,5 +280,7 @@ describe("calcite-block", () => {
     expect(contentPadding).toEqual(overrideStyle);
   });
 
-  it("supports translation", () => t9n("calcite-block"));
+  describe("translation support", () => {
+    t9n("calcite-block");
+  });
 });

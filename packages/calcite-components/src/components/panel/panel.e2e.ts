@@ -42,7 +42,9 @@ describe("calcite-panel", () => {
     disabled(`<calcite-panel closable>scrolling content</calcite-panel>`);
   });
 
-  it("supports translations", () => t9n("calcite-panel"));
+  describe("translation support", () => {
+    t9n("calcite-panel");
+  });
 
   it("honors closed prop", async () => {
     const page = await newE2EPage();

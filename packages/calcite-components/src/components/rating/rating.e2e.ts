@@ -32,7 +32,9 @@ describe("calcite-rating", () => {
       disabled("<calcite-rating value='3'></calcite-rating>");
     });
 
-    it("supports translations", () => t9n("calcite-rating"));
+    describe("translation support", () => {
+      t9n("calcite-rating");
+    });
 
     describe("should focus input element in shadow DOM", () => {
       focusable("calcite-rating", {

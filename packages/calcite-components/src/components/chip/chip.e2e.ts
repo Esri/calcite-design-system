@@ -223,5 +223,7 @@ describe("calcite-chip", () => {
     });
   });
 
-  it("supports translation", () => t9n("calcite-chip"));
+  describe("translation support", () => {
+    t9n("calcite-chip");
+  });
 });

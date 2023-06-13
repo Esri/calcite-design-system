@@ -612,7 +612,9 @@ describe("calcite-button", () => {
     it("resets", async () => assertOnFormButtonType("reset"));
   });
 
-  it("supports translation", () => t9n("calcite-button"));
+  describe("translation support", () => {
+    t9n("calcite-button");
+  });
 
   it("shows tooltip for buttons with truncated long text", async () => {
     const shortText = "Hi!";
