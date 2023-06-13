@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.4.3-next.4](https://github.com/Esri/calcite-components/compare/@esri/calcite-components@1.4.3-next.3...@esri/calcite-components@1.4.3-next.4) (2023-06-09)
+
+### Bug Fixes
+
+- **list:** No longer has incorrect border width ([#7160](https://github.com/Esri/calcite-components/issues/7160)) ([a810943](https://github.com/Esri/calcite-components/commit/a810943fdea2c1f90f5deca35ab0501287e45489))
+
 ## [1.4.3-next.3](https://github.com/Esri/calcite-components/compare/@esri/calcite-components@1.4.3-next.2...@esri/calcite-components@1.4.3-next.3) (2023-06-07)
 
 ### Bug Fixes
@@ -15,13 +21,13 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 - **navigation:** label is no longer a required property ([#7084](https://github.com/Esri/calcite-components/issues/7084)) ([ba2bd4d](https://github.com/Esri/calcite-components/commit/ba2bd4db32b3bfbc5403a75156d4fde6859114e3)), closes [#7013](https://github.com/Esri/calcite-components/issues/7013)
 
-## [v1.4.3-next.1](https://github.com/Esri/calcite-components/compare/v1.4.3-next.0...v1.4.3-next.1) (2023-06-02)
+## [1.4.3-next.1](https://github.com/Esri/calcite-components/compare/v1.4.3-next.0...v1.4.3-next.1) (2023-06-02)
 
 ### Bug Fixes
 
 - **menu-item:** Ensure correct order of rendered icons ([#7098](https://github.com/Esri/calcite-components/issues/7098)) ([fd344e9](https://github.com/Esri/calcite-components/commit/fd344e91fb02b5dcb3e7ef6565fc679935c078c2)), closes [#7097](https://github.com/Esri/calcite-components/issues/7097)
 
-## [v1.4.3-next.0](https://github.com/Esri/calcite-components/compare/@esri/calcite-components@1.4.2...v1.4.3-next.0) (2023-05-31)
+## [1.4.3-next.0](https://github.com/Esri/calcite-components/compare/@esri/calcite-components@1.4.2...v1.4.3-next.0) (2023-05-31)
 
 ### Bug Fixes
 
