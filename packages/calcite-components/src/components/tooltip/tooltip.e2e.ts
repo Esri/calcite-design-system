@@ -1,5 +1,5 @@
 import { E2EPage, newE2EPage } from "@stencil/core/testing";
-import { TOOLTIP_DELAY_MS } from "../tooltip/resources";
+import { TOOLTIP_OPEN_DELAY_MS, TOOLTIP_CLOSE_DELAY_MS } from "../tooltip/resources";
 import { accessible, defaults, hidden, floatingUIOwner, renders } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { GlobalTestProps } from "../../tests/utils";
@@ -224,7 +224,7 @@ describe("calcite-tooltip", () => {
 
     await ref.hover();
 
-    await page.waitForTimeout(TOOLTIP_DELAY_MS);
+    await page.waitForTimeout(TOOLTIP_OPEN_DELAY_MS);
 
     expect(await tooltip.isVisible()).toBe(true);
   });
@@ -246,7 +246,7 @@ describe("calcite-tooltip", () => {
 
     await ref.hover();
 
-    await page.waitForTimeout(TOOLTIP_DELAY_MS);
+    await page.waitForTimeout(TOOLTIP_OPEN_DELAY_MS);
 
     expect(await tooltip.isVisible()).toBe(true);
   });
@@ -290,7 +290,7 @@ describe("calcite-tooltip", () => {
 
     await page.waitForChanges();
 
-    await page.waitForTimeout(TOOLTIP_DELAY_MS);
+    await page.waitForTimeout(TOOLTIP_OPEN_DELAY_MS);
 
     expect(await tooltip.getProperty("open")).toBe(true);
 
@@ -300,7 +300,7 @@ describe("calcite-tooltip", () => {
 
     await page.waitForChanges();
 
-    await page.waitForTimeout(TOOLTIP_DELAY_MS);
+    await page.waitForTimeout(TOOLTIP_CLOSE_DELAY_MS);
 
     expect(await tooltip.getProperty("open")).toBe(false);
   });
@@ -419,7 +419,7 @@ describe("calcite-tooltip", () => {
 
     await referenceElement.hover();
 
-    await page.waitForTimeout(TOOLTIP_DELAY_MS);
+    await page.waitForTimeout(TOOLTIP_OPEN_DELAY_MS);
 
     await page.waitForChanges();
 
@@ -456,7 +456,7 @@ describe("calcite-tooltip", () => {
 
     await referenceElement.hover();
 
-    await page.waitForTimeout(TOOLTIP_DELAY_MS);
+    await page.waitForTimeout(TOOLTIP_OPEN_DELAY_MS);
 
     await page.waitForChanges();
 
@@ -497,7 +497,7 @@ describe("calcite-tooltip", () => {
       el.dispatchEvent(new Event("pointermove"));
     });
 
-    await page.waitForTimeout(TOOLTIP_DELAY_MS);
+    await page.waitForTimeout(TOOLTIP_OPEN_DELAY_MS);
 
     await page.waitForChanges();
 
@@ -555,7 +555,7 @@ describe("calcite-tooltip", () => {
       el.dispatchEvent(new Event("pointermove"));
     });
 
-    await page.waitForTimeout(TOOLTIP_DELAY_MS);
+    await page.waitForTimeout(TOOLTIP_OPEN_DELAY_MS);
 
     await page.waitForChanges();
 
@@ -584,7 +584,7 @@ describe("calcite-tooltip", () => {
 
     await referenceElement.hover();
 
-    await page.waitForTimeout(TOOLTIP_DELAY_MS);
+    await page.waitForTimeout(TOOLTIP_OPEN_DELAY_MS);
 
     await page.waitForChanges();
 
@@ -627,7 +627,7 @@ describe("calcite-tooltip", () => {
 
     await referenceElement.click();
 
-    await page.waitForTimeout(TOOLTIP_DELAY_MS);
+    await page.waitForTimeout(TOOLTIP_OPEN_DELAY_MS);
 
     await page.waitForChanges();
 
@@ -748,25 +748,25 @@ describe("calcite-tooltip", () => {
         selector: "#ref"
       },
       {
-        delay: TOOLTIP_DELAY_MS * 0.25,
+        delay: TOOLTIP_OPEN_DELAY_MS * 0.25,
         property: "open",
         value: false,
         selector: "#ref"
       },
       {
-        delay: TOOLTIP_DELAY_MS * 0.5,
+        delay: TOOLTIP_OPEN_DELAY_MS * 0.5,
         property: "open",
         value: false,
         selector: "#ref"
       },
       {
-        delay: TOOLTIP_DELAY_MS,
+        delay: TOOLTIP_OPEN_DELAY_MS,
         property: "open",
         value: true,
         selector: "#ref"
       },
       {
-        delay: TOOLTIP_DELAY_MS + TOOLTIP_DELAY_MS * 0.5,
+        delay: TOOLTIP_OPEN_DELAY_MS + TOOLTIP_OPEN_DELAY_MS * 0.5,
         property: "open",
         value: true,
         selector: "#ref"
@@ -809,25 +809,25 @@ describe("calcite-tooltip", () => {
         selector: "#ref"
       },
       {
-        delay: TOOLTIP_DELAY_MS,
+        delay: TOOLTIP_CLOSE_DELAY_MS,
         property: "open",
         value: true,
         selector: "#ref"
       },
       {
-        delay: TOOLTIP_DELAY_MS * 0.25,
+        delay: TOOLTIP_CLOSE_DELAY_MS * 0.25,
         property: "open",
         value: true,
         selector: "#ref2"
       },
       {
-        delay: TOOLTIP_DELAY_MS * 0.5,
+        delay: TOOLTIP_CLOSE_DELAY_MS * 0.5,
         property: "open",
         value: true,
         selector: "#ref2"
       },
       {
-        delay: TOOLTIP_DELAY_MS * 0.5,
+        delay: TOOLTIP_CLOSE_DELAY_MS * 0.5,
         property: "open",
         value: false,
         selector: "#ref2"

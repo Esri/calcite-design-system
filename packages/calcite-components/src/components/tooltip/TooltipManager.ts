@@ -1,6 +1,6 @@
 import { getShadowRootNode, isPrimaryPointerButton } from "../../utils/dom";
 import { ReferenceElement } from "../../utils/floating-ui";
-import { TOOLTIP_DELAY_MS } from "./resources";
+import { TOOLTIP_OPEN_DELAY_MS, TOOLTIP_CLOSE_DELAY_MS } from "./resources";
 import { getEffectiveReferenceElement } from "./utils";
 
 export default class TooltipManager {
@@ -14,7 +14,9 @@ export default class TooltipManager {
 
   private registeredShadowRootCounts = new WeakMap<ShadowRoot, number>();
 
-  private hoverTimeout: number = null;
+  private hoverOpenTimeout: number = null;
+
+  private hoverCloseTimeout: number = null;
 
   private hoveredTooltip: HTMLCalciteTooltipElement = null;
 
@@ -80,7 +82,7 @@ export default class TooltipManager {
 
       if (activeTooltip?.open) {
         this.clearHoverTimeout();
-        this.closeExistingTooltip();
+        this.closeActiveTooltip();
 
         const referenceElement = getEffectiveReferenceElement(activeTooltip);
 
@@ -111,9 +113,9 @@ export default class TooltipManager {
     this.clickedTooltip = null;
 
     if (tooltip) {
-      this.toggleHoveredTooltip(tooltip, true);
+      this.openHoveredTooltip(tooltip);
     } else if (activeTooltip) {
-      this.toggleHoveredTooltip(activeTooltip, false);
+      this.closeHoveredTooltip();
     }
   };
 
@@ -166,12 +168,22 @@ export default class TooltipManager {
     document.removeEventListener("focusout", this.focusOutHandler, { capture: true });
   }
 
-  private clearHoverTimeout(): void {
-    window.clearTimeout(this.hoverTimeout);
-    this.hoverTimeout = null;
+  private clearHoverOpenTimeout(): void {
+    window.clearTimeout(this.hoverOpenTimeout);
+    this.hoverOpenTimeout = null;
   }
 
-  private closeExistingTooltip(): void {
+  private clearHoverCloseTimeout(): void {
+    window.clearTimeout(this.hoverCloseTimeout);
+    this.hoverCloseTimeout = null;
+  }
+
+  private clearHoverTimeout(): void {
+    this.clearHoverOpenTimeout();
+    this.clearHoverCloseTimeout();
+  }
+
+  private closeActiveTooltip(): void {
     const { activeTooltip } = this;
 
     if (activeTooltip?.open) {
@@ -180,7 +192,7 @@ export default class TooltipManager {
   }
 
   private toggleFocusedTooltip(tooltip: HTMLCalciteTooltipElement, value: boolean): void {
-    this.closeExistingTooltip();
+    this.closeActiveTooltip();
 
     if (value) {
       this.clearHoverTimeout();
@@ -197,20 +209,31 @@ export default class TooltipManager {
     }
   }
 
-  private toggleHoveredTooltip = (tooltip: HTMLCalciteTooltipElement, value: boolean): void => {
-    this.hoverTimeout = window.setTimeout(() => {
-      if (this.hoverTimeout === null) {
+  private openHoveredTooltip = (tooltip: HTMLCalciteTooltipElement): void => {
+    this.hoverOpenTimeout = window.setTimeout(() => {
+      if (this.hoverOpenTimeout === null) {
         return;
       }
 
-      this.closeExistingTooltip();
+      this.clearHoverCloseTimeout();
+      this.closeActiveTooltip();
 
       if (tooltip !== this.hoveredTooltip) {
         return;
       }
 
-      this.toggleTooltip(tooltip, value);
-    }, TOOLTIP_DELAY_MS);
+      this.toggleTooltip(tooltip, true);
+    }, TOOLTIP_OPEN_DELAY_MS);
+  };
+
+  private closeHoveredTooltip = (): void => {
+    this.hoverCloseTimeout = window.setTimeout(() => {
+      if (this.hoverCloseTimeout === null) {
+        return;
+      }
+
+      this.closeActiveTooltip();
+    }, TOOLTIP_CLOSE_DELAY_MS);
   };
 
   private queryFocusedTooltip(event: FocusEvent, value: boolean): void {
