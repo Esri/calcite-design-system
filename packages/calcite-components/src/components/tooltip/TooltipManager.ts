@@ -189,6 +189,8 @@ export default class TooltipManager {
     if (activeTooltip?.open) {
       this.toggleTooltip(activeTooltip, false);
     }
+
+    this.activeTooltip = null;
   }
 
   private toggleFocusedTooltip(tooltip: HTMLCalciteTooltipElement, value: boolean): void {
@@ -210,20 +212,23 @@ export default class TooltipManager {
   }
 
   private openHoveredTooltip = (tooltip: HTMLCalciteTooltipElement): void => {
-    this.hoverOpenTimeout = window.setTimeout(() => {
-      if (this.hoverOpenTimeout === null) {
-        return;
-      }
+    this.hoverOpenTimeout = window.setTimeout(
+      () => {
+        if (this.hoverOpenTimeout === null) {
+          return;
+        }
 
-      this.clearHoverCloseTimeout();
-      this.closeActiveTooltip();
+        this.clearHoverCloseTimeout();
+        this.closeActiveTooltip();
 
-      if (tooltip !== this.hoveredTooltip) {
-        return;
-      }
+        if (tooltip !== this.hoveredTooltip) {
+          return;
+        }
 
-      this.toggleTooltip(tooltip, true);
-    }, TOOLTIP_OPEN_DELAY_MS);
+        this.toggleTooltip(tooltip, true);
+      },
+      this.activeTooltip ? 0 : TOOLTIP_OPEN_DELAY_MS
+    );
   };
 
   private closeHoveredTooltip = (): void => {
