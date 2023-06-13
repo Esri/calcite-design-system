@@ -189,8 +189,6 @@ export default class TooltipManager {
     if (activeTooltip?.open) {
       this.toggleTooltip(activeTooltip, false);
     }
-
-    this.activeTooltip = null;
   }
 
   private toggleFocusedTooltip(tooltip: HTMLCalciteTooltipElement, value: boolean): void {
@@ -206,9 +204,7 @@ export default class TooltipManager {
   private toggleTooltip(tooltip: HTMLCalciteTooltipElement, value: boolean): void {
     tooltip.open = value;
 
-    if (value) {
-      this.activeTooltip = tooltip;
-    }
+    this.activeTooltip = value ? tooltip : null;
   }
 
   private openHoveredTooltip = (tooltip: HTMLCalciteTooltipElement): void => {
