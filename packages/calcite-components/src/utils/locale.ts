@@ -402,7 +402,11 @@ export class NumberStringFormat {
     ].reverse();
 
     const index = new Map(this._digits.map((d, i) => [d, i]));
-    const parts = new Intl.NumberFormat(this._numberFormatOptions.locale).formatToParts(-12345678.9);
+
+    // numberingSystem is required to return consistent decimal separator across browsers
+    const parts = new Intl.NumberFormat(this._numberFormatOptions.locale, {
+      numberingSystem: this._numberFormatOptions.numberingSystem
+    } as Intl.NumberFormatOptions).formatToParts(-12345678.9);
 
     this._actualGroup = parts.find((d) => d.type === "group").value;
     // change whitespace group characters that don't render correctly
