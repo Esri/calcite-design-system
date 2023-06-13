@@ -148,30 +148,35 @@ export const darkModeRTL_TestOnly = (): string =>
 
 darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
 
-export const withSlottedTooltips =
-  (): string => html`<div style="display:flex; height:500px; width: 200px;><calcite-action-bar>
-  <calcite-action-group>
-    <calcite-action text="Add" icon="plus">
-      <calcite-tooltip placement="right" slot="tooltip">Add</calcite-tooltip>
-    </calcite-action>
-    <calcite-action text="Save" icon="save"><calcite-tooltip placement="right" slot="tooltip">Save</calcite-tooltip></calcite-action>
-    <calcite-action text="Layers" icon="layers"
-      ><calcite-tooltip placement="right" slot="tooltip">Layers</calcite-tooltip></calcite-action
+export const withSlottedTooltips = (): string => html`<div style="display:flex; height:500px; width: 200px;">
+  <calcite-action-bar>
+    <calcite-action-group>
+      <calcite-action text="Add" icon="plus">
+        <calcite-tooltip placement="right" slot="tooltip">Add</calcite-tooltip>
+      </calcite-action>
+      <calcite-action text="Save" icon="save"
+        ><calcite-tooltip placement="right" slot="tooltip">Save</calcite-tooltip></calcite-action
+      >
+      <calcite-action text="Layers" icon="layers"
+        ><calcite-tooltip placement="right" slot="tooltip">Layers</calcite-tooltip></calcite-action
+      >
+    </calcite-action-group>
+    <calcite-action-group>
+      <calcite-action text="Add" icon="plus"
+        ><calcite-tooltip placement="right" slot="tooltip">Add</calcite-tooltip></calcite-action
+      >
+      <calcite-action text="Save" active icon="save"
+        ><calcite-tooltip placement="right" slot="tooltip">Save</calcite-tooltip></calcite-action
+      >
+      <calcite-action text="Layers" icon="layers"
+        ><calcite-tooltip placement="right" slot="tooltip">Layers</calcite-tooltip></calcite-action
+      >
+    </calcite-action-group>
+    <calcite-action slot="bottom-actions" text="hello world" icon="layers"
+      ><calcite-tooltip placement="right" slot="tooltip">hello world</calcite-tooltip></calcite-action
     >
-  </calcite-action-group>
-  <calcite-action-group>
-    <calcite-action text="Add" icon="plus"><calcite-tooltip placement="right" slot="tooltip">Add</calcite-tooltip></calcite-action>
-    <calcite-action text="Save" active icon="save"
-      ><calcite-tooltip placement="right" slot="tooltip">Save</calcite-tooltip></calcite-action
-    >
-    <calcite-action text="Layers" icon="layers"
-      ><calcite-tooltip placement="right" slot="tooltip">Layers</calcite-tooltip></calcite-action
-    >
-  </calcite-action-group>
-  <calcite-action slot="bottom-actions" text="hello world" icon="layers"
-    ><calcite-tooltip placement="right" slot="tooltip">hello world</calcite-tooltip></calcite-action
-  >
-</calcite-action-bar></div>`;
+  </calcite-action-bar>
+</div>`;
 
 export const withTooltip_NoTest = (): string =>
   create(
