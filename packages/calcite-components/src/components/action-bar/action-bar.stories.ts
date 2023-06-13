@@ -148,6 +148,30 @@ export const darkModeRTL_TestOnly = (): string =>
 
 darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
 
+export const withSlottedTooltips = (): string => html`<calcite-action-bar>
+  <calcite-action-group>
+    <calcite-action text="Add" icon="plus">
+      <calcite-tooltip slot="tooltip">Add</calcite-tooltip>
+    </calcite-action>
+    <calcite-action text="Save" icon="save"><calcite-tooltip slot="tooltip">Save</calcite-tooltip></calcite-action>
+    <calcite-action text="Layers" icon="layers"
+      ><calcite-tooltip slot="tooltip">Layers</calcite-tooltip></calcite-action
+    >
+  </calcite-action-group>
+  <calcite-action-group>
+    <calcite-action text="Add" icon="plus"><calcite-tooltip slot="tooltip">Add</calcite-tooltip></calcite-action>
+    <calcite-action text="Save" active icon="save"
+      ><calcite-tooltip slot="tooltip">Save</calcite-tooltip></calcite-action
+    >
+    <calcite-action text="Layers" icon="layers"
+      ><calcite-tooltip slot="tooltip">Layers</calcite-tooltip></calcite-action
+    >
+  </calcite-action-group>
+  <calcite-action slot="bottom-actions" text="hello world" icon="layers"
+    ><calcite-tooltip slot="tooltip">hello world</calcite-tooltip></calcite-action
+  >
+</calcite-action-bar>`;
+
 export const withTooltip_NoTest = (): string =>
   create(
     "calcite-action-bar",
