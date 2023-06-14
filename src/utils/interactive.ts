@@ -61,9 +61,7 @@ function onPointerDown(event: PointerEvent): void {
 const nonBubblingWhenDisabledMouseEvents = ["mousedown", "mouseup", "click"];
 
 function onNonBubblingWhenDisabledMouseEvent(event: MouseEvent): void {
-  const parent = interactiveElementToParent.get(event.target as InteractiveHTMLElement);
-
-  if (!parent) {
+  if (isFirefox && !interactiveElementToParent.get(event.target as InteractiveHTMLElement)) {
     return;
   }
 
@@ -170,7 +168,7 @@ function removeInteractionListeners(element: HTMLElement): void {
  * @param component
  */
 export function connectInteractive(component: InteractiveComponent): void {
-  if (!isFirefox || !component.disabled) {
+  if (!component.disabled || !isFirefox) {
     return;
   }
 
