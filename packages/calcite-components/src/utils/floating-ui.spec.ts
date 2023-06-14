@@ -1,3 +1,4 @@
+import { debounce } from "lodash-es";
 import { waitForAnimationFrame } from "../tests/utils";
 import {
   cleanupMap,
@@ -10,7 +11,6 @@ import {
   getEffectivePlacement,
   placements,
   positionFloatingUI,
-  reposition,
   repositionDebounceTimeout
 } from "./floating-ui";
 
@@ -62,6 +62,9 @@ describe("repositioning", () => {
       reposition: async () => {
         /* noop */
       },
+      debouncedReposition: debounce(() => {
+        fakeFloatingUiComponent.reposition();
+      }, repositionDebounceTimeout),
       overlayPositioning: "absolute",
       placement: "auto"
     };
@@ -91,19 +94,19 @@ describe("repositioning", () => {
   }
 
   it("repositions only for open components", async () => {
-    await reposition(fakeFloatingUiComponent, positionOptions);
+    await positionFloatingUI(fakeFloatingUiComponent, positionOptions);
     assertPreOpenPositionining(floatingEl);
 
     fakeFloatingUiComponent.open = true;
 
-    await reposition(fakeFloatingUiComponent, positionOptions);
+    await positionFloatingUI(fakeFloatingUiComponent, positionOptions);
     assertOpenPositionining(floatingEl);
   });
 
   it("repositions immediately by default", async () => {
     fakeFloatingUiComponent.open = true;
 
-    reposition(fakeFloatingUiComponent, positionOptions);
+    positionFloatingUI(fakeFloatingUiComponent, positionOptions);
 
     assertPreOpenPositionining(floatingEl);
 
@@ -113,12 +116,20 @@ describe("repositioning", () => {
 
   it("can reposition after a delay", async () => {
     fakeFloatingUiComponent.open = true;
+    fakeFloatingUiComponent.reposition = async () => {
+      await positionFloatingUI(fakeFloatingUiComponent, positionOptions);
+    };
 
-    reposition(fakeFloatingUiComponent, positionOptions, true);
+    fakeFloatingUiComponent.debouncedReposition();
 
     assertPreOpenPositionining(floatingEl);
 
-    await new Promise<void>((resolve) => setTimeout(resolve, repositionDebounceTimeout));
+    await new Promise<void>((resolve) =>
+      setTimeout(resolve, repositionDebounceTimeout, {
+        leading: true,
+        maxWait: repositionDebounceTimeout
+      })
+    );
     assertOpenPositionining(floatingEl);
   });
 

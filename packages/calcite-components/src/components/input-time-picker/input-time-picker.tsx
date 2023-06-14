@@ -11,7 +11,12 @@ import {
   VNode,
   Watch
 } from "@stencil/core";
-import { FloatingUIComponent, LogicalPlacement, OverlayPositioning } from "../../utils/floating-ui";
+import {
+  debounceReposition,
+  FloatingUIComponent,
+  LogicalPlacement,
+  OverlayPositioning
+} from "../../utils/floating-ui";
 import {
   connectForm,
   disconnectForm,
@@ -169,7 +174,7 @@ export class InputTimePicker
     }
 
     if (value) {
-      this.reposition(true);
+      this.debouncedReposition();
     }
   }
 
@@ -305,6 +310,8 @@ export class InputTimePicker
   //  Private Properties
   //
   //--------------------------------------------------------------------------
+
+  debouncedReposition = debounceReposition(this);
 
   defaultValue: InputTimePicker["value"];
 
@@ -460,11 +467,12 @@ export class InputTimePicker
   /**
    * Updates the position of the component.
    *
-   * @param delayed
+   * @param {boolean} delayed [Deprecated] - No longer necessary.
+   * @returns {Promise<void>}
    */
   @Method()
-  async reposition(delayed = false): Promise<void> {
-    this.popoverEl?.reposition(delayed);
+  async reposition(): Promise<void> {
+    this.popoverEl?.reposition();
   }
 
   // --------------------------------------------------------------------------

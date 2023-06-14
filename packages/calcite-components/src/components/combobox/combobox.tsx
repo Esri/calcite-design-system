@@ -18,6 +18,7 @@ import { filter } from "../../utils/filter";
 import { isPrimaryPointerButton, toAriaBoolean } from "../../utils/dom";
 import {
   connectFloatingUI,
+  debounceReposition,
   defaultMenuPlacement,
   disconnectFloatingUI,
   EffectivePlacement,
@@ -26,7 +27,7 @@ import {
   FloatingUIComponent,
   LogicalPlacement,
   OverlayPositioning,
-  reposition
+  positionFloatingUI
 } from "../../utils/floating-ui";
 import {
   afterConnectDefaultValueSet,
@@ -190,7 +191,7 @@ export class Combobox
 
   @Watch("overlayPositioning")
   overlayPositioningHandler(): void {
-    this.reposition(true);
+    this.debouncedReposition();
   }
 
   /**
@@ -259,7 +260,7 @@ export class Combobox
   @Watch("flipPlacements")
   flipPlacementsHandler(): void {
     this.setFilteredPlacements();
-    this.reposition(true);
+    this.debouncedReposition();
   }
 
   /**
@@ -319,24 +320,21 @@ export class Combobox
   /**
    * Updates the position of the component.
    *
-   * @param delayed
+   * @param {boolean} delayed [Deprecated] - No longer necessary.
+   * @returns {Promise<void>}
    */
   @Method()
-  async reposition(delayed = false): Promise<void> {
+  async reposition(): Promise<void> {
     const { floatingEl, referenceEl, placement, overlayPositioning, filteredFlipPlacements } = this;
 
-    return reposition(
-      this,
-      {
-        floatingEl,
-        referenceEl,
-        overlayPositioning,
-        placement,
-        flipPlacements: filteredFlipPlacements,
-        type: "menu"
-      },
-      delayed
-    );
+    return positionFloatingUI(this, {
+      floatingEl,
+      referenceEl,
+      overlayPositioning,
+      placement,
+      flipPlacements: filteredFlipPlacements,
+      type: "menu"
+    });
   }
 
   /** Sets focus on the component. */
@@ -397,7 +395,7 @@ export class Combobox
     connectForm(this);
     connectOpenCloseComponent(this);
     this.setFilteredPlacements();
-    this.reposition(true);
+    this.debouncedReposition();
     if (this.open) {
       this.openHandler();
     }
@@ -411,13 +409,13 @@ export class Combobox
 
   componentDidLoad(): void {
     afterConnectDefaultValueSet(this, this.getValue());
-    this.reposition(true);
+    this.debouncedReposition();
     setComponentLoaded(this);
   }
 
   componentDidRender(): void {
     if (this.el.offsetHeight !== this.inputHeight) {
-      this.reposition(true);
+      this.debouncedReposition();
       this.inputHeight = this.el.offsetHeight;
     }
 
@@ -440,6 +438,8 @@ export class Combobox
   //  Private State/Props
   //
   //--------------------------------------------------------------------------
+
+  debouncedReposition = debounceReposition(this);
 
   placement: LogicalPlacement = defaultMenuPlacement;
 
@@ -698,11 +698,11 @@ export class Combobox
       return;
     }
 
-    await this.reposition(true);
+    await this.debouncedReposition();
     const maxScrollerHeight = this.getMaxScrollerHeight();
     listContainerEl.style.maxHeight = maxScrollerHeight > 0 ? `${maxScrollerHeight}px` : "";
     listContainerEl.style.minWidth = `${referenceEl.clientWidth}px`;
-    await this.reposition(true);
+    await this.debouncedReposition();
   };
 
   calciteChipCloseHandler = (comboboxItem: HTMLCalciteComboboxItemElement): void => {

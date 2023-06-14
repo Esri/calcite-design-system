@@ -22,7 +22,8 @@ import {
   LogicalPlacement,
   OverlayPositioning,
   ReferenceElement,
-  reposition
+  positionFloatingUI,
+  debounceReposition
 } from "../../utils/floating-ui";
 import { guid } from "../../utils/guid";
 import {
@@ -68,7 +69,7 @@ export class Tooltip implements FloatingUIComponent, OpenCloseComponent {
 
   @Watch("offsetDistance")
   offsetDistanceOffsetHandler(): void {
-    this.reposition(true);
+    this.debouncedReposition();
   }
 
   /**
@@ -78,7 +79,7 @@ export class Tooltip implements FloatingUIComponent, OpenCloseComponent {
 
   @Watch("offsetSkidding")
   offsetSkiddingHandler(): void {
-    this.reposition(true);
+    this.debouncedReposition();
   }
 
   /**
@@ -89,7 +90,7 @@ export class Tooltip implements FloatingUIComponent, OpenCloseComponent {
   @Watch("open")
   openHandler(value: boolean): void {
     if (value) {
-      this.reposition(true);
+      this.debouncedReposition();
     }
   }
 
@@ -105,7 +106,7 @@ export class Tooltip implements FloatingUIComponent, OpenCloseComponent {
 
   @Watch("overlayPositioning")
   overlayPositioningHandler(): void {
-    this.reposition(true);
+    this.debouncedReposition();
   }
 
   /**
@@ -115,7 +116,7 @@ export class Tooltip implements FloatingUIComponent, OpenCloseComponent {
 
   @Watch("placement")
   placementHandler(): void {
-    this.reposition(true);
+    this.debouncedReposition();
   }
 
   /**
@@ -137,6 +138,8 @@ export class Tooltip implements FloatingUIComponent, OpenCloseComponent {
   //  Private Properties
   //
   // --------------------------------------------------------------------------
+
+  debouncedReposition = debounceReposition(this);
 
   @Element() el: HTMLCalciteTooltipElement;
 
@@ -169,7 +172,7 @@ export class Tooltip implements FloatingUIComponent, OpenCloseComponent {
     if (this.referenceElement && !this.effectiveReferenceElement) {
       this.setUpReferenceElement();
     }
-    this.reposition(true);
+    this.debouncedReposition();
     this.hasLoaded = true;
   }
 
@@ -206,10 +209,11 @@ export class Tooltip implements FloatingUIComponent, OpenCloseComponent {
   /**
    * Updates the position of the component.
    *
-   * @param delayed
+   * @param {boolean} delayed [Deprecated] - No longer necessary.
+   * @returns {Promise<void>}
    */
   @Method()
-  async reposition(delayed = false): Promise<void> {
+  async reposition(): Promise<void> {
     const {
       el,
       effectiveReferenceElement,
@@ -220,20 +224,16 @@ export class Tooltip implements FloatingUIComponent, OpenCloseComponent {
       arrowEl
     } = this;
 
-    return reposition(
-      this,
-      {
-        floatingEl: el,
-        referenceEl: effectiveReferenceElement,
-        overlayPositioning,
-        placement,
-        offsetDistance,
-        offsetSkidding,
-        arrowEl,
-        type: "tooltip"
-      },
-      delayed
-    );
+    return positionFloatingUI(this, {
+      floatingEl: el,
+      referenceEl: effectiveReferenceElement,
+      overlayPositioning,
+      placement,
+      offsetDistance,
+      offsetSkidding,
+      arrowEl,
+      type: "tooltip"
+    });
   }
 
   // --------------------------------------------------------------------------

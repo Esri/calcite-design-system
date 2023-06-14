@@ -24,6 +24,7 @@ import {
 import { toAriaBoolean } from "../../utils/dom";
 import {
   connectFloatingUI,
+  debounceReposition,
   defaultMenuPlacement,
   disconnectFloatingUI,
   EffectivePlacement,
@@ -32,7 +33,7 @@ import {
   FloatingUIComponent,
   MenuPlacement,
   OverlayPositioning,
-  reposition
+  positionFloatingUI
 } from "../../utils/floating-ui";
 import {
   connectForm,
@@ -198,7 +199,7 @@ export class InputDatePicker
   @Watch("flipPlacements")
   flipPlacementsHandler(): void {
     this.setFilteredPlacements();
-    this.reposition(true);
+    this.debouncedReposition();
   }
 
   /**
@@ -265,7 +266,7 @@ export class InputDatePicker
     }
 
     if (value) {
-      this.reposition(true);
+      this.debouncedReposition();
     }
   }
 
@@ -314,7 +315,7 @@ export class InputDatePicker
 
   @Watch("overlayPositioning")
   overlayPositioningHandler(): void {
-    this.reposition(true);
+    this.debouncedReposition();
   }
 
   /**
@@ -405,24 +406,21 @@ export class InputDatePicker
   /**
    * Updates the position of the component.
    *
-   * @param delayed
+   * @param {boolean} delayed [Deprecated] - No longer necessary.
+   * @returns {Promise<void>}
    */
   @Method()
-  async reposition(delayed = false): Promise<void> {
+  async reposition(): Promise<void> {
     const { floatingEl, referenceEl, placement, overlayPositioning, filteredFlipPlacements } = this;
 
-    return reposition(
-      this,
-      {
-        floatingEl,
-        referenceEl,
-        overlayPositioning,
-        placement,
-        flipPlacements: filteredFlipPlacements,
-        type: "menu"
-      },
-      delayed
-    );
+    return positionFloatingUI(this, {
+      floatingEl,
+      referenceEl,
+      overlayPositioning,
+      placement,
+      flipPlacements: filteredFlipPlacements,
+      type: "menu"
+    });
   }
 
   // --------------------------------------------------------------------------
@@ -463,7 +461,7 @@ export class InputDatePicker
     connectMessages(this);
 
     this.setFilteredPlacements();
-    this.reposition(true);
+    this.debouncedReposition();
 
     numberStringFormatter.numberFormatOptions = {
       numberingSystem: this.numberingSystem,
@@ -482,7 +480,7 @@ export class InputDatePicker
   componentDidLoad(): void {
     setComponentLoaded(this);
     this.localizeInputValues();
-    this.reposition(true);
+    this.debouncedReposition();
   }
 
   disconnectedCallback(): void {
@@ -659,6 +657,8 @@ export class InputDatePicker
   //  Private State/Props
   //
   //--------------------------------------------------------------------------
+
+  debouncedReposition = debounceReposition(this);
 
   private datePickerEl: HTMLCalciteDatePickerElement;
 

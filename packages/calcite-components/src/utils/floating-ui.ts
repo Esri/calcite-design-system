@@ -15,7 +15,7 @@ import {
   VirtualElement
 } from "@floating-ui/dom";
 import { Build } from "@stencil/core";
-import { debounce } from "lodash-es";
+import { debounce, DebouncedFunc } from "lodash-es";
 import { config } from "./config";
 import { getElementDir } from "./dom";
 import { Layout } from "../components/interfaces";
@@ -195,10 +195,13 @@ export interface FloatingUIComponent {
 
   /**
    * Updates the position of the component.
-   *
-   * @param delayed – (internal) when true, it will reposition the component after a delay. the default is false. This is useful for components that have multiple watched properties that schedule repositioning.
    */
-  reposition(delayed?: boolean): Promise<void>;
+  reposition(): Promise<void>;
+
+  /**
+   * Updates the position of the component after a delay.
+   */
+  debouncedReposition: DebouncedFunc<FloatingUIComponent["reposition"]>;
 
   /**
    * Used to store the effective floating layout for components that use arrows.
@@ -310,42 +313,6 @@ export function getEffectivePlacement(floatingEl: HTMLElement, placement: Logica
   return placement.replace(/leading/gi, placements[0]).replace(/trailing/gi, placements[1]) as EffectivePlacement;
 }
 
-/**
- * Convenience function to manage `reposition` calls for FloatingUIComponents that use `positionFloatingUI.
- *
- * Note: this is not needed for components that use `calcite-popover`.
- *
- * @param component
- * @param options
- * @param options.referenceEl
- * @param options.floatingEl
- * @param options.overlayPositioning
- * @param options.placement
- * @param options.flipDisabled
- * @param options.flipPlacements
- * @param options.offsetDistance
- * @param options.offsetSkidding
- * @param options.arrowEl
- * @param options.type
- * @param delayed
- */
-export async function reposition(
-  component: FloatingUIComponent,
-  options: Parameters<typeof positionFloatingUI>[1],
-  delayed = false
-): Promise<void> {
-  if (!component.open) {
-    return;
-  }
-
-  return delayed ? debouncedReposition(component, options) : positionFloatingUI(component, options);
-}
-
-const debouncedReposition = debounce(positionFloatingUI, repositionDebounceTimeout, {
-  leading: true,
-  maxWait: repositionDebounceTimeout
-});
-
 const ARROW_CSS_TRANSFORM = {
   top: "",
   left: "rotate(-90deg)",
@@ -417,7 +384,7 @@ export async function positionFloatingUI(
     type: UIType;
   }
 ): Promise<void> {
-  if (!referenceEl || !floatingEl) {
+  if (!referenceEl || !floatingEl || !component.open) {
     return null;
   }
 
@@ -491,6 +458,19 @@ export async function positionFloatingUI(
 export const cleanupMap = new WeakMap<FloatingUIComponent, () => void>();
 
 /**
+ * Helper to set up debouncing the reposition method.
+ *
+ * @param {FloatingUIComponent} component - The FloatingUIComponent
+ * @returns {DebouncedFunc<FloatingUIComponent["reposition"]>} - A debounced reposition function.
+ */
+export function debounceReposition(component: FloatingUIComponent): DebouncedFunc<FloatingUIComponent["reposition"]> {
+  return debounce(component.reposition, repositionDebounceTimeout, {
+    leading: true,
+    maxWait: repositionDebounceTimeout
+  });
+}
+
+/**
  * Helper to set up floating element interactions on connectedCallback.
  *
  * @param component
@@ -548,6 +528,8 @@ export function disconnectFloatingUI(
   if (!floatingEl || !referenceEl) {
     return;
   }
+
+  component.debouncedReposition?.cancel();
 
   const cleanup = cleanupMap.get(component);
 
