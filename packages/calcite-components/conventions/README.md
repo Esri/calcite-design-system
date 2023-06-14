@@ -57,7 +57,7 @@ Event names should be treated like global variables since they can collide with 
 
 **Discussed In:**
 
-- <https://github.com/Esri/calcite-components/pull/24/files/3446c89010e3ef0421803d68d627aba2e7c4bfa0#r289430227>
+- <https://github.com/Esri/calcite-design-system/pull/24/files/3446c89010e3ef0421803d68d627aba2e7c4bfa0#r289430227>
 
 ### Private/Internal Events
 
@@ -179,7 +179,7 @@ interface FocusableComponent {
 type FocusId = string;
 ```
 
-**Note**: Implementations can use the [`focusElement`](https://github.com/Esri/calcite-components/blob/f2bb61828f3da54b7dcb5fb1dade12b85d82331e/src/utils/dom.ts#L41-L47) helper to handle focusing both native and calcite components.
+**Note**: Implementations can use the [`focusElement`](https://github.com/Esri/calcite-design-system/blob/f2bb61828f3da54b7dcb5fb1dade12b85d82331e/src/utils/dom.ts#L41-L47) helper to handle focusing both native and calcite components.
 
 Examples:
 
@@ -408,4 +408,4 @@ The [`globalAttributes`](../src/utils/globalAttributes.ts) util was specifically
 
 ### BigDecimal
 
-`BigDecimal` is a [number util](https://github.com/Esri/calcite-components/blob/master/src/utils/number.ts) that helps with [arbitrary precision arithmetic](https://en.wikipedia.org/wiki/Arbitrary-precision_arithmetic). The util is adopted from a [Stack Overflow answer](https://stackoverflow.com/a/66939244) with some small changes. There are some usage examples in [`number.spec.ts`](../src/utils/number.spec.ts).
+`BigDecimal` is a [number util](https://github.com/Esri/calcite-components/blob/main/packages/calcite-components/src/utils/number.ts) that helps with [arbitrary precision arithmetic](https://en.wikipedia.org/wiki/Arbitrary-precision_arithmetic). The util is adopted from a [Stack Overflow answer](https://stackoverflow.com/a/66939244) with some small changes. There are some usage examples in [`number.spec.ts`](../src/utils/number.spec.ts).

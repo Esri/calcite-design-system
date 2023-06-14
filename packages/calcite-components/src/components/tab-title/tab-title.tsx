@@ -355,7 +355,7 @@ export class TabTitle implements InteractiveComponent, LocalizedComponent, T9nCo
   /**
    * Fires when a `calcite-tab` is selected (`event.details`).
    *
-   * @see [TabChangeEventDetail](https://github.com/Esri/calcite-components/blob/master/src/components/tab/interfaces.ts#L1)
+   * @see [TabChangeEventDetail](https://github.com/Esri/calcite-components/blob/main/src/components/tab/interfaces.ts#L1)
    * @internal
    */
   @Event({ cancelable: false }) calciteInternalTabsActivate: EventEmitter<TabChangeEventDetail>;
@@ -368,7 +368,7 @@ export class TabTitle implements InteractiveComponent, LocalizedComponent, T9nCo
   /**
    * Fires when `calcite-tab` is closed (`event.details`).
    *
-   * @see [TabChangeEventDetail](https://github.com/Esri/calcite-components/blob/master/src/components/tab/interfaces.ts)
+   * @see [TabChangeEventDetail](https://github.com/Esri/calcite-components/blob/main/src/components/tab/interfaces.ts)
    * @internal
    */
   @Event({ cancelable: false }) calciteInternalTabsClose: EventEmitter<TabCloseEventDetail>;
