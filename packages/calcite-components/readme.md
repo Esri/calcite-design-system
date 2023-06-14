@@ -2,7 +2,7 @@
 [![npm package](https://img.shields.io/npm/v/@esri/calcite-components?style=flat-square&color=007AC2)](https://www.npmjs.com/package/@esri/calcite-components)
 [![minified size](https://img.shields.io/bundlephobia/min/@esri/calcite-components?style=flat-square&color=D83020)](https://bundlephobia.com/package/@esri/calcite-components)
 [![downloads per month](https://img.shields.io/npm/dm/@esri/calcite-components?style=flat-square&color=35AC46)](https://www.npmjs.com/package/@esri/calcite-components)
-[![commits per month](https://img.shields.io/github/commit-activity/m/esri/calcite-components?style=flat-square&color=EDD317)](https://github.com/Esri/calcite-components/graphs/contributors)
+[![commits per month](https://img.shields.io/github/commit-activity/m/esri/calcite-components?style=flat-square&color=EDD317)](https://github.com/Esri/calcite-design-system/graphs/contributors)
 
 # Calcite Components
 
@@ -32,7 +32,7 @@ Once these tags are added, components can be used like any other HTML element. O
 
 ## Use the NPM package
 
-Calcite Components is also provided as an [NPM package](https://www.npmjs.com/package/@esri/calcite-components). To get started, first install the package, then follow the steps below. Alternatively, you can find examples using different frameworks and build tools [here](https://github.com/Esri/calcite-components-examples).
+Calcite Components is also provided as an [NPM package](https://www.npmjs.com/package/@esri/calcite-components). To get started, first install the package, then follow the steps below. Alternatively, you can find examples using different frameworks and build tools [here](https://github.com/Esri/calcite-design-system-examples).
 
 ```sh
 npm install @esri/calcite-components
@@ -86,7 +86,7 @@ Some components, such as `calcite-icon` and `calcite-date-picker`, rely on asset
 
 To use the assets locally, they need to be copied using a build tool or NPM script. The directory for the local assets must be named `assets`, which eases the copying process. For example, `/public/calcite/assets` will work, however `/public/calcite-assets` will not.
 
-The Calcite Components [examples repo](https://github.com/Esri/calcite-components-examples) demonstrates using local assets in a variety of JavaScript frameworks and build tools. Each example has a README with a framework or build tool specific explanation.
+The Calcite Components [examples repo](https://github.com/Esri/calcite-design-system-examples) demonstrates using local assets in a variety of JavaScript frameworks and build tools. Each example has a README with a framework or build tool specific explanation.
 
 ```sh
 cp -r node_modules/@esri/calcite-components/dist/calcite/assets/* ./public/assets/

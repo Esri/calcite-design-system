@@ -1,5 +1,5 @@
 {
-  "name": "@esri/calcite",
+  "name": "calcite-design-system",
   "version": "0.0.0",
   "private": true,
   "workspaces": [

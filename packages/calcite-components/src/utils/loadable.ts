@@ -1,7 +1,7 @@
 /**
  * This helper adds support for knowing when a component has been loaded.
  *
- * Related issue: https://github.com/Esri/calcite-components/issues/5369
+ * Related issue: https://github.com/Esri/calcite-design-system/issues/5369
  * Could be related to Stencil.js issue: https://github.com/ionic-team/stencil/issues/3580
  *
  * Implementing

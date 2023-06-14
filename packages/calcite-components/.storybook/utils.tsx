@@ -73,7 +73,7 @@ export const parseReadme = (content: string) =>
     .replace(/ \\\| /g, " | ")
 
     // markdown uses relative paths for component links
-    .replace(/\.\.\//g, "https://github.com/Esri/calcite-components/tree/main/src/components/");
+    .replace(/\.\.\//g, "https://github.com/Esri/calcite-design-system/tree/main/src/components/");
 
 export interface KnobbedAttribute {
   name: string;

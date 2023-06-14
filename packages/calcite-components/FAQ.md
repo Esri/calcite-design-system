@@ -16,9 +16,9 @@ The suggested patterns and component guidelines represent the best in user-centr
 
 Esri's design principles, components, and patterns can be consumed through a suite of frameworks to help you get started quickly. The Calcite Design System references patterns and components provided by these frameworks, however the source of truth for implementation-specific documentation will always be found in each respective GitHub project.
 
-[Calcite Components](https://github.com/Esri/calcite-components)
+[Calcite Components](https://github.com/Esri/calcite-design-system)
 
-[Calcite Components Examples](https://github.com/Esri/calcite-components-examples)
+[Calcite Components Examples](https://github.com/Esri/calcite-design-system-examples)
 
 [Calcite Colors](https://github.com/Esri/calcite-colors)
 
