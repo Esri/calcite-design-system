@@ -39,7 +39,9 @@ describe("calcite-pick-list-item", () => {
 
   it("can be disabled", async () => disabled("calcite-pick-list-item"));
 
-  it("supports translations", () => t9n("calcite-pick-list-item"));
+  describe("translation support", () => {
+    t9n("calcite-pick-list-item");
+  });
 
   it("should toggle selected attribute when clicked", async () => {
     const page = await newE2EPage({ html: `<calcite-pick-list-item label="test"></calcite-pick-list-item>` });

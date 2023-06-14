@@ -327,5 +327,7 @@ describe("calcite-date-picker", () => {
     });
   });
 
-  it("supports translations", () => t9n("calcite-date-picker"));
+  describe("translation support", () => {
+    t9n("calcite-date-picker");
+  });
 });
