@@ -908,4 +908,36 @@ describe("calcite-tooltip", () => {
       expect(await isTooltipOpen(page)).toBe(true);
     });
   });
+
+  it("should open tooltip instantly if another tooltip is already visible", async () => {
+    const page = await newE2EPage();
+
+    await page.setContent(
+      html`<style>.test {--calcite-floating-ui-transition: none;}</style><calcite-tooltip class="test" id="tooltip1" reference-element="ref1">content</calcite-tooltip><p><div id="ref1">referenceElement 1</div></p>
+      <calcite-tooltip class="test" id="tooltip2" reference-element="ref2">content</calcite-tooltip><p><div id="ref2">referenceElement 2</div></p>`
+    );
+
+    await page.waitForChanges();
+
+    const tooltip = await page.find("#tooltip1");
+    const tooltip2 = await page.find("#tooltip2");
+
+    expect(await tooltip.isVisible()).toBe(false);
+    expect(await tooltip2.isVisible()).toBe(false);
+
+    const ref1 = await page.find("#ref1");
+    const ref2 = await page.find("#ref2");
+
+    await ref1.hover();
+    await page.waitForTimeout(TOOLTIP_OPEN_DELAY_MS);
+
+    expect(await tooltip.isVisible()).toBe(true);
+    expect(await tooltip2.isVisible()).toBe(false);
+
+    await ref2.hover();
+    await page.waitForTimeout(0);
+
+    expect(await tooltip.isVisible()).toBe(false);
+    expect(await tooltip2.isVisible()).toBe(true);
+  });
 });

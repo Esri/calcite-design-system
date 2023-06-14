@@ -191,20 +191,20 @@ export default class TooltipManager {
     }
   }
 
-  private toggleFocusedTooltip(tooltip: HTMLCalciteTooltipElement, value: boolean): void {
+  private toggleFocusedTooltip(tooltip: HTMLCalciteTooltipElement, open: boolean): void {
     this.closeActiveTooltip();
 
-    if (value) {
+    if (open) {
       this.clearHoverTimeout();
     }
 
-    this.toggleTooltip(tooltip, value);
+    this.toggleTooltip(tooltip, open);
   }
 
-  private toggleTooltip(tooltip: HTMLCalciteTooltipElement, value: boolean): void {
-    tooltip.open = value;
+  private toggleTooltip(tooltip: HTMLCalciteTooltipElement, open: boolean): void {
+    tooltip.open = open;
 
-    this.activeTooltip = value ? tooltip : null;
+    this.activeTooltip = open ? tooltip : null;
   }
 
   private openHoveredTooltip = (tooltip: HTMLCalciteTooltipElement): void => {
@@ -237,14 +237,14 @@ export default class TooltipManager {
     }, TOOLTIP_CLOSE_DELAY_MS);
   };
 
-  private queryFocusedTooltip(event: FocusEvent, value: boolean): void {
+  private queryFocusedTooltip(event: FocusEvent, open: boolean): void {
     const tooltip = this.queryTooltip(event.composedPath());
 
     if (!tooltip || this.isClosableClickedTooltip(tooltip)) {
       return;
     }
 
-    this.toggleFocusedTooltip(tooltip, value);
+    this.toggleFocusedTooltip(tooltip, open);
   }
 
   private isClosableClickedTooltip(tooltip: HTMLCalciteTooltipElement): boolean {
