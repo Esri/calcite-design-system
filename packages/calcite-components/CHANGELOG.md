@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.4.3-next.5](https://github.com/Esri/calcite-components/compare/@esri/calcite-components@1.4.3-next.4...@esri/calcite-components@1.4.3-next.5) (2023-06-14)
+
+### Bug Fixes
+
+- **input,input-number:** allow typing decimal separator in firefox for arabic locale ([#7173](https://github.com/Esri/calcite-components/issues/7173)) ([595e6f2](https://github.com/Esri/calcite-components/commit/595e6f229f13facfd6f79f4069f01b2bab79fa40)), closes [#7130](https://github.com/Esri/calcite-components/issues/7130)
+
 ## [1.4.3-next.4](https://github.com/Esri/calcite-components/compare/@esri/calcite-components@1.4.3-next.3...@esri/calcite-components@1.4.3-next.4) (2023-06-09)
 
 ### Bug Fixes
