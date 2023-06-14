@@ -6,8 +6,8 @@
 name: Move Issues To Current Milestone
 on:
   workflow_dispatch:
-  # schedule:
-  # - cron: "0 9 * * 1"
+    # schedule:
+    # - cron: "0 9 * * 1"
 jobs:
   move:
     runs-on: ubuntu-latest
