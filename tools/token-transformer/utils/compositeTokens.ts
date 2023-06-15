@@ -87,6 +87,10 @@ export function expandToken(compositeToken: DesignToken, isShadow = false, handl
         type: getType(key, compositeToken)
       };
     });
+    expandedObj["default"] = {
+      value: compositeToken.value,
+      type: compositeToken.type
+    };
   }
 
   return expandedObj;
