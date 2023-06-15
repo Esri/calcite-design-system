@@ -22,7 +22,7 @@
 }
 
 .table {
-  @apply w-full;
+  @apply w-full border-collapse;
 }
 
 .stack {
@@ -43,4 +43,7 @@
   top-0
   z-sticky
   bg-foreground-1;
+  & th {
+    @apply p-0;
+  }
 }
