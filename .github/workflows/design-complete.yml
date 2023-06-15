@@ -55,7 +55,7 @@ jobs:
                 name: "1 - assigned"
               });
 
-              // Add "0 - new" label
+              // Add labels
               await github.rest.issues.addLabels({
                 issue_number: context.issue.number,
                 owner: context.repo.owner,
@@ -65,7 +65,7 @@ jobs:
 
               /* Update issue */
               
-              // Remove assignees and milestone
+              // Clear assignees and milestone
               await github.rest.issues.update({
                 issue_number: context.issue.number,
                 owner: context.repo.owner,
@@ -74,7 +74,7 @@ jobs:
                 milestone: null
               });
 
-              // Add a comment to notify the project managers
+              // Add a comment to notify the project manager(s)
               await github.rest.issues.createComment({
                 issue_number: context.issue.number,
                 owner: context.repo.owner,
