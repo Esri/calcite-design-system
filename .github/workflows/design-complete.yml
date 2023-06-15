@@ -1,0 +1,85 @@
+# When the "design-complete" label is added to an issue:
+# 1. Modifies the labels,
+# 2. Updates the assignees and milestone, and
+# 3. Generates a notification to the Calcite project manager(s)
+#
+# The secret is formatted like so: person1, person2, person3
+#
+# Note the script automatically adds the "@" character in to notify the project manager(s)
+name: "Design complete"
+
+on:
+  issues:
+    types: [labeled]
+
+jobs:
+  notify-designer-new-component:
+    if: github.event.label.name == 'design-complete'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/github-script@v6
+        env:
+          managers: ${{secrets.CALCITE_MANAGERS}}
+        with:
+          github-token: ${{ secrets.ADMIN_TOKEN }}
+          script: |
+            const { managers } = process.env;
+            const { label } = context.payload;
+
+            if (label && label.name === "design-complete") {
+
+              // Add a "@" character to notify the user
+              const calcite_managers = managers.split(",").map(v => " @" + v.trim());
+
+              const { data: issue } = await github.rest.issues.get({
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+              });
+
+              /* Modify labels */
+
+              // Remove "Design" label
+              await github.rest.issues.removeLabel({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                name: "design"
+              });
+
+              // Remove "1 - assigned" label
+              await github.rest.issues.removeLabel({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                name: "1 - assigned"
+              });
+
+              // Add "0 - new" label
+              await github.rest.issues.addLabels({
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                labels: ['0 - new', 'needs milestone']
+              })
+
+              /* Update issue */
+              
+              // Remove assignees and milestone
+              await github.rest.issues.update({
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                assignees: [],
+                milestone: null
+              });
+
+              // Add a comment to notify the project managers
+              await github.rest.issues.createComment({
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                body: `cc ${calcite_managers}`,
+              });
+
+            }
