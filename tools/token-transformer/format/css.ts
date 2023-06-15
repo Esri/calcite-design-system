@@ -52,7 +52,7 @@ export function formatCSS(fileInfo: {
 
   const sortedTokens = sortAllTokens(dictionary, outputReferences);
   const transformTokens: string[][] = [[], [], [], []];
-  const [cssTokens, cssClasses] = [...sortedTokens].reduce((acc, token) => {
+  const [cssTokens] = [...sortedTokens].reduce((acc, token) => {
     const val = getReferenceValue(token.original);
     const values = Array.isArray(val) ? val : [val];
     values.forEach((referenceToken) => {
@@ -106,21 +106,18 @@ export function formatCSS(fileInfo: {
     });
 
     const customProp = makeCSSProp(token.name);
-    const cssIdx = acc[1].findIndex((t) => t.includes(customProp));
+    const cssIdx = acc[0].findIndex((t) => t.includes(customProp));
 
     if (cssIdx === -1) {
-      acc[1].push(`${customProp}: ${token.value}`);
+      acc[0].push(`${customProp}: ${token.value}`);
     }
 
     return acc;
   }, transformTokens);
 
   return `${StyleDictionary.formatHelpers.fileHeader({ file })}
-
 :root {
-${cssTokens.join("\n")}
+  ${cssTokens.join("\n")}
 }
-
-${cssClasses?.join("\n") || ""}
 `;
 }

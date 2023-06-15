@@ -101,32 +101,32 @@ export const run = async (
     source,
     include,
     platforms: {
-      // css: {
-      //   prefix: "calcite",
-      //   transforms: [
-      //     "ts/descriptionToComment",
-      //     "ts/size/px",
-      //     "ts/opacity",
-      //     "ts/size/lineheight",
-      //     "ts/type/fontWeight",
-      //     "calcite/value/math",
-      //     "ts/size/css/letterspacing",
-      //     "ts/color/css/hexrgba",
-      //     "ts/color/modifiers",
-      //     "calcite/value/demi",
-      //     "calcite/value/multiWord",
-      //     "calcite/name/kebab"
-      //   ],
-      //   buildPath: `${buildPath}/css/`,
-      //   files: [
-      //     {
-      //       destination: `${fileName}.css`,
-      //       format: "calcite/format/css",
-      //       filter: /headless/gi.test(fileName) ? null : "filterSource",
-      //       options: /headless/gi.test(fileName) ? { ...options, outputReferences: true } : options
-      //     }
-      //   ]
-      // },
+      css: {
+        prefix: "calcite",
+        transforms: [
+          "ts/descriptionToComment",
+          "ts/size/px",
+          "ts/opacity",
+          "ts/size/lineheight",
+          "ts/type/fontWeight",
+          "calcite/value/math",
+          "ts/size/css/letterspacing",
+          "ts/color/css/hexrgba",
+          "ts/color/modifiers",
+          "calcite/value/demi",
+          "calcite/value/multiWord",
+          "calcite/name/kebab"
+        ],
+        buildPath: `${buildPath}/css/`,
+        files: [
+          {
+            destination: `${fileName}.css`,
+            format: "calcite/format/css",
+            filter: /headless/gi.test(fileName) ? null : "filterSource",
+            options: /headless/gi.test(fileName) ? { ...options, outputReferences: true } : options
+          }
+        ]
+      },
       scss: {
         prefix: "calcite",
         transforms: [
