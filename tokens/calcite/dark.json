@@ -1185,11 +1185,11 @@
           "type": "color"
         },
         "font": {
-          "value": "$action.font.light",
+          "value": "$action.font.default.light",
           "type": "color"
         },
         "icon": {
-          "value": "$action.icon.light",
+          "value": "$action.icon.default.light",
           "type": "color"
         },
         "background": {
@@ -2515,16 +2515,22 @@
           }
         },
         "font": {
-          "placholder": {
+          "placeholder": {
             "light": {
-              "value": "$combobox.font.placholder.light",
+              "value": "$combobox.font.placeholder.light",
               "type": "color"
             }
           },
-          "value": {
-            "light": "[object Object]"
-          },
-          "type": "color"
+          "default": {
+            "light": {
+              "value": "$combobox.font.default.light",
+              "type": "color"
+            },
+            "dark": {
+              "value": "$combobox.font.default.dark",
+              "type": "color"
+            }
+          }
         }
       },
       "combobox-item": {
