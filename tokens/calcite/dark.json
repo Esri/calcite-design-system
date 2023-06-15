@@ -1,119 +1,119 @@
 {
   "ui": {
-    "background": {
+    "background-dark": {
       "value": "$semantic.ui.color.background.dark",
       "type": "color"
     },
-    "foreground-1": {
+    "foreground-1-dark": {
       "value": "$semantic.ui.color.foreground.1.dark",
       "type": "color"
     },
-    "foreground-2": {
+    "foreground-2-dark": {
       "value": "$semantic.ui.color.foreground.2.dark",
       "type": "color"
     },
-    "foreground-3": {
-      "value": "{semantic.ui.color.foreground.current.dark}",
+    "foreground-3-dark": {
+      "value": "$semantic.ui.color.foreground.3.dark",
       "type": "color"
     },
-    "foreground-current": {
+    "foreground-current-dark": {
       "value": "$semantic.ui.color.foreground.current.dark",
       "type": "color"
     },
-    "text-highlight": {
+    "text-highlight-dark": {
       "value": "$semantic.ui.color.ui-text-highlight.dark",
       "type": "color"
     },
-    "brand": {
+    "brand-dark": {
       "value": "$semantic.ui.color.brand.default.dark",
       "type": "color"
     },
-    "ui-brand-hover": {
+    "brand-hover-dark": {
       "value": "$semantic.ui.color.brand.hover.dark",
       "type": "color"
     },
-    "ui-brand-press": {
+    "brand-press-dark": {
       "value": "$semantic.ui.color.brand.press.dark",
       "type": "color"
     },
-    "ui-info": {
+    "info-dark": {
       "value": "$semantic.ui.color.info.default.dark",
       "type": "color"
     },
-    "ui-success": {
+    "success-dark": {
       "value": "$semantic.ui.color.success.default.dark",
       "type": "color"
     },
-    "ui-warning": {
+    "warning-dark": {
       "value": "$semantic.ui.color.warning.default.dark",
       "type": "color"
     },
-    "ui-danger": {
+    "danger-dark": {
       "value": "$semantic.ui.color.danger.default.dark",
       "type": "color"
     },
-    "ui-danger-hover": {
+    "danger-hover-dark": {
       "value": "$semantic.ui.color.danger.hover.dark",
       "type": "color"
     },
-    "ui-danger-press": {
+    "danger-press-dark": {
       "value": "$semantic.ui.color.danger.press.dark",
       "type": "color"
     },
-    "ui-inverse": {
+    "inverse-dark": {
       "value": "{semantic.ui.color.inverse.default.dark}",
       "type": "color"
     },
-    "ui-inverse-press": {
+    "inverse-press-dark": {
       "value": "$semantic.ui.color.inverse.press.dark",
       "type": "color"
     },
-    "ui-inverse-hover": {
+    "inverse-hover-dark": {
       "value": "$semantic.ui.color.inverse.hover.dark",
       "type": "color"
     },
-    "ui-text-1": {
+    "text-1-dark": {
       "value": "$semantic.ui.color.text.1.dark",
       "type": "color"
     },
-    "ui-text-2": {
+    "text-2-dark": {
       "value": "$semantic.ui.color.text.2.dark",
       "type": "color"
     },
-    "ui-text-3": {
+    "text-3-dark": {
       "value": "$semantic.ui.color.text.3.dark",
       "type": "color"
     },
-    "ui-text-inverse": {
+    "text-inverse-dark": {
       "value": "$semantic.ui.color.text.inverse.dark",
       "type": "color"
     },
-    "ui-text-link": {
+    "text-link-dark": {
       "value": "$semantic.ui.color.text.link.dark",
       "type": "color"
     },
-    "ui-border-1": {
+    "border-1-dark": {
       "value": "$semantic.ui.color.border.1.dark",
       "type": "color"
     },
-    "ui-border-2": {
+    "border-2-dark": {
       "value": "$semantic.ui.color.border.2.dark",
       "type": "color"
     },
-    "ui-border-3": {
+    "border-3-dark": {
       "value": "$semantic.ui.color.border.3.dark",
       "type": "color"
     },
-    "ui-border-input": {
+    "border-input-dark": {
       "value": "$semantic.ui.color.border.input.dark",
       "type": "color"
     },
-    "button-transparent-hover": {
-      "value": "{semantic.ui.color.transparent-hover.light}",
+    "button-transparent-hover-dark": {
+      "value": "$semantic.ui.color.transparent-hover.light",
       "type": "color"
     },
-    "button-transparent-press": {
-      "value": "{semantic.ui.color.transparent-press.light}",
+    "button-transparent-press-dark": {
+      "value": "$semantic.ui.color.transparent-press.light",
       "type": "color"
     },
     "component": {
@@ -1185,11 +1185,11 @@
           "type": "color"
         },
         "font": {
-          "value": "$action.font.light",
+          "value": "$action.font.default.light",
           "type": "color"
         },
         "icon": {
-          "value": "$action.icon.light",
+          "value": "$action.icon.default.light",
           "type": "color"
         },
         "background": {
@@ -2515,16 +2515,22 @@
           }
         },
         "font": {
-          "placholder": {
+          "placeholder": {
             "light": {
-              "value": "$combobox.font.placholder.light",
+              "value": "$combobox.font.placeholder.light",
               "type": "color"
             }
           },
-          "value": {
-            "light": "[object Object]"
-          },
-          "type": "color"
+          "default": {
+            "light": {
+              "value": "$combobox.font.default.light",
+              "type": "color"
+            },
+            "dark": {
+              "value": "$combobox.font.default.dark",
+              "type": "color"
+            }
+          }
         }
       },
       "combobox-item": {

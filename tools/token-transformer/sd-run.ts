@@ -1,13 +1,15 @@
 import { registerTransforms } from "@tokens-studio/sd-transforms";
 import StyleDictionary from "style-dictionary";
-import { expandComposites } from "./parse/expandComposites.js";
 import { formatSCSS } from "./format/scss.js";
-import { matchExclusions } from "./utils/regex.js";
-import { matchList } from "./utils/matchList.js";
+import { formatCSS } from "./format/css.js";
 import { nameCamelCase } from "./transform/nameCamelCase.js";
 import { nameKebabCase } from "./transform/nameKebabCase.js";
 import { parseName } from "./utils/parseName.js";
 import { Theme } from "./getThemes.js";
+import { parse } from "./parse/parseJSON.js";
+import * as valueMultiWord from "./transform/valueMultiWordString.js";
+import * as valueFontWeightDemi from "./transform/valueDemi.js";
+import * as valueMathEvaluate from "./transform/valueEvaluateMath.js";
 
 /**
  * Style Dictionary runner configuration overrides.
@@ -25,8 +27,10 @@ export const run = async (
   theme: Pick<Theme, "enabled" | "disabled" | "name" | "source">
 ): Promise<void> => {
   const fileName = parseName(theme.name);
-  const include = theme.source.map((tokenFile) => `${tokenDir}/${tokenFile}.json`);
   const source = theme.enabled.map((tokenFile) => `${tokenDir}/${tokenFile}.json`);
+  // Bit confusing here. Style Dictionary uses the term "source" to mean the source of the files to build. While Token Studio uses the word "enabled".
+  // Instead Token Studio uses the word "source" to refer to tokens that are used for reference.
+  const include = theme.source.map((tokenFile) => `${tokenDir}/${tokenFile}.json`);
   const options = {
     enabled: theme.enabled,
     source: theme.source,
@@ -41,10 +45,18 @@ export const run = async (
   // https://github.com/tokens-studio/sd-transforms
   await registerTransforms(StyleDictionary, { expand: false });
 
+  StyleDictionary.registerParser({
+    pattern: /\.json$/,
+    parse
+  });
   // Register custom formatter https://amzn.github.io/style-dictionary/#/formats?id=custom-formats
   StyleDictionary.registerFormat({
-    name: "calcite/scss",
+    name: "calcite/format/scss",
     formatter: formatSCSS
+  });
+  StyleDictionary.registerFormat({
+    name: "calcite/format/css",
+    formatter: formatCSS
   });
 
   // Registering Style Dictionary transformers https://amzn.github.io/style-dictionary/#/transforms?id=defining-custom-transforms
@@ -55,9 +67,27 @@ export const run = async (
   });
 
   StyleDictionary.registerTransform({
-    name: "name/calcite/kebab",
+    name: "calcite/name/kebab",
     type: "name",
     transformer: nameKebabCase
+  });
+
+  StyleDictionary.registerTransform({
+    name: "calcite/value/multiWord",
+    type: "value",
+    ...valueMultiWord
+  });
+
+  StyleDictionary.registerTransform({
+    name: "calcite/value/demi",
+    type: "value",
+    ...valueFontWeightDemi
+  });
+
+  StyleDictionary.registerTransform({
+    name: "calcite/value/math",
+    type: "value",
+    ...valueMathEvaluate
   });
 
   StyleDictionary.registerFilter({
@@ -79,17 +109,19 @@ export const run = async (
           "ts/opacity",
           "ts/size/lineheight",
           "ts/type/fontWeight",
-          "ts/resolveMath",
+          "calcite/value/math",
           "ts/size/css/letterspacing",
           "ts/color/css/hexrgba",
           "ts/color/modifiers",
-          "name/calcite/kebab"
+          "calcite/value/demi",
+          "calcite/value/multiWord",
+          "calcite/name/kebab"
         ],
         buildPath: `${buildPath}/css/`,
         files: [
           {
             destination: `${fileName}.css`,
-            format: "css/variables",
+            format: "calcite/format/css",
             filter: /headless/gi.test(fileName) ? null : "filterSource",
             options: /headless/gi.test(fileName) ? { ...options, outputReferences: true } : options
           }
@@ -103,37 +135,26 @@ export const run = async (
           "ts/opacity",
           "ts/size/lineheight",
           "ts/type/fontWeight",
-          "ts/resolveMath",
+          "calcite/value/math",
           "ts/size/css/letterspacing",
           "ts/color/css/hexrgba",
           "ts/color/modifiers",
-          "name/calcite/kebab"
+          "calcite/value/demi",
+          "calcite/value/multiWord",
+          "ts/shadow/css/shorthand",
+          "calcite/name/kebab"
         ],
         buildPath: `${buildPath}/scss/`,
         files: [
           {
             destination: `${fileName}.scss`,
-            format: "calcite/scss",
+            format: "calcite/format/scss",
             filter: /headless/gi.test(fileName) ? null : "filterSource",
             options: /headless/gi.test(fileName) ? { ...options, outputReferences: true } : options
           }
         ]
       }
-    },
-    parsers: [
-      {
-        pattern: /\.json$/,
-        parse: (file) => {
-          if (matchList(file.filePath, [...include, ...theme.source, ...theme.enabled], matchExclusions)) {
-            const obj = JSON.parse(file.contents);
-            const expanded = expandComposites(obj, file.filePath);
-            return expanded;
-          }
-
-          return {};
-        }
-      }
-    ]
+    }
   });
 
   try {
