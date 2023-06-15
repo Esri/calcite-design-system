@@ -127,9 +127,9 @@ export const numberingSystems = [
 
 export const supportedLocales = [...new Set([...t9nLocales, ...locales])] as const;
 
-export type NumberingSystem = typeof numberingSystems[number];
+export type NumberingSystem = (typeof numberingSystems)[number];
 
-export type SupportedLocales = typeof supportedLocales[number];
+export type SupportedLocales = (typeof supportedLocales)[number];
 
 const isNumberingSystemSupported = (numberingSystem: string): numberingSystem is NumberingSystem =>
   numberingSystems.includes(numberingSystem as NumberingSystem);
