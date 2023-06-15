@@ -107,7 +107,7 @@ export const placements = [
   "trailing-start"
 ] as const;
 
-export type LogicalPlacement = typeof placements[number];
+export type LogicalPlacement = (typeof placements)[number];
 
 export const effectivePlacements: EffectivePlacement[] = [
   "top",
