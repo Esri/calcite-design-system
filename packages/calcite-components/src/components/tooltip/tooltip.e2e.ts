@@ -913,31 +913,36 @@ describe("calcite-tooltip", () => {
     const page = await newE2EPage();
 
     await page.setContent(
-      html`<style>.test {--calcite-floating-ui-transition: none;}</style><calcite-tooltip class="test" id="tooltip1" reference-element="ref1">content</calcite-tooltip><p><div id="ref1">referenceElement 1</div></p>
-      <calcite-tooltip class="test" id="tooltip2" reference-element="ref2">content</calcite-tooltip><p><div id="ref2">referenceElement 2</div></p>`
+      html`<p><button id="ref1">referenceElement 1</button></p>
+        <p><button id="ref2">referenceElement 2</button></p>
+        <calcite-tooltip class="test" id="tooltip1" reference-element="ref1">content</calcite-tooltip>
+        <calcite-tooltip class="test" id="tooltip2" reference-element="ref2">content 2</calcite-tooltip>`
     );
 
     await page.waitForChanges();
 
-    const tooltip = await page.find("#tooltip1");
+    const tooltip1 = await page.find("#tooltip1");
     const tooltip2 = await page.find("#tooltip2");
 
-    expect(await tooltip.isVisible()).toBe(false);
-    expect(await tooltip2.isVisible()).toBe(false);
+    expect(await tooltip1.getProperty("open")).toBe(false);
+    expect(await tooltip2.getProperty("open")).toBe(false);
 
-    const ref1 = await page.find("#ref1");
-    const ref2 = await page.find("#ref2");
-
-    await ref1.hover();
+    await page.$eval("#ref1", (el: HTMLElement) => {
+      el.dispatchEvent(new Event("pointermove"));
+    });
     await page.waitForTimeout(TOOLTIP_OPEN_DELAY_MS);
+    await page.waitForChanges();
 
-    expect(await tooltip.isVisible()).toBe(true);
-    expect(await tooltip2.isVisible()).toBe(false);
+    expect(await tooltip1.getProperty("open")).toBe(true);
+    expect(await tooltip2.getProperty("open")).toBe(false);
 
-    await ref2.hover();
+    await page.$eval("#ref2", (el: HTMLElement) => {
+      el.dispatchEvent(new Event("pointermove"));
+    });
     await page.waitForTimeout(0);
+    await page.waitForChanges();
 
-    expect(await tooltip.isVisible()).toBe(false);
-    expect(await tooltip2.isVisible()).toBe(true);
+    expect(await tooltip1.getProperty("open")).toBe(false);
+    expect(await tooltip2.getProperty("open")).toBe(true);
   });
 });
