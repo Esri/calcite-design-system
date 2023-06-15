@@ -1,5 +1,6 @@
 import { Build } from "@stencil/core";
 
+const listSelector = "calcite-list";
 const listItemGroupSelector = "calcite-list-item-group";
 const listItemSelector = "calcite-list-item";
 
@@ -16,7 +17,11 @@ export function getListItemChildren(event: Event): HTMLCalciteListItemElement[] 
     el?.matches(listItemSelector)
   ) as HTMLCalciteListItemElement[];
 
-  return [...listItemGroupChildren, ...listItemChildren];
+  const listItemListChildren = assignedElements.filter((el) =>
+    el?.matches(listSelector)
+  ) as HTMLCalciteListItemElement[];
+
+  return [...listItemListChildren, ...listItemGroupChildren, ...listItemChildren];
 }
 
 export function updateListItemChildren(listItemChildren: HTMLCalciteListItemElement[]): void {

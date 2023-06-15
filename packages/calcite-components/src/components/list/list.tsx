@@ -40,6 +40,8 @@ import {
 
 // todo: keyboard nav sorting
 // todo: child sorting
+// todo: set group, pull,put,selectionMode, seelctionAppearance, on children
+// todo: disable filtering on children
 
 /**
  * A general purpose list that enables users to construct list items that conform to Calcite styling.
