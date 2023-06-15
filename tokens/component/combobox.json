@@ -120,14 +120,26 @@
         }
       },
       "default": {
-        "value": {
-          "light": "$chip.font.solid.grey.light",
-          "dark": "$chip.font.solid.grey.light",
-          "sm": "$chip.font.sm",
-          "md": "$chip.font.md",
-          "lg": "$chip.font.lg"
+        "light": {
+          "type": "color",
+          "value": "$chip.font.solid.grey.light"
         },
-        "type": "other"
+        "dark": {
+          "type": "color",
+          "value": "$chip.font.solid.grey.light"
+        }
+      },
+      "sm": {
+        "type": "typography",
+        "value": "$chip.font.sm"
+      },
+      "md": {
+        "type": "typography",
+        "value": "$chip.font.md"
+      },
+      "lg": {
+        "type": "typography",
+        "value": "$chip.font.lg"
       }
     },
     "foreground": {

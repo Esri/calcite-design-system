@@ -73,7 +73,7 @@
       },
       "action": {
         "font": {
-          "value": "$action.font.light",
+          "value": "$action.font.default.light",
           "type": "color"
         },
         "icon": {
@@ -743,7 +743,7 @@
         "font": {
           "placeholder": {
             "light": {
-              "value": "$combobox.font.placeholder.light",
+              "value": "$combobox.font.default.light",
               "type": "color"
             }
           },

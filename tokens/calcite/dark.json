@@ -1185,11 +1185,11 @@
           "type": "color"
         },
         "font": {
-          "value": "$action.font.light",
+          "value": "$action.font.default.light",
           "type": "color"
         },
         "icon": {
-          "value": "$action.icon.light",
+          "value": "$action.icon.default.light",
           "type": "color"
         },
         "background": {
@@ -2523,11 +2523,11 @@
           },
           "default": {
             "light": {
-              "value": "[object Object]",
+              "value": "$combobox.font.default.light",
               "type": "color"
             },
             "dark": {
-              "value": "[object Object]",
+              "value": "$combobox.font.default.dark",
               "type": "color"
             }
           }
