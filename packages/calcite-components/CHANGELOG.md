@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.5.0-next.0](https://github.com/Esri/calcite-components/compare/@esri/calcite-components@1.4.3-next.7...@esri/calcite-components@1.5.0-next.0) (2023-06-15)
+
+### Features
+
+- **list:** Add slots for filter actions ([#7148](https://github.com/Esri/calcite-components/issues/7148)) ([c9215c0](https://github.com/Esri/calcite-components/commit/c9215c05535c0d91582a73eabb9a587d39ba0422)), closes [#6600](https://github.com/Esri/calcite-components/issues/6600)
+
+### Bug Fixes
+
+- **radio-button, radio-button-group:** prevent emitting events when selecting a checked radio button ([#7102](https://github.com/Esri/calcite-components/issues/7102)) ([77fcc81](https://github.com/Esri/calcite-components/commit/77fcc818dd2d20805318cdb6030b8aa73ccb1a58)), closes [#6712](https://github.com/Esri/calcite-components/issues/6712)
+
 ## [1.4.3-next.7](https://github.com/Esri/calcite-components/compare/@esri/calcite-components@1.4.3-next.6...@esri/calcite-components@1.4.3-next.7) (2023-06-15)
 
 ### Bug Fixes
