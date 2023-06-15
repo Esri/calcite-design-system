@@ -132,10 +132,10 @@ export class Scrim implements LocalizedComponent, T9nComponent {
     this.handleResize();
   };
 
-  private getScale(height: number): Scale {
-    if (height <= BREAKPOINTS.s) {
+  private getScale(size: number): Scale {
+    if (size < BREAKPOINTS.s) {
       return "s";
-    } else if (height >= BREAKPOINTS.l) {
+    } else if (size >= BREAKPOINTS.l) {
       return "l";
     } else {
       return "m";
@@ -149,6 +149,6 @@ export class Scrim implements LocalizedComponent, T9nComponent {
       return;
     }
 
-    this.loaderScale = this.getScale(Math.min(el.clientHeight, el.clientWidth));
+    this.loaderScale = this.getScale(Math.min(el.clientHeight, el.clientWidth) ?? 0);
   };
 }

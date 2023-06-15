@@ -4,6 +4,6 @@ export const CSS = {
 };
 
 export const BREAKPOINTS = {
-  s: 150,
-  l: 350
+  s: 72,
+  l: 480
 };
