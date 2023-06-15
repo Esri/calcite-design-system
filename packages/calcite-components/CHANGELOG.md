@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.4.3-next.6](https://github.com/Esri/calcite-components/compare/@esri/calcite-components@1.4.3-next.5...@esri/calcite-components@1.4.3-next.6) (2023-06-15)
+
+### Bug Fixes
+
+- **input-date-picker:** Fix showing the placeholder when resetting the value ([#7156](https://github.com/Esri/calcite-components/issues/7156)) ([8d60ffd](https://github.com/Esri/calcite-components/commit/8d60ffd1e68baf2b96006deaaec25c2e92df8d55)), closes [#6378](https://github.com/Esri/calcite-components/issues/6378)
+
 ## [1.4.3-next.5](https://github.com/Esri/calcite-components/compare/@esri/calcite-components@1.4.3-next.4...@esri/calcite-components@1.4.3-next.5) (2023-06-14)
 
 ### Bug Fixes
