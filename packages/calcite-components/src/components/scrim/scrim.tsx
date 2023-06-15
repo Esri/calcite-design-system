@@ -9,6 +9,13 @@ import {
 } from "../../utils/t9n";
 import { ScrimMessages } from "./assets/scrim/t9n";
 import { CSS } from "./resources";
+import { createObserver } from "../../utils/observers";
+import { Scale } from "../interfaces";
+
+const loaderBreakpoints = {
+  s: 100,
+  m: 300
+};
 
 /**
  * @slot - A slot for adding custom content, primarily loading information.
@@ -58,11 +65,11 @@ export class Scrim implements LocalizedComponent, T9nComponent {
 
   @Element() el: HTMLCalciteScrimElement;
 
-  // --------------------------------------------------------------------------
-  //
-  //  Private State / Properties
-  //
-  // --------------------------------------------------------------------------
+  resizeObserver = createObserver("resize", () => this.handleResize());
+
+  loaderEl: HTMLCalciteLoaderElement;
+
+  @State() loaderScale: Scale = "m";
 
   @State() defaultMessages: ScrimMessages;
 
@@ -102,7 +109,9 @@ export class Scrim implements LocalizedComponent, T9nComponent {
   render(): VNode {
     const { el, loading, messages } = this;
     const hasContent = el.innerHTML.trim().length > 0;
-    const loaderNode = loading ? <calcite-loader label={messages.loading} /> : null;
+    const loaderNode = loading ? (
+      <calcite-loader label={messages.loading} ref={this.storeLoaderEl} scale={this.loaderScale} />
+    ) : null;
     const contentNode = hasContent ? (
       <div class={CSS.content}>
         <slot />
@@ -116,4 +125,35 @@ export class Scrim implements LocalizedComponent, T9nComponent {
       </div>
     );
   }
+
+  // --------------------------------------------------------------------------
+  //
+  //  Private Methods
+  //
+  // --------------------------------------------------------------------------
+
+  private storeLoaderEl = (el: HTMLCalciteLoaderElement): void => {
+    this.loaderEl = el;
+    this.handleResize();
+  };
+
+  private getScale(height: number): Scale {
+    if (height <= loaderBreakpoints.s) {
+      return "s";
+    } else if (height <= loaderBreakpoints.m) {
+      return "m";
+    } else {
+      return "l";
+    }
+  }
+
+  private handleResize = (): void => {
+    const { loaderEl, el } = this;
+
+    if (!loaderEl) {
+      return;
+    }
+
+    this.loaderScale = this.getScale(el.clientHeight);
+  };
 }
