@@ -8,14 +8,9 @@ import {
   updateMessages
 } from "../../utils/t9n";
 import { ScrimMessages } from "./assets/scrim/t9n";
-import { CSS } from "./resources";
+import { CSS, BREAKPOINTS } from "./resources";
 import { createObserver } from "../../utils/observers";
 import { Scale } from "../interfaces";
-
-const loaderBreakpoints = {
-  s: 100,
-  m: 300
-};
 
 /**
  * @slot - A slot for adding custom content, primarily loading information.
@@ -69,7 +64,7 @@ export class Scrim implements LocalizedComponent, T9nComponent {
 
   loaderEl: HTMLCalciteLoaderElement;
 
-  @State() loaderScale: Scale = "m";
+  @State() loaderScale: Scale;
 
   @State() defaultMessages: ScrimMessages;
 
@@ -138,12 +133,12 @@ export class Scrim implements LocalizedComponent, T9nComponent {
   };
 
   private getScale(height: number): Scale {
-    if (height <= loaderBreakpoints.s) {
+    if (height <= BREAKPOINTS.s) {
       return "s";
-    } else if (height <= loaderBreakpoints.m) {
-      return "m";
-    } else {
+    } else if (height >= BREAKPOINTS.l) {
       return "l";
+    } else {
+      return "m";
     }
   }
 
@@ -154,6 +149,6 @@ export class Scrim implements LocalizedComponent, T9nComponent {
       return;
     }
 
-    this.loaderScale = this.getScale(el.clientHeight);
+    this.loaderScale = this.getScale(Math.min(el.clientHeight, el.clientWidth));
   };
 }
