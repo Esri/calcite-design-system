@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.4.3-next.7](https://github.com/Esri/calcite-components/compare/@esri/calcite-components@1.4.3-next.6...@esri/calcite-components@1.4.3-next.7) (2023-06-15)
+
+### Bug Fixes
+
+- **tooltip:** improve component timing ([#7172](https://github.com/Esri/calcite-components/issues/7172)) ([106f5d2](https://github.com/Esri/calcite-components/commit/106f5d27afc5d7363fa197a1f9fb0552864a15e4)), closes [#6396](https://github.com/Esri/calcite-components/issues/6396)
+
 ## [1.4.3-next.6](https://github.com/Esri/calcite-components/compare/@esri/calcite-components@1.4.3-next.5...@esri/calcite-components@1.4.3-next.6) (2023-06-15)
 
 ### Bug Fixes
