@@ -12,7 +12,6 @@ import {
   Watch
 } from "@stencil/core";
 import { debounce } from "lodash-es";
-import { toAriaBoolean } from "../../utils/dom";
 import { slotChangeHasAssignedElement, toAriaBoolean } from "../../utils/dom";
 import {
   connectInteractive,
