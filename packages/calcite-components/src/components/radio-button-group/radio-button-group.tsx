@@ -6,12 +6,20 @@ import {
   h,
   Host,
   Listen,
+  Method,
   Prop,
+  State,
   VNode,
   Watch
 } from "@stencil/core";
 import { createObserver } from "../../utils/observers";
 import { Layout, Scale } from "../interfaces";
+import {
+  componentLoaded,
+  LoadableComponent,
+  setComponentLoaded,
+  setUpLoadableComponent
+} from "../../utils/loadable";
 
 /**
  * @slot - A slot for adding `calcite-radio-button`s.
@@ -19,11 +27,9 @@ import { Layout, Scale } from "../interfaces";
 @Component({
   tag: "calcite-radio-button-group",
   styleUrl: "radio-button-group.scss",
-  shadow: {
-    delegatesFocus: true
-  }
+  shadow: true
 })
-export class RadioButtonGroup {
+export class RadioButtonGroup implements LoadableComponent {
   //--------------------------------------------------------------------------
   //
   //  Element
@@ -91,6 +97,8 @@ export class RadioButtonGroup {
 
   mutationObserver = createObserver("mutation", () => this.passPropsToRadioButtons());
 
+  @State() radioButtons: HTMLCalciteRadioButtonElement[] = [];
+
   //--------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -100,6 +108,14 @@ export class RadioButtonGroup {
   connectedCallback(): void {
     this.passPropsToRadioButtons();
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
+  }
+
+  componentWillLoad(): void {
+    setUpLoadableComponent(this);
+  }
+
+  componentDidLoad(): void {
+    setComponentLoaded(this);
   }
 
   disconnectedCallback(): void {
@@ -113,10 +129,11 @@ export class RadioButtonGroup {
   //--------------------------------------------------------------------------
 
   private passPropsToRadioButtons = (): void => {
-    const radioButtons = this.el.querySelectorAll("calcite-radio-button");
-    this.selectedItem = Array.from(radioButtons).find((radioButton) => radioButton.checked) || null;
-    if (radioButtons.length > 0) {
-      radioButtons.forEach((radioButton) => {
+    this.radioButtons = Array.from(this.el.querySelectorAll("calcite-radio-button"));
+    this.selectedItem =
+      Array.from(this.radioButtons).find((radioButton) => radioButton.checked) || null;
+    if (this.radioButtons.length > 0) {
+      this.radioButtons.forEach((radioButton) => {
         radioButton.disabled = this.disabled || radioButton.disabled;
         radioButton.hidden = this.hidden;
         radioButton.name = this.name;
@@ -125,6 +142,10 @@ export class RadioButtonGroup {
       });
     }
   };
+
+  private getFocusableRadioButton(): HTMLCalciteRadioButtonElement | null {
+    return this.radioButtons.find((radiobutton) => !radiobutton.disabled) ?? null;
+  }
 
   //--------------------------------------------------------------------------
   //
@@ -136,6 +157,25 @@ export class RadioButtonGroup {
    * Fires when the component has changed.
    */
   @Event({ cancelable: false }) calciteRadioButtonGroupChange: EventEmitter<void>;
+
+  //--------------------------------------------------------------------------
+  //
+  //  Public Method
+  //
+  //--------------------------------------------------------------------------
+
+  /** Sets focus on the fist focusable `calcite-radio-button` element in the component. */
+  @Method()
+  async setFocus(): Promise<void> {
+    await componentLoaded(this);
+    if (this.selectedItem && !this.selectedItem.disabled) {
+      this.selectedItem.setFocus();
+      return;
+    }
+    if (this.radioButtons.length > 0) {
+      this.getFocusableRadioButton()?.setFocus();
+    }
+  }
 
   //--------------------------------------------------------------------------
   //

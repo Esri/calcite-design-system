@@ -31,7 +31,9 @@ describe("calcite-value-list", () => {
     `);
   });
 
-  it("supports translations", () => t9n("calcite-value-list"));
+  describe("translation support", () => {
+    t9n("calcite-value-list");
+  });
 
   it("should not display screen reader only text when drag-enabled", async () => {
     const page = await newE2EPage({});

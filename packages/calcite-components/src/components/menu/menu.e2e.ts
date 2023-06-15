@@ -24,7 +24,9 @@ describe("calcite-menu", () => {
     });
   });
 
-  it("supports translation", () => t9n("calcite-menu"));
+  describe("translation support", () => {
+    t9n("calcite-menu");
+  });
 
   describe("mouse support", () => {
     it("should open the submenu on click", async () => {

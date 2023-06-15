@@ -1527,5 +1527,7 @@ describe("calcite-input-number", () => {
     });
   });
 
-  it("supports translation", () => t9n("calcite-input-number"));
+  describe("translation support", () => {
+    t9n("calcite-input-number");
+  });
 });

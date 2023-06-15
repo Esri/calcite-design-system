@@ -456,12 +456,13 @@ describe("calcite-input-date-picker", () => {
     expect(minDateAsTime).toEqual(new Date(minDateString).getTime());
   });
 
-  it("owns a floating-ui", () =>
+  describe("owns a floating-ui", () => {
     floatingUIOwner(
       `<calcite-input-date-picker value="2022-11-27" min="2022-11-15" max="2024-11-15"></calcite-input-date-picker>`,
       "open",
       { shadowSelector: ".menu-container" }
-    ));
+    );
+  });
 
   it("when set to readOnly, element still focusable but won't display the controls or allow for changing the value", async () => {
     const page = await newE2EPage();
@@ -803,5 +804,25 @@ describe("calcite-input-date-picker", () => {
       await page.keyboard.press("Tab");
       expect(await getFocusedElementProp(page, "id")).toBe("next-sibling");
     });
+  });
+
+  it("should reset input value", async () => {
+    const page = await newE2EPage();
+    const expectedValue = "2022-10-01";
+    const expectedInputValue = "10/1/2022";
+
+    await page.setContent(html` <calcite-input-date-picker value="${expectedValue}"></calcite-input-date-picker>`);
+
+    const inputDatePickerEl = await page.find("calcite-input-date-picker");
+    const input = await page.find("calcite-input-date-picker >>> calcite-input");
+
+    expect(await inputDatePickerEl.getProperty("value")).toEqual(expectedValue);
+    expect(await input.getProperty("value")).toEqual(expectedInputValue);
+
+    inputDatePickerEl.setProperty("value", "");
+    await page.waitForChanges();
+
+    expect(await inputDatePickerEl.getProperty("value")).toEqual("");
+    expect(await input.getProperty("value")).toEqual("");
   });
 });

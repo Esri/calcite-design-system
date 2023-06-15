@@ -611,11 +611,6 @@ interface FormAssociatedOptions {
  *
  * Note that this helper should be used within a describe block.
  *
- * @example
- * describe("form-associated), () => {
- *    formAssociated("calcite-component", { testValue: 1337 });
- * });
- *
  * @param {string} componentTagOrHtml - the component tag or HTML markup to test against
  * @param {FormAssociatedOptions} options - form associated options
  */
@@ -1096,12 +1091,23 @@ export async function disabled(
  * This helper will test if a floating-ui-owning component has configured the floating-ui correctly.
  * At the moment, this only tests if the scroll event listeners are only active when the floating-ui is displayed.
  *
- * @param componentTagOrHTML - the component tag or HTML markup to test against
- * @param togglePropName - the component property that toggles the floating-ui
- * @param options - the floating-ui owner test configuration
+ * Note that this helper should be used within a describe block.
+ *
+ * @example
+ * describe("owns a floating-ui", () => {
+ *  floatingUIOwner(
+ *    `<calcite-input-date-picker></calcite-input-date-picker>`,
+ *      "open",
+ *      { shadowSelector: ".menu-container" }
+ *  )
+ * });
+ *
+ * @param componentTagOrHTML - The component tag or HTML markup to test against.
+ * @param togglePropName - The component property that toggles the floating-ui.
+ * @param options - The floating-ui owner test configuration.
  * @param options.shadowSelector
  */
-export async function floatingUIOwner(
+export function floatingUIOwner(
   componentTagOrHTML: TagOrHTML,
   togglePropName: string,
   options?: {
@@ -1110,88 +1116,103 @@ export async function floatingUIOwner(
      */
     shadowSelector?: string;
   }
-): Promise<void> {
-  const page = await simplePageSetup(componentTagOrHTML);
+): void {
+  it("owns a floating-ui", async () => {
+    const page = await simplePageSetup(componentTagOrHTML);
 
-  const scrollablePageSizeInPx = 2400;
-  await page.addStyleTag({
-    content: `body {
+    const scrollablePageSizeInPx = 2400;
+    await page.addStyleTag({
+      content: `body {
       height: ${scrollablePageSizeInPx}px;
       width: ${scrollablePageSizeInPx}px;
     }`
+    });
+    await page.waitForChanges();
+
+    const tag = getTag(componentTagOrHTML);
+    const component = await page.find(tag);
+
+    async function getTransform(): Promise<string> {
+      // need to get the style attribute from the browser context since the E2E element returns null
+      return page.$eval(
+        tag,
+        (component: HTMLElement, shadowSelector: string): string => {
+          const floatingUIEl = shadowSelector
+            ? component.shadowRoot.querySelector<HTMLElement>(shadowSelector)
+            : component;
+
+          return floatingUIEl.getAttribute("style");
+        },
+        options?.shadowSelector
+      );
+    }
+
+    async function scrollTo(x: number, y: number): Promise<void> {
+      await page.evaluate((x: number, y: number) => document.firstElementChild.scrollTo(x, y), x, y);
+    }
+
+    component.setProperty(togglePropName, false);
+    await page.waitForChanges();
+
+    const initialClosedTransform = await getTransform();
+
+    await scrollTo(scrollablePageSizeInPx, scrollablePageSizeInPx);
+    await page.waitForChanges();
+
+    expect(await getTransform()).toBe(initialClosedTransform);
+
+    await scrollTo(0, 0);
+    await page.waitForChanges();
+
+    expect(await getTransform()).toBe(initialClosedTransform);
+
+    component.setProperty(togglePropName, true);
+    await page.waitForChanges();
+
+    const initialOpenTransform = await getTransform();
+
+    await scrollTo(scrollablePageSizeInPx, scrollablePageSizeInPx);
+    await page.waitForChanges();
+
+    expect(await getTransform()).not.toBe(initialOpenTransform);
+
+    await scrollTo(0, 0);
+    await page.waitForChanges();
+
+    expect(await getTransform()).toBe(initialOpenTransform);
   });
-  await page.waitForChanges();
-
-  const tag = getTag(componentTagOrHTML);
-  const component = await page.find(tag);
-
-  async function getTransform(): Promise<string> {
-    // need to get the style attribute from the browser context since the E2E element returns null
-    return page.$eval(
-      tag,
-      (component: HTMLElement, shadowSelector: string): string => {
-        const floatingUIEl = shadowSelector
-          ? component.shadowRoot.querySelector<HTMLElement>(shadowSelector)
-          : component;
-
-        return floatingUIEl.getAttribute("style");
-      },
-      options?.shadowSelector
-    );
-  }
-
-  async function scrollTo(x: number, y: number): Promise<void> {
-    await page.evaluate((x: number, y: number) => document.firstElementChild.scrollTo(x, y), x, y);
-  }
-
-  component.setProperty(togglePropName, false);
-  await page.waitForChanges();
-
-  const initialClosedTransform = await getTransform();
-
-  await scrollTo(scrollablePageSizeInPx, scrollablePageSizeInPx);
-  await page.waitForChanges();
-
-  expect(await getTransform()).toBe(initialClosedTransform);
-
-  await scrollTo(0, 0);
-  await page.waitForChanges();
-
-  expect(await getTransform()).toBe(initialClosedTransform);
-
-  component.setProperty(togglePropName, true);
-  await page.waitForChanges();
-
-  const initialOpenTransform = await getTransform();
-
-  await scrollTo(scrollablePageSizeInPx, scrollablePageSizeInPx);
-  await page.waitForChanges();
-
-  expect(await getTransform()).not.toBe(initialOpenTransform);
-
-  await scrollTo(0, 0);
-  await page.waitForChanges();
-
-  expect(await getTransform()).toBe(initialOpenTransform);
 }
 
 /**
- * Helper to test t9n component setup
+ * Helper to test t9n component setup.
  *
- * @param {ComponentTestSetup} componentTestSetup - A component tag, html, or the tag and e2e page for setting up a test
+ * Note that this helper should be used within a describe block.
+ *
+ * @example
+ * describe("translation support", () => {
+ *   t9n("calcite-action");
+ * });
+ *
+ * @param {ComponentTestSetup} componentTestSetup - A component tag, html, or the tag and e2e page for setting up a test.
  */
+
 export async function t9n(componentTestSetup: ComponentTestSetup): Promise<void> {
-  const { page, tag } = await getTagAndPage(componentTestSetup);
-  const component = await page.find(tag);
+  let component: E2EElement;
+  let E2Epage: E2EPage;
+  let getCurrentMessages: () => Promise<MessageBundle>;
 
-  await assertDefaultMessages();
+  beforeEach(async () => {
+    const { page, tag } = await getTagAndPage(componentTestSetup);
+    E2Epage = page;
+    component = await page.find(tag);
+    getCurrentMessages = async (): Promise<MessageBundle> => {
+      return page.$eval(tag, (component: HTMLElement & { messages: MessageBundle }) => component.messages);
+    };
+  });
 
-  await assertOverrides();
-  await assertLangSwitch();
-
-  async function getCurrentMessages(): Promise<MessageBundle> {
-    return page.$eval(tag, (component: HTMLElement & { messages: MessageBundle }) => component.messages);
-  }
+  it("has defined default messages", async () => await assertDefaultMessages());
+  it("overrides messages", async () => await assertOverrides());
+  it("switches messages", async () => await assertLangSwitch());
 
   async function assertDefaultMessages(): Promise<void> {
     expect(await getCurrentMessages()).toBeDefined();
@@ -1203,7 +1224,7 @@ export async function t9n(componentTestSetup: ComponentTestSetup): Promise<void>
     const messageOverride = { [firstMessageProp]: "override test" };
 
     component.setProperty("messageOverrides", messageOverride);
-    await page.waitForChanges();
+    await E2Epage.waitForChanges();
 
     expect(await getCurrentMessages()).toEqual({
       ...messages,
@@ -1212,13 +1233,13 @@ export async function t9n(componentTestSetup: ComponentTestSetup): Promise<void>
 
     // reset test changes
     component.setProperty("messageOverrides", undefined);
-    await page.waitForChanges();
+    await E2Epage.waitForChanges();
   }
 
   async function assertLangSwitch(): Promise<void> {
     const enMessages = await getCurrentMessages();
     const fakeBundleIdentifier = "__fake__";
-    await page.evaluate(
+    await E2Epage.evaluate(
       (enMessages, fakeBundleIdentifier) => {
         const orig = window.fetch;
         window.fetch = async function (input, init) {
@@ -1240,14 +1261,14 @@ export async function t9n(componentTestSetup: ComponentTestSetup): Promise<void>
     );
 
     component.setAttribute("lang", "es");
-    await page.waitForChanges();
-    await page.waitForTimeout(3000);
+    await E2Epage.waitForChanges();
+    await E2Epage.waitForTimeout(3000);
     const esMessages = await getCurrentMessages();
 
     expect(esMessages).toHaveProperty(fakeBundleIdentifier);
 
     // reset test changes
     component.removeAttribute("lang");
-    await page.waitForChanges();
+    await E2Epage.waitForChanges();
   }
 }
