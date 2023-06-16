@@ -183,7 +183,9 @@ export class Filter
   // --------------------------------------------------------------------------
 
   /**
-   * Sets focus on the component.
+   * Performs a filter on the component.
+   *
+   * This method can be useful because filtering is delayed and asynchronous.
    *
    * @param {string} value - The filter text value.
    * @returns {Promise<void>}
@@ -211,8 +213,8 @@ export class Filter
   // --------------------------------------------------------------------------
 
   private filterDebounced = debounce(
-    (value: string, emit = false, callback?: () => void): void =>
-      this.updateFiltered(filter(this.items, value), emit, callback),
+    (value: string, emit = false, onFilter?: () => void): void =>
+      this.updateFiltered(filter(this.items, value), emit, onFilter),
     DEBOUNCE_TIMEOUT
   );
 
@@ -240,7 +242,7 @@ export class Filter
   };
 
   updateFiltered(filtered: object[], emit = false, callback?: () => void): void {
-    this.filteredItems = [...filtered];
+    this.filteredItems = filtered;
     if (emit) {
       this.calciteFilterChange.emit();
     }
