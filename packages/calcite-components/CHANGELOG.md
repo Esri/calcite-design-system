@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.5.0-next.1](https://github.com/Esri/calcite-components/compare/@esri/calcite-components@1.5.0-next.0...@esri/calcite-components@1.5.0-next.1) (2023-06-16)
+
+### Bug Fixes
+
+- ensure mouse events are blocked for disabled components in Firefox ([#7107](https://github.com/Esri/calcite-components/issues/7107)) ([271d985](https://github.com/Esri/calcite-components/commit/271d9855eef4aa94cb7131381c98ab03eea57e4e)), closes [#7043](https://github.com/Esri/calcite-components/issues/7043)
+
+### Reverts
+
+- Add slots for filter actions" ([#7179](https://github.com/Esri/calcite-components/issues/7179)) ([667ee47](https://github.com/Esri/calcite-components/commit/667ee4766ced8994ebf8e8af270661f75573c83c)), closes [Esri/calcite-components#7148](https://github.com/Esri/calcite-components/issues/7148)
+
 ## [1.5.0-next.0](https://github.com/Esri/calcite-components/compare/@esri/calcite-components@1.4.3-next.7...@esri/calcite-components@1.5.0-next.0) (2023-06-15)
 
 ### Features
