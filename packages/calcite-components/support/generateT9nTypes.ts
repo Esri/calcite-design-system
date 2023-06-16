@@ -9,6 +9,7 @@ import { InputData, jsonInputForTargetLanguage, quicktype } from "quicktype-core
 
   const rootBundleFile = "messages.json";
   const rootBundlePattern = `src/components/**/t9n/${rootBundleFile}`;
+  const rootManifestFilePath = "packages/calcite-components/";
 
   const rootBundles = await globby([rootBundlePattern]);
   const manifestFilePathSeparator = "\\";
@@ -53,7 +54,8 @@ import { InputData, jsonInputForTargetLanguage, quicktype } from "quicktype-core
         })
       );
       const t9nPath = `${bundle.split("/t9n")[0]}/t9n`;
-      return t9nPath.replace(/\//g, manifestFilePathSeparator);
+      const relativeT9nPathh = `${rootManifestFilePath}${t9nPath}`;
+      return relativeT9nPathh.replace(/\//g, manifestFilePathSeparator);
     })
   );
 
@@ -67,6 +69,6 @@ import { InputData, jsonInputForTargetLanguage, quicktype } from "quicktype-core
       return componentAName.localeCompare(componentBName);
     })
     .join("\n");
-  await writeFile("t9nmanifest.txt", manifestFileContents);
+  await writeFile("../../t9nmanifest.txt", manifestFileContents);
   console.log("finished writing manifest");
 })();

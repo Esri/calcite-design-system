@@ -20,7 +20,12 @@ import {
   submitForm
 } from "../../utils/form";
 import { guid } from "../../utils/guid";
-import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import {
+  connectInteractive,
+  disconnectInteractive,
+  InteractiveComponent,
+  updateHostInteraction
+} from "../../utils/interactive";
 import { numberKeys } from "../../utils/key";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
 import {
@@ -576,7 +581,7 @@ export class InputTimePicker
 
   private getExtendedLocaleConfig(
     locale: string
-  ): Parameters<(typeof dayjs)["updateLocale"]>[1] | undefined {
+  ): Parameters<typeof dayjs["updateLocale"]>[1] | undefined {
     if (locale === "ar") {
       return {
         meridiem: (hour) => (hour > 12 ? "م" : "ص"),
@@ -752,6 +757,7 @@ export class InputTimePicker
   //--------------------------------------------------------------------------
 
   connectedCallback() {
+    connectInteractive(this);
     connectLocalized(this);
 
     if (isValidTime(this.value)) {
@@ -785,6 +791,7 @@ export class InputTimePicker
   }
 
   disconnectedCallback() {
+    disconnectInteractive(this);
     disconnectLabel(this);
     disconnectForm(this);
     disconnectLocalized(this);

@@ -35,7 +35,12 @@ import {
   T9nComponent,
   updateMessages
 } from "../../utils/t9n";
-import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import {
+  connectInteractive,
+  disconnectInteractive,
+  InteractiveComponent,
+  updateHostInteraction
+} from "../../utils/interactive";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 import { createObserver } from "../../utils/observers";
 import { isActivationKey } from "../../utils/key";
@@ -196,6 +201,7 @@ export class Chip
 
   connectedCallback(): void {
     connectConditionalSlotComponent(this);
+    connectInteractive(this);
     connectLocalized(this);
     connectMessages(this);
     this.setupTextContentObserver();
@@ -211,6 +217,7 @@ export class Chip
 
   disconnectedCallback(): void {
     disconnectConditionalSlotComponent(this);
+    disconnectInteractive(this);
     disconnectLocalized(this);
     disconnectMessages(this);
   }
