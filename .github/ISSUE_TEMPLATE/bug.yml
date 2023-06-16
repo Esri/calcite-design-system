@@ -90,6 +90,16 @@ body:
       description: How does the issue effect your team, or your work? Can range from minor to blocking or prohibiting workflows. Helps Calcite Design System team members with prioritization.
     validations:
       required: false
+  - type: checkboxes
+    id: packages
+    attributes:
+      label: Calcite package
+      description: Select the relevant [package(s)](https://github.com/Esri/calcite-components/tree/master/packages) related to the request.
+      options:
+        - label: Calcite Components
+        - label: Calcite Components React
+    validations:
+      required: false
   - type: dropdown
     id: esri-team
     validations:
