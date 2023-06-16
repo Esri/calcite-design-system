@@ -930,55 +930,8 @@ export function disabled(
   componentTestSetup: ComponentTestSetup,
   options: DisabledOptions = { focusTarget: "host" }
 ): void {
-  let component: E2EElement;
-  let E2Epage: E2EPage;
-  let tagString: string;
-
-  const eventSpies: EventSpy[] = [];
-
-  // only testing events from https://github.com/web-platform-tests/wpt/blob/master/html/semantics/disabled-elements/event-propagate-disabled.tentative.html#L66
-  const eventsExpectedToBubble = ["mousemove", "pointermove", "pointerdown", "pointerup"];
-  const eventsExpectedToNotBubble = ["mousedown", "mouseup", "click"];
-  const allExpectedEvents = [...eventsExpectedToBubble, ...eventsExpectedToNotBubble];
-
-  let shadowFocusableCenterX: number, shadowFocusableCenterY: number;
-
-  const expectToBeFocused = async (tagString: string): Promise<void> => {
-    const focusedTag = await E2Epage.evaluate(() => document.activeElement?.tagName.toLowerCase());
-    expect(focusedTag).toBe(tagString);
-  };
-
-  const assertOnMouseAndPointerEvents = async (
-    spies: EventSpy[],
-    expectCallback: (spy: EventSpy) => void
-  ): Promise<void> => {
-    for (const spy of spies) {
-      expectCallback(spy);
-    }
-  };
-
-  async function resetFocusOrder(): Promise<void> {
-    // test page has default margin, so clicking on 0,0 will not hit the test element
-    await E2Epage.mouse.click(0, 0);
-  }
-
-  async function evalShadowFocusable(tabFocusTarget: string) {
-    [shadowFocusableCenterX, shadowFocusableCenterY] = await E2Epage.$eval(tabFocusTarget, (element: HTMLElement) => {
-      const focusTarget = element.shadowRoot.activeElement || element;
-      const rect = focusTarget.getBoundingClientRect();
-
-      return [rect.x + rect.width / 2, rect.y + rect.height / 2];
-    });
-  }
-
-  beforeEach(async () => {
-    const { page, tag } = await getTagAndPage(componentTestSetup);
-    E2Epage = page;
-    tagString = tag;
-    component = await E2Epage.find(tagString);
-
-    await skipAnimations(E2Epage);
-    await E2Epage.$eval(tagString, (el) => {
+  const addClickEventListeners = async (page: E2EPage, tag: string): Promise<void> => {
+    await page.$eval(tag, (el) => {
       el.addEventListener(
         "click",
         (event) => {
@@ -993,33 +946,88 @@ export function disabled(
         true
       );
     });
+  };
+
+  async function expectToBeFocused(page: E2EPage, tag: string): Promise<void> {
+    const focusedTag = await page.evaluate(() => document.activeElement?.tagName.toLowerCase());
+    expect(focusedTag).toBe(tag);
+  }
+
+  function assertOnMouseAndPointerEvents(spies: EventSpy[], expectCallback: (spy: EventSpy) => void): void {
+    for (const spy of spies) {
+      expectCallback(spy);
+    }
+  }
+
+  const eventsExpectedToBubble = ["mousemove", "pointermove", "pointerdown", "pointerup"];
+  const eventsExpectedToNotBubble = ["mousedown", "mouseup", "click"];
+  const allExpectedEvents = [...eventsExpectedToBubble, ...eventsExpectedToNotBubble];
+
+  const allComponentEventSpies = async (component: E2EElement): Promise<EventSpy[]> => {
+    // only testing events from https://github.com/web-platform-tests/wpt/blob/master/html/semantics/disabled-elements/event-propagate-disabled.tentative.html#L66
+    const eventSpies: EventSpy[] = [];
 
     for (const event of allExpectedEvents) {
       eventSpies.push(await component.spyOnEvent(event));
     }
-  });
+    return eventSpies;
+  };
+
+  const getTabAndClickFocusTarget = async (page: E2EPage, tag: string): Promise<string[]> => {
+    let tabFocusTarget: string;
+    let clickFocusTarget: string;
+
+    if (typeof options.focusTarget === "object") {
+      tabFocusTarget = options.focusTarget.tab;
+      clickFocusTarget = options.focusTarget.click;
+    } else {
+      tabFocusTarget = clickFocusTarget = await getFocusTarget(page, tag, options.focusTarget);
+    }
+    return [tabFocusTarget, clickFocusTarget];
+  };
+
+  async function getFocusTarget(page: E2EPage, tag: string, focusTarget: FocusTarget): Promise<string> {
+    return focusTarget === "host" ? tag : await page.evaluate(() => document.activeElement?.tagName.toLowerCase());
+  }
+
+  const getShadowFocusableCenterCoordinates = async (page: E2EPage, tabFocusTarget: string): Promise<number[]> => {
+    return await page.$eval(tabFocusTarget, (element: HTMLElement) => {
+      const focusTarget = element.shadowRoot.activeElement || element;
+      const rect = focusTarget.getBoundingClientRect();
+
+      return [rect.x + rect.width / 2, rect.y + rect.height / 2];
+    });
+  };
 
   it("has no focus", async () => {
+    const { page, tag } = await getTagAndPage(componentTestSetup);
+
+    const component = await page.find(tag);
+    await skipAnimations(page);
+    await addClickEventListeners(page, tag);
+
+    const eventSpies = await allComponentEventSpies(component);
+
     expect(component.getAttribute("aria-disabled")).toBeNull();
 
     if (options.focusTarget === "none") {
-      await E2Epage.click(tagString);
-      await expectToBeFocused("body");
+      await page.click(tag);
+      await expectToBeFocused(page, "body");
 
       // eslint-disable-next-line jest/no-conditional-expect
       await assertOnMouseAndPointerEvents(eventSpies, (spy) => expect(spy).toHaveReceivedEventTimes(1));
 
       component.setProperty("disabled", true);
-      await E2Epage.waitForChanges();
+      await page.waitForChanges();
 
       // eslint-disable-next-line jest/no-conditional-expect
       expect(component.getAttribute("aria-disabled")).toBe("true");
 
-      await E2Epage.click(tagString);
-      await expectToBeFocused("body");
+      await page.click(tag);
+      await expectToBeFocused(page, "body");
 
       await component.callMethod("click");
-      await expectToBeFocused("body");
+      await expectToBeFocused(page, "body");
 
       await assertOnMouseAndPointerEvents(eventSpies, (spy) => {
         // eslint-disable-next-line jest/no-conditional-expect
@@ -1031,35 +1039,39 @@ export function disabled(
   });
 
   it("disables with keyboard and mouse", async () => {
-    async function getFocusTarget(focusTarget: FocusTarget): Promise<string> {
-      return focusTarget === "host"
-        ? tagString
-        : await E2Epage.evaluate(() => document.activeElement?.tagName.toLowerCase());
-    }
-    await E2Epage.keyboard.press("Tab");
+    const { page, tag } = await getTagAndPage(componentTestSetup);
 
-    let tabFocusTarget: string;
-    let clickFocusTarget: string;
+    const component = await page.find(tag);
+    await skipAnimations(page);
+    await addClickEventListeners(page, tag);
 
-    if (typeof options.focusTarget === "object") {
-      tabFocusTarget = options.focusTarget.tab;
-      clickFocusTarget = options.focusTarget.click;
-    } else {
-      tabFocusTarget = clickFocusTarget = await getFocusTarget(options.focusTarget);
-    }
+    const eventSpies = await allComponentEventSpies(component);
+
+    await page.keyboard.press("Tab");
+
+    const [tabFocusTarget, clickFocusTarget] = await getTabAndClickFocusTarget(page, tag);
 
     expect(tabFocusTarget).not.toBe("body");
-    await expectToBeFocused(tabFocusTarget);
-    await evalShadowFocusable(tabFocusTarget);
+    await expectToBeFocused(page, tabFocusTarget);
+
+    const [shadowFocusableCenterX, shadowFocusableCenterY] = await getShadowFocusableCenterCoordinates(
+      page,
+      tabFocusTarget
+    );
+
+    async function resetFocusOrder(): Promise<void> {
+      // test page has default margin, so clicking on 0,0 will not hit the test element
+      await page.mouse.click(0, 0);
+    }
 
     await resetFocusOrder();
-    await expectToBeFocused("body");
+    await expectToBeFocused(page, "body");
 
-    await E2Epage.mouse.click(shadowFocusableCenterX, shadowFocusableCenterY);
-    await expectToBeFocused(clickFocusTarget);
+    await page.mouse.click(shadowFocusableCenterX, shadowFocusableCenterY);
+    await expectToBeFocused(page, clickFocusTarget);
 
     await component.callMethod("click");
-    await expectToBeFocused(clickFocusTarget);
+    await expectToBeFocused(page, clickFocusTarget);
 
     await assertOnMouseAndPointerEvents(eventSpies, (spy) => {
       if (spy.eventName === "click") {
@@ -1075,33 +1087,45 @@ export function disabled(
   });
 
   it("disables and events fire immediately after being set", async () => {
+    const { page, tag } = await getTagAndPage(componentTestSetup);
+
+    const component = await page.find(tag);
+    await skipAnimations(page);
+    await addClickEventListeners(page, tag);
+
+    const eventSpies = await allComponentEventSpies(component);
+
     component.setProperty("disabled", true);
-    await E2Epage.waitForChanges();
+    await page.waitForChanges();
 
     expect(component.getAttribute("aria-disabled")).toBe("true");
 
+    async function resetFocusOrder(): Promise<void> {
+      // test page has default margin, so clicking on 0,0 will not hit the test element
+      await page.mouse.click(0, 0);
+    }
     await resetFocusOrder();
-    await E2Epage.keyboard.press("Tab");
-    await expectToBeFocused("body");
 
-    await E2Epage.mouse.click(shadowFocusableCenterX, shadowFocusableCenterY);
-    await expectToBeFocused("body");
+    await page.keyboard.press("Tab");
+    await expectToBeFocused(page, "body");
+
+    const [tabFocusTarget] = await getTabAndClickFocusTarget(page, tag);
+
+    const [shadowFocusableCenterX, shadowFocusableCenterY] = await getShadowFocusableCenterCoordinates(
+      page,
+      tabFocusTarget
+    );
+
+    await page.mouse.click(shadowFocusableCenterX, shadowFocusableCenterY);
+    await expectToBeFocused(page, "body");
 
     await assertOnMouseAndPointerEvents(eventSpies, (spy) => {
-      if (spy.eventName === "click") {
-        // some components emit more than one click event (e.g., from calling `click()`),
-        // so we check if at least one event is received
-        // eslint-disable-next-line jest/no-conditional-expect
-        expect(spy.length).toBeGreaterThanOrEqual(2);
-      } else {
-        // eslint-disable-next-line jest/no-conditional-expect
-        expect(spy).toHaveReceivedEventTimes(eventsExpectedToBubble.includes(spy.eventName) ? 2 : 1);
-      }
+      expect(spy).toHaveReceivedEventTimes(eventsExpectedToBubble.includes(spy.eventName) ? 1 : 0);
     });
 
     // this needs to run in the browser context to ensure disabling and events fire immediately after being set
-    await E2Epage.$eval(
-      tagString,
+    await page.$eval(
+      tag,
       (component: InteractiveHTMLElement, allExpectedEvents: string[]) => {
         component.disabled = false;
         allExpectedEvents.forEach((event) => component.dispatchEvent(new MouseEvent(event)));
@@ -1112,17 +1136,15 @@ export function disabled(
       allExpectedEvents
     );
 
-    await E2Epage.waitForTimeout(0);
-
     await assertOnMouseAndPointerEvents(eventSpies, (spy) => {
       if (spy.eventName === "click") {
         // some components emit more than one click event (e.g., from calling `click()`),
         // so we check if at least one event is received
         // eslint-disable-next-line jest/no-conditional-expect
-        expect(spy.length).toBeGreaterThanOrEqual(3);
+        expect(spy.length).toBeGreaterThanOrEqual(1);
       } else {
         // eslint-disable-next-line jest/no-conditional-expect
-        expect(spy).toHaveReceivedEventTimes(eventsExpectedToBubble.includes(spy.eventName) ? 4 : 2);
+        expect(spy).toHaveReceivedEventTimes(eventsExpectedToBubble.includes(spy.eventName) ? 3 : 1);
       }
     });
   });
