@@ -15,13 +15,14 @@ on:
 jobs:
   design-complete:
     if: github.event.label.name == 'design-complete'
+    permissions:
+      issues: write
     runs-on: ubuntu-latest
     steps:
       - uses: actions/github-script@v6
         env:
           managers: ${{secrets.CALCITE_MANAGERS}}
         with:
-          github-token: ${{ secrets.ADMIN_TOKEN }}
           script: |
             const { managers } = process.env;
             const { label } = context.payload;
