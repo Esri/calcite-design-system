@@ -46,7 +46,7 @@ import {
 import { Kind, Scale } from "../interfaces";
 import { KindIcons } from "../resources";
 import { AlertMessages } from "./assets/alert/t9n";
-import { AlertDuration, Sync } from "./interfaces";
+import { AlertDuration, Sync, Unregister } from "./interfaces";
 import { CSS, DURATIONS, SLOTS } from "./resources";
 
 /**
@@ -203,6 +203,12 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
   }
 
   disconnectedCallback(): void {
+    window.dispatchEvent(
+      new CustomEvent<Unregister>("calciteInternalAlertUnregister", {
+        cancelable: false,
+        detail: { alert: this.el }
+      })
+    );
     window.clearTimeout(this.autoCloseTimeoutId);
     window.clearTimeout(this.queueTimeout);
     disconnectOpenCloseComponent(this);
@@ -351,6 +357,20 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
     }
     this.calciteInternalAlertSync.emit({ queue: this.queue });
     this.determineActiveAlert();
+  }
+
+  // when an alert is unregistered, trigger a queue sync
+  @Listen("calciteInternalAlertUnregister", { target: "window" })
+  alertUnregister(event: CustomEvent<Unregister>): void {
+    const queue = this.queue.filter((el) => el !== event.detail.alert);
+    this.queue = queue;
+
+    window.dispatchEvent(
+      new CustomEvent<Sync>("calciteInternalAlertSync", {
+        cancelable: false,
+        detail: { queue }
+      })
+    );
   }
 
   //--------------------------------------------------------------------------
