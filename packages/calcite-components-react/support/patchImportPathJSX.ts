@@ -11,8 +11,8 @@
     await writeFile(
       filePath,
       contents.replace(
-        'import type { JSX } from "@esri/calcite-components/dist/components"',
-        'import type { JSX } from "@esri/calcite-components"'
+        "import type { JSX } from '@esri/calcite-components/dist/components'",
+        "import type { JSX } from '@esri/calcite-components'"
       )
     );
   } catch (err) {
