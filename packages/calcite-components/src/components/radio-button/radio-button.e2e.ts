@@ -10,6 +10,7 @@ import {
   reflects,
   renders
 } from "../../tests/commonTests";
+import { html } from "../../../support/formatting";
 
 describe("calcite-radio-button", () => {
   describe("renders", () => {
@@ -184,6 +185,33 @@ describe("calcite-radio-button", () => {
     selected = await page.find("calcite-radio-button[checked]");
     value = await selected.getProperty("value");
     expect(value).toBe("1");
+  });
+
+  it("should not emit calciteRadioButtonChange when checked already", async () => {
+    const page = await newE2EPage();
+    await page.setContent(html`<calcite-radio-button-group name="Options" layout="vertical">
+      <calcite-label layout="inline">
+        <calcite-radio-button checked value="trees"></calcite-radio-button>
+        Trees
+      </calcite-label>
+      <calcite-label layout="inline">
+        <calcite-radio-button value="layers" shrubs></calcite-radio-button>
+        Shrubs
+      </calcite-label>
+    </calcite-radio-button-group>`);
+
+    const checkedRadio = await page.find("calcite-radio-button[checked]");
+    expect(await checkedRadio.getProperty("checked")).toBe(true);
+
+    const changeEvent = await checkedRadio.spyOnEvent("calciteRadioButtonChange");
+
+    expect(changeEvent).toHaveReceivedEventTimes(0);
+
+    await checkedRadio.click();
+    await page.waitForChanges();
+    expect(await checkedRadio.getProperty("checked")).toBe(true);
+
+    expect(changeEvent).toHaveReceivedEventTimes(0);
   });
 
   it("clicking a radio updates its checked status", async () => {
