@@ -455,6 +455,43 @@ describe("calcite-radio-button", () => {
     formAssociated("calcite-radio-button", { testValue: true, inputType: "radio" });
   });
 
+  it.only("focuses first focusable item on Tab when new radio-button is added ", async () => {
+    const page = await newE2EPage();
+    await page.setContent(html`
+      <div>
+        <calcite-label layout="inline" id="tree-label">
+          <calcite-radio-button value="trees" disabled id="trees" name="Options"></calcite-radio-button>
+          Trees
+        </calcite-label>
+        <calcite-label layout="inline">
+          <calcite-radio-button value="shrubs" id="shrubs" name="Options"></calcite-radio-button>
+          Shrubs
+        </calcite-label>
+        <calcite-label layout="inline">
+          <calcite-radio-button value="flowers" id="flowers" name="Options"></calcite-radio-button>
+          Flowers
+        </calcite-label>
+        <calcite-button id="submit">submit</calcite-button>
+      </div>
+    `);
+    await page.waitForTimeout(3000);
+    await page.evaluate(() => {
+      const firstRadioButton = document.querySelector('calcite-label[id="tree-label"]');
+      const newRadioButton = `<calcite-label layout="inline">
+        <calcite-radio-button value="plants"  name="Options" id="plants"></calcite-radio-button>
+       Plants
+      </calcite-label>`;
+      firstRadioButton.insertAdjacentHTML("beforebegin", newRadioButton);
+    });
+    await page.waitForTimeout(3000);
+    const container = await page.find("div");
+    await container.press("Tab");
+    await page.waitForChanges();
+    expect(await getFocusedElementProp(page, "id")).toBe("plants");
+    await container.press("Tab");
+    expect(await getFocusedElementProp(page, "id")).toBe("submit");
+  });
+
   it("focuses first focusable item on Tab", async () => {
     const page = await newE2EPage();
     await page.setContent(html`

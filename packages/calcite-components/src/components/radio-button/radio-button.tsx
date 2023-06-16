@@ -289,7 +289,6 @@ export class RadioButton
       return undefined;
     }
     if (this.checked || this.isFocusable()) {
-      this.updateTabIndexOfOtherRadioButtonsInGroup();
       return 0;
     } else {
       return -1;
@@ -443,6 +442,7 @@ export class RadioButton
     }
     connectLabel(this);
     connectForm(this);
+    this.updateTabIndexOfOtherRadioButtonsInGroup();
   }
 
   componentWillLoad(): void {
@@ -460,6 +460,7 @@ export class RadioButton
   disconnectedCallback(): void {
     disconnectLabel(this);
     disconnectForm(this);
+    this.updateTabIndexOfOtherRadioButtonsInGroup();
   }
 
   componentDidRender(): void {
