@@ -362,13 +362,7 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
   // when an alert is unregistered, trigger a queue sync
   @Listen("calciteInternalAlertUnregister", { target: "window" })
   alertUnregister(event: CustomEvent<Unregister>): void {
-    const alert = event.detail?.alert;
-
-    if (!alert) {
-      return;
-    }
-
-    const queue = this.queue.filter((el) => el !== alert);
+    const queue = this.queue.filter((el) => el !== event.detail.alert);
     this.queue = queue;
 
     window.dispatchEvent(
