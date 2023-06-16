@@ -142,7 +142,7 @@ export class Scrim implements LocalizedComponent, T9nComponent {
     }
   }
 
-  private handleResize = (): void => {
+  private handleResize(): void {
     const { loaderEl, el } = this;
 
     if (!loaderEl) {
@@ -150,5 +150,5 @@ export class Scrim implements LocalizedComponent, T9nComponent {
     }
 
     this.loaderScale = this.getScale(Math.min(el.clientHeight, el.clientWidth) ?? 0);
-  };
+  }
 }
