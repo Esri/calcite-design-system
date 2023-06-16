@@ -2,11 +2,15 @@ name: Enhancement
 description: Request for a feature to be added to an existing component
 labels: ["enhancement", "0 - new", "needs triage"]
 body:
-  - type: markdown
+  - type: checkboxes
+    id: existing-issues
     attributes:
-      value: |
-        - Please [check for existing issues](https://github.com/Esri/calcite-components/issues) to avoid duplicates. If someone has already opened an issue for what you are experiencing, please add a 👍 reaction to the existing issue instead of creating a new one.
-        - For support, please check the [community forum](https://developers.arcgis.com/calcite-design-system/community/).
+      label: Check existing issues
+      description: If someone has already opened an issue for what you are experiencing, please add a 👍 reaction to the existing issue instead of creating a new one. For support, please check the [community forum](https://developers.arcgis.com/calcite-design-system/community/).
+      options:
+        - label: I have [checked for existing issues](https://github.com/Esri/calcite-components/issues) to avoid duplicates
+    validations:
+      required: true
   - type: textarea
     id: description
     attributes:
