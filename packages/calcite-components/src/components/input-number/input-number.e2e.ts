@@ -1375,7 +1375,7 @@ describe("calcite-input-number", () => {
 
     await page.keyboard.press("Backspace");
     await page.waitForChanges();
-    expect(await element.getProperty("value")).toBe("1");
+    expect(await element.getProperty("value")).toBe("1.");
     expect(calciteInputNumberInput).toHaveReceivedEventTimes(1);
   });
 
@@ -1398,6 +1398,53 @@ describe("calcite-input-number", () => {
     await typeNumberValue(page, "0000000");
     await page.waitForChanges();
     expect(await element.getProperty("value")).toBe("10000000");
+  });
+
+  it("should keep leading decimal zeros from value on Backspace", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`
+    <calcite-input-number></calcite-input-number>
+    `);
+
+    const element = await page.find("calcite-input-number");
+    await element.callMethod("setFocus");
+    await typeNumberValue(page, "0.0000");
+    await page.waitForChanges();
+    expect(await element.getProperty("value")).toBe("0.0000");
+
+    await page.keyboard.press("Backspace");
+    await typeNumberValue(page, "1");
+    await page.waitForChanges();
+    expect(await element.getProperty("value")).toBe("0.0001");
+
+    await typeNumberValue(page, "01");
+    await page.waitForChanges();
+    expect(await element.getProperty("value")).toBe("0.000101");
+  });
+
+  it("should keep  decimal separator zeros from value on Backspace", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`
+    <calcite-input-number></calcite-input-number>
+    `);
+
+    const element = await page.find("calcite-input-number");
+    await element.callMethod("setFocus");
+    await typeNumberValue(page, "0.01");
+    await page.waitForChanges();
+    expect(await element.getProperty("value")).toBe("0.01");
+
+    await page.keyboard.press("Backspace");
+    await page.waitForChanges();
+    expect(await element.getProperty("value")).toBe("0.0");
+
+    await page.keyboard.press("Backspace");
+    await page.waitForChanges();
+    expect(await element.getProperty("value")).toBe("0.");
+
+    await typeNumberValue(page, "01");
+    await page.waitForChanges();
+    expect(await element.getProperty("value")).toBe("0.1");
   });
 
   it("sanitize extra dashes from value", async () => {

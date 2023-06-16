@@ -45,6 +45,7 @@ import {
 } from "../../utils/locale";
 
 import {
+  addLocalizedTrailingDecimalZeros,
   BigDecimal,
   isValidNumber,
   parseNumberString,
@@ -968,13 +969,19 @@ export class Input
         signDisplay: "never"
       };
 
-      const sanitizedValue = sanitizeNumberString(
-        // no need to delocalize a string that ia already in latn numerals
-        (this.numberingSystem && this.numberingSystem !== "latn") ||
-          defaultNumberingSystem !== "latn"
-          ? numberStringFormatter.delocalize(value)
-          : value
-      );
+      const isValueDeleted =
+        this.previousValue?.length > value.length || this.value.length > value.length;
+
+      const sanitizedValue =
+        value.charAt(value.length - 1) === numberStringFormatter.decimal && isValueDeleted
+          ? value
+          : sanitizeNumberString(
+              // no need to delocalize a string that ia already in latn numerals
+              (this.numberingSystem && this.numberingSystem !== "latn") ||
+                defaultNumberingSystem !== "latn"
+                ? numberStringFormatter.delocalize(value)
+                : value
+            );
 
       const newValue =
         value && !sanitizedValue
@@ -983,9 +990,21 @@ export class Input
             : ""
           : sanitizedValue;
 
-      const newLocalizedValue = numberStringFormatter.localize(newValue);
+      let newLocalizedValue = numberStringFormatter.localize(newValue);
+
+      if (
+        newLocalizedValue.length !== newValue.length &&
+        numberStringFormatter.delocalize(newLocalizedValue) !== newValue
+      ) {
+        newLocalizedValue = addLocalizedTrailingDecimalZeros(
+          newLocalizedValue,
+          newValue,
+          numberStringFormatter
+        );
+      }
+
       this.localizedValue =
-        value.charAt(value.length - 1) === numberStringFormatter.decimal
+        value.charAt(value.length - 1) === numberStringFormatter.decimal && isValueDeleted
           ? `${newLocalizedValue}${numberStringFormatter.decimal}`
           : newLocalizedValue;
 

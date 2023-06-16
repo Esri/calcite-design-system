@@ -137,13 +137,26 @@ export const sanitizeNumberString = (numberString: string): string =>
       .replace(allHyphensExceptTheStart, "")
       .replace(decimalOnlyAtEndOfString, "")
       .replace(allLeadingZerosOptionallyNegative, "$1");
-
     return isValidNumber(sanitizedValue)
       ? isNegativeDecimalOnlyZeros.test(sanitizedValue)
         ? sanitizedValue
-        : new BigDecimal(sanitizedValue).toString()
+        : getBigDecimalString(sanitizedValue)
       : nonExpoNumString;
   });
+
+export function getBigDecimalString(sanitizedValue: string): string {
+  const decimals = sanitizedValue.split(".")[1];
+  const newdecimals = new BigDecimal(sanitizedValue).toString().split(".")[1];
+
+  // adds back trailing deciamls zeros
+  if (decimals && !newdecimals && BigInt(decimals) === BigInt(0) && decimals !== newdecimals) {
+    const value = new BigDecimal(sanitizedValue).toString() + ".";
+    const newvalue = value.padEnd(value.length + decimals.length, "0");
+    return newvalue;
+  }
+
+  return new BigDecimal(sanitizedValue).toString();
+}
 
 export function sanitizeExponentialNumberString(numberString: string, func: (s: string) => string): string {
   if (!numberString) {
@@ -216,4 +229,34 @@ export function expandExponentialNumberString(numberString: string): string {
 
 function stringContainsNumbers(string: string): boolean {
   return numberKeys.some((number) => string.includes(number));
+}
+
+/**
+ * Adds localized trailing decimals zero values to the number string.
+ * BigInt conversion to string removes the trailing decimal zero values (Ex: 1.000 is returned as 1). This method helps adding them back.
+ *
+ * @param {string} localizedValue - localized number string value
+ * @param {string} value - current value in the input field
+ * @param {NumberStringFormat} numberStringFormatter - numberStringFormatter instance to localize the number value
+ * @returns {string} localized number string value
+ */
+export function addLocalizedTrailingDecimalZeros(
+  localizedValue: string,
+  value: string,
+  formatter: NumberStringFormat
+): string {
+  let localizedDecimals;
+  const decimalSeparator = formatter.decimal;
+  if (localizedValue.includes(decimalSeparator)) {
+    localizedDecimals = localizedValue.split(".")[1];
+  }
+  const decimals = value.split(".")[1];
+
+  if (localizedDecimals !== decimals) {
+    localizedValue = decimals && !localizedDecimals ? localizedValue + decimalSeparator : localizedValue;
+    [...decimals].forEach((decimal) => {
+      localizedValue += formatter.localize(decimal);
+    });
+  }
+  return localizedValue;
 }
