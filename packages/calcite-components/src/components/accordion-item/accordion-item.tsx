@@ -17,13 +17,12 @@ import {
 import {
   closestElementCrossShadowBoundary,
   getElementDir,
-  getElementProp,
   getSlotted,
   toAriaBoolean
 } from "../../utils/dom";
 import { CSS_UTILITY } from "../../utils/resources";
 import { SLOTS, CSS } from "./resources";
-import { FlipContext, Position, Scale } from "../interfaces";
+import { FlipContext, Position, Scale, SelectionMode } from "../interfaces";
 import { RegistryEntry, RequestedItem } from "./interfaces";
 
 /**
@@ -69,6 +68,37 @@ export class AccordionItem implements ConditionalSlotComponent {
   /** Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`). */
   @Prop({ reflect: true }) iconFlipRtl: FlipContext;
 
+  /**
+   * Specifies the placement of the icon in the header inherited from the `calcite-accordion`.
+   *
+   * @internal
+   */
+  @Prop({ reflect: false, mutable: false }) iconPosition: Position = "end";
+
+  /** Specifies the type of the icon in the header inherited from the `calcite-accordion`.
+   *
+   * @internal
+   */
+  @Prop({ reflect: false, mutable: false }) iconType: "chevron" | "caret" | "plus-minus" =
+    "chevron";
+
+  /**
+   * Specifies the selectionMode of the component inherited from the `calcite-accordion`.
+   *
+   * @internal
+   */
+  @Prop({ reflect: false, mutable: false }) selectionMode: Extract<
+    "single" | "single-persist" | "multiple",
+    SelectionMode
+  > = "multiple";
+
+  /**
+   * Specifies the size of the component inherited from the `calcite-accordion`.
+   *
+   * @internal
+   */
+  @Prop({ reflect: false, mutable: false }) scale: Scale = "m";
+
   //--------------------------------------------------------------------------
   //
   //  Events
@@ -98,10 +128,6 @@ export class AccordionItem implements ConditionalSlotComponent {
 
   connectedCallback(): void {
     this.parent = this.el.parentElement as HTMLCalciteAccordionElement;
-    this.iconType = getElementProp(this.el, "icon-type", "chevron");
-    this.iconPosition = getElementProp(this.el, "icon-position", this.iconPosition);
-    this.scale = getElementProp(this.el, "scale", this.scale);
-
     connectConditionalSlotComponent(this);
   }
 
@@ -238,6 +264,7 @@ export class AccordionItem implements ConditionalSlotComponent {
     if (this.el.parentNode !== this.requestedAccordionItem.parentNode) {
       return;
     }
+
     this.determineActiveItem();
     event.stopPropagation();
   }
@@ -248,29 +275,17 @@ export class AccordionItem implements ConditionalSlotComponent {
   //
   //--------------------------------------------------------------------------
 
-  /** the containing accordion element */
-  private parent: HTMLCalciteAccordionElement;
-
   /** position within parent */
   private itemPosition: number;
+
+  /** the containing accordion element */
+  private parent: HTMLCalciteAccordionElement;
 
   /** the latest requested item */
   private requestedAccordionItem: HTMLCalciteAccordionItemElement;
 
-  /** what selection mode is the parent accordion in */
-  private selectionMode: string;
-
-  /** what icon position does the parent accordion specify */
-  private iconPosition: Position = "end";
-
-  /** what icon type does the parent accordion specify */
-  private iconType: string;
-
   /** handle clicks on item header */
   private itemHeaderClickHandler = (): void => this.emitRequestedItem();
-
-  /** Specifies the scale of the `accordion-item` controlled by the parent, defaults to m */
-  scale: Scale = "m";
 
   //--------------------------------------------------------------------------
   //
@@ -279,7 +294,6 @@ export class AccordionItem implements ConditionalSlotComponent {
   //--------------------------------------------------------------------------
 
   private determineActiveItem(): void {
-    this.selectionMode = getElementProp(this.el, "selection-mode", "multiple");
     switch (this.selectionMode) {
       case "multiple":
         if (this.el === this.requestedAccordionItem) {

@@ -14,6 +14,14 @@ describe("calcite-accordion", () => {
     <calcite-accordion-item heading="Accordion Title 3" id="3">Accordion Item Content </calcite-accordion-item>
   `;
 
+  const accordionContentInheritablePropsNonDefault = html`
+    <calcite-accordion-item heading="Accordion Title 1" id="1" iconPosition="start", iconType="plus-minus", selectionMode="single-persist scale="l">
+      <calcite-action></calcite-action>Accordion Item Content<calcite-action></calcite-action>
+    </calcite-accordion-item>
+    <calcite-accordion-item heading="Accordion Title 1" id="2">Accordion Item Content </calcite-accordion-item>
+    <calcite-accordion-item heading="Accordion Title 3" id="3">Accordion Item Content </calcite-accordion-item>
+  `;
+
   describe("renders", () => {
     renders("calcite-accordion", { display: "block" });
   });
@@ -38,6 +46,19 @@ describe("calcite-accordion", () => {
     expect(element).toEqualAttribute("scale", "m");
     expect(element).toEqualAttribute("selection-mode", "multiple");
     expect(element).toEqualAttribute("icon-type", "chevron");
+  });
+
+  it("renders inheritable props: `iconPosition`, `iconType`, `selectionMode`, and `scale` to match those set on parent (non-default)", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`
+    <calcite-accordion>
+    ${accordionContentInheritablePropsNonDefault}
+    </calcite-accordion>`);
+    const element = await page.find("calcite-accordion");
+    expect(element).toEqualAttribute("icon-position", "start");
+    expect(element).toEqualAttribute("icon-type", "plus-minus");
+    expect(element).toEqualAttribute("selection-mode", "single-persist");
+    expect(element).toEqualAttribute("scale", "l");
   });
 
   it("renders requested props when valid props are provided", async () => {

@@ -1,5 +1,17 @@
-import { Component, Element, Event, EventEmitter, h, Listen, Prop, VNode } from "@stencil/core";
+import {
+  Component,
+  Element,
+  Event,
+  EventEmitter,
+  h,
+  Listen,
+  Prop,
+  State,
+  VNode,
+  Watch
+} from "@stencil/core";
 import { Appearance, Position, Scale, SelectionMode } from "../interfaces";
+import { createObserver } from "../../utils/observers";
 import { RequestedItem } from "./interfaces";
 /**
  * @slot - A slot for adding `calcite-accordion-item`s. `calcite-accordion` cannot be nested, however `calcite-accordion-item`s can.
@@ -45,6 +57,14 @@ export class Accordion {
     SelectionMode
   > = "multiple";
 
+  @Watch("iconPosition")
+  @Watch("iconType")
+  @Watch("scale")
+  @Watch("selectionMode")
+  onInternalPropChange(): void {
+    this.passPropsToAccordionItems();
+  }
+
   //--------------------------------------------------------------------------
   //
   //  Events
@@ -62,11 +82,20 @@ export class Accordion {
   //
   //--------------------------------------------------------------------------
 
+  connectedCallback(): void {
+    this.passPropsToAccordionItems();
+    this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
+  }
+
   componentDidLoad(): void {
     if (!this.sorted) {
       this.items = this.sortItems(this.items);
       this.sorted = true;
     }
+  }
+
+  disconnectedCallback(): void {
+    this.mutationObserver?.disconnect();
   }
 
   render(): VNode {
@@ -116,6 +145,9 @@ export class Accordion {
   //  Private State/Props
   //
   //--------------------------------------------------------------------------
+  mutationObserver = createObserver("mutation", () => this.passPropsToAccordionItems());
+
+  @State() accordionItems: HTMLCalciteAccordionItemElement[] = [];
 
   /** created list of Accordion items */
   private items = [];
@@ -131,6 +163,17 @@ export class Accordion {
   //  Private Methods
   //
   //--------------------------------------------------------------------------
+
+  private passPropsToAccordionItems = (): void => {
+    this.accordionItems = Array.from(this.el.querySelectorAll("accordion-item"));
+
+    this.accordionItems.forEach((accordionItem) => {
+      accordionItem.iconPosition = this.iconPosition;
+      accordionItem.iconType = this.iconType;
+      accordionItem.selectionMode = this.selectionMode;
+      accordionItem.scale = this.scale;
+    });
+  };
 
   private sortItems = (items: any[]): any[] =>
     items.sort((a, b) => a.position - b.position).map((a) => a.item);
