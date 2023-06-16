@@ -13,7 +13,7 @@ on:
     types: [labeled]
 
 jobs:
-  notify-designer-new-component:
+  design-complete:
     if: github.event.label.name == 'design-complete'
     runs-on: ubuntu-latest
     steps:
@@ -31,35 +31,29 @@ jobs:
               // Add a "@" character to notify the user
               const calcite_managers = managers.split(",").map(v => " @" + v.trim());
 
-              const { data: issue } = await github.rest.issues.get({
+              const issueProps = {
                 issue_number: context.issue.number,
                 owner: context.repo.owner,
-                repo: context.repo.repo,
-              });
+                repo: context.repo.repo
+              }
 
               /* Modify labels */
 
               // Remove "Design" label
               await github.rest.issues.removeLabel({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                issue_number: context.issue.number,
+                ...issueProps,
                 name: "design"
               });
 
               // Remove "1 - assigned" label
               await github.rest.issues.removeLabel({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                issue_number: context.issue.number,
+                ...issueProps,
                 name: "1 - assigned"
               });
 
               // Add labels
               await github.rest.issues.addLabels({
-                issue_number: context.issue.number,
-                owner: context.repo.owner,
-                repo: context.repo.repo,
+                ...issueProps,
                 labels: ['0 - new', 'needs milestone']
               })
 
@@ -67,18 +61,14 @@ jobs:
               
               // Clear assignees and milestone
               await github.rest.issues.update({
-                issue_number: context.issue.number,
-                owner: context.repo.owner,
-                repo: context.repo.repo,
+                ...issueProps,
                 assignees: [],
                 milestone: null
               });
 
               // Add a comment to notify the project manager(s)
               await github.rest.issues.createComment({
-                issue_number: context.issue.number,
-                owner: context.repo.owner,
-                repo: context.repo.repo,
+                ...issueProps,
                 body: `cc ${calcite_managers}`,
               });
 
