@@ -74,6 +74,11 @@ export class RadioButton
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @Prop({ reflect: true }) disabled = false;
 
+  @Watch("disabled")
+  disabledChanged(): void {
+    this.updateTabIndexOfOtherRadioButtonsInGroup();
+  }
+
   /**
    * The focused state of the component.
    *
