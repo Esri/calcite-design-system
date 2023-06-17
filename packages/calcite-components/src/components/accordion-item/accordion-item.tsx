@@ -73,21 +73,20 @@ export class AccordionItem implements ConditionalSlotComponent {
    *
    * @internal
    */
-  @Prop({ reflect: false, mutable: false }) iconPosition: Position = "end";
+  @Prop({ reflect: false }) iconPosition: Position = "end";
 
   /** Specifies the type of the icon in the header inherited from the `calcite-accordion`.
    *
    * @internal
    */
-  @Prop({ reflect: false, mutable: false }) iconType: "chevron" | "caret" | "plus-minus" =
-    "chevron";
+  @Prop({ reflect: false }) iconType: "chevron" | "caret" | "plus-minus" = "chevron";
 
   /**
    * Specifies the selectionMode of the component inherited from the `calcite-accordion`.
    *
    * @internal
    */
-  @Prop({ reflect: false, mutable: false }) selectionMode: Extract<
+  @Prop({ reflect: false }) selectionMode: Extract<
     "single" | "single-persist" | "multiple",
     SelectionMode
   > = "multiple";

@@ -6,7 +6,6 @@ import {
   h,
   Listen,
   Prop,
-  State,
   VNode,
   Watch
 } from "@stencil/core";
@@ -61,8 +60,8 @@ export class Accordion {
   @Watch("iconType")
   @Watch("scale")
   @Watch("selectionMode")
-  onInternalPropChange(): void {
-    this.passPropsToAccordionItems();
+  handlePropsChange(): void {
+    this.updateAccordionItems();
   }
 
   //--------------------------------------------------------------------------
@@ -83,7 +82,7 @@ export class Accordion {
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
-    this.passPropsToAccordionItems();
+    this.updateAccordionItems();
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
   }
 
@@ -145,12 +144,17 @@ export class Accordion {
   //  Private State/Props
   //
   //--------------------------------------------------------------------------
-  mutationObserver = createObserver("mutation", () => this.passPropsToAccordionItems());
-
-  @State() accordionItems: HTMLCalciteAccordionItemElement[] = [];
+  mutationObserver = createObserver("mutation", () => this.updateAccordionItems());
 
   /** created list of Accordion items */
-  private items = [];
+  accordionItems: HTMLCalciteAccordionItemElement[] = [];
+
+  /** created list of Accordion item objects */
+  private items: {
+    item: HTMLCalciteAccordionItemElement;
+    parent: HTMLCalciteAccordionElement;
+    position: number;
+  }[] = [];
 
   /** keep track of whether the items have been sorted so we don't re-sort */
   private sorted = false;
@@ -164,7 +168,7 @@ export class Accordion {
   //
   //--------------------------------------------------------------------------
 
-  private passPropsToAccordionItems = (): void => {
+  private updateAccordionItems = (): void => {
     this.accordionItems = Array.from(this.el.querySelectorAll("accordion-item"));
 
     this.accordionItems.forEach((accordionItem) => {
