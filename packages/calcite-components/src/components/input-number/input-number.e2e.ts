@@ -1444,7 +1444,7 @@ describe("calcite-input-number", () => {
 
     await typeNumberValue(page, "01");
     await page.waitForChanges();
-    expect(await element.getProperty("value")).toBe("0.1");
+    expect(await element.getProperty("value")).toBe("0.01");
   });
 
   it("sanitize extra dashes from value", async () => {
