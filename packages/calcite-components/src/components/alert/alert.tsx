@@ -100,7 +100,7 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
   @Prop({ reflect: true }) autoClose = false;
 
   /** Specifies the duration before the component automatically closes (only use with `autoClose`). */
-  @Prop({ reflect: true }) autoCloseDuration: AlertDuration = this.autoClose ? "medium" : null;
+  @Prop({ reflect: true }) autoCloseDuration: AlertDuration = "medium";
 
   /** Specifies the kind of the component (will apply to top border and icon). */
   @Prop({ reflect: true }) kind: Extract<

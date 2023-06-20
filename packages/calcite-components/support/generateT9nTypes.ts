@@ -54,8 +54,8 @@ import { InputData, jsonInputForTargetLanguage, quicktype } from "quicktype-core
         })
       );
       const t9nPath = `${bundle.split("/t9n")[0]}/t9n`;
-      const relativeT9nPathh = `${rootManifestFilePath}${t9nPath}`;
-      return relativeT9nPathh.replace(/\//g, manifestFilePathSeparator);
+      const relativeT9nPath = `${rootManifestFilePath}${t9nPath}`;
+      return relativeT9nPath.replace(/\//g, manifestFilePathSeparator);
     })
   );
 
