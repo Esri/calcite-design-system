@@ -305,7 +305,6 @@ export class RadioButton
   }
 
   private updateTabIndexOfOtherRadioButtonsInGroup(): void {
-    console.log("update tab index", this.el.value);
     const radioButtons = this.queryButtons();
     const otherFocusableRadioButtons = radioButtons.filter(
       (radioButton) => radioButton.guid !== this.guid && !radioButton.disabled
@@ -508,7 +507,6 @@ export class RadioButton
 
   render(): VNode {
     const tabIndex = this.getTabIndex();
-    console.log("re render", this.el.value);
     return (
       <Host onClick={this.clickHandler} onKeyDown={this.handleKeyDown}>
         <div
