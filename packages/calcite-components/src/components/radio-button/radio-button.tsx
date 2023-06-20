@@ -100,6 +100,11 @@ export class RadioButton
   /** When `true`, the component is not displayed and is not focusable or checkable. */
   @Prop({ reflect: true }) hidden = false;
 
+  @Watch("hidden")
+  hiddenChanged(): void {
+    this.updateTabIndexOfOtherRadioButtonsInGroup();
+  }
+
   /**
    * The hovered state of the component.
    *
@@ -300,6 +305,7 @@ export class RadioButton
   }
 
   private updateTabIndexOfOtherRadioButtonsInGroup(): void {
+    console.log("update tab index", this.el.value);
     const radioButtons = this.queryButtons();
     const otherFocusableRadioButtons = radioButtons.filter(
       (radioButton) => radioButton.guid !== this.guid && !radioButton.disabled
@@ -502,6 +508,7 @@ export class RadioButton
 
   render(): VNode {
     const tabIndex = this.getTabIndex();
+    console.log("re render", this.el.value);
     return (
       <Host onClick={this.clickHandler} onKeyDown={this.handleKeyDown}>
         <div
