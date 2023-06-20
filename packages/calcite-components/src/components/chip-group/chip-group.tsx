@@ -11,7 +11,12 @@ import {
   Watch
 } from "@stencil/core";
 import { focusElementInGroup, toAriaBoolean } from "../../utils/dom";
-import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import {
+  connectInteractive,
+  disconnectInteractive,
+  InteractiveComponent,
+  updateHostInteraction
+} from "../../utils/interactive";
 import { createObserver } from "../../utils/observers";
 import { Scale, SelectionMode } from "../interfaces";
 import { componentLoaded, setComponentLoaded, setUpLoadableComponent } from "../../utils/loadable";
@@ -93,10 +98,12 @@ export class ChipGroup implements InteractiveComponent {
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
+    connectInteractive(this);
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
   }
 
   componentDidRender(): void {
+    disconnectInteractive(this);
     updateHostInteraction(this);
   }
 

@@ -12,7 +12,12 @@ import {
 import { dateToISO } from "../../utils/date";
 
 import { closestElementCrossShadowBoundary, getElementDir, toAriaBoolean } from "../../utils/dom";
-import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import {
+  connectInteractive,
+  disconnectInteractive,
+  InteractiveComponent,
+  updateHostInteraction
+} from "../../utils/interactive";
 import { isActivationKey } from "../../utils/key";
 import { numberStringFormatter } from "../../utils/locale";
 import { CSS_UTILITY } from "../../utils/resources";
@@ -185,8 +190,16 @@ export class DatePickerDay implements InteractiveComponent {
     );
   }
 
+  connectedCallback(): void {
+    connectInteractive(this);
+  }
+
   componentDidRender(): void {
     updateHostInteraction(this, this.isTabbable);
+  }
+
+  disconnectedCallback(): void {
+    disconnectInteractive(this);
   }
 
   isTabbable(): boolean {

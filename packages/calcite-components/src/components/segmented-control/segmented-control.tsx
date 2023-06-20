@@ -21,7 +21,12 @@ import {
   FormComponent,
   HiddenFormInputSlot
 } from "../../utils/form";
-import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import {
+  connectInteractive,
+  disconnectInteractive,
+  InteractiveComponent,
+  updateHostInteraction
+} from "../../utils/interactive";
 import { connectLabel, disconnectLabel, LabelableComponent } from "../../utils/label";
 import {
   componentLoaded,
@@ -154,11 +159,13 @@ export class SegmentedControl
   }
 
   connectedCallback(): void {
+    connectInteractive(this);
     connectLabel(this);
     connectForm(this);
   }
 
   disconnectedCallback(): void {
+    disconnectInteractive(this);
     disconnectLabel(this);
     disconnectForm(this);
   }
