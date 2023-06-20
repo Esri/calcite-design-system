@@ -15,7 +15,7 @@ describe("calcite-accordion", () => {
   `;
 
   const accordionContentInheritablePropsNonDefault = html`
-    <calcite-accordion-item heading="Accordion Title 1" id="1" iconPosition="start", iconType="plus-minus", selectionMode="single-persist scale="l">
+    <calcite-accordion-item heading="Accordion Title 1" id="1">
       <calcite-action></calcite-action>Accordion Item Content<calcite-action></calcite-action>
     </calcite-accordion-item>
     <calcite-accordion-item heading="Accordion Title 1" id="2">Accordion Item Content </calcite-accordion-item>
@@ -41,24 +41,26 @@ describe("calcite-accordion", () => {
     ${accordionContent}
     </calcite-accordion>`);
     const element = await page.find("calcite-accordion");
-    expect(element).toEqualAttribute("appearance", "solid");
-    expect(element).toEqualAttribute("icon-position", "end");
-    expect(element).toEqualAttribute("scale", "m");
-    expect(element).toEqualAttribute("selection-mode", "multiple");
-    expect(element).toEqualAttribute("icon-type", "chevron");
+
+    expect(await element.getProperty("appearance")).toBe("solid");
+    expect(await element.getProperty("iconPosition")).toBe("end");
+    expect(await element.getProperty("scale")).toBe("m");
+    expect(await element.getProperty("selectionMode")).toBe("multiple");
+    expect(await element.getProperty("iconType")).toBe("chevron");
   });
 
   it("renders inheritable props: `iconPosition`, `iconType`, `selectionMode`, and `scale` to match those set on parent (non-default)", async () => {
     const page = await newE2EPage();
     await page.setContent(`
-    <calcite-accordion>
+    <calcite-accordion icon-position="start", icon-type="plus-minus", selection-mode="single-persist" scale="l">
     ${accordionContentInheritablePropsNonDefault}
     </calcite-accordion>`);
     const element = await page.find("calcite-accordion");
-    expect(element).toEqualAttribute("icon-position", "start");
-    expect(element).toEqualAttribute("icon-type", "plus-minus");
-    expect(element).toEqualAttribute("selection-mode", "single-persist");
-    expect(element).toEqualAttribute("scale", "l");
+
+    expect(await element.getProperty("iconPosition")).toBe("start");
+    expect(await element.getProperty("iconType")).toBe("plus-minus");
+    expect(await element.getProperty("selectionMode")).toBe("single-persist");
+    expect(await element.getProperty("scale")).toBe("l");
   });
 
   it("renders requested props when valid props are provided", async () => {
