@@ -366,7 +366,6 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
 
     window.dispatchEvent(
       new CustomEvent<Sync>("calciteInternalAlertSync", {
-        cancelable: false,
         detail: { queue }
       })
     );
