@@ -38,7 +38,12 @@ import {
 } from "../../utils/t9n";
 import { TextAreaMessages } from "./assets/text-area/t9n";
 import { throttle } from "lodash-es";
-import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import {
+  connectInteractive,
+  disconnectInteractive,
+  InteractiveComponent,
+  updateHostInteraction
+} from "../../utils/interactive";
 
 /**
  * @slot - A slot for adding text.
@@ -218,6 +223,7 @@ export class TextArea
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
+    connectInteractive(this);
     connectLabel(this);
     connectForm(this);
     connectLocalized(this);
@@ -239,6 +245,7 @@ export class TextArea
   }
 
   disconnectedCallback(): void {
+    disconnectInteractive(this);
     disconnectLabel(this);
     disconnectForm(this);
     disconnectLocalized(this);

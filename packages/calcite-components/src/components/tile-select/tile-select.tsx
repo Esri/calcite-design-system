@@ -12,7 +12,12 @@ import {
   Watch
 } from "@stencil/core";
 import { guid } from "../../utils/guid";
-import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import {
+  connectInteractive,
+  disconnectInteractive,
+  InteractiveComponent,
+  updateHostInteraction
+} from "../../utils/interactive";
 import {
   componentLoaded,
   LoadableComponent,
@@ -249,6 +254,7 @@ export class TileSelect implements InteractiveComponent, LoadableComponent {
 
   connectedCallback(): void {
     this.renderInput();
+    connectInteractive(this);
   }
 
   componentWillLoad(): void {
@@ -261,6 +267,7 @@ export class TileSelect implements InteractiveComponent, LoadableComponent {
 
   disconnectedCallback(): void {
     this.input.parentNode.removeChild(this.input);
+    disconnectInteractive(this);
   }
 
   componentDidRender(): void {

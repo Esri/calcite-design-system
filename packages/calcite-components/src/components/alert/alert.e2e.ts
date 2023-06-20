@@ -1,8 +1,17 @@
 import { E2EElement, E2EPage, newE2EPage } from "@stencil/core/testing";
 import { html } from "../../../support/formatting";
-import { accessible, hidden, HYDRATED_ATTR, renders, t9n } from "../../tests/commonTests";
+import { accessible, defaults, hidden, HYDRATED_ATTR, renders, t9n } from "../../tests/commonTests";
 import { getElementXY } from "../../tests/utils";
 import { CSS, DURATIONS } from "./resources";
+
+describe("defaults", () => {
+  defaults("calcite-alert", [
+    {
+      propertyName: "autoCloseDuration",
+      defaultValue: "medium"
+    }
+  ]);
+});
 
 describe("calcite-alert", () => {
   const alertContent = `
