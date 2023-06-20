@@ -17,7 +17,12 @@ import {
 } from "../../utils/conditionalSlot";
 import { getSlotted } from "../../utils/dom";
 import { guid } from "../../utils/guid";
-import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import {
+  connectInteractive,
+  disconnectInteractive,
+  InteractiveComponent,
+  updateHostInteraction
+} from "../../utils/interactive";
 import {
   componentLoaded,
   LoadableComponent,
@@ -130,10 +135,12 @@ export class ValueListItem
 
   connectedCallback(): void {
     connectConditionalSlotComponent(this);
+    connectInteractive(this);
   }
 
   disconnectedCallback(): void {
     disconnectConditionalSlotComponent(this);
+    disconnectInteractive(this);
   }
 
   componentWillLoad(): void {

@@ -13,7 +13,12 @@ import {
 } from "@stencil/core";
 import { debounce } from "lodash-es";
 import { filter } from "../../utils/filter";
-import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import {
+  connectInteractive,
+  disconnectInteractive,
+  InteractiveComponent,
+  updateHostInteraction
+} from "../../utils/interactive";
 import {
   componentLoaded,
   LoadableComponent,
@@ -158,6 +163,7 @@ export class Filter
   }
 
   connectedCallback(): void {
+    connectInteractive(this);
     connectLocalized(this);
     connectMessages(this);
   }
@@ -167,6 +173,7 @@ export class Filter
   }
 
   disconnectedCallback(): void {
+    disconnectInteractive(this);
     disconnectLocalized(this);
     disconnectMessages(this);
   }
