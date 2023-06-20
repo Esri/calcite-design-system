@@ -13,7 +13,12 @@ import {
 } from "@stencil/core";
 import { debounce } from "lodash-es";
 import { toAriaBoolean } from "../../utils/dom";
-import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import {
+  connectInteractive,
+  disconnectInteractive,
+  InteractiveComponent,
+  updateHostInteraction
+} from "../../utils/interactive";
 import { createObserver } from "../../utils/observers";
 import { SelectionMode } from "../interfaces";
 import { ItemData } from "../list-item/interfaces";
@@ -203,10 +208,12 @@ export class List implements InteractiveComponent, LoadableComponent {
   connectedCallback(): void {
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
     this.updateListItems();
+    connectInteractive(this);
   }
 
   disconnectedCallback(): void {
     this.mutationObserver?.disconnect();
+    disconnectInteractive(this);
   }
 
   componentWillLoad(): void {

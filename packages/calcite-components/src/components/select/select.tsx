@@ -19,7 +19,12 @@ import {
   FormComponent,
   HiddenFormInputSlot
 } from "../../utils/form";
-import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import {
+  connectInteractive,
+  disconnectInteractive,
+  InteractiveComponent,
+  updateHostInteraction
+} from "../../utils/interactive";
 import { connectLabel, disconnectLabel, LabelableComponent, getLabelText } from "../../utils/label";
 import {
   componentLoaded,
@@ -159,12 +164,14 @@ export class Select
       childList: true
     });
 
+    connectInteractive(this);
     connectLabel(this);
     connectForm(this);
   }
 
   disconnectedCallback(): void {
     this.mutationObserver?.disconnect();
+    disconnectInteractive(this);
     disconnectLabel(this);
     disconnectForm(this);
   }

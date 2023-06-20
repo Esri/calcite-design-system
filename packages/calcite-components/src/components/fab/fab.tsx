@@ -1,6 +1,11 @@
 import { Component, Element, h, Method, Prop, VNode } from "@stencil/core";
 import { focusElement } from "../../utils/dom";
-import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import {
+  connectInteractive,
+  disconnectInteractive,
+  InteractiveComponent,
+  updateHostInteraction
+} from "../../utils/interactive";
 import {
   componentLoaded,
   LoadableComponent,
@@ -89,6 +94,10 @@ export class Fab implements InteractiveComponent, LoadableComponent {
   //
   //--------------------------------------------------------------------------
 
+  connectedCallback(): void {
+    connectInteractive(this);
+  }
+
   componentWillLoad(): void {
     setUpLoadableComponent(this);
   }
@@ -99,6 +108,10 @@ export class Fab implements InteractiveComponent, LoadableComponent {
 
   componentDidRender(): void {
     updateHostInteraction(this);
+  }
+
+  disconnectedCallback(): void {
+    disconnectInteractive(this);
   }
 
   // --------------------------------------------------------------------------
