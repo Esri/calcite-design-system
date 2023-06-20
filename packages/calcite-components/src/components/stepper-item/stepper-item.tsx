@@ -14,7 +14,12 @@ import {
 } from "@stencil/core";
 import { getElementProp, toAriaBoolean } from "../../utils/dom";
 import { Layout, Scale } from "../interfaces";
-import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import {
+  connectInteractive,
+  disconnectInteractive,
+  InteractiveComponent,
+  updateHostInteraction
+} from "../../utils/interactive";
 import {
   StepperItemChangeEventDetail,
   StepperItemEventDetail,
@@ -172,6 +177,7 @@ export class StepperItem implements InteractiveComponent, LocalizedComponent, Lo
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
+    connectInteractive(this);
     connectLocalized(this);
   }
 
@@ -199,6 +205,7 @@ export class StepperItem implements InteractiveComponent, LocalizedComponent, Lo
   }
 
   disconnectedCallback(): void {
+    disconnectInteractive(this);
     disconnectLocalized(this);
   }
 
