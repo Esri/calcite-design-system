@@ -82,8 +82,8 @@ export class Accordion {
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
-    this.updateAccordionItems();
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
+    this.updateAccordionItems();
   }
 
   componentDidLoad(): void {
@@ -169,7 +169,7 @@ export class Accordion {
   //--------------------------------------------------------------------------
 
   private updateAccordionItems = (): void => {
-    this.accordionItems = Array.from(this.el.querySelectorAll("accordion-item"));
+    this.accordionItems = Array.from(this.el.querySelectorAll("calcite-accordion-item"));
 
     this.accordionItems.forEach((accordionItem) => {
       accordionItem.iconPosition = this.iconPosition;

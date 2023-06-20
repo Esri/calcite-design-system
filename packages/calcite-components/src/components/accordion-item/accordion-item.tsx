@@ -96,7 +96,7 @@ export class AccordionItem implements ConditionalSlotComponent {
    *
    * @internal
    */
-  @Prop({ reflect: false, mutable: false }) scale: Scale = "m";
+  @Prop({ reflect: false }) scale: Scale = "m";
 
   //--------------------------------------------------------------------------
   //
@@ -263,7 +263,6 @@ export class AccordionItem implements ConditionalSlotComponent {
     if (this.el.parentNode !== this.requestedAccordionItem.parentNode) {
       return;
     }
-
     this.determineActiveItem();
     event.stopPropagation();
   }
