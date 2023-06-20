@@ -3,6 +3,51 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.5.0-next.2](https://github.com/Esri/calcite-components/compare/@esri/calcite-components@1.5.0-next.1...@esri/calcite-components@1.5.0-next.2) (2023-06-20)
+
+### Bug Fixes
+
+- **alert:** Sets autoCloseDuration to "medium" by default ([#7157](https://github.com/Esri/calcite-components/issues/7157)) ([1b9a8ed](https://github.com/Esri/calcite-components/commit/1b9a8edc1b7fab87899bd59c74ad036b5f53140c)), closes [#6363](https://github.com/Esri/calcite-components/issues/6363) [#6363](https://github.com/Esri/calcite-components/issues/6363)
+- **scrim:** Responsively set the scale of the loading spinner ([#7182](https://github.com/Esri/calcite-components/issues/7182)) ([72c5943](https://github.com/Esri/calcite-components/commit/72c59434113a550e849c77caf8d622bd50e5769e)), closes [#7147](https://github.com/Esri/calcite-components/issues/7147)
+
+## [1.5.0-next.1](https://github.com/Esri/calcite-components/compare/@esri/calcite-components@1.5.0-next.0...@esri/calcite-components@1.5.0-next.1) (2023-06-16)
+
+### Bug Fixes
+
+- ensure mouse events are blocked for disabled components in Firefox ([#7107](https://github.com/Esri/calcite-components/issues/7107)) ([271d985](https://github.com/Esri/calcite-components/commit/271d9855eef4aa94cb7131381c98ab03eea57e4e)), closes [#7043](https://github.com/Esri/calcite-components/issues/7043)
+
+### Reverts
+
+- Add slots for filter actions" ([#7179](https://github.com/Esri/calcite-components/issues/7179)) ([667ee47](https://github.com/Esri/calcite-components/commit/667ee4766ced8994ebf8e8af270661f75573c83c)), closes [Esri/calcite-components#7148](https://github.com/Esri/calcite-components/issues/7148)
+
+## [1.5.0-next.0](https://github.com/Esri/calcite-components/compare/@esri/calcite-components@1.4.3-next.7...@esri/calcite-components@1.5.0-next.0) (2023-06-15)
+
+### Features
+
+- **list:** Add slots for filter actions ([#7148](https://github.com/Esri/calcite-components/issues/7148)) ([c9215c0](https://github.com/Esri/calcite-components/commit/c9215c05535c0d91582a73eabb9a587d39ba0422)), closes [#6600](https://github.com/Esri/calcite-components/issues/6600)
+
+### Bug Fixes
+
+- **radio-button, radio-button-group:** prevent emitting events when selecting a checked radio button ([#7102](https://github.com/Esri/calcite-components/issues/7102)) ([77fcc81](https://github.com/Esri/calcite-components/commit/77fcc818dd2d20805318cdb6030b8aa73ccb1a58)), closes [#6712](https://github.com/Esri/calcite-components/issues/6712)
+
+## [1.4.3-next.7](https://github.com/Esri/calcite-components/compare/@esri/calcite-components@1.4.3-next.6...@esri/calcite-components@1.4.3-next.7) (2023-06-15)
+
+### Bug Fixes
+
+- **tooltip:** improve component timing ([#7172](https://github.com/Esri/calcite-components/issues/7172)) ([106f5d2](https://github.com/Esri/calcite-components/commit/106f5d27afc5d7363fa197a1f9fb0552864a15e4)), closes [#6396](https://github.com/Esri/calcite-components/issues/6396)
+
+## [1.4.3-next.6](https://github.com/Esri/calcite-components/compare/@esri/calcite-components@1.4.3-next.5...@esri/calcite-components@1.4.3-next.6) (2023-06-15)
+
+### Bug Fixes
+
+- **input-date-picker:** Fix showing the placeholder when resetting the value ([#7156](https://github.com/Esri/calcite-components/issues/7156)) ([8d60ffd](https://github.com/Esri/calcite-components/commit/8d60ffd1e68baf2b96006deaaec25c2e92df8d55)), closes [#6378](https://github.com/Esri/calcite-components/issues/6378)
+
+## [1.4.3-next.5](https://github.com/Esri/calcite-components/compare/@esri/calcite-components@1.4.3-next.4...@esri/calcite-components@1.4.3-next.5) (2023-06-14)
+
+### Bug Fixes
+
+- **input,input-number:** allow typing decimal separator in firefox for arabic locale ([#7173](https://github.com/Esri/calcite-components/issues/7173)) ([595e6f2](https://github.com/Esri/calcite-components/commit/595e6f229f13facfd6f79f4069f01b2bab79fa40)), closes [#7130](https://github.com/Esri/calcite-components/issues/7130)
+
 ## [1.4.3-next.4](https://github.com/Esri/calcite-components/compare/@esri/calcite-components@1.4.3-next.3...@esri/calcite-components@1.4.3-next.4) (2023-06-09)
 
 ### Bug Fixes

@@ -1,7 +1,7 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { html } from "../../../support/formatting";
 import { accessible, defaults, focusable, hidden, reflects, renders, slots } from "../../tests/commonTests";
-import { TOOLTIP_DELAY_MS } from "../tooltip/resources";
+import { TOOLTIP_OPEN_DELAY_MS } from "../tooltip/resources";
 import { CSS, SLOTS } from "./resources";
 
 describe("calcite-action-menu", () => {
@@ -198,7 +198,7 @@ describe("calcite-action-menu", () => {
     expect(await tooltip.isVisible()).toBe(false);
 
     await trigger.hover();
-    await page.waitForTimeout(TOOLTIP_DELAY_MS);
+    await page.waitForTimeout(TOOLTIP_OPEN_DELAY_MS);
 
     expect(await tooltip.isVisible()).toBe(true);
 
