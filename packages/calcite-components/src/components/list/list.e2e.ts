@@ -329,5 +329,17 @@ describe("calcite-list", () => {
     await calciteListChangeEvent2;
     expect(await listItemOne.getProperty("selected")).toBe(false);
     expect(await list.getProperty("selectedItems")).toHaveLength(0);
+
+    listItemOne.setProperty("selected", true);
+    await page.waitForChanges();
+    await page.waitForTimeout(listDebounceTimeout);
+    expect(await listItemOne.getProperty("selected")).toBe(true);
+    expect(await list.getProperty("selectedItems")).toHaveLength(1);
+
+    listItemOne.setProperty("selected", false);
+    await page.waitForChanges();
+    await page.waitForTimeout(listDebounceTimeout);
+    expect(await listItemOne.getProperty("selected")).toBe(false);
+    expect(await list.getProperty("selectedItems")).toHaveLength(0);
   });
 });
