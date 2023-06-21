@@ -46,7 +46,7 @@ import {
 import { Kind, Scale } from "../interfaces";
 import { KindIcons } from "../resources";
 import { AlertMessages } from "./assets/alert/t9n";
-import { AlertDuration, Sync } from "./interfaces";
+import { AlertDuration, Sync, Unregister } from "./interfaces";
 import { CSS, DURATIONS, SLOTS } from "./resources";
 
 /**
@@ -203,6 +203,11 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
   }
 
   disconnectedCallback(): void {
+    window.dispatchEvent(
+      new CustomEvent<Unregister>("calciteInternalAlertUnregister", {
+        detail: { alert: this.el }
+      })
+    );
     window.clearTimeout(this.autoCloseTimeoutId);
     window.clearTimeout(this.queueTimeout);
     disconnectOpenCloseComponent(this);
@@ -351,6 +356,19 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
     }
     this.calciteInternalAlertSync.emit({ queue: this.queue });
     this.determineActiveAlert();
+  }
+
+  // Event is dispatched on the window because the element is not in the DOM so bubbling won't occur.
+  @Listen("calciteInternalAlertUnregister", { target: "window" })
+  alertUnregister(event: CustomEvent<Unregister>): void {
+    const queue = this.queue.filter((el) => el !== event.detail.alert);
+    this.queue = queue;
+
+    window.dispatchEvent(
+      new CustomEvent<Sync>("calciteInternalAlertSync", {
+        detail: { queue }
+      })
+    );
   }
 
   //--------------------------------------------------------------------------
