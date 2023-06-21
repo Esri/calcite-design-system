@@ -930,7 +930,7 @@ export function disabled(
   componentTestSetup: ComponentTestSetup,
   options: DisabledOptions = { focusTarget: "host" }
 ): void {
-  const addClickEventListeners = async (page: E2EPage, tag: string): Promise<void> => {
+  const addClickListenersWithRedirectPrevention = async (page: E2EPage, tag: string): Promise<void> => {
     await page.$eval(tag, (el) => {
       el.addEventListener(
         "click",
@@ -959,12 +959,12 @@ export function disabled(
     }
   }
 
+  // only testing events from https://github.com/web-platform-tests/wpt/blob/master/html/semantics/disabled-elements/event-propagate-disabled.tentative.html#L66
   const eventsExpectedToBubble = ["mousemove", "pointermove", "pointerdown", "pointerup"];
   const eventsExpectedToNotBubble = ["mousedown", "mouseup", "click"];
   const allExpectedEvents = [...eventsExpectedToBubble, ...eventsExpectedToNotBubble];
 
-  const allComponentEventSpies = async (component: E2EElement): Promise<EventSpy[]> => {
-    // only testing events from https://github.com/web-platform-tests/wpt/blob/master/html/semantics/disabled-elements/event-propagate-disabled.tentative.html#L66
+  const createEventSpiesForExpectedEvents = async (component: E2EElement): Promise<EventSpy[]> => {
     const eventSpies: EventSpy[] = [];
 
     for (const event of allExpectedEvents) {
@@ -1004,9 +1004,9 @@ export function disabled(
 
     const component = await page.find(tag);
     await skipAnimations(page);
-    await addClickEventListeners(page, tag);
+    await addClickListenersWithRedirectPrevention(page, tag);
 
-    const eventSpies = await allComponentEventSpies(component);
+    const eventSpies = await createEventSpiesForExpectedEvents(component);
 
     expect(component.getAttribute("aria-disabled")).toBeNull();
 
@@ -1043,9 +1043,9 @@ export function disabled(
 
     const component = await page.find(tag);
     await skipAnimations(page);
-    await addClickEventListeners(page, tag);
+    await addClickListenersWithRedirectPrevention(page, tag);
 
-    const eventSpies = await allComponentEventSpies(component);
+    const eventSpies = await createEventSpiesForExpectedEvents(component);
 
     await page.keyboard.press("Tab");
 
@@ -1091,9 +1091,9 @@ export function disabled(
 
     const component = await page.find(tag);
     await skipAnimations(page);
-    await addClickEventListeners(page, tag);
+    await addClickListenersWithRedirectPrevention(page, tag);
 
-    const eventSpies = await allComponentEventSpies(component);
+    const eventSpies = await createEventSpiesForExpectedEvents(component);
 
     component.setProperty("disabled", true);
     await page.waitForChanges();
