@@ -1,10 +1,14 @@
-name: Node CI
+name: Run eslint-plugin-calcite-components tests
 
 on:
   pull_request:
+    paths:
+      - "packages/eslint-plugin-calcite-components/**"
     branches:
       - master
   push:
+    paths:
+      - "packages/eslint-plugin-calcite-components/**"
     branches:
       - master
 
@@ -14,7 +18,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [12.x, 14.x, 16.x]
+        node-version: [14.x, 16.x]
 
     steps:
       - uses: actions/checkout@v1
@@ -26,6 +30,6 @@ jobs:
         run: |
           npm install
           npm run build --if-present
-          npm test
+          npm test --workspace=packages/eslint-plugin-calcite-components
         env:
           CI: true
