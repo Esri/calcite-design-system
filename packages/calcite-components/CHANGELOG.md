@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.5.0-next.3](https://github.com/Esri/calcite-components/compare/@esri/calcite-components@1.5.0-next.2...@esri/calcite-components@1.5.0-next.3) (2023-06-21)
+
+### Bug Fixes
+
+- **alert:** update alert queue when an alert is removed from the DOM ([#7189](https://github.com/Esri/calcite-components/issues/7189)) ([edd59eb](https://github.com/Esri/calcite-components/commit/edd59eb0bff21aa41fc7e537a2df2dbd2143a15a)), closes [#6616](https://github.com/Esri/calcite-components/issues/6616)
+
+## [1.5.0-next.2](https://github.com/Esri/calcite-components/compare/@esri/calcite-components@1.5.0-next.1...@esri/calcite-components@1.5.0-next.2) (2023-06-20)
+
+### Bug Fixes
+
+- **alert:** Sets autoCloseDuration to "medium" by default ([#7157](https://github.com/Esri/calcite-components/issues/7157)) ([1b9a8ed](https://github.com/Esri/calcite-components/commit/1b9a8edc1b7fab87899bd59c74ad036b5f53140c)), closes [#6363](https://github.com/Esri/calcite-components/issues/6363) [#6363](https://github.com/Esri/calcite-components/issues/6363)
+- **scrim:** Responsively set the scale of the loading spinner ([#7182](https://github.com/Esri/calcite-components/issues/7182)) ([72c5943](https://github.com/Esri/calcite-components/commit/72c59434113a550e849c77caf8d622bd50e5769e)), closes [#7147](https://github.com/Esri/calcite-components/issues/7147)
+
 ## [1.5.0-next.1](https://github.com/Esri/calcite-components/compare/@esri/calcite-components@1.5.0-next.0...@esri/calcite-components@1.5.0-next.1) (2023-06-16)
 
 ### Bug Fixes
