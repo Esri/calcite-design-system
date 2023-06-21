@@ -252,8 +252,8 @@ export function addLocalizedTrailingDecimalZeros(
   }
   const decimals = value.split(".")[1];
 
-  if (localizedDecimals !== decimals) {
-    localizedValue = decimals && !localizedDecimals ? localizedValue + decimalSeparator : localizedValue;
+  if (decimals && localizedDecimals !== decimals) {
+    localizedValue = localizedValue + decimalSeparator;
     [...decimals].forEach((decimal) => {
       localizedValue += formatter.localize(decimal);
     });
