@@ -40,14 +40,18 @@ jobs:
 
               /* Modify labels */
 
-              // Try to remove "Design" label
+              /* Tries to remove labels */
+              /* If the label is not associated with the issue,
+                 the error is logged and the script will continue. */
+
+              // Tries to remove "Design" label
               try {
                 await github.rest.issues.removeLabel({
                   ...issueProps,
                   name: "design"
                 });
               } catch(err) {
-                console.log(err);
+                console.log("The 'design' label is not associated with the issue", err);
               }
 
               // Try to remove "1 - assigned" label
@@ -57,7 +61,7 @@ jobs:
                   name: "1 - assigned"
                 });
               } catch(err) {
-                console.log(err);
+                console.log("The '1 - assigned' label is not associated with the issue", err);
               }
 
               // Add labels
