@@ -1035,7 +1035,7 @@ export function disabled(
     }
   });
 
-  it("disables with keyboard and mouse", async () => {
+  it("prevents focusing via keyboard and mouse", async () => {
     const { page, tag } = await getTagAndPage(componentTestSetup);
 
     const component = await page.find(tag);
@@ -1083,7 +1083,7 @@ export function disabled(
     });
   });
 
-  it("disables and events fire immediately after being set", async () => {
+  it("events are no longer blocked right after enabling", async () => {
     const { page, tag } = await getTagAndPage(componentTestSetup);
 
     const component = await page.find(tag);
