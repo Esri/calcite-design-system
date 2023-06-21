@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.5.0-next.4](https://github.com/Esri/calcite-components/compare/@esri/calcite-components@1.5.0-next.3...@esri/calcite-components@1.5.0-next.4) (2023-06-21)
+
+### Bug Fixes
+
+- **list:** update selectedItems property on all item selection changes ([#7204](https://github.com/Esri/calcite-components/issues/7204)) ([da048f6](https://github.com/Esri/calcite-components/commit/da048f618a987801d8ab5c284ab0f8c549e70a16)), closes [#7202](https://github.com/Esri/calcite-components/issues/7202)
+- **radio-button:** focuses first focusable radio-button element in group. ([#7152](https://github.com/Esri/calcite-components/issues/7152)) ([dd7ec60](https://github.com/Esri/calcite-components/commit/dd7ec608779f1a34ad3c77a36b6f8fcf6fd1365a)), closes [#7113](https://github.com/Esri/calcite-components/issues/7113)
+
+## [1.5.0-next.3](https://github.com/Esri/calcite-components/compare/@esri/calcite-components@1.5.0-next.2...@esri/calcite-components@1.5.0-next.3) (2023-06-21)
+
+### Bug Fixes
+
+- **alert:** update alert queue when an alert is removed from the DOM ([#7189](https://github.com/Esri/calcite-components/issues/7189)) ([edd59eb](https://github.com/Esri/calcite-components/commit/edd59eb0bff21aa41fc7e537a2df2dbd2143a15a)), closes [#6616](https://github.com/Esri/calcite-components/issues/6616)
+
 ## [1.5.0-next.2](https://github.com/Esri/calcite-components/compare/@esri/calcite-components@1.5.0-next.1...@esri/calcite-components@1.5.0-next.2) (2023-06-20)
 
 ### Bug Fixes
