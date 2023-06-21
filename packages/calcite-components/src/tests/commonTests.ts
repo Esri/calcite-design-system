@@ -973,22 +973,19 @@ export function disabled(
     return eventSpies;
   };
 
-  const getTabAndClickFocusTarget = async (page: E2EPage, tag: string): Promise<string[]> => {
-    let tabFocusTarget: string;
-    let clickFocusTarget: string;
-
-    if (typeof options.focusTarget === "object") {
-      tabFocusTarget = options.focusTarget.tab;
-      clickFocusTarget = options.focusTarget.click;
-    } else {
-      tabFocusTarget = clickFocusTarget = await getFocusTarget(page, tag, options.focusTarget);
-    }
-    return [tabFocusTarget, clickFocusTarget];
-  };
-
   async function getFocusTarget(page: E2EPage, tag: string, focusTarget: FocusTarget): Promise<string> {
     return focusTarget === "host" ? tag : await page.evaluate(() => document.activeElement?.tagName.toLowerCase());
   }
+
+  const getTabAndClickFocusTarget = async (page: E2EPage, tag: string): Promise<string[]> => {
+    const focusTarget = options.focusTarget;
+    const focusTargetString = await getFocusTarget(page, tag, focusTarget as FocusTarget);
+
+    const [tabFocusTarget, clickFocusTarget] =
+      typeof focusTarget === "object" ? [focusTarget.tab, focusTarget.click] : [focusTargetString, focusTargetString];
+
+    return [tabFocusTarget, clickFocusTarget];
+  };
 
   const getShadowFocusableCenterCoordinates = async (page: E2EPage, tabFocusTarget: string): Promise<number[]> => {
     return await page.$eval(tabFocusTarget, (element: HTMLElement) => {
