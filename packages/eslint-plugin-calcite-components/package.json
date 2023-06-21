@@ -19,5 +19,9 @@
   "license": "SEE LICENSE.md",
   "engines": {
     "node": ">=14.0.0"
+  },
+  "packageManager": "npm@8.19.4",
+  "volta": {
+    "node": "16.20.0"
   }
 }
