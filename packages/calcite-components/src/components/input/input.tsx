@@ -1001,7 +1001,8 @@ export class Input
 
       if (
         newLocalizedValue.length !== newValue.length &&
-        numberStringFormatter.delocalize(newLocalizedValue) !== newValue
+        numberStringFormatter.delocalize(newLocalizedValue) !== newValue &&
+        origin !== "connected"
       ) {
         newLocalizedValue = addLocalizedTrailingDecimalZeros(
           newLocalizedValue,

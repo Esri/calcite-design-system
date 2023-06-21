@@ -1400,7 +1400,7 @@ describe("calcite-input-number", () => {
     expect(await element.getProperty("value")).toBe("10000000");
   });
 
-  it("should keep leading decimal zeros from value on Backspace", async () => {
+  it("should be able to append value to zeros in decimal after Backspace", async () => {
     const page = await newE2EPage();
     await page.setContent(`
     <calcite-input-number></calcite-input-number>
@@ -1422,7 +1422,7 @@ describe("calcite-input-number", () => {
     expect(await element.getProperty("value")).toBe("0.000101");
   });
 
-  it("should keep  decimal separator zeros from value on Backspace", async () => {
+  it("should keep leading decimal separator while input is focused on Backspace", async () => {
     const page = await newE2EPage();
     await page.setContent(`
     <calcite-input-number></calcite-input-number>
@@ -1445,6 +1445,16 @@ describe("calcite-input-number", () => {
     await typeNumberValue(page, "01");
     await page.waitForChanges();
     expect(await element.getProperty("value")).toBe("0.01");
+  });
+
+  it("should sanitize leading decimal zeros on initial render", async () => {
+    const page = await newE2EPage();
+    await page.setContent(html`<calcite-input value="0.0000"></calcite-input>`);
+    const calciteInput = await page.find("calcite-input");
+    const input = await page.find("calcite-input >>> input");
+
+    expect(await input.getProperty("value")).toBe("0");
+    expect(await calciteInput.getProperty("value")).toBe("0");
   });
 
   it("sanitize extra dashes from value", async () => {
