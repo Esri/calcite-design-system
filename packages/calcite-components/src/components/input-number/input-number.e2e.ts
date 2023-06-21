@@ -1449,12 +1449,12 @@ describe("calcite-input-number", () => {
 
   it("should sanitize leading decimal zeros on initial render", async () => {
     const page = await newE2EPage();
-    await page.setContent(html`<calcite-input value="0.0000"></calcite-input>`);
-    const calciteInput = await page.find("calcite-input");
-    const input = await page.find("calcite-input >>> input");
+    await page.setContent(html`<calcite-input-number value="0.0000"></calcite-input-number>`);
+    const calciteInput = await page.find("calcite-input-number");
+    const input = await page.find("calcite-input-number >>> input");
 
     expect(await input.getProperty("value")).toBe("0");
-    expect(await calciteInput.getProperty("value")).toBe("0");
+    expect(await calciteInput.getProperty("value")).toBe("0.0000");
   });
 
   it("sanitize extra dashes from value", async () => {
