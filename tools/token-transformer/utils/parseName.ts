@@ -6,9 +6,9 @@ import { paramCase } from "change-case";
  * @param {string} prefix an optional prefix for each file name
  * @returns {string} a kebab-case file name from the passed name, optionally starting with a prefix
  */
-export function parseName(name: string, prefix?: string): string {
+export function parseName(name: string): string {
   const regexWord = /^\w+$/;
-  const themeName = `${prefix || ""} ${name}`
+  const themeName = `${name}`
     .split(" ")
     .filter((word) => regexWord.test(word))
     .join(" ");

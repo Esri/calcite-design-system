@@ -23,7 +23,7 @@
   },
   {
     "id": "f3768dee38b252f1dfdddfb3f2fde9782d3560bc",
-    "name": "Calcite Headless",
+    "name": "Headless",
     "selectedTokenSets": {
       "component/accordion-item": "enabled",
       "component/accordion": "enabled",
@@ -2249,7 +2249,7 @@
   },
   {
     "id": "fbbf5dd5296d2a38e339473b8a81f72005eaa89e",
-    "name": "Calcite - Grayscale",
+    "name": "Grayscale",
     "selectedTokenSets": {
       "core": "source",
       "semantic": "source",
@@ -2313,7 +2313,7 @@
   },
   {
     "id": "ed0c822a9f81dad2733717990c607c1527803a14",
-    "name": "Calcite - Light",
+    "name": "Light",
     "selectedTokenSets": {
       "calcite/light": "enabled",
       "component/accordion-item": "source",
@@ -3552,7 +3552,7 @@
   },
   {
     "id": "dde8954f0b730e49860d3c5e7608e7601dd1ed8a",
-    "name": "Calcite - Dark",
+    "name": "Dark",
     "selectedTokenSets": {
       "calcite/dark": "enabled",
       "component/accordion-item": "source",
