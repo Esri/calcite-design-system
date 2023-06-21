@@ -197,8 +197,8 @@ export class RadioButton
 
   isFocusable = (): boolean => {
     const radioButtons = this.queryButtons();
-    const firstFocusable = radioButtons.find((radiobutton) => !radiobutton.disabled);
-    const checked = radioButtons.find((radiobutton) => radiobutton.checked);
+    const firstFocusable = radioButtons.find((radioButton) => !radioButton.disabled);
+    const checked = radioButtons.find((radioButton) => radioButton.checked);
     return firstFocusable === this.el && !checked;
   };
 
@@ -309,8 +309,8 @@ export class RadioButton
     const otherFocusableRadioButtons = radioButtons.filter(
       (radioButton) => radioButton.guid !== this.guid && !radioButton.disabled
     );
-    otherFocusableRadioButtons.forEach((radiobutton) => {
-      forceUpdate(radiobutton);
+    otherFocusableRadioButtons.forEach((radioButton) => {
+      forceUpdate(radioButton);
     });
   }
 
@@ -318,11 +318,7 @@ export class RadioButton
     if (this.disabled) {
       return undefined;
     }
-    if (this.checked || this.isFocusable()) {
-      return 0;
-    } else {
-      return -1;
-    }
+    return this.checked || this.isFocusable() ? 0 : -1;
   }
 
   //--------------------------------------------------------------------------
