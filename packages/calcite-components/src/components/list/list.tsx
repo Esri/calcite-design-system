@@ -185,12 +185,8 @@ export class List implements InteractiveComponent, LoadableComponent {
     const target = event.target as HTMLCalciteListItemElement;
     const { listItems, selectionMode } = this;
 
-    if (target.selected) {
-      listItems.forEach((listItem) => {
-        if (selectionMode === "single" || selectionMode === "single-persist") {
-          listItem.selected = listItem === target;
-        }
-      });
+    if (target.selected && (selectionMode === "single" || selectionMode === "single-persist")) {
+      listItems.forEach((listItem) => (listItem.selected = listItem === target));
     }
 
     this.updateSelectedItems();
