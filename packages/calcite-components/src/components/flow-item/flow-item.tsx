@@ -12,7 +12,12 @@ import {
   Watch
 } from "@stencil/core";
 import { getElementDir } from "../../utils/dom";
-import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import {
+  connectInteractive,
+  disconnectInteractive,
+  InteractiveComponent,
+  updateHostInteraction
+} from "../../utils/interactive";
 import {
   componentLoaded,
   LoadableComponent,
@@ -130,6 +135,7 @@ export class FlowItem
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
+    connectInteractive(this);
     connectLocalized(this);
     connectMessages(this);
   }
@@ -144,6 +150,7 @@ export class FlowItem
   }
 
   disconnectedCallback(): void {
+    disconnectInteractive(this);
     disconnectLocalized(this);
     disconnectMessages(this);
   }
