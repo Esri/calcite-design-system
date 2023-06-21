@@ -1011,7 +1011,10 @@ export function disabled(
       await page.click(tag);
       await expectToBeFocused(page, "body");
 
-      // eslint-disable-next-line jest/no-conditional-expect
+      /* eslint-disable-next-line jest/no-conditional-expect --
+       * Conditional logic here is confined to a test helper and its purpose is to handle specific scenarios/variations in the test setup.
+       * The goal is to reduce duplication and strike a balance between test readability and maintainability.
+       **/
       assertOnMouseAndPointerEvents(eventSpies, (spy) => expect(spy).toHaveReceivedEventTimes(1));
 
       component.setProperty("disabled", true);
@@ -1030,8 +1033,6 @@ export function disabled(
         // eslint-disable-next-line jest/no-conditional-expect
         expect(spy).toHaveReceivedEventTimes(eventsExpectedToBubble.includes(spy.eventName) ? 2 : 1);
       });
-
-      return;
     }
   });
 
@@ -1044,43 +1045,46 @@ export function disabled(
 
     const eventSpies = await createEventSpiesForExpectedEvents(component);
 
-    await page.keyboard.press("Tab");
+    if (options.focusTarget !== "none") {
+      await page.keyboard.press("Tab");
 
-    const [tabFocusTarget, clickFocusTarget] = await getTabAndClickFocusTarget(page, tag);
+      const [tabFocusTarget, clickFocusTarget] = await getTabAndClickFocusTarget(page, tag);
 
-    expect(tabFocusTarget).not.toBe("body");
-    await expectToBeFocused(page, tabFocusTarget);
+      // eslint-disable-next-line jest/no-conditional-expect
+      expect(tabFocusTarget).not.toBe("body");
+      await expectToBeFocused(page, tabFocusTarget);
 
-    const [shadowFocusableCenterX, shadowFocusableCenterY] = await getShadowFocusableCenterCoordinates(
-      page,
-      tabFocusTarget
-    );
+      const [shadowFocusableCenterX, shadowFocusableCenterY] = await getShadowFocusableCenterCoordinates(
+        page,
+        tabFocusTarget
+      );
 
-    async function resetFocusOrder(): Promise<void> {
-      // test page has default margin, so clicking on 0,0 will not hit the test element
-      await page.mouse.click(0, 0);
-    }
-
-    await resetFocusOrder();
-    await expectToBeFocused(page, "body");
-
-    await page.mouse.click(shadowFocusableCenterX, shadowFocusableCenterY);
-    await expectToBeFocused(page, clickFocusTarget);
-
-    await component.callMethod("click");
-    await expectToBeFocused(page, clickFocusTarget);
-
-    assertOnMouseAndPointerEvents(eventSpies, (spy) => {
-      if (spy.eventName === "click") {
-        // some components emit more than one click event (e.g., from calling `click()`),
-        // so we check if at least one event is received
-        // eslint-disable-next-line jest/no-conditional-expect
-        expect(spy.length).toBeGreaterThanOrEqual(2);
-      } else {
-        // eslint-disable-next-line jest/no-conditional-expect
-        expect(spy).toHaveReceivedEventTimes(1);
+      async function resetFocusOrder(): Promise<void> {
+        // test page has default margin, so clicking on 0,0 will not hit the test element
+        await page.mouse.click(0, 0);
       }
-    });
+
+      await resetFocusOrder();
+      await expectToBeFocused(page, "body");
+
+      await page.mouse.click(shadowFocusableCenterX, shadowFocusableCenterY);
+      await expectToBeFocused(page, clickFocusTarget);
+
+      await component.callMethod("click");
+      await expectToBeFocused(page, clickFocusTarget);
+
+      assertOnMouseAndPointerEvents(eventSpies, (spy) => {
+        if (spy.eventName === "click") {
+          // some components emit more than one click event (e.g., from calling `click()`),
+          // so we check if at least one event is received
+          // eslint-disable-next-line jest/no-conditional-expect
+          expect(spy.length).toBeGreaterThanOrEqual(2);
+        } else {
+          // eslint-disable-next-line jest/no-conditional-expect
+          expect(spy).toHaveReceivedEventTimes(1);
+        }
+      });
+    }
   });
 
   it("events are no longer blocked right after enabling", async () => {
@@ -1096,6 +1100,8 @@ export function disabled(
     await page.waitForChanges();
 
     expect(component.getAttribute("aria-disabled")).toBe("true");
+
+    await page.click(tag);
 
     assertOnMouseAndPointerEvents(eventSpies, (spy) => {
       expect(spy).toHaveReceivedEventTimes(eventsExpectedToBubble.includes(spy.eventName) ? 1 : 0);
