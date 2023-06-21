@@ -140,15 +140,15 @@ export const sanitizeNumberString = (numberString: string): string =>
     return isValidNumber(sanitizedValue)
       ? isNegativeDecimalOnlyZeros.test(sanitizedValue)
         ? sanitizedValue
-        : getBigDecimalString(sanitizedValue)
+        : getBigDecimalAsString(sanitizedValue)
       : nonExpoNumString;
   });
 
-export function getBigDecimalString(sanitizedValue: string): string {
+export function getBigDecimalAsString(sanitizedValue: string): string {
   const decimals = sanitizedValue.split(".")[1];
   const newdecimals = new BigDecimal(sanitizedValue).toString().split(".")[1];
 
-  // adds back trailing deciamls zeros
+  // adds back trailing decimal zeros
   if (decimals && !newdecimals && BigInt(decimals) === BigInt(0) && decimals !== newdecimals) {
     const value = new BigDecimal(sanitizedValue).toString() + ".";
     const newvalue = value.padEnd(value.length + decimals.length, "0");

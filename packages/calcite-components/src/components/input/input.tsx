@@ -979,8 +979,11 @@ export class Input
       const isValueDeleted =
         this.previousValue?.length > value.length || this.value?.length > value.length;
 
+      const hasTrailingDecimalSeparator =
+        value.charAt(value.length - 1) === numberStringFormatter.decimal;
+
       const sanitizedValue =
-        value.charAt(value.length - 1) === numberStringFormatter.decimal && isValueDeleted
+        hasTrailingDecimalSeparator && isValueDeleted
           ? value
           : sanitizeNumberString(
               // no need to delocalize a string that ia already in latn numerals
@@ -999,7 +1002,12 @@ export class Input
 
       let newLocalizedValue = numberStringFormatter.localize(newValue);
 
-      if (newLocalizedValue.length !== newValue.length && origin !== "connected") {
+      // adds localized trailing decimal zero values
+      if (
+        newLocalizedValue.length !== newValue.length &&
+        origin !== "connected" &&
+        !hasTrailingDecimalSeparator
+      ) {
         newLocalizedValue = addLocalizedTrailingDecimalZeros(
           newLocalizedValue,
           newValue,
@@ -1007,8 +1015,9 @@ export class Input
         );
       }
 
+      // adds localized trailing decimal separator
       this.localizedValue =
-        value.charAt(value.length - 1) === numberStringFormatter.decimal && isValueDeleted
+        hasTrailingDecimalSeparator && isValueDeleted
           ? `${newLocalizedValue}${numberStringFormatter.decimal}`
           : newLocalizedValue;
 
