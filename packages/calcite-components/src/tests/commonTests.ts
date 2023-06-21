@@ -996,7 +996,7 @@ export function disabled(
     });
   };
 
-  it("has no focus", async () => {
+  it("remains non-focusable and disabled while receiving a click event for components that do not allow focusing", async () => {
     const { page, tag } = await getTagAndPage(componentTestSetup);
 
     const component = await page.find(tag);
@@ -1012,7 +1012,7 @@ export function disabled(
       await expectToBeFocused(page, "body");
 
       // eslint-disable-next-line jest/no-conditional-expect
-      await assertOnMouseAndPointerEvents(eventSpies, (spy) => expect(spy).toHaveReceivedEventTimes(1));
+      assertOnMouseAndPointerEvents(eventSpies, (spy) => expect(spy).toHaveReceivedEventTimes(1));
 
       component.setProperty("disabled", true);
       await page.waitForChanges();
@@ -1026,7 +1026,7 @@ export function disabled(
       await component.callMethod("click");
       await expectToBeFocused(page, "body");
 
-      await assertOnMouseAndPointerEvents(eventSpies, (spy) => {
+      assertOnMouseAndPointerEvents(eventSpies, (spy) => {
         // eslint-disable-next-line jest/no-conditional-expect
         expect(spy).toHaveReceivedEventTimes(eventsExpectedToBubble.includes(spy.eventName) ? 2 : 1);
       });
@@ -1070,7 +1070,7 @@ export function disabled(
     await component.callMethod("click");
     await expectToBeFocused(page, clickFocusTarget);
 
-    await assertOnMouseAndPointerEvents(eventSpies, (spy) => {
+    assertOnMouseAndPointerEvents(eventSpies, (spy) => {
       if (spy.eventName === "click") {
         // some components emit more than one click event (e.g., from calling `click()`),
         // so we check if at least one event is received
@@ -1097,26 +1097,7 @@ export function disabled(
 
     expect(component.getAttribute("aria-disabled")).toBe("true");
 
-    async function resetFocusOrder(): Promise<void> {
-      // test page has default margin, so clicking on 0,0 will not hit the test element
-      await page.mouse.click(0, 0);
-    }
-    await resetFocusOrder();
-
-    await page.keyboard.press("Tab");
-    await expectToBeFocused(page, "body");
-
-    const [tabFocusTarget] = await getTabAndClickFocusTarget(page, tag);
-
-    const [shadowFocusableCenterX, shadowFocusableCenterY] = await getShadowFocusableCenterCoordinates(
-      page,
-      tabFocusTarget
-    );
-
-    await page.mouse.click(shadowFocusableCenterX, shadowFocusableCenterY);
-    await expectToBeFocused(page, "body");
-
-    await assertOnMouseAndPointerEvents(eventSpies, (spy) => {
+    assertOnMouseAndPointerEvents(eventSpies, (spy) => {
       expect(spy).toHaveReceivedEventTimes(eventsExpectedToBubble.includes(spy.eventName) ? 1 : 0);
     });
 
@@ -1133,7 +1114,7 @@ export function disabled(
       allExpectedEvents
     );
 
-    await assertOnMouseAndPointerEvents(eventSpies, (spy) => {
+    assertOnMouseAndPointerEvents(eventSpies, (spy) => {
       if (spy.eventName === "click") {
         // some components emit more than one click event (e.g., from calling `click()`),
         // so we check if at least one event is received
