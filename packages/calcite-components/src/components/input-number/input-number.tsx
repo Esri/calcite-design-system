@@ -842,7 +842,7 @@ export class InputNumber
     };
 
     const isValueDeleted =
-      this.previousValue?.length > value.length || this.value.length > value.length;
+      this.previousValue?.length > value.length || this.value?.length > value.length;
 
     const sanitizedValue =
       value.charAt(value.length - 1) === numberStringFormatter.decimal && isValueDeleted

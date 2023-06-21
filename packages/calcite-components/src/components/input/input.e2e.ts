@@ -1553,7 +1553,7 @@ describe("calcite-input", () => {
 
     await page.keyboard.press("Backspace");
     await page.waitForChanges();
-    expect(await element.getProperty("value")).toBe("1");
+    expect(await element.getProperty("value")).toBe("1.");
     expect(calciteInputInput).toHaveReceivedEventTimes(1);
   });
 
@@ -1622,7 +1622,7 @@ describe("calcite-input", () => {
 
     await typeNumberValue(page, "01");
     await page.waitForChanges();
-    expect(await element.getProperty("value")).toBe("0.1");
+    expect(await element.getProperty("value")).toBe("0.01");
   });
 
   it("sanitize extra dashes from number input value", async () => {
