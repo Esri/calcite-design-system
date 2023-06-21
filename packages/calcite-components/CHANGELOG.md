@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.5.0-next.3](https://github.com/Esri/calcite-components/compare/@esri/calcite-components@1.5.0-next.2...@esri/calcite-components@1.5.0-next.3) (2023-06-21)
+
+### Bug Fixes
+
+- **alert:** update alert queue when an alert is removed from the DOM ([#7189](https://github.com/Esri/calcite-components/issues/7189)) ([edd59eb](https://github.com/Esri/calcite-components/commit/edd59eb0bff21aa41fc7e537a2df2dbd2143a15a)), closes [#6616](https://github.com/Esri/calcite-components/issues/6616)
+
 ## [1.5.0-next.2](https://github.com/Esri/calcite-components/compare/@esri/calcite-components@1.5.0-next.1...@esri/calcite-components@1.5.0-next.2) (2023-06-20)
 
 ### Bug Fixes
