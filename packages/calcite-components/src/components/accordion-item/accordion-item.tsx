@@ -73,30 +73,34 @@ export class AccordionItem implements ConditionalSlotComponent {
    *
    * @internal
    */
-  @Prop({ reflect: false }) iconPosition: Position = "end";
+  @Prop() iconPosition: Position;
 
   /** Specifies the type of the icon in the header inherited from the `calcite-accordion`.
    *
    * @internal
    */
-  @Prop({ reflect: false }) iconType: "chevron" | "caret" | "plus-minus" = "chevron";
+  @Prop() iconType: "chevron" | "caret" | "plus-minus";
 
   /**
-   * Specifies the selectionMode of the component inherited from the `calcite-accordion`.
+   * The containing `accordion` element.
    *
    * @internal
    */
-  @Prop({ reflect: false }) selectionMode: Extract<
-    "single" | "single-persist" | "multiple",
-    SelectionMode
-  > = "multiple";
+  @Prop() accordionParent: HTMLCalciteAccordionElement;
+
+  /**
+   * Specifies the `selectionMode` of the component inherited from the `calcite-accordion`.
+   *
+   * @internal
+   */
+  @Prop() selectionMode: Extract<"single" | "single-persist" | "multiple", SelectionMode>;
 
   /**
    * Specifies the size of the component inherited from the `calcite-accordion`.
    *
    * @internal
    */
-  @Prop({ reflect: false }) scale: Scale = "m";
+  @Prop() scale: Scale;
 
   //--------------------------------------------------------------------------
   //
@@ -126,14 +130,13 @@ export class AccordionItem implements ConditionalSlotComponent {
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
-    this.parent = this.el.parentElement as HTMLCalciteAccordionElement;
     connectConditionalSlotComponent(this);
   }
 
   componentDidLoad(): void {
     this.itemPosition = this.getItemPosition();
     this.calciteInternalAccordionItemRegister.emit({
-      parent: this.parent,
+      parent: this.accordionParent,
       position: this.itemPosition
     });
   }
@@ -275,9 +278,6 @@ export class AccordionItem implements ConditionalSlotComponent {
 
   /** position within parent */
   private itemPosition: number;
-
-  /** the containing accordion element */
-  private parent: HTMLCalciteAccordionElement;
 
   /** the latest requested item */
   private requestedAccordionItem: HTMLCalciteAccordionItemElement;
