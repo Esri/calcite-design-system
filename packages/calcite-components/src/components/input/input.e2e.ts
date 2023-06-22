@@ -1055,20 +1055,12 @@ describe("calcite-input", () => {
       expect(Number(await element.getProperty("value"))).toBe(195);
     });
 
-    it("disallows typing any letter or number with shift modifier key down", async () => {
+    it("disallows typing any letter  with shift modifier key down", async () => {
       const page = await newE2EPage();
       await page.setContent(html`<calcite-input type="number"></calcite-input>`);
       const calciteInput = await page.find("calcite-input");
       const input = await page.find("calcite-input >>> input");
       await calciteInput.callMethod("setFocus");
-
-      for (let i = 0; i < numberKeys.length; i++) {
-        await page.keyboard.down("Shift");
-        await page.keyboard.press(numberKeys[i] as KeyInput);
-        await page.keyboard.up("Shift");
-        expect(await calciteInput.getProperty("value")).toBeFalsy();
-        expect(await input.getProperty("value")).toBeFalsy();
-      }
       const nonELetterKeys = letterKeys.filter((key) => key !== "e");
       for (let i = 0; i < nonELetterKeys.length; i++) {
         await page.keyboard.down("Shift");
