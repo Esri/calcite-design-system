@@ -24,8 +24,7 @@ import {
   LogicalPlacement,
   OverlayPositioning,
   ReferenceElement,
-  positionFloatingUI,
-  debounceReposition
+  reposition
 } from "../../utils/floating-ui";
 import {
   activateFocusTrap,
@@ -133,7 +132,7 @@ export class Popover
   @Watch("flipPlacements")
   flipPlacementsHandler(): void {
     this.setFilteredPlacements();
-    this.debouncedReposition();
+    this.reposition(true);
   }
 
   /**
@@ -177,7 +176,7 @@ export class Popover
 
   @Watch("offsetDistance")
   offsetDistanceOffsetHandler(): void {
-    this.debouncedReposition();
+    this.reposition(true);
   }
 
   /**
@@ -187,7 +186,7 @@ export class Popover
 
   @Watch("offsetSkidding")
   offsetSkiddingHandler(): void {
-    this.debouncedReposition();
+    this.reposition(true);
   }
 
   /**
@@ -198,7 +197,7 @@ export class Popover
   @Watch("open")
   openHandler(value: boolean): void {
     if (value) {
-      this.debouncedReposition();
+      this.reposition(true);
     }
 
     this.setExpandedAttr();
@@ -216,7 +215,7 @@ export class Popover
 
   @Watch("overlayPositioning")
   overlayPositioningHandler(): void {
-    this.debouncedReposition();
+    this.reposition(true);
   }
 
   /**
@@ -226,7 +225,7 @@ export class Popover
 
   @Watch("placement")
   placementHandler(): void {
-    this.debouncedReposition();
+    this.reposition(true);
   }
 
   /**
@@ -237,7 +236,7 @@ export class Popover
   @Watch("referenceElement")
   referenceElementHandler(): void {
     this.setUpReferenceElement();
-    this.debouncedReposition();
+    this.reposition(true);
   }
 
   /** Specifies the size of the component. */
@@ -255,8 +254,6 @@ export class Popover
   //  Private Properties
   //
   // --------------------------------------------------------------------------
-
-  debouncedReposition = debounceReposition(this);
 
   mutationObserver: MutationObserver = createObserver("mutation", () =>
     this.updateFocusTrapElements()
@@ -358,11 +355,10 @@ export class Popover
   /**
    * Updates the position of the component.
    *
-   * @param {boolean} delayed [Deprecated] - No longer necessary.
-   * @returns {Promise<void>}
+   * @param delayed
    */
   @Method()
-  async reposition(): Promise<void> {
+  async reposition(delayed = false): Promise<void> {
     const {
       el,
       effectiveReferenceElement,
@@ -374,18 +370,22 @@ export class Popover
       offsetSkidding,
       arrowEl
     } = this;
-    return positionFloatingUI(this, {
-      floatingEl: el,
-      referenceEl: effectiveReferenceElement,
-      overlayPositioning,
-      placement,
-      flipDisabled,
-      flipPlacements: filteredFlipPlacements,
-      offsetDistance,
-      offsetSkidding,
-      arrowEl,
-      type: "popover"
-    });
+    return reposition(
+      this,
+      {
+        floatingEl: el,
+        referenceEl: effectiveReferenceElement,
+        overlayPositioning,
+        placement,
+        flipDisabled,
+        flipPlacements: filteredFlipPlacements,
+        offsetDistance,
+        offsetSkidding,
+        arrowEl,
+        type: "popover"
+      },
+      delayed
+    );
   }
 
   /**
@@ -522,7 +522,7 @@ export class Popover
 
   storeArrowEl = (el: SVGElement): void => {
     this.arrowEl = el;
-    this.debouncedReposition();
+    this.reposition(true);
   };
 
   // --------------------------------------------------------------------------

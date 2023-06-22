@@ -23,7 +23,7 @@ import { getUserAgentData, getUserAgentString } from "./browser";
 
 const floatingUIBrowserCheck = patchFloatingUiForNonChromiumBrowsers();
 
-export function isChrome109OrAbove(): boolean {
+function isChrome109OrAbove(): boolean {
   const uaData = getUserAgentData();
 
   if (uaData?.brands) {
@@ -52,6 +52,138 @@ async function patchFloatingUiForNonChromiumBrowsers(): Promise<void> {
     platform.getOffsetParent = (element: Element) => originalGetOffsetParent(element, offsetParent);
   }
 }
+
+/**
+ * Positions the floating element relative to the reference element.
+ *
+ * **Note:** exported for testing purposes only
+ *
+ * @param root0
+ * @param root0.referenceEl
+ * @param root0.floatingEl
+ * @param root0.overlayPositioning
+ * @param root0.placement
+ * @param root0.flipDisabled
+ * @param root0.flipPlacements
+ * @param root0.offsetDistance
+ * @param root0.offsetSkidding
+ * @param root0.arrowEl
+ * @param root0.type
+ * @param component
+ * @param root0.referenceEl.referenceEl
+ * @param root0.referenceEl.floatingEl
+ * @param root0.referenceEl.overlayPositioning
+ * @param root0.referenceEl.placement
+ * @param root0.referenceEl.flipDisabled
+ * @param root0.referenceEl.flipPlacements
+ * @param root0.referenceEl.offsetDistance
+ * @param root0.referenceEl.offsetSkidding
+ * @param root0.referenceEl.arrowEl
+ * @param root0.referenceEl.type
+ * @param component.referenceEl
+ * @param component.floatingEl
+ * @param component.overlayPositioning
+ * @param component.placement
+ * @param component.flipDisabled
+ * @param component.flipPlacements
+ * @param component.offsetDistance
+ * @param component.offsetSkidding
+ * @param component.arrowEl
+ * @param component.type
+ */
+export const positionFloatingUI =
+  /* we export arrow function to allow us to spy on it during testing */
+  async (
+    component: FloatingUIComponent,
+    {
+      referenceEl,
+      floatingEl,
+      overlayPositioning = "absolute",
+      placement,
+      flipDisabled,
+      flipPlacements,
+      offsetDistance,
+      offsetSkidding,
+      arrowEl,
+      type
+    }: {
+      referenceEl: ReferenceElement;
+      floatingEl: HTMLElement;
+      overlayPositioning: Strategy;
+      placement: LogicalPlacement;
+      flipDisabled?: boolean;
+      flipPlacements?: EffectivePlacement[];
+      offsetDistance?: number;
+      offsetSkidding?: number;
+      arrowEl?: SVGElement;
+      type: UIType;
+    }
+  ): Promise<void> => {
+    if (!referenceEl || !floatingEl) {
+      return null;
+    }
+
+    await floatingUIBrowserCheck;
+
+    const {
+      x,
+      y,
+      placement: effectivePlacement,
+      strategy: position,
+      middlewareData
+    } = await computePosition(referenceEl, floatingEl, {
+      strategy: overlayPositioning,
+      placement:
+        placement === "auto" || placement === "auto-start" || placement === "auto-end"
+          ? undefined
+          : getEffectivePlacement(floatingEl, placement),
+      middleware: getMiddleware({
+        placement,
+        flipDisabled,
+        flipPlacements,
+        offsetDistance,
+        offsetSkidding,
+        arrowEl,
+        type
+      })
+    });
+
+    if (arrowEl && middlewareData.arrow) {
+      const { x, y } = middlewareData.arrow;
+      const side = effectivePlacement.split("-")[0] as Side;
+      const alignment = x != null ? "left" : "top";
+      const transform = ARROW_CSS_TRANSFORM[side];
+      const reset = { left: "", top: "", bottom: "", right: "" };
+
+      if ("floatingLayout" in component) {
+        component.floatingLayout = side === "left" || side === "right" ? "horizontal" : "vertical";
+      }
+
+      Object.assign(arrowEl.style, {
+        ...reset,
+        [alignment]: `${alignment == "left" ? x : y}px`,
+        [side]: "100%",
+        transform
+      });
+    }
+
+    const referenceHidden = middlewareData.hide?.referenceHidden;
+    const visibility = referenceHidden ? "hidden" : null;
+    const pointerEvents = visibility ? "none" : null;
+
+    floatingEl.setAttribute(placementDataAttribute, effectivePlacement);
+
+    const transform = `translate(${Math.round(x)}px,${Math.round(y)}px)`;
+
+    Object.assign(floatingEl.style, {
+      visibility,
+      pointerEvents,
+      position,
+      top: "0",
+      left: "0",
+      transform
+    });
+  };
 
 /**
  * Exported for testing purposes only
@@ -178,13 +310,10 @@ export interface FloatingUIComponent {
 
   /**
    * Updates the position of the component.
+   *
+   * @param delayed – (internal) when true, it will reposition the component after a delay. the default is false. This is useful for components that have multiple watched properties that schedule repositioning.
    */
-  reposition(): Promise<void>;
-
-  /**
-   * Updates the position of the component after a delay.
-   */
-  debouncedReposition: DebouncedFunc<FloatingUIComponent["reposition"]>;
+  reposition(delayed?: boolean): Promise<void>;
 
   /**
    * Used to store the effective floating layout for components that use arrows.
@@ -296,6 +425,56 @@ export function getEffectivePlacement(floatingEl: HTMLElement, placement: Logica
   return placement.replace(/leading/gi, placements[0]).replace(/trailing/gi, placements[1]) as EffectivePlacement;
 }
 
+/**
+ * Convenience function to manage `reposition` calls for FloatingUIComponents that use `positionFloatingUI.
+ *
+ * Note: this is not needed for components that use `calcite-popover`.
+ *
+ * @param component
+ * @param options
+ * @param options.referenceEl
+ * @param options.floatingEl
+ * @param options.overlayPositioning
+ * @param options.placement
+ * @param options.flipDisabled
+ * @param options.flipPlacements
+ * @param options.offsetDistance
+ * @param options.offsetSkidding
+ * @param options.arrowEl
+ * @param options.type
+ * @param delayed
+ */
+export async function reposition(
+  component: FloatingUIComponent,
+  options: Parameters<typeof positionFloatingUI>[1],
+  delayed = false
+): Promise<void> {
+  if (!component.open) {
+    return;
+  }
+
+  const positionFunction = delayed ? getDebouncedReposition(component) : positionFloatingUI;
+
+  return positionFunction(component, options);
+}
+
+function getDebouncedReposition(component: FloatingUIComponent): DebouncedFunc<typeof positionFloatingUI> {
+  let debounced = componentToDebouncedRepositionMap.get(component);
+
+  if (debounced) {
+    return debounced;
+  }
+
+  debounced = debounce(positionFloatingUI, repositionDebounceTimeout, {
+    leading: true,
+    maxWait: repositionDebounceTimeout
+  });
+
+  componentToDebouncedRepositionMap.set(component, debounced);
+
+  return debounced;
+}
+
 const ARROW_CSS_TRANSFORM = {
   top: "",
   left: "rotate(-90deg)",
@@ -304,154 +483,13 @@ const ARROW_CSS_TRANSFORM = {
 };
 
 /**
- * Positions the floating element relative to the reference element.
- *
- * **Note:** exported for testing purposes only
- *
- * @param root0
- * @param root0.referenceEl
- * @param root0.floatingEl
- * @param root0.overlayPositioning
- * @param root0.placement
- * @param root0.flipDisabled
- * @param root0.flipPlacements
- * @param root0.offsetDistance
- * @param root0.offsetSkidding
- * @param root0.arrowEl
- * @param root0.type
- * @param component
- * @param root0.referenceEl.referenceEl
- * @param root0.referenceEl.floatingEl
- * @param root0.referenceEl.overlayPositioning
- * @param root0.referenceEl.placement
- * @param root0.referenceEl.flipDisabled
- * @param root0.referenceEl.flipPlacements
- * @param root0.referenceEl.offsetDistance
- * @param root0.referenceEl.offsetSkidding
- * @param root0.referenceEl.arrowEl
- * @param root0.referenceEl.type
- * @param component.referenceEl
- * @param component.floatingEl
- * @param component.overlayPositioning
- * @param component.placement
- * @param component.flipDisabled
- * @param component.flipPlacements
- * @param component.offsetDistance
- * @param component.offsetSkidding
- * @param component.arrowEl
- * @param component.type
- */
-export async function positionFloatingUI(
-  component: FloatingUIComponent,
-  {
-    referenceEl,
-    floatingEl,
-    overlayPositioning = "absolute",
-    placement,
-    flipDisabled,
-    flipPlacements,
-    offsetDistance,
-    offsetSkidding,
-    arrowEl,
-    type
-  }: {
-    referenceEl: ReferenceElement;
-    floatingEl: HTMLElement;
-    overlayPositioning: Strategy;
-    placement: LogicalPlacement;
-    flipDisabled?: boolean;
-    flipPlacements?: EffectivePlacement[];
-    offsetDistance?: number;
-    offsetSkidding?: number;
-    arrowEl?: SVGElement;
-    type: UIType;
-  }
-): Promise<void> {
-  if (!referenceEl || !floatingEl || !component.open) {
-    return null;
-  }
-
-  await floatingUIBrowserCheck;
-
-  const {
-    x,
-    y,
-    placement: effectivePlacement,
-    strategy: position,
-    middlewareData
-  } = await computePosition(referenceEl, floatingEl, {
-    strategy: overlayPositioning,
-    placement:
-      placement === "auto" || placement === "auto-start" || placement === "auto-end"
-        ? undefined
-        : getEffectivePlacement(floatingEl, placement),
-    middleware: getMiddleware({
-      placement,
-      flipDisabled,
-      flipPlacements,
-      offsetDistance,
-      offsetSkidding,
-      arrowEl,
-      type
-    })
-  });
-
-  if (arrowEl && middlewareData.arrow) {
-    const { x, y } = middlewareData.arrow;
-    const side = effectivePlacement.split("-")[0] as Side;
-    const alignment = x != null ? "left" : "top";
-    const transform = ARROW_CSS_TRANSFORM[side];
-    const reset = { left: "", top: "", bottom: "", right: "" };
-
-    if ("floatingLayout" in component) {
-      component.floatingLayout = side === "left" || side === "right" ? "horizontal" : "vertical";
-    }
-
-    Object.assign(arrowEl.style, {
-      ...reset,
-      [alignment]: `${alignment == "left" ? x : y}px`,
-      [side]: "100%",
-      transform
-    });
-  }
-
-  const referenceHidden = middlewareData.hide?.referenceHidden;
-  const visibility = referenceHidden ? "hidden" : null;
-  const pointerEvents = visibility ? "none" : null;
-
-  floatingEl.setAttribute(placementDataAttribute, effectivePlacement);
-
-  const transform = `translate(${Math.round(x)}px,${Math.round(y)}px)`;
-
-  Object.assign(floatingEl.style, {
-    visibility,
-    pointerEvents,
-    position,
-    top: "0",
-    left: "0",
-    transform
-  });
-}
-
-/**
  * Exported for testing purposes only
  *
  * @internal
  */
 export const cleanupMap = new WeakMap<FloatingUIComponent, () => void>();
 
-/**
- * Helper to set up debouncing the reposition method.
- *
- * @param {FloatingUIComponent} component - The FloatingUIComponent
- * @returns {DebouncedFunc<FloatingUIComponent["reposition"]>} - A debounced reposition function.
- */
-export function debounceReposition(component: FloatingUIComponent): DebouncedFunc<FloatingUIComponent["reposition"]> {
-  return debounce(component.reposition, repositionDebounceTimeout, {
-    leading: true,
-    maxWait: repositionDebounceTimeout
-  });
-}
+const componentToDebouncedRepositionMap = new WeakMap<FloatingUIComponent, DebouncedFunc<typeof positionFloatingUI>>();
 
 /**
  * Helper to set up floating element interactions on connectedCallback.
@@ -512,15 +550,11 @@ export function disconnectFloatingUI(
     return;
   }
 
-  component.debouncedReposition?.cancel();
-
-  const cleanup = cleanupMap.get(component);
-
-  if (cleanup) {
-    cleanup();
-  }
-
+  cleanupMap.get(component)?.();
   cleanupMap.delete(component);
+
+  componentToDebouncedRepositionMap.get(component)?.cancel();
+  componentToDebouncedRepositionMap.delete(component);
 }
 
 const visiblePointerSize = 4;

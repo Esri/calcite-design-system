@@ -1,18 +1,20 @@
-import { debounce } from "lodash-es";
 import { waitForAnimationFrame } from "../tests/utils";
-import {
+import * as floatingUI from "./floating-ui";
+import { FloatingUIComponent } from "./floating-ui";
+
+const {
   cleanupMap,
   connectFloatingUI,
   defaultOffsetDistance,
   disconnectFloatingUI,
   effectivePlacements,
   filterComputedPlacements,
-  FloatingUIComponent,
   getEffectivePlacement,
   placements,
   positionFloatingUI,
+  reposition,
   repositionDebounceTimeout
-} from "./floating-ui";
+} = floatingUI;
 
 import * as floatingUIDOM from "@floating-ui/dom";
 
@@ -56,18 +58,19 @@ describe("repositioning", () => {
   let referenceEl: HTMLButtonElement;
   let positionOptions: Parameters<typeof positionFloatingUI>[1];
 
-  beforeEach(() => {
-    fakeFloatingUiComponent = {
+  function createFakeFloatingUiComponent(): FloatingUIComponent {
+    return {
       open: false,
       reposition: async () => {
         /* noop */
       },
-      debouncedReposition: debounce(() => {
-        fakeFloatingUiComponent.reposition();
-      }, repositionDebounceTimeout),
       overlayPositioning: "absolute",
       placement: "auto"
     };
+  }
+
+  beforeEach(() => {
+    fakeFloatingUiComponent = createFakeFloatingUiComponent();
 
     floatingEl = document.createElement("div");
     referenceEl = document.createElement("button");
@@ -94,19 +97,19 @@ describe("repositioning", () => {
   }
 
   it("repositions only for open components", async () => {
-    await positionFloatingUI(fakeFloatingUiComponent, positionOptions);
+    await reposition(fakeFloatingUiComponent, positionOptions);
     assertPreOpenPositionining(floatingEl);
 
     fakeFloatingUiComponent.open = true;
 
-    await positionFloatingUI(fakeFloatingUiComponent, positionOptions);
+    await reposition(fakeFloatingUiComponent, positionOptions);
     assertOpenPositionining(floatingEl);
   });
 
   it("repositions immediately by default", async () => {
     fakeFloatingUiComponent.open = true;
 
-    positionFloatingUI(fakeFloatingUiComponent, positionOptions);
+    reposition(fakeFloatingUiComponent, positionOptions);
 
     assertPreOpenPositionining(floatingEl);
 
@@ -116,20 +119,12 @@ describe("repositioning", () => {
 
   it("can reposition after a delay", async () => {
     fakeFloatingUiComponent.open = true;
-    fakeFloatingUiComponent.reposition = async () => {
-      await positionFloatingUI(fakeFloatingUiComponent, positionOptions);
-    };
 
-    fakeFloatingUiComponent.debouncedReposition();
+    reposition(fakeFloatingUiComponent, positionOptions, true);
 
     assertPreOpenPositionining(floatingEl);
 
-    await new Promise<void>((resolve) =>
-      setTimeout(resolve, repositionDebounceTimeout, {
-        leading: true,
-        maxWait: repositionDebounceTimeout
-      })
-    );
+    await new Promise<void>((resolve) => setTimeout(resolve, repositionDebounceTimeout));
     assertOpenPositionining(floatingEl);
   });
 
@@ -165,6 +160,23 @@ describe("repositioning", () => {
       expect(cleanupMap.has(fakeFloatingUiComponent)).toBe(false);
       expect(floatingEl.style.position).toBe("fixed");
     });
+  });
+
+  it("debounces positioning per instance", async () => {
+    const positionSpy = jest.spyOn(floatingUI, "positionFloatingUI");
+    fakeFloatingUiComponent.open = true;
+
+    const anotherFakeFloatingUiComponent = createFakeFloatingUiComponent();
+    anotherFakeFloatingUiComponent.open = true;
+
+    floatingUI.reposition(fakeFloatingUiComponent, positionOptions, true);
+    expect(positionSpy).toHaveBeenCalledTimes(1);
+
+    floatingUI.reposition(anotherFakeFloatingUiComponent, positionOptions, true);
+    expect(positionSpy).toHaveBeenCalledTimes(2);
+
+    await new Promise<void>((resolve) => setTimeout(resolve, repositionDebounceTimeout));
+    expect(positionSpy).toHaveBeenCalledTimes(2);
   });
 });
 

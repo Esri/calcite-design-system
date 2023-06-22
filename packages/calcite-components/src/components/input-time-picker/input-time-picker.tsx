@@ -11,12 +11,7 @@ import {
   VNode,
   Watch
 } from "@stencil/core";
-import {
-  debounceReposition,
-  FloatingUIComponent,
-  LogicalPlacement,
-  OverlayPositioning
-} from "../../utils/floating-ui";
+import { FloatingUIComponent, LogicalPlacement, OverlayPositioning } from "../../utils/floating-ui";
 import {
   connectForm,
   disconnectForm,
@@ -179,7 +174,7 @@ export class InputTimePicker
     }
 
     if (value) {
-      this.debouncedReposition();
+      this.reposition(true);
     }
   }
 
@@ -315,8 +310,6 @@ export class InputTimePicker
   //  Private Properties
   //
   //--------------------------------------------------------------------------
-
-  debouncedReposition = debounceReposition(this);
 
   defaultValue: InputTimePicker["value"];
 
@@ -472,12 +465,11 @@ export class InputTimePicker
   /**
    * Updates the position of the component.
    *
-   * @param {boolean} delayed [Deprecated] - No longer necessary.
-   * @returns {Promise<void>}
+   * @param delayed
    */
   @Method()
-  async reposition(): Promise<void> {
-    this.popoverEl?.reposition();
+  async reposition(delayed = false): Promise<void> {
+    this.popoverEl?.reposition(delayed);
   }
 
   // --------------------------------------------------------------------------
@@ -589,7 +581,7 @@ export class InputTimePicker
 
   private getExtendedLocaleConfig(
     locale: string
-  ): Parameters<typeof dayjs["updateLocale"]>[1] | undefined {
+  ): Parameters<(typeof dayjs)["updateLocale"]>[1] | undefined {
     if (locale === "ar") {
       return {
         meridiem: (hour) => (hour > 12 ? "م" : "ص"),

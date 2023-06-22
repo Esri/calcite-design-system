@@ -21,7 +21,6 @@ import {
 } from "../../utils/dom";
 import {
   connectFloatingUI,
-  debounceReposition,
   defaultMenuPlacement,
   disconnectFloatingUI,
   EffectivePlacement,
@@ -30,7 +29,7 @@ import {
   FloatingUIComponent,
   MenuPlacement,
   OverlayPositioning,
-  positionFloatingUI
+  reposition
 } from "../../utils/floating-ui";
 import { guid } from "../../utils/guid";
 import {
@@ -93,7 +92,7 @@ export class Dropdown
   openHandler(value: boolean): void {
     if (!this.disabled) {
       if (value) {
-        this.debouncedReposition();
+        this.reposition(true);
       }
       return;
     }
@@ -129,7 +128,7 @@ export class Dropdown
   @Watch("flipPlacements")
   flipPlacementsHandler(): void {
     this.setFilteredPlacements();
-    this.debouncedReposition();
+    this.reposition(true);
   }
 
   /**
@@ -155,7 +154,7 @@ export class Dropdown
 
   @Watch("overlayPositioning")
   overlayPositioningHandler(): void {
-    this.debouncedReposition();
+    this.reposition(true);
   }
 
   /**
@@ -167,7 +166,7 @@ export class Dropdown
 
   @Watch("placement")
   placementHandler(): void {
-    this.debouncedReposition();
+    this.reposition(true);
   }
 
   /**
@@ -214,7 +213,7 @@ export class Dropdown
   connectedCallback(): void {
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
     this.setFilteredPlacements();
-    this.debouncedReposition();
+    this.reposition(true);
     if (this.open) {
       this.openHandler(this.open);
     }
@@ -228,7 +227,7 @@ export class Dropdown
 
   componentDidLoad(): void {
     setComponentLoaded(this);
-    this.debouncedReposition();
+    this.reposition(true);
   }
 
   componentDidRender(): void {
@@ -297,21 +296,24 @@ export class Dropdown
   /**
    * Updates the position of the component.
    *
-   * @param {boolean} delayed [Deprecated] - No longer necessary.
-   * @returns {Promise<void>}
+   * @param delayed
    */
   @Method()
-  async reposition(): Promise<void> {
+  async reposition(delayed = false): Promise<void> {
     const { floatingEl, referenceEl, placement, overlayPositioning, filteredFlipPlacements } = this;
 
-    return positionFloatingUI(this, {
-      floatingEl,
-      referenceEl,
-      overlayPositioning,
-      placement,
-      flipPlacements: filteredFlipPlacements,
-      type: "menu"
-    });
+    return reposition(
+      this,
+      {
+        floatingEl,
+        referenceEl,
+        overlayPositioning,
+        placement,
+        flipPlacements: filteredFlipPlacements,
+        type: "menu"
+      },
+      delayed
+    );
   }
 
   //--------------------------------------------------------------------------
@@ -432,8 +434,6 @@ export class Dropdown
   //
   //--------------------------------------------------------------------------
 
-  debouncedReposition = debounceReposition(this);
-
   filteredFlipPlacements: EffectivePlacement[];
 
   private items: HTMLCalciteDropdownItemElement[] = [];
@@ -488,7 +488,7 @@ export class Dropdown
       flatten: true
     }) as HTMLElement[];
 
-    this.debouncedReposition();
+    this.reposition(true);
   };
 
   updateItems = (): void => {
@@ -498,7 +498,7 @@ export class Dropdown
 
     this.updateSelectedItems();
 
-    this.debouncedReposition();
+    this.reposition(true);
   };
 
   updateGroups = (event: Event): void => {
@@ -539,10 +539,10 @@ export class Dropdown
       return;
     }
 
-    this.debouncedReposition();
+    this.reposition(true);
     const maxScrollerHeight = this.getMaxScrollerHeight();
     scrollerEl.style.maxHeight = maxScrollerHeight > 0 ? `${maxScrollerHeight}px` : "";
-    this.debouncedReposition();
+    this.reposition(true);
   };
 
   setScrollerAndTransitionEl = (el: HTMLDivElement): void => {
