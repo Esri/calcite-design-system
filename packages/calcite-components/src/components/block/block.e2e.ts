@@ -43,8 +43,9 @@ describe("calcite-block", () => {
     `);
   });
 
-  it("can be disabled", () =>
-    disabled(html`<calcite-block heading="heading" description="description" collapsible></calcite-block>`));
+  describe("disabled", () => {
+    disabled(html`<calcite-block heading="heading" description="description" collapsible></calcite-block>`);
+  });
 
   it("has a loading state", async () => {
     const page = await newE2EPage({

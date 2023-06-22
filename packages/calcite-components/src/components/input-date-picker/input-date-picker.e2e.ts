@@ -51,7 +51,9 @@ describe("calcite-input-date-picker", () => {
     labelable("calcite-input-date-picker");
   });
 
-  it("can be disabled", () => disabled("calcite-input-date-picker"));
+  describe("disabled", () => {
+    disabled("calcite-input-date-picker");
+  });
 
   it.skip("supports t9n", () => t9n("calcite-input-date-picker"));
 

@@ -42,7 +42,9 @@ describe("calcite-dropdown", () => {
     ]);
   });
 
-  it("can be disabled", () => disabled(simpleDropdownHTML, { focusTarget: "child" }));
+  describe("disabled", () => {
+    disabled(simpleDropdownHTML, { focusTarget: "child" });
+  });
 
   interface SelectedItemsAssertionOptions {
     /**

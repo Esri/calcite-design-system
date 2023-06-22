@@ -626,8 +626,9 @@ export function focusing(listType: ListType): void {
   });
 }
 
+/* eslint-disable-next-line jest/no-export  -- util functions are now imported to be used as `it` blocks within `describe` instead of assertions within `it` blocks */
 export function disabling(listType: ListType): void {
-  it("can be disabled", () =>
+  describe("disabled", () => {
     disabled(
       html`
       <calcite-${listType}-list>
@@ -637,5 +638,6 @@ export function disabling(listType: ListType): void {
       {
         focusTarget: "child"
       }
-    ));
+    );
+  });
 }

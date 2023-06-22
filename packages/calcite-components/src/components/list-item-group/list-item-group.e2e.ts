@@ -9,7 +9,9 @@ describe("calcite-list-item-group", () => {
     hidden("calcite-list-item-group");
   });
 
-  it("can be disabled", () => disabled("calcite-list-item-group", { focusTarget: "none" }));
+  describe("disabled", () => {
+    disabled("calcite-list-item-group", { focusTarget: "none" });
+  });
 
   describe("defaults", () => {
     defaults("calcite-list-item-group", [
