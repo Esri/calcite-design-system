@@ -11,7 +11,7 @@ import {
   t9n
 } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
-import { letterKeys, numberKeys } from "../../utils/key";
+import { letterKeys } from "../../utils/key";
 import { locales, numberStringFormatter } from "../../utils/locale";
 import { getElementXY, selectText } from "../../tests/utils";
 import { KeyInput } from "puppeteer";

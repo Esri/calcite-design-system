@@ -13,7 +13,7 @@ import {
   t9n
 } from "../../tests/commonTests";
 import { getElementXY, selectText } from "../../tests/utils";
-import { letterKeys, numberKeys } from "../../utils/key";
+import { letterKeys } from "../../utils/key";
 import { locales, numberStringFormatter } from "../../utils/locale";
 
 describe("calcite-input-number", () => {
