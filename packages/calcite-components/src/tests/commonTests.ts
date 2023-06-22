@@ -1,4 +1,5 @@
-/* eslint-disable jest/no-export -- util functions are now imported to be used as `it` blocks within `describe` instead of assertions within `it` blocks */
+/* eslint-disable jest/no-conditional-expect -- Using conditional logic in a confined test helper to handle specific scenarios, reducing duplication, balancing test readability and maintainability. **/
+/* eslint-disable jest/no-export -- Util functions are now imported to be used as `it` blocks within `describe` instead of assertions within `it` blocks. */
 import { E2EElement, E2EPage, EventSpy, newE2EPage } from "@stencil/core/testing";
 import axe from "axe-core";
 import { toHaveNoViolations } from "jest-axe";
@@ -159,13 +160,11 @@ export function reflects(
         element.setProperty(propertyName, negated);
         await page.waitForChanges();
 
-        // eslint-disable-next-line jest/no-conditional-expect
         expect(element.getAttribute(attrName)).toBe(getExpectedValue(negated));
 
         element.setProperty(propertyName, value);
         await page.waitForChanges();
 
-        // eslint-disable-next-line jest/no-conditional-expect
         expect(element.getAttribute(attrName)).toBe(getExpectedValue(value));
       }
     }
@@ -284,7 +283,6 @@ export function focusable(componentTagOrHTML: TagOrHTML, options?: FocusableOpti
     await element.callMethod("setFocus", options?.focusId); // assumes element is FocusableElement
 
     if (options?.shadowFocusTargetSelector) {
-      // eslint-disable-next-line jest/no-conditional-expect
       expect(
         await page.$eval(
           tag,
@@ -370,10 +368,6 @@ export function slots(
         return defaultSlotted.assignedSlot?.name === "" && defaultSlotted.slot === "";
       });
 
-      /* eslint-disable-next-line jest/no-conditional-expect --
-       * Conditional logic here is confined to a test helper and its purpose is to handle specific scenarios/variations in the test setup.
-       * The goal is to reduce duplication and strike a balance between test readability and maintainability.
-       **/
       expect(hasDefaultSlotted).toBe(true);
     }
   });
@@ -930,7 +924,7 @@ export function disabled(
   componentTestSetup: ComponentTestSetup,
   options: DisabledOptions = { focusTarget: "host" }
 ): void {
-  const addClickListenersWithRedirectPrevention = async (page: E2EPage, tag: string): Promise<void> => {
+  const addRedirectPrevention = async (page: E2EPage, tag: string): Promise<void> => {
     await page.$eval(tag, (el) => {
       el.addEventListener(
         "click",
@@ -970,6 +964,7 @@ export function disabled(
     for (const event of allExpectedEvents) {
       eventSpies.push(await component.spyOnEvent(event));
     }
+
     return eventSpies;
   };
 
@@ -996,12 +991,12 @@ export function disabled(
     });
   };
 
-  it("remains non-focusable and disabled while receiving a click event for components that do not allow focusing", async () => {
+  it("prevents focusing via keyboard and mouse", async () => {
     const { page, tag } = await getTagAndPage(componentTestSetup);
 
     const component = await page.find(tag);
     await skipAnimations(page);
-    await addClickListenersWithRedirectPrevention(page, tag);
+    await addRedirectPrevention(page, tag);
 
     const eventSpies = await createEventSpiesForExpectedEvents(component);
 
@@ -1011,16 +1006,11 @@ export function disabled(
       await page.click(tag);
       await expectToBeFocused(page, "body");
 
-      /* eslint-disable-next-line jest/no-conditional-expect --
-       * Conditional logic here is confined to a test helper and its purpose is to handle specific scenarios/variations in the test setup.
-       * The goal is to reduce duplication and strike a balance between test readability and maintainability.
-       **/
       assertOnMouseAndPointerEvents(eventSpies, (spy) => expect(spy).toHaveReceivedEventTimes(1));
 
       component.setProperty("disabled", true);
       await page.waitForChanges();
 
-      // eslint-disable-next-line jest/no-conditional-expect
       expect(component.getAttribute("aria-disabled")).toBe("true");
 
       await page.click(tag);
@@ -1030,61 +1020,47 @@ export function disabled(
       await expectToBeFocused(page, "body");
 
       assertOnMouseAndPointerEvents(eventSpies, (spy) => {
-        // eslint-disable-next-line jest/no-conditional-expect
         expect(spy).toHaveReceivedEventTimes(eventsExpectedToBubble.includes(spy.eventName) ? 2 : 1);
       });
+
+      return;
     }
-  });
 
-  it("prevents focusing via keyboard and mouse", async () => {
-    const { page, tag } = await getTagAndPage(componentTestSetup);
+    await page.keyboard.press("Tab");
 
-    const component = await page.find(tag);
-    await skipAnimations(page);
-    await addClickListenersWithRedirectPrevention(page, tag);
+    const [tabFocusTarget, clickFocusTarget] = await getTabAndClickFocusTarget(page, tag);
 
-    const eventSpies = await createEventSpiesForExpectedEvents(component);
+    expect(tabFocusTarget).not.toBe("body");
+    await expectToBeFocused(page, tabFocusTarget);
 
-    if (options.focusTarget !== "none") {
-      await page.keyboard.press("Tab");
+    const [shadowFocusableCenterX, shadowFocusableCenterY] = await getShadowFocusableCenterCoordinates(
+      page,
+      tabFocusTarget
+    );
 
-      const [tabFocusTarget, clickFocusTarget] = await getTabAndClickFocusTarget(page, tag);
+    async function resetFocusOrder(): Promise<void> {
+      // test page has default margin, so clicking on 0,0 will not hit the test element
+      await page.mouse.click(0, 0);
+    }
 
-      // eslint-disable-next-line jest/no-conditional-expect
-      expect(tabFocusTarget).not.toBe("body");
-      await expectToBeFocused(page, tabFocusTarget);
+    await resetFocusOrder();
+    await expectToBeFocused(page, "body");
 
-      const [shadowFocusableCenterX, shadowFocusableCenterY] = await getShadowFocusableCenterCoordinates(
-        page,
-        tabFocusTarget
-      );
+    await page.mouse.click(shadowFocusableCenterX, shadowFocusableCenterY);
+    await expectToBeFocused(page, clickFocusTarget);
 
-      async function resetFocusOrder(): Promise<void> {
-        // test page has default margin, so clicking on 0,0 will not hit the test element
-        await page.mouse.click(0, 0);
+    await component.callMethod("click");
+    await expectToBeFocused(page, clickFocusTarget);
+
+    assertOnMouseAndPointerEvents(eventSpies, (spy) => {
+      if (spy.eventName === "click") {
+        // some components emit more than one click event (e.g., from calling `click()`),
+        // so we check if at least one event is received
+        expect(spy.length).toBeGreaterThanOrEqual(2);
+      } else {
+        expect(spy).toHaveReceivedEventTimes(1);
       }
-
-      await resetFocusOrder();
-      await expectToBeFocused(page, "body");
-
-      await page.mouse.click(shadowFocusableCenterX, shadowFocusableCenterY);
-      await expectToBeFocused(page, clickFocusTarget);
-
-      await component.callMethod("click");
-      await expectToBeFocused(page, clickFocusTarget);
-
-      assertOnMouseAndPointerEvents(eventSpies, (spy) => {
-        if (spy.eventName === "click") {
-          // some components emit more than one click event (e.g., from calling `click()`),
-          // so we check if at least one event is received
-          // eslint-disable-next-line jest/no-conditional-expect
-          expect(spy.length).toBeGreaterThanOrEqual(2);
-        } else {
-          // eslint-disable-next-line jest/no-conditional-expect
-          expect(spy).toHaveReceivedEventTimes(1);
-        }
-      });
-    }
+    });
   });
 
   it("events are no longer blocked right after enabling", async () => {
@@ -1092,7 +1068,7 @@ export function disabled(
 
     const component = await page.find(tag);
     await skipAnimations(page);
-    await addClickListenersWithRedirectPrevention(page, tag);
+    await addRedirectPrevention(page, tag);
 
     const eventSpies = await createEventSpiesForExpectedEvents(component);
 
@@ -1124,10 +1100,8 @@ export function disabled(
       if (spy.eventName === "click") {
         // some components emit more than one click event (e.g., from calling `click()`),
         // so we check if at least one event is received
-        // eslint-disable-next-line jest/no-conditional-expect
         expect(spy.length).toBeGreaterThanOrEqual(1);
       } else {
-        // eslint-disable-next-line jest/no-conditional-expect
         expect(spy).toHaveReceivedEventTimes(eventsExpectedToBubble.includes(spy.eventName) ? 3 : 1);
       }
     });
