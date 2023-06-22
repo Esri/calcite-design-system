@@ -64,7 +64,9 @@ describe("calcite-slider", () => {
     labelable("calcite-slider");
   });
 
-  it("can be disabled", () => disabled("calcite-slider"));
+  describe("disabled", () => {
+    disabled("calcite-slider");
+  });
 
   it("sets aria attributes properly for single value", async () => {
     const page = await newE2EPage();
