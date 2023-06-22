@@ -790,6 +790,12 @@ export class Input
       }
       return;
     }
+
+    // identifies French AZERTY keyboard input
+    if (numberKeys.includes(event.key) && event.shiftKey) {
+      return;
+    }
+
     numberStringFormatter.numberFormatOptions = {
       locale: this.effectiveLocale,
       numberingSystem: this.numberingSystem,
