@@ -1055,7 +1055,7 @@ describe("calcite-input", () => {
       expect(Number(await element.getProperty("value"))).toBe(195);
     });
 
-    it("disallows typing any letter  with shift modifier key down", async () => {
+    it("disallows typing any characters with shift modifier key down", async () => {
       const page = await newE2EPage();
       await page.setContent(html`<calcite-input type="number"></calcite-input>`);
       const calciteInput = await page.find("calcite-input");
