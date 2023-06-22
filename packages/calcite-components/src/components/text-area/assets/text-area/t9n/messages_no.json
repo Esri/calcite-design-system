@@ -1,4 +1,5 @@
 {
   "invalid": "Ugyldig",
-  "tooLong": "Maksimumsgrensen for antall tegn er overskredet"
+  "tooLong": "Maksimumsgrensen for antall tegn er overskredet",
+  "longText": "The current character length is ${currentLength}, which exceeds the maximum character length of ${maxLength}."
 }
