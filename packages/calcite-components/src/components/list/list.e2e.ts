@@ -96,13 +96,14 @@ describe("calcite-list", () => {
     </calcite-list>`);
   });
 
-  it("can be disabled", () =>
+  describe("disabled", () => {
     disabled(
       html`<calcite-list>
         <calcite-list-item label="test" description="hello world"></calcite-list-item>
       </calcite-list>`,
       { focusTarget: "child" }
-    ));
+    );
+  });
 
   it.skip("navigating items after filtering", async () => {
     const page = await newE2EPage({
@@ -326,6 +327,18 @@ describe("calcite-list", () => {
     const calciteListChangeEvent2 = list.waitForEvent("calciteListChange");
     await listItemOneContentContainer.click();
     await calciteListChangeEvent2;
+    expect(await listItemOne.getProperty("selected")).toBe(false);
+    expect(await list.getProperty("selectedItems")).toHaveLength(0);
+
+    listItemOne.setProperty("selected", true);
+    await page.waitForChanges();
+    await page.waitForTimeout(listDebounceTimeout);
+    expect(await listItemOne.getProperty("selected")).toBe(true);
+    expect(await list.getProperty("selectedItems")).toHaveLength(1);
+
+    listItemOne.setProperty("selected", false);
+    await page.waitForChanges();
+    await page.waitForTimeout(listDebounceTimeout);
     expect(await listItemOne.getProperty("selected")).toBe(false);
     expect(await list.getProperty("selectedItems")).toHaveLength(0);
   });
