@@ -1,18 +1,20 @@
 import { waitForAnimationFrame } from "../tests/utils";
-import {
+import * as floatingUI from "./floating-ui";
+import { FloatingUIComponent } from "./floating-ui";
+
+const {
   cleanupMap,
   connectFloatingUI,
   defaultOffsetDistance,
   disconnectFloatingUI,
   effectivePlacements,
   filterComputedPlacements,
-  FloatingUIComponent,
   getEffectivePlacement,
   placements,
   positionFloatingUI,
   reposition,
   repositionDebounceTimeout
-} from "./floating-ui";
+} = floatingUI;
 
 import * as floatingUIDOM from "@floating-ui/dom";
 
@@ -56,8 +58,8 @@ describe("repositioning", () => {
   let referenceEl: HTMLButtonElement;
   let positionOptions: Parameters<typeof positionFloatingUI>[1];
 
-  beforeEach(() => {
-    fakeFloatingUiComponent = {
+  function createFakeFloatingUiComponent(): FloatingUIComponent {
+    return {
       open: false,
       reposition: async () => {
         /* noop */
@@ -65,6 +67,10 @@ describe("repositioning", () => {
       overlayPositioning: "absolute",
       placement: "auto"
     };
+  }
+
+  beforeEach(() => {
+    fakeFloatingUiComponent = createFakeFloatingUiComponent();
 
     floatingEl = document.createElement("div");
     referenceEl = document.createElement("button");
@@ -154,6 +160,23 @@ describe("repositioning", () => {
       expect(cleanupMap.has(fakeFloatingUiComponent)).toBe(false);
       expect(floatingEl.style.position).toBe("fixed");
     });
+  });
+
+  it("debounces positioning per instance", async () => {
+    const positionSpy = jest.spyOn(floatingUI, "positionFloatingUI");
+    fakeFloatingUiComponent.open = true;
+
+    const anotherFakeFloatingUiComponent = createFakeFloatingUiComponent();
+    anotherFakeFloatingUiComponent.open = true;
+
+    floatingUI.reposition(fakeFloatingUiComponent, positionOptions, true);
+    expect(positionSpy).toHaveBeenCalledTimes(1);
+
+    floatingUI.reposition(anotherFakeFloatingUiComponent, positionOptions, true);
+    expect(positionSpy).toHaveBeenCalledTimes(2);
+
+    await new Promise<void>((resolve) => setTimeout(resolve, repositionDebounceTimeout));
+    expect(positionSpy).toHaveBeenCalledTimes(2);
   });
 });
 
