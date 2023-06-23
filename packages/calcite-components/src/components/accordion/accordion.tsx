@@ -96,10 +96,6 @@ export class Accordion {
     }
   }
 
-  // componentDidRender(): void {
-
-  // }
-
   disconnectedCallback(): void {
     this.mutationObserver?.disconnect();
   }
