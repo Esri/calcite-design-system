@@ -145,17 +145,24 @@ export const sanitizeNumberString = (numberString: string): string =>
   });
 
 export function getBigDecimalAsString(sanitizedValue: string): string {
-  const decimals = sanitizedValue.split(".")[1];
-  const newdecimals = new BigDecimal(sanitizedValue).toString().split(".")[1];
+  const sanitizedValueDecimals = sanitizedValue.split(".")[1];
+  const value = new BigDecimal(sanitizedValue).toString();
+  const bigDecimalValueDecimals = value.split(".")[1];
 
   // adds back trailing decimal zeros
-  if (decimals && !newdecimals && BigInt(decimals) === BigInt(0) && decimals !== newdecimals) {
-    const value = new BigDecimal(sanitizedValue).toString() + ".";
-    const newvalue = value.padEnd(value.length + decimals.length, "0");
-    return newvalue;
+  if (sanitizedValueDecimals && bigDecimalValueDecimals) {
+    let diff = "";
+    [...sanitizedValueDecimals].forEach((decimal) => {
+      if (!bigDecimalValueDecimals.includes(decimal) && decimal === "0") {
+        diff += "0";
+      }
+    });
+    return `${value}${diff}`;
+  } else if (sanitizedValueDecimals && !bigDecimalValueDecimals) {
+    return `${value}.${sanitizedValueDecimals}`;
   }
 
-  return new BigDecimal(sanitizedValue).toString();
+  return value;
 }
 
 export function sanitizeExponentialNumberString(numberString: string, func: (s: string) => string): string {
@@ -247,16 +254,21 @@ export function addLocalizedTrailingDecimalZeros(
 ): string {
   let localizedDecimals;
   const decimalSeparator = formatter.decimal;
+  const localizedZeroValue = formatter.localize("0");
   if (localizedValue.includes(decimalSeparator)) {
-    localizedDecimals = localizedValue.split(".")[1];
+    localizedDecimals = localizedValue.split(decimalSeparator)[1];
   }
   const decimals = value.split(".")[1];
-
-  if (decimals && localizedDecimals !== decimals) {
-    localizedValue = localizedValue + decimalSeparator;
+  if (decimals && localizedDecimals) {
+    let diff = "";
     [...decimals].forEach((decimal) => {
-      localizedValue += formatter.localize(decimal);
+      if (!localizedDecimals.includes(decimal) && decimal === localizedZeroValue) {
+        diff += localizedZeroValue;
+      }
     });
+    return `${localizedValue}${diff}`;
+  } else if (decimals && !localizedDecimals) {
+    return `${localizedValue}${decimalSeparator}${decimals}`;
   }
   return localizedValue;
 }

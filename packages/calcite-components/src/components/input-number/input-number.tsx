@@ -843,10 +843,7 @@ export class InputNumber
 
     const isValueDeleted =
       this.previousValue?.length > value.length || this.value?.length > value.length;
-
-    const hasTrailingDecimalSeparator =
-      value.charAt(value.length - 1) === numberStringFormatter.decimal;
-
+    const hasTrailingDecimalSeparator = value.charAt(value.length - 1) === ".";
     const sanitizedValue =
       hasTrailingDecimalSeparator && isValueDeleted
         ? value
