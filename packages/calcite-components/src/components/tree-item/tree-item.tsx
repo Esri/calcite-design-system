@@ -120,7 +120,7 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
   @Prop({ mutable: true, reflect: true }) selectionMode: SelectionMode;
 
   @Watch("selectionMode")
-  getselectionMode(): void {
+  getSelectionMode(): void {
     this.isSelectionMultiLike =
       this.selectionMode === "multiple" || this.selectionMode === "multichildren";
   }
