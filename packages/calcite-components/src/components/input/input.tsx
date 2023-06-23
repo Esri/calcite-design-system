@@ -784,15 +784,10 @@ export class Input
       return;
     }
     const isShiftTabEvent = event.shiftKey && event.key === "Tab";
-    if (supportedKeys.includes(event.key) && (!event.shiftKey || isShiftTabEvent)) {
+    if (supportedKeys.includes(event.key) || isShiftTabEvent) {
       if (event.key === "Enter") {
         this.emitChangeIfUserModified();
       }
-      return;
-    }
-
-    // identifies French AZERTY keyboard input
-    if (numberKeys.includes(event.key) && event.shiftKey) {
       return;
     }
 

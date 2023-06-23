@@ -1055,7 +1055,7 @@ describe("calcite-input", () => {
       expect(Number(await element.getProperty("value"))).toBe(195);
     });
 
-    it("disallows typing any characters with shift modifier key down", async () => {
+    it("disallows typing any non-numeric characters with shift modifier key down", async () => {
       const page = await newE2EPage();
       await page.setContent(html`<calcite-input type="number"></calcite-input>`);
       const calciteInput = await page.find("calcite-input");
@@ -1071,8 +1071,7 @@ describe("calcite-input", () => {
       }
     });
 
-    // refer to issue here https://github.com/Esri/calcite-components/issues/6854
-    it("allows typing numbers with shift modifier key down", async () => {
+    it("allows typing numeric characters with shift modifier key down (#6854)", async () => {
       const page = await newE2EPage();
       await page.setContent(html`<calcite-input type="number"></calcite-input>`);
       const calciteInput = await page.find("calcite-input");
