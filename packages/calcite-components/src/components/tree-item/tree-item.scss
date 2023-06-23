@@ -144,7 +144,7 @@
 
   .item--expanded > & {
     @apply overflow-visible opacity-100;
-    transform: scaleY(1);
+    transform: none;
     block-size: auto;
   }
 }
