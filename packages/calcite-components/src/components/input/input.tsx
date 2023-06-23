@@ -790,7 +790,6 @@ export class Input
       }
       return;
     }
-
     numberStringFormatter.numberFormatOptions = {
       locale: this.effectiveLocale,
       numberingSystem: this.numberingSystem,
