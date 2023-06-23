@@ -72,7 +72,9 @@ describe("calcite-split-button", () => {
     </calcite-split-button>`);
   });
 
-  it("can be disabled", () => disabled("calcite-split-button"));
+  describe("disabled", () => {
+    disabled("calcite-split-button");
+  });
 
   it("renders default props when none are provided", async () => {
     const page = await newE2EPage();
