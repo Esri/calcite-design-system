@@ -11,7 +11,7 @@ import {
   t9n
 } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
-import { letterKeys } from "../../utils/key";
+import { letterKeys, numberKeys } from "../../utils/key";
 import { locales, numberStringFormatter } from "../../utils/locale";
 import { getElementXY, selectText } from "../../tests/utils";
 import { KeyInput } from "puppeteer";
@@ -1068,6 +1068,26 @@ describe("calcite-input", () => {
         await page.keyboard.up("Shift");
         expect(await calciteInput.getProperty("value")).toBeFalsy();
         expect(await input.getProperty("value")).toBeFalsy();
+      }
+    });
+
+    // refer to issue here https://github.com/Esri/calcite-components/issues/6854
+    it("allows typing numbers with shift modifier key down", async () => {
+      const page = await newE2EPage();
+      await page.setContent(html`<calcite-input type="number"></calcite-input>`);
+      const calciteInput = await page.find("calcite-input");
+      const input = await page.find("calcite-input >>> input");
+      await calciteInput.callMethod("setFocus");
+      const numberKeysExcludingZero = numberKeys.slice(1);
+
+      let result = "";
+      for (let i = 0; i < numberKeysExcludingZero.length; i++) {
+        await page.keyboard.down("Shift");
+        await page.keyboard.press(numberKeysExcludingZero[i] as KeyInput);
+        result += numberKeysExcludingZero[i];
+        await page.keyboard.up("Shift");
+        expect(await calciteInput.getProperty("value")).toBe(result);
+        expect(await input.getProperty("value")).toBe(result);
       }
     });
 
