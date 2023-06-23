@@ -40,13 +40,14 @@ describe("calcite-tile-select", () => {
     hidden("calcite-tile-select");
   });
 
-  it("can be disabled", () =>
+  describe("disabled", () => {
     disabled(
       "calcite-tile-select",
 
       /* focusing on child since tile appends to light DOM */
       { focusTarget: "child" }
-    ));
+    );
+  });
 
   it("renders a calcite-tile", async () => {
     const page = await newE2EPage();

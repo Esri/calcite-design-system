@@ -40,7 +40,9 @@ describe("calcite-text-area", () => {
     labelable("calcite-text-area");
   });
 
-  it("can be disabled", () => disabled("calcite-text-area"));
+  describe("disabled", () => {
+    disabled("calcite-text-area");
+  });
 
   describe("reflects", () => {
     reflects("calcite-text-area", [
