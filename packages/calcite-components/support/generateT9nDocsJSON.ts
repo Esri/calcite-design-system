@@ -26,7 +26,7 @@
         );
 
         for (const [key, value] of Object.entries(messagesFileEnglish)) {
-          data[component][key] = { en: value };
+          data[component][key] = { main: value };
         }
 
         const messagesFilenames = (await readdir(t9nPath, { withFileTypes: true })).map((dirent) => dirent.name);
