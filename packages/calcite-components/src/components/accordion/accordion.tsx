@@ -120,21 +120,6 @@ export class Accordion {
   //
   //--------------------------------------------------------------------------
 
-  @Listen("calciteInternalAccordionItemRegister")
-  registerCalciteAccordionItem(event: CustomEvent): void {
-    this.accordionParent = event.detail.parent as HTMLCalciteAccordionElement;
-
-    const item = {
-      accordionItem: event.target as HTMLCalciteAccordionItemElement,
-      position: event.detail.position as number
-    };
-
-    if (this.el === this.accordionParent) {
-      this.accordionItems.push(item);
-    }
-    event.stopPropagation();
-  }
-
   @Listen("calciteInternalAccordionItemSelect")
   updateActiveItemOnChange(event: CustomEvent): void {
     this.requestedAccordionItem = event.detail.requestedAccordionItem;
@@ -150,7 +135,20 @@ export class Accordion {
   //
   //--------------------------------------------------------------------------
 
-  mutationObserver = createObserver("mutation", () => this.updateAccordionItems());
+  mutationObserver = createObserver("mutation", (mutationList) => {
+    let addedAccordionItem: HTMLCalciteAccordionItemElement;
+    for (const mutation of mutationList) {
+      if (mutation.type === "childList") {
+        const addedNodes = Array.from(mutation.addedNodes);
+        addedAccordionItem = addedNodes.find(
+          (node) => node instanceof HTMLCalciteAccordionItemElement
+        ) as HTMLCalciteAccordionItemElement;
+      }
+    }
+    const childNodes = Array.from(this.el.childNodes);
+    const position = childNodes.indexOf(addedAccordionItem);
+    this.updateAccordionItems(addedAccordionItem, position);
+  });
 
   /** list of `accordion-item`s */
   accordionItems: {
@@ -170,12 +168,20 @@ export class Accordion {
   //
   //--------------------------------------------------------------------------
 
-  private updateAccordionItems = (): void => {
-    const accordionItemsQueryArray = Array.from(this.el.querySelectorAll("calcite-accordion-item"));
-
-    this.accordionItems = accordionItemsQueryArray.map((_item, index) => {
-      return { accordionItem: accordionItemsQueryArray[index], position: null };
-    });
+  private updateAccordionItems = (
+    addedAccordionItem?: HTMLCalciteAccordionItemElement,
+    position?: number
+  ): void => {
+    if (addedAccordionItem) {
+      this.accordionItems.push({ accordionItem: addedAccordionItem, position: position });
+    } else {
+      const accordionItemsQueryArray = Array.from(
+        this.el.querySelectorAll("calcite-accordion-item")
+      );
+      this.accordionItems = accordionItemsQueryArray.map((_item, index) => {
+        return { accordionItem: accordionItemsQueryArray[index], position: null };
+      });
+    }
 
     this.accordionItems.forEach((object) => {
       const accordionItem = object.accordionItem;

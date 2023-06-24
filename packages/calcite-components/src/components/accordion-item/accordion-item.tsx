@@ -14,16 +14,11 @@ import {
   connectConditionalSlotComponent,
   disconnectConditionalSlotComponent
 } from "../../utils/conditionalSlot";
-import {
-  closestElementCrossShadowBoundary,
-  getElementDir,
-  getSlotted,
-  toAriaBoolean
-} from "../../utils/dom";
+import { getElementDir, getSlotted, toAriaBoolean } from "../../utils/dom";
 import { CSS_UTILITY } from "../../utils/resources";
 import { SLOTS, CSS } from "./resources";
 import { FlipContext, Position, Scale, SelectionMode } from "../interfaces";
-import { RegistryEntry, RequestedItem } from "./interfaces";
+import { RequestedItem } from "./interfaces";
 
 /**
  * @slot - A slot for adding custom content, including nested `calcite-accordion-item`s.
@@ -118,11 +113,6 @@ export class AccordionItem implements ConditionalSlotComponent {
    */
   @Event({ cancelable: false }) calciteInternalAccordionItemClose: EventEmitter<void>;
 
-  /**
-   * @internal
-   */
-  @Event({ cancelable: false }) calciteInternalAccordionItemRegister: EventEmitter<RegistryEntry>;
-
   //--------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -131,14 +121,6 @@ export class AccordionItem implements ConditionalSlotComponent {
 
   connectedCallback(): void {
     connectConditionalSlotComponent(this);
-  }
-
-  componentDidLoad(): void {
-    this.itemPosition = this.getItemPosition();
-    this.calciteInternalAccordionItemRegister.emit({
-      parent: this.accordionParent,
-      position: this.itemPosition
-    });
   }
 
   disconnectedCallback(): void {
@@ -276,9 +258,6 @@ export class AccordionItem implements ConditionalSlotComponent {
   //
   //--------------------------------------------------------------------------
 
-  /** position within parent */
-  private itemPosition: number;
-
   /** the latest requested item */
   private requestedAccordionItem: HTMLCalciteAccordionItemElement;
 
@@ -313,15 +292,5 @@ export class AccordionItem implements ConditionalSlotComponent {
     this.calciteInternalAccordionItemSelect.emit({
       requestedAccordionItem: this.el as HTMLCalciteAccordionItemElement
     });
-  }
-
-  private getItemPosition(): number {
-    const { el } = this;
-
-    const items = closestElementCrossShadowBoundary(el, "calcite-accordion")?.querySelectorAll(
-      "calcite-accordion-item"
-    );
-
-    return items ? Array.from(items).indexOf(el) : -1;
   }
 }
