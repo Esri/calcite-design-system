@@ -268,7 +268,7 @@ export async function newProgrammaticE2EPage(): Promise<E2EPage> {
  */
 export async function skipAnimations(page: E2EPage): Promise<void> {
   await page.addStyleTag({
-    content: `:root { --calcite-duration-factor: 0; }`
+    content: `:root { --calcite-duration-factor: 0.01; }`
   });
 }
 
