@@ -20,12 +20,9 @@
       const t9nPath = resolve(assetsPaths, component, "t9n");
       if (existsSync(t9nPath)) {
         data[component] = {};
-        // the english file is the only one without the lang in the filename
-        const messagesFileEnglish = JSON.parse(
-          await readFile(resolve(t9nPath, "messages.json"), { encoding: "utf-8" })
-        );
+        const messagesFileMain = JSON.parse(await readFile(resolve(t9nPath, "messages.json"), { encoding: "utf-8" }));
 
-        for (const [key, value] of Object.entries(messagesFileEnglish)) {
+        for (const [key, value] of Object.entries(messagesFileMain)) {
           data[component][key] = { main: value };
         }
 
