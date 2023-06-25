@@ -21,10 +21,7 @@
       if (existsSync(t9nPath)) {
         data[component] = {};
         const messagesFileMain = JSON.parse(await readFile(resolve(t9nPath, "messages.json"), { encoding: "utf-8" }));
-
-        for (const [key, value] of Object.entries(messagesFileMain)) {
-          data[component][key] = { main: value };
-        }
+        Object.keys(messagesFileMain).forEach((key) => (data[component][key] = {}));
 
         const messagesFilenames = (await readdir(t9nPath, { withFileTypes: true })).map((dirent) => dirent.name);
         for (const messagesFilename of messagesFilenames) {
