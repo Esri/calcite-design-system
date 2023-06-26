@@ -128,18 +128,7 @@ export class Accordion {
   //
   //--------------------------------------------------------------------------
 
-  mutationObserver = createObserver("mutation", (mutationList) => {
-    let addedAccordionItem: HTMLCalciteAccordionItemElement;
-    for (const mutation of mutationList) {
-      if (mutation.type === "childList") {
-        const addedNodes = Array.from(mutation.addedNodes);
-        addedAccordionItem = addedNodes.find(
-          (node) => node instanceof HTMLCalciteAccordionItemElement
-        ) as HTMLCalciteAccordionItemElement;
-      }
-    }
-    this.updateAccordionItems(addedAccordionItem);
-  });
+  mutationObserver = createObserver("mutation", () => this.updateAccordionItems());
 
   /** list of `accordion-item`s */
   accordionItems: HTMLCalciteAccordionItemElement[] = [];
@@ -153,15 +142,8 @@ export class Accordion {
   //
   //--------------------------------------------------------------------------
 
-  private updateAccordionItems = (addedAccordionItem?: HTMLCalciteAccordionItemElement): void => {
-    if (addedAccordionItem) {
-      this.accordionItems.push(addedAccordionItem);
-    } else {
-      const accordionItemsQueryArray = Array.from(
-        this.el.querySelectorAll("calcite-accordion-item")
-      );
-      this.accordionItems = accordionItemsQueryArray;
-    }
+  private updateAccordionItems = (): void => {
+    this.accordionItems = Array.from(this.el.querySelectorAll("calcite-accordion-item"));
 
     this.accordionItems.forEach((item) => {
       const accordionItem = item;
