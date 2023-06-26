@@ -147,22 +147,11 @@ export const sanitizeNumberString = (numberString: string): string =>
 export function getBigDecimalAsString(sanitizedValue: string): string {
   const sanitizedValueDecimals = sanitizedValue.split(".")[1];
   const value = new BigDecimal(sanitizedValue).toString();
-  const bigDecimalValueDecimals = value.split(".")[1];
+  const [bigDecimalValueInteger, bigDecimalValueDecimals] = value.split(".");
 
-  // adds back trailing decimal zeros
-  if (sanitizedValueDecimals && bigDecimalValueDecimals) {
-    let diff = "";
-    [...sanitizedValueDecimals].forEach((decimal) => {
-      if (!bigDecimalValueDecimals.includes(decimal) && decimal === "0") {
-        diff += "0";
-      }
-    });
-    return `${value}${diff}`;
-  } else if (sanitizedValueDecimals && !bigDecimalValueDecimals) {
-    return `${value}.${sanitizedValueDecimals}`;
-  }
-
-  return value;
+  return sanitizedValueDecimals && bigDecimalValueDecimals !== sanitizedValueDecimals
+    ? `${bigDecimalValueInteger}.${sanitizedValueDecimals}`
+    : value;
 }
 
 export function sanitizeExponentialNumberString(numberString: string, func: (s: string) => string): string {
@@ -252,23 +241,15 @@ export function addLocalizedTrailingDecimalZeros(
   value: string,
   formatter: NumberStringFormat
 ): string {
-  let localizedDecimals;
   const decimalSeparator = formatter.decimal;
-  const localizedZeroValue = formatter.localize("0");
-  if (localizedValue.includes(decimalSeparator)) {
-    localizedDecimals = localizedValue.split(decimalSeparator)[1];
-  }
+  const localizedIntegers = localizedValue.includes(decimalSeparator)
+    ? localizedValue.split(decimalSeparator)[0]
+    : localizedValue;
   const decimals = value.split(".")[1];
-  if (decimals && localizedDecimals) {
-    let diff = "";
-    [...decimals].forEach((decimal) => {
-      if (!localizedDecimals.includes(decimal) && decimal === localizedZeroValue) {
-        diff += localizedZeroValue;
-      }
-    });
-    return `${localizedValue}${diff}`;
-  } else if (decimals && !localizedDecimals) {
-    return `${localizedValue}${decimalSeparator}${decimals}`;
-  }
-  return localizedValue;
+
+  return decimals
+    ? `${localizedIntegers}${decimalSeparator}${Array.from(decimals)
+        .map((d) => formatter.localize(d))
+        .join("")}`
+    : localizedValue;
 }
