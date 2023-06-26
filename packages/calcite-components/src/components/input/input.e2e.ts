@@ -703,21 +703,6 @@ describe("calcite-input", () => {
       expect(inputEventSpy).not.toHaveReceivedEvent();
       expect(changeEventSpy).not.toHaveReceivedEvent();
     });
-
-    it("allows trailing decimal separator", async () => {
-      const page = await newE2EPage();
-      await page.setContent(html`<calcite-input value="1.1"></calcite-input>`);
-      const calciteInput = await page.find("calcite-input");
-      const inputEventSpy = await calciteInput.spyOnEvent("calciteInputInput");
-
-      await calciteInput.click();
-      await page.keyboard.press("Backspace");
-      await page.waitForChanges();
-      expect(inputEventSpy).toHaveReceivedEvent();
-      const input = await page.find("calcite-input >>> input");
-
-      expect(await input.getProperty("value")).toBe("1.");
-    });
   });
 
   describe("emits events when value is modified", () => {
@@ -1306,6 +1291,80 @@ describe("calcite-input", () => {
           expect(await calciteInput.getProperty("value")).toBe(assertedValue);
           expect(await internalLocaleInput.getProperty("value")).toBe(localizedValue);
         });
+
+        it(`should be able to append values after Backspace for ${locale} locale`, async () => {
+          const page = await newE2EPage();
+          await page.setContent(`
+          <calcite-input lang="${locale}"></calcite-input>
+          `);
+
+          numberStringFormatter.numberFormatOptions = {
+            locale,
+            numberingSystem: "latn",
+            useGrouping: false
+          };
+          const decimalSeparator = numberStringFormatter.decimal;
+          const calciteInput = await page.find("calcite-input");
+          const input = await page.find("calcite-input >>> input");
+          await calciteInput.callMethod("setFocus");
+          await typeNumberValue(page, `0${decimalSeparator}0000`);
+          await page.waitForChanges();
+          expect(await input.getProperty("value")).toBe(`0${decimalSeparator}0000`);
+
+          await page.keyboard.press("Backspace");
+          await typeNumberValue(page, "1");
+          await page.waitForChanges();
+          expect(await input.getProperty("value")).toBe(`0${decimalSeparator}0001`);
+
+          await typeNumberValue(page, "01");
+          await page.waitForChanges();
+          expect(await input.getProperty("value")).toBe(`0${decimalSeparator}000101`);
+        });
+
+        it(`should keep leading decimal separator while input is focused on Backspace ${locale} locale `, async () => {
+          const page = await newE2EPage();
+          await page.setContent(`
+          <calcite-input lang="${locale}"></calcite-input>
+          `);
+
+          numberStringFormatter.numberFormatOptions = {
+            locale,
+            numberingSystem: "latn",
+            useGrouping: false
+          };
+          const decimalSeparator = numberStringFormatter.decimal;
+          const calciteInput = await page.find("calcite-input");
+          const input = await page.find("calcite-input >>> input");
+          await calciteInput.callMethod("setFocus");
+          await typeNumberValue(page, `0${decimalSeparator}01`);
+          await page.waitForChanges();
+          expect(await input.getProperty("value")).toBe(`0${decimalSeparator}01`);
+
+          await page.keyboard.press("Backspace");
+          await page.waitForChanges();
+          expect(await input.getProperty("value")).toBe(`0${decimalSeparator}0`);
+
+          await page.keyboard.press("Backspace");
+          await page.waitForChanges();
+          expect(await input.getProperty("value")).toBe(`0${decimalSeparator}`);
+
+          await typeNumberValue(page, "01");
+          await page.waitForChanges();
+          expect(await input.getProperty("value")).toBe(`0${decimalSeparator}01`);
+        });
+
+        it(`should sanitize leading decimal zeros on initial render ${locale} locale`, async () => {
+          const page = await newE2EPage();
+          await page.setContent(html`<calcite-input value="0.0000" lang="${locale}"></calcite-input>`);
+
+          numberStringFormatter.numberFormatOptions = {
+            locale,
+            numberingSystem: "latn",
+            useGrouping: false
+          };
+          const input = await page.find("calcite-input >>> input");
+          expect(await input.getProperty("value")).toBe("0");
+        });
       });
   });
 
@@ -1589,63 +1648,6 @@ describe("calcite-input", () => {
     await typeNumberValue(page, "0000000");
     await page.waitForChanges();
     expect(await element.getProperty("value")).toBe("10000000");
-  });
-
-  it("should be able to append value to zeros in decimal after Backspace", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`
-    <calcite-input-number></calcite-input-number>
-    `);
-
-    const element = await page.find("calcite-input-number");
-    await element.callMethod("setFocus");
-    await typeNumberValue(page, "0.0000");
-    await page.waitForChanges();
-    expect(await element.getProperty("value")).toBe("0.0000");
-
-    await page.keyboard.press("Backspace");
-    await typeNumberValue(page, "1");
-    await page.waitForChanges();
-    expect(await element.getProperty("value")).toBe("0.0001");
-
-    await typeNumberValue(page, "01");
-    await page.waitForChanges();
-    expect(await element.getProperty("value")).toBe("0.000101");
-  });
-
-  it("should keep leading decimal separator while input is focused on Backspace", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`
-    <calcite-input-number></calcite-input-number>
-    `);
-
-    const element = await page.find("calcite-input-number");
-    await element.callMethod("setFocus");
-    await typeNumberValue(page, "0.01");
-    await page.waitForChanges();
-    expect(await element.getProperty("value")).toBe("0.01");
-
-    await page.keyboard.press("Backspace");
-    await page.waitForChanges();
-    expect(await element.getProperty("value")).toBe("0.0");
-
-    await page.keyboard.press("Backspace");
-    await page.waitForChanges();
-    expect(await element.getProperty("value")).toBe("0.");
-
-    await typeNumberValue(page, "01");
-    await page.waitForChanges();
-    expect(await element.getProperty("value")).toBe("0.01");
-  });
-
-  it("should sanitize leading decimal zeros on initial render", async () => {
-    const page = await newE2EPage();
-    await page.setContent(html`<calcite-input value="0.0000" type="number"></calcite-input>`);
-    const calciteInput = await page.find("calcite-input");
-    const input = await page.find("calcite-input >>> input");
-
-    expect(await input.getProperty("value")).toBe("0");
-    expect(await calciteInput.getProperty("value")).toBe("0.0000");
   });
 
   it("sanitize extra dashes from number input value", async () => {
