@@ -1004,6 +1004,7 @@ export function disabled(
 
     if (options.focusTarget === "none") {
       await page.click(tag);
+      await page.waitForChanges();
       await expectToBeFocused(page, "body");
 
       assertOnMouseAndPointerEvents(eventSpies, (spy) => expect(spy).toHaveReceivedEventTimes(1));
@@ -1014,9 +1015,11 @@ export function disabled(
       expect(component.getAttribute("aria-disabled")).toBe("true");
 
       await page.click(tag);
+      await page.waitForChanges();
       await expectToBeFocused(page, "body");
 
       await component.callMethod("click");
+      await page.waitForChanges();
       await expectToBeFocused(page, "body");
 
       assertOnMouseAndPointerEvents(eventSpies, (spy) => {
@@ -1047,9 +1050,11 @@ export function disabled(
     await expectToBeFocused(page, "body");
 
     await page.mouse.click(shadowFocusableCenterX, shadowFocusableCenterY);
+    await page.waitForChanges();
     await expectToBeFocused(page, clickFocusTarget);
 
     await component.callMethod("click");
+    await page.waitForChanges();
     await expectToBeFocused(page, clickFocusTarget);
 
     assertOnMouseAndPointerEvents(eventSpies, (spy) => {
@@ -1078,6 +1083,7 @@ export function disabled(
     expect(component.getAttribute("aria-disabled")).toBe("true");
 
     await page.click(tag);
+    await page.waitForChanges();
 
     assertOnMouseAndPointerEvents(eventSpies, (spy) => {
       expect(spy).toHaveReceivedEventTimes(eventsExpectedToBubble.includes(spy.eventName) ? 1 : 0);
