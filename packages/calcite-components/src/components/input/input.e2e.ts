@@ -1295,7 +1295,7 @@ describe("calcite-input", () => {
         it(`should be able to append values after Backspace for ${locale} locale`, async () => {
           const page = await newE2EPage();
           await page.setContent(`
-          <calcite-input lang="${locale}"></calcite-input>
+          <calcite-input lang="${locale}" type="number"></calcite-input>
           `);
 
           numberStringFormatter.numberFormatOptions = {
@@ -1324,7 +1324,7 @@ describe("calcite-input", () => {
         it(`should keep leading decimal separator while input is focused on Backspace ${locale} locale `, async () => {
           const page = await newE2EPage();
           await page.setContent(`
-          <calcite-input lang="${locale}"></calcite-input>
+          <calcite-input lang="${locale}" type="number"></calcite-input>
           `);
 
           numberStringFormatter.numberFormatOptions = {
@@ -1355,7 +1355,7 @@ describe("calcite-input", () => {
 
         it(`should sanitize leading decimal zeros on initial render ${locale} locale`, async () => {
           const page = await newE2EPage();
-          await page.setContent(html`<calcite-input value="0.0000" lang="${locale}"></calcite-input>`);
+          await page.setContent(html`<calcite-input value="0.0000" lang="${locale}" type="number"></calcite-input>`);
 
           numberStringFormatter.numberFormatOptions = {
             locale,
