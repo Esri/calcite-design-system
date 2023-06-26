@@ -95,7 +95,9 @@ describe("calcite-input", () => {
     ]);
   });
 
-  it("can be disabled", () => disabled("calcite-input"));
+  describe("disabled", () => {
+    disabled("calcite-input");
+  });
 
   it("spinner buttons on disabled number input should not be interactive/should not nudge the number", async () => {
     const page = await newE2EPage();
@@ -1068,20 +1070,12 @@ describe("calcite-input", () => {
       expect(Number(await element.getProperty("value"))).toBe(195);
     });
 
-    it("disallows typing any letter or number with shift modifier key down", async () => {
+    it("disallows typing any non-numeric characters with shift modifier key down", async () => {
       const page = await newE2EPage();
       await page.setContent(html`<calcite-input type="number"></calcite-input>`);
       const calciteInput = await page.find("calcite-input");
       const input = await page.find("calcite-input >>> input");
       await calciteInput.callMethod("setFocus");
-
-      for (let i = 0; i < numberKeys.length; i++) {
-        await page.keyboard.down("Shift");
-        await page.keyboard.press(numberKeys[i] as KeyInput);
-        await page.keyboard.up("Shift");
-        expect(await calciteInput.getProperty("value")).toBeFalsy();
-        expect(await input.getProperty("value")).toBeFalsy();
-      }
       const nonELetterKeys = letterKeys.filter((key) => key !== "e");
       for (let i = 0; i < nonELetterKeys.length; i++) {
         await page.keyboard.down("Shift");
@@ -1089,6 +1083,25 @@ describe("calcite-input", () => {
         await page.keyboard.up("Shift");
         expect(await calciteInput.getProperty("value")).toBeFalsy();
         expect(await input.getProperty("value")).toBeFalsy();
+      }
+    });
+
+    it("allows typing numeric characters with shift modifier key down (#6854)", async () => {
+      const page = await newE2EPage();
+      await page.setContent(html`<calcite-input type="number"></calcite-input>`);
+      const calciteInput = await page.find("calcite-input");
+      const input = await page.find("calcite-input >>> input");
+      await calciteInput.callMethod("setFocus");
+      const numberKeysExcludingZero = numberKeys.slice(1);
+
+      let result = "";
+      for (let i = 0; i < numberKeysExcludingZero.length; i++) {
+        await page.keyboard.down("Shift");
+        await page.keyboard.press(numberKeysExcludingZero[i] as KeyInput);
+        result += numberKeysExcludingZero[i];
+        await page.keyboard.up("Shift");
+        expect(await calciteInput.getProperty("value")).toBe(result);
+        expect(await input.getProperty("value")).toBe(result);
       }
     });
 

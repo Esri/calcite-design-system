@@ -24,7 +24,9 @@ describe("calcite-fab", () => {
     ]);
   });
 
-  it("can be disabled", () => disabled("calcite-fab"));
+  describe("disabled", () => {
+    disabled("calcite-fab");
+  });
 
   it(`should set all internal calcite-button types to 'button'`, async () => {
     const page = await newE2EPage({
