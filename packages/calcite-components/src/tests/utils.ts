@@ -268,6 +268,8 @@ export async function newProgrammaticE2EPage(): Promise<E2EPage> {
  */
 export async function skipAnimations(page: E2EPage): Promise<void> {
   await page.addStyleTag({
+    // using 0.01 to ensure `openCloseComponent` utils work consistently
+    // this should be removed once https://github.com/Esri/calcite-components/issues/6604 is addressed
     content: `:root { --calcite-duration-factor: 0.01; }`
   });
 }
