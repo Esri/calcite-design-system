@@ -668,7 +668,7 @@ export class InputNumber
       return;
     }
     const isShiftTabEvent = event.shiftKey && event.key === "Tab";
-    if (supportedKeys.includes(event.key) && (!event.shiftKey || isShiftTabEvent)) {
+    if (supportedKeys.includes(event.key) || isShiftTabEvent) {
       if (event.key === "Enter") {
         this.emitChangeIfUserModified();
       }
