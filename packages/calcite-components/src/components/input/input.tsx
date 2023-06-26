@@ -999,7 +999,6 @@ export class Input
 
       let newLocalizedValue = numberStringFormatter.localize(newValue);
 
-      // adds localized trailing decimal zero values
       if (
         newLocalizedValue.length !== newValue.length &&
         origin !== "connected" &&
