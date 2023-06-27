@@ -45,7 +45,9 @@ describe("calcite-flow-item", () => {
     slots("calcite-flow-item", SLOTS);
   });
 
-  it("can be disabled", () => disabled(`<calcite-flow-item closable>scrolling content</calcite-flow-item>`));
+  describe("disabled", () => {
+    disabled(`<calcite-flow-item closable>scrolling content</calcite-flow-item>`);
+  });
 
   describe("accessible", () => {
     accessible(`

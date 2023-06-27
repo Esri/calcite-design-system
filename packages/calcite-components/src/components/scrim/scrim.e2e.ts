@@ -1,6 +1,8 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { accessible, defaults, hidden, renders, t9n } from "../../tests/commonTests";
-import { CSS } from "./resources";
+import { BREAKPOINTS, CSS } from "./resources";
+import { html } from "../../../support/formatting";
+import { Scale } from "../interfaces";
 
 describe("calcite-scrim", () => {
   describe("renders", () => {
@@ -105,6 +107,65 @@ describe("calcite-scrim", () => {
     const contentNode = await page.find(`calcite-scrim >>> .${CSS.content}`);
 
     expect(contentNode).not.toBeNull();
+  });
+
+  describe("Responsive loading spinner", () => {
+    const testValues: { width: number; height: number; scale: Scale }[] = [
+      {
+        width: BREAKPOINTS.s - 1,
+        height: 800,
+        scale: "s"
+      },
+      {
+        width: 800,
+        height: BREAKPOINTS.s - 1,
+        scale: "s"
+      },
+      {
+        width: BREAKPOINTS.l - 1,
+        height: 800,
+        scale: "m"
+      },
+      {
+        width: 800,
+        height: BREAKPOINTS.l - 1,
+        scale: "m"
+      },
+      {
+        width: BREAKPOINTS.l,
+        height: 800,
+        scale: "l"
+      },
+      {
+        width: 800,
+        height: BREAKPOINTS.l,
+        scale: "l"
+      }
+    ];
+
+    testValues.forEach((scaleSize) => {
+      it(`should have a scale="${scaleSize.scale}" loading spinner`, async () => {
+        const page = await newE2EPage();
+        await page.setContent(html`<style>
+            .scrim-container {
+              position: relative;
+              overflow: auto;
+              width: ${scaleSize.width}px;
+              height: ${scaleSize.height}px;
+            }
+          </style>
+          <div class="scrim-container">
+            <calcite-scrim loading><p>I'm a panel that is loading.</p></calcite-scrim>
+          </div>`);
+        await page.waitForChanges();
+
+        const loader = await page.find("calcite-scrim >>> calcite-loader");
+
+        expect(loader).toBeDefined();
+        expect(await loader.isVisible()).toBe(true);
+        expect(await loader.getProperty("scale")).toBe(scaleSize.scale);
+      });
+    });
   });
 
   describe("CSS properties for light/dark modes", () => {

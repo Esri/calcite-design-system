@@ -12,7 +12,12 @@ import {
 } from "@stencil/core";
 import { connectForm, disconnectForm, FormComponent, HiddenFormInputSlot } from "../../utils/form";
 import { guid } from "../../utils/guid";
-import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import {
+  connectInteractive,
+  disconnectInteractive,
+  InteractiveComponent,
+  updateHostInteraction
+} from "../../utils/interactive";
 import { connectLabel, disconnectLabel, LabelableComponent } from "../../utils/label";
 import {
   componentLoaded,
@@ -174,6 +179,7 @@ export class Rating
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
+    connectInteractive(this);
     connectLocalized(this);
     connectMessages(this);
     connectLabel(this);
@@ -229,6 +235,7 @@ export class Rating
   }
 
   disconnectedCallback(): void {
+    disconnectInteractive(this);
     disconnectLocalized(this);
     disconnectMessages(this);
     disconnectLabel(this);

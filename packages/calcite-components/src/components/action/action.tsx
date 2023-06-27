@@ -13,7 +13,12 @@ import {
 } from "@stencil/core";
 import { toAriaBoolean } from "../../utils/dom";
 import { guid } from "../../utils/guid";
-import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import {
+  connectInteractive,
+  disconnectInteractive,
+  InteractiveComponent,
+  updateHostInteraction
+} from "../../utils/interactive";
 import {
   componentLoaded,
   LoadableComponent,
@@ -163,6 +168,7 @@ export class Action
   // --------------------------------------------------------------------------
 
   connectedCallback(): void {
+    connectInteractive(this);
     connectLocalized(this);
     connectMessages(this);
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
@@ -180,6 +186,7 @@ export class Action
   }
 
   disconnectedCallback(): void {
+    disconnectInteractive(this);
     disconnectLocalized(this);
     disconnectMessages(this);
     this.mutationObserver?.disconnect();

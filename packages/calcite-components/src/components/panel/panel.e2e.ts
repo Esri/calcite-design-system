@@ -38,7 +38,9 @@ describe("calcite-panel", () => {
     slots("calcite-panel", SLOTS);
   });
 
-  it("can be disabled", () => disabled(`<calcite-panel closable>scrolling content</calcite-panel>`));
+  describe("disabled", () => {
+    disabled(`<calcite-panel closable>scrolling content</calcite-panel>`);
+  });
 
   describe("translation support", () => {
     t9n("calcite-panel");

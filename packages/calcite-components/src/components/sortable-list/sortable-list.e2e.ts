@@ -16,7 +16,7 @@ describe("calcite-sortable-list", () => {
     accessible(`<calcite-sortable-list></calcite-sortable-list>`);
   });
 
-  it("can be disabled", () =>
+  describe("disabled", () => {
     disabled(
       html`<calcite-sortable-list>
         <div id="one"><calcite-handle></calcite-handle>1</div>
@@ -24,7 +24,8 @@ describe("calcite-sortable-list", () => {
         <div id="three"><calcite-handle></calcite-handle>3</div>
       </calcite-sortable-list>`,
       { focusTarget: "child" }
-    ));
+    );
+  });
 
   const worksUsingMouse = async (page: E2EPage): Promise<void> => {
     await dragAndDrop(page, `#one calcite-handle`, `#two calcite-handle`);
