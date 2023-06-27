@@ -17,7 +17,7 @@
     "dist/"
   ],
   "dependencies": {
-    "@esri/calcite-components": "^1.5.0-next.5"
+    "@esri/calcite-components": "1.5.0-next.5"
   },
   "peerDependencies": {
     "react": ">=16.7",
