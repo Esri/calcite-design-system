@@ -845,15 +845,7 @@ export class InputNumber
       this.previousValue?.length > value.length || this.value?.length > value.length;
     const hasTrailingDecimalSeparator = value.charAt(value.length - 1) === ".";
     const sanitizedValue =
-      hasTrailingDecimalSeparator && isValueDeleted
-        ? value
-        : sanitizeNumberString(
-            // no need to delocalize a string that ia already in latn numerals
-            (this.numberingSystem && this.numberingSystem !== "latn") ||
-              defaultNumberingSystem !== "latn"
-              ? numberStringFormatter.delocalize(value)
-              : value
-          );
+      hasTrailingDecimalSeparator && isValueDeleted ? value : sanitizeNumberString(value);
 
     const newValue =
       value && !sanitizedValue

@@ -130,6 +130,7 @@ const allLeadingZerosOptionallyNegative = /^([-0])0+(?=\d)/;
 const decimalOnlyAtEndOfString = /(?!^\.)\.$/;
 const allHyphensExceptTheStart = /(?!^-)-/g;
 const isNegativeDecimalOnlyZeros = /^-\b0\b\.?0*$/;
+const hasTrailingDecimalZeros = /0*$/;
 
 export const sanitizeNumberString = (numberString: string): string =>
   sanitizeExponentialNumberString(numberString, (nonExpoNumString) => {
@@ -241,18 +242,14 @@ export function addLocalizedTrailingDecimalZeros(
   value: string,
   formatter: NumberStringFormat
 ): string {
-  const decimals = value.split(".")[1];
-  const lengthOfDecimals = decimals?.length;
+  const trailingDecimalZeros = value.match(hasTrailingDecimalZeros);
   const decimalSeparator = formatter.decimal;
-  const localizedDecimals = localizedValue.split(decimalSeparator)[1];
 
-  if (decimals) {
-    const lengthOfTrailingZeros = localizedDecimals ? lengthOfDecimals - localizedDecimals.length : lengthOfDecimals;
-    localizedValue =
-      !localizedValue.includes(decimalSeparator) && lengthOfTrailingZeros > 0
-        ? `${localizedValue}${decimalSeparator}`
-        : localizedValue;
-    return localizedValue.padEnd(localizedValue.length + lengthOfTrailingZeros, formatter.localize("0"));
+  if (trailingDecimalZeros[0] && value.includes(".")) {
+    localizedValue = !localizedValue.includes(decimalSeparator)
+      ? `${localizedValue}${decimalSeparator}`
+      : localizedValue;
+    return localizedValue.padEnd(localizedValue.length + trailingDecimalZeros[0].length, formatter.localize("0"));
   }
   return localizedValue;
 }
