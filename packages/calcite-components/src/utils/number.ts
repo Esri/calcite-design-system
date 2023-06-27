@@ -241,15 +241,18 @@ export function addLocalizedTrailingDecimalZeros(
   value: string,
   formatter: NumberStringFormat
 ): string {
-  const decimalSeparator = formatter.decimal;
-  const localizedIntegers = localizedValue.includes(decimalSeparator)
-    ? localizedValue.split(decimalSeparator)[0]
-    : localizedValue;
   const decimals = value.split(".")[1];
+  const lengthOfDecimals = decimals?.length;
+  const decimalSeparator = formatter.decimal;
+  const localizedDecimals = localizedValue.split(decimalSeparator)[1];
 
-  return decimals
-    ? `${localizedIntegers}${decimalSeparator}${Array.from(decimals)
-        .map((d) => formatter.localize(d))
-        .join("")}`
-    : localizedValue;
+  if (decimals) {
+    const lengthOfTrailingZeros = localizedDecimals ? lengthOfDecimals - localizedDecimals.length : lengthOfDecimals;
+    localizedValue =
+      !localizedValue.includes(decimalSeparator) && lengthOfTrailingZeros > 0
+        ? `${localizedValue}${decimalSeparator}`
+        : localizedValue;
+    return localizedValue.padEnd(localizedValue.length + lengthOfTrailingZeros, formatter.localize("0"));
+  }
+  return localizedValue;
 }

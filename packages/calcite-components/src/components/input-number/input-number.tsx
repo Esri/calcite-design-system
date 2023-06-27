@@ -865,7 +865,7 @@ export class InputNumber
     let newLocalizedValue = numberStringFormatter.localize(newValue);
 
     if (
-      newLocalizedValue.length !== newValue.length &&
+      numberStringFormatter.delocalize(newLocalizedValue).length !== newValue.length &&
       origin !== "connected" &&
       !hasTrailingDecimalSeparator
     ) {
