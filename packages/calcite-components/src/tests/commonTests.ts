@@ -1219,12 +1219,12 @@ export function floatingUIOwner(
 
 export async function t9n(componentTestSetup: ComponentTestSetup): Promise<void> {
   let component: E2EElement;
-  let E2Epage: E2EPage;
+  let page: E2EPage;
   let getCurrentMessages: () => Promise<MessageBundle>;
 
   beforeEach(async () => {
-    const { page, tag } = await getTagAndPage(componentTestSetup);
-    E2Epage = page;
+    const { page: e2ePage, tag } = await getTagAndPage(componentTestSetup);
+    page = e2ePage;
     component = await page.find(tag);
     getCurrentMessages = async (): Promise<MessageBundle> => {
       return page.$eval(tag, (component: HTMLElement & { messages: MessageBundle }) => component.messages);
@@ -1245,7 +1245,7 @@ export async function t9n(componentTestSetup: ComponentTestSetup): Promise<void>
     const messageOverride = { [firstMessageProp]: "override test" };
 
     component.setProperty("messageOverrides", messageOverride);
-    await E2Epage.waitForChanges();
+    await page.waitForChanges();
 
     expect(await getCurrentMessages()).toEqual({
       ...messages,
@@ -1254,13 +1254,13 @@ export async function t9n(componentTestSetup: ComponentTestSetup): Promise<void>
 
     // reset test changes
     component.setProperty("messageOverrides", undefined);
-    await E2Epage.waitForChanges();
+    await page.waitForChanges();
   }
 
   async function assertLangSwitch(): Promise<void> {
     const enMessages = await getCurrentMessages();
     const fakeBundleIdentifier = "__fake__";
-    await E2Epage.evaluate(
+    await page.evaluate(
       (enMessages, fakeBundleIdentifier) => {
         const orig = window.fetch;
         window.fetch = async function (input, init) {
@@ -1282,14 +1282,14 @@ export async function t9n(componentTestSetup: ComponentTestSetup): Promise<void>
     );
 
     component.setAttribute("lang", "es");
-    await E2Epage.waitForChanges();
-    await E2Epage.waitForTimeout(3000);
+    await page.waitForChanges();
+    await page.waitForTimeout(3000);
     const esMessages = await getCurrentMessages();
 
     expect(esMessages).toHaveProperty(fakeBundleIdentifier);
 
     // reset test changes
     component.removeAttribute("lang");
-    await E2Epage.waitForChanges();
+    await page.waitForChanges();
   }
 }
