@@ -787,6 +787,7 @@ export class InputDatePicker
     deactivateFocusTrap(this);
     this.restoreInputFocus();
     this.focusOnOpen = false;
+    this.datePickerEl.reset();
   }
 
   setStartInput = (el: HTMLCalciteInputElement): void => {
