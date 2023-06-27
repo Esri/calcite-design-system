@@ -581,7 +581,7 @@ export class InputTimePicker
 
   private getExtendedLocaleConfig(
     locale: string
-  ): Parameters<typeof dayjs["updateLocale"]>[1] | undefined {
+  ): Parameters<(typeof dayjs)["updateLocale"]>[1] | undefined {
     if (locale === "ar") {
       return {
         meridiem: (hour) => (hour > 12 ? "م" : "ص"),
