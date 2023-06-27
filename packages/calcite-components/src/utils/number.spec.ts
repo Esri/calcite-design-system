@@ -3,6 +3,7 @@ import {
   BigDecimal,
   addLocalizedTrailingDecimalZeros,
   expandExponentialNumberString,
+  getBigDecimalAsString,
   isValidNumber,
   parseNumberString,
   sanitizeNumberString
@@ -83,6 +84,7 @@ describe("sanitizeNumberString", () => {
     const nonLeadingZeroExponentialString = "500000e00600";
     const multiDecimalExponentialString = "1.2e2.1";
     const crazyExponentialString = "-2-.-1ee.5-3e.1..e--09";
+    const trailingDecimalZeros = "0.110000";
 
     expect(sanitizeNumberString(stringWithMultipleDashes)).toBe("1234");
     expect(sanitizeNumberString(negativeStringWithMultipleDashes)).toBe("-1234");
@@ -103,6 +105,7 @@ describe("sanitizeNumberString", () => {
     expect(sanitizeNumberString(nonLeadingZeroExponentialString)).toBe("500000e600");
     expect(sanitizeNumberString(multiDecimalExponentialString)).toBe("1.2e21");
     expect(sanitizeNumberString(crazyExponentialString)).toBe("-2.1e53109");
+    expect(sanitizeNumberString(trailingDecimalZeros)).toBe("0.110000");
   });
 });
 
