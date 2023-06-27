@@ -972,14 +972,18 @@ export function disabled(
     return focusTarget === "host" ? tag : await page.evaluate(() => document.activeElement?.tagName.toLowerCase());
   }
 
-  const getTabAndClickFocusTarget = async (page: E2EPage, tag: string): Promise<string[]> => {
-    const focusTarget = options.focusTarget;
-    const focusTargetString = await getFocusTarget(page, tag, focusTarget as FocusTarget);
+  const getTabAndClickFocusTarget = async (
+    page: E2EPage,
+    tag: string,
+    focusTarget: DisabledOptions["focusTarget"]
+  ): Promise<string[]> => {
+    if (typeof focusTarget === "object") {
+      return [focusTarget.tab, focusTarget.click];
+    }
 
-    const [tabFocusTarget, clickFocusTarget] =
-      typeof focusTarget === "object" ? [focusTarget.tab, focusTarget.click] : [focusTargetString, focusTargetString];
+    const sameClickAndTabFocusTarget = await getFocusTarget(page, tag, focusTarget);
 
-    return [tabFocusTarget, clickFocusTarget];
+    return [sameClickAndTabFocusTarget, sameClickAndTabFocusTarget];
   };
 
   const getShadowFocusableCenterCoordinates = async (page: E2EPage, tabFocusTarget: string): Promise<number[]> => {
@@ -1028,7 +1032,7 @@ export function disabled(
 
     await page.keyboard.press("Tab");
 
-    const [tabFocusTarget, clickFocusTarget] = await getTabAndClickFocusTarget(page, tag);
+    const [tabFocusTarget, clickFocusTarget] = await getTabAndClickFocusTarget(page, tag, options.focusTarget);
 
     expect(tabFocusTarget).not.toBe("body");
     await expectToBeFocused(page, tabFocusTarget);
@@ -1059,6 +1063,28 @@ export function disabled(
         expect(spy.length).toBeGreaterThanOrEqual(2);
       } else {
         expect(spy).toHaveReceivedEventTimes(1);
+      }
+    });
+
+    component.setProperty("disabled", true);
+    await page.waitForChanges();
+
+    expect(component.getAttribute("aria-disabled")).toBe("true");
+
+    await resetFocusOrder();
+    await page.keyboard.press("Tab");
+    await expectToBeFocused(page, "body");
+
+    await page.mouse.click(shadowFocusableCenterX, shadowFocusableCenterY);
+    await expectToBeFocused(page, "body");
+
+    assertOnMouseAndPointerEvents(eventSpies, (spy) => {
+      if (spy.eventName === "click") {
+        // some components emit more than one click event (e.g., from calling `click()`),
+        // so we check if at least one event is received
+        expect(spy.length).toBeGreaterThanOrEqual(2);
+      } else {
+        expect(spy).toHaveReceivedEventTimes(eventsExpectedToBubble.includes(spy.eventName) ? 2 : 1);
       }
     });
   });
