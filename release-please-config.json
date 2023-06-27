@@ -7,12 +7,10 @@
   "packages": {
     "packages/calcite-components": {
       "component": "@esri/calcite-components",
-      "extra-files": ["readme.md"],
-      "release-as": "1.4.3"
+      "extra-files": ["readme.md"]
     },
     "packages/calcite-components-react": {
-      "component": "@esri/calcite-components-react",
-      "release-as": "1.4.3"
+      "component": "@esri/calcite-components-react"
     }
   },
   "plugins": [
