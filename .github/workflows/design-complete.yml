@@ -40,17 +40,29 @@ jobs:
 
               /* Modify labels */
 
-              // Remove "Design" label
-              await github.rest.issues.removeLabel({
-                ...issueProps,
-                name: "design"
-              });
+              /* Tries to remove labels */
+              /* If the label is not associated with the issue,
+                 the error is logged and the script will continue. */
 
-              // Remove "1 - assigned" label
-              await github.rest.issues.removeLabel({
-                ...issueProps,
-                name: "1 - assigned"
-              });
+              // Tries to remove "Design" label
+              try {
+                await github.rest.issues.removeLabel({
+                  ...issueProps,
+                  name: "design"
+                });
+              } catch(err) {
+                console.log("The 'design' label is not associated with the issue", err);
+              }
+
+              // Try to remove "1 - assigned" label
+              try {
+                await github.rest.issues.removeLabel({
+                  ...issueProps,
+                  name: "1 - assigned"
+                });
+              } catch(err) {
+                console.log("The '1 - assigned' label is not associated with the issue", err);
+              }
 
               // Add labels
               await github.rest.issues.addLabels({

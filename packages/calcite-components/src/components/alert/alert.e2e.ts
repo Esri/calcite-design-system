@@ -328,6 +328,77 @@ describe("calcite-alert", () => {
     expect(await container.isVisible()).toBe(false);
   });
 
+  it("should update number of queued alerts with a calcite-chip when removing an alert", async () => {
+    const page = await newE2EPage();
+    await page.setContent(html`
+      <calcite-button id="buttonOne" onclick="document.querySelector('#first-open').setAttribute('open', '')"
+        >open alert</calcite-button
+      >
+      <calcite-button id="buttonTwo" onclick="document.querySelector('#second-open').setAttribute('open', '')"
+        >open alert</calcite-button
+      >
+
+      <calcite-button id="buttonThree" onclick="document.querySelector('#third-open').setAttribute('open', '')"
+        >open alert</calcite-button
+      >
+
+      <calcite-alert open id="first-open" icon="3d-glasses" scale="l">
+        <div slot="title">Title of alert Uno</div>
+        <div slot="message">Message text of the alert Uno</div>
+        <a slot="link" href="#">Retry</a>
+      </calcite-alert>
+
+      <calcite-alert id="second-open" icon scale="l">
+        <div slot="title">Title of alert Dos</div>
+        <div slot="message">Message text of the alert Dos</div>
+        <a slot="link" href="#">Retry</a>
+      </calcite-alert>
+
+      <calcite-alert id="third-open" icon scale="l">
+        <div slot="title">Title of alert Dos</div>
+        <div slot="message">Message text of the alert Dos</div>
+        <a slot="link" href="#">Retry</a>
+      </calcite-alert>
+    `);
+    const buttonOne = await page.find("#buttonOne");
+    const buttonTwo = await page.find("#buttonTwo");
+    const buttonThree = await page.find("#buttonThree");
+    const alertOne = await page.find("#first-open");
+    const alertTwo = await page.find("#second-open");
+    const alertThree = await page.find("#third-open");
+
+    await buttonOne.click();
+    await page.waitForTimeout(animationDurationInMs);
+    expect(await alertOne.isVisible()).toBe(true);
+
+    await buttonTwo.click();
+    expect(await alertTwo.isVisible()).toBe(true);
+
+    await buttonThree.click();
+    expect(await alertThree.isVisible()).toBe(true);
+
+    const chip = await page.find("calcite-alert[id='first-open'] >>> calcite-chip");
+    const chipQueueCount2 = "+2";
+    expect(await chip.getProperty("value")).toEqual(chipQueueCount2);
+    expect(chip.textContent).toEqual(chipQueueCount2);
+
+    await page.$eval("#third-open", (alert: HTMLCalciteAlertElement) => {
+      alert.remove();
+    });
+    await page.waitForChanges();
+
+    const chipQueueCount1 = "+1";
+    expect(await chip.getProperty("value")).toEqual(chipQueueCount1);
+    expect(chip.textContent).toEqual(chipQueueCount1);
+
+    await page.$eval("#second-open", (alert: HTMLCalciteAlertElement) => {
+      alert.remove();
+    });
+    await page.waitForChanges();
+
+    expect(await page.find("calcite-alert[id='first-open'] >>> calcite-chip")).toBeNull();
+  });
+
   describe("auto-close behavior on queued items", () => {
     it("should display number of queued alerts with a calcite-chip", async () => {
       const page = await newE2EPage();
