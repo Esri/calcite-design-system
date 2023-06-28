@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.5.0-next.6](https://github.com/Esri/calcite-components/compare/@esri/calcite-components@1.4.3...@esri/calcite-components@1.5.0-next.6) (2023-06-27)
+
+### Bug Fixes
+
+- **input-date-picker:** reset active date picker date after closing ([#7219](https://github.com/Esri/calcite-components/issues/7219)) ([91b2a1b](https://github.com/Esri/calcite-components/commit/91b2a1b92d49cdd573650952ee09971c59bd1649)), closes [#6495](https://github.com/Esri/calcite-components/issues/6495) [/github.com/Esri/calcite-components/blob/v1.0.0-beta.22/src/components/calcite-date/calcite-date.tsx#L263-L270](https://github.com/Esri//github.com/Esri/calcite-components/blob/v1.0.0-beta.22/src/components/calcite-date/calcite-date.tsx/issues/L263-L270) [#6604](https://github.com/Esri/calcite-components/issues/6604)
+
 ## [1.4.3](https://github.com/Esri/calcite-components/compare/@esri/calcite-components@1.4.2...@esri/calcite-components@1.4.3) (2023-06-26)
 
 ### Bug Fixes
