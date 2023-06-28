@@ -1,6 +1,11 @@
 import { Build, Component, Element, h, Method, Prop, State, VNode, Watch } from "@stencil/core";
 import { findAssociatedForm, FormOwner, resetForm, submitForm } from "../../utils/form";
-import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import {
+  connectInteractive,
+  disconnectInteractive,
+  InteractiveComponent,
+  updateHostInteraction
+} from "../../utils/interactive";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
 import {
   componentLoaded,
@@ -175,6 +180,7 @@ export class Button
   //--------------------------------------------------------------------------
 
   async connectedCallback(): Promise<void> {
+    connectInteractive(this);
     connectLocalized(this);
     connectMessages(this);
     this.hasLoader = this.loading;
@@ -185,6 +191,7 @@ export class Button
 
   disconnectedCallback(): void {
     this.mutationObserver?.disconnect();
+    disconnectInteractive(this);
     disconnectLabel(this);
     disconnectLocalized(this);
     disconnectMessages(this);

@@ -13,20 +13,26 @@ import {
 } from "@stencil/core";
 import Sortable from "sortablejs";
 import { debounce } from "lodash-es";
-import { toAriaBoolean } from "../../utils/dom";
-import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import { slotChangeHasAssignedElement, toAriaBoolean } from "../../utils/dom";
+import {
+  connectInteractive,
+  disconnectInteractive,
+  InteractiveComponent,
+  updateHostInteraction
+} from "../../utils/interactive";
 import { createObserver } from "../../utils/observers";
 import { SelectionMode } from "../interfaces";
 import { ItemData } from "../list-item/interfaces";
 import { MAX_COLUMNS } from "../list-item/resources";
 import { getListItemChildren, updateListItemChildren } from "../list-item/utils";
-import { CSS, debounceTimeout, SelectionAppearance } from "./resources";
+import { CSS, debounceTimeout, SelectionAppearance, SLOTS } from "./resources";
 import {
   CanDragEvent,
   connectSortableComponent,
   disconnectSortableComponent,
   SortableComponent
 } from "../../utils/sortableComponent";
+import { SLOTS as STACK_SLOTS } from "../stack/resources";
 
 const listItemSelector = "calcite-list-item";
 const parentSelector = "calcite-list-item-group, calcite-list-item";
@@ -47,6 +53,8 @@ import {
  * A general purpose list that enables users to construct list items that conform to Calcite styling.
  *
  * @slot - A slot for adding `calcite-list-item` elements.
+ * @slot filter-actions-start - A slot for adding actionable `calcite-action` elements before the filter component.
+ * @slot filter-actions-end - A slot for adding actionable `calcite-action` elements after the filter component.
  */
 @Component({
   tag: "calcite-list",
@@ -115,6 +123,11 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
    * Text for the component's filter input field.
    */
   @Prop({ reflect: true, mutable: true }) filterText: string;
+
+  @Watch("filterText")
+  async handleFilterTextChange(): Promise<void> {
+    this.performFilter();
+  }
 
   /**
    * Specifies an accessible name for the component.
@@ -217,11 +230,9 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
     const target = event.target as HTMLCalciteListItemElement;
     const { listItems, selectionMode } = this;
 
-    listItems.forEach((listItem) => {
-      if (selectionMode === "single" || selectionMode === "single-persist") {
-        listItem.selected = listItem === target;
-      }
-    });
+    if (target.selected && (selectionMode === "single" || selectionMode === "single-persist")) {
+      listItems.forEach((listItem) => (listItem.selected = listItem === target));
+    }
 
     this.updateSelectedItems();
   }
@@ -241,11 +252,13 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
     this.connectObserver();
     this.updateListItems();
     this.setUpSorting();
+    connectInteractive(this);
   }
 
   disconnectedCallback(): void {
     this.disconnectObserver();
     disconnectSortableComponent(this);
+    disconnectInteractive(this);
   }
 
   componentWillLoad(): void {
@@ -258,14 +271,6 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
 
   componentDidLoad(): void {
     setComponentLoaded(this);
-    const { filterEl } = this;
-    const filteredItems = filterEl?.filteredItems as ItemData;
-
-    if (filteredItems) {
-      this.filteredData = filteredItems;
-    }
-
-    this.updateListItems();
   }
 
   // --------------------------------------------------------------------------
@@ -289,6 +294,10 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
   mutationObserver = createObserver("mutation", () => this.updateListItems());
 
   @State() dataForFilter: ItemData = [];
+
+  @State() hasFilterActionsStart = false;
+
+  @State() hasFilterActionsEnd = false;
 
   filterEl: HTMLCalciteFilterElement;
 
@@ -319,7 +328,9 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
       dataForFilter,
       filterEnabled,
       filterPlaceholder,
-      filterText
+      filterText,
+      hasFilterActionsStart,
+      hasFilterActionsEnd
     } = this;
     return (
       <div class={CSS.container}>
@@ -331,20 +342,32 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
           onKeyDown={this.handleListKeydown}
           role="treegrid"
         >
-          {filterEnabled ? (
+          {filterEnabled || hasFilterActionsStart || hasFilterActionsEnd ? (
             <thead>
               <tr class={{ [CSS.sticky]: true }}>
                 <th colSpan={MAX_COLUMNS}>
-                  <calcite-filter
-                    aria-label={filterPlaceholder}
-                    disabled={loading || disabled}
-                    items={dataForFilter}
-                    onCalciteFilterChange={this.handleFilter}
-                    placeholder={filterPlaceholder}
-                    value={filterText}
-                    // eslint-disable-next-line react/jsx-sort-props
-                    ref={(el) => (this.filterEl = el)}
-                  />
+                  <calcite-stack class={CSS.stack}>
+                    <slot
+                      name={SLOTS.filterActionsStart}
+                      onSlotchange={this.handleFilterActionsStartSlotChange}
+                      slot={STACK_SLOTS.actionsStart}
+                    />
+                    <calcite-filter
+                      aria-label={filterPlaceholder}
+                      disabled={loading || disabled}
+                      items={dataForFilter}
+                      onCalciteFilterChange={this.handleFilterChange}
+                      placeholder={filterPlaceholder}
+                      value={filterText}
+                      // eslint-disable-next-line react/jsx-sort-props
+                      ref={this.setFilterEl}
+                    />
+                    <slot
+                      name={SLOTS.filterActionsEnd}
+                      onSlotchange={this.handleFilterActionsEndSlotChange}
+                      slot={STACK_SLOTS.actionsEnd}
+                    />
+                  </calcite-stack>
                 </th>
               </tr>
             </thead>
@@ -363,15 +386,15 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
   //
   // --------------------------------------------------------------------------
 
-  connectObserver(): void {
+  private connectObserver(): void {
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
   }
 
-  disconnectObserver(): void {
+  private disconnectObserver(): void {
     this.mutationObserver?.disconnect();
   }
 
-  setUpSorting(): void {
+  private setUpSorting(): void {
     const { dragEnabled } = this;
 
     if (!dragEnabled) {
@@ -394,11 +417,19 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
     this.calciteListOrderChange.emit();
   }
 
-  handleDefaultSlotChange = (event: Event): void => {
+  private handleDefaultSlotChange = (event: Event): void => {
     updateListItemChildren(getListItemChildren(event));
   };
 
-  setActiveListItem = (): void => {
+  private handleFilterActionsStartSlotChange = (event: Event): void => {
+    this.hasFilterActionsStart = slotChangeHasAssignedElement(event);
+  };
+
+  private handleFilterActionsEndSlotChange = (event: Event): void => {
+    this.hasFilterActionsEnd = slotChangeHasAssignedElement(event);
+  };
+
+  private setActiveListItem = (): void => {
     const { enabledListItems } = this;
 
     if (!enabledListItems.some((item) => item.active)) {
@@ -473,15 +504,45 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
     }
   };
 
-  handleFilter = (event: CustomEvent): void => {
-    event.stopPropagation();
-    const { filteredItems, value } = event.currentTarget as HTMLCalciteFilterElement;
-    this.filteredData = filteredItems as ItemData;
-    this.filterText = value;
-    this.updateListItems(true);
+  private updateFilteredData(emit = false): void {
+    const { filterEl } = this;
+
+    if (!filterEl) {
+      return;
+    }
+
+    if (filterEl.filteredItems) {
+      this.filteredData = filterEl.filteredItems as ItemData;
+    }
+
+    this.updateListItems(emit);
+  }
+
+  private async performFilter(): Promise<void> {
+    const { filterEl, filterText } = this;
+
+    if (!filterEl) {
+      return;
+    }
+
+    filterEl.value = filterText;
+    await filterEl.filter(filterText);
+    this.updateFilteredData();
+  }
+
+  private setFilterEl = (el: HTMLCalciteFilterElement): void => {
+    this.filterEl = el;
+    this.performFilter();
   };
 
-  getItemData = (): ItemData => {
+  private handleFilterChange = (event: CustomEvent): void => {
+    event.stopPropagation();
+    const { value } = event.currentTarget as HTMLCalciteFilterElement;
+    this.filterText = value;
+    this.updateFilteredData(true);
+  };
+
+  private getItemData = (): ItemData => {
     return this.listItems.map((item) => ({
       label: item.label,
       description: item.description,
@@ -512,11 +573,11 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
     this.setUpSorting();
   }, debounceTimeout);
 
-  queryListItems = (): HTMLCalciteListItemElement[] => {
+  private queryListItems = (): HTMLCalciteListItemElement[] => {
     return Array.from(this.el.querySelectorAll(listItemSelector));
   };
 
-  focusRow = (focusEl: HTMLCalciteListItemElement): void => {
+  private focusRow = (focusEl: HTMLCalciteListItemElement): void => {
     const { enabledListItems } = this;
 
     if (!focusEl) {
@@ -528,7 +589,7 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
     focusEl.setFocus();
   };
 
-  isNavigable = (listItem: HTMLCalciteListItemElement): boolean => {
+  private isNavigable = (listItem: HTMLCalciteListItemElement): boolean => {
     const parentListItemEl = listItem.parentElement?.closest(listItemSelector);
 
     if (!parentListItemEl) {
@@ -538,7 +599,7 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
     return parentListItemEl.open && this.isNavigable(parentListItemEl);
   };
 
-  handleListKeydown = (event: KeyboardEvent): void => {
+  private handleListKeydown = (event: KeyboardEvent): void => {
     if (event.defaultPrevented) {
       return;
     }

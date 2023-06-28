@@ -5,6 +5,7 @@ import {
   EventEmitter,
   h,
   Host,
+  Method,
   Prop,
   State,
   VNode,
@@ -15,9 +16,14 @@ import {
   connectConditionalSlotComponent,
   disconnectConditionalSlotComponent
 } from "../../utils/conditionalSlot";
-import { getSlotted, toAriaBoolean } from "../../utils/dom";
+import { focusFirstTabbable, getSlotted, toAriaBoolean } from "../../utils/dom";
 import { guid } from "../../utils/guid";
-import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import {
+  connectInteractive,
+  disconnectInteractive,
+  InteractiveComponent,
+  updateHostInteraction
+} from "../../utils/interactive";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 import {
   connectMessages,
@@ -30,6 +36,12 @@ import { Heading, HeadingLevel } from "../functional/Heading";
 import { Status } from "../interfaces";
 import { BlockMessages } from "./assets/block/t9n";
 import { CSS, ICONS, SLOTS } from "./resources";
+import {
+  componentLoaded,
+  LoadableComponent,
+  setComponentLoaded,
+  setUpLoadableComponent
+} from "../../utils/loadable";
 
 /**
  * @slot - A slot for adding custom content.
@@ -44,7 +56,12 @@ import { CSS, ICONS, SLOTS } from "./resources";
   assetsDirs: ["assets"]
 })
 export class Block
-  implements ConditionalSlotComponent, InteractiveComponent, LocalizedComponent, T9nComponent
+  implements
+    ConditionalSlotComponent,
+    InteractiveComponent,
+    LocalizedComponent,
+    T9nComponent,
+    LoadableComponent
 {
   // --------------------------------------------------------------------------
   //
@@ -116,6 +133,22 @@ export class Block
     /* wired up by t9n util */
   }
 
+  //--------------------------------------------------------------------------
+  //
+  //  Public Methods
+  //
+  //--------------------------------------------------------------------------
+
+  /**
+   * Sets focus on the component's first tabbable element.
+   *
+   */
+  @Method()
+  async setFocus(): Promise<void> {
+    await componentLoaded(this);
+    focusFirstTabbable(this.el);
+  }
+
   // --------------------------------------------------------------------------
   //
   //  Private Properties
@@ -143,22 +176,29 @@ export class Block
 
   connectedCallback(): void {
     connectConditionalSlotComponent(this);
+    connectInteractive(this);
     connectLocalized(this);
     connectMessages(this);
   }
 
   disconnectedCallback(): void {
+    disconnectInteractive(this);
     disconnectLocalized(this);
     disconnectMessages(this);
     disconnectConditionalSlotComponent(this);
   }
 
-  componentDidRender(): void {
-    updateHostInteraction(this);
-  }
-
   async componentWillLoad(): Promise<void> {
     await setUpMessages(this);
+    setUpLoadableComponent(this);
+  }
+
+  componentDidLoad(): void {
+    setComponentLoaded(this);
+  }
+
+  componentDidRender(): void {
+    updateHostInteraction(this);
   }
 
   // --------------------------------------------------------------------------

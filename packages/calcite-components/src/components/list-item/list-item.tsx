@@ -12,7 +12,12 @@ import {
   Watch
 } from "@stencil/core";
 import { getElementDir, slotChangeHasAssignedElement, toAriaBoolean } from "../../utils/dom";
-import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import {
+  connectInteractive,
+  disconnectInteractive,
+  InteractiveComponent,
+  updateHostInteraction
+} from "../../utils/interactive";
 import { SelectionMode } from "../interfaces";
 import { SelectionAppearance } from "../list/resources";
 import { CSS, ICONS, SLOTS } from "./resources";
@@ -133,10 +138,8 @@ export class ListItem
   @Prop({ reflect: true, mutable: true }) selected = false;
 
   @Watch("selected")
-  handleSelectedChange(value: boolean): void {
-    if (value) {
-      this.calciteInternalListItemSelect.emit();
-    }
+  handleSelectedChange(): void {
+    this.calciteInternalListItemSelect.emit();
   }
 
   /**
@@ -264,6 +267,7 @@ export class ListItem
   // --------------------------------------------------------------------------
 
   connectedCallback(): void {
+    connectInteractive(this);
     connectLocalized(this);
     connectMessages(this);
     const { el } = this;
@@ -287,6 +291,7 @@ export class ListItem
   }
 
   disconnectedCallback(): void {
+    disconnectInteractive(this);
     disconnectLocalized(this);
     disconnectMessages(this);
   }

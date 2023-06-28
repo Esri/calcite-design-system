@@ -1,6 +1,6 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { CSS, SLOTS, TEXT } from "./resources";
-import { accessible, defaults, disabled, hidden, renders, slots, t9n } from "../../tests/commonTests";
+import { accessible, defaults, disabled, focusable, hidden, renders, slots, t9n } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 
 describe("calcite-block", () => {
@@ -43,8 +43,44 @@ describe("calcite-block", () => {
     `);
   });
 
-  it("can be disabled", () =>
-    disabled(html`<calcite-block heading="heading" description="description" collapsible></calcite-block>`));
+  describe("setFocus", () => {
+    describe("focuses block heading toggle", () => {
+      focusable(
+        html`<calcite-block heading="Heading" description="summary" collapsible open>
+          <calcite-block-section text="input block-section" open>
+            <calcite-input
+              icon="form-field"
+              placeholder="This is an input field... enter something here"
+            ></calcite-input>
+          </calcite-block-section>
+        </calcite-block>`,
+        {
+          shadowFocusTargetSelector: `.${CSS.toggle}`
+        }
+      );
+    });
+
+    const blockSectionClass = "my-block-section";
+    describe("focuses block section", () => {
+      focusable(
+        html`<calcite-block heading="Heading" description="summary" open>
+          <calcite-block-section class="${blockSectionClass}" text="input block-section" open>
+            <calcite-input
+              icon="form-field"
+              placeholder="This is an input field... enter something here"
+            ></calcite-input>
+          </calcite-block-section>
+        </calcite-block>`,
+        {
+          focusTargetSelector: `.${blockSectionClass}`
+        }
+      );
+    });
+  });
+
+  describe("disabled", () => {
+    disabled(html`<calcite-block heading="heading" description="description" collapsible></calcite-block>`);
+  });
 
   it("has a loading state", async () => {
     const page = await newE2EPage({
