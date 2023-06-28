@@ -1,0 +1,88 @@
+# When the "design-complete" label is added to an issue:
+# 1. Modifies the labels,
+# 2. Updates the assignees and milestone, and
+# 3. Generates a notification to the Calcite project manager(s)
+#
+# The secret is formatted like so: person1, person2, person3
+#
+# Note the script automatically adds the "@" character in to notify the project manager(s)
+name: "Design complete"
+
+on:
+  issues:
+    types: [labeled]
+
+jobs:
+  design-complete:
+    if: github.event.label.name == 'design-complete'
+    permissions:
+      issues: write
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/github-script@v6
+        env:
+          managers: ${{secrets.CALCITE_MANAGERS}}
+        with:
+          script: |
+            const { managers } = process.env;
+            const { label } = context.payload;
+
+            if (label && label.name === "design-complete") {
+
+              // Add a "@" character to notify the user
+              const calcite_managers = managers.split(",").map(v => " @" + v.trim());
+
+              const issueProps = {
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo
+              }
+
+              /* Modify labels */
+
+              /* Tries to remove labels */
+              /* If the label is not associated with the issue,
+                 the error is logged and the script will continue. */
+
+              // Tries to remove "Design" label
+              try {
+                await github.rest.issues.removeLabel({
+                  ...issueProps,
+                  name: "design"
+                });
+              } catch(err) {
+                console.log("The 'design' label is not associated with the issue", err);
+              }
+
+              // Try to remove "1 - assigned" label
+              try {
+                await github.rest.issues.removeLabel({
+                  ...issueProps,
+                  name: "1 - assigned"
+                });
+              } catch(err) {
+                console.log("The '1 - assigned' label is not associated with the issue", err);
+              }
+
+              // Add labels
+              await github.rest.issues.addLabels({
+                ...issueProps,
+                labels: ['0 - new', 'needs milestone']
+              })
+
+              /* Update issue */
+              
+              // Clear assignees and milestone
+              await github.rest.issues.update({
+                ...issueProps,
+                assignees: [],
+                milestone: null
+              });
+
+              // Add a comment to notify the project manager(s)
+              await github.rest.issues.createComment({
+                ...issueProps,
+                body: `cc ${calcite_managers}`,
+              });
+
+            }

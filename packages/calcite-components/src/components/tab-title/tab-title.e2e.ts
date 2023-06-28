@@ -49,7 +49,9 @@ describe("calcite-tab-title", () => {
     hidden("calcite-tab-title");
   });
 
-  it("can be disabled", () => disabled("<calcite-tab-title selected></calcite-tab-title>"));
+  describe("disabled", () => {
+    disabled("<calcite-tab-title selected></calcite-tab-title>");
+  });
 
   it("renders with an icon-start", async () => {
     const page = await newE2EPage();

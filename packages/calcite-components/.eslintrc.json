@@ -123,6 +123,9 @@
     "unicorn/prevent-abbreviations": [
       "error",
       {
+        "allowList": {
+          "e2ePage": true
+        },
         "extendDefaultReplacements": false,
         "replacements": {
           "e": {

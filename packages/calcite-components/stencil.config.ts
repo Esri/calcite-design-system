@@ -127,6 +127,7 @@ export const create: () => Config = () => ({
     })
   ],
   testing: {
+    watchPathIgnorePatterns: ["<rootDir>/../../node_modules", "<rootDir>/dist", "<rootDir>/www", "<rootDir>/hydrate"],
     moduleNameMapper: {
       "^/assets/(.*)$": "<rootDir>/src/tests/iconPathDataStub.ts",
       "^lodash-es$": "lodash"
