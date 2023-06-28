@@ -34,3 +34,13 @@ body:
       description: Dependencies, blockers, helpful details, etc.
     validations:
       required: false
+  - type: checkboxes
+    id: packages
+    attributes:
+      label: Calcite package
+      description: Select the relevant [package(s)](https://github.com/Esri/calcite-components/tree/master/packages) related to the request.
+      options:
+        - label: "@esri/calcite-components"
+        - label: "@esri/calcite-components-react"
+    validations:
+      required: false

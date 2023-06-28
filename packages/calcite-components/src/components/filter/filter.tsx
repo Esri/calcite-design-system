@@ -66,7 +66,7 @@ export class Filter
 
   @Watch("items")
   watchItemsHandler(): void {
-    this.filter(this.value);
+    this.filterDebounced(this.value);
   }
 
   /**
@@ -117,7 +117,7 @@ export class Filter
 
   @Watch("value")
   valueHandler(value: string): void {
-    this.filter(value);
+    this.filterDebounced(value);
   }
 
   // --------------------------------------------------------------------------
@@ -176,6 +176,7 @@ export class Filter
     disconnectInteractive(this);
     disconnectLocalized(this);
     disconnectMessages(this);
+    this.filterDebounced.cancel();
   }
 
   componentDidLoad(): void {
@@ -187,6 +188,22 @@ export class Filter
   //  Public Methods
   //
   // --------------------------------------------------------------------------
+
+  /**
+   * Performs a filter on the component.
+   *
+   * This method can be useful because filtering is delayed and asynchronous.
+   *
+   * @param {string} value - The filter text value.
+   * @returns {Promise<void>}
+   */
+  @Method()
+  async filter(value: string = this.value): Promise<void> {
+    return new Promise((resolve) => {
+      this.value = value;
+      this.filterDebounced(value, false, resolve);
+    });
+  }
 
   /** Sets focus on the component. */
   @Method()
@@ -202,15 +219,16 @@ export class Filter
   //
   // --------------------------------------------------------------------------
 
-  private filter = debounce(
-    (value: string, emit = false): void => this.updateFiltered(filter(this.items, value), emit),
+  private filterDebounced = debounce(
+    (value: string, emit = false, onFilter?: () => void): void =>
+      this.updateFiltered(filter(this.items, value), emit, onFilter),
     DEBOUNCE_TIMEOUT
   );
 
   inputHandler = (event: CustomEvent): void => {
     const target = event.target as HTMLCalciteInputElement;
     this.value = target.value;
-    this.filter(target.value, true);
+    this.filterDebounced(target.value, true);
   };
 
   keyDownHandler = (event: KeyboardEvent): void => {
@@ -226,16 +244,16 @@ export class Filter
 
   clear = (): void => {
     this.value = "";
-    this.filter("", true);
+    this.filterDebounced("", true);
     this.setFocus();
   };
 
-  updateFiltered(filtered: any[], emit = false): void {
-    this.filteredItems.length = 0;
-    this.filteredItems = this.filteredItems.concat(filtered);
+  updateFiltered(filtered: object[], emit = false, callback?: () => void): void {
+    this.filteredItems = filtered;
     if (emit) {
       this.calciteFilterChange.emit();
     }
+    callback?.();
   }
 
   // --------------------------------------------------------------------------
