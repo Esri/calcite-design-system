@@ -11,6 +11,9 @@
     },
     "packages/calcite-components-react": {
       "component": "@esri/calcite-components-react"
+    },
+    "packages/eslint-plugin-calcite-components": {
+      "component": "@esri/eslint-plugin-calcite-components"
     }
   },
   "plugins": [
