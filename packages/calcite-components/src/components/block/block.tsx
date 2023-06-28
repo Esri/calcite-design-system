@@ -239,8 +239,7 @@ export class Block
   renderIcon(): VNode[] {
     const { el, loading, messages, status } = this;
 
-    const showingLoadingStatus = this.loading && !this.open;
-    const statusIcon = showingLoadingStatus ? ICONS.refresh : ICONS[status];
+    const statusIcon = ICONS[status];
 
     const hasIcon = getSlotted(el, SLOTS.icon) || statusIcon;
 
@@ -253,8 +252,7 @@ export class Block
         class={{
           [CSS.statusIcon]: true,
           [CSS.valid]: status == "valid",
-          [CSS.invalid]: status == "invalid",
-          [CSS.loading]: showingLoadingStatus
+          [CSS.invalid]: status == "invalid"
         }}
         icon={statusIcon}
         scale="m"
