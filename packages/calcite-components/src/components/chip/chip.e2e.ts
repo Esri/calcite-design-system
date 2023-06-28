@@ -23,7 +23,9 @@ describe("calcite-chip", () => {
     focusable("<calcite-chip interactive>doritos</calcite-chip>");
   });
 
-  it("can be disabled when interactive", () => disabled("<calcite-chip interactive>doritos</calcite-chip>"));
+  describe("can be disabled when interactive", () => {
+    disabled("<calcite-chip interactive>doritos</calcite-chip>");
+  });
 
   it("should not emit event after the chip is clicked if interactive if not set", async () => {
     const page = await newE2EPage();
