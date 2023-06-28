@@ -320,7 +320,7 @@ export class Block
         ) : (
           headerContent
         )}
-        {hasControl && !loading ? (
+        {hasControl ? (
           <div class={CSS.controlContainer}>
             <slot name={SLOTS.control} />
           </div>
