@@ -9,5 +9,7 @@ describe("calcite-stepper-item", () => {
     hidden("calcite-stepper-item");
   });
 
-  it("can be disabled", () => disabled("calcite-stepper-item"));
+  describe("disabled", () => {
+    disabled("calcite-stepper-item");
+  });
 });
