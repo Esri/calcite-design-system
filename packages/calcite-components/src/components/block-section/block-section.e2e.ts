@@ -1,5 +1,5 @@
 import { CSS, TEXT } from "./resources";
-import { accessible, defaults, hidden, reflects, renders, t9n } from "../../tests/commonTests";
+import { accessible, defaults, focusable, hidden, reflects, renders, t9n } from "../../tests/commonTests";
 import { E2EPage, newE2EPage } from "@stencil/core/testing";
 import { html } from "../../../support/formatting";
 
@@ -36,6 +36,30 @@ describe("calcite-block-section", () => {
 
   describe("translation support", () => {
     t9n("calcite-block-section");
+  });
+
+  describe("setFocus", () => {
+    describe("focuses toggle switch", () => {
+      focusable(
+        html`<calcite-block-section text="text" toggle-display="switch" open>
+          <div>some content</div>
+        </calcite-block-section>`,
+        {
+          shadowFocusTargetSelector: `.${CSS.toggle}`
+        }
+      );
+    });
+
+    describe("focuses toggle button", () => {
+      focusable(
+        html`<calcite-block-section text="text" toggle-display="button" open>
+          <div>some content</div>
+        </calcite-block-section>`,
+        {
+          shadowFocusTargetSelector: `.${CSS.toggle}`
+        }
+      );
+    });
   });
 
   describe("toggle-display = 'switch'", () => {
