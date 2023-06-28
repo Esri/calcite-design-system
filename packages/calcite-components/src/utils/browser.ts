@@ -4,7 +4,7 @@ interface NavigatorUAData {
   platform: string;
 }
 
-export function getUserAgentData(): NavigatorUAData | undefined {
+function getUserAgentData(): NavigatorUAData | undefined {
   return (navigator as any).userAgentData;
 }
 
