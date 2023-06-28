@@ -2,8 +2,8 @@ packages\calcite-components\src\components\action\assets\action\t9n
 packages\calcite-components\src\components\action-bar\assets\action-bar\t9n
 packages\calcite-components\src\components\action-group\assets\action-group\t9n
 packages\calcite-components\src\components\action-pad\assets\action-pad\t9n
-packages\calcite-components\src\components\block\assets\block\t9n
 packages\calcite-components\src\components\alert\assets\alert\t9n
+packages\calcite-components\src\components\block\assets\block\t9n
 packages\calcite-components\src\components\block-section\assets\block-section\t9n
 packages\calcite-components\src\components\button\assets\button\t9n
 packages\calcite-components\src\components\card\assets\card\t9n
@@ -26,9 +26,9 @@ packages\calcite-components\src\components\menu\assets\menu\t9n
 packages\calcite-components\src\components\menu-item\assets\menu-item\t9n
 packages\calcite-components\src\components\modal\assets\modal\t9n
 packages\calcite-components\src\components\notice\assets\notice\t9n
+packages\calcite-components\src\components\pagination\assets\pagination\t9n
 packages\calcite-components\src\components\panel\assets\panel\t9n
 packages\calcite-components\src\components\pick-list-item\assets\pick-list-item\t9n
-packages\calcite-components\src\components\pagination\assets\pagination\t9n
 packages\calcite-components\src\components\popover\assets\popover\t9n
 packages\calcite-components\src\components\rating\assets\rating\t9n
 packages\calcite-components\src\components\scrim\assets\scrim\t9n

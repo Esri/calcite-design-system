@@ -19,7 +19,7 @@ describe("calcite-inline-editable", () => {
     hidden("calcite-inline-editable");
   });
 
-  it("can be disabled", () =>
+  describe("disabled", () => {
     disabled(
       html`
         <calcite-inline-editable>
@@ -27,7 +27,8 @@ describe("calcite-inline-editable", () => {
         </calcite-inline-editable>
       `,
       { focusTarget: { tab: "calcite-inline-editable", click: "calcite-input" } }
-    ));
+    );
+  });
 
   describe("rendering permutations", () => {
     let page: E2EPage;

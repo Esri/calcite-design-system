@@ -109,7 +109,9 @@ describe("calcite-color-picker", () => {
   });
 
   // #408047 is a color in the middle of the color field
-  it("can be disabled", () => disabled("<calcite-color-picker value='#408047'></calcite-color-picker>"));
+  describe("disabled", () => {
+    disabled("<calcite-color-picker value='#408047'></calcite-color-picker>");
+  });
 
   describe("translation support", () => {
     t9n("<calcite-color-picker></calcite-color-picker>");

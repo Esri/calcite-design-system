@@ -15,10 +15,11 @@ describe("calcite-chip-group", () => {
     hidden("calcite-chip-group");
   });
 
-  it("can be disabled", () =>
+  describe("disabled", () => {
     disabled("<calcite-chip-group><calcite-chip></calcite-chip></calcite-chip-group>", {
       focusTarget: "child"
-    }));
+    });
+  });
 
   describe("is accessible in selection mode none (default)", () => {
     accessible(

@@ -131,10 +131,8 @@ export class ListItem
   @Prop({ reflect: true, mutable: true }) selected = false;
 
   @Watch("selected")
-  handleSelectedChange(value: boolean): void {
-    if (value) {
-      this.calciteInternalListItemSelect.emit();
-    }
+  handleSelectedChange(): void {
+    this.calciteInternalListItemSelect.emit();
   }
 
   /**
