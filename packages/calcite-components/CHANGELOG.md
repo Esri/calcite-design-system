@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.5.0-next.8](https://github.com/Esri/calcite-components/compare/@esri/calcite-components@1.5.0-next.7...@esri/calcite-components@1.5.0-next.8) (2023-06-28)
+
+### Features
+
+- **navigation-logo:** Increase font-size of heading with no description ([#7081](https://github.com/Esri/calcite-components/issues/7081)) ([355e101](https://github.com/Esri/calcite-components/commit/355e101fae4d9aadadebaa169973639735578a2e)), closes [#7080](https://github.com/Esri/calcite-components/issues/7080)
+
+## [1.5.0-next.7](https://github.com/Esri/calcite-components/compare/@esri/calcite-components@1.5.0-next.6...@esri/calcite-components@1.5.0-next.7) (2023-06-28)
+
+### Features
+
+- **block, block-section:** Add setFocus method ([#7208](https://github.com/Esri/calcite-components/issues/7208)) ([35d4bbb](https://github.com/Esri/calcite-components/commit/35d4bbb26ec3a157c7970d7ed982c9af128f1bf8)), closes [#6944](https://github.com/Esri/calcite-components/issues/6944)
+- **filter:** Add filter method ([#7127](https://github.com/Esri/calcite-components/issues/7127)) ([5a4283f](https://github.com/Esri/calcite-components/commit/5a4283fe0937a3f7f1380f66765af0fa7093ad19)), closes [#6633](https://github.com/Esri/calcite-components/issues/6633)
+- **list:** Add slots for filter actions ([#7183](https://github.com/Esri/calcite-components/issues/7183)) ([da07ab1](https://github.com/Esri/calcite-components/commit/da07ab1dcd5d0b830c46b00b76c6d5724ff38c60)), closes [#6600](https://github.com/Esri/calcite-components/issues/6600)
+
+### Bug Fixes
+
+- **list:** changing filterText property will now update filtered items ([#7133](https://github.com/Esri/calcite-components/issues/7133)) ([a9c0bce](https://github.com/Esri/calcite-components/commit/a9c0bce700784c3ea9cd16d5e9568835b5d1203b)), closes [#6633](https://github.com/Esri/calcite-components/issues/6633) [#7127](https://github.com/Esri/calcite-components/issues/7127)
+
 ## [1.5.0-next.6](https://github.com/Esri/calcite-components/compare/@esri/calcite-components@1.4.3...@esri/calcite-components@1.5.0-next.6) (2023-06-27)
 
 ### Bug Fixes
