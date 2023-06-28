@@ -237,16 +237,17 @@ export class Block
   }
 
   renderIcon(): VNode[] {
-    const { el, status } = this;
+    const { el, loading, messages, status } = this;
 
     const showingLoadingStatus = this.loading && !this.open;
-
     const statusIcon = showingLoadingStatus ? ICONS.refresh : ICONS[status];
 
     const hasIcon = getSlotted(el, SLOTS.icon) || statusIcon;
 
     const iconEl = !statusIcon ? (
       <slot key="icon-slot" name={SLOTS.icon} />
+    ) : loading ? (
+      <calcite-loader inline label={messages.loading} />
     ) : (
       <calcite-icon
         class={{
@@ -321,9 +322,7 @@ export class Block
         ) : (
           headerContent
         )}
-        {loading ? (
-          <calcite-loader inline label={messages.loading} />
-        ) : hasControl ? (
+        {hasControl && !loading ? (
           <div class={CSS.controlContainer}>
             <slot name={SLOTS.control} />
           </div>
