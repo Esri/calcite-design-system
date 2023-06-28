@@ -95,6 +95,11 @@ export class List implements InteractiveComponent, LoadableComponent {
    */
   @Prop({ reflect: true, mutable: true }) filterText: string;
 
+  @Watch("filterText")
+  async handleFilterTextChange(): Promise<void> {
+    this.performFilter();
+  }
+
   /**
    * Specifies an accessible name for the component.
    */
@@ -227,14 +232,6 @@ export class List implements InteractiveComponent, LoadableComponent {
 
   componentDidLoad(): void {
     setComponentLoaded(this);
-    const { filterEl } = this;
-    const filteredItems = filterEl?.filteredItems as ItemData;
-
-    if (filteredItems) {
-      this.filteredData = filteredItems;
-    }
-
-    this.updateListItems();
   }
 
   // --------------------------------------------------------------------------
@@ -314,11 +311,11 @@ export class List implements InteractiveComponent, LoadableComponent {
                       aria-label={filterPlaceholder}
                       disabled={loading || disabled}
                       items={dataForFilter}
-                      onCalciteFilterChange={this.handleFilter}
+                      onCalciteFilterChange={this.handleFilterChange}
                       placeholder={filterPlaceholder}
                       value={filterText}
                       // eslint-disable-next-line react/jsx-sort-props
-                      ref={(el) => (this.filterEl = el)}
+                      ref={this.setFilterEl}
                     />
                     <slot
                       name={SLOTS.filterActionsEnd}
@@ -344,19 +341,19 @@ export class List implements InteractiveComponent, LoadableComponent {
   //
   // --------------------------------------------------------------------------
 
-  handleDefaultSlotChange = (event: Event): void => {
+  private handleDefaultSlotChange = (event: Event): void => {
     updateListItemChildren(getListItemChildren(event));
   };
 
-  handleFilterActionsStartSlotChange = (event: Event): void => {
+  private handleFilterActionsStartSlotChange = (event: Event): void => {
     this.hasFilterActionsStart = slotChangeHasAssignedElement(event);
   };
 
-  handleFilterActionsEndSlotChange = (event: Event): void => {
+  private handleFilterActionsEndSlotChange = (event: Event): void => {
     this.hasFilterActionsEnd = slotChangeHasAssignedElement(event);
   };
 
-  setActiveListItem = (): void => {
+  private setActiveListItem = (): void => {
     const { enabledListItems } = this;
 
     if (!enabledListItems.some((item) => item.active)) {
@@ -431,15 +428,45 @@ export class List implements InteractiveComponent, LoadableComponent {
     }
   };
 
-  handleFilter = (event: CustomEvent): void => {
-    event.stopPropagation();
-    const { filteredItems, value } = event.currentTarget as HTMLCalciteFilterElement;
-    this.filteredData = filteredItems as ItemData;
-    this.filterText = value;
-    this.updateListItems(true);
+  private updateFilteredData(emit = false): void {
+    const { filterEl } = this;
+
+    if (!filterEl) {
+      return;
+    }
+
+    if (filterEl.filteredItems) {
+      this.filteredData = filterEl.filteredItems as ItemData;
+    }
+
+    this.updateListItems(emit);
+  }
+
+  private async performFilter(): Promise<void> {
+    const { filterEl, filterText } = this;
+
+    if (!filterEl) {
+      return;
+    }
+
+    filterEl.value = filterText;
+    await filterEl.filter(filterText);
+    this.updateFilteredData();
+  }
+
+  private setFilterEl = (el: HTMLCalciteFilterElement): void => {
+    this.filterEl = el;
+    this.performFilter();
   };
 
-  getItemData = (): ItemData => {
+  private handleFilterChange = (event: CustomEvent): void => {
+    event.stopPropagation();
+    const { value } = event.currentTarget as HTMLCalciteFilterElement;
+    this.filterText = value;
+    this.updateFilteredData(true);
+  };
+
+  private getItemData = (): ItemData => {
     return this.listItems.map((item) => ({
       label: item.label,
       description: item.description,
@@ -468,11 +495,11 @@ export class List implements InteractiveComponent, LoadableComponent {
     this.updateSelectedItems(emit);
   }, debounceTimeout);
 
-  queryListItems = (): HTMLCalciteListItemElement[] => {
+  private queryListItems = (): HTMLCalciteListItemElement[] => {
     return Array.from(this.el.querySelectorAll(listItemSelector));
   };
 
-  focusRow = (focusEl: HTMLCalciteListItemElement): void => {
+  private focusRow = (focusEl: HTMLCalciteListItemElement): void => {
     const { enabledListItems } = this;
 
     if (!focusEl) {
@@ -484,7 +511,7 @@ export class List implements InteractiveComponent, LoadableComponent {
     focusEl.setFocus();
   };
 
-  isNavigable = (listItem: HTMLCalciteListItemElement): boolean => {
+  private isNavigable = (listItem: HTMLCalciteListItemElement): boolean => {
     const parentListItemEl = listItem.parentElement?.closest(listItemSelector);
 
     if (!parentListItemEl) {
@@ -494,7 +521,7 @@ export class List implements InteractiveComponent, LoadableComponent {
     return parentListItemEl.open && this.isNavigable(parentListItemEl);
   };
 
-  handleListKeydown = (event: KeyboardEvent): void => {
+  private handleListKeydown = (event: KeyboardEvent): void => {
     if (event.defaultPrevented) {
       return;
     }
