@@ -242,14 +242,14 @@ export function addLocalizedTrailingDecimalZeros(
   value: string,
   formatter: NumberStringFormat
 ): string {
-  const trailingDecimalZeros = value.match(hasTrailingDecimalZeros);
+  const trailingDecimalZeros = value.match(hasTrailingDecimalZeros)[0];
   const decimalSeparator = formatter.decimal;
 
-  if (trailingDecimalZeros[0] && value.includes(".")) {
+  if (trailingDecimalZeros && value.includes(".")) {
     localizedValue = !localizedValue.includes(decimalSeparator)
       ? `${localizedValue}${decimalSeparator}`
       : localizedValue;
-    return localizedValue.padEnd(localizedValue.length + trailingDecimalZeros[0].length, formatter.localize("0"));
+    return localizedValue.padEnd(localizedValue.length + trailingDecimalZeros.length, formatter.localize("0"));
   }
   return localizedValue;
 }
