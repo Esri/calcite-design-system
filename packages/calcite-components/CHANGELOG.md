@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.5.0-next.8](https://github.com/Esri/calcite-components/compare/@esri/calcite-components@1.5.0-next.7...@esri/calcite-components@1.5.0-next.8) (2023-06-28)
+
+### Features
+
+- **navigation-logo:** Increase font-size of heading with no description ([#7081](https://github.com/Esri/calcite-components/issues/7081)) ([355e101](https://github.com/Esri/calcite-components/commit/355e101fae4d9aadadebaa169973639735578a2e)), closes [#7080](https://github.com/Esri/calcite-components/issues/7080)
+
 ## [1.5.0-next.7](https://github.com/Esri/calcite-components/compare/@esri/calcite-components@1.5.0-next.6...@esri/calcite-components@1.5.0-next.7) (2023-06-28)
 
 ### Features
