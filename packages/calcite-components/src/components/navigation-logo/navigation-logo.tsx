@@ -104,7 +104,14 @@ export class CalciteNavigationLogo implements LoadableComponent {
           {(heading || description) && (
             <div class={CSS.container}>
               {heading && (
-                <span aria-label={this.heading} class={CSS.heading} key={CSS.heading}>
+                <span
+                  aria-label={this.heading}
+                  class={{
+                    [CSS.heading]: true,
+                    [CSS.standalone]: !this.description
+                  }}
+                  key={CSS.heading}
+                >
                   {heading}
                 </span>
               )}
