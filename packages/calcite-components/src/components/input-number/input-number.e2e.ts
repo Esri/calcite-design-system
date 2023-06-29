@@ -911,14 +911,17 @@ describe("calcite-input-number", () => {
     await page.waitForChanges();
     expect(await calciteInput.getProperty("value")).toBe("2.1e10");
     expect(await input.getProperty("value")).toBe("2.1e10");
+
     await page.keyboard.press("Backspace");
     await page.waitForChanges();
     expect(await calciteInput.getProperty("value")).toBe("2.1e1");
     expect(await input.getProperty("value")).toBe("2.1e1");
+
     await page.keyboard.press("Backspace");
     await page.waitForChanges();
     expect(await calciteInput.getProperty("value")).toBe("2.1");
     expect(await input.getProperty("value")).toBe("2.1");
+
     await page.keyboard.type("000");
     await page.waitForChanges();
     expect(await calciteInput.getProperty("value")).toBe("2.1000");
