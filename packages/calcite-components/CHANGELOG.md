@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.5.0-next.9](https://github.com/Esri/calcite-components/compare/@esri/calcite-components@1.5.0-next.8...@esri/calcite-components@1.5.0-next.9) (2023-06-29)
+
+### Features
+
+- automatically import and define Calcite Components when importing their React wrapper ([#7185](https://github.com/Esri/calcite-components/issues/7185)) ([bf0ff67](https://github.com/Esri/calcite-components/commit/bf0ff6737f882005f925031171ae9c9d57b41579)), closes [#6601](https://github.com/Esri/calcite-components/issues/6601)
+
+### Bug Fixes
+
+- **block:** removes extra loading indicator ([#7239](https://github.com/Esri/calcite-components/issues/7239)) ([a334a75](https://github.com/Esri/calcite-components/commit/a334a754113127d86214c59f3d884f11f4f0a558)), closes [#6485](https://github.com/Esri/calcite-components/issues/6485)
+
 ## [1.5.0-next.8](https://github.com/Esri/calcite-components/compare/@esri/calcite-components@1.5.0-next.7...@esri/calcite-components@1.5.0-next.8) (2023-06-28)
 
 ### Features

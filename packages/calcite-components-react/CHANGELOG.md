@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.5.0-next.9](https://github.com/Esri/calcite-components/compare/@esri/calcite-components-react@1.5.0-next.8...@esri/calcite-components-react@1.5.0-next.9) (2023-06-29)
+
+### Features
+
+- automatically import and define Calcite Components when importing their React wrapper ([#7185](https://github.com/Esri/calcite-components/issues/7185)) ([bf0ff67](https://github.com/Esri/calcite-components/commit/bf0ff6737f882005f925031171ae9c9d57b41579)), closes [#6601](https://github.com/Esri/calcite-components/issues/6601)
+
 ## [1.5.0-next.8](https://github.com/Esri/calcite-components/compare/@esri/calcite-components-react@1.5.0-next.7...@esri/calcite-components-react@1.5.0-next.8) (2023-06-28)
 
 **Note:** Version bump only for package @esri/calcite-components-react
