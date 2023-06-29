@@ -234,18 +234,15 @@ describe("calcite-input", () => {
 
     it("correctly increments/decrements numbers greater than MAX_SAFE_INTEGER", async () => {
       await page.setContent(
-        html`<calcite-input-number
+        html`<calcite-input
           value="100000000000000000000000000000000000000000000000000."
           step="10"
-        ></calcite-input-number>`
+          type="number"
+        ></calcite-input>`
       );
-      const element = await page.find("calcite-input-number");
-      const numberHorizontalItemDown = await page.find(
-        "calcite-input-number >>> .number-button-item[data-adjustment='down']"
-      );
-      const numberHorizontalItemUp = await page.find(
-        "calcite-input-number >>> .number-button-item[data-adjustment='up']"
-      );
+      const element = await page.find("calcite-input");
+      const numberHorizontalItemDown = await page.find("calcite-input >>> .number-button-item[data-adjustment='down']");
+      const numberHorizontalItemUp = await page.find("calcite-input >>> .number-button-item[data-adjustment='up']");
       expect(await element.getProperty("value")).toBe("100000000000000000000000000000000000000000000000000");
       await numberHorizontalItemUp.click();
       await page.waitForChanges();
@@ -258,14 +255,10 @@ describe("calcite-input", () => {
     });
 
     it("correctly increments/decrements exponential notation numbers without losing precision", async () => {
-      await page.setContent(html`<calcite-input-number value="1.23e-60"></calcite-input-number>`);
-      const element = await page.find("calcite-input-number");
-      const numberHorizontalItemDown = await page.find(
-        "calcite-input-number >>> .number-button-item[data-adjustment='down']"
-      );
-      const numberHorizontalItemUp = await page.find(
-        "calcite-input-number >>> .number-button-item[data-adjustment='up']"
-      );
+      await page.setContent(html`<calcite-input value="1.23e-60" type="number"></calcite-input>`);
+      const element = await page.find("calcite-input");
+      const numberHorizontalItemDown = await page.find("calcite-input >>> .number-button-item[data-adjustment='down']");
+      const numberHorizontalItemUp = await page.find("calcite-input >>> .number-button-item[data-adjustment='up']");
       expect(await element.getProperty("value")).toBe("1.23e-60");
       await numberHorizontalItemUp.click();
       await page.waitForChanges();
