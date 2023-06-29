@@ -14,8 +14,7 @@ export const CSS = {
   description: "description",
   controlContainer: "control-container",
   valid: "valid",
-  invalid: "invalid",
-  loading: "loading"
+  invalid: "invalid"
 };
 
 export const TEXT = {
@@ -35,6 +34,5 @@ export const ICONS = {
   opened: "chevron-up",
   closed: "chevron-down",
   valid: "check-circle",
-  invalid: "exclamation-mark-triangle",
-  refresh: "refresh"
+  invalid: "exclamation-mark-triangle"
 };
