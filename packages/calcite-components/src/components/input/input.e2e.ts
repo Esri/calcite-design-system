@@ -252,7 +252,9 @@ describe("calcite-input", () => {
       expect(await element.getProperty("value")).toBe("100000000000000000000000000000000000000000000000010");
       element.setProperty("step", 0.1);
       await page.waitForChanges();
-      Array.from({ length: 10 }, async () => await numberHorizontalItemDown.click());
+      for (let i = 0; i < 10; i++) {
+        numberHorizontalItemDown.click();
+      }
       await page.waitForChanges();
       expect(await element.getProperty("value")).toBe("100000000000000000000000000000000000000000000000009");
     });
@@ -274,7 +276,9 @@ describe("calcite-input", () => {
       );
       element.setProperty("step", 0.1);
       await page.waitForChanges();
-      Array.from({ length: 5 }, async () => await numberHorizontalItemDown.click());
+      for (let i = 0; i < 5; i++) {
+        numberHorizontalItemDown.click();
+      }
       await page.waitForChanges();
       expect(await element.getProperty("value")).toBe(
         "0.50000000000000000000000000000000000000000000000000000000000123"
