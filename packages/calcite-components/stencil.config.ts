@@ -84,7 +84,9 @@ export const create: () => Config = () => ({
     reactOutputTarget({
       componentCorePackage: "@esri/calcite-components",
       proxiesFile: "../calcite-components-react/src/components.ts",
-      excludeComponents: ["context-consumer"]
+      excludeComponents: ["context-consumer"],
+      customElementsDir: "dist/components",
+      includeImportCustomElements: true
     }),
     { type: "dist-hydrate-script" },
     { type: "dist-custom-elements", autoDefineCustomElements: true },
