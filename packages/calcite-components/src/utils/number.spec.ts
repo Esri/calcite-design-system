@@ -3,7 +3,6 @@ import {
   BigDecimal,
   addLocalizedTrailingDecimalZeros,
   expandExponentialNumberString,
-  getBigDecimalAsString,
   isValidNumber,
   parseNumberString,
   sanitizeNumberString
