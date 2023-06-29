@@ -990,11 +990,7 @@ export class Input
 
       let newLocalizedValue = numberStringFormatter.localize(newValue);
 
-      if (
-        numberStringFormatter.delocalize(newLocalizedValue).length !== newValue.length &&
-        origin !== "connected" &&
-        !hasTrailingDecimalSeparator
-      ) {
+      if (origin !== "connected" && !hasTrailingDecimalSeparator) {
         newLocalizedValue = addLocalizedTrailingDecimalZeros(
           newLocalizedValue,
           newValue,

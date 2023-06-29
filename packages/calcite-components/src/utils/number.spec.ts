@@ -175,6 +175,12 @@ describe("expandExponentialNumberString", () => {
 });
 
 describe("addLocalizedTrailingDecimalZeros", () => {
+  function getLocalizedDeimalValue(value: string, trailingZeros: number): String {
+    const localizedValue = numberStringFormatter.localize(value);
+    const localizedZeroValue = numberStringFormatter.localize("0");
+    return `${localizedValue}`.padEnd(localizedValue.length + trailingZeros, localizedZeroValue);
+  }
+
   locales.forEach((locale) => {
     it(`add back sanitized trailing decimal zero values - ${locale}`, () => {
       numberStringFormatter.numberFormatOptions = {
@@ -183,16 +189,36 @@ describe("addLocalizedTrailingDecimalZeros", () => {
         numberingSystem: locale === "ar" ? "arab" : "latn",
         useGrouping: true
       };
-      const localizedValue = numberStringFormatter.localize("123456.000");
-      const localizedZeroValue = numberStringFormatter.localize("0");
-      const result = `${localizedValue}${numberStringFormatter.decimal}`.padEnd(
-        localizedValue.length + 4,
-        localizedZeroValue
-      );
-      expect(addLocalizedTrailingDecimalZeros(localizedValue, "123456.000", numberStringFormatter)).toBe(result);
+
+      const stringWithTrailingZeros = "123456.1000";
+      const bigDecimalWithTrailingZeros =
+        "1230000000000000000000000000000.00000000000000000000045000000000000000000000000";
+      const negativeExponentialString = "-10.021e10000";
+
+      expect(
+        addLocalizedTrailingDecimalZeros(
+          numberStringFormatter.localize(stringWithTrailingZeros),
+          stringWithTrailingZeros,
+          numberStringFormatter
+        )
+      ).toBe(getLocalizedDeimalValue(stringWithTrailingZeros, 3));
+      expect(
+        addLocalizedTrailingDecimalZeros(
+          numberStringFormatter.localize(bigDecimalWithTrailingZeros),
+          bigDecimalWithTrailingZeros,
+          numberStringFormatter
+        )
+      ).toBe(getLocalizedDeimalValue(bigDecimalWithTrailingZeros, 24));
+      expect(
+        addLocalizedTrailingDecimalZeros(
+          numberStringFormatter.localize(negativeExponentialString),
+          negativeExponentialString,
+          numberStringFormatter
+        )
+      ).toBe(numberStringFormatter.localize(negativeExponentialString));
     });
 
-    it(`returns same value if no trailing decimal zero value is removed- ${locale}`, () => {
+    it(`returns same value if no trailing decimal zero value is removed - ${locale}`, () => {
       numberStringFormatter.numberFormatOptions = {
         locale,
         // the group separator is different in arabic depending on the numberingSystem
