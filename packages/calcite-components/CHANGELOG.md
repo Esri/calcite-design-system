@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.5.0-next.10](https://github.com/Esri/calcite-components/compare/@esri/calcite-components@1.5.0-next.9...@esri/calcite-components@1.5.0-next.10) (2023-06-29)
+
+### Bug Fixes
+
+- **input, input-number:** no longer removes trailing decimal separator ([#7159](https://github.com/Esri/calcite-components/issues/7159)) ([01535cf](https://github.com/Esri/calcite-components/commit/01535cf94609e00bd5b06fe65c59c531b7d66c09)), closes [#7039](https://github.com/Esri/calcite-components/issues/7039)
+
 ## [1.5.0-next.9](https://github.com/Esri/calcite-components/compare/@esri/calcite-components@1.5.0-next.8...@esri/calcite-components@1.5.0-next.9) (2023-06-29)
 
 ### Features
