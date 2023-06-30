@@ -11,7 +11,7 @@ import {
   VNode,
   Watch
 } from "@stencil/core";
-import { getElementDir } from "../../utils/dom";
+import { focusFirstTabbable, getElementDir } from "../../utils/dom";
 import {
   connectInteractive,
   disconnectInteractive,
@@ -214,15 +214,7 @@ export class FlowItem
   @Method()
   async setFocus(): Promise<void> {
     await componentLoaded(this);
-
-    const { backButtonEl, containerEl } = this;
-
-    if (backButtonEl) {
-      backButtonEl.setFocus();
-      return;
-    }
-
-    containerEl?.setFocus();
+    focusFirstTabbable(this.el);
   }
 
   /**
