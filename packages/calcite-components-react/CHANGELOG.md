@@ -5,39 +5,15 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ## [1.5.0](https://github.com/Esri/calcite-components/compare/@esri/calcite-components-react@1.4.3...@esri/calcite-components-react@1.5.0) (2023-06-30)
 
-
 ### Features
 
-* Automatically import and define Calcite Components when importing their React wrapper ([#7185](https://github.com/Esri/calcite-components/issues/7185)) ([bf0ff67](https://github.com/Esri/calcite-components/commit/bf0ff6737f882005f925031171ae9c9d57b41579))
-
+- Automatically import and define Calcite Components when importing their React wrapper ([#7185](https://github.com/Esri/calcite-components/issues/7185)) ([bf0ff67](https://github.com/Esri/calcite-components/commit/bf0ff6737f882005f925031171ae9c9d57b41579))
 
 ### Dependencies
 
-* The following workspace dependencies were updated
-  * dependencies
-    * @esri/calcite-components bumped from ^1.5.0-next.10 to ^1.5.0
-
-## [1.5.0-next.10](https://github.com/Esri/calcite-components/compare/@esri/calcite-components-react@1.5.0-next.9...@esri/calcite-components-react@1.5.0-next.10) (2023-06-29)
-
-**Note:** Version bump only for package @esri/calcite-components-react
-
-## [1.5.0-next.9](https://github.com/Esri/calcite-components/compare/@esri/calcite-components-react@1.5.0-next.8...@esri/calcite-components-react@1.5.0-next.9) (2023-06-29)
-
-### Features
-
-- automatically import and define Calcite Components when importing their React wrapper ([#7185](https://github.com/Esri/calcite-components/issues/7185)) ([bf0ff67](https://github.com/Esri/calcite-components/commit/bf0ff6737f882005f925031171ae9c9d57b41579)), closes [#6601](https://github.com/Esri/calcite-components/issues/6601)
-
-## [1.5.0-next.8](https://github.com/Esri/calcite-components/compare/@esri/calcite-components-react@1.5.0-next.7...@esri/calcite-components-react@1.5.0-next.8) (2023-06-28)
-
-**Note:** Version bump only for package @esri/calcite-components-react
-
-## [1.5.0-next.7](https://github.com/Esri/calcite-components/compare/@esri/calcite-components-react@1.5.0-next.6...@esri/calcite-components-react@1.5.0-next.7) (2023-06-28)
-
-**Note:** Version bump only for package @esri/calcite-components-react
-
-## [1.5.0-next.6](https://github.com/Esri/calcite-components/compare/@esri/calcite-components-react@1.4.3...@esri/calcite-components-react@1.5.0-next.6) (2023-06-27)
-
-**Note:** Version bump only for package @esri/calcite-components-react
+- The following workspace dependencies were updated
+  - dependencies
+    - @esri/calcite-components bumped from ^1.5.0-next.10 to ^1.5.0
 
 ## [1.4.3](https://github.com/Esri/calcite-components/compare/@esri/calcite-components-react@1.4.2...@esri/calcite-components-react@1.4.3) (2023-06-26)
 
