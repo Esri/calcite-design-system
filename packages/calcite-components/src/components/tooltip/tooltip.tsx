@@ -59,7 +59,7 @@ export class Tooltip implements FloatingUIComponent, OpenCloseComponent {
   /**
    * Accessible name for the component.
    *
-   * @deprecated No longer necessary.
+   * @deprecated No longer necessary due to the label coming from the component's content. Setting aria attributes on the component is not recommended.
    */
   @Prop() label: string;
 
