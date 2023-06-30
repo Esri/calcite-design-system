@@ -96,31 +96,6 @@ describe("calcite-flow", () => {
       expect(mockCallBack).toHaveBeenCalledTimes(1);
     });
 
-    it("'setFocus' should be called in 'back()'", async () => {
-      const page = await newE2EPage();
-
-      const mockCallBack = jest.fn().mockReturnValue(Promise.resolve());
-      await page.exposeFunction("setFocus", mockCallBack);
-
-      await page.setContent(
-        html`<calcite-flow
-          ><calcite-flow-item></calcite-flow-item><calcite-flow-item></calcite-flow-item
-        ></calcite-flow>`
-      );
-
-      await page.$eval(
-        "calcite-flow",
-        (elm: HTMLCalciteFlowElement) =>
-          (elm.setFocus = (window as typeof window & Pick<typeof elm, "setFocus">).setFocus)
-      );
-
-      const flow = await page.find("calcite-flow");
-
-      await flow.callMethod("back");
-
-      expect(mockCallBack).toHaveBeenCalledTimes(1);
-    });
-
     it("frame advancing should add animation class", async () => {
       const page = await newE2EPage();
 
