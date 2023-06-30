@@ -43,7 +43,7 @@ export class Flow implements LoadableComponent {
 
     return beforeBack.call(lastItem).then(() => {
       lastItem.remove();
-
+      this.setFocus();
       return lastItem;
     });
   }
@@ -136,7 +136,7 @@ export class Flow implements LoadableComponent {
 
     if (newItemCount && activeItem) {
       newItems.forEach((itemNode) => {
-        itemNode.showBackButton = itemNode === activeItem && newItemCount > 1;
+        itemNode.showBackButton = newItemCount > 1;
         itemNode.hidden = itemNode !== activeItem;
       });
     }
