@@ -105,8 +105,8 @@ describe("calcite-flow", () => {
       await page.setContent(`<calcite-flow><calcite-flow-item></calcite-flow-item></calcite-flow>`);
 
       await page.$eval(
-        "calcite-flow-item",
-        (elm: HTMLCalciteFlowItemElement) =>
+        "calcite-flow",
+        (elm: HTMLCalciteFlowElement) =>
           (elm.setFocus = (window as typeof window & Pick<typeof elm, "setFocus">).setFocus)
       );
 
