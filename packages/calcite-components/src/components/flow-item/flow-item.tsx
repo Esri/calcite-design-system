@@ -218,10 +218,11 @@ export class FlowItem
     const { backButtonEl, containerEl } = this;
 
     if (backButtonEl) {
-      return backButtonEl.setFocus();
-    } else if (containerEl) {
-      return containerEl.setFocus();
+      backButtonEl.setFocus();
+      return;
     }
+
+    containerEl?.setFocus();
   }
 
   /**
