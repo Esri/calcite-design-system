@@ -1,4 +1,4 @@
 {
   "rating": "Vurdering",
-  "stars": "Stjerner: ${num}"
+  "stars": "Stjerner: {num}"
 }
