@@ -1,6 +1,7 @@
 import { locales, numberStringFormatter } from "./locale";
 import {
   BigDecimal,
+  addLocalizedTrailingDecimalZeros,
   expandExponentialNumberString,
   isValidNumber,
   parseNumberString,
@@ -82,6 +83,7 @@ describe("sanitizeNumberString", () => {
     const nonLeadingZeroExponentialString = "500000e00600";
     const multiDecimalExponentialString = "1.2e2.1";
     const crazyExponentialString = "-2-.-1ee.5-3e.1..e--09";
+    const trailingDecimalZeros = "0.110000";
 
     expect(sanitizeNumberString(stringWithMultipleDashes)).toBe("1234");
     expect(sanitizeNumberString(negativeStringWithMultipleDashes)).toBe("-1234");
@@ -102,6 +104,7 @@ describe("sanitizeNumberString", () => {
     expect(sanitizeNumberString(nonLeadingZeroExponentialString)).toBe("500000e600");
     expect(sanitizeNumberString(multiDecimalExponentialString)).toBe("1.2e21");
     expect(sanitizeNumberString(crazyExponentialString)).toBe("-2.1e53109");
+    expect(sanitizeNumberString(trailingDecimalZeros)).toBe("0.110000");
   });
 });
 
@@ -167,5 +170,62 @@ describe("expandExponentialNumberString", () => {
       "1100000000000000000000000000000000000000000000000000"
     );
     expect(expandExponentialNumberString("")).toBe("");
+  });
+});
+
+describe("addLocalizedTrailingDecimalZeros", () => {
+  function getLocalizedDeimalValue(value: string, trailingZeros: number): String {
+    const localizedValue = numberStringFormatter.localize(value);
+    const localizedZeroValue = numberStringFormatter.localize("0");
+    return `${localizedValue}`.padEnd(localizedValue.length + trailingZeros, localizedZeroValue);
+  }
+
+  locales.forEach((locale) => {
+    it(`add back sanitized trailing decimal zero values - ${locale}`, () => {
+      numberStringFormatter.numberFormatOptions = {
+        locale,
+        // the group separator is different in arabic depending on the numberingSystem
+        numberingSystem: locale === "ar" ? "arab" : "latn",
+        useGrouping: true
+      };
+
+      const stringWithTrailingZeros = "123456.1000";
+      const bigDecimalWithTrailingZeros =
+        "1230000000000000000000000000000.00000000000000000000045000000000000000000000000";
+      const negativeExponentialString = "-10.021e10000";
+
+      expect(
+        addLocalizedTrailingDecimalZeros(
+          numberStringFormatter.localize(stringWithTrailingZeros),
+          stringWithTrailingZeros,
+          numberStringFormatter
+        )
+      ).toBe(getLocalizedDeimalValue(stringWithTrailingZeros, 3));
+      expect(
+        addLocalizedTrailingDecimalZeros(
+          numberStringFormatter.localize(bigDecimalWithTrailingZeros),
+          bigDecimalWithTrailingZeros,
+          numberStringFormatter
+        )
+      ).toBe(getLocalizedDeimalValue(bigDecimalWithTrailingZeros, 24));
+      expect(
+        addLocalizedTrailingDecimalZeros(
+          numberStringFormatter.localize(negativeExponentialString),
+          negativeExponentialString,
+          numberStringFormatter
+        )
+      ).toBe(numberStringFormatter.localize(negativeExponentialString));
+    });
+
+    it(`returns same value if no trailing decimal zero value is removed - ${locale}`, () => {
+      numberStringFormatter.numberFormatOptions = {
+        locale,
+        // the group separator is different in arabic depending on the numberingSystem
+        numberingSystem: locale === "ar" ? "arab" : "latn",
+        useGrouping: true
+      };
+      const localizedValue = numberStringFormatter.localize("0.001");
+      expect(addLocalizedTrailingDecimalZeros(localizedValue, "0.001", numberStringFormatter)).toBe(localizedValue);
+    });
   });
 });
