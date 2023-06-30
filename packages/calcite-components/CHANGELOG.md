@@ -3,6 +3,26 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.5.0](https://github.com/Esri/calcite-components/compare/@esri/calcite-components@1.4.3...@esri/calcite-components@1.5.0) (2023-06-30)
+
+
+### Features
+
+* Automatically import and define Calcite Components when importing their React wrapper ([#7185](https://github.com/Esri/calcite-components/issues/7185)) ([bf0ff67](https://github.com/Esri/calcite-components/commit/bf0ff6737f882005f925031171ae9c9d57b41579))
+* **block, block-section:** Add setFocus method ([#7208](https://github.com/Esri/calcite-components/issues/7208)) ([35d4bbb](https://github.com/Esri/calcite-components/commit/35d4bbb26ec3a157c7970d7ed982c9af128f1bf8))
+* **filter:** Add filter method ([#7127](https://github.com/Esri/calcite-components/issues/7127)) ([5a4283f](https://github.com/Esri/calcite-components/commit/5a4283fe0937a3f7f1380f66765af0fa7093ad19))
+* **list:** Add slots for filter actions ([#7183](https://github.com/Esri/calcite-components/issues/7183)) ([da07ab1](https://github.com/Esri/calcite-components/commit/da07ab1dcd5d0b830c46b00b76c6d5724ff38c60))
+* **navigation-logo:** Increase font-size of heading with no description ([#7081](https://github.com/Esri/calcite-components/issues/7081)) ([355e101](https://github.com/Esri/calcite-components/commit/355e101fae4d9aadadebaa169973639735578a2e))
+
+
+### Bug Fixes
+
+* **block:** Removes extra loading indicator ([#7239](https://github.com/Esri/calcite-components/issues/7239)) ([a334a75](https://github.com/Esri/calcite-components/commit/a334a754113127d86214c59f3d884f11f4f0a558))
+* **input-date-picker:** Reset active date picker date after closing ([#7219](https://github.com/Esri/calcite-components/issues/7219)) ([91b2a1b](https://github.com/Esri/calcite-components/commit/91b2a1b92d49cdd573650952ee09971c59bd1649))
+* **input, input-number:** No longer removes trailing decimal separator ([#7159](https://github.com/Esri/calcite-components/issues/7159)) ([01535cf](https://github.com/Esri/calcite-components/commit/01535cf94609e00bd5b06fe65c59c531b7d66c09))
+* **list:** Changing filterText property will now update filtered items ([#7133](https://github.com/Esri/calcite-components/issues/7133)) ([a9c0bce](https://github.com/Esri/calcite-components/commit/a9c0bce700784c3ea9cd16d5e9568835b5d1203b))
+* **tooltip:** Deprecate the label property due to the description coming from the component's content ([#7247](https://github.com/Esri/calcite-components/issues/7247)) ([7934d75](https://github.com/Esri/calcite-components/commit/7934d754099a042cc9130c6522168b5b62f28c3c))
+
 ## [1.5.0-next.10](https://github.com/Esri/calcite-components/compare/@esri/calcite-components@1.5.0-next.9...@esri/calcite-components@1.5.0-next.10) (2023-06-29)
 
 ### Bug Fixes
