@@ -206,8 +206,15 @@ export class Action
   @Method()
   async setFocus(): Promise<void> {
     await componentLoaded(this);
+    forceUpdate(this);
 
-    this.buttonEl?.focus();
+    const { buttonEl } = this;
+
+    if (!buttonEl) {
+      return;
+    }
+
+    requestAnimationFrame(() => buttonEl.focus());
   }
 
   // --------------------------------------------------------------------------
