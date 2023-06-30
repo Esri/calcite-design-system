@@ -219,9 +219,9 @@ export class FlowItem
 
     if (backButtonEl) {
       return backButtonEl.setFocus();
+    } else if (containerEl) {
+      return containerEl.setFocus();
     }
-
-    containerEl?.setFocus();
   }
 
   /**
