@@ -136,7 +136,7 @@ export class Flow implements LoadableComponent {
 
     if (newItemCount && activeItem) {
       newItems.forEach((itemNode) => {
-        itemNode.showBackButton = newItemCount > 1;
+        itemNode.showBackButton = itemNode === activeItem && newItemCount > 1;
         itemNode.hidden = itemNode !== activeItem;
       });
     }
