@@ -45,7 +45,7 @@ export class Flow implements LoadableComponent {
 
     lastItem.remove();
 
-    await this.setFocus();
+    this.setFocus();
 
     return lastItem;
   }
