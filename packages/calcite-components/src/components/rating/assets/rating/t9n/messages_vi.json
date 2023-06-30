@@ -1,4 +1,4 @@
 {
   "rating": "Xếp loại",
-  "stars": "Sao: ${num}"
+  "stars": "Sao: {num}"
 }
