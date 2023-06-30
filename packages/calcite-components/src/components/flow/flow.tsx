@@ -60,7 +60,7 @@ export class Flow implements LoadableComponent {
     const { items } = this;
     const activeItem = items[items.length - 1];
 
-    activeItem?.setFocus();
+    return activeItem?.setFocus();
   }
 
   // --------------------------------------------------------------------------
