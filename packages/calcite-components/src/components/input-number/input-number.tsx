@@ -42,13 +42,13 @@ import {
 } from "../../utils/loadable";
 import {
   connectLocalized,
-  defaultNumberingSystem,
   disconnectLocalized,
   LocalizedComponent,
   NumberingSystem,
   numberStringFormatter
 } from "../../utils/locale";
 import {
+  addLocalizedTrailingDecimalZeros,
   BigDecimal,
   isValidNumber,
   parseNumberString,
@@ -840,12 +840,11 @@ export class InputNumber
       useGrouping: this.groupSeparator
     };
 
-    const sanitizedValue = sanitizeNumberString(
-      // no need to delocalize a string that ia already in latn numerals
-      (this.numberingSystem && this.numberingSystem !== "latn") || defaultNumberingSystem !== "latn"
-        ? numberStringFormatter.delocalize(value)
-        : value
-    );
+    const isValueDeleted =
+      this.previousValue?.length > value.length || this.value?.length > value.length;
+    const hasTrailingDecimalSeparator = value.charAt(value.length - 1) === ".";
+    const sanitizedValue =
+      hasTrailingDecimalSeparator && isValueDeleted ? value : sanitizeNumberString(value);
 
     const newValue =
       value && !sanitizedValue
@@ -854,8 +853,21 @@ export class InputNumber
           : ""
         : sanitizedValue;
 
-    const newLocalizedValue = numberStringFormatter.localize(newValue);
-    this.localizedValue = newLocalizedValue;
+    let newLocalizedValue = numberStringFormatter.localize(newValue);
+
+    if (origin !== "connected" && !hasTrailingDecimalSeparator) {
+      newLocalizedValue = addLocalizedTrailingDecimalZeros(
+        newLocalizedValue,
+        newValue,
+        numberStringFormatter
+      );
+    }
+
+    // adds localized trailing decimal separator
+    this.localizedValue =
+      hasTrailingDecimalSeparator && isValueDeleted
+        ? `${newLocalizedValue}${numberStringFormatter.decimal}`
+        : newLocalizedValue;
 
     this.setPreviousNumberValue(previousValue ?? this.value);
     this.previousValueOrigin = origin;

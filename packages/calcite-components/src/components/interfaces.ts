@@ -19,5 +19,4 @@ export type SelectionMode =
   | "multiple";
 export type Scale = "s" | "m" | "l";
 export type Status = "invalid" | "valid" | "idle";
-
 export type Width = "auto" | "half" | "full";
