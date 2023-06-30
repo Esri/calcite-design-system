@@ -102,7 +102,11 @@ describe("calcite-flow", () => {
       const mockCallBack = jest.fn().mockReturnValue(Promise.resolve());
       await page.exposeFunction("setFocus", mockCallBack);
 
-      await page.setContent(`<calcite-flow><calcite-flow-item></calcite-flow-item></calcite-flow>`);
+      await page.setContent(
+        html`<calcite-flow
+          ><calcite-flow-item></calcite-flow-item><calcite-flow-item></calcite-flow-item
+        ></calcite-flow>`
+      );
 
       await page.$eval(
         "calcite-flow",
@@ -112,7 +116,7 @@ describe("calcite-flow", () => {
 
       const flow = await page.find("calcite-flow");
 
-      flow.callMethod("back");
+      await flow.callMethod("back");
 
       expect(mockCallBack).toHaveBeenCalledTimes(1);
     });
