@@ -77,18 +77,16 @@ export function onToggleOpenCloseComponent(component: OpenCloseComponent, nonOpe
   readTask((): void => {
     if (component.transitionEl) {
       const allTransitionPropsArray = getComputedStyle(component.transitionEl).transition.split(" ");
+      const visibility = getComputedStyle(component.transitionEl).visibility;
+      const display = getComputedStyle(component.transitionEl).display;
+      console.log("visibility", visibility);
+      console.log("display", display);
+
       const openTransitionPropIndex = allTransitionPropsArray.findIndex(
         (item) => item === component.openTransitionProp
       );
-      const transitionDuration = allTransitionPropsArray[openTransitionPropIndex + 1];
-      if (transitionDuration === "0s") {
-        (nonOpenCloseComponent ? component[component.transitionProp] : component.open)
-          ? component.onBeforeOpen()
-          : component.onBeforeClose();
-        (nonOpenCloseComponent ? component[component.transitionProp] : component.open)
-          ? component.onOpen()
-          : component.onClose();
-      } else {
+      const transitionDuration = Number(allTransitionPropsArray[openTransitionPropIndex + 1].replace(/^\D+/g, ""));
+      if (transitionDuration > 0) {
         component.transitionEl.addEventListener(
           "transitionstart",
           () => {
@@ -107,6 +105,13 @@ export function onToggleOpenCloseComponent(component: OpenCloseComponent, nonOpe
           },
           { once: true }
         );
+      } else {
+        (nonOpenCloseComponent ? component[component.transitionProp] : component.open)
+          ? component.onBeforeOpen()
+          : component.onBeforeClose();
+        (nonOpenCloseComponent ? component[component.transitionProp] : component.open)
+          ? component.onOpen()
+          : component.onClose();
       }
     }
   });

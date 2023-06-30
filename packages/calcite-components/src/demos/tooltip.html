@@ -45,16 +45,46 @@
       <div class="parent">
         <div class="child right-aligned-text">auto</div>
 
-        <div class="child">
-          <calcite-button appearance="outline" id="tooltip-auto-ref">auto</calcite-button>
+        <div>
+          <div class="container">
+            <div class="template">
+              <calcite-link id="tooltip-button">Hover for Tooltip</calcite-link>
+              <calcite-tooltip label="Example label" reference-element="tooltip-button" id="actualTestCase">
+                <span>Tooltip content lorem ipsum</span>
+              </calcite-tooltip>
+            </div>
+          </div>
         </div>
 
         <div class="child">
-          <calcite-button appearance="outline" id="tooltip-auto-start-ref">auto-start</calcite-button>
-        </div>
-        <div class="child">
           <calcite-button appearance="outline" id="tooltip-auto-end-ref">auto-end</calcite-button>
         </div>
+        <style>
+          .container {
+            border: 1px solid red;
+            height: 33vh;
+            min-height: 1.5em;
+          }
+
+          .container:hover .template {
+            display: initial;
+          }
+
+          .template {
+            display: none;
+          }
+        </style>
+        <script>
+          const tooltip = document.getElementById("actualTestCase");
+
+          tooltip.addEventListener("calciteTooltipBeforeClose", () => {
+            console.log("calciteTooltipBeforeClose");
+          });
+
+          tooltip.addEventListener("calciteTooltipClose", () => {
+            console.log("calciteTooltipClose");
+          });
+        </script>
       </div>
 
       <!-- top, top-start, top-end -->
@@ -190,7 +220,7 @@
 
       <!-- containers to hold the tooltip -->
       <div>
-        <calcite-tooltip placement="auto" reference-element="tooltip-auto-ref">
+        <calcite-tooltip placement="auto" reference-element="tooltip-auto-ref" id="testing">
           <p>placement: auto</p>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
           magna aliqua.
