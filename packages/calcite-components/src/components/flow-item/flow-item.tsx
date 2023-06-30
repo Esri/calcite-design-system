@@ -214,6 +214,13 @@ export class FlowItem
   @Method()
   async setFocus(): Promise<void> {
     await componentLoaded(this);
+
+    const { backButtonEl } = this;
+
+    if (backButtonEl) {
+      return backButtonEl.setFocus();
+    }
+
     focusFirstTabbable(this.el);
   }
 
