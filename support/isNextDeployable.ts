@@ -16,12 +16,12 @@
       throw new Error("No deployable changes since the previous release, skipping ⛔");
     }
 
-    await runGit("checkout", "master", "--quiet");
+    await runGit("checkout", "main", "--quiet");
     await runGit("fetch", "--tags", "--quiet");
 
     if (
-      (await latestCommit("master")) != (await latestCommit("origin/master")) &&
-      (await deployable("master", "origin/master"))
+      (await latestCommit("main")) != (await latestCommit("origin/main")) &&
+      (await deployable("main", "origin/main"))
     ) {
       throw new Error("There is a more recent deployable install, aborting ⛔️");
     }
