@@ -18,7 +18,7 @@ Esri's design principles, components, and patterns can be consumed through a sui
 
 [Calcite Components](https://github.com/Esri/calcite-design-system)
 
-[Calcite Components Examples](https://github.com/Esri/calcite-design-system-examples)
+[Calcite Components Examples](https://github.com/Esri/calcite-components-examples)
 
 [Calcite Colors](https://github.com/Esri/calcite-colors)
 
