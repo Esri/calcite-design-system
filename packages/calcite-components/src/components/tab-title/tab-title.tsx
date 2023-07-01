@@ -15,7 +15,12 @@ import {
 } from "@stencil/core";
 import { getElementDir, getElementProp, toAriaBoolean, nodeListToArray } from "../../utils/dom";
 import { guid } from "../../utils/guid";
-import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import {
+  connectInteractive,
+  disconnectInteractive,
+  InteractiveComponent,
+  updateHostInteraction
+} from "../../utils/interactive";
 import { createObserver } from "../../utils/observers";
 import { FlipContext, Scale } from "../interfaces";
 import { TabChangeEventDetail, TabCloseEventDetail } from "../tab/interfaces";
@@ -144,6 +149,7 @@ export class TabTitle implements InteractiveComponent, LocalizedComponent, T9nCo
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
+    connectInteractive(this);
     connectLocalized(this);
     connectMessages(this);
     this.setupTextContentObserver();
@@ -160,6 +166,7 @@ export class TabTitle implements InteractiveComponent, LocalizedComponent, T9nCo
       })
     );
     this.resizeObserver?.disconnect();
+    disconnectInteractive(this);
     disconnectLocalized(this);
     disconnectMessages(this);
   }

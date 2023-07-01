@@ -26,7 +26,12 @@ import {
   HiddenFormInputSlot,
   submitForm
 } from "../../utils/form";
-import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import {
+  connectInteractive,
+  disconnectInteractive,
+  InteractiveComponent,
+  updateHostInteraction
+} from "../../utils/interactive";
 import { numberKeys } from "../../utils/key";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
 import {
@@ -37,13 +42,13 @@ import {
 } from "../../utils/loadable";
 import {
   connectLocalized,
-  defaultNumberingSystem,
   disconnectLocalized,
   LocalizedComponent,
   NumberingSystem,
   numberStringFormatter
 } from "../../utils/locale";
 import {
+  addLocalizedTrailingDecimalZeros,
   BigDecimal,
   isValidNumber,
   parseNumberString,
@@ -402,6 +407,7 @@ export class InputNumber
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
+    connectInteractive(this);
     connectLocalized(this);
     connectMessages(this);
     this.inlineEditableEl = this.el.closest("calcite-inline-editable");
@@ -429,6 +435,7 @@ export class InputNumber
   }
 
   disconnectedCallback(): void {
+    disconnectInteractive(this);
     disconnectLabel(this);
     disconnectForm(this);
     disconnectLocalized(this);
@@ -661,7 +668,7 @@ export class InputNumber
       return;
     }
     const isShiftTabEvent = event.shiftKey && event.key === "Tab";
-    if (supportedKeys.includes(event.key) && (!event.shiftKey || isShiftTabEvent)) {
+    if (supportedKeys.includes(event.key) || isShiftTabEvent) {
       if (event.key === "Enter") {
         this.emitChangeIfUserModified();
       }
@@ -833,12 +840,11 @@ export class InputNumber
       useGrouping: this.groupSeparator
     };
 
-    const sanitizedValue = sanitizeNumberString(
-      // no need to delocalize a string that ia already in latn numerals
-      (this.numberingSystem && this.numberingSystem !== "latn") || defaultNumberingSystem !== "latn"
-        ? numberStringFormatter.delocalize(value)
-        : value
-    );
+    const isValueDeleted =
+      this.previousValue?.length > value.length || this.value?.length > value.length;
+    const hasTrailingDecimalSeparator = value.charAt(value.length - 1) === ".";
+    const sanitizedValue =
+      hasTrailingDecimalSeparator && isValueDeleted ? value : sanitizeNumberString(value);
 
     const newValue =
       value && !sanitizedValue
@@ -847,8 +853,21 @@ export class InputNumber
           : ""
         : sanitizedValue;
 
-    const newLocalizedValue = numberStringFormatter.localize(newValue);
-    this.localizedValue = newLocalizedValue;
+    let newLocalizedValue = numberStringFormatter.localize(newValue);
+
+    if (origin !== "connected" && !hasTrailingDecimalSeparator) {
+      newLocalizedValue = addLocalizedTrailingDecimalZeros(
+        newLocalizedValue,
+        newValue,
+        numberStringFormatter
+      );
+    }
+
+    // adds localized trailing decimal separator
+    this.localizedValue =
+      hasTrailingDecimalSeparator && isValueDeleted
+        ? `${newLocalizedValue}${numberStringFormatter.decimal}`
+        : newLocalizedValue;
 
     this.setPreviousNumberValue(previousValue ?? this.value);
     this.previousValueOrigin = origin;

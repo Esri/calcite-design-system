@@ -1,5 +1,5 @@
 import { E2EPage, newE2EPage } from "@stencil/core/testing";
-import { TOOLTIP_DELAY_MS } from "../tooltip/resources";
+import { TOOLTIP_OPEN_DELAY_MS, TOOLTIP_CLOSE_DELAY_MS } from "../tooltip/resources";
 import { accessible, defaults, hidden, floatingUIOwner, renders } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { GlobalTestProps } from "../../tests/utils";
@@ -46,11 +46,15 @@ describe("calcite-tooltip", () => {
   });
 
   describe("accessible when closed", () => {
-    accessible(`<calcite-tooltip label="test" reference-element="ref"></calcite-tooltip><div id="ref">😄</div>`);
+    accessible(
+      `<calcite-tooltip reference-element="ref">Hello World!</calcite-tooltip><div id="ref">Tooltip Reference</div>`
+    );
   });
 
   describe("accessible when open", () => {
-    accessible(`<calcite-tooltip label="test" open reference-element="ref"></calcite-tooltip><div id="ref">😄</div>`);
+    accessible(
+      `<calcite-tooltip open reference-element="ref">Hello World!</calcite-tooltip><div id="ref">Tooltip Reference</div>`
+    );
   });
 
   describe("honors hidden attribute", () => {
@@ -224,7 +228,7 @@ describe("calcite-tooltip", () => {
 
     await ref.hover();
 
-    await page.waitForTimeout(TOOLTIP_DELAY_MS);
+    await page.waitForTimeout(TOOLTIP_OPEN_DELAY_MS);
 
     expect(await tooltip.isVisible()).toBe(true);
   });
@@ -246,7 +250,7 @@ describe("calcite-tooltip", () => {
 
     await ref.hover();
 
-    await page.waitForTimeout(TOOLTIP_DELAY_MS);
+    await page.waitForTimeout(TOOLTIP_OPEN_DELAY_MS);
 
     expect(await tooltip.isVisible()).toBe(true);
   });
@@ -290,7 +294,7 @@ describe("calcite-tooltip", () => {
 
     await page.waitForChanges();
 
-    await page.waitForTimeout(TOOLTIP_DELAY_MS);
+    await page.waitForTimeout(TOOLTIP_OPEN_DELAY_MS);
 
     expect(await tooltip.getProperty("open")).toBe(true);
 
@@ -300,7 +304,7 @@ describe("calcite-tooltip", () => {
 
     await page.waitForChanges();
 
-    await page.waitForTimeout(TOOLTIP_DELAY_MS);
+    await page.waitForTimeout(TOOLTIP_CLOSE_DELAY_MS);
 
     expect(await tooltip.getProperty("open")).toBe(false);
   });
@@ -419,7 +423,7 @@ describe("calcite-tooltip", () => {
 
     await referenceElement.hover();
 
-    await page.waitForTimeout(TOOLTIP_DELAY_MS);
+    await page.waitForTimeout(TOOLTIP_OPEN_DELAY_MS);
 
     await page.waitForChanges();
 
@@ -456,7 +460,7 @@ describe("calcite-tooltip", () => {
 
     await referenceElement.hover();
 
-    await page.waitForTimeout(TOOLTIP_DELAY_MS);
+    await page.waitForTimeout(TOOLTIP_OPEN_DELAY_MS);
 
     await page.waitForChanges();
 
@@ -497,7 +501,7 @@ describe("calcite-tooltip", () => {
       el.dispatchEvent(new Event("pointermove"));
     });
 
-    await page.waitForTimeout(TOOLTIP_DELAY_MS);
+    await page.waitForTimeout(TOOLTIP_OPEN_DELAY_MS);
 
     await page.waitForChanges();
 
@@ -555,7 +559,7 @@ describe("calcite-tooltip", () => {
       el.dispatchEvent(new Event("pointermove"));
     });
 
-    await page.waitForTimeout(TOOLTIP_DELAY_MS);
+    await page.waitForTimeout(TOOLTIP_OPEN_DELAY_MS);
 
     await page.waitForChanges();
 
@@ -584,7 +588,7 @@ describe("calcite-tooltip", () => {
 
     await referenceElement.hover();
 
-    await page.waitForTimeout(TOOLTIP_DELAY_MS);
+    await page.waitForTimeout(TOOLTIP_OPEN_DELAY_MS);
 
     await page.waitForChanges();
 
@@ -627,7 +631,7 @@ describe("calcite-tooltip", () => {
 
     await referenceElement.click();
 
-    await page.waitForTimeout(TOOLTIP_DELAY_MS);
+    await page.waitForTimeout(TOOLTIP_OPEN_DELAY_MS);
 
     await page.waitForChanges();
 
@@ -748,25 +752,25 @@ describe("calcite-tooltip", () => {
         selector: "#ref"
       },
       {
-        delay: TOOLTIP_DELAY_MS * 0.25,
+        delay: TOOLTIP_OPEN_DELAY_MS * 0.25,
         property: "open",
         value: false,
         selector: "#ref"
       },
       {
-        delay: TOOLTIP_DELAY_MS * 0.5,
+        delay: TOOLTIP_OPEN_DELAY_MS * 0.5,
         property: "open",
         value: false,
         selector: "#ref"
       },
       {
-        delay: TOOLTIP_DELAY_MS,
+        delay: TOOLTIP_OPEN_DELAY_MS,
         property: "open",
         value: true,
         selector: "#ref"
       },
       {
-        delay: TOOLTIP_DELAY_MS + TOOLTIP_DELAY_MS * 0.5,
+        delay: TOOLTIP_OPEN_DELAY_MS + TOOLTIP_OPEN_DELAY_MS * 0.5,
         property: "open",
         value: true,
         selector: "#ref"
@@ -809,25 +813,25 @@ describe("calcite-tooltip", () => {
         selector: "#ref"
       },
       {
-        delay: TOOLTIP_DELAY_MS,
+        delay: TOOLTIP_CLOSE_DELAY_MS,
         property: "open",
         value: true,
         selector: "#ref"
       },
       {
-        delay: TOOLTIP_DELAY_MS * 0.25,
+        delay: TOOLTIP_CLOSE_DELAY_MS * 0.25,
         property: "open",
         value: true,
         selector: "#ref2"
       },
       {
-        delay: TOOLTIP_DELAY_MS * 0.5,
+        delay: TOOLTIP_CLOSE_DELAY_MS * 0.5,
         property: "open",
         value: true,
         selector: "#ref2"
       },
       {
-        delay: TOOLTIP_DELAY_MS * 0.5,
+        delay: TOOLTIP_CLOSE_DELAY_MS * 0.5,
         property: "open",
         value: false,
         selector: "#ref2"
@@ -853,7 +857,7 @@ describe("calcite-tooltip", () => {
           {
             name: "shadow-component-a",
             html: `<button id="tooltip-button">Data disclaimer</button>
-        <calcite-tooltip label="Data disclaimer" reference-element="tooltip-button">
+        <calcite-tooltip reference-element="tooltip-button">
           <span>This data was collected over a 24 hour period</span>
         </calcite-tooltip>`
           },
@@ -907,5 +911,42 @@ describe("calcite-tooltip", () => {
       await focusReferenceElement(page);
       expect(await isTooltipOpen(page)).toBe(true);
     });
+  });
+
+  it("should open tooltip instantly if another tooltip is already visible", async () => {
+    const page = await newE2EPage();
+
+    await page.setContent(
+      html`<p><button id="ref1">referenceElement 1</button></p>
+        <p><button id="ref2">referenceElement 2</button></p>
+        <calcite-tooltip class="test" id="tooltip1" reference-element="ref1">content</calcite-tooltip>
+        <calcite-tooltip class="test" id="tooltip2" reference-element="ref2">content 2</calcite-tooltip>`
+    );
+
+    await page.waitForChanges();
+
+    const tooltip1 = await page.find("#tooltip1");
+    const tooltip2 = await page.find("#tooltip2");
+
+    expect(await tooltip1.getProperty("open")).toBe(false);
+    expect(await tooltip2.getProperty("open")).toBe(false);
+
+    await page.$eval("#ref1", (el: HTMLElement) => {
+      el.dispatchEvent(new Event("pointermove"));
+    });
+    await page.waitForTimeout(TOOLTIP_OPEN_DELAY_MS);
+    await page.waitForChanges();
+
+    expect(await tooltip1.getProperty("open")).toBe(true);
+    expect(await tooltip2.getProperty("open")).toBe(false);
+
+    await page.$eval("#ref2", (el: HTMLElement) => {
+      el.dispatchEvent(new Event("pointermove"));
+    });
+    await page.waitForTimeout(0);
+    await page.waitForChanges();
+
+    expect(await tooltip1.getProperty("open")).toBe(false);
+    expect(await tooltip2.getProperty("open")).toBe(true);
   });
 });

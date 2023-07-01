@@ -22,7 +22,12 @@ import {
   FormComponent,
   HiddenFormInputSlot
 } from "../../utils/form";
-import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import {
+  connectInteractive,
+  disconnectInteractive,
+  InteractiveComponent,
+  updateHostInteraction
+} from "../../utils/interactive";
 import { isActivationKey } from "../../utils/key";
 import { connectLabel, disconnectLabel, LabelableComponent, getLabelText } from "../../utils/label";
 import {
@@ -203,6 +208,7 @@ export class Slider
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
+    connectInteractive(this);
     connectLocalized(this);
     this.setMinMaxFromValue();
     this.setValueFromMinMax();
@@ -211,6 +217,7 @@ export class Slider
   }
 
   disconnectedCallback(): void {
+    disconnectInteractive(this);
     disconnectLabel(this);
     disconnectForm(this);
     disconnectLocalized(this);

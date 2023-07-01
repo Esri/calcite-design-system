@@ -1,4 +1,4 @@
-import { newE2EPage } from "@stencil/core/testing";
+import { E2EPage, newE2EPage } from "@stencil/core/testing";
 import { accessible, defaults, disabled, hidden, renders, slots } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { SLOTS } from "./resources";
@@ -62,13 +62,20 @@ describe("calcite-tree-item", () => {
     slots("calcite-tree-item", SLOTS);
   });
 
-  it("can be disabled (within a tree)", async () => {
-    const page = await newE2EPage();
-    await page.setContent(html` <calcite-tree expanded>
-      <calcite-tree-item>😃</calcite-tree-item>
-    </calcite-tree>`);
+  describe("disabled within a tree", () => {
+    let page: E2EPage;
 
-    await disabled({ page, tag: "calcite-tree-item" });
+    beforeEach(async () => {
+      page = await newE2EPage();
+      await page.setContent(html`
+        <calcite-tree expanded>
+          <calcite-tree-item>😃</calcite-tree-item>
+        </calcite-tree>
+      `);
+      await page.waitForChanges();
+    });
+
+    disabled(() => ({ tag: "calcite-tree-item", page }));
   });
 
   it("should expand/collapse children when the icon is clicked, but not select/deselect group", async () => {
@@ -408,5 +415,29 @@ describe("calcite-tree-item", () => {
     await page.keyboard.press("ArrowRight");
 
     expect(await page.evaluate(() => document.activeElement.id)).toBe("xlr");
+  });
+
+  it("displaying an expanded item is visible", async () => {
+    const page = await newE2EPage();
+    await page.setContent(
+      html`
+        <calcite-tree id="root" style="display:none;">
+          <calcite-tree-item expanded
+            >parent
+            <calcite-tree slot="children">
+              <calcite-tree-item id="child">child</calcite-tree-item>
+            </calcite-tree>
+          </calcite-tree-item>
+        </calcite-tree>
+      `
+    );
+
+    await page.$eval("#root", (root: HTMLCalciteTreeElement) => (root.style.display = ""));
+    await page.waitForChanges();
+
+    const item = await page.$("#child");
+    const itemBounds = await item.boundingBox();
+
+    expect(itemBounds.height).not.toBe(0);
   });
 });

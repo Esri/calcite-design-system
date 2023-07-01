@@ -3,6 +3,7 @@ import {
   Element,
   Event,
   EventEmitter,
+  forceUpdate,
   h,
   Host,
   Listen,
@@ -20,7 +21,12 @@ import {
   HiddenFormInputSlot
 } from "../../utils/form";
 import { guid } from "../../utils/guid";
-import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import {
+  connectInteractive,
+  disconnectInteractive,
+  InteractiveComponent,
+  updateHostInteraction
+} from "../../utils/interactive";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
 import {
   componentLoaded,
@@ -68,6 +74,11 @@ export class RadioButton
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @Prop({ reflect: true }) disabled = false;
 
+  @Watch("disabled")
+  disabledChanged(): void {
+    this.updateTabIndexOfOtherRadioButtonsInGroup();
+  }
+
   /**
    * The focused state of the component.
    *
@@ -88,6 +99,11 @@ export class RadioButton
 
   /** When `true`, the component is not displayed and is not focusable or checkable. */
   @Prop({ reflect: true }) hidden = false;
+
+  @Watch("hidden")
+  hiddenChanged(): void {
+    this.updateTabIndexOfOtherRadioButtonsInGroup();
+  }
 
   /**
    * The hovered state of the component.
@@ -179,20 +195,28 @@ export class RadioButton
     ) as HTMLCalciteRadioButtonElement[];
   };
 
-  isDefaultSelectable = (): boolean => {
+  isFocusable = (): boolean => {
     const radioButtons = this.queryButtons();
-    return !radioButtons.some((radioButton) => radioButton.checked) && radioButtons[0] === this.el;
+    const firstFocusable = radioButtons.find((radioButton) => !radioButton.disabled);
+    const checked = radioButtons.find((radioButton) => radioButton.checked);
+    return firstFocusable === this.el && !checked;
   };
 
   check = (): void => {
     if (this.disabled) {
       return;
     }
+
+    this.focused = true;
+    this.setFocus();
+
+    if (this.checked) {
+      return;
+    }
+
     this.uncheckAllRadioButtonsInGroup();
     this.checked = true;
-    this.focused = true;
     this.calciteRadioButtonChange.emit();
-    this.setFocus();
   };
 
   private clickHandler = (): void => {
@@ -204,25 +228,34 @@ export class RadioButton
   };
 
   onLabelClick(event: CustomEvent): void {
-    if (!this.disabled && !this.hidden) {
-      this.uncheckOtherRadioButtonsInGroup();
-      const label = event.currentTarget as HTMLCalciteLabelElement;
-      const radioButton = label.for
-        ? this.rootNode.querySelector<HTMLCalciteRadioButtonElement>(
-            `calcite-radio-button[id="${label.for}"]`
-          )
-        : label.querySelector<HTMLCalciteRadioButtonElement>(
-            `calcite-radio-button[name="${this.name}"]`
-          );
-
-      if (radioButton) {
-        radioButton.checked = true;
-        radioButton.focused = true;
-      }
-
-      this.calciteRadioButtonChange.emit();
-      this.setFocus();
+    if (this.disabled || this.hidden) {
+      return;
     }
+
+    const label = event.currentTarget as HTMLCalciteLabelElement;
+
+    const radioButton = label.for
+      ? this.rootNode.querySelector<HTMLCalciteRadioButtonElement>(
+          `calcite-radio-button[id="${label.for}"]`
+        )
+      : label.querySelector<HTMLCalciteRadioButtonElement>(
+          `calcite-radio-button[name="${this.name}"]`
+        );
+
+    if (!radioButton) {
+      return;
+    }
+
+    radioButton.focused = true;
+    this.setFocus();
+
+    if (radioButton.checked) {
+      return;
+    }
+
+    this.uncheckOtherRadioButtonsInGroup();
+    radioButton.checked = true;
+    this.calciteRadioButtonChange.emit();
   }
 
   private checkLastRadioButton(): void {
@@ -271,11 +304,21 @@ export class RadioButton
     });
   }
 
+  private updateTabIndexOfOtherRadioButtonsInGroup(): void {
+    const radioButtons = this.queryButtons();
+    const otherFocusableRadioButtons = radioButtons.filter(
+      (radioButton) => radioButton.guid !== this.guid && !radioButton.disabled
+    );
+    otherFocusableRadioButtons.forEach((radioButton) => {
+      forceUpdate(radioButton);
+    });
+  }
+
   private getTabIndex(): number | undefined {
     if (this.disabled) {
       return undefined;
     }
-    return this.checked || this.isDefaultSelectable() ? 0 : -1;
+    return this.checked || this.isFocusable() ? 0 : -1;
   }
 
   //--------------------------------------------------------------------------
@@ -423,8 +466,10 @@ export class RadioButton
     if (this.name) {
       this.checkLastRadioButton();
     }
+    connectInteractive(this);
     connectLabel(this);
     connectForm(this);
+    this.updateTabIndexOfOtherRadioButtonsInGroup();
   }
 
   componentWillLoad(): void {
@@ -440,8 +485,10 @@ export class RadioButton
   }
 
   disconnectedCallback(): void {
+    disconnectInteractive(this);
     disconnectLabel(this);
     disconnectForm(this);
+    this.updateTabIndexOfOtherRadioButtonsInGroup();
   }
 
   componentDidRender(): void {

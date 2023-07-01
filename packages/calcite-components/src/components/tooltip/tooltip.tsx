@@ -56,8 +56,12 @@ export class Tooltip implements FloatingUIComponent, OpenCloseComponent {
   /** Closes the component when the `referenceElement` is clicked. */
   @Prop({ reflect: true }) closeOnClick = false;
 
-  /** Accessible name for the component. */
-  @Prop() label!: string;
+  /**
+   * Accessible name for the component.
+   *
+   * @deprecated No longer necessary. Overrides the context of the component's description, which could confuse assistive technology users.
+   */
+  @Prop() label: string;
 
   /**
    * Offset the position of the component away from the `referenceElement`.

@@ -26,7 +26,12 @@ import {
   HiddenFormInputSlot,
   submitForm
 } from "../../utils/form";
-import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import {
+  connectInteractive,
+  disconnectInteractive,
+  InteractiveComponent,
+  updateHostInteraction
+} from "../../utils/interactive";
 import { numberKeys } from "../../utils/key";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
 import {
@@ -37,7 +42,6 @@ import {
 } from "../../utils/loadable";
 import {
   connectLocalized,
-  defaultNumberingSystem,
   disconnectLocalized,
   LocalizedComponent,
   NumberingSystem,
@@ -45,6 +49,7 @@ import {
 } from "../../utils/locale";
 
 import {
+  addLocalizedTrailingDecimalZeros,
   BigDecimal,
   isValidNumber,
   parseNumberString,
@@ -466,6 +471,7 @@ export class Input
   //--------------------------------------------------------------------------
 
   connectedCallback(): void {
+    connectInteractive(this);
     connectLocalized(this);
     connectMessages(this);
 
@@ -494,6 +500,7 @@ export class Input
   }
 
   disconnectedCallback(): void {
+    disconnectInteractive(this);
     disconnectLabel(this);
     disconnectForm(this);
     disconnectLocalized(this);
@@ -777,7 +784,7 @@ export class Input
       return;
     }
     const isShiftTabEvent = event.shiftKey && event.key === "Tab";
-    if (supportedKeys.includes(event.key) && (!event.shiftKey || isShiftTabEvent)) {
+    if (supportedKeys.includes(event.key) || isShiftTabEvent) {
       if (event.key === "Enter") {
         this.emitChangeIfUserModified();
       }
@@ -968,13 +975,11 @@ export class Input
         signDisplay: "never"
       };
 
-      const sanitizedValue = sanitizeNumberString(
-        // no need to delocalize a string that ia already in latn numerals
-        (this.numberingSystem && this.numberingSystem !== "latn") ||
-          defaultNumberingSystem !== "latn"
-          ? numberStringFormatter.delocalize(value)
-          : value
-      );
+      const isValueDeleted =
+        this.previousValue?.length > value.length || this.value?.length > value.length;
+      const hasTrailingDecimalSeparator = value.charAt(value.length - 1) === ".";
+      const sanitizedValue =
+        hasTrailingDecimalSeparator && isValueDeleted ? value : sanitizeNumberString(value);
 
       const newValue =
         value && !sanitizedValue
@@ -983,8 +988,21 @@ export class Input
             : ""
           : sanitizedValue;
 
-      const newLocalizedValue = numberStringFormatter.localize(newValue);
-      this.localizedValue = newLocalizedValue;
+      let newLocalizedValue = numberStringFormatter.localize(newValue);
+
+      if (origin !== "connected" && !hasTrailingDecimalSeparator) {
+        newLocalizedValue = addLocalizedTrailingDecimalZeros(
+          newLocalizedValue,
+          newValue,
+          numberStringFormatter
+        );
+      }
+
+      // adds localized trailing decimal separator
+      this.localizedValue =
+        hasTrailingDecimalSeparator && isValueDeleted
+          ? `${newLocalizedValue}${numberStringFormatter.decimal}`
+          : newLocalizedValue;
 
       this.userChangedValue = origin === "user" && this.value !== newValue;
       // don't sanitize the start of negative/decimal numbers, but

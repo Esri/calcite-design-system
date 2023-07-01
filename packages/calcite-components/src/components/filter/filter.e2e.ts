@@ -20,7 +20,9 @@ describe("calcite-filter", () => {
     focusable("calcite-filter");
   });
 
-  it("can be disabled", () => disabled("calcite-filter"));
+  describe("disabled", () => {
+    disabled("calcite-filter");
+  });
 
   describe("reflects", () => {
     reflects("calcite-filter", [
@@ -268,6 +270,52 @@ describe("calcite-filter", () => {
     it("should return matching value", async () => {
       const filter = await page.find("calcite-filter");
       await page.waitForTimeout(DEBOUNCE_TIMEOUT);
+      assertMatchingItems(await filter.getProperty("filteredItems"), ["harry"]);
+    });
+  });
+
+  describe("filter method", () => {
+    let page: E2EPage;
+
+    beforeEach(async () => {
+      page = await newE2EPage();
+      await page.setContent(`<calcite-filter></calcite-filter>`);
+      await page.evaluate(() => {
+        const filter = document.querySelector("calcite-filter");
+        filter.items = [
+          {
+            name: "Harry",
+            description: "developer",
+            value: "harry",
+            metadata: { haircolor: "red", favoriteBand: "MetallicA" }
+          },
+          {
+            name: "Matt",
+            description: "developer",
+            value: "matt",
+            metadata: { haircolor: "black", favoriteBand: "Radiohead" }
+          }
+        ];
+      });
+    });
+
+    it("should filter with value argument", async () => {
+      const filter = await page.find("calcite-filter");
+      const filterChangeSpy = await page.spyOnEvent("calciteFilterChange");
+      await filter.callMethod("filter", "Matt");
+      await page.waitForChanges();
+      expect(filterChangeSpy).toHaveReceivedEventTimes(0);
+      assertMatchingItems(await filter.getProperty("filteredItems"), ["matt"]);
+    });
+
+    it("should filter without value argument", async () => {
+      const filter = await page.find("calcite-filter");
+      filter.setProperty("value", "harry");
+      await page.waitForChanges();
+      const filterChangeSpy = await page.spyOnEvent("calciteFilterChange");
+      await filter.callMethod("filter");
+      await page.waitForChanges();
+      expect(filterChangeSpy).toHaveReceivedEventTimes(0);
       assertMatchingItems(await filter.getProperty("filteredItems"), ["harry"]);
     });
   });

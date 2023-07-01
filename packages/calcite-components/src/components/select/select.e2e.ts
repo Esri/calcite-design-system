@@ -63,7 +63,9 @@ describe("calcite-select", () => {
     labelable("calcite-select");
   });
 
-  it("can be disabled", () => disabled("calcite-select"));
+  describe("disabled", () => {
+    disabled("calcite-select");
+  });
 
   describe("flat options", () => {
     it("allows selecting items", async () => {

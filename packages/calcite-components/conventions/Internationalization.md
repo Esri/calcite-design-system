@@ -56,6 +56,9 @@ This pattern enables components to support built-in translations. In order to su
 - You can also look at the interface and util documentation for additional info.
 - The internal `messages` property should be used as the source of truth for translations in rendering.
 - List of supported locales can be found on our [Localization support page](https://developers.arcgis.com/calcite-design-system/localization/#locale-support).
+- Placeholders in message bundle strings should:
+  - Use the following syntax: `{placeholder}` (e.g., `Hello {userName}, my old friend. 👋`).
+  - Have an expressive name to provide context regarding its use.
 
 ## Translated strings
 

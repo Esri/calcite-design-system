@@ -43,7 +43,12 @@ import {
   toNonAlphaMode
 } from "./utils";
 
-import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import {
+  connectInteractive,
+  disconnectInteractive,
+  InteractiveComponent,
+  updateHostInteraction
+} from "../../utils/interactive";
 import { isActivationKey } from "../../utils/key";
 import {
   componentLoaded,
@@ -687,6 +692,7 @@ export class ColorPicker
   }
 
   connectedCallback(): void {
+    connectInteractive(this);
     connectLocalized(this);
     connectMessages(this);
   }
@@ -698,6 +704,7 @@ export class ColorPicker
   disconnectedCallback(): void {
     document.removeEventListener("pointermove", this.globalPointerMoveHandler);
     document.removeEventListener("pointerup", this.globalPointerUpHandler);
+    disconnectInteractive(this);
     disconnectLocalized(this);
     disconnectMessages(this);
   }

@@ -17,7 +17,12 @@ import {
   disconnectConditionalSlotComponent
 } from "../../utils/conditionalSlot";
 import { getSlotted, toAriaBoolean } from "../../utils/dom";
-import { InteractiveComponent, updateHostInteraction } from "../../utils/interactive";
+import {
+  connectInteractive,
+  disconnectInteractive,
+  InteractiveComponent,
+  updateHostInteraction
+} from "../../utils/interactive";
 import {
   componentLoaded,
   LoadableComponent,
@@ -191,6 +196,7 @@ export class PickListItem
   // --------------------------------------------------------------------------
 
   connectedCallback(): void {
+    connectInteractive(this);
     connectLocalized(this);
     connectMessages(this);
     connectConditionalSlotComponent(this);
@@ -206,6 +212,7 @@ export class PickListItem
   }
 
   disconnectedCallback(): void {
+    disconnectInteractive(this);
     disconnectLocalized(this);
     disconnectMessages(this);
     disconnectConditionalSlotComponent(this);
