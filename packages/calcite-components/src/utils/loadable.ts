@@ -1,3 +1,5 @@
+import { Build, forceUpdate } from "@stencil/core";
+
 /**
  * This helper adds support for knowing when a component has been loaded.
  *
@@ -31,7 +33,7 @@
  *  //
  *  // --------------------------------------------------------------------------
  *
- *  async setFocus(): Promise<void> {
+ *  async myMethod(): Promise<void> {
  *    await componentLoaded(this);
  *  }
  * ```
@@ -93,14 +95,14 @@ export function setComponentLoaded(component: LoadableComponent): void {
 }
 
 /**
- * This helper util can be used to ensure a component has been loaded (The "componentDidLoad" stencil lifecycle method has been called).
+ * This helper util can be used to ensure a component has been loaded (The "componentDidLoad" Stencil lifecycle method has been called).
  *
- * Requires "setUpLoadableComponent" and "setComponentLoaded" to be called first.
+ * Requires requires `LoadableComponent` to be implemented.
  *
  * A component developer can await this method before proceeding with any logic that requires a component to be loaded first.
  *
  * ```
- * async setFocus(): Promise<void> {
+ * async myMethod(): Promise<void> {
  *   await componentLoaded(this);
  * }
  * ```
@@ -110,4 +112,32 @@ export function setComponentLoaded(component: LoadableComponent): void {
  */
 export function componentLoaded(component: LoadableComponent): Promise<void> {
   return promiseMap.get(component);
+}
+
+/**
+ * This helper util can be used to ensuring the component is loaded and rendered by the browser (The "componentDidLoad" Stencil lifecycle method has been called and any internal elements are focusable).
+ *
+ * Requires requires `LoadableComponent` to be implemented.
+ *
+ * A component developer can await this method before proceeding with any logic that requires a component to be loaded first and then an internal element be focused.
+ *
+ * ```
+ * async setFocus(): Promise<void> {
+ *   await componentFocusable(this);
+ *   this.internalElement?.focus();
+ * }
+ * ```
+ *
+ * @param component
+ * @returns Promise<void>
+ */
+export async function componentFocusable(component: LoadableComponent): Promise<void> {
+  await componentLoaded(component);
+
+  if (!Build.isBrowser) {
+    return;
+  }
+
+  forceUpdate(component);
+  return new Promise((resolve) => requestAnimationFrame(() => resolve()));
 }
