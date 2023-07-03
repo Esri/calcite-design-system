@@ -88,7 +88,7 @@ export class ListItem
 
   @Watch("closed")
   handleClosedChange(): void {
-    this.emitcalciteInternalListItemChange();
+    this.emitCalciteInternalListItemChange();
   }
 
   /**
@@ -103,7 +103,7 @@ export class ListItem
 
   @Watch("disabled")
   handleDisabledChange(): void {
-    this.emitcalciteInternalListItemChange();
+    this.emitCalciteInternalListItemChange();
   }
 
   /**
@@ -557,7 +557,7 @@ export class ListItem
   //
   // --------------------------------------------------------------------------
 
-  private emitcalciteInternalListItemChange(): void {
+  private emitCalciteInternalListItemChange(): void {
     this.calciteInternalListItemChange.emit();
   }
 
