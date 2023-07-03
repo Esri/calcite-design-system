@@ -15,7 +15,7 @@ import { slotChangeHasAssignedElement } from "../../utils/dom";
 import { CSS, ICONS, SLOTS } from "./resources";
 import {
   LoadableComponent,
-  componentLoaded,
+  componentFocusable,
   setComponentLoaded,
   setUpLoadableComponent
 } from "../../utils/loadable";
@@ -104,7 +104,7 @@ export class CalciteNavigation implements LoadableComponent {
   /** When `navigation-action` is `true`, sets focus on the component's action element. */
   @Method()
   async setFocus(): Promise<void> {
-    await componentLoaded(this);
+    await componentFocusable(this);
     await this.navigationActionEl?.setFocus();
   }
 

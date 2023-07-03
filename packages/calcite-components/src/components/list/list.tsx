@@ -31,7 +31,7 @@ const listItemSelector = "calcite-list-item";
 const parentSelector = "calcite-list-item-group, calcite-list-item";
 
 import {
-  componentLoaded,
+  componentFocusable,
   LoadableComponent,
   setComponentLoaded,
   setUpLoadableComponent
@@ -265,7 +265,7 @@ export class List implements InteractiveComponent, LoadableComponent {
   /** Sets focus on the component's first focusable element. */
   @Method()
   async setFocus(): Promise<void> {
-    await componentLoaded(this);
+    await componentFocusable(this);
     this.enabledListItems.find((listItem) => listItem.active)?.setFocus();
   }
 

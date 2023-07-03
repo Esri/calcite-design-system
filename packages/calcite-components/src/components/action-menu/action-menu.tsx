@@ -17,7 +17,7 @@ import { EffectivePlacement, LogicalPlacement, OverlayPositioning } from "../../
 import { guid } from "../../utils/guid";
 import { isActivationKey } from "../../utils/key";
 import {
-  componentLoaded,
+  componentFocusable,
   LoadableComponent,
   setComponentLoaded,
   setUpLoadableComponent
@@ -185,7 +185,7 @@ export class ActionMenu implements LoadableComponent {
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
-    await componentLoaded(this);
+    await componentFocusable(this);
 
     focusElement(this.menuButtonEl);
   }

@@ -58,7 +58,7 @@ import { PopoverMessages } from "./assets/popover/t9n";
 import PopoverManager from "./PopoverManager";
 
 import {
-  componentLoaded,
+  componentFocusable,
   LoadableComponent,
   setComponentLoaded,
   setUpLoadableComponent
@@ -393,7 +393,7 @@ export class Popover
    */
   @Method()
   async setFocus(): Promise<void> {
-    await componentLoaded(this);
+    await componentFocusable(this);
     forceUpdate(this.el);
     focusFirstTabbable(this.el);
   }

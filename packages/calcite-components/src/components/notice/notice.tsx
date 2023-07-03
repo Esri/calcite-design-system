@@ -17,7 +17,7 @@ import {
 } from "../../utils/conditionalSlot";
 import { getSlotted, setRequestedIcon } from "../../utils/dom";
 import {
-  componentLoaded,
+  componentFocusable,
   LoadableComponent,
   setComponentLoaded,
   setUpLoadableComponent
@@ -214,7 +214,7 @@ export class Notice
   /** Sets focus on the component's first focusable element. */
   @Method()
   async setFocus(): Promise<void> {
-    await componentLoaded(this);
+    await componentFocusable(this);
 
     const noticeLinkEl = this.el.querySelector("calcite-link");
 
