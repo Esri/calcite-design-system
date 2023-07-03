@@ -3,7 +3,7 @@ import { createObserver } from "../../utils/observers";
 import { FlowDirection } from "./interfaces";
 import { CSS } from "./resources";
 import {
-  componentLoaded,
+  componentFocusable,
   LoadableComponent,
   setComponentLoaded,
   setUpLoadableComponent
@@ -53,7 +53,7 @@ export class Flow implements LoadableComponent {
    */
   @Method()
   async setFocus(): Promise<void> {
-    await componentLoaded(this);
+    await componentFocusable(this);
 
     const { items } = this;
     const activeItem = items[items.length - 1];
