@@ -1,4 +1,4 @@
 {
   "rating": "Értékelés",
-  "stars": "Csillagok: ${num}"
+  "stars": "Csillagok: {num}"
 }

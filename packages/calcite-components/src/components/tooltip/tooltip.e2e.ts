@@ -46,11 +46,15 @@ describe("calcite-tooltip", () => {
   });
 
   describe("accessible when closed", () => {
-    accessible(`<calcite-tooltip label="test" reference-element="ref"></calcite-tooltip><div id="ref">😄</div>`);
+    accessible(
+      `<calcite-tooltip reference-element="ref">Hello World!</calcite-tooltip><div id="ref">Tooltip Reference</div>`
+    );
   });
 
   describe("accessible when open", () => {
-    accessible(`<calcite-tooltip label="test" open reference-element="ref"></calcite-tooltip><div id="ref">😄</div>`);
+    accessible(
+      `<calcite-tooltip open reference-element="ref">Hello World!</calcite-tooltip><div id="ref">Tooltip Reference</div>`
+    );
   });
 
   describe("honors hidden attribute", () => {
@@ -853,7 +857,7 @@ describe("calcite-tooltip", () => {
           {
             name: "shadow-component-a",
             html: `<button id="tooltip-button">Data disclaimer</button>
-        <calcite-tooltip label="Data disclaimer" reference-element="tooltip-button">
+        <calcite-tooltip reference-element="tooltip-button">
           <span>This data was collected over a 24 hour period</span>
         </calcite-tooltip>`
           },

@@ -252,9 +252,10 @@ describe("calcite-block", () => {
       expect(headerIconEle).toBeNull();
 
       const statusIcon = await page.find(`calcite-block >>> .${CSS.statusIcon}`);
-      const loadingIcon = await page.find(`calcite-block >>> .${CSS.loading}`);
-      expect(statusIcon).not.toBeNull();
-      expect(loadingIcon).not.toBeNull();
+      const loader = await page.find(`calcite-block >>> calcite-loader`);
+
+      expect(statusIcon).toBeNull();
+      expect(loader).not.toBeNull();
     });
 
     it("allows users to slot in actions in a header menu", async () => {

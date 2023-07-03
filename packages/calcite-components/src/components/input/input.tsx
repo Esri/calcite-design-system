@@ -42,7 +42,6 @@ import {
 } from "../../utils/loadable";
 import {
   connectLocalized,
-  defaultNumberingSystem,
   disconnectLocalized,
   LocalizedComponent,
   NumberingSystem,
@@ -50,6 +49,7 @@ import {
 } from "../../utils/locale";
 
 import {
+  addLocalizedTrailingDecimalZeros,
   BigDecimal,
   isValidNumber,
   parseNumberString,
@@ -593,7 +593,7 @@ export class Input
   }
 
   // TODO: refactor so we don't need to sync the internals in color-picker
-  // https://github.com/Esri/calcite-components/issues/6100
+  // https://github.com/Esri/calcite-design-system/issues/6100
   /** @internal */
   @Method()
   async internalSyncChildElValue(): Promise<void> {
@@ -975,13 +975,11 @@ export class Input
         signDisplay: "never"
       };
 
-      const sanitizedValue = sanitizeNumberString(
-        // no need to delocalize a string that ia already in latn numerals
-        (this.numberingSystem && this.numberingSystem !== "latn") ||
-          defaultNumberingSystem !== "latn"
-          ? numberStringFormatter.delocalize(value)
-          : value
-      );
+      const isValueDeleted =
+        this.previousValue?.length > value.length || this.value?.length > value.length;
+      const hasTrailingDecimalSeparator = value.charAt(value.length - 1) === ".";
+      const sanitizedValue =
+        hasTrailingDecimalSeparator && isValueDeleted ? value : sanitizeNumberString(value);
 
       const newValue =
         value && !sanitizedValue
@@ -990,8 +988,21 @@ export class Input
             : ""
           : sanitizedValue;
 
-      const newLocalizedValue = numberStringFormatter.localize(newValue);
-      this.localizedValue = newLocalizedValue;
+      let newLocalizedValue = numberStringFormatter.localize(newValue);
+
+      if (origin !== "connected" && !hasTrailingDecimalSeparator) {
+        newLocalizedValue = addLocalizedTrailingDecimalZeros(
+          newLocalizedValue,
+          newValue,
+          numberStringFormatter
+        );
+      }
+
+      // adds localized trailing decimal separator
+      this.localizedValue =
+        hasTrailingDecimalSeparator && isValueDeleted
+          ? `${newLocalizedValue}${numberStringFormatter.decimal}`
+          : newLocalizedValue;
 
       this.userChangedValue = origin === "user" && this.value !== newValue;
       // don't sanitize the start of negative/decimal numbers, but

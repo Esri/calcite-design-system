@@ -1,4 +1,4 @@
 {
   "rating": "Hinnang",
-  "stars": "Tärne: ${num}"
+  "stars": "Tärne: {num}"
 }

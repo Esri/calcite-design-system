@@ -105,7 +105,7 @@
 @media (prefers-reduced-motion: reduce) {
   :root {
     // [workaround] using 0.01 to ensure `openCloseComponent` utils work consistently
-    // this should be removed once https://github.com/Esri/calcite-components/issues/6604 is addressed
+    // this should be removed once https://github.com/Esri/calcite-design-system/issues/6604 is addressed
     --calcite-internal-duration-factor: 0.01;
   }
 }

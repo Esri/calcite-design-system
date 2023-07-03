@@ -1,6 +1,6 @@
 # Calcite global styles
 
-When building any component in calcite-components or [calcite-components](https://github.com/esri/calcite-components), please use these set of global variables (CSS variables and Sass mixins or variables)
+When building any component in `packages/calcite-components`, please use these set of global variables (CSS variables and Sass mixins or variables)
 
 ## From [calcite-colors](https://github.com/Esri/calcite-colors)
 
