@@ -45,7 +45,7 @@ import {
 } from "../../utils/loadable";
 
 // todo: keyboard nav sorting
-// todo: child sorting
+// todo: disable child list functionality
 
 /**
  * A general purpose list that enables users to construct list items that conform to Calcite styling.
