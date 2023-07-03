@@ -210,13 +210,14 @@ describe("calcite-list", () => {
     await page.waitForChanges();
     await page.waitForTimeout(listDebounceTimeout);
 
+    const list = await page.find("calcite-list");
     const items = await page.findAll("calcite-list-item");
 
     expect(await items[0].getProperty("active")).toBe(true);
     expect(await items[1].getProperty("active")).toBe(false);
     expect(await items[2].getProperty("active")).toBe(false);
 
-    const eventSpy = await page.spyOnEvent("calciteInternalListItemActive");
+    const eventSpy = await list.spyOnEvent("calciteInternalListItemActive");
 
     await items[1].click();
 
