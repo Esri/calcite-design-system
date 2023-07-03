@@ -20,7 +20,7 @@ import {
   updateHostInteraction
 } from "../../utils/interactive";
 import {
-  componentLoaded,
+  componentFocusable,
   LoadableComponent,
   setComponentLoaded,
   setUpLoadableComponent
@@ -205,16 +205,8 @@ export class Action
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
-    await componentLoaded(this);
-    forceUpdate(this);
-
-    const { buttonEl } = this;
-
-    if (!buttonEl) {
-      return;
-    }
-
-    requestAnimationFrame(() => buttonEl.focus());
+    await componentFocusable(this);
+    this.buttonEl?.focus();
   }
 
   // --------------------------------------------------------------------------
