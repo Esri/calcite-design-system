@@ -74,7 +74,7 @@
     "jest": "27.4.5",
     "jest-axe": "7.0.1",
     "jest-cli": "27.4.5",
-    "lerna": "6.6.1",
+    "lerna": "7.1.1",
     "lint-staged": "13.2.2",
     "markdownlint-cli": "0.34.0",
     "postcss": "8.4.21",
