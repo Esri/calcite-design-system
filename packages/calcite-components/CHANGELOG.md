@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.5.0-next.12](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.5.0-next.11...@esri/calcite-components@1.5.0-next.12) (2023-07-03)
+
+### Bug Fixes
+
+- **tab-title:** add full focus outline to closable tab button in high contrast mode ([#7272](https://github.com/Esri/calcite-design-system/issues/7272)) ([d812d17](https://github.com/Esri/calcite-design-system/commit/d812d179245434eaff1fca8295186f6ee86bfd21)), closes [#6994](https://github.com/Esri/calcite-design-system/issues/6994) [#6994](https://github.com/Esri/calcite-design-system/issues/6994)
+
 ## [1.5.0-next.11](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.5.0-next.10...@esri/calcite-components@1.5.0-next.11) (2023-07-01)
 
 ### Bug Fixes
