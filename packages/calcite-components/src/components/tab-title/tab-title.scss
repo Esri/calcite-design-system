@@ -292,4 +292,8 @@
   :host([bordered][position="bottom"][selected]) .container {
     border-block-start-style: none;
   }
+
+  .close-button {
+    @apply z-default;
+  }
 }
