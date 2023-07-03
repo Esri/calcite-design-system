@@ -1,4 +1,4 @@
 {
   "rating": "Classificação",
-  "stars": "Estrelas: ${num}"
+  "stars": "Estrelas: {num}"
 }

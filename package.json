@@ -1,5 +1,5 @@
 {
-  "name": "@esri/calcite",
+  "name": "calcite-design-system",
   "version": "0.0.0",
   "private": true,
   "workspaces": [
@@ -16,10 +16,10 @@
     "prepare": "husky install",
     "preversion": "npm run util:is-in-sync-with-origin && npm run util:is-working-tree-clean",
     "test": "turbo run test",
-    "util:is-in-sync-with-origin": "[ \"$(git rev-parse --abbrev-ref HEAD)\" = \"master\" ] && [ \"$(git rev-parse master)\" = \"$(git rev-parse origin/master)\" ]",
+    "util:is-in-sync-with-origin": "[ \"$(git rev-parse --abbrev-ref HEAD)\" = \"main\" ] && [ \"$(git rev-parse main)\" = \"$(git rev-parse origin/main)\" ]",
     "util:is-next-deployable": "ts-node --esm support/isNextDeployable.ts",
     "util:is-working-tree-clean": "[ -z \"$(git status --porcelain=v1)\" ]",
-    "util:push-tags": "git push origin master --follow-tags",
+    "util:push-tags": "git push origin main --follow-tags",
     "util:remove-next-changelog-entries": "ts-node --esm support/removeNextChangelogEntries.ts",
     "util:sync-linked-package-versions": "ts-node --esm support/syncLinkedPackageVersions.ts"
   },
@@ -80,7 +80,7 @@
     "postcss": "8.4.21",
     "prettier": "2.8.8",
     "puppeteer": "10.0.0",
-    "quicktype-core": "23.0.12",
+    "quicktype-core": "23.0.48",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "rimraf": "4.1.2",

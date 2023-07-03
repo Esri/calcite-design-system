@@ -311,7 +311,7 @@ export class Rating
                       </div>
                     )}
                     <span class="visually-hidden">
-                      {this.messages.stars.replace("${num}", `${value}`)}
+                      {this.messages.stars.replace("{num}", `${value}`)}
                     </span>
                   </label>
                 );

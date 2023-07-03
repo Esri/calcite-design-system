@@ -1,4 +1,4 @@
 {
   "rating": "Novērtējums",
-  "stars": "Zvaigznes: ${num}"
+  "stars": "Zvaigznes: {num}"
 }

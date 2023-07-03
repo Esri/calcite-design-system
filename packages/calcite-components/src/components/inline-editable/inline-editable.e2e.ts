@@ -243,7 +243,7 @@ describe("calcite-inline-editable", () => {
       await cancelEvent;
       expect(cancelEvent).toHaveReceivedEventTimes(1);
 
-      // should not emit on hover after editing is cancelled, refers to: https://github.com/Esri/calcite-components/issues/4350
+      // should not emit on hover after editing is cancelled, refers to: https://github.com/Esri/calcite-design-system/issues/4350
       await element.hover();
       input.triggerEvent("calciteInternalInputBlur");
       await page.waitForChanges();

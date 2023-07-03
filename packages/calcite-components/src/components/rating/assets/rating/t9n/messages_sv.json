@@ -1,4 +1,4 @@
 {
   "rating": "Bedömning",
-  "stars": "Stjärnor: ${num}"
+  "stars": "Stjärnor: {num}"
 }
