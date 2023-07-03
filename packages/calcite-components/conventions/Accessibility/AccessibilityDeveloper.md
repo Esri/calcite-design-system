@@ -136,7 +136,7 @@ FAIL src/components/tree/tree.e2e.ts (23.34 s)
 
 - `npm test` runs the current test suite
 - `npm run test:watch` will retest on file changes
-- [Learn more on testing](https://github.com/Esri/calcite-components/blob/master/CONTRIBUTING.md#running-the-tests) from our contributing docs
+- [Learn more on testing](https://github.com/Esri/calcite-design-system/blob/main/CONTRIBUTING.md#running-the-tests) from our contributing docs
 
 [scroll to top](#developer-quick-start-guide)
 
@@ -144,7 +144,7 @@ FAIL src/components/tree/tree.e2e.ts (23.34 s)
 
 We've already added the a11y add on, [storybook-addon-a11y](https://storybook.js.org/addons/@storybook/addon-a11y) which uses `axe-core`, the same accessibility engine used for automated testing in CC. As new components and enhancements are added, **ensure stories are updated to test accessibility**. This includes as properties are added to components, to ensure we're upholding high standards to fit our audience's needs.
 
-[Learn more on writing stories](https://github.com/Esri/calcite-components/blob/master/CONTRIBUTING.md#writing-stories) from our contributing docs.
+[Learn more on writing stories](https://github.com/Esri/calcite-design-system/blob/main/CONTRIBUTING.md#writing-stories) from our contributing docs.
 
 ### Adding a new story
 

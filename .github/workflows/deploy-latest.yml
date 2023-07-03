@@ -2,7 +2,7 @@ name: Deploy Latest
 on:
   workflow_dispatch:
   push:
-    branches: [master]
+    branches: [main]
 permissions:
   contents: write
   pull-requests: write
@@ -15,7 +15,7 @@ jobs:
         with:
           command: manifest
           token: ${{ secrets.ADMIN_TOKEN }}
-          default-branch: master
+          default-branch: main
           extra-files: |
             packages/calcite-components/readme.md
       - name: Checkout Repository
