@@ -139,5 +139,5 @@ export async function componentFocusable(component: LoadableComponent): Promise<
   }
 
   forceUpdate(component);
-  return new Promise((resolve) => requestAnimationFrame(() => resolve));
+  return new Promise((resolve) => requestAnimationFrame(() => resolve()));
 }
