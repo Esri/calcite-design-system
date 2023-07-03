@@ -86,6 +86,11 @@ export class ListItem
   /** When `true`, hides the component. */
   @Prop({ reflect: true, mutable: true }) closed = false;
 
+  @Watch("closed")
+  handleClosedChange(): void {
+    this.emitCalciteInternalListItemChange();
+  }
+
   /**
    * A description for the component. Displays below the label text.
    */
@@ -95,6 +100,11 @@ export class ListItem
    * When `true`, interaction is prevented and the component is displayed with lower opacity.
    */
   @Prop({ reflect: true }) disabled = false;
+
+  @Watch("disabled")
+  handleDisabledChange(): void {
+    this.emitCalciteInternalListItemChange();
+  }
 
   /**
    * The label text of the component. Displays above the description text.
@@ -209,6 +219,12 @@ export class ListItem
    * @internal
    */
   @Event({ cancelable: false }) calciteInternalFocusPreviousItem: EventEmitter<void>;
+
+  /**
+   *
+   * @internal
+   */
+  @Event({ cancelable: false }) calciteInternalListItemChange: EventEmitter<void>;
 
   // --------------------------------------------------------------------------
   //
@@ -540,6 +556,10 @@ export class ListItem
   //  Private Methods
   //
   // --------------------------------------------------------------------------
+
+  private emitCalciteInternalListItemChange(): void {
+    this.calciteInternalListItemChange.emit();
+  }
 
   closeClickHandler = (): void => {
     this.closed = true;
