@@ -2,7 +2,7 @@ name: Close Completed Milestone
 on:
   workflow_dispatch:
   # pull_request:
-  #   branches: [master]
+  #   branches: [main]
   #   types: [closed]
   # issues:
   #   types: [closed, demilestoned]

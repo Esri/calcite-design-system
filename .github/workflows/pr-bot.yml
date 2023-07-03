@@ -1,7 +1,7 @@
 name: PR Bot
 on:
   pull_request:
-    branches: [master]
+    branches: [main]
 jobs:
   assign-author:
     if: github.event.pull_request.user.login != 'dependabot[bot]'

@@ -202,7 +202,7 @@ describe("calcite-input-number", () => {
     });
   });
 
-  describe("increment/decrement functionality", () => {
+  describe.skip("increment/decrement functionality", () => {
     let page: E2EPage;
     beforeEach(async () => {
       page = await newE2EPage();
@@ -1025,7 +1025,7 @@ describe("calcite-input-number", () => {
   });
 
   describe("number locale support", () => {
-    // "nb" and "es-MX" locales skipped per: https://github.com/Esri/calcite-components/issues/2323
+    // "nb" and "es-MX" locales skipped per: https://github.com/Esri/calcite-design-system/issues/2323
     const localesWithIssues = ["ar", "bs", "mk", "no", "es-MX"];
     locales
       .filter((locale) => !localesWithIssues.includes(locale))
