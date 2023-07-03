@@ -294,6 +294,7 @@
   }
 
   .close-button {
+    /* in high contrast the tab title outline covers the close button outline without a z-index */
     @apply z-default;
   }
 }
