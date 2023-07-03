@@ -77,10 +77,6 @@ export function onToggleOpenCloseComponent(component: OpenCloseComponent, nonOpe
   readTask((): void => {
     if (component.transitionEl) {
       const allTransitionPropsArray = getComputedStyle(component.transitionEl).transition.split(" ");
-      const visibility = getComputedStyle(component.transitionEl).visibility;
-      const display = getComputedStyle(component.transitionEl).display;
-      console.log("visibility", visibility);
-      console.log("display", display);
 
       const openTransitionPropIndex = allTransitionPropsArray.findIndex(
         (item) => item === component.openTransitionProp
