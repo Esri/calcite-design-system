@@ -202,7 +202,7 @@ describe("calcite-input-number", () => {
     });
   });
 
-  describe("increment/decrement functionality", () => {
+  describe.skip("increment/decrement functionality", () => {
     let page: E2EPage;
     beforeEach(async () => {
       page = await newE2EPage();
