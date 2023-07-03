@@ -200,8 +200,8 @@ export class List implements InteractiveComponent, LoadableComponent {
     this.updateSelectedItems();
   }
 
-  @Listen("calciteListItemClose")
-  handleCalciteListItemClose(): void {
+  @Listen("calciteInternalListItemChange")
+  handlecalciteInternalListItemChange(): void {
     this.updateListItems(true);
   }
 
