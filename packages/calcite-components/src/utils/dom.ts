@@ -150,7 +150,7 @@ export function queryElementRoots<T extends Element = Element>(
       ? "getElementById" in rootNode
         ? /*
           Check to make sure 'getElementById' exists in cases where element is no longer connected to the DOM and getRootNode() returns the element.
-          https://github.com/Esri/calcite-components/pull/4280
+          https://github.com/Esri/calcite-design-system/pull/4280
            */
           (rootNode.getElementById(id) as Element as T)
         : null
