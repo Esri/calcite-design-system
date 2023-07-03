@@ -576,6 +576,25 @@
           </calcite-list>
         </div>
       </div>
+
+      <!-- filterable draggable nested list -->
+      <div class="parent">
+        <div class="child right-aligned-text">nested & draggable</div>
+
+        <div class="child">
+          <calcite-list drag-enabled group="nested" label="test" selection-mode="multiple">
+            <calcite-list-item open label="Hi!" description="hello world">
+              <calcite-list drag-enabled group="nested">
+                <calcite-list-item open label="Hi!" description="hello world">
+                  <calcite-list drag-enabled group="nested">
+                    <calcite-list-item label="Hi!" description="hello world"></calcite-list-item>
+                  </calcite-list>
+                </calcite-list-item>
+              </calcite-list>
+            </calcite-list-item>
+          </calcite-list>
+        </div>
+      </div>
     </demo-dom-swapper>
   </body>
 </html>
