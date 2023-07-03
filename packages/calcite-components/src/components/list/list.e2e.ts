@@ -1,7 +1,7 @@
 import { accessible, hidden, renders, focusable, disabled, defaults } from "../../tests/commonTests";
 import { placeholderImage } from "../../../.storybook/placeholderImage";
 import { html } from "../../../support/formatting";
-import { newE2EPage } from "@stencil/core/testing";
+import { E2EPage, newE2EPage } from "@stencil/core/testing";
 import { debounceTimeout } from "./resources";
 import { CSS } from "../list-item/resources";
 import { DEBOUNCE_TIMEOUT as FILTER_DEBOUNCE_TIMEOUT } from "../filter/resources";
@@ -338,5 +338,88 @@ describe("calcite-list", () => {
     await page.waitForTimeout(listDebounceTimeout);
     expect(await listItemOne.getProperty("selected")).toBe(false);
     expect(await list.getProperty("selectedItems")).toHaveLength(0);
+  });
+
+  describe.only("keyboard navigation", () => {
+    async function evaluateActiveElement(page: E2EPage, activeElementSelector: string): Promise<void> {
+      expect(await page.evaluate((selector) => document.activeElement?.matches(selector), activeElementSelector)).toBe(
+        true
+      );
+    }
+
+    it("should navigate via ArrowUp, ArrowDown, Home, and End", async () => {
+      const page = await newE2EPage({
+        html: html`
+          <calcite-list>
+            <calcite-list-item id="one" value="one" label="One" description="hello world"></calcite-list-item>
+            <calcite-list-item id="two" value="two" label="Two" description="hello world"></calcite-list-item>
+            <calcite-list-item
+              disabled
+              id="three"
+              value="three"
+              label="three"
+              description="hello world"
+            ></calcite-list-item>
+            <calcite-list-item
+              closable
+              closed
+              id="four"
+              value="four"
+              label="four"
+              description="hello world"
+            ></calcite-list-item>
+          </calcite-list>
+        `
+      });
+      await page.waitForChanges();
+      const list = await page.find("calcite-list");
+      await list.callMethod("setFocus");
+      await page.waitForChanges();
+      await page.waitForTimeout(0);
+
+      await evaluateActiveElement(page, "#one");
+
+      await list.press("ArrowDown");
+
+      await evaluateActiveElement(page, "#two");
+
+      await list.press("ArrowDown");
+
+      await evaluateActiveElement(page, "#two");
+
+      await list.press("ArrowUp");
+
+      await evaluateActiveElement(page, "#one");
+
+      await list.press("ArrowDown");
+
+      await evaluateActiveElement(page, "#two");
+
+      const listItemThree = await page.find("#three");
+      listItemThree.setProperty("disabled", false);
+      await page.waitForChanges();
+      await page.waitForTimeout(listDebounceTimeout);
+
+      await list.press("ArrowDown");
+
+      await evaluateActiveElement(page, "#three");
+
+      const listItemFour = await page.find("#four");
+      listItemFour.setProperty("closed", false);
+      await page.waitForChanges();
+      await page.waitForTimeout(listDebounceTimeout);
+
+      await list.press("ArrowDown");
+
+      await evaluateActiveElement(page, "#four");
+
+      await list.press("Home");
+
+      await evaluateActiveElement(page, "#one");
+
+      await list.press("End");
+
+      await evaluateActiveElement(page, "#four");
+    });
   });
 });
