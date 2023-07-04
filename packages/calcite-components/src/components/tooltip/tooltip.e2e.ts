@@ -754,34 +754,32 @@ describe("calcite-tooltip", () => {
         </style>
         <div class="container">
           <div class="template">
-            <calcite-link id="tooltip-button">Hover for Tooltip</calcite-link>
-            <calcite-tooltip label="Example label" reference-element="tooltip-button">
-              <span>Tooltip content lorem ipsum</span>
-            </calcite-tooltip>
+            <calcite-link id="ref">referenceElement</calcite-link>
+            <calcite-tooltip reference-element="ref">content</calcite-tooltip>
           </div>
         </div>
       `);
 
-      await page.mouse.move(0, 0);
-      await page.waitForChanges();
-
       const beforeOpenEvent = await page.spyOnEvent("calciteTooltipBeforeOpen");
       const openEvent = await page.spyOnEvent("calciteTooltipOpen");
+
+      const beforeCloseEvent = await page.spyOnEvent("calciteTooltipBeforeClose");
+      const closeEvent = await page.spyOnEvent("calciteTooltipClose");
+
+      await page.mouse.move(10, 10);
+      await page.waitForChanges();
 
       expect(beforeOpenEvent).toHaveReceivedEventTimes(1);
       expect(openEvent).toHaveReceivedEventTimes(1);
 
-      await page.mouse.move(200, 200);
-      await page.waitForChanges();
-
       const emitted = await page.evaluate(() => {
         return document.addEventListener("transitioncancel", (event) => event);
       });
-      console.log("emitted", emitted);
-      expect(emitted).toHaveLength(1);
 
-      const beforeCloseEvent = await page.spyOnEvent("calciteTooltipBeforeClose");
-      const closeEvent = await page.spyOnEvent("calciteTooltipClose");
+      await page.mouse.move(200, 200);
+      await page.waitForChanges();
+
+      expect(emitted).toHaveLength(1);
 
       expect(beforeCloseEvent).toHaveReceivedEventTimes(1);
       expect(closeEvent).toHaveReceivedEventTimes(1);
