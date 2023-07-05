@@ -175,6 +175,7 @@ export class List implements InteractiveComponent, LoadableComponent {
 
   @Listen("calciteInternalListItemActive")
   handleCalciteInternalListItemActive(event: CustomEvent): void {
+    event.stopPropagation();
     const target = event.target as HTMLCalciteListItemElement;
     const { listItems } = this;
 
@@ -190,6 +191,7 @@ export class List implements InteractiveComponent, LoadableComponent {
 
   @Listen("calciteInternalListItemSelect")
   handleCalciteInternalListItemSelect(event: CustomEvent): void {
+    event.stopPropagation();
     const target = event.target as HTMLCalciteListItemElement;
     const { listItems, selectionMode } = this;
 
@@ -200,8 +202,9 @@ export class List implements InteractiveComponent, LoadableComponent {
     this.updateSelectedItems();
   }
 
-  @Listen("calciteListItemClose")
-  handleCalciteListItemClose(): void {
+  @Listen("calciteInternalListItemChange")
+  handleCalciteInternalListItemChange(event: CustomEvent): void {
+    event.stopPropagation();
     this.updateListItems(true);
   }
 

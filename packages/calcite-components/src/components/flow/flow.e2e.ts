@@ -1,7 +1,7 @@
 import { newE2EPage } from "@stencil/core/testing";
 
 import { html } from "../../../support/formatting";
-import { accessible, hidden, renders } from "../../tests/commonTests";
+import { accessible, focusable, hidden, renders } from "../../tests/commonTests";
 import { CSS as ITEM_CSS } from "../flow-item/resources";
 import { CSS } from "./resources";
 
@@ -12,6 +12,18 @@ describe("calcite-flow", () => {
 
   describe("honors hidden attribute", () => {
     hidden("calcite-flow");
+  });
+
+  describe("is focusable", () => {
+    focusable(
+      html`<calcite-flow>
+        <calcite-flow-item id="one" heading="one">Hello World</calcite-flow-item>
+        <calcite-flow-item id="two" heading="two">Hello World</calcite-flow-item>
+      </calcite-flow>`,
+      {
+        focusTargetSelector: "#two"
+      }
+    );
   });
 
   it("frame defaults", async () => {
