@@ -14,18 +14,16 @@ describe("calcite-flow", () => {
     hidden("calcite-flow");
   });
 
-  describe("setFocus", () => {
-    describe("focuses active flow item", () => {
-      focusable(
-        html`<calcite-flow>
-          <calcite-flow-item id="one" heading="one">Hello World</calcite-flow-item>
-          <calcite-flow-item id="two" heading="two">Hello World</calcite-flow-item>
-        </calcite-flow>`,
-        {
-          focusTargetSelector: "#two"
-        }
-      );
-    });
+  describe("is focusable", () => {
+    focusable(
+      html`<calcite-flow>
+        <calcite-flow-item id="one" heading="one">Hello World</calcite-flow-item>
+        <calcite-flow-item id="two" heading="two">Hello World</calcite-flow-item>
+      </calcite-flow>`,
+      {
+        focusTargetSelector: "#two"
+      }
+    );
   });
 
   it("frame defaults", async () => {
