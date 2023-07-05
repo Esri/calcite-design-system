@@ -2,6 +2,12 @@ import { Component, Element, h, Listen, Method, State, VNode } from "@stencil/co
 import { createObserver } from "../../utils/observers";
 import { FlowDirection } from "./interfaces";
 import { CSS } from "./resources";
+import {
+  componentFocusable,
+  LoadableComponent,
+  setComponentLoaded,
+  setUpLoadableComponent
+} from "../../utils/loadable";
 
 /**
  * @slot - A slot for adding `calcite-flow-item` elements to the component.
@@ -11,7 +17,7 @@ import { CSS } from "./resources";
   styleUrl: "flow.scss",
   shadow: true
 })
-export class Flow {
+export class Flow implements LoadableComponent {
   // --------------------------------------------------------------------------
   //
   //  Public Methods
@@ -35,11 +41,24 @@ export class Flow {
       ? lastItem.beforeBack
       : (): Promise<void> => Promise.resolve();
 
-    return beforeBack.call(lastItem).then(() => {
-      lastItem.remove();
+    await beforeBack.call(lastItem);
 
-      return lastItem;
-    });
+    lastItem.remove();
+
+    return lastItem;
+  }
+
+  /**
+   * Sets focus on the component.
+   */
+  @Method()
+  async setFocus(): Promise<void> {
+    await componentFocusable(this);
+
+    const { items } = this;
+    const activeItem = items[items.length - 1];
+
+    return activeItem?.setFocus();
   }
 
   // --------------------------------------------------------------------------
@@ -67,6 +86,14 @@ export class Flow {
   connectedCallback(): void {
     this.itemMutationObserver?.observe(this.el, { childList: true, subtree: true });
     this.updateFlowProps();
+  }
+
+  async componentWillLoad(): Promise<void> {
+    setUpLoadableComponent(this);
+  }
+
+  componentDidLoad(): void {
+    setComponentLoaded(this);
   }
 
   disconnectedCallback(): void {
