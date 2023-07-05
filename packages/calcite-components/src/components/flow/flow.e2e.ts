@@ -65,10 +65,13 @@ describe("calcite-flow", () => {
         ></calcite-flow>`
       );
 
-      await page.$eval("#two", (elm: HTMLCalciteFlowItemElement) => {
-        const nativeBackButton = elm.shadowRoot.querySelector(`calcite-action`);
-        nativeBackButton.click();
-      });
+      await page.$eval(
+        "#two",
+        (elm: HTMLCalciteFlowItemElement, backButtonCSS: string) => {
+          elm.shadowRoot.querySelector<HTMLCalciteActionElement>(`.${backButtonCSS}`)?.click();
+        },
+        ITEM_CSS.backButton
+      );
       await page.waitForChanges();
 
       await isElementFocused(page, "#one");
