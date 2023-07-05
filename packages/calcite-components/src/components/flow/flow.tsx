@@ -107,8 +107,9 @@ export class Flow implements LoadableComponent {
   // --------------------------------------------------------------------------
 
   @Listen("calciteFlowItemBack")
-  handleItemBackClick(): void {
-    this.back();
+  async handleItemBackClick(): Promise<void> {
+    await this.back();
+    return this.setFocus();
   }
 
   getFlowDirection = (oldFlowItemCount: number, newFlowItemCount: number): FlowDirection | null => {
