@@ -229,6 +229,7 @@ describe("calcite-action-menu", () => {
       await page.waitForChanges();
 
       await page.keyboard.press("ArrowDown");
+      await page.waitForTimeout(0);
       await page.waitForChanges();
 
       expect(await actionMenu.getProperty("open")).toBe(true);
@@ -237,7 +238,7 @@ describe("calcite-action-menu", () => {
       expect(await actions[2].getProperty("active")).toBe(false);
 
       await page.keyboard.press("ArrowDown");
-
+      await page.waitForTimeout(0);
       await page.waitForChanges();
 
       expect(await actions[0].getProperty("active")).toBe(false);
@@ -265,6 +266,7 @@ describe("calcite-action-menu", () => {
       await page.waitForChanges();
 
       await page.keyboard.press("ArrowUp");
+      await page.waitForTimeout(0);
       await page.waitForChanges();
 
       expect(await actionMenu.getProperty("open")).toBe(true);
@@ -273,7 +275,7 @@ describe("calcite-action-menu", () => {
       expect(await actions[2].getProperty("active")).toBe(true);
 
       await page.keyboard.press("ArrowUp");
-
+      await page.waitForTimeout(0);
       await page.waitForChanges();
 
       expect(await actions[0].getProperty("active")).toBe(false);
