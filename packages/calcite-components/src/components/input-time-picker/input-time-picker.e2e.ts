@@ -24,7 +24,7 @@ async function getInputValue(page: E2EPage): Promise<string> {
   });
 }
 
-describe.skip("calcite-input-time-picker", () => {
+describe("calcite-input-time-picker", () => {
   describe("renders", () => {
     renders("calcite-input-time-picker", { display: "inline-block" });
   });
