@@ -1,4 +1,5 @@
 {
   "invalid": "無効",
-  "tooLong": "文字制限を超えています"
+  "tooLong": "文字制限を超えています",
+  "longText": "The current character length is ${currentLength}, which exceeds the maximum character length of ${maxLength}."
 }
