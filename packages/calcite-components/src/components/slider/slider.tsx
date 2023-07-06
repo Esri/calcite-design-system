@@ -31,7 +31,7 @@ import {
 import { isActivationKey } from "../../utils/key";
 import { connectLabel, disconnectLabel, LabelableComponent, getLabelText } from "../../utils/label";
 import {
-  componentLoaded,
+  componentFocusable,
   LoadableComponent,
   setComponentLoaded,
   setUpLoadableComponent
@@ -947,7 +947,7 @@ export class Slider
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
-    await componentLoaded(this);
+    await componentFocusable(this);
 
     const handle = this.minHandle ? this.minHandle : this.maxHandle;
     handle?.focus();

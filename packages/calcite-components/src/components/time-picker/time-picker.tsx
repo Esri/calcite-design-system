@@ -47,7 +47,7 @@ import { TimePickerMessages } from "./assets/time-picker/t9n";
 import { CSS } from "./resources";
 
 import {
-  componentLoaded,
+  componentFocusable,
   LoadableComponent,
   setComponentLoaded,
   setUpLoadableComponent
@@ -295,7 +295,7 @@ export class TimePicker
    */
   @Method()
   async setFocus(): Promise<void> {
-    await componentLoaded(this);
+    await componentFocusable(this);
 
     this.el?.focus();
   }
@@ -311,7 +311,7 @@ export class TimePicker
   }
 
   private async focusPart(target: TimePart): Promise<void> {
-    await componentLoaded(this);
+    await componentFocusable(this);
 
     this[`${target || "hour"}El`]?.focus();
   }
