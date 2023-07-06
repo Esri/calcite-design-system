@@ -293,7 +293,7 @@ export function focusable(componentTagOrHTML: TagOrHTML, options?: FocusableOpti
     }
 
     // wait for next frame before checking focus
-    await page.waitForTimeout(0);
+    await page.waitForChanges();
 
     expect(await page.evaluate((selector) => document.activeElement?.matches(selector), focusTargetSelector)).toBe(
       true

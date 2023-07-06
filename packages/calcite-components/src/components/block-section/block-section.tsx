@@ -28,7 +28,7 @@ import { BlockSectionMessages } from "./assets/block-section/t9n";
 import { BlockSectionToggleDisplay } from "./interfaces";
 import { CSS, ICONS } from "./resources";
 import {
-  componentLoaded,
+  componentFocusable,
   LoadableComponent,
   setComponentLoaded,
   setUpLoadableComponent
@@ -105,7 +105,7 @@ export class BlockSection implements LocalizedComponent, T9nComponent, LoadableC
    */
   @Method()
   async setFocus(): Promise<void> {
-    await componentLoaded(this);
+    await componentFocusable(this);
     focusFirstTabbable(this.el);
   }
 
