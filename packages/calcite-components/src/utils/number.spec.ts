@@ -174,7 +174,7 @@ describe("expandExponentialNumberString", () => {
 });
 
 describe("addLocalizedTrailingDecimalZeros", () => {
-  function getLocalizedDeimalValue(value: string, trailingZeros: number): String {
+  function getLocalizedDecimalValue(value: string, trailingZeros: number): string {
     const localizedValue = numberStringFormatter.localize(value);
     const localizedZeroValue = numberStringFormatter.localize("0");
     return `${localizedValue}`.padEnd(localizedValue.length + trailingZeros, localizedZeroValue);
@@ -200,14 +200,14 @@ describe("addLocalizedTrailingDecimalZeros", () => {
           stringWithTrailingZeros,
           numberStringFormatter
         )
-      ).toBe(getLocalizedDeimalValue(stringWithTrailingZeros, 3));
+      ).toBe(getLocalizedDecimalValue(stringWithTrailingZeros, 3));
       expect(
         addLocalizedTrailingDecimalZeros(
           numberStringFormatter.localize(bigDecimalWithTrailingZeros),
           bigDecimalWithTrailingZeros,
           numberStringFormatter
         )
-      ).toBe(getLocalizedDeimalValue(bigDecimalWithTrailingZeros, 24));
+      ).toBe(getLocalizedDecimalValue(bigDecimalWithTrailingZeros, 24));
       expect(
         addLocalizedTrailingDecimalZeros(
           numberStringFormatter.localize(negativeExponentialString),

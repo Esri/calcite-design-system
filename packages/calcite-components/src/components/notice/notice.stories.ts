@@ -88,7 +88,7 @@ export const darkModeRTL_TestOnly = (): string => html`
       kind="${select("kind", ["brand", "danger", "info", "success", "warning"], "danger")}"
     >
       <div slot="title">This is a destructive action</div>
-      <div slot="message">Be sure you know what you are doin, folks.</div>
+      <div slot="message">Be sure you know what you are doing, folks.</div>
     </calcite-notice>
   </div>
 `;

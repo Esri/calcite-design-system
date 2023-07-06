@@ -46,7 +46,7 @@ describe("calcite-card", () => {
     expect(element).not.toHaveAttribute("selected");
   });
 
-  it("renders with requsted props", async () => {
+  it("renders with requested props", async () => {
     const page = await newE2EPage();
     await page.setContent(`
       <calcite-card loading selectable selected disabled>
