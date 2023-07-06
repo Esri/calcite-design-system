@@ -70,6 +70,17 @@ function transitionEnd(event: TransitionEvent): void {
  * Helper to determine globally set transition duration on the given openTransitionProp, which is imported and set in the @Watch("open").
  * Used to emit (before)open/close events both for when the opacity transition is present and when there is none (transition-duration is set to 0).
  *
+ * @example
+ * async componentWillLoad() {
+ * // When componenet initially renders, if `open` was set we need to trigger on load as watcher doesn't fire.
+ * if (this.open) {
+ *    onToggleOpenCloseComponent(this);
+ * }
+ * @Watch("open")
+ * async toggleModal(value: boolean): Promise<void> {
+ *    onToggleOpenCloseComponent(this);
+ * }
+ *
  * @param component
  * @param nonOpenCloseComponent
  */
@@ -120,16 +131,6 @@ export function onToggleOpenCloseComponent(component: OpenCloseComponent, nonOpe
  * @param component
  * @deprecated Call `onToggleOpenClose` in `componentWillLoad` and `open` property watchers instead.
  *
- * @example
- * async componentWillLoad() {
- * // When componenet initially renders, if `open` was set we need to trigger on load as watcher doesn't fire.
- * if (this.open) {
- *    onToggleOpenCloseComponent(this);
- * }
- * @Watch("open")
- * async toggleModal(value: boolean): Promise<void> {
- *    onToggleOpenCloseComponent(this);
- * }
  */
 export function connectOpenCloseComponent(component: OpenCloseComponent): void {
   disconnectOpenCloseComponent(component);
