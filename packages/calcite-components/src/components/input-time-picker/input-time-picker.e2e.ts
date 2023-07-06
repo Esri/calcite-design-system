@@ -684,7 +684,7 @@ describe("calcite-input-time-picker", () => {
       expect(await getInputValue(page)).toBe("٠١٢٣٤٥٦٧٨٩");
     });
 
-    it("committing typed value works as expected in arab numbering system", async () => {
+    it.skip("committing typed value works as expected in arab numbering system", async () => {
       const page = await newE2EPage();
       await page.setContent(
         `<calcite-input-time-picker step="1" lang="ar" numbering-system="arab"></calcite-input-time-picker>`

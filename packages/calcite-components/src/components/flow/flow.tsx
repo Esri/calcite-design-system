@@ -2,6 +2,12 @@ import { Component, Element, h, Listen, Method, State, VNode } from "@stencil/co
 import { createObserver } from "../../utils/observers";
 import { FlowDirection } from "./interfaces";
 import { CSS } from "./resources";
+import {
+  componentFocusable,
+  LoadableComponent,
+  setComponentLoaded,
+  setUpLoadableComponent
+} from "../../utils/loadable";
 
 /**
  * @slot - A slot for adding `calcite-flow-item` elements to the component.
@@ -11,7 +17,7 @@ import { CSS } from "./resources";
   styleUrl: "flow.scss",
   shadow: true
 })
-export class Flow {
+export class Flow implements LoadableComponent {
   // --------------------------------------------------------------------------
   //
   //  Public Methods
@@ -23,7 +29,7 @@ export class Flow {
    */
   @Method()
   async back(): Promise<HTMLCalciteFlowItemElement> {
-    const { items } = this;
+const { items } = this;
 
     const lastItem = items[items.length - 1];
 
@@ -31,13 +37,28 @@ export class Flow {
       return;
     }
 
-    if (lastItem.beforeBack) {
-      await lastItem.beforeBack();
-    }
+    const beforeBack = lastItem.beforeBack
+      ? lastItem.beforeBack
+      : (): Promise<void> => Promise.resolve();
+
+    await beforeBack.call(lastItem);
 
     lastItem.remove();
 
     return lastItem;
+  }
+
+  /**
+   * Sets focus on the component.
+   */
+  @Method()
+  async setFocus(): Promise<void> {
+    await componentFocusable(this);
+
+    const { items } = this;
+    const activeItem = items[items.length - 1];
+
+    return activeItem?.setFocus();
   }
 
   // --------------------------------------------------------------------------
@@ -67,6 +88,14 @@ export class Flow {
     this.updateFlowProps();
   }
 
+  async componentWillLoad(): Promise<void> {
+    setUpLoadableComponent(this);
+  }
+
+  componentDidLoad(): void {
+    setComponentLoaded(this);
+  }
+
   disconnectedCallback(): void {
     this.itemMutationObserver?.disconnect();
   }
@@ -78,8 +107,9 @@ export class Flow {
   // --------------------------------------------------------------------------
 
   @Listen("calciteFlowItemBack")
-  handleItemBackClick(): void {
-    this.back();
+  async handleItemBackClick(): Promise<void> {
+    await this.back();
+    return this.setFocus();
   }
 
   getFlowDirection = (oldFlowItemCount: number, newFlowItemCount: number): FlowDirection | null => {
