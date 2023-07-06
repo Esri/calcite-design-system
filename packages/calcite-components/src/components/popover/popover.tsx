@@ -111,7 +111,7 @@ export class Popover
   @Prop({ reflect: true }) focusTrapDisabled = false;
 
   @Watch("focusTrapDisabled")
-  handlefocusTrapDisabled(focusTrapDisabled: boolean): void {
+  handleFocusTrapDisabled(focusTrapDisabled: boolean): void {
     if (!this.open) {
       return;
     }
