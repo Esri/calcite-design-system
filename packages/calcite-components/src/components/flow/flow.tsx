@@ -29,7 +29,7 @@ export class Flow implements LoadableComponent {
    */
   @Method()
   async back(): Promise<HTMLCalciteFlowItemElement> {
-const { items } = this;
+    const { items } = this;
 
     const lastItem = items[items.length - 1];
 
