@@ -1,4 +1,5 @@
 {
   "invalid": "잘못됨",
-  "tooLong": "문자 제한을 초과함"
+  "tooLong": "문자 제한을 초과함",
+  "longText": "The current character length is {currentLength}, which exceeds the maximum character length of {maxLength}."
 }

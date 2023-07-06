@@ -1,4 +1,5 @@
 {
   "invalid": "Neteisingas",
-  "tooLong": "Viršytas simbolių limitas"
+  "tooLong": "Viršytas simbolių limitas",
+  "longText": "The current character length is {currentLength}, which exceeds the maximum character length of {maxLength}."
 }

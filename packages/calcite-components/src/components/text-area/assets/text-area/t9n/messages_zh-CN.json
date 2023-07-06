@@ -1,4 +1,5 @@
 {
   "invalid": "无效",
-  "tooLong": "超出字符限制"
+  "tooLong": "超出字符限制",
+  "longText": "The current character length is {currentLength}, which exceeds the maximum character length of {maxLength}."
 }

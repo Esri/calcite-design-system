@@ -1,4 +1,4 @@
 {
   "rating": "Ocjena",
-  "stars": "Zvjezdice: {num}"
+  "stars": "Stars: {num}"
 }
