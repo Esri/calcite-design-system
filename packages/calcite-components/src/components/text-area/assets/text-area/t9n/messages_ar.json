@@ -1,5 +1,5 @@
 {
   "invalid": "غير صالح",
   "tooLong": "تم تجاوز حد الأحرف",
-  "longText": "The current character length is {currentLength}, which exceeds the maximum character length of {maxLength}."
+  "longText": "طول الأحرف الحالي هو {currentLength}، والذي يتجاوز الحد الأقصى لطول أحرف {maxLength}."
 }

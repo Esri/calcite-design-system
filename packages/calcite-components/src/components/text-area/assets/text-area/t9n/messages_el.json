@@ -1,5 +1,5 @@
 {
   "invalid": "Μη έγκυρο",
   "tooLong": "Υπέρβαση ορίου χαρακτήρων",
-  "longText": "The current character length is {currentLength}, which exceeds the maximum character length of {maxLength}."
+  "longText": "Το τρέχον μήκος χαρακτήρων είναι {currentLength}, το οποίο υπερβαίνει το μέγιστο μήκος χαρακτήρων του {maxLength}."
 }

@@ -1,6 +1,6 @@
 {
-  "dragHandleActive": "Reordering {itemLabel}, current position {position} of {total}.",
-  "dragHandleChange": "{itemLabel}, new position {position} of {total}. Press space to confirm.",
-  "dragHandleCommit": "{itemLabel}, current position {position} of {total}.",
-  "dragHandleIdle": "{itemLabel}, press space and use arrow keys to reorder content. Current position {position} of {total}."
+  "dragHandleActive": "S'està canviant l'ordre de {itemLabel}, posició actual {position} de {total}.",
+  "dragHandleChange": "{itemLabel}, posició nova {position} de {total}. Premeu la tecla d'espai per confirmar-ho.",
+  "dragHandleCommit": "{itemLabel}, posició actual {position} de {total}.",
+  "dragHandleIdle": "{itemLabel}, premeu la tecla d'espai i feu servir les tecles de fletxa per canviar l'ordre del contingut. Posició actual {position} de {total}."
 }

@@ -1,5 +1,5 @@
 {
   "invalid": "Неприпустимий",
   "tooLong": "Перевищено обмеження кількості символів",
-  "longText": "The current character length is {currentLength}, which exceeds the maximum character length of {maxLength}."
+  "longText": "Поточна довжина символу становить {currentLength}, що перевищує максимальну довжину символів {maxLength}."
 }

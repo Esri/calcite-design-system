@@ -1,5 +1,5 @@
 {
   "invalid": "Невалидно",
   "tooLong": "Превишен лимит за символи",
-  "longText": "The current character length is {currentLength}, which exceeds the maximum character length of {maxLength}."
+  "longText": "Текущата дължина на знака е{currentLength}, която надвишава максималната дължина на знака от{maxLength}."
 }

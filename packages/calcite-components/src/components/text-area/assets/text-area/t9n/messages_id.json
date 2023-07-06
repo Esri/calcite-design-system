@@ -1,5 +1,5 @@
 {
   "invalid": "Tidak valid",
   "tooLong": "Batas karakter terlampaui",
-  "longText": "The current character length is {currentLength}, which exceeds the maximum character length of {maxLength}."
+  "longText": "Panjang karakter saat ini adalah {currentLength}, yang mana melebihi panjang karakter maksimum {maxLength}."
 }

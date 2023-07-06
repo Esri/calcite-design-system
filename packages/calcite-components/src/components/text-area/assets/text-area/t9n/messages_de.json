@@ -1,5 +1,5 @@
 {
   "invalid": "Ungültig",
   "tooLong": "Zeichenlimit wurde überschritten",
-  "longText": "The current character length is {currentLength}, which exceeds the maximum character length of {maxLength}."
+  "longText": "Die aktuelle Zeichenanzahl beträgt {currentLength} und überschreitet damit die maximal zulässige Anzahl von {maxLength} Zeichen."
 }

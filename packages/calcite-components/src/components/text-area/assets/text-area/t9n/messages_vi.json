@@ -1,5 +1,5 @@
 {
   "invalid": "Không hợp lệ",
   "tooLong": "Đã vượt quá giới hạn ký tự",
-  "longText": "The current character length is {currentLength}, which exceeds the maximum character length of {maxLength}."
+  "longText": "Độ dài ký tự hiện tại là {currentLength}, vượt quá độ dài ký tự tối đa {maxLength}."
 }

@@ -1,5 +1,5 @@
 {
   "invalid": "Non valide",
   "tooLong": "Limite de caractères dépassée",
-  "longText": "The current character length is {currentLength}, which exceeds the maximum character length of {maxLength}."
+  "longText": "La longueur actuelle de caractères est de {currentLength}, ce qui dépasse la longueur maximale de {maxLength} caractères."
 }

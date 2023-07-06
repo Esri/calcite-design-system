@@ -1,5 +1,5 @@
 {
   "invalid": "Ugyldig",
   "tooLong": "Maksimumsgrensen for antall tegn er overskredet",
-  "longText": "The current character length is {currentLength}, which exceeds the maximum character length of {maxLength}."
+  "longText": "Den nåværende tegnlengden er {currentLength}, som overskrider den maksimalt tillatte tegnlengden på {maxLength}."
 }

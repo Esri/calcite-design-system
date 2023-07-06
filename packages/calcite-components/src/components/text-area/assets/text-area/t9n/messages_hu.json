@@ -1,5 +1,5 @@
 {
   "invalid": "Érvénytelen",
   "tooLong": "Karakterkorlát túllépve",
-  "longText": "The current character length is {currentLength}, which exceeds the maximum character length of {maxLength}."
+  "longText": "Az aktuális karakterhossz {currentLength}, ami meghaladja a maximális {maxLength} karakterhosszúságot."
 }

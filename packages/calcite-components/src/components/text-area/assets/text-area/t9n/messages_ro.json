@@ -1,5 +1,5 @@
 {
   "invalid": "Nevalid",
   "tooLong": "Limită de caractere depășită",
-  "longText": "The current character length is {currentLength}, which exceeds the maximum character length of {maxLength}."
+  "longText": "Lungimea maximă a caracterelor curentă este {currentLength}, ceea ce depășește lungimea maximă a caracterelor de maximum {maxLength}."
 }

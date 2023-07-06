@@ -1,6 +1,6 @@
 {
-  "dragHandleActive": "Reordering {itemLabel}, current position {position} of {total}.",
-  "dragHandleChange": "{itemLabel}, new position {position} of {total}. Press space to confirm.",
-  "dragHandleCommit": "{itemLabel}, current position {position} of {total}.",
-  "dragHandleIdle": "{itemLabel}, press space and use arrow keys to reorder content. Current position {position} of {total}."
+  "dragHandleActive": "{itemLabel} pārkārtošana, pašreizējais stāvoklis: {position} no {total}.",
+  "dragHandleChange": "{itemLabel}, jauna pozīcija: {position} no {total}. Nospiediet atstarpes taustiņu, lai apstiprinātu.",
+  "dragHandleCommit": "{itemLabel}, pašreizējais stāvoklis: {position} no {total}.",
+  "dragHandleIdle": "{itemLabel}, nospiediet atstarpes taustiņu un izmantojiet bulttaustiņus, lai pārkārtotu saturu. Pašreizējais stāvoklis: {position} no {total}."
 }

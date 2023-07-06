@@ -1,5 +1,5 @@
 {
   "invalid": "Ongeldig",
   "tooLong": "Tekenlimiet overschreden",
-  "longText": "The current character length is {currentLength}, which exceeds the maximum character length of {maxLength}."
+  "longText": "Het huidige aantal tekens is {currentLength}, wat meer is dan het maximumaantal van {maxLength} tekens."
 }

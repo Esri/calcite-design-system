@@ -1,5 +1,5 @@
 {
   "invalid": "לא תקין",
   "tooLong": "חריגה ממגבלת מספר התווים",
-  "longText": "The current character length is {currentLength}, which exceeds the maximum character length of {maxLength}."
+  "longText": "אורך התו הנוכחי הוא {currentLength}, אשר חורג מאורך התו המרבי של {maxLength}."
 }

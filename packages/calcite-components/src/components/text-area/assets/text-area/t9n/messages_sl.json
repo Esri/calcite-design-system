@@ -1,5 +1,5 @@
 {
   "invalid": "Neveljavno",
   "tooLong": "Presežena je omejitev znakov",
-  "longText": "The current character length is {currentLength}, which exceeds the maximum character length of {maxLength}."
+  "longText": "Trenutna dolžina znakov znaša {currentLength}, kar presega maksimalno dolžino znakov {maxLength}."
 }
