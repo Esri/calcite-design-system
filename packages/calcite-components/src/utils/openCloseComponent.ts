@@ -118,7 +118,18 @@ export function onToggleOpenCloseComponent(component: OpenCloseComponent, nonOpe
  * For component which do not have open prop, use `onToggleOpenCloseComponent` implementation.
  *
  * @param component
- * @deprecated Call `onToggleOpenCloseComponent` instead in `open` watcher and `compoponentWillLoad` lifecycle hook for a simpler setup.
+ * @deprecated Call `onToggleOpenClose` in `componentWillLoad` and `open` property watchers instead.
+ *
+ * @example
+ * async componentWillLoad() {
+ * // When componenet initially renders, if `open` was set we need to trigger on load as watcher doesn't fire.
+ * if (this.open) {
+ *    onToggleOpenCloseComponent(this);
+ * }
+ * @Watch("open")
+ * async toggleModal(value: boolean): Promise<void> {
+ *    onToggleOpenCloseComponent(this);
+ * }
  */
 export function connectOpenCloseComponent(component: OpenCloseComponent): void {
   disconnectOpenCloseComponent(component);
@@ -140,7 +151,7 @@ export function connectOpenCloseComponent(component: OpenCloseComponent): void {
  * Helper to tear down transition listeners on disconnectedCallback on OpenCloseComponent components.
  *
  * @param component
- * @deprecated Call `onToggleOpenCloseComponent` instead in `open` watcher and `compoponentWillLoad` lifecycle hook for a simpler setup.
+ * @deprecated Call `onToggleOpenClose` in `componentWillLoad` and `open` property watchers instead.
  */
 export function disconnectOpenCloseComponent(component: OpenCloseComponent): void {
   if (!componentToTransitionListeners.has(component)) {

@@ -3,6 +3,7 @@ import { TOOLTIP_OPEN_DELAY_MS, TOOLTIP_CLOSE_DELAY_MS } from "../tooltip/resour
 import { accessible, defaults, hidden, floatingUIOwner, renders } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { GlobalTestProps } from "../../tests/utils";
+import { visualizeMouseCursor } from "../../tests/utils";
 
 interface PointerMoveOptions {
   delay: number;
@@ -744,6 +745,7 @@ describe("calcite-tooltip", () => {
           .container {
             height: 100px;
             width: 100px;
+            border: 1px solid red;
           }
           .container:hover .template {
             display: initial;
@@ -754,32 +756,45 @@ describe("calcite-tooltip", () => {
         </style>
         <div class="container">
           <div class="template">
-            <calcite-link id="ref">referenceElement</calcite-link>
+            <button id="ref">referenceElement</button>
             <calcite-tooltip reference-element="ref">content</calcite-tooltip>
           </div>
         </div>
+        <button class="hoverOutsideContainer">hoverOutsideContainer referenceElement</button>
       `);
-
-      const beforeOpenEvent = await page.spyOnEvent("calciteTooltipBeforeOpen");
-      const openEvent = await page.spyOnEvent("calciteTooltipOpen");
 
       const beforeCloseEvent = await page.spyOnEvent("calciteTooltipBeforeClose");
       const closeEvent = await page.spyOnEvent("calciteTooltipClose");
+      const beforeOpenEvent = await page.spyOnEvent("calciteTooltipBeforeOpen");
+      const openEvent = await page.spyOnEvent("calciteTooltipOpen");
 
-      await page.mouse.move(10, 10);
+      const container = await page.find(".container");
+
+      await visualizeMouseCursor(page);
       await page.waitForChanges();
+
+      const tooltip = await page.find(`calcite-tooltip`);
+      expect(await tooltip.isVisible()).toBe(false);
+
+      await container.hover();
+      await page.waitForChanges();
+
+      const ref = await page.find("#ref");
+      await ref.hover();
+
+      await page.waitForTimeout(TOOLTIP_OPEN_DELAY_MS);
+
+      expect(await tooltip.isVisible()).toBe(true);
 
       expect(beforeOpenEvent).toHaveReceivedEventTimes(1);
       expect(openEvent).toHaveReceivedEventTimes(1);
 
-      const emitted = await page.evaluate(() => {
-        return document.addEventListener("transitioncancel", (event) => event);
-      });
+      const hoverOutsideContainer = await page.find(".hoverOutsideContainer");
+      await hoverOutsideContainer.hover();
 
-      await page.mouse.move(200, 200);
-      await page.waitForChanges();
+      await page.waitForTimeout(TOOLTIP_CLOSE_DELAY_MS);
 
-      expect(emitted).toHaveLength(1);
+      expect(await tooltip.isVisible()).not.toBe(true);
 
       expect(beforeCloseEvent).toHaveReceivedEventTimes(1);
       expect(closeEvent).toHaveReceivedEventTimes(1);
