@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.5.0-next.15](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.5.0-next.14...@esri/calcite-components@1.5.0-next.15) (2023-07-06)
+
+### Bug Fixes
+
+- **flow:** Call setFocus() on back button click ([#7285](https://github.com/Esri/calcite-design-system/issues/7285)) ([9102aa4](https://github.com/Esri/calcite-design-system/commit/9102aa4d97f1f658aaa3891d7304460c737e9a68)), closes [#7252](https://github.com/Esri/calcite-design-system/issues/7252)
+
 ## [1.5.0-next.14](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.5.0-next.13...@esri/calcite-components@1.5.0-next.14) (2023-07-05)
 
 ### Features
