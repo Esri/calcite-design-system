@@ -4,6 +4,7 @@ import { html } from "../../../support/formatting";
 import { accessible, focusable, hidden, renders } from "../../tests/commonTests";
 import { CSS as ITEM_CSS } from "../flow-item/resources";
 import { CSS } from "./resources";
+import { isElementFocused } from "../../tests/utils";
 
 describe("calcite-flow", () => {
   describe("renders", () => {
@@ -53,6 +54,27 @@ describe("calcite-flow", () => {
       const flowItem = await page.find("calcite-flow-item");
 
       expect(flowItem).toBeNull();
+    });
+
+    it("should call setFocus() on back button click", async () => {
+      const page = await newE2EPage();
+
+      await page.setContent(
+        html`<calcite-flow
+          ><calcite-flow-item id="one"></calcite-flow-item><calcite-flow-item id="two"></calcite-flow-item
+        ></calcite-flow>`
+      );
+
+      await page.$eval(
+        "#two",
+        (elm: HTMLCalciteFlowItemElement, backButtonCSS: string) => {
+          elm.shadowRoot.querySelector<HTMLCalciteActionElement>(`.${backButtonCSS}`)?.click();
+        },
+        ITEM_CSS.backButton
+      );
+      await page.waitForChanges();
+
+      await isElementFocused(page, "#one");
     });
 
     it("goes back when item back button is clicked", async () => {
