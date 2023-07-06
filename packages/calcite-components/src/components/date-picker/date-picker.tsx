@@ -21,7 +21,7 @@ import {
   setEndOfDay
 } from "../../utils/date";
 import {
-  componentLoaded,
+  componentFocusable,
   LoadableComponent,
   setComponentLoaded,
   setUpLoadableComponent
@@ -193,7 +193,7 @@ export class DatePicker implements LocalizedComponent, LoadableComponent, T9nCom
   /** Sets focus on the component's first focusable element. */
   @Method()
   async setFocus(): Promise<void> {
-    await componentLoaded(this);
+    await componentFocusable(this);
     this.el.focus();
   }
 

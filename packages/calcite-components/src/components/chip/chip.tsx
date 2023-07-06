@@ -22,7 +22,7 @@ import {
   disconnectConditionalSlotComponent
 } from "../../utils/conditionalSlot";
 import {
-  componentLoaded,
+  componentFocusable,
   LoadableComponent,
   setComponentLoaded,
   setUpLoadableComponent
@@ -271,7 +271,7 @@ export class Chip
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
-    await componentLoaded(this);
+    await componentFocusable(this);
     if (!this.disabled && this.interactive) {
       this.containerEl?.focus();
     } else if (!this.disabled && this.closable) {

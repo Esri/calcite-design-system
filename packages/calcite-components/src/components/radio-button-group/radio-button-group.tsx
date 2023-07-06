@@ -15,7 +15,7 @@ import {
 import { createObserver } from "../../utils/observers";
 import { Layout, Scale } from "../interfaces";
 import {
-  componentLoaded,
+  componentFocusable,
   LoadableComponent,
   setComponentLoaded,
   setUpLoadableComponent
@@ -167,7 +167,7 @@ export class RadioButtonGroup implements LoadableComponent {
   /** Sets focus on the fist focusable `calcite-radio-button` element in the component. */
   @Method()
   async setFocus(): Promise<void> {
-    await componentLoaded(this);
+    await componentFocusable(this);
     if (this.selectedItem && !this.selectedItem.disabled) {
       this.selectedItem.setFocus();
       return;
