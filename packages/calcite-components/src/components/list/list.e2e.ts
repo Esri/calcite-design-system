@@ -123,6 +123,7 @@ describe("calcite-list", () => {
     expect(await list.getProperty("filterText")).toBeUndefined();
 
     await filter.callMethod("setFocus");
+    await page.waitForChanges();
 
     const calciteListFilterEvent = list.waitForEvent("calciteListFilter");
     await page.keyboard.type("one");
