@@ -439,8 +439,16 @@ export class TextArea
   syncHiddenFormInput(input: HTMLInputElement): void {
     input.setCustomValidity("");
     if (this.value?.length > this.maxLength) {
-      input.setCustomValidity(this.messages.tooLong);
+      input.setCustomValidity(this.replacePlaceHolders());
     }
+  }
+
+  private replacePlaceHolders(): string {
+    const replaceMaxlength = this.messages.longText.replace(
+      "{maxLength}",
+      `${numberStringFormatter.localize(this.maxLength.toString())}`
+    );
+    return replaceMaxlength.replace("{currentLength}", this.getLocalizedCharacterLength());
   }
 
   // height and width are set to auto here to avoid overlapping on to neighboring elements in the layout when user starts resizing.
