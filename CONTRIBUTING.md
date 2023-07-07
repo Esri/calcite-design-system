@@ -130,7 +130,7 @@ The demos will open in the browser after building. Edit the pages in [`packages/
 
 ## Linting
 
-This project uses [lint-staged](https://www.npmjs.com/package/lint-staged) to automatically format code on commit, making it easier to contribute. Each package has it's own linting NPM scripts, so check there for more options. For example, calcite-components has NPM scripts that lint by different filetypes. To run the lint command for all packages, do:
+This project uses [lint-staged](https://www.npmjs.com/package/lint-staged) to automatically format code on commit, making it easier to contribute. Each package has it's own linting NPM scripts, so check there for more options. For example, calcite-components has NPM scripts that lint by different filetypes. To run the `lint` NPM script for all packages that have one, do:
 
 ```sh
 npm run lint
