@@ -7,7 +7,7 @@ import {
   updateHostInteraction
 } from "../../utils/interactive";
 import {
-  componentLoaded,
+  componentFocusable,
   LoadableComponent,
   setComponentLoaded,
   setUpLoadableComponent
@@ -123,7 +123,7 @@ export class Fab implements InteractiveComponent, LoadableComponent {
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
-    await componentLoaded(this);
+    await componentFocusable(this);
 
     focusElement(this.buttonEl);
   }

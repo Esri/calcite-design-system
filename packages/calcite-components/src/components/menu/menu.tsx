@@ -12,7 +12,7 @@ import {
 } from "@stencil/core";
 import { focusElement, focusElementInGroup, slotChangeGetAssignedElements } from "../../utils/dom";
 import {
-  componentLoaded,
+  componentFocusable,
   LoadableComponent,
   setComponentLoaded,
   setUpLoadableComponent
@@ -150,7 +150,7 @@ export class CalciteMenu
   /** Sets focus on the component's first focusable element. */
   @Method()
   async setFocus(): Promise<void> {
-    await componentLoaded(this);
+    await componentFocusable(this);
     this.el.focus();
   }
   //--------------------------------------------------------------------------

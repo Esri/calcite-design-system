@@ -36,7 +36,7 @@ import {
   setUpLoadableComponent,
   setComponentLoaded,
   LoadableComponent,
-  componentLoaded
+  componentFocusable
 } from "../../utils/loadable";
 
 /**
@@ -267,7 +267,7 @@ export class StepperItem implements InteractiveComponent, LocalizedComponent, Lo
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
-    await componentLoaded(this);
+    await componentFocusable(this);
 
     (this.layout === "vertical" ? this.el : this.headerEl)?.focus();
   }
