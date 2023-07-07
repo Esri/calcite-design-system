@@ -24,6 +24,7 @@ import {
 } from "../../utils/locale";
 import { createObserver } from "../../utils/observers";
 import {
+  componentFocusable,
   componentLoaded,
   LoadableComponent,
   setComponentLoaded,
@@ -328,7 +329,7 @@ export class TextArea
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
-    await componentLoaded(this);
+    await componentFocusable(this);
     this.textAreaEl.focus();
   }
 
