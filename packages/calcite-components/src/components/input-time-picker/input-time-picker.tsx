@@ -30,6 +30,7 @@ import { numberKeys } from "../../utils/key";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
 import {
   componentFocusable,
+  componentLoaded,
   LoadableComponent,
   setComponentLoaded,
   setUpLoadableComponent
