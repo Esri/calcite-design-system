@@ -1,5 +1,5 @@
 // patch needed due to switching package.json's type to "module"
-// https://github.com/Esri/calcite-components/issues/5141
+// https://github.com/Esri/calcite-design-system/issues/5141
 (async function () {
   const {
     promises: { readFile, readdir, writeFile }

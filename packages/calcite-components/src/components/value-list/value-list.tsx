@@ -19,7 +19,7 @@ import {
   updateHostInteraction
 } from "../../utils/interactive";
 import {
-  componentLoaded,
+  componentFocusable,
   LoadableComponent,
   setComponentLoaded,
   setUpLoadableComponent
@@ -448,7 +448,7 @@ export class ValueList<
    */
   @Method()
   async setFocus(focusId?: ListFocusId): Promise<void> {
-    await componentLoaded(this);
+    await componentFocusable(this);
 
     return setFocus.call(this, focusId);
   }

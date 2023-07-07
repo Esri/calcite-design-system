@@ -5,6 +5,7 @@ import {
   EventEmitter,
   h,
   Host,
+  Method,
   Prop,
   State,
   VNode,
@@ -15,7 +16,7 @@ import {
   connectConditionalSlotComponent,
   disconnectConditionalSlotComponent
 } from "../../utils/conditionalSlot";
-import { getSlotted, toAriaBoolean } from "../../utils/dom";
+import { focusFirstTabbable, getSlotted, toAriaBoolean } from "../../utils/dom";
 import { guid } from "../../utils/guid";
 import {
   connectInteractive,
@@ -35,6 +36,12 @@ import { Heading, HeadingLevel } from "../functional/Heading";
 import { Status } from "../interfaces";
 import { BlockMessages } from "./assets/block/t9n";
 import { CSS, ICONS, SLOTS } from "./resources";
+import {
+  componentFocusable,
+  LoadableComponent,
+  setComponentLoaded,
+  setUpLoadableComponent
+} from "../../utils/loadable";
 
 /**
  * @slot - A slot for adding custom content.
@@ -49,7 +56,12 @@ import { CSS, ICONS, SLOTS } from "./resources";
   assetsDirs: ["assets"]
 })
 export class Block
-  implements ConditionalSlotComponent, InteractiveComponent, LocalizedComponent, T9nComponent
+  implements
+    ConditionalSlotComponent,
+    InteractiveComponent,
+    LocalizedComponent,
+    T9nComponent,
+    LoadableComponent
 {
   // --------------------------------------------------------------------------
   //
@@ -121,6 +133,22 @@ export class Block
     /* wired up by t9n util */
   }
 
+  //--------------------------------------------------------------------------
+  //
+  //  Public Methods
+  //
+  //--------------------------------------------------------------------------
+
+  /**
+   * Sets focus on the component's first tabbable element.
+   *
+   */
+  @Method()
+  async setFocus(): Promise<void> {
+    await componentFocusable(this);
+    focusFirstTabbable(this.el);
+  }
+
   // --------------------------------------------------------------------------
   //
   //  Private Properties
@@ -160,12 +188,17 @@ export class Block
     disconnectConditionalSlotComponent(this);
   }
 
-  componentDidRender(): void {
-    updateHostInteraction(this);
-  }
-
   async componentWillLoad(): Promise<void> {
     await setUpMessages(this);
+    setUpLoadableComponent(this);
+  }
+
+  componentDidLoad(): void {
+    setComponentLoaded(this);
+  }
+
+  componentDidRender(): void {
+    updateHostInteraction(this);
   }
 
   // --------------------------------------------------------------------------
@@ -204,23 +237,22 @@ export class Block
   }
 
   renderIcon(): VNode[] {
-    const { el, status } = this;
+    const { el, loading, messages, status } = this;
 
-    const showingLoadingStatus = this.loading && !this.open;
-
-    const statusIcon = showingLoadingStatus ? ICONS.refresh : ICONS[status];
+    const statusIcon = ICONS[status];
 
     const hasIcon = getSlotted(el, SLOTS.icon) || statusIcon;
 
     const iconEl = !statusIcon ? (
       <slot key="icon-slot" name={SLOTS.icon} />
+    ) : loading ? (
+      <calcite-loader inline label={messages.loading} />
     ) : (
       <calcite-icon
         class={{
           [CSS.statusIcon]: true,
           [CSS.valid]: status == "valid",
-          [CSS.invalid]: status == "invalid",
-          [CSS.loading]: showingLoadingStatus
+          [CSS.invalid]: status == "invalid"
         }}
         icon={statusIcon}
         scale="m"
@@ -288,9 +320,7 @@ export class Block
         ) : (
           headerContent
         )}
-        {loading ? (
-          <calcite-loader inline label={messages.loading} />
-        ) : hasControl ? (
+        {hasControl ? (
           <div class={CSS.controlContainer}>
             <slot name={SLOTS.control} />
           </div>

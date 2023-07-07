@@ -416,4 +416,28 @@ describe("calcite-tree-item", () => {
 
     expect(await page.evaluate(() => document.activeElement.id)).toBe("xlr");
   });
+
+  it("displaying an expanded item is visible", async () => {
+    const page = await newE2EPage();
+    await page.setContent(
+      html`
+        <calcite-tree id="root" style="display:none;">
+          <calcite-tree-item expanded
+            >parent
+            <calcite-tree slot="children">
+              <calcite-tree-item id="child">child</calcite-tree-item>
+            </calcite-tree>
+          </calcite-tree-item>
+        </calcite-tree>
+      `
+    );
+
+    await page.$eval("#root", (root: HTMLCalciteTreeElement) => (root.style.display = ""));
+    await page.waitForChanges();
+
+    const item = await page.$("#child");
+    const itemBounds = await item.boundingBox();
+
+    expect(itemBounds.height).not.toBe(0);
+  });
 });

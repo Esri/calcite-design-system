@@ -19,7 +19,11 @@ import {
 } from "../../utils/interactive";
 import { createObserver } from "../../utils/observers";
 import { Scale, SelectionMode } from "../interfaces";
-import { componentLoaded, setComponentLoaded, setUpLoadableComponent } from "../../utils/loadable";
+import {
+  componentFocusable,
+  setComponentLoaded,
+  setUpLoadableComponent
+} from "../../utils/loadable";
 /**
  * @slot - A slot for adding one or more `calcite-chip`s.
  */
@@ -178,7 +182,7 @@ export class ChipGroup implements InteractiveComponent {
    */
   @Method()
   async setFocus(): Promise<void> {
-    await componentLoaded(this);
+    await componentFocusable(this);
     if (!this.disabled) {
       (this.selectedItems[0] || this.items[0])?.setFocus();
     }

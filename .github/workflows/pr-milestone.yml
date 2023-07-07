@@ -1,7 +1,7 @@
 name: PR Merged
 on:
   pull_request:
-    branches: [master]
+    branches: [main]
     types: [closed]
 jobs:
   milestone:

@@ -7,7 +7,7 @@ import {
 } from "../../utils/conditionalSlot";
 import { getSlotted } from "../../utils/dom";
 import {
-  componentLoaded,
+  componentFocusable,
   LoadableComponent,
   setComponentLoaded,
   setUpLoadableComponent
@@ -123,7 +123,7 @@ export class ActionGroup
   /** Sets focus on the component's first focusable element. */
   @Method()
   async setFocus(): Promise<void> {
-    await componentLoaded(this);
+    await componentFocusable(this);
     this.el.focus();
   }
   // --------------------------------------------------------------------------

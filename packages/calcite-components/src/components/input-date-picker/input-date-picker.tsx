@@ -50,7 +50,7 @@ import {
 import { numberKeys } from "../../utils/key";
 import { connectLabel, disconnectLabel, LabelableComponent } from "../../utils/label";
 import {
-  componentLoaded,
+  componentFocusable,
   LoadableComponent,
   setComponentLoaded,
   setUpLoadableComponent
@@ -404,7 +404,7 @@ export class InputDatePicker
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
-    await componentLoaded(this);
+    await componentFocusable(this);
     this.el.focus();
   }
 
@@ -787,6 +787,7 @@ export class InputDatePicker
     deactivateFocusTrap(this);
     this.restoreInputFocus();
     this.focusOnOpen = false;
+    this.datePickerEl.reset();
   }
 
   setStartInput = (el: HTMLCalciteInputElement): void => {
