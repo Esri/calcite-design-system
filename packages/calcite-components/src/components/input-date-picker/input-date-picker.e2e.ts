@@ -396,20 +396,13 @@ describe("calcite-input-date-picker", () => {
         langTranslations.placeholder.replace("DD", day).replace("MM", month).replace("YYYY", year)
       );
 
-      await page.evaluate(() => {
-        const langUpdated = async () => {
-          expect(await getActiveMonth(page)).toEqual(newLangTranslations.months.wide[Number(month) - 1]);
-          expect(await getDateInputValue(page)).toBe(
-            newLangTranslations.placeholder.replace("DD", day).replace("MM", month).replace("YYYY", year)
-          );
-        };
-
-        const component = document.querySelector("calcite-input-date-picker");
-        component.addEventListener("calciteInputDatePickerLangUpdated", langUpdated);
-      });
-
       inputDatePicker.setProperty("lang", newLang);
       await page.waitForChanges();
+
+      expect(await getActiveMonth(page)).toEqual(newLangTranslations.months.wide[Number(month) - 1]);
+      expect(await getDateInputValue(page)).toBe(
+        newLangTranslations.placeholder.replace("DD", day).replace("MM", month).replace("YYYY", year)
+      );
     });
 
     it("parses/formats buddhist calendar locales when date is selected", async () => {

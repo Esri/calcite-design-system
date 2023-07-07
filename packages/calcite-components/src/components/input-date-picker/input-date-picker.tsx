@@ -392,9 +392,6 @@ export class InputDatePicker
   /** Fires when the component is added to the DOM but not rendered, and before the opening transition begins. */
   @Event({ cancelable: false }) calciteInputDatePickerBeforeOpen: EventEmitter<void>;
 
-  /** Fires when the component's language is updated. */
-  @Event() calciteInputDatePickerLangUpdated: EventEmitter<void>;
-
   /** Fires when the component is open and animation is complete. */
   @Event({ cancelable: false }) calciteInputDatePickerOpen: EventEmitter<void>;
 
@@ -932,7 +929,6 @@ export class InputDatePicker
     };
     this.localeData = await getLocaleData(this.effectiveLocale);
     this.localizeInputValues();
-    this.calciteInputDatePickerLangUpdated.emit();
   }
 
   /**
