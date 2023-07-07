@@ -130,8 +130,6 @@ export class Accordion {
 
   mutationObserver = createObserver("mutation", () => this.updateAccordionItems());
 
-  private accordionItems: HTMLCalciteAccordionItemElement[] = [];
-
   /** keep track of the requested item for multi mode */
   private requestedAccordionItem: HTMLCalciteAccordionItemElement;
 
@@ -141,15 +139,13 @@ export class Accordion {
   //
   //--------------------------------------------------------------------------
 
-  private updateAccordionItems = (): void => {
-    this.accordionItems = Array.from(this.el.querySelectorAll("calcite-accordion-item"));
-
-    this.accordionItems.forEach((accordionItem) => {
-      accordionItem.iconPosition = this.iconPosition;
-      accordionItem.iconType = this.iconType;
-      accordionItem.selectionMode = this.selectionMode;
-      accordionItem.scale = this.scale;
-      accordionItem.accordionParent = this.el;
+  private updateAccordionItems(): void {
+    this.el.querySelectorAll("calcite-accordion-item").forEach((item) => {
+      item.iconPosition = this.iconPosition;
+      item.iconType = this.iconType;
+      item.selectionMode = this.selectionMode;
+      item.scale = this.scale;
+      item.accordionParent = this.el;
     });
-  };
+  }
 }
