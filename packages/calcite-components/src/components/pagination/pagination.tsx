@@ -12,7 +12,7 @@ import {
   Watch
 } from "@stencil/core";
 import {
-  componentLoaded,
+  componentFocusable,
   LoadableComponent,
   setComponentLoaded,
   setUpLoadableComponent
@@ -176,7 +176,7 @@ export class Pagination
   /** Sets focus on the component's first focusable element. */
   @Method()
   async setFocus(): Promise<void> {
-    await componentLoaded(this);
+    await componentFocusable(this);
     this.el.focus();
   }
 

@@ -37,7 +37,7 @@ import { Status } from "../interfaces";
 import { BlockMessages } from "./assets/block/t9n";
 import { CSS, ICONS, SLOTS } from "./resources";
 import {
-  componentLoaded,
+  componentFocusable,
   LoadableComponent,
   setComponentLoaded,
   setUpLoadableComponent
@@ -145,7 +145,7 @@ export class Block
    */
   @Method()
   async setFocus(): Promise<void> {
-    await componentLoaded(this);
+    await componentFocusable(this);
     focusFirstTabbable(this.el);
   }
 

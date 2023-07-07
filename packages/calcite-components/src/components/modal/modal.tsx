@@ -32,7 +32,7 @@ import {
   updateFocusTrapElements
 } from "../../utils/focusTrapComponent";
 import {
-  componentLoaded,
+  componentFocusable,
   LoadableComponent,
   setComponentLoaded,
   setUpLoadableComponent
@@ -440,7 +440,7 @@ export class Modal
    */
   @Method()
   async setFocus(): Promise<void> {
-    await componentLoaded(this);
+    await componentFocusable(this);
     focusFirstTabbable(this.el);
   }
 

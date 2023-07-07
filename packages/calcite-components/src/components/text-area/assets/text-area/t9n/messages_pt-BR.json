@@ -1,4 +1,5 @@
 {
   "invalid": "Inválido",
-  "tooLong": "Limite de caracteres excedido"
+  "tooLong": "Limite de caracteres excedido",
+  "longText": "O comprimento atual do caractere é {currentLength}, que exceda o comprimento máximo de caracteres de {maxLength}."
 }
