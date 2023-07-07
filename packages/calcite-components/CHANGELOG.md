@@ -3,6 +3,41 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.5.0-next.16](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.5.0-next.15...@esri/calcite-components@1.5.0-next.16) (2023-07-07)
+
+### Features
+
+- improve focus behavior in components ([#7277](https://github.com/Esri/calcite-design-system/issues/7277)) ([ad9fbca](https://github.com/Esri/calcite-design-system/commit/ad9fbca41848bde1d7e6b1089fee7390cb249441))
+
+### Bug Fixes
+
+- **card:** ensure teardown logic is called when disconnected ([#7289](https://github.com/Esri/calcite-design-system/issues/7289)) ([d07e322](https://github.com/Esri/calcite-design-system/commit/d07e3223bd32de7afe41fc25d5f317c3382b7a77))
+
+## [1.5.0-next.15](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.5.0-next.14...@esri/calcite-components@1.5.0-next.15) (2023-07-06)
+
+### Bug Fixes
+
+- **flow:** Call setFocus() on back button click ([#7285](https://github.com/Esri/calcite-design-system/issues/7285)) ([9102aa4](https://github.com/Esri/calcite-design-system/commit/9102aa4d97f1f658aaa3891d7304460c737e9a68)), closes [#7252](https://github.com/Esri/calcite-design-system/issues/7252)
+
+## [1.5.0-next.14](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.5.0-next.13...@esri/calcite-components@1.5.0-next.14) (2023-07-05)
+
+### Features
+
+- **flow:** Adds setFocus method ([#7252](https://github.com/Esri/calcite-design-system/issues/7252)) ([2472c58](https://github.com/Esri/calcite-design-system/commit/2472c58aa70b996b8df6e48e51d8651009742ee6)), closes [#6400](https://github.com/Esri/calcite-design-system/issues/6400) [#5369](https://github.com/Esri/calcite-design-system/issues/5369) [#7255](https://github.com/Esri/calcite-design-system/issues/7255)
+
+## [1.5.0-next.13](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.5.0-next.12...@esri/calcite-components@1.5.0-next.13) (2023-07-05)
+
+### Bug Fixes
+
+- **action:** correctly focus the button after rendering updates. ([#7255](https://github.com/Esri/calcite-design-system/issues/7255)) ([40fe2ce](https://github.com/Esri/calcite-design-system/commit/40fe2ce060d7db146b2e3b85d5e8e62b67034b34)), closes [#6400](https://github.com/Esri/calcite-design-system/issues/6400) [#5369](https://github.com/Esri/calcite-design-system/issues/5369)
+- **list:** fix keyboard navigation after a listItem's disabled or closed property changes ([#7275](https://github.com/Esri/calcite-design-system/issues/7275)) ([91d28eb](https://github.com/Esri/calcite-design-system/commit/91d28eb7091590209240b15627dc1925fa951756)), closes [#7254](https://github.com/Esri/calcite-design-system/issues/7254)
+
+## [1.5.0-next.12](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.5.0-next.11...@esri/calcite-components@1.5.0-next.12) (2023-07-03)
+
+### Bug Fixes
+
+- **tab-title:** add full focus outline to closable tab button in high contrast mode ([#7272](https://github.com/Esri/calcite-design-system/issues/7272)) ([d812d17](https://github.com/Esri/calcite-design-system/commit/d812d179245434eaff1fca8295186f6ee86bfd21)), closes [#6994](https://github.com/Esri/calcite-design-system/issues/6994) [#6994](https://github.com/Esri/calcite-design-system/issues/6994)
+
 ## [1.5.0-next.11](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.5.0-next.10...@esri/calcite-components@1.5.0-next.11) (2023-07-01)
 
 ### Bug Fixes

@@ -293,7 +293,7 @@ export function focusable(componentTagOrHTML: TagOrHTML, options?: FocusableOpti
     }
 
     // wait for next frame before checking focus
-    await page.waitForTimeout(0);
+    await page.waitForChanges();
 
     expect(await page.evaluate((selector) => document.activeElement?.matches(selector), focusTargetSelector)).toBe(
       true
@@ -918,7 +918,7 @@ async function getTagAndPage(componentTestSetup: ComponentTestSetup): Promise<Ta
  * });
  *
  * @param {ComponentTestSetup} componentTestSetup - A component tag, html, or the tag and e2e page for setting up a test.
- * @param {DisabledOptions} [options={ focusTarget: "host" }] - Disabled options.
+ * @param {DisabledOptions} [options] - Disabled options.
  */
 export function disabled(
   componentTestSetup: ComponentTestSetup,

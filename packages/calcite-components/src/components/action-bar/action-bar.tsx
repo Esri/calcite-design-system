@@ -19,7 +19,7 @@ import {
 } from "../../utils/conditionalSlot";
 import { getSlotted, slotChangeGetAssignedElements } from "../../utils/dom";
 import {
-  componentLoaded,
+  componentFocusable,
   LoadableComponent,
   setComponentLoaded,
   setUpLoadableComponent
@@ -243,7 +243,7 @@ export class ActionBar
    */
   @Method()
   async setFocus(): Promise<void> {
-    await componentLoaded(this);
+    await componentFocusable(this);
 
     this.el?.focus();
   }
