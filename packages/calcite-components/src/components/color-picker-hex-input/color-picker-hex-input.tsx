@@ -367,7 +367,7 @@ export class ColorPickerHexInput implements LoadableComponent {
   async setFocus(): Promise<void> {
     await componentFocusable(this);
 
-    focusElement(this.hexInputNode);
+    return focusElement(this.hexInputNode);
   }
 
   //--------------------------------------------------------------------------
