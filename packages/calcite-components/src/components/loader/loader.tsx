@@ -72,13 +72,16 @@ export class Loader {
     const svgAttributes = { r: radius, cx: size / 2, cy: size / 2 };
     const determinateStyle = { "stroke-dasharray": `${progress} ${remaining}` };
     return (
-      <Host
-        aria-label={label}
-        id={id}
-        role="progressbar"
-        {...(isDeterminate ? hostAttributes : {})}
-      >
-        <div class="loader__svgs">
+      <Host>
+        <calcite-label for={id} class="screen-reader--only">
+          {label}
+        </calcite-label>
+        <div
+          class="loader__svgs"
+          id={id}
+          role="progressbar"
+          {...(isDeterminate ? hostAttributes : {})}
+        >
           <svg aria-hidden="true" class="loader__svg loader__svg--1" viewBox={viewbox}>
             <circle {...svgAttributes} />
           </svg>
