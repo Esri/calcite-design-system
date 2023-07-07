@@ -36,7 +36,7 @@
     "posttest": "npm run test:prerender",
     "prepublishOnly": "./support/stencilDoubleBuildTypesWorkaround.sh",
     "release:docs": "npm run docs && storybook-to-ghpages --existing-output-dir=docs",
-    "start": "concurrently --kill-others --raw \"tsc --project ./tsconfig-demos.json --watch\" \"npm run build:watch-dev -- --serve\" \"ts-node --esm ./support/cleanOnProcessExit.ts --path ./src/demos/**/*.js \"",
+    "start": "rimraf ./src/demos/**/.js && concurrently --kill-others --raw \"tsc --project ./tsconfig-demos.json --watch\" \"npm run build:watch-dev -- --serve\"",
     "test": "stencil test --no-docs --no-build --spec --e2e",
     "test:prerender": "stencil build --no-docs --prerender",
     "test:watch": "npm run build && npm run test -- -- --watchAll",

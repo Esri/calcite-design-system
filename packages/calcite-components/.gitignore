@@ -2,5 +2,6 @@ __docs-temp__/*
 docs/
 hydrate/
 src/**/*.js
+demos/**/*.js
 src/components/icon/assets
 www/

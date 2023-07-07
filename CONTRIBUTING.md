@@ -2,11 +2,11 @@
 
 Esri welcomes contributions from anyone and everyone. Please see our [guidelines for contributing](https://github.com/esri/contributing).
 
-Note: New contributors should first contact [Ben Elan](mailto:belan@esri.com) or [Juan Carlos Franco](mailto:JFranco@esri.com) to join the [Calcite Components GitHub team](https://github.com/orgs/Esri/teams/calcite-components/members). Then, clone the repo via SSH key on your machine (this Git workflow is required in order to work with our Chromatic test integration).
+Note: New contributors should first contact [Ben Elan](mailto:belan@esri.com) or [Juan Carlos Franco](mailto:JFranco@esri.com) to join the [Calcite Contributors GitHub team](https://github.com/orgs/Esri/teams/calcite-contributors/members). Then, clone the repo via SSH key on your machine (this Git workflow is required in order to work with our Chromatic test integration).
 
 ## I want to contribute, what should I work on?
 
-Calcite Components is still in its early stages. You can help most by:
+You can help most by:
 
 - Adding ideas for components by [creating a New Component issue](https://github.com/Esri/calcite-design-system/issues/new?assignees=&labels=new+component%2C0+-+new%2Cneeds+triage&template=new-component.yml).
 - Requesting features for existing components by [creating a Enhancement issue](https://github.com/Esri/calcite-design-system/issues/new?assignees=&labels=enhancement%2C0+-+new%2Cneeds+triage&template=enhancement.yml).
@@ -112,11 +112,11 @@ If your IDE supports the [Language Server Protocol (LSP) specification](https://
 
 ## Starting the demos
 
-First, clone the repo and install the NPM dependencies from within the `calcite-components` directory:
+First, clone the repo, install the NPM dependencies:
 
 ```sh
 git clone git@github.com:Esri/calcite-design-system.git
-cd calcite-components
+cd calcite-design-system
 npm install
 ```
 
@@ -126,23 +126,38 @@ Next, start the local Stencil development server on localhost:
 npm start
 ```
 
-The demos will open in the browser after building. Edit the pages in [`src/demos`](./src/demos) to modify the component demos, such as changing attributes or adding content to slots. When adding a new demo page, make sure to add a link in [`index.html`](./src/index.html) so others can find it. You can also edit the component code in [`src/components`](./src/components), and the changes will be reflected in the demos.
+The demos will open in the browser after building. Edit the pages in [`packages/calcite-components/src/demos`](.packages/calcite-components/src/demos) to modify the component demos, such as changing attributes or adding content to slots. When adding a new demo page, make sure to add a link in [`packages/calcite-components/src/index.html`](./packages/calcite-components/src/index.html) so others can find it. You can also edit the component code in [`packages/calcite-components/src/components`](packages/calcite-components/src/components`./src/components), and the changes will be reflected in the demos.
 
 ## Linting
 
-This project uses [lint-staged](https://www.npmjs.com/package/lint-staged) to automatically format code on commit, making it easier to contribute. There are also NPM scripts in [`package.json`](./package.json) to lint a variety of filetypes. To run them all:
+This project uses [lint-staged](https://www.npmjs.com/package/lint-staged) to automatically format code on commit, making it easier to contribute. Each package has it's own linting NPM scripts, so check there for more options. For example, calcite-components has NPM scripts that lint by different filetypes. To run the lint command for all packages, do:
 
 ```sh
 npm run lint
 ```
 
+Or use the `--workspace` flag to lint a single package.
+
+```sh
+npm --workspace=packages/calcite-components run lint
+```
+
+You can avoid using the `--workspace` flag in every command by `cd`ing into the package you're working on:
+
+```sh
+cd packages/calcite-components
+# the following will lint and test calcite-components only
+npm run lint
+npm test
+```
+
 ## Running the tests
 
-`npm test` will run the current test suite.
+`npm test` will run the test suites.
 
 Calcite Components include Stencil's default testing tools which are built on [Jest](https://jestjs.io/) and [Puppeteer](https://github.com/GoogleChrome/puppeteer).
 
-If you're working on writing tests for a particular component, it can be helpful to use `npm run test:watch` to retest on file changes. Once the initial tests run, typing `o` at the prompt will run tests only on changed files, allowing you to quickly iterate on tests for a specific component.
+If you're working on writing tests for a particular component, it can be helpful to use `npm --workspace=packages/calcite-components run test:watch` to retest on file changes. Once the initial tests run, typing `o` at the prompt will run tests only on changed files, allowing you to quickly iterate on tests for a specific component. You can also add a pattern to the end of the command to match for a test's file path.
 
 Please refer to the [Stencil testing documentation](https://stenciljs.com/docs/testing-overview) and Calcite's [testing conventions](./conventions/Testing.md) for more information.
 
@@ -156,9 +171,9 @@ Stencil creates API reference documentation using JSDoc, here is their [document
 
 1. Create a new file inside your component directory like `X.stories.js`
 2. Write stories
-3. Run the documentation locally with `npm run docs:preview`
+3. Run the documentation locally with `npm --workspace=packages/calcite-components run docs:preview`
 
-The `docs:preview` command will build Calcite Components and open your browser to view the storybook docs locally.
+Calcite Component's `docs:preview` command will build and open your browser to view the storybook docs locally.
 
 Please refer to the [Documentation Conventions](./conventions/Documentation.md) for more information.
 

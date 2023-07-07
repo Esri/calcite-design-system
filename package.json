@@ -15,6 +15,7 @@
     "version:latest": "lerna version --conventional-commits --create-release github --no-git-tag-version --no-push --yes && npm run util:sync-linked-package-versions",
     "prepare": "husky install",
     "preversion": "npm run util:is-in-sync-with-origin && npm run util:is-working-tree-clean",
+    "start": "turbo run start",
     "test": "turbo run test",
     "util:is-in-sync-with-origin": "[ \"$(git rev-parse --abbrev-ref HEAD)\" = \"main\" ] && [ \"$(git rev-parse main)\" = \"$(git rev-parse origin/main)\" ]",
     "util:is-next-deployable": "ts-node --esm support/isNextDeployable.ts",
@@ -102,8 +103,7 @@
     "type-fest": "3.11.1",
     "typescript": "4.9.5",
     "updtr": "4.0.0",
-    "workbox-build": "7.0.0",
-    "yargs": "17.7.2"
+    "workbox-build": "7.0.0"
   },
   "license": "SEE LICENSE.md",
   "engines": {
