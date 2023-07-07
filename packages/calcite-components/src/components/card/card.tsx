@@ -114,7 +114,7 @@ export class Card implements ConditionalSlotComponent, LocalizedComponent, T9nCo
     connectMessages(this);
   }
 
-  disonnectedCallback(): void {
+  disconnectedCallback(): void {
     disconnectConditionalSlotComponent(this);
     disconnectLocalized(this);
     disconnectMessages(this);
