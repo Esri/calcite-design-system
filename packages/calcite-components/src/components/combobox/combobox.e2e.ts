@@ -783,6 +783,7 @@ describe("calcite-combobox", () => {
         }
       } else {
         await combobox.callMethod("setFocus");
+        await page.waitForChanges();
         await page.keyboard.press("Escape");
       }
 
