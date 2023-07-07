@@ -105,7 +105,7 @@ export class CalciteNavigation implements LoadableComponent {
   @Method()
   async setFocus(): Promise<void> {
     await componentFocusable(this);
-    await this.navigationActionEl?.setFocus();
+    return this.navigationActionEl?.setFocus();
   }
 
   //--------------------------------------------------------------------------
