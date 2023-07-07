@@ -112,7 +112,7 @@ If your IDE supports the [Language Server Protocol (LSP) specification](https://
 
 ## Starting the demos
 
-First, clone the repo, install the NPM dependencies:
+First, clone the repo and then install the NPM dependencies:
 
 ```sh
 git clone git@github.com:Esri/calcite-design-system.git
@@ -146,7 +146,7 @@ You can avoid using the `--workspace` flag in every command by `cd`ing into the 
 
 ```sh
 cd packages/calcite-components
-# the following will lint and test calcite-components only
+# the following will only lint and test calcite-components
 npm run lint
 npm test
 ```
