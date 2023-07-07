@@ -355,6 +355,8 @@ export class InputTimePicker
         includeSeconds: this.shouldIncludeSeconds()
       })
     );
+    await componentLoaded(this);
+    this.calciteInputTimePickerLangUpdated.emit();
   }
 
   //--------------------------------------------------------------------------
@@ -367,6 +369,8 @@ export class InputTimePicker
    * Fires when the time value is changed as a result of user input.
    */
   @Event({ cancelable: true }) calciteInputTimePickerChange: EventEmitter<void>;
+
+  @Event() calciteInputTimePickerLangUpdated: EventEmitter<void>;
 
   //--------------------------------------------------------------------------
   //
