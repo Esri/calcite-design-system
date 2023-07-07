@@ -1,5 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, renders, hidden } from "../../tests/commonTests";
+import { accessible, defaults, hidden, renders } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { CSS } from "../accordion-item/resources";
 
@@ -34,33 +34,45 @@ describe("calcite-accordion", () => {
     accessible(`<calcite-accordion>${accordionContent}</calcite-accordion>`);
   });
 
-  it("renders default props when none are provided", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`
-    <calcite-accordion>
-    ${accordionContent}
-    </calcite-accordion>`);
-    const element = await page.find("calcite-accordion");
-
-    expect(await element.getProperty("appearance")).toBe("solid");
-    expect(await element.getProperty("iconPosition")).toBe("end");
-    expect(await element.getProperty("scale")).toBe("m");
-    expect(await element.getProperty("selectionMode")).toBe("multiple");
-    expect(await element.getProperty("iconType")).toBe("chevron");
+  describe("defaults", () => {
+    defaults("calcite-accordion", [
+      {
+        propertyName: "appearance",
+        defaultValue: "solid"
+      },
+      {
+        propertyName: "iconPosition",
+        defaultValue: "end"
+      },
+      {
+        propertyName: "scale",
+        defaultValue: "m"
+      },
+      {
+        propertyName: "selectionMode",
+        defaultValue: "multiple"
+      },
+      {
+        propertyName: "iconType",
+        defaultValue: "chevron"
+      }
+    ]);
   });
 
-  it("renders inheritable props: `iconPosition`, `iconType`, `selectionMode`, and `scale` to match those set on parent (non-default)", async () => {
+  it("inheritable props: `iconPosition`, `iconType`, `selectionMode`, and `scale` modified on the parent get passed into items", async () => {
     const page = await newE2EPage();
     await page.setContent(`
     <calcite-accordion icon-position="start", icon-type="plus-minus", selection-mode="single-persist" scale="l">
     ${accordionContentInheritablePropsNonDefault}
     </calcite-accordion>`);
-    const element = await page.find("calcite-accordion");
+    const accordionItems = await page.findAll("calcite-accordion-items");
 
-    expect(await element.getProperty("iconPosition")).toBe("start");
-    expect(await element.getProperty("iconType")).toBe("plus-minus");
-    expect(await element.getProperty("selectionMode")).toBe("single-persist");
-    expect(await element.getProperty("scale")).toBe("l");
+    accordionItems.forEach(async (item) => {
+      expect(await item.getProperty("iconPosition")).toBe("start");
+      expect(await item.getProperty("iconType")).toBe("plus-minus");
+      expect(await item.getProperty("selectionMode")).toBe("single-persist");
+      expect(await item.getProperty("scale")).toBe("l");
+    });
   });
 
   it("accordion properties can be set as an attribute as well as a prop", async () => {
