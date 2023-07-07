@@ -271,7 +271,16 @@ export async function newProgrammaticE2EPage(): Promise<E2EPage> {
 }
 
 /**
- * Sets CSS vars to skip animations/transitions
+ * Sets CSS vars to skip animations/transitions.
+ *
+ * @example
+ * import { skipAnimations } from "../../tests/utils";
+ *
+ * const page = await newE2EPage();
+ * await page.setContent(`<calcite-tooltip>Content</calcite-tooltip>`);
+ *
+ * await skipAnimations(page);
+ * await page.waitForChanges();
  *
  * @param page
  */
