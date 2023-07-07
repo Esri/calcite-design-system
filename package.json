@@ -84,7 +84,7 @@
     "quicktype-core": "23.0.48",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "rimraf": "4.1.2",
+    "rimraf": "5.0.1",
     "rollup": "2.77.1",
     "rollup-plugin-node-resolve": "5.2.0",
     "semver": "7.3.8",
