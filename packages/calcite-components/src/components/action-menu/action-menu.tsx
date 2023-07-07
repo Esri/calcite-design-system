@@ -187,7 +187,7 @@ export class ActionMenu implements LoadableComponent {
   async setFocus(): Promise<void> {
     await componentFocusable(this);
 
-    focusElement(this.menuButtonEl);
+    return focusElement(this.menuButtonEl);
   }
 
   // --------------------------------------------------------------------------

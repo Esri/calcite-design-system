@@ -1,4 +1,5 @@
 {
   "invalid": "無效",
-  "tooLong": "已超過字元限制"
+  "tooLong": "已超過字元限制",
+  "longText": "目前字元長度為 {currentLength}，超過了最大字元長度 {maxLength}。"
 }
