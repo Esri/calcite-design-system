@@ -1,4 +1,4 @@
 {
   "rating": "Calificativ",
-  "stars": "Stele: ${num}"
+  "stars": "Stele: {num}"
 }

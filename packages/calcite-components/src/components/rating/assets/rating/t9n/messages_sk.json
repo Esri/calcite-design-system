@@ -1,4 +1,4 @@
 {
   "rating": "Hodnotenie",
-  "stars": "Hviezdičky: ${num}"
+  "stars": "Hviezdičky: {num}"
 }

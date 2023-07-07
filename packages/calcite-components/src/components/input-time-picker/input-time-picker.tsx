@@ -29,7 +29,7 @@ import {
 import { numberKeys } from "../../utils/key";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
 import {
-  componentLoaded,
+  componentFocusable,
   LoadableComponent,
   setComponentLoaded,
   setUpLoadableComponent
@@ -458,7 +458,7 @@ export class InputTimePicker
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
-    await componentLoaded(this);
+    await componentFocusable(this);
     this.el.focus();
   }
 

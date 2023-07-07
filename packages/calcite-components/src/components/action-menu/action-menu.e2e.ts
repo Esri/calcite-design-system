@@ -226,9 +226,10 @@ describe("calcite-action-menu", () => {
       expect(await actionMenu.getProperty("open")).toBe(false);
 
       await actionMenu.callMethod("setFocus");
+      await page.waitForChanges();
 
       await page.keyboard.press("ArrowDown");
-
+      await page.waitForTimeout(0);
       await page.waitForChanges();
 
       expect(await actionMenu.getProperty("open")).toBe(true);
@@ -237,7 +238,7 @@ describe("calcite-action-menu", () => {
       expect(await actions[2].getProperty("active")).toBe(false);
 
       await page.keyboard.press("ArrowDown");
-
+      await page.waitForTimeout(0);
       await page.waitForChanges();
 
       expect(await actions[0].getProperty("active")).toBe(false);
@@ -262,9 +263,10 @@ describe("calcite-action-menu", () => {
       expect(await actionMenu.getProperty("open")).toBe(false);
 
       await actionMenu.callMethod("setFocus");
+      await page.waitForChanges();
 
       await page.keyboard.press("ArrowUp");
-
+      await page.waitForTimeout(0);
       await page.waitForChanges();
 
       expect(await actionMenu.getProperty("open")).toBe(true);
@@ -273,7 +275,7 @@ describe("calcite-action-menu", () => {
       expect(await actions[2].getProperty("active")).toBe(true);
 
       await page.keyboard.press("ArrowUp");
-
+      await page.waitForTimeout(0);
       await page.waitForChanges();
 
       expect(await actions[0].getProperty("active")).toBe(false);
@@ -298,9 +300,9 @@ describe("calcite-action-menu", () => {
       expect(await actionMenu.getProperty("open")).toBe(false);
 
       await actionMenu.callMethod("setFocus");
+      await page.waitForChanges();
 
       await page.keyboard.press("Enter");
-
       await page.waitForChanges();
 
       expect(await actionMenu.getProperty("open")).toBe(true);
@@ -356,9 +358,9 @@ describe("calcite-action-menu", () => {
       expect(await actionMenu.getProperty("open")).toBe(false);
 
       await actionMenu.callMethod("setFocus");
+      await page.waitForChanges();
 
       await page.keyboard.press("ArrowDown");
-
       await page.waitForChanges();
 
       expect(await actionMenu.getProperty("open")).toBe(true);
@@ -390,9 +392,9 @@ describe("calcite-action-menu", () => {
       expect(await actionMenu.getProperty("open")).toBe(false);
 
       await actionMenu.callMethod("setFocus");
+      await page.waitForChanges();
 
       await page.keyboard.press("ArrowDown");
-
       await page.waitForChanges();
 
       const clickSpy = await actions[0].spyOnEvent("click");

@@ -16,42 +16,16 @@ import {
 } from "@floating-ui/dom";
 import { Build } from "@stencil/core";
 import { debounce, DebouncedFunc } from "lodash-es";
-import { config } from "./config";
 import { getElementDir } from "./dom";
 import { Layout } from "../components/interfaces";
-import { getUserAgentData, getUserAgentString } from "./browser";
+import { offsetParent } from "composed-offset-position";
 
-const floatingUIBrowserCheck = patchFloatingUiForNonChromiumBrowsers();
-
-function isChrome109OrAbove(): boolean {
-  const uaData = getUserAgentData();
-
-  if (uaData?.brands) {
-    return !!uaData.brands.find(
-      ({ brand, version }) => (brand === "Google Chrome" || brand === "Chromium") && Number(version) >= 109
-    );
-  }
-
-  return !!navigator.userAgent.split(" ").find((ua) => {
-    const [browser, version] = ua.split("/");
-
-    return browser === "Chrome" && parseInt(version) >= 109;
-  });
-}
-
-async function patchFloatingUiForNonChromiumBrowsers(): Promise<void> {
-  if (
-    Build.isBrowser &&
-    config.floatingUINonChromiumPositioningFix &&
-    // ⚠️ browser-sniffing is not a best practice and should be avoided ⚠️
-    (/firefox|safari/i.test(getUserAgentString()) || isChrome109OrAbove())
-  ) {
-    const { offsetParent } = await import("composed-offset-position");
-
+(function setUpFloatingUiForShadowDomPositioning(): void {
+  if (Build.isBrowser) {
     const originalGetOffsetParent = platform.getOffsetParent;
     platform.getOffsetParent = (element: Element) => originalGetOffsetParent(element, offsetParent);
   }
-}
+})();
 
 /**
  * Positions the floating element relative to the reference element.
@@ -122,8 +96,6 @@ export const positionFloatingUI =
     if (!referenceEl || !floatingEl) {
       return null;
     }
-
-    await floatingUIBrowserCheck;
 
     const {
       x,
@@ -326,7 +298,7 @@ export interface FloatingUIComponent {
    *
    * Possible values: "vertical" or "horizontal".
    *
-   * See [FloatingArrow](https://github.com/Esri/calcite-components/blob/master/src/components/functional/FloatingArrow.tsx)
+   * See [FloatingArrow](https://github.com/Esri/calcite-design-system/blob/main/src/components/functional/FloatingArrow.tsx)
    */
   floatingLayout?: FloatingLayout;
 }

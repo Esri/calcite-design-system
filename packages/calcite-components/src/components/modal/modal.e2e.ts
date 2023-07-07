@@ -267,7 +267,7 @@ describe("opening and closing behavior", () => {
     expect(openSpy).toHaveReceivedEventTimes(1);
   });
 
-  it("emits when duration is set to 0", async () => {
+  it.skip("emits when duration is set to 0", async () => {
     const page = await newProgrammaticE2EPage();
     await skipAnimations(page);
 

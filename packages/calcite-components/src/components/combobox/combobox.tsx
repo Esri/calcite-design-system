@@ -45,7 +45,7 @@ import {
 } from "../../utils/interactive";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
 import {
-  componentLoaded,
+  componentFocusable,
   LoadableComponent,
   setComponentLoaded,
   setUpLoadableComponent
@@ -347,7 +347,7 @@ export class Combobox
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
-    await componentLoaded(this);
+    await componentFocusable(this);
 
     this.textInput?.focus();
     this.activeChipIndex = -1;

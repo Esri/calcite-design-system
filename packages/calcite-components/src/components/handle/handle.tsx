@@ -12,7 +12,7 @@ import {
 } from "@stencil/core";
 import { toAriaBoolean } from "../../utils/dom";
 import {
-  componentLoaded,
+  componentFocusable,
   LoadableComponent,
   setComponentLoaded,
   setUpLoadableComponent
@@ -133,7 +133,7 @@ export class Handle implements LoadableComponent, T9nComponent {
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
-    await componentLoaded(this);
+    await componentFocusable(this);
 
     this.handleButton?.focus();
   }

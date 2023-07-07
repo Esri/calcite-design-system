@@ -43,7 +43,12 @@ describe("calcite-dropdown", () => {
   });
 
   describe("disabled", () => {
-    disabled(simpleDropdownHTML, { focusTarget: "child" });
+    disabled(simpleDropdownHTML, {
+      focusTarget: {
+        tab: "calcite-button",
+        click: "calcite-dropdown-item"
+      }
+    });
   });
 
   interface SelectedItemsAssertionOptions {
@@ -749,6 +754,7 @@ describe("calcite-dropdown", () => {
       expect(calciteDropdownClose).toHaveReceivedEventTimes(0);
 
       await element.callMethod("setFocus");
+      await page.waitForChanges();
       await page.keyboard.press("Space");
       await page.waitForChanges();
       expect(await dropdownWrapper.isVisible()).toBe(false);
@@ -794,6 +800,7 @@ describe("calcite-dropdown", () => {
       expect(calciteDropdownClose).toHaveReceivedEventTimes(0);
 
       await element.callMethod("setFocus");
+      await page.waitForChanges();
       await page.keyboard.press("Space");
       await page.waitForChanges();
       expect(await dropdownWrapper.isVisible()).toBe(false);

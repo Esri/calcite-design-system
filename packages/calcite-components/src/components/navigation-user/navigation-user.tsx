@@ -2,7 +2,7 @@ import { Component, Element, h, Host, Prop, VNode, Method } from "@stencil/core"
 import { CSS } from "./resources";
 import {
   LoadableComponent,
-  componentLoaded,
+  componentFocusable,
   setComponentLoaded,
   setUpLoadableComponent
 } from "../../utils/loadable";
@@ -59,7 +59,7 @@ export class CalciteNavigationUser implements LoadableComponent {
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
-    await componentLoaded(this);
+    await componentFocusable(this);
     this.el.focus();
   }
 

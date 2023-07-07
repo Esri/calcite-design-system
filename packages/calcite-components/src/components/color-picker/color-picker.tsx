@@ -51,7 +51,7 @@ import {
 } from "../../utils/interactive";
 import { isActivationKey } from "../../utils/key";
 import {
-  componentLoaded,
+  componentFocusable,
   LoadableComponent,
   setComponentLoaded,
   setUpLoadableComponent
@@ -219,7 +219,7 @@ export class ColorPicker
    *
    * @default "#007ac2"
    * @see [CSS Color](https://developer.mozilla.org/en-US/docs/Web/CSS/color)
-   * @see [ColorValue](https://github.com/Esri/calcite-components/blob/master/src/components/color-picker/interfaces.ts#L10)
+   * @see [ColorValue](https://github.com/Esri/calcite-design-system/blob/main/src/components/color-picker/interfaces.ts#L10)
    */
   @Prop({ mutable: true }) value: ColorValue | null = normalizeHex(
     hexify(DEFAULT_COLOR, this.alphaChannel)
@@ -464,7 +464,7 @@ export class ColorPicker
     input.value = inputValue;
 
     // TODO: refactor calcite-input so we don't need to sync the internals
-    // https://github.com/Esri/calcite-components/issues/6100
+    // https://github.com/Esri/calcite-design-system/issues/6100
     input.internalSyncChildElValue();
   };
 
@@ -652,7 +652,7 @@ export class ColorPicker
   /** Sets focus on the component's first focusable element. */
   @Method()
   async setFocus(): Promise<void> {
-    await componentLoaded(this);
+    await componentFocusable(this);
     this.el.focus();
   }
 

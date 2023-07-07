@@ -1,6 +1,6 @@
 import { newE2EPage } from "@stencil/core/testing";
 import { CSS, SLOTS, TEXT } from "./resources";
-import { accessible, defaults, disabled, hidden, renders, slots, t9n } from "../../tests/commonTests";
+import { accessible, defaults, disabled, focusable, hidden, renders, slots, t9n } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 
 describe("calcite-block", () => {
@@ -41,6 +41,41 @@ describe("calcite-block", () => {
         <label slot=${SLOTS.control}>test <input placeholder="control" /></label>
       </calcite-block>
     `);
+  });
+
+  describe("setFocus", () => {
+    describe("focuses block heading toggle", () => {
+      focusable(
+        html`<calcite-block heading="Heading" description="summary" collapsible open>
+          <calcite-block-section text="input block-section" open>
+            <calcite-input
+              icon="form-field"
+              placeholder="This is an input field... enter something here"
+            ></calcite-input>
+          </calcite-block-section>
+        </calcite-block>`,
+        {
+          shadowFocusTargetSelector: `.${CSS.toggle}`
+        }
+      );
+    });
+
+    const blockSectionClass = "my-block-section";
+    describe("focuses block section", () => {
+      focusable(
+        html`<calcite-block heading="Heading" description="summary" open>
+          <calcite-block-section class="${blockSectionClass}" text="input block-section" open>
+            <calcite-input
+              icon="form-field"
+              placeholder="This is an input field... enter something here"
+            ></calcite-input>
+          </calcite-block-section>
+        </calcite-block>`,
+        {
+          focusTargetSelector: `.${blockSectionClass}`
+        }
+      );
+    });
   });
 
   describe("disabled", () => {
@@ -217,9 +252,10 @@ describe("calcite-block", () => {
       expect(headerIconEle).toBeNull();
 
       const statusIcon = await page.find(`calcite-block >>> .${CSS.statusIcon}`);
-      const loadingIcon = await page.find(`calcite-block >>> .${CSS.loading}`);
-      expect(statusIcon).not.toBeNull();
-      expect(loadingIcon).not.toBeNull();
+      const loader = await page.find(`calcite-block >>> calcite-loader`);
+
+      expect(statusIcon).toBeNull();
+      expect(loader).not.toBeNull();
     });
 
     it("allows users to slot in actions in a header menu", async () => {

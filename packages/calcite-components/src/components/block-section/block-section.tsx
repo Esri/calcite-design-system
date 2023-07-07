@@ -5,13 +5,14 @@ import {
   EventEmitter,
   h,
   Host,
+  Method,
   Prop,
   State,
   VNode,
   Watch
 } from "@stencil/core";
 
-import { getElementDir, toAriaBoolean } from "../../utils/dom";
+import { focusFirstTabbable, getElementDir, toAriaBoolean } from "../../utils/dom";
 import { guid } from "../../utils/guid";
 import { isActivationKey } from "../../utils/key";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
@@ -26,6 +27,12 @@ import { Status } from "../interfaces";
 import { BlockSectionMessages } from "./assets/block-section/t9n";
 import { BlockSectionToggleDisplay } from "./interfaces";
 import { CSS, ICONS } from "./resources";
+import {
+  componentFocusable,
+  LoadableComponent,
+  setComponentLoaded,
+  setUpLoadableComponent
+} from "../../utils/loadable";
 
 /**
  * @slot - A slot for adding custom content.
@@ -36,7 +43,7 @@ import { CSS, ICONS } from "./resources";
   shadow: true,
   assetsDirs: ["assets"]
 })
-export class BlockSection implements LocalizedComponent, T9nComponent {
+export class BlockSection implements LocalizedComponent, T9nComponent, LoadableComponent {
   // --------------------------------------------------------------------------
   //
   //  Properties
@@ -84,6 +91,22 @@ export class BlockSection implements LocalizedComponent, T9nComponent {
   @Watch("messageOverrides")
   onMessagesChange(): void {
     /* wired up by t9n util */
+  }
+
+  //--------------------------------------------------------------------------
+  //
+  //  Public Methods
+  //
+  //--------------------------------------------------------------------------
+
+  /**
+   * Sets focus on the component's first tabbable element.
+   *
+   */
+  @Method()
+  async setFocus(): Promise<void> {
+    await componentFocusable(this);
+    focusFirstTabbable(this.el);
   }
 
   // --------------------------------------------------------------------------
@@ -146,13 +169,18 @@ export class BlockSection implements LocalizedComponent, T9nComponent {
     connectMessages(this);
   }
 
+  async componentWillLoad(): Promise<void> {
+    await setUpMessages(this);
+    setUpLoadableComponent(this);
+  }
+
+  componentDidLoad(): void {
+    setComponentLoaded(this);
+  }
+
   disconnectedCallback(): void {
     disconnectLocalized(this);
     disconnectMessages(this);
-  }
-
-  async componentWillLoad(): Promise<void> {
-    await setUpMessages(this);
   }
 
   // --------------------------------------------------------------------------

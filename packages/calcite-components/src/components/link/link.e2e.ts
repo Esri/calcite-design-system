@@ -221,6 +221,7 @@ describe("calcite-link", () => {
     it("keyboard", async () => {
       const element = await page.find("calcite-link");
       await element.callMethod("setFocus");
+      await page.waitForChanges();
       await page.keyboard.press("Enter");
       await page.waitForChanges();
 

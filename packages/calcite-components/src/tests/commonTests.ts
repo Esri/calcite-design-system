@@ -293,7 +293,7 @@ export function focusable(componentTagOrHTML: TagOrHTML, options?: FocusableOpti
     }
 
     // wait for next frame before checking focus
-    await page.waitForTimeout(0);
+    await page.waitForChanges();
 
     expect(await page.evaluate((selector) => document.activeElement?.matches(selector), focusTargetSelector)).toBe(
       true
@@ -972,14 +972,18 @@ export function disabled(
     return focusTarget === "host" ? tag : await page.evaluate(() => document.activeElement?.tagName.toLowerCase());
   }
 
-  const getTabAndClickFocusTarget = async (page: E2EPage, tag: string): Promise<string[]> => {
-    const focusTarget = options.focusTarget;
-    const focusTargetString = await getFocusTarget(page, tag, focusTarget as FocusTarget);
+  const getTabAndClickFocusTarget = async (
+    page: E2EPage,
+    tag: string,
+    focusTarget: DisabledOptions["focusTarget"]
+  ): Promise<string[]> => {
+    if (typeof focusTarget === "object") {
+      return [focusTarget.tab, focusTarget.click];
+    }
 
-    const [tabFocusTarget, clickFocusTarget] =
-      typeof focusTarget === "object" ? [focusTarget.tab, focusTarget.click] : [focusTargetString, focusTargetString];
+    const sameClickAndTabFocusTarget = await getFocusTarget(page, tag, focusTarget);
 
-    return [tabFocusTarget, clickFocusTarget];
+    return [sameClickAndTabFocusTarget, sameClickAndTabFocusTarget];
   };
 
   const getShadowFocusableCenterCoordinates = async (page: E2EPage, tabFocusTarget: string): Promise<number[]> => {
@@ -1004,6 +1008,7 @@ export function disabled(
 
     if (options.focusTarget === "none") {
       await page.click(tag);
+      await page.waitForChanges();
       await expectToBeFocused(page, "body");
 
       assertOnMouseAndPointerEvents(eventSpies, (spy) => expect(spy).toHaveReceivedEventTimes(1));
@@ -1014,9 +1019,11 @@ export function disabled(
       expect(component.getAttribute("aria-disabled")).toBe("true");
 
       await page.click(tag);
+      await page.waitForChanges();
       await expectToBeFocused(page, "body");
 
       await component.callMethod("click");
+      await page.waitForChanges();
       await expectToBeFocused(page, "body");
 
       assertOnMouseAndPointerEvents(eventSpies, (spy) => {
@@ -1028,7 +1035,7 @@ export function disabled(
 
     await page.keyboard.press("Tab");
 
-    const [tabFocusTarget, clickFocusTarget] = await getTabAndClickFocusTarget(page, tag);
+    const [tabFocusTarget, clickFocusTarget] = await getTabAndClickFocusTarget(page, tag, options.focusTarget);
 
     expect(tabFocusTarget).not.toBe("body");
     await expectToBeFocused(page, tabFocusTarget);
@@ -1047,9 +1054,11 @@ export function disabled(
     await expectToBeFocused(page, "body");
 
     await page.mouse.click(shadowFocusableCenterX, shadowFocusableCenterY);
+    await page.waitForChanges();
     await expectToBeFocused(page, clickFocusTarget);
 
     await component.callMethod("click");
+    await page.waitForChanges();
     await expectToBeFocused(page, clickFocusTarget);
 
     assertOnMouseAndPointerEvents(eventSpies, (spy) => {
@@ -1059,6 +1068,28 @@ export function disabled(
         expect(spy.length).toBeGreaterThanOrEqual(2);
       } else {
         expect(spy).toHaveReceivedEventTimes(1);
+      }
+    });
+
+    component.setProperty("disabled", true);
+    await page.waitForChanges();
+
+    expect(component.getAttribute("aria-disabled")).toBe("true");
+
+    await resetFocusOrder();
+    await page.keyboard.press("Tab");
+    await expectToBeFocused(page, "body");
+
+    await page.mouse.click(shadowFocusableCenterX, shadowFocusableCenterY);
+    await expectToBeFocused(page, "body");
+
+    assertOnMouseAndPointerEvents(eventSpies, (spy) => {
+      if (spy.eventName === "click") {
+        // some components emit more than one click event (e.g., from calling `click()`),
+        // so we check if at least one event is received
+        expect(spy.length).toBeGreaterThanOrEqual(2);
+      } else {
+        expect(spy).toHaveReceivedEventTimes(eventsExpectedToBubble.includes(spy.eventName) ? 2 : 1);
       }
     });
   });
@@ -1078,6 +1109,7 @@ export function disabled(
     expect(component.getAttribute("aria-disabled")).toBe("true");
 
     await page.click(tag);
+    await page.waitForChanges();
 
     assertOnMouseAndPointerEvents(eventSpies, (spy) => {
       expect(spy).toHaveReceivedEventTimes(eventsExpectedToBubble.includes(spy.eventName) ? 1 : 0);
@@ -1219,12 +1251,12 @@ export function floatingUIOwner(
 
 export async function t9n(componentTestSetup: ComponentTestSetup): Promise<void> {
   let component: E2EElement;
-  let E2Epage: E2EPage;
+  let page: E2EPage;
   let getCurrentMessages: () => Promise<MessageBundle>;
 
   beforeEach(async () => {
-    const { page, tag } = await getTagAndPage(componentTestSetup);
-    E2Epage = page;
+    const { page: e2ePage, tag } = await getTagAndPage(componentTestSetup);
+    page = e2ePage;
     component = await page.find(tag);
     getCurrentMessages = async (): Promise<MessageBundle> => {
       return page.$eval(tag, (component: HTMLElement & { messages: MessageBundle }) => component.messages);
@@ -1245,7 +1277,7 @@ export async function t9n(componentTestSetup: ComponentTestSetup): Promise<void>
     const messageOverride = { [firstMessageProp]: "override test" };
 
     component.setProperty("messageOverrides", messageOverride);
-    await E2Epage.waitForChanges();
+    await page.waitForChanges();
 
     expect(await getCurrentMessages()).toEqual({
       ...messages,
@@ -1254,13 +1286,13 @@ export async function t9n(componentTestSetup: ComponentTestSetup): Promise<void>
 
     // reset test changes
     component.setProperty("messageOverrides", undefined);
-    await E2Epage.waitForChanges();
+    await page.waitForChanges();
   }
 
   async function assertLangSwitch(): Promise<void> {
     const enMessages = await getCurrentMessages();
     const fakeBundleIdentifier = "__fake__";
-    await E2Epage.evaluate(
+    await page.evaluate(
       (enMessages, fakeBundleIdentifier) => {
         const orig = window.fetch;
         window.fetch = async function (input, init) {
@@ -1282,14 +1314,14 @@ export async function t9n(componentTestSetup: ComponentTestSetup): Promise<void>
     );
 
     component.setAttribute("lang", "es");
-    await E2Epage.waitForChanges();
-    await E2Epage.waitForTimeout(3000);
+    await page.waitForChanges();
+    await page.waitForTimeout(3000);
     const esMessages = await getCurrentMessages();
 
     expect(esMessages).toHaveProperty(fakeBundleIdentifier);
 
     // reset test changes
     component.removeAttribute("lang");
-    await E2Epage.waitForChanges();
+    await page.waitForChanges();
   }
 }
