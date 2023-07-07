@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.5.0-next.16](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.5.0-next.15...@esri/calcite-components@1.5.0-next.16) (2023-07-07)
+
+### Features
+
+- improve focus behavior in components ([#7277](https://github.com/Esri/calcite-design-system/issues/7277)) ([ad9fbca](https://github.com/Esri/calcite-design-system/commit/ad9fbca41848bde1d7e6b1089fee7390cb249441))
+
+### Bug Fixes
+
+- **card:** ensure teardown logic is called when disconnected ([#7289](https://github.com/Esri/calcite-design-system/issues/7289)) ([d07e322](https://github.com/Esri/calcite-design-system/commit/d07e3223bd32de7afe41fc25d5f317c3382b7a77))
+
 ## [1.5.0-next.15](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.5.0-next.14...@esri/calcite-components@1.5.0-next.15) (2023-07-06)
 
 ### Bug Fixes
