@@ -93,6 +93,7 @@ describe("calcite-filter", () => {
       it("should clear the value in the input when pressed", async () => {
         const filter = await page.find("calcite-filter");
         await filter.callMethod("setFocus");
+        await page.waitForChanges();
 
         await page.keyboard.type("developer");
         await page.waitForChanges();
@@ -118,6 +119,7 @@ describe("calcite-filter", () => {
       it("should clear the value in the input when the Escape key is pressed", async () => {
         const filter = await page.find("calcite-filter");
         await filter.callMethod("setFocus");
+        await page.waitForChanges();
 
         await page.keyboard.type("developer");
         await page.waitForChanges();
@@ -203,6 +205,7 @@ describe("calcite-filter", () => {
 
       const filterChangeEvent = page.waitForEvent("calciteFilterChange");
       await filter.callMethod("setFocus");
+      await page.waitForChanges();
       await filter.type("developer");
       await filterChangeEvent;
 
@@ -224,6 +227,7 @@ describe("calcite-filter", () => {
       const filter = await page.find("calcite-filter");
 
       await filter.callMethod("setFocus");
+      await page.waitForChanges();
       await filter.type("volt");
       await waitForEvent;
 
@@ -235,6 +239,7 @@ describe("calcite-filter", () => {
       const filter = await page.find("calcite-filter");
 
       await filter.callMethod("setFocus");
+      await page.waitForChanges();
       await filter.type("regex()");
       await waitForEvent;
 
