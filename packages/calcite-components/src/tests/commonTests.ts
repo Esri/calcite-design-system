@@ -919,7 +919,7 @@ async function getTagAndPage(componentTestSetup: ComponentTestSetup): Promise<Ta
  *
  * @param {ComponentTestSetup} componentTestSetup - A component tag, html, or the tag and e2e page for setting up a test.
  * @param {DisabledOptions} [options={ focusTarget: "host" }] - Disabled options.
- * */
+ */
 export function disabled(
   componentTestSetup: ComponentTestSetup,
   options: DisabledOptions = { focusTarget: "host" }
