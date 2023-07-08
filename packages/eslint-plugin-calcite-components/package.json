@@ -7,7 +7,7 @@
     "dist/index.js"
   ],
   "scripts": {
-    "build": "rollup --config rollup.config.ts --configPlugin typescript",
+    "build": "rollup --config rollup.config.ts --configPlugin typescript --bundleConfigAsCjs",
     "test": "jest"
   },
   "dependencies": {

@@ -1,4 +1,4 @@
 {
   "extends": "../calcite-components/tsconfig-base.json",
-  "include": ["src/index.ts"]
+  "include": ["src/index.ts", "rollup.config.ts"]
 }
