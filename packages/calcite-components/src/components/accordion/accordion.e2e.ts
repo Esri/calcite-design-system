@@ -1,5 +1,5 @@
 import { newE2EPage } from "@stencil/core/testing";
-import { accessible, defaults, hidden, renders } from "../../tests/commonTests";
+import { accessible, defaults, hidden, reflects, renders } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { CSS } from "../accordion-item/resources";
 
@@ -59,6 +59,31 @@ describe("calcite-accordion", () => {
     ]);
   });
 
+  describe("reflects", () => {
+    reflects("calcite-accordion", [
+      {
+        propertyName: "iconPosition",
+        value: "start"
+      },
+      {
+        propertyName: "iconPosition",
+        value: "end"
+      },
+      {
+        propertyName: "selectionMode",
+        value: "single-persist"
+      },
+      {
+        propertyName: "selectionMode",
+        value: "single"
+      },
+      {
+        propertyName: "selectionMode",
+        value: "multiple"
+      }
+    ]);
+  });
+
   it("inheritable props: `iconPosition`, `iconType`, `selectionMode`, and `scale` modified on the parent get passed into items", async () => {
     const page = await newE2EPage();
     await page.setContent(`
@@ -73,34 +98,6 @@ describe("calcite-accordion", () => {
       expect(await item.getProperty("selectionMode")).toBe("single-persist");
       expect(await item.getProperty("scale")).toBe("l");
     });
-  });
-
-  it("accordion properties can be set as an attribute as well as a prop", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`
-    <calcite-accordion icon-position="start", icon-type="plus-minus", selection-mode="single-persist" scale="l">
-    ${accordionContentInheritablePropsNonDefault}
-    </calcite-accordion>`);
-    const element = await page.find("calcite-accordion");
-    expect(await element.getProperty("iconPosition")).toBe("start");
-
-    element.setProperty("iconPosition", "end");
-    await page.waitForChanges();
-    expect(await element.getProperty("iconPosition")).toBe("end");
-
-    element.setAttribute("icon-position", "start");
-    await page.waitForChanges();
-    expect(await element.getProperty("iconPosition")).toBe("start");
-
-    expect(await element.getProperty("selectionMode")).toBe("single-persist");
-
-    element.setProperty("selectionMode", "single");
-    await page.waitForChanges();
-    expect(await element.getProperty("selectionMode")).toBe("single");
-
-    element.setAttribute("selection-mode", "multiple");
-    await page.waitForChanges();
-    expect(await element.getAttribute("selection-mode")).toBe("multiple");
   });
 
   it("renders requested props when valid props are provided", async () => {
