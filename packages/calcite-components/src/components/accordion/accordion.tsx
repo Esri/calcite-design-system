@@ -1,5 +1,16 @@
-import { Component, Element, Event, EventEmitter, h, Listen, Prop, VNode } from "@stencil/core";
+import {
+  Component,
+  Element,
+  Event,
+  EventEmitter,
+  h,
+  Listen,
+  Prop,
+  VNode,
+  Watch
+} from "@stencil/core";
 import { Appearance, Position, Scale, SelectionMode } from "../interfaces";
+import { createObserver } from "../../utils/observers";
 import { RequestedItem } from "./interfaces";
 /**
  * @slot - A slot for adding `calcite-accordion-item`s. `calcite-accordion` cannot be nested, however `calcite-accordion-item`s can.
@@ -24,6 +35,9 @@ export class Accordion {
   //
   //--------------------------------------------------------------------------
 
+  /** Specifies the parent of the component. */
+  @Prop({ reflect: true }) accordionParent: HTMLCalciteAccordionElement;
+
   /** Specifies the appearance of the component. */
   @Prop({ reflect: true }) appearance: Extract<"solid" | "transparent", Appearance> = "solid";
 
@@ -45,6 +59,14 @@ export class Accordion {
     SelectionMode
   > = "multiple";
 
+  @Watch("iconPosition")
+  @Watch("iconType")
+  @Watch("scale")
+  @Watch("selectionMode")
+  handlePropsChange(): void {
+    this.updateAccordionItems();
+  }
+
   //--------------------------------------------------------------------------
   //
   //  Events
@@ -62,11 +84,13 @@ export class Accordion {
   //
   //--------------------------------------------------------------------------
 
-  componentDidLoad(): void {
-    if (!this.sorted) {
-      this.items = this.sortItems(this.items);
-      this.sorted = true;
-    }
+  connectedCallback(): void {
+    this.mutationObserver?.observe(this.el, { childList: true });
+    this.updateAccordionItems();
+  }
+
+  disconnectedCallback(): void {
+    this.mutationObserver?.disconnect();
   }
 
   render(): VNode {
@@ -89,19 +113,6 @@ export class Accordion {
   //
   //--------------------------------------------------------------------------
 
-  @Listen("calciteInternalAccordionItemRegister")
-  registerCalciteAccordionItem(event: CustomEvent): void {
-    const item = {
-      item: event.target as HTMLCalciteAccordionItemElement,
-      parent: event.detail.parent as HTMLCalciteAccordionElement,
-      position: event.detail.position as number
-    };
-    if (this.el === item.parent) {
-      this.items.push(item);
-    }
-    event.stopPropagation();
-  }
-
   @Listen("calciteInternalAccordionItemSelect")
   updateActiveItemOnChange(event: CustomEvent): void {
     this.requestedAccordionItem = event.detail.requestedAccordionItem;
@@ -117,11 +128,7 @@ export class Accordion {
   //
   //--------------------------------------------------------------------------
 
-  /** created list of Accordion items */
-  private items = [];
-
-  /** keep track of whether the items have been sorted so we don't re-sort */
-  private sorted = false;
+  mutationObserver = createObserver("mutation", () => this.updateAccordionItems());
 
   /** keep track of the requested item for multi mode */
   private requestedAccordionItem: HTMLCalciteAccordionItemElement;
@@ -132,6 +139,13 @@ export class Accordion {
   //
   //--------------------------------------------------------------------------
 
-  private sortItems = (items: any[]): any[] =>
-    items.sort((a, b) => a.position - b.position).map((a) => a.item);
+  private updateAccordionItems(): void {
+    this.el.querySelectorAll("calcite-accordion-item").forEach((item) => {
+      item.iconPosition = this.iconPosition;
+      item.iconType = this.iconType;
+      item.selectionMode = this.selectionMode;
+      item.scale = this.scale;
+      item.accordionParent = this.el;
+    });
+  }
 }
