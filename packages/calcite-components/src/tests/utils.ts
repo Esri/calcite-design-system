@@ -155,6 +155,15 @@ export async function getElementXY(
  * Note that this util should only be used for test debugging purposes and not be included in a test.
  * Based on https://github.com/puppeteer/puppeteer/issues/4378#issuecomment-499726973
  *
+ * @example
+ * import { visualizeMouseCursor } from "../../tests/utils";
+ *
+ * const page = await newE2EPage();
+ * await page.setContent(`<calcite-tooltip>Content</calcite-tooltip>`);
+ *
+ * await visualizeMouseCursor(page);
+ * await page.waitForChanges();
+ *
  * @param {E2EPage} page - the e2e page
  */
 export async function visualizeMouseCursor(page: E2EPage): Promise<void> {
@@ -262,7 +271,16 @@ export async function newProgrammaticE2EPage(): Promise<E2EPage> {
 }
 
 /**
- * Sets CSS vars to skip animations/transitions
+ * Sets CSS vars to skip animations/transitions.
+ *
+ * @example
+ * import { skipAnimations } from "../../tests/utils";
+ *
+ * const page = await newE2EPage();
+ * await page.setContent(`<calcite-tooltip>Content</calcite-tooltip>`);
+ *
+ * await skipAnimations(page);
+ * await page.waitForChanges();
  *
  * @param page
  */

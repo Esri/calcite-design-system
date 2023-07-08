@@ -58,7 +58,7 @@ import { PopoverMessages } from "./assets/popover/t9n";
 import PopoverManager from "./PopoverManager";
 
 import {
-  componentLoaded,
+  componentFocusable,
   LoadableComponent,
   setComponentLoaded,
   setUpLoadableComponent
@@ -111,7 +111,7 @@ export class Popover
   @Prop({ reflect: true }) focusTrapDisabled = false;
 
   @Watch("focusTrapDisabled")
-  handlefocusTrapDisabled(focusTrapDisabled: boolean): void {
+  handleFocusTrapDisabled(focusTrapDisabled: boolean): void {
     if (!this.open) {
       return;
     }
@@ -393,7 +393,7 @@ export class Popover
    */
   @Method()
   async setFocus(): Promise<void> {
-    await componentLoaded(this);
+    await componentFocusable(this);
     forceUpdate(this.el);
     focusFirstTabbable(this.el);
   }
