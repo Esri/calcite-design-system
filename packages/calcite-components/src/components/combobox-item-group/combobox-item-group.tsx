@@ -56,7 +56,7 @@ export class ComboboxItemGroup {
   //
   // --------------------------------------------------------------------------
 
-  private isPaddingPresent = (): boolean => {
+  private isPaddingPresent(): boolean {
     const groupEl = this.ancestors[this.ancestors.length - 1];
     if (groupEl) {
       const findLastChild = (groupEl: ComboboxChildElement) => {
@@ -66,7 +66,7 @@ export class ComboboxItemGroup {
       };
       return findLastChild(groupEl);
     }
-  };
+  }
 
   // --------------------------------------------------------------------------
   //
