@@ -45,6 +45,7 @@ import {
   InteractiveComponent,
   updateHostInteraction
 } from "../../utils/interactive";
+import { CharacterLengthObj } from "./interfaces";
 
 /**
  * @slot - A slot for adding text.
@@ -363,6 +364,8 @@ export class TextArea
 
   @State() effectiveLocale = "";
 
+  @State() localizedCharacterLengthObj: CharacterLengthObj;
+
   @Watch("effectiveLocale")
   effectiveLocaleChange(): void {
     updateMessages(this, this.effectiveLocale);
@@ -402,38 +405,39 @@ export class TextArea
     }
   };
 
-  renderCharacterLimit = (): VNode => {
+  renderCharacterLimit = (): VNode | null => {
     if (this.maxLength) {
-      const { currentLength, maxLength } = this.getLocalizedCharactersLength();
+      this.localizedCharacterLengthObj = this.getLocalizedCharacterLength();
       return (
         <span class={CSS.characterLimit}>
           <span class={{ [CSS.characterOverLimit]: this.value?.length > this.maxLength }}>
-            {currentLength}
+            {this.localizedCharacterLengthObj.currentLength}
           </span>
           {"/"}
-          {maxLength}
+          {this.localizedCharacterLengthObj.maxLength}
         </span>
       );
     }
+    return null;
   };
 
-  getLocalizedCharactersLength(): { currentLength: string; maxLength: string } {
+  getLocalizedCharacterLength(): CharacterLengthObj {
     const currentLength = this.value ? this.value.length.toString() : "0";
     const maxLength = this.maxLength.toString();
-    if (this.numberingSystem !== "latn") {
-      numberStringFormatter.numberFormatOptions = {
-        locale: this.effectiveLocale,
-        numberingSystem: this.numberingSystem,
-        signDisplay: "never",
-        useGrouping: this.groupSeparator
-      };
-      return {
-        currentLength: numberStringFormatter.localize(currentLength),
-        maxLength: numberStringFormatter.localize(maxLength)
-      };
-    } else {
+    if (this.numberingSystem === "latn") {
       return { currentLength, maxLength };
     }
+
+    numberStringFormatter.numberFormatOptions = {
+      locale: this.effectiveLocale,
+      numberingSystem: this.numberingSystem,
+      signDisplay: "never",
+      useGrouping: this.groupSeparator
+    };
+    return {
+      currentLength: numberStringFormatter.localize(currentLength),
+      maxLength: numberStringFormatter.localize(maxLength)
+    };
   }
 
   resizeObserver = createObserver("resize", async () => {
@@ -456,9 +460,9 @@ export class TextArea
   }
 
   private replacePlaceHoldersInMessages(): string {
-    const { currentLength, maxLength } = this.getLocalizedCharactersLength();
-    const replaceMaxlength = this.messages.tooLong.replace("{maxLength}", maxLength);
-    return replaceMaxlength.replace("{currentLength}", currentLength);
+    return this.messages.tooLong
+      .replace("{maxLength}", this.localizedCharacterLengthObj.maxLength)
+      .replace("{currentLength}", this.localizedCharacterLengthObj.currentLength);
   }
 
   // height and width are set to auto here to avoid overlapping on to neighboring elements in the layout when user starts resizing.
