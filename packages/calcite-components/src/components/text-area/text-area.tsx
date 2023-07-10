@@ -403,25 +403,37 @@ export class TextArea
   };
 
   renderCharacterLimit = (): VNode => {
-    return this.maxLength ? (
-      <span class={CSS.characterLimit}>
-        <span class={{ [CSS.characterOverLimit]: this.value?.length > this.maxLength }}>
-          {this.getLocalizedCharacterLength()}
+    if (this.maxLength) {
+      const { currentLength, maxLength } = this.getLocalizedCharactersLength();
+      return (
+        <span class={CSS.characterLimit}>
+          <span class={{ [CSS.characterOverLimit]: this.value?.length > this.maxLength }}>
+            {currentLength}
+          </span>
+          {"/"}
+          {maxLength}
         </span>
-        {"/"}
-        {numberStringFormatter.localize(this.maxLength.toString())}
-      </span>
-    ) : null;
+      );
+    }
   };
 
-  getLocalizedCharacterLength(): string {
-    numberStringFormatter.numberFormatOptions = {
-      locale: this.effectiveLocale,
-      numberingSystem: this.numberingSystem,
-      signDisplay: "never",
-      useGrouping: this.groupSeparator
-    };
-    return numberStringFormatter.localize(this.value ? this.value.length.toString() : "0");
+  getLocalizedCharactersLength(): { currentLength: string; maxLength: string } {
+    const currentLength = this.value ? this.value.length.toString() : "0";
+    const maxLength = this.maxLength.toString();
+    if (this.numberingSystem !== "latn") {
+      numberStringFormatter.numberFormatOptions = {
+        locale: this.effectiveLocale,
+        numberingSystem: this.numberingSystem,
+        signDisplay: "never",
+        useGrouping: this.groupSeparator
+      };
+      return {
+        currentLength: numberStringFormatter.localize(currentLength),
+        maxLength: numberStringFormatter.localize(maxLength)
+      };
+    } else {
+      return { currentLength, maxLength };
+    }
   }
 
   resizeObserver = createObserver("resize", async () => {
@@ -439,16 +451,14 @@ export class TextArea
   syncHiddenFormInput(input: HTMLInputElement): void {
     input.setCustomValidity("");
     if (this.value?.length > this.maxLength) {
-      input.setCustomValidity(this.replacePlaceHolders());
+      input.setCustomValidity(this.replacePlaceHoldersInMessages());
     }
   }
 
-  private replacePlaceHolders(): string {
-    const replaceMaxlength = this.messages.longText.replace(
-      "{maxLength}",
-      `${numberStringFormatter.localize(this.maxLength.toString())}`
-    );
-    return replaceMaxlength.replace("{currentLength}", this.getLocalizedCharacterLength());
+  private replacePlaceHoldersInMessages(): string {
+    const { currentLength, maxLength } = this.getLocalizedCharactersLength();
+    const replaceMaxlength = this.messages.longText.replace("{maxLength}", maxLength);
+    return replaceMaxlength.replace("{currentLength}", currentLength);
   }
 
   // height and width are set to auto here to avoid overlapping on to neighboring elements in the layout when user starts resizing.
