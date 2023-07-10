@@ -215,3 +215,31 @@ export const contentSpacing_TestOnly = (): string =>
       <div>Some text that has padding built in</div>
     </calcite-block>
   `;
+
+export const loadingCaseLoadingWithSlottedIcon_TestOnly = (): string =>
+  html`
+    <calcite-block collapsible open loading heading="Layer effects" description="Adjust blur">
+      <calcite-icon scale="s" slot="icon" icon="effects"></calcite-icon>
+      <calcite-notice open>
+        <div slot="message">Use layer effects sparingly</div>
+      </calcite-notice>
+    </calcite-block>
+  `;
+
+export const loadingCaseLoadingWithNoStatusNorSlottedIcon_TestOnly = (): string =>
+  html`
+    <calcite-block collapsible open loading heading="Layer effects" description="Adjust blur">
+      <calcite-notice open>
+        <div slot="message">Use layer effects sparingly</div>
+      </calcite-notice>
+    </calcite-block>
+  `;
+
+export const loadingCaseLoadingWithStatusIcon_TestOnly = (): string =>
+  html`
+    <calcite-block loading heading="Valid status" description="summary" collapsible status="valid">
+      <calcite-input icon="form-field" placeholder="This is valid input field"></calcite-input>
+    </calcite-block>
+
+    <calcite-block heading="Invalid status" description="summary" status="invalid"> </calcite-block>
+  `;
