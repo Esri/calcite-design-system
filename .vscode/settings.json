@@ -4,6 +4,7 @@
   "scss.validate": false,
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.formatOnSave": true,
+  "eslint.workingDirectories": [{ "mode": "auto" }],
   "editor.quickSuggestions": {
     "strings": true
   },

@@ -1,4 +1,5 @@
 {
   "invalid": "Ogiltig",
-  "tooLong": "Teckengränsen överskriden"
+  "tooLong": "Teckengränsen överskriden",
+  "longText": "Den aktuella teckenlängden är {currentLength}, vilket överskrider den maximala teckenlängden på {maxLength}."
 }
