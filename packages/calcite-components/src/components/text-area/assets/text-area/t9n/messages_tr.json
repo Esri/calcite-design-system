@@ -1,5 +1,4 @@
 {
   "invalid": "Geçersiz",
-  "tooLong": "Karakter sınırı aşıldı",
-  "longText": "Mevcut karakter uzunluğu {currentLength} ve maksimum karakter uzunluğu {maxLength}'i aşıyor."
+  "tooLong": "Mevcut karakter uzunluğu {currentLength} ve maksimum karakter uzunluğu {maxLength}'i aşıyor."
 }

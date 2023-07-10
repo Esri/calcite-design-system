@@ -1,5 +1,4 @@
 {
   "invalid": "Neplatný",
-  "tooLong": "Překročen limit počtu znaků",
-  "longText": "Aktuální počet znaků je {currentLength}, což překračuje maximální počet znaků {maxLength}."
+  "tooLong": "Aktuální počet znaků je {currentLength}, což překračuje maximální počet znaků {maxLength}."
 }

@@ -457,7 +457,7 @@ export class TextArea
 
   private replacePlaceHoldersInMessages(): string {
     const { currentLength, maxLength } = this.getLocalizedCharactersLength();
-    const replaceMaxlength = this.messages.longText.replace("{maxLength}", maxLength);
+    const replaceMaxlength = this.messages.tooLong.replace("{maxLength}", maxLength);
     return replaceMaxlength.replace("{currentLength}", currentLength);
   }
 
