@@ -239,7 +239,27 @@ export class Block
   renderIcon(): VNode[] {
     const { loading, messages, status } = this;
 
-    const statusIcon = ICONS[status];
+    const hasSlottedIcon = !!getSlotted(this.el, SLOTS.icon);
+
+    const statusIcon = (
+      <div class={CSS.icon}>
+        <calcite-icon
+          class={{
+            [CSS.statusIcon]: true,
+            [CSS.valid]: status == "valid",
+            [CSS.invalid]: status == "invalid"
+          }}
+          icon={ICONS[status]}
+          scale="m"
+        />
+      </div>
+    );
+
+    const slottedIcon = (
+      <div class={CSS.icon}>
+        <slot key="icon-slot" name={SLOTS.icon} />
+      </div>
+    );
 
     const loaderIcon = (
       <div class={CSS.icon}>
@@ -247,21 +267,7 @@ export class Block
       </div>
     );
 
-    return loading ? (
-      loaderIcon
-    ) : statusIcon && statusIcon !== "" ? (
-      <calcite-icon
-        class={{
-          [CSS.statusIcon]: true,
-          [CSS.valid]: status == "valid",
-          [CSS.invalid]: status == "invalid"
-        }}
-        icon={statusIcon}
-        scale="m"
-      />
-    ) : (
-      <slot key="icon-slot" name={SLOTS.icon} />
-    );
+    return loading ? loaderIcon : !!status ? statusIcon : hasSlottedIcon ? slottedIcon : null;
   }
 
   renderTitle(): VNode {
