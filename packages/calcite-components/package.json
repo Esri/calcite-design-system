@@ -61,7 +61,7 @@
     "url": "git+https://github.com/Esri/calcite-design-system.git"
   },
   "dependencies": {
-    "@floating-ui/dom": "1.4.3",
+    "@floating-ui/dom": "1.4.4",
     "@stencil/core": "2.22.3",
     "@types/color": "3.0.3",
     "color": "4.2.3",
