@@ -53,14 +53,23 @@ import {
 @Component({
   tag: "calcite-action-bar",
   styleUrl: "action-bar.scss",
-  shadow: {
-    delegatesFocus: true
-  },
+  // shadow: {
+  //   delegatesFocus: true
+  // },
+  shadow: true,
   assetsDirs: ["assets"]
 })
 export class ActionBar
   implements ConditionalSlotComponent, LoadableComponent, LocalizedComponent, T9nComponent
 {
+  //--------------------------------------------------------------------------
+  //
+  //  Element
+  //
+  //--------------------------------------------------------------------------
+
+  @Element() el: HTMLCalciteActionBarElement;
+
   // --------------------------------------------------------------------------
   //
   //  Properties
@@ -157,18 +166,6 @@ export class ActionBar
   //
   // --------------------------------------------------------------------------
 
-  @Element() el: HTMLCalciteActionBarElement;
-
-  mutationObserver = createObserver("mutation", () => {
-    const { el, expanded } = this;
-    toggleChildActionText({ el, expanded });
-    this.overflowActions();
-  });
-
-  resizeObserver = createObserver("resize", (entries) => this.resizeHandlerEntries(entries));
-
-  expandToggleEl: HTMLCalciteActionElement;
-
   @State() effectiveLocale: string;
 
   @Watch("effectiveLocale")
@@ -177,6 +174,20 @@ export class ActionBar
   }
 
   @State() defaultMessages: ActionBarMessages;
+
+  @State() groups: HTMLCalciteActionGroupElement[];
+
+  bottomActionsGroupEl: HTMLCalciteActionGroupElement;
+
+  expandToggleEl: HTMLCalciteActionElement;
+
+  mutationObserver = createObserver("mutation", () => {
+    const { el, expanded } = this;
+    toggleChildActionText({ el, expanded });
+    this.overflowActions();
+  });
+
+  resizeObserver = createObserver("resize", (entries) => this.resizeHandlerEntries(entries));
 
   // --------------------------------------------------------------------------
   //
@@ -245,7 +256,9 @@ export class ActionBar
   async setFocus(): Promise<void> {
     await componentLoaded(this);
 
-    this.el?.focus();
+    this.groups?.length > 0
+      ? await this.groups[0].setFocus()
+      : await this.bottomActionsGroupEl.setFocus();
   }
 
   // --------------------------------------------------------------------------
@@ -324,6 +337,10 @@ export class ActionBar
     this.expandToggleEl = el;
   };
 
+  setBottomActionsRef = (el: HTMLCalciteActionGroupElement): void => {
+    this.bottomActionsGroupEl = el;
+  };
+
   updateGroups(): void {
     this.setGroupLayout(Array.from(this.el.querySelectorAll("calcite-action-group")));
   }
@@ -333,11 +350,11 @@ export class ActionBar
   }
 
   handleDefaultSlotChange = (event: Event): void => {
-    const groups = slotChangeGetAssignedElements(event).filter((el) =>
+    this.groups = slotChangeGetAssignedElements(event).filter((el) =>
       el?.matches("calcite-action-group")
     ) as HTMLCalciteActionGroupElement[];
 
-    this.setGroupLayout(groups);
+    this.setGroupLayout(this.groups);
   };
 
   // --------------------------------------------------------------------------
@@ -367,7 +384,13 @@ export class ActionBar
     ) : null;
 
     return getSlotted(el, SLOTS.bottomActions) || expandToggleNode ? (
-      <calcite-action-group class={CSS.actionGroupBottom} layout={layout} scale={scale}>
+      <calcite-action-group
+        class={CSS.actionGroupBottom}
+        layout={layout}
+        scale={scale}
+        // eslint-disable-next-line react/jsx-sort-props
+        ref={this.setBottomActionsRef}
+      >
         <slot name={SLOTS.bottomActions} />
         <slot name={SLOTS.expandTooltip} />
         {expandToggleNode}
