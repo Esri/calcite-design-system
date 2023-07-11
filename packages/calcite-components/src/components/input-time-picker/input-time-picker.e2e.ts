@@ -636,37 +636,16 @@ describe("calcite-input-time-picker", () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-input-time-picker step="1" value="14:30:25"></calcite-input-time-picker>`);
     const inputTimePicker = await page.find("calcite-input-time-picker");
-
-    await page.evaluate(() => {
-      const langUpdated = async (event) => {
-        const lang = event.target.lang;
-        const numberingSystem = event.target.numberingSystem;
-        const inputValue = await getInputValue(page);
-
-        if (lang === "da") {
-          expect(inputValue).toBe("14.30.25");
-        } else if (lang === "ar") {
-          if (numberingSystem === "arab") {
-            expect(inputValue).toBe("٠٢:٣٠:٢٥ م");
-          } else {
-            expect(inputValue).toBe("02:30:25 م");
-          }
-        } else if (lang === "zh-HK") {
-          expect(inputValue).toBe("下午〇二:三〇:二五");
-        }
-      };
-
-      const inputTimePicker = document.querySelector("calcite-input-time-picker");
-      inputTimePicker.addEventListener("calciteInputTimePickerLangUpdated", langUpdated);
-    });
+    const spy = await page.spyOnEvent("calciteInternalInputTimePickerLangUpdated", "document");
 
     expect(await getInputValue(page)).toBe("02:30:25 PM");
 
     inputTimePicker.setProperty("lang", "da");
-    inputTimePicker.setProperty("lang", "ar");
-    inputTimePicker.setProperty("numberingSystem", "arab");
-    inputTimePicker.setProperty("lang", "zh-HK");
-    inputTimePicker.setProperty("numberingSystem", "hanidec");
+
+    await page.waitForChanges();
+    await spy.next();
+
+    expect(await getInputValue(page)).toBe("14.30.25");
   });
 
   describe("arabic locale support", () => {

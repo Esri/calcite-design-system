@@ -1,4 +1,5 @@
 import {
+  Build,
   Component,
   Element,
   Event,
@@ -30,7 +31,6 @@ import { numberKeys } from "../../utils/key";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
 import {
   componentFocusable,
-  componentLoaded,
   LoadableComponent,
   setComponentLoaded,
   setUpLoadableComponent
@@ -356,8 +356,13 @@ export class InputTimePicker
         includeSeconds: this.shouldIncludeSeconds()
       })
     );
-    await componentLoaded(this);
-    this.calciteInputTimePickerLangUpdated.emit();
+    if (Build.isTesting) {
+      document.dispatchEvent(
+        new CustomEvent("calciteInternalInputTimePickerLangUpdated", {
+          detail: this.effectiveLocale
+        })
+      );
+    }
   }
 
   //--------------------------------------------------------------------------
@@ -370,8 +375,6 @@ export class InputTimePicker
    * Fires when the time value is changed as a result of user input.
    */
   @Event({ cancelable: true }) calciteInputTimePickerChange: EventEmitter<void>;
-
-  @Event() calciteInputTimePickerLangUpdated: EventEmitter<void>;
 
   //--------------------------------------------------------------------------
   //
