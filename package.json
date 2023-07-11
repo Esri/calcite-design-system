@@ -30,7 +30,7 @@
     "@esri/calcite-colors": "6.1.0",
     "@rollup/plugin-typescript": "11.1.2",
     "@storybook/addon-a11y": "6.5.16",
-    "@storybook/addon-docs": "6.5.15",
+    "@storybook/addon-docs": "7.0.26",
     "@storybook/addon-interactions": "6.5.16",
     "@storybook/addon-knobs": "6.4.0",
     "@storybook/html": "6.5.15",
