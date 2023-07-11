@@ -57,7 +57,7 @@
     "babel-loader": "8.3.0",
     "cheerio": "1.0.0-rc.10",
     "chokidar": "3.5.3",
-    "chromatic": "6.19.5",
+    "chromatic": "6.19.9",
     "concurrently": "7.6.0",
     "conventional-changelog-conventionalcommits": "5.0.0",
     "cpy": "10.0.0",
