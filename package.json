@@ -15,6 +15,7 @@
     "version:latest": "lerna version --conventional-commits --create-release github --no-git-tag-version --no-push --yes && npm run util:sync-linked-package-versions",
     "prepare": "husky install",
     "preversion": "npm run util:is-in-sync-with-origin && npm run util:is-working-tree-clean",
+    "start": "turbo run start",
     "test": "turbo run test",
     "util:is-in-sync-with-origin": "[ \"$(git rev-parse --abbrev-ref HEAD)\" = \"main\" ] && [ \"$(git rev-parse main)\" = \"$(git rev-parse origin/main)\" ]",
     "util:is-next-deployable": "ts-node --esm support/isNextDeployable.ts",
@@ -83,7 +84,7 @@
     "quicktype-core": "23.0.48",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "rimraf": "4.1.2",
+    "rimraf": "5.0.1",
     "rollup": "2.77.1",
     "rollup-plugin-node-resolve": "5.2.0",
     "semver": "7.3.8",
@@ -92,8 +93,8 @@
     "storybook": "6.5.16",
     "storybook-addon-themes": "6.1.0",
     "storybook-rtl-addon": "0.3.3",
-    "stylelint": "14.16.1",
-    "stylelint-config-recommended-scss": "8.0.0",
+    "stylelint": "15.10.1",
+    "stylelint-config-recommended-scss": "12.0.0",
     "stylelint-use-logical-spec": "5.0.0",
     "tailwindcss": "3.3.2",
     "ts-jest": "27.1.5",
@@ -102,8 +103,7 @@
     "type-fest": "3.11.1",
     "typescript": "4.9.5",
     "updtr": "4.0.0",
-    "workbox-build": "7.0.0",
-    "yargs": "17.7.2"
+    "workbox-build": "7.0.0"
   },
   "license": "SEE LICENSE.md",
   "engines": {
