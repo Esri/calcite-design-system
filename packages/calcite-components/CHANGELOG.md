@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.5.0-next.18](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.5.0-next.17...@esri/calcite-components@1.5.0-next.18) (2023-07-10)
+
+### Features
+
+- **text-area:** provide additional context for AT users when character limit exceeds ([#7299](https://github.com/Esri/calcite-design-system/issues/7299)) ([c5678eb](https://github.com/Esri/calcite-design-system/commit/c5678eb09e8d0e26b2956f52401d77305a6bee34)), closes [#6630](https://github.com/Esri/calcite-design-system/issues/6630)
+
+## [1.5.0-next.17](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.5.0-next.16...@esri/calcite-components@1.5.0-next.17) (2023-07-08)
+
+### Bug Fixes
+
+- **accordion, accordion-item:** `icon-position`, `icon-type`, `selection-mode` and `scale` can now be set as props or attributes ([#7191](https://github.com/Esri/calcite-design-system/issues/7191)) ([2b09aba](https://github.com/Esri/calcite-design-system/commit/2b09abacf4f265866f44f210a8c83b580e865fdf)), closes [#6199](https://github.com/Esri/calcite-design-system/issues/6199) [#6038](https://github.com/Esri/calcite-design-system/issues/6038) [#6200](https://github.com/Esri/calcite-design-system/issues/6200) [#6199](https://github.com/Esri/calcite-design-system/issues/6199) [#6038](https://github.com/Esri/calcite-design-system/issues/6038)
+
 ## [1.5.0-next.16](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.5.0-next.15...@esri/calcite-components@1.5.0-next.16) (2023-07-07)
 
 ### Features

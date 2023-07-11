@@ -1,5 +1,4 @@
 {
   "invalid": "Sobimatu",
-  "tooLong": "Tähemärkide piirang on ületatud",
-  "longText": "Praegune tähemärkide arv on {currentLength}, mis ületab tähemärkide maksimaalse arvu{maxLength}."
+  "tooLong": "Praegune tähemärkide arv on {currentLength}, mis ületab tähemärkide maksimaalse arvu{maxLength}."
 }

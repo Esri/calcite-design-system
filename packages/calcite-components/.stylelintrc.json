@@ -3,8 +3,6 @@
   "extends": "stylelint-config-recommended-scss",
   "plugins": ["stylelint-use-logical-spec"],
   "rules": {
-    "declaration-block-semicolon-newline-after": "always-multi-line",
-    "declaration-colon-space-after": "always",
     "liberty/use-logical-spec": "always",
     "no-descending-specificity": [
       true,
@@ -12,7 +10,6 @@
         "ignore": ["selectors-within-list"]
       }
     ],
-    "property-case": "lower",
     "selector-disallowed-list": [
       ["/:host-context/"],
       {
@@ -31,7 +28,6 @@
       {
         "ignoreTypes": ["/^calcite-/"]
       }
-    ],
-    "unit-case": "lower"
+    ]
   }
 }
