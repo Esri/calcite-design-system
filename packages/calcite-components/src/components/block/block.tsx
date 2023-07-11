@@ -241,24 +241,26 @@ export class Block
 
     const statusIcon = ICONS[status];
 
-    return (
+    const loaderIcon = (
       <div class={CSS.icon}>
-        {loading ? (
-          <calcite-loader inline label={messages.loading} />
-        ) : statusIcon && statusIcon !== "" ? (
-          <calcite-icon
-            class={{
-              [CSS.statusIcon]: true,
-              [CSS.valid]: status == "valid",
-              [CSS.invalid]: status == "invalid"
-            }}
-            icon={statusIcon}
-            scale="m"
-          />
-        ) : (
-          <slot key="icon-slot" name={SLOTS.icon} />
-        )}
+        <calcite-loader inline label={messages.loading} />
       </div>
+    );
+
+    return loading ? (
+      loaderIcon
+    ) : statusIcon && statusIcon !== "" ? (
+      <calcite-icon
+        class={{
+          [CSS.statusIcon]: true,
+          [CSS.valid]: status == "valid",
+          [CSS.invalid]: status == "invalid"
+        }}
+        icon={statusIcon}
+        scale="m"
+      />
+    ) : (
+      <slot key="icon-slot" name={SLOTS.icon} />
     );
   }
 
