@@ -222,7 +222,7 @@ export class Notice
       return;
     }
     if (noticeLinkEl) {
-      noticeLinkEl.setFocus();
+      return noticeLinkEl.setFocus();
     } else if (this.closeButton) {
       this.closeButton.focus();
     }

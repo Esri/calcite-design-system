@@ -1,6 +1,6 @@
 {
   "name": "@esri/calcite-components",
-  "version": "1.5.0-next.15",
+  "version": "1.5.0-next.17",
   "description": "Web Components for Esri's Calcite Design System.",
   "main": "dist/index.cjs.js",
   "module": "dist/index.js",
@@ -36,7 +36,7 @@
     "posttest": "npm run test:prerender",
     "prepublishOnly": "./support/stencilDoubleBuildTypesWorkaround.sh",
     "release:docs": "npm run docs && storybook-to-ghpages --existing-output-dir=docs",
-    "start": "concurrently --kill-others --raw \"tsc --project ./tsconfig-demos.json --watch\" \"npm run build:watch-dev -- --serve\" \"ts-node --esm ./support/cleanOnProcessExit.ts --path ./src/demos/**/*.js \"",
+    "start": "npm run util:clean-js-files && concurrently --kill-others --raw \"tsc --project ./tsconfig-demos.json --watch\" \"npm run build:watch-dev -- --serve\"",
     "test": "stencil test --no-docs --no-build --spec --e2e",
     "test:prerender": "stencil build --no-docs --prerender",
     "test:watch": "npm run build && npm run test -- -- --watchAll",
@@ -53,7 +53,7 @@
     "util:prep-build-reqs": "npm run util:copy-assets && npm run util:generate-t9n-types",
     "util:sync-t9n-en-bundles": "ts-node --esm support/syncEnT9nBundles.ts",
     "util:test-types": "tsc --esModuleInterop dist/types/**/*.d.ts dist/components/*.d.ts && ! grep -rnw 'dist/types' -e '<reference types=' && npm run util:clean-js-files",
-    "util:clean-js-files": "find src .storybook support -name '*.js' | xargs rm -rf && find . -maxdepth 1 -name '*.js' | xargs rm -rf",
+    "util:clean-js-files": "rimraf --glob -- *.js {src,.storybook,support}/**.js",
     "util:is-working-tree-clean": "[ -z \"$(git status --porcelain=v1)\" ]"
   },
   "repository": {
@@ -75,7 +75,7 @@
   "devDependencies": {
     "@esri/calcite-design-tokens": "1.0.0",
     "@esri/calcite-ui-icons": "3.23.1",
-    "@esri/eslint-plugin-calcite-components": "0.2.2",
+    "@esri/eslint-plugin-calcite-components": "^0.2.3-next.0",
     "@stencil-community/eslint-plugin": "0.5.0",
     "@stencil/postcss": "2.1.0",
     "@stencil/react-output-target": "0.5.3",
