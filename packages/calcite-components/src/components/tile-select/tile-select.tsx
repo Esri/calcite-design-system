@@ -19,7 +19,7 @@ import {
   updateHostInteraction
 } from "../../utils/interactive";
 import {
-  componentLoaded,
+  componentFocusable,
   LoadableComponent,
   setComponentLoaded,
   setUpLoadableComponent
@@ -147,9 +147,9 @@ export class TileSelect implements InteractiveComponent, LoadableComponent {
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
-    await componentLoaded(this);
+    await componentFocusable(this);
 
-    this.input?.setFocus();
+    return this.input?.setFocus();
   }
 
   //--------------------------------------------------------------------------

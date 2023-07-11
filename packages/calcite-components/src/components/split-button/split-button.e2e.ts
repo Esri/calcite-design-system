@@ -247,8 +247,10 @@ describe("calcite-split-button", () => {
     expect(await group.isVisible()).toBe(true);
     expect(await page.evaluate(() => document.activeElement.id)).toEqual("item-1");
     await page.keyboard.press("ArrowDown");
+    await page.waitForChanges();
     expect(await page.evaluate(() => document.activeElement.id)).toEqual("item-2");
     await page.keyboard.press("ArrowDown");
+    await page.waitForChanges();
     expect(await page.evaluate(() => document.activeElement.id)).toEqual("item-3");
     const dropdownCloseEvent = page.waitForEvent("calciteDropdownClose");
     await page.keyboard.press("Enter");

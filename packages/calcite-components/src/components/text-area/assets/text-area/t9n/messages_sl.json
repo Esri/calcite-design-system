@@ -1,4 +1,4 @@
 {
   "invalid": "Neveljavno",
-  "tooLong": "Presežena je omejitev znakov"
+  "tooLong": "Trenutna dolžina znakov znaša {currentLength}, kar presega maksimalno dolžino znakov {maxLength}."
 }

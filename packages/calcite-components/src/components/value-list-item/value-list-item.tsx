@@ -24,7 +24,7 @@ import {
   updateHostInteraction
 } from "../../utils/interactive";
 import {
-  componentLoaded,
+  componentFocusable,
   LoadableComponent,
   setComponentLoaded,
   setUpLoadableComponent
@@ -175,9 +175,9 @@ export class ValueListItem
   /** Set focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
-    await componentLoaded(this);
+    await componentFocusable(this);
 
-    this.pickListItem?.setFocus();
+    return this.pickListItem?.setFocus();
   }
 
   // --------------------------------------------------------------------------

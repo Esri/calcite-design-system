@@ -38,7 +38,7 @@ const listItemSelector = "calcite-list-item";
 const parentSelector = "calcite-list-item-group, calcite-list-item";
 
 import {
-  componentLoaded,
+  componentFocusable,
   LoadableComponent,
   setComponentLoaded,
   setUpLoadableComponent
@@ -210,6 +210,7 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
 
   @Listen("calciteInternalListItemActive")
   handleCalciteInternalListItemActive(event: CustomEvent): void {
+    event.stopPropagation();
     const target = event.target as HTMLCalciteListItemElement;
     const { listItems } = this;
 
@@ -225,6 +226,7 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
 
   @Listen("calciteInternalListItemSelect")
   handleCalciteInternalListItemSelect(event: CustomEvent): void {
+    event.stopPropagation();
     const target = event.target as HTMLCalciteListItemElement;
     const { listItems, selectionMode } = this;
 
@@ -235,8 +237,9 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
     this.updateSelectedItems();
   }
 
-  @Listen("calciteListItemClose")
-  handleCalciteListItemClose(): void {
+  @Listen("calciteInternalListItemChange")
+  handleCalciteInternalListItemChange(event: CustomEvent): void {
+    event.stopPropagation();
     this.updateListItems(true);
   }
 
@@ -308,8 +311,8 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
   /** Sets focus on the component's first focusable element. */
   @Method()
   async setFocus(): Promise<void> {
-    await componentLoaded(this);
-    this.enabledListItems.find((listItem) => listItem.active)?.setFocus();
+    await componentFocusable(this);
+    return this.enabledListItems.find((listItem) => listItem.active)?.setFocus();
   }
 
   // --------------------------------------------------------------------------

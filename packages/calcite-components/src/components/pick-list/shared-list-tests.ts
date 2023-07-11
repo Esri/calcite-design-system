@@ -33,37 +33,46 @@ export function keyboardNavigation(listType: ListType): void {
       });
       const list = await page.find(`calcite-${listType}-list`);
       await list.callMethod("setFocus");
+      await page.waitForChanges();
 
       expect(await getFocusedItemValue(page)).toEqual("one");
       expect(await getSelectedItemValues(list, listType)).toEqual([]);
 
       await list.press("ArrowDown");
+      await page.waitForChanges();
 
       expect(await getFocusedItemValue(page)).toEqual("two");
 
       await list.press(" ");
+      await page.waitForChanges();
 
       expect(await getSelectedItemValues(list, listType)).toEqual(["two"]);
 
       await list.press("ArrowDown");
+      await page.waitForChanges();
 
       expect(await getFocusedItemValue(page)).toEqual("one");
 
       await list.press(" ");
+      await page.waitForChanges();
       expect(await getSelectedItemValues(list, listType)).toEqual(["one", "two"]);
 
       await list.press("ArrowUp");
+      await page.waitForChanges();
 
       expect(await getFocusedItemValue(page)).toEqual("two");
 
       await list.press(" ");
+      await page.waitForChanges();
       expect(await getSelectedItemValues(list, listType)).toEqual(["one"]);
 
       await list.press("ArrowUp");
+      await page.waitForChanges();
 
       expect(await getFocusedItemValue(page)).toEqual("one");
 
       await list.press(" ");
+      await page.waitForChanges();
       expect(await getSelectedItemValues(list, listType)).toEqual([]);
     });
   });
@@ -83,6 +92,7 @@ export function keyboardNavigation(listType: ListType): void {
         const firstItem = await page.find("#one");
         const secondItem = await page.find("#two");
         await list.callMethod("setFocus");
+        await page.waitForChanges();
 
         expect(await getSelectedItemValues(list, listType)).toEqual([]);
 
@@ -198,6 +208,7 @@ export function keyboardNavigation(listType: ListType): void {
       expect(await list.getProperty("filterText")).toBe(undefined);
       const filter = await page.find(`calcite-${listType}-list >>> calcite-filter`);
       await filter.callMethod("setFocus");
+      await page.waitForChanges();
 
       const calciteFilterChangeEvent = filter.waitForEvent("calciteFilterChange");
       const calciteListFilterEvent = page.waitForEvent("calciteListFilter");
