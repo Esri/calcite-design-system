@@ -3,9 +3,6 @@
   "extends": ["config:base", ":onlyNpm", "npm:unpublishSafe", "workarounds:typesNodeVersioning"],
   "platformCommit": true,
   "rangeStrategy": "pin",
-  "semanticCommits": "enabled",
-  "semanticCommitType": "build",
-  "semanticCommitScope": "deps",
   "timezone": "America/Los_Angeles",
   "schedule": ["before 9am on wednesday"],
   "ignoreDeps": [
@@ -24,6 +21,10 @@
   ],
   "packageRules": [
     {
+      "matchPackagePatterns": ["*"],
+      "semanticCommitType": "build"
+    },
+    {
       "matchPackageNames": ["@stencil/core"],
       "labels": ["feat"],
       "semanticCommitType": "feat",
@@ -34,14 +35,6 @@
       "labels": ["feat"],
       "semanticCommitType": "feat",
       "semanticCommitScope": "floating-ui"
-    },
-    {
-      "matchPackagePatterns": [".*eslint.*"],
-      "groupName": "eslint"
-    },
-    {
-      "matchPackagePatterns": [".*storybook.*"],
-      "groupName": "storybook"
     }
   ]
 }
