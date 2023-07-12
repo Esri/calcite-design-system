@@ -3,6 +3,7 @@ import { html } from "../../../support/formatting";
 import { accessible, defaults, focusable, hidden, reflects, renders, slots, t9n } from "../../tests/commonTests";
 import { CSS, SLOTS } from "./resources";
 import { overflowActionsDebounceInMs } from "./utils";
+import { getFocusedElementProp } from "../../tests/utils";
 
 describe("calcite-action-bar", () => {
   describe("renders", () => {
@@ -247,6 +248,21 @@ describe("calcite-action-bar", () => {
         focusTargetSelector: "calcite-action"
       }
     );
+
+    it("should not focus any action element when clicked on non-focusable region", async () => {
+      const page = await newE2EPage();
+      await page.setContent(html` <calcite-action-bar layout="horizontal" style="width: 100%">
+        <calcite-action-group> <calcite-action text="Add" icon="plus"> </calcite-action> </calcite-action-group
+      ></calcite-action-bar>`);
+
+      const actionBarElRect = await page.evaluate(() => {
+        const actionBarEl = document.querySelector("calcite-action-bar");
+        return actionBarEl.getBoundingClientRect().toJSON();
+      });
+
+      await page.mouse.click(actionBarElRect.right / 2, actionBarElRect.y + actionBarElRect.bottom / 2);
+      expect(await getFocusedElementProp(page, "tagName", { shadow: true })).not.toBe("CALCITE-ACTION");
+    });
   });
 
   describe("slots", () => {
