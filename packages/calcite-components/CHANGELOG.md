@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.5.0-next.20](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.5.0-next.19...@esri/calcite-components@1.5.0-next.20) (2023-07-12)
+
+### Bug Fixes
+
+- **action-bar:** no longer delegates focus when clicked on non-focusable region ([#7310](https://github.com/Esri/calcite-design-system/issues/7310)) ([1a9c15c](https://github.com/Esri/calcite-design-system/commit/1a9c15cbe9b25477a0eca3ad74e2f231beafdd1d)), closes [#6462](https://github.com/Esri/calcite-design-system/issues/6462)
+
+## [1.5.0-next.19](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.5.0-next.18...@esri/calcite-components@1.5.0-next.19) (2023-07-12)
+
+### Bug Fixes
+
+- **block:** loader now appears for all loading cases ([#7303](https://github.com/Esri/calcite-design-system/issues/7303)) ([5af3600](https://github.com/Esri/calcite-design-system/commit/5af36005483f633955bafba40705490e675c5564)), closes [#6485](https://github.com/Esri/calcite-design-system/issues/6485) [#7239](https://github.com/Esri/calcite-design-system/issues/7239)
+
+## [1.5.0-next.18](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.5.0-next.17...@esri/calcite-components@1.5.0-next.18) (2023-07-10)
+
+### Features
+
+- **text-area:** provide additional context for AT users when character limit exceeds ([#7299](https://github.com/Esri/calcite-design-system/issues/7299)) ([c5678eb](https://github.com/Esri/calcite-design-system/commit/c5678eb09e8d0e26b2956f52401d77305a6bee34)), closes [#6630](https://github.com/Esri/calcite-design-system/issues/6630)
+
 ## [1.5.0-next.17](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.5.0-next.16...@esri/calcite-components@1.5.0-next.17) (2023-07-08)
 
 ### Bug Fixes
