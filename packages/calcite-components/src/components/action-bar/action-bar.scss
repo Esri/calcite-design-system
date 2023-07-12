@@ -16,6 +16,9 @@
 
 :host([layout="vertical"]) {
   @apply flex-col;
+  .action-group--bottom {
+    margin-block-start: auto;
+  }
 }
 
 :host([layout="horizontal"]) {
