@@ -17,7 +17,7 @@ import {
   connectConditionalSlotComponent,
   disconnectConditionalSlotComponent
 } from "../../utils/conditionalSlot";
-import { getSlotted, slotChangeGetAssignedElements } from "../../utils/dom";
+import { focusFirstTabbable, getSlotted, slotChangeGetAssignedElements } from "../../utils/dom";
 import {
   componentFocusable,
   LoadableComponent,
@@ -53,14 +53,20 @@ import {
 @Component({
   tag: "calcite-action-bar",
   styleUrl: "action-bar.scss",
-  shadow: {
-    delegatesFocus: true
-  },
+  shadow: true,
   assetsDirs: ["assets"]
 })
 export class ActionBar
   implements ConditionalSlotComponent, LoadableComponent, LocalizedComponent, T9nComponent
 {
+  //--------------------------------------------------------------------------
+  //
+  //  Element
+  //
+  //--------------------------------------------------------------------------
+
+  @Element() el: HTMLCalciteActionBarElement;
+
   // --------------------------------------------------------------------------
   //
   //  Properties
@@ -157,8 +163,6 @@ export class ActionBar
   //
   // --------------------------------------------------------------------------
 
-  @Element() el: HTMLCalciteActionBarElement;
-
   mutationObserver = createObserver("mutation", () => {
     const { el, expanded } = this;
     toggleChildActionText({ el, expanded });
@@ -245,7 +249,7 @@ export class ActionBar
   async setFocus(): Promise<void> {
     await componentFocusable(this);
 
-    this.el?.focus();
+    focusFirstTabbable(this.el);
   }
 
   // --------------------------------------------------------------------------
