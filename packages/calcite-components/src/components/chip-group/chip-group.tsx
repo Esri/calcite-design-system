@@ -184,7 +184,7 @@ export class ChipGroup implements InteractiveComponent {
   async setFocus(): Promise<void> {
     await componentFocusable(this);
     if (!this.disabled) {
-      (this.selectedItems[0] || this.items[0])?.setFocus();
+      return (this.selectedItems[0] || this.items[0])?.setFocus();
     }
   }
 

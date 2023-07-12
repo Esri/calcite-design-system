@@ -1,4 +1,4 @@
 {
   "invalid": "Virheellinen",
-  "tooLong": "Merkkien määrä ylitetty"
+  "tooLong": "Nykyinen merkkipituus on {currentLength}, joka ylittää {maxLength} merkkien enimmäispituuden."
 }

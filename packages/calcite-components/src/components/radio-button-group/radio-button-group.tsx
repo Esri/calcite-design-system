@@ -169,11 +169,10 @@ export class RadioButtonGroup implements LoadableComponent {
   async setFocus(): Promise<void> {
     await componentFocusable(this);
     if (this.selectedItem && !this.selectedItem.disabled) {
-      this.selectedItem.setFocus();
-      return;
+      return this.selectedItem.setFocus();
     }
     if (this.radioButtons.length > 0) {
-      this.getFocusableRadioButton()?.setFocus();
+      return this.getFocusableRadioButton()?.setFocus();
     }
   }
 

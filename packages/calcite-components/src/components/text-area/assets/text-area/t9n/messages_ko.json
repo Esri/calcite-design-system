@@ -1,4 +1,4 @@
 {
   "invalid": "잘못됨",
-  "tooLong": "문자 제한을 초과함"
+  "tooLong": "현재 문자 길이({currentLength})가 최대 문자 길이({maxLength})를 초과합니다."
 }

@@ -1,8 +1,9 @@
-{
-  "env": {
+module.exports = {
+  root: true,
+  env: {
     "jest/globals": true
   },
-  "extends": [
+  extends: [
     "plugin:@esri/calcite-components/recommended",
     "plugin:@stencil-community/recommended",
     "plugin:@typescript-eslint/recommended",
@@ -10,14 +11,15 @@
     "plugin:jsdoc/recommended",
     "prettier"
   ],
-  "ignorePatterns": ["dist", "docs", "hydrate", "www"],
-  "parser": "@typescript-eslint/parser",
-  "parserOptions": {
-    "project": "./tsconfig-eslint.json",
-    "ecmaVersion": 2018,
-    "sourceType": "module"
+  ignorePatterns: ["dist", "docs", "hydrate", "www"],
+  parser: "@typescript-eslint/parser",
+  parserOptions: {
+    tsconfigRootDir: __dirname,
+    project: ["tsconfig-eslint.json"],
+    ecmaVersion: 2021,
+    sourceType: "module"
   },
-  "plugins": [
+  plugins: [
     "@esri/calcite-components",
     "@typescript-eslint",
     "eslint-plugin-react",
@@ -27,16 +29,16 @@
     "prettier",
     "unicorn"
   ],
-  "rules": {
+  rules: {
     "@esri/calcite-components/ban-events": [
       "warn",
       {
-        "event": "keyup",
-        "message": "Use keydown instead for consistent interaction behavior (e.g., closing, moving focus, etc.)."
+        event: "keyup",
+        message: "Use keydown instead for consistent interaction behavior (e.g., closing, moving focus, etc.)."
       },
       {
-        "event": "keypress",
-        "message": "Use keydown instead for consistent interaction behavior (e.g., closing, moving focus, etc.)."
+        event: "keypress",
+        message: "Use keydown instead for consistent interaction behavior (e.g., closing, moving focus, etc.)."
       }
     ],
     "@stencil-community/decorators-context": "off",
@@ -51,8 +53,8 @@
     "@typescript-eslint/explicit-module-boundary-types": [
       "error",
       {
-        "allowArgumentsExplicitlyTypedAsAny": true,
-        "allowedNames": [
+        allowArgumentsExplicitlyTypedAsAny: true,
+        allowedNames: [
           "connectedCallback",
           "disconnectedCallback",
           "componentWillRender",
@@ -67,20 +69,20 @@
     ],
     "@typescript-eslint/no-explicit-any": "off",
     "@typescript-eslint/no-unused-vars": "error",
-    "curly": "error",
-    "import/no-dynamic-require": ["error", { "esmodule": true }],
+    curly: "error",
+    "import/no-dynamic-require": ["error", { esmodule: true }],
     "jest/expect-expect": "off",
     "jest/no-export": "warn",
     "jsdoc/check-tag-names": "off",
     "jsdoc/require-jsdoc": "off",
-    "jsdoc/tag-lines": ["error", "any", { "startLines": 1 }],
+    "jsdoc/tag-lines": ["error", "any", { startLines: 1 }],
     "lines-between-class-members": ["error", "always"],
     "no-eval": "error",
     "no-implied-eval": "error",
     "no-multiple-empty-lines": [
       "error",
       {
-        "max": 1
+        max: 1
       }
     ],
     "no-new-func": "error",
@@ -88,14 +90,14 @@
     "react/forbid-component-props": [
       "warn",
       {
-        "forbid": [
+        forbid: [
           {
-            "propName": "onKeyPress",
-            "message": "Use onKeyDown instead for consistent interaction behavior (e.g., closing, moving focus, etc.)."
+            propName: "onKeyPress",
+            message: "Use onKeyDown instead for consistent interaction behavior (e.g., closing, moving focus, etc.)."
           },
           {
-            "propName": "onKeyUp",
-            "message": "Use onKeyDown instead for consistent interaction behavior (e.g., closing, moving focus, etc.)."
+            propName: "onKeyUp",
+            message: "Use onKeyDown instead for consistent interaction behavior (e.g., closing, moving focus, etc.)."
           }
         ]
       }
@@ -103,14 +105,14 @@
     "react/forbid-dom-props": [
       "warn",
       {
-        "forbid": [
+        forbid: [
           {
-            "propName": "onKeyPress",
-            "message": "Use onKeyDown instead for consistent interaction behavior (e.g., closing, moving focus, etc.)."
+            propName: "onKeyPress",
+            message: "Use onKeyDown instead for consistent interaction behavior (e.g., closing, moving focus, etc.)."
           },
           {
-            "propName": "onKeyUp",
-            "message": "Use onKeyDown instead for consistent interaction behavior (e.g., closing, moving focus, etc)."
+            propName: "onKeyUp",
+            message: "Use onKeyDown instead for consistent interaction behavior (e.g., closing, moving focus, etc)."
           }
         ]
       }
@@ -123,28 +125,28 @@
     "unicorn/prevent-abbreviations": [
       "error",
       {
-        "allowList": {
-          "e2ePage": true
+        allowList: {
+          e2ePage: true
         },
-        "extendDefaultReplacements": false,
-        "replacements": {
-          "e": {
-            "error": true,
-            "event": true
+        extendDefaultReplacements: false,
+        replacements: {
+          e: {
+            error: true,
+            event: true
           }
         },
-        "checkProperties": false,
-        "checkFilenames": false
+        checkProperties: false,
+        checkFilenames: false
       }
     ]
   },
-  "settings": {
-    "react": {
-      "pragma": "h"
+  settings: {
+    react: {
+      pragma: "h"
     },
-    "jsdoc": {
-      "ignoreInternal": true,
-      "ignorePrivate": true
+    jsdoc: {
+      ignoreInternal: true,
+      ignorePrivate: true
     }
   }
-}
+};

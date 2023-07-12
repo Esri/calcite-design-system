@@ -281,6 +281,7 @@ describe("calcite-color-picker", () => {
     value: string
   ): Promise<void> => {
     await channelInputOrHexInput.callMethod("setFocus");
+    await page.waitForChanges();
     await selectText(channelInputOrHexInput);
     await channelInputOrHexInput.press("Backspace");
     await channelInputOrHexInput.type(value);
@@ -1051,6 +1052,7 @@ describe("calcite-color-picker", () => {
 
             const assertChannelValueNudge = async (page: E2EPage, calciteInput: E2EElement): Promise<void> => {
               await calciteInput.callMethod("setFocus");
+              await page.waitForChanges();
               const currentValue = await calciteInput.getProperty("value");
 
               await page.keyboard.press("ArrowUp");
@@ -1140,7 +1142,6 @@ describe("calcite-color-picker", () => {
             });
 
             const assertChannelValueNudge = async (page: E2EPage, calciteInput: E2EElement): Promise<void> => {
-              await calciteInput.callMethod("setFocus");
               await clearAndEnterHexOrChannelValue(page, calciteInput, "");
 
               // using page.waitForChanges as keyboard nudges occur in the next frame
@@ -1598,6 +1599,7 @@ describe("calcite-color-picker", () => {
 
           const assertChannelValueNudge = async (page: E2EPage, calciteInputOrSlider: E2EElement): Promise<void> => {
             await calciteInputOrSlider.callMethod("setFocus");
+            await page.waitForChanges();
             const currentValue = await calciteInputOrSlider.getProperty("value");
 
             function ensureValueType(value: string | number): number | string {
@@ -1717,6 +1719,7 @@ describe("calcite-color-picker", () => {
               }
 
               await calciteInputOrSlider.callMethod("setFocus");
+              await page.waitForChanges();
               await clearValue();
 
               // using page.waitForChanges as keyboard nudges occur in the next frame
