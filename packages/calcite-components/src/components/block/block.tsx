@@ -242,11 +242,11 @@ export class Block
     const hasSlottedIcon = !!getSlotted(this.el, SLOTS.icon);
 
     return loading ? (
-      <div class={CSS.icon}>
+      <div class={CSS.icon} key="loader">
         <calcite-loader inline label={messages.loading} />
       </div>
     ) : !!status ? (
-      <div class={CSS.icon}>
+      <div class={CSS.icon} key="status-icon">
         <calcite-icon
           class={{
             [CSS.statusIcon]: true,
@@ -258,7 +258,7 @@ export class Block
         />
       </div>
     ) : hasSlottedIcon ? (
-      <div class={CSS.icon}>
+      <div class={CSS.icon} key="icon-slot">
         <slot key="icon-slot" name={SLOTS.icon} />
       </div>
     ) : null;
