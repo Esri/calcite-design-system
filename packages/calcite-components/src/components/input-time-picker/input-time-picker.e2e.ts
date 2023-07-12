@@ -632,38 +632,6 @@ describe("calcite-input-time-picker", () => {
     expect(await inputTimePicker.getProperty("value")).toBe("14:05:00");
   });
 
-  it("correctly relocalizes the display value when the lang and numbering systems change with setLang", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<calcite-input-time-picker step="1" value="14:30:25"></calcite-input-time-picker>`);
-
-    function setLang(lang: string): Promise<void> {
-      return page.$eval(
-        "calcite-input-time-picker",
-        async (inputTimePicker, lang) => {
-          let resolver;
-          const langUpdated = new Promise<void>((resolve) => (resolve = resolver));
-
-          inputTimePicker.addEventListener(
-            "calciteInternalInputTimePickerLangUpdated",
-            () => {
-              resolver();
-            },
-            { once: true }
-          );
-
-          (inputTimePicker as any).lang = lang;
-
-          return langUpdated;
-        },
-        lang
-      );
-    }
-
-    await setLang("da");
-
-    expect(await getInputValue(page)).toBe("14.30.25");
-  });
-
   it("correctly relocalizes the display value when the lang and numbering systems change", async () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-input-time-picker step="1" value="14:30:25"></calcite-input-time-picker>`);
@@ -672,12 +640,22 @@ describe("calcite-input-time-picker", () => {
 
     expect(await getInputValue(page)).toBe("02:30:25 PM");
 
-    inputTimePicker.setProperty("lang", "da");
+    const assertions = [
+      { lang: "da", value: "14.30.25" },
+      { lang: "ar", value: "02:30:25 م" },
+      { lang: "ar", numberingSystem: "arab", value: "02:30:25 م" },
+      { lang: "zh-HK", numberingSystem: "hanidec", value: "下午〇二:三〇:二五" }
+    ];
 
-    await page.waitForChanges();
-    await spy.next();
+    assertions.forEach(async ({ lang, numberingSystem, value }) => {
+      inputTimePicker.setProperty("lang", lang);
+      inputTimePicker.setProperty("numberingSystem", numberingSystem || undefined);
 
-    expect(await getInputValue(page)).toBe("14.30.25");
+      await page.waitForChanges();
+      await spy.next();
+
+      expect(await getInputValue(page)).toBe(value);
+    });
   });
 
   describe("arabic locale support", () => {
