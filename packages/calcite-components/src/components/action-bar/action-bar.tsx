@@ -328,10 +328,6 @@ export class ActionBar
     this.expandToggleEl = el;
   };
 
-  setBottomActionsRef = (el: HTMLCalciteActionGroupElement): void => {
-    this.bottomActionsGroupEl = el;
-  };
-
   updateGroups(): void {
     this.setGroupLayout(Array.from(this.el.querySelectorAll("calcite-action-group")));
   }
@@ -375,13 +371,7 @@ export class ActionBar
     ) : null;
 
     return getSlotted(el, SLOTS.bottomActions) || expandToggleNode ? (
-      <calcite-action-group
-        class={CSS.actionGroupBottom}
-        layout={layout}
-        scale={scale}
-        // eslint-disable-next-line react/jsx-sort-props
-        ref={this.setBottomActionsRef}
-      >
+      <calcite-action-group class={CSS.actionGroupBottom} layout={layout} scale={scale}>
         <slot name={SLOTS.bottomActions} />
         <slot name={SLOTS.expandTooltip} />
         {expandToggleNode}
