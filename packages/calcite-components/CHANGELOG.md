@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.5.0-next.19](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.5.0-next.18...@esri/calcite-components@1.5.0-next.19) (2023-07-12)
+
+### Bug Fixes
+
+- **block:** loader now appears for all loading cases ([#7303](https://github.com/Esri/calcite-design-system/issues/7303)) ([5af3600](https://github.com/Esri/calcite-design-system/commit/5af36005483f633955bafba40705490e675c5564)), closes [#6485](https://github.com/Esri/calcite-design-system/issues/6485) [#7239](https://github.com/Esri/calcite-design-system/issues/7239)
+
 ## [1.5.0-next.18](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.5.0-next.17...@esri/calcite-components@1.5.0-next.18) (2023-07-10)
 
 ### Features
