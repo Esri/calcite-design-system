@@ -20,6 +20,9 @@
 
 :host([layout="horizontal"]) {
   @apply flex-row;
+  .action-group--bottom {
+    @apply ms-auto;
+  }
 }
 
 :host([layout="vertical"][overflow-actions-disabled]) {
@@ -53,5 +56,5 @@
 }
 
 .action-group--bottom {
-  @apply justify-end ms-auto;
+  @apply justify-end;
 }
