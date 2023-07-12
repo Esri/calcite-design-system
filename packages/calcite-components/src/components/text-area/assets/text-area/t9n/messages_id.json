@@ -1,4 +1,4 @@
 {
   "invalid": "Tidak valid",
-  "tooLong": "Batas karakter terlampaui"
+  "tooLong": "Panjang karakter saat ini adalah {currentLength}, yang mana melebihi panjang karakter maksimum {maxLength}."
 }

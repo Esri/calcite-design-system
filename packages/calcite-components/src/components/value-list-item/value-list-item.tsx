@@ -177,7 +177,7 @@ export class ValueListItem
   async setFocus(): Promise<void> {
     await componentFocusable(this);
 
-    this.pickListItem?.setFocus();
+    return this.pickListItem?.setFocus();
   }
 
   // --------------------------------------------------------------------------

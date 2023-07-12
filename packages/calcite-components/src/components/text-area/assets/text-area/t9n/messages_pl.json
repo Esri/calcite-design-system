@@ -1,4 +1,4 @@
 {
   "invalid": "Niepoprawny",
-  "tooLong": "Przekroczono limit liczby znaków"
+  "tooLong": "Bieżąca liczba znaków wynosi {currentLength}, co przekracza maksymalną liczbę znaków {maxLength}."
 }

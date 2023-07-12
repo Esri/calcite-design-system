@@ -407,6 +407,7 @@ describe("calcite-color-picker-hex-input", () => {
             await input.setProperty("value", noColorValue);
             await page.waitForChanges();
             await input.callMethod("setFocus");
+            await page.waitForChanges();
 
             await page.keyboard.press("ArrowUp");
             await page.waitForChanges();
@@ -525,6 +526,7 @@ describe("calcite-color-picker-hex-input", () => {
             await input.setProperty("value", noColorValue);
             await page.waitForChanges();
             await input.callMethod("setFocus");
+            await page.waitForChanges();
 
             await page.keyboard.press("ArrowUp");
             await page.waitForChanges();
