@@ -1,2 +1,5 @@
 # These owners will be the default owners for everything in the repo.
 *     @esri/calcite-components-reviewers
+
+# The files matching the globs will be assigned to the @usernames that follow
+.* .github/  *.json CHANGELOG.md /packages/calcite-components/readme.md support/ /packages/calcite-components-react /packages/eslint-plugin-calcite-components @benelan @jcfranco @driskull @geospatialem
