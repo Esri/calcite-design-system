@@ -17,7 +17,7 @@ import {
   connectConditionalSlotComponent,
   disconnectConditionalSlotComponent
 } from "../../utils/conditionalSlot";
-import { getSlotted, slotChangeGetAssignedElements } from "../../utils/dom";
+import { focusFirstTabbable, getSlotted, slotChangeGetAssignedElements } from "../../utils/dom";
 import {
   componentFocusable,
   LoadableComponent,
@@ -163,6 +163,16 @@ export class ActionBar
   //
   // --------------------------------------------------------------------------
 
+  mutationObserver = createObserver("mutation", () => {
+    const { el, expanded } = this;
+    toggleChildActionText({ el, expanded });
+    this.overflowActions();
+  });
+
+  resizeObserver = createObserver("resize", (entries) => this.resizeHandlerEntries(entries));
+
+  expandToggleEl: HTMLCalciteActionElement;
+
   @State() effectiveLocale: string;
 
   @Watch("effectiveLocale")
@@ -171,20 +181,6 @@ export class ActionBar
   }
 
   @State() defaultMessages: ActionBarMessages;
-
-  @State() groups: HTMLCalciteActionGroupElement[];
-
-  bottomActionsGroupEl: HTMLCalciteActionGroupElement;
-
-  expandToggleEl: HTMLCalciteActionElement;
-
-  mutationObserver = createObserver("mutation", () => {
-    const { el, expanded } = this;
-    toggleChildActionText({ el, expanded });
-    this.overflowActions();
-  });
-
-  resizeObserver = createObserver("resize", (entries) => this.resizeHandlerEntries(entries));
 
   // --------------------------------------------------------------------------
   //
@@ -253,9 +249,7 @@ export class ActionBar
   async setFocus(): Promise<void> {
     await componentFocusable(this);
 
-    this.groups?.length > 0
-      ? await this.groups[0].setFocus()
-      : await this.bottomActionsGroupEl.setFocus();
+    focusFirstTabbable(this.el);
   }
 
   // --------------------------------------------------------------------------
@@ -347,11 +341,11 @@ export class ActionBar
   }
 
   handleDefaultSlotChange = (event: Event): void => {
-    this.groups = slotChangeGetAssignedElements(event).filter((el) =>
+    const groups = slotChangeGetAssignedElements(event).filter((el) =>
       el?.matches("calcite-action-group")
     ) as HTMLCalciteActionGroupElement[];
 
-    this.setGroupLayout(this.groups);
+    this.setGroupLayout(groups);
   };
 
   // --------------------------------------------------------------------------
