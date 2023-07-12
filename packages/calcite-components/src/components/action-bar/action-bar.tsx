@@ -53,9 +53,6 @@ import {
 @Component({
   tag: "calcite-action-bar",
   styleUrl: "action-bar.scss",
-  // shadow: {
-  //   delegatesFocus: true
-  // },
   shadow: true,
   assetsDirs: ["assets"]
 })
