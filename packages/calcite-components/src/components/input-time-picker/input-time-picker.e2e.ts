@@ -632,6 +632,38 @@ describe("calcite-input-time-picker", () => {
     expect(await inputTimePicker.getProperty("value")).toBe("14:05:00");
   });
 
+  it("correctly relocalizes the display value when the lang and numbering systems change with setLang", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<calcite-input-time-picker step="1" value="14:30:25"></calcite-input-time-picker>`);
+
+    function setLang(lang: string): Promise<void> {
+      return page.$eval(
+        "calcite-input-time-picker",
+        async (inputTimePicker, lang) => {
+          let resolver;
+          const langUpdated = new Promise<void>((resolve) => (resolve = resolver));
+
+          inputTimePicker.addEventListener(
+            "calciteInternalInputTimePickerLangUpdated",
+            () => {
+              resolver();
+            },
+            { once: true }
+          );
+
+          (inputTimePicker as any).lang = lang;
+
+          return langUpdated;
+        },
+        lang
+      );
+    }
+
+    await setLang("da");
+
+    expect(await getInputValue(page)).toBe("14.30.25");
+  });
+
   it("correctly relocalizes the display value when the lang and numbering systems change", async () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-input-time-picker step="1" value="14:30:25"></calcite-input-time-picker>`);
