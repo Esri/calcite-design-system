@@ -26,7 +26,7 @@ import { Channels, RGB } from "../color-picker/interfaces";
 import Color from "color";
 import { focusElement } from "../../utils/dom";
 import {
-  componentLoaded,
+  componentFocusable,
   LoadableComponent,
   setComponentLoaded,
   setUpLoadableComponent
@@ -365,9 +365,9 @@ export class ColorPickerHexInput implements LoadableComponent {
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
-    await componentLoaded(this);
+    await componentFocusable(this);
 
-    focusElement(this.hexInputNode);
+    return focusElement(this.hexInputNode);
   }
 
   //--------------------------------------------------------------------------

@@ -5,6 +5,7 @@ import { newE2EPage } from "@stencil/core/testing";
 import { debounceTimeout } from "./resources";
 import { CSS } from "../list-item/resources";
 import { DEBOUNCE_TIMEOUT as FILTER_DEBOUNCE_TIMEOUT } from "../filter/resources";
+import { isElementFocused } from "../../tests/utils";
 
 const placeholder = placeholderImage({
   width: 140,
@@ -122,6 +123,7 @@ describe("calcite-list", () => {
     expect(await list.getProperty("filterText")).toBeUndefined();
 
     await filter.callMethod("setFocus");
+    await page.waitForChanges();
 
     const calciteListFilterEvent = list.waitForEvent("calciteListFilter");
     await page.keyboard.type("one");
@@ -209,13 +211,14 @@ describe("calcite-list", () => {
     await page.waitForChanges();
     await page.waitForTimeout(listDebounceTimeout);
 
+    const list = await page.find("calcite-list");
     const items = await page.findAll("calcite-list-item");
 
     expect(await items[0].getProperty("active")).toBe(true);
     expect(await items[1].getProperty("active")).toBe(false);
     expect(await items[2].getProperty("active")).toBe(false);
 
-    const eventSpy = await page.spyOnEvent("calciteInternalListItemActive");
+    const eventSpy = await list.spyOnEvent("calciteInternalListItemActive");
 
     await items[1].click();
 
@@ -229,13 +232,12 @@ describe("calcite-list", () => {
   });
 
   it("should prevent de-selection of selected item in single-persist mode", async () => {
-    const page = await newE2EPage({
-      html: html`<calcite-list selection-mode="single-persist">
-        <calcite-list-item id="item-1" label="hello" description="world"></calcite-list-item>
-        <calcite-list-item id="item-2" label="hello 2" description="world 2"></calcite-list-item>
-        <calcite-list-item id="item-3" selected label="hello 3" description="world 3"></calcite-list-item>
-      </calcite-list>`
-    });
+    const page = await newE2EPage();
+    await page.setContent(html`<calcite-list selection-mode="single-persist">
+      <calcite-list-item id="item-1" label="hello" description="world"></calcite-list-item>
+      <calcite-list-item id="item-2" label="hello 2" description="world 2"></calcite-list-item>
+      <calcite-list-item id="item-3" selected label="hello 3" description="world 3"></calcite-list-item>
+    </calcite-list>`);
 
     await page.waitForChanges();
     await page.waitForTimeout(listDebounceTimeout);
@@ -260,13 +262,12 @@ describe("calcite-list", () => {
   });
 
   it("should correctly allow de-selection and change of selected item in single mode", async () => {
-    const page = await newE2EPage({
-      html: html`<calcite-list selection-mode="single">
-        <calcite-list-item id="item-1" label="hello" description="world"></calcite-list-item>
-        <calcite-list-item id="item-2" label="hello 2" description="world 2"></calcite-list-item>
-        <calcite-list-item id="item-3" selected label="hello 3" description="world 3"></calcite-list-item>
-      </calcite-list>`
-    });
+    const page = await newE2EPage();
+    await page.setContent(html`<calcite-list selection-mode="single">
+      <calcite-list-item id="item-1" label="hello" description="world"></calcite-list-item>
+      <calcite-list-item id="item-2" label="hello 2" description="world 2"></calcite-list-item>
+      <calcite-list-item id="item-3" selected label="hello 3" description="world 3"></calcite-list-item>
+    </calcite-list>`);
 
     await page.waitForChanges();
     await page.waitForTimeout(listDebounceTimeout);
@@ -301,14 +302,13 @@ describe("calcite-list", () => {
   });
 
   it("should emit calciteListChange on selection change", async () => {
-    const page = await newE2EPage({
-      html: html`
-        <calcite-list selection-mode="single">
-          <calcite-list-item value="one" label="One" description="hello world"></calcite-list-item>
-          <calcite-list-item value="two" label="Two" description="hello world"></calcite-list-item>
-        </calcite-list>
-      `
-    });
+    const page = await newE2EPage();
+    await page.setContent(html`
+      <calcite-list selection-mode="single">
+        <calcite-list-item value="one" label="One" description="hello world"></calcite-list-item>
+        <calcite-list-item value="two" label="Two" description="hello world"></calcite-list-item>
+      </calcite-list>
+    `);
     await page.waitForChanges();
     const list = await page.find("calcite-list");
     const listItemOne = await page.find(`calcite-list-item[value=one]`);
@@ -338,5 +338,80 @@ describe("calcite-list", () => {
     await page.waitForTimeout(listDebounceTimeout);
     expect(await listItemOne.getProperty("selected")).toBe(false);
     expect(await list.getProperty("selectedItems")).toHaveLength(0);
+  });
+
+  describe("keyboard navigation", () => {
+    it("should navigate via ArrowUp, ArrowDown, Home, and End", async () => {
+      const page = await newE2EPage();
+      await page.setContent(html`
+        <calcite-list>
+          <calcite-list-item id="one" value="one" label="One" description="hello world"></calcite-list-item>
+          <calcite-list-item id="two" value="two" label="Two" description="hello world"></calcite-list-item>
+          <calcite-list-item
+            disabled
+            id="three"
+            value="three"
+            label="three"
+            description="hello world"
+          ></calcite-list-item>
+          <calcite-list-item
+            closable
+            closed
+            id="four"
+            value="four"
+            label="four"
+            description="hello world"
+          ></calcite-list-item>
+        </calcite-list>
+      `);
+      await page.waitForChanges();
+      const list = await page.find("calcite-list");
+      await list.callMethod("setFocus");
+      await page.waitForChanges();
+
+      await isElementFocused(page, "#one");
+
+      await list.press("ArrowDown");
+
+      await isElementFocused(page, "#two");
+
+      await list.press("ArrowDown");
+
+      await isElementFocused(page, "#two");
+
+      await list.press("ArrowUp");
+
+      await isElementFocused(page, "#one");
+
+      await list.press("ArrowDown");
+
+      await isElementFocused(page, "#two");
+
+      const listItemThree = await page.find("#three");
+      listItemThree.setProperty("disabled", false);
+      await page.waitForChanges();
+      await page.waitForTimeout(listDebounceTimeout);
+
+      await list.press("ArrowDown");
+
+      await isElementFocused(page, "#three");
+
+      const listItemFour = await page.find("#four");
+      listItemFour.setProperty("closed", false);
+      await page.waitForChanges();
+      await page.waitForTimeout(listDebounceTimeout);
+
+      await list.press("ArrowDown");
+
+      await isElementFocused(page, "#four");
+
+      await list.press("Home");
+
+      await isElementFocused(page, "#one");
+
+      await list.press("End");
+
+      await isElementFocused(page, "#four");
+    });
   });
 });

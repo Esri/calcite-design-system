@@ -1,6 +1,6 @@
 {
-  "dragHandleActive": "${itemLabel} wird neu angeordnet, aktuelle Position ${position} von ${total}.",
-  "dragHandleChange": "${itemLabel}, neue Position ${position} von ${total}. Drücken Sie zur Bestätigung die Leertaste.",
-  "dragHandleCommit": "${itemLabel}, aktuelle Position ${position} von ${total}.",
-  "dragHandleIdle": "${itemLabel}, drücken Sie die Leertaste und verwenden Sie die Pfeiltasten, um die Reihenfolge des Inhalts zu ändern. Aktuelle Position ${position} von ${total}."
+  "dragHandleActive": "{itemLabel} wird neu angeordnet, aktuelle Position {position} von {total}.",
+  "dragHandleChange": "{itemLabel}, neue Position {position} von {total}. Drücken Sie zur Bestätigung die Leertaste.",
+  "dragHandleCommit": "{itemLabel}, aktuelle Position {position} von {total}.",
+  "dragHandleIdle": "{itemLabel}, drücken Sie die Leertaste und verwenden Sie die Pfeiltasten, um die Reihenfolge des Inhalts zu ändern. Aktuelle Position {position} von {total}."
 }

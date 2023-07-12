@@ -1,4 +1,4 @@
 {
   "invalid": "Nederīgs",
-  "tooLong": "Pārsniegts rakstzīmju skaita ierobežojums"
+  "tooLong": "Pašreizējais rakstzīmju garums ir {currentLength}, kas pārsniedz maksimālo rakstzīmju garumu {maxLength}."
 }

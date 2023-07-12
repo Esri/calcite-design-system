@@ -37,7 +37,7 @@ const focusMap = new Map<HTMLCalciteListElement, number>();
 const listSelector = "calcite-list";
 
 import {
-  componentLoaded,
+  componentFocusable,
   LoadableComponent,
   setComponentLoaded,
   setUpLoadableComponent
@@ -86,6 +86,11 @@ export class ListItem
   /** When `true`, hides the component. */
   @Prop({ reflect: true, mutable: true }) closed = false;
 
+  @Watch("closed")
+  handleClosedChange(): void {
+    this.emitCalciteInternalListItemChange();
+  }
+
   /**
    * A description for the component. Displays below the label text.
    */
@@ -95,6 +100,11 @@ export class ListItem
    * When `true`, interaction is prevented and the component is displayed with lower opacity.
    */
   @Prop({ reflect: true }) disabled = false;
+
+  @Watch("disabled")
+  handleDisabledChange(): void {
+    this.emitCalciteInternalListItemChange();
+  }
 
   /**
    * The label text of the component. Displays above the description text.
@@ -210,6 +220,12 @@ export class ListItem
    */
   @Event({ cancelable: false }) calciteInternalFocusPreviousItem: EventEmitter<void>;
 
+  /**
+   *
+   * @internal
+   */
+  @Event({ cancelable: false }) calciteInternalListItemChange: EventEmitter<void>;
+
   // --------------------------------------------------------------------------
   //
   //  Private Properties
@@ -292,7 +308,7 @@ export class ListItem
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
-    await componentLoaded(this);
+    await componentFocusable(this);
     const { containerEl, contentEl, actionsStartEl, actionsEndEl, parentListEl } = this;
     const focusIndex = focusMap.get(parentListEl);
 
@@ -540,6 +556,10 @@ export class ListItem
   //  Private Methods
   //
   // --------------------------------------------------------------------------
+
+  private emitCalciteInternalListItemChange(): void {
+    this.calciteInternalListItemChange.emit();
+  }
 
   closeClickHandler = (): void => {
     this.closed = true;

@@ -31,7 +31,7 @@ import {
 import { isActivationKey } from "../../utils/key";
 import { connectLabel, disconnectLabel, LabelableComponent, getLabelText } from "../../utils/label";
 import {
-  componentLoaded,
+  componentFocusable,
   LoadableComponent,
   setComponentLoaded,
   setUpLoadableComponent
@@ -105,7 +105,7 @@ export class Slider
   /**
    * A list of the histogram's x,y coordinates within the component's `min` and `max`. Displays above the component's track.
    *
-   * @see [DataSeries](https://github.com/Esri/calcite-components/blob/master/src/components/graph/interfaces.ts#L5)
+   * @see [DataSeries](https://github.com/Esri/calcite-design-system/blob/main/src/components/graph/interfaces.ts#L5)
    */
   @Prop() histogram: DataSeries;
 
@@ -947,7 +947,7 @@ export class Slider
   /** Sets focus on the component. */
   @Method()
   async setFocus(): Promise<void> {
-    await componentLoaded(this);
+    await componentFocusable(this);
 
     const handle = this.minHandle ? this.minHandle : this.maxHandle;
     handle?.focus();
