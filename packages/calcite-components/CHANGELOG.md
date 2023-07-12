@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.5.0-next.20](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.5.0-next.19...@esri/calcite-components@1.5.0-next.20) (2023-07-12)
+
+### Bug Fixes
+
+- **action-bar:** no longer delegates focus when clicked on non-focusable region ([#7310](https://github.com/Esri/calcite-design-system/issues/7310)) ([1a9c15c](https://github.com/Esri/calcite-design-system/commit/1a9c15cbe9b25477a0eca3ad74e2f231beafdd1d)), closes [#6462](https://github.com/Esri/calcite-design-system/issues/6462)
+
 ## [1.5.0-next.19](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.5.0-next.18...@esri/calcite-components@1.5.0-next.19) (2023-07-12)
 
 ### Bug Fixes
