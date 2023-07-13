@@ -1,10 +1,12 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": ["config:base", ":onlyNpm", "npm:unpublishSafe", "workarounds:typesNodeVersioning"],
+  "extends": ["config:base", "npm:unpublishSafe", "workarounds:typesNodeVersioning"],
   "platformCommit": true,
   "rangeStrategy": "pin",
+  "enabledManagers": ["npm"],
   "timezone": "America/Los_Angeles",
   "schedule": ["before 9am on wednesday"],
+  "labels": ["dependencies"],
   "ignoreDeps": [
     "@types/jest",
     "@types/react",
@@ -26,15 +28,15 @@
     },
     {
       "matchPackageNames": ["@stencil/core"],
-      "labels": ["feat"],
       "semanticCommitType": "feat",
-      "semanticCommitScope": "stencil"
+      "semanticCommitScope": "stencil",
+      "addLabels": ["enhancement"]
     },
     {
       "matchPackageNames": ["@floating-ui/dom"],
-      "labels": ["feat"],
       "semanticCommitType": "feat",
-      "semanticCommitScope": "floating-ui"
+      "semanticCommitScope": "floating-ui",
+      "addLabels": ["enhancement"]
     }
   ]
 }
