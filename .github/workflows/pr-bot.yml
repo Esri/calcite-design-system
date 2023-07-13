@@ -28,7 +28,7 @@ jobs:
               assignees: updatedAssignees,
             });
   label-type:
-    if: github.event.pull_request.user.login != 'dependabot[bot]'
+    if: github.event.pull_request.user.login != 'dependabot[bot]' && github.event.pull_request.user.login != 'renovate[bot]'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/github-script@v6
