@@ -640,22 +640,37 @@ describe("calcite-input-time-picker", () => {
 
     expect(await getInputValue(page)).toBe("02:30:25 PM");
 
-    const assertions = [
-      { lang: "da", value: "14.30.25" },
-      { lang: "ar", value: "02:30:25 م" },
-      { lang: "ar", numberingSystem: "arab", value: "02:30:25 م" },
-      { lang: "zh-HK", numberingSystem: "hanidec", value: "下午〇二:三〇:二五" }
-    ];
+    inputTimePicker.setProperty("lang", "da");
+    await page.waitForChanges();
+    await spy.next();
 
-    assertions.forEach(async ({ lang, numberingSystem, value }) => {
-      inputTimePicker.setProperty("lang", lang);
-      inputTimePicker.setProperty("numberingSystem", numberingSystem || undefined);
+    let inputValue = await getInputValue(page);
 
-      await page.waitForChanges();
-      await spy.next();
+    expect(inputValue).toBe("14.30.25");
 
-      expect(await getInputValue(page)).toBe(value);
-    });
+    inputTimePicker.setProperty("lang", "ar");
+    await page.waitForChanges();
+    await spy.next();
+
+    inputValue = await getInputValue(page);
+
+    expect(inputValue).toBe("02:30:25 م");
+
+    inputTimePicker.setProperty("numberingSystem", "arab");
+    await page.waitForChanges();
+
+    inputValue = await getInputValue(page);
+
+    expect(inputValue).toBe("٠٢:٣٠:٢٥ م");
+
+    inputTimePicker.setProperty("lang", "zh-HK");
+    inputTimePicker.setProperty("numberingSystem", "hanidec");
+    await page.waitForChanges();
+    await spy.next();
+
+    inputValue = await getInputValue(page);
+
+    expect(inputValue).toBe("下午〇二:三〇:二五");
   });
 
   describe("arabic locale support", () => {
