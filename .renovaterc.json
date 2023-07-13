@@ -5,7 +5,7 @@
   "rangeStrategy": "pin",
   "enabledManagers": ["npm"],
   "timezone": "America/Los_Angeles",
-  "schedule": ["before 9am on wednesday"],
+  "schedule": ["before 5am on tuesday and thursday"],
   "labels": ["dependencies"],
   "ignoreDeps": [
     "@types/jest",
@@ -25,7 +25,7 @@
     {
       "matchPackagePatterns": ["*"],
       "semanticCommitType": "build",
-      "addLabels": "chore"
+      "addLabels": ["chore"]
     },
     {
       "matchPackageNames": ["@stencil/core"],
