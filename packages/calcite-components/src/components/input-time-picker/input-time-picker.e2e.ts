@@ -644,33 +644,25 @@ describe("calcite-input-time-picker", () => {
     await page.waitForChanges();
     await spy.next();
 
-    let inputValue = await getInputValue(page);
-
-    expect(inputValue).toBe("14.30.25");
+    expect(await getInputValue(page)).toBe("14.30.25");
 
     inputTimePicker.setProperty("lang", "ar");
     await page.waitForChanges();
     await spy.next();
 
-    inputValue = await getInputValue(page);
-
-    expect(inputValue).toBe("02:30:25 م");
+    expect(await getInputValue(page)).toBe("02:30:25 م");
 
     inputTimePicker.setProperty("numberingSystem", "arab");
     await page.waitForChanges();
 
-    inputValue = await getInputValue(page);
-
-    expect(inputValue).toBe("٠٢:٣٠:٢٥ م");
+    expect(await getInputValue(page)).toBe("٠٢:٣٠:٢٥ م");
 
     inputTimePicker.setProperty("lang", "zh-HK");
     inputTimePicker.setProperty("numberingSystem", "hanidec");
     await page.waitForChanges();
     await spy.next();
 
-    inputValue = await getInputValue(page);
-
-    expect(inputValue).toBe("下午〇二:三〇:二五");
+    expect(await getInputValue(page)).toBe("下午〇二:三〇:二五");
   });
 
   describe("arabic locale support", () => {
