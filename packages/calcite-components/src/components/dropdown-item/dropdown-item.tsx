@@ -187,7 +187,12 @@ export class DropdownItem implements LoadableComponent {
     const itemAria = this.selectionMode !== "none" ? toAriaBoolean(this.selected) : null;
 
     return (
-      <Host aria-checked={itemAria} role={itemRole} tabindex="0">
+      <Host
+        aria-checked={itemAria}
+        aria-label={!this.href ? this.label : ""}
+        role={itemRole}
+        tabindex="0"
+      >
         <div
           class={{
             container: true,
