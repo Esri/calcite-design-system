@@ -6,7 +6,7 @@ import { Component, h, Prop, VNode } from "@stencil/core";
 @Component({
   tag: "calcite-tip-group",
   styleUrl: "tip-group.scss",
-  shadow: true
+  shadow: true,
 })
 export class TipGroup {
   // --------------------------------------------------------------------------

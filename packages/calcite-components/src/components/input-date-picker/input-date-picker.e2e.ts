@@ -8,7 +8,7 @@ import {
   renders,
   hidden,
   t9n,
-  accessible
+  accessible,
 } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { CSS } from "./resources";
@@ -38,12 +38,12 @@ describe("calcite-input-date-picker", () => {
     defaults("calcite-input-date-picker", [
       {
         propertyName: "overlayPositioning",
-        defaultValue: "absolute"
+        defaultValue: "absolute",
       },
       {
         propertyName: "flipPlacements",
-        defaultValue: undefined
-      }
+        defaultValue: undefined,
+      },
     ]);
   });
 
@@ -225,7 +225,7 @@ describe("calcite-input-date-picker", () => {
 
       expect(await input.getProperty("value")).toEqual([
         expectedStartDateComponentValue,
-        expectedEndDateComponentValue
+        expectedEndDateComponentValue,
       ]);
       expect(changeEvent).toHaveReceivedEventTimes(2);
 
@@ -442,7 +442,7 @@ describe("calcite-input-date-picker", () => {
     describe("supports range", () => {
       formAssociated(`<calcite-input-date-picker range name="calcite-input-date-picker"></calcite-input-date-picker>`, {
         testValue: ["1985-03-23", "1985-10-30"],
-        submitsOnEnter: true
+        submitsOnEnter: true,
       });
     });
   });

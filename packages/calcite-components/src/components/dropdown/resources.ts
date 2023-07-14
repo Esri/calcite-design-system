@@ -1,7 +1,7 @@
 export const SLOTS = {
-  dropdownTrigger: "trigger"
+  dropdownTrigger: "trigger",
 };
 
 export const CSS = {
-  calciteDropdownContent: "calcite-dropdown-content"
+  calciteDropdownContent: "calcite-dropdown-content",
 };

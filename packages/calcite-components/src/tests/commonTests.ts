@@ -42,7 +42,7 @@ async function simplePageSetup(componentTagOrHTML: TagOrHTML): Promise<E2EPage> 
   const componentTag = getTag(componentTagOrHTML);
   const page = await newE2EPage({
     html: isHTML(componentTagOrHTML) ? componentTagOrHTML : `<${componentTag}></${componentTag}>`,
-    failOnConsoleError: true
+    failOnConsoleError: true,
   });
   await page.waitForChanges();
 
@@ -376,7 +376,7 @@ async function assertLabelable({
   componentTag,
   propertyToToggle,
   focusTargetSelector = componentTag,
-  shadowFocusTargetSelector
+  shadowFocusTargetSelector,
 }: {
   page: E2EPage;
   componentTag: string;
@@ -470,7 +470,7 @@ export function labelable(componentTagOrHtml: TagOrHTML, options?: LabelableOpti
       componentTag,
       propertyToToggle,
       focusTargetSelector,
-      shadowFocusTargetSelector
+      shadowFocusTargetSelector,
     });
   });
 
@@ -487,7 +487,7 @@ export function labelable(componentTagOrHtml: TagOrHTML, options?: LabelableOpti
       componentTag,
       propertyToToggle,
       focusTargetSelector,
-      shadowFocusTargetSelector
+      shadowFocusTargetSelector,
     });
   });
 
@@ -508,7 +508,7 @@ export function labelable(componentTagOrHtml: TagOrHTML, options?: LabelableOpti
       componentTag,
       propertyToToggle,
       focusTargetSelector,
-      shadowFocusTargetSelector
+      shadowFocusTargetSelector,
     });
   });
 
@@ -530,7 +530,7 @@ export function labelable(componentTagOrHtml: TagOrHTML, options?: LabelableOpti
       componentTag,
       propertyToToggle,
       focusTargetSelector,
-      shadowFocusTargetSelector
+      shadowFocusTargetSelector,
     });
   });
 
@@ -549,7 +549,7 @@ export function labelable(componentTagOrHtml: TagOrHTML, options?: LabelableOpti
       componentTag,
       propertyToToggle,
       focusTargetSelector,
-      shadowFocusTargetSelector
+      shadowFocusTargetSelector,
     });
   });
 
@@ -571,7 +571,7 @@ export function labelable(componentTagOrHtml: TagOrHTML, options?: LabelableOpti
       componentTag,
       propertyToToggle,
       focusTargetSelector,
-      shadowFocusTargetSelector
+      shadowFocusTargetSelector,
     });
   });
 }
@@ -625,7 +625,7 @@ export function formAssociated(componentTagOrHtml: TagOrHTML, options: FormAssoc
           this should cover button and calcite-button submit cases
           -->
         <input id="submitter" type="submit" />
-      </form>`
+      </form>`,
     });
     await page.waitForChanges();
     const component = await page.find(componentTag);
@@ -653,7 +653,7 @@ export function formAssociated(componentTagOrHtml: TagOrHTML, options: FormAssoc
         keeping things simple by using submit-type input
         this should cover button and calcite-button submit cases
         -->
-        <input id="submitter" form="test-form" type="submit" />`
+        <input id="submitter" form="test-form" type="submit" />`,
     });
     await page.waitForChanges();
     const component = await page.find(componentTag);
@@ -1176,7 +1176,7 @@ export function floatingUIOwner(
       content: `body {
       height: ${scrollablePageSizeInPx}px;
       width: ${scrollablePageSizeInPx}px;
-    }`
+    }`,
     });
     await page.waitForChanges();
 
@@ -1279,7 +1279,7 @@ export async function t9n(componentTestSetup: ComponentTestSetup): Promise<void>
 
     expect(await getCurrentMessages()).toEqual({
       ...messages,
-      ...messageOverride
+      ...messageOverride,
     });
 
     // reset test changes
@@ -1298,7 +1298,7 @@ export async function t9n(componentTestSetup: ComponentTestSetup): Promise<void>
             const fakeEsMessages = {
               ...enMessages, // reuse real message bundle in case component rendering depends on strings
 
-              [fakeBundleIdentifier]: true // we inject a fake identifier for assertion-purposes
+              [fakeBundleIdentifier]: true, // we inject a fake identifier for assertion-purposes
             };
             window.fetch = orig;
             return new Response(new Blob([JSON.stringify(fakeEsMessages, null, 2)], { type: "application/json" }));

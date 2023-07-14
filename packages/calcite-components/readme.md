@@ -71,7 +71,7 @@ When using the [Distribution](https://stenciljs.com/docs/distribution) build, yo
 import { defineCustomElements } from "@esri/calcite-components/dist/loader";
 // CDN hosted assets
 defineCustomElements(window, {
-  resourcesUrl: "https://cdn.jsdelivr.net/npm/@esri/calcite-components/dist/calcite/assets"
+  resourcesUrl: "https://cdn.jsdelivr.net/npm/@esri/calcite-components/dist/calcite/assets",
 });
 
 // Local assets

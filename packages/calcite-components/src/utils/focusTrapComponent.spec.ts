@@ -2,7 +2,7 @@ import {
   activateFocusTrap,
   connectFocusTrap,
   deactivateFocusTrap,
-  updateFocusTrapElements
+  updateFocusTrapElements,
 } from "./focusTrapComponent";
 
 describe("focusTrapComponent", () => {

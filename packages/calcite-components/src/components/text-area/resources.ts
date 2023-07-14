@@ -13,12 +13,12 @@ export const CSS = {
   borderColor: "border--color",
   hide: "hide",
   blockSizeFull: "block-size--full",
-  footerEndSlotOnly: "footer--end-only"
+  footerEndSlotOnly: "footer--end-only",
 };
 
 export const SLOTS = {
   footerStart: "footer-start",
-  footerEnd: "footer-end"
+  footerEnd: "footer-end",
 };
 
 export const RESIZE_TIMEOUT = 100;

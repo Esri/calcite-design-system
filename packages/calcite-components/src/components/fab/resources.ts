@@ -1,7 +1,7 @@
 export const CSS = {
-  button: "button"
+  button: "button",
 };
 
 export const ICONS = {
-  plus: "plus"
+  plus: "plus",
 };

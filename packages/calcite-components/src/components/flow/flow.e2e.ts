@@ -22,7 +22,7 @@ describe("calcite-flow", () => {
         <calcite-flow-item id="two" heading="two">Hello World</calcite-flow-item>
       </calcite-flow>`,
       {
-        focusTargetSelector: "#two"
+        focusTargetSelector: "#two",
       }
     );
   });

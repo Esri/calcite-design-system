@@ -8,7 +8,7 @@ import {
   Listen,
   Method,
   Prop,
-  VNode
+  VNode,
 } from "@stencil/core";
 import { getElementProp, toAriaBoolean } from "../../utils/dom";
 import { ItemKeyboardEvent } from "../dropdown/interfaces";
@@ -19,7 +19,7 @@ import {
   componentFocusable,
   LoadableComponent,
   setComponentLoaded,
-  setUpLoadableComponent
+  setUpLoadableComponent,
 } from "../../utils/loadable";
 
 /**
@@ -28,7 +28,7 @@ import {
 @Component({
   tag: "calcite-dropdown-item",
   styleUrl: "dropdown-item.scss",
-  shadow: true
+  shadow: true,
 })
 export class DropdownItem implements LoadableComponent {
   //--------------------------------------------------------------------------
@@ -198,7 +198,7 @@ export class DropdownItem implements LoadableComponent {
             [CSS.containerLarge]: scale === "l",
             [CSS.containerMulti]: selectionMode === "multiple",
             [CSS.containerSingle]: selectionMode === "single",
-            [CSS.containerNone]: selectionMode === "none"
+            [CSS.containerNone]: selectionMode === "none",
           }}
         >
           {selectionMode !== "none" ? (
@@ -328,7 +328,7 @@ export class DropdownItem implements LoadableComponent {
     this.calciteDropdownItemSelect.emit();
     this.calciteInternalDropdownItemSelect.emit({
       requestedDropdownItem: this.el,
-      requestedDropdownGroup: this.parentDropdownGroupEl
+      requestedDropdownGroup: this.parentDropdownGroupEl,
     });
   }
 }

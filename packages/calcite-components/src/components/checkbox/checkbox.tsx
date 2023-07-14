@@ -7,21 +7,21 @@ import {
   Host,
   Method,
   Prop,
-  VNode
+  VNode,
 } from "@stencil/core";
 import { toAriaBoolean } from "../../utils/dom";
 import {
   CheckableFormComponent,
   connectForm,
   disconnectForm,
-  HiddenFormInputSlot
+  HiddenFormInputSlot,
 } from "../../utils/form";
 import { guid } from "../../utils/guid";
 import {
   connectInteractive,
   disconnectInteractive,
   InteractiveComponent,
-  updateHostInteraction
+  updateHostInteraction,
 } from "../../utils/interactive";
 import { isActivationKey } from "../../utils/key";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
@@ -29,14 +29,14 @@ import {
   componentFocusable,
   LoadableComponent,
   setComponentLoaded,
-  setUpLoadableComponent
+  setUpLoadableComponent,
 } from "../../utils/loadable";
 import { Scale } from "../interfaces";
 
 @Component({
   tag: "calcite-checkbox",
   styleUrl: "checkbox.scss",
-  shadow: true
+  shadow: true,
 })
 export class Checkbox
   implements LabelableComponent, CheckableFormComponent, InteractiveComponent, LoadableComponent

@@ -152,7 +152,7 @@ function hasRegisteredFormComponentParent(
   formComponentEl.dispatchEvent(
     new CustomEvent(formComponentRegisterEventName, {
       bubbles: true,
-      composed: true
+      composed: true,
     })
   );
 
@@ -408,7 +408,7 @@ interface HiddenFormInputSlotProps {
  * @param root0.component
  */
 export const HiddenFormInputSlot: FunctionalComponent<HiddenFormInputSlotProps> = ({
-  component
+  component,
 }) => {
   syncHiddenFormInput(component);
 

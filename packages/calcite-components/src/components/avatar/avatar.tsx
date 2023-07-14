@@ -7,7 +7,7 @@ import { hexToHue, stringToHex } from "./utils";
 @Component({
   tag: "calcite-avatar",
   styleUrl: "avatar.scss",
-  shadow: true
+  shadow: true,
 })
 export class Avatar {
   //--------------------------------------------------------------------------

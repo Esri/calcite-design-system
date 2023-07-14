@@ -82,7 +82,7 @@ describe("calcite-tab-nav", () => {
     describe("default", () => {
       it("should render without scale", async () => {
         const page = await newE2EPage({
-          html: `${tabNavHtml}`
+          html: `${tabNavHtml}`,
         });
         const element = await page.find("calcite-tab-nav");
         expect(element).not.toHaveAttribute("scale");
@@ -97,7 +97,7 @@ describe("calcite-tab-nav", () => {
             <calcite-tab-title>Tab 2 Title</calcite-tab-title>
             <calcite-tab-title>Tab 3 Title</calcite-tab-title>
             <calcite-tab-title>Tab 4 Title</calcite-tab-title>
-          </calcite-tab-nav>`
+          </calcite-tab-nav>`,
         });
         const element = await page.find("calcite-tab-nav");
         expect(await (await element.getComputedStyle())["minHeight"]).toEqual("24px");
@@ -113,7 +113,7 @@ describe("calcite-tab-nav", () => {
             <calcite-tab-title>Tab 2 Title</calcite-tab-title>
             <calcite-tab-title>Tab 3 Title</calcite-tab-title>
             <calcite-tab-title>Tab 4 Title</calcite-tab-title>
-          </calcite-tab-nav>`
+          </calcite-tab-nav>`,
         });
         const element = await page.find("calcite-tab-nav");
         expect(await (await element.getComputedStyle())["minHeight"]).toEqual("32px");
@@ -129,7 +129,7 @@ describe("calcite-tab-nav", () => {
             <calcite-tab-title>Tab 2 Title</calcite-tab-title>
             <calcite-tab-title>Tab 3 Title</calcite-tab-title>
             <calcite-tab-title>Tab 4 Title</calcite-tab-title>
-          </calcite-tab-nav>`
+          </calcite-tab-nav>`,
         });
         const element = await page.find("calcite-tab-nav");
         expect(await (await element.getComputedStyle())["minHeight"]).toEqual("44px");
@@ -140,7 +140,7 @@ describe("calcite-tab-nav", () => {
     describe("when nested within tabs parent", () => {
       it("should render with default medium scale", async () => {
         const page = await newE2EPage({
-          html: `<calcite-tabs>${tabNavHtml}</calcite-tabs>`
+          html: `<calcite-tabs>${tabNavHtml}</calcite-tabs>`,
         });
         const element = await page.find("calcite-tab-nav");
         expect(element).toEqualAttribute("scale", "m");
@@ -149,7 +149,7 @@ describe("calcite-tab-nav", () => {
       describe("when tabs scale is small", () => {
         it("should render with small scale", async () => {
           const page = await newE2EPage({
-            html: `<calcite-tabs scale="s">${tabNavHtml}</calcite-tabs>`
+            html: `<calcite-tabs scale="s">${tabNavHtml}</calcite-tabs>`,
           });
           const element = await page.find("calcite-tab-nav");
           expect(element).toEqualAttribute("scale", "s");
@@ -159,7 +159,7 @@ describe("calcite-tab-nav", () => {
       describe("when tabs scale is large", () => {
         it("should render with large scale", async () => {
           const page = await newE2EPage({
-            html: `<calcite-tabs scale="l">${tabNavHtml}</calcite-tabs>`
+            html: `<calcite-tabs scale="l">${tabNavHtml}</calcite-tabs>`,
           });
           const element = await page.find("calcite-tab-nav");
           expect(element).toEqualAttribute("scale", "l");

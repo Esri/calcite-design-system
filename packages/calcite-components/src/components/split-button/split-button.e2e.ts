@@ -8,8 +8,8 @@ describe("calcite-split-button", () => {
     defaults("calcite-split-button", [
       {
         propertyName: "overlayPositioning",
-        defaultValue: "absolute"
-      }
+        defaultValue: "absolute",
+      },
     ]);
   });
 
@@ -33,7 +33,7 @@ describe("calcite-split-button", () => {
         ${content}
         </calcite-split-button>`,
       {
-        shadowFocusTargetSelector: "calcite-button"
+        shadowFocusTargetSelector: "calcite-button",
       }
     );
   });
@@ -90,7 +90,7 @@ describe("calcite-split-button", () => {
 
   it(`should set all internal calcite-button types to 'button'`, async () => {
     const page = await newE2EPage({
-      html: html`<calcite-split-button primary-text="primary action"></calcite-split-button>`
+      html: html`<calcite-split-button primary-text="primary action"></calcite-split-button>`,
     });
 
     const buttons = await page.findAll("calcite-split-button >>> calcite-button");
@@ -177,12 +177,12 @@ describe("calcite-split-button", () => {
     const elementScaleToDropdownScale = {
       s: "s",
       m: "m",
-      l: "l"
+      l: "l",
     };
     const elementScaleToButtonScale = {
       s: "s",
       m: "m",
-      l: "l"
+      l: "l",
     };
     const page = await newE2EPage();
     await page.setContent(`

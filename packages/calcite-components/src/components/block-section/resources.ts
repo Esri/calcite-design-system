@@ -8,12 +8,12 @@ export const CSS = {
   sectionHeader: "section-header",
   sectionHeaderText: "section-header__text",
   statusIcon: "status-icon",
-  valid: "valid"
+  valid: "valid",
 };
 
 export const TEXT = {
   collapse: "Collapse",
-  expand: "Expand"
+  expand: "Expand",
 };
 
 export const ICONS = {
@@ -21,5 +21,5 @@ export const ICONS = {
   menuClosedLeft: "chevron-left",
   menuClosedRight: "chevron-right",
   valid: "check-circle",
-  invalid: "exclamation-mark-triangle"
+  invalid: "exclamation-mark-triangle",
 };

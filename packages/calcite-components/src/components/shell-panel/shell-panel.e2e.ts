@@ -18,20 +18,20 @@ describe("calcite-shell-panel", () => {
     defaults("calcite-shell-panel", [
       {
         propertyName: "collapsed",
-        defaultValue: false
+        defaultValue: false,
       },
       {
         propertyName: "resizable",
-        defaultValue: false
+        defaultValue: false,
       },
       {
         propertyName: "detached",
-        defaultValue: false
+        defaultValue: false,
       },
       {
         propertyName: "displayMode",
-        defaultValue: "dock"
-      }
+        defaultValue: "dock",
+      },
     ]);
   });
 

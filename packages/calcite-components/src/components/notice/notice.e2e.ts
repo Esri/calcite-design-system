@@ -105,7 +105,7 @@ describe("calcite-notice", () => {
   describe("focusable", () => {
     describe("with link and closable => focuses on link", () => {
       focusable(html` <calcite-notice id="notice-1" open closable> ${noticeContent}</calcite-notice>`, {
-        focusTargetSelector: `calcite-link`
+        focusTargetSelector: `calcite-link`,
       });
     });
 
@@ -116,7 +116,7 @@ describe("calcite-notice", () => {
           <div slot="message">Message Text</div>
         </calcite-notice>`,
         {
-          shadowFocusTargetSelector: `.${CSS.close}`
+          shadowFocusTargetSelector: `.${CSS.close}`,
         }
       );
     });

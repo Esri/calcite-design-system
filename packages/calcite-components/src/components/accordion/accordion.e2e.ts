@@ -38,24 +38,24 @@ describe("calcite-accordion", () => {
     defaults("calcite-accordion", [
       {
         propertyName: "appearance",
-        defaultValue: "solid"
+        defaultValue: "solid",
       },
       {
         propertyName: "iconPosition",
-        defaultValue: "end"
+        defaultValue: "end",
       },
       {
         propertyName: "scale",
-        defaultValue: "m"
+        defaultValue: "m",
       },
       {
         propertyName: "selectionMode",
-        defaultValue: "multiple"
+        defaultValue: "multiple",
       },
       {
         propertyName: "iconType",
-        defaultValue: "chevron"
-      }
+        defaultValue: "chevron",
+      },
     ]);
   });
 
@@ -63,24 +63,24 @@ describe("calcite-accordion", () => {
     reflects("calcite-accordion", [
       {
         propertyName: "iconPosition",
-        value: "start"
+        value: "start",
       },
       {
         propertyName: "iconPosition",
-        value: "end"
+        value: "end",
       },
       {
         propertyName: "selectionMode",
-        value: "single-persist"
+        value: "single-persist",
       },
       {
         propertyName: "selectionMode",
-        value: "single"
+        value: "single",
       },
       {
         propertyName: "selectionMode",
-        value: "multiple"
-      }
+        value: "multiple",
+      },
     ]);
   });
 
@@ -210,7 +210,7 @@ describe("calcite-accordion", () => {
   it("clicking on an accordion with selection-mode=single does not toggle unrelated accordions with the same selection mode", async () => {
     const page = await newE2EPage({
       html: html`<calcite-accordion selection-mode="single" id="first"> ${accordionContent} </calcite-accordion>
-        <calcite-accordion selection-mode="single" id="second"> ${accordionContent} </calcite-accordion>`
+        <calcite-accordion selection-mode="single" id="second"> ${accordionContent} </calcite-accordion>`,
     });
     await page.waitForChanges();
 

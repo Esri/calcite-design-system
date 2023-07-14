@@ -7,7 +7,7 @@ import { area, range, translate } from "./util";
 @Component({
   tag: "calcite-graph",
   styleUrl: "graph.scss",
-  shadow: true
+  shadow: true,
 })
 export class Graph {
   //--------------------------------------------------------------------------
@@ -161,7 +161,7 @@ export class Graph {
 
             <path class="graph-path" d={areaPath} fill={fill} mask={`url(#${id}1)`} />,
             <path class="graph-path--highlight" d={areaPath} fill={fill} mask={`url(#${id}2)`} />,
-            <path class="graph-path" d={areaPath} fill={fill} mask={`url(#${id}3)`} />
+            <path class="graph-path" d={areaPath} fill={fill} mask={`url(#${id}3)`} />,
           ]
         ) : (
           <path class="graph-path" d={areaPath} fill={fill} />
