@@ -528,6 +528,7 @@ export class InputDatePicker
               <calcite-input
                 aria-autocomplete="none"
                 aria-controls={this.dialogId}
+                aria-describedby={this.placeholderTextId}
                 aria-expanded={toAriaBoolean(this.open)}
                 aria-haspopup="dialog"
                 class={`input ${
@@ -550,6 +551,9 @@ export class InputDatePicker
                 ref={this.setStartInput}
               />
               {this.renderToggleIcon(this.open && this.focusedInput === "start")}
+              <span aria-hidden="true" class={CSS.assistiveText} id={this.placeholderTextId}>
+                Date Format: {this.localeData?.placeholder}
+              </span>
             </div>
             <div
               aria-hidden={toAriaBoolean(!this.open)}
@@ -728,6 +732,8 @@ export class InputDatePicker
   }
 
   private valueAsDateChangedExternally = false;
+
+  private placeholderTextId = `calcite-input-date-picker-placeholder-${guid()}`;
 
   //--------------------------------------------------------------------------
   //
