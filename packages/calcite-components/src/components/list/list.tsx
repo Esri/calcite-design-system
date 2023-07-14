@@ -11,7 +11,7 @@ import {
   VNode,
   Watch
 } from "@stencil/core";
-import Sortable from "sortablejs";
+import Sortable, { SortableEvent } from "sortablejs";
 import { debounce } from "lodash-es";
 import { slotChangeHasAssignedElement, toAriaBoolean } from "../../utils/dom";
 import {
@@ -192,7 +192,9 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
   /**
    * Emitted when the order of the list has changed.
    */
-  @Event({ cancelable: false }) calciteListOrderChange: EventEmitter<void>;
+  @Event({ cancelable: false }) calciteListOrderChange: EventEmitter<
+    Pick<Sortable.SortableEvent, "to" | "from" | "item" | "items">
+  >;
 
   @Listen("calciteInternalFocusPreviousItem")
   handleCalciteInternalFocusPreviousItem(event: CustomEvent): void {
@@ -413,9 +415,17 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
     this.connectObserver();
   }
 
-  onDragSort(): void {
+  onDragSort(event: SortableEvent): void {
     this.updateListItems();
-    this.calciteListOrderChange.emit();
+
+    const { from, item, items, to } = event;
+
+    this.calciteListOrderChange.emit({
+      from,
+      item,
+      items,
+      to
+    });
   }
 
   private handleDefaultSlotChange = (event: Event): void => {
