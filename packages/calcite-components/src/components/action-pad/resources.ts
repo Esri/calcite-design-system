@@ -1,8 +1,8 @@
 export const CSS = {
   actionGroupBottom: "action-group--bottom",
-  container: "container"
+  container: "container",
 };
 
 export const SLOTS = {
-  expandTooltip: "expand-tooltip"
+  expandTooltip: "expand-tooltip",
 };

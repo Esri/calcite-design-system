@@ -10,7 +10,7 @@ import {
   labelable,
   reflects,
   renders,
-  t9n
+  t9n,
 } from "../../tests/commonTests";
 import { getElementXY, selectText } from "../../tests/utils";
 import { letterKeys, numberKeys } from "../../utils/key";
@@ -45,20 +45,20 @@ describe("calcite-input-number", () => {
     reflects("calcite-input-number", [
       {
         propertyName: "status",
-        value: "valid"
+        value: "valid",
       },
       {
         propertyName: "alignment",
-        value: "center"
+        value: "center",
       },
       {
         propertyName: "numberButtonType",
-        value: "horizontal"
+        value: "horizontal",
       },
       {
         propertyName: "scale",
-        value: "s"
-      }
+        value: "s",
+      },
     ]);
   });
 
@@ -66,24 +66,24 @@ describe("calcite-input-number", () => {
     defaults("calcite-input-number", [
       {
         propertyName: "status",
-        defaultValue: "idle"
+        defaultValue: "idle",
       },
       {
         propertyName: "alignment",
-        defaultValue: "start"
+        defaultValue: "start",
       },
       {
         propertyName: "numberButtonType",
-        defaultValue: "vertical"
+        defaultValue: "vertical",
       },
       {
         propertyName: "scale",
-        defaultValue: "m"
+        defaultValue: "m",
       },
       {
         propertyName: "value",
-        defaultValue: ""
-      }
+        defaultValue: "",
+      },
     ]);
   });
 
@@ -198,7 +198,7 @@ describe("calcite-input-number", () => {
 
   describe("is focusable", () => {
     focusable(`calcite-input-number`, {
-      shadowFocusTargetSelector: "input"
+      shadowFocusTargetSelector: "input",
     });
   });
 
@@ -1058,7 +1058,7 @@ describe("calcite-input-number", () => {
           numberStringFormatter.numberFormatOptions = {
             locale,
             numberingSystem: "latn",
-            useGrouping: false
+            useGrouping: false,
           };
           expect(await calciteInput.getProperty("value")).toBe(value);
           expect(await input.getProperty("value")).toBe(numberStringFormatter.localize(value));
@@ -1076,7 +1076,7 @@ describe("calcite-input-number", () => {
           numberStringFormatter.numberFormatOptions = {
             locale,
             numberingSystem: "latn",
-            useGrouping: true
+            useGrouping: true,
           };
           expect(await calciteInput.getProperty("value")).toBe(value);
           expect(await input.getProperty("value")).toBe(numberStringFormatter.localize(value));
@@ -1086,7 +1086,7 @@ describe("calcite-input-number", () => {
           numberStringFormatter.numberFormatOptions = {
             locale,
             numberingSystem: "latn",
-            useGrouping: false
+            useGrouping: false,
           };
 
           const page = await newE2EPage();
@@ -1109,7 +1109,7 @@ describe("calcite-input-number", () => {
           numberStringFormatter.numberFormatOptions = {
             locale,
             numberingSystem: "latn",
-            useGrouping: false
+            useGrouping: false,
           };
 
           const page = await newE2EPage();
@@ -1156,7 +1156,7 @@ describe("calcite-input-number", () => {
           numberStringFormatter.numberFormatOptions = {
             locale,
             numberingSystem: "latn",
-            useGrouping: false
+            useGrouping: false,
           };
           expect(await calciteInput.getProperty("value")).toBe(assertedValue);
           expect(await internalLocaleInput.getProperty("value")).toBe(numberStringFormatter.localize(assertedValue));
@@ -1171,7 +1171,7 @@ describe("calcite-input-number", () => {
           numberStringFormatter.numberFormatOptions = {
             locale,
             numberingSystem: "latn",
-            useGrouping: false
+            useGrouping: false,
           };
           const decimalSeparator = numberStringFormatter.decimal;
           const calciteInput = await page.find("calcite-input-number");
@@ -1201,7 +1201,7 @@ describe("calcite-input-number", () => {
           numberStringFormatter.numberFormatOptions = {
             locale,
             numberingSystem: "latn",
-            useGrouping: false
+            useGrouping: false,
           };
           const decimalSeparator = numberStringFormatter.decimal;
           const calciteInput = await page.find("calcite-input-number");
@@ -1232,7 +1232,7 @@ describe("calcite-input-number", () => {
           numberStringFormatter.numberFormatOptions = {
             locale,
             numberingSystem: "latn",
-            useGrouping: false
+            useGrouping: false,
           };
           const input = await page.find("calcite-input-number >>> input");
           expect(await input.getProperty("value")).toBe("0");
@@ -1406,7 +1406,7 @@ describe("calcite-input-number", () => {
     numberStringFormatter.numberFormatOptions = {
       locale: "en-US",
       numberingSystem: "latn",
-      useGrouping: true
+      useGrouping: true,
     };
     expect(await calciteInput.getProperty("value")).toBe(initialValue);
     expect(await input.getProperty("value")).toBe(numberStringFormatter.localize(initialValue));
@@ -1675,7 +1675,7 @@ describe("calcite-input-number", () => {
     formAssociated("calcite-input-number", {
       testValue: 5,
       submitsOnEnter: true,
-      inputType: "number"
+      inputType: "number",
     });
   });
 

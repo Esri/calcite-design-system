@@ -16,20 +16,20 @@ describe("calcite-action-pad", () => {
     defaults("calcite-action-pad", [
       {
         propertyName: "expandDisabled",
-        defaultValue: false
+        defaultValue: false,
       },
       {
         propertyName: "expanded",
-        defaultValue: false
+        defaultValue: false,
       },
       {
         propertyName: "layout",
-        defaultValue: "vertical"
+        defaultValue: "vertical",
       },
       {
         propertyName: "scale",
-        defaultValue: undefined
-      }
+        defaultValue: undefined,
+      },
     ]);
   });
 
@@ -37,16 +37,16 @@ describe("calcite-action-pad", () => {
     reflects("calcite-action-pad", [
       {
         propertyName: "expandDisabled",
-        value: true
+        value: true,
       },
       {
         propertyName: "expanded",
-        value: true
+        value: true,
       },
       {
         propertyName: "layout",
-        value: "horizontal"
-      }
+        value: "horizontal",
+      },
     ]);
   });
 
@@ -200,7 +200,7 @@ describe("calcite-action-pad", () => {
         </calcite-action-pad>
       `,
       {
-        focusTargetSelector: "calcite-action"
+        focusTargetSelector: "calcite-action",
       }
     );
   });
@@ -227,7 +227,7 @@ describe("calcite-action-pad", () => {
             <calcite-action text="Add" icon="plus" slot="menu-actions"></calcite-action>
             <calcite-action text="Add" icon="plus" slot="menu-actions"></calcite-action>
           </calcite-action-group>
-        </calcite-action-pad>`
+        </calcite-action-pad>`,
     });
 
     const eventSpy = await page.spyOnEvent("calciteActionMenuOpen", "window");

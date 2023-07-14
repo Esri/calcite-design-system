@@ -6,7 +6,7 @@ import {
   formAssociated,
   HYDRATED_ATTR,
   labelable,
-  hidden
+  hidden,
 } from "../../tests/commonTests";
 
 describe("calcite-checkbox", () => {
@@ -164,7 +164,7 @@ describe("calcite-checkbox", () => {
 
   describe("is focusable", () => {
     focusable("calcite-checkbox", {
-      shadowFocusTargetSelector: ".toggle"
+      shadowFocusTargetSelector: ".toggle",
     });
   });
 });

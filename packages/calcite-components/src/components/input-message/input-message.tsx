@@ -9,7 +9,7 @@ import { StatusIconDefaults } from "./interfaces";
 @Component({
   tag: "calcite-input-message",
   styleUrl: "input-message.scss",
-  shadow: true
+  shadow: true,
 })
 export class InputMessage {
   //--------------------------------------------------------------------------

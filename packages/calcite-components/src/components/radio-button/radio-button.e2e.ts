@@ -8,7 +8,7 @@ import {
   hidden,
   labelable,
   reflects,
-  renders
+  renders,
 } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { getFocusedElementProp } from "../../tests/utils";
@@ -39,7 +39,7 @@ describe("calcite-radio-button", () => {
   describe("labelable", () => {
     labelable("<calcite-radio-button name='group-name'></calcite-radio-button>", {
       shadowFocusTargetSelector: ".container",
-      propertyToToggle: "checked"
+      propertyToToggle: "checked",
     });
   });
 
@@ -67,7 +67,7 @@ describe("calcite-radio-button", () => {
 
   describe("is focusable", () => {
     focusable("calcite-radio-button", {
-      shadowFocusTargetSelector: ".container"
+      shadowFocusTargetSelector: ".container",
     });
 
     it("focuses first focusable item on Tab when new radio-button is added", async () => {
@@ -176,7 +176,7 @@ describe("calcite-radio-button", () => {
       { propertyName: "hidden", value: true },
       { propertyName: "name", value: "reflects-name" },
       { propertyName: "required", value: true },
-      { propertyName: "scale", value: "m" }
+      { propertyName: "scale", value: "m" },
     ]);
   });
 

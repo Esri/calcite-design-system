@@ -9,13 +9,13 @@ import {
   Prop,
   State,
   VNode,
-  Watch
+  Watch,
 } from "@stencil/core";
 import {
   getElementDir,
   getSlotted,
   isPrimaryPointerButton,
-  setRequestedIcon
+  setRequestedIcon,
 } from "../../utils/dom";
 import { Scale, Status, Position } from "../interfaces";
 
@@ -24,13 +24,13 @@ import {
   disconnectForm,
   FormComponent,
   HiddenFormInputSlot,
-  submitForm
+  submitForm,
 } from "../../utils/form";
 import {
   connectInteractive,
   disconnectInteractive,
   InteractiveComponent,
-  updateHostInteraction
+  updateHostInteraction,
 } from "../../utils/interactive";
 import { numberKeys } from "../../utils/key";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
@@ -38,14 +38,14 @@ import {
   componentFocusable,
   LoadableComponent,
   setComponentLoaded,
-  setUpLoadableComponent
+  setUpLoadableComponent,
 } from "../../utils/loadable";
 import {
   connectLocalized,
   disconnectLocalized,
   LocalizedComponent,
   NumberingSystem,
-  numberStringFormatter
+  numberStringFormatter,
 } from "../../utils/locale";
 
 import {
@@ -53,7 +53,7 @@ import {
   BigDecimal,
   isValidNumber,
   parseNumberString,
-  sanitizeNumberString
+  sanitizeNumberString,
 } from "../../utils/number";
 import { createObserver } from "../../utils/observers";
 import { CSS_UTILITY } from "../../utils/resources";
@@ -62,7 +62,7 @@ import {
   disconnectMessages,
   setUpMessages,
   T9nComponent,
-  updateMessages
+  updateMessages,
 } from "../../utils/t9n";
 import { InputMessages } from "./assets/input/t9n";
 import { InputPlacement, NumberNudgeDirection, SetValueOrigin } from "./interfaces";
@@ -75,7 +75,7 @@ import { CSS, INPUT_TYPE_ICONS, SLOTS } from "./resources";
   tag: "calcite-input",
   styleUrl: "input.scss",
   shadow: true,
-  assetsDirs: ["assets"]
+  assetsDirs: ["assets"],
 })
 export class Input
   implements
@@ -382,7 +382,7 @@ export class Input
             ? isValidNumber(newValue)
               ? newValue
               : this.previousValue || ""
-            : newValue
+            : newValue,
       });
       this.warnAboutInvalidNumberValue(newValue);
     }
@@ -489,7 +489,7 @@ export class Input
       this.warnAboutInvalidNumberValue(this.value);
       this.setValue({
         origin: "connected",
-        value: isValidNumber(this.value) ? this.value : ""
+        value: isValidNumber(this.value) ? this.value : "",
       });
     }
 
@@ -527,7 +527,7 @@ export class Input
     if (this.type === "number" && property === "value" && newValue && !isValidNumber(newValue)) {
       this.setValue({
         origin: "reset",
-        value: oldValue
+        value: oldValue,
       });
       return false;
     }
@@ -660,7 +660,7 @@ export class Input
       committing: true,
       nativeEvent,
       origin: "user",
-      value: finalValue
+      value: finalValue,
     });
   }
 
@@ -669,7 +669,7 @@ export class Input
       committing: true,
       nativeEvent,
       origin: "user",
-      value: ""
+      value: "",
     });
   };
 
@@ -713,7 +713,7 @@ export class Input
     this.setValue({
       nativeEvent,
       origin: "user",
-      value: (nativeEvent.target as HTMLInputElement).value
+      value: (nativeEvent.target as HTMLInputElement).value,
     });
   };
 
@@ -734,7 +734,7 @@ export class Input
     numberStringFormatter.numberFormatOptions = {
       locale: this.effectiveLocale,
       numberingSystem: this.numberingSystem,
-      useGrouping: this.groupSeparator
+      useGrouping: this.groupSeparator,
     };
     const delocalizedValue = numberStringFormatter.delocalize(value);
     if (nativeEvent.inputType === "insertFromPaste") {
@@ -744,14 +744,14 @@ export class Input
       this.setValue({
         nativeEvent,
         origin: "user",
-        value: parseNumberString(delocalizedValue)
+        value: parseNumberString(delocalizedValue),
       });
       this.childNumberEl.value = this.localizedValue;
     } else {
       this.setValue({
         nativeEvent,
         origin: "user",
-        value: delocalizedValue
+        value: delocalizedValue,
       });
     }
   };
@@ -778,7 +778,7 @@ export class Input
       "Delete",
       "Enter",
       "Escape",
-      "Tab"
+      "Tab",
     ];
     if (event.altKey || event.ctrlKey || event.metaKey) {
       return;
@@ -793,7 +793,7 @@ export class Input
     numberStringFormatter.numberFormatOptions = {
       locale: this.effectiveLocale,
       numberingSystem: this.numberingSystem,
-      useGrouping: this.groupSeparator
+      useGrouping: this.groupSeparator,
     };
     if (event.key === numberStringFormatter.decimal) {
       if (!this.value && !this.childNumberEl.value) {
@@ -870,7 +870,7 @@ export class Input
   onFormReset(): void {
     this.setValue({
       origin: "reset",
-      value: this.defaultValue
+      value: this.defaultValue,
     });
   }
 
@@ -897,7 +897,7 @@ export class Input
     if ((event.target as HTMLInputElement).name === this.name) {
       this.setValue({
         value: (event.target as HTMLInputElement).value,
-        origin: "direct"
+        origin: "direct",
       });
     }
     event.stopPropagation();
@@ -956,7 +956,7 @@ export class Input
     nativeEvent,
     origin,
     previousValue,
-    value
+    value,
   }: {
     committing?: boolean;
     nativeEvent?: MouseEvent | KeyboardEvent | InputEvent;
@@ -972,7 +972,7 @@ export class Input
         locale: this.effectiveLocale,
         numberingSystem: this.numberingSystem,
         useGrouping: this.groupSeparator,
-        signDisplay: "never"
+        signDisplay: "never",
       };
 
       const isValueDeleted =
@@ -1084,7 +1084,7 @@ export class Input
         aria-hidden="true"
         class={{
           [CSS.numberButtonItem]: true,
-          [CSS.buttonItemHorizontal]: isHorizontalNumberButton
+          [CSS.buttonItemHorizontal]: isHorizontalNumberButton,
         }}
         data-adjustment="up"
         disabled={this.disabled || this.readOnly}
@@ -1103,7 +1103,7 @@ export class Input
         aria-hidden="true"
         class={{
           [CSS.numberButtonItem]: true,
-          [CSS.buttonItemHorizontal]: isHorizontalNumberButton
+          [CSS.buttonItemHorizontal]: isHorizontalNumberButton,
         }}
         data-adjustment="down"
         disabled={this.disabled || this.readOnly}
@@ -1169,7 +1169,7 @@ export class Input
               autofocus={this.autofocus ? true : null}
               class={{
                 [CSS.editingEnabled]: this.editingEnabled,
-                [CSS.inlineChild]: !!this.inlineEditableEl
+                [CSS.inlineChild]: !!this.inlineEditableEl,
               }}
               defaultValue={this.defaultValue}
               disabled={this.disabled ? true : null}
@@ -1204,7 +1204,7 @@ export class Input
               <div class={CSS.resizeIconWrapper}>
                 <calcite-icon icon="chevron-down" scale={this.scale === "l" ? "m" : "s"} />
               </div>
-            ) : null
+            ) : null,
           ]
         : null;
 

@@ -7,7 +7,7 @@ import {
   Host,
   Listen,
   Prop,
-  VNode
+  VNode,
 } from "@stencil/core";
 import { dateToISO } from "../../utils/date";
 
@@ -16,7 +16,7 @@ import {
   connectInteractive,
   disconnectInteractive,
   InteractiveComponent,
-  updateHostInteraction
+  updateHostInteraction,
 } from "../../utils/interactive";
 import { isActivationKey } from "../../utils/key";
 import { numberStringFormatter } from "../../utils/locale";
@@ -26,7 +26,7 @@ import { Scale } from "../interfaces";
 @Component({
   tag: "calcite-date-picker-day",
   styleUrl: "date-picker-day.scss",
-  shadow: true
+  shadow: true,
 })
 export class DatePickerDay implements InteractiveComponent {
   //--------------------------------------------------------------------------
@@ -162,7 +162,7 @@ export class DatePickerDay implements InteractiveComponent {
       numberStringFormatter.numberFormatOptions = {
         useGrouping: false,
         ...(numberingSystem && { numberingSystem }),
-        ...(locale && { locale })
+        ...(locale && { locale }),
       };
     }
     const formattedDay = numberStringFormatter.localize(String(this.day));

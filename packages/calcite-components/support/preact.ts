@@ -1,7 +1,7 @@
 import {
   OutputTargetCustom,
   OutputTargetDist,
-  OutputTargetDistTypes
+  OutputTargetDistTypes,
 } from "@stencil/core/internal/stencil-public-compiler";
 import { join } from "path";
 

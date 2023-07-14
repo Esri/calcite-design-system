@@ -35,7 +35,7 @@ function createLocaleDateTimeFormatter(
     hour: "2-digit",
     minute: "2-digit",
     timeZone: "UTC",
-    numberingSystem: getSupportedNumberingSystem(numberingSystem)
+    numberingSystem: getSupportedNumberingSystem(numberingSystem),
   };
   if (includeSeconds) {
     options.second = "2-digit";
@@ -178,7 +178,7 @@ export function localizeTimeString({
   value,
   locale,
   numberingSystem,
-  includeSeconds = true
+  includeSeconds = true,
 }: LocalizeTimeStringParameters): string {
   if (!isValidTime(value)) {
     return null;
@@ -198,7 +198,7 @@ interface LocalizeTimeStringToPartsParameters {
 export function localizeTimeStringToParts({
   value,
   locale,
-  numberingSystem
+  numberingSystem,
 }: LocalizeTimeStringToPartsParameters): LocalizedTime {
   if (!isValidTime(value)) {
     return null;
@@ -216,7 +216,7 @@ export function localizeTimeStringToParts({
       localizedMinuteSuffix: getLocalizedTimePart("minuteSuffix", parts),
       localizedSecond: getLocalizedTimePart("second", parts),
       localizedSecondSuffix: getLocalizedTimePart("secondSuffix", parts),
-      localizedMeridiem: getLocalizedTimePart("meridiem", parts)
+      localizedMeridiem: getLocalizedTimePart("meridiem", parts),
     };
   }
   return null;
@@ -247,13 +247,13 @@ export function parseTimeString(value: string): Time {
     return {
       hour,
       minute,
-      second
+      second,
     };
   }
   return {
     hour: null,
     minute: null,
-    second: null
+    second: null,
   };
 }
 

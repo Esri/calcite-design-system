@@ -9,7 +9,7 @@ import {
   Prop,
   State,
   VNode,
-  Method
+  Method,
 } from "@stencil/core";
 import { slotChangeHasAssignedElement } from "../../utils/dom";
 import { CSS, ICONS, SLOTS } from "./resources";
@@ -17,7 +17,7 @@ import {
   LoadableComponent,
   componentFocusable,
   setComponentLoaded,
-  setUpLoadableComponent
+  setUpLoadableComponent,
 } from "../../utils/loadable";
 
 /**
@@ -34,7 +34,7 @@ import {
 @Component({
   tag: "calcite-navigation",
   styleUrl: "navigation.scss",
-  shadow: true
+  shadow: true,
 })
 export class CalciteNavigation implements LoadableComponent {
   //--------------------------------------------------------------------------
@@ -228,7 +228,7 @@ export class CalciteNavigation implements LoadableComponent {
             [CSS.container]: true,
             [CSS.secondary]: slotName === SLOTS.navSecondary,
             [CSS.tertiary]: slotName === SLOTS.navTertiary,
-            [CSS.primary]: primaryLevelHasElements
+            [CSS.primary]: primaryLevelHasElements,
           }}
         >
           <div class={{ [CSS.hide]: !this.progressSlotHasElement, [SLOTS.progress]: true }}>

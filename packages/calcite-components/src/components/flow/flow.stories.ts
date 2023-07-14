@@ -11,10 +11,10 @@ export default {
   parameters: {
     notes: {
       flow: readme,
-      item: itemReadme
-    }
+      item: itemReadme,
+    },
   },
-  ...storyFilters()
+  ...storyFilters(),
 };
 
 const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ exceptions } = { exceptions: [] }) => {
@@ -25,24 +25,24 @@ const createFlowItemAttributes: (group: string) => Attributes = (group) => {
   return [
     {
       name: "disabled",
-      value: boolean("disabled", false, group)
+      value: boolean("disabled", false, group),
     },
     {
       name: "heading",
-      value: text("heading", "Heading", group)
+      value: text("heading", "Heading", group),
     },
     {
       name: "loading",
-      value: boolean("loading", false, group)
+      value: boolean("loading", false, group),
     },
     {
       name: "menu-open",
-      value: boolean("menuOpen", false, group)
+      value: boolean("menuOpen", false, group),
     },
     {
       name: "description",
-      value: text("description", "Description", group)
-    }
+      value: text("description", "Description", group),
+    },
   ];
 };
 
@@ -153,7 +153,7 @@ export const darkModeRTL_TestOnly = (): string =>
     createAttributes({ exceptions: ["dir"] }).concat(
       {
         name: "class",
-        value: "calcite-mode-dark"
+        value: "calcite-mode-dark",
       },
       { name: "dir", value: "rtl" }
     ),

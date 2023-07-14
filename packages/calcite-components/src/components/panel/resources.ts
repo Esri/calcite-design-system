@@ -14,14 +14,14 @@ export const CSS = {
   contentContainer: "content-container",
   contentHeight: "content-height",
   fabContainer: "fab-container",
-  footer: "footer"
+  footer: "footer",
 };
 
 export const ICONS = {
   close: "x",
   menu: "ellipsis",
   backLeft: "chevron-left",
-  backRight: "chevron-right"
+  backRight: "chevron-right",
 };
 
 export const SLOTS = {
@@ -32,7 +32,7 @@ export const SLOTS = {
   headerContent: "header-content",
   fab: "fab",
   footer: "footer",
-  footerActions: "footer-actions"
+  footerActions: "footer-actions",
 };
 
 export const HEADING_LEVEL = 3;

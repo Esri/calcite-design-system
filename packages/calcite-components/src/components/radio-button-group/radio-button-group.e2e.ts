@@ -17,7 +17,7 @@ describe("calcite-radio-button-group", () => {
   describe("defaults", () => {
     defaults("calcite-radio-button-group", [
       { propertyName: "layout", defaultValue: "horizontal" },
-      { propertyName: "scale", defaultValue: "m" }
+      { propertyName: "scale", defaultValue: "m" },
     ]);
   });
 
@@ -107,7 +107,7 @@ describe("calcite-radio-button-group", () => {
       { propertyName: "layout", value: "horizontal" },
       { propertyName: "name", value: "reflects-name" },
       { propertyName: "required", value: true },
-      { propertyName: "scale", value: "m" }
+      { propertyName: "scale", value: "m" },
     ]);
   });
 

@@ -5,9 +5,9 @@ import { html } from "../../../support/formatting";
 export default {
   title: "Components/Navigation/Navigation",
   parameters: {
-    notes: readme
+    notes: readme,
   },
-  ...storyFilters()
+  ...storyFilters(),
 };
 
 export const simple = (): string =>

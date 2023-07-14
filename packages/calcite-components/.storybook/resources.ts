@@ -22,22 +22,22 @@ const appearanceOptions: Appearance[] = ["solid", "transparent", "outline"];
 export const ATTRIBUTES: CommonAttributes = {
   alignment: {
     values: alignmentOptions,
-    defaultValue: alignmentOptions[0]
+    defaultValue: alignmentOptions[0],
   },
   appearance: {
     values: appearanceOptions,
-    defaultValue: appearanceOptions[0]
+    defaultValue: appearanceOptions[0],
   },
   logicalFlowPosition: {
     values: logicalFlowPositionOptions,
-    defaultValue: logicalFlowPositionOptions[2]
+    defaultValue: logicalFlowPositionOptions[2],
   },
   position: {
     values: positionOptions,
-    defaultValue: positionOptions[0]
+    defaultValue: positionOptions[0],
   },
   scale: {
     values: scaleOptions,
-    defaultValue: scaleOptions[1]
-  }
+    defaultValue: scaleOptions[1],
+  },
 };

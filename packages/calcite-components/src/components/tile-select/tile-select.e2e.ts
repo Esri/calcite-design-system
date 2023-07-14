@@ -16,7 +16,7 @@ describe("calcite-tile-select", () => {
       { propertyName: "checked", defaultValue: false },
       { propertyName: "disabled", defaultValue: false },
       { propertyName: "hidden", defaultValue: false },
-      { propertyName: "width", defaultValue: "auto" }
+      { propertyName: "width", defaultValue: "auto" },
     ]);
   });
 
@@ -32,7 +32,7 @@ describe("calcite-tile-select", () => {
       { propertyName: "name", value: "my-tile-select" },
       { propertyName: "inputEnabled", value: true },
       { propertyName: "type", value: "radio" },
-      { propertyName: "width", value: "auto" }
+      { propertyName: "width", value: "auto" },
     ]);
   });
 
@@ -122,19 +122,19 @@ describe("calcite-tile-select", () => {
 
   describe("focuses calcite-checkbox when setFocus method is called", () => {
     focusable(html`<calcite-tile-select type="checkbox"></calcite-tile-select>`, {
-      focusTargetSelector: "calcite-checkbox"
+      focusTargetSelector: "calcite-checkbox",
     });
   });
 
   describe("focuses calcite-radio-button when setFocus method is called", () => {
     focusable(html`<calcite-tile-select type="radio"></calcite-tile-select>`, {
-      focusTargetSelector: "calcite-radio-button"
+      focusTargetSelector: "calcite-radio-button",
     });
   });
 
   it("emits change event on checkbox toggle and suppresses internal checkbox change event", async () => {
     const page = await newE2EPage({
-      html: html`<calcite-tile-select type="checkbox" input-enabled></calcite-tile-select>`
+      html: html`<calcite-tile-select type="checkbox" input-enabled></calcite-tile-select>`,
     });
 
     const tileSelectSpy = await page.spyOnEvent("calciteTileSelectChange");
@@ -161,7 +161,7 @@ describe("calcite-tile-select", () => {
       html: html`
         <calcite-tile-select name="change" type="radio" input-enabled value="one"></calcite-tile-select>
         <calcite-tile-select name="change" type="radio" input-enabled value="two"></calcite-tile-select>
-      `
+      `,
     });
 
     const tileSelectSpy = await page.spyOnEvent("calciteTileSelectChange");
