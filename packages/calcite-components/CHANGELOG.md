@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.5.0-next.21](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.5.0-next.20...@esri/calcite-components@1.5.0-next.21) (2023-07-14)
+
+### Bug Fixes
+
+- **dropdown-item:** provides accessible label when href is not parsed ([#7316](https://github.com/Esri/calcite-design-system/issues/7316)) ([966b83d](https://github.com/Esri/calcite-design-system/commit/966b83d9514cdc284516909983b2c6ddf4e30286)), closes [#6921](https://github.com/Esri/calcite-design-system/issues/6921)
+
 ## [1.5.0-next.20](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@1.5.0-next.19...@esri/calcite-components@1.5.0-next.20) (2023-07-12)
 
 ### Bug Fixes
