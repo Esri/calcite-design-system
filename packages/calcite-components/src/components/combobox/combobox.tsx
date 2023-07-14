@@ -1192,6 +1192,7 @@ export class Combobox
           aria-activedescendant={this.activeDescendant}
           aria-autocomplete="list"
           aria-controls={`${listboxUidPrefix}${guid}`}
+          aria-expanded={toAriaBoolean(open)}
           aria-label={getLabelText(this)}
           class={{
             input: true,
@@ -1207,6 +1208,7 @@ export class Combobox
           onFocus={this.comboboxFocusHandler}
           onInput={this.inputHandler}
           placeholder={placeholder}
+          role="combobox"
           type="text"
           // eslint-disable-next-line react/jsx-sort-props
           ref={(el) => (this.textInput = el as HTMLInputElement)}
@@ -1294,18 +1296,13 @@ export class Combobox
   }
 
   render(): VNode {
-    const { guid, label, open } = this;
+    const { guid, open } = this;
     const single = this.selectionMode === "single";
     const isClearable = !this.clearDisabled && this.value?.length > 0;
 
     return (
       <Host onClick={this.comboboxFocusHandler}>
         <div
-          aria-autocomplete="list"
-          aria-controls={`${listboxUidPrefix}${guid}`}
-          aria-expanded={toAriaBoolean(open)}
-          aria-haspopup="listbox"
-          aria-label={getLabelText(this)}
           aria-live="polite"
           aria-owns={`${listboxUidPrefix}${guid}`}
           class={{
@@ -1315,20 +1312,12 @@ export class Combobox
           }}
           onClick={this.clickHandler}
           onKeyDown={this.keyDownHandler}
-          role="combobox"
           // eslint-disable-next-line react/jsx-sort-props
           ref={this.setReferenceEl}
         >
           <div class="grid-input">
             {this.renderIconStart()}
             {!single && this.renderChips()}
-            <label
-              class="screen-readers-only"
-              htmlFor={`${inputUidPrefix}${guid}`}
-              id={`${labelUidPrefix}${guid}`}
-            >
-              {label}
-            </label>
             {this.renderInput()}
           </div>
           {isClearable ? (
