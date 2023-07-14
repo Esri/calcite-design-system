@@ -3,7 +3,7 @@ import { containsCrossShadowBoundary } from "./dom";
 const sortableComponentSet = new Set<SortableComponent>();
 const inactiveSortableComponentSet = new WeakSet<SortableComponent>();
 
-export interface CanDragEvent {
+export interface DragEvent {
   toEl: HTMLElement;
   fromEl: HTMLElement;
   dragEl: HTMLElement;
@@ -46,12 +46,12 @@ export interface SortableComponent {
   /**
    * Whether the element can  move from the list.
    */
-  dragCanPull: (event: CanDragEvent) => boolean;
+  dragCanPull: (event: DragEvent) => boolean;
 
   /**
    * Whether the element can be added from another list.
    */
-  dragCanPut: (event: CanDragEvent) => boolean;
+  dragCanPut: (event: DragEvent) => boolean;
 
   /**
    * Called by any change to the list (add / update / remove).

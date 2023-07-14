@@ -62,7 +62,7 @@ import { ValueListMessages } from "./assets/value-list/t9n";
 import { CSS, ICON_TYPES } from "./resources";
 import { getHandleAndItemElement, getScreenReaderText } from "./utils";
 import {
-  CanDragEvent,
+  DragEvent,
   connectSortableComponent,
   disconnectSortableComponent,
   SortableComponent
@@ -103,12 +103,12 @@ export class ValueList<
   /**
    * When provided, the method will be called to determine whether the element can  move from the list.
    */
-  @Prop() dragCanPull: (event: CanDragEvent) => boolean;
+  @Prop() dragCanPull: (event: DragEvent) => boolean;
 
   /**
    * When provided, the method will be called to determine whether the element can be added from another list.
    */
-  @Prop() dragCanPut: (event: CanDragEvent) => boolean;
+  @Prop() dragCanPut: (event: DragEvent) => boolean;
 
   /**
    * When `true`, `calcite-value-list-item`s are sortable via a draggable button.

@@ -27,7 +27,7 @@ import { MAX_COLUMNS } from "../list-item/resources";
 import { getListItemChildren, updateListItemChildren } from "../list-item/utils";
 import { CSS, debounceTimeout, SelectionAppearance, SLOTS } from "./resources";
 import {
-  CanDragEvent,
+  DragEvent,
   connectSortableComponent,
   disconnectSortableComponent,
   SortableComponent
@@ -35,6 +35,7 @@ import {
 import { SLOTS as STACK_SLOTS } from "../stack/resources";
 
 const listItemSelector = "calcite-list-item";
+const listItemSelectorDirect = `:scope > calcite-list-item`;
 const parentSelector = "calcite-list-item-group, calcite-list-item";
 
 import {
@@ -45,7 +46,6 @@ import {
 } from "../../utils/loadable";
 
 // todo: keyboard nav sorting
-// todo: disable child list functionality
 
 /**
  * A general purpose list that enables users to construct list items that conform to Calcite styling.
@@ -74,12 +74,12 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
   /**
    * When provided, the method will be called to determine whether the element can  move from the list.
    */
-  @Prop() dragCanPull: (event: CanDragEvent) => boolean;
+  @Prop() dragCanPull: (event: DragEvent) => boolean;
 
   /**
    * When provided, the method will be called to determine whether the element can be added from another list.
    */
-  @Prop() dragCanPut: (event: CanDragEvent) => boolean;
+  @Prop() dragCanPut: (event: DragEvent) => boolean;
 
   /**
    * When `true`, `calcite-list-item`s are sortable via a draggable button.
@@ -192,12 +192,14 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
   /**
    * Emitted when the order of the list has changed.
    */
-  @Event({ cancelable: false }) calciteListOrderChange: EventEmitter<
-    Pick<Sortable.SortableEvent, "to" | "from" | "item" | "items">
-  >;
+  @Event({ cancelable: false }) calciteListOrderChange: EventEmitter<DragEvent>;
 
   @Listen("calciteInternalFocusPreviousItem")
   handleCalciteInternalFocusPreviousItem(event: CustomEvent): void {
+    if (this.isChildList) {
+      return;
+    }
+
     event.stopPropagation();
 
     const { enabledListItems } = this;
@@ -212,6 +214,10 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
 
   @Listen("calciteInternalListItemActive")
   handleCalciteInternalListItemActive(event: CustomEvent): void {
+    if (this.isChildList) {
+      return;
+    }
+
     event.stopPropagation();
     const target = event.target as HTMLCalciteListItemElement;
     const { listItems } = this;
@@ -223,11 +229,19 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
 
   @Listen("calciteListItemSelect")
   handleCalciteListItemSelect(): void {
+    if (this.isChildList) {
+      return;
+    }
+
     this.updateSelectedItems(true);
   }
 
   @Listen("calciteInternalListItemSelect")
   handleCalciteInternalListItemSelect(event: CustomEvent): void {
+    if (this.isChildList) {
+      return;
+    }
+
     event.stopPropagation();
     const target = event.target as HTMLCalciteListItemElement;
     const { listItems, selectionMode } = this;
@@ -241,6 +255,10 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
 
   @Listen("calciteInternalListItemChange")
   handleCalciteInternalListItemChange(event: CustomEvent): void {
+    if (this.isChildList) {
+      return;
+    }
+
     event.stopPropagation();
     this.updateListItems(true);
   }
@@ -256,6 +274,7 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
     this.updateListItems();
     this.setUpSorting();
     connectInteractive(this);
+    this.isChildList = !!this.el.closest("calcite-list");
   }
 
   disconnectedCallback(): void {
@@ -303,6 +322,8 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
   @State() hasFilterActionsEnd = false;
 
   filterEl: HTMLCalciteFilterElement;
+
+  isChildList = false;
 
   // --------------------------------------------------------------------------
   //
@@ -418,13 +439,12 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
   onDragSort(event: SortableEvent): void {
     this.updateListItems();
 
-    const { from, item, items, to } = event;
+    const { from, item, to } = event;
 
     this.calciteListOrderChange.emit({
-      from,
-      item,
-      items,
-      to
+      dragEl: item,
+      fromEl: from,
+      toEl: to
     });
   }
 
@@ -564,6 +584,20 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
 
   private updateListItems = debounce((emit = false): void => {
     const { selectionAppearance, selectionMode, dragEnabled } = this;
+
+    if (this.isChildList) {
+      const items = this.queryListItems(true);
+
+      items.forEach((item) => {
+        item.selectionAppearance = selectionAppearance;
+        item.selectionMode = selectionMode;
+        item.dragHandle = dragEnabled;
+      });
+
+      this.setUpSorting();
+      return;
+    }
+
     const items = this.queryListItems();
     items.forEach((item) => {
       item.selectionAppearance = selectionAppearance;
@@ -584,8 +618,8 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
     this.setUpSorting();
   }, debounceTimeout);
 
-  private queryListItems = (): HTMLCalciteListItemElement[] => {
-    return Array.from(this.el.querySelectorAll(listItemSelector));
+  private queryListItems = (direct = false): HTMLCalciteListItemElement[] => {
+    return Array.from(this.el.querySelectorAll(direct ? listItemSelectorDirect : listItemSelector));
   };
 
   private focusRow = (focusEl: HTMLCalciteListItemElement): void => {
@@ -611,7 +645,7 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
   };
 
   private handleListKeydown = (event: KeyboardEvent): void => {
-    if (event.defaultPrevented) {
+    if (event.defaultPrevented || this.isChildList) {
       return;
     }
 
