@@ -84,10 +84,8 @@ export function accessible(componentTestSetup: ComponentTestSetup): void {
  *
  * @param {string} componentTagOrHTML - the component tag or HTML markup to test against
  * @param {object} options - additional options to assert
- * @param {string} employee.visible - is the component visible
- * @param {string} employee.display - is the component's display "inline"
- * @param options.visible
- * @param options.display
+ * @param {string} options.visible - is the component visible
+ * @param {string} options.display - is the component's display "inline"
  */
 export async function renders(
   componentTagOrHTML: TagOrHTML,
@@ -918,7 +916,7 @@ async function getTagAndPage(componentTestSetup: ComponentTestSetup): Promise<Ta
  * });
  *
  * @param {ComponentTestSetup} componentTestSetup - A component tag, html, or the tag and e2e page for setting up a test.
- * @param {DisabledOptions} [options={ focusTarget: "host" }] - Disabled options.
+ * @param {DisabledOptions} [options] - Disabled options.
  */
 export function disabled(
   componentTestSetup: ComponentTestSetup,
@@ -1155,10 +1153,10 @@ export function disabled(
  *  )
  * });
  *
- * @param componentTagOrHTML - The component tag or HTML markup to test against.
- * @param togglePropName - The component property that toggles the floating-ui.
- * @param options - The floating-ui owner test configuration.
- * @param options.shadowSelector
+ * @param {TagOrHTML} componentTagOrHTML - The component tag or HTML markup to test against.
+ * @param {string} togglePropName - The component property that toggles the floating-ui.
+ * @param [options] - additional options for asserting focus
+ * @param {string} [options.shadowSelector] - The selector in the shadow DOM for the floating-ui element.
  */
 export function floatingUIOwner(
   componentTagOrHTML: TagOrHTML,

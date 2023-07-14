@@ -174,7 +174,7 @@ describe("expandExponentialNumberString", () => {
 });
 
 describe("addLocalizedTrailingDecimalZeros", () => {
-  function getLocalizedDeimalValue(value: string, trailingZeros: number): String {
+  function getLocalizedDeimalValue(value: string, trailingZeros: number): string {
     const localizedValue = numberStringFormatter.localize(value);
     const localizedZeroValue = numberStringFormatter.localize("0");
     return `${localizedValue}`.padEnd(localizedValue.length + trailingZeros, localizedZeroValue);
