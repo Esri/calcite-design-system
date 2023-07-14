@@ -199,11 +199,7 @@ export class InputTimePicker
       })
     );
     if (Build.isTesting) {
-      document.dispatchEvent(
-        new CustomEvent("calciteInternalInputTimePickerLangUpdated", {
-          detail: this.effectiveLocale
-        })
-      );
+      document.dispatchEvent(new CustomEvent("calciteInternalInputTimePickerLangUpdated"));
     }
   }
 
