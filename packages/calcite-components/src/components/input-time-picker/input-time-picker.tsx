@@ -183,27 +183,6 @@ export class InputTimePicker
   @Prop({ reflect: true }) disabled = false;
 
   /**
-   * @internal
-   */
-  @Prop({ mutable: true }) effectiveLocale = "";
-
-  @Watch("effectiveLocale")
-  async effectiveLocaleWatcher(locale: SupportedLocales): Promise<void> {
-    await this.loadDateTimeLocaleData();
-    this.setInputValue(
-      localizeTimeString({
-        value: this.value,
-        locale,
-        numberingSystem: this.numberingSystem,
-        includeSeconds: this.shouldIncludeSeconds()
-      })
-    );
-    if (Build.isTesting) {
-      document.dispatchEvent(new CustomEvent("calciteInternalInputTimePickerLangUpdated"));
-    }
-  }
-
-  /**
    * When `true`, prevents focus trapping.
    */
   @Prop({ reflect: true }) focusTrapDisabled = false;
@@ -363,6 +342,24 @@ export class InputTimePicker
   //--------------------------------------------------------------------------
 
   @State() defaultMessages: InputTimePickerMessages;
+
+  @State() effectiveLocale = "";
+
+  @Watch("effectiveLocale")
+  async effectiveLocaleWatcher(locale: SupportedLocales): Promise<void> {
+    await this.loadDateTimeLocaleData();
+    this.setInputValue(
+      localizeTimeString({
+        value: this.value,
+        locale,
+        numberingSystem: this.numberingSystem,
+        includeSeconds: this.shouldIncludeSeconds()
+      })
+    );
+    if (Build.isTesting) {
+      document.dispatchEvent(new CustomEvent("calciteInternalInputTimePickerLangUpdated"));
+    }
+  }
 
   //--------------------------------------------------------------------------
   //
