@@ -196,7 +196,7 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
 
   @Listen("calciteInternalFocusPreviousItem")
   handleCalciteInternalFocusPreviousItem(event: CustomEvent): void {
-    if (this.isChildList) {
+    if (this.parentListEl) {
       return;
     }
 
@@ -214,7 +214,7 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
 
   @Listen("calciteInternalListItemActive")
   handleCalciteInternalListItemActive(event: CustomEvent): void {
-    if (this.isChildList) {
+    if (!!this.parentListEl) {
       return;
     }
 
@@ -229,7 +229,7 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
 
   @Listen("calciteListItemSelect")
   handleCalciteListItemSelect(): void {
-    if (this.isChildList) {
+    if (!!this.parentListEl) {
       return;
     }
 
@@ -238,7 +238,7 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
 
   @Listen("calciteInternalListItemSelect")
   handleCalciteInternalListItemSelect(event: CustomEvent): void {
-    if (this.isChildList) {
+    if (!!this.parentListEl) {
       return;
     }
 
@@ -255,7 +255,7 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
 
   @Listen("calciteInternalListItemChange")
   handleCalciteInternalListItemChange(event: CustomEvent): void {
-    if (this.isChildList) {
+    if (!!this.parentListEl) {
       return;
     }
 
@@ -274,7 +274,7 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
     this.updateListItems();
     this.setUpSorting();
     connectInteractive(this);
-    this.isChildList = !!this.el.closest("calcite-list");
+    this.parentListEl = this.el.closest("calcite-list");
   }
 
   disconnectedCallback(): void {
@@ -323,7 +323,7 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
 
   filterEl: HTMLCalciteFilterElement;
 
-  isChildList = false;
+  parentListEl: HTMLCalciteListElement;
 
   // --------------------------------------------------------------------------
   //
@@ -585,7 +585,7 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
   private updateListItems = debounce((emit = false): void => {
     const { selectionAppearance, selectionMode, dragEnabled } = this;
 
-    if (this.isChildList) {
+    if (!!this.parentListEl) {
       const items = this.queryListItems(true);
 
       items.forEach((item) => {
@@ -645,7 +645,7 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
   };
 
   private handleListKeydown = (event: KeyboardEvent): void => {
-    if (event.defaultPrevented || this.isChildList) {
+    if (event.defaultPrevented || !!this.parentListEl) {
       return;
     }
 
