@@ -1,7 +1,7 @@
 import { createFocusTrap, FocusTrap as _FocusTrap, Options as FocusTrapOptions } from "focus-trap";
 import { FocusableElement, focusElement, tabbableOptions } from "./dom";
-
-const trapStack: _FocusTrap[] = [];
+import config from "../core/config";
+const { trapStack } = config;
 
 /**
  * Defines interface for components with a focus trap. Focusable content is required for components implementing focus trapping with this interface.
