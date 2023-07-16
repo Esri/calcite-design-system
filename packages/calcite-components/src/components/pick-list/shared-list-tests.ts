@@ -29,7 +29,7 @@ export function keyboardNavigation(listType: ListType): void {
           <calcite-${listType}-list-item value="two" label="Two"></calcite-${listType}-list-item>
           <calcite-${listType}-list-item disabled value="three" label="Three (disabled)"></calcite-${listType}-list-item>
         </calcite-${listType}-list>
-      `
+      `,
       });
       const list = await page.find(`calcite-${listType}-list`);
       await list.callMethod("setFocus");
@@ -86,7 +86,7 @@ export function keyboardNavigation(listType: ListType): void {
           <calcite-${listType}-list-item id="one" value="one" label="One"></calcite-${listType}-list-item>
           <calcite-${listType}-list-item id="two" value="two" label="Two"></calcite-${listType}-list-item>
         </calcite-${listType}-list>
-      `
+      `,
         });
         const list = await page.find(`calcite-${listType}-list`);
         const firstItem = await page.find("#one");
@@ -143,7 +143,7 @@ export function keyboardNavigation(listType: ListType): void {
           <calcite-${listType}-list-item value="one" label="One"></calcite-${listType}-list-item>
           <calcite-${listType}-list-item value="two" label="Two"></calcite-${listType}-list-item>
         </calcite-${listType}-list>
-      `
+      `,
         });
         const list = await page.find(`calcite-${listType}-list`);
 
@@ -185,7 +185,7 @@ export function keyboardNavigation(listType: ListType): void {
           <calcite-${listType}-list-item value="one" label="One" selected></calcite-${listType}-list-item>
           <calcite-${listType}-list-item value="two" label="Two"></calcite-${listType}-list-item>
         </calcite-${listType}-list>
-      `
+      `,
       });
       const list = await page.find(`calcite-${listType}-list`);
       expect(await list.getProperty("filteredItems")).toHaveLength(1);
@@ -200,7 +200,7 @@ export function keyboardNavigation(listType: ListType): void {
           <calcite-${listType}-list-item value="one" label="One" selected></calcite-${listType}-list-item>
           <calcite-${listType}-list-item value="two" label="Two"></calcite-${listType}-list-item>
         </calcite-${listType}-list>
-      `
+      `,
       });
       const list = await page.find(`calcite-${listType}-list`);
       expect(await list.getProperty("filteredItems")).toHaveLength(2);
@@ -406,7 +406,7 @@ export function selectionAndDeselection(listType: ListType): void {
         const detail = (window as any).eventDetail;
         return {
           size: detail.size,
-          hasItem: detail.has("example")
+          hasItem: detail.has("example"),
         };
       });
       const properties = await eventDetail.getProperties();
@@ -463,7 +463,7 @@ export function selectionAndDeselection(listType: ListType): void {
 
         return {
           four: result.has("four"),
-          one: result.has("one")
+          one: result.has("one"),
         };
       }, listType);
 
@@ -587,7 +587,7 @@ export function itemRemoval(listType: ListType): void {
         ${listType === "value" ? "" : pickListGroupHtml}
         <calcite-${listType}-list-item value="remove-me" label="Remove me!" removable></calcite-${listType}-list-item>
       </calcite-${listType}-list>
-    `
+    `,
     });
     const list = await page.find(`calcite-${listType}-list`);
     const removeItemSpy = await list.spyOnEvent("calciteListItemRemove");
@@ -631,7 +631,7 @@ export function focusing(listType: ListType): void {
       `,
       {
         focusId: "filter",
-        shadowFocusTargetSelector: "calcite-filter"
+        shadowFocusTargetSelector: "calcite-filter",
       }
     );
   });
@@ -647,7 +647,7 @@ export function disabling(listType: ListType): void {
       </calcite-${listType}-list>
     `,
       {
-        focusTarget: "child"
+        focusTarget: "child",
       }
     );
   });

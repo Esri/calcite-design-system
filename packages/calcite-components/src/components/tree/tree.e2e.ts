@@ -21,16 +21,16 @@ describe("calcite-tree", () => {
     defaults("calcite-tree", [
       {
         propertyName: "lines",
-        defaultValue: false
+        defaultValue: false,
       },
       {
         propertyName: "scale",
-        defaultValue: "m"
+        defaultValue: "m",
       },
       {
         propertyName: "selectionMode",
-        defaultValue: "single"
-      }
+        defaultValue: "single",
+      },
     ]);
   });
 
@@ -41,7 +41,7 @@ describe("calcite-tree", () => {
           <calcite-tree-item id="one">1</calcite-tree-item>
           <calcite-tree-item id="two" selected>2</calcite-tree-item>
           <calcite-tree-item id="three">3</calcite-tree-item>
-        </calcite-tree>`
+        </calcite-tree>`,
       });
 
       await page.keyboard.press("Tab");
@@ -55,7 +55,7 @@ describe("calcite-tree", () => {
           <calcite-tree-item id="one">1</calcite-tree-item>
           <calcite-tree-item id="two">2</calcite-tree-item>
           <calcite-tree-item id="three">3</calcite-tree-item>
-        </calcite-tree>`
+        </calcite-tree>`,
       });
 
       await page.keyboard.press("Tab");
@@ -72,7 +72,7 @@ describe("calcite-tree", () => {
       const page = await newE2EPage({
         html: html` <calcite-tree>
           <calcite-tree-item id="one">1</calcite-tree-item>
-        </calcite-tree>`
+        </calcite-tree>`,
       });
 
       await page.keyboard.press("Tab");
@@ -223,7 +223,7 @@ describe("calcite-tree", () => {
             </calcite-tree>
           </calcite-tree-item>
           <calcite-tree-item disabled id="three"><span>Three</span></calcite-tree-item>
-        </calcite-tree>`
+        </calcite-tree>`,
       });
 
       const tree = await page.find("calcite-tree");
@@ -263,7 +263,7 @@ describe("calcite-tree", () => {
               </calcite-tree-item>
             </calcite-tree>
           </calcite-tree-item>
-        </calcite-tree>`
+        </calcite-tree>`,
       });
 
       await page.waitForChanges();
@@ -324,7 +324,7 @@ describe("calcite-tree", () => {
           html: html` <calcite-tree selection-mode="multiple">
             <calcite-tree-item id="1">1</calcite-tree-item>
             <calcite-tree-item id="2">2</calcite-tree-item>
-          </calcite-tree>`
+          </calcite-tree>`,
         });
 
         const tree = await page.find("calcite-tree");
@@ -389,7 +389,7 @@ describe("calcite-tree", () => {
       const page = await newE2EPage({
         html: html`<calcite-tree selection-mode="ancestors">
           <calcite-tree-item>1</calcite-tree-item>
-        </calcite-tree>`
+        </calcite-tree>`,
       });
 
       const tree = await page.find("calcite-tree");
@@ -411,7 +411,7 @@ describe("calcite-tree", () => {
             <calcite-tree-item>1</calcite-tree-item>
             <calcite-tree-item>2</calcite-tree-item>
           </calcite-tree>
-          `
+          `,
         });
         const checkbox = await page.find(
           `calcite-tree-item >>> .${CSS.nodeContainer} .${CSS.checkboxLabel} .${CSS.checkbox}`
@@ -466,7 +466,7 @@ describe("calcite-tree", () => {
               </calcite-tree>
             </calcite-tree-item>
           </calcite-tree>
-        </div>`
+        </div>`,
       });
 
       const container = await page.find("#container");
@@ -499,7 +499,7 @@ describe("calcite-tree", () => {
               </calcite-tree>
             </calcite-tree-item>
           </calcite-tree>
-        </div>`
+        </div>`,
       });
 
       const container = await page.find("#container");
@@ -532,7 +532,7 @@ describe("calcite-tree", () => {
               </calcite-tree>
             </calcite-tree-item>
           </calcite-tree>
-        </div>`
+        </div>`,
       });
 
       const container = await page.find("#container");
@@ -593,7 +593,7 @@ describe("calcite-tree", () => {
               </calcite-tree>
             </calcite-tree-item>
           </calcite-tree>
-        </div>`
+        </div>`,
       });
 
       const parentEl = await page.find(`#${parent}`);
@@ -707,7 +707,7 @@ describe("calcite-tree", () => {
               <span>Root Item 3</span>
             </calcite-tree-item>
           </calcite-tree>
-        </div>`
+        </div>`,
       });
 
       const container = await page.find("#container");

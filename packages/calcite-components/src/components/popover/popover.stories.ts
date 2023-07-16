@@ -22,10 +22,10 @@ export default {
   parameters: {
     notes: [readme],
     chromatic: {
-      delay: 500
-    }
+      delay: 500,
+    },
   },
-  ...storyFilters()
+  ...storyFilters(),
 };
 
 export const simple = (): string => html`
@@ -97,7 +97,7 @@ export const nested = (): string => html`
 `;
 
 nested.parameters = {
-  chromatic: { delay: 1500 }
+  chromatic: { delay: 1500 },
 };
 
 export const flipPlacements_TestOnly = (): string => html`

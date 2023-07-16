@@ -5,7 +5,7 @@ import {
   Attributes,
   createComponentHTML as create,
   filterComponentAttributes,
-  modesDarkDefault
+  modesDarkDefault,
 } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import groupReadme from "../pick-list-group/readme.md";
@@ -15,9 +15,9 @@ import readme from "./readme.md";
 export default {
   title: "Components/Pick List",
   parameters: {
-    notes: [readme, itemReadme, groupReadme]
+    notes: [readme, itemReadme, groupReadme],
   },
-  ...storyFilters()
+  ...storyFilters(),
 };
 
 const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ exceptions } = { exceptions: [] }) => {
@@ -29,7 +29,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
           this.value = boolean("disabled", false);
           delete this.build;
           return this;
-        }
+        },
       },
       {
         name: "filter-enabled",
@@ -37,7 +37,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
           this.value = boolean("filterEnabled", false);
           delete this.build;
           return this;
-        }
+        },
       },
       {
         name: "loading",
@@ -45,7 +45,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
           this.value = boolean("loading", false);
           delete this.build;
           return this;
-        }
+        },
       },
       {
         name: "multiple",
@@ -53,7 +53,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
           this.value = boolean("multiple", false);
           delete this.build;
           return this;
-        }
+        },
       },
       {
         name: "selection-follows-focus",
@@ -61,8 +61,8 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
           this.value = boolean("selection-follows-focus", false);
           delete this.build;
           return this;
-        }
-      }
+        },
+      },
     ],
     exceptions
   );
@@ -100,12 +100,12 @@ export const darkModeRTL_TestOnly = (): string =>
     createAttributes({ exceptions: ["dir", "class"] }).concat([
       {
         name: "dir",
-        value: "rtl"
+        value: "rtl",
       },
       {
         name: "class",
-        value: "calcite-mode-dark"
-      }
+        value: "calcite-mode-dark",
+      },
     ]),
     html`
       <calcite-pick-list-item label="T. Rex" description="arm strength impaired" value="trex">

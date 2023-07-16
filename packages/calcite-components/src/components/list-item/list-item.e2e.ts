@@ -9,7 +9,7 @@ describe("calcite-list-item", () => {
 
   describe("is focusable", () => {
     focusable("<calcite-list-item active></calcite-list-item>", {
-      shadowFocusTargetSelector: `.${CSS.container}`
+      shadowFocusTargetSelector: `.${CSS.container}`,
     });
   });
 
@@ -21,28 +21,28 @@ describe("calcite-list-item", () => {
     defaults("calcite-list-item", [
       {
         propertyName: "description",
-        defaultValue: undefined
+        defaultValue: undefined,
       },
       {
         propertyName: "disabled",
-        defaultValue: false
+        defaultValue: false,
       },
       {
         propertyName: "label",
-        defaultValue: undefined
+        defaultValue: undefined,
       },
       {
         propertyName: "selected",
-        defaultValue: false
+        defaultValue: false,
       },
       {
         propertyName: "value",
-        defaultValue: undefined
+        defaultValue: undefined,
       },
       {
         propertyName: "open",
-        defaultValue: false
-      }
+        defaultValue: false,
+      },
     ]);
   });
 
@@ -80,7 +80,7 @@ describe("calcite-list-item", () => {
 
   it("renders custom content in place of label and description", async () => {
     const page = await newE2EPage({
-      html: `<calcite-list-item label="test" description="test"><div slot="content">My custom content</div></calcite-list-item>`
+      html: `<calcite-list-item label="test" description="test"><div slot="content">My custom content</div></calcite-list-item>`,
     });
 
     await page.waitForChanges();
@@ -96,7 +96,7 @@ describe("calcite-list-item", () => {
 
   it("emits calciteListItemSelect on Enter", async () => {
     const page = await newE2EPage({
-      html: `<calcite-list-item selection-mode="single" label="hello" description="world" active></calcite-list-item>`
+      html: `<calcite-list-item selection-mode="single" label="hello" description="world" active></calcite-list-item>`,
     });
 
     await page.waitForChanges();
@@ -113,7 +113,7 @@ describe("calcite-list-item", () => {
 
   it("emits calciteListItemSelect on click", async () => {
     const page = await newE2EPage({
-      html: `<calcite-list-item selection-mode="single" label="hello" description="world"></calcite-list-item>`
+      html: `<calcite-list-item selection-mode="single" label="hello" description="world"></calcite-list-item>`,
     });
 
     await page.waitForChanges();
@@ -129,7 +129,7 @@ describe("calcite-list-item", () => {
 
   it("emits calciteListItemSelect on click when selectionMode is none", async () => {
     const page = await newE2EPage({
-      html: `<calcite-list-item selection-mode="none" label="hello" description="world"></calcite-list-item>`
+      html: `<calcite-list-item selection-mode="none" label="hello" description="world"></calcite-list-item>`,
     });
 
     await page.waitForChanges();
@@ -147,7 +147,7 @@ describe("calcite-list-item", () => {
     const page = await newE2EPage({
       html: `<calcite-list-item selection-mode="single" label="hello" description="world">
       <div slot="content">Hi</div>
-      </calcite-list-item>`
+      </calcite-list-item>`,
     });
 
     await page.waitForChanges();
@@ -170,7 +170,7 @@ describe("calcite-list-item", () => {
 
   it("emits calciteInternalListItemActive on click", async () => {
     const page = await newE2EPage({
-      html: `<calcite-list-item selection-mode="none" label="hello" description="world"></calcite-list-item>`
+      html: `<calcite-list-item selection-mode="none" label="hello" description="world"></calcite-list-item>`,
     });
 
     await page.waitForChanges();

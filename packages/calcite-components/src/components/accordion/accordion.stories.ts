@@ -3,7 +3,7 @@ import {
   Attributes,
   filterComponentAttributes,
   createComponentHTML as create,
-  modesDarkDefault
+  modesDarkDefault,
 } from "../../../.storybook/utils";
 import { placeholderImage } from "../../../.storybook/placeholderImage";
 import { ATTRIBUTES } from "../../../.storybook/resources";
@@ -18,13 +18,13 @@ export default {
   parameters: {
     notes: {
       accordion: accordionReadme,
-      accordionItem: accordionItemReadme
+      accordionItem: accordionItemReadme,
     },
     backgrounds: {
-      values: [{ name: "transparent", value: "#0000ffff" }]
-    }
+      values: [{ name: "transparent", value: "#0000ffff" }],
+    },
   },
-  ...storyFilters()
+  ...storyFilters(),
 };
 
 const createAccordionAttributes: (options?: { exceptions: string[] }) => Attributes = (
@@ -41,7 +41,7 @@ const createAccordionAttributes: (options?: { exceptions: string[] }) => Attribu
           this.value = select("scale", scale.values, scale.defaultValue, group);
           delete this.build;
           return this;
-        }
+        },
       },
       {
         name: "appearance",
@@ -49,7 +49,7 @@ const createAccordionAttributes: (options?: { exceptions: string[] }) => Attribu
           this.value = select("appearance", ["solid", "transparent"], "solid", group);
           delete this.build;
           return this;
-        }
+        },
       },
       {
         name: "selection-mode",
@@ -57,8 +57,8 @@ const createAccordionAttributes: (options?: { exceptions: string[] }) => Attribu
           this.value = select("selection-mode", ["single", "single-persist", "multiple"], "multiple", group);
           delete this.build;
           return this;
-        }
-      }
+        },
+      },
     ],
     exceptions
   );
@@ -74,23 +74,23 @@ const createAccordionItemAttributes: (options?: {
     { name: "heading", value: text("heading", "Heading", group) },
     {
       name: "description",
-      value: text("description", "Description for item", group)
+      value: text("description", "Description for item", group),
     },
     {
       name: "icon-start",
-      value: select("icon-start", ["", ...iconNames], props?.iconStart || "", group)
+      value: select("icon-start", ["", ...iconNames], props?.iconStart || "", group),
     },
     {
       name: "icon-end",
-      value: select("icon-end", ["", ...iconNames], props?.iconEnd || "", group)
-    }
+      value: select("icon-end", ["", ...iconNames], props?.iconEnd || "", group),
+    },
   ];
   return defaultAttributes;
 };
 
 const accordionItemContent = `Custom content here<br/><img src="${placeholderImage({
   width: 200,
-  height: 133
+  height: 133,
 })}"><br/>More custom content here`;
 
 export const simple = (): string =>
@@ -117,7 +117,7 @@ export const simple = (): string =>
         "calcite-accordion-item",
         createAccordionItemAttributes({ group: "accordion-item-4" }).concat({
           name: "expanded",
-          value: true
+          value: true,
         }),
         accordionItemContent
       )}
@@ -153,11 +153,11 @@ export const darkModeRTL_TestOnly = (): string =>
     createAccordionAttributes({ exceptions: ["class", "dir"] }).concat(
       {
         name: "class",
-        value: "calcite-mode-dark"
+        value: "calcite-mode-dark",
       },
       {
         name: "dir",
-        value: "rtl"
+        value: "rtl",
       }
     ),
     html`
@@ -180,7 +180,7 @@ export const darkModeRTL_TestOnly = (): string =>
         "calcite-accordion-item",
         createAccordionItemAttributes({ iconStart: "banana", group: "accordion-item-4" }).concat({
           name: "expanded",
-          value: true
+          value: true,
         }),
         accordionItemContent
       )}
@@ -194,7 +194,7 @@ export const transparentAppearance_TestOnly = (): string =>
     "calcite-accordion",
     createAccordionAttributes({ exceptions: ["appearance"] }).concat({
       name: "appearance",
-      value: "transparent"
+      value: "transparent",
     }),
     html`
       ${create(
@@ -216,7 +216,7 @@ export const transparentAppearance_TestOnly = (): string =>
         "calcite-accordion-item",
         createAccordionItemAttributes({ group: "accordion-item-4" }).concat({
           name: "expanded",
-          value: true
+          value: true,
         }),
         accordionItemContent
       )}
@@ -228,14 +228,14 @@ export const withIconStartAndEnd_TestOnly = (): string =>
     "calcite-accordion",
     createAccordionAttributes({ exceptions: ["appearance"] }).concat({
       name: "appearance",
-      value: "transparent"
+      value: "transparent",
     }),
     html`
       ${create(
         "calcite-accordion-item",
         createAccordionItemAttributes({ group: "accordion-item-1", iconStart: "banana" }).concat({
           name: "expanded",
-          value: true
+          value: true,
         }),
         accordionItemContent
       )}
@@ -254,10 +254,10 @@ export const withIconStartAndEnd_TestOnly = (): string =>
         createAccordionItemAttributes({
           group: "accordion-item-4",
           iconStart: "biking",
-          iconEnd: "biking"
+          iconEnd: "biking",
         }).concat({
           name: "expanded",
-          value: true
+          value: true,
         }),
         accordionItemContent
       )}
@@ -271,20 +271,20 @@ const iconHeaderUseCasesArr: { icon: string; heading: string; description: strin
     icon: "embark",
     heading:
       "Embark_title_is_super_long_what_do_we_do_now_Watercraft_title_is_super_long_what_do_we_do_now_Watercraft_title_is_super_long_what_do_we_do_now_Watercraft_title_is_super_long_what_do_we_do_now_Watercraft_title_is_super_long_what_do_we_do_now_Watercraft_title_is_super_long_what_do_we_do_now_Watercraft_title_is_super_long_what_do_we_do_now_Watercraft_title_is_super_long_what_do_we_do_now_Watercraft_title_is_super_long_what_do_we_do_now_Watercraft_title_is_super_long_what_do_we_do_now_Watercraft_title_is_super_long_what_do_we_do_now_",
-    description: "Extra long heading with underscores and icons m /scale l"
+    description: "Extra long heading with underscores and icons m /scale l",
   },
   {
     icon: "car",
     heading: "Extra long description with underscores and icons m /scale l",
     description:
-      "Car_title_is_super_long_what_do_we_do_now_Watercraft_title_is_super_long_what_do_we_do_now_Watercraft_title_is_super_long_what_do_we_do_now_Watercraft_title_is_super_long_what_do_we_do_now_Watercraft_title_is_super_long_what_do_we_do_now_Watercraft_title_is_super_long_what_do_we_do_now_Watercraft_title_is_super_long_what_do_we_do_now_Watercraft_title_is_super_long_what_do_we_do_now_Watercraft_title_is_super_long_what_do_we_do_now_Watercraft_title_is_super_long_what_do_we_do_now_Watercraft_title_is_super_long_what_do_we_do_now_"
+      "Car_title_is_super_long_what_do_we_do_now_Watercraft_title_is_super_long_what_do_we_do_now_Watercraft_title_is_super_long_what_do_we_do_now_Watercraft_title_is_super_long_what_do_we_do_now_Watercraft_title_is_super_long_what_do_we_do_now_Watercraft_title_is_super_long_what_do_we_do_now_Watercraft_title_is_super_long_what_do_we_do_now_Watercraft_title_is_super_long_what_do_we_do_now_Watercraft_title_is_super_long_what_do_we_do_now_Watercraft_title_is_super_long_what_do_we_do_now_Watercraft_title_is_super_long_what_do_we_do_now_",
   },
   {
     icon: "plane",
     heading: "Extra long description and icons m /scale l",
     description:
-      "Planes, helicopters, and jets. Planes, helicopters, and jets. Planes, helicopters, and jets. Planes, helicopters, and jets. Planes, helicopters, and jets. Planes, helicopters, and jets. Planes, helicopters, and jets. Planes, helicopters, and jets. Planes, helicopters, and jets. Planes, helicopters, and jets. Planes, helicopters, and jets. Planes, helicopters, and jets. Planes, helicopters, and jets. Planes, helicopters, and jets. Planes, helicopters, and jets."
-  }
+      "Planes, helicopters, and jets. Planes, helicopters, and jets. Planes, helicopters, and jets. Planes, helicopters, and jets. Planes, helicopters, and jets. Planes, helicopters, and jets. Planes, helicopters, and jets. Planes, helicopters, and jets. Planes, helicopters, and jets. Planes, helicopters, and jets. Planes, helicopters, and jets. Planes, helicopters, and jets. Planes, helicopters, and jets. Planes, helicopters, and jets. Planes, helicopters, and jets.",
+  },
 ];
 
 const accordionItemsIconHeaderUseCases = iconHeaderUseCasesArr

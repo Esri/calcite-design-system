@@ -10,18 +10,18 @@ import {
   Prop,
   State,
   VNode,
-  Watch
+  Watch,
 } from "@stencil/core";
 import {
   ConditionalSlotComponent,
   connectConditionalSlotComponent,
-  disconnectConditionalSlotComponent
+  disconnectConditionalSlotComponent,
 } from "../../utils/conditionalSlot";
 import {
   ensureId,
   focusFirstTabbable,
   getSlotted,
-  slotChangeHasAssignedElement
+  slotChangeHasAssignedElement,
 } from "../../utils/dom";
 import {
   activateFocusTrap,
@@ -29,13 +29,13 @@ import {
   deactivateFocusTrap,
   FocusTrap,
   FocusTrapComponent,
-  updateFocusTrapElements
+  updateFocusTrapElements,
 } from "../../utils/focusTrapComponent";
 import {
   componentFocusable,
   LoadableComponent,
   setComponentLoaded,
-  setUpLoadableComponent
+  setUpLoadableComponent,
 } from "../../utils/loadable";
 import { createObserver } from "../../utils/observers";
 import { onToggleOpenCloseComponent, OpenCloseComponent } from "../../utils/openCloseComponent";
@@ -48,7 +48,7 @@ import {
   disconnectMessages,
   setUpMessages,
   T9nComponent,
-  updateMessages
+  updateMessages,
 } from "../../utils/t9n";
 import { ModalMessages } from "./assets/modal/t9n";
 
@@ -66,7 +66,7 @@ import { ModalMessages } from "./assets/modal/t9n";
   tag: "calcite-modal",
   styleUrl: "modal.scss",
   shadow: true,
-  assetsDirs: ["assets"]
+  assetsDirs: ["assets"],
 })
 export class Modal
   implements
@@ -216,14 +216,14 @@ export class Modal
           class={{
             [CSS.container]: true,
             [CSS.containerOpen]: this.isOpen,
-            [CSS.slottedInShell]: this.slottedInShell
+            [CSS.slottedInShell]: this.slottedInShell,
           }}
         >
           <calcite-scrim class={CSS.scrim} onClick={this.handleOutsideClose} />
           {this.renderStyle()}
           <div
             class={{
-              [CSS.modal]: true
+              [CSS.modal]: true,
             }}
             // eslint-disable-next-line react/jsx-sort-props
             ref={this.setTransitionEl}
@@ -238,7 +238,7 @@ export class Modal
             <div
               class={{
                 [CSS.content]: true,
-                [CSS.contentNoFooter]: !this.hasFooter
+                [CSS.contentNoFooter]: !this.hasFooter,
               }}
               // eslint-disable-next-line react/jsx-sort-props
               ref={(el) => (this.modalContent = el)}

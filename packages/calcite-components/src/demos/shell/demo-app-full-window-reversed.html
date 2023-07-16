@@ -32,14 +32,14 @@
     <script>
       require(["esri/Map", "esri/views/MapView"], function (Map, MapView) {
         const map = new Map({
-          basemap: "gray-vector"
+          basemap: "gray-vector",
         });
 
         const view = new MapView({
           container: "viewDiv",
           map: map,
           zoom: 8,
-          center: [91, 24]
+          center: [91, 24],
         });
       });
     </script>

@@ -8,7 +8,7 @@ import {
   Prop,
   State,
   VNode,
-  Watch
+  Watch,
 } from "@stencil/core";
 import {
   dateFromRange,
@@ -16,7 +16,7 @@ import {
   getOrder,
   nextMonth,
   prevMonth,
-  formatCalendarYear
+  formatCalendarYear,
 } from "../../utils/date";
 
 import { closestElementCrossShadowBoundary } from "../../utils/dom";
@@ -31,7 +31,7 @@ import { CSS, ICON } from "./resources";
 @Component({
   tag: "calcite-date-picker-month-header",
   styleUrl: "date-picker-month-header.scss",
-  shadow: true
+  shadow: true,
 })
 export class DatePickerMonthHeader {
   //--------------------------------------------------------------------------
@@ -126,7 +126,7 @@ export class DatePickerMonthHeader {
       numberStringFormatter.numberFormatOptions = {
         useGrouping: false,
         ...(numberingSystem && { numberingSystem }),
-        ...(locale && { locale })
+        ...(locale && { locale }),
       };
     }
 
@@ -162,7 +162,7 @@ export class DatePickerMonthHeader {
               aria-label={messages.year}
               class={{
                 year: true,
-                [CSS.yearSuffix]: !!suffix
+                [CSS.yearSuffix]: !!suffix,
               }}
               inputmode="numeric"
               maxlength="4"
@@ -257,14 +257,14 @@ export class DatePickerMonthHeader {
 
   private onYearChange = (event: Event): void => {
     this.setYear({
-      localizedYear: this.parseCalendarYear((event.target as HTMLInputElement).value)
+      localizedYear: this.parseCalendarYear((event.target as HTMLInputElement).value),
     });
   };
 
   private onYearInput = (event: Event): void => {
     this.setYear({
       localizedYear: this.parseCalendarYear((event.target as HTMLInputElement).value),
-      commit: false
+      commit: false,
     });
   };
 
@@ -298,7 +298,7 @@ export class DatePickerMonthHeader {
 
   private getInRangeDate({
     localizedYear,
-    offset = 0
+    offset = 0,
   }: {
     localizedYear: string;
     offset?: number;
@@ -329,7 +329,7 @@ export class DatePickerMonthHeader {
   private setYear({
     localizedYear,
     commit = true,
-    offset = 0
+    offset = 0,
   }: {
     localizedYear: string;
     commit?: boolean;

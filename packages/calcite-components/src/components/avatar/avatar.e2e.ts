@@ -19,8 +19,8 @@ describe("calcite-avatar", () => {
     defaults("calcite-avatar", [
       {
         propertyName: "scale",
-        defaultValue: "m"
-      }
+        defaultValue: "m",
+      },
     ]);
   });
 

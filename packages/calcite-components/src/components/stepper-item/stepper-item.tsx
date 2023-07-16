@@ -10,7 +10,7 @@ import {
   Prop,
   State,
   VNode,
-  Watch
+  Watch,
 } from "@stencil/core";
 import { getElementProp, toAriaBoolean } from "../../utils/dom";
 import { Layout, Scale } from "../interfaces";
@@ -18,25 +18,25 @@ import {
   connectInteractive,
   disconnectInteractive,
   InteractiveComponent,
-  updateHostInteraction
+  updateHostInteraction,
 } from "../../utils/interactive";
 import {
   StepperItemChangeEventDetail,
   StepperItemEventDetail,
-  StepperItemKeyEventDetail
+  StepperItemKeyEventDetail,
 } from "../stepper/interfaces";
 import {
   numberStringFormatter,
   LocalizedComponent,
   disconnectLocalized,
   connectLocalized,
-  NumberingSystem
+  NumberingSystem,
 } from "../../utils/locale";
 import {
   setUpLoadableComponent,
   setComponentLoaded,
   LoadableComponent,
-  componentFocusable
+  componentFocusable,
 } from "../../utils/loadable";
 
 /**
@@ -45,7 +45,7 @@ import {
 @Component({
   tag: "calcite-stepper-item",
   styleUrl: "stepper-item.scss",
-  shadow: true
+  shadow: true,
 })
 export class StepperItem implements InteractiveComponent, LocalizedComponent, LoadableComponent {
   //--------------------------------------------------------------------------
@@ -134,7 +134,7 @@ export class StepperItem implements InteractiveComponent, LocalizedComponent, Lo
     numberStringFormatter.numberFormatOptions = {
       locale,
       numberingSystem: this.numberingSystem,
-      useGrouping: false
+      useGrouping: false,
     };
   }
 
@@ -333,7 +333,7 @@ export class StepperItem implements InteractiveComponent, LocalizedComponent, Lo
 
   private registerStepperItem(): void {
     this.calciteInternalStepperItemRegister.emit({
-      position: this.itemPosition
+      position: this.itemPosition,
     });
   }
 
@@ -357,7 +357,7 @@ export class StepperItem implements InteractiveComponent, LocalizedComponent, Lo
       const position = this.itemPosition;
 
       this.calciteInternalUserRequestedStepperItemSelect.emit({
-        position
+        position,
       });
     }
   };
@@ -367,7 +367,7 @@ export class StepperItem implements InteractiveComponent, LocalizedComponent, Lo
       const position = this.itemPosition;
 
       this.calciteInternalStepperItemSelect.emit({
-        position
+        position,
       });
     }
   };
@@ -382,7 +382,7 @@ export class StepperItem implements InteractiveComponent, LocalizedComponent, Lo
     numberStringFormatter.numberFormatOptions = {
       locale: this.effectiveLocale,
       numberingSystem: this.numberingSystem,
-      useGrouping: false
+      useGrouping: false,
     };
     return numberStringFormatter.numberFormatter.format(this.itemPosition + 1);
   }

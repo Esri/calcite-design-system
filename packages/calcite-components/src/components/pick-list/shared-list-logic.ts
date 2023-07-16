@@ -428,6 +428,6 @@ export function getItemData<T extends Lists>(this: List<T>): ItemData {
     label: item.label,
     description: item.description,
     metadata: item.metadata,
-    value: item.value
+    value: item.value,
   }));
 }

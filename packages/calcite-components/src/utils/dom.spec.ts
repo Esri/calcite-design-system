@@ -11,7 +11,7 @@ import {
   slotChangeGetAssignedElements,
   slotChangeHasAssignedElement,
   toAriaBoolean,
-  getShadowRootNode
+  getShadowRootNode,
 } from "./dom";
 import { guidPattern } from "./guid.spec";
 
@@ -161,7 +161,7 @@ describe("dom", () => {
         it("returns nothing with non-matching child selector", () =>
           expect(
             getSlotted(getTestComponent(), testSlotName, {
-              selector: "non-existent-slot"
+              selector: "non-existent-slot",
             })
           ).toBeNull());
       });
@@ -179,7 +179,7 @@ describe("dom", () => {
 
           expect(
             getSlotted(getTestComponent(), testSlotName, {
-              direct: true
+              direct: true,
             })
           ).toBeTruthy();
         });
@@ -196,7 +196,7 @@ describe("dom", () => {
           expect(
             getSlotted(getTestComponent(), testSlotName, {
               all: true,
-              direct: true
+              direct: true,
             })
           ).toBeTruthy();
         });
@@ -221,7 +221,7 @@ describe("dom", () => {
           expect(
             getSlotted(getTestComponent(), testSlotName, {
               all: true,
-              selector: "span"
+              selector: "span",
             })
           ).toHaveLength(3));
 
@@ -229,7 +229,7 @@ describe("dom", () => {
           expect(
             getSlotted(getTestComponent(), testSlotName, {
               all: true,
-              selector: "non-existent"
+              selector: "non-existent",
             })
           ).toHaveLength(0));
       });
@@ -248,7 +248,7 @@ describe("dom", () => {
           expect(
             getSlotted(getTestComponent(), testSlotName, {
               all: true,
-              direct: true
+              direct: true,
             })
           ).toHaveLength(1);
         });
@@ -266,7 +266,7 @@ describe("dom", () => {
           expect(
             getSlotted(getTestComponent(), testSlotName, {
               all: true,
-              direct: true
+              direct: true,
             })
           ).toHaveLength(0);
         });

@@ -12,7 +12,7 @@ import {
   optionsKnob as options,
   radios,
   select,
-  text
+  text,
 } from "@storybook/addon-knobs";
 import { CSS_UTILITY } from "../src/utils/resources";
 
@@ -23,45 +23,45 @@ import React from "react";
 
 const autoValue = {
   name: "Auto",
-  value: colors["blk-200"]
+  value: colors["blk-200"],
 };
 
 const lightValue = {
   name: "Light",
-  value: colors["blk-005"]
+  value: colors["blk-005"],
 };
 
 const darkValue = {
   name: "Dark",
-  value: colors["blk-210"]
+  value: colors["blk-210"],
 };
 
 const list: Mode[] = [
   {
     name: lightValue.name,
     class: CSS_UTILITY.lightMode,
-    color: lightValue.value
+    color: lightValue.value,
   },
   {
     name: darkValue.name,
     class: CSS_UTILITY.darkMode,
-    color: darkValue.value
+    color: darkValue.value,
   },
   {
     name: autoValue.name,
     class: CSS_UTILITY.autoMode,
-    color: autoValue.value
-  }
+    color: autoValue.value,
+  },
 ];
 
 export const modes = {
   default: lightValue.name,
-  list
+  list,
 };
 
 export const modesDarkDefault = {
   default: darkValue.name,
-  list
+  list,
 };
 
 /**
