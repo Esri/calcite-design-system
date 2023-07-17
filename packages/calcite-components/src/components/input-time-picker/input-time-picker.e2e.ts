@@ -96,7 +96,6 @@ describe("calcite-input-time-picker", () => {
   //     `<calcite-input-time-picker read-only triggerDisabled={true} id="canReadOnly"></calcite-input-time-picker>`
   //   );
 
-
   //   const component = await page.find("#canReadOnly");
   //   const input = await page.find("#canReadOnly >>> calcite-input");
   //   const popover = await page.find("#canReadOnly >>> calcite-popover");
@@ -637,14 +636,12 @@ describe("calcite-input-time-picker", () => {
     const page = await newE2EPage();
     await page.setContent(`<calcite-input-time-picker step="1" value="14:30:25"></calcite-input-time-picker>`);
     const inputTimePicker = await page.find("calcite-input-time-picker");
-    const spy = await page.spyOnEvent("calciteInternalInputTimePickerLangUpdated", "document");
 
     expect(await getInputValue(page)).toBe("02:30:25 PM");
 
     inputTimePicker.setProperty("lang", "da");
     await page.waitForChanges();
     await waitForAnimationFrame();
-    await spy.next();
     await page.waitForChanges();
     await waitForAnimationFrame();
 
@@ -655,7 +652,6 @@ describe("calcite-input-time-picker", () => {
     inputTimePicker.setProperty("lang", "ar");
     await page.waitForChanges();
     await waitForAnimationFrame();
-    await spy.next();
     await page.waitForChanges();
     await waitForAnimationFrame();
 
@@ -673,7 +669,6 @@ describe("calcite-input-time-picker", () => {
     inputTimePicker.setProperty("numberingSystem", "hanidec");
     await page.waitForChanges();
     await waitForAnimationFrame();
-    await spy.next();
     await page.waitForChanges();
     await waitForAnimationFrame();
 
