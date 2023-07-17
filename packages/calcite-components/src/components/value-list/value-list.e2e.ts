@@ -9,7 +9,7 @@ import {
   itemRemoval,
   keyboardNavigation,
   loadingState,
-  selectionAndDeselection
+  selectionAndDeselection,
 } from "../pick-list/shared-list-tests";
 import { CSS, ICON_TYPES } from "./resources";
 
@@ -71,7 +71,7 @@ describe("calcite-value-list", () => {
       const page = await newE2EPage({
         html: `<calcite-value-list drag-enabled>
         <calcite-value-list-item value="one"></calcite-value-list-item>
-      </calcite-value-list>`
+      </calcite-value-list>`,
       });
 
       const item = await page.find("calcite-value-list-item");
@@ -82,7 +82,7 @@ describe("calcite-value-list", () => {
       const page = await newE2EPage({
         html: `<calcite-value-list>
         <calcite-value-list-item value="one"></calcite-value-list-item>
-      </calcite-value-list>`
+      </calcite-value-list>`,
       });
 
       const item = await page.find("calcite-value-list-item");
@@ -114,7 +114,7 @@ describe("calcite-value-list", () => {
         <calcite-value-list-item value="one" label="One"></calcite-value-list-item>
         <calcite-value-list-item value="two" label="Two"></calcite-value-list-item>
         <calcite-value-list-item value="three" label="Three"></calcite-value-list-item>
-      </calcite-value-list>`
+      </calcite-value-list>`,
       });
     }
 
@@ -126,11 +126,11 @@ describe("calcite-value-list", () => {
         page,
         {
           element: `calcite-value-list-item[value="one"]`,
-          shadow: `.${CSS.handle}`
+          shadow: `.${CSS.handle}`,
         },
         {
           element: `calcite-value-list-item[value="two"]`,
-          shadow: `.${CSS.handle}`
+          shadow: `.${CSS.handle}`,
         }
       );
 
@@ -197,20 +197,20 @@ describe("calcite-value-list", () => {
           <calcite-value-list-item value="e" label="E"></calcite-value-list-item>
           <calcite-value-list-item value="f" label="F"></calcite-value-list-item>
         </calcite-value-list>
-        `
+        `,
       });
 
       await dragAndDrop(
         page,
         {
           element: `calcite-value-list-item[value="d"]`,
-          shadow: `.${CSS.handle}`
+          shadow: `.${CSS.handle}`,
         },
         {
           element: `#first-letters`,
           pointerPosition: {
-            vertical: "bottom"
-          }
+            vertical: "bottom",
+          },
         }
       );
 
@@ -218,13 +218,13 @@ describe("calcite-value-list", () => {
         page,
         {
           element: `calcite-value-list-item[value="e"]`,
-          shadow: `.${CSS.handle}`
+          shadow: `.${CSS.handle}`,
         },
         {
           element: `#numbers`,
           pointerPosition: {
-            vertical: "bottom"
-          }
+            vertical: "bottom",
+          },
         }
       );
 
@@ -232,13 +232,13 @@ describe("calcite-value-list", () => {
         page,
         {
           element: `calcite-value-list-item[value="e"]`,
-          shadow: `.${CSS.handle}`
+          shadow: `.${CSS.handle}`,
         },
         {
           element: `#no-group`,
           pointerPosition: {
-            vertical: "bottom"
-          }
+            vertical: "bottom",
+          },
         }
       );
 

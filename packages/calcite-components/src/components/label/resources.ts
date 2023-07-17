@@ -1,3 +1,3 @@
 export const CSS = {
-  container: "container"
+  container: "container",
 };

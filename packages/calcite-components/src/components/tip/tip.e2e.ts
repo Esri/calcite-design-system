@@ -15,8 +15,8 @@ describe("calcite-tip", () => {
     defaults("calcite-tip", [
       {
         propertyName: "headingLevel",
-        defaultValue: undefined
-      }
+        defaultValue: undefined,
+      },
     ]);
   });
 

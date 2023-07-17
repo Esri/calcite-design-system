@@ -25,12 +25,12 @@ describe("calcite-panel", () => {
     defaults("calcite-panel", [
       {
         propertyName: "widthScale",
-        defaultValue: undefined
+        defaultValue: undefined,
       },
       {
         propertyName: "headingLevel",
-        defaultValue: undefined
-      }
+        defaultValue: undefined,
+      },
     ]);
   });
 
@@ -101,19 +101,19 @@ describe("calcite-panel", () => {
 
   describe("should focus on close button", () => {
     focusable(`<calcite-panel closable>test</calcite-panel>`, {
-      shadowFocusTargetSelector: "calcite-action"
+      shadowFocusTargetSelector: "calcite-action",
     });
   });
 
   describe("should focus on container", () => {
     focusable(`<calcite-panel>test</calcite-panel>`, {
-      shadowFocusTargetSelector: "article"
+      shadowFocusTargetSelector: "article",
     });
   });
 
   it("honors calcitePanelScroll event", async () => {
     const page = await newE2EPage({
-      html: "<calcite-panel>test</calcite-panel>"
+      html: "<calcite-panel>test</calcite-panel>",
     });
 
     const scrollSpy = await page.spyOnEvent("calcitePanelScroll");

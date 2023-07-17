@@ -10,7 +10,7 @@ import {
   Method,
   Prop,
   VNode,
-  Watch
+  Watch,
 } from "@stencil/core";
 
 import { getElementDir } from "../../utils/dom";
@@ -19,20 +19,20 @@ import {
   connectForm,
   disconnectForm,
   FormComponent,
-  HiddenFormInputSlot
+  HiddenFormInputSlot,
 } from "../../utils/form";
 import {
   connectInteractive,
   disconnectInteractive,
   InteractiveComponent,
-  updateHostInteraction
+  updateHostInteraction,
 } from "../../utils/interactive";
 import { connectLabel, disconnectLabel, LabelableComponent } from "../../utils/label";
 import {
   componentFocusable,
   LoadableComponent,
   setComponentLoaded,
-  setUpLoadableComponent
+  setUpLoadableComponent,
 } from "../../utils/loadable";
 import { Appearance, Layout, Scale, Width } from "../interfaces";
 
@@ -42,7 +42,7 @@ import { Appearance, Layout, Scale, Width } from "../interfaces";
 @Component({
   tag: "calcite-segmented-control",
   styleUrl: "segmented-control.scss",
-  shadow: true
+  shadow: true,
 })
 export class SegmentedControl
   implements LabelableComponent, FormComponent, InteractiveComponent, LoadableComponent

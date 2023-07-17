@@ -17,16 +17,16 @@ describe("calcite-list-item-group", () => {
     defaults("calcite-list-item-group", [
       {
         propertyName: "heading",
-        defaultValue: undefined
+        defaultValue: undefined,
       },
       {
         propertyName: "headingLevel",
-        defaultValue: undefined
+        defaultValue: undefined,
       },
       {
         propertyName: "disabled",
-        defaultValue: false
-      }
+        defaultValue: false,
+      },
     ]);
   });
 });

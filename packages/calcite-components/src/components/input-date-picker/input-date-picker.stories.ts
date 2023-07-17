@@ -9,9 +9,9 @@ import { storyFilters } from "../../../.storybook/helpers";
 export default {
   title: "Components/Controls/InputDatePicker",
   parameters: {
-    notes: readme
+    notes: readme,
   },
-  ...storyFilters()
+  ...storyFilters(),
 };
 
 export const simple = (): string => html`

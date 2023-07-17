@@ -5,10 +5,10 @@ export const CSS = {
   suffix: "suffix",
   yearSuffix: "year--suffix",
   yearWrap: "year-wrap",
-  textReverse: "text--reverse"
+  textReverse: "text--reverse",
 };
 
 export const ICON = {
   chevronLeft: "chevron-left",
-  chevronRight: "chevron-right"
+  chevronRight: "chevron-right",
 };

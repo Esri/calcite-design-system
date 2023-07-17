@@ -7,7 +7,7 @@
 const configOverrides = globalThis["calciteComponentsConfig"];
 
 const config = {
-  ...configOverrides
+  ...configOverrides,
 };
 
 export { config };

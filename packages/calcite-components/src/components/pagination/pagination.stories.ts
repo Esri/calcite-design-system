@@ -10,10 +10,10 @@ export default {
   parameters: {
     notes: readme,
     chromatic: {
-      delay: 500
-    }
+      delay: 500,
+    },
   },
-  ...storyFilters()
+  ...storyFilters(),
 };
 
 export const simple = (): string => html`
@@ -53,5 +53,5 @@ export const arabicNumberingSystemAndRTL_TestOnly = (): string => html`<calcite-
 </calcite-pagination>`;
 
 arabicNumberingSystemAndRTL_TestOnly.parameters = {
-  chromatic: { diffThreshold: 1 }
+  chromatic: { diffThreshold: 1 },
 };

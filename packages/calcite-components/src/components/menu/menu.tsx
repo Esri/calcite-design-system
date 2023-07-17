@@ -8,14 +8,14 @@ import {
   State,
   Watch,
   Method,
-  VNode
+  VNode,
 } from "@stencil/core";
 import { focusElement, focusElementInGroup, slotChangeGetAssignedElements } from "../../utils/dom";
 import {
   componentFocusable,
   LoadableComponent,
   setComponentLoaded,
-  setUpLoadableComponent
+  setUpLoadableComponent,
 } from "../../utils/loadable";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 import {
@@ -23,13 +23,13 @@ import {
   disconnectMessages,
   setUpMessages,
   T9nComponent,
-  updateMessages
+  updateMessages,
 } from "../../utils/t9n";
 import { MenuMessages } from "./assets/menu/t9n";
 import {
   GlobalAttrComponent,
   unwatchGlobalAttributes,
-  watchGlobalAttributes
+  watchGlobalAttributes,
 } from "../../utils/globalAttributes";
 
 type Layout = "horizontal" | "vertical";
@@ -38,9 +38,9 @@ type Layout = "horizontal" | "vertical";
   tag: "calcite-menu",
   styleUrl: "menu.scss",
   shadow: {
-    delegatesFocus: true
+    delegatesFocus: true,
   },
-  assetsDirs: ["assets"]
+  assetsDirs: ["assets"],
 })
 export class CalciteMenu
   implements GlobalAttrComponent, LocalizedComponent, T9nComponent, LoadableComponent
@@ -109,7 +109,7 @@ export class CalciteMenu
   }
 
   @State() globalAttributes = {
-    role: "menubar"
+    role: "menubar",
   };
 
   menuItems: HTMLCalciteMenuItemElement[] = [];

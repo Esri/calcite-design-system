@@ -9,10 +9,10 @@ export default {
   parameters: {
     notes: readme,
     chromatic: {
-      delay: 500
-    }
+      delay: 500,
+    },
   },
-  ...storyFilters()
+  ...storyFilters(),
 };
 
 export const titleMessageLink = (): string => html`
@@ -156,7 +156,7 @@ export const queue_NoTest = (): string => html`
 `;
 
 queue_NoTest.parameters = {
-  chromatic: { disableSnapshot: true }
+  chromatic: { disableSnapshot: true },
 };
 
 export const darkModeRTL_TestOnly = (): string => html`

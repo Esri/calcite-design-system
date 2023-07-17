@@ -8,7 +8,7 @@ import {
   reflects,
   renders,
   hidden,
-  t9n
+  t9n,
 } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { letterKeys, numberKeys } from "../../utils/key";
@@ -45,24 +45,24 @@ describe("calcite-input", () => {
     reflects("calcite-input", [
       {
         propertyName: "status",
-        value: "valid"
+        value: "valid",
       },
       {
         propertyName: "alignment",
-        value: "center"
+        value: "center",
       },
       {
         propertyName: "numberButtonType",
-        value: "horizontal"
+        value: "horizontal",
       },
       {
         propertyName: "type",
-        value: "color"
+        value: "color",
       },
       {
         propertyName: "scale",
-        value: "s"
-      }
+        value: "s",
+      },
     ]);
   });
 
@@ -70,28 +70,28 @@ describe("calcite-input", () => {
     defaults("calcite-input", [
       {
         propertyName: "status",
-        defaultValue: "idle"
+        defaultValue: "idle",
       },
       {
         propertyName: "alignment",
-        defaultValue: "start"
+        defaultValue: "start",
       },
       {
         propertyName: "numberButtonType",
-        defaultValue: "vertical"
+        defaultValue: "vertical",
       },
       {
         propertyName: "type",
-        defaultValue: "text"
+        defaultValue: "text",
       },
       {
         propertyName: "scale",
-        defaultValue: "m"
+        defaultValue: "m",
       },
       {
         propertyName: "value",
-        defaultValue: ""
-      }
+        defaultValue: "",
+      },
     ]);
   });
 
@@ -222,7 +222,7 @@ describe("calcite-input", () => {
 
   describe("is focusable", () => {
     focusable(`calcite-input`, {
-      shadowFocusTargetSelector: "input"
+      shadowFocusTargetSelector: "input",
     });
   });
 
@@ -1218,7 +1218,7 @@ describe("calcite-input", () => {
           numberStringFormatter.numberFormatOptions = {
             locale,
             numberingSystem: "latn",
-            useGrouping: false
+            useGrouping: false,
           };
 
           const localizedValue = numberStringFormatter.localize(value);
@@ -1239,7 +1239,7 @@ describe("calcite-input", () => {
           numberStringFormatter.numberFormatOptions = {
             locale,
             numberingSystem: "latn",
-            useGrouping: true
+            useGrouping: true,
           };
 
           const localizedValue = numberStringFormatter.localize(value);
@@ -1252,7 +1252,7 @@ describe("calcite-input", () => {
           numberStringFormatter.numberFormatOptions = {
             locale,
             numberingSystem: "latn",
-            useGrouping: false
+            useGrouping: false,
           };
 
           const page = await newE2EPage();
@@ -1270,7 +1270,7 @@ describe("calcite-input", () => {
           numberStringFormatter.numberFormatOptions = {
             locale,
             numberingSystem: "latn",
-            useGrouping: false
+            useGrouping: false,
           };
 
           const localizedValue = numberStringFormatter.localize(unformattedValue);
@@ -1283,7 +1283,7 @@ describe("calcite-input", () => {
           numberStringFormatter.numberFormatOptions = {
             locale,
             numberingSystem: "latn",
-            useGrouping: false
+            useGrouping: false,
           };
 
           const page = await newE2EPage();
@@ -1333,7 +1333,7 @@ describe("calcite-input", () => {
           numberStringFormatter.numberFormatOptions = {
             locale,
             numberingSystem: "latn",
-            useGrouping: false
+            useGrouping: false,
           };
 
           const localizedValue = numberStringFormatter.localize(assertedValue);
@@ -1351,7 +1351,7 @@ describe("calcite-input", () => {
           numberStringFormatter.numberFormatOptions = {
             locale,
             numberingSystem: "latn",
-            useGrouping: false
+            useGrouping: false,
           };
           const decimalSeparator = numberStringFormatter.decimal;
           const calciteInput = await page.find("calcite-input");
@@ -1381,7 +1381,7 @@ describe("calcite-input", () => {
           numberStringFormatter.numberFormatOptions = {
             locale,
             numberingSystem: "latn",
-            useGrouping: false
+            useGrouping: false,
           };
           const decimalSeparator = numberStringFormatter.decimal;
           const calciteInput = await page.find("calcite-input");
@@ -1412,7 +1412,7 @@ describe("calcite-input", () => {
           numberStringFormatter.numberFormatOptions = {
             locale,
             numberingSystem: "latn",
-            useGrouping: false
+            useGrouping: false,
           };
           const input = await page.find("calcite-input >>> input");
           expect(await input.getProperty("value")).toBe("0");
@@ -1586,7 +1586,7 @@ describe("calcite-input", () => {
     numberStringFormatter.numberFormatOptions = {
       locale: "en-US",
       numberingSystem: "latn",
-      useGrouping: true
+      useGrouping: true,
     };
 
     expect(await calciteInput.getProperty("value")).toBe(initialValue);
@@ -1903,59 +1903,59 @@ describe("calcite-input", () => {
     const supportedSubmissionTypes = [
       {
         type: "color",
-        value: "#abcdef"
+        value: "#abcdef",
       },
       {
         type: "date",
-        value: "2018-07-22"
+        value: "2018-07-22",
       },
       {
         type: "datetime-local",
-        value: "2018-06-12T19:30"
+        value: "2018-06-12T19:30",
       },
       {
         type: "email",
-        value: "test@test.com"
+        value: "test@test.com",
       },
       {
         type: "month",
-        value: "2018-05"
+        value: "2018-05",
       },
       {
         type: "number",
-        value: "1337"
+        value: "1337",
       },
       {
         type: "tel",
-        value: "1234567890"
+        value: "1234567890",
       },
       {
         type: "text",
-        value: "test"
+        value: "test",
       },
       {
         type: "password",
-        value: "password"
+        value: "password",
       },
       {
         type: "time",
-        value: "01:00"
+        value: "01:00",
       },
       {
         type: "url",
-        value: "http://www.example.com"
+        value: "http://www.example.com",
       },
       {
         type: "week",
-        value: "2018-W26"
-      }
+        value: "2018-W26",
+      },
     ];
 
     for (const { type, value } of supportedSubmissionTypes) {
       formAssociated(`<calcite-input type="${type}"></calcite-input>`, {
         testValue: value,
         submitsOnEnter: true,
-        inputType: type
+        inputType: type,
       });
     }
   });

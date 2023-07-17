@@ -13,7 +13,7 @@ const {
   placements,
   positionFloatingUI,
   reposition,
-  repositionDebounceTimeout
+  repositionDebounceTimeout,
 } = floatingUI;
 
 it("should set calcite placement to FloatingUI placement", () => {
@@ -49,7 +49,7 @@ describe("repositioning", () => {
         /* noop */
       },
       overlayPositioning: "absolute",
-      placement: "auto"
+      placement: "auto",
     };
   }
 
@@ -64,7 +64,7 @@ describe("repositioning", () => {
       referenceEl,
       overlayPositioning: fakeFloatingUiComponent.overlayPositioning,
       placement: fakeFloatingUiComponent.placement,
-      type: "popover"
+      type: "popover",
     };
   });
 

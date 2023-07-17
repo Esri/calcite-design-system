@@ -15,5 +15,5 @@ addons.register("@whitespace/storybook-addon-html", (api) => {
 
 addons.setConfig({
   panelPosition: "right",
-  theme
+  theme,
 });

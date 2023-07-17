@@ -29,8 +29,8 @@ describe("calcite-pick-list-group", () => {
     defaults("calcite-pick-list-group", [
       {
         propertyName: "headingLevel",
-        defaultValue: undefined
-      }
+        defaultValue: undefined,
+      },
     ]);
   });
 

@@ -4,7 +4,7 @@ import {
   filterComponentAttributes,
   Attributes,
   createComponentHTML as create,
-  modesDarkDefault
+  modesDarkDefault,
 } from "../../../.storybook/utils";
 import colorReadme from "./readme.md";
 import { ATTRIBUTES } from "../../../.storybook/resources";
@@ -14,9 +14,9 @@ import { storyFilters } from "../../../.storybook/helpers";
 export default {
   title: "Components/Controls/ColorPicker",
   parameters: {
-    notes: colorReadme
+    notes: colorReadme,
   },
-  ...storyFilters()
+  ...storyFilters(),
 };
 
 const createColorAttributes: (options?: { exceptions: string[] }) => Attributes = (
@@ -32,7 +32,7 @@ const createColorAttributes: (options?: { exceptions: string[] }) => Attributes 
           this.value = boolean("channels-disabled", false);
           delete this.build;
           return this;
-        }
+        },
       },
       {
         name: "hex-disabled",
@@ -40,7 +40,7 @@ const createColorAttributes: (options?: { exceptions: string[] }) => Attributes 
           this.value = boolean("hex-disabled", false);
           delete this.build;
           return this;
-        }
+        },
       },
       {
         name: "saved-disabled",
@@ -48,7 +48,7 @@ const createColorAttributes: (options?: { exceptions: string[] }) => Attributes 
           this.value = boolean("saved-disabled", false);
           delete this.build;
           return this;
-        }
+        },
       },
       {
         name: "scale",
@@ -56,8 +56,8 @@ const createColorAttributes: (options?: { exceptions: string[] }) => Attributes 
           this.value = select("scale", scale.values, scale.defaultValue);
           delete this.build;
           return this;
-        }
-      }
+        },
+      },
     ],
     exceptions
   );
@@ -67,20 +67,20 @@ export const simple = (): string =>
   create("calcite-color-picker", [
     {
       name: "allow-empty",
-      value: boolean("allow-empty", false)
+      value: boolean("allow-empty", false),
     },
     ...createColorAttributes(),
     {
       name: "value",
-      value: text("value", "#b33f33")
-    }
+      value: text("value", "#b33f33"),
+    },
   ]);
 
 export const alphaChannel = (): string =>
   create("calcite-color-picker", [
     ...createColorAttributes(),
     { name: "alpha-channel", value: true },
-    { name: "value", value: text("value", "#b33f3333") }
+    { name: "value", value: text("value", "#b33f3333") },
   ]);
 
 export const disabled_TestOnly = (): string => html`<calcite-color-picker disabled></calcite-color-picker>`;
@@ -91,8 +91,8 @@ export const darkModeRTL_TestOnly = (): string =>
     { name: "class", value: "calcite-mode-dark" },
     {
       name: "value",
-      value: text("value", "#b33f33")
-    }
+      value: text("value", "#b33f33"),
+    },
   ]);
 
 darkModeRTL_TestOnly.parameters = { modes: modesDarkDefault };
