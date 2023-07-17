@@ -584,10 +584,12 @@
         <div class="child">
           <calcite-list drag-enabled group="nested" label="test" selection-mode="multiple">
             <calcite-list-item open label="Hi!" description="hello world">
-              <calcite-list drag-enabled group="nested">
+              <calcite-list drag-enabled group="nested" selection-mode="multiple">
                 <calcite-list-item open label="Hi!" description="hello world">
-                  <calcite-list drag-enabled group="nested">
-                    <calcite-list-item label="Hi!" description="hello world"></calcite-list-item>
+                  <calcite-list drag-enabled group="nested" selection-mode="multiple">
+                    <calcite-list-item label="Hi!" description="hello world">
+                      <calcite-list drag-enabled group="nested" selection-mode="multiple"></calcite-list>
+                    </calcite-list-item>
                   </calcite-list>
                 </calcite-list-item>
               </calcite-list>
