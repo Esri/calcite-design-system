@@ -54,7 +54,7 @@ export async function dragAndDrop(
     const {
       vertical: verticalPos,
       horizontal: horizontalPos,
-      offset = [0, 0]
+      offset = [0, 0],
     }: PointerPosition = typeof selector === "string" || !selector.pointerPosition
       ? { vertical: "center" }
       : selector.pointerPosition;
@@ -72,7 +72,7 @@ export async function dragAndDrop(
       screenX: eventX,
       screenY: eventY,
       clientX: eventX,
-      clientY: eventY
+      clientY: eventY,
     };
   }
 
@@ -288,7 +288,7 @@ export async function skipAnimations(page: E2EPage): Promise<void> {
   await page.addStyleTag({
     // using 0.01 to ensure `openCloseComponent` utils work consistently
     // this should be removed once https://github.com/Esri/calcite-components/issues/6604 is addressed
-    content: `:root { --calcite-duration-factor: 0.01; }`
+    content: `:root { --calcite-duration-factor: 0.01; }`,
   });
 }
 

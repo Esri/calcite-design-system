@@ -2,7 +2,7 @@ import { Component, Element, Fragment, h, Prop, State, VNode } from "@stencil/co
 import {
   ConditionalSlotComponent,
   connectConditionalSlotComponent,
-  disconnectConditionalSlotComponent
+  disconnectConditionalSlotComponent,
 } from "../../utils/conditionalSlot";
 import { slotChangeGetAssignedElements, slotChangeHasAssignedElement } from "../../utils/dom";
 import { CSS, SLOTS } from "./resources";
@@ -23,7 +23,7 @@ import { CSS, SLOTS } from "./resources";
 @Component({
   tag: "calcite-shell",
   styleUrl: "shell.scss",
-  shadow: true
+  shadow: true,
 })
 export class Shell implements ConditionalSlotComponent {
   // --------------------------------------------------------------------------
@@ -152,7 +152,7 @@ export class Shell implements ConditionalSlotComponent {
           <div
             class={{
               [CSS.content]: true,
-              [CSS.contentBehind]: true
+              [CSS.contentBehind]: true,
             }}
             key={contentContainerKey}
           >
@@ -162,7 +162,7 @@ export class Shell implements ConditionalSlotComponent {
             {panelTopSlotNode}
             {panelBottomSlotNode}
             {deprecatedCenterRowSlotNode}
-          </div>
+          </div>,
         ]
       : [
           <div class={CSS.content} key={contentContainerKey}>
@@ -170,7 +170,7 @@ export class Shell implements ConditionalSlotComponent {
             {defaultSlotNode}
             {panelBottomSlotNode}
             {deprecatedCenterRowSlotNode}
-          </div>
+          </div>,
         ];
 
     return content;

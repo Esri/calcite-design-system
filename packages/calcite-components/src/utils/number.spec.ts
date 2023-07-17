@@ -5,7 +5,7 @@ import {
   expandExponentialNumberString,
   isValidNumber,
   parseNumberString,
-  sanitizeNumberString
+  sanitizeNumberString,
 } from "./number";
 
 describe("isValidNumber", () => {
@@ -124,7 +124,7 @@ describe("BigDecimal", () => {
     numberStringFormatter.numberFormatOptions = {
       locale: "en",
       numberingSystem: "latn",
-      useGrouping: true
+      useGrouping: true,
     };
     expect(new BigDecimal("123.0123456789").format(numberStringFormatter)).toBe("123.0123456789");
   });
@@ -135,7 +135,7 @@ describe("BigDecimal", () => {
         locale,
         // the group separator is different in arabic depending on the numberingSystem
         numberingSystem: locale === "ar" ? "arab" : "latn",
-        useGrouping: true
+        useGrouping: true,
       };
 
       const parts = new BigDecimal("-12345678.9").formatToParts(numberStringFormatter);
@@ -174,7 +174,7 @@ describe("expandExponentialNumberString", () => {
 });
 
 describe("addLocalizedTrailingDecimalZeros", () => {
-  function getLocalizedDeimalValue(value: string, trailingZeros: number): String {
+  function getLocalizedDeimalValue(value: string, trailingZeros: number): string {
     const localizedValue = numberStringFormatter.localize(value);
     const localizedZeroValue = numberStringFormatter.localize("0");
     return `${localizedValue}`.padEnd(localizedValue.length + trailingZeros, localizedZeroValue);
@@ -186,7 +186,7 @@ describe("addLocalizedTrailingDecimalZeros", () => {
         locale,
         // the group separator is different in arabic depending on the numberingSystem
         numberingSystem: locale === "ar" ? "arab" : "latn",
-        useGrouping: true
+        useGrouping: true,
       };
 
       const stringWithTrailingZeros = "123456.1000";
@@ -222,7 +222,7 @@ describe("addLocalizedTrailingDecimalZeros", () => {
         locale,
         // the group separator is different in arabic depending on the numberingSystem
         numberingSystem: locale === "ar" ? "arab" : "latn",
-        useGrouping: true
+        useGrouping: true,
       };
       const localizedValue = numberStringFormatter.localize("0.001");
       expect(addLocalizedTrailingDecimalZeros(localizedValue, "0.001", numberStringFormatter)).toBe(localizedValue);

@@ -30,7 +30,7 @@ describe("calcite-tabs", () => {
     defaults("calcite-tabs", [
       { propertyName: "layout", defaultValue: "inline" },
       { propertyName: "position", defaultValue: "top" },
-      { propertyName: "scale", defaultValue: "m" }
+      { propertyName: "scale", defaultValue: "m" },
     ]);
   });
 
@@ -120,7 +120,7 @@ describe("calcite-tabs", () => {
   describe("when no scale is provided", () => {
     it("should render itself and child tab elements with default medium scale", async () => {
       const page = await newE2EPage({
-        html: `<calcite-tabs>${tabsContent}</calcite-tabs>`
+        html: `<calcite-tabs>${tabsContent}</calcite-tabs>`,
       });
       expect(await page.find("calcite-tabs")).toEqualAttribute("scale", "m");
       expect(await page.find("calcite-tab-nav")).toEqualAttribute("scale", "m");
@@ -132,7 +132,7 @@ describe("calcite-tabs", () => {
   describe("when scale is provided", () => {
     it("should render itself and child tab elements with corresponding scale (small)", async () => {
       const page = await newE2EPage({
-        html: `<calcite-tabs scale="s">${tabsContent}</calcite-tabs>`
+        html: `<calcite-tabs scale="s">${tabsContent}</calcite-tabs>`,
       });
       expect(await page.find("calcite-tabs")).toEqualAttribute("scale", "s");
       expect(await page.find("calcite-tab-nav")).toEqualAttribute("scale", "s");
@@ -142,7 +142,7 @@ describe("calcite-tabs", () => {
 
     it("should render itself and child tab elements with corresponding scale (medium)", async () => {
       const page = await newE2EPage({
-        html: `<calcite-tabs scale="m">${tabsContent}</calcite-tabs>`
+        html: `<calcite-tabs scale="m">${tabsContent}</calcite-tabs>`,
       });
       expect(await page.find("calcite-tabs")).toEqualAttribute("scale", "m");
       expect(await page.find("calcite-tab-nav")).toEqualAttribute("scale", "m");
@@ -152,7 +152,7 @@ describe("calcite-tabs", () => {
 
     it("should render itself and child tab elements with corresponding scale (large)", async () => {
       const page = await newE2EPage({
-        html: `<calcite-tabs scale="l">${tabsContent}</calcite-tabs>`
+        html: `<calcite-tabs scale="l">${tabsContent}</calcite-tabs>`,
       });
       expect(await page.find("calcite-tabs")).toEqualAttribute("scale", "l");
       expect(await page.find("calcite-tab-nav")).toEqualAttribute("scale", "l");
@@ -164,7 +164,7 @@ describe("calcite-tabs", () => {
   describe("when layout is inline and bordered is true", () => {
     it("should render tabs, tab-nav, and tab-title with bordered attribute", async () => {
       const page = await newE2EPage({
-        html: `<calcite-tabs bordered>${tabsContent}</calcite-tabs>`
+        html: `<calcite-tabs bordered>${tabsContent}</calcite-tabs>`,
       });
       expect(await page.find("calcite-tabs")).toEqualAttribute("bordered", "");
       expect(await page.find("calcite-tab-nav")).toEqualAttribute("bordered", "");
@@ -183,7 +183,7 @@ describe("calcite-tabs", () => {
           <calcite-tab>Tab 1 Content</calcite-tab>
           <calcite-tab>Tab 2 Content</calcite-tab>
         </calcite-tabs>
-        `
+        `,
       });
       const indicator = await page.find("calcite-tab-nav >>> .tab-nav-active-indicator-container");
       const indicatorStyles = await indicator.getComputedStyle();
@@ -202,7 +202,7 @@ describe("calcite-tabs", () => {
           <calcite-tab>Tab 1 Content</calcite-tab>
           <calcite-tab>Tab 2 Content</calcite-tab>
         </calcite-tabs>
-        `
+        `,
       });
       const indicator = await page.find("calcite-tab-nav >>> .tab-nav-active-indicator-container");
       const indicatorStyles = await indicator.getComputedStyle();
@@ -213,7 +213,7 @@ describe("calcite-tabs", () => {
 
   it("should not ignore bordered attribute when layout is center", async () => {
     const page = await newE2EPage({
-      html: `<calcite-tabs layout="center" bordered>${tabsContent}</calcite-tabs>`
+      html: `<calcite-tabs layout="center" bordered>${tabsContent}</calcite-tabs>`,
     });
     expect(await page.find("calcite-tabs")).toHaveAttribute("bordered");
   });
@@ -233,7 +233,7 @@ describe("calcite-tabs", () => {
     const page = await newE2EPage({
       // load page with the tab template,
       // so they're available in the browser-evaluated fn below
-      html: wrappedTabTemplateHTML
+      html: wrappedTabTemplateHTML,
     });
 
     await page.waitForChanges();
@@ -294,7 +294,7 @@ describe("calcite-tabs", () => {
           </calcite-tab>
           <calcite-tab>Parent content 2</calcite-tab>
         </calcite-tabs>
-      `
+      `,
     });
 
     await page.waitForChanges();

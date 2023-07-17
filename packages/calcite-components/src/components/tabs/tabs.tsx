@@ -10,7 +10,7 @@ import { SLOTS } from "./resources";
 @Component({
   tag: "calcite-tabs",
   styleUrl: "tabs.scss",
-  shadow: true
+  shadow: true,
 })
 export class Tabs {
   //--------------------------------------------------------------------------

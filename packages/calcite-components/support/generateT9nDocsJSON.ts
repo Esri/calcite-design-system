@@ -4,7 +4,7 @@
   const { fileURLToPath } = await import("url");
   const {
     existsSync,
-    promises: { readFile, readdir, writeFile }
+    promises: { readFile, readdir, writeFile },
   } = await import("fs");
   try {
     const __dirname = dirname(fileURLToPath(import.meta.url));

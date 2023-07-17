@@ -2,7 +2,7 @@ import { Component, Element, Fragment, h, Prop, VNode } from "@stencil/core";
 import {
   ConditionalSlotComponent,
   connectConditionalSlotComponent,
-  disconnectConditionalSlotComponent
+  disconnectConditionalSlotComponent,
 } from "../../utils/conditionalSlot";
 import { getSlotted } from "../../utils/dom";
 import { constrainHeadingLevel, Heading, HeadingLevel } from "../functional/Heading";
@@ -15,7 +15,7 @@ import { CSS, SLOTS } from "./resources";
 @Component({
   tag: "calcite-pick-list-group",
   styleUrl: "pick-list-group.scss",
-  shadow: true
+  shadow: true,
 })
 export class PickListGroup implements ConditionalSlotComponent {
   // --------------------------------------------------------------------------
@@ -68,7 +68,7 @@ export class PickListGroup implements ConditionalSlotComponent {
     const hasParentItem = getSlotted(el, SLOTS.parentItem) !== null;
     const sectionClasses = {
       [CSS.container]: true,
-      [CSS.indented]: hasParentItem
+      [CSS.indented]: hasParentItem,
     };
 
     const title = groupTitle;

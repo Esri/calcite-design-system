@@ -12,5 +12,5 @@ export const CSS = {
   inputEnabled: "input-enabled",
   largeVisual: "large-visual",
   widthAuto: "width-auto",
-  widthFull: "width-full"
+  widthFull: "width-full",
 };

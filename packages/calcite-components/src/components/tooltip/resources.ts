@@ -1,5 +1,5 @@
 export const CSS = {
-  container: "container"
+  container: "container",
 };
 
 export const TOOLTIP_OPEN_DELAY_MS = 300;

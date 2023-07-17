@@ -9,7 +9,7 @@ import { isElementFocused } from "../../tests/utils";
 
 const placeholder = placeholderImage({
   width: 140,
-  height: 100
+  height: 100,
 });
 
 const listDebounceTimeout = debounceTimeout + FILTER_DEBOUNCE_TIMEOUT;
@@ -19,48 +19,48 @@ describe("calcite-list", () => {
     defaults("calcite-list", [
       {
         propertyName: "disabled",
-        defaultValue: false
+        defaultValue: false,
       },
       {
         propertyName: "label",
-        defaultValue: undefined
+        defaultValue: undefined,
       },
       {
         propertyName: "loading",
-        defaultValue: false
+        defaultValue: false,
       },
       {
         propertyName: "selectionMode",
-        defaultValue: "none"
+        defaultValue: "none",
       },
       {
         propertyName: "selectedItems",
-        defaultValue: []
+        defaultValue: [],
       },
       {
         propertyName: "selectionAppearance",
-        defaultValue: "icon"
+        defaultValue: "icon",
       },
       {
         propertyName: "filterEnabled",
-        defaultValue: false
+        defaultValue: false,
       },
       {
         propertyName: "filteredData",
-        defaultValue: []
+        defaultValue: [],
       },
       {
         propertyName: "filteredItems",
-        defaultValue: []
+        defaultValue: [],
       },
       {
         propertyName: "filterText",
-        defaultValue: undefined
+        defaultValue: undefined,
       },
       {
         propertyName: "filterPlaceholder",
-        defaultValue: undefined
-      }
+        defaultValue: undefined,
+      },
     ]);
   });
 
@@ -74,7 +74,7 @@ describe("calcite-list", () => {
         <calcite-list-item active label="test" description="hello world"></calcite-list-item>
       </calcite-list>`,
       {
-        focusTargetSelector: "calcite-list-item"
+        focusTargetSelector: "calcite-list-item",
       }
     );
   });

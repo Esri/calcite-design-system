@@ -2,7 +2,7 @@
 // https://github.com/Esri/calcite-design-system/issues/5141
 (async function () {
   const {
-    promises: { readFile, readdir, writeFile }
+    promises: { readFile, readdir, writeFile },
   } = await import("fs");
   const { dirname, normalize } = await import("path");
   const { quote } = await import("shell-quote");

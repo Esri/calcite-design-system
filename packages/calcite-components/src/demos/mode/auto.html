@@ -10,8 +10,8 @@
     <script>
       const dojoConfig = {
         has: {
-          "esri-layerlist-new-ui": 1
-        }
+          "esri-layerlist-new-ui": 1,
+        },
       };
     </script>
     <script src="https://js.arcgis.com/4.23/"></script>
@@ -45,20 +45,20 @@
       ) {
         const customWebMap = new WebMap({
           portalItem: {
-            id: "cc316ca9e0824970ad29ac558161d42d"
+            id: "cc316ca9e0824970ad29ac558161d42d",
           },
-          basemap: "gray-vector" // Overrides webmap basemap (dark-gray-vector)
+          basemap: "gray-vector", // Overrides webmap basemap (dark-gray-vector)
         });
 
         const view = new MapView({
           container: "viewDiv",
-          map: customWebMap
+          map: customWebMap,
         });
         view.when(function () {
           const layerList = new LayerList({
             view: view,
             selectionEnabled: true,
-            container: "layerlist-container"
+            container: "layerlist-container",
           });
 
           view.ui.move("zoom", "bottom-right");

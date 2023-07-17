@@ -9,7 +9,7 @@ import {
   Prop,
   State,
   VNode,
-  Watch
+  Watch,
 } from "@stencil/core";
 import { debounce } from "lodash-es";
 import { slotChangeHasAssignedElement, toAriaBoolean } from "../../utils/dom";
@@ -17,7 +17,7 @@ import {
   connectInteractive,
   disconnectInteractive,
   InteractiveComponent,
-  updateHostInteraction
+  updateHostInteraction,
 } from "../../utils/interactive";
 import { createObserver } from "../../utils/observers";
 import { SelectionMode } from "../interfaces";
@@ -34,7 +34,7 @@ import {
   componentFocusable,
   LoadableComponent,
   setComponentLoaded,
-  setUpLoadableComponent
+  setUpLoadableComponent,
 } from "../../utils/loadable";
 
 /**
@@ -47,7 +47,7 @@ import {
 @Component({
   tag: "calcite-list",
   styleUrl: "list.scss",
-  shadow: true
+  shadow: true,
 })
 export class List implements InteractiveComponent, LoadableComponent {
   // --------------------------------------------------------------------------
@@ -288,7 +288,7 @@ export class List implements InteractiveComponent, LoadableComponent {
       filterPlaceholder,
       filterText,
       hasFilterActionsStart,
-      hasFilterActionsEnd
+      hasFilterActionsEnd,
     } = this;
     return (
       <div class={CSS.container}>
@@ -376,7 +376,7 @@ export class List implements InteractiveComponent, LoadableComponent {
   private filterElements({
     el,
     filteredItems,
-    visibleParents
+    visibleParents,
   }: {
     el: HTMLCalciteListItemElement | HTMLCalciteListItemGroupElement;
     filteredItems: HTMLCalciteListItemElement[];
@@ -402,7 +402,7 @@ export class List implements InteractiveComponent, LoadableComponent {
     this.filterElements({
       el: closestParent,
       filteredItems,
-      visibleParents
+      visibleParents,
     });
   }
 
@@ -474,7 +474,7 @@ export class List implements InteractiveComponent, LoadableComponent {
       label: item.label,
       description: item.description,
       metadata: item.metadata,
-      value: item.value
+      value: item.value,
     }));
   };
 

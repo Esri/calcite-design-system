@@ -6,7 +6,7 @@ import {
   componentFocusable,
   LoadableComponent,
   setComponentLoaded,
-  setUpLoadableComponent
+  setUpLoadableComponent,
 } from "../../utils/loadable";
 
 /**
@@ -15,7 +15,7 @@ import {
 @Component({
   tag: "calcite-flow",
   styleUrl: "flow.scss",
-  shadow: true
+  shadow: true,
 })
 export class Flow implements LoadableComponent {
   // --------------------------------------------------------------------------
@@ -167,7 +167,7 @@ export class Flow implements LoadableComponent {
     const frameDirectionClasses = {
       [CSS.frame]: true,
       [CSS.frameAdvancing]: flowDirection === "advancing",
-      [CSS.frameRetreating]: flowDirection === "retreating"
+      [CSS.frameRetreating]: flowDirection === "retreating",
     };
 
     return (

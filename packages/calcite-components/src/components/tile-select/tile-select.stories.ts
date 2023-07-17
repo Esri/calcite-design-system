@@ -4,7 +4,7 @@ import {
   Attribute,
   Attributes,
   createComponentHTML as create,
-  filterComponentAttributes
+  filterComponentAttributes,
 } from "../../../.storybook/utils";
 import readme from "./readme.md";
 import { html } from "../../../support/formatting";
@@ -12,9 +12,9 @@ import { html } from "../../../support/formatting";
 export default {
   title: "Components/Tiles/Tile Select",
   parameters: {
-    notes: readme
+    notes: readme,
   },
-  ...storyFilters()
+  ...storyFilters(),
 };
 
 const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ exceptions } = { exceptions: [] }) => {
@@ -26,7 +26,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
           this.value = boolean("checked", false);
           delete this.build;
           return this;
-        }
+        },
       },
       {
         name: "description",
@@ -34,7 +34,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
           this.value = text("description", "");
           delete this.build;
           return this;
-        }
+        },
       },
       {
         name: "disabled",
@@ -42,7 +42,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
           this.value = boolean("disabled", false);
           delete this.build;
           return this;
-        }
+        },
       },
       {
         name: "heading",
@@ -50,7 +50,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
           this.value = text("heading", "");
           delete this.build;
           return this;
-        }
+        },
       },
       {
         name: "hidden",
@@ -58,7 +58,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
           this.value = boolean("hidden", false);
           delete this.build;
           return this;
-        }
+        },
       },
       {
         name: "icon",
@@ -66,7 +66,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
           this.value = select("icon", ["", ...iconNames], "");
           delete this.build;
           return this;
-        }
+        },
       },
       {
         name: "input-alignment",
@@ -74,7 +74,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
           this.value = select("input-alignment", ["start", "end"], "start");
           delete this.build;
           return this;
-        }
+        },
       },
       {
         name: "input-enabled",
@@ -82,7 +82,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
           this.value = boolean("input-enabled", false);
           delete this.build;
           return this;
-        }
+        },
       },
       {
         name: "type",
@@ -90,7 +90,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
           this.value = select("type", ["radio", "checkbox"], "radio");
           delete this.build;
           return this;
-        }
+        },
       },
       {
         name: "value",
@@ -98,7 +98,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
           this.value = text("value", "one");
           delete this.build;
           return this;
-        }
+        },
       },
       {
         name: "width",
@@ -106,8 +106,8 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
           this.value = select("width", ["auto", "full"], "auto");
           delete this.build;
           return this;
-        }
-      }
+        },
+      },
     ],
     exceptions
   );

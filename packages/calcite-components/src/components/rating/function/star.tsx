@@ -7,7 +7,7 @@ export const StarIcon: FunctionalComponent<StarIconProps> = ({ full, scale, part
     {...{
       class: partial ? undefined : "icon",
       icon: full ? "star-f" : "star",
-      scale
+      scale,
     }}
   />
 );

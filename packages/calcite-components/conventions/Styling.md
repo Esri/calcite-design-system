@@ -19,7 +19,7 @@ Add a class to handle the logic in the component class.
 ```tsx
 <div
   class={{
-    [CSS.myClass]: alignment === "icon-end-space-between" && width !== "auto"
+    [CSS.myClass]: alignment === "icon-end-space-between" && width !== "auto",
   }}
 />
 ```

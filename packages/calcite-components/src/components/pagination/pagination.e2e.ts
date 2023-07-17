@@ -10,13 +10,13 @@ describe("calcite-pagination", () => {
 
   describe("focuses previous button when not on the first page", () => {
     focusable('<calcite-pagination page-size="1" start-item="2" total-items="10"></calcite-pagination>', {
-      shadowFocusTargetSelector: `.${CSS.previous}`
+      shadowFocusTargetSelector: `.${CSS.previous}`,
     });
   });
 
   describe("focuses page number 1 when on the first page", () => {
     focusable('<calcite-pagination page-size="1" start-item="1" total-items="10"></calcite-pagination>', {
-      shadowFocusTargetSelector: `.${CSS.page}`
+      shadowFocusTargetSelector: `.${CSS.page}`,
     });
   });
 
@@ -199,7 +199,7 @@ describe("calcite-pagination", () => {
       en: ["14,999,997", "14,999,998", "14,999,999", "15,000,000"],
       es: ["14.999.997", "14.999.998", "14.999.999", "15.000.000"],
       fr: ["14 999 997", "14 999 998", "14 999 999", "15 000 000"],
-      hi: ["1,49,99,997", "1,49,99,998", "1,49,99,999", "1,50,00,000"]
+      hi: ["1,49,99,997", "1,49,99,998", "1,49,99,999", "1,50,00,000"],
     };
 
     async function getDisplayedValues(): Promise<string[]> {

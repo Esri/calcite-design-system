@@ -9,7 +9,7 @@ import {
   Prop,
   State,
   VNode,
-  Watch
+  Watch,
 } from "@stencil/core";
 import {
   slotChangeHasAssignedElement,
@@ -17,18 +17,18 @@ import {
   getElementDir,
   getSlotted,
   nodeListToArray,
-  toAriaBoolean
+  toAriaBoolean,
 } from "../../utils/dom";
 import {
   ConditionalSlotComponent,
   connectConditionalSlotComponent,
-  disconnectConditionalSlotComponent
+  disconnectConditionalSlotComponent,
 } from "../../utils/conditionalSlot";
 import {
   connectInteractive,
   disconnectInteractive,
   InteractiveComponent,
-  updateHostInteraction
+  updateHostInteraction,
 } from "../../utils/interactive";
 import { CSS_UTILITY } from "../../utils/resources";
 import { FlipContext, Scale, SelectionMode } from "../interfaces";
@@ -43,7 +43,7 @@ import { CSS, ICONS, SLOTS } from "./resources";
 @Component({
   tag: "calcite-tree-item",
   styleUrl: "tree-item.scss",
-  shadow: true
+  shadow: true,
 })
 export class TreeItem implements ConditionalSlotComponent, InteractiveComponent {
   //--------------------------------------------------------------------------
@@ -202,7 +202,7 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
       <calcite-icon
         class={{
           [CSS.chevron]: true,
-          [CSS_UTILITY.rtl]: rtl
+          [CSS_UTILITY.rtl]: rtl,
         }}
         data-test-id="icon"
         icon={ICONS.chevronRight}
@@ -238,7 +238,7 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
         class={{
           [CSS.bulletPointIcon]: selectedIcon === ICONS.bulletPoint,
           [CSS.checkmarkIcon]: selectedIcon === ICONS.checkmark,
-          [CSS_UTILITY.rtl]: rtl
+          [CSS_UTILITY.rtl]: rtl,
         }}
         icon={selectedIcon}
         scale={this.scale === "l" ? "m" : "s"}
@@ -278,7 +278,7 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
             <div
               class={{
                 [CSS.nodeContainer]: true,
-                [CSS_UTILITY.rtl]: rtl
+                [CSS_UTILITY.rtl]: rtl,
               }}
               data-selection-mode={this.selectionMode}
               // eslint-disable-next-line react/jsx-sort-props
@@ -301,7 +301,7 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
           <div
             class={{
               [CSS.childrenContainer]: true,
-              [CSS_UTILITY.rtl]: rtl
+              [CSS_UTILITY.rtl]: rtl,
             }}
             data-test-id="calcite-tree-children"
             onClick={this.childrenClickHandler}
@@ -335,7 +335,7 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
     }
     this.calciteInternalTreeItemSelect.emit({
       modifyCurrentSelection: this.selectionMode === "ancestors" || this.isSelectionMultiLike,
-      forceToggle: false
+      forceToggle: false,
     });
   }
 
@@ -361,7 +361,7 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
         }
         this.calciteInternalTreeItemSelect.emit({
           modifyCurrentSelection: this.isSelectionMultiLike,
-          forceToggle: false
+          forceToggle: false,
         });
         event.preventDefault();
         break;
@@ -380,7 +380,7 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
         } else {
           this.calciteInternalTreeItemSelect.emit({
             modifyCurrentSelection: this.isSelectionMultiLike,
-            forceToggle: false
+            forceToggle: false,
           });
         }
 
@@ -467,7 +467,7 @@ export class TreeItem implements ConditionalSlotComponent, InteractiveComponent 
   private updateParentIsExpanded = (el: HTMLCalciteTreeItemElement, expanded: boolean): void => {
     const items = getSlotted<HTMLCalciteTreeItemElement>(el, SLOTS.children, {
       all: true,
-      selector: "calcite-tree-item"
+      selector: "calcite-tree-item",
     });
     items.forEach((item) => (item.parentExpanded = expanded));
   };

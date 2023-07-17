@@ -7,9 +7,9 @@ import { storyFilters } from "../../../.storybook/helpers";
 export default {
   title: "Components/Tiles/Tile Select Group",
   parameters: {
-    notes: readme
+    notes: readme,
   },
-  ...storyFilters()
+  ...storyFilters(),
 };
 
 const tileSelectsHTML = () => html`

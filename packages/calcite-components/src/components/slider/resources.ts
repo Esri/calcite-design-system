@@ -3,5 +3,5 @@ export const CSS = {
   handleLabelMinValue: "handle__label--minValue",
   handleLabelValue: "handle__label--value",
   tickMin: "tick__label--min",
-  tickMax: "tick__label--max"
+  tickMax: "tick__label--max",
 };

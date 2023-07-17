@@ -18,8 +18,8 @@ describe("calcite-option", () => {
     defaults("calcite-option", [
       {
         propertyName: "disabled",
-        defaultValue: false
-      }
+        defaultValue: false,
+      },
     ]);
   });
 
@@ -27,19 +27,19 @@ describe("calcite-option", () => {
     reflects("calcite-option", [
       {
         propertyName: "disabled",
-        value: true
+        value: true,
       },
       {
         propertyName: "selected",
-        value: true
-      }
+        value: true,
+      },
     ]);
   });
 
   it("falls back to the text content when value/label is not specified", async () => {
     const optionText = "one";
     const page = await newE2EPage({
-      html: `<calcite-option>${optionText}</calcite-option>`
+      html: `<calcite-option>${optionText}</calcite-option>`,
     });
     const option = await page.find("calcite-option");
 

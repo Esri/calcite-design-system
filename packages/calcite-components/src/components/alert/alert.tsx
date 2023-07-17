@@ -10,38 +10,38 @@ import {
   Prop,
   State,
   VNode,
-  Watch
+  Watch,
 } from "@stencil/core";
 import {
   getSlotted,
   setRequestedIcon,
   slotChangeHasAssignedElement,
-  toAriaBoolean
+  toAriaBoolean,
 } from "../../utils/dom";
 import { MenuPlacement } from "../../utils/floating-ui";
 import {
   componentFocusable,
   LoadableComponent,
   setComponentLoaded,
-  setUpLoadableComponent
+  setUpLoadableComponent,
 } from "../../utils/loadable";
 import {
   connectLocalized,
   disconnectLocalized,
   NumberingSystem,
-  numberStringFormatter
+  numberStringFormatter,
 } from "../../utils/locale";
 import {
   connectOpenCloseComponent,
   disconnectOpenCloseComponent,
-  OpenCloseComponent
+  OpenCloseComponent,
 } from "../../utils/openCloseComponent";
 import {
   connectMessages,
   disconnectMessages,
   setUpMessages,
   T9nComponent,
-  updateMessages
+  updateMessages,
 } from "../../utils/t9n";
 import { Kind, Scale } from "../interfaces";
 import { KindIcons } from "../resources";
@@ -65,7 +65,7 @@ import { CSS, DURATIONS, SLOTS } from "./resources";
   tag: "calcite-alert",
   styleUrl: "alert.scss",
   shadow: true,
-  assetsDirs: ["assets"]
+  assetsDirs: ["assets"],
 })
 export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponent {
   //--------------------------------------------------------------------------
@@ -205,7 +205,7 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
   disconnectedCallback(): void {
     window.dispatchEvent(
       new CustomEvent<Unregister>("calciteInternalAlertUnregister", {
-        detail: { alert: this.el }
+        detail: { alert: this.el },
       })
     );
     window.clearTimeout(this.autoCloseTimeoutId);
@@ -234,7 +234,7 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
     numberStringFormatter.numberFormatOptions = {
       locale: this.effectiveLocale,
       numberingSystem: this.numberingSystem,
-      signDisplay: "always"
+      signDisplay: "always",
     };
 
     const queueNumber = this.queueLength > 2 ? this.queueLength - 1 : 1;
@@ -272,7 +272,7 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
             container: true,
             queued,
             [placement]: true,
-            [CSS.slottedInShell]: this.slottedInShell
+            [CSS.slottedInShell]: this.slottedInShell,
           }}
           onPointerEnter={this.autoClose && this.autoCloseTimeoutId ? this.handleMouseOver : null}
           onPointerLeave={this.autoClose && this.autoCloseTimeoutId ? this.handleMouseLeave : null}
@@ -366,7 +366,7 @@ export class Alert implements OpenCloseComponent, LoadableComponent, T9nComponen
 
     window.dispatchEvent(
       new CustomEvent<Sync>("calciteInternalAlertSync", {
-        detail: { queue }
+        detail: { queue },
       })
     );
   }

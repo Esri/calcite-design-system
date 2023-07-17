@@ -10,5 +10,5 @@ export const CSS = {
   iconStartEmpty: "icon-start-empty",
   iconEndEmpty: "icon-end-empty",
   buttonPadding: "button-padding",
-  buttonPaddingShrunk: "button-padding--shrunk"
+  buttonPaddingShrunk: "button-padding--shrunk",
 };

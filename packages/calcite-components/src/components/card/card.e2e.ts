@@ -6,7 +6,7 @@ import { html } from "../../../support/formatting";
 
 const placeholder = placeholderImage({
   width: 350,
-  height: 150
+  height: 150,
 });
 
 describe("calcite-card", () => {
