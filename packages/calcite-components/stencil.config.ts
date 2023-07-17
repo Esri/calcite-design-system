@@ -135,7 +135,6 @@ export const create: () => Config = () => ({
       "^lodash-es$": "lodash",
     },
     setupFilesAfterEnv: ["<rootDir>/src/tests/setupTests.ts"],
-    testRegex: "input-time-picker.e2e.ts",
   },
   hydratedFlag: {
     selector: "attribute",
