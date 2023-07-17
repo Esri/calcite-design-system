@@ -6,7 +6,7 @@ import {
   Attributes,
   createComponentHTML as create,
   filterComponentAttributes,
-  modesDarkDefault
+  modesDarkDefault,
 } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import readme from "./readme.md";
@@ -14,9 +14,9 @@ import readme from "./readme.md";
 export default {
   title: "Components/Tips/Tip Manager",
   parameters: {
-    notes: readme
+    notes: readme,
   },
-  ...storyFilters()
+  ...storyFilters(),
 };
 
 const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ exceptions } = { exceptions: [] }) => {
@@ -28,8 +28,8 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
           this.value = boolean("closed", false);
           delete this.build;
           return this;
-        }
-      }
+        },
+      },
     ],
     exceptions
   );
@@ -86,7 +86,7 @@ export const darkModeRTL_TestOnly = (): string =>
     "calcite-tip-manager",
     createAttributes({ exceptions: ["dir", "class"] }).concat([
       { name: "dir", value: "rtl" },
-      { name: "class", value: "calcite-mode-dark" }
+      { name: "class", value: "calcite-mode-dark" },
     ]),
     tipContent
   );

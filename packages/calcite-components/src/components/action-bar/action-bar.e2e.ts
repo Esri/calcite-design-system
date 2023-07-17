@@ -18,20 +18,20 @@ describe("calcite-action-bar", () => {
     defaults("calcite-action-bar", [
       {
         propertyName: "expandDisabled",
-        defaultValue: false
+        defaultValue: false,
       },
       {
         propertyName: "expanded",
-        defaultValue: false
+        defaultValue: false,
       },
       {
         propertyName: "scale",
-        defaultValue: undefined
+        defaultValue: undefined,
       },
       {
         propertyName: "layout",
-        defaultValue: "vertical"
-      }
+        defaultValue: "vertical",
+      },
     ]);
   });
 
@@ -39,12 +39,12 @@ describe("calcite-action-bar", () => {
     reflects("calcite-action-bar", [
       {
         propertyName: "expandDisabled",
-        value: true
+        value: true,
       },
       {
         propertyName: "expanded",
-        value: true
-      }
+        value: true,
+      },
     ]);
   });
 
@@ -60,7 +60,7 @@ describe("calcite-action-bar", () => {
               <calcite-action id="menu-action" text-enabled text="Save" label="Save" icon="save"></calcite-action>
             </calcite-action-menu>
           </calcite-action-group>
-        </calcite-action-bar>`
+        </calcite-action-bar>`,
       });
       await page.waitForChanges();
       const actionBar = await page.find("calcite-action-bar");
@@ -245,7 +245,7 @@ describe("calcite-action-bar", () => {
         </calcite-action-bar>
       `,
       {
-        focusTargetSelector: "calcite-action"
+        focusTargetSelector: "calcite-action",
       }
     );
 
@@ -342,7 +342,7 @@ describe("calcite-action-bar", () => {
               <calcite-action text="Tips" icon="lightbulb"></calcite-action>
             </calcite-action-group>
           </calcite-action-bar>
-        </div>`
+        </div>`,
       });
       await page.waitForTimeout(overflowActionsDebounceInMs);
 
@@ -390,7 +390,7 @@ describe("calcite-action-bar", () => {
               <calcite-action text="Tips" icon="lightbulb"></calcite-action>
             </calcite-action-group>
           </calcite-action-bar>
-        </div>`
+        </div>`,
       });
       await page.waitForTimeout(overflowActionsDebounceInMs + 10);
 

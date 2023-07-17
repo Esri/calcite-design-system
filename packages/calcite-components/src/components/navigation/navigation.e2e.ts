@@ -15,8 +15,8 @@ describe("calcite-navigation", () => {
     reflects("calcite-navigation", [
       {
         propertyName: "navigationAction",
-        value: ""
-      }
+        value: "",
+      },
     ]);
   });
 
@@ -24,14 +24,14 @@ describe("calcite-navigation", () => {
     defaults("calcite-navigation", [
       {
         propertyName: "navigationAction",
-        defaultValue: false
-      }
+        defaultValue: false,
+      },
     ]);
   });
 
   describe("is focusable", () => {
     focusable(html`<calcite-navigation navigation-action></calcite-navigation>`, {
-      shadowFocusTargetSelector: "calcite-action"
+      shadowFocusTargetSelector: "calcite-action",
     });
   });
 

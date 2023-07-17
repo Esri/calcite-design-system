@@ -4,7 +4,7 @@ import { InputData, jsonInputForTargetLanguage, quicktype } from "quicktype-core
 
 (async () => {
   const {
-    promises: { readFile, writeFile }
+    promises: { readFile, writeFile },
   } = await import("fs");
 
   const rootBundleFile = "messages.json";
@@ -35,8 +35,8 @@ import { InputData, jsonInputForTargetLanguage, quicktype } from "quicktype-core
           lang: "typescript",
           inferMaps: false,
           rendererOptions: {
-            "just-types": "true"
-          }
+            "just-types": "true",
+          },
         })
       ).lines
         .join("\n")
@@ -50,7 +50,7 @@ import { InputData, jsonInputForTargetLanguage, quicktype } from "quicktype-core
       await writeFile(
         declarationFile,
         format(typingsContent, {
-          filepath: declarationFile
+          filepath: declarationFile,
         })
       );
       const t9nPath = `${bundle.split("/t9n")[0]}/t9n`;

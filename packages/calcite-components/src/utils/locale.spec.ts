@@ -7,7 +7,7 @@ import {
   locales,
   numberingSystems,
   NumberStringFormatOptions,
-  numberStringFormatter
+  numberStringFormatter,
 } from "./locale";
 
 describe("NumberStringFormat", () => {
@@ -22,7 +22,7 @@ describe("NumberStringFormat", () => {
     // not create the formatter
     numberStringFormatter.numberFormatOptions = {
       locale: defaultLocale,
-      numberingSystem: defaultNumberingSystem
+      numberingSystem: defaultNumberingSystem,
     };
     expect(numberStringFormatter.numberFormatter).toBeUndefined();
     expect(numberStringFormatter.numberFormatOptions).toBeUndefined();
@@ -30,7 +30,7 @@ describe("NumberStringFormat", () => {
     // setting a non-locale/numberingSystem option creates the formatter
     // with the default locale/numberingSystem values
     numberStringFormatter.numberFormatOptions = {
-      useGrouping: true
+      useGrouping: true,
     } as NumberStringFormatOptions;
 
     expect(numberStringFormatter.numberFormatter).toBeDefined();
@@ -45,7 +45,7 @@ describe("NumberStringFormat", () => {
         numberStringFormatter.numberFormatOptions = {
           locale,
           numberingSystem: "latn",
-          useGrouping: false
+          useGrouping: false,
         };
         const localizedNumberString = numberStringFormatter.localize(numberString);
         const delocalizedNumberString = numberStringFormatter.delocalize(localizedNumberString);
@@ -57,7 +57,7 @@ describe("NumberStringFormat", () => {
         numberStringFormatter.numberFormatOptions = {
           locale,
           numberingSystem: "latn",
-          useGrouping: false
+          useGrouping: false,
         };
         const localizedNumberString = numberStringFormatter.localize(numberString);
         const delocalizedNumberString = numberStringFormatter.delocalize(localizedNumberString);
@@ -69,7 +69,7 @@ describe("NumberStringFormat", () => {
         numberStringFormatter.numberFormatOptions = {
           locale,
           numberingSystem: "latn",
-          useGrouping: false
+          useGrouping: false,
         };
         const localizedNumberString = numberStringFormatter.localize(numberString);
         const delocalizedNumberString = numberStringFormatter.delocalize(localizedNumberString);
@@ -81,7 +81,7 @@ describe("NumberStringFormat", () => {
         numberStringFormatter.numberFormatOptions = {
           locale,
           numberingSystem: "latn",
-          useGrouping: false
+          useGrouping: false,
         };
         const localizedNumberString = numberStringFormatter.localize(numberString);
         const delocalizedNumberString = numberStringFormatter.delocalize(localizedNumberString);
@@ -94,7 +94,7 @@ describe("NumberStringFormat", () => {
           locale,
           // the group separator is different in arabic depending on the numberingSystem
           numberingSystem: locale === "ar" ? "arab" : "latn",
-          useGrouping: true
+          useGrouping: true,
         };
         const localizedNumberString = numberStringFormatter.localize(numberString);
         const delocalizedNumberString = numberStringFormatter.delocalize(localizedNumberString);
@@ -107,7 +107,7 @@ describe("NumberStringFormat", () => {
           locale,
           // the group separator is different in arabic depending on the numberingSystem
           numberingSystem: locale === "ar" ? "arab" : "latn",
-          useGrouping: true
+          useGrouping: true,
         };
         const localizedNumberString = numberStringFormatter.localize(numberString);
         const delocalizedNumberString = numberStringFormatter.delocalize(localizedNumberString);
@@ -123,7 +123,7 @@ describe("NumberStringFormat", () => {
         numberStringFormatter.numberFormatOptions = {
           locale: numberingSystem === "arab" ? "ar" : "en",
           numberingSystem,
-          useGrouping: true
+          useGrouping: true,
         };
         const localizedNumberString = numberStringFormatter.localize(numberString);
         const delocalizedNumberString = numberStringFormatter.delocalize(localizedNumberString);

@@ -18,7 +18,7 @@ interface ExpandToggleProps {
 
 const ICONS = {
   chevronsLeft: "chevrons-left",
-  chevronsRight: "chevrons-right"
+  chevronsRight: "chevrons-right",
 };
 
 function getCalcitePosition(position: Position, el: HTMLElement): Position {
@@ -27,7 +27,7 @@ function getCalcitePosition(position: Position, el: HTMLElement): Position {
 
 export function toggleChildActionText({
   el,
-  expanded
+  expanded,
 }: {
   el: HTMLElement;
   expanded: boolean;
@@ -44,7 +44,7 @@ const setTooltipReference = ({
   tooltip,
   referenceElement,
   expanded,
-  ref
+  ref,
 }: {
   tooltip: HTMLCalciteTooltipElement;
   referenceElement: HTMLCalciteActionElement;
@@ -71,7 +71,7 @@ export const ExpandToggle: FunctionalComponent<ExpandToggleProps> = ({
   position,
   tooltip,
   ref,
-  scale
+  scale,
 }) => {
   const rtl = getElementDir(el) === "rtl";
 

@@ -51,7 +51,7 @@ import notes from "./readme.md";
 export default {
   title: "Components/My Component",
   parameters: { notes },
-  ...storyFilters()
+  ...storyFilters(),
 };
 
 export const simple = (): string => html`<my-component demo-prop="${boolean("demo-prop", true)}"></my-component>`;

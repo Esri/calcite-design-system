@@ -5,7 +5,7 @@ import {
   disconnectMessages,
   setUpMessages,
   T9nComponent,
-  updateMessages
+  updateMessages,
 } from "../../utils/t9n";
 import { ScrimMessages } from "./assets/scrim/t9n";
 import { CSS, BREAKPOINTS } from "./resources";
@@ -19,7 +19,7 @@ import { Scale } from "../interfaces";
   tag: "calcite-scrim",
   styleUrl: "scrim.scss",
   shadow: true,
-  assetsDirs: ["assets"]
+  assetsDirs: ["assets"],
 })
 export class Scrim implements LocalizedComponent, T9nComponent {
   // --------------------------------------------------------------------------

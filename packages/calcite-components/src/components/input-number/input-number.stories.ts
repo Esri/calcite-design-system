@@ -7,9 +7,9 @@ import readme from "./readme.md";
 export default {
   title: "Components/Controls/Input Number",
   parameters: {
-    notes: readme
+    notes: readme,
   },
-  ...storyFilters()
+  ...storyFilters(),
 };
 
 export const simple = (): string => html`

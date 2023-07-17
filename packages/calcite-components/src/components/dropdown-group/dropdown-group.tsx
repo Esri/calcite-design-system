@@ -7,7 +7,7 @@ import {
   Host,
   Listen,
   Prop,
-  VNode
+  VNode,
 } from "@stencil/core";
 import { getElementProp } from "../../utils/dom";
 import { Scale, SelectionMode } from "../interfaces";
@@ -20,8 +20,8 @@ import { CSS } from "./resources";
   tag: "calcite-dropdown-group",
   styleUrl: "dropdown-group.scss",
   shadow: {
-    delegatesFocus: true
-  }
+    delegatesFocus: true,
+  },
 })
 export class DropdownGroup {
   //--------------------------------------------------------------------------
@@ -93,7 +93,7 @@ export class DropdownGroup {
             container: true,
             [CSS.containerSmall]: scale === "s",
             [CSS.containerMedium]: scale === "m",
-            [CSS.containerLarge]: scale === "l"
+            [CSS.containerLarge]: scale === "l",
           }}
           title={this.groupTitle}
         >
@@ -117,7 +117,7 @@ export class DropdownGroup {
     this.requestedDropdownItem = event.detail.requestedDropdownItem;
     this.calciteInternalDropdownItemChange.emit({
       requestedDropdownGroup: this.requestedDropdownGroup,
-      requestedDropdownItem: this.requestedDropdownItem
+      requestedDropdownItem: this.requestedDropdownItem,
     });
   }
 

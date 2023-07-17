@@ -13,11 +13,11 @@
   const SCRIPTS: Script[] = [
     {
       src: "build/calcite.esm.js",
-      type: "module"
+      type: "module",
     },
     {
-      src: "demos/_assets/demo-dom-swapper.js"
-    }
+      src: "demos/_assets/demo-dom-swapper.js",
+    },
   ];
 
   const parseTemplate = (text: string): HTMLTemplateElement | null => {

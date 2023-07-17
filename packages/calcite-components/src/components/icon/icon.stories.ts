@@ -7,7 +7,7 @@ import readme from "./readme.md";
 export default {
   title: "Components/Icon",
   parameters: { notes: readme },
-  ...storyFilters()
+  ...storyFilters(),
 };
 
 const sampleIcon = iconNames.find((item) => item === "arrowRight");

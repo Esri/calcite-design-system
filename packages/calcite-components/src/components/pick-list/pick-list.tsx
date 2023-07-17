@@ -8,19 +8,19 @@ import {
   Method,
   Prop,
   State,
-  VNode
+  VNode,
 } from "@stencil/core";
 import {
   connectInteractive,
   disconnectInteractive,
   InteractiveComponent,
-  updateHostInteraction
+  updateHostInteraction,
 } from "../../utils/interactive";
 import {
   componentFocusable,
   LoadableComponent,
   setComponentLoaded,
-  setUpLoadableComponent
+  setUpLoadableComponent,
 } from "../../utils/loadable";
 import { createObserver } from "../../utils/observers";
 import { HeadingLevel } from "../functional/Heading";
@@ -45,7 +45,7 @@ import {
   removeItem,
   selectSiblings,
   setFocus,
-  setUpItems
+  setUpItems,
 } from "./shared-list-logic";
 import List from "./shared-list-render";
 
@@ -57,7 +57,7 @@ import List from "./shared-list-render";
 @Component({
   tag: "calcite-pick-list",
   styleUrl: "pick-list.scss",
-  shadow: true
+  shadow: true,
 })
 export class PickList<
   ItemElement extends HTMLCalcitePickListItemElement = HTMLCalcitePickListItemElement

@@ -12,12 +12,12 @@ describe("calcite-menu-item", () => {
     reflects("calcite-menu-item", [
       {
         propertyName: "active",
-        value: "true"
+        value: "true",
       },
       {
         propertyName: "target",
-        value: "_blank"
-      }
+        value: "_blank",
+      },
     ]);
   });
 

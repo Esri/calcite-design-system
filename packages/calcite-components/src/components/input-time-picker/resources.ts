@@ -1,3 +1,3 @@
 export const CSS = {
-  toggleIcon: "toggle-icon"
+  toggleIcon: "toggle-icon",
 };

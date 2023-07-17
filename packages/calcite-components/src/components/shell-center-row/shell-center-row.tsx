@@ -2,7 +2,7 @@ import { Component, Element, Fragment, h, Prop, VNode } from "@stencil/core";
 import {
   ConditionalSlotComponent,
   connectConditionalSlotComponent,
-  disconnectConditionalSlotComponent
+  disconnectConditionalSlotComponent,
 } from "../../utils/conditionalSlot";
 import { getSlotted } from "../../utils/dom";
 import { Position, Scale } from "../interfaces";
@@ -15,7 +15,7 @@ import { CSS, SLOTS } from "./resources";
 @Component({
   tag: "calcite-shell-center-row",
   styleUrl: "shell-center-row.scss",
-  shadow: true
+  shadow: true,
 })
 export class ShellCenterRow implements ConditionalSlotComponent {
   // --------------------------------------------------------------------------

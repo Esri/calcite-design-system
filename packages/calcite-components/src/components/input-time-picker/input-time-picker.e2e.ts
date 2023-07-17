@@ -10,7 +10,7 @@ import {
   labelable,
   reflects,
   renders,
-  t9n
+  t9n,
 } from "../../tests/commonTests";
 import { getFocusedElementProp, skipAnimations, waitForAnimationFrame } from "../../tests/utils";
 import { html } from "../../../support/formatting";
@@ -95,6 +95,7 @@ describe("calcite-input-time-picker", () => {
   //   await page.setContent(
   //     `<calcite-input-time-picker read-only triggerDisabled={true} id="canReadOnly"></calcite-input-time-picker>`
   //   );
+
 
   //   const component = await page.find("#canReadOnly");
   //   const input = await page.find("#canReadOnly >>> calcite-input");
