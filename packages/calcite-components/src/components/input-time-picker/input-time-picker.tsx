@@ -36,7 +36,6 @@ import {
   setUpLoadableComponent
 } from "../../utils/loadable";
 import {
-  connectLocalized,
   disconnectLocalized,
   LocalizedComponent,
   NumberingSystem,
@@ -69,6 +68,7 @@ import localizedFormat from "dayjs/esm/plugin/localizedFormat";
 import preParsePostFormat from "dayjs/esm/plugin/preParsePostFormat";
 import updateLocale from "dayjs/esm/plugin/updateLocale";
 import { getSupportedLocale } from "../../utils/locale";
+import { createObserver } from "../../utils/observers";
 
 // some bundlers (e.g., Webpack) need dynamic import paths to be static
 const supportedDayJsLocaleToLocaleConfigImport = new Map([
@@ -760,9 +760,27 @@ export class InputTimePicker
   //
   //--------------------------------------------------------------------------
 
+  connectLocalized(): void {
+    this.updateEffectiveLocale();
+
+    this.mutationObserver?.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["lang"],
+      subtree: true
+    });
+  }
+
+  updateEffectiveLocale(): void {
+    this.effectiveLocale = this.el.lang;
+  }
+
+  mutationObserver = createObserver("mutation", () => {
+    this.effectiveLocale = this.el.lang;
+  });
+
   connectedCallback() {
     connectInteractive(this);
-    connectLocalized(this);
+    this.connectLocalized();
 
     if (isValidTime(this.value)) {
       this.setValueDirectly(this.value);
