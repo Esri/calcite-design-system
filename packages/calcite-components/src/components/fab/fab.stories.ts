@@ -4,7 +4,7 @@ import {
   Attributes,
   createComponentHTML as create,
   filterComponentAttributes,
-  modesDarkDefault
+  modesDarkDefault,
 } from "../../../.storybook/utils";
 import readme from "./readme.md";
 import { ATTRIBUTES } from "../../../.storybook/resources";
@@ -16,9 +16,9 @@ const { scale } = ATTRIBUTES;
 export default {
   title: "Components/Buttons/FAB",
   parameters: {
-    notes: readme
+    notes: readme,
   },
-  ...storyFilters()
+  ...storyFilters(),
 };
 
 const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ exceptions } = { exceptions: [] }) => {
@@ -30,7 +30,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
           this.value = select("appearance", ["solid", "outline-fill"], "outline-fill");
           delete this.build;
           return this;
-        }
+        },
       },
       {
         name: "disabled",
@@ -38,7 +38,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
           this.value = boolean("disabled", false);
           delete this.build;
           return this;
-        }
+        },
       },
       {
         name: "icon",
@@ -46,7 +46,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
           this.value = text("icon", ICONS.plus);
           delete this.build;
           return this;
-        }
+        },
       },
       {
         name: "label",
@@ -54,7 +54,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
           this.value = text("label", "Label");
           delete this.build;
           return this;
-        }
+        },
       },
       {
         name: "loading",
@@ -62,7 +62,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
           this.value = boolean("loading", false);
           delete this.build;
           return this;
-        }
+        },
       },
       {
         name: "text",
@@ -70,7 +70,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
           this.value = text("text", "Text");
           delete this.build;
           return this;
-        }
+        },
       },
       {
         name: "text-enabled",
@@ -78,7 +78,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
           this.value = boolean("text-enabled", true);
           delete this.build;
           return this;
-        }
+        },
       },
       {
         name: "scale",
@@ -86,8 +86,8 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
           this.value = select("scale", scale.values, scale.defaultValue);
           delete this.build;
           return this;
-        }
-      }
+        },
+      },
     ],
     exceptions
   );
@@ -102,12 +102,12 @@ export const darkModeRTL_TestOnly = (): string =>
     createAttributes({ exceptions: ["dir", "class"] }).concat([
       {
         name: "dir",
-        value: "rtl"
+        value: "rtl",
       },
       {
         name: "class",
-        value: "calcite-mode-dark"
-      }
+        value: "calcite-mode-dark",
+      },
     ])
   );
 

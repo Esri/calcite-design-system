@@ -7,7 +7,7 @@ module.exports = {
     "@storybook/testing-library",
     "@whitespace/storybook-addon-html",
     "storybook-addon-themes",
-    "storybook-rtl-addon"
+    "storybook-rtl-addon",
   ],
   staticDirs: ["../__docs-temp__"],
   stories: ["../src/**/*.stories.@(mdx|ts)"],
@@ -19,8 +19,8 @@ module.exports = {
 
         // we need to set this up to enable custom Storybook doc components
         // https://storybook.js.org/docs/html/writing-docs/docs-page#with-a-custom-component
-        "@babel/preset-react"
-      ]
+        "@babel/preset-react",
+      ],
     };
-  }
+  },
 };

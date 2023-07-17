@@ -7,7 +7,7 @@ describe("label", () => {
       el: null,
       label: null,
       labelEl: null,
-      onLabelClick: jest.fn()
+      onLabelClick: jest.fn(),
     };
 
     return { ...base, ...overrides };
@@ -34,7 +34,7 @@ describe("label", () => {
         const fakeLabelableEl = document.querySelector<HTMLElement>("#unlabeled");
 
         const nonLabelable = createFakeLabelable({
-          el: fakeLabelableEl
+          el: fakeLabelableEl,
         });
 
         connectLabel(nonLabelable);
@@ -58,7 +58,7 @@ describe("label", () => {
 
         const labelable = createFakeLabelable({
           el: fakeLabelableEl,
-          disabled: true
+          disabled: true,
         });
 
         connectLabel(labelable);
@@ -83,7 +83,7 @@ describe("label", () => {
         wireUpFakeLabel(labelEl);
 
         const labelable = createFakeLabelable({
-          el: fakeLabelableEl
+          el: fakeLabelableEl,
         });
 
         connectLabel(labelable);
@@ -117,7 +117,7 @@ describe("label", () => {
         wireUpFakeLabel(labelEl);
 
         const labelable = createFakeLabelable({
-          el: fakeLabelableEl
+          el: fakeLabelableEl,
         });
 
         connectLabel(labelable);
@@ -152,7 +152,7 @@ describe("label", () => {
         wireUpFakeLabel(labelEl);
 
         const labelable = createFakeLabelable({
-          el: fakeLabelableEl
+          el: fakeLabelableEl,
         });
 
         connectLabel(labelable);
@@ -189,7 +189,7 @@ describe("label", () => {
         wireUpFakeLabel(labelEl);
 
         const labelable = createFakeLabelable({
-          el: fakeLabelableEl
+          el: fakeLabelableEl,
         });
 
         connectLabel(labelable);
@@ -226,7 +226,7 @@ describe("label", () => {
         wireUpFakeLabel(labelEl);
 
         const innerLabelable = createFakeLabelable({
-          el: fakeInnerLabelableEl
+          el: fakeInnerLabelableEl,
         });
 
         connectLabel(innerLabelable);
@@ -234,7 +234,7 @@ describe("label", () => {
         expect(innerLabelable.labelEl).toBeNull();
 
         const outerLabelable = createFakeLabelable({
-          el: fakeOuterLabelableEl
+          el: fakeOuterLabelableEl,
         });
 
         connectLabel(outerLabelable);
@@ -265,7 +265,7 @@ describe("label", () => {
     expect(
       getLabelText(
         createFakeLabelable({
-          labelEl
+          labelEl,
         })
       )
     ).toBe("from-text-content");
@@ -274,7 +274,7 @@ describe("label", () => {
       getLabelText(
         createFakeLabelable({
           label,
-          labelEl
+          labelEl,
         })
       )
     ).toBe("from-label");

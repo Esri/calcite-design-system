@@ -12,7 +12,7 @@ import { CSS } from "./resources";
 @Component({
   tag: "calcite-combobox-item-group",
   styleUrl: "combobox-item-group.scss",
-  shadow: true
+  shadow: true,
 })
 export class ComboboxItemGroup {
   // --------------------------------------------------------------------------
@@ -84,7 +84,7 @@ export class ComboboxItemGroup {
         class={{
           [CSS.list]: true,
           [`scale--${scale}`]: true,
-          [CSS.trailingPadding]: this.isPaddingPresent()
+          [CSS.trailingPadding]: this.isPaddingPresent(),
         }}
         role="group"
       >

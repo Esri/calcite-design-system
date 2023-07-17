@@ -8,9 +8,9 @@ import readme from "./readme.md";
 export default {
   title: "Components/Avatar",
   parameters: {
-    notes: readme
+    notes: readme,
   },
-  ...storyFilters()
+  ...storyFilters(),
 };
 
 export const simple = (): string => html`
@@ -55,7 +55,7 @@ const users = [
   { id: "8542b186e5a64a90910486de32bced72", name: "qk" },
   { id: "8587853c1f544de6ae4133224db29736", name: "rl" },
   { id: "9de33a713bd84690bbc618e98ecf7567", name: "sm" },
-  { id: "e85f7f72aa51b34f81660a0f4c6a4d80", name: "tn" }
+  { id: "e85f7f72aa51b34f81660a0f4c6a4d80", name: "tn" },
 ];
 
 const contrastLight = users

@@ -14,7 +14,7 @@ describe("calcite-date-picker-month-header", () => {
     weekStart: 7,
     placeholder: "DD/MM/YYYY",
     days: {
-      narrow: ["D", "L", "M", "M", "J", "V", "S"]
+      narrow: ["D", "L", "M", "M", "J", "V", "S"],
     },
     numerals: "0123456789",
     months: {
@@ -32,15 +32,15 @@ describe("calcite-date-picker-month-header", () => {
         "septiembre",
         "octubre",
         "noviembre",
-        "diciembre"
-      ]
-    }
+        "diciembre",
+      ],
+    },
   };
 
   it("displays next/previous options", async () => {
     const page = await newE2EPage({
       // intentionally using calcite-date-picker to wire up supporting components to be used in `evaluate` fn below
-      html: "<calcite-date-picker></calcite-date-picker>"
+      html: "<calcite-date-picker></calcite-date-picker>",
     });
     await page.waitForChanges();
 
@@ -55,7 +55,7 @@ describe("calcite-date-picker-month-header", () => {
       dateMonthHeader.messages = {
         nextMonth: "Next month",
         prevMonth: "Previous month",
-        year: "Year"
+        year: "Year",
       };
 
       document.body.innerHTML = "";
@@ -84,7 +84,7 @@ describe("calcite-date-picker-month-header", () => {
       dateMonthHeader.messages = {
         nextMonth: "Next month",
         prevMonth: "Previous month",
-        year: "Year"
+        year: "Year",
       };
 
       document.body.innerHTML = "";

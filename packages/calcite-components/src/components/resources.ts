@@ -3,5 +3,5 @@ export enum KindIcons {
   danger = "exclamationMarkTriangle",
   info = "information",
   success = "checkCircle",
-  warning = "exclamationMarkTriangle"
+  warning = "exclamationMarkTriangle",
 }

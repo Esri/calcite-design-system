@@ -12,8 +12,8 @@ describe("calcite-action-group", () => {
     defaults("calcite-action-group", [
       {
         propertyName: "layout",
-        defaultValue: "vertical"
-      }
+        defaultValue: "vertical",
+      },
     ]);
   });
 

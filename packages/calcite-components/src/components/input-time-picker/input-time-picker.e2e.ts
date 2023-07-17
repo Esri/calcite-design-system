@@ -10,7 +10,7 @@ import {
   labelable,
   reflects,
   renders,
-  t9n
+  t9n,
 } from "../../tests/commonTests";
 import { getFocusedElementProp, skipAnimations } from "../../tests/utils";
 import { html } from "../../../support/formatting";
@@ -64,7 +64,7 @@ describe("calcite-input-time-picker", () => {
     defaults("calcite-input-time-picker", [
       { propertyName: "scale", defaultValue: "m" },
       { propertyName: "step", defaultValue: 60 },
-      { propertyName: "overlayPositioning", defaultValue: "absolute" }
+      { propertyName: "overlayPositioning", defaultValue: "absolute" },
     ]);
   });
 
@@ -72,7 +72,7 @@ describe("calcite-input-time-picker", () => {
     reflects(`calcite-input-time-picker`, [
       { propertyName: "open", value: true },
       { propertyName: "disabled", value: true },
-      { propertyName: "scale", value: "m" }
+      { propertyName: "scale", value: "m" },
     ]);
   });
 
@@ -82,7 +82,7 @@ describe("calcite-input-time-picker", () => {
 
   describe("should focus the input when setFocus is called", () => {
     focusable(`calcite-input-time-picker`, {
-      shadowFocusTargetSelector: "calcite-input"
+      shadowFocusTargetSelector: "calcite-input",
     });
   });
 

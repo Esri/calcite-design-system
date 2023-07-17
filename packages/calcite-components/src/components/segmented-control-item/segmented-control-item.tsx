@@ -7,7 +7,7 @@ import {
   Host,
   Prop,
   VNode,
-  Watch
+  Watch,
 } from "@stencil/core";
 import { getElementProp, toAriaBoolean } from "../../utils/dom";
 import { Appearance, Layout, Scale } from "../interfaces";
@@ -16,7 +16,7 @@ import { CSS, SLOTS } from "./resources";
 @Component({
   tag: "calcite-segmented-control-item",
   styleUrl: "segmented-control-item.scss",
-  shadow: true
+  shadow: true,
 })
 export class SegmentedControlItem {
   //--------------------------------------------------------------------------
@@ -98,7 +98,7 @@ export class SegmentedControlItem {
             "label--scale-l": scale === "l",
             "label--horizontal": layout === "horizontal",
             "label--outline": appearance === "outline",
-            "label--outline-fill": appearance === "outline-fill"
+            "label--outline-fill": appearance === "outline-fill",
           }}
         >
           {this.iconStart ? iconStartEl : null}

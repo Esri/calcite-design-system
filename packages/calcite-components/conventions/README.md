@@ -258,7 +258,7 @@ import { Component, Host, h } from "@stencil/core";
 @Component({
   tag: "calcite-test",
   shadow: true,
-  assetsDirs: ["assets"]
+  assetsDirs: ["assets"],
 })
 export class MyComponent {
   /* ... */
@@ -293,7 +293,7 @@ import { guid } from "../../utils/guid";
 @Component({
   tag: "calcite-example",
   styleUrl: "example.scss",
-  shadow: true
+  shadow: true,
 })
 export class Example {
   // ...

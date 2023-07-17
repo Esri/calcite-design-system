@@ -4,13 +4,13 @@ import {
   connectInteractive,
   disconnectInteractive,
   InteractiveComponent,
-  updateHostInteraction
+  updateHostInteraction,
 } from "../../utils/interactive";
 import {
   componentFocusable,
   LoadableComponent,
   setComponentLoaded,
-  setUpLoadableComponent
+  setUpLoadableComponent,
 } from "../../utils/loadable";
 import { Appearance, Kind, Scale } from "../interfaces";
 import { CSS, ICONS } from "./resources";
@@ -18,7 +18,7 @@ import { CSS, ICONS } from "./resources";
 @Component({
   tag: "calcite-fab",
   styleUrl: "fab.scss",
-  shadow: true
+  shadow: true,
 })
 export class Fab implements InteractiveComponent, LoadableComponent {
   // --------------------------------------------------------------------------
@@ -145,7 +145,7 @@ export class Fab implements InteractiveComponent, LoadableComponent {
       icon,
       label,
       text,
-      iconFlipRtl
+      iconFlipRtl,
     } = this;
 
     const title = !textEnabled ? label || text || null : null;

@@ -8,7 +8,7 @@ import { CSS_UTILITY } from "./resources";
  * See https://github.com/focus-trap/tabbable#tabbable
  */
 export const tabbableOptions = {
-  getShadowRoot: true
+  getShadowRoot: true,
 };
 
 /**
@@ -127,7 +127,7 @@ export function queryElementRoots<T extends Element = Element>(
   element: Element,
   {
     selector,
-    id
+    id,
   }: {
     selector?: string;
     id?: string;
@@ -452,7 +452,7 @@ export function slotChangeHasAssignedElement(event: Event): boolean {
  */
 export function slotChangeGetAssignedElements(event: Event): Element[] {
   return (event.target as HTMLSlotElement).assignedElements({
-    flatten: true
+    flatten: true,
   });
 }
 

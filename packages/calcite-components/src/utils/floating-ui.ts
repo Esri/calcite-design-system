@@ -12,7 +12,7 @@ import {
   shift,
   Side,
   Strategy,
-  VirtualElement
+  VirtualElement,
 } from "@floating-ui/dom";
 import { Build } from "@stencil/core";
 import { debounce, DebouncedFunc } from "lodash-es";
@@ -79,7 +79,7 @@ export const positionFloatingUI =
       offsetDistance,
       offsetSkidding,
       arrowEl,
-      type
+      type,
     }: {
       referenceEl: ReferenceElement;
       floatingEl: HTMLElement;
@@ -102,7 +102,7 @@ export const positionFloatingUI =
       y,
       placement: effectivePlacement,
       strategy: position,
-      middlewareData
+      middlewareData,
     } = await computePosition(referenceEl, floatingEl, {
       strategy: overlayPositioning,
       placement:
@@ -116,8 +116,8 @@ export const positionFloatingUI =
         offsetDistance,
         offsetSkidding,
         arrowEl,
-        type
-      })
+        type,
+      }),
     });
 
     if (arrowEl && middlewareData.arrow) {
@@ -135,7 +135,7 @@ export const positionFloatingUI =
         ...reset,
         [alignment]: `${alignment == "left" ? x : y}px`,
         [side]: "100%",
-        transform
+        transform,
       });
     }
 
@@ -153,7 +153,7 @@ export const positionFloatingUI =
       position,
       top: "0",
       left: "0",
-      transform
+      transform,
     });
   };
 
@@ -208,7 +208,7 @@ export const placements = [
   "leading-end",
   "trailing-end",
   "trailing",
-  "trailing-start"
+  "trailing-start",
 ] as const;
 
 export type LogicalPlacement = (typeof placements)[number];
@@ -225,7 +225,7 @@ export const effectivePlacements: EffectivePlacement[] = [
   "right-start",
   "right-end",
   "left-start",
-  "left-end"
+  "left-end",
 ];
 
 export const menuPlacements: MenuPlacement[] = ["top-start", "top", "top-end", "bottom-start", "bottom", "bottom-end"];
@@ -236,7 +236,7 @@ export const menuEffectivePlacements: EffectivePlacement[] = [
   "top-end",
   "bottom-start",
   "bottom",
-  "bottom-end"
+  "bottom-end",
 ];
 
 export const flipPlacements: EffectivePlacement[] = [
@@ -251,7 +251,7 @@ export const flipPlacements: EffectivePlacement[] = [
   "right-start",
   "right-end",
   "left-start",
-  "left-end"
+  "left-end",
 ];
 
 export type MenuPlacement = Extract<
@@ -307,7 +307,7 @@ export type FloatingLayout = Extract<Layout, "vertical" | "horizontal">;
 
 export const FloatingCSS = {
   animation: "calcite-floating-ui-anim",
-  animationActive: "calcite-floating-ui-anim--active"
+  animationActive: "calcite-floating-ui-anim--active",
 };
 
 function getMiddleware({
@@ -317,7 +317,7 @@ function getMiddleware({
   offsetDistance,
   offsetSkidding,
   arrowEl,
-  type
+  type,
 }: {
   placement: LogicalPlacement;
   flipDisabled?: boolean;
@@ -333,8 +333,8 @@ function getMiddleware({
     return [
       ...defaultMiddleware,
       flip({
-        fallbackPlacements: flipPlacements || ["top-start", "top", "top-end", "bottom-start", "bottom", "bottom-end"]
-      })
+        fallbackPlacements: flipPlacements || ["top-start", "top", "top-end", "bottom-start", "bottom", "bottom-end"],
+      }),
     ];
   }
 
@@ -343,8 +343,8 @@ function getMiddleware({
       ...defaultMiddleware,
       offset({
         mainAxis: typeof offsetDistance === "number" ? offsetDistance : 0,
-        crossAxis: typeof offsetSkidding === "number" ? offsetSkidding : 0
-      })
+        crossAxis: typeof offsetSkidding === "number" ? offsetSkidding : 0,
+      }),
     ];
 
     if (placement === "auto" || placement === "auto-start" || placement === "auto-end") {
@@ -358,7 +358,7 @@ function getMiddleware({
     if (arrowEl) {
       middleware.push(
         arrow({
-          element: arrowEl
+          element: arrowEl,
         })
       );
     }
@@ -439,7 +439,7 @@ function getDebouncedReposition(component: FloatingUIComponent): DebouncedFunc<t
 
   debounced = debounce(positionFloatingUI, repositionDebounceTimeout, {
     leading: true,
-    maxWait: repositionDebounceTimeout
+    maxWait: repositionDebounceTimeout,
   });
 
   componentToDebouncedRepositionMap.set(component, debounced);
@@ -451,7 +451,7 @@ const ARROW_CSS_TRANSFORM = {
   top: "",
   left: "rotate(-90deg)",
   bottom: "rotate(180deg)",
-  right: "rotate(90deg)"
+  right: "rotate(90deg)",
 };
 
 /**
@@ -488,7 +488,7 @@ export function connectFloatingUI(
     // initial positioning based on https://floating-ui.com/docs/computePosition#initial-layout
     position: component.overlayPositioning,
     top: "0",
-    left: "0"
+    left: "0",
   });
 
   const runAutoUpdate = Build.isBrowser

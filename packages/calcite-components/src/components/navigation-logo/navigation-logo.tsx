@@ -4,15 +4,15 @@ import {
   LoadableComponent,
   componentFocusable,
   setComponentLoaded,
-  setUpLoadableComponent
+  setUpLoadableComponent,
 } from "../../utils/loadable";
 
 @Component({
   tag: "calcite-navigation-logo",
   styleUrl: "navigation-logo.scss",
   shadow: {
-    delegatesFocus: true
-  }
+    delegatesFocus: true,
+  },
 })
 export class CalciteNavigationLogo implements LoadableComponent {
   //--------------------------------------------------------------------------
@@ -108,7 +108,7 @@ export class CalciteNavigationLogo implements LoadableComponent {
                   aria-label={this.heading}
                   class={{
                     [CSS.heading]: true,
-                    [CSS.standalone]: !this.description
+                    [CSS.standalone]: !this.description,
                   }}
                   key={CSS.heading}
                 >

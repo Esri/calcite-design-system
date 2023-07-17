@@ -7,9 +7,9 @@ import { storyFilters } from "../../../.storybook/helpers";
 export default {
   title: "Components/Support/Stack",
   parameters: {
-    notes: [readme]
+    notes: [readme],
   },
-  ...storyFilters()
+  ...storyFilters(),
 };
 
 const thumbnailImage = placeholderImage({ width: 44, height: 44 });

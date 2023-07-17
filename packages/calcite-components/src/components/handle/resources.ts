@@ -1,8 +1,8 @@
 export const CSS = {
   handle: "handle",
-  handleActivated: "handle--activated"
+  handleActivated: "handle--activated",
 };
 
 export const ICONS = {
-  drag: "drag"
+  drag: "drag",
 };

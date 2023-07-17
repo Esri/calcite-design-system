@@ -9,7 +9,7 @@ import {
   labelable,
   reflects,
   renders,
-  t9n
+  t9n,
 } from "../../tests/commonTests";
 import { selectText } from "../../tests/utils";
 
@@ -30,16 +30,16 @@ describe("calcite-input-text", () => {
     reflects("calcite-input-text", [
       {
         propertyName: "status",
-        value: "valid"
+        value: "valid",
       },
       {
         propertyName: "alignment",
-        value: "center"
+        value: "center",
       },
       {
         propertyName: "scale",
-        value: "s"
-      }
+        value: "s",
+      },
     ]);
   });
 
@@ -47,20 +47,20 @@ describe("calcite-input-text", () => {
     defaults("calcite-input-text", [
       {
         propertyName: "status",
-        defaultValue: "idle"
+        defaultValue: "idle",
       },
       {
         propertyName: "alignment",
-        defaultValue: "start"
+        defaultValue: "start",
       },
       {
         propertyName: "scale",
-        defaultValue: "m"
+        defaultValue: "m",
       },
       {
         propertyName: "value",
-        defaultValue: ""
-      }
+        defaultValue: "",
+      },
     ]);
   });
 
@@ -86,7 +86,7 @@ describe("calcite-input-text", () => {
 
   describe("is focusable", () => {
     focusable(`calcite-input-text`, {
-      shadowFocusTargetSelector: "input"
+      shadowFocusTargetSelector: "input",
     });
   });
 
