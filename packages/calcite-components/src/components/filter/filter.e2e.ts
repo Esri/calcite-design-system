@@ -28,12 +28,12 @@ describe("calcite-filter", () => {
     reflects("calcite-filter", [
       {
         propertyName: "disabled",
-        value: true
+        value: true,
       },
       {
         propertyName: "scale",
-        value: "s"
-      }
+        value: "s",
+      },
     ]);
   });
 
@@ -41,16 +41,16 @@ describe("calcite-filter", () => {
     defaults("calcite-filter", [
       {
         propertyName: "disabled",
-        defaultValue: false
+        defaultValue: false,
       },
       {
         propertyName: "filteredItems",
-        defaultValue: []
+        defaultValue: [],
       },
       {
         propertyName: "scale",
-        defaultValue: "m"
-      }
+        defaultValue: "m",
+      },
     ]);
   });
 
@@ -151,38 +151,38 @@ describe("calcite-filter", () => {
             name: "Harry",
             description: "developer",
             value: "harry",
-            metadata: { haircolor: "red", favoriteBand: "MetallicA" }
+            metadata: { haircolor: "red", favoriteBand: "MetallicA" },
           },
           {
             name: "Matt",
             description: "developer",
             value: "matt",
-            metadata: { haircolor: "black", favoriteBand: "Radiohead" }
+            metadata: { haircolor: "black", favoriteBand: "Radiohead" },
           },
           {
             name: "Franco",
             description: "developer",
             value: "franco",
-            metadata: { haircolor: "black", favoriteBand: "The Mars Volta" }
+            metadata: { haircolor: "black", favoriteBand: "The Mars Volta" },
           },
           {
             name: "Katy",
             description: "engineer",
             value: "katy",
-            metadata: { haircolor: "red", favoriteBand: "unknown" }
+            metadata: { haircolor: "red", favoriteBand: "unknown" },
           },
           {
             name: "Jon",
             description: "developer",
             value: "jon",
-            metadata: { haircolor: "brown", favoriteBand: "Hippity Hops" }
+            metadata: { haircolor: "brown", favoriteBand: "Hippity Hops" },
           },
           {
             name: "regex",
             description: "regex",
             value: "regex",
-            metadata: { haircolor: "rainbow", favoriteBand: "regex()" }
-          }
+            metadata: { haircolor: "rainbow", favoriteBand: "regex()" },
+          },
         ];
       });
     });
@@ -200,7 +200,7 @@ describe("calcite-filter", () => {
         "franco",
         "katy",
         "jon",
-        "regex"
+        "regex",
       ]);
 
       const filterChangeEvent = page.waitForEvent("calciteFilterChange");
@@ -260,14 +260,14 @@ describe("calcite-filter", () => {
             name: "Harry",
             description: "developer",
             value: "harry",
-            metadata: { haircolor: "red", favoriteBand: "MetallicA" }
+            metadata: { haircolor: "red", favoriteBand: "MetallicA" },
           },
           {
             name: "Matt",
             description: "developer",
             value: "matt",
-            metadata: { haircolor: "black", favoriteBand: "Radiohead" }
-          }
+            metadata: { haircolor: "black", favoriteBand: "Radiohead" },
+          },
         ];
       });
     });
@@ -292,14 +292,14 @@ describe("calcite-filter", () => {
             name: "Harry",
             description: "developer",
             value: "harry",
-            metadata: { haircolor: "red", favoriteBand: "MetallicA" }
+            metadata: { haircolor: "red", favoriteBand: "MetallicA" },
           },
           {
             name: "Matt",
             description: "developer",
             value: "matt",
-            metadata: { haircolor: "black", favoriteBand: "Radiohead" }
-          }
+            metadata: { haircolor: "black", favoriteBand: "Radiohead" },
+          },
         ];
       });
     });

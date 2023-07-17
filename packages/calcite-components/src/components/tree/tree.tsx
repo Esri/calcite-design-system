@@ -7,7 +7,7 @@ import {
   Host,
   Listen,
   Prop,
-  VNode
+  VNode,
 } from "@stencil/core";
 import { focusElement, getRootNode, nodeListToArray } from "../../utils/dom";
 import { Scale, SelectionMode } from "../interfaces";
@@ -20,7 +20,7 @@ import { getEnabledSiblingItem } from "./utils";
 @Component({
   tag: "calcite-tree",
   styleUrl: "tree.scss",
-  shadow: true
+  shadow: true,
 })
 export class Tree {
   //--------------------------------------------------------------------------

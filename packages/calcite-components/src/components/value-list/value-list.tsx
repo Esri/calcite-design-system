@@ -9,20 +9,20 @@ import {
   Prop,
   State,
   VNode,
-  Watch
+  Watch,
 } from "@stencil/core";
 import Sortable from "sortablejs";
 import {
   connectInteractive,
   disconnectInteractive,
   InteractiveComponent,
-  updateHostInteraction
+  updateHostInteraction,
 } from "../../utils/interactive";
 import {
   componentFocusable,
   LoadableComponent,
   setComponentLoaded,
-  setUpLoadableComponent
+  setUpLoadableComponent,
 } from "../../utils/loadable";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 import { createObserver } from "../../utils/observers";
@@ -31,7 +31,7 @@ import {
   disconnectMessages,
   setUpMessages,
   T9nComponent,
-  updateMessages
+  updateMessages,
 } from "../../utils/t9n";
 import {
   calciteInternalListItemValueChangeHandler,
@@ -54,7 +54,7 @@ import {
   removeItem,
   selectSiblings,
   setFocus,
-  setUpItems
+  setUpItems,
 } from "../pick-list/shared-list-logic";
 import List from "../pick-list/shared-list-render";
 import { ListItemAndHandle } from "../value-list-item/interfaces";
@@ -65,7 +65,7 @@ import {
   DragEvent,
   connectSortableComponent,
   disconnectSortableComponent,
-  SortableComponent
+  SortableComponent,
 } from "../../utils/sortableComponent";
 import { focusElement } from "../../utils/dom";
 
@@ -78,7 +78,7 @@ import { focusElement } from "../../utils/dom";
   tag: "calcite-value-list",
   styleUrl: "value-list.scss",
   shadow: true,
-  assetsDirs: ["assets"]
+  assetsDirs: ["assets"],
 })
 export class ValueList<
   ItemElement extends HTMLCalciteValueListItemElement = HTMLCalciteValueListItemElement

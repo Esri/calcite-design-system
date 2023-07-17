@@ -4,7 +4,7 @@ import {
   connectInteractive,
   disconnectInteractive,
   InteractiveComponent,
-  updateHostInteraction
+  updateHostInteraction,
 } from "../../utils/interactive";
 import { createObserver } from "../../utils/observers";
 import { HandleNudge } from "../handle/interfaces";
@@ -14,7 +14,7 @@ import {
   DragEvent,
   connectSortableComponent,
   disconnectSortableComponent,
-  SortableComponent
+  SortableComponent,
 } from "../../utils/sortableComponent";
 import { focusElement } from "../../utils/dom";
 
@@ -24,7 +24,7 @@ import { focusElement } from "../../utils/dom";
 @Component({
   tag: "calcite-sortable-list",
   styleUrl: "sortable-list.scss",
-  shadow: true
+  shadow: true,
 })
 export class SortableList implements InteractiveComponent, SortableComponent {
   // --------------------------------------------------------------------------
@@ -202,7 +202,6 @@ export class SortableList implements InteractiveComponent, SortableComponent {
 
   setUpSorting(): void {
     this.items = Array.from(this.el.children);
-
     connectSortableComponent(this);
   }
 
@@ -229,7 +228,7 @@ export class SortableList implements InteractiveComponent, SortableComponent {
         class={{
           [CSS.container]: true,
           [CSS.containerVertical]: !horizontal,
-          [CSS.containerHorizontal]: horizontal
+          [CSS.containerHorizontal]: horizontal,
         }}
       >
         <slot />

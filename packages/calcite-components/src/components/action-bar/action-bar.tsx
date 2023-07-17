@@ -9,20 +9,20 @@ import {
   Prop,
   State,
   VNode,
-  Watch
+  Watch,
 } from "@stencil/core";
 import { debounce } from "lodash-es";
 import {
   ConditionalSlotComponent,
   connectConditionalSlotComponent,
-  disconnectConditionalSlotComponent
+  disconnectConditionalSlotComponent,
 } from "../../utils/conditionalSlot";
 import { focusFirstTabbable, getSlotted, slotChangeGetAssignedElements } from "../../utils/dom";
 import {
   componentFocusable,
   LoadableComponent,
   setComponentLoaded,
-  setUpLoadableComponent
+  setUpLoadableComponent,
 } from "../../utils/loadable";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 import { createObserver } from "../../utils/observers";
@@ -31,7 +31,7 @@ import {
   disconnectMessages,
   setUpMessages,
   T9nComponent,
-  updateMessages
+  updateMessages,
 } from "../../utils/t9n";
 import { ExpandToggle, toggleChildActionText } from "../functional/ExpandToggle";
 import { Layout, Position, Scale } from "../interfaces";
@@ -42,7 +42,7 @@ import {
   getOverflowCount,
   overflowActions,
   overflowActionsDebounceInMs,
-  queryActions
+  queryActions,
 } from "./utils";
 
 /**
@@ -54,7 +54,7 @@ import {
   tag: "calcite-action-bar",
   styleUrl: "action-bar.scss",
   shadow: true,
-  assetsDirs: ["assets"]
+  assetsDirs: ["assets"],
 })
 export class ActionBar
   implements ConditionalSlotComponent, LoadableComponent, LocalizedComponent, T9nComponent
@@ -309,13 +309,13 @@ export class ActionBar
       actionWidth,
       height,
       width,
-      groupCount
+      groupCount,
     });
 
     overflowActions({
       actionGroups,
       expanded,
-      overflowCount
+      overflowCount,
     });
   }, overflowActionsDebounceInMs);
 

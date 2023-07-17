@@ -8,7 +8,7 @@ import { CHECKER_DIMENSIONS, COLORS, CSS } from "./resources";
 @Component({
   tag: "calcite-color-picker-swatch",
   styleUrl: "color-picker-swatch.scss",
-  shadow: true
+  shadow: true,
 })
 export class ColorPickerSwatch {
   //--------------------------------------------------------------------------
@@ -21,7 +21,7 @@ export class ColorPickerSwatch {
    * When `true`, the component is active.
    */
   @Prop({
-    reflect: true
+    reflect: true,
   })
   active = false;
 
@@ -42,7 +42,7 @@ export class ColorPickerSwatch {
    * Specifies the size of the component.
    */
   @Prop({
-    reflect: true
+    reflect: true,
   })
   scale: Scale = "m";
 
@@ -71,7 +71,7 @@ export class ColorPickerSwatch {
     const isEmpty = !this.internalColor;
     const classes = {
       [CSS.swatch]: true,
-      [CSS.noColorSwatch]: isEmpty
+      [CSS.noColorSwatch]: isEmpty,
     };
 
     return (
@@ -96,7 +96,7 @@ export class ColorPickerSwatch {
 
       // using attribute to work around Stencil using the prop name vs the attribute when rendering
       ["stroke-width"]: "2",
-      width: "100%"
+      width: "100%",
     };
 
     const isEmpty = !internalColor;
@@ -154,7 +154,7 @@ export class ColorPickerSwatch {
           fill={hex}
           style={{
             "clip-path":
-              alpha < 1 ? "polygon(100% 0, 0 0, 0 100%)" : `inset(0 round ${borderRadius})`
+              alpha < 1 ? "polygon(100% 0, 0 0, 0 100%)" : `inset(0 round ${borderRadius})`,
           }}
           {...commonSwatchProps}
         />

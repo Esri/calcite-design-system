@@ -4,5 +4,5 @@ export const CSS = {
   description: "description",
   anchor: "anchor",
   image: "image",
-  standalone: "standalone"
+  standalone: "standalone",
 };

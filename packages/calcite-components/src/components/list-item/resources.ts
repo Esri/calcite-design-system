@@ -17,7 +17,7 @@ export const CSS = {
   actionsEnd: "actions-end",
   selectionContainer: "selection-container",
   openContainer: "open-container",
-  dragContainer: "drag-container"
+  dragContainer: "drag-container",
 };
 
 export const SLOTS = {
@@ -25,7 +25,7 @@ export const SLOTS = {
   contentStart: "content-start",
   content: "content",
   contentEnd: "content-end",
-  actionsEnd: "actions-end"
+  actionsEnd: "actions-end",
 };
 
 // Set to zero to extend until the end of the table section.
@@ -39,5 +39,5 @@ export const ICONS = {
   closedRTL: "caret-left",
   open: "caret-down",
   blank: "blank",
-  close: "x"
+  close: "x",
 };

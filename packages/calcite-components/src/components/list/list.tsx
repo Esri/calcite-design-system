@@ -9,7 +9,7 @@ import {
   Prop,
   State,
   VNode,
-  Watch
+  Watch,
 } from "@stencil/core";
 import Sortable, { SortableEvent } from "sortablejs";
 import { debounce } from "lodash-es";
@@ -18,7 +18,7 @@ import {
   connectInteractive,
   disconnectInteractive,
   InteractiveComponent,
-  updateHostInteraction
+  updateHostInteraction,
 } from "../../utils/interactive";
 import { createObserver } from "../../utils/observers";
 import { SelectionMode } from "../interfaces";
@@ -30,7 +30,7 @@ import {
   DragEvent,
   connectSortableComponent,
   disconnectSortableComponent,
-  SortableComponent
+  SortableComponent,
 } from "../../utils/sortableComponent";
 import { SLOTS as STACK_SLOTS } from "../stack/resources";
 
@@ -42,7 +42,7 @@ import {
   componentFocusable,
   LoadableComponent,
   setComponentLoaded,
-  setUpLoadableComponent
+  setUpLoadableComponent,
 } from "../../utils/loadable";
 
 // todo: keyboard nav sorting
@@ -57,7 +57,7 @@ import {
 @Component({
   tag: "calcite-list",
   styleUrl: "list.scss",
-  shadow: true
+  shadow: true,
 })
 export class List implements InteractiveComponent, LoadableComponent, SortableComponent {
   // --------------------------------------------------------------------------
@@ -354,7 +354,7 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
       filterPlaceholder,
       filterText,
       hasFilterActionsStart,
-      hasFilterActionsEnd
+      hasFilterActionsEnd,
     } = this;
     return (
       <div class={CSS.container}>
@@ -444,7 +444,7 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
     this.calciteListOrderChange.emit({
       dragEl: item,
       fromEl: from,
-      toEl: to
+      toEl: to,
     });
   }
 
@@ -480,7 +480,7 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
   private filterElements({
     el,
     filteredItems,
-    visibleParents
+    visibleParents,
   }: {
     el: HTMLCalciteListItemElement | HTMLCalciteListItemGroupElement;
     filteredItems: HTMLCalciteListItemElement[];
@@ -506,7 +506,7 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
     this.filterElements({
       el: closestParent,
       filteredItems,
-      visibleParents
+      visibleParents,
     });
   }
 
@@ -578,7 +578,7 @@ export class List implements InteractiveComponent, LoadableComponent, SortableCo
       label: item.label,
       description: item.description,
       metadata: item.metadata,
-      value: item.value
+      value: item.value,
     }));
   };
 

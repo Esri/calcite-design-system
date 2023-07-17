@@ -7,9 +7,9 @@ import { placeholderImage } from "../../../.storybook/placeholderImage";
 export default {
   title: "Components/Navigation/Navigation User",
   parameters: {
-    notes: readme
+    notes: readme,
   },
-  ...storyFilters()
+  ...storyFilters(),
 };
 
 export const simple = (): string =>

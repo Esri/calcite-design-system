@@ -9,14 +9,14 @@ import {
   Prop,
   State,
   VNode,
-  Watch
+  Watch,
 } from "@stencil/core";
 import { getElementDir, slotChangeHasAssignedElement, toAriaBoolean } from "../../utils/dom";
 import {
   connectInteractive,
   disconnectInteractive,
   InteractiveComponent,
-  updateHostInteraction
+  updateHostInteraction,
 } from "../../utils/interactive";
 import { SelectionMode } from "../interfaces";
 import { SelectionAppearance } from "../list/resources";
@@ -28,7 +28,7 @@ import {
   disconnectMessages,
   setUpMessages,
   T9nComponent,
-  updateMessages
+  updateMessages,
 } from "../../utils/t9n";
 import { ListItemMessages } from "./assets/list-item/t9n";
 
@@ -40,7 +40,7 @@ import {
   componentFocusable,
   LoadableComponent,
   setComponentLoaded,
-  setUpLoadableComponent
+  setUpLoadableComponent,
 } from "../../utils/loadable";
 
 /**
@@ -55,7 +55,7 @@ import {
   tag: "calcite-list-item",
   styleUrl: "list-item.scss",
   shadow: true,
-  assetsDirs: ["assets"]
+  assetsDirs: ["assets"],
 })
 export class ListItem
   implements InteractiveComponent, LoadableComponent, LocalizedComponent, T9nComponent
@@ -490,7 +490,7 @@ export class ListItem
       this.renderContentStart(),
       this.renderCustomContent(),
       this.renderContentProperties(),
-      this.renderContentEnd()
+      this.renderContentEnd(),
     ];
 
     return (
@@ -499,7 +499,7 @@ export class ListItem
         class={{
           [CSS.contentContainer]: true,
           [CSS.contentContainerSelectable]: selectionMode !== "none",
-          [CSS.contentContainerHasCenterContent]: hasCenterContent
+          [CSS.contentContainerHasCenterContent]: hasCenterContent,
         }}
         key="content-container"
         onClick={this.itemClicked}
@@ -524,7 +524,7 @@ export class ListItem
       selected,
       selectionAppearance,
       selectionMode,
-      closed
+      closed,
     } = this;
 
     const showBorder = selectionMode !== "none" && selectionAppearance === "border";
@@ -543,7 +543,7 @@ export class ListItem
           class={{
             [CSS.container]: true,
             [CSS.containerBorderSelected]: borderSelected,
-            [CSS.containerBorderUnselected]: borderUnselected
+            [CSS.containerBorderUnselected]: borderUnselected,
           }}
           hidden={closed}
           onFocus={this.focusCellNull}
@@ -564,7 +564,7 @@ export class ListItem
         <div
           class={{
             [CSS.nestedContainer]: true,
-            [CSS.nestedContainerHidden]: openable && !open
+            [CSS.nestedContainerHidden]: openable && !open,
           }}
         >
           <slot onSlotchange={this.handleDefaultSlotChange} />

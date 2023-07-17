@@ -10,5 +10,5 @@ export const CSS = {
   iconEnd: "dropdown-item-icon-end",
   iconStart: "dropdown-item-icon-start",
   itemContent: "dropdown-item-content",
-  link: "dropdown-link"
+  link: "dropdown-link",
 };

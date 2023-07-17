@@ -7,7 +7,7 @@ import {
   Listen,
   Prop,
   VNode,
-  Watch
+  Watch,
 } from "@stencil/core";
 import { Appearance, Position, Scale, SelectionMode } from "../interfaces";
 import { createObserver } from "../../utils/observers";
@@ -18,7 +18,7 @@ import { RequestedItem } from "./interfaces";
 @Component({
   tag: "calcite-accordion",
   styleUrl: "accordion.scss",
-  shadow: true
+  shadow: true,
 })
 export class Accordion {
   //--------------------------------------------------------------------------
@@ -99,7 +99,7 @@ export class Accordion {
       <div
         class={{
           "accordion--transparent": transparent,
-          accordion: !transparent
+          accordion: !transparent,
         }}
       >
         <slot />
@@ -117,7 +117,7 @@ export class Accordion {
   updateActiveItemOnChange(event: CustomEvent): void {
     this.requestedAccordionItem = event.detail.requestedAccordionItem;
     this.calciteInternalAccordionChange.emit({
-      requestedAccordionItem: this.requestedAccordionItem
+      requestedAccordionItem: this.requestedAccordionItem,
     });
     event.stopPropagation();
   }

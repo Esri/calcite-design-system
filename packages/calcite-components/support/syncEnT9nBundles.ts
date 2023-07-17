@@ -1,6 +1,6 @@
 (async function () {
   const {
-    promises: { readFile, copyFile }
+    promises: { readFile, copyFile },
   } = await import("fs");
   const { resolve, sep, win32 } = await import("path");
 

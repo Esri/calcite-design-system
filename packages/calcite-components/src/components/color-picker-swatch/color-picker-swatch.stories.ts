@@ -7,9 +7,9 @@ import { storyFilters } from "../../../.storybook/helpers";
 export default {
   title: "Components/Controls/ColorPicker/support/ColorPickerSwatch",
   parameters: {
-    notes: colorPickerSwatchReadme
+    notes: colorPickerSwatchReadme,
   },
-  ...storyFilters()
+  ...storyFilters(),
 };
 
 export const simple = (): string =>

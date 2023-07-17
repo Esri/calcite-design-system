@@ -12,9 +12,9 @@ export const CSS = {
   inputWrapper: "wrapper",
   actionWrapper: "action-wrapper",
   resizeIconWrapper: "resize-icon-wrapper",
-  numberButtonItem: "number-button-item"
+  numberButtonItem: "number-button-item",
 };
 
 export const SLOTS = {
-  action: "action"
+  action: "action",
 };

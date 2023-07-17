@@ -8,7 +8,7 @@ import {
   Prop,
   State,
   VNode,
-  Watch
+  Watch,
 } from "@stencil/core";
 import {
   alphaToOpacity,
@@ -18,7 +18,7 @@ import {
   isValidHex,
   normalizeHex,
   opacityToAlpha,
-  rgbToHex
+  rgbToHex,
 } from "../color-picker/utils";
 import { CSS } from "./resources";
 import { Scale } from "../interfaces";
@@ -29,7 +29,7 @@ import {
   componentFocusable,
   LoadableComponent,
   setComponentLoaded,
-  setUpLoadableComponent
+  setUpLoadableComponent,
 } from "../../utils/loadable";
 import { NumberingSystem } from "../../utils/locale";
 import { OPACITY_LIMITS } from "../color-picker/resources";
@@ -40,7 +40,7 @@ const DEFAULT_COLOR = Color();
 @Component({
   tag: "calcite-color-picker-hex-input",
   styleUrl: "color-picker-hex-input.scss",
-  shadow: true
+  shadow: true,
 })
 export class ColorPickerHexInput implements LoadableComponent {
   //--------------------------------------------------------------------------
@@ -439,7 +439,7 @@ export class ColorPickerHexInput implements LoadableComponent {
       const nudgedRGBChannels = rgbChannels.map((channel) => channel + amount);
       nudgedChannels = [
         ...nudgedRGBChannels,
-        this.alphaChannel ? channels[3] : undefined
+        this.alphaChannel ? channels[3] : undefined,
       ] as Channels;
     } else {
       const nudgedAlpha = opacityToAlpha(alphaToOpacity(color.alpha()) + amount);

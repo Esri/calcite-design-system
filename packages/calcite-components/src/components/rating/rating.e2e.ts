@@ -7,7 +7,7 @@ import {
   hidden,
   labelable,
   renders,
-  t9n
+  t9n,
 } from "../../tests/commonTests";
 
 describe("calcite-rating", () => {
@@ -38,19 +38,19 @@ describe("calcite-rating", () => {
 
     describe("should focus input element in shadow DOM", () => {
       focusable("calcite-rating", {
-        shadowFocusTargetSelector: "input"
+        shadowFocusTargetSelector: "input",
       });
     });
 
     describe("focuses the first star when the label is clicked and no-rating value exists", () => {
       labelable("calcite-rating", {
-        shadowFocusTargetSelector: "input[value='1']"
+        shadowFocusTargetSelector: "input[value='1']",
       });
     });
 
     describe("focuses the value-matching star when the label is clicked", () => {
       labelable("<calcite-rating value='3'></calcite-rating>", {
-        shadowFocusTargetSelector: "input[value='3']"
+        shadowFocusTargetSelector: "input[value='3']",
       });
     });
 
