@@ -642,16 +642,12 @@ describe("calcite-input-time-picker", () => {
     inputTimePicker.setProperty("lang", "da");
     await page.waitForChanges();
     await waitForAnimationFrame();
-    await page.waitForChanges();
-    await waitForAnimationFrame();
 
     console.log(await getInputValue(page));
 
     expect(await getInputValue(page)).toBe("14.30.25");
 
     inputTimePicker.setProperty("lang", "ar");
-    await page.waitForChanges();
-    await waitForAnimationFrame();
     await page.waitForChanges();
     await waitForAnimationFrame();
 
@@ -667,8 +663,6 @@ describe("calcite-input-time-picker", () => {
 
     inputTimePicker.setProperty("lang", "zh-HK");
     inputTimePicker.setProperty("numberingSystem", "hanidec");
-    await page.waitForChanges();
-    await waitForAnimationFrame();
     await page.waitForChanges();
     await waitForAnimationFrame();
 
