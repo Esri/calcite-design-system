@@ -12,7 +12,7 @@ import {
   renders,
   t9n
 } from "../../tests/commonTests";
-import { getFocusedElementProp, skipAnimations } from "../../tests/utils";
+import { getFocusedElementProp, skipAnimations, waitForAnimationFrame } from "../../tests/utils";
 import { html } from "../../../support/formatting";
 
 async function getInputValue(page: E2EPage): Promise<string> {
@@ -642,7 +642,10 @@ describe("calcite-input-time-picker", () => {
 
     inputTimePicker.setProperty("lang", "da");
     await page.waitForChanges();
+    await waitForAnimationFrame();
     await spy.next();
+    await page.waitForChanges();
+    await waitForAnimationFrame();
 
     console.log(await getInputValue(page));
 
@@ -650,13 +653,17 @@ describe("calcite-input-time-picker", () => {
 
     inputTimePicker.setProperty("lang", "ar");
     await page.waitForChanges();
+    await waitForAnimationFrame();
     await spy.next();
+    await page.waitForChanges();
+    await waitForAnimationFrame();
 
     console.log(await getInputValue(page));
     expect(await getInputValue(page)).toBe("02:30:25 م");
 
     inputTimePicker.setProperty("numberingSystem", "arab");
     await page.waitForChanges();
+    await waitForAnimationFrame();
 
     console.log(await getInputValue(page));
     expect(await getInputValue(page)).toBe("٠٢:٣٠:٢٥ م");
@@ -664,7 +671,10 @@ describe("calcite-input-time-picker", () => {
     inputTimePicker.setProperty("lang", "zh-HK");
     inputTimePicker.setProperty("numberingSystem", "hanidec");
     await page.waitForChanges();
+    await waitForAnimationFrame();
     await spy.next();
+    await page.waitForChanges();
+    await waitForAnimationFrame();
 
     console.log(await getInputValue(page));
     expect(await getInputValue(page)).toBe("下午〇二:三〇:二五");
