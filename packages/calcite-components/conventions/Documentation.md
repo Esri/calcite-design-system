@@ -96,7 +96,7 @@ export default {
 - Should have one story per unique, supported use case
 - Stories that can be covered by adding a new prop/knob should instead update an existing playground story (with the exception of `_TestOnly` stories, explained below)
 
-#### Screenshot test-only stories
+#### Screenshot TestOnly stories
 
 - Should have the minimal HTML needed to reproduce the test scenario
 - Should not have knobs since screenshot tests cannot interact with them
@@ -104,6 +104,23 @@ export default {
 - Stories that are not meant for testing should use the `_NoTest` suffix, which ensures it is only used for the internal playground build. For example, stories that requires interaction not supported by the screenshot test environment, such as changing knobs.
 - The `simple` story and any other significant configuration should have a matching `darkModeRTL_TestOnly` story
   - In order to reduce snapshot count, dark mode and RTL visual tests have been combined
+
+Any stories used for snapshot testing should have animations disabled using the `--calcite-duration-factor` CSS variable so they don't cause diffs on every build. `NoTest` stories are the only ones that should have animations. See [`loader`'s stories](../src/components/loader/loader.stories.ts) as an example for how to setup stories for components with animation. For example:
+
+```ts
+export const simple_TestOnly = (): string => html`
+  <style>
+    :root {
+      --calcite-duration-factor: 0;
+    }
+  </style>
+  <calcite-loader
+    type="${select("type", ["determinate", "indeterminate"], "indeterminate")}"
+    scale="${select("scale", ["s", "m", "l"], "m")}"
+    value="${number("value", 0, { range: true, min: 0, max: 100, step: 1 })}"
+  />
+`;
+```
 
 ### Using utilities
 
