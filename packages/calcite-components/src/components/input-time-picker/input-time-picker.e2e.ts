@@ -640,22 +640,28 @@ describe("calcite-input-time-picker", () => {
     expect(await getInputValue(page)).toBe("02:30:25 PM");
 
     inputTimePicker.setProperty("lang", "da");
+    // waitForChanges and waitForAnimationFrame are both required here,
+    // which allows the page to effectively wait for the async locale data fetching to complete
+    await page.waitForChanges();
     await waitForAnimationFrame();
 
     expect(await getInputValue(page)).toBe("14.30.25");
 
     inputTimePicker.setProperty("lang", "ar");
+    await page.waitForChanges();
     await waitForAnimationFrame();
 
     expect(await getInputValue(page)).toBe("02:30:25 م");
 
     inputTimePicker.setProperty("numberingSystem", "arab");
+    await page.waitForChanges();
     await waitForAnimationFrame();
 
     expect(await getInputValue(page)).toBe("٠٢:٣٠:٢٥ م");
 
     inputTimePicker.setProperty("lang", "zh-HK");
     inputTimePicker.setProperty("numberingSystem", "hanidec");
+    await page.waitForChanges();
     await waitForAnimationFrame();
 
     expect(await getInputValue(page)).toBe("下午〇二:三〇:二五");
