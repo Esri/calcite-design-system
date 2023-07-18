@@ -5,7 +5,7 @@ export const CSS = {
   footer: "footer",
   positionedSlotWrapper: "positioned-slot-wrapper",
   container: "container",
-  contentBehindCenterContent: "center-content"
+  contentBehindCenterContent: "center-content",
 };
 
 export const SLOTS = {
@@ -17,5 +17,5 @@ export const SLOTS = {
   header: "header",
   footer: "footer",
   alerts: "alerts",
-  modals: "modals"
+  modals: "modals",
 };

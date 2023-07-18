@@ -4,15 +4,15 @@ import {
   LoadableComponent,
   componentFocusable,
   setComponentLoaded,
-  setUpLoadableComponent
+  setUpLoadableComponent,
 } from "../../utils/loadable";
 
 @Component({
   tag: "calcite-navigation-user",
   styleUrl: "navigation-user.scss",
   shadow: {
-    delegatesFocus: true
-  }
+    delegatesFocus: true,
+  },
 })
 export class CalciteNavigationUser implements LoadableComponent {
   //--------------------------------------------------------------------------

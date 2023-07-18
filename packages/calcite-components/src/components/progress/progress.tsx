@@ -2,7 +2,7 @@ import { Component, Element, h, Prop, VNode } from "@stencil/core";
 @Component({
   tag: "calcite-progress",
   styleUrl: "progress.scss",
-  shadow: true
+  shadow: true,
 })
 export class Progress {
   @Element() el: HTMLCalciteProgressElement;
@@ -43,7 +43,7 @@ export class Progress {
             class={{
               bar: true,
               indeterminate: this.type === "indeterminate",
-              reversed: this.reversed
+              reversed: this.reversed,
             }}
             style={barStyles}
           />

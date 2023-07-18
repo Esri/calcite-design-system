@@ -8,7 +8,7 @@ import {
   Method,
   Prop,
   VNode,
-  Watch
+  Watch,
 } from "@stencil/core";
 
 import { focusElementInGroup } from "../../utils/dom";
@@ -22,7 +22,7 @@ import { StepperItemChangeEventDetail, StepperItemKeyEventDetail } from "./inter
 @Component({
   tag: "calcite-stepper",
   styleUrl: "stepper.scss",
-  shadow: true
+  shadow: true,
 })
 export class Stepper {
   //--------------------------------------------------------------------------
@@ -98,7 +98,7 @@ export class Stepper {
     // if no stepper items are set as active, default to the first one
     if (typeof this.currentPosition !== "number") {
       this.calciteInternalStepperItemChange.emit({
-        position: 0
+        position: 0,
       });
     }
   }
@@ -170,7 +170,7 @@ export class Stepper {
     }
 
     this.calciteInternalStepperItemChange.emit({
-      position
+      position,
     });
   }
 
@@ -290,7 +290,7 @@ export class Stepper {
   private updateStep(position: number): void {
     this.currentPosition = position;
     this.calciteInternalStepperItemChange.emit({
-      position
+      position,
     });
   }
 

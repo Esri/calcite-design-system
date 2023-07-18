@@ -31,7 +31,7 @@ function throwMessageFetchError(): never {
 function mergeMessages(component: T9nComponent): void {
   component.messages = {
     ...component.defaultMessages,
-    ...component.messageOverrides
+    ...component.messageOverrides,
   };
 }
 

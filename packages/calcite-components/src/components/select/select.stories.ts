@@ -3,7 +3,7 @@ import {
   filterComponentAttributes,
   Attributes,
   createComponentHTML as create,
-  modesDarkDefault
+  modesDarkDefault,
 } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { boolean, text } from "@storybook/addon-knobs";
@@ -25,8 +25,8 @@ const createSelectAttributes: (options?: { exceptions: string[] }) => Attributes
           this.value = boolean("disabled", false, group);
           delete this.build;
           return this;
-        }
-      }
+        },
+      },
     ],
     exceptions
   );
@@ -38,20 +38,20 @@ const createOptionAttributes: () => Attributes = () => {
   return [
     {
       name: "disabled",
-      value: boolean("disabled", false, group)
+      value: boolean("disabled", false, group),
     },
     {
       name: "label",
-      value: text("label", "fancy label", group)
+      value: text("label", "fancy label", group),
     },
     {
       name: "selected",
-      value: boolean("selected", false, group)
+      value: boolean("selected", false, group),
     },
     {
       name: "value",
-      value: text("value", "value", group)
-    }
+      value: text("value", "value", group),
+    },
   ];
 };
 
@@ -60,8 +60,8 @@ const createOptionGroupAttributes: () => Attributes = () => {
   return [
     {
       name: "label",
-      value: text("label", "My fancy group label", group)
-    }
+      value: text("label", "My fancy group label", group),
+    },
   ];
 };
 
@@ -71,10 +71,10 @@ export default {
     notes: {
       select: selectReadme,
       option: optionReadme,
-      optionGroup: optionGroupReadme
-    }
+      optionGroup: optionGroupReadme,
+    },
   },
-  ...storyFilters()
+  ...storyFilters(),
 };
 
 export const simple = (): string =>
@@ -122,12 +122,12 @@ export const darkModeRTL_TestOnly = (): string =>
       ...createSelectAttributes({ exceptions: ["dir", "class"] }),
       {
         name: "dir",
-        value: "rtl"
+        value: "rtl",
       },
       {
         name: "class",
-        value: "calcite-mode-dark"
-      }
+        value: "calcite-mode-dark",
+      },
     ],
     html`
       ${create(

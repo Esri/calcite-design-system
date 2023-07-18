@@ -21,7 +21,7 @@ describe("Heading", () => {
         <Heading class="test" level={1}>
           My Heading
         </Heading>
-      )
+      ),
     });
 
     expect(page.root).toEqualHtml(`<h1 class="test">My Heading</h1>`);
@@ -30,7 +30,7 @@ describe("Heading", () => {
   it("should render a div", async () => {
     const page = await newSpecPage({
       components: [],
-      template: () => <Heading class="test">My Heading</Heading>
+      template: () => <Heading class="test">My Heading</Heading>,
     });
 
     expect(page.root).toEqualHtml(`<div class="test">My Heading</div>`);

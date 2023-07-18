@@ -26,7 +26,7 @@ export const requestCache: Record<string, Promise<CalciteIconPath>> = {};
 export const scaleToPx: Record<Scale, number> = {
   s: 16,
   m: 24,
-  l: 32
+  l: 32,
 };
 
 export async function fetchIcon({ icon, scale }: FetchIconProps): Promise<CalciteIconPath> {

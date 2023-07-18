@@ -4,7 +4,7 @@ import {
   filterComponentAttributes,
   Attributes,
   createComponentHTML as create,
-  modesDarkDefault
+  modesDarkDefault,
 } from "../../../.storybook/utils";
 import readme from "./readme.md";
 import { html } from "../../../support/formatting";
@@ -15,9 +15,9 @@ const { alignment, scale } = ATTRIBUTES;
 export default {
   title: "Components/Buttons/Action",
   parameters: {
-    notes: readme
+    notes: readme,
   },
-  ...storyFilters()
+  ...storyFilters(),
 };
 
 const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ exceptions } = { exceptions: [] }) => {
@@ -29,7 +29,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
           this.value = boolean("active", false);
           delete this.build;
           return this;
-        }
+        },
       },
       {
         name: "alignment",
@@ -37,7 +37,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
           this.value = select("alignment", alignment.values, alignment.defaultValue);
           delete this.build;
           return this;
-        }
+        },
       },
       {
         name: "appearance",
@@ -45,7 +45,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
           this.value = select("appearance", ["solid", "transparent"], "solid");
           delete this.build;
           return this;
-        }
+        },
       },
       {
         name: "compact",
@@ -53,7 +53,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
           this.value = boolean("compact", false);
           delete this.build;
           return this;
-        }
+        },
       },
       {
         name: "disabled",
@@ -61,7 +61,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
           this.value = boolean("disabled", false);
           delete this.build;
           return this;
-        }
+        },
       },
       {
         name: "icon",
@@ -69,7 +69,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
           this.value = select("icon", ["", ...iconNames], "banana");
           delete this.build;
           return this;
-        }
+        },
       },
       {
         name: "indicator",
@@ -77,7 +77,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
           this.value = boolean("indicator", false);
           delete this.build;
           return this;
-        }
+        },
       },
       {
         name: "label",
@@ -85,7 +85,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
           this.value = text("label", "Label");
           delete this.build;
           return this;
-        }
+        },
       },
       {
         name: "loading",
@@ -93,7 +93,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
           this.value = boolean("loading", false);
           delete this.build;
           return this;
-        }
+        },
       },
       {
         name: "scale",
@@ -101,7 +101,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
           this.value = select("scale", scale.values, scale.defaultValue);
           delete this.build;
           return this;
-        }
+        },
       },
       {
         name: "text",
@@ -109,7 +109,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
           this.value = text("text", "Text");
           delete this.build;
           return this;
-        }
+        },
       },
       {
         name: "text-enabled",
@@ -117,7 +117,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
           this.value = boolean("textEnabled", true);
           delete this.build;
           return this;
-        }
+        },
       },
       {
         name: "style",
@@ -125,8 +125,8 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
           this.value = boolean("textEnabled", true);
           delete this.build;
           return this;
-        }
-      }
+        },
+      },
     ],
     exceptions
   );
@@ -139,12 +139,12 @@ export const simple = (): string =>
       createAttributes({ exceptions: ["icon", "text"] }).concat([
         {
           name: "icon",
-          value: "banana"
+          value: "banana",
         },
         {
           name: "text",
-          value: ""
-        }
+          value: "",
+        },
       ])
     )}
   </div>`;
@@ -155,7 +155,7 @@ export const disabledAndCompactAndTextOnly_TestOnly = (): string =>
       "calcite-action",
       createAttributes({ exceptions: ["compact", "disabled"] }).concat([
         { name: "compact", value: true },
-        { name: "disabled", value: true }
+        { name: "disabled", value: true },
       ])
     )}
   </div>`;
@@ -167,7 +167,7 @@ export const activeAndAppearanceTransparent_TestOnly = (): string =>
       createAttributes({ exceptions: ["icon", "appearance", "active"] }).concat([
         { name: "active", value: true },
         { name: "icon", value: "banana" },
-        { name: "appearance", value: "transparent" }
+        { name: "appearance", value: "transparent" },
       ])
     )}
   </div>`;
@@ -180,7 +180,7 @@ export const alignmentEndAndSmallScaleAndIndicator_TestOnly = (): string =>
         { name: "icon", value: "banana" },
         { name: "alignment", value: "end" },
         { name: "indicator", value: true },
-        { name: "scale", value: "s" }
+        { name: "scale", value: "s" },
       ])
     )}
   </div>`;
@@ -193,7 +193,7 @@ export const alignmentStartAndLargeScaleAndTextOverflow_TestOnly = (): string =>
         { name: "icon", value: "banana" },
         { name: "text", value: "Blah blah blah blah blah blah blah blah blah blah" },
         { name: "alignment", value: "start" },
-        { name: "scale", value: "l" }
+        { name: "scale", value: "l" },
       ])
     )}
   </div>`;
@@ -220,7 +220,7 @@ export const darkModeRTL_TestOnly = (): string =>
       createAttributes({ exceptions: ["icon", "class", "dir"] }).concat([
         { name: "icon", value: "banana" },
         { name: "class", value: "calcite-mode-dark" },
-        { name: "dir", value: "rtl" }
+        { name: "dir", value: "rtl" },
       ])
     )}
   </div>`;

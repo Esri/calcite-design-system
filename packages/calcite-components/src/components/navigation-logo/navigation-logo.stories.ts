@@ -7,9 +7,9 @@ import { text } from "@storybook/addon-knobs";
 export default {
   title: "Components/Navigation/Navigation Logo",
   parameters: {
-    notes: readme
+    notes: readme,
   },
-  ...storyFilters()
+  ...storyFilters(),
 };
 
 export const simple = (): string =>

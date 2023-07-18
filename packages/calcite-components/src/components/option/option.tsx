@@ -4,7 +4,7 @@ import { createObserver } from "../../utils/observers";
 @Component({
   tag: "calcite-option",
   styleUrl: "option.scss",
-  shadow: true
+  shadow: true,
 })
 export class Option {
   //--------------------------------------------------------------------------
@@ -17,7 +17,7 @@ export class Option {
    * When `true`, interaction is prevented and the component is displayed with lower opacity.
    */
   @Prop({
-    reflect: true
+    reflect: true,
   })
   disabled = false;
 
@@ -31,7 +31,7 @@ export class Option {
    * When `true`, the component is selected.
    */
   @Prop({
-    reflect: true
+    reflect: true,
   })
   selected: boolean;
 
@@ -91,7 +91,7 @@ export class Option {
 
   private ensureTextContentDependentProps(): void {
     const {
-      el: { textContent }
+      el: { textContent },
     } = this;
 
     if (!this.label || this.label === this.internallySetLabel) {
@@ -117,7 +117,7 @@ export class Option {
       attributeFilter: ["label", "value"],
       characterData: true,
       childList: true,
-      subtree: true
+      subtree: true,
     });
   }
 

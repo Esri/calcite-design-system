@@ -2,13 +2,13 @@ import { Component, Element, forceUpdate, h, Prop, State, VNode, Watch } from "@
 import {
   ConditionalSlotComponent,
   connectConditionalSlotComponent,
-  disconnectConditionalSlotComponent
+  disconnectConditionalSlotComponent,
 } from "../../utils/conditionalSlot";
 import {
   getElementDir,
   getSlotted,
   isPrimaryPointerButton,
-  slotChangeGetAssignedElements
+  slotChangeGetAssignedElements,
 } from "../../utils/dom";
 import { connectLocalized, disconnectLocalized, LocalizedComponent } from "../../utils/locale";
 import { clamp } from "../../utils/math";
@@ -17,7 +17,7 @@ import {
   disconnectMessages,
   setUpMessages,
   T9nComponent,
-  updateMessages
+  updateMessages,
 } from "../../utils/t9n";
 import { Layout, Position, Scale } from "../interfaces";
 import { ShellPanelMessages } from "./assets/shell-panel/t9n";
@@ -33,7 +33,7 @@ import { DisplayMode } from "./interfaces";
   tag: "calcite-shell-panel",
   styleUrl: "shell-panel.scss",
   shadow: true,
-  assetsDirs: ["assets"]
+  assetsDirs: ["assets"],
 })
 export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent, T9nComponent {
   // --------------------------------------------------------------------------
@@ -245,7 +245,7 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
       contentHeightMin,
       resizable,
       layout,
-      displayMode
+      displayMode,
     } = this;
 
     const dir = getElementDir(this.el);
@@ -305,7 +305,7 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
           [CSS.contentOverlay]: displayMode === "overlay",
           [CSS.contentFloat]: displayMode === "float",
           [CSS_UTILITY.calciteAnimate]: displayMode === "overlay",
-          [getAnimationDir()]: displayMode === "overlay"
+          [getAnimationDir()]: displayMode === "overlay",
         }}
         hidden={collapsed}
         key="content"
@@ -430,7 +430,7 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
       initialContentHeight,
       contentHeightMin,
       contentHeightMax,
-      position
+      position,
     } = this;
     const multipliedStep = step * stepMultiplier;
 
@@ -442,7 +442,7 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
       "Home",
       "End",
       "PageUp",
-      "PageDown"
+      "PageDown",
     ];
 
     if (MOVEMENT_KEYS.indexOf(key) > -1) {
@@ -552,7 +552,7 @@ export class ShellPanel implements ConditionalSlotComponent, LocalizedComponent,
       initialContentHeight,
       position,
       initialClientX,
-      initialClientY
+      initialClientY,
     } = this;
 
     const offset =
