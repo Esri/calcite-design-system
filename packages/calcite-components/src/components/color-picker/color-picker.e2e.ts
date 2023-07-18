@@ -783,7 +783,7 @@ describe("calcite-color-picker", () => {
     // see https://jasmine.github.io/tutorials/custom_argument_matchers for more info
     function toBeInteger(): any {
       return {
-        asymmetricMatch(abc): boolean {
+        asymmetricMatch(abc: string): boolean {
           return Number.isInteger(abc);
         },
 
@@ -795,8 +795,8 @@ describe("calcite-color-picker", () => {
 
     function toBeNumber(): any {
       return {
-        asymmetricMatch(expected): boolean {
-          return !isNaN(parseFloat(expected)) && isFinite(expected);
+        asymmetricMatch(expected: string): boolean {
+          return !isNaN(parseFloat(expected)) && isFinite(Number(expected));
         },
 
         jasmineToString(): string {
@@ -807,15 +807,16 @@ describe("calcite-color-picker", () => {
 
     it("numbering system does not revert to latn when clamping RGB channels", async () => {
       const page = await newE2EPage();
-      await page.setContent(html`<calcite-color-picker value="#fff000"></calcite-color-picker>`);
+      await page.setContent(
+        html`<calcite-color-picker numbering-system="arab" value="#fff000"></calcite-color-picker>`
+      );
 
       const channelInput = await page.find(`calcite-color-picker >>> .${CSS.channel}`);
       await selectText(channelInput);
       await channelInput.type("25555");
       await channelInput.press("Enter");
       await page.waitForChanges();
-      expect(await channelInput.getProperty("value")).toBe("255");
-      // expect(await rInput.getProperty("value")).toBe("٢٥٥");
+      expect(await channelInput.getProperty("value")).toBe("٢٥٥");
     });
 
     describe("default", () => {
