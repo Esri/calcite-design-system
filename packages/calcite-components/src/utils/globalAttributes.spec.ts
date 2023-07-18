@@ -19,7 +19,7 @@ describe("globalAttributes", () => {
 
     const globalComponent: GlobalAttrComponent = {
       el: fakeComponent,
-      globalAttributes: {}
+      globalAttributes: {},
     };
 
     watchGlobalAttributes(globalComponent, ["lang"]);
@@ -61,8 +61,8 @@ describe("globalAttributes", () => {
     const globalComponent: GlobalAttrComponent = {
       el: fakeComponent,
       globalAttributes: {
-        lang: "test"
-      }
+        lang: "test",
+      },
     };
 
     watchGlobalAttributes(globalComponent, ["lang"]);

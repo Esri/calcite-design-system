@@ -6,9 +6,9 @@ import readme from "./readme.md";
 export default {
   title: "Components/Loader",
   parameters: {
-    notes: readme
+    notes: readme,
   },
-  ...storyFilters()
+  ...storyFilters(),
 };
 
 export const simple_NoTest = (): string => html`
@@ -20,7 +20,7 @@ export const simple_NoTest = (): string => html`
 `;
 
 simple_NoTest.parameters = {
-  chromatic: { disableSnapshot: true }
+  chromatic: { disableSnapshot: true },
 };
 
 export const simple_TestOnly = (): string => html`
@@ -46,7 +46,7 @@ export const inline_NoTest = (): string => html`
 `;
 
 inline_NoTest.parameters = {
-  chromatic: { disableSnapshot: true }
+  chromatic: { disableSnapshot: true },
 };
 
 export const inline_TestOnly = (): string => html`
@@ -76,7 +76,7 @@ export const customTheme_NoTest = (): string => html`
 `;
 
 customTheme_NoTest.parameters = {
-  chromatic: { disableSnapshot: true }
+  chromatic: { disableSnapshot: true },
 };
 
 export const customTheme_TestOnly = (): string => html`

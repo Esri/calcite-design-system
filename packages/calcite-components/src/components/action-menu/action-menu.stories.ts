@@ -5,9 +5,9 @@ import readme from "./readme.md";
 export default {
   title: "Components/Action Menu",
   parameters: {
-    notes: readme
+    notes: readme,
   },
-  ...storyFilters()
+  ...storyFilters(),
 };
 
 export const simple = (): string =>

@@ -12,7 +12,7 @@ import { CSS } from "./resources";
 @Component({
   tag: "calcite-combobox-item-group",
   styleUrl: "combobox-item-group.scss",
-  shadow: true
+  shadow: true,
 })
 export class ComboboxItemGroup {
   // --------------------------------------------------------------------------

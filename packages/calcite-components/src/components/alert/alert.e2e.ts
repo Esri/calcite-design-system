@@ -8,8 +8,8 @@ describe("defaults", () => {
   defaults("calcite-alert", [
     {
       propertyName: "autoCloseDuration",
-      defaultValue: "medium"
-    }
+      defaultValue: "medium",
+    },
   ]);
 });
 
@@ -253,7 +253,7 @@ describe("calcite-alert", () => {
     describe("when mode attribute is dark", () => {
       it("should render alert dismiss progress bar with value tied to dark mode", async () => {
         page = await newE2EPage({
-          html: `<div class="calcite-mode-dark">${alertSnippet}</div>`
+          html: `<div class="calcite-mode-dark">${alertSnippet}</div>`,
         });
         await page.waitForTimeout(animationDurationInMs);
         alertDismissProgressBar = await page.find("calcite-alert[open] >>> .alert-dismiss-progress");
@@ -271,7 +271,7 @@ describe("calcite-alert", () => {
             --calcite-alert-dismiss-progress-background: ${overrideStyle};
           }
         </style>
-        <div>${alertSnippet}</div>`
+        <div>${alertSnippet}</div>`,
       });
       await page.waitForTimeout(animationDurationInMs);
       alertDismissProgressBar = await page.find("calcite-alert[open] >>> .alert-dismiss-progress");

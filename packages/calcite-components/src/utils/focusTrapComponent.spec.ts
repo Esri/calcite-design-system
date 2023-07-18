@@ -3,7 +3,7 @@ import {
   connectFocusTrap,
   deactivateFocusTrap,
   FocusTrapComponent,
-  updateFocusTrapElements
+  updateFocusTrapElements,
 } from "./focusTrapComponent";
 
 import { JSDOM } from "jsdom";
@@ -74,7 +74,7 @@ describe("focusTrapComponent", () => {
       type TestGlobal = GlobalTestProps<{ calciteComponentsConfig: CalciteComponentsConfig }>;
 
       (globalThis as TestGlobal).calciteComponentsConfig = {
-        focusTrapStack: customFocusTrapStack
+        focusTrapStack: customFocusTrapStack,
       };
 
       const focusTrap = await import("focus-trap");
@@ -88,7 +88,7 @@ describe("focusTrapComponent", () => {
       expect(createFocusTrapSpy).toHaveBeenLastCalledWith(
         expect.anything(),
         expect.objectContaining({
-          trapStack: customFocusTrapStack
+          trapStack: customFocusTrapStack,
         })
       );
       expect(customFocusTrapStack).toHaveLength(0);

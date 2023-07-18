@@ -7,7 +7,7 @@ import {
   Host,
   Listen,
   Prop,
-  VNode
+  VNode,
 } from "@stencil/core";
 import { dateFromRange, HoverRange, inRange, sameDate } from "../../utils/date";
 import { DateLocaleData } from "../date-picker/utils";
@@ -28,7 +28,7 @@ interface Day {
 @Component({
   tag: "calcite-date-picker-month",
   styleUrl: "date-picker-month.scss",
-  shadow: true
+  shadow: true,
 })
 export class DatePickerMonth {
   //--------------------------------------------------------------------------
@@ -212,7 +212,7 @@ export class DatePickerMonth {
           active: false,
           day,
           dayInWeek: getDayInWeek(),
-          date: new Date(year, month - 1, day)
+          date: new Date(year, month - 1, day),
         };
       }),
       ...curMonDays.map((day) => {
@@ -224,7 +224,7 @@ export class DatePickerMonth {
           day,
           dayInWeek: getDayInWeek(),
           date,
-          ref: true
+          ref: true,
         };
       }),
       ...nextMonDays.map((day) => {
@@ -232,9 +232,9 @@ export class DatePickerMonth {
           active: false,
           day,
           dayInWeek: getDayInWeek(),
-          date: new Date(year, month + 1, day)
+          date: new Date(year, month + 1, day),
         };
-      })
+      }),
     ];
 
     const weeks: Day[][] = [];
@@ -460,7 +460,7 @@ export class DatePickerMonth {
             "hover--inside-range": this.startDate && isHoverInRange,
             "hover--outside-range": this.startDate && !isHoverInRange,
             "focused--start": isFocusedOnStart,
-            "focused--end": !isFocusedOnStart
+            "focused--end": !isFocusedOnStart,
           }}
           currentMonth={currentMonth}
           dateTimeFormat={this.dateTimeFormat}

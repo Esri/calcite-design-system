@@ -12,9 +12,9 @@ const referenceElementHTML = `Ut enim ad minim veniam, quis <calcite-button appe
 export default {
   title: "Components/Tooltip",
   parameters: {
-    notes: readme
+    notes: readme,
   },
-  ...storyFilters()
+  ...storyFilters(),
 };
 
 export const simple = (): string => html`

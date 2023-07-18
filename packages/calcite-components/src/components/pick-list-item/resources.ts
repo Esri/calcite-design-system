@@ -11,15 +11,15 @@ export const CSS = {
   label: "label",
   remove: "remove",
   title: "title",
-  textContainer: "text-container"
+  textContainer: "text-container",
 };
 
 export const ICONS = {
   checked: "check",
-  remove: "x"
+  remove: "x",
 };
 
 export const SLOTS = {
   actionsEnd: "actions-end",
-  actionsStart: "actions-start"
+  actionsStart: "actions-start",
 };

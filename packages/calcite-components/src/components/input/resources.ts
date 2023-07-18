@@ -12,7 +12,7 @@ export const CSS = {
   inputWrapper: "wrapper",
   actionWrapper: "action-wrapper",
   resizeIconWrapper: "resize-icon-wrapper",
-  numberButtonItem: "number-button-item"
+  numberButtonItem: "number-button-item",
 };
 
 export const INPUT_TYPE_ICONS = {
@@ -21,9 +21,9 @@ export const INPUT_TYPE_ICONS = {
   email: "email-address",
   date: "calendar",
   time: "clock",
-  search: "search"
+  search: "search",
 };
 
 export const SLOTS = {
-  action: "action"
+  action: "action",
 };

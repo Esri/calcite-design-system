@@ -6,8 +6,8 @@ describe("calcite-stack", () => {
     defaults("calcite-stack", [
       {
         propertyName: "disabled",
-        defaultValue: false
-      }
+        defaultValue: false,
+      },
     ]);
   });
 

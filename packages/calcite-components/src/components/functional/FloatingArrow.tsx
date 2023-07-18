@@ -8,13 +8,13 @@ interface FloatingArrowProps extends JSXAttributes {
 
 const CSS = {
   arrow: "calcite-floating-ui-arrow",
-  arrowStroke: "calcite-floating-ui-arrow__stroke"
+  arrowStroke: "calcite-floating-ui-arrow__stroke",
 };
 
 const DEFAULTS = {
   width: 12,
   height: 6,
-  strokeWidth: 1
+  strokeWidth: 1,
 };
 
 /**
@@ -32,7 +32,7 @@ const DEFAULTS = {
 export const FloatingArrow: FunctionalComponent<FloatingArrowProps> = ({
   floatingLayout,
   key,
-  ref
+  ref,
 }) => {
   const { width, height, strokeWidth } = DEFAULTS;
   const svgX = width / 2;

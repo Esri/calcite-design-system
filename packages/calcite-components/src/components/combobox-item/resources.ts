@@ -9,5 +9,5 @@ export const CSS = {
   active: "label--active",
   selected: "label--selected",
   title: "title",
-  textContainer: "text-container"
+  textContainer: "text-container",
 };

@@ -9,17 +9,17 @@ export const CSS = {
   checkmarkIcon: "checkmark",
   itemExpanded: "item--expanded",
   iconStart: "icon-start",
-  nodeAndActionsContainer: "node-actions-container"
+  nodeAndActionsContainer: "node-actions-container",
 };
 
 export const SLOTS = {
   actionsEnd: "actions-end",
-  children: "children"
+  children: "children",
 };
 
 export const ICONS = {
   bulletPoint: "bullet-point",
   checkmark: "check",
   chevronRight: "chevron-right",
-  blank: "blank"
+  blank: "blank",
 };

@@ -29,5 +29,5 @@ export const letterKeys = [
   "w",
   "x",
   "y",
-  "z"
+  "z",
 ];

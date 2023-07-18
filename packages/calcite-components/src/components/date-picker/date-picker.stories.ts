@@ -7,7 +7,7 @@ import {
   Attributes,
   createComponentHTML as create,
   filterComponentAttributes,
-  modesDarkDefault
+  modesDarkDefault,
 } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { locales } from "../../utils/locale";
@@ -21,10 +21,10 @@ export default {
     chromatic: {
       // https://www.chromatic.com/docs/threshold
       diffThreshold: Number(process.env.CHROMATIC_DIFF_THRESHOLD) || 0.3,
-      delay: 500
-    }
+      delay: 500,
+    },
   },
-  ...storyFilters()
+  ...storyFilters(),
 };
 
 const testDate = "2020-02-28";
@@ -38,7 +38,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
           this.value = text("dir", "");
           delete this.build;
           return this;
-        }
+        },
       },
       {
         name: "lang",
@@ -46,7 +46,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
           this.value = select("lang", locales, "en");
           delete this.build;
           return this;
-        }
+        },
       },
       {
         name: "max",
@@ -54,7 +54,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
           this.value = text("max", "");
           delete this.build;
           return this;
-        }
+        },
       },
       {
         name: "min",
@@ -62,7 +62,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
           this.value = text("min", "");
           delete this.build;
           return this;
-        }
+        },
       },
       {
         name: "next-month-label",
@@ -70,7 +70,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
           this.value = text("next-month-label", "");
           delete this.build;
           return this;
-        }
+        },
       },
       {
         name: "prev-month-label",
@@ -78,7 +78,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
           this.value = text("prev-month-label", "");
           delete this.build;
           return this;
-        }
+        },
       },
       {
         name: "range",
@@ -86,7 +86,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
           this.value = boolean("range", false);
           delete this.build;
           return this;
-        }
+        },
       },
       {
         name: "scale",
@@ -94,7 +94,7 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
           this.value = select("scale", scale.values, scale.defaultValue);
           delete this.build;
           return this;
-        }
+        },
       },
       {
         name: "value",
@@ -102,8 +102,8 @@ const createAttributes: (options?: { exceptions: string[] }) => Attributes = ({ 
           this.value = text("value", testDate);
           delete this.build;
           return this;
-        }
-      }
+        },
+      },
     ],
     exceptions
   );
@@ -118,7 +118,7 @@ export const range = (): string =>
       "calcite-date-picker",
       createAttributes({ exceptions: ["min", "range"] }).concat([
         { name: "min", value: "2016-08-09" },
-        { name: "range", value: "true" }
+        { name: "range", value: "true" },
       ])
     )}
   </div>`;
@@ -149,7 +149,7 @@ export const darkModeRTL_TestOnly = (): string =>
       "calcite-date-picker",
       createAttributes({ exceptions: ["class", "dir"] }).concat([
         { name: "dir", value: "rtl" },
-        { name: "class", value: "calcite-mode-dark" }
+        { name: "class", value: "calcite-mode-dark" },
       ])
     )}
   </div>`;
@@ -175,7 +175,7 @@ export const germanLang_TestOnly = (): string =>
       "calcite-date-picker",
       createAttributes({ exceptions: ["lang", "value"] }).concat([
         { name: "lang", value: "de" },
-        { name: "value", value: "2022-08-11" }
+        { name: "value", value: "2022-08-11" },
       ])
     )}
   </div>`;
@@ -186,7 +186,7 @@ export const spanishLang_TestOnly = (): string =>
       "calcite-date-picker",
       createAttributes({ exceptions: ["lang", "value"] }).concat([
         { name: "lang", value: "es" },
-        { name: "value", value: "2023-05-11" }
+        { name: "value", value: "2023-05-11" },
       ])
     )}
   </div>`;
@@ -197,7 +197,7 @@ export const norwegianLang_TestOnly = (): string =>
       "calcite-date-picker",
       createAttributes({ exceptions: ["lang", "value"] }).concat([
         { name: "lang", value: "nb" },
-        { name: "value", value: "2023-05-11" }
+        { name: "value", value: "2023-05-11" },
       ])
     )}
   </div>`;
@@ -208,7 +208,7 @@ export const britishLang_TestOnly = (): string =>
       "calcite-date-picker",
       createAttributes({ exceptions: ["lang", "value"] }).concat([
         { name: "lang", value: "en-gb" },
-        { name: "value", value: "2024-01-11" }
+        { name: "value", value: "2024-01-11" },
       ])
     )}
   </div>`;
@@ -219,7 +219,7 @@ export const chineseLang_TestOnly = (): string =>
       "calcite-date-picker",
       createAttributes({ exceptions: ["lang", "value"] }).concat([
         { name: "lang", value: "zh-cn" },
-        { name: "value", value: "2024-01-11" }
+        { name: "value", value: "2024-01-11" },
       ])
     )}
   </div>`;
@@ -231,13 +231,13 @@ export const arabLangNumberingSystem_TestOnly = (): string =>
       createAttributes({ exceptions: ["lang", "numberingSystem"] }).concat([
         { name: "lang", value: "ar" },
         { name: "numbering-system", value: "arab" },
-        { name: "value", value: "2022-08-11" }
+        { name: "value", value: "2022-08-11" },
       ])
     )}
   </div>`;
 
 arabLangNumberingSystem_TestOnly.parameters = {
-  chromatic: { diffThreshold: 1 }
+  chromatic: { diffThreshold: 1 },
 };
 
 export const thaiLangNumberingSystem_TestOnly = (): string =>
@@ -246,7 +246,7 @@ export const thaiLangNumberingSystem_TestOnly = (): string =>
       "calcite-date-picker",
       createAttributes({ exceptions: ["lang", "numberingSystem"] }).concat([
         { name: "lang", value: "th" },
-        { name: "numbering-system", value: "thai" }
+        { name: "numbering-system", value: "thai" },
       ])
     )}
   </div>`;

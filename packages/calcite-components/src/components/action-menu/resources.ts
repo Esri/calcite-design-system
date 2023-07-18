@@ -1,13 +1,13 @@
 export const CSS = {
   menu: "menu",
-  defaultTrigger: "default-trigger"
+  defaultTrigger: "default-trigger",
 };
 
 export const SLOTS = {
   tooltip: "tooltip",
-  trigger: "trigger"
+  trigger: "trigger",
 };
 
 export const ICONS = {
-  menu: "ellipsis"
+  menu: "ellipsis",
 };

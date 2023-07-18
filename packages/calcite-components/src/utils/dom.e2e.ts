@@ -37,7 +37,7 @@ describe("queries", () => {
 
   beforeEach(async () => {
     page = await newE2EPage({
-      html: outsideHostHTML
+      html: outsideHostHTML,
     });
 
     function setUpTestComponent({ insideHostHTML, componentTag, insideShadowHTML }: SetUpTestComponentOptions) {
@@ -62,7 +62,7 @@ describe("queries", () => {
       ${getHost}
       ${queryElementRoots}
       ${setUpTestComponent}
-      `
+      `,
     });
 
     await page.waitForFunction(() => (window as TestWindow).queryElementRoots);
@@ -75,20 +75,20 @@ describe("queries", () => {
         componentTag,
         insideShadowHTML,
         myButtonClass,
-        myButtonId
+        myButtonId,
       }: SetUpTestComponentOptions): string => {
         (window as TestWindow).setUpTestComponent({
           insideHostHTML,
           componentTag,
           insideShadowHTML,
           myButtonClass,
-          myButtonId
+          myButtonId,
         });
 
         const testComponent = document.querySelector("test-component");
         const queryEl = testComponent.shadowRoot.querySelector("div");
         const resultEl: HTMLElement = (window as TestWindow).queryElementRoots(queryEl, {
-          selector: `button.${myButtonClass}`
+          selector: `button.${myButtonClass}`,
         });
 
         return resultEl?.textContent;
@@ -106,20 +106,20 @@ describe("queries", () => {
         componentTag,
         insideShadowHTML,
         myButtonClass,
-        myButtonId
+        myButtonId,
       }: SetUpTestComponentOptions): string => {
         (window as TestWindow).setUpTestComponent({
           insideHostHTML,
           componentTag,
           insideShadowHTML,
           myButtonClass,
-          myButtonId
+          myButtonId,
         });
 
         const testComponent = document.querySelector("test-component");
         const queryEl = testComponent.shadowRoot.querySelector("div");
         const resultEl: HTMLElement = (window as TestWindow).queryElementRoots(queryEl, {
-          id: myButtonId
+          id: myButtonId,
         });
 
         return resultEl?.textContent;
@@ -137,14 +137,14 @@ describe("queries", () => {
         componentTag,
         insideShadowHTML,
         myButtonClass,
-        myButtonId
+        myButtonId,
       }: SetUpTestComponentOptions): string => {
         (window as TestWindow).setUpTestComponent({
           insideHostHTML,
           componentTag,
           insideShadowHTML,
           myButtonClass,
-          myButtonId
+          myButtonId,
         });
 
         const queryEl = document.body.querySelector("span");
@@ -165,14 +165,14 @@ describe("queries", () => {
         componentTag,
         insideShadowHTML,
         myButtonClass,
-        myButtonId
+        myButtonId,
       }: SetUpTestComponentOptions): string => {
         (window as TestWindow).setUpTestComponent({
           insideHostHTML,
           componentTag,
           insideShadowHTML,
           myButtonClass,
-          myButtonId
+          myButtonId,
         });
 
         const queryEl = document.body.querySelector("span");

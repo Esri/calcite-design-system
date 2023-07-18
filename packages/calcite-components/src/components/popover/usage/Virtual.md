@@ -12,12 +12,12 @@
       top: 100,
       right: 100,
       bottom: 100,
-      left: 600
+      left: 600,
     });
   }
 
   const virtualElement = {
-    getBoundingClientRect: generateGetBoundingClientRect()
+    getBoundingClientRect: generateGetBoundingClientRect(),
   };
 
   const popover = document.getElementById("virtual-popover");

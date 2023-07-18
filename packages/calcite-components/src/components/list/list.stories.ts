@@ -12,10 +12,10 @@ export default {
   parameters: {
     notes: [readme, itemReadme, groupReadme],
     chromatic: {
-      delay: 500
-    }
+      delay: 500,
+    },
   },
-  ...storyFilters()
+  ...storyFilters(),
 };
 
 const thumbnailImage = placeholderImage({ width: 44, height: 44 });
@@ -121,7 +121,7 @@ export const nestedItems = (): string => html`
 `;
 
 nestedItems.parameters = {
-  chromatic: { diffThreshold: 1 }
+  chromatic: { diffThreshold: 1 },
 };
 
 export const groupedItems = (): string => html`
@@ -166,7 +166,7 @@ export const groupedItems = (): string => html`
 `;
 
 groupedItems.parameters = {
-  chromatic: { diffThreshold: 1 }
+  chromatic: { diffThreshold: 1 },
 };
 
 export const startAndEndContentSlots = (): string => html`<calcite-list ${knobsHTML()}>

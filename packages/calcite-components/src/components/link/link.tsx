@@ -4,13 +4,13 @@ import {
   connectInteractive,
   disconnectInteractive,
   InteractiveComponent,
-  updateHostInteraction
+  updateHostInteraction,
 } from "../../utils/interactive";
 import {
   componentFocusable,
   LoadableComponent,
   setComponentLoaded,
-  setUpLoadableComponent
+  setUpLoadableComponent,
 } from "../../utils/loadable";
 import { CSS_UTILITY } from "../../utils/resources";
 import { FlipContext } from "../interfaces";
@@ -23,7 +23,7 @@ import { FlipContext } from "../interfaces";
 @Component({
   tag: "calcite-link",
   styleUrl: "link.scss",
-  shadow: true
+  shadow: true,
 })
 export class Link implements InteractiveComponent, LoadableComponent {
   //--------------------------------------------------------------------------

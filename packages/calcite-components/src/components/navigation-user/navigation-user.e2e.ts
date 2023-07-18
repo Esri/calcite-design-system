@@ -18,12 +18,12 @@ describe("calcite-navigation-user", () => {
     reflects("calcite-navigation-user", [
       {
         propertyName: "active",
-        value: "true"
+        value: "true",
       },
       {
         propertyName: "textDisabled",
-        value: ""
-      }
+        value: "",
+      },
     ]);
   });
 
@@ -31,8 +31,8 @@ describe("calcite-navigation-user", () => {
     defaults("calcite-navigation-user", [
       {
         propertyName: "textDisabled",
-        defaultValue: false
-      }
+        defaultValue: false,
+      },
     ]);
   });
 

@@ -18,20 +18,20 @@ describe("calcite-navigation-logo", () => {
     reflects("calcite-navigation-logo", [
       {
         propertyName: "active",
-        value: "true"
+        value: "true",
       },
       {
         propertyName: "href",
-        value: "#logo"
+        value: "#logo",
       },
       {
         propertyName: "rel",
-        value: "external"
+        value: "external",
       },
       {
         propertyName: "target",
-        value: "_self"
-      }
+        value: "_self",
+      },
     ]);
   });
 
