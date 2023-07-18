@@ -218,6 +218,11 @@ export const contentSpacing_TestOnly = (): string =>
 
 export const loadingWithSlottedIcon_TestOnly = (): string =>
   html`
+    <style>
+      :root {
+        --calcite-duration-factor: 0;
+      }
+    </style>
     <calcite-block collapsible open loading heading="Layer effects" description="Adjust blur">
       <calcite-icon scale="s" slot="icon" icon="effects"></calcite-icon>
       <calcite-notice open>
@@ -228,6 +233,11 @@ export const loadingWithSlottedIcon_TestOnly = (): string =>
 
 export const loadingWithNoStatusNorSlottedIcon_TestOnly = (): string =>
   html`
+    <style>
+      :root {
+        --calcite-duration-factor: 0;
+      }
+    </style>
     <calcite-block collapsible open loading heading="Layer effects" description="Adjust blur">
       <calcite-notice open>
         <div slot="message">Use layer effects sparingly</div>
@@ -237,6 +247,11 @@ export const loadingWithNoStatusNorSlottedIcon_TestOnly = (): string =>
 
 export const loadingWithStatusIcon_TestOnly = (): string =>
   html`
+    <style>
+      :root {
+        --calcite-duration-factor: 0;
+      }
+    </style>
     <calcite-block loading heading="Valid status" description="summary" collapsible status="valid">
       <calcite-input icon="form-field" placeholder="This is valid input field"></calcite-input>
     </calcite-block>
